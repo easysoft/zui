@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="UTF-8">
+  <title>ZUI</title>
+
+  <!-- viewport meta to reset iPhone inital scale -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- css3-mediaqueries.js and html5shiv for IE8 or older -->
+  <!--[if lt IE 9]>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <script src="tools/html5shiv.js"></script>
+  <![endif]-->
+
+  <!-- normalize.css: Make the browsers diaplay with same style. -->
+  <link rel="stylesheet" type="text/css" href="tools/normalize.css"/>
+
+  <!-- Modernizr.js: the feature detection library for HTML5/CSS3. -->
+  <script src="tools/modernizr.js" type="text/javascript"></script>
+
+  <!-- zui less -->
+  <link rel="stylesheet/less" type="text/css" href="basic/grid.less"/>
+
+  <!-- es5-shim.js: Make legacy JavaScript engines supporting ECMA-262 V5 methods. -->
+  <script src="tools/es5-shim.js" type="text/javascript"></script>
+
+  <!-- less.js -->
+  <script src="tools/less.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <h1>1</h1>
+  <div class='zui grid unit1'><div>.zui.grid.unit1</div></div>
+  <div class='zui grid'><div class='unit16'>.zui.grid unit16</div></div>
+
+  <h1>2</h1>
+  <div class='zui grid unit2'>
+     <div></div> 
+     <div></div> 
+  </div>
+  <div class='zui grid'>
+    <div class='unit5'></div>
+    <div class='unit11'></div>
+  </div>
+
+  <h1>3</h1>
+  <div class='zui grid unit3'>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class='zui grid'>
+    <div class='unit2'></div>
+    <div class='unit4'></div>
+    <div class='unit10'></div>
+  </div>
+
+  <h1>4</h1>
+  <div class='zui grid unit4'>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class='zui grid'>
+    <div class='unit1'></div>
+    <div class='unit2'></div>
+    <div class='unit3'></div>
+    <div class='unit10'></div>
+  </div>
+
+  <h1>Float</h1>
+  <div class='zui grid unit1'>
+  <div class='zui grid '>
+    <div class='unit2 f-left'>.f-left</div>
+    <div class='unit7 f-right'>.f-right</div>
+  </div>
+  </div>
+
+  <h1> grid in grid</h1>
+  <div class="zui grid">
+    <div class="unit4">
+
+      <div class='zui grid'>
+        <div class='unit4'><div class='zui segment'>b</div></div>
+        <div class='unit4'><div class='zui segment'>b</div></div>
+        <div class='unit4'><div class='zui segment'>b</div></div>
+        <div class='unit4'><div class='zui segment'>b</div></div>
+      </div>
+
+    </div>
+    <div class="unit4"><div class='zui segment'>a</div></div>
+    <div class="unit4"><div class='zui segment'>a</div></div>
+    <div class="unit4"><div class='zui segment'>a</div></div>
+  </div>
+
+  <style>
+  #header > div, #main > div, #footer > div {margin:3px 0px; padding:0px; text-align:center;}
+  #main > div {min-height:300px;}
+  @media screen and (max-width:992px) 
+  { 
+      #menu {display:none} 
+      #content {width:100%; background:green;} 
+  }
+  </style>
+  <h1>Demo(rwd)</h1>
+  <div id='header' class='zui grid unit1'><div><h2>Header</h2></div></div>
+  <div id='main' class='zui grid'>
+    <div id='menu' class='unit5'><h2>menu</h2></div>
+    <div id='content' class='unit11'><h2>content</h2></div>
+  </div>
+  <div id='footer' class='zui grid unit1'><div><h2>Footer</h2></div></div>
+
+
+</body>
+
+</html>
+
