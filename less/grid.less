@@ -1,0 +1,69 @@
+/* Common functions. */
+.box-sizing()
+{
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.tmp-style()
+{
+  border:1px solid black;
+  margin: 1em 0em;
+  padding: 1em;
+}
+
+/* GS: grid system. */
+.zui.grid { display: block; text-align: left; font-size: 0em; margin: 0%; padding: 0%; .box-sizing(); }
+.zui.grid > div { display: inline-block; text-align: left; font-size: 1rem; vertical-align: top; .box-sizing(); .tmp-style(); }
+
+.zui.grid .unit1 { width: 6.25%;  }
+.zui.grid .unit2 { width: 12.5%;  }
+.zui.grid .unit3 { width: 18.75%; }
+.zui.grid .unit4 { width: 25%;    }
+.zui.grid .unit5 { width: 31.25%; }
+.zui.grid .unit6 { width: 37.5%;  }
+.zui.grid .unit7 { width: 43.75%; }
+.zui.grid .unit8 { width: 50%;    }
+.zui.grid .unit9 { width: 56.25%; }
+.zui.grid .unit10{ width: 62.5%;  }
+.zui.grid .unit11{ width: 68.75%; }
+.zui.grid .unit12{ width: 75%;    }
+.zui.grid .unit13{ width: 81.25%; }
+.zui.grid .unit14{ width: 87.5%;  }
+.zui.grid .unit15{ width: 93.75%; }
+.zui.grid .unit16{ width: 100%;   }
+
+.zui.grid.unit1  > div { width: 100%;     }
+.zui.grid.unit2  > div { width: 50%;      }
+.zui.grid.unit3  > div { width: 33.3333%; }
+.zui.grid.unit4  > div { width: 25%;      }
+.zui.grid.unit5  > div { width: 20%;      }
+.zui.grid.unit6  > div { width: 16.6666%; }
+.zui.grid.unit7  > div { width: 14.2857%;  }
+.zui.grid.unit8  > div { width: 12.5%;    }
+.zui.grid.unit9  > div { width: 11.1111%; }
+.zui.grid.unit10 > div { width: 10%;      }
+.zui.grid.unit11 > div { width: 9.0909%;  }
+.zui.grid.unit12 > div { width: 8.3333%;  }
+.zui.grid.unit13 > div { width: 7.6923%;  }
+.zui.grid.unit14 > div { width: 7.1428%;  }
+.zui.grid.unit15 > div { width: 6.6666%;  }
+.zui.grid.unit16 > div { width: 6.25%;    }
+
+.zui.grid div.f-left  { float: left; }
+.zui.grid div.f-right { float: right; }
+
+/* RWD: responsive web design. */
+@media screen and (max-width: 400px)
+{}
+@media screen and (min-width: 400px) and (max-width:768px) 
+{}
+@media screen and (min-width: 768px) and (max-width:992px)  
+{}
+@media screen and (min-width: 992px) and (max-width:1200px)
+{}
+@media screen and (min-width: 1200px) 
+{}
+
