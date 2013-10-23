@@ -103,11 +103,29 @@ ZUI中的大多数界面元素都有不同的子类型、状态及参数。关�
 ## 3 基础 ##
 
 
-### 3.1 css normalize ###
+### 3.1 兼容IE浏览器 ###
+
+因为IE浏览器与各大浏览器区别太多，为了尽可能的保证在所有浏览器中有一致的体验，很多时候需要单独对待IE浏览器。为了保证代码精简及一致，ZUI只支持IE8+。为了保证IE能够使用最新渲染模式而不是兼容模式，在html文档头部应加入以下代码：
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        ...
+
+针对IE7及更早的版本，应该给出提示，让用户升级浏览器。在`body`之后加入以下代码可以有选择性的出现浏览器升级提示，并给出链接引导用户访问[abetterbrowser.org](http://abetterbrowser.org/)：
+
+    <body>
+        <!--[if lt IE 8]>
+            <p class="abetterbrowser">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://abetterbrowser.org/">更换一个更好的浏览器</a> 来提升用户体验.</p>
+        <![endif]-->
+        ...
+
+
+### 3.2 css normalize ###
 
 为了能在不同的浏览器具有一直的体验，采用开源项目 [normalize.css](http://necolas.github.io/normalize.css/) 进行样式重置。
 
 
-### 3.2 栅格系统 ###
+### 3.3 栅格系统 ###
 
 todo(azhi)：撰写栅格系统文档
