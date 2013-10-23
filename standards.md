@@ -82,7 +82,8 @@ ZUI中的大多数界面元素都有不同的子类型、状态及参数。关�
     │   ├── js/                     // js框架
     │   └── less/                   // 样式
     │       └──basic/               // 基础
-    │          └──normalize.less	// css normalize
+    │          ├──normalize.less    // css normalize
+    │          └──grid.less         // 栅格系统
     ├── dist/                       // 可用版本
     │   ├── css/
     │   ├── js/
@@ -105,3 +106,8 @@ ZUI中的大多数界面元素都有不同的子类型、状态及参数。关�
 ### 3.1 css normalize ###
 
 采用开源项目 [normalize.css](git.io/normalize) 进行样式重置。
+
+
+### 3.2 栅格系统 ###
+
+todo(azhi)：撰写栅格系统文档
