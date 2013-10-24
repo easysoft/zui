@@ -90,7 +90,7 @@ ZUI中的大多数界面元素都有不同的子类型、状态及参数。关�
     │   └── fonts/
     ├── examples/                      一些例子
     ├── asserts/                       引用的资源
-    │  	└── js/
+    │   └── js/
     ├── _layouts/                      文档模版
     └── _includes/                     文档内容
 
