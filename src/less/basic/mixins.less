@@ -1,0 +1,33 @@
+.clearfix() 
+{
+  &:before, &:after { content: " "; display: table; }
+  &:after { clear: both; }
+}
+
+// Box sizing
+.box-sizing(@boxmodel) 
+{
+  -webkit-box-sizing: @boxmodel;
+  -moz-box-sizing: @boxmodel;
+  box-sizing: @boxmodel;
+}
+
+/* Grid System */
+
+// Centered container element
+.container-fixed() 
+{
+  margin-right: auto;
+  margin-left: auto;
+  padding-left:  (@grid-gutter-width / 2);
+  padding-right: (@grid-gutter-width / 2);
+  .clearfix();
+}
+
+// Creates a wrapper for a series of columns
+.make-row(@gutter: @grid-gutter-width) 
+{
+  margin-left:  (@gutter / -2);
+  margin-right: (@gutter / -2);
+  .clearfix();
+}
