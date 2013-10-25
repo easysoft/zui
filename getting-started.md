@@ -71,4 +71,8 @@ ZUI也提供用来控制打印机的显示与隐藏的辅助类。显示和隐�
 
 ## 3 栅格系统 ##
 
-todo(azhi)：撰写栅格系统文档
+- 采用bootstrap3的网格设计。具体使用参考[bootstrap3-grid](http://v3.bootcss.com/css/#grid)
+- 通过.container包含行（row），行再包含列（column）。
+- 系统默认12列
+- 分为col-xs-*/col-sm-*/col-md-*/col-lg-*四种设计分别对应超小屏幕(<768)/小屏幕(>=768)/中等屏幕(>=992)/大屏幕(>=1200)
+- 通过col-xs-offset-*来向右偏移，通过col-xs-pull-*/col-xs-push-*来左右移动
