@@ -16,7 +16,7 @@
 @screen-tablet:              @screen-sm-min;
 
 /* Medium screen (desktop). */
-@screen-md:                  992px;
+@screen-md:                  992px; 
 @screen-md-min:              @screen-md;
 @screen-desktop:             @screen-md-min;
 
@@ -46,3 +46,34 @@
 @container-desktop:           ((940px + @grid-gutter-width));
 // Large screen / wide desktop
 @container-lg-desktop:        ((1140px + @grid-gutter-width));
+
+
+/*----------------- Typography ---------------*/
+
+/* Font family. */
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+@font-family-serif:       Georgia, "Times New Roman", Times, serif;
+@font-family-monospace:   Monaco, Menlo, Consolas, "Courier New", monospace;
+@font-family-base:        @font-family-sans-serif;
+
+/* Font size. */
+@font-size-base:          14px;
+@font-size-large:         ceil(@font-size-base * 1.25); // 18px
+@font-size-small:         ceil(@font-size-base * 0.85); // 12px
+
+@font-size-h1:            floor(@font-size-base * 2.60); // 36px
+@font-size-h2:            floor(@font-size-base * 2.15); // 30px
+@font-size-h3:            ceil(@font-size-base * 1.70); // 24px
+@font-size-h4:            ceil(@font-size-base * 1.25); // 18px
+@font-size-h5:            @font-size-base;
+@font-size-h6:            ceil(@font-size-base * 0.85); // 12px
+
+/* Line height. */
+@line-height-base:        1.428571429; // 20/14
+@line-height-computed:    floor(@font-size-base * @line-height-base); // 20px
+
+/* Headings font. */
+@headings-font-family:    @font-family-base;
+@headings-font-weight:    bold;
+@headings-line-height:    1.2;
+@headings-color:          inherit;
