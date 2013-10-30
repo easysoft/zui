@@ -3,7 +3,54 @@
 // =================================================
 
 
-//
+// COLOR SCHEME
+// -------------------------------------------------
+
+// Color set
+@dark-mineral-blue:          #304269;
+@sky-blue:                   #91bed4;
+@pale-blue:                  #d9e8f5;
+@orange:                     #f26101;
+@white:                      #fff;
+@charcoal:                   #333;
+@red:                        #d2322d;
+@yellow:                     #ed9c28;
+@green:                      #47a447;
+@blue:                       #39b3d7;
+@brown:                      #81511c;
+@purple:                     #8957a1;
+
+// Grays
+@gray-darker:                @charcoal;
+@gray-dark:                  #707070;
+@gray-light:                 #e5e5e5;
+@gray-lighter:               #f1f1f1;
+
+// Brand colors
+@color-primary:               @dark-mineral-blue;
+@color-secondary:             @sky-blue;
+@color-light:                 @white;
+@color-dark:                  @charcoal;
+@color-pale:                  @pale-blue;
+@color-backgrond:             @white;
+@color-fore:                  @charcoal;
+@color-accent:                @orange;
+@color-success:               @green;
+@color-warning:               @yellow;
+@color-danger:                @red;
+@color-info:                  @blue;
+@color-important:             @brown;
+@color-special:               @purple;
+
+// Scaffolding
+@body-bg:               @color-backgrond;
+@text-color:            @color-fore;
+
+// Links
+@link-color:            @color-primary;
+@link-hover-color:      darken(@link-color, 15%);
+
+
 // MEDIA QUERIES TYPES
 // -------------------------------------------------
 
@@ -33,8 +80,7 @@
 @screen-md-max:              (@screen-lg-min - 1);
 
 
-//
-// Grid System
+// GRID SYSTEM
 // -------------------------------------------------
 
 // Number of grid columns.
@@ -52,8 +98,7 @@
 @container-lg-desktop:        ((1140px + @grid-gutter-width));
 
 
-//
-// Typography
+// TYPOGRAPHY
 // -------------------------------------------------
 
 // Font family.
@@ -78,8 +123,64 @@
 @line-height-base:        1.428571429; // 20/14
 @line-height-computed:    floor(@font-size-base * @line-height-base); // 20px
 
+@line-height-large:              1.33;
+@line-height-small:              1.5;
+
 // Headings font.
 @headings-font-family:    @font-family-base;
 @headings-font-weight:    bold;
 @headings-line-height:    1.2;
 @headings-color:          inherit;
+
+
+// COMPONENTS CONFIG
+// -------------------------------------------------
+
+// Paddings
+@padding-base-vertical:          6px;
+@padding-base-horizontal:        12px;
+@padding-large-vertical:         10px;
+@padding-large-horizontal:       16px;
+@padding-small-vertical:         5px;
+@padding-small-horizontal:       10px;
+
+// Border radius
+@border-radius-base:             2px;
+@border-radius-large:            4px;
+@border-radius-small:            1px;
+
+// Active
+@component-active-color:         @color-light;
+@component-active-bg:            @color-primary;
+
+
+// BUTTONS
+// -------------------------------------------------
+
+@btn-font-weight:                normal;
+
+@btn-default-color:              @color-fore;
+@btn-default-bg:                 @color-backgrond;
+@btn-default-border:             darken(@btn-default-bg, 10%);
+
+@btn-primary-color:              @color-light;
+@btn-primary-bg:                 @color-primary;
+@btn-primary-border:             darken(@btn-primary-bg, 5%);
+
+@btn-success-color:              @color-light;
+@btn-success-bg:                 @color-success;
+@btn-success-border:             darken(@btn-success-bg, 5%);
+
+@btn-warning-color:              @color-light;
+@btn-warning-bg:                 @color-warning;
+@btn-warning-border:             darken(@btn-warning-bg, 5%);
+
+@btn-danger-color:               @color-light;
+@btn-danger-bg:                  @color-danger;
+@btn-danger-border:              darken(@btn-danger-bg, 5%);
+
+@btn-info-color:                 @color-light;
+@btn-info-bg:                    @color-info;
+@btn-info-border:                darken(@btn-info-bg, 5%);
+
+@btn-link-disabled-color:        @gray-light;
