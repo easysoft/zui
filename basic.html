@@ -1,0 +1,120 @@
+---
+layout: default
+title: 基础
+slug: basic
+lead: "了解ZUI设计的基础内容."
+base_url: "../"
+---
+
+<h1>准备要点</h1>
+<hr />
+<h2>1 兼容IE浏览器</h2>
+<p>因为IE浏览器与各大浏览器区别太大，为了尽可能的保证在所有浏览器中有一致的体验，很多时候需要单独对待IE浏览器。为了保证代码精简及一致，ZUI只支持IE8+。为了保证IE能够使用最新渲染模式而不是兼容模式，在html文档头部应加入以下代码：</p>
+<pre><code>&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    ...
+</code></pre>
+
+<p>针对IE7及更早的版本，应该给出提示，让用户升级浏览器。在<code>body</code>之后加入以下代码可以有选择性的出现浏览器升级提示，并给出链接引导用户访问<a href="http://abetterbrowser.org/">abetterbrowser.org</a>：</p>
+<pre><code>&lt;body&gt;
+    &lt;!--[if lt IE 8]&gt;
+        &lt;p class=&quot;abetterbrowser&quot;&gt;您正在使用 &lt;strong&gt;过时的&lt;/strong&gt; 浏览器. 是时候 &lt;a href=&quot;http://abetterbrowser.org/&quot;&gt;更换一个更好的浏览器&lt;/a&gt; 来提升用户体验.&lt;/p&gt;
+    &lt;![endif]--&gt;
+    ...
+</code></pre>
+
+<p>因为IE8及早期版本不支持HTML5标签，所以针对IE8浏览器，我们引入html5shiv来使得HTML5标签在IE8中也能使用。在HTML文档的script区域加入以下代码（示例中html5shiv库来自maxcdn）：</p>
+<pre><code>&lt;!--[if lt IE 9]&gt;
+  &lt;script src=&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
+&lt;![endif]--&gt;
+</code></pre>
+
+<p>因为IE8及早期版本同样不支持media query来实现响应式布局，我们同样可以通过条件注释引入respond.js来帮助ie实现该功能。（示例中的respond.js来自maxcdn，可以和html5shiv共享同一个条件注释区域。）</p>
+<pre><code>&lt;!--[if lt IE 9]&gt;
+  &lt;script src=&quot;https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js&quot;&gt;&lt;/script&gt;
+&lt;![endif]--&gt;
+</code></pre>
+
+<h2>2 css normalize</h2>
+<p>为了能在不同的浏览器具有一直的体验，采用开源项目 <a href="http://necolas.github.io/normalize.css/">normalize.css</a> 进行样式重置。</p>
+<h2>3 响应式布局</h2>
+<p>现代web应用应该支持响应式布局。栅格系统已提供良好的基础构建响应式布局页面，同时也提供一些辅助工具类来控制内容在不同设备的展现方式。</p>
+<p>在ZUI中提供针对4中不同尺寸的设备屏幕进行分别控制。</p>
+<pre><code>屏幕                    名称       尺寸
+超小屏幕（手机）         xs        &lt;768px
+小屏幕（平板）           sm        &gt;=768px
+中等屏幕（笔记本电脑）    md        &gt;=992px
+大屏幕（桌面电脑）        lg        &gt;=1200px
+</code></pre>
+
+<p>针对4种屏幕类型各定义两种辅助类来在不同的设备上显示或隐藏内容。</p>
+<pre><code>              超小屏幕   小屏幕   中等屏幕   大屏幕
+.visible-xs   可见       隐藏     隐藏      隐藏
+.visible-sm   隐藏       可见     隐藏      隐藏
+.visible-md   隐藏       隐藏     可见      隐藏
+.visible-lg   隐藏       隐藏     隐藏      可见
+.hidden-xs    隐藏       可见     可见      可见
+.hidden-sm    可见       隐藏     可见      可见
+.hidden-md    可见       可见     隐藏      可见
+.hidden-lg    可见       可见     可见      隐藏
+</code></pre>
+
+<p>其中显示辅助类<code>.visible-xs</code>、<code>.visible-sm</code>、<code>.visible-md</code>、<code>.visible-lg</code>可以组合使用，同理对于隐藏辅助类也可以组合使用以达到不同的效果。但不要将显示辅助类和隐藏辅助类混合使用。</p>
+<p>ZUI也提供用来控制打印机的显示与隐藏的辅助类。显示和隐藏不能同时使用。</p>
+<ul>
+<li><code>.visible-print</code>：在打印时显示，在浏览器正常浏览时隐藏。</li>
+<li><code>.hidden-print</code>：在浏览器正常浏览时显示，在打印时隐藏。</li>
+</ul>
+<h2>4 栅格系统</h2>
+<ul>
+<li>采用bootstrap3的网格设计。具体使用参考<a href="http://v3.bootcss.com/css/#grid">bootstrap3-grid</a></li>
+<li>通过.container包含行（row），行再包含列（column）。</li>
+<li>系统默认12列</li>
+<li>分为col-xs-<em>/col-sm-</em>/col-md-<em>/col-lg-</em>四种设计分别对应超小屏幕(&lt;768)/小屏幕(&gt;=768)/中等屏幕(&gt;=992)/大屏幕(&gt;=1200)</li>
+<li>通过col-xs-offset-<em>来向右偏移，通过col-xs-pull-</em>/col-xs-push-*来左右移动</li>
+</ul>
+<h2>5 排版</h2>
+<h3>5.1 字体</h3>
+<p>在ZUI中我们定义了三种字体家族已适应不同的场合。这些字体在中英文环境下都能够很好的显示。</p>
+<pre><code>无衬线字体    &quot;Helvetica Neue&quot;, Helvetica, Tahoma, Arial, sans-serif
+衬线字体      Georgia, &quot;Times New Roman&quot;, Times, serif
+等宽字体      Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace
+</code></pre>
+
+<p>使用<a href="http://zh.wikipedia.org/wiki/%E7%84%A1%E8%A5%AF%E7%B7%9A%E5%AD%97%E9%AB%94">无衬线字体</a>来作为页面的默认字体，因为无衬线字体非常适合在屏幕上显示；衬线字体作为一个额外的选择，但并不推荐在小字号中使用，但可以用于特殊文字或者标题中；等宽字体用来显示程序代码。</p>
+<p>默认的字体大小为14px，以保证在所有屏幕上都能有最佳效果。ZUI中也允许使用更小号的字体，不过不要小于12px。默认行高为字体大小的1.428倍，一般为20px。一至六级标题的行高为字体大小的1.2。</p>
+<h3>5.2 文字排版</h3>
+<p>文字是组成页面的重要内容，一个好的排版是构建好的用户界面的基石。应根据我们的设计原则来进行文字排版。下表中列举了web设计时会用到的文字排版方式。</p>
+<pre><code>页面标题    &lt;h1&gt;    36px 粗体  在一个页面只有一个页面标题。
+二级标题    &lt;h2&gt;    30px 粗体  为页面第二级标题，可能在一个页面中使用到多个二级标题。
+三级标题    &lt;h3&gt;    24px 粗体  页面第三级标题，嵌套在二级标题下使用。
+四级标题    &lt;h4&gt;    18px 粗体  页面第四级标题，嵌套在三级标题下使用。
+五级标题    &lt;h5&gt;    14px 粗体  颜色灰色  页面第五级标题，嵌套在四级标题下使用。
+六级标题    &lt;h6&gt;    12px 粗体  颜色灰色  页面第六级标题，嵌套在五级标题下使用。
+段落        &lt;p&gt;     14px    正文中大部分由段落组成。段落的行高为20px。段落间在垂直方向上有10px边距。
+突出的段落  &lt;p class=&quot;lead&quot;&gt;    18px    突出的段落具有更大的字体，在一个段落上加.lead类。
+粗体文本    &lt;strong&gt;14px    通常粗体文本用来强调内容。
+斜体文本    &lt;em&gt;    14px 斜体    
+小的文本    &lt;small&gt; 12px 颜色灰色 small文本字体只有正常字体大小的85%，通常为12px。
+超链接      &lt;a&gt;     14px    超链接具有不同的颜色以区别其他文本，超链接仅当鼠标悬停时会增加下划线。
+块级引用    &lt;blockquote&gt; 14px    用于显示一大段引用的内容。
+内嵌的引用  &lt;q&gt;     14px    用于在正文行内显示引用的术语。
+代码       &lt;pre&gt;&lt;code&gt; 14px 等宽字体   代码区域会加上方框，并使用等宽字体显示，详细代码显示规定请参见节
+</code></pre>
+
+<h2>6 配色</h2>
+<p>ZUI的界面应该简洁，易于识别，让人感觉舒适而不失严谨。所使用的配色应该尽可能达到该目的。</p>
+<p>ZUI的配色表包含三部分：</p>
+<ol>
+<li>主要颜色：包含3～5种颜色，决定了ZUI界面整体色调。虽然并没有强制的规则来决定如何指定主要颜色，但最好是使用同一色调的不同明度的颜色。一般选取2深色+2浅色+1强调色。主要颜色会用在菜单、导航、链接、高亮选项等。</li>
+<li>灰度颜色：灰度颜色强制使用同一色调不同亮度的一组颜色。在无特别需求的情况下，一般使用黑色灰度。灰度颜色会用在块的背景，边框，次要的文本上。灰度颜色为界面创建了层次感，加深了内容与内容间的边界，更易于体现内容的重要程度。</li>
+<li>额外颜色：额外的颜色为特殊控件提供的更多的色彩选择。例如各种级别的消息框，特殊作用的按钮，特殊文本等。</li>
+</ol>
+<p>配色表中的每种颜色都可以在亮度上上下浮动10%左右来生成一个相近但又有些许不同的颜色作为边框及悬停渐变使用。</p>
+<p>配色设计要点：</p>
+<ul>
+<li>在界面中运用的所有配色尽量使用配色表中已列明的颜色；</li>
+<li>优先使用主要颜色和灰度颜色，仅在特殊的按钮或消息时才使用额外颜色；</li>
+</ul>
+<p>下面是ZUI默认使用的配色方案--静谧之湖。</p>

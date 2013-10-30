@@ -2,119 +2,98 @@
 layout: default
 title: 起步
 slug: getting-started
-lead: "了解ZUI设计的基础内容."
+lead: "了解设计规范."
 base_url: "../"
 ---
 
-<h1>准备要点</h1>
+<h1>规范</h1>
 <hr />
-<h2>1 兼容IE浏览器</h2>
-<p>因为IE浏览器与各大浏览器区别太大，为了尽可能的保证在所有浏览器中有一致的体验，很多时候需要单独对待IE浏览器。为了保证代码精简及一致，ZUI只支持IE8+。为了保证IE能够使用最新渲染模式而不是兼容模式，在html文档头部应加入以下代码：</p>
-<pre><code>&lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
-    ...
-</code></pre>
-
-<p>针对IE7及更早的版本，应该给出提示，让用户升级浏览器。在<code>body</code>之后加入以下代码可以有选择性的出现浏览器升级提示，并给出链接引导用户访问<a href="http://abetterbrowser.org/">abetterbrowser.org</a>：</p>
-<pre><code>&lt;body&gt;
-    &lt;!--[if lt IE 8]&gt;
-        &lt;p class=&quot;abetterbrowser&quot;&gt;您正在使用 &lt;strong&gt;过时的&lt;/strong&gt; 浏览器. 是时候 &lt;a href=&quot;http://abetterbrowser.org/&quot;&gt;更换一个更好的浏览器&lt;/a&gt; 来提升用户体验.&lt;/p&gt;
-    &lt;![endif]--&gt;
-    ...
-</code></pre>
-
-<p>因为IE8及早期版本不支持HTML5标签，所以针对IE8浏览器，我们引入html5shiv来使得HTML5标签在IE8中也能使用。在HTML文档的script区域加入以下代码（示例中html5shiv库来自maxcdn）：</p>
-<pre><code>&lt;!--[if lt IE 9]&gt;
-  &lt;script src=&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
-&lt;![endif]--&gt;
-</code></pre>
-
-<p>因为IE8及早期版本同样不支持media query来实现响应式布局，我们同样可以通过条件注释引入respond.js来帮助ie实现该功能。（示例中的respond.js来自maxcdn，可以和html5shiv共享同一个条件注释区域。）</p>
-<pre><code>&lt;!--[if lt IE 9]&gt;
-  &lt;script src=&quot;https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js&quot;&gt;&lt;/script&gt;
-&lt;![endif]--&gt;
-</code></pre>
-
-<h2>2 css normalize</h2>
-<p>为了能在不同的浏览器具有一直的体验，采用开源项目 <a href="http://necolas.github.io/normalize.css/">normalize.css</a> 进行样式重置。</p>
-<h2>3 响应式布局</h2>
-<p>现代web应用应该支持响应式布局。栅格系统已提供良好的基础构建响应式布局页面，同时也提供一些辅助工具类来控制内容在不同设备的展现方式。</p>
-<p>在ZUI中提供针对4中不同尺寸的设备屏幕进行分别控制。</p>
-<pre><code>屏幕                    名称       尺寸
-超小屏幕（手机）         xs        &lt;768px
-小屏幕（平板）           sm        &gt;=768px
-中等屏幕（笔记本电脑）    md        &gt;=992px
-大屏幕（桌面电脑）        lg        &gt;=1200px
-</code></pre>
-
-<p>针对4种屏幕类型各定义两种辅助类来在不同的设备上显示或隐藏内容。</p>
-<pre><code>              超小屏幕   小屏幕   中等屏幕   大屏幕
-.visible-xs   可见       隐藏     隐藏      隐藏
-.visible-sm   隐藏       可见     隐藏      隐藏
-.visible-md   隐藏       隐藏     可见      隐藏
-.visible-lg   隐藏       隐藏     隐藏      可见
-.hidden-xs    隐藏       可见     可见      可见
-.hidden-sm    可见       隐藏     可见      可见
-.hidden-md    可见       可见     隐藏      可见
-.hidden-lg    可见       可见     可见      隐藏
-</code></pre>
-
-<p>其中显示辅助类<code>.visible-xs</code>、<code>.visible-sm</code>、<code>.visible-md</code>、<code>.visible-lg</code>可以组合使用，同理对于隐藏辅助类也可以组合使用以达到不同的效果。但不要将显示辅助类和隐藏辅助类混合使用。</p>
-<p>ZUI也提供用来控制打印机的显示与隐藏的辅助类。显示和隐藏不能同时使用。</p>
-<ul>
-<li><code>.visible-print</code>：在打印时显示，在浏览器正常浏览时隐藏。</li>
-<li><code>.hidden-print</code>：在浏览器正常浏览时显示，在打印时隐藏。</li>
-</ul>
-<h2>4 栅格系统</h2>
-<ul>
-<li>采用bootstrap3的网格设计。具体使用参考<a href="http://v3.bootcss.com/css/#grid">bootstrap3-grid</a></li>
-<li>通过.container包含行（row），行再包含列（column）。</li>
-<li>系统默认12列</li>
-<li>分为col-xs-<em>/col-sm-</em>/col-md-<em>/col-lg-</em>四种设计分别对应超小屏幕(&lt;768)/小屏幕(&gt;=768)/中等屏幕(&gt;=992)/大屏幕(&gt;=1200)</li>
-<li>通过col-xs-offset-<em>来向右偏移，通过col-xs-pull-</em>/col-xs-push-*来左右移动</li>
-</ul>
-<h2>5 排版</h2>
-<h3>5.1 字体</h3>
-<p>在ZUI中我们定义了三种字体家族已适应不同的场合。这些字体在中英文环境下都能够很好的显示。</p>
-<pre><code>无衬线字体    &quot;Helvetica Neue&quot;, Helvetica, Tahoma, Arial, sans-serif
-衬线字体      Georgia, &quot;Times New Roman&quot;, Times, serif
-等宽字体      Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace
-</code></pre>
-
-<p>使用<a href="http://zh.wikipedia.org/wiki/%E7%84%A1%E8%A5%AF%E7%B7%9A%E5%AD%97%E9%AB%94">无衬线字体</a>来作为页面的默认字体，因为无衬线字体非常适合在屏幕上显示；衬线字体作为一个额外的选择，但并不推荐在小字号中使用，但可以用于特殊文字或者标题中；等宽字体用来显示程序代码。</p>
-<p>默认的字体大小为14px，以保证在所有屏幕上都能有最佳效果。ZUI中也允许使用更小号的字体，不过不要小于12px。默认行高为字体大小的1.428倍，一般为20px。一至六级标题的行高为字体大小的1.2。</p>
-<h3>5.2 文字排版</h3>
-<p>文字是组成页面的重要内容，一个好的排版是构建好的用户界面的基石。应根据我们的设计原则来进行文字排版。下表中列举了web设计时会用到的文字排版方式。</p>
-<pre><code>页面标题    &lt;h1&gt;    36px 粗体  在一个页面只有一个页面标题。
-二级标题    &lt;h2&gt;    30px 粗体  为页面第二级标题，可能在一个页面中使用到多个二级标题。
-三级标题    &lt;h3&gt;    24px 粗体  页面第三级标题，嵌套在二级标题下使用。
-四级标题    &lt;h4&gt;    18px 粗体  页面第四级标题，嵌套在三级标题下使用。
-五级标题    &lt;h5&gt;    14px 粗体  颜色灰色  页面第五级标题，嵌套在四级标题下使用。
-六级标题    &lt;h6&gt;    12px 粗体  颜色灰色  页面第六级标题，嵌套在五级标题下使用。
-段落        &lt;p&gt;     14px    正文中大部分由段落组成。段落的行高为20px。段落间在垂直方向上有10px边距。
-突出的段落  &lt;p class=&quot;lead&quot;&gt;    18px    突出的段落具有更大的字体，在一个段落上加.lead类。
-粗体文本    &lt;strong&gt;14px    通常粗体文本用来强调内容。
-斜体文本    &lt;em&gt;    14px 斜体    
-小的文本    &lt;small&gt; 12px 颜色灰色 small文本字体只有正常字体大小的85%，通常为12px。
-超链接      &lt;a&gt;     14px    超链接具有不同的颜色以区别其他文本，超链接仅当鼠标悬停时会增加下划线。
-块级引用    &lt;blockquote&gt; 14px    用于显示一大段引用的内容。
-内嵌的引用  &lt;q&gt;     14px    用于在正文行内显示引用的术语。
-代码       &lt;pre&gt;&lt;code&gt; 14px 等宽字体   代码区域会加上方框，并使用等宽字体显示，详细代码显示规定请参见节
-</code></pre>
-
-<h2>6 配色</h2>
-<p>ZUI的界面应该简洁，易于识别，让人感觉舒适而不失严谨。所使用的配色应该尽可能达到该目的。</p>
-<p>ZUI的配色表包含三部分：</p>
+<h2>1. 前端代码规范</h2>
+<h3>1.1 关键规范</h3>
 <ol>
-<li>主要颜色：包含3～5种颜色，决定了ZUI界面整体色调。虽然并没有强制的规则来决定如何指定主要颜色，但最好是使用同一色调的不同明度的颜色。一般选取2深色+2浅色+1强调色。主要颜色会用在菜单、导航、链接、高亮选项等。</li>
-<li>灰度颜色：灰度颜色强制使用同一色调不同亮度的一组颜色。在无特别需求的情况下，一般使用黑色灰度。灰度颜色会用在块的背景，边框，次要的文本上。灰度颜色为界面创建了层次感，加深了内容与内容间的边界，更易于体现内容的重要程度。</li>
-<li>额外颜色：额外的颜色为特殊控件提供的更多的色彩选择。例如各种级别的消息框，特殊作用的按钮，特殊文本等。</li>
+<li>HTML文档及CSS文档中缩进使用两个空格，不使用tab，Javascript文档中缩进使用4个空格；</li>
+<li>标签属性名使用全部小写形式，id和name属性值使用驼峰命名方式，类名（class属性值）使用小写，多个单词间使用“-”分隔，其他没有规定的情况下所有代码及文件命名尽可能采用小写形式；</li>
+<li>html文档类型使用HTML5，不使用XHTML，书写形式尽可能符合html5规范；</li>
+<li>在html及css中优先使用双引号，在Javascript及其他服务器语言中优先使用单引号。</li>
+<li>文档使用UTF-8 (no BOM)存储，文档中也加入 <meta charset="utf-8">；</li>
+<li>尽量忽略（Omit）协议：如 <code>background: url(http://www.zui.com/images/example)</code>; 应该写<code>background: url(//www.zui.com/images/example)</code>;以方便http与https协议切换，除非必须使用某个协议；</li>
+<li>在保证可读性及与规范不冲突的情况下，尽可能使用语法允许的缩写形式，以减少网络传输中的字节数。</li>
 </ol>
-<p>配色表中的每种颜色都可以在亮度上上下浮动10%左右来生成一个相近但又有些许不同的颜色作为边框及悬停渐变使用。</p>
-<p>配色设计要点：</p>
+<h3>1.2 HTML规范</h3>
+<ol>
+<li>使用HTML5规范，使用<code>&lt;!DOCTYPE html&gt;</code>，而不是XHTML（application/xhtml+xml）。这样可以使得代码更加简洁而且所有浏览器都支持。</li>
+<li>正确使用HTML标签，使用工具如<a href="http://validator.w3.org/nu/">W3C HTML</a>验证；使用合法的HTML标签是可被衡量的规范，有助于编码者学习的技术要求和限制，并保证代码质量。</li>
+<li>使用语义话的标签，比如文章内容使用<code>&lt;atricle&gt;</code>，文字段落使用<code>&lt;p&gt;</code>，导航使用<code>&lt;nav&gt;</code>等。语义化地使用HTML有助于网页的可访问性，复用性，和优化代码效率。尽量少的为元素增加id和class属性，如果需要增加请使用正确的命名。</li>
+<li>不再使用type属性，因为在HMLT5中已经规定默认type值，无必要再次指定。</li>
+</ol>
+<h3>1.3 CSS规范</h3>
+<ol>
+<li>尽可能使用CSS验证，除非因为修正浏览器解析差异而编写私有属性，否则都应该使用合法的CSS代码。可以使用<a href="http://jigsaw.w3.org/css-validator/">W3C CSS validator</a>测试你的CSS。使用合法的CSS同样是一个可被衡量的规则，它能标记出那些不起作用和可被删除的代码，并确保CSS的正确使用。</li>
+<li>为样式赋予合适的类名，尽量不要使用<code>.red</code>，<code>.big-text</code>等与内容无关的命名方式（如果确实要使用，这时应该反思是否是采用的UI框架缺陷）。当类名代表的意义有广泛任何的缩写形式，则可以采用缩写，例如<code>navigation</code>可以缩写为<code>nav</code>。类名中采用分词形式时（包含多个单词时）请使用间隔号<code>-</code>来连接。</li>
+<li>当CSS属性值为数字且为0时，不要添加单位，例如<code>border-width: 0px;</code>应书写为<code>border-width: 0;</code>；当属性值为16进制时，如果可以尽量使用3位表示。</li>
+<li>尽可能采用css简写形式。</li>
+<li><code>url()</code>中不要加入引号。</li>
+<li>CSS属性名称与值之间使用一个空格分隔，例如<code>color: red;</code>。</li>
+<li>在开发环境下尽可能使用多行CSS属性形式，<code>{</code>和<code>}</code>各单独占一行，每行书写一个属性值且采用2空格缩进；如果使用单行CSS，选择器后加一个空格，分号“;”后加一个空格，例如<code>ul&gt;li {color: red; border: 1px solid red}</code>；<code>{}</code>中的最后一组属性末尾不需要写<code>;</code>。</li>
+<li>使用空行来划分规则的相关性。</li>
+<li>使用正确且精简的选择器，id与类名之前不需要加标签名称，例如<code>ul.nav {color: red}</code>应写为<code>.nav {color: red}</code>。</li>
+</ol>
+<h3>1.4 Javascript规范</h3>
+<ol>
+<li>字符串优先使用单引号。</li>
+</ol>
+<p>其他Javascript规范请参考：</p>
+<blockquote>
+<p>禅道PHP编码规范.doc。</p>
+</blockquote>
+<h2>2. 框架规范</h2>
+<h3>2.1 UI元素类型及定义</h3>
+<p>ZUI中包含各种各样的界面元素（或控件），例如按钮、表格、列表等，甚至一些特定场景用到的一组元素也会在ZUI中精心设计，例如评论列表。为了更好的展示我们的设计理念，把这些元素归为如下5类：</p>
 <ul>
-<li>在界面中运用的所有配色尽量使用配色表中已列明的颜色；</li>
-<li>优先使用主要颜色和灰度颜色，仅在特殊的按钮或消息时才使用额外颜色；</li>
+<li><strong>基本控件</strong>：用来构建网页应用的基本界面单元，例如按钮、文本标签、输入框等。</li>
+<li><strong>组件</strong>：通过一个以上的基本控件组合而成的较复杂的界面单元。例如表单、菜单、表格等。</li>
+<li><strong>视图</strong>：视图是将基本控件和组件组合使用来展现网站上的通用内容，例如评论视图及文章预览列表视图。</li>
+<li><strong>模块</strong>：模块为了实现界面上一些通用功能而实现，不仅仅包含界面部分也包含交互行为，例如单击按钮弹出有模态效果的对话框。</li>
+<li><strong>行为</strong>：行为更多的定义了一组根据需要执行的动作，并且不会与特定的控件及组件相关联。</li>
 </ul>
-<p>下面是ZUI默认使用的配色方案--静谧之湖。</p>
+<p>ZUI中的大多数界面元素都有不同的子类型、状态及参数。关于类型、状态及参数的定义如下：</p>
+<ul>
+<li><strong>类型</strong>：同一种界面单元的不同类型，例如按钮有主要按钮、次要按钮及危险按钮等，导航菜单类型有普通导航及顶部固定导航等。任何时候都应该只为同一个界面元素指定一种类型，默认类型无需指定。</li>
+<li><strong>状态</strong>：状态为同一种界面单元允许在不同的状态中切换，例如按钮有正常状态和不可用状态，下拉菜单有展开及收拢状态，菜单项目有选中和未选中状态等。在同一个界面元素中允许叠加多个状态。</li>
+<li><strong>参数</strong>：参数作为界面单元如何展现提供依据，例如表格是否隔行变色，是否启用鼠标悬停等。可以同时指定多个参数。</li>
+</ul>
+<h3>2.2 界面元素的命名</h3>
+<p><strong>命名原则</strong></p>
+<ul>
+<li>所有控件、组件、视图、模块和行为的命名都应该使用最常见的名称，准确提现界面元素功能。例如菜单应该命名为menu，而不是navigation。</li>
+<li>类型、状态及参数的命名均为元素名加上类型（或状态及参数名）前缀，中间用间隔号分隔，例如固定位置的菜单为<code>.menu-fixed</code>。对于通用类型、状态或参数可以省略前缀，例如一个菜单项目处于激活状态，则只需命名为<code>.active</code>，而不许命名为<code>.menu-active</code>。</li>
+<li>所有控件、组件、视图、模块和行为的命名均不加与当前元素功能无关的前缀和额外命名，例如一个导航菜单命名为<code>.menu</code>，而不增加额外命名为<code>.ui.menu</code>或者<code>.zui.menu</code>。</li>
+</ul>
+<h3>2.2 代码文件结构</h3>
+<pre><code>zui/
+├── src/                        // 源码
+│   ├── fonts/                  // 字体文件
+│   ├── js/                     // js框架
+│   └── less/                   // 样式
+│       └── basic/              // 基础
+│           ├── normalize.less  // css normalize
+│           └── grid.less       // 栅格系统
+├── dist/                       // 可用版本
+│   ├── css/
+│   ├── js/
+│   └── fonts/
+├── examples/                   // 一些例子
+├── asserts/                    // 其他引用的资源
+│   └── js/
+├── _layouts/                   // 文档模版
+└── _includes/                  // 文档内容
+</code></pre>
+
+<h3>2.3 设计准则</h3>
+<ul>
+<li>尽量减少界面中线条的出现，避免造成界面显得复杂。应该尽可能考虑使用背景及留白来区分内容的不同部分。</li>
+</ul>
+<h3>2.4 开发约定</h3>
+<ul>
+<li>不在框架文档中加入与框架当前无关的资源；</li>
+</ul>
