@@ -42,6 +42,13 @@
 @color-important:             @brown;
 @color-special:               @purple;
 
+@color-success-pale:          lighten(@green,70%);
+@color-warning-pale:          lighten(@yellow,70%);
+@color-danger-pale:           lighten(@red,70%);
+@color-info-pale:             lighten(@blue,70%);
+@color-important-pale:        lighten(@brown,70%);
+@color-special-pale:          lighten(@purple,70%);
+
 // Scaffolding
 @body-bg:               @color-backgrond;
 @text-color:            @color-fore;
@@ -157,13 +164,14 @@
 @caret-width-base:               4px;
 @caret-width-large:              5px;
 
+
 // BUTTONS
 // -------------------------------------------------
 
 @btn-font-weight:                normal;
 
 @btn-default-color:              @color-fore;
-@btn-default-bg:                 @color-backgrond;
+@btn-default-bg:                 darken(@color-backgrond,5%);
 @btn-default-border:             darken(@btn-default-bg, 20%);
 
 @btn-primary-color:              @color-light;
@@ -187,3 +195,14 @@
 @btn-info-border:                darken(@btn-info-bg, 5%);
 
 @btn-link-disabled-color:        @gray-light;
+
+
+// Thumbnails
+// -------------------------
+@thumbnail-padding:           4px;
+@thumbnail-bg:                @body-bg;
+@thumbnail-border:            #ddd;
+@thumbnail-border-radius:     @border-radius-base;
+
+@thumbnail-caption-color:     @text-color;
+@thumbnail-caption-padding:   9px;
