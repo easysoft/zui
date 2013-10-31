@@ -42,6 +42,13 @@
 @color-important:             @brown;
 @color-special:               @purple;
 
+@color-success-pale:          lighten(@green,70%);
+@color-warning-pale:          lighten(@yellow,70%);
+@color-danger-pale:           lighten(@red,70%);
+@color-info-pale:             lighten(@blue,70%);
+@color-important-pale:        lighten(@brown,70%);
+@color-special-pale:          lighten(@purple,70%);
+
 // Scaffolding
 @body-bg:               @color-backgrond;
 @text-color:            @color-fore;
@@ -153,6 +160,10 @@
 @component-active-color:         @color-light;
 @component-active-bg:            @color-primary;
 
+// Caret
+@caret-width-base:               4px;
+@caret-width-large:              5px;
+
 
 // BUTTONS
 // -------------------------------------------------
@@ -160,8 +171,8 @@
 @btn-font-weight:                normal;
 
 @btn-default-color:              @color-fore;
-@btn-default-bg:                 @color-backgrond;
-@btn-default-border:             darken(@btn-default-bg, 10%);
+@btn-default-bg:                 darken(@color-backgrond,5%);
+@btn-default-border:             darken(@btn-default-bg, 20%);
 
 @btn-primary-color:              @color-light;
 @btn-primary-bg:                 @color-primary;
@@ -195,3 +206,20 @@
 @progress-bar-warning-bg:     @color-warning;
 @progress-bar-danger-bg:      @color-danger;
 @progress-bar-info-bg:        @color-info;
+
+// Thumbnails
+// -------------------------
+@thumbnail-padding:           4px;
+@thumbnail-bg:                @body-bg;
+@thumbnail-border:            #ddd;
+@thumbnail-border-radius:     @border-radius-base;
+
+@thumbnail-caption-color:     @text-color;
+@thumbnail-caption-padding:   9px;
+
+
+// Divider
+// -------------------------
+
+// Hr border color
+@hr-border:                   @gray-lighter;
