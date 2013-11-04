@@ -2,16 +2,18 @@
 // Scaffolding
 // ==================================================
 
-*, *:before, *:after { .box-sizing(border-box); }
+*, *:before, *:after{ .box-sizing(border-box); }
 
 // Body reset
 
-html {
+html
+{
   font-size: 62.5%;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-body {
+body
+{
   font-family: @font-family-base;
   font-size: @font-size-base;
   line-height: @line-height-base;
@@ -23,7 +25,8 @@ body {
 input,
 button,
 select,
-textarea {
+textarea
+{
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
@@ -32,17 +35,20 @@ textarea {
 
 // Links
 
-a {
+a
+{
   color: @link-color;
   text-decoration: none;
 
   &:hover,
-  &:focus {
+  &:focus
+  {
     color: @link-hover-color;
     text-decoration: underline;
   }
 
-  &:focus {
+  &:focus
+  {
     .tab-focus();
   }
 }
@@ -55,7 +61,8 @@ audio,
 canvas,
 img,
 svg,
-video {
+video
+{
   vertical-align: middle;
   max-width: 100%;
 }
@@ -63,7 +70,8 @@ video {
 // Only display content to screen readers
 //
 // See: http://a11yproject.com/posts/how-to-hide-content/
-.sr-only {
+.sr-only
+{
   position: absolute;
   width: 1px;
   height: 1px;
@@ -78,17 +86,20 @@ video {
 // Remove text-shadow in selection highlight: h5bp.com/i
 // These selection rule sets have to be separate.
 // Customize the background color to match your design.
-::-moz-selection {
+::-moz-selection
+{
   background: #b3d4fc;
   text-shadow: none;
 }
-::selection {
+::selection
+{
   background: #b3d4fc;
   text-shadow: none;
 }
 
 // Remove default fieldset styles.
-fieldset {
+fieldset
+{
   border: 0;
   margin: 0;
   padding: 0;
@@ -96,6 +107,7 @@ fieldset {
 
 
 // Allow only vertical resizing of textareas.
-textarea {
+textarea
+{
   resize: vertical;
 }
