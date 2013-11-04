@@ -34,36 +34,11 @@
   }
 }
 
-.form-focus { border-color: rgba(82, 168, 236, 0.8); box-shadow: 0 0 8px rgba(82, 168, 236, 0.6); outline: 0 none; }
-
-// Normalize non-controls
-//
-// Restyle and baseline non-control form elements.
-
-// Normalize form controls
-
-// Override content-box in Normalize (* isn't specific enough)
-input[type="search"] { .box-sizing(border-box); }
-
-// Position radios and checkboxes better
-input[type="radio"],
-input[type="checkbox"] {
-  margin: 4px 0 0;
-  margin-top: 1px \9; /* IE8-9 */
-  line-height: normal;
-}
-
-// Set the height of select and file controls to match text inputs
-input[type="file"] { display: block; }
-
 // Make multiple select elements height not fixed
 select[multiple], select[size] { height: auto; }
 
 // Fix optgroup Firefox bug per https://github.com/twbs/bootstrap/issues/7611
 select optgroup { font-size: inherit; font-style: inherit; font-family: inherit; }
-
-// Focus for select, file, radio, and checkbox
-input[type="file"]:focus, input[type="radio"]:focus, input[type="checkbox"]:focus { .tab-focus(); }
 
 // Fix for Chrome number input
 // Setting certain font-sizes causes the `I` bar to appear on hover of the bottom increment button.
@@ -76,102 +51,3 @@ input[type="number"] { &::-webkit-outer-spin-button, &::-webkit-inner-spin-butto
 // Placeholder text gets special styles because when browsers invalidate entire
 // lines if it doesn't understand a selector/
 .form-control { .placeholder(); }
-
-
-// Checkboxes and radios
-//
-// Indent the labels to position radios/checkboxes as hanging controls.
-
-.radio, .checkbox {
-  display: block;
-  min-height: @line-height-computed; // clear the floating input if there is no label text
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding-left: 20px;
-  vertical-align: middle;
-  label {
-    display: inline;
-    margin-bottom: 0;
-    font-weight: normal;
-    cursor: pointer;
-  }
-}
-.radio input[type="radio"],
-.radio-inline input[type="radio"],
-.checkbox input[type="checkbox"],
-.checkbox-inline input[type="checkbox"] {
-  float: left;
-  margin-left: -20px;
-}
-.radio + .radio,
-.checkbox + .checkbox {
-  margin-top: -5px; // Move up sibling radios or checkboxes for tighter spacing
-}
-
-// Radios and checkboxes on same line
-.radio-inline,
-.checkbox-inline {
-  display: inline-block;
-  padding-left: 20px;
-  margin-bottom: 0;
-  vertical-align: middle;
-  font-weight: normal;
-  cursor: pointer;
-}
-.radio-inline + .radio-inline,
-.checkbox-inline + .checkbox-inline {
-  margin-top: 0;
-  margin-left: 10px; // space out consecutive inline controls
-}
-
-// Apply same disabled cursor tweak as for inputs
-//
-// Note: Neither radios nor checkboxes can be readonly.
-input[type="radio"],
-input[type="checkbox"],
-.radio,
-.radio-inline,
-.checkbox,
-.checkbox-inline {
-  &[disabled],
-  fieldset[disabled] & {
-    cursor: not-allowed;
-  }
-}
-
-// Form control sizing
-.input-sm { .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-small); }
-.input-lg { .input-size(@input-height-large; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @border-radius-large); }
-
-
-// Form control feedback states
-// Apply contextual and semantic states to individual form controls.
-.has-warning { .form-control-validation(@state-warning-text; @state-warning-text; @state-warning-bg); }
-.has-error   { .form-control-validation(@state-danger-text; @state-danger-text; @state-danger-bg); }
-.has-success { .form-control-validation(@state-success-text; @state-success-text; @state-success-bg); }
-
-
-// Static form control text
-//
-// Apply class to a `p` element to make any string of text align with labels in
-// a horizontal form layout.
-
-.form-control-static 
-{
-  margin-bottom: 0; // Remove default margin from `p`
-  padding-top: (@padding-base-vertical + 1);
-}
-
-
-// Help text
-//
-// Apply to any element you wish to create light text for placement immediately
-// below a form control. Use for general help, formatting, or instructional text.
-
-.help-block 
-{
-  display: block; // account for any element using help-block
-  margin-top: 5px;
-  margin-bottom: 10px;
-  color: lighten(@text-color, 25%); // lighten the text some for contrast
-}
