@@ -764,3 +764,16 @@
     height: auto;
   }
 }
+
+//
+// Animation
+// -------------------
+
+.transition(@target; @speed; @type)
+{
+  -webkit-transition: @target @speed @type;
+  -moz-transition: @target @speed @type;
+  -o-transition: @target @speed @type;
+  -ms-transition: @target @speed @type;
+  transition: @target @speed @type;
+}

@@ -878,6 +878,11 @@ textarea {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -ms-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
 }
 .btn:focus {
   outline: thin dotted #333;
@@ -1899,11 +1904,11 @@ th {
   line-height: 1.428571429;
   vertical-align: top;
   border-bottom: 1px solid #dddddd;
-  -webkit-transition: all 0.1s ease-out;
-  -moz-transition: all 0.1s ease-out;
-  -o-transition: all 0.1s ease-out;
-  -ms-transition: all 0.1s ease-out;
-  transition: all 0.1s ease-out;
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -ms-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
 }
 .table > thead > tr > th {
   vertical-align: bottom;

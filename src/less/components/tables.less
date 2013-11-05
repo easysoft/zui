@@ -40,11 +40,7 @@ th
         border-bottom: 1px solid @table-border-color;
         // border-top: 1px solid lighten(@table-border-color, 5%);
 
-        -webkit-transition: all 0.1s ease-out;
-        -moz-transition: all 0.1s ease-out;
-        -o-transition: all 0.1s ease-out;
-        -ms-transition: all 0.1s ease-out;
-        transition: all 0.1s ease-out;
+        .transition(all,@animation-speed-fast,@animation-type);
       }
     }
   }
