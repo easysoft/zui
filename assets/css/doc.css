@@ -1,6 +1,14 @@
+body
+{
+  background-color: #f1f1f1;
+}
 article
 {
-  padding: 20px;
+  padding: 40px;
+  max-width: 1000px;
+  margin: 30px auto;
+  background-color: #fff;
+  border:1px solid #ddd;
 }
 .segment
 {
