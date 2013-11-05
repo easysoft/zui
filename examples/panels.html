@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ZUI</title>
+  <link rel="stylesheet/less" type="text/css" href="../src/less/zui.less" />
+  <script type="text/javascript"> less = { env: "development", dumpLineNumbers:'mediaquery' }; </script>
+  <script type="text/javascript" src="../assets/js/less.js"></script>
+</head>
+
+<body>
+  <section id='panels' class="page-section">
+    <div class="page-header"><h1>面板</h1></div>
+
+    <h3>类型</h3>
+    <h4>基本类型</h4>
+    <div class="panel">
+      <div class="panel-body">默认的.panel所做的只是提供基本的边界和内部，来包含内容。</div>
+    </div>
+    <h4>带标题</h4>
+    <div class="panel">
+      <div class="panel-heading">面板标题</div>
+      <div class="panel-body">面板内容</div>
+    </div>
+    <h4>带脚注</h4>
+    <div class="panel">
+      <div class="panel-body">面板内容</div>
+      <div class="panel-footer">面板脚注</div>
+    </div>
+
+    <h3>变化</h3>
+    <h4>颜色</h4>
+    <div class="panel panel-primary">
+      <div class="panel-heading">.panel-primary</div>
+      <div class="panel-body">面板内容</div>
+    </div>
+    <div class="panel panel-success">
+      <div class="panel-heading">.panel-success</div>
+      <div class="panel-body">面板内容</div>
+    </div>
+    <div class="panel panel-warning">
+      <div class="panel-heading">.panel-warning</div>
+      <div class="panel-body">面板内容</div>
+    </div>
+    <div class="panel panel-danger">
+      <div class="panel-heading">.panel-danger</div>
+      <div class="panel-body">面板内容</div>
+    </div>
+    <div class="panel panel-info">
+      <div class="panel-heading">.panel-info</div>
+      <div class="panel-body">面板内容</div>
+    </div>
+
+    <h4>包含表格</h4>
+    <div class="panel">
+      <!-- Default panel contents -->
+      <div class="panel-heading">Panel heading</div>
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <h4>包含列表</h4>
+    <div class="panel">
+      <div class="panel-heading">Panel heading</div>
+      <ul class="list-group">
+        <li class="list-group-item">todo</li>
+        <li class="list-group-item">story</li>
+        <li class="list-group-item">task</li>
+        <li class="list-group-item">bug</li>
+        <li class="list-group-item">case</li>
+      </ul>
+    </div>
+
+    <h4>面板组</h4>
+    <div class='panel-group'>
+      <div class="panel">
+        <div class="panel-heading">面板标题</div>
+        <div class="panel-body">面板内容</div>
+        <div class="panel-footer">面板脚注</div>
+      </div>
+      <div class="panel">
+        <div class="panel-heading">面板标题</div>
+        <div class="panel-body">面板内容</div>
+        <div class="panel-footer">面板脚注</div>
+      </div>
+      <div class="panel">
+        <div class="panel-heading">面板标题</div>
+        <div class="panel-body">面板内容</div>
+        <div class="panel-footer">面板脚注</div>
+      </div>
+    </div>
+
+  </section>
+</body>
+</html>
+
