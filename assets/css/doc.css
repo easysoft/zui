@@ -2,3 +2,21 @@ article
 {
   padding: 20px;
 }
+.segment
+{
+  position: relative;
+  padding: 20px;
+  margin: 0 -15px 15px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  border-style: solid;
+  margin-left: 0;
+  margin-right: 0;
+  background-color: #FFF;
+  border-width: 1px;
+  border-color: #DDD;
+  border-radius: 2px;
+}
+.segment.no-padding
+{
+  padding: 0;
+}
