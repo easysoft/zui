@@ -2422,6 +2422,92 @@ a.list-group-item:focus {
 .alert-danger .alert-link {
   color: #a82824;
 }
+code,
+kdb,
+pre,
+samp {
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  white-space: nowrap;
+  border-radius: 2px;
+}
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.428571429;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #707070;
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: 0;
+}
+.pre-scrollable {
+  max-height: 340px;
+  overflow-y: scroll;
+}
+.com {
+  color: #93a1a1;
+}
+.lit {
+  color: #195f91;
+}
+.pun,
+.opn,
+.clo {
+  color: #93a1a1;
+}
+.fun {
+  color: #dc322f;
+}
+.str,
+.atv {
+  color: #D14;
+}
+.kwd,
+.prettyprint .tag {
+  color: #1e347b;
+}
+.typ,
+.atn,
+.dec,
+.var {
+  color: teal;
+}
+.pln {
+  color: #48484c;
+}
+.prettyprint {
+  padding: 8px;
+  background-color: #f7f7f9;
+}
+.prettyprint.linenums {
+  -webkit-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+  -moz-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+  box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+}
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums li {
+  padding-left: 12px;
+  color: #bebec5;
+  line-height: 20px;
+  text-shadow: 0 1px 0 #fff;
+}
 /*!
  *  Font Awesome 3.2.1
  *  the iconic font designed for Bootstrap

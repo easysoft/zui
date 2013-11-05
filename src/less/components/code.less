@@ -1,0 +1,95 @@
+//
+// Code (inline and blocK)
+// --------------------------------------------------
+
+
+// Inline and block code styles
+code,
+kdb,
+pre,
+samp 
+{
+  font-family: @font-family-monospace;
+}
+
+// Inline code
+code
+{
+  padding: 2px 4px;
+  font-size: 90%;
+  color: @code-color;
+  background-color: @code-bg;
+  white-space: nowrap;
+  border-radius: @border-radius-base;
+}
+
+// Blocks of code
+pre
+{
+  display: block;
+  padding: ((@line-height-computed - 1) / 2);
+  margin: 0 0 (@line-height-computed / 2);
+  font-size: (@font-size-base - 1); // 14px to 13px
+  line-height: @line-height-base;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: @pre-color;
+  background-color: @pre-bg;
+  border: 1px solid @pre-border-color;
+  border-radius: @border-radius-base;
+
+  // Account for some code outputs that place code tags in pre tags
+  code
+  {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border: 0;
+  }
+}
+
+// Enable scrollable blocks of code
+.pre-scrollable
+{
+  max-height: @pre-scrollable-max-height;
+  overflow-y: scroll;
+}
+
+
+// prettify.css
+// ----------------------
+.com { color: #93a1a1; }
+.lit { color: #195f91; }
+.pun, .opn, .clo { color: #93a1a1; }
+.fun { color: #dc322f; }
+.str, .atv { color: #D14; }
+.kwd, .prettyprint .tag { color: #1e347b; }
+.typ, .atn, .dec, .var { color: teal; }
+.pln { color: #48484c; }
+
+.prettyprint
+{
+  padding: 8px;
+  background-color: #f7f7f9;
+}
+.prettyprint.linenums
+{
+  -webkit-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+     -moz-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+          box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+// ol.linenums
+// {
+//   margin: 0 0 0 33px; /* IE indents via margin-left */
+// }
+ol.linenums li
+{
+  padding-left: 12px;
+  color: #bebec5;
+  line-height: 20px;
+  text-shadow: 0 1px 0 #fff;
+}
