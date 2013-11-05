@@ -4,7 +4,6 @@
 
 .label 
 {
-  .label-variant(@label-default-bg); 
   display: inline;
   padding: .2em .6em .3em;
   font-size: 75%;
@@ -15,6 +14,7 @@
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25em;
+  .label-variant(@label-default-bg); 
 
   // Add hover effects, but only for links
   &[href] 
@@ -30,7 +30,87 @@
 
   // Empty labels collapse automatically (not available in IE8)
   &:empty { display: none; }
+
+  &.label-badge
+  {
+    display: inline-block;
+    border-radius: @badge-border-radius;
+    min-width: 10px;
+    padding: 5px 7px;
+    font-size: @font-size-small;
+    font-weight: @badge-font-weight;
+    line-height: @badge-line-height;
+  }
+
+  &.label-dot
+  {
+    text-indent: -9999em;
+    &:empty { display: inline-block; }
+    display: inline-block;
+    padding: 0px;
+    border-radius: 5px;
+    width: 10px;
+    height: 10px;
+    line-height: 14px;
+  }
 }
+
+// Hover state, but only for links
+a.label-badge
+{
+  &:hover,
+  &:focus
+  {
+    color: @badge-link-hover-color;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+// Quick fix for labels/badges in buttons
+.btn .label-badge
+{
+  position: relative;
+  top: -1px;
+}
+
+.btn-primary .label-badge,.btn-primary .label-dot
+{
+  background-color: lighten(@btn-primary-bg, 20%)
+}
+.btn-success .label-badge,.btn-success .label-dot
+{
+  background-color: darken(@btn-success-bg, 20%)
+}
+.btn-info .label-badge,.btn-info .label-dot
+{
+  background-color: darken(@btn-info-bg, 20%)
+}
+.btn-danger .label-badge,.btn-danger .label-dot
+{
+  background-color: darken(@btn-danger-bg, 20%)
+}
+.btn-warning .label-badge,.btn-warning .label-dot
+{
+  background-color: darken(@btn-warning-bg, 20%)
+}
+
+
+// Account for counters in navs
+a.list-group-item.active > .label-badge,
+.nav-pills > .active > a > .label-badge,
+a.list-group-item.active > .label-dot,
+.nav-pills > .active > a > .label-dot
+{
+  color: @badge-active-color;
+  background-color: @badge-active-bg;
+}
+.nav-pills > li > a > .label-badge,
+.nav-pills > li > a > .label-dot
+{
+  margin-left: 3px;
+}
+
 
 // Colors
 // Contextual variations (linked labels get darker on :hover)

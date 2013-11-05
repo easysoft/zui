@@ -1541,7 +1541,6 @@ hr {
   border-top: 1px solid #e5e5e5;
 }
 .label {
-  background-color: #999999;
   display: inline;
   padding: .2em .6em .3em;
   font-size: 75%;
@@ -1552,6 +1551,7 @@ hr {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25em;
+  background-color: #999999;
 }
 .label[href]:hover,
 .label[href]:focus {
@@ -1565,6 +1565,68 @@ hr {
 }
 .label:empty {
   display: none;
+}
+.label.label-badge {
+  display: inline-block;
+  border-radius: 12px;
+  min-width: 10px;
+  padding: 5px 7px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+}
+.label.label-dot {
+  text-indent: -9999em;
+  display: inline-block;
+  padding: 0px;
+  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  line-height: 14px;
+}
+.label.label-dot:empty {
+  display: inline-block;
+}
+a.label-badge:hover,
+a.label-badge:focus {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn .label-badge {
+  position: relative;
+  top: -1px;
+}
+.btn-primary .label-badge,
+.btn-primary .label-dot {
+  background-color: #506eaf;
+}
+.btn-success .label-badge,
+.btn-success .label-dot {
+  background-color: #285d28;
+}
+.btn-info .label-badge,
+.btn-info .label-dot {
+  background-color: #1d748d;
+}
+.btn-danger .label-badge,
+.btn-danger .label-dot {
+  background-color: #7e1e1b;
+}
+.btn-warning .label-badge,
+.btn-warning .label-dot {
+  background-color: #a1650e;
+}
+a.list-group-item.active > .label-badge,
+.nav-pills > .active > a > .label-badge,
+a.list-group-item.active > .label-dot,
+.nav-pills > .active > a > .label-dot {
+  color: #304269;
+  background-color: #ffffff;
+}
+.nav-pills > li > a > .label-badge,
+.nav-pills > li > a > .label-dot {
+  margin-left: 3px;
 }
 .label-primary {
   background-color: #304269;
