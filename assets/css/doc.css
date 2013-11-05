@@ -9,6 +9,7 @@ article
   margin: 30px auto;
   background-color: #fff;
   border:1px solid #ddd;
+  -moz-box-shadow:1px 1px 20px rgba(0,0,0,0.1); -webkit-box-shadow:1px 1px 20px rgba(0,0,0,0.1); box-shadow:1px 1px 20px rgba(0,0,0,0.1);
 }
 .segment
 {
