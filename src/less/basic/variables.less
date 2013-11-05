@@ -44,12 +44,36 @@
 @color-important:             @brown;
 @color-special:               @purple;
 
-@color-success-pale:          lighten(@green,70%);
-@color-warning-pale:          lighten(@yellow,70%);
-@color-danger-pale:           lighten(@red,70%);
-@color-info-pale:             lighten(@blue,70%);
-@color-important-pale:        lighten(@brown,70%);
-@color-special-pale:          lighten(@purple,70%);
+@color-success-pale:          lighten(@green,50%);
+@color-warning-pale:          lighten(@yellow,50%);
+@color-danger-pale:           lighten(@red,50%);
+@color-info-pale:             lighten(@blue,50%);
+@color-important-pale:        lighten(@brown,50%);
+@color-special-pale:          lighten(@purple,50%);
+
+
+// Form states and alerts
+// -------------------------
+@state-default-text:             @color-dark;
+@state-default-bg:               @gray-pale;
+@state-default-border:           darken(spin(@state-default-bg, -10), 5%);
+
+@state-success-text:             @color-success;
+@state-success-bg:               #f3fff0;
+@state-success-border:           darken(spin(@state-success-bg, -10), 5%);
+
+@state-info-text:                @color-info;
+@state-info-bg:                  #f4f8fa;
+@state-info-border:              darken(spin(@state-info-bg, -10), 7%);
+
+@state-warning-text:             @color-warning;
+@state-warning-bg:               #faf8f0;
+@state-warning-border:           darken(spin(@state-warning-bg, -10), 5%);
+
+@state-danger-text:              @color-danger;
+@state-danger-bg:                #FDF7F7;
+@state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
+
 
 // Scaffolding
 @body-bg:               @color-backgrond;
@@ -283,24 +307,6 @@
 @legend-color:                   @gray-dark;
 @legend-border-color:            #e5e5e5;
 
-// Form states and alerts
-// -------------------------
-
-@state-warning-text:             @color-warning;
-@state-warning-bg:               #fcf8e3;
-@state-warning-border:           darken(spin(@state-warning-bg, -10), 3%);
-
-@state-danger-text:              @color-danger;
-@state-danger-bg:                #f2dede;
-@state-danger-border:            darken(spin(@state-danger-bg, -10), 3%);
-
-@state-success-text:             @color-success;
-@state-success-bg:               #dff0d8;
-@state-success-border:           darken(spin(@state-success-bg, -10), 5%);
-
-@state-info-text:                #3a87ad;
-@state-info-bg:                  #d9edf7;
-@state-info-border:              darken(spin(@state-info-bg, -10), 7%);
 
 // Breadcrumbs
 // -------------------------
@@ -351,3 +357,30 @@
 @panel-info-text:             @state-info-text;
 @panel-info-border:           @state-info-border;
 @panel-info-heading-bg:       @state-info-bg;
+
+
+// Alerts
+// -------------------------
+@alert-padding:               15px;
+@alert-border-radius:         @border-radius-small;
+@alert-link-font-weight:      bold;
+
+@alert-default-bg:            @state-default-bg;
+@alert-default-text:          @state-default-text;
+@alert-default-border:        @state-default-border;
+
+@alert-success-bg:            @state-success-bg;
+@alert-success-text:          @state-success-text;
+@alert-success-border:        @state-success-border;
+
+@alert-info-bg:               @state-info-bg;
+@alert-info-text:             @state-info-text;
+@alert-info-border:           @state-info-border;
+
+@alert-warning-bg:            @state-warning-bg;
+@alert-warning-text:          @state-warning-text;
+@alert-warning-border:        @state-warning-border;
+
+@alert-danger-bg:             @state-danger-bg;
+@alert-danger-text:           @state-danger-text;
+@alert-danger-border:         @state-danger-border;
