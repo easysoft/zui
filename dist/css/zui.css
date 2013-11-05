@@ -1177,7 +1177,7 @@ fieldset[disabled] .btn-link:focus {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 1px;
+  border-radius: 2px;
 }
 .btn-xs {
   padding: 1px 5px;
@@ -1306,14 +1306,14 @@ input[type="button"].btn-block {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 1px;
+  border-radius: 2px;
   padding: 1px 5px;
 }
 .btn-group-sm > .btn {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
-  border-radius: 1px;
+  border-radius: 2px;
 }
 .btn-group-lg > .btn {
   padding: 10px 16px;
