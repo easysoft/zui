@@ -1,0 +1,184 @@
+//
+// pager (multiple pages)
+// --------------------------------------------------
+.pager
+{
+  display: inline-block;
+  padding-left: 0;
+  margin: @line-height-computed 0;
+  border-radius: @border-radius-base;
+
+  > li
+  {
+    display: inline; // Remove list-style and block-level defaults
+    > a,
+    > span
+    {
+      .transition(all,@animation-speed-fast,@animation-type);
+      position: relative;
+      float: left; // Collapse white-space
+      padding: @padding-base-vertical @padding-base-horizontal;
+      line-height: @line-height-base;
+      text-decoration: none;
+      background-color: @pager-bg;
+      border: 1px solid @pager-border;
+      margin-left: -1px;
+    }
+    &:first-child
+    {
+      > a,
+      > span {
+        margin-left: 0;
+        .border-left-radius(@border-radius-base);
+      }
+    }
+    &:last-child
+    {
+      > a,
+      > span
+      {
+        .border-right-radius(@border-radius-base);
+      }
+    }
+  }
+
+  > li > a,
+  > li > span
+  {
+    &:hover,
+    &:focus
+    {
+      background-color: @pager-hover-bg;
+    }
+  }
+
+  > .active > a,
+  > .active > span
+  {
+    &,
+    &:hover,
+    &:focus {
+      z-index: 2;
+      color: @pager-active-color;
+      background-color: @pager-active-bg;
+      border-color: @pager-active-bg;
+      cursor: default;
+    }
+  }
+
+  > .disabled
+  {
+    > span,
+    > span:hover,
+    > span:focus,
+    > a,
+    > a:hover,
+    > a:focus
+    {
+      color: @pager-disabled-color;
+      background-color: @pager-bg;
+      border-color: @pager-border;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// .pager-pill
+// --------------------------------------------------
+.pager-pill
+{
+  > li:first-child
+  {
+    > a,
+    > span
+    {
+      border-radius: @pager-border-radius 0 0 @pager-border-radius;
+    }
+  }
+
+  > li:last-child
+  {
+    > a,
+    > span
+    {
+      border-radius: 0 @pager-border-radius @pager-border-radius 0;
+    }
+  }
+}
+
+.pager-loose
+{
+  display: block;
+  margin: @line-height-computed 0;
+  &.pager-pill > li
+  {
+      > a,
+      > span
+      {
+        border-radius: @pager-border-radius;
+      }
+  }
+
+  > li
+  {
+    > a,
+    > span
+    {
+      margin-left: 5px;
+    }
+  }
+  > li:first-child
+  {
+    > a,
+    > span
+    {
+      margin-left: 0;
+    }
+  }
+}
+
+.pager-justify
+{
+  display: block;
+  .next 
+  {
+    > a,
+    > span 
+    {
+      float: right;
+    }
+  }
+
+  .previous
+  {
+    > a,
+    > span 
+    {
+      float: left;
+    }
+  }
+
+  &.pager-pill > li
+  {
+      > a,
+      > span
+      {
+        border-radius: @pager-border-radius;
+      }
+  }
+}
+
+// Sizing
+// --------------------------------------------------
+
+// Large
+.pager-lg
+{
+  .pager-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @border-radius-large);
+}
+
+// Small
+.pager-sm
+{
+  .pager-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @border-radius-small);
+}
