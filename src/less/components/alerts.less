@@ -13,6 +13,7 @@
   border-left: 3px solid transparent;
   border-radius: @alert-border-radius;
   .alert-variant(@alert-default-bg; @alert-default-border; @alert-default-text);
+  .transition(all,@animation-speed-fast,@animation-type);
 
   // Headings for larger alerts
   h4
@@ -44,6 +45,7 @@
     vertical-align: middle;
     font-size: 3em;
     opacity: 0.6;
+    .transition(opacity,@animation-speed-fast,@animation-type);
   }
 
   >[class*="icon-"] + .content
@@ -101,4 +103,33 @@
 .alert-danger
 {
   .alert-variant(@alert-danger-bg; @alert-danger-border; @alert-danger-text);
+}
+
+.alert:hover
+{
+  background-color: darken(@alert-default-bg,5%);
+  &.alert-success
+  {
+    background-color: darken(@alert-success-bg,5%);
+  }
+  &.alert-info
+  {
+    background-color: darken(@alert-info-bg,5%);
+  }
+  &.alert-warning
+  {
+    background-color: darken(@alert-warning-bg,5%);
+  }
+  &.alert-danger
+  {
+    background-color: darken(@alert-danger-bg,5%);
+  }
+  >[class*="icon-"]
+  {
+    opacity: 1;
+  }
+  &.alert-block
+  {
+    padding:@alert-padding + 5 @alert-padding;
+  }
 }

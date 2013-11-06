@@ -2334,6 +2334,11 @@ a.list-group-item:focus {
   background-color: #f1f1f1;
   border-color: #e4e4e4;
   color: #333333;
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -ms-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
 }
 .alert hr {
   border-top-color: #d7d7d7;
@@ -2360,6 +2365,11 @@ a.list-group-item:focus {
   vertical-align: middle;
   font-size: 3em;
   opacity: 0.6;
+  -webkit-transition: opacity 0.1s ease-in;
+  -moz-transition: opacity 0.1s ease-in;
+  -o-transition: opacity 0.1s ease-in;
+  -ms-transition: opacity 0.1s ease-in;
+  transition: opacity 0.1s ease-in;
 }
 .alert > [class*="icon-"] + .content {
   padding-left: 1em;
@@ -2423,6 +2433,27 @@ a.list-group-item:focus {
 }
 .alert-danger .alert-link {
   color: #a82824;
+}
+.alert:hover {
+  background-color: #e4e4e4;
+}
+.alert:hover.alert-success {
+  background-color: #dfffd7;
+}
+.alert:hover.alert-info {
+  background-color: #e2edf2;
+}
+.alert:hover.alert-warning {
+  background-color: #f4efdd;
+}
+.alert:hover.alert-danger {
+  background-color: #f8e3e3;
+}
+.alert:hover > [class*="icon-"] {
+  opacity: 1;
+}
+.alert:hover.alert-block {
+  padding: 20px 15px;
 }
 code,
 kdb,
