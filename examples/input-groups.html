@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ZUI</title>
+  <link href="../dist/css/zui.css" rel="stylesheet">
+  <link href="../assets/css/doc.css" rel="stylesheet">
+  <link rel="stylesheet/less" type="text/css" href="../src/less/zui.less" />
+  <script type="text/javascript"> less = { env: "development", dumpLineNumbers:'mediaquery' }; </script>
+  <script type="text/javascript" src="../assets/js/less.js"></script>
+</head>
+
+<body>
+<article>
+  <section id='input-groups' class="page-section">
+    <div class="page-header"><h1>输入框组</h1></div>
+
+    <h3>类型</h3>
+    <h4>基本类型</h4>
+    <div class="input-group">
+      <span class="input-group-addon">@</span>
+        <input type="text" class="form-control" placeholder="Username">
+<span class="glyphicon glyphicon-star"></span> 
+    </div>
+
+    <h4>单选框和复选框</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox">
+      </span>
+      <input type="text" class="form-control">
+    </div><br />
+     <div class="input-group">
+      <span class="input-group-addon">
+        <input type="radio">
+      </span>
+      <input type="text" class="form-control">
+    </div>
+
+    <h4>带按钮</h4>
+    <div class="input-group">
+      <input type="text" class="form-control">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">搜索</button>
+      </span>
+    </div>
+
+    <h4>分段按钮</h4>
+    <div class="input-group col-md-6">
+      <input type="text" class="form-control" placeholder='请输入邮箱地址'>
+      <span class="input-group-addon">@</span>
+      <input type="text" class="form-control" placeholder='请输入邮箱后缀'>
+    </div>
+
+  </section>
+</article>
+</body>
+</html>
+
