@@ -1173,13 +1173,15 @@ fieldset[disabled] .btn-link:focus {
   border-radius: 4px;
 }
 .btn-sm,
-.btn-xs {
+.btn-xs,
+.btn-mini {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 2px;
 }
-.btn-xs {
+.btn-xs,
+.btn-mini {
   padding: 1px 5px;
 }
 .btn-block {
