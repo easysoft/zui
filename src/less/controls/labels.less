@@ -97,18 +97,20 @@ a.label-badge
 
 
 // Account for counters in navs
-a.list-group-item.active > .label-badge,
-.nav-pills > .active > a > .label-badge,
-a.list-group-item.active > .label-dot,
-.nav-pills > .active > a > .label-dot
-{
-  color: @badge-active-color;
-  background-color: @badge-active-bg;
-}
-.nav-pills > li > a > .label-badge,
-.nav-pills > li > a > .label-dot
+// a.list-group-item.active > .label-badge,
+// .nav-pills > .active > a > .label-badge,
+// a.list-group-item.active > .label-dot,
+// .nav-pills > .active > a > .label-dot
+// {
+//   color: @badge-active-color;
+//   background-color: @badge-active-bg;
+// }
+.nav > li > a > .label-badge,
+.nav > li > a > .label-dot
 {
   margin-left: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 

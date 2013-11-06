@@ -27,7 +27,8 @@
     &:first-child
     {
       > a,
-      > span {
+      > span
+      {
         margin-left: 0;
         .border-left-radius(@border-radius-base);
       }
@@ -83,9 +84,9 @@
   }
 }
 
-// .pager-pill
+// .pager-pills
 // --------------------------------------------------
-.pager-pill
+.pager-pills
 {
   > li:first-child
   {
@@ -111,7 +112,7 @@
   display: block;
   margin: @line-height-computed 0;
   .clearfix();
-  &.pager-pill > li
+  &.pager-pills > li
   {
       > a,
       > span
@@ -160,7 +161,7 @@
     }
   }
 
-  &.pager-pill > li
+  &.pager-pills > li
   {
       > a,
       > span
