@@ -26,7 +26,7 @@
         <form class="form-horizontal" role="form" method='post'>
           <legend>legend</legend>
           <div class="form-group">
-            <label class="col-md-2 control-label">类目</label>
+            <label class="col-md-2 control-label">类目<span style='color:red'>*</span></label>
             <div class="col-md-4">
               <select name='categories[]' id='categories' multiple='multiple' class='select-3 form-control chosen'>
                 <option value='2'>/蝉知动态</option>
@@ -68,7 +68,7 @@
           </div>
 
           <div class="form-group">
-            <label class="col-md-2 control-label">标题</label>
+            <label class="col-md-2 control-label">标题<span style='color:red'>*</span></label>
             <div class="col-md-10 has-error">
                <input type='text' name='title' id='title' value='' class='form-control' placeholder=''/>
                <div class="help-block alert alert-warning">标题不能为空</div>
