@@ -44,12 +44,12 @@
 @color-important:             @brown;
 @color-special:               @purple;
 
-@color-success-pale:          lighten(@green,50%);
-@color-warning-pale:          lighten(@yellow,50%);
-@color-danger-pale:           lighten(@red,50%);
-@color-info-pale:             lighten(@blue,50%);
-@color-important-pale:        lighten(@brown,50%);
-@color-special-pale:          lighten(@purple,50%);
+@color-success-pale:          #f3fff0;
+@color-warning-pale:          #faf8f0;
+@color-danger-pale:           #FDF7F7;
+@color-info-pale:             #f4f8fa;
+@color-important-pale:        #f6e1c9;
+@color-special-pale:          #f6e9fc;
 
 
 // Form states and alerts
@@ -59,19 +59,19 @@
 @state-default-border:           darken(spin(@state-default-bg, -10), 5%);
 
 @state-success-text:             @color-success;
-@state-success-bg:               #f3fff0;
+@state-success-bg:               @color-success-pale;
 @state-success-border:           darken(spin(@state-success-bg, -10), 5%);
 
 @state-info-text:                @color-info;
-@state-info-bg:                  #f4f8fa;
+@state-info-bg:                  @color-info-pale;
 @state-info-border:              darken(spin(@state-info-bg, -10), 7%);
 
 @state-warning-text:             @color-warning;
-@state-warning-bg:               #faf8f0;
+@state-warning-bg:               @color-warning-pale;
 @state-warning-border:           darken(spin(@state-warning-bg, -10), 5%);
 
 @state-danger-text:              @color-danger;
-@state-danger-bg:                #FDF7F7;
+@state-danger-bg:                @color-danger-pale;
 @state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
 
 
@@ -408,8 +408,8 @@
 
 // Code
 // ------------------------
-@code-color:                  #c7254e;
-@code-bg:                     #f9f2f4;
+@code-color:                  @color-special;
+@code-bg:                     @color-special-pale;
 
 @pre-bg:                      #f5f5f5;
 @pre-color:                   @gray-dark;

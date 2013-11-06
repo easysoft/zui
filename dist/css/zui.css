@@ -2464,8 +2464,9 @@ samp {
 code {
   padding: 2px 4px;
   font-size: 90%;
-  color: #c7254e;
-  background-color: #f9f2f4;
+  color: #8957a1;
+  background-color: #f6e9fc;
+  border: 1px solid #e4bcf6;
   white-space: nowrap;
   border-radius: 2px;
 }
@@ -2618,6 +2619,18 @@ ol.linenums li {
   display: block;
   margin: 20px 0;
 }
+.pager-loose:before,
+.pager-loose:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.pager-loose:after {
+  clear: both;
+}
 .pager-loose.pager-pill > li > a,
 .pager-loose.pager-pill > li > span {
   border-radius: 16px;
@@ -2632,6 +2645,18 @@ ol.linenums li {
 }
 .pager-justify {
   display: block;
+}
+.pager-justify:before,
+.pager-justify:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.pager-justify:after {
+  clear: both;
 }
 .pager-justify .next > a,
 .pager-justify .next > span {
