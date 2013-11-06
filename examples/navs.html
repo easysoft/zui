@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ZUI，一个简单吸引人的前端框架。">
+  <meta name="author" content="Zentao">
+
+  <title>ZUI</title>
+
+  <link href="../dist/css/zui.css" rel="stylesheet">
+  <link href="../assets/css/doc.css" rel="stylesheet">
+  <script src="../assets/js/jquery.js"></script>
+  <script>
+  $(function ()
+  {
+      $('.nav li:not(.disabled)').click(function() {
+          $(this).closest('.nav').find('li.active').removeClass('active');
+          $(this).addClass('active');
+      });
+  });
+  </script>
+</head>
+<body>
+  <article>
+    <section class="page-section">
+      <h1 class="header-dividing">Navbars</h1>
+
+      <h2>类型</h2>
+
+      <h3>主要导航</h3>
+      <p><code>.nav-primary</code></p>
+      <div class="segment">
+        <ul class="nav nav-primary">
+          <li class="active"><a href="###"><i class="icon-home"></i> Home</a></li>
+          <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success">4</span></a></li>
+          <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h3>次要导航</h3>
+      <p>通常与主导航一起使用</p>
+      <p><code>.nav-secondary</code></p>
+      <div class="segment">
+        <ul class="nav nav-secondary">
+          <li class="active"><a href="###">Home</a></li>
+          <li><a href="###">Profile</a></li>
+          <li><a href="###">Messages</a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h3>复合导航</h3>
+      <p>复合导航包含一个主要导航和一个次要导航</p>
+
+
+      <h3>标签页导航</h3>
+      <p><code>.nav-tabs</code></p>
+      <div class="segment">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="###">Home</a></li>
+          <li><a href="###">Profile</a></li>
+          <li><a href="###">Messages</a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h3>圆点导航</h3>
+      <p><code>.nav-pills</code></p>
+      <div class="segment">
+        <ul class="nav nav-pills">
+          <li class="active"><a href="###">Home</a></li>
+          <li><a href="###">Profile</a></li>
+          <li><a href="###">Messages</a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h2>状态</h2>
+      <h3>禁用的导航链接</h3>
+      <p>在禁用的项目上添加<code>.disabled</code></p>
+      <div class="segment">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="###">Home</a></li>
+          <li><a href="###">Profile</a></li>
+          <li class="disabled"><a href="###">Messages</a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav nav-pills">
+          <li class="active"><a href="###">Home</a></li>
+          <li><a href="###">Profile</a></li>
+          <li class="disabled"><a href="###">Messages</a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav nav-secondary">
+          <li class="active"><a href="###">Home</a></li>
+          <li><a href="###">Profile</a></li>
+          <li class="disabled"><a href="###">Messages</a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h2>参数</h2>
+      <h3>垂直排列</h3>
+      <p><code>.nav-stacked</code></p>
+      <div class="segment">
+        <ul class="nav nav-primary nav-stacked">
+          <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+          <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+          <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav nav-secondary nav-stacked">
+          <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+          <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+          <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav nav-stacked nav-pills">
+          <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+          <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+          <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <h3>自适应宽度</h3>
+      <p>自适应宽度不能与垂直排列同时使用</p>
+      <p><code>.nav-justified</code></p>
+      <div class="segment">
+        <ul class="nav nav-primary nav-justified">
+          <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+          <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+          <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav nav-justified nav-tabs">
+          <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+          <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+          <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav nav-secondary nav-justified">
+          <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+          <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+          <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav nav-justified nav-pills">
+          <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+          <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+          <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+              Dropdown <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              ...
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </article>
+</body>
+</html>

@@ -119,6 +119,7 @@
 
 // Drop shadows
 .box-shadow(@shadow) {
+  -moz-box-shadow: @shadow;
   -webkit-box-shadow: @shadow; // iOS <4.3 & Android <4.1
           box-shadow: @shadow;
 }
@@ -776,4 +777,32 @@
   -o-transition: @target @speed @type;
   -ms-transition: @target @speed @type;
   transition: @target @speed @type;
+}
+
+//
+// Accent active mark
+// -------------------
+
+.active-mark-top()
+{
+  .transition(box-shadow, @animation-speed-fast,@animation-type);
+  .box-shadow(inset 0 @active-border-width 0 @active-border-color);
+}
+
+.active-mark-bottom()
+{
+  .transition(box-shadow, @animation-speed-fast,@animation-type);
+  .box-shadow(inset 0 -@active-border-width 0 @active-border-color);
+}
+
+.active-mark-left()
+{
+  .transition(box-shadow, @animation-speed-fast,@animation-type);
+  .box-shadow(inset @active-border-width 0 0 @active-border-color);
+}
+
+.active-mark-right()
+{
+  .transition(box-shadow, @animation-speed-fast,@animation-type);
+  .box-shadow(inset -@active-border-width 0 0 @active-border-color);
 }
