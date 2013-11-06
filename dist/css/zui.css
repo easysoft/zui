@@ -1173,13 +1173,15 @@ fieldset[disabled] .btn-link:focus {
   border-radius: 4px;
 }
 .btn-sm,
-.btn-xs {
+.btn-xs,
+.btn-mini {
   padding: 5px 10px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 2px;
 }
-.btn-xs {
+.btn-xs,
+.btn-mini {
   padding: 1px 5px;
 }
 .btn-block {
@@ -2332,6 +2334,11 @@ a.list-group-item:focus {
   background-color: #f1f1f1;
   border-color: #e4e4e4;
   color: #333333;
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -ms-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
 }
 .alert hr {
   border-top-color: #d7d7d7;
@@ -2358,6 +2365,11 @@ a.list-group-item:focus {
   vertical-align: middle;
   font-size: 3em;
   opacity: 0.6;
+  -webkit-transition: opacity 0.1s ease-in;
+  -moz-transition: opacity 0.1s ease-in;
+  -o-transition: opacity 0.1s ease-in;
+  -ms-transition: opacity 0.1s ease-in;
+  transition: opacity 0.1s ease-in;
 }
 .alert > [class*="icon-"] + .content {
   padding-left: 1em;
@@ -2421,6 +2433,272 @@ a.list-group-item:focus {
 }
 .alert-danger .alert-link {
   color: #a82824;
+}
+.alert:hover {
+  background-color: #e4e4e4;
+}
+.alert:hover.alert-success {
+  background-color: #dfffd7;
+}
+.alert:hover.alert-info {
+  background-color: #e2edf2;
+}
+.alert:hover.alert-warning {
+  background-color: #f4efdd;
+}
+.alert:hover.alert-danger {
+  background-color: #f8e3e3;
+}
+.alert:hover > [class*="icon-"] {
+  opacity: 1;
+}
+.alert:hover.alert-block {
+  padding: 20px 15px;
+}
+code,
+kdb,
+pre,
+samp {
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #8957a1;
+  background-color: #f6e9fc;
+  border: 1px solid #e4bcf6;
+  white-space: nowrap;
+  border-radius: 2px;
+}
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.428571429;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #707070;
+  background-color: #f5f5f5;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: 0;
+}
+.pre-scrollable {
+  max-height: 340px;
+  overflow-y: scroll;
+}
+.com {
+  color: #93a1a1;
+}
+.lit {
+  color: #195f91;
+}
+.pun,
+.opn,
+.clo {
+  color: #93a1a1;
+}
+.fun {
+  color: #dc322f;
+}
+.str,
+.atv {
+  color: #D14;
+}
+.kwd,
+.prettyprint .tag {
+  color: #1e347b;
+}
+.typ,
+.atn,
+.dec,
+.var {
+  color: teal;
+}
+.pln {
+  color: #48484c;
+}
+.prettyprint {
+  padding: 8px;
+  background-color: #f7f7f9;
+}
+.prettyprint.linenums {
+  -webkit-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+  -moz-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+  box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+}
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums li {
+  padding-left: 12px;
+  color: #bebec5;
+  line-height: 20px;
+  text-shadow: 0 1px 0 #fff;
+}
+.pager {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 2px;
+}
+.pager > li {
+  display: inline;
+}
+.pager > li > a,
+.pager > li > span {
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -ms-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  line-height: 1.428571429;
+  text-decoration: none;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  margin-left: -1px;
+}
+.pager > li:first-child > a,
+.pager > li:first-child > span {
+  margin-left: 0;
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.pager > li:last-child > a,
+.pager > li:last-child > span {
+  border-bottom-right-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.pager > li > a:hover,
+.pager > li > span:hover,
+.pager > li > a:focus,
+.pager > li > span:focus {
+  background-color: #e5e5e5;
+}
+.pager > .active > a,
+.pager > .active > span,
+.pager > .active > a:hover,
+.pager > .active > span:hover,
+.pager > .active > a:focus,
+.pager > .active > span:focus {
+  z-index: 2;
+  color: #ffffff;
+  background-color: #304269;
+  border-color: #304269;
+  cursor: default;
+}
+.pager > .disabled > span,
+.pager > .disabled > span:hover,
+.pager > .disabled > span:focus,
+.pager > .disabled > a,
+.pager > .disabled > a:hover,
+.pager > .disabled > a:focus {
+  color: #999999;
+  background-color: #ffffff;
+  border-color: #dddddd;
+  cursor: not-allowed;
+}
+.pager-pill > li:first-child > a,
+.pager-pill > li:first-child > span {
+  border-radius: 16px 0 0 16px;
+}
+.pager-pill > li:last-child > a,
+.pager-pill > li:last-child > span {
+  border-radius: 0 16px 16px 0;
+}
+.pager-loose {
+  display: block;
+  margin: 20px 0;
+}
+.pager-loose:before,
+.pager-loose:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.pager-loose:after {
+  clear: both;
+}
+.pager-loose.pager-pill > li > a,
+.pager-loose.pager-pill > li > span {
+  border-radius: 16px;
+}
+.pager-loose > li > a,
+.pager-loose > li > span {
+  margin-left: 5px;
+}
+.pager-loose > li:first-child > a,
+.pager-loose > li:first-child > span {
+  margin-left: 0;
+}
+.pager-justify {
+  display: block;
+}
+.pager-justify:before,
+.pager-justify:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.pager-justify:after {
+  clear: both;
+}
+.pager-justify .next > a,
+.pager-justify .next > span {
+  float: right;
+}
+.pager-justify .previous > a,
+.pager-justify .previous > span {
+  float: left;
+}
+.pager-justify.pager-pill > li > a,
+.pager-justify.pager-pill > li > span {
+  border-radius: 16px;
+}
+.pager-lg > li > a,
+.pager-lg > li > span {
+  padding: 10px 16px;
+  font-size: 18px;
+}
+.pager-lg > li:first-child > a,
+.pager-lg > li:first-child > span {
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
+.pager-lg > li:last-child > a,
+.pager-lg > li:last-child > span {
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.pager-sm > li > a,
+.pager-sm > li > span {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+.pager-sm > li:first-child > a,
+.pager-sm > li:first-child > span {
+  border-bottom-left-radius: 1px;
+  border-top-left-radius: 1px;
+}
+.pager-sm > li:last-child > a,
+.pager-sm > li:last-child > span {
+  border-bottom-right-radius: 1px;
+  border-top-right-radius: 1px;
 }
 /*!
  *  Font Awesome 3.2.1
