@@ -75,6 +75,14 @@
 @state-danger-bg:                @color-danger-pale;
 @state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
 
+@state-important-text:              @color-important;
+@state-important-bg:                @color-important-pale;
+@state-important-border:            darken(spin(@state-important-bg, -10), 5%);
+
+@state-special-text:              @color-special;
+@state-special-bg:                @color-special-pale;
+@state-special-border:            darken(spin(@state-special-bg, -10), 5%);
+
 
 // Scaffolding
 @body-bg:               @color-backgrond;
@@ -83,16 +91,6 @@
 // Links
 @link-color:            lighten(@color-primary,10%);
 @link-hover-color:      darken(@link-color, 15%);
-
-// Type
-// ------------------------
-@text-muted:                  @gray-light;
-@abbr-border-color:           @gray-light;
-@headings-small-color:        @gray-light;
-@blockquote-small-color:      @gray-light;
-@blockquote-border-color:     @gray-lighter;
-@header-dividing-color:       @gray-lighter;
-@headings-block-background:   @gray-lighter;
 
 
 // MEDIA QUERIES TYPES
@@ -460,6 +458,25 @@
 @pre-color:                   @gray-dark;
 @pre-border-color:            #ccc;
 @pre-scrollable-max-height:   340px;
+
+// Type
+// ------------------------
+@text-muted:                  @gray;
+@abbr-border-color:           @gray-light;
+@headings-small-color:        @gray;
+@blockquote-small-color:      @gray;
+@blockquote-border-color:     @gray-lighter;
+@header-dividing-color:       @gray-lighter;
+@headings-block-background:   @gray-lighter;
+
+// Miscellaneous
+// -------------------------
+
+// Hr border color
+@hr-border:                   @gray-lighter;
+
+// Horizontal forms & lists
+@component-offset-horizontal: 180px;
 
 
 // Pager
