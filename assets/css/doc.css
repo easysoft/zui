@@ -2,7 +2,7 @@ body
 {
   background-color: #f1f1f1;
 }
-article
+body > article
 {
   padding: 40px;
   max-width: 1000px;
