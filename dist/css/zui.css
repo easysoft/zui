@@ -199,12 +199,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #304269;
+  color: #40588c;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #182135;
+  color: #283758;
   text-decoration: underline;
 }
 a:focus {
@@ -1136,7 +1136,7 @@ fieldset[disabled] .btn-info.active {
   border-color: #29a8cd;
 }
 .btn-link {
-  color: #304269;
+  color: #40588c;
   font-weight: normal;
   cursor: pointer;
   border-radius: 0;
@@ -1158,7 +1158,7 @@ fieldset[disabled] .btn-link {
 }
 .btn-link:hover,
 .btn-link:focus {
-  color: #182135;
+  color: #283758;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -3285,13 +3285,13 @@ ol.linenums li {
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #e5e5e5;
-  border-color: #304269;
+  border-color: #40588c;
 }
 .nav .open > a .caret,
 .nav .open > a:hover .caret,
 .nav .open > a:focus .caret {
-  border-top-color: #182135;
-  border-bottom-color: #182135;
+  border-top-color: #283758;
+  border-bottom-color: #283758;
 }
 .nav .nav-divider {
   height: 1px;
@@ -3569,12 +3569,12 @@ ol.linenums li {
   display: block;
 }
 .nav .caret {
-  border-top-color: #304269;
-  border-bottom-color: #304269;
+  border-top-color: #40588c;
+  border-bottom-color: #40588c;
 }
 .nav a:hover .caret {
-  border-top-color: #182135;
-  border-bottom-color: #182135;
+  border-top-color: #283758;
+  border-bottom-color: #283758;
 }
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
@@ -3818,6 +3818,9 @@ ol.linenums li {
   .navbar-nav > li > a {
     padding-top: 15px;
     padding-bottom: 15px;
+  }
+  .navbar-nav.nav-justified > li {
+    float: none;
   }
 }
 @media (min-width: 768px) {
