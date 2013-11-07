@@ -2417,16 +2417,23 @@ table {
 th {
   text-align: left;
 }
-.table {
+.table,
+.article > section > table {
   width: 100%;
   margin-bottom: 20px;
 }
 .table > thead > tr > th,
+.article > section > table > thead > tr > th,
 .table > tbody > tr > th,
+.article > section > table > tbody > tr > th,
 .table > tfoot > tr > th,
+.article > section > table > tfoot > tr > th,
 .table > thead > tr > td,
+.article > section > table > thead > tr > td,
 .table > tbody > tr > td,
-.table > tfoot > tr > td {
+.article > section > table > tbody > tr > td,
+.table > tfoot > tr > td,
+.article > section > table > tfoot > tr > td {
   padding: 8px;
   line-height: 1.428571429;
   vertical-align: top;
@@ -2437,7 +2444,8 @@ th {
   -ms-transition: all 0.1s ease-in;
   transition: all 0.1s ease-in;
 }
-.table > thead > tr > th {
+.table > thead > tr > th,
+.article > section > table > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 1px solid #dddddd;
   background-color: #f1f1f1;
@@ -6072,21 +6080,87 @@ a .icon-flip-vertical:before {
 .article > section dl {
   padding-left: 2em;
 }
+.article > section table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.article > section table > thead > tr > th,
+.article > section table > tbody > tr > th,
+.article > section table > tfoot > tr > th,
+.article > section table > thead > tr > td,
+.article > section table > tbody > tr > td,
+.article > section table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-bottom: 1px solid #dddddd;
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  -ms-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
+}
+.article > section table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 1px solid #dddddd;
+  background-color: #f1f1f1;
+}
 .article > footer {
-  padding: 10px 15px 0;
   border-top: 1px dashed #d8d8d8;
+}
+.article > footer > p {
+  padding: 10px 15px;
+}
+.article-condensed {
+  padding: 20px 0;
+}
+.article-condensed > header {
+  padding: 0 20px;
 }
 .article-condensed > header > .abstract,
 .article-condensed > header > dl {
   padding: 10px 15px;
   margin: 0 -20px;
   border-bottom: 1px dashed #d8d8d8;
+}
+.article-condensed > section > p,
+.article-condensed > section > ul,
+.article-condensed > section > ol {
+  padding: 0 20px;
+}
+.article-condensed > section > ul,
+.article-condensed > section > ol,
+.article-condensed > section > dl {
+  padding-left: 60px;
+}
+.article-condensed > section > img {
+  border-radius: 0;
+}
+.article-condensed > section > table {
   border-left: none;
+  border-right: none;
+}
+.article-condensed > section > table tr > td:first-child,
+.article-condensed > section > table tr > th:first-child {
+  padding-left: 20px;
+  border-left: none ;
+}
+.article-condensed > section > table tr > td:last-child,
+.article-condensed > section > table tr > th:last-child {
+  padding-right: 20px;
+  border-right: none;
 }
 .article-condensed > footer {
-  margin: 0 -20px;
-  padding: 10px 15px;
   border-top: 1px dashed #d8d8d8;
+}
+.article-condensed > footer > p {
+  padding: 10px 15px;
+}
+.article-condensed > footer > .pager-justify > .previous > a {
+  border-left: none;
+}
+.article-condensed > footer > .pager-justify > .next > a {
+  border-right: none;
 }
 html[lang="zh-CN"] .article > section p,
 html[lang="zh-cn"] .article > section p {

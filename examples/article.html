@@ -17,7 +17,7 @@
   <article>
     <section class="page-section">
       <h1 class="header-dividing">文章视图</h1>
-      <table>
+      <table class="table">
         <tr>
           <td>头部</td>
           <td>头部包含文章标题、文章信息和摘要</td>
@@ -33,6 +33,12 @@
       </table>
       <p>普通文章视图</p>
       <div class="segment no-padding">
+        <br>
+        <ul class="breadcrumb">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
         <article class="article">
           <header>
             <h1 class="text-center">文章标题</h1>
@@ -42,7 +48,7 @@
               <dt>作者：</dt>
               <dd>Catouse</dd>
               <dt></dt>
-              <dd>原创</dd>
+              <dd class="pull-right"><span class="label label-success">NEW</span> <span class="label label-warning">火爆</span> <span class="label label-info">原创</span> <span class="label label-danger"><i class="icon-eye-open"></i> 235</span></dd>
             </dl>
             <section class="abstract">
               <p><span class="text-muted">摘要：</span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus, necessitatibus provident quasi suscipit laborum nemo tenetur ad accusantium explicabo pariatur?</p>
@@ -62,6 +68,7 @@
               <li>Quaerat, aut atque praesentium quidem consequatur consequuntur repudiandae error maxime laboriosam nesciunt vitae illo laborum voluptas enim aliquid eius ad!</li>
               <li>Qui, soluta, ipsum, alias reiciendis iusto natus ullam distinctio nam exercitationem culpa veniam mollitia id sapiente quisquam nihil totam in.</li>
             </ul>
+            <hr>
             <p>Magnam, modi, repellat beatae perferendis illo dicta illum dolore minus aperiam sit perspiciatis voluptas molestias eaque numquam ipsum deserunt at aut quam quisquam tenetur. Repellat, ratione nihil voluptate sit pariatur quasi ipsum? Sapiente, fugit nesciunt placeat ut expedita id inventore nobis iure adipisci ullam aliquid laboriosam facere officiis molestiae mollitia!</p>
             <table class="table table-hover">
               <thead>
@@ -129,6 +136,11 @@
               发布时间：2013年11月7日 16:44:21 &nbsp;点击数：234
             </p>
             <p class="text-important">本文版权所有归<a href="###">@catouse</a></p>
+            <ul class="pager pager-justify">
+              <li class="previous"><a href="#"><i class="icon-arrow-left"></i> 论烧火煮饭</a></li>
+              <li><a href="#"><i class="icon-list-ul"></i> 目录</a></li>
+              <li class="next disabled"><a href="#">没有下一篇 <i class="icon-arrow-right"></i></a></li>
+            </ul>
           </footer>
         </article>
       </div>
@@ -142,9 +154,17 @@
               <dt>作者：</dt>
               <dd>Catouse</dd>
               <dt></dt>
-              <dd>原创</dd>
+              <dd><span class="label label-success">最新</span> <span class="label label-warning">火爆</span> <span class="label label-info">原创</span></dd>
             </dl>
             <h1>文章标题</h1>
+            <dl class="dl-inline">
+              <dt>发布时间：</dt>
+              <dd>2013-11-07 17:14:22</dd>
+              <dt>作者：</dt>
+              <dd>Catouse</dd>
+              <dt></dt>
+              <dd><span class="label label-info">原创</span></dd>
+            </dl>
             <section class="abstract">
               <p><strong>摘要：</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus, necessitatibus provident quasi suscipit laborum nemo tenetur ad accusantium explicabo pariatur?</p>
             </section>
@@ -164,7 +184,7 @@
               <li>Qui, soluta, ipsum, alias reiciendis iusto natus ullam distinctio nam exercitationem culpa veniam mollitia id sapiente quisquam nihil totam in.</li>
             </ul>
             <p>Magnam, modi, repellat beatae perferendis illo dicta illum dolore minus aperiam sit perspiciatis voluptas molestias eaque numquam ipsum deserunt at aut quam quisquam tenetur. Repellat, ratione nihil voluptate sit pariatur quasi ipsum? Sapiente, fugit nesciunt placeat ut expedita id inventore nobis iure adipisci ullam aliquid laboriosam facere officiis molestiae mollitia!</p>
-            <table class="table table-bordered">
+            <table>
               <thead>
                 <tr>
                   <th>Lorem ipsum.</th>
@@ -230,8 +250,13 @@
               发布时间：2013年11月7日 16:44:21 &nbsp;点击数：234
             </p>
             <p class="text-important">本文版权所有归<a href="###">@catouse</a></p>
+            <ul class="pager pager-justify">
+              <li class="previous"><a href="#">« 上一篇：论烧火煮饭</a></li>
+              <li class="next"><a href="#">下一篇：合适不合适？ »</a></li>
+            </ul>
           </footer>
         </article>
+
       </div>
     </section>
   </article>
