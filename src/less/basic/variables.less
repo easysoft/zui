@@ -481,12 +481,19 @@
 // Article
 // -------------------------
 
-@article-padding:             20px;
-@article-section-padding:     10px 15px;
-@article-abstract-bg:         @gray-pale;
-@article-abstract-color:      lighten(@color-fore,20%);
-@article-img-shadow:          0px 1px 3px rgba(0, 0, 0, 0.4);
-@article-img-shadow-hover:    0px 1px 6px rgba(0, 0, 0, 0.8);
+@article-padding:                 20px;
+@article-section-padding:         10px 15px;
+@article-abstract-bg:             @gray-pale;
+@article-abstract-color:          lighten(@color-fore,20%);
+@article-img-shadow:              0px 1px 3px rgba(0, 0, 0, 0.4);
+@article-img-shadow-hover:        0px 1px 6px rgba(0, 0, 0, 0.8);
+@article-font-size-h1:            floor(@font-size-base * 2.15); // 30px
+@article-font-size-h2:            ceil(@font-size-base * 1.70); // 24px
+@article-font-size-h3:            ceil(@font-size-base * 1.42); // 20px
+@article-font-size-h4:            ceil(@font-size-base * 1.25); // 18px
+@article-font-size-h5:            @font-size-base;
+@article-font-size-h6:            ceil(@font-size-base * 0.85); // 12px
+@article-headings-border-color:   @gray-light;
 
 
 // Pager

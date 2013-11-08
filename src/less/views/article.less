@@ -52,6 +52,54 @@
   {
     padding: @line-height-computed 0;
 
+    h1 
+    {
+      font-size: @article-font-size-h1;
+      border-bottom: @active-border-width * 2 double @article-headings-border-color;
+      &:before
+      {
+        content: "§ ";
+      }
+    }
+    h2 
+    {
+      font-size: @article-font-size-h2;
+      border-bottom: @active-border-width solid @article-headings-border-color;
+      // &:before
+      // {
+      //   content: "◈ ";
+      // }
+    }
+    h3 
+    {
+      font-size: @article-font-size-h3;
+      border-bottom: @active-border-width double @article-headings-border-color;
+      // &:before
+      // {
+      //   content: "◈ ";
+      // }
+    }
+    h4 
+    {
+      font-size: @article-font-size-h4;
+      border-bottom: 1px solid @article-headings-border-color;
+      padding-left: 0.5em;
+      border-left: @active-border-width * 4 solid @article-headings-border-color;
+    }
+    h5 
+    {
+      font-size: @article-font-size-h5;
+      padding-left: 0.5em;
+      border-bottom: 1px dashed @article-headings-border-color;
+      border-left: @active-border-width * 4 solid @article-headings-border-color;
+    }
+    h6 
+    {
+      font-size: @article-font-size-h6;
+      padding-left: 0.5em;
+      border-left: @active-border-width * 2 solid @article-headings-border-color;
+    }
+
     img
     {
       margin-bottom: @line-height-computed / 2;
@@ -68,6 +116,7 @@
     dl
     {
       padding-left: 2em;
+      padding-right: 2em;
     }
 
     table
@@ -134,10 +183,29 @@
   > section
   {
     > p,
+    > blockquote,
+    > div,
     > ul,
-    > ol
+    > ol,
+    > h1,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6
     {
       padding: 0 @article-padding;
+    }
+
+    > h4,
+    > h5
+    {
+      padding-left: @article-padding - @active-border-width * 4;
+    }
+
+    > h6
+    {
+      padding-left: @article-padding - @active-border-width * 2;
     }
 
     > ul,

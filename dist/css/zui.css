@@ -6052,6 +6052,38 @@ a .icon-flip-vertical:before {
 .article > section {
   padding: 20px 0;
 }
+.article > section h1 {
+  font-size: 30px;
+  border-bottom: 6px double #dddddd;
+}
+.article > section h1:before {
+  content: "§ ";
+}
+.article > section h2 {
+  font-size: 24px;
+  border-bottom: 3px solid #dddddd;
+}
+.article > section h3 {
+  font-size: 20px;
+  border-bottom: 3px double #dddddd;
+}
+.article > section h4 {
+  font-size: 18px;
+  border-bottom: 1px solid #dddddd;
+  padding-left: 0.5em;
+  border-left: 12px solid #dddddd;
+}
+.article > section h5 {
+  font-size: 14px;
+  padding-left: 0.5em;
+  border-bottom: 1px dashed #dddddd;
+  border-left: 12px solid #dddddd;
+}
+.article > section h6 {
+  font-size: 12px;
+  padding-left: 0.5em;
+  border-left: 6px solid #dddddd;
+}
 .article > section img {
   margin-bottom: 10px;
   border-radius: 2px;
@@ -6071,6 +6103,7 @@ a .icon-flip-vertical:before {
 }
 .article > section dl {
   padding-left: 2em;
+  padding-right: 2em;
 }
 .article > section table {
   width: 100%;
@@ -6116,9 +6149,24 @@ a .icon-flip-vertical:before {
   border-bottom: 1px dashed #d8d8d8;
 }
 .article-condensed > section > p,
+.article-condensed > section > blockquote,
+.article-condensed > section > div,
 .article-condensed > section > ul,
-.article-condensed > section > ol {
+.article-condensed > section > ol,
+.article-condensed > section > h1,
+.article-condensed > section > h2,
+.article-condensed > section > h3,
+.article-condensed > section > h4,
+.article-condensed > section > h5,
+.article-condensed > section > h6 {
   padding: 0 20px;
+}
+.article-condensed > section > h4,
+.article-condensed > section > h5 {
+  padding-left: 8px;
+}
+.article-condensed > section > h6 {
+  padding-left: 14px;
 }
 .article-condensed > section > ul,
 .article-condensed > section > ol,
