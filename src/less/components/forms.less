@@ -283,11 +283,12 @@ input[type="radio"], input[type="checkbox"], .radio, .radio-inline, .checkbox, .
   }
 }
 
-label .required 
+.required:after
 {
-  color: rgb(255, 51, 51);
+  content: '*';
+  color: @state-danger-text;
   display: inline-block;
   position: absolute;
   top: 3px;
-  font-size: larger;
+  font-size: @font-size-large;
 }
