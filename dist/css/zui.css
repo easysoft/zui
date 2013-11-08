@@ -241,12 +241,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #40588c;
+  color: #506eaf;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #283758;
+  color: #384d7a;
   text-decoration: underline;
 }
 a:focus {
@@ -1571,7 +1571,7 @@ fieldset[disabled] .btn-info.active {
   border-color: #29a8cd;
 }
 .btn-link {
-  color: #40588c;
+  color: #506eaf;
   font-weight: normal;
   cursor: pointer;
   border-radius: 0;
@@ -1593,7 +1593,7 @@ fieldset[disabled] .btn-link {
 }
 .btn-link:hover,
 .btn-link:focus {
-  color: #283758;
+  color: #384d7a;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -2417,23 +2417,16 @@ table {
 th {
   text-align: left;
 }
-.table,
-.article > section > table {
+.table {
   width: 100%;
   margin-bottom: 20px;
 }
 .table > thead > tr > th,
-.article > section > table > thead > tr > th,
 .table > tbody > tr > th,
-.article > section > table > tbody > tr > th,
 .table > tfoot > tr > th,
-.article > section > table > tfoot > tr > th,
 .table > thead > tr > td,
-.article > section > table > thead > tr > td,
 .table > tbody > tr > td,
-.article > section > table > tbody > tr > td,
-.table > tfoot > tr > td,
-.article > section > table > tfoot > tr > td {
+.table > tfoot > tr > td {
   padding: 8px;
   line-height: 1.428571429;
   vertical-align: top;
@@ -2444,8 +2437,7 @@ th {
   -ms-transition: all 0.1s ease-in;
   transition: all 0.1s ease-in;
 }
-.table > thead > tr > th,
-.article > section > table > thead > tr > th {
+.table > thead > tr > th {
   vertical-align: bottom;
   border-bottom: 1px solid #dddddd;
   background-color: #f1f1f1;
@@ -3671,13 +3663,13 @@ ol.linenums li {
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #e5e5e5;
-  border-color: #40588c;
+  border-color: #506eaf;
 }
 .nav .open > a .caret,
 .nav .open > a:hover .caret,
 .nav .open > a:focus .caret {
-  border-top-color: #283758;
-  border-bottom-color: #283758;
+  border-top-color: #384d7a;
+  border-bottom-color: #384d7a;
 }
 .nav .nav-divider {
   height: 1px;
@@ -3967,12 +3959,12 @@ ol.linenums li {
   display: block;
 }
 .nav .caret {
-  border-top-color: #40588c;
-  border-bottom-color: #40588c;
+  border-top-color: #506eaf;
+  border-bottom-color: #506eaf;
 }
 .nav a:hover .caret {
-  border-top-color: #283758;
-  border-bottom-color: #283758;
+  border-top-color: #384d7a;
+  border-bottom-color: #384d7a;
 }
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
