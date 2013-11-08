@@ -54,7 +54,9 @@ body > article
 }
 .segment:focus
 {
-  border: 4px solid #47a447;
+  border: 10px solid #47a447;
+  margin-left: -50px;
+  margin-right: -50px;
   border-top-width: 40px;
   box-shadow:0px 1px 15px rgba(0,0,0,0.5);
   -webkit-animation-name: glow;
