@@ -20,16 +20,10 @@
 }
 
 // The dropdown wrapper (div)
-.dropdown
-{
-  position: relative;
-}
+.dropdown { position: relative; }
 
 // Prevent the focus on the dropdown toggle when closing dropdowns
-.dropdown-toggle:focus
-{
-  outline: 0;
-}
+.dropdown-toggle:focus { outline: 0; }
 
 // The dropdown menu (ul)
 .dropdown-menu
@@ -53,17 +47,10 @@
   background-clip: padding-box;
 
   // Aligns the dropdown menu to right
-  &.pull-right
-  {
-    right: 0;
-    left: auto;
-  }
+  &.pull-right { right: 0; left: auto; }
 
   // Dividers (basically an hr) within the dropdown
-  .divider
-  {
-    .nav-divider(@dropdown-divider-bg);
-  }
+  .divider { .nav-divider(@dropdown-divider-bg); }
 
   // Links within the dropdown menu
   > li > a
@@ -135,16 +122,10 @@
 .open
 {
   // Show the menu
-  > .dropdown-menu
-  {
-    display: block;
-  }
+  > .dropdown-menu { display: block; }
 
   // Remove the outline when :focus is triggered
-  > a
-  {
-    outline: 0;
-  }
+  > a { outline: 0; }
 }
 
 // Dropdown section headers
@@ -169,11 +150,7 @@
 }
 
 // Right aligned dropdowns
-.pull-right > .dropdown-menu
-{
-  right: 0;
-  left: auto;
-}
+.pull-right > .dropdown-menu { right: 0; left: auto; }
 
 // Allow for dropdowns to go bottom up (aka, dropup-menu)
 //
@@ -216,4 +193,3 @@
     }
   }
 }
-

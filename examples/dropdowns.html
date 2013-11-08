@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset='utf8'>
+  <link href="../assets/css/doc.css" rel="stylesheet">
+  <link rel="stylesheet/less" type="text/css" href="../src/less/zui.less" />
+  <script type="text/javascript"> less = { env: "development", dumpLineNumbers:'mediaquery' }; </script>
+  <script type="text/javascript" src="../assets/js/less.js"></script>
+  <script type="text/javascript" src="../assets/js/jquery.js"></script>
+  <script type="text/javascript" src="../src/js/dropdown.js"></script>
+</head>
+<body>
+<article>
+  <section id='dropdowns' class="page-section">
+    <h1>下拉菜单</h1>
+    
+    <h3>类型</h3>
+    <h4>基本类型</h4>
+    <p>将下拉菜单触发器和下拉菜单都包裹在.dropdown里，或者另一个声明了position: relative;的元素。然后添加组成菜单的HTML代码。</p>
+    <p>通过是否指定data-toggle='dropdown'来开关下拉菜单。</p>
+    <div class="bs-example">
+      <div class="dropdown clearfix">
+        <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">操作 <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li><a href="#">编辑</a></li>
+          <li><a href="#">删除</a></li>
+          <li class="divider"></li>
+          <li><a href="#">修改</a></li>
+        </ul>
+      </div>
+    </div><!-- /example -->
+    <div style='clear:both'></div>
+    
+    <h4>导航条下来菜单</h4>
+    <ul class="nav nav-primary">
+      <li class="active"><a href="#">首页</a></li>
+      <li><a href="#"></i>演示</a></li>
+      <li><a href="#"></i>下载</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 团队 <span class="caret"></span> </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">关于我们</a></li>
+          <li><a href="#">开发计划</a></li>
+          <li class="divider"></li>
+          <li><a href="#">开源代码</a></li>
+          <li><a href="#">团队博客</a></li>
+        </ul>
+      </li>
+    </ul>
+    
+    <h4>标签下拉菜单</h4>
+    <div class="dropdown">
+      <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> 操作 <span class="caret"></span> </a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li><a href="#">编辑</a></li>
+        <li><a href="#">删除</a></li>
+        <li class="divider"></li>
+        <li><a href="#">修改</a></li>
+      </ul>
+    </div>
+    
+    <h4>按钮下拉菜单</h4>
+    <div class="btn-group">
+      <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">操作 <span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li><a href="#">编辑</a></li>
+        <li><a href="#">删除</a></li>
+        <li class="divider"></li>
+        <li><a href="#">修改</a></li>
+      </ul>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn">操作</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">编辑</a></li>
+        <li><a href="#">删除</a></li>
+        <li class="divider"></li>
+        <li><a href="#">增加</a></li>
+      </ul>
+    </div>
+    <div class="btn-group dropup">
+      <button type="button" class="btn">操作</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">编辑</a></li>
+        <li><a href="#">删除</a></li>
+        <li class="divider"></li>
+        <li><a href="#">增加</a></li>
+      </ul>
+    </div>
+    
+    
+    <h3>变化</h3>
+    <h4>小标题和禁用</h4>
+    <p>通过li.dropdown-header增加小标题，为li增加.disabled来禁用。</p>
+    <div class="bs-example">
+      <div class="dropdown">
+        <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">操作<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li class="dropdown-header">基本操作</li>
+          <li><a href="#">编辑</a></li>
+          <li class='disabled'><a role="menuitem" tabindex="-1" href="#">修改</a></li>
+          <li class="divider"></li>
+          <li class="dropdown-header">其他操作</li>
+          <li><a href="#">增加</a></li>
+        </ul>
+      </div>
+    </div><!-- /example -->
+    <div style='clear:both'></div>
+
+  </section>
+</article>
+</body>
+</html>
+

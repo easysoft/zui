@@ -28,3 +28,10 @@ article
 {
   padding: 0;
 }
+
+.bs-example > .dropdown > .dropdown-menu 
+{
+  position: static;
+  display: block;
+  margin-bottom: 5px;
+}
