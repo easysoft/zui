@@ -1,0 +1,267 @@
+.article
+{
+  padding: @article-padding;
+  .active-mark-top();
+
+  > header
+  {
+    h1,
+    h2,
+    h3,
+    .h1,
+    .h2,
+    .h3
+    {
+      line-height: 1.5;
+    }
+
+    > .abstract,
+    > dl
+    {
+      font-size: @font-size-small;
+      padding: @article-section-padding;
+      background-color: lighten(@article-abstract-bg,2%);
+      border-radius: @border-radius-base;
+      border-left: @active-border-width solid darken(@article-abstract-bg, 5%);
+      color: @article-abstract-color;
+      > p:last-child
+      {
+        margin-bottom: 0;
+      }
+    }
+
+    > dl
+    {
+      border-bottom: 1px solid darken(@article-abstract-bg, 3%);
+      margin: 0;
+
+      // + .abstract
+      // {
+      //   border-top: 1px solid lighten(@article-abstract-bg, 3%);
+      // }
+
+      &.pull-right
+      {
+        background-color: transparent;
+        border: none;
+      }
+    }
+  }
+
+  > section
+  {
+    padding: @line-height-computed 0;
+
+    h1 
+    {
+      font-size: @article-font-size-h1;
+      border-bottom: @active-border-width * 2 double @article-headings-border-color;
+      &:before
+      {
+        content: "§ ";
+      }
+    }
+    h2 
+    {
+      font-size: @article-font-size-h2;
+      border-bottom: @active-border-width solid @article-headings-border-color;
+      // &:before
+      // {
+      //   content: "◈ ";
+      // }
+    }
+    h3 
+    {
+      font-size: @article-font-size-h3;
+      border-bottom: @active-border-width double @article-headings-border-color;
+      // &:before
+      // {
+      //   content: "◈ ";
+      // }
+    }
+    h4 
+    {
+      font-size: @article-font-size-h4;
+      border-bottom: 1px solid @article-headings-border-color;
+      padding-left: 0.5em;
+      border-left: @active-border-width * 4 solid @article-headings-border-color;
+    }
+    h5 
+    {
+      font-size: @article-font-size-h5;
+      padding-left: 0.5em;
+      border-bottom: 1px dashed @article-headings-border-color;
+      border-left: @active-border-width * 4 solid @article-headings-border-color;
+    }
+    h6 
+    {
+      font-size: @article-font-size-h6;
+      padding-left: 0.5em;
+      border-left: @active-border-width * 2 solid @article-headings-border-color;
+    }
+
+    img
+    {
+      margin-bottom: @line-height-computed / 2;
+      border-radius: @border-radius-base;
+      .transition(all,@animation-speed-normal,@animation-type);
+      .box-shadow(@article-img-shadow);
+
+      &:hover
+      {
+        .box-shadow(@article-img-shadow-hover);
+      }
+    }
+
+    dl
+    {
+      padding-left: 2em;
+      padding-right: 2em;
+    }
+
+    table
+    {
+      width: 100%;
+      margin-bottom: @line-height-computed;
+
+      // Cells
+      >thead,
+      >tbody,
+      >tfoot
+      {
+        >tr
+        {
+          >th,
+          >td
+          {
+            padding: @table-cell-padding;
+            line-height: @line-height-base;
+            vertical-align: top;
+            border-bottom: 1px solid @table-border-color;
+            // border-top: 1px solid lighten(@table-border-color, 5%);
+
+            .transition(all,@animation-speed-fast,@animation-type);
+          }
+        }
+      }
+      // Bottom align for column headings
+      > thead > tr > th 
+      {
+        vertical-align: bottom;
+        border-bottom: 1px solid @table-border-color;
+        background-color: @table-head-bg;
+      }
+    }
+  }
+
+  > footer
+  {
+    border-top: 1px dashed darken(@article-abstract-bg, 10%);
+    > p
+    {
+      padding: @article-section-padding;
+    }
+  }
+}
+
+.article-condensed
+{
+  padding: @article-padding 0;
+  > header
+  {
+    padding: 0 @article-padding;
+    > .abstract,
+    > dl
+    {
+      padding: @article-section-padding;
+      margin: 0 -@article-padding;
+      border-bottom: 1px dashed darken(@article-abstract-bg, 10%);
+      // border-left: none;
+    }
+  }
+
+  > section
+  {
+    > p,
+    > blockquote,
+    > div,
+    > ul,
+    > ol,
+    > h1,
+    > h2,
+    > h3,
+    > h4,
+    > h5,
+    > h6
+    {
+      padding: 0 @article-padding;
+    }
+
+    > h4,
+    > h5
+    {
+      padding-left: @article-padding - @active-border-width * 4;
+    }
+
+    > h6
+    {
+      padding-left: @article-padding - @active-border-width * 2;
+    }
+
+    > ul,
+    > ol,
+    > dl
+    {
+      padding-left: @article-padding * 3;
+    }
+
+    > img
+    {
+      border-radius: 0;
+    }
+    
+    > table
+    {
+      border-left: none;
+      border-right: none;
+      tr > td:first-child,
+      tr > th:first-child,
+      {
+        padding-left: @article-padding;
+        border-left: none ;
+      }
+
+      tr > td:last-child,
+      tr > th:last-child,
+      {
+        padding-right: @article-padding;
+        border-right: none;
+      }
+    }
+  }
+
+  > footer
+  {
+    border-top: 1px dashed darken(@article-abstract-bg, 10%);
+
+    > p
+    {
+      padding: @article-section-padding;
+    }
+
+    > .pager-justify
+    {
+      > .previous > a { border-left: none; }
+      > .next > a { border-right: none; }
+    }
+  }
+}
+
+html[lang="zh-CN"],
+html[lang="zh-cn"]
+{
+  .article > section p
+  {
+    text-indent: 2em;
+  }
+}

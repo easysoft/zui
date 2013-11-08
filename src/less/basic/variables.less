@@ -75,24 +75,22 @@
 @state-danger-bg:                @color-danger-pale;
 @state-danger-border:            darken(spin(@state-danger-bg, -10), 5%);
 
+@state-important-text:           @color-important;
+@state-important-bg:             @color-important-pale;
+@state-important-border:         darken(spin(@state-important-bg, -10), 5%);
+
+@state-special-text:             @color-special;
+@state-special-bg:               @color-special-pale;
+@state-special-border:           darken(spin(@state-special-bg, -10), 5%);
+
 
 // Scaffolding
 @body-bg:               @color-backgrond;
 @text-color:            @color-fore;
 
 // Links
-@link-color:            @color-primary;
+@link-color:            lighten(@color-primary,20%);
 @link-hover-color:      darken(@link-color, 15%);
-
-// Type
-// ------------------------
-@text-muted:                  @gray-light;
-@abbr-border-color:           @gray-light;
-@headings-small-color:        @gray-light;
-@blockquote-small-color:      @gray-light;
-@blockquote-border-color:     @gray-lighter;
-@header-dividing-color:       @gray-lighter;
-@headings-block-background:   @gray-lighter;
 
 
 // MEDIA QUERIES TYPES
@@ -461,6 +459,42 @@
 @pre-border-color:            #ccc;
 @pre-scrollable-max-height:   340px;
 
+// Type
+// ------------------------
+@text-muted:                  @gray;
+@abbr-border-color:           @gray-light;
+@headings-small-color:        @gray;
+@blockquote-small-color:      @gray;
+@blockquote-border-color:     @gray-lighter;
+@header-dividing-color:       @gray-lighter;
+@headings-block-background:   @gray-lighter;
+
+// Miscellaneous
+// -------------------------
+
+// Hr border color
+@hr-border:                   @gray-lighter;
+
+// Horizontal forms & lists
+@component-offset-horizontal: 180px;
+
+// Article
+// -------------------------
+
+@article-padding:                 20px;
+@article-section-padding:         10px 15px;
+@article-abstract-bg:             @gray-pale;
+@article-abstract-color:          lighten(@color-fore,20%);
+@article-img-shadow:              0px 1px 3px rgba(0, 0, 0, 0.4);
+@article-img-shadow-hover:        0px 1px 6px rgba(0, 0, 0, 0.8);
+@article-font-size-h1:            floor(@font-size-base * 2.15); // 30px
+@article-font-size-h2:            ceil(@font-size-base * 1.70); // 24px
+@article-font-size-h3:            ceil(@font-size-base * 1.42); // 20px
+@article-font-size-h4:            ceil(@font-size-base * 1.25); // 18px
+@article-font-size-h5:            @font-size-base;
+@article-font-size-h6:            ceil(@font-size-base * 0.85); // 12px
+@article-headings-border-color:   @gray-light;
+
 
 // Pager
 // -------------------------
@@ -487,14 +521,14 @@
 @navbar-padding-horizontal:        floor(@grid-gutter-width / 2);
 @navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
 
-@navbar-default-color:             #777;
-@navbar-default-bg:                #f8f8f8;
+@navbar-default-color:             @gray-dark;
+@navbar-default-bg:                lighten(@gray-pale, 2.5%);
 @navbar-default-border:            darken(@navbar-default-bg, 6.5%);
 
 // Navbar links
-@navbar-default-link-color:                #777;
-@navbar-default-link-hover-color:          #333;
-@navbar-default-link-hover-bg:             transparent;
+@navbar-default-link-color:                @gray-dark;
+@navbar-default-link-hover-color:          @gray-darker;
+@navbar-default-link-hover-bg:             @gray-lighter;
 @navbar-default-link-active-color:         #555;
 @navbar-default-link-active-bg:            darken(@navbar-default-bg, 6.5%);
 @navbar-default-link-disabled-color:       #ccc;
@@ -515,7 +549,7 @@
 //
 // Reset inverted navbar basics
 @navbar-inverse-color:                      @gray-light;
-@navbar-inverse-bg:                         #222;
+@navbar-inverse-bg:                         @color-primary;
 @navbar-inverse-border:                     darken(@navbar-inverse-bg, 10%);
 
 // Inverted navbar links
@@ -533,9 +567,9 @@
 @navbar-inverse-brand-hover-bg:             transparent;
 
 // Inverted navbar toggle
-@navbar-inverse-toggle-hover-bg:            #333;
+@navbar-inverse-toggle-hover-bg:            darken(@navbar-inverse-bg, 5%);
 @navbar-inverse-toggle-icon-bar-bg:         #fff;
-@navbar-inverse-toggle-border-color:        #333;
+@navbar-inverse-toggle-border-color:        lighten(@navbar-inverse-bg, 10%);
 
 
 // Navs
@@ -560,8 +594,8 @@
 @nav-tabs-active-link-hover-color:          @gray;
 @nav-tabs-active-link-hover-border-color:   @gray-light;
 
-@nav-tabs-justified-link-border-color:            @gray-light;
-@nav-tabs-justified-active-link-border-color:     @body-bg;
+@nav-tabs-justified-link-border-color:       @gray-light;
+@nav-tabs-justified-active-link-border-color:@body-bg;
 
 // Pills
 @nav-pills-border-radius:                   20px;
