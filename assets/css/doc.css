@@ -12,6 +12,11 @@ body > article
   -moz-box-shadow:1px 1px 20px rgba(0,0,0,0.1); -webkit-box-shadow:1px 1px 20px rgba(0,0,0,0.1); box-shadow:1px 1px 20px rgba(0,0,0,0.1);
 }
 
+body > article.small
+{
+  max-width: 800px;
+}
+
 @-webkit-keyframes glow {
     0% {
         -webkit-box-shadow: 0 0 12px rgba(71,164,71, 0.1);

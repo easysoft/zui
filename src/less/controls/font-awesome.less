@@ -31,8 +31,8 @@
 @FontAwesomePath:    "../font";
 //@FontAwesomePath:    "//netdna.bootstrapcdn.com/font-awesome/3.2.1/font"; // for referencing Bootstrap CDN font files directly
 @FontAwesomeVersion: "3.2.1";
-@borderColor:        #eee;
-@iconMuted:          #eee;
+@borderColor:        @gray-light;
+@iconMuted:          @gray-light;
 @iconLight:          #fff;
 @iconDark:           #333;
 @icons-li-width:     30/14em;
@@ -904,6 +904,12 @@ a {
   border: solid 1px @borderColor;
   padding: .2em .25em .15em;
   .border-radius(3px);
+}
+
+.icon-border-circle {
+  border: solid 1px @borderColor;
+  padding: .2em .25em .15em;
+  .border-radius(45%);
 }
 
 // Icon Sizes

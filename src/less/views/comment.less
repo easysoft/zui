@@ -1,0 +1,113 @@
+.comments
+{
+  > header
+  {
+    padding-bottom: 10px;
+    border-bottom: 1px solid @gray-lighter;
+
+    > .alert
+    {
+      padding: @alert-padding/2 @alert-padding;
+      margin-bottom: -10px;
+    }
+  }
+
+  > footer
+  {
+    padding-top: 10px;
+    > .reply-form
+    {
+      > .avatar
+      {
+        display: block;
+        width: 40px;
+        height: 40px;
+        float: left;
+        margin-top: 10px;
+      }
+      > .avatar + .form
+      {
+        padding-left: 50px;
+      }
+    }
+
+  }
+}
+
+
+.comment
+{
+  padding: 10px 0;
+  border-bottom: 1px solid @gray-lighter;
+
+  .clearfix();
+  > .avatar,
+  > .content
+  {
+    display: block;
+  }
+
+  > .avatar
+  {
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin-top: 10px;
+  }
+
+  > .avatar + .content
+  {
+    padding-left: 50px;
+  }
+
+  > .content
+  {
+    > .text
+    {
+      padding-top: 5px;
+    }
+
+    > .actions
+    {
+      > a
+      {
+        padding-left: 2px;
+        display: inline-block;
+        padding-right: 5px;
+        color: @gray;
+      }
+    }
+  }
+
+  &:hover
+  {
+    > .content
+    {
+      > .actions
+      {
+        > a
+        {
+          color: @link-color;
+        }
+      }
+    }
+  }
+
+  > .comments-list
+  {
+    padding-left: 30px;
+    margin-left: 20px;
+    border-left: 1px dashed @gray-lighter;
+    padding-top: 10px;
+    padding-bottom: 0;
+    > .comment
+    {
+      border: none;
+      border-top: 1px solid @gray-lighter;
+      &:last-child
+      {
+        padding-bottom: 0;
+      }
+    }
+  }
+}

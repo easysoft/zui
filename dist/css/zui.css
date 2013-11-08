@@ -4304,7 +4304,7 @@ a [class*=" icon-"] {
   display: none;
 }
 .icon-muted {
-  color: #eeeeee;
+  color: #dddddd;
 }
 .icon-light {
   color: #ffffff;
@@ -4313,11 +4313,18 @@ a [class*=" icon-"] {
   color: #333333;
 }
 .icon-border {
-  border: solid 1px #eeeeee;
+  border: solid 1px #dddddd;
   padding: .2em .25em .15em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+}
+.icon-border-circle {
+  border: solid 1px #dddddd;
+  padding: .2em .25em .15em;
+  -webkit-border-radius: 45%;
+  -moz-border-radius: 45%;
+  border-radius: 45%;
 }
 .icon-2x {
   font-size: 2em;
@@ -5881,4 +5888,92 @@ a .icon-flip-vertical:before {
 html[lang="zh-CN"] .article > section p,
 html[lang="zh-cn"] .article > section p {
   text-indent: 2em;
+}
+.comments > header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.comments > header > .alert {
+  padding: 7.5px 15px;
+  margin-bottom: -10px;
+}
+.comments > footer {
+  padding-top: 10px;
+}
+.comments > footer > .reply-form > .avatar {
+  display: block;
+  width: 40px;
+  height: 40px;
+  float: left;
+  margin-top: 10px;
+}
+.comments > footer > .reply-form > .avatar + .form {
+  padding-left: 50px;
+}
+.comment {
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+.comment:before,
+.comment:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.comment:after {
+  clear: both;
+}
+.comment:before,
+.comment:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.comment:after {
+  clear: both;
+}
+.comment > .avatar,
+.comment > .content {
+  display: block;
+}
+.comment > .avatar {
+  width: 40px;
+  height: 40px;
+  float: left;
+  margin-top: 10px;
+}
+.comment > .avatar + .content {
+  padding-left: 50px;
+}
+.comment > .content > .text {
+  padding-top: 5px;
+}
+.comment > .content > .actions > a {
+  padding-left: 2px;
+  display: inline-block;
+  padding-right: 5px;
+  color: #999999;
+}
+.comment:hover > .content > .actions > a {
+  color: #506eaf;
+}
+.comment > .comments-list {
+  padding-left: 30px;
+  margin-left: 20px;
+  border-left: 1px dashed #e5e5e5;
+  padding-top: 10px;
+  padding-bottom: 0;
+}
+.comment > .comments-list > .comment {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+}
+.comment > .comments-list > .comment:last-child {
+  padding-bottom: 0;
 }
