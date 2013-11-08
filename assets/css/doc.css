@@ -11,6 +11,17 @@ body > article
   border:1px solid #ddd;
   -moz-box-shadow:1px 1px 20px rgba(0,0,0,0.1); -webkit-box-shadow:1px 1px 20px rgba(0,0,0,0.1); box-shadow:1px 1px 20px rgba(0,0,0,0.1);
 }
+
+@-webkit-keyframes glow {
+    0% {
+        -webkit-box-shadow: 0 0 12px rgba(71,164,71, 0.1);
+        border-color: rgba(71, 164, 71, 0.9);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 18px rgba(26,128,26, 0.8),0 0 12px rgba(71,164,71, 0.5);
+        border-color: rgba(26, 128, 26, 1.0); 
+    }
+}
 .segment
 {
   position: relative;
@@ -23,6 +34,49 @@ body > article
   border-left: 0;
   border-right: 0;
   border-color: #DDD;
+  outline: none;
+  transition:all 0.3s;
+}
+.segment:before
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  border-bottom-left-radius:1.5em;
+  width: 120px;
+  content: "EXAMPLE";
+  text-align: center;
+  padding:5px 10px;
+  color: #fff;
+  background-color: rgba(0,0,0,0.1);
+  transition: all ease-in-out .15s;
+}
+.segment:focus
+{
+  border: 4px solid #47a447;
+  border-top-width: 40px;
+  box-shadow:0px 1px 15px rgba(0,0,0,0.5);
+  -webkit-animation-name: glow;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-timing-function: ease-in-out
+  -webkit-backface-visibility: hidden;
+}
+.segment:focus:before
+{
+  text-shadow:1px 1px 1px rgba(0,0,0,0.5);
+  display: block;
+  top: -40px;
+  width: 100%;
+  position: absolute;
+  content: "^_^ 您可以直接编辑本示例。 ";
+  text-align: center;
+  padding: 10px;
+  color: #fff;
+  background: transparent;
+  transition: all ease-in-out .15s;
 }
 .segment.no-padding
 {
