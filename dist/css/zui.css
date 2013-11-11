@@ -243,6 +243,11 @@ textarea {
 a {
   color: #506eaf;
   text-decoration: none;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -ms-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
 }
 a:hover,
 a:focus {
@@ -2059,11 +2064,11 @@ hr {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25em;
-  background-color: #dddddd;
+  background-color: #999999;
 }
 .label[href]:hover,
 .label[href]:focus {
-  background-color: #c4c4c4;
+  background-color: #808080;
 }
 .label[href]:hover,
 .label[href]:focus {
@@ -6013,4 +6018,93 @@ html[lang="zh-cn"] .article > section p {
 }
 .comment > .comments-list > .comment:last-child {
   padding-bottom: 0;
+}
+.list {
+  padding: 0 15px;
+}
+.list > header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.items > .item {
+  border-bottom: 1px solid #e5e5e5;
+  padding: 10px 0;
+}
+.items > .item a {
+  color: #333333;
+}
+.items > .item:hover a,
+.items > .item:hover > .item-heading > .pull-right > a,
+.items > .item:hover > .item-footer > a {
+  color: #506eaf;
+}
+.items > .item > .item-heading > h6,
+.items > .item > .item-heading h5,
+.items > .item > .item-heading h4,
+.items > .item > .item-heading h3,
+.items > .item > .item-heading h2,
+.items > .item > .item-heading h1,
+.items > .item > .item-heading .h6,
+.items > .item > .item-heading .h5,
+.items > .item > .item-heading .h4,
+.items > .item > .item-heading .h3,
+.items > .item > .item-heading .h2,
+.items > .item > .item-heading .h1 {
+  margin-top: 5px;
+}
+.items > .item > .item-heading > .pull-right > a {
+  color: #dddddd;
+}
+.items > .item > .item-content:before,
+.items > .item > .item-content:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.items > .item > .item-content:after {
+  clear: both;
+}
+.items > .item > .item-content:before,
+.items > .item > .item-content:after {
+  content: " ";
+  /* 1 */
+
+  display: table;
+  /* 2 */
+
+}
+.items > .item > .item-content:after {
+  clear: both;
+}
+.items > .item > .item-content > .media {
+  margin: 6px 0;
+}
+.items > .item > .item-content > .media.pull-left {
+  margin: 0;
+  margin-right: 10px;
+}
+.items > .item > .item-content > .media.pull-right {
+  margin: 0;
+  margin-left: 10px;
+}
+.items > .item > .item-footer {
+  padding-top: 6px;
+}
+.items > .item > .item-footer > a {
+  color: #999999;
+}
+.items-hover > .item:hover {
+  background-color: #f5f5f5;
+}
+.list-condensed {
+  padding: 0;
+}
+.list-condensed > header,
+.list-condensed > footer,
+.list-condensed > .items > .item {
+  padding-left: 15px;
+  padding-right: 15px;
 }
