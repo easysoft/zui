@@ -6029,6 +6029,11 @@ html[lang="zh-cn"] .article > section p {
 .items > .item {
   border-bottom: 1px solid #e5e5e5;
   padding: 10px 0;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
+  -ms-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
 }
 .items > .item a {
   color: #333333;
@@ -6097,6 +6102,7 @@ html[lang="zh-cn"] .article > section p {
   color: #999999;
 }
 .items-hover > .item:hover {
+  padding: 10px;
   background-color: #f5f5f5;
 }
 .list-condensed {
