@@ -1,0 +1,106 @@
+.list
+{
+  padding: 0 @list-padding;
+  > header
+  {
+    padding-bottom: 10px;
+    border-bottom: 1px solid @gray-lighter;
+  }
+
+}
+
+
+.items
+{
+  > .item
+  {
+    border-bottom: 1px solid @gray-lighter;
+    padding: 10px 0;
+    .transition(all,@animation-speed-normal,@animation-type);
+
+    a
+    {
+      color: @color-fore;
+    }
+
+    &:hover
+    {
+      a,
+      > .item-heading > .pull-right > a,
+      > .item-footer > a
+      {
+        color: @link-color;
+      }
+    }
+
+    > .item-heading
+    {
+      > h6, h5, h4, h3,h2,h1, .h6, .h5, .h4, .h3,.h2,.h1
+      {
+        margin-top: 5px;
+      }
+
+      > .pull-right
+      {
+        > a
+        {
+          color: @gray-light;
+        }
+      }
+    }
+
+    > .item-content
+    {
+      .clearfix();
+      > .media
+      {
+        margin: @padding-base-vertical 0;
+        &.pull-left
+        {
+          margin: 0;
+          margin-right: @padding-small-horizontal;
+        }
+        
+        &.pull-right
+        {
+          margin: 0;
+          margin-left: @padding-small-horizontal;
+        }
+      }
+    }
+
+    > .item-footer
+    {
+      > a
+      {
+        color: @gray;
+      }
+      padding-top: @padding-base-vertical;
+    }
+  }
+}
+
+.items-hover
+{
+  > .item
+  {
+    &:hover
+    {
+      padding:10px;
+      background-color: @list-item-bg-hover;
+    }
+  }
+}
+
+.list-condensed
+{
+  padding: 0;
+
+  > header,
+  > footer,
+  > .items > .item
+  {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
