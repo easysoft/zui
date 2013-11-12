@@ -9,7 +9,6 @@
   <script type="text/javascript" src="../assets/js/jquery.js"></script>
   <script type="text/javascript" src="../src/js/dropdown.js"></script>
   <link href="../dist/css/zui.css" rel="stylesheet">
-  <link href="../assets/css/doc.css" rel="stylesheet">
 </head>
 <body>
 <article>
@@ -84,22 +83,93 @@
         <li><a href="#">增加</a></li>
       </ul>
     </div>
-    <div class="btn-group dropup">
-      <button type="button" class="btn">操作</button>
-      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
-        <span class="sr-only">Toggle Dropdown</span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="#">编辑</a></li>
-        <li><a href="#">删除</a></li>
-        <li class="divider"></li>
-        <li><a href="#">增加</a></li>
-      </ul>
-    </div>
-    
     
     <h3>变化</h3>
+    <h4>弹出方式</h4>
+    <div class="btn-group">
+      <button type="button" class="btn">默认向下</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+      <ul class="dropdown-menu" role="menu"> <li><a href="#">div.btn-group</a></li> </ul>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn">下右</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+      <ul class="dropdown-menu pull-right" role="menu"> <li><a href="#">div.btn-group > ul.dropdown-menu.pull-right</a></li> </ul>
+    </div>
+    <div class="btn-group dropup">
+      <button type="button" class="btn">向上</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+      <ul class="dropdown-menu" role="menu"> <li><a href="#">div.btn-group.dropup</a></li> </ul>
+    </div>
+    <div class="btn-group dropup">
+      <button type="button" class="btn">向右</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+      <ul class="dropdown-menu pull-right" role="menu"> <li><a href="#">div.btn-group.dropup > ul.dropdown-menu.pull-right</a></li> </ul>
+    </div>
+
+    <h4>下拉菜单的子菜单</h4>
+    <div class="btn-group dropup">
+      <button type="button" class="btn">编辑</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <li><a tabindex="-1" href="#">关闭</a></li>
+
+        <li class="dropdown-submenu">
+          <a tabindex="-1" href="#">评审</a>
+          <ul class="dropdown-menu">
+            <li><a tabindex="-1" href="#">确认通过</a></li>
+            <li><a tabindex="-1" href="#">有待明确</a></li>
+            <li class="dropdown-submenu">
+              <a tabindex="-1" href="#">拒绝</a>
+              <ul class="dropdown-menu">
+                <li><a tabindex="-1" href="#">已完成</a></li>
+                <li><a tabindex="-1" href="#">延期</a></li>
+                <li><a tabindex="-1" href="#">不做</a></li>
+                <li><a tabindex="-1" href="#">已取消</a></li>
+                <li><a tabindex="-1" href="#">设计如此</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li class="dropdown-submenu">
+          <a tabindex="-1" href="#">计划</a>
+          <ul class="dropdown-menu">
+            <li><a tabindex="-1" href="#">Plan A</a></li>
+            <li><a tabindex="-1" href="#">Plan B</a></li>
+            <li><a tabindex="-1" href="#">Plan C</a></li>
+            <li><a tabindex="-1" href="#">Plan D</a></li>
+            <li><a tabindex="-1" href="#">Plan E</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown-submenu">
+          <a tabindex="-1" href="#">阶段</a>
+          <ul class="dropdown-menu">
+            <li><a tabindex="-1" href="#">未开始</a></li>
+            <li><a tabindex="-1" href="#">已计划</a></li>
+            <li><a tabindex="-1" href="#">已立项</a></li>
+            <li><a tabindex="-1" href="#">研发中</a></li>
+            <li><a tabindex="-1" href="#">研发完毕</a></li>
+            <li><a tabindex="-1" href="#">测试中</a></li>
+            <li><a tabindex="-1" href="#">测试完毕</a></li>
+            <li><a tabindex="-1" href="#">已验收</a></li>
+            <li><a tabindex="-1" href="#">已发布</a></li>
+          </ul>
+        </li>
+
+        <li class="divider"></li>
+        <li class="dropdown-submenu pull-left">
+          <a tabindex="-1" href="#">.pull-left</a>
+          <ul class="dropdown-menu">
+            <li><a tabindex="-1" href="#">Item1</a></li>
+            <li><a tabindex="-1" href="#">Item2</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
     <h4>小标题和禁用</h4>
     <p>通过li.dropdown-header增加小标题，为li增加.disabled来禁用。</p>
     <div class="bs-example">
@@ -118,8 +188,9 @@
     </div><!-- /example -->
     <div style='clear:both'></div>
 
-  </section>
-</article>
-</body>
+
+    </section>
+    </article>
+  </body>
 </html>
 
