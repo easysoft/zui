@@ -458,16 +458,16 @@
 
 // Animation
 // --------------------------
-@animation-speed-normal:             0.2s;
-@animation-speed-fast:               0.1s;
-@animation-speed-slow:               0.5s;
+@animation-speed-normal:             0.4s;
+@animation-speed-fast:               0.2s;
+@animation-speed-slow:               0.6s;
 
-@animation-type:                     ease-in;
+@animation-type:                     cubic-bezier(0.175,.885,.32,1);
 
 // Code
 // ------------------------
-@code-color:                  @color-special;
-@code-bg:                     @color-special-pale;
+@code-color:                  @color-important;
+@code-bg:                     @gray-pale;
 
 @pre-bg:                      #f5f5f5;
 @pre-color:                   @gray-dark;
@@ -646,3 +646,12 @@
 @close-font-weight:           bold;
 @close-text-shadow:           0 1px 0 #fff;
 
+
+// Tooltips
+// -------------------------
+@tooltip-max-width:           200px;
+@tooltip-color:               @color-backgrond;
+@tooltip-bg:                  @color-fore;
+
+@tooltip-arrow-width:         5px;
+@tooltip-arrow-color:         @tooltip-bg;
