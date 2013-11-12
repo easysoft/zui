@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ZUI，一个简单吸引人的前端框架。">
+  <meta name="author" content="Zentao">
+
+  <title>ZUI</title>
+
+  <link href="../dist/css/zui.css" rel="stylesheet">
+  <link href="../assets/css/doc.css" rel="stylesheet">
+  <script src="../assets/js/jquery.js"></script>
+  <script src="../src/js/tooltip.js"></script>
+  <script src="../assets/js/google-code-prettify/prettify.js"></script>
+  <script>
+  $(function ()
+  {
+    prettyPrint();
+
+      // tooltip demo
+    $('.tooltip-demo').tooltip({
+      selector: "[data-toggle=tooltip]",
+      container: "body"
+    })
+  });
+  </script>
+</head>
+<body>
+  <article>
+    <section class="page-section">
+      <h1 class="header-dividing">Tooltips</h1>
+      <h2>类型</h2>
+      <h3>一般工具提示</h3>
+
+      <div class="segment tooltip-demo">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, cupiditate, eius, modi, veniam iure perspiciatis hic vitae quisquam ullam animi ipsum repellat temporibus <a href="#" data-toggle="tooltip" title="This is a tooltip">have a</a> officiis voluptatibus nostrum laborum debitis quidem illo deleniti iste! Minima, facilis aut explicabo debitis fugit dolor sint at soluta nulla omnis itaque <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> illum commodi numquam enim quod architecto molestias qui eveniet et amet <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> laborum quisquam quam provident esse beatae quas impedit voluptas nostrum <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> aspernatur deleniti suscipit blanditiis dignissimos temporibus eligendi quae corrupti <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> pariatur quo! Enim, ipsa, odio quasi laboriosam provident id nihil maxime architecto dolorum quas harum veniam perspiciatis tempora ducimus qui! Rem, obcaecati reiciendis officia quam.</p>
+      </div>
+      <h2>参数</h2>
+      <h3>不同方向的提示</h3>
+      <div class="segment tooltip-demo">
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="Tooltip on left">左侧Tooltip</button>
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">上方Tooltip</button>
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom">下方Tooltip</button>
+        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="" data-original-title="Tooltip on right">右侧Tooltip</button>
+      </div>
+
+      <h2>注意</h2>
+      <div class="alert alert-danger">
+        <h5>选择性加入的功能</h5>
+        <p>出于性能方面的考虑，工具提示和弹框组件的data属性api是选择性加入的，也就是说<strong>你必须自己初始化他们</strong>。</p>
+      </div>
+      <div class="alert alert-info">
+        <h5>工具提示与按钮组和输入框组联合使用时需要一些特殊设置</h5>
+        <p>在<code>.btn-group</code> 或 <code>.input-group</code>内的元素上使用工具提示时，你需要指定<code>container: 'body'</code>选项以避免不需要的副作用（例如，当工具提示显示之后，与其合作的页面元素可能变得更宽或是去圆角）。</p>
+      </div>
+      <div class="alert alert-info">
+        <h5>在禁止使用的页面元素上使用工具提示时需要额外增加一个元素将其包裹起来</h5>
+        <p>为了给<code>disabled</code> 或<code>.disabled</code>元素添加工具提示，将需要增加工具提示的页面元素包裹在一个<code>&lt;div&gt;</code>中，然后对这个<code>&lt;div&gt;</code>元素应用工具提示。</p>
+      </div>
+
+      <h2 id="tooltips-usage">用法</h2>
+      <p>通过JavaScript激活工具提示：</p>
+      <div class="segment">
+        <pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#example'</span>).tooltip(options)</code></pre>
+      </div>
+
+      <h3>Markup</h3>
+      <p>The generated markup of a tooltip is rather simple, though it does require a position (by default, set to <code>top</code> by the plugin).</p>
+      <div class="segment">
+        <pre class="prettyprint linenums"><code class="language-html">&lt;div class=&quot;tooltip&quot;&gt;
+          &lt;div class=&quot;tooltip-inner&quot;&gt;
+            Tooltip!
+          &lt;/div&gt;
+          &lt;div class=&quot;tooltip-arrow&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;</code></pre>
+      </div>
+
+      <h3>选项</h3>
+      <p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到<code>data-</code>之后，例如<code>data-animation=""</code>。</p>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+           <tr>
+             <th style="width: 100px;">名称</th>
+             <th style="width: 100px;">类型</th>
+             <th style="width: 50px;">默认值</th>
+             <th>描述</th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+             <td>animation</td>
+             <td>boolean</td>
+             <td>true</td>
+             <td>apply a CSS fade transition to the tooltip</td>
+           </tr>
+           <tr>
+             <td>html</td>
+             <td>boolean</td>
+             <td>false</td>
+             <td>Insert HTML into the tooltip. If false, jQuery's <code>text</code> method will be used to insert content into the DOM. Use text if you're worried about XSS attacks.</td>
+           </tr>
+           <tr>
+             <td>placement</td>
+             <td>string | function</td>
+             <td>'top'</td>
+             <td>how to position the tooltip - top | bottom | left | right | auto. <br> When "auto" is specified, it will dynamically reorient the tooltip. For example, if placement is "auto left", the tooltip will display to the left when possible, otherwise it will display right.</td>
+           </tr>
+           <tr>
+             <td>selector</td>
+             <td>string</td>
+             <td>false</td>
+             <td>If a selector is provided, tooltip objects will be delegated to the specified targets.</td>
+           </tr>
+           <tr>
+             <td>title</td>
+             <td>string | function</td>
+             <td>''</td>
+             <td>default title value if <code>title</code> attribute isn't present</td>
+           </tr>
+           <tr>
+             <td>trigger</td>
+             <td>string</td>
+             <td>'hover focus'</td>
+             <td>how tooltip is triggered - click | hover | focus | manual. You may pass multiple triggers; separate them with a space.</td>
+           </tr>
+           <tr>
+             <td>delay</td>
+             <td>number | object</td>
+             <td>0</td>
+             <td>
+              <p>delay showing and hiding the tooltip (ms) - does not apply to manual trigger type</p>
+              <p>If a number is supplied, delay is applied to both hide/show</p>
+              <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
+             </td>
+           </tr>
+           <tr>
+             <td>container</td>
+             <td>string | false</td>
+             <td>false</td>
+             <td>
+              <p>Appends the tooltip to a specific element. Example: <code>container: 'body'</code></p>
+             </td>
+           </tr>
+          </tbody>
+        </table>
+      </div><!-- /.table-responsive -->
+      <div class="bs-callout bs-callout-info">
+        <h4>对单个工具提示使用data属性</h4>
+        <p>使用data属性可以为单个工具提示指定额外选项，如下所示。</p>
+      </div>
+
+      <h3>标记</h3>
+      <div class="segment">
+        <pre class="prettyprint linenums"><code class="language-html">&lt;a href=&quot;#&quot; data-toggle=&quot;tooltip&quot; title=&quot;first tooltip&quot;&gt;Hover over me&lt;/a&gt;</code></pre>
+      </div>
+
+      <h3>方法</h3>
+
+      <h4>$().tooltip(options)</h4>
+      <p>为一组元素应用工具提示。</p>
+
+      <h4>.tooltip('show')</h4>
+      <p>展示工具提示。</p>
+      <div class="segment">
+        <p><code>js$(&#39;#element&#39;).tooltip(&#39;show&#39;)</code></p>
+      </div>
+      <h4>.tooltip('hide')</h4>
+      <p>隐藏工具提示。</p>
+      <div class="segment">
+        <p><code>js$(&#39;#element&#39;).tooltip(&#39;hide&#39;)</code></p>
+      </div>
+
+      <h4>.tooltip('toggle')</h4>
+      <p>展示或隐藏工具提示。</p>
+      <div class="segment">
+        <p><code>js$(&#39;#element&#39;).tooltip(&#39;toggle&#39;)</code></p>
+      </div>
+    <h4>.tooltip('destroy')</h4>
+    <p>隐藏并销毁工具提示。</p>
+    <div class="segment">
+      <p><code>js$(&#39;#element&#39;).tooltip(&#39;destroy&#39;)</code></p>
+    </div>
+
+    <h3>事件</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+         <tr>
+           <th style="width: 150px;">事件类型</th>
+           <th>描述</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+           <td>show.bs.tooltip</td>
+           <td>当<code>show</code>方法被调用之后，此事件将被立即触发。</td>
+         </tr>
+         <tr>
+           <td>shown.bs.tooltip</td>
+           <td>当工具提示展示到用户面前之后（同时CSS过渡效果执行完之后）此事件被触发。</td>
+         </tr>
+         <tr>
+           <td>hide.bs.tooltip</td>
+           <td>当<code>hide</code>方法被调用之后，此事件被触发。</td>
+         </tr>
+         <tr>
+           <td>hidden.bs.tooltip</td>
+           <td>当工具提示被隐藏之后（同时CSS过渡效果执行完之后），此事件被触发。</td>
+         </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="segment">
+      <pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#myTooltip'</span>).on(<span class="string">'hidden.bs.tooltip'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      <span class="comment">// do something…</span>
+    })</code></pre>
+    </div>
+    </section>
+  </article>
+</body>
+</html>
