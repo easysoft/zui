@@ -96,17 +96,18 @@
       </div>
       <h3>不带箭头指示</h3>
       <div class="segment popover-examples">
-        <div class="popover top">
+        <div class="popover">
           <div class="arrow"></div>
           <h3 class="popover-title">Popover top</h3>
           <div class="popover-content">
             <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
           </div>
         </div>
+        <div class="clearfix"></div>
       </div>
       <h3>动态演示</h3>
       <div class="segment">
-        <a href="#" class="btn btn-lg btn-danger" data-toggle="popover" title="" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">Click to toggle popover</a>
+        <a href="##" class="btn btn-lg btn-danger" data-toggle="popover" title="" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">Click to toggle popover</a>
       </div>
       <h4>不同方向</h4>
       <div class="segment text-center">
@@ -122,6 +123,31 @@
         <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
           右侧弹框
         </button>
+      </div>
+
+      <h3>指定html元素作为弹出内容</h3>
+      <div class="segment">
+        <a href="##" class="btn btn-lg btn-danger" data-toggle="popover" data-placement="top" data-target="$next">Click to toggle popover</a>
+        <div id="popoverContent1" class="popover">
+          <h3 class="popover-title">Popover top</h3>
+          <table class="table">
+            <tr>
+              <td>Lorem ipsum dolor.</td>
+              <td>Nisi, ad, quisquam!</td>
+              <td>Eum, excepturi, placeat.</td>
+            </tr>
+            <tr>
+              <td>Lorem ipsum dolor.</td>
+              <td>Explicabo, nobis, nesciunt!</td>
+              <td>Sequi, doloribus, natus.</td>
+            </tr>
+            <tr>
+              <td>Lorem ipsum dolor.</td>
+              <td>Ipsum, suscipit, quibusdam?</td>
+              <td>Minus, tenetur, neque.</td>
+            </tr>
+          </table>
+        </div>
       </div>
       <h2 id="popovers-usage">用法</h2>
     <p>通过JavaScript启用弹出框：</p>

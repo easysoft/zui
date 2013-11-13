@@ -50,6 +50,17 @@
 
   Popover.prototype.setContent = function () {
     var $tip    = this.tip()
+    var target = this.getTarget()
+
+    if(target)
+    {
+      if(target.find('.arrow').length < 1)
+        $tip.addClass('no-arrow')
+      $tip.html(target.html())
+      return
+    }
+
+    
     var title   = this.getTitle()
     var content = this.getContent()
 
@@ -64,7 +75,7 @@
   }
 
   Popover.prototype.hasContent = function () {
-    return this.getTitle() || this.getContent()
+    return this.getTarget() || this.getTitle() || this.getContent()
   }
 
   Popover.prototype.getContent = function () {
@@ -75,6 +86,17 @@
       || (typeof o.content == 'function' ?
             o.content.call($e[0]) :
             o.content)
+  }
+
+  Popover.prototype.getTarget = function () {
+    var $e = this.$element
+    var o  = this.options
+
+    var target = $e.attr('data-target')
+      || (typeof o.target == 'function' ?
+            o.target.call($e[0]) :
+            o.target)
+    return (target && true) ? ( target == '$next' ? $e.next('.popover') : $(target)) : false
   }
 
   Popover.prototype.arrow = function () {
