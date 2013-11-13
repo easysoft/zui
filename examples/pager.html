@@ -10,8 +10,20 @@
   <link href="../assets/css/doc.css" rel="stylesheet">
 
   <script src="../assets/js/jquery.js"></script>
+  <script src="../src/js/tooltip.js"></script>
+  <script src="../src/js/popover.js"></script>
+  <script src="../src/js/pager.js"></script>
   <script>
+  $(function ()
+  {
+      $("[data-toggle=pager]").pager();
+      $("[data-toggle=popover]").popover();
 
+      $('.pager li:not(.disabled)').click(function() {
+          $(this).closest('.pager').find('li.active').removeClass('active');
+          $(this).addClass('active');
+      });
+  });
   </script>
 </head>
 
@@ -21,7 +33,7 @@
       <h1 class="header-dividing">分页</h1>
       <h2>类型</h2>
       <h3>各种分页导航</h3>
-      <div contenteditable="true" spellcheck="false" class="segment">
+      <div contenteditable="false" spellcheck="false" class="segment">
         <ul class="pager">
           <li class="previous"><a href="#">«</a></li>
           <li class="next"><a href="#">»</a></li>
@@ -49,7 +61,45 @@
           <li><a href="#">3</a></li>
           <li><a href="#">4</a></li>
           <li class="active"><a href="#">5</a></li>
-          <li><a href="#">⋯</a></li>
+          <li>
+          <a href="###" data-toggle="pager" data-placement="bottom">更多</a>
+<!--             <a href="###" data-toggle="popover" data-target="$next" data-placement="top">⋯</a> -->
+<!--             <div class="popover">
+              <div class="arrow"></div>
+              <ul class="pager">
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li><a href="#">8</a></li>
+                <li><a href="#">9</a></li>
+                <li><a href="#">10</a></li>
+                <li><a href="#">11</a></li>
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li><a href="#">8</a></li>
+                <li><a href="#">9</a></li>
+                <li><a href="#">10</a></li>
+                <li><a href="#">11</a></li>
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li><a href="#">8</a></li>
+                <li><a href="#">9</a></li>
+                <li><a href="#">10</a></li>
+                <li><a href="#">11</a></li>
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li><a href="#">8</a></li>
+                <li><a href="#">9</a></li>
+                <li><a href="#">10</a></li>
+                <li><a href="#">11</a></li>
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li><a href="#">8</a></li>
+                <li><a href="#">9</a></li>
+                <li><a href="#">10</a></li>
+                <li><a href="#">11</a></li>
+              </ul>
+            </div> -->
+          </li>
           <li><a href="#">12</a></li>
           <li class="next"><a href="#">»</a></li>
         </ul>
@@ -57,12 +107,14 @@
         <ul class="pager">
           <li class="previous"><a href="#">« 上一页</a></li>
           <li><a href="#">1</a></li>
-          <li><a href="#">⋯</a></li>
+          <li>
+            <a href="###" data-toggle="pager" data-placement="top" data-url="?page=%">Pager</a>
+          </li>
           <li><a href="#">6</a></li>
           <li class="active"><a href="#">7</a></li>
           <li><a href="#">8</a></li>
           <li><a href="#">9</a></li>
-          <li><a href="#">⋯</a></li>
+          <li><a href="###" data-toggle="pager" data-placement="top">...</a></li>
           <li><a href="#">12</a></li>
           <li class="next"><a href="#">下一页 »</a></li>
         </ul>
@@ -94,7 +146,9 @@
         <ul class="pager">
           <li class="previous"><a href="#">«</a></li>
           <li><a href="#">1</a></li>
-          <li><a href="#">⋯</a></li>
+          <li>
+            <a href="###" data-toggle="pager">Pager</a>
+          </li>
           <li><a href="#">8</a></li>
           <li><a href="#">9</a></li>
           <li><a href="#">10</a></li>
@@ -132,7 +186,7 @@
         <ul class="pager pager-pills">
           <li class="previous"><a href="#">«</a></li>
           <li><a href="#">1</a></li>
-          <li><a href="#">⋯</a></li>
+          <li><a href="###" data-toggle="pager" data-placement="top">...</a></li>
           <li><a href="#">8</a></li>
           <li><a href="#">9</a></li>
           <li><a href="#">10</a></li>
@@ -169,7 +223,7 @@
         <ul class="pager pager-loose">
           <li class="previous"><a href="#">«</a></li>
           <li><a href="#">1</a></li>
-          <li><a href="#">⋯</a></li>
+          <li><a href="###" data-toggle="pager" data-placement="top">...</a></li>
           <li><a href="#">8</a></li>
           <li><a href="#">9</a></li>
           <li><a href="#">10</a></li>
@@ -201,7 +255,7 @@
         <ul class="pager pager-loose pager-pills">
           <li class="previous"><a href="#">«</a></li>
           <li><a href="#">1</a></li>
-          <li><a href="#">⋯</a></li>
+          <li><a href="###" data-toggle="pager" data-placement="top">...</a></li>
           <li><a href="#">8</a></li>
           <li><a href="#">9</a></li>
           <li><a href="#">10</a></li>

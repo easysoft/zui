@@ -62,8 +62,10 @@
       z-index: 2;
       color: @pager-active-color;
       background-color: @pager-active-bg;
-      border-color: @pager-active-bg;
+      // border-color: @pager-active-bg;
+      // border-bottom-color: @active-border-color;
       cursor: default;
+      .active-mark-bottom();
     }
   }
 
@@ -171,17 +173,36 @@
   }
 }
 
-// Sizing
-// --------------------------------------------------
+// // Sizing
+// // --------------------------------------------------
 
-// Large
-.pager-lg
-{
-  .pager-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @border-radius-large);
-}
+// // Large
+// .pager-lg
+// {
+//   .pager-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @border-radius-large);
+// }
 
-// Small
-.pager-sm
+// // Small
+// .pager-sm
+// {
+//   .pager-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @border-radius-small);
+// }
+
+
+// for pager.js
+
+.pager-popover
 {
-  .pager-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @border-radius-small);
+  &.popover,
+  > .popover-content
+  {
+    padding: 0;
+    margin: -1px;
+
+    > .pager
+    {
+      display: block;
+      margin: 0;
+    }
+  }
 }
