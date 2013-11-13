@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ZUI，一个简单吸引人的前端框架。">
+  <meta name="author" content="Zentao">
+
+  <title>ZUI</title>
+
+  <link href="../dist/css/zui.css" rel="stylesheet">
+  <link href="../assets/css/doc.css" rel="stylesheet">
+  <script src="../assets/js/jquery.js"></script>
+  <script src="../src/js/tooltip.js"></script>
+  <script src="../src/js/popover.js"></script>
+  <script src="../assets/js/google-code-prettify/prettify.js"></script>
+  <script>
+  $(function ()
+  {
+    prettyPrint();
+
+    $("[data-toggle=popover]")
+      .popover();
+  });
+  </script>
+
+  <style>
+    .popover-examples .popover
+    {
+      position: relative;
+      display: block;
+      float: left;
+      width: 260px;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <section class="page-section">
+      <h1>Popover</h1>
+      <div class="alert alert-danger">
+        <h4>插件依赖</h4>
+        <p>弹出框依赖<a href="#tooltips">工具提示插件</a>，因此需要先加载工具提示插件。</p>
+      </div>
+      <div class="alert alert-danger">
+        <h4>选择性加入的功能</h4>
+        <p>出于性能方面的考虑，工具提示和弹框组件的data属性api是选择性加入的，也就是说<strong>你必须自己初始化他们</strong>。</p>
+      </div>
+      <div class="alert alert-info">
+        <h4>弹出框在按钮组和输入框组中使用时，需要额外的设置</h4>
+        <p>当提示框与<code>.btn-group</code> 或 <code>.input-group</code>联合使用时，你需要指定<code>container: 'body'</code>选项（见下面的文档）以避免不需要的副作用（例如，当弹出框显示之后，与其合作的页面元素可能变得更宽或是去圆角）。</p>
+      </div>
+      <div class="alert alert-info">
+        <h4>在禁止使用的页面元素上使用弹出框时需要额外增加一个元素将其包裹起来</h4>
+        <p>为了给<code>disabled</code> 或<code>.disabled</code>元素添加弹出框时，将需要增加弹出框的页面元素包裹在一个<code>&lt;div&gt;</code>中，然后对这个<code>&lt;div&gt;</code>元素应用弹出框。 </p>
+      </div>
+      <h2>类型</h2>
+      <h3>静态类型</h3>
+      <div class="segment popover-examples">
+        <div class="popover top">
+          <div class="arrow"></div>
+          <h3 class="popover-title">Popover top</h3>
+          <div class="popover-content">
+            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+          </div>
+        </div>
+
+        <div class="popover right">
+          <div class="arrow"></div>
+          <h3 class="popover-title">Popover right</h3>
+          <div class="popover-content">
+            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+          </div>
+        </div>
+
+        <div class="popover bottom">
+          <div class="arrow"></div>
+          <h3 class="popover-title">Popover bottom</h3>
+
+          <div class="popover-content">
+            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+          </div>
+        </div>
+
+        <div class="popover left">
+          <div class="arrow"></div>
+          <h3 class="popover-title">Popover left</h3>
+          <div class="popover-content">
+            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+      </div>
+      <h3>不带箭头指示</h3>
+      <div class="segment popover-examples">
+        <div class="popover top">
+          <div class="arrow"></div>
+          <h3 class="popover-title">Popover top</h3>
+          <div class="popover-content">
+            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+          </div>
+        </div>
+      </div>
+      <h3>动态演示</h3>
+      <div class="segment">
+        <a href="#" class="btn btn-lg btn-danger" data-toggle="popover" title="" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">Click to toggle popover</a>
+      </div>
+      <h4>不同方向</h4>
+      <div class="segment text-center">
+        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
+          左侧弹框
+        </button>
+        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
+          上方弹框
+        </button>
+        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
+          下方弹框
+        </button>
+        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
+          右侧弹框
+        </button>
+      </div>
+      <h2 id="popovers-usage">用法</h2>
+    <p>通过JavaScript启用弹出框：</p>
+    <div class="segment">
+<p><code>js$(&#39;#example&#39;).popover(options)</code></p>
+
+</div>
+
+    <h3>选项</h3>
+    <p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到<code>data-</code>之后，例如<code>data-animation=""</code>。</p>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th style="width: 100px;">名称</th>
+            <th style="width: 100px;">类型</th>
+            <th style="width: 50px;">默认值</th>
+            <th>描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>animation</td>
+            <td>boolean</td>
+            <td>true</td>
+            <td>apply a CSS fade transition to the tooltip</td>
+          </tr>
+          <tr>
+            <td>html</td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>Insert HTML into the popover. If false, jQuery's <code>text</code> method will be used to insert content into the DOM. Use text if you're worried about XSS attacks.</td>
+          </tr>
+          <tr>
+            <td>placement</td>
+            <td>string | function</td>
+            <td>'right'</td>
+            <td>how to position the popover - top | bottom | left | right | auto.<br> When "auto" is specified, it will dynamically reorient the popover. For example, if placement is "auto left", the tooltip will display to the left when possible, otherwise it will display right.</td>
+          </tr>
+          <tr>
+            <td>selector</td>
+            <td>string</td>
+            <td>false</td>
+            <td>if a selector is provided, tooltip objects will be delegated to the specified targets. in practice, this is used to enable dynamic HTML content to have popovers added. See <a href="https://github.com/twbs/bootstrap/issues/4215">this</a> and <a href="http://jsfiddle.net/fScua/">an informative example</a>.</td>
+          </tr>
+          <tr>
+            <td>trigger</td>
+            <td>string</td>
+            <td>'click'</td>
+            <td>how popover is triggered - click | hover | focus | manual</td>
+          </tr>
+          <tr>
+            <td>title</td>
+            <td>string | function</td>
+            <td>''</td>
+            <td>default title value if <code>title</code> attribute isn't present</td>
+          </tr>
+          <tr>
+            <td>content</td>
+            <td>string | function</td>
+            <td>''</td>
+            <td>default content value if <code>data-content</code> attribute isn't present</td>
+          </tr>
+          <tr>
+            <td>delay</td>
+            <td>number | object</td>
+            <td>0</td>
+            <td>
+             <p>delay showing and hiding the popover (ms) - does not apply to manual trigger type</p>
+             <p>If a number is supplied, delay is applied to both hide/show</p>
+             <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
+            </td>
+          </tr>
+          <tr>
+            <td>container</td>
+            <td>string | false</td>
+            <td>false</td>
+            <td>
+             <p>Appends the popover to a specific element. Example: <code>container: 'body'</code>. This option is particularly useful in that it allows you to position the popover in the flow of the document near the triggering element - which will prevent the popover from floating away from the triggering element during a window resize.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!-- /.table-responsive -->
+    <div class="bs-callout bs-callout-info">
+      <h4>为单个弹出框应用data属性</h4>
+      <p>对单个弹出框可以通过data属性单独指定选项，如上所示。</p>
+    </div>
+
+    <h3>方法</h3>
+    <h4>$().popover(options)</h4>
+    <p>为一组元素初始化弹出框。</p>
+
+    <h4>.popover('show')</h4>
+    <p>显示弹出框。</p>
+    <div class="segment">
+<p><code>js$(&#39;#element&#39;).popover(&#39;show&#39;)</code></p>
+
+</div>
+
+    <h4>.popover('hide')</h4>
+    <p>隐藏弹出框。</p>
+    <div class="segment">
+<p><code>js$(&#39;#element&#39;).popover(&#39;hide&#39;)</code></p>
+
+</div>
+
+    <h4>.popover('toggle')</h4>
+    <p>展示或隐藏弹出框。</p>
+    <div class="segment">
+<p><code>js$(&#39;#element&#39;).popover(&#39;toggle&#39;)</code></p>
+
+</div>
+
+    <h4>.popover('destroy')</h4>
+    <p>隐藏并销毁弹出框。</p>
+    <div class="segment">
+<p><code>js$(&#39;#element&#39;).popover(&#39;destroy&#39;)</code></p>
+
+</div>
+    <h3>事件</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+         <tr>
+           <th style="width: 150px;">事件类型</th>
+           <th>描述</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+           <td>show.bs.popover</td>
+           <td>当<code>show</code>方法被调用之后，此事件将被立即触发。</td>
+         </tr>
+         <tr>
+           <td>shown.bs.popover</td>
+           <td>当弹出框展示到用户面前之后（同时CSS过渡效果执行完之后）此事件被触发。</td>
+         </tr>
+         <tr>
+           <td>hide.bs.popover</td>
+           <td>当<code>hide</code>方法被调用之后，此事件被触发。</td>
+         </tr>
+         <tr>
+           <td>hidden.bs.popover</td>
+           <td>当弹出框被隐藏之后（同时CSS过渡效果执行完之后），此事件被触发。</td>
+         </tr>
+        </tbody>
+      </table>
+    </div><!-- /.table-responsive -->
+<div class="segment">
+<pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#myPopover'</span>).on(<span class="string">'hidden.bs.popover'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  <span class="comment">// do something…</span>
+})</code></pre>
+
+</div>
+    </section>
+  </article>
+</body>
+</html>
