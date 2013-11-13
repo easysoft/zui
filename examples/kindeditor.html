@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset='utf8'>
+    <link href="../assets/css/doc.css" rel="stylesheet">
+    <link href="../dist/css/zui.css" rel="stylesheet">
+    <link href="../plugins/kindeditor/themes/default/default.css" rel="stylesheet">
+    <script type="text/javascript" src="../plugins/kindeditor/kindeditor-min.js"></script>
+    <script>
+      KindEditor.ready(function(K) 
+      {
+        K.create('textarea.kindeditor', { allowFileManager : true });
+
+        K.create('textarea.kindeditorSimple', 
+        {
+          resizeType : 1,
+          allowPreviewEmoticons : false,
+          allowImageUpload : false,
+          items : [
+          'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+          'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+          'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+        });
+
+        K.create('textarea.customStyle', { themeType : 'simple' });
+
+      });
+    </script>
+  </head>
+  <body>
+    <article>
+      <section id='kendeditor' class="page-section">
+      <h1>富文本编辑器Kindeditor</h1>
+      
+      <h3>类型</h3>
+      <h4>默认模式</h4>
+      <textarea name="content" class='col-md-10 kindeditor' style="height:150px;visibility:hidden;">KindEditor</textarea>
+      <h4>简单模式</h4>
+      <textarea name="content" class='col-md-10 kindeditorSimple' style="height:150px;visibility:hidden;">KindEditor</textarea>
+      
+      <h3>变化</h3>
+      <h4>简单风格</h4>
+      <textarea name="content" class='col-md-10 customStyle' style="height:150px;visibility:hidden;">KindEditor</textarea>
+      
+      </section>
+    </article>
+
+  </body>
+</html>
