@@ -212,9 +212,9 @@
 @dropdown-fallback-border:       #ccc;
 @dropdown-divider-bg:            #e5e5e5;
 
-@dropdown-link-color:            @gray-dark;
-@dropdown-link-hover-color:      darken(@gray-dark, 5%);
-@dropdown-link-hover-bg:         #f5f5f5;
+@dropdown-link-color:            @color-fore;
+@dropdown-link-hover-color:      @component-active-color;
+@dropdown-link-hover-bg:         @component-active-bg;
 
 @dropdown-link-active-color:     @component-active-color;
 @dropdown-link-active-bg:        @component-active-bg;
@@ -687,3 +687,15 @@
 @popover-arrow-outer-width:           (@popover-arrow-width + 1);
 @popover-arrow-outer-color:           rgba(0,0,0,.25);
 @popover-arrow-outer-fallback-color:  #999;
+
+
+
+@FontAwesomePath:    "../font";
+//@FontAwesomePath:    "//netdna.bootstrapcdn.com/font-awesome/3.2.1/font"; // for referencing Bootstrap CDN font files directly
+@FontAwesomeVersion: "3.2.1";
+@borderColor:        @gray-light;
+@iconMuted:          @gray-light;
+@iconLight:          #fff;
+@iconDark:           #333;
+@icons-li-width:     30/14em;
+@icon-font-name:          FontAwesome;

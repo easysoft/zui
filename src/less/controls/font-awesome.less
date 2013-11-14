@@ -15,16 +15,6 @@
 // Variables
 // --------------------------
 
-@FontAwesomePath:    "../font";
-//@FontAwesomePath:    "//netdna.bootstrapcdn.com/font-awesome/3.2.1/font"; // for referencing Bootstrap CDN font files directly
-@FontAwesomeVersion: "3.2.1";
-@borderColor:        @gray-light;
-@iconMuted:          @gray-light;
-@iconLight:          #fff;
-@iconDark:           #333;
-@icons-li-width:     30/14em;
-
-
   @glass: "\f000";
 
   @music: "\f001";
@@ -757,7 +747,7 @@
 }
 
 .icon-FontAwesome() {
-  font-family: FontAwesome;
+  font-family: @icon-font-name;
   font-weight: normal;
   font-style: normal;
   text-decoration: inherit;
@@ -802,7 +792,7 @@
 // -------------------------- 
 
 @font-face {
-  font-family: 'FontAwesome';
+  font-family: @icon-font-name;
   src: url('@{FontAwesomePath}/fontawesome-webfont.eot?v=@{FontAwesomeVersion}');
   src: url('@{FontAwesomePath}/fontawesome-webfont.eot?#iefix&v=@{FontAwesomeVersion}') format('embedded-opentype'),
     url('@{FontAwesomePath}/fontawesome-webfont.woff?v=@{FontAwesomeVersion}') format('woff'),
