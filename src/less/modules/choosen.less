@@ -3,7 +3,7 @@
 @chosen-sprite: image-url('chosen-sprite.png');
 @chosen-sprite-retina: image-url('chosen-sprite@2x.png');
 
-/* @group Base */
+// @group Base //
 .chosen-container
 {
   position: relative;
@@ -30,9 +30,9 @@
   &.chosen-with-drop .chosen-drop { left: 0; }
   a { cursor: pointer; }
 }
-/* @end */
+// @end
 
-/* @group Single Chosen */
+// @group Single Chosen //
 .chosen-container-single
 {
   .chosen-single
@@ -167,9 +167,9 @@
     left: -9999px;
   }
 }
-/* @end */
+// @end
 
-/* @group Results */
+// @group Results //
 .chosen-container .chosen-results {
   position: relative;
   overflow-x: hidden;
@@ -218,9 +218,9 @@
     }
   }
 }
-/* @end */
+// @end
 
-/* @group Multi Chosen */
+// @group Multi Chosen //
 .chosen-container-multi{
   .chosen-choices {
     position: relative;
@@ -335,9 +335,9 @@
     cursor: default;
   }
 }
-/* @end */
+// @end
 
-/* @group Active  */
+// @group Active  //
 .chosen-container-active{
   .chosen-single {
     border: 1px solid @input-border-focus;
@@ -371,9 +371,9 @@
     }
   }
 }
-/* @end */
+// @end
 
-/* @group Disabled Support */
+// @group Disabled Support //
 .chosen-disabled {
   opacity: 0.5 !important;
   cursor: default;
@@ -384,9 +384,9 @@
     cursor: default;
   }
 }
-/* @end */
+// @end
 
-// /* @group Right to Left */
+// // @group Right to Left //
 // .chosen-rtl {
 //   text-align: right;
 //   .chosen-single {
@@ -455,20 +455,4 @@
 //   }
 // }
 
-/* @end */
-
-/* @group Retina compatibility */
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 144dpi)  {
-  .chosen-rtl .chosen-search input[type="text"],
-  .chosen-container-single .chosen-single abbr,
-  .chosen-container-single .chosen-single div b,
-  .chosen-container-single .chosen-search input[type="text"],
-  .chosen-container-multi .chosen-choices .search-choice .search-choice-close,
-  .chosen-container .chosen-results-scroll-down span,
-  .chosen-container .chosen-results-scroll-up span {
-    background-image: @chosen-sprite-retina !important;
-    background-size: 52px 37px !important;
-    background-repeat: no-repeat !important;
-  }
-}
-/* @end */
+// @end
