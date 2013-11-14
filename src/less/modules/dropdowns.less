@@ -4,7 +4,7 @@
 
 
 // Dropdown arrow/caret
-.caret
+.caret()
 {
   display: inline-block;
   width: 0;
@@ -17,6 +17,21 @@
   // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once fixed,
   // we can just straight up remove this.
   border-bottom: 0 dotted;
+}
+
+// Reverse the caret
+.caret-reverse()
+{
+  // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once this
+  // gets fixed, restore `border-top: 0;`.
+  border-top: 0 dotted;
+  border-bottom: 4px solid @dropdown-caret-color;
+  content: "";
+}
+
+.caret
+{
+  .caret();
 }
 
 // The dropdown wrapper (div)
@@ -74,6 +89,7 @@
     text-decoration: none;
     color: @dropdown-link-hover-color;
     background-color: @dropdown-link-hover-bg;
+    .active-mark-left();
   }
 }
 
@@ -88,6 +104,7 @@
     text-decoration: none;
     outline: 0;
     background-color: @dropdown-link-active-bg;
+    .active-mark-left();
   }
 }
 
@@ -163,11 +180,7 @@
   // Reverse the caret
   .caret
   {
-    // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once this
-    // gets fixed, restore `border-top: 0;`.
-    border-top: 0 dotted;
-    border-bottom: 4px solid @dropdown-caret-color;
-    content: "";
+    .caret-reverse();
   }
   // Different positioning for bottom up menu
   .dropdown-menu
