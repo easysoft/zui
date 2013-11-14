@@ -111,6 +111,9 @@ a.card:hover,.card:hover a
 
 .cards-condensed
 {
+  border: 1px solid @card-border-color;
+  border-left: 0;
+  border-top: 0;
   padding: 0;
 
   > [class^="col-"],
@@ -121,8 +124,10 @@ a.card:hover,.card:hover a
 
   .card
   {
-    margin-bottom: -1px;
-    margin-right: -1px;
+    border-right: 0;
+    border-bottom: 0;
+    margin: 0;
     padding: 10px;
+    .box-shadow(0 1px 2px rgba(0,0,0,.015));
   }
 }
