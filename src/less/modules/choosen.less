@@ -77,12 +77,13 @@
   {
     position: absolute;
     top: 7px;
-    right: 30px;
+    right: 24px;
     display: block;
+    width: (@font-size-base * 1.5);
     height: (@font-size-base * 1.5);
+    line-height: (@font-size-base * 1.5);
     font-size: (@font-size-base * 1.5);
     font-weight: @close-font-weight;
-    line-height: 1;
     color: @close-color;
     text-shadow: @close-text-shadow;
     .opacity(.2);
@@ -249,13 +250,12 @@
       white-space: nowrap;
       input[type="text"] {
         margin: 1px 0;
-        padding: 5px;
         height: 15px;
         outline: 0;
         border: 0 !important;
         background: transparent !important;
         box-shadow: none;
-        color: #666;
+        color: @input-color-placeholder;
         font-size: 100%;
         font-family: sans-serif;
         line-height: normal;
@@ -288,13 +288,15 @@
       .search-choice-close 
       {
         position: absolute;
-        top: 0px;
-        right: 3px;
+        top: -1px;
+        right: 0px;
+        text-align: center;
         display: block;
+        width: (@font-size-base * 1.5);
         height: (@font-size-base * 1.5);
-        font-size: (@font-size-base * 1.5);
+        line-height: (@font-size-base * 1.5);
+        font-size: (@font-size-base * 1.2);
         font-weight: @close-font-weight;
-        line-height: 1;
         color: @close-color;
         text-shadow: @close-text-shadow;
         .opacity(.2);
