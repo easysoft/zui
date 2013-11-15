@@ -1,6 +1,6 @@
 /* ========================================================================
- * Bootstrap: transition.js v3.0.0
- * http://twbs.github.com/bootstrap/javascript.html#transitions
+ * Bootstrap: transition.js v3.0.2
+ * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
  * Copyright 2013 Twitter, Inc.
  *
@@ -29,7 +29,7 @@
     var transEndEventNames = {
       'WebkitTransition' : 'webkitTransitionEnd'
     , 'MozTransition'    : 'transitionend'
-    , 'OTransition'      : 'oTransitionEnd otransitionend'
+    // , 'OTransition'      : 'oTransitionEnd otransitionend' // doesn't work in opera11 and disable in opera browsers
     , 'transition'       : 'transitionend'
     }
 
@@ -53,4 +53,4 @@
     $.support.transition = transitionEnd()
   })
 
-}(window.jQuery);
+}(jQuery);
