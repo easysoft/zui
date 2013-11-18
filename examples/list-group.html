@@ -9,10 +9,67 @@
   <title>ZUI</title>
   <link rel="stylesheet/less" type="text/css" href="../src/less/zui.less" />
   <script type="text/javascript"> less = { env: "development", dumpLineNumbers:'mediaquery' }; </script>
-  <script type="text/javascript" src="../assets/js/less.js"></script>
+  <script src="../assets/js/less.js"></script>
+  <script src="../assets/js/jquery.js"></script>
+  <script src="../src/js/dropdown.js"></script>
+  <!--[if lt IE 9]>
+  <script src="../assets/js/html5shiv.js"></script>
+  <script src="../assets/js/respond.js"></script>
+  <![endif]-->
 </head>
 
 <body>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">ZUI</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">examples <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="alerts.html">alerts</a></li>
+            <li><a href="article.html">article</a></li>
+            <li><a href="breadcrumb.html">breadcrumb</a></li>
+            <li><a href="button-groups.html">button-groups</a></li>
+            <li><a href="buttons.html">buttons</a></li>
+            <li><a href="cards.html">cards</a></li>
+            <li><a href="carousel.html">carousel</a></li>
+            <li><a href="chosen.html">chosen</a></li>
+            <li><a href="collapse.html">collapse</a></li>
+            <li><a href="comment.html">comment</a></li>
+            <li><a href="dropdowns.html">dropdowns</a></li>
+            <li><a href="forms.html">forms</a></li>
+            <li><a href="grid.html">grid</a></li>
+            <li><a href="icons.html">icons</a></li>
+            <li><a href="input-groups.html">input-groups</a></li>
+            <li><a href="kindeditor.html">kindeditor</a></li>
+            <li><a href="labels.html">labels</a></li>
+            <li><a href="list-group.html">list-group</a></li>
+            <li><a href="list.html">list</a></li>
+            <li><a href="modals.html">modals</a></li>
+            <li><a href="navbars.html">navbars</a></li>
+            <li><a href="navs.html">navs</a></li>
+            <li><a href="pager.html">pager</a></li>
+            <li><a href="panels.html">panels</a></li>
+            <li><a href="popovers.html">popovers</a></li>
+            <li><a href="progress.html">progress</a></li>
+            <li><a href="tables.html">tables</a></li>
+            <li><a href="tabs.html">tabs</a></li>
+            <li><a href="textbox.html">textbox</a></li>
+            <li><a href="tooltip.html">tooltip</a></li>
+            <li><a href="type.html">type</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <article>
     <section id='list-group' class="page-section">
       <div class="page-header"><h1>列表组</h1></div>
