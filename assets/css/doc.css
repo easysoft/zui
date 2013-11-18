@@ -117,3 +117,8 @@ body > .container .segment
   border:1px solid #ddd;
   font-size: 20px;
 }
+
+#navbarNext
+{
+  /*display: none;*/
+}
