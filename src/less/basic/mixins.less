@@ -784,23 +784,27 @@
 .active-mark-top()
 {
   .transition(box-shadow, @animation-speed-fast,@animation-type);
+  border-top: 2px solid @active-border-color~'\9';
   .box-shadow(inset 0 @active-border-width 0 @active-border-color);
 }
 
 .active-mark-bottom()
 {
   .transition(box-shadow, @animation-speed-fast,@animation-type);
+  border-bottom: 2px solid @active-border-color~'\9';
   .box-shadow(inset 0 -@active-border-width 0 @active-border-color);
 }
 
 .active-mark-left()
 {
   .transition(box-shadow, @animation-speed-fast,@animation-type);
+  border-left: 2px solid @active-border-color~'\9';
   .box-shadow(inset @active-border-width 0 0 @active-border-color);
 }
 
 .active-mark-right()
 {
   .transition(box-shadow, @animation-speed-fast,@animation-type);
+  border-right: 2px solid @active-border-color~'\9';
   .box-shadow(inset -@active-border-width 0 0 @active-border-color);
 }
