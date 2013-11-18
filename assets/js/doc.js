@@ -3,7 +3,6 @@ $(function ()
   var pathname = window.location.pathname;
   var filename = pathname.substring(pathname.lastIndexOf('/')+1);
   var name = filename.replace('.html','');
-  console.log(filename);
 
   var navLi = $("#navbar li>a[href='"+filename+"']").closest('li');
   navLi.addClass('active');
