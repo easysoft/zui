@@ -34,382 +34,382 @@
 }
 /* icons */
 .ke-icon-source {
-	background-position: 0px 0px;
+	background-position: 0 0;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-preview {
-	background-position: 0px -16px;
+	background-position: 0 -16px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-print {
-	background-position: 0px -32px;
+	background-position: 0 -32px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-undo {
-	background-position: 0px -48px;
+	background-position: 0 -48px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-redo {
-	background-position: 0px -64px;
+	background-position: 0 -64px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-cut {
-	background-position: 0px -80px;
+	background-position: 0 -80px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-copy {
-	background-position: 0px -96px;
+	background-position: 0 -96px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-paste {
-	background-position: 0px -112px;
+	background-position: 0 -112px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-selectall {
-	background-position: 0px -128px;
+	background-position: 0 -128px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-justifyleft {
-	background-position: 0px -144px;
+	background-position: 0 -144px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-justifycenter {
-	background-position: 0px -160px;
+	background-position: 0 -160px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-justifyright {
-	background-position: 0px -176px;
+	background-position: 0 -176px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-justifyfull {
-	background-position: 0px -192px;
+	background-position: 0 -192px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-insertorderedlist {
-	background-position: 0px -208px;
+	background-position: 0 -208px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-insertunorderedlist {
-	background-position: 0px -224px;
+	background-position: 0 -224px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-indent {
-	background-position: 0px -240px;
+	background-position: 0 -240px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-outdent {
-	background-position: 0px -256px;
+	background-position: 0 -256px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-subscript {
-	background-position: 0px -272px;
+	background-position: 0 -272px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-superscript {
-	background-position: 0px -288px;
+	background-position: 0 -288px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-date {
-	background-position: 0px -304px;
+	background-position: 0 -304px;
 	width: 25px;
 	height: 16px;
 }
 .ke-icon-time {
-	background-position: 0px -320px;
+	background-position: 0 -320px;
 	width: 25px;
 	height: 16px;
 }
 .ke-icon-formatblock {
-	background-position: 0px -336px;
+	background-position: 0 -336px;
 	width: 25px;
 	height: 16px;
 }
 .ke-icon-fontname {
-	background-position: 0px -352px;
+	background-position: 0 -352px;
 	width: 21px;
 	height: 16px;
 }
 .ke-icon-fontsize {
-	background-position: 0px -368px;
+	background-position: 0 -368px;
 	width: 23px;
 	height: 16px;
 }
 .ke-icon-forecolor {
-	background-position: 0px -384px;
+	background-position: 0 -384px;
 	width: 20px;
 	height: 16px;
 }
 .ke-icon-hilitecolor {
-	background-position: 0px -400px;
+	background-position: 0 -400px;
 	width: 23px;
 	height: 16px;
 }
 .ke-icon-bold {
-	background-position: 0px -416px;
+	background-position: 0 -416px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-italic {
-	background-position: 0px -432px;
+	background-position: 0 -432px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-underline {
-	background-position: 0px -448px;
+	background-position: 0 -448px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-strikethrough {
-	background-position: 0px -464px;
+	background-position: 0 -464px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-removeformat {
-	background-position: 0px -480px;
+	background-position: 0 -480px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-image {
-	background-position: 0px -496px;
+	background-position: 0 -496px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-flash {
-	background-position: 0px -512px;
+	background-position: 0 -512px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-media {
-	background-position: 0px -528px;
+	background-position: 0 -528px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-div {
-	background-position: 0px -544px;
+	background-position: 0 -544px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-formula {
-	background-position: 0px -576px;
+	background-position: 0 -576px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-hr {
-	background-position: 0px -592px;
+	background-position: 0 -592px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-emoticons {
-	background-position: 0px -608px;
+	background-position: 0 -608px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-link {
-	background-position: 0px -624px;
+	background-position: 0 -624px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-unlink {
-	background-position: 0px -640px;
+	background-position: 0 -640px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-fullscreen {
-	background-position: 0px -656px;
+	background-position: 0 -656px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-about {
-	background-position: 0px -672px;
+	background-position: 0 -672px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-plainpaste {
-	background-position: 0px -704px;
+	background-position: 0 -704px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-wordpaste {
-	background-position: 0px -720px;
+	background-position: 0 -720px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-table {
-	background-position: 0px -784px;
+	background-position: 0 -784px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablemenu {
-	background-position: 0px -768px;
+	background-position: 0 -768px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tableinsert {
-	background-position: 0px -784px;
+	background-position: 0 -784px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tabledelete {
-	background-position: 0px -800px;
+	background-position: 0 -800px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablecolinsertleft {
-	background-position: 0px -816px;
+	background-position: 0 -816px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablecolinsertright {
-	background-position: 0px -832px;
+	background-position: 0 -832px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablerowinsertabove {
-	background-position: 0px -848px;
+	background-position: 0 -848px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablerowinsertbelow {
-	background-position: 0px -864px;
+	background-position: 0 -864px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablecoldelete {
-	background-position: 0px -880px;
+	background-position: 0 -880px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablerowdelete {
-	background-position: 0px -896px;
+	background-position: 0 -896px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablecellprop {
-	background-position: 0px -912px;
+	background-position: 0 -912px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tableprop {
-	background-position: 0px -928px;
+	background-position: 0 -928px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-checked {
-	background-position: 0px -944px;
+	background-position: 0 -944px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-code {
-	background-position: 0px -960px;
+	background-position: 0 -960px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-map {
-	background-position: 0px -976px;
+	background-position: 0 -976px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-baidumap {
-	background-position: 0px -976px;
+	background-position: 0 -976px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-lineheight {
-	background-position: 0px -992px;
+	background-position: 0 -992px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-clearhtml {
-	background-position: 0px -1008px;
+	background-position: 0 -1008px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-pagebreak {
-	background-position: 0px -1024px;
+	background-position: 0 -1024px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-insertfile {
-	background-position: 0px -1040px;
+	background-position: 0 -1040px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-quickformat {
-	background-position: 0px -1056px;
+	background-position: 0 -1056px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-template {
-	background-position: 0px -1072px;
+	background-position: 0 -1072px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablecellsplit {
-	background-position: 0px -1088px;
+	background-position: 0 -1088px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablerowmerge {
-	background-position: 0px -1104px;
+	background-position: 0 -1104px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablerowsplit {
-	background-position: 0px -1120px;
+	background-position: 0 -1120px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablecolmerge {
-	background-position: 0px -1136px;
+	background-position: 0 -1136px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-tablecolsplit {
-	background-position: 0px -1152px;
+	background-position: 0 -1152px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-anchor {
-	background-position: 0px -1168px;
+	background-position: 0 -1168px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-search {
-	background-position: 0px -1184px;
+	background-position: 0 -1184px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-new {
-	background-position: 0px -1200px;
+	background-position: 0 -1200px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-specialchar {
-	background-position: 0px -1216px;
+	background-position: 0 -1216px;
 	width: 16px;
 	height: 16px;
 }
 .ke-icon-multiimage {
-	background-position: 0px -1232px;
+	background-position: 0 -1232px;
 	width: 16px;
 	height: 16px;
 }
@@ -686,7 +686,7 @@
 }
 .ke-dialog-icon-close {
 	display: block;
-	background: url(default.png) no-repeat scroll 0px -688px;
+	background: url(default.png) no-repeat scroll 0 -688px;
 	width: 16px;
 	height: 16px;
 	position: absolute;
@@ -980,7 +980,7 @@
 }
 .ke-swfupload-body .ke-delete {
 	display: block;
-	background: url(default.png) no-repeat scroll 0px -688px;
+	background: url(default.png) no-repeat scroll 0 -688px;
 	width: 16px;
 	height: 16px;
 	position: absolute;
