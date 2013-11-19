@@ -12,13 +12,31 @@
     .chosen-rtl .chosen-drop { left: -9000px; }
   </style>
   <script src="../assets/js/jquery.js"></script>
-  <script src="../src/js/collapse.js"></script>
-  <script src="../src/js/dropdown.js"></script>
+  <script src="../dist/js/zui.min.js"></script>
+
+
   <!--[if lt IE 9]>
   <script src="../assets/js/html5shiv.js"></script>
   <script src="../assets/js/respond.js"></script>
   <![endif]-->
   <script src="../assets/js/doc.js"></script>
+  <script src="../plugins/chosen/chosen.jquery.js" type="text/javascript"></script>
+  <script src="../assets/js/google-code-prettify/prettify.js"></script>
+
+  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+
+    prettyPrint();
+  </script>
 </head>
 <body>
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -1514,24 +1532,6 @@
 
           </div>
         </div>
-        <script src="../assets/js/jquery.js"></script>
-        <script src="../plugins/chosen/chosen.jquery.js" type="text/javascript"></script>
-        <script src="../assets/js/google-code-prettify/prettify.js"></script>
-
-        <script type="text/javascript">
-          var config = {
-            '.chosen-select'           : {},
-            '.chosen-select-deselect'  : {allow_single_deselect:true},
-            '.chosen-select-no-single' : {disable_search_threshold:10},
-            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-            '.chosen-select-width'     : {width:"95%"}
-          }
-          for (var selector in config) {
-            $(selector).chosen(config[selector]);
-          }
-
-          prettyPrint();
-        </script>
         </form>
   </article>
 </body>
