@@ -1,8 +1,5 @@
 // Depends on the dropdown.less
 
-@chosen-sprite: image-url('chosen-sprite.png');
-@chosen-sprite-retina: image-url('chosen-sprite@2x.png');
-
 // @group Base //
 .chosen-container
 {
@@ -154,7 +151,7 @@
       right: 10px;
       color: @gray;
       top: 10px;
-      content: "\f002";
+      content: @search;
       font-family: @icon-font-name;
     }
   }
@@ -317,7 +314,6 @@
       padding-right: 5px;
       border: 1px solid #ccc;
       background-color: #e4e4e4;
-      // @include background-image(linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%));
       color: #666;
     }
     &.search-choice-focus {

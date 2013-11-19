@@ -4,38 +4,35 @@
   <meta charset="utf-8">
   <title>Chosen: A jQuery Plugin by Harvest to Tame Unwieldy Select Boxes</title>
   <link rel="stylesheet" href="chosen-docsupport/style.css">
-  <link rel="stylesheet" href="chosen.css">
   <link href="../dist/css/zui.css" rel="stylesheet">
    <link href="../assets/css/doc.css" rel="stylesheet">
-  <style type="text/css" media="all">
-    /* fix rtl for demo */
-    .chosen-rtl .chosen-drop { left: -9000px; }
-  </style>
+
   <script src="../assets/js/jquery.js"></script>
   <script src="../dist/js/zui.min.js"></script>
-
 
   <!--[if lt IE 9]>
   <script src="../assets/js/html5shiv.js"></script>
   <script src="../assets/js/respond.js"></script>
   <![endif]-->
-  <script src="../assets/js/doc.js"></script>
+  
   <script src="../plugins/chosen/chosen.jquery.js" type="text/javascript"></script>
   <script src="../assets/js/google-code-prettify/prettify.js"></script>
-
+  <script src="../assets/js/doc.js"></script>
   <script type="text/javascript">
-    var config = {
-      '.chosen-select'           : {},
-      '.chosen-select-deselect'  : {allow_single_deselect:true},
-      '.chosen-select-no-single' : {disable_search_threshold:10},
-      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-      '.chosen-select-width'     : {width:"95%"}
-    }
-    for (var selector in config) {
-      $(selector).chosen(config[selector]);
-    }
+    $(function () {
+      var config = {
+        '.chosen-select'           : {},
+        '.chosen-select-deselect'  : {allow_single_deselect:true},
+        '.chosen-select-no-single' : {disable_search_threshold:10},
+        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+        '.chosen-select-width'     : {width:"100%"}
+      };
+      for (var selector in config) {
+        $(selector).chosen(config[selector]);
+      }
 
-    prettyPrint();
+      prettyPrint();
+    });
   </script>
 </head>
 <body>
