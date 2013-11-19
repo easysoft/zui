@@ -4,8 +4,7 @@
     <meta charset='utf-8'>
     <link href="../assets/css/doc.css" rel="stylesheet">
     <link href="../dist/css/zui.css" rel="stylesheet">
-    <!-- <link href="../plugins/kindeditor/themes/simple/simple.css" rel="stylesheet"> -->
-    <script src="../plugins/kindeditor/kindeditor-min.js"></script>
+    <script src="../plugins/kindeditor/kindeditor-all-min.js"></script>
     <script src="../assets/js/jquery.js"></script>
   <script src="../dist/js/zui.min.js"></script>
 
@@ -13,10 +12,17 @@
     <script>
       KindEditor.ready(function(K) 
       {
-        K.create('textarea.kindeditor', { allowFileManager : true });
+        K.create('textarea.kindeditor', 
+        {
+          allowFileManager : true,
+          bodyClass : 'article-content',
+          cssPath: '../dist/css/zui.css'
+        });
 
         K.create('textarea.kindeditorSimple', 
         {
+          bodyClass : 'article-content',
+          cssPath: '../dist/css/zui.css',
           resizeType : 1,
           allowPreviewEmoticons : false,
           allowImageUpload : false,
@@ -26,7 +32,12 @@
           'insertunorderedlist', '|', 'emoticons', 'image', 'link']
         });
 
-        K.create('textarea.customStyle', { themeType : 'simple' });
+        K.create('textarea.customStyle',
+        {
+          themeType : 'simple',
+          bodyClass : 'article-content',
+          cssPath: '../dist/css/zui.css'
+        });
 
       });
     </script>
