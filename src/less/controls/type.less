@@ -37,6 +37,16 @@ cite     { font-style: normal; }
 .text-muted
 {
   color: @text-muted;
+
+  a
+  {
+    color: darken(@text-muted,5%);
+    &:hover,
+    &:active
+    {
+      color: @link-color;
+    }
+  }
 }
 .text-primary
 {
