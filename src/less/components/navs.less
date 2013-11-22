@@ -13,6 +13,13 @@
   list-style: none;
   .clearfix();
 
+  > .nav-heading
+  {
+    padding: @nav-link-padding;
+    color: gray;
+    font-weight: @headings-font-weight;
+  }
+
   > li
   {
     position: relative;
@@ -267,6 +274,11 @@
         }
       }
     }
+
+    &.nav-heading
+    {
+      border-bottom: @active-border-width solid @nav-secondary-active-border-color;
+    }
   }
 }
 
@@ -311,6 +323,11 @@
           .active-mark-left();
         }
       }
+
+      &.nav-heading
+      {
+        background-color: @gray-pale;
+      }
     }
   }
 
@@ -338,8 +355,12 @@
         &:focus
         {
           background-color: @nav-secondary-active-link-hover-bg;
-          .active-mark-left();
+          .active-mark-right();
         }
+      }
+      &.nav-heading
+      {
+        border-bottom: 1px solid @gray-light;
       }
     }
   }
