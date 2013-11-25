@@ -31,6 +31,7 @@
     overflow: hidden;
     text-align: center;
     width: 100%;
+    .transition(all, @animation-speed-normal, @animation-type);
     > img
     {
       max-width: 100%;
@@ -107,6 +108,7 @@
     > .media-wrapper
     {
       .opacity(0.9);
+      background-color: #e5e5e5;
     }
 
     > .card-reveal
@@ -164,9 +166,9 @@ a.card:hover,.card:hover a
       padding-right: 0;
     }
 
-    > .media-wrapper
-    {
-      border: 1px solid @card-border-color; 
-    }
+    // > .media-wrapper
+    // {
+      
+    // }
   }
 }
