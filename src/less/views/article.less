@@ -61,6 +61,11 @@
 {
   padding: @line-height-computed 0;
 
+  h1,h2,h3,h4,h5
+  {
+    padding-bottom: @line-height-computed / 4;
+  }
+
   h1 
   {
     font-size: @article-font-size-h1;
@@ -179,7 +184,7 @@ body.article-content
     {
       padding: @article-section-padding;
       margin: 0 -@article-padding;
-      border-bottom: 1px dashed darken(@article-abstract-bg, 10%);
+      // border-bottom: 1px dashed darken(@article-abstract-bg, 10%);
       // border-left: none;
     }
   }
@@ -198,18 +203,8 @@ body.article-content
     > h5,
     > h6
     {
-      padding: 0 @article-padding;
-    }
-
-    > h4,
-    > h5
-    {
-      padding-left: @article-padding - @active-border-width * 4;
-    }
-
-    > h6
-    {
-      padding-left: @article-padding - @active-border-width * 2;
+      padding-left: @article-padding;
+      padding-right: @article-padding;
     }
 
     > ul,
