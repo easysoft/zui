@@ -34,7 +34,6 @@
       {
           self.attr('data-safe-close',true)
       }
-
   }
 
   Pager.prototype.showPopover = function()
@@ -48,7 +47,6 @@
       self.popover('show')
 
       $(document).bind('click',$.proxy(this.hidePopover,this))
-
   }
 
   Pager.prototype.setContent = function (url)
