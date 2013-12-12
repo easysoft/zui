@@ -1,0 +1,55 @@
+
+// .pager-pills
+// --------------------------------------------------
+.pager-pills
+{
+  > li:first-child
+  {
+    > a,
+    > span
+    {
+      border-radius: @pager-border-radius 0 0 @pager-border-radius;
+    }
+  }
+
+  > li:last-child
+  {
+    > a,
+    > span
+    {
+      border-radius: 0 @pager-border-radius @pager-border-radius 0;
+    }
+  }
+}
+
+.pager-loose
+{
+  display: block;
+  margin: @line-height-computed 0;
+  .clearfix();
+  &.pager-pills > li
+  {
+      > a,
+      > span
+      {
+        border-radius: @pager-border-radius;
+      }
+  }
+
+  > li
+  {
+    > a,
+    > span
+    {
+      margin-left: 5px;
+    }
+  }
+  > li:first-child
+  {
+    > a,
+    > span
+    {
+      margin-left: 0;
+    }
+  }
+}
