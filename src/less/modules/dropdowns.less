@@ -2,33 +2,6 @@
 // Dropdown menus
 // --------------------------------------------------
 
-
-// Dropdown arrow/caret
-.caret()
-{
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 2px;
-  vertical-align: middle;
-  border-top:   @caret-width-base solid @dropdown-caret-color;
-  border-right: @caret-width-base solid transparent;
-  border-left:  @caret-width-base solid transparent;
-  // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once fixed,
-  // we can just straight up remove this.
-  border-bottom: 0 dotted;
-}
-
-// Reverse the caret
-.caret-reverse()
-{
-  // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once this
-  // gets fixed, restore `border-top: 0;`.
-  border-top: 0 dotted;
-  border-bottom: 4px solid @dropdown-caret-color;
-  content: "";
-}
-
 .caret
 {
   .caret();

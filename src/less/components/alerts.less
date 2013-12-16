@@ -104,32 +104,3 @@
 {
   .alert-variant(@alert-danger-bg; @alert-danger-border; @alert-danger-text);
 }
-
-.alert:hover
-{
-  background-color: darken(@alert-default-bg,5%);
-  &.alert-success
-  {
-    background-color: darken(@alert-success-bg,5%);
-  }
-  &.alert-info
-  {
-    background-color: darken(@alert-info-bg,5%);
-  }
-  &.alert-warning
-  {
-    background-color: darken(@alert-warning-bg,5%);
-  }
-  &.alert-danger
-  {
-    background-color: darken(@alert-danger-bg,5%);
-  }
-  >[class*="icon-"]
-  {
-    opacity: 1;
-  }
-  &.alert-block
-  {
-    padding:@alert-padding + 5 @alert-padding;
-  }
-}

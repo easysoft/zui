@@ -86,61 +86,6 @@
   }
 }
 
-// .pager-pills
-// --------------------------------------------------
-.pager-pills
-{
-  > li:first-child
-  {
-    > a,
-    > span
-    {
-      border-radius: @pager-border-radius 0 0 @pager-border-radius;
-    }
-  }
-
-  > li:last-child
-  {
-    > a,
-    > span
-    {
-      border-radius: 0 @pager-border-radius @pager-border-radius 0;
-    }
-  }
-}
-
-.pager-loose
-{
-  display: block;
-  margin: @line-height-computed 0;
-  .clearfix();
-  &.pager-pills > li
-  {
-      > a,
-      > span
-      {
-        border-radius: @pager-border-radius;
-      }
-  }
-
-  > li
-  {
-    > a,
-    > span
-    {
-      margin-left: 5px;
-    }
-  }
-  > li:first-child
-  {
-    > a,
-    > span
-    {
-      margin-left: 0;
-    }
-  }
-}
-
 .pager-justify
 {
   display: block;
@@ -170,40 +115,5 @@
       {
         border-radius: @pager-border-radius;
       }
-  }
-}
-
-// // Sizing
-// // --------------------------------------------------
-
-// // Large
-// .pager-lg
-// {
-//   .pager-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @border-radius-large);
-// }
-
-// // Small
-// .pager-sm
-// {
-//   .pager-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @border-radius-small);
-// }
-
-
-// for pager.js
-
-.pager-popover
-{
-  &.popover { max-width: 500px; }
-  &.popover,
-  > .popover-content
-  {
-    padding: 0;
-    margin: -1px;
-
-    > .pager
-    {
-      display: block;
-      margin: 0;
-    }
   }
 }

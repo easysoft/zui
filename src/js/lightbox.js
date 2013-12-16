@@ -2,8 +2,7 @@
 {
     jQuery.fn.lightbox = function()
     {
-        $(document).on('click', '[data-toggle="lightbox"]', function(){
-
+        $(this).click(function(){
             // need modal
             if (!$.fn.modal) throw new Error('modal requires for lightbox');
 

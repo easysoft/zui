@@ -164,35 +164,6 @@
   bottom: 0;
   margin-bottom: 0; // override .navbar defaults
 }
-.navbar-fixed-left
-{
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  max-width: 500px;
-  &,
-  .navbar-nav,
-  .navbar-nav > li,
-  .navbar-header,
-  .navbar-form
-  {
-    float: none;
-  }
-  .navbar-collapse
-  {
-    padding: 0;
-  }
-  .navbar-nav.navbar-right,.navbar-nav,.navbar-form
-  {
-    margin: 7.5px 0;
-  }
-  .navbar-toggle
-  {
-    display: block;
-  }
-}
-
 
 // Brand/project name
 
@@ -339,49 +310,6 @@
   { .pull-left(); }
   .navbar-right
   { .pull-right(); }
-}
-
-
-// Navbar form
-//
-// Extension of the `.form-inline` with some extra flavor for optimum display in
-// our navbars.
-
-.navbar-form
-{
-  margin-left: -@navbar-padding-horizontal;
-  margin-right: -@navbar-padding-horizontal;
-  padding: 10px @navbar-padding-horizontal;
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
-  @shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
-  .box-shadow(@shadow);
-
-  // Mixin behavior for optimum display
-  .form-inline();
-
-  .form-group
-  {
-    @media (max-width: @screen-xs-max)
-    {
-      margin-bottom: 5px;
-    }
-  }
-
-  // Vertically center in expanded, horizontal navbar
-  .navbar-vertical-align(@input-height-base);
-
-  // Undo 100% width for pull classes
-  @media (min-width: @grid-float-breakpoint)
-  {
-    width: auto;
-    border: 0;
-    margin-left: 0;
-    margin-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    .box-shadow(none);
-  }
 }
 
 
