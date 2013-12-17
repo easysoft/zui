@@ -190,7 +190,8 @@
 // -------------------------
 .nav-primary
 {
-  > li {
+  > li
+  {
     float: left;
     margin-left: -1px;
 
@@ -311,6 +312,21 @@
       &:first-child
       {
         margin-top: 0;
+        > a
+        {
+          margin-left: 0;
+          .border-bottom-radius(0);
+          .border-top-radius(@border-radius-base);
+        }
+      }
+
+      &:last-child
+      {
+        > a
+        {
+          .border-top-radius(0);
+          .border-bottom-radius(@border-radius-base);
+        }
       }
 
       // Active state
