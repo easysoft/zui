@@ -1698,13 +1698,11 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 
 // LIGHTBOX
-
 (function($) 
 {
     jQuery.fn.lightbox = function()
     {
-        $(document).on('click', '[data-toggle="lightbox"]', function(){
-
+        $(this).click(function(){
             // need modal
             if (!$.fn.modal) throw new Error('modal requires for lightbox');
 
@@ -1736,3 +1734,4 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
         });
     };
 })(jQuery);
+
