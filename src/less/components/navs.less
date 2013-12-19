@@ -225,15 +225,14 @@
       &:hover,
       &:focus
       {
-        color: @nav-primary-active-link-hover-color;
-        // border-top: @active-border-width solid @nav-primary-active-link-hover-color;
-        // padding-top: @nav-link-padding-top - @active-border-width + 1px;
-        .active-mark-top();
+        background-color: @component-active-color;
+        border-color: @component-active-color;
+        color: @white;
 
         .caret
         {
-          border-top-color: @nav-primary-active-link-hover-color;
-          border-bottom-color: @nav-primary-active-link-hover-color;
+          border-top-color: @white;
+          border-bottom-color: @white;
         }
       }
     }

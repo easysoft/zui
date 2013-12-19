@@ -19,9 +19,8 @@
     {
       font-size: @font-size-small;
       padding: @article-section-padding;
-      background-color: lighten(@article-abstract-bg,2%);
+      background-color: @article-abstract-bg;
       border-radius: @border-radius-base;
-      // border-left: @active-border-width solid darken(@article-abstract-bg, 5%);
       color: @article-abstract-color;
       > p:last-child
       {
@@ -33,12 +32,6 @@
     {
       border-bottom: 1px solid darken(@article-abstract-bg, 3%);
       margin: 0;
-
-      // + .abstract
-      // {
-      //   border-top: 1px solid lighten(@article-abstract-bg, 3%);
-      // }
-
       &.pull-right
       {
         background-color: transparent;
@@ -61,57 +54,29 @@
 {
   padding: @line-height-computed 0;
 
-  h1,h2,h3,h4,h5
-  {
-    padding-bottom: @line-height-computed / 4;
-  }
-
   h1 
   {
     font-size: @article-font-size-h1;
-    border-bottom: @active-border-width * 2 double @article-headings-border-color;
-    &:before
-    {
-      content: "§ ";
-    }
   }
   h2 
   {
     font-size: @article-font-size-h2;
-    border-bottom: @active-border-width solid @article-headings-border-color;
-    // &:before
-    // {
-    //   content: "◈ ";
-    // }
   }
   h3 
   {
     font-size: @article-font-size-h3;
-    border-bottom: @active-border-width double @article-headings-border-color;
-    // &:before
-    // {
-    //   content: "◈ ";
-    // }
   }
   h4 
   {
     font-size: @article-font-size-h4;
-    border-bottom: 1px solid @article-headings-border-color;
-    // padding-left: 0.5em;
-    // border-left: @active-border-width * 4 solid @article-headings-border-color;
   }
   h5 
   {
     font-size: @article-font-size-h5;
-    // padding-left: 0.5em;
-    border-bottom: 1px dashed @article-headings-border-color;
-    // border-left: @active-border-width * 4 solid @article-headings-border-color;
   }
   h6 
   {
     font-size: @article-font-size-h6;
-    // padding-left: 0.5em;
-    // border-left: @active-border-width * 2 solid @article-headings-border-color;
   }
 
   img
@@ -152,7 +117,6 @@
           line-height: @line-height-base;
           vertical-align: top;
           border-bottom: 1px solid @table-border-color;
-          // border-top: 1px solid lighten(@table-border-color, 5%);
 
           .transition(all,@animation-speed-fast,@animation-type);
         }
