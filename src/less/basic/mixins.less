@@ -455,8 +455,8 @@
 // and disabled options for all buttons
 .button-variant(@color; @background; @border) {
   color: @color;
-  background-color: @background;
-  border-color: @border;
+  // background-color: @background;
+  // border-color: @border;
 
   &:hover,
   &:focus,
@@ -485,6 +485,26 @@
       background-color: @background;
           border-color: @border;
     }
+  }
+}
+
+//
+// button-styles
+// Mixin for generating new styles
+// --------------------------------
+.button-styles(@btn-color: #555;) {
+  #gradient > .vertical(@start-color: @btn-color; @end-color: darken(@btn-color, 4%));
+  border-color: darken(@btn-color, 12%);
+  
+  &:hover{
+    #gradient > .vertical(@start-color: lighten(@btn-color, 1%); @end-color: lighten(@btn-color, 3%));
+    border-color: darken(@btn-color, 15%);
+  }
+
+  &:active,
+  &.active {
+    background-color: darken(@btn-color, 10%);
+    border-color: darken(@btn-color, 12%);
   }
 }
 

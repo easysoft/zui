@@ -16,7 +16,7 @@
   > .nav-heading
   {
     padding: @nav-link-padding;
-    color: gray;
+    color: @gray-dark;
     font-weight: @headings-font-weight;
   }
 
@@ -130,7 +130,6 @@
         border: 1px solid @nav-tabs-active-link-hover-border-color;
         border-bottom-color: transparent;
         cursor: default;
-        .active-mark-top();
       }
     }
   }
@@ -311,7 +310,8 @@
       &:first-child
       {
         margin-top: 0;
-        > a
+        > a,
+        &.nav-heading
         {
           margin-left: 0;
           .border-bottom-radius(0);
