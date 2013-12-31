@@ -10,7 +10,7 @@
   position: relative;
   display: inline-block;
   vertical-align: middle;
-  font-size: 13px;
+  font-size: 14px;
   zoom: 1;
   *display: inline;
   .user-select(none);
@@ -154,7 +154,7 @@
       display: block;
       right: 10px;
       color: @gray;
-      top: 10px;
+      top: 8px;
       content: @search;
       font-family: @icon-font-name;
     }
@@ -229,53 +229,56 @@
     overflow: hidden;
     .box-sizing(border-box);
     margin: 0;
-    padding: @padding-base-vertical 5px;
-    padding-bottom: 1px;
+    padding: 0;
     width: 100%;
-    height: auto !important;
-    height: 1%;
     min-height: @input-height-base;
+    min-height: (@input-height-base - 2)~'\0';
     border: 1px solid @input-border;
     border-radius: @input-border-radius;
     background-color: @input-bg;
+    cursor: text;
     .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
     .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
-    cursor: text;
+    .clearfix();
   }
-  .chosen-choices li {
+  .chosen-choices li
+  {
+    display: block;
     float: left;
     list-style: none;
-    &.search-field {
-      margin: 0;
+    padding: 0 6px;
+    margin: 6px 0 0 6px;
+    &.search-field
+    {
       padding: 0;
+      margin-bottom: 5px;
       white-space: nowrap;
-      input[type="text"] {
-        margin: 1px 0;
-        height: 15px;
+      input[type="text"]
+      {
+        height: 20px;
         outline: 0;
         border: 0 !important;
         background: transparent !important;
         box-shadow: none;
         color: @input-color-placeholder;
         font-size: 100%;
-        font-family: sans-serif;
-        line-height: normal;
         border-radius: 0;
       }
-      .default {
+      .default
+      {
         color: #999;
       }
     }
-    &.search-choice {
+    &.search-choice
+    {
       position: relative;
-      margin: 0 4px 4px 0;
       padding: 3px 20px 3px 5px;
       background-color: @gray-pale;
       border-radius: @border-radius-small;
       border: 1px solid @gray-light;
       background-clip: padding-box; 
       .box-shadow(~"0 0 2px #fff inset, 0 1px 0 rgba(0,0,0,.05)");
-      line-height: 13px;
+      line-height: 12px;
       cursor: default;
       .transition(all,@animation-speed-normal,@animation-type);
       
@@ -330,6 +333,7 @@
   .chosen-results {
     margin: 0;
     padding: 0;
+    // margin-top: ~'-1px\0';
   }
   .chosen-drop .result-selected {
     display: list-item;
