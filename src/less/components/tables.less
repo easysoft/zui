@@ -25,25 +25,18 @@ th
   margin-bottom: @line-height-computed;
 
   // Cells
-  >thead,
-  >tbody,
-  >tfoot
+  th,
+  td
   {
-    >tr
-    {
-      >th,
-      >td
-      {
-        padding: @table-cell-padding;
-        line-height: @line-height-base;
-        vertical-align: top;
-        border-bottom: 1px solid @table-border-color;
-        // border-top: 1px solid lighten(@table-border-color, 5%);
+    padding: @table-cell-padding;
+    line-height: @line-height-base;
+    vertical-align: top;
+    border-bottom: 1px solid @table-border-color;
+    // border-top: 1px solid lighten(@table-border-color, 5%);
 
-        .transition(all,@animation-speed-fast,@animation-type);
-      }
-    }
+    .transition(all,@animation-speed-fast,@animation-type);
   }
+
   // Bottom align for column headings
   > thead > tr > th 
   {
@@ -58,18 +51,10 @@ th
 
 .table-condensed
 {
-  > thead,
-  > tbody,
-  > tfoot
+  th,
+  td
   {
-    > tr
-    {
-      > th,
-      > td
-      {
-        padding: @table-condensed-cell-padding;
-      }
-    }
+    padding: @table-condensed-cell-padding;
   }
 }
 
@@ -80,18 +65,10 @@ th
 .table-bordered
 {
   border: 1px solid @table-border-color;
-  > thead,
-  > tbody,
-  > tfoot
+  th,
+  td
   {
-    > tr
-    {
-      > th,
-      > td
-      {
-        border: 1px solid @table-border-color;
-      }
-    }
+    border: 1px solid @table-border-color;
   }
 }
 
@@ -150,9 +127,7 @@ table
 // Exact selectors below required to override `.table-striped` and prevent
 // inheritance to nested tables.
 
-.table > thead > tr,
-.table > tbody > tr,
-.table > tfoot > tr
+.table tr
 {
   > td.active,
   > th.active,

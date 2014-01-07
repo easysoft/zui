@@ -283,12 +283,16 @@ input[type="radio"], input[type="checkbox"], .radio, .radio-inline, .checkbox, .
   }
 }
 
-.required:after
+.required
 {
-  content: '*';
-  color: @state-danger-text;
-  display: inline-block;
-  position: absolute;
-  top: 3px;
-  font-size: @font-size-large;
+  position: relative;
+  &:after
+  {
+    content: '*';
+    color: @state-danger-text;
+    display: inline-block;
+    position: absolute;
+    top: 3px;
+    font-size: @font-size-large;
+  }
 }

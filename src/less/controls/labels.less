@@ -30,41 +30,29 @@
 
   // Empty labels collapse automatically (not available in IE8)
   &:empty { display: none; }
-
-  &.label-badge
-  {
-    display: inline-block;
-    border-radius: @badge-border-radius;
-    min-width: 10px;
-    padding: 5px 7px;
-    font-size: @font-size-small;
-    // font-weight: @badge-font-weight;
-    line-height: @badge-line-height;
-  }
-
-  &.label-dot
-  {
-    text-indent: -9999em;
-    &:empty { display: inline-block; }
-    display: inline-block;
-    padding: 0px;
-    border-radius: 5px;
-    width: 10px;
-    height: 10px;
-    line-height: 14px;
-  }
 }
 
-// Hover state, but only for links
-a.label-badge
+.label-badge
 {
-  &:hover,
-  &:focus
-  {
-    color: @badge-link-hover-color;
-    text-decoration: none;
-    cursor: pointer;
-  }
+  display: inline-block;
+  border-radius: @badge-border-radius;
+  min-width: 10px;
+  padding: 5px 7px;
+  font-size: @font-size-small;
+  // font-weight: @badge-font-weight;
+  line-height: @badge-line-height;
+}
+
+.label-dot
+{
+  text-indent: -9999em;
+  &:empty { display: inline-block; }
+  display: inline-block;
+  padding: 0px;
+  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  line-height: 14px;
 }
 
 // Quick fix for labels/badges in buttons

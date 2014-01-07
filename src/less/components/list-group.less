@@ -30,8 +30,8 @@
   &:last-child  { margin-bottom: 0; .border-bottom-radius(@list-group-border-radius); }
 
   // Align badges within list items
-  > .badge { float: right; }
-  > .badge + .badge { margin-right: 5px; }
+  > .label-badge { float: right; }
+  > .label-badge + .label-badge { margin-right: 5px; }
 
   // Linked list items
   a& 
@@ -54,8 +54,8 @@
     color: @white;
 
     // Force color to inherit for custom content
-    .list-group-item-heading { color: @gray-dark; }
-    .list-group-item-text { color: lighten(@color-fore, 40%); }
+    .list-group-item-heading { color: @white; }
+    .list-group-item-text { color: darken(@white, 10%); }
   }
 }
 

@@ -42,14 +42,7 @@
   margin-left: auto;
   margin-right: auto;
   width: auto;
-  padding: 10px;
   z-index: (@zindex-modal-background + 10);
-}
-
-// Actual modal
-.modal-content 
-{
-  position: relative;
   background-color: @modal-content-bg;
   border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
   border: 1px solid @modal-content-border-color;
@@ -120,11 +113,9 @@
 {
   .modal-dialog 
   {
-    left: 50%;
-    right: auto;
     width: 75%;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    .box-shadow(0 5px 15px rgba(0,0,0,.5));
   }
-  .modal-content { .box-shadow(0 5px 15px rgba(0,0,0,.5)); }
 }

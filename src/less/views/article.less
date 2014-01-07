@@ -7,9 +7,6 @@
     h1,
     h2,
     h3,
-    .h1,
-    .h2,
-    .h3
     {
       line-height: 1.5;
     }
@@ -68,30 +65,39 @@
   }
   h4 
   {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: @article-font-size-h4;
   }
   h5 
   {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: @article-font-size-h5;
   }
   h6 
   {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: @article-font-size-h6;
   }
 
   img
   {
-    margin-bottom: @line-height-computed / 2;
-    border-radius: @border-radius-base;
+    margin: @line-height-computed / 2 0;
     .transition(all,@animation-speed-normal,@animation-type);
     .box-shadow(@article-img-shadow);
+  }
 
-    &:hover
+  p
+  {
+    margin: 0;
+
+    > img
     {
-      .box-shadow(@article-img-shadow-hover);
+      margin-right: 10px;
+
+      &[align='right']
+      {
+        margin-left: 10px;
+      }
     }
   }
 
@@ -107,24 +113,17 @@
     margin-bottom: @line-height-computed;
 
     // Cells
-    >thead,
-    >tbody,
-    >tfoot
+    th,
+    td
     {
-      >tr
-      {
-        >th,
-        >td
-        {
-          padding: @table-cell-padding;
-          line-height: @line-height-base;
-          vertical-align: top;
-          border-bottom: 1px solid @table-border-color;
+      padding: @table-cell-padding;
+      line-height: @line-height-base;
+      vertical-align: top;
+      border-bottom: 1px solid @table-border-color;
 
-          .transition(all,@animation-speed-fast,@animation-type);
-        }
-      }
+      .transition(all,@animation-speed-fast,@animation-type);
     }
+
     // Bottom align for column headings
     > thead > tr > th 
     {

@@ -39,6 +39,7 @@
     position: absolute;
     top: 0;
     width: 100%;
+
   }
 
   > .next {
@@ -75,6 +76,7 @@
   color: @carousel-control-color;
   text-align: center;
   text-shadow: @carousel-text-shadow;
+  outline: none;
   // We can't have this transition here because webkit cancels the carousel
   // animation if you trip this while in the middle of another animation.
 
@@ -93,6 +95,7 @@
   &:focus {
     color: @carousel-control-color;
     text-decoration: none;
+    outline: none;
     .opacity(.9);
   }
 
