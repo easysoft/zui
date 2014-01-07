@@ -581,8 +581,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 }(window.jQuery);
 
 
-
-
 +function ($) { "use strict";
 
   // DROPDOWN CLASS DEFINITION
@@ -1438,271 +1436,275 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 }(window.jQuery);
 
 
-+function ($) { "user strict";
+// +function ($) { "user strict";
 
-  var Pager = function (element, options)
-  {
-    this.init('pager', element, options)
-  }
+//   var Pager = function (element, options)
+//   {
+//     this.init('pager', element, options)
+//   }
 
-  if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
-  if (!$.fn.popover) throw new Error('Popover requires popover.js')
+//   if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
+//   if (!$.fn.popover) throw new Error('Popover requires popover.js')
 
-  Pager.prototype.init = function (type, element, options)
-  {
-      this.type     = type
-      this.$element = $(element)
-      this.options  = options
+//   Pager.prototype.init = function (type, element, options)
+//   {
+//       this.type     = type
+//       this.$element = $(element)
+//       this.options  = options
 
-      this.computeIndex()
-      this.$element
-        .popover({container: 'body',trigger: 'manual',html:true,
-        template: '<div class="popover pager-popover"><div class="arrow"></div><div class="popover-content"></div></div>'})
-        .on('click.'+this.type, false,$.proxy(this.showPopover,this))
-  }
-
-
-  Pager.prototype.hidePopover = function()
-  {
-      var self = this.$element
-      if(self.attr('data-safe-close') == 'true')
-      {
-          self.popover('hide').attr('data-safe-close',false)
-          $(document).unbind('click',this.hidePopover)
-      }
-      else
-      {
-          self.attr('data-safe-close',true)
-      }
-
-  }
-
-  Pager.prototype.showPopover = function()
-  {
-      var self = this.$element
-
-      if(!(self.attr('data-content')))
-      {
-        self.attr('data-content',"<ul class='pager'>"+this.setContent(this.getUrl())+"</ul>")
-      }
-      self.popover('show')
-
-      $(document).bind('click',$.proxy(this.hidePopover,this))
-
-  }
-
-  Pager.prototype.setContent = function (url)
-  {
-      var html = ''
-      if(this.isRangeIndex)
-      {
-          for (var i = this.indexStart; i <= this.indexEnd; i++) 
-          {
-            html += "<li><a href='"+url.replace('%',i)+"'>"+i+"</a></li>"
-          }
-      }
-      else
-      {
-          for (var i = this.indexs.length - 1; i >= 0; i--)
-          {
-            var index = this.indexs[i];
-            html += "<li><a href='"+url.replace('%',index)+"'>"+index+"</a></li>"
-          }
-      }
-      return html;
-  }
-
-  Pager.prototype.getUrl = function () {
-    var $e = this.$element
-    var o  = this.options
-
-    return $e.attr('data-url') || $e.attr('href')
-      || (typeof o.url == 'function' ?
-            o.url.call($e[0]) :
-            o.url) || "?page=%"
-  }
-
-  Pager.prototype.computeIndex = function ()
-  {
-    var $e = this.$element
-    var eLi = $e.closest('li')
-    var o  = this.options
-
-    var params = $e.attr('data-index')
-      || (typeof o.index == 'function' ?
-            o.index.call($e[0]) :
-            o.index)
-      || ((eLi.prev('li').find('a').text() - 0 + 1) + '-' + (eLi.next('li').find('a').text() - 1))
-
-    if(params.indexOf('-')>0)
-    {
-      this.isRangeIndex = true;
-      var ranges = params.split('-')
-      this.indexStart = ranges[0] - 0;
-      this.indexEnd = ranges[1] - 0;
-      this.indexCount = this.indexEnd - this.indexStart
-    }
-    else
-    {
-      this.indexs = params.split(',')
-      this.indexCount = this.indexs.length
-    }
-  }
-
-  // PAGER PLUGIN DEFINITION
-  // =========================
-
-  var old = $.fn.pager
-
-  $.fn.pager = function (option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.pager')
-      var options = typeof option == 'object' && option
-
-      if (!data) $this.data('bs.pager', (data = new Pager(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  $.fn.pager.Constructor = Pager
+//       this.computeIndex()
+//       this.$element
+//         .popover({container: 'body',trigger: 'manual',html:true,
+//         template: '<div class="popover pager-popover"><div class="arrow"></div><div class="popover-content"></div></div>'})
+//         .on('click.'+this.type, false,$.proxy(this.showPopover,this))
+//   }
 
 
-  // pager NO CONFLICT
-  // ===================
+//   Pager.prototype.hidePopover = function()
+//   {
+//       var self = this.$element
+//       if(self.attr('data-safe-close') == 'true')
+//       {
+//           self.popover('hide').attr('data-safe-close',false)
+//           $(document).unbind('click',this.hidePopover)
+//       }
+//       else
+//       {
+//           self.attr('data-safe-close',true)
+//       }
 
-  $.fn.pager.noConflict = function () {
-    $.fn.pager = old
-    return this
-  }
+//   }
 
-}(window.jQuery);
+//   Pager.prototype.showPopover = function()
+//   {
+//       var self = this.$element
 
+//       if(!(self.attr('data-content')))
+//       {
+//         self.attr('data-content',"<ul class='pager'>"+this.setContent(this.getUrl())+"</ul>")
+//       }
+//       self.popover('show')
 
+//       $(document).bind('click',$.proxy(this.hidePopover,this))
 
-+function ($) { "use strict";
+//   }
 
-  // TAB CLASS DEFINITION
-  // ====================
+//   Pager.prototype.setContent = function (url)
+//   {
+//       var html = ''
+//       if(this.isRangeIndex)
+//       {
+//           for (var i = this.indexStart; i <= this.indexEnd; i++) 
+//           {
+//             html += "<li><a href='"+url.replace('%',i)+"'>"+i+"</a></li>"
+//           }
+//       }
+//       else
+//       {
+//           for (var i = this.indexs.length - 1; i >= 0; i--)
+//           {
+//             var index = this.indexs[i];
+//             html += "<li><a href='"+url.replace('%',index)+"'>"+index+"</a></li>"
+//           }
+//       }
+//       return html;
+//   }
 
-  var Tab = function (element) {
-    this.element = $(element)
-  }
+//   Pager.prototype.getUrl = function () {
+//     var $e = this.$element
+//     var o  = this.options
 
-  Tab.prototype.show = function () {
-    var $this    = this.element
-    var $ul      = $this.closest('ul:not(.dropdown-menu)')
-    var selector = $this.attr('data-target')
+//     return $e.attr('data-url') || $e.attr('href')
+//       || (typeof o.url == 'function' ?
+//             o.url.call($e[0]) :
+//             o.url) || "?page=%"
+//   }
 
-    if (!selector) {
-      selector = $this.attr('href')
-      selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
-    }
+//   Pager.prototype.computeIndex = function ()
+//   {
+//     var $e = this.$element
+//     var eLi = $e.closest('li')
+//     var o  = this.options
 
-    if ($this.parent('li').hasClass('active')) return
+//     var params = $e.attr('data-index')
+//       || (typeof o.index == 'function' ?
+//             o.index.call($e[0]) :
+//             o.index)
+//       || ((eLi.prev('li').find('a').text() - 0 + 1) + '-' + (eLi.next('li').find('a').text() - 1))
 
-    var previous = $ul.find('.active:last a')[0]
-    var e        = $.Event('show.bs.tab', {
-      relatedTarget: previous
-    })
+//     if(params.indexOf('-')>0)
+//     {
+//       this.isRangeIndex = true;
+//       var ranges = params.split('-')
+//       this.indexStart = ranges[0] - 0;
+//       this.indexEnd = ranges[1] - 0;
+//       this.indexCount = this.indexEnd - this.indexStart
+//     }
+//     else
+//     {
+//       this.indexs = params.split(',')
+//       this.indexCount = this.indexs.length
+//     }
+//   }
 
-    $this.trigger(e)
+//   // PAGER PLUGIN DEFINITION
+//   // =========================
 
-    if (e.isDefaultPrevented()) return
+//   var old = $.fn.pager
 
-    var $target = $(selector)
+//   $.fn.pager = function (option) {
+//     return this.each(function () {
+//       var $this   = $(this)
+//       var data    = $this.data('bs.pager')
+//       var options = typeof option == 'object' && option
 
-    this.activate($this.parent('li'), $ul)
-    this.activate($target, $target.parent(), function () {
-      $this.trigger({
-        type: 'shown.bs.tab'
-      , relatedTarget: previous
-      })
-    })
-  }
+//       if (!data) $this.data('bs.pager', (data = new Pager(this, options)))
+//       if (typeof option == 'string') data[option]()
+//     })
+//   }
 
-  Tab.prototype.activate = function (element, container, callback) {
-    var $active    = container.find('> .active')
-    var transition = callback
-      && $.support.transition
-      && $active.hasClass('fade')
-
-    function next() {
-      $active
-        .removeClass('active')
-        .find('> .dropdown-menu > .active')
-        .removeClass('active')
-
-      element.addClass('active')
-
-      if (transition) {
-        element[0].offsetWidth // reflow for transition
-        element.addClass('in')
-      } else {
-        element.removeClass('fade')
-      }
-
-      if (element.parent('.dropdown-menu')) {
-        element.closest('li.dropdown').addClass('active')
-      }
-
-      callback && callback()
-    }
-
-    transition ?
-      $active
-        .one($.support.transition.end, next)
-        .emulateTransitionEnd(150) :
-      next()
-
-    $active.removeClass('in')
-  }
-
-
-  // TAB PLUGIN DEFINITION
-  // =====================
-
-  var old = $.fn.tab
-
-  $.fn.tab = function ( option ) {
-    return this.each(function () {
-      var $this = $(this)
-      var data  = $this.data('bs.tab')
-
-      if (!data) $this.data('bs.tab', (data = new Tab(this)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  $.fn.tab.Constructor = Tab
+//   $.fn.pager.Constructor = Pager
 
 
-  // TAB NO CONFLICT
-  // ===============
+//   // pager NO CONFLICT
+//   // ===================
 
-  $.fn.tab.noConflict = function () {
-    $.fn.tab = old
-    return this
-  }
+//   $.fn.pager.noConflict = function () {
+//     $.fn.pager = old
+//     return this
+//   }
 
-
-  // TAB DATA-API
-  // ============
-
-  $(document).on('click.bs.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-  })
-
-}(window.jQuery);
+// }(window.jQuery);
 
 
-// LIGHTBOX
+// Tab
+// +function ($) { "use strict";
+
+//   // TAB CLASS DEFINITION
+//   // ====================
+
+//   var Tab = function (element) {
+//     this.element = $(element)
+//   }
+
+//   Tab.prototype.show = function () {
+//     var $this    = this.element
+//     var $ul      = $this.closest('ul:not(.dropdown-menu)')
+//     var selector = $this.attr('data-target')
+
+//     if (!selector) {
+//       selector = $this.attr('href')
+//       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+//     }
+
+//     if ($this.parent('li').hasClass('active')) return
+
+//     var previous = $ul.find('.active:last a')[0]
+//     var e        = $.Event('show.bs.tab', {
+//       relatedTarget: previous
+//     })
+
+//     $this.trigger(e)
+
+//     if (e.isDefaultPrevented()) return
+
+//     var $target = $(selector)
+
+//     this.activate($this.parent('li'), $ul)
+//     this.activate($target, $target.parent(), function () {
+//       $this.trigger({
+//         type: 'shown.bs.tab'
+//       , relatedTarget: previous
+//       })
+//     })
+//   }
+
+//   Tab.prototype.activate = function (element, container, callback) {
+//     var $active    = container.find('> .active')
+//     var transition = callback
+//       && $.support.transition
+//       && $active.hasClass('fade')
+
+//     function next() {
+//       $active
+//         .removeClass('active')
+//         .find('> .dropdown-menu > .active')
+//         .removeClass('active')
+
+//       element.addClass('active')
+
+//       if (transition) {
+//         element[0].offsetWidth // reflow for transition
+//         element.addClass('in')
+//       } else {
+//         element.removeClass('fade')
+//       }
+
+//       if (element.parent('.dropdown-menu')) {
+//         element.closest('li.dropdown').addClass('active')
+//       }
+
+//       callback && callback()
+//     }
+
+//     transition ?
+//       $active
+//         .one($.support.transition.end, next)
+//         .emulateTransitionEnd(150) :
+//       next()
+
+//     $active.removeClass('in')
+//   }
+
+
+//   // TAB PLUGIN DEFINITION
+//   // =====================
+
+//   var old = $.fn.tab
+
+//   $.fn.tab = function ( option ) {
+//     return this.each(function () {
+//       var $this = $(this)
+//       var data  = $this.data('bs.tab')
+
+//       if (!data) $this.data('bs.tab', (data = new Tab(this)))
+//       if (typeof option == 'string') data[option]()
+//     })
+//   }
+
+//   $.fn.tab.Constructor = Tab
+
+
+//   // TAB NO CONFLICT
+//   // ===============
+
+//   $.fn.tab.noConflict = function () {
+//     $.fn.tab = old
+//     return this
+//   }
+
+
+//   // TAB DATA-API
+//   // ============
+
+//   $(document).on('click.bs.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
+//     e.preventDefault()
+//     $(this).tab('show')
+//   })
+
+// }(window.jQuery);
+
+
+// Lightbox
 (function($) 
 {
     jQuery.fn.lightbox = function()
     {
-        $(this).click(function(){
+        var lightboxId = 0;
+        $("[data-toggle='lightbox']").each(function(){$(this).attr('data-id',lightboxId++)});
+
+        $(this).click(function()
+        {
             // need modal
             if (!$.fn.modal) throw new Error('modal requires for lightbox');
 
@@ -1714,18 +1716,51 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
             if(!imgUrl) return false;
 
             // get caption
-            var caption = $e.attr('data-caption') || $e.find('img').attr('title') || $e.attr('title');
+            // var caption = $e.attr('data-caption') || $e.find('img').attr('title') || $e.attr('title');
 
             // get lightbox modal
             if($('#lightboxModal').size() == 0)
-                $('<div id="lightboxModal" class="modal fade modal-lightbox"><img class="modal-dialog" id="lightboxImg" src="#" alt="" data-dismiss="modal" /><div class="caption"></div></div>').appendTo('body');
+            {
+                $('<div id="lightboxModal" class="modal fade modal-lightbox"><div class="modal-dialog"><button class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i></button><button class="controller prev"><i class="icon icon-chevron-left"></i></button><button class="controller next"><i class="icon icon-chevron-right"></i></button><img id="lightboxImg" src="#" alt="" data-dismiss="modal" /><div class="caption"></div></div></div>').appendTo('body');
+                $('#lightboxModal .controller').click(function()
+                {
+                    var id = parseInt($('#lightboxModal').attr('data-id')) + ($(this).hasClass('prev') ? -1 : 1);
+                    var e = $('[data-toggle="lightbox"][data-id="' + id + '"]');
+                    if(e)
+                    {
+                        var url = e.attr('data-image') || e.attr('src') || e.attr('href') || e.find('img').attr('src');
+                        if(url)
+                        {
+                            $('#lightboxImg').attr('src', url);
+                            $('#lightboxModal').attr('data-id', id);
+
+                            $('#lightboxModal .controller').hide();
+                            if($('[data-toggle="lightbox"][data-id="' + (id - 1) + '"]').length > 0)
+                                $('#lightboxModal .prev').show(); 
+                            if($('[data-toggle="lightbox"][data-id="' + (id + 1) + '"]').length > 0)
+                                $('#lightboxModal .next').show(); 
+
+                            $('#lightboxModal .modal-dialog').width(e.attr('data-width') || 'auto').height(e.attr('data-height') || 'auto').css('margin-top', Math.max(0, ($(window).height() - e.attr('data-height'))/2));
+                        }
+                    }
+                });
+            }
+
+            var id = parseInt($e.attr('data-id'));
             var img = $('#lightboxImg');
             var lightboxModal = $('#lightboxModal');
 
+            // set current id
+            lightboxModal.find('.controller').hide();
+            lightboxModal.attr('data-id', id);
+            if($('[data-toggle="lightbox"][data-id="' + (id - 1) + '"]').length > 0) lightboxModal.find('.prev').show();
+            if($('[data-toggle="lightbox"][data-id="' + (id + 1) + '"]').length > 0) lightboxModal.find('.next').show();
+            lightboxModal.find('.modal-dialog').width($e.attr('data-width') || 'auto').height($e.attr('data-height') || 'auto').css('margin-top', Math.max(0, ($(window).height() - $e.attr('data-height'))/2));
+
             // update modal content
-            img.attr('alt', caption).attr('src', imgUrl);
-            if(caption && caption.length > 0) lightboxModal.addClass('with-caption').find('.caption').text(caption);
-            else lightboxModal.find('.caption').remove();
+            img.attr('src', imgUrl);
+            // if(caption && caption.length > 0) lightboxModal.addClass('with-caption').find('.caption').text(caption);
+            // else lightboxModal.find('.caption').remove();
 
             // show modal
             lightboxModal.modal();
@@ -1735,3 +1770,10 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
     };
 })(jQuery);
 
+
+/**
+ * bootbox.js v4.1.0
+ *
+ * http://bootboxjs.com/license.txt
+ */
+window.bootbox=window.bootbox||function a(b,c){"use strict";function d(a){var b=r[p.locale];return b?b[a]:r.en[a]}function e(a,c,d){a.preventDefault();var e=b.isFunction(d)&&d(a)===!1;e||c.modal("hide")}function f(a){var b,c=0;for(b in a)c++;return c}function g(a,c){var d=0;b.each(a,function(a,b){c(a,b,d++)})}function h(a){var c,d;if("object"!=typeof a)throw new Error("Please supply an object of options");if(!a.message)throw new Error("Please specify a message");return a=b.extend({},p,a),a.buttons||(a.buttons={}),a.backdrop=a.backdrop?"static":!1,c=a.buttons,d=f(c),g(c,function(a,e,f){if(b.isFunction(e)&&(e=c[a]={callback:e}),"object"!==b.type(e))throw new Error("button with key "+a+" must be an object");e.label||(e.label=a),e.className||(e.className=2>=d&&f===d-1?"btn-primary":"btn-default")}),a}function i(a,b){var c=a.length,d={};if(1>c||c>2)throw new Error("Invalid argument length");return 2===c||"string"==typeof a[0]?(d[b[0]]=a[0],d[b[1]]=a[1]):d=a[0],d}function j(a,c,d){return b.extend(!0,{},a,i(c,d))}function k(a,b,c,d){var e={className:"bootbox-"+a,buttons:l.apply(null,b)};return m(j(e,d,c),b)}function l(){for(var a={},b=0,c=arguments.length;c>b;b++){var e=arguments[b],f=e.toLowerCase(),g=e.toUpperCase();a[f]={label:d(g)}}return a}function m(a,b){var d={};return g(b,function(a,b){d[b]=!0}),g(a.buttons,function(a){if(d[a]===c)throw new Error("button key "+a+" is not allowed (options are "+b.join("\n")+")")}),a}var n={dialog:"<div class='bootbox modal' tabindex='-1' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-body'><div class='bootbox-body'></div></div></div></div></div>",header:"<div class='modal-header'><h4 class='modal-title'></h4></div>",footer:"<div class='modal-footer'></div>",closeButton:"<button type='button' class='bootbox-close-button close'>&times;</button>",form:"<form class='bootbox-form'></form>",inputs:{text:"<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />",email:"<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />",select:"<select class='bootbox-input bootbox-input-select form-control'></select>",checkbox:"<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>"}},o=b("body"),p={locale:"en",backdrop:!0,animate:!0,className:null,closeButton:!0,show:!0},q={};q.alert=function(){var a;if(a=k("alert",["ok"],["message","callback"],arguments),a.callback&&!b.isFunction(a.callback))throw new Error("alert requires callback property to be a function when provided");return a.buttons.ok.callback=a.onEscape=function(){return b.isFunction(a.callback)?a.callback():!0},q.dialog(a)},q.confirm=function(){var a;if(a=k("confirm",["cancel","confirm"],["message","callback"],arguments),a.buttons.cancel.callback=a.onEscape=function(){return a.callback(!1)},a.buttons.confirm.callback=function(){return a.callback(!0)},!b.isFunction(a.callback))throw new Error("confirm requires a callback");return q.dialog(a)},q.prompt=function(){var a,d,e,f,h,i,k;if(f=b(n.form),d={className:"bootbox-prompt",buttons:l("cancel","confirm"),value:"",inputType:"text"},a=m(j(d,arguments,["title","callback"]),["cancel","confirm"]),i=a.show===c?!0:a.show,a.message=f,a.buttons.cancel.callback=a.onEscape=function(){return a.callback(null)},a.buttons.confirm.callback=function(){var c;switch(a.inputType){case"text":case"email":case"select":c=h.val();break;case"checkbox":var d=h.find("input:checked");c=[],g(d,function(a,d){c.push(b(d).val())})}return a.callback(c)},a.show=!1,!a.title)throw new Error("prompt requires a title");if(!b.isFunction(a.callback))throw new Error("prompt requires a callback");if(!n.inputs[a.inputType])throw new Error("invalid prompt type");switch(h=b(n.inputs[a.inputType]),a.inputType){case"text":case"email":h.val(a.value);break;case"select":var o={};if(k=a.inputOptions||[],!k.length)throw new Error("prompt with select requires options");g(k,function(a,d){var e=h;if(d.value===c||d.text===c)throw new Error("given options in wrong format");d.group&&(o[d.group]||(o[d.group]=b("<optgroup/>").attr("label",d.group)),e=o[d.group]),e.append("<option value='"+d.value+"'>"+d.text+"</option>")}),g(o,function(a,b){h.append(b)}),h.val(a.value);break;case"checkbox":var p=b.isArray(a.value)?a.value:[a.value];if(k=a.inputOptions||[],!k.length)throw new Error("prompt with checkbox requires options");if(!k[0].value||!k[0].text)throw new Error("given options in wrong format");h=b("<div/>"),g(k,function(c,d){var e=b(n.inputs[a.inputType]);e.find("input").attr("value",d.value),e.find("label").append(d.text),g(p,function(a,b){b===d.value&&e.find("input").prop("checked",!0)}),h.append(e)})}return a.placeholder&&h.attr("placeholder",a.placeholder),f.append(h),f.on("submit",function(a){a.preventDefault(),e.find(".btn-primary").click()}),e=q.dialog(a),e.off("shown.bs.modal"),e.on("shown.bs.modal",function(){h.focus()}),i===!0&&e.modal("show"),e},q.dialog=function(a){a=h(a);var c=b(n.dialog),d=c.find(".modal-body"),f=a.buttons,i="",j={onEscape:a.onEscape};if(g(f,function(a,b){i+="<button data-bb-handler='"+a+"' type='button' class='btn "+b.className+"'>"+b.label+"</button>",j[a]=b.callback}),d.find(".bootbox-body").html(a.message),a.animate===!0&&c.addClass("fade"),a.className&&c.addClass(a.className),a.title&&d.before(n.header),a.closeButton){var k=b(n.closeButton);a.title?c.find(".modal-header").prepend(k):k.css("margin-top","-10px").prependTo(d)}return a.title&&c.find(".modal-title").html(a.title),i.length&&(d.after(n.footer),c.find(".modal-footer").html(i)),c.on("hidden.bs.modal",function(a){a.target===this&&c.remove()}),c.on("shown.bs.modal",function(){c.find(".btn-primary:first").focus()}),c.on("escape.close.bb",function(a){j.onEscape&&e(a,c,j.onEscape)}),c.on("click",".modal-footer button",function(a){var d=b(this).data("bb-handler");e(a,c,j[d])}),c.on("click",".bootbox-close-button",function(a){e(a,c,j.onEscape)}),c.on("keyup",function(a){27===a.which&&c.trigger("escape.close.bb")}),o.append(c),c.modal({backdrop:a.backdrop,keyboard:!1,show:!1}),a.show&&c.modal("show"),c},q.setDefaults=function(){var a={};2===arguments.length?a[arguments[0]]=arguments[1]:a=arguments[0],b.extend(p,a)},q.hideAll=function(){b(".bootbox").modal("hide")};var r={br:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Sim"},da:{OK:"OK",CANCEL:"Annuller",CONFIRM:"Accepter"},de:{OK:"OK",CANCEL:"Abbrechen",CONFIRM:"Akzeptieren"},en:{OK:"OK",CANCEL:"Cancel",CONFIRM:"OK"},es:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Aceptar"},fi:{OK:"OK",CANCEL:"Peruuta",CONFIRM:"OK"},fr:{OK:"OK",CANCEL:"Annuler",CONFIRM:"D'accord"},it:{OK:"OK",CANCEL:"Annulla",CONFIRM:"Conferma"},nl:{OK:"OK",CANCEL:"Annuleren",CONFIRM:"Accepteren"},no:{OK:"OK",CANCEL:"Avbryt",CONFIRM:"OK"},pl:{OK:"OK",CANCEL:"Anuluj",CONFIRM:"Potwierdź"},ru:{OK:"OK",CANCEL:"Отмена",CONFIRM:"Применить"},zh_CN:{OK:"OK",CANCEL:"取消",CONFIRM:"确认"},zh_TW:{OK:"OK",CANCEL:"取消",CONFIRM:"確認"}};return q.init=function(c){window.bootbox=a(c||b)},q}(window.jQuery);
