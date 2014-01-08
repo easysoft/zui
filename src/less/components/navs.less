@@ -174,14 +174,14 @@
       &:hover,
       &:focus
       {
-        background-color: @component-active-color;
-        border-color: @component-active-color;
-        color: @color-fore;
+        background-color: @component-active-bg;
+        border-color: @component-active-bg;
+        color: @component-active-color;
 
         .caret
         {
-          border-top-color: @color-fore;
-          border-bottom-color: @color-fore;
+          border-top-color: @component-active-caret-color;
+          border-bottom-color: @component-active-caret-color;
         }
       }
     }
@@ -199,7 +199,7 @@
     // Links rendered
     > a
     {
-      border-bottom: @active-border-width solid @nav-secondary-active-border-color;
+      border-bottom: 2px solid @nav-secondary-active-border-color;
     }
     + li
     {
@@ -226,7 +226,7 @@
 
     &.nav-heading
     {
-      border-bottom: @active-border-width solid @nav-secondary-active-border-color;
+      border-bottom: 2px solid @nav-secondary-active-border-color;
     }
   }
 }
@@ -285,7 +285,7 @@
         &:hover,
         &:focus
         {
-          .active-mark-left();
+          // .active-mark-left();
         }
       }
       &.nav-heading
@@ -320,7 +320,7 @@
         &:focus
         {
           background-color: @nav-secondary-active-link-hover-bg;
-          .active-mark-right();
+          // .active-mark-right();
         }
       }
       &.nav-heading
