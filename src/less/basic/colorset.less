@@ -1,0 +1,46 @@
+// COLOR SCHEME
+// -------------------------------------------------
+
+@color-theme:                light;
+// @color-primary:              #304269; // old color
+@color-primary:              #145bcc;
+@color-secondary:            lighten(@color-primary, 15%);
+@color-pale:                 hsl(hue(@color-primary), 6, 96%);
+@color-fore:                 #333;
+@color-back:                 #fff;
+
+// Grays
+@color-gray-darker:          lighten(#000, 13.5%); // #222
+@color-gray-dark:            lighten(#000, 20%);   // #333
+@color-gray:                 lighten(#000, 50%);   // #808080
+@color-gray-light:           lighten(#000, 86.7%); // #ddd
+@color-gray-lighter:         lighten(#000, 89.7%); // #e5e5e5
+@color-gray-pale:            lighten(#000, 94.5%); // #f1f1f1
+
+// Color set
+@color-white:                #fff;
+@color-black:                #000;
+@color-red:                  #d2322d;
+@color-yellow:               #ed9c28;
+@color-green:                #47a447;
+@color-blue:                 #39b3d7;
+@color-brown:                #81511c;
+@color-purple:               #8957a1;
+
+// Brand colors
+@color-light:                @color-back;
+@color-dark:                 @color-fore;
+
+@color-success:              @color-green;
+@color-warning:              @color-yellow;
+@color-danger:               @color-red;
+@color-info:                 @color-blue;
+@color-important:            @color-brown;
+@color-special:              @color-purple;
+
+@color-success-pale:         hsl(hue(@color-success), 10, 94%);
+@color-warning-pale:         hsl(hue(@color-warning), 10, 94%);
+@color-danger-pale:          hsl(hue(@color-danger), 10, 94%);
+@color-info-pale:            hsl(hue(@color-info), 10, 94%);
+@color-important-pale:       hsl(hue(@color-important), 10, 94%);
+@color-special-pale:         hsl(hue(@color-special), 10, 94%);

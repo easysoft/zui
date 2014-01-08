@@ -1,4 +1,4 @@
-@import "../basic/variables.chanzhi.less";
+@import "../basic/variables.less";
 @import "../basic/mixins.less";
 @import "../controls/icons.variables.less";
 
@@ -153,7 +153,7 @@
       position: absolute;
       display: block;
       right: 10px;
-      color: @gray;
+      color: @color-gray;
       top: 8px;
       content: @search;
       font-family: @icon-font-name;
@@ -273,9 +273,9 @@
     {
       position: relative;
       padding: 3px 20px 3px 5px;
-      background-color: @gray-pale;
+      background-color: @color-gray-pale;
       border-radius: @border-radius-small;
-      border: 1px solid @gray-light;
+      border: 1px solid @color-gray-light;
       background-clip: padding-box; 
       .box-shadow(~"0 0 2px #fff inset, 0 1px 0 rgba(0,0,0,.05)");
       line-height: 12px;
@@ -284,8 +284,8 @@
       
       &:hover
       {
-        border-color: darken(@gray-light, 10%);
-        background-color: lighten(@gray-pale, 10%);
+        border-color: darken(@color-gray-light, 10%);
+        background-color: lighten(@color-gray-pale, 10%);
         .box-shadow(~"0 1px 0 rgba(0,0,0,.1)");
       }
 
