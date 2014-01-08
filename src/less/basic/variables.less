@@ -8,33 +8,45 @@
 @import "colorset.less";
 
 // Form states and alerts
-@state-default-text:      @color-dark;
-@state-default-bg:        @color-gray-pale;
-@state-default-border:    darken(spin(@state-default-bg, -10), 5%);
+@state-default-text:         @color-dark;
+@state-default-bg:           @color-gray-pale;
+@state-default-inverse-bg:   @color-dark;
+@state-default-border:       darken(spin(@state-default-bg, -10), 5%);
 
-@state-success-text:      @color-success;
-@state-success-bg:        @color-success-pale;
-@state-success-border:    darken(spin(@state-success-bg, -10), 5%);
+@state-primary-text:         @color-primary;
+@state-primary-bg:           @color-pale;
+@state-primary-inverse-bg:   @color-primary;
+@state-primary-border:       darken(spin(@state-primary-bg, -10), 5%);
 
-@state-info-text:         @color-info;
-@state-info-bg:           @color-info-pale;
-@state-info-border:       darken(spin(@state-info-bg, -10), 7%);
+@state-success-text:         @color-success;
+@state-success-bg:           @color-success-pale;
+@state-success-inverse-bg:   @color-success;
+@state-success-border:       darken(spin(@state-success-bg, -10), 5%);
 
-@state-warning-text:      @color-warning;
-@state-warning-bg:        @color-warning-pale;
-@state-warning-border:    darken(spin(@state-warning-bg, -10), 5%);
+@state-info-text:            @color-info;
+@state-info-bg:              @color-info-pale;
+@state-info-inverse-bg:      @color-info;
+@state-info-border:          darken(spin(@state-info-bg, -10), 7%);
 
-@state-danger-text:       @color-danger;
-@state-danger-bg:         @color-danger-pale;
-@state-danger-border:     darken(spin(@state-danger-bg, -10), 5%);
+@state-warning-text:         @color-warning;
+@state-warning-bg:           @color-warning-pale;
+@state-warning-inverse-bg:   @color-warning;
+@state-warning-border:       darken(spin(@state-warning-bg, -10), 5%);
 
-@state-important-text:    @color-important;
-@state-important-bg:      @color-important-pale;
-@state-important-border:  darken(spin(@state-important-bg, -10), 5%);
+@state-danger-text:          @color-danger;
+@state-danger-bg:            @color-danger-pale;
+@state-danger-inverse-bg:    @color-danger;
+@state-danger-border:        darken(spin(@state-danger-bg, -10), 5%);
 
-@state-special-text:      @color-special;
-@state-special-bg:        @color-special-pale;
-@state-special-border:    darken(spin(@state-special-bg, -10), 5%);
+@state-important-text:       @color-important;
+@state-important-bg:         @color-important-pale;
+@state-important-inverse-bg: @color-important;
+@state-important-border:     darken(spin(@state-important-bg, -10), 5%);
+
+@state-special-text:         @color-special;
+@state-special-bg:           @color-special-pale;
+@state-special-inverse-bg:   @color-special;
+@state-special-border:       darken(spin(@state-special-bg, -10), 5%);
 
 
 // Scaffolding
@@ -42,7 +54,7 @@
 @text-color:            @color-fore;
 
 // Links
-@link-color:            lighten(@color-primary,10%);
+@link-color:            @color-secondary;
 @link-hover-color:      darken(@link-color, 15%);
 
 
@@ -103,86 +115,70 @@
 @font-family-base:        @font-family-sans-serif;
 
 // Font size.
-@font-size-base:          13px;
-@font-size-large:         ceil(@font-size-base * 1.25);  // 18px
-@font-size-small:         ceil(@font-size-base * 0.85);  // 12px
+@font-size-base:          14px;
+@font-size-large:         ceil(@font-size-base * 1.25); // 18px
+@font-size-small:         ceil(@font-size-base * 0.85); // 12px
 
 @font-size-h1:            floor(@font-size-base * 2.60); // 36px
 @font-size-h2:            floor(@font-size-base * 2.15); // 30px
-@font-size-h3:            ceil(@font-size-base * 1.70);  // 24px
-@font-size-h4:            ceil(@font-size-base * 1.25);  // 18px
+@font-size-h3:            ceil(@font-size-base * 1.70); // 24px
+@font-size-h4:            ceil(@font-size-base * 1.25); // 18px
 @font-size-h5:            @font-size-base;
-@font-size-h6:            ceil(@font-size-base * 0.85);  // 12px
+@font-size-h6:            ceil(@font-size-base * 0.85); // 12px
 
 // Line height.
 @line-height-base:        1.428571429; // 20/14
 @line-height-computed:    floor(@font-size-base * @line-height-base); // 20px
 
-@line-height-large:              1.33;
-@line-height-small:              1.5;
-
 // Headings font.
 @headings-font-family:    @font-family-base;
 @headings-font-weight:    bold;
-@headings-line-height:    1.2;
+@headings-line-height:    1.1;
 @headings-color:          inherit;
 
 
 // COMPONENTS CONFIG
 // -------------------------
 
-// Paddings
 @padding-base-vertical:          6px;
 @padding-base-horizontal:        12px;
+
 @padding-large-vertical:         10px;
 @padding-large-horizontal:       16px;
+
 @padding-small-vertical:         5px;
 @padding-small-horizontal:       10px;
 
-// Border radius
-@border-radius-base:             2px;
-@border-radius-large:            4px;
-@border-radius-small:            1px;
+@padding-xs-vertical:            1px;
+@padding-xs-horizontal:          5px;
 
-// Active
-@component-active-color:         @color-primary;
-@component-active-bg:            @color-gray-pale;
+@border-radius-base:             4px;
+@border-radius-large:            6px;
+@border-radius-small:            3px;
 
-// Accent
-@active-border-color:            @component-active-color;
-@active-border-width:            3px;
-@active-border-width-sm:         2px;
-@active-border-width-xs:         1px;
+@line-height-large:              1.33;
+@line-height-small:              1.5;
 
-// Caret
+@component-border:               rgba(0,0,0,.15);
+@component-fallback-border:      darken(@color-gray-light, 7%);
+
+@component-divider-bg:           @color-gray-lighter;
+
+@component-bg:                   @color-back;
+@component-color:                @color-fore;
+@component-active-color:         @color-light;
+@component-active-bg:            @color-primary;
+
+@component-hover-color:          @color-light;
+@component-hover-bg:             @color-primary;
+
+@component-disabled-color:       @color-gray-light;
+@component-header-color:         @color-gray;
+@component-caret-color:          @color-dark;
+@component-active-caret-color:   @color-light;
+
 @caret-width-base:               4px;
 @caret-width-large:              5px;
-
-// Dropdowns
-// -------------------------
-
-@dropdown-bg:                    #fff;
-@dropdown-border:                rgba(0,0,0,.15);
-@dropdown-fallback-border:       #ccc;
-@dropdown-divider-bg:            #e5e5e5;
-
-@dropdown-link-color:            @color-fore;
-@dropdown-link-hover-color:      @component-active-color;
-@dropdown-link-hover-bg:         @component-active-bg;
-
-@dropdown-link-active-color:     @component-active-color;
-@dropdown-link-active-bg:        @component-active-bg;
-
-@dropdown-link-disabled-color:   @color-gray-light;
-
-@dropdown-header-color:          @color-gray;
-
-@dropdown-caret-color:           #000;
-
-
-// COMPONENT VARIABLES
-// --------------------------
-
 
 // Z-index master list
 // -------------------------
@@ -197,6 +193,7 @@
 @zindex-modal-background:  1040;
 @zindex-modal:             1050;
 
+
 // Tables
 // -------------------------
 
@@ -205,12 +202,31 @@
 
 @table-bg:                           transparent; // overall background-color
 @table-head-bg:                      @color-gray-pale;
-@table-bg-accent:                    #f9f9f9; // for striping
-@table-bg-hover:                     #f5f5f5;
+@table-bg-accent:                    lighten(@color-gray-pale, 3%); // for striping
+@table-bg-hover:                     @color-pale;
 @table-bg-active:                    @table-bg-hover;
 @table-border-active:                @color-gray-light;
-
 @table-border-color:                 @color-gray-light; // table and cell border
+
+
+// Dropdowns
+// -------------------------
+
+@dropdown-bg:                    @component-bg;
+@dropdown-border:                @component-border;
+@dropdown-fallback-border:       @component-fallback-border;
+@dropdown-divider-bg:            @component-divider-bg;
+
+@dropdown-link-color:            @component-color;
+@dropdown-link-hover-color:      @component-hover-color;
+@dropdown-link-hover-bg:         @component-hover-bg;
+
+@dropdown-link-active-color:     @component-active-color;
+@dropdown-link-active-bg:        @component-active-bg;
+
+@dropdown-link-disabled-color:   @component-disabled-color;
+@dropdown-header-color:          @component-header-color;
+@dropdown-caret-color:           @component-caret-color;
 
 
 // BUTTONS
@@ -412,10 +428,9 @@
 
 // Animation
 // --------------------------
-@animation-speed-normal:             0.4s;
-@animation-speed-fast:               0.2s;
-@animation-speed-slow:               0.6s;
-
+@animation-speed-normal:             0.5s;
+@animation-speed-fast:               0.3s;
+@animation-speed-slow:               0.8s;
 @animation-type:                     cubic-bezier(0.175,.885,.32,1);
 
 // Code
@@ -531,15 +546,15 @@
 //
 // Reset inverted navbar basics
 @navbar-inverse-color:                      @color-gray-light;
-@navbar-inverse-bg:                         @color-primary;
+@navbar-inverse-bg:                         @color-secondary;
 @navbar-inverse-border:                     darken(@navbar-inverse-bg, 10%);
 
 // Inverted navbar links
 @navbar-inverse-link-color:                 @color-gray-light;
-@navbar-inverse-link-hover-color:           #fff;
-@navbar-inverse-link-hover-bg:              darken(@navbar-inverse-bg, 6%);
+@navbar-inverse-link-hover-color:           @color-light;
+@navbar-inverse-link-hover-bg:              lighten(@navbar-inverse-bg, 6%);
 @navbar-inverse-link-active-color:          @navbar-inverse-link-hover-color;
-@navbar-inverse-link-active-bg:             darken(@navbar-inverse-bg, 10%);
+@navbar-inverse-link-active-bg:             lighten(@navbar-inverse-bg, 10%);
 @navbar-inverse-link-disabled-color:        #444;
 @navbar-inverse-link-disabled-bg:           transparent;
 
