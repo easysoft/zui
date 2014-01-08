@@ -3,9 +3,9 @@
 
 @color-theme:                light;
 // @color-primary:              #304269; // old color
-@color-primary:              #145bcc;
-@color-secondary:            lighten(@color-primary, 15%);
-@color-pale:                 hsl(hue(@color-primary), 6, 96%);
+@color-primary:              #3280fc;
+@color-secondary:            desaturate(darken(@color-primary, 15%), 15%);
+@color-pale:                 spin(hsl(hue(@color-primary), 54%, 95%), -7);
 @color-fore:                 #333;
 @color-back:                 #fff;
 
@@ -21,9 +21,9 @@
 @color-white:                #fff;
 @color-black:                #000;
 @color-red:                  #d2322d;
-@color-yellow:               #ed9c28;
-@color-green:                #47a447;
-@color-blue:                 #39b3d7;
+@color-yellow:               #e48600;
+@color-green:                #229f24;
+@color-blue:                 #39B3D7;
 @color-brown:                #81511c;
 @color-purple:               #8957a1;
 
@@ -38,9 +38,9 @@
 @color-important:            @color-brown;
 @color-special:              @color-purple;
 
-@color-success-pale:         hsl(hue(@color-success), 10, 94%);
-@color-warning-pale:         hsl(hue(@color-warning), 10, 94%);
-@color-danger-pale:          hsl(hue(@color-danger), 10, 94%);
-@color-info-pale:            hsl(hue(@color-info), 10, 94%);
-@color-important-pale:       hsl(hue(@color-important), 10, 94%);
-@color-special-pale:         hsl(hue(@color-special), 10, 94%);
+@color-success-pale:         hsl(hue(@color-success), 20, 95%);
+@color-warning-pale:         hsl(hue(@color-warning), 20, 95%);
+@color-danger-pale:          hsl(hue(@color-danger), 20, 95%);
+@color-info-pale:            hsl(hue(@color-info), 20, 95%);
+@color-important-pale:       hsl(hue(@color-important), 20, 95%);
+@color-special-pale:         hsl(hue(@color-special), 20, 95%);

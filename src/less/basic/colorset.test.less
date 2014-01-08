@@ -63,9 +63,16 @@
     {
       content: %("%s", @c);
     }
+
+    &:hover:before
+    {
+      content: %("%s,%d,%a", hue(@@c), saturation(@@c), lightness(@@c));
+    }
   }
 }
 
+@color-1: lighten(@color-gray-pale, 3%);
+@color-2: #f9f9f9;
 
 .color(color-primary);
 .color(color-secondary);
@@ -78,7 +85,6 @@
 .color(color-gray-light);
 .color(color-gray-lighter);
 .color(color-gray-pale);
-
 .color(color-white);
 .color(color-black);
 .color(color-red);
@@ -101,3 +107,5 @@
 .color(color-info-pale);
 .color(color-important-pale);
 .color(color-special-pale);
+.color(color-1);
+.color(color-2);
