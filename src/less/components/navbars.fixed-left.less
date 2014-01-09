@@ -17,7 +17,11 @@
   }
   .navbar-collapse
   {
+    max-height: 100%;
     padding: 0;
+    overflow: auto !important;
+    overflow-x: hidden;
+    overflow-y: scroll !important;
   }
 
   .navbar-nav.navbar-right,.navbar-nav,.navbar-form
@@ -54,7 +58,9 @@
   {
     margin: 0;
     padding: 5px 0;
-    > li > a
+
+    > li > a,
+    > li.nav-heading
     {
       .text-overflow();
       padding-top:    6px;
