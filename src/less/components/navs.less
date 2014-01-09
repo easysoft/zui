@@ -16,7 +16,7 @@
   > .nav-heading
   {
     padding: @nav-link-padding;
-    color: @color-gray-dark;
+    color: @color-gray;
     font-weight: @headings-font-weight;
   }
 
@@ -199,7 +199,7 @@
     // Links rendered
     > a
     {
-      border-bottom: 2px solid @nav-secondary-active-border-color;
+      border-bottom: 2px solid @nav-secondary-border-color;
     }
     + li
     {
@@ -214,7 +214,7 @@
       &:focus
       {
         color: @nav-secondary-active-link-hover-color;
-        border-bottom-color: @nav-secondary-active-link-hover-color;
+        border-bottom-color: @nav-secondary-active-border-color;
 
         .caret
         {
@@ -226,7 +226,7 @@
 
     &.nav-heading
     {
-      border-bottom: 2px solid @nav-secondary-active-border-color;
+      border-bottom: 2px solid @nav-secondary-border-color;
     }
   }
 }
@@ -303,6 +303,13 @@
       > a
       {
         border: none;
+        .border-left-radius(@border-radius-base);
+        .box-shadow(inset -2px 0 0 @nav-secondary-active-link-hover-bg);
+
+        &:hover
+        {
+          .box-shadow(inset -2px 0 0 @nav-secondary-border-color);
+        }
       }
       + li
       {
@@ -320,7 +327,7 @@
         &:focus
         {
           background-color: @nav-secondary-active-link-hover-bg;
-          // .active-mark-right();
+          .box-shadow(inset -2px 0 0 @nav-secondary-active-border-color);
         }
       }
       &.nav-heading
