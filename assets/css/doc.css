@@ -14,8 +14,22 @@ body
   position: absolute;
   left: 240px;
   top: 0;
-  padding: 20px;
+  padding: 20px 40px;
   background-color: #fff;
-  max-width: 800px;
+  max-width: 1500px;
+  min-width: 800px;
+  height: auto;
   box-shadow:0px 1px 15px rgba(0,0,0,0.5);
+}
+
+#main.jumbotron
+{
+  padding: 50px;
+/*  background-color: #145CCD;
+  color: #fff;*/
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+.jumbotron h1
+{
+  font-size: 48px;
 }
