@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ZUI，一个简单吸引人的前端框架。">
+  <meta name="author" content="Zentao">
+
+  <title>ZUI</title>
+
+  <link href="../dist/css/zui.css" rel="stylesheet">
+  <link href="../assets/css/example.css" rel="stylesheet">
+  <script src="../dist/js/jquery.js"></script>
+  <script src="../dist/js/zui.min.js"></script>
+  <script src="../src/js/debug.js"></script>
+
+
+  <!--[if lt IE 9]>
+  <script src="../assets/js/html5shiv.js"></script>
+  <script src="../assets/js/respond.js"></script>
+  <![endif]-->
+  <script src="../assets/js/example.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">ZUI</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="navbarCurrent">examples</span> <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="alerts.html">alerts</a></li>
+            <li><a href="article.html">article</a></li>
+            <li><a href="breadcrumb.html">breadcrumb</a></li>
+            <li><a href="button-groups.html">button-groups</a></li>
+            <li><a href="buttons.html">buttons</a></li>
+            <li><a href="cards.html">cards</a></li>
+            <li><a href="carousel.html">carousel</a></li>
+            <li><a href="chosen.html">chosen</a></li>
+            <li><a href="collapse.html">collapse</a></li>
+            <li><a href="colorset.html">colorset</a></li>
+            <li><a href="comment.html">comment</a></li>
+            <li><a href="dropdowns.html">dropdowns</a></li>
+            <li><a href="forms.html">forms</a></li>
+            <li><a href="grid.html">grid</a></li>
+            <li><a href="icons.html">icons</a></li>
+            <li><a href="input-groups.html">input-groups</a></li>
+            <li><a href="kindeditor.html">kindeditor</a></li>
+            <li><a href="labels.html">labels</a></li>
+            <li><a href="lightbox.html">Lightbox</a></li>
+            <li><a href="list-group.html">list-group</a></li>
+            <li><a href="list.html">list</a></li>
+            <li><a href="modals.html">modals</a></li>
+            <li><a href="navbars.html">navbars</a></li>
+            <li><a href="navs.html">navs</a></li>
+            <li><a href="pager.html">pager</a></li>
+            <li><a href="panels.html">panels</a></li>
+            <li><a href="popovers.html">popovers</a></li>
+            <li><a href="progress.html">progress</a></li>
+            <li><a href="tables.html">tables</a></li>
+            <li><a href="tabs.html">tabs</a></li>
+            <li><a href="textbox.html">textbox</a></li>
+            <li><a href="tooltip.html">tooltip</a></li>
+            <li><a href="type.html">type</a></li>
+          </ul>
+        </li>
+        <li id="navbarNext"><a href="###">NEXT <i class="icon-angle-right icon-large"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+  <article>
+    <section id="buttons" class="page-section segment" spellcheck="false" contenteditable="true">
+      <h1 class="header-dividing">表格</h1>
+      <h2>类型</h2>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th class="col-md-2">名称</th>
+            <th>描述</th>
+          </tr>
+          <tr>
+            <td>表头</td>
+            <td>一般表格的第一行作为表头，用于描述表中每一列数据名称。为区别于表格其他行，表头具备不同的样式，例如字体加粗等。在垂直显示一组数据的表格中，表头也可能是垂直的第一列，而不是行。</td>
+          </tr>
+          <tr>
+            <td>内容</td>
+            <td>一般内容会在单元格内靠左对齐，对于数字可能靠右对齐比较好。在一些表格中，内容可以按单元格选择或者按行选择，选中的部分会以不同的样式区分。为了使得行与行便于区分，通常也会使得行交替使用不同的背景色。图片或其他控件也可以应用单元格中。</td>
+          </tr>
+          <tr>
+            <td>表尾</td>
+            <td>表位放置与表末尾提供与表相关补充数据或操作，不过并不常见。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>参数</h2>
+      <h3>隔行交替样式的表</h3>
+      <p><code>.table-striped</code></p>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Sunshine</td>
+            <td>Sunday</td>
+            <td>catouse</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Sunday</td>
+            <td>Sunshine</td>
+            <td>catouse</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>catouse</td>
+            <td>azhi</td>
+            <td>zenUI</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>&nbsp;</td>
+            <td>Lady Gaga</td>
+            <td>catouse</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>响应鼠标悬停</h3>
+      <p><code>.table-hover</code></p>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Sunshine</td>
+            <td>Sunday</td>
+            <td>catouse</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Sunday</td>
+            <td>Sunshine</td>
+            <td>catouse</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>catouse</td>
+            <td>azhi</td>
+            <td>zenUI</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>&nbsp;</td>
+            <td>Lady Gaga</td>
+            <td>catouse</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>带所有边框的表格</h3>
+      <p><code>.table-bordered</code></p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Sunshine</td>
+            <td>Sunday</td>
+            <td>catouse</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Sunday</td>
+            <td>Sunshine</td>
+            <td>catouse</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>catouse</td>
+            <td>azhi</td>
+            <td>zenUI</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>&nbsp;</td>
+            <td>Lady Gaga</td>
+            <td>catouse</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>更为紧凑的表格</h3>
+      <p><code>.table-condensed</code></p>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>catouse</td>
+            <td>hello</td>
+            <td>world</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>jay</td>
+            <td>thks</td>
+            <td>jajaja</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>JK row</td>
+            <td>thks</td>
+            <td>Pa</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>色彩标记</h3>
+      <p>可以根据语义标记整行或者某一单元格</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>描述</th>
+            <th>Payment Taken</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="success">
+            <td>1</td>
+            <td>表示成功或积极的行为。</td>
+            <td>01/04/2012</td>
+            <td>Approved</td>
+          </tr>
+          <tr class="danger">
+            <td>2</td>
+            <td>表示一个危险或存有潜在危险的行为。</td>
+            <td>02/04/2012</td>
+            <td>Declined</td>
+          </tr>
+          <tr class="warning">
+            <td>3</td>
+            <td>表示警告，可能需要注意。</td>
+            <td>03/04/2012</td>
+            <td>Pending</td>
+          </tr>
+          <tr class="active">
+            <td>4</td>
+            <td>标记为激活行。</td>
+            <td>04/04/2012</td>
+            <td>Call in to confirm</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </article>
+
+</body>
+</html>

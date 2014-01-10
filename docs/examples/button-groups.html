@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <link href="../assets/css/example.css" rel="stylesheet">
+  <script src="../dist/js/jquery.js"></script>
+  <script src="../dist/js/zui.min.js"></script>
+  <script src="../src/js/debug.js"></script>
+
+
+  <link href="../dist/css/zui.css" rel="stylesheet">
+  <link href="../assets/css/example.css" rel="stylesheet">
+  
+  <!--[if lt IE 9]>
+  <script src="../assets/js/html5shiv.js"></script>
+  <script src="../assets/js/respond.js"></script>
+  <![endif]-->
+  <script src="../assets/js/example.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">ZUI</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="navbarCurrent">examples</span> <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="alerts.html">alerts</a></li>
+            <li><a href="article.html">article</a></li>
+            <li><a href="breadcrumb.html">breadcrumb</a></li>
+            <li><a href="button-groups.html">button-groups</a></li>
+            <li><a href="buttons.html">buttons</a></li>
+            <li><a href="cards.html">cards</a></li>
+            <li><a href="carousel.html">carousel</a></li>
+            <li><a href="chosen.html">chosen</a></li>
+            <li><a href="collapse.html">collapse</a></li>
+            <li><a href="colorset.html">colorset</a></li>
+            <li><a href="comment.html">comment</a></li>
+            <li><a href="dropdowns.html">dropdowns</a></li>
+            <li><a href="forms.html">forms</a></li>
+            <li><a href="grid.html">grid</a></li>
+            <li><a href="icons.html">icons</a></li>
+            <li><a href="input-groups.html">input-groups</a></li>
+            <li><a href="kindeditor.html">kindeditor</a></li>
+            <li><a href="labels.html">labels</a></li>
+            <li><a href="lightbox.html">Lightbox</a></li>
+            <li><a href="list-group.html">list-group</a></li>
+            <li><a href="list.html">list</a></li>
+            <li><a href="modals.html">modals</a></li>
+            <li><a href="navbars.html">navbars</a></li>
+            <li><a href="navs.html">navs</a></li>
+            <li><a href="pager.html">pager</a></li>
+            <li><a href="panels.html">panels</a></li>
+            <li><a href="popovers.html">popovers</a></li>
+            <li><a href="progress.html">progress</a></li>
+            <li><a href="tables.html">tables</a></li>
+            <li><a href="tabs.html">tabs</a></li>
+            <li><a href="textbox.html">textbox</a></li>
+            <li><a href="tooltip.html">tooltip</a></li>
+            <li><a href="type.html">type</a></li>
+          </ul>
+        </li>
+        <li id="navbarNext"><a href="###">NEXT <i class="icon-angle-right icon-large"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+<article>
+  <section id='button-groups' class="page-section">
+    <h1>按钮组</h1>
+
+    <h3>类型</h3>
+    <h4>一组按钮</h4>
+    <p>通过div.btn-group包含多个button</p>
+    <div class="btn-group">
+      <button type="button" class="btn">左</button>
+      <button type="button" class="btn">中</button>
+      <button type="button" class="btn">右</button>
+    </div>
+
+    <h4>多组按钮</h4>
+    <p>通过div.btn-toolbar包含.div.btn-group</p>
+    <div class="btn-toolbar" style="margin: 0;">
+      <div class="btn-group">
+        <button class="btn">1</button>
+        <button class="btn">2</button>
+        <button class="btn">3</button>
+        <button class="btn">4</button>
+      </div>
+      <div class="btn-group">
+        <button class="btn">5</button>
+        <button class="btn">6</button>
+        <button class="btn">7</button>
+      </div>
+      <div class="btn-group">
+        <button class="btn">8</button>
+      </div>
+    </div>
+    
+    <h4>垂直按钮组</h4>
+    <p>通过div.btn-group-vertical实现</p>
+    <div class="btn-group btn-group-vertical">
+      <button type="button" class="btn">上</button>
+      <button type="button" class="btn">中</button>
+      <button type="button" class="btn">下</button>
+    </div>
+
+    <h3>变化</h3>
+    <h4>基本下拉按钮组</h4>
+    <p>为按钮组第一个a元素增加.dropdown-toggle和data-toggle='dropdown'属性，然后在其后增加ul.dropdown-menu列表</p>
+    <div class="btn-group">
+      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">操作 <span class="caret"></span> </a>
+      <ul class="dropdown-menu">
+        <li><a href='#'>编辑</a></li>
+        <li><a href='#'>删除</a></li>
+        <li><a href='#'>增加</a></li>
+      </ul>
+    </div>
+    <h4>分裂式下拉按钮组</h4>
+    <p>基本按钮组的变形，将第二个按钮改成图标即可。</p>
+    <div class="btn-group">
+      <button type="button" class="btn btn-danger">操作</button>
+      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">操作</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">编辑</a></li>
+        <li><a href="#">删除</a></li>
+        <li class="divider"></li>
+        <li><a href="#">增加</a></li>
+      </ul>
+    </div>
+    <h4>上拉按钮组</h4>
+    <p>通过div.dropup实现</p>
+    <div class="btn-group dropup">
+      <button type="button" class="btn btn-danger">操作</button>
+      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">操作</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">编辑</a></li>
+        <li><a href="#">删除</a></li>
+        <li class="divider"></li>
+        <li><a href="#">增加</a></li>
+      </ul>
+    </div>
+    <h4>大小</h4>
+    <p>通过.btn-lg .btn-sm .btn-xs实现</p>
+    <div class="btn-toolbar" style="margin: 0;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-lg">左</button>
+        <button type="button" class="btn btn-lg">中</button>
+        <button type="button" class="btn btn-lg">右</button>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn">左</button>
+        <button type="button" class="btn">中</button>
+        <button type="button" class="btn">右</button>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-sm">左</button>
+        <button type="button" class="btn btn-sm">中</button>
+        <button type="button" class="btn btn-sm">右</button>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-xs">左</button>
+        <button type="button" class="btn btn-xs">中</button>
+        <button type="button" class="btn btn-xs">右</button>
+      </div>
+    </div>
+
+    <h4>颜色</h4>
+    <div class="btn-group">
+      <button type="button" class="btn">默认</button>
+      <button type="button" class="btn btn-primary">.btn-primary</button>
+      <button type="button" class="btn btn-warning">.btn-primary</button>
+      <button type="button" class="btn btn-danger">.btn-danger</button>
+      <button type="button" class="btn btn-success">.btn-success</button>
+      <button type="button" class="btn btn-info">.btn-info</button>
+    </div>
+
+    </section>
+</article>
+</body>
+</html>
+

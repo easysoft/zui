@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ZUI</title>
+  <link href="../dist/css/zui.css" rel="stylesheet">
+  <link href="../assets/css/example.css" rel="stylesheet">
+  <link rel="stylesheet/less" type="text/css" href="../src/less/zui.less" />
+  <script type="text/javascript"> less = { env: "development", dumpLineNumbers:'mediaquery' }; </script>
+  <script src="../assets/js/less.js"></script>
+  <script src="../dist/js/jquery.js"></script>
+  <script src="../dist/js/zui.min.js"></script>
+  <script src="../src/js/debug.js"></script>
+
+
+  <!--[if lt IE 9]>
+  <script src="../assets/js/html5shiv.js"></script>
+  <script src="../assets/js/respond.js"></script>
+  <![endif]-->
+  <script src="../assets/js/example.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">ZUI</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="navbarCurrent">examples</span> <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="alerts.html">alerts</a></li>
+            <li><a href="article.html">article</a></li>
+            <li><a href="breadcrumb.html">breadcrumb</a></li>
+            <li><a href="button-groups.html">button-groups</a></li>
+            <li><a href="buttons.html">buttons</a></li>
+            <li><a href="cards.html">cards</a></li>
+            <li><a href="carousel.html">carousel</a></li>
+            <li><a href="chosen.html">chosen</a></li>
+            <li><a href="collapse.html">collapse</a></li>
+            <li><a href="colorset.html">colorset</a></li>
+            <li><a href="comment.html">comment</a></li>
+            <li><a href="dropdowns.html">dropdowns</a></li>
+            <li><a href="forms.html">forms</a></li>
+            <li><a href="grid.html">grid</a></li>
+            <li><a href="icons.html">icons</a></li>
+            <li><a href="input-groups.html">input-groups</a></li>
+            <li><a href="kindeditor.html">kindeditor</a></li>
+            <li><a href="labels.html">labels</a></li>
+            <li><a href="lightbox.html">Lightbox</a></li>
+            <li><a href="list-group.html">list-group</a></li>
+            <li><a href="list.html">list</a></li>
+            <li><a href="modals.html">modals</a></li>
+            <li><a href="navbars.html">navbars</a></li>
+            <li><a href="navs.html">navs</a></li>
+            <li><a href="pager.html">pager</a></li>
+            <li><a href="panels.html">panels</a></li>
+            <li><a href="popovers.html">popovers</a></li>
+            <li><a href="progress.html">progress</a></li>
+            <li><a href="tables.html">tables</a></li>
+            <li><a href="tabs.html">tabs</a></li>
+            <li><a href="textbox.html">textbox</a></li>
+            <li><a href="tooltip.html">tooltip</a></li>
+            <li><a href="type.html">type</a></li>
+          </ul>
+        </li>
+        <li id="navbarNext"><a href="###">NEXT <i class="icon-angle-right icon-large"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+  <article>
+    <section id='labels' class="page-section">
+      <div class="page-header"><h1>标签</h1></div>
+      <h3>类型</h3>
+      <h4>基本类型</h4>
+      <table class="table" style='text-align:center'>
+        <tr>
+          <th width='200px'>标签</th>
+          <th>描述</th>
+        </tr>
+        <tr>
+          <td><h1><span class="label">New</span></h1></td>
+          <td>h1</td>
+        </tr>
+        <tr>
+          <td><h2><span class="label">New</span></h2></td>
+          <td>h2</td>
+        </tr>
+        <tr>
+          <td><h3><span class="label">New</span></h3></td>
+          <td>h3</td>
+        </tr>
+        <tr>
+          <td><h4><span class="label">New</span></h4></td>
+          <td>h4</td>
+        </tr>
+        <tr>
+          <td><h5><span class="label">New</span></h5></td>
+          <td>h5</td>
+        </tr>
+        <tr>
+          <td><h6><span class="label">New</span></h6></td>
+          <td>h6</td>
+        </tr>
+      </table>
+     
+      <h4>徽标</h4>
+      <p><code>.label-badge</code></p>
+      <div contenteditable="true" spellcheck="false" class="segment">
+        <span class="label label-badge">12</span>
+        <span class="label label-badge label-primary">Primary</span>
+        <span class="label label-badge label-success">Success</span>
+        <span class="label label-badge label-info">Info</span>
+        <span class="label label-badge label-warning">Warning</span>
+        <span class="label label-badge label-danger">Danger</span>
+      </div>
+      <p>小圆点徽标</p>
+      <div contenteditable="true" spellcheck="false" class="segment">
+        <span class="label label-dot">12</span>
+        <span class="label label-dot label-primary"></span>
+        <span class="label label-dot label-success"></span>
+        <span class="label label-dot label-info">Info</span>
+        <span class="label label-dot label-warning">Warning</span>
+        <span class="label label-dot label-danger">Danger</span>
+      </div>
+
+      <p>按钮中的徽标</p>
+      <div contenteditable="true" spellcheck="false" class="segment">
+        <button class="btn">列表 <span class="label label-badge">12</span></button>
+        <button class="btn">处理错误 <span class="label label-badge label-primary">12</span></button>
+        <button class="btn">处理错误 <span class="label label-badge label-success">12</span></button>
+        <button class="btn">处理错误 <span class="label label-badge label-info">12</span></button>
+        <button class="btn">处理错误 <span class="label label-badge label-warning">12</span></button>
+        <button class="btn">处理错误 <span class="label label-badge label-danger">12</span></button>
+        <br><br>
+        <button class="btn btn-primary">联系人 <span class="label label-badge">12</span></button>
+        <button class="btn btn-success">联系人 <span class="label label-badge">12</span></button>
+        <button class="btn btn-info">联系人 <span class="label label-badge">12</span></button>
+        <button class="btn btn-warning">联系人 <span class="label label-badge">12</span></button>
+        <button class="btn btn-danger">联系人 <span class="label label-badge">12</span></button>
+        <br><br>
+        <button class="btn">列表 <span class="label label-dot">12</span></button>
+        <button class="btn">处理错误 <span class="label label-dot label-primary">12</span></button>
+        <button class="btn">处理错误 <span class="label label-dot label-success">12</span></button>
+        <button class="btn">处理错误 <span class="label label-dot label-info">12</span></button>
+        <button class="btn">处理错误 <span class="label label-dot label-warning">12</span></button>
+        <button class="btn">处理错误 <span class="label label-dot label-danger">12</span></button>
+        <br><br>
+        <button class="btn btn-primary">联系人 <span class="label label-dot">12</span></button>
+        <button class="btn btn-success">联系人 <span class="label label-dot">12</span></button>
+        <button class="btn btn-info">联系人 <span class="label label-dot">12</span></button>
+        <button class="btn btn-warning">联系人 <span class="label label-dot">12</span></button>
+        <button class="btn btn-danger">联系人 <span class="label label-dot">12</span></button>
+      </div>
+
+      <p>列表组中的徽标和标签</p>
+      <div contenteditable="true" spellcheck="false" class="segment">
+        <div class="list-group">
+          <a href="#" class="list-group-item">用div &gt; a实现，实现整行点击 <span class="label label-primary">Primary</span></a>
+          <a href="#" class="list-group-item">todo </a>
+          <a href="#" class="list-group-item">story <span class="label label-badge label-primary">Primary</span></a>
+          <a href="#" class="list-group-item active">task active <span class="label label-dot"></span></a>
+          <a href="#" class="list-group-item">bug <span class="label label-badge label-warning">Warning</span></a>
+          <a href="#" class="list-group-item">case <span class="label label-dot label-danger"></span><span class="label label-badge label-danger pull-right">123</span></a>
+        </div>
+      </div>
+
+      <h3>变化</h3>
+      <h4>颜色</h4>
+      <table class="table" style='text-align:left'>
+        <tr>
+          <th width='200px'>标签</th>
+          <th>描述</th>
+        </tr>
+        <tr>
+          <td><span class="label">Default</span></td>
+          <td>label-default</td>
+        </tr>
+        <tr>
+          <td><span class="label label-primary">Primary</span></td>
+          <td>label-primary</td>
+        </tr>
+        <tr>
+          <td><span class="label label-success">Success</span></td>
+          <td>label-success</td>
+        </tr>
+        <tr>
+          <td><span class="label label-info">Info</span></td>
+          <td>label-info</td>
+        </tr>
+        <tr>
+          <td><span class="label label-warning">Warning</span></td>
+          <td>label-warning</td>
+        </tr>
+        <tr>
+          <td><span class="label label-danger">Danger</span></td>
+          <td>label-danger</td>
+        </tr>
+      </table>
+    </section>
+  </article>
+</body>
+</html>
+
