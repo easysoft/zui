@@ -6,7 +6,335 @@ lead: "基本控件设计."
 base_url: "./"
 ---
 
-<section id="buttons" class="page-section">
+<div class="page-header">
+  <h1>控件</h1>
+</div>
+
+<section id="icons">
+  <div class="page-header">
+    <h2>图标</h2>
+  </div>
+  <p>图标能在视觉上简洁有效的指引用户操作。特殊情况下，使用图标能够代替文本。</p>
+  <h3>如何使用图标？</h3>
+  <p>同一个应用程序中的图标应该具有一致的外观及用户行为响应，应该将整个图标集作为用户界面中的重要部分。一般图标用于如下情况：</p>
+  <ul>
+    <li>用于应用程序头部，便于用户识别正在使用的应用；</li>
+    <li>用于按钮，对于一些常用的按钮可以使用图标取代按钮中的文本，使得界面更加简洁；</li>
+    <li>用于提示消息，图标能指明消息类型，便于用户无需仔细阅读消息内容就可以迅速做出决策；</li>
+    <li>用于一些简单但重要列表，在列表项目前面加上合适的图标能大大增强列表识别程度；</li>
+    <li>等同与标签，图标能简明表达项目或信息类型。</li>
+  </ul>
+  <h3>使用图标字体</h3>
+  <p>在图标字体没有普及之前，图标通常是通过图片来展示，如今图标字体是展示图标的更好方式。使用图标字体能使用CSS对图标进行调整，例如定义大小、颜色及特殊效果。在ZUI中将使用图标字体作为系统图标集方案。采用开源web图标字体<a href="http://fortawesome.github.io/Font-Awesome/" target="_blank">Font Awesome</a>是一个不错的选择。</p>
+  <p>在Font Awesome 3.2.1中提供了361个图标。ZUI基于FontAwesome 3.2.1定制，去除了一些不常用的图标，并加入了一些适合中国使用的图标。</p>
+  <p>以下列出ZUI中包含的图标：</p>
+  <div class="icons">
+    <ul class="clearfix">
+      <li><i class="icon-chrome"</i></li>
+      <li><i class="icon-firefox"</i></li>
+      <li><i class="icon-ie"</i></li>
+      <li><i class="icon-opera"</i></li>
+      <li><i class="icon-safari"</i></li>
+      <li><i class="icon-qq"</i></li>
+      <li><i class="icon-search"</i></li>
+      <li><i class="icon-envelope-alt"</i></li>
+      <li><i class="icon-heart"</i></li>
+      <li><i class="icon-star"</i></li>
+      <li><i class="icon-star-empty"</i></li>
+      <li><i class="icon-user"</i></li>
+      <li><i class="icon-th-large"</i></li>
+      <li><i class="icon-th"</i></li>
+      <li><i class="icon-th-list"</i></li>
+      <li><i class="icon-ok"</i></li>
+      <li><i class="icon-remove"</i></li>
+      <li><i class="icon-power-off:before"</i></li>
+      <li><i class="icon-off"</i></li>
+      <li><i class="icon-gear:before"</i></li>
+      <li><i class="icon-cog"</i></li>
+      <li><i class="icon-trash"</i></li>
+      <li><i class="icon-home"</i></li>
+      <li><i class="icon-file-alt"</i></li>
+      <li><i class="icon-time"</i></li>
+      <li><i class="icon-road"</i></li>
+      <li><i class="icon-download-alt"</i></li>
+      <li><i class="icon-download"</i></li>
+      <li><i class="icon-upload"</i></li>
+      <li><i class="icon-inbox"</i></li>
+      <li><i class="icon-play-circle"</i></li>
+      <li><i class="icon-rotate-right:before"</i></li>
+      <li><i class="icon-repeat"</i></li>
+      <li><i class="icon-refresh"</i></li>
+      <li><i class="icon-list-alt"</i></li>
+      <li><i class="icon-lock"</i></li>
+      <li><i class="icon-flag"</i></li>
+      <li><i class="icon-qrcode"</i></li>
+      <li><i class="icon-tag"</i></li>
+      <li><i class="icon-tags"</i></li>
+      <li><i class="icon-book"</i></li>
+      <li><i class="icon-bookmark"</i></li>
+      <li><i class="icon-print"</i></li>
+      <li><i class="icon-camera"</i></li>
+      <li><i class="icon-list"</i></li>
+      <li><i class="icon-picture"</i></li>
+      <li><i class="icon-pencil"</i></li>
+      <li><i class="icon-map-marker"</i></li>
+      <li><i class="icon-edit"</i></li>
+      <li><i class="icon-share"</i></li>
+      <li><i class="icon-check"</i></li>
+      <li><i class="icon-move"</i></li>
+      <li><i class="icon-step-backward"</i></li>
+      <li><i class="icon-fast-backward"</i></li>
+      <li><i class="icon-backward"</i></li>
+      <li><i class="icon-play"</i></li>
+      <li><i class="icon-pause"</i></li>
+      <li><i class="icon-stop"</i></li>
+      <li><i class="icon-forward"</i></li>
+      <li><i class="icon-fast-forward"</i></li>
+      <li><i class="icon-step-forward"</i></li>
+      <li><i class="icon-chevron-left"</i></li>
+      <li><i class="icon-chevron-right"</i></li>
+      <li><i class="icon-plus-sign"</i></li>
+      <li><i class="icon-minus-sign"</i></li>
+      <li><i class="icon-remove-sign"</i></li>
+      <li><i class="icon-ok-sign"</i></li>
+      <li><i class="icon-question-sign"</i></li>
+      <li><i class="icon-info-sign"</i></li>
+      <li><i class="icon-remove-circle"</i></li>
+      <li><i class="icon-ok-circle"</i></li>
+      <li><i class="icon-arrow-left"</i></li>
+      <li><i class="icon-arrow-right"</i></li>
+      <li><i class="icon-arrow-up"</i></li>
+      <li><i class="icon-arrow-down"</i></li>
+      <li><i class="icon-mail-forward:before"</i></li>
+      <li><i class="icon-share-alt"</i></li>
+      <li><i class="icon-plus"</i></li>
+      <li><i class="icon-minus"</i></li>
+      <li><i class="icon-asterisk"</i></li>
+      <li><i class="icon-exclamation-sign"</i></li>
+      <li><i class="icon-gift"</i></li>
+      <li><i class="icon-fire"</i></li>
+      <li><i class="icon-eye-open"</i></li>
+      <li><i class="icon-eye-close"</i></li>
+      <li><i class="icon-warning-sign"</i></li>
+      <li><i class="icon-plane"</i></li>
+      <li><i class="icon-calendar"</i></li>
+      <li><i class="icon-random"</i></li>
+      <li><i class="icon-comment"</i></li>
+      <li><i class="icon-chevron-up"</i></li>
+      <li><i class="icon-chevron-down"</i></li>
+      <li><i class="icon-shopping-cart"</i></li>
+      <li><i class="icon-folder-close"</i></li>
+      <li><i class="icon-folder-open"</i></li>
+      <li><i class="icon-resize-vertical"</i></li>
+      <li><i class="icon-resize-horizontal"</i></li>
+      <li><i class="icon-bar-chart"</i></li>
+      <li><i class="icon-key"</i></li>
+      <li><i class="icon-gears:before"</i></li>
+      <li><i class="icon-cogs"</i></li>
+      <li><i class="icon-comments"</i></li>
+      <li><i class="icon-thumbs-up-alt"</i></li>
+      <li><i class="icon-thumbs-down-alt"</i></li>
+      <li><i class="icon-heart-empty"</i></li>
+      <li><i class="icon-signout"</i></li>
+      <li><i class="icon-pushpin"</i></li>
+      <li><i class="icon-external-link"</i></li>
+      <li><i class="icon-signin"</i></li>
+      <li><i class="icon-github-sign"</i></li>
+      <li><i class="icon-upload-alt"</i></li>
+      <li><i class="icon-lemon"</i></li>
+      <li><i class="icon-phone"</i></li>
+      <li><i class="icon-unchecked:before"</i></li>
+      <li><i class="icon-check-empty"</i></li>
+      <li><i class="icon-bookmark-empty"</i></li>
+      <li><i class="icon-phone-sign"</i></li>
+      <li><i class="icon-github"</i></li>
+      <li><i class="icon-unlock"</i></li>
+      <li><i class="icon-rss"</i></li>
+      <li><i class="icon-hdd"</i></li>
+      <li><i class="icon-bullhorn"</i></li>
+      <li><i class="icon-bell"</i></li>
+      <li><i class="icon-certificate"</i></li>
+      <li><i class="icon-hand-right"</i></li>
+      <li><i class="icon-hand-left"</i></li>
+      <li><i class="icon-hand-up"</i></li>
+      <li><i class="icon-hand-down"</i></li>
+      <li><i class="icon-circle-arrow-left"</i></li>
+      <li><i class="icon-circle-arrow-right"</i></li>
+      <li><i class="icon-circle-arrow-up"</i></li>
+      <li><i class="icon-circle-arrow-down"</i></li>
+      <li><i class="icon-globe"</i></li>
+      <li><i class="icon-wrench"</i></li>
+      <li><i class="icon-tasks"</i></li>
+      <li><i class="icon-filter"</i></li>
+      <li><i class="icon-group"</i></li>
+      <li><i class="icon-link"</i></li>
+      <li><i class="icon-cloud"</i></li>
+      <li><i class="icon-beaker"</i></li>
+      <li><i class="icon-cut"</i></li>
+      <li><i class="icon-copy"</i></li>
+      <li><i class="icon-paperclip:before"</i></li>
+      <li><i class="icon-paper-clip"</i></li>
+      <li><i class="icon-save"</i></li>
+      <li><i class="icon-sign-blank"</i></li>
+      <li><i class="icon-reorder"</i></li>
+      <li><i class="icon-list-ul"</i></li>
+      <li><i class="icon-list-ol"</i></li>
+      <li><i class="icon-table"</i></li>
+      <li><i class="icon-magic"</i></li>
+      <li><i class="icon-truck"</i></li>
+      <li><i class="icon-caret-down"</i></li>
+      <li><i class="icon-caret-up"</i></li>
+      <li><i class="icon-caret-left"</i></li>
+      <li><i class="icon-caret-right"</i></li>
+      <li><i class="icon-columns"</i></li>
+      <li><i class="icon-sort"</i></li>
+      <li><i class="icon-sort-down"</i></li>
+      <li><i class="icon-sort-up"</i></li>
+      <li><i class="icon-envelope"</i></li>
+      <li><i class="icon-rotate-left:before"</i></li>
+      <li><i class="icon-undo"</i></li>
+      <li><i class="icon-dashboard"</i></li>
+      <li><i class="icon-comment-alt"</i></li>
+      <li><i class="icon-comments-alt"</i></li>
+      <li><i class="icon-bolt"</i></li>
+      <li><i class="icon-sitemap"</i></li>
+      <li><i class="icon-umbrella"</i></li>
+      <li><i class="icon-paste"</i></li>
+      <li><i class="icon-lightbulb"</i></li>
+      <li><i class="icon-exchange"</i></li>
+      <li><i class="icon-cloud-download"</i></li>
+      <li><i class="icon-cloud-upload"</i></li>
+      <li><i class="icon-suitcase"</i></li>
+      <li><i class="icon-bell-alt"</i></li>
+      <li><i class="icon-coffee"</i></li>
+      <li><i class="icon-file-text-alt"</i></li>
+      <li><i class="icon-building"</i></li>
+      <li><i class="icon-fighter-jet"</i></li>
+      <li><i class="icon-beer"</i></li>
+      <li><i class="icon-h-sign"</i></li>
+      <li><i class="icon-plus-sign-alt"</i></li>
+      <li><i class="icon-double-angle-left"</i></li>
+      <li><i class="icon-double-angle-right"</i></li>
+      <li><i class="icon-double-angle-up"</i></li>
+      <li><i class="icon-double-angle-down"</i></li>
+      <li><i class="icon-angle-left"</i></li>
+      <li><i class="icon-angle-right"</i></li>
+      <li><i class="icon-angle-up"</i></li>
+      <li><i class="icon-angle-down"</i></li>
+      <li><i class="icon-desktop"</i></li>
+      <li><i class="icon-laptop"</i></li>
+      <li><i class="icon-tablet"</i></li>
+      <li><i class="icon-mobile-phone"</i></li>
+      <li><i class="icon-circle-blank"</i></li>
+      <li><i class="icon-quote-left"</i></li>
+      <li><i class="icon-quote-right"</i></li>
+      <li><i class="icon-spinner"</i></li>
+      <li><i class="icon-circle"</i></li>
+      <li><i class="icon-mail-reply:before"</i></li>
+      <li><i class="icon-reply"</i></li>
+      <li><i class="icon-github-alt"</i></li>
+      <li><i class="icon-folder-close-alt"</i></li>
+      <li><i class="icon-folder-open-alt"</i></li>
+      <li><i class="icon-expand-alt"</i></li>
+      <li><i class="icon-collapse-alt"</i></li>
+      <li><i class="icon-smile"</i></li>
+      <li><i class="icon-frown"</i></li>
+      <li><i class="icon-meh"</i></li>
+      <li><i class="icon-keyboard"</i></li>
+      <li><i class="icon-flag-alt"</i></li>
+      <li><i class="icon-flag-checkered"</i></li>
+      <li><i class="icon-terminal"</i></li>
+      <li><i class="icon-code"</i></li>
+      <li><i class="icon-reply-all"</i></li>
+      <li><i class="icon-mail-reply-all"</i></li>
+      <li><i class="icon-star-half-full:before"</i></li>
+      <li><i class="icon-star-half-empty"</i></li>
+      <li><i class="icon-location-arrow"</i></li>
+      <li><i class="icon-crop"</i></li>
+      <li><i class="icon-code-fork"</i></li>
+      <li><i class="icon-unlink"</i></li>
+      <li><i class="icon-question"</i></li>
+      <li><i class="icon-info"</i></li>
+      <li><i class="icon-exclamation"</i></li>
+      <li><i class="icon-microphone"</i></li>
+      <li><i class="icon-microphone-off"</i></li>
+      <li><i class="icon-shield"</i></li>
+      <li><i class="icon-calendar-empty"</i></li>
+      <li><i class="icon-fire-extinguisher"</i></li>
+      <li><i class="icon-rocket"</i></li>
+      <li><i class="icon-maxcdn"</i></li>
+      <li><i class="icon-chevron-sign-left"</i></li>
+      <li><i class="icon-chevron-sign-right"</i></li>
+      <li><i class="icon-chevron-sign-up"</i></li>
+      <li><i class="icon-chevron-sign-down"</i></li>
+      <li><i class="icon-html5"</i></li>
+      <li><i class="icon-css3"</i></li>
+      <li><i class="icon-anchor"</i></li>
+      <li><i class="icon-unlock-alt"</i></li>
+      <li><i class="icon-ellipsis-horizontal"</i></li>
+      <li><i class="icon-ellipsis-vertical"</i></li>
+      <li><i class="icon-rss-sign"</i></li>
+      <li><i class="icon-play-sign"</i></li>
+      <li><i class="icon-ticket"</i></li>
+      <li><i class="icon-minus-sign-alt"</i></li>
+      <li><i class="icon-check-minus"</i></li>
+      <li><i class="icon-level-up"</i></li>
+      <li><i class="icon-level-down"</i></li>
+      <li><i class="icon-check-sign"</i></li>
+      <li><i class="icon-edit-sign"</i></li>
+      <li><i class="icon-external-link-sign"</i></li>
+      <li><i class="icon-share-sign"</i></li>
+      <li><i class="icon-compass"</i></li>
+      <li><i class="icon-collapse"</i></li>
+      <li><i class="icon-collapse-top"</i></li>
+      <li><i class="icon-expand"</i></li>
+      <li><i class="icon-yen:before"</i></li>
+      <li><i class="icon-jpy"</i></li>
+      <li><i class="icon-renminbi:before"</i></li>
+      <li><i class="icon-cny"</i></li>
+      <li><i class="icon-won:before"</i></li>
+      <li><i class="icon-krw"</i></li>
+      <li><i class="icon-bitcoin:before"</i></li>
+      <li><i class="icon-btc"</i></li>
+      <li><i class="icon-file"</i></li>
+      <li><i class="icon-file-text"</i></li>
+      <li><i class="icon-sort-by-alphabet"</i></li>
+      <li><i class="icon-sort-by-alphabet-alt"</i></li>
+      <li><i class="icon-sort-by-attributes"</i></li>
+      <li><i class="icon-sort-by-attributes-alt"</i></li>
+      <li><i class="icon-sort-by-order"</i></li>
+      <li><i class="icon-sort-by-order-alt"</i></li>
+      <li><i class="icon-thumbs-up"</i></li>
+      <li><i class="icon-thumbs-down"</i></li>
+      <li><i class="icon-long-arrow-down"</i></li>
+      <li><i class="icon-long-arrow-up"</i></li>
+      <li><i class="icon-long-arrow-left"</i></li>
+      <li><i class="icon-long-arrow-right"</i></li>
+      <li><i class="icon-apple"</i></li>
+      <li><i class="icon-windows"</i></li>
+      <li><i class="icon-android"</i></li>
+      <li><i class="icon-linux"</i></li>
+      <li><i class="icon-female"</i></li>
+      <li><i class="icon-male"</i></li>
+      <li><i class="icon-gittip"</i></li>
+      <li><i class="icon-sun"</i></li>
+      <li><i class="icon-moon"</i></li>
+      <li><i class="icon-archive"</i></li>
+      <li><i class="icon-bug"</i></li>
+      <li><i class="icon-weibo:before .icon-sina"</i></li>
+      <li><i class="icon-renren"</i></li>
+    </ul>
+  </div>
+  <p>使用图标字体有一个好处就是图标就是字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：</p>
+  <ul>
+    <li>图标应具备统一的颜色，如果有交互行为样式也应该保持一致；</li>
+    <li>图标的大小应该保持一致，正文中的图标大小应为16px，标题中的图标可以为32px；</li>
+    <li>图标应与所指示的内容对应，不同地方的同一个指示内容应该使用同一个图标。</li>
+  </ul>
+  <p>如有需要，也可以自定义专有的图标字体。例如需要使用一些Font Awesome中没有定义的图标，或者由于性能要求太高需要Font Awesome中没有用到的图标。</p>
+</section>
+
+<section id="buttons">
   <div class="page-header">
     <h2>按钮</h2>
   </div>
@@ -185,7 +513,7 @@ base_url: "./"
   </table>
 </section>
 
-<section id='progressBars' class="page-section">
+<section id='progress'>
   <div class="page-header"><h1 id="progress">进度条</h1></div>
   <p class="lead">提供工作或动作的实时反馈，只用简单且灵活的进度条。</p>
   <p>进度条使用了CSS3的transition和animation属性来完成一些效果。这些特性在Internet Explorer 9或以下版本中、Firefox的老版本中没有被支持。Opera 12不支持znimation属性。 </p>
@@ -324,7 +652,7 @@ base_url: "./"
   </table>
 </section>
 
-<section id='labels' class="page-section">
+<section id='labels'>
   <div class="page-header"><h1 id="labels">标签</h1></div>
 
   <h3>类型</h3>
@@ -395,7 +723,7 @@ base_url: "./"
   </table>
 </section>
 
-<section id='textbox' class="page-section">
+<section id='textbox'>
   <div class="page-header"><h1>文本框</h1></div>
 
   <h3>类型</h3>
@@ -515,12 +843,12 @@ base_url: "./"
   </div>
 </section>
 
-<section id='breadcrumb' class="page-section">
-<h1>面包屑</h1>
-<ul class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Library</a></li>
-  <li class="active">Data</li>
-</ul>
+<section id='breadcrumb'>
+  <h1>面包屑</h1>
+  <ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Library</a></li>
+    <li class="active">Data</li>
+  </ul>
 </section>
 

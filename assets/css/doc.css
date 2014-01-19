@@ -50,3 +50,16 @@ body
   border-width: 4px;
   margin-bottom: 20px;
 }
+
+
+.icons li{
+  cursor: pointer;
+  float: left;
+  width: 21%;
+  line-height: 25px;
+  list-style: none;
+  padding: 2px 10px;
+}
+.icons li:hover{
+  background-color: #ffe9a8;
+}
