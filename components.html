@@ -5,8 +5,1061 @@ slug: components
 lead: "基本组件设计."
 base_url: "./"
 ---
-<section id='panels' class="page-section">
-  <div class="page-header"><h1>面板</h1></div>
+
+<div class="page-header">
+  <h1>组件</h1>
+</div>
+
+<section id="alerts">
+  <div class="page-header">
+    <h2>警告框</h2>
+  </div>
+
+  <h3>类型</h3>
+  <h4>标准消息框</h4>
+  <div class="segment">
+    <div class="alert">
+      <strong>Well done!</strong> You successfully read this important alert message.
+    </div>
+    <div class="alert alert-success">
+      <strong>Well done!</strong> You successfully read this important alert message.
+    </div>
+    <div class="alert alert-info">
+      <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+    </div>
+    <div class="alert alert-warning">
+      <strong>Warning!</strong> Best check yo self, you're not looking too good.
+    </div>
+    <div class="alert alert-danger">
+      <strong>Oh snap!</strong> Change a few things up and try submitting again.
+    </div>
+  </div>
+  <h4>带图标的消息框</h4>
+  <div class="segment">
+    <div class="alert">
+      <i class="icon-inbox"></i>
+      <div class="content"><strong>Well done!</strong> You successfully read this important alert message.</div>
+    </div>
+    <div class="alert alert-success">
+      <i class="icon-ok-sign"></i>
+      <div class="content"><strong>Well done!</strong> You successfully read this important alert message.</div>
+    </div>
+    <div class="alert alert-info">
+      <i class="icon-info-sign"></i>
+      <div class="content"><strong>Heads up!</strong> This alert needs your attention, but it's not super important.</div>
+    </div>
+    <div class="alert alert-warning">
+      <i class="icon-frown"></i>
+      <div class="content"><strong>Warning!</strong> Best check yo self, you're not looking too good.</div>
+    </div>
+    <div class="alert alert-danger">
+      <i class="icon-time"></i>
+      <div class="content"><strong>Oh snap!</strong> Change a few things up and try submitting again.</div>
+    </div>
+  </div>
+
+  <h4>块级消息</h4>
+  <p>块级消息框将没有内边距和外边距，适合用在页面顶部或者浮现在页面之上</p>
+  <div class="segment no-padding">
+    <div class="alert alert-block alert-success">
+      <i class="icon-heart"></i>
+      <div class="content">
+        <strong>Oh snap!</strong> Change a few things up and try submitting again.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="code">
+  <div class="page-header">
+    <h2>代码</h2>
+  </div>
+  <h3>类型</h3>
+  <h4>内联代码</h4>
+  <div class="segment">
+    <p>通过<code>&lt;code&gt;</code>标签内嵌一小段代码。</p>
+  </div>
+  <h4>基本代码块</h4>
+  <div class="segment">
+    <pre>&lt;p&gt;Sample text here...&lt;/p&gt;</pre>
+  </div>
+  <p>还可以使用<code>.pre-scrollable</code> class，其作用是设置max-height为350px，并在垂直方向展示滚动条。</p>
+
+  <h4>代码高亮</h4>
+  <p>代码高亮是通过根据代码语言语法给代码中的单词、字符标记为不同颜色来显示的方法。代码高亮能大大提高代码的查阅体验。在web界面加上代码高亮非常容易，在产品中如需要向用户展现代码应该使用代码高亮。</p>
+  <p>这里推荐的方案是<a href="https://code.google.com/p/google-code-prettify/" target="_blank">Google Code Prettify</a>实现代码高亮。</p>
+  <p>下面是一个php文件的示例：</p>
+  <div class="segment">
+    <pre class="prettyprint linenums"><code>&lt;!doctype html&gt;&#10;&lt;html lang="en"&gt;&#10;  &lt;head&gt;&#10;    &lt;title&gt;Zentao Design Guidelines&lt;/title&gt;&#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;  &lt;?php&#10;    echo "hello, world!";&#10;  ?&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;</code></pre>
+  </div>
+</section>
+
+<section id="inputgroup">
+  <div class="page-header">
+    <h2>输入组</h2>
+  </div>
+  <h3>类型</h3>
+  <h4>基本类型</h4>
+  <div class="input-group">
+    <span class="input-group-addon">@</span>
+      <input type="text" class="form-control" placeholder="Username">
+    <span class="glyphicon glyphicon-star"></span> 
+  </div>
+
+  <h4>单选框和复选框</h4>
+  <div class="input-group">
+    <span class="input-group-addon">
+      <input type="checkbox">
+    </span>
+    <input type="text" class="form-control">
+  </div><br />
+   <div class="input-group">
+    <span class="input-group-addon">
+      <input type="radio">
+    </span>
+    <input type="text" class="form-control">
+  </div>
+
+  <h4>带按钮</h4>
+  <div class="input-group">
+    <input type="text" class="form-control">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button">搜索</button>
+    </span>
+  </div>
+
+  <h4>分段按钮</h4>
+  <div class="input-group">
+    <input type="text" class="form-control" placeholder='请输入邮箱地址'>
+    <span class="input-group-addon">@</span>
+    <input type="text" class="form-control" placeholder='请输入邮箱后缀'>
+  </div>
+</section>
+
+<section id="listgroup">
+  <div class="page-header">
+    <h2>列表组</h2>
+  </div>
+
+  <h3>类型</h3>
+    <h4>基本类型</h4>
+    <div class="input-group">
+      <span class="input-group-addon">@</span>
+        <input type="text" class="form-control" placeholder="Username">
+      <span class="glyphicon glyphicon-star"></span> 
+    </div>
+
+    <h4>单选框和复选框</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox">
+      </span>
+      <input type="text" class="form-control">
+    </div><br />
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="radio">
+      </span>
+      <input type="text" class="form-control">
+    </div>
+
+    <h4>带按钮</h4>
+    <div class="input-group">
+      <input type="text" class="form-control">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">搜索</button>
+      </span>
+    </div>
+
+    <h4>分段按钮</h4>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder='请输入邮箱地址'>
+      <span class="input-group-addon">@</span>
+      <input type="text" class="form-control" placeholder='请输入邮箱后缀'>
+    </div>
+</section>
+
+<section id="navs">
+  <div class="page-header">
+    <h2>导航</h2>
+  </div>
+  <h3>主要导航</h3>
+  <p><code>.nav-primary</code></p>
+  <div spellcheck="false" class="segment">
+    <ul class="nav nav-primary">
+      <li class="active"><a href="###"><i class="icon-home"></i> Home</a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h3>次要导航</h3>
+  <p>通常与主导航一起使用</p>
+  <p><code>.nav-secondary</code></p>
+  <div spellcheck="false" class="segment">
+    <ul class="nav nav-secondary">
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h3>复合导航</h3>
+  <p>复合导航包含一个主要导航和一个次要导航</p>
+
+
+  <h3>标签页导航</h3>
+  <p><code>.nav-tabs</code></p>
+  <div spellcheck="false" class="segment">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h3>圆点导航</h3>
+  <p><code>.nav-pills</code></p>
+  <div spellcheck="false" class="segment">
+    <ul class="nav nav-pills">
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h2>状态</h2>
+  <h3>禁用的导航链接</h3>
+  <p>在禁用的项目上添加<code>.disabled</code></p>
+  <div spellcheck="false" class="segment">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li class="disabled"><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-pills">
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li class="disabled"><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-secondary">
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li class="disabled"><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h2>参数</h2>
+  <h3>垂直排列</h3>
+  <p><code>.nav-stacked</code></p>
+  <div spellcheck="false" class="segment">
+    <ul class="nav nav-primary nav-stacked">
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-secondary nav-stacked">
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-stacked nav-pills">
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h3>自适应宽度</h3>
+  <p>自适应宽度不能与垂直排列同时使用</p>
+  <p><code>.nav-justified</code></p>
+  <div spellcheck="false" class="segment">
+    <ul class="nav nav-primary nav-justified">
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-justified nav-tabs">
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-secondary nav-justified">
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-justified nav-pills">
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h3>带标题的导航</h3>
+  <div spellcheck="false" class="segment">
+    <ul class="nav nav-tabs">
+      <li class="nav-heading">这是标题</li>
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li class="disabled"><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-pills">
+      <li class="nav-heading">这是标题</li>
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li class="disabled"><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-secondary">
+      <li class="nav-heading">This is heading</li>
+      <li class="active"><a href="###">Home</a></li>
+      <li><a href="###">Profile</a></li>
+      <li class="disabled"><a href="###">Messages</a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-primary nav-stacked">
+      <li class="nav-heading">这是标题</li>
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-secondary nav-stacked">
+      <li class="nav-heading">THIS IS HEADINGS</li>
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav nav-stacked nav-pills">
+      <li class="nav-heading">THIS IS HEADINGS</li>
+      <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
+      <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
+      <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="###">
+          Dropdown <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="">Lorem ipsum.</a></li>
+          <li><a href="">Optio, fuga.</a></li>
+          <li><a href="">Dicta, vero.</a></li>
+          <li><a href="">Doloribus, obcaecati.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="navbars">
+  <div class="page-header">
+    <h2>导航条</h2>
+  </div>
+  <nav id="topNav" class="navbar navbar-default" role="navigation">
+    <ul class="nav navbar-nav nav-justified">
+    <li class="cat-item nav-system-home"><a href="/">首页</a></li>
+    <li class="cat-item nav-custom-"><a href="">演示</a></li>
+    <li class="cat-item nav-article-1 active"><a href="/download.html">下载</a></li>
+    <li class="cat-item nav-custom-"><a href="http://www.chanzhi.net" target="_blank">云蝉知</a></li>
+    <li class="cat-item nav-system-help"><a href="/help/">帮助</a></li>
+    <li class="cat-item nav-custom-"><a href="http://www.chanzhi.org/vip/25_vip-support.html">支持</a></li>
+    <li class="cat-item nav-system-forum"><a href="/forum/">论坛</a></li>
+    <li class="cat-item nav-article-2 active"><a href="/dynamic.html">动态</a></li>
+    <li class="cat-item nav-custom-"><a href="">团队</a></li>
+      </ul>
+  </nav>
+  <nav class="navbar" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </nav>
+  <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </nav>
+  <nav class="navbar navbar-inverse" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </nav>
+  <nav class="navbar navbar-inverse" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </nav>
+  <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Link</a></li>
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </nav>
+</section>
+
+<section id="pagers">
+  <div class="page-header">
+    <h2>分页条</h2>
+  </div>
+
+  <h3>各种分页导航</h3>
+  <div class="segment">
+    <ul class="pager">
+      <li class="previous"><a href="#">«</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager">
+      <li class="previous"><a href="#">« 上一页</a></li>
+      <li class="next"><a href="#">下一页 »</a></li>
+    </ul>
+    <br>
+    <ul class="pager">
+      <li class="previous"><a href="#">«</a></li>
+      <li><a href="#">1</a></li>
+      <li class="active"><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager">
+      <li class="previous"><a href="#">«</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li class="active"><a href="#">5</a></li>
+      <li><a href="###" data-toggle="pager" data-placement="bottom">更多</a></li>
+      <li><a href="#">12</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager">
+      <li class="previous"><a href="#">« 上一页</a></li>
+      <li><a href="#">1</a></li>
+      <li>
+        <a href="###" data-toggle="pager" data-placement="top" data-url="?page=%">Pager</a>
+      </li>
+      <li><a href="#">6</a></li>
+      <li class="active"><a href="#">7</a></li>
+      <li><a href="#">8</a></li>
+      <li><a href="#">9</a></li>
+      <li><a href="###" data-toggle="pager" data-placement="top">...</a></li>
+      <li><a href="#">12</a></li>
+      <li class="next"><a href="#">下一页 »</a></li>
+    </ul>
+    <br>
+  </div>
+  <h2>状态</h2>
+  <h3>禁用的导航</h3>
+  <div class="segment">
+    <ul class="pager">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager">
+      <li class="previous"><a href="#">« 上一页</a></li>
+      <li class="next disabled"><a href="#">下一页 »</a></li>
+    </ul>
+    <br>
+    <ul class="pager">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager">
+      <li class="previous"><a href="#">«</a></li>
+      <li><a href="#">1</a></li>
+      <li>
+        <a href="###" data-toggle="pager">Pager</a>
+      </li>
+      <li><a href="#">118</a></li>
+      <li><a href="#">119</a></li>
+      <li><a href="#">1110</a></li>
+      <li><a href="#">1111</a></li>
+      <li class="active"><a href="#">12</a></li>
+      <li class="next disabled"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <br>
+  </div>
+  <h2>参数</h2>
+  <h3>圆角</h3>
+  <p><code>.pager-pills</code></p>
+  <div class="segment">
+    <ul class="pager pager-pills">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-pills">
+      <li class="previous"><a href="#">« 上一页</a></li>
+      <li class="next disabled"><a href="#">下一页 »</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-pills">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-pills">
+      <li class="previous"><a href="#">«</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="###" data-toggle="pager" data-placement="top">...</a></li>
+      <li><a href="#">8</a></li>
+      <li><a href="#">9</a></li>
+      <li><a href="#">10</a></li>
+      <li><a href="#">11</a></li>
+      <li class="active"><a href="#">12</a></li>
+      <li class="next disabled"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <br>
+  </div>
+  <h3>宽松的</h3>
+  <p><code>.pager-loose</code></p>
+  <div class="segment">
+    <ul class="pager pager-loose">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-loose">
+      <li class="previous"><a href="#">« 上一页</a></li>
+      <li class="next disabled"><a href="#">下一页 »</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-loose">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-loose">
+      <li class="previous"><a href="#">«</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="###" data-toggle="pager" data-placement="top">...</a></li>
+      <li><a href="#">8</a></li>
+      <li><a href="#">9</a></li>
+      <li><a href="#">10</a></li>
+      <li><a href="#">11</a></li>
+      <li class="active"><a href="#">12</a></li>
+      <li class="next disabled"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-loose pager-pills">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-loose pager-pills">
+      <li class="previous"><a href="#">« 上一页</a></li>
+      <li class="next disabled"><a href="#">下一页 »</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-loose pager-pills">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-loose pager-pills">
+      <li class="previous"><a href="#">«</a></li>
+      <li><a href="#">1</a></li>
+      <li><a href="###" data-toggle="pager" data-placement="top">...</a></li>
+      <li><a href="#">8</a></li>
+      <li><a href="#">9</a></li>
+      <li><a href="#">10</a></li>
+      <li><a href="#">11</a></li>
+      <li class="active"><a href="#">12</a></li>
+      <li class="next disabled"><a href="#">»</a></li>
+    </ul>
+    <br>
+  </div>
+  <h3>两端对齐</h3>
+  <p><code>.pager-justify</code></p>
+  <div class="segment">
+    <ul class="pager pager-justify">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-justify">
+      <li class="previous"><a href="#">« 上一页</a></li>
+      <li class="next disabled"><a href="#">下一页 »</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-justify pager-pills">
+      <li class="previous disabled"><a href="#">«</a></li>
+      <li class="next"><a href="#">»</a></li>
+    </ul>
+    <br>
+    <ul class="pager pager-justify pager-pills">
+      <li class="previous"><a href="#">« 上一页</a></li>
+      <li class="next disabled"><a href="#">下一页 »</a></li>
+    </ul>
+  </div>
+</section>
+
+<section id="panels">
+  <div class="page-header">
+    <h2>面板</h2>
+  </div>
 
   <h3>类型</h3>
   <h4>基本类型</h4>
@@ -55,30 +1108,30 @@ base_url: "./"
     <table class="table">
       <thead>
         <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
+          <th>Lorem ipsum.</th>
+          <th>Repudiandae, harum!</th>
+          <th>Tenetur, corporis.</th>
+          <th>Perspiciatis, porro?</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <td>Lorem ipsum.</td>
+          <td>Officiis, non.</td>
+          <td>Molestias, qui.</td>
+          <td>Odit, ducimus.</td>
         </tr>
         <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
+          <td>Lorem ipsum.</td>
+          <td>Repellendus, exercitationem!</td>
+          <td>Velit, eos.</td>
+          <td>Eius, officiis.</td>
         </tr>
         <tr>
-          <td>3</td>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
+          <td>Lorem ipsum.</td>
+          <td>Amet, esse!</td>
+          <td>Quis, pariatur!</td>
+          <td>Totam, quae.</td>
         </tr>
       </tbody>
     </table>
@@ -113,48 +1166,339 @@ base_url: "./"
       <div class="panel-footer">面板脚注</div>
     </div>
   </div>
-
 </section>
 
-<section id='list-group' class="page-section">
-  <div class="page-header"><h1>列表组</h1></div>
+<section id="tables">
+  <div class="page-header">
+    <h2>表格</h2>
+  </div>
+  <h3>类型</h3>
+  <table class="table">
+    <tbody>
+      <tr>
+        <th class="col-md-2">名称</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td>表头</td>
+        <td>一般表格的第一行作为表头，用于描述表中每一列数据名称。为区别于表格其他行，表头具备不同的样式，例如字体加粗等。在垂直显示一组数据的表格中，表头也可能是垂直的第一列，而不是行。</td>
+      </tr>
+      <tr>
+        <td>内容</td>
+        <td>一般内容会在单元格内靠左对齐，对于数字可能靠右对齐比较好。在一些表格中，内容可以按单元格选择或者按行选择，选中的部分会以不同的样式区分。为了使得行与行便于区分，通常也会使得行交替使用不同的背景色。图片或其他控件也可以应用单元格中。</td>
+      </tr>
+      <tr>
+        <td>表尾</td>
+        <td>表位放置与表末尾提供与表相关补充数据或操作，不过并不常见。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>参数</h3>
+  <h4>隔行交替样式的表</h4>
+  <p><code>.table-striped</code></p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Sunshine</td>
+        <td>Sunday</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Sunday</td>
+        <td>Sunshine</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>catouse</td>
+        <td>azhi</td>
+        <td>zenUI</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>&nbsp;</td>
+        <td>Lady Gaga</td>
+        <td>catouse</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>响应鼠标悬停</h4>
+  <p><code>.table-hover</code></p>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Sunshine</td>
+        <td>Sunday</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Sunday</td>
+        <td>Sunshine</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>catouse</td>
+        <td>azhi</td>
+        <td>zenUI</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>&nbsp;</td>
+        <td>Lady Gaga</td>
+        <td>catouse</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>带所有边框的表格</h4>
+  <p><code>.table-bordered</code></p>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Sunshine</td>
+        <td>Sunday</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Sunday</td>
+        <td>Sunshine</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>catouse</td>
+        <td>azhi</td>
+        <td>zenUI</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>&nbsp;</td>
+        <td>Lady Gaga</td>
+        <td>catouse</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>更为紧凑的表格</h4>
+  <p><code>.table-condensed</code></p>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>catouse</td>
+        <td>hello</td>
+        <td>world</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>jay</td>
+        <td>thks</td>
+        <td>jajaja</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>JK row</td>
+        <td>thks</td>
+        <td>Pa</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4>色彩标记</h4>
+  <p>可以根据语义标记整行或者某一单元格</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>描述</th>
+        <th>Payment Taken</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="success">
+        <td>1</td>
+        <td>表示成功或积极的行为。</td>
+        <td>01/04/2012</td>
+        <td>Approved</td>
+      </tr>
+      <tr class="danger">
+        <td>2</td>
+        <td>表示一个危险或存有潜在危险的行为。</td>
+        <td>02/04/2012</td>
+        <td>Declined</td>
+      </tr>
+      <tr class="warning">
+        <td>3</td>
+        <td>表示警告，可能需要注意。</td>
+        <td>03/04/2012</td>
+        <td>Pending</td>
+      </tr>
+      <tr class="active">
+        <td>4</td>
+        <td>标记为激活行。</td>
+        <td>04/04/2012</td>
+        <td>Call in to confirm</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="buttongroup">
+  <div class="page-header">
+    <h2>按钮组</h2>
+  </div>
 
   <h3>类型</h3>
-  <h4>基本类型</h4>
-  <ul class="list-group">
-    <li class="list-group-item"><a href='#'>用ul > li实现，点击区域只有文字</a></li>
-    <li class="list-group-item">todo </li>
-    <li class="list-group-item">story</li>
-    <li class="list-group-item">task</li>
-    <li class="list-group-item">bug</li>
-    <li class="list-group-item">case</li>
-  </ul>
-  <h4>链接</h4>
-  <div class="list-group">
-    <a href="#" class="list-group-item">用div > a实现，实现整行点击 </a>
-    <a href="#" class="list-group-item">todo </a>
-    <a href="#" class="list-group-item">story</a>
-    <a href="#" class="list-group-item active">task active</a>
-    <a href="#" class="list-group-item">bug</a>
-    <a href="#" class="list-group-item">case</a>
+  <h4>一组按钮</h4>
+  <p>通过div.btn-group包含多个button</p>
+  <div class="btn-group">
+    <button type="button" class="btn">左</button>
+    <button type="button" class="btn">中</button>
+    <button type="button" class="btn">右</button>
+  </div>
+
+  <h4>多组按钮</h4>
+  <p>通过div.btn-toolbar包含.div.btn-group</p>
+  <div class="btn-toolbar" style="margin: 0;">
+    <div class="btn-group">
+      <button class="btn">1</button>
+      <button class="btn">2</button>
+      <button class="btn">3</button>
+      <button class="btn">4</button>
+    </div>
+    <div class="btn-group">
+      <button class="btn">5</button>
+      <button class="btn">6</button>
+      <button class="btn">7</button>
+    </div>
+    <div class="btn-group">
+      <button class="btn">8</button>
+    </div>
+  </div>
+  
+  <h4>垂直按钮组</h4>
+  <p>通过div.btn-group-vertical实现</p>
+  <div class="btn-group btn-group-vertical">
+    <button type="button" class="btn">上</button>
+    <button type="button" class="btn">中</button>
+    <button type="button" class="btn">下</button>
   </div>
 
   <h3>变化</h3>
-  <h4>定制列表内容</h4>
-  <div class="list-group">
-    <a href="#" class="list-group-item">
-      <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
-      <p class="list-group-item-text">我是包含在a标签里面的p标签，</p>
-    </a>
-    <a href="#" class="list-group-item active">
-      <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
-      <p class="list-group-item-text">我是包含在a标签里面的p标签，</p>
-    </a>
-    <a href="#" class="list-group-item">
-      <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
-      <p class="list-group-item-text">我是包含在a标签里面的p标签，</p>
-    </a>
+  <h4>基本下拉按钮组</h4>
+  <p>为按钮组第一个a元素增加.dropdown-toggle和data-toggle='dropdown'属性，然后在其后增加ul.dropdown-menu列表</p>
+  <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">操作 <span class="caret"></span> </a>
+    <ul class="dropdown-menu">
+      <li><a href='#'>编辑</a></li>
+      <li><a href='#'>删除</a></li>
+      <li><a href='#'>增加</a></li>
+    </ul>
+  </div>
+  <h4>分裂式下拉按钮组</h4>
+  <p>基本按钮组的变形，将第二个按钮改成图标即可。</p>
+  <div class="btn-group">
+    <button type="button" class="btn btn-danger">操作</button>
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+      <span class="caret"></span>
+      <span class="sr-only">操作</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="#">编辑</a></li>
+      <li><a href="#">删除</a></li>
+      <li class="divider"></li>
+      <li><a href="#">增加</a></li>
+    </ul>
+  </div>
+  <h4>上拉按钮组</h4>
+  <p>通过div.dropup实现</p>
+  <div class="btn-group dropup">
+    <button type="button" class="btn btn-danger">操作</button>
+    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+      <span class="caret"></span>
+      <span class="sr-only">操作</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="#">编辑</a></li>
+      <li><a href="#">删除</a></li>
+      <li class="divider"></li>
+      <li><a href="#">增加</a></li>
+    </ul>
+  </div>
+  <h4>大小</h4>
+  <p>通过.btn-lg .btn-sm .btn-xs实现</p>
+  <div class="btn-toolbar" style="margin: 0;">
+    <div class="btn-group">
+      <button type="button" class="btn btn-lg">左</button>
+      <button type="button" class="btn btn-lg">中</button>
+      <button type="button" class="btn btn-lg">右</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn">左</button>
+      <button type="button" class="btn">中</button>
+      <button type="button" class="btn">右</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm">左</button>
+      <button type="button" class="btn btn-sm">中</button>
+      <button type="button" class="btn btn-sm">右</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-xs">左</button>
+      <button type="button" class="btn btn-xs">中</button>
+      <button type="button" class="btn btn-xs">右</button>
+    </div>
   </div>
 
+  <h4>颜色</h4>
+  <div class="btn-group">
+    <button type="button" class="btn">默认</button>
+    <button type="button" class="btn btn-primary">.btn-primary</button>
+    <button type="button" class="btn btn-warning">.btn-primary</button>
+    <button type="button" class="btn btn-danger">.btn-danger</button>
+    <button type="button" class="btn btn-success">.btn-success</button>
+    <button type="button" class="btn btn-info">.btn-info</button>
+  </div>
 </section>
-
