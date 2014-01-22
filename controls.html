@@ -352,8 +352,8 @@ base_url: "./"
     </tr>
     <tr>
       <td>
-        <button class="btn btn-large btn-primary" type="button">较大的按钮</button>
-        <button class="btn btn-large" type="button">较大的按钮</button>
+        <button class="btn btn-lg btn-primary" type="button">较大的按钮</button>
+        <button class="btn btn-lg" type="button">较大的按钮</button>
       </td>
       <td>较大的按钮，通常用在英雄页面或者大屏幕中。</td>
     </tr>
@@ -366,8 +366,8 @@ base_url: "./"
     </tr>
     <tr>
       <td>
-        <button class="btn btn-small btn-primary" type="button">较小的按钮</button>
-        <button class="btn btn-small" type="button">较小的按钮</button>
+        <button class="btn btn-sm btn-primary" type="button">较小的按钮</button>
+        <button class="btn btn-sm" type="button">较小的按钮</button>
       </td>
       <td>较小的按钮</td>
     </tr>
@@ -429,9 +429,9 @@ base_url: "./"
     <tr>
       <td>
         <div class="btn-group" data-toggle="buttons-radio">
-          <button type="button" class="btn btn-default"><i class="icon-align-left"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon-align-center"></i></button>
-          <button type="button" class="btn btn-default"><i class="icon-align-right"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon-star"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon-heart"></i></button>
+          <button type="button" class="btn btn-default"><i class="icon-heart-empty"></i></button>
         </div>
       </td>
       <td>在互斥的状态切换组中使用图标更加简洁明了。</td>
@@ -565,6 +565,7 @@ base_url: "./"
         <div class="progress">
           <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
           <span class="sr-only">80% Complete (danger)</span>
+          </div>
         </div>
       </td>
       <td>危险</td>
@@ -638,32 +639,92 @@ base_url: "./"
       <th>描述</th>
     </tr>
     <tr>
-      <td><h1><span class="label label-default">New</span></h1></td>
+      <td><h1><span class="label">New</span></h1></td>
       <td>h1</td>
     </tr>
     <tr>
-      <td><h2><span class="label label-default">New</span></h2></td>
+      <td><h2><span class="label">New</span></h2></td>
       <td>h2</td>
     </tr>
     <tr>
-      <td><h3><span class="label label-default">New</span></h3></td>
+      <td><h3><span class="label">New</span></h3></td>
       <td>h3</td>
     </tr>
     <tr>
-      <td><h4><span class="label label-default">New</span></h4></td>
+      <td><h4><span class="label">New</span></h4></td>
       <td>h4</td>
     </tr>
     <tr>
-      <td><h5><span class="label label-default">New</span></h5></td>
+      <td><h5><span class="label">New</span></h5></td>
       <td>h5</td>
     </tr>
     <tr>
-      <td><h6><span class="label label-default">New</span></h6></td>
+      <td><h6><span class="label">New</span></h6></td>
       <td>h6</td>
     </tr>
   </table>
- 
-
+  
+  <h4>徽标</h4>
+  <p><code>.label-badge</code></p>
+  <div contenteditable="true" spellcheck="false" class="segment">
+    <span class="label label-badge">12</span>
+    <span class="label label-badge label-primary">Primary</span>
+    <span class="label label-badge label-success">Success</span>
+    <span class="label label-badge label-info">Info</span>
+    <span class="label label-badge label-warning">Warning</span>
+    <span class="label label-badge label-danger">Danger</span>
+  </div>
+  <p>小圆点徽标</p>
+  <div contenteditable="true" spellcheck="false" class="segment">
+    <span class="label label-dot">12</span>
+    <span class="label label-dot label-primary"></span>
+    <span class="label label-dot label-success"></span>
+    <span class="label label-dot label-info">Info</span>
+    <span class="label label-dot label-warning">Warning</span>
+    <span class="label label-dot label-danger">Danger</span>
+  </div>
+  
+  <p>按钮中的徽标</p>
+  <div contenteditable="true" spellcheck="false" class="segment">
+    <button class="btn">列表 <span class="label label-badge">12</span></button>
+    <button class="btn">处理错误 <span class="label label-badge label-primary">12</span></button>
+    <button class="btn">处理错误 <span class="label label-badge label-success">12</span></button>
+    <button class="btn">处理错误 <span class="label label-badge label-info">12</span></button>
+    <button class="btn">处理错误 <span class="label label-badge label-warning">12</span></button>
+    <button class="btn">处理错误 <span class="label label-badge label-danger">12</span></button>
+    <br><br>
+    <button class="btn btn-primary">联系人 <span class="label label-badge">12</span></button>
+    <button class="btn btn-success">联系人 <span class="label label-badge">12</span></button>
+    <button class="btn btn-info">联系人 <span class="label label-badge">12</span></button>
+    <button class="btn btn-warning">联系人 <span class="label label-badge">12</span></button>
+    <button class="btn btn-danger">联系人 <span class="label label-badge">12</span></button>
+    <br><br>
+    <button class="btn">列表 <span class="label label-dot">12</span></button>
+    <button class="btn">处理错误 <span class="label label-dot label-primary">12</span></button>
+    <button class="btn">处理错误 <span class="label label-dot label-success">12</span></button>
+    <button class="btn">处理错误 <span class="label label-dot label-info">12</span></button>
+    <button class="btn">处理错误 <span class="label label-dot label-warning">12</span></button>
+    <button class="btn">处理错误 <span class="label label-dot label-danger">12</span></button>
+    <br><br>
+    <button class="btn btn-primary">联系人 <span class="label label-dot">12</span></button>
+    <button class="btn btn-success">联系人 <span class="label label-dot">12</span></button>
+    <button class="btn btn-info">联系人 <span class="label label-dot">12</span></button>
+    <button class="btn btn-warning">联系人 <span class="label label-dot">12</span></button>
+    <button class="btn btn-danger">联系人 <span class="label label-dot">12</span></button>
+  </div>
+  
+  <p>列表组中的徽标和标签</p>
+  <div contenteditable="true" spellcheck="false" class="segment">
+    <div class="list-group">
+      <a href="#" class="list-group-item">用div &gt; a实现，实现整行点击 <span class="label label-primary">Primary</span></a>
+      <a href="#" class="list-group-item">todo </a>
+      <a href="#" class="list-group-item">story <span class="label label-badge label-primary">Primary</span></a>
+      <a href="#" class="list-group-item active">task active <span class="label label-dot"></span></a>
+      <a href="#" class="list-group-item">bug <span class="label label-badge label-warning">Warning</span></a>
+      <a href="#" class="list-group-item">case <span class="label label-dot label-danger"></span><span class="label label-badge label-danger pull-right">123</span></a>
+    </div>
+  </div>
+  
   <h3>变化</h3>
   <h4>颜色</h4>
   <table class="table" style='text-align:left'>
@@ -672,7 +733,7 @@ base_url: "./"
       <th>描述</th>
     </tr>
     <tr>
-      <td><span class="label label-default">Default</span></td>
+      <td><span class="label">Default</span></td>
       <td>label-default</td>
     </tr>
     <tr>
@@ -739,7 +800,7 @@ base_url: "./"
         </select>
       </td>
       <td>select </td>
-    <tr>
+    </tr>
   </table>
  
 
