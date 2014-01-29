@@ -113,6 +113,19 @@ cite     { font-style: normal; }
 .text-right         { text-align: right; }
 .text-center        { text-align: center; }
 
+// text wrap
+.text-nowrap
+{
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+// text ellipsis
+.text-ellipsis
+{
+  .text-nowrap();
+  text-overflow: ellipsis;
+}
 
 // Lists
 // --------------------------------------------------
