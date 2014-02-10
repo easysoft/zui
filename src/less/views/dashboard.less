@@ -1,0 +1,140 @@
+.dashboard
+{
+  position: relative;
+
+  .panel-heading
+  {
+    font-weight: bold;
+    padding: 6px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height: 34px;
+
+    &:hover
+    {
+      > .panel-actions
+      {
+        > .btn,
+        > .dropdown > .btn,
+        > .dropdown > a,
+        > a
+        {
+          .opacity(1);
+        }
+
+      }
+    }
+
+    > [class^='icon-']
+    {
+      .opacity(0.7);
+    }
+  }
+
+  .panel-actions
+  {
+    float: right;
+
+    .dropdown
+    {
+      display: inline-block;
+    }
+
+    .dropdown-menu
+    {
+      min-width: 80px;
+
+      > li > a
+      {
+        padding: 3px 10px;
+      }
+    }
+
+    .btn
+    {
+      margin-top: -4px;
+    }
+
+    > a,
+    > .dropdown > a
+    {
+      color: @color-gray;
+      display: inline-block;
+
+      :hover
+      {
+        text-decoration: none;
+      }
+
+      > .caret
+      {
+        line-height: 20px;
+      }
+    }
+
+    > .btn,
+    > .dropdown > .btn,
+    > .dropdown > a,
+    > a
+    {
+      .opacity(0.7);
+    }
+
+    .btn + .btn
+    {
+      margin-left: 4px;
+    }
+  }
+
+  .panel-body
+  {
+    padding: 6px 10px;
+    overflow: auto;
+
+    &.no-padding
+    {
+      padding: 0;
+    }
+
+    > dl
+    {
+      margin: 0;
+    }
+
+    > ul,
+    > ol
+    {
+      padding-left: 20px;
+      margin: 0;
+    }
+  }
+
+  &.dashboard-draggable
+  {
+    .panel-heading
+    {
+      cursor: move;
+    }
+  }
+
+  .panel-dragging
+  {
+    border: 1px solid rgba(255,255,255,0.1);
+    background:rgba(0,0,0,0.3);
+    box-shadow: none!important;
+    color:#fff;
+
+    > * {.opacity(0.1)}
+  }
+
+  .panel-dragging-shadow
+  {
+    position: absolute;
+    border: 2px solid rgba(255,255,255,0.9);
+    box-shadow: 2px 0 25px rgba(0,0,0,0.8)!important;
+    background: rgba(255,255,255,0.5);
+  }
+
+  .dragging-in:before {box-sizing: content-box; content:' '; display: block; position: absolute; left: -2px; top: -10px; width: 2px; height: 100%; background-color: rgba(255,255,255, 0.5); border: 1px solid #fff;}
+  .dragging-in.dragging-col:before {display: none;}
+}
