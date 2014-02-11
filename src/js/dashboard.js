@@ -20,6 +20,27 @@
         return options;
     };
 
+    Dashboard.prototype.handleRemoveEvent = function()
+    {
+        var afterPanelRemoved = this.options.afterPanelRemoved;
+        var tip = this.options.panelRemovingTip;
+        this.$.find('.remove-panel').click(function()
+        {
+            var panel = $(this).closest('.panel');
+            var name  = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, "");
+            var index = panel.attr('data-id');
+
+            if(tip == undefined || confirm(tip.format(name)))
+            {
+                panel.parent().remove();
+                if(afterPanelRemoved && $.isFunction(afterPanelRemoved))
+                {
+                    afterPanelRemoved(index);
+                }
+            }
+        });
+    };
+
     Dashboard.prototype.handleDraggable = function()
     {
         var dashboard    = this.$;
@@ -31,12 +52,12 @@
         {
             event.preventDefault();
             event.stopPropagation();
-            console.log('h');
         });
 
         this.$.find('.panel-heading').mousedown(function(event)
         {
             var panel     = $(this).closest('.panel');
+            var row       = panel.closest('.row');
             var dPanel    = panel.clone().addClass('panel-dragging-shadow');
             var pos       = panel.offset();
             var dPos      = dashboard.offset();
@@ -64,10 +85,10 @@
                     top  : event.pageY-offset.y
                 });
 
-                dashboard.find('.dragging-in').removeClass('dragging-in');
-                dashboard.find('.panel').each(function()
+                row.find('.dragging-in').removeClass('dragging-in');
+                row.children().each(function()
                 {
-                    var p = $(this);
+                    var p = $(this).children('.panel');
                     var pP = p.offset(), pW = p.width(), pH = p.height();
                     var pX = pP.left - pW / 2, pY = pP.top;
                     var mX = event.pageX, mY = event.pageY;
@@ -83,17 +104,26 @@
 
             function mouseUp(event)
             {
-                var draggingIn = dashboard.find('.dragging-in');
-                if(panel.data('order') != draggingIn.data('order'))
+                var draggingIn = row.find('.dragging-in');
+                var pOrder = panel.data('order');
+                var dOrder = draggingIn.find('.panel').data('order');
+
+                if(dOrder && pOrder != dOrder && pOrder != (dOrder - 1))
                 {
                     panel.parent().insertBefore(draggingIn);
-                    var newOrder = 1;
+                    var newOrder = 0;
                     var newOrders = {};
-                    dashboard.find('.panel').each(function()
+                    var oldOrders = row.data('orders');
+
+
+                    row.children(':not(.panel-dragging)').each(function(index)
                     {
-                        $(this).data('order', newOrder++);
-                        newOrders[$(this).attr('id')] = $(this).data('order');
+                        var p = $(this).children('.panel');
+                        p.data('order', ++newOrder);
+                        newOrders[p.attr('id')] = newOrder;
                     });
+
+                    row.data('orders', newOrders);
 
                     if(afterOrdered && $.isFunction(afterOrdered))
                     {
@@ -102,6 +132,7 @@
                 }
 
                 dPanel.remove();
+
                 dashboard.find('.dragging-col').removeClass('dragging-col');
                 dashboard.find('.panel-dragging').removeClass('panel-dragging');
                 draggingIn.removeClass('dragging-in');
@@ -148,6 +179,7 @@
     {
         this.handlePanelHeight();
         this.handlePanelPadding();
+        this.handleRemoveEvent();
 
         if(this.draggable) this.handleDraggable();
 
@@ -158,7 +190,11 @@
             $this.data('order', ++orderSeed);
             if(!$this.attr('id'))
             {
-              $this.attr('id', 'panel' + orderSeed);
+                $this.attr('id', 'panel' + orderSeed);
+            }
+            if(!$this.attr('data-id'))
+            {
+                $this.attr('data-id', orderSeed);
             }
         });
     }
