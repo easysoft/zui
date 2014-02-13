@@ -1,0 +1,642 @@
+// THEME
+// -------------------------------------------------
+
+// Variables
+@import "basic/variables.less";
+@import "basic/mixins.less";
+
+// Color scheme
+// @color-primary:              #ca011b; // oa
+// @color-primary:              #f27c25; // cash
+@color-primary:              #14aa32; // sns
+@color-secondary:            desaturate(darken(@color-primary, 15%), 15%);
+@color-pale:                 spin(hsl(hue(@color-primary), 54%, 95%), -7);
+
+@state-primary-text:         @color-primary;
+@state-primary-bg:           @color-pale;
+@state-primary-inverse-bg:   @color-primary;
+@state-primary-border:       darken(spin(@state-primary-bg, -10), 5%);
+
+@link-color:                 @color-secondary;
+@link-hover-color:           darken(@link-color, 15%);
+
+@component-active-bg:        @color-primary;
+@component-hover-bg:         @color-primary;
+
+@dropdown-link-hover-bg:     @component-hover-bg;
+@dropdown-link-active-bg:    @component-active-bg;
+
+@table-bg-hover:             @color-pale;
+@table-bg-active:            @table-bg-hover;
+
+@btn-primary-bg:             @color-primary;
+@btn-primary-border:         darken(@btn-primary-bg, 5%);
+
+@badge-active-color:         @link-color;
+
+@progress-bar-bg:            @color-primary;
+
+@input-border-focus:         @link-color;
+
+@list-group-hover-bg:        @color-pale;
+@list-group-active-bg:       @component-active-bg;
+
+@label-primary-bg:           @color-primary;
+@panel-primary-border:       @color-primary;
+
+@pager-active-bg:            @component-active-bg;
+
+@navbar-inverse-bg:          @color-secondary;
+@navbar-inverse-border:                     darken(@navbar-inverse-bg, 10%);
+@navbar-inverse-link-hover-bg:              lighten(@navbar-inverse-bg, 6%);
+@navbar-inverse-link-active-bg:             lighten(@navbar-inverse-bg, 10%);
+@navbar-inverse-toggle-hover-bg:            darken(@navbar-inverse-bg, 5%);
+@navbar-inverse-toggle-border-color:        lighten(@navbar-inverse-bg, 10%);
+
+@nav-pills-active-link-hover-bg:            @component-active-bg;
+@nav-secondary-active-border-color:         @component-active-bg;
+@nav-secondary-active-link-hover-color:     @component-active-bg;
+@nav-primary-active-border-color:           @component-active-bg;
+
+// Minxins
+.form-control-focus(@color: @input-border-focus)
+{
+  @color-rgba: rgba(red(@color), green(@color), blue(@color), .6);
+  &:focus
+  {
+    border-color: @color;
+    .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+  }
+}
+
+.button-variant(@color; @background; @border)
+{
+  color: @color;
+  background-color: @background;
+  border-color: darken(@background, 12%);
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    color: @color;
+    background-color: darken(@background, 8%);
+        border-color: darken(@border, 12%);
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @background;
+          border-color: @border;
+    }
+  }
+}
+
+.label-variant(@color)
+{
+  background-color: @color;
+  &[href]
+  {
+    &:hover,
+    &:focus
+    {
+      background-color: darken(@color, 10%);
+    }
+  }
+}
+
+.panel-variant(@border; @heading-text-color; @heading-bg-color; @heading-border;)
+{
+  border-color: @border;
+  & > .panel-heading
+  {
+    + .panel-collapse .panel-body
+    {
+      border-top-color: @border;
+    }
+  }
+  & > .panel-footer
+  {
+    + .panel-collapse .panel-body
+    {
+      border-bottom-color: @border;
+    }
+  }
+}
+
+// Scaffolding
+a
+{
+  color: @link-color;
+
+  &:hover,
+  &:focus
+  {
+    color: @link-hover-color;
+  }
+}
+
+// Buttons
+.btn-primary
+{
+  .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
+}
+
+.btn-link
+{
+  color: @link-color;
+  &:hover,
+  &:focus
+  {
+    color: @link-hover-color;
+  }
+  &[disabled],
+  fieldset[disabled] &
+  {
+    &:hover,
+    &:focus
+    {
+      color: @btn-link-disabled-color;
+    }
+  }
+}
+
+// Labels
+.label-primary { .label-variant(@label-primary-bg); }
+
+// Labels.fix
+.btn-primary .label-badge,.btn-primary .label-dot
+{
+  background-color: lighten(@btn-primary-bg, 20%)
+}
+
+// Progressbar
+.progress-bar 
+{
+  background-color: @progress-bar-bg;
+}
+
+.progress-striped .progress-bar 
+{
+  #gradient > .striped(@progress-bar-bg);
+  background-size: 40px 40px;
+}
+
+// Type
+.text-primary
+{
+  color: @color-primary;
+  &:hover
+  {
+    color: darken(@color-primary, 10%);
+  }
+}
+
+.text-muted
+{
+  a
+  {
+    &:hover,
+    &:active
+    {
+      color: @link-color;
+    }
+  }
+}
+
+.text-link
+{
+  &:hover,
+  &:active
+  {
+    color: @link-color;
+  }
+}
+
+// Type.bg
+.bg-primary
+{
+  background-color: @state-primary-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-primary-inverse-bg, 10%);
+  }
+}
+
+// Type.hightlight
+.highlight-primary {
+  background-color: @state-primary-bg;
+  a&:hover {
+    background-color: darken(@state-primary-bg, 10%);
+  }
+}
+
+// Form
+.form-control
+{
+  .form-control-focus();
+}
+
+// List group
+.list-group-item 
+{
+  a& 
+  {
+    &:hover,
+    &:focus { text-decoration: none; background-color: @list-group-hover-bg; color: @list-group-hover-color}
+  }
+
+  &.active,
+  &.active:hover,
+  &.active:focus 
+  {
+    background-color: @component-active-bg;
+    border-color: @component-active-bg;
+  }
+}
+
+// Navbar
+.navbar-inverse
+{
+  background-color: @navbar-inverse-bg;
+  border-color: @navbar-inverse-border;
+
+  .navbar-nav
+  {
+    > li.nav-heading
+    {
+      background-color: darken(@navbar-inverse-bg, 5%);
+    }
+
+    > li > a
+    {
+      &:hover,
+      &:focus
+      {
+        background-color: @navbar-inverse-link-hover-bg;
+      }
+    }
+    > .active > a
+    {
+      &,
+      &:hover,
+      &:focus
+      {
+        background-color: @navbar-inverse-link-active-bg;
+      }
+    }
+  }
+
+  .navbar-toggle
+  {
+    border-color: @navbar-inverse-toggle-border-color;
+    &:hover,
+    &:focus
+    {
+      background-color: @navbar-inverse-toggle-hover-bg;
+    }
+  }
+
+  .navbar-collapse,
+  .navbar-form
+  {
+    border-color: darken(@navbar-inverse-bg, 7%);
+  }
+
+  .navbar-nav
+  {
+    > .open > a
+    {
+      &,
+      &:hover,
+      &:focus
+      {
+        background-color: @navbar-inverse-link-active-bg;
+      }
+    }
+
+    @media (max-width: @screen-xs-max)
+    {
+      .open .dropdown-menu
+      {
+        > .dropdown-header
+        {
+          border-color: @navbar-inverse-border;
+        }
+
+        > li > a
+        {
+          &:hover,
+          &:focus
+          {
+            background-color: @navbar-inverse-link-hover-bg;
+          }
+        }
+
+        > .active > a
+        {
+          &,
+          &:hover,
+          &:focus
+          {
+            background-color: @navbar-inverse-link-active-bg;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Navbar.fixed-left
+.navbar-fixed-left
+{
+  &.navbar-inverse
+  {
+    .navbar-header,
+    .navbar-nav
+    {
+      border-bottom: 1px solid lighten(@navbar-inverse-bg, 10%);
+      .box-shadow(inset 0 -1px 0 @navbar-inverse-border);
+    }
+  }
+}
+
+// Nav
+.nav
+{
+  .open > a
+  {
+    &,
+    &:hover,
+    &:focus
+    {
+      border-color: @link-color;
+
+      .caret
+      {
+        border-top-color: @link-hover-color;
+        border-bottom-color: @link-hover-color;
+      }
+    }
+  }
+}
+
+.nav-pills
+{
+  > li
+  {
+    &.active > a
+    {
+      &,
+      &:hover,
+      &:focus
+      {
+        background-color: @nav-pills-active-link-hover-bg;
+      }
+    }
+  }
+}
+
+.nav-primary
+{
+  > li
+  {
+    &.active > a
+    {
+      &,
+      &:hover,
+      &:focus
+      {
+        background-color: @component-active-bg;
+        border-color: @component-active-bg;
+      }
+    }
+  }
+}
+
+.nav-secondary
+{
+  > li
+  {
+    &.active > a
+    {
+      &,
+      &:hover,
+      &:focus
+      {
+        color: @nav-secondary-active-link-hover-color;
+        border-bottom-color: @nav-secondary-active-border-color;
+
+        .caret
+        {
+          border-top-color: @nav-secondary-active-link-hover-color;
+          border-bottom-color: @nav-secondary-active-link-hover-color;
+        }
+      }
+    }
+  }
+}
+
+.nav-stacked
+{
+  &.nav-secondary
+  {
+    > li
+    {
+      &.active > a
+      {
+        &,
+        &:hover,
+        &:focus
+        {
+          .box-shadow(inset -2px 0 0 @nav-secondary-active-border-color);
+        }
+      }
+    }
+  }
+}
+
+.nav .caret
+{
+  border-top-color: @link-color;
+  border-bottom-color: @link-color;
+}
+.nav a:hover .caret
+{
+  border-top-color: @link-hover-color;
+  border-bottom-color: @link-hover-color;
+}
+
+// Pager
+.pager
+{
+  > .active > a,
+  > .active > span
+  {
+    &,
+    &:hover,
+    &:focus
+    {
+      background-color: @pager-active-bg;
+    }
+  }
+}
+
+// Panel.type
+.panel-primary { .panel-variant(@panel-primary-border; @panel-primary-text; @panel-primary-heading-bg; @panel-primary-border); }
+
+// Table
+.table-hover > tbody > tr:hover
+{
+  > td,
+  > th
+  {
+    background-color: @table-bg-hover;
+  }
+}
+
+.table tr
+{
+  > td.active,
+  > th.active,
+  &.active > td,
+  &.active > th
+  {
+    background-color: @table-bg-active;
+  }
+}
+
+table.tablesorter thead tr .headerSortUp:after {color:@link-color!important;}
+table.tablesorter thead tr .headerSortDown:after{color:@link-color!important;}
+
+// Chossen
+.chosen-container-single
+{
+  .chosen-search
+  {
+    &:focus
+    {
+      border-color: @input-border-focus!important;
+    }
+  }
+}
+
+.chosen-container .chosen-results
+{
+  li
+  {
+    &.highlighted
+    {
+      background-color: @dropdown-link-hover-bg!important;
+    }
+  }
+}
+
+.chosen-container-active
+{
+  .chosen-single
+  {
+    @color-rgba:  rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6)!important;
+    border-color: @input-border-focus!important;
+  }
+
+  .chosen-choices
+  {
+    @color-rgba:  rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6)!important;
+    border-color: @input-border-focus!important;
+  }
+}
+
+// Dropdown
+.dropdown-menu > li > a
+{
+  &:hover,
+  &:focus
+  {
+    background-color: @dropdown-link-hover-bg;
+  }
+}
+
+.dropdown-menu > .active > a
+{
+  &,
+  &:hover,
+  &:focus
+  {
+    background-color: @dropdown-link-active-bg;
+  }
+}
+
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a 
+{
+  background-color: @dropdown-link-hover-bg;
+}
+
+// Kindeditor
+.ke-container
+{
+  &.focus
+  {
+    @color:       @input-border-focus;
+    @color-rgba:  rgba(red(@color), green(@color), blue(@color), .6);
+    border-color: @color!important;
+    .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}!important");
+  }
+}
+
+.ke-menu-item-on
+{
+  background-color: @dropdown-link-active-bg!important;
+}
+
+.ke-colorpicker-cell-on
+{
+  background-color: @dropdown-link-active-bg!important;
+}
+
+.ke-input-text
+{
+  @color: @input-border-focus;
+  @color-rgba: rgba(red(@color), green(@color), blue(@color), .6);
+  &:focus
+  {
+    border-color: @color!important;
+    .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}!important");
+  }
+}
+
+// Messager
+.messager-primary
+{
+  background-color: @state-primary-inverse-bg;
+}
+
+// Card
+a.card:hover,.card:hover a
+{
+  color: @link-color;
+}
+
+// Comment
+.comment
+{
+  &:hover
+  {
+    > .content
+    {
+      > .actions
+      {
+        > a
+        {
+          color: @link-color;
+        }
+      }
+    }
+  }
+}
