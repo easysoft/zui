@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ZUI</title>
+  <link href="../dist/css/zui.css" rel="stylesheet">
+  <link href="../dist/css/datetimepicker.css" rel="stylesheet">
+  <link href="../assets/css/example.css" rel="stylesheet">
+  <!-- <link href="../dist/css/theme.css" rel="stylesheet"> -->
+  <script src="../dist/js/jquery.js"></script>
+  <script src="../dist/js/zui.min.js"></script>
+  <script src="../dist/js/datetimepicker/datetimepicker.js"></script>
+  <script src="../src/js/debug.js"></script>
+
+
+  <!--[if lt IE 9]>
+  <script src="../assets/js/html5shiv.js"></script>
+  <script src="../assets/js/respond.js"></script>
+  <![endif]-->
+  <script src="../assets/js/example.js"></script>
+  <script>
+  $(function()
+  {
+      $('.form_datetime').datetimepicker(
+      {
+          weekStart: 1,
+          todayBtn:  1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 2,
+          forceParse: 0,
+          showMeridian: 1,
+          isInline: false
+      });
+      $('.form_date').datetimepicker(
+      {
+          language:  'zh-CN',
+          weekStart: 1,
+          todayBtn:  1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 2,
+          minView: 2,
+          forceParse: 0
+      });
+      $('.form_time').datetimepicker({
+          language:  'zh-CN',
+          weekStart: 1,
+          todayBtn:  1,
+          autoclose: 1,
+          todayHighlight: 1,
+          startView: 1,
+          minView: 0,
+          maxView: 1,
+          forceParse: 0
+      });
+  })
+  </script>
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">ZUI</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="navbarCurrent">examples</span> <b class="caret"></b></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="alerts.html">alerts</a></li>
+            <li><a href="article.html">article</a></li>
+            <li><a href="breadcrumb.html">breadcrumb</a></li>
+            <li><a href="button-groups.html">button-groups</a></li>
+            <li><a href="buttons.html">buttons</a></li>
+            <li><a href="cards.html">cards</a></li>
+            <li><a href="carousel.html">carousel</a></li>
+            <li><a href="chosen.html">chosen</a></li>
+            <li><a href="collapse.html">collapse</a></li>
+            <li><a href="colorset.html">colorset</a></li>
+            <li><a href="comment.html">comment</a></li>
+            <li><a href="dropdowns.html">dropdowns</a></li>
+            <li><a href="datetimepicker.html">datetimepicker</a></li>
+            <li><a href="forms.html">forms</a></li>
+            <li><a href="grid.html">grid</a></li>
+            <li><a href="icons.html">icons</a></li>
+            <li><a href="input-groups.html">input-groups</a></li>
+            <li><a href="kindeditor.html">kindeditor</a></li>
+            <li><a href="labels.html">labels</a></li>
+            <li><a href="lightbox.html">Lightbox</a></li>
+            <li><a href="list-group.html">list-group</a></li>
+            <li><a href="list.html">list</a></li>
+            <li><a href="modals.html">modals</a></li>
+            <li><a href="navbars.html">navbars</a></li>
+            <li><a href="navs.html">navs</a></li>
+            <li><a href="pager.html">pager</a></li>
+            <li><a href="panels.html">panels</a></li>
+            <li><a href="popovers.html">popovers</a></li>
+            <li><a href="progress.html">progress</a></li>
+            <li><a href="tables.html">tables</a></li>
+            <li><a href="tabs.html">tabs</a></li>
+            <li><a href="textbox.html">textbox</a></li>
+            <li><a href="tooltip.html">tooltip</a></li>
+            <li><a href="type.html">type</a></li>
+          </ul>
+        </li>
+        <li id="navbarNext"><a href="###">NEXT <i class="icon-angle-right icon-large"></i></a></li>
+      </ul>
+    </div>
+  </nav>
+<article>
+  <section id='input-groups' class="page-section">
+    <div class="page-header"><h1>Datetime Picker</h1></div>
+    <h3>类型</h3>
+    <div class="segment">
+      <form action="" class="form-horizontal"  role="form">
+        <fieldset>
+          <legend>Test</legend>
+          <div class="form-group">
+            <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
+            <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+              <input class="form-control" size="16" type="text" value="" readonly>
+              <span class="input-group-addon"><span class="icon-remove"></span></span>
+              <span class="input-group-addon"><span class="icon-th"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input1" value="" /><br/>
+          </div>
+          <div class="form-group">
+            <label for="dtp_input2" class="col-md-2 control-label">Date Picking</label>
+            <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+              <input class="form-control" size="16" type="text" value="" readonly>
+              <span class="input-group-addon"><span class="icon-remove"></span></span>
+              <span class="input-group-addon"><span class="icon-calendar"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input2" value="" /><br/>
+          </div>
+          <div class="form-group">
+            <label for="dtp_input3" class="col-md-2 control-label">Time Picking</label>
+            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+              <input class="form-control" size="16" type="text" value="" readonly>
+              <span class="input-group-addon"><span class="icon-remove"></span></span>
+              <span class="input-group-addon"><span class="icon-time"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input3" value="" /><br/>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </section>
+</article>
+</body>
+</html>
+
