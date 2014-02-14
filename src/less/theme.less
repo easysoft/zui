@@ -6,10 +6,7 @@
 @import "basic/mixins.less";
 
 // Color scheme
-// @color-primary:              #ca011b; // oa
-// @color-primary:              #f27c25; // cash
-// @color-primary:              #14aa32; // sns
-@color-primary:              #BF6C3C; // gold
+@color-primary:              #ca011b;
 @color-secondary:            desaturate(darken(@color-primary, 15%), 15%);
 @color-pale:                 spin(hsl(hue(@color-primary), 54%, 95%), -7);
 
@@ -577,6 +574,26 @@ table.tablesorter thead tr .headerSortDown:after{color:@link-color!important;}
 .dropdown-submenu:focus > a 
 {
   background-color: @dropdown-link-hover-bg;
+}
+
+// Datetimepicker
+.datetimepicker td.day.today
+{
+    background-color: @color-warning!important;
+    border-color: @color-warning!important;
+}
+.datetimepicker td.day.active
+{
+    background-color: @color-primary!important;
+    border-color: darken(@color-primary, 10%)!important;
+}
+.datetimepicker td.day.active:hover
+{
+    background-color: darken(@color-primary, 10%)!important;
+}
+.datetimepicker td.day.today:hover,
+.datetimepicker td.day.today.active:hover{
+    background-color: darken(@color-warning, 10%)!important;
 }
 
 // Kindeditor
