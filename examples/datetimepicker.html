@@ -23,7 +23,7 @@
   <script>
   $(function()
   {
-      $('.form_datetime').datetimepicker(
+      $('.form-datetime').datetimepicker(
       {
           weekStart: 1,
           todayBtn:  1,
@@ -32,9 +32,9 @@
           startView: 2,
           forceParse: 0,
           showMeridian: 1,
-          isInline: false
+          format: 'yyyy-mm-dd hh:ii'
       });
-      $('.form_date').datetimepicker(
+      $('.form-date').datetimepicker(
       {
           language:  'zh-CN',
           weekStart: 1,
@@ -43,9 +43,10 @@
           todayHighlight: 1,
           startView: 2,
           minView: 2,
-          forceParse: 0
+          forceParse: 0,
+          format: 'yyyy-mm-dd'
       });
-      $('.form_time').datetimepicker({
+      $('.form-time').datetimepicker({
           language:  'zh-CN',
           weekStart: 1,
           todayBtn:  1,
@@ -54,7 +55,8 @@
           startView: 1,
           minView: 0,
           maxView: 1,
-          forceParse: 0
+          forceParse: 0,
+          format: 'hh:ii'
       });
   })
   </script>
@@ -126,7 +128,7 @@
           <legend>Test</legend>
           <div class="form-group">
             <label for="dtp_input1" class="col-md-2 control-label">DateTime Picking</label>
-            <div class="input-group date form_datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+            <div class="input-group date form-datetime col-md-5" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
               <input class="form-control" size="16" type="text" value="" readonly>
               <span class="input-group-addon"><span class="icon-remove"></span></span>
               <span class="input-group-addon"><span class="icon-th"></span></span>
@@ -135,7 +137,7 @@
           </div>
           <div class="form-group">
             <label for="dtp_input2" class="col-md-2 control-label">Date Picking</label>
-            <div class="input-group date form_date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+            <div class="input-group date form-date col-md-5" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
               <input class="form-control" size="16" type="text" value="" readonly>
               <span class="input-group-addon"><span class="icon-remove"></span></span>
               <span class="input-group-addon"><span class="icon-calendar"></span></span>
@@ -144,7 +146,7 @@
           </div>
           <div class="form-group">
             <label for="dtp_input3" class="col-md-2 control-label">Time Picking</label>
-            <div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+            <div class="input-group date form-time col-md-5" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
               <input class="form-control" size="16" type="text" value="" readonly>
               <span class="input-group-addon"><span class="icon-remove"></span></span>
               <span class="input-group-addon"><span class="icon-time"></span></span>
