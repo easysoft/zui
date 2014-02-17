@@ -88,7 +88,7 @@
 
   .panel
   {
-    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   }
 
   .panel-body
@@ -136,12 +136,12 @@
   {
     position: absolute;
     border: 2px solid rgba(255,255,255,0.9);
-    box-shadow: 2px 0 25px rgba(0,0,0,0.8)!important;
+    box-shadow: 1px 2px 15px rgba(0,0,0,0.5)!important;
     background: rgba(255,255,255,0.5);
 
     > * {.opacity(0.7);}
   }
 
-  .dragging-in:before {box-sizing: content-box; content:' '; display: block; position: absolute; left: -2px; top: -10px; width: 2px; height: 100%; background-color: rgba(255,255,255, 0.5); border: 1px solid #fff;}
+  .dragging-in:before {box-sizing: content-box; content:' '; display: block; position: absolute; left: -2px; top: -10px; width: 2px; height: 100%; background-color: rgba(0,0,0, 0.15); border: 1px solid #eee;}
   .dragging-in.dragging-col:before {display: none;}
 }

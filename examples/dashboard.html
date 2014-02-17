@@ -88,15 +88,15 @@
   </nav>
   <article>
     <h1>Dashboard</h1>
-    <div class="segment" style='max-width: 1600px; width: inherit; padding: 80px 50px; background: #3280fc'>
+    <div class="segment" style='max-width: 1600px; width: inherit; padding: 80px 50px;'>
       <div id="dashboard" class="dashboard dashboard-draggable" data-height="300">
         <header></header>
         <section class='row'>
           <div class="col-md-4 col-sm-6">
-            <div class="panel">
+            <div class="panel" data-url='http://baidu.com'>
               <div class="panel-heading">
                 <div class="panel-actions">
-                  <button class="btn btn-mini"><i class="icon-refresh"></i></button>
+                  <button class="btn btn-mini refresh-panel"><i class="icon-refresh"></i></button>
                     <div class="dropdown">
                       <button role="button" class="btn btn-mini" data-toggle="dropdown"><span class="caret"></span></button>
                       <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
@@ -123,7 +123,7 @@
             </div>
           </div>
           <div class="col-md-4 col-sm-6">
-            <div class="panel">
+            <div class="panel" data-url='http://chanzhi.org'>
               <div class="panel-heading">
                 <div class="panel-actions">
                   <a href="#"><i class="icon-refresh"></i></a>
@@ -131,6 +131,7 @@
                       <a href='#' role="button" data-toggle="dropdown"><span class="caret"></span></a>
                       <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
                         <li><a href="#"><i class="icon-pencil"></i> 编辑</a></li>
+                        <li><a href="#" class='refresh-panel'><i class="icon-refresh"></i> 刷新</a></li>
                         <li><a href="#" class="remove-panel"><i class="icon-remove"></i> 移除</a></li>
                       </ul>
                     </div>

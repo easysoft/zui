@@ -1770,6 +1770,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
     };
 })(jQuery);
 
+
 /* Dashboard */
 +function($, window, document, Math)
 {
@@ -1813,6 +1814,15 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
         });
     };
 
+    Dashboard.prototype.handleRefreshEvent = function()
+    {
+        this.$.find('.refresh-panel').click(function()
+        {
+            var panel = $(this).closest('.panel');
+            refreshPanel(panel);
+        });
+    }
+
     Dashboard.prototype.handleDraggable = function()
     {
         var dashboard    = this.$;
@@ -1831,6 +1841,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
             var panel     = $(this).closest('.panel');
             var row       = panel.closest('.row');
             var dPanel    = panel.clone().addClass('panel-dragging-shadow');
+            var dCol      = panel.parent().clone().addClass('panel-shadow-col');
             var pos       = panel.offset();
             var dPos      = dashboard.offset();
 
@@ -1947,11 +1958,37 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
         });
     };
 
+    function refreshPanel(panel)
+    {
+        var url = panel.data('url');
+        if(!url) return;
+        panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
+        $.ajax(
+        {
+            url: url,
+            dataType: 'html',
+        })
+        .done(function(data)
+        {
+            panel.find('.panel-body').html(data);
+        })
+        .fail(function()
+        {
+            panel.addClass('panel-error');
+        })
+        .always(function()
+        {
+            panel.removeClass('panel-loading');
+            panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
+        });
+    }
+
     Dashboard.prototype.init = function()
     {
         this.handlePanelHeight();
         this.handlePanelPadding();
         this.handleRemoveEvent();
+        this.handleRefreshEvent();
 
         if(this.draggable) this.handleDraggable();
 
@@ -1968,6 +2005,8 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
             {
                 $this.attr('data-id', orderSeed);
             }
+
+            refreshPanel($this);
         });
     }
 
