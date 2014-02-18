@@ -1,0 +1,174 @@
+.menu
+{
+  > .btn
+  {
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+    padding-left: 0;
+    padding-right: 0;
+
+    & + .nav
+    {
+      margin-top: 15px;
+    }
+  }
+
+  > .nav
+  {
+    > li
+    {
+      float: none;
+
+      &.nav-parent
+      {
+        > a > .nav-parent-fold-icon
+        {
+          position: absolute;
+          right: 10px;
+          top: 11px;
+          display: block;
+          transition: all 0.5s;
+          .opacity(0.45);
+        }
+
+        > a:hover > .nav-parent-fold-icon
+        {
+          .opacity(0.75);
+        }
+      }
+
+      > .nav
+      {
+        border: 1px solid @nav-primary-border-color;
+        margin-top: -1px;
+        background-color: lighten(@color-gray-pale, 2%);
+        display: none;
+
+        > li
+        {
+          > a
+          {
+            padding-left: 35px;
+
+            &:hover,
+            &:focus
+            {
+              background-color: darken(@nav-link-hover-bg, 5%);
+            }
+          }
+
+          // Active state
+          &.active > a
+          {
+            &,
+            &:hover,
+            &:focus
+            {
+              background-color: @component-active-bg;
+              border-color: @component-active-bg;
+              color: @component-active-color;
+              [class*='icon-']
+              {
+                color: @color-light;
+              }
+            }
+          }
+        }
+      }
+
+      > a,
+      > .nav > li > a
+      {
+        > [class*='icon-']
+        {
+          display: inline-block;
+          margin-right: 5px;
+          color: @color-gray;
+        }
+      }
+
+      + li
+      {
+        margin-top: -1px;
+        margin-left: 0; // no need for this gap between nav items
+      }
+
+      &,
+      > a
+      {
+        margin-left: 0;
+      }
+
+      &:first-child
+      {
+        margin-top: 0;
+        > a,
+        &.nav-heading
+        {
+          margin-left: 0;
+          .border-bottom-radius(0);
+          .border-top-radius(@border-radius-base);
+        }
+      }
+
+      &:last-child
+      {
+        > a
+        {
+          .border-top-radius(0);
+          .border-bottom-radius(@border-radius-base);
+        }
+      }
+
+      // Active state
+      &.active > a
+      {
+        &,
+        &:hover,
+        &:focus
+        {
+          [class*='icon-']
+          {
+            color: @color-light;
+          }
+        }
+      }
+
+      &.show
+      {
+        > a
+        {
+          &,
+          &:hover,
+          &:focus,
+          {
+            color: @color-fore;
+            background-color: @color-back;
+            border-color: @nav-primary-border-color;
+
+            > [class*='icon-']
+            {
+              color: @color-fore;
+            }
+          }
+
+          &:hover
+          {
+            background-color: @nav-link-hover-bg;
+          }
+        }
+        > .nav
+        {
+          display: block;
+        }
+      }
+
+      &.nav-heading
+      {
+        border: 1px solid @color-gray-light;
+        background-color: @color-gray-pale;
+      }
+    }
+  }
+}
