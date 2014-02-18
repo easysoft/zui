@@ -40,8 +40,6 @@
 
       > .nav
       {
-        border: 1px solid @nav-primary-border-color;
-        margin-top: -1px;
         background-color: lighten(@color-gray-pale, 2%);
         display: none;
 
@@ -50,6 +48,8 @@
           > a
           {
             padding-left: 35px;
+            border: 1px solid @nav-primary-border-color;
+            margin-top: -1px;
 
             &:hover,
             &:focus
@@ -158,6 +158,21 @@
             background-color: @nav-link-hover-bg;
           }
         }
+
+        
+        &:last-child
+        {
+          > a
+          {
+            .border-bottom-radius(0); 
+          }
+
+          > .nav > li:last-child > a
+          {
+            .border-bottom-radius(@border-radius-base);
+          }
+        }
+
         > .nav
         {
           display: block;
