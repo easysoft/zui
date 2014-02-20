@@ -1,0 +1,26 @@
+.table-data
+{
+  th,
+  td
+  {
+    padding: 8px 5px;
+    font-size: 12px;
+  }
+
+  td.title
+  {
+    font-weight: bold;
+  }
+
+  .dropdown {display: inline-block;}
+
+  tr[data-url] td
+  {
+    cursor: pointer;
+
+    &.actions
+    {
+      cursor: default;
+    }
+  }
+}
