@@ -543,6 +543,12 @@ table.tablesorter thead tr .headerSortDown:after{color:@link-color!important;}
     border-color: @input-border-focus!important;
   }
 
+  &.chosen-with-drop .chosen-single
+  {
+    border-color:  @dropdown-fallback-border!important; // IE8 fallback
+    border-color:  @dropdown-border!important;
+  }
+
   .chosen-choices
   {
     @color-rgba:  rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6)!important;
