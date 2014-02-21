@@ -1,0 +1,23 @@
+.form-condensed
+{
+  .form-control
+  {
+    .input-sm();
+  }
+
+  textarea.form-control { height: auto; }
+
+  .btn
+  {
+    .btn-sm();
+  }
+
+  .input-group > .form-control,
+  .input-group > .input-group-addon,
+  .input-group > .input-group-btn > .btn
+  {
+    padding: @padding-small-vertical @padding-small-horizontal;
+    font-size: @font-size-small;
+    .border-right-radius(@border-radius-small);
+  }
+}
