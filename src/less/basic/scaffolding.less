@@ -50,6 +50,18 @@ a
   {
     .tab-focus();
   }
+
+  &.disabled,
+  &.disabled:hover,
+  &.disabled:focus,
+  &[disabled],
+  &[disabled]:hover,
+  &[disabled]:focus
+  {
+    text-decoration: none;
+    color: @color-gray;
+    cursor: default;
+  }
 }
 
 
