@@ -42,6 +42,41 @@
     interval: 5000
   , pause: 'hover'
   , wrap: true
+  , touchable: true
+  }
+
+  Carousel.prototype.touchable = function()
+  {
+    if(!this.options.touchable) return;
+
+    this.$element.on('touchstart touchmove touchend', $.proxy(touch,this));
+
+    /* listen the touch event */
+    function touch(event)
+    {
+        var event = event || window.event;
+        if(event.originalEvent) event = event.originalEvent;
+
+        switch(event.type)
+        {
+            case "touchstart":
+                this.touchStart = event.touches[0];
+                break;
+            case "touchend":
+                handleCarousel(this.$element, event.changedTouches[0].pageX - this.touchStart.pageX);
+                break;
+        }
+        event.preventDefault();
+    }
+
+    function handleCarousel(carousel, this, distance)
+    {
+        if(carousel.length < 1) return;
+
+        if(distance > 10) carousel.find('.left.carousel-control').click();
+
+        if(distance < -10) carousel.find('.right.carousel-control').click();
+    }
   }
 
   Carousel.prototype.cycle =  function (e) {
