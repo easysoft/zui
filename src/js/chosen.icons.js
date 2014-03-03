@@ -21,12 +21,13 @@
         webIcons: ['share', 'pencil', 'trash', 'file-alt', 'file', 'file-text', 'download-alt', 'upload-alt', 'inbox', 'repeat', 'rotate-left', 'refresh', 'lock', 'unlock', 'check', 'check-empty', 'eye-open', 'eye-close', 'key', 'signin', 'signout', 'external-link', 'external-link-sign', 'link', 'reorder', 'quote-left', 'quote-right', 'spinner', 'reply', 'question', 'info', 'exclamation', 'archive', 'collapse', 'collapse-top'],
         editorIcons: ['table', 'copy', 'paperclip', 'save', 'list-ol','paste', 'keyboard', 'crop', 'unlink', 'sort-by-alphabet', 'sort-by-alphabet-alt', 'sort-by-attributes', 'sort-by-attributes-alt', 'sort-by-order', 'sort-by-order-alt'],
         directionalIcons: ['chevron-left', 'chevron-right', 'chevron-down', 'chevron-up', 'arrow-left', 'arrow-right', 'arrow-down', 'arrow-up', 'hand-right', 'hand-left', 'hand-up', 'hand-down', 'circle-arrow-left', 'circle-arrow-right', 'circle-arrow-up', 'circle-arrow-down', 'double-angle-left', 'double-angle-right', 'double-angle-down', 'double-angle-up', 'angle-left', 'angle-right', 'angle-down', 'angle-up', 'long-arrow-left', 'long-arrow-right', 'long-arrow-down', 'long-arrow-up', 'caret-left', 'caret-right', 'caret-down', 'caret-up'],
-        otherIcons: ['desktop', 'laptop', 'tablet', 'mobile-phone', 'github', 'building', 'yen', 'cny', 'firefox', 'ie', 'opera', 'qq', 'lemon', 'sign-blank', 'circle', 'circle-blank', 'terminal', 'html5', 'female', 'male', 'andriod', 'apple', 'windows', 'weibo', 'renren', 'bug', 'moon', 'sun']
+        otherIcons: ['desktop', 'laptop', 'tablet', 'mobile-phone', 'github', 'building', 'yen', 'cny', 'firefox', 'ie', 'opera', 'qq', 'lemon', 'sign-blank', 'circle', 'circle-blank', 'terminal', 'html5', 'female', 'male', 'android', 'apple', 'windows', 'weibo', 'renren', 'bug', 'moon', 'sun']
     };
 
     ChosenIcons.LANGS = {};
     ChosenIcons.LANGS['zh-cn'] = 
     {
+        emptyIcon : '[没有图标]',
         commonIcons : '常用图标',
         webIcons: 'Web 图标',
         editorIcons: '编辑器图标',
@@ -35,6 +36,7 @@
     };
     ChosenIcons.LANGS['en'] = 
     {
+        emptyIcon : '[No Icon]',
         commonIcons : 'Common Icons',
         webIcons: 'Web Icons',
         editorIcons: 'Editor Icons',
@@ -43,6 +45,7 @@
     };
     ChosenIcons.LANGS['zh-tw'] = 
     {
+        emptyIcon : '[沒有圖標]',
         commonIcons : '常用圖標',
         webIcons: 'Web 圖標',
         editorIcons: '編輯器圖標',
@@ -67,6 +70,8 @@
             $this.append(this.getOptionHtml());
         }
 
+        var lang = this.lang;
+
         $this.append(this.getgroupHtml('commonIcons'));
         $this.append(this.getgroupHtml('webIcons'));
         $this.append(this.getgroupHtml('editorIcons'));
@@ -81,15 +86,19 @@
         {
             $(chosenSelector + ' .chosen-results .group-option').each(function()
             {
-                var $t = $(this).addClass('icon');
-                var text = $t.text();
-                $t.html('<i class="' + text + '" title="' + text + '"></i>');
+                var $this = $(this).addClass('icon');
+                var text = $(this).text();
+                $this.html('<i class="icon-' + text + '" title="' + text + '"></i>');
             });
         }).change(function()
         {
+            console.log('changed');
             var span = $(chosenSelector + ' .chosen-single > span');
             var text = $(this).val();
-            $(chosenSelector + ' .chosen-single > span').html('<i class="' + text + '"></i> &nbsp; ' + text);
+
+            if(text && text.length > 0)
+                span.html('<i class="' + text + '"></i> &nbsp; <span class="text-muted">' + text.substr(5).replace(/-/g, ' ') + '</span>');
+            else span.html('<span class="text-muted">' + lang.emptyIcon + '</span>')
 
         });
 
@@ -116,8 +125,17 @@
 
     ChosenIcons.prototype.getOptionHtml = function(value)
     {
-        if(value && value.length > 0) value = 'icon-' + value; else value = '';
-        return '<option value="' + value + '">' + value+ '</option>';
+        name = value;
+        if(value && value.length > 0)
+        {
+            value = 'icon-' + value; 
+        }
+        else
+        {
+            value = '';
+            name = this.lang.emptyIcon;
+        }
+        return '<option value="' + value + '">' + name + '</option>';
     }
 
     $.fn.chosenIcons = function(option)
