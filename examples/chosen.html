@@ -11,7 +11,6 @@
 
   <script src="../dist/js/jquery.js"></script>
   <script src="../dist/js/zui.min.js"></script>
-  <script src="../src/js/debug.js"></script>
 
   <!--[if lt IE 9]>
   <script src="../assets/js/html5shiv.js"></script>
@@ -28,7 +27,7 @@
         '.chosen-select-deselect'  : {allow_single_deselect:true},
         '.chosen-select-no-single' : {disable_search_threshold:10},
         '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-        '.chosen-select-width'     : {width:"100%"}
+        '.chosen-select-width'     : {width:"auto"}
       };
       for (var selector in config) {
         $(selector).chosen(config[selector]);
