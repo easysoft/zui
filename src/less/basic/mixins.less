@@ -548,8 +548,16 @@
   &[href] {
     &:hover,
     &:focus {
+      color: #fff;
       background-color: darken(@color, 10%);
     }
+  }
+
+  &.label-circle
+  {
+    background: none;
+    border:1px solid @color;
+    color: @color;
   }
 }
 
