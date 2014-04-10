@@ -93,7 +93,13 @@ fieldset[disabled] .btn-link:focus {
 }
 .label-primary[href]:hover,
 .label-primary[href]:focus {
+  color: #fff;
   background-color: #0462f7;
+}
+.label-primary.label-circle {
+  background: none;
+  border: 1px solid #3280fc;
+  color: #3280fc;
 }
 .label-primary[href]:hover,
 .label-primary[href]:focus {
