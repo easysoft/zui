@@ -1,15 +1,20 @@
+.dropdown-menu > .active > a
+{
+    &, &:hover, &:focus {background-color: #ccc;}
+}
+
 /* color of a when visited */
-.outer .table tbody td a:visited, #crumbs a:visited {color:@link-color;}
+.outer .table tbody td a:visited, #crumbs a:visited {color:@link-color!important;}
 
 .tablesorter thead tr .headerSortUp:after,.tablesorter thead tr .headerSortDown:after {color:@color-primary}
 
-#modulemenu li a {color: @link-color}
-#header {background:@color-secondary}
+#modulemenu .nav > li > a, #modulemenu .nav > li > .dropdown > a {color: @link-color!important}
+#header {background:@color-secondary!important}
 #modulemenu li{color: #444;}
 #modulemenu li.active>a,#modulemenu li.active>a:hover{color: #444}
-#mainmenu li>a {background:lighten(@color-secondary,10%)}
-#mainmenu li>a:hover {background:lighten(@color-secondary,15%)}
-#mainmenu li.active>a,#mainmenu li.active>a:hover{background-color: #e5e5e5;color: #444}
+#mainmenu li>a {background:lighten(@color-secondary,10%)!important}
+#mainmenu li>a:hover {background:lighten(@color-secondary,15%)!important}
+#mainmenu li.active>a,#mainmenu li.active>a:hover{background-color: #e5e5e5!important;color: #444!important}
 
 caption,#featurebar,#titlebar {background-color: @color-pale}
 
