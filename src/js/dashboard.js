@@ -68,7 +68,6 @@
             var panel     = $(this).closest('.panel');
             var row       = panel.closest('.row');
             var dPanel    = panel.clone().addClass('panel-dragging-shadow');
-            var dCol      = panel.parent().clone().addClass('panel-shadow-col');
             var pos       = panel.offset();
             var dPos      = dashboard.offset();
 
@@ -99,14 +98,27 @@
                 row.children().each(function()
                 {
                     var p = $(this).children('.panel');
+                    if(!p.length) return true;
                     var pP = p.offset(), pW = p.width(), pH = p.height();
-                    var pX = pP.left - pW / 2, pY = pP.top;
+                    var pX = pP.left - pW * 2 / 2, pY = pP.top;
                     var mX = event.pageX, mY = event.pageY;
 
-                    if(mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH))
+                    if(mX > pX && mY > pY && mX < (pX + pW*2) && mY < (pY + pH))
                     {
-                        p.parent().addClass('dragging-in');
+                        var dCol = row.find('.dragging-col');
+                        var dColShadow = row.find('.dragging-col-holder');
+                        if(!dColShadow.length)
+                        {
+                            dColShadow = $("<div class='dragging-col-holder'><div class='panel'></div></div>").addClass(dCol.attr('class')).removeClass('dragging-col').appendTo(row);
+                        }
+                        dColShadow.find('.panel').replaceWith(panel.clone());
+                        dColShadow.insertBefore(p.parent().addClass('dragging-in'));
+                        dashboard.addClass('dashboard-holding');
                         return false;
+                    }
+                    else
+                    {
+                        dashboard.removeClass('dashboard-holding');
                     }
                 });
                 event.preventDefault();
@@ -143,6 +155,7 @@
 
                 dPanel.remove();
 
+                dashboard.removeClass('dashboard-holding');
                 dashboard.find('.dragging-col').removeClass('dragging-col');
                 dashboard.find('.panel-dragging').removeClass('panel-dragging');
                 draggingIn.removeClass('dragging-in');
