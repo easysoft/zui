@@ -95,10 +95,10 @@
                 });
 
                 row.find('.dragging-in').removeClass('dragging-in');
-                row.children().each(function()
+                row.children(':not(.dragging-col-holder)').each(function()
                 {
-                    var p = $(this).children('.panel');
-                    if(!p.length) return true;
+                    var col = $(this);
+                    var p = col.children('.panel');
                     var pP = p.offset(), pW = p.width(), pH = p.height();
                     var pX = pP.left - pW * 2 / 2, pY = pP.top;
                     var mX = event.pageX, mY = event.pageY;
@@ -111,8 +111,8 @@
                         {
                             dColShadow = $("<div class='dragging-col-holder'><div class='panel'></div></div>").addClass(dCol.attr('class')).removeClass('dragging-col').appendTo(row);
                         }
-                        dColShadow.find('.panel').replaceWith(panel.clone());
-                        dColShadow.insertBefore(p.parent().addClass('dragging-in'));
+                        dColShadow.find('.panel').replaceWith(panel.clone().addClass('panel-dragging-holder'));
+                        dColShadow.insertBefore(col.addClass('dragging-in'));
                         dashboard.addClass('dashboard-holding');
                         return false;
                     }
@@ -138,7 +138,7 @@
                     var oldOrders = row.data('orders');
 
 
-                    row.children(':not(.panel-dragging)').each(function(index)
+                    row.children(':not(.panel-dragging, .panel-dragging-holder)').each(function(index)
                     {
                         var p = $(this).children('.panel');
                         p.data('order', ++newOrder);
