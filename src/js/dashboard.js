@@ -66,10 +66,18 @@
         this.$.find('.panel-heading').mousedown(function(event)
         {
             var panel     = $(this).closest('.panel');
+            var pCol      = panel.parent();
             var row       = panel.closest('.row');
             var dPanel    = panel.clone().addClass('panel-dragging-shadow');
             var pos       = panel.offset();
             var dPos      = dashboard.offset();
+            var dColShadow = row.find('.dragging-col-holder');
+            if(!dColShadow.length)
+            {
+                dColShadow = $("<div class='dragging-col-holder'><div class='panel'></div></div>").addClass(row.children().attr('class')).removeClass('dragging-col').appendTo(row);
+            }
+
+            dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
 
             dashboard.addClass('dashboard-dragging');
             panel.addClass('panel-dragging').parent().addClass('dragging-col');
@@ -95,30 +103,24 @@
                 });
 
                 row.find('.dragging-in').removeClass('dragging-in');
-                row.children(':not(.dragging-col-holder)').each(function()
+                var before = false;
+                row.children().each(function()
                 {
                     var col = $(this);
+                    if(col.hasClass('dragging-col-holder')) {before = true; return true;}
                     var p = col.children('.panel');
                     var pP = p.offset(), pW = p.width(), pH = p.height();
-                    var pX = pP.left - pW * 2 / 2, pY = pP.top;
+                    var pX = pP.left, pY = pP.top;
                     var mX = event.pageX, mY = event.pageY;
 
-                    if(mX > pX && mY > pY && mX < (pX + pW*2) && mY < (pY + pH))
+                    if(mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH))
                     {
                         var dCol = row.find('.dragging-col');
-                        var dColShadow = row.find('.dragging-col-holder');
-                        if(!dColShadow.length)
-                        {
-                            dColShadow = $("<div class='dragging-col-holder'><div class='panel'></div></div>").addClass(dCol.attr('class')).removeClass('dragging-col').appendTo(row);
-                        }
-                        dColShadow.find('.panel').replaceWith(panel.clone().addClass('panel-dragging-holder'));
-                        dColShadow.insertBefore(col.addClass('dragging-in'));
+                        col.addClass('dragging-in')
+                        if(before) dColShadow.insertAfter(col);
+                        else dColShadow.insertBefore(col);
                         dashboard.addClass('dashboard-holding');
                         return false;
-                    }
-                    else
-                    {
-                        dashboard.removeClass('dashboard-holding');
                     }
                 });
                 event.preventDefault();
@@ -126,25 +128,21 @@
 
             function mouseUp(event)
             {
-                var draggingIn = row.find('.dragging-in');
-                var pOrder = panel.data('order');
-                var dOrder = draggingIn.find('.panel').data('order');
+                var oldOrder = panel.data('order');
+                panel.parent().insertAfter(dColShadow);
+                var newOrder = 0;
+                var newOrders = {};
 
-                if(dOrder && pOrder != dOrder && pOrder != (dOrder - 1))
+                row.children(':not(.dragging-col-holder)').each(function(index)
                 {
-                    panel.parent().insertBefore(draggingIn);
-                    var newOrder = 0;
-                    var newOrders = {};
-                    var oldOrders = row.data('orders');
+                    var p = $(this).children('.panel');
+                    p.data('order', ++newOrder);
+                    newOrders[p.attr('id')] = newOrder;
+                    p.parent().attr('data-order', newOrder);
+                });
 
-
-                    row.children(':not(.panel-dragging, .panel-dragging-holder)').each(function(index)
-                    {
-                        var p = $(this).children('.panel');
-                        p.data('order', ++newOrder);
-                        newOrders[p.attr('id')] = newOrder;
-                    });
-
+                if(oldOrder != newOrders[panel.attr('id')])
+                {
                     row.data('orders', newOrders);
 
                     if(afterOrdered && $.isFunction(afterOrdered))
@@ -158,7 +156,7 @@
                 dashboard.removeClass('dashboard-holding');
                 dashboard.find('.dragging-col').removeClass('dragging-col');
                 dashboard.find('.panel-dragging').removeClass('panel-dragging');
-                draggingIn.removeClass('dragging-in');
+                row.find('.dragging-in').removeClass('dragging-in');
                 dashboard.removeClass('dashboard-dragging');
                 $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
                 event.preventDefault();
