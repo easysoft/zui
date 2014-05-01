@@ -333,6 +333,9 @@ table.tablesorter thead tr .headerSortDown:after {
 .dropdown-submenu:focus > a {
   background-color: #3280fc;
 }
+.dropdown-submenu:hover > a:after {
+  border-left-color: #ffffff;
+}
 .datetimepicker td.day.today {
   background-color: #e48600 !important;
   border-color: #e48600 !important;
@@ -368,10 +371,6 @@ table.tablesorter thead tr .headerSortDown:after {
 }
 .messager-primary {
   background-color: #3280fc;
-}
-a.card:hover,
-.card:hover a {
-  color: #145ccd;
 }
 .comment:hover > .content > .actions > a {
   color: #145ccd;
