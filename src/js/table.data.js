@@ -28,7 +28,7 @@
     {
         var $dataTable = this.$;
 
-        this.$.find('tr[data-url] td:not(".actions")').click(function(event)
+        this.$.find('tr[data-url]:not(".app-btn") td:not(".actions")').click(function(event)
         {
             if($(event.target).is('a, .caret')) return;
 
