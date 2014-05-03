@@ -47,36 +47,48 @@
 
   Carousel.prototype.touchable = function()
   {
-    if(!this.options.touchable) return;
+      if(!this.options.touchable) return;
 
-    this.$element.on('touchstart touchmove touchend', $.proxy(touch,this));
+      this.$element.on('touchstart touchmove touchend', touch);
+      // this.$element.on('touchstart touchmove touchend', $.proxy(touch,this));
 
-    /* listen the touch event */
-    function touch(event)
-    {
-        var event = event || window.event;
-        if(event.originalEvent) event = event.originalEvent;
+      // $('.carousel').on('touchstart touchmove touchend',  touch);
 
-        switch(event.type)
-        {
-            case "touchstart":
-                this.touchStart = event.touches[0];
-                break;
-            case "touchend":
-                handleCarousel(this.$element, event.changedTouches[0].pageX - this.touchStart.pageX);
-                break;
-        }
-        event.preventDefault();
-    }
+      var touchStartX, touchStartY;
+      
+      /* listen the touch event */
+      function touch(event)
+      {
+          var event = event || window.event;
+          if(event.originalEvent) event = event.originalEvent;
+          var carousel = $(this);
 
-    function handleCarousel(carousel, this, distance)
-    {
-        if(carousel.length < 1) return;
+          switch(event.type)
+          {
+              case "touchstart":
+                  touchStartX = event.touches[0].pageX;
+                  touchStartY = event.touches[0].pageY;
+                  break;
+              case "touchend":
+                  var distanceX = event.changedTouches[0].pageX - touchStartX;
+                  var distanceY = event.changedTouches[0].pageY - touchStartY;
+                  if(Math.abs(distanceX) > Math.abs(distanceY))
+                      handleCarousel(carousel, distanceX);
+                  else
+                  {
+                      var $w = $(window);
+                      $('body,html').animate({scrollTop:$w.scrollTop() - distanceY},400)
+                  }
+                  break;
+          }
+          event.preventDefault();
+      }
 
-        if(distance > 10) carousel.find('.left.carousel-control').click();
-
-        if(distance < -10) carousel.find('.right.carousel-control').click();
-    }
+      function handleCarousel(carousel, distance)
+      {
+          if(distance > 10) carousel.find('.left.carousel-control').click();
+          if(distance < -10) carousel.find('.right.carousel-control').click();
+      }
   }
 
   Carousel.prototype.cycle =  function (e) {
