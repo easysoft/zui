@@ -70,7 +70,7 @@
 
   var defaults = {
     // default language
-    locale: $('html').attr('lang').replace(/-/, '_') || "en",
+    locale: judgeClientLang(),
     // show backdrop or not
     backdrop: true,
     // animate the modal in/out
@@ -88,11 +88,26 @@
   // our public object; augmented after our private API
   var exports = {};
 
+  function judgeClientLang()
+  {
+     var lang;
+     if(config && config.clientLang)
+     {
+         lang = config.clientLang;
+     }
+     else
+     {
+         var hl = $('html').attr('lang');
+         lang = hl? hl : 'en';
+     }
+     return lang.replace(/-/, '_').toLowerCase();
+  }
+
   /**
    * @private
    */
   function _t(key) {
-    var locale = locales[defaults.locale.toLowerCase()];
+    var locale = locales[defaults.locale];
     return locale ? locale[key] : locales.en[key];
   }
 
@@ -140,7 +155,6 @@
     if (!options.message) {
       throw new Error("Please specify a message");
     }
-
 
     // make sure any supplied options take precedence over defaults
     options = $.extend({}, defaults, options);
