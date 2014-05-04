@@ -35,3 +35,22 @@ String.prototype.format = function(args)
     }
     return result;
 };
+
+
+/**
+ * Judge the string is a integer number
+ * 
+ * @access public
+ * @return bool
+ */
+String.prototype.isNum = function(s)
+{
+    if(s!=null)
+    {
+        var r, re;
+        re = /\d*/i;
+        r = s.match(re);
+        return (r == s) ? true : false;
+    }
+    return false;
+}
