@@ -91,7 +91,7 @@
   function judgeClientLang()
   {
      var lang;
-     if(config && config.clientLang)
+     if(typeof(config) != 'undefined' && config.clientLang)
      {
          lang = config.clientLang;
      }
