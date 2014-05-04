@@ -25,3 +25,4 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 // "messager.js"
 // @koala-append "../../../js/string.js"
 // @koala-append "../../../js/date.js"
+// @koala-append "../../../js/resize.js"
