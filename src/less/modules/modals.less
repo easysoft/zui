@@ -23,7 +23,7 @@
 {
   display: none;
   overflow: auto;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: fixed;
   top: 0;
   right: 0;
@@ -34,6 +34,14 @@
   // When fading in the modal, animate it to slide down
   &.fade .modal-dialog { .translate(0, -25%); .transition-transform(~"0.3s ease-out"); }
   &.in .modal-dialog { .translate(0, 0)}
+
+  .loader {display: none}
+
+  &.modal-loading
+  {
+      .modal-dialog {margin-top: -100%!important;}
+      .loader{position: absolute; display: block; text-align: center; font-size: 56px; color: #fff; top: 35%; width: 100%}
+  }
 }
 
 // Shell div to position the modal with bottom padding
@@ -51,6 +59,19 @@
   background-clip: padding-box;
   // Remove focus outline from opened modal
   outline: none;
+
+  &.fullscreen
+  {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0;
+    border: none !important;
+    border-radius: none;
+
+    > .modal-body iframe {height: 100%}
+  }
+
+  &.modal-iframe .modal-body {padding: 0}
 }
 
 // Modal background

@@ -36,6 +36,7 @@
       backdrop: true
     , keyboard: true
     , show: true
+    , position: 'fit' // 'center' or '40px' or '10%'
   }
 
   Modal.prototype.toggle = function (_relatedTarget) {
@@ -72,6 +73,14 @@
       that.$element
         .addClass('in')
         .attr('aria-hidden', false)
+
+      if(that.options.position)
+      {
+         var dialog = that.$element.find('.modal-dialog');
+         var half = Math.max(0, ($(window).height() - dialog.outerHeight())/2);
+         var pos = that.options.position == 'fit' ? (half*2/3) : (that.options.position == 'center' ? half : that.options.position);
+         dialog.css('margin-top', pos);
+      }
 
       that.enforceFocus()
 
@@ -228,6 +237,7 @@
     var $this   = $(this)
     var href    = $this.attr('href')
     var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
+    if($target.length < 1) return;
     var option  = $target.data('modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
 
     e.preventDefault()

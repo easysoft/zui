@@ -13,6 +13,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 // @koala-append "collapse.js"
 // @koala-append "dropdown.js"
 // @koala-append "modal.js"
+// @koala-append "modal.trigger.js"
 // @koala-append "tooltip.js"
 // @koala-append "popover.js"
 // @koala-append "pager.js"
