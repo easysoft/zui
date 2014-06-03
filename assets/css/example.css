@@ -23,7 +23,8 @@ body > article.article-small
   max-width: 700px;
 }
 
-@-webkit-keyframes glow {
+@-webkit-keyframes glow
+{
     0% {
         -webkit-box-shadow: 0 0 12px rgba(71,164,71, 0.1);
         border-color: rgba(71, 164, 71, 0.9);
@@ -44,7 +45,7 @@ body > article.article-small
   border-width: 1px;
   border-left: 0;
   border-right: 0;
-  border-color: #DDD;
+  border-color: #ddd;
   outline: none;
   transition:all 0.3s;
 }
@@ -69,10 +70,8 @@ body > .container .segment
 }
 .segment:focus
 {
-  border: 10px solid #47a447;
-  margin-left: -50px;
-  margin-right: -50px;
-  border-top-width: 40px;
+  margin-left: -40px;
+  margin-right: -40px;
   box-shadow:0px 1px 15px rgba(0,0,0,0.5);
   -webkit-animation-name: glow;
   -webkit-animation-duration: 1s;
@@ -85,15 +84,19 @@ body > .container .segment
 {
   text-shadow:1px 1px 1px rgba(0,0,0,0.5);
   display: block;
-  top: -40px;
-  width: 100%;
+  top: -1px;
+  right: -60px;
+  width: 60px;
   position: absolute;
-  content: "^_^ 您可以直接编辑本示例。 ";
+  content: "\e640";
+  font-family: ZenIcon;
+  font-size: 28px;
   text-align: center;
   padding: 10px;
   color: #fff;
-  background: transparent;
+  background: #47a447;
   transition: all ease-in-out .15s;
+  border-radius: 0 6px 6px 0;
 }
 .segment.no-padding
 {
