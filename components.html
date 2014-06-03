@@ -20,6 +20,7 @@ base_url: "./"
 
     <link href="dist/css/zui.css" rel="stylesheet">
     <link href="assets/css/doc.css" rel="stylesheet">
+    <link href="/dist/js/highlight/styles/monokai_sublime.css" rel="stylesheet">
   </head>
   <body>
     <header>
@@ -31,6 +32,8 @@ base_url: "./"
           <ul class="nav navbar-nav">
             <li class="nav-heading">开始</li>
             <li><a href="start.html">框架说明</a></li>
+            <li><a href="controls.html">控件</a></li>
+            <li><a href="components.html">组件</a></li>
           </ul>
           <ul class="nav navbar-nav">
             <li class="nav-heading">组件</li>
@@ -50,65 +53,102 @@ base_url: "./"
     </header>
     <div id="main">
       <div class="page-header">
-        <h1>组件</h1>
+        <h1>组件 <small>一些常用的组件，用于快速构建应用</small></h1>
       </div>
 
       <section id="alerts">
         <div class="page-header">
-          <h2>警告框</h2>
+          <h2>消息框</h2>
         </div>
 
-        <h3>类型</h3>
-        <h4>标准消息框</h4>
-        <div class="segment">
+        <p>消息框能够轻松展示一些需要引起用户注意的内容。</p>
+
+        <h3>不同感情色彩的消息框</h3>
+        <p>这里提供了5中色彩的消息框用于不同场合。</p>
+        <div class="example" contenteditable="true">
           <div class="alert">
-            <strong>Well done!</strong> You successfully read this important alert message.
+            <strong>你好!</strong> 有一些内容你可能需要知道。
           </div>
           <div class="alert alert-success">
-            <strong>Well done!</strong> You successfully read this important alert message.
+            <strong>太好了!</strong> 一切已准备就绪。
           </div>
           <div class="alert alert-info">
-            <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+            <strong>Hi!</strong> 这条消息可能需要你注意。
           </div>
           <div class="alert alert-warning">
-            <strong>Warning!</strong> Best check yo self, you're not looking too good.
+            <strong>注意!</strong> 看起来遇到一些问题。
           </div>
           <div class="alert alert-danger">
-            <strong>Oh snap!</strong> Change a few things up and try submitting again.
+            <strong>不好了!</strong> 确实遇到了问题，请立即处理吧。
           </div>
         </div>
-        <h4>带图标的消息框</h4>
-        <div class="segment">
+
+        <h3>使用图标</h3>
+        <p>在消息框中使用醒目的合适的图标能更容易让用户接收。</p>
+        <div class="example" contenteditable="true">
           <div class="alert">
             <i class="icon-inbox"></i>
-            <div class="content"><strong>Well done!</strong> You successfully read this important alert message.</div>
+            <div class="content"><strong>你好!</strong> 有一些内容你可能需要知道。</div>
           </div>
           <div class="alert alert-success">
             <i class="icon-ok-sign"></i>
-            <div class="content"><strong>Well done!</strong> You successfully read this important alert message.</div>
+            <div class="content"><strong>太好了!</strong> 一切已准备就绪。</div>
           </div>
           <div class="alert alert-info">
             <i class="icon-info-sign"></i>
-            <div class="content"><strong>Heads up!</strong> This alert needs your attention, but it's not super important.</div>
+            <div class="content"><strong>Hi!</strong> 这条消息可能需要你注意。</div>
           </div>
           <div class="alert alert-warning">
             <i class="icon-frown"></i>
-            <div class="content"><strong>Warning!</strong> Best check yo self, you're not looking too good.</div>
+            <div class="content"><strong>注意!</strong> 看起来遇到一些问题。</div>
           </div>
           <div class="alert alert-danger">
-            <i class="icon-time"></i>
-            <div class="content"><strong>Oh snap!</strong> Change a few things up and try submitting again.</div>
+            <i class="icon-remove-sign"></i>
+            <div class="content"><strong>不好了!</strong> 确实遇到了问题，请立即处理吧。</div>
           </div>
         </div>
 
-        <h4>块级消息</h4>
-        <p>块级消息框将没有内边距和外边距，适合用在页面顶部或者浮现在页面之上</p>
-        <div class="segment no-padding">
-          <div class="alert alert-block alert-success">
-            <i class="icon-heart"></i>
-            <div class="content">
-              <strong>Oh snap!</strong> Change a few things up and try submitting again.
-            </div>
+        <h3>块级消息</h3>
+        <p>块级消息框将没有外边距，适合用在页面顶部或者浮现在页面之上</p>
+        <div class="example no-padding">
+          <div class="alert alert-success alert-block">
+            <i class="icon-ok-sign"></i>
+            <div class="content"><strong>太好了!</strong> 一切已准备就绪。</div>
+          </div>
+        </div>
+
+        <h3>消息框中的链接</h3>
+        <p>当消息框中包含链接时，推荐使用工具栏<code>.alert-link</code>来使得链接的样式与消息框类型保持一致。</p>
+        <div class="example" contenteditable="true">
+          <div class="alert">
+            <i class="icon-inbox"></i>
+            <div class="content"><strong>你好!</strong> <a class="alert-link" href="###">有一些内容</a>你可能需要知道。</div>
+          </div>
+          <div class="alert alert-success">
+            <i class="icon-ok-sign"></i>
+            <div class="content"><strong>太好了!</strong> 一切已<a class="alert-link" href="###">准备就绪</a>。</div>
+          </div>
+          <div class="alert alert-info">
+            <i class="icon-info-sign"></i>
+            <div class="content"><strong>Hi!</strong> 这条消息可能<a class="alert-link" href="###">需要你注意</a>。</div>
+          </div>
+          <div class="alert alert-warning">
+            <i class="icon-frown"></i>
+            <div class="content"><strong>注意!</strong> 看起来遇到<a class="alert-link" href="###">一些问题</a>。</div>
+          </div>
+          <div class="alert alert-danger">
+            <i class="icon-remove-sign"></i>
+            <div class="content"><strong>不好了!</strong> 确实遇到了问题，请<a class="alert-link" href="###">立即处理</a>吧。</div>
+          </div>
+        </div>
+
+        <h3>可以关闭的消息框</h3>
+        <p>可以用一个可选的<code>.alert-dismissable</code>和关闭按钮。</p>
+        <div class="example" contenteditable="true">
+          <div class="alert alert-warning alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong>注意!</strong> 看起来遇到一些问题。
+            <p>您可以点击右上角的 <i class='icon-remove'></i> 来关闭这条消息。</p>
           </div>
         </div>
       </section>
@@ -117,22 +157,22 @@ base_url: "./"
         <div class="page-header">
           <h2>代码</h2>
         </div>
-        <h3>类型</h3>
-        <h4>内联代码</h4>
-        <div class="segment">
+        <h3>内联代码</h3>
+        <div class="example" contenteditable="true">
           <p>通过<code>&lt;code&gt;</code>标签内嵌一小段代码。</p>
         </div>
-        <h4>基本代码块</h4>
-        <div class="segment">
-          <pre>&lt;p&gt;Sample text here...&lt;/p&gt;</pre>
+        <h3>基本代码块</h3>
+        <p>基本代码块包含在<code>&lt;pre&gt;</code>内。</p>
+        <div class="example" contenteditable="true">
+          <pre><code>&lt;p&gt;Sample text here...&lt;/p&gt;</code></pre>
         </div>
         <p>还可以使用<code>.pre-scrollable</code> class，其作用是设置max-height为350px，并在垂直方向展示滚动条。</p>
 
-        <h4>代码高亮</h4>
+        <h3>代码高亮</h3>
         <p>代码高亮是通过根据代码语言语法给代码中的单词、字符标记为不同颜色来显示的方法。代码高亮能大大提高代码的查阅体验。在web界面加上代码高亮非常容易，在产品中如需要向用户展现代码应该使用代码高亮。</p>
         <p>这里推荐的方案是<a href="https://code.google.com/p/google-code-prettify/" target="_blank">Google Code Prettify</a>实现代码高亮。</p>
         <p>下面是一个php文件的示例：</p>
-        <div class="segment">
+        <div class="example" contenteditable="true">
           <pre class="prettyprint linenums"><code>&lt;!doctype html&gt;&#10;&lt;html lang="en"&gt;&#10;  &lt;head&gt;&#10;    &lt;title&gt;Zentao Design Guidelines&lt;/title&gt;&#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;  &lt;?php&#10;    echo "hello, world!";&#10;  ?&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;</code></pre>
         </div>
       </section>
@@ -228,7 +268,7 @@ base_url: "./"
         </div>
         <h3>主要导航</h3>
         <p><code>.nav-primary</code></p>
-        <div spellcheck="false" class="segment">
+        <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-primary">
             <li class="active"><a href="###"><i class="icon-home"></i> Home</a></li>
             <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success">4</span></a></li>
@@ -250,7 +290,7 @@ base_url: "./"
         <h3>次要导航</h3>
         <p>通常与主导航一起使用</p>
         <p><code>.nav-secondary</code></p>
-        <div spellcheck="false" class="segment">
+        <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-secondary">
             <li class="active"><a href="###">Home</a></li>
             <li><a href="###">Profile</a></li>
@@ -275,7 +315,7 @@ base_url: "./"
 
         <h3>标签页导航</h3>
         <p><code>.nav-tabs</code></p>
-        <div spellcheck="false" class="segment">
+        <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-tabs">
             <li class="active"><a href="###">Home</a></li>
             <li><a href="###">Profile</a></li>
@@ -296,7 +336,7 @@ base_url: "./"
 
         <h3>圆点导航</h3>
         <p><code>.nav-pills</code></p>
-        <div spellcheck="false" class="segment">
+        <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-pills">
             <li class="active"><a href="###">Home</a></li>
             <li><a href="###">Profile</a></li>
@@ -318,7 +358,7 @@ base_url: "./"
         <h2>状态</h2>
         <h3>禁用的导航链接</h3>
         <p>在禁用的项目上添加<code>.disabled</code></p>
-        <div spellcheck="false" class="segment">
+        <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-tabs">
             <li class="active"><a href="###">Home</a></li>
             <li><a href="###">Profile</a></li>
@@ -372,7 +412,7 @@ base_url: "./"
         <h2>参数</h2>
         <h3>垂直排列</h3>
         <p><code>.nav-stacked</code></p>
-        <div spellcheck="false" class="segment">
+        <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-primary nav-stacked">
             <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
             <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
@@ -426,7 +466,7 @@ base_url: "./"
         <h3>自适应宽度</h3>
         <p>自适应宽度不能与垂直排列同时使用</p>
         <p><code>.nav-justified</code></p>
-        <div spellcheck="false" class="segment">
+        <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-primary nav-justified">
             <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
             <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
@@ -494,7 +534,7 @@ base_url: "./"
         </div>
 
         <h3>带标题的导航</h3>
-        <div spellcheck="false" class="segment">
+        <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-tabs">
             <li class="nav-heading">这是标题</li>
             <li class="active"><a href="###">Home</a></li>
@@ -880,17 +920,15 @@ base_url: "./"
         </div>
 
         <h3>各种分页导航</h3>
-        <div class="segment">
+        <div class="example" contenteditable="true">
           <ul class="pager">
             <li class="previous"><a href="#">«</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager">
             <li class="previous"><a href="#">« 上一页</a></li>
             <li class="next"><a href="#">下一页 »</a></li>
           </ul>
-          <br>
           <ul class="pager">
             <li class="previous"><a href="#">«</a></li>
             <li><a href="#">1</a></li>
@@ -900,7 +938,6 @@ base_url: "./"
             <li><a href="#">5</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager">
             <li class="previous"><a href="#">«</a></li>
             <li><a href="#">1</a></li>
@@ -912,7 +949,6 @@ base_url: "./"
             <li><a href="#">12</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager">
             <li class="previous"><a href="#">« 上一页</a></li>
             <li><a href="#">1</a></li>
@@ -927,21 +963,18 @@ base_url: "./"
             <li><a href="#">12</a></li>
             <li class="next"><a href="#">下一页 »</a></li>
           </ul>
-          <br>
         </div>
         <h2>状态</h2>
         <h3>禁用的导航</h3>
-        <div class="segment">
+        <div class="example" contenteditable="true">
           <ul class="pager">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager">
             <li class="previous"><a href="#">« 上一页</a></li>
             <li class="next disabled"><a href="#">下一页 »</a></li>
           </ul>
-          <br>
           <ul class="pager">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="active"><a href="#">1</a></li>
@@ -951,7 +984,6 @@ base_url: "./"
             <li><a href="#">5</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager">
             <li class="previous"><a href="#">«</a></li>
             <li><a href="#">1</a></li>
@@ -966,22 +998,19 @@ base_url: "./"
             <li class="next disabled"><a href="#">»</a></li>
           </ul>
           <br>
-          <br>
         </div>
         <h2>参数</h2>
         <h3>圆角</h3>
         <p><code>.pager-pills</code></p>
-        <div class="segment">
+        <div class="example" contenteditable="true">
           <ul class="pager pager-pills">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-pills">
             <li class="previous"><a href="#">« 上一页</a></li>
             <li class="next disabled"><a href="#">下一页 »</a></li>
           </ul>
-          <br>
           <ul class="pager pager-pills">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="active"><a href="#">1</a></li>
@@ -991,7 +1020,6 @@ base_url: "./"
             <li><a href="#">5</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-pills">
             <li class="previous"><a href="#">«</a></li>
             <li><a href="#">1</a></li>
@@ -1003,22 +1031,19 @@ base_url: "./"
             <li class="active"><a href="#">12</a></li>
             <li class="next disabled"><a href="#">»</a></li>
           </ul>
-          <br>
           <br>
         </div>
         <h3>宽松的</h3>
         <p><code>.pager-loose</code></p>
-        <div class="segment">
+        <div class="example" contenteditable="true">
           <ul class="pager pager-loose">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-loose">
             <li class="previous"><a href="#">« 上一页</a></li>
             <li class="next disabled"><a href="#">下一页 »</a></li>
           </ul>
-          <br>
           <ul class="pager pager-loose">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="active"><a href="#">1</a></li>
@@ -1028,7 +1053,6 @@ base_url: "./"
             <li><a href="#">5</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-loose">
             <li class="previous"><a href="#">«</a></li>
             <li><a href="#">1</a></li>
@@ -1040,17 +1064,14 @@ base_url: "./"
             <li class="active"><a href="#">12</a></li>
             <li class="next disabled"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-loose pager-pills">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-loose pager-pills">
             <li class="previous"><a href="#">« 上一页</a></li>
             <li class="next disabled"><a href="#">下一页 »</a></li>
           </ul>
-          <br>
           <ul class="pager pager-loose pager-pills">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="active"><a href="#">1</a></li>
@@ -1060,7 +1081,6 @@ base_url: "./"
             <li><a href="#">5</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-loose pager-pills">
             <li class="previous"><a href="#">«</a></li>
             <li><a href="#">1</a></li>
@@ -1072,26 +1092,22 @@ base_url: "./"
             <li class="active"><a href="#">12</a></li>
             <li class="next disabled"><a href="#">»</a></li>
           </ul>
-          <br>
         </div>
         <h3>两端对齐</h3>
         <p><code>.pager-justify</code></p>
-        <div class="segment">
+        <div class="example" contenteditable="true">
           <ul class="pager pager-justify">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-justify">
             <li class="previous"><a href="#">« 上一页</a></li>
             <li class="next disabled"><a href="#">下一页 »</a></li>
           </ul>
-          <br>
           <ul class="pager pager-justify pager-pills">
             <li class="previous disabled"><a href="#">«</a></li>
             <li class="next"><a href="#">»</a></li>
           </ul>
-          <br>
           <ul class="pager pager-justify pager-pills">
             <li class="previous"><a href="#">« 上一页</a></li>
             <li class="next disabled"><a href="#">下一页 »</a></li>
@@ -1436,120 +1452,135 @@ base_url: "./"
         <h3>类型</h3>
         <h4>一组按钮</h4>
         <p>通过div.btn-group包含多个button</p>
-        <div class="btn-group">
-          <button type="button" class="btn">左</button>
-          <button type="button" class="btn">中</button>
-          <button type="button" class="btn">右</button>
-        </div>
-
-        <h4>多组按钮</h4>
-        <p>通过div.btn-toolbar包含.div.btn-group</p>
-        <div class="btn-toolbar" style="margin: 0;">
-          <div class="btn-group">
-            <button class="btn">1</button>
-            <button class="btn">2</button>
-            <button class="btn">3</button>
-            <button class="btn">4</button>
-          </div>
-          <div class="btn-group">
-            <button class="btn">5</button>
-            <button class="btn">6</button>
-            <button class="btn">7</button>
-          </div>
-          <div class="btn-group">
-            <button class="btn">8</button>
-          </div>
-        </div>
-        
-        <h4>垂直按钮组</h4>
-        <p>通过div.btn-group-vertical实现</p>
-        <div class="btn-group btn-group-vertical">
-          <button type="button" class="btn">上</button>
-          <button type="button" class="btn">中</button>
-          <button type="button" class="btn">下</button>
-        </div>
-
-        <h3>变化</h3>
-        <h4>基本下拉按钮组</h4>
-        <p>为按钮组第一个a元素增加.dropdown-toggle和data-toggle='dropdown'属性，然后在其后增加ul.dropdown-menu列表</p>
-        <div class="btn-group">
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">操作 <span class="caret"></span> </a>
-          <ul class="dropdown-menu">
-            <li><a href='#'>编辑</a></li>
-            <li><a href='#'>删除</a></li>
-            <li><a href='#'>增加</a></li>
-          </ul>
-        </div>
-        <h4>分裂式下拉按钮组</h4>
-        <p>基本按钮组的变形，将第二个按钮改成图标即可。</p>
-        <div class="btn-group">
-          <button type="button" class="btn btn-danger">操作</button>
-          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">操作</span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">编辑</a></li>
-            <li><a href="#">删除</a></li>
-            <li class="divider"></li>
-            <li><a href="#">增加</a></li>
-          </ul>
-        </div>
-        <h4>上拉按钮组</h4>
-        <p>通过div.dropup实现</p>
-        <div class="btn-group dropup">
-          <button type="button" class="btn btn-danger">操作</button>
-          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">操作</span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">编辑</a></li>
-            <li><a href="#">删除</a></li>
-            <li class="divider"></li>
-            <li><a href="#">增加</a></li>
-          </ul>
-        </div>
-        <h4>大小</h4>
-        <p>通过.btn-lg .btn-sm .btn-xs实现</p>
-        <div class="btn-toolbar" style="margin: 0;">
-          <div class="btn-group">
-            <button type="button" class="btn btn-lg">左</button>
-            <button type="button" class="btn btn-lg">中</button>
-            <button type="button" class="btn btn-lg">右</button>
-          </div>
+        <div class="example" contenteditable="true">
           <div class="btn-group">
             <button type="button" class="btn">左</button>
             <button type="button" class="btn">中</button>
             <button type="button" class="btn">右</button>
           </div>
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm">左</button>
-            <button type="button" class="btn btn-sm">中</button>
-            <button type="button" class="btn btn-sm">右</button>
+        </div>
+
+        <h4>多组按钮</h4>
+        <p>通过div.btn-toolbar包含.div.btn-group</p>
+        <div class="example" contenteditable="true">
+          <div class="btn-toolbar" style="margin: 0;">
+            <div class="btn-group">
+              <button class="btn">1</button>
+              <button class="btn">2</button>
+              <button class="btn">3</button>
+              <button class="btn">4</button>
+            </div>
+            <div class="btn-group">
+              <button class="btn">5</button>
+              <button class="btn">6</button>
+              <button class="btn">7</button>
+            </div>
+            <div class="btn-group">
+              <button class="btn">8</button>
+            </div>
           </div>
+        </div>
+          
+        <h4>垂直按钮组</h4>
+        <p>通过div.btn-group-vertical实现</p>
+        <div class="example" contenteditable="true">
+          <div class="btn-group btn-group-vertical">
+            <button type="button" class="btn">上</button>
+            <button type="button" class="btn">中</button>
+            <button type="button" class="btn">下</button>
+          </div>
+        </div>
+        <h3>变化</h3>
+        <h4>基本下拉按钮组</h4>
+        <p>为按钮组第一个a元素增加.dropdown-toggle和data-toggle='dropdown'属性，然后在其后增加ul.dropdown-menu列表</p>
+        <div class="example" contenteditable="true">
           <div class="btn-group">
-            <button type="button" class="btn btn-xs">左</button>
-            <button type="button" class="btn btn-xs">中</button>
-            <button type="button" class="btn btn-xs">右</button>
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">操作 <span class="caret"></span> </a>
+            <ul class="dropdown-menu">
+              <li><a href='#'>编辑</a></li>
+              <li><a href='#'>删除</a></li>
+              <li><a href='#'>增加</a></li>
+            </ul>
+          </div>
+        </div>
+        <h4>分裂式下拉按钮组</h4>
+        <p>基本按钮组的变形，将第二个按钮改成图标即可。</p>
+        <div class="example" contenteditable="true">
+          <div class="btn-group">
+            <button type="button" class="btn btn-danger">操作</button>
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">操作</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">编辑</a></li>
+              <li><a href="#">删除</a></li>
+              <li class="divider"></li>
+              <li><a href="#">增加</a></li>
+            </ul>
+          </div>
+        </div>
+        <h4>上拉按钮组</h4>
+        <p>通过div.dropup实现</p>
+        <div class="example" contenteditable="true">
+          <div class="btn-group dropup">
+            <button type="button" class="btn btn-danger">操作</button>
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">操作</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">编辑</a></li>
+              <li><a href="#">删除</a></li>
+              <li class="divider"></li>
+              <li><a href="#">增加</a></li>
+            </ul>
+          </div>
+        </div>
+        <h4>大小</h4>
+        <p>通过.btn-lg .btn-sm .btn-xs实现</p>
+        <div class="example" contenteditable="true">
+          <div class="btn-toolbar" style="margin: 0;">
+            <div class="btn-group">
+              <button type="button" class="btn btn-lg">左</button>
+              <button type="button" class="btn btn-lg">中</button>
+              <button type="button" class="btn btn-lg">右</button>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn">左</button>
+              <button type="button" class="btn">中</button>
+              <button type="button" class="btn">右</button>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-sm">左</button>
+              <button type="button" class="btn btn-sm">中</button>
+              <button type="button" class="btn btn-sm">右</button>
+            </div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-xs">左</button>
+              <button type="button" class="btn btn-xs">中</button>
+              <button type="button" class="btn btn-xs">右</button>
+            </div>
           </div>
         </div>
 
         <h4>颜色</h4>
-        <div class="btn-group">
-          <button type="button" class="btn">默认</button>
-          <button type="button" class="btn btn-primary">.btn-primary</button>
-          <button type="button" class="btn btn-warning">.btn-primary</button>
-          <button type="button" class="btn btn-danger">.btn-danger</button>
-          <button type="button" class="btn btn-success">.btn-success</button>
-          <button type="button" class="btn btn-info">.btn-info</button>
+        <div class="example" contenteditable="true">
+          <div class="btn-group">
+            <button type="button" class="btn">默认</button>
+            <button type="button" class="btn btn-primary">.btn-primary</button>
+            <button type="button" class="btn btn-warning">.btn-primary</button>
+            <button type="button" class="btn btn-danger">.btn-danger</button>
+            <button type="button" class="btn btn-success">.btn-success</button>
+            <button type="button" class="btn btn-info">.btn-info</button>
+          </div>
         </div>
       </section>
     </div>
 
-    <script src="assets/js/jquery.js"></script>
-    <script src="dist/js/zui.js"></script>
-    <script src="dist/js/google-code-prettify/run_prettify.js"></script>
+    <script src="dist/js/jquery.js"></script>
+    <script src="dist/js/zui.min.js"></script>
     <script src="assets/js/doc.js"></script>
+    <script src="dist/js/google-code-prettify/prettify.js"></script>
   </body>
 </html>

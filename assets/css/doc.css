@@ -15,9 +15,9 @@ body
   left: 240px;
   top: 0;
   padding: 20px 40px;
-  background-color: #fff;
+  background-color: #fafafa;
   max-width: 1200px;
-  min-width: 800px;
+  min-width: 500px;
   height: auto;
   -moz-box-shadow: 1px 1px 20px rgba(0,0,0,0.1);
   -webkit-box-shadow: 1px 1px 20px rgba(0,0,0,0.1);
@@ -53,15 +53,83 @@ body
   margin-bottom: 20px;
 }
 
-
+.icons ul {padding: 0;}
 .icons li{
   cursor: pointer;
   float: left;
-  width: 21%;
+  width: 150px;
   line-height: 25px;
   list-style: none;
   padding: 2px 10px;
+  white-space: nowrap;
 }
 .icons li:hover{
   background-color: #ffe9a8;
+}
+
+/* examples */
+@-webkit-keyframes glow
+{
+    0% {
+        -webkit-box-shadow: 0 0 12px rgba(71,164,71, 0.1);
+        border-color: rgba(71, 164, 71, 0.9);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 18px rgba(26,128,26, 0.8),0 0 12px rgba(71,164,71, 0.5);
+        border-color: rgba(26, 128, 26, 1.0); 
+    }
+}
+.example
+{
+  position: relative;
+  padding: 20px 40px;
+  margin: 0 -40px 15px;
+  border-style: solid;
+  background-color: #fff;
+  border-width: 1px;
+  border-left: 0;
+  border-right: 0;
+  border-color: #eaeaea;
+  outline: none;
+  transition:all 0.3s;
+}
+.example:before
+{
+  position: absolute;
+  background-color: rgba(0,0,0,0.1);
+  display: block;
+  top: -1px;
+  right: -50px;
+  width: 50px;
+  line-height: 48px;
+  position: absolute;
+  content: "\e6f6";
+  font-family: ZenIcon;
+  font-size: 28px;
+  text-align: center;
+  color: #fff;
+  transition: all ease-in-out .3s;
+  border-radius: 0 6px 6px 0;
+}
+.example:focus
+{
+  margin-left: -40px;
+  margin-right: -40px;
+  box-shadow:0px 1px 15px rgba(0,0,0,0.5);
+  -webkit-animation-name: glow;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-timing-function: ease-in-out
+  -webkit-backface-visibility: hidden;
+}
+.example:focus:before
+{
+  text-shadow:1px 1px 1px rgba(0,0,0,0.5);
+  content: "\e640";
+  background: #47a447;
+}
+.example.no-padding
+{
+  padding: 0;
 }
