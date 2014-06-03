@@ -8,7 +8,7 @@
 
 .alert
 {
-  padding: @alert-padding;
+  padding: @alert-padding-v @alert-padding-h;
   margin-bottom: @line-height-computed;
   border: 1px solid transparent;
   border-radius: @alert-border-radius;
@@ -58,6 +58,13 @@
     display: table-cell;
     vertical-align: middle;
   }
+}
+
+// Block alert
+.alert-block
+{
+    margin: 0;
+    border-radius: 0;
 }
 
 // Dismissable alerts
