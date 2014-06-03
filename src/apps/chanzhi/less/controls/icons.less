@@ -16,6 +16,7 @@
   font-weight: normal;
   font-style: normal;
   text-decoration: inherit;
+  font-size: 14px;
   // Better Font Rendering
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -424,7 +425,6 @@ a .icon-spin {
 .icon-home:before { content: @home; }
 .icon-file-alt:before { content: @file-alt; }
 .icon-time:before { content: @time; }
-.icon-road:before { content: @road; }
 .icon-download-alt:before { content: @download-alt; }
 .icon-download:before { content: @download; }
 .icon-upload:before { content: @upload; }
@@ -498,8 +498,8 @@ a .icon-spin {
 .icon-arrow-down:before { content: @arrow-down; }
 .icon-mail-forward:before,
 .icon-share-alt:before { content: @share-alt; }
-// .icon-resize-full:before { content: @resize-full; }
-// .icon-resize-small:before { content: @resize-small; }
+.icon-resize-full:before { content: @resize-full; }
+.icon-resize-small:before { content: @resize-small; }
 .icon-plus:before { content: @plus; }
 .icon-minus:before { content: @minus; }
 .icon-asterisk:before { content: @asterisk; }
@@ -531,8 +531,8 @@ a .icon-spin {
 .icon-gears:before,
 .icon-cogs:before { content: @cogs; }
 .icon-comments:before { content: @comments; }
-.icon-thumbs-up-alt:before { content: @thumbs-up-alt; }
-.icon-thumbs-down-alt:before { content: @thumbs-down-alt; }
+// .icon-thumbs-up-alt:before { content: @thumbs-up-alt; }
+// .icon-thumbs-down-alt:before { content: @thumbs-down-alt; }
 // .icon-star-half:before { content: @star-half; }
 .icon-heart-empty:before { content: @heart-empty; }
 .icon-signout:before { content: @signout; }
@@ -626,15 +626,15 @@ a .icon-spin {
 .icon-bell-alt:before { content: @bell-alt; }
 .icon-coffee:before { content: @coffee; }
 // .icon-food:before { content: @food; }
-.icon-file-text-alt:before { content: @file-text-alt; }
+// .icon-file-text-alt:before { content: @file-text-alt; }
 .icon-building:before { content: @building; }
 // .icon-hospital:before { content: @hospital; }
 // .icon-ambulance:before { content: @ambulance; }
 // .icon-medkit:before { content: @medkit; }
 .icon-fighter-jet:before { content: @fighter-jet; }
 .icon-beer:before { content: @beer; }
-.icon-h-sign:before { content: @h-sign; }
-.icon-plus-sign-alt:before { content: @plus-sign-alt; }
+// .icon-h-sign:before { content: @h-sign; }
+// .icon-plus-sign-alt:before { content: @plus-sign-alt; }
 .icon-double-angle-left:before { content: @double-angle-left; }
 .icon-double-angle-right:before { content: @double-angle-right; }
 .icon-double-angle-up:before { content: @double-angle-up; }
@@ -646,7 +646,7 @@ a .icon-spin {
 .icon-desktop:before { content: @desktop; }
 .icon-laptop:before { content: @laptop; }
 .icon-tablet:before { content: @tablet; }
-.icon-mobile-phone:before { content: @mobile-phone; }
+.icon-mobile-phone:before { content: @mobile; }
 .icon-circle-blank:before { content: @circle-blank; }
 .icon-quote-left:before { content: @quote-left; }
 .icon-quote-right:before { content: @quote-right; }
@@ -669,9 +669,9 @@ a .icon-spin {
 .icon-terminal:before { content: @terminal; }
 .icon-code:before { content: @code; }
 .icon-reply-all:before { content: @reply-all; }
-.icon-mail-reply-all:before { content: @mail-reply-all; }
+// .icon-mail-reply-all:before { content: @mail-reply-all; }
 .icon-star-half-full:before,
-.icon-star-half-empty:before { content: @star-half-empty; }
+.icon-star-half-empty:before { content: @star-half-full; }
 .icon-location-arrow:before { content: @location-arrow; }
 .icon-crop:before { content: @crop; }
 .icon-code-fork:before { content: @code-fork; }
@@ -689,13 +689,13 @@ a .icon-spin {
 .icon-calendar-empty:before { content: @calendar-empty; }
 .icon-fire-extinguisher:before { content: @fire-extinguisher; }
 .icon-rocket:before { content: @rocket; }
-.icon-maxcdn:before { content: @maxcdn; }
+// .icon-maxcdn:before { content: @maxcdn; }
 .icon-chevron-sign-left:before { content: @chevron-sign-left; }
 .icon-chevron-sign-right:before { content: @chevron-sign-right; }
 .icon-chevron-sign-up:before { content: @chevron-sign-up; }
 .icon-chevron-sign-down:before { content: @chevron-sign-down; }
 .icon-html5:before { content: @html5; }
-.icon-css3:before { content: @css3; }
+// .icon-css3:before { content: @css3; }
 .icon-anchor:before { content: @anchor; }
 .icon-unlock-alt:before { content: @unlock-alt; }
 // .icon-bullseye:before { content: @bullseye; }
@@ -723,14 +723,14 @@ a .icon-spin {
 // .icon-usd:before { content: @usd; }
 // .icon-rupee:before,
 // .icon-inr:before { content: @inr; }
-.icon-yen:before,
-.icon-jpy:before { content: @jpy; }
+// .icon-yen:before,
+// .icon-jpy:before { content: @jpy; }
 .icon-renminbi:before,
-.icon-cny:before { content: @cny; }
-.icon-won:before,
-.icon-krw:before { content: @krw; }
-.icon-bitcoin:before,
-.icon-btc:before { content: @btc; }
+.icon-cny:before { content: @renminbi; }
+// .icon-won:before,
+// .icon-krw:before { content: @krw; }
+// .icon-bitcoin:before,
+// .icon-btc:before { content: @btc; }
 .icon-file:before { content: @file; }
 .icon-file-text:before { content: @file-text; }
 .icon-sort-by-alphabet:before { content: @sort-by-alphabet; }
@@ -769,7 +769,7 @@ a .icon-spin {
 // .icon-trello:before { content: @trello; }
 .icon-female:before { content: @female; }
 .icon-male:before { content: @male; }
-.icon-gittip:before { content: @gittip; }
+// .icon-gittip:before { content: @gittip; }
 .icon-sun:before { content: @sun; }
 .icon-moon:before { content: @moon; }
 .icon-archive:before { content: @archive; }
