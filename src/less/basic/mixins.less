@@ -125,6 +125,8 @@
 }
 
 // Transitions
+// 
+
 .transition(@transition) {
   -webkit-transition: @transition;
           transition: @transition;
@@ -146,6 +148,27 @@
      -moz-transition: -moz-transform @transition;
        -o-transition: -o-transform @transition;
           transition: transform @transition;
+}
+
+.transition(@target; @speed; @type)
+{
+  .transition(@target @speed @type);
+}
+.transition-fast()
+{
+  .transition(all @animation-speed-fast @animation-type);
+}
+.transition-slow()
+{
+  .transition(all @animation-speed-slow @animation-type);
+}
+.transition-normal()
+{
+  .transition(all @animation-speed-normal @animation-type);
+}
+.transition()
+{
+  .transition-normal();
 }
 
 // Transformations
@@ -795,15 +818,6 @@
   textarea& {
     height: auto;
   }
-}
-
-//
-// Animation
-// -------------------
-
-.transition(@target; @speed; @type)
-{
-  .transition(@target @speed @type);
 }
 
 //
