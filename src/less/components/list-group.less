@@ -54,8 +54,8 @@
     color: @component-active-color;
 
     // Force color to inherit for custom content
-    .list-group-item-heading { color: @color-fore; }
-    .list-group-item-text { color: darken(@color-fore, 10%); }
+    .list-group-item-heading { color: inherit; }
+    .list-group-item-text { color: darken(@component-active-color, 10%); }
   }
 }
 
