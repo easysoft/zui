@@ -183,39 +183,274 @@ base_url: "./"
         </div>
         <h3>类型</h3>
         <h4>基本类型</h4>
-        <div class="input-group">
-          <span class="input-group-addon">@</span>
-            <input type="text" class="form-control" placeholder="Username">
-          <span class="glyphicon glyphicon-star"></span> 
+        <div class='alert alert-warning'>
+          <h4>消除双边框</h4>
+          <p>当按钮处于两个文本框中间时，需要在<code>.input-group-addon</code>上添加样式修复工具类<code>.fix-border</code>。</p>
+        </div>
+        <div class="example" contenteditable="true">
+          <div class='row'>
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="用户名">
+                <span class="input-group-addon">@gmail.com</span>
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-addon">@</span>
+                <input type="text" class="form-control" placeholder="用户名">
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-addon">@</span>
+                <input type="text" class="form-control" placeholder="用户名">
+                <span class="input-group-addon"><i class="icon icon-heart"></i></span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="用户名">
+                <span class="input-group-addon fix-border"><i class="icon icon-star"></i></span>
+                <input type="text" class="form-control" placeholder="密码">
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-addon"><i class='icon-user'></i></span>
+                <input type="text" class="form-control" placeholder="用户名">
+                <span class="input-group-addon fix-border"><i class="icon-key"></i></span>
+                <input type="text" class="form-control" placeholder="密码">
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-addon"><i class='icon-user'></i></span>
+                <input type="text" class="form-control" placeholder="用户名">
+                <span class="input-group-addon fix-border"><i class="icon-key"></i></span>
+                <input type="text" class="form-control" placeholder="密码">
+                <span class="input-group-addon"><i class="icon-ok"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h4>连续分段的文本框</h4>
+        <p>有时可能需要连续分段的文本框。这时需要在两个相邻的<code>.form-control</code>元素之间添加一个空的<code>.input-group-addon</code>，并同时添加工具栏</p>
+        <div class='alert alert-warning'>
+          <h4>兼容IE浏览器</h4>
+          <p>因为IE8不支持<code>:empty</code>选择器，为兼容IE8浏览器，需要在<code>.input-group-addon</code>上添加额外的样式修复工具类<code>.fix-padding</code>。</p>
+        </div>
+        <div class="example" contenteditable="true">
+          <div class='row'>
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-addon">姓名</span>
+                <input type="text" class="form-control" placeholder="姓氏">
+                <span class="input-group-addon fix-border fix-padding"></span>
+                <input type="text" class="form-control" placeholder="名字">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="省份">
+                <span class="input-group-addon fix-border fix-padding"></span>
+                <input type="text" class="form-control" placeholder="城市">
+                <span class="input-group-addon fix-border fix-padding"></span>
+                <input type="text" class="form-control" placeholder="县/市">
+                <span class="input-group-addon fix-border fix-padding"></span>
+                <input type="text" class="form-control" placeholder="社区/乡/镇">
+                <span class="input-group-addon fix-border fix-padding"></span>
+                <input type="text" class="form-control" placeholder="街道 门牌号">
+              </div>
+            </div>
+          </div>
         </div>
 
         <h4>单选框和复选框</h4>
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox">
-          </span>
-          <input type="text" class="form-control">
-        </div><br />
-         <div class="input-group">
-          <span class="input-group-addon">
-            <input type="radio">
-          </span>
-          <input type="text" class="form-control">
+        <div class="example" contenteditable="true">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <input type="checkbox">
+                </span>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <input type="radio">
+                </span>
+                <input type="text" class="form-control">
+              </div> 
+            </div>
+          </div>
         </div>
 
         <h4>带按钮</h4>
-        <div class="input-group">
-          <input type="text" class="form-control">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button">搜索</button>
-          </span>
+        <div class='alert alert-warning'>
+          <h4>消除双边框</h4>
+          <p>当按钮处于两个文本框中间时，需要在<code>.input-group-btn</code>上添加样式修复工具类<code>.fix-border</code>。</p>
+        </div>
+        <div class="example" contenteditable="true">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">搜索</button>
+                </span>
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">搜索</button>
+                </span>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-addon"><i class='icon-search'></i></span>
+                <input type="text" class="form-control">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">搜索</button>
+                </span>
+              </div>
+              <br>
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">搜索</button>
+                </span>
+                <input type="text" class="form-control">
+                <span class="input-group-btn fix-border">
+                  <button class="btn btn-default" type="button">搜索</button>
+                </span>
+                <input type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h4>带下拉菜单的按钮</h4>
+        <div class="example" contenteditable="true">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">选项</a></li>
+                    <li><a href="#">另一个选项</a></li>
+                    <li><a href="#">更多选项</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">特别内容</a></li>
+                  </ul>
+                </div><!-- /btn-group -->
+                <input type="text" class="form-control">
+              </div><!-- /input-group -->
+            </div><!-- /.col-md-6 -->
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="form-control">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
+                  <ul class="dropdown-menu pull-right" role="menu">
+                    <li><a href="#">选项</a></li>
+                    <li><a href="#">另一个选项</a></li>
+                    <li><a href="#">更多选项</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">特别内容</a></li>
+                  </ul>
+                </div><!-- /btn-group -->
+              </div><!-- /input-group -->
+            </div><!-- /.col-md-6 -->
+          </div>
+        </div>
+
+        <h4>使用Select</h4>
+        <div class='alert alert-danger'>
+          <h4>浏览器兼容性问题</h4>
+          <p>通常并不推荐在输入框组中使用select元素。这样可能会带来难以处理的兼容性问题。推荐使用 <strong>Dropdown</strong> 或者 <strong>Chosen</strong>来代替下拉列表。</p>
+        </div>
+        <div class="example" contenteditable="true">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <select class="form-control">
+                  <option value="1">吃饭</option>
+                  <option value="2">睡觉</option>
+                  <option value="3">编程</option>
+                </select>
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">搜索</button>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group">
+                <span class="input-group-addon">地址</span>
+                <select class="form-control">
+                  <option value="1">省份</option>
+                  <option value="2">北京</option>
+                  <option value="3">上海</option>
+                  <option value="3">广州</option>
+                </select>
+                <span class="input-group-addon fix-border fix-padding"></span>
+                <select class="form-control">
+                  <option value="1">市/县</option>
+                  <option value="1">...</option>
+                </select>
+                <span class="input-group-addon fix-border fix-padding"></span>
+                <input type="text" class="form-control" placeholder="社区/乡/镇">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">确认</button>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <h4>分段按钮</h4>
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder='请输入邮箱地址'>
-          <span class="input-group-addon">@</span>
-          <input type="text" class="form-control" placeholder='请输入邮箱后缀'>
+        <div class="example" contenteditable="true">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+                    <span class="caret"></span>
+                    <span class="sr-only">更多选项</span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">选项</a></li>
+                    <li><a href="#">另一个选项</a></li>
+                    <li><a href="#">更多选项</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">特别内容</a></li>
+                  </ul>
+                </div>
+                <input type="text" class="form-control">
+              </div><!-- /.input-group -->
+            </div><!-- /.col-md-6 -->
+            <div class="col-md-6">
+              <div class="input-group">
+                <input type="text" class="form-control">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+                    <span class="caret"></span>
+                    <span class="sr-only">更多选项</span>
+                  </button>
+                  <ul class="dropdown-menu pull-right" role="menu">
+                    <li><a href="#">选项</a></li>
+                    <li><a href="#">另一个选项</a></li>
+                    <li><a href="#">更多选项</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">特别内容</a></li>
+                  </ul>
+                </div>
+              </div><!-- /.input-group -->
+            </div><!-- /.col-md-6 -->
+          </div>
         </div>
       </section>
 
@@ -225,41 +460,48 @@ base_url: "./"
         </div>
 
         <h3>类型</h3>
-          <h4>基本类型</h4>
-          <div class="input-group">
-            <span class="input-group-addon">@</span>
-              <input type="text" class="form-control" placeholder="Username">
-            <span class="glyphicon glyphicon-star"></span> 
+        <h4>基本类型</h4>
+        <div class="example" contenteditable="true">
+          <ul class="list-group">
+            <li class="list-group-item"><a href='#'>用ul > li实现，点击区域只有文字</a></li>
+            <li class="list-group-item">todo </li>
+            <li class="list-group-item">story</li>
+            <li class="list-group-item">task</li>
+            <li class="list-group-item">bug</li>
+            <li class="list-group-item">case</li>
+          </ul>
+        </div>
+        <h4>链接</h4>
+        <div class="example" contenteditable="true">
+          <div class="list-group">
+            <a href="#" class="list-group-item">用div > a实现，实现整行点击 </a>
+            <a href="#" class="list-group-item">todo </a>
+            <a href="#" class="list-group-item">story</a>
+            <a href="#" class="list-group-item active">task active</a>
+            <a href="#" class="list-group-item">bug</a>
+            <a href="#" class="list-group-item">case</a>
           </div>
+        </div>
 
-          <h4>单选框和复选框</h4>
-          <div class="input-group">
-            <span class="input-group-addon">
-              <input type="checkbox">
-            </span>
-            <input type="text" class="form-control">
-          </div><br />
-          <div class="input-group">
-            <span class="input-group-addon">
-              <input type="radio">
-            </span>
-            <input type="text" class="form-control">
+        <h3>变化</h3>
+        <h4>定制列表内容</h4>
+        <div class="example" contenteditable="true">
+          <div class="list-group">
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
+              <p class="list-group-item-text">我是包含在a标签里面的p标签，</p>
+            </a>
+            <a href="#" class="list-group-item active">
+              <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
+              <p class="list-group-item-text">我是包含在a标签里面的p标签，</p>
+            </a>
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
+              <p class="list-group-item-text">我是包含在a标签里面的p标签，</p>
+            </a>
           </div>
+        </div>
 
-          <h4>带按钮</h4>
-          <div class="input-group">
-            <input type="text" class="form-control">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">搜索</button>
-            </span>
-          </div>
-
-          <h4>分段按钮</h4>
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder='请输入邮箱地址'>
-            <span class="input-group-addon">@</span>
-            <input type="text" class="form-control" placeholder='请输入邮箱后缀'>
-          </div>
       </section>
 
       <section id="navs">
@@ -270,12 +512,12 @@ base_url: "./"
         <p><code>.nav-primary</code></p>
         <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-primary">
-            <li class="active"><a href="###"><i class="icon-home"></i> Home</a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页</a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -292,12 +534,12 @@ base_url: "./"
         <p><code>.nav-secondary</code></p>
         <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-secondary">
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -317,12 +559,12 @@ base_url: "./"
         <p><code>.nav-tabs</code></p>
         <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -338,12 +580,12 @@ base_url: "./"
         <p><code>.nav-pills</code></p>
         <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-pills">
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -360,12 +602,12 @@ base_url: "./"
         <p>在禁用的项目上添加<code>.disabled</code></p>
         <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-tabs">
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li class="disabled"><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li class="disabled"><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -375,13 +617,14 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-pills">
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li class="disabled"><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li class="disabled"><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -391,13 +634,14 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-secondary">
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li class="disabled"><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li class="disabled"><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -414,12 +658,12 @@ base_url: "./"
         <p><code>.nav-stacked</code></p>
         <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-primary nav-stacked">
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -429,13 +673,14 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-secondary nav-stacked">
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -445,13 +690,14 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-stacked nav-pills">
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -468,12 +714,12 @@ base_url: "./"
         <p><code>.nav-justified</code></p>
         <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-primary nav-justified">
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -483,13 +729,14 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-justified nav-tabs">
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -499,13 +746,14 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-secondary nav-justified">
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -515,13 +763,14 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-justified nav-pills">
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -537,12 +786,12 @@ base_url: "./"
         <div spellcheck="false" class="example" contenteditable="true">
           <ul class="nav nav-tabs">
             <li class="nav-heading">这是标题</li>
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li class="disabled"><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li class="disabled"><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -552,14 +801,15 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-pills">
             <li class="nav-heading">这是标题</li>
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li class="disabled"><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li class="disabled"><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -569,14 +819,15 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-secondary">
             <li class="nav-heading">This is heading</li>
-            <li class="active"><a href="###">Home</a></li>
-            <li><a href="###">Profile</a></li>
-            <li class="disabled"><a href="###">Messages</a></li>
+            <li class="active"><a href="###">首页</a></li>
+            <li><a href="###">个人资料</a></li>
+            <li class="disabled"><a href="###">消息</a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -586,14 +837,15 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-primary nav-stacked">
             <li class="nav-heading">这是标题</li>
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -603,14 +855,15 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-secondary nav-stacked">
             <li class="nav-heading">THIS IS HEADINGS</li>
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -620,14 +873,15 @@ base_url: "./"
               </ul>
             </li>
           </ul>
+          <br>
           <ul class="nav nav-stacked nav-pills">
             <li class="nav-heading">THIS IS HEADINGS</li>
-            <li class="active"><a href="###"><i class="icon-home"></i> Home <i class="icon-heart pull-right"></i></a></li>
-            <li><a href="###"><i class="icon-user"></i> Profile <span class="label label-badge label-success pull-right">4</span></a></li>
-            <li><a href="###"><i class="icon-comment"></i> Messages <span class="label label-dot label-danger"></span></a></li>
+            <li class="active"><a href="###"><i class="icon-home"></i> 首页 <i class="icon-heart pull-right"></i></a></li>
+            <li><a href="###"><i class="icon-user"></i> 个人资料 <span class="label label-badge label-success pull-right">4</span></a></li>
+            <li><a href="###"><i class="icon-comment"></i> 消息 <span class="label label-dot label-danger"></span></a></li>
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="###">
-                Dropdown <span class="caret"></span>
+                更多 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 <li><a href="">Lorem ipsum.</a></li>
@@ -644,274 +898,245 @@ base_url: "./"
         <div class="page-header">
           <h2>导航条</h2>
         </div>
-        <nav id="topNav" class="navbar navbar-default" role="navigation">
-          <ul class="nav navbar-nav nav-justified">
-          <li class="cat-item nav-system-home"><a href="/">首页</a></li>
-          <li class="cat-item nav-custom-"><a href="">演示</a></li>
-          <li class="cat-item nav-article-1 active"><a href="/download.html">下载</a></li>
-          <li class="cat-item nav-custom-"><a href="http://www.chanzhi.net" target="_blank">云蝉知</a></li>
-          <li class="cat-item nav-system-help"><a href="/help/">帮助</a></li>
-          <li class="cat-item nav-custom-"><a href="http://www.chanzhi.org/vip/25_vip-support.html">支持</a></li>
-          <li class="cat-item nav-system-forum"><a href="/forum/">论坛</a></li>
-          <li class="cat-item nav-article-2 active"><a href="/dynamic.html">动态</a></li>
-          <li class="cat-item nav-custom-"><a href="">团队</a></li>
-            </ul>
-        </nav>
-        <nav class="navbar" role="navigation">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Brand</a>
-          </div>
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-              </div>
-              <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </nav>
-        <nav class="navbar navbar-default" role="navigation">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Brand</a>
-          </div>
+        <h3>简单导航条</h3>
+        <p>简单导航条并没用添加过多的样式。便于进行定制。</p>
+        <div spellcheck="false" class="example" contenteditable="true">
+          <nav class="navbar" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Brand</a>
+            </div>
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-              </div>
-              <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </nav>
-        <nav class="navbar navbar-inverse" role="navigation">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Brand</a>
-          </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </nav>
+        </div>
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-              </div>
-              <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </nav>
-        <nav class="navbar navbar-inverse" role="navigation">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Brand</a>
-          </div>
+        <h3>默认导航条</h3>
+        <p><code>.navbar-default</code></p>
+        <div spellcheck="false" class="example" contenteditable="true">
+          <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Brand</a>
+            </div>
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-              </div>
-              <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </nav>
-        <nav class="navbar navbar-default" role="navigation">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Brand</a>
-          </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </nav>
+        </div>
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
+        <h3>深色导航条</h3>
+        <p><code>.navbar-inverse</code></p>
+        <div spellcheck="false" class="example" contenteditable="true">
+          <nav class="navbar navbar-inverse" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </nav>
+        </div>
+
+        <h3>使用表单元素</h3>
+        <div spellcheck="false" class="example" contenteditable="true">
+          <nav class="navbar navbar-inverse" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </div><!-- /.navbar-collapse -->
+          </nav>
+        </div>
+
+        <h3>将内容放置与导航右侧</h3>
+        <div spellcheck="false" class="example" contenteditable="true">
+          <nav class="navbar navbar-default" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Link</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div><!-- /.navbar-collapse -->
+          </nav>
+        </div>
+
+        <h3>自适应宽度</h3>
+        <p>在<code>.nav</code>上添加<code>.nav-justified</code>。</p>
+        <div spellcheck="false" class="example" contenteditable="true">
+          <nav class="navbar navbar-default" role="navigation">
+            <ul class="nav navbar-nav nav-justified">
+              <li class="cat-item nav-system-home"><a href="/">首页</a></li>
+              <li class="cat-item nav-custom-"><a href="">演示</a></li>
+              <li class="cat-item nav-article-1 active"><a href="/download.html">下载</a></li>
+              <li class="cat-item nav-custom-"><a href="http://www.chanzhi.net" target="_blank">云蝉知</a></li>
+              <li class="cat-item nav-system-help"><a href="/help/">帮助</a></li>
+              <li class="cat-item nav-custom-"><a href="http://www.chanzhi.org/vip/25_vip-support.html">支持</a></li>
+              <li class="cat-item nav-system-forum"><a href="/forum/">论坛</a></li>
+              <li class="cat-item nav-article-2 active"><a href="/dynamic.html">动态</a></li>
+              <li class="cat-item nav-custom-"><a href="">团队</a></li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
-              </div>
-              <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Link</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </nav>
+          </nav>
+        </div>
       </section>
 
       <section id="pagers">
@@ -1122,107 +1347,122 @@ base_url: "./"
 
         <h3>类型</h3>
         <h4>基本类型</h4>
-        <div class="panel">
-          <div class="panel-body">默认的.panel所做的只是提供基本的边界和内部，来包含内容。</div>
+        <div class="example" contenteditable="true">
+          <div class="panel">
+            <div class="panel-body">默认的.panel所做的只是提供基本的边界和内部，来包含内容。</div>
+          </div>
         </div>
         <h4>带标题</h4>
-        <div class="panel">
-          <div class="panel-heading">面板标题</div>
-          <div class="panel-body">面板内容</div>
+        <div class="example" contenteditable="true">
+          <div class="panel">
+            <div class="panel-heading">面板标题</div>
+            <div class="panel-body">面板内容</div>
+          </div>
         </div>
         <h4>带脚注</h4>
-        <div class="panel">
-          <div class="panel-body">面板内容</div>
-          <div class="panel-footer">面板脚注</div>
+        <div class="example" contenteditable="true">
+          <div class="panel">
+            <div class="panel-body">面板内容</div>
+            <div class="panel-footer">面板脚注</div>
+          </div>
         </div>
 
         <h3>变化</h3>
         <h4>颜色</h4>
-        <div class="panel panel-primary">
-          <div class="panel-heading">.panel-primary</div>
-          <div class="panel-body">面板内容</div>
-        </div>
-        <div class="panel panel-success">
-          <div class="panel-heading">.panel-success</div>
-          <div class="panel-body">面板内容</div>
-        </div>
-        <div class="panel panel-warning">
-          <div class="panel-heading">.panel-warning</div>
-          <div class="panel-body">面板内容</div>
-        </div>
-        <div class="panel panel-danger">
-          <div class="panel-heading">.panel-danger</div>
-          <div class="panel-body">面板内容</div>
-        </div>
-        <div class="panel panel-info">
-          <div class="panel-heading">.panel-info</div>
-          <div class="panel-body">面板内容</div>
+        <div class="example" contenteditable="true">
+          <div class="panel panel-primary">
+            <div class="panel-heading">.panel-primary</div>
+            <div class="panel-body">面板内容</div>
+          </div>
+          <div class="panel panel-success">
+            <div class="panel-heading">.panel-success</div>
+            <div class="panel-body">面板内容</div>
+          </div>
+          <div class="panel panel-warning">
+            <div class="panel-heading">.panel-warning</div>
+            <div class="panel-body">面板内容</div>
+          </div>
+          <div class="panel panel-danger">
+            <div class="panel-heading">.panel-danger</div>
+            <div class="panel-body">面板内容</div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">.panel-info</div>
+            <div class="panel-body">面板内容</div>
+          </div>
         </div>
 
         <h4>包含表格</h4>
-        <div class="panel">
-          <!-- Default panel contents -->
-          <div class="panel-heading">Panel heading</div>
-          <!-- Table -->
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Lorem ipsum.</th>
-                <th>Repudiandae, harum!</th>
-                <th>Tenetur, corporis.</th>
-                <th>Perspiciatis, porro?</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Lorem ipsum.</td>
-                <td>Officiis, non.</td>
-                <td>Molestias, qui.</td>
-                <td>Odit, ducimus.</td>
-              </tr>
-              <tr>
-                <td>Lorem ipsum.</td>
-                <td>Repellendus, exercitationem!</td>
-                <td>Velit, eos.</td>
-                <td>Eius, officiis.</td>
-              </tr>
-              <tr>
-                <td>Lorem ipsum.</td>
-                <td>Amet, esse!</td>
-                <td>Quis, pariatur!</td>
-                <td>Totam, quae.</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="example" contenteditable="true">
+          <div class="panel">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Panel heading</div>
+            <!-- Table -->
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Lorem ipsum.</th>
+                  <th>Repudiandae, harum!</th>
+                  <th>Tenetur, corporis.</th>
+                  <th>Perspiciatis, porro?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Officiis, non.</td>
+                  <td>Molestias, qui.</td>
+                  <td>Odit, ducimus.</td>
+                </tr>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Repellendus, exercitationem!</td>
+                  <td>Velit, eos.</td>
+                  <td>Eius, officiis.</td>
+                </tr>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Amet, esse!</td>
+                  <td>Quis, pariatur!</td>
+                  <td>Totam, quae.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+
         <h4>包含列表</h4>
-        <div class="panel">
-          <div class="panel-heading">Panel heading</div>
-          <ul class="list-group">
-            <li class="list-group-item">todo</li>
-            <li class="list-group-item">story</li>
-            <li class="list-group-item">task</li>
-            <li class="list-group-item">bug</li>
-            <li class="list-group-item">case</li>
-          </ul>
+        <div class="example" contenteditable="true">
+          <div class="panel">
+            <div class="panel-heading">Panel heading</div>
+            <ul class="list-group">
+              <li class="list-group-item">todo</li>
+              <li class="list-group-item">story</li>
+              <li class="list-group-item">task</li>
+              <li class="list-group-item">bug</li>
+              <li class="list-group-item">case</li>
+            </ul>
+          </div>
         </div>
 
         <h4>面板组</h4>
-        <div class='panel-group'>
-          <div class="panel">
-            <div class="panel-heading">面板标题</div>
-            <div class="panel-body">面板内容</div>
-            <div class="panel-footer">面板脚注</div>
-          </div>
-          <div class="panel">
-            <div class="panel-heading">面板标题</div>
-            <div class="panel-body">面板内容</div>
-            <div class="panel-footer">面板脚注</div>
-          </div>
-          <div class="panel">
-            <div class="panel-heading">面板标题</div>
-            <div class="panel-body">面板内容</div>
-            <div class="panel-footer">面板脚注</div>
+        <div class="example" contenteditable="true">
+          <div class='panel-group'>
+            <div class="panel">
+              <div class="panel-heading">面板标题</div>
+              <div class="panel-body">面板内容</div>
+              <div class="panel-footer">面板脚注</div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">面板标题</div>
+              <div class="panel-body">面板内容</div>
+              <div class="panel-footer">面板脚注</div>
+            </div>
+            <div class="panel">
+              <div class="panel-heading">面板标题</div>
+              <div class="panel-body">面板内容</div>
+              <div class="panel-footer">面板脚注</div>
+            </div>
           </div>
         </div>
       </section>
@@ -1232,216 +1472,228 @@ base_url: "./"
           <h2>表格</h2>
         </div>
         <h3>类型</h3>
-        <table class="table">
-          <tbody>
-            <tr>
-              <th class="col-md-2">名称</th>
-              <th>描述</th>
-            </tr>
-            <tr>
-              <td>表头</td>
-              <td>一般表格的第一行作为表头，用于描述表中每一列数据名称。为区别于表格其他行，表头具备不同的样式，例如字体加粗等。在垂直显示一组数据的表格中，表头也可能是垂直的第一列，而不是行。</td>
-            </tr>
-            <tr>
-              <td>内容</td>
-              <td>一般内容会在单元格内靠左对齐，对于数字可能靠右对齐比较好。在一些表格中，内容可以按单元格选择或者按行选择，选中的部分会以不同的样式区分。为了使得行与行便于区分，通常也会使得行交替使用不同的背景色。图片或其他控件也可以应用单元格中。</td>
-            </tr>
-            <tr>
-              <td>表尾</td>
-              <td>表位放置与表末尾提供与表相关补充数据或操作，不过并不常见。</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="example" contenteditable="true">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th class="col-md-2">名称</th>
+                <th>描述</th>
+              </tr>
+              <tr>
+                <td>表头</td>
+                <td>一般表格的第一行作为表头，用于描述表中每一列数据名称。为区别于表格其他行，表头具备不同的样式，例如字体加粗等。在垂直显示一组数据的表格中，表头也可能是垂直的第一列，而不是行。</td>
+              </tr>
+              <tr>
+                <td>内容</td>
+                <td>一般内容会在单元格内靠左对齐，对于数字可能靠右对齐比较好。在一些表格中，内容可以按单元格选择或者按行选择，选中的部分会以不同的样式区分。为了使得行与行便于区分，通常也会使得行交替使用不同的背景色。图片或其他控件也可以应用单元格中。</td>
+              </tr>
+              <tr>
+                <td>表尾</td>
+                <td>表位放置与表末尾提供与表相关补充数据或操作，不过并不常见。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h3>参数</h3>
         <h4>隔行交替样式的表</h4>
         <p><code>.table-striped</code></p>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Sunshine</td>
-              <td>Sunday</td>
-              <td>catouse</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Sunday</td>
-              <td>Sunshine</td>
-              <td>catouse</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>catouse</td>
-              <td>azhi</td>
-              <td>zenUI</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>&nbsp;</td>
-              <td>Lady Gaga</td>
-              <td>catouse</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="example" contenteditable="true">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sunshine</td>
+                <td>Sunday</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Sunday</td>
+                <td>Sunshine</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>catouse</td>
+                <td>azhi</td>
+                <td>zenUI</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>&nbsp;</td>
+                <td>Lady Gaga</td>
+                <td>catouse</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4>响应鼠标悬停</h4>
         <p><code>.table-hover</code></p>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Sunshine</td>
-              <td>Sunday</td>
-              <td>catouse</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Sunday</td>
-              <td>Sunshine</td>
-              <td>catouse</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>catouse</td>
-              <td>azhi</td>
-              <td>zenUI</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>&nbsp;</td>
-              <td>Lady Gaga</td>
-              <td>catouse</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="example" contenteditable="true">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sunshine</td>
+                <td>Sunday</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Sunday</td>
+                <td>Sunshine</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>catouse</td>
+                <td>azhi</td>
+                <td>zenUI</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>&nbsp;</td>
+                <td>Lady Gaga</td>
+                <td>catouse</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4>带所有边框的表格</h4>
         <p><code>.table-bordered</code></p>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Sunshine</td>
-              <td>Sunday</td>
-              <td>catouse</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Sunday</td>
-              <td>Sunshine</td>
-              <td>catouse</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>catouse</td>
-              <td>azhi</td>
-              <td>zenUI</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>&nbsp;</td>
-              <td>Lady Gaga</td>
-              <td>catouse</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="example" contenteditable="true">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sunshine</td>
+                <td>Sunday</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Sunday</td>
+                <td>Sunshine</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>catouse</td>
+                <td>azhi</td>
+                <td>zenUI</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>&nbsp;</td>
+                <td>Lady Gaga</td>
+                <td>catouse</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4>更为紧凑的表格</h4>
         <p><code>.table-condensed</code></p>
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>catouse</td>
-              <td>hello</td>
-              <td>world</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>jay</td>
-              <td>thks</td>
-              <td>jajaja</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>JK row</td>
-              <td>thks</td>
-              <td>Pa</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="example" contenteditable="true">
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>catouse</td>
+                <td>hello</td>
+                <td>world</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>jay</td>
+                <td>thks</td>
+                <td>jajaja</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>JK row</td>
+                <td>thks</td>
+                <td>Pa</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <h4>色彩标记</h4>
         <p>可以根据语义标记整行或者某一单元格</p>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>描述</th>
-              <th>Payment Taken</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="success">
-              <td>1</td>
-              <td>表示成功或积极的行为。</td>
-              <td>01/04/2012</td>
-              <td>Approved</td>
-            </tr>
-            <tr class="danger">
-              <td>2</td>
-              <td>表示一个危险或存有潜在危险的行为。</td>
-              <td>02/04/2012</td>
-              <td>Declined</td>
-            </tr>
-            <tr class="warning">
-              <td>3</td>
-              <td>表示警告，可能需要注意。</td>
-              <td>03/04/2012</td>
-              <td>Pending</td>
-            </tr>
-            <tr class="active">
-              <td>4</td>
-              <td>标记为激活行。</td>
-              <td>04/04/2012</td>
-              <td>Call in to confirm</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="example" contenteditable="true">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>描述</th>
+                <th>Payment Taken</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="success">
+                <td>1</td>
+                <td>表示成功或积极的行为。</td>
+                <td>01/04/2012</td>
+                <td>Approved</td>
+              </tr>
+              <tr class="danger">
+                <td>2</td>
+                <td>表示一个危险或存有潜在危险的行为。</td>
+                <td>02/04/2012</td>
+                <td>Declined</td>
+              </tr>
+              <tr class="warning">
+                <td>3</td>
+                <td>表示警告，可能需要注意。</td>
+                <td>03/04/2012</td>
+                <td>Pending</td>
+              </tr>
+              <tr class="active">
+                <td>4</td>
+                <td>标记为激活行。</td>
+                <td>04/04/2012</td>
+                <td>Call in to confirm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section id="buttongroup">
@@ -1492,15 +1744,22 @@ base_url: "./"
         </div>
         <h3>变化</h3>
         <h4>基本下拉按钮组</h4>
-        <p>为按钮组第一个a元素增加.dropdown-toggle和data-toggle='dropdown'属性，然后在其后增加ul.dropdown-menu列表</p>
+        <p>将<code>.input-group</code>放置于另一个<code>.input-group</code>中。</p>
         <div class="example" contenteditable="true">
           <div class="btn-group">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">操作 <span class="caret"></span> </a>
-            <ul class="dropdown-menu">
-              <li><a href='#'>编辑</a></li>
-              <li><a href='#'>删除</a></li>
-              <li><a href='#'>增加</a></li>
-            </ul>
+            <button type="button" class="btn btn-default">吃</button>
+            <button type="button" class="btn btn-default">喝</button>
+
+            <div class="btn-group">
+              <button id="btnGroupDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                更多
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
+                <li><a href="#">拉</a></li>
+                <li><a href="#">撒</a></li>
+              </ul>
+            </div>
           </div>
         </div>
         <h4>分裂式下拉按钮组</h4>
@@ -1508,16 +1767,18 @@ base_url: "./"
         <div class="example" contenteditable="true">
           <div class="btn-group">
             <button type="button" class="btn btn-danger">操作</button>
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-              <span class="caret"></span>
-              <span class="sr-only">操作</span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">编辑</a></li>
-              <li><a href="#">删除</a></li>
-              <li class="divider"></li>
-              <li><a href="#">增加</a></li>
-            </ul>
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">操作</span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">编辑</a></li>
+                <li><a href="#">删除</a></li>
+                <li class="divider"></li>
+                <li><a href="#">增加</a></li>
+              </ul>
+            </div>
           </div>
         </div>
         <h4>上拉按钮组</h4>
@@ -1525,16 +1786,18 @@ base_url: "./"
         <div class="example" contenteditable="true">
           <div class="btn-group dropup">
             <button type="button" class="btn btn-danger">操作</button>
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-              <span class="caret"></span>
-              <span class="sr-only">操作</span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">编辑</a></li>
-              <li><a href="#">删除</a></li>
-              <li class="divider"></li>
-              <li><a href="#">增加</a></li>
-            </ul>
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">操作</span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">编辑</a></li>
+                <li><a href="#">删除</a></li>
+                <li class="divider"></li>
+                <li><a href="#">增加</a></li>
+              </ul>
+            </div>
           </div>
         </div>
         <h4>大小</h4>
