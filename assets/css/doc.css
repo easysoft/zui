@@ -11,7 +11,7 @@ body
 
 #main
 {
-  position: absolute;
+  position: relative;
   left: 240px;
   top: 0;
   padding: 20px 40px;
