@@ -1,124 +1,2861 @@
----
+<!-- ---
 layout: default
 title: 视图
 slug: views
 lead: "常用视图."
 base_url: "./"
----
+--- -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ZUI，一个简单灵活的前端框架。">
+  <meta name="author" content="Zentao">
 
-<div class="page-header">
-  <h1>视图</h1>
-</div>
+  <title>ZUI</title>
 
-<section id="form">
-  <div class="page-header">
-    <h2>表单</h2>
-  </div>
-
-  <h3>类型</h3>
-  <h4>基本类型</h4>
-  <div class='panel'>
-    <div class='panel-heading'>创建文章</div>
-    <div class='panel-body'>
-    <form class="form-horizontal" role="form" method='post'>
-      <legend>legend</legend>
-      <div class="form-group">
-        <label class="col-md-2 control-label required">类目</label>
-        <div class="col-md-4">
-          <select name='categories[]' id='categories' multiple='multiple' class='select-3 form-control chosen'>
-            <option value='2'>/蝉知动态</option>
-            <option value='51'>/asd</option>
-          </select>
-        </div>
+  <link href="dist/css/zui.css" rel="stylesheet">
+  <link href="dist/css/datetimepicker.css" rel="stylesheet">
+  <link href="dist/css/chosen.css" rel="stylesheet">
+  <link href="assets/css/doc.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav id="navbar" class="navbar navbar-inverse navbar-fixed-left navbar-collapsed" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">ZUI</a>
       </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">作者</label>
-        <div class="col-md-4">
-           <input type='text' name='author' id='author' value='demo' class='form-control' />
-        </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav collapsed">
+          <li class="nav-heading">开始</li>
+          <li><a href="start.html#about">框架说明</a></li>
+          <li><a href="start.html#files">文件目录结构</a></li>
+        </ul>
+        <ul class="nav navbar-nav collapsed">
+          <li class="nav-heading">基础</li>
+          <li><a href="basic.html#global">全局样式表</a></li>
+          <li><a href="basic.html#ie">兼容IE浏览器</a></li>
+          <li><a href="basic.html#responsive">响应式设计</a></li>
+          <li><a href="basic.html#">栅格系统</a></li>
+          <li><a href="basic.html#type">文字排版</a></li>
+          <li><a href="basic.html#colorset">配色</a></li>
+          <li><a href="basic.html#scrollbars">滚动条</a></li>
+        </ul>
+        <ul class="nav navbar-nav collapsed">
+          <li class="nav-heading">控件</li>
+          <li><a href="controls.html#icons">图标</a></li>
+          <li><a href="controls.html#buttons">按钮</a></li>
+          <li><a href="controls.html#progress">进度条</a></li>
+          <li><a href="controls.html#labels">标签</a></li>
+          <li><a href="controls.html#textbox">文本框</a></li>
+          <li><a href="controls.html#breadcrumb">面包屑</a></li>
+          <li><a href="controls.html#images">图片</a></li>
+          <li><a href="controls.html#headers">标题</a></li>
+          <li><a href="controls.html#dividers">分隔</a></li>
+        </ul>
+        <ul class="nav navbar-nav collapsed">
+          <li class="nav-heading">组件</li>
+          <li><a href="components.html#alerts">消息框</a></li>
+          <li><a href="components.html#code">代码</a></li>
+          <li><a href="components.html#inputgroup">输入组</a></li>
+          <li><a href="components.html#listgroup">列表组</a></li>
+          <li><a href="components.html#navs">导航</a></li>
+          <li><a href="components.html#navbars">导航条</a></li>
+          <li><a href="components.html#pagers">分页器</a></li>
+          <li><a href="components.html#panels">面板</a></li>
+          <li><a href="components.html#tables">表格</a></li>
+          <li><a href="components.html#buttongroup">按钮组</a></li>
+        </ul>
+        <ul class="nav navbar-nav collapsed">
+          <li class="nav-heading">Javascript插件</li>
+          <li><a href="javascript.html#modals">模态框</a></li>
+          <li><a href="javascript.html#dropdowns">下拉菜单</a></li>
+          <li><a href="javascript.html#tabs">标签页</a></li>
+          <li><a href="javascript.html#tooltips">提示消息</a></li>
+          <li><a href="javascript.html#popovers">弹出框</a></li>
+          <li><a href="javascript.html#collapse">折叠</a></li>
+          <li><a href="javascript.html#carousel">轮播</a></li>
+          <li><a href="javascript.html#datetimepicker">日期选择</a></li>
+          <li><a href="javascript.html#chosen">Chosen</a></li>
+          <li><a href="javascript.html#richeditor">富文本编辑器</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+          <li class="nav-heading">视图</li>
+          <li><a href="views.html#form">表单</a></li>
+          <li><a href="views.html#article">文章</a></li>
+          <li><a href="views.html#cards">卡片</a></li>
+          <li><a href="views.html#list">列表</a></li>
+          <li><a href="views.html#comment">评论</a></li>
+          <li><a href="views.html#dashboard">仪表盘</a></li>
+        </ul>
+        <ul class="nav navbar-nav collapsed">
+          <li class="nav-heading">探索</li>
+          <li><a href="explore.html#sourcecode">下载源码</a></li>
+          <li><a href="explore.html#cases">这些网站在使用</a></li>
+        </ul>
       </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">创建日期</label>
-        <div class="col-md-4">
-          <div class="input-group">
-            <input type='text' name='date' id='date' value='2013-2-13' class='form-control' />
-            <span class="input-group-btn"> <button class="btn btn-default" type="button">田</button> </span>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">来源</label>
-        <div class='col-md-4'>
-          <select name='original' id='original' class='form-control'>
-            <option value='1' selected='selected'>原创</option>
-            <option value='0'>转贴</option>
-          </select>
-        </div>
-        <div id='copyBox'>
-          <div class='col-md-2'><input type='text' name='copySite' id='copySite' value='' class='form-control' placeholder='来源网站' /></div>
-          <div class='col-md-3'><input type='text' name='copyURL' id='copyURL' value='' class='form-control' placeholder='来源URL' /></div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">标题</label>
-        <div class="col-md-10 has-error">
-           <input type='text' name='title' id='title' value='' class='form-control' placeholder=''/>
-           <div class="help-block alert alert-warning">标题不能为空</div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">英文别名</label>
-        <div class="col-md-10">
-          <div class="input-group">
-            <span class="input-group-addon">http://demo.chanzhi.org/article/id@</span>
-            <input type='text' name='alias' id='alias' value='' class='form-control' />
-            <span class="input-group-addon">.html</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">关键字</label>
-        <div class="col-md-10">
-          <input type='text' name='keywords' id='keywords' value='' class='form-control' />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">摘要</label>
-        <div class="col-md-10">
-          <textarea name='summary' id='summary' rows='2' class='form-control'></textarea>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">内容</label>
-        <div class="col-md-10">
-          <textarea name='content' id='content' rows='10' class='form-control'></textarea>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-md-2 control-label">保存为</label>
-        <div class="col-md-10">
-          <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option1" checked> 草稿 </label>
-          <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option2"> 私人 </label>
-          <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option2"> 公开 </label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-           <input type='submit' id='submit' class='btn btn-primary' value='保存' data-loading='稍候...' /> <input type='hidden' name='type' id='type' value='article'  />
-        </div>
-      </div> 
-    </form>
+    </nav>
+  </header>
+  <div id="main">
+    <div class="page-header">
+      <h1>视图</h1>
     </div>
+
+    <section id="form">
+      <div class="page-header">
+        <h2>表单</h2>
+      </div>
+
+      <h3>类型</h3>
+      <h4>基本类型</h4>
+      <div class='example'>
+        <form class="form-horizontal" role="form" method='post'>
+          <legend>创建文章</legend>
+          <div class="form-group">
+            <label class="col-md-2 control-label required">类目</label>
+            <div class="col-md-4">
+              <select name='categories[]' id='categories' multiple='multiple' class='select-3 form-control chosen'>
+                <option value='2'>/蝉知动态</option>
+                <option value='51'>/asd</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">作者</label>
+            <div class="col-md-4">
+               <input type='text' name='author' id='author' value='demo' class='form-control' />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">创建日期</label>
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type='text' name='date' id='date' value='2013-2-13' class='form-control' />
+                <span class="input-group-btn"> <button class="btn btn-default" type="button">田</button> </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">来源</label>
+            <div class='col-md-4'>
+              <select name='original' id='original' class='form-control'>
+                <option value='1' selected='selected'>原创</option>
+                <option value='0'>转贴</option>
+              </select>
+            </div>
+            <div id='copyBox'>
+              <div class='col-md-2'><input type='text' name='copySite' id='copySite' value='' class='form-control' placeholder='来源网站' /></div>
+              <div class='col-md-4'><input type='text' name='copyURL' id='copyURL' value='' class='form-control' placeholder='来源URL' /></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">标题</label>
+            <div class="col-md-10 has-error">
+               <input type='text' name='title' id='title' value='' class='form-control' placeholder=''/>
+               <div class="help-block alert alert-warning">标题不能为空</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">英文别名</label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <span class="input-group-addon">http://demo.chanzhi.org/article/id@</span>
+                <input type='text' name='alias' id='alias' value='' class='form-control' />
+                <span class="input-group-addon">.html</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">关键字</label>
+            <div class="col-md-10">
+              <input type='text' name='keywords' id='keywords' value='' class='form-control' />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">摘要</label>
+            <div class="col-md-10">
+              <textarea name='summary' id='summary' rows='2' class='form-control'></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">内容</label>
+            <div class="col-md-10">
+              <textarea name='content' id='content' rows='10' class='form-control'></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">保存为</label>
+            <div class="col-md-10">
+              <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option1" checked> 草稿 </label>
+              <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option2"> 私人 </label>
+              <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option2"> 公开 </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+               <input type='submit' id='submit' class='btn btn-primary' value='保存' data-loading='稍候...' /> <input type='hidden' name='type' id='type' value='article'  />
+            </div>
+          </div> 
+        </form>
+      </div>
+
+      <h4>更为紧凑的表单</h4>
+      <div class="example">
+        <form class="form-horizontal form-condensed" role="form" method='post'>
+          <legend>创建文章</legend>
+          <div class="form-group">
+            <label class="col-md-2 control-label required">类目</label>
+            <div class="col-md-4">
+              <select name='categories[]' id='categories' multiple='multiple' class='select-3 form-control chosen'>
+                <option value='2'>/蝉知动态</option>
+                <option value='51'>/asd</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">作者</label>
+            <div class="col-md-4">
+               <input type='text' name='author' id='author' value='demo' class='form-control' />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">创建日期</label>
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type='text' name='date' id='date' value='2013-2-13' class='form-control' />
+                <span class="input-group-btn"> <button class="btn btn-default" type="button">田</button> </span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">来源</label>
+            <div class='col-md-4'>
+              <select name='original' id='original' class='form-control'>
+                <option value='1' selected='selected'>原创</option>
+                <option value='0'>转贴</option>
+              </select>
+            </div>
+            <div id='copyBox'>
+              <div class='col-md-2'><input type='text' name='copySite' id='copySite' value='' class='form-control' placeholder='来源网站' /></div>
+              <div class='col-md-3'><input type='text' name='copyURL' id='copyURL' value='' class='form-control' placeholder='来源URL' /></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">标题</label>
+            <div class="col-md-10 has-error">
+               <input type='text' name='title' id='title' value='' class='form-control' placeholder=''/>
+               <div class="help-block alert alert-warning">标题不能为空</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">英文别名</label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <span class="input-group-addon">http://demo.chanzhi.org/article/id@</span>
+                <input type='text' name='alias' id='alias' value='' class='form-control' />
+                <span class="input-group-addon">.html</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">关键字</label>
+            <div class="col-md-10">
+              <input type='text' name='keywords' id='keywords' value='' class='form-control' />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">摘要</label>
+            <div class="col-md-10">
+              <textarea name='summary' id='summary' rows='2' class='form-control'></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">内容</label>
+            <div class="col-md-10">
+              <textarea name='content' id='content' rows='10' class='form-control'></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-2 control-label">保存为</label>
+            <div class="col-md-10">
+              <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option1" checked> 草稿 </label>
+              <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option2"> 私人 </label>
+              <label class='radio-inline'> <input type="radio" name="optionsRadios" value="option2"> 公开 </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+               <input type='submit' id='submit' class='btn btn-primary' value='保存' data-loading='稍候...' /> <input type='hidden' name='type' id='type' value='article'  />
+            </div>
+          </div> 
+        </form>
+      </div>
+    </section>
+
+    <section id="article">
+      <div class="page-header">
+        <h2>文章</h2>
+      </div>
+      <table class="table">
+        <tr>
+          <td>头部</td>
+          <td>头部包含文章标题、文章信息和摘要</td>
+        </tr>
+        <tr>
+          <td>正文</td>
+          <td>正文的多个部分使用<code>section</code></td>
+        </tr>
+        <tr>
+          <td>底部</td>
+          <td>底部显示版权及文章的其他信息</td>
+        </tr>
+      </table>
+      <p>普通文章视图</p>
+      <div contenteditable="true" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <article class="article">
+          <header>
+            <h1 class="text-center">文章标题</h1>
+            <dl class="dl-inline">
+              <dt>发布时间：</dt>
+              <dd>2013-11-07 17:14:22</dd>
+              <dt>作者：</dt>
+              <dd>Catouse</dd>
+              <dt></dt>
+              <dd class="pull-right"><span class="label label-success">NEW</span> <span class="label label-warning">火爆</span> <span class="label label-info">原创</span> <span class="label label-danger"><i class="icon-eye-open"></i> 235</span></dd>
+            </dl>
+            <section class="abstract">
+              <p><strong>摘要：</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus, necessitatibus provident quasi suscipit laborum nemo tenetur ad accusantium explicabo pariatur?</p>
+            </section>
+          </header>
+          <section class="article-content">
+            <h1>Lorem ipsum dolor sit amet.</h1>
+            <h2>Lorem ipsum dolor sit amet, consectetur.</h2>
+            <h3>Lorem ipsum dolor sit amet, consectetur.</h3>
+            <h4>Lorem ipsum dolor sit amet, consectetur.</h4>
+            <h5>Lorem ipsum dolor sit amet, consectetur.</h5>
+            <h6>Lorem ipsum dolor sit amet, consectetur.</h6>
+            <p><a href="###4">Lorem ipsum dolor</a> sit amet, consectetur adipisicing elit. Autem, ad, libero hic voluptatem sapiente possimus recusandae laboriosam adipisci voluptates inventore perferendis nam aliquid odio nostrum voluptate quasi totam itaque. Veritatis, dolore, sint, reiciendis repellat est non enim tenetur unde odio eius recusandae ut quae vero incidunt dolorem excepturi consectetur itaque.</p>
+            <blockquote>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+              <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat, officiis!</small>
+            </blockquote>
+            <h3>Lorem ipsum dolor sit amet, consectetur.</h3>
+            <p>Voluptates, repellat, voluptatibus temporibus facere veritatis ab similique quas nobis provident ratione eum sequi officiis sunt atque reprehenderit ut ipsum vel tempora alias consectetur numquam consequatur dignissimos eligendi rerum voluptas cupiditate tempore neque quam itaque illo veniam aspernatur distinctio praesentium labore et quod autem officia est beatae fuga corrupti inventore.</p>
+            <img src="example/img/img1.png" alt="">
+            <p>Architecto, officiis, incidunt, excepturi, repudiandae iusto quam tempora blanditiis sed quae aliquam quaerat soluta distinctio nulla vero at. Reprehenderit, aperiam laboriosam dolores eius quam autem magnam est fugiat minima nihil. Aut, minus, nemo iure fuga corporis repellendus perspiciatis iusto veritatis iste similique. Totam ut repudiandae nemo cumque aperiam aut sint.</p>
+            <h2>Lorem ipsum dolor sit amet, consectetur.</h2>
+            <ul>
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis soluta eveniet aspernatur facere quisquam veniam eos voluptates similique quis voluptas.</li>
+              <li>Quaerat, aut atque praesentium quidem consequatur consequuntur repudiandae error maxime laboriosam nesciunt vitae illo laborum voluptas enim aliquid eius ad!</li>
+              <li>Qui, soluta, ipsum, alias reiciendis iusto natus ullam distinctio nam exercitationem culpa veniam mollitia id sapiente quisquam nihil totam in.</li>
+            </ul>
+            <hr>
+            <p>Magnam, modi, repellat beatae perferendis illo dicta illum dolore minus aperiam sit perspiciatis voluptas molestias eaque numquam ipsum deserunt at aut quam quisquam tenetur. Repellat, ratione nihil voluptate sit pariatur quasi ipsum? Sapiente, fugit nesciunt placeat ut expedita id inventore nobis iure adipisci ullam aliquid laboriosam facere officiis molestiae mollitia!</p>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Lorem ipsum.</th>
+                  <th>Quis, ut.</th>
+                  <th>Officia, odio?</th>
+                  <th>Eos, modi!</th>
+                  <th>Autem, doloremque!</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Dolor, rem.</td>
+                  <td>Iure, quaerat.</td>
+                  <td>Quibusdam, nam.</td>
+                  <td>Blanditiis, quo.</td>
+                </tr>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Aliquid, dicta.</td>
+                  <td>Architecto, perspiciatis.</td>
+                  <td>Eos, corporis.</td>
+                  <td>Similique, cum.</td>
+                </tr>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Id, minus!</td>
+                  <td>Eos, sit.</td>
+                  <td>Quae, dolores?</td>
+                  <td>Consectetur, deleniti!</td>
+                </tr>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Nam, excepturi.</td>
+                  <td>Assumenda, cumque!</td>
+                  <td>Vero, eligendi.</td>
+                  <td>Odit, porro.</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>Adipisci reprehenderit placeat quos provident alias cupiditate ratione perspiciatis! Fuga, fugit id nisi sapiente voluptatibus quidem. Tempora, optio, animi, iste fugiat quisquam veniam aliquam sed labore at ad numquam eum nobis natus quasi magni. Sequi, dolor, sed, at, debitis accusamus ad qui voluptas est odit ipsa consequatur sint odio porro.</p>
+            <ol>
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum, rerum, molestias possimus minima magnam libero iste amet ad. Ratione, deserunt, adipisci! Ducimus, nihil totam ad beatae corporis. Voluptatem, facere minima!</li>
+              <li>Cupiditate, omnis, sit, ducimus, natus quo quam quia excepturi numquam deleniti totam odit illum voluptate id! Commodi, itaque magni saepe porro rem ducimus animi error ullam. Animi, consequatur totam natus.</li>
+              <li>Quae, magni, dolorum odio quia labore asperiores sit dolorem vel hic laboriosam doloribus minima necessitatibus veritatis earum aliquid non rem ad id itaque pariatur repudiandae dolore eligendi illo nobis fuga.</li>
+            </ol>
+            <dl>
+              <dt>Lorem.</dt>
+              <dd>Lorem ipsum dolor sit amet.</dd>
+              <dt>Ut.</dt>
+              <dd>Necessitatibus, fugit repellat fugiat a.</dd>
+              <dt>Aliquam.</dt>
+              <dd>Obcaecati cum suscipit consequuntur voluptas?</dd>
+              <dt>Minima!</dt>
+              <dd>Esse soluta iure corporis porro.</dd>
+              <dt>Sunt.</dt>
+              <dd>Delectus quos amet quidem eaque!</dd>
+            </dl>
+            <p>Nemo, dolorum nisi sequi recusandae deserunt soluta nobis itaque expedita atque excepturi quidem sapiente qui perferendis maiores quas consectetur nulla quae libero impedit ea corporis eos dicta blanditiis ad quis quos quaerat reiciendis aliquam minima rem nesciunt odit est mollitia ipsa vero ratione ipsum. Dolorum, reprehenderit sint vero distinctio aliquam.</p>
+          </section>
+          <footer>
+            <p class="pull-right text-muted">
+              发布时间：2013年11月7日 16:44:21 &nbsp;点击数：234
+            </p>
+            <p class="text-important">本文版权所有归<a href="###">@catouse</a></p>
+            <ul class="pager pager-justify">
+              <li class="previous"><a href="#"><i class="icon-arrow-left"></i> 论烧火煮饭</a></li>
+              <li><a href="#"><i class="icon-list-ul"></i> 目录</a></li>
+              <li class="next disabled"><a href="#">没有下一篇 <i class="icon-arrow-right"></i></a></li>
+            </ul>
+          </footer>
+        </article>
+      </div>
+      <p>一个更紧凑的文章视图</p>
+      <div contenteditable="true" spellcheck="false" class="example no-padding">
+        <br>
+        <ul class="breadcrumb">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data <i class="icon-map-marker"></i></li>
+        </ul>
+        <article class="article article-condensed" contenteditable="true">
+          <header>
+            <dl class="dl-inline pull-right">
+              <dt>发布时间：</dt>
+              <dd>2013-11-07 17:14:22</dd>
+              <dt>作者：</dt>
+              <dd>Catouse</dd>
+              <dt></dt>
+              <dd><span class="label label-success">最新</span> <span class="label label-warning">火爆</span> <span class="label label-info">原创</span></dd>
+            </dl>
+            <h1>文章标题</h1>
+            <dl class="dl-inline">
+              <dt>发布时间：</dt>
+              <dd>2013-11-07 17:14:22</dd>
+              <dt>作者：</dt>
+              <dd>Catouse</dd>
+              <dt></dt>
+              <dd><span class="label label-info">原创</span></dd>
+            </dl>
+            <section class="abstract">
+              <p><strong>摘要：</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus, necessitatibus provident quasi suscipit laborum nemo tenetur ad accusantium explicabo pariatur?</p>
+            </section>
+          </header>
+          <section class="article-content">
+            <h1>Lorem ipsum dolor sit amet.</h1>
+            <h2>Lorem ipsum dolor sit amet, consectetur.</h2>
+            <h3>Lorem ipsum dolor sit amet, consectetur.</h3>
+            <h4>Lorem ipsum dolor sit amet, consectetur.</h4>
+            <h5>Lorem ipsum dolor sit amet, consectetur.</h5>
+            <h6>Lorem ipsum dolor sit amet, consectetur.</h6>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem, ad, libero hic voluptatem sapiente possimus recusandae laboriosam adipisci voluptates inventore perferendis nam aliquid odio nostrum voluptate quasi totam itaque. Veritatis, dolore, sint, reiciendis repellat est non enim tenetur unde odio eius recusandae ut quae vero incidunt dolorem excepturi consectetur itaque.</p>
+            <blockquote>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+              <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat, officiis!</small>
+            </blockquote>
+            <p>Voluptates, repellat, voluptatibus temporibus facere veritatis ab similique quas nobis provident ratione eum sequi officiis sunt atque reprehenderit ut ipsum vel tempora alias consectetur numquam consequatur dignissimos eligendi rerum voluptas cupiditate tempore neque quam itaque illo veniam aspernatur distinctio praesentium labore et quod autem officia est beatae fuga corrupti inventore.</p>
+            <img src="example/img/img1.png" alt="" style="width:100%">
+            <p>Architecto, officiis, incidunt, excepturi, repudiandae iusto quam tempora blanditiis sed quae aliquam quaerat soluta distinctio nulla vero at. Reprehenderit, aperiam laboriosam dolores eius quam autem magnam est fugiat minima nihil. Aut, minus, nemo iure fuga corporis repellendus perspiciatis iusto veritatis iste similique. Totam ut repudiandae nemo cumque aperiam aut sint.</p>
+            <ul>
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis soluta eveniet aspernatur facere quisquam veniam eos voluptates similique quis voluptas.</li>
+              <li>Quaerat, aut atque praesentium quidem consequatur consequuntur repudiandae error maxime laboriosam nesciunt vitae illo laborum voluptas enim aliquid eius ad!</li>
+              <li>Qui, soluta, ipsum, alias reiciendis iusto natus ullam distinctio nam exercitationem culpa veniam mollitia id sapiente quisquam nihil totam in.</li>
+            </ul>
+            <p>Magnam, modi, repellat beatae perferendis illo dicta illum dolore minus aperiam sit perspiciatis voluptas molestias eaque numquam ipsum deserunt at aut quam quisquam tenetur. Repellat, ratione nihil voluptate sit pariatur quasi ipsum? Sapiente, fugit nesciunt placeat ut expedita id inventore nobis iure adipisci ullam aliquid laboriosam facere officiis molestiae mollitia!</p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Lorem ipsum.</th>
+                  <th>Quis, ut.</th>
+                  <th>Officia, odio?</th>
+                  <th>Eos, modi!</th>
+                  <th>Autem, doloremque!</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Dolor, rem.</td>
+                  <td>Iure, quaerat.</td>
+                  <td>Quibusdam, nam.</td>
+                  <td>Blanditiis, quo.</td>
+                </tr>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Aliquid, dicta.</td>
+                  <td>Architecto, perspiciatis.</td>
+                  <td>Eos, corporis.</td>
+                  <td>Similique, cum.</td>
+                </tr>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Id, minus!</td>
+                  <td>Eos, sit.</td>
+                  <td>Quae, dolores?</td>
+                  <td>Consectetur, deleniti!</td>
+                </tr>
+                <tr>
+                  <td>Lorem ipsum.</td>
+                  <td>Nam, excepturi.</td>
+                  <td>Assumenda, cumque!</td>
+                  <td>Vero, eligendi.</td>
+                  <td>Odit, porro.</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>Adipisci reprehenderit placeat quos provident alias cupiditate ratione perspiciatis! Fuga, fugit id nisi sapiente voluptatibus quidem. Tempora, optio, animi, iste fugiat quisquam veniam aliquam sed labore at ad numquam eum nobis natus quasi magni. Sequi, dolor, sed, at, debitis accusamus ad qui voluptas est odit ipsa consequatur sint odio porro.</p>
+            <ol>
+              <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum, rerum, molestias possimus minima magnam libero iste amet ad. Ratione, deserunt, adipisci! Ducimus, nihil totam ad beatae corporis. Voluptatem, facere minima!</li>
+              <li>Cupiditate, omnis, sit, ducimus, natus quo quam quia excepturi numquam deleniti totam odit illum voluptate id! Commodi, itaque magni saepe porro rem ducimus animi error ullam. Animi, consequatur totam natus.</li>
+              <li>Quae, magni, dolorum odio quia labore asperiores sit dolorem vel hic laboriosam doloribus minima necessitatibus veritatis earum aliquid non rem ad id itaque pariatur repudiandae dolore eligendi illo nobis fuga.</li>
+            </ol>
+            <dl>
+              <dt>Lorem.</dt>
+              <dd>Lorem ipsum dolor sit amet.</dd>
+              <dt>Ut.</dt>
+              <dd>Necessitatibus, fugit repellat fugiat a.</dd>
+              <dt>Aliquam.</dt>
+              <dd>Obcaecati cum suscipit consequuntur voluptas?</dd>
+              <dt>Minima!</dt>
+              <dd>Esse soluta iure corporis porro.</dd>
+              <dt>Sunt.</dt>
+              <dd>Delectus quos amet quidem eaque!</dd>
+            </dl>
+            <p>Nemo, dolorum nisi sequi recusandae deserunt soluta nobis itaque expedita atque excepturi quidem sapiente qui perferendis maiores quas consectetur nulla quae libero impedit ea corporis eos dicta blanditiis ad quis quos quaerat reiciendis aliquam minima rem nesciunt odit est mollitia ipsa vero ratione ipsum. Dolorum, reprehenderit sint vero distinctio aliquam.</p>
+          </section>
+          <footer>
+            <p class="pull-right text-muted">
+              发布时间：2013年11月7日 16:44:21 &nbsp;点击数：234
+            </p>
+            <p class="text-important">本文版权所有归<a href="###">@catouse</a></p>
+            <ul class="pager pager-justify">
+              <li class="previous"><a href="#">« 上一篇：论烧火煮饭</a></li>
+              <li class="next"><a href="#">下一篇：合适不合适？ »</a></li>
+            </ul>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section id="cards">
+      <div class="page-header">
+        <h2>卡片</h2>
+      </div>
+
+      <table class="table">
+        <tr>
+          <td>头部</td>
+          <td>包含当前列表标题</td>
+        </tr>
+        <tr>
+          <td>列表</td>
+          <td>多个列表部分请使用<code>section</code></td>
+        </tr>
+        <tr>
+          <td>底部</td>
+          <td>底部显示页码及其他提示信息</td>
+        </tr>
+      </table>
+      <p>图片链接</p>
+      <div contenteditable="false" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Cards &nbsp;<small>26 items</small></h3>
+          </header>
+          <section class="cards">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的说明</span>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的超多多多多多多多多多多多多多多多多多多多多多多多多多说明</span>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card"><img src="example/img/img2.jpg" alt=""></a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card"><img src="example/img/img2.jpg" alt=""></a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card"><img src="example/img/img2.jpg" alt=""></a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card"><img src="example/img/img2.jpg" alt=""></a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card"><img src="example/img/img2.jpg" alt=""></a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card"><img src="example/img/img2.jpg" alt=""></a>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+      <p>图片链接＋标题</p>
+      <div contenteditable="false" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Cards &nbsp;<small>26 items</small></h3>
+          </header>
+          <section class="cards">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的说明</span>
+                <strong class="card-heading">图片标题飞</strong>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <strong class="card-heading">Lorem ipsum dolor sit.</strong>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <strong class="card-heading">Lorem ipsum dolor sit.</strong>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <strong class="card-heading">Lorem ipsum dolor sit.</strong>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+              </a>
+            </div>
+          </section>
+          <section class="cards">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的说明</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, autem dolorum accusantium laboriosam architecto veritatis eaque pariatur quisquam ea odit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+              </a>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+              </a>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+              </a>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+              </a>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+              </a>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+              </a>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+      <p>图片＋标题</p>
+      <div contenteditable="false" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Cards &nbsp;<small>26 items</small></h3>
+          </header>
+          <section class="cards">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的说明</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-heart-empty"></i></a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-heart-empty"></i> 123</a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-star-empty"></i></a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="cards">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的说明</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, autem dolorum accusantium laboriosam architecto veritatis eaque pariatur quisquam ea odit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn"><i class="icon-search"></i> 查看</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-primary"><i class="icon-shopping-cart"></i> 订购</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-success"><i class="icon-comments-alt"></i> 参与讨论</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-danger"><i class="icon-smile"></i> 喜欢</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+      <p>包装器内的图片＋标题</p>
+      <div contenteditable="false" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Cards &nbsp;<small>26 items</small></h3>
+          </header>
+          <section class="cards">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <a href="#" class="media-wrapper"><img src="example/img/img1.png" alt=""></a>
+                <span class="caption">关于图片的说明</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-heart-empty"></i></a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-heart-empty"></i> 123</a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-star-empty"></i></a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+      <p>无边框卡片</p>
+      <div contenteditable="false" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Cards &nbsp;<small>26 items</small></h3>
+          </header>
+          <section class="cards cards-borderless">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img1.png" alt=""></div>
+                <span class="caption">关于图片的说明</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-heart-empty"></i></a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-heart-empty"></i> 123</a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-star-empty"></i></a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <div class="media-wrapper"><img src="example/img/img2.jpg" alt=""></div>
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="cards cards-borderless">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的说明</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, autem dolorum accusantium laboriosam architecto veritatis eaque pariatur quisquam ea odit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn"><i class="icon-search"></i> 查看</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-primary"><i class="icon-shopping-cart"></i> 订购</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-success"><i class="icon-comments-alt"></i> 参与讨论</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-danger"><i class="icon-smile"></i> 喜欢</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+      <p>更为紧凑的模式</p>
+      <p><code>.cards-condensed</code></p>
+      <div contenteditable="false" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Cards &nbsp;<small>26 items</small></h3>
+          </header>
+          <section class="cards cards-condensed">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的说明</span>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的超多多多多多多多多多多多多多多多多多多多多多多多多多说明</span>
+              </a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card"><img src="example/img/img2.jpg" alt=""></a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <a href="###" class="card"><img src="example/img/img2.jpg" alt=""></a>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-reveal">
+                  <h5 class="card-heading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, autem dolorum accusantium laboriosam architecto veritatis eaque pariatur quisquam ea odit.</h5>
+                  <div class="card-actions">
+                      <a href="###"><i class="icon-comment"></i> 343</a>
+                      <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                  </div>
+                  <div class="card-content text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                  </div>
+                  <div class="card-actions">
+                    <button class="btn btn-success"><i class="icon-comments-alt"></i> 参与讨论</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-reveal">
+                  <h5 class="card-heading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, autem dolorum accusantium laboriosam architecto veritatis eaque pariatur quisquam ea odit.</h5>
+                  <div class="card-actions">
+                      <a href="###"><i class="icon-comment"></i> 343</a>
+                      <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                  </div>
+                  <div class="card-content text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                  </div>
+                  <div class="card-actions">
+                    <button class="btn btn-success"><i class="icon-comments-alt"></i> 参与讨论</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-heart-empty"></i></a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+                <div class="card-reveal">
+                  <h5 class="card-heading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, autem dolorum accusantium laboriosam architecto veritatis eaque pariatur quisquam ea odit.</h5>
+                  <div class="card-actions">
+                      <a href="###"><i class="icon-comment"></i> 343</a>
+                      <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                  </div>
+                  <div class="card-content text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                  </div>
+                  <div class="card-actions">
+                    <button class="btn btn-success"><i class="icon-comments-alt"></i> 参与讨论</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-heart-empty"></i> 123</a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+                <div class="card-reveal">
+                  <h5 class="card-heading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, autem dolorum accusantium laboriosam architecto veritatis eaque pariatur quisquam ea odit.</h5>
+                  <div class="card-actions">
+                      <a href="###"><i class="icon-comment"></i> 343</a>
+                      <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                  </div>
+                  <div class="card-content text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                  </div>
+                  <div class="card-actions">
+                    <button class="btn btn-success"><i class="icon-comments-alt"></i> 参与讨论</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <div class="card-heading">
+                  <span class="pull-right"><a href="###"><i class="icon-star-empty"></i></a></span>
+                  <a href="###"><strong>Lorem ipsum dolor sit.</strong></a>
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="cards cards-condensed">
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">关于图片的说明</span>
+                <h5 class="card-heading">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, autem dolorum accusantium laboriosam architecto veritatis eaque pariatur quisquam ea odit.</h5>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <a href="###"><i class="icon-comment"></i> 343</a>
+                  <span class="text-muted">&nbsp;&nbsp;2013-11-12 15:05:56</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <span class="label">tag1</span>
+                  <a href="###" class="pull-right"><i class="icon-comment"></i> 343</a>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn"><i class="icon-search"></i> 查看</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-primary"><i class="icon-shopping-cart"></i> 订购</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-success"><i class="icon-comments-alt"></i> 参与讨论</button>
+                </div>
+              </div>
+            </div><div class="col-md-4 col-sm-6 col-lg-3">
+              <div class="card">
+                <img src="example/img/img2.jpg" alt="">
+                <span class="caption">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, voluptatem.</span>
+                <a href="###" class="card-heading"><strong>Lorem ipsum dolor sit.</strong></a>
+                <div class="card-content text-muted">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, officia similique enim culpa ipsam voluptas. Quibusdam, tempora autem voluptatem aliquid!
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-danger"><i class="icon-smile"></i> 喜欢</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <section id="list">
+      <div class="page-header">
+        <h2>列表</h2>
+      </div>
+
+      <table class="table">
+        <tr>
+          <td>头部</td>
+          <td>包含当前列表标题</td>
+        </tr>
+        <tr>
+          <td>列表</td>
+          <td>多个列表部分请使用<code>section</code></td>
+        </tr>
+        <tr>
+          <td>底部</td>
+          <td>底部显示页码及其他提示信息</td>
+        </tr>
+      </table>
+      <p>一般内容列表视图</p>
+      <div contenteditable="false" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Contents List &nbsp;<small>26 articles</small></h3>
+          </header>
+          <section class="items items-hover">
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><span class="label label-success">NEW</span>&nbsp; <a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+      <p>一个更紧凑的视图</p>
+      <div contenteditable="true" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list list-condensed">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Contents List &nbsp;<small>26 articles</small></h3>
+          </header>
+          <section class="items items-hover">
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><span class="label label-success">NEW</span>&nbsp; <a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+              </div>
+              <div class="item-footer">
+                <a href="#"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+      <p>带项目缩略图</p>
+      <div contenteditable="ture" spellcheck="false" class="example">
+        <br>
+        <ul class="breadcrumb breadcrumb-block">
+          <li><i class="icon-location-arrow icon-muted"></i></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Library</a></li>
+          <li class="active">Data</li>
+        </ul>
+        <div class="list">
+          <header>
+            <div class="pull-right">
+              <div class="btn-group" data-toggle="buttons-radio">
+                <button type="button" class="btn btn-default active"><i class="icon-th-list"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th"></i></button>
+                <button type="button" class="btn btn-default"><i class="icon-th-large"></i></button>
+              </div>
+            </div>
+            <h3><i class="icon-list-ul icon-border-circle"></i> Contents List &nbsp;<small>26 articles</small></h3>
+          </header>
+          <section class="items items-hover">
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><span class="label label-success">NEW</span>&nbsp; <a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="media pull-left">
+                  <div class="media-place-holder" style="width:200px;height:100px;line-height:100px">200x100</div>
+                </div>
+                <div class="text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+                </div>
+              </div>
+              <div class="item-footer">
+                <span class="label">tag1</span>
+                &nbsp;
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><span class="label label-success">NEW</span>&nbsp; <a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="media pull-left">
+                  <div class="media-place-holder" style="width:200px;height:100px;line-height:100px">200x100</div>
+                </div>
+                <div class="text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+                </div>
+              </div>
+              <div class="item-footer">
+                <span class="label">tag1</span>
+                &nbsp;
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><span class="label label-success">NEW</span>&nbsp; <a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="media pull-right">
+                  <div class="media-place-holder" style="width:200px;height:100px;line-height:100px">200x100</div>
+                </div>
+                <div class="text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+                </div>
+              </div>
+              <div class="item-footer">
+                <span class="label">tag1</span>
+                &nbsp;
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><span class="label label-success">NEW</span>&nbsp; <a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="media pull-right">
+                  <div class="media-place-holder" style="width:200px;height:100px;line-height:100px">200x100</div>
+                </div>
+                <div class="text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+                </div>
+              </div>
+              <div class="item-footer">
+                <span class="label">tag1</span>
+                &nbsp;
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><span class="label label-success">NEW</span>&nbsp; <a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="media">
+                  <div class="media-place-holder" style="height:100px;line-height:100px">200x100</div>
+                </div>
+                <div class="text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+                </div>
+              </div>
+              <div class="item-footer">
+                <span class="label">tag1</span>
+                &nbsp;
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> edit</a> &nbsp;<a href="#"><i class="icon-remove"></i> delete</a></div>
+                <h4><span class="label label-success">NEW</span>&nbsp; <a href="###">Lorem ipsum dolor sit amet.中文标题测试</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="media">
+                  <div class="media-place-holder" style="height:100px;line-height:100px">200x100</div>
+                </div>
+                <div class="text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, necessitatibus, animi magni illo vel ducimus quia dolorum modi temporibus iste fugit laudantium minima minus sit debitis. Autem voluptate dolorum saepe!
+                </div>
+              </div>
+              <div class="item-footer">
+                <span class="label">tag1</span>
+                &nbsp;
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a>&nbsp;
+                <span class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+          </section>
+          <footer>
+            <ul class="pager">
+              <li class="previous"><a href="#">« 上一页</a></li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">6</a></li>
+              <li class="active"><a href="#">7</a></li>
+              <li><a href="#">8</a></li>
+              <li><a href="#">9</a></li>
+              <li><a href="#">⋯</a></li>
+              <li><a href="#">12</a></li>
+              <li class="next"><a href="#">下一页 »</a></li>
+            </ul>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <section id="comment">
+      <div class="page-header">
+        <h2>评论</h2>
+      </div>
+
+      <h3>一般情况</h3>
+      <div contenteditable="true" spellcheck="false" class="example">
+        <div class="comments">
+          <header>
+            <div class="pull-right"><a href="#commentReplyForm" class="btn btn-info"><i class="icon-comment-alt"></i> 发表评论</a></div>
+            <h3><i class="icon-comments icon-border-circle"></i> 26 comments</h3>
+            <div class="alert alert-info text-center">
+              <a href="alert-link">3 条新的评论</a>
+            </div>
+          </header>
+          <section class="comments-list">
+            <div class="comment">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="content">
+                <div class="pull-right"><span class="text-muted" title="2013-11-08 15:52:32">2 hours ago</span> &nbsp;<strong>#5</strong></div>
+                <span class="author">
+                  <a href="#"><strong>Catouse</strong></a>
+                  <span class="text-muted"> replied to </span>
+                  <a href="#">Zhang Li</a>
+                </span>
+                
+                <div class="text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, illo eaque a iure in quidem officiis numquam ducimus odio non. Architecto, repellendus optio maxime quae sed molestiae ipsa animi tenetur!
+                </div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">2 hours ago</span> &nbsp;<strong>#4</strong></div>
+                <a href="#" class="author"><strong>Catouse</strong></a>
+                <div class="text">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, illo eaque a iure in quidem officiis numquam ducimus odio non. Architecto, repellendus optio maxime quae sed molestiae ipsa animi tenetur!
+                </div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                <a href="#" class="author"><strong>Catouse</strong></a>
+                <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">1 days ago</span> &nbsp;<strong>#2</strong></div>
+                <a href="#" class="author"><strong>Catouse</strong></a>
+                <div class="text">Excepturi voluptates ea esse voluptas ad voluptate voluptatibus laboriosam velit. Totam, fuga, laboriosam, optio, qui id voluptates nam fugit quibusdam labore alias atque laudantium repudiandae veniam delectus architecto libero ducimus consequatur hic sunt ipsa. Labore, eligendi sapiente dolores quibusdam ipsum.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">2 months ago</span> &nbsp;<strong>#1</strong></div>
+                <a href="#" class="author"><strong>Catouse</strong></a>
+                <div class="text">Assumenda, accusamus, inventore, ut, ea laboriosam quae sunt maxime labore quisquam quod nesciunt saepe quis. Debitis, fuga, ad, aut eaque vero vitae suscipit obcaecati nemo eligendi numquam id labore voluptas veniam sequi perspiciatis facilis voluptates dolorem minus quibusdam unde molestias.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <footer>
+            <div class="reply-form" id="commentReplyForm">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="form">
+                <form role="form">
+                  <div class="form-group">
+                    <textarea class="form-control new-comment-text" rows="2" placeholder="write a comment..."></textarea>
+                  </div>
+                  <div class="form-group comment-user" style="display:none">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <span class="pull-right">或者</span>
+                        <a href="#">登录</a> &nbsp;<a href="##">注册</a>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="nameInputEmail1" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        </div>
+                      </div>
+                      <div class="col-md-2"><button type="submit" class="btn btn-block btn-primary"><i class="icon-ok"></i></button></div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+      <h3>回复缩进</h3>
+      <div contenteditable="true" spellcheck="false" class="example">
+        <div class="comments">
+          <header>
+            <div class="pull-right"><a href="#commentReplyForm" class="btn btn-info"><i class="icon-comment-alt"></i> 发表评论</a></div>
+            <h3><i class="icon-comments icon-border-circle"></i> 26 comments</h3>
+          </header>
+          <div class="comments-list">
+            <div class="comment">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                <span class="author">
+                  <a href="#"><strong>Catouse</strong></a>
+                  <span class="text-muted"> replied to </span>
+                  <a href="#">Zhang Li</a>
+                </span>
+                <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+              <div class="comments-list">
+                <div class="comment">
+                  <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+                  <div class="content">
+                    <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                    <span class="author">
+                      <a href="#"><strong>Catouse</strong></a>
+                      <span class="text-muted"> replied to </span>
+                      <a href="#">Zhang Li</a>
+                    </span>
+                    <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                    <div class="actions">
+                      <a href="##">reply</a>
+                      <a href="##">edit</a>
+                      <a href="##">delete</a>
+                    </div>
+                  </div>
+                  <div class="comments-list">
+                    <div class="comment">
+                      <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+                      <div class="content">
+                        <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                        <span class="author">
+                          <a href="#"><strong>Catouse</strong></a>
+                          <span class="text-muted"> replied to </span>
+                          <a href="#">Zhang Li</a>
+                        </span>
+                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                        <div class="actions">
+                          <a href="##">reply</a>
+                          <a href="##">edit</a>
+                          <a href="##">delete</a>
+                        </div>
+                      </div>
+                      <div class="comments-list">
+                        <div class="comment">
+                          <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+                          <div class="content">
+                            <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                            <span class="author">
+                              <a href="#"><strong>Catouse</strong></a>
+                              <span class="text-muted"> replied to </span>
+                              <a href="#">Zhang Li</a>
+                            </span>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                            <div class="actions">
+                              <a href="##">reply</a>
+                              <a href="##">edit</a>
+                              <a href="##">delete</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="comment">
+                          <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+                          <div class="content">
+                            <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                            <span class="author">
+                              <a href="#"><strong>Catouse</strong></a>
+                              <span class="text-muted"> replied to </span>
+                              <a href="#">Zhang Li</a>
+                            </span>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                            <div class="actions">
+                              <a href="##">reply</a>
+                              <a href="##">edit</a>
+                              <a href="##">delete</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment">
+                      <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+                      <div class="content">
+                        <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                        <span class="author">
+                          <a href="#"><strong>Catouse</strong></a>
+                          <span class="text-muted"> replied to </span>
+                          <a href="#">Zhang Li</a>
+                        </span>
+                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                        <div class="actions">
+                          <a href="##">reply</a>
+                          <a href="##">edit</a>
+                          <a href="##">delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">1 days ago</span> &nbsp;<strong>#2</strong></div>
+                <a href="#" class="author"><strong>Catouse</strong></a>
+                <div class="text">Excepturi voluptates ea esse voluptas ad voluptate voluptatibus laboriosam velit. Totam, fuga, laboriosam, optio, qui id voluptates nam fugit quibusdam labore alias atque laudantium repudiandae veniam delectus architecto libero ducimus consequatur hic sunt ipsa. Labore, eligendi sapiente dolores quibusdam ipsum.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+              <div class="comments-list">
+                <div class="comment">
+                  <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+                  <div class="content">
+                    <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                    <span class="author">
+                      <a href="#"><strong>Catouse</strong></a>
+                      <span class="text-muted"> replied to </span>
+                      <a href="#">Zhang Li</a>
+                    </span>
+                    <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                    <div class="actions">
+                      <a href="##">reply</a>
+                      <a href="##">edit</a>
+                      <a href="##">delete</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="comment">
+                  <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+                  <div class="content">
+                    <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                    <span class="author">
+                      <a href="#"><strong>Catouse</strong></a>
+                      <span class="text-muted"> replied to </span>
+                      <a href="#">Zhang Li</a>
+                    </span>
+                    <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                    <div class="actions">
+                      <a href="##">reply</a>
+                      <a href="##">edit</a>
+                      <a href="##">delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">2 months ago</span> &nbsp;<strong>#1</strong></div>
+                <a href="#" class="author"><strong>Catouse</strong></a>
+                <div class="text">Assumenda, accusamus, inventore, ut, ea laboriosam quae sunt maxime labore quisquam quod nesciunt saepe quis. Debitis, fuga, ad, aut eaque vero vitae suscipit obcaecati nemo eligendi numquam id labore voluptas veniam sequi perspiciatis facilis voluptates dolorem minus quibusdam unde molestias.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer>
+            <div class="reply-form" id="commentReplyForm">
+              <a href="###" class="avatar"><i class="icon-user icon-border icon-2x icon-muted"></i></a>
+              <div class="form">
+                <form role="form">
+                  <div class="form-group">
+                    <textarea class="form-control new-comment-text" rows="2" placeholder="write a comment..."></textarea>
+                  </div>
+                  <div class="form-group comment-user" style="display:none">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <span class="pull-right">或者</span>
+                        <a href="#">登录</a> &nbsp;<a href="##">注册</a>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="nameInputEmail1" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        </div>
+                      </div>
+                      <div class="col-md-2"><button type="submit" class="btn btn-block btn-primary"><i class="icon-ok"></i></button></div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+      <h3>没有用户头像</h3>
+      <p>直接删掉头像部分即可完美适应</p>
+      <div contenteditable="true" spellcheck="false" class="example">
+        <div class="comments">
+          <header>
+            <div class="pull-right"><a href="#commentReplyForm" class="btn btn-info"><i class="icon-comment-alt"></i> 发表评论</a></div>
+            <h3><i class="icon-comments icon-border-circle"></i> 26 comments</h3>
+          </header>
+          <div class="comments-list">
+            <div class="comment">
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                <span class="author">
+                  <a href="#"><strong>Catouse</strong></a>
+                  <span class="text-muted"> replied to </span>
+                  <a href="#">Zhang Li</a>
+                </span>
+                <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+              <div class="comments-list">
+                <div class="comment">
+  
+                  <div class="content">
+                    <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                    <span class="author">
+                      <a href="#"><strong>Catouse</strong></a>
+                      <span class="text-muted"> replied to </span>
+                      <a href="#">Zhang Li</a>
+                    </span>
+                    <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                    <div class="actions">
+                      <a href="##">reply</a>
+                      <a href="##">edit</a>
+                      <a href="##">delete</a>
+                    </div>
+                  </div>
+                  <div class="comments-list">
+                    <div class="comment">
+      
+                      <div class="content">
+                        <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                        <span class="author">
+                          <a href="#"><strong>Catouse</strong></a>
+                          <span class="text-muted"> replied to </span>
+                          <a href="#">Zhang Li</a>
+                        </span>
+                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                        <div class="actions">
+                          <a href="##">reply</a>
+                          <a href="##">edit</a>
+                          <a href="##">delete</a>
+                        </div>
+                      </div>
+                      <div class="comments-list">
+                        <div class="comment">
+          
+                          <div class="content">
+                            <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                            <span class="author">
+                              <a href="#"><strong>Catouse</strong></a>
+                              <span class="text-muted"> replied to </span>
+                              <a href="#">Zhang Li</a>
+                            </span>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                            <div class="actions">
+                              <a href="##">reply</a>
+                              <a href="##">edit</a>
+                              <a href="##">delete</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="comment">
+          
+                          <div class="content">
+                            <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                            <span class="author">
+                              <a href="#"><strong>Catouse</strong></a>
+                              <span class="text-muted"> replied to </span>
+                              <a href="#">Zhang Li</a>
+                            </span>
+                            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                            <div class="actions">
+                              <a href="##">reply</a>
+                              <a href="##">edit</a>
+                              <a href="##">delete</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="comment">
+      
+                      <div class="content">
+                        <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                        <span class="author">
+                          <a href="#"><strong>Catouse</strong></a>
+                          <span class="text-muted"> replied to </span>
+                          <a href="#">Zhang Li</a>
+                        </span>
+                        <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                        <div class="actions">
+                          <a href="##">reply</a>
+                          <a href="##">edit</a>
+                          <a href="##">delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">1 days ago</span> &nbsp;<strong>#2</strong></div>
+                <a href="#" class="author"><strong>Catouse</strong></a>
+                <div class="text">Excepturi voluptates ea esse voluptas ad voluptate voluptatibus laboriosam velit. Totam, fuga, laboriosam, optio, qui id voluptates nam fugit quibusdam labore alias atque laudantium repudiandae veniam delectus architecto libero ducimus consequatur hic sunt ipsa. Labore, eligendi sapiente dolores quibusdam ipsum.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+              <div class="comments-list">
+                <div class="comment">
+  
+                  <div class="content">
+                    <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                    <span class="author">
+                      <a href="#"><strong>Catouse</strong></a>
+                      <span class="text-muted"> replied to </span>
+                      <a href="#">Zhang Li</a>
+                    </span>
+                    <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                    <div class="actions">
+                      <a href="##">reply</a>
+                      <a href="##">edit</a>
+                      <a href="##">delete</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="comment">
+  
+                  <div class="content">
+                    <div class="pull-right"><span class="text-muted">4 hours ago</span> &nbsp;<strong>#3</strong></div>
+                    <span class="author">
+                      <a href="#"><strong>Catouse</strong></a>
+                      <span class="text-muted"> replied to </span>
+                      <a href="#">Zhang Li</a>
+                    </span>
+                    <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, iusto at voluptatem quis aspernatur voluptas harum odit corporis consequatur dicta? Eos, unde, doloremque ab voluptatibus mollitia quam quas itaque quod repellendus sed optio cum blanditiis architecto excepturi quidem sint eaque.</div>
+                    <div class="actions">
+                      <a href="##">reply</a>
+                      <a href="##">edit</a>
+                      <a href="##">delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+              <div class="content">
+                <div class="pull-right"><span class="text-muted">2 months ago</span> &nbsp;<strong>#1</strong></div>
+                <a href="#" class="author"><strong>Catouse</strong></a>
+                <div class="text">Assumenda, accusamus, inventore, ut, ea laboriosam quae sunt maxime labore quisquam quod nesciunt saepe quis. Debitis, fuga, ad, aut eaque vero vitae suscipit obcaecati nemo eligendi numquam id labore voluptas veniam sequi perspiciatis facilis voluptates dolorem minus quibusdam unde molestias.</div>
+                <div class="actions">
+                  <a href="##">reply</a>
+                  <a href="##">edit</a>
+                  <a href="##">delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer>
+            <div class="reply-form" id="commentReplyForm">
+              <div class="form">
+                <form role="form">
+                  <div class="form-group">
+                    <textarea class="form-control new-comment-text" rows="2" placeholder="write a comment..."></textarea>
+                  </div>
+                  <div class="form-group comment-user" style="display:none">
+                    <div class="row">
+                      <div class="col-md-3">
+                        <span class="pull-right">或者</span>
+                        <a href="#">登录</a> &nbsp;<a href="##">注册</a>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="nameInputEmail1" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        </div>
+                      </div>
+                      <div class="col-md-2"><button type="submit" class="btn btn-block btn-primary"><i class="icon-ok"></i></button></div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <div class="page-header">
+        <h2>仪表盘</h2>
+      </div>
+      <div class="example" style='max-width: 1600px; width: inherit; padding: 50px 50px; background: #114DAD'>
+        <div id="dashboard" class="dashboard dashboard-draggable" data-height="300">
+          <header></header>
+          <section class='row'>
+            <div class="col-md-4 col-sm-6" data-id='1'>
+              <div class="panel" data-url='http://baidu.com'>
+                <div class="panel-heading">
+                  <div class="panel-actions">
+                    <button class="btn btn-mini refresh-panel"><i class="icon-refresh"></i></button>
+                      <div class="dropdown">
+                        <button role="button" class="btn btn-mini" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                          <li><a href="#"><i class="icon-pencil"></i> 编辑</a></li>
+                          <li><a href="#" class="remove-panel"><i class="icon-remove"></i> 移除</a></li>
+                        </ul>
+                      </div>
+                    </div>1 <i class="icon-list-ul"></i> Html Panel : dl
+                  </div>
+                <div class="panel-body">
+                  <dl>
+                    <dt>Lorem.</dt>
+                    <dd>Lorem ipsum dolor sit amet.</dd>
+                    <dt>Ut.</dt>
+                    <dd>Necessitatibus, fugit repellat fugiat a.</dd>
+                    <dt>Aliquam.</dt>
+                    <dd>Obcaecati cum suscipit consequuntur voluptas?</dd>
+                    <dt>Minima!</dt>
+                    <dd>Esse soluta iure corporis porro.</dd>
+                    <dt>Sunt.</dt>
+                    <dd>Delectus quos amet quidem eaque!</dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6" data-id='2'>
+              <div class="panel" data-url='http://chanzhi.org'>
+                <div class="panel-heading">
+                  <div class="panel-actions">
+                    <a href="#"><i class="icon-refresh"></i></a>
+                      <div class="dropdown">
+                        <a href='#' role="button" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                          <li><a href="#"><i class="icon-pencil"></i> 编辑</a></li>
+                          <li><a href="#" class='refresh-panel'><i class="icon-refresh"></i> 刷新</a></li>
+                          <li><a href="#" class="remove-panel"><i class="icon-remove"></i> 移除</a></li>
+                        </ul>
+                      </div>
+                    </div>2 <i class="icon-list-ul"></i> Html Panel : ul
+                  </div>
+                <div class="panel-body">
+                  <ul>
+                    <li>Lorem ipsum dolor sit amet.</li>
+                    <li>Corrupti, hic illo a doloribus!</li>
+                    <li>Magnam consequatur veniam ullam temporibus.</li>
+                    <li>Dolores, nobis ratione dolorem voluptate.</li>
+                    <li>Nulla, ratione dignissimos nesciunt sequi.</li>
+                    <li>Praesentium, dicta accusamus laborum laboriosam!</li>
+                    <li>Facere commodi dolor quasi. Nihil.</li>
+                    <li>Esse, similique nulla doloremque dolorum.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6" data-id='3'>
+              <div class="panel">
+                <div class="panel-heading">3 Html Panel : ol<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button><button class="btn btn-mini btn-danger remove-panel"><i class="icon-remove"></i></button></div></div>
+                <div class="panel-body">
+                  <ol>
+                    <li>Lorem ipsum dolor sit amet.</li>
+                    <li>Corrupti, hic illo a doloribus!</li>
+                    <li>Magnam consequatur veniam ullam temporibus.</li>
+                    <li>Dolores, nobis ratione dolorem voluptate.</li>
+                    <li>Nulla, ratione dignissimos nesciunt sequi.</li>
+                    <li>Praesentium, dicta accusamus laborum laboriosam!</li>
+                    <li>Facere commodi dolor quasi. Nihil.</li>
+                    <li>Esse, similique nulla doloremque dolorum.</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6" data-id='4'>
+              <div class="panel">
+                <div class="panel-heading">4 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+                <div class="panel-body"></div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6" data-id='5'>
+              <div class="panel">
+                <div class="panel-heading">5 Table<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+                <div class="panel-body">
+                  <table class="table">
+                    <tr>
+                      <td>Lorem ipsum.</td>
+                      <td>Debitis, consectetur.</td>
+                      <td>Ullam, asperiores.</td>
+                    </tr>
+                    <tr>
+                      <td>Lorem ipsum.</td>
+                      <td>Saepe, mollitia.</td>
+                      <td>Placeat, vel!</td>
+                    </tr>
+                    <tr>
+                      <td>Lorem ipsum.</td>
+                      <td>Amet, architecto!</td>
+                      <td>Natus, quis!</td>
+                    </tr>
+                    <tr>
+                      <td>Lorem ipsum.</td>
+                      <td>Quam, nesciunt.</td>
+                      <td>Perspiciatis, vel!</td>
+                    </tr>
+                    <tr>
+                      <td>Lorem ipsum.</td>
+                      <td>Et, aut!</td>
+                      <td>Molestias, necetatibus?</td>
+                    </tr>
+                    <tr>
+                      <td>Lorem ipsum.</td>
+                      <td>Fugit, fuga?</td>
+                      <td>Iure, officiis.</td>
+                    </tr>
+                    <tr>
+                      <td>Lorem ipsum.</td>
+                      <td>Saepe, neque!</td>
+                      <td>Deserunt, voluptates?</td>
+                    </tr>
+                    <tr>
+                      <td>Lorem ipsum.</td>
+                      <td>Praesentium, eum!</td>
+                      <td>Numquam, molestias.</td>
+                    </tr>
+                  </table>                
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6" data-id='6'>
+              <div class="panel">
+                <div class="panel-heading">6 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+                <div class="panel-body"></div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6" data-id='7'>
+              <div class="panel">
+                <div class="panel-heading">7 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+                <div class="panel-body"></div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6" data-id='8'>
+              <div class="panel">
+                <div class="panel-heading">8 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+                <div class="panel-body"></div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6" data-id='9'>
+              <div class="panel">
+                <div class="panel-heading">9 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+                <div class="panel-body"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
   </div>
-</section>
+
+  <script src="dist/js/jquery.js"></script>
+  <script src="dist/js/zui.min.js"></script>
+  <script src="dist/js/datetimepicker/datetimepicker.js"></script>
+  <script src="dist/js/chosen.jquery.min.js"></script>
+  <script src="src/js/chosen.icons.js" type="text/javascript"></script>
+  <script src="dist/js/kindeditor/kindeditor-all-min.js"></script>
+  <script src="dist/js/google-code-prettify/prettify.js"></script>
+  <script src="assets/js/doc.js"></script>
+</body>
+</html>

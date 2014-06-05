@@ -30,8 +30,11 @@ $(function()
         }
     });
 
+    $('#dashboard').dashboard();
+
     // Chosen
     $('.chosen-select').chosen();
+    $('#chosenIcons').chosenIcons();
 
     // datetime picker
     $('.form-datetime').datetimepicker(
