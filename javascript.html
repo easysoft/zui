@@ -7,853 +7,1230 @@ base_url: "./"
 --- -->
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ZUI，一个简单灵活的前端框架。">
-    <meta name="author" content="Zentao">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ZUI，一个简单灵活的前端框架。">
+  <meta name="author" content="Zentao">
 
-    <title>ZUI</title>
+  <title>ZUI</title>
 
-    <link href="dist/css/zui.css" rel="stylesheet">
-    <link href="assets/css/doc.css" rel="stylesheet">
-    <link href="/dist/js/highlight/styles/monokai_sublime.css" rel="stylesheet">
-  </head>
-  <body>
-    <header>
-      <nav id="navbar" class="navbar navbar-inverse navbar-fixed-left" role="navigation">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/zui">ZUI</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="nav-heading">开始</li>
-            <li><a href="start.html">框架说明</a></li>
-            <li><a href="controls.html">控件</a></li>
-            <li><a href="components.html">组件</a></li>
-            <li><a href="javascript.html">Javascript插件</a></li>
-          </ul>
-          <ul class="nav navbar-nav">
-            <li class="nav-heading">控件</li>
-            <li><a href="javascript.html#modals">模态框</a></li>
-            <li><a href="javascript.html#dropdowns">下拉菜单</a></li>
-            <li><a href="javascript.html#tabs">标签页</a></li>
-            <li><a href="javascript.html#tooltips">提示消息</a></li>
-            <li><a href="javascript.html#popovers">弹出框</a></li>
-            <li><a href="javascript.html#collapse">折叠</a></li>
-            <li><a href="javascript.html#carousel">轮播</a></li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-    <div id="main">
-      <div class="page-header">
-        <h1>Javascript插件</h1>
+  <link href="dist/css/zui.css" rel="stylesheet">
+  <link href="assets/css/doc.css" rel="stylesheet">
+  <link href="/dist/js/highlight/styles/monokai_sublime.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav id="navbar" class="navbar navbar-inverse navbar-fixed-left" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/zui">ZUI</a>
       </div>
-        
-      <section id="modals">
-        <div class="page-header">
-          <h2>模态框</h2>
-        </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="nav-heading">开始</li>
+          <li>
+            <a href="start.html">框架说明</a>
+          </li>
+          <li>
+            <a href="controls.html">控件</a>
+          </li>
+          <li>
+            <a href="components.html">组件</a>
+          </li>
+          <li>
+            <a href="javascript.html">Javascript插件</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav">
+          <li class="nav-heading">控件</li>
+          <li>
+            <a href="javascript.html#modals">模态框</a>
+          </li>
+          <li>
+            <a href="javascript.html#dropdowns">下拉菜单</a>
+          </li>
+          <li>
+            <a href="javascript.html#tabs">标签页</a>
+          </li>
+          <li>
+            <a href="javascript.html#tooltips">提示消息</a>
+          </li>
+          <li>
+            <a href="javascript.html#popovers">弹出框</a>
+          </li>
+          <li>
+            <a href="javascript.html#collapse">折叠</a>
+          </li>
+          <li>
+            <a href="javascript.html#carousel">轮播</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div id="main">
+    <div class="page-header">
+      <h1>Javascript插件</h1>
+    </div>
 
-        <h3>类型</h3>
-        <h4>基本类型</h4>
-        <p>启动方式一：通过在一个起控制器作用的页面元素（例如，按钮）上设置data-toggle="modal"，并使用data-target="#foo"或href="#foo"指向特定的模态框即可。</p>
-        <p>启动方式二：只需一行JavaScript代码，即可通过id myModal调用模态框： $('#myModal').modal(options) </p>
+    <section id="modals">
+      <div class="page-header">
+        <h2>模态框</h2>
+      </div>
 
-        <div class='example'>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">打开模态框</button>
-          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalTitle" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title" id="myModalTitle">
-                    <i class='icon-heart'></i> 标题
-                  </h4>
-                </div>
-                <div class="modal-body">
-                  <p>模态对话框的内容。</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                  <button type="button" class="btn btn-primary">保存</button>
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-        </div>
+      <h3>类型</h3>
+      <h4>基本类型</h4>
+      <p>
+        启动方式一：通过在一个起控制器作用的页面元素（例如，按钮）上设置data-toggle="modal"，并使用data-target="#foo"或href="#foo"指向特定的模态框即可。
+      </p>
+      <p>
+        启动方式二：只需一行JavaScript代码，即可通过id myModal调用模态框： $('#myModal').modal(options)
+      </p>
 
-        <h4>框架对话框触发器</h4>
-        <p>在新打开的模态对话框中使用<code>iframe</code>来加载一个全新的网页。</p>
-        <div class='example'>
-          <a href="controls.html" data-toggle='modal' class='btn btn-success'><i class='icon-heart'></i> 打开框架对话框</a>
-        </div>
+      <div class='example'>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">打开模态框</button>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalTitle" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalTitle"> <i class='icon-heart'></i>
+                  标题
+                </h4>
+              </div>
+              <div class="modal-body">
+                <p>模态对话框的内容。</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+              </div>
+            </div>
+            <!-- /.modal-content --> </div>
+          <!-- /.modal-dialog --> </div>
+        <!-- /.modal --> </div>
 
-        <h3>变化</h3>
-        <h4>选项</h4>
-        <p>aria-labelledby="myModalTitle"属性指向模态框标题。</p>
-        <p>aria-hidden="true"告诉辅助性工具略过模态框的DOM元素。</p>
-        <p>aria-describedby='myModelBody'属性用以指向描述信息。</p>
-        <p>通过对div.modal增加data-*选项来改变模态对话框。或通过js改变$('#myModal').modal({ keyboard: false })</p>
-        <table class="table table-bordered table-striped">
-          <thead>
-           <tr>
-             <th style="width: 80px;">名称</th>
-             <th style="width: 80px;">类型</th>
-             <th style="width: 80px;">默认值</th>
-             <th>描述</th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-             <td>backdrop</td>
-             <td>boolean/static</td>
-             <td>true</td>
-             <td>
-               <p><code>true</code>时，添加一个背景元素，且点击外部区域将其关闭。</p>
-               <p><code>false</code>时，不会添加背景元素，且点击外部区域不会关闭。</p>
-               <p><code>static</code>时，添加一个背景元素，且点击外部区域不会关闭。</p>
-             </td>
-           </tr>
-           <tr>
-             <td>keyboard</td>
-             <td>boolean</td>
-             <td>true</td>
-             <td>
-               <p><code>true</code>时，按esc键关闭模态框。</p>
-               <p><code>false</code>时，按esc不会关闭模态框。</p>
-             </td>
-           </tr>
-           <tr>
-             <td>show</td>
-             <td>boolean</td>
-             <td>true</td>
-             <td>
-               <p><code>true</code>时，初始化时即显示模态对话框。</p>
-               <p><code>true</code>时，初始化时不显示模态对话框。</p>
-             </td>
-           </tr>
-           <tr>
-             <td>remote</td>
-             <td>path</td>
-             <td>false</td>
-             <td><p>如果提供了远程url地址，就会通过 jQuery的<code>load</code>方法加载内容并注入到<code>.modal-body</code>中。如果你使用的是data属性api，你还可以使用<code>href</code>标签指定远程数据源。 </p></td>
-           </tr>
-          </tbody>
-        </table>
-        <h4>方法和事件</h4>
-        <table class="table table-bordered table-striped">
-          <thead>
-           <tr>
-             <th style="width: 80px;">方法</th>
-             <th>例子</th>
-             <th>描述</th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-             <td>.modal(options)</td>
-             <td><code>$('#myModal').modal({ keyboard: false })</code></td>
-             <td>让你指定的内容变成一个模态对话框。接受一个可选的参数object.</td>
-           </tr>
-           <tr>
-             <td>.modal('toggle')</td>
-             <td><code>$('#myModal').modal('toggle')</code></td>
-             <td>手动打开或隐藏一个模态对话框。</td>
-           </tr>
-           <tr>
-             <td>.modal('show')</td>
-             <td><code>$('#myModal').modal('show')</code></td>
-             <td>手动打开一个模态对话框。</td>
-           </tr>
-           <tr>
-             <td>.modal('hide')</td>
-             <td><code>$('#myModal').modal('hide')</code></td>
-             <td>手动隐藏一个模态对话框。</td>
-           </tr>
-          </tbody>
-        </table>
-        <table class="table table-bordered table-striped">
-          <thead>
-           <tr>
-             <th style="width: 80px;">事件</th>
-             <th>使用</th>
-             <th>描述</th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-             <td>show.bs.modal</td>
-             <td>1</td>
-             <td><code>$('#myModal').on('show.bs.modal', functi'on () { // do something… })</code></td>
-             <td>当<code>show</code>方法被调用时，此事件将被立即触发。</td>
-           </tr>
-           <tr>
-             <td>shown.bs.modal</td>
-             <td><code>$('#myModal').on('shown.bs.modal', function () { // do something… })</code></td>
-             <td>当模态对话框呈现到用户面前时（会等待过渡效果执行结束）此事件被触发。</td>
-           </tr>
-           <tr>
-             <td>hide.bs.modal</td>
-             <td><code>$('#myModal').on('hide.bs.modal', function () { // do something… })</code></td>
-             <td>当<code>hide</code>方法被调用时，此事件将被立即触发。</td>
-           </tr>
-           <tr>
-             <td>hidden.bs.modal</td>
-             <td><code>$('#myModal').on('hidden.bs.modal', function () { // do something… })</code></td>
-             <td>当模态对话框被隐藏（而且过渡效果执行完毕）之后，此事件将被触发。</td>
-           </tr>
-          </tbody>
-        </table>
+      <h4>框架对话框触发器</h4>
+      <p>
+        在新打开的模态对话框中使用
+        <code>iframe</code>
+        来加载一个全新的网页。
+      </p>
+      <div class='example'>
+        <a href="controls.html" data-toggle='modal' class='btn btn-success'> <i class='icon-heart'></i>
+          打开框架对话框
+        </a>
+      </div>
 
-        <h4>改变模态框大小</h4>
-        <p>通过重新定义.modal-dialog宽度<code>.modal-dialog {width:*}</code>来改变模态框大小</p>
-        <div class='example'>
-          <style>#resizedModal .modal-dialog{width:50%;}</style>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#resizedModal">width:50%</button>
-          <div class="modal" id="resizedModal" tabindex="-1" role="dialog" aria-labelledby="resizedModalTitle" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title" id="resizedModalTitle"> 标题 </h4>
-                </div>
-                <div class="modal-body">
-                  <h5>通过重新定义.modal-dialog宽度<code>.modal-dialog {width:*}</code>来改变模态框大小</h5>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                  <button type="button" class="btn btn-primary">保存</button>
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-        </div>
-        <h4>载入效果</h4>
-        <p>目前有div.modal.fade和div.modal.in效果，需要<a target='_blank' href='http://v2.bootcss.com/javascript.html#transitions'>transition.js</a>支持。</p>
-        <div class="example">
-          <button class="btn btn-primary" data-toggle="modal" data-target="#tsModal">fade效果</button>
-          <div class="modal fade" id="tsModal" tabindex="-1" role="dialog" aria-labelledby="tsModalTitle" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title" id="tsModalTitle">标题</h4>
-                </div>
-                <div class="modal-body">
-                  <p>目前有div.modal.fade和div.modal.in效果，需要<a target='_blank' href='http://v2.bootcss.com/javascript.html#transitions'>transition.js</a>支持。</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                  <button type="button" class="btn btn-primary">保存</button>
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-        </div>
-      </section>
+      <h3>变化</h3>
+      <h4>选项</h4>
+      <p>aria-labelledby="myModalTitle"属性指向模态框标题。</p>
+      <p>aria-hidden="true"告诉辅助性工具略过模态框的DOM元素。</p>
+      <p>aria-describedby='myModelBody'属性用以指向描述信息。</p>
+      <p>
+        通过对div.modal增加data-*选项来改变模态对话框。或通过js改变$('#myModal').modal({ keyboard: false })
+      </p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th style="width: 80px;">名称</th>
+            <th style="width: 80px;">类型</th>
+            <th style="width: 80px;">默认值</th>
+            <th>描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>backdrop</td>
+            <td>boolean/static</td>
+            <td>true</td>
+            <td>
+              <p>
+                <code>true</code>
+                时，添加一个背景元素，且点击外部区域将其关闭。
+              </p>
+              <p>
+                <code>false</code>
+                时，不会添加背景元素，且点击外部区域不会关闭。
+              </p>
+              <p>
+                <code>static</code>
+                时，添加一个背景元素，且点击外部区域不会关闭。
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>keyboard</td>
+            <td>boolean</td>
+            <td>true</td>
+            <td>
+              <p>
+                <code>true</code>
+                时，按esc键关闭模态框。
+              </p>
+              <p>
+                <code>false</code>
+                时，按esc不会关闭模态框。
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>show</td>
+            <td>boolean</td>
+            <td>true</td>
+            <td>
+              <p>
+                <code>true</code>
+                时，初始化时即显示模态对话框。
+              </p>
+              <p>
+                <code>true</code>
+                时，初始化时不显示模态对话框。
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>remote</td>
+            <td>path</td>
+            <td>false</td>
+            <td>
+              <p>
+                如果提供了远程url地址，就会通过 jQuery的
+                <code>load</code>
+                方法加载内容并注入到
+                <code>.modal-body</code>
+                中。如果你使用的是data属性api，你还可以使用
+                <code>href</code>
+                标签指定远程数据源。
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <h4>方法和事件</h4>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th style="width: 80px;">方法</th>
+            <th>例子</th>
+            <th>描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>.modal(options)</td>
+            <td>
+              <code>$('#myModal').modal({ keyboard: false })</code>
+            </td>
+            <td>让你指定的内容变成一个模态对话框。接受一个可选的参数object.</td>
+          </tr>
+          <tr>
+            <td>.modal('toggle')</td>
+            <td>
+              <code>$('#myModal').modal('toggle')</code>
+            </td>
+            <td>手动打开或隐藏一个模态对话框。</td>
+          </tr>
+          <tr>
+            <td>.modal('show')</td>
+            <td>
+              <code>$('#myModal').modal('show')</code>
+            </td>
+            <td>手动打开一个模态对话框。</td>
+          </tr>
+          <tr>
+            <td>.modal('hide')</td>
+            <td>
+              <code>$('#myModal').modal('hide')</code>
+            </td>
+            <td>手动隐藏一个模态对话框。</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th style="width: 80px;">事件</th>
+            <th>使用</th>
+            <th>描述</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>show.bs.modal</td>
+            <td>1</td>
+            <td>
+              <code>$('#myModal').on('show.bs.modal', functi'on () { // do something… })</code>
+            </td>
+            <td>
+              当
+              <code>show</code>
+              方法被调用时，此事件将被立即触发。
+            </td>
+          </tr>
+          <tr>
+            <td>shown.bs.modal</td>
+            <td>
+              <code>$('#myModal').on('shown.bs.modal', function () { // do something… })</code>
+            </td>
+            <td>当模态对话框呈现到用户面前时（会等待过渡效果执行结束）此事件被触发。</td>
+          </tr>
+          <tr>
+            <td>hide.bs.modal</td>
+            <td>
+              <code>$('#myModal').on('hide.bs.modal', function () { // do something… })</code>
+            </td>
+            <td>
+              当
+              <code>hide</code>
+              方法被调用时，此事件将被立即触发。
+            </td>
+          </tr>
+          <tr>
+            <td>hidden.bs.modal</td>
+            <td>
+              <code>$('#myModal').on('hidden.bs.modal', function () { // do something… })</code>
+            </td>
+            <td>当模态对话框被隐藏（而且过渡效果执行完毕）之后，此事件将被触发。</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <section id='dropdowns'>
-        <div class="page-header">
-          <h2>下拉菜单</h2>
-        </div>
+      <h4>改变模态框大小</h4>
+      <p>
+        通过重新定义.modal-dialog宽度
+        <code>.modal-dialog {width:*}</code>
+        来改变模态框大小
+      </p>
+      <div class='example'>
+        <style>#resizedModal .modal-dialog{width:50%;}</style>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#resizedModal">width:50%</button>
+        <div class="modal" id="resizedModal" tabindex="-1" role="dialog" aria-labelledby="resizedModalTitle" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="resizedModalTitle">标题</h4>
+              </div>
+              <div class="modal-body">
+                <h5>
+                  通过重新定义.modal-dialog宽度
+                  <code>.modal-dialog {width:*}</code>
+                  来改变模态框大小
+                </h5>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+              </div>
+            </div>
+            <!-- /.modal-content --> </div>
+          <!-- /.modal-dialog --> </div>
+        <!-- /.modal --> </div>
+      <h4>载入效果</h4>
+      <p>
+        目前有div.modal.fade和div.modal.in效果，需要
+        <a target='_blank' href='http://v2.bootcss.com/javascript.html#transitions'>transition.js</a>
+        支持。
+      </p>
+      <div class="example">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#tsModal">fade效果</button>
+        <div class="modal fade" id="tsModal" tabindex="-1" role="dialog" aria-labelledby="tsModalTitle" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="tsModalTitle">标题</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                  目前有div.modal.fade和div.modal.in效果，需要
+                  <a target='_blank' href='http://v2.bootcss.com/javascript.html#transitions'>transition.js</a>
+                  支持。
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">保存</button>
+              </div>
+            </div>
+            <!-- /.modal-content --> </div>
+          <!-- /.modal-dialog --> </div>
+        <!-- /.modal --> </div>
+    </section>
 
-        <h3>类型</h3>
-        <h4>基本类型</h4>
-        <p>将下拉菜单触发器和下拉菜单都包裹在.dropdown里，或者另一个声明了position: relative;的元素。然后添加组成菜单的HTML代码。</p>
-        <p>通过是否指定data-toggle='dropdown'来开关下拉菜单。</p>
-        <div class="example">
-          <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">操作 <span class="caret"></span></button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-              <li role="presentation" class="dropdown-header">Dropdown header</li>
-              <li><a href="#">编辑</a></li>
-              <li><a href="#">删除</a></li>
-              <li class="divider"></li>
-              <li role="presentation" class="dropdown-header">Dropdown header</li>
-              <li><a href="#">修改</a></li>
-            </ul>
-          </div>
-        </div><!-- /example -->
-        
-        <h4>导航条下来菜单</h4>
-        <div class="example">
-          <ul class="nav nav-primary">
-            <li class="active"><a href="#">首页</a></li>
-            <li><a href="#"></i>演示</a></li>
-            <li><a href="#"></i>下载</a></li>
+    <section id='dropdowns'>
+      <div class="page-header">
+        <h2>下拉菜单</h2>
+      </div>
+
+      <h3>类型</h3>
+      <h4>基本类型</h4>
+      <p>
+        将下拉菜单触发器和下拉菜单都包裹在.dropdown里，或者另一个声明了position: relative;的元素。然后添加组成菜单的HTML代码。
+      </p>
+      <p>通过是否指定data-toggle='dropdown'来开关下拉菜单。</p>
+      <div class="example">
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+            操作
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation" class="dropdown-header">Dropdown header</li>
             <li>
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#"> 团队 <span class="caret"></span> </a>
-              <ul class="dropdown-menu">
-                <li><a href="#">关于我们</a></li>
-                <li><a href="#">开发计划</a></li>
-                <li class="divider"></li>
-                <li><a href="#">开源代码</a></li>
-                <li><a href="#">团队博客</a></li>
-              </ul>
+              <a href="#">编辑</a>
+            </li>
+            <li>
+              <a href="#">删除</a>
+            </li>
+            <li class="divider"></li>
+            <li role="presentation" class="dropdown-header">Dropdown header</li>
+            <li>
+              <a href="#">修改</a>
             </li>
           </ul>
         </div>
-        
-        <h4>标签下拉菜单</h4>
-        <div class="example">
-          <div class="dropdown">
-            <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> 操作 <span class="caret"></span> </a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-              <li><a href="#">编辑</a></li>
-              <li><a href="#">删除</a></li>
-              <li class="divider"></li>
-              <li><a href="#">修改</a></li>
-            </ul>
-          </div>
-        </div>
-        
-        <h4>按钮下拉菜单</h4>
-        <div class="example">
-            <div class="btn-group">
-              <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">操作 <span class="caret"></span></button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                <li><a href="#">编辑</a></li>
-                <li><a href="#">删除</a></li>
-                <li class="divider"></li>
-                <li><a href="#">修改</a></li>
+      </div>
+      <!-- /example -->
+
+      <h4>导航条下来菜单</h4>
+      <div class="example">
+        <ul class="nav nav-primary">
+          <li class="active">
+            <a href="#">首页</a>
+          </li>
+          <li>
+            <a href="#"></i>
+            演示
+          </a>
+        </li>
+        <li>
+          <a href="#"></i>
+          下载
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          团队
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#">关于我们</a>
+          </li>
+          <li>
+            <a href="#">开发计划</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="#">开源代码</a>
+          </li>
+          <li>
+            <a href="#">团队博客</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <h4>标签下拉菜单</h4>
+  <div class="example">
+    <div class="dropdown">
+      <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html">
+        操作
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li>
+          <a href="#">编辑</a>
+        </li>
+        <li>
+          <a href="#">删除</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="#">修改</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>按钮下拉菜单</h4>
+  <div class="example">
+    <div class="btn-group">
+      <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+        操作
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li>
+          <a href="#">编辑</a>
+        </li>
+        <li>
+          <a href="#">删除</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="#">修改</a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn">操作</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="#">编辑</a>
+        </li>
+        <li>
+          <a href="#">删除</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="#">增加</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>变化</h3>
+  <h4>弹出方式</h4>
+  <div class="example">
+    <div class="btn-group">
+      <button type="button" class="btn">默认向下</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="#">div.btn-group</a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn">下右</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right" role="menu">
+        <li>
+          <a href="#">div.btn-group > ul.dropdown-menu.pull-right</a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group dropup">
+      <button type="button" class="btn">向上</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="#">div.btn-group.dropup</a>
+        </li>
+      </ul>
+    </div>
+    <div class="btn-group dropup">
+      <button type="button" class="btn">向右</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right" role="menu">
+        <li>
+          <a href="#">div.btn-group.dropup > ul.dropdown-menu.pull-right</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>下拉菜单的子菜单</h4>
+  <div class="example">
+    <div class="btn-group dropup">
+      <button type="button" class="btn">编辑</button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+        <li>
+          <a tabindex="-1" href="#">关闭</a>
+        </li>
+
+        <li class="dropdown-submenu">
+          <a tabindex="-1" href="#">评审</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a tabindex="-1" href="#">确认通过</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">有待明确</a>
+            </li>
+            <li class="dropdown-submenu">
+              <a tabindex="-1" href="#">拒绝</a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a tabindex="-1" href="#">已完成</a>
+                </li>
+                <li>
+                  <a tabindex="-1" href="#">延期</a>
+                </li>
+                <li>
+                  <a tabindex="-1" href="#">不做</a>
+                </li>
+                <li>
+                  <a tabindex="-1" href="#">已取消</a>
+                </li>
+                <li>
+                  <a tabindex="-1" href="#">设计如此</a>
+                </li>
               </ul>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="btn">操作</button>
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">编辑</a></li>
-                <li><a href="#">删除</a></li>
-                <li class="divider"></li>
-                <li><a href="#">增加</a></li>
-              </ul>
-            </div>
-        </div>
-        
-        <h3>变化</h3>
-        <h4>弹出方式</h4>
-        <div class="example">
-            <div class="btn-group">
-              <button type="button" class="btn">默认向下</button>
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-              <ul class="dropdown-menu" role="menu"> <li><a href="#">div.btn-group</a></li> </ul>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="btn">下右</button>
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-              <ul class="dropdown-menu pull-right" role="menu"> <li><a href="#">div.btn-group > ul.dropdown-menu.pull-right</a></li> </ul>
-            </div>
-            <div class="btn-group dropup">
-              <button type="button" class="btn">向上</button>
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-              <ul class="dropdown-menu" role="menu"> <li><a href="#">div.btn-group.dropup</a></li> </ul>
-            </div>
-            <div class="btn-group dropup">
-              <button type="button" class="btn">向右</button>
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-              <ul class="dropdown-menu pull-right" role="menu"> <li><a href="#">div.btn-group.dropup > ul.dropdown-menu.pull-right</a></li> </ul>
-            </div>
-        </div>
+            </li>
+          </ul>
+        </li>
 
-        <h4>下拉菜单的子菜单</h4>
-        <div class="example">
-            <div class="btn-group dropup">
-              <button type="button" class="btn">编辑</button>
-              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-                <li><a tabindex="-1" href="#">关闭</a></li>
+        <li class="dropdown-submenu">
+          <a tabindex="-1" href="#">计划</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a tabindex="-1" href="#">Plan A</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">Plan B</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">Plan C</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">Plan D</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">Plan E</a>
+            </li>
+          </ul>
+        </li>
 
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="#">评审</a>
-                  <ul class="dropdown-menu">
-                    <li><a tabindex="-1" href="#">确认通过</a></li>
-                    <li><a tabindex="-1" href="#">有待明确</a></li>
-                    <li class="dropdown-submenu">
-                      <a tabindex="-1" href="#">拒绝</a>
-                      <ul class="dropdown-menu">
-                        <li><a tabindex="-1" href="#">已完成</a></li>
-                        <li><a tabindex="-1" href="#">延期</a></li>
-                        <li><a tabindex="-1" href="#">不做</a></li>
-                        <li><a tabindex="-1" href="#">已取消</a></li>
-                        <li><a tabindex="-1" href="#">设计如此</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
+        <li class="dropdown-submenu">
+          <a tabindex="-1" href="#">阶段</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a tabindex="-1" href="#">未开始</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">已计划</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">已立项</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">研发中</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">研发完毕</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">测试中</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">测试完毕</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">已验收</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">已发布</a>
+            </li>
+          </ul>
+        </li>
 
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="#">计划</a>
-                  <ul class="dropdown-menu">
-                    <li><a tabindex="-1" href="#">Plan A</a></li>
-                    <li><a tabindex="-1" href="#">Plan B</a></li>
-                    <li><a tabindex="-1" href="#">Plan C</a></li>
-                    <li><a tabindex="-1" href="#">Plan D</a></li>
-                    <li><a tabindex="-1" href="#">Plan E</a></li>
-                  </ul>
-                </li>
+        <li class="divider"></li>
+        <li class="dropdown-submenu pull-left">
+          <a tabindex="-1" href="#">.pull-left</a>
+          <ul class="dropdown-menu">
+            <li>
+              <a tabindex="-1" href="#">Item1</a>
+            </li>
+            <li>
+              <a tabindex="-1" href="#">Item2</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-                <li class="dropdown-submenu">
-                  <a tabindex="-1" href="#">阶段</a>
-                  <ul class="dropdown-menu">
-                    <li><a tabindex="-1" href="#">未开始</a></li>
-                    <li><a tabindex="-1" href="#">已计划</a></li>
-                    <li><a tabindex="-1" href="#">已立项</a></li>
-                    <li><a tabindex="-1" href="#">研发中</a></li>
-                    <li><a tabindex="-1" href="#">研发完毕</a></li>
-                    <li><a tabindex="-1" href="#">测试中</a></li>
-                    <li><a tabindex="-1" href="#">测试完毕</a></li>
-                    <li><a tabindex="-1" href="#">已验收</a></li>
-                    <li><a tabindex="-1" href="#">已发布</a></li>
-                  </ul>
-                </li>
+  <h4>小标题和禁用</h4>
+  <p>通过li.dropdown-header增加小标题，为li增加.disabled来禁用。</p>
+  <div class="example">
+    <div class="dropdown">
+      <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+        操作
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li class="dropdown-header">基本操作</li>
+        <li>
+          <a href="#">编辑</a>
+        </li>
+        <li class='disabled'>
+          <a role="menuitem" tabindex="-1" href="#">修改</a>
+        </li>
+        <li class="divider"></li>
+        <li class="dropdown-header">其他操作</li>
+        <li>
+          <a href="#">增加</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- /example -->
+</section>
 
-                <li class="divider"></li>
-                <li class="dropdown-submenu pull-left">
-                  <a tabindex="-1" href="#">.pull-left</a>
-                  <ul class="dropdown-menu">
-                    <li><a tabindex="-1" href="#">Item1</a></li>
-                    <li><a tabindex="-1" href="#">Item2</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-        </div>
+<section id='tabs' class="page-section">
+  <div class="page-header">
+    <h2>标签页</h2>
+  </div>
+  <p>一般结合导航使用。</p>
 
-        <h4>小标题和禁用</h4>
-        <p>通过li.dropdown-header增加小标题，为li增加.disabled来禁用。</p>
-        <div class="example">
-          <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">操作 <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li class="dropdown-header">基本操作</li>
-              <li><a href="#">编辑</a></li>
-              <li class='disabled'><a role="menuitem" tabindex="-1" href="#">修改</a></li>
-              <li class="divider"></li>
-              <li class="dropdown-header">其他操作</li>
-              <li><a href="#">增加</a></li>
-            </ul>
-          </div>
-        </div><!-- /example -->
-      </section>
+  <h3>类型</h3>
+  <h4>基本类型</h4>
+  <p>
+    通过
+    <code>ul.nav + div.tab-content</code>
+    的方式实现。
+  </p>
+  <div class="example">
+    <ul id="myTab" class="nav nav-tabs">
+      <li class="active">
+        <a href="#tab1" data-toggle="tab">Tab1</a>
+      </li>
+      <li>
+        <a href="#tab2" data-toggle="tab">Tab2</a>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Other tabs <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+          <li>
+            <a href="#tab3" tabindex="-1" data-toggle="tab">Tab3</a>
+          </li>
+          <li>
+            <a href="#tab4" tabindex="-1" data-toggle="tab">Tab4</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane in active" id="tab1">
+        <p>口是心非你深情的承诺</p>
+        <p>都随着西风飘渺远走</p>
+        <p>痴人梦话我钟情的倚托</p>
+        <p>就像枯萎凋零的花朵</p>
+      </div>
+      <div class="tab-pane" id="tab2">
+        <p>星火燎原我热情的眼眸</p>
+        <p>曾点亮最灿烂的天空</p>
+        <p>晴天霹雳你绝情的放手</p>
+        <p>在我最需要你的时候</p>
+        <p>于是爱恨交错人消瘦</p>
+      </div>
 
-      <section id='tabs' class="page-section">
-        <div class="page-header">
-          <h2>标签页</h2>
-        </div>
-        <p>一般结合导航使用。</p>
+      <div class="tab-pane" id="tab3">
+        <p>怕是怕这些苦没来由</p>
+        <p>于是悲欢起落人静默</p>
+        <p>等一等这些伤会自由</p>
+        <p>于是爱恨交错人消瘦</p>
+        <p>怕是怕这些苦没来由</p>
+        <p>于是悲欢起落人静默</p>
+        <p>等一等这些伤会自由</p>
+      </div>
+      <div class="tab-pane" id="tab4">
+        <p>口是心非你矫情的面容</p>
+        <p>都烙印在心灵的角落</p>
+        <p>无话可说我纵情的结果</p>
+        <p>就像残破光秃的山头</p>
+        <p>浑然天成我纯情的悸动</p>
+        <p>曾奔放最滚烫的节奏</p>
+        <p>不可收拾你滥情的抛空</p>
+      </div>
+    </div>
+  </div>
 
-        <h3>类型</h3>
-        <h4>基本类型</h4>
-        <p>通过<code>ul.nav + div.tab-content</code>的方式实现。</p>
-        <div class="example">
-            <ul id="myTab" class="nav nav-tabs">
-              <li class="active"><a href="#tab1" data-toggle="tab">Tab1</a></li>
-              <li><a href="#tab2" data-toggle="tab">Tab2</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other tabs<b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-                  <li><a href="#tab3" tabindex="-1" data-toggle="tab">Tab3</a></li>
-                  <li><a href="#tab4" tabindex="-1" data-toggle="tab">Tab4</a></li>
-                </ul>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane in active" id="tab1"> 
-                <p>口是心非你深情的承诺</p>
-                <p>都随着西风飘渺远走</p>
-                <p>痴人梦话我钟情的倚托</p>
-                <p>就像枯萎凋零的花朵</p>
-              </div>
-              <div class="tab-pane" id="tab2">
-                <p> 星火燎原我热情的眼眸</p>
-                <p> 曾点亮最灿烂的天空</p>
-                <p> 晴天霹雳你绝情的放手</p>
-                <p> 在我最需要你的时候</p>
-                <p> 于是爱恨交错人消瘦</p>
-              </div>
+  <h3>变化</h3>
+  <h4>导航样式</h4>
+  <p>
+    <code>ul.nav.nav-pills</code>
+    ，通过修改ul的.nav-*来修改导航样式，具体见导航控件。
+  </p>
+  <div class="example">
+    <ul id="myTab2" class="nav nav-pills">
+      <li class="active">
+        <a href="#tab11" data-toggle="tab">Tab1</a>
+      </li>
+      <li>
+        <a href="#tab22" data-toggle="tab">Tab2</a>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Other tabs <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+          <li>
+            <a href="#tab33" tabindex="-1" data-toggle="tab">Tab3</a>
+          </li>
+          <li>
+            <a href="#tab44" tabindex="-1" data-toggle="tab">Tab4</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane in active" id="tab11">
+        <p>口是心非你深情的承诺</p>
+        <p>都随着西风飘渺远走</p>
+        <p>痴人梦话我钟情的倚托</p>
+        <p>就像枯萎凋零的花朵</p>
+      </div>
+      <div class="tab-pane" id="tab22">
+        <p>星火燎原我热情的眼眸</p>
+        <p>曾点亮最灿烂的天空</p>
+        <p>晴天霹雳你绝情的放手</p>
+        <p>在我最需要你的时候</p>
+        <p>于是爱恨交错人消瘦</p>
+      </div>
 
-              <div class="tab-pane" id="tab3">
-                <p>怕是怕这些苦没来由</p>
-                <p>于是悲欢起落人静默</p>
-                <p>等一等这些伤会自由</p>
-                <p>于是爱恨交错人消瘦</p>
-                <p>怕是怕这些苦没来由</p>
-                <p>于是悲欢起落人静默</p>
-                <p>等一等这些伤会自由</p>
-              </div>
-              <div class="tab-pane" id="tab4">
-                <p> 口是心非你矫情的面容</p>
-                <p> 都烙印在心灵的角落</p>
-                <p> 无话可说我纵情的结果</p>
-                <p> 就像残破光秃的山头</p>
-                <p> 浑然天成我纯情的悸动</p>
-                <p> 曾奔放最滚烫的节奏</p>
-                <p>不可收拾你滥情的抛空</p>
-              </div>
-            </div>
-        </div>
+      <div class="tab-pane" id="tab33">
+        <p>怕是怕这些苦没来由</p>
+        <p>于是悲欢起落人静默</p>
+        <p>等一等这些伤会自由</p>
+        <p>于是爱恨交错人消瘦</p>
+        <p>怕是怕这些苦没来由</p>
+        <p>于是悲欢起落人静默</p>
+        <p>等一等这些伤会自由</p>
+      </div>
+      <div class="tab-pane" id="tab44">
+        <p>口是心非你矫情的面容</p>
+        <p>都烙印在心灵的角落</p>
+        <p>无话可说我纵情的结果</p>
+        <p>就像残破光秃的山头</p>
+        <p>浑然天成我纯情的悸动</p>
+        <p>曾奔放最滚烫的节奏</p>
+        <p>不可收拾你滥情的抛空</p>
+      </div>
+    </div>
+  </div>
 
-        <h3>变化</h3>
-        <h4>导航样式</h4>
-        <p><code>ul.nav.nav-pills</code>，通过修改ul的.nav-*来修改导航样式，具体见导航控件。</p>
-        <div class="example">
-            <ul id="myTab2" class="nav nav-pills">
-              <li class="active"><a href="#tab11" data-toggle="tab">Tab1</a></li>
-              <li><a href="#tab22" data-toggle="tab">Tab2</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other tabs<b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-                  <li><a href="#tab33" tabindex="-1" data-toggle="tab">Tab3</a></li>
-                  <li><a href="#tab44" tabindex="-1" data-toggle="tab">Tab4</a></li>
-                </ul>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane in active" id="tab11"> 
-                <p>口是心非你深情的承诺</p>
-                <p>都随着西风飘渺远走</p>
-                <p>痴人梦话我钟情的倚托</p>
-                <p>就像枯萎凋零的花朵</p>
-              </div>
-              <div class="tab-pane" id="tab22">
-                <p> 星火燎原我热情的眼眸</p>
-                <p> 曾点亮最灿烂的天空</p>
-                <p> 晴天霹雳你绝情的放手</p>
-                <p> 在我最需要你的时候</p>
-                <p> 于是爱恨交错人消瘦</p>
-              </div>
+  <h4>载入效果</h4>
+  <p>为每个.tab-pane添加.fade可以让标签页具有淡入的特效。同时第一个标签页所对应的的内容区必须也添加.in</p>
+  <div class="example">
+    <ul id="myTab3" class="nav nav-pills">
+      <li class="active">
+        <a href="#tab111" data-toggle="tab">fade in</a>
+      </li>
+      <li>
+        <a href="#tab222" data-toggle="tab">in</a>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Other tabs
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+          <li>
+            <a href="#tab333" tabindex="-1" data-toggle="tab">fade</a>
+          </li>
+          <li>
+            <a href="#tab444" tabindex="-1" data-toggle="tab">fade</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="tab111">
+        <p>口是心非你深情的承诺</p>
+        <p>都随着西风飘渺远走</p>
+        <p>痴人梦话我钟情的倚托</p>
+        <p>就像枯萎凋零的花朵</p>
+      </div>
+      <div class="tab-pane fade" id="tab222">
+        <p>星火燎原我热情的眼眸</p>
+        <p>曾点亮最灿烂的天空</p>
+        <p>晴天霹雳你绝情的放手</p>
+        <p>在我最需要你的时候</p>
+        <p>于是爱恨交错人消瘦</p>
+      </div>
 
-              <div class="tab-pane" id="tab33">
-                <p>怕是怕这些苦没来由</p>
-                <p>于是悲欢起落人静默</p>
-                <p>等一等这些伤会自由</p>
-                <p>于是爱恨交错人消瘦</p>
-                <p>怕是怕这些苦没来由</p>
-                <p>于是悲欢起落人静默</p>
-                <p>等一等这些伤会自由</p>
-              </div>
-              <div class="tab-pane" id="tab44">
-                <p> 口是心非你矫情的面容</p>
-                <p> 都烙印在心灵的角落</p>
-                <p> 无话可说我纵情的结果</p>
-                <p> 就像残破光秃的山头</p>
-                <p> 浑然天成我纯情的悸动</p>
-                <p> 曾奔放最滚烫的节奏</p>
-                <p>不可收拾你滥情的抛空</p>
-              </div>
-            </div>
-        </div>
+      <div class="tab-pane fade" id="tab333">
+        <p>怕是怕这些苦没来由</p>
+        <p>于是悲欢起落人静默</p>
+        <p>等一等这些伤会自由</p>
+        <p>于是爱恨交错人消瘦</p>
+        <p>怕是怕这些苦没来由</p>
+        <p>于是悲欢起落人静默</p>
+        <p>等一等这些伤会自由</p>
+      </div>
+      <div class="tab-pane fade" id="tab444">
+        <p>口是心非你矫情的面容</p>
+        <p>都烙印在心灵的角落</p>
+        <p>无话可说我纵情的结果</p>
+        <p>就像残破光秃的山头</p>
+        <p>浑然天成我纯情的悸动</p>
+        <p>曾奔放最滚烫的节奏</p>
+        <p>不可收拾你滥情的抛空</p>
+      </div>
+    </div>
+  </div>
 
-        <h4>载入效果</h4>
-        <p>为每个.tab-pane添加.fade可以让标签页具有淡入的特效。同时第一个标签页所对应的的内容区必须也添加.in</p>
-        <div class="example">
-            <ul id="myTab3" class="nav nav-pills">
-              <li class="active"><a href="#tab111" data-toggle="tab">fade in</a></li>
-              <li><a href="#tab222" data-toggle="tab">in</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other tabs<b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-                  <li><a href="#tab333" tabindex="-1" data-toggle="tab">fade</a></li>
-                  <li><a href="#tab444" tabindex="-1" data-toggle="tab">fade</a></li>
-                </ul>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div class="tab-pane fade in active" id="tab111"> 
-                <p>口是心非你深情的承诺</p>
-                <p>都随着西风飘渺远走</p>
-                <p>痴人梦话我钟情的倚托</p>
-                <p>就像枯萎凋零的花朵</p>
-              </div>
-              <div class="tab-pane fade" id="tab222">
-                <p> 星火燎原我热情的眼眸</p>
-                <p> 曾点亮最灿烂的天空</p>
-                <p> 晴天霹雳你绝情的放手</p>
-                <p> 在我最需要你的时候</p>
-                <p> 于是爱恨交错人消瘦</p>
-              </div>
-
-              <div class="tab-pane fade" id="tab333">
-                <p>怕是怕这些苦没来由</p>
-                <p>于是悲欢起落人静默</p>
-                <p>等一等这些伤会自由</p>
-                <p>于是爱恨交错人消瘦</p>
-                <p>怕是怕这些苦没来由</p>
-                <p>于是悲欢起落人静默</p>
-                <p>等一等这些伤会自由</p>
-              </div>
-              <div class="tab-pane fade" id="tab444">
-                <p> 口是心非你矫情的面容</p>
-                <p> 都烙印在心灵的角落</p>
-                <p> 无话可说我纵情的结果</p>
-                <p> 就像残破光秃的山头</p>
-                <p> 浑然天成我纯情的悸动</p>
-                <p> 曾奔放最滚烫的节奏</p>
-                <p>不可收拾你滥情的抛空</p>
-              </div>
-            </div>
-        </div>
-
-        <h3>方法和事件</h3>
-        <table class="table table-bordered table-striped">
-          <tr>
-            <td>方法</td>
-            <td>例子</td>
-            <td>描述</td>
-          </tr>
-          <tr>
-            <td><code>.tab('show')</code></td>
-            <td><code>$("#myTab a:last").tab('show')</code></td>
-            <td>激活标签页和内容区</td>
-          </tr>
-        </table>
-        <table class="table table-bordered table-striped">
-          <tr>
-            <td>事件</td>
-            <td>使用</td>
-            <td>描述</td>
-          </tr>
-          <tr>
-            <td>show.bs.tab</td>
-            <td>
-              $('a[data-toggle="tab"]').on('show.bs.tab', function (e) 
+  <h3>方法和事件</h3>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <td>方法</td>
+      <td>例子</td>
+      <td>描述</td>
+    </tr>
+    <tr>
+      <td>
+        <code>.tab('show')</code>
+      </td>
+      <td>
+        <code>$("#myTab a:last").tab('show')</code>
+      </td>
+      <td>激活标签页和内容区</td>
+    </tr>
+  </table>
+  <table class="table table-bordered table-striped">
+    <tr>
+      <td>事件</td>
+      <td>使用</td>
+      <td>描述</td>
+    </tr>
+    <tr>
+      <td>show.bs.tab</td>
+      <td>
+        $('a[data-toggle="tab"]').on('show.bs.tab', function (e) 
               {
                 e.target // activated tab
                 e.relatedTarget // previous tab
               })
-            </td>
-            <td>当要激活标签页和标签内容的时候激活该事件</td>
-          </tr>
-          <tr>
-            <td>shown.bs.tab</td>
-            <td>
-              $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+      </td>
+      <td>当要激活标签页和标签内容的时候激活该事件</td>
+    </tr>
+    <tr>
+      <td>shown.bs.tab</td>
+      <td>
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
               {
                 e.target // activated tab
                 e.relatedTarget // previous tab
               })
-            </td>
-            <td>当标签页和标签内容载入完毕后，激活该事件</td>
-          </tr>
-        </table>
+      </td>
+      <td>当标签页和标签内容载入完毕后，激活该事件</td>
+    </tr>
+  </table>
 
-        <p> 关于<code>e.target</code>和<code>e.relatedTarget</code>分别表示当前激活标签对象和前一个标签对象。 </p>
-        <p>可遍历对象查看对象各个属性和值：</p>
-        <p>
-        <pre><code>          $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+  <p>
+    关于
+    <code>e.target</code>
+    和
+    <code>e.relatedTarget</code>
+    分别表示当前激活标签对象和前一个标签对象。
+  </p>
+  <p>可遍历对象查看对象各个属性和值：</p>
+  <p>
+    <pre><code>          $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
           {
               $.each(e.target, function(n, value)
               {
                   if(value) alert(n + ': ' + value);
               })
           })</code></pre>
-        </p>
-      </section>
+  </p>
+</section>
 
-      <section id='tooltips'>
-        <div class="page-header">
-          <h2>提示消息</h2>
-        </div>
-        <h2>类型</h2>
-      <h3>一般工具提示</h3>
+<section id='tooltips'>
+  <div class="page-header">
+    <h2>提示消息</h2>
+  </div>
+  <h2>类型</h2>
+  <h3>一般工具提示</h3>
 
-      <div class="example tooltip-demo">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, cupiditate, eius, modi, veniam iure perspiciatis hic vitae quisquam ullam animi ipsum repellat temporibus <a href="#" data-toggle="tooltip" title="This is a tooltip">have a</a> officiis voluptatibus nostrum laborum debitis quidem illo deleniti iste! Minima, facilis aut explicabo debitis fugit dolor sint at soluta nulla omnis itaque <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> illum commodi numquam enim quod architecto molestias qui eveniet et amet <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> laborum quisquam quam provident esse beatae quas impedit voluptas nostrum <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> aspernatur deleniti suscipit blanditiis dignissimos temporibus eligendi quae corrupti <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> pariatur quo! Enim, ipsa, odio quasi laboriosam provident id nihil maxime architecto dolorum quas harum veniam perspiciatis tempora ducimus qui! Rem, obcaecati reiciendis officia quam.</p>
-      </div>
-      <h2>参数</h2>
-      <h3>不同方向的提示</h3>
-      <div class="example tooltip-demo">
-        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="Tooltip on left">左侧Tooltip</button>
-        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">上方Tooltip</button>
-        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom">下方Tooltip</button>
-        <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="" data-original-title="Tooltip on right">右侧Tooltip</button>
-      </div>
+  <div class="example tooltip-demo">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, cupiditate, eius, modi, veniam iure perspiciatis hic vitae quisquam ullam animi ipsum repellat temporibus
+      <a href="#" data-toggle="tooltip" title="This is a tooltip">have a</a>
+      officiis voluptatibus nostrum laborum debitis quidem illo deleniti iste! Minima, facilis aut explicabo debitis fugit dolor sint at soluta nulla omnis itaque
+      <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a>
+      illum commodi numquam enim quod architecto molestias qui eveniet et amet
+      <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a>
+      laborum quisquam quam provident esse beatae quas impedit voluptas nostrum
+      <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a>
+      aspernatur deleniti suscipit blanditiis dignissimos temporibus eligendi quae corrupti
+      <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a>
+      pariatur quo! Enim, ipsa, odio quasi laboriosam provident id nihil maxime architecto dolorum quas harum veniam perspiciatis tempora ducimus qui! Rem, obcaecati reiciendis officia quam.
+    </p>
+  </div>
+  <h2>参数</h2>
+  <h3>不同方向的提示</h3>
+  <div class="example tooltip-demo">
+    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="Tooltip on left">左侧Tooltip</button>
+    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">上方Tooltip</button>
+    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom">下方Tooltip</button>
+    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="" data-original-title="Tooltip on right">右侧Tooltip</button>
+  </div>
 
-      <h2>注意</h2>
-      <div class="alert alert-danger">
-        <h5>选择性加入的功能</h5>
-        <p>出于性能方面的考虑，工具提示和弹框组件的data属性api是选择性加入的，也就是说<strong>你必须自己初始化他们</strong>。</p>
-      </div>
-      <div class="alert alert-info">
-        <h5>工具提示与按钮组和输入框组联合使用时需要一些特殊设置</h5>
-        <p>在<code>.btn-group</code> 或 <code>.input-group</code>内的元素上使用工具提示时，你需要指定<code>container: 'body'</code>选项以避免不需要的副作用（例如，当工具提示显示之后，与其合作的页面元素可能变得更宽或是去圆角）。</p>
-      </div>
-      <div class="alert alert-info">
-        <h5>在禁止使用的页面元素上使用工具提示时需要额外增加一个元素将其包裹起来</h5>
-        <p>为了给<code>disabled</code> 或<code>.disabled</code>元素添加工具提示，将需要增加工具提示的页面元素包裹在一个<code>&lt;div&gt;</code>中，然后对这个<code>&lt;div&gt;</code>元素应用工具提示。</p>
-      </div>
+  <h2>注意</h2>
+  <div class="alert alert-danger">
+    <h5>选择性加入的功能</h5>
+    <p>
+      出于性能方面的考虑，工具提示和弹框组件的data属性api是选择性加入的，也就是说 <strong>你必须自己初始化他们</strong>
+      。
+    </p>
+  </div>
+  <div class="alert alert-info">
+    <h5>工具提示与按钮组和输入框组联合使用时需要一些特殊设置</h5>
+    <p>
+      在
+      <code>.btn-group</code>
+      或
+      <code>.input-group</code>
+      内的元素上使用工具提示时，你需要指定
+      <code>container: 'body'</code>
+      选项以避免不需要的副作用（例如，当工具提示显示之后，与其合作的页面元素可能变得更宽或是去圆角）。
+    </p>
+  </div>
+  <div class="alert alert-info">
+    <h5>在禁止使用的页面元素上使用工具提示时需要额外增加一个元素将其包裹起来</h5>
+    <p>
+      为了给
+      <code>disabled</code>
+      或
+      <code>.disabled</code>
+      元素添加工具提示，将需要增加工具提示的页面元素包裹在一个
+      <code>&lt;div&gt;</code>
+      中，然后对这个
+      <code>&lt;div&gt;</code>
+      元素应用工具提示。
+    </p>
+  </div>
 
-      <h2 id="tooltips-usage">用法</h2>
-      <p>通过JavaScript激活工具提示：</p>
-      <div class="example">
-        <pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#example'</span>).tooltip(options)</code></pre>
-      </div>
+  <h2 id="tooltips-usage">用法</h2>
+  <p>通过JavaScript激活工具提示：</p>
+  <div class="example">
+    <pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#example'</span>).tooltip(options)</code></pre>
+  </div>
 
-      <h3>Markup</h3>
-      <p>The generated markup of a tooltip is rather simple, though it does require a position (by default, set to <code>top</code> by the plugin).</p>
-      <div class="example">
-        <pre class="prettyprint linenums"><code class="language-html">&lt;div class=&quot;tooltip&quot;&gt;
+  <h3>Markup</h3>
+  <p>
+    The generated markup of a tooltip is rather simple, though it does require a position (by default, set to
+    <code>top</code>
+    by the plugin).
+  </p>
+  <div class="example">
+    <pre class="prettyprint linenums"><code class="language-html">&lt;div class=&quot;tooltip&quot;&gt;
           &lt;div class=&quot;tooltip-inner&quot;&gt;
             Tooltip!
           &lt;/div&gt;
           &lt;div class=&quot;tooltip-arrow&quot;&gt;&lt;/div&gt;
         &lt;/div&gt;</code></pre>
-      </div>
+  </div>
 
-      <h3>选项</h3>
-      <p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到<code>data-</code>之后，例如<code>data-animation=""</code>。</p>
-      <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-          <thead>
-           <tr>
-             <th style="width: 100px;">名称</th>
-             <th style="width: 100px;">类型</th>
-             <th style="width: 50px;">默认值</th>
-             <th>描述</th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-             <td>animation</td>
-             <td>boolean</td>
-             <td>true</td>
-             <td>apply a CSS fade transition to the tooltip</td>
-           </tr>
-           <tr>
-             <td>html</td>
-             <td>boolean</td>
-             <td>false</td>
-             <td>Insert HTML into the tooltip. If false, jQuery's <code>text</code> method will be used to insert content into the DOM. Use text if you're worried about XSS attacks.</td>
-           </tr>
-           <tr>
-             <td>placement</td>
-             <td>string | function</td>
-             <td>'top'</td>
-             <td>how to position the tooltip - top | bottom | left | right | auto. <br> When "auto" is specified, it will dynamically reorient the tooltip. For example, if placement is "auto left", the tooltip will display to the left when possible, otherwise it will display right.</td>
-           </tr>
-           <tr>
-             <td>selector</td>
-             <td>string</td>
-             <td>false</td>
-             <td>If a selector is provided, tooltip objects will be delegated to the specified targets.</td>
-           </tr>
-           <tr>
-             <td>title</td>
-             <td>string | function</td>
-             <td>''</td>
-             <td>default title value if <code>title</code> attribute isn't present</td>
-           </tr>
-           <tr>
-             <td>trigger</td>
-             <td>string</td>
-             <td>'hover focus'</td>
-             <td>how tooltip is triggered - click | hover | focus | manual. You may pass multiple triggers; separate them with a space.</td>
-           </tr>
-           <tr>
-             <td>delay</td>
-             <td>number | object</td>
-             <td>0</td>
-             <td>
-              <p>delay showing and hiding the tooltip (ms) - does not apply to manual trigger type</p>
-              <p>If a number is supplied, delay is applied to both hide/show</p>
-              <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
-             </td>
-           </tr>
-           <tr>
-             <td>container</td>
-             <td>string | false</td>
-             <td>false</td>
-             <td>
-              <p>Appends the tooltip to a specific element. Example: <code>container: 'body'</code></p>
-             </td>
-           </tr>
-          </tbody>
-        </table>
-      </div><!-- /.table-responsive -->
-      <div class="bs-callout bs-callout-info">
-        <h4>对单个工具提示使用data属性</h4>
-        <p>使用data属性可以为单个工具提示指定额外选项，如下所示。</p>
-      </div>
+  <h3>选项</h3>
+  <p>
+    可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到
+    <code>data-</code>
+    之后，例如
+    <code>data-animation=""</code>
+    。
+  </p>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 100px;">名称</th>
+          <th style="width: 100px;">类型</th>
+          <th style="width: 50px;">默认值</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>animation</td>
+          <td>boolean</td>
+          <td>true</td>
+          <td>apply a CSS fade transition to the tooltip</td>
+        </tr>
+        <tr>
+          <td>html</td>
+          <td>boolean</td>
+          <td>false</td>
+          <td>
+            Insert HTML into the tooltip. If false, jQuery's
+            <code>text</code>
+            method will be used to insert content into the DOM. Use text if you're worried about XSS attacks.
+          </td>
+        </tr>
+        <tr>
+          <td>placement</td>
+          <td>string | function</td>
+          <td>'top'</td>
+          <td>
+            how to position the tooltip - top | bottom | left | right | auto.
+            <br>
+            When "auto" is specified, it will dynamically reorient the tooltip. For example, if placement is "auto left", the tooltip will display to the left when possible, otherwise it will display right.
+          </td>
+        </tr>
+        <tr>
+          <td>selector</td>
+          <td>string</td>
+          <td>false</td>
+          <td>
+            If a selector is provided, tooltip objects will be delegated to the specified targets.
+          </td>
+        </tr>
+        <tr>
+          <td>title</td>
+          <td>string | function</td>
+          <td>''</td>
+          <td>
+            default title value if
+            <code>title</code>
+            attribute isn't present
+          </td>
+        </tr>
+        <tr>
+          <td>trigger</td>
+          <td>string</td>
+          <td>'hover focus'</td>
+          <td>
+            how tooltip is triggered - click | hover | focus | manual. You may pass multiple triggers; separate them with a space.
+          </td>
+        </tr>
+        <tr>
+          <td>delay</td>
+          <td>number | object</td>
+          <td>0</td>
+          <td>
+            <p>
+              delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+            </p>
+            <p>If a number is supplied, delay is applied to both hide/show</p>
+            <p>
+              Object structure is:
+              <code>delay: { show: 500, hide: 100 }</code>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>container</td>
+          <td>string | false</td>
+          <td>false</td>
+          <td>
+            <p>
+              Appends the tooltip to a specific element. Example:
+              <code>container: 'body'</code>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- /.table-responsive -->
+  <div class="bs-callout bs-callout-info">
+    <h4>对单个工具提示使用data属性</h4>
+    <p>使用data属性可以为单个工具提示指定额外选项，如下所示。</p>
+  </div>
 
-      <h3>标记</h3>
-      <div class="example">
-        <pre class="prettyprint linenums"><code class="language-html">&lt;a href=&quot;#&quot; data-toggle=&quot;tooltip&quot; title=&quot;first tooltip&quot;&gt;Hover over me&lt;/a&gt;</code></pre>
-      </div>
+  <h3>标记</h3>
+  <div class="example">
+    <pre class="prettyprint linenums"><code class="language-html">&lt;a href=&quot;#&quot; data-toggle=&quot;tooltip&quot; title=&quot;first tooltip&quot;&gt;Hover over me&lt;/a&gt;</code></pre>
+  </div>
 
-      <h3>方法</h3>
+  <h3>方法</h3>
 
-      <h4>$().tooltip(options)</h4>
-      <p>为一组元素应用工具提示。</p>
+  <h4>$().tooltip(options)</h4>
+  <p>为一组元素应用工具提示。</p>
 
-      <h4>.tooltip('show')</h4>
-      <p>展示工具提示。</p>
-      <div class="example">
-        <p><code>js$(&#39;#element&#39;).tooltip(&#39;show&#39;)</code></p>
-      </div>
-      <h4>.tooltip('hide')</h4>
-      <p>隐藏工具提示。</p>
-      <div class="example">
-        <p><code>js$(&#39;#element&#39;).tooltip(&#39;hide&#39;)</code></p>
-      </div>
+  <h4>.tooltip('show')</h4>
+  <p>展示工具提示。</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#element&#39;).tooltip(&#39;show&#39;)</code>
+    </p>
+  </div>
+  <h4>.tooltip('hide')</h4>
+  <p>隐藏工具提示。</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#element&#39;).tooltip(&#39;hide&#39;)</code>
+    </p>
+  </div>
 
-      <h4>.tooltip('toggle')</h4>
-      <p>展示或隐藏工具提示。</p>
-      <div class="example">
-        <p><code>js$(&#39;#element&#39;).tooltip(&#39;toggle&#39;)</code></p>
-      </div>
-    <h4>.tooltip('destroy')</h4>
-    <p>隐藏并销毁工具提示。</p>
-    <div class="example">
-      <p><code>js$(&#39;#element&#39;).tooltip(&#39;destroy&#39;)</code></p>
-    </div>
+  <h4>.tooltip('toggle')</h4>
+  <p>展示或隐藏工具提示。</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#element&#39;).tooltip(&#39;toggle&#39;)</code>
+    </p>
+  </div>
+  <h4>.tooltip('destroy')</h4>
+  <p>隐藏并销毁工具提示。</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#element&#39;).tooltip(&#39;destroy&#39;)</code>
+    </p>
+  </div>
 
-    <h3>事件</h3>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-         <tr>
-           <th style="width: 150px;">事件类型</th>
-           <th>描述</th>
-         </tr>
-        </thead>
-        <tbody>
-         <tr>
-           <td>show.bs.tooltip</td>
-           <td>当<code>show</code>方法被调用之后，此事件将被立即触发。</td>
-         </tr>
-         <tr>
-           <td>shown.bs.tooltip</td>
-           <td>当工具提示展示到用户面前之后（同时CSS过渡效果执行完之后）此事件被触发。</td>
-         </tr>
-         <tr>
-           <td>hide.bs.tooltip</td>
-           <td>当<code>hide</code>方法被调用之后，此事件被触发。</td>
-         </tr>
-         <tr>
-           <td>hidden.bs.tooltip</td>
-           <td>当工具提示被隐藏之后（同时CSS过渡效果执行完之后），此事件被触发。</td>
-         </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="example">
-      <pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#myTooltip'</span>).on(<span class="string">'hidden.bs.tooltip'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  <h3>事件</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 150px;">事件类型</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>show.bs.tooltip</td>
+          <td>
+            当
+            <code>show</code>
+            方法被调用之后，此事件将被立即触发。
+          </td>
+        </tr>
+        <tr>
+          <td>shown.bs.tooltip</td>
+          <td>当工具提示展示到用户面前之后（同时CSS过渡效果执行完之后）此事件被触发。</td>
+        </tr>
+        <tr>
+          <td>hide.bs.tooltip</td>
+          <td>
+            当
+            <code>hide</code>
+            方法被调用之后，此事件被触发。
+          </td>
+        </tr>
+        <tr>
+          <td>hidden.bs.tooltip</td>
+          <td>当工具提示被隐藏之后（同时CSS过渡效果执行完之后），此事件被触发。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="example">
+    <pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#myTooltip'</span>).on(<span class="string">'hidden.bs.tooltip'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
       <span class="comment">// do something…</span>
     })</code></pre>
-    </div>
-      </section>
+  </div>
+</section>
 
-          <section id="popovers" class="page-section">
-<div class="page-header">
-          <h2>弹出框</h2>
-        </div>
+<section id="popovers" class="page-section">
+  <div class="page-header">
+    <h2>弹出框</h2>
+  </div>
   <style>
     .popover-examples .popover
     {
@@ -864,525 +1241,311 @@ base_url: "./"
       margin: 20px;
     }
   </style>
-      <div class="alert alert-danger">
-        <h4>插件依赖</h4>
-        <p>弹出框依赖<a href="#tooltips">工具提示插件</a>，因此需要先加载工具提示插件。</p>
-      </div>
-      <div class="alert alert-danger">
-        <h4>选择性加入的功能</h4>
-        <p>出于性能方面的考虑，工具提示和弹框组件的data属性api是选择性加入的，也就是说<strong>你必须自己初始化他们</strong>。</p>
-      </div>
-      <div class="alert alert-info">
-        <h4>弹出框在按钮组和输入框组中使用时，需要额外的设置</h4>
-        <p>当提示框与<code>.btn-group</code> 或 <code>.input-group</code>联合使用时，你需要指定<code>container: 'body'</code>选项（见下面的文档）以避免不需要的副作用（例如，当弹出框显示之后，与其合作的页面元素可能变得更宽或是去圆角）。</p>
-      </div>
-      <div class="alert alert-info">
-        <h4>在禁止使用的页面元素上使用弹出框时需要额外增加一个元素将其包裹起来</h4>
-        <p>为了给<code>disabled</code> 或<code>.disabled</code>元素添加弹出框时，将需要增加弹出框的页面元素包裹在一个<code>&lt;div&gt;</code>中，然后对这个<code>&lt;div&gt;</code>元素应用弹出框。 </p>
-      </div>
-      <h2>类型</h2>
-      <h3>静态类型</h3>
-      <div class="example popover-examples">
-        <div class="popover top">
-          <div class="arrow"></div>
-          <h3 class="popover-title">Popover top</h3>
-          <div class="popover-content">
-            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-          </div>
-        </div>
-
-        <div class="popover right">
-          <div class="arrow"></div>
-          <h3 class="popover-title">Popover right</h3>
-          <div class="popover-content">
-            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-          </div>
-        </div>
-
-        <div class="popover bottom">
-          <div class="arrow"></div>
-          <h3 class="popover-title">Popover bottom</h3>
-
-          <div class="popover-content">
-            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-          </div>
-        </div>
-
-        <div class="popover left">
-          <div class="arrow"></div>
-          <h3 class="popover-title">Popover left</h3>
-          <div class="popover-content">
-            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-          </div>
-        </div>
-
-        <div class="clearfix"></div>
-      </div>
-      <h3>不带箭头指示</h3>
-      <div class="example popover-examples">
-        <div class="popover">
-          <div class="arrow"></div>
-          <h3 class="popover-title">Popover top</h3>
-          <div class="popover-content">
-            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-          </div>
-        </div>
-        <div class="clearfix"></div>
-      </div>
-      <h3>动态演示</h3>
-      <div class="example">
-        <a href="##" class="btn btn-lg btn-danger" data-toggle="popover" title="" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">Click to toggle popover</a>
-      </div>
-      <h4>不同方向</h4>
-      <div class="example text-center">
-        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
-          左侧弹框
-        </button>
-        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
-          上方弹框
-        </button>
-        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
-          下方弹框
-        </button>
-        <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">
-          右侧弹框
-        </button>
-      </div>
-
-      <h3>指定html元素作为弹出内容</h3>
-      <div class="example">
-        <a href="##" class="btn btn-lg btn-danger" data-toggle="popover" data-placement="top" data-target="$next">Click to toggle popover</a>
-        <div id="popoverContent1" class="popover">
-          <h3 class="popover-title">Popover top</h3>
-          <table class="table">
-            <tr>
-              <td>Lorem ipsum dolor.</td>
-              <td>Nisi, ad, quisquam!</td>
-              <td>Eum, excepturi, placeat.</td>
-            </tr>
-            <tr>
-              <td>Lorem ipsum dolor.</td>
-              <td>Explicabo, nobis, nesciunt!</td>
-              <td>Sequi, doloribus, natus.</td>
-            </tr>
-            <tr>
-              <td>Lorem ipsum dolor.</td>
-              <td>Ipsum, suscipit, quibusdam?</td>
-              <td>Minus, tenetur, neque.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <h2 id="popovers-usage">用法</h2>
-    <p>通过JavaScript启用弹出框：</p>
-    <div class="example">
-<p><code>js$(&#39;#example&#39;).popover(options)</code></p>
-
-</div>
-
-    <h3>选项</h3>
-    <p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到<code>data-</code>之后，例如<code>data-animation=""</code>。</p>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th style="width: 100px;">名称</th>
-            <th style="width: 100px;">类型</th>
-            <th style="width: 50px;">默认值</th>
-            <th>描述</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>animation</td>
-            <td>boolean</td>
-            <td>true</td>
-            <td>apply a CSS fade transition to the tooltip</td>
-          </tr>
-          <tr>
-            <td>html</td>
-            <td>boolean</td>
-            <td>false</td>
-            <td>Insert HTML into the popover. If false, jQuery's <code>text</code> method will be used to insert content into the DOM. Use text if you're worried about XSS attacks.</td>
-          </tr>
-          <tr>
-            <td>placement</td>
-            <td>string | function</td>
-            <td>'right'</td>
-            <td>how to position the popover - top | bottom | left | right | auto.<br> When "auto" is specified, it will dynamically reorient the popover. For example, if placement is "auto left", the tooltip will display to the left when possible, otherwise it will display right.</td>
-          </tr>
-          <tr>
-            <td>selector</td>
-            <td>string</td>
-            <td>false</td>
-            <td>if a selector is provided, tooltip objects will be delegated to the specified targets. in practice, this is used to enable dynamic HTML content to have popovers added. See <a href="https://github.com/twbs/bootstrap/issues/4215">this</a> and <a href="http://jsfiddle.net/fScua/">an informative example</a>.</td>
-          </tr>
-          <tr>
-            <td>trigger</td>
-            <td>string</td>
-            <td>'click'</td>
-            <td>how popover is triggered - click | hover | focus | manual</td>
-          </tr>
-          <tr>
-            <td>title</td>
-            <td>string | function</td>
-            <td>''</td>
-            <td>default title value if <code>title</code> attribute isn't present</td>
-          </tr>
-          <tr>
-            <td>content</td>
-            <td>string | function</td>
-            <td>''</td>
-            <td>default content value if <code>data-content</code> attribute isn't present</td>
-          </tr>
-          <tr>
-            <td>delay</td>
-            <td>number | object</td>
-            <td>0</td>
-            <td>
-             <p>delay showing and hiding the popover (ms) - does not apply to manual trigger type</p>
-             <p>If a number is supplied, delay is applied to both hide/show</p>
-             <p>Object structure is: <code>delay: { show: 500, hide: 100 }</code></p>
-            </td>
-          </tr>
-          <tr>
-            <td>container</td>
-            <td>string | false</td>
-            <td>false</td>
-            <td>
-             <p>Appends the popover to a specific element. Example: <code>container: 'body'</code>. This option is particularly useful in that it allows you to position the popover in the flow of the document near the triggering element - which will prevent the popover from floating away from the triggering element during a window resize.</p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div><!-- /.table-responsive -->
-    <div class="bs-callout bs-callout-info">
-      <h4>为单个弹出框应用data属性</h4>
-      <p>对单个弹出框可以通过data属性单独指定选项，如上所示。</p>
-    </div>
-
-    <h3>方法</h3>
-    <h4>$().popover(options)</h4>
-    <p>为一组元素初始化弹出框。</p>
-
-    <h4>.popover('show')</h4>
-    <p>显示弹出框。</p>
-    <div class="example">
-<p><code>js$(&#39;#element&#39;).popover(&#39;show&#39;)</code></p>
-
-</div>
-
-    <h4>.popover('hide')</h4>
-    <p>隐藏弹出框。</p>
-    <div class="example">
-<p><code>js$(&#39;#element&#39;).popover(&#39;hide&#39;)</code></p>
-
-</div>
-
-    <h4>.popover('toggle')</h4>
-    <p>展示或隐藏弹出框。</p>
-    <div class="example">
-<p><code>js$(&#39;#element&#39;).popover(&#39;toggle&#39;)</code></p>
-
-</div>
-
-    <h4>.popover('destroy')</h4>
-    <p>隐藏并销毁弹出框。</p>
-    <div class="example">
-<p><code>js$(&#39;#element&#39;).popover(&#39;destroy&#39;)</code></p>
-
-</div>
-    <h3>事件</h3>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-         <tr>
-           <th style="width: 150px;">事件类型</th>
-           <th>描述</th>
-         </tr>
-        </thead>
-        <tbody>
-         <tr>
-           <td>show.bs.popover</td>
-           <td>当<code>show</code>方法被调用之后，此事件将被立即触发。</td>
-         </tr>
-         <tr>
-           <td>shown.bs.popover</td>
-           <td>当弹出框展示到用户面前之后（同时CSS过渡效果执行完之后）此事件被触发。</td>
-         </tr>
-         <tr>
-           <td>hide.bs.popover</td>
-           <td>当<code>hide</code>方法被调用之后，此事件被触发。</td>
-         </tr>
-         <tr>
-           <td>hidden.bs.popover</td>
-           <td>当弹出框被隐藏之后（同时CSS过渡效果执行完之后），此事件被触发。</td>
-         </tr>
-        </tbody>
-      </table>
-    </div><!-- /.table-responsive -->
-<div class="example">
-<pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#myPopover'</span>).on(<span class="string">'hidden.bs.popover'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  <span class="comment">// do something…</span>
-})</code></pre>
-
-</div>
-    </section>
-
-      <section id='collapse'>
-      <div class="page-header">
-          <h2>折叠</h2>
-        </div>
-    <p>需要<a target='_blank' href='http://v3.bootcss.com/javascript/#transitions'>transition.js</a>支持。</p>
-    <p><code>.collapse</code>隐藏条目, <code>.collapse.in</code>显示条目。</p>
-    <p>调用方式一：仅仅通过向页面元素添加<code>data-toggle="collapse"</code> 和<code>data-target</code>就可以为其赋予控制可折叠页面元素的能力。
-      <code>data-target</code>属性接受一个CSS选择器作为其控制对象。请确保为可折叠页面元素添加<code>.collapse</code>。
-      如果你希望可折叠页面元素的默认状态是展开的，请添加<code>.in</code>。
-      为了给一组可折叠页面元素添加控制器，添加<code>data-parent="#selector"</code>即可</p>
-    <p>调用方式二：手动触发<code>$(".collapse").collapse()</code></p>
-   
-    <h3>类型</h3>
-    <h4>结合面板</h4>
-    <div class="example" contenteditable="true">
-        <div class="panel-group" id="accordion">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Item 1 </a>
-              </h4>
-            </div>
-            <div id="collapseOne" class="panel-collapse collapse fade">
-              <div class="panel-body">The content of Item1.<code>.panel-collapse .collapse .fade</code></div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Item 2 </a>
-              </h4>
-            </div>
-            <div id="collapseTwo" class="panel-collapse collapse in">
-              <div class="panel-body">
-               <p>The content of Item2. <code>.panel-collapse .collapse .in</code>默认显示。</p>
-              </div>
-            </div>
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Item 3</a>
-              </h4>
-            </div>
-            <div id="collapseThree" class="panel-collapse collapse">
-              <div class="panel-body">The content of item3. <code>.panel-collapse .collapse</code></div>
-            </div>
-          </div>
-        </div>
-    </div>
-
-    <h4>结合按钮</h4>
-    <div class="example" contenteditable="true">
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseButton">hulala</button>
-        <div id="collapseButton" class="collapse in">Ho la la hu la la, hu la hu la.</div>
-    </div>
-
-    <h3>变化</h3>
-    <h4>方法和事件</h4>
-    <table class="table table-bordered table-striped">
-      <thead>
-       <tr>
-         <th style="width: 80px;">方法</th>
-         <th>例子</th>
-         <th>描述</th>
-       </tr>
-      </thead>
-      <tbody>
-       <tr>
-         <td>.collapse(options)</td>
-         <td><code>$('#myCollapse').collapse({ toggle: false })</code></td>
-         <td>赋予页面元素可折叠功能。接受一个可选的object作为参数。</td>
-       </tr>
-       <tr>
-         <td>.collapse('toggle')</td>
-         <td><code>$('#myCollapse').collapse('toggle')</code></td>
-         <td>展示或隐藏一个可折叠的页面元素。</td>
-       </tr>
-       <tr>
-         <td>.collapse('show')</td>
-         <td><code>$('#myCollapse').collapse('show')</code></td>
-         <td>展示一个可折叠页面元素。</td>
-       </tr>
-       <tr>
-         <td>.collapse('hide')</td>
-         <td><code>$('#myCollapse').collapse('hide')</code></td>
-         <td>隐藏一个可折叠页面元素。</td>
-       </tr>
-      </tbody>
-    </table>
-    <table class="table table-bordered table-striped">
-      <thead>
-       <tr>
-         <th style="width: 80px;">事件</th>
-         <th>使用</th>
-         <th>描述</th>
-       </tr>
-      </thead>
-      <tbody>
-       <tr>
-         <td>show.bs.collapse</td>
-         <td><code>$('#myCollapse').on('show.bs.collapse', function () { // do something… })</code></td>
-         <td>当<code>show</code>方法被调用时，此事件将被立即触发。</td>
-       </tr>
-       <tr>
-         <td>shown.bs.collapse</td>
-         <td><code>$('#myCollapse').on('shown.bs.collapse', function () { // do something… })</code></td>
-         <td>当可折叠页面元素显示出来之后（同时CSS过渡效果也已执行完毕），此事件被触发。</td>
-       </tr>
-       <tr>
-         <td>hide.bs.collapse</td>
-         <td><code>$('#myCollapse').on('hide.bs.collapse', function () { // do something… })</code></td>
-         <td>当<code>hide</code>方法被调用时，此事件将被立即触发。</td>
-       </tr>
-       <tr>
-         <td>hidden.bs.collapse</td>
-         <td><code>$('#myCollapse').on('hidden.bs.collapse', function () { // do something… })</code></td>
-         <td>当可折叠页面元素隐藏之后（同时CSS过渡效果也已执行完毕），此事件被触发。</td>
-       </tr>
-      </tbody>
-    </table>
-
-  </section>
-
-    <section id='carousel'>
-    <div class="page-header">
-      <h2>轮播</h2>
-    </div>
+  <div class="alert alert-danger">
+    <h4>插件依赖</h4>
     <p>
-      使用方法一：通过data属性可以很容易的控制轮播的定位。 <code>data-slide</code> 可以接受控制播放位置的
-      <code>prev</code> 或 <code>next</code> 关键字。另外，还可以通过 <code>data-slide-to</code> 传递以 <code>0</code>
-      开始的幻灯片下标。 <code>data-ride="carousel"</code> 属性用来标记在页面加载之后即开始启动的轮播组件。
+      弹出框依赖
+      <a href="#tooltips">工具提示插件</a>
+      ，因此需要先加载工具提示插件。
     </p>
-    <p>使用方法二：通过js手动启动轮播组件：<code>$('.carousel').carousel()</code></p>
- 
-    <h3>类型</h3>
-    <h4>基本类型</h4>
-    <div class='example'>
-        <div class='container'>
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="item active">
-                <img alt="First slide" src="data:image/png;base64,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AAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACE+heY6gOnQOMydAAAAABJRU5ErkJggg==">
-                <div class="carousel-caption">
-                  <h3>我是第一张幻灯片</h3>
-                  <p>天下熙熙皆为利来~</p>
-                </div>
-              </div>
-              <div class="item">
-                <img alt="Second slide" src="data:image/png;base64,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AACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAqP8B61bofVmTOUsAAAAASUVORK5CYII=">
-                <div class="carousel-caption">
-                  <h3>我是第二张幻灯片</h3>
-                  <p>天下攘攘皆为利往~</p>
-                </div>
-              </div>
-              <div class="item">
-                <img alt="Third slide" src="data:image/png;base64,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BCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQKj/AjVbIrFi9ysIAAAAAElFTkSuQmCC">
-                <div class="carousel-caption">
-                  <h3>我是第三张幻灯片</h3>
-                  <p>最后一张咯~</p>
-                </div>
-              </div>
-            </div>
-            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-              <span class="glyphicon-chevron-left icon-chevron-left"></span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-              <span class="glyphicon-chevron-right icon-chevron-right"></span>
-            </a>
-          </div>
-        </div>
+  </div>
+  <div class="alert alert-danger">
+    <h4>选择性加入的功能</h4>
+    <p>
+      出于性能方面的考虑，工具提示和弹框组件的data属性api是选择性加入的，也就是说 <strong>你必须自己初始化他们</strong>
+      。
+    </p>
+  </div>
+  <div class="alert alert-info">
+    <h4>弹出框在按钮组和输入框组中使用时，需要额外的设置</h4>
+    <p>
+      当提示框与
+      <code>.btn-group</code>
+      或
+      <code>.input-group</code>
+      联合使用时，你需要指定
+      <code>container: 'body'</code>
+      选项（见下面的文档）以避免不需要的副作用（例如，当弹出框显示之后，与其合作的页面元素可能变得更宽或是去圆角）。
+    </p>
+  </div>
+  <div class="alert alert-info">
+    <h4>在禁止使用的页面元素上使用弹出框时需要额外增加一个元素将其包裹起来</h4>
+    <p>
+      为了给
+      <code>disabled</code>
+      或
+      <code>.disabled</code>
+      元素添加弹出框时，将需要增加弹出框的页面元素包裹在一个
+      <code>&lt;div&gt;</code>
+      中，然后对这个
+      <code>&lt;div&gt;</code>
+      元素应用弹出框。
+    </p>
+  </div>
+  <h2>类型</h2>
+  <h3>静态类型</h3>
+  <div class="example popover-examples">
+    <div class="popover top">
+      <div class="arrow"></div>
+      <h3 class="popover-title">Popover top</h3>
+      <div class="popover-content">
+        <p>
+          Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+        </p>
+      </div>
     </div>
 
-    <h3>变化</h3>
-    <h4>选项</h4>
-    <p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到<code>data-</code>之后，例如<code>data-interval=""</code>。</p>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-         <tr>
-           <th style="width: 100px;">名称</th>
-           <th style="width: 50px;">类型</th>
-           <th style="width: 50px;">默认值</th>
-           <th>描述</th>
-         </tr>
-        </thead>
-        <tbody>
-         <tr>
-           <td>interval</td>
-           <td>number</td>
-           <td>5000</td>
-           <td>幻灯片轮换的等待时间。如果为false，轮播将不会自动开始循环。</td>
-         </tr>
-         <tr>
-           <td>pause</td>
-           <td>string</td>
-           <td>"hover"</td>
-           <td>鼠标停留在幻灯片区域即暂停轮播，鼠标离开即启动轮播。</td>
-         </tr>
-         <tr>
-           <td>wrap</td>
-           <td>boolean</td>
-           <td>true</td>
-           <td>轮播是否持续循环。</td>
-         </tr>
-        </tbody>
-      </table>
-    </div><!-- /.table-responsive -->
+    <div class="popover right">
+      <div class="arrow"></div>
+      <h3 class="popover-title">Popover right</h3>
+      <div class="popover-content">
+        <p>
+          Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+        </p>
+      </div>
+    </div>
 
-    <h4>方法和事件</h4>
-    <p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到<code>data-</code>之后，例如<code>data-interval=""</code>。</p>
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-         <tr>
-           <th style="width: 100px;">方法</th>
-           <th>描述</th>
-         </tr>
-        </thead>
-        <tbody>
-         <tr>
-           <td><code>.carousel(options)</code></td>
-           <td>初始化轮播组件，接受一个可选的object类型的options参数，并开始幻灯片循环。</td>
-         </tr>
-         <tr>
-           <td><code>.carousel('cycle')</code></td>
-           <td>从左到右循环各帧。</td>
-         </tr>
-         <tr>
-           <td><code>.carousel('pause')</code></td>
-           <td>停止轮播。</td>
-         </tr>
-         <tr>
-           <td><code>.carousel(number)</code></td>
-           <td>将轮播定位到指定的帧上（帧下标以0开始，类似数组）。</td>
-         </tr>
-         <tr>
-           <td><code>.carousel('pre')</code></td>
-           <td>返回上一帧。</td>
-         </tr>
-         <tr>
-           <td><code>.carousel('next')</code></td>
-           <td>转到下一帧。</td>
-         </tr>
-        </tbody>
-      </table>
-    </div><!-- /.table-responsive -->
+    <div class="popover bottom">
+      <div class="arrow"></div>
+      <h3 class="popover-title">Popover bottom</h3>
 
-    <p>Bootstrap的轮播组件暴露了两个事件用于监听。</p>
+      <div class="popover-content">
+        <p>
+          Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+        </p>
+      </div>
+    </div>
+
+    <div class="popover left">
+      <div class="arrow"></div>
+      <h3 class="popover-title">Popover left</h3>
+      <div class="popover-content">
+        <p>
+          Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+        </p>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+  </div>
+  <h3>不带箭头指示</h3>
+  <div class="example popover-examples">
+    <div class="popover">
+      <div class="arrow"></div>
+      <h3 class="popover-title">Popover top</h3>
+      <div class="popover-content">
+        <p>
+          Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+        </p>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <h3>动态演示</h3>
+  <div class="example">
+    <a href="##" class="btn btn-lg btn-danger" data-toggle="popover" title="" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">Click to toggle popover</a>
+  </div>
+  <h4>不同方向</h4>
+  <div class="example text-center">
+    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">左侧弹框</button>
+    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">上方弹框</button>
+    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">下方弹框</button>
+    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="" title="">右侧弹框</button>
+  </div>
+
+  <h3>指定html元素作为弹出内容</h3>
+  <div class="example">
+    <a href="##" class="btn btn-lg btn-danger" data-toggle="popover" data-placement="top" data-target="$next">Click to toggle popover</a>
+    <div id="popoverContent1" class="popover">
+      <h3 class="popover-title">Popover top</h3>
+      <table class="table">
+        <tr>
+          <td>Lorem ipsum dolor.</td>
+          <td>Nisi, ad, quisquam!</td>
+          <td>Eum, excepturi, placeat.</td>
+        </tr>
+        <tr>
+          <td>Lorem ipsum dolor.</td>
+          <td>Explicabo, nobis, nesciunt!</td>
+          <td>Sequi, doloribus, natus.</td>
+        </tr>
+        <tr>
+          <td>Lorem ipsum dolor.</td>
+          <td>Ipsum, suscipit, quibusdam?</td>
+          <td>Minus, tenetur, neque.</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <h2 id="popovers-usage">用法</h2>
+  <p>通过JavaScript启用弹出框：</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#example&#39;).popover(options)</code>
+    </p>
+
+  </div>
+
+  <h3>选项</h3>
+  <p>
+    可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到
+    <code>data-</code>
+    之后，例如
+    <code>data-animation=""</code>
+    。
+  </p>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 100px;">名称</th>
+          <th style="width: 100px;">类型</th>
+          <th style="width: 50px;">默认值</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>animation</td>
+          <td>boolean</td>
+          <td>true</td>
+          <td>apply a CSS fade transition to the tooltip</td>
+        </tr>
+        <tr>
+          <td>html</td>
+          <td>boolean</td>
+          <td>false</td>
+          <td>
+            Insert HTML into the popover. If false, jQuery's
+            <code>text</code>
+            method will be used to insert content into the DOM. Use text if you're worried about XSS attacks.
+          </td>
+        </tr>
+        <tr>
+          <td>placement</td>
+          <td>string | function</td>
+          <td>'right'</td>
+          <td>
+            how to position the popover - top | bottom | left | right | auto.
+            <br>
+            When "auto" is specified, it will dynamically reorient the popover. For example, if placement is "auto left", the tooltip will display to the left when possible, otherwise it will display right.
+          </td>
+        </tr>
+        <tr>
+          <td>selector</td>
+          <td>string</td>
+          <td>false</td>
+          <td>
+            if a selector is provided, tooltip objects will be delegated to the specified targets. in practice, this is used to enable dynamic HTML content to have popovers added. See
+            <a href="https://github.com/twbs/bootstrap/issues/4215">this</a>
+            and
+            <a href="http://jsfiddle.net/fScua/">an informative example</a>
+            .
+          </td>
+        </tr>
+        <tr>
+          <td>trigger</td>
+          <td>string</td>
+          <td>'click'</td>
+          <td>how popover is triggered - click | hover | focus | manual</td>
+        </tr>
+        <tr>
+          <td>title</td>
+          <td>string | function</td>
+          <td>''</td>
+          <td>
+            default title value if
+            <code>title</code>
+            attribute isn't present
+          </td>
+        </tr>
+        <tr>
+          <td>content</td>
+          <td>string | function</td>
+          <td>''</td>
+          <td>
+            default content value if
+            <code>data-content</code>
+            attribute isn't present
+          </td>
+        </tr>
+        <tr>
+          <td>delay</td>
+          <td>number | object</td>
+          <td>0</td>
+          <td>
+            <p>
+              delay showing and hiding the popover (ms) - does not apply to manual trigger type
+            </p>
+            <p>If a number is supplied, delay is applied to both hide/show</p>
+            <p>
+              Object structure is:
+              <code>delay: { show: 500, hide: 100 }</code>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>container</td>
+          <td>string | false</td>
+          <td>false</td>
+          <td>
+            <p>
+              Appends the popover to a specific element. Example:
+              <code>container: 'body'</code>
+              . This option is particularly useful in that it allows you to position the popover in the flow of the document near the triggering element - which will prevent the popover from floating away from the triggering element during a window resize.
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- /.table-responsive -->
+  <div class="bs-callout bs-callout-info">
+    <h4>为单个弹出框应用data属性</h4>
+    <p>对单个弹出框可以通过data属性单独指定选项，如上所示。</p>
+  </div>
+
+  <h3>方法</h3>
+  <h4>$().popover(options)</h4>
+  <p>为一组元素初始化弹出框。</p>
+
+  <h4>.popover('show')</h4>
+  <p>显示弹出框。</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#element&#39;).popover(&#39;show&#39;)</code>
+    </p>
+
+  </div>
+
+  <h4>.popover('hide')</h4>
+  <p>隐藏弹出框。</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#element&#39;).popover(&#39;hide&#39;)</code>
+    </p>
+
+  </div>
+
+  <h4>.popover('toggle')</h4>
+  <p>展示或隐藏弹出框。</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#element&#39;).popover(&#39;toggle&#39;)</code>
+    </p>
+
+  </div>
+
+  <h4>.popover('destroy')</h4>
+  <p>隐藏并销毁弹出框。</p>
+  <div class="example">
+    <p>
+      <code>js$(&#39;#element&#39;).popover(&#39;destroy&#39;)</code>
+    </p>
+
+  </div>
+  <h3>事件</h3>
+  <div class="table-responsive">
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
@@ -1392,27 +1555,427 @@ base_url: "./"
       </thead>
       <tbody>
         <tr>
-          <td>slide.bs.carousel</td>
-          <td>此事件在<code>slide</code>方法被调用之后立即出发。</td>
-        </tr>
-        <tr>
-          <td>slid.bs.carousel</td>
-          <td>当所有幻灯片播放完之后被触发。</td>
-        </tr>
-        <tr>
-          <td colspan='2'>
-            <code class="language-js">$('#myCarousel').on('slide.bs.carousel', function() {// do something…})</code>
+          <td>show.bs.popover</td>
+          <td>
+            当
+            <code>show</code>
+            方法被调用之后，此事件将被立即触发。
           </td>
+        </tr>
+        <tr>
+          <td>shown.bs.popover</td>
+          <td>当弹出框展示到用户面前之后（同时CSS过渡效果执行完之后）此事件被触发。</td>
+        </tr>
+        <tr>
+          <td>hide.bs.popover</td>
+          <td>
+            当
+            <code>hide</code>
+            方法被调用之后，此事件被触发。
+          </td>
+        </tr>
+        <tr>
+          <td>hidden.bs.popover</td>
+          <td>当弹出框被隐藏之后（同时CSS过渡效果执行完之后），此事件被触发。</td>
         </tr>
       </tbody>
     </table>
- 
-  </section>
-    </div>
+  </div>
+  <!-- /.table-responsive -->
+  <div class="example">
+    <pre class="prettyprint linenums"><code class="language-js">$(<span class="string">'#myPopover'</span>).on(<span class="string">'hidden.bs.popover'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  <span class="comment">// do something…</span>
+})</code></pre>
 
-    <script src="dist/js/jquery.js"></script>
-    <script src="dist/js/zui.min.js"></script>
-    <script src="assets/js/doc.js"></script>
-    <script src="dist/js/google-code-prettify/prettify.js"></script>
-  </body>
+  </div>
+</section>
+
+<section id='collapse'>
+  <div class="page-header">
+    <h2>折叠</h2>
+  </div>
+  <p>
+    需要
+    <a target='_blank' href='http://v3.bootcss.com/javascript/#transitions'>transition.js</a>
+    支持。
+  </p>
+  <p>
+    <code>.collapse</code>
+    隐藏条目,
+    <code>.collapse.in</code>
+    显示条目。
+  </p>
+  <p>
+    调用方式一：仅仅通过向页面元素添加
+    <code>data-toggle="collapse"</code>
+    和
+    <code>data-target</code>
+    就可以为其赋予控制可折叠页面元素的能力。
+    <code>data-target</code>
+    属性接受一个CSS选择器作为其控制对象。请确保为可折叠页面元素添加
+    <code>.collapse</code>
+    。
+      如果你希望可折叠页面元素的默认状态是展开的，请添加
+    <code>.in</code>
+    。
+      为了给一组可折叠页面元素添加控制器，添加
+    <code>data-parent="#selector"</code>
+    即可
+  </p>
+  <p>
+    调用方式二：手动触发
+    <code>$(".collapse").collapse()</code>
+  </p>
+
+  <h3>类型</h3>
+  <h4>结合面板</h4>
+  <div class="example" contenteditable="true">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Item 1</a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse fade">
+          <div class="panel-body">
+            The content of Item1.
+            <code>.panel-collapse .collapse .fade</code>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Item 2</a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <p>
+              The content of Item2.
+              <code>.panel-collapse .collapse .in</code>
+              默认显示。
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Item 3</a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            The content of item3.
+            <code>.panel-collapse .collapse</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h4>结合按钮</h4>
+  <div class="example" contenteditable="true">
+    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseButton">hulala</button>
+    <div id="collapseButton" class="collapse in">Ho la la hu la la, hu la hu la.</div>
+  </div>
+
+  <h3>变化</h3>
+  <h4>方法和事件</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width: 80px;">方法</th>
+        <th>例子</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>.collapse(options)</td>
+        <td>
+          <code>$('#myCollapse').collapse({ toggle: false })</code>
+        </td>
+        <td>赋予页面元素可折叠功能。接受一个可选的object作为参数。</td>
+      </tr>
+      <tr>
+        <td>.collapse('toggle')</td>
+        <td>
+          <code>$('#myCollapse').collapse('toggle')</code>
+        </td>
+        <td>展示或隐藏一个可折叠的页面元素。</td>
+      </tr>
+      <tr>
+        <td>.collapse('show')</td>
+        <td>
+          <code>$('#myCollapse').collapse('show')</code>
+        </td>
+        <td>展示一个可折叠页面元素。</td>
+      </tr>
+      <tr>
+        <td>.collapse('hide')</td>
+        <td>
+          <code>$('#myCollapse').collapse('hide')</code>
+        </td>
+        <td>隐藏一个可折叠页面元素。</td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width: 80px;">事件</th>
+        <th>使用</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>show.bs.collapse</td>
+        <td>
+          <code>$('#myCollapse').on('show.bs.collapse', function () { // do something… })</code>
+        </td>
+        <td>
+          当
+          <code>show</code>
+          方法被调用时，此事件将被立即触发。
+        </td>
+      </tr>
+      <tr>
+        <td>shown.bs.collapse</td>
+        <td>
+          <code>$('#myCollapse').on('shown.bs.collapse', function () { // do something… })</code>
+        </td>
+        <td>当可折叠页面元素显示出来之后（同时CSS过渡效果也已执行完毕），此事件被触发。</td>
+      </tr>
+      <tr>
+        <td>hide.bs.collapse</td>
+        <td>
+          <code>$('#myCollapse').on('hide.bs.collapse', function () { // do something… })</code>
+        </td>
+        <td>
+          当
+          <code>hide</code>
+          方法被调用时，此事件将被立即触发。
+        </td>
+      </tr>
+      <tr>
+        <td>hidden.bs.collapse</td>
+        <td>
+          <code>$('#myCollapse').on('hidden.bs.collapse', function () { // do something… })</code>
+        </td>
+        <td>当可折叠页面元素隐藏之后（同时CSS过渡效果也已执行完毕），此事件被触发。</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+<section id='carousel'>
+  <div class="page-header">
+    <h2>轮播</h2>
+  </div>
+  <p>
+    使用方法一：通过data属性可以很容易的控制轮播的定位。
+    <code>data-slide</code>
+    可以接受控制播放位置的
+    <code>prev</code>
+    或
+    <code>next</code>
+    关键字。另外，还可以通过
+    <code>data-slide-to</code>
+    传递以
+    <code>0</code>
+    开始的幻灯片下标。
+    <code>data-ride="carousel"</code>
+    属性用来标记在页面加载之后即开始启动的轮播组件。
+  </p>
+  <p>
+    使用方法二：通过js手动启动轮播组件：
+    <code>$('.carousel').carousel()</code>
+  </p>
+
+  <h3>类型</h3>
+  <h4>基本类型</h4>
+  <div class='example'>
+    <div class='container'>
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="item active">
+            <img alt="First slide" src="data:image/png;base64,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AAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACE+heY6gOnQOMydAAAAABJRU5ErkJggg==">
+            <div class="carousel-caption">
+              <h3>我是第一张幻灯片</h3>
+              <p>天下熙熙皆为利来~</p>
+            </div>
+          </div>
+          <div class="item">
+            <img alt="Second slide" src="data:image/png;base64,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AACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAqP8B61bofVmTOUsAAAAASUVORK5CYII=">
+            <div class="carousel-caption">
+              <h3>我是第二张幻灯片</h3>
+              <p>天下攘攘皆为利往~</p>
+            </div>
+          </div>
+          <div class="item">
+            <img alt="Third slide" src="data:image/png;base64,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BCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQChBCAAAEEoQAgAAhBKEAAAAoQQhAABAKEEIAAAQShACAACEEoQAAAChBCEAAEAoQQgAABBKEAIAAIQShAAAAKEEIQAAQKj/AjVbIrFi9ysIAAAAAElFTkSuQmCC">
+            <div class="carousel-caption">
+              <h3>我是第三张幻灯片</h3>
+              <p>最后一张咯~</p>
+            </div>
+          </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+          <span class="glyphicon-chevron-left icon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+          <span class="glyphicon-chevron-right icon-chevron-right"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <h3>变化</h3>
+  <h4>选项</h4>
+  <p>
+    可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到
+    <code>data-</code>
+    之后，例如
+    <code>data-interval=""</code>
+    。
+  </p>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 100px;">名称</th>
+          <th style="width: 50px;">类型</th>
+          <th style="width: 50px;">默认值</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>interval</td>
+          <td>number</td>
+          <td>5000</td>
+          <td>幻灯片轮换的等待时间。如果为false，轮播将不会自动开始循环。</td>
+        </tr>
+        <tr>
+          <td>pause</td>
+          <td>string</td>
+          <td>"hover"</td>
+          <td>鼠标停留在幻灯片区域即暂停轮播，鼠标离开即启动轮播。</td>
+        </tr>
+        <tr>
+          <td>wrap</td>
+          <td>boolean</td>
+          <td>true</td>
+          <td>轮播是否持续循环。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- /.table-responsive -->
+
+  <h4>方法和事件</h4>
+  <p>
+    可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到
+    <code>data-</code>
+    之后，例如
+    <code>data-interval=""</code>
+    。
+  </p>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 100px;">方法</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>.carousel(options)</code>
+          </td>
+          <td>初始化轮播组件，接受一个可选的object类型的options参数，并开始幻灯片循环。</td>
+        </tr>
+        <tr>
+          <td>
+            <code>.carousel('cycle')</code>
+          </td>
+          <td>从左到右循环各帧。</td>
+        </tr>
+        <tr>
+          <td>
+            <code>.carousel('pause')</code>
+          </td>
+          <td>停止轮播。</td>
+        </tr>
+        <tr>
+          <td>
+            <code>.carousel(number)</code>
+          </td>
+          <td>将轮播定位到指定的帧上（帧下标以0开始，类似数组）。</td>
+        </tr>
+        <tr>
+          <td>
+            <code>.carousel('pre')</code>
+          </td>
+          <td>返回上一帧。</td>
+        </tr>
+        <tr>
+          <td>
+            <code>.carousel('next')</code>
+          </td>
+          <td>转到下一帧。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- /.table-responsive -->
+
+  <p>Bootstrap的轮播组件暴露了两个事件用于监听。</p>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width: 150px;">事件类型</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>slide.bs.carousel</td>
+        <td>
+          此事件在
+          <code>slide</code>
+          方法被调用之后立即出发。
+        </td>
+      </tr>
+      <tr>
+        <td>slid.bs.carousel</td>
+        <td>当所有幻灯片播放完之后被触发。</td>
+      </tr>
+      <tr>
+        <td colspan='2'>
+          <code class="language-js">$('#myCarousel').on('slide.bs.carousel', function() {// do something…})</code>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+</div>
+
+<script src="dist/js/jquery.js"></script>
+<script src="dist/js/zui.min.js"></script>
+<script src="assets/js/doc.js"></script>
+<script src="dist/js/google-code-prettify/prettify.js"></script>
+</body>
 </html>
