@@ -1,37 +1,138 @@
----
+<!-- ---
 layout: default
 title: 框架说明
 slug: start
 lead: "了解设计规范."
 base_url: "./"
----
+--- -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZUI，一个简单灵活的前端框架。">
+    <meta name="author" content="Zentao">
 
-<div class="page-header">
-  <h1>开始</h1>
-</div>
+    <title>ZUI</title>
 
-<div class="page-header">
-  <h2>框架说明</h2>
-</div>
-<h3>UI元素类型及定义</h3>
-<p>ZUI中包含各种各样的界面元素（或控件），例如按钮、表格、列表等，甚至一些特定场景用到的一组元素也会在ZUI中精心设计，例如评论列表。为了更好的展示我们的设计理念，把这些元素归为如下四类：</p>
-<ul>
-  <li><strong>基本控件</strong>：用来构建网页应用的基本界面单元，例如按钮、文本标签、输入框等。</li>
-  <li><strong>组件</strong>：通过一个以上的基本控件组合而成的较复杂的界面单元。例如表单、菜单、表格等。</li>
-  <li><strong>Javascript 组件</strong>：这些组件要正常使用会使用到Javascript。某些Javascript组件需要手动调用来启用。</li>
-  <li><strong>视图</strong>：视图是将基本控件和组件组合使用来展现网站上的通用内容，例如评论视图及文章预览列表视图。</li>
-</ul>
-<p>ZUI中的大多数界面元素都有不同的子类型、状态及参数。关于类型、状态及参数的定义如下：</p>
-<ul>
-  <li><strong>类型</strong>：同一种界面单元的不同类型，例如按钮有主要按钮、次要按钮及危险按钮等，导航菜单类型有普通导航及顶部固定导航等。任何时候都应该只为同一个界面元素指定一种类型，默认类型无需指定。</li>
-  <li><strong>状态</strong>：状态为同一种界面单元允许在不同的状态中切换，例如按钮有正常状态和不可用状态，下拉菜单有展开及收拢状态，菜单项目有选中和未选中状态等。在同一个界面元素中允许叠加多个状态。</li>
-  <li><strong>参数</strong>：参数作为界面单元如何展现提供依据，例如表格是否隔行变色，是否启用鼠标悬停等。可以同时指定多个参数。</li>
-</ul>
+    <link href="dist/css/zui.css" rel="stylesheet">
+    <link href="assets/css/doc.css" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <nav id="navbar" class="navbar navbar-inverse navbar-fixed-left navbar-collapsed" role="navigation">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/zui">ZUI</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="nav-heading">开始</li>
+            <li><a href="start.html#about">框架说明</a></li>
+            <li><a href="start.html#files">文件目录结构</a></li>
+          </ul>
+          <ul class="nav navbar-nav collapsed">
+            <li class="nav-heading">基础</li>
+            <li><a href="basic.html#global">全局样式表</a></li>
+            <li><a href="basic.html#ie">兼容IE浏览器</a></li>
+            <li><a href="basic.html#responsive">响应式设计</a></li>
+            <li><a href="basic.html#">栅格系统</a></li>
+            <li><a href="basic.html#type">文字排版</a></li>
+            <li><a href="basic.html#colorset">配色</a></li>
+            <li><a href="basic.html#scrollbars">滚动条</a></li>
+          </ul>
+          <ul class="nav navbar-nav collapsed">
+            <li class="nav-heading">控件</li>
+            <li><a href="controls.html#icons">图标</a></li>
+            <li><a href="controls.html#buttons">按钮</a></li>
+            <li><a href="controls.html#progress">进度条</a></li>
+            <li><a href="controls.html#labels">标签</a></li>
+            <li><a href="controls.html#textbox">文本框</a></li>
+            <li><a href="controls.html#breadcrumb">面包屑</a></li>
+            <li><a href="controls.html#images">图片</a></li>
+            <li><a href="controls.html#headers">标题</a></li>
+            <li><a href="controls.html#dividers">分隔</a></li>
+          </ul>
+          <ul class="nav navbar-nav collapsed">
+            <li class="nav-heading">组件</li>
+            <li><a href="components.html#alerts">消息框</a></li>
+            <li><a href="components.html#code">代码</a></li>
+            <li><a href="components.html#inputgroup">输入组</a></li>
+            <li><a href="components.html#listgroup">列表组</a></li>
+            <li><a href="components.html#navs">导航</a></li>
+            <li><a href="components.html#navbars">导航条</a></li>
+            <li><a href="components.html#pagers">分页器</a></li>
+            <li><a href="components.html#panels">面板</a></li>
+            <li><a href="components.html#tables">表格</a></li>
+            <li><a href="components.html#buttongroup">按钮组</a></li>
+          </ul>
+          <ul class="nav navbar-nav collapsed">
+            <li class="nav-heading">Javascript插件</li>
+            <li><a href="javascript.html#modals">模态框</a></li>
+            <li><a href="javascript.html#dropdowns">下拉菜单</a></li>
+            <li><a href="javascript.html#tabs">标签页</a></li>
+            <li><a href="javascript.html#tooltips">提示消息</a></li>
+            <li><a href="javascript.html#popovers">弹出框</a></li>
+            <li><a href="javascript.html#collapse">折叠</a></li>
+            <li><a href="javascript.html#carousel">轮播</a></li>
+          </ul>
+          <ul class="nav navbar-nav collapsed">
+            <li class="nav-heading">视图</li>
+            <li><a href="views.html#form">表单</a></li>
+            <li><a href="views.html#article">文章</a></li>
+            <li><a href="views.html#cards">卡片</a></li>
+            <li><a href="views.html#list">列表</a></li>
+            <li><a href="views.html#comment">评论</a></li>
+            <li><a href="views.html#dashboard">仪表盘</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div id="main">
+      <div class="page-header">
+        <h1>开始</h1>
+      </div>
 
-<h3>界面元素的命名</h3>
-<h4>命名原则</h4>
-<ul>
-  <li>所有控件、组件、视图、模块和行为的命名都应该使用最常见的名称，准确提现界面元素功能。例如菜单应该命名为menu，而不是navigation。</li>
-  <li>类型、状态及参数的命名均为元素名加上类型（或状态及参数名）前缀，中间用间隔号分隔，例如固定位置的菜单为<code>.menu-fixed</code>    。对于通用类型、状态或参数可以省略前缀，例如一个菜单项目处于激活状态，则只需命名为<code>.active</code>    ，而不许命名为<code>.menu-active</code>    。</li>
-  <li>所有控件、组件、视图、模块和行为的命名均不加与当前元素功能无关的前缀和额外命名，例如一个导航菜单命名为<code>.nav</code>    ，而不增加额外命名为<code>.ui.nav</code>    或者<code>.zui.nav</code>    。</li>
-</ul>
+      <section id="about">
+        <div class="page-header">
+          <h2>框架说明</h2>
+        </div>
+        <h3>UI元素类型及定义</h3>
+        <p>ZUI中包含各种各样的界面元素（或控件），例如按钮、表格、列表等，甚至一些特定场景用到的一组元素也会在ZUI中精心设计，例如评论列表。为了更好的展示我们的设计理念，把这些元素归为如下四类：</p>
+        <ul>
+          <li><strong>基本控件</strong>：用来构建网页应用的基本界面单元，例如按钮、文本标签、输入框等。</li>
+          <li><strong>组件</strong>：通过一个以上的基本控件组合而成的较复杂的界面单元。例如表单、菜单、表格等。</li>
+          <li><strong>Javascript 组件</strong>：这些组件要正常使用会使用到Javascript。某些Javascript组件需要手动调用来启用。</li>
+          <li><strong>视图</strong>：视图是将基本控件和组件组合使用来展现网站上的通用内容，例如评论视图及文章预览列表视图。</li>
+        </ul>
+        <p>ZUI中的大多数界面元素都有不同的子类型、状态及参数。关于类型、状态及参数的定义如下：</p>
+        <ul>
+          <li><strong>类型</strong>：同一种界面单元的不同类型，例如按钮有主要按钮、次要按钮及危险按钮等，导航菜单类型有普通导航及顶部固定导航等。任何时候都应该只为同一个界面元素指定一种类型，默认类型无需指定。</li>
+          <li><strong>状态</strong>：状态为同一种界面单元允许在不同的状态中切换，例如按钮有正常状态和不可用状态，下拉菜单有展开及收拢状态，菜单项目有选中和未选中状态等。在同一个界面元素中允许叠加多个状态。</li>
+          <li><strong>参数</strong>：参数作为界面单元如何展现提供依据，例如表格是否隔行变色，是否启用鼠标悬停等。可以同时指定多个参数。</li>
+        </ul>
+
+        <h3>界面元素的命名</h3>
+        <h4>命名原则</h4>
+        <ul>
+          <li>所有控件、组件、视图、模块和行为的命名都应该使用最常见的名称，准确提现界面元素功能。例如菜单应该命名为menu，而不是navigation。</li>
+          <li>类型、状态及参数的命名均为元素名加上类型（或状态及参数名）前缀，中间用间隔号分隔，例如固定位置的菜单为<code>.menu-fixed</code>    。对于通用类型、状态或参数可以省略前缀，例如一个菜单项目处于激活状态，则只需命名为<code>.active</code>    ，而不许命名为<code>.menu-active</code>    。</li>
+          <li>所有控件、组件、视图、模块和行为的命名均不加与当前元素功能无关的前缀和额外命名，例如一个导航菜单命名为<code>.nav</code>    ，而不增加额外命名为<code>.ui.nav</code>    或者<code>.zui.nav</code>    。</li>
+        </ul>
+      </section>
+
+      <section id="files">
+        <div class="page-header">
+          <h2>文件目录结构</h2>
+        </div>
+
+        <p>还没写...</p>
+      </section>
+    </div>
+
+    <script src="dist/js/jquery.js"></script>
+    <script src="dist/js/zui.min.js"></script>
+    <script src="assets/js/doc.js"></script>
+    <script src="dist/js/google-code-prettify/prettify.js"></script>
+  </body>
+</html>

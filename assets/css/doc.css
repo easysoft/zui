@@ -4,10 +4,22 @@ body
   position: relative;
 }
 
+a[target='_blank']:hover {position: relative;}
+a[target='_blank']:after {transition: all 0.3s; position: absolute; font-family: ZenIcon; font-size: 14px; opacity: 0.5; display: inline-block;top: -1em; opacity: 0; color: #fff; background: #145CCD; width: 20px; height: 20px; text-align: center; border-radius: 10px;}
+a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
+
 #navbar
 {
   width: 240px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+
+  font-size: 13px
 }
+.navbar-fixed-left.navbar-collapsed .navbar-nav>li.nav-heading:before {font-size: 14px;}
 
 #main
 {
