@@ -145,3 +145,13 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
 {
   padding: 0;
 }
+
+
+.popover-examples .popover
+{
+  position: relative;
+  display: block;
+  float: left;
+  width: 260px;
+  margin: 20px;
+}
