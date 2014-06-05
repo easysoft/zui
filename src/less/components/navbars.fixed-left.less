@@ -1,3 +1,5 @@
+@import '../controls/icons.variables.less';
+
 .navbar-fixed-left
 {
   z-index: @zindex-navbar-fixed;
@@ -21,7 +23,7 @@
     padding: 0;
     overflow: auto !important;
     overflow-x: hidden;
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
     padding-bottom: 60px;
   }
 
@@ -60,12 +62,86 @@
     margin: 0;
     padding: 5px 0;
 
+    > li.nav-heading
+    {
+      + li > a
+      {
+          box-shadow: 0 1px 1px  rgba(0, 0, 0, 0.15) inset;
+      }
+    }
+
     > li > a,
     > li.nav-heading
     {
       .text-overflow();
       padding-top:    6px;
       padding-bottom: 6px;
+    }
+  }
+
+  &.navbar-collapsed
+  {
+    .navbar-nav
+    {
+      > li.nav-heading
+      {
+        cursor: pointer;
+        .transition();
+
+        &:before
+        {
+          content: @angle-up;
+          font-family: ZenIcon;
+          display: inline-block;
+          position: absolute;
+          right: 10px;
+          top: 5px;
+        }
+      }
+
+      &.collapsed
+      {
+        padding-bottom: 1px;
+
+        > li > a
+        {
+          display: none;
+        }
+
+        > li.nav-heading
+        {
+          display: block;
+
+          &:before
+          {
+            content: @angle-down;
+          }
+        }
+      }
+    }
+
+    &.navbar-default
+    {
+      .navbar-nav
+      {
+        > li.nav-heading:hover
+        {
+          color: lighten(@navbar-default-link-color, 5%);
+          background-color: darken(@navbar-default-bg, 8%);
+        }
+      }
+    }
+
+    &.navbar-inverse
+    {
+      .navbar-nav
+      {
+        > li.nav-heading:hover
+        {
+          color: lighten(@navbar-inverse-link-color, 5%);
+          background-color: darken(@navbar-inverse-bg, 8%);
+        }
+      }
     }
   }
 }
