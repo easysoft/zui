@@ -35,13 +35,11 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
   -webkit-box-shadow: 1px 1px 20px rgba(0,0,0,0.1);
   box-shadow: 1px 1px 20px rgba(0,0,0,0.1);
 }
-
-#main.jumbotron
+#main .jumbotron
 {
-  padding: 50px;
-/*  background-color: #145CCD;
-  color: #fff;*/
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  padding: 20px 0;
+  font-size: 14px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
 }
 .jumbotron h1
 {
