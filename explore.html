@@ -25,9 +25,15 @@ base_url: "./"
   <header>
     <nav id="navbar" class="navbar navbar-inverse navbar-fixed-left navbar-collapsed" role="navigation">
       <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <a class="navbar-brand" href="/zui">ZUI</a>
       </div>
-      <div class="collapse navbar-collapse">
+      <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav collapsed">
           <li class="nav-heading">开始</li>
           <li><a href="start.html#about">框架说明</a></li>

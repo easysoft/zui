@@ -96,7 +96,11 @@
           position: absolute;
           right: 10px;
           top: 5px;
+          opacity: 0.4;
+          .transition();
         }
+
+        &:hover:before {opacity: 1}
       }
 
       &.collapsed

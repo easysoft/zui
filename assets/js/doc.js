@@ -22,6 +22,12 @@ $(function()
         var $nav = $(this).closest('.nav');
         if($nav.hasClass('collapsed'))
         {
+            if($(window).width() < 767)
+            {
+                $('.navbar-collapsed .nav').not($nav).children('li:not(.nav-heading)').slideUp('fast', function(){
+                    $(this).closest('.nav').addClass('collapsed');
+                });
+            }
             $nav.removeClass('collapsed').children('li:not(.nav-heading)').slideDown('fast');
         }
         else
