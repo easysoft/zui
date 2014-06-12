@@ -119,16 +119,23 @@ $(function()
     {
         start: function()
         {
-            $('#droppableTarget').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里。');
+            $('.droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里。');
         },
-        drop: function()
+        drop: function(event, target)
         {
             messager.show('真棒！');
-            $('#droppableTarget').addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
+            $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
+            if(target)
+            {
+                target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
+            }
         },
-        drag: function(event, isIn)
+        drag: function(event, isIn, target)
         {
-            $('#droppableTarget').toggleClass('panel-warning', isIn);
+            
+            $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
+            console.log(isIn);
+            if(target) target.addClass('panel-warning');
         }
     });
 });
