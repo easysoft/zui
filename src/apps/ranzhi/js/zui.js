@@ -28,3 +28,4 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 // @koala-append "../../../js/resize.js"
 // 
 // @koala-append "../../../js/droppable.js"
+// @koala-append "../../../js/boards.js"
