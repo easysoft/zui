@@ -113,6 +113,22 @@ $(function()
         afterBlur: function(){$('#contentCustom').prev('.ke-container').removeClass('focus');},
           afterFocus: function(){$('#contentCustom').prev('.ke-container').addClass('focus');}
       });
+    });
 
+    $('[data-toggle="droppable"]').droppable(
+    {
+        start: function()
+        {
+            $('#droppableTarget').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里。');
+        },
+        drop: function()
+        {
+            messager.show('真棒！');
+            $('#droppableTarget').addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
+        },
+        drag: function(event, isIn)
+        {
+            $('#droppableTarget').toggleClass('panel-warning', isIn);
+        }
     });
 });

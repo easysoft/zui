@@ -88,6 +88,7 @@ base_url: "./"
           <li><a href="javascript.html#datetimepicker">日期选择</a></li>
           <li><a href="javascript.html#chosen">Chosen</a></li>
           <li><a href="javascript.html#richeditor">富文本编辑器</a></li>
+          <li><a href="javascript.html#droppable">拖放</a></li>
         </ul>
         <ul class="nav navbar-nav collapsed">
           <li class="nav-heading">视图</li>
@@ -2111,6 +2112,32 @@ base_url: "./"
       <h4>简单风格</h4>
       <div class="example">
         <textarea id="contentCustom" name="content" class='form-control customStyle' style="height:150px;visibility:hidden;">Hello, world!</textarea>
+      </div>
+    </section>
+
+    <section id="droppable">
+      <div class="page-header">
+        <h2>拖放</h2>
+      </div>
+
+      <div class="example">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="panel">
+              <div class="panel-heading">开始吧</div>
+              <div class="panel-body" style="height: 100px">
+                <button type="button" class='btn btn-danger btn-lg' data-toggle='droppable' data-target='#droppableTarget'>拖动我</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="panel" id='droppableTarget'>
+              <div class="panel-heading">拖到这里</div>
+              <div class="panel-body" style="height: 100px">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </div>
