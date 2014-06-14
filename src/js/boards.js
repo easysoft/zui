@@ -62,7 +62,7 @@
             }
             else if(!$this.attr('data-id'))
             {
-                $this.attr('data-id', idSeed++);
+                $this.attr('data-id', 'board' + (idSeed++));
             }
 
             if($this.hasClass('board'))
@@ -77,7 +77,7 @@
 
     Boards.prototype.bind = function(items)
     {
-        var $boards = this.$;
+        var $boards = this.$, setting = this.options;
         if(typeof(items) == 'undefined')
         {
             items = $boards.find('.board-item:not(".disable-drop, .board-item-shadow")');
@@ -111,6 +111,10 @@
             {
                 if(e.isNew)
                 {
+                    if(setting.hasOwnProperty('drop') && $.isFunction(setting['drop']))
+                    {
+                        setting['drop'](e);
+                    }
                     e.element.insertBefore(e.target);
                 }
             },
