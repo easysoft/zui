@@ -60,6 +60,7 @@
                         position: 'absolute',
                         left: pos.left - cPos.left,
                         top: pos.left - cPos.left,
+                        width: $e.outerWidth(),
                         transition: 'none'
                     }).appendTo($container);
                     $e.addClass('dragging');
