@@ -100,7 +100,7 @@
          var hl = $('html').attr('lang');
          lang = hl? hl : 'en';
      }
-     return lang.replace(/-/, '_').toLowerCase();
+     return lang.replace('-', '_').toLowerCase();
   }
 
   /**
@@ -193,7 +193,7 @@
       }
 
       if (!button.className) {
-        if (total <= 2 && index === total-1) {
+        if (total == 1 || (total >= 2 && key === 'confirm')) {
           // always add a primary to the main option in a two-button dialog
           button.className = "btn-primary";
         } else {
@@ -338,7 +338,7 @@
   exports.confirm = function() {
     var options;
 
-    options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+    options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
 
     /**
      * overrides; undo anything the user tried to set they shouldn't have
@@ -381,7 +381,7 @@
     // just because of 'value' and 'inputType' - can we refactor?
     defaults = {
       className: "bootbox-prompt",
-      buttons: createLabels("cancel", "confirm"),
+      buttons: createLabels("confirm", "cancel"),
       value: "",
       inputType: "text"
     };
@@ -786,12 +786,12 @@
       CONFIRM : "OK"
     },
     zh_cn : {
-      OK      : "OK",
+      OK      : "好的",
       CANCEL  : "取消",
       CONFIRM : "确认"
     },
     zh_tw : {
-      OK      : "OK",
+      OK      : "好的",
       CANCEL  : "取消",
       CONFIRM : "確認"
     }
