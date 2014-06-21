@@ -79,7 +79,15 @@
 
             modal.addClass('modal-loading').toggleClass('fade', options.fade);;
 
-            if(options.type == 'ajax')
+            if(options.type === 'custom' && options['custom'])
+            {
+                options['custom']({modal: modal, options: options, element: $e, ready: function()
+                {
+                    ajustModalPosition(options.position, modal.find('.modal-dialog'));
+                    modal.removeClass('modal-loading');
+                }});
+            }
+            else if(options.type === 'ajax')
             {
                 modal.load(options.url, function()
                 {
@@ -156,7 +164,7 @@
     {
         var name = 'triggerModal', setting = this.options;
         var loc  = setting.location;
-        if($(name).length)
+        if($('#' + name).length)
         {
             /* unbind all events */
             $(name).off('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal');
