@@ -227,11 +227,15 @@
     {
         $('[data-toggle="modal"]').each(function(event)
         {
-            var $this = $(this);
-            if($this.data('type') == 'iframe' || $($this.data('target') + ',' + $this.attr('href')).length < 1)
+            try
             {
-                $this.modalTrigger();
+                var $this = $(this);
+                if($this.data('type') == 'iframe' || $($this.data('target') + ',' + $this.attr('href')).length < 1)
+                {
+                    $this.modalTrigger();
+                }
             }
+            catch(e){}
         });
 
     });

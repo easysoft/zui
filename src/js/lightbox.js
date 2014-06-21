@@ -77,7 +77,7 @@
                     winWidth = $(window).width();
                 imgReady(options.image, function()
                 {
-                    dialog.css({width: Math.min(winWidth, this.width), height: 'auto'});
+                    dialog.css({width: Math.min(winWidth, this.width), height: this.height});
                     if(winWidth < (this.width + 30)) modal.addClass('lightbox-full');
                     e.ready();
                 });
@@ -102,7 +102,7 @@
                         winWidth = $(window).width();
                         imgReady(image, function()
                         {
-                            dialog.css({width: Math.min(winWidth, this.width), height: 'auto'});
+                            dialog.css({width: Math.min(winWidth, this.width), height: this.height});
                             if(winWidth < (this.width + 30)) modal.addClass('lightbox-full');
                             e.ready();
                         });
