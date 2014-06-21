@@ -49,6 +49,9 @@
 
 .article-content
 {
+  font-size: @article-font-size;
+  line-height: @article-line-height;
+
   padding: @line-height-computed 0;
 
   h1 
@@ -135,13 +138,4 @@
 body.article-content
 {
   padding: 8px;
-}
-
-html[lang="zh-CN"],
-html[lang="zh-cn"]
-{
-  .article-content p
-  {
-    text-indent: 2em;
-  }
 }

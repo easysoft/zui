@@ -31,11 +31,13 @@
       display: block;
       padding: @nav-link-padding;
       .transition(all,@animation-speed-fast,@animation-type);
+      color: @color-fore;
       &:hover,
       &:focus
       {
         text-decoration: none;
         background-color: @nav-link-hover-bg;
+        color: @link-hover-color;
       }
     }
 
@@ -252,6 +254,7 @@
       > a
       {
         margin-left: 0;
+        .border-bottom-radius(0);
       }
       + li
       {
@@ -264,7 +267,6 @@
         &.nav-heading
         {
           margin-left: 0;
-          .border-bottom-radius(0);
           .border-top-radius(@border-radius-base);
         }
       }
@@ -273,7 +275,6 @@
       {
         > a
         {
-          .border-top-radius(0);
           .border-bottom-radius(@border-radius-base);
         }
       }
