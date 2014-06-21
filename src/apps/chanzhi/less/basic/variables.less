@@ -54,10 +54,9 @@
 @text-color:            @color-fore;
 
 // Links
-@link-color:            @color-secondary;
-@link-hover-color:      darken(@link-color, 15%);
-@link-hover-decoration:  underline;
-
+@link-hover-color:      lighten(@color-secondary, 12%);
+@link-color:            darken(@color-secondary, 15%);
+@link-hover-decoration: none;
 
 // MEDIA QUERIES TYPES
 // -------------------------
@@ -128,7 +127,7 @@
 @font-size-h6:            ceil(@font-size-base * 0.85);  //  12px
 
 // Line height.
-@line-height-base:        1.428571429; // 20/14
+@line-height-base:        20/13; // 20/14
 @line-height-computed:    floor(@font-size-base * @line-height-base); // 20px
 
 // Headings font.
@@ -324,7 +323,7 @@
 @input-color:                    @color-gray-darker;
 @input-border:                   #ccc;
 @input-border-radius:            @border-radius-base;
-@input-border-focus:             @link-color;
+@input-border-focus:             @link-hover-color;
 
 @input-color-placeholder:        @color-gray;
 
@@ -492,6 +491,8 @@
 @article-font-size-h5:            @font-size-base;
 @article-font-size-h6:            floor(@font-size-base * 0.86); // 12px
 @article-headings-border-color:   @color-gray-light;
+@article-font-size:               14px;
+@article-line-height:             22/14;
 
 
 // CONTENTS LIST

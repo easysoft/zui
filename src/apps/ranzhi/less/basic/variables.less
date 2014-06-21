@@ -92,16 +92,14 @@
 @state-special-inverse-bg:   @color-special;
 @state-special-border:       darken(spin(@state-special-bg, -10), 5%);
 
-
 // Scaffolding
 @body-bg:               @color-back;
 @text-color:            @color-fore;
 
 // Links
-@link-color:            @color-secondary;
-@link-hover-color:      darken(@link-color, 15%);
-@link-hover-decoration:  underline;
-
+@link-hover-color:      @color-secondary;
+@link-color:            darken(@link-hover-color, 15%);
+@link-hover-decoration: underline;
 
 // MEDIA QUERIES TYPES
 // -------------------------
@@ -536,6 +534,8 @@
 @article-font-size-h5:            @font-size-base;
 @article-font-size-h6:            floor(@font-size-base * 0.86); // 12px
 @article-headings-border-color:   @color-gray-light;
+@article-font-size:               14px;
+@article-line-height:             22/14;
 
 
 // CONTENTS LIST
