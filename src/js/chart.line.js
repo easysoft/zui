@@ -298,7 +298,7 @@ window.Chart = function(context){
       scaleFontSize : 12,
       scaleFontStyle : "normal",
       scaleFontColor : "#666",
-      scaleShowGridLines : true,
+      scaleShowGridLines : false,
       scaleGridLineColor : "rgba(0,0,0,.05)",
       scaleGridLineWidth : 1,
       bezierCurve : true,
@@ -309,7 +309,7 @@ window.Chart = function(context){
       datasetStrokeWidth : 1,
       datasetFill : true,
       animation : true,
-      animationSteps : 60,
+      animationSteps : 30,
       animationEasing : "easeOutQuart",
       onAnimationComplete : null
     };    
@@ -878,16 +878,16 @@ window.Chart = function(context){
       ctx.fillStyle = config.scaleFontColor;
       for (var i=0; i<data.labels.length; i++){
         ctx.save();
-        if (rotateLabels > 0){
-          ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
-          ctx.rotate(-(rotateLabels * (Math.PI/180)));
-          ctx.fillText(data.labels[i], 0,0);
-          ctx.restore();
-        }
+        // if (rotateLabels > 0){
+        //   ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
+        //   ctx.rotate(-(rotateLabels * (Math.PI/180)));
+        //   ctx.fillText(data.labels[i], 0,0);
+        //   ctx.restore();
+        // }
         
-        else{
-          ctx.fillText(data.labels[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);          
-        }
+        // else{
+        //   ctx.fillText(data.labels[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);          
+        // }
 
         ctx.beginPath();
         ctx.moveTo(yAxisPosX + i * valueHop, xAxisPosY+3);
@@ -907,10 +907,10 @@ window.Chart = function(context){
       //Y axis
       ctx.lineWidth = config.scaleLineWidth;
       ctx.strokeStyle = config.scaleLineColor;
-      ctx.beginPath();
-      ctx.moveTo(yAxisPosX,xAxisPosY+5);
-      ctx.lineTo(yAxisPosX,5);
-      ctx.stroke();
+      // ctx.beginPath();
+      // ctx.moveTo(yAxisPosX,xAxisPosY+5);
+      // ctx.lineTo(yAxisPosX,5);
+      // ctx.stroke();
       
       ctx.textAlign = "right";
       ctx.textBaseline = "middle";
@@ -936,22 +936,10 @@ window.Chart = function(context){
       
     }
     function calculateXAxisSize(){
-      var longestText = 1;
-      //if we are showing the labels
-      if (config.scaleShowLabels){
-        ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
-        for (var i=0; i<calculatedScale.labels.length; i++){
-          var measuredText = ctx.measureText(calculatedScale.labels[i]).width;
-          longestText = (measuredText > longestText)? measuredText : longestText;
-        }
-        //Add a little extra padding from the y axis
-        longestText +=10;
-      }
-      xAxisLength = width - longestText - widestXLabel;
-      valueHop = Math.floor(xAxisLength/(data.labels.length-1));  
-        
-      yAxisPosX = width-widestXLabel/2-xAxisLength;
-      xAxisPosY = scaleHeight + config.scaleFontSize/2;       
+      xAxisLength = width; 
+      valueHop = xAxisLength/(data.labels.length-1);  
+      yAxisPosX = 0;
+      xAxisPosY = height;
     }   
     function calculateDrawingSizes(){
       maxSize = height;
@@ -960,7 +948,8 @@ window.Chart = function(context){
       ctx.font = config.scaleFontStyle + " " + config.scaleFontSize+"px " + config.scaleFontFamily;
       widestXLabel = 1;
       for (var i=0; i<data.labels.length; i++){
-        var textLength = ctx.measureText(data.labels[i]).width;
+        // var textLength = ctx.measureText(data.labels[i]).width;
+        var textLength = 0;
         //If the text length is longer - make that equal to longest text!
         widestXLabel = (textLength > widestXLabel)? textLength : widestXLabel;
       }
@@ -978,18 +967,10 @@ window.Chart = function(context){
         maxSize -= config.scaleFontSize;
       }
       
-      //Add a little padding between the x line and the text
-      maxSize -= 5;
-      
-      
       labelHeight = config.scaleFontSize;
       
-      maxSize -= labelHeight;
-      //Set 5 pixels greater than the font size to allow for a little padding from the X axis.
-      
-      scaleHeight = maxSize;
-      
-      //Then get the area above we can safely draw on.
+      maxSize = height;
+      scaleHeight = maxSize; /////
       
     }   
     function getValueBounds() {
