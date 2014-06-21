@@ -87,7 +87,7 @@
                 {
                     $targets.removeClass('drop-to');
                 }
-                $targets.each(function(index, el)
+                $targets.each(function(index)
                 {
                     var t = $(this);
                     var tPos = t.offset();
