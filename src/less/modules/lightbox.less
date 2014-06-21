@@ -1,4 +1,4 @@
-#lightboxModal
+.modal-lightbox
 {
   .modal-dialog
   {
@@ -10,6 +10,7 @@
     max-width: 100%;
     max-height: 100%;
     margin-bottom: 0;
+    .transition();
 
     &:hover,
     &:focus
@@ -25,7 +26,7 @@
         .opacity(.9);
         > .icon
         {
-          box-shadow:1px 1px 16px rgba(0, 0, 0, 0.5);
+          box-shadow:1px 1px 16px rgba(0, 0, 0, .5);
         }
       }
     }
@@ -35,7 +36,6 @@
   {
     display: block;
     font-size: 14px;
-    line-height: 14px;
     text-align: center;
     width: 30px;
     height: 30px;
@@ -44,30 +44,33 @@
     right: -13px;
     top: -15px;
     color: #fff;
-    border: 2px solid #fff;
+    border: 1px solid #fff;
     -webkit-radius:15px;
     -moz-border-radius:15px;
     border-radius:15px;
     .opacity(.9);
-    -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, .5);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .5);
   }
+
+  &.lightbox-full .close {right: 10px; top: 10px;}
 
   .controller
   {
-    display: block;
+    display: none;
     height: 100%;
     line-height: 100%;
     top: 0;
     position: absolute;
     cursor: pointer;
-    font-size: 30px;
     padding: 10px 20px;
     color: #fff;
     background:none;
     border: none;
-    .opacity(0.05);
-    transition:all 0.4s;
+    .opacity(.05);
+    .transition();
+
+    &.show {display: block}
 
     > .icon
     {
@@ -80,6 +83,8 @@
       height: 50px;
       line-height: 50px;
       border: 2px solid #fff;
+
+      &:before {font-size: 28px;}
     }
 
     &:hover
@@ -97,8 +102,30 @@
       right: 0;
     }
   }
+
+  .caption {display: none}
+
+  &.lightbox-with-caption
+  {
+      .caption
+      {
+          display: block;
+          position: absolute;
+          width: 100%;
+          bottom: 0;
+          padding: 10px 15px;
+          color: #fff;
+          background: rgba(0, 0, 0, .15);
+          text-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
+          opacity: .5;
+          text-align: center;
+          .transition();
+      }
+
+      .modal-dialog:hover .caption {opacity: 1; background: rgba(0, 0, 0, .6);}
+  }
 }
-#lightboxImg
+.lightbox-img
 {
   width: inherit;
   height: auto;
@@ -107,30 +134,8 @@
   display: block;
   padding: 0;
   margin: 0 auto;
-  -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
   cursor: pointer;
-  .transition(all,@animation-speed-normal,@animation-type);
+  .transition();
 }
-
-// #lightboxModal.with-caption
-// {
-//   .caption
-//   {
-//     position: relative;
-//     text-align: center;
-//     margin-top: -30px;
-//     font-size: 12px;
-//     white-space: nowrap;
-//     z-index: 10010;
-//     color: #777;
-//     font-weight: bold;
-//     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
-//     .transition(all,@animation-speed-normal,@animation-type);
-//   }
-
-//   #lightboxImg:hover
-//   {
-//     border-bottom-width: 40px;
-//   }
-// }
