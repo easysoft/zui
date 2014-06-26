@@ -13,7 +13,11 @@
                 d *= 10;
              }
              return  d + Math.floor(Math.random() * 9999);
+         },
+
+         getPropertyCount: function(obj)
+         {
+            return Object.getOwnPropertyNames(obj).length;
          }
      });
-
 }(jQuery,window,document,Math);
