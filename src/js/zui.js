@@ -6,6 +6,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 // Import parts
 // -----------------------------
+// @koala-append "unities.js"
 // @koala-append "transition.js"
 // @koala-append "alert.js"
 // @koala-append "button.js"
@@ -32,3 +33,4 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 // @koala-append "shortcuts.js"
 // @koala-append "resize.js"
 // @koala-append "boards.js"
+// @koala-append "mindmap.js"
