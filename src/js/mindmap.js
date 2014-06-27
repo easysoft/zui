@@ -28,6 +28,8 @@
         lineCurvature: 60,
         subLineWidth: 4,
         lineOpacity: 1,
+        lineSaturation: 90,
+        lineLightness: 40,
         nodeLineWidth: 2
     }; // default options
 
@@ -83,6 +85,11 @@
         if(typeof(pos.x) != 'undefined') pos.x += this.offsetX;
         if(typeof(pos.y) != 'undefined') pos.y += this.offsetY;
         return pos;
+    }
+
+    Mindmap.prototype.computeColor = function(hue)
+    {
+        return 'hsla({h}, {s}%, {l}%, {a})'.format({h: hue, s: this.options.lineSaturation, l: this.options.lineLightness, a: this.options.lineOpacity});
     }
 
     Mindmap.prototype.load = function(data)
@@ -215,11 +222,17 @@
                         child.ui.topSpan = nodeData.ui.topSpanTemp.right;
                         nodeData.ui.topSpanTemp.right += child.ui.vSpan;
                     }
+
+                    if(typeof(child.colorHue) === 'undefined')
+                    {
+                        child.colorHue = Math.floor((child.ui.index * 71) % 360);
+                    }
                 }
                 else
                 {
                     child.ui.topSpan = nodeData.ui.topSpanTemp;
                     nodeData.ui.topSpanTemp += child.ui.vSpan;
+                    child.colorHue = nodeData.colorHue;
                 }
             }
 
@@ -338,7 +351,8 @@
         p2 = this.computePosition(p2);
 
         ctx.beginPath();
-        ctx.strokeStyle  = "rgba(0,0,0,0.5)";
+        ctx.strokeStyle  = this.computeColor(nodeData.colorHue);
+        console.log(this.computeColor(nodeData.colorHue));
         ctx.lineCap  = "round";
         ctx.lineWidth = (nodeData.type === 'sub') ? options.subLineWidth : options.nodeLineWidth;
 
