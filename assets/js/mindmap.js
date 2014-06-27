@@ -18,7 +18,7 @@ $(function()
             type: "root",
             theme: "default",
             caption: "一个开源免费的前端框架，用于快速构建禅道系列跨屏应用。",
-            id: "0",
+            id: "zui",
 
             children:
             {
@@ -157,6 +157,21 @@ $(function()
                     caption: "Javascript增强的插件",
                     children:
                     {
+                        'javascriptmodal':
+                        {
+                            name: '模态框',
+                            children:
+                            {
+                                'javascriptmodaliframe':
+                                {
+                                    name: '框架对话框'
+                                }
+                            }
+                        },
+                        'javascriptdropdown':
+                        {
+                            name: '下拉菜单'
+                        }
                     }
                 }
             }

@@ -23,7 +23,7 @@
             caption: '',
             id: $.uuid()
         },
-        nodeTeamplate: "<div class='node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text' contenteditable='true'>{name}</div><div class='caption'>{caption}</div></div></div>",
+        nodeTeamplate: "<div id='node-{id}' class='node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text' contenteditable='true'>{name}</div><div class='caption'>{caption}</div></div></div>",
         hSpace: 120,
         vSpace: 20,
         lineCurvature: 60,
