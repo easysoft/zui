@@ -8,6 +8,7 @@
         this.$         = $(element);
         this.options   = this.getOptions(options);
         this.data      = this.options.data;
+        this.dirtyData = true;
         this.init();
     };
 
@@ -23,7 +24,7 @@
             id: $.uuid()
         },
         nodeTeamplate: "<div class='node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text' contenteditable='true'>{name}</div><div class='caption'>{caption}</div></div></div>",
-        hSpace: 150,
+        hSpace: 120,
         vSpace: 20,
         lineCurvature: 60,
         subLineWidth: 4,
@@ -76,6 +77,8 @@
 
         $canvas.attr('width', this.width)
                .attr('height', this.height);
+
+        if(!this.dirtyData) this.showNode(this.data);
     }
 
     Mindmap.prototype.computePosition = function(pos)
@@ -101,7 +104,6 @@
     Mindmap.prototype.render = function()
     {
         this.loadNode(this.data);
-        console.log(this.data);
         this.showNode(this.data);
     }
 
@@ -246,6 +248,8 @@
         {
             nodeData.ui.vSpan = vSpan;
         }
+
+        this.dirtyData = false;
     }
 
     /* show on desktop with right position */
