@@ -22,14 +22,85 @@
   > .node
   {
       position: absolute;
-      border-radius: 10px;
-      background: #fff;
-      border: 1px solid #ddd;
-      padding: 10px;
+      border: 2px solid transparent;
+      border-radius: 22px;
+      opacity: 0.9;
+      .transition();
 
-      > .text {font-weight: bold}
+      &:hover
+      {
+          opacity: 1;
+          border-color: #ccc;
 
-      > .caption {display: none}
+          > .wrapper
+          {
+              border-color: #aaa
+          }
+      }
+
+      > .wrapper
+      {
+          border-radius: 20px;
+          background: @color-pale;
+          border: 2px solid #CCC;
+          .transition();
+          > .text
+          {
+              font-weight: bold;
+              padding: 8px 12px;
+              font-size: 14px;
+
+              * {display: inline;}
+
+              &:focus
+              {
+                  outline: none
+              }
+          }
+
+          > .caption {display: none}
+      }
+
+      &[data-type="sub"]
+      {
+          border-radius: 6px;
+          > .wrapper
+          {
+              background: @color-back;
+              border-radius: 5px;
+
+              > .text
+              {
+                  font-size: 13px;
+                  padding: 3px 5px;
+              }
+          }
+      }
+
+      &[data-type="node"]
+      {
+          border-radius: 2px;
+          > .wrapper
+          {
+              background: transparent;
+              border-radius: 0;
+              border: 1px solid transparent;
+
+              > .text
+              {
+                  font-size: 13px;
+                  padding: 3px 5px;
+              }
+          }
+
+          &:hover
+          {
+              > .wrapper
+              {
+                  border-color: #aaa
+              }
+          }
+      }
   }
 }
 

@@ -17,6 +17,7 @@
 
          getPropertyCount: function(obj)
          {
+            if(typeof(obj) != 'object' || obj == null) return 0;
             return Object.getOwnPropertyNames(obj).length;
          }
      });
