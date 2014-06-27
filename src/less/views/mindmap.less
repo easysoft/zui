@@ -24,17 +24,15 @@
       position: absolute;
       border: 2px solid transparent;
       border-radius: 22px;
-      opacity: 0.9;
       .transition();
 
       &:hover
       {
-          opacity: 1;
           border-color: #ccc;
 
           > .wrapper
           {
-              border-color: #aaa
+              border-color: #999
           }
       }
 
@@ -42,7 +40,7 @@
       {
           border-radius: 20px;
           background: @color-pale;
-          border: 2px solid #CCC;
+          border: 4px solid #aaa;
           .transition();
           > .text
           {
@@ -68,11 +66,13 @@
           {
               background: @color-back;
               border-radius: 5px;
+              border-width: 2px;
 
               > .text
               {
                   font-size: 13px;
-                  padding: 3px 5px;
+                  padding: 4px 5px;
+                  font-weight: normal;
               }
           }
       }
@@ -89,7 +89,8 @@
               > .text
               {
                   font-size: 13px;
-                  padding: 3px 5px;
+                  padding: 4px 3px;
+                  font-weight: normal;
               }
           }
 
@@ -97,7 +98,7 @@
           {
               > .wrapper
               {
-                  border-color: #aaa
+                  border-color: #999
               }
           }
       }

@@ -85,6 +85,17 @@ $(function()
                         "icons":
                         {
                             name: "图标",
+                            children:
+                            {
+                                'iconhow':
+                                {
+                                    name: '如何使用图标'
+                                },
+                                'iconfont':
+                                {
+                                    name: '图标字体'
+                                }
+                            }
                         },
                         "buttons":
                         {
@@ -111,6 +122,30 @@ $(function()
                         "alerts":
                         {
                             name: "消息框",
+                            children:
+                            {
+                                'alertstypes':
+                                {
+                                    name: '消息框类型'
+                                },
+                                'alertsicons':
+                                {
+                                    name: '在消息框中使用图标'
+                                },
+                                'alertsblocks':
+                                {
+                                    name: '块级消息框'
+                                },
+                                'alertslinks':
+                                {
+                                    name: '消息框中的链接'
+                                }
+                                ,
+                                'alertsclose':
+                                {
+                                    name: '可关闭的消息框'
+                                }
+                            }
                         }
                     }
                 }
