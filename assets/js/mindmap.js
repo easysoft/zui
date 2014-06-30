@@ -21,160 +21,162 @@ $(function()
             id: "zui",
 
             children:
-            {
-                "start": 
+            [
                 {
+                    id: 'start',
                     text: "开始",
                     type: "sub",
                     children:
-                    {
-                        "about":
+                    [
                         {
+                            id: 'about',
                             text: "框架说明",
+                            sort: 1
                         },
-                        "files":
                         {
+                            id: 'files',
                             text: "文件目录结构",
+                            sort: 3
                         },
-                        "browsers":
                         {
+                            id: 'browsers',
                             text: "受支持的平台",
+                            sort: 2
                         }
-                    }
+                    ]
                 },
-                "basic": 
                 {
+                    id: 'basic',
                     text: "基础",
                     type: "sub",
                     caption: "了解基础内容",
                     children:
-                    {
-                        "global":
+                    [
                         {
+                            id: 'globalcss',
                             text: "全局样式表",
                         },
-                        "ie":
                         {
+                            id: 'ie',
                             text: "兼容IE浏览器",
                         },
-                        "responsive":
                         {
+                            id: 'responsive',
                             text: "响应式设计",
                         },
-                        "grids":
                         {
+                            id: 'grid',
                             text: "栅格系统",
                         },
-                        "type":
                         {
+                            id: 'types',
                             text: "文字排版",
                         },
-                        "colorset":
                         {
+                            id: 'colorset',
                             text: "配色",
                         }
-                    }
+                    ]
                 },
-                "controls": 
                 {
+                    id: 'controls',
                     text: "控件",
                     type: "sub",
                     caption: "一些常用的基本控件",
                     children:
-                    {
-                        "icons":
+                    [
                         {
+                            id: 'icons',
                             text: "图标",
                             children:
-                            {
-                                'iconhow':
+                            [
                                 {
+                                    id: 'howtouseicons',
                                     text: '如何使用图标'
                                 },
-                                'iconfont':
                                 {
+                                    id: 'iconfont',
                                     text: '图标字体'
                                 }
-                            }
+                            ]
                         },
-                        "buttons":
                         {
+                            id: 'button',
                             text: "按钮",
-                        }
-                        ,
-                        "progress":
+                        },
                         {
+                            id: 'progressbar',
                             text: "进度条",
                         },
-                        "labels":
                         {
+                            id: 'labels',
                             text: "标签",
                         }
-                    }
+                    ]
                 },
-                "components": 
                 {
+                    id: 'components',
                     text: "组件",
                     type: "sub",
                     caption: "一些组合控件",
                     children:
-                    {
-                        "alerts":
+                    [
                         {
+                            id: 'alerts',
                             text: "消息框",
                             children:
-                            {
-                                'alertstypes':
+                            [
                                 {
+                                    id: 'alertstypes',
                                     text: '消息框类型'
                                 },
-                                'alertsicons':
                                 {
+                                    id: 'alertsicons',
                                     text: '在消息框中使用图标'
                                 },
-                                'alertsblocks':
                                 {
+                                    id: 'alertsblocks',
                                     text: '块级消息框'
                                 },
-                                'alertslinks':
                                 {
+                                    id: 'alertslinks',
                                     text: '消息框中的链接'
-                                }
-                                ,
-                                'alertsclose':
+                                },
                                 {
+                                    id: 'alertsclose',
                                     text: '可关闭的消息框'
                                 }
-                            }
+                            ]
                         }
-                    }
-                }
-                ,
-                "javascript": 
+                    ]
+                },
                 {
+                    id: 'javascript',
                     text: "Javascript插件",
                     type: "sub",
                     caption: "Javascript增强的插件",
                     children:
-                    {
-                        'javascriptmodal':
+                    [
                         {
+                            id: 'javascriptmodal',
                             text: '模态框',
+                            sort: 2,
                             children:
-                            {
-                                'javascriptmodaliframe':
+                            [
                                 {
+                                    id: 'javascriptmodaliframe',
                                     text: '框架对话框'
                                 }
-                            }
+                            ]
                         },
-                        'javascriptdropdown':
                         {
-                            text: '下拉菜单'
+                            id: 'javascriptdropdown',
+                            text: '下拉菜单',
+                            sort: 1
                         }
-                    }
+                    ]
                 }
-            }
+            ]
         }
     });
 });

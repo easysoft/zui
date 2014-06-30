@@ -33,7 +33,7 @@
         border-radius: 22px;
         background: @color-pale;
         border: 4px solid #aaa;
-        .transition();
+        .transition-fast();
         > .text
         {
             font-weight: bold;
@@ -116,12 +116,14 @@
         > .wrapper
         {
             border-color: lighten(@input-border-focus, 18%);
-            background: @color-pale;
+            color: @color-back;
+            background: lighten(@input-border-focus, 18%)
         }
 
     }
 
     &.focus,
+    &.focus:hover,
     &.drop-to,
     {
         @color-rgba: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
@@ -131,6 +133,7 @@
         {
             border-color: @input-border-focus;
             background: @color-back;
+            color: @color-fore;
 
             > .text
             {

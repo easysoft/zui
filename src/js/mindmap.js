@@ -121,7 +121,7 @@
         {
             return nodeData;
         }
-        else if($.getPropertyCount(nodeData.children) > 0)
+        else if($.isArray(nodeData.children) && nodeData.children.length > 0)
         {
             for(var i in nodeData.children)
             {
@@ -175,8 +175,10 @@
 
     Mindmap.prototype.render = function()
     {
+        console.log(this.data);
         this.loadNode();
         this.showNode();
+        console.log(this.data);
     }
 
     Mindmap.prototype.loadNode = function(nodeData, parent, index)
@@ -272,17 +274,24 @@
         /* load children nodes */
         var vSpan = 1, topSpan = 0;
         nodeData.count = 0;
-        if(nodeData.children)
+        if($.isArray(nodeData.children) && nodeData.children.length > 0)
         {
             nodeData.ui.topSpanTemp = (nodeData.type === 'root') ? {left: 0, right: 0} : 0;
             var vLeftSpan = 0, vRightSpan = 0;
             vSpan = 0;
+
+            nodeData.children.sort(function(nodeA, nodeB){return nodeA.sort - nodeB.sort});
+
             for(var i in nodeData.children)
             {
                 var child = nodeData.children[i];
                 this.loadNode(child, nodeData, i);
 
                 child.ui.index = nodeData.count++;
+                if(typeof(child['order']) === 'undifined')
+                {
+                    child.order = nodeData.count++;
+                }
 
                 vSpan += child.ui.vSpan;
                 if(child.type === 'sub')
@@ -400,8 +409,7 @@
         if(parent) this.drawLineToLinkNode(nodeData, parent);
 
         /* load children nodes */
-        var childrenCount = $.getPropertyCount(nodeData.children);
-        if(childrenCount > 0)
+        if($.isArray(nodeData.children) && nodeData.children.length > 0)
         {
             for(var i in nodeData.children)
             {
