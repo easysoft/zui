@@ -2,6 +2,7 @@
 {
     position: relative;
     z-index: 0;
+    overflow: hidden;
 }
 .mindmap-bg
 {
@@ -24,22 +25,11 @@
   > .node
   {
       position: absolute;
-      border: 2px solid transparent;
-      border-radius: 22px;
-
-      &:hover
-      {
-          border-color: #ccc;
-
-          > .wrapper
-          {
-              border-color: #999
-          }
-      }
+      border-radius: 24px;
 
       > .wrapper
       {
-          border-radius: 20px;
+          border-radius: 22px;
           background: @color-pale;
           border: 4px solid #aaa;
           .transition();
@@ -58,6 +48,16 @@
           }
 
           > .caption {display: none}
+      }
+
+      &:hover
+      {
+          .box-shadow(~"0 0 5px rgba(0, 0, 0, 0.4)");
+
+          > .wrapper
+          {
+              border-color: #999
+          }
       }
 
       &[data-type="sub"]
@@ -80,17 +80,17 @@
 
       &[data-type="node"]
       {
-          border-radius: 2px;
+          border-radius: 4px;
           > .wrapper
           {
               background: transparent;
-              border-radius: 1px;
-              border: 1px solid transparent;
+              border-radius: 3px;
+              border: 2px solid transparent;
 
               > .text
               {
                   font-size: 13px;
-                  padding: 4px 3px;
+                  padding: 2px 3px;
                   font-weight: normal;
               }
           }
@@ -103,6 +103,74 @@
               }
           }
       }
+
+      &.active,
+      &.active:hover
+      {
+          z-index: 900;
+          .box-shadow(~"none");
+
+          > .wrapper
+          {
+              border-color: @input-border-focus;
+              background: @color-pale;
+          }
+
+          &.focus
+          {
+              @color-rgba: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
+              .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+
+              > .wrapper
+              {
+                  border-color: @input-border-focus;
+                  background: @color-back;
+              }
+          }
+      }
   }
+}
+
+.mindmap-shadow
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    .box-shadow(~"0 0 20px rgba(0, 0, 0, 0.8)");
+    z-index: 1000;
+
+    &.shadow-left,
+    &.shadow-right
+    {
+        width: 20px;
+        top: 0;
+    }
+
+    &.shadow-left
+    {
+        left: -20px;
+    }
+
+    &.shadow-right
+    {
+        right: -20px;
+    }
+
+    &.shadow-top,
+    &.shadow-bottom
+    {
+        height: 20px;
+        left: 0;
+    }
+
+    &.shadow-top
+    {
+        top: -20px;
+    }
+
+    &.shadow-bottom
+    {
+        bottom: -20px;
+    }
 }
 

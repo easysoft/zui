@@ -16,14 +16,14 @@
     {
         data: 
         {
-            name: 'New Project',
+            text: 'New Project',
             type: 'root',
             expand: true,
             theme: 'default',
             caption: '',
             id: $.uuid()
         },
-        nodeTeamplate: "<div id='node-{id}' class='node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text' contenteditable='true'>{name}</div><div class='caption'>{caption}</div></div></div>",
+        nodeTeamplate: "<div id='node-{id}' class='node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text'>{text}</div><div class='caption'>{caption}</div></div></div>",
         hSpace: 120,
         vSpace: 20,
         lineCurvature: 60,
@@ -52,12 +52,14 @@
     Mindmap.prototype.initDom = function()
     {
         var $this = this.$;
+
         this.$canvas = $this.children('canvas');
         if(!this.$canvas.length)
         {
             $this.prepend("<canvas class='mindmap-bg'></canvas>");
             this.$canvas = $this.children('canvas');
         }
+
         this.$desktop = $this.children('.mindmap-desktop');
         if(!this.$desktop.length)
         {
@@ -65,6 +67,12 @@
             this.$desktop = $this.children('.mindmap-desktop');
         }
         this.$desktop.attr('unselectable', 'on');
+
+        var $shadows = $this.children('.shadow');
+        if(!$shadows.length)
+        {
+            $this.append("<div class='mindmap-shadow shadow-top'></div><div class='mindmap-shadow shadow-right'></div><div class='mindmap-shadow shadow-bottom'></div><div class='mindmap-shadow shadow-left'></div>");
+        }
     }
 
     Mindmap.prototype.initSize = function()
@@ -79,7 +87,7 @@
         $canvas.attr('width', this.width)
                .attr('height', this.height);
 
-        if(!this.dirtyData) this.showNode(this.data);
+        if(!this.dirtyData) this.showNode();
     }
 
     Mindmap.prototype.computePosition = function(pos)
@@ -96,6 +104,63 @@
         return 'hsla({h}, {s}%, {l}%, {a})'.format({h: hue, s: this.options.lineSaturation, l: this.options.lineLightness, a: this.options.lineOpacity});
     }
 
+    Mindmap.prototype.getNodeData = function(id, nodeData)
+    {
+        if(!nodeData)
+        {
+            nodeData = this.data;
+        }
+
+        if(id == nodeData.id)
+        {
+            return nodeData;
+        }
+        else if($.getPropertyCount(nodeData.children) > 0)
+        {
+            for(var i in nodeData.children)
+            {
+                var node = this.getNodeData(id, nodeData.children[i]);
+                if(node) return node;
+            }
+        }
+        return null;
+    }
+
+    /* update nodeData changes and  decide whether to rerender mindmap */
+    Mindmap.prototype.update = function(changes, forceShow, forceLoad)
+    {
+        var changed = false;
+
+        if($.isPlainObject(changes))
+        {
+            changes = [changes];
+        }
+        if($.isArray(changes))
+        {
+            for(var i in changes)
+            {
+                var change = changes[i];
+                var node = this.getNodeData(change.id);
+                if(!node) return;
+
+                if(change.text && change.text != node.text)
+                {
+                    node.text = change.text;
+                    forceShow = true;
+                    changed = true;
+                }
+            }
+        }
+        
+        if(forceLoad) this.loadNode();
+        if(forceShow) this.showNode();
+
+        if(changed && $.isFunction(options['onChange']))
+        {
+            options['onChange']({changes: changes, data: this.data});
+        }
+    }
+
     Mindmap.prototype.load = function(data)
     {
         this.data = data;
@@ -104,8 +169,8 @@
 
     Mindmap.prototype.render = function()
     {
-        this.loadNode(this.data);
-        this.showNode(this.data);
+        this.loadNode();
+        this.showNode();
     }
 
     Mindmap.prototype.loadNode = function(nodeData, parent, index)
@@ -134,29 +199,31 @@
             }
         }
 
-        var node = $desktop.children('.node[data-id="' + nodeData.id + '"]');
-        if(node.length) // updated node existed
+        var $node = $desktop.children('.node[data-id="' + nodeData.id + '"]');
+        if($node.length) // updated node existed
         {
-            node.toggleClass('expand-false', !nodeData.expand)
+            $node.toggleClass('expand-false', !nodeData.expand)
                 .toggleClass('expand-true', nodeData.expand)
                 .attr('data-type', nodeData.type)
                 .attr('data-parent', parentId || 'root');
-            node.children('.text').html(nodeData.name);
-            node.children('.caption').html(nodeData.caption);
+            $node.children('.text').html(nodeData.text);
+            $node.children('.caption').html(nodeData.caption);
         }
         else // create new node
         {
-            node = $(options.nodeTeamplate.format(
+            $node = $(options.nodeTeamplate.format(
             {
                 type: nodeData.type || 'node',
                 expand: nodeData.expand,
                 caption: nodeData.caption || '',
                 id: nodeData.id,
                 parent: parentId || 'root',
-                name: nodeData.name
+                text: nodeData.text
             })).appendTo($desktop);
 
-            nodeData.ui = {element: node};
+            this.bindNodeEvents($node);
+
+            nodeData.ui = {element: $node};
 
             if(nodeData.type === 'root')
             {
@@ -194,6 +261,7 @@
                 nodeData.subSide = parent.subSide;
             }
         }
+        $node.data('origin-text', nodeData.text);
 
         /* load children nodes */
         var vSpan = 1, topSpan = 0;
@@ -251,11 +319,21 @@
         }
 
         this.dirtyData = false;
+
+        if(nodeData.type === 'root' && $.isFunction(options['afterLoad']))
+        {
+            options['afterLoad']({data: nodeData});
+        }
     }
 
     /* show on desktop with right position */
     Mindmap.prototype.showNode = function(nodeData, parent)
     {
+        if(!nodeData)
+        {
+            nodeData = this.data;
+        }
+
         var css = {},
             options = this.options,
             ui = nodeData.ui,
@@ -266,6 +344,7 @@
 
         if(nodeData.type === 'root')
         {
+            this.clearCanvasArea();
             ui.left = 0 - Math.floor(ui.width / 2);
             ui.top = 0 - Math.floor(ui.height / 2);
         }
@@ -323,6 +402,16 @@
                 this.showNode(nodeData.children[i], nodeData);
             }
         }
+
+        if(nodeData.type === 'root' && $.isFunction(options['afterShow']))
+        {
+            options['afterShow']({data: nodeData});
+        }
+    }
+
+    Mindmap.prototype.clearCanvasArea = function(nodeData, parent)
+    {
+        this.$canvas[0].getContext("2d").clearRect(0, 0, this.width, this.height)
     }
 
     Mindmap.prototype.drawLineToLinkNode = function(nodeData, parent)
@@ -357,7 +446,6 @@
 
         ctx.beginPath();
         ctx.strokeStyle  = this.computeColor(nodeData.colorHue);
-        console.log(this.computeColor(nodeData.colorHue));
         ctx.lineCap  = "round";
         ctx.lineWidth = (nodeData.type === 'sub') ? options.subLineWidth : options.nodeLineWidth;
 
@@ -366,11 +454,76 @@
         ctx.stroke();
     }
 
+    Mindmap.prototype.bindNodeEvents = function($node)
+    {
+        var that = this;
+        $node.on('click', function(event){that.onNodeClick(event, $node);});
+        $node.find('.text').on('keyup paste blur', function(event){that.onNodeTextChanged(event, $node);});
+    }
+
+    Mindmap.prototype.onNodeClick = function(event, $node)
+    {
+        if($node.hasClass('active'))
+        {
+            this.focusNode($node);
+        }
+        else
+        {
+            this.clearNodeStatus();
+            this.activeNode($node);
+        }
+
+        if($.isFunction(this.options['onNodeClick']))
+        {
+            this.options['onNodeClick']();
+        }
+
+        event.stopPropagation();
+    }
+
+    Mindmap.prototype.onNodeTextChanged = function(event, $node)
+    {
+        var text = $node.find('.text').text();
+        if(text != $node.data('origin-text'))
+        {
+            $node.data('origin-text', text);
+            this.update({id: $node.data('id'), text: text});
+        }
+    }
+
+    Mindmap.prototype.activeNode = function($node)
+    {
+        $node.addClass('active');
+        this.activedNode = $node;
+    }
+
+    Mindmap.prototype.focusNode = function($node)
+    {
+        $node.addClass('focus').find('.text').attr('contenteditable', 'true').focus().select();
+        this.isFocus = true;
+    }
+
     Mindmap.prototype.bindEvents = function()
     {
-        var $this = this.$;
+        var $this = this.$, that = this;
 
-        $this.resize($.proxy(this.initSize, this));
+        $this.resize($.proxy(this.initSize, this)).click($.proxy(this.onDesktopClick, this));
+    }
+
+    Mindmap.prototype.onDesktopClick = function()
+    {
+        var $desktop = this.$desktop;
+
+        /* remove status flag from node elements */
+        this.clearNodeStatus();
+    }
+
+    Mindmap.prototype.clearNodeStatus = function()
+    {
+        this.$desktop.children('.node.focus').removeClass('focus').find('.text').attr('contenteditable', 'false').blur();
+        this.$desktop.children('.node.active').removeClass('active');
+        this.isActive = false;
+        this.activedNode = null;
     }
 
     $.fn.mindmap = function(option)

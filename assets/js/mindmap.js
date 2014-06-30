@@ -14,7 +14,7 @@ $(function()
     {
         data: 
         {
-            name: "ZUI",
+            text: "ZUI",
             type: "root",
             theme: "default",
             caption: "一个开源免费的前端框架，用于快速构建禅道系列跨屏应用。",
@@ -24,126 +24,126 @@ $(function()
             {
                 "start": 
                 {
-                    name: "开始",
+                    text: "开始",
                     type: "sub",
                     children:
                     {
                         "about":
                         {
-                            name: "框架说明",
+                            text: "框架说明",
                         },
                         "files":
                         {
-                            name: "文件目录结构",
+                            text: "文件目录结构",
                         },
                         "browsers":
                         {
-                            name: "受支持的平台",
+                            text: "受支持的平台",
                         }
                     }
                 },
                 "basic": 
                 {
-                    name: "基础",
+                    text: "基础",
                     type: "sub",
                     caption: "了解基础内容",
                     children:
                     {
                         "global":
                         {
-                            name: "全局样式表",
+                            text: "全局样式表",
                         },
                         "ie":
                         {
-                            name: "兼容IE浏览器",
+                            text: "兼容IE浏览器",
                         },
                         "responsive":
                         {
-                            name: "响应式设计",
+                            text: "响应式设计",
                         },
                         "grids":
                         {
-                            name: "栅格系统",
+                            text: "栅格系统",
                         },
                         "type":
                         {
-                            name: "文字排版",
+                            text: "文字排版",
                         },
                         "colorset":
                         {
-                            name: "配色",
+                            text: "配色",
                         }
                     }
                 },
                 "controls": 
                 {
-                    name: "控件",
+                    text: "控件",
                     type: "sub",
                     caption: "一些常用的基本控件",
                     children:
                     {
                         "icons":
                         {
-                            name: "图标",
+                            text: "图标",
                             children:
                             {
                                 'iconhow':
                                 {
-                                    name: '如何使用图标'
+                                    text: '如何使用图标'
                                 },
                                 'iconfont':
                                 {
-                                    name: '图标字体'
+                                    text: '图标字体'
                                 }
                             }
                         },
                         "buttons":
                         {
-                            name: "按钮",
+                            text: "按钮",
                         }
                         ,
                         "progress":
                         {
-                            name: "进度条",
+                            text: "进度条",
                         },
                         "labels":
                         {
-                            name: "标签",
+                            text: "标签",
                         }
                     }
                 },
                 "components": 
                 {
-                    name: "组件",
+                    text: "组件",
                     type: "sub",
                     caption: "一些组合控件",
                     children:
                     {
                         "alerts":
                         {
-                            name: "消息框",
+                            text: "消息框",
                             children:
                             {
                                 'alertstypes':
                                 {
-                                    name: '消息框类型'
+                                    text: '消息框类型'
                                 },
                                 'alertsicons':
                                 {
-                                    name: '在消息框中使用图标'
+                                    text: '在消息框中使用图标'
                                 },
                                 'alertsblocks':
                                 {
-                                    name: '块级消息框'
+                                    text: '块级消息框'
                                 },
                                 'alertslinks':
                                 {
-                                    name: '消息框中的链接'
+                                    text: '消息框中的链接'
                                 }
                                 ,
                                 'alertsclose':
                                 {
-                                    name: '可关闭的消息框'
+                                    text: '可关闭的消息框'
                                 }
                             }
                         }
@@ -152,25 +152,25 @@ $(function()
                 ,
                 "javascript": 
                 {
-                    name: "Javascript插件",
+                    text: "Javascript插件",
                     type: "sub",
                     caption: "Javascript增强的插件",
                     children:
                     {
                         'javascriptmodal':
                         {
-                            name: '模态框',
+                            text: '模态框',
                             children:
                             {
                                 'javascriptmodaliframe':
                                 {
-                                    name: '框架对话框'
+                                    text: '框架对话框'
                                 }
                             }
                         },
                         'javascriptdropdown':
                         {
-                            name: '下拉菜单'
+                            text: '下拉菜单'
                         }
                     }
                 }
