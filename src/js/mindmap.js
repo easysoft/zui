@@ -23,7 +23,7 @@
             caption: '',
             id: $.uuid()
         },
-        nodeTeamplate: "<div id='node-{id}' class='node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text'>{text}</div><div class='caption'>{caption}</div></div></div>",
+        nodeTeamplate: "<div id='node-{id}' class='mindmap-node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text'>{text}</div><div class='caption'>{caption}</div></div></div>",
         hSpace: 120,
         vSpace: 20,
         lineCurvature: 60,
@@ -52,6 +52,12 @@
     Mindmap.prototype.initDom = function()
     {
         var $this = this.$;
+
+        if(!$this.attr('id'))
+        {
+            $this.attr('id', 'mindmap-' + $.uuid());
+        }
+        this.id = $this.attr('id');
 
         this.$canvas = $this.children('canvas');
         if(!this.$canvas.length)
@@ -199,7 +205,7 @@
             }
         }
 
-        var $node = $desktop.children('.node[data-id="' + nodeData.id + '"]');
+        var $node = $desktop.children('.mindmap-node[data-id="' + nodeData.id + '"]');
         if($node.length) // updated node existed
         {
             $node.toggleClass('expand-false', !nodeData.expand)
@@ -459,6 +465,27 @@
         var that = this;
         $node.on('click', function(event){that.onNodeClick(event, $node);});
         $node.find('.text').on('keyup paste blur', function(event){that.onNodeTextChanged(event, $node);});
+        if($node.data('type') != 'root')
+        {
+            $node.droppable(
+            {
+                target: '#' + that.id + ' .mindmap-node',
+                start: function(e)
+                {
+
+                },
+                drag: function(e)
+                {
+                },
+                drop: function(e)
+                {
+                },
+                finish: function(e)
+                {
+                }
+            });
+        }
+
     }
 
     Mindmap.prototype.onNodeClick = function(event, $node)
@@ -520,8 +547,8 @@
 
     Mindmap.prototype.clearNodeStatus = function()
     {
-        this.$desktop.children('.node.focus').removeClass('focus').find('.text').attr('contenteditable', 'false').blur();
-        this.$desktop.children('.node.active').removeClass('active');
+        this.$desktop.children('.mindmap-node.focus').removeClass('focus').find('.text').attr('contenteditable', 'false').blur();
+        this.$desktop.children('.mindmap-node.active').removeClass('active');
         this.isActive = false;
         this.activedNode = null;
     }

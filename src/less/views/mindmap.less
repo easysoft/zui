@@ -21,114 +21,123 @@
   z-index: 10;
   -moz-user-select: none; 
   -webkit-user-select: none;
+}
 
-  > .node
-  {
-      position: absolute;
-      border-radius: 24px;
+.mindmap-node
+{
+    position: absolute;
+    border-radius: 24px;
 
-      > .wrapper
-      {
-          border-radius: 22px;
-          background: @color-pale;
-          border: 4px solid #aaa;
-          .transition();
-          > .text
-          {
-              font-weight: bold;
-              padding: 8px 12px;
-              font-size: 14px;
+    > .wrapper
+    {
+        border-radius: 22px;
+        background: @color-pale;
+        border: 4px solid #aaa;
+        .transition();
+        > .text
+        {
+            font-weight: bold;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: default;
 
-              * {display: inline;}
+            * {display: inline;}
 
-              &:focus
-              {
-                  outline: none
-              }
-          }
+            &:focus
+            {
+                outline: none
+            }
+        }
 
-          > .caption {display: none}
-      }
+        > .caption {display: none}
+    }
 
-      &:hover
-      {
-          .box-shadow(~"0 0 5px rgba(0, 0, 0, 0.4)");
+    &:hover
+    {
+        .box-shadow(~"0 0 5px rgba(0, 0, 0, 0.4)");
 
-          > .wrapper
-          {
-              border-color: #999
-          }
-      }
+        > .wrapper
+        {
+            border-color: #999
+        }
+    }
 
-      &[data-type="sub"]
-      {
-          border-radius: 6px;
-          > .wrapper
-          {
-              background: @color-back;
-              border-radius: 5px;
-              border-width: 2px;
+    &[data-type="sub"]
+    {
+        border-radius: 6px;
+        > .wrapper
+        {
+            background: @color-back;
+            border-radius: 5px;
+            border-width: 2px;
 
-              > .text
-              {
-                  font-size: 13px;
-                  padding: 4px 5px;
-                  font-weight: normal;
-              }
-          }
-      }
+            > .text
+            {
+                font-size: 13px;
+                padding: 4px 5px;
+                font-weight: normal;
+            }
+        }
+    }
 
-      &[data-type="node"]
-      {
-          border-radius: 4px;
-          > .wrapper
-          {
-              background: transparent;
-              border-radius: 3px;
-              border: 2px solid transparent;
+    &[data-type="node"]
+    {
+        border-radius: 4px;
+        > .wrapper
+        {
+            background: transparent;
+            border-radius: 3px;
+            border: 2px solid transparent;
 
-              > .text
-              {
-                  font-size: 13px;
-                  padding: 2px 3px;
-                  font-weight: normal;
-              }
-          }
+            > .text
+            {
+                font-size: 13px;
+                padding: 2px 3px;
+                font-weight: normal;
+            }
+        }
 
-          &:hover
-          {
-              > .wrapper
-              {
-                  border-color: #999
-              }
-          }
-      }
+        &:hover, &.drag-shadow
+        {
+            > .wrapper
+            {
+                border-color: #999;
+                background: @color-back;
+            }
+        }
+    }
 
-      &.active,
-      &.active:hover
-      {
-          z-index: 900;
-          .box-shadow(~"none");
+    &.active,
+    &.active:hover
+    {
+        z-index: 900;
+        .box-shadow(~"none");
 
-          > .wrapper
-          {
-              border-color: @input-border-focus;
-              background: @color-pale;
-          }
+        > .wrapper
+        {
+            border-color: lighten(@input-border-focus, 18%);
+            background: @color-pale;
+        }
 
-          &.focus
-          {
-              @color-rgba: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
-              .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+    }
 
-              > .wrapper
-              {
-                  border-color: @input-border-focus;
-                  background: @color-back;
-              }
-          }
-      }
-  }
+    &.focus,
+    &.drop-to,
+    {
+        @color-rgba: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
+        .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+
+        > .wrapper
+        {
+            border-color: @input-border-focus;
+            background: @color-back;
+
+            > .text
+            {
+                cursor: text;
+            }
+        }
+    }
 }
 
 .mindmap-shadow
