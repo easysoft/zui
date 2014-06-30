@@ -64,6 +64,7 @@
             $this.append("<div class='mindmap-desktop'></div>");
             this.$desktop = $this.children('.mindmap-desktop');
         }
+        this.$desktop.attr('unselectable', 'on');
     }
 
     Mindmap.prototype.initSize = function()
