@@ -58,8 +58,6 @@
                     shadow = $e.clone().removeClass('drag-from').addClass('drag-shadow').css(
                     {
                         position: 'absolute',
-                        left: pos.left - cPos.left,
-                        top: pos.left - cPos.left,
                         width: $e.outerWidth(),
                         transition: 'none'
                     }).appendTo($container);
@@ -73,13 +71,9 @@
 
                 var mX = event.pageX,
                     mY = event.pageY;
+                var dragPos = {left: mX-startOffset.x, top: mY-startOffset.y};
                     
-
-                shadow.css(
-                {
-                    left : event.pageX-startOffset.x,
-                    top  : event.pageY-startOffset.y
-                });
+                shadow.css(dragPos);
 
                 isIn = false;
                 var idx = -1, isNew = false;
@@ -124,7 +118,7 @@
                 
                 if(setting.hasOwnProperty('drag') && $.isFunction(setting['drag']))
                 {
-                    setting['drag']({event: event, isIn: isIn, target: target, element: $e, isNew: isNew, selfTarget: isSelf});
+                    setting['drag']({event: event, isIn: isIn, target: target, element: $e, isNew: isNew, selfTarget: isSelf, startOffset: startOffset, pos: dragPos});
                 }
             }
 
