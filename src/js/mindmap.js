@@ -135,7 +135,7 @@
     /* update nodeData changes and  decide whether to rerender mindmap */
     Mindmap.prototype.update = function(changes, forceShow, forceLoad)
     {
-        var changed = false;
+        var changed = false, options = this.options;
 
         if($.isPlainObject(changes))
         {
@@ -478,9 +478,20 @@
             $node.droppable(
             {
                 target: '#' + that.id + ' .mindmap-node',
-                start: function(e)
+                before: function(e)
                 {
-
+                    if(e.element.hasClass('focus'))
+                    {
+                        return false;
+                    }
+                },
+                start:function(e)
+                {
+                    if(!e.element.hasClass('active'))
+                    {
+                        that.clearNodeStatus();
+                        that.activeNode($node);
+                    }
                 },
                 drag: function(e)
                 {
