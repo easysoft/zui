@@ -139,7 +139,7 @@
             }
         }
 
-        &:hover, &.drag-shadow
+        &:hover
         {
             > .wrapper
             {
@@ -151,14 +151,15 @@
     }
 
     &.active,
-    &.active:hover
+    &.active:hover,
+    &.drag-shadow
     {
         z-index: 900;
         .box-shadow(~"none");
 
         > .wrapper
         {
-            border-color: lighten(@input-border-focus, 18%);
+            border-color: lighten(@input-border-focus, 10%);
             color: @color-back;
             background: lighten(@input-border-focus, 18%)
         }

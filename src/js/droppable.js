@@ -133,16 +133,17 @@
 
                 if(!isIn) target = null;
                 var isSure = true;
+                var dropPos = {left: event.pageX - startOffset.x, top: event.pageY - startOffset.y};
                 if(setting.hasOwnProperty('beforeDrop') && $.isFunction(setting['beforeDrop']))
                 {
-                    var isSure = setting['beforeDrop']({event: event, isIn: isIn, target: target, element: $e, isNew: isNew, selfTarget: isSelf});
+                    var isSure = setting['beforeDrop']({event: event, isIn: isIn, target: target, element: $e, isNew: (!isSelf) && target != null, selfTarget: isSelf, pos: dropPos});
                     if (isSure != undefined && (!isSure)) isSure = false;
                     else isSure = true;
                 }
 
                 if(isSure && isIn && setting.hasOwnProperty('drop') && $.isFunction(setting['drop']))
                 {
-                    setting['drop']({event: event, target: target, element: $e, isNew: (!isSelf) && target != null});
+                    setting['drop']({event: event, target: target, element: $e, isNew: (!isSelf) && target != null, pos: dropPos});
                 }
 
                 $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
