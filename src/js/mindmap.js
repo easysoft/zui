@@ -16,13 +16,25 @@
 
     Mindmap.DEFAULTS = 
     {
+        hotkeyEnable: true,
+        hotkeys:
+        {
+            selectPrev: 'Up',
+            selectNext: 'Down',
+            selectLeft: 'left',
+            selectRight: 'right',
+            deleteNode: 'del backspace',
+            addBorther: 'enter',
+            addChild: 'tab'
+        },
         lang: 'zh_cn',
         langs:
         {
             'zh_cn':
             {
                 DefaultName: '灵光闪现',
-                ReadonlyTip: '该节点已被设置为只读，无法进行编辑。'
+                ReadonlyTip: '该节点已被设置为只读，无法进行编辑。',
+                HotkeyDisabled: '快捷键不可用，需要 <a target="_blank" href="https://github.com/jeresig/jquery.hotkeys">jquery.hotkeys</a> 插件支持。'
             }
         },
         data: 
@@ -45,10 +57,22 @@
         nodeLineWidth: 2
     }; // default options
 
+    Mindmap.prototype.check = function()
+    {
+
+    }
+
     Mindmap.prototype.getOptions = function (options)
     {
         Mindmap.DEFAULTS.data.text = Mindmap.DEFAULTS.langs['zh_cn'].DefaultName;
         options = $.extend({}, Mindmap.DEFAULTS, this.$.data(), options);
+
+        var hotkeyEnable = (typeof($.hotkeys) != UDF);
+        if(!hotkeyEnable && options.hotkeyEnable)
+        {
+            window.messager.danger(this.lang.HotkeyDisabled);
+        }
+        options.hotkeyEnable = options.hotkeyEnable && hotkeyEnable;
 
         return options;
     };
@@ -73,6 +97,8 @@
 
     Mindmap.prototype.init = function()
     {
+        this.check();
+
         this.initDom();
         this.initSize();
         this.bindEvents();
@@ -152,25 +178,40 @@
 
     Mindmap.prototype.getNodeData = function(id, nodeData)
     {
-        if(!nodeData)
+        if(typeof(id) === 'string')
         {
-            nodeData = this.data;
-        }
-
-        if(id == nodeData.id)
-        {
-            return nodeData;
-        }
-        else if($.isArray(nodeData.children) && nodeData.children.length > 0)
-        {
-            for(var i in nodeData.children)
+            if(!nodeData)
             {
-                var node = this.getNodeData(id, nodeData.children[i]);
-                if(node) return node;
+                nodeData = this.data;
+            }
+
+            if(id == nodeData.id)
+            {
+                return nodeData;
+            }
+            else if($.isArray(nodeData.children) && nodeData.children.length > 0)
+            {
+                for(var i in nodeData.children)
+                {
+                    var node = this.getNodeData(id, nodeData.children[i]);
+                    if(node) return node;
+                }
             }
         }
         return null;
     };
+
+    Mindmap.prototype.getNode = function(idOrData)
+    {
+        if(typeof(idOrData) === 'string')
+        {
+            return this.$desktop.children('[data-id="' + idOrData + '"]');
+        }
+        if(typeof(idOrData['id']) != UDF)
+        {
+            return data.ui.element;
+        }
+    }
 
     /* update nodeData changes and  decide whether to rerender mindmap */
     Mindmap.prototype.update = function(changes, forceShow, forceLoad)
@@ -326,6 +367,7 @@
         if(typeof(nodeData.type) === UDF) nodeData.type = 'node';
         if(typeof(nodeData.id) === UDF) nodeData.id = $.uuid();
         if(typeof(nodeData.readonly) === UDF) nodeData.readonly = false;
+        if(typeof(nodeData.ui) === UDF) nodeData.ui = {};
         nodeData.parent = parentId;
 
         var $node = $desktop.children('.mindmap-node[data-id="' + nodeData.id + '"]');
@@ -352,8 +394,7 @@
 
             this.bindNodeEvents($node);
 
-            nodeData.ui = {element: $node};
-
+            nodeData.ui.element = $node;
         }
 
         if(nodeData.type === 'root')
@@ -406,7 +447,7 @@
         if($.isArray(nodeData.children) && nodeData.children.length > 0)
         {
             nodeData.ui.topSpanTemp = (nodeData.type === 'root') ? {left: 0, right: 0} : 0;
-            var vLeftSpan = 0, vRightSpan = 0;
+            var vLeftSpan = 0, vRightSpan = 0, lastChild = null;
             vSpan = 0;
 
             nodeData.children.sort(function(nodeA, nodeB){return nodeA.sort - nodeB.sort});
@@ -414,10 +455,24 @@
             for(var i in nodeData.children)
             {
                 var child = nodeData.children[i];
+                if(typeof(child.ui) === UDF) child.ui = {};
+
                 if(child.type != 'sub')
                 {
                     child.colorHue = nodeData.colorHue;
                 }
+
+                child.ui.nextBorther = null;
+                if(lastChild)
+                {
+                    child.ui.prevBorther = lastChild.id;
+                    lastChild.ui.nextBorther = child.id;
+                }
+                else
+                {
+                    child.ui.prevBorther = null;
+                }
+                lastChild = child;
 
                 this.loadNode(child, nodeData, i);
 
@@ -707,6 +762,8 @@
 
     Mindmap.prototype.activeNode = function($node)
     {
+        if(typeof($node) === UDF) $node = this.$desktop.children('.mindmap-node[data-type="sub"]').first();
+
         $node.addClass('active');
         this.activedNode = $node;
         this.isActive = true;
@@ -719,6 +776,8 @@
             window.messager.show(this.lang.ReadonlyTip);
             return;
         }
+        if(!$node.hasClass('active')) return;
+
         $node.addClass('focus').find('.text').attr('contenteditable', 'true').focus().select();
         this.isFocus = true;
     }
@@ -744,7 +803,175 @@
         var $this = this.$, that = this;
 
         $this.resize($.proxy(this.initSize, this)).click($.proxy(this.onDesktopClick, this));
+
+        this.bindGlobalHotkeys();
     }
+
+    // hotkeys:
+    // {
+    //     selectPrev: 'Up',
+    //     selectNext: 'Down',
+    //     selectLeft: 'left',
+    //     selectRight: 'right',
+    //     deleteNode: 'del backspace',
+    //     addBorther: 'enter',
+    //     addChild: 'tab'
+    // },
+    Mindmap.prototype.bindGlobalHotkeys = function()
+    {
+        var options = this.options;
+        if(!options.hotkeyEnable) return;
+
+        var that = this, hotkeys = options.hotkeys;
+        $(document).on('keydown', null, hotkeys.selectPrev, function()
+        {
+            that.selectNode('prev');
+        }).on('keydown', null, hotkeys.selectNext, function()
+        {
+            that.selectNode('next');
+        }).on('keydown', null, hotkeys.selectLeft, function()
+        {
+            that.selectNode('left');
+        }).on('keydown', null, hotkeys.selectRight, function()
+        {
+            that.selectNode('right');
+        });
+    }
+
+    /* select node */
+    Mindmap.prototype.selectNode = function(type)
+    {
+        if(this.isFocus) return;
+        if(!this.isActive)
+        {
+            this.activeNode();
+            return;
+        }
+
+        var nodeData = null;
+
+        var node = this.getNodeData(this.activedNode.data('id'));
+        var selectId = null;
+
+        if(node.type === 'root')
+        {
+            if(type === 'prev' || type === 'left') type = 'left';
+            else type = 'right';
+        }
+        else if(type === 'left')
+        {
+            type = (node.subSide == 'left') ? 'child' : 'parent';
+        }
+        else if(type === 'right')
+        {
+            type = (node.subSide == 'right') ? 'child' : 'parent';
+        }
+
+        switch(type)
+        {
+            case 'prev':
+                selectId = node.ui.prevBorther;
+                break;
+            case 'next':
+                selectId = node.ui.nextBorther;
+                break;
+            case 'parent':
+                selectId = node.parent;
+                break;
+            case 'child':
+                if(node.count > 0) selectId = node.children[0].id;
+                break;
+            case 'left':
+                if(node.count > 0)
+                {
+                    selectId = node.children[0].id;
+                    for(var i in node.children)
+                    {
+                        var child = node.children[i];
+                        if(child.subSide == 'left')
+                        {
+                            selectId = child.id;
+                            break;
+                        }
+                    }
+                }
+                break;
+            case 'right':
+                if(node.count > 0)
+                {
+                    selectId = node.children[0].id;
+                    for(var i in node.children)
+                    {
+                        var child = node.children[i];
+                        if(child.subSide == 'right')
+                        {
+                            selectId = child.id;
+                            break;
+                        }
+                    }
+                }
+                break;
+        }
+
+        if(selectId)
+        {
+            nodeData = this.getNodeData(selectId);
+        }
+
+        if(nodeData)
+        {
+            this.clearNodeStatus();
+            this.activeNode(nodeData.ui.element);
+        }
+    };
+
+    /* select next borther node */
+    Mindmap.prototype.selectNext = function()
+    {
+        if(this.isFocus) return;
+        var next = null;
+
+        if(!this.isActive)
+        {
+            this.activeNode();
+        }
+
+        var node = this.getNodeData(this.activedNode.data('id'));
+        if(node.ui.nextBorther != null)
+        {
+            next = this.getNodeData(node.ui.nextBorther);
+        }
+
+        if(next)
+        {
+            this.clearNodeStatus();
+            this.activeNode(next.ui.element);
+        }
+    };
+
+    /* select next borther node */
+    Mindmap.prototype.selectLeft = function()
+    {
+        if(this.isFocus) return;
+        var left = null;
+
+        if(!this.isActive)
+        {
+            this.activeNode();
+        }
+
+        var node = this.getNodeData(this.activedNode.data('id'));
+        if(node.ui.leftBorther != null)
+        {
+            left = this.getNodeData(node.ui.leftBorther);
+        }
+
+        if(left)
+        {
+            this.clearNodeStatus();
+            this.activeNode(left.ui.element);
+        }
+    };
 
     Mindmap.prototype.onDesktopClick = function()
     {
