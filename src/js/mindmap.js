@@ -3,10 +3,12 @@
 {
     "use strict";
 
+    var UDF = 'undefined';
     var Mindmap = function(element, options)
     {
         this.$         = $(element);
         this.options   = this.getOptions(options);
+        this.lang      = this.getLang();
         this.data      = this.options.data;
         this.dirtyData = true;
         this.init();
@@ -14,6 +16,15 @@
 
     Mindmap.DEFAULTS = 
     {
+        lang: 'zh_cn',
+        langs:
+        {
+            'zh_cn':
+            {
+                DefaultName: '灵光闪现',
+                ReadonlyTip: '该节点已被设置为只读，无法进行编辑。'
+            }
+        },
         data: 
         {
             text: 'New Project',
@@ -36,8 +47,28 @@
 
     Mindmap.prototype.getOptions = function (options)
     {
+        Mindmap.DEFAULTS.data.text = Mindmap.DEFAULTS.langs['zh_cn'].DefaultName;
         options = $.extend({}, Mindmap.DEFAULTS, this.$.data(), options);
+
         return options;
+    };
+
+    Mindmap.prototype.getLang = function()
+    {
+        if(!this.options.lang)
+        {
+            if(typeof(window.config) != 'undefined' && window.config.clientLang)
+            {
+                this.options.lang = config.clientLang;
+            }
+            else
+            {
+                var hl = $('html').attr('lang');
+                this.options.lang = hl? hl : 'en';
+            }
+            this.options.lang = this.options.lang.replace(/-/, '_').toLowerCase();
+        }
+        return this.options.langs[this.options.lang] || this.options.langs[Mindmap.DEFAULTS.lang];
     };
 
     Mindmap.prototype.init = function()
@@ -47,7 +78,7 @@
         this.bindEvents();
 
         this.render();
-    }
+    };
 
     Mindmap.prototype.initDom = function()
     {
@@ -79,7 +110,7 @@
         {
             $this.append("<div class='mindmap-shadow shadow-top'></div><div class='mindmap-shadow shadow-right'></div><div class='mindmap-shadow shadow-bottom'></div><div class='mindmap-shadow shadow-left'></div>");
         }
-    }
+    };
 
     Mindmap.prototype.initSize = function()
     {
@@ -94,21 +125,22 @@
                .attr('height', this.height);
 
         if(!this.dirtyData) this.showNode();
-    }
+    };
 
-    Mindmap.prototype.computePosition = function(pos)
+    Mindmap.prototype.computePosition = function(pos, inverse)
     {
-        if(typeof(pos.left) != 'undefined') pos.left += this.offsetX;
-        if(typeof(pos.top) != 'undefined') pos.top += this.offsetY;
-        if(typeof(pos.x) != 'undefined') pos.x += this.offsetX;
-        if(typeof(pos.y) != 'undefined') pos.y += this.offsetY;
+        var flag = inverse ? -1 : 1;
+        if(typeof(pos['left']) != UDF) pos.left += this.offsetX * flag;
+        if(typeof(pos['top']) != UDF) pos.top += this.offsetY * flag;
+        if(typeof(pos['x']) != UDF) pos.x += this.offsetX * flag;
+        if(typeof(pos['y']) != UDF) pos.y += this.offsetY * flag;
         return pos;
-    }
+    };
 
     Mindmap.prototype.computeColor = function(hue)
     {
         return 'hsla({h}, {s}%, {l}%, {a})'.format({h: hue, s: this.options.lineSaturation, l: this.options.lineLightness, a: this.options.lineOpacity});
-    }
+    };
 
     Mindmap.prototype.getNodeData = function(id, nodeData)
     {
@@ -130,7 +162,7 @@
             }
         }
         return null;
-    }
+    };
 
     /* update nodeData changes and  decide whether to rerender mindmap */
     Mindmap.prototype.update = function(changes, forceShow, forceLoad)
@@ -149,10 +181,13 @@
                 var node = this.getNodeData(change.id);
                 if(!node) return;
 
-                if(change.text && change.text != node.text)
+                if(typeof(change.text) != UDF && change.text != node.text)
                 {
                     node.text = change.text;
+                    // if(node.childrenCount > 0 || node.subSide === 'left')
+                    // {
                     forceShow = true;
+                    // }
                     changed = true;
                 }
             }
@@ -165,21 +200,19 @@
         {
             options['onChange']({changes: changes, data: this.data});
         }
-    }
+    };
 
     Mindmap.prototype.load = function(data)
     {
         this.data = data;
         this.render(data);
-    }
+    };
 
     Mindmap.prototype.render = function()
     {
-        console.log(this.data);
         this.loadNode();
         this.showNode();
-        console.log(this.data);
-    }
+    };
 
     Mindmap.prototype.loadNode = function(nodeData, parent, index)
     {
@@ -192,20 +225,11 @@
             $desktop = this.$desktop,
             parentId = typeof(parent) == 'object' ? (parent.id ? parent.id : '') : '';
 
-        if(typeof(nodeData.expand) === 'undefined') nodeData.expand = true;
-        if(typeof(nodeData.data) === 'undefined') nodeData.data = {};
-        if(typeof(nodeData.type) === 'undefined') nodeData.type = 'node';
-        if(typeof(nodeData.id) === 'undefined')
-        {
-            if(index)
-            {
-                nodeData.id = index;
-            }
-            else
-            {
-                nodeData.id = $.uuid();
-            }
-        }
+        if(typeof(nodeData.expand) === UDF) nodeData.expand = true;
+        if(typeof(nodeData.data) === UDF) nodeData.data = {};
+        if(typeof(nodeData.type) === UDF) nodeData.type = 'node';
+        if(typeof(nodeData.id) === UDF) nodeData.id = $.uuid();
+        if(typeof(nodeData.readonly) === UDF) nodeData.readonly = false;
 
         var $node = $desktop.children('.mindmap-node[data-id="' + nodeData.id + '"]');
         if($node.length) // updated node existed
@@ -269,13 +293,17 @@
                 nodeData.subSide = parent.subSide;
             }
         }
+
         $node.data('origin-text', nodeData.text);
+        $node.toggleClass('readonly', nodeData.readonly);
 
         /* load children nodes */
         var vSpan = 1, topSpan = 0;
         nodeData.count = 0;
+        nodeData.childrenCount = 0;
         if($.isArray(nodeData.children) && nodeData.children.length > 0)
         {
+            nodeData.childrenCount = nodeData.children.length;
             nodeData.ui.topSpanTemp = (nodeData.type === 'root') ? {left: 0, right: 0} : 0;
             var vLeftSpan = 0, vRightSpan = 0;
             vSpan = 0;
@@ -309,7 +337,7 @@
                         nodeData.ui.topSpanTemp.right += child.ui.vSpan;
                     }
 
-                    if(typeof(child.colorHue) === 'undefined')
+                    if(typeof(child.colorHue) === UDF)
                     {
                         child.colorHue = Math.floor((child.ui.index * 71) % 360);
                     }
@@ -339,7 +367,7 @@
         {
             options['afterLoad']({data: nodeData});
         }
-    }
+    };
 
     /* show on desktop with right position */
     Mindmap.prototype.showNode = function(nodeData, parent)
@@ -470,7 +498,7 @@
 
     Mindmap.prototype.bindNodeEvents = function($node)
     {
-        var that = this;
+        var that = this, data;
         $node.on('click', function(event){that.onNodeClick(event, $node);});
         $node.find('.text').on('keyup paste blur', function(event){that.onNodeTextChanged(event, $node);});
         if($node.data('type') != 'root')
@@ -484,6 +512,9 @@
                     {
                         return false;
                     }
+
+                    data = that.getNodeData(e.element.data('id'));
+                    if(!data) return false;
                 },
                 start:function(e)
                 {
@@ -495,17 +526,23 @@
                 },
                 drag: function(e)
                 {
+                    console.log(e.pos);
+                    data.ui.dragPos = that.computePosition(e.pos);
+                    that.showNode();
                 },
                 drop: function(e)
                 {
+
                 },
                 finish: function(e)
                 {
+                    data.ui.dragPos = null;
                 }
             });
         }
-
     }
+
+
 
     Mindmap.prototype.onNodeClick = function(event, $node)
     {
@@ -541,12 +578,34 @@
     {
         $node.addClass('active');
         this.activedNode = $node;
+        this.isActive = true;
     }
 
     Mindmap.prototype.focusNode = function($node)
     {
+        if($node.hasClass('readonly'))
+        {
+            window.messager.show(this.lang.ReadonlyTip);
+            return;
+        }
         $node.addClass('focus').find('.text').attr('contenteditable', 'true').focus().select();
         this.isFocus = true;
+    }
+
+    Mindmap.prototype.clearActiveNode = function($node)
+    {
+        if(typeof($node) === UDF) $node = this.$desktop.children('.mindmap-node.active');
+        $node.removeClass('active');
+        this.isActive = false;
+        this.activedNode = null;
+    }
+
+    Mindmap.prototype.clearFocusNode = function($node)
+    {
+        if(typeof($node) === UDF) $node = this.$desktop.children('.mindmap-node.focus');
+
+        $node.removeClass('focus').find('.text').attr('contenteditable', 'false').blur();
+        this.isFocus = false;
     }
 
     Mindmap.prototype.bindEvents = function()
@@ -566,10 +625,8 @@
 
     Mindmap.prototype.clearNodeStatus = function()
     {
-        this.$desktop.children('.mindmap-node.focus').removeClass('focus').find('.text').attr('contenteditable', 'false').blur();
-        this.$desktop.children('.mindmap-node.active').removeClass('active');
-        this.isActive = false;
-        this.activedNode = null;
+        this.clearActiveNode();
+        this.clearFocusNode();
     }
 
     $.fn.mindmap = function(option)

@@ -26,6 +26,7 @@ $(function()
                     id: 'start',
                     text: "开始",
                     type: "sub",
+                    readonly: true,
                     children:
                     [
                         {
