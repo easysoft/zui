@@ -24,7 +24,7 @@
             selectLeft: 'left',
             selectRight: 'right',
             deleteNode: 'del backspace',
-            addBorther: 'enter',
+            addBorther: 'return',
             addChild: 'tab'
         },
         lang: 'zh_cn',
@@ -33,6 +33,8 @@
             'zh_cn':
             {
                 DefaultName: '灵光闪现',
+                DefaultSubName: '灵光',
+                DefaultNodeName: '闪现',
                 ReadonlyTip: '该节点已被设置为只读，无法进行编辑。',
                 HotkeyDisabled: '快捷键不可用，需要 <a target="_blank" href="https://github.com/jeresig/jquery.hotkeys">jquery.hotkeys</a> 插件支持。'
             }
@@ -44,11 +46,12 @@
             expand: true,
             theme: 'default',
             caption: '',
-            id: $.uuid()
+            id: $.uuid() + ''
         },
         nodeTeamplate: "<div id='node-{id}' class='mindmap-node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text'>{text}</div><div class='caption'>{caption}</div></div></div>",
         hSpace: 100,
         vSpace: 20,
+        removingNodeTip: null,
         lineCurvature: 60,
         subLineWidth: 4,
         lineOpacity: 1,
@@ -57,14 +60,10 @@
         nodeLineWidth: 2
     }; // default options
 
-    Mindmap.prototype.check = function()
-    {
-
-    }
-
     Mindmap.prototype.getOptions = function (options)
     {
         Mindmap.DEFAULTS.data.text = Mindmap.DEFAULTS.langs['zh_cn'].DefaultName;
+
         options = $.extend({}, Mindmap.DEFAULTS, this.$.data(), options);
 
         var hotkeyEnable = (typeof($.hotkeys) != UDF);
@@ -97,8 +96,6 @@
 
     Mindmap.prototype.init = function()
     {
-        this.check();
-
         this.initDom();
         this.initSize();
         this.bindEvents();
@@ -178,27 +175,41 @@
 
     Mindmap.prototype.getNodeData = function(id, nodeData)
     {
-        if(typeof(id) === 'string')
+        id += '';
+        if(!nodeData)
         {
-            if(!nodeData)
-            {
-                nodeData = this.data;
-            }
+            nodeData = this.data;
+        }
 
-            if(id == nodeData.id)
+        if(id == nodeData.id)
+        {
+            return nodeData;
+        }
+        else if($.isArray(nodeData.children) && nodeData.children.length > 0)
+        {
+            for(var i in nodeData.children)
             {
-                return nodeData;
-            }
-            else if($.isArray(nodeData.children) && nodeData.children.length > 0)
-            {
-                for(var i in nodeData.children)
-                {
-                    var node = this.getNodeData(id, nodeData.children[i]);
-                    if(node) return node;
-                }
+                var node = this.getNodeData(id, nodeData.children[i]);
+                if(node) return node;
             }
         }
         return null;
+    };
+
+    Mindmap.prototype.createDefaultNodeData = function(parentData)
+    {
+        var data = {expand: true, id: $.uuid() + ''};
+        if(parentData.type === 'root')
+        {
+            data.type = 'sub';
+            data.text = this.lang.DefaultSubName;
+        }
+        else
+        {
+            data.type = 'node';
+            data.text = this.lang.DefaultNodeName;
+        }
+        return data;
     };
 
     Mindmap.prototype.getNode = function(idOrData)
@@ -209,7 +220,19 @@
         }
         if(typeof(idOrData['id']) != UDF)
         {
-            return data.ui.element;
+            return idOrData.ui.element;
+        }
+    };
+
+    Mindmap.prototype.removeNode = function(nodeData)
+    {
+        this.getNode(nodeData).remove();
+        if(nodeData.count > 0)
+        {
+            for(var i in nodeData.children)
+            {
+                this.removeNode(nodeData.children[i]);
+            }
         }
     }
 
@@ -232,19 +255,48 @@
                 if(!node) return;
 
                 var action = change.action || 'update';
-                if(action === 'remove')
+                if(action === 'remove' || action === 'delete')
                 {
+                    var parent = this.getNodeData(node.parent);
+                    if(parent)
+                    {
+                        parent.children.splice(node.ui.index, 1);
 
-                    forceLoad = true;
-                    forceShow = true;
-                    changed = true;
+                        this.removeNode(node);
+                        this.clearNodeStatus();
+
+                        if(!$.isArray(parent.deletions))
+                        {
+                            parent.deletions = [node];
+                        }
+                        else
+                        {
+                            parent.deletions.push(node);
+                        }
+
+                        forceLoad = true;
+                        forceShow = true;
+                        changed = true;
+
+                        node.action = 'delete';
+                    }
                 }
                 else if(action === 'add')
                 {
+                    if(!$.isArray(node.children))
+                    {
+                        node.children = [change.newData];
+                    }
+                    else
+                    {
+                        node.children.push(change.newData);
+                    }
 
                     forceLoad = true;
                     forceShow = true;
                     changed = true;
+
+                    node.action = 'add';
                 }
                 else if(action === 'move')
                 {
@@ -286,6 +338,8 @@
                             forceLoad = true;
                             forceShow = true;
                             changed = true;
+
+                            node.action += ' move';
                         }
                     }
                 }
@@ -298,6 +352,7 @@
                         {
                             var child = node.children[i];
                             child.sort = i;
+                            child.action += ' sort';
                         }
 
                         forceLoad = true;
@@ -309,20 +364,25 @@
                 {
                      if(typeof(change.text) != UDF && change.text != node.text)
                      {
-                        node.text = change.text;
-                        // if(node.count > 0 || node.subSide === 'left')
-                        // {
-                        forceShow = true;
-                        // }
-                        changed = true;
+                         node.text = change.text;
+                         // if(node.count > 0 || node.subSide === 'left')
+                         // {
+                         forceShow = true;
+                         // }
+                         changed = true;
                      }
 
                      if(typeof(change.subSide) != UDF && change.subSide != node.subSide)
                      {
-                        node.subSide = change.subSide;
-                        forceLoad = true;
-                        forceShow = true;
-                        changed = true;
+                         node.subSide = change.subSide;
+                         forceLoad = true;
+                         forceShow = true;
+                         changed = true;
+                     }
+
+                     if(changed)
+                     {
+                         node.action += ' edit';
                      }
                 }
             }
@@ -347,7 +407,6 @@
     {
         this.loadNode();
         this.showNode();
-        console.log(this.data);
         // console.log(JSON.stringify(this.data));
     };
 
@@ -365,7 +424,7 @@
         if(typeof(nodeData.expand) === UDF) nodeData.expand = true;
         if(typeof(nodeData.data) === UDF) nodeData.data = {};
         if(typeof(nodeData.type) === UDF) nodeData.type = 'node';
-        if(typeof(nodeData.id) === UDF) nodeData.id = $.uuid();
+        if(typeof(nodeData.id) === UDF) nodeData.id = $.uuid() + '';
         if(typeof(nodeData.readonly) === UDF) nodeData.readonly = false;
         if(typeof(nodeData.ui) === UDF) nodeData.ui = {};
         nodeData.parent = parentId;
@@ -610,12 +669,12 @@
         {
             options['afterShow']({data: nodeData});
         }
-    }
+    };
 
     Mindmap.prototype.clearCanvasArea = function(nodeData, parent)
     {
         this.$canvas[0].getContext("2d").clearRect(0, 0, this.width, this.height)
-    }
+    };
 
     Mindmap.prototype.drawLineToLinkNode = function(nodeData, parent)
     {
@@ -655,13 +714,17 @@
         ctx.moveTo(start.x, start.y);
         ctx.bezierCurveTo(p1.x, p1.y, p2.x, p2.y, end.x, end.y);
         ctx.stroke();
-    }
+    };
 
     Mindmap.prototype.bindNodeEvents = function($node)
     {
         var that = this, data;
         $node.on('click', function(event){that.onNodeClick(event, $node);});
-        $node.find('.text').on('keyup paste blur', function(event){that.onNodeTextChanged(event, $node);});
+        $node.find('.text')
+            .on('keyup paste blur', function(event){that.onNodeTextChanged(event, $node);})
+            .on('keydown', function(event)
+            {
+            });
         if($node.data('type') != 'root')
         {
             $node.droppable(
@@ -728,8 +791,6 @@
         }
     }
 
-
-
     Mindmap.prototype.onNodeClick = function(event, $node)
     {
         if($node.hasClass('active'))
@@ -748,7 +809,7 @@
         }
 
         event.stopPropagation();
-    }
+    };
 
     Mindmap.prototype.onNodeTextChanged = function(event, $node)
     {
@@ -758,16 +819,17 @@
             $node.data('origin-text', text);
             this.update({id: $node.data('id'), text: text});
         }
-    }
+    };
 
     Mindmap.prototype.activeNode = function($node)
     {
         if(typeof($node) === UDF) $node = this.$desktop.children('.mindmap-node[data-type="sub"]').first();
+        if(!$node.length) $node = this.$desktop.children('.mindmap-node').first();
 
         $node.addClass('active');
         this.activedNode = $node;
         this.isActive = true;
-    }
+    };
 
     Mindmap.prototype.focusNode = function($node)
     {
@@ -780,7 +842,7 @@
 
         $node.addClass('focus').find('.text').attr('contenteditable', 'true').focus().select();
         this.isFocus = true;
-    }
+    };
 
     Mindmap.prototype.clearActiveNode = function($node)
     {
@@ -788,7 +850,7 @@
         $node.removeClass('active');
         this.isActive = false;
         this.activedNode = null;
-    }
+    };
 
     Mindmap.prototype.clearFocusNode = function($node)
     {
@@ -796,7 +858,7 @@
 
         $node.removeClass('focus').find('.text').attr('contenteditable', 'false').blur();
         this.isFocus = false;
-    }
+    };
 
     Mindmap.prototype.bindEvents = function()
     {
@@ -835,8 +897,79 @@
         }).on('keydown', null, hotkeys.selectRight, function()
         {
             that.selectNode('right');
+        }).on('keydown', null, hotkeys.deleteNode, function()
+        {
+            that.deleteNode();
+        }).on('keydown', null, hotkeys.addBorther, function()
+        {
+            that.addBortherNode();
+        }).on('keydown', null, hotkeys.addChild, function()
+        {
+            that.addChildNode();
+        }).on('keydown', function()
+        {
+            if(event.keyCode >= 48 && event.keyCode <=111 && that.isActive && (!that.isFocus))
+            {
+                var node = that.getNode(that.activedNode.data('id'));
+                if(node)
+                {
+                    node.find('.text').text('');
+                    that.focusNode(node)
+                }
+            }
         });
-    }
+    };
+
+    Mindmap.prototype.addBortherNode = function()
+    {
+        if(this.isActive)
+        {
+            var node = this.getNodeData(this.activedNode.data('id'));
+            if(node && node.type != 'root')
+            {
+                var parent = this.getNodeData(node.parent);
+                var newNode = this.createDefaultNodeData(parent);
+
+                this.update({action: 'add', data: parent, newData: newNode});
+
+                this.clearNodeStatus();
+                var $newNode = this.getNode(newNode.id);
+                this.activeNode($newNode);
+                this.focusNode($newNode);
+            }
+        }
+    };
+
+    Mindmap.prototype.addChildNode = function()
+    {
+        if(this.isActive)
+        {
+            var node = this.getNodeData(this.activedNode.data('id'));
+            if(node)
+            {
+                var newNode = this.createDefaultNodeData(parent);
+                this.update({action: 'add', data: node, newData: newNode});
+
+                this.clearNodeStatus();
+                var $newNode = this.getNode(newNode.id);
+                this.activeNode($newNode);
+                this.focusNode($newNode);
+            }
+        }
+    };
+
+    Mindmap.prototype.deleteNode = function()
+    {
+        if(this.isFocus) return;
+        if(this.isActive)
+        {
+            var node = this.getNodeData(this.activedNode.data('id'));
+            if(node)
+            {
+                this.update({action: 'remove', data: node});
+            }
+        }
+    };
 
     /* select node */
     Mindmap.prototype.selectNode = function(type)
@@ -979,7 +1112,7 @@
 
         /* remove status flag from node elements */
         this.clearNodeStatus();
-    }
+    };
 
     Mindmap.prototype.clearNodeStatus = function()
     {
