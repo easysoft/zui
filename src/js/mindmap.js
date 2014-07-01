@@ -391,6 +391,11 @@
             ui.left = 0 - Math.floor(ui.width / 2);
             ui.top = 0 - Math.floor(ui.height / 2);
         }
+        else if($.isPlainObject(ui.dragPos))
+        {
+            ui.left = ui.dragPos.left;
+            ui.top = ui.dragPos.top;
+        }
         else if(nodeData.type === 'sub')
         {
             var parentVSpan = 0;
@@ -527,7 +532,7 @@
                 drag: function(e)
                 {
                     console.log(e.pos);
-                    data.ui.dragPos = that.computePosition(e.pos);
+                    data.ui.dragPos = that.computePosition(e.pos, true);
                     that.showNode();
                 },
                 drop: function(e)
@@ -537,6 +542,7 @@
                 finish: function(e)
                 {
                     data.ui.dragPos = null;
+                    that.showNode();
                 }
             });
         }
