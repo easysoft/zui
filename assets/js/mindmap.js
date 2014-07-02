@@ -146,58 +146,57 @@ $(function()
                     caption: "初始化脑图的参数",
                     children:
                     [
-                        {
-                            text: "<code>hotkeyEnable</code> 启用或禁用快捷键"
-                            // ,
-                            // children:
-                            // [
-                            //     {text: '<code>true</code> 启用（默认）'},
-                            //     {text: '<code>false</code> 禁用'}
-                            // ]
-                        },
-                        {
-                            text: "<code>hotkeys</code> 快捷键配置表"
-                        },
-                        {
-                            text: "<code>lang</code> 选择界面语言"
-                        },
-                        {
-                            text: "<code>langs</code> 更改或增加新的备选语言"
-                        },
-                        {
-                            text: "<code>nodeTeamplate</code> 节点DOM模版"
-                        },
-                        {
-                            text: "<code>hSpace</code> 节点布局水平空间大小"
-                        },
-                        {
-                            text: "<code>vSpace</code> 节点布局垂直空间大小"
-                        },
-                        {
-                            text: "<code>removingNodeTip</code> 删除一个节点前确认提示语"
-                        },
-                        {
-                            text: "<code>lineCurvature</code> 节点连接线弯曲程度"
-                        },
-                        {
-                            text: "<code>subLineWidth</code> 二级节点连接线宽度"
-                        },
-                        {
-                            text: "<code>lineOpacity</code> 连接线透明度"
-                        },
-                        {
-                            text: "<code>lineSaturation</code> 连接线颜色饱和度"
-                        },
-                        {
-                            text: "<code>lineLightness</code> 连接线颜色亮度"
-                        },
-                        {
-                            text: "<code>nodeLineWidth</code> 一般节点连接线宽度"
-                        },
-                        {
-                            text: '<code>canvasSize</code> 画布最大尺寸'
-                        }
-
+                        // {
+                        //     text: "<code>hotkeyEnable</code> 启用或禁用快捷键"
+                        //     // ,
+                        //     // children:
+                        //     // [
+                        //     //     {text: '<code>true</code> 启用（默认）'},
+                        //     //     {text: '<code>false</code> 禁用'}
+                        //     // ]
+                        // },
+                        // {
+                        //     text: "<code>hotkeys</code> 快捷键配置表"
+                        // },
+                        // {
+                        //     text: "<code>lang</code> 选择界面语言"
+                        // },
+                        // {
+                        //     text: "<code>langs</code> 更改或增加新的备选语言"
+                        // },
+                        // {
+                        //     text: "<code>nodeTeamplate</code> 节点DOM模版"
+                        // },
+                        // {
+                        //     text: "<code>hSpace</code> 节点布局水平空间大小"
+                        // },
+                        // {
+                        //     text: "<code>vSpace</code> 节点布局垂直空间大小"
+                        // },
+                        // {
+                        //     text: "<code>removingNodeTip</code> 删除一个节点前确认提示语"
+                        // },
+                        // {
+                        //     text: "<code>lineCurvature</code> 节点连接线弯曲程度"
+                        // },
+                        // {
+                        //     text: "<code>subLineWidth</code> 二级节点连接线宽度"
+                        // },
+                        // {
+                        //     text: "<code>lineOpacity</code> 连接线透明度"
+                        // },
+                        // {
+                        //     text: "<code>lineSaturation</code> 连接线颜色饱和度"
+                        // },
+                        // {
+                        //     text: "<code>lineLightness</code> 连接线颜色亮度"
+                        // },
+                        // {
+                        //     text: "<code>nodeLineWidth</code> 一般节点连接线宽度"
+                        // },
+                        // {
+                        //     text: '<code>canvasSize</code> 画布最大尺寸'
+                        // }
                     ]
                 },
                 {
@@ -205,60 +204,60 @@ $(function()
                     type: "sub",
                     children:
                     [
-                        {
-                            text: "<code>afterLoad</code> 节点数据加载完毕后触发"
-                        },
-                        {
-                            text: "<code>afterShow</code> 绘制完毕后触发"
-                        },
-                        {
-                            text: "<code>onChange</code> 脑图数据发生更改后触发"
-                        },
-                        {
-                            text: "<code>onNodeClick</code> 用户点击一个节点时触发"
-                        },
-                        {
-                            text: "<code>onNodeActive</code> 当节点被选中时"
-                        },
-                        {
-                            text: "<code>onNodeFocus</code> 当节点进入编辑状态时"
-                        },
-                        {
-                            text: "<code>beforeDrag</code> 拖拽事件发生前"
-                        },
-                        {
-                            text: "<code>beforeSort</code> 节点排序发生前"
-                        },
-                        {
-                            text: "<code>afterSort</code> 节点排序之后"
-                        },
-                        {
-                            text: "<code>beforeMove</code> 节点移动之前"
-                        },
-                        {
-                            text: "<code>afterMove</code> 节点移动之后"
-                        },
-                        {
-                            text: "<code>onTextChanged</code> 节点文本发生更改时"
-                        },
-                        {
-                            text: "<code>beforeNodeActive</code> 节点被选中之前"
-                        },
-                        {
-                            text: "<code>beforeNodeFocus</code> 节点获取焦点进入编辑状态之前"
-                        },
-                        {
-                            text: "<code>beforeAdd</code> 添加一个新的节点之前"
-                        },
-                        {
-                            text: "<code>afterAdd</code> 添加一个节点之后"
-                        },
-                        {
-                            text: "<code>beforeDelete</code> 删除节点之前"
-                        },
-                        {
-                            text: "<code>afterDelete</code> 删除节点之后"
-                        }
+                        // {
+                        //     text: "<code>afterLoad</code> 节点数据加载完毕后触发"
+                        // },
+                        // {
+                        //     text: "<code>afterShow</code> 绘制完毕后触发"
+                        // },
+                        // {
+                        //     text: "<code>onChange</code> 脑图数据发生更改后触发"
+                        // },
+                        // {
+                        //     text: "<code>onNodeClick</code> 用户点击一个节点时触发"
+                        // },
+                        // {
+                        //     text: "<code>onNodeActive</code> 当节点被选中时"
+                        // },
+                        // {
+                        //     text: "<code>onNodeFocus</code> 当节点进入编辑状态时"
+                        // },
+                        // {
+                        //     text: "<code>beforeDrag</code> 拖拽事件发生前"
+                        // },
+                        // {
+                        //     text: "<code>beforeSort</code> 节点排序发生前"
+                        // },
+                        // {
+                        //     text: "<code>afterSort</code> 节点排序之后"
+                        // },
+                        // {
+                        //     text: "<code>beforeMove</code> 节点移动之前"
+                        // },
+                        // {
+                        //     text: "<code>afterMove</code> 节点移动之后"
+                        // },
+                        // {
+                        //     text: "<code>onTextChanged</code> 节点文本发生更改时"
+                        // },
+                        // {
+                        //     text: "<code>beforeNodeActive</code> 节点被选中之前"
+                        // },
+                        // {
+                        //     text: "<code>beforeNodeFocus</code> 节点获取焦点进入编辑状态之前"
+                        // },
+                        // {
+                        //     text: "<code>beforeAdd</code> 添加一个新的节点之前"
+                        // },
+                        // {
+                        //     text: "<code>afterAdd</code> 添加一个节点之后"
+                        // },
+                        // {
+                        //     text: "<code>beforeDelete</code> 删除节点之前"
+                        // },
+                        // {
+                        //     text: "<code>afterDelete</code> 删除节点之后"
+                        // }
                     ]
                 },
                 {
