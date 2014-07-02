@@ -218,8 +218,6 @@
             data.type = 'node';
             data.text = this.lang.DefaultNodeName;
         }
-        console.log(parentData);
-        console.log(data);
         return data;
     };
 
@@ -920,11 +918,11 @@
         {
             if(event.keyCode >= 48 && event.keyCode <=111 && that.isActive && (!that.isFocus))
             {
-                var node = that.getNode(that.activedNode.data('id'));
+                var node = that.activedNode;
                 if(node)
                 {
                     node.find('.text').text('');
-                    that.focusNode(node)
+                    that.focusNode(node);
                 }
             }
         });
