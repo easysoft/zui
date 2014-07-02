@@ -14,166 +14,204 @@ $(function()
     {
         data: 
         {
-            text: "ZUI",
+            text: "灵光闪现",
             type: "root",
             theme: "default",
-            caption: "一个开源免费的前端框架，用于快速构建禅道系列跨屏应用。",
-            id: "zui",
+            caption: "非常美观非常易用的web脑图。",
+            id: "mindmap",
 
             children:
             [
                 {
-                    id: 'start',
-                    text: "开始",
+                    id: 'feature',
+                    text: "特色",
                     type: "sub",
                     readonly: true,
                     children:
                     [
                         {
-                            id: 'about',
-                            text: "框架说明",
-                            sort: 1
+                            id: 'beautiful',
+                            text: "美观简洁 令人舒心",
+                            caption: '无需担心排版'
                         },
                         {
-                            id: 'files',
-                            text: "文件目录结构",
-                            sort: 3
+                            id: 'easy',
+                            text: "非常易用 快速展现你的想法"
                         },
                         {
-                            id: 'browsers',
-                            text: "受支持的平台",
-                            sort: 2
+                            id: 'lite',
+                            text: "轻量 小巧 使用HTML5"
+                        },
+                        {
+                            id: 'extension',
+                            text: '易于扩展 节点即div'
                         }
                     ]
                 },
                 {
-                    id: 'basic',
-                    text: "基础",
+                    id: 'mouse',
+                    text: "鼠标操作",
                     type: "sub",
-                    caption: "了解基础内容",
+                    caption: "通告鼠标来操作",
                     children:
                     [
                         {
-                            id: 'globalcss',
-                            text: "全局样式表",
-                        },
-                        {
-                            id: 'ie',
-                            text: "兼容IE浏览器",
-                        },
-                        {
-                            id: 'responsive',
-                            text: "响应式设计",
-                        },
-                        {
-                            id: 'grid',
-                            text: "栅格系统",
-                        },
-                        {
-                            id: 'types',
-                            text: "文字排版",
-                        },
-                        {
-                            id: 'colorset',
-                            text: "配色",
-                        }
-                    ]
-                },
-                {
-                    id: 'controls',
-                    text: "控件",
-                    type: "sub",
-                    caption: "一些常用的基本控件",
-                    children:
-                    [
-                        {
-                            id: 'icons',
-                            text: "图标",
+                            text: "选择",
                             children:
                             [
-                                {
-                                    id: 'howtouseicons',
-                                    text: '如何使用图标'
-                                },
-                                {
-                                    id: 'iconfont',
-                                    text: '图标字体'
-                                }
+                                {text: '单击节点来选中'},
+                                {text: '单击画布来取消选择'}
                             ]
                         },
                         {
-                            id: 'button',
-                            text: "按钮",
-                        },
-                        {
-                            id: 'progressbar',
-                            text: "进度条",
-                        },
-                        {
-                            id: 'labels',
-                            text: "标签",
-                        }
-                    ]
-                },
-                {
-                    id: 'components',
-                    text: "组件",
-                    type: "sub",
-                    caption: "一些组合控件",
-                    children:
-                    [
-                        {
-                            id: 'alerts',
-                            text: "消息框",
+                            text: "开始编辑",
                             children:
                             [
-                                {
-                                    id: 'alertstypes',
-                                    text: '消息框类型'
-                                },
-                                {
-                                    id: 'alertsicons',
-                                    text: '在消息框中使用图标'
-                                },
-                                {
-                                    id: 'alertsblocks',
-                                    text: '块级消息框'
-                                },
-                                {
-                                    id: 'alertslinks',
-                                    text: '消息框中的链接'
-                                },
-                                {
-                                    id: 'alertsclose',
-                                    text: '可关闭的消息框'
-                                }
+                                {text: '单击一个选中的节点'},
+                                {text: '双击一个未选中的节点'}
+                            ]
+                        },
+                        {
+                            text: "排序",
+                            children:
+                            [
+                                {text: '单击节点并拖动到新的位置'}
+                            ]
+                        },
+                        {
+                            text: "更改父节点",
+                            children:
+                            [
+                                {text: '单击并拖动到另一个节点上'}
+                            ]
+                        },
+                        {
+                            text: "删除",
+                            children:
+                            [
+                                {accent: 'danger', text: '单击并拖动到另一个节点上 (未完成)'}
+                            ]
+                        },
+                        {
+                            text: "移动画布",
+                            children:
+                            [
+                                {accent: 'danger', text: '单击空白位置来移动画布 (未完成)'}
                             ]
                         }
                     ]
                 },
                 {
-                    id: 'javascript',
-                    text: "Javascript插件",
+                    text: "快捷键操作",
                     type: "sub",
-                    caption: "Javascript增强的插件",
+                    caption: "使用键盘来操作",
                     children:
                     [
                         {
-                            id: 'javascriptmodal',
-                            text: '模态框',
-                            sort: 2,
+                            text: "选择及导航",
                             children:
                             [
-                                {
-                                    id: 'javascriptmodaliframe',
-                                    text: '框架对话框'
-                                }
+                                {text: '向上选择一个相邻节点 <span class="label"><i class="icon-arrow-up"></i></span>'},
+                                {text: '向下选择一个相邻节点 <span class="label"><i class="icon-arrow-down"></i></span>'},
+                                {text: '向左选择一个相邻节点 <span class="label"><i class="icon-arrow-left"></i></span>'},
+                                {text: '向右选择一个相邻节点 <span class="label"><i class="icon-arrow-right"></i></span>'}
                             ]
                         },
                         {
-                            id: 'javascriptdropdown',
-                            text: '下拉菜单',
-                            sort: 1
+                            text: '删除节点 <span class="label">Delete</span> / <span class="label">Backspace</span>'
+                        },
+                        {
+                            text: '新增节点',
+                            children:
+                            [
+                                {text: '增加子节点 <span class="label">Tab</span> / <span class="label">Insert</span>'},
+                                {text: '增加兄弟节点 <span class="label">Enter</span>'},
+                            ]
+                        },
+                        {
+                            text: '编辑 <span class="label">A-Z</span> / <span class="label">0-9</span>'
+                        }
+                    ]
+                },
+                {
+                    text: "启动参数",
+                    type: "sub",
+                    caption: "初始化脑图的参数",
+                    children:
+                    [
+                        {
+                            text: "<code>hotkeyEnable</code> 启用或禁用快捷键"
+                            // ,
+                            // children:
+                            // [
+                            //     {text: '<code>true</code> 启用（默认）'},
+                            //     {text: '<code>false</code> 禁用'}
+                            // ]
+                        },
+                        {
+                            text: "<code>hotkeys</code> 快捷键配置表"
+                        },
+                        {
+                            text: "<code>lang</code> 选择界面语言"
+                        },
+                        {
+                            text: "<code>langs</code> 更改或增加新的备选语言"
+                        },
+                        {
+                            text: "<code>nodeTeamplate</code> 节点DOM模版"
+                        },
+                        {
+                            text: "<code>hSpace</code> 节点布局水平空间大小"
+                        },
+                        {
+                            text: "<code>vSpace</code> 节点布局垂直空间大小"
+                        },
+                        {
+                            text: "<code>removingNodeTip</code> 删除一个节点前确认提示语"
+                        },
+                        {
+                            text: "<code>lineCurvature</code> 节点连接线弯曲程度"
+                        },
+                        {
+                            text: "<code>subLineWidth</code> 二级节点连接线宽度"
+                        },
+                        {
+                            text: "<code>lineOpacity</code> 连接线透明度"
+                        },
+                        {
+                            text: "<code>lineSaturation</code> 连接线颜色饱和度"
+                        },
+                        {
+                            text: "<code>lineLightness</code> 连接线颜色亮度"
+                        },
+                        {
+                            text: "<code>nodeLineWidth</code> 一般节点连接线宽度"
+                        }
+
+                    ]
+                },
+                {
+                    text: "事件接口",
+                    type: "sub",
+                    children:
+                    [
+                        {
+                            text: "<code>afterLoad</code> 节点数据加载完毕后触发"
+                        },
+                        {
+                            text: "<code>afterShow</code> 绘制完毕后触发"
+                        },
+                        {
+                            text: "<code>onChange</code> 脑图数据发生更改后触发"
+                        },
+                        {
+                            text: "<code>onNodeClick</code> 用户点击一个节点时触发"
+                        },
+                        {
+                            text: "<code>onNodeActive</code> 当节点被选中时"
+                        },
+                        {
+                            text: "<code>onNodeFocus</code> 当节点进入编辑状态时"
                         }
                     ]
                 }

@@ -25,7 +25,7 @@
             selectRight: 'right',
             deleteNode: 'del backspace',
             addBorther: 'return',
-            addChild: 'tab'
+            addChild: 'tab insert'
         },
         lang: 'zh_cn',
         langs:
@@ -149,6 +149,15 @@
 
         if(!this.dirtyData) this.showNode();
     };
+
+    Mindmap.prototype.callEvent = function(name, params)
+    {
+        if($.isFunction(this.options[name]))
+        {
+            // this.options[name](params);
+            $.proxy(this.options[name], this)(params);
+        }
+    }
 
     /* compute position with offset */
     Mindmap.prototype.computePosition = function(pos, inverse)
@@ -391,9 +400,9 @@
         if(forceLoad) this.loadNode();
         if(forceShow) this.showNode();
 
-        if(changed && $.isFunction(options['onChange']))
+        if(changed)
         {
-            options['onChange']({changes: changes, data: this.data});
+            this.callEvent('onChange', {changes: changes, data: this.data});
         }
     };
 
@@ -577,9 +586,9 @@
 
         this.dirtyData = false;
 
-        if(nodeData.type === 'root' && $.isFunction(options['afterLoad']))
+        if(nodeData.type === 'root')
         {
-            options['afterLoad']({data: nodeData});
+            this.callEvent('afterLoad', {data: nodeData})
         }
     };
 
@@ -665,9 +674,9 @@
             }
         }
 
-        if(nodeData.type === 'root' && $.isFunction(options['afterShow']))
+        if(nodeData.type === 'root')
         {
-            options['afterShow']({data: nodeData});
+            this.callEvent('afterShow', {data: nodeData})
         }
     };
 
@@ -803,10 +812,7 @@
             this.activeNode($node);
         }
 
-        if($.isFunction(this.options['onNodeClick']))
-        {
-            this.options['onNodeClick']();
-        }
+        this.callEvent('onNodeClick', {node: $node});
 
         event.stopPropagation();
     };
@@ -829,6 +835,8 @@
         $node.addClass('active');
         this.activedNode = $node;
         this.isActive = true;
+
+        this.callEvent('onNodeActive', {node: $node});
     };
 
     Mindmap.prototype.focusNode = function($node)
