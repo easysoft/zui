@@ -911,9 +911,13 @@
         }).on('keydown', null, hotkeys.addBorther, function()
         {
             that.addBortherNode();
-        }).on('keydown', null, hotkeys.addChild, function()
+        }).on('keydown', null, hotkeys.addChild, function(event)
         {
             that.addChildNode();
+            if(event.keyCode == 9)
+            {
+                event.preventDefault();
+            }
         }).on('keydown', function()
         {
             if(event.keyCode >= 48 && event.keyCode <=111 && that.isActive && (!that.isFocus))
