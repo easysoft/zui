@@ -40,14 +40,18 @@
             var $container = $(setting.container),
                 pos = $e.offset();
             var cPos = $container.offset(),
+                startPos = {x: event.pageX, y: event.pageY},
                 startOffset = {x: event.pageX - pos.left + cPos.left, y: event.pageY - pos.top + cPos.top};
+            var mousePos = $.extend({}, startPos);
 
             $e.addClass('drag-ready');
             $(document).bind('mousemove',mouseMove).bind('mouseup',mouseUp);
             event.preventDefault();
+            var moved = false;
 
             function mouseMove(event)
             {
+                moved = true;
                 var mX = event.pageX,
                     mY = event.pageY;
                 var dragPos = {left: mX-startOffset.x, top: mY-startOffset.y};
@@ -56,19 +60,26 @@
                 
                 if(setting.hasOwnProperty('drag') && $.isFunction(setting['drag']))
                 {
-                    setting['drag']({event: event, element: $e, startOffset: startOffset, pos: dragPos});
+                    setting['drag']({event: event, element: $e, startOffset: startOffset, pos: dragPos, offset: {x: mX - startPos.x, y: mY - startPos.y}, smallOffset: {x: mX - mousePos.x, y: mY - mousePos.y}});
                 }
+                mousePos.x = mX;
+                mousePos.y = mY;
             }
 
             function mouseUp(event)
             {
-                var endPos = {left: event.pageX - startOffset.x, top: event.pageY - startOffset.y};
-                $e.css(endPos).removeClass('dragging');
-
                 $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+                if(!moved)
+                {
+                    $e.removeClass('drag-ready');
+                    return;
+                }
+                var endPos = {left: event.pageX - startOffset.x, top: event.pageY - startOffset.y};
+                $e.css(endPos).removeClass('drag-ready').removeClass('dragging');
+
                 if(setting.hasOwnProperty('finish') && $.isFunction(setting['finish']))
                 {
-                    setting['finish']({event: event, target: target, element: $e, pos: endPos);
+                    setting['finish']({event: event, element: $e, pos: endPos, offset: {x: event.pageX - startPos.x, y: event.pageY - startPos.y}, smallOffset: {x: event.pageX - mousePos.x, y: event.pageY - mousePos.y}});
                 }
                 event.preventDefault();
             }
