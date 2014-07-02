@@ -207,7 +207,7 @@
 
     Mindmap.prototype.createDefaultNodeData = function(parentData)
     {
-        var data = {expand: true, id: $.uuid() + ''};
+        var data = {expand: true, id: $.uuid() + '', parent: parentData.id};
         if(parentData.type === 'root')
         {
             data.type = 'sub';
@@ -218,6 +218,8 @@
             data.type = 'node';
             data.text = this.lang.DefaultNodeName;
         }
+        console.log(parentData);
+        console.log(data);
         return data;
     };
 
@@ -933,9 +935,9 @@
         if(this.isActive)
         {
             var node = this.getNodeData(this.activedNode.data('id'));
-            if(node && node.type != 'root')
+            if(node)
             {
-                var parent = this.getNodeData(node.parent);
+                var parent = node.type === 'root' ? node : this.getNodeData(node.parent);
                 var newNode = this.createDefaultNodeData(parent);
 
                 this.update({action: 'add', data: parent, newData: newNode});
@@ -955,7 +957,7 @@
             var node = this.getNodeData(this.activedNode.data('id'));
             if(node)
             {
-                var newNode = this.createDefaultNodeData(parent);
+                var newNode = this.createDefaultNodeData(node);
                 this.update({action: 'add', data: node, newData: newNode});
 
                 this.clearNodeStatus();

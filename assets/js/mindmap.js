@@ -5,7 +5,7 @@ $(function()
     {
         var win = $(window);
         mindmap.css({'width': win.width(), 'height': win.height()});
-    }
+    };
 
     $(window).resize(ajustMmSize);
     ajustMmSize();
@@ -137,58 +137,58 @@ $(function()
                     text: "启动参数",
                     type: "sub",
                     caption: "初始化脑图的参数",
-                    children:
-                    [
-                        {
-                            text: "<code>hotkeyEnable</code> 启用或禁用快捷键"
-                            // ,
-                            // children:
-                            // [
-                            //     {text: '<code>true</code> 启用（默认）'},
-                            //     {text: '<code>false</code> 禁用'}
-                            // ]
-                        },
-                        {
-                            text: "<code>hotkeys</code> 快捷键配置表"
-                        },
-                        {
-                            text: "<code>lang</code> 选择界面语言"
-                        },
-                        {
-                            text: "<code>langs</code> 更改或增加新的备选语言"
-                        },
-                        {
-                            text: "<code>nodeTeamplate</code> 节点DOM模版"
-                        },
-                        {
-                            text: "<code>hSpace</code> 节点布局水平空间大小"
-                        },
-                        {
-                            text: "<code>vSpace</code> 节点布局垂直空间大小"
-                        },
-                        {
-                            text: "<code>removingNodeTip</code> 删除一个节点前确认提示语"
-                        },
-                        {
-                            text: "<code>lineCurvature</code> 节点连接线弯曲程度"
-                        },
-                        {
-                            text: "<code>subLineWidth</code> 二级节点连接线宽度"
-                        },
-                        {
-                            text: "<code>lineOpacity</code> 连接线透明度"
-                        },
-                        {
-                            text: "<code>lineSaturation</code> 连接线颜色饱和度"
-                        },
-                        {
-                            text: "<code>lineLightness</code> 连接线颜色亮度"
-                        },
-                        {
-                            text: "<code>nodeLineWidth</code> 一般节点连接线宽度"
-                        }
+                    // children:
+                    // [
+                    //     {
+                    //         text: "<code>hotkeyEnable</code> 启用或禁用快捷键"
+                    //         // ,
+                    //         // children:
+                    //         // [
+                    //         //     {text: '<code>true</code> 启用（默认）'},
+                    //         //     {text: '<code>false</code> 禁用'}
+                    //         // ]
+                    //     },
+                    //     {
+                    //         text: "<code>hotkeys</code> 快捷键配置表"
+                    //     },
+                    //     {
+                    //         text: "<code>lang</code> 选择界面语言"
+                    //     },
+                    //     {
+                    //         text: "<code>langs</code> 更改或增加新的备选语言"
+                    //     },
+                    //     {
+                    //         text: "<code>nodeTeamplate</code> 节点DOM模版"
+                    //     },
+                    //     {
+                    //         text: "<code>hSpace</code> 节点布局水平空间大小"
+                    //     },
+                    //     {
+                    //         text: "<code>vSpace</code> 节点布局垂直空间大小"
+                    //     },
+                    //     {
+                    //         text: "<code>removingNodeTip</code> 删除一个节点前确认提示语"
+                    //     },
+                    //     {
+                    //         text: "<code>lineCurvature</code> 节点连接线弯曲程度"
+                    //     },
+                    //     {
+                    //         text: "<code>subLineWidth</code> 二级节点连接线宽度"
+                    //     },
+                    //     {
+                    //         text: "<code>lineOpacity</code> 连接线透明度"
+                    //     },
+                    //     {
+                    //         text: "<code>lineSaturation</code> 连接线颜色饱和度"
+                    //     },
+                    //     {
+                    //         text: "<code>lineLightness</code> 连接线颜色亮度"
+                    //     },
+                    //     {
+                    //         text: "<code>nodeLineWidth</code> 一般节点连接线宽度"
+                    //     }
 
-                    ]
+                    // ]
                 },
                 {
                     text: "事件接口",
