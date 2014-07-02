@@ -4,12 +4,29 @@
     z-index: 0;
     overflow: hidden;
 }
-.mindmap-bg
+.mindmap-container
 {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+
+  &.dragging
+  {
+    cursor: pointer;
+  }
+}
+.mindmap-bg
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  max-width: inherit;
 }
 .mindmap-desktop
 {
@@ -19,6 +36,7 @@
   width: 100%;
   height: 100%;
   z-index: 10;
+  overflow: hidden;
   -moz-user-select: none; 
   -webkit-user-select: none;
 }
@@ -38,7 +56,7 @@
 
         > .text
         {
-            max-width: 300px;
+            // max-width: 300px;
             font-weight: bold;
             padding: 8px 12px;
             font-size: 14px;
@@ -111,7 +129,7 @@
             > .text
             {
                 font-size: 13px;
-                padding: 4px 5px;
+                padding: 3px 5px;
                 font-weight: normal;
 
                 &:empty:not(:focus)
@@ -134,7 +152,7 @@
             > .text
             {
                 font-size: 13px;
-                padding: 2px 3px;
+                padding: 3px 3px;
                 font-weight: normal;
             }
         }
@@ -192,8 +210,8 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    .box-shadow(~"0 0 20px rgba(0, 0, 0, 0.8)");
     z-index: 1000;
+    .transition();
 
     &.shadow-left,
     &.shadow-right
@@ -229,4 +247,9 @@
         bottom: -20px;
     }
 }
+.shadow-left > .shadow-left,
+.shadow-right > .shadow-right,
+.shadow-top > .shadow-top,
+.shadow-bottom > .shadow-bottom
+{.box-shadow(~"0 0 8px rgba(0, 0, 0, 0.8)");}
 

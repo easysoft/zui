@@ -14,9 +14,9 @@ $(function()
     {
         beforeNodeActive: function(e)
         {
-            // console.log(this);
-            // console.log(e);
+
         },
+        vSpace: 8,
         data: 
         {
             text: "灵光闪现",
@@ -28,7 +28,6 @@ $(function()
             children:
             [
                 {
-                    id: 'feature',
                     text: "特色",
                     type: "sub",
                     readonly: true,
@@ -101,7 +100,7 @@ $(function()
                             text: "移动画布",
                             children:
                             [
-                                {accent: 'danger', text: '单击空白位置来移动画布 (未完成)'}
+                                {text: '单击空白位置拖动来移动画布'}
                             ]
                         }
                     ]
@@ -135,6 +134,9 @@ $(function()
                         },
                         {
                             text: '编辑 <span class="label">A-Z</span> / <span class="label">0-9</span>'
+                        },
+                        {
+                            text: '画布居中 <span class="label">Space</span>'
                         }
                     ]
                 },
@@ -142,58 +144,61 @@ $(function()
                     text: "启动参数",
                     type: "sub",
                     caption: "初始化脑图的参数",
-                    // children:
-                    // [
-                    //     {
-                    //         text: "<code>hotkeyEnable</code> 启用或禁用快捷键"
-                    //         // ,
-                    //         // children:
-                    //         // [
-                    //         //     {text: '<code>true</code> 启用（默认）'},
-                    //         //     {text: '<code>false</code> 禁用'}
-                    //         // ]
-                    //     },
-                    //     {
-                    //         text: "<code>hotkeys</code> 快捷键配置表"
-                    //     },
-                    //     {
-                    //         text: "<code>lang</code> 选择界面语言"
-                    //     },
-                    //     {
-                    //         text: "<code>langs</code> 更改或增加新的备选语言"
-                    //     },
-                    //     {
-                    //         text: "<code>nodeTeamplate</code> 节点DOM模版"
-                    //     },
-                    //     {
-                    //         text: "<code>hSpace</code> 节点布局水平空间大小"
-                    //     },
-                    //     {
-                    //         text: "<code>vSpace</code> 节点布局垂直空间大小"
-                    //     },
-                    //     {
-                    //         text: "<code>removingNodeTip</code> 删除一个节点前确认提示语"
-                    //     },
-                    //     {
-                    //         text: "<code>lineCurvature</code> 节点连接线弯曲程度"
-                    //     },
-                    //     {
-                    //         text: "<code>subLineWidth</code> 二级节点连接线宽度"
-                    //     },
-                    //     {
-                    //         text: "<code>lineOpacity</code> 连接线透明度"
-                    //     },
-                    //     {
-                    //         text: "<code>lineSaturation</code> 连接线颜色饱和度"
-                    //     },
-                    //     {
-                    //         text: "<code>lineLightness</code> 连接线颜色亮度"
-                    //     },
-                    //     {
-                    //         text: "<code>nodeLineWidth</code> 一般节点连接线宽度"
-                    //     }
+                    children:
+                    [
+                        {
+                            text: "<code>hotkeyEnable</code> 启用或禁用快捷键"
+                            // ,
+                            // children:
+                            // [
+                            //     {text: '<code>true</code> 启用（默认）'},
+                            //     {text: '<code>false</code> 禁用'}
+                            // ]
+                        },
+                        {
+                            text: "<code>hotkeys</code> 快捷键配置表"
+                        },
+                        {
+                            text: "<code>lang</code> 选择界面语言"
+                        },
+                        {
+                            text: "<code>langs</code> 更改或增加新的备选语言"
+                        },
+                        {
+                            text: "<code>nodeTeamplate</code> 节点DOM模版"
+                        },
+                        {
+                            text: "<code>hSpace</code> 节点布局水平空间大小"
+                        },
+                        {
+                            text: "<code>vSpace</code> 节点布局垂直空间大小"
+                        },
+                        {
+                            text: "<code>removingNodeTip</code> 删除一个节点前确认提示语"
+                        },
+                        {
+                            text: "<code>lineCurvature</code> 节点连接线弯曲程度"
+                        },
+                        {
+                            text: "<code>subLineWidth</code> 二级节点连接线宽度"
+                        },
+                        {
+                            text: "<code>lineOpacity</code> 连接线透明度"
+                        },
+                        {
+                            text: "<code>lineSaturation</code> 连接线颜色饱和度"
+                        },
+                        {
+                            text: "<code>lineLightness</code> 连接线颜色亮度"
+                        },
+                        {
+                            text: "<code>nodeLineWidth</code> 一般节点连接线宽度"
+                        },
+                        {
+                            text: '<code>canvasSize</code> 画布最大尺寸'
+                        }
 
-                    // ]
+                    ]
                 },
                 {
                     text: "事件接口",
@@ -217,6 +222,63 @@ $(function()
                         },
                         {
                             text: "<code>onNodeFocus</code> 当节点进入编辑状态时"
+                        },
+                        {
+                            text: "<code>beforeDrag</code> 拖拽事件发生前"
+                        },
+                        {
+                            text: "<code>beforeSort</code> 节点排序发生前"
+                        },
+                        {
+                            text: "<code>afterSort</code> 节点排序之后"
+                        },
+                        {
+                            text: "<code>beforeMove</code> 节点移动之前"
+                        },
+                        {
+                            text: "<code>afterMove</code> 节点移动之后"
+                        },
+                        {
+                            text: "<code>onTextChanged</code> 节点文本发生更改时"
+                        },
+                        {
+                            text: "<code>beforeNodeActive</code> 节点被选中之前"
+                        },
+                        {
+                            text: "<code>beforeNodeFocus</code> 节点获取焦点进入编辑状态之前"
+                        },
+                        {
+                            text: "<code>beforeAdd</code> 添加一个新的节点之前"
+                        },
+                        {
+                            text: "<code>afterAdd</code> 添加一个节点之后"
+                        },
+                        {
+                            text: "<code>beforeDelete</code> 删除节点之前"
+                        },
+                        {
+                            text: "<code>afterDelete</code> 删除节点之后"
+                        }
+                    ]
+                },
+                {
+                    text: '其他特性',
+                    type: 'sub',
+                    children:
+                    [
+                        {
+                            text: '空的节点',
+                            children:
+                            [
+                                {
+                                    text: '',
+                                    children:
+                                    [
+                                        {text: ''},
+                                        {text: ''}
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 }
