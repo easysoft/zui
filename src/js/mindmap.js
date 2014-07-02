@@ -155,8 +155,10 @@
         if($.isFunction(this.options[name]))
         {
             // this.options[name](params);
-            $.proxy(this.options[name], this)(params);
+            var result = $.proxy(this.options[name], this)(params);
+            return !(result != undefined && (!result));
         }
+        return 1;
     }
 
     /* compute position with offset */
@@ -741,6 +743,8 @@
                 target: '#' + that.id + ' .mindmap-node:not([data-id="' + $node.data('id') + '"]',
                 before: function(e)
                 {
+                    if(!that.callEvent('beforeDrag', {node: $node})) return false;
+
                     if(e.element.hasClass('focus'))
                     {
                         return false;
@@ -771,6 +775,8 @@
                     }
                     else
                     {
+                        if(!that.callEvent('beforeSort', {node: $node, event: e})) return;
+
                         var subSide = data.subSide;
                         if(data.type === 'sub')
                         {
@@ -784,11 +790,17 @@
                             }
                         }
                         that.update([{action: 'sort', data: that.getNodeData(data.parent), func: function(a, b) {return a.ui.top - b.ui.top;}}, {data: data, subSide: subSide}]);
+
+                        that.callEvent('afterSort', {node: $node, event: e});
                     }
                 },
                 drop: function(e)
                 {
+                    if(!that.callEvent('beforeMove', {node: $node, event: e})) return;
+
                     that.update({action: 'move', data: data, newParent: e.target.data('id')});
+
+                    that.callEvent('afterMove', {node: $node, event: e});
                 },
                 finish: function(e)
                 {
@@ -824,6 +836,8 @@
         {
             $node.data('origin-text', text);
             this.update({id: $node.data('id'), text: text});
+
+            this.callEvent('onTextChanged', {node: $node, event: e});
         }
     };
 
@@ -831,6 +845,8 @@
     {
         if(typeof($node) === UDF) $node = this.$desktop.children('.mindmap-node[data-type="sub"]').first();
         if(!$node.length) $node = this.$desktop.children('.mindmap-node').first();
+
+        if(!this.callEvent('beforeNodeActive', {node: $node})) return;
 
         $node.addClass('active');
         this.activedNode = $node;
@@ -847,6 +863,8 @@
             return;
         }
         if(!$node.hasClass('active')) return;
+
+        if(!this.callEvent('beforeNodeFocus', {node: $node})) return;
 
         $node.addClass('focus').find('.text').attr('contenteditable', 'true').focus().select();
         this.isFocus = true;
@@ -870,7 +888,7 @@
 
     Mindmap.prototype.bindEvents = function()
     {
-        var $this = this.$, that = this;
+        var $this = this.$;
 
         $this.resize($.proxy(this.initSize, this)).click($.proxy(this.onDesktopClick, this));
 
@@ -942,12 +960,16 @@
                 var parent = node.type === 'root' ? node : this.getNodeData(node.parent);
                 var newNode = this.createDefaultNodeData(parent);
 
+                if(!this.callEvent('beforeAdd', {node: parent, newNode: newNode})) return;
+
                 this.update({action: 'add', data: parent, newData: newNode});
 
                 this.clearNodeStatus();
                 var $newNode = this.getNode(newNode.id);
                 this.activeNode($newNode);
                 this.focusNode($newNode);
+
+                this.callEvent('afterAdd', {node: parent, newNode: newNode});
             }
         }
     };
@@ -960,12 +982,17 @@
             if(node)
             {
                 var newNode = this.createDefaultNodeData(node);
+
+                if(!this.callEvent('beforeAdd', {node: node, newNode: newNode})) return;
+
                 this.update({action: 'add', data: node, newData: newNode});
 
                 this.clearNodeStatus();
                 var $newNode = this.getNode(newNode.id);
                 this.activeNode($newNode);
                 this.focusNode($newNode);
+
+                this.callEvent('afterAdd', {node: node, newNode: newNode});
             }
         }
     };
@@ -978,7 +1005,11 @@
             var node = this.getNodeData(this.activedNode.data('id'));
             if(node)
             {
+                if(!this.callEvent('beforeDelte', {node: node})) return;
+
                 this.update({action: 'remove', data: node});
+
+                this.callEvent('afterDelete', {node: node});
             }
         }
     };

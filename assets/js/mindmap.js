@@ -12,6 +12,11 @@ $(function()
 
     mindmap.mindmap(
     {
+        beforeNodeActive: function(e)
+        {
+            // console.log(this);
+            // console.log(e);
+        },
         data: 
         {
             text: "灵光闪现",
