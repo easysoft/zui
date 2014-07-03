@@ -622,7 +622,6 @@
 
         if(nodeData.type === 'root')
         {
-            this.clearCanvasArea();
             ui.left = 0 - Math.floor(ui.width / 2);
             ui.top = 0 - Math.floor(ui.height / 2);
 
@@ -773,8 +772,7 @@
 
     Mindmap.prototype.clearCanvasArea = function(nodeData, parent)
     {
-        var size = this.options.canvasSize;
-        this.$canvas[0].getContext("2d").clearRect(0, 0, size.width, size.height)
+        this.$canvas[0].getContext("2d").clearRect(0, 0, this.width, this.height)
     };
 
     Mindmap.prototype.draw = function(nodeData, parent)
@@ -787,6 +785,7 @@
         if(nodeData.type === 'root')
         {
             this.$canvas.attr({width: this.width, height: this.height});
+            this.clearCanvasArea();
         }
 
         if(parent)
