@@ -278,6 +278,25 @@ $(function()
                                     ]
                                 }
                             ]
+                        },
+                        {
+                            text: '只读的节点',
+                            readonly: true,
+                            children:
+                            [
+                                {
+                                    text: '无法编辑',
+                                    readonly: true
+                                },
+                                {
+                                    text: '可以删除',
+                                    readonly: true
+                                },
+                                {
+                                    text: '可以移动',
+                                    readonly: true
+                                }
+                            ]
                         }
                     ]
                 }

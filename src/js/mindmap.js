@@ -61,8 +61,7 @@
         lineOpacity: 1,
         lineSaturation: 90,
         lineLightness: 40,
-        nodeLineWidth: 2,
-        canvasSize: {width: 3600, height: 3600}
+        nodeLineWidth: 2
     }; // default options
 
     Mindmap.prototype.getOptions = function (options)
@@ -128,7 +127,7 @@
         this.$canvas = this.$container.children('canvas');
         if(!this.$canvas.length)
         {
-            this.$container.prepend("<canvas class='mindmap-bg' width='{width}' height='{height}' style='width: {width}px; height: {height}px'></canvas>".format(this.options.canvasSize));
+            this.$container.prepend("<canvas class='mindmap-bg'></canvas>".format(this.options.canvasSize));
             this.$canvas = this.$container.children('canvas');
         }
 
@@ -627,11 +626,9 @@
             ui.left = 0 - Math.floor(ui.width / 2);
             ui.top = 0 - Math.floor(ui.height / 2);
 
-            // this.left = 0 - Math.floor(Math.max(ui.width - options.canvasPadding * 2, this.winWidth) / 2);
-            this.left = -50;
+            this.left = 0 - Math.floor(Math.max(ui.width - options.canvasPadding * 2, this.winWidth) / 4);
             this.right = 0 - this.left;
-            this.top = -50;
-            // this.top = 0 - Math.floor(Math.max(ui.height - options.canvasPadding * 2, this.winHeight) / 2);
+            this.top = 0 - Math.floor(Math.max(ui.height - options.canvasPadding * 2, this.winHeight) / 4);
             this.bottom = 0 - this.top;
         }
         else if($.isPlainObject(ui.dragPos))
@@ -712,7 +709,7 @@
             this.height = this.bottom - this.top;
 
             this.display();
-            this.drawAndDisplay();
+            this.draw();
 
             this.callEvent('afterShow', {data: nodeData})
         }
@@ -780,11 +777,16 @@
         this.$canvas[0].getContext("2d").clearRect(0, 0, size.width, size.height)
     };
 
-    Mindmap.prototype.drawAndDisplay = function(nodeData, parent)
+    Mindmap.prototype.draw = function(nodeData, parent)
     {
         if(!nodeData)
         {
             nodeData = this.data;
+        }
+
+        if(nodeData.type === 'root')
+        {
+            this.$canvas.attr({width: this.width, height: this.height});
         }
 
         if(parent)
@@ -833,7 +835,7 @@
         {
             for(var i in nodeData.children)
             {
-                this.drawAndDisplay(nodeData.children[i], nodeData);
+                this.draw(nodeData.children[i], nodeData);
             }
         }
     };
