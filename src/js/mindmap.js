@@ -1050,7 +1050,7 @@
         }).on('keydown', null, hotkeys.deleteNode, function()
         {
             that.deleteNode();
-            if(event.keyCode == 8)
+            if(event.keyCode == 8 && !that.isFocus)
             {
                 event.preventDefault();
             }
