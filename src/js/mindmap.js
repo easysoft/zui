@@ -973,7 +973,7 @@
         this.callEvent('onNodeActive', {node: $node});
     };
 
-    Mindmap.prototype.focusNode = function($node)
+    Mindmap.prototype.focusNode = function($node, selectAll)
     {
         if($node.hasClass('readonly'))
         {
@@ -987,7 +987,8 @@
         var text = $node.addClass('focus').find('.text');
         text.attr('contenteditable', 'true');
         this.makeNodeVisble($node);
-        text.focus().select();
+        text.focus();
+        if(selectAll) text.selectText();
 
         this.isFocus = true;
     };
@@ -1097,7 +1098,7 @@
                 this.clearNodeStatus();
                 var $newNode = this.getNode(newNode.id);
                 this.activeNode($newNode);
-                this.focusNode($newNode);
+                this.focusNode($newNode, true);
 
                 this.callEvent('afterAdd', {node: parent, newNode: newNode});
             }
@@ -1120,7 +1121,7 @@
                 this.clearNodeStatus();
                 var $newNode = this.getNode(newNode.id);
                 this.activeNode($newNode);
-                this.focusNode($newNode);
+                this.focusNode($newNode, true);
 
                 this.callEvent('afterAdd', {node: node, newNode: newNode});
             }
