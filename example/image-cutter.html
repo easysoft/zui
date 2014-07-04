@@ -9,7 +9,7 @@
   <script src="../dist/js/zui.min.js"></script>
   <script>
     $(function () {
-    $("#imgCutter").imgCutter({fixedRatio: true});
+    $("#imgCutter").imgCutter({fixedRatio: true, before: function(e){console.log(e);}});
     });
   </script>
   <link href="../assets/css/example.css" rel="stylesheet">
