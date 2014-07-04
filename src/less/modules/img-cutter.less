@@ -1,0 +1,149 @@
+.img-cutter
+{
+    background: #e5e5e5;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+
+    >.canvas
+    {
+        margin: 0 auto;
+        max-width: 100%;
+        min-width: 50px;
+        position: relative;
+
+        > .cover
+        {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 1;
+            .transition();
+        }
+        > img
+        {
+            .transition();
+        }
+
+        > .controller
+        {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: none;
+            left: 5%;
+            top: 5%;
+            z-index: 5;
+            border: 1px dashed #fff;
+            border-color: rgba(255, 255, 255, 0.7);
+            cursor: move;
+            .transition(opacity @animation-speed-normal @animation-type);
+
+            > .control
+            {
+               position: absolute;
+               width: 6px;
+               height: 6px;
+               position: absolute;
+               border: 1px solid #fff;
+               border-color: rgba(255, 255, 255, 0.6);
+               background: #000;
+               background: rgba(0, 0, 0, 0.6);
+            }
+
+            > .control[data-direction='left']
+            {
+                left: -4px;
+                top: 50%;
+                margin-top: -3px;
+                cursor: w-resize;
+            }
+
+            > .control[data-direction='top']
+            {
+                top: -4px;
+                left: 50%;
+                margin-left: -3px;
+                cursor: n-resize;
+            }
+
+            > .control[data-direction='right']
+            {
+                right: -4px;
+                top: 50%;
+                margin-top: -3px;
+                cursor: e-resize;
+            }
+
+            > .control[data-direction='bottom']
+            {
+                bottom: -4px;
+                left: 50%;
+                margin-left: -3px;
+                cursor: s-resize;
+            }
+
+            > .control[data-direction='top-left']
+            {
+                left: -4px;
+                top: -4px;
+                cursor: nw-resize;
+            }
+
+            > .control[data-direction='top-right']
+            {
+                right: -4px;
+                top: -4px;
+                cursor: ne-resize;
+            }
+
+            > .control[data-direction='bottom-left']
+            {
+                left: -4px;
+                bottom: -4px;
+                cursor: sw-resize;
+            }
+
+            > .control[data-direction='bottom-right']
+            {
+                right: -4px;
+                bottom: -4px;
+                cursor: se-resize;
+            }
+        }
+
+        > .cliper
+        {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 2;
+            clip: rect(0px,50px,50px,0);
+        }
+    }
+
+    > .actions
+    {
+        
+    }
+
+    &.hover
+    {
+        > .canvas
+        {
+           > img,
+           > .controller
+           > .cover
+           {
+               .opacity(0);
+           }
+
+           > .controller
+           {
+              display: none;
+           }
+        }
+    }
+}
