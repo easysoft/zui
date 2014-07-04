@@ -11,7 +11,7 @@
         this.init();
     };
 
-    Draggable.DEFAULTS = {container: 'body'};
+    Draggable.DEFAULTS = {container: 'body', move: true};
 
     Draggable.prototype.getOptions = function (options)
     {
@@ -43,11 +43,12 @@
                 startPos = {x: event.pageX, y: event.pageY},
                 startOffset = {x: event.pageX - pos.left + cPos.left, y: event.pageY - pos.top + cPos.top};
             var mousePos = $.extend({}, startPos);
+            var moved = false;
 
             $e.addClass('drag-ready');
             $(document).bind('mousemove',mouseMove).bind('mouseup',mouseUp);
             event.preventDefault();
-            var moved = false;
+            if(setting.stopPropagation) {event.stopPropagation();}
 
             function mouseMove(event)
             {
@@ -56,7 +57,11 @@
                     mY = event.pageY;
                 var dragPos = {left: mX-startOffset.x, top: mY-startOffset.y};
                     
-                $e.removeClass('drag-ready').addClass('dragging').css(dragPos);
+                $e.removeClass('drag-ready').addClass('dragging');
+                if(setting.move)
+                {
+                    $e.css(dragPos);
+                }
                 
                 if(setting.hasOwnProperty('drag') && $.isFunction(setting['drag']))
                 {
@@ -64,6 +69,8 @@
                 }
                 mousePos.x = mX;
                 mousePos.y = mY;
+
+                if(setting.stopPropagation) {event.stopPropagation();}
             }
 
             function mouseUp(event)
@@ -75,13 +82,18 @@
                     return;
                 }
                 var endPos = {left: event.pageX - startOffset.x, top: event.pageY - startOffset.y};
-                $e.css(endPos).removeClass('drag-ready').removeClass('dragging');
+                $e.removeClass('drag-ready').removeClass('dragging');
+                if(setting.move)
+                {
+                    $e.css(endPos);
+                }
 
                 if(setting.hasOwnProperty('finish') && $.isFunction(setting['finish']))
                 {
                     setting['finish']({event: event, element: $e, pos: endPos, offset: {x: event.pageX - startPos.x, y: event.pageY - startPos.y}, smallOffset: {x: event.pageX - mousePos.x, y: event.pageY - mousePos.y}});
                 }
                 event.preventDefault();
+                if(setting.stopPropagation) {event.stopPropagation();}
             }
         });
     }
