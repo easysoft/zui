@@ -92,7 +92,6 @@
             });
         }).change(function()
         {
-            console.log('changed');
             var span = $(chosenSelector + ' .chosen-single > span');
             var text = $(this).val();
 
