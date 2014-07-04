@@ -162,12 +162,7 @@
 
     Mindmap.prototype.callEvent = function(name, params)
     {
-        if($.isFunction(this.options[name]))
-        {
-            var result = $.proxy(this.options[name], this)(params);
-            return !(result != undefined && (!result));
-        }
-        return 1;
+        return $.callEvent(this.options[name], params, this);
     }
 
     /* compute position with offset */

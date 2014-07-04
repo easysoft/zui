@@ -14,12 +14,7 @@
 
     ImgCutter.prototype.callEvent = function(name, params)
     {
-        if($.isFunction(this.options[name]))
-        {
-            var result = this.options[name](params);
-            return !(result != undefined && (!result));
-        }
-        return 1;
+        return $.callEvent(this.options[name], params);
     }
 
     ImgCutter.prototype.initOptions = function (options)
