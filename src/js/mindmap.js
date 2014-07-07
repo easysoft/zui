@@ -612,8 +612,6 @@
             ui = nodeData.ui,
             node = nodeData.ui.element;
 
-        node.find('.caption').text(nodeData.index);
-
         ui.width = node.outerWidth(),
         ui.height = node.outerHeight();
 
