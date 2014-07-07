@@ -275,7 +275,7 @@
                     var parent = this.getNodeData(node.parent);
                     if(parent)
                     {
-                        parent.children.splice(node.ui.index, 1);
+                        parent.children.splice(node.index, 1);
 
                         this.removeNode(node);
                         this.clearNodeStatus();
@@ -338,7 +338,7 @@
                                 node.subSide = newParent.subSide;
                             }
 
-                            parent.children.splice(node.ui.index, 1);
+                            parent.children.splice(node.index, 1);
                             parent.count -= 1;
                             if(!$.isArray(newParent.children))
                             {
@@ -366,7 +366,7 @@
                         for(var i in node.children)
                         {
                             var child = node.children[i];
-                            child.sort = i;
+                            child.index = i;
                             child.action += ' sort';
                         }
 
@@ -525,7 +525,7 @@
             var vLeftSpan = 0, vRightSpan = 0, lastChild = null;
             vSpan = 0;
 
-            nodeData.children.sort(function(nodeA, nodeB){return nodeA.sort - nodeB.sort});
+            nodeData.children.sort(function(nodeA, nodeB){return nodeA.index - nodeB.index});
 
             for(var i in nodeData.children)
             {
@@ -551,10 +551,10 @@
 
                 this.loadNode(child, nodeData, i);
 
-                child.ui.index = nodeData.count++;
+                child.index = nodeData.count++;
                 if(typeof(child['order']) === 'undifined')
                 {
-                    child.order = child.ui.index;
+                    child.order = child.index;
                 }
 
                 vSpan += child.ui.vSpan;
@@ -611,7 +611,9 @@
             options = this.options,
             ui = nodeData.ui,
             node = nodeData.ui.element;
-        
+
+        node.find('.caption').text(nodeData.index);
+
         ui.width = node.outerWidth(),
         ui.height = node.outerHeight();
 
@@ -987,7 +989,7 @@
         text.attr('contenteditable', 'true');
         this.makeNodeVisble($node);
         text.focus();
-        if(selectAll) text.selectText();
+        if(selectAll || typeof selectAll === UDF) text.selectText();
 
         this.isFocus = true;
     };
