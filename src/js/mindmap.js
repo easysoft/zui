@@ -503,7 +503,7 @@
             }
             nodeData.subSide = subSide;
 
-            if(!nodeData.colorHue)
+            if(typeof nodeData.colorHue === UDF)
             {
                 nodeData.colorHue = Math.floor(((newColorIndex++) * 55) % 360);
             }
@@ -945,6 +945,10 @@
         var text = $node.find('.text').text();
         if(text != $node.data('origin-text'))
         {
+            if(text == '')
+            {
+                $node.find('.text').text('');
+            }
             $node.data('origin-text', text);
             this.update({id: $node.data('id'), text: text});
 
