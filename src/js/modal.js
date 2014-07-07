@@ -135,11 +135,17 @@
 
   Modal.prototype.escape = function () {
     if (this.isShown && this.options.keyboard) {
-      this.$element.on('keyup.dismiss.bs.modal', $.proxy(function (e) {
-        e.which == 27 && this.hide()
+      $(document).on('keyup.dismiss.bs.modal', $.proxy(function (e) {
+        if(e.which == 27)
+        {
+            var et = $.Event('escaping.bs.modal')
+            var result = this.$element.triggerHandler(et, 'esc')
+            if(result != undefined && (!result)) return
+            this.hide()
+        }
       }, this))
     } else if (!this.isShown) {
-      this.$element.off('keyup.dismiss.bs.modal')
+      $(document).off('keyup.dismiss.bs.modal')
     }
   }
 

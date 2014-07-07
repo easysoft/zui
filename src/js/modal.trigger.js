@@ -16,8 +16,8 @@
 
     ModalTrigger.DEFAULTS =
     {
-        type:            'iframe',
-        width:           800,
+        type:            'ajax',
+        width:           null,
         height:          'auto',
         icon:            '*',
         // title:      '',
@@ -26,7 +26,8 @@
         // cssClass:   null,
         // headerless: null,
         position:        'fit',
-        iframeTeamplate: "<div class='icon-spinner icon-spin loader'></div><div class='modal-dialog modal-iframe' style='width: {width};'><div class='modal-content'><div class='modal-header'><button class='close' data-dismiss='modal'>×</button><h4 class='modal-title'><i class='icon-{icon}'></i> {title}</h4></div><div class='modal-body' style='height:{height}'><iframe id='{name}' name='{name}' src='{url}' frameborder='no' allowtransparency='true' scrolling='auto' hidefocus='' style='width: 100%; height: 100%; left: 0px;'></iframe></div></div></div>"
+        iframeTeamplate: "<div class='icon-spinner icon-spin loader'></div><div class='modal-dialog modal-iframe' style='width: {width};'><div class='modal-content'><div class='modal-header'><button class='close' data-dismiss='modal'>×</button><h4 class='modal-title'><i class='icon-{icon}'></i> {title}</h4></div><div class='modal-body' style='height:{height}'><iframe id='{name}' name='{name}' src='{url}' frameborder='no' allowtransparency='true' scrolling='auto' hidefocus='' style='width: 100%; height: 100%; left: 0px;'></iframe></div></div></div>",
+        ajaxTeamplate: "<div class='icon-spinner icon-spin loader'></div><div class='modal-dialog modal-ajax' style='width: {width};'><div class='modal-content'><div class='modal-header'><button class='close' data-dismiss='modal'>×</button><h4 class='modal-title'><i class='icon-{icon}'></i> {title}</h4></div><div class='modal-body' style='height:{height}'></div></div></div>"
     };
 
 
@@ -58,7 +59,7 @@
             var $e   = $(this);
             if($e.attr('disabled') == 'disabled' || $e.hasClass('disabled')) return false;
 
-            var url  = (options ? options.url : false) || $e.attr('href');
+            options.url  = (options ? options.url : false) || $e.attr('href');
             var cssClass = options.cssClass;
 
             if(options.size == 'fullscreen')
@@ -94,6 +95,10 @@
                     setTimeout(function()
                     {
                         var modalBody = modal.find('.modal-body'), dialog = modal.find('.modal-dialog');
+                        if(options.width)
+                        {
+                            dialog.css('width', options.width);
+                        }
                         if(options.height != 'auto') modalBody.css('height', options.height);
                         if(options.width) dialog.css('width', options.width);
                         ajustModalPosition(options.position, dialog);
@@ -104,11 +109,15 @@
             else
             {
                 modal.data('first', true);
-                modal.html(options.iframeTeamplate.format($.extend({},options,{url: url})));
+                modal.html(options.iframeTeamplate.format(options));
                 var modalBody = modal.find('.modal-body'), dialog = modal.find('.modal-dialog');
                 if(cssClass)
                 {
                     dialog.addClass(options.cssClass);
+                }
+                if(options.width)
+                {
+                    dialog.css('width', options.width);
                 }
 
                 var frame = document.getElementById(options.name);
@@ -155,7 +164,7 @@
             modal.modal('show')
 
             /* Save the href to rel attribute thus we can save it. */
-            modal.attr('rel', url);
+            modal.attr('rel', options.url);
             return false;
         });
     };
@@ -230,9 +239,10 @@
             try
             {
                 var $this = $(this);
-                if($this.data('type') == 'iframe' || $($this.data('target') + ',' + $this.attr('href')).length < 1)
+                if($this.data('type') == 'iframe' || $($this.data('target')).length < 1 ||  $this.attr('href').indexOf('#') != 0)
                 {
-                    $this.modalTrigger();
+                    if($this.hasClass('iframe')) $this.modalTrigger({type: 'iframe'});
+                    else $this.modalTrigger();
                 }
             }
             catch(e){}
