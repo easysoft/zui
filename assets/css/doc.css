@@ -36,13 +36,21 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
   box-shadow: 1px 1px 20px rgba(0,0,0,0.1);
 }
 
+.alert-promote
+{
+  margin: -20px -40px 0;
+  padding: 20px 40px;
+}
+
 @media (max-width: 767px){
   #navbar.navbar-fixed-left {height: auto; width: 100%}
   #main {margin-left: 0; padding-top: 60px;}
   .navbar-fixed-left.navbar-inverse .navbar-header {border-bottom: none}
   .navbar-fixed-left .navbar-toggle {display: block;}
   .navbar-fixed-left .navbar-collapse {padding-bottom: 0;}
+  .alert-promote {padding: 20px;}
 }
+
 
 .jumbotron
 {
