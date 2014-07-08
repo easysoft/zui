@@ -6,6 +6,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 // Import parts
 // -----------------------------
+// @koala-append "../../../js/image.ready.js"
 // @koala-append "../../../js/unities.js"
 // @koala-append "../../../js/transition.js"
 // @koala-append "../../../js/alert.js"
