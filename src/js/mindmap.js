@@ -412,6 +412,60 @@
         }
     };
 
+    Mindmap.prototype.export = function()
+    {
+        var data = $.extend({}, this.data);
+        this.fixExport(data);
+        return data;
+    };
+
+    Mindmap.prototype.exportJSON = function()
+    {
+        return JSON.stringify(this.export());
+    };
+
+    Mindmap.prototype.exportArray = function(nodeData, ar)
+    {
+        if(typeof nodeData === UDF)
+        {
+            nodeData = this.data;
+        }
+
+        if(typeof ar === UDF)
+        {
+            ar = [];
+        }
+
+        var data = $.extend({}, nodeData);
+        delete data.ui;
+        delete data.children;
+        delete data.subSide;
+
+        ar.push(data);
+
+        if(nodeData.children)
+        {
+            for(var i in nodeData.children)
+            {
+                this.exportArray(nodeData.children[i], ar);
+            }
+        }
+
+        return ar;
+    };
+
+    Mindmap.prototype.fixExport = function(data)
+    {
+        delete data.ui;
+        if(data.children)
+        {
+            for(var i in data.children)
+            {
+                this.fixExport(data.children[i]);
+            }
+        }
+    }
+
     Mindmap.prototype.load = function(data)
     {
         this.data = data;
@@ -620,9 +674,9 @@
             ui.left = 0 - Math.floor(ui.width / 2);
             ui.top = 0 - Math.floor(ui.height / 2);
 
-            this.left = 0 - Math.floor(Math.max(ui.width - options.canvasPadding * 2, this.winWidth) / 4);
+            this.left = 0 - Math.floor(Math.max(ui.width + options.canvasPadding, this.winWidth) / 4);
             this.right = 0 - this.left;
-            this.top = 0 - Math.floor(Math.max(ui.height - options.canvasPadding * 2, this.winHeight) / 4);
+            this.top = 0 - Math.floor(Math.max(ui.height + options.canvasPadding, this.winHeight) / 4);
             this.bottom = 0 - this.top;
         }
         else if($.isPlainObject(ui.dragPos))
