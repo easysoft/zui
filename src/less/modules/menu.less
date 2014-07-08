@@ -121,6 +121,15 @@
         }
       }
 
+      &:first-child
+      {
+        > a,
+        &.nav-heading
+        {
+          .border-top-radius(@border-radius-base);
+        }
+      }
+
       // Active state
       &.active > a
       {

@@ -367,6 +367,15 @@ a
 // Nav
 .nav
 {
+  > li > a
+  {
+    &:hover,
+    &:focus
+    {
+      color: @link-hover-color;
+    }
+  }
+
   .open > a
   {
     &,
@@ -658,5 +667,14 @@ table.tablesorter thead tr .headerSortDown:after{color:@link-color!important;}
         }
       }
     }
+  }
+}
+
+// cards
+.card
+{
+  &:hover
+  {
+    a,a& {color: @link-hover-color}
   }
 }
