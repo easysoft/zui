@@ -58,6 +58,7 @@
         removingNodeTip: null,
         lineCurvature: 60,
         subLineWidth: 4,
+        lineColor: 'rainbow',
         lineOpacity: 1,
         lineSaturation: 90,
         lineLightness: 40,
@@ -918,6 +919,7 @@
                 },
                 start:function(e)
                 {
+                    that.callEvent('startDrag', {node: $node});
                     if(!e.element.hasClass('active'))
                     {
                         that.clearNodeStatus();
@@ -961,11 +963,11 @@
                 },
                 drop: function(e)
                 {
-                    if(!that.callEvent('beforeMove', {node: $node, event: e})) return;
+                    if(!that.callEvent('beforeMove', {node: data, event: e})) return;
 
                     that.update({action: 'move', data: data, newParent: e.target.data('id')});
 
-                    that.callEvent('afterMove', {node: $node, event: e});
+                    that.callEvent('afterMove', {node: data, event: e});
                 },
                 finish: function(e)
                 {
@@ -975,6 +977,8 @@
                 }
             });
         }
+
+        this.callEvent('onBindEvents', {node: $node});
     }
 
     Mindmap.prototype.onNodeClick = function(event, $node)
@@ -1071,6 +1075,10 @@
         this.bindGlobalHotkeys();
         this.$container.draggable(
         {
+            before: function(e)
+            {
+                if(!that.callEvent('beforeMoveCanvas')) return false;
+            },
             finish: function(e)
             {
                 that.display(e.smallOffset.x, e.smallOffset.y, true);
@@ -1189,7 +1197,7 @@
             var node = this.getNodeData(this.activedNode.data('id'));
             if(node)
             {
-                if(!this.callEvent('beforeDelte', {node: node})) return;
+                if(!this.callEvent('beforeDelete', {node: node})) return;
 
                 this.update({action: 'remove', data: node});
 
