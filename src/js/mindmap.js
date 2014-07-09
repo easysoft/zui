@@ -307,6 +307,8 @@
                     {
                         node.children.push(change.newData);
                     }
+                    node.count += 1;
+                    change.newData.index = node.count;
 
                     forceLoad = true;
                     forceShow = true;
@@ -350,6 +352,7 @@
                                 newParent.children.push(node);
                             }
                             newParent.count += 1;
+                            node.index = newParent.count;
 
                             forceLoad = true;
                             forceShow = true;
@@ -1010,7 +1013,7 @@
             $node.data('origin-text', text);
             this.update({id: $node.data('id'), text: text});
 
-            this.callEvent('onTextChanged', {node: $node});
+            this.callEvent('onTextChanged', {node: $node, text: text});
         }
     };
 
