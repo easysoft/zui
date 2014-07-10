@@ -35,11 +35,11 @@
         {
             'zh_cn':
             {
-                DefaultName: '灵光闪现',
-                DefaultSubName: '灵光',
-                DefaultNodeName: '闪现',
-                ReadonlyTip: '该节点已被设置为只读，无法进行编辑。',
-                HotkeyDisabled: '快捷键不可用，需要 <a target="_blank" href="https://github.com/jeresig/jquery.hotkeys">jquery.hotkeys</a> 插件支持。'
+                defaultName: '灵光闪现',
+                defaultSubName: '灵光',
+                defaultNodeName: '闪现',
+                readonlyTip: '该节点已被设置为只读，无法进行编辑。',
+                hotkeyDisabled: '快捷键不可用，需要 <a target="_blank" href="https://github.com/jeresig/jquery.hotkeys">jquery.hotkeys</a> 插件支持。'
             }
         },
         data: 
@@ -67,14 +67,14 @@
 
     Mindmap.prototype.getOptions = function (options)
     {
-        Mindmap.DEFAULTS.data.text = Mindmap.DEFAULTS.langs['zh_cn'].DefaultName;
+        Mindmap.DEFAULTS.data.text = Mindmap.DEFAULTS.langs['zh_cn'].defaultName;
 
         options = $.extend({}, Mindmap.DEFAULTS, this.$.data(), options);
 
         var hotkeyEnable = (typeof($.hotkeys) != UDF);
         if(!hotkeyEnable && options.hotkeyEnable)
         {
-            window.messager.danger(this.lang.HotkeyDisabled);
+            window.messager.danger(this.lang.hotkeyDisabled);
         }
         options.hotkeyEnable = options.hotkeyEnable && hotkeyEnable;
 
@@ -83,20 +83,26 @@
 
     Mindmap.prototype.getLang = function()
     {
-        if(!this.options.lang)
+        var options = this.options;
+        if(!options.lang)
         {
             if(typeof(window.config) != 'undefined' && window.config.clientLang)
             {
-                this.options.lang = config.clientLang;
+                options.lang = config.clientLang;
             }
             else
             {
                 var hl = $('html').attr('lang');
-                this.options.lang = hl? hl : 'en';
+                options.lang = hl? hl : 'en';
             }
-            this.options.lang = this.options.lang.replace(/-/, '_').toLowerCase();
+            options.lang = options.lang.replace(/-/, '_').toLowerCase();
         }
-        return this.options.langs[this.options.lang] || this.options.langs[Mindmap.DEFAULTS.lang];
+        var lang = options.langs[options.lang] || options.langs[Mindmap.DEFAULTS.lang];
+
+        if(options.defaultSubName) lang.defaultSubName = options.defaultSubName;
+        if(options.defaultNodeName) lang.defaultNodeName = options.defaultNodeName;
+
+        return lang;
     };
 
     Mindmap.prototype.init = function()
@@ -218,12 +224,12 @@
         if(parentData.type === 'root')
         {
             data.type = 'sub';
-            data.text = this.lang.DefaultSubName;
+            data.text = this.lang.defaultSubName;
         }
         else
         {
             data.type = 'node';
-            data.text = this.lang.DefaultNodeName;
+            data.text = this.lang.defaultNodeName;
         }
         return data;
     };
@@ -1037,7 +1043,7 @@
     {
         if($node.hasClass('readonly'))
         {
-            window.messager.show(this.lang.ReadonlyTip);
+            window.messager.show(this.lang.readonlyTip);
             return;
         }
         if(!$node.hasClass('active')) return;
@@ -1101,18 +1107,23 @@
         var that = this, hotkeys = options.hotkeys;
         $(document).on('keydown', null, hotkeys.selectPrev, function()
         {
+            if(!that.callEvent('beforeHotkey', {event: event, hotkey: hotkeys.selectPrev})) return;
             that.selectNode('prev');
         }).on('keydown', null, hotkeys.selectNext, function()
         {
+            if(!that.callEvent('beforeHotkey', {event: event, hotkey: hotkeys.selectNext})) return;
             that.selectNode('next');
         }).on('keydown', null, hotkeys.selectLeft, function()
         {
+            if(!that.callEvent('beforeHotkey', {event: event, hotkey: hotkeys.selectLeft})) return;
             that.selectNode('left');
         }).on('keydown', null, hotkeys.selectRight, function()
         {
+            if(!that.callEvent('beforeHotkey', {event: event, hotkey: hotkeys.selectRight})) return;
             that.selectNode('right');
         }).on('keydown', null, hotkeys.deleteNode, function()
         {
+            if(!that.callEvent('beforeHotkey', {event: event, hotkey: hotkeys.deleteNode})) return;
             that.deleteNode();
             if(event.keyCode == 8 && !that.isFocus)
             {
@@ -1120,9 +1131,11 @@
             }
         }).on('keydown', null, hotkeys.addBorther, function()
         {
+            if(!that.callEvent('beforeHotkey', {event: event, hotkey: hotkeys.addBorther})) return;
             that.addBortherNode();
         }).on('keydown', null, hotkeys.addChild, function(event)
         {
+            if(!that.callEvent('beforeHotkey', {event: event, hotkey: hotkeys.addChild})) return;
             that.addChildNode();
             if(event.keyCode == 9)
             {
@@ -1130,6 +1143,7 @@
             }
         }).on('keydown', function()
         {
+            if(!that.callEvent('beforeHotkey', {event: event, type: 'keydown'})) return;
             if(event.keyCode >= 48 && event.keyCode <=111 && that.isActive && (!that.isFocus))
             {
                 var node = that.activedNode;
@@ -1141,6 +1155,7 @@
             }
         }).on('keydown', null, hotkeys.centerCanvas, function()
         {
+            if(!that.callEvent('beforeHotkey', {event: event, hotkey: hotkeys.centerCanvas})) return;
             that.display(0, 0);
         });
     };
