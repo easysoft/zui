@@ -11,7 +11,7 @@
         this.init();
     };
 
-    Droppable.DEFAULTS = {container: 'body', flex: false};
+    Droppable.DEFAULTS = {container: 'body', flex: false, deviation: 5};
 
     Droppable.prototype.getOptions = function (options)
     {
@@ -43,6 +43,7 @@
                 shadow = null,
                 $container = $(setting.container),
                 pos = $e.offset(),
+                startPos = {x: event.pageX, y: event.pageY},
                 isIn = false, isSelf = true;
             var cPos = $container.offset(),
                 startOffset = {x: event.pageX - pos.left + cPos.left, y: event.pageY - pos.top + cPos.top};
@@ -53,6 +54,7 @@
 
             function mouseMove(event)
             {
+                if(Math.abs(event.pageX - startPos.x) <= setting.deviation && Math.abs(event.pageY - startPos.y) <= setting.deviation ) return;
                 if(shadow == null)
                 {
                     shadow = $e.clone().removeClass('drag-from').addClass('drag-shadow').css(
