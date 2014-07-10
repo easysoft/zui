@@ -126,11 +126,11 @@
         this.$.resize($.proxy(this.initSize, this));
         this.$btn.hover(function(){that.$.toggleClass('hover');}).click(function()
         {
-            var data = {width: that.width, height: that.height, left: that.left, top: that.top, right: that.right, bottom: that.bottom};
+            var data = $.extend({originWidth: that.imgWidth, originHeight: that.imgHeight, width: that.width, height: that.height, left: that.left, top: that.top, right: that.right, bottom: that.bottom, scaled: that.imgWidth != that.width || that.imgHeight != that.height}, options.data);
 
             if(!that.callEvent('before', data)) return;
 
-            var url = options.post || options.get || null;
+            var url = options.post || options.get || options.url || null;
             if(url != null)
             {
                 $.ajax({type: options.post ? 'POST': 'GET', url: url, data: data})
