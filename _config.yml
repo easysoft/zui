@@ -1,0 +1,3 @@
+# Server
+source:           ./docs
+destination:      ./_gh_pages
