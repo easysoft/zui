@@ -16,10 +16,10 @@ base_url: "./"
 
   <title>ZUI</title>
 
-  <link href="dist/css/zui.css" rel="stylesheet">
-  <link href="dist/css/datetimepicker.css" rel="stylesheet">
-  <link href="dist/css/chosen.css" rel="stylesheet">
-  <link href="assets/css/doc.css" rel="stylesheet">
+  <link href="../dist/css/zui.min.css" rel="stylesheet">
+  <link href="../assets/datetimepicker/css/datetimepicker.min.css" rel="stylesheet">
+  <link href="../assets/chosen/css/chosen.min.css" rel="stylesheet">
+  <link href="css/doc.css" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -945,7 +945,7 @@ base_url: "./"
         <tr>
           <td>show.bs.tab</td>
           <td>
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) 
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e)
               {
                 e.target // activated tab
                 e.relatedTarget // previous tab
@@ -956,7 +956,7 @@ base_url: "./"
         <tr>
           <td>shown.bs.tab</td>
           <td>
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e)
               {
                 e.target // activated tab
                 e.relatedTarget // previous tab
@@ -975,7 +975,7 @@ base_url: "./"
       </p>
       <p>可遍历对象查看对象各个属性和值：</p>
       <p>
-        <pre><code>          $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+        <pre><code>          $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e)
           {
               $.each(e.target, function(n, value)
               {
@@ -1996,10 +1996,10 @@ base_url: "./"
       <div class="page-header">
         <h2>日期选择</h2>
       </div>
-      
+
       <p>日期选择插件可以帮助用户更方便准确的选择日期和时间。</p>
       <p>在ZUI中包含的日期选择控件基于开源项目 <a href="http://www.malot.fr/bootstrap-datetimepicker/" target="_blank">DateTime Picker</a> 定制开发。</p>
-    
+
       <h3>类型</h3>
       <h4>日期选择</h4>
       <div class="example">
@@ -2162,7 +2162,7 @@ base_url: "./"
       <div class="page-header">
         <h2>自动触发器</h2>
       </div>
-      
+
       <p>利用自动触发器能够不写一行Javascript代码做很多有趣的事情。</p>
       <h3>参数</h3>
       <table class="table table-bordered">
@@ -2316,13 +2316,13 @@ base_url: "./"
   </div>
   <div style="height: 300px"></div>
 
-  <script src="dist/js/jquery.js"></script>
-  <script src="dist/js/zui.min.js"></script>
-  <script src="dist/js/datetimepicker/datetimepicker.js"></script>
-  <script src="dist/js/chosen.jquery.min.js"></script>
-  <script src="src/js/chosen.icons.js" type="text/javascript"></script>
-  <script src="dist/js/kindeditor/kindeditor-all-min.js"></script>
-  <script src="assets/js/doc.js"></script>
-  <script src="dist/js/google-code-prettify/prettify.js"></script>
+  <script src="../assets/jquery.js"></script>
+  <script src="../dist/js/zui.min.js"></script>
+  <script src="../assets/js/datetimepicker/datetimepicker.min.js"></script>
+  <script src="../assets/js/chosen.jquery.min.js"></script>
+  <script src="../assets/js/chosen.icons.min.js" type="text/javascript"></script>
+  <script src="../assets/js/kindeditor/kindeditor-all-min.js"></script>
+  <script src="js/doc.js"></script>
+  <script src="../assets/google-code-prettify/prettify.js"></script>
 </body>
 </html>

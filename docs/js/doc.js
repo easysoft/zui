@@ -38,6 +38,31 @@ $(function()
 
     $('#dashboard').dashboard();
 
+    $('[data-toggle="droppable"]').droppable(
+    {
+        start: function()
+        {
+            $('.droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里。');
+        },
+        drop: function(event)
+        {
+            messager.show('真棒！');
+            $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
+            if(event.target)
+            {
+                event.target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
+            }
+        },
+        drag: function(event)
+        {
+
+            $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
+            if(event.target) event.target.addClass('panel-warning');
+        }
+    });
+
+    $('.boards').boards();
+
     // Chosen
     $('.chosen-select').chosen();
     $('#chosenIcons').chosenIcons();
@@ -79,9 +104,9 @@ $(function()
         format: 'hh:ii'
     });
 
-    KindEditor.ready(function(K) 
+    KindEditor.ready(function(K)
     {
-      K.create('textarea.kindeditor', 
+      K.create('textarea.kindeditor',
       {
         allowFileManager : true,
         bodyClass : 'article-content',
@@ -90,7 +115,7 @@ $(function()
           afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
       });
 
-      K.create('textarea.kindeditorSimple', 
+      K.create('textarea.kindeditorSimple',
       {
         bodyClass : 'article-content',
         cssPath: 'dist/css/zui.css',
@@ -115,28 +140,4 @@ $(function()
       });
     });
 
-    $('[data-toggle="droppable"]').droppable(
-    {
-        start: function()
-        {
-            $('.droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里。');
-        },
-        drop: function(event)
-        {
-            messager.show('真棒！');
-            $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
-            if(event.target)
-            {
-                event.target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
-            }
-        },
-        drag: function(event)
-        {
-            
-            $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
-            if(event.target) event.target.addClass('panel-warning');
-        }
-    });
-
-    $('.boards').boards();
 });

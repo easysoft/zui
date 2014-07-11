@@ -16,8 +16,8 @@ base_url: "./"
 
     <title>ZUI</title>
 
-    <link href="dist/css/zui.css" rel="stylesheet">
-    <link href="assets/css/doc.css" rel="stylesheet">
+    <link href="../dist/css/zui.min.css" rel="stylesheet">
+    <link href="css/doc.css" rel="stylesheet">
   </head>
   <body>
     <header>
@@ -793,7 +793,7 @@ base_url: "./"
             <td>h6</td>
           </tr>
         </table>
-        
+
         <h3>徽标</h3>
         <p><code>.label-badge</code></p>
         <div class='example' contenteditable="true">
@@ -813,7 +813,7 @@ base_url: "./"
           <span class="label label-dot label-warning">Warning</span>
           <span class="label label-dot label-danger">Danger</span>
         </div>
-        
+
         <p>按钮中的徽标</p>
         <div class='example' contenteditable="true">
           <button class="btn">列表 <span class="label label-badge">12</span></button>
@@ -842,7 +842,7 @@ base_url: "./"
           <button class="btn btn-warning">联系人 <span class="label label-dot">12</span></button>
           <button class="btn btn-danger">联系人 <span class="label label-dot">12</span></button>
         </div>
-        
+
         <p>列表组中的徽标和标签</p>
         <div class='example' contenteditable="true">
           <div class="list-group">
@@ -854,7 +854,7 @@ base_url: "./"
             <a href="#" class="list-group-item">case <span class="label label-dot label-danger"></span><span class="label label-badge label-danger pull-right">123</span></a>
           </div>
         </div>
-        
+
         <h3>标签和徽标的颜色</h3>
         <table class="table" style='text-align:left'>
           <tr>
@@ -935,7 +935,7 @@ base_url: "./"
             <td>select </td>
           </tr>
         </table>
-       
+
 
         <h3>状态</h3>
         <table class="table">
@@ -1030,18 +1030,18 @@ base_url: "./"
         <h3>类型</h3>
         <h4>圆角图片</h4>
         <p><code>.img-rounded</code></p>
-        <div class="example"><img src="example/img/img2.jpg" width="200px" height="200px" class='img-rounded' alt=""></div>
+        <div class="example"><img src="img/img2.jpg" width="200px" height="200px" class='img-rounded' alt=""></div>
         <h4>圆形图片</h4>
         <p><code>.img-circle</code></p>
-        <div class="example"><img src="example/img/img2.jpg" width="200px" height="200px" class='img-circle' alt=""></div>
+        <div class="example"><img src="img/img2.jpg" width="200px" height="200px" class='img-circle' alt=""></div>
         <h4>缩略图</h4>
         <p><code>.img-thumbnail</code></p>
-        <div class="example"><img src="example/img/img2.jpg" width="200px" height="200px" class='img-thumbnail' alt=""></div>
+        <div class="example"><img src="img/img2.jpg" width="200px" height="200px" class='img-thumbnail' alt=""></div>
         <h3>参数</h3>
         <h4>响应式图片</h4>
         <p>图片最大宽度将不会超过父级容器。<code>.img-responsive</code></p>
         <div class="example">
-           <div class='panel' style='width: 250px;'><img src="example/img/img2.jpg" class='img-responsive' alt=""></div>
+           <div class='panel' style='width: 250px;'><img src="img/img2.jpg" class='img-responsive' alt=""></div>
         </div>
       </section>
 
@@ -1102,7 +1102,7 @@ base_url: "./"
             </tr>
               </tbody>
         </table>
-        
+
         <h4>带额外内容的标题</h4>
         <p>标题中可以加入解释性的文本，这些文本通过一个<code>small</code>标签加入。</p>
         <div class="example" contenteditable="true">
@@ -1113,26 +1113,26 @@ base_url: "./"
           <h5>Heading5 标题5 <small>额外的标题 secondary headings</small></h5>
           <h6>Heading6 标题6 <small>额外的标题 secondary headings</small></h6>
         </div>
-        
+
         <h4>单独一行的解释性文本</h4>
         <div class="example" contenteditable="true">
           <h2>Heading1 标题1 <small class="block">这是关于标题的解释性文本 secondary headings</small></h2>
         </div>
-        
+
         <h4>带图标的标题</h4>
         <p>页面标题使用额外的<code>div.header</code>来为页面内容提供更多的样式控制，与其他控件完美整合在一起。</p>
         <div class="example" contenteditable="true">
           <h2><i class="icon icon-film"></i> 带图标的标题</h2>
         </div>
-        
+
         <h3>参数</h3>
-        
+
         <h4><code>.header-block</code></h4>
         <p>带背景颜色的标题。</p>
         <div class="example" contenteditable="true">
           <h3 class="header-block">标题</h3>
         </div>
-        
+
         <h4><code>.header-dividing</code></h4>
         <p>带底部水平分隔线的标题</p>
         <div class="example" contenteditable="true">
@@ -1154,9 +1154,9 @@ base_url: "./"
 
     </div>
 
-    <script src="dist/js/jquery.js"></script>
-    <script src="dist/js/zui.min.js"></script>
-    <script src="assets/js/doc.js"></script>
-    <script src="dist/js/google-code-prettify/prettify.js"></script>
+    <script src="../assets/jquery.js"></script>
+    <script src="../dist/js/zui.min.js"></script>
+    <script src="../assets/google-code-prettify/prettify.js"></script>
+    <script src="js/doc.js"></script>
   </body>
 </html>
