@@ -16,7 +16,7 @@
         this.init();
     };
 
-    Mindmap.DEFAULTS = 
+    Mindmap.DEFAULTS =
     {
         hotkeyEnable: true,
         hotkeys:
@@ -42,7 +42,7 @@
                 hotkeyDisabled: '快捷键不可用，需要 <a target="_blank" href="https://github.com/jeresig/jquery.hotkeys">jquery.hotkeys</a> 插件支持。'
             }
         },
-        data: 
+        data:
         {
             text: 'New Project',
             type: 'root',
@@ -300,7 +300,8 @@
                         forceShow = true;
                         changed = true;
 
-                        node.action = 'delete';
+                        node.changed = 'delete';
+                        parent.changed = 'delete children';
                     }
                 }
                 else if(action === 'add')
@@ -315,12 +316,11 @@
                     }
                     node.count += 1;
                     change.newData.index = node.count;
+                    change.newData.changed = 'add';
 
                     forceLoad = true;
                     forceShow = true;
                     changed = true;
-
-                    node.action = 'add';
                 }
                 else if(action === 'move')
                 {
@@ -364,7 +364,7 @@
                             forceShow = true;
                             changed = true;
 
-                            node.action += ' move';
+                            node.changed = 'move';
                         }
                     }
                 }
@@ -376,13 +376,15 @@
                         for(var i in node.children)
                         {
                             var child = node.children[i];
-                            child.index = i;
-                            child.action += ' sort';
+                            if(child.index != i)
+                            {
+                                child.index = i;
+                                child.changed = 'sort';
+                                forceLoad = true;
+                                forceShow = true;
+                                changed = true;
+                            }
                         }
-
-                        forceLoad = true;
-                        forceShow = true;
-                        changed = true;
                     }
                 }
                 else
@@ -407,12 +409,12 @@
 
                      if(changed)
                      {
-                         node.action += ' edit';
+                         node.changed = 'edit';
                      }
                 }
             }
         }
-        
+
         if(forceLoad) this.loadNode();
         if(forceShow) this.showNode();
 
@@ -421,6 +423,25 @@
             this.callEvent('onChange', {changes: changes, data: this.data});
         }
     };
+
+
+    Mindmap.prototype.clearChangeFlag = function(nodeData)
+    {
+        if(typeof nodeData === UDF)
+        {
+            nodeData = this.data;
+        }
+
+        if(nodeData.changed) nodeData.changed = null;
+
+        if(nodeData.children)
+        {
+            for(var i in nodeData.children)
+            {
+                this.clearChangeFlag(nodeData.children[i]);
+            }
+        }
+    }
 
     Mindmap.prototype.export = function()
     {
@@ -659,7 +680,8 @@
 
         if(nodeData.type === 'root')
         {
-            this.callEvent('afterLoad', {data: nodeData})
+            this.callEvent('afterLoad', {data: nodeData});
+            // console.log(this.data);
         }
     };
 
@@ -731,7 +753,7 @@
                 var areaX = parent.ui.top + Math.floor(parent.ui.height / 2) - Math.floor(areaHeight / 2);
                 var nodeAreaTop = ui.topSpan *  ui.height + (ui.topSpan) * options.vSpace;
                 var nodeAreaHeight = ui.vSpan * ui.height + (ui.vSpan - 1) * options.vSpace;
-                
+
                 ui.top = areaX + nodeAreaTop + Math.floor((nodeAreaHeight - ui.height) / 2);
             }
 
@@ -785,7 +807,7 @@
             }
             this.offsetX = x;
             this.offsetY = y;
-        } 
+        }
         this.x = this.centerX + this.left + this.offsetX;
         this.y = this.centerY + this.top + this.offsetY;
         this.$container.css({width: this.width, height: this.height, top: this.y, left: this.x});
@@ -852,12 +874,12 @@
             var isLeft = (nodeData.subSide === 'left'),
                 options = this.options;
             var ctx = this.$canvas[0].getContext("2d"),
-                start = 
+                start =
                 {
                     x: parent.ui.left + (parent.type === 'root' ? (Math.floor(parent.ui.width / 2)) : (isLeft ? 0 : parent.ui.width)),
                     y: parent.ui.top + Math.floor(parent.ui.height / 2)
                 },
-                end = 
+                end =
                 {
                     x: nodeData.ui.left + (isLeft ? nodeData.ui.width : 0),
                     y: nodeData.ui.top + Math.floor(nodeData.ui.height / 2)
