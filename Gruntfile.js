@@ -1,7 +1,7 @@
 module.exports = function(grunt)
 {
 
-    var banner = '/*!\n' +
+    var banner      = '/*!\n' +
         ' * ====================================================\n' +
         ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -11,14 +11,13 @@ module.exports = function(grunt)
         ' Licensed <%= pkg.license %>\n' +
         ' * ====================================================\n' +
         ' */\n\n',
-        statement = '/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n',
+        statement   = '/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n',
         jqueryCheck = 'if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery") }\n\n',
-        srcPath = 'src/',
-        srcJsPath = 'src/js/',
-        distJsPath = 'dist/js/',
-        distPath = 'dist/';
+        srcPath     = 'src/',
+        distPath    = 'dist/',
+        buildPath   = 'build/';
 
-    // 项目配置
+    // project config
     grunt.initConfig(
     {
         pkg: grunt.file.readJSON('package.json'),
@@ -54,43 +53,43 @@ module.exports = function(grunt)
                 },
                 src:
                 [
-                    srcJsPath + "hotkeys.js",
-                    srcJsPath + "unities.js",
-                    srcJsPath + "transition.js",
-                    srcJsPath + "alert.js",
-                    srcJsPath + "button.js",
-                    srcJsPath + "carousel.js",
-                    srcJsPath + "collapse.js",
-                    srcJsPath + "dropdown.js",
-                    srcJsPath + "modal.js",
-                    srcJsPath + "modal.trigger.js",
-                    srcJsPath + "tooltip.js",
-                    srcJsPath + "popover.js",
-                    srcJsPath + "pager.js",
-                    srcJsPath + "tab.js",
-                    srcJsPath + "image.ready.js",
-                    srcJsPath + "lightbox.js",
-                    srcJsPath + "draggable.js",
-                    srcJsPath + "droppable.js",
-                    srcJsPath + "dashboard.js",
-                    srcJsPath + "menu.js",
-                    srcJsPath + "table.data.js",
-                    srcJsPath + "bootbox.js",
-                    srcJsPath + "messager.js",
-                    srcJsPath + "string.js",
-                    srcJsPath + "date.js",
-                    srcJsPath + "cookie.js",
-                    srcJsPath + "resize.js",
-                    srcJsPath + "boards.js",
-                    srcJsPath + "img-cutter.js",
-                    srcJsPath + "auto-trigger.js"
+                    srcPath + "js/hotkeys.js",
+                    srcPath + "js/unities.js",
+                    srcPath + "js/transition.js",
+                    srcPath + "js/alert.js",
+                    srcPath + "js/button.js",
+                    srcPath + "js/carousel.js",
+                    srcPath + "js/collapse.js",
+                    srcPath + "js/dropdown.js",
+                    srcPath + "js/modal.js",
+                    srcPath + "js/modal.trigger.js",
+                    srcPath + "js/tooltip.js",
+                    srcPath + "js/popover.js",
+                    srcPath + "js/pager.js",
+                    srcPath + "js/tab.js",
+                    srcPath + "js/image.ready.js",
+                    srcPath + "js/lightbox.js",
+                    srcPath + "js/draggable.js",
+                    srcPath + "js/droppable.js",
+                    srcPath + "js/dashboard.js",
+                    srcPath + "js/menu.js",
+                    srcPath + "js/table.data.js",
+                    srcPath + "js/bootbox.js",
+                    srcPath + "js/messager.js",
+                    srcPath + "js/string.js",
+                    srcPath + "js/date.js",
+                    srcPath + "js/cookie.js",
+                    srcPath + "js/resize.js",
+                    srcPath + "js/boards.js",
+                    srcPath + "js/img-cutter.js",
+                    srcPath + "js/auto-trigger.js"
                 ],
-                dest: distJsPath + '<%= pkg.name %>.js'
+                dest: distPath + 'js/<%= pkg.name %>.js'
             },
             mindmap:
             {
                 src: [srcPath + 'js/mindmap.js'],
-                dest: distJsPath + '<%= pkg.name %>-mindmap.js'
+                dest: distPath + 'js/<%= pkg.name %>-mindmap.js'
             },
             assets:
             {
@@ -100,6 +99,15 @@ module.exports = function(grunt)
                     'assets/chosen/js/chosen.icons.js': srcPath + 'js/chosen.icons.js',
                     'assets/chosen/js/chosen.all.js': ['assets/chosen/js/chosen.jquery.js', 'assets/chosen/js/chosen.icons.js']
                 }
+            },
+            zentao:
+            {
+                options:
+                {
+                    banner: banner + statement + jqueryCheck
+                },
+                src: grunt.file.readJSON(srcPath + 'apps/zentao/js/import.json'),
+                dest: buildPath + 'zentao/js/<%= pkg.name %>.js'
             }
         },
 
@@ -113,12 +121,12 @@ module.exports = function(grunt)
             {
                 options: {banner: banner + statement},
                 src:  ['<%= concat.js.dest %>'],
-                dest: distJsPath + '<%= pkg.name %>.min.js'
+                dest: distPath + 'js/<%= pkg.name %>.min.js'
             },
             mindmap:
             {
                 src:  ['<%= concat.mindmap.dest %>'],
-                dest: distJsPath + '<%= pkg.name %>-mindmap.min.js'
+                dest: distPath + 'js/<%= pkg.name %>-mindmap.min.js'
             },
             assets:
             {
@@ -129,7 +137,12 @@ module.exports = function(grunt)
                     'assets/chosen/js/chosen.all.min.js': 'assets/chosen/js/chosen.all.js',
                     'assets/datetimepicker/js/datetimepicker.min.js': 'assets/datetimepicker/js/datetimepicker.js'
                 }
-
+            },
+            zentao:
+            {
+                options: {banner: banner + statement},
+                src:  ['<%= concat.zentao.dest %>'],
+                dest: buildPath + 'zentao/js/<%= pkg.name %>.min.js'
             }
         },
 
@@ -220,21 +233,73 @@ module.exports = function(grunt)
                     'assets/datetimepicker/css/datetimepicker.min.css': 'assets/datetimepicker/css/datetimepicker.css',
                     'assets/chosen/css/chosen.min.css': 'assets/chosen/css/chosen.css'
                 }
-            }
+            },
+            zentao:
+            {
+                options:
+                {
+                    strictMath: true,
+                    sourceMap: true,
+                    outputSourceFiles: true,
+                    sourceMapURL: '<%= pkg.name %>.css.map',
+                    sourceMapFilename: buildPath + 'zentao/css/<%= pkg.name %>.css.map'
+                },
+                files:
+                {
+                    'build/zentao/css/<%= pkg.name %>.css': srcPath + 'apps/zentao/less/zui.less',
+                    'build/zentao/css/chosen.css': srcPath + 'apps/zentao/less/chosen.less',
+                    'build/zentao/css/kindeditor.css': srcPath + 'apps/zentao/less/kindeditor.less',
+                    'build/zentao/css/datetimepicker.css': srcPath + 'apps/zentao/less/datetimepicker.less',
+                    'build/zentao/css/theme.red.css': srcPath + 'apps/zentao/less/theme.red.less',
+                    'build/zentao/css/theme.green.css': srcPath + 'apps/zentao/less/theme.green.less',
+                    'build/zentao/css/theme.lightblue.css': srcPath + 'apps/zentao/less/theme.lightblue.less',
+                    'build/zentao/css/theme.blackberry.css': srcPath + 'apps/zentao/less/theme.blackberry.less'
+                }
+            },
+            'zentao-min':
+            {
+                options:
+                {
+                    cleancss: true,
+                    report: 'min'
+                },
+                files:
+                {
+                    'build/zentao/css/<%= pkg.name %>.min.css': 'build/zentao/css/<%= pkg.name %>.css',
+                    'build/zentao/css/chosen.min.css': 'build/zentao/css/chosen.css',
+                    'build/zentao/css/kindeditor.min.css': 'build/zentao/css/kindeditor.css',
+                    'build/zentao/css/datetimepicker.min.css': 'build/zentao/css/datetimepicker.css',
+                    'build/zentao/css/theme.red.min.css': 'build/zentao/css/theme.red.css',
+                    'build/zentao/css/theme.green.min.css': 'build/zentao/css/theme.green.css',
+                    'build/zentao/css/theme.lightblue.min.css': 'build/zentao/css/theme.lightblue.css',
+                    'build/zentao/css/theme.blackberry.min.css': 'build/zentao/css/theme.blackberry.css'
+                }
+            },
         },
 
         csscomb:
         {
-            sort:
+            options:
             {
-                options:
-                {
-                    config: srcPath + 'less/.csscomb.json'
-                },
+                config: srcPath + 'less/.csscomb.json'
+            },
+            'sort-dist':
+            {
                 files:
                 {
                     'dist/css/<%= pkg.name %>.css': [distPath + 'css/<%= pkg.name %>.css'],
                     'dist/css/<%= pkg.name %>-theme.css': [distPath + 'css/<%= pkg.name %>-theme.css']
+                }
+            },
+            'sort-zentao':
+            {
+                files:
+                {
+                    'build/zentao/css/<%= pkg.name %>.min.css': 'build/zentao/css/<%= pkg.name %>.min.css',
+                    'build/zentao/css/theme.red.min.css': 'build/zentao/css/theme.red.min.css',
+                    'build/zentao/css/theme.green.min.css': 'build/zentao/css/theme.green.min.css',
+                    'build/zentao/css/theme.lightblue.min.css': 'build/zentao/css/theme.lightblue.min.css',
+                    'build/zentao/css/theme.blackberry.min.css': 'build/zentao/css/theme.blackberry.min.css'
                 }
             }
         },
@@ -260,6 +325,30 @@ module.exports = function(grunt)
                         distPath + 'css/<%= pkg.name %>-mindmap.min.css',
                     ]
                 }
+            },
+            zentao:
+            {
+                options:
+                {
+                    position: 'top',
+                    banner: banner + statement
+                },
+                files:
+                {
+                    src:
+                    [
+                        'build/zentao/css/<%= pkg.name %>.css',
+                        'build/zentao/css/<%= pkg.name %>.min.css',
+                        'build/zentao/css/theme.red.css',
+                        'build/zentao/css/theme.red.min.css',
+                        'build/zentao/css/theme.green.css',
+                        'build/zentao/css/theme.green.min.css',
+                        'build/zentao/css/theme.lightblue.css',
+                        'build/zentao/css/theme.lightblue.min.css',
+                        'build/zentao/css/theme.blackberry.css',
+                        'build/zentao/css/theme.blackberry.min.css'
+                    ]
+                }
             }
         }
     });
@@ -269,12 +358,15 @@ module.exports = function(grunt)
 
     // Distribution task
     grunt.registerTask('dist-js', ['concat:mindmap', 'concat:js', 'uglify:js', 'uglify:mindmap']);
-    grunt.registerTask('dist-css', ['less:zui', 'less:theme', 'less:mindmap', 'less:min', 'csscomb', 'usebanner']);
+    grunt.registerTask('dist-css', ['less:zui', 'less:theme', 'less:mindmap', 'csscomb:sort-dist', 'less:min', 'usebanner:dist']);
     grunt.registerTask('dist-fonts', ['copy:fonts']);
     grunt.registerTask('dist', ['clean', 'dist-js', 'dist-css', 'dist-fonts']);
 
     // assets componets task
     grunt.registerTask('assets', ['less:assets', 'less:assets-min', 'concat:assets', 'uglify:assets']);
+
+    // Zentao task
+    grunt.registerTask('zentao', ['concat:zentao', 'uglify:zentao', 'less:zentao', 'csscomb:sort-zentao', 'less:zentao-min', 'usebanner:zentao']);
 
     // The default task
     grunt.registerTask('default', ['dist', 'assets']);
