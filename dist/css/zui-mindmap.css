@@ -1,3 +1,15 @@
+/*!
+ * ====================================================
+ * ZUI - v1.1.0 - 2014-07-16
+ * https://github.com/easysoft/zui
+ * GitHub: https://github.com/easysoft/zui.git 
+ * Copyright (c) 2014 Catouse@easysoft; Licensed GNU
+ * ====================================================
+ */
+
+/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
+
+
 .mindmap {
   position: relative;
   z-index: 0;
@@ -200,3 +212,4 @@
   -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
+/*# sourceMappingURL=zui-mindmap.css.map */

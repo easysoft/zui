@@ -1,42 +1,15 @@
 /*!
- * ZUI
- * Some code copy from Bootstrap v3.0.0 by @fat and @mdo Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/LICENSE-2.0
+ * ====================================================
+ * ZUI - v1.1.0 - 2014-07-16
+ * https://github.com/easysoft/zui
+ * GitHub: https://github.com/easysoft/zui.git 
+ * Copyright (c) 2014 Catouse@easysoft; Licensed GNU
+ * ====================================================
  */
-if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
-// Import parts
-// -----------------------------
-// @koala-append "hotkeys.js"
-// @koala-append "unities.js"
-// @koala-append "transition.js"
-// @koala-append "alert.js"
-// @koala-append "button.js"
-// @koala-append "carousel.js"
-// @koala-append "collapse.js"
-// @koala-append "dropdown.js"
-// @koala-append "modal.js"
-// @koala-append "modal.trigger.js"
-// @koala-append "tooltip.js"
-// @koala-append "popover.js"
-// @koala-append "pager.js"
-// @koala-append "tab.js"
-// @koala-append "image.ready.js"
-// @koala-append "lightbox.js"
-// @koala-append "draggable.js"
-// @koala-append "droppable.js"
-// @koala-append "dashboard.js"
-// @koala-append "menu.js"
-// @koala-append "table.data.js"
-// @koala-append "bootbox.js"
-// @koala-append "messager.js"
-// @koala-append "string.js"
-// @koala-append "date.js"
-// @koala-append "cookie.js"
-// @koala-append "resize.js"
-// @koala-append "boards.js"
-// @koala-append "img-cutter.js"
-// @koala-append "auto-trigger.js"
+/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
+if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery") }
 
 /*
  * jQuery Hotkeys Plugin
@@ -138,7 +111,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 })( jQuery );
 
-
 /* $ComponentName$ */
 +function($, window, document, Math)
 {
@@ -197,7 +169,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
     };
 }(jQuery,window,document,Math);
 
-
 /* ========================================================================
  * Bootstrap: transition.js v3.0.2
  * http://getbootstrap.com/javascript/#transitions
@@ -254,7 +225,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
   })
 
 }(jQuery);
-
 /* ========================================================================
  * Bootstrap: alert.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#alerts
@@ -353,7 +323,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
   $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
 
 }(window.jQuery);
-
 
 /* ========================================================================
  * Bootstrap: button.js v3.0.3
@@ -462,7 +431,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
   })
 
 }(jQuery);
-
 
 /* ========================================================================
  * Bootstrap: carousel.js v3.0.0
@@ -731,7 +699,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 }(window.jQuery);
 
-
 /* ========================================================================
  * Bootstrap: collapse.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#collapse
@@ -912,7 +879,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 }(window.jQuery);
 
-
 /* ========================================================================
  * Bootstrap: dropdown.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#dropdowns
@@ -1067,7 +1033,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
     .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
 
 }(window.jQuery);
-
 
 /* ========================================================================
  * Bootstrap: modal.js v3.0.0
@@ -1332,7 +1297,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 }(window.jQuery);
 
-
 /* Modal Trigger */
 +function ($, window, document, Math)
 {
@@ -1586,7 +1550,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
     });
 
 }(window.jQuery, window, document, Math);
-
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
@@ -1975,7 +1938,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 }(window.jQuery);
 
-
 /* ========================================================================
  * Bootstrap: popover.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#popovers
@@ -2116,7 +2078,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 }(window.jQuery);
 
-
 +function ($) { "user strict";
 
   var Pager = function (element, options)
@@ -2255,7 +2216,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 }(window.jQuery);
 
-
 /* ========================================================================
  * Bootstrap: tab.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#tabs
@@ -2392,7 +2352,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 }(window.jQuery);
 
-
 /**
  * 图片头数据加载就绪事件 - 更快获取图片尺寸
  * @version 2011.05.27
@@ -2481,7 +2440,6 @@ var imgReady = (function () {
     };
   };
 })();
-
 
 /* Lightbox */
 +function($, window, document, Math)
@@ -2637,7 +2595,6 @@ var imgReady = (function () {
     });
 }(jQuery,window,document,Math);
 
-
 /* Draggable */
 +function($, window, document, Math)
 {
@@ -2754,7 +2711,6 @@ var imgReady = (function () {
 
     $.fn.draggable.Constructor = Draggable;
 }(jQuery,window,document,Math);
-
 
 /* Droppable */
 +function($, window, document, Math)
@@ -2938,7 +2894,6 @@ var imgReady = (function () {
 
     $.fn.droppable.Constructor = Droppable;
 }(jQuery,window,document,Math);
-
 
 /* Dashboard */
 +function($, window, document, Math)
@@ -3207,7 +3162,6 @@ var imgReady = (function () {
     $.fn.dashboard.Constructor = Dashboard;
 }(jQuery,window,document,Math);
 
-
 /* Menu */
 +function($, window, document, Math)
 {
@@ -3291,7 +3245,6 @@ var imgReady = (function () {
     });
 }(jQuery,window,document,Math);
 
-
 /* DataTable */
 +function($, window, document, Math)
 {
@@ -3355,7 +3308,6 @@ var imgReady = (function () {
         $('table.table-data').dataTable();
     });
 }(jQuery,window,document,Math);
-
 
 /**
  * bootbox.js [master branch]
@@ -4163,7 +4115,6 @@ var imgReady = (function () {
   return exports;
 }));
 
-
 /* Messager: show messager float on your page */
 +function($, window, document, Math)
 {
@@ -4241,7 +4192,6 @@ var imgReady = (function () {
 
 }(jQuery,window,document,Math);
 
-
 /**
  * Format string
  *  
@@ -4299,7 +4249,6 @@ String.prototype.isNum = function(s)
     return false;
 }
 
-
 /**
  * Format date to a string
  *
@@ -4331,7 +4280,6 @@ Date.prototype.format = function(format)
     }
     return format;
 };
-
 
 /*!
  * jQuery Cookie Plugin v1.4.1
@@ -4450,7 +4398,6 @@ Date.prototype.format = function(format)
   };
 
 }));
-
 
 /*!
  * jQuery resize event - v1.1 - 3/14/2010
@@ -4699,7 +4646,6 @@ Date.prototype.format = function(format)
   
 }(jQuery,this);
 
-
 /* Boards */
 +function($, window, document, Math)
 {
@@ -4849,7 +4795,6 @@ Date.prototype.format = function(format)
     });
 }(jQuery,window,document,Math);
 
-
 /* ImgCutter */
 +function($, window, document, Math)
 {
@@ -4916,6 +4861,7 @@ Date.prototype.format = function(format)
             {
                 that.imgWidth = this.width;
                 that.imgHeight = this.height;
+                that.callEvent('ready');
             });
         }
 
@@ -4970,6 +4916,9 @@ Date.prototype.format = function(format)
 
         this.$controller.css({left: this.left, top: this.top, width: this.clipWidth, height: this.clipHeight});
         this.$cliper.css('clip', 'rect({0}px {1}px {2}px {3}px'.format(this.top, this.left + this.clipWidth, this.top + this.clipHeight, this.left));
+
+
+        this.callEvent('change', {top: this.top, left: this.left, bottom: this.bottom, right: this.right, width: this.clipWidth, height: this.clipHeight});
     }
 
     ImgCutter.prototype.bindEvents = function()
@@ -4978,7 +4927,7 @@ Date.prototype.format = function(format)
         this.$.resize($.proxy(this.initSize, this));
         this.$btn.hover(function(){that.$.toggleClass('hover');}).click(function()
         {
-            var data = $.extend({originWidth: that.imgWidth, originHeight: that.imgHeight, width: that.width, height: that.height, left: that.left, top: that.top, right: that.right, bottom: that.bottom, scaled: that.imgWidth != that.width || that.imgHeight != that.height}, options.data);
+            var data = {originWidth: that.imgWidth, originHeight: that.imgHeight, width: that.width, height: that.height, left: that.left, top: that.top, right: that.right, bottom: that.bottom, scaled: that.imgWidth != that.width || that.imgHeight != that.height};
 
             if(!that.callEvent('before', data)) return;
 
@@ -5080,7 +5029,6 @@ Date.prototype.format = function(format)
         $('[data-toggle="imgCutter"]').imgCutter();
     });
 }(jQuery,window,document,Math);
-
 
 /* AutoTrigger */
 +function($, window, document, Math)
