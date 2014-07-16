@@ -287,21 +287,24 @@
                         this.removeNode(node);
                         this.clearNodeStatus();
 
-                        if(!$.isArray(parent.deletions))
+                        if(node.changed != 'add')
                         {
-                            parent.deletions = [node];
-                        }
-                        else
-                        {
-                            parent.deletions.push(node);
+                            if(!$.isArray(parent.deletions))
+                            {
+                                parent.deletions = [node];
+                            }
+                            else
+                            {
+                                parent.deletions.push(node);
+                            }
+                            node.changed = 'delete';
+                            parent.changed = 'delete children';
                         }
 
                         forceLoad = true;
                         forceShow = true;
                         changed = true;
 
-                        node.changed = 'delete';
-                        parent.changed = 'delete children';
                     }
                 }
                 else if(action === 'add')
@@ -364,7 +367,7 @@
                             forceShow = true;
                             changed = true;
 
-                            node.changed = 'move';
+                            if(node.changed != 'add') node.changed = 'move';
                         }
                     }
                 }
@@ -379,7 +382,7 @@
                             if(child.index != i)
                             {
                                 child.index = i;
-                                child.changed = 'sort';
+                                if(child.changed != 'add') child.changed = 'sort';
                                 forceLoad = true;
                                 forceShow = true;
                                 changed = true;
@@ -409,7 +412,7 @@
 
                      if(changed)
                      {
-                         node.changed = 'edit';
+                         if(node.changed != 'add') node.changed = 'edit';
                      }
                 }
             }
@@ -443,7 +446,7 @@
         }
     }
 
-    Mindmap.prototype.export = function()
+    Mindmap.prototype.exportData = function()
     {
         var data = $.extend({}, this.data);
         this.fixExport(data);
@@ -452,7 +455,7 @@
 
     Mindmap.prototype.exportJSON = function()
     {
-        return JSON.stringify(this.export());
+        return JSON.stringify(this.exportData());
     };
 
     Mindmap.prototype.exportArray = function(nodeData, ar)
