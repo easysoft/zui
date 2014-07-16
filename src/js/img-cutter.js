@@ -64,6 +64,7 @@
             {
                 that.imgWidth = this.width;
                 that.imgHeight = this.height;
+                that.callEvent('ready');
             });
         }
 
@@ -118,6 +119,9 @@
 
         this.$controller.css({left: this.left, top: this.top, width: this.clipWidth, height: this.clipHeight});
         this.$cliper.css('clip', 'rect({0}px {1}px {2}px {3}px'.format(this.top, this.left + this.clipWidth, this.top + this.clipHeight, this.left));
+
+
+        this.callEvent('change', {top: this.top, left: this.left, bottom: this.bottom, right: this.right, width: this.clipWidth, height: this.clipHeight});
     }
 
     ImgCutter.prototype.bindEvents = function()
@@ -126,7 +130,7 @@
         this.$.resize($.proxy(this.initSize, this));
         this.$btn.hover(function(){that.$.toggleClass('hover');}).click(function()
         {
-            var data = $.extend({originWidth: that.imgWidth, originHeight: that.imgHeight, width: that.width, height: that.height, left: that.left, top: that.top, right: that.right, bottom: that.bottom, scaled: that.imgWidth != that.width || that.imgHeight != that.height}, options.data);
+            var data = {originWidth: that.imgWidth, originHeight: that.imgHeight, width: that.width, height: that.height, left: that.left, top: that.top, right: that.right, bottom: that.bottom, scaled: that.imgWidth != that.width || that.imgHeight != that.height};
 
             if(!that.callEvent('before', data)) return;
 
