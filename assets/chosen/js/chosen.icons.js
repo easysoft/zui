@@ -1,3 +1,12 @@
+/*!
+ * ====================================================
+ * ZUI - v1.1.0 - 2014-07-16
+ * https://github.com/easysoft/zui
+ * GitHub: https://github.com/easysoft/zui.git 
+ * Copyright (c) 2014 Catouse@easysoft; Licensed GNU
+ * ====================================================
+ */
+
 /* ChosenIcons */
 +function($, window, document, Math)
 {

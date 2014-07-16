@@ -43,7 +43,7 @@ module.exports = function(grunt)
         {
             options:
             {
-                banner: banner + statement,
+                banner: banner,
                 stripBanners: false
             },
             js:
@@ -89,12 +89,17 @@ module.exports = function(grunt)
             },
             mindmap:
             {
-                options:
-                {
-                    banner: banner
-                },
                 src: [srcPath + 'js/mindmap.js'],
                 dest: distJsPath + '<%= pkg.name %>-mindmap.js'
+            },
+            assets:
+            {
+                files:
+                {
+                    'assets/chartjs/chart.line.js': srcPath + 'js/chart.line.js',
+                    'assets/chosen/js/chosen.icons.js': srcPath + 'js/chosen.icons.js',
+                    'assets/chosen/js/chosen.all.js': ['assets/chosen/js/chosen.jquery.js', 'assets/chosen/js/chosen.icons.js']
+                }
             }
         },
 
@@ -102,18 +107,29 @@ module.exports = function(grunt)
         {
             options:
             {
-                banner: banner + statement
+                banner: banner
             },
             js:
             {
+                options: {banner: banner + statement},
                 src:  ['<%= concat.js.dest %>'],
                 dest: distJsPath + '<%= pkg.name %>.min.js'
             },
             mindmap:
             {
-                options: {banner: banner},
                 src:  ['<%= concat.mindmap.dest %>'],
                 dest: distJsPath + '<%= pkg.name %>-mindmap.min.js'
+            },
+            assets:
+            {
+                files:
+                {
+                    'assets/chartjs/chart.line.min.js': 'assets/chartjs/chart.line.js',
+                    'assets/chosen/js/chosen.icons.min.js': 'assets/chosen/js/chosen.icons.js',
+                    'assets/chosen/js/chosen.all.min.js': 'assets/chosen/js/chosen.all.js',
+                    'assets/datetimepicker/js/datetimepicker.min.js': 'assets/datetimepicker/js/datetimepicker.js'
+                }
+
             }
         },
 
@@ -177,6 +193,33 @@ module.exports = function(grunt)
                     'dist/css/<%= pkg.name %>-theme.min.css': distPath + 'css/<%= pkg.name %>-theme.css',
                     'dist/css/<%= pkg.name %>-mindmap.min.css': distPath + 'css/<%= pkg.name %>-mindmap.css'
                 }
+            },
+            assets:
+            {
+                options:
+                {
+                    strictMath: true,
+                    sourceMap: false
+                },
+                files:
+                {
+                    'assets/datetimepicker/css/datetimepicker.css': srcPath + 'less/datetimepicker.less',
+                    'assets/kindeditor/themes/default/default.css': srcPath + 'less/kindeditor-theme.default.less',
+                    'assets/chosen/css/chosen.css': srcPath + 'less/chosen.less'
+                }
+            },
+            'assets-min':
+            {
+                options:
+                {
+                    cleancss: true,
+                    report: 'min'
+                },
+                files:
+                {
+                    'assets/datetimepicker/css/datetimepicker.min.css': 'assets/datetimepicker/css/datetimepicker.css',
+                    'assets/chosen/css/chosen.min.css': 'assets/chosen/css/chosen.css'
+                }
             }
         },
 
@@ -224,11 +267,15 @@ module.exports = function(grunt)
     // These plugins provide necessary tasks.
     require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 
-    // JS distribution task
-    grunt.registerTask('dist-js', ['concat', 'uglify']);
-    grunt.registerTask('dist-css', ['less', 'csscomb', 'usebanner']);
+    // Distribution task
+    grunt.registerTask('dist-js', ['concat:mindmap', 'concat:js', 'uglify:js', 'uglify:mindmap']);
+    grunt.registerTask('dist-css', ['less:zui', 'less:theme', 'less:mindmap', 'less:min', 'csscomb', 'usebanner']);
     grunt.registerTask('dist-fonts', ['copy:fonts']);
+    grunt.registerTask('dist', ['clean', 'dist-js', 'dist-css', 'dist-fonts']);
+
+    // assets componets task
+    grunt.registerTask('assets', ['less:assets', 'less:assets-min', 'concat:assets', 'uglify:assets']);
 
     // The default task
-    grunt.registerTask('default', ['clean', 'dist-js', 'dist-css', 'dist-fonts']);
+    grunt.registerTask('default', ['dist', 'assets']);
 }
