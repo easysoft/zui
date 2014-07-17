@@ -506,7 +506,7 @@ module.exports = function(grunt)
     grunt.registerTask('dist-js', ['concat:mindmap', 'concat:js', 'uglify:js', 'uglify:mindmap']);
     grunt.registerTask('dist-css', ['less:zui', 'less:theme', 'less:mindmap', 'csscomb:sort-dist', 'less:min', 'usebanner:dist']);
     grunt.registerTask('dist-fonts', ['copy:fonts']);
-    grunt.registerTask('dist', ['clean', 'dist-js', 'dist-css', 'dist-fonts']);
+    grunt.registerTask('dist', ['clean:dist', 'dist-js', 'dist-css', 'dist-fonts']);
 
     // assets componets task
     grunt.registerTask('assets', ['less:assets', 'less:assets-min', 'concat:assets', 'uglify:assets']);
