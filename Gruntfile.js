@@ -15,7 +15,8 @@ module.exports = function(grunt)
         jqueryCheck = 'if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery") }\n\n',
         srcPath     = 'src/',
         distPath    = 'dist/',
-        buildPath   = 'build/';
+        buildPath   = 'build/',
+        concatSrcPath = function(a) {return 'src/js/' + a};
 
     // project config
     grunt.initConfig(
@@ -52,39 +53,7 @@ module.exports = function(grunt)
                 {
                     banner: banner + statement + jqueryCheck
                 },
-                src:
-                [
-                    srcPath + "js/hotkeys.js",
-                    srcPath + "js/unities.js",
-                    srcPath + "js/transition.js",
-                    srcPath + "js/alert.js",
-                    srcPath + "js/button.js",
-                    srcPath + "js/carousel.js",
-                    srcPath + "js/collapse.js",
-                    srcPath + "js/dropdown.js",
-                    srcPath + "js/modal.js",
-                    srcPath + "js/modal.trigger.js",
-                    srcPath + "js/tooltip.js",
-                    srcPath + "js/popover.js",
-                    srcPath + "js/pager.js",
-                    srcPath + "js/tab.js",
-                    srcPath + "js/image.ready.js",
-                    srcPath + "js/lightbox.js",
-                    srcPath + "js/draggable.js",
-                    srcPath + "js/droppable.js",
-                    srcPath + "js/dashboard.js",
-                    srcPath + "js/menu.js",
-                    srcPath + "js/table.data.js",
-                    srcPath + "js/bootbox.js",
-                    srcPath + "js/messager.js",
-                    srcPath + "js/string.js",
-                    srcPath + "js/date.js",
-                    srcPath + "js/cookie.js",
-                    srcPath + "js/resize.js",
-                    srcPath + "js/boards.js",
-                    srcPath + "js/img-cutter.js",
-                    srcPath + "js/auto-trigger.js"
-                ],
+                src: grunt.file.readJSON(srcPath + 'js/import.json').map(concatSrcPath),
                 dest: distPath + 'js/<%= pkg.name %>.js'
             },
             mindmap:
@@ -107,7 +76,7 @@ module.exports = function(grunt)
                 {
                     banner: banner + statement + jqueryCheck
                 },
-                src: grunt.file.readJSON(srcPath + 'apps/zentao/js/import.json'),
+                src: grunt.file.readJSON(srcPath + 'apps/zentao/js/import.json').map(concatSrcPath),
                 dest: buildPath + 'zentao/js/<%= pkg.name %>.js'
             },
             chanzhi:
@@ -116,7 +85,7 @@ module.exports = function(grunt)
                 {
                     banner: banner + statement + jqueryCheck
                 },
-                src: grunt.file.readJSON(srcPath + 'apps/chanzhi/js/import.json'),
+                src: grunt.file.readJSON(srcPath + 'apps/chanzhi/js/import.json').map(concatSrcPath),
                 dest: buildPath + 'chanzhi/js/<%= pkg.name %>.js'
             },
             ranzhi:
@@ -125,7 +94,7 @@ module.exports = function(grunt)
                 {
                     banner: banner + statement + jqueryCheck
                 },
-                src: grunt.file.readJSON(srcPath + 'apps/ranzhi/js/import.json'),
+                src: grunt.file.readJSON(srcPath + 'apps/ranzhi/js/import.json').map(concatSrcPath),
                 dest: buildPath + 'ranzhi/js/<%= pkg.name %>.js'
             }
         },
@@ -209,6 +178,19 @@ module.exports = function(grunt)
                     'dist/css/<%= pkg.name %>-theme.css': srcPath + 'less/theme.less'
                 }
             },
+            min:
+            {
+                options:
+                {
+                    cleancss: true,
+                    report: 'min'
+                },
+                files:
+                {
+                    'dist/css/<%= pkg.name %>.min.css': distPath + 'css/<%= pkg.name %>.css',
+                    'dist/css/<%= pkg.name %>-theme.min.css': distPath + 'css/<%= pkg.name %>-theme.css',
+                }
+            },
             mindmap:
             {
                 options:
@@ -224,7 +206,7 @@ module.exports = function(grunt)
                     'dist/css/<%= pkg.name %>-mindmap.css': srcPath + 'less/mindmap.less'
                 }
             },
-            min:
+            'mindmap-min':
             {
                 options:
                 {
@@ -233,8 +215,6 @@ module.exports = function(grunt)
                 },
                 files:
                 {
-                    'dist/css/<%= pkg.name %>.min.css': distPath + 'css/<%= pkg.name %>.css',
-                    'dist/css/<%= pkg.name %>-theme.min.css': distPath + 'css/<%= pkg.name %>-theme.css',
                     'dist/css/<%= pkg.name %>-mindmap.min.css': distPath + 'css/<%= pkg.name %>-mindmap.css'
                 }
             },
@@ -382,6 +362,13 @@ module.exports = function(grunt)
                     'dist/css/<%= pkg.name %>-theme.css': [distPath + 'css/<%= pkg.name %>-theme.css']
                 }
             },
+            'sort-mindmap':
+            {
+                files:
+                {
+                    'dist/css/<%= pkg.name %>-mindmap.css': [distPath + 'css/<%= pkg.name %>-mindmap.css']
+                }
+            },
             'sort-zentao':
             {
                 files:
@@ -503,10 +490,13 @@ module.exports = function(grunt)
     require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 
     // Distribution task
-    grunt.registerTask('dist-js', ['concat:mindmap', 'concat:js', 'uglify:js', 'uglify:mindmap']);
-    grunt.registerTask('dist-css', ['less:zui', 'less:theme', 'less:mindmap', 'csscomb:sort-dist', 'less:min', 'usebanner:dist']);
+    grunt.registerTask('dist-js', ['concat:js', 'uglify:js']);
+    grunt.registerTask('dist-css', ['less:zui', 'less:theme', 'csscomb:sort-dist', 'less:min', 'usebanner:dist']);
     grunt.registerTask('dist-fonts', ['copy:fonts']);
     grunt.registerTask('dist', ['clean:dist', 'dist-js', 'dist-css', 'dist-fonts']);
+
+    // Mindmap task
+    grunt.registerTask('mindmap', ['concat:mindmap', 'uglify:mindmap', 'less:mindmap', 'csscomb:sort-mindmap', 'less:mindmap-min']);
 
     // assets componets task
     grunt.registerTask('assets', ['less:assets', 'less:assets-min', 'concat:assets', 'uglify:assets']);
