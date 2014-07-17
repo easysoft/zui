@@ -1,6 +1,7 @@
 [
     "hotkeys.js",
     "unities.js",
+    "device.js",
     "transition.js",
     "alert.js",
     "button.js",
