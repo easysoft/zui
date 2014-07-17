@@ -1,0 +1,18 @@
+[
+    "src/js/transition.js",
+    "src/js/alert.js",
+    "src/js/button.js",
+    "src/js/carousel.js",
+    "src/js/collapse.js",
+    "src/js/dropdown.js",
+    "src/js/modal.js",
+    "src/js/tooltip.js",
+    "src/js/popover.js",
+    "src/js/image.ready.js",
+    "src/js/modal.trigger.js",
+    "src/js/lightbox.js",
+    "src/js/bootbox.js",
+    "src/js/messager.js",
+    "src/js/string.js",
+    "src/js/color.js"
+]

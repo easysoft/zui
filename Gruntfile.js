@@ -24,7 +24,8 @@ module.exports = function(grunt)
 
         clean:
         {
-            dist: ['dist']
+            dist: ['dist'],
+            build: ['build']
         },
 
         copy:
@@ -108,6 +109,24 @@ module.exports = function(grunt)
                 },
                 src: grunt.file.readJSON(srcPath + 'apps/zentao/js/import.json'),
                 dest: buildPath + 'zentao/js/<%= pkg.name %>.js'
+            },
+            chanzhi:
+            {
+                options:
+                {
+                    banner: banner + statement + jqueryCheck
+                },
+                src: grunt.file.readJSON(srcPath + 'apps/chanzhi/js/import.json'),
+                dest: buildPath + 'chanzhi/js/<%= pkg.name %>.js'
+            },
+            ranzhi:
+            {
+                options:
+                {
+                    banner: banner + statement + jqueryCheck
+                },
+                src: grunt.file.readJSON(srcPath + 'apps/ranzhi/js/import.json'),
+                dest: buildPath + 'ranzhi/js/<%= pkg.name %>.js'
             }
         },
 
@@ -143,6 +162,18 @@ module.exports = function(grunt)
                 options: {banner: banner + statement},
                 src:  ['<%= concat.zentao.dest %>'],
                 dest: buildPath + 'zentao/js/<%= pkg.name %>.min.js'
+            },
+            chanzhi:
+            {
+                options: {banner: banner + statement},
+                src:  ['<%= concat.chanzhi.dest %>'],
+                dest: buildPath + 'chanzhi/js/<%= pkg.name %>.min.js'
+            },
+            ranzhi:
+            {
+                options: {banner: banner + statement},
+                src:  ['<%= concat.ranzhi.dest %>'],
+                dest: buildPath + 'ranzhi/js/<%= pkg.name %>.min.js'
             }
         },
 
@@ -275,6 +306,66 @@ module.exports = function(grunt)
                     'build/zentao/css/theme.blackberry.min.css': 'build/zentao/css/theme.blackberry.css'
                 }
             },
+            chanzhi:
+            {
+                options:
+                {
+                    strictMath: true,
+                    sourceMap: true,
+                    outputSourceFiles: true,
+                    sourceMapURL: '<%= pkg.name %>.css.map',
+                    sourceMapFilename: buildPath + 'chanzhi/css/<%= pkg.name %>.css.map'
+                },
+                files:
+                {
+                    'build/chanzhi/css/<%= pkg.name %>.css': srcPath + 'apps/chanzhi/less/zui.less'
+                }
+            },
+            'chanzhi-min':
+            {
+                options:
+                {
+                    cleancss: true,
+                    report: 'min'
+                },
+                files:
+                {
+                    'build/chanzhi/css/<%= pkg.name %>.min.css': 'build/chanzhi/css/<%= pkg.name %>.css'
+                }
+            },
+            ranzhi:
+            {
+                options:
+                {
+                    strictMath: true,
+                    sourceMap: true,
+                    outputSourceFiles: true,
+                    sourceMapURL: '<%= pkg.name %>.css.map',
+                    sourceMapFilename: buildPath + 'ranzhi/css/<%= pkg.name %>.css.map'
+                },
+                files:
+                {
+                    'build/ranzhi/css/<%= pkg.name %>.css': srcPath + 'apps/ranzhi/less/zui.less',
+                    'build/ranzhi/css/theme.oa.css': srcPath + 'apps/ranzhi/less/theme.oa.less',
+                    'build/ranzhi/css/theme.cash.css': srcPath + 'apps/ranzhi/less/theme.cash.less',
+                    'build/ranzhi/css/theme.team.css': srcPath + 'apps/ranzhi/less/theme.team.less'
+                }
+            },
+            'ranzhi-min':
+            {
+                options:
+                {
+                    cleancss: true,
+                    report: 'min'
+                },
+                files:
+                {
+                    'build/ranzhi/css/<%= pkg.name %>.min.css': 'build/ranzhi/css/<%= pkg.name %>.css',
+                    'build/ranzhi/css/theme.oa.min.css': 'build/ranzhi/css/theme.oa.css',
+                    'build/ranzhi/css/theme.cash.min.css': 'build/ranzhi/css/theme.cash.css',
+                    'build/ranzhi/css/theme.team.min.css': 'build/ranzhi/css/theme.team.css'
+                }
+            },
         },
 
         csscomb:
@@ -295,11 +386,28 @@ module.exports = function(grunt)
             {
                 files:
                 {
-                    'build/zentao/css/<%= pkg.name %>.min.css': 'build/zentao/css/<%= pkg.name %>.min.css',
-                    'build/zentao/css/theme.red.min.css': 'build/zentao/css/theme.red.min.css',
-                    'build/zentao/css/theme.green.min.css': 'build/zentao/css/theme.green.min.css',
-                    'build/zentao/css/theme.lightblue.min.css': 'build/zentao/css/theme.lightblue.min.css',
-                    'build/zentao/css/theme.blackberry.min.css': 'build/zentao/css/theme.blackberry.min.css'
+                    'build/zentao/css/<%= pkg.name %>.css': 'build/zentao/css/<%= pkg.name %>.css',
+                    'build/zentao/css/theme.red.css': 'build/zentao/css/theme.red.css',
+                    'build/zentao/css/theme.green.css': 'build/zentao/css/theme.green.css',
+                    'build/zentao/css/theme.lightblue.css': 'build/zentao/css/theme.lightblue.css',
+                    'build/zentao/css/theme.blackberry.css': 'build/zentao/css/theme.blackberry.css'
+                }
+            },
+            'sort-chanzhi':
+            {
+                files:
+                {
+                    'build/chanzhi/css/<%= pkg.name %>.css': 'build/chanzhi/css/<%= pkg.name %>.css'
+                }
+            },
+            'sort-ranzhi':
+            {
+                files:
+                {
+                    'build/ranzhi/css/<%= pkg.name %>.css': 'build/ranzhi/css/<%= pkg.name %>.css',
+                    'build/ranzhi/css/theme.oa.css': 'build/ranzhi/css/theme.oa.css',
+                    'build/ranzhi/css/theme.cash.css': 'build/ranzhi/css/theme.cash.css',
+                    'build/ranzhi/css/theme.team.css': 'build/ranzhi/css/theme.team.css'
                 }
             }
         },
@@ -349,6 +457,44 @@ module.exports = function(grunt)
                         'build/zentao/css/theme.blackberry.min.css'
                     ]
                 }
+            },
+            chanzhi:
+            {
+                options:
+                {
+                    position: 'top',
+                    banner: banner + statement
+                },
+                files:
+                {
+                    src:
+                    [
+                        'build/chanzhi/css/<%= pkg.name %>.css',
+                        'build/chanzhi/css/<%= pkg.name %>.min.css'
+                    ]
+                }
+            },
+            ranzhi:
+            {
+                options:
+                {
+                    position: 'top',
+                    banner: banner + statement
+                },
+                files:
+                {
+                    src:
+                    [
+                        'build/ranzhi/css/<%= pkg.name %>.css',
+                        'build/ranzhi/css/<%= pkg.name %>.min.css',
+                        'build/ranzhi/css/theme.oa.css',
+                        'build/ranzhi/css/theme.oa.min.css',
+                        'build/ranzhi/css/theme.cash.css',
+                        'build/ranzhi/css/theme.cash.min.css',
+                        'build/ranzhi/css/theme.team.css',
+                        'build/ranzhi/css/theme.team.min.css'
+                    ]
+                }
             }
         }
     });
@@ -365,8 +511,11 @@ module.exports = function(grunt)
     // assets componets task
     grunt.registerTask('assets', ['less:assets', 'less:assets-min', 'concat:assets', 'uglify:assets']);
 
-    // Zentao task
+    // Build Zentao,Chanzhi,Ranzhi task
     grunt.registerTask('zentao', ['concat:zentao', 'uglify:zentao', 'less:zentao', 'csscomb:sort-zentao', 'less:zentao-min', 'usebanner:zentao']);
+    grunt.registerTask('chanzhi', ['concat:chanzhi', 'uglify:chanzhi', 'less:chanzhi', 'csscomb:sort-chanzhi', 'less:chanzhi-min', 'usebanner:chanzhi']);
+    grunt.registerTask('ranzhi', ['concat:ranzhi', 'uglify:ranzhi', 'less:ranzhi', 'csscomb:sort-ranzhi', 'less:ranzhi-min', 'usebanner:ranzhi']);
+    grunt.registerTask('build', ['clean:build', 'ranzhi', 'chanzhi', 'zentao']);
 
     // The default task
     grunt.registerTask('default', ['dist', 'assets']);
