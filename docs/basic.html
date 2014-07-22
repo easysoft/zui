@@ -18,7 +18,7 @@ base_url: "./"
 
     <title>ZUI</title>
 
-    <link href="../dist/css/zui.min.css" rel="stylesheet">
+    <link href="css/zui.min.css" rel="stylesheet">
     <link href="css/doc.css" rel="stylesheet">
   </head>
   <body>
@@ -38,10 +38,13 @@ base_url: "./"
           <li class="nav-heading">开始</li>
           <li><a href="start.html#about">框架说明</a></li>
           <li><a href="start.html#files">文件目录结构</a></li>
+          <li><a href="start.html#lite">关于简洁版</a></li>
+          <li><a href="start.html#grunt">编译及定制</a></li>
           <li><a href="start.html#browsers">受支持的平台</a></li>
         </ul>
         <ul class="nav navbar-nav">
           <li class="nav-heading">基础</li>
+          <li><a href="basic.html#hello">Hello world</a></li>
           <li><a href="basic.html#global">全局样式表</a></li>
           <li><a href="basic.html#ie">兼容IE浏览器</a></li>
           <li><a href="basic.html#responsive">响应式设计</a></li>
@@ -113,6 +116,39 @@ base_url: "./"
       <div class="page-header">
         <h1>基础</h1>
       </div>
+
+      <section id="hello">
+        <div class="page-header">
+          <h2>Hello world</h2>
+        </div>
+
+        <p>使用ZUI进行构建现代应用非常简单。一般情况下，要使用ZUI仅依赖于jQuery，ZUI中的Javascript组件构建于jQuery之上。</p>
+        <p>下面给出一个非常简单的Hello world页面。</p>
+<pre class="prettyprint">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-cn&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+    &lt;title&gt;Hello world!&lt;/title&gt;
+
+    &lt;!-- zui --&gt;
+    &lt;link href=&quot;css/zui.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+    &lt;!-- jQuery (ZUI中的Javascript组件依赖于jQuery) --&gt;
+    &lt;script src=&quot;//code.jquery.com/jquery-1.11.0.min.js&quot;&gt;&lt;/script&gt;
+    &lt;!-- ZUI Javascript组件 --&gt;
+    &lt;script src=&quot;js/zui.min.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+        <p>如果你的网站需要兼容IE8，请参考“<a href="basic.html#ie">兼容IE浏览器</a>”章节。</p>
+      </section>
+
       <section id="global">
         <div class="page-header">
           <h2>全局样式表</h2>
@@ -124,17 +160,24 @@ base_url: "./"
         <div class="page-header">
           <h2>兼容IE浏览器</h2>
         </div>
-        <p>因为IE浏览器与各大浏览器区别太大，为了尽可能的保证在所有浏览器中有一致的体验，很多时候需要单独对待IE浏览器。为了保证代码精简及一致，ZUI只支持IE8+。为了保证IE能够使用最新渲染模式而不是兼容模式，在html文档头部应加入以下代码：</p>
+        <p>因为IE浏览器与各大浏览器区别太大，为了尽可能的保证在所有浏览器中有一致的体验，很多时候需要单独对待IE浏览器。为了保证代码精简及一致，ZUI支持IE8-11。</p>
+
+        <h3>禁用IE兼容模式</h3>
+        <p>为了保证IE能够使用最新渲染模式而不是兼容模式，在html文档头部应加入以下代码：</p>
 <pre class="prettyprint"><code>&lt;head&gt;
     &lt;meta charset=&quot;utf-8&quot;&gt;
     &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
     ...
 </code></pre>
+        <p>国内众多浏览器推出“高速”模式（webkit内核）和“兼容”模式（IE内核），不过默认情况下使用“兼容”模式。将一下代码加入到页面中，可以让部分国产浏览器默认采用“高速”模式渲染页面：</p>
+        <pre class="prettyprint"><code>&lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;&gt;</code></pre>
+        <p>目前只有<a href="http://se.360.cn/v6/help/meta.html" target="_blank">360浏览器</a>支持此<code>meta</code>标签。</p>
 
-        <p>针对IE7及更早的版本，应该给出提示，让用户升级浏览器。在<code>body</code>之后加入以下代码可以有选择性的出现浏览器升级提示，并给出链接引导用户访问<a href="http://abetterbrowser.org/">abetterbrowser.org</a>：</p>
+        <h3>更古老的浏览器</h3>
+        <p>针对IE7及更早的版本，应该给出提示，让用户升级浏览器。在<code>body</code>之后加入以下代码可以有选择性的出现浏览器升级提示，并给出链接引导用户访问<a href="http://browsehappy.com/">browsehappy.com</a>：</p>
 <pre class="prettyprint"><code>&lt;body&gt;
     &lt;!--[if lt IE 8]&gt;
-        &lt;p class=&quot;abetterbrowser&quot;&gt;您正在使用 &lt;strong&gt;过时的&lt;/strong&gt; 浏览器. 是时候 &lt;a href=&quot;http://abetterbrowser.org/&quot;&gt;更换一个更好的浏览器&lt;/a&gt; 来提升用户体验.&lt;/p&gt;
+        &lt;div class=&quot;alert alert-danger&quot;&gt;您正在使用 &lt;strong&gt;过时的&lt;/strong&gt; 浏览器. 是时候 &lt;a href=&quot;http://browsehappy.com/&quot;&gt;更换一个更好的浏览器&lt;/a&gt; 来提升用户体验.&lt;/div&gt;
     &lt;![endif]--&gt;
     ...
 </code></pre>
@@ -225,19 +268,94 @@ base_url: "./"
           <li><code>.visible-print</code>：在打印时显示，在浏览器正常浏览时隐藏。</li>
           <li><code>.hidden-print</code>：在浏览器正常浏览时显示，在打印时隐藏。</li>
         </ul>
+
+        <h3>禁用响应式布局</h3>
+        <p>有时你所开发应用仅针对一个设备或平台，并不需要响应式布局。即使这样，也建议你使用响应式布局，因为不需要额外的代码，而且为跨屏提供了可能性。</p>
+        <p>在ZUI中并没用一个全局的开关来控制是否启用响应式布局。如果确实要禁用该功能，请参考下面的建议：</p>
+        <ul>
+          <li>移除 <code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</code> 标签，禁用移动设备缩放可视窗口尺寸。</li>
+          <li>避免使用一些响应式工具类，例如<code>.visible-xs</code>、<code>.visible-sm</code>、<code>.visible-md</code>、<code>.visible-lg</code>等。</li>
+          <li>当使用栅格系统时避免使用 <code>.col-sm-*</code>、<code>.col-md-*</code>、<code>.col-lg-*</code>，统一使用 <code>.col-xs-*</code>。</li>
+        </ul>
       </section>
 
       <section id="grid">
         <div class="page-header">
           <h2>栅格系统</h2>
         </div>
-        <ul>
-          <li>采用bootstrap3的网格设计。具体使用参考<a href="http://v3.bootcss.com/css/#grid">bootstrap3-grid</a></li>
-          <li>通过.container包含行（row），行再包含列（column）。</li>
-          <li>系统默认12列</li>
-          <li>分为col-xs-<em>/col-sm-</em>/col-md-<em>/col-lg-</em>四种设计分别对应超小屏幕(&lt;768)/小屏幕(&gt;=768)/中等屏幕(&gt;=992)/大屏幕(&gt;=1200)</li>
-          <li>通过col-xs-offset-<em>来向右偏移，通过col-xs-pull-</em>/col-xs-push-*来左右移动</li>
-        </ul>
+        <p>采用Bootstrap3的栅格设计。具体使用参考<a href="http://v3.bootcss.com/css/#grid" target="_blank">bootstrap3-grid</a>。</p>
+        <p>以下列出常用参数：</p>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>
+                超小屏幕
+                <small>手机 (&lt;768px)</small>
+              </th>
+              <th>
+                小屏幕
+                <small>平板 (≥768px)</small>
+              </th>
+              <th>
+                中等屏幕
+                <small>桌面显示器 (≥992px)</small>
+              </th>
+              <th>
+                大屏幕
+                <small>大桌面显示器 (≥1200px)</small>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class="text-nowrap">栅格系统行为</th>
+              <td>总是水平排列</td>
+              <td colspan="3">开始是堆叠在一起的，当大于这些阈值时将变为水平排列C</td>
+            </tr>
+            <tr>
+              <th class="text-nowrap"><code>.container</code> 最大宽度</th>
+              <td>None （自动）</td>
+              <td>750px</td>
+              <td>970px</td>
+              <td>1170px</td>
+            </tr>
+            <tr>
+              <th class="text-nowrap">类前缀</th>
+              <td><code>.col-xs-</code></td>
+              <td><code>.col-sm-</code></td>
+              <td><code>.col-md-</code></td>
+              <td><code>.col-lg-</code></td>
+            </tr>
+            <tr>
+              <th class="text-nowrap">列（column）数</th>
+              <td colspan="4">12</td>
+            </tr>
+            <tr>
+              <th class="text-nowrap">最大列（column）宽</th>
+              <td class="text-muted">自动</td>
+              <td>~62px</td>
+              <td>~81px</td>
+              <td>~97px</td>
+            </tr>
+            <tr>
+              <th class="text-nowrap">槽（gutter）宽</th>
+              <td colspan="4">30px （每列左右均有 15px）</td>
+            </tr>
+            <tr>
+              <th class="text-nowrap">可嵌套</th>
+              <td colspan="4">是</td>
+            </tr>
+            <tr>
+              <th class="text-nowrap">偏移（Offsets）</th>
+              <td colspan="4">是</td>
+            </tr>
+            <tr>
+              <th class="text-nowrap">列排序</th>
+              <td colspan="4">是</td>
+            </tr>
+          </tbody>
+        </table>
       </section>
 
       <section id="type">
@@ -269,7 +387,7 @@ base_url: "./"
             <tr>
               <th style="width:30%">元素</th>
               <th>标签</th>
-              <th>像素大小</th>
+              <th>字体大小</th>
               <th>说明</th>
             </tr>
             <tr>
@@ -277,73 +395,73 @@ base_url: "./"
                 <h1>页面标题</h1>
               </td>
               <td><code>&lt;h1&gt;</code></td>
-              <td>38.5px</td>
+              <td>26px</td>
               <td>在一个页面只有一个页面标题。</td>
             </tr>
             <tr>
               <td><h2>标题</h2></td>
               <td><code>&lt;h2&gt;</code></td>
-              <td>31.5px</td>
+              <td>22px</td>
               <td>作为页面第二级标题，可能在一个页面中使用到多个二级标题。</td>
             </tr>
             <tr>
               <td><h3>三级标题</h3></td>
               <td><code>&lt;h3&gt;</code></td>
-              <td>24.5px 粗体</td>
+              <td>16px 粗体</td>
               <td>页面第三级标题，嵌套在二级标题下使用。</td>
             </tr>
             <tr>
               <td><h4>四级标题</h4></td>
               <td><code>&lt;h4&gt;</code></td>
-              <td>17.5px 粗体</td>
+              <td>15px 粗体</td>
               <td>页面第四级标题，嵌套在三级标题下使用。</td>
             </tr>
             <tr>
               <td><h5>五级标题</h5></td>
               <td><code>&lt;h5&gt;</code></td>
-              <td>14px 粗体 颜色灰色</td>
+              <td>13px 粗体 颜色灰色</td>
               <td>页面第五级标题，嵌套在四级标题下使用。</td>
             </tr>
             <tr>
               <td><h6>六级标题</h6></td>
               <td><code>&lt;h6&gt;</code></td>
-              <td>11.9px 粗体 颜色灰色</td>
+              <td>12px 粗体 颜色灰色</td>
               <td>页面第六级标题，嵌套在五级标题下使用。</td>
             </tr>
             <tr>
               <td><p>这是一个段落</p></td>
               <td><code>&lt;p&gt;</code></td>
-              <td>14px</td>
+              <td>13px</td>
               <td>正文中大部分由段落组成。段落的行高为20px。段落间在垂直方向上有10px边距。</td>
             </tr>
             <tr>
               <td><p class="lead">这是一个突出的段落</p></td>
               <td><code>&lt;p class="lead"&gt;</code></td>
-              <td>21px</td>
+              <td>20px</td>
               <td>突出的段落具有更大的字体，在一个段落上加<code>.lead</code>类。</td>
             </tr>
             <tr>
               <td><strong>粗体文本</strong></td>
               <td><code>&lt;strong&gt;</code></td>
-              <td>14px</td>
+              <td>13px</td>
               <td>通常粗体文本用来强调内容。</td>
             </tr>
             <tr>
               <td><em>斜体文本</em></td>
               <td><code>&lt;em&gt;</code></td>
-              <td>14px</td>
+              <td>13px</td>
               <td></td>
             </tr>
             <tr>
               <td><small>小的文本</small></td>
               <td><code>&lt;small&gt;</code></td>
-              <td>11.9px 颜色灰色</td>
+              <td>12px 颜色灰色</td>
               <td>small文本字体只有正常字体大小的85%，通常为11.9px。</td>
             </tr>
             <tr>
               <td><a href="#">超链接</a></td>
               <td><code>&lt;a&gt;</code></td>
-              <td>14px</td>
+              <td>13px</td>
               <td>超链接具有不同的颜色以区别其他文本，超链接仅当鼠标悬停时会增加下划线。</td>
             </tr>
             <tr>
@@ -355,7 +473,7 @@ base_url: "./"
                 </ol>
               </td>
               <td><code>&lt;ol&gt;&lt;li&gt;...&lt;/ol&gt;</code></td>
-              <td>14px</td>
+              <td>13px</td>
               <td>当组织一些并列项目且关注项目之间顺序时可以使用有序列表。</td>
             </tr>
             <tr>
@@ -367,7 +485,7 @@ base_url: "./"
                 </ul>
               </td>
               <td><code>&lt;ul&gt;&lt;li&gt;...&lt;/ul&gt;</code></td>
-              <td>14px</td>
+              <td>13px</td>
               <td>当组织一些并列项目但不关注项目之间顺序时可以使用无序列表。</td>
             </tr>
             <tr>
@@ -375,7 +493,7 @@ base_url: "./"
                 <blockquote>这是一大段引用内容</blockquote>
               </td>
               <td><code>&lt;blockquote&gt;</code></td>
-              <td>14px</td>
+              <td>13px</td>
               <td>用于显示一大段引用的内容。</td>
             </tr>
             <tr>
@@ -383,7 +501,7 @@ base_url: "./"
                 <q>这是内嵌的引用</q>
               </td>
               <td><code>&lt;q&gt;</code></td>
-              <td>14px</td>
+              <td>13px</td>
               <td>用于在正文行内显示引用的术语。</td>
             </tr>
             <tr>
@@ -393,7 +511,7 @@ base_url: "./"
         &lt;/div&gt;</code></pre>
               </td>
               <td><code>&lt;pre&gt;&lt;code&gt;...&lt;/code&gt;</code></td>
-              <td>14px 等宽字体</td>
+              <td>13px 等宽字体</td>
               <td>代码区域会加上方框，并使用等宽字体显示，详细代码显示规定请参见节<a href="#prettify">代码高亮</a>。</td>
             </tr>
           </tbody>
@@ -500,6 +618,15 @@ base_url: "./"
       <section id="themes">
         <div class="page-header">
           <h2>主题</h2>
+        </div>
+
+        <p>ZUI中力求界面元素令人赏心悦目。不过如果你需要更多的个性化设置，这时你可以充分利用ZUI提供的主题样式表来个大换装。你只需要修改dist目录下的<code>theme.css</code>文件，并增加到你的项目引用中即可，不需要对原有文件做出修改。</p>
+        <p>如果你追求更深度的定制，可能需要了解<code>src/less</code>目录下的<code>theme.less</code>文件。修改这个文件也是非常简单，如果你只需要更换一下配色，那是简单不过，只需要将<code>@color-primary</code>变量设置一个新的值然后重新编译即可。</p>
+        <div class="alert alert-info">
+          在<code>theme.less</code>给出主要色彩值（<code>@color-primary</code>）会自动计算该色彩对应的配色方案。
+        </div>
+        <div class="example">
+          <button type="button" class="btn btn-success" id="changeTheme">立即换装</button>
         </div>
       </section>
     </div>

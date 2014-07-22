@@ -36,6 +36,14 @@ $(function()
         }
     });
 
+    $('#changeTheme').click(function()
+    {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '../dist/css/zui-theme.css';
+        document.getElementsByTagName('head')[0].appendChild(link);
+    });
+
     $('#dashboard').dashboard();
 
     $('[data-toggle="droppable"]').droppable(

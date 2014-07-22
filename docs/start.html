@@ -1,10 +1,9 @@
-<!-- ---
+<!--
 layout: default
 title: 框架说明
 slug: start
 lead: "了解设计规范."
-base_url: "./"
---- -->
+base_url: "./" -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -16,7 +15,7 @@ base_url: "./"
 
     <title>ZUI</title>
 
-    <link href="../dist/css/zui.min.css" rel="stylesheet">
+    <link href="css/zui.min.css" rel="stylesheet">
     <link href="css/doc.css" rel="stylesheet">
   </head>
   <body>
@@ -36,17 +35,21 @@ base_url: "./"
             <li class="nav-heading">开始</li>
             <li><a href="start.html#about">框架说明</a></li>
             <li><a href="start.html#files">文件目录结构</a></li>
+            <li><a href="start.html#lite">关于简洁版</a></li>
+            <li><a href="start.html#grunt">编译及定制</a></li>
             <li><a href="start.html#browsers">受支持的平台</a></li>
           </ul>
           <ul class="nav navbar-nav collapsed">
             <li class="nav-heading">基础</li>
+            <li><a href="basic.html#hello">Hello world</a></li>
             <li><a href="basic.html#global">全局样式表</a></li>
             <li><a href="basic.html#ie">兼容IE浏览器</a></li>
             <li><a href="basic.html#responsive">响应式设计</a></li>
             <li><a href="basic.html#">栅格系统</a></li>
             <li><a href="basic.html#type">文字排版</a></li>
-            <li><a href="basic.html#colorset">配色</a></li>
             <li><a href="basic.html#scrollbars">滚动条</a></li>
+            <li><a href="basic.html#colorset">配色</a></li>
+            <li><a href="basic.html#themes">主题</a></li>
           </ul>
           <ul class="nav navbar-nav collapsed">
             <li class="nav-heading">控件</li>
@@ -103,10 +106,10 @@ base_url: "./"
 
       <section id="about">
         <div class="page-header">
-          <h2>框架说明</h2>
+          <h2>约定</h2>
         </div>
         <h3>UI元素类型及定义</h3>
-        <p>ZUI中包含各种各样的界面元素（或控件），例如按钮、表格、列表等，甚至一些特定场景用到的一组元素也会在ZUI中精心设计，例如评论列表。为了更好的展示我们的设计理念，把这些元素归为如下四类：</p>
+        <p>ZUI中包含各种各样的界面元素（或控件），例如按钮、列表、表格等，甚至一些特定场景用到的一组元素也会在ZUI中精心设计，例如评论列表。为了更好的展示我们的设计理念，把这些元素归为如下四类：</p>
         <ul>
           <li><strong>基本控件</strong>：用来构建网页应用的基本界面单元，例如按钮、文本标签、输入框等。</li>
           <li><strong>组件</strong>：通过一个以上的基本控件组合而成的较复杂的界面单元。例如表单、菜单、表格等。</li>
@@ -124,8 +127,8 @@ base_url: "./"
         <h4>命名原则</h4>
         <ul>
           <li>所有控件、组件、视图、模块和行为的命名都应该使用最常见的名称，准确提现界面元素功能。例如菜单应该命名为menu，而不是navigation。</li>
-          <li>类型、状态及参数的命名均为元素名加上类型（或状态及参数名）前缀，中间用间隔号分隔，例如固定位置的菜单为<code>.menu-fixed</code>    。对于通用类型、状态或参数可以省略前缀，例如一个菜单项目处于激活状态，则只需命名为<code>.active</code>    ，而不许命名为<code>.menu-active</code>    。</li>
-          <li>所有控件、组件、视图、模块和行为的命名均不加与当前元素功能无关的前缀和额外命名，例如一个导航菜单命名为<code>.nav</code>    ，而不增加额外命名为<code>.ui.nav</code>    或者<code>.zui.nav</code>    。</li>
+          <li>类型、状态及参数的命名均为元素名加上类型（或状态及参数名）前缀，中间用间隔号分隔，例如固定位置的菜单为<code>.menu-fixed</code>。对于通用类型、状态或参数可以省略前缀，例如一个菜单项目处于激活状态，则只需命名为<code>.active</code>，而不许命名为<code>.menu-active</code>。</li>
+          <li>所有控件、组件、视图、模块和行为的命名均不加与当前元素功能无关的前缀和额外命名，例如一个导航菜单命名为<code>.nav</code>，而不增加额外命名为<code>.ui.nav</code>或者<code>.zui.nav</code>。</li>
         </ul>
       </section>
 
@@ -134,7 +137,92 @@ base_url: "./"
           <h2>文件目录结构</h2>
         </div>
 
-        <p>还没写...</p>
+        <h3>预编译的内容</h3>
+        <p>下载预编译压缩包解压后将会得到以下目录结构：</p>
+        <pre>
+zui/
+├── css/
+│   ├── zui.css
+│   ├── zui.min.css
+│   ├── zui.lite.css
+│   ├── zui.lite.min.css
+│   ├── zui-theme.css
+│   └── zui-theme.min.css
+├── js/
+│   ├── zui.js
+│   ├── zui.min.js
+│   ├── zui.lite.js
+│   └── zui.lite.min.js
+└── fonts/
+    ├── zenicon.eot
+    ├── zenicon.svg
+    ├── zenicon.ttf
+    └── zenicon.woff
+        </pre>
+        <p>css目录下提供了三种编译类型：‘zui’、‘zui.lite’、‘zui-theme’，其中‘zui.lite’为精简版样式（关于精简版请参考本文档后续章节），‘zui-theme’为zui的主题样式。每种编译类型均提供了压缩版本，对应的文件名为‘*.min.css’。js目录下提供对应的js文件。字体图标放在‘fonts’文件夹下。</p>
+
+        <h3>源码目录结构</h3>
+        <p>可以随时从Github上下载ZUI的源码。不仅仅包含所有开发源码文件，而且包含完整的文档和示例。如果你需要定制的编译版本更应该下载源码。以下简要说明源码目录结构。</p>
+<pre>
+zui/
+├── src/                         ZUI的源码目录
+│   ├── less/
+│   ├── js/
+│   ├── fonts/
+│   └── apps/                    一些自定义的编译配置
+├── dist/                        预编译输出目录
+│   ├── css/
+│   ├── js/
+│   └── fonts/
+├── docs/                        文档
+│   └── example/                 文档中用到的例子
+├── assets/                      一些依赖的或者配合使用的其他资源，包含jquery等
+├── Gruntfile.js                 Grunt编译脚本
+└── index.html                   文档首页
+</pre>
+      </section>
+
+      <section id="lite">
+        <div class="page-header">
+          <h2>关于简洁版</h2>
+        </div>
+
+        <p>ZUI中包含了丰富的组件，但在构建一些轻量的应用时并不需要所有内容。ZUI预编译版本中提供了一些简洁的版本。包含了ZUI中绝大部分常用内容，经过压缩后体积更小。你可以在dist目录下找到文件名包含'.lite'的文件记为简洁的版本。</p>
+        <p>在后续文档中，会使用标签 <span class='label label-info'>LITE</span> 标注在简洁版中提供的内容。</p>
+        <p>如果你需要更精确的控制所需的内容，强烈建议下载我们的源码来进行自定义配置并编译独一无二的版本。</p>
+      </section>
+
+      <section id="grunt">
+        <div class="page-header">
+          <h2>编译及定制</h2>
+        </div>
+        <p>ZUI使用 <a href="http://gruntjs.com/">Grunt</a> 作为编译系统。如果不了解 Grunt 也没有关系，Grunt是一个非常棒而且容易上手的工具。下面给出简要步骤来准备编译ZUI，如果想了解更多请访问Grunt官方网站。</p>
+        <h3>安装Grunt</h3>
+        <p>Grunt构建在nodejs之上。在安装Grunt之前需要首先<a href="http://nodejs.org/download/" target="_blank">下载并安装node.js</a>。最新版的nodejs已包含npm（<a href="http://npmjs.org/" target="_blank">node packaged modules</a>）。npm是nodejs用来管理扩展包的工具。</p>
+        <p>安装nodejs之后，在命令行进行如下操作：</p>
+        <ol>
+          <li>在全局环境中安装<code>grunt-cli</code>：<code>npm install -g grunt-cli</code>。</li>
+          <li>进入ZUI源码目录，执行<code>npm install</code>命令。nmp将读取包配置文件<code>package.json</code>文件并自动安装所有依赖的扩展包。</li>
+        </ol>
+        <p>完成上述步骤就可以进行编译了。只需要进入ZUI中使用命令行输入对应的命令就可以启动编译任务。以下为ZUI内置的一些常用任务命令。</p>
+        <table class="table table-bordered">
+          <tr>
+            <td><code>grunt dist</code></td>
+            <td>编译css和js文件，并拷贝图标字体文件，所有新的文件放置在dist目录下。</td>
+          </tr>
+          <tr>
+            <td><code>grunt assets</code></td>
+            <td>拷贝ZUI依赖的第三方插件，并根据当前主题生成对应的样式表。所有新的文件放置在assets目录下。</td>
+          </tr>
+          <tr>
+            <td><code>grunt build</code></td>
+            <td>根据自定义配置生成css和js文件，所有新的文件放置在build文件夹下。目前ZUI源码中包含蝉知、禅道、然之的配置。</td>
+          </tr>
+          <tr>
+            <td><code>grunt</code></td>
+            <td>重新生成所有内容，但不包含自定义的内容。</td>
+          </tr>
+        </table>
       </section>
 
       <section id="browsers">
