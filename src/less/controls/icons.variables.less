@@ -1,708 +1,292 @@
-
-// Variables
+// Icons variables
 // --------------------------
-
-@glass: "\e601";
-
-@music: "\e602";
-
-@search: "\e603";
-
-@envelope: "\e604";
-
-@heart: "\e605";
-
-@star: "\e606";
-
-@star-empty: "\e607";
-
-@user: "\e608";
-
-@film: "\e609";
-
-@th-large: "\e60a";
-
-@th: "\e60b";
-
-@th-list: "\e60c";
-
-@ok: "\e60d";
-
-@remove: "\d7";
-
-@zoom-in: "\e60f";
-
-@zoom-out: "\e610";
-
-@off: "\e611";
-
-@signal: "\e612";
-
-@cog: "\e613";
-
-@trash: "\e614";
-
-@home: "\e615";
-
-@file: "\e616";
-
-@time: "\e617";
-
-@download-alt: "\e618";
-
-@download: "\e619";
-
-@upload: "\e61a";
-
-@inbox: "\e61b";
-
-@play-circle: "\e61c";
-
-@repeat: "\e61d";
-
-@refresh: "\e61e";
-
-@list-alt: "\e61f";
-
-@lock: "\e620";
-
-@flag: "\e621";
-
-@headphones: "\e622";
-
-@volume-off: "\e623";
-
-@volume-down: "\e624";
-
-@volume-up: "\e625";
-
-@qrcode: "\e626";
-
-@barcode: "\e627";
-
-@tag: "\e628";
-
-@tags: "\e629";
-
-@book: "\e62a";
-
-@bookmark: "\e62b";
-
-@print: "\e62c";
-
-@camera: "\e62d";
-
-@font: "\e62e";
-
-@bold: "\e62f";
-
-@italic: "\e630";
-
-@text-height: "\e631";
-
-@text-width: "\e632";
-
-@align-left: "\e633";
-
-@align-center: "\e634";
-
-@align-right: "\e635";
-
-@align-justify: "\e636";
-
-@list: "\e637";
-
-@indent-left: "\e638";
-
-@indent-right: "\e639";
-
-@facetime-video: "\e63a";
-
-@picture: "\e63b";
-
-@pencil: "\e63c";
-
-@map-marker: "\e63d";
-
-@adjust: "\e63e";
-
-@tint: "\e63f";
-
-@edit: "\e640";
-
-@share: "\e641";
-
-@check: "\e642";
-
-@move: "\e643";
-
-@step-backward: "\e644";
-
-@fast-backward: "\e645";
-
-@backward: "\e646";
-
-@play: "\e647";
-
-@pause: "\e648";
-
-@stop: "\e649";
-
-@forward: "\e64a";
-
-@fast-forward: "\e64b";
-
-@step-forward: "\e64c";
-
-@eject: "\e64d";
-
-@chevron-left: "\e64e";
-
-@chevron-right: "\e64f";
-
-@plus-sign: "\e650";
-
-@minus-sign: "\e651";
-
-@remove-sign: "\e652";
-
-@ok-sign: "\e653";
-
-@question-sign: "\e654";
-
-@info-sign: "\e655";
-
-@screenshot: "\e656";
-
-@remove-circle: "\e657";
-
-@ok-circle: "\e658";
-
-@ban-circle: "\e659";
-
-@arrow-left: "\e65a";
-
-@arrow-right: "\e65b";
-
-@arrow-up: "\e65c";
-
-@arrow-down: "\e65d";
-
-@share-alt: "\e65e";
-
-@resize-full: "\e65f";
-
-@resize-small: "\e660";
-
-@plus: "\e661";
-
-@minus: "\e662";
-
-@asterisk: "\e663";
-
-@exclamation-sign: "\e664";
-
-@gift: "\e665";
-
-@leaf: "\e666";
-
-@fire: "\e667";
-
-@eye-open: "\e668";
-
-@eye-close: "\e669";
-
-@warning-sign: "\e66a";
-
-@plane: "\e66b";
-
-@calendar: "\e66c";
-
-@random: "\e66d";
-
-@comment: "\e66e";
-
-@magnet: "\e66f";
-
-@chevron-up: "\e670";
-
-@chevron-down: "\e671";
-
-@retweet: "\e672";
-
-@shopping-cart: "\e673";
-
-@folder-close: "\e674";
-
-@folder-open: "\e675";
-
-@resize-vertical: "\e676";
-
-@resize-horizontal: "\e677";
-
-@bar-chart: "\e678";
-
-@camera-retro: "\e679";
-
-@key: "\e67a";
-
-@cogs: "\e67b";
-
-@comments: "\e67c";
-
-@thumbs-up: "\e67d";
-
-@thumbs-down: "\e67e";
-
-@star-half: "\e67f";
-
-@heart-empty: "\e680";
-
-@signout: "\e681";
-
-@linkedin-sign: "\e682";
-
-@pushpin: "\e683";
-
-@external-link: "\e684";
-
-@signin: "\e685";
-
-@trophy: "\e686";
-
-@github-sign: "\e687";
-
-@upload-alt: "\e688";
-
-@lemon: "\e689";
-
-@phone: "\e68a";
-
-@check-empty: "\e68b";
-
-@bookmark-empty: "\e68c";
-
-@phone-sign: "\e68d";
-
-@github: "\e68e";
-
-@unlock: "\e68f";
-
-@credit: "\e690";
-
-@rss: "\e691";
-
-@hdd: "\e692";
-
-@bullhorn: "\e693";
-
-@bell: "\e694";
-
-@certificate: "\e695";
-
-@hand-right: "\e696";
-
-@hand-left: "\e697";
-
-@hand-up: "\e698";
-
-@hand-down: "\e699";
-
-@circle-arrow-left: "\e69a";
-
-@circle-arrow-right: "\e69b";
-
-@circle-arrow-up: "\e69c";
-
-@circle-arrow-down: "\e69d";
-
-@globe: "\e69e";
-
-@wrench: "\e69f";
-
-@tasks: "\e6a0";
-
-@filter: "\e6a1";
-
-@briefcase: "\e6a2";
-
-@fullscreen: "\e6a3";
-
-@group: "\e6a4";
-
-@link: "\e6a5";
-
-@cloud: "\e6a6";
-
-@beaker: "\e6a7";
-
-@cut: "\e6a8";
-
-@copy: "\e6a9";
-
-@paper-clip: "\e6aa";
-
-@save: "\e6ab";
-
-@sign-blank: "\e6ac";
-
-@reorder: "\e6ad";
-
-@list-ul: "\e6ae";
-
-@list-ol: "\e6af";
-
-@strikethrough: "\e6b0";
-
-@underline: "\e6b1";
-
-@table: "\e6b2";
-
-@magic: "\e6b3";
-
-@truck: "\e6b4";
-
-@google-plus-sign: "\e6b5";
-
-@google-plus: "\e6b6";
-
-@money: "\e6b7";
-
-@caret-down: "\e6b8";
-
-@caret-up: "\e6b9";
-
-@caret-left: "\e6ba";
-
-@caret-right: "\e6bb";
-
-@columns: "\e6bc";
-
-@sort: "\e6bd";
-
-@sort-down: "\e6be";
-
-@sort-up: "\e6bf";
-
-@envelope-alt: "\e6c0";
-
-@undo: "\e6c1";
-
-@legal: "\e6c2";
-
-@dashboard: "\e6c3";
-
-@comment-alt: "\e6c4";
-
-@comments-alt: "\e6c5";
-
-@bolt: "\e6c6";
-
-@sitemap: "\e6c7";
-
-@umbrella: "\e6c8";
-
-@paste: "\e6c9";
-
-@lightbulb: "\e6ca";
-
-@exchange: "\e6cb";
-
-@cloud-download: "\e6cc";
-
-@cloud-upload: "\e6cd";
-
-@user-md: "\e6ce";
-
-@stethoscope: "\e6cf";
-
-@suitcase: "\e6d0";
-
-@bell-alt: "\e6d1";
-
-@coffee: "\e6d2";
-
-@food: "\e6d3";
-
-@file-alt: "\e6d4";
-
-@building: "\e6d5";
-
-@hospital: "\e6d6";
-
-@ambulance: "\e6d7";
-
-@medkit: "\e6d8";
-
-@fighter-jet: "\e6d9";
-
-@beer: "\e6da";
-
-@plus-sign2: "\e6db";
-
-@double-angle-left: "\e6dc";
-
-@double-angle-right: "\e6dd";
-
-@double-angle-up: "\e6de";
-
-@double-angle-down: "\e6df";
-
-@angle-left: "\e6e0";
-
-@angle-right: "\e6e1";
-
-@angle-up: "\e6e2";
-
-@angle-down: "\e6e3";
-
-@desktop: "\e6e4";
-
-@laptop: "\e6e5";
-
-@tablet: "\e6e6";
-
-@mobile: "\e6e7";
-
-@circle-blank: "\e6e8";
-
-@quote-left: "\e6e9";
-
-@quote-right: "\e6ea";
-
-@spinner: "\e6eb";
-
-@circle: "\e6ec";
-
-@reply: "\e6ed";
-
-@github-alt: "\e6ee";
-
-@folder-close-alt: "\e6ef";
-
-@folder-open-alt: "\e6f0";
-
-@expand-alt: "\e6f1";
-
-@collapse-alt: "\e6f2";
-
-@smile: "\e6f3";
-
-@frown: "\e6f4";
-
-@meh: "\e6f5";
-
-@gamepad: "\e6f6";
-
-@keyboard: "\e6f7";
-
-@flag-alt: "\e6f8";
-
-@flag-checkered: "\e6f9";
-
-@terminal: "\e6fa";
-
-@code: "\e6fb";
-
-@reply-all: "\e6fc";
-
-@star-half-full: "\e6fd";
-
-@location-arrow: "\e6fe";
-
-@crop: "\e6ff";
-
-@code-fork: "\e700";
-
-@unlink: "\e701";
-
-@question: "\e702";
-
-@info: "\e703";
-
-@exclamation: "\e704";
-
-@superscript: "\e705";
-
-@subscript: "\e706";
-
-@eraser: "\e707";
-
-@puzzle: "\e708";
-
-@microphone: "\e709";
-
-@microphone-off: "\e70a";
-
-@shield: "\e70b";
-
-@calendar-empty: "\e70c";
-
-@fire-extinguisher: "\e70d";
-
-@rocket: "\e70e";
-
-@chevron-sign-left: "\e70f";
-
-@chevron-sign-right: "\e710";
-
-@chevron-sign-up: "\e711";
-
-@chevron-sign-down: "\e712";
-
-@html5: "\e713";
-
-@anchor: "\e714";
-
-@unlock-alt: "\e715";
-
-@bullseye: "\e716";
-
-@ellipsis-horizontal: "\e717";
-
-@ellipsis-vertical: "\e718";
-
-@rss-sign: "\e719";
-
-@play-sign: "\e71a";
-
-@ticket: "\e71b";
-
-@minus-sign-alt: "\e71c";
-
-@check-minus: "\e71d";
-
-@level-up: "\e71e";
-
-@level-down: "\e71f";
-
-@check-sign: "\e720";
-
-@edit-sign: "\e721";
-
-@external-link-sign: "\e722";
-
-@share-sign: "\e723";
-
-@compass: "\e724";
-
-@collapse: "\e725";
-
-@collapse-top: "\e726";
-
-@expand: "\e727";
-
-@dollar: "\e728";
-
-@yen: "\e729";
-
-@renminbi: "\e72a";
-
-@file2: "\e72b";
-
-@file-text: "\e72c";
-
-@sort-by-alphabet: "\e72d";
-
-@sort-by-alphabet-alt: "\e72e";
-
-@sort-by-attributes: "\e72f";
-
-@sort-by-attributes-alt: "\e730";
-
-@sort-by-order: "\e731";
-
-@sort-by-order-alt: "\e732";
-
-@thumbs-up2: "\e733";
-
-@thumbs-down2: "\e734";
-
-@youtube-play: "\e735";
-
-@long-arrow-down: "\e736";
-
-@long-arrow-up: "\e737";
-
-@long-arrow-left: "\e738";
-
-@long-arrow-right: "\e739";
-
-@apple: "\e73a";
-
-@windows: "\e73b";
-
-@android: "\e73c";
-
-@linux: "\e73d";
-
-@female: "\e73f";
-
-@male: "\e740";
-
-@sun: "\e742";
-
-@moon: "\e743";
-
-@archive: "\e744";
-
-@bug: "\e745";
-
-@weibo: "\e746";
-
-@renren: "\e747";
-
-@qq: "\e600";
-
-@chrome: "\e76c";
-
-@firefox: "\e76d";
-
-@ie: "\e76e";
-
-@opera: "\e76f";
-
-@safari: "\e770";
-
-@node: "\e76a";
-
-@layout: "\e768";
-
-@usecase: "\e74a";
-
-@stack: "\e769";
-
-@branch: "\e74b";
-
-@chat: "\e74c";
-
-@chat-1: "\e74d";
-
-@chat-2: "\e74e";
-
-@comment-s: "\e74f";
-
-@chat-3: "\e750";
-
-@cube: "\e751";
-
-@bars: "\e752";
-
-@graph: "\e753";
-
-@chart: "\e754";
-
-@file-pdf: "\e755";
-
-@file-word: "\e756";
-
-@file-excel: "\e757";
-
-@file-zip: "\e758";
-
-@file-powerpoint: "\e759";
-
-@file-xml: "\e75a";
-
-@linkedin: "\e749";
-
+@icon-music: "\e602";
+@icon-search: "\e603";
+@icon-envelope: "\e604";
+@icon-heart: "\e605";
+@icon-star: "\e606";
+@icon-star-empty: "\e607";
+@icon-user: "\e608";
+@icon-film: "\e609";
+@icon-th-large: "\e60a";
+@icon-th: "\e60b";
+@icon-th-list: "\e60c";
+@icon-ok: "\e60d";
+@icon-remove: "\d7";
+@icon-zoom-in: "\e60f";
+@icon-zoom-out: "\e610";
+@icon-off: "\e611";
+@icon-cog: "\e613";
+@icon-trash: "\e614";
+@icon-home: "\e615";
+@icon-file: "\e616";
+@icon-time: "\e617";
+@icon-download-alt: "\e618";
+@icon-download: "\e619";
+@icon-upload: "\e61a";
+@icon-inbox: "\e61b";
+@icon-play-circle: "\e61c";
+@icon-repeat: "\e61d";
+@icon-refresh: "\e61e";
+@icon-list-alt: "\e61f";
+@icon-lock: "\e620";
+@icon-flag: "\e621";
+@icon-headphones: "\e622";
+@icon-volume-off: "\e623";
+@icon-volume-up: "\e625";
+@icon-qrcode: "\e626";
+@icon-barcode: "\e627";
+@icon-tag: "\e628";
+@icon-tags: "\e629";
+@icon-book: "\e62a";
+@icon-bookmark: "\e62b";
+@icon-print: "\e62c";
+@icon-camera: "\e62d";
+@icon-font: "\e62e";
+@icon-bold: "\e62f";
+@icon-align-justify: "\e636";
+@icon-list: "\e637";
+@icon-picture: "\e63b";
+@icon-pencil: "\e63c";
+@icon-map-marker: "\e63d";
+@icon-adjust: "\e63e";
+@icon-tint: "\e63f";
+@icon-edit: "\e640";
+@icon-share: "\e641";
+@icon-check: "\e642";
+@icon-move: "\e643";
+@icon-step-backward: "\e644";
+@icon-fast-backward: "\e645";
+@icon-backward: "\e646";
+@icon-play: "\e647";
+@icon-pause: "\e648";
+@icon-stop: "\e649";
+@icon-forward: "\e64a";
+@icon-fast-forward: "\e64b";
+@icon-step-forward: "\e64c";
+@icon-eject: "\e64d";
+@icon-chevron-left: "\e64e";
+@icon-chevron-right: "\e64f";
+@icon-plus-sign: "\e650";
+@icon-minus-sign: "\e651";
+@icon-remove-sign: "\e652";
+@icon-ok-sign: "\e653";
+@icon-question-sign: "\e654";
+@icon-info-sign: "\e655";
+@icon-remove-circle: "\e657";
+@icon-ok-circle: "\e658";
+@icon-ban-circle: "\e659";
+@icon-arrow-left: "\e65a";
+@icon-arrow-right: "\e65b";
+@icon-arrow-up: "\e65c";
+@icon-arrow-down: "\e65d";
+@icon-share-alt: "\e65e";
+@icon-resize-full: "\e65f";
+@icon-resize-small: "\e660";
+@icon-plus: "\e661";
+@icon-minus: "\e662";
+@icon-asterisk: "\e663";
+@icon-exclamation-sign: "\e664";
+@icon-gift: "\e665";
+@icon-leaf: "\e666";
+@icon-eye-open: "\e668";
+@icon-eye-close: "\e669";
+@icon-warning-sign: "\e66a";
+@icon-plane: "\e66b";
+@icon-calendar: "\e66c";
+@icon-random: "\e66d";
+@icon-comment: "\e66e";
+@icon-chevron-up: "\e670";
+@icon-chevron-down: "\e671";
+@icon-shopping-cart: "\e673";
+@icon-folder-close: "\e674";
+@icon-folder-open: "\e675";
+@icon-resize-vertical: "\e676";
+@icon-resize-horizontal: "\e677";
+@icon-bar-chart: "\e678";
+@icon-camera-retro: "\e679";
+@icon-key: "\e67a";
+@icon-cogs: "\e67b";
+@icon-comments: "\e67c";
+@icon-thumbs-up: "\e67d";
+@icon-thumbs-down: "\e67e";
+@icon-star-half: "\e67f";
+@icon-heart-empty: "\e680";
+@icon-signout: "\e681";
+@icon-pushpin: "\e683";
+@icon-external-link: "\e684";
+@icon-signin: "\e685";
+@icon-trophy: "\e686";
+@icon-upload-alt: "\e688";
+@icon-lemon: "\e689";
+@icon-phone: "\e68a";
+@icon-check-empty: "\e68b";
+@icon-bookmark-empty: "\e68c";
+@icon-phone-sign: "\e68d";
+@icon-credit: "\e690";
+@icon-rss: "\e691";
+@icon-hdd: "\e692";
+@icon-bullhorn: "\e693";
+@icon-bell: "\e694";
+@icon-certificate: "\e695";
+@icon-hand-right: "\e696";
+@icon-hand-left: "\e697";
+@icon-hand-up: "\e698";
+@icon-hand-down: "\e699";
+@icon-circle-arrow-left: "\e69a";
+@icon-circle-arrow-right: "\e69b";
+@icon-circle-arrow-up: "\e69c";
+@icon-circle-arrow-down: "\e69d";
+@icon-globe: "\e69e";
+@icon-wrench: "\e69f";
+@icon-tasks: "\e6a0";
+@icon-filter: "\e6a1";
+@icon-fullscreen: "\e6a3";
+@icon-group: "\e6a4";
+@icon-link: "\e6a5";
+@icon-cloud: "\e6a6";
+@icon-beaker: "\e6a7";
+@icon-cut: "\e6a8";
+@icon-copy: "\e6a9";
+@icon-paper-clip: "\e6aa";
+@icon-save: "\e6ab";
+@icon-sign-blank: "\e6ac";
+@icon-reorder: "\e6ad";
+@icon-list-ul: "\e6ae";
+@icon-list-ol: "\e6af";
+@icon-table: "\e6b2";
+@icon-magic: "\e6b3";
+@icon-caret-down: "\e6b8";
+@icon-caret-up: "\e6b9";
+@icon-caret-left: "\e6ba";
+@icon-caret-right: "\e6bb";
+@icon-columns: "\e6bc";
+@icon-sort: "\e6bd";
+@icon-sort-down: "\e6be";
+@icon-sort-up: "\e6bf";
+@icon-envelope-alt: "\e6c0";
+@icon-undo: "\e6c1";
+@icon-dashboard: "\e6c3";
+@icon-comment-alt: "\e6c4";
+@icon-comments-alt: "\e6c5";
+@icon-bolt: "\e6c6";
+@icon-sitemap: "\e6c7";
+@icon-umbrella: "\e6c8";
+@icon-paste: "\e6c9";
+@icon-lightbulb: "\e6ca";
+@icon-exchange: "\e6cb";
+@icon-cloud-download: "\e6cc";
+@icon-cloud-upload: "\e6cd";
+@icon-bell-alt: "\e6d1";
+@icon-coffee: "\e6d2";
+@icon-file-alt: "\e6d4";
+@icon-building: "\e6d5";
+@icon-double-angle-left: "\e6dc";
+@icon-double-angle-right: "\e6dd";
+@icon-double-angle-up: "\e6de";
+@icon-double-angle-down: "\e6df";
+@icon-angle-left: "\e6e0";
+@icon-angle-right: "\e6e1";
+@icon-angle-up: "\e6e2";
+@icon-angle-down: "\e6e3";
+@icon-desktop: "\e6e4";
+@icon-laptop: "\e6e5";
+@icon-tablet: "\e6e6";
+@icon-mobile: "\e6e7";
+@icon-circle-blank: "\e6e8";
+@icon-quote-left: "\e6e9";
+@icon-quote-right: "\e6ea";
+@icon-spinner: "\e6eb";
+@icon-circle: "\e6ec";
+@icon-reply: "\e6ed";
+@icon-folder-close-alt: "\e6ef";
+@icon-folder-open-alt: "\e6f0";
+@icon-expand-alt: "\e6f1";
+@icon-collapse-alt: "\e6f2";
+@icon-smile: "\e6f3";
+@icon-frown: "\e6f4";
+@icon-meh: "\e6f5";
+@icon-gamepad: "\e6f6";
+@icon-keyboard: "\e6f7";
+@icon-flag-alt: "\e6f8";
+@icon-flag-checkered: "\e6f9";
+@icon-terminal: "\e6fa";
+@icon-code: "\e6fb";
+@icon-reply-all: "\e6fc";
+@icon-star-half-full: "\e6fd";
+@icon-location-arrow: "\e6fe";
+@icon-crop: "\e6ff";
+@icon-code-fork: "\e700";
+@icon-unlink: "\e701";
+@icon-question: "\e702";
+@icon-info: "\e703";
+@icon-shield: "\e70b";
+@icon-calendar-empty: "\e70c";
+@icon-rocket: "\e70e";
+@icon-chevron-sign-left: "\e70f";
+@icon-chevron-sign-right: "\e710";
+@icon-chevron-sign-up: "\e711";
+@icon-chevron-sign-down: "\e712";
+@icon-html5: "\e713";
+@icon-anchor: "\e714";
+@icon-unlock-alt: "\e715";
+@icon-bullseye: "\e716";
+@icon-ellipsis-horizontal: "\e717";
+@icon-ellipsis-vertical: "\e718";
+@icon-rss-sign: "\e719";
+@icon-play-sign: "\e71a";
+@icon-minus-sign-alt: "\e71c";
+@icon-check-minus: "\e71d";
+@icon-level-up: "\e71e";
+@icon-level-down: "\e71f";
+@icon-check-sign: "\e720";
+@icon-edit-sign: "\e721";
+@icon-external-link-sign: "\e722";
+@icon-share-sign: "\e723";
+@icon-compass: "\e724";
+@icon-collapse: "\e725";
+@icon-collapse-top: "\e726";
+@icon-expand: "\e727";
+@icon-dollar: "\e728";
+@icon-yen: "\e729";
+@icon-renminbi: "\e72a";
+@icon-file2: "\e72b";
+@icon-file-text: "\e72c";
+@icon-sort-by-alphabet: "\e72d";
+@icon-sort-by-alphabet-alt: "\e72e";
+@icon-sort-by-attributes: "\e72f";
+@icon-sort-by-attributes-alt: "\e730";
+@icon-sort-by-order: "\e731";
+@icon-sort-by-order-alt: "\e732";
+@icon-thumbs-up2: "\e733";
+@icon-thumbs-down2: "\e734";
+@icon-long-arrow-down: "\e736";
+@icon-long-arrow-up: "\e737";
+@icon-long-arrow-left: "\e738";
+@icon-long-arrow-right: "\e739";
+@icon-apple: "\e73a";
+@icon-windows: "\e73b";
+@icon-android: "\e73c";
+@icon-linux: "\e73d";
+@icon-sun: "\e742";
+@icon-moon: "\e743";
+@icon-archive: "\e744";
+@icon-bug: "\e745";
+@icon-weibo: "\e746";
+@icon-renren: "\e747";
+@icon-qq: "\e600";
+@icon-chrome: "\e76c";
+@icon-firefox: "\e76d";
+@icon-ie: "\e76e";
+@icon-opera: "\e76f";
+@icon-safari: "\e770";
+@icon-node: "\e76a";
+@icon-layout: "\e768";
+@icon-usecase: "\e74a";
+@icon-stack: "\e769";
+@icon-branch: "\e74b";
+@icon-chat: "\e74c";
+@icon-comment-line: "\e74f";
+@icon-chat-dot: "\e750";
+@icon-cube: "\e751";
+@icon-align-left: "\e633";
