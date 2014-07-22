@@ -1,6 +1,9 @@
 [
     "hotkeys.js",
     "resize.js",
+    "string.js",
+    "date.js",
+    "cookie.js",
     "unities.js",
     "device.js",
     "transition.js",
@@ -24,9 +27,6 @@
     "table.data.js",
     "bootbox.js",
     "messager.js",
-    "string.js",
-    "date.js",
-    "cookie.js",
     "boards.js",
     "img-cutter.js",
     "auto-trigger.js"

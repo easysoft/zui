@@ -56,6 +56,15 @@ module.exports = function(grunt)
                 src: grunt.file.readJSON(srcPath + 'js/import.json').map(concatSrcPath),
                 dest: distPath + 'js/<%= pkg.name %>.js'
             },
+            lite:
+            {
+                options:
+                {
+                    banner: banner + statement + jqueryCheck
+                },
+                src: grunt.file.readJSON(srcPath + 'js/import.lite.json').map(concatSrcPath),
+                dest: distPath + 'js/<%= pkg.name %>.lite.js'
+            },
             mindmap:
             {
                 src: [srcPath + 'js/mindmap.js'],
@@ -111,6 +120,12 @@ module.exports = function(grunt)
                 src:  ['<%= concat.js.dest %>'],
                 dest: distPath + 'js/<%= pkg.name %>.min.js'
             },
+            lite:
+            {
+                options: {banner: banner + statement},
+                src:  ['<%= concat.lite.dest %>'],
+                dest: distPath + 'js/<%= pkg.name %>.lite.min.js'
+            },
             mindmap:
             {
                 src:  ['<%= concat.mindmap.dest %>'],
@@ -163,6 +178,21 @@ module.exports = function(grunt)
                     'dist/css/<%= pkg.name %>.css': srcPath + 'less/zui.less'
                 }
             },
+            lite:
+            {
+                options:
+                {
+                    strictMath: true,
+                    sourceMap: true,
+                    outputSourceFiles: true,
+                    sourceMapURL: '<%= pkg.name %>.lite.css.map',
+                    sourceMapFilename: distPath + 'css/<%= pkg.name %>.lite.css.map'
+                },
+                files:
+                {
+                    'dist/css/<%= pkg.name %>.lite.css': srcPath + 'less/zui.lite.less'
+                }
+            },
             theme:
             {
                 options:
@@ -188,6 +218,7 @@ module.exports = function(grunt)
                 files:
                 {
                     'dist/css/<%= pkg.name %>.min.css': distPath + 'css/<%= pkg.name %>.css',
+                    'dist/css/<%= pkg.name %>.lite.min.css': distPath + 'css/<%= pkg.name %>.lite.css',
                     'dist/css/<%= pkg.name %>-theme.min.css': distPath + 'css/<%= pkg.name %>-theme.css',
                 }
             },
@@ -359,6 +390,7 @@ module.exports = function(grunt)
                 files:
                 {
                     'dist/css/<%= pkg.name %>.css': [distPath + 'css/<%= pkg.name %>.css'],
+                    'dist/css/<%= pkg.name %>.lite.css': [distPath + 'css/<%= pkg.name %>.lite.css'],
                     'dist/css/<%= pkg.name %>-theme.css': [distPath + 'css/<%= pkg.name %>-theme.css']
                 }
             },
@@ -414,6 +446,8 @@ module.exports = function(grunt)
                     [
                         distPath + 'css/<%= pkg.name %>.css',
                         distPath + 'css/<%= pkg.name %>.min.css',
+                        distPath + 'css/<%= pkg.name %>.lite.css',
+                        distPath + 'css/<%= pkg.name %>.lite.min.css',
                         distPath + 'css/<%= pkg.name %>-theme.css',
                         distPath + 'css/<%= pkg.name %>-theme.min.css',
                         distPath + 'css/<%= pkg.name %>-mindmap.css',
@@ -490,8 +524,8 @@ module.exports = function(grunt)
     require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 
     // Distribution task
-    grunt.registerTask('dist-js', ['concat:js', 'uglify:js']);
-    grunt.registerTask('dist-css', ['less:zui', 'less:theme', 'csscomb:sort-dist', 'less:min', 'usebanner:dist']);
+    grunt.registerTask('dist-js', ['concat:js', 'uglify:js', 'concat:lite', 'uglify:lite']);
+    grunt.registerTask('dist-css', ['less:zui', 'less:lite', 'less:theme', 'csscomb:sort-dist', 'less:min', 'usebanner:dist']);
     grunt.registerTask('dist-fonts', ['copy:fonts']);
     grunt.registerTask('dist', ['clean:dist', 'dist-js', 'dist-css', 'dist-fonts']);
 
