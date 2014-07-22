@@ -193,6 +193,19 @@ module.exports = function(grunt)
                     'dist/css/<%= pkg.name %>.lite.css': srcPath + 'less/zui.lite.less'
                 }
             },
+            doc:
+            {
+                options:
+                {
+                    strictMath: true,
+                    cleancss: true,
+                    report: 'min'
+                },
+                files:
+                {
+                    'docs/css/<%= pkg.name %>.min.css': srcPath + 'less/zui.docs.less'
+                }
+            },
             theme:
             {
                 options:
@@ -528,6 +541,9 @@ module.exports = function(grunt)
     grunt.registerTask('dist-css', ['less:zui', 'less:lite', 'less:theme', 'csscomb:sort-dist', 'less:min', 'usebanner:dist']);
     grunt.registerTask('dist-fonts', ['copy:fonts']);
     grunt.registerTask('dist', ['clean:dist', 'dist-js', 'dist-css', 'dist-fonts']);
+
+    // Documents task
+    grunt.registerTask('doc', ['less:doc']);
 
     // Mindmap task
     grunt.registerTask('mindmap', ['concat:mindmap', 'uglify:mindmap', 'less:mindmap', 'csscomb:sort-mindmap', 'less:mindmap-min']);
