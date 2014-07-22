@@ -34,8 +34,8 @@
     ModalTrigger.prototype.getOptions = function (options)
     {
         options = $.extend({title: this.$.text()}, ModalTrigger.DEFAULTS, this.$.data(), options);
-        if(options.height && options.height.toString().isNum()) options.height += 'px';
-        if(options.width && options.width.toString().isNum()) options.width += 'px';
+        if(typeof options.height === 'number') options.height += 'px';
+        if(typeof options.width === 'number') options.width += 'px';
         if(options.icon == '*')
         {
             var i = this.$.find("[class^='icon-']");
@@ -171,7 +171,7 @@
 
     ModalTrigger.prototype.initModal = function()
     {
-        var name = 'triggerModal', setting = this.options;
+        var name = 'ajaxModal', setting = this.options;
         var loc  = setting.location;
         if($('#' + name).length)
         {
@@ -236,16 +236,16 @@
     {
         $('[data-toggle="modal"]').each(function(event)
         {
-            try
+            var $this = $(this);
+            var href = $this.attr('href');
+            if($this.hasClass('iframe'))
             {
-                var $this = $(this);
-                if($this.data('type') == 'iframe' || $($this.data('target')).length < 1 ||  $this.attr('href').indexOf('#') != 0)
-                {
-                    if($this.hasClass('iframe')) $this.modalTrigger({type: 'iframe'});
-                    else $this.modalTrigger();
-                }
+                $this.modalTrigger({type: 'iframe'});
             }
-            catch(e){}
+            else
+            {
+                $this.modalTrigger();
+            }
         });
 
     });
