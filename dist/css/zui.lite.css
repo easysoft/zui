@@ -2394,8 +2394,8 @@ hr {
   speak: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  *margin-right: .3em;
 }
+.icon-lg:before,
 .icon-large:before {
   font-size: 4/3em;
   vertical-align: -10%;
@@ -2404,24 +2404,17 @@ a [class^="icon-"],
 a [class*=" icon-"] {
   display: inline;
 }
-[class^="icon-"].icon-fixed-width,
-[class*=" icon-"].icon-fixed-width {
-  display: inline-block;
-  width: 16/14em;
-  padding-right: 4/14em;
-  text-align: right;
+.icon-2x {
+  font-size: 28px;
 }
-[class^="icon-"].icon-fixed-width.icon-large,
-[class*=" icon-"].icon-fixed-width.icon-large {
-  width: 20/14em;
+.icon-3x {
+  font-size: 42px;
 }
-[class^="icon-"].pull-left,
-[class*=" icon-"].pull-left {
-  margin-right: .3em;
+.icon-4x {
+  font-size: 56px;
 }
-[class^="icon-"].pull-right,
-[class*=" icon-"].pull-right {
-  margin-left: .3em;
+.icon-5x {
+  font-size: 70px;
 }
 .icon-white,
 .nav-pills > .active > a > [class^="icon-"],
@@ -2445,7 +2438,6 @@ a [class*=" icon-"] {
        -o-animation: spin 2s infinite linear;
           animation: spin 2s infinite linear;
 }
-a .icon-stack,
 a .icon-spin {
   display: inline-block;
   text-decoration: none;
@@ -2498,8 +2490,42 @@ a .icon-spin {
        -o-transform: rotate(90deg);
           transform: rotate(90deg);
 }
-.icon-glass:before {
-  content: "\e601";
+.icon-rotate-180:before {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+     -moz-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+       -o-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+.icon-rotate-270:before {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+     -moz-transform: rotate(270deg);
+      -ms-transform: rotate(270deg);
+       -o-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+.icon-flip-horizontal:before {
+  -webkit-transform: scale(-1, 1);
+     -moz-transform: scale(-1, 1);
+      -ms-transform: scale(-1, 1);
+       -o-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+.icon-flip-vertical:before {
+  -webkit-transform: scale(1, -1);
+     -moz-transform: scale(1, -1);
+      -ms-transform: scale(1, -1);
+       -o-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+a .icon-rotate-90:before,
+a .icon-rotate-180:before,
+a .icon-rotate-270:before,
+a .icon-flip-horizontal:before,
+a .icon-flip-vertical:before {
+  display: inline-block;
 }
 .icon-music:before {
   content: "\e602";
@@ -2548,9 +2574,6 @@ a .icon-spin {
 }
 .icon-off:before {
   content: "\e611";
-}
-.icon-signal:before {
-  content: "\e612";
 }
 .icon-cog:before {
   content: "\e613";
@@ -2603,9 +2626,6 @@ a .icon-spin {
 .icon-volume-off:before {
   content: "\e623";
 }
-.icon-volume-down:before {
-  content: "\e624";
-}
 .icon-volume-up:before {
   content: "\e625";
 }
@@ -2639,38 +2659,11 @@ a .icon-spin {
 .icon-bold:before {
   content: "\e62f";
 }
-.icon-italic:before {
-  content: "\e630";
-}
-.icon-text-height:before {
-  content: "\e631";
-}
-.icon-text-width:before {
-  content: "\e632";
-}
-.icon-align-left:before {
-  content: "\e633";
-}
-.icon-align-center:before {
-  content: "\e634";
-}
-.icon-align-right:before {
-  content: "\e635";
-}
 .icon-align-justify:before {
   content: "\e636";
 }
 .icon-list:before {
   content: "\e637";
-}
-.icon-indent-left:before {
-  content: "\e638";
-}
-.icon-indent-right:before {
-  content: "\e639";
-}
-.icon-facetime-video:before {
-  content: "\e63a";
 }
 .icon-picture:before {
   content: "\e63b";
@@ -2753,9 +2746,6 @@ a .icon-spin {
 .icon-info-sign:before {
   content: "\e655";
 }
-.icon-screenshot:before {
-  content: "\e656";
-}
 .icon-remove-circle:before {
   content: "\e657";
 }
@@ -2804,9 +2794,6 @@ a .icon-spin {
 .icon-leaf:before {
   content: "\e666";
 }
-.icon-fire:before {
-  content: "\e667";
-}
 .icon-eye-open:before {
   content: "\e668";
 }
@@ -2828,17 +2815,11 @@ a .icon-spin {
 .icon-comment:before {
   content: "\e66e";
 }
-.icon-magnet:before {
-  content: "\e66f";
-}
 .icon-chevron-up:before {
   content: "\e670";
 }
 .icon-chevron-down:before {
   content: "\e671";
-}
-.icon-retweet:before {
-  content: "\e672";
 }
 .icon-shopping-cart:before {
   content: "\e673";
@@ -2885,9 +2866,6 @@ a .icon-spin {
 .icon-signout:before {
   content: "\e681";
 }
-.icon-linkedin-sign:before {
-  content: "\e682";
-}
 .icon-pushpin:before {
   content: "\e683";
 }
@@ -2899,9 +2877,6 @@ a .icon-spin {
 }
 .icon-trophy:before {
   content: "\e686";
-}
-.icon-github-sign:before {
-  content: "\e687";
 }
 .icon-upload-alt:before {
   content: "\e688";
@@ -2920,12 +2895,6 @@ a .icon-spin {
 }
 .icon-phone-sign:before {
   content: "\e68d";
-}
-.icon-github:before {
-  content: "\e68e";
-}
-.icon-unlock:before {
-  content: "\e68f";
 }
 .icon-credit:before {
   content: "\e690";
@@ -2981,9 +2950,6 @@ a .icon-spin {
 .icon-filter:before {
   content: "\e6a1";
 }
-.icon-briefcase:before {
-  content: "\e6a2";
-}
 .icon-fullscreen:before {
   content: "\e6a3";
 }
@@ -3023,29 +2989,11 @@ a .icon-spin {
 .icon-list-ol:before {
   content: "\e6af";
 }
-.icon-strikethrough:before {
-  content: "\e6b0";
-}
-.icon-underline:before {
-  content: "\e6b1";
-}
 .icon-table:before {
   content: "\e6b2";
 }
 .icon-magic:before {
   content: "\e6b3";
-}
-.icon-truck:before {
-  content: "\e6b4";
-}
-.icon-google-plus-sign:before {
-  content: "\e6b5";
-}
-.icon-google-plus:before {
-  content: "\e6b6";
-}
-.icon-money:before {
-  content: "\e6b7";
 }
 .icon-caret-down:before {
   content: "\e6b8";
@@ -3076,9 +3024,6 @@ a .icon-spin {
 }
 .icon-undo:before {
   content: "\e6c1";
-}
-.icon-legal:before {
-  content: "\e6c2";
 }
 .icon-dashboard:before {
   content: "\e6c3";
@@ -3113,47 +3058,17 @@ a .icon-spin {
 .icon-cloud-upload:before {
   content: "\e6cd";
 }
-.icon-user-md:before {
-  content: "\e6ce";
-}
-.icon-stethoscope:before {
-  content: "\e6cf";
-}
-.icon-suitcase:before {
-  content: "\e6d0";
-}
 .icon-bell-alt:before {
   content: "\e6d1";
 }
 .icon-coffee:before {
   content: "\e6d2";
 }
-.icon-food:before {
-  content: "\e6d3";
-}
 .icon-file-alt:before {
   content: "\e6d4";
 }
 .icon-building:before {
   content: "\e6d5";
-}
-.icon-hospital:before {
-  content: "\e6d6";
-}
-.icon-ambulance:before {
-  content: "\e6d7";
-}
-.icon-medkit:before {
-  content: "\e6d8";
-}
-.icon-fighter-jet:before {
-  content: "\e6d9";
-}
-.icon-beer:before {
-  content: "\e6da";
-}
-.icon-plus-sign2:before {
-  content: "\e6db";
 }
 .icon-double-angle-left:before {
   content: "\e6dc";
@@ -3188,8 +3103,7 @@ a .icon-spin {
 .icon-tablet:before {
   content: "\e6e6";
 }
-.icon-mobile:before,
-.icon-mobile-phone:before {
+.icon-mobile:before {
   content: "\e6e7";
 }
 .icon-circle-blank:before {
@@ -3209,9 +3123,6 @@ a .icon-spin {
 }
 .icon-reply:before {
   content: "\e6ed";
-}
-.icon-github-alt:before {
-  content: "\e6ee";
 }
 .icon-folder-close-alt:before {
   content: "\e6ef";
@@ -3276,35 +3187,11 @@ a .icon-spin {
 .icon-info:before {
   content: "\e703";
 }
-.icon-exclamation:before {
-  content: "\e704";
-}
-.icon-superscript:before {
-  content: "\e705";
-}
-.icon-subscript:before {
-  content: "\e706";
-}
-.icon-eraser:before {
-  content: "\e707";
-}
-.icon-puzzle:before {
-  content: "\e708";
-}
-.icon-microphone:before {
-  content: "\e709";
-}
-.icon-microphone-off:before {
-  content: "\e70a";
-}
 .icon-shield:before {
   content: "\e70b";
 }
 .icon-calendar-empty:before {
   content: "\e70c";
-}
-.icon-fire-extinguisher:before {
-  content: "\e70d";
 }
 .icon-rocket:before {
   content: "\e70e";
@@ -3344,9 +3231,6 @@ a .icon-spin {
 }
 .icon-play-sign:before {
   content: "\e71a";
-}
-.icon-ticket:before {
-  content: "\e71b";
 }
 .icon-minus-sign-alt:before {
   content: "\e71c";
@@ -3423,9 +3307,6 @@ a .icon-spin {
 .icon-thumbs-down2:before {
   content: "\e734";
 }
-.icon-youtube-play:before {
-  content: "\e735";
-}
 .icon-long-arrow-down:before {
   content: "\e736";
 }
@@ -3449,12 +3330,6 @@ a .icon-spin {
 }
 .icon-linux:before {
   content: "\e73d";
-}
-.icon-female:before {
-  content: "\e73f";
-}
-.icon-male:before {
-  content: "\e740";
 }
 .icon-sun:before {
   content: "\e742";
@@ -3510,47 +3385,17 @@ a .icon-spin {
 .icon-chat:before {
   content: "\e74c";
 }
-.icon-chat-1:before {
-  content: "\e74d";
-}
-.icon-chat-2:before {
-  content: "\e74e";
-}
-.icon-comment-s:before {
+.icon-comment-line:before {
   content: "\e74f";
 }
-.icon-chat-3:before {
+.icon-chat-dot:before {
   content: "\e750";
 }
 .icon-cube:before {
   content: "\e751";
 }
-.icon-bars:before {
-  content: "\e752";
-}
-.icon-graph:before {
-  content: "\e753";
-}
-.icon-chart:before {
-  content: "\e754";
-}
-.icon-file-pdf:before {
-  content: "\e755";
-}
-.icon-file-word:before {
-  content: "\e756";
-}
-.icon-file-excel:before {
-  content: "\e757";
-}
-.icon-file-zip:before {
-  content: "\e758";
-}
-.icon-file-powerpoint:before {
-  content: "\e759";
-}
-.icon-file-xml:before {
-  content: "\e75a";
+.icon-align-left:before {
+  content: "\e633";
 }
 .close {
   float: right;

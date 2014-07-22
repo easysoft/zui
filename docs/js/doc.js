@@ -44,108 +44,116 @@ $(function()
         document.getElementsByTagName('head')[0].appendChild(link);
     });
 
-    $('#dashboard').dashboard();
+    if($.fn.dashboard) $('#dashboard').dashboard();
 
-    $('[data-toggle="droppable"]').droppable(
+    if($.fn.droppable)
     {
-        start: function()
+        $('[data-toggle="droppable"]').droppable(
         {
-            $('.droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里。');
-        },
-        drop: function(event)
-        {
-            messager.show('真棒！');
-            $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
-            if(event.target)
+            start: function()
             {
-                event.target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
+                $('.droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里。');
+            },
+            drop: function(event)
+            {
+                messager.show('真棒！');
+                $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
+                if(event.target)
+                {
+                    event.target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
+                }
+            },
+            drag: function(event)
+            {
+
+                $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
+                if(event.target) event.target.addClass('panel-warning');
             }
-        },
-        drag: function(event)
-        {
+        });
+    }
 
-            $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
-            if(event.target) event.target.addClass('panel-warning');
-        }
-    });
-
-    $('.boards').boards();
+    if($.fn.boards) $('.boards').boards();
 
     // Chosen
-    $('.chosen-select').chosen();
-    $('#chosenIcons').chosenIcons();
+    if($.fn.chosen) $('.chosen-select').chosen();
+    if($.fn.chosenIcons) $('#chosenIcons').chosenIcons();
 
     // datetime picker
-    $('.form-datetime').datetimepicker(
+    if($.fn.datetimepicker)
     {
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1,
-        format: 'yyyy-mm-dd hh:ii'
-    });
-    $('.form-date').datetimepicker(
+        $('.form-datetime').datetimepicker(
+        {
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            format: 'yyyy-mm-dd hh:ii'
+        });
+        $('.form-date').datetimepicker(
+        {
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: 'yyyy-mm-dd'
+        });
+        $('.form-time').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,
+            minView: 0,
+            maxView: 1,
+            forceParse: 0,
+            format: 'hh:ii'
+        });
+    }
+
+    if(window.KindEditor)
     {
-        language:  'zh-CN',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        forceParse: 0,
-        format: 'yyyy-mm-dd'
-    });
-    $('.form-time').datetimepicker({
-        language:  'zh-CN',
-        weekStart: 1,
-        todayBtn:  1,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 1,
-        minView: 0,
-        maxView: 1,
-        forceParse: 0,
-        format: 'hh:ii'
-    });
+        KindEditor.ready(function(K)
+        {
+          K.create('textarea.kindeditor',
+          {
+            allowFileManager : true,
+            bodyClass : 'article-content',
+            cssPath: 'dist/css/zui.css',
+            afterBlur: function(){$('#content').prev('.ke-container').removeClass('focus');},
+              afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
+          });
 
-    KindEditor.ready(function(K)
-    {
-      K.create('textarea.kindeditor',
-      {
-        allowFileManager : true,
-        bodyClass : 'article-content',
-        cssPath: 'dist/css/zui.css',
-        afterBlur: function(){$('#content').prev('.ke-container').removeClass('focus');},
-          afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
-      });
+          K.create('textarea.kindeditorSimple',
+          {
+            bodyClass : 'article-content',
+            cssPath: 'dist/css/zui.css',
+            resizeType : 1,
+            allowPreviewEmoticons : false,
+            allowImageUpload : false,
+            items : [
+            'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+            'insertunorderedlist', '|', 'emoticons', 'image', 'link'],
+            afterBlur: function(){$('#contentSimple').prev('.ke-container').removeClass('focus');},
+              afterFocus: function(){$('#contentSimple').prev('.ke-container').addClass('focus');}
+          });
 
-      K.create('textarea.kindeditorSimple',
-      {
-        bodyClass : 'article-content',
-        cssPath: 'dist/css/zui.css',
-        resizeType : 1,
-        allowPreviewEmoticons : false,
-        allowImageUpload : false,
-        items : [
-        'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-        'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-        'insertunorderedlist', '|', 'emoticons', 'image', 'link'],
-        afterBlur: function(){$('#contentSimple').prev('.ke-container').removeClass('focus');},
-          afterFocus: function(){$('#contentSimple').prev('.ke-container').addClass('focus');}
-      });
-
-      K.create('textarea.customStyle',
-      {
-        themeType : 'simple',
-        bodyClass : 'article-content',
-        cssPath: 'dist/css/zui.css',
-        afterBlur: function(){$('#contentCustom').prev('.ke-container').removeClass('focus');},
-          afterFocus: function(){$('#contentCustom').prev('.ke-container').addClass('focus');}
-      });
-    });
-
+          K.create('textarea.customStyle',
+          {
+            themeType : 'simple',
+            bodyClass : 'article-content',
+            cssPath: 'dist/css/zui.css',
+            afterBlur: function(){$('#contentCustom').prev('.ke-container').removeClass('focus');},
+              afterFocus: function(){$('#contentCustom').prev('.ke-container').addClass('focus');}
+          });
+        });
+    }
 });

@@ -119,6 +119,7 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
   padding: 2px 10px;
   white-space: nowrap;
 }
+.icons li > i {display: inline-block; width: 20px}
 .icons li:hover{
   background-color: #ffe9a8;
 }
