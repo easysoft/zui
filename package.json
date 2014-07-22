@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.1.1",
+  "version": "0.9.0",
   "description": "An attractive web UI framework and design guide.",
   "main": "index.html",
   "directories": {
