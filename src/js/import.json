@@ -1,5 +1,6 @@
 [
     "hotkeys.js",
+    "resize.js",
     "unities.js",
     "device.js",
     "transition.js",
@@ -26,7 +27,6 @@
     "string.js",
     "date.js",
     "cookie.js",
-    "resize.js",
     "boards.js",
     "img-cutter.js",
     "auto-trigger.js"

@@ -1,4 +1,7 @@
 [
+    "resize.js",
+    "string.js",
+    "device.js",
     "transition.js",
     "alert.js",
     "button.js",
@@ -13,6 +16,5 @@
     "lightbox.js",
     "bootbox.js",
     "messager.js",
-    "string.js",
     "color.js"
 ]
