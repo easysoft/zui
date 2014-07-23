@@ -4,6 +4,16 @@ $(function()
 {
     $(window).resize(function(){$('#main').css('min-height', $(window).height());}).resize();
 
+    $('.navbar-collapse > .nav:not(.collapsed) .nav-heading').attr('data-target', '#main');
+    $('.navbar-collapse > .nav > li > a').each(function()
+    {
+        var $this = $(this);
+        var href = $this.attr('href');
+        var target = href.substring(href.indexOf('#'), href.length);
+        $this.attr('data-target', target);
+    });
+    $('body').scrollspy({target: '#navbar-collapse'});
+
     // hljs.initHighlightingOnLoad();
     prettyPrint();
 
