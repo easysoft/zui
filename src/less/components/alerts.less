@@ -41,22 +41,42 @@
 
   >[class*="icon-"]
   {
-    display: table-cell;
-    vertical-align: middle;
-    font-size: 3em;
+    float: left;
+    font-size: 42px;
     opacity: 0.6;
+    margin-top: -5px;
     .transition(opacity,@animation-speed-fast,@animation-type);
   }
 
   >[class*="icon-"] + .content
   {
-    padding-left: 1em;
+    margin-left: 50px;
+    min-height: 30px;
   }
 
-  >.content
+  &.with-icon
   {
-    display: table-cell;
-    vertical-align: middle;
+    width: 100%;
+    display: table;
+
+    >[class*="icon-"], >[class*="icon-"] + .content
+    {
+      float: none;
+      margin: 0;
+      display: table-cell;
+      vertical-align: middle;
+      min-height: 0;
+    }
+
+    >[class*="icon-"]
+    {
+      width: 40px;
+    }
+
+    >[class*="icon-"] + .content
+    {
+      padding-left: 1em;
+    }
   }
 }
 
