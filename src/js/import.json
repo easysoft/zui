@@ -28,6 +28,7 @@
     "bootbox.js",
     "messager.js",
     "boards.js",
+    "scrollspy.js",
     "img-cutter.js",
     "auto-trigger.js"
 ]
