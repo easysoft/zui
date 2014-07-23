@@ -34,7 +34,7 @@ base_url: "./"
           <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav collapsed">
               <li class="nav-heading">开始</li>
-              <li><a href="start.html#about">框架说明</a></li>
+              <li><a href="start.html#about">约定</a></li>
               <li><a href="start.html#files">文件目录结构</a></li>
               <li><a href="start.html#lite">关于简洁版</a></li>
               <li><a href="start.html#grunt">编译及定制</a></li>
@@ -42,11 +42,13 @@ base_url: "./"
             </ul>
             <ul class="nav navbar-nav collapsed">
               <li class="nav-heading">基础</li>
+              <li><a href="basic.html#hello">Hello world</a></li>
               <li><a href="basic.html#global">全局样式表</a></li>
               <li><a href="basic.html#ie">兼容IE浏览器</a></li>
               <li><a href="basic.html#responsive">响应式设计</a></li>
-              <li><a href="basic.html#">栅格系统</a></li>
+              <li><a href="basic.html#grid">栅格系统</a></li>
               <li><a href="basic.html#type">文字排版</a></li>
+              <li><a href="basic.html#utility">辅助类</a></li>
               <li><a href="basic.html#scrollbars">滚动条</a></li>
               <li><a href="basic.html#colorset">配色</a></li>
               <li><a href="basic.html#themes">主题</a></li>
@@ -114,10 +116,10 @@ base_url: "./"
 
       <section id="icons">
         <div class="page-header">
-          <h2>图标</h2>
+          <h2>图标 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <p>图标能在视觉上简洁有效的指引用户操作。特殊情况下，使用图标能够代替文本。</p>
-        <h3>如何使用图标？</h3>
+        <h3>何时使用图标？</h3>
         <p>同一个应用程序中的图标应该具有一致的外观及用户行为响应，应该将整个图标集作为用户界面中的重要部分。一般图标用于如下情况：</p>
         <ul>
           <li>用于应用程序头部，便于用户识别正在使用的应用；</li>
@@ -427,15 +429,23 @@ base_url: "./"
         <p>使用图标字体有一个好处就是图标就是文本字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小、颜色，甚至一些CSS3特效。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：</p>
         <ul>
           <li>图标应具备统一的颜色，如果有交互行为样式也应该保持一致；</li>
-          <li>图标的大小应该保持一致，正文中的图标大小应为16px，标题中的图标可以为32px；</li>
+          <li>图标的大小应该保持一致，正文中的图标大小应为14px，标题中的图标可以为28px；</li>
           <li>图标应与所指示的内容对应，不同地方的同一个指示内容应该使用同一个图标。</li>
         </ul>
-        <p>如有需要，也可以自定义专有的图标字体。例如需要使用一些Font Awesome中没有定义的图标，或者由于性能要求太高需要Font Awesome中没有用到的图标。</p>
+        <p>如有需要，也可以自定义专有的图标字体。例如需要使用一些Font Awesome中没有定义的图标，或者由于性能要求太高需要去掉Font Awesome中没有用到的图标。</p>
+
+        <h3>如何使用图标？</h3>
+        <p>使用一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>并增加对应的CSS类名即可，用来作为图标的标签不需要包含任何文本也不应该如此。</p>
+        <pre class="prettyprint"><code>&lt;i class="icon-star"&gt;&lt;/i&gt;</code></pre>
+        <div class="alert alert-danger">
+          <p>不要将在任何控件标签上直接应用图标CSS类名，应该嵌套一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>标签。</p>
+        </div>
+
       </section>
 
       <section id="buttons">
         <div class="page-header">
-          <h2>按钮</h2>
+          <h2>按钮 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <p>按钮是用来触发一些动作。通常用在表单、对话框、菜单上面。好的按钮设计能够引导用户高效的达到目的。</p>
 
@@ -752,7 +762,7 @@ base_url: "./"
       </section>
 
       <section id='labels'>
-        <div class="page-header"><h2 id="labels">标签</h2></div>
+        <div class="page-header"><h2 id="labels">标签 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2></div>
 
         <h3>基本样式</h3>
         <table class="table" style='text-align:center'>
@@ -881,7 +891,7 @@ base_url: "./"
       </section>
 
       <section id='textbox'>
-        <div class="page-header"><h2>文本框</h2></div>
+        <div class="page-header"><h2>文本框  <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2></div>
 
         <h3>类型</h3>
         <h4>基本类型</h4>
@@ -1006,7 +1016,7 @@ base_url: "./"
 
       <section id='breadcrumb'>
         <div class="page-header">
-          <h2>面包屑</h2>
+          <h2>面包屑  <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <ul class="breadcrumb">
           <li><a href="#">Home</a></li>
@@ -1017,7 +1027,7 @@ base_url: "./"
 
       <section id="images">
         <div class="page-header">
-          <h2>图片</h2>
+          <h2>图片  <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <h3>类型</h3>
         <h4>圆角图片</h4>
@@ -1037,9 +1047,9 @@ base_url: "./"
         </div>
       </section>
 
-      <section id="header">
+      <section id="headers">
         <div class="page-header">
-          <h2>标题</h2>
+          <h2>标题  <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <h3>类型</h3>
         <h4>标准内容标题</h4>
@@ -1134,7 +1144,7 @@ base_url: "./"
 
       <section id="dividers">
         <div class="page-header">
-           <h2>分隔线</h2>
+           <h2>分隔线  <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
 
         <h3>类型</h3>

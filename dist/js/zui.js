@@ -2020,7 +2020,12 @@ Date.prototype.format = function(format)
             }
             else
             {
-                $this.modalTrigger();
+                var target = $this.attr('href') || $this.data('target');
+                try
+                {
+                  if(!$(target).length) $this.modalTrigger();
+                }
+                catch(e){$this.modalTrigger();}
             }
         });
 

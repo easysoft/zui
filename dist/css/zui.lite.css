@@ -1,6 +1,6 @@
 /*!
  * ====================================================
- * ZUI - v0.9.0 - 2014-07-22
+ * ZUI - v0.9.0 - 2014-07-23
  * https://github.com/easysoft/zui
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 Catouse@easysoft; Licensed GNU
@@ -206,11 +206,14 @@ table {
 .hide {
   display: none;
 }
+.hidden {
+  display: none!important;
+}
 .show {
-  display: block!important;
+  display: block;
 }
 .showing {
-  display: block;
+  display: block!important;
 }
 .invisible {
   visibility: hidden;
@@ -224,6 +227,9 @@ table {
 }
 .affix {
   position: fixed;
+}
+.with-padding {
+  padding: 5px 12px;
 }
 @-ms-viewport {
   width: device-width;
@@ -655,7 +661,7 @@ html {
 body {
   font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
   font-size: 13px;
-  line-height: 20/13;
+  line-height: 1.53846154;
   color: #333;
   background-color: #fff;
 }
@@ -1474,7 +1480,7 @@ dl {
 }
 dt,
 dd {
-  line-height: 20/13;
+  line-height: 1.53846154;
 }
 dt {
   font-weight: bold;
@@ -1561,7 +1567,7 @@ blockquote p:last-child {
 }
 blockquote small {
   display: block;
-  line-height: 20/13;
+  line-height: 1.53846154;
   color: #808080;
 }
 blockquote small:before {
@@ -1664,7 +1670,7 @@ h6.header-dividing {
   font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
-  line-height: 20/13;
+  line-height: 1.53846154;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
@@ -2212,7 +2218,7 @@ input[type="button"].btn-block {
   max-width: 100%;
   height: auto;
   padding: 4px;
-  line-height: 20/13;
+  line-height: 1.53846154;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -3548,7 +3554,7 @@ th {
 .table th,
 .table td {
   padding: 8px;
-  line-height: 20/13;
+  line-height: 1.53846154;
   vertical-align: top;
   border-bottom: 1px solid #ddd;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
@@ -3832,19 +3838,34 @@ a.list-group-item:focus {
   margin-top: 5px;
 }
 .alert > [class*="icon-"] {
-  display: table-cell;
-  font-size: 3em;
-  vertical-align: middle;
+  float: left;
+  margin-top: -5px;
+  font-size: 42px;
   opacity: .6;
   -webkit-transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
 }
 .alert > [class*="icon-"] + .content {
-  padding-left: 1em;
+  min-height: 30px;
+  margin-left: 50px;
 }
-.alert > .content {
+.alert.with-icon {
+  display: table;
+  width: 100%;
+}
+.alert.with-icon > [class*="icon-"],
+.alert.with-icon > [class*="icon-"] + .content {
   display: table-cell;
+  float: none;
+  min-height: 0;
+  margin: 0;
   vertical-align: middle;
+}
+.alert.with-icon > [class*="icon-"] {
+  width: 40px;
+}
+.alert.with-icon > [class*="icon-"] + .content {
+  padding-left: 1em;
 }
 .alert-block {
   margin: 0;
@@ -3977,7 +3998,7 @@ input[type="number"]::-webkit-inner-spin-button {
   height: 32px;
   padding: 5px 8px;
   font-size: 13px;
-  line-height: 20/13;
+  line-height: 1.53846154;
   color: #222;
   vertical-align: middle;
   background-color: #fff;
@@ -4256,7 +4277,7 @@ pre {
   padding: 9.5px;
   margin: 0 0 10px;
   font-size: 12px;
-  line-height: 20/13;
+  line-height: 1.53846154;
   color: #333;
   word-break: break-all;
   word-wrap: break-word;
@@ -4338,7 +4359,7 @@ ol.linenums li {
   float: left;
   padding: 5px 12px;
   margin-left: -1px;
-  line-height: 20/13;
+  line-height: 1.53846154;
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -4654,7 +4675,7 @@ ol.linenums li {
 }
 .nav-tabs > li > a {
   margin-right: 2px;
-  line-height: 20/13;
+  line-height: 1.53846154;
   border: 1px solid transparent;
   border-radius: 4px 4px 0 0;
 }
@@ -5364,7 +5385,7 @@ ol.linenums li {
 }
 .modal-title {
   margin: 0;
-  line-height: 20/13;
+  line-height: 1.53846154;
 }
 .modal-body {
   position: relative;
@@ -5577,7 +5598,7 @@ ol.linenums li {
   padding: 3px 20px;
   clear: both;
   font-weight: normal;
-  line-height: 20/13;
+  line-height: 1.53846154;
   color: #333;
   white-space: nowrap;
 }
@@ -5619,7 +5640,7 @@ ol.linenums li {
   padding: 3px 20px;
   font-size: 12px;
   font-weight: bold;
-  line-height: 20/13;
+  line-height: 1.53846154;
   color: #808080;
 }
 .dropdown-backdrop {
@@ -5919,7 +5940,7 @@ ol.linenums li {
 .article-content table th,
 .article-content table td {
   padding: 8px;
-  line-height: 20/13;
+  line-height: 1.53846154;
   vertical-align: top;
   border-bottom: 1px solid #ddd;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);

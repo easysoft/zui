@@ -104,6 +104,11 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
 {
   margin: 0;
 }
+.page-header > h2 > small.label
+{
+  font-size: 12px;
+  padding: 2px 8px;
+}
 #main > .page-header
 {
   border-width: 4px;
@@ -190,6 +195,14 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
 .example.no-padding
 {
   padding: 0;
+}
+.example + pre
+{
+  margin: -15px -40px 15px;
+  padding: 10px 40px;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #DDD;
 }
 
 .popover-examples .popover

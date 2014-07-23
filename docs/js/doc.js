@@ -4,7 +4,6 @@ $(function()
 {
     $(window).resize(function(){$('#main').css('min-height', $(window).height());}).resize();
 
-    $('.navbar-collapse > .nav:not(.collapsed) .nav-heading').attr('data-target', '#main');
     $('.navbar-collapse > .nav > li > a').each(function()
     {
         var $this = $(this);
@@ -45,6 +44,8 @@ $(function()
             $nav.children('li:not(.nav-heading)').slideUp('fast', function(){$nav.addClass('collapsed')});
         }
     });
+
+    $('section .page-header h2 > small.label').tooltip({placement: 'right'});
 
     $('#changeTheme').click(function()
     {

@@ -36,19 +36,24 @@ base_url: "./"
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav collapsed">
             <li class="nav-heading">开始</li>
-            <li><a href="start.html#about">框架说明</a></li>
+            <li><a href="start.html#about">约定</a></li>
             <li><a href="start.html#files">文件目录结构</a></li>
+            <li><a href="start.html#lite">关于简洁版</a></li>
+            <li><a href="start.html#grunt">编译及定制</a></li>
             <li><a href="start.html#browsers">受支持的平台</a></li>
           </ul>
           <ul class="nav navbar-nav collapsed">
             <li class="nav-heading">基础</li>
+            <li><a href="basic.html#hello">Hello world</a></li>
             <li><a href="basic.html#global">全局样式表</a></li>
             <li><a href="basic.html#ie">兼容IE浏览器</a></li>
             <li><a href="basic.html#responsive">响应式设计</a></li>
-            <li><a href="basic.html#">栅格系统</a></li>
+            <li><a href="basic.html#grid">栅格系统</a></li>
             <li><a href="basic.html#type">文字排版</a></li>
-            <li><a href="basic.html#colorset">配色</a></li>
+            <li><a href="basic.html#utility">辅助类</a></li>
             <li><a href="basic.html#scrollbars">滚动条</a></li>
+            <li><a href="basic.html#colorset">配色</a></li>
+            <li><a href="basic.html#themes">主题</a></li>
           </ul>
           <ul class="nav navbar-nav collapsed">
             <li class="nav-heading">控件</li>
@@ -115,7 +120,7 @@ base_url: "./"
 
       <section id="alerts">
         <div class="page-header">
-          <h2>消息框</h2>
+          <h2>消息框 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
 
         <p>消息框能够轻松展示一些需要引起用户注意的内容。</p>
@@ -139,36 +144,44 @@ base_url: "./"
             <strong>不好了!</strong> 确实遇到了问题，请立即处理吧。
           </div>
         </div>
+<pre class='prettyprint'>&lt;div class="alert"&gt;...&lt;/div&gt;
+&lt;div class="alert alert-danger"&gt;...&lt;/div&gt;
+&lt;div class="alert alert-success"&gt;...&lt;/div&gt;
+&lt;div class="alert alert-warning"&gt;...&lt;/div&gt;
+&lt;div class="alert alert-info"&gt;...&lt;/div&gt;</pre>
 
         <h3>使用图标</h3>
-        <p>在消息框中使用醒目的合适的图标能更容易让用户接收。</p>
+        <p>在消息框中使用醒目的合适的图标能更容易让用户接收。需要使<code>.alert</code>配合<code>.with-icon</code>参数一起使用。</p>
         <div class="example" contenteditable="true">
-          <div class="alert">
+          <div class="alert with-icon">
             <i class="icon-inbox"></i>
             <div class="content"><strong>你好!</strong> 有一些内容你可能需要知道。</div>
           </div>
-          <div class="alert alert-success">
+          <div class="alert alert-success with-icon">
             <i class="icon-ok-sign"></i>
             <div class="content"><strong>太好了!</strong> 一切已准备就绪。</div>
           </div>
-          <div class="alert alert-info">
+          <div class="alert alert-info with-icon">
             <i class="icon-info-sign"></i>
             <div class="content"><strong>Hi!</strong> 这条消息可能需要你注意。</div>
           </div>
-          <div class="alert alert-warning">
+          <div class="alert alert-warning with-icon">
             <i class="icon-frown"></i>
             <div class="content"><strong>注意!</strong> 看起来遇到一些问题。</div>
           </div>
-          <div class="alert alert-danger">
+          <div class="alert alert-danger with-icon">
             <i class="icon-remove-sign"></i>
             <div class="content"><strong>不好了!</strong> 确实遇到了问题，请立即处理吧。</div>
           </div>
         </div>
-
+<pre class='prettyprint'>&lt;div class="alert alert-success with-icon"&gt;
+  &lt;i class="icon-ok-sign"&gt;&lt;/i&gt;
+  &lt;div class="content"&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre>
         <h3>块级消息</h3>
         <p>块级消息框将没有外边距，适合用在页面顶部或者浮现在页面之上</p>
         <div class="example no-padding">
-          <div class="alert alert-success alert-block">
+          <div class="alert alert-success alert-block with-icon">
             <i class="icon-ok-sign"></i>
             <div class="content"><strong>太好了!</strong> 一切已准备就绪。</div>
           </div>
@@ -176,24 +189,24 @@ base_url: "./"
 
         <h3>消息框中的链接</h3>
         <p>当消息框中包含链接时，推荐使用工具栏<code>.alert-link</code>来使得链接的样式与消息框类型保持一致。</p>
-        <div class="example" contenteditable="true">
-          <div class="alert">
+        <div class="example">
+          <div class="alert with-icon">
             <i class="icon-inbox"></i>
             <div class="content"><strong>你好!</strong> <a class="alert-link" href="###">有一些内容</a>你可能需要知道。</div>
           </div>
-          <div class="alert alert-success">
+          <div class="alert with-icon alert-success">
             <i class="icon-ok-sign"></i>
             <div class="content"><strong>太好了!</strong> 一切已<a class="alert-link" href="###">准备就绪</a>。</div>
           </div>
-          <div class="alert alert-info">
+          <div class="alert with-icon alert-info">
             <i class="icon-info-sign"></i>
             <div class="content"><strong>Hi!</strong> 这条消息可能<a class="alert-link" href="###">需要你注意</a>。</div>
           </div>
-          <div class="alert alert-warning">
+          <div class="alert with-icon alert-warning">
             <i class="icon-frown"></i>
             <div class="content"><strong>注意!</strong> 看起来遇到<a class="alert-link" href="###">一些问题</a>。</div>
           </div>
-          <div class="alert alert-danger">
+          <div class="alert with-icon alert-danger">
             <i class="icon-remove-sign"></i>
             <div class="content"><strong>不好了!</strong> 确实遇到了问题，请<a class="alert-link" href="###">立即处理</a>吧。</div>
           </div>
@@ -212,7 +225,7 @@ base_url: "./"
 
       <section id="code">
         <div class="page-header">
-          <h2>代码</h2>
+          <h2>代码 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <h3>内联代码</h3>
         <div class="example" contenteditable="true">
@@ -236,7 +249,7 @@ base_url: "./"
 
       <section id="inputgroup">
         <div class="page-header">
-          <h2>输入组</h2>
+          <h2>输入组 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <h3>类型</h3>
         <h4>基本类型</h4>
@@ -513,7 +526,7 @@ base_url: "./"
 
       <section id="listgroup">
         <div class="page-header">
-          <h2>列表组</h2>
+          <h2>列表组 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
 
         <h3>类型</h3>
@@ -563,7 +576,7 @@ base_url: "./"
 
       <section id="navs">
         <div class="page-header">
-          <h2>导航</h2>
+          <h2>导航 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <h3>主要导航</h3>
         <p><code>.nav-primary</code></p>
@@ -953,7 +966,7 @@ base_url: "./"
 
       <section id="navbars">
         <div class="page-header">
-          <h2>导航条</h2>
+          <h2>导航条 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
 
         <h3>简单导航条</h3>
@@ -1198,7 +1211,7 @@ base_url: "./"
 
       <section id="pagers">
         <div class="page-header">
-          <h2>分页条</h2>
+          <h2>分页条 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
 
         <h3>各种分页导航</h3>
@@ -1399,7 +1412,7 @@ base_url: "./"
 
       <section id="panels">
         <div class="page-header">
-          <h2>面板</h2>
+          <h2>面板 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
 
         <h3>类型</h3>
@@ -1526,7 +1539,7 @@ base_url: "./"
 
       <section id="tables">
         <div class="page-header">
-          <h2>表格</h2>
+          <h2>表格 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
         <h3>类型</h3>
         <div class="example" contenteditable="true">
@@ -1755,7 +1768,7 @@ base_url: "./"
 
       <section id="buttongroup">
         <div class="page-header">
-          <h2>按钮组</h2>
+          <h2>按钮组 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
         </div>
 
         <h3>类型</h3>
