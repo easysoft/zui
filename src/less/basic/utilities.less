@@ -32,13 +32,17 @@
 {
   display: none;
 }
+.hidden
+{
+  display: none!important;
+}
 .show
 {
-  display: block!important;
+  display: block;
 }
 .showing
 {
-  display: block;
+  display: block!important;
 }
 .invisible
 {
@@ -56,4 +60,10 @@
 .affix
 {
   position: fixed;
+}
+
+// padding and margin
+.with-padding
+{
+  padding: @padding-base-vertical @padding-base-horizontal;
 }
