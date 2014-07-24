@@ -2,14 +2,12 @@ module.exports = function(grunt)
 {
 
     var banner      = '/*!\n' +
-        ' * ====================================================\n' +
         ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
         ' * GitHub: <%= pkg.repository.url %> \n' +
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;' +
         ' Licensed <%= pkg.license %>\n' +
-        ' * ====================================================\n' +
         ' */\n\n',
         statement   = '/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n',
         jqueryCheck = 'if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery") }\n\n',
