@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "An attractive web UI framework and design guide.",
   "main": "index.html",
   "directories": {
@@ -14,12 +14,12 @@
     "type": "git",
     "url": "https://github.com/easysoft/zui.git"
   },
-  "author": "Catouse@easysoft",
-  "license": "GNU",
+  "author": "cnezsoft.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/easysoft/zui/issues"
   },
-  "homepage": "https://github.com/easysoft/zui",
+  "homepage": "http://easysoft.github.io/zui/",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "~0.3.0",
