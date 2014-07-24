@@ -2,19 +2,19 @@
 <html lang="zh-CN">
   <head>
     <meta charset='utf-8'>
-    <link href="../assets/css/example.css" rel="stylesheet">
-  <link href="../dist/css/theme.css" rel="stylesheet">
-    <link href="../dist/css/zui.css" rel="stylesheet">
-    <script src="../dist/js/kindeditor/kindeditor-all-min.js"></script>
-    <script src="../dist/js/jquery.js"></script>
-  <script src="../dist/js/zui.min.js"></script>
-  <script src="../src/js/debug.js"></script>
+    <link href="../css/example.css" rel="stylesheet">
+
+    <link href="../css/zui.min.css" rel="stylesheet">
+    <script src="../../assets/kindeditor/kindeditor-all-min.js"></script>
+    <script src="../../assets/jquery.js"></script>
+  <script src="../../dist/js/zui.min.js"></script>
+
 
 
   <script>
-    KindEditor.ready(function(K) 
+    KindEditor.ready(function(K)
     {
-      K.create('textarea.kindeditor', 
+      K.create('textarea.kindeditor',
       {
         allowFileManager : true,
         bodyClass : 'article-content',
@@ -23,7 +23,7 @@
           afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
       });
 
-      K.create('textarea.kindeditorSimple', 
+      K.create('textarea.kindeditorSimple',
       {
         bodyClass : 'article-content',
         cssPath: '../dist/css/zui.css',
@@ -49,10 +49,7 @@
 
     });
   </script>
-    <!--[if lt IE 9]>
-  <script src="../assets/js/html5shiv.js"></script>
-  <script src="../assets/js/respond.js"></script>
-  <![endif]-->
+
   <script src="../assets/js/example.js"></script>
 </head>
   <body>
@@ -113,13 +110,13 @@
     <article>
       <section id='kendeditor' class="page-section">
         <h1>富文本编辑器Kindeditor</h1>
-        
+
         <h3>类型</h3>
         <h4>默认模式</h4>
         <textarea id="content" name="content" class='form-control kindeditor' style="height:150px;visibility:hidden;">KindEditor</textarea>
         <h4>简单模式</h4>
         <textarea id="contentSimple" name="content" class='form-control kindeditorSimple' style="height:150px;visibility:hidden;">KindEditor</textarea>
-        
+
         <h3>变化</h3>
         <h4>简单风格</h4>
         <textarea id="contentCustom" name="content" class='form-control customStyle' style="height:150px;visibility:hidden;">KindEditor</textarea>

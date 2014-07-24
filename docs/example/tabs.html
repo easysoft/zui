@@ -2,27 +2,24 @@
 <html lang="zh-CN">
 <head>
   <meta charset='utf-8'>
-  <link href="../dist/css/zui.css" rel="stylesheet">
-  <link href="../assets/css/example.css" rel="stylesheet">
-  <link href="../dist/css/theme.css" rel="stylesheet">
+  <link href="../css/zui.min.css" rel="stylesheet">
+  <link href="../css/example.css" rel="stylesheet">
+
   <link rel="stylesheet/less" type="text/css" href="../src/less/zui.less" />
   <script type="text/javascript"> less = { env: "development", dumpLineNumbers:'mediaquery' }; </script>
   <script src="../assets/js/less.js"></script>
-  <script src="../dist/js/jquery.js"></script>
-  <script src="../dist/js/zui.min.js"></script>
-  <script src="../src/js/debug.js"></script>
+  <script src="../../assets/jquery.js"></script>
+  <script src="../../dist/js/zui.min.js"></script>
 
 
 
 
 
 
-  <link href="../assets/css/example.css" rel="stylesheet">
-  <link href="../dist/css/theme.css" rel="stylesheet">
-  <!--[if lt IE 9]>
-  <script src="../assets/js/html5shiv.js"></script>
-  <script src="../assets/js/respond.js"></script>
-  <![endif]-->
+
+  <link href="../css/example.css" rel="stylesheet">
+
+
   <script src="../assets/js/example.js"></script>
 </head>
 <body>
@@ -100,7 +97,7 @@
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane in active" id="tab1"> 
+      <div class="tab-pane in active" id="tab1">
         <p>口是心非你深情的承诺</p>
         <p>都随着西风飘渺远走</p>
         <p>痴人梦话我钟情的倚托</p>
@@ -149,7 +146,7 @@
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane in active" id="tab11"> 
+      <div class="tab-pane in active" id="tab11">
         <p>口是心非你深情的承诺</p>
         <p>都随着西风飘渺远走</p>
         <p>痴人梦话我钟情的倚托</p>
@@ -197,7 +194,7 @@
       </li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane fade in active" id="tab111"> 
+      <div class="tab-pane fade in active" id="tab111">
         <p>口是心非你深情的承诺</p>
         <p>都随着西风飘渺远走</p>
         <p>痴人梦话我钟情的倚托</p>
@@ -253,7 +250,7 @@
       <tr>
         <td>show.bs.tab</td>
         <td>
-          $('a[data-toggle="tab"]').on('show.bs.tab', function (e) 
+          $('a[data-toggle="tab"]').on('show.bs.tab', function (e)
           {
             e.target // activated tab
             e.relatedTarget // previous tab
@@ -264,7 +261,7 @@
       <tr>
         <td>shown.bs.tab</td>
         <td>
-          $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+          $('a[data-toggle="tab"]').on('shown.bs.tab', function (e)
           {
             e.target // activated tab
             e.relatedTarget // previous tab
@@ -277,7 +274,7 @@
     <p> 关于<code>e.target</code>和<code>e.relatedTarget</code>分别表示当前激活标签对象和前一个标签对象。 </p>
     <p>可遍历对象查看对象各个属性和值：</p>
     <p>
-      $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+      $('#myTab a[data-toggle="tab"]').on('shown.bs.tab', function (e)
       {
           $.each(e.target, function(n, value)
           {
