@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.0.0 - 2014-07-24
+ * ZUI - v1.0.1-dev - 2014-07-25
  * http://easysoft.github.io/zui/
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -7,7 +7,7 @@
 
 /* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
-if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery") }
+if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
 /**
  * Format string

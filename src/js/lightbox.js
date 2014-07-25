@@ -14,7 +14,7 @@
         this.init();
     };
 
-    Lightbox.DEFAULTS = 
+    Lightbox.DEFAULTS =
     {
         modalTeamplate: '<div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><button class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i></button><button class="controller prev"><i class="icon icon-chevron-left"></i></button><button class="controller next"><i class="icon icon-chevron-right"></i></button><img class="lightbox-img" src="{image}" alt="" data-dismiss="modal" /><div class="caption"><div class="content">{caption}<div></div></div>'
     }; // default options
@@ -61,6 +61,7 @@
         {
             type: 'custom',
             name: 'lightboxModal',
+            position: 'center',
             custom: function(e)
             {
                 that.initGroups();
@@ -77,7 +78,7 @@
                     winWidth = $(window).width();
                 imgReady(options.image, function()
                 {
-                    dialog.css({width: Math.min(winWidth, this.width), height: this.height});
+                    dialog.css({width: Math.min(winWidth, this.width)});
                     if(winWidth < (this.width + 30)) modal.addClass('lightbox-full');
                     e.ready();
                 });
@@ -102,7 +103,7 @@
                         winWidth = $(window).width();
                         imgReady(image, function()
                         {
-                            dialog.css({width: Math.min(winWidth, this.width), height: this.height});
+                            dialog.css({width: Math.min(winWidth, this.width)});
                             if(winWidth < (this.width + 30)) modal.addClass('lightbox-full');
                             e.ready();
                         });
