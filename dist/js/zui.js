@@ -964,7 +964,7 @@ Date.prototype.format = function(format)
       // $('.carousel').on('touchstart touchmove touchend',  touch);
 
       var touchStartX, touchStartY;
-      
+
       /* listen the touch event */
       function touch(event)
       {
@@ -982,7 +982,13 @@ Date.prototype.format = function(format)
                   var distanceX = event.changedTouches[0].pageX - touchStartX;
                   var distanceY = event.changedTouches[0].pageY - touchStartY;
                   if(Math.abs(distanceX) > Math.abs(distanceY))
+                  {
                       handleCarousel(carousel, distanceX);
+                      if(Math.abs(distanceX) > 10)
+                      {
+                          event.preventDefault();
+                      }
+                  }
                   else
                   {
                       var $w = $(window);
@@ -990,7 +996,6 @@ Date.prototype.format = function(format)
                   }
                   break;
           }
-          event.preventDefault();
       }
 
       function handleCarousel(carousel, distance)
