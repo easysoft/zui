@@ -3435,9 +3435,9 @@ var imgReady = (function () {
                     }
                     var list = self.children(options.selector);
                     markOrders(list);
-                    if(setting.hasOwnProperty('order') && $.isFunction(setting['order']))
+                    if(options.hasOwnProperty('order') && $.isFunction(options['order']))
                     {
-                        setting['order']({list: list, element: $ele});
+                        options['order']({list: list, element: $ele});
                     }
                 }
             },

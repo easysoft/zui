@@ -16,5 +16,7 @@
     "lightbox.js",
     "bootbox.js",
     "messager.js",
-    "color.js"
+    "color.js",
+    "droppable.js",
+    "sortable.js"
 ]
