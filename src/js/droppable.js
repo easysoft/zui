@@ -29,8 +29,7 @@
         var $e      = this.$,
             setting = this.options;
 
-
-        $e.mousedown(function(event)
+        (setting.trigger ? $e.find(setting.trigger) : $e).mousedown(function(event)
         {
             if(setting.hasOwnProperty('before') && $.isFunction(setting['before']))
             {
@@ -74,7 +73,7 @@
                 var mX = event.pageX,
                     mY = event.pageY;
                 var dragPos = {left: mX-startOffset.x, top: mY-startOffset.y};
-                    
+
                 shadow.css(dragPos);
 
                 isIn = false;
@@ -117,7 +116,7 @@
                 {
                     isIn = true;
                 }
-                
+
                 if(setting.hasOwnProperty('drag') && $.isFunction(setting['drag']))
                 {
                     setting['drag']({event: event, isIn: isIn, target: target, element: $e, isNew: isNew, selfTarget: isSelf, startOffset: startOffset, pos: dragPos});

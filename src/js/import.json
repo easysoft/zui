@@ -22,6 +22,7 @@
     "lightbox.js",
     "draggable.js",
     "droppable.js",
+    "sortable.js",
     "dashboard.js",
     "menu.js",
     "table.data.js",

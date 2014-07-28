@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.0.1-dev - 2014-07-25
+ * ZUI - v1.1.0-dev - 2014-07-28
  * http://easysoft.github.io/zui/
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -3229,8 +3229,7 @@ var imgReady = (function () {
         var $e      = this.$,
             setting = this.options;
 
-
-        $e.mousedown(function(event)
+        (setting.trigger ? $e.find(setting.trigger) : $e).mousedown(function(event)
         {
             if(setting.hasOwnProperty('before') && $.isFunction(setting['before']))
             {
@@ -3274,7 +3273,7 @@ var imgReady = (function () {
                 var mX = event.pageX,
                     mY = event.pageY;
                 var dragPos = {left: mX-startOffset.x, top: mY-startOffset.y};
-                    
+
                 shadow.css(dragPos);
 
                 isIn = false;
@@ -3317,7 +3316,7 @@ var imgReady = (function () {
                 {
                     isIn = true;
                 }
-                
+
                 if(setting.hasOwnProperty('drag') && $.isFunction(setting['drag']))
                 {
                     setting['drag']({event: event, isIn: isIn, target: target, element: $e, isNew: isNew, selfTarget: isSelf, startOffset: startOffset, pos: dragPos});
@@ -3379,6 +3378,100 @@ var imgReady = (function () {
     };
 
     $.fn.droppable.Constructor = Droppable;
+}(jQuery,window,document,Math);
+
+/* Sortable */
++function($, window, document, Math)
+{
+    "use strict";
+
+    var Sortable = function(element, options)
+    {
+        this.$         = $(element);
+        this.options   = this.getOptions(options);
+
+        this.init();
+    };
+
+    Sortable.DEFAULTS = {list: 'li, div', dragCssClass: 'invisible'}; // default options
+
+    Sortable.prototype.getOptions = function (options)
+    {
+        options = $.extend({}, Sortable.DEFAULTS, this.$.data(), options);
+        return options;
+    };
+
+    Sortable.prototype.init = function()
+    {
+        var self = this.$,
+            options = this.options;
+
+        var $list = self.children(options.selector);
+        markOrders($list);
+        $list.droppable(
+        {
+            trigger: options.trigger,
+            target: $list,
+            container: self,
+            flex: true,
+            start: function(e)
+            {
+                if(options.dragCssClass) e.element.addClass(options.dragCssClass);
+            },
+            drag: function(e)
+            {
+                if(e.isIn)
+                {
+                    var $ele = e.element, $target = e.target;
+                    var eleOrder = $ele.attr('data-order'), targetOrder = $target.attr('data-order');
+                    if(eleOrder == targetOrder) return;
+                    else if(eleOrder > targetOrder)
+                    {
+                        $target.before($ele);
+                    }
+                    else
+                    {
+                        $target.after($ele);
+                    }
+                    var list = self.children(options.selector);
+                    markOrders(list);
+                    if(setting.hasOwnProperty('order') && $.isFunction(setting['order']))
+                    {
+                        setting['order']({list: list, element: $ele});
+                    }
+                }
+            },
+            finish: function(e)
+            {
+                if(options.dragCssClass) e.element.removeClass(options.dragCssClass);
+            }
+        });
+
+        function markOrders(list)
+        {
+            var order = 0;
+            list.each(function()
+            {
+                $(this).attr('data-order', order++);
+            });
+        }
+    };
+
+    $.fn.sortable = function(option)
+    {
+        return this.each(function()
+        {
+            var $this   = $(this);
+            var data    = $this.data('zui.sortable');
+            var options = typeof option == 'object' && option;
+
+            if (!data) $this.data('zui.sortable', (data = new Sortable(this, options)));
+
+            if (typeof option == 'string') data[option]();
+        })
+    };
+
+    $.fn.sortable.Constructor = Sortable;
 }(jQuery,window,document,Math);
 
 /* Dashboard */
