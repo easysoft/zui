@@ -14,17 +14,17 @@
 
 
 
-  <script src="../../assets/chosen/js/chosen.jquery.min.js"></script>
+  <script src="../../assets/chosen/js/chosen.jquery.js"></script>
   <script src="../../assets/google-code-prettify/prettify.js"></script>
   <script src="../assets/js/example.js"></script>
   <script type="text/javascript">
     $(function () {
       var config = {
-        '.chosen-select'           : {},
-        '.chosen-select-deselect'  : {allow_single_deselect:true},
-        '.chosen-select-no-single' : {disable_search_threshold:10},
-        '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-        '.chosen-select-width'     : {width:"auto"}
+        '.chosen-select'           : {search_contains: true},
+        '.chosen-select-deselect'  : {search_contains: true, allow_single_deselect:true},
+        '.chosen-select-no-single' : {search_contains: true, disable_search_threshold:10},
+        '.chosen-select-no-results': {search_contains: true, no_results_text:'Oops, nothing found!'},
+        '.chosen-select-width'     : {search_contains: true, width:"auto"}
       };
       for (var selector in config) {
         $(selector).chosen(config[selector]);
@@ -365,8 +365,8 @@
                 <em>Into This</em>
                 <select data-placeholder="Choose a Country..." class="chosen-select form-control" tabindex="2">
                   <option value=""></option>
-                  <option value="United States">United States :)</option>
-                  <option value="United Kingdom">United Kingdom</option>
+                  <option data-keys="美国 MeiGuo" value="United States">United States</option>
+                  <option data-keys="英国" value="United Kingdom">United Kingdom</option>
                   <option value="Afghanistan">Afghanistan</option>
                   <option value="Aland Islands">Aland Islands</option>
                   <option value="Albania">Albania</option>
@@ -412,7 +412,7 @@
                   <option value="Central African Republic">Central African Republic</option>
                   <option value="Chad">Chad</option>
                   <option value="Chile">Chile</option>
-                  <option value="China">China</option>
+                  <option data-keys='中国,国内' value="China">China</option>
                   <option value="Christmas Island">Christmas Island</option>
                   <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
                   <option value="Colombia">Colombia</option>

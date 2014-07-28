@@ -134,6 +134,7 @@ module.exports = function(grunt)
                 files:
                 {
                     'assets/chartjs/chart.line.min.js': 'assets/chartjs/chart.line.js',
+                    'assets/chosen/js/chosen.jquery.min.js': 'assets/chosen/js/chosen.jquery.js',
                     'assets/chosen/js/chosen.icons.min.js': 'assets/chosen/js/chosen.icons.js',
                     'assets/chosen/js/chosen.all.min.js': 'assets/chosen/js/chosen.all.js',
                     'assets/datetimepicker/js/datetimepicker.min.js': 'assets/datetimepicker/js/datetimepicker.js'
