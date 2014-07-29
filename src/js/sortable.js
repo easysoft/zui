@@ -21,15 +21,38 @@
 
     Sortable.prototype.init = function()
     {
+        this.bindEventToList(this.$.children(this.options.selector));
+    };
+
+    Sortable.prototype.reset = function()
+    {
+        var that = this;
+        var list = this.$.children(this.options.selector);
+        list.each(function()
+        {
+            var $this = $(this);
+            if($this.data('zui.droppable'))
+            {
+                $this.data('zui.droppable').options.target = list;
+                $this.droppable('reset');
+            }
+            else
+            {
+                that.bindEventToList($this);
+            }
+        });
+    };
+
+    Sortable.prototype.bindEventToList = function($list)
+    {
         var self = this.$,
             options = this.options;
 
-        var $list = self.children(options.selector);
         markOrders($list);
         $list.droppable(
         {
             trigger: options.trigger,
-            target: $list,
+            target: self.children(options.selector),
             container: self,
             flex: true,
             start: function(e)
