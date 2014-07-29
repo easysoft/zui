@@ -76,15 +76,13 @@
                     }
                     var list = self.children(options.selector);
                     markOrders(list);
-                    if(options.hasOwnProperty('order') && $.isFunction(options['order']))
-                    {
-                        options['order']({list: list, element: $ele});
-                    }
+                    $.callEvent(options['order'], {list: list, element: $ele});
                 }
             },
             finish: function(e)
             {
                 if(options.dragCssClass) e.element.removeClass(options.dragCssClass);
+                $.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
             }
         });
 

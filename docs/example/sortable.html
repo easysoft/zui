@@ -9,7 +9,7 @@
   <link href="../../dist/css/zui.css" rel="stylesheet">
   <link href="../css/example.css" rel="stylesheet">
   <script src="../../assets/jquery.js"></script>
-  <script src="../../dist/js/zui.min.js"></script>
+  <script src="../../dist/js/zui.js"></script>
   <script src="../js/example.js"></script>
   <style>
   .sortable-list {padding: 10px 15px; border: 1px solid #ddd}
@@ -80,7 +80,9 @@
       <h1 class="header-dividing">拖动排序</h1>
       <h2>类型</h2>
       <div class="example">
-        <ul class="sortable-list" id='sortableList' style="position: relative">
+        <button class="btn btn-primary" type="button" id="addItem">增加条目</button>
+        <hr>
+        <ul class="sortable-list" id='sortableList'>
           <li><i class="icon-move"></i> 1 Lorem ipsum dolor sit amet, consectetur.</li>
           <li><i class="icon-move"></i> 2 Aliquam necessitatibus ducimus ipsam vitae nulla.</li>
           <li><i class="icon-move"></i> 3 Quam sequi odit quibusdam. Ullam, temporibus.</li>
@@ -93,7 +95,14 @@
           <li><i class="icon-move"></i> 10 Esse distinctio eius similique assumenda cum?</li>
         </ul>
         <script>
-        $(function(){$('#sortableList').sortable({trigger: '.icon-move', selector: 'li'})});
+        $(function()
+        {
+          $('#sortableList').sortable({trigger: '.icon-move', selector: 'li'});
+          $('#addItem').click(function()
+          {
+            $('#sortableList').append('<li><i class="icon-move"></i> 1 Lorem ipsum dolor sit amet, consectetur.</li>').sortable('reset');
+          });
+        });
         </script>
       </div>
     </section>
