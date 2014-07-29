@@ -26,7 +26,7 @@
 
     Sortable.prototype.reset = function()
     {
-        var that = this;
+        var that = this, order = 0;
         var list = this.$.children(this.options.selector);
         list.each(function()
         {
@@ -40,6 +40,7 @@
             {
                 that.bindEventToList($this);
             }
+            $(this).attr('data-order', ++order);
         });
     };
 
@@ -91,7 +92,7 @@
             var order = 0;
             list.each(function()
             {
-                $(this).attr('data-order', order++);
+                $(this).attr('data-order', ++order);
             });
         }
     };
@@ -105,6 +106,7 @@
             var options = typeof option == 'object' && option;
 
             if (!data) $this.data('zui.sortable', (data = new Sortable(this, options)));
+            else if(typeof option == 'object') data.reset();
 
             if (typeof option == 'string') data[option]();
         })
