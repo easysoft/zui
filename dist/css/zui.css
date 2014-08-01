@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0-dev - 2014-07-28
+ * ZUI - v1.1.0-dev - 2014-08-01
  * http://easysoft.github.io/zui/
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -3360,7 +3360,7 @@ a .icon-flip-vertical:before {
 .icon-coffee:before {
   content: "\e6d2";
 }
-.icon-file-alt:before {
+.icon-file-text-alt:before {
   content: "\e6d4";
 }
 .icon-building:before {
@@ -3400,6 +3400,9 @@ a .icon-flip-vertical:before {
   content: "\e6e6";
 }
 .icon-mobile:before {
+  content: "\e6e7";
+}
+.icon-mobile-phone:before {
   content: "\e6e7";
 }
 .icon-circle-blank:before {

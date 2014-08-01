@@ -11,7 +11,7 @@
         this.init();
     };
 
-    Droppable.DEFAULTS = {container: 'body', flex: false, deviation: 5};
+    Droppable.DEFAULTS = {container: 'body', flex: false, deviation: 5, sensorOffsetX: 0, sensorOffsetY: 0, nested: false};
 
     Droppable.prototype.getOptions = function (options)
     {
@@ -35,7 +35,7 @@
             self    = this,
             setting = this.options;
 
-        this.$triggerTarget = (setting.trigger ? $e.find(setting.trigger) : $e);
+        this.$triggerTarget = (setting.trigger ? ($.isFunction(setting.trigger) ? setting.trigger($e) : $e.find(setting.trigger)).first() : $e);
 
         this.$triggerTarget.on('mousedown', function(event)
         {
@@ -48,7 +48,7 @@
             var $targets         = $(setting.target),
                 target           = null,
                 shadow           = null,
-                $container       = $(setting.container),
+                $container       = $(setting.container).first(),
                 isIn             = false,
                 isSelf           = true,
                 oldCssPosition,
@@ -104,29 +104,37 @@
                     $targets.removeClass('drop-to');
                 }
 
+                var newTarget = null;
                 $targets.each(function(index)
                 {
                     var t = $(this);
                     var tPos = t.offset();
                     var tW = t.width(),
                         tH = t.height(),
-                        tX = tPos.left,
-                        tY = tPos.top;
+                        tX = tPos.left + setting.sensorOffsetX,
+                        tY = tPos.top + setting.sensorOffsetY;
 
                     if(mouseOffset.left > tX && mouseOffset.top > tY && mouseOffset.left < (tX + tW) && mouseOffset.top < (tY + tH))
                     {
-                        isIn = true;
-                        if($e.data('id') != t.data('id')) isSelf = false;
-                        if(target == null || (target.data('id') != t.data('id') && (!isSelf))) isNew = true;
-                        target = t;
-                        if(setting.flex)
-                        {
-                            $targets.removeClass('drop-to');
-                        }
-                        t.addClass('drop-to');
-                        return false;
+                        if(newTarget) newTarget.removeClass('drop-to');
+                        newTarget = t;
+                        if(!setting.nested) return false;
                     }
                 });
+
+                if(newTarget)
+                {
+                    isIn = true;
+                    var id = newTarget.data('id');
+                    if($e.data('id') != id) isSelf = false;
+                    if(target == null || (target.data('id') != id && (!isSelf))) isNew = true;
+                    target = newTarget;
+                    if(setting.flex)
+                    {
+                        $targets.removeClass('drop-to');
+                    }
+                    target.addClass('drop-to');
+                }
 
                 if(!setting.flex)
                 {
