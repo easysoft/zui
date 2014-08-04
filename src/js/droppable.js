@@ -45,7 +45,7 @@
                 if (isSure != undefined && (!isSure)) return;
             }
 
-            var $targets         = $(setting.target),
+            var $targets         = $.isFunction(setting.target) ? setting.target($e): $(setting.target),
                 target           = null,
                 shadow           = null,
                 $container       = $(setting.container).first(),

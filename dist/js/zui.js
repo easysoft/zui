@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0-dev - 2014-08-01
+ * ZUI - v1.1.0-dev - 2014-08-04
  * http://easysoft.github.io/zui/
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -3245,7 +3245,7 @@ var imgReady = (function () {
                 if (isSure != undefined && (!isSure)) return;
             }
 
-            var $targets         = $(setting.target),
+            var $targets         = $.isFunction(setting.target) ? setting.target($e): $(setting.target),
                 target           = null,
                 shadow           = null,
                 $container       = $(setting.container).first(),
