@@ -13,6 +13,11 @@ $(function()
     });
     $('body').scrollspy({target: '#navbar-collapse'});
 
+    if(window.location.host === 'easysoft.github.io')
+    {
+        $('#navbar .navbar-brand').attr('href', '/zui');
+    }
+
     // hljs.initHighlightingOnLoad();
     prettyPrint();
 
