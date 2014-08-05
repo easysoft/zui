@@ -1,11 +1,12 @@
 /* Store */
-+function(window)
++function(window, $)
 {
     "use strict";
 
     var lsName = 'localStorage';
     var storage = window[lsName],
-        old = window['store'];
+        old = window['store'],
+        pageName = 'page_' + window.location.pathname;
 
     /* The Store object */
     var Store = function()
@@ -13,6 +14,50 @@
         this.slience = true;
         this.disabled = (lsName in window) && window[lsName] && window[lsName]['setItem'];
         this.storage = storage;
+        var self = this;
+
+        this.page = this.get(pageName, {});
+    };
+
+    /* Save page data */
+    Store.prototype.savePage = function()
+    {
+        if($.isEmptyObject(this.page))
+        {
+            this.remove(pageName);
+        }
+        else
+        {
+            this.set(pageName, this.page);
+        }
+    };
+
+    /* Clear page data */
+    Store.prototype.clearPage = function()
+    {
+        this.page = {};
+        this.savePage();
+    };
+
+    /* Get page data */
+    Store.prototype.getPage = function(key, defaultValue)
+    {
+        var val = this.page[key];
+        return (defaultValue !== undefined && val === null) ? defaultValue : val;
+    };
+
+    /* Set page data */
+    Store.prototype.setPage = function(objOrKey, val)
+    {
+        if($.isPlanObject(objOrKey))
+        {
+            $.extend(true, this.page, objOrKey);
+        }
+        else
+        {
+            this.page[this.serialize(objOrKey)] = val;
+        }
+        this.savePage();
     };
 
     /* Check disabled status */
@@ -144,4 +189,4 @@
         window.store = old;
         return store;
     }
-}(window);
+}(window, jQuery);
