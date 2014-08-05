@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-05
+ * ZUI - v1.2.0-dev - 2014-08-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -161,14 +161,6 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
 
         return all;
     };
-
-    store.getAll = function() {
-      var ret = {}
-      store.forEach(function(key, val) {
-        ret[key] = val
-      })
-      return ret
-    }
 
     /* Serialize value with JSON.stringify */
     Store.prototype.serialize = function(value)

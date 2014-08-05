@@ -151,14 +151,6 @@
         return all;
     };
 
-    store.getAll = function() {
-      var ret = {}
-      store.forEach(function(key, val) {
-        ret[key] = val
-      })
-      return ret
-    }
-
     /* Serialize value with JSON.stringify */
     Store.prototype.serialize = function(value)
     {
