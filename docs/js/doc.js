@@ -1,22 +1,61 @@
-var config = {'debugdisabled': true};
-
 $(function()
 {
     $(window).resize(function(){$('#main').css('min-height', $(window).height());}).resize();
 
-    $('.navbar-collapse > .nav > li > a').each(function()
+    /* set navbar */
+    var $header = $('body > header');
+    $header.load('/docs/partial/navbar.html', function()
     {
-        var $this = $(this);
-        var href = $this.attr('href');
-        var target = href.substring(href.indexOf('#'), href.length);
-        $this.attr('data-target', target);
-    });
-    $('body').scrollspy({target: '#navbar-collapse'});
+        if(!$('#navbar').length)
+        {
+            return;
+            $('body').addClass('without-navbar');
+        }
 
-    if(window.location.host === 'easysoft.github.io')
-    {
-        $('#navbar .navbar-brand').attr('href', '/zui');
-    }
+        var tab = $header.data('tab') || 'index',
+            $navbarCollapse = $('#navbar-collapse');
+
+        if(tab != 'index')
+        {
+            $navbarCollapse.find('[data-tab="' + tab + '"]').removeClass('collapsed name');
+        }
+
+        $navbarCollapse.find('.nav > li > a').each(function()
+        {
+            var $this = $(this);
+            var href = $this.attr('href');
+            var target = href.substring(href.indexOf('#'), href.length);
+            $this.attr('data-target', target);
+        });
+
+        $('body').addClass('with-navbar').scrollspy({target: '#navbar-collapse'});
+
+        if(window.location.host === 'easysoft.github.io')
+        {
+            $('#navbar .navbar-brand').attr('href', '/zui');
+        }
+
+        // navbar collapse
+        $navbarCollapse.find('.nav > .nav-heading').click(function(event)
+        {
+            var $nav = $(this).closest('.nav');
+            if($nav.hasClass('collapsed'))
+            {
+                if($(window).width() < 767)
+                {
+                    $('.navbar-collapsed .nav').not($nav).children('li:not(.nav-heading)').slideUp('fast', function(){
+                        $(this).closest('.nav').addClass('collapsed');
+                    });
+                }
+                $nav.removeClass('collapsed').children('li:not(.nav-heading)').slideDown('fast');
+            }
+            else
+            {
+                $nav.children('li:not(.nav-heading)').slideUp('fast', function(){$nav.addClass('collapsed')});
+            }
+        });
+    });
+
 
     // hljs.initHighlightingOnLoad();
     prettyPrint();
@@ -30,25 +69,6 @@ $(function()
     // popover demo
     $("[data-toggle=popover]").popover();
 
-    // navbar collapse
-    $('.navbar-collapsed .nav > .nav-heading').click(function(event)
-    {
-        var $nav = $(this).closest('.nav');
-        if($nav.hasClass('collapsed'))
-        {
-            if($(window).width() < 767)
-            {
-                $('.navbar-collapsed .nav').not($nav).children('li:not(.nav-heading)').slideUp('fast', function(){
-                    $(this).closest('.nav').addClass('collapsed');
-                });
-            }
-            $nav.removeClass('collapsed').children('li:not(.nav-heading)').slideDown('fast');
-        }
-        else
-        {
-            $nav.children('li:not(.nav-heading)').slideUp('fast', function(){$nav.addClass('collapsed')});
-        }
-    });
 
     $('section .page-header h2 > small.label').tooltip({placement: 'right'});
 

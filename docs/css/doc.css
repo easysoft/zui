@@ -10,6 +10,8 @@ a[target='_blank']:hover {position: relative;}
 a[target='_blank']:after {transition: all 0.3s; position: absolute; font-family: ZenIcon; font-size: 14px; opacity: 0.5; display: inline-block;top: -1em; opacity: 0; color: #fff; background: #145CCD; width: 20px; height: 20px; text-align: center; border-radius: 10px;}
 a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
 
+.navbar-fixed-left {position: absolute;}
+
 #navbar
 {
   width: 200px;
@@ -37,6 +39,29 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
   box-shadow: 1px 1px 20px rgba(0,0,0,0.1);
 }
 
+body.without-navbar #main
+{
+    margin: 0 auto;
+}
+
+body > header
+{
+  position: fixed;
+  left: -200px;
+  top: 0;
+  bottom: 0;
+  width: 200px;
+  transition: opacity .5s;
+  z-index: 1;
+  opacity: 0;
+}
+
+body.with-navbar > header
+{
+  left: 0;
+  opacity: 1;
+}
+
 .alert-promote
 {
   margin: -20px -40px 0;
@@ -44,8 +69,10 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
 }
 
 @media (max-width: 767px){
-  #navbar.navbar-fixed-left {height: auto; width: 100%}
-  #main {margin-left: 0; padding-top: 60px;}
+  body > header {width: 100%; right: 0;}
+  #navbar.navbar-fixed-left {max-height: 100%; width: 100%; height: auto}
+  #main, body.with-navbar #main{margin-left: 0;}
+  body.with-navbar #main {padding-top: 60px;}
   .navbar-fixed-left.navbar-inverse .navbar-header {border-bottom: none}
   .navbar-fixed-left .navbar-toggle {display: block;}
   .navbar-fixed-left .navbar-collapse {padding-bottom: 0;}
