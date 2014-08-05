@@ -1,4 +1,5 @@
 [
+    "store.js",
     "hotkeys.js",
     "resize.js",
     "string.js",
