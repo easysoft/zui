@@ -4,6 +4,26 @@
     "use strict";
 
     var UDF = 'undefined', newColorIndex = 0;
+
+    var selectText = function($e)
+    {
+        var doc = document;
+        var element = $e[0];
+        if (doc.body.createTextRange)
+        {
+            var range = document.body.createTextRange();
+            range.moveToElementText(element);
+            range.select();
+        } else if (window.getSelection)
+        {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(element);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    };
+
     var Mindmap = function(element, options)
     {
         this.$         = $(element);
@@ -1079,7 +1099,7 @@
         text.attr('contenteditable', 'true');
         this.makeNodeVisble($node);
         text.focus();
-        if(selectAll || typeof selectAll === UDF) text.selectText();
+        if(selectAll || typeof selectAll === UDF) selectText(text);
 
         this.isFocus = true;
     };
