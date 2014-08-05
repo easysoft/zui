@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.1.0-dev",
+  "version": "1.1.0",
   "description": "An attractive web UI framework and design guide.",
   "main": "index.html",
   "directories": {
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/easysoft/zui/issues"
   },
-  "homepage": "http://easysoft.github.io/zui/",
+  "homepage": "http://zui.sexy",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "~0.3.0",
