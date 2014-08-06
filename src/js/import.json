@@ -1,6 +1,7 @@
 [
     "store.js",
     "hotkeys.js",
+    "mousewheel.js",
     "resize.js",
     "string.js",
     "date.js",
@@ -26,7 +27,7 @@
     "sortable.js",
     "dashboard.js",
     "menu.js",
-    "table.data.js",
+    "datatable.js",
     "bootbox.js",
     "messager.js",
     "boards.js",
