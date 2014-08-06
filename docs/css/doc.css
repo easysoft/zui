@@ -31,7 +31,7 @@ a[target='_blank']:hover:after {content: '\e684'; opacity: 1; }
   top: 0;
   padding: 20px 40px;
   margin-left: 200px;
-  background-color: #fafafa;
+  background-color: #fff;
   max-width: 1200px;
   height: auto;
   -moz-box-shadow: 1px 1px 20px rgba(0,0,0,0.1);

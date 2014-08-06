@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0-dev - 2014-08-05
+ * ZUI - v1.2.0-dev - 2014-08-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -5988,6 +5988,7 @@ ol.linenums li {
   left: 0;
   z-index: 1030;
   height: 100%;
+  background: #262626;
   border-radius: 0;
 }
 .navbar-fixed-left,
@@ -6013,26 +6014,32 @@ ol.linenums li {
 .navbar-fixed-left .navbar-toggle {
   display: none;
 }
-.navbar-fixed-left.navbar-default .navbar-header,
-.navbar-fixed-left.navbar-default .navbar-nav {
-  border-bottom: 1px solid #fff;
-  -webkit-box-shadow: inset 0 -1px 0 #dedede;
-     -moz-box-shadow: inset 0 -1px 0 #dedede;
-          box-shadow: inset 0 -1px 0 #dedede;
+.navbar-fixed-left.navbar-default .navbar-header {
+  border-color: rgba(0, 0, 0, .05);
+  border-bottom: 1px solid #ddd;
 }
-.navbar-fixed-left.navbar-inverse .navbar-header,
+.navbar-fixed-left.navbar-default .navbar-nav > li.nav-heading {
+  background: none;
+}
+.navbar-fixed-left.navbar-inverse .navbar-header {
+  border-color: rgba(255, 255, 255, .05);
+  border-bottom: 1px solid #333;
+}
 .navbar-fixed-left.navbar-inverse .navbar-nav {
-  border-bottom: 1px solid #2a74ea;
-  -webkit-box-shadow: inset 0 -1px 0 #10479f;
-     -moz-box-shadow: inset 0 -1px 0 #10479f;
-          box-shadow: inset 0 -1px 0 #10479f;
+  background: #1a1a1a;
+}
+.navbar-fixed-left.navbar-inverse .navbar-nav.collapsed {
+  background: none;
+}
+.navbar-fixed-left.navbar-inverse .navbar-nav > li.nav-heading {
+  background: none;
 }
 .navbar-fixed-left .navbar-nav {
   padding: 5px 0;
   margin: 0;
 }
 .navbar-fixed-left .navbar-nav > li.nav-heading + li > a {
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .15) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .1) inset;
 }
 .navbar-fixed-left .navbar-nav > li > a,
 .navbar-fixed-left .navbar-nav > li.nav-heading {
@@ -6042,7 +6049,11 @@ ol.linenums li {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.navbar-fixed-left.navbar-collapsed .navbar-nav > li > a {
+  padding-left: 30px;
+}
 .navbar-fixed-left.navbar-collapsed .navbar-nav > li.nav-heading {
+  padding-left: 30px;
   cursor: pointer;
   -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
@@ -6050,10 +6061,10 @@ ol.linenums li {
 .navbar-fixed-left.navbar-collapsed .navbar-nav > li.nav-heading:before {
   position: absolute;
   top: 5px;
-  right: 10px;
+  left: 13px;
   display: inline-block;
   font-family: ZenIcon;
-  content: "\e6e2";
+  content: "\e6e3";
   opacity: .4;
   -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
@@ -6071,7 +6082,7 @@ ol.linenums li {
   display: block;
 }
 .navbar-fixed-left.navbar-collapsed .navbar-nav.collapsed > li.nav-heading:before {
-  content: "\e6e3";
+  content: "\e6e1";
 }
 .navbar-fixed-left.navbar-collapsed.navbar-default .navbar-nav > li.nav-heading:hover {
   color: #404040;
@@ -6080,6 +6091,25 @@ ol.linenums li {
 .navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav > li.nav-heading:hover {
   color: #eaeaea;
   background-color: #114ba8;
+}
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-collapse {
+  border-color: #333;
+}
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-toggle {
+  border-color: #ddd;
+}
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav > li.nav-heading:hover,
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav > li > a:focus,
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-toggle:hover,
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-toggle:focus {
+  background: #0d0d0d;
+}
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav > .active > a,
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav > .active > a:focus {
+  background: #000;
+  box-shadow: 2px 0 0 #3280fc inset;
 }
 .fade {
   opacity: 0;

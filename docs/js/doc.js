@@ -1,5 +1,27 @@
 $(function()
 {
+    var version = '1.1',
+        versionToNumber = function(ver)
+        {
+            ver = ver.split('.', 3);
+            var num = '';
+            for(var i = 0; i < ver.length; i++)
+            {
+                var v = ver[i];
+                while(v.length < 4)
+                {
+                    v += '0';
+                }
+                num += v;
+            }
+            while(num.length < 12)
+            {
+                num += '0';
+            }
+            return parseInt(num);
+        };
+    var versionNum = versionToNumber(version);
+
     $(window).resize(function(){$('#main').css('min-height', $(window).height());}).resize();
 
     /* set navbar */
@@ -56,8 +78,18 @@ $(function()
         });
     });
 
+    /* set lite version label */
+    $('#main > section[data-lite] > .page-header > h2').append(' <small class="label label-info" title="" data-original-title="此内容也在精简版中提供">LITE</small>');
+    $('#main > section[data-version]').each(function()
+    {
+        var $this = $(this);
+        var ver = $this.data('version') + '';
+        if(versionToNumber(ver) > versionNum)
+        {
+            $this.children('.page-header').children('h2').append(' <small class="label label-warning" title="" data-original-title="此内容正在开发中">DEV</small>');
+        }
+    });
 
-    // hljs.initHighlightingOnLoad();
     prettyPrint();
 
     // tooltip demo

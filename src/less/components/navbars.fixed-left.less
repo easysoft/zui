@@ -8,6 +8,7 @@
   top: 0;
   height: 100%;
   border-radius: 0;
+  background: darken(@color-dark, 5%);
 
   &,
   .navbar-nav,
@@ -39,21 +40,36 @@
 
   &.navbar-default
   {
-    .navbar-header,
-    .navbar-nav
+    .navbar-header
     {
-      border-bottom: 1px solid lighten(@navbar-default-bg, 10%);
-      .box-shadow(inset 0 -1px 0 @navbar-default-border);
+      border-bottom: 1px solid #ddd;
+      border-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-nav > li.nav-heading
+    {
+      background: none
     }
   }
 
   &.navbar-inverse
   {
-    .navbar-header,
+    .navbar-header
+    {
+      border-bottom: 1px solid #333;
+      border-color: rgba(255, 255, 255, 0.05);
+    }
+
     .navbar-nav
     {
-      border-bottom: 1px solid lighten(@navbar-inverse-bg, 10%);
-      .box-shadow(inset 0 -1px 0 @navbar-inverse-border);
+      background: darken(@color-dark, 10%);
+
+      &.collapsed {background: none}
+    }
+
+    .navbar-nav > li.nav-heading
+    {
+        background: none
     }
   }
 
@@ -66,7 +82,7 @@
     {
       + li > a
       {
-          box-shadow: 0 1px 1px  rgba(0, 0, 0, 0.15) inset;
+          box-shadow: 0 1px 0  rgba(0, 0, 0, .1) inset;
       }
     }
 
@@ -83,18 +99,23 @@
   {
     .navbar-nav
     {
+      > li > a
+      {
+          padding-left: 30px;
+      }
       > li.nav-heading
       {
         cursor: pointer;
+        padding-left: 30px;
         .transition();
 
         &:before
         {
-          content: @icon-angle-up;
+          content: @icon-angle-down;
           font-family: ZenIcon;
           display: inline-block;
           position: absolute;
-          right: 10px;
+          left: 13px;
           top: 5px;
           opacity: 0.4;
           .transition();
@@ -102,6 +123,7 @@
 
         &:hover:before {opacity: 1}
       }
+
 
       &.collapsed
       {
@@ -118,7 +140,7 @@
 
           &:before
           {
-            content: @icon-angle-down;
+            content: @icon-angle-right;
           }
         }
       }
@@ -146,6 +168,15 @@
           background-color: darken(@navbar-inverse-bg, 8%);
         }
       }
+
+      .navbar-collapse {border-color: @color-dark;}
+
+      .navbar-toggle {border-color: @color-gray-light;}
+
+      .navbar-nav>li.nav-heading:hover,.navbar-nav>li>a:hover, .navbar-nav>li>a:focus, .navbar-toggle:hover, .navbar-toggle:focus {background: darken(@color-dark, 15%);}
+
+      .navbar-nav>.active>a, .navbar-nav>.active>a:hover, .navbar-nav>.active>a:focus
+      {background: darken(@color-dark, 20%); box-shadow: 2px 0 0  @color-primary inset;}
     }
   }
 }
