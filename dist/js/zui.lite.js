@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0-dev - 2014-08-05
+ * ZUI - v1.2.0-dev - 2014-08-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -31,7 +31,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
     };
 
     /* Save page data */
-    Store.prototype.savePage = function()
+    Store.prototype.pageSave = function()
     {
         if($.isEmptyObject(this.page))
         {
@@ -39,26 +39,32 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
         }
         else
         {
+            for(var i in this.page)
+            {
+                var val = this.page[i];
+                if(val === null)
+                    delete this.page[i];
+            }
             this.set(pageName, this.page);
         }
     };
 
     /* Clear page data */
-    Store.prototype.clearPage = function()
+    Store.prototype.pageClear = function()
     {
         this.page = {};
-        this.savePage();
+        this.pageSave();
     };
 
     /* Get page data */
-    Store.prototype.getPage = function(key, defaultValue)
+    Store.prototype.pageGet = function(key, defaultValue)
     {
         var val = this.page[key];
         return (defaultValue !== undefined && val === null) ? defaultValue : val;
     };
 
     /* Set page data */
-    Store.prototype.setPage = function(objOrKey, val)
+    Store.prototype.pageSet = function(objOrKey, val)
     {
         if($.isPlanObject(objOrKey))
         {
@@ -68,7 +74,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
         {
             this.page[this.serialize(objOrKey)] = val;
         }
-        this.savePage();
+        this.pageSave();
     };
 
     /* Check disabled status */
@@ -88,6 +94,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
         {
             return storage.length;
         }
+        return 0;
     };
 
     /* Remove item with browser localstorage native method */
@@ -115,10 +122,10 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
         return (defaultValue !== undefined && val === null) ? defaultValue : val;
     };
 
-    /* Get item value by key and deserialize it */
-    Store.prototype.key = function(key)
+    /* Get item key by index and deserialize it */
+    Store.prototype.key = function(index)
     {
-        return this.deserialize(storage.key(key));
+        return storage.key(key);
     };
 
     /* Set item value with browser localstorage native method, and without serialize filter */

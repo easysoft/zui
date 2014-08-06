@@ -20,7 +20,7 @@
     };
 
     /* Save page data */
-    Store.prototype.savePage = function()
+    Store.prototype.pageSave = function()
     {
         if($.isEmptyObject(this.page))
         {
@@ -28,26 +28,32 @@
         }
         else
         {
+            for(var i in this.page)
+            {
+                var val = this.page[i];
+                if(val === null)
+                    delete this.page[i];
+            }
             this.set(pageName, this.page);
         }
     };
 
     /* Clear page data */
-    Store.prototype.clearPage = function()
+    Store.prototype.pageClear = function()
     {
         this.page = {};
-        this.savePage();
+        this.pageSave();
     };
 
     /* Get page data */
-    Store.prototype.getPage = function(key, defaultValue)
+    Store.prototype.pageGet = function(key, defaultValue)
     {
         var val = this.page[key];
         return (defaultValue !== undefined && val === null) ? defaultValue : val;
     };
 
     /* Set page data */
-    Store.prototype.setPage = function(objOrKey, val)
+    Store.prototype.pageSet = function(objOrKey, val)
     {
         if($.isPlanObject(objOrKey))
         {
@@ -57,7 +63,7 @@
         {
             this.page[this.serialize(objOrKey)] = val;
         }
-        this.savePage();
+        this.pageSave();
     };
 
     /* Check disabled status */
@@ -77,6 +83,7 @@
         {
             return storage.length;
         }
+        return 0;
     };
 
     /* Remove item with browser localstorage native method */
@@ -104,10 +111,10 @@
         return (defaultValue !== undefined && val === null) ? defaultValue : val;
     };
 
-    /* Get item value by key and deserialize it */
-    Store.prototype.key = function(key)
+    /* Get item key by index and deserialize it */
+    Store.prototype.key = function(index)
     {
-        return this.deserialize(storage.key(key));
+        return storage.key(key);
     };
 
     /* Set item value with browser localstorage native method, and without serialize filter */
