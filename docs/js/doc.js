@@ -101,6 +101,7 @@ $(function()
 
         $('.version-current').text('v' + version);
 
+        $('section .page-header h2 > small.label').tooltip({placement: 'right'});
     });
 
     /* set lite version label */
@@ -212,7 +213,7 @@ $(function()
             bodyClass : 'article-content',
             cssPath: 'dist/css/zui.css',
             afterBlur: function(){$('#content').prev('.ke-container').removeClass('focus');},
-              afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
+            afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
           });
 
           K.create('textarea.kindeditorSimple',
