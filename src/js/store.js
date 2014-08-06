@@ -12,7 +12,7 @@
     var Store = function()
     {
         this.slience = true;
-        this.disabled = (lsName in window) && window[lsName] && window[lsName]['setItem'];
+        this.enable = (lsName in window) && window[lsName] && window[lsName]['setItem'];
         this.storage = storage;
         var self = this;
 
@@ -35,6 +35,16 @@
                     delete this.page[i];
             }
             this.set(pageName, this.page);
+        }
+    };
+
+    /* Remove page data item */
+    Store.prototype.pageRemove = function(key)
+    {
+        if(typeof this.page[key] != 'undefined')
+        {
+            this.page[key] = null;
+            this.pageSave();
         }
     };
 
@@ -66,14 +76,14 @@
         this.pageSave();
     };
 
-    /* Check disabled status */
+    /* Check enable status */
     Store.prototype.check = function()
     {
-        if(this.disabled)
+        if(!this.enable)
         {
-            if(!this.slience) throw new Error('Browser not support localStorage or disabled status been set true.');
+            if(!this.slience) throw new Error('Browser not support localStorage or enable status been set true.');
         }
-        return !this.disabled;
+        return this.enable;
     };
 
     /* Get length */
@@ -133,7 +143,7 @@
     /* Clear all items with browser localstorage native method */
     Store.prototype.clear = function()
     {
-        storage.clear(key);
+        storage.clear();
     };
 
     /* Iterate all items with callback */
