@@ -1,6 +1,6 @@
 $(function()
 {
-    var version = '1.1',
+    var version = '1.0',
         versionToNumber = function(ver)
         {
             ver = ver.split('.', 3);
@@ -19,14 +19,18 @@ $(function()
                 num += '0';
             }
             return parseInt(num);
+        },
+        isGithub = window.location.host === 'easysoft.github.io';
+    var fixPath = function(path)
+        {
+            return isGithub ? ('/zui' + path) : path;
         };
-    var versionNum = versionToNumber(version);
 
     $(window).resize(function(){$('#main').css('min-height', $(window).height());}).resize();
 
     /* set navbar */
     var $header = $('body > header');
-    $header.load('/docs/partial/navbar.html', function()
+    $header.load(fixPath('/docs/partial/navbar.html'), function()
     {
         if(!$('#navbar').length)
         {
@@ -39,7 +43,9 @@ $(function()
 
         if(tab != 'index')
         {
-            $navbarCollapse.find('[data-tab="' + tab + '"]').removeClass('collapsed name');
+            var $navTab = $navbarCollapse.find('[data-tab="' + tab + '"]');
+            $navTab.removeClass('collapsed');
+            document.title = $navTab.find('.nav-heading').text() + ' - ' + document.title;
         }
 
         $navbarCollapse.find('.nav > li > a').each(function()
@@ -52,7 +58,7 @@ $(function()
 
         $('body').addClass('with-navbar').scrollspy({target: '#navbar-collapse'});
 
-        if(window.location.host === 'easysoft.github.io')
+        if(isGithub)
         {
             $('#navbar .navbar-brand').attr('href', '/zui');
         }
@@ -78,17 +84,27 @@ $(function()
         });
     });
 
+    /* get version */
+    $.getJSON(fixPath('/package.json'), function(data)
+    {
+        version = data.version;
+        var versionNum = versionToNumber(version);
+        $('#main > section[data-version]').each(function()
+        {
+            var $this = $(this);
+            var ver = $this.data('version') + '';
+            if(versionToNumber(ver) > versionNum)
+            {
+                $this.children('.page-header').children('h2').append(' <small class="label label-warning" title="" data-original-title="此内容正在开发中">DEV</small>');
+            }
+        });
+
+        $('.version-current').text('v' + version);
+
+    });
+
     /* set lite version label */
     $('#main > section[data-lite] > .page-header > h2').append(' <small class="label label-info" title="" data-original-title="此内容也在精简版中提供">LITE</small>');
-    $('#main > section[data-version]').each(function()
-    {
-        var $this = $(this);
-        var ver = $this.data('version') + '';
-        if(versionToNumber(ver) > versionNum)
-        {
-            $this.children('.page-header').children('h2').append(' <small class="label label-warning" title="" data-original-title="此内容正在开发中">DEV</small>');
-        }
-    });
 
     prettyPrint();
 
