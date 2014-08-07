@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-06
+ * ZUI - v1.1.0 - 2014-08-07
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -6020,6 +6020,9 @@ ol.linenums li {
 }
 .navbar-fixed-left.navbar-default .navbar-nav > li.nav-heading {
   background: none;
+}
+.navbar-fixed-left.navbar-inverse {
+  border-color: #262626;
 }
 .navbar-fixed-left.navbar-inverse .navbar-header {
   border-color: rgba(255, 255, 255, .05);
