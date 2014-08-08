@@ -59,13 +59,13 @@
     Store.prototype.pageGet = function(key, defaultValue)
     {
         var val = this.page[key];
-        return (defaultValue !== undefined && val === null) ? defaultValue : val;
+        return (defaultValue !== undefined && (val === null || val === undefined)) ? defaultValue : val;
     };
 
     /* Set page data */
     Store.prototype.pageSet = function(objOrKey, val)
     {
-        if($.isPlanObject(objOrKey))
+        if($.isPlainObject(objOrKey))
         {
             $.extend(true, this.page, objOrKey);
         }
@@ -118,7 +118,7 @@
     Store.prototype.get = function(key, defaultValue)
     {
         var val = this.deserialize(this.getItem(key));
-        return (defaultValue !== undefined && val === null) ? defaultValue : val;
+        return (defaultValue !== undefined && (val === null || val === undefined)) ? defaultValue : val;
     };
 
     /* Get item key by index and deserialize it */
