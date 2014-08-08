@@ -529,6 +529,15 @@ module.exports = function(grunt)
                     ]
                 }
             }
+        },
+
+        watch:
+        {
+            doc:
+            {
+                files: srcPath + '**',
+                tasks: ['doc', 'dist-js']
+            }
         }
     });
 
@@ -558,4 +567,7 @@ module.exports = function(grunt)
 
     // The default task
     grunt.registerTask('default', ['dist', 'assets']);
+
+    // Watch task
+    grunt.registerTask('watch-doc', ['watch:doc']);
 }
