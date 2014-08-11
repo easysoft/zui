@@ -95,7 +95,7 @@ $(function()
             var ver = $this.data('version') + '';
             if(versionToNumber(ver) > versionNum)
             {
-                $this.children('.page-header').children('h2').append(' <small class="label label-warning" title="" data-original-title="此内容正在开发中">DEV</small>');
+                $this.children('.page-header').children('h2').append(' <small class="label label-warning" title="" data-original-title="此内容正在开发中，将在v' + ver + '中提供">DEV</small>');
             }
         });
 

@@ -283,11 +283,11 @@
                 rowCol = row.data[i];
                 if(!$.isPlainObject(rowCol))
                 {
-                    rowCol = {text: rowCol};
+                    rowCol = {text: rowCol, row: r, index: i};
                     row.data[i] = rowCol;
                 }
 
-                td = '<td data-index="' + i + '" data-flex="false" data-type="' + cols[i].type + '" class="' + (rowCol.cssClass || '') + ' ' + (cols[i].colClass || '') + '" style="' + (rowCol.css || '') + '">' + rowCol.text + '</td>';
+                td = '<td data-row="' + r + '" data-index="' + i + '" data-flex="false" data-type="' + cols[i].type + '" class="' + (rowCol.cssClass || '') + ' ' + (cols[i].colClass || '') + '" style="' + (rowCol.css || '') + '">' + rowCol.text + '</td>';
                 if(i == 0 && options.checkable)
                 {
                     td = '<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>' + td;
@@ -533,10 +533,10 @@
                 navbarHeight = options.fixedHeaderOffset || $('.navbar.navbar-fixed-top').height() || 0;
             var handleScroll = function()
             {
-                scrollTop = $(window).scrollTop();
                 offsetTop = $datatable.offset().top;
+                scrollTop = $(window).scrollTop();
                 height = $datatable.height();
-                $datatable.toggleClass('head-fixed', scrollTop > offsetTop && scrollTop < (offsetTop + height));
+                $datatable.toggleClass('head-fixed', (scrollTop + navbarHeight) > offsetTop && (scrollTop + navbarHeight) < (offsetTop + height));
                 if($datatable.hasClass('head-fixed'))
                 {
                     $dataTableHead.css(
@@ -555,6 +555,7 @@
             handleScroll();
         }
 
+        // make sortable
         if(options.sortable)
         {
             var $th, sortdown;
@@ -563,6 +564,8 @@
                 self.sortTable($(this));
             });
         }
+
+        //
 
         this.refresh();
     };
@@ -619,11 +622,13 @@
             }
         });
 
-        var valA, valB, result;
+        var valA, valB, result, $dataRows = this.$dataCells.filter('[data-index="' + index + '"]');
         rows.sort(function(cellA, cellB)
         {
-            valA = cellA.data[index].text;
-            valB = cellB.data[index].text;
+            cellA = cellA.data[index];
+            cellB = cellB.data[index];
+            valA = $dataRows.filter('[data-row="' + cellA.row + '"]').text();
+            valB = $dataRows.filter('[data-row="' + cellB.row + '"]').text();
             if(type === 'number')
             {
                 valA = parseFloat(valA);
@@ -665,9 +670,9 @@
 
         // save sort with local storage
         store.pageSet(sorterStoreName, {index: index, type: sortUp ? 'up' : 'down'});
-    }
+    };
 
-    DataTable.prototype.refresh = function()
+    DataTable.prototype.refreshSize = function()
     {
         var $datatable = this.$datatable,
             options = this.options,
@@ -681,7 +686,11 @@
         {
             $cells.filter('[data-index="' + i + '"]').css('width', cols[i].width);
         }
+    };
 
+    DataTable.prototype.refresh = function()
+    {
+        this.refreshSize();
         this.sortTable();
     }
 
