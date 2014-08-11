@@ -1,0 +1,186 @@
+.datatable-head,
+.datatable-rows
+{
+  display: table;
+  width: 100%;
+  table-layout:fixed;
+}
+
+.datatable-span
+{
+  display: table-cell;
+}
+
+.datatable
+{
+  margin-bottom: 20px;
+
+  > .datatable-head
+  {
+    transition: box-shadow .2s;
+  }
+
+  .table
+  {
+    margin: 0;
+    table-layout:fixed;
+
+    > tbody > tr > td,
+    > thead > tr > th
+    {
+      overflow: hidden;
+
+      &.check-btn
+      {
+        cursor: pointer;
+        width: 30px;
+        text-align: center;
+        color: lighten(@color-fore, 40%);
+      }
+    }
+
+    > tbody > tr.hover > td.check-btn,
+    > tbody > tr.active > td.check-btn,
+    > thead > tr > th.check-btn:hover,
+    > tbody > tr > td.check-btn:hover,
+    > thead > tr > th.check-btn.checked,
+    > tbody > tr > td.check-btn.checked
+    {
+       color: lighten(@color-fore, 10%);
+    }
+
+    > thead > tr > th.check-btn.checked,
+    > tbody > tr > td.check-btn.checked,
+    > tbody > tr.active > td.check-btn
+    {
+      > .icon-check-empty:before
+      {
+        content: @icon-check;
+      }
+    }
+
+    > thead > tr > th.col-hover
+    {
+      background-color: darken(@table-head-bg, 6%);
+    }
+
+    > tbody > tr > td.col-hover,
+    > tbody > tr.hover > td
+    {
+      background-color: @table-bg-hover;
+    }
+
+    > tbody > tr.active.hover td
+    {
+      background-color: darken(@table-bg-active, 5%);
+    }
+  }
+
+  &.head-fixed
+  {
+    > .datatable-head
+    {
+      position: fixed;
+      z-index: 10000;
+      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+.datatable-span
+{
+  &.flexarea
+  {
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.5s;
+
+    &.datatable-head-span
+    {
+      &.dragging
+      {
+        cursor: move;
+      }
+    }
+
+    > .table
+    {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    > .scrolled-shadow
+    {
+      width: 20px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      display: none;
+      opacity: 0;
+      .transition();
+    }
+
+    > .scrolled-in-shadow
+    {
+      left: -30px;
+    }
+
+    > .scrolled-out-shadow
+    {
+      right: -30px;
+    }
+
+    > .scroll-slide
+    {
+      position: absolute;
+      bottom: 0;
+      left: -1px;
+      right: -1px;
+      background: @color-gray-lighter;
+      background: fade(@color-gray, 10%);
+      border: 1px solid @color-gray-lighter;
+      border-bottom: none;
+      height: 10px;
+      opacity: 0;
+      display: none;
+      transition: opacity 0.5s, background 0.3s;
+
+      > .bar
+      {
+        position: absolute;
+        height: 9px;
+        top: 0px;
+        min-width: 50px;
+        left: 0;
+        background-color: lighten(@color-gray, 15%);
+      }
+
+      &:hover
+      {
+        > .bar
+        {
+          background-color: @color-gray;
+        }
+      }
+    }
+  }
+}
+
+.datatable.show-scroll-slide
+{
+  &:hover,
+  &.scrolling
+  {
+    .scroll-slide, .scrolled-shadow {opacity: 1};
+  }
+
+  .scroll-slide, .scrolled-shadow
+  {
+    display: block;
+  }
+
+  &.scrolled-in .scrolled-in-shadow {left: -20px;}
+  &.scrolled-out .scrolled-out-shadow {right: -20px;}
+}
