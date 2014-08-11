@@ -560,11 +560,7 @@
             var $th, sortdown;
             this.$headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function()
             {
-                $th = $(this);
-                sortdown = $th.hasClass('sort-down');
-                $headCells.removeClass('sort-up sort-down');
-                $th.addClass(sortdown ? 'sort-up' : 'sort-down');
-                self.sortTable($th);
+                self.sortTable($(this));
             });
         }
 
@@ -573,17 +569,39 @@
 
     DataTable.prototype.sortTable = function($th)
     {
+        var sorterStoreName = self.id + '_' + 'datatableSorter';
+        var sorter = store.pageGet(sorterStoreName);
+
+        if(!$th)
+        {
+            if(sorter)
+            {
+                $th = this.$headCells.filter('[data-index="' + sorter.index + '"]').addClass('sort-' + sorter.type);
+            }
+            else
+            {
+                $th = this.$headCells.filter('.sort-up, .sort-down').first();
+            }
+        }
+
+        if(!$th.length)
+        {
+            return;
+        }
+
+
         var data = this.data;
         var cols = data.cols,
             rows = data.rows,
+            $headCells = this.$headCells,
             sortUp,
             type,
             sortCol,
             index;
-        if(!$th)
-        {
-            $th = this.$headCells.find('.sort-up, .sort-down').first();
-        }
+
+        sortUp = !$th.hasClass('sort-up');
+        $headCells.removeClass('sort-up sort-down');
+        $th.addClass(sortUp ? 'sort-up' : 'sort-down');
 
         index = $th.data('index');
         sortUp = $th.hasClass('sort-up');
@@ -644,6 +662,9 @@
                 lastRows[rIdx] = $r;
             });
         });
+
+        // save sort with local storage
+        store.pageSet(sorterStoreName, {index: index, type: sortUp ? 'up' : 'down'});
     }
 
     DataTable.prototype.refresh = function()
@@ -660,6 +681,8 @@
         {
             $cells.filter('[data-index="' + i + '"]').css('width', cols[i].width);
         }
+
+        this.sortTable();
     }
 
     $.fn.datatable = function(option)
