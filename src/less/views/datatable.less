@@ -85,6 +85,52 @@
       box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.15);
     }
   }
+
+  &.sortable
+  {
+    .datatable-head-span > .table > thead > tr > th
+    {
+      cursor: pointer;
+      .nobr();
+
+      &.text-center
+      {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      &:after
+      {
+        .icon-zenicon();
+        content: @icon-sort;
+        display: inline-block;
+        margin-left: 5px;
+        color: @color-gray;
+      }
+
+      &.sort-down:after
+      {
+        content: @icon-caret-down;
+        color: @link-color;
+      }
+
+      &.sort-up:after
+      {
+        content: @icon-caret-up;
+        color: @link-color;
+      }
+
+      &.check-btn:after, &.sort-disabled:after
+      {
+        display: none
+      }
+
+      &.sort-disabled
+      {
+        cursor: default;
+      }
+    }
+  }
 }
 
 .datatable-span

@@ -4411,7 +4411,8 @@ var imgReady = (function () {
                         width: 'auto',
                         cssClass: $th.attr('class'),
                         css: $th.attr('style'),
-                        type: 'string'
+                        type: 'string',
+                        sort: !$th.hasClass('sort-disabled')
                     }, $th.data()));
                 });
 
@@ -4424,7 +4425,7 @@ var imgReady = (function () {
                         checked: false,
                         cssClass: $tr.attr('class'),
                         css: $tr.attr('style'),
-                        id: $tr.attr('id'),
+                        id: $tr.attr('id')
                     }, $tr.data());
 
                     $tr.children('td').each(function()
@@ -4508,15 +4509,43 @@ var imgReady = (function () {
         var dataRowSpan = '<div class="datatable-rows-span datatable-span {0}"><table class="table' + options.tableClass + '"><tbody>{1}</tbody></table>{2}</div>',
             dataHeadSpan = '<div class="datatable-head-span datatable-span {0}"><table class="table' + options.tableClass + '"><thead><tr>{1}</tr></thead></table>{2}</div>';
 
-        if(init) html += '<div class="datatable" id="' + this.id + '">';
+        if(init)
+        {
+            html += '<div class="datatable' + (options.sortable ? ' sortable' : '') + '" id="' + this.id + '">';
+        }
+        else
+        {
+            if(options.sortable)
+            {
+                this.$datatable.addClass('sortable');
+            }
+        }
 
         // head
         html += '<div class="datatable-head">';
-        var th, col;
+        var th, col, sortClass;
         for(var i = 0; i < cols.length; ++i)
         {
             col = cols[i];
-            th = '<th class="' + (col.cssClass || '') + ' ' + ((col.colClass || '')) + '" data-index="' + i + '" data-type="' + col.type + '" style="' + col.css + '">' + col.text + '</th>';
+            sortClass = '';
+            if(typeof col.sort === 'undefined')
+            {
+                col.sort = true;
+            }
+            else if(col.sort === 'down')
+            {
+                sortClass = 'sort-down';
+            }
+            else if(col.sort === 'up')
+            {
+                sortClass = 'sort-up';
+            }
+            else if(col.sort === false)
+            {
+                sortClass = 'sort-disabled';
+            }
+            th = '<th class="' + (col.cssClass || '') + ' ' + ((col.colClass || '')) + ' ' + sortClass + '" data-index="' + i + '" data-type="' + col.type + '" style="' + col.css + '">' + col.text + '</th>';
+
             if(i == 0 && options.checkable)
             {
                 th = '<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>' + th;
@@ -4555,6 +4584,8 @@ var imgReady = (function () {
                 row.id = r;
             }
 
+            row.index = r;
+
             tr =  '<tr class="' + cssClass + '" data-index="' + r + '" data-id="' + row.id + '">';
             leftHtml += tr;
             rightHtml += tr;
@@ -4567,6 +4598,7 @@ var imgReady = (function () {
                 if(!$.isPlainObject(rowCol))
                 {
                     rowCol = {text: rowCol};
+                    row.data[i] = rowCol;
                 }
 
                 td = '<td data-index="' + i + '" data-flex="false" data-type="' + cols[i].type + '" class="' + (rowCol.cssClass || '') + ' ' + (cols[i].colClass || '') + '" style="' + (rowCol.css || '') + '">' + rowCol.text + '</td>';
@@ -4623,7 +4655,7 @@ var imgReady = (function () {
         this.$cells     = this.$dataSpans.find('td, th');
         this.$dataCells = this.$cells.filter('td');
         this.$headCells = this.$cells.filter('th');
-        this.$rows      = this.$datatable.children('.datatable-rows').find('.datatable-span > .table > tbody > tr');
+        this.$rows      = this.$rowsSpans.find('.table > tbody > tr');
 
         // bind events
         var options    = this.options,
@@ -4837,8 +4869,96 @@ var imgReady = (function () {
             handleScroll();
         }
 
+        if(options.sortable)
+        {
+            var $th, sortdown;
+            this.$headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function()
+            {
+                $th = $(this);
+                sortdown = $th.hasClass('sort-down');
+                $headCells.removeClass('sort-up sort-down');
+                $th.addClass(sortdown ? 'sort-up' : 'sort-down');
+                self.sortTable($th);
+            });
+        }
+
         this.refresh();
     };
+
+    DataTable.prototype.sortTable = function($th)
+    {
+        var data = this.data;
+        var cols = data.cols,
+            rows = data.rows,
+            sortUp,
+            type,
+            sortCol,
+            index;
+        if(!$th)
+        {
+            $th = this.$headCells.find('.sort-up, .sort-down').first();
+        }
+
+        index = $th.data('index');
+        sortUp = $th.hasClass('sort-up');
+
+        $.each(cols, function(idx, col)
+        {
+            if(idx != index && (col.sort === 'up' || col.sort === 'down'))
+            {
+                col.sort = true;
+            }
+            else if(idx == index)
+            {
+                col.sort = sortUp ? 'up' : 'down';
+                type = col.type;
+            }
+        });
+
+        var valA, valB, result;
+        rows.sort(function(cellA, cellB)
+        {
+            valA = cellA.data[index].text;
+            valB = cellB.data[index].text;
+            if(type === 'number')
+            {
+                valA = parseFloat(valA);
+                valB = parseFloat(valB);
+            }
+            else if(type === 'date')
+            {
+                valA = Date.parse(valA);
+                valB = Date.parse(valB);
+            }
+            result = valA > valB ? 1 : (valA < valB ? -1 : 0);
+            if(sortUp)
+            {
+                result = result * (-1);
+            }
+            return result;
+        });
+
+
+        var $rows = this.$rows, lastRows = [], $row, $lastRow, $r;
+        $.each(rows, function(idx, row)
+        {
+            $row = $rows.filter('[data-index="' + row.index + '"]');
+            $row.each(function(rIdx)
+            {
+                $r = $(this);
+                $lastRow = lastRows[rIdx];
+                if($lastRow)
+                {
+                    $lastRow.after($r);
+                }
+                else
+                {
+                    $r.parent().prepend($r);
+                }
+                lastRows[rIdx] = $r;
+            });
+        });
+    }
 
     DataTable.prototype.refresh = function()
     {
