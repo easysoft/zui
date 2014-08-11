@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-06
+ * ZUI - v1.1.0 - 2014-08-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -70,13 +70,13 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
     Store.prototype.pageGet = function(key, defaultValue)
     {
         var val = this.page[key];
-        return (defaultValue !== undefined && val === null) ? defaultValue : val;
+        return (defaultValue !== undefined && (val === null || val === undefined)) ? defaultValue : val;
     };
 
     /* Set page data */
     Store.prototype.pageSet = function(objOrKey, val)
     {
-        if($.isPlanObject(objOrKey))
+        if($.isPlainObject(objOrKey))
         {
             $.extend(true, this.page, objOrKey);
         }
@@ -129,7 +129,7 @@ if (typeof jQuery === "undefined") { throw new Error("ZUI requires jQuery") }
     Store.prototype.get = function(key, defaultValue)
     {
         var val = this.deserialize(this.getItem(key));
-        return (defaultValue !== undefined && val === null) ? defaultValue : val;
+        return (defaultValue !== undefined && (val === null || val === undefined)) ? defaultValue : val;
     };
 
     /* Get item key by index and deserialize it */

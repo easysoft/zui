@@ -34,6 +34,7 @@
     DataTable.DEFAULTS =
     {
         fixedHeader : true,
+        // fixedHeaderOffset: 41, // set top offset of header when fixed
         checkable : true,
         checkByClickRow: true,
         checkSingleByClickRow: true,
@@ -235,8 +236,12 @@
             row = rows[r];
             cssClass = row.cssClass || '';
             if(row.checked) cssClass += ' ' + (options.checkedClass || '');
+            if(typeof row.id === 'undefined')
+            {
+                row.id = r;
+            }
 
-            tr =  '<tr class="' + cssClass + '" data-index="' + r + '" data-id="' + (row.id || r) + '">';
+            tr =  '<tr class="' + cssClass + '" data-index="' + r + '" data-id="' + row.id + '">';
             leftHtml += tr;
             rightHtml += tr;
             flexHtml += tr;
@@ -309,6 +314,7 @@
         // bind events
         var options    = this.options,
             self       = this,
+            data       = this.data,
             $cells     = this.$cells,
             $dataCells = this.$dataCells,
             $headCells = this.$headCells,
@@ -430,7 +436,8 @@
         if(options.checkable)
         {
             var checkedStatusStoreName = self.id + '_' + checkedStatus,
-                checkedClass = options.checkedClass;
+                checkedClass = options.checkedClass,
+                rowId;
             var syncChecks = function()
             {
                 var $rows = self.$rowsSpans.first().find('.table > tbody > tr');
@@ -438,8 +445,16 @@
                 var checkedStatus =
                 {
                     checkedAll: $rows.length === $checkedRows.length && $checkedRows.length > 0,
-                    checks: $checkedRows.map(function(){return $(this).data('id')}).toArray()
+                    checks: $checkedRows.map(function()
+                    {
+                        rowId = $(this).data('id');
+                        return rowId;
+                    }).toArray()
                 };
+                $.each(data.rows, function(index, value)
+                {
+                    value.checked = ($.inArray(value.id, checkedStatus.checks) > -1);
+                });
                 self.$headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
 
                 store.pageSet(checkedStatusStoreName, checkedStatus);
@@ -483,10 +498,9 @@
                 height,
                 scrollTop,
                 $dataTableHead = $datatable.children('.datatable-head'),
-                navbarHeight = $('.navbar.navbar-fixed-top').height() || 0;
+                navbarHeight = options.fixedHeaderOffset || $('.navbar.navbar-fixed-top').height() || 0;
             var handleScroll = function()
             {
-                console.log(navbarHeight);
                 scrollTop = $(window).scrollTop();
                 offsetTop = $datatable.offset().top;
                 height = $datatable.height();

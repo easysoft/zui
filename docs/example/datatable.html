@@ -249,9 +249,10 @@
 <script>
 $(function()
 {
-    $('#datatable').datatable();
+    $('#datatable').datatable({fixedHeaderOffset: 41});
     $('#dtFromData').datatable
     ({
+        fixedHeaderOffset: 41,
         data:
         {
             cols:
