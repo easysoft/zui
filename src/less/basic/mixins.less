@@ -125,7 +125,7 @@
 }
 
 // Transitions
-// 
+//
 
 .transition(@transition) {
   -webkit-transition: @transition;
@@ -517,8 +517,8 @@
 // --------------------------------
 .button-styles(@btn-color: #555;) {
   #gradient > .vertical(@start-color: @btn-color; @end-color: darken(@btn-color, 4%));
-  
-  
+
+
   &:hover{
     #gradient > .vertical(@start-color: lighten(@btn-color, 1%); @end-color: lighten(@btn-color, 3%));
     border-color: darken(@btn-color, 15%);
@@ -760,7 +760,7 @@
   .help-block, .control-label { color: @text-color; }
 
   // Set the border and box shadow on specific inputs to match
-  .form-control 
+  .form-control
   {
     border-color: @border-color;
     .box-shadow(inset 0 1px 1px rgba(0,0,0,.075)); // Redeclare so transitions work

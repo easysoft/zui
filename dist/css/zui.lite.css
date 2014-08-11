@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-07
+ * ZUI - v1.1.0 - 2014-08-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -3602,7 +3602,7 @@ table th[class*="col-"] {
 .table tr > th.active,
 .table tr.active > td,
 .table tr.active > th {
-  background-color: #ebf2f9;
+  background-color: #ffeacc;
 }
 .table > thead > tr > td.success,
 .table > tbody > tr > td.success,
