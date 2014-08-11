@@ -6,7 +6,7 @@
     var $ComponentName$ = function(element, options)
     {
         this.$         = $(element);
-        this.options   = this.getOptions(options);
+        this.getOptions(options);
 
         this.init();
     };
@@ -15,8 +15,7 @@
 
     $ComponentName$.prototype.getOptions = function (options)
     {
-        options = $.extend({}, $ComponentName$.DEFAULTS, this.$.data(), options);
-        return options;
+        this.options = $.extend({}, $ComponentName$.DEFAULTS, this.$.data(), options);
     };
 
     $ComponentName$.prototype.init = function()
@@ -35,7 +34,7 @@
             if (!data) $this.data('zui.$componentObject$', (data = new $ComponentName$(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.$componentObject$.Constructor = $ComponentName$;
