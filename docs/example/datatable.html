@@ -249,9 +249,12 @@
 <script>
 $(function()
 {
-    $('#datatable').datatable({fixedHeaderOffset: 41});
+    // $('#datatable').datatable({fixedHeaderOffset: 41});
     $('#dtFromData').datatable
     ({
+        sort: function(event)
+        {
+        },
         fixedHeaderOffset: 41,
         data:
         {
@@ -267,16 +270,18 @@ $(function()
             ],
             rows:
             [
-            {checked: false, data: ['1', '<a href="###">Catouse</a>', 'happy', '2014-08-07', 'null is good', '1', 'OK']},
-            {checked: true,  data: ['2', '<a data="fd" href="###">Shine</a>',  'angry', '2014-08-06', 'god is girl',  '2', 'OK']},
-            {checked: false, data: ['3', '<a href="###">Minus</a>', 'Veritatis', '2014-08-07', 'Nulla', '1', 'Ipsam']},
-            {cssClass:'danger', checked: false, data: ['4', '<a href="###">Consequatur</a>', 'Accusamus', '2014-08-07', 'Obcaecati', '1', 'Qui']},
-            {checked: false, data: ['5', '<a href="###">Lorem</a>', 'Quos', '2014-08-07', 'Molestiae', '1', 'Qui']},
-            {checked: false, data: ['6', '<a href="###">Suscipit</a>', 'Vitae', '2014-08-07', 'Suscipit', '1', 'AE']},
-            {checked: false, data: ['7', '<a href="###">Vel</a>', 'Blanditiis', '2014-08-07', 'Aspernatur', '1', 'Sed']},
-            {checked: false, data: ['8', '<a href="###">Vero</a>', 'Officiis', '2014-08-07', 'Quos', '1', 'Vel']}
+                {checked: false, data: ['1', '<a href="###">Catouse</a>', 'happy', '2014-08-07', 'null is good', '1', 'OK']},
+                {checked: true,  data: ['2', '<a data="fd" href="###">Shine</a>',  'angry', '2014-08-06', 'god is girl',  '2', 'OK']},
+                {checked: false, data: ['3', '<a href="###">Minus</a>', 'Veritatis', '2014-08-07', 'Nulla', '1', 'Ipsam']},
+                {cssClass:'danger', checked: false, data: ['4', '<a href="###">Consequatur</a>', 'Accusamus', '2014-08-07', 'Obcaecati', '1', 'Qui']},
+                {checked: false, data: ['5', '<a href="###">Lorem</a>', 'Quos', '2014-08-07', 'Molestiae', '1', 'Qui']},
+                {checked: false, data: ['6', '<a href="###">Suscipit</a>', 'Vitae', '2014-08-07', 'Suscipit', '1', 'AE']},
+                {checked: false, data: ['7', '<a href="###">Vel</a>', 'Blanditiis', '2014-08-07', 'Aspernatur', '1', 'Sed']},
+                {checked: false, data: ['8', '<a href="###">Vero</a>', 'Officiis', '2014-08-07', 'Quos', '1', 'Vel']}
             ]
         }
+    }).on('sort.zui.datatable', function(event)
+    {
     });
 });
 </script>

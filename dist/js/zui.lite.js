@@ -638,7 +638,7 @@ String.prototype.isNum = function(s)
            return Object.getOwnPropertyNames(obj).length;
         },
 
-        callEvent: function(func, params, proxy)
+        callEvent: function(func, event, proxy)
         {
             if($.isFunction(func))
             {
@@ -646,12 +646,45 @@ String.prototype.isNum = function(s)
                 {
                     func = $.proxy(func, proxy);
                 }
-                var result = func(params);
-                return !(result != undefined && (!result));
+                event.result = func(event);
+                return !(event.result != undefined && (!event.result));
             }
             return 1;
         }
     });
+
+    $.fn.callEvent = function(name, event, modal)
+    {
+        var $this = $(this);
+        var dotIndex = name.indexOf('.zui.');
+        var shortName = name;
+        if(dotIndex < 0 && modal && modal.name)
+        {
+            name += '.' + modal.name;
+        }
+        else
+        {
+            shortName = name.substring(0, dotIndex);
+        }
+        var e     = $.Event(name, event);
+
+        var result =$this.trigger(e);
+
+        if((typeof modal === 'undefined') && dotIndex > 0)
+        {
+            modal = $this.data(name.substring(dotIndex + 1));
+        }
+
+        if(modal && modal.options)
+        {
+            var func = modal.options[shortName];
+            if($.isFunction(func))
+            {
+                $.callEvent(modal.options[shortName], e, modal);
+            }
+        }
+        return e;
+    };
 }(jQuery,window,document,Math);
 
 /* Device */

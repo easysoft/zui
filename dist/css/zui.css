@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-11
+ * ZUI - v1.1.0 - 2014-08-12
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -8058,7 +8058,9 @@ a.card:hover {
 }
 .datatable .table > tbody > tr > td,
 .datatable .table > thead > tr > th {
+  min-width: 20px;
   overflow: hidden;
+  white-space: nowrap;
 }
 .datatable .table > tbody > tr > td.check-btn,
 .datatable .table > thead > tr > th.check-btn {
@@ -8095,13 +8097,96 @@ a.card:hover {
   z-index: 10000;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
 }
+.datatable.sortable .datatable-head-span > .table > thead > tr > th {
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.datatable.sortable .datatable-head-span > .table > thead > tr > th.text-center {
+  padding-right: 0;
+  padding-left: 0;
+}
+.datatable.sortable .datatable-head-span > .table > thead > tr > th:after {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  color: #808080;
+  text-transform: none;
+  content: "\e6bd";
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.datatable.sortable .datatable-head-span > .table > thead > tr > th.sort-down:after {
+  color: #145ccd;
+  content: "\e6b8";
+}
+.datatable.sortable .datatable-head-span > .table > thead > tr > th.sort-up:after {
+  color: #145ccd;
+  content: "\e6b9";
+}
+.datatable.sortable .datatable-head-span > .table > thead > tr > th.check-btn:after,
+.datatable.sortable .datatable-head-span > .table > thead > tr > th.sort-disabled:after {
+  display: none;
+}
+.datatable.sortable .datatable-head-span > .table > thead > tr > th.sort-disabled {
+  cursor: default;
+}
+.datatable .size-handle {
+  display: none;
+}
+.datatable.customizable.size-changing {
+  cursor: e-resize !important;
+}
+.datatable.customizable .size-handle {
+  position: absolute;
+  top: 0;
+  display: block;
+  width: 3px;
+  height: 100%;
+  cursor: w-resize;
+  border: 1px dotted transparent;
+  border-top: none;
+  border-bottom: none;
+  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
+          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+}
+.datatable.customizable .datatable-head-span {
+  position: relative;
+}
+.datatable.customizable .datatable-head-span.fixed-left .size-handle {
+  right: 0;
+}
+.datatable.customizable .datatable-head-span.fixed-right .size-handle {
+  left: 0;
+}
+.datatable.customizable .datatable-head-span .table > thead > tr > th {
+  position: relative;
+}
+.datatable.customizable .datatable-head-span .table > thead > tr > th .size-handle {
+  right: 0;
+}
+.datatable.customizable .datatable-head:hover .size-handle {
+  background-color: #fff;
+  border-color: #808080;
+}
+.datatable.customizable.size-changing .table > thead > tr > th,
+.datatable.customizable.size-changing .table > tbody > tr > td {
+  transition: none;
+}
 .datatable-span.flexarea {
   position: relative;
   overflow: hidden;
   transition: box-shadow .5s;
 }
 .datatable-span.flexarea.datatable-head-span.dragging {
-  cursor: move;
+  cursor: move !important;
 }
 .datatable-span.flexarea > .table {
   position: absolute;

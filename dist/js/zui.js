@@ -1010,7 +1010,7 @@ Date.prototype.format = function(format)
            return Object.getOwnPropertyNames(obj).length;
         },
 
-        callEvent: function(func, params, proxy)
+        callEvent: function(func, event, proxy)
         {
             if($.isFunction(func))
             {
@@ -1018,12 +1018,45 @@ Date.prototype.format = function(format)
                 {
                     func = $.proxy(func, proxy);
                 }
-                var result = func(params);
-                return !(result != undefined && (!result));
+                event.result = func(event);
+                return !(event.result != undefined && (!event.result));
             }
             return 1;
         }
     });
+
+    $.fn.callEvent = function(name, event, modal)
+    {
+        var $this = $(this);
+        var dotIndex = name.indexOf('.zui.');
+        var shortName = name;
+        if(dotIndex < 0 && modal && modal.name)
+        {
+            name += '.' + modal.name;
+        }
+        else
+        {
+            shortName = name.substring(0, dotIndex);
+        }
+        var e     = $.Event(name, event);
+
+        var result =$this.trigger(e);
+
+        if((typeof modal === 'undefined') && dotIndex > 0)
+        {
+            modal = $this.data(name.substring(dotIndex + 1));
+        }
+
+        if(modal && modal.options)
+        {
+            var func = modal.options[shortName];
+            if($.isFunction(func))
+            {
+                $.callEvent(modal.options[shortName], e, modal);
+            }
+        }
+        return e;
+    };
 }(jQuery,window,document,Math);
 
 /* Device */
@@ -4317,8 +4350,11 @@ var imgReady = (function () {
 {
     "use strict";
 
+    var name = 'zui.datatable';
+
     var DataTable = function(element, options)
     {
+        this.name = name;
         this.$  = $(element);
         this.isTable = (this.$[0].tagName === 'TABLE');
         if(this.isTable)
@@ -4510,6 +4546,8 @@ var imgReady = (function () {
         }
 
         this.data = data;
+
+        this.callEvent('afterLoad', {data: data});
     };
 
     // Generage html
@@ -4741,22 +4779,19 @@ var imgReady = (function () {
             var srollTable = function(offset, silence)
                 {
                     barLeft = Math.max(0, Math.min(flexWidth - scrollWidth, offset));
-                    if(lastBarLeft !== barLeft)
+                    if(!silence)
                     {
-                        if(!silence)
-                        {
-                            $datatable.addClass('scrolling');
-                        }
-                        $bar.css('left', barLeft);
-                        left = 0 - Math.floor((tableWidth - flexWidth) * barLeft / (flexWidth - scrollWidth));
-                        $flexArea.css('left', left);
-                        lastBarLeft = barLeft;
-
-                        $datatable.toggleClass('scrolled-in', barLeft > 2)
-                                  .toggleClass('scrolled-out', barLeft < flexWidth - scrollWidth - 2);
-
-                        store.pageSet(scrollOffsetStoreName, barLeft);
+                        $datatable.addClass('scrolling');
                     }
+                    $bar.css('left', barLeft);
+                    left = 0 - Math.floor((tableWidth - flexWidth) * barLeft / (flexWidth - scrollWidth));
+                    $flexArea.css('left', left);
+                    lastBarLeft = barLeft;
+
+                    $datatable.toggleClass('scrolled-in', barLeft > 2)
+                              .toggleClass('scrolled-out', barLeft < flexWidth - scrollWidth - 2);
+
+                    store.pageSet(scrollOffsetStoreName, barLeft);
                 };
             var resizeScrollbar = function()
                 {
@@ -4775,7 +4810,7 @@ var imgReady = (function () {
 
                     if($datatable.hasClass('size-changing'))
                     {
-                        srollTable(0, true);
+                        srollTable(barLeft, true);
                     }
                 };
             $scrollbar.resize(resizeScrollbar);
@@ -4835,6 +4870,8 @@ var imgReady = (function () {
                 self.$headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
 
                 store.pageSet(checkedStatusStoreName, checkedStatus);
+
+                self.callEvent('checksChanged', {checks: checks});
             };
 
             this.$rowsSpans.on('click', options.checkByClickRow ? 'tr' : '.check-row', function()
@@ -4918,18 +4955,25 @@ var imgReady = (function () {
             var $sizeHandles = this.$headSpans.find('.size-handle'),
                 refreshSize = function($handle, delta)
                 {
+                    var eventParams = {};
                     if($handle.hasClass('size-handle-head'))
                     {
                         oldWidth = $handle.closest('.datatable-head-span').width();
                         if($handle.hasClass('size-handle-left'))
                         {
+                            eventParams.change = 'fixedLeftWidth';
+                            eventParams.oldWidth = self.fixedLeftWidth;
                             self.fixedLeftWidth = Math.min(self.width - (self.fixedRightWidth || self.$headSpans.filter('.fixed-right').width()) - options.minFlexAreaWidth,
                                                   Math.max(options.minFixedLeftWidth, oldWidth + delta));
+                            eventParams.newWidth = self.fixedLeftWidth;
                         }
                         else
                         {
+                            eventParams.change = 'fixedRightWidth';
+                            eventParams.oldWidth = self.fixedRightWidth;
                             self.fixedRightWidth = Math.min(self.width - (self.fixedLeftWidth || self.$headSpans.filter('.fixed-left').width()) - options.minFlexAreaWidth,
                                                    Math.max(options.minFixedRightWidth, oldWidth - delta));
+                            eventParams.newWidth = self.fixedRightWidth;
                         }
                     }
                     else
@@ -4943,22 +4987,33 @@ var imgReady = (function () {
                             oldWidth = $handle.width();
                             if($handle.hasClass('fixed-left'))
                             {
+                                eventParams.change = 'fixedLeftWidth';
+                                eventParams.oldWidth = self.fixedLeftWidth;
                                 self.fixedLeftWidth = Math.min(self.width - (self.fixedRightWidth || self.$headSpans.filter('.fixed-right').width()) - options.minFlexAreaWidth,
                                                       Math.max(options.minFixedLeftWidth, oldWidth + delta));
+                                eventParams.newWidth = self.fixedLeftWidth;
                             }
                             else if($handle.hasClass('fixed-right'))
                             {
+                                eventParams.change = 'fixedRightWidth';
+                                eventParams.oldWidth = self.fixedRightWidth;
                                 self.fixedRightWidth = Math.min(self.width - (self.fixedLeftWidth || self.$headSpans.filter('.fixed-left').width()) - options.minFlexAreaWidth,
                                                        Math.max(options.minFixedRightWidth, oldWidth - delta));
+                                eventParams.newWidth = self.fixedRightWidth;
                             }
                         }
                         else
                         {
+                            eventParams.change = 'colWidth';
+                            eventParams.oldWidth = col.width;
+                            eventParams.colIndex = col.index;
                             col.width = Math.max(options.minColWidth, oldWidth + delta);
+                            eventParams.newWidth = col.width;
                         }
                     }
 
                     self.refreshSize();
+                    self.callEvent('sizeChanged', {changes: eventParams});
                 };
 
             $sizeHandles.draggable(
@@ -4982,6 +5037,8 @@ var imgReady = (function () {
         }
 
         this.refresh();
+
+        this.callEvent('ready');
     };
 
     // Sort table
@@ -5067,7 +5124,6 @@ var imgReady = (function () {
             return result;
         });
 
-
         var $rows = this.$rows, lastRows = [], $row, $lastRow, $r;
         $.each(rows, function(idx, row)
         {
@@ -5088,8 +5144,18 @@ var imgReady = (function () {
             });
         });
 
+        var sorter = {index: index, type: sortUp ? 'up' : 'down'};
+
         // save sort with local storage
-        store.pageSet(sorterStoreName, {index: index, type: sortUp ? 'up' : 'down'});
+        store.pageSet(sorterStoreName, sorter);
+
+        this.callEvent('sort', {sorter: sorter});
+    };
+
+    DataTable.prototype.callEvent = function(name, params)
+    {
+        var result = this.$.callEvent(name + '.' + this.name, params, this).result;
+        return !(result != undefined && (!result));
     };
 
     // Refresh size
@@ -5114,17 +5180,17 @@ var imgReady = (function () {
     {
         this.refreshSize();
         this.sortTable();
-    }
+    };
 
     $.fn.datatable = function(option)
     {
         return this.each(function()
         {
             var $this   = $(this);
-            var data    = $this.data('zui.datatable');
+            var data    = $this.data(name);
             var options = typeof option == 'object' && option;
 
-            if (!data) $this.data('zui.datatable', (data = new DataTable(this, options)));
+            if (!data) $this.data(name, (data = new DataTable(this, options)));
 
             if (typeof option == 'string') data[option]();
         });
