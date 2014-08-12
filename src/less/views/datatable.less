@@ -28,6 +28,7 @@
     > tbody > tr > td,
     > thead > tr > th
     {
+      min-width: 20px;
       overflow: hidden;
 
       &.check-btn
@@ -131,6 +132,81 @@
       }
     }
   }
+
+  .size-handle {display: none}
+
+  &.customizable
+  {
+    &.size-changing
+    {
+      cursor: e-resize!important;
+    }
+
+    .size-handle
+    {
+      display: block;
+      position: absolute;
+      width: 3px;
+      height: 100%;
+      top: 0;
+      cursor: w-resize;
+      border: 1px dotted transparent;
+      border-top: none;
+      border-bottom: none;
+      .transition();
+    }
+
+    .datatable-head-span
+    {
+      position: relative;
+
+      &.fixed-left
+      {
+        .size-handle
+        {
+          right: 0;
+        }
+      }
+
+      &.fixed-right
+      {
+        .size-handle
+        {
+          left: 0;
+        }
+      }
+
+      .table > thead > tr > th
+      {
+        position: relative;
+        .size-handle
+        {
+          right: 0;
+        }
+      }
+    }
+
+    .datatable-head
+    {
+      &:hover
+      {
+        .size-handle
+        {
+          border-color: @color-gray;
+          background-color: @color-back;
+        }
+      }
+    }
+
+    &.size-changing
+    {
+      .table > thead > tr > th,
+      .table > tbody > tr > td
+      {
+        transition: none;
+      }
+    }
+  }
 }
 
 .datatable-span
@@ -145,7 +221,7 @@
     {
       &.dragging
       {
-        cursor: move;
+        cursor: move !important;
       }
     }
 

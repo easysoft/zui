@@ -33,21 +33,35 @@
     // default options
     DataTable.DEFAULTS =
     {
-        fixedHeader : true,
-        // fixedHeaderOffset: 41, // set top offset of header when fixed
-        checkable : true,
-        checkByClickRow: true,
-        checkSingleByClickRow: true,
-        sortable : true,
-        fixedLeftWidth: '30%',
-        fixedRightWidth: '30%',
-        flexWidth: 'auto',
-        flexHeadDrag: true,
-        rowHover: true,
-        colHover: true,
-        checkedClass: 'active'
+        // Check options
+        checkable : true,               // added check icon to the head of rows
+        checkByClickRow: true,          // change check status by click anywhere on a row
+        checkedClass: 'active',         // apply CSS class to an checked row
+
+        // Sort options
+        sortable : true,                // enable sorter
+
+        // fixed header of columns
+        fixedHeader : true,             // fixed header
+        fixedHeaderOffset: 0,           // set top offset of header when fixed
+        fixedLeftWidth: '30%',          // set left width after first render
+        fixedRightWidth: '30%',         // set right width after first render
+        flexWidth: 'auto',              // flex area width
+        flexHeadDrag: true,             // scroll flexarea by drag header
+
+        // hover effection
+        rowHover: true,                 // apply hover effection to row
+        colHover: true,                 // apply hover effection to head
+
+        // custom columns size
+        customizable: true,             // enable customizable
+        minColWidth: 20,                // min width of columns
+        minFixedLeftWidth: 200,         // min left width
+        minFixedRightWidth: 200,        // min right width
+        minFlexAreaWidth: 200,          // min flexarea width
     };
 
+    // Get options
     DataTable.prototype.getOptions = function (options)
     {
         var $e = this.$,
@@ -75,6 +89,7 @@
         this.options = options;
     };
 
+    // Load data form options or table dom
     DataTable.prototype.load = function()
     {
         var data    = this.options.data,
@@ -183,6 +198,7 @@
         this.data = data;
     };
 
+    // Generage html
     DataTable.prototype.html = function()
     {
         var init = !$('#' + this.id).empty().length,
@@ -197,23 +213,25 @@
 
         if(init)
         {
-            html += '<div class="datatable' + (options.sortable ? ' sortable' : '') + '" id="' + this.id + '">';
+            html += '<div class="datatable' + (options.sortable ? ' sortable' : '') + ' ' + (options.customizable ? ' customizable' : '') + '" id="' + this.id + '">';
         }
         else
         {
-            if(options.sortable)
-            {
-                this.$datatable.addClass('sortable');
-            }
+            this.$datatable.toggleClass('sortable', options.sortable)
+                .toggleClass('customizable', options.customizable);
         }
 
         // head
         html += '<div class="datatable-head">';
         var th, col, sortClass;
-        for(var i = 0; i < cols.length; ++i)
+        for(var i = 0; i < cols.length; i++)
         {
             col = cols[i];
             sortClass = '';
+            if(typeof col.customizable === 'undefined')
+            {
+                col.customizable = true;
+            }
             if(typeof col.sort === 'undefined')
             {
                 col.sort = true;
@@ -230,7 +248,10 @@
             {
                 sortClass = 'sort-disabled';
             }
-            th = '<th class="' + (col.cssClass || '') + ' ' + ((col.colClass || '')) + ' ' + sortClass + '" data-index="' + i + '" data-type="' + col.type + '" style="' + col.css + '">' + col.text + '</th>';
+            th = '<th class="' + (col.cssClass || '')
+                + ' ' + ((col.colClass || '')) + ' ' + sortClass
+                + '" data-index="' + i + '" data-type="' + col.type + '" style="' + col.css + '">'
+                + col.text + ((col.customizable && i != (data.flexStart - 1) && i != data.flexEnd && i < (cols.length - 1)) ? '<div class="size-handle"></div>' : '') + '</th>';
 
             if(i == 0 && options.checkable)
             {
@@ -243,7 +264,7 @@
 
         if(data.fixedLeft)
         {
-            html += dataHeadSpan.format('fixed-left', leftHtml, '');
+            html += dataHeadSpan.format('fixed-left', leftHtml, '<div class="size-handle size-handle-head size-handle-left"></div>');
         }
         if(data.flexArea)
         {
@@ -251,7 +272,7 @@
         }
         if(data.fixedRight)
         {
-            html += dataHeadSpan.format('fixed-right', rightHtml, '');
+            html += dataHeadSpan.format('fixed-right', rightHtml, '<div class="size-handle size-handle-head size-handle-right"></div>');
         }
 
         html += '</div>';
@@ -322,6 +343,7 @@
         return html;
     };
 
+    // Render datatable
     DataTable.prototype.render = function()
     {
         if(this.isTable)
@@ -398,6 +420,10 @@
                 scrollOffsetStoreName = self.id + '_' + 'scrollOffset',
                 firtScroll,
                 left;
+
+            this.width = $datatable.width();
+            $datatable.resize(function(){self.width = $datatable.width();});
+
             var srollTable = function(offset, silence)
                 {
                     barLeft = Math.max(0, Math.min(flexWidth - scrollWidth, offset));
@@ -431,6 +457,11 @@
                     {
                         firtScroll = true;
                         srollTable(store.pageGet(scrollOffsetStoreName, 0), true);
+                    }
+
+                    if($datatable.hasClass('size-changing'))
+                    {
+                        srollTable(0, true);
                     }
                 };
             $scrollbar.resize(resizeScrollbar);
@@ -561,15 +592,85 @@
             var $th, sortdown;
             this.$headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function()
             {
+                if($datatable.hasClass('size-changing')) return;
                 self.sortTable($(this));
             });
         }
 
-        //
+        // custom column width
+        if(options.customizable)
+        {
+            var oldWidth, $th, col, dragDirection, $span;
+            var $sizeHandles = this.$headSpans.find('.size-handle'),
+                refreshSize = function($handle, delta)
+                {
+                    if($handle.hasClass('size-handle-head'))
+                    {
+                        oldWidth = $handle.closest('.datatable-head-span').width();
+                        if($handle.hasClass('size-handle-left'))
+                        {
+                            self.fixedLeftWidth = Math.min(self.width - (self.fixedRightWidth || self.$headSpans.filter('.fixed-right').width()) - options.minFlexAreaWidth,
+                                                  Math.max(options.minFixedLeftWidth, oldWidth + delta));
+                        }
+                        else
+                        {
+                            self.fixedRightWidth = Math.min(self.width - (self.fixedLeftWidth || self.$headSpans.filter('.fixed-left').width()) - options.minFlexAreaWidth,
+                                                   Math.max(options.minFixedRightWidth, oldWidth - delta));
+                        }
+                    }
+                    else
+                    {
+                        $th = $handle.closest('th');
+                        col = data.cols[$th.data('index')];
+                        oldWidth = col.width;
+                        if(oldWidth === 'auto')
+                        {
+                            $handle = $th.closest('.datatable-head-span');
+                            oldWidth = $handle.width();
+                            if($handle.hasClass('fixed-left'))
+                            {
+                                self.fixedLeftWidth = Math.min(self.width - (self.fixedRightWidth || self.$headSpans.filter('.fixed-right').width()) - options.minFlexAreaWidth,
+                                                      Math.max(options.minFixedLeftWidth, oldWidth + delta));
+                            }
+                            else if($handle.hasClass('fixed-right'))
+                            {
+                                self.fixedRightWidth = Math.min(self.width - (self.fixedLeftWidth || self.$headSpans.filter('.fixed-left').width()) - options.minFlexAreaWidth,
+                                                       Math.max(options.minFixedRightWidth, oldWidth - delta));
+                            }
+                        }
+                        else
+                        {
+                            col.width = Math.max(options.minColWidth, oldWidth + delta);
+                        }
+                    }
+
+                    self.refreshSize();
+                };
+
+            $sizeHandles.draggable(
+            {
+                move: false,
+                stopPropagation: true,
+                before: function()
+                {
+                    dragDirection = null;
+                    $datatable.addClass('size-changing');
+                },
+                drag: function(e)
+                {
+                    refreshSize(e.element, e.smallOffset.x);
+                },
+                finish: function()
+                {
+                    $datatable.removeClass('size-changing');
+                }
+            });
+        }
 
         this.refresh();
     };
 
+    // Sort table
     DataTable.prototype.sortTable = function($th)
     {
         var sorterStoreName = self.id + '_' + 'datatableSorter';
@@ -639,6 +740,11 @@
                 valA = Date.parse(valA);
                 valB = Date.parse(valB);
             }
+            else
+            {
+                valA = valA.toLowerCase();
+                valB = valB.toLowerCase();
+            }
             result = valA > valB ? 1 : (valA < valB ? -1 : 0);
             if(sortUp)
             {
@@ -672,14 +778,15 @@
         store.pageSet(sorterStoreName, {index: index, type: sortUp ? 'up' : 'down'});
     };
 
+    // Refresh size
     DataTable.prototype.refreshSize = function()
     {
         var $datatable = this.$datatable,
             options = this.options,
             cols = this.data.cols;
 
-        $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
-        $datatable.find('.datatable-span.fixed-right').css('width', options.fixedRightWidth);
+        $datatable.find('.datatable-span.fixed-left').css('width', this.fixedLeftWidth || options.fixedLeftWidth);
+        $datatable.find('.datatable-span.fixed-right').css('width', this.fixedRightWidth || options.fixedRightWidth);
 
         var $cells = this.$cells;
         for(var i = 0; i < cols.length; ++i)
@@ -688,6 +795,7 @@
         }
     };
 
+    // Refresh changes of ui
     DataTable.prototype.refresh = function()
     {
         this.refreshSize();
