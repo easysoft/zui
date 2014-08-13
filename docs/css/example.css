@@ -1,3 +1,5 @@
+a[href^='http://www.cnzz.com/stat/website.php'] {display: none}
+
 body
 {
   padding-top: 50px;
@@ -31,7 +33,7 @@ body > article.article-small
     }
     100% {
         -webkit-box-shadow: 0 0 18px rgba(26,128,26, 0.8),0 0 12px rgba(71,164,71, 0.5);
-        border-color: rgba(26, 128, 26, 1.0); 
+        border-color: rgba(26, 128, 26, 1.0);
     }
 }
 .segment
@@ -103,7 +105,7 @@ body > .container .segment
   padding: 0;
 }
 
-.bs-example > .dropdown > .dropdown-menu 
+.bs-example > .dropdown > .dropdown-menu
 {
   position: static;
   display: block;
