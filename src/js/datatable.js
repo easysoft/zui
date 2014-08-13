@@ -37,19 +37,18 @@
     DataTable.DEFAULTS =
     {
         // Check options
-        checkable : true,               // added check icon to the head of rows
+        checkable : false,               // added check icon to the head of rows
         checkByClickRow: true,          // change check status by click anywhere on a row
         checkedClass: 'active',         // apply CSS class to an checked row
 
         // Sort options
-        sortable : true,                // enable sorter
+        sortable : false,                // enable sorter
 
         // fixed header of columns
         fixedHeader : true,             // fixed header
         fixedHeaderOffset: 0,           // set top offset of header when fixed
         fixedLeftWidth: '30%',          // set left width after first render
         fixedRightWidth: '30%',         // set right width after first render
-        flexWidth: 'auto',              // flex area width
         flexHeadDrag: true,             // scroll flexarea by drag header
 
         // hover effection
@@ -57,7 +56,7 @@
         colHover: true,                 // apply hover effection to head
 
         // custom columns size
-        customizable: true,             // enable customizable
+        customizable: false,             // enable customizable
         minColWidth: 20,                // min width of columns
         minFixedLeftWidth: 200,         // min left width
         minFixedRightWidth: 200,        // min right width
@@ -185,17 +184,6 @@
             data.fixedLeft = true;
             data.flexStart = cols.length;
             data.flexEnd = cols.length;
-        }
-
-        if(data.flexArea && (typeof(options.flexWidth) == undefined || options.flexWidth == 'auto'))
-        {
-            var flexWidth = 0;
-            for(var i = data.flexStart; i <= data.flexEnd; ++i)
-            {
-                cols[i].flex = true;
-                flexWidth += cols[i].width;
-            }
-            options.flexWidth = flexWidth;
         }
 
         this.data = data;
@@ -524,7 +512,7 @@
 
                 store.pageSet(checkedStatusStoreName, checkedStatus);
 
-                self.callEvent('checksChanged', {checks: checks});
+                self.callEvent('checksChanged', {checks: checkedStatus});
             };
 
             this.$rowsSpans.on('click', options.checkByClickRow ? 'tr' : '.check-row', function()
