@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-12
+ * ZUI - v1.1.0 - 2014-08-13
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -1741,7 +1741,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+  font-family: inherit;
   font-weight: bold;
   line-height: 1.1;
   color: inherit;
@@ -1769,7 +1769,7 @@ h6.header-dividing {
   display: inline-block;
   padding: 5px 12px;
   margin-bottom: 0;
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+  font-family: inherit;
   font-size: 13px;
   font-weight: normal;
   line-height: 1.53846154;
