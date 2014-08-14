@@ -33,6 +33,21 @@
                 return !(event.result != undefined && (!event.result));
             }
             return 1;
+        },
+
+        clientLang: function()
+        {
+            var lang;
+            if(typeof(window.config) != 'undefined' && window.config.clientLang)
+            {
+                lang = window.config.clientLang;
+            }
+            else
+            {
+                var hl = $('html').attr('lang');
+                lang = hl ? hl : 'zh_cn';
+            }
+            return lang.replace('-', '_').toLowerCase();
         }
     });
 
