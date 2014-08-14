@@ -2,8 +2,10 @@
 +function($, window, document, Math)
 {
     "use strict";
-    var name = 'zui.$componentObject$';
 
+    var name = 'zui.$componentObject$'; // modal name
+
+    // The $componentName$ modal class
     var $ComponentName$ = function(element, options)
     {
         this.name      = name;
@@ -11,26 +13,27 @@
 
         this.getOptions(options);
         this.init();
+
+        // Initialize here
     };
 
-    $ComponentName$.DEFAULTS = {}; // default options
+     // default options
+    $ComponentName$.DEFAULTS = {};
 
+    // Get and init options
     $ComponentName$.prototype.getOptions = function (options)
     {
         this.options = $.extend({}, $ComponentName$.DEFAULTS, this.$.data(), options);
     };
 
-    $ComponentName$.prototype.init = function()
-    {
-        // ...
-    };
-
+    // Call event helper
     $ComponentName$.prototype.callEvent = function(name, params)
     {
         var result = this.$.callEvent(name + '.' + this.name, params, this);
         return !(result.result != undefined && (!result.result));
     };
 
+    // Extense jquery element
     $.fn.$componentObject$ = function(option)
     {
         return this.each(function()
@@ -47,6 +50,7 @@
 
     $.fn.$componentObject$.Constructor = $ComponentName$;
 
+    // Auto call $componentObject$ after document load complete
     $(function()
     {
         $('[data-toggle="$componentObject$"]').$componentObject$();
