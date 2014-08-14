@@ -1,0 +1,97 @@
+.calendar
+{
+  > header
+  {
+    margin-bottom: 10px;
+
+    .btn-toolbar > .btn-group
+    {
+      margin-right: 10px;
+    }
+
+    .date-caption
+    {
+      line-height: 30px;
+    }
+  }
+
+  .table
+  {
+    > thead > tr > th,
+    > tbody> tr > td
+    {
+      width: 14.28571428571429%;
+      padding: 0;
+    }
+
+    > thead > tr > th
+    {
+      background-color: @color-back;
+      text-align: center;
+      color: @color-gray;
+    }
+  }
+
+  .day
+  {
+    opacity: .7;
+
+    > .heading
+    {
+      text-align: right;
+      padding: 2px 5px;
+
+      > .month
+      {
+        background-color: lighten(@color-gray, 20%);
+        color: @color-back;
+        border-radius: @border-radius-small;
+        padding: 1px 2px;
+      }
+    }
+
+    > .content
+    {
+      padding: 1px;
+      height: 100px;
+    }
+
+    &.current-month
+    {
+      opacity: 1;
+    }
+
+    &.current
+    {
+      background-color: @color-warning-pale;
+      border: 1px solid @color-gray;
+
+      > .heading
+      {
+        background-color: darken(@color-warning-pale, 7%);
+      }
+    }
+
+    &.past
+    {
+      > .content
+      {
+        opacity: .7;
+      }
+    }
+  }
+
+  .event
+  {
+    cursor: pointer;
+    padding: 1px 5px;
+    opacity: .9;
+    .bg-primary();
+    .transition();
+
+    &:hover
+    {
+      opacity: 1;
+    }
+  }
+}

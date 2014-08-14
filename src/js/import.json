@@ -28,6 +28,7 @@
     "dashboard.js",
     "menu.js",
     "datatable.js",
+    "calendar.js",
     "bootbox.js",
     "messager.js",
     "boards.js",
