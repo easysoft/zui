@@ -74,6 +74,7 @@ body.with-navbar > header
   body > header {width: 100%; right: 0; bottom: inherit;}
   #navbar.navbar-fixed-left {max-height: 100%; width: 100%; height: auto}
   #main, body.with-navbar #main{margin-left: 0;}
+  #main {padding-left: 20px; padding-right: 20px;}
   body.with-navbar #main {padding-top: 60px;}
   .navbar-fixed-left.navbar-inverse .navbar-header {border-bottom: none}
   .navbar-fixed-left .navbar-toggle {display: block;}
@@ -322,6 +323,11 @@ body.doc-views .navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav>.a
 .example.no-padding
 {
   padding: 0;
+}
+.example > .table:last-child,
+.example > .datatable:last-child
+{
+  margin-bottom: 0;
 }
 .example + pre
 {
