@@ -30,9 +30,16 @@ Date.prototype.format = function(format)
     return format;
 };
 
+Date.prototype.addMilliseconds = function(value)
+{
+    this.setTime(this.getTime() + value);
+    return this;
+};
+
 Date.prototype.addDays = function(days)
 {
-    this.setTime(this.getTime() + days * 24 * 3600 * 1000);
+    this.addMilliseconds(days * 24 * 3600 * 1000);
+    return this;
 };
 
 Date.prototype.clone = function()
@@ -69,4 +76,10 @@ Date.prototype.addMonths = function (value)
     this.setDate(1);
     this.setMonth(this.getMonth() + value);
     this.setDate(Math.min(n, this.getDaysInMonth()));
+    return this;
 };
+
+// Date.prototype.isSameDay = function(date)
+// {
+//     return date.toDateString() === this.toDateString();
+// };
