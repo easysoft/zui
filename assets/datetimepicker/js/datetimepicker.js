@@ -1,4 +1,4 @@
-﻿/* =========================================================
+/* =========================================================
  * bootstrap-datetimepicker.js
  * =========================================================
  * Copyright 2012 Stefan Petre
@@ -44,7 +44,7 @@
 
     this.element = $(element);
 
-    this.language = options.language || this.element.data('date-language') || "en";
+    this.language = (options.language || this.element.data('date-language') || ($.clientLang ? $.clientLang().replace('_', '-') : "en")).toLowerCase();
     this.language = this.language in dates ? this.language : "en";
     this.isRTL = dates[this.language].rtl || false;
     this.formatType = options.formatType || this.element.data('format-type') || 'standard';
