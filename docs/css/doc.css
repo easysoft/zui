@@ -324,8 +324,7 @@ body.doc-views .navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav>.a
 {
   padding: 0;
 }
-.example > .table:last-child,
-.example > .datatable:last-child
+.example > *:last-child
 {
   margin-bottom: 0;
 }
