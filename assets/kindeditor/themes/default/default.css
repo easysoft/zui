@@ -562,7 +562,7 @@
   margin: 0;
   background: #f1f1f1;
   font-weight: bold;
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+  font-family: inherit;
   font-size: 13px;
   text-align: left;
   cursor: move;
