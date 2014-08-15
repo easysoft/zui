@@ -2,6 +2,7 @@
     "resize.js",
     "string.js",
     "unities.js",
+    "browser.js",
     "device.js",
     "transition.js",
     "alert.js",

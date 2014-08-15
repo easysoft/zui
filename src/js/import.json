@@ -7,6 +7,7 @@
     "date.js",
     "cookie.js",
     "unities.js",
+    "browser.js",
     "device.js",
     "transition.js",
     "alert.js",

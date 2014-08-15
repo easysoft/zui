@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-14
+ * ZUI - v1.1.0 - 2014-08-15
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -662,7 +662,7 @@ String.prototype.isNum = function(s)
             else
             {
                 var hl = $('html').attr('lang');
-                lang = hl ? hl : 'zh_cn';
+                lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || 'zh_cn');
             }
             return lang.replace('-', '_').toLowerCase();
         }
