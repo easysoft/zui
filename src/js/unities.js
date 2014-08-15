@@ -45,7 +45,7 @@
             else
             {
                 var hl = $('html').attr('lang');
-                lang = hl ? hl : 'zh_cn';
+                lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || 'zh_cn');
             }
             return lang.replace('-', '_').toLowerCase();
         }
