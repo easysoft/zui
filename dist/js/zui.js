@@ -5312,6 +5312,7 @@ var imgReady = (function () {
         this.getOptions(options);
         this.getLang();
 
+        console.log(this.options);
         this.data = this.options.data;
         this.calendars = $.isPlainObject(this.data.calendars) ? this.data.calendars : {};
         this.events = this.data.events;
@@ -5372,11 +5373,7 @@ var imgReady = (function () {
             {
                 defaultCal: {color: '#229F24'}
             },
-            events:
-            [
-                {title: '撰写文档', desc: '完成日历视图文档', start: '2014-8-14 13:00', end: '2014-8-14 16:00', allDay: false, calendar: 'defaultCal'},
-                {title: '发布产品', desc: '终于可以发布了', start: '2014-8-15 8:30', end: '2014-8-15 9:00', allDay: false, calendar: 'defaultCal'}
-            ]
+            events:[]
         },
         // startView: "month",  // default view when load complete
         // startDate: 'today',  // default date when load complete
@@ -5446,10 +5443,32 @@ var imgReady = (function () {
             }
             self.display();
             self.callEvent('clickPrevBtn');
-        }).on('click', '.event', function()
+        }).on('click', '.event', function(event)
         {
             self.callEvent('clickEvent', {event: $(this).data('event'), events: self.events});
+            event.stopPropagation();
+        }).on('click', '.cell-day', function()
+        {
+            self.callEvent('clickCell', {view: self.view, date: $(this).attr('data-date'), events: self.events});
         });
+    };
+
+    Calendar.prototype.addCalendars = function(calendars)
+    {
+        if($.isPlainObject(calendars))
+        {
+            calendars = [calendars];
+        }
+        $.each(calendars, function(index, value)
+        {
+            if(this.callEvent('beforeAddCalendars', {newCalendar: value, data: this.data}))
+            {
+                this.calendars[value.name](value);
+            }
+        });
+
+        this.display();
+        this.callEvent('addCalendars', {newCalendars: calendars, data: this.data});
     };
 
     Calendar.prototype.addEvents = function(events)
@@ -5466,6 +5485,7 @@ var imgReady = (function () {
             }
         });
 
+        this.sortEvents();
         this.display();
         this.callEvent('addEvents', {newEvents: events, data: this.data});
     };
@@ -5519,6 +5539,7 @@ var imgReady = (function () {
             eventsParams.changes.push(eventParam);
         });
 
+        this.sortEvents();
         this.display();
         this.callEvent('change', eventsParams);
     };
@@ -5551,6 +5572,7 @@ var imgReady = (function () {
             }
         });
 
+        this.sortEvents();
         this.display();
         this.callEvent('removeEvents', {removedEvents: removedEvents, data: this.data});
     };
@@ -5658,6 +5680,7 @@ var imgReady = (function () {
             lastDayOfMonth = getLastDayOfMonth(date),
             $week,
             $day,
+            $cell,
             year,
             day,
             month,
@@ -5678,6 +5701,7 @@ var imgReady = (function () {
             $week.find('.day').each(function(dayIndex)
             {
                 $day = $(this);
+                $cell = $day.closest('.cell-day');
                 year = printDate.getFullYear();
                 day = printDate.getDate();
                 month = printDate.getMonth();
@@ -5687,10 +5711,10 @@ var imgReady = (function () {
                 $day.find('.heading > .month')
                     .toggle((weekIdx === 0 && dayIndex === 0) || day === 1)
                     .text(((month === 0 && day === 1) ? (lang.year.format(year) + ' ') : '') + lang.monthNames[month]);
-                $day.toggleClass('current-month', month === thisMonth);
-                $day.toggleClass('current', (day === todayDate && month === todayMonth && year === todayYear));
-                $day.toggleClass('past', printDate < date);
-                $day.toggleClass('future', printDate > date);
+                $cell.toggleClass('current-month', month === thisMonth);
+                $cell.toggleClass('current', (day === todayDate && month === todayMonth && year === todayYear));
+                $cell.toggleClass('past', printDate < date);
+                $cell.toggleClass('future', printDate > date);
                 $day.find('.events').empty();
 
                 printDate.addDays(1);
