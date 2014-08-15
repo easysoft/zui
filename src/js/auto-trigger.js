@@ -11,7 +11,7 @@
         this.init();
     };
 
-    AutoTrigger.DEFAULTS = 
+    AutoTrigger.DEFAULTS =
     {
         trigger: 'toggle',
         selector: null,
@@ -21,9 +21,9 @@
         events: 'click',
         preventDefault: true,
         cancelBubble: true,
-        target: null,
+        target: null
         //,before:
-        //,after: 
+        //,after:
     }; // default options
 
     AutoTrigger.prototype.getOptions = function (options)

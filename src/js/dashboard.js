@@ -204,7 +204,7 @@
         $.ajax(
         {
             url: url,
-            dataType: 'html',
+            dataType: 'html'
         })
         .done(function(data)
         {

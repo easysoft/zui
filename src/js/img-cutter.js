@@ -157,7 +157,7 @@
                 that.left += e.smallOffset.x;
                 that.top += e.smallOffset.y;
                 that.refreshSize();
-            },
+            }
         });
 
         this.$controller.children('.control').draggable(

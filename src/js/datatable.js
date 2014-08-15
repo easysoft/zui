@@ -60,7 +60,7 @@
         minColWidth: 20,                // min width of columns
         minFixedLeftWidth: 200,         // min left width
         minFixedRightWidth: 200,        // min right width
-        minFlexAreaWidth: 200,          // min flexarea width
+        minFlexAreaWidth: 200           // min flexarea width
     };
 
     // Get options
