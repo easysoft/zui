@@ -804,15 +804,41 @@
     {
         var $datatable = this.$datatable,
             options = this.options,
+            rows = this.data.rows,
             cols = this.data.cols;
 
         $datatable.find('.datatable-span.fixed-left').css('width', this.fixedLeftWidth || options.fixedLeftWidth);
         $datatable.find('.datatable-span.fixed-right').css('width', this.fixedRightWidth || options.fixedRightWidth);
 
-        var $cells = this.$cells;
+        var findMaxHeight = function($cells)
+            {
+                var mx = 0;
+                $cells.css('height', 'auto');
+                $cells.each(function()
+                {
+                    console.log($(this));
+                    mx = Math.max(mx, $(this).height());
+                });
+                return mx;
+            },
+            $dataCells = this.$dataCells,
+            $cells     = this.$cells,
+            $headCells = this.$headCells;
+        // set width of data cells
         for(var i = 0; i < cols.length; ++i)
         {
             $cells.filter('[data-index="' + i + '"]').css('width', cols[i].width);
+        }
+
+        // set height of head cells
+        $headCells.height(findMaxHeight($headCells));
+
+        // set height of data cells
+        var $rowCells;
+        for(var i = 0; i < rows.length; ++i)
+        {
+            $rowCells = $dataCells.filter('[data-row="' + i + '"]');
+            $rowCells.height(findMaxHeight($rowCells));
         }
     };
 
