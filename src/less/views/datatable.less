@@ -6,11 +6,6 @@
   table-layout:fixed;
 }
 
-.datatable-span
-{
-  display: table-cell;
-}
-
 .datatable
 {
   margin-bottom: 20px;
@@ -89,7 +84,7 @@
 
   &.sortable
   {
-    .datatable-head-span > .table > thead > tr > th
+    .datatable-head-span .table > thead > tr > th
     {
       cursor: pointer;
       .nobr();
@@ -209,13 +204,15 @@
   }
 }
 
+.datatable-wrapper {position: relative;}
+
 .datatable-span
 {
+  display: table-cell;
+
   &.flexarea
   {
-    position: relative;
     overflow: hidden;
-    transition: box-shadow 0.5s;
 
     &.datatable-head-span
     {
@@ -225,14 +222,14 @@
       }
     }
 
-    > .table
+    .table
     {
-      position: absolute;
+      position: relative;
       left: 0;
       top: 0;
     }
 
-    > .scrolled-shadow
+    .scrolled-shadow
     {
       width: 20px;
       position: absolute;
@@ -244,17 +241,17 @@
       .transition();
     }
 
-    > .scrolled-in-shadow
+    .scrolled-in-shadow
     {
       left: -30px;
     }
 
-    > .scrolled-out-shadow
+    .scrolled-out-shadow
     {
       right: -30px;
     }
 
-    > .scroll-slide
+    .scroll-slide
     {
       position: absolute;
       bottom: 0;

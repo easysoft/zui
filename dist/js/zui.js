@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-15
+ * ZUI - v1.1.0 - 2014-08-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -4704,8 +4704,8 @@ var imgReady = (function () {
             cols = this.data.cols,
             leftHtml = '', rightHtml = '', flexHtml = '',
             rows = this.data.rows;
-        var dataRowSpan = '<div class="datatable-rows-span datatable-span {0}"><table class="table' + options.tableClass + '"><tbody>{1}</tbody></table>{2}</div>',
-            dataHeadSpan = '<div class="datatable-head-span datatable-span {0}"><table class="table' + options.tableClass + '"><thead><tr>{1}</tr></thead></table>{2}</div>';
+            var dataRowSpan = '<div class="datatable-rows-span datatable-span {0}"><div class="datatable-wrapper"><table class="table' + options.tableClass + '"><tbody>{1}</tbody></table>{2}</div></div>',
+            dataHeadSpan = '<div class="datatable-head-span datatable-span {0}"><div class="datatable-wrapper"><table class="table' + options.tableClass + '"><thead><tr>{1}</tr></thead></table>{2}</div></div>';
 
         if(init)
         {
@@ -4905,8 +4905,8 @@ var imgReady = (function () {
         if(this.data.flexArea)
         {
             var $scrollbar = $datatable.find('.scroll-slide'),
-                $flexArea  = $datatable.find('.datatable-span.flexarea > .table'),
-                $flexTable = $datatable.find('.datatable-rows-span.flexarea > .table');
+                $flexArea  = $datatable.find('.datatable-span.flexarea .table'),
+                $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
             var $bar = $scrollbar.children('.bar'),
                 flexWidth,
                 scrollWidth,
