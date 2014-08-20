@@ -699,25 +699,25 @@ var events    = calendar.events;    // 获取所有事件对象实例
         <tbody>
           <tr>
             <td><code>clickTodayBtn</code></td>
-            <td><code>"clickTodayBtn.zui.datatable"</code></td>
+            <td><code>"clickTodayBtn.zui.calendar"</code></td>
             <td>点击日历头部的当天按钮时发生</td>
             <td>无</td>
           </tr>
           <tr>
             <td><code>clickNextBtn</code></td>
-            <td><code>"clickNextBtn.zui.datatable"</code></td>
+            <td><code>"clickNextBtn.zui.calendar"</code></td>
             <td>点击当前视图下一个日期范围按钮时发生</td>
             <td>无</td>
           </tr>
           <tr>
             <td><code>clickPrevBtn</code></td>
-            <td><code>"clickPrevBtn.zui.datatable"</code></td>
+            <td><code>"clickPrevBtn.zui.calendar"</code></td>
             <td>点击当前视图上一个日期范围按钮时发生</td>
             <td>无</td>
           </tr>
           <tr>
             <td><code>clickEvent</code></td>
-            <td><code>"clickEvent.zui.datatable"</code></td>
+            <td><code>"clickEvent.zui.calendar"</code></td>
             <td>当点击一个事件时发生</td>
             <td>
               <ul>
@@ -728,7 +728,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>beforeAddCalendars</code></td>
-            <td><code>"beforeAddCalendars.zui.datatable"</code></td>
+            <td><code>"beforeAddCalendars.zui.calendar"</code></td>
             <td>在向日历添加一个新的日历之前发生，如果在该事件处理函数中返回<code>false</code>，则会取消添加</td>
             <td>
               <ul>
@@ -739,7 +739,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>addCalendars</code></td>
-            <td><code>"addCalendars.zui.datatable"</code></td>
+            <td><code>"addCalendars.zui.calendar"</code></td>
             <td>在向日历添加一个新的日历之后发生</td>
             <td>
               <ul>
@@ -750,7 +750,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>beforeAddEvent</code></td>
-            <td><code>"beforeAddEvent.zui.datatable"</code></td>
+            <td><code>"beforeAddEvent.zui.calendar"</code></td>
             <td>在向日历添加一个新的事件之前发生，如果在该事件处理函数中返回<code>false</code>，则会取消添加</td>
             <td>
               <ul>
@@ -761,7 +761,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>addEvents</code></td>
-            <td><code>"addEvents.zui.datatable"</code></td>
+            <td><code>"addEvents.zui.calendar"</code></td>
             <td>在向日历添加一个或多个新的事件之后发生</td>
             <td>
               <ul>
@@ -772,7 +772,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>beforeRemoveEvent</code></td>
-            <td><code>"beforeRemoveEvent.zui.datatable"</code></td>
+            <td><code>"beforeRemoveEvent.zui.calendar"</code></td>
             <td>在向日历移除一个事件之前发生，如果在该事件处理函数中返回<code>false</code>，则会取消移除</td>
             <td>
               <ul>
@@ -784,7 +784,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>removeEvents</code></td>
-            <td><code>"removeEvents.zui.datatable"</code></td>
+            <td><code>"removeEvents.zui.calendar"</code></td>
             <td>在向日历移除一个或多个事件之后发生</td>
             <td>
               <ul>
@@ -795,7 +795,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>beforeChange</code></td>
-            <td><code>"beforeChange.zui.datatable"</code></td>
+            <td><code>"beforeChange.zui.calendar"</code></td>
             <td>更改一个事件之前发生，如果在该事件处理函数中返回<code>false</code>，则会取消本次更改</td>
             <td>
               <ul>
@@ -808,7 +808,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>change</code></td>
-            <td><code>"change.zui.datatable"</code></td>
+            <td><code>"change.zui.calendar"</code></td>
             <td>当一个或多个事件发生更改时发生</td>
             <td>
               <ul>
@@ -826,7 +826,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>beforeDisplay</code></td>
-            <td><code>"beforeDisplay.zui.datatable"</code></td>
+            <td><code>"beforeDisplay.zui.calendar"</code></td>
             <td>在重新显示视图之前发生，如果在该事件处理函数中返回<code>false</code>，则会取消显示</td>
             <td>
               <ul>
@@ -837,7 +837,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>display</code></td>
-            <td><code>"display.zui.datatable"</code></td>
+            <td><code>"display.zui.calendar"</code></td>
             <td>在重新显示视图之后发生</td>
             <td>
               <ul>
@@ -848,7 +848,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>clickCell</code></td>
-            <td><code>"clickCell.zui.datatable"</code></td>
+            <td><code>"clickCell.zui.calendar"</code></td>
             <td>当点击一个日期单元格时发生</td>
             <td>
               <ul>
@@ -859,7 +859,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           </tr>
           <tr>
             <td><code>clickCell</code></td>
-            <td><code>"clickCell.zui.datatable"</code></td>
+            <td><code>"clickCell.zui.calendar"</code></td>
             <td>当点击一个日期单元格时发生</td>
             <td>
               <ul>
