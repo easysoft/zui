@@ -177,7 +177,7 @@
         }
 
         data.flexArea   = data.flexStart >= 0;
-        data.fixedRight = data.flexEnd >= 0 && data.flexEnd < cols.length;
+        data.fixedRight = data.flexEnd >= 0 && data.flexEnd < (cols.length-1);
         data.fixedLeft  = data.flexStart > 0;
         if(data.flexStart < 0 && data.flexEnd < 0)
         {
