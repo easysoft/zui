@@ -1,4 +1,10 @@
 [
+    "bootbox.js",
+    "string.js",
+    "resize.js",
+    "unities.js",
+    "date.js",
+    "store.js",
     "transition.js",
     "alert.js",
     "collapse.js",
@@ -7,10 +13,7 @@
     "tooltip.js",
     "popover.js",
     "tab.js",
-    "table.data.js",
-    "bootbox.js",
-    "string.js",
-    "date.js",
-    "resize.js",
-    "droppable.js"
+    "draggable.js",
+    "droppable.js",
+    "datatable.js"
 ]
