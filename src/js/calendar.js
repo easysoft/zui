@@ -54,7 +54,6 @@
         this.getOptions(options);
         this.getLang();
 
-        console.log(this.options);
         this.data = this.options.data;
         this.calendars = $.isPlainObject(this.data.calendars) ? this.data.calendars : {};
         this.events = this.data.events;
