@@ -11,9 +11,6 @@
 
   <link href="../css/example.css" rel="stylesheet">
 
-
-
-
   <script src="../assets/js/example.js"></script>
 </head>
 <body>
@@ -261,6 +258,24 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <h4>载入远程内容</h4>
+    <button class="btn btn-primary" id="loadRemote">弹出框测试</button>
+    <div class="modal fade" id="remoteDialog" tabindex="-1" role="dialog" aria-labelledby="tsModalTitle" aria-hidden="true">
+    </div><!-- /.modal -->
+    <script type="text/javascript">
+    $(function()
+    {
+        $("#loadRemote").click(function()
+        {
+            $("#remoteDialog").modal(
+            {
+                show:true,
+                remote:"partial/dialog.html",
+                backdrop:'static'
+            })
+         })
+    })
+    </script>
   </section>
 </article>
   </body>
