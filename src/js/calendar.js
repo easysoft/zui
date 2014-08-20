@@ -454,8 +454,8 @@
                     .text(((month === 0 && day === 1) ? (lang.year.format(year) + ' ') : '') + lang.monthNames[month]);
                 $cell.toggleClass('current-month', month === thisMonth);
                 $cell.toggleClass('current', (day === todayDate && month === todayMonth && year === todayYear));
-                $cell.toggleClass('past', printDate < date);
-                $cell.toggleClass('future', printDate > date);
+                $cell.toggleClass('past', printDate < today);
+                $cell.toggleClass('future', printDate > today);
                 $day.find('.events').empty();
 
                 printDate.addDays(1);
