@@ -13,11 +13,13 @@
     // ======================
     var ModalTrigger = function(options)
     {
-        options      = $.extend(ModalTrigger.DEFAULTS, options);
+        options      = $.extend({}, ModalTrigger.DEFAULTS, options);
         this.$modal  = $('#' + options.name);
         this.isShown = false;
         this.options = options;
         this.id      = $.uuid();
+
+        // todo: handle when: options.show = true
     };
 
     ModalTrigger.DEFAULTS =
@@ -27,7 +29,7 @@
         size       : null, // 'md', 'sm', 'lg', 'fullscreen'
         height     : 'auto',
         icon       : null,
-        name       : 'onceModal',
+        name       : 'triggerModal',
         fade       : true,
         position   : 'fit',
         showHeader : true,
@@ -56,6 +58,24 @@
             options.type = 'iframe';
             if(typeof options.iframe === 'string') options.url = options.iframe;
         }
+        else if(options.custom)
+        {
+            options.type = 'custom';
+            if(typeof options.custom === 'string')
+            {
+                var $doms;
+                try {$doms = $(options.custom);} catch(e){}
+
+                if($doms && $doms.length)
+                {
+                    options.custom = $doms;
+                }
+                else if($.isFunction(window[options.custom]))
+                {
+                    options.custom = window[options.custom];
+                }
+            }
+        }
 
         var $modal = this.$modal;
         if($modal.length)
@@ -79,15 +99,13 @@
         $modal.on('shown.zui.modal', function() {that.isShown = true;})
         $modal.on('hidden.zui.modal', function() {that.isShown = false;})
 
-        this.$modal = $modal.data('zui.modaltrigger', this);
+        this.$modal = $modal;
         this.$dialog = $modal.find('.modal-dialog');
     }
 
-    ModalTrigger.prototype.show = function(options)
+    ModalTrigger.prototype.show = function(option)
     {
-        options = $.extend({}, this.options, options);
-        // console.log('>>> show:' + this.id);
-        // console.log(options);
+        var options = $.extend({}, this.options, option);
         this.init(options);
         var that    = this,
             $modal  = this.$modal,
@@ -128,6 +146,11 @@
                 that.ajustPosition(options.position);
                 // if(options.fade) $modal.addClass('fade');
                 $modal.removeClass('modal-loading');
+
+                if(options.type != 'iframe')
+                {
+                    $dialog.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', function(){that.ajustPosition();});
+                }
             }, delay);
         };
 
@@ -135,11 +158,16 @@
         {
             if($.isFunction(custom))
             {
-                $body.html(custom({modal: $modal, options: options, modalTrigger: that, ready: readyToShow}));
+                var customContent = custom({modal: $modal, options: options, modalTrigger: that, ready: readyToShow});
+                if(typeof customContent === 'string')
+                {
+                    $body.html(customContent);
+                    readyToShow();
+                }
             }
             else if(custom instanceof $)
             {
-                $body.html(custom.html());
+                $body.html($('<div>').append(custom.clone()).html());
                 readyToShow();
             }
             else
@@ -194,9 +222,10 @@
                             };
 
                             $modal.callEvent('loaded.zui.modal', {modalType: 'iframe'});
+
                             setTimeout(ajustFrameSize, 100);
 
-                            $frameBody.resize(ajustFrameSize);
+                            $frameBody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
                         }
 
                         frame$.extend({closeModal: that.close});
@@ -328,15 +357,7 @@
         modal = getModal(modal);
         if(modal && modal.length)
         {
-            modal.each(function()
-            {
-                modal.modal('ajustPosition', position);
-                // var $dialog = $(this).find('.modal-dialog');
-                // position = position || 'fit';
-                // var half = Math.max(0, ($(window).height() - $dialog.outerHeight())/2);
-                // var pos  = position == 'fit' ? (half*2/3) : (position == 'center' ? half : position);
-                // $dialog.css('margin-top', pos);
-            });
+            modal.modal('ajustPosition', position);
         }
     };
 
@@ -361,7 +382,10 @@
             {
                 $this.modalTrigger({show: true});
             }
-            $this.trigger('.toggle.zui.modaltrigger');
+            else
+            {
+                $this.trigger('.toggle.zui.modaltrigger');
+            }
         }
         if($this.is('a')) {e.preventDefault();}
     });
