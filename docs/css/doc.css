@@ -328,7 +328,7 @@ body.doc-views .navbar-fixed-left.navbar-collapsed.navbar-inverse .navbar-nav>.a
 {
   margin-bottom: 0;
 }
-.example + pre
+.example + pre, pre + pre
 {
   margin: -15px 0 15px;
   padding: 10px 20px;
@@ -340,6 +340,8 @@ pre
 {
   border-radius: 0;
 }
+
+.example > .modal {display: block; position: static;}
 
 .popover-examples .popover
 {

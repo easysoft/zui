@@ -300,284 +300,673 @@ store.pageClear();                                     // 清空所有本地存�
         <h2>模态框</h2>
       </div>
 
-      <h3>类型</h3>
-      <h4>基本类型</h4>
-      <p>
-        启动方式一：通过在一个起控制器作用的页面元素（例如，按钮）上设置data-toggle="modal"，并使用data-target="#foo"或href="#foo"指向特定的模态框即可。
-      </p>
-      <p>
-        启动方式二：只需一行JavaScript代码，即可通过id myModal调用模态框： $('#myModal').modal(options)
-      </p>
+      <p>模态框允许以对话框的形式弹出，有半透明的页面遮罩层，并在显示和隐藏时支持动画。</p>
 
-      <div class='example'>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">打开模态框</button>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalTitle" aria-hidden="true">
+      <h3>实例</h3>
+      <h4>静态实例</h4>
+      <div class="example">
+        <div class="modal">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalTitle"> <i class='icon-heart'></i>
-                  标题
-                </h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+                <h4 class="modal-title">标题</h4>
               </div>
               <div class="modal-body">
-                <p>模态对话框的内容。</p>
+                <p>主题内容...</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary">保存</button>
               </div>
             </div>
-            <!-- /.modal-content --> </div>
-          <!-- /.modal-dialog --> </div>
-        <!-- /.modal --> </div>
+          </div>
+        </div>
+      </div>
+  <pre class='prettyprint'><code>&lt;div class=&quot;modal fade&quot;&gt;
+&lt;div class=&quot;modal-dialog&quot;&gt;
+  &lt;div class=&quot;modal-content&quot;&gt;
+    &lt;div class=&quot;modal-header&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;×&lt;/span&gt;&lt;span class=&quot;sr-only&quot;&gt;关闭&lt;/span&gt;&lt;/button&gt;
+      &lt;h4 class=&quot;modal-title&quot;&gt;标题&lt;/h4&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-body&quot;&gt;
+      &lt;p&gt;主题内容...&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;modal-footer&quot;&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-dismiss=&quot;modal&quot;&gt;关闭&lt;/button&gt;
+      &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;保存&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      <h4>动态实例</h4>
+      <p>点击按钮通过Javascript来启动一个模态框。</p>
+      <div class="example">
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal">启动模态框</button>
+      </div>
+    <pre class='prettyprint'><code>&lt;!-- 模态框触发按钮 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-lg btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;启动模态框&lt;/button&gt;
 
-      <h4>框架对话框触发器</h4>
-      <p>
-        在新打开的模态对话框中使用
-        <code>iframe</code>
-        来加载一个全新的网页。
-      </p>
-      <div class='example'>
-        <a href="controls.html" data-type='iframe' data-toggle='modal' class='btn btn-success'> <i class='icon-heart'></i>
-          打开框架对话框
-        </a>
+&lt;!-- 模态框HTML --&gt;
+&lt;div class=&quot;modal fade&quot; id=&quot;myModal&quot;&gt;
+  &lt;div class=&quot;modal-dialog&quot;&gt;
+    &lt;div class=&quot;modal-content&quot;&gt;
+      ...
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <h4>决定模态框位置</h4>
+      <p>默认情况下模态框会根据自身内容高度展示在页面中心稍靠上方的位置。通过一些参数可以重新决定模态框的展现位置（具体参数参考“如何使用”章节）。</p>
+      <div class="example">
+        <button type="button" class="btn btn-primary" data-position="fit" data-toggle="modal" data-target="#myModal">默认位置</button>
+        <button type="button" class="btn btn-primary" data-position="center" data-toggle="modal" data-target="#myModal">窗口中间</button>
+        <button type="button" class="btn btn-primary" data-position="" data-toggle="modal" data-target="#myModal">靠近上方</button>
+        <button type="button" class="btn btn-primary" data-position="100px" data-toggle="modal" data-target="#myModal">距离上方100px</button>
+      </div>
+<pre class='prettyprint'><code>&lt;button type=&quot;button&quot; class=&quot;btn&quot; data-position=&quot;fit&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;默认位置&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn&quot; data-position=&quot;center&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;窗口中间&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn&quot; data-position=&quot;&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;靠近上方&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn&quot; data-position=&quot;100px&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;距离上方100px&lt;/button&gt;</code></pre>
+
+      <h4>更改模态框的大小</h4>
+      <p>模态框的默认宽度为<code>600px</code>，你可以通过为<code>.modal-dialog</code>应用CSS样式来更改模态框的宽度。在ZUI中也提供了额外两种预设的宽度，通过为<code>.modal-dialog</code>添加CSS类名来调整实现：</p>
+      <ul>
+        <li>大模态框：添加<code>.modal-lg</code>CSS类名，宽度为<code>900px</code>；</li>
+        <li>小模态框：添加<code>.modal-sm</code>CSS类名，宽度为<code>300px</code>。</li>
+      </ul>
+      <div class="example">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myLgModal">大模态框</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mySmModal">小模态框</button>
+      </div>
+      <pre class='prettyprint'><code>&lt;!-- 大模态框 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myLgModal&quot;&gt;大模态框&lt;/button&gt;
+
+&lt;div class=&quot;modal fade&quot; id=&quot;myLgModal&quot;&gt;
+  &lt;div class=&quot;modal-dialog modal-lg&quot;&gt;
+    &lt;div class=&quot;modal-content&quot;&gt;
+      ...
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 小模态框 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#mySmModal&quot;&gt;小模态框&lt;/button&gt;
+
+&lt;div class=&quot;modal fade&quot; id=&quot;mySmModal&quot;&gt;
+  &lt;div class=&quot;modal-dialog modal-lg&quot;&gt;
+    &lt;div class=&quot;modal-content&quot;&gt;
+      ...
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <h4>禁用动画效果</h4>
+      <p>模态框在弹出或隐藏时会伴随动画效果（淡入淡出效果），如果不需要，只需要移除<code>.modal</code>标签上的<code>.fade</code>类即可。</p>
+      <div class="example">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fastModal">立即展现</button>
+      </div>
+      <pre class='prettyprint'><code>&lt;!-- 禁用动画效果的模态框 --&gt;
+&lt;div class=&quot;modal&quot;&gt;
+...
+&lt;/div&gt;
+</code></pre>
+
+      <h4>关闭模态框</h4>
+      <p>在静态模态框HTML中增加一个按钮并添加data属性<code>data-dismiss="modal"</code>，这样当点击该按钮时会关闭此对话框。你可以将该属性添加至模态框内的任何元素。</p>
+      <pre class='prettyprint'><code>&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;×&lt;/span&gt;&lt;span class=&quot;sr-only&quot;&gt;关闭&lt;/span&gt;&lt;/button&gt;</code></pre>
+
+      <h3>如何使用</h3>
+      <h4>使用data属性</h4>
+      <p>一般情况下不需要手动调用Javascript来使用模态框，只需要在触发模态框的按钮或链接上增加两个额外的data属性即可：<code>data-toggle="modal"</code>和<code>data-target="#myModal"</code>。</p>
+      <p>其中<code>data-toggle</code>属性声明该按钮或链接点击后会显示或隐藏模态框。<code>data-target</code>属性指明静态模态框的ID属性。</p>
+      <p>如果使用<code>&lt;a&gt;</code>触发模态框，可以直接将静态模块框的ID写在<code>href</code>属性内，<code>data-target</code>属性则可以忽略。</p>
+      <p>使用data属性也可以来为对话框提供其他参数。</p>
+      <pre class='prettyprint'><code>&lt;!-- 使用按钮 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;启动模态框&lt;/button&gt;
+
+&lt;!-- 使用超链接 --&gt;
+&lt;a data-toggle=&quot;modal&quot; href=&quot;#myModal&quot;&gt;启动模态框&lt;/a&gt;</code></pre>
+
+      <h4>手动调用Javascript</h4>
+      <p>不使用按钮或链接来触发模态框也可以使用Javascript来手动触发。</p>
+      <pre class='prettyprint'><code>$('#myModal').modal(options)</code></pre>
+
+      <h4>参数</h4>
+      <p>参数既可以在手动调用的时候指定，也可以在静态模态框或者触发器上使用data属性来指定。</p>
+      <p>可用的参数如下：</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th style="width: 80px">名称</th>
+            <th style="width: 300px">可选值</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>name</code></td>
+            <td>模态框名称</td>
+            <td>字符串，默认为<code>'triggerModal'</code></td>
+            <td>此参数会指定模态框DOM的id属性和iframe的id属性和name属性。</td>
+          </tr>
+          <tr>
+            <td><code>backdrop</code></td>
+            <td>背景遮罩</td>
+            <td>
+              <ul>
+                <li><code>'static'</code></li>
+                <li><code>true</code>（默认）</li>
+                <li><code>false</code></li>
+              </ul>
+            </td>
+            <td>使用布尔值来启用或禁用背景遮罩，如果指定为<code>'static'</code>则会启动背景遮罩，但点击背景遮罩时不会触发关闭模态框的过程。</td>
+          </tr>
+          <tr>
+            <td><code>keyboard</code></td>
+            <td>按键</td>
+            <td>
+              <ul>
+                <li><code>true</code>（默认）</li>
+                <li><code>false</code></li>
+              </ul>
+            </td>
+            <td>当为<code>ture</code>时，按下<code>esc</code>键会关闭模态框。</td>
+          </tr>
+          <tr>
+            <td><code>show</code></td>
+            <td>立即显示</td>
+            <td>
+              <ul>
+                <li><code>true</code>（默认）</li>
+                <li><code>false</code></li>
+              </ul>
+            </td>
+            <td>是否在模态框初始化之后立即显示出来。</td>
+          </tr>
+          <tr>
+            <td><code>position</code></td>
+            <td>
+              显示位置
+            </td>
+            <td>
+              <ul>
+                <li><code>'fit'</code>（默认），最佳位置；</li>
+                <li><code>'center'</code>，显示在窗口中间；</li>
+                <li><code>''</code>，显示在最顶部；</li>
+                <li><code>200</code>，数字用来指定距离顶部的像素；</li>
+                <li>CSS支持的所有表示位置的值，用来指定距离顶部的偏移；</li>
+              </ul>
+            </td>
+            <td>默认位置是在窗口中部稍偏上的地方。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>方法</h4>
+      <h5>.modal(options)</h5>
+      <p>使用参数对象来初始化模态框。</p>
+      <pre class='prettyprint'><code>$('#myModal').modal(
+{
+    keyboard : false,
+    show     : true
+})</code></pre>
+
+      <h5>.modal('toggle', position)</h5>
+      <p>手动显示或隐藏模态框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
+      <pre class='prettyprint'><code>$('#myModal').modal('toggle', 'center')</code></pre>
+
+      <h5>.modal('show', position)</h5>
+      <p>手动显示模态框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
+      <pre class='prettyprint'><code>$('#myModal').modal('show', 'fit')</code></pre>
+
+      <h5>.modal('hide', position)</h5>
+      <p>手动隐藏模态框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
+      <pre class='prettyprint'><code>$('#myModal').modal('hide', 'fit')</code></pre>
+
+      <h5>.modal('ajustPosition', position)</h5>
+      <p>手动重新调整模态框显示位置。<code>position</code>参数为可选的，用来指定显示的位置。</p>
+      <pre class='prettyprint'><code>$('#myModal').modal('ajustPosition', 'fit')</code></pre>
+
+      <h4>事件</h4>
+      <p>模态框提供了一系列事件用于监听模态框运行状态，便于在合适的时机运行你自己的代码。</p>
+      <table class="table table-bordered">
+        <thead>
+         <tr>
+           <th style="width: 80px;">事件</th>
+           <th>描述</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+           <td><code>show.zui.modal</code></td>
+           <td>当<code>show</code>方法被调用时，此事件将被立即触发。</td>
+         </tr>
+         <tr>
+           <td><code>shown.zui.modal</code></td>
+           <td>当模态对话框呈现到用户面前时（会等待过渡效果执行结束）此事件被触发。</td>
+         </tr>
+         <tr>
+           <td><code>hide.zui.modal</code></td>
+           <td>当<code>hide</code>方法被调用时，此事件将被立即触发。</td>
+         </tr>
+         <tr>
+           <td><code>hidden.zui.modal</code></td>
+           <td>当模态对话框被隐藏（而且过渡效果执行完毕）之后，此事件将被触发。</td>
+         </tr>
+         <tr>
+           <td><code>escaping.zui.modal</code></td>
+           <td>当用户按下<code>esc</code>键来关闭对话框之前会调用此方法，如果在事件回调函数中返回<code>false</code>，则会终止对话框关闭过程。</td>
+         </tr>
+        </tbody>
+      </table>
+      <p>监听事件使用jQuery的on方法：</p>
+          <pre class='prettyprint'><code>$('#myModal').on('shown.zui.modal', function()
+{
+  alert('对话框已显示。');
+})</code></pre>
+
+      <h4>使用要点</h4>
+      <ul>
+        <li>不能在一个模态框上重叠另一个模态框，也不支持在遮罩层同时显示两个以上的模态框；</li>
+        <li>静态模态框的HTML代码应该放在文档最高层级内，作为<code>&lt;body&gt;</code>的直接子元素，以避免与文档中的其他组件冲突；</li>
+        <li>模态框继承自Bootstrap模态框(v3.2)，包含其所有功能和接口。参考：<a target="_blank" href="http://getbootstrap.com/javascript/#modals">英</a>，<a target="_blank" href="http://v3.bootcss.com/javascript/#modals">中</a>。</li>
+      </ul>
+    </section>
+
+    <section id='modaltrigger'>
+      <div class="page-header">
+        <h2>模态框触发器</h2>
       </div>
 
-      <h3>变化</h3>
-      <h4>选项</h4>
-      <p>aria-labelledby="myModalTitle"属性指向模态框标题。</p>
-      <p>aria-hidden="true"告诉辅助性工具略过模态框的DOM元素。</p>
-      <p>aria-describedby='myModelBody'属性用以指向描述信息。</p>
-      <p>
-        通过对div.modal增加data-*选项来改变模态对话框。或通过js改变$('#myModal').modal({ keyboard: false })
-      </p>
-      <table class="table table-bordered table-striped">
+      <p>模态框触发器允许你不需要书写静态模态框HTML，直接使用触发按钮或者一行Javascript代码即可让一个全新的模态框展现。支持使用Ajax从远程获取内容，或者通过iframe加载任何页面内容，当然不使用远程内容，直接使用本地内容也是很方便。</p>
+
+      <h3>实例</h3>
+      <h4>加载远程内容</h4>
+      <p>这里提供两种方法（Ajax和iframe）来加载远程内容，使用起来几乎似乎没有任何区别，你只需要确保远程地址所提供的内容是正确的类型。</p>
+      <p>在获取远程内容到显示的过程中，会显示正在加载的图标动画。</p>
+      <h5>使用Ajax</h5>
+      <p>使用<code>data-remote="(ajax get url)"</code>属性来指定ajax片段获取地址。或者同时指定<code>data-type="ajax"</code>和<code>data-url="(ajax get url)"</code>属性。</p>
+      <div class="example">
+        <button type="button" class="btn btn-primary" data-remote="partial/remote-modal.html" data-toggle="modal">Ajax模态框</button>
+      </div>
+      <pre class='prettyprint'><code>&lt;!-- 使用data-remote属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-remote=&quot;partial/remote-modal.html&quot; data-toggle=&quot;modal&quot;&gt;Ajax模态框&lt;/button&gt;
+
+&lt;!-- 使用data-type 和data-url属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-type=&quot;ajax&quot; data-url=&quot;partial/remote-modal.html&quot; data-toggle=&quot;modal&quot;&gt;Ajax模态框&lg;/button&gt;</code></pre>
+      <p>在返回的ajax片段中，你可以包含一个完整的<code>.modal-dialog</code>内容，或者仅包含<code>.modal-content</code>，甚至不是任何静态modal结构，触发器会根据所包含的内容自动补全对话框的缺失部分。</p>
+
+      <h5>使用iframe（内嵌框架）</h5>
+      <p>使用<code>data-iframe="(iframe url)"</code>属性来指定远程页面内容获取地址。或者同时指定<code>data-type="iframe"</code>和<code>data-url="(iframe url)"</code>属性。</p>
+      <div class="example">
+        <button type="button" class="btn btn-primary" data-iframe="partial/iframe-modal.html" data-toggle="modal">iframe模态框</button>
+      </div>
+      <pre class='prettyprint'><code>&lt;!-- 使用data-iframe属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-iframe=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe模态框&lt;/button&gt;
+
+&lt;!-- 使用data-type 和data-url属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-type=&quot;iframe&quot; data-url=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe模态框&lg;/button&gt;</code></pre>
+
+      <h4>加载自定义内容</h4>
+      <p>通过定义<code>custom</code>属性可以更灵活的为模态框更新内容。</p>
+      <h5>指定内容文本</h5>
+      <p>最简单的方法是为custom指定内容文本即可。同样可以使用<code>data-custom</code>属性。</p>
+      <div class="example">
+        <button type="button" class="btn btn-primary" data-custom="<h1>此内容是自定义的</h1><p>哈哈:)</p>" data-toggle="modal">指定内容文本</button>
+      </div>
+      <pre class='prettyprint'><code>&lt;!-- 使用data-custom 属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-custom=&quot;此内容是自定义的:)&quot; data-toggle=&quot;modal&quot;&gt;指定内容文本&lt;/button&gt;</code></pre>
+
+      <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
+$('#triggerButton').modalTrigger({custom: '&lt;h1&gt;此内容是自定义的&lt;/h1&gt;&lt;p&gt;哈哈:)&lt;/p&gt;'});
+
+/* 使用触发器对象直接显示 */
+(new ModalTrigger({custom: '自定义内容'})).show();</code></pre>
+
+      <h5>指定页面元素作为内容</h5>
+      <p>通过指定一个jQuery选择器名称来获取其内容作为模态框的内容。</p>
+      <div class="example">
+        <div id="myModalAlert" class="alert alert-success with-icon">
+          <i class="icon-ok"></i>
+          <div class="content">我希望能够在对话框看到此消息。</div>
+        </div>
+        <button type="button" class="btn btn-primary" data-custom="#myModalAlert" data-toggle="modal">指定页面元素的内容</button>
+      </div>
+      <pre class='prettyprint'><code>&lt;!-- 使用data-custom 属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-custom=&quot;#myModalAlert&quot; data-toggle=&quot;modal&quot;&gt;指定页面元素的内容&lt;/button&gt;</code></pre>
+      <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
+$('#triggerButton').modalTrigger({custom: '#myModalAlert'});
+
+/* 使用触发器对象直接显示 */
+(new ModalTrigger({custom: '#myModalAlert'})).show();</code></pre>
+
+      <h5>使用jQuery对象作为内容</h5>
+      <p>直接为custom参数赋值为一个jQuery对象，此对象的内容将显示在对话框中。此方式无法使用data属性调用。</p>
+      <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
+$('#triggerButton').modalTrigger({custom: $('#myModalAlert')});
+
+/* 使用触发器对象直接显示 */
+(new ModalTrigger({custom: $('#myModalAlert')})).show();</code></pre>
+
+      <h5>使用回调函数动态生成内容</h5>
+      <p>将一个回调函数赋值给custom参数，触发器对象会自动调用此函数来实时获得动态内容并显示在模态框中。</p>
+      <p>回调函数提供一个参数对象，可以在生成内容时灵活运用。如果生成的内容是异步的时候，需要在内容准备就绪时调用参数提供的<code>.ready()</code>方法来显示模态框。</p>
+      <div class="example">
+        <button type="button" class="btn btn-primary" id="modalTriggerByFunc">使用函数生成内容</button>
+      </div>
+      <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
+$('#triggerButton').modalTrigger({custom: function()
+{
+    return "当模态框显示时，时间是：" + (new Date).toString();
+}});
+
+/* 使用触发器对象直接显示 */
+(new ModalTrigger({custom: function()
+{
+    return "当模态框显示时，时间是：" + (new Date).toString();
+}})).show();</code></pre>
+      <p>如果你的回调函数是全局的，则只需要将custom参数指定为该函数的名称的字符串。</p>
+
+      <h4>自动调整位置</h4>
+      <p>当模态框内的内容发生更改导致模态框尺寸发生改变时，模态框会根据设置自动调整位置。</p>
+      <p>自动调整位置适合任何形式的模态框。</p>
+      <div class="example">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-custom="<div contenteditable='true' style='height: auto' class='form-control'>输入一些内容和换行来更改模态框大小</div>" id="modalTriggerByFunc">测试自动调整位置</button>
+      </div>
+
+      <h4>自定义头部</h4>
+
+      <h5>不显示头部</h5>
+      <p>不显示头部需要指定参数<code>showHeader</code>为<code>false</code>。</p>
+      <div class="example">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-custom="这个模态框不显示头部" data-show-header="false" id="modalTriggerByFunc">不显示头部</button>
+      </div>
+      <pre class='prettyprint'><code>&lt;!-- 使用data-showHeader 属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-show-header=&quot;false&quot; data-toggle=&quot;modal&quot;&gt;不显示头部&lt;/button&gt;</code></pre>
+      <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
+$('#triggerButton').modalTrigger({showHeader: false});
+
+/* 使用触发器对象直接显示 */
+(new ModalTrigger({showHeader: false})).show();</code></pre>
+
+      <h5>自定义模态框标题</h5>
+      <p>如果不指定模态框的标题，会自动使用触发按钮的title属性或文本作为模态框的标题。</p>
+      <div class="example"><button type="button" class="btn btn-primary" data-toggle="modal" data-custom="此模态框的标题是新的" data-title="新的标题很重要" id="modalTriggerByFunc">自定义标题</button></div>
+      <pre class='prettyprint'><code>&lt;!-- 使用data-title 属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-title=&quot;新的标题&quot; data-toggle=&quot;modal&quot;&gt;不显示头部&lt;/button&gt;</code></pre>
+      <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
+$('#triggerButton').modalTrigger({title: '新的标题'});
+
+/* 使用触发器对象直接显示 */
+(new ModalTrigger({title: '新的标题'})).show();</code></pre>
+
+      <h5>使用图标</h5>
+      <p>通过指定<code>icon</code>属性来在标题前面增加一个图标。</p>
+      <p>图标的定义请参考“控件->图标”章节。</p>
+      <div class="example"><button type="button" class="btn btn-primary" data-toggle="modal" data-custom="此模态框标题包含一个图标" data-icon="heart" data-title="图标很重要" id="modalTriggerByFunc">看看图标是什么</button></div>
+      <pre class='prettyprint'><code>&lt;!-- 使用data-title 属性 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-icon=&quot;heart&quot; data-toggle=&quot;modal&quot;&gt;不显示头部&lt;/button&gt;</code></pre>
+      <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
+$('#triggerButton').modalTrigger({icon: 'heart'});
+
+/* 使用触发器对象直接显示 */
+(new ModalTrigger({icon: 'heart'})).show();</code></pre>
+
+      <h3>如何使用</h3>
+      <h4>使用data属性来调用</h4>
+      <p>使用在触发按钮上设置data属性即可使用。此方法与常规模态框触发按钮属性书写方式完全一致，只不过需要增加几个特殊属性，包括<code>data-remote</code>、<code>data-iframe</code>和<code>data-custom</code>。</p>
+      <p>使用dta属性来调用请参考上面的实例章节。</p>
+      <h4>使用Javascript手动调用</h4>
+      <p>Javascript方法也十分灵活。</p>
+      <h5>jQuery对象方法</h5>
+      <p>使得一个jquery对象能够监听事件（一般为点击）并启动模态框。</p>
+      <pre class='prettyprint'><code>$('#triggerButton').modalTrigger(options);</code></pre>
+      <p>也可以使用<code>modalTrigger</code>的别名方法<code>modal</code>，这样与传统模态框的初始化方法完全一致。</p>
+      <h5>使用window对象属性</h5>
+      <p>在window对象上已默认绑定了一个模态框触发器对象，可以直接使用<code>方法</code>并传递不同的参数来随时启动模态框。</p>
+      <pre class='prettyprint'><code>window.modalTrigger.show(options);</code></pre>
+      <h5>创建新的触发器对象</h5>
+      <p>创建一个新的模态框触发器来保存配置并启动模态框。</p>
+      <pre class='prettyprint'><code>var myModalTrigger = new ModalTrigger(options);
+myModalTrigger.show();</code></pre>
+
+      <h4>参数</h4>
+      <p>在初始化模态框或者显示时都能够使用参数来个性化你的模态框。</p>
+      <table class="table table-bordered">
         <thead>
           <tr>
-            <th style="width: 80px;">名称</th>
-            <th style="width: 80px;">类型</th>
-            <th style="width: 80px;">默认值</th>
-            <th>描述</th>
+            <th>参数</th>
+            <th>名称</th>
+            <th>可选值</th>
+            <th>说明</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>backdrop</td>
-            <td>boolean/static</td>
-            <td>true</td>
+            <td><code>type</code></td>
+            <td>模态框类型</td>
             <td>
-              <p>
-                <code>true</code>
-                时，添加一个背景元素，且点击外部区域将其关闭。
-              </p>
-              <p>
-                <code>false</code>
-                时，不会添加背景元素，且点击外部区域不会关闭。
-              </p>
-              <p>
-                <code>static</code>
-                时，添加一个背景元素，且点击外部区域不会关闭。
-              </p>
+              <ul>
+                <li><code>'custom'</code>（默认），自定义类型</li>
+                <li><code>'iframe'</code></li>
+                <li><code>'ajax'</code></li>
+              </ul>
             </td>
+            <td>通常该参数和参数<code>url</code>一起使用，当指定了<code>custom</code>、<code>remote</code>和<code>iframe</code>参数时该参数可以忽略</td>
           </tr>
           <tr>
-            <td>keyboard</td>
-            <td>boolean</td>
-            <td>true</td>
+            <td><code>url</code></td>
+            <td>远程内容地址</td>
             <td>
-              <p>
-                <code>true</code>
-                时，按esc键关闭模态框。
-              </p>
-              <p>
-                <code>false</code>
-                时，按esc不会关闭模态框。
-              </p>
+              远程地址字符串
             </td>
+            <td>通常该参数和<code>type</code>一起似乎用，当指定了<code>custom</code>、<code>remote</code>和<code>iframe</code>参数时该参数可以忽略</td>
           </tr>
           <tr>
-            <td>show</td>
-            <td>boolean</td>
-            <td>true</td>
+            <td><code>remote</code></td>
+            <td>Ajax内容地址</td>
             <td>
-              <p>
-                <code>true</code>
-                时，初始化时即显示模态对话框。
-              </p>
-              <p>
-                <code>true</code>
-                时，初始化时不显示模态对话框。
-              </p>
+              远程地址字符串
             </td>
+            <td>如果使用该参数，则参数<code>type</code>和<code>url</code>可以忽略</td>
           </tr>
           <tr>
-            <td>remote</td>
-            <td>path</td>
-            <td>false</td>
+            <td><code>iframe</code></td>
+            <td>iframe页面地址</td>
             <td>
-              <p>
-                如果提供了远程url地址，就会通过 jQuery的
-                <code>load</code>
-                方法加载内容并注入到
-                <code>.modal-body</code>
-                中。如果你使用的是data属性api，你还可以使用
-                <code>href</code>
-                标签指定远程数据源。
-              </p>
+              远程地址字符串
             </td>
-          </tr>
-        </tbody>
-      </table>
-      <h4>方法和事件</h4>
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th style="width: 80px;">方法</th>
-            <th>例子</th>
-            <th>描述</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>.modal(options)</td>
-            <td>
-              <code>$('#myModal').modal({ keyboard: false })</code>
-            </td>
-            <td>让你指定的内容变成一个模态对话框。接受一个可选的参数object.</td>
+            <td>如果使用该参数，则参数<code>type</code>和<code>url</code>可以忽略</td>
           </tr>
           <tr>
-            <td>.modal('toggle')</td>
+            <td><code>size</code></td>
+            <td>模态框大小</td>
             <td>
-              <code>$('#myModal').modal('toggle')</code>
+              <ul>
+                <li><code>''</code>（默认），默认大小</li>
+                <li><code>'lg'</code>，大模态框</li>
+                <li><code>'sm'</code>，小模态框</li>
+                <li><code>'fullscreen'</code>，全屏显示</li>
+              </ul>
             </td>
-            <td>手动打开或隐藏一个模态对话框。</td>
+            <td></td>
           </tr>
           <tr>
-            <td>.modal('show')</td>
+            <td><code>width</code></td>
+            <td>模态框宽度</td>
             <td>
-              <code>$('#myModal').modal('show')</code>
+              <ul>
+                <li><code>null</code>（默认），默认宽度</li>
+                <li>其他表示宽度的CSS值字符串</li>
+              </ul>
             </td>
-            <td>手动打开一个模态对话框。</td>
+            <td>如果使用<code>size</code>参数，则可以忽略该参数</td>
           </tr>
           <tr>
-            <td>.modal('hide')</td>
+            <td><code>height</code></td>
+            <td>模态框宽度</td>
             <td>
-              <code>$('#myModal').modal('hide')</code>
+              <ul>
+                <li><code>'auto'</code>（默认），自动根据内容调整</li>
+                <li>其他表示高度的CSS值字符串</li>
+              </ul>
             </td>
-            <td>手动隐藏一个模态对话框。</td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th style="width: 80px;">事件</th>
-            <th>使用</th>
-            <th>描述</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>show.bs.modal</td>
-            <td>
-              <code>$('#myModal').on('show.bs.modal', functi'on () { // do something… })</code>
-            </td>
-            <td>
-              当
-              <code>show</code>
-              方法被调用时，此事件将被立即触发。
-            </td>
+            <td>如果指定了高度不是<code>'auto'</code>则可能出现内容与高度不匹配的情况。</td>
           </tr>
           <tr>
-            <td>shown.bs.modal</td>
+            <td><code>showHeader</code></td>
+            <td>是否显示标题</td>
             <td>
-              <code>$('#myModal').on('shown.bs.modal', function () { // do something… })</code>
+              <ul>
+                <li><code>true</code>（默认）</li>
+                <li><code>false</code></li>
+              </ul>
             </td>
-            <td>当模态对话框呈现到用户面前时（会等待过渡效果执行结束）此事件被触发。</td>
+            <td></td>
           </tr>
           <tr>
-            <td>hide.bs.modal</td>
+            <td><code>title</code></td>
+            <td>模态框标题文本</td>
             <td>
-              <code>$('#myModal').on('hide.bs.modal', function () { // do something… })</code>
+              字符串
             </td>
-            <td>
-              当
-              <code>hide</code>
-              方法被调用时，此事件将被立即触发。
-            </td>
+            <td>当参数<code>showHeader</code>为<code>false</code>则此参数无效。</td>
           </tr>
           <tr>
-            <td>hidden.bs.modal</td>
+            <td><code>icon</code></td>
+            <td>模态框标题图标</td>
             <td>
-              <code>$('#myModal').on('hidden.bs.modal', function () { // do something… })</code>
+              图标名称字符串
             </td>
-            <td>当模态对话框被隐藏（而且过渡效果执行完毕）之后，此事件将被触发。</td>
+            <td>当参数<code>showHeader</code>为<code>false</code>则此参数无效。</td>
+          </tr>
+          <tr>
+            <td><code>fade</code></td>
+            <td>是否使用淡入淡出动画</td>
+            <td>
+              <ul>
+                <li><code>true</code>（默认）</li>
+                <li><code>false</code></li>
+              </ul>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><code>pisition</code></td>
+            <td>模态框位置</td>
+            <td>
+              <ul>
+                <li><code>'fit'</code>（默认），最佳位置</li>
+                <li><code>'center'</code>，显示在窗口中间</li>
+                <li>数字，按像素计算与顶部的距离</li>
+                <li><code>''</code>，显示在顶部</li>
+                <li>标识距离的CSS字符串，具体顶部的偏移</li>
+              </ul>
+            </td>
+            <td>最佳位置在窗口中间稍偏上的位置。</td>
+          </tr>
+          <tr>
+            <td><code>backdrop</code></td>
+            <td>背景遮罩</td>
+            <td>
+              <ul>
+                <li><code>true</code>（默认）</li>
+                <li><code>false</code></li>
+                <li><code>'static'</code></li>
+              </ul>
+            </td>
+            <td>使用布尔值来启用或禁用背景遮罩，如果指定为<code>'static'</code>则会启动背景遮罩，但点击背景遮罩时不会触发关闭模态框的过程。</td>
+          </tr>
+          <tr>
+            <td><code>keyboard</code></td>
+            <td>按键</td>
+            <td>
+              <ul>
+                <li><code>true</code>（默认）</li>
+                <li><code>false</code></li>
+              </ul>
+            </td>
+            <td>当为<code>ture</code>时，按下<code>esc</code>键会关闭模态框。</td>
           </tr>
         </tbody>
       </table>
 
-      <h4>改变模态框大小</h4>
-      <p>
-        通过重新定义.modal-dialog宽度
-        <code>.modal-dialog {width:*}</code>
-        来改变模态框大小
-      </p>
-      <div class='example'>
-        <style>#resizedModal .modal-dialog{width:50%;}</style>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#resizedModal">width:50%</button>
-        <div class="modal" id="resizedModal" tabindex="-1" role="dialog" aria-labelledby="resizedModalTitle" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="resizedModalTitle">标题</h4>
-              </div>
-              <div class="modal-body">
-                <h5>
-                  通过重新定义.modal-dialog宽度
-                  <code>.modal-dialog {width:*}</code>
-                  来改变模态框大小
-                </h5>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
-              </div>
-            </div>
-            <!-- /.modal-content --> </div>
-          <!-- /.modal-dialog --> </div>
-        <!-- /.modal --> </div>
-      <h4>载入效果</h4>
-      <p>
-        目前有div.modal.fade和div.modal.in效果，需要
-        <a target='_blank' href='http://v2.bootcss.com/javascript.html#transitions'>transition.js</a>
-        支持。
-      </p>
-      <div class="example">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#tsModal">fade效果</button>
-        <div class="modal fade" id="tsModal" tabindex="-1" role="dialog" aria-labelledby="tsModalTitle" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="tsModalTitle">标题</h4>
-              </div>
-              <div class="modal-body">
-                <p>
-                  目前有div.modal.fade和div.modal.in效果，需要
-                  <a target='_blank' href='http://v2.bootcss.com/javascript.html#transitions'>transition.js</a>
-                  支持。
-                </p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">保存</button>
-              </div>
-            </div>
-            <!-- /.modal-content --> </div>
-          <!-- /.modal-dialog --> </div>
-        <!-- /.modal --> </div>
+      <h4>方法</h4>
+      <h5>获取触发器对象实例</h5>
+      <p>要使用触发器方法，需要首先获取触发器对象的实例。</p>
+      <h6>通过触发按钮的data属性</h6>
+      <pre class='prettyprint'><code>var modalTrigger = $('#triggerButton').data('zui.modaltrigger');</code></pre>
+      <h6>使用window对象绑定的触发器</h6>
+      <pre class='prettyprint'><code>var myTrigger = window.modalTrigger;</code></pre>
+      <h6>创建新的触发器实例</h6>
+      <pre class='prettyprint'><code>var newTrigger = new ModalTrigger(options);</code></pre>
+
+      <h5>显示模态框</h5>
+      <p>在显示模态框时，可以重新传入新的参数，而不影响触发器对象原来的参数。</p>
+      <pre class='prettyprint'><code>myModalTrigger.show(options);</code></pre>
+
+      <h5>关闭模态框</h5>
+      <pre class='prettyprint'><code>myModalTrigger.close();</code></pre>
+
+      <h5>切换显示和关闭状态</h5>
+      <p>如果模态框没有显示，则立即显示，如果已经显示则关闭。</p>
+      <p>在切换显示和关闭状态时，可以重新传入新的参数，而不影响触发器对象原来的参数。</p>
+      <pre class='prettyprint'><code>myModalTrigger.toggle(options);</code></pre>
+
+      <h5>重新调整位置</h5>
+      <p>使用新的位置参数来重新设置模态框的显示位置。</p>
+      <pre class='prettyprint'><code>myModalTrigger.ajustPosition(options);</code></pre>
+
+
+      <h4>事件</h4>
+      <p>因为模态框的DOM内容是动态生成的，不方便使用jQuery方法来绑定事件，不过可以将监听事件的回调函数传入参数中。</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>事件</th>
+            <th>jquery事件名称</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>onShow</code></td>
+            <td><code>show.zui.modal</code></td>
+            <td>当模态框的show方法被调用时立即发生</td>
+          </tr>
+          <tr>
+            <td><code>shown</code></td>
+            <td><code>shown.zui.modal</code></td>
+            <td>当模态框完全显示后发生（执行完显示动画之后）</td>
+          </tr>
+          <tr>
+            <td><code>onHide</code></td>
+            <td><code>hide.zui.modal</code></td>
+            <td>当模态框hide方法被调用是立即发生</td>
+          </tr>
+          <tr>
+            <td><code>hidden</code></td>
+            <td><code>hidden.zui.modal</code></td>
+            <td>当模态框完全隐藏后发生（执行完隐藏动画之后）</td>
+          </tr>
+          <tr>
+            <td><code>loaded</code></td>
+            <td><code>loaded.zui.modal</code></td>
+            <td>当远程内容加载完成后发生</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <pre class='prettyprint'><code>myModalTrigger.show({shown: function()
+{
+    alert('模态框已显示。');
+}});</code></pre>
+
+      <p>如果模态框的<code>name</code>参数是已知的，则可以获取模态框的jquery对象实例通过jQuery对象的on方法来绑定事件。</p>
+      <pre class='prettyprint'><code>$('#triggerModal').on('shown.zui.modal', function(){...});</code></pre>
     </section>
 
     <section id='dropdowns'>
@@ -2476,8 +2865,61 @@ store.pageClear();                                     // 清空所有本地存�
   </div>
   <div style="height: 300px"></div>
 
+<!-- modal examples -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+        <h4 class="modal-title">对话框标题</h4>
+      </div>
+      <div class="modal-body">
+        <h4>虞美人·春花秋月何时了 <small>五代·李煜</small></h4>
+        <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。<br>雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myLgModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+        <h4 class="modal-title">大模态框</h4>
+      </div>
+      <div class="modal-body">...</div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="mySmModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+        <h4 class="modal-title">小模态框</h4>
+      </div>
+      <div class="modal-body">...</div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="fastModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+        <h4 class="modal-title">禁用动画效果演示</h4>
+      </div>
+      <div class="modal-body">...</div>
+    </div>
+  </div>
+</div>
+
   <script src="../assets/jquery.js"></script>
-  <script src="../dist/js/zui.min.js"></script>
+  <script src="../dist/js/zui.js"></script>
   <script src="../assets/datetimepicker/js/datetimepicker.min.js"></script>
   <script src="../assets/chosen/js/chosen.jquery.min.js"></script>
   <script src="../assets/chosen/js/chosen.icons.min.js" type="text/javascript"></script>
@@ -2528,6 +2970,12 @@ store.pageClear();                                     // 清空所有本地存�
       });
 
       refershStore();
+
+      /* modal trigger */
+      $('#modalTriggerByFunc').modalTrigger({custom: function()
+      {
+          return "当模态框显示时，时间是：" + (new Date).toString();
+      }});
   });
   </script>
 

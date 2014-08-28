@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.1.0 - 2014-08-18
+ * ZUI - v1.1.0 - 2014-08-28
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -668,14 +668,14 @@ String.prototype.isNum = function(s)
         }
     });
 
-    $.fn.callEvent = function(name, event, modal)
+    $.fn.callEvent = function(name, event, model)
     {
         var $this = $(this);
         var dotIndex = name.indexOf('.zui.');
         var shortName = name;
-        if(dotIndex < 0 && modal && modal.name)
+        if(dotIndex < 0 && model && model.name)
         {
-            name += '.' + modal.name;
+            name += '.' + model.name;
         }
         else
         {
@@ -683,19 +683,19 @@ String.prototype.isNum = function(s)
         }
         var e     = $.Event(name, event);
 
-        var result =$this.trigger(e);
+        var result = $this.trigger(e);
 
-        if((typeof modal === 'undefined') && dotIndex > 0)
+        if((typeof model === 'undefined') && dotIndex > 0)
         {
-            modal = $this.data(name.substring(dotIndex + 1));
+            model = $this.data(name.substring(dotIndex + 1));
         }
 
-        if(modal && modal.options)
+        if(model && model.options)
         {
-            var func = modal.options[shortName];
+            var func = model.options[shortName];
             if($.isFunction(func))
             {
-                $.callEvent(modal.options[shortName], e, modal);
+                $.callEvent(model.options[shortName], e, model);
             }
         }
         return e;
@@ -726,26 +726,16 @@ String.prototype.isNum = function(s)
 }(jQuery,window,document,Math);
 
 /* ========================================================================
- * Bootstrap: transition.js v3.0.2
+ * Bootstrap: transition.js v3.2.0
  * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
   // ============================================================
@@ -754,10 +744,10 @@ String.prototype.isNum = function(s)
     var el = document.createElement('bootstrap')
 
     var transEndEventNames = {
-      'WebkitTransition' : 'webkitTransitionEnd'
-    , 'MozTransition'    : 'transitionend'
-    // , 'OTransition'      : 'oTransitionEnd otransitionend' // doesn't work in opera11 and disable in opera browsers
-    , 'transition'       : 'transitionend'
+      WebkitTransition : 'webkitTransitionEnd',
+      MozTransition    : 'transitionend',
+      OTransition      : 'oTransitionEnd otransitionend',
+      transition       : 'transitionend'
     }
 
     for (var name in transEndEventNames) {
@@ -765,12 +755,15 @@ String.prototype.isNum = function(s)
         return { end: transEndEventNames[name] }
       }
     }
+
+    return false // explicit for ie8 (  ._.)
   }
 
   // http://blog.alexmaccaw.com/css-transitions
   $.fn.emulateTransitionEnd = function (duration) {
-    var called = false, $el = this
-    $(this).one($.support.transition.end, function () { called = true })
+    var called = false
+    var $el = this
+    $(this).one('bsTransitionEnd', function () { called = true })
     var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
     setTimeout(callback, duration)
     return this
@@ -778,9 +771,20 @@ String.prototype.isNum = function(s)
 
   $(function () {
     $.support.transition = transitionEnd()
+
+    if (!$.support.transition) return
+
+    $.event.special.bsTransitionEnd = {
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
+      handle: function (e) {
+        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+      }
+    }
   })
 
 }(jQuery);
+
 /* ========================================================================
  * Bootstrap: alert.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#alerts
@@ -1324,53 +1328,70 @@ String.prototype.isNum = function(s)
 }(window.jQuery);
 
 /* ========================================================================
- * Bootstrap: modal.js v3.0.0
- * http://twbs.github.com/bootstrap/javascript.html#modals
+ * Bootstrap: modal.js v3.2.0
+ * http://getbootstrap.com/javascript/#modals
  * ========================================================================
- * Copyright 2012 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ========================================================================
+ * Updates in ZUI：
+ * 1. changed event namespace to *.zui.modal
+ * 2. added position option to ajust poisition of modal
+ * 3. added event 'escaping.bs.modal' with an param 'esc' to judge the esc key down
  * ======================================================================== */
 
-
-+function ($) { "use strict";
++function ($) {
+  'use strict';
 
   // MODAL CLASS DEFINITION
   // ======================
 
   var Modal = function (element, options) {
-    this.options   = options
-    this.$element  = $(element)
-    this.$backdrop =
-    this.isShown   = null
+    this.options        = options
+    this.$body          = $(document.body)
+    this.$element       = $(element)
+    this.$backdrop      =
+    this.isShown        = null
+    this.scrollbarWidth = 0
 
-    if (this.options.remote) this.$element.load(this.options.remote)
+    if (this.options.remote) {
+      this.$element
+        .find('.modal-content')
+        .load(this.options.remote, $.proxy(function () {
+          this.$element.trigger('loaded.zui.modal')
+        }, this))
+    }
   }
+
+  Modal.VERSION  = '3.2.0'
+
+  Modal.TRANSITION_DURATION = 300
+  Modal.BACKDROP_TRANSITION_DURATION = 150
 
   Modal.DEFAULTS = {
-      backdrop: true
-    , keyboard: true
-    , show: true
-    , position: 'fit' // 'center' or '40px' or '10%'
+    backdrop: true,
+    keyboard: true,
+    show: true,
+    position: 'fit' // 'center' or '40px' or '10%'
   }
 
-  Modal.prototype.toggle = function (_relatedTarget) {
-    return this[!this.isShown ? 'show' : 'hide'](_relatedTarget)
+  Modal.prototype.toggle = function (_relatedTarget, position) {
+    return this.isShown ? this.hide() : this.show(_relatedTarget, position)
   }
 
-  Modal.prototype.show = function (_relatedTarget) {
+  Modal.prototype.ajustPosition = function(position)
+  {
+      if(typeof position === 'undefined') position = this.options.position;
+      if(typeof position === 'undefined') return;
+      var $dialog = this.$element.find('.modal-dialog');
+      var half = Math.max(0, ($(window).height() - $dialog.outerHeight())/2);
+      var pos = position == 'fit' ? (half*2/3) : (position == 'center' ? half : position);
+      $dialog.css('margin-top', pos);
+  }
+
+  Modal.prototype.show = function (_relatedTarget, position) {
     var that = this
-    var e    = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
+    var e    = $.Event('show.zui.modal', { relatedTarget: _relatedTarget })
 
     this.$element.trigger(e)
 
@@ -1378,18 +1399,24 @@ String.prototype.isNum = function(s)
 
     this.isShown = true
 
+    this.checkScrollbar()
+    this.$body.addClass('modal-open')
+
+    this.setScrollbar()
     this.escape()
 
-    this.$element.on('click.dismiss.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+    this.$element.on('click.dismiss.zui.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
 
     this.backdrop(function () {
       var transition = $.support.transition && that.$element.hasClass('fade')
 
       if (!that.$element.parent().length) {
-        that.$element.appendTo(document.body) // don't move modals dom position
+        that.$element.appendTo(that.$body) // don't move modals dom position
       }
 
-      that.$element.show()
+      that.$element
+        .show()
+        .scrollTop(0)
 
       if (transition) {
         that.$element[0].offsetWidth // force reflow
@@ -1399,32 +1426,26 @@ String.prototype.isNum = function(s)
         .addClass('in')
         .attr('aria-hidden', false)
 
-      if(that.options.position)
-      {
-         var dialog = that.$element.find('.modal-dialog');
-         var half = Math.max(0, ($(window).height() - dialog.outerHeight())/2);
-         var pos = that.options.position == 'fit' ? (half*2/3) : (that.options.position == 'center' ? half : that.options.position);
-         dialog.css('margin-top', pos);
-      }
+      that.ajustPosition(position);
 
       that.enforceFocus()
 
-      var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
+      var e = $.Event('shown.zui.modal', { relatedTarget: _relatedTarget })
 
       transition ?
         that.$element.find('.modal-dialog') // wait for modal to slide in
-          .one($.support.transition.end, function () {
-            that.$element.focus().trigger(e)
+          .one('bsTransitionEnd', function () {
+            that.$element.trigger('focus').trigger(e)
           })
-          .emulateTransitionEnd(300) :
-        that.$element.focus().trigger(e)
+          .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
+        that.$element.trigger('focus').trigger(e)
     })
   }
 
   Modal.prototype.hide = function (e) {
     if (e) e.preventDefault()
 
-    e = $.Event('hide.bs.modal')
+    e = $.Event('hide.zui.modal')
 
     this.$element.trigger(e)
 
@@ -1432,35 +1453,39 @@ String.prototype.isNum = function(s)
 
     this.isShown = false
 
+    this.$body.removeClass('modal-open')
+
+    this.resetScrollbar()
     this.escape()
 
-    $(document).off('focusin.bs.modal')
+    $(document).off('focusin.zui.modal')
 
     this.$element
       .removeClass('in')
       .attr('aria-hidden', true)
-      .off('click.dismiss.modal')
+      .off('click.dismiss.zui.modal')
 
     $.support.transition && this.$element.hasClass('fade') ?
       this.$element
-        .one($.support.transition.end, $.proxy(this.hideModal, this))
-        .emulateTransitionEnd(300) :
+        .one('bsTransitionEnd', $.proxy(this.hideModal, this))
+        .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
       this.hideModal()
   }
 
   Modal.prototype.enforceFocus = function () {
     $(document)
-      .off('focusin.bs.modal') // guard against infinite focus loop
-      .on('focusin.bs.modal', $.proxy(function (e) {
+      .off('focusin.zui.modal') // guard against infinite focus loop
+      .on('focusin.zui.modal', $.proxy(function (e) {
         if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-          this.$element.focus()
+          this.$element.trigger('focus')
         }
       }, this))
   }
 
   Modal.prototype.escape = function () {
     if (this.isShown && this.options.keyboard) {
-      $(document).on('keyup.dismiss.bs.modal', $.proxy(function (e) {
+      $(document).on('keydown.dismiss.zui.modal', $.proxy(function (e)
+      {
         if(e.which == 27)
         {
             var et = $.Event('escaping.bs.modal')
@@ -1470,7 +1495,7 @@ String.prototype.isNum = function(s)
         }
       }, this))
     } else if (!this.isShown) {
-      $(document).off('keyup.dismiss.bs.modal')
+      $(document).off('keydown.dismiss.zui.modal')
     }
   }
 
@@ -1478,8 +1503,7 @@ String.prototype.isNum = function(s)
     var that = this
     this.$element.hide()
     this.backdrop(function () {
-      that.removeBackdrop()
-      that.$element.trigger('hidden.bs.modal')
+      that.$element.trigger('hidden.zui.modal')
     })
   }
 
@@ -1489,16 +1513,16 @@ String.prototype.isNum = function(s)
   }
 
   Modal.prototype.backdrop = function (callback) {
-    var that    = this
+    var that = this
     var animate = this.$element.hasClass('fade') ? 'fade' : ''
 
     if (this.isShown && this.options.backdrop) {
       var doAnimate = $.support.transition && animate
 
       this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
-        .appendTo(document.body)
+        .appendTo(this.$body)
 
-      this.$element.on('click.dismiss.modal', $.proxy(function (e) {
+      this.$element.on('mousedown.dismiss.zui.modal', $.proxy(function (e) {
         if (e.target !== e.currentTarget) return
         this.options.backdrop == 'static'
           ? this.$element[0].focus.call(this.$element[0])
@@ -1513,42 +1537,70 @@ String.prototype.isNum = function(s)
 
       doAnimate ?
         this.$backdrop
-          .one($.support.transition.end, callback)
-          .emulateTransitionEnd(150) :
+          .one('bsTransitionEnd', callback)
+          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
         callback()
 
     } else if (!this.isShown && this.$backdrop) {
       this.$backdrop.removeClass('in')
 
-      $.support.transition && this.$element.hasClass('fade')?
+      var callbackRemove = function () {
+        that.removeBackdrop()
+        callback && callback()
+      }
+      $.support.transition && this.$element.hasClass('fade') ?
         this.$backdrop
-          .one($.support.transition.end, callback)
-          .emulateTransitionEnd(150) :
-        callback()
+          .one('bsTransitionEnd', callbackRemove)
+          .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
+        callbackRemove()
 
     } else if (callback) {
       callback()
     }
   }
 
+  Modal.prototype.checkScrollbar = function () {
+    if (document.body.clientWidth >= window.innerWidth) return
+    this.scrollbarWidth = this.scrollbarWidth || this.measureScrollbar()
+  }
+
+  Modal.prototype.setScrollbar = function () {
+    var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
+    if (this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+  }
+
+  Modal.prototype.resetScrollbar = function () {
+    this.$body.css('padding-right', '')
+  }
+
+  Modal.prototype.measureScrollbar = function () { // thx walsh
+    var scrollDiv = document.createElement('div')
+    scrollDiv.className = 'modal-scrollbar-measure'
+    this.$body.append(scrollDiv)
+    var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+    this.$body[0].removeChild(scrollDiv)
+    return scrollbarWidth
+  }
+
 
   // MODAL PLUGIN DEFINITION
   // =======================
 
-  var old = $.fn.modal
-
-  $.fn.modal = function (option, _relatedTarget) {
+  function Plugin(option, _relatedTarget, position) {
     return this.each(function () {
       var $this   = $(this)
-      var data    = $this.data('bs.modal')
+      var data    = $this.data('zui.modal')
       var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-      if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
-      if (typeof option == 'string') data[option](_relatedTarget)
-      else if (options.show) data.show(_relatedTarget)
+      if (!data) $this.data('zui.modal', (data = new Modal(this, options)))
+      if (typeof option == 'string') data[option](_relatedTarget, position)
+      else if (options.show) data.show(_relatedTarget, position)
     })
   }
 
+  var old = $.fn.modal
+
+  $.fn.modal             = Plugin
   $.fn.modal.Constructor = Modal
 
 
@@ -1564,286 +1616,424 @@ String.prototype.isNum = function(s)
   // MODAL DATA-API
   // ==============
 
-  $(document).on('click.bs.modal.data-api', '[data-toggle="modal"]', function (e) {
+  $(document).on('click.zui.modal.data-api', '[data-toggle="modal"]', function (e) {
     var $this   = $(this)
     var href    = $this.attr('href')
-    var $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, ''))) //strip for ie7
-    if($target.length < 1) return;
-    var option  = $target.data('modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
+    var $target = null
+    try
+    {
+        // strip for ie7
+        $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));
+    } catch(ex){return}
+    if(!$target.length) return;
+    var option  = $target.data('zui.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
 
-    e.preventDefault()
+    if ($this.is('a')) e.preventDefault()
 
-    $target
-      .modal(option, this)
-      .one('hide', function () {
-        $this.is(':visible') && $this.focus()
+    $target.one('show.zui.modal', function (showEvent) {
+      // only register focus restorer if modal will actually get shown
+      if (showEvent.isDefaultPrevented()) return
+      $target.one('hidden.zui.modal', function () {
+        $this.is(':visible') && $this.trigger('focus')
       })
+    })
+    Plugin.call($target, option, this, $this.data('position'))
   })
 
-  $(document)
-    .on('show.bs.modal',  '.modal', function () { $(document.body).addClass('modal-open') })
-    .on('hidden.bs.modal', '.modal', function () { $(document.body).removeClass('modal-open') })
+}(jQuery);
 
-}(window.jQuery);
-
-/* Modal Trigger */
-+function ($, window, document, Math)
+/* ========================================================================
+ * ZUI: modal.trigger.js v1.2.0
+ * http://zui.sexy/docs/javascript.html#modals
+ * Licensed under MIT
+ * ======================================================================== */
++function($)
 {
     "use strict";
 
-    if (!$.fn.modal) throw new Error('Modal trigger requires modal.js')
-    // if (!String.prototype.format) throw new Error('Modal trigger requires string.js')
+    if(!$.fn.modal) throw new Error('Modal trigger requires modal.js')
 
-    var ModalTrigger = function(element, options)
+    // ONCE MODAL CLASS DEFINITION
+    // ======================
+    var ModalTrigger = function(options)
     {
-        this.$         = $(element);
-        this.options   = this.getOptions(options);
+        options      = $.extend({}, ModalTrigger.DEFAULTS, options);
+        this.$modal  = $('#' + options.name);
+        this.isShown = false;
+        this.options = options;
+        this.id      = $.uuid();
 
-        this.init();
+        // todo: handle when: options.show = true
     };
 
     ModalTrigger.DEFAULTS =
     {
-        type:            'ajax',
-        width:           null,
-        height:          'auto',
-        icon:            '*',
-        // title:      '',
-        name:            'modalIframe',
-        fade:             true,
-        // cssClass:   null,
-        // headerless: null,
-        position:        'fit',
-        iframeTeamplate: "<div class='icon-spinner icon-spin loader'></div><div class='modal-dialog modal-iframe' style='width: {width};'><div class='modal-content'><div class='modal-header'><button class='close' data-dismiss='modal'>×</button><h4 class='modal-title'><i class='icon-{icon}'></i> {title}</h4></div><div class='modal-body' style='height:{height}'><iframe id='{name}' name='{name}' src='{url}' frameborder='no' allowtransparency='true' scrolling='auto' hidefocus='' style='width: 100%; height: 100%; left: 0px;'></iframe></div></div></div>",
-        ajaxTeamplate: "<div class='icon-spinner icon-spin loader'></div><div class='modal-dialog modal-ajax' style='width: {width};'><div class='modal-content'><div class='modal-header'><button class='close' data-dismiss='modal'>×</button><h4 class='modal-title'><i class='icon-{icon}'></i> {title}</h4></div><div class='modal-body' style='height:{height}'></div></div></div>"
+        type       : 'custom',
+        width      : null, // number, css definition
+        size       : null, // 'md', 'sm', 'lg', 'fullscreen'
+        height     : 'auto',
+        icon       : null,
+        name       : 'triggerModal',
+        fade       : true,
+        position   : 'fit',
+        showHeader : true,
+        delay      : 0,
+        backdrop   : true,
+        keyboard   : true
     };
 
-
-    ModalTrigger.prototype.getOptions = function (options)
+    ModalTrigger.prototype.init = function(options)
     {
-        options = $.extend({title: this.$.text()}, ModalTrigger.DEFAULTS, this.$.data(), options);
-        if(typeof options.height === 'number') options.height += 'px';
-        if(typeof options.width === 'number') options.width += 'px';
-        if(options.icon == '*')
+        var that = this;
+        if(options.url)
         {
-            var i = this.$.find("[class^='icon-']");
-            options.icon = i.length ? i.attr('class').substring(5) : '';
+            if(!options.type || (options.type != 'ajax' && options.type != 'iframe'))
+            {
+                options.type = 'ajax';
+            }
         }
-        return options;
-    };
-
-    ModalTrigger.prototype.init = function()
-    {
-        this.initModal();
-        this.handleClick();
-    };
-
-    ModalTrigger.prototype.handleClick = function()
-    {
-        var options = this.options;
-        var modal   = this.modal;
-        this.$.click(function(event)
+        if(options.remote)
         {
-            var $e   = $(this);
-            if($e.attr('disabled') == 'disabled' || $e.hasClass('disabled')) return false;
-
-            options.url  = (options ? options.url : false) || $e.attr('href');
-            var cssClass = options.cssClass;
-
-            if(options.size == 'fullscreen')
+            options.type = 'ajax';
+            if(typeof options.remote === 'string') options.url = options.remote;
+        }
+        else if(options.iframe)
+        {
+            options.type = 'iframe';
+            if(typeof options.iframe === 'string') options.url = options.iframe;
+        }
+        else if(options.custom)
+        {
+            options.type = 'custom';
+            if(typeof options.custom === 'string')
             {
-                var $w = $(window);
-                options.width = $w.width();
-                options.height = $w.height();
-                cssClass += ' fullscreen';
-            }
-            if(options.headerless)
-            {
-                cssClass += ' hide-header';
-            }
-            else if(options.size == 'fullscreen')
-            {
-                options.height -= modal.find('.modal-header').outerHeight();
-            }
+                var $doms;
+                try {$doms = $(options.custom);} catch(e){}
 
-            modal.addClass('modal-loading').toggleClass('fade', options.fade);;
-
-            if(options.type === 'custom' && options['custom'])
-            {
-                options['custom']({modal: modal, options: options, element: $e, ready: function()
+                if($doms && $doms.length)
                 {
-                    ajustModalPosition(options.position, modal.find('.modal-dialog'));
-                    modal.removeClass('modal-loading');
-                }});
-            }
-            else if(options.type === 'ajax')
-            {
-                modal.load(options.url, function()
+                    options.custom = $doms;
+                }
+                else if($.isFunction(window[options.custom]))
                 {
-                    setTimeout(function()
-                    {
-                        var modalBody = modal.find('.modal-body'), dialog = modal.find('.modal-dialog');
-                        if(options.width)
-                        {
-                            dialog.css('width', options.width);
-                        }
-                        if(options.height != 'auto') modalBody.css('height', options.height);
-                        if(options.width) dialog.css('width', options.width);
-                        ajustModalPosition(options.position, dialog);
-                        modal.removeClass('modal-loading');
-                    },200);
-                });
+                    options.custom = window[options.custom];
+                }
+            }
+        }
+
+        var $modal = this.$modal;
+        if($modal.length)
+        {
+            if(!this.isShown) $modal.off('.zui.modal');
+            $modal.remove();
+        }
+        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body');
+
+        var bindEvent = function(optonName, eventName)
+        {
+            var handleFunc = options[optonName];
+            if($.isFunction(handleFunc)) $modal.on(eventName + '.zui.modal', handleFunc);
+        };
+        bindEvent('onShow', 'show');
+        bindEvent('shown', 'shown');
+        bindEvent('onHide', 'hide');
+        bindEvent('hidden', 'hidden');
+        bindEvent('loaded', 'loaded');
+
+        $modal.on('shown.zui.modal', function() {that.isShown = true;})
+        $modal.on('hidden.zui.modal', function() {that.isShown = false;})
+
+        this.$modal = $modal;
+        this.$dialog = $modal.find('.modal-dialog');
+    }
+
+    ModalTrigger.prototype.show = function(option)
+    {
+        var options = $.extend({}, this.options, option);
+        this.init(options);
+        var that    = this,
+            $modal  = this.$modal,
+            $dialog = this.$dialog,
+            custom  = options.custom;
+        var $body   = $dialog.find('.modal-body').css('padding', ''),
+            $header = $dialog.find('.modal-header'),
+            $content= $dialog.find('.modal-content');
+
+        $modal.toggleClass('fade', options.fade)
+              .addClass(options.cssClass)
+              .toggleClass('modal-md', options.size === 'md')
+              .toggleClass('modal-sm', options.size === 'sm')
+              .toggleClass('modal-lg', options.size === 'lg')
+              .toggleClass('modal-fullscreen', options.size === 'fullscreen')
+              .toggleClass('modal-loading', !this.isShown);
+        $header.toggle(options.showHeader);
+        $header.find('.modal-icon').attr('class', 'modal-icon icon-' + options.icon);
+        $header.find('.modal-title-name').html(options.title || '');
+        if(options.size && options.size === 'fullscreen')
+        {
+            options.width  = '';
+            options.height = '';
+        }
+
+        var readyToShow = function(delay)
+        {
+            if(typeof delay === 'undefined') delay = 300;
+            // $modal.removeClass('fade');
+            setTimeout(function()
+            {
+                $dialog = $modal.find('.modal-dialog');
+                if(options.width && options.width != 'auto')
+                {
+                    $dialog.css('width', options.width);
+                }
+                if(options.height && options.height != 'auto') $dialog.css('height', options.height);
+                that.ajustPosition(options.position);
+                // if(options.fade) $modal.addClass('fade');
+                $modal.removeClass('modal-loading');
+
+                if(options.type != 'iframe')
+                {
+                    $dialog.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', function(){that.ajustPosition();});
+                }
+            }, delay);
+        };
+
+        if(options.type === 'custom' && custom)
+        {
+            if($.isFunction(custom))
+            {
+                var customContent = custom({modal: $modal, options: options, modalTrigger: that, ready: readyToShow});
+                if(typeof customContent === 'string')
+                {
+                    $body.html(customContent);
+                    readyToShow();
+                }
+            }
+            else if(custom instanceof $)
+            {
+                $body.html($('<div>').append(custom.clone()).html());
+                readyToShow();
             }
             else
             {
-                modal.data('first', true);
-                modal.html(options.iframeTeamplate.format(options));
-                var modalBody = modal.find('.modal-body'), dialog = modal.find('.modal-dialog');
-                if(cssClass)
+                $body.html(custom);
+                readyToShow();
+            }
+        }
+        else if(options.url)
+        {
+            if(options.type === 'iframe')
+            {
+                $modal.addClass('modal-iframe');
+                this.firstLoad = true;
+                var iframeName = 'iframe-' + options.name;
+                $header.detach();
+                $body.detach();
+                $content.empty().append($header).append($body);
+                $body.css('padding', 0)
+                     .html('<iframe id="' + iframeName + '" name="' + iframeName + '" src="' + options.url + '" frameborder="no" allowtransparency="true" scrolling="auto" style="width: 100%; height: 100%; left: 0px;"></iframe>');
+
+                if(options.waittime > 0)
                 {
-                    dialog.addClass(options.cssClass);
-                }
-                if(options.width)
-                {
-                    dialog.css('width', options.width);
+                    that.waitTimeout = setTimeout(readyToShow, options.waittime);
                 }
 
-                var frame = document.getElementById(options.name);
+                var frame = document.getElementById(iframeName);
                 frame.onload = frame.onreadystatechange = function()
                 {
-                    if(!modal.data('first')) modal.addClass('modal-loading');
-                    if (this.readyState && this.readyState != 'complete') return;
-                    modal.data('first', false);
+                    if(that.firstLoad) $modal.addClass('modal-loading');
+                    if(this.readyState && this.readyState != 'complete') return;
+                    that.firstLoad = false;
+
+                    if(options.waittime > 0)
+                    {
+                        clearTimeout(that.waitTimeout);
+                    }
 
                     try
                     {
-                        var $frame = $(window.frames[options.name].document);
-
-                        if(options.height == 'auto' && options.size != 'fullscreen')
+                        var frame$ = window.frames[iframeName].$;
+                        if(frame$ && options.height === 'auto' && options.size != 'fullscreen')
                         {
-                            var $framebody = $frame.find('body');
-                            setTimeout(function()
+                            var $framebody = frame$('body').addClass('body-modal');
+                            var ajustFrameSize = function()
                             {
-                                modalBody.css('height', $framebody.addClass('body-modal').outerHeight());
-                                ajustModalPosition(options.position, dialog);
-                                modal.removeClass('modal-loading');
-                            }, 100);
+                                $modal.removeClass('fade');
+                                var height = $framebody.outerHeight();
+                                $body.css('height', height);
+                                if(options.fade) $modal.addClass('fade');
+                                readyToShow();
+                            };
 
-                            $framebody.resize(function()
-                            {
-                                modalBody.css('height', $framebody.outerHeight());
-                            });
-                        }
-                        else
-                        {
-                            modal.removeClass('modal-loading');
+                            $modal.callEvent('loaded.zui.modal', {modalType: 'iframe'});
+
+                            setTimeout(ajustFrameSize, 100);
+
+                            $frameBody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
                         }
 
-                        var iframe$ = window.frames[options.name].$;
-                        if(iframe$)
-                        {
-                            iframe$.extend({'closeModal': $.closeModal});
-                        }
+                        frame$.extend({closeModal: that.close});
                     }
-                    catch(e){modal.removeClass('modal-loading');}
-                }
-            }
-
-            modal.modal('show')
-
-            /* Save the href to rel attribute thus we can save it. */
-            modal.attr('rel', options.url);
-            return false;
-        });
-    };
-
-    ModalTrigger.prototype.initModal = function()
-    {
-        var name = 'ajaxModal', setting = this.options;
-        var loc  = setting.location;
-        if($('#' + name).length)
-        {
-            /* unbind all events */
-            $(name).off('show.bs.modal shown.bs.modal hide.bs.modal hidden.bs.modal');
-        }
-        else
-        {
-            /* Addpend modal div. */
-            $('<div id="' + name + '" class="modal fade"></div>').appendTo('body');
-        }
-
-        var $ajaxModal = $('#' + name);
-        this.modal = $ajaxModal.data('options', setting);
-        $.extend({'closeModal':function(callback, location)
-        {
-            location = location || loc;
-            $ajaxModal.on('hidden.bs.modal', function()
-            {
-                if(location)
-                {
-                    if(location == 'this') window.location.reload();
-                    else window.location = location;
-                }
-                if(callback && $.isFunction(callback)) callback();
-            });
-            $ajaxModal.modal('hide');
-        }});
-
-        /* rebind events */
-        if(setting.afterShow && $.isFunction(setting.afterShow)) $ajaxModal.on('show.bs.modal', setting.afterShow);
-        if(setting.afterShown && $.isFunction(setting.afterShown)) $ajaxModal.on('shown.bs.modal', setting.afterShown);
-        if(setting.afterHide && $.isFunction(setting.afterHide)) $ajaxModal.on('hide.bs.modal', setting.afterHide);
-        if(setting.afterHidden && $.isFunction(setting.afterHidden)) $ajaxModal.on('hidden.bs.modal', setting.afterHidden);
-    };
-
-    function ajustModalPosition(position, dialog)
-    {
-        if(position)
-        {
-           var half = Math.max(0, ($(window).height() - dialog.outerHeight())/2);
-           var pos = position == 'fit' ? (half*2/3) : (position == 'center' ? half : position);
-           dialog.css('margin-top', pos);
-        }
-    }
-
-    $.fn.modalTrigger = function(option)
-    {
-        return this.each(function()
-        {
-            var $this   = $(this);
-            var data    = $this.data('zui.modalTrigger');
-            var options = typeof option == 'object' && option;
-
-            if (!data) $this.data('zui.dataTable', (data = new ModalTrigger(this, options)));
-
-            if (typeof option == 'string') data[option]();
-        })
-    };
-
-    $(function()
-    {
-        $('[data-toggle="modal"]').each(function(event)
-        {
-            var $this = $(this);
-            var href = $this.attr('href');
-            if($this.hasClass('iframe'))
-            {
-                $this.modalTrigger({type: 'iframe'});
+                    catch(e)
+                    {
+                        readyToShow();
+                    }
+                };
             }
             else
             {
-                var target = $this.attr('href') || $this.data('target');
-                try
+                $.get(options.url, function(data)
                 {
-                  if(!$(target).length) $this.modalTrigger();
-                }
-                catch(e){$this.modalTrigger();}
+                    var $data = $(data);
+                    if($data.hasClass('modal-dialog'))
+                    {
+                        $dialog.replaceWith($data);
+                    }
+                    else if($data.hasClass('modal-content'))
+                    {
+                        $dialog.find('.modal-content').replaceWith($data);
+                    }
+                    else
+                    {
+                        $body.wrapInner($data);
+                    }
+                    $modal.callEvent('loaded.zui.modal', {modalType: 'ajax'});
+                    readyToShow();
+                });
             }
-        });
+        }
 
+        $modal.modal({show: 'show', backdrop: options.backdrop, keyboard: options.keyboard});
+    };
+
+    ModalTrigger.prototype.close = function(callback, redirect)
+    {
+        this.$modal.on('hidden.zui.modal', function()
+        {
+            if($.isFunction(callback)) callback();
+
+            if(typeof redirect === 'string')
+            {
+                if(redirect === 'this') window.location.reload();
+                else window.location = redirect;
+            }
+        }).modal('hide');
+    };
+
+    ModalTrigger.prototype.toggle = function(options)
+    {
+        if(this.isShown) this.close();
+        else this.show(options);
+    };
+
+    ModalTrigger.prototype.ajustPosition = function(position)
+    {
+        this.$modal.modal('ajustPosition', position || this.options.position);
+    };
+
+    window.ModalTrigger = ModalTrigger;
+    window.modalTrigger = new ModalTrigger();
+
+    $.fn.modalTrigger = function(option, settings)
+    {
+        return $(this).each(function()
+        {
+            var $this = $(this);
+            var data    = $this.data('zui.modaltrigger'),
+                options = $.extend(
+                {
+                    title: $this.attr('title') || $this.text(),
+                    url  : $this.attr('href'),
+                    type : $this.hasClass('iframe') ? 'iframe' : ''
+                }, $this.data(), $.isPlainObject(option) && option);
+            if(!data) $this.data('zui.modaltrigger', (data = new ModalTrigger(options)));
+            if (typeof option == 'string') data[option](settings);
+            else if(options.show) data.show(settings);
+
+            $this.on((options.trigger || 'click') + '.toggle.zui.modaltrigger', function(e)
+            {
+                data.toggle(options);
+                if($this.is('a')) e.preventDefault();
+            });
+        });
+    };
+
+    var old = $.fn.modal;
+    $.fn.modal = function(option, settings)
+    {
+        return $(this).each(function()
+        {
+            var $this = $(this);
+            if($this.hasClass('modal')) old.call($this, option, settings);
+            else $this.modalTrigger(option, settings);
+        });
+    };
+
+    function getModal(modal)
+    {
+        var modalType = typeof(modal);
+        if(modalType === 'undefined')
+        {
+            modal = $('.modal.modal-once');
+        }
+        else if(modalType === 'string')
+        {
+            modal = $('#' + modal).replace('##', '#');
+        }
+        if(modal && (modal instanceof $)) return modal;
+        return null;
+    }
+
+    window.closeModal = function(callback, redirect, modal)
+    {
+        modal = getModal(modal);
+        if(modal && modal.length)
+        {
+            modal.each(function()
+            {
+                $(this).data('zui.modaltrigger').close(callback, redirect);
+            });
+        }
+    };
+
+    window.ajustModalPosition = function(position, modal)
+    {
+        modal = getModal(modal);
+        if(modal && modal.length)
+        {
+            modal.modal('ajustPosition', position);
+        }
+    };
+
+    $.extend(
+    {
+        closeModal         : window.closeModal,
+        ajustModalPosition : window.ajustModalPosition
     });
 
-}(window.jQuery, window, document, Math);
+    $(document).on('click.zui.modaltrigger.data-api', '[data-toggle="modal"]', function(e)
+    {
+        var $this   = $(this);
+        var href    = $this.attr('href');
+        var $target = null;
+        try
+        {
+            $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));
+        }catch(ex){}
+        if(!$target || !$target.length)
+        {
+            if(!$this.data('zui.modaltrigger'))
+            {
+                $this.modalTrigger({show: true});
+            }
+            else
+            {
+                $this.trigger('.toggle.zui.modaltrigger');
+            }
+        }
+        if($this.is('a')) {e.preventDefault();}
+    });
+}(window.jQuery);
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
