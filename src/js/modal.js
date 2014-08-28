@@ -4,8 +4,12 @@
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ========================================================================
+ * Updates in ZUI：
+ * 1. changed event namespace to *.zui.modal
+ * 2. added position option to ajust poisition of modal
+ * 3. added event 'escaping.bs.modal' with an param 'esc' to judge the esc key down
  * ======================================================================== */
-
 
 +function ($) {
   'use strict';
@@ -38,11 +42,22 @@
   Modal.DEFAULTS = {
     backdrop: true,
     keyboard: true,
-    show: true
+    show: true,
+    position: 'fit' // 'center' or '40px' or '10%'
   }
 
   Modal.prototype.toggle = function (_relatedTarget) {
     return this.isShown ? this.hide() : this.show(_relatedTarget)
+  }
+
+  Modal.prototype.ajustPosition = function(position)
+  {
+      position = position || this.options.position;
+      if(!position) return;
+      var $dialog = this.$element.find('.modal-dialog');
+      var half = Math.max(0, ($(window).height() - $dialog.outerHeight())/2);
+      var pos = position == 'fit' ? (half*2/3) : (position == 'center' ? half : that.options.position);
+      $dialog.css('margin-top', pos);
   }
 
   Modal.prototype.show = function (_relatedTarget) {
@@ -81,6 +96,8 @@
       that.$element
         .addClass('in')
         .attr('aria-hidden', false)
+
+      that.ajustPosition();
 
       that.enforceFocus()
 
@@ -138,11 +155,18 @@
 
   Modal.prototype.escape = function () {
     if (this.isShown && this.options.keyboard) {
-      this.$element.on('keydown.dismiss.zui.modal', $.proxy(function (e) {
-        e.which == 27 && this.hide()
+      $(document).on('keydown.dismiss.zui.modal', $.proxy(function (e)
+      {
+        if(e.which == 27)
+        {
+            var et = $.Event('escaping.bs.modal')
+            var result = this.$element.triggerHandler(et, 'esc')
+            if(result != undefined && (!result)) return
+            this.hide()
+        }
       }, this))
     } else if (!this.isShown) {
-      this.$element.off('keydown.dismiss.zui.modal')
+      $(document).off('keydown.dismiss.zui.modal')
     }
   }
 
@@ -272,12 +296,14 @@
         // strip for ie7
         $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));
     } catch(ex){return}
+    if(!$target.length) return;
     var option  = $target.data('zui.modal') ? 'toggle' : $.extend({ remote: !/#/.test(href) && href }, $target.data(), $this.data())
 
     if ($this.is('a')) e.preventDefault()
 
     $target.one('show.zui.modal', function (showEvent) {
-      if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
+      // only register focus restorer if modal will actually get shown
+      if (showEvent.isDefaultPrevented()) return
       $target.one('hidden.zui.modal', function () {
         $this.is(':visible') && $this.trigger('focus')
       })
