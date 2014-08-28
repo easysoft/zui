@@ -51,14 +51,14 @@
         }
     });
 
-    $.fn.callEvent = function(name, event, modal)
+    $.fn.callEvent = function(name, event, model)
     {
         var $this = $(this);
         var dotIndex = name.indexOf('.zui.');
         var shortName = name;
-        if(dotIndex < 0 && modal && modal.name)
+        if(dotIndex < 0 && model && model.name)
         {
-            name += '.' + modal.name;
+            name += '.' + model.name;
         }
         else
         {
@@ -66,19 +66,19 @@
         }
         var e     = $.Event(name, event);
 
-        var result =$this.trigger(e);
+        var result = $this.trigger(e);
 
-        if((typeof modal === 'undefined') && dotIndex > 0)
+        if((typeof model === 'undefined') && dotIndex > 0)
         {
-            modal = $this.data(name.substring(dotIndex + 1));
+            model = $this.data(name.substring(dotIndex + 1));
         }
 
-        if(modal && modal.options)
+        if(model && model.options)
         {
-            var func = modal.options[shortName];
+            var func = model.options[shortName];
             if($.isFunction(func))
             {
-                $.callEvent(modal.options[shortName], e, modal);
+                $.callEvent(model.options[shortName], e, model);
             }
         }
         return e;
