@@ -11,16 +11,16 @@
 
     // ONCE MODAL CLASS DEFINITION
     // ======================
-    var OnceModal = function(options)
+    var ModalTrigger = function(options)
     {
-        options      = $.extend(OnceModal.DEFAULTS, options);
+        options      = $.extend(ModalTrigger.DEFAULTS, options);
         this.$modal  = $('#' + options.name);
         this.isShown = false;
         this.options = options;
         this.id      = $.uuid();
     };
 
-    OnceModal.DEFAULTS =
+    ModalTrigger.DEFAULTS =
     {
         type       : 'custom',
         width      : null, // number, css definition
@@ -36,7 +36,7 @@
         keyboard   : true
     };
 
-    OnceModal.prototype.init = function(options)
+    ModalTrigger.prototype.init = function(options)
     {
         var that = this;
         if(options.url)
@@ -63,7 +63,7 @@
             if(!this.isShown) $modal.off('.zui.modal');
             $modal.remove();
         }
-        $modal = $('<div id="' + options.name + '" class="modal modal-once"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body');
+        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body');
 
         var bindEvent = function(optonName, eventName)
         {
@@ -79,11 +79,11 @@
         $modal.on('shown.zui.modal', function() {that.isShown = true;})
         $modal.on('hidden.zui.modal', function() {that.isShown = false;})
 
-        this.$modal = $modal.data('zui.oncemodal', this);
+        this.$modal = $modal.data('zui.modaltrigger', this);
         this.$dialog = $modal.find('.modal-dialog');
     }
 
-    OnceModal.prototype.show = function(options)
+    ModalTrigger.prototype.show = function(options)
     {
         options = $.extend({}, this.options, options);
         // console.log('>>> show:' + this.id);
@@ -135,7 +135,7 @@
         {
             if($.isFunction(custom))
             {
-                $body.html(custom({modal: $modal, options: options, onceModal: that, ready: readyToShow}));
+                $body.html(custom({modal: $modal, options: options, modalTrigger: that, ready: readyToShow}));
             }
             else if(custom instanceof $)
             {
@@ -233,7 +233,7 @@
         $modal.modal({show: 'show', backdrop: options.backdrop, keyboard: options.keyboard});
     };
 
-    OnceModal.prototype.close = function(callback, redirect)
+    ModalTrigger.prototype.close = function(callback, redirect)
     {
         this.$modal.on('hidden.zui.modal', function()
         {
@@ -247,36 +247,37 @@
         }).modal('hide');
     };
 
-    OnceModal.prototype.toggle = function(options)
+    ModalTrigger.prototype.toggle = function(options)
     {
         if(this.isShown) this.close();
         else this.show(options);
     };
 
-    OnceModal.prototype.ajustPosition = function(position)
+    ModalTrigger.prototype.ajustPosition = function(position)
     {
-        ajustModalPosition(position || this.options.position, this.$modal);
+        this.$modal.modal('ajustPosition', position || this.options.position);
     };
 
-    window.onceModal = new OnceModal();
+    window.ModalTrigger = ModalTrigger;
+    window.modalTrigger = new ModalTrigger();
 
-    $.fn.oncemodal = function(option, settings)
+    $.fn.modalTrigger = function(option, settings)
     {
         return $(this).each(function()
         {
             var $this = $(this);
-            var data    = $this.data('zui.oncemodal'),
+            var data    = $this.data('zui.modaltrigger'),
                 options = $.extend(
                 {
                     title: $this.attr('title') || $this.text(),
                     url  : $this.attr('href'),
                     type : $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
-            if(!data) $this.data('zui.oncemodal', (data = new OnceModal(options)));
+            if(!data) $this.data('zui.modaltrigger', (data = new ModalTrigger(options)));
             if (typeof option == 'string') data[option](settings);
             else if(options.show) data.show(settings);
 
-            $this.on((options.trigger || 'click') + '.toggle.zui.oncemodal', function(e)
+            $this.on((options.trigger || 'click') + '.toggle.zui.modaltrigger', function(e)
             {
                 data.toggle(options);
                 if($this.is('a')) e.preventDefault();
@@ -291,11 +292,9 @@
         {
             var $this = $(this);
             if($this.hasClass('modal')) old.call($this, option, settings);
-            else $this.oncemodal(option, settings);
+            else $this.modalTrigger(option, settings);
         });
     };
-
-    $.fn.modalTrigger = $.fn.oncemodal;
 
     function getModal(modal)
     {
@@ -319,7 +318,7 @@
         {
             modal.each(function()
             {
-                $(this).data('zui.oncemodal').close(callback, redirect);
+                $(this).data('zui.modaltrigger').close(callback, redirect);
             });
         }
     };
@@ -331,11 +330,12 @@
         {
             modal.each(function()
             {
-                var $dialog = $(this).find('.modal-dialog');
-                position = position || 'fit';
-                var half = Math.max(0, ($(window).height() - $dialog.outerHeight())/2);
-                var pos  = position == 'fit' ? (half*2/3) : (position == 'center' ? half : position);
-                $dialog.css('margin-top', pos);
+                modal.modal('ajustPosition', position);
+                // var $dialog = $(this).find('.modal-dialog');
+                // position = position || 'fit';
+                // var half = Math.max(0, ($(window).height() - $dialog.outerHeight())/2);
+                // var pos  = position == 'fit' ? (half*2/3) : (position == 'center' ? half : position);
+                // $dialog.css('margin-top', pos);
             });
         }
     };
@@ -346,7 +346,7 @@
         ajustModalPosition : window.ajustModalPosition
     });
 
-    $(document).on('click.zui.oncemodal.data-api', '[data-toggle="modal"]', function(e)
+    $(document).on('click.zui.modaltrigger.data-api', '[data-toggle="modal"]', function(e)
     {
         var $this   = $(this);
         var href    = $this.attr('href');
@@ -357,11 +357,11 @@
         }catch(ex){}
         if(!$target || !$target.length)
         {
-            if(!$this.data('zui.oncemodal'))
+            if(!$this.data('zui.modaltrigger'))
             {
-                $this.oncemodal({show: true});
+                $this.modalTrigger({show: true});
             }
-            $this.trigger('.toggle.zui.oncemodal');
+            $this.trigger('.toggle.zui.modaltrigger');
         }
         if($this.is('a')) {e.preventDefault();}
     });
