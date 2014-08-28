@@ -6,7 +6,7 @@
   <link href="../css/example.css" rel="stylesheet">
 
   <script src="../../assets/jquery.js"></script>
-  <script src="../../dist/js/zui.min.js"></script>
+  <script src="../../dist/js/zui.js"></script>
 
 
   <link href="../css/example.css" rel="stylesheet">
@@ -98,7 +98,9 @@
     </div><!-- /.modal -->
 
     <h4>框架对话框触发器</h4>
-    <a href="alerts.html" data-toggle='modal' class='btn btn-success'><i class='icon-heart'></i> 打开框架对话框</a>
+    <a href="alerts.html" data-type='iframe' data-toggle='modal' class='btn btn-success'><i class='icon-heart'></i> 打开框架对话框</a>
+    <br>
+    <a href="partial/dialog.html" data-type='ajax' data-toggle='modal' class='btn btn-success'><i class='icon-heart'></i> 打开ajax对话框</a>
 
     <h3>变化</h3>
     <h4>选项</h4>
@@ -273,7 +275,9 @@
                 remote:"partial/dialog.html",
                 backdrop:'static'
             })
-         })
+         });
+
+        // window.onbeforeunload = function(){return 'fdsfd'};
     })
     </script>
   </section>
