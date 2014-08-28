@@ -46,21 +46,21 @@
     position: 'fit' // 'center' or '40px' or '10%'
   }
 
-  Modal.prototype.toggle = function (_relatedTarget) {
-    return this.isShown ? this.hide() : this.show(_relatedTarget)
+  Modal.prototype.toggle = function (_relatedTarget, position) {
+    return this.isShown ? this.hide() : this.show(_relatedTarget, position)
   }
 
   Modal.prototype.ajustPosition = function(position)
   {
-      position = position || this.options.position;
-      if(!position) return;
+      if(typeof position === 'undefined') position = this.options.position;
+      if(typeof position === 'undefined') return;
       var $dialog = this.$element.find('.modal-dialog');
       var half = Math.max(0, ($(window).height() - $dialog.outerHeight())/2);
-      var pos = position == 'fit' ? (half*2/3) : (position == 'center' ? half : that.options.position);
+      var pos = position == 'fit' ? (half*2/3) : (position == 'center' ? half : position);
       $dialog.css('margin-top', pos);
   }
 
-  Modal.prototype.show = function (_relatedTarget) {
+  Modal.prototype.show = function (_relatedTarget, position) {
     var that = this
     var e    = $.Event('show.zui.modal', { relatedTarget: _relatedTarget })
 
@@ -97,7 +97,7 @@
         .addClass('in')
         .attr('aria-hidden', false)
 
-      that.ajustPosition();
+      that.ajustPosition(position);
 
       that.enforceFocus()
 
@@ -257,15 +257,15 @@
   // MODAL PLUGIN DEFINITION
   // =======================
 
-  function Plugin(option, _relatedTarget) {
+  function Plugin(option, _relatedTarget, position) {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('zui.modal')
       var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
       if (!data) $this.data('zui.modal', (data = new Modal(this, options)))
-      if (typeof option == 'string') data[option](_relatedTarget)
-      else if (options.show) data.show(_relatedTarget)
+      if (typeof option == 'string') data[option](_relatedTarget, position)
+      else if (options.show) data.show(_relatedTarget, position)
     })
   }
 
@@ -308,7 +308,7 @@
         $this.is(':visible') && $this.trigger('focus')
       })
     })
-    Plugin.call($target, option, this)
+    Plugin.call($target, option, this, $this.data('position'))
   })
 
 }(jQuery);
