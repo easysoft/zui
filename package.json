@@ -1,8 +1,8 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.1.0",
-  "description": "An attractive web UI framework and design guide.",
+  "version": "1.2.0-beta",
+  "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
   "main": "index.html",
   "directories": {
     "doc": "docs"
