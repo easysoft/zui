@@ -3,7 +3,7 @@
     "string.js",
     "hotkeys.js",
     "resize.js",
-    "unities.js",
+    "jquery.extensions.js",
     "device.js",
     "transition.js",
     "alert.js",

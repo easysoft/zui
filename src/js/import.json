@@ -6,7 +6,7 @@
     "string.js",
     "date.js",
     "cookie.js",
-    "unities.js",
+    "jquery.extensions.js",
     "browser.js",
     "device.js",
     "transition.js",
