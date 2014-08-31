@@ -53,7 +53,7 @@ $(function()
             var $this = $(this);
             var href = $this.attr('href');
             var target = href.substring(href.indexOf('#'), href.length);
-            $this.attr('data-target', target);
+            $this.attr('data-target', target).attr('href', fixPath($this.attr('href')));
         });
 
         $('body').addClass('with-navbar').scrollspy({target: '#navbar-collapse'});
