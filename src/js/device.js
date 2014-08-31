@@ -1,5 +1,5 @@
 /* Device */
-+function($, window, document, Math)
++function($)
 {
     var desktopLg = 1200,
         desktop   = 992,
@@ -19,4 +19,4 @@
 
     $(window).resize(resetCssClass);
     resetCssClass();
-}(jQuery,window,document,Math);
+}(jQuery);
