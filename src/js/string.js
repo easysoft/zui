@@ -4,6 +4,7 @@
  * @param  object|array args
  * @return string
  */
+(function(){
 String.prototype.format = function(args)
 {
     var result = this;
@@ -54,3 +55,4 @@ String.prototype.isNum = function(s)
     }
     return false;
 }
+})();
