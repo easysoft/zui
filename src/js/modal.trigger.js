@@ -14,7 +14,7 @@
     var ModalTrigger = function(options)
     {
         options      = $.extend({}, ModalTrigger.DEFAULTS, options);
-        this.$modal  = $('#' + options.name);
+        this.$modal;
         this.isShown = false;
         this.options = options;
         this.id      = $.uuid();
@@ -77,7 +77,7 @@
             }
         }
 
-        var $modal = this.$modal;
+        var $modal = $('#' + options.name);
         if($modal.length)
         {
             if(!this.isShown) $modal.off('.zui.modal');
