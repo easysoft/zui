@@ -1,9 +1,152 @@
 +function ($, Math, window) { "use strict";
 
     var hexReg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+    var namedColors =
+    {
+        aliceblue: '#f0f8ff',
+        antiquewhit: '#faebd7',
+        aqu: '#00ffff',
+        aquamarin: '#7fffd4',
+        azure: '#f0ffff',
+        beige: '#f5f5dc',
+        bisqu: '#ffe4c4',
+        black: '#000000',
+        blanchedalmon: '#ffebcd',
+        blu: '#0000ff',
+        blueviole: '#8a2be2',
+        brown: '#a52a2a',
+        burlywood: '#deb887',
+        cadetblue: '#5f9ea0',
+        chartreus: '#7fff00',
+        chocolate: '#d2691e',
+        coral: '#ff7f50',
+        cornflowerblu: '#6495ed',
+        cornsil: '#fff8dc',
+        crimson: '#dc143c',
+        cya: '#00ffff',
+        darkblu: '#00008b',
+        darkcya: '#008b8b',
+        darkgoldenrod: '#b8860b',
+        darkgra: '#a9a9a9',
+        darkgreen: '#006400',
+        darkkhaki: '#bdb76b',
+        darkmagenta: '#8b008b',
+        darkolivegree: '#556b2f',
+        darkorang: '#ff8c00',
+        darkorchi: '#9932cc',
+        darkred: '#8b0000',
+        darksalmo: '#e9967a',
+        darkseagree: '#8fbc8f',
+        darkslateblue: '#483d8b',
+        darkslategray: '#2f4f4f',
+        darkturquoise: '#00ced1',
+        darkviole: '#9400d3',
+        deeppin: '#ff1493',
+        deepskyblue: '#00bfff',
+        dimgray: '#696969',
+        dodgerblu: '#1e90ff',
+        firebrick: '#b22222',
+        floralwhite: '#fffaf0',
+        forestgreen: '#228b22',
+        fuchsia: '#ff00ff',
+        gainsboro: '#dcdcdc',
+        ghostwhit: '#f8f8ff',
+        gol: '#ffd700',
+        goldenrod: '#daa520',
+        gra: '#808080',
+        green: '#008000',
+        greenyellow: '#adff2f',
+        honeyde: '#f0fff0',
+        hotpink: '#ff69b4',
+        indianred: '#cd5c5c',
+        indigo: '#4b0082',
+        ivory: '#fffff0',
+        khaki: '#f0e68c',
+        lavende: '#e6e6fa',
+        lavenderblush: '#fff0f5',
+        lawngreen: '#7cfc00',
+        lemonchiffo: '#fffacd',
+        lightblue: '#add8e6',
+        lightcora: '#f08080',
+        lightcyan: '#e0ffff',
+        lightgoldenrodyello: '#fafad2',
+        lightgray: '#d3d3d3',
+        lightgree: '#90ee90',
+        lightpink: '#ffb6c1',
+        lightsalmon: '#ffa07a',
+        lightseagreen: '#20b2aa',
+        lightskyblu: '#87cefa',
+        lightslategra: '#778899',
+        lightsteelblu: '#b0c4de',
+        lightyellow: '#ffffe0',
+        lim: '#00ff00',
+        limegreen: '#32cd32',
+        linen: '#faf0e6',
+        magenta: '#ff00ff',
+        maroo: '#800000',
+        mediumaquamarin: '#66cdaa',
+        mediumblu: '#0000cd',
+        mediumorchi: '#ba55d3',
+        mediumpurpl: '#9370db',
+        mediumseagree: '#3cb371',
+        mediumslateblue: '#7b68ee',
+        mediumspringgreen: '#00fa9a',
+        mediumturquoise: '#48d1cc',
+        mediumvioletred: '#c71585',
+        midnightblu: '#191970',
+        mintcream: '#f5fffa',
+        mistyrose: '#ffe4e1',
+        moccasi: '#ffe4b5',
+        navajowhite: '#ffdead',
+        nav: '#000080',
+        oldlace: '#fdf5e6',
+        olive: '#808000',
+        olivedrab: '#6b8e23',
+        orang: '#ffa500',
+        orangered: '#ff4500',
+        orchi: '#da70d6',
+        palegoldenrod: '#eee8aa',
+        palegreen: '#98fb98',
+        paleturquoise: '#afeeee',
+        palevioletred: '#db7093',
+        papayawhi: '#ffefd5',
+        peachpuff: '#ffdab9',
+        per: '#cd853f',
+        pin: '#ffc0cb',
+        plu: '#dda0dd',
+        powderblu: '#b0e0e6',
+        purpl: '#800080',
+        red: '#ff0000',
+        rosybrown: '#bc8f8f',
+        royalblue: '#4169e1',
+        saddlebrown: '#8b4513',
+        salmo: '#fa8072',
+        sandybrow: '#f4a460',
+        seagree: '#2e8b57',
+        seashel: '#fff5ee',
+        sienn: '#a0522d',
+        silve: '#c0c0c0',
+        skyblue: '#87ceeb',
+        slateblue: '#6a5acd',
+        slategray: '#708090',
+        sno: '#fffafa',
+        springgreen: '#00ff7f',
+        steelblue: '#4682b4',
+        tan: '#d2b48c',
+        tea: '#008080',
+        thistle: '#d8bfd8',
+        tomat: '#ff6347',
+        turquoise: '#40e0d0',
+        viole: '#ee82ee',
+        wheat: '#f5deb3',
+        white: '#ffffff',
+        whitesmok: '#f5f5f5',
+        yello: '#ffff00',
+        yellowgreen: '#9acd32'
+    };
 
     /* color */
-    var color = function(r, g, b, a)
+    var Color = function(r, g, b, a)
     {
         this.r = 0;
         this.g = 0;
@@ -23,7 +166,19 @@
             var type = typeof(r);
             if(type == 'string')
             {
-                this.rgb(hexToRgb(r));
+                r = r.toLowerCase();
+                if(r === 'transparent')
+                {
+                    this.a = 0;
+                }
+                else if(namedColors[r])
+                {
+                    this.rgb(hexToRgb(namedColors[r]));
+                }
+                else
+                {
+                    this.rgb(hexToRgb(r));
+                }
             }
             else if(type == 'number' && g == undefined)
             {
@@ -50,7 +205,7 @@
         }
     }
 
-    color.prototype.rgb = function(rgb)
+    Color.prototype.rgb = function(rgb)
     {
         if(rgb != undefined)
         {
@@ -73,7 +228,7 @@
         else return {r: this.r, g: this.g, b: this.b, a: this.a};
     }
 
-    color.prototype.hue = function(hue)
+    Color.prototype.hue = function(hue)
     {
         var hsl = this.toHsl();
 
@@ -87,7 +242,7 @@
         }
     }
 
-    color.prototype.darken = function(amount)
+    Color.prototype.darken = function(amount)
     {
         var hsl = this.toHsl();
 
@@ -98,24 +253,24 @@
         return this;
     }
 
-    color.prototype.clone = function()
+    Color.prototype.clone = function()
     {
-        return new color(this.r, this.g, this.b, this.a);
+        return new Color(this.r, this.g, this.b, this.a);
     }
 
-    color.prototype.lighten = function(amount)
+    Color.prototype.lighten = function(amount)
     {
         return this.darken(-amount);
     }
 
-    color.prototype.fade = function(amount)
+    Color.prototype.fade = function(amount)
     {
         this.a = clamp(amount/100, 1);
 
         return this;
     }
 
-    color.prototype.spin = function(amount)
+    Color.prototype.spin = function(amount)
     {
         var hsl = this.toHsl();
         var hue = (hsl.h + amount) % 360;
@@ -126,7 +281,7 @@
         return this;
     }
 
-    color.prototype.toHsl = function()
+    Color.prototype.toHsl = function()
     {
         var r = this.r/ 255,
         g = this.g / 255,
@@ -139,7 +294,7 @@
         if (max === min)
         {
             h = s = 0;
-        } 
+        }
         else
         {
             s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -155,7 +310,7 @@
         return { h: h * 360, s: s, l: l, a: a };
     }
 
-    color.prototype.luma = function()
+    Color.prototype.luma = function()
     {
         var r = this.r / 255,
             g = this.g / 255,
@@ -168,7 +323,7 @@
         return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     }
 
-    color.prototype.saturate = function(amount)
+    Color.prototype.saturate = function(amount)
     {
         var hsl = this.toHsl();
 
@@ -180,20 +335,22 @@
         return this;
     }
 
-    color.prototype.desaturate = function(amount)
+    Color.prototype.desaturate = function(amount)
     {
         return this.saturate(-amount);
     }
 
-    color.prototype.contrast = function(dark, light, threshold)
+    Color.prototype.contrast = function(dark, light, threshold)
     {
+        if (typeof light === 'undefined') light = new Color(255,255,255,1);
+        else light = new Color(light);
+        if (typeof dark === 'undefined') dark = new Color(0,0,0,1);
+        else dark = new Color(dark);
+
+        if(this.a < 0.5) return dark;
+
         if(threshold == undefined) threshold = 0.43;
         else threshold = number(threshold);
-
-        if (typeof light === 'undefined') light = new color(255,255,255,1);
-        else light = new color(light);
-        if (typeof dark === 'undefined') dark = new color(0,0,0,1);
-        else dark = new color(dark);
 
         if (dark.luma() > light.luma())
         {
@@ -205,17 +362,15 @@
         if (this.luma() < threshold)
         {
             return light;
-        } 
+        }
         else
         {
             return dark;
         }
     }
 
-    color.prototype.hexStr = function()
+    Color.prototype.hexStr = function()
     {
-        // return 'rgb('+this.r+','+this.g+','+this.b+')';
-
         var r = this.r.toString(16),
             g = this.g.toString(16),
             b = this.b.toString(16);
@@ -226,7 +381,26 @@
         return '#' + r + g + b;
     }
 
-    color.prototype.isHexColor = isHexColor;
+    Color.prototype.toCssStr = function()
+    {
+        if(this.a > 0)
+        {
+            if(this.a < 1)
+            {
+                return 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
+            }
+            else
+            {
+                return this.hexStr();
+            }
+        }
+        else
+        {
+            return 'transparent';
+        }
+    };
+
+    Color.prototype.isColor = isColor;
 
     /* helpers */
     function hexToRgb(hex)
@@ -239,16 +413,15 @@
                 var hexNew = "#";
                 for(var i=1; i<4; i+=1)
                 {
-                    hexNew += hex.slice(i,i+1).concat(hex.slice(i,i+1));   
+                    hexNew += hex.slice(i,i+1).concat(hex.slice(i,i+1));
                 }
                 hex = hexNew;
             }
 
-            //处理六位的颜色值
             var hexChange = [];
             for(var i=1; i<7; i+=2)
             {
-                hexChange.push(parseInt('0x' + hex.slice(i, i + 2)));  
+                hexChange.push(parseInt('0x' + hex.slice(i, i + 2)));
             }
             return {r: hexChange[0], g: hexChange[1], b: hexChange[2], a: 1};
         }
@@ -258,9 +431,9 @@
         }
     }
 
-    function isHexColor(hex)
+    function isColor(hex)
     {
-        return hex && hexReg.test($.trim(hex.toLowerCase()));
+        return typeof(hex) === 'string' && (hex.toLowerCase() === 'transparent' || namedColors[hex.toLowerCase()] || hexReg.test($.trim(hex.toLowerCase())));
     }
 
     function hslToRgb(hsl)
@@ -305,7 +478,7 @@
 
     function clamp(v, max)
     {
-        return fit(v, max); 
+        return fit(v, max);
     }
 
     function number(n)
@@ -314,6 +487,6 @@
         return parseFloat(n);
     }
 
-    window.color = color;
+    window.Color = Color;
 
 }(window.jQuery, Math, window);
