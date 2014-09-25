@@ -1,7 +1,7 @@
 [
     "resize.js",
     "string.js",
-    "unities.js",
+    "jquery.extensions.js",
     "browser.js",
     "device.js",
     "transition.js",
@@ -11,6 +11,7 @@
     "collapse.js",
     "dropdown.js",
     "modal.js",
+    "tab.js",
     "tooltip.js",
     "popover.js",
     "image.ready.js",

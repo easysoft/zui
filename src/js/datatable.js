@@ -816,7 +816,6 @@
                 $cells.css('height', 'auto');
                 $cells.each(function()
                 {
-                    console.log($(this));
                     mx = Math.max(mx, $(this).height());
                 });
                 return mx;

@@ -1,6 +1,6 @@
 [
     "image.ready.js",
-    "unities.js",
+    "jquery.extensions.js",
     "transition.js",
     "alert.js",
     "collapse.js",
