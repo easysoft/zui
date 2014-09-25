@@ -13,7 +13,7 @@
     // ======================
     var ModalTrigger = function(options)
     {
-        options      = $.extend({}, ModalTrigger.DEFAULTS, options);
+        options      = $.extend({}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
         this.$modal;
         this.isShown = false;
         this.options = options;
@@ -178,6 +178,7 @@
         }
         else if(options.url)
         {
+            $modal.attr('ref', options.url);
             if(options.type === 'iframe')
             {
                 $modal.addClass('modal-iframe');
@@ -194,9 +195,9 @@
                     that.waitTimeout = setTimeout(readyToShow, options.waittime);
                 }
 
-                var frame = document.getElementById(iframeName);
                 frame.onload = frame.onreadystatechange = function()
                 {
+                    $modal.attr('ref', frame.contentWindow.location.href);
                     if(that.firstLoad) $modal.addClass('modal-loading');
                     if(this.readyState && this.readyState != 'complete') return;
                     that.firstLoad = false;
@@ -211,6 +212,7 @@
                         var frame$ = window.frames[iframeName].$;
                         if(frame$ && options.height === 'auto' && options.size != 'fullscreen')
                         {
+                            // todo: update iframe url to ref attribute
                             var $framebody = frame$('body').addClass('body-modal');
                             var ajustFrameSize = function()
                             {
