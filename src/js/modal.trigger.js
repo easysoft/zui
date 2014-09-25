@@ -195,6 +195,7 @@
                     that.waitTimeout = setTimeout(readyToShow, options.waittime);
                 }
 
+                var frame = document.getElementById(iframeName);
                 frame.onload = frame.onreadystatechange = function()
                 {
                     $modal.attr('ref', frame.contentWindow.location.href);
