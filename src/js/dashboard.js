@@ -24,7 +24,7 @@
     {
         var afterPanelRemoved = this.options.afterPanelRemoved;
         var tip = this.options.panelRemovingTip;
-        this.$.find('.remove-panel').click(function()
+        this.$.on('click', '.remove-panel', function()
         {
             var panel = $(this).closest('.panel');
             var name  = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, "");
@@ -43,7 +43,7 @@
 
     Dashboard.prototype.handleRefreshEvent = function()
     {
-        this.$.find('.refresh-panel').click(function()
+        this.$.on('.click', '.refresh-panel', function()
         {
             var panel = $(this).closest('.panel');
             refreshPanel(panel);
