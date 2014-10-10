@@ -5,16 +5,15 @@
 
     var lsName = 'localStorage';
     var storage = window[lsName],
-        old = window['store'],
+        old = window.store,
         pageName = 'page_' + window.location.pathname;
 
     /* The Store object */
     var Store = function()
     {
         this.slience = true;
-        this.enable = (lsName in window) && window[lsName] && window[lsName]['setItem'];
+        this.enable = (lsName in window) && window[lsName] && window[lsName].setItem;
         this.storage = storage;
-        var self = this;
 
         this.page = this.get(pageName, {});
     };
@@ -28,11 +27,16 @@
         }
         else
         {
+            var forDeletes = [];
             for(var i in this.page)
             {
                 var val = this.page[i];
                 if(val === null)
-                    delete this.page[i];
+                    forDeletes.push(i);
+            }
+            for (var i = forDeletes.length - 1; i >= 0; i--)
+            {
+                delete this.page[forDeletes[i]];
             }
             this.set(pageName, this.page);
         }
@@ -124,7 +128,7 @@
     /* Get item key by index and deserialize it */
     Store.prototype.key = function(index)
     {
-        return storage.key(key);
+        return storage.key(index);
     };
 
     /* Set item value with browser localstorage native method, and without serialize filter */
@@ -152,12 +156,12 @@
         for(var i = 0; i < storage.length; i++)
         {
             var key = storage.key(i);
-            callback(key, store.get(key));
+            callback(key, this.get(key));
         }
     };
 
     /* Get all items and set value in an object. */
-    Store.prototype.getAll = function(callback)
+    Store.prototype.getAll = function()
     {
         var all = {};
         this.forEach(function(key, val)
@@ -197,5 +201,5 @@
     {
         window.store = old;
         return store;
-    }
+    };
 }(window, jQuery);
