@@ -22,7 +22,7 @@ module.exports = function(grunt)
         pkg           = grunt.file.readJSON('package.json');
 
     var lib = pkg.lib,
-        typeSet = ['less', 'js', 'fonts', 'resource'],
+        typeSet = ['less', 'js', 'resource'],
         builds = pkg.builds;
 
     var getItemList = function(list, items, ignoreDpds)
@@ -57,7 +57,7 @@ module.exports = function(grunt)
     {
         var list = [];
 
-        var sources = {less: [], js: [], fonts: [], resource: []};
+        var sources = {less: [], js: [], resource: []};
 
         if(!Array.isArray(list)) list = [list];
 
@@ -298,25 +298,6 @@ module.exports = function(grunt)
             if(lint) grunt.task.run(['csslint:' + name]);
 
             grunt.task.run(['cssmin:' + name]);
-        }
-
-        if(source.fonts && source.fonts.length)
-        {
-            var files = [];
-            var path = getBuildPath(build, 'fonts');
-            grunt.log.subhead('--- BUILD ' + source.fonts.length + ' FONT FILES ---');
-            source.fonts.forEach(function(file)
-            {
-                files.push(flatternCopyOptions(file, path));
-                grunt.log.writeln(' * ' + file);
-            });
-
-            grunt.config('copy.' + name,
-            {
-                files: files
-            });
-
-            grunt.task.run(['copy:' + name]);
         }
 
         if(source.resource && source.resource.length)

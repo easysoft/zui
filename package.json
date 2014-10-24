@@ -394,7 +394,7 @@
       "name": "图标字体",
       "src":
       {
-        "fonts": ["src/fonts/zenicon.eot", "src/fonts/zenicon.svg", "src/fonts/zenicon.ttf", "src/fonts/zenicon.woff"]
+        "resource": ["src/fonts/zenicon.eot", "src/fonts/zenicon.svg", "src/fonts/zenicon.ttf", "src/fonts/zenicon.woff"]
       },
       "ver": "1.0.0"
     },
