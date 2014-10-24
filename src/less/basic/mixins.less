@@ -68,6 +68,71 @@
   white-space: nowrap;
 }
 
+.nobr()
+{
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+// text background
+.bg-default() {
+  color: #fff;
+  background-color: @state-default-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-default-inverse-bg, 10%);
+  }
+}
+.bg-primary() {
+  color: #fff;
+  background-color: @state-primary-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-primary-inverse-bg, 10%);
+  }
+}
+.bg-success() {
+  color: #fff;
+  background-color: @state-success-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-success-inverse-bg, 10%);
+  }
+}
+.bg-info() {
+  color: #fff;
+  background-color: @state-info-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-info-inverse-bg, 10%);
+  }
+}
+.bg-warning() {
+  color: #fff;
+  background-color: @state-warning-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-warning-inverse-bg, 10%);
+  }
+}
+.bg-danger() {
+  color: #fff;
+  background-color: @state-danger-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-danger-inverse-bg, 10%);
+  }
+}
+.bg-important() {
+  color: #fff;
+  background-color: @state-important-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-important-inverse-bg, 10%);
+  }
+}
+.bg-special() {
+  color: #fff;
+  background-color: @state-special-inverse-bg;
+  a&:hover {
+    background-color: darken(@state-special-inverse-bg, 10%);
+  }
+}
+
+
 // CSS image replacement
 //
 // Heads up! v3 launched with with only `.hide-text()`, but per our pattern for
@@ -876,4 +941,24 @@
   border-top: 0 dotted;
   border-bottom: 4px solid @dropdown-caret-color;
   content: "";
+}
+
+// Icons
+.icon-zenicon() {
+  font-family: @icon-font-name;
+  speak: none;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  // Better Font Rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon(@icon) {
+  .icon-zenicon();
+  content: @icon;
 }
