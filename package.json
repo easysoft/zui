@@ -740,7 +740,7 @@
       "name": "图片加载",
       "src":
       {
-        "js": ["src/js/imgage.ready.js"]
+        "js": ["src/js/image.ready.js"]
       },
       "thirdpart": true,
       "website": "http://www.planeart.cn/?p=1121"
@@ -947,7 +947,7 @@
         "js": ["src/js/lightbox.js"]
       },
       "ver": "1.0.0",
-      "dpds": ["basic", "animations", "modaltrigger"],
+      "dpds": ["basic", "animations", "modaltrigger", "imgready"],
       "require": ["jquery"]
     },
     "messager":
