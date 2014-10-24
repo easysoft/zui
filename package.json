@@ -4,517 +4,644 @@
   "version": "1.2.0-beta",
   "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
   "main": "index.html",
-  "directories": {
+  "directories":
+  {
     "doc": "docs"
   },
-  "scripts": {
+  "scripts":
+  {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
+  "repository":
+  {
     "type": "git",
     "url": "https://github.com/easysoft/zui.git"
   },
   "author": "cnezsoft.com",
   "license": "MIT",
-  "bugs": {
+  "bugs":
+  {
     "url": "https://github.com/easysoft/zui/issues"
   },
   "homepage": "http://zui.sexy",
-  "devDependencies": {
+  "devDependencies":
+  {
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-copy": "~0.4.0",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-less": "~0.9.0",
+    "grunt-contrib-csslint": "~0.2.0",
+    "grunt-contrib-cssmin": "~0.10.0",
     "grunt-contrib-uglify": "~0.2.7",
-    "grunt-contrib-cssmin": "~0.7.0",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-csscomb": "~2.0.1",
     "grunt-banner": "~0.2.0",
     "load-grunt-tasks": "~0.2.1"
   },
-  "lib": {
-    "jquery": {
+  "lib":
+  {
+    "jquery":
+    {
       "name": "jQuery",
       "pver": "1.10.2",
       "ver": "1.0.0",
-      "src": {
+      "src":
+      {
         "js": ["assets/jquery.js"]
       },
       "desc": "ZUI的绝大部分JS组件都依赖于jQuery",
       "thirdpart": true,
       "website": "http://jquery.com/"
     },
-    "jqueryex": {
+    "jqueryex":
+    {
       "name": "jQuery扩展",
       "ver": "1.0.0",
-      "src": {
+      "src":
+      {
         "js": ["src/js/jquery.extensions.js"]
       },
       "require": ["jquery"]
     },
-    "colorset": {
+    "colorset":
+    {
       "name": "配色",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/colorset.less"]
       },
       "desc": "ZUI的色彩配置",
       "ver": "1.0.0"
     },
-    "variables": {
+    "variables":
+    {
       "name": "配置",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/variables.less"]
       },
       "ver": "1.0.0"
     },
-    "normalize": {
+    "normalize":
+    {
       "name": "全局样式表",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/normalize.less"]
       },
       "ver": "1.0.0"
     },
-    "mixins": {
+    "mixins":
+    {
       "name": "样式片段",
       "desc": "用于存储可重复使用的Less样式",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/mixins.less"]
       },
       "ver": "1.0.0",
       "dpds": ["variables"]
     },
-    "basic": {
+    "basic":
+    {
       "name": "基础样式",
       "desc": "包含配置、全局样式表及一些有用的样式片段",
       "dpds": ["variables", "normalize", "mixins"]
     },
-    "utilities.common": {
+    "utilities.common":
+    {
       "name": "常用辅助类",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/utilities.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "utilities.responsive": {
+    "utilities.responsive":
+    {
       "name": "多设备响应辅助类",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/utilities.responsive.less"]
       },
       "desc": "支持多设备响应的辅助类",
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "utilities": {
+    "utilities":
+    {
       "name": "辅助类",
       "desc": "包含支持多设备响应的辅助类",
       "dpds": ["utilities.common", "utilities.responsive"]
     },
-    "scaffolding": {
+    "scaffolding":
+    {
       "name": "脚手架",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/scaffolding.less"]
       },
       "ver": "1.0.0",
       "dpds": ["mixins"]
     },
-    "grid": {
+    "grid":
+    {
       "name": "栅格系统",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/grid.less"]
       },
       "desc": "使用栅格来帮助布局",
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "typography.basic": {
+    "typography.basic":
+    {
       "name": "基本排版",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/type.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "typography.bg": {
+    "typography.bg":
+    {
       "name": "文本背景",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/type.bg.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "typography.hightlight": {
+    "typography.hightlight":
+    {
       "name": "文本高亮",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/type.hightlight.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "typography": {
+    "typography":
+    {
       "name": "排版",
       "dpds": ["type.basic", "type.bg", "type.hightlight"]
     },
-    "header": {
+    "header":
+    {
       "name": "标题",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/headers.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "button.basic": {
+    "button.basic":
+    {
       "name": "基本按钮",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/buttons.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "button.group": {
+    "button.group":
+    {
       "name": "按钮组",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/buttons.group.less"]
       },
       "ver": "1.0.0",
       "dpds": ["button.basic"]
     },
-    "button.vertical": {
+    "button.vertical":
+    {
       "name": "垂直按钮组",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/buttons.vertical.less"]
       },
       "ver": "1.0.0",
       "dpds": ["button.basic"]
     },
-    "button": {
+    "button":
+    {
       "name": "按钮",
       "dpds": ["button.basic", "button.group", "button.vertical"]
     },
-    "progressbar": {
+    "progressbar":
+    {
       "name": "进度条",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/progress-bars.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "image": {
+    "image":
+    {
       "name": "图片",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/image.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "divider": {
+    "divider":
+    {
       "name": "分隔",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/divider.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "labels.basic": {
+    "labels.basic":
+    {
       "name": "基本标签",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/labels.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "labels.fix": {
+    "labels.fix":
+    {
       "name": "标签适配样式",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/labels.fix.less"]
       },
       "ver": "1.0.0",
       "dpds": ["labels.basic"]
     },
-    "labels": {
+    "labels":
+    {
       "name": "标签",
       "dpds": ["labels.basic", "labels.fix"]
     },
-    "breadcrumbs": {
+    "breadcrumbs":
+    {
       "name": "面包屑导航",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/breadcrumbs.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "icons.core": {
+    "icons.core":
+    {
       "name": "图标核心样式",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/icons.core.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "icons.variables": {
+    "icons.variables":
+    {
       "name": "图标名称配置",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/icons.core.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "icons.set": {
+    "icons.set":
+    {
       "name": "图标定义",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/icons.set.less"]
       },
       "ver": "1.0.0",
       "dpds": ["icons.variables"]
     },
-    "icons.font": {
+    "icons.font":
+    {
       "name": "图标字体",
-      "src": {
+      "src":
+      {
         "fonts": ["src/fonts/zenicon.eot", "src/fonts/zenicon.svg", "src/fonts/zenicon.ttf", "src/fonts/zenicon.woff"]
       },
       "ver": "1.0.0"
     },
-    "icons": {
+    "icons":
+    {
       "name": "图标",
       "dpds": ["icons.font", "icons.core", "icons.set"]
     },
-    "close": {
+    "close":
+    {
       "name": "关闭按钮",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/close.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "scrollbar": {
+    "scrollbar":
+    {
       "name": "滚动条",
-      "src": {
+      "src":
+      {
         "less": ["src/controls/scrollbar.less"]
       },
       "ver": "1.0.0"
     },
-    "table.basic": {
+    "table.basic":
+    {
       "name": "基本表格",
-      "src": {
+      "src":
+      {
         "less": ["src/components/table.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "table.colors": {
+    "table.colors":
+    {
       "name": "表格变色",
-      "src": {
+      "src":
+      {
         "less": ["src/components/table.colors.less"]
       },
       "ver": "1.0.0",
       "dpds": ["table.basic"]
     },
-    "table.responsive": {
+    "table.responsive":
+    {
       "name": "多设备响应的表格",
-      "src": {
+      "src":
+      {
         "less": ["src/components/table.responsive.less"]
       },
       "ver": "1.0.0",
       "dpds": ["table.basic"]
     },
-    "table": {
+    "table":
+    {
       "name": "表格",
       "dpds": ["table.basic", "table.colors", "table.responsive"]
     },
-    "listgroup": {
+    "listgroup":
+    {
       "name": "列表组",
-      "src": {
+      "src":
+      {
         "less": ["src/components/list-group.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "panels.basic": {
+    "panels.basic":
+    {
       "name": "基本面板",
-      "src": {
+      "src":
+      {
         "less": ["src/components/panels.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "panels.types": {
+    "panels.types":
+    {
       "name": "面板类型",
-      "src": {
+      "src":
+      {
         "less": ["src/components/panels.types.less"]
       },
       "ver": "1.0.0",
       "dpds": ["panels.basic"]
     },
-    "panels.group": {
+    "panels.group":
+    {
       "name": "面板组",
-      "src": {
+      "src":
+      {
         "less": ["src/components/panels.group.less"]
       },
       "ver": "1.0.0",
       "dpds": ["panels.basic"]
     },
-    "panels.fix": {
+    "panels.fix":
+    {
       "name": "面板适配",
-      "src": {
+      "src":
+      {
         "less": ["src/components/panels.fix.less"]
       },
       "ver": "1.0.0",
       "dpds": ["panels.basic"]
     },
-    "panels": {
+    "panels":
+    {
       "name": "面板类型",
       "dpds": ["panels.basic", "panels.types", "panels.group", "panels.fix"]
     },
-    "alerts.basic": {
+    "alerts.basic":
+    {
       "name": "基本消息框",
-      "src": {
+      "src":
+      {
         "less": ["src/components/alerts.less"],
         "js": ["sr/js/alert.js"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "alerts.hover": {
+    "alerts.hover":
+    {
       "name": "消息框增强样式",
-      "src": {
+      "src":
+      {
         "less": ["src/components/alerts.hover.less"]
       },
       "ver": "1.0.0",
       "dpds": ["alerts.basic"]
     },
-    "alerts": {
+    "alerts":
+    {
       "name": "消息框",
       "dpds": ["alerts.basic", "alerts.hover"]
     },
-    "inputgroups.basic": {
+    "inputgroups.basic":
+    {
       "name": "基本输入框组",
-      "src": {
+      "src":
+      {
         "less": ["src/components/input-groups.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "inputgroups.size": {
+    "inputgroups.size":
+    {
       "name": "输入框组大小",
-      "src": {
+      "src":
+      {
         "less": ["src/components/input-groups.size.less"]
       },
       "ver": "1.0.0",
       "dpds": ["inputgroups.basic"]
     },
-    "inputgroups": {
+    "inputgroups":
+    {
       "name": "输入框组",
       "dpds": ["input-groups.basic", "input-groups.size"]
     },
-    "forms.basic": {
+    "forms.basic":
+    {
       "name": "基本表单",
-      "src": {
+      "src":
+      {
         "less": ["src/components/forms.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "forms.condensed": {
+    "forms.condensed":
+    {
       "name": "紧凑表单",
-      "src": {
+      "src":
+      {
         "less": ["src/components/forms.condensed.less"]
       },
       "ver": "1.0.0",
       "dpds": ["forms.basic"]
     },
-    "forms": {
+    "forms":
+    {
       "name": "表单",
       "dpds": ["forms.basic", "forms.condensed"]
     },
-    "code": {
+    "code":
+    {
       "name": "代码",
-      "src": {
+      "src":
+      {
         "less": ["src/components/code.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "pager.basic": {
+    "pager.basic":
+    {
       "name": "基本分页",
-      "src": {
+      "src":
+      {
         "less": ["src/components/pager.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "pager.size": {
+    "pager.size":
+    {
       "name": "分页尺寸",
-      "src": {
+      "src":
+      {
         "less": ["src/components/pager.size.less"]
       },
       "ver": "1.0.0",
       "dpds": ["pager.basic"]
     },
-    "pager.types": {
+    "pager.types":
+    {
       "name": "分页类型",
-      "src": {
+      "src":
+      {
         "less": ["src/components/pager.types.less"]
       },
       "ver": "1.0.0",
       "dpds": ["pager.basic"]
     },
-    "pager": {
+    "pager":
+    {
       "name": "表单",
       "dpds": ["pager.basic", "pager.size", "pager.types"]
     },
-    "navs.basic": {
+    "navs.basic":
+    {
       "name": "基本导航",
-      "src": {
+      "src":
+      {
         "less": ["src/components/navs.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "navs.tabs": {
+    "navs.tabs":
+    {
       "name": "标签式导航",
-      "src": {
+      "src":
+      {
         "less": ["src/components/navs.tabs.less"]
       },
       "ver": "1.0.0",
       "dpds": ["tab", "navs.basic"]
     },
-    "navs": {
+    "navs":
+    {
       "name": "导航",
       "dpds": ["navs.basic", "navs.tabs"]
     },
-    "navbars.basic": {
+    "navbars.basic":
+    {
       "name": "基本导航条",
-      "src": {
+      "src":
+      {
         "less": ["src/components/navbars.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "navbars.form": {
+    "navbars.form":
+    {
       "name": "导航条表单",
-      "src": {
+      "src":
+      {
         "less": ["src/components/navbars.forms.less"]
       },
       "ver": "1.0.0",
       "dpds": ["navbars.basic"]
     },
-    "navbars.fixedleft": {
+    "navbars.fixedleft":
+    {
       "name": "左侧导航条",
-      "src": {
+      "src":
+      {
         "less": ["src/components/navbars.fixed-left.less"]
       },
       "ver": "1.0.0",
       "dpds": ["navbars.basic"]
     },
-    "navbars": {
+    "navbars":
+    {
       "name": "导航条",
       "dpds": ["navbars.basic", "navbars.form", "navbars.fixedleft"]
     },
-    "animations": {
+    "animations":
+    {
       "name": "过度动画",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/animations.less"],
         "js": ["src/js/transition.js"]
       },
@@ -522,41 +649,51 @@
       "dpds": ["mixins"],
       "require": ["jquery"]
     },
-    "collapse": {
+    "collapse":
+    {
       "name": "折叠",
-      "src": {
+      "src":
+      {
         "js": ["src/js/collapse.js"]
       },
       "ver": "1.0.0",
       "dpds": ["animations"]
     },
-    "device": {
+    "device":
+    {
       "name": "设备辅助类",
-      "src": {
+      "src":
+      {
         "js": ["src/js/device.js"]
       },
       "ver": "1.0.0",
       "require": ["jquery"]
     },
-    "browser": {
+    "browser":
+    {
       "name": "浏览器兼容工具",
-      "src": {
+      "src":
+      {
         "js": ["src/js/browser.js"]
       },
       "ver": "1.0.0",
       "require": ["jquery"]
     },
-    "imgready": {
+    "imgready":
+    {
       "name": "图片加载",
-      "src": {
+      "src":
+      {
         "js": ["src/js/imgage.ready.js"]
       },
       "thirdpart": true,
       "website": "http://www.planeart.cn/?p=1121"
     },
-    "hotkey": {
+    "hotkey":
+    {
       "name": "快捷键",
-      "src": {
+      "src":
+      {
         "js": ["src/js/hotkeys.js"]
       },
       "ver": "1.0.0",
@@ -564,23 +701,29 @@
       "website": "http://github.com/tzuryby/hotkeys",
       "require": ["jquery"]
     },
-    "date": {
+    "date":
+    {
       "name": "日期扩展方法",
-      "src": {
+      "src":
+      {
         "js": ["src/js/date.js"]
       },
       "ver": "1.0.0"
     },
-    "string": {
+    "string":
+    {
       "name": "字符串扩展方法",
-      "src": {
+      "src":
+      {
         "js": ["src/js/string.js"]
       },
       "ver": "1.0.0"
     },
-    "resize": {
+    "resize":
+    {
       "name": "监听尺寸更改",
-      "src": {
+      "src":
+      {
         "js": ["src/js/resize.js"]
       },
       "ver": "1.0.0",
@@ -589,61 +732,75 @@
       "website": "http://benalman.com/projects/jquery-resize-plugin/",
       "require": ["jquery"]
     },
-    "scrollspy": {
+    "scrollspy":
+    {
       "name": "滚地监听",
-      "src": {
+      "src":
+      {
         "js": ["src/js/scrollspy.js"]
       },
       "ver": "1.0.0",
       "require": ["jquery"]
     },
-    "store": {
+    "store":
+    {
       "name": "本地存储",
-      "src": {
+      "src":
+      {
         "js": ["src/js/store.js"]
       },
       "ver": "1.2.0",
       "require": ["jquery"]
     },
-    "draggable": {
+    "draggable":
+    {
       "name": "拖拽",
-      "src": {
+      "src":
+      {
         "js": ["src/js/draggable.js"]
       },
       "ver": "1.0.0",
       "dpds": ["jqueryex"],
       "require": ["jquery"]
     },
-    "droppable": {
+    "droppable":
+    {
       "name": "拖放",
-      "src": {
+      "src":
+      {
         "js": ["src/js/droppable.js"]
       },
       "ver": "1.0.0",
       "dpds": ["jqueryex"],
       "require": ["jquery"]
     },
-    "sortable": {
+    "sortable":
+    {
       "name": "排序",
-      "src": {
+      "src":
+      {
         "js": ["src/js/sortable.js"]
       },
       "ver": "1.0.0",
       "dpds": ["jqueryex", "droppable"],
       "require": ["jquery"]
     },
-    "tab": {
+    "tab":
+    {
       "name": "标签页",
-      "src": {
+      "src":
+      {
         "js": ["src/js/tab.js"]
       },
       "ver": "1.0.0",
       "dpds": ["animation"],
       "require": ["jquery"]
     },
-    "modals": {
+    "modals":
+    {
       "name": "模态框",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/modals.less"],
         "js": ["src/js/modal.js"]
       },
@@ -651,18 +808,22 @@
       "dpds": ["basic", "animations"],
       "require": ["jquery"]
     },
-    "modaltrigger": {
+    "modaltrigger":
+    {
       "name": "模态框触发器",
-      "src": {
+      "src":
+      {
         "js": ["src/js/modal.trigger.js"]
       },
       "ver": "1.2.0",
       "dpds": ["jqueryex", "resize", "modals"],
       "require": ["jquery"]
     },
-    "tooltip": {
+    "tooltip":
+    {
       "name": "工具提示",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/tooltip.less"],
         "js": ["src/js/tooltip.js"]
       },
@@ -670,9 +831,11 @@
       "dpds": ["basic", "animations"],
       "require": ["jquery"]
     },
-    "popovers": {
+    "popovers":
+    {
       "name": "弹出面板",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/popovers.less"],
         "js": ["src/js/popover.js"]
       },
@@ -680,9 +843,11 @@
       "dpds": ["tooltip", "animations"],
       "require": ["jquery"]
     },
-    "dropdowns": {
+    "dropdowns":
+    {
       "name": "下拉菜单",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/dropdowns.less"],
         "js": ["src/js/dropdown.js"]
       },
@@ -690,9 +855,11 @@
       "dpds": ["basic", "animations"],
       "require": ["jquery"]
     },
-    "carousel.basic": {
+    "carousel.basic":
+    {
       "name": "基本轮播",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/carousel.less"],
         "js": ["src/js/carousel.js"]
       },
@@ -700,21 +867,26 @@
       "dpds": ["basic", "animations"],
       "require": ["jquery"]
     },
-    "carousel.indicators": {
+    "carousel.indicators":
+    {
       "name": "轮播指示器",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/carousel.indicators.less"]
       },
       "ver": "1.0.0",
       "dpds": ["carousel.basic"]
     },
-    "carousel": {
+    "carousel":
+    {
       "name": "轮播",
       "dpds": ["carousel.basic", "carousel.basic"]
     },
-    "lightbox": {
+    "lightbox":
+    {
       "name": "灯箱预览",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/lightbox.less"],
         "js": ["src/js/lightbox.js"]
       },
@@ -722,9 +894,11 @@
       "dpds": ["basic", "animations", "modaltrigger"],
       "require": ["jquery"]
     },
-    "messager": {
+    "messager":
+    {
       "name": "消息",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/messager.less"],
         "js": ["src/js/messager.js"]
       },
@@ -732,9 +906,11 @@
       "dpds": ["basic", "animation"],
       "require": ["jquery"]
     },
-    "menu": {
+    "menu":
+    {
       "name": "垂直菜单",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/menu.less"],
         "js": ["src/js/menu.js"]
       },
@@ -742,9 +918,11 @@
       "dpds": ["basic", "navs", "button"],
       "require": ["jquery"]
     },
-    "imgcutter": {
+    "imgcutter":
+    {
       "name": "图片裁剪工具",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/img-cutter.less"],
         "js": ["src/js/img-cuttr.js"]
       },
@@ -752,9 +930,11 @@
       "dpds": ["basic", "imgready"],
       "require": ["jquery"]
     },
-    "datetimepicker": {
+    "datetimepicker":
+    {
       "name": "日期时间选择",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/datetimepicker.less"],
         "js": ["assets/datetimepicker/js/datetimepicker.js"]
       },
@@ -765,9 +945,11 @@
       "custom": ["ui"],
       "require": ["jquery"]
     },
-    "kindeditor": {
+    "kindeditor":
+    {
       "name": "富文本编辑器",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/kindeditor.less"],
         "js": ["assets/kindeditor/kindeditor-all.js"],
         "resource": ["themes/*", "lang/*"]
@@ -779,9 +961,11 @@
       "thirdpart": true,
       "custom": ["ui"]
     },
-    "chosen": {
+    "chosen":
+    {
       "name": "选择器",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/chosen.less"],
         "js": ["assets/chosen.jquery.js"]
       },
@@ -793,9 +977,11 @@
       "custom": ["ui"],
       "require": ["jquery"]
     },
-    "bootbox": {
+    "bootbox":
+    {
       "name": "模态消息",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/modals.bootbox.less"],
         "js": ["src/js/bootbox.js"]
       },
@@ -805,9 +991,11 @@
       "custom": ["ui"],
       "require": ["jquery"]
     },
-    "chosenicons": {
+    "chosenicons":
+    {
       "name": "图标选择器",
-      "src": {
+      "src":
+      {
         "less": ["src/modules/chosen.icon.less"],
         "js": ["src/js/chosen.icon.js"]
       },
@@ -815,81 +1003,101 @@
       "dpds": ["basic", "chosen"],
       "require": ["jquery"]
     },
-    "article.basic": {
+    "article.basic":
+    {
       "name": "基本文章视图",
-      "src": {
+      "src":
+      {
         "less": ["src/views/article.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic", "typography"]
     },
-    "article.condensed": {
+    "article.condensed":
+    {
       "name": "紧凑文章视图",
-      "src": {
+      "src":
+      {
         "less": ["src/views/article.condensed.less"]
       },
       "ver": "1.0.0",
       "dpds": ["article.basic"]
     },
-    "article": {
+    "article":
+    {
       "name": "文章视图",
       "dpds": ["article.basic", "article.condensed"]
     },
-    "comment": {
+    "comment":
+    {
       "name": "评论视图",
-      "src": {
+      "src":
+      {
         "less": ["src/views/comment.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "list": {
+    "list":
+    {
       "name": "列表视图",
-      "src": {
+      "src":
+      {
         "less": ["src/views/list.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "cards.basic": {
+    "cards.basic":
+    {
       "name": "基本卡片视图",
-      "src": {
+      "src":
+      {
         "less": ["src/views/cards.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "cards.caption": {
+    "cards.caption":
+    {
       "name": "卡片视图备注",
-      "src": {
+      "src":
+      {
         "less": ["src/views/cards.caption.less"]
       },
       "ver": "1.0.0",
       "dpds": ["cards.basic"]
     },
-    "cards.condensed": {
+    "cards.condensed":
+    {
       "name": "紧凑卡片视图",
-      "src": {
+      "src":
+      {
         "less": ["src/views/cards.condensed.less"]
       },
       "ver": "1.0.0",
       "dpds": ["cards.basic"]
     },
-    "cards.reveal": {
+    "cards.reveal":
+    {
       "name": "卡片视图翻转",
-      "src": {
+      "src":
+      {
         "less": ["src/views/cards.reveal.less"]
       },
       "ver": "1.0.0",
       "dpds": ["cards.basic"]
     },
-    "card": {
+    "card":
+    {
       "name": "卡片视图",
       "dpds": ["cards.basic", "cards.caption", "cards.condensed", "cards.reveal"]
     },
-    "dashboard": {
+    "dashboard":
+    {
       "name": "控制面板",
-      "src": {
+      "src":
+      {
         "less": ["src/views/dashboard.less"],
         "js": ["src/js/dashboard.js"]
       },
@@ -897,9 +1105,11 @@
       "dpds": ["panels"],
       "require": ["jquery"]
     },
-    "board": {
+    "board":
+    {
       "name": "看板",
-      "src": {
+      "src":
+      {
         "less": ["src/views/boards.less"],
         "js": ["src/js/boards.js"]
       },
@@ -907,9 +1117,11 @@
       "dpds": ["jqueryex", "panels", "droppable"],
       "require": ["jquery"]
     },
-    "datatable": {
+    "datatable":
+    {
       "name": "数据表格",
-      "src": {
+      "src":
+      {
         "less": ["src/views/datatable.less"],
         "js": ["src/js/datatable.js"]
       },
@@ -917,18 +1129,22 @@
       "dpds": ["jqueryex", "resize", "string", "table"],
       "require": ["jquery"]
     },
-    "calendar": {
+    "calendar":
+    {
       "name": "日历",
-      "src": {
+      "src":
+      {
         "less": ["src/views/calendar.less"],
         "js": ["src/js/calendar.js"]
       },
       "ver": "1.2.0",
       "dpds": ["jqueryex", "resize", "string", "date", "table", "droppable"]
     },
-    "colorset.test": {
+    "colorset.test":
+    {
       "name": "配色测试",
-      "src": {
+      "src":
+      {
         "less": ["src/basic/colorset.text.less"]
       },
       "desc": "ZUI的色彩预览样式",
@@ -936,51 +1152,59 @@
       "dpds": ["colorset", "mixins", "doc"]
     }
   },
-  "builds": {
-    "standard": {
-      "title": "ZUI standard edition",
+  "builds":
+  {
+    "standard":
+    {
+      "title": "Standard edition",
       "dest": "dist/",
       "filename": "zui",
       "subdirectories": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable"]
     },
-    "lite": {
-      "title": "ZUI lite edition",
+    "lite":
+    {
+      "title": "Lite edition",
       "dest": "dist/",
       "filename": "zui.lite",
       "subdirectories": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "alerts.basic", "inputgroups", "forms.basic", "code", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations", "collapse", "device", "browser", "date", "string", "resize", "store", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "article", "comment", "list", "card.basic"]
     },
-    "calendar": {
-      "title": "ZUI calendar",
+    "calendar":
+    {
+      "title": "Calendar",
       "dest": "dist/lib/calendar/",
       "filename": "calendar",
       "includes": ["calendar"],
       "ignoreDpds": true
     },
-    "kindeditor": {
+    "kindeditor":
+    {
       "title": "Kindeditor",
       "dest": "dist/lib/kindeditor/",
       "filename": "kindeditor",
       "includes": ["kindeditor"],
       "ignoreDpds": true
     },
-    "datetimepicker": {
+    "datetimepicker":
+    {
       "title": "Datetimepicker",
       "dest": "dist/lib/datetimepicker/",
       "filename": "datetimepicker",
       "includes": ["datetimepicker"],
       "ignoreDpds": true
     },
-    "chosen": {
+    "chosen":
+    {
       "title": "Chosen",
       "dest": "dist/lib/chosen/",
       "filename": "chosen",
       "includes": ["chosen"],
       "ignoreDpds": true
     },
-    "imgcutter": {
-      "title": "ZUI image cutter",
+    "imgcutter":
+    {
+      "title": "Image cutter",
       "dest": "dist/lib/imgcutter/",
       "filename": "imgcutter",
       "includes": ["imgcutter"],
