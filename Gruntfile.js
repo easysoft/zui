@@ -120,6 +120,10 @@ module.exports = function(grunt)
     grunt.initConfig(
     {
         pkg: pkg,
+        clean:
+        {
+          dist: 'dist'
+        },
         jshint:
         {
             options: {expr: true},
@@ -171,6 +175,24 @@ module.exports = function(grunt)
                 keepSpecialComments: '*',
                 noAdvanced: true
             }
+        },
+        watch:
+        {
+            dist:
+            {
+                files: ['src/**'],
+                tasks: ['dist']
+            },
+            doc:
+            {
+                files: 'src',
+                tasks: ['doc']
+            },
+            basic:
+            {
+                files: 'Gruntfile.js',
+                tasks: ['jshint:basic']
+            }
         }
     });
 
@@ -179,17 +201,42 @@ module.exports = function(grunt)
 
     grunt.registerTask('build','ZUI builder.', function(name, lint)
     {
-        lint = lint === 'lint';
-
-        grunt.task.run(['jshint:basic']);
+        // grunt.task.run(['jshint:basic']);
 
         var build = builds[name];
+
         if(!build)
         {
-            grunt.log.error('Build config not found: ' + name + '.');
-            return false;
+            if(name === 'all')
+            {
+                grunt.log.ok('=== BUILD ALL ===');
+                var bd;
+                for(var nm in builds)
+                {
+                    bd = builds[nm];
+                    if(!bd.bundles) grunt.task.run(['build:' + nm + ':' + lint]);
+                }
+                return;
+            }
+            else
+            {
+                grunt.log.error('Build config not found: ' + name + '.');
+                return false;
+            }
+        }
+        else if(build.bundles)
+        {
+            grunt.log.ok('=== BUILD BUNDLES ' + name.toUpperCase() + ' (' + build.title + ') ===');
+
+            build.bundles.forEach(function(bundle)
+            {
+                grunt.task.run(['build:' + bundle + ':' + lint]);
+            });
+
+            return;
         }
 
+        lint = lint === 'lint';
         grunt.log.subhead('=== BUILD ' + name.toUpperCase() + ' (' + build.title + ') ===');
 
         var source = getBuildSource(build),
@@ -320,11 +367,9 @@ module.exports = function(grunt)
         }
     });
 
-    grunt.registerTask('dist', 'Build ZUI.', function(lint)
-    {
-        for(var name in builds)
-        {
-            grunt.task.run(['build:' + name + ':' + lint]);
-        }
-    });
+    grunt.registerTask('dist', ['clean:dist', 'build:dist']);
+    grunt.registerTask('doc', ['build:doc']);
+
+    grunt.registerTask('w-dist', ['watch:basic', 'watch:dist']);
+    grunt.registerTask('w-doc', ['watch:basic', 'watch:doc']);
 };

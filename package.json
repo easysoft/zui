@@ -1212,7 +1212,7 @@
       "name": "配色测试",
       "src":
       {
-        "less": ["src/less/basic/colorset.text.less"]
+        "less": ["src/less/basic/colorset.test.less"]
       },
       "desc": "ZUI的色彩预览样式",
       "ver": "1.0.0",
@@ -1301,7 +1301,7 @@
       "basicDpds": ["setting", "icons.variables"],
       "ignoreDpds": true
     },
-    "IEonly":
+    "ieonly":
     {
       "title": "Only for ie browser",
       "dest": "dist/lib/ieonly/",
@@ -1314,6 +1314,20 @@
       "dest": "dist/lib/chartjs/",
       "filename": "chartjs",
       "includes": ["chartjs"]
+    },
+    "dist":
+    {
+      "title": "dist",
+      "bundles": ["standard", "lite", "theme", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs"]
+    },
+    "doc":
+    {
+      "title": "document",
+      "dest": "docs/",
+      "filename": "zui",
+      "subdirectories": true,
+      "bootstrapStatement" : true,
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "colorset.test"]
     }
   }
 }
