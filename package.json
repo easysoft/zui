@@ -36,6 +36,7 @@
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-watch": "~0.5.3",
+    "grunt-autoprefixer": "~1.0.1",
     "grunt-csscomb": "~2.0.1",
     "grunt-banner": "~0.2.0",
     "load-grunt-tasks": "~0.2.1"
@@ -54,6 +55,57 @@
       "desc": "ZUI的绝大部分JS组件都依赖于jQuery",
       "thirdpart": true,
       "website": "http://jquery.com/"
+    },
+    "excanvas":
+    {
+      "name": "excanvas",
+      "pver": "3.0",
+      "ver": "1.0.0",
+      "src":
+      {
+        "resource": ["assets/excanvas.js"]
+      },
+      "desc": "HTML5 Canvas for Internet Explorer",
+      "thirdpart": true,
+      "website": "https://code.google.com/p/explorercanvas/"
+    },
+    "html5shiv":
+    {
+      "name": "html5shiv",
+      "pver": "3.7.0",
+      "ver": "1.0.0",
+      "src":
+      {
+        "resource": ["assets/html5shiv.js"]
+      },
+      "desc": "HTML5 IE enabling script",
+      "thirdpart": true,
+      "website": "https://code.google.com/p/html5shiv/"
+    },
+    "respond":
+    {
+      "name": "respond",
+      "pver": "1.4.2",
+      "ver": "1.0.0",
+      "src":
+      {
+        "resource": ["assets/respond.js"]
+      },
+      "desc": "min/max-width media query polyfill",
+      "thirdpart": true,
+      "website": "https://github.com/scottjehl/Respond"
+    },
+    "ieonly":
+    {
+      "name": "为IE专门设置",
+      "dpds": ["html5shiv", "respond", "excanvas"]
+    },
+    "chartjs":
+    {
+      "name": "Chart.js",
+      "pver": "0.2.0",
+      "ver" : "1.2.0",
+      "src" : {"resource": ["assets/chartjs/Chart.js", "assets/chartjs/Chart.min.js"]}
     },
     "jqueryex":
     {
@@ -104,11 +156,16 @@
       "ver": "1.0.0",
       "dpds": ["variables"]
     },
+    "setting":
+    {
+      "name": "ZUI配置",
+      "dpds": ["variables", "mixins"]
+    },
     "basic":
     {
       "name": "基础样式",
       "desc": "包含配置、全局样式表及一些有用的样式片段",
-      "dpds": ["variables", "normalize", "mixins"]
+      "dpds": ["setting", "normalize"]
     },
     "utilities.common":
     {
@@ -191,7 +248,7 @@
     "typography":
     {
       "name": "排版",
-      "dpds": ["type.basic", "type.bg", "type.hightlight"]
+      "dpds": ["typography.basic", "typography.bg", "typography.hightlight"]
     },
     "header":
     {
@@ -318,10 +375,9 @@
       "name": "图标名称配置",
       "src":
       {
-        "less": ["src/less/controls/icons.core.less"]
+        "less": ["src/less/controls/icons.variables.less"]
       },
-      "ver": "1.0.0",
-      "dpds": ["basic"]
+      "ver": "1.0.0"
     },
     "icons.set":
     {
@@ -371,7 +427,7 @@
       "name": "基本表格",
       "src":
       {
-        "less": ["src/less/components/table.less"]
+        "less": ["src/less/components/tables.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -381,7 +437,7 @@
       "name": "表格变色",
       "src":
       {
-        "less": ["src/less/components/table.colors.less"]
+        "less": ["src/less/components/tables.colors.less"]
       },
       "ver": "1.0.0",
       "dpds": ["table.basic"]
@@ -391,7 +447,7 @@
       "name": "多设备响应的表格",
       "src":
       {
-        "less": ["src/less/components/table.responsive.less"]
+        "less": ["src/less/components/tables.responsive.less"]
       },
       "ver": "1.0.0",
       "dpds": ["table.basic"]
@@ -617,7 +673,7 @@
       "name": "导航条表单",
       "src":
       {
-        "less": ["src/less/components/navbars.forms.less"]
+        "less": ["src/less/components/navbars.form.less"]
       },
       "ver": "1.0.0",
       "dpds": ["navbars.basic"]
@@ -952,7 +1008,7 @@
       {
         "less": ["src/less/modules/kindeditor.less"],
         "js": ["assets/kindeditor/kindeditor-all.js"],
-        "resource": ["themes/*", "lang/*"]
+        "resource": ["assets/kindeditor//themes/*", "assets/kindeditor//lang/*"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"],
@@ -967,7 +1023,7 @@
       "src":
       {
         "less": ["src/less/modules/chosen.less"],
-        "js": ["assets/chosen.jquery.js"]
+        "js": ["assets/chosen/js/chosen.jquery.js"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"],
@@ -1011,7 +1067,7 @@
         "less": ["src/less/views/article.less"]
       },
       "ver": "1.0.0",
-      "dpds": ["basic", "typography"]
+      "dpds": ["basic", "typography.basic"]
     },
     "article.condensed":
     {
@@ -1026,7 +1082,7 @@
     "article":
     {
       "name": "文章视图",
-      "dpds": ["article.basic", "article.condensed"]
+      "dpds": ["typography", "article.basic", "article.condensed"]
     },
     "comment":
     {
@@ -1138,7 +1194,18 @@
         "js": ["src/js/calendar.js"]
       },
       "ver": "1.2.0",
-      "dpds": ["jqueryex", "resize", "string", "date", "table", "droppable"]
+      "dpds": ["basic", "jqueryex", "resize", "string", "date", "table", "droppable"]
+    },
+    "theme":
+    {
+      "name": "默认主题",
+      "src":
+      {
+        "less": ["src/less/theme.less"]
+      },
+      "desc": "ZUI的默认主题示例",
+      "ver": "1.0.0",
+      "dpds": ["setting"]
     },
     "colorset.test":
     {
@@ -1160,6 +1227,7 @@
       "dest": "dist/",
       "filename": "zui",
       "subdirectories": true,
+      "bootstrapStatement" : true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable"]
     },
     "lite":
@@ -1168,7 +1236,16 @@
       "dest": "dist/",
       "filename": "zui.lite",
       "subdirectories": true,
+      "bootstrapStatement" : true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "alerts.basic", "inputgroups", "forms.basic", "code", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations", "collapse", "device", "browser", "date", "string", "resize", "store", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "article", "comment", "list", "card.basic"]
+    },
+    "theme":
+    {
+      "title": "Theme",
+      "filename": "zui-theme",
+      "dest": "dist/",
+      "subdirectories": true,
+      "includes": ["theme"]
     },
     "calendar":
     {
@@ -1176,6 +1253,7 @@
       "dest": "dist/lib/calendar/",
       "filename": "calendar",
       "includes": ["calendar"],
+      "basicDpds": ["setting"],
       "ignoreDpds": true
     },
     "kindeditor":
@@ -1184,6 +1262,7 @@
       "dest": "dist/lib/kindeditor/",
       "filename": "kindeditor",
       "includes": ["kindeditor"],
+      "basicDpds": ["setting"],
       "ignoreDpds": true
     },
     "datetimepicker":
@@ -1192,6 +1271,7 @@
       "dest": "dist/lib/datetimepicker/",
       "filename": "datetimepicker",
       "includes": ["datetimepicker"],
+      "basicDpds": ["setting"],
       "ignoreDpds": true
     },
     "chosen":
@@ -1200,6 +1280,7 @@
       "dest": "dist/lib/chosen/",
       "filename": "chosen",
       "includes": ["chosen"],
+      "basicDpds": ["setting", "icons.variables"],
       "ignoreDpds": true
     },
     "imgcutter":
@@ -1208,7 +1289,31 @@
       "dest": "dist/lib/imgcutter/",
       "filename": "imgcutter",
       "includes": ["imgcutter"],
-      "ignoreDpds": ["basic"]
+      "basicDpds": ["setting"],
+      "ignoreDpds": true
+    },
+    "datatable":
+    {
+      "title": "Image cutter",
+      "dest": "dist/lib/datatable/",
+      "filename": "datatable",
+      "includes": ["datatable"],
+      "basicDpds": ["setting", "icons.variables"],
+      "ignoreDpds": true
+    },
+    "IEonly":
+    {
+      "title": "Only for ie browser",
+      "dest": "dist/lib/ieonly/",
+      "filename": "ie",
+      "includes": ["ieonly"]
+    },
+    "chartjs":
+    {
+      "title": "Chart.js",
+      "dest": "dist/lib/chartjs/",
+      "filename": "chartjs",
+      "includes": ["chartjs"]
     }
   }
 }
