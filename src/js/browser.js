@@ -69,10 +69,17 @@
     // Detect it is IE, can given a version
     Browser.prototype.isIE = function(version)
     {
+        // var ie = /*@cc_on !@*/false;
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
         return b.getElementsByTagName('i').length === 1;
-    }
+    };
+
+    // Detect ie 10 with hack
+    Browser.prototype.isIE10 = function()
+    {
+        return (/*@cc_on!@*/false);
+    };
 
     window.browser = new Browser();
 
