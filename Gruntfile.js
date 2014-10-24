@@ -303,7 +303,7 @@ module.exports = function(grunt)
         if(source.resource && source.resource.length)
         {
             var resouceFiles = [];
-            var destPath = getBuildPath(build, 'resource');
+            var destPath = getBuildPath(build, '');
             grunt.log.subhead('--- BUILD ' + source.resource.length + ' RESOURCE resouceFiles ---');
             source.resource.forEach(function(file)
             {
