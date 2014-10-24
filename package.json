@@ -70,7 +70,7 @@
       "name": "配色",
       "src":
       {
-        "less": ["src/basic/colorset.less"]
+        "less": ["src/less/basic/colorset.less"]
       },
       "desc": "ZUI的色彩配置",
       "ver": "1.0.0"
@@ -80,7 +80,7 @@
       "name": "配置",
       "src":
       {
-        "less": ["src/basic/variables.less"]
+        "less": ["src/less/basic/variables.less"]
       },
       "ver": "1.0.0"
     },
@@ -89,7 +89,7 @@
       "name": "全局样式表",
       "src":
       {
-        "less": ["src/basic/normalize.less"]
+        "less": ["src/less/basic/normalize.less"]
       },
       "ver": "1.0.0"
     },
@@ -99,7 +99,7 @@
       "desc": "用于存储可重复使用的Less样式",
       "src":
       {
-        "less": ["src/basic/mixins.less"]
+        "less": ["src/less/basic/mixins.less"]
       },
       "ver": "1.0.0",
       "dpds": ["variables"]
@@ -115,7 +115,7 @@
       "name": "常用辅助类",
       "src":
       {
-        "less": ["src/basic/utilities.less"]
+        "less": ["src/less/basic/utilities.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -125,7 +125,7 @@
       "name": "多设备响应辅助类",
       "src":
       {
-        "less": ["src/basic/utilities.responsive.less"]
+        "less": ["src/less/basic/utilities.responsive.less"]
       },
       "desc": "支持多设备响应的辅助类",
       "ver": "1.0.0",
@@ -142,7 +142,7 @@
       "name": "脚手架",
       "src":
       {
-        "less": ["src/basic/scaffolding.less"]
+        "less": ["src/less/basic/scaffolding.less"]
       },
       "ver": "1.0.0",
       "dpds": ["mixins"]
@@ -152,7 +152,7 @@
       "name": "栅格系统",
       "src":
       {
-        "less": ["src/basic/grid.less"]
+        "less": ["src/less/basic/grid.less"]
       },
       "desc": "使用栅格来帮助布局",
       "ver": "1.0.0",
@@ -163,7 +163,7 @@
       "name": "基本排版",
       "src":
       {
-        "less": ["src/controls/type.less"]
+        "less": ["src/less/controls/type.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -173,7 +173,7 @@
       "name": "文本背景",
       "src":
       {
-        "less": ["src/controls/type.bg.less"]
+        "less": ["src/less/controls/type.bg.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -183,7 +183,7 @@
       "name": "文本高亮",
       "src":
       {
-        "less": ["src/controls/type.hightlight.less"]
+        "less": ["src/less/controls/type.hightlight.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -198,7 +198,7 @@
       "name": "标题",
       "src":
       {
-        "less": ["src/controls/headers.less"]
+        "less": ["src/less/controls/headers.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -208,7 +208,7 @@
       "name": "基本按钮",
       "src":
       {
-        "less": ["src/controls/buttons.less"]
+        "less": ["src/less/controls/buttons.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -218,7 +218,7 @@
       "name": "按钮组",
       "src":
       {
-        "less": ["src/controls/buttons.group.less"]
+        "less": ["src/less/controls/buttons.group.less"]
       },
       "ver": "1.0.0",
       "dpds": ["button.basic"]
@@ -228,7 +228,7 @@
       "name": "垂直按钮组",
       "src":
       {
-        "less": ["src/controls/buttons.vertical.less"]
+        "less": ["src/less/controls/buttons.vertical.less"]
       },
       "ver": "1.0.0",
       "dpds": ["button.basic"]
@@ -243,7 +243,7 @@
       "name": "进度条",
       "src":
       {
-        "less": ["src/controls/progress-bars.less"]
+        "less": ["src/less/controls/progress-bars.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -253,7 +253,7 @@
       "name": "图片",
       "src":
       {
-        "less": ["src/controls/image.less"]
+        "less": ["src/less/controls/image.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -263,7 +263,7 @@
       "name": "分隔",
       "src":
       {
-        "less": ["src/controls/divider.less"]
+        "less": ["src/less/controls/divider.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -273,7 +273,7 @@
       "name": "基本标签",
       "src":
       {
-        "less": ["src/controls/labels.less"]
+        "less": ["src/less/controls/labels.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -283,7 +283,7 @@
       "name": "标签适配样式",
       "src":
       {
-        "less": ["src/controls/labels.fix.less"]
+        "less": ["src/less/controls/labels.fix.less"]
       },
       "ver": "1.0.0",
       "dpds": ["labels.basic"]
@@ -298,7 +298,7 @@
       "name": "面包屑导航",
       "src":
       {
-        "less": ["src/controls/breadcrumbs.less"]
+        "less": ["src/less/controls/breadcrumbs.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -308,7 +308,7 @@
       "name": "图标核心样式",
       "src":
       {
-        "less": ["src/controls/icons.core.less"]
+        "less": ["src/less/controls/icons.core.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -318,7 +318,7 @@
       "name": "图标名称配置",
       "src":
       {
-        "less": ["src/controls/icons.core.less"]
+        "less": ["src/less/controls/icons.core.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -328,7 +328,7 @@
       "name": "图标定义",
       "src":
       {
-        "less": ["src/controls/icons.set.less"]
+        "less": ["src/less/controls/icons.set.less"]
       },
       "ver": "1.0.0",
       "dpds": ["icons.variables"]
@@ -352,7 +352,7 @@
       "name": "关闭按钮",
       "src":
       {
-        "less": ["src/controls/close.less"]
+        "less": ["src/less/controls/close.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -362,7 +362,7 @@
       "name": "滚动条",
       "src":
       {
-        "less": ["src/controls/scrollbar.less"]
+        "less": ["src/less/controls/scrollbar.less"]
       },
       "ver": "1.0.0"
     },
@@ -371,7 +371,7 @@
       "name": "基本表格",
       "src":
       {
-        "less": ["src/components/table.less"]
+        "less": ["src/less/components/table.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -381,7 +381,7 @@
       "name": "表格变色",
       "src":
       {
-        "less": ["src/components/table.colors.less"]
+        "less": ["src/less/components/table.colors.less"]
       },
       "ver": "1.0.0",
       "dpds": ["table.basic"]
@@ -391,7 +391,7 @@
       "name": "多设备响应的表格",
       "src":
       {
-        "less": ["src/components/table.responsive.less"]
+        "less": ["src/less/components/table.responsive.less"]
       },
       "ver": "1.0.0",
       "dpds": ["table.basic"]
@@ -406,7 +406,7 @@
       "name": "列表组",
       "src":
       {
-        "less": ["src/components/list-group.less"]
+        "less": ["src/less/components/list-group.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -416,7 +416,7 @@
       "name": "基本面板",
       "src":
       {
-        "less": ["src/components/panels.less"]
+        "less": ["src/less/components/panels.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -426,7 +426,7 @@
       "name": "面板类型",
       "src":
       {
-        "less": ["src/components/panels.types.less"]
+        "less": ["src/less/components/panels.types.less"]
       },
       "ver": "1.0.0",
       "dpds": ["panels.basic"]
@@ -436,7 +436,7 @@
       "name": "面板组",
       "src":
       {
-        "less": ["src/components/panels.group.less"]
+        "less": ["src/less/components/panels.group.less"]
       },
       "ver": "1.0.0",
       "dpds": ["panels.basic"]
@@ -446,7 +446,7 @@
       "name": "面板适配",
       "src":
       {
-        "less": ["src/components/panels.fix.less"]
+        "less": ["src/less/components/panels.fix.less"]
       },
       "ver": "1.0.0",
       "dpds": ["panels.basic"]
@@ -461,7 +461,7 @@
       "name": "基本消息框",
       "src":
       {
-        "less": ["src/components/alerts.less"],
+        "less": ["src/less/components/alerts.less"],
         "js": ["sr/js/alert.js"]
       },
       "ver": "1.0.0",
@@ -472,7 +472,7 @@
       "name": "消息框增强样式",
       "src":
       {
-        "less": ["src/components/alerts.hover.less"]
+        "less": ["src/less/components/alerts.hover.less"]
       },
       "ver": "1.0.0",
       "dpds": ["alerts.basic"]
@@ -487,7 +487,7 @@
       "name": "基本输入框组",
       "src":
       {
-        "less": ["src/components/input-groups.less"]
+        "less": ["src/less/components/input-groups.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -497,7 +497,7 @@
       "name": "输入框组大小",
       "src":
       {
-        "less": ["src/components/input-groups.size.less"]
+        "less": ["src/less/components/input-groups.size.less"]
       },
       "ver": "1.0.0",
       "dpds": ["inputgroups.basic"]
@@ -512,7 +512,7 @@
       "name": "基本表单",
       "src":
       {
-        "less": ["src/components/forms.less"]
+        "less": ["src/less/components/forms.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -522,7 +522,7 @@
       "name": "紧凑表单",
       "src":
       {
-        "less": ["src/components/forms.condensed.less"]
+        "less": ["src/less/components/forms.condensed.less"]
       },
       "ver": "1.0.0",
       "dpds": ["forms.basic"]
@@ -537,7 +537,7 @@
       "name": "代码",
       "src":
       {
-        "less": ["src/components/code.less"]
+        "less": ["src/less/components/code.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -547,7 +547,7 @@
       "name": "基本分页",
       "src":
       {
-        "less": ["src/components/pager.less"]
+        "less": ["src/less/components/pager.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -557,7 +557,7 @@
       "name": "分页尺寸",
       "src":
       {
-        "less": ["src/components/pager.size.less"]
+        "less": ["src/less/components/pager.size.less"]
       },
       "ver": "1.0.0",
       "dpds": ["pager.basic"]
@@ -567,7 +567,7 @@
       "name": "分页类型",
       "src":
       {
-        "less": ["src/components/pager.types.less"]
+        "less": ["src/less/components/pager.types.less"]
       },
       "ver": "1.0.0",
       "dpds": ["pager.basic"]
@@ -582,7 +582,7 @@
       "name": "基本导航",
       "src":
       {
-        "less": ["src/components/navs.less"]
+        "less": ["src/less/components/navs.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -592,7 +592,7 @@
       "name": "标签式导航",
       "src":
       {
-        "less": ["src/components/navs.tabs.less"]
+        "less": ["src/less/components/navs.tabs.less"]
       },
       "ver": "1.0.0",
       "dpds": ["tab", "navs.basic"]
@@ -607,7 +607,7 @@
       "name": "基本导航条",
       "src":
       {
-        "less": ["src/components/navbars.less"]
+        "less": ["src/less/components/navbars.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -617,7 +617,7 @@
       "name": "导航条表单",
       "src":
       {
-        "less": ["src/components/navbars.forms.less"]
+        "less": ["src/less/components/navbars.forms.less"]
       },
       "ver": "1.0.0",
       "dpds": ["navbars.basic"]
@@ -627,7 +627,7 @@
       "name": "左侧导航条",
       "src":
       {
-        "less": ["src/components/navbars.fixed-left.less"]
+        "less": ["src/less/components/navbars.fixed-left.less"]
       },
       "ver": "1.0.0",
       "dpds": ["navbars.basic"]
@@ -642,7 +642,7 @@
       "name": "过度动画",
       "src":
       {
-        "less": ["src/modules/animations.less"],
+        "less": ["src/less/modules/animations.less"],
         "js": ["src/js/transition.js"]
       },
       "ver": "1.0.0",
@@ -801,7 +801,7 @@
       "name": "模态框",
       "src":
       {
-        "less": ["src/modules/modals.less"],
+        "less": ["src/less/modules/modals.less"],
         "js": ["src/js/modal.js"]
       },
       "ver": "1.0.0",
@@ -824,7 +824,7 @@
       "name": "工具提示",
       "src":
       {
-        "less": ["src/modules/tooltip.less"],
+        "less": ["src/less/modules/tooltip.less"],
         "js": ["src/js/tooltip.js"]
       },
       "ver": "1.0.0",
@@ -836,7 +836,7 @@
       "name": "弹出面板",
       "src":
       {
-        "less": ["src/modules/popovers.less"],
+        "less": ["src/less/modules/popovers.less"],
         "js": ["src/js/popover.js"]
       },
       "ver": "1.0.0",
@@ -848,7 +848,7 @@
       "name": "下拉菜单",
       "src":
       {
-        "less": ["src/modules/dropdowns.less"],
+        "less": ["src/less/modules/dropdowns.less"],
         "js": ["src/js/dropdown.js"]
       },
       "ver": "1.0.0",
@@ -860,7 +860,7 @@
       "name": "基本轮播",
       "src":
       {
-        "less": ["src/modules/carousel.less"],
+        "less": ["src/less/modules/carousel.less"],
         "js": ["src/js/carousel.js"]
       },
       "ver": "1.0.0",
@@ -872,7 +872,7 @@
       "name": "轮播指示器",
       "src":
       {
-        "less": ["src/modules/carousel.indicators.less"]
+        "less": ["src/less/modules/carousel.indicators.less"]
       },
       "ver": "1.0.0",
       "dpds": ["carousel.basic"]
@@ -887,7 +887,7 @@
       "name": "灯箱预览",
       "src":
       {
-        "less": ["src/modules/lightbox.less"],
+        "less": ["src/less/modules/lightbox.less"],
         "js": ["src/js/lightbox.js"]
       },
       "ver": "1.0.0",
@@ -899,7 +899,7 @@
       "name": "消息",
       "src":
       {
-        "less": ["src/modules/messager.less"],
+        "less": ["src/less/modules/messager.less"],
         "js": ["src/js/messager.js"]
       },
       "ver": "1.0.0",
@@ -911,7 +911,7 @@
       "name": "垂直菜单",
       "src":
       {
-        "less": ["src/modules/menu.less"],
+        "less": ["src/less/modules/menu.less"],
         "js": ["src/js/menu.js"]
       },
       "ver": "1.0.0",
@@ -923,7 +923,7 @@
       "name": "图片裁剪工具",
       "src":
       {
-        "less": ["src/modules/img-cutter.less"],
+        "less": ["src/less/modules/img-cutter.less"],
         "js": ["src/js/img-cuttr.js"]
       },
       "ver": "1.0.0",
@@ -935,7 +935,7 @@
       "name": "日期时间选择",
       "src":
       {
-        "less": ["src/modules/datetimepicker.less"],
+        "less": ["src/less/modules/datetimepicker.less"],
         "js": ["assets/datetimepicker/js/datetimepicker.js"]
       },
       "ver": "1.0.0",
@@ -950,7 +950,7 @@
       "name": "富文本编辑器",
       "src":
       {
-        "less": ["src/modules/kindeditor.less"],
+        "less": ["src/less/modules/kindeditor.less"],
         "js": ["assets/kindeditor/kindeditor-all.js"],
         "resource": ["themes/*", "lang/*"]
       },
@@ -966,7 +966,7 @@
       "name": "选择器",
       "src":
       {
-        "less": ["src/modules/chosen.less"],
+        "less": ["src/less/modules/chosen.less"],
         "js": ["assets/chosen.jquery.js"]
       },
       "ver": "1.0.0",
@@ -982,7 +982,7 @@
       "name": "模态消息",
       "src":
       {
-        "less": ["src/modules/modals.bootbox.less"],
+        "less": ["src/less/modules/modals.bootbox.less"],
         "js": ["src/js/bootbox.js"]
       },
       "ver": "1.0.0",
@@ -996,7 +996,7 @@
       "name": "图标选择器",
       "src":
       {
-        "less": ["src/modules/chosen.icon.less"],
+        "less": ["src/less/modules/chosen.icon.less"],
         "js": ["src/js/chosen.icon.js"]
       },
       "ver": "1.0.0",
@@ -1008,7 +1008,7 @@
       "name": "基本文章视图",
       "src":
       {
-        "less": ["src/views/article.less"]
+        "less": ["src/less/views/article.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic", "typography"]
@@ -1018,7 +1018,7 @@
       "name": "紧凑文章视图",
       "src":
       {
-        "less": ["src/views/article.condensed.less"]
+        "less": ["src/less/views/article.condensed.less"]
       },
       "ver": "1.0.0",
       "dpds": ["article.basic"]
@@ -1033,7 +1033,7 @@
       "name": "评论视图",
       "src":
       {
-        "less": ["src/views/comment.less"]
+        "less": ["src/less/views/comment.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -1043,7 +1043,7 @@
       "name": "列表视图",
       "src":
       {
-        "less": ["src/views/list.less"]
+        "less": ["src/less/views/list.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -1053,7 +1053,7 @@
       "name": "基本卡片视图",
       "src":
       {
-        "less": ["src/views/cards.less"]
+        "less": ["src/less/views/cards.less"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -1063,7 +1063,7 @@
       "name": "卡片视图备注",
       "src":
       {
-        "less": ["src/views/cards.caption.less"]
+        "less": ["src/less/views/cards.caption.less"]
       },
       "ver": "1.0.0",
       "dpds": ["cards.basic"]
@@ -1073,7 +1073,7 @@
       "name": "紧凑卡片视图",
       "src":
       {
-        "less": ["src/views/cards.condensed.less"]
+        "less": ["src/less/views/cards.condensed.less"]
       },
       "ver": "1.0.0",
       "dpds": ["cards.basic"]
@@ -1083,7 +1083,7 @@
       "name": "卡片视图翻转",
       "src":
       {
-        "less": ["src/views/cards.reveal.less"]
+        "less": ["src/less/views/cards.reveal.less"]
       },
       "ver": "1.0.0",
       "dpds": ["cards.basic"]
@@ -1098,7 +1098,7 @@
       "name": "控制面板",
       "src":
       {
-        "less": ["src/views/dashboard.less"],
+        "less": ["src/less/views/dashboard.less"],
         "js": ["src/js/dashboard.js"]
       },
       "ver": "1.0.0",
@@ -1110,7 +1110,7 @@
       "name": "看板",
       "src":
       {
-        "less": ["src/views/boards.less"],
+        "less": ["src/less/views/boards.less"],
         "js": ["src/js/boards.js"]
       },
       "ver": "1.0.0",
@@ -1122,7 +1122,7 @@
       "name": "数据表格",
       "src":
       {
-        "less": ["src/views/datatable.less"],
+        "less": ["src/less/views/datatable.less"],
         "js": ["src/js/datatable.js"]
       },
       "ver": "1.2.0",
@@ -1134,7 +1134,7 @@
       "name": "日历",
       "src":
       {
-        "less": ["src/views/calendar.less"],
+        "less": ["src/less/views/calendar.less"],
         "js": ["src/js/calendar.js"]
       },
       "ver": "1.2.0",
@@ -1145,7 +1145,7 @@
       "name": "配色测试",
       "src":
       {
-        "less": ["src/basic/colorset.text.less"]
+        "less": ["src/less/basic/colorset.text.less"]
       },
       "desc": "ZUI的色彩预览样式",
       "ver": "1.0.0",
