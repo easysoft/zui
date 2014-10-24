@@ -1,7 +1,15 @@
+/**
+ * ZUI's Gruntfile
+ * http://zui.sexy
+ * Copyright 2014 cnezsoft.com
+ * Licensed under MIT (https://github.com/easysoft/zui/blob/master/LICENSE)
+ */
 module.exports = function(grunt)
 {
+    /* require */
+    var extend = require('extend');
 
-    var banner      = '/*!\n' +
+    var banner        = '/*!\n' +
         ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -9,534 +17,159 @@ module.exports = function(grunt)
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;' +
         ' Licensed <%= pkg.license %>\n' +
         ' */\n\n',
-        statement   = '/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n',
-        jqueryCheck = 'if(typeof jQuery === "undefined") {throw new Error("ZUI requires jQuery");}\n\n',
-        srcPath     = 'src/',
-        distPath    = 'dist/',
-        buildPath   = 'build/',
-        concatSrcPath = function(a) {return 'src/js/' + a};
+        statement     = '/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n',
+        jqueryCheck   = 'if(typeof jQuery === "undefined") {throw new Error("ZUI requires jQuery");}\n\n',
+        pkg           = grunt.file.readJSON('package.json');
+
+    var lib = pkg.lib,
+        typeSet = ['less', 'js', 'fonts', 'resource'],
+        builds = pkg.builds;
+
+    var getItemList = function(list, items, ignoreDpds)
+    {
+        items = items || [];
+        var thisFn = arguments.callee;
+
+        if(Array.isArray(list))
+        {
+            list.forEach(function(name)
+            {
+                thisFn(name, items, ignoreDpds);
+            });
+        }
+        else
+        {
+            var item = lib[list];
+            if(item && items.indexOf(list) < 0)
+            {
+                if(!ignoreDpds && item.dpds)
+                {
+                    thisFn(item.dpds, items, ignoreDpds);
+                }
+                if(item.src) items.push(list);
+            }
+        }
+
+        return items;
+    };
+
+    var getBuildSource = function(build)
+    {
+        var list = [];
+
+        var sources = {less: [], js: [], fonts: [], resource: []};
+
+        if(!Array.isArray(list)) list = [list];
+
+        if(build.basicDpds) list = getItemList(build.basicDpds, list);
+        list = getItemList(build.includes, list, build.ignoreDpds);
+
+        list.forEach(function(item)
+        {
+            var libItem = lib[item];
+            if(libItem && libItem.src)
+            {
+                typeSet.forEach(function(type)
+                {
+                    if(libItem.src[type])
+                    {
+                        libItem.src[type].forEach(function(file)
+                        {
+                            if(sources[type].indexOf(file) < 0)
+                            {
+                                sources[type].push(file);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        return sources;
+    };
+
+    var flatternCopyOptions = function(src, dest)
+    {
+        var idx = src.lastIndexOf('//');
+        if(idx > 0)
+        {
+            return {expand: true, cwd: src.substr(0, idx), src: src.substr(idx + 2), dest: dest};
+        }
+        idx = src.lastIndexOf('/');
+        return {expand: true, cwd: src.substr(0, idx), src: src.substr(idx + 1), dest: dest};
+    };
+
+    var getBuildPath = function(build, type)
+    {
+        var path = build.dest;
+        if(build.subdirectories)
+        {
+            path += '/' + type + '/';
+        }
+        return path.replace(/\/\//g, '/');
+    };
+
+    var getBuildDestFilename = function(build, type, suffix)
+    {
+        var file = getBuildPath(build, type);
+        file += '/' + build.filename + '.' + (suffix || type);
+        return file.replace(/\/\//g, '/');
+    };
 
     // project config
     grunt.initConfig(
     {
-        pkg: grunt.file.readJSON('package.json'),
-
-        clean:
+        pkg: pkg,
+        jshint:
         {
-            dist: ['dist'],
-            build: ['build']
+            options: {expr: true},
+            basic: ['Gruntfile.js']
         },
-
-        copy:
-        {
-            fonts:
-            {
-                expand: true,
-                cwd: srcPath,
-                src: 'fonts/*',
-                dest: distPath
-            }
-        },
-
-        concat:
+        autoprefixer:
         {
             options:
             {
-                banner: banner,
-                stripBanners: false
-            },
-            js:
-            {
-                options:
-                {
-                    banner: banner + statement + jqueryCheck
-                },
-                src: grunt.file.readJSON(srcPath + 'js/import.json').map(concatSrcPath),
-                dest: distPath + 'js/<%= pkg.name %>.js'
-            },
-            lite:
-            {
-                options:
-                {
-                    banner: banner + statement + jqueryCheck
-                },
-                src: grunt.file.readJSON(srcPath + 'js/import.lite.json').map(concatSrcPath),
-                dest: distPath + 'js/<%= pkg.name %>.lite.js'
-            },
-            mindmap:
-            {
-                src: [srcPath + 'js/mindmap.js'],
-                dest: distPath + 'js/<%= pkg.name %>-mindmap.js'
-            },
-            assets:
-            {
-                files:
-                {
-                    'assets/chartjs/chart.line.js': srcPath + 'js/chart.line.js',
-                    'assets/chosen/js/chosen.icons.js': srcPath + 'js/chosen.icons.js',
-                    'assets/chosen/js/chosen.all.js': ['assets/chosen/js/chosen.jquery.js', 'assets/chosen/js/chosen.icons.js']
-                }
-            },
-            zentao:
-            {
-                options:
-                {
-                    banner: banner + statement + jqueryCheck
-                },
-                src: grunt.file.readJSON(srcPath + 'apps/zentao/js/import.json').map(concatSrcPath),
-                dest: buildPath + 'zentao/js/<%= pkg.name %>.js'
-            },
-            chanzhi:
-            {
-                options:
-                {
-                    banner: banner + statement + jqueryCheck
-                },
-                src: grunt.file.readJSON(srcPath + 'apps/chanzhi/js/import.json').map(concatSrcPath),
-                dest: buildPath + 'chanzhi/js/<%= pkg.name %>.js'
-            },
-            ranzhi:
-            {
-                options:
-                {
-                    banner: banner + statement + jqueryCheck
-                },
-                src: grunt.file.readJSON(srcPath + 'apps/ranzhi/js/import.json').map(concatSrcPath),
-                dest: buildPath + 'ranzhi/js/<%= pkg.name %>.js'
+                browsers: [
+                    'Android 2.3',
+                    'Android >= 4',
+                    'Chrome >= 20',
+                    'Firefox >= 24', // Firefox 24 is the latest ESR
+                    'Explorer >= 8',
+                    'iOS >= 6',
+                    'Opera >= 12',
+                    'Safari >= 6'
+                ]
             }
         },
-
-        uglify:
-        {
-            options:
-            {
-                banner: banner
-            },
-            js:
-            {
-                options: {banner: banner + statement},
-                src:  ['<%= concat.js.dest %>'],
-                dest: distPath + 'js/<%= pkg.name %>.min.js'
-            },
-            lite:
-            {
-                options: {banner: banner + statement},
-                src:  ['<%= concat.lite.dest %>'],
-                dest: distPath + 'js/<%= pkg.name %>.lite.min.js'
-            },
-            mindmap:
-            {
-                src:  ['<%= concat.mindmap.dest %>'],
-                dest: distPath + 'js/<%= pkg.name %>-mindmap.min.js'
-            },
-            assets:
-            {
-                files:
-                {
-                    'assets/chartjs/chart.line.min.js': 'assets/chartjs/chart.line.js',
-                    'assets/chosen/js/chosen.jquery.min.js': 'assets/chosen/js/chosen.jquery.js',
-                    'assets/chosen/js/chosen.icons.min.js': 'assets/chosen/js/chosen.icons.js',
-                    'assets/chosen/js/chosen.all.min.js': 'assets/chosen/js/chosen.all.js',
-                    'assets/datetimepicker/js/datetimepicker.min.js': 'assets/datetimepicker/js/datetimepicker.js'
-                }
-            },
-            zentao:
-            {
-                options: {banner: banner + statement},
-                src:  ['<%= concat.zentao.dest %>'],
-                dest: buildPath + 'zentao/js/<%= pkg.name %>.min.js'
-            },
-            chanzhi:
-            {
-                options: {banner: banner + statement},
-                src:  ['<%= concat.chanzhi.dest %>'],
-                dest: buildPath + 'chanzhi/js/<%= pkg.name %>.min.js'
-            },
-            ranzhi:
-            {
-                options: {banner: banner + statement},
-                src:  ['<%= concat.ranzhi.dest %>'],
-                dest: buildPath + 'ranzhi/js/<%= pkg.name %>.min.js'
-            }
-        },
-
-        less:
-        {
-            zui:
-            {
-                options:
-                {
-                    strictMath: true,
-                    sourceMap: true,
-                    outputSourceFiles: true,
-                    sourceMapURL: '<%= pkg.name %>.css.map',
-                    sourceMapFilename: distPath + 'css/<%= pkg.name %>.css.map'
-                },
-                files:
-                {
-                    'dist/css/<%= pkg.name %>.css': srcPath + 'less/zui.less'
-                }
-            },
-            lite:
-            {
-                options:
-                {
-                    strictMath: true,
-                    sourceMap: true,
-                    outputSourceFiles: true,
-                    sourceMapURL: '<%= pkg.name %>.lite.css.map',
-                    sourceMapFilename: distPath + 'css/<%= pkg.name %>.lite.css.map'
-                },
-                files:
-                {
-                    'dist/css/<%= pkg.name %>.lite.css': srcPath + 'less/zui.lite.less'
-                }
-            },
-            doc:
-            {
-                options:
-                {
-                    strictMath: true,
-                    cleancss: true,
-                    report: 'min'
-                },
-                files:
-                {
-                    'docs/css/<%= pkg.name %>.min.css': srcPath + 'less/zui.docs.less'
-                }
-            },
-            theme:
-            {
-                options:
-                {
-                    strictMath: true,
-                    sourceMap: true,
-                    outputSourceFiles: true,
-                    sourceMapURL: '<%= pkg.name %>-theme.css.map',
-                    sourceMapFilename: distPath + 'css/<%= pkg.name %>-theme.css.map'
-                },
-                files:
-                {
-                    'dist/css/<%= pkg.name %>-theme.css': srcPath + 'less/theme.less'
-                }
-            },
-            min:
-            {
-                options:
-                {
-                    cleancss: true,
-                    report: 'min'
-                },
-                files:
-                {
-                    'dist/css/<%= pkg.name %>.min.css': distPath + 'css/<%= pkg.name %>.css',
-                    'dist/css/<%= pkg.name %>.lite.min.css': distPath + 'css/<%= pkg.name %>.lite.css',
-                    'dist/css/<%= pkg.name %>-theme.min.css': distPath + 'css/<%= pkg.name %>-theme.css',
-                }
-            },
-            mindmap:
-            {
-                options:
-                {
-                    strictMath: true,
-                    sourceMap: true,
-                    outputSourceFiles: true,
-                    sourceMapURL: '<%= pkg.name %>-mindmap.css.map',
-                    sourceMapFilename: distPath + 'css/<%= pkg.name %>-mindmap.css.map'
-                },
-                files:
-                {
-                    'dist/css/<%= pkg.name %>-mindmap.css': srcPath + 'less/mindmap.less'
-                }
-            },
-            'mindmap-min':
-            {
-                options:
-                {
-                    cleancss: true,
-                    report: 'min'
-                },
-                files:
-                {
-                    'dist/css/<%= pkg.name %>-mindmap.min.css': distPath + 'css/<%= pkg.name %>-mindmap.css'
-                }
-            },
-            assets:
-            {
-                options:
-                {
-                    strictMath: true,
-                    sourceMap: false
-                },
-                files:
-                {
-                    'assets/datetimepicker/css/datetimepicker.css': srcPath + 'less/datetimepicker.less',
-                    'assets/kindeditor/themes/default/default.css': srcPath + 'less/kindeditor-theme.default.less',
-                    'assets/chosen/css/chosen.css': srcPath + 'less/chosen.less'
-                }
-            },
-            'assets-min':
-            {
-                options:
-                {
-                    cleancss: true,
-                    report: 'min'
-                },
-                files:
-                {
-                    'assets/datetimepicker/css/datetimepicker.min.css': 'assets/datetimepicker/css/datetimepicker.css',
-                    'assets/chosen/css/chosen.min.css': 'assets/chosen/css/chosen.css'
-                }
-            },
-            zentao:
-            {
-                options:
-                {
-                    strictMath: true,
-                    sourceMap: true,
-                    outputSourceFiles: true,
-                    sourceMapURL: '<%= pkg.name %>.css.map',
-                    sourceMapFilename: buildPath + 'zentao/css/<%= pkg.name %>.css.map'
-                },
-                files:
-                {
-                    'build/zentao/css/<%= pkg.name %>.css': srcPath + 'apps/zentao/less/zui.less',
-                    'build/zentao/css/chosen.css': srcPath + 'apps/zentao/less/chosen.less',
-                    'build/zentao/css/kindeditor.css': srcPath + 'apps/zentao/less/kindeditor.less',
-                    'build/zentao/css/datetimepicker.css': srcPath + 'apps/zentao/less/datetimepicker.less',
-                    'build/zentao/css/theme.red.css': srcPath + 'apps/zentao/less/theme.red.less',
-                    'build/zentao/css/theme.green.css': srcPath + 'apps/zentao/less/theme.green.less',
-                    'build/zentao/css/theme.lightblue.css': srcPath + 'apps/zentao/less/theme.lightblue.less',
-                    'build/zentao/css/theme.blackberry.css': srcPath + 'apps/zentao/less/theme.blackberry.less'
-                }
-            },
-            'zentao-min':
-            {
-                options:
-                {
-                    cleancss: true,
-                    report: 'min'
-                },
-                files:
-                {
-                    'build/zentao/css/<%= pkg.name %>.min.css': 'build/zentao/css/<%= pkg.name %>.css',
-                    'build/zentao/css/chosen.min.css': 'build/zentao/css/chosen.css',
-                    'build/zentao/css/kindeditor.min.css': 'build/zentao/css/kindeditor.css',
-                    'build/zentao/css/datetimepicker.min.css': 'build/zentao/css/datetimepicker.css',
-                    'build/zentao/css/theme.red.min.css': 'build/zentao/css/theme.red.css',
-                    'build/zentao/css/theme.green.min.css': 'build/zentao/css/theme.green.css',
-                    'build/zentao/css/theme.lightblue.min.css': 'build/zentao/css/theme.lightblue.css',
-                    'build/zentao/css/theme.blackberry.min.css': 'build/zentao/css/theme.blackberry.css'
-                }
-            },
-            chanzhi:
-            {
-                options:
-                {
-                    strictMath: true,
-                    sourceMap: true,
-                    outputSourceFiles: true,
-                    sourceMapURL: '<%= pkg.name %>.css.map',
-                    sourceMapFilename: buildPath + 'chanzhi/css/<%= pkg.name %>.css.map'
-                },
-                files:
-                {
-                    'build/chanzhi/css/<%= pkg.name %>.css': srcPath + 'apps/chanzhi/less/zui.less'
-                }
-            },
-            'chanzhi-min':
-            {
-                options:
-                {
-                    cleancss: true,
-                    report: 'min'
-                },
-                files:
-                {
-                    'build/chanzhi/css/<%= pkg.name %>.min.css': 'build/chanzhi/css/<%= pkg.name %>.css'
-                }
-            },
-            ranzhi:
-            {
-                options:
-                {
-                    strictMath: true,
-                    sourceMap: true,
-                    outputSourceFiles: true,
-                    sourceMapURL: '<%= pkg.name %>.css.map',
-                    sourceMapFilename: buildPath + 'ranzhi/css/<%= pkg.name %>.css.map'
-                },
-                files:
-                {
-                    'build/ranzhi/css/<%= pkg.name %>.css': srcPath + 'apps/ranzhi/less/zui.less',
-                    'build/ranzhi/css/theme.oa.css': srcPath + 'apps/ranzhi/less/theme.oa.less',
-                    'build/ranzhi/css/theme.cash.css': srcPath + 'apps/ranzhi/less/theme.cash.less',
-                    'build/ranzhi/css/theme.team.css': srcPath + 'apps/ranzhi/less/theme.team.less'
-                }
-            },
-            'ranzhi-min':
-            {
-                options:
-                {
-                    cleancss: true,
-                    report: 'min'
-                },
-                files:
-                {
-                    'build/ranzhi/css/<%= pkg.name %>.min.css': 'build/ranzhi/css/<%= pkg.name %>.css',
-                    'build/ranzhi/css/theme.oa.min.css': 'build/ranzhi/css/theme.oa.css',
-                    'build/ranzhi/css/theme.cash.min.css': 'build/ranzhi/css/theme.cash.css',
-                    'build/ranzhi/css/theme.team.min.css': 'build/ranzhi/css/theme.team.css'
-                }
-            },
-        },
-
         csscomb:
         {
             options:
             {
-                config: srcPath + 'less/.csscomb.json'
-            },
-            'sort-dist':
-            {
-                files:
-                {
-                    'dist/css/<%= pkg.name %>.css': [distPath + 'css/<%= pkg.name %>.css'],
-                    'dist/css/<%= pkg.name %>.lite.css': [distPath + 'css/<%= pkg.name %>.lite.css'],
-                    'dist/css/<%= pkg.name %>-theme.css': [distPath + 'css/<%= pkg.name %>-theme.css']
-                }
-            },
-            'sort-mindmap':
-            {
-                files:
-                {
-                    'dist/css/<%= pkg.name %>-mindmap.css': [distPath + 'css/<%= pkg.name %>-mindmap.css']
-                }
-            },
-            'sort-zentao':
-            {
-                files:
-                {
-                    'build/zentao/css/<%= pkg.name %>.css': 'build/zentao/css/<%= pkg.name %>.css',
-                    'build/zentao/css/theme.red.css': 'build/zentao/css/theme.red.css',
-                    'build/zentao/css/theme.green.css': 'build/zentao/css/theme.green.css',
-                    'build/zentao/css/theme.lightblue.css': 'build/zentao/css/theme.lightblue.css',
-                    'build/zentao/css/theme.blackberry.css': 'build/zentao/css/theme.blackberry.css'
-                }
-            },
-            'sort-chanzhi':
-            {
-                files:
-                {
-                    'build/chanzhi/css/<%= pkg.name %>.css': 'build/chanzhi/css/<%= pkg.name %>.css'
-                }
-            },
-            'sort-ranzhi':
-            {
-                files:
-                {
-                    'build/ranzhi/css/<%= pkg.name %>.css': 'build/ranzhi/css/<%= pkg.name %>.css',
-                    'build/ranzhi/css/theme.oa.css': 'build/ranzhi/css/theme.oa.css',
-                    'build/ranzhi/css/theme.cash.css': 'build/ranzhi/css/theme.cash.css',
-                    'build/ranzhi/css/theme.team.css': 'build/ranzhi/css/theme.team.css'
-                }
+                config: 'src/less/.csscomb.json'
             }
         },
-
         usebanner:
         {
-            dist:
+            options:
             {
-                options:
-                {
-                    position: 'top',
-                    banner: banner + statement
-                },
-                files:
-                {
-                    src:
-                    [
-                        distPath + 'css/<%= pkg.name %>.css',
-                        distPath + 'css/<%= pkg.name %>.min.css',
-                        distPath + 'css/<%= pkg.name %>.lite.css',
-                        distPath + 'css/<%= pkg.name %>.lite.min.css',
-                        distPath + 'css/<%= pkg.name %>-theme.css',
-                        distPath + 'css/<%= pkg.name %>-theme.min.css',
-                        distPath + 'css/<%= pkg.name %>-mindmap.css',
-                        distPath + 'css/<%= pkg.name %>-mindmap.min.css',
-                    ]
-                }
-            },
-            zentao:
-            {
-                options:
-                {
-                    position: 'top',
-                    banner: banner + statement
-                },
-                files:
-                {
-                    src:
-                    [
-                        'build/zentao/css/<%= pkg.name %>.css',
-                        'build/zentao/css/<%= pkg.name %>.min.css',
-                        'build/zentao/css/theme.red.css',
-                        'build/zentao/css/theme.red.min.css',
-                        'build/zentao/css/theme.green.css',
-                        'build/zentao/css/theme.green.min.css',
-                        'build/zentao/css/theme.lightblue.css',
-                        'build/zentao/css/theme.lightblue.min.css',
-                        'build/zentao/css/theme.blackberry.css',
-                        'build/zentao/css/theme.blackberry.min.css'
-                    ]
-                }
-            },
-            chanzhi:
-            {
-                options:
-                {
-                    position: 'top',
-                    banner: banner + statement
-                },
-                files:
-                {
-                    src:
-                    [
-                        'build/chanzhi/css/<%= pkg.name %>.css',
-                        'build/chanzhi/css/<%= pkg.name %>.min.css'
-                    ]
-                }
-            },
-            ranzhi:
-            {
-                options:
-                {
-                    position: 'top',
-                    banner: banner + statement
-                },
-                files:
-                {
-                    src:
-                    [
-                        'build/ranzhi/css/<%= pkg.name %>.css',
-                        'build/ranzhi/css/<%= pkg.name %>.min.css',
-                        'build/ranzhi/css/theme.oa.css',
-                        'build/ranzhi/css/theme.oa.min.css',
-                        'build/ranzhi/css/theme.cash.css',
-                        'build/ranzhi/css/theme.cash.min.css',
-                        'build/ranzhi/css/theme.team.css',
-                        'build/ranzhi/css/theme.team.min.css'
-                    ]
-                }
+                position: 'top',
+                banner: banner
             }
         },
-
-        watch:
+        csslint:
         {
-            doc:
+            options:
             {
-                files: srcPath + '**',
-                tasks: ['doc', 'dist-js']
+                csslintrc: 'src/less/.csslintrc'
+            }
+        },
+        cssmin:
+        {
+            options:
+            {
+                compatibility: 'ie8',
+                keepSpecialComments: '*',
+                noAdvanced: true
             }
         }
     });
@@ -544,30 +177,173 @@ module.exports = function(grunt)
     // These plugins provide necessary tasks.
     require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 
-    // Distribution task
-    grunt.registerTask('dist-js', ['concat:js', 'uglify:js', 'concat:lite', 'uglify:lite']);
-    grunt.registerTask('dist-css', ['less:zui', 'less:lite', 'less:theme', 'csscomb:sort-dist', 'less:min', 'usebanner:dist']);
-    grunt.registerTask('dist-fonts', ['copy:fonts']);
-    grunt.registerTask('dist', ['clean:dist', 'dist-js', 'dist-css', 'dist-fonts']);
+    grunt.registerTask('build','ZUI builder.', function(name, lint)
+    {
+        lint = lint === 'lint';
 
-    // Documents task
-    grunt.registerTask('doc', ['less:doc']);
+        grunt.task.run(['jshint:basic']);
 
-    // Mindmap task
-    grunt.registerTask('mindmap', ['concat:mindmap', 'uglify:mindmap', 'less:mindmap', 'csscomb:sort-mindmap', 'less:mindmap-min']);
+        var build = builds[name];
+        if(!build)
+        {
+            grunt.log.error('Build config not found: ' + name + '.');
+            return false;
+        }
 
-    // assets componets task
-    grunt.registerTask('assets', ['less:assets', 'less:assets-min', 'concat:assets', 'uglify:assets']);
+        grunt.log.subhead('=== BUILD ' + name.toUpperCase() + ' (' + build.title + ') ===');
 
-    // Build Zentao,Chanzhi,Ranzhi task
-    grunt.registerTask('zentao', ['concat:zentao', 'uglify:zentao', 'less:zentao', 'csscomb:sort-zentao', 'less:zentao-min', 'usebanner:zentao']);
-    grunt.registerTask('chanzhi', ['concat:chanzhi', 'uglify:chanzhi', 'less:chanzhi', 'csscomb:sort-chanzhi', 'less:chanzhi-min', 'usebanner:chanzhi']);
-    grunt.registerTask('ranzhi', ['concat:ranzhi', 'uglify:ranzhi', 'less:ranzhi', 'csscomb:sort-ranzhi', 'less:ranzhi-min', 'usebanner:ranzhi']);
-    grunt.registerTask('build', ['clean:build', 'ranzhi', 'chanzhi', 'zentao']);
+        var source = getBuildSource(build),
+            file,
+            len,
+            sbanner =  banner + (build.bootstrapStatement ? statement : ''),
+            i;
 
-    // The default task
-    grunt.registerTask('default', ['dist', 'assets']);
+        if(source.js && source.js.length)
+        {
+            grunt.log.subhead('--- BUILD ' + source.js.length + ' JAVASCRIPT FILES ---');
+            source.js.forEach(function(file)
+            {
+                grunt.log.writeln(' * ' + file);
+            });
 
-    // Watch task
-    grunt.registerTask('watch-doc', ['watch:doc']);
-}
+            grunt.config('jshint.' + name, source.js);
+
+            grunt.config('concat.' + name,
+            {
+                options:
+                {
+                    banner: sbanner,
+                    stripBanners: false
+                },
+                src: source.js,
+                dest: getBuildDestFilename(build, 'js')
+            });
+
+            grunt.config('uglify.' + name,
+            {
+                options:
+                {
+                    banner: sbanner,
+                    stripBanners: false
+                },
+                src: '<%= concat.' + name + '.dest %>',
+                dest: getBuildDestFilename(build, 'js', 'min.js')
+            });
+
+            if(lint) grunt.task.run(['jshint:' + name]);
+            grunt.task.run(['concat:' + name, 'uglify:' + name]);
+        }
+
+        if(source.less && source.less.length)
+        {
+            /* Write less file */
+            var lessFileContent = '// \n// ' + build.title + '\n// ' + name + ' less build\n//\n// This file generated by ZUI builder automatically at ' + (new Date()).toString() + '.\n//\n\n';
+            var lessFilePath = 'src/less/build/' + build.filename + '.less';
+            var cssFilePath = getBuildDestFilename(build, 'css');
+            var cssminFilePath = getBuildDestFilename(build, 'css', 'min.css');
+
+            grunt.log.subhead('--- BUILD ' + source.less.length + ' LESS FILES ---');
+            source.less.forEach(function(file)
+            {
+                grunt.log.writeln(' * ' + file);
+                lessFileContent += '@import "';
+                lessFileContent += (file.indexOf('src/less/') === 0) ? ('../' + file.substr(9)) : ('../../../' + file);
+                lessFileContent += '";\n';
+            });
+            grunt.file.write(lessFilePath, lessFileContent);
+
+            grunt.config('less.' + name,
+            {
+                options:
+                {
+                    banner: banner + (build.bootstrapStatement ? statement : ''),
+                    stripBanners: false
+                },
+                src: lessFilePath,
+                dest: cssFilePath
+            });
+
+            grunt.config('autoprefixer.' + name,
+            {
+                options:
+                {
+                  map: true
+                },
+                src: cssFilePath
+            });
+
+            grunt.config('usebanner.' + name,
+            {
+                files: {src: cssFilePath}
+            });
+
+            grunt.config('csscomb.' + name,
+            {
+                files:
+                [
+                    {src: [cssFilePath], dest: cssFilePath}
+                ]
+            });
+
+            grunt.config('csslint.' + name, [cssFilePath]);
+
+            grunt.config('cssmin.' + name,
+            {
+                src: cssFilePath,
+                dest: cssminFilePath
+            });
+
+            grunt.task.run(['less:' + name, 'autoprefixer:' + name, 'usebanner:' + name, 'csscomb:' + name]);
+
+            if(lint) grunt.task.run(['csslint:' + name]);
+
+            grunt.task.run(['cssmin:' + name]);
+        }
+
+        if(source.fonts && source.fonts.length)
+        {
+            var files = [];
+            var path = getBuildPath(build, 'fonts');
+            grunt.log.subhead('--- BUILD ' + source.fonts.length + ' FONT FILES ---');
+            source.fonts.forEach(function(file)
+            {
+                files.push(flatternCopyOptions(file, path));
+                grunt.log.writeln(' * ' + file);
+            });
+
+            grunt.config('copy.' + name,
+            {
+                files: files
+            });
+
+            grunt.task.run(['copy:' + name]);
+        }
+
+        if(source.resource && source.resource.length)
+        {
+            var resouceFiles = [];
+            var destPath = getBuildPath(build, 'resource');
+            grunt.log.subhead('--- BUILD ' + source.resource.length + ' RESOURCE resouceFiles ---');
+            source.resource.forEach(function(file)
+            {
+                resouceFiles.push(flatternCopyOptions(file, destPath));
+                grunt.log.writeln(' * ' + file);
+            });
+
+            grunt.config('copy.' + name,
+            {
+                files: resouceFiles
+            });
+
+            grunt.task.run(['copy:' + name]);
+        }
+    });
+
+    grunt.registerTask('dist', 'Build ZUI.', function(lint)
+    {
+        for(var name in builds)
+        {
+            grunt.task.run(['build:' + name + ':' + lint]);
+        }
+    });
+};
