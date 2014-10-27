@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.2.0-beta",
+  "version": "1.2.0",
   "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
   "main": "index.html",
   "directories":
@@ -104,8 +104,11 @@
     {
       "name": "Chart.js",
       "pver": "0.2.0",
-      "ver" : "1.2.0",
-      "src" : {"resource": ["assets/chartjs/Chart.js", "assets/chartjs/Chart.min.js"]}
+      "ver": "1.2.0",
+      "src":
+      {
+        "resource": ["assets/chartjs/Chart.js", "assets/chartjs/Chart.min.js"]
+      }
     },
     "jqueryex":
     {
@@ -561,7 +564,7 @@
     "inputgroups":
     {
       "name": "输入框组",
-      "dpds": ["input-groups.basic", "input-groups.size"]
+      "dpds": ["inputgroups.basic", "inputgroups.size"]
     },
     "forms.basic":
     {
@@ -1217,6 +1220,14 @@
       "desc": "ZUI的色彩预览样式",
       "ver": "1.0.0",
       "dpds": ["colorset", "mixins", "doc"]
+    },
+    "zentao.variables":
+    {
+      "name": "zentao variables",
+      "src":
+      {
+        "less": ["src/apps/zentao/less/basic/variables.less"]
+      }
     }
   },
   "builds":
@@ -1227,7 +1238,7 @@
       "dest": "dist/",
       "filename": "zui",
       "subdirectories": true,
-      "bootstrapStatement" : true,
+      "bootstrapStatement": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable"]
     },
     "lite":
@@ -1236,7 +1247,7 @@
       "dest": "dist/",
       "filename": "zui.lite",
       "subdirectories": true,
-      "bootstrapStatement" : true,
+      "bootstrapStatement": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "alerts.basic", "inputgroups", "forms.basic", "code", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations", "collapse", "device", "browser", "date", "string", "resize", "store", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "article", "comment", "list", "card.basic"]
     },
     "theme":
@@ -1326,8 +1337,56 @@
       "dest": "docs/",
       "filename": "zui",
       "subdirectories": true,
-      "bootstrapStatement" : true,
+      "bootstrapStatement": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "colorset.test"]
+    },
+    "zentao":
+    {
+      "title": "zui for zentao",
+      "dest": "build/zentao/",
+      "filename": "zui.zentao",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": [
+        "jqueryex",
+        "string",
+        "resize",
+        "date",
+        "store",
+        "basic",
+        "zentao.variables",
+        "transition",
+        "animations",
+        "utilities",
+        "scaffolding",
+        "grid",
+        "typography.basic",
+        "header",
+        "button",
+        "divider",
+        "labels",
+        "icons",
+        "close",
+        "inputgroups",
+        "tables.basic",
+        "tables.colors",
+        "listgroup",
+        "panels.basic",
+        "collapse",
+        "dropdowns",
+        "alerts",
+        "forms",
+        "code",
+        "navs",
+        "modals",
+        "tooltip",
+        "popovers",
+        "tab",
+        "bootbox",
+        "draggable",
+        "droppable",
+        "datatable"
+      ]
     }
   }
 }

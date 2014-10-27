@@ -185,7 +185,7 @@ module.exports = function(grunt)
             },
             doc:
             {
-                files: 'src',
+                files: 'src/**',
                 tasks: ['doc']
             },
             basic:
