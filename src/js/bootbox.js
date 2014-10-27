@@ -786,12 +786,12 @@
       CONFIRM : "OK"
     },
     zh_cn : {
-      OK      : "好的",
+      OK      : "确认",
       CANCEL  : "取消",
       CONFIRM : "确认"
     },
     zh_tw : {
-      OK      : "好的",
+      OK      : "確認",
       CANCEL  : "取消",
       CONFIRM : "確認"
     }
