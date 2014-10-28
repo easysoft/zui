@@ -46,6 +46,26 @@ th
   }
 }
 
+// Table with fixed layout
+
+.table-fixed
+{
+  table-layout: fixed;
+
+  th, td
+  {
+    overflow:hidden;
+    white-space:nowrap;
+  }
+
+  tfoot > tr > th,
+  tfoot > tr > td,
+  th.nofixed,
+  td.nofixed{overflow: visible;}
+}
+
+// Table without border
+
 .table-borderless
 {
   th,
