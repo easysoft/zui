@@ -1,4 +1,4 @@
-/* $ComponentName$ */
+/* jQuery extensions */
 +function($, window, document, Math)
 {
     "use strict";
