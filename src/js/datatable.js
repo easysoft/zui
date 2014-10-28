@@ -71,7 +71,7 @@
 
         if(!options.tableClass)
         {
-            options.tableClass = '';
+            options.tableClass = ' table-datatable';
             if($e.hasClass('table-bordered'))
             {
                 options.tableClass += ' table-bordered';
@@ -86,6 +86,18 @@
             {
                 options.tableClass += ' table-striped';
             }
+            if($e.hasClass('table-condensed'))
+            {
+                options.tableClass += ' table-condensed';
+            }
+            if($e.hasClass('table-fixed'))
+            {
+                options.tableClass += ' table-fixed';
+            }
+        }
+        else
+        {
+          options.tableClass = ' ' + options.tableClass;
         }
 
         this.options = options;
@@ -144,6 +156,12 @@
 
                     rows.push(row);
                 });
+
+                var $tfoot = $t.find('tfoot');
+                if($tfoot.length)
+                {
+                  data.footer = '<table class="table' + options.tableClass + '">' + $('<div/>').append($tfoot).html() + '</table>';
+                }
             }
             else
             {
@@ -331,6 +349,13 @@
         }
 
         html += '</div>';
+
+        if(data.footer)
+        {
+            html += '<div class="datatable-footer">';
+            html += data.footer;
+            html += '</div>';
+        }
 
         if(init) html += '</div>';
         return html;
