@@ -513,7 +513,7 @@
         // row check
         if(options.checkable)
         {
-            var checkedStatusStoreName = self.id + '_' + checkedStatus,
+            var checkedStatusStoreName = self.id + '_checkedStatus',
                 checkedClass = options.checkedClass,
                 rowId;
             var syncChecks = function()
@@ -568,6 +568,7 @@
                         self.$rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
                     });
                 }
+                if(checkedStatus.checks.length) self.callEvent('checksChanged', {checks: checkedStatus});
             }
         }
 
@@ -710,7 +711,7 @@
     // Sort table
     DataTable.prototype.sortTable = function($th)
     {
-        var sorterStoreName = self.id + '_' + 'datatableSorter';
+        var sorterStoreName = self.id + '_datatableSorter';
         var sorter = store.pageGet(sorterStoreName);
 
         if(!$th)
