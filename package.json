@@ -769,6 +769,15 @@
       },
       "ver": "1.0.0"
     },
+    "array":
+    {
+      "name": "数组辅助方法",
+      "src":
+      {
+        "js": ["src/js/array.js"]
+      },
+      "ver": "1.2.0"
+    },
     "string":
     {
       "name": "字符串扩展方法",
@@ -1368,8 +1377,8 @@
         "icons",
         "close",
         "inputgroups",
-        "tables.basic",
-        "tables.colors",
+        "table.basic",
+        "table.colors",
         "listgroup",
         "panels.basic",
         "collapse",
@@ -1384,8 +1393,7 @@
         "tab",
         "bootbox",
         "draggable",
-        "droppable",
-        "datatable"
+        "droppable"
       ]
     }
   }
