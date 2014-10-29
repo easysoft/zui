@@ -1,18 +1,24 @@
-/* AutoTrigger */
-+function($, window, document, Math)
+/* ========================================================================
+ * ZUI: auto-trigger.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
++ function($)
 {
     "use strict";
 
     var AutoTrigger = function(element, options)
     {
-        this.$         = $(element);
-        this.options   = this.getOptions(options);
+        this.$ = $(element);
+        this.options = this.getOptions(options);
 
         this.init();
     };
 
-    AutoTrigger.DEFAULTS =
-    {
+    AutoTrigger.DEFAULTS = {
         trigger: 'toggle',
         selector: null,
         animate: 'slide',
@@ -26,9 +32,10 @@
         //,after:
     }; // default options
 
-    AutoTrigger.prototype.getOptions = function (options)
+    AutoTrigger.prototype.getOptions = function(options)
     {
-        options = $.extend({}, AutoTrigger.DEFAULTS, this.$.data(), options);
+        options = $.extend(
+        {}, AutoTrigger.DEFAULTS, this.$.data(), options);
         return options;
     };
 
@@ -39,31 +46,34 @@
 
     AutoTrigger.prototype.bindEvents = function()
     {
-        var options = this.options, that = this;
+        var options = this.options,
+            that = this;
         this.bindTrigger(options);
 
-        if($.isArray(options.triggers))
+        if ($.isArray(options.triggers))
         {
-            for(var i in options.triggers)
+            for (var i in options.triggers)
             {
-                this.bindTrigger($.extend({}, options, options.triggers[i]));
+                this.bindTrigger($.extend(
+                {}, options, options.triggers[i]));
             }
         }
-        else if(typeof options.triggers === 'string')
+        else if (typeof options.triggers === 'string')
         {
             /* events,trigger,target,data */
             var triggers = options.triggers.split('|');
-            for(var i in triggers)
+            for (var i in triggers)
             {
                 var ops = triggers[i].split(',', 4);
-                if(ops.length < 2) continue;
+                if (ops.length < 2) continue;
                 var option = {};
-                if(ops[0]) option.events = ops[0];
-                if(ops[1]) option.trigger = ops[1];
-                if(ops[2]) option.target = ops[2];
-                if(ops[3]) option.data = ops[3];
+                if (ops[0]) option.events = ops[0];
+                if (ops[1]) option.trigger = ops[1];
+                if (ops[2]) option.target = ops[2];
+                if (ops[3]) option.data = ops[3];
 
-                this.bindTrigger($.extend({}, options, option));
+                this.bindTrigger($.extend(
+                {}, options, option));
             }
         }
     };
@@ -74,34 +84,42 @@
         that.$.on(options.events, options.selector, function(event)
         {
             var target = (!options.target) || options.target == 'self' ? that.$ : $(options.target);
-            var data = {event: event, element: this, target: target, options: options};
-            if(!$.callEvent(options.before, data, that)) return;
+            var data = {
+                event: event,
+                element: this,
+                target: target,
+                options: options
+            };
+            if (!$.callEvent(options.before, data, that)) return;
 
-            if($.isFunction(options.trigger))
+            if ($.isFunction(options.trigger))
             {
                 $.callEvent(options.trigger, data, that);
             }
             else
             {
                 var type = options.trigger;
-                if(type === 'toggle')
+                if (type === 'toggle')
                 {
                     type = target.hasClass('hide') ? 'show' : 'hide';
                 }
-                switch(type)
+                switch (type)
                 {
                     case 'toggle':
                         target.toggle();
                         break;
                     case 'show':
-                        var params = {duration: options.animateSpeed, easing: options.easing};
+                        var params = {
+                            duration: options.animateSpeed,
+                            easing: options.easing
+                        };
 
                         target.removeClass('hide');
-                        if(options.animate === 'slide')
+                        if (options.animate === 'slide')
                         {
                             target.slideDown(params);
                         }
-                        else if(options.animate === 'fade')
+                        else if (options.animate === 'fade')
                         {
                             target.fadeIn(params);
                         }
@@ -111,12 +129,19 @@
                         }
                         break;
                     case 'hide':
-                        var params = {duration: options.animateSpeed, easing: options.easing, complete: function(){target.addClass('hide');}};
-                        if(options.animate === 'slide')
+                        var params = {
+                            duration: options.animateSpeed,
+                            easing: options.easing,
+                            complete: function()
+                            {
+                                target.addClass('hide');
+                            }
+                        };
+                        if (options.animate === 'slide')
                         {
                             target.slideUp(params);
                         }
-                        else if(options.animate === 'fade')
+                        else if (options.animate === 'fade')
                         {
                             target.fadeOut(params);
                         }
@@ -135,8 +160,8 @@
 
             $.callEvent(options.after, data, that);
 
-            if(options.preventDefault) event.preventDefault();
-            if(options.cancelBubble) event.stopPropagation();
+            if (options.preventDefault) event.preventDefault();
+            if (options.cancelBubble) event.stopPropagation();
         });
     }
 
@@ -144,8 +169,8 @@
     {
         return this.each(function()
         {
-            var $this   = $(this);
-            var data    = $this.data('zui.autoTrigger');
+            var $this = $(this);
+            var data = $this.data('zui.autoTrigger');
             var options = typeof option == 'object' && option;
 
             if (!data) $this.data('zui.autoTrigger', (data = new AutoTrigger(this, options)));
@@ -160,10 +185,25 @@
     {
         $('[data-toggle="autoTrigger"]').autoTrigger();
         $('[data-toggle="toggle"]').autoTrigger();
-        $('[data-toggle="show"]').autoTrigger({trigger: 'show'});
-        $('[data-toggle="hide"]').autoTrigger({trigger: 'hide'});
-        $('[data-toggle="addClass"]').autoTrigger({trigger: 'addClass'});
-        $('[data-toggle="removeClass"]').autoTrigger({trigger: 'removeClass'});
-        $('[data-toggle="toggleClass"]').autoTrigger({trigger: 'toggleClass'});
+        $('[data-toggle="show"]').autoTrigger(
+        {
+            trigger: 'show'
+        });
+        $('[data-toggle="hide"]').autoTrigger(
+        {
+            trigger: 'hide'
+        });
+        $('[data-toggle="addClass"]').autoTrigger(
+        {
+            trigger: 'addClass'
+        });
+        $('[data-toggle="removeClass"]').autoTrigger(
+        {
+            trigger: 'removeClass'
+        });
+        $('[data-toggle="toggleClass"]').autoTrigger(
+        {
+            trigger: 'toggleClass'
+        });
     });
-}(jQuery,window,document,Math);
+}(jQuery);

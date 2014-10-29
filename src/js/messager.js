@@ -1,9 +1,16 @@
-/* Messager: show messager float on your page */
-+function($, window, document, Math)
+/* ========================================================================
+ * ZUI: messager.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
++ function($, window)
 {
     "use strict";
 
-    var id       = 0;
+    var id = 0;
     var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content">{message}</div><button class="close-messager">&times;</button></div>';
 
     function Messager()
@@ -17,17 +24,32 @@
             time = time || 2000;
             parent = parent || 'body';
             placement = placement || 'top';
-            var msg = $(template.format({message: message, type: type, placement: placement, id: id})).appendTo(parent);
-            msg.find('.close-messager').click(function(){$(this).closest('.messager').fadeOut();});
-
-            if(placement == 'top' || placement == 'bottom')
+            var msg = $(template.format(
             {
-                msg.css('left', ($(parent).width() - msg.width() - 50)/2);
+                message: message,
+                type: type,
+                placement: placement,
+                id: id
+            })).appendTo(parent);
+            msg.find('.close-messager').click(function()
+            {
+                $(this).closest('.messager').fadeOut();
+            });
+
+            if (placement == 'top' || placement == 'bottom')
+            {
+                msg.css('left', ($(parent).width() - msg.width() - 50) / 2);
             }
 
             msg.fadeIn();
 
-            setTimeout(function(){$('#messager' + id).fadeOut(function(){$(this).remove()});}, time);
+            setTimeout(function()
+            {
+                $('#messager' + id).fadeOut(function()
+                {
+                    $(this).remove()
+                });
+            }, time);
 
             return msg;
         }
@@ -73,4 +95,4 @@
     window.messager = messager;
 
 
-}(jQuery,window,document,Math);
+}(jQuery, window);

@@ -1,5 +1,12 @@
-/* $ComponentName$ */
-+function($, window, document, Math)
+/* ========================================================================
+ * ZUI: $componentName$.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
++function($)
 {
     "use strict";
 
@@ -55,4 +62,4 @@
     {
         $('[data-toggle="$componentObject$"]').$componentObject$();
     });
-}(jQuery,window,document,Math);
+}(jQuery);

@@ -1,16 +1,20 @@
+//
+// Fix panel in list group
+// --------------------------------------------------
+
 
 // List groups in panels
 //
 // By default, space out list group content from panel headings to account for
 // any kind of custom content between the two.
 
-.panel 
+.panel
 {
-  > .list-group 
+  > .list-group
   {
     margin-bottom: 0;
 
-    .list-group-item 
+    .list-group-item
     {
       border-width: 1px 0;
 
@@ -22,9 +26,9 @@
   }
 }
 // Collapse space between when there's no additional content.
-.panel-heading + .list-group 
+.panel-heading + .list-group
 {
-  .list-group-item:first-child 
+  .list-group-item:first-child
   {
     border-top-width: 0;
   }

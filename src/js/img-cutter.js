@@ -1,25 +1,41 @@
-/* ImgCutter */
-+function($, window, document, Math)
+/* ========================================================================
+ * ZUI: img-cutter.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
++ function($, Math)
 {
     "use strict";
 
     var ImgCutter = function(element, options)
     {
-        this.$         = $(element);
+        this.$ = $(element);
         this.initOptions(options);
         this.init();
     };
 
-    ImgCutter.DEFAULTS = {coverColor: '#000', coverOpacity: 0.6, fixedRatio: false, defaultWidth: 128, defaultHeight: 128, minWidth: 48, minHeight: 48}; // default options
+    ImgCutter.DEFAULTS = {
+        coverColor: '#000',
+        coverOpacity: 0.6,
+        fixedRatio: false,
+        defaultWidth: 128,
+        defaultHeight: 128,
+        minWidth: 48,
+        minHeight: 48
+    }; // default options
 
     ImgCutter.prototype.callEvent = function(name, params)
     {
         return $.callEvent(this.options[name], params);
     }
 
-    ImgCutter.prototype.initOptions = function (options)
+    ImgCutter.prototype.initOptions = function(options)
     {
-        this.options = $.extend({}, ImgCutter.DEFAULTS, this.$.data(), options);
+        this.options = $.extend(
+        {}, ImgCutter.DEFAULTS, this.$.data(), options);
         this.options.coverOpacityIE = this.options.coverOpacity * 100;
         this.clipWidth = this.options.defaultWidth;
         this.clipHeight = this.options.defaultHeight;
@@ -49,7 +65,7 @@
         this.$cliper = this.$canvas.children('.cliper');
         this.$chipImg = this.$cliper.children('img');
 
-        if(this.options.fixedRatio)
+        if (this.options.fixedRatio)
         {
             this.$.addClass('fixed-ratio');
         }
@@ -58,7 +74,7 @@
     ImgCutter.prototype.initSize = function()
     {
         var that = this;
-        if(typeof that.imgWidth === 'undefined')
+        if (typeof that.imgWidth === 'undefined')
         {
             imgReady(that.options.img, function()
             {
@@ -71,7 +87,7 @@
 
         var waitImgWidth = setInterval(function()
         {
-            if(typeof that.imgWidth != 'undefined')
+            if (typeof that.imgWidth != 'undefined')
             {
                 clearInterval(waitImgWidth);
 
@@ -80,10 +96,10 @@
                 that.$cliper.css('width', this.width);
                 that.height = that.$canvas.height();
 
-                if(typeof that.left === 'undefined')
+                if (typeof that.left === 'undefined')
                 {
-                    that.left = Math.floor((that.width - that.$controller.width())/2);
-                    that.top = Math.floor((that.height - that.$controller.height())/2);
+                    that.left = Math.floor((that.width - that.$controller.width()) / 2);
+                    that.top = Math.floor((that.height - that.$controller.height()) / 2);
                 }
 
                 that.refreshSize();
@@ -98,9 +114,9 @@
         this.clipWidth = Math.max(options.minWidth, Math.min(this.width, this.clipWidth));
         this.clipHeight = Math.max(options.minHeight, Math.min(this.height, this.clipHeight));
 
-        if(options.fixedRatio)
+        if (options.fixedRatio)
         {
-            if(ratioSide && ratioSide === 'height')
+            if (ratioSide && ratioSide === 'height')
             {
                 this.clipWidth = Math.max(options.minWidth, Math.min(this.width, this.clipHeight * options.defaultWidth / options.defaultHeight));
                 this.clipHeight = this.clipWidth * options.defaultHeight / options.defaultWidth;
@@ -117,34 +133,70 @@
         this.right = this.left + this.clipWidth;
         this.bottom = this.top + this.clipHeight;
 
-        this.$controller.css({left: this.left, top: this.top, width: this.clipWidth, height: this.clipHeight});
+        this.$controller.css(
+        {
+            left: this.left,
+            top: this.top,
+            width: this.clipWidth,
+            height: this.clipHeight
+        });
         this.$cliper.css('clip', 'rect({0}px {1}px {2}px {3}px'.format(this.top, this.left + this.clipWidth, this.top + this.clipHeight, this.left));
 
 
-        this.callEvent('change', {top: this.top, left: this.left, bottom: this.bottom, right: this.right, width: this.clipWidth, height: this.clipHeight});
+        this.callEvent('change',
+        {
+            top: this.top,
+            left: this.left,
+            bottom: this.bottom,
+            right: this.right,
+            width: this.clipWidth,
+            height: this.clipHeight
+        });
     }
 
     ImgCutter.prototype.bindEvents = function()
     {
-        var that = this, options = this.options;
+        var that = this,
+            options = this.options;
         this.$.resize($.proxy(this.initSize, this));
-        this.$btn.hover(function(){that.$.toggleClass('hover');}).click(function()
+        this.$btn.hover(function()
         {
-            var data = {originWidth: that.imgWidth, originHeight: that.imgHeight, width: that.width, height: that.height, left: that.left, top: that.top, right: that.right, bottom: that.bottom, scaled: that.imgWidth != that.width || that.imgHeight != that.height};
+            that.$.toggleClass('hover');
+        }).click(function()
+        {
+            var data = {
+                originWidth: that.imgWidth,
+                originHeight: that.imgHeight,
+                width: that.width,
+                height: that.height,
+                left: that.left,
+                top: that.top,
+                right: that.right,
+                bottom: that.bottom,
+                scaled: that.imgWidth != that.width || that.imgHeight != that.height
+            };
 
-            if(!that.callEvent('before', data)) return;
+            if (!that.callEvent('before', data)) return;
 
             var url = options.post || options.get || options.url || null;
-            if(url != null)
+            if (url != null)
             {
-                $.ajax({type: options.post ? 'POST': 'GET', url: url, data: data})
-                 .done(function(e){
-                    that.callEvent('done', e);
-                 }).fail(function(e){
-                    that.callEvent('fail', e);
-                 }).always(function(e){
-                    that.callEvent('always', e);
-                 });
+                $.ajax(
+                {
+                    type: options.post ? 'POST' : 'GET',
+                    url: url,
+                    data: data
+                })
+                    .done(function(e)
+                    {
+                        that.callEvent('done', e);
+                    }).fail(function(e)
+                    {
+                        that.callEvent('fail', e);
+                    }).always(function(e)
+                    {
+                        that.callEvent('always', e);
+                    });
             }
         });
 
@@ -171,7 +223,7 @@
                 var offset = e.smallOffset;
                 var ratioSide = false;
 
-                switch(dr)
+                switch (dr)
                 {
                     case 'left':
                     case 'top-left':
@@ -187,7 +239,7 @@
                         that.clipWidth = Math.min(that.width - that.left, Math.max(options.minWidth, that.clipWidth));
                         break;
                 }
-                switch(dr)
+                switch (dr)
                 {
                     case 'top':
                     case 'top-left':
@@ -215,8 +267,8 @@
     {
         return this.each(function()
         {
-            var $this   = $(this);
-            var data    = $this.data('zui.imgCutter');
+            var $this = $(this);
+            var data = $this.data('zui.imgCutter');
             var options = typeof option == 'object' && option;
 
             if (!data) $this.data('zui.imgCutter', (data = new ImgCutter(this, options)));
@@ -231,4 +283,4 @@
     {
         $('[data-toggle="imgCutter"]').imgCutter();
     });
-}(jQuery,window,document,Math);
+}(jQuery, Math);

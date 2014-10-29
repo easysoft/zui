@@ -1,5 +1,12 @@
-/* jQuery extensions */
-+function($, window, document, Math)
+/* ========================================================================
+ * ZUI: jquery.extensions.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
++ function($, window, Math)
 {
     "use strict";
 
@@ -8,24 +15,24 @@
         uuid: function()
         {
             var d = (new Date).getTime();
-            while(d < 10000000000000000)
+            while (d < 10000000000000000)
             {
-               d *= 10;
+                d *= 10;
             }
-            return  d + Math.floor(Math.random() * 9999);
+            return d + Math.floor(Math.random() * 9999);
         },
 
         getPropertyCount: function(obj)
         {
-           if(typeof(obj) != 'object' || obj == null) return 0;
-           return Object.getOwnPropertyNames(obj).length;
+            if (typeof(obj) != 'object' || obj == null) return 0;
+            return Object.getOwnPropertyNames(obj).length;
         },
 
         callEvent: function(func, event, proxy)
         {
-            if($.isFunction(func))
+            if ($.isFunction(func))
             {
-                if(typeof proxy != 'undefined')
+                if (typeof proxy != 'undefined')
                 {
                     func = $.proxy(func, proxy);
                 }
@@ -38,7 +45,7 @@
         clientLang: function()
         {
             var lang;
-            if(typeof(window.config) != 'undefined' && window.config.clientLang)
+            if (typeof(window.config) != 'undefined' && window.config.clientLang)
             {
                 lang = window.config.clientLang;
             }
@@ -56,7 +63,7 @@
         var $this = $(this);
         var dotIndex = name.indexOf('.zui.');
         var shortName = name;
-        if(dotIndex < 0 && model && model.name)
+        if (dotIndex < 0 && model && model.name)
         {
             name += '.' + model.name;
         }
@@ -64,23 +71,23 @@
         {
             shortName = name.substring(0, dotIndex);
         }
-        var e     = $.Event(name, event);
+        var e = $.Event(name, event);
 
         var result = $this.trigger(e);
 
-        if((typeof model === 'undefined') && dotIndex > 0)
+        if ((typeof model === 'undefined') && dotIndex > 0)
         {
             model = $this.data(name.substring(dotIndex + 1));
         }
 
-        if(model && model.options)
+        if (model && model.options)
         {
             var func = model.options[shortName];
-            if($.isFunction(func))
+            if ($.isFunction(func))
             {
                 $.callEvent(model.options[shortName], e, model);
             }
         }
         return e;
     };
-}(jQuery,window,document,Math);
+}(jQuery, window, Math);

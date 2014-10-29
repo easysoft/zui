@@ -1,21 +1,32 @@
-/* Menu */
-+function($, window, document, Math)
+/* ========================================================================
+ * ZUI: menu.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
++ function($)
 {
     "use strict";
 
     var Menu = function(element, options)
     {
-        this.$         = $(element);
-        this.options   = this.getOptions(options);
+        this.$ = $(element);
+        this.options = this.getOptions(options);
 
         this.init();
     };
 
-    Menu.DEFAULTS = {auto: false, foldicon: 'icon-chevron-right'};
+    Menu.DEFAULTS = {
+        auto: false,
+        foldicon: 'icon-chevron-right'
+    };
 
-    Menu.prototype.getOptions = function (options)
+    Menu.prototype.getOptions = function(options)
     {
-        options = $.extend({}, Menu.DEFAULTS, this.$.data(), options);
+        options = $.extend(
+        {}, Menu.DEFAULTS, this.$.data(), options);
         return options;
     };
 
@@ -36,22 +47,31 @@
 
         this.$.find('.nav-parent > a').click(function(event)
         {
-            if(auto)
+            if (auto)
             {
-                $menu.find('.nav-parent.show').find('.nav').slideUp(function(){$(this).closest('.nav-parent').removeClass('show')});
+                $menu.find('.nav-parent.show').find('.nav').slideUp(function()
+                {
+                    $(this).closest('.nav-parent').removeClass('show')
+                });
                 $menu.find('.icon-rotate-90').removeClass('icon-rotate-90');
             }
 
             var li = $(this).closest('.nav-parent');;
-            if(li.hasClass('show'))
+            if (li.hasClass('show'))
             {
                 li.find('.icon-rotate-90').removeClass('icon-rotate-90');
-                li.find('.nav').slideUp(function(){$(this).closest('.nav-parent').removeClass('show')});
+                li.find('.nav').slideUp(function()
+                {
+                    $(this).closest('.nav-parent').removeClass('show')
+                });
             }
             else
             {
                 li.find('.nav-parent-fold-icon').addClass('icon-rotate-90');
-                li.find('.nav').slideDown(function(){$(this).closest('.nav-parent').addClass('show')});
+                li.find('.nav').slideDown(function()
+                {
+                    $(this).closest('.nav-parent').addClass('show')
+                });
             }
 
             event.preventDefault();
@@ -63,8 +83,8 @@
     {
         return this.each(function()
         {
-            var $this   = $(this);
-            var data    = $this.data('zui.menu');
+            var $this = $(this);
+            var data = $this.data('zui.menu');
             var options = typeof option == 'object' && option;
 
             if (!data) $this.data('zui.menu', (data = new Menu(this, options)));
@@ -79,4 +99,4 @@
     {
         $('[data-toggle="menu"]').menu();
     });
-}(jQuery,window,document,Math);
+}(jQuery);

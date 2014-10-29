@@ -1,5 +1,12 @@
-/* Boards */
-+function($, window, document, Math)
+/* ========================================================================
+ * ZUI: boards.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
++ function($)
 {
     "use strict";
 
@@ -7,42 +14,51 @@
 
     var Boards = function(element, options)
     {
-        this.$         = $(element);
-        this.options   = this.getOptions(options);
+        this.$ = $(element);
+        this.options = this.getOptions(options);
 
         this.getLang();
         this.init();
     };
 
-    Boards.DEFAULTS = 
-    {
+    Boards.DEFAULTS = {
         lang: 'zh-cn',
-        langs: 
+        langs:
         {
-            'zh-cn': {appendToTheEnd: '移动到末尾'},
-            'zh-tw': {appendToTheEnd: '移动到末尾'},
-            'en': {appendToTheEnd: 'Move to the end.'}
+            'zh-cn':
+            {
+                appendToTheEnd: '移动到末尾'
+            },
+            'zh-tw':
+            {
+                appendToTheEnd: '移动到末尾'
+            },
+            'en':
+            {
+                appendToTheEnd: 'Move to the end.'
+            }
         }
     }; // default options
 
-    Boards.prototype.getOptions = function (options)
+    Boards.prototype.getOptions = function(options)
     {
-        options = $.extend({}, Boards.DEFAULTS, this.$.data(), options);
+        options = $.extend(
+        {}, Boards.DEFAULTS, this.$.data(), options);
         return options;
     };
 
     Boards.prototype.getLang = function()
     {
-        if(!this.options.lang)
+        if (!this.options.lang)
         {
-            if(typeof(config) != 'undefined' && config.clientLang)
+            if (typeof(config) != 'undefined' && config.clientLang)
             {
                 this.options.lang = config.clientLang;
             }
             else
             {
                 var hl = $('html').attr('lang');
-                this.options.lang = hl? hl : 'en';
+                this.options.lang = hl ? hl : 'en';
             }
             this.options.lang = this.options.lang.replace(/-/, '_').toLowerCase();
         }
@@ -56,19 +72,19 @@
         this.$.find('.board-item:not(".disable-drop"), .board:not(".disable-drop")').each(function()
         {
             var $this = $(this);
-            if($this.attr('id'))
+            if ($this.attr('id'))
             {
                 $this.attr('data-id', $this.attr('id'));
             }
-            else if(!$this.attr('data-id'))
+            else if (!$this.attr('data-id'))
             {
                 $this.attr('data-id', 'board' + (idSeed++));
             }
 
-            if($this.hasClass('board'))
+            if ($this.hasClass('board'))
             {
                 $this.find('.board-list').append('<div class="board-item board-item-empty"><i class="icon-plus"></i> {appendToTheEnd}</div>'.format(lang))
-                .append('<div class="board-item board-item-shadow"></div>'.format(lang));
+                    .append('<div class="board-item board-item-shadow"></div>'.format(lang));
             }
         });
 
@@ -77,8 +93,9 @@
 
     Boards.prototype.bind = function(items)
     {
-        var $boards = this.$, setting = this.options;
-        if(typeof(items) == 'undefined')
+        var $boards = this.$,
+            setting = this.options;
+        if (typeof(items) == 'undefined')
         {
             items = $boards.find('.board-item:not(".disable-drop, .board-item-shadow")');
         }
@@ -94,7 +111,7 @@
             drag: function(e)
             {
                 $boards.find('.board.drop-in-empty').removeClass('drop-in-empty');
-                if(e.isIn)
+                if (e.isIn)
                 {
                     var board = e.target.closest('.board').addClass('drop-in');
                     var shadow = board.find('.board-item-shadow');
@@ -109,9 +126,9 @@
             },
             drop: function(e)
             {
-                if(e.isNew)
+                if (e.isNew)
                 {
-                    if(setting.hasOwnProperty('drop') && $.isFunction(setting['drop']))
+                    if (setting.hasOwnProperty('drop') && $.isFunction(setting['drop']))
                     {
                         setting['drop'](e);
                     }
@@ -129,8 +146,8 @@
     {
         return this.each(function()
         {
-            var $this   = $(this);
-            var data    = $this.data('zui.boards');
+            var $this = $(this);
+            var data = $this.data('zui.boards');
             var options = typeof option == 'object' && option;
 
             if (!data) $this.data('zui.boards', (data = new Boards(this, options)));
@@ -145,4 +162,4 @@
     {
         $('[data-toggle="boards"]').boards();
     });
-}(jQuery,window,document,Math);
+}(jQuery);
