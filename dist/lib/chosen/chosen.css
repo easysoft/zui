@@ -35,6 +35,9 @@
   -webkit-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
           box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
 }
+.chosen-container .chosen-drop.chosen-drop-size-limited {
+  border-top: 1px solid rgba(0, 0, 0, .15);
+}
 .chosen-container.chosen-with-drop .chosen-drop {
   left: 0;
 }
