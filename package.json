@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.2.0",
+  "version": "1.2.0-beta",
   "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
   "main": "index.html",
   "directories":
@@ -105,6 +105,8 @@
       "name": "Chart.js",
       "pver": "0.2.0",
       "ver": "1.2.0",
+      "thirdpart": true,
+      "website": "http://chartjs.org",
       "src":
       {
         "resource": ["assets/chartjs/Chart.js", "assets/chartjs/Chart.min.js"]
@@ -416,7 +418,7 @@
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "scrollbar":
+    "scrollbars":
     {
       "name": "滚动条",
       "src":
@@ -948,6 +950,7 @@
     "carousel":
     {
       "name": "轮播",
+      "ver": "1.0.0",
       "dpds": ["carousel.basic", "carousel.basic"]
     },
     "lightbox":
@@ -1064,7 +1067,7 @@
       "name": "图标选择器",
       "src":
       {
-        "less": ["src/less/modules/chosen.icon.less"],
+        "less": ["src/less/modules/chosen.icons.less"],
         "js": ["src/js/chosen.icon.js"]
       },
       "ver": "1.0.0",
@@ -1248,7 +1251,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable"]
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable"]
     },
     "lite":
     {
@@ -1310,6 +1313,15 @@
       "basicDpds": ["setting", "icons.variables"],
       "ignoreDpds": true
     },
+    "chosenicons":
+    {
+      "title": "Chosen",
+      "dest": "dist/lib/chosen/",
+      "filename": "chosen.icons",
+      "includes": ["chosen.icons"],
+      "basicDpds": ["setting", "icons.variables"],
+      "ignoreDpds": true
+    },
     "imgcutter":
     {
       "title": "Image cutter",
@@ -1345,7 +1357,7 @@
     "dist":
     {
       "title": "dist",
-      "bundles": ["jquery", "standard", "lite", "theme", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs"]
+      "bundles": ["jquery", "standard", "lite", "theme", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array"]
     },
     "doc":
     {
@@ -1354,7 +1366,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test"]
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test"]
     },
     "zentao":
     {

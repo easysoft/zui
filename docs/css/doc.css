@@ -181,6 +181,10 @@ body.with-navbar > header
 {
   font-size: 26px;
 }
+#main .page-header h2 .label
+{
+  position: relative; top: -5px;
+}
 #main > .page-header:hover
 {
   background-position: -15px -30px

@@ -95,23 +95,139 @@ $(function()
     {
         version = data.version;
         var versionNum = versionToNumber(version);
-        $('#main > section[data-version]').each(function()
-        {
-            var $this = $(this);
-            var ver = $this.data('version') + '';
-            if(versionToNumber(ver) > versionNum)
-            {
-                $this.children('.page-header').children('h2').append(' <small class="label label-warning" title="" data-original-title="此内容正在开发中，将在v' + ver + '中提供">DEV</small>');
-            }
-        });
+        // $('#main > section[data-version]').each(function()
+        // {
+        //     var $this = $(this);
+        //     var ver = $this.data('version') + '';
+        //     if(versionToNumber(ver) > versionNum)
+        //     {
+        //         $this.children('.page-header').children('h2').append(' <small class="label label-warning" title="" data-original-title="此内容正在开发中，将在v' + ver + '中提供">DEV</small>');
+        //     }
+        // });
 
         $('.version-current').text('v' + version);
 
-        $('section .page-header h2 > small.label').tooltip({placement: 'right'});
+
+        var indexOfArray = function(array, item)
+        {
+            for(var i = 0; i < array.length; i++)
+            {
+                if(array[i] == item) return i;
+            }
+            return -1;
+        };
+
+        var getItemList  = function(lib, list, items, ignoreDpds)
+        {
+            items = items || [];
+            var thisFn = arguments.callee;
+
+            if($.isArray(list))
+            {
+                $.each(list, function(idx, name)
+                {
+                    thisFn(name, items, ignoreDpds);
+                });
+            }
+            else
+            {
+                var item = lib[list];
+                if(item && indexOfArray(items, list) < 0)
+                {
+                    if(!ignoreDpds && item.dpds)
+                    {
+                        thisFn(item.dpds, items, ignoreDpds);
+                    }
+                    if(item.src) items.push(list);
+                }
+            }
+
+            return items;
+        };
+
+        var getBuildSource = function(build, lib)
+        {
+            var list = [];
+
+            var sources = {less: [], js: [], resource: []};
+
+            if(!$.isArray(list)) list = [list];
+
+            if(build.basicDpds) list = getItemList(lib, build.basicDpds, list);
+            list = getItemList(lib, build.includes, list, build.ignoreDpds);
+
+            $.each(list, function(idx, item)
+            {
+                var libItem = lib[item];
+                if(libItem && libItem.src)
+                {
+                    $.each(typeSet, function(idx1, type)
+                    {
+                        if(libItem.src[type])
+                        {
+                            $.each(libItem.src[type], function(idx2, file)
+                            {
+                                if(indexOfArray(sources[type], file) < 0)
+                                {
+                                    sources[type].push(file);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+
+            return sources;
+        };
+
+
+        $('#main').children('section').each(function()
+        {
+            var $section = $(this);
+            var $header = $section.children('.page-header');
+            var id = $section.attr('id');
+            var lib = data.lib[id];
+            var standard = getBuildSource(data.builds['standard'], data.lib);
+            var lite = getBuildSource(data.builds['lite'], data.lib);
+            var dist = getBuildSource(data.builds['dist'], data.lib);
+            if(lib)
+            {
+                var standalone = true;
+                if(indexOfArray(standard, id) >= 0)
+                {
+                    $header.children('h2').append(' <span class="label label-badge label-primary" title="此组件包含在标准版中提供">ZUI</span>');
+                    standalone = false;
+                }
+
+                if(indexOfArray(lite, id) >= 0)
+                {
+                    $header.children('h2').append(' <span class="label label-badge label-info" title="此组件也在精简版中提供">ZUI.LITE</span>');
+                    standalone = false;
+                }
+
+                if(standalone && indexOfArray(dist, id) >= 0)
+                {
+                    $header.children('h2').append(' <span class="label label-badge label-success" title="才组件在lib目中单独提供">LIB</span>');
+                }
+
+                if(lib.ver)
+                {
+                    $header.children('h2').append(' <span class="label label-badge" title="最早提供版本为' + lib.ver + '">v' + lib.ver + '+</span>');
+                }
+
+                if(lib.thirdpart)
+                {
+                    $header.children('h2').append(' <a target="_blank" href="' + lib.website + '" class="label label-badge label-danger" title="这是一个第三方组件，点击访问网站"><i class="icon-heart"></i>' + (lib.pver ? (' v' + lib.pver) : '') + '</a>');
+                }
+
+            }
+        });
+
+        $('section .page-header h2 > .label').tooltip({placement: 'top'});
     });
 
     /* set lite version label */
-    $('#main > section[data-lite] > .page-header > h2').append(' <small class="label label-info" title="" data-original-title="此内容也在精简版中提供">LITE</small>');
+    // $('#main > section[data-lite] > .page-header > h2').append(' <small class="label label-info" title="" data-original-title="此内容也在精简版中提供">LITE</small>');
 
     prettyPrint();
 
@@ -123,9 +239,6 @@ $(function()
 
     // popover demo
     $("[data-toggle=popover]").popover();
-
-
-    $('section .page-header h2 > small.label').tooltip({placement: 'right'});
 
     $('#changeTheme').click(function()
     {
@@ -217,7 +330,6 @@ $(function()
           {
             allowFileManager : true,
             bodyClass : 'article-content',
-            cssPath: 'dist/css/zui.css',
             afterBlur: function(){$('#content').prev('.ke-container').removeClass('focus');},
             afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
           });
@@ -225,7 +337,6 @@ $(function()
           K.create('textarea.kindeditorSimple',
           {
             bodyClass : 'article-content',
-            cssPath: 'dist/css/zui.css',
             resizeType : 1,
             allowPreviewEmoticons : false,
             allowImageUpload : false,
@@ -241,7 +352,6 @@ $(function()
           {
             themeType : 'simple',
             bodyClass : 'article-content',
-            cssPath: 'dist/css/zui.css',
             afterBlur: function(){$('#contentCustom').prev('.ke-container').removeClass('focus');},
               afterFocus: function(){$('#contentCustom').prev('.ke-container').addClass('focus');}
           });
