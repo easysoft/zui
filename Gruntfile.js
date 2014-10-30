@@ -220,8 +220,22 @@ module.exports = function(grunt)
             }
             else
             {
-                grunt.log.error('Build config not found: ' + name + '.');
-                return false;
+                var buildLib = lib[name];
+                if(buildLib)
+                {
+                    build =
+                    {
+                      title: buildLib.name,
+                      dest: "dist/lib/" + name + "/",
+                      filename: name,
+                      includes: [name]
+                    };
+                }
+                else
+                {
+                    grunt.log.error('Build config not found: ' + name + '.');
+                    return false;
+                }
             }
         }
         else if(build.bundles)
