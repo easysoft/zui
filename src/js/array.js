@@ -36,29 +36,29 @@
     /**
      * Call a function for each element in the array, break by return false
      */
-    if (!Array.each)
-    {
-        Array.prototype.each = function(fun /*, thisp*/ )
-        {
-            var len = this.length;
-            if (typeof fun != "function")
-                throw new TypeError();
+    // if (!Array.each)
+    // {
+    //     Array.prototype.each = function(fun /*, thisp*/ )
+    //     {
+    //         var len = this.length;
+    //         if (typeof fun != "function")
+    //             throw new TypeError();
 
-            var thisp = arguments[1],
-                result;
-            for (var i = 0; i < len; i++)
-            {
-                if (i in this)
-                {
-                    result = fun.call(thisp, this[i], i, this);
-                    if (result === false)
-                    {
-                        break;
-                    }
-                }
-            }
-        };
-    }
+    //         var thisp = arguments[1],
+    //             result;
+    //         for (var i = 0; i < len; i++)
+    //         {
+    //             if (i in this)
+    //             {
+    //                 result = fun.call(thisp, this[i], i, this);
+    //                 if (result === false)
+    //                 {
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //     };
+    // }
 
     /**
      * Judge an object is an real array
