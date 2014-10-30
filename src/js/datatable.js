@@ -37,7 +37,7 @@
         this.getOptions(options);
         this.load();
 
-        this.render();
+        this.callEvent('ready');
     };
 
     // default options
@@ -60,9 +60,11 @@
         // hover effection
         rowHover: true, // apply hover effection to row
         colHover: true, // apply hover effection to head
+        hoverClass: 'hover',
+        colHoverClass: 'col-hover',
 
         // custom columns size
-        customizable: false, // enable customizable
+        // customizable: false, // enable customizable
         minColWidth: 20, // min width of columns
         minFixedLeftWidth: 200, // min left width
         minFixedRightWidth: 200, // min right width
@@ -106,11 +108,12 @@
     };
 
     // Load data form options or table dom
-    DataTable.prototype.load = function()
+    DataTable.prototype.load = function(data)
     {
-        var data = this.options.data,
-            options = this.options,
+        var options = this.options,
             $t = this.$;
+
+        data = data || options.data;
 
         if (!data)
         {
@@ -123,6 +126,7 @@
                 var cols = data.cols,
                     rows = data.rows,
                     $th, $tr, $td, row;
+
                 $t.find('thead > tr:first').children('th').each(function()
                 {
                     $th = $(this);
@@ -181,7 +185,7 @@
 
         var cols = data.cols;
         data.colsLength = cols.length;
-        for (var i = 0; i < cols.length; ++i)
+        for (var i = 0; i < data.colsLength; ++i)
         {
             var col = cols[i];
             if (col.flex)
@@ -217,116 +221,155 @@
         {
             data: data
         });
+
+        this.render();
     };
 
-    // Generage html
-    DataTable.prototype.html = function()
+    // Render datatable
+    DataTable.prototype.render = function()
     {
-        var init = !$('#' + this.id).empty().length,
-            html = '',
-            options = this.options,
-            data = this.data,
-            cols = this.data.cols,
-            leftHtml = '',
-            rightHtml = '',
-            flexHtml = '',
-            rows = this.data.rows;
-        var dataRowSpan = '<div class="datatable-rows-span datatable-span {0}"><div class="datatable-wrapper"><table class="table' + options.tableClass + '"><tbody>{1}</tbody></table>{2}</div></div>',
-            dataHeadSpan = '<div class="datatable-head-span datatable-span {0}"><div class="datatable-wrapper"><table class="table' + options.tableClass + '"><thead><tr>{1}</tr></thead></table>{2}</div></div>';
+        console.log('RENDER');
+        var that = this;
+        var $datatable = that.$datatable || (that.isTable ? $('<div class="datatable" id="' + that.id + '"/>') : that.$datatable),
+            options = that.options,
+            data = that.data,
+            cols = that.data.cols,
+            rows = that.data.rows;
+        var checkable = options.checkable,
+            $left,
+            i,
+            $right,
+            $flex,
+            dataRowSpan = '<div class="datatable-rows-span datatable-span"><div class="datatable-wrapper"><table class="table"></table></div></div>',
+            dataHeadSpan = '<div class="datatable-head-span datatable-span"><div class="datatable-wrapper"><table class="table"><thead></thead></table></div></div>';
 
-        if (init)
-        {
-            html += '<div class="datatable' + (options.sortable ? ' sortable' : '') + ' ' + (options.customizable ? ' customizable' : '') + '" id="' + this.id + '">';
-        }
-        else
-        {
-            this.$datatable.toggleClass('sortable', options.sortable)
-                .toggleClass('customizable', options.customizable);
-        }
+        $datatable.empty();
 
-        // head
-        html += '<div class="datatable-head">';
-        var th, col, sortClass;
-        for (var i = 0; i < cols.length; i++)
+        // Set css class to datatable by options
+        $datatable.toggleClass('sortable', options.sortable);
+        // $datatable.toggleClass('customizable', options.customizable);
+
+        // Head
+        var $head = $('<div class="datatable-head"/>'),
+            $tr,
+            $th,
+            col;
+        $left = $('<tr/>');
+        $right = $('<tr/>');
+        $flex = $('<tr/>');
+        for (i = 0; i < cols.length; i++)
         {
             col = cols[i];
-            sortClass = '';
-            if (typeof col.customizable === 'undefined')
-            {
-                col.customizable = true;
-            }
-            if (typeof col.sort === 'undefined')
-            {
-                col.sort = true;
-            }
-            else if (col.sort === 'down')
-            {
-                sortClass = 'sort-down';
-            }
-            else if (col.sort === 'up')
-            {
-                sortClass = 'sort-up';
-            }
-            else if (col.sort === false)
-            {
-                sortClass = 'sort-disabled';
-            }
-            th = '<th class="' + (col.cssClass || '') + ' ' + ((col.colClass || '')) + ' ' + sortClass + '" data-index="' + i + '" data-type="' + col.type + '" style="' + col.css + '">' + col.text + ((col.customizable && i != (data.flexStart - 1) && i != data.flexEnd && i < (cols.length - 1)) ? '<div class="size-handle"></div>' : '') + '</th>';
+            $tr = i < data.flexStart ? $left : ((i >= data.flexStart && i <= data.flexEnd) ? $flex : $right);
+            $th = $('<th/>');
 
-            if (i == 0 && options.checkable)
+            // set sort class
+            $th.toggleClass('sort-down', col.sort === 'down')
+               .toggleClass('sort-up', col.sort === 'up')
+               .toggleClass('sort-disabled', col.sort === false);
+
+            $th.addClass(col.cssClass)
+               .addClass(col.colClass)
+               .html(col.text)
+               .attr(
+                {
+                    "data-index" : i,
+                    "data-type"  : col.type,
+                    style        : col.css
+                });
+
+            if(i === 0 && checkable)
             {
-                th = '<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>' + th;
+                $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
             }
-            if (i < data.flexStart) leftHtml += th;
-            else if (i >= data.flexStart && i <= data.flexEnd) flexHtml += th;
-            else if (i > data.flexEnd) rightHtml += th;
+
+            $tr.append($th);
         }
 
-        if (data.fixedLeft)
+        var $headSpan;
+        if(data.fixedLeft)
         {
-            html += dataHeadSpan.format('fixed-left', leftHtml, '<div class="size-handle size-handle-head size-handle-left"></div>');
+            $headSpan = $(dataHeadSpan);
+            $headSpan.addClass('fixed-left')
+                     // .find('.datatable-wrapper')
+                     // .append('<div class="size-handle size-handle-head size-handle-left"></div>')
+                     .find('table')
+                     .addClass(options.tableClass)
+                     .find('thead').append($left);
+            $head.append($headSpan);
         }
         if (data.flexArea)
         {
-            html += dataHeadSpan.format('flexarea', flexHtml, '<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>');
+            $headSpan = $(dataHeadSpan);
+            $headSpan.addClass('flexarea')
+                     .find('.datatable-wrapper')
+                     .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
+                     .find('table')
+                     .addClass(options.tableClass)
+                     .find('thead').append($flex);
+            $head.append($headSpan);
         }
         if (data.fixedRight)
         {
-            html += dataHeadSpan.format('fixed-right', rightHtml, '<div class="size-handle size-handle-head size-handle-right"></div>');
+            $headSpan = $(dataHeadSpan);
+            $headSpan.addClass('fixed-right')
+                     // .find('.datatable-wrapper')
+                     // .append('<div class="size-handle size-handle-head size-handle-right"></div>')
+                     .find('table')
+                     .addClass(options.tableClass)
+                     .find('thead').append($right);
+            $head.append($headSpan);
         }
+        $datatable.append($head);
 
-        html += '</div>';
+        // Rows
+        var $rows = $('<div class="datatable-rows">');
+        var $leftRow,
+            $flexRow,
+            $rightRow,
+            // $tr,
+            $td,
+            row,
+            rowLen = rows.length,
+            rowCol,
+            rowColLen;
+        $left = $('<tbody/>');
+        $right = $('<tbody/>');
+        $flex = $('<tbody/>');
 
-        // cols
-        html += '<div class="datatable-rows">';
-        var tr, row, i, td, cssClass, rowCol;
-        leftHtml = '';
-        rightHtml = '';
-        flexHtml = '';
-        for (var r = 0; r < rows.length; ++r)
+        for (var r = 0; r < rowLen; ++r)
         {
             row = rows[r];
-            cssClass = row.cssClass || '';
-            if (row.checked) cssClass += ' ' + (options.checkedClass || '');
-            if (typeof row.id === 'undefined')
+
+            // format row
+            if(typeof row.id === 'undefined')
             {
                 row.id = r;
             }
-
             row.index = r;
 
-            tr = '<tr class="' + cssClass + '" data-index="' + r + '" data-id="' + row.id + '">';
-            leftHtml += tr;
-            rightHtml += tr;
-            flexHtml += tr;
+            $leftRow = $('<tr/>');
+            $leftRow.addClass(row.cssClass)
+                   .toggleClass(options.checkedClass, row.checked)
+                   .attr(
+                    {
+                        "data-index" : r,
+                        "data-id"    : row.id
+                    });
+            $flexRow = $leftRow.clone();
+            $rightRow = $leftRow.clone();
 
-            for (i = 0; i < row.data.length; ++i)
+            rowColLen = row.data.length;
+            for (i = 0; i < rowColLen; ++i)
             {
-
                 rowCol = row.data[i];
+                $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
+
+                // format row column
                 if (!$.isPlainObject(rowCol))
                 {
-                    rowCol = {
+                    rowCol =
+                    {
                         text: rowCol,
                         row: r,
                         index: i
@@ -334,106 +377,117 @@
                     row.data[i] = rowCol;
                 }
 
-                td = '<td data-row="' + r + '" data-index="' + i + '" data-flex="false" data-type="' + cols[i].type + '" class="' + (rowCol.cssClass || '') + ' ' + (cols[i].colClass || '') + '" style="' + (rowCol.css || '') + '">' + rowCol.text + '</td>';
-                if (i == 0 && options.checkable)
+                $td = $('<td/>');
+
+                $td.html(rowCol.text)
+                   .addClass(rowCol.cssClass)
+                   .addClass(cols[i].colClass)
+                   .attr(
+                    {
+                        "data-row"   : r,
+                        "data-index" : i,
+                        "data-flex"  : false,
+                        "data-type"  : cols[i].type,
+                        style        : rowCol.css
+                    });
+
+                if(i === 0 && checkable)
                 {
-                    td = '<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>' + td;
+                    $tr.append('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
                 }
 
-                if (i < data.flexStart) leftHtml += td;
-                else if (i >= data.flexStart && i <= data.flexEnd) flexHtml += td;
-                else if (i > data.flexEnd) rightHtml += td;
+                $tr.append($td);
             }
 
-            leftHtml += '</tr>';
-            rightHtml += '</tr>';
-            flexHtml += '</tr>';
+            $left.append($leftRow);
+            $flex.append($flexRow);
+            $right.append($rightRow);
         }
 
+        var $rowSpan;
         if (data.fixedLeft)
         {
-            html += dataRowSpan.format('fixed-left', leftHtml, '');
+            $rowSpan = $(dataRowSpan);
+            $rowSpan.addClass('fixed-left')
+                    .find('table')
+                    .addClass(options.tableClass)
+                    .append($left);
+            $rows.append($rowSpan);
         }
         if (data.flexArea)
         {
-            html += dataRowSpan.format('flexarea', flexHtml, '<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div><div class="scroll-slide"><div class="bar"></div></div>');
+            $rowSpan = $(dataRowSpan);
+            $rowSpan.addClass('flexarea')
+                    .find('.datatable-wrapper')
+                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div><div class="scroll-slide"><div class="bar"></div></div>')
+                    .find('table')
+                    .addClass(options.tableClass)
+                    .append($flex);
+            $rows.append($rowSpan);
         }
         if (data.fixedRight)
         {
-            html += dataRowSpan.format('fixed-right', rightHtml, '');
+            $rowSpan = $(dataRowSpan);
+            $rowSpan.addClass('fixed-right')
+                    .find('table')
+                    .addClass(options.tableClass)
+                    .append($right);
+            $rows.append($rowSpan);
         }
-
-        html += '</div>';
+        $datatable.append($rows);
 
         if (data.footer)
         {
-            html += '<div class="datatable-footer">';
-            // html += data.footer;
-            html += '</div>';
+            $datatable.append($('<div class="datatable-footer"/>').append(data.footer));
         }
 
-        if (init) html += '</div>';
-        return html;
+        that.$datatable = $datatable;
+        if (that.isTable) that.$.attr('data-datatable-id', this.id).hide().after($datatable);
+
+        that.bindEvents();
+        this.refreshSize();
+
+        this.callEvent('render');
     };
 
-    // Render datatable
-    DataTable.prototype.render = function()
+    // Bind global events
+    DataTable.prototype.bindEvents = function()
     {
-        if (this.isTable)
-        {
-            this.$.attr('data-datatable-id', this.id).hide();
-            this.$.after(this.html());
-            this.$datatable = $('#' + this.id);
-        }
-        else
-        {
-            this.$.html(this.html());
-        }
-
-        if (this.data.footer)
-        {
-            this.$datatable.children('.datatable-footer').empty().append(this.data.footer);
-        }
-
-        this.$dataSpans = this.$datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
-        this.$rowsSpans = this.$datatable.children('.datatable-rows').children('.datatable-rows-span');
-        this.$headSpans = this.$datatable.children('.datatable-head').children('.datatable-head-span');
-        this.$cells = this.$dataSpans.find('td, th');
-        this.$dataCells = this.$cells.filter('td');
-        this.$headCells = this.$cells.filter('th');
-        this.$rows = this.$rowsSpans.find('.table > tbody > tr');
-
-        // bind events
-        var options = this.options,
-            self = this,
-            data = this.data,
-            $cells = this.$cells,
-            $dataCells = this.$dataCells,
-            $headCells = this.$headCells,
+        var that       = this,
+            data       = this.data,
+            options    = this.options,
             $datatable = this.$datatable;
 
-        // row hover
-        if (options.rowHover)
+        var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
+        var $rowsSpans = that.$rowsSpans = $datatable.children('.datatable-rows').children('.datatable-rows-span');
+        var $headSpans = that.$headSpans = $datatable.children('.datatable-head').children('.datatable-head-span');
+        var $cells     = that.$cells     = that.$dataSpans.find('td, th');
+        var $dataCells = that.$dataCells = $cells.filter('td');
+        var $headCells = that.$headCells = $cells.filter('th');
+        var $rows      = that.$rows      = that.$rowsSpans.find('.table > tbody > tr');
+
+        // handle row hover events
+        if(options.rowHover)
         {
-            var hoverClass = 'hover';
-            this.$rowsSpans.on('mouseenter', 'td', function()
+            var hoverClass = options.hoverClass;
+            $rowsSpans.on('mouseenter', 'td', function()
             {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
-                self.$rows.filter('.' + hoverClass).removeClass(hoverClass);
+                $rows.filter('.' + hoverClass).removeClass(hoverClass);
 
-                self.$rows.filter('[data-index="' + $(this).addClass(hoverClass).closest('tr').data('index') + '"]').addClass(hoverClass);
+                $rows.filter('[data-index="' + $(this).addClass(hoverClass).closest('tr').data('index') + '"]').addClass(hoverClass);
             }).on('mouseleave', 'td', function()
             {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
-                self.$rows.filter('.' + hoverClass).removeClass(hoverClass);
+                $rows.filter('.' + hoverClass).removeClass(hoverClass);
             });
         }
 
-        // col hover
+        // handle col hover events
         if (options.colHover)
         {
-            var colHoverClass = 'col-hover';
-            this.$headSpans.on('mouseenter', 'th', function()
+            var colHoverClass = options.colHoverClass;
+            $headSpans.on('mouseenter', 'th', function()
             {
                 $cells.filter('.' + colHoverClass).removeClass(colHoverClass);
                 $cells.filter('[data-index="' + $(this).data('index') + '"]').addClass(colHoverClass);
@@ -443,8 +497,9 @@
             });
         }
 
-        // scroll event
-        if (this.data.flexArea)
+        // handle srcoll for flex area
+        console.log('flexArea', data.flexArea);
+        if(data.flexArea)
         {
             var $scrollbar = $datatable.find('.scroll-slide'),
                 $flexArea = $datatable.find('.datatable-span.flexarea .table'),
@@ -455,14 +510,14 @@
                 tableWidth,
                 lastBarLeft,
                 barLeft,
-                scrollOffsetStoreName = self.id + '_' + 'scrollOffset',
+                scrollOffsetStoreName = that.id + '_' + 'scrollOffset',
                 firtScroll,
                 left;
 
-            this.width = $datatable.width();
+            that.width = $datatable.width();
             $datatable.resize(function()
             {
-                self.width = $datatable.width();
+                that.width = $datatable.width();
             });
 
             var srollTable = function(offset, silence)
@@ -487,6 +542,9 @@
                 flexWidth = $scrollbar.width();
                 tableWidth = $flexTable.width();
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
+                console.log('flexWidth=',flexWidth);
+                console.log('tableWidth=',tableWidth);
+                console.log('scrollWidth=',scrollWidth);
                 $bar.css('width', scrollWidth);
                 $flexTable.css('min-width', flexWidth);
                 $datatable.toggleClass('show-scroll-slide', tableWidth > flexWidth);
@@ -494,7 +552,7 @@
                 if (!firtScroll && flexWidth !== scrollWidth)
                 {
                     firtScroll = true;
-                    srollTable(store.pageGet(scrollOffsetStoreName, 0), true);
+                    srollTable(store.pageGet(scrollOffsetStoreName, 0), true); // todo: unused?
                 }
 
                 if ($datatable.hasClass('size-changing'))
@@ -502,8 +560,8 @@
                     srollTable(barLeft, true);
                 }
             };
-            $scrollbar.resize(resizeScrollbar);
-            $flexTable.resize(resizeScrollbar);
+            // $scrollbar.resize(resizeScrollbar); // todo: unuseful?
+            // $flexTable.resize(resizeScrollbar);
             resizeScrollbar();
 
             var dragOptions = {
@@ -532,18 +590,18 @@
             });
         }
 
-        // row check
+        //  handle row check events
         if (options.checkable)
         {
-            var checkedStatusStoreName = self.id + '_checkedStatus',
+            var checkedStatusStoreName = that.id + '_checkedStatus',
                 checkedClass = options.checkedClass,
                 rowId;
             var syncChecks = function()
             {
-                var $rows = self.$rowsSpans.first().find('.table > tbody > tr');
-                var $checkedRows = $rows.filter('.' + checkedClass);
+                var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
+                var $checkedRows = $checkRows.filter('.' + checkedClass);
                 var checkedStatus = {
-                    checkedAll: $rows.length === $checkedRows.length && $checkedRows.length > 0,
+                    checkedAll: $checkRows.length === $checkedRows.length && $checkedRows.length > 0,
                     checks: $checkedRows.map(function()
                     {
                         rowId = $(this).data('id');
@@ -554,11 +612,11 @@
                 {
                     value.checked = ($.inArray(value.id, checkedStatus.checks) > -1);
                 });
-                self.$headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
+                $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
 
                 store.pageSet(checkedStatusStoreName, checkedStatus);
 
-                self.callEvent('checksChanged',
+                that.callEvent('checksChanged',
                 {
                     checks: checkedStatus
                 });
@@ -566,190 +624,62 @@
 
             this.$rowsSpans.on('click', options.checkByClickRow ? 'tr' : '.check-row', function()
             {
-                self.$rows.filter('[data-index="' + $(this).closest('tr').data('index') + '"]').toggleClass(checkedClass);
+                $rows.filter('[data-index="' + $(this).closest('tr').data('index') + '"]').toggleClass(checkedClass);
                 syncChecks();
             });
 
             this.$datatable.on('click', '.check-all', function()
             {
-                self.$rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
+                $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
             }).on('click', '.check-none', function()
             {
-                self.$rows.toggleClass(checkedClass, false);
+                $rows.toggleClass(checkedClass, false);
                 syncChecks();
             }).on('click', '.check-inverse', function()
             {
-                self.$rows.toggleClass(checkedClass);
+                $rows.toggleClass(checkedClass);
                 syncChecks();
             });
 
             var checkedStatus = store.pageGet(checkedStatusStoreName);
             if (checkedStatus)
             {
-                this.$headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
+                $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
                 if (checkedStatus.checkedAll)
                 {
-                    self.$rows.addClass(checkedClass);
+                    $rows.addClass(checkedClass);
                 }
                 else
                 {
-                    self.$rows.removeClass(checkedClass);
+                    $rows.removeClass(checkedClass);
                     $.each(checkedStatus.checks, function(index, ele)
                     {
-                        self.$rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
+                        $rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
                     });
                 }
-                if (checkedStatus.checks.length) self.callEvent('checksChanged',
+                if (checkedStatus.checks.length) that.callEvent('checksChanged',
                 {
                     checks: checkedStatus
                 });
             }
         }
 
-        // fix header
-        if (options.fixedHeader)
-        {
-            var offsetTop,
-                height,
-                scrollTop,
-                $dataTableHead = $datatable.children('.datatable-head'),
-                navbarHeight = options.fixedHeaderOffset || $('.navbar.navbar-fixed-top').height() || 0;
-            var handleScroll = function()
-            {
-                offsetTop = $datatable.offset().top;
-                scrollTop = $(window).scrollTop();
-                height = $datatable.height();
-                $datatable.toggleClass('head-fixed', (scrollTop + navbarHeight) > offsetTop && (scrollTop + navbarHeight) < (offsetTop + height));
-                if ($datatable.hasClass('head-fixed'))
-                {
-                    $dataTableHead.css(
-                    {
-                        width: $datatable.width(),
-                        top: navbarHeight
-                    });
-                }
-                else
-                {
-                    $dataTableHead.attr('style', '');
-                }
-            };
-
-            $(window).scroll(handleScroll);
-            handleScroll();
-        }
-
-        // make sortable
+        // handle sort
         if (options.sortable)
         {
-            var $th, sortdown;
-            this.$headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function()
+            $headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function()
             {
                 if ($datatable.hasClass('size-changing')) return;
-                self.sortTable($(this));
+                that.sortTable($(this));
             });
         }
-
-        // custom column width
-        if (options.customizable)
-        {
-            var oldWidth, $th, col, dragDirection, $span;
-            var $sizeHandles = this.$headSpans.find('.size-handle'),
-                refreshSize = function($handle, delta)
-                {
-                    var eventParams = {};
-                    if ($handle.hasClass('size-handle-head'))
-                    {
-                        oldWidth = $handle.closest('.datatable-head-span').width();
-                        if ($handle.hasClass('size-handle-left'))
-                        {
-                            eventParams.change = 'fixedLeftWidth';
-                            eventParams.oldWidth = self.fixedLeftWidth;
-                            self.fixedLeftWidth = Math.min(self.width - (self.fixedRightWidth || self.$headSpans.filter('.fixed-right').width()) - options.minFlexAreaWidth,
-                                Math.max(options.minFixedLeftWidth, oldWidth + delta));
-                            eventParams.newWidth = self.fixedLeftWidth;
-                        }
-                        else
-                        {
-                            eventParams.change = 'fixedRightWidth';
-                            eventParams.oldWidth = self.fixedRightWidth;
-                            self.fixedRightWidth = Math.min(self.width - (self.fixedLeftWidth || self.$headSpans.filter('.fixed-left').width()) - options.minFlexAreaWidth,
-                                Math.max(options.minFixedRightWidth, oldWidth - delta));
-                            eventParams.newWidth = self.fixedRightWidth;
-                        }
-                    }
-                    else
-                    {
-                        $th = $handle.closest('th');
-                        col = data.cols[$th.data('index')];
-                        oldWidth = col.width;
-                        if (oldWidth === 'auto')
-                        {
-                            $handle = $th.closest('.datatable-head-span');
-                            oldWidth = $handle.width();
-                            if ($handle.hasClass('fixed-left'))
-                            {
-                                eventParams.change = 'fixedLeftWidth';
-                                eventParams.oldWidth = self.fixedLeftWidth;
-                                self.fixedLeftWidth = Math.min(self.width - (self.fixedRightWidth || self.$headSpans.filter('.fixed-right').width()) - options.minFlexAreaWidth,
-                                    Math.max(options.minFixedLeftWidth, oldWidth + delta));
-                                eventParams.newWidth = self.fixedLeftWidth;
-                            }
-                            else if ($handle.hasClass('fixed-right'))
-                            {
-                                eventParams.change = 'fixedRightWidth';
-                                eventParams.oldWidth = self.fixedRightWidth;
-                                self.fixedRightWidth = Math.min(self.width - (self.fixedLeftWidth || self.$headSpans.filter('.fixed-left').width()) - options.minFlexAreaWidth,
-                                    Math.max(options.minFixedRightWidth, oldWidth - delta));
-                                eventParams.newWidth = self.fixedRightWidth;
-                            }
-                        }
-                        else
-                        {
-                            eventParams.change = 'colWidth';
-                            eventParams.oldWidth = col.width;
-                            eventParams.colIndex = col.index;
-                            col.width = Math.max(options.minColWidth, oldWidth + delta);
-                            eventParams.newWidth = col.width;
-                        }
-                    }
-
-                    self.refreshSize();
-                    self.callEvent('sizeChanged',
-                    {
-                        changes: eventParams
-                    });
-                };
-
-            $sizeHandles.draggable(
-            {
-                move: false,
-                stopPropagation: true,
-                before: function()
-                {
-                    dragDirection = null;
-                    $datatable.addClass('size-changing');
-                },
-                drag: function(e)
-                {
-                    refreshSize(e.element, e.smallOffset.x);
-                },
-                finish: function()
-                {
-                    $datatable.removeClass('size-changing');
-                }
-            });
-        }
-
-        this.refresh();
-
-        this.callEvent('ready');
     };
 
     // Sort table
     DataTable.prototype.sortTable = function($th)
     {
-        var sorterStoreName = self.id + '_datatableSorter';
+        var sorterStoreName = this.id + '_datatableSorter';
         var sorter = store.pageGet(sorterStoreName);
 
         if (!$th)
@@ -865,12 +795,6 @@
         });
     };
 
-    DataTable.prototype.callEvent = function(name, params)
-    {
-        var result = this.$.callEvent(name + '.' + this.name, params, this).result;
-        return !(result != undefined && (!result));
-    };
-
     // Refresh size
     DataTable.prototype.refreshSize = function()
     {
@@ -879,8 +803,8 @@
             rows = this.data.rows,
             cols = this.data.cols;
 
-        $datatable.find('.datatable-span.fixed-left').css('width', this.fixedLeftWidth || options.fixedLeftWidth);
-        $datatable.find('.datatable-span.fixed-right').css('width', this.fixedRightWidth || options.fixedRightWidth);
+        $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
+        $datatable.find('.datatable-span.fixed-right').css('width', options.fixedRightWidth);
 
         var findMaxHeight = function($cells)
             {
@@ -895,6 +819,7 @@
             $dataCells = this.$dataCells,
             $cells = this.$cells,
             $headCells = this.$headCells;
+
         // set width of data cells
         for (var i = 0; i < cols.length; ++i)
         {
@@ -913,11 +838,11 @@
         }
     };
 
-    // Refresh changes of ui
-    DataTable.prototype.refresh = function()
+    // Call event
+    DataTable.prototype.callEvent = function(name, params)
     {
-        this.refreshSize();
-        this.sortTable();
+        var result = this.$.callEvent(name + '.' + this.name, params, this).result;
+        return !(result != undefined && (!result));
     };
 
     $.fn.datatable = function(option)
