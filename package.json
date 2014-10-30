@@ -50,7 +50,7 @@
       "ver": "1.0.0",
       "src":
       {
-        "js": ["assets/jquery.js"]
+        "resource": ["assets/jquery.js"]
       },
       "desc": "ZUI的绝大部分JS组件都依赖于jQuery",
       "thirdpart": true,
@@ -1020,7 +1020,7 @@
       {
         "less": ["src/less/modules/kindeditor.less"],
         "js": ["assets/kindeditor/kindeditor-all.js"],
-        "resource": ["assets/kindeditor//themes/*", "assets/kindeditor//lang/*"]
+        "resource": ["assets/kindeditor//themes/**", "assets/kindeditor//lang/*"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"],
@@ -1294,6 +1294,13 @@
       "basicDpds": ["setting"],
       "ignoreDpds": true
     },
+    "jquery":
+    {
+      "title": "jQuery",
+      "dest": "dist/lib/jquery/",
+      "filename": "jquery",
+      "includes": ["jquery"]
+    },
     "chosen":
     {
       "title": "Chosen",
@@ -1338,7 +1345,7 @@
     "dist":
     {
       "title": "dist",
-      "bundles": ["standard", "lite", "theme", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs"]
+      "bundles": ["jquery", "standard", "lite", "theme", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs"]
     },
     "doc":
     {
