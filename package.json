@@ -1347,7 +1347,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "colorset.test"]
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbar", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test"]
     },
     "zentao":
     {

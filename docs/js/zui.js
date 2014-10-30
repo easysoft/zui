@@ -5863,7 +5863,7 @@
         this.getOptions(options);
         this.load();
 
-        this.render();
+        this.callEvent('ready');
     };
 
     // default options
@@ -5886,9 +5886,11 @@
         // hover effection
         rowHover: true, // apply hover effection to row
         colHover: true, // apply hover effection to head
+        hoverClass: 'hover',
+        colHoverClass: 'col-hover',
 
         // custom columns size
-        customizable: false, // enable customizable
+        // customizable: false, // enable customizable
         minColWidth: 20, // min width of columns
         minFixedLeftWidth: 200, // min left width
         minFixedRightWidth: 200, // min right width
@@ -5932,11 +5934,12 @@
     };
 
     // Load data form options or table dom
-    DataTable.prototype.load = function()
+    DataTable.prototype.load = function(data)
     {
-        var data = this.options.data,
-            options = this.options,
+        var options = this.options,
             $t = this.$;
+
+        data = data || options.data;
 
         if (!data)
         {
@@ -5949,6 +5952,7 @@
                 var cols = data.cols,
                     rows = data.rows,
                     $th, $tr, $td, row;
+
                 $t.find('thead > tr:first').children('th').each(function()
                 {
                     $th = $(this);
@@ -6007,7 +6011,7 @@
 
         var cols = data.cols;
         data.colsLength = cols.length;
-        for (var i = 0; i < cols.length; ++i)
+        for (var i = 0; i < data.colsLength; ++i)
         {
             var col = cols[i];
             if (col.flex)
@@ -6043,116 +6047,155 @@
         {
             data: data
         });
+
+        this.render();
     };
 
-    // Generage html
-    DataTable.prototype.html = function()
+    // Render datatable
+    DataTable.prototype.render = function()
     {
-        var init = !$('#' + this.id).empty().length,
-            html = '',
-            options = this.options,
-            data = this.data,
-            cols = this.data.cols,
-            leftHtml = '',
-            rightHtml = '',
-            flexHtml = '',
-            rows = this.data.rows;
-        var dataRowSpan = '<div class="datatable-rows-span datatable-span {0}"><div class="datatable-wrapper"><table class="table' + options.tableClass + '"><tbody>{1}</tbody></table>{2}</div></div>',
-            dataHeadSpan = '<div class="datatable-head-span datatable-span {0}"><div class="datatable-wrapper"><table class="table' + options.tableClass + '"><thead><tr>{1}</tr></thead></table>{2}</div></div>';
+        console.log('RENDER');
+        var that = this;
+        var $datatable = that.$datatable || (that.isTable ? $('<div class="datatable" id="' + that.id + '"/>') : that.$datatable),
+            options = that.options,
+            data = that.data,
+            cols = that.data.cols,
+            rows = that.data.rows;
+        var checkable = options.checkable,
+            $left,
+            i,
+            $right,
+            $flex,
+            dataRowSpan = '<div class="datatable-rows-span datatable-span"><div class="datatable-wrapper"><table class="table"></table></div></div>',
+            dataHeadSpan = '<div class="datatable-head-span datatable-span"><div class="datatable-wrapper"><table class="table"><thead></thead></table></div></div>';
 
-        if (init)
-        {
-            html += '<div class="datatable' + (options.sortable ? ' sortable' : '') + ' ' + (options.customizable ? ' customizable' : '') + '" id="' + this.id + '">';
-        }
-        else
-        {
-            this.$datatable.toggleClass('sortable', options.sortable)
-                .toggleClass('customizable', options.customizable);
-        }
+        $datatable.empty();
 
-        // head
-        html += '<div class="datatable-head">';
-        var th, col, sortClass;
-        for (var i = 0; i < cols.length; i++)
+        // Set css class to datatable by options
+        $datatable.toggleClass('sortable', options.sortable);
+        // $datatable.toggleClass('customizable', options.customizable);
+
+        // Head
+        var $head = $('<div class="datatable-head"/>'),
+            $tr,
+            $th,
+            col;
+        $left = $('<tr/>');
+        $right = $('<tr/>');
+        $flex = $('<tr/>');
+        for (i = 0; i < cols.length; i++)
         {
             col = cols[i];
-            sortClass = '';
-            if (typeof col.customizable === 'undefined')
-            {
-                col.customizable = true;
-            }
-            if (typeof col.sort === 'undefined')
-            {
-                col.sort = true;
-            }
-            else if (col.sort === 'down')
-            {
-                sortClass = 'sort-down';
-            }
-            else if (col.sort === 'up')
-            {
-                sortClass = 'sort-up';
-            }
-            else if (col.sort === false)
-            {
-                sortClass = 'sort-disabled';
-            }
-            th = '<th class="' + (col.cssClass || '') + ' ' + ((col.colClass || '')) + ' ' + sortClass + '" data-index="' + i + '" data-type="' + col.type + '" style="' + col.css + '">' + col.text + ((col.customizable && i != (data.flexStart - 1) && i != data.flexEnd && i < (cols.length - 1)) ? '<div class="size-handle"></div>' : '') + '</th>';
+            $tr = i < data.flexStart ? $left : ((i >= data.flexStart && i <= data.flexEnd) ? $flex : $right);
+            $th = $('<th/>');
 
-            if (i == 0 && options.checkable)
+            // set sort class
+            $th.toggleClass('sort-down', col.sort === 'down')
+               .toggleClass('sort-up', col.sort === 'up')
+               .toggleClass('sort-disabled', col.sort === false);
+
+            $th.addClass(col.cssClass)
+               .addClass(col.colClass)
+               .html(col.text)
+               .attr(
+                {
+                    "data-index" : i,
+                    "data-type"  : col.type,
+                    style        : col.css
+                });
+
+            if(i === 0 && checkable)
             {
-                th = '<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>' + th;
+                $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
             }
-            if (i < data.flexStart) leftHtml += th;
-            else if (i >= data.flexStart && i <= data.flexEnd) flexHtml += th;
-            else if (i > data.flexEnd) rightHtml += th;
+
+            $tr.append($th);
         }
 
-        if (data.fixedLeft)
+        var $headSpan;
+        if(data.fixedLeft)
         {
-            html += dataHeadSpan.format('fixed-left', leftHtml, '<div class="size-handle size-handle-head size-handle-left"></div>');
+            $headSpan = $(dataHeadSpan);
+            $headSpan.addClass('fixed-left')
+                     // .find('.datatable-wrapper')
+                     // .append('<div class="size-handle size-handle-head size-handle-left"></div>')
+                     .find('table')
+                     .addClass(options.tableClass)
+                     .find('thead').append($left);
+            $head.append($headSpan);
         }
         if (data.flexArea)
         {
-            html += dataHeadSpan.format('flexarea', flexHtml, '<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>');
+            $headSpan = $(dataHeadSpan);
+            $headSpan.addClass('flexarea')
+                     .find('.datatable-wrapper')
+                     .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
+                     .find('table')
+                     .addClass(options.tableClass)
+                     .find('thead').append($flex);
+            $head.append($headSpan);
         }
         if (data.fixedRight)
         {
-            html += dataHeadSpan.format('fixed-right', rightHtml, '<div class="size-handle size-handle-head size-handle-right"></div>');
+            $headSpan = $(dataHeadSpan);
+            $headSpan.addClass('fixed-right')
+                     // .find('.datatable-wrapper')
+                     // .append('<div class="size-handle size-handle-head size-handle-right"></div>')
+                     .find('table')
+                     .addClass(options.tableClass)
+                     .find('thead').append($right);
+            $head.append($headSpan);
         }
+        $datatable.append($head);
 
-        html += '</div>';
+        // Rows
+        var $rows = $('<div class="datatable-rows">');
+        var $leftRow,
+            $flexRow,
+            $rightRow,
+            // $tr,
+            $td,
+            row,
+            rowLen = rows.length,
+            rowCol,
+            rowColLen;
+        $left = $('<tbody/>');
+        $right = $('<tbody/>');
+        $flex = $('<tbody/>');
 
-        // cols
-        html += '<div class="datatable-rows">';
-        var tr, row, i, td, cssClass, rowCol;
-        leftHtml = '';
-        rightHtml = '';
-        flexHtml = '';
-        for (var r = 0; r < rows.length; ++r)
+        for (var r = 0; r < rowLen; ++r)
         {
             row = rows[r];
-            cssClass = row.cssClass || '';
-            if (row.checked) cssClass += ' ' + (options.checkedClass || '');
-            if (typeof row.id === 'undefined')
+
+            // format row
+            if(typeof row.id === 'undefined')
             {
                 row.id = r;
             }
-
             row.index = r;
 
-            tr = '<tr class="' + cssClass + '" data-index="' + r + '" data-id="' + row.id + '">';
-            leftHtml += tr;
-            rightHtml += tr;
-            flexHtml += tr;
+            $leftRow = $('<tr/>');
+            $leftRow.addClass(row.cssClass)
+                   .toggleClass(options.checkedClass, row.checked)
+                   .attr(
+                    {
+                        "data-index" : r,
+                        "data-id"    : row.id
+                    });
+            $flexRow = $leftRow.clone();
+            $rightRow = $leftRow.clone();
 
-            for (i = 0; i < row.data.length; ++i)
+            rowColLen = row.data.length;
+            for (i = 0; i < rowColLen; ++i)
             {
-
                 rowCol = row.data[i];
+                $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
+
+                // format row column
                 if (!$.isPlainObject(rowCol))
                 {
-                    rowCol = {
+                    rowCol =
+                    {
                         text: rowCol,
                         row: r,
                         index: i
@@ -6160,106 +6203,117 @@
                     row.data[i] = rowCol;
                 }
 
-                td = '<td data-row="' + r + '" data-index="' + i + '" data-flex="false" data-type="' + cols[i].type + '" class="' + (rowCol.cssClass || '') + ' ' + (cols[i].colClass || '') + '" style="' + (rowCol.css || '') + '">' + rowCol.text + '</td>';
-                if (i == 0 && options.checkable)
+                $td = $('<td/>');
+
+                $td.html(rowCol.text)
+                   .addClass(rowCol.cssClass)
+                   .addClass(cols[i].colClass)
+                   .attr(
+                    {
+                        "data-row"   : r,
+                        "data-index" : i,
+                        "data-flex"  : false,
+                        "data-type"  : cols[i].type,
+                        style        : rowCol.css
+                    });
+
+                if(i === 0 && checkable)
                 {
-                    td = '<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>' + td;
+                    $tr.append('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
                 }
 
-                if (i < data.flexStart) leftHtml += td;
-                else if (i >= data.flexStart && i <= data.flexEnd) flexHtml += td;
-                else if (i > data.flexEnd) rightHtml += td;
+                $tr.append($td);
             }
 
-            leftHtml += '</tr>';
-            rightHtml += '</tr>';
-            flexHtml += '</tr>';
+            $left.append($leftRow);
+            $flex.append($flexRow);
+            $right.append($rightRow);
         }
 
+        var $rowSpan;
         if (data.fixedLeft)
         {
-            html += dataRowSpan.format('fixed-left', leftHtml, '');
+            $rowSpan = $(dataRowSpan);
+            $rowSpan.addClass('fixed-left')
+                    .find('table')
+                    .addClass(options.tableClass)
+                    .append($left);
+            $rows.append($rowSpan);
         }
         if (data.flexArea)
         {
-            html += dataRowSpan.format('flexarea', flexHtml, '<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div><div class="scroll-slide"><div class="bar"></div></div>');
+            $rowSpan = $(dataRowSpan);
+            $rowSpan.addClass('flexarea')
+                    .find('.datatable-wrapper')
+                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div><div class="scroll-slide"><div class="bar"></div></div>')
+                    .find('table')
+                    .addClass(options.tableClass)
+                    .append($flex);
+            $rows.append($rowSpan);
         }
         if (data.fixedRight)
         {
-            html += dataRowSpan.format('fixed-right', rightHtml, '');
+            $rowSpan = $(dataRowSpan);
+            $rowSpan.addClass('fixed-right')
+                    .find('table')
+                    .addClass(options.tableClass)
+                    .append($right);
+            $rows.append($rowSpan);
         }
-
-        html += '</div>';
+        $datatable.append($rows);
 
         if (data.footer)
         {
-            html += '<div class="datatable-footer">';
-            // html += data.footer;
-            html += '</div>';
+            $datatable.append($('<div class="datatable-footer"/>').append(data.footer));
         }
 
-        if (init) html += '</div>';
-        return html;
+        that.$datatable = $datatable;
+        if (that.isTable) that.$.attr('data-datatable-id', this.id).hide().after($datatable);
+
+        that.bindEvents();
+        this.refreshSize();
+
+        this.callEvent('render');
     };
 
-    // Render datatable
-    DataTable.prototype.render = function()
+    // Bind global events
+    DataTable.prototype.bindEvents = function()
     {
-        if (this.isTable)
-        {
-            this.$.attr('data-datatable-id', this.id).hide();
-            this.$.after(this.html());
-            this.$datatable = $('#' + this.id);
-        }
-        else
-        {
-            this.$.html(this.html());
-        }
-
-        if (this.data.footer)
-        {
-            this.$datatable.children('.datatable-footer').empty().append(this.data.footer);
-        }
-
-        this.$dataSpans = this.$datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
-        this.$rowsSpans = this.$datatable.children('.datatable-rows').children('.datatable-rows-span');
-        this.$headSpans = this.$datatable.children('.datatable-head').children('.datatable-head-span');
-        this.$cells = this.$dataSpans.find('td, th');
-        this.$dataCells = this.$cells.filter('td');
-        this.$headCells = this.$cells.filter('th');
-        this.$rows = this.$rowsSpans.find('.table > tbody > tr');
-
-        // bind events
-        var options = this.options,
-            self = this,
-            data = this.data,
-            $cells = this.$cells,
-            $dataCells = this.$dataCells,
-            $headCells = this.$headCells,
+        var that       = this,
+            data       = this.data,
+            options    = this.options,
             $datatable = this.$datatable;
 
-        // row hover
-        if (options.rowHover)
+        var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
+        var $rowsSpans = that.$rowsSpans = $datatable.children('.datatable-rows').children('.datatable-rows-span');
+        var $headSpans = that.$headSpans = $datatable.children('.datatable-head').children('.datatable-head-span');
+        var $cells     = that.$cells     = that.$dataSpans.find('td, th');
+        var $dataCells = that.$dataCells = $cells.filter('td');
+        var $headCells = that.$headCells = $cells.filter('th');
+        var $rows      = that.$rows      = that.$rowsSpans.find('.table > tbody > tr');
+
+        // handle row hover events
+        if(options.rowHover)
         {
-            var hoverClass = 'hover';
-            this.$rowsSpans.on('mouseenter', 'td', function()
+            var hoverClass = options.hoverClass;
+            $rowsSpans.on('mouseenter', 'td', function()
             {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
-                self.$rows.filter('.' + hoverClass).removeClass(hoverClass);
+                $rows.filter('.' + hoverClass).removeClass(hoverClass);
 
-                self.$rows.filter('[data-index="' + $(this).addClass(hoverClass).closest('tr').data('index') + '"]').addClass(hoverClass);
+                $rows.filter('[data-index="' + $(this).addClass(hoverClass).closest('tr').data('index') + '"]').addClass(hoverClass);
             }).on('mouseleave', 'td', function()
             {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
-                self.$rows.filter('.' + hoverClass).removeClass(hoverClass);
+                $rows.filter('.' + hoverClass).removeClass(hoverClass);
             });
         }
 
-        // col hover
+        // handle col hover events
         if (options.colHover)
         {
-            var colHoverClass = 'col-hover';
-            this.$headSpans.on('mouseenter', 'th', function()
+            var colHoverClass = options.colHoverClass;
+            $headSpans.on('mouseenter', 'th', function()
             {
                 $cells.filter('.' + colHoverClass).removeClass(colHoverClass);
                 $cells.filter('[data-index="' + $(this).data('index') + '"]').addClass(colHoverClass);
@@ -6269,8 +6323,9 @@
             });
         }
 
-        // scroll event
-        if (this.data.flexArea)
+        // handle srcoll for flex area
+        console.log('flexArea', data.flexArea);
+        if(data.flexArea)
         {
             var $scrollbar = $datatable.find('.scroll-slide'),
                 $flexArea = $datatable.find('.datatable-span.flexarea .table'),
@@ -6281,14 +6336,14 @@
                 tableWidth,
                 lastBarLeft,
                 barLeft,
-                scrollOffsetStoreName = self.id + '_' + 'scrollOffset',
+                scrollOffsetStoreName = that.id + '_' + 'scrollOffset',
                 firtScroll,
                 left;
 
-            this.width = $datatable.width();
+            that.width = $datatable.width();
             $datatable.resize(function()
             {
-                self.width = $datatable.width();
+                that.width = $datatable.width();
             });
 
             var srollTable = function(offset, silence)
@@ -6313,6 +6368,9 @@
                 flexWidth = $scrollbar.width();
                 tableWidth = $flexTable.width();
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
+                console.log('flexWidth=',flexWidth);
+                console.log('tableWidth=',tableWidth);
+                console.log('scrollWidth=',scrollWidth);
                 $bar.css('width', scrollWidth);
                 $flexTable.css('min-width', flexWidth);
                 $datatable.toggleClass('show-scroll-slide', tableWidth > flexWidth);
@@ -6320,7 +6378,7 @@
                 if (!firtScroll && flexWidth !== scrollWidth)
                 {
                     firtScroll = true;
-                    srollTable(store.pageGet(scrollOffsetStoreName, 0), true);
+                    srollTable(store.pageGet(scrollOffsetStoreName, 0), true); // todo: unused?
                 }
 
                 if ($datatable.hasClass('size-changing'))
@@ -6328,8 +6386,8 @@
                     srollTable(barLeft, true);
                 }
             };
-            $scrollbar.resize(resizeScrollbar);
-            $flexTable.resize(resizeScrollbar);
+            // $scrollbar.resize(resizeScrollbar); // todo: unuseful?
+            // $flexTable.resize(resizeScrollbar);
             resizeScrollbar();
 
             var dragOptions = {
@@ -6358,18 +6416,18 @@
             });
         }
 
-        // row check
+        //  handle row check events
         if (options.checkable)
         {
-            var checkedStatusStoreName = self.id + '_checkedStatus',
+            var checkedStatusStoreName = that.id + '_checkedStatus',
                 checkedClass = options.checkedClass,
                 rowId;
             var syncChecks = function()
             {
-                var $rows = self.$rowsSpans.first().find('.table > tbody > tr');
-                var $checkedRows = $rows.filter('.' + checkedClass);
+                var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
+                var $checkedRows = $checkRows.filter('.' + checkedClass);
                 var checkedStatus = {
-                    checkedAll: $rows.length === $checkedRows.length && $checkedRows.length > 0,
+                    checkedAll: $checkRows.length === $checkedRows.length && $checkedRows.length > 0,
                     checks: $checkedRows.map(function()
                     {
                         rowId = $(this).data('id');
@@ -6380,11 +6438,11 @@
                 {
                     value.checked = ($.inArray(value.id, checkedStatus.checks) > -1);
                 });
-                self.$headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
+                $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
 
                 store.pageSet(checkedStatusStoreName, checkedStatus);
 
-                self.callEvent('checksChanged',
+                that.callEvent('checksChanged',
                 {
                     checks: checkedStatus
                 });
@@ -6392,190 +6450,62 @@
 
             this.$rowsSpans.on('click', options.checkByClickRow ? 'tr' : '.check-row', function()
             {
-                self.$rows.filter('[data-index="' + $(this).closest('tr').data('index') + '"]').toggleClass(checkedClass);
+                $rows.filter('[data-index="' + $(this).closest('tr').data('index') + '"]').toggleClass(checkedClass);
                 syncChecks();
             });
 
             this.$datatable.on('click', '.check-all', function()
             {
-                self.$rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
+                $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
             }).on('click', '.check-none', function()
             {
-                self.$rows.toggleClass(checkedClass, false);
+                $rows.toggleClass(checkedClass, false);
                 syncChecks();
             }).on('click', '.check-inverse', function()
             {
-                self.$rows.toggleClass(checkedClass);
+                $rows.toggleClass(checkedClass);
                 syncChecks();
             });
 
             var checkedStatus = store.pageGet(checkedStatusStoreName);
             if (checkedStatus)
             {
-                this.$headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
+                $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
                 if (checkedStatus.checkedAll)
                 {
-                    self.$rows.addClass(checkedClass);
+                    $rows.addClass(checkedClass);
                 }
                 else
                 {
-                    self.$rows.removeClass(checkedClass);
+                    $rows.removeClass(checkedClass);
                     $.each(checkedStatus.checks, function(index, ele)
                     {
-                        self.$rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
+                        $rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
                     });
                 }
-                if (checkedStatus.checks.length) self.callEvent('checksChanged',
+                if (checkedStatus.checks.length) that.callEvent('checksChanged',
                 {
                     checks: checkedStatus
                 });
             }
         }
 
-        // fix header
-        if (options.fixedHeader)
-        {
-            var offsetTop,
-                height,
-                scrollTop,
-                $dataTableHead = $datatable.children('.datatable-head'),
-                navbarHeight = options.fixedHeaderOffset || $('.navbar.navbar-fixed-top').height() || 0;
-            var handleScroll = function()
-            {
-                offsetTop = $datatable.offset().top;
-                scrollTop = $(window).scrollTop();
-                height = $datatable.height();
-                $datatable.toggleClass('head-fixed', (scrollTop + navbarHeight) > offsetTop && (scrollTop + navbarHeight) < (offsetTop + height));
-                if ($datatable.hasClass('head-fixed'))
-                {
-                    $dataTableHead.css(
-                    {
-                        width: $datatable.width(),
-                        top: navbarHeight
-                    });
-                }
-                else
-                {
-                    $dataTableHead.attr('style', '');
-                }
-            };
-
-            $(window).scroll(handleScroll);
-            handleScroll();
-        }
-
-        // make sortable
+        // handle sort
         if (options.sortable)
         {
-            var $th, sortdown;
-            this.$headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function()
+            $headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function()
             {
                 if ($datatable.hasClass('size-changing')) return;
-                self.sortTable($(this));
+                that.sortTable($(this));
             });
         }
-
-        // custom column width
-        if (options.customizable)
-        {
-            var oldWidth, $th, col, dragDirection, $span;
-            var $sizeHandles = this.$headSpans.find('.size-handle'),
-                refreshSize = function($handle, delta)
-                {
-                    var eventParams = {};
-                    if ($handle.hasClass('size-handle-head'))
-                    {
-                        oldWidth = $handle.closest('.datatable-head-span').width();
-                        if ($handle.hasClass('size-handle-left'))
-                        {
-                            eventParams.change = 'fixedLeftWidth';
-                            eventParams.oldWidth = self.fixedLeftWidth;
-                            self.fixedLeftWidth = Math.min(self.width - (self.fixedRightWidth || self.$headSpans.filter('.fixed-right').width()) - options.minFlexAreaWidth,
-                                Math.max(options.minFixedLeftWidth, oldWidth + delta));
-                            eventParams.newWidth = self.fixedLeftWidth;
-                        }
-                        else
-                        {
-                            eventParams.change = 'fixedRightWidth';
-                            eventParams.oldWidth = self.fixedRightWidth;
-                            self.fixedRightWidth = Math.min(self.width - (self.fixedLeftWidth || self.$headSpans.filter('.fixed-left').width()) - options.minFlexAreaWidth,
-                                Math.max(options.minFixedRightWidth, oldWidth - delta));
-                            eventParams.newWidth = self.fixedRightWidth;
-                        }
-                    }
-                    else
-                    {
-                        $th = $handle.closest('th');
-                        col = data.cols[$th.data('index')];
-                        oldWidth = col.width;
-                        if (oldWidth === 'auto')
-                        {
-                            $handle = $th.closest('.datatable-head-span');
-                            oldWidth = $handle.width();
-                            if ($handle.hasClass('fixed-left'))
-                            {
-                                eventParams.change = 'fixedLeftWidth';
-                                eventParams.oldWidth = self.fixedLeftWidth;
-                                self.fixedLeftWidth = Math.min(self.width - (self.fixedRightWidth || self.$headSpans.filter('.fixed-right').width()) - options.minFlexAreaWidth,
-                                    Math.max(options.minFixedLeftWidth, oldWidth + delta));
-                                eventParams.newWidth = self.fixedLeftWidth;
-                            }
-                            else if ($handle.hasClass('fixed-right'))
-                            {
-                                eventParams.change = 'fixedRightWidth';
-                                eventParams.oldWidth = self.fixedRightWidth;
-                                self.fixedRightWidth = Math.min(self.width - (self.fixedLeftWidth || self.$headSpans.filter('.fixed-left').width()) - options.minFlexAreaWidth,
-                                    Math.max(options.minFixedRightWidth, oldWidth - delta));
-                                eventParams.newWidth = self.fixedRightWidth;
-                            }
-                        }
-                        else
-                        {
-                            eventParams.change = 'colWidth';
-                            eventParams.oldWidth = col.width;
-                            eventParams.colIndex = col.index;
-                            col.width = Math.max(options.minColWidth, oldWidth + delta);
-                            eventParams.newWidth = col.width;
-                        }
-                    }
-
-                    self.refreshSize();
-                    self.callEvent('sizeChanged',
-                    {
-                        changes: eventParams
-                    });
-                };
-
-            $sizeHandles.draggable(
-            {
-                move: false,
-                stopPropagation: true,
-                before: function()
-                {
-                    dragDirection = null;
-                    $datatable.addClass('size-changing');
-                },
-                drag: function(e)
-                {
-                    refreshSize(e.element, e.smallOffset.x);
-                },
-                finish: function()
-                {
-                    $datatable.removeClass('size-changing');
-                }
-            });
-        }
-
-        this.refresh();
-
-        this.callEvent('ready');
     };
 
     // Sort table
     DataTable.prototype.sortTable = function($th)
     {
-        var sorterStoreName = self.id + '_datatableSorter';
+        var sorterStoreName = this.id + '_datatableSorter';
         var sorter = store.pageGet(sorterStoreName);
 
         if (!$th)
@@ -6691,12 +6621,6 @@
         });
     };
 
-    DataTable.prototype.callEvent = function(name, params)
-    {
-        var result = this.$.callEvent(name + '.' + this.name, params, this).result;
-        return !(result != undefined && (!result));
-    };
-
     // Refresh size
     DataTable.prototype.refreshSize = function()
     {
@@ -6705,8 +6629,8 @@
             rows = this.data.rows,
             cols = this.data.cols;
 
-        $datatable.find('.datatable-span.fixed-left').css('width', this.fixedLeftWidth || options.fixedLeftWidth);
-        $datatable.find('.datatable-span.fixed-right').css('width', this.fixedRightWidth || options.fixedRightWidth);
+        $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
+        $datatable.find('.datatable-span.fixed-right').css('width', options.fixedRightWidth);
 
         var findMaxHeight = function($cells)
             {
@@ -6721,6 +6645,7 @@
             $dataCells = this.$dataCells,
             $cells = this.$cells,
             $headCells = this.$headCells;
+
         // set width of data cells
         for (var i = 0; i < cols.length; ++i)
         {
@@ -6739,11 +6664,11 @@
         }
     };
 
-    // Refresh changes of ui
-    DataTable.prototype.refresh = function()
+    // Call event
+    DataTable.prototype.callEvent = function(name, params)
     {
-        this.refreshSize();
-        this.sortTable();
+        var result = this.$.callEvent(name + '.' + this.name, params, this).result;
+        return !(result != undefined && (!result));
     };
 
     $.fn.datatable = function(option)
@@ -6761,4 +6686,667 @@
     };
 
     $.fn.datatable.Constructor = DataTable;
+}(jQuery, window);
+
+/* ========================================================================
+ * ZUI: calendar.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
++ function($, window)
+{
+    "use strict";
+    var name = 'zui.calendar';
+
+    var getNearbyLastWeekDay = function(date, lastWeek)
+        {
+            lastWeek = lastWeek || 1;
+
+            var d = date.clone();
+            while (d.getDay() != lastWeek)
+            {
+                d.addDays(-1);
+            }
+            d.setHours(0);
+            d.setMinutes(0);
+            d.setSeconds(0);
+            d.setMilliseconds(0);
+            return d;
+        },
+
+        getFirstDayOfMonth = function(date)
+        {
+            var d = date.clone();
+            d.setDate(1);
+            return d;
+        },
+
+        getLastDayOfMonth = function(date)
+        {
+            var d = date.clone();
+            var month = d.getMonth();
+            d.setDate(28);
+
+            while (d.getMonth() == month)
+            {
+                d.addDays(1);
+            }
+
+            d.addDays(-1);
+
+            return d;
+        };
+
+    var Calendar = function(element, options)
+    {
+        this.name = name;
+        this.$ = $(element);
+        this.id = this.$.attr('id') || (name + $.uuid());
+        this.$.attr('id', this.id);
+        this.storeName = name + '.' + this.id;
+
+        this.getOptions(options);
+        this.getLang();
+
+        this.data = this.options.data;
+        this.calendars = $.isPlainObject(this.data.calendars) ? this.data.calendars :
+        {};
+        this.events = this.data.events;
+        this.sortEvents();
+
+        this.storeData = window.store.pageGet(this.storeName,
+        {
+            date: 'today',
+            view: 'month'
+        });
+
+        this.date = this.options.startDate || (this.options.storage ? this.storeData.date : 'today');
+        this.view = this.options.startView || (this.options.storage ? this.storeData.view : 'month');
+
+        this.$.toggleClass('limit-event-title', options.limitEventTitle);
+
+        if (this.options.withHeader)
+        {
+            var $header = this.$.children('.calender-header');
+            if (!$header.length)
+            {
+                $header = $('<header><div class="btn-toolbar"><div class="btn-group"><button type="button" class="btn btn-today">{today}</button></div><div class="btn-group"><button type="button" class="btn btn-prev"><i class="icon-chevron-left"></i></button><button type="button" class="btn btn-next"><i class="icon-chevron-right"></i></button></div><div class="btn-group"><span class="calendar-caption"></span></div></div></header>'.format(this.lang));
+                this.$.append($header);
+            }
+            this.$caption = $header.find('.calendar-caption');
+            this.$todayBtn = $header.find('.btn-today');
+            this.$header = $header;
+        }
+
+        var $views = this.$.children('.calendar-views');
+        if (!$views.length)
+        {
+            $views = $('<div class="calendar-views"></div>');
+            this.$.append($views);
+        }
+        this.$views = $views;
+        this.$monthView = $views.children('.calendar-view.month');
+
+        this.display();
+
+        this.bindEvents();
+    };
+
+    // default options
+    Calendar.DEFAULTS = {
+        langs:
+        {
+            zh_cn:
+            {
+                weekNames: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                today: '今天',
+                year: '{0}年',
+                month: '{0}月',
+                yearMonth: '{0}年{1}月'
+            }
+        },
+        data:
+        {
+            calendars:
+            {
+                defaultCal:
+                {
+                    color: '#229F24'
+                }
+            },
+            events: []
+        },
+        // startView: "month",  // default view when load complete
+        // startDate: 'today',  // default date when load complete
+        limitEventTitle: true,
+        storage: true,
+        withHeader: true,
+        dragThenDrop: true // drag an event and drop at another day
+    };
+
+    // Sort events by start datetime
+    Calendar.prototype.sortEvents = function()
+    {
+        var events = this.events;
+        if (!$.isArray(events))
+        {
+            events = [];
+        }
+
+        $.each(events, function(index, e)
+        {
+            if (typeof e.start === 'string')
+            {
+                e.start = new Date(e.start);
+            }
+            if (typeof e.end === 'string')
+            {
+                e.end = new Date(e.end);
+            }
+
+            if (typeof e.id === 'undefined')
+            {
+                e.id = $.uuid();
+            }
+        });
+
+        events.sort(function(a, b)
+        {
+            return a.start > b.start ? 1 : (a.start < b.start ? (-1) : 0);
+        });
+
+        // this.events = events;
+    }
+
+    Calendar.prototype.bindEvents = function()
+    {
+        var $e = this.$,
+            self = this;
+
+        $e.on('click', '.btn-today', function()
+        {
+            self.date = new Date();
+            self.display();
+            self.callEvent('clickTodayBtn');
+        }).on('click', '.btn-next', function()
+        {
+            if (self.view === 'month')
+            {
+                self.date.addMonths(1);
+            }
+            self.display();
+            self.callEvent('clickNextBtn');
+        }).on('click', '.btn-prev', function()
+        {
+            if (self.view === 'month')
+            {
+                self.date.addMonths(-1);
+            }
+            self.display();
+            self.callEvent('clickPrevBtn');
+        }).on('click', '.event', function(event)
+        {
+            self.callEvent('clickEvent',
+            {
+                event: $(this).data('event'),
+                events: self.events
+            });
+            event.stopPropagation();
+        }).on('click', '.cell-day', function()
+        {
+            self.callEvent('clickCell',
+            {
+                view: self.view,
+                date: $(this).attr('data-date'),
+                events: self.events
+            });
+        });
+    };
+
+    Calendar.prototype.addCalendars = function(calendars)
+    {
+        if ($.isPlainObject(calendars))
+        {
+            calendars = [calendars];
+        }
+        $.each(calendars, function(index, value)
+        {
+            if (this.callEvent('beforeAddCalendars',
+            {
+                newCalendar: value,
+                data: this.data
+            }))
+            {
+                this.calendars[value.name](value);
+            }
+        });
+
+        this.display();
+        this.callEvent('addCalendars',
+        {
+            newCalendars: calendars,
+            data: this.data
+        });
+    };
+
+    Calendar.prototype.addEvents = function(events)
+    {
+        if ($.isPlainObject(events))
+        {
+            events = [events];
+        }
+        $.each(events, function(index, value)
+        {
+            if (this.callEvent('beforeAddEvent',
+            {
+                newEvent: value,
+                data: this.data
+            }))
+            {
+                this.events.push(value);
+            }
+        });
+
+        this.sortEvents();
+        this.display();
+        this.callEvent('addEvents',
+        {
+            newEvents: events,
+            data: this.data
+        });
+    };
+
+    Calendar.prototype.getEvent = function(id)
+    {
+        var events = this.events;
+        for (var i = 0; i < events.length; i++)
+        {
+            if (events[i].id == id)
+            {
+                return events[i];
+            }
+        }
+        return null
+    };
+
+    Calendar.prototype.updateEvents = function(updates)
+    {
+        var eventsParams = {
+            data: this.data,
+            changes: []
+        };
+
+        if ($.isPlainObject(events))
+        {
+            events = [events];
+        }
+        var event, chgs, eventParam;
+        $.each(events, function(index, changes)
+        {
+            event = changes.event;
+            chgs = changes.changes;
+            eventParam = {
+                event: event,
+                changes: []
+            };
+            if (typeof event === 'string')
+            {
+                event = this.getEvent(event);
+            }
+            if (event)
+            {
+                if ($.isPlainObject(chgs))
+                {
+                    chgs = [chgs];
+                }
+                $.each(function(idx, chge)
+                {
+                    if (this.callEvent('beforeChange',
+                    {
+                        event: event,
+                        change: chge.change,
+                        to: chge.to,
+                        from: event[chge.change]
+                    }))
+                    {
+                        eventParam.changes.push($.entend(true,
+                        {}, chge,
+                        {
+                            from: event[chge.change]
+                        }));
+                        event[chge.change] = chge.to;
+                    }
+                });
+            }
+            eventsParams.changes.push(eventParam);
+        });
+
+        this.sortEvents();
+        this.display();
+        this.callEvent('change', eventsParams);
+    };
+
+    Calendar.prototype.removeEvents = function(events)
+    {
+        if (!$.isArray(events))
+        {
+            events = [events];
+        }
+        var id, event, idx, evts = this.events,
+            removedEvents = [];
+        $.each(events, function(index, value)
+        {
+            id = $.isPlainObject(value) ? value.id : value;
+            idx = -1;
+            for (var i = 0; i < evts.length; i++)
+            {
+                if (evts[i].id == id)
+                {
+                    idx = i;
+                    event = evts[i];
+                    break;
+                }
+            }
+
+            if (idx >= 0 && this.callEvent('beforeRemoveEvent',
+            {
+                event: event,
+                eventId: id,
+                data: this.data
+            }))
+            {
+                evts.splice(idx, 1);
+                removedEvents.push(event);
+            }
+        });
+
+        this.sortEvents();
+        this.display();
+        this.callEvent('removeEvents',
+        {
+            removedEvents: removedEvents,
+            data: this.data
+        });
+    };
+
+    Calendar.prototype.getOptions = function(options)
+    {
+        this.options = $.extend(
+        {}, Calendar.DEFAULTS, this.$.data(), options);
+    };
+
+    Calendar.prototype.getLang = function()
+    {
+        this.lang = this.options.langs[this.options.lang || $.clientLang()];
+    };
+
+    Calendar.prototype.display = function(view, date)
+    {
+        if (typeof view === 'undefined')
+        {
+            view = this.view;
+        }
+        else
+        {
+            this.view = view;
+        }
+
+        if (typeof date === 'undefined')
+        {
+            date = this.date;
+        }
+        else
+        {
+            this.date = date;
+        }
+
+        if (date === 'today')
+        {
+            date = new Date();
+            this.date = date;
+        }
+        else if (typeof date === 'string')
+        {
+            date = new Date(date);
+            this.date = date;
+        }
+
+        if (this.options.storage)
+        {
+            window.store.pageSet(this.storeName,
+            {
+                date: date,
+                view: view
+            });
+        }
+
+        var eventPramas = {
+            view: view,
+            date: date
+        };
+        if (this.callEvent('beforeDisplay', eventPramas))
+        {
+            switch (view)
+            {
+                case 'month':
+                    this.displayMonth(date);
+                    break;
+            }
+
+            this.callEvent('display', eventPramas);
+        }
+    };
+
+    Calendar.prototype.displayMonth = function()
+    {
+        var options = this.options,
+            self = this,
+            lang = this.lang,
+            date = this.date,
+            $views = this.$views,
+            $e = this.$;
+
+        var $view = self.$monthView;
+        if (!$view.length)
+        {
+            $view = $('<div class="calendar-view month"><table class="table table-bordered"><thead><tr class="week-head"></tr></thead><tbody class="month-days"></tbody></table></div>');
+
+            var $weekHead = $view.find('.week-head'),
+                $monthDays = $view.find('.month-days'),
+                $tr;
+
+            for (var i = 0; i < 7; i++)
+            {
+                $weekHead.append('<th>' + lang.weekNames[i] + '</th>');
+            }
+
+            for (var i = 0; i < 6; i++)
+            {
+                $tr = $('<tr class="week-days"></tr>');
+                for (var j = 0; j < 7; j++)
+                {
+                    $tr.append('<td class="cell-day"><div class="day"><div class="heading"><span class="month"></span> <span class="number"></span></div><div class="content"><div class="events"></div></div></div></td>');
+                }
+                $monthDays.append($tr);
+            }
+
+            $views.append($view);
+            self.$monthView = $view;
+        }
+
+        var $weeks = $view.find('.week-days'),
+            $days = $view.find('.day'),
+            firstDayOfMonth = getFirstDayOfMonth(date),
+            lastDayOfMonth = getLastDayOfMonth(date),
+            $week,
+            $day,
+            $cell,
+            year,
+            day,
+            month,
+            today = new Date();
+        var firstDay = getNearbyLastWeekDay(firstDayOfMonth),
+            thisYear = date.getFullYear(),
+            thisMonth = date.getMonth(),
+            thisDay = date.getDate(),
+            todayMonth = today.getMonth(),
+            todayYear = today.getFullYear(),
+            todayDate = today.getDate();
+        var lastDay = firstDay.clone().addDays(6 * 7).addMilliseconds(-1),
+            printDate = firstDay.clone().addDays(1).addMilliseconds(-1);
+
+        $weeks.each(function(weekIdx)
+        {
+            $week = $(this);
+            $week.find('.day').each(function(dayIndex)
+            {
+                $day = $(this);
+                $cell = $day.closest('.cell-day');
+                year = printDate.getFullYear();
+                day = printDate.getDate();
+                month = printDate.getMonth();
+                $day.attr('data-date', printDate.toDateString());
+                $day.find('.heading > .number').text(day);
+
+                $day.find('.heading > .month')
+                    .toggle((weekIdx === 0 && dayIndex === 0) || day === 1)
+                    .text(((month === 0 && day === 1) ? (lang.year.format(year) + ' ') : '') + lang.monthNames[month]);
+                $cell.toggleClass('current-month', month === thisMonth);
+                $cell.toggleClass('current', (day === todayDate && month === todayMonth && year === todayYear));
+                $cell.toggleClass('past', printDate < today);
+                $cell.toggleClass('future', printDate > today);
+                $day.find('.events').empty();
+
+                printDate.addDays(1);
+            });
+        });
+
+        if (options.withHeader)
+        {
+            this.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1));
+            this.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
+        }
+
+        var $event,
+            cal,
+            events = this.events,
+            calendars = this.calendars;
+        $.each(this.events, function(index, e)
+        {
+            if (e.start >= firstDay && e.start <= lastDay)
+            {
+                $day = $days.filter('[data-date="' + e.start.toDateString() + '"]');
+                if ($day.length)
+                {
+                    $event = $('<div data-id="' + e.id + '" class="event" title="' + e.desc + '"><span class="time">' + e.start.format('hh:mm') + '</span> <span class="title">' + e.title + '</span></div>');
+                    $event.find('.time').toggle(!e.allDay);
+                    $event.data('event', e);
+
+                    if (e.calendar)
+                    {
+                        cal = calendars[e.calendar];
+                        if (cal)
+                        {
+                            $event.data('calendar', cal).css('background-color', cal.color);
+                        }
+                    }
+
+                    $day.find('.events').append($event);
+                }
+            }
+        });
+
+        if (options.dragThenDrop)
+        {
+            $view.find('.event').droppable(
+            {
+                target: $days,
+                container: $view,
+                flex: true,
+                start: function(e)
+                {
+                    $e.addClass('event-dragging');
+                },
+                drop: function(e)
+                {
+                    var et = e.element.data('event'),
+                        newDate = e.target.attr('data-date');
+                    var startDate = et.start.clone();
+                    if (startDate.toDateString() != newDate)
+                    {
+                        newDate = new Date(newDate);
+                        newDate.setHours(startDate.getHours());
+                        newDate.setMinutes(startDate.getMinutes());
+                        newDate.setSeconds(startDate.getSeconds());
+
+                        if (self.callEvent('beforeChange',
+                        {
+                            event: et,
+                            change: 'start',
+                            to: newDate
+                        }))
+                        {
+                            var oldEnd = et.end.clone();
+
+                            et.end.addMilliseconds(et.end.getTime() - startDate.getTime());
+                            et.start = newDate;
+
+                            e.target.find('.events').append(e.element);
+
+                            self.callEvent('change',
+                            {
+                                data: self.data,
+                                changes: [
+                                {
+                                    event: et,
+                                    changes: [
+                                    {
+                                        change: 'start',
+                                        from: startDate,
+                                        to: et.start
+                                    },
+                                    {
+                                        change: 'end',
+                                        from: oldEnd,
+                                        to: et.end
+                                    }]
+                                }]
+                            });
+                        }
+
+                    }
+                },
+                finish: function(e)
+                {
+                    $e.removeClass('event-dragging');
+                }
+            });
+        }
+    };
+
+    Calendar.prototype.callEvent = function(name, params)
+    {
+        var result = this.$.callEvent(name + '.' + this.name, params, this);
+        return !(result.result != undefined && (!result.result));
+    };
+
+    $.fn.calendar = function(option)
+    {
+        return this.each(function()
+        {
+            var $this = $(this);
+            var data = $this.data(name);
+            var options = typeof option == 'object' && option;
+
+            if (!data) $this.data(name, (data = new Calendar(this, options)));
+
+            if (typeof option == 'string') data[option]();
+        });
+    };
+
+    $.fn.calendar.Constructor = Calendar;
 }(jQuery, window);
