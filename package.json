@@ -1068,7 +1068,7 @@
       "src":
       {
         "less": ["src/less/modules/chosen.icons.less"],
-        "js": ["src/js/chosen.icon.js"]
+        "js": ["src/js/chosen.icons.js"]
       },
       "ver": "1.0.0",
       "dpds": ["basic", "chosen"],
@@ -1318,7 +1318,7 @@
       "title": "Chosen",
       "dest": "dist/lib/chosen/",
       "filename": "chosen.icons",
-      "includes": ["chosen.icons"],
+      "includes": ["chosenicons"],
       "basicDpds": ["setting", "icons.variables"],
       "ignoreDpds": true
     },
