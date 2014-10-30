@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-10-29
+ * ZUI - v1.2.0-beta - 2014-10-30
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -309,7 +309,7 @@
   background-repeat: no-repeat;
 }
 .ke-toolbar-icon-url {
-  background-image: url(themes/default/default.png);
+  background-image: url(default.png);
 }
 .ke-toolbar .ke-outline {
   display: block;
@@ -403,7 +403,7 @@
 .ke-statusbar .ke-statusbar-center-icon,
 .ke-statusbar .ke-statusbar-right-icon {
   height: 11px;
-  background-image: url(themes/default/default.png);
+  background-image: url(default.png);
 }
 .ke-statusbar .ke-statusbar-center-icon {
   width: 15px;
