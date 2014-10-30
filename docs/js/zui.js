@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-10-29
+ * ZUI - v1.2.0 - 2014-10-30
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -6054,7 +6054,6 @@
     // Render datatable
     DataTable.prototype.render = function()
     {
-        console.log('RENDER');
         var that = this;
         var $datatable = that.$datatable || (that.isTable ? $('<div class="datatable" id="' + that.id + '"/>') : that.$datatable),
             options = that.options,
@@ -6324,7 +6323,6 @@
         }
 
         // handle srcoll for flex area
-        console.log('flexArea', data.flexArea);
         if(data.flexArea)
         {
             var $scrollbar = $datatable.find('.scroll-slide'),
@@ -6368,9 +6366,6 @@
                 flexWidth = $scrollbar.width();
                 tableWidth = $flexTable.width();
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
-                console.log('flexWidth=',flexWidth);
-                console.log('tableWidth=',tableWidth);
-                console.log('scrollWidth=',scrollWidth);
                 $bar.css('width', scrollWidth);
                 $flexTable.css('min-width', flexWidth);
                 $datatable.toggleClass('show-scroll-slide', tableWidth > flexWidth);
@@ -6386,8 +6381,8 @@
                     srollTable(barLeft, true);
                 }
             };
-            // $scrollbar.resize(resizeScrollbar); // todo: unuseful?
-            // $flexTable.resize(resizeScrollbar);
+            $scrollbar.resize(resizeScrollbar); // todo: unuseful?
+            $flexTable.resize(resizeScrollbar);
             resizeScrollbar();
 
             var dragOptions = {

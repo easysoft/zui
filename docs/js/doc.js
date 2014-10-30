@@ -26,7 +26,13 @@ $(function()
             return isGithub ? ('/zui' + path) : path;
         };
 
-    // $(window).resize(function(){$('#main').css('min-height', $(window).height());});
+    var resizeMainContent = function()
+    {
+        $('#main').css('min-height', $(window).height());
+    };
+    resizeMainContent();
+
+    // $(window).resize(resizeMainContent);
 
     /* set navbar */
     var $header = $('body > header');
