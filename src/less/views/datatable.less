@@ -127,80 +127,80 @@
     }
   }
 
-  .size-handle {display: none}
+  // .size-handle {display: none}
 
-  &.customizable
-  {
-    &.size-changing
-    {
-      cursor: e-resize!important;
-    }
+  // &.customizable
+  // {
+  //   &.size-changing
+  //   {
+  //     cursor: e-resize!important;
+  //   }
 
-    .size-handle
-    {
-      display: block;
-      position: absolute;
-      width: 3px;
-      height: 100%;
-      top: 0;
-      cursor: w-resize;
-      border: 1px dotted transparent;
-      border-top: none;
-      border-bottom: none;
-      .transition();
-    }
+  //   .size-handle
+  //   {
+  //     display: block;
+  //     position: absolute;
+  //     width: 3px;
+  //     height: 100%;
+  //     top: 0;
+  //     cursor: w-resize;
+  //     border: 1px dotted transparent;
+  //     border-top: none;
+  //     border-bottom: none;
+  //     .transition();
+  //   }
 
-    .datatable-head-span
-    {
-      position: relative;
+  //   .datatable-head-span
+  //   {
+  //     position: relative;
 
-      &.fixed-left
-      {
-        .size-handle
-        {
-          right: 0;
-        }
-      }
+  //     &.fixed-left
+  //     {
+  //       .size-handle
+  //       {
+  //         right: 0;
+  //       }
+  //     }
 
-      &.fixed-right
-      {
-        .size-handle
-        {
-          left: 0;
-        }
-      }
+  //     &.fixed-right
+  //     {
+  //       .size-handle
+  //       {
+  //         left: 0;
+  //       }
+  //     }
 
-      .table > thead > tr > th
-      {
-        position: relative;
-        .size-handle
-        {
-          right: 0;
-        }
-      }
-    }
+  //     .table > thead > tr > th
+  //     {
+  //       position: relative;
+  //       .size-handle
+  //       {
+  //         right: 0;
+  //       }
+  //     }
+  //   }
 
-    .datatable-head
-    {
-      &:hover
-      {
-        .size-handle
-        {
-          border-color: @color-gray;
-          background-color: @color-back;
-        }
-      }
-    }
+  //   .datatable-head
+  //   {
+  //     &:hover
+  //     {
+  //       .size-handle
+  //       {
+  //         border-color: @color-gray;
+  //         background-color: @color-back;
+  //       }
+  //     }
+  //   }
 
-    &.size-changing
-    {
-      .table > thead > tr > th,
-      .table > tbody > tr > td
-      {
-        transition: none;
-      }
-    }
-  }
+  //   &.size-changing
+  //   {
+  //     .table > thead > tr > th,
+  //     .table > tbody > tr > td
+  //     {
+  //       transition: none;
+  //     }
+  //   }
+  // }
 }
 
 .datatable-wrapper {position: relative;}
@@ -250,39 +250,57 @@
     {
       right: -30px;
     }
+  }
+}
 
-    .scroll-slide
+.datatable > .scroll-wrapper
+{
+  position: relative;
+  width: 100%;
+}
+
+.datatable .scroll-slide
+{
+  position: absolute;
+  bottom: 0;
+  left: -1px;
+  right: -1px;
+  background: @color-gray-lighter;
+  background: fade(@color-gray, 10%);
+  border: 1px solid @color-gray-lighter;
+  border-bottom: none;
+  height: 11px;
+  opacity: 0;
+  display: none;
+  transition: opacity 0.5s, background 0.3s;
+
+  > .bar
+  {
+    position: absolute;
+    height: 10px;
+    top: 0px;
+    min-width: 50px;
+    left: 0;
+    background-color: lighten(@color-gray, 15%);
+  }
+
+  &:hover
+  {
+    > .bar
     {
-      position: absolute;
-      bottom: 0;
-      left: -1px;
-      right: -1px;
-      background: @color-gray-lighter;
-      background: fade(@color-gray, 10%);
-      border: 1px solid @color-gray-lighter;
-      border-bottom: none;
-      height: 10px;
-      opacity: 0;
-      display: none;
-      transition: opacity 0.5s, background 0.3s;
+      background-color: @color-gray;
+    }
+  }
 
-      > .bar
-      {
-        position: absolute;
-        height: 9px;
-        top: 0px;
-        min-width: 50px;
-        left: 0;
-        background-color: lighten(@color-gray, 15%);
-      }
 
-      &:hover
-      {
-        > .bar
-        {
-          background-color: @color-gray;
-        }
-      }
+  &.scroll-pos-out
+  {
+    bottom: -14px;
+    height: 15px;
+
+    > .bar
+    {
+      height: 14px;
     }
   }
 }

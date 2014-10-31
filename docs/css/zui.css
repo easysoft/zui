@@ -7994,51 +7994,6 @@ a.card:hover {
 .datatable.sortable .datatable-head-span .table > thead > tr > th.sort-disabled {
   cursor: default;
 }
-.datatable .size-handle {
-  display: none;
-}
-.datatable.customizable.size-changing {
-  cursor: e-resize !important;
-}
-.datatable.customizable .size-handle {
-  position: absolute;
-  top: 0;
-  display: block;
-  width: 3px;
-  height: 100%;
-  cursor: w-resize;
-  border: 1px dotted transparent;
-  border-top: none;
-  border-bottom: none;
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
-}
-.datatable.customizable .datatable-head-span {
-  position: relative;
-}
-.datatable.customizable .datatable-head-span.fixed-left .size-handle {
-  right: 0;
-}
-.datatable.customizable .datatable-head-span.fixed-right .size-handle {
-  left: 0;
-}
-.datatable.customizable .datatable-head-span .table > thead > tr > th {
-  position: relative;
-}
-.datatable.customizable .datatable-head-span .table > thead > tr > th .size-handle {
-  right: 0;
-}
-.datatable.customizable .datatable-head:hover .size-handle {
-  background-color: #fff;
-  border-color: #808080;
-}
-.datatable.customizable.size-changing .table > thead > tr > th,
-.datatable.customizable.size-changing .table > tbody > tr > td {
-  -webkit-transition: none;
-       -o-transition: none;
-          transition: none;
-}
 .datatable-wrapper {
   position: relative;
 }
@@ -8076,13 +8031,17 @@ a.card:hover {
 .datatable-span.flexarea .scrolled-out-shadow {
   right: -30px;
 }
-.datatable-span.flexarea .scroll-slide {
+.datatable > .scroll-wrapper {
+  position: relative;
+  width: 100%;
+}
+.datatable .scroll-slide {
   position: absolute;
   right: -1px;
   bottom: 0;
   left: -1px;
   display: none;
-  height: 10px;
+  height: 11px;
   background: #e5e5e5;
   background: rgba(128, 128, 128, .1);
   border: 1px solid #e5e5e5;
@@ -8092,16 +8051,23 @@ a.card:hover {
        -o-transition: opacity .5s, background .3s;
           transition: opacity .5s, background .3s;
 }
-.datatable-span.flexarea .scroll-slide > .bar {
+.datatable .scroll-slide > .bar {
   position: absolute;
   top: 0;
   left: 0;
   min-width: 50px;
-  height: 9px;
+  height: 10px;
   background-color: #a6a6a6;
 }
-.datatable-span.flexarea .scroll-slide:hover > .bar {
+.datatable .scroll-slide:hover > .bar {
   background-color: #808080;
+}
+.datatable .scroll-slide.scroll-pos-out {
+  bottom: -14px;
+  height: 15px;
+}
+.datatable .scroll-slide.scroll-pos-out > .bar {
+  height: 14px;
 }
 .datatable.show-scroll-slide:hover .scroll-slide,
 .datatable.show-scroll-slide.scrolling .scroll-slide,

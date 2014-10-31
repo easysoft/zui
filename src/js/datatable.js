@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function($, window)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     var name = 'zui.datatable';
 
@@ -56,6 +56,7 @@
         fixedLeftWidth: '30%', // set left width after first render
         fixedRightWidth: '30%', // set right width after first render
         flexHeadDrag: true, // scroll flexarea by drag header
+        scrollPos: 'in', // scroll bar position: 'out' | 'in'
 
         // hover effection
         rowHover: true, // apply hover effection to row
@@ -74,8 +75,8 @@
     // Get options
     DataTable.prototype.getOptions = function(options)
     {
-        var $e = this.$,
-            options = $.extend(
+        var $e = this.$;
+        options = $.extend(
             {}, DataTable.DEFAULTS, this.$.data(), options);
 
         options.tableClass = options.tableClass || '';
@@ -111,7 +112,8 @@
     DataTable.prototype.load = function(data)
     {
         var options = this.options,
-            $t = this.$;
+            $t = this.$,
+            cols;
 
         data = data || options.data;
 
@@ -123,8 +125,8 @@
                     cols: [],
                     rows: []
                 };
-                var cols = data.cols,
-                    rows = data.rows,
+                cols = data.cols;
+                var rows = data.rows,
                     $th, $tr, $td, row;
 
                 $t.find('thead > tr:first').children('th').each(function()
@@ -183,7 +185,7 @@
         data.flexStart = -1;
         data.flexEnd = -1;
 
-        var cols = data.cols;
+        cols = data.cols;
         data.colsLength = cols.length;
         for (var i = 0; i < data.colsLength; ++i)
         {
@@ -199,20 +201,20 @@
             }
         }
 
-        if (data.flexStart === 0 && data.flexEnd === cols.length)
+        if (data.flexStart === 0 && data.flexEnd === data.colsLength)
         {
             data.flexStart = -1;
             data.flexEnd = -1;
         }
 
         data.flexArea = data.flexStart >= 0;
-        data.fixedRight = data.flexEnd >= 0 && data.flexEnd < (cols.length - 1);
+        data.fixedRight = data.flexEnd >= 0 && data.flexEnd < (data.colsLength - 1);
         data.fixedLeft = data.flexStart > 0;
         if (data.flexStart < 0 && data.flexEnd < 0)
         {
             data.fixedLeft = true;
-            data.flexStart = cols.length;
-            data.flexEnd = cols.length;
+            data.flexStart = data.colsLength;
+            data.flexEnd = data.colsLength;
         }
 
         this.data = data;
@@ -272,8 +274,8 @@
                .html(col.text)
                .attr(
                 {
-                    "data-index" : i,
-                    "data-type"  : col.type,
+                    'data-index' : i,
+                    'data-type'  : col.type,
                     style        : col.css
                 });
 
@@ -352,8 +354,8 @@
                    .toggleClass(options.checkedClass, row.checked)
                    .attr(
                     {
-                        "data-index" : r,
-                        "data-id"    : row.id
+                        'data-index' : r,
+                        'data-id'    : row.id
                     });
             $flexRow = $leftRow.clone();
             $rightRow = $leftRow.clone();
@@ -383,10 +385,10 @@
                    .addClass(cols[i].colClass)
                    .attr(
                     {
-                        "data-row"   : r,
-                        "data-index" : i,
-                        "data-flex"  : false,
-                        "data-type"  : cols[i].type,
+                        'data-row'   : r,
+                        'data-index' : i,
+                        'data-flex'  : false,
+                        'data-type'  : cols[i].type,
                         style        : rowCol.css
                     });
 
@@ -418,7 +420,7 @@
             $rowSpan = $(dataRowSpan);
             $rowSpan.addClass('flexarea')
                     .find('.datatable-wrapper')
-                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div><div class="scroll-slide"><div class="bar"></div></div>')
+                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
                     .find('table')
                     .addClass(options.tableClass)
                     .append($flex);
@@ -434,6 +436,11 @@
             $rows.append($rowSpan);
         }
         $datatable.append($rows);
+
+        if(data.flexArea)
+        {
+            $datatable.append('<div class="scroll-wrapper"><div class="scroll-slide scroll-pos-' + options.scrollPos + '"><div class="bar"></div></div></div>');
+        }
 
         if (data.footer)
         {
@@ -455,14 +462,15 @@
         var that       = this,
             data       = this.data,
             options    = this.options,
+            store      = window.store,
             $datatable = this.$datatable;
 
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
         var $rowsSpans = that.$rowsSpans = $datatable.children('.datatable-rows').children('.datatable-rows-span');
         var $headSpans = that.$headSpans = $datatable.children('.datatable-head').children('.datatable-head-span');
-        var $cells     = that.$cells     = that.$dataSpans.find('td, th');
+        var $cells     = that.$cells     = $dataSpans.find('td, th');
         var $dataCells = that.$dataCells = $cells.filter('td');
-        var $headCells = that.$headCells = $cells.filter('th');
+        that.$headCells = $cells.filter('th');
         var $rows      = that.$rows      = that.$rowsSpans.find('.table > tbody > tr');
 
         // handle row hover events
@@ -500,8 +508,11 @@
         if(data.flexArea)
         {
             var $scrollbar = $datatable.find('.scroll-slide'),
-                $flexArea = $datatable.find('.datatable-span.flexarea .table'),
-                $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
+                // $flexArea = $datatable.find('.datatable-span.flexarea .table'),
+                $flexArea = $datatable.find('.datatable-span.flexarea'),
+                $fixedLeft = $datatable.find('.datatable-span.fixed-left'),
+                // $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
+                $flexTable = $datatable.find('.datatable-span.flexarea .table');
             var $bar = $scrollbar.children('.bar'),
                 flexWidth,
                 scrollWidth,
@@ -527,7 +538,7 @@
                 }
                 $bar.css('left', barLeft);
                 left = 0 - Math.floor((tableWidth - flexWidth) * barLeft / (flexWidth - scrollWidth));
-                $flexArea.css('left', left);
+                $flexTable.css('left', left);
                 lastBarLeft = barLeft;
 
                 $datatable.toggleClass('scrolled-in', barLeft > 2)
@@ -537,7 +548,8 @@
             };
             var resizeScrollbar = function()
             {
-                flexWidth = $scrollbar.width();
+                flexWidth = $flexArea.width();
+                $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
                 tableWidth = $flexTable.width();
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
                 $bar.css('width', scrollWidth);
@@ -674,6 +686,7 @@
     // Sort table
     DataTable.prototype.sortTable = function($th)
     {
+        var store = window.store;
         var sorterStoreName = this.id + '_datatableSorter';
         var sorter = store.pageGet(sorterStoreName);
 
@@ -701,7 +714,6 @@
             $headCells = this.$headCells,
             sortUp,
             type,
-            sortCol,
             index;
 
         sortUp = !$th.hasClass('sort-up');
@@ -776,7 +788,7 @@
             });
         });
 
-        var sorter = {
+        sorter = {
             index: index,
             type: sortUp ? 'up' : 'down'
         };
@@ -796,7 +808,8 @@
         var $datatable = this.$datatable,
             options = this.options,
             rows = this.data.rows,
-            cols = this.data.cols;
+            cols = this.data.cols,
+            i;
 
         $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
         $datatable.find('.datatable-span.fixed-right').css('width', options.fixedRightWidth);
@@ -816,7 +829,7 @@
             $headCells = this.$headCells;
 
         // set width of data cells
-        for (var i = 0; i < cols.length; ++i)
+        for (i = 0; i < cols.length; ++i)
         {
             $cells.filter('[data-index="' + i + '"]').css('width', cols[i].width);
         }
@@ -826,7 +839,7 @@
 
         // set height of data cells
         var $rowCells;
-        for (var i = 0; i < rows.length; ++i)
+        for (i = 0; i < rows.length; ++i)
         {
             $rowCells = $dataCells.filter('[data-row="' + i + '"]');
             $rowCells.height(findMaxHeight($rowCells));
@@ -837,7 +850,7 @@
     DataTable.prototype.callEvent = function(name, params)
     {
         var result = this.$.callEvent(name + '.' + this.name, params, this).result;
-        return !(result != undefined && (!result));
+        return !(result !== undefined && (!result));
     };
 
     $.fn.datatable = function(option)
@@ -855,4 +868,4 @@
     };
 
     $.fn.datatable.Constructor = DataTable;
-}(jQuery, window);
+}(window.jQuery));

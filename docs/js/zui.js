@@ -5882,6 +5882,7 @@
         fixedLeftWidth: '30%', // set left width after first render
         fixedRightWidth: '30%', // set right width after first render
         flexHeadDrag: true, // scroll flexarea by drag header
+        scrollPos: 'in', // scroll bar position: 'out' | 'in'
 
         // hover effection
         rowHover: true, // apply hover effection to row
@@ -6244,7 +6245,7 @@
             $rowSpan = $(dataRowSpan);
             $rowSpan.addClass('flexarea')
                     .find('.datatable-wrapper')
-                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div><div class="scroll-slide"><div class="bar"></div></div>')
+                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
                     .find('table')
                     .addClass(options.tableClass)
                     .append($flex);
@@ -6260,6 +6261,11 @@
             $rows.append($rowSpan);
         }
         $datatable.append($rows);
+
+        if(data.flexArea)
+        {
+            $datatable.append('<div class="scroll-wrapper"><div class="scroll-slide scroll-pos-' + options.scrollPos + '"><div class="bar"></div></div></div>');
+        }
 
         if (data.footer)
         {
@@ -6326,8 +6332,11 @@
         if(data.flexArea)
         {
             var $scrollbar = $datatable.find('.scroll-slide'),
-                $flexArea = $datatable.find('.datatable-span.flexarea .table'),
-                $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
+                // $flexArea = $datatable.find('.datatable-span.flexarea .table'),
+                $flexArea = $datatable.find('.datatable-span.flexarea'),
+                $fixedLeft = $datatable.find('.datatable-span.fixed-left'),
+                // $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
+                $flexTable = $datatable.find('.datatable-span.flexarea .table');
             var $bar = $scrollbar.children('.bar'),
                 flexWidth,
                 scrollWidth,
@@ -6353,7 +6362,7 @@
                 }
                 $bar.css('left', barLeft);
                 left = 0 - Math.floor((tableWidth - flexWidth) * barLeft / (flexWidth - scrollWidth));
-                $flexArea.css('left', left);
+                $flexTable.css('left', left);
                 lastBarLeft = barLeft;
 
                 $datatable.toggleClass('scrolled-in', barLeft > 2)
@@ -6363,7 +6372,8 @@
             };
             var resizeScrollbar = function()
             {
-                flexWidth = $scrollbar.width();
+                flexWidth = $flexArea.width();
+                $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
                 tableWidth = $flexTable.width();
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
                 $bar.css('width', scrollWidth);
