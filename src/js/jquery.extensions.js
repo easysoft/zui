@@ -10,6 +10,12 @@
 {
     'use strict';
 
+    /* Check jquery */
+    if(typeof($) === 'undefined')
+    {
+      throw new Error('ZUI requires jQuery');
+    }
+
     $.extend(
     {
         uuid: function()
