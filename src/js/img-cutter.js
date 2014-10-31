@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function($, Math)
+(function($, Math)
 {
-    "use strict";
+    'use strict';
 
     var ImgCutter = function(element, options)
     {
@@ -30,7 +30,7 @@
     ImgCutter.prototype.callEvent = function(name, params)
     {
         return $.callEvent(this.options[name], params);
-    }
+    };
 
     ImgCutter.prototype.initOptions = function(options)
     {
@@ -46,7 +46,7 @@
         this.initDom();
         this.initSize();
         this.bindEvents();
-    }
+    };
 
     ImgCutter.prototype.initDom = function()
     {
@@ -69,14 +69,14 @@
         {
             this.$.addClass('fixed-ratio');
         }
-    }
+    };
 
     ImgCutter.prototype.initSize = function()
     {
         var that = this;
         if (typeof that.imgWidth === 'undefined')
         {
-            imgReady(that.options.img, function()
+            window.imgReady(that.options.img, function()
             {
                 that.imgWidth = this.width;
                 that.imgHeight = this.height;
@@ -152,7 +152,7 @@
             width: this.clipWidth,
             height: this.clipHeight
         });
-    }
+    };
 
     ImgCutter.prototype.bindEvents = function()
     {
@@ -179,7 +179,7 @@
             if (!that.callEvent('before', data)) return;
 
             var url = options.post || options.get || options.url || null;
-            if (url != null)
+            if (url !== null)
             {
                 $.ajax(
                 {
@@ -274,7 +274,7 @@
             if (!data) $this.data('zui.imgCutter', (data = new ImgCutter(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.imgCutter.Constructor = ImgCutter;
@@ -283,4 +283,4 @@
     {
         $('[data-toggle="imgCutter"]').imgCutter();
     });
-}(jQuery, Math);
+}(jQuery, Math));

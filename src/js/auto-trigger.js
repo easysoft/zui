@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     var AutoTrigger = function(element, options)
     {
@@ -47,12 +47,12 @@
     AutoTrigger.prototype.bindEvents = function()
     {
         var options = this.options,
-            that = this;
+            i;
         this.bindTrigger(options);
 
         if ($.isArray(options.triggers))
         {
-            for (var i in options.triggers)
+            for (i in options.triggers)
             {
                 this.bindTrigger($.extend(
                 {}, options, options.triggers[i]));
@@ -62,7 +62,7 @@
         {
             /* events,trigger,target,data */
             var triggers = options.triggers.split('|');
-            for (var i in triggers)
+            for (i in triggers)
             {
                 var ops = triggers[i].split(',', 4);
                 if (ops.length < 2) continue;
@@ -103,13 +103,14 @@
                 {
                     type = target.hasClass('hide') ? 'show' : 'hide';
                 }
+                var params;
                 switch (type)
                 {
                     case 'toggle':
                         target.toggle();
                         break;
                     case 'show':
-                        var params = {
+                        params = {
                             duration: options.animateSpeed,
                             easing: options.easing
                         };
@@ -129,7 +130,7 @@
                         }
                         break;
                     case 'hide':
-                        var params = {
+                        params = {
                             duration: options.animateSpeed,
                             easing: options.easing,
                             complete: function()
@@ -163,7 +164,7 @@
             if (options.preventDefault) event.preventDefault();
             if (options.cancelBubble) event.stopPropagation();
         });
-    }
+    };
 
     $.fn.autoTrigger = function(option)
     {
@@ -176,7 +177,7 @@
             if (!data) $this.data('zui.autoTrigger', (data = new AutoTrigger(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.autoTrigger.Constructor = AutoTrigger;
@@ -206,4 +207,4 @@
             trigger: 'toggleClass'
         });
     });
-}(jQuery);
+}(jQuery));

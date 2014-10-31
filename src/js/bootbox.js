@@ -12,7 +12,7 @@
 // @see https://github.com/makeusabrew/bootbox/issues/186
 (function(root, factory){
 
-    "use strict";
+    'use strict';
     if (typeof define === "function" && define.amd)
     {
         // AMD. Register as an anonymous module.
@@ -34,7 +34,7 @@
 }(this, function init($, undefined)
 {
 
-    "use strict";
+    'use strict';
 
     // the base DOM structure needed to create a modal
     var templates = {

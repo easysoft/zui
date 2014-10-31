@@ -6,12 +6,12 @@
  * ======================================================================== */
 
 
-+ function($, window, Math)
+(function($, window, Math)
 {
-    "use strict";
+    'use strict';
 
     if (!$.fn.modalTrigger) throw new Error('modal & modalTrigger requires for lightbox');
-    if (!imgReady) throw new Error('imgReady requires for lightbox');
+    if (!window.imgReady) throw new Error('imgReady requires for lightbox');
 
     var Lightbox = function(element, options)
     {
@@ -27,12 +27,13 @@
 
     Lightbox.prototype.getOptions = function(options)
     {
+        var IMAGE = 'image';
         options = $.extend(
         {}, Lightbox.DEFAULTS, this.$.data(), options);
-        if (!options['image'])
+        if (!options[IMAGE])
         {
-            options['image'] = this.$.attr('src') || this.$.attr('href') || this.$.find('img').attr('src');
-            this.$.data('image', options['image']);
+            options[IMAGE] = this.$.attr('src') || this.$.attr('href') || this.$.find('img').attr('src');
+            this.$.data(IMAGE, options[IMAGE]);
         }
         return options;
     };
@@ -40,7 +41,7 @@
     Lightbox.prototype.init = function()
     {
         this.bindEvents();
-    }
+    };
 
     Lightbox.prototype.initGroups = function()
     {
@@ -56,7 +57,7 @@
         }
         this.groups = groups;
         this.groupIndex = parseInt(this.$.data('group-index'));
-    }
+    };
 
     Lightbox.prototype.bindEvents = function()
     {
@@ -83,7 +84,7 @@
                     .data('group-index', groupIndex);
                 var dialog = modal.find('.modal-dialog'),
                     winWidth = $(window).width();
-                imgReady(options.image, function()
+                window.imgReady(options.image, function()
                 {
                     dialog.css(
                     {
@@ -111,7 +112,7 @@
                             .removeClass('lightbox-full');
                         modal.find('.lightbox-img').attr('src', image);
                         winWidth = $(window).width();
-                        imgReady(image, function()
+                        window.imgReady(image, function()
                         {
                             dialog.css(
                             {
@@ -127,7 +128,7 @@
                 });
             }
         });
-    }
+    };
 
     $.fn.lightbox = function(option)
     {
@@ -155,7 +156,7 @@
             if (!data) $this.data('zui.lightbox', (data = new Lightbox(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.lightbox.Constructor = Lightbox;
@@ -164,4 +165,4 @@
     {
         $('[data-toggle="lightbox"]').lightbox();
     });
-}(jQuery, window, Math);
+}(jQuery, window, Math));

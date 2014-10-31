@@ -2,7 +2,7 @@
     // JSHint Default Configuration File (as on JSHint website)
     // See http://jshint.com/docs/ for more details
 
-    "maxerr"        : 10,       // {int} Maximum error before stopping
+    "maxerr"        : 20,       // {int} Maximum error before stopping
 
     // Enforcing
     // "bitwise"       : true,     // true: Prohibit bitwise operators (&, |, ^, etc.)
@@ -83,5 +83,5 @@
     // "yui"           : false,    // Yahoo User Interface
 
     // // Custom Globals
-    // "globals"       : {}        // additional predefined global variables
+    "globals"       : {"jQuery": true}        // additional predefined global variables
 }

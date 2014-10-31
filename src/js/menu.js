@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     var Menu = function(element, options)
     {
@@ -38,7 +38,7 @@
         children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
 
         this.handleFold();
-    }
+    };
 
     Menu.prototype.handleFold = function()
     {
@@ -51,18 +51,18 @@
             {
                 $menu.find('.nav-parent.show').find('.nav').slideUp(function()
                 {
-                    $(this).closest('.nav-parent').removeClass('show')
+                    $(this).closest('.nav-parent').removeClass('show');
                 });
                 $menu.find('.icon-rotate-90').removeClass('icon-rotate-90');
             }
 
-            var li = $(this).closest('.nav-parent');;
+            var li = $(this).closest('.nav-parent');
             if (li.hasClass('show'))
             {
                 li.find('.icon-rotate-90').removeClass('icon-rotate-90');
                 li.find('.nav').slideUp(function()
                 {
-                    $(this).closest('.nav-parent').removeClass('show')
+                    $(this).closest('.nav-parent').removeClass('show');
                 });
             }
             else
@@ -70,14 +70,14 @@
                 li.find('.nav-parent-fold-icon').addClass('icon-rotate-90');
                 li.find('.nav').slideDown(function()
                 {
-                    $(this).closest('.nav-parent').addClass('show')
+                    $(this).closest('.nav-parent').addClass('show');
                 });
             }
 
             event.preventDefault();
             return false;
         });
-    }
+    };
 
     $.fn.menu = function(option)
     {
@@ -90,7 +90,7 @@
             if (!data) $this.data('zui.menu', (data = new Menu(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.menu.Constructor = Menu;
@@ -99,4 +99,4 @@
     {
         $('[data-toggle="menu"]').menu();
     });
-}(jQuery);
+}(jQuery));

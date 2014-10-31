@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function($, window, document, Math)
+(function($, window, document, Math)
 {
-    "use strict";
+    'use strict';
 
     var UDF = 'undefined',
         newColorIndex = 0;
@@ -16,17 +16,18 @@
     var selectText = function($e)
     {
         var doc = document;
-        var element = $e[0];
+        var element = $e[0],
+            range;
         if (doc.body.createTextRange)
         {
-            var range = document.body.createTextRange();
+            range = document.body.createTextRange();
             range.moveToElementText(element);
             range.select();
         }
         else if (window.getSelection)
         {
             var selection = window.getSelection();
-            var range = document.createRange();
+            range = document.createRange();
             range.selectNodeContents(element);
             selection.removeAllRanges();
             selection.addRange(range);
@@ -95,7 +96,7 @@
 
     Mindmap.prototype.getOptions = function(options)
     {
-        Mindmap.DEFAULTS.data.text = Mindmap.DEFAULTS.langs['zh_cn'].defaultName;
+        Mindmap.DEFAULTS.data.text = Mindmap.DEFAULTS.langs.zh_cn.defaultName;
 
         options = $.extend(
         {}, Mindmap.DEFAULTS, this.$.data(), options);
@@ -199,16 +200,16 @@
     Mindmap.prototype.callEvent = function(name, params)
     {
         return $.callEvent(this.options[name], params, this);
-    }
+    };
 
     /* compute position with offset */
     Mindmap.prototype.computePosition = function(pos, inverse)
     {
         var flag = inverse ? -1 : 1;
-        if (typeof(pos['left']) != UDF) pos.left -= (this.left - this.options.canvasPadding) * flag;
-        if (typeof(pos['top']) != UDF) pos.top -= this.top * flag;
-        if (typeof(pos['x']) != UDF) pos.x -= (this.left - this.options.canvasPadding) * flag;
-        if (typeof(pos['y']) != UDF) pos.y -= this.top * flag;
+        if (typeof(pos.left) != UDF) pos.left -= (this.left - this.options.canvasPadding) * flag;
+        if (typeof(pos.top) != UDF) pos.top -= this.top * flag;
+        if (typeof(pos.x) != UDF) pos.x -= (this.left - this.options.canvasPadding) * flag;
+        if (typeof(pos.y) != UDF) pos.y -= this.top * flag;
         return pos;
     };
 
@@ -273,7 +274,7 @@
         {
             return this.$desktop.children('[data-id="' + idOrData + '"]');
         }
-        if (typeof(idOrData['id']) != UDF)
+        if (typeof(idOrData.id) != UDF)
         {
             return idOrData.ui.element;
         }
@@ -289,7 +290,7 @@
                 this.removeNode(nodeData.children[i]);
             }
         }
-    }
+    };
 
     /* update nodeData changes and  decide whether to rerender mindmap */
     Mindmap.prototype.update = function(changes, forceShow, forceLoad)
@@ -482,7 +483,7 @@
                 this.clearChangeFlag(nodeData.children[i]);
             }
         }
-    }
+    };
 
     Mindmap.prototype.exportData = function()
     {
@@ -538,7 +539,7 @@
                 this.fixExport(data.children[i]);
             }
         }
-    }
+    };
 
     Mindmap.prototype.load = function(data)
     {
@@ -1623,4 +1624,4 @@
     };
 
     $.fn.mindmap.Constructor = Mindmap;
-}(jQuery, window, document, Math);
+}(jQuery, window, document, Math));

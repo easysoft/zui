@@ -6,8 +6,9 @@
  * ======================================================================== */
 
 
-+ function(window, $)
+(function(window, $)
 {
+    'use strict';
     var desktopLg = 1200,
         desktop = 992,
         tablet = 768,
@@ -35,4 +36,4 @@
 
     $window.resize(resetCssClass);
     resetCssClass();
-}(window, jQuery);
+}(window, jQuery));

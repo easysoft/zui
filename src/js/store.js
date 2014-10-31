@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function(window, $)
+(function(window, $)
 {
-    "use strict";
+    'use strict';
 
     var lsName = 'localStorage';
     var storage = window[lsName],
@@ -35,14 +35,14 @@
         }
         else
         {
-            var forDeletes = [];
-            for (var i in this.page)
+            var forDeletes = [], i;
+            for (i in this.page)
             {
                 var val = this.page[i];
                 if (val === null)
                     forDeletes.push(i);
             }
-            for (var i = forDeletes.length - 1; i >= 0; i--)
+            for (i = forDeletes.length - 1; i >= 0; i--)
             {
                 delete this.page[forDeletes[i]];
             }
@@ -215,4 +215,4 @@
         window.store = old;
         return store;
     };
-}(window, jQuery);
+}(window, jQuery));

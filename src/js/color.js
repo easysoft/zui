@@ -6,8 +6,8 @@
  * ======================================================================== */
 
 
-+ function($, Math, window){
-    "use strict";
+(function($, Math, window){
+    'use strict';
 
     var hexReg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
     var namedColors = {
@@ -442,7 +442,7 @@
             var i;
             if (hex.length === 4)
             {
-                var hexNew = "#";
+                var hexNew = '#';
                 for (i = 1; i < 4; i += 1)
                 {
                     hexNew += hex.slice(i, i + 1).concat(hex.slice(i, i + 1));
@@ -540,4 +540,4 @@
 
     window.Color = Color;
 
-}(window.jQuery, Math, window);
+}(jQuery, Math, window));

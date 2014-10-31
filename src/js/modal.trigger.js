@@ -5,11 +5,11 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
-    if (!$.fn.modal) throw new Error('Modal trigger requires modal.js')
+    if (!$.fn.modal) throw new Error('Modal trigger requires modal.js');
 
     // ONCE MODAL CLASS DEFINITION
     // ======================
@@ -17,7 +17,6 @@
     {
         options = $.extend(
         {}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
-        this.$modal;
         this.isShown = false;
         this.options = options;
         this.id = $.uuid();
@@ -106,15 +105,14 @@
         $modal.on('shown.zui.modal', function()
         {
             that.isShown = true;
-        })
-        $modal.on('hidden.zui.modal', function()
+        }).on('hidden.zui.modal', function()
         {
             that.isShown = false;
-        })
+        });
 
         this.$modal = $modal;
         this.$dialog = $modal.find('.modal-dialog');
-    }
+    };
 
     ModalTrigger.prototype.show = function(option)
     {
@@ -254,7 +252,7 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $frameBody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
+                            $framebody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
                         }
 
                         frame$.extend(
@@ -437,4 +435,4 @@
             e.preventDefault();
         }
     });
-}(window.jQuery);
+}(window.jQuery));

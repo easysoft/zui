@@ -8,7 +8,7 @@
 
 +function($, window, document, Math)
 {
-    "use strict";
+    'use strict';
 
     var Sortable = function(element, options)
     {

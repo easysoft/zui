@@ -9,6 +9,8 @@
 
 (function()
 {
+    'use strict';
+
     /**
      * Image ready
      * @param {String}  image url
@@ -31,7 +33,7 @@
                 for (; i < list.length; i++)
                 {
                     list[i].end ? list.splice(i--, 1) : list[i]();
-                };
+                }
                 !list.length && stop();
             },
 
@@ -55,7 +57,7 @@
                 ready.call(img);
                 load && load.call(img);
                 return;
-            };
+            }
 
             width = img.width;
             height = img.height;
@@ -80,7 +82,7 @@
                 {
                     ready.call(img);
                     onready.end = true;
-                };
+                }
             };
             onready();
 
@@ -103,7 +105,7 @@
                 list.push(onready);
                 // 无论何时只允许出现一个定时器，减少浏览器性能损耗
                 if (intervalId === null) intervalId = setInterval(tick, 40);
-            };
+            }
         };
     })();
 }());

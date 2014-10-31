@@ -8,6 +8,8 @@
 
 (function()
 {
+    'use strict';
+
     String.prototype.format = function(args)
     {
         var result = this;
@@ -18,7 +20,7 @@
             {
                 for (var key in args)
                 {
-                    if (args[key] != undefined)
+                    if (args[key] !== undefined)
                     {
                         reg = new RegExp("({" + key + "})", "g");
                         result = result.replace(reg, args[key]);
@@ -29,7 +31,7 @@
             {
                 for (var i = 0; i < arguments.length; i++)
                 {
-                    if (arguments[i] != undefined)
+                    if (arguments[i] !== undefined)
                     {
                         reg = new RegExp("({[" + i + "]})", "g");
                         result = result.replace(reg, arguments[i]);
@@ -49,7 +51,7 @@
      */
     String.prototype.isNum = function(s)
     {
-        if (s != null)
+        if (s !== null)
         {
             var r, re;
             re = /\d*/i;
@@ -57,5 +59,5 @@
             return (r == s) ? true : false;
         }
         return false;
-    }
+    };
 })();

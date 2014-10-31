@@ -18,7 +18,7 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) { 'use strict';
 
   // POPOVER PUBLIC CLASS DEFINITION
   // ===============================
@@ -60,7 +60,7 @@
       return
     }
 
-    
+
     var title   = this.getTitle()
     var content = this.getContent()
 

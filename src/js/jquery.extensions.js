@@ -6,15 +6,15 @@
  * ======================================================================== */
 
 
-+ function($, window, Math)
+(function($, window, Math)
 {
-    "use strict";
+    'use strict';
 
     $.extend(
     {
         uuid: function()
         {
-            var d = (new Date).getTime();
+            var d = (new Date()).getTime();
             while (d < 10000000000000000)
             {
                 d *= 10;
@@ -24,7 +24,7 @@
 
         getPropertyCount: function(obj)
         {
-            if (typeof(obj) != 'object' || obj == null) return 0;
+            if (typeof(obj) !== 'object' || obj === null) return 0;
             return Object.getOwnPropertyNames(obj).length;
         },
 
@@ -37,7 +37,7 @@
                     func = $.proxy(func, proxy);
                 }
                 event.result = func(event);
-                return !(event.result != undefined && (!event.result));
+                return !(event.result !== undefined && (!event.result));
             }
             return 1;
         },
@@ -73,7 +73,7 @@
         }
         var e = $.Event(name, event);
 
-        var result = $this.trigger(e);
+        // var result = $this.trigger(e);
 
         if ((typeof model === 'undefined') && dotIndex > 0)
         {
@@ -90,4 +90,4 @@
         }
         return e;
     };
-}(jQuery, window, Math);
+}(jQuery, window, Math));

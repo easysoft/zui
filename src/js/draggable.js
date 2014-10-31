@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     var Draggable = function(element, options)
     {
@@ -33,23 +33,26 @@
     Draggable.prototype.init = function()
     {
         this.handleMouseEvents();
-    }
+    };
 
     Draggable.prototype.handleMouseEvents = function()
     {
         var $e = this.$,
+            BEFORE = 'before',
+            DRAG = 'drag',
+            FINISH = 'finish',
             setting = this.options;
 
         $e.mousedown(function(event)
         {
-            if (setting.hasOwnProperty('before') && $.isFunction(setting['before']))
+            if (setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE]))
             {
-                var isSure = setting['before'](
+                var isSure = setting[BEFORE](
                 {
                     event: event,
                     element: $e
                 });
-                if (isSure != undefined && (!isSure)) return;
+                if (isSure !== undefined && (!isSure)) return;
             }
 
             var $container = $(setting.container),
@@ -91,9 +94,9 @@
                     $e.css(dragPos);
                 }
 
-                if (setting.hasOwnProperty('drag') && $.isFunction(setting['drag']))
+                if (setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG]))
                 {
-                    setting['drag'](
+                    setting[DRAG](
                     {
                         event: event,
                         element: $e,
@@ -138,9 +141,9 @@
                     $e.css(endPos);
                 }
 
-                if (setting.hasOwnProperty('finish') && $.isFunction(setting['finish']))
+                if (setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH]))
                 {
-                    setting['finish'](
+                    setting[FINISH](
                     {
                         event: event,
                         element: $e,
@@ -164,7 +167,7 @@
                 }
             }
         });
-    }
+    };
 
     $.fn.draggable = function(option)
     {
@@ -177,8 +180,8 @@
             if (!data) $this.data('zui.draggable', (data = new Draggable(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.draggable.Constructor = Draggable;
-}(jQuery);
+}(jQuery));

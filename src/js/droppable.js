@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function($, document, Math)
+(function($, document, Math)
 {
-    "use strict";
+    'use strict';
 
     var Droppable = function(element, options)
     {
@@ -37,31 +37,32 @@
     Droppable.prototype.callEvent = function(name, params)
     {
         return $.callEvent(this.options[name], params, this);
-    }
+    };
 
     Droppable.prototype.init = function()
     {
         this.handleMouseEvents();
-    }
+    };
 
     Droppable.prototype.handleMouseEvents = function()
     {
         var $e = this.$,
             self = this,
-            setting = this.options;
+            setting = this.options,
+            BEFORE = 'before';
 
         this.$triggerTarget = (setting.trigger ? ($.isFunction(setting.trigger) ? setting.trigger($e) : $e.find(setting.trigger)).first() : $e);
 
         this.$triggerTarget.on('mousedown', function(event)
         {
-            if (setting.hasOwnProperty('before') && $.isFunction(setting['before']))
+            if (setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE]))
             {
-                var isSure = setting['before'](
+                var isSure = setting[BEFORE](
                 {
                     event: event,
                     element: $e
                 });
-                if (isSure != undefined && (!isSure)) return;
+                if (isSure !== undefined && (!isSure)) return;
             }
 
             var $targets = $.isFunction(setting.target) ? setting.target($e) : $(setting.target),
@@ -77,10 +78,10 @@
                     top: event.pageY
                 };
             var containerOffset = $container.offset();
-            var startPosition = {
-                left: startOffset.left - containerOffset.left,
-                top: startOffset.top - containerOffset.top
-            };
+            // var startPosition = {
+            //     left: startOffset.left - containerOffset.left,
+            //     top: startOffset.top - containerOffset.top
+            // };
             var clickOffset = {
                 left: startMouseOffset.left - startOffset.left,
                 top: startMouseOffset.top - startOffset.top
@@ -104,7 +105,7 @@
                 // ignore small move
                 if (Math.abs(mouseOffset.left - startMouseOffset.left) < setting.deviation && Math.abs(mouseOffset.top - startMouseOffset.top) < setting.deviation) return;
 
-                if (shadow == null) // create shadow
+                if (shadow === null) // create shadow
                 {
                     var cssPosition = $container.css('position');
                     if (cssPosition != 'absolute' && cssPosition != 'relative' && cssPosition != 'fixed')
@@ -137,10 +138,10 @@
                     top: offset.top - containerOffset.top
                 };
                 shadow.css(position);
-                var moveOffset = {
-                    left: mouseOffset.left - lastMouseOffset.left,
-                    top: mouseOffset.top - lastMouseOffset.top
-                };
+                // var moveOffset = {
+                //     left: mouseOffset.left - lastMouseOffset.left,
+                //     top: mouseOffset.top - lastMouseOffset.top
+                // };
                 lastMouseOffset.left = mouseOffset.left;
                 lastMouseOffset.top = mouseOffset.top;
 
@@ -153,7 +154,7 @@
                 }
 
                 var newTarget = null;
-                $targets.each(function(index)
+                $targets.each(function()
                 {
                     var t = $(this);
                     var tPos = t.offset();
@@ -175,7 +176,7 @@
                     isIn = true;
                     var id = newTarget.data('id');
                     if ($e.data('id') != id) isSelf = false;
-                    if (target == null || (target.data('id') != id && (!isSelf))) isNew = true;
+                    if (target === null || (target.data('id') !== id && (!isSelf))) isNew = true;
                     target = newTarget;
                     if (setting.flex)
                     {
@@ -189,7 +190,7 @@
                     $e.toggleClass('drop-in', isIn);
                     shadow.toggleClass('drop-in', isIn);
                 }
-                else if (target != null && target.length)
+                else if (target !== null && target.length)
                 {
                     isIn = true;
                 }
@@ -220,7 +221,7 @@
                     $container.css('position', oldCssPosition);
                 }
 
-                if (shadow == null)
+                if (shadow === null)
                 {
                     $e.removeClass('drag-from');
                     $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
@@ -248,7 +249,7 @@
                     isIn: isIn,
                     target: target,
                     element: $e,
-                    isNew: (!isSelf) && target != null,
+                    isNew: (!isSelf) && target !== null,
                     selfTarget: isSelf,
                     offset: offset,
                     mouseOffset: mouseOffset,
@@ -298,8 +299,8 @@
             if (!data) $this.data('zui.droppable', (data = new Droppable(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.droppable.Constructor = Droppable;
-}(jQuery, document, Math);
+}(jQuery, document, Math));

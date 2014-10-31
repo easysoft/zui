@@ -868,4 +868,4 @@
     };
 
     $.fn.datatable.Constructor = DataTable;
-}(window.jQuery));
+}(jQuery));

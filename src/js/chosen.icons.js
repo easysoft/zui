@@ -8,7 +8,7 @@
 
 + function($)
 {
-    "use strict";
+    'use strict';
 
     var ChosenIcons = function(element, options)
     {

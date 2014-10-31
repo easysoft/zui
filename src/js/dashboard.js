@@ -8,7 +8,7 @@
 
 + function($, Math)
 {
-    "use strict";
+    'use strict';
 
     var Dashboard = function(element, options)
     {

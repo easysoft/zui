@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     var name = 'zui.$componentObject$'; // modal name
 
@@ -37,7 +37,7 @@
     $ComponentName$.prototype.callEvent = function(name, params)
     {
         var result = this.$.callEvent(name + '.' + this.name, params, this);
-        return !(result.result != undefined && (!result.result));
+        return !(result.result !== undefined && (!result.result));
     };
 
     // Extense jquery element
@@ -62,4 +62,4 @@
     {
         $('[data-toggle="$componentObject$"]').$componentObject$();
     });
-}(jQuery);
+}(jQuery));

@@ -6,9 +6,9 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     if (!$.fn.droppable) throw new Error('droppable requires for boards');
 
@@ -49,6 +49,7 @@
 
     Boards.prototype.getLang = function()
     {
+        var config = window.config;
         if (!this.options.lang)
         {
             if (typeof(config) != 'undefined' && config.clientLang)
@@ -128,14 +129,15 @@
             {
                 if (e.isNew)
                 {
-                    if (setting.hasOwnProperty('drop') && $.isFunction(setting['drop']))
+                    var DROP = 'drop';
+                    if (setting.hasOwnProperty(DROP) && $.isFunction(setting[DROP]))
                     {
-                        setting['drop'](e);
+                        setting[DROP](e);
                     }
                     e.element.insertBefore(e.target);
                 }
             },
-            finish: function(e)
+            finish: function()
             {
                 $boards.removeClass('dragging').removeClass('drop-in').find('.board.drop-in').removeClass('drop-in');
             }
@@ -153,7 +155,7 @@
             if (!data) $this.data('zui.boards', (data = new Boards(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.boards.Constructor = Boards;
@@ -162,4 +164,4 @@
     {
         $('[data-toggle="boards"]').boards();
     });
-}(jQuery);
+}(jQuery));

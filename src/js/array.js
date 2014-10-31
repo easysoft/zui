@@ -19,7 +19,7 @@
         Array.prototype.forEach = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != "function")
+            if (typeof fun != 'function')
                 throw new TypeError();
 
             var thisp = arguments[1];
@@ -41,7 +41,7 @@
     //     Array.prototype.each = function(fun /*, thisp*/ )
     //     {
     //         var len = this.length;
-    //         if (typeof fun != "function")
+    //         if (typeof fun != 'function')
     //             throw new TypeError();
 
     //         var thisp = arguments[1],
@@ -112,7 +112,7 @@
         Array.prototype.every = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != "function")
+            if (typeof fun != 'function')
                 throw new TypeError();
 
             var thisp = arguments[1];
@@ -135,7 +135,7 @@
         Array.prototype.filter = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != "function")
+            if (typeof fun != 'function')
                 throw new TypeError();
 
             var res = [];
@@ -186,7 +186,7 @@
         Array.prototype.map = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != "function")
+            if (typeof fun != 'function')
                 throw new TypeError();
 
             var res = new Array(len);

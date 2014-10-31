@@ -19,7 +19,7 @@
 
 
 + function($){
-    "use strict";
+    'use strict';
 
     // ALERT CLASS DEFINITION
     // ======================
