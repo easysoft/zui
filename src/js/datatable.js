@@ -17,8 +17,10 @@
         this.name = name;
         this.$ = $(element);
         this.isTable = (this.$[0].tagName === 'TABLE');
+        this.firstShow = true;
         if (this.isTable)
         {
+            this.$table = this.$;
             this.id = 'datatable-' + (this.$.attr('id') || $.uuid());
         }
         else
@@ -112,10 +114,26 @@
     DataTable.prototype.load = function(data)
     {
         var options = this.options,
-            $t = this.$,
             cols;
 
-        data = data || options.data;
+        if($.isPlainObject(data))
+        {
+            this.data = data;
+        }
+        else if(typeof data === 'string')
+        {
+            var $table = $(data);
+            if($table.length)
+            {
+                this.$table = $table.first();
+                this.isTable = true;
+            }
+            data = null;
+        }
+        else
+        {
+            data = options.data;
+        }
 
         if (!data)
         {
@@ -127,7 +145,7 @@
                 };
                 cols = data.cols;
                 var rows = data.rows,
-                    $th, $tr, $td, row;
+                    $th, $tr, $td, row, $t = this.$table;
 
                 $t.find('thead > tr:first').children('th').each(function()
                 {
@@ -447,13 +465,17 @@
             $datatable.append($('<div class="datatable-footer"/>').append(data.footer));
         }
 
-        that.$datatable = $datatable;
-        if (that.isTable) that.$.attr('data-datatable-id', this.id).hide().after($datatable);
+        that.$datatable = $datatable.data(name, that);
+        if (that.isTable && that.firstShow)
+        {
+            that.$table.attr('data-datatable-id', this.id).hide().after($datatable);
+            that.firstShow = false;
+        }
 
         that.bindEvents();
-        this.refreshSize();
+        that.refreshSize();
 
-        this.callEvent('render');
+        that.callEvent('render');
     };
 
     // Bind global events
@@ -567,8 +589,8 @@
                     srollTable(barLeft, true);
                 }
             };
-            $scrollbar.resize(resizeScrollbar); // todo: unuseful?
-            $flexTable.resize(resizeScrollbar);
+            // $scrollbar.resize(resizeScrollbar); // todo: unuseful?
+            $flexArea.resize(resizeScrollbar);
             resizeScrollbar();
 
             var dragOptions = {
