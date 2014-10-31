@@ -6,9 +6,6 @@
  */
 module.exports = function(grunt)
 {
-    /* require */
-    var extend = require('extend');
-
     var banner        = '/*!\n' +
         ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -18,7 +15,6 @@ module.exports = function(grunt)
         ' Licensed <%= pkg.license %>\n' +
         ' */\n\n',
         statement     = '/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n',
-        jqueryCheck   = 'if(typeof jQuery === "undefined") {throw new Error("ZUI requires jQuery");}\n\n',
         pkg           = grunt.file.readJSON('package.json');
 
     var lib = pkg.lib,
@@ -254,10 +250,7 @@ module.exports = function(grunt)
         grunt.log.subhead('=== BUILD ' + name.toUpperCase() + ' (' + build.title + ') ===');
 
         var source = getBuildSource(build),
-            file,
-            len,
-            sbanner =  banner + (build.bootstrapStatement ? statement : ''),
-            i;
+            sbanner =  banner + (build.bootstrapStatement ? statement : '');
 
         if(source.js && source.js.length)
         {
@@ -317,7 +310,7 @@ module.exports = function(grunt)
             {
                 options:
                 {
-                    banner: banner + (build.bootstrapStatement ? statement : ''),
+                    banner: sbanner,
                     stripBanners: false
                 },
                 src: lessFilePath,
@@ -335,6 +328,7 @@ module.exports = function(grunt)
 
             grunt.config('usebanner.' + name,
             {
+                options: {banner: sbanner},
                 files: {src: cssFilePath}
             });
 
