@@ -264,7 +264,7 @@
             dataRowSpan = '<div class="datatable-rows-span datatable-span"><div class="datatable-wrapper"><table class="table"></table></div></div>',
             dataHeadSpan = '<div class="datatable-head-span datatable-span"><div class="datatable-wrapper"><table class="table"><thead></thead></table></div></div>';
 
-        $datatable.empty();
+        $datatable.children('.datatable-head, .datatable-rows').remove();
 
         // Set css class to datatable by options
         $datatable.toggleClass('sortable', options.sortable);
@@ -466,9 +466,14 @@
             $datatable.append('<div class="scroll-wrapper"><div class="scroll-slide scroll-pos-' + options.scrollPos + '"><div class="bar"></div></div></div>');
         }
 
+        var $oldFooter = $datatable.children('.datatable-footer');
         if (data.footer)
         {
             $datatable.append($('<div class="datatable-footer"/>').append(data.footer));
+        }
+        else if($oldFooter.length)
+        {
+            $datatable.append($oldFooter);
         }
 
         that.$datatable = $datatable.data(name, that);
