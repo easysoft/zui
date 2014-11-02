@@ -126,6 +126,7 @@
             if($table.length)
             {
                 this.$table = $table.first();
+                this.$table.data(name, this);
                 this.isTable = true;
             }
             data = null;
@@ -158,6 +159,7 @@
                         cssClass: $th.attr('class'),
                         css: $th.attr('style'),
                         type: 'string',
+                        ignore: $th.hasClass('ignore'),
                         sort: !$th.hasClass('sort-disabled')
                     }, $th.data()));
                 });
@@ -280,6 +282,12 @@
         {
             col = cols[i];
             $tr = i < data.flexStart ? $left : ((i >= data.flexStart && i <= data.flexEnd) ? $flex : $right);
+            if(i === 0 && checkable)
+            {
+                $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
+            }
+            if(col.ignore) continue;
+
             $th = $('<th/>');
 
             // set sort class
@@ -297,10 +305,6 @@
                     style        : col.css
                 });
 
-            if(i === 0 && checkable)
-            {
-                $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
-            }
 
             $tr.append($th);
         }
@@ -383,6 +387,12 @@
             {
                 rowCol = row.data[i];
                 $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
+                if(i === 0 && checkable)
+                {
+                    $tr.append('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
+                }
+
+                if(cols[i].ignore) continue;
 
                 // format row column
                 if (!$.isPlainObject(rowCol))
@@ -410,10 +420,6 @@
                         style        : rowCol.css
                     });
 
-                if(i === 0 && checkable)
-                {
-                    $tr.append('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
-                }
 
                 $tr.append($td);
             }
