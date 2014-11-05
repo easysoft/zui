@@ -190,7 +190,7 @@
 
       function new_handler( e, w, h ) {
         var elem = $(this),
-          data = $.data( this, str_data );
+          data = $.data( this, str_data ) || {};
 
         // If called from the polling loop, w and h will be passed in as
         // arguments. If called manually, via .trigger( 'resize' ) or .resize(),
