@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.2.0-beta",
+  "version": "1.2.0",
   "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
   "main": "index.html",
   "directories":
@@ -995,7 +995,7 @@
       "src":
       {
         "less": ["src/less/modules/img-cutter.less"],
-        "js": ["src/js/img-cuttr.js"]
+        "js": ["src/js/img-cutter.js"]
       },
       "ver": "1.0.0",
       "dpds": ["basic", "imgready"],
@@ -1402,7 +1402,7 @@
         "panels.basic",
         "collapse",
         "dropdowns",
-        "alerts",
+        "alerts.basic",
         "forms",
         "code",
         "navs",
