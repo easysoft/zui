@@ -48,6 +48,7 @@
         checkable: false, // added check icon to the head of rows
         checkByClickRow: true, // change check status by click anywhere on a row
         checkedClass: 'active', // apply CSS class to an checked row
+        checkboxName: null,
 
         // Sort options
         sortable: false, // enable sorter
@@ -352,6 +353,7 @@
             $rightRow,
             // $tr,
             $td,
+            $cTd,
             row,
             rowLen = rows.length,
             rowCol,
@@ -389,7 +391,12 @@
                 $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
                 if(i === 0 && checkable)
                 {
-                    $tr.append('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
+                    $cTd = $('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
+                    if(options.checkboxName)
+                    {
+                        $cTd.append('<input class="hide" type="checkbox" name="' + options.checkboxName + '" value="' + row.id + '">');
+                    }
+                    $tr.append($cTd);
                 }
 
                 if(cols[i].ignore) continue;
@@ -466,10 +473,11 @@
             $datatable.append('<div class="scroll-wrapper"><div class="scroll-slide scroll-pos-' + options.scrollPos + '"><div class="bar"></div></div></div>');
         }
 
-        var $oldFooter = $datatable.children('.datatable-footer');
+        var $oldFooter = $datatable.children('.datatable-footer').detach();
         if (data.footer)
         {
             $datatable.append($('<div class="datatable-footer"/>').append(data.footer));
+            data.footer = null;
         }
         else if($oldFooter.length)
         {
@@ -640,11 +648,16 @@
             {
                 var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
                 var $checkedRows = $checkRows.filter('.' + checkedClass);
+                $checkRows.find('.check-row input:checkbox').prop('checked', false);
                 var checkedStatus = {
                     checkedAll: $checkRows.length === $checkedRows.length && $checkedRows.length > 0,
                     checks: $checkedRows.map(function()
                     {
                         rowId = $(this).data('id');
+                        if(options.checkboxName)
+                        {
+                            $(this).find('.check-row input:checkbox').prop('checked', true);
+                        }
                         return rowId;
                     }).toArray()
                 };
@@ -698,10 +711,10 @@
                         $rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
                     });
                 }
-                if (checkedStatus.checks.length) that.callEvent('checksChanged',
+                if (checkedStatus.checks.length)
                 {
-                    checks: checkedStatus
-                });
+                    syncChecks();
+                }
             }
         }
 
