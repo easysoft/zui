@@ -740,6 +740,16 @@
       "ver": "1.0.0",
       "require": ["jquery"]
     },
+    "color":
+    {
+      "name": "颜色辅助类",
+      "src":
+      {
+        "js": ["src/js/color.js"]
+      },
+      "ver": "1.2.0",
+      "require": ["jQuery"]
+    },
     "imgready":
     {
       "name": "图片加载",
@@ -1240,6 +1250,22 @@
       {
         "less": ["src/apps/zentao/less/basic/variables.less"]
       }
+    },
+    "chanzhi.variables":
+    {
+      "name": "chanzhi variables",
+      "src":
+      {
+        "less": ["src/apps/chanzhi/less/basic/variables.less"]
+      }
+    },
+    "chanzhi.icons.set":
+    {
+      "name": "chanzhi variables",
+      "src":
+      {
+        "less": ["src/apps/chanzhi/less/controls/icons.less"]
+      }
     }
   },
   "builds":
@@ -1376,44 +1402,26 @@
       "subdirectories": true,
       "bootstrapStatement": true,
       "includes": [
-        "jqueryex",
-        "string",
-        "resize",
-        "date",
-        "store",
-        "basic",
-        "zentao.variables",
-        "transition",
-        "animations",
-        "utilities",
-        "scaffolding",
-        "grid",
-        "typography.basic",
-        "header",
-        "button",
-        "divider",
-        "labels",
-        "icons",
-        "close",
-        "inputgroups",
-        "table.basic",
-        "table.colors",
-        "listgroup",
-        "panels.basic",
-        "collapse",
-        "dropdowns",
-        "alerts.basic",
-        "forms",
-        "code",
-        "navs",
-        "modals",
-        "tooltip",
-        "popovers",
-        "tab",
-        "bootbox",
-        "draggable",
-        "droppable"
+        "jqueryex", "string", "resize", "date", "store", "basic", "zentao.variables", "transition", "animations", "utilities", "scaffolding", "grid", "typography.basic", "header", "button", "divider", "labels", "icons", "close", "inputgroups", "table.basic", "table.colors", "listgroup", "panels.basic", "collapse", "dropdowns", "alerts.basic", "forms", "code", "navs", "modals", "tooltip", "popovers", "tab", "card", "article", "sortable", "bootbox", "draggable", "droppable"
       ]
+    },
+    "chanzhi":
+    {
+      "title": "zui for chanzhi",
+      "dest": "build/chanzhi/",
+      "filename": "zui.chanzhi",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons.font", "icons.core", "icons.variables", "chanzhi.icons.set", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic"]
+    },
+    "yidou":
+    {
+      "title": "zui for yidou",
+      "dest": "build/yidou/",
+      "filename": "zui.yidou",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic", "datatable"]
     }
   }
 }
