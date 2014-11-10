@@ -105,10 +105,10 @@ $(&#39;table.datatable&#39;).datatable({customizable: true});
       <h4>综合示例</h4>
       <p>你可以启用所有增强选项。</p>
       <div class="example">
-        <div class="datatable" data-checkable='true' data-customizable='true' data-sortable='true'></div>
+        <div class="datatable" data-checkable='true' data-sortable='true'></div>
       </div>
 <pre class='prettyprint'><code>/* JS 代码 */
-$(&#39;table.datatable&#39;).datatable({customizable: true, checkable: true, sortable: true});
+$(&#39;table.datatable&#39;).datatable({checkable: true, sortable: true});
 </code></pre>
 
       <h3>用法</h3>
@@ -229,7 +229,7 @@ $(&#39;table.datatable&#39;).datatable({customizable: true, checkable: true, sor
             </td>
             <td>是否在列上启用鼠标悬停样式，仅当鼠标悬停表头时生效</td>
           </tr>
-          <tr>
+<!--           <tr>
             <td><code>customizable</code></td>
             <td>
               <ul>
@@ -238,7 +238,7 @@ $(&#39;table.datatable&#39;).datatable({customizable: true, checkable: true, sor
               </ul>
             </td>
             <td>是否能够通过拖拽表头边缘来更改列宽</td>
-          </tr>
+          </tr> -->
           <tr>
             <td><code>minColWidth</code></td>
             <td>数字，默认为<code>20</code></td>
@@ -264,7 +264,6 @@ $(&#39;table.datatable&#39;).datatable({customizable: true, checkable: true, sor
 <pre class='prettyprint'><code>/* JS 代码 */
 $(&#39;table.datatable&#39;).datatable(
 {
-    customizable: true,
     checkable: true,
     sortable: true,
     checkedClass: "checked",
