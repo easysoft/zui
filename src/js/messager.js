@@ -60,9 +60,14 @@
 
         that.$.appendTo(options.parent).show();
 
-        if (options.placement === 'top' || options.placement === 'bottom')
+        if (options.placement === 'top' || options.placement === 'bottom' || options.placement === 'center')
         {
-            that.$.css('left', ($(options.parent).width() - that.$.width() - 50) / 2);
+            that.$.css('left', ($(window).width() - that.$.width() - 50) / 2);
+        }
+
+        if (options.placement === 'left' || options.placement === 'right' || options.placement === 'center')
+        {
+            that.$.css('top', ($(window).height() - that.$.height() - 50) / 2);
         }
 
         that.$.addClass('in');
