@@ -101,12 +101,7 @@
         options = $.extend(
         {}, Mindmap.DEFAULTS, this.$.data(), options);
 
-        var hotkeyEnable = (typeof($.hotkeys) != UDF);
-        if (!hotkeyEnable && options.hotkeyEnable)
-        {
-            window.messager.danger(this.lang.hotkeyDisabled);
-        }
-        options.hotkeyEnable = options.hotkeyEnable && hotkeyEnable;
+        options.hotkeyEnable = options.hotkeyEnable && (typeof($.hotkeys) != UDF);
 
         return options;
     };
@@ -1043,9 +1038,9 @@
                 },
                 drag: function(e)
                 {
-                    e.pos.left -= that.x;
-                    e.pos.top -= that.y;
-                    data.ui.dragPos = that.computePosition(e.pos, true);
+                    e.position.left -= that.x;
+                    e.position.top -= that.y;
+                    data.ui.dragPos = that.computePosition(e.position, true);
                     data.ui.canDrop = e.isIn;
                     that.showNode();
                 },
