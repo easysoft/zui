@@ -961,7 +961,7 @@
     {
       "name": "轮播",
       "ver": "1.0.0",
-      "dpds": ["carousel.basic", "carousel.basic"]
+      "dpds": ["carousel.basic", "carousel.indicators"]
     },
     "lightbox":
     {
