@@ -94,7 +94,12 @@
     };
 
     $.Messager = Messager;
-    if(!window.Messager) window.Messager = Messager;
+    var noConflictMessager = window.Messager;
+    window.Messager = $.Messager;
+    window.Messager.noConflict = function()
+    {
+        window.Messager = noConflictMessager;
+    };
 
     $.showMessage = function(message, options)
     {
@@ -145,5 +150,10 @@
         }
     };
 
-    if(!window.messager) window.messager = $.messager;
+    var noConflict = window.messager;
+    window.messager = $.messager;
+    window.messager.noConflict = function()
+    {
+        window.messager = noConflict;
+    };
 }(jQuery, window));

@@ -260,7 +260,7 @@ $(function()
             },
             drop: function(event)
             {
-                messager.show('真棒！');
+                window.messager.show('真棒！');
                 $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
                 if(event.target)
                 {
