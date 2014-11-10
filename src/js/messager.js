@@ -104,6 +104,7 @@
         }
         var msg = new Messager(message, options);
         msg.show();
+        return msg;
     };
 
     var getOptions = function(options)
@@ -116,31 +117,31 @@
         show: $.showMessage,
         primary: function(message, options)
         {
-            $.showMessage(message, $.extend({type: 'primary'}, getOptions(options)));
+            return $.showMessage(message, $.extend({type: 'primary'}, getOptions(options)));
         },
         success: function(message, options)
         {
-            $.showMessage(message, $.extend({type: 'success', icon: 'ok-sign'}, getOptions(options)));
+            return $.showMessage(message, $.extend({type: 'success', icon: 'ok-sign'}, getOptions(options)));
         },
         info: function(message, options)
         {
-            $.showMessage(message, $.extend({type: 'info', icon: 'info-sign'}, getOptions(options)));
+            return $.showMessage(message, $.extend({type: 'info', icon: 'info-sign'}, getOptions(options)));
         },
         warning: function(message, options)
         {
-            $.showMessage(message, $.extend({type: 'warning', icon: 'warning-sign'}, getOptions(options)));
+            return $.showMessage(message, $.extend({type: 'warning', icon: 'warning-sign'}, getOptions(options)));
         },
         danger: function(message, options)
         {
-            $.showMessage(message, $.extend({type: 'danger', icon: 'exclamation-sign'}, getOptions(options)));
+            return $.showMessage(message, $.extend({type: 'danger', icon: 'exclamation-sign'}, getOptions(options)));
         },
         important: function(message, options)
         {
-            $.showMessage(message, $.extend({type: 'important'}, getOptions(options)));
+            return $.showMessage(message, $.extend({type: 'important'}, getOptions(options)));
         },
         special: function(message, options)
         {
-            $.showMessage(message, $.extend({type: 'special'}, getOptions(options)));
+            return $.showMessage(message, $.extend({type: 'special'}, getOptions(options)));
         }
     };
 
