@@ -108,6 +108,7 @@
 
     $.messager =
     {
+        show: $.showMessage,
         primary: function(message, options)
         {
             $.showMessage(message, $.extend({type: 'primary'}, getOptions(options)));
