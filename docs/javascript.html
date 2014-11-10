@@ -1556,6 +1556,151 @@ myModalTrigger.show();</code></pre>
       </p>
     </section>
 
+    <section id="messager">
+      <div class="page-header">
+        <h2>漂浮消息</h2>
+      </div>
+      <p>漂浮消息允许在页面指定位置展示一个消息浮动在已有内容之上。此消息可以设置为自动关闭或者让用户自行决定关闭。漂浮消息不会打断用户当前操作，一般用于提示后台操作，或者针对用户的全局操作作出及时回应。</p>
+      <h3>实例</h3>
+      <p>漂浮消息可以设置图标，并且可以决定是否显示关闭按钮。</p>
+      <div class="example">
+        <button class="btn btn-primary show-messager" type="button" data-content="这是一个浮动消息。" data-icon="bell">显示漂浮消息</button>
+      </div>
+      <h4>显示位置</h4>
+      <p>提供7个预设的显示位置。</p>
+      <div class="example">
+        <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="top">上方</button>
+        <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="bottom">下方</button>
+        <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="top-left">左上</button>
+        <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="top-right">右上</button>
+        <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="bottom-left">左下</button>
+        <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="bottom-right">右下</button>
+        <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="center">中间</button>
+      </div>
+      <h4>色彩类型</h4>
+      <p>提供8种颜色类型。</p>
+      <div class="example">
+        <style>.messager-example {position: relative; margin-bottom: 10px; cursor: pointer;}</style>
+        <div class="messager messager-example messager-default"><div class="messager-content">普通提示消息</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-primary" data-type="primary"><div class="messager-content">提示消息：主要</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-info" data-type="info"><div class="messager-content"><i class="icon-info-sign"></i> 提示消息：信息</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-danger" data-type="danger"><div class="messager-content"><i class="icon-exclamation-sign"></i>提示消息：危险</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-success" data-type="success"><div class="messager-content"><i class="icon-ok-sign"></i> 提示消息：成功</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-warning" data-type="warning"><div class="messager-content"><i class="icon-warning-sign"></i> 提示消息：警告</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-important" data-type="important"><div class="messager-content">提示消息：重要</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-special" data-type="special"><div class="messager-content">提示消息：特别</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+      </div>
+      <h4>禁用动画效果</h4>
+      <div class="example">
+        <button class="btn btn-primary show-messager" type="button" data-fade='false' data-scale='false' data-content="此消息没有动画效果。" data-icon="bell">禁用动画效果</button>
+      </div>
+
+      <h3>如何使用</h3>
+      <h4>使用Messager对象</h4>
+      <p>创建一个<code>Messager</code>实例来使用漂浮消息。</p>
+      <table class="table table-bordered">
+        <thead>
+          <tr><th>方法</th><th>参数</th><th>定义</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>构造函数</td>
+            <td><ul>
+              <li><code>message</code>，需要显示的消息文本，支持html；</li>
+              <li><code>options</code>一个参数对象，具体参数定义见后续章节。</li>
+            </ul></td>
+            <td>创建新的Messager实例。</td>
+          </tr>
+          <tr>
+            <td><code>show</code></td>
+            <td>无</td>
+            <td>立即显示消息</td>
+          </tr>
+          <tr>
+            <td><code>hide</code></td>
+            <td>无</td>
+            <td>立即隐藏消息</td>
+          </tr>
+        </tbody>
+      </table>
+<pre class='prettyprint'><code>// 使用jQuery对象
+var msg = new $.Messager('消息内容', {placement: 'bottom'});
+// 使用window对象
+// var msg = new window.Messager('消息内容', {placement: 'bottom'});
+
+// 显示消息
+msg.show();
+
+// 隐藏消息
+msg.hide();
+</code></pre>
+      <h4>快速显示</h4>
+      <p>使用jQuery对象或<code>window</code>对象的<code>messager</code>实例的<code>show()</code>方法来即时显示一个漂浮消息。</p>
+      <p>调用<code>$.messager.show()</code>或者<code>window.messager.show()</code>之后立即显示并返回新创建的<code>Messager</code>实例。可以使用返回的实例来手动执行<code>hide</code>方法隐藏此消息。</p>
+      <p><code>show()</code>方法提供两个参数，定义于<code>Messager</code>构造函数参数定义相同。</p>
+<pre class='prettyprint'><code>// 使用jQuery对象
+var msg = $.messager.show('消息内容', {placement: 'bottom'});
+// 使用window对象
+// var msg = window.messager.show('消息内容', {placement: 'bottom'});
+
+// 隐藏消息
+msg.hide();
+</code></pre>
+
+      <h4>参数定义</h4>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>参数</th>
+            <th>可选值</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>'default'</code>(默认)|<code>'primary'</code>|<code>'success'</code>|<code>'info'</code>|<code>'warning'</code>|<code>'danger'</code>|<code>'important'</code>|<code>'special'</code></td>
+            <td>不同类型的消息对应使用不同的颜色展示。</td>
+          </tr>
+          <tr>
+            <td><code>placement</code></td>
+            <td><code>'top'</code>(默认)|<code>'bottom'</code>|<code>'top-left'</code>|<code>'top-right'</code>|<code>'bottom-left'</code>|<code>'bottom-right'</code>|<code>'center'</code></td>
+            <td>决定消息显示的位置。</td>
+          </tr>
+          <tr>
+            <td><code>time</code></td>
+            <td>表示时间延迟，单位毫秒，默认为4000</td>
+            <td>自显示之后超过此时间设定会自动隐藏消息。如果设置为0则不会自动隐藏。</td>
+          </tr>
+          <tr>
+            <td><code>parent</code></td>
+            <td><code>'body'</code></td>
+            <td>一个jquery选择器，决定消息内容DOM的父节点。</td>
+          </tr>
+          <tr>
+            <td><code>icon</code></td>
+            <td><code>null</code></td>
+            <td>可以额外制定一个图标在消息文本之前显示，图标定义参见“控件>图标”章节。</td>
+          </tr>
+          <tr>
+            <td><code>close</code></td>
+            <td><code>true</code>(默认)|<code>false</code></td>
+            <td>如果为<code>true</code>，则在消息右侧显示一个关闭按钮，用户可以自行隐藏消息。</td>
+          </tr>
+          <tr>
+            <td><code>fade</code></td>
+            <td><code>true</code>(默认)|<code>false</code></td>
+            <td>如果为<code>true</code>，则在显示和隐藏消息时使用渐隐渐显的动画效果。</td>
+          </tr>
+          <tr>
+            <td><code>scale</code></td>
+            <td><code>true</code>(默认)|<code>false</code></td>
+            <td>如果为<code>true</code>，则在显示和隐藏消息时使用缩放的动画效果。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
     <section id='tooltips'>
       <div class="page-header">
         <h2>提示消息 <small class='label label-info' title='此内容也在精简版中提供'>LITE</small></h2>
@@ -2932,6 +3077,18 @@ myModalTrigger.show();</code></pre>
   <script>
   $(function()
   {
+      $('.show-messager').on('click', function()
+      {
+          var options = $(this).data();
+          $.messager.show(options.content, options);
+      });
+
+      $('.messager-example').click(function()
+      {
+          var $this = $(this);
+          $.messager.show($this.find('.messager-content').html(), $this.data());
+      });
+
       $('#storeExample .alert-' + (store.enable ? 'success' : 'warning')).removeClass('hide');
 
       var $storeTable = $('#storeTable');

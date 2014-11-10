@@ -13,14 +13,12 @@
   <link href="../css/example.css" rel="stylesheet">
 
   <script src="../../assets/jquery.js"></script>
-  <script src="../../dist/js/zui.min.js"></script>
+  <script src="../js/zui.js"></script>
 
-
-  <script src="../assets/js/example.js"></script>
   <script>
     $(function()
     {
-        // messager.success('这是一条测试消息', 'top', 5000);
+        messager.show('这是一条测试消息fdsfadsafdsafdsafdsaerqwrew', {time: 100000, placement: 'top'});
     });
   </script>
   <style>
@@ -86,14 +84,14 @@
   <article>
     <section id="buttons" class="page-section">
       <div class="segment">
-        <div class="messager messager-example messager-default"><div class="messager-content">普通提示消息</div><button class="close-messager">&times;</button></div>
-        <div class="messager messager-example messager-primary"><div class="messager-content">提示消息：主要</div><button class="close-messager">&times;</button></div>
-        <div class="messager messager-example messager-info"><div class="messager-content">提示消息：信息</div><button class="close-messager">&times;</button></div>
-        <div class="messager messager-example messager-danger"><div class="messager-content">提示消息：危险</div><button class="close-messager">&times;</button></div>
-        <div class="messager messager-example messager-success"><div class="messager-content">提示消息：成功</div><button class="close-messager">&times;</button></div>
-        <div class="messager messager-example messager-warning"><div class="messager-content">提示消息：警告</div><button class="close-messager">&times;</button></div>
-        <div class="messager messager-example messager-important"><div class="messager-content">提示消息：重要</div><button class="close-messager">&times;</button></div>
-        <div class="messager messager-example messager-special"><div class="messager-content">提示消息：特别</div><button class="close-messager">&times;</button></div>
+        <div class="messager messager-example messager-default"><div class="messager-content">普通提示消息</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-primary" data-type="primary"><div class="messager-content">提示消息：主要</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-info" data-type="info"><div class="messager-content"><i class="icon-info-sign"></i> 提示消息：信息</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-danger" data-type="danger"><div class="messager-content"><i class="icon-exclamation-sign"></i>提示消息：危险</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-success" data-type="success"><div class="messager-content"><i class="icon-ok-sign"></i> 提示消息：成功</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-warning" data-type="warning"><div class="messager-content"><i class="icon-warning-sign"></i> 提示消息：警告</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-important" data-type="important"><div class="messager-content">提示消息：重要</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
+        <div class="messager messager-example messager-special" data-type="special"><div class="messager-content">提示消息：特别</div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>
       </div>
     </section>
   </article>
