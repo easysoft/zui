@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0-beta - 2014-10-30
+ * ZUI - v1.2.0 - 2014-11-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -15,15 +15,21 @@
  * ======================================================================== */
 
 
-+ function($, window, Math)
+(function($, window, Math)
 {
-    "use strict";
+    'use strict';
+
+    /* Check jquery */
+    if(typeof($) === 'undefined')
+    {
+      throw new Error('ZUI requires jQuery');
+    }
 
     $.extend(
     {
         uuid: function()
         {
-            var d = (new Date).getTime();
+            var d = (new Date()).getTime();
             while (d < 10000000000000000)
             {
                 d *= 10;
@@ -33,7 +39,7 @@
 
         getPropertyCount: function(obj)
         {
-            if (typeof(obj) != 'object' || obj == null) return 0;
+            if (typeof(obj) !== 'object' || obj === null) return 0;
             return Object.getOwnPropertyNames(obj).length;
         },
 
@@ -46,7 +52,7 @@
                     func = $.proxy(func, proxy);
                 }
                 event.result = func(event);
-                return !(event.result != undefined && (!event.result));
+                return !(event.result !== undefined && (!event.result));
             }
             return 1;
         },
@@ -82,7 +88,7 @@
         }
         var e = $.Event(name, event);
 
-        var result = $this.trigger(e);
+        // var result = $this.trigger(e);
 
         if ((typeof model === 'undefined') && dotIndex > 0)
         {
@@ -99,7 +105,7 @@
         }
         return e;
     };
-}(jQuery, window, Math);
+}(jQuery, window, Math));
 
 /* ========================================================================
  * Bootstrap: tab.js v3.0.0
@@ -121,7 +127,7 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) { 'use strict';
 
   // TAB CLASS DEFINITION
   // ====================
@@ -318,7 +324,7 @@
 
 
 + function($){
-    "use strict";
+    'use strict';
 
     // COLLAPSE PUBLIC CLASS DEFINITION
     // ================================
@@ -494,8 +500,9 @@
  * ======================================================================== */
 
 
-+ function(window, $)
+(function(window, $)
 {
+    'use strict';
     var desktopLg = 1200,
         desktop = 992,
         tablet = 768,
@@ -523,7 +530,7 @@
 
     $window.resize(resetCssClass);
     resetCssClass();
-}(window, jQuery);
+}(window, jQuery));
 
 /* ========================================================================
  * ZUI: browser.js
@@ -533,13 +540,13 @@
  * ======================================================================== */
 
 
-+ function(window, $)
+(function(window, $)
 {
-    "use strict";
+    'use strict';
     var browseHappyTip = {
-        "zh_cn": '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
-        "zh_tw": '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
-        "en": 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="http://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
+        'zh_cn': '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'zh_tw': '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'en': 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="http://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
     };
 
     // The browser modal class
@@ -623,7 +630,7 @@
             window.browser.tip();
         }
     });
-}(window, jQuery);
+}(window, jQuery));
 
 /* ========================================================================
  * ZUI: date.js
@@ -652,13 +659,13 @@
     Date.prototype.format = function(format)
     {
         var date = {
-            "M+": this.getMonth() + 1,
-            "d+": this.getDate(),
-            "h+": this.getHours(),
-            "m+": this.getMinutes(),
-            "s+": this.getSeconds(),
-            "q+": Math.floor((this.getMonth() + 3) / 3),
-            "S+": this.getMilliseconds()
+            'M+': this.getMonth() + 1,
+            'd+': this.getDate(),
+            'h+': this.getHours(),
+            'm+': this.getMinutes(),
+            's+': this.getSeconds(),
+            'q+': Math.floor((this.getMonth() + 3) / 3),
+            'S+': this.getMilliseconds()
         };
         if (/(y+)/i.test(format))
         {
@@ -666,9 +673,9 @@
         }
         for (var k in date)
         {
-            if (new RegExp("(" + k + ")").test(format))
+            if (new RegExp('(' + k + ')').test(format))
             {
-                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ('00' + date[k]).substr(('' + date[k]).length));
             }
         }
         return format;
@@ -881,6 +888,8 @@
 
 (function()
 {
+    'use strict';
+
     String.prototype.format = function(args)
     {
         var result = this;
@@ -891,7 +900,7 @@
             {
                 for (var key in args)
                 {
-                    if (args[key] != undefined)
+                    if (args[key] !== undefined)
                     {
                         reg = new RegExp("({" + key + "})", "g");
                         result = result.replace(reg, args[key]);
@@ -902,7 +911,7 @@
             {
                 for (var i = 0; i < arguments.length; i++)
                 {
-                    if (arguments[i] != undefined)
+                    if (arguments[i] !== undefined)
                     {
                         reg = new RegExp("({[" + i + "]})", "g");
                         result = result.replace(reg, arguments[i]);
@@ -922,7 +931,7 @@
      */
     String.prototype.isNum = function(s)
     {
-        if (s != null)
+        if (s !== null)
         {
             var r, re;
             re = /\d*/i;
@@ -930,7 +939,7 @@
             return (r == s) ? true : false;
         }
         return false;
-    }
+    };
 })();
 
 /*!
@@ -1125,7 +1134,7 @@
 
       function new_handler( e, w, h ) {
         var elem = $(this),
-          data = $.data( this, str_data );
+          data = $.data( this, str_data ) || {};
 
         // If called from the polling loop, w and h will be passed in as
         // arguments. If called manually, via .trigger( 'resize' ) or .resize(),
@@ -1342,9 +1351,9 @@
  * ======================================================================== */
 
 
-+ function(window, $)
+(function(window, $)
 {
-    "use strict";
+    'use strict';
 
     var lsName = 'localStorage';
     var storage = window[lsName],
@@ -1371,14 +1380,14 @@
         }
         else
         {
-            var forDeletes = [];
-            for (var i in this.page)
+            var forDeletes = [], i;
+            for (i in this.page)
             {
                 var val = this.page[i];
                 if (val === null)
                     forDeletes.push(i);
             }
-            for (var i = forDeletes.length - 1; i >= 0; i--)
+            for (i = forDeletes.length - 1; i >= 0; i--)
             {
                 delete this.page[forDeletes[i]];
             }
@@ -1551,7 +1560,7 @@
         window.store = old;
         return store;
     };
-}(window, jQuery);
+}(window, jQuery));
 
 /* ========================================================================
  * ZUI: draggable.js
@@ -1561,9 +1570,9 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     var Draggable = function(element, options)
     {
@@ -1588,23 +1597,26 @@
     Draggable.prototype.init = function()
     {
         this.handleMouseEvents();
-    }
+    };
 
     Draggable.prototype.handleMouseEvents = function()
     {
         var $e = this.$,
+            BEFORE = 'before',
+            DRAG = 'drag',
+            FINISH = 'finish',
             setting = this.options;
 
         $e.mousedown(function(event)
         {
-            if (setting.hasOwnProperty('before') && $.isFunction(setting['before']))
+            if (setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE]))
             {
-                var isSure = setting['before'](
+                var isSure = setting[BEFORE](
                 {
                     event: event,
                     element: $e
                 });
-                if (isSure != undefined && (!isSure)) return;
+                if (isSure !== undefined && (!isSure)) return;
             }
 
             var $container = $(setting.container),
@@ -1646,9 +1658,9 @@
                     $e.css(dragPos);
                 }
 
-                if (setting.hasOwnProperty('drag') && $.isFunction(setting['drag']))
+                if (setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG]))
                 {
-                    setting['drag'](
+                    setting[DRAG](
                     {
                         event: event,
                         element: $e,
@@ -1693,9 +1705,9 @@
                     $e.css(endPos);
                 }
 
-                if (setting.hasOwnProperty('finish') && $.isFunction(setting['finish']))
+                if (setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH]))
                 {
-                    setting['finish'](
+                    setting[FINISH](
                     {
                         event: event,
                         element: $e,
@@ -1719,7 +1731,7 @@
                 }
             }
         });
-    }
+    };
 
     $.fn.draggable = function(option)
     {
@@ -1732,11 +1744,11 @@
             if (!data) $this.data('zui.draggable', (data = new Draggable(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.draggable.Constructor = Draggable;
-}(jQuery);
+}(jQuery));
 
 /* ========================================================================
  * ZUI: droppable.js
@@ -1746,9 +1758,9 @@
  * ======================================================================== */
 
 
-+ function($, document, Math)
+(function($, document, Math)
 {
-    "use strict";
+    'use strict';
 
     var Droppable = function(element, options)
     {
@@ -1777,31 +1789,32 @@
     Droppable.prototype.callEvent = function(name, params)
     {
         return $.callEvent(this.options[name], params, this);
-    }
+    };
 
     Droppable.prototype.init = function()
     {
         this.handleMouseEvents();
-    }
+    };
 
     Droppable.prototype.handleMouseEvents = function()
     {
         var $e = this.$,
             self = this,
-            setting = this.options;
+            setting = this.options,
+            BEFORE = 'before';
 
         this.$triggerTarget = (setting.trigger ? ($.isFunction(setting.trigger) ? setting.trigger($e) : $e.find(setting.trigger)).first() : $e);
 
         this.$triggerTarget.on('mousedown', function(event)
         {
-            if (setting.hasOwnProperty('before') && $.isFunction(setting['before']))
+            if (setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE]))
             {
-                var isSure = setting['before'](
+                var isSure = setting[BEFORE](
                 {
                     event: event,
                     element: $e
                 });
-                if (isSure != undefined && (!isSure)) return;
+                if (isSure !== undefined && (!isSure)) return;
             }
 
             var $targets = $.isFunction(setting.target) ? setting.target($e) : $(setting.target),
@@ -1817,10 +1830,10 @@
                     top: event.pageY
                 };
             var containerOffset = $container.offset();
-            var startPosition = {
-                left: startOffset.left - containerOffset.left,
-                top: startOffset.top - containerOffset.top
-            };
+            // var startPosition = {
+            //     left: startOffset.left - containerOffset.left,
+            //     top: startOffset.top - containerOffset.top
+            // };
             var clickOffset = {
                 left: startMouseOffset.left - startOffset.left,
                 top: startMouseOffset.top - startOffset.top
@@ -1844,7 +1857,7 @@
                 // ignore small move
                 if (Math.abs(mouseOffset.left - startMouseOffset.left) < setting.deviation && Math.abs(mouseOffset.top - startMouseOffset.top) < setting.deviation) return;
 
-                if (shadow == null) // create shadow
+                if (shadow === null) // create shadow
                 {
                     var cssPosition = $container.css('position');
                     if (cssPosition != 'absolute' && cssPosition != 'relative' && cssPosition != 'fixed')
@@ -1877,10 +1890,10 @@
                     top: offset.top - containerOffset.top
                 };
                 shadow.css(position);
-                var moveOffset = {
-                    left: mouseOffset.left - lastMouseOffset.left,
-                    top: mouseOffset.top - lastMouseOffset.top
-                };
+                // var moveOffset = {
+                //     left: mouseOffset.left - lastMouseOffset.left,
+                //     top: mouseOffset.top - lastMouseOffset.top
+                // };
                 lastMouseOffset.left = mouseOffset.left;
                 lastMouseOffset.top = mouseOffset.top;
 
@@ -1893,7 +1906,7 @@
                 }
 
                 var newTarget = null;
-                $targets.each(function(index)
+                $targets.each(function()
                 {
                     var t = $(this);
                     var tPos = t.offset();
@@ -1915,7 +1928,7 @@
                     isIn = true;
                     var id = newTarget.data('id');
                     if ($e.data('id') != id) isSelf = false;
-                    if (target == null || (target.data('id') != id && (!isSelf))) isNew = true;
+                    if (target === null || (target.data('id') !== id && (!isSelf))) isNew = true;
                     target = newTarget;
                     if (setting.flex)
                     {
@@ -1929,7 +1942,7 @@
                     $e.toggleClass('drop-in', isIn);
                     shadow.toggleClass('drop-in', isIn);
                 }
-                else if (target != null && target.length)
+                else if (target !== null && target.length)
                 {
                     isIn = true;
                 }
@@ -1960,7 +1973,7 @@
                     $container.css('position', oldCssPosition);
                 }
 
-                if (shadow == null)
+                if (shadow === null)
                 {
                     $e.removeClass('drag-from');
                     $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
@@ -1988,7 +2001,7 @@
                     isIn: isIn,
                     target: target,
                     element: $e,
-                    isNew: (!isSelf) && target != null,
+                    isNew: (!isSelf) && target !== null,
                     selfTarget: isSelf,
                     offset: offset,
                     mouseOffset: mouseOffset,
@@ -2038,11 +2051,11 @@
             if (!data) $this.data('zui.droppable', (data = new Droppable(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.droppable.Constructor = Droppable;
-}(jQuery, document, Math);
+}(jQuery, document, Math));
 
 /* ========================================================================
  * ZUI: sortable.js
@@ -2054,7 +2067,7 @@
 
 +function($, window, document, Math)
 {
-    "use strict";
+    'use strict';
 
     var Sortable = function(element, options)
     {
@@ -2541,11 +2554,11 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
-    if (!$.fn.modal) throw new Error('Modal trigger requires modal.js')
+    if (!$.fn.modal) throw new Error('Modal trigger requires modal.js');
 
     // ONCE MODAL CLASS DEFINITION
     // ======================
@@ -2553,7 +2566,6 @@
     {
         options = $.extend(
         {}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
-        this.$modal;
         this.isShown = false;
         this.options = options;
         this.id = $.uuid();
@@ -2642,15 +2654,14 @@
         $modal.on('shown.zui.modal', function()
         {
             that.isShown = true;
-        })
-        $modal.on('hidden.zui.modal', function()
+        }).on('hidden.zui.modal', function()
         {
             that.isShown = false;
-        })
+        });
 
         this.$modal = $modal;
         this.$dialog = $modal.find('.modal-dialog');
-    }
+    };
 
     ModalTrigger.prototype.show = function(option)
     {
@@ -2790,7 +2801,7 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $frameBody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
+                            $framebody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
                         }
 
                         frame$.extend(
@@ -2973,7 +2984,7 @@
             e.preventDefault();
         }
     });
-}(window.jQuery);
+}(window.jQuery));
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
@@ -2996,7 +3007,7 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) { 'use strict';
 
   // TOOLTIP PUBLIC CLASS DEFINITION
   // ===============================
@@ -3382,7 +3393,7 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) { 'use strict';
 
   // POPOVER PUBLIC CLASS DEFINITION
   // ===============================
@@ -3424,7 +3435,7 @@
       return
     }
 
-    
+
     var title   = this.getTitle()
     var content = this.getContent()
 
@@ -3523,7 +3534,7 @@
 
 
 + function($){
-    "use strict";
+    'use strict';
 
     // DROPDOWN CLASS DEFINITION
     // =========================
@@ -3698,7 +3709,7 @@
 
 
 + function($){
-    "use strict";
+    'use strict';
 
     // CAROUSEL CLASS DEFINITION
     // =========================
@@ -3998,6 +4009,8 @@
 
 (function()
 {
+    'use strict';
+
     /**
      * Image ready
      * @param {String}  image url
@@ -4020,7 +4033,7 @@
                 for (; i < list.length; i++)
                 {
                     list[i].end ? list.splice(i--, 1) : list[i]();
-                };
+                }
                 !list.length && stop();
             },
 
@@ -4044,7 +4057,7 @@
                 ready.call(img);
                 load && load.call(img);
                 return;
-            };
+            }
 
             width = img.width;
             height = img.height;
@@ -4069,7 +4082,7 @@
                 {
                     ready.call(img);
                     onready.end = true;
-                };
+                }
             };
             onready();
 
@@ -4092,7 +4105,7 @@
                 list.push(onready);
                 // 无论何时只允许出现一个定时器，减少浏览器性能损耗
                 if (intervalId === null) intervalId = setInterval(tick, 40);
-            };
+            }
         };
     })();
 }());
@@ -4105,12 +4118,12 @@
  * ======================================================================== */
 
 
-+ function($, window, Math)
+(function($, window, Math)
 {
-    "use strict";
+    'use strict';
 
     if (!$.fn.modalTrigger) throw new Error('modal & modalTrigger requires for lightbox');
-    if (!imgReady) throw new Error('imgReady requires for lightbox');
+    if (!window.imgReady) throw new Error('imgReady requires for lightbox');
 
     var Lightbox = function(element, options)
     {
@@ -4126,12 +4139,13 @@
 
     Lightbox.prototype.getOptions = function(options)
     {
+        var IMAGE = 'image';
         options = $.extend(
         {}, Lightbox.DEFAULTS, this.$.data(), options);
-        if (!options['image'])
+        if (!options[IMAGE])
         {
-            options['image'] = this.$.attr('src') || this.$.attr('href') || this.$.find('img').attr('src');
-            this.$.data('image', options['image']);
+            options[IMAGE] = this.$.attr('src') || this.$.attr('href') || this.$.find('img').attr('src');
+            this.$.data(IMAGE, options[IMAGE]);
         }
         return options;
     };
@@ -4139,7 +4153,7 @@
     Lightbox.prototype.init = function()
     {
         this.bindEvents();
-    }
+    };
 
     Lightbox.prototype.initGroups = function()
     {
@@ -4155,7 +4169,7 @@
         }
         this.groups = groups;
         this.groupIndex = parseInt(this.$.data('group-index'));
-    }
+    };
 
     Lightbox.prototype.bindEvents = function()
     {
@@ -4182,7 +4196,7 @@
                     .data('group-index', groupIndex);
                 var dialog = modal.find('.modal-dialog'),
                     winWidth = $(window).width();
-                imgReady(options.image, function()
+                window.imgReady(options.image, function()
                 {
                     dialog.css(
                     {
@@ -4210,7 +4224,7 @@
                             .removeClass('lightbox-full');
                         modal.find('.lightbox-img').attr('src', image);
                         winWidth = $(window).width();
-                        imgReady(image, function()
+                        window.imgReady(image, function()
                         {
                             dialog.css(
                             {
@@ -4226,7 +4240,7 @@
                 });
             }
         });
-    }
+    };
 
     $.fn.lightbox = function(option)
     {
@@ -4254,7 +4268,7 @@
             if (!data) $this.data('zui.lightbox', (data = new Lightbox(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.lightbox.Constructor = Lightbox;
@@ -4263,7 +4277,7 @@
     {
         $('[data-toggle="lightbox"]').lightbox();
     });
-}(jQuery, window, Math);
+}(jQuery, window, Math));
 
 /* ========================================================================
  * ZUI: messager.js
@@ -4273,96 +4287,147 @@
  * ======================================================================== */
 
 
-+ function($, window)
+(function($, window)
 {
-    "use strict";
+    'use strict';
 
     var id = 0;
-    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content">{message}</div><button class="close-messager">&times;</button></div>';
-
-    function Messager()
+    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content"></div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>';
+    var defaultOptions =
     {
-        this.show = function(message, type, placement, time, parent)
-        {
-            $('.messager').hide();
+        type: 'default',
+        placement: 'top',
+        time: 4000,
+        parent: 'body',
+        // clear: false,
+        icon: null,
+        close: true,
+        fade: true,
+        scale: true
+    };
+    var lastMessager;
 
-            id++;
-            type = type || 'default';
-            time = time || 2000;
-            parent = parent || 'body';
-            placement = placement || 'top';
-            var msg = $(template.format(
+    var Messager = function(message, options)
+    {
+        var that = this;
+        that.id = id++;
+        options = that.options = $.extend({}, defaultOptions, options);
+        that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
+
+        that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
+        if(!options.close)
+        {
+            that.$.find('.close').remove();
+        }
+        else
+        {
+            that.$.on('click', '.close', function()
             {
-                message: message,
-                type: type,
-                placement: placement,
-                id: id
-            })).appendTo(parent);
-            msg.find('.close-messager').click(function()
-            {
-                $(this).closest('.messager').fadeOut();
+                that.hide();
             });
-
-            if (placement == 'top' || placement == 'bottom')
-            {
-                msg.css('left', ($(parent).width() - msg.width() - 50) / 2);
-            }
-
-            msg.fadeIn();
-
-            setTimeout(function()
-            {
-                $('#messager' + id).fadeOut(function()
-                {
-                    $(this).remove()
-                });
-            }, time);
-
-            return msg;
         }
 
-        this.primary = function(message, placement, time, parent)
+        that.$.find('.messager-content').html(that.message);
+
+
+        that.$.data('zui.messager', that);
+    };
+
+    Messager.prototype.show = function()
+    {
+        var that = this, options = this.options;
+
+        if(lastMessager && lastMessager.isShow) lastMessager.hide();
+
+        that.$.appendTo(options.parent).show();
+
+        if (options.placement === 'top' || options.placement === 'bottom' || options.placement === 'center')
         {
-            return this.show(message, 'primary', placement, time, parent);
+            that.$.css('left', ($(window).width() - that.$.width() - 50) / 2);
         }
 
-        this.success = function(message, placement, time, parent)
+        if (options.placement === 'left' || options.placement === 'right' || options.placement === 'center')
         {
-            return this.show('<i class="icon-ok-sign icon"></i> ' + message, 'success', placement, time, parent);
+            that.$.css('top', ($(window).height() - that.$.height() - 50) / 2);
         }
 
-        this.info = function(message, placement, time, parent)
+        that.$.addClass('in');
+
+        if(options.time)
         {
-            return this.show('<i class="icon-info-sign icon"></i> ' + message, 'info', placement, time, parent);
+            setTimeout(function(){that.hide();}, options.time);
         }
 
-        this.warning = function(message, placement, time, parent)
+        that.isShow = true;
+        lastMessager = that;
+    };
+
+    Messager.prototype.hide = function()
+    {
+        var that = this;
+        if(that.$.hasClass('in'))
         {
-            return this.show('<i class="icon-warning-sign icon"></i>' + message, 'warning', placement, time, parent);
+            that.$.removeClass('in');
+            setTimeout(function(){that.$.remove();}, 200);
         }
 
-        this.danger = function(message, placement, time, parent)
+        that.isShow = false;
+    };
+
+    $.Messager = Messager;
+    if(!window.Messager) window.Messager = Messager;
+
+    $.showMessage = function(message, options)
+    {
+        if(typeof options === 'string')
         {
-            return this.show('<i class="icon-exclamation-sign icon"></i>' + message, 'danger', placement, time, parent);
+            options = {type: options};
         }
+        var msg = new Messager(message, options);
+        msg.show();
+        return msg;
+    };
 
-        this.important = function(message, placement, time, parent)
+    var getOptions = function(options)
+    {
+        return (typeof options === 'string') ? {placement: options} : options;
+    };
+
+    $.messager =
+    {
+        show: $.showMessage,
+        primary: function(message, options)
         {
-            return this.show(message, 'important', placement, time, parent);
-        }
-
-        this.special = function(message, placement, time, parent)
+            return $.showMessage(message, $.extend({type: 'primary'}, getOptions(options)));
+        },
+        success: function(message, options)
         {
-            return this.show(message, 'special', placement, time, parent);
+            return $.showMessage(message, $.extend({type: 'success', icon: 'ok-sign'}, getOptions(options)));
+        },
+        info: function(message, options)
+        {
+            return $.showMessage(message, $.extend({type: 'info', icon: 'info-sign'}, getOptions(options)));
+        },
+        warning: function(message, options)
+        {
+            return $.showMessage(message, $.extend({type: 'warning', icon: 'warning-sign'}, getOptions(options)));
+        },
+        danger: function(message, options)
+        {
+            return $.showMessage(message, $.extend({type: 'danger', icon: 'exclamation-sign'}, getOptions(options)));
+        },
+        important: function(message, options)
+        {
+            return $.showMessage(message, $.extend({type: 'important'}, getOptions(options)));
+        },
+        special: function(message, options)
+        {
+            return $.showMessage(message, $.extend({type: 'special'}, getOptions(options)));
         }
-    }
+    };
 
-    var messager = new Messager();
-
-    window.messager = messager;
-
-
-}(jQuery, window);
+    if(!window.messager) window.messager = $.messager;
+}(jQuery, window));
 
 /* ========================================================================
  * ZUI: menu.js
@@ -4372,9 +4437,9 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     var Menu = function(element, options)
     {
@@ -4404,7 +4469,7 @@
         children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
 
         this.handleFold();
-    }
+    };
 
     Menu.prototype.handleFold = function()
     {
@@ -4417,18 +4482,18 @@
             {
                 $menu.find('.nav-parent.show').find('.nav').slideUp(function()
                 {
-                    $(this).closest('.nav-parent').removeClass('show')
+                    $(this).closest('.nav-parent').removeClass('show');
                 });
                 $menu.find('.icon-rotate-90').removeClass('icon-rotate-90');
             }
 
-            var li = $(this).closest('.nav-parent');;
+            var li = $(this).closest('.nav-parent');
             if (li.hasClass('show'))
             {
                 li.find('.icon-rotate-90').removeClass('icon-rotate-90');
                 li.find('.nav').slideUp(function()
                 {
-                    $(this).closest('.nav-parent').removeClass('show')
+                    $(this).closest('.nav-parent').removeClass('show');
                 });
             }
             else
@@ -4436,14 +4501,14 @@
                 li.find('.nav-parent-fold-icon').addClass('icon-rotate-90');
                 li.find('.nav').slideDown(function()
                 {
-                    $(this).closest('.nav-parent').addClass('show')
+                    $(this).closest('.nav-parent').addClass('show');
                 });
             }
 
             event.preventDefault();
             return false;
         });
-    }
+    };
 
     $.fn.menu = function(option)
     {
@@ -4456,7 +4521,7 @@
             if (!data) $this.data('zui.menu', (data = new Menu(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.menu.Constructor = Menu;
@@ -4465,7 +4530,7 @@
     {
         $('[data-toggle="menu"]').menu();
     });
-}(jQuery);
+}(jQuery));
 
 /* ========================================================================
  * bootbox.js [master branch]
@@ -4481,7 +4546,7 @@
 // @see https://github.com/makeusabrew/bootbox/issues/186
 (function(root, factory){
 
-    "use strict";
+    'use strict';
     if (typeof define === "function" && define.amd)
     {
         // AMD. Register as an anonymous module.
@@ -4503,7 +4568,7 @@
 }(this, function init($, undefined)
 {
 
-    "use strict";
+    'use strict';
 
     // the base DOM structure needed to create a modal
     var templates = {
@@ -5379,7 +5444,7 @@
 
 + function($, Math)
 {
-    "use strict";
+    'use strict';
 
     var Dashboard = function(element, options)
     {
@@ -5666,9 +5731,9 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     if (!$.fn.droppable) throw new Error('droppable requires for boards');
 
@@ -5709,6 +5774,7 @@
 
     Boards.prototype.getLang = function()
     {
+        var config = window.config;
         if (!this.options.lang)
         {
             if (typeof(config) != 'undefined' && config.clientLang)
@@ -5788,14 +5854,15 @@
             {
                 if (e.isNew)
                 {
-                    if (setting.hasOwnProperty('drop') && $.isFunction(setting['drop']))
+                    var DROP = 'drop';
+                    if (setting.hasOwnProperty(DROP) && $.isFunction(setting[DROP]))
                     {
-                        setting['drop'](e);
+                        setting[DROP](e);
                     }
                     e.element.insertBefore(e.target);
                 }
             },
-            finish: function(e)
+            finish: function()
             {
                 $boards.removeClass('dragging').removeClass('drop-in').find('.board.drop-in').removeClass('drop-in');
             }
@@ -5813,7 +5880,7 @@
             if (!data) $this.data('zui.boards', (data = new Boards(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.boards.Constructor = Boards;
@@ -5822,7 +5889,7 @@
     {
         $('[data-toggle="boards"]').boards();
     });
-}(jQuery);
+}(jQuery));
 
 /* ========================================================================
  * ZUI: datatable.js
@@ -5832,9 +5899,9 @@
  * ======================================================================== */
 
 
-+ function($, window)
+(function($)
 {
-    "use strict";
+    'use strict';
 
     var name = 'zui.datatable';
 
@@ -5843,8 +5910,10 @@
         this.name = name;
         this.$ = $(element);
         this.isTable = (this.$[0].tagName === 'TABLE');
+        this.firstShow = true;
         if (this.isTable)
         {
+            this.$table = this.$;
             this.id = 'datatable-' + (this.$.attr('id') || $.uuid());
         }
         else
@@ -5872,6 +5941,7 @@
         checkable: false, // added check icon to the head of rows
         checkByClickRow: true, // change check status by click anywhere on a row
         checkedClass: 'active', // apply CSS class to an checked row
+        checkboxName: null,
 
         // Sort options
         sortable: false, // enable sorter
@@ -5882,6 +5952,7 @@
         fixedLeftWidth: '30%', // set left width after first render
         fixedRightWidth: '30%', // set right width after first render
         flexHeadDrag: true, // scroll flexarea by drag header
+        scrollPos: 'in', // scroll bar position: 'out' | 'in'
 
         // hover effection
         rowHover: true, // apply hover effection to row
@@ -5900,8 +5971,8 @@
     // Get options
     DataTable.prototype.getOptions = function(options)
     {
-        var $e = this.$,
-            options = $.extend(
+        var $e = this.$;
+        options = $.extend(
             {}, DataTable.DEFAULTS, this.$.data(), options);
 
         options.tableClass = options.tableClass || '';
@@ -5937,9 +6008,27 @@
     DataTable.prototype.load = function(data)
     {
         var options = this.options,
-            $t = this.$;
+            cols;
 
-        data = data || options.data;
+        if($.isPlainObject(data))
+        {
+            this.data = data;
+        }
+        else if(typeof data === 'string')
+        {
+            var $table = $(data);
+            if($table.length)
+            {
+                this.$table = $table.first();
+                this.$table.data(name, this);
+                this.isTable = true;
+            }
+            data = null;
+        }
+        else
+        {
+            data = options.data;
+        }
 
         if (!data)
         {
@@ -5949,9 +6038,9 @@
                     cols: [],
                     rows: []
                 };
-                var cols = data.cols,
-                    rows = data.rows,
-                    $th, $tr, $td, row;
+                cols = data.cols;
+                var rows = data.rows,
+                    $th, $tr, $td, row, $t = this.$table;
 
                 $t.find('thead > tr:first').children('th').each(function()
                 {
@@ -5964,6 +6053,7 @@
                         cssClass: $th.attr('class'),
                         css: $th.attr('style'),
                         type: 'string',
+                        ignore: $th.hasClass('ignore'),
                         sort: !$th.hasClass('sort-disabled')
                     }, $th.data()));
                 });
@@ -6009,7 +6099,7 @@
         data.flexStart = -1;
         data.flexEnd = -1;
 
-        var cols = data.cols;
+        cols = data.cols;
         data.colsLength = cols.length;
         for (var i = 0; i < data.colsLength; ++i)
         {
@@ -6025,20 +6115,20 @@
             }
         }
 
-        if (data.flexStart === 0 && data.flexEnd === cols.length)
+        if (data.flexStart === 0 && data.flexEnd === data.colsLength)
         {
             data.flexStart = -1;
             data.flexEnd = -1;
         }
 
         data.flexArea = data.flexStart >= 0;
-        data.fixedRight = data.flexEnd >= 0 && data.flexEnd < (cols.length - 1);
+        data.fixedRight = data.flexEnd >= 0 && data.flexEnd < (data.colsLength - 1);
         data.fixedLeft = data.flexStart > 0;
         if (data.flexStart < 0 && data.flexEnd < 0)
         {
             data.fixedLeft = true;
-            data.flexStart = cols.length;
-            data.flexEnd = cols.length;
+            data.flexStart = data.colsLength;
+            data.flexEnd = data.colsLength;
         }
 
         this.data = data;
@@ -6068,7 +6158,7 @@
             dataRowSpan = '<div class="datatable-rows-span datatable-span"><div class="datatable-wrapper"><table class="table"></table></div></div>',
             dataHeadSpan = '<div class="datatable-head-span datatable-span"><div class="datatable-wrapper"><table class="table"><thead></thead></table></div></div>';
 
-        $datatable.empty();
+        $datatable.children('.datatable-head, .datatable-rows').remove();
 
         // Set css class to datatable by options
         $datatable.toggleClass('sortable', options.sortable);
@@ -6086,6 +6176,12 @@
         {
             col = cols[i];
             $tr = i < data.flexStart ? $left : ((i >= data.flexStart && i <= data.flexEnd) ? $flex : $right);
+            if(i === 0 && checkable)
+            {
+                $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
+            }
+            if(col.ignore) continue;
+
             $th = $('<th/>');
 
             // set sort class
@@ -6098,15 +6194,11 @@
                .html(col.text)
                .attr(
                 {
-                    "data-index" : i,
-                    "data-type"  : col.type,
+                    'data-index' : i,
+                    'data-type'  : col.type,
                     style        : col.css
                 });
 
-            if(i === 0 && checkable)
-            {
-                $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
-            }
 
             $tr.append($th);
         }
@@ -6154,6 +6246,7 @@
             $rightRow,
             // $tr,
             $td,
+            $cTd,
             row,
             rowLen = rows.length,
             rowCol,
@@ -6178,8 +6271,8 @@
                    .toggleClass(options.checkedClass, row.checked)
                    .attr(
                     {
-                        "data-index" : r,
-                        "data-id"    : row.id
+                        'data-index' : r,
+                        'data-id'    : row.id
                     });
             $flexRow = $leftRow.clone();
             $rightRow = $leftRow.clone();
@@ -6189,6 +6282,17 @@
             {
                 rowCol = row.data[i];
                 $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
+                if(i === 0 && checkable)
+                {
+                    $cTd = $('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
+                    if(options.checkboxName)
+                    {
+                        $cTd.append('<input class="hide" type="checkbox" name="' + options.checkboxName + '" value="' + row.id + '">');
+                    }
+                    $tr.append($cTd);
+                }
+
+                if(cols[i].ignore) continue;
 
                 // format row column
                 if (!$.isPlainObject(rowCol))
@@ -6209,17 +6313,13 @@
                    .addClass(cols[i].colClass)
                    .attr(
                     {
-                        "data-row"   : r,
-                        "data-index" : i,
-                        "data-flex"  : false,
-                        "data-type"  : cols[i].type,
+                        'data-row'   : r,
+                        'data-index' : i,
+                        'data-flex'  : false,
+                        'data-type'  : cols[i].type,
                         style        : rowCol.css
                     });
 
-                if(i === 0 && checkable)
-                {
-                    $tr.append('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
-                }
 
                 $tr.append($td);
             }
@@ -6244,7 +6344,7 @@
             $rowSpan = $(dataRowSpan);
             $rowSpan.addClass('flexarea')
                     .find('.datatable-wrapper')
-                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div><div class="scroll-slide"><div class="bar"></div></div>')
+                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
                     .find('table')
                     .addClass(options.tableClass)
                     .append($flex);
@@ -6261,18 +6361,33 @@
         }
         $datatable.append($rows);
 
+        if(data.flexArea)
+        {
+            $datatable.append('<div class="scroll-wrapper"><div class="scroll-slide scroll-pos-' + options.scrollPos + '"><div class="bar"></div></div></div>');
+        }
+
+        var $oldFooter = $datatable.children('.datatable-footer').detach();
         if (data.footer)
         {
             $datatable.append($('<div class="datatable-footer"/>').append(data.footer));
+            data.footer = null;
+        }
+        else if($oldFooter.length)
+        {
+            $datatable.append($oldFooter);
         }
 
-        that.$datatable = $datatable;
-        if (that.isTable) that.$.attr('data-datatable-id', this.id).hide().after($datatable);
+        that.$datatable = $datatable.data(name, that);
+        if (that.isTable && that.firstShow)
+        {
+            that.$table.attr('data-datatable-id', this.id).hide().after($datatable);
+            that.firstShow = false;
+        }
 
         that.bindEvents();
-        this.refreshSize();
+        that.refreshSize();
 
-        this.callEvent('render');
+        that.callEvent('render');
     };
 
     // Bind global events
@@ -6281,14 +6396,15 @@
         var that       = this,
             data       = this.data,
             options    = this.options,
+            store      = window.store,
             $datatable = this.$datatable;
 
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
         var $rowsSpans = that.$rowsSpans = $datatable.children('.datatable-rows').children('.datatable-rows-span');
         var $headSpans = that.$headSpans = $datatable.children('.datatable-head').children('.datatable-head-span');
-        var $cells     = that.$cells     = that.$dataSpans.find('td, th');
+        var $cells     = that.$cells     = $dataSpans.find('td, th');
         var $dataCells = that.$dataCells = $cells.filter('td');
-        var $headCells = that.$headCells = $cells.filter('th');
+        that.$headCells = $cells.filter('th');
         var $rows      = that.$rows      = that.$rowsSpans.find('.table > tbody > tr');
 
         // handle row hover events
@@ -6326,8 +6442,11 @@
         if(data.flexArea)
         {
             var $scrollbar = $datatable.find('.scroll-slide'),
-                $flexArea = $datatable.find('.datatable-span.flexarea .table'),
-                $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
+                // $flexArea = $datatable.find('.datatable-span.flexarea .table'),
+                $flexArea = $datatable.find('.datatable-span.flexarea'),
+                $fixedLeft = $datatable.find('.datatable-span.fixed-left'),
+                // $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
+                $flexTable = $datatable.find('.datatable-span.flexarea .table');
             var $bar = $scrollbar.children('.bar'),
                 flexWidth,
                 scrollWidth,
@@ -6353,7 +6472,7 @@
                 }
                 $bar.css('left', barLeft);
                 left = 0 - Math.floor((tableWidth - flexWidth) * barLeft / (flexWidth - scrollWidth));
-                $flexArea.css('left', left);
+                $flexTable.css('left', left);
                 lastBarLeft = barLeft;
 
                 $datatable.toggleClass('scrolled-in', barLeft > 2)
@@ -6363,7 +6482,8 @@
             };
             var resizeScrollbar = function()
             {
-                flexWidth = $scrollbar.width();
+                flexWidth = $flexArea.width();
+                $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
                 tableWidth = $flexTable.width();
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
                 $bar.css('width', scrollWidth);
@@ -6381,8 +6501,8 @@
                     srollTable(barLeft, true);
                 }
             };
-            $scrollbar.resize(resizeScrollbar); // todo: unuseful?
-            $flexTable.resize(resizeScrollbar);
+            // $scrollbar.resize(resizeScrollbar); // todo: unuseful?
+            $flexArea.resize(resizeScrollbar);
             resizeScrollbar();
 
             var dragOptions = {
@@ -6421,11 +6541,16 @@
             {
                 var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
                 var $checkedRows = $checkRows.filter('.' + checkedClass);
+                $checkRows.find('.check-row input:checkbox').prop('checked', false);
                 var checkedStatus = {
                     checkedAll: $checkRows.length === $checkedRows.length && $checkedRows.length > 0,
                     checks: $checkedRows.map(function()
                     {
                         rowId = $(this).data('id');
+                        if(options.checkboxName)
+                        {
+                            $(this).find('.check-row input:checkbox').prop('checked', true);
+                        }
                         return rowId;
                     }).toArray()
                 };
@@ -6479,10 +6604,10 @@
                         $rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
                     });
                 }
-                if (checkedStatus.checks.length) that.callEvent('checksChanged',
+                if (checkedStatus.checks.length)
                 {
-                    checks: checkedStatus
-                });
+                    syncChecks();
+                }
             }
         }
 
@@ -6500,6 +6625,7 @@
     // Sort table
     DataTable.prototype.sortTable = function($th)
     {
+        var store = window.store;
         var sorterStoreName = this.id + '_datatableSorter';
         var sorter = store.pageGet(sorterStoreName);
 
@@ -6527,7 +6653,6 @@
             $headCells = this.$headCells,
             sortUp,
             type,
-            sortCol,
             index;
 
         sortUp = !$th.hasClass('sort-up');
@@ -6602,7 +6727,7 @@
             });
         });
 
-        var sorter = {
+        sorter = {
             index: index,
             type: sortUp ? 'up' : 'down'
         };
@@ -6622,7 +6747,8 @@
         var $datatable = this.$datatable,
             options = this.options,
             rows = this.data.rows,
-            cols = this.data.cols;
+            cols = this.data.cols,
+            i;
 
         $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
         $datatable.find('.datatable-span.fixed-right').css('width', options.fixedRightWidth);
@@ -6642,7 +6768,7 @@
             $headCells = this.$headCells;
 
         // set width of data cells
-        for (var i = 0; i < cols.length; ++i)
+        for (i = 0; i < cols.length; ++i)
         {
             $cells.filter('[data-index="' + i + '"]').css('width', cols[i].width);
         }
@@ -6652,7 +6778,7 @@
 
         // set height of data cells
         var $rowCells;
-        for (var i = 0; i < rows.length; ++i)
+        for (i = 0; i < rows.length; ++i)
         {
             $rowCells = $dataCells.filter('[data-row="' + i + '"]');
             $rowCells.height(findMaxHeight($rowCells));
@@ -6663,7 +6789,7 @@
     DataTable.prototype.callEvent = function(name, params)
     {
         var result = this.$.callEvent(name + '.' + this.name, params, this).result;
-        return !(result != undefined && (!result));
+        return !(result !== undefined && (!result));
     };
 
     $.fn.datatable = function(option)
@@ -6681,4 +6807,4 @@
     };
 
     $.fn.datatable.Constructor = DataTable;
-}(jQuery, window);
+}(jQuery));

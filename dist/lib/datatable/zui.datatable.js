@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0-beta - 2014-10-31
+ * ZUI - v1.2.0 - 2014-11-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -24,8 +24,10 @@
         this.name = name;
         this.$ = $(element);
         this.isTable = (this.$[0].tagName === 'TABLE');
+        this.firstShow = true;
         if (this.isTable)
         {
+            this.$table = this.$;
             this.id = 'datatable-' + (this.$.attr('id') || $.uuid());
         }
         else
@@ -53,6 +55,7 @@
         checkable: false, // added check icon to the head of rows
         checkByClickRow: true, // change check status by click anywhere on a row
         checkedClass: 'active', // apply CSS class to an checked row
+        checkboxName: null,
 
         // Sort options
         sortable: false, // enable sorter
@@ -119,10 +122,27 @@
     DataTable.prototype.load = function(data)
     {
         var options = this.options,
-            $t = this.$,
             cols;
 
-        data = data || options.data;
+        if($.isPlainObject(data))
+        {
+            this.data = data;
+        }
+        else if(typeof data === 'string')
+        {
+            var $table = $(data);
+            if($table.length)
+            {
+                this.$table = $table.first();
+                this.$table.data(name, this);
+                this.isTable = true;
+            }
+            data = null;
+        }
+        else
+        {
+            data = options.data;
+        }
 
         if (!data)
         {
@@ -134,7 +154,7 @@
                 };
                 cols = data.cols;
                 var rows = data.rows,
-                    $th, $tr, $td, row;
+                    $th, $tr, $td, row, $t = this.$table;
 
                 $t.find('thead > tr:first').children('th').each(function()
                 {
@@ -147,6 +167,7 @@
                         cssClass: $th.attr('class'),
                         css: $th.attr('style'),
                         type: 'string',
+                        ignore: $th.hasClass('ignore'),
                         sort: !$th.hasClass('sort-disabled')
                     }, $th.data()));
                 });
@@ -251,7 +272,7 @@
             dataRowSpan = '<div class="datatable-rows-span datatable-span"><div class="datatable-wrapper"><table class="table"></table></div></div>',
             dataHeadSpan = '<div class="datatable-head-span datatable-span"><div class="datatable-wrapper"><table class="table"><thead></thead></table></div></div>';
 
-        $datatable.empty();
+        $datatable.children('.datatable-head, .datatable-rows').remove();
 
         // Set css class to datatable by options
         $datatable.toggleClass('sortable', options.sortable);
@@ -269,6 +290,12 @@
         {
             col = cols[i];
             $tr = i < data.flexStart ? $left : ((i >= data.flexStart && i <= data.flexEnd) ? $flex : $right);
+            if(i === 0 && checkable)
+            {
+                $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
+            }
+            if(col.ignore) continue;
+
             $th = $('<th/>');
 
             // set sort class
@@ -286,10 +313,6 @@
                     style        : col.css
                 });
 
-            if(i === 0 && checkable)
-            {
-                $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
-            }
 
             $tr.append($th);
         }
@@ -337,6 +360,7 @@
             $rightRow,
             // $tr,
             $td,
+            $cTd,
             row,
             rowLen = rows.length,
             rowCol,
@@ -372,6 +396,17 @@
             {
                 rowCol = row.data[i];
                 $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
+                if(i === 0 && checkable)
+                {
+                    $cTd = $('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
+                    if(options.checkboxName)
+                    {
+                        $cTd.append('<input class="hide" type="checkbox" name="' + options.checkboxName + '" value="' + row.id + '">');
+                    }
+                    $tr.append($cTd);
+                }
+
+                if(cols[i].ignore) continue;
 
                 // format row column
                 if (!$.isPlainObject(rowCol))
@@ -399,10 +434,6 @@
                         style        : rowCol.css
                     });
 
-                if(i === 0 && checkable)
-                {
-                    $tr.append('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
-                }
 
                 $tr.append($td);
             }
@@ -449,18 +480,28 @@
             $datatable.append('<div class="scroll-wrapper"><div class="scroll-slide scroll-pos-' + options.scrollPos + '"><div class="bar"></div></div></div>');
         }
 
+        var $oldFooter = $datatable.children('.datatable-footer').detach();
         if (data.footer)
         {
             $datatable.append($('<div class="datatable-footer"/>').append(data.footer));
+            data.footer = null;
+        }
+        else if($oldFooter.length)
+        {
+            $datatable.append($oldFooter);
         }
 
-        that.$datatable = $datatable;
-        if (that.isTable) that.$.attr('data-datatable-id', this.id).hide().after($datatable);
+        that.$datatable = $datatable.data(name, that);
+        if (that.isTable && that.firstShow)
+        {
+            that.$table.attr('data-datatable-id', this.id).hide().after($datatable);
+            that.firstShow = false;
+        }
 
         that.bindEvents();
-        this.refreshSize();
+        that.refreshSize();
 
-        this.callEvent('render');
+        that.callEvent('render');
     };
 
     // Bind global events
@@ -574,8 +615,8 @@
                     srollTable(barLeft, true);
                 }
             };
-            $scrollbar.resize(resizeScrollbar); // todo: unuseful?
-            $flexTable.resize(resizeScrollbar);
+            // $scrollbar.resize(resizeScrollbar); // todo: unuseful?
+            $flexArea.resize(resizeScrollbar);
             resizeScrollbar();
 
             var dragOptions = {
@@ -614,11 +655,16 @@
             {
                 var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
                 var $checkedRows = $checkRows.filter('.' + checkedClass);
+                $checkRows.find('.check-row input:checkbox').prop('checked', false);
                 var checkedStatus = {
                     checkedAll: $checkRows.length === $checkedRows.length && $checkedRows.length > 0,
                     checks: $checkedRows.map(function()
                     {
                         rowId = $(this).data('id');
+                        if(options.checkboxName)
+                        {
+                            $(this).find('.check-row input:checkbox').prop('checked', true);
+                        }
                         return rowId;
                     }).toArray()
                 };
@@ -672,10 +718,10 @@
                         $rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
                     });
                 }
-                if (checkedStatus.checks.length) that.callEvent('checksChanged',
+                if (checkedStatus.checks.length)
                 {
-                    checks: checkedStatus
-                });
+                    syncChecks();
+                }
             }
         }
 
@@ -875,4 +921,4 @@
     };
 
     $.fn.datatable.Constructor = DataTable;
-}(window.jQuery));
+}(jQuery));

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0-beta - 2014-10-30
+ * ZUI - v1.2.0 - 2014-11-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -15,15 +15,21 @@
  * ======================================================================== */
 
 
-+ function($, window, Math)
+(function($, window, Math)
 {
-    "use strict";
+    'use strict';
+
+    /* Check jquery */
+    if(typeof($) === 'undefined')
+    {
+      throw new Error('ZUI requires jQuery');
+    }
 
     $.extend(
     {
         uuid: function()
         {
-            var d = (new Date).getTime();
+            var d = (new Date()).getTime();
             while (d < 10000000000000000)
             {
                 d *= 10;
@@ -33,7 +39,7 @@
 
         getPropertyCount: function(obj)
         {
-            if (typeof(obj) != 'object' || obj == null) return 0;
+            if (typeof(obj) !== 'object' || obj === null) return 0;
             return Object.getOwnPropertyNames(obj).length;
         },
 
@@ -46,7 +52,7 @@
                     func = $.proxy(func, proxy);
                 }
                 event.result = func(event);
-                return !(event.result != undefined && (!event.result));
+                return !(event.result !== undefined && (!event.result));
             }
             return 1;
         },
@@ -82,7 +88,7 @@
         }
         var e = $.Event(name, event);
 
-        var result = $this.trigger(e);
+        // var result = $this.trigger(e);
 
         if ((typeof model === 'undefined') && dotIndex > 0)
         {
@@ -99,7 +105,7 @@
         }
         return e;
     };
-}(jQuery, window, Math);
+}(jQuery, window, Math));
 
 /* ========================================================================
  * Bootstrap: transition.js v3.2.0
@@ -182,7 +188,7 @@
 
 
 + function($){
-    "use strict";
+    'use strict';
 
     // COLLAPSE PUBLIC CLASS DEFINITION
     // ================================
@@ -358,8 +364,9 @@
  * ======================================================================== */
 
 
-+ function(window, $)
+(function(window, $)
 {
+    'use strict';
     var desktopLg = 1200,
         desktop = 992,
         tablet = 768,
@@ -387,7 +394,7 @@
 
     $window.resize(resetCssClass);
     resetCssClass();
-}(window, jQuery);
+}(window, jQuery));
 
 /* ========================================================================
  * ZUI: browser.js
@@ -397,13 +404,13 @@
  * ======================================================================== */
 
 
-+ function(window, $)
+(function(window, $)
 {
-    "use strict";
+    'use strict';
     var browseHappyTip = {
-        "zh_cn": '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
-        "zh_tw": '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
-        "en": 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="http://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
+        'zh_cn': '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'zh_tw': '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'en': 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="http://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
     };
 
     // The browser modal class
@@ -487,7 +494,7 @@
             window.browser.tip();
         }
     });
-}(window, jQuery);
+}(window, jQuery));
 
 /* ========================================================================
  * ZUI: date.js
@@ -516,13 +523,13 @@
     Date.prototype.format = function(format)
     {
         var date = {
-            "M+": this.getMonth() + 1,
-            "d+": this.getDate(),
-            "h+": this.getHours(),
-            "m+": this.getMinutes(),
-            "s+": this.getSeconds(),
-            "q+": Math.floor((this.getMonth() + 3) / 3),
-            "S+": this.getMilliseconds()
+            'M+': this.getMonth() + 1,
+            'd+': this.getDate(),
+            'h+': this.getHours(),
+            'm+': this.getMinutes(),
+            's+': this.getSeconds(),
+            'q+': Math.floor((this.getMonth() + 3) / 3),
+            'S+': this.getMilliseconds()
         };
         if (/(y+)/i.test(format))
         {
@@ -530,9 +537,9 @@
         }
         for (var k in date)
         {
-            if (new RegExp("(" + k + ")").test(format))
+            if (new RegExp('(' + k + ')').test(format))
             {
-                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ('00' + date[k]).substr(('' + date[k]).length));
             }
         }
         return format;
@@ -745,6 +752,8 @@
 
 (function()
 {
+    'use strict';
+
     String.prototype.format = function(args)
     {
         var result = this;
@@ -755,7 +764,7 @@
             {
                 for (var key in args)
                 {
-                    if (args[key] != undefined)
+                    if (args[key] !== undefined)
                     {
                         reg = new RegExp("({" + key + "})", "g");
                         result = result.replace(reg, args[key]);
@@ -766,7 +775,7 @@
             {
                 for (var i = 0; i < arguments.length; i++)
                 {
-                    if (arguments[i] != undefined)
+                    if (arguments[i] !== undefined)
                     {
                         reg = new RegExp("({[" + i + "]})", "g");
                         result = result.replace(reg, arguments[i]);
@@ -786,7 +795,7 @@
      */
     String.prototype.isNum = function(s)
     {
-        if (s != null)
+        if (s !== null)
         {
             var r, re;
             re = /\d*/i;
@@ -794,7 +803,7 @@
             return (r == s) ? true : false;
         }
         return false;
-    }
+    };
 })();
 
 /*!
@@ -989,7 +998,7 @@
 
       function new_handler( e, w, h ) {
         var elem = $(this),
-          data = $.data( this, str_data );
+          data = $.data( this, str_data ) || {};
 
         // If called from the polling loop, w and h will be passed in as
         // arguments. If called manually, via .trigger( 'resize' ) or .resize(),
@@ -1052,9 +1061,9 @@
  * ======================================================================== */
 
 
-+ function(window, $)
+(function(window, $)
 {
-    "use strict";
+    'use strict';
 
     var lsName = 'localStorage';
     var storage = window[lsName],
@@ -1081,14 +1090,14 @@
         }
         else
         {
-            var forDeletes = [];
-            for (var i in this.page)
+            var forDeletes = [], i;
+            for (i in this.page)
             {
                 var val = this.page[i];
                 if (val === null)
                     forDeletes.push(i);
             }
-            for (var i = forDeletes.length - 1; i >= 0; i--)
+            for (i = forDeletes.length - 1; i >= 0; i--)
             {
                 delete this.page[forDeletes[i]];
             }
@@ -1261,7 +1270,7 @@
         window.store = old;
         return store;
     };
-}(window, jQuery);
+}(window, jQuery));
 
 /* ========================================================================
  * Bootstrap: tab.js v3.0.0
@@ -1283,7 +1292,7 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) { 'use strict';
 
   // TAB CLASS DEFINITION
   // ====================
@@ -1772,11 +1781,11 @@
  * ======================================================================== */
 
 
-+ function($)
+(function($)
 {
-    "use strict";
+    'use strict';
 
-    if (!$.fn.modal) throw new Error('Modal trigger requires modal.js')
+    if (!$.fn.modal) throw new Error('Modal trigger requires modal.js');
 
     // ONCE MODAL CLASS DEFINITION
     // ======================
@@ -1784,7 +1793,6 @@
     {
         options = $.extend(
         {}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
-        this.$modal;
         this.isShown = false;
         this.options = options;
         this.id = $.uuid();
@@ -1873,15 +1881,14 @@
         $modal.on('shown.zui.modal', function()
         {
             that.isShown = true;
-        })
-        $modal.on('hidden.zui.modal', function()
+        }).on('hidden.zui.modal', function()
         {
             that.isShown = false;
-        })
+        });
 
         this.$modal = $modal;
         this.$dialog = $modal.find('.modal-dialog');
-    }
+    };
 
     ModalTrigger.prototype.show = function(option)
     {
@@ -2021,7 +2028,7 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $frameBody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
+                            $framebody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
                         }
 
                         frame$.extend(
@@ -2204,7 +2211,7 @@
             e.preventDefault();
         }
     });
-}(window.jQuery);
+}(window.jQuery));
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
@@ -2227,7 +2234,7 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) { 'use strict';
 
   // TOOLTIP PUBLIC CLASS DEFINITION
   // ===============================
@@ -2613,7 +2620,7 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) { 'use strict';
 
   // POPOVER PUBLIC CLASS DEFINITION
   // ===============================
@@ -2655,7 +2662,7 @@
       return
     }
 
-    
+
     var title   = this.getTitle()
     var content = this.getContent()
 
@@ -2754,7 +2761,7 @@
 
 
 + function($){
-    "use strict";
+    'use strict';
 
     // DROPDOWN CLASS DEFINITION
     // =========================
@@ -2929,7 +2936,7 @@
 
 
 + function($){
-    "use strict";
+    'use strict';
 
     // CAROUSEL CLASS DEFINITION
     // =========================

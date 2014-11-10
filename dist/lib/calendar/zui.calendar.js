@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0-beta - 2014-10-30
+ * ZUI - v1.2.0 - 2014-11-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -13,9 +13,9 @@
  * ======================================================================== */
 
 
-+ function($, window)
+(function($, window)
 {
-    "use strict";
+    'use strict';
     var name = 'zui.calendar';
 
     var getNearbyLastWeekDay = function(date, lastWeek)
@@ -39,23 +39,23 @@
             var d = date.clone();
             d.setDate(1);
             return d;
-        },
-
-        getLastDayOfMonth = function(date)
-        {
-            var d = date.clone();
-            var month = d.getMonth();
-            d.setDate(28);
-
-            while (d.getMonth() == month)
-            {
-                d.addDays(1);
-            }
-
-            d.addDays(-1);
-
-            return d;
         };
+
+        // getLastDayOfMonth = function(date)
+        // {
+        //     var d = date.clone();
+        //     var month = d.getMonth();
+        //     d.setDate(28);
+
+        //     while (d.getMonth() == month)
+        //     {
+        //         d.addDays(1);
+        //     }
+
+        //     d.addDays(-1);
+
+        //     return d;
+        // };
 
     var Calendar = function(element, options)
     {
@@ -177,7 +177,7 @@
         });
 
         // this.events = events;
-    }
+    };
 
     Calendar.prototype.bindEvents = function()
     {
@@ -287,10 +287,10 @@
                 return events[i];
             }
         }
-        return null
+        return null;
     };
 
-    Calendar.prototype.updateEvents = function(updates)
+    Calendar.prototype.updateEvents = function(events)
     {
         var eventsParams = {
             data: this.data,
@@ -464,6 +464,7 @@
             self = this,
             lang = this.lang,
             date = this.date,
+            i,
             $views = this.$views,
             $e = this.$;
 
@@ -476,12 +477,12 @@
                 $monthDays = $view.find('.month-days'),
                 $tr;
 
-            for (var i = 0; i < 7; i++)
+            for (i = 0; i < 7; i++)
             {
                 $weekHead.append('<th>' + lang.weekNames[i] + '</th>');
             }
 
-            for (var i = 0; i < 6; i++)
+            for (i = 0; i < 6; i++)
             {
                 $tr = $('<tr class="week-days"></tr>');
                 for (var j = 0; j < 7; j++)
@@ -498,7 +499,7 @@
         var $weeks = $view.find('.week-days'),
             $days = $view.find('.day'),
             firstDayOfMonth = getFirstDayOfMonth(date),
-            lastDayOfMonth = getLastDayOfMonth(date),
+            // lastDayOfMonth = getLastDayOfMonth(date),
             $week,
             $day,
             $cell,
@@ -509,7 +510,7 @@
         var firstDay = getNearbyLastWeekDay(firstDayOfMonth),
             thisYear = date.getFullYear(),
             thisMonth = date.getMonth(),
-            thisDay = date.getDate(),
+            // thisDay = date.getDate(),
             todayMonth = today.getMonth(),
             todayYear = today.getFullYear(),
             todayDate = today.getDate();
@@ -550,7 +551,7 @@
 
         var $event,
             cal,
-            events = this.events,
+            // events = this.events,
             calendars = this.calendars;
         $.each(this.events, function(index, e)
         {
@@ -584,7 +585,7 @@
                 target: $days,
                 container: $view,
                 flex: true,
-                start: function(e)
+                start: function()
                 {
                     $e.addClass('event-dragging');
                 },
@@ -637,7 +638,7 @@
 
                     }
                 },
-                finish: function(e)
+                finish: function()
                 {
                     $e.removeClass('event-dragging');
                 }
@@ -648,7 +649,7 @@
     Calendar.prototype.callEvent = function(name, params)
     {
         var result = this.$.callEvent(name + '.' + this.name, params, this);
-        return !(result.result != undefined && (!result.result));
+        return !(result.result !== undefined && (!result.result));
     };
 
     $.fn.calendar = function(option)
@@ -666,4 +667,4 @@
     };
 
     $.fn.calendar.Constructor = Calendar;
-}(jQuery, window);
+}(jQuery, window));

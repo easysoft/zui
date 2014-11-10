@@ -1,9 +1,11 @@
 /*!
- * ZUI - v1.2.0-beta - 2014-10-30
+ * ZUI - v1.2.0 - 2014-11-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
  */
+
+/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
 
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
@@ -735,6 +737,10 @@ fieldset {
 }
 textarea {
   resize: vertical;
+}
+ol,
+ul {
+  padding-left: 20px;
 }
 .container {
   padding-right: 10px;

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0-beta - 2014-10-30
+ * ZUI - v1.2.0 - 2014-11-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -26,7 +26,7 @@
         Array.prototype.forEach = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != "function")
+            if (typeof fun != 'function')
                 throw new TypeError();
 
             var thisp = arguments[1];
@@ -48,7 +48,7 @@
     //     Array.prototype.each = function(fun /*, thisp*/ )
     //     {
     //         var len = this.length;
-    //         if (typeof fun != "function")
+    //         if (typeof fun != 'function')
     //             throw new TypeError();
 
     //         var thisp = arguments[1],
@@ -119,7 +119,7 @@
         Array.prototype.every = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != "function")
+            if (typeof fun != 'function')
                 throw new TypeError();
 
             var thisp = arguments[1];
@@ -142,7 +142,7 @@
         Array.prototype.filter = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != "function")
+            if (typeof fun != 'function')
                 throw new TypeError();
 
             var res = [];
@@ -193,7 +193,7 @@
         Array.prototype.map = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != "function")
+            if (typeof fun != 'function')
                 throw new TypeError();
 
             var res = new Array(len);
