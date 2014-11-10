@@ -1221,6 +1221,17 @@
       "ver": "1.2.0",
       "dpds": ["basic", "jqueryex", "resize", "string", "date", "table", "droppable"]
     },
+    "mindmap":
+    {
+      "name": "思维导图",
+      "src":
+      {
+        "less": ["src/less/views/mindmap.less"],
+        "js": ["src/js/mindmap.js"]
+      },
+      "ver": "1.2.0",
+      "dpds": ["basic", "jqueryex", "resize", "string", "date", "droppable"]
+    },
     "theme":
     {
       "name": "默认主题",
@@ -1300,8 +1311,17 @@
     {
       "title": "Calendar",
       "dest": "dist/lib/calendar/",
-      "filename": "calendar",
+      "filename": "zui.calendar",
       "includes": ["calendar"],
+      "basicDpds": ["setting"],
+      "ignoreDpds": true
+    },
+    "mindmap":
+    {
+      "title": "Mindmap",
+      "dest": "dist/lib/mindmap/",
+      "filename": "zui.mindmap",
+      "includes": ["mindmap"],
       "basicDpds": ["setting"],
       "ignoreDpds": true
     },
@@ -1352,7 +1372,7 @@
     {
       "title": "Image cutter",
       "dest": "dist/lib/imgcutter/",
-      "filename": "imgcutter",
+      "filename": "zui.imgcutter",
       "includes": ["imgcutter"],
       "basicDpds": ["setting"],
       "ignoreDpds": true
@@ -1361,7 +1381,7 @@
     {
       "title": "Image cutter",
       "dest": "dist/lib/datatable/",
-      "filename": "datatable",
+      "filename": "zui.datatable",
       "includes": ["datatable"],
       "basicDpds": ["setting", "icons.variables"],
       "ignoreDpds": true
