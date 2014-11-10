@@ -55,20 +55,31 @@
   }
 }
 
-.close-messager
+.messager-actions
 {
   position: absolute;
-  right: 10px;
-  top: 5px;
-  background: none;
-  border: none;
-  color: #fafafa;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 20px;
+  right: 15px;
+  top: 10px;
 
-  &:hover
+  > .action
   {
-    color: #fff;
+    color: #fafafa;
+    color: rgba(255, 255, 255, 0.6);
+    background: none;
+    border: none;
+    text-shadow: none;
+
+    &.close
+    {
+      opacity: 1;
+      font-size: 20px;
+      font-weight: normal;
+    }
+
+    &:hover
+    {
+      color: #fff;
+    }
   }
 }
 

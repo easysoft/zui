@@ -11,88 +11,132 @@
     'use strict';
 
     var id = 0;
-    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content">{message}</div><button class="close-messager">&times;</button></div>';
-
-    function Messager()
+    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content"></div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>';
+    var defaultOptions =
     {
-        this.show = function(message, type, placement, time, parent)
-        {
-            $('.messager').hide();
+        type: 'default',
+        placement: 'top',
+        time: 4000,
+        parent: 'body',
+        // clear: false,
+        icon: null,
+        close: true,
+        fade: true,
+        scale: true
+    };
+    var lastMessager;
 
-            id++;
-            type = type || 'default';
-            time = time || 2000;
-            parent = parent || 'body';
-            placement = placement || 'top';
-            var msg = $(template.format(
+    var Messager = function(message, options)
+    {
+        var that = this;
+        that.id = id++;
+        options = that.options = $.extend({}, defaultOptions, options);
+        that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
+
+        that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
+        if(!options.close)
+        {
+            that.$.find('.close').remove();
+        }
+        else
+        {
+            that.$.on('click', '.close', function()
             {
-                message: message,
-                type: type,
-                placement: placement,
-                id: id
-            })).appendTo(parent);
-            msg.find('.close-messager').click(function()
-            {
-                $(this).closest('.messager').fadeOut();
+                that.hide();
             });
+        }
 
-            if (placement == 'top' || placement == 'bottom')
-            {
-                msg.css('left', ($(parent).width() - msg.width() - 50) / 2);
-            }
+        that.$.find('.messager-content').html(that.message);
 
-            msg.fadeIn();
 
-            setTimeout(function()
-            {
-                $('#messager' + id).fadeOut(function()
-                {
-                    $(this).remove();
-                });
-            }, time);
+        that.$.data('zui.messager', that);
+    };
 
-            return msg;
-        };
+    Messager.prototype.show = function()
+    {
+        var that = this, options = this.options;
 
-        this.primary = function(message, placement, time, parent)
+        if(lastMessager && lastMessager.isShow) lastMessager.hide();
+
+        that.$.appendTo(options.parent).show();
+
+        if (options.placement === 'top' || options.placement === 'bottom')
         {
-            return this.show(message, 'primary', placement, time, parent);
-        };
+            that.$.css('left', ($(options.parent).width() - that.$.width() - 50) / 2);
+        }
 
-        this.success = function(message, placement, time, parent)
+        that.$.addClass('in');
+
+        if(options.time)
         {
-            return this.show('<i class="icon-ok-sign icon"></i> ' + message, 'success', placement, time, parent);
-        };
+            setTimeout(function(){that.hide();}, options.time);
+        }
 
-        this.info = function(message, placement, time, parent)
+        that.isShow = true;
+        lastMessager = that;
+    };
+
+    Messager.prototype.hide = function()
+    {
+        var that = this;
+        if(that.$.hasClass('in'))
         {
-            return this.show('<i class="icon-info-sign icon"></i> ' + message, 'info', placement, time, parent);
-        };
+            that.$.removeClass('in');
+            setTimeout(function(){that.$.remove();}, 200);
+        }
 
-        this.warning = function(message, placement, time, parent)
+        that.isShow = false;
+    };
+
+    $.Messager = Messager;
+    if(!window.Messager) window.Messager = Messager;
+
+    $.showMessage = function(message, options)
+    {
+        if(typeof options === 'string')
         {
-            return this.show('<i class="icon-warning-sign icon"></i>' + message, 'warning', placement, time, parent);
-        };
+            options = {type: options};
+        }
+        var msg = new Messager(message, options);
+        msg.show();
+    };
 
-        this.danger = function(message, placement, time, parent)
+    var getOptions = function(options)
+    {
+        return (typeof options === 'string') ? {placement: options} : options;
+    };
+
+    $.messager =
+    {
+        primary: function(message, options)
         {
-            return this.show('<i class="icon-exclamation-sign icon"></i>' + message, 'danger', placement, time, parent);
-        };
-
-        this.important = function(message, placement, time, parent)
+            $.showMessage(message, $.extend({type: 'primary'}, getOptions(options)));
+        },
+        success: function(message, options)
         {
-            return this.show(message, 'important', placement, time, parent);
-        };
-
-        this.special = function(message, placement, time, parent)
+            $.showMessage(message, $.extend({type: 'success', icon: 'ok-sign'}, getOptions(options)));
+        },
+        info: function(message, options)
         {
-            return this.show(message, 'special', placement, time, parent);
-        };
-    }
+            $.showMessage(message, $.extend({type: 'info', icon: 'info-sign'}, getOptions(options)));
+        },
+        warning: function(message, options)
+        {
+            $.showMessage(message, $.extend({type: 'warning', icon: 'warning-sign'}, getOptions(options)));
+        },
+        danger: function(message, options)
+        {
+            $.showMessage(message, $.extend({type: 'danger', icon: 'exclamation-sign'}, getOptions(options)));
+        },
+        important: function(message, options)
+        {
+            $.showMessage(message, $.extend({type: 'important'}, getOptions(options)));
+        },
+        special: function(message, options)
+        {
+            $.showMessage(message, $.extend({type: 'special'}, getOptions(options)));
+        }
+    };
 
-    var messager = new Messager();
-
-    window.messager = messager;
-
-
+    if(!window.messager) window.messager = $.messager;
 }(jQuery, window));
