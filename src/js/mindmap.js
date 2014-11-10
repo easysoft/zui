@@ -44,6 +44,11 @@
         this.offsetX = 0;
         this.offsetY = 0;
         this.init();
+
+        if(!this.options.hotkeyEnable)
+        {
+            $.messager.show(this.lang.hotkeyDisabled);
+        }
     };
 
     Mindmap.DEFAULTS = {
@@ -658,7 +663,7 @@
 
             nodeData.children.sort(function(nodeA, nodeB)
             {
-                return nodeA.index - nodeB.index
+                return nodeA.index - nodeB.index;
             });
 
             for (var i in nodeData.children)
@@ -914,7 +919,7 @@
 
     Mindmap.prototype.clearCanvasArea = function(nodeData, parent)
     {
-        this.$canvas[0].getContext("2d").clearRect(0, 0, this.width, this.height)
+        this.$canvas[0].getContext("2d").clearRect(0, 0, this.width, this.height);
     };
 
     Mindmap.prototype.draw = function(nodeData, parent)
@@ -1152,7 +1157,7 @@
         var text = $node.find('.text').text();
         if (text != $node.data('origin-text'))
         {
-            if (text == '')
+            if (text === '')
             {
                 $node.find('.text').text('');
             }
@@ -1255,7 +1260,7 @@
                 that.display(e.smallOffset.x, e.smallOffset.y, true);
             }
         });
-    }
+    };
 
     Mindmap.prototype.bindGlobalHotkeys = function()
     {
@@ -1554,7 +1559,7 @@
         }
 
         var node = this.getNodeData(this.activedNode.data('id'));
-        if (node.ui.nextBorther != null)
+        if (node.ui.nextBorther !== null)
         {
             next = this.getNodeData(node.ui.nextBorther);
         }
@@ -1578,7 +1583,7 @@
         }
 
         var node = this.getNodeData(this.activedNode.data('id'));
-        if (node.ui.leftBorther != null)
+        if (node.ui.leftBorther !== null)
         {
             left = this.getNodeData(node.ui.leftBorther);
         }
@@ -1602,7 +1607,7 @@
     {
         this.clearActiveNode();
         this.clearFocusNode();
-    }
+    };
 
     $.fn.mindmap = function(option)
     {
@@ -1615,7 +1620,7 @@
             if (!data) $this.data('zui.mindmap', (data = new Mindmap(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.mindmap.Constructor = Mindmap;
