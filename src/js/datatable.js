@@ -54,12 +54,12 @@
         sortable: false, // enable sorter
 
         // fixed header of columns
-        fixedHeader: true, // fixed header
-        fixedHeaderOffset: 0, // set top offset of header when fixed
-        fixedLeftWidth: '30%', // set left width after first render
+        fixedHeader: true,      // fixed header
+        fixedHeaderOffset: 0,   // set top offset of header when fixed
+        fixedLeftWidth: '30%',  // set left width after first render
         fixedRightWidth: '30%', // set right width after first render
-        flexHeadDrag: true, // scroll flexarea by drag header
-        scrollPos: 'in', // scroll bar position: 'out' | 'in'
+        flexHeadDrag: true,     // scroll flexarea by drag header
+        scrollPos: 'in',        // scroll bar position: 'out' | 'in'
 
         // hover effection
         rowHover: true, // apply hover effection to row
@@ -716,6 +716,38 @@
                     syncChecks();
                 }
             }
+        }
+
+        // fixed header
+        if(options.fixedHeader)
+        {
+            var offsetTop,
+                height,
+                scrollTop,
+                $dataTableHead = $datatable.children('.datatable-head'),
+                navbarHeight = options.fixedHeaderOffset || $('.navbar.navbar-fixed-top').height() || 0;
+            var handleScroll = function()
+            {
+                offsetTop = $datatable.offset().top;
+                scrollTop = $(window).scrollTop();
+                height = $datatable.height();
+                $datatable.toggleClass('head-fixed', (scrollTop + navbarHeight) > offsetTop && (scrollTop + navbarHeight) < (offsetTop + height));
+                if($datatable.hasClass('head-fixed'))
+                {
+                    $dataTableHead.css(
+                    {
+                        width: $datatable.width(),
+                        top: navbarHeight
+                    });
+                }
+                else
+                {
+                    $dataTableHead.attr('style', '');
+                }
+            };
+
+            $(window).scroll(handleScroll);
+            handleScroll();
         }
 
         // handle sort
