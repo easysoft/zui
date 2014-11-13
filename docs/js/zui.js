@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-11
+ * ZUI - v1.2.0 - 2014-11-13
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -4333,11 +4333,33 @@
         that.$.data('zui.messager', that);
     };
 
-    Messager.prototype.show = function()
+    Messager.prototype.show = function(message)
     {
         var that = this, options = this.options;
 
-        if(lastMessager && lastMessager.isShow) lastMessager.hide();
+        if(lastMessager)
+        {
+            if(lastMessager.id == that.id)
+            {
+                that.$.removeClass('in');
+            }
+            else if(lastMessager.isShow)
+            {
+                lastMessager.hide();
+            }
+        }
+
+        if(that.hiding)
+        {
+            clearTimeout(that.hiding);
+            that.hiding = null;
+        }
+
+        if(message)
+        {
+            that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
+            that.$.find('.messager-content').html(that.message);
+        }
 
         that.$.appendTo(options.parent).show();
 
@@ -4355,7 +4377,7 @@
 
         if(options.time)
         {
-            setTimeout(function(){that.hide();}, options.time);
+            that.hiding = setTimeout(function(){that.hide();}, options.time);
         }
 
         that.isShow = true;
