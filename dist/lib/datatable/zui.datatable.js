@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-11
+ * ZUI - v1.2.0 - 2014-11-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -59,6 +59,9 @@
 
         // Sort options
         sortable: false, // enable sorter
+
+        // storage
+        storage: true, // enable storage
 
         // fixed header of columns
         fixedHeader: true,      // fixed header
@@ -592,7 +595,7 @@
                 $datatable.toggleClass('scrolled-in', barLeft > 2)
                     .toggleClass('scrolled-out', barLeft < flexWidth - scrollWidth - 2);
 
-                store.pageSet(scrollOffsetStoreName, barLeft);
+                if(options.storage) store.pageSet(scrollOffsetStoreName, barLeft);
             };
             var resizeScrollbar = function()
             {
@@ -617,7 +620,7 @@
             };
             // $scrollbar.resize(resizeScrollbar); // todo: unuseful?
             $flexArea.resize(resizeScrollbar);
-            resizeScrollbar();
+            if(options.storage) resizeScrollbar();
 
             var dragOptions = {
                 move: false,
@@ -674,7 +677,7 @@
                 });
                 $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
 
-                store.pageSet(checkedStatusStoreName, checkedStatus);
+                if(options.storage) store.pageSet(checkedStatusStoreName, checkedStatus);
 
                 that.callEvent('checksChanged',
                 {
@@ -702,25 +705,28 @@
                 syncChecks();
             });
 
-            var checkedStatus = store.pageGet(checkedStatusStoreName);
-            if (checkedStatus)
+            if(options.storage)
             {
-                $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
-                if (checkedStatus.checkedAll)
+                var checkedStatus = store.pageGet(checkedStatusStoreName);
+                if (checkedStatus)
                 {
-                    $rows.addClass(checkedClass);
-                }
-                else
-                {
-                    $rows.removeClass(checkedClass);
-                    $.each(checkedStatus.checks, function(index, ele)
+                    $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
+                    if (checkedStatus.checkedAll)
                     {
-                        $rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
-                    });
-                }
-                if (checkedStatus.checks.length)
-                {
-                    syncChecks();
+                        $rows.addClass(checkedClass);
+                    }
+                    else
+                    {
+                        $rows.removeClass(checkedClass);
+                        $.each(checkedStatus.checks, function(index, ele)
+                        {
+                            $rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
+                        });
+                    }
+                    if (checkedStatus.checks.length)
+                    {
+                        syncChecks();
+                    }
                 }
             }
         }
@@ -771,9 +777,10 @@
     // Sort table
     DataTable.prototype.sortTable = function($th)
     {
-        var store = window.store;
+        var store = window.store,
+            options = this.options;
         var sorterStoreName = this.id + '_datatableSorter';
-        var sorter = store.pageGet(sorterStoreName);
+        var sorter = options.storage ? store.pageGet(sorterStoreName) : null;
 
         if (!$th)
         {
@@ -879,7 +886,7 @@
         };
 
         // save sort with local storage
-        store.pageSet(sorterStoreName, sorter);
+        if(options.storage) store.pageSet(sorterStoreName, sorter);
 
         this.callEvent('sort',
         {

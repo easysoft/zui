@@ -3083,12 +3083,10 @@ msg.hide();
           var data = $this.data('zui.messager');
           if(data)
           {
-              console.log('show exist');
               data.show(new Date());
           }
           else
           {
-              console.log('show new');
               var options = $this.data();
               $this.data('zui.messager', $.messager.show(options.content, options));
           }

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-13
+ * ZUI - v1.2.0 - 2014-11-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -1068,7 +1068,7 @@
     var lsName = 'localStorage';
     var storage = window[lsName],
         old = window.store,
-        pageName = 'page_' + window.location.pathname;
+        pageName = 'page_' + window.location.pathname + window.location.search;
 
     /* The Store object */
     var Store = function()
@@ -2654,6 +2654,8 @@
     var $tip    = this.tip()
     var target = this.getTarget()
 
+    if(this.options.id) $tip.attr('id', this.options.id)
+
     if(target)
     {
       if(target.find('.arrow').length < 1)
@@ -2661,7 +2663,6 @@
       $tip.html(target.html())
       return
     }
-
 
     var title   = this.getTitle()
     var content = this.getContent()
