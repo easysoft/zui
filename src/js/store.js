@@ -13,7 +13,7 @@
     var lsName = 'localStorage';
     var storage = window[lsName],
         old = window.store,
-        pageName = 'page_' + window.location.pathname;
+        pageName = 'page_' + window.location.pathname + window.location.search;
 
     /* The Store object */
     var Store = function()
