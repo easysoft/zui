@@ -52,6 +52,8 @@
     var $tip    = this.tip()
     var target = this.getTarget()
 
+    if(this.options.id) $tip.attr('id', this.options.id)
+
     if(target)
     {
       if(target.find('.arrow').length < 1)
@@ -59,7 +61,6 @@
       $tip.html(target.html())
       return
     }
-
 
     var title   = this.getTitle()
     var content = this.getContent()
