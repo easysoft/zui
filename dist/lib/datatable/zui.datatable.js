@@ -771,6 +771,8 @@
                 if ($datatable.hasClass('size-changing')) return;
                 that.sortTable($(this));
             });
+
+            if(options.storage) that.sortTable();
         }
     };
 

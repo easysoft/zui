@@ -5966,6 +5966,8 @@
         this.load();
 
         this.callEvent('ready');
+
+        console.log(this.id, this.options);
     };
 
     // default options
@@ -6690,6 +6692,8 @@
                 if ($datatable.hasClass('size-changing')) return;
                 that.sortTable($(this));
             });
+
+            if(options.storage) that.sortTable();
         }
     };
 
