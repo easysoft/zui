@@ -1243,6 +1243,17 @@
       "ver": "1.0.0",
       "dpds": ["setting"]
     },
+    "autotrigger":
+    {
+      "name": "自动触发器",
+      "src":
+      {
+        "js": ["src/js/auto-trigger.js"]
+      },
+      "desc": "操作DOM的快捷方法。",
+      "obsolete": "使用其他组件来实现，不包含在标准版和简洁版中",
+      "ver": "1.1.0"
+    },
     "colorset.test":
     {
       "name": "配色测试",
@@ -1400,10 +1411,17 @@
       "filename": "chartjs",
       "includes": ["chartjs"]
     },
+    "autotrigger":
+    {
+      "title": "Auto trigger",
+      "dest": "dist/lib/autotrigger/",
+      "filename": "autotrigger",
+      "includes": ["autotrigger"]
+    },
     "dist":
     {
       "title": "dist",
-      "bundles": ["jquery", "standard", "lite", "theme", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array"]
+      "bundles": ["jquery", "standard", "lite", "theme", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array", "autotrigger"]
     },
     "doc":
     {
@@ -1412,7 +1430,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey"]
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger"]
     },
     "zentao":
     {
@@ -1441,7 +1459,7 @@
       "filename": "zui.yidou",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic", "datatable"]
+      "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic", "datatable"]
     }
   }
 }
