@@ -216,6 +216,10 @@ $(function()
                     $header.children('h2').append(' <a target="_blank" href="' + lib.website + '" class="label label-badge label-danger" title="这是一个第三方组件，点击访问网站"><i class="icon-heart"></i>' + (lib.pver ? (' v' + lib.pver) : '') + '</a>');
                 }
 
+                if(!lib.src && lib.dpds)
+                {
+                  $header.children('h2').append(' <span class="label label-badge label-warning" title="此组件可以拆分使用"><i class="icon-cogs"></i></span>');
+                }
             }
         });
 
