@@ -3732,14 +3732,14 @@ var events    = calendar.events;    // 获取所有事件对象实例
   var start = now.getSeconds(),
       calendars = ['success', 'danger', 'important', 'warning', 'info', 'specail', 'primary'],
       rooms = ['A003', 'A004', 'A010', 'A143', 'B008', 'B098', 'B487', 'B340', 'Z000', 'Z431', 'Z018', 'Z864'],
-      peoples = ['汪淼', '丁仪', '地卜师', '绿巨人', 'Catouse', '张三'],
-      events = ['进食', '喝水', '交谈', '睡觉', '捶打墙壁', '自言自语', '搬动椅子', '唱歌', '上网', '梦游'],
-      eventsTypes = ['happy', 'sad'],
+      peoples = ['奥特曼', '行者孙', '地卜师', '绿巨人', 'Catouse', '路人丙'],
+      events = ['进食', '喝水', '交谈', '睡觉', '捶打墙壁', '自言自语', '搬动椅子', '唱歌', '上网', '梦游', '观望天花板'],
+      eventsTypes = ['happy', 'sad', ':]'],
       tools = ['桌子', '椅子', '水杯', '枪', '随从'],
       descs = ['没有完成', '这次失败了', '徒劳', '很满意', '禁止再次发生', '也行', '情况不明', '发现未知征兆'];
   var calEventGenerater = function()
       {
-          var start = now.clone().addDays(Math.random() * 300 - 150);
+          var start = now.clone().addDays(Math.random() * 400 - 200);
           var e =
           {
               title: (Math.random() > 0.5 ? ('和' + peoples[Math.floor(Math.random()*peoples.length)]) : '') + events[Math.floor(Math.random()*events.length)],
@@ -3812,7 +3812,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           for (var i = count - 1; i >= 0; i--)
           {
               data.events.push(calEventGenerater());
-          };
+          }
 
           return data;
       };
@@ -3827,9 +3827,19 @@ var events    = calendar.events;    // 获取所有事件对象实例
     $('.calendar').each(function()
     {
         var $this = $(this);
-        var data = calDataGenerater($this.data('exampleCount') || 100);
-        $this.calendar({data: data})
-    })
+        var data = calDataGenerater($this.data('exampleCount') || 400);
+        $this.calendar({data: data, clickEvent: function(e)
+        {
+            console.log(e);
+            $.messager.show('您点击了 <strong>' + e.event.title + '</strong>');
+        }, beforeChange: function(e)
+        {
+            if(e.change === 'start')
+            {
+                $.messager.show('起始时间更改为 ' + e.to.format('yyyy年MM月dd日 hh:mm'));
+            }
+        }});
+    });
   });
   </script>
 
