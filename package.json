@@ -1229,12 +1229,13 @@
         "less": ["src/less/views/mindmap.less"],
         "js": ["src/js/mindmap.js"]
       },
-      "ver": "1.2.0",
-      "dpds": ["basic", "jqueryex", "resize", "string", "date", "droppable"]
+      "ver": "2.0.0",
+      "dpds": ["basic", "jqueryex", "resize", "string", "date", "droppable"],
+      "custom": true
     },
     "theme":
     {
-      "name": "默认主题",
+      "name": "主题示例",
       "src":
       {
         "less": ["src/less/theme.less"]
@@ -1263,7 +1264,8 @@
       },
       "desc": "ZUI的色彩预览样式",
       "ver": "1.0.0",
-      "dpds": ["colorset", "mixins", "doc"]
+      "dpds": ["colorset", "mixins", "doc"],
+      "custom": true
     },
     "zentao.variables":
     {
@@ -1271,7 +1273,8 @@
       "src":
       {
         "less": ["src/apps/zentao/less/basic/variables.less"]
-      }
+      },
+      "custom": true
     },
     "chanzhi.variables":
     {
@@ -1279,7 +1282,8 @@
       "src":
       {
         "less": ["src/apps/chanzhi/less/basic/variables.less"]
-      }
+      },
+      "custom": true
     },
     "chanzhi.icons.set":
     {
@@ -1287,7 +1291,8 @@
       "src":
       {
         "less": ["src/apps/chanzhi/less/controls/icons.less"]
-      }
+      },
+      "custom": true
     }
   },
   "builds":
@@ -1418,10 +1423,15 @@
       "filename": "autotrigger",
       "includes": ["autotrigger"]
     },
+    "separate":
+    {
+      "title": "separate",
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array", "autotrigger"]
+    },
     "dist":
     {
       "title": "dist",
-      "bundles": ["jquery", "standard", "lite", "theme", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array", "autotrigger"]
+      "bundles": ["standard", "lite", "theme", "separate"]
     },
     "doc":
     {

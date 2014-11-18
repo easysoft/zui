@@ -238,14 +238,76 @@ zui/
 </pre>
       </section>
 
-      <section id="lite">
+      <section id="edition">
         <div class="page-header">
-          <h2>关于简洁版</h2>
+          <h2>选择版本</h2>
         </div>
+        <p>ZUI中提供了众多丰富的web组件，几乎为你准备构建现代Web应用所有基础内容。但大部分场景并不需要所有组件，所有并没有将所有内容打包为一个CSS文件和一个JS文件，在标准版中仅包含精心选择的组件，这些组件用于绝大部分场景。</p>
+        <p>在构建轻量的应用时需要的内容更少。ZUI预编译版本中提供了一些简洁的版本。包含了ZUI中大部分常用内容，经过压缩后体积更小。你可以在dist目录下找到文件名包含'.lite'的文件记为简洁的版本。</p>
+        <h3>标准版</h3>
+        <p>在标准版中包含绝大部分常用组件。预编译的标准版包含以下文件：</p>
+<pre>
+zui/
+└── dist/
+    ├── css/                    CSS文件
+    │   ├── zui.css
+    │   ├── zui.min.css
+    │   └── zui.map.css
+    ├── js/                     Javascript文件
+    │   ├── zui.js
+    │   └── zui.min.js
+    └── fonts/                  图标字体文件
+        ├── zenicon.eot
+        ├── zenicon.ttf
+        ├── zenicon.woff
+        └── zenicon.svg
+</pre>
+        <h3>简洁版</h3>
+        <p>在简洁版中包含大部分常用组件。标准版中已包含简洁版的所有内容。预编译的简洁版包含以下文件：</p>
+<pre>
+zui/
+└── dist/
+    ├── css/                     CSS文件
+    │   ├── zui.lite.css
+    │   ├── zui.lite.min.css
+    │   └── zui.lite.map.css
+    ├── js/                      Javascript文件
+    │   ├── zui.lite.js
+    │   └── zui.lite.min.js
+    └── fonts/                   图标字体文件
+        ├── zenicon.eot
+        ├── zenicon.ttf
+        ├── zenicon.woff
+        └── zenicon.svg
+</pre>
+        <h3>独立组件</h3>
+        <p>一些组件可能既不包含在标准版中，也没有包含在简洁版中，使用时需要配合标准版或简洁版独立引用。可以在以下目录中找到独立组件包含的文件：</p>
+<pre>
+zui/
+└── dist/
+    └── lib/                      独立加载的组件
+        ├── chosen/               Chosen组件
+        ├── datetimepicker/       日期时间选择组件
+        ├── datatable/            数据表格组件
+        └── ...                   更多组件....
+</pre>
+        <h3>自定义版本</h3>
+        <p>如果你需要更精确的控制预编译版本所包含的内容，强烈建议下载我们的源码来进行自定义配置并编译独一无二的版本。请参考章节<a href="#grunt">编译及定制</a>。</p>
 
-        <p>ZUI中包含了丰富的组件，但在构建一些轻量的应用时并不需要所有内容。ZUI预编译版本中提供了一些简洁的版本。包含了ZUI中绝大部分常用内容，经过压缩后体积更小。你可以在dist目录下找到文件名包含'.lite'的文件记为简洁的版本。</p>
-        <p>在后续文档中，会使用标签 <span class='label label-info'>LITE</span> 标注在简洁版中提供的内容。</p>
-        <p>如果你需要更精确的控制所需的内容，强烈建议下载我们的源码来进行自定义配置并编译独一无二的版本。</p>
+        <h3>组件清单</h3>
+        <p>组件清单帮助你快速查找所需的组件是否包含在制定版本中。</p>
+        <table class="table table-bordered" id="buildTable">
+          <thead>
+            <th>组件</th>
+            <th style="width: 15%" class="text-center">简洁版</th>
+            <th style="width: 15%" class="text-center">标准版</th>
+            <th style="width: 15%" class="text-center">独立组件</th>
+            <th style="width: 30%" class="text-center">版本要求</th>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" class="text-muted">正在加载列表...</td></tr>
+          </tbody>
+        </table>
       </section>
 
       <section id="grunt">
@@ -260,33 +322,97 @@ zui/
           <li>在全局环境中安装<code>grunt-cli</code>：<code>npm install -g grunt-cli</code>。</li>
           <li>进入ZUI源码目录，执行<code>npm install</code>命令。nmp将读取包配置文件<code>package.json</code>文件并自动安装所有依赖的扩展包。</li>
         </ol>
-        <p>完成上述步骤就可以进行编译了。只需要进入ZUI中使用命令行输入对应的命令就可以启动编译任务。以下为ZUI内置的一些常用任务命令。</p>
+        <p>完成上述步骤就可以进行编译了。只需要进入ZUI中使用命令行输入对应的命令就可以启动编译任务。内置的<code>build</code>命令可以完成大部分编译任务。以下为ZUI内置的一些常用任务命令。</p>
         <table class="table table-bordered">
+          <thead>
+            <th style="width: 200px">命令</th>
+            <th style="width: 40%">说明</th>
+            <th>输出目录</th>
+          </thead>
+          <tr>
+            <td><code>grunt build:standard</code></td>
+            <td>编译标准版</td>
+            <td><ul>
+              <li>dist/js/zui*.js</li>
+              <li>dist/css/zui*.css</li>
+              <li>dist/fonts/**</li>
+            </ul></td>
+          </tr>
+          <tr>
+            <td><code>grunt build:lite</code></td>
+            <td>编译简洁版</td>
+            <td>
+              <ul>
+                <li>dist/js/zui.lite*.js</li>
+                <li>dist/css/zui.lite*.css</li>
+                <li>dist/fonts/**</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><code>grunt build:dist</code></td>
+            <td>编译标准版和简洁版以及常用独立组件</td>
+            <td><ul>
+              <li>dist/js/**</li>
+              <li>dist/css/**</li>
+              <li>dist/fonts/**</li>
+              <li>dist/lib/*/**</li>
+            </ul></td>
+          </tr>
           <tr>
             <td><code>grunt dist</code></td>
-            <td>编译css和js文件，并拷贝图标字体文件，所有新的文件放置在dist目录下。</td>
+            <td><code>grunt build:dist</code>的简单写法</td>
+            <td><ul>
+              <li>dist/js/**</li>
+              <li>dist/css/**</li>
+              <li>dist/fonts/**</li>
+              <li>dist/lib/*/**</li>
+            </ul></td>
           </tr>
           <tr>
-            <td><code>grunt assets</code></td>
-            <td>拷贝ZUI依赖的第三方插件，并根据当前主题生成对应的样式表。所有新的文件放置在assets目录下。</td>
+            <td><code>grunt build:doc</code></td>
+            <td>编译文档所需资源</td>
+            <td><ul>
+              <li>doc/js/zui*.js</li>
+              <li>doc/css/zui*.css</li>
+              <li>doc/fonts/**</li>
+            </ul></td>
           </tr>
           <tr>
-            <td><code>grunt build</code></td>
-            <td>根据自定义配置生成css和js文件，所有新的文件放置在build文件夹下。目前ZUI源码中包含蝉知、禅道、然之的配置。</td>
+            <td><code>grunt build:theme</code></td>
+            <td>编译主题</td>
+            <td>
+              <ul>
+                <li>dist/css/zui-theme*.css</li>
+              </ul>
+            </td>
           </tr>
           <tr>
-            <td><code>grunt</code></td>
-            <td>重新生成所有内容，但不包含自定义的内容。</td>
+            <td><code>grunt build:[build name]</code></td>
+            <td>编译独立组件包，<code>[build name]</code>为组件包名称，可以为<code>calendar</code>、<code>kindeditor</code>、<code>chosen</code>等</td>
+            <td>
+              <ul>
+                <li>dist/lib/[build name]/**</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><code>grunt build:[control name]</code></td>
+            <td>编译单独控件，<code>[control name]</code>为控件名称，可以为<code>button</code>、<code>alerts</code>、<code>panels</code>等</td>
+            <td>
+              <ul>
+                <li>dist/lib/[control name]/**</li>
+              </ul>
+            </td>
           </tr>
         </table>
+        <p>如果了解Grunt，当然可以通过编辑<code>Gruntfile.js</code>文件来定义自己的编译任务。</p>
       </section>
 
       <section id="browsers">
         <div class="page-header">
           <h2>受支持的平台</h2>
         </div>
-
-
         <h3>桌面浏览器</h3>
         <ul>
           <li>IE8+</li>
@@ -304,6 +430,7 @@ zui/
           <li>Chrome for Android</li>
           <li>Windows Phone 7+ IE</li>
         </ul>
+        <p>最新的浏览器都能获得最佳体验，在旧的浏览器上ZUI中的部分特性（例如圆角或阴影效果）无法使用。</p>
       </section>
     </div>
 

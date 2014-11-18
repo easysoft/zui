@@ -32,7 +32,7 @@ $(function()
     };
     resizeMainContent();
 
-    // $(window).resize(resizeMainContent);
+    $(window).resize(resizeMainContent);
 
     /* set navbar */
     var $header = $('body > header');
@@ -70,7 +70,7 @@ $(function()
         }
 
         // navbar collapse
-        $navbarCollapse.find('.nav > .nav-heading').click(function(event)
+        $navbarCollapse.find('.nav > .nav-heading').click(function()
         {
             var $nav = $(this).closest('.nav');
             if($nav.hasClass('collapsed'))
@@ -85,7 +85,7 @@ $(function()
             }
             else
             {
-                $nav.children('li:not(.nav-heading)').slideUp('fast', function(){$nav.addClass('collapsed')});
+                $nav.children('li:not(.nav-heading)').slideUp('fast', function(){$nav.addClass('collapsed');});
             }
         });
     });
@@ -94,20 +94,11 @@ $(function()
     $.getJSON(fixPath('/package.json'), function(data)
     {
         version = data.version;
-        var versionNum = versionToNumber(version);
-        // $('#main > section[data-version]').each(function()
-        // {
-        //     var $this = $(this);
-        //     var ver = $this.data('version') + '';
-        //     if(versionToNumber(ver) > versionNum)
-        //     {
-        //         $this.children('.page-header').children('h2').append(' <small class="label label-warning" title="" data-original-title="此内容正在开发中，将在v' + ver + '中提供">DEV</small>');
-        //     }
-        // });
 
         $('.version-current').text('v' + version);
 
 
+        // var typeSet = ['less', 'js', 'resource'];
         var indexOfArray = function(array, item)
         {
             for(var i = 0; i < array.length; i++)
@@ -117,7 +108,17 @@ $(function()
             return -1;
         };
 
-        var getItemList  = function(lib, list, items, ignoreDpds)
+        var itemInLib = function(array, item, lib)
+        {
+            for(var i = 0; i < array.length; i++)
+            {
+                // if(item == 'button') console.log(item, array[i], lib[array[i]], lib[array[i]].dpds);
+                if(array[i] == item || (lib[item].dpds && indexOfArray(lib[item].dpds, array[i]) > -1)) return i;
+            }
+            return -1;
+        };
+
+        var getItemList  = function(lib, list, items, ignoreDpds, ignoreCombine)
         {
             items = items || [];
             var thisFn = arguments.callee;
@@ -126,7 +127,7 @@ $(function()
             {
                 $.each(list, function(idx, name)
                 {
-                    thisFn(name, items, ignoreDpds);
+                    thisFn(lib, name, items, ignoreDpds);
                 });
             }
             else
@@ -136,50 +137,51 @@ $(function()
                 {
                     if(!ignoreDpds && item.dpds)
                     {
-                        thisFn(item.dpds, items, ignoreDpds);
+                        thisFn(lib, item.dpds, items, ignoreDpds);
                     }
-                    if(item.src) items.push(list);
+                    if(item.src || !ignoreCombine) items.push(list);
                 }
             }
 
             return items;
         };
 
-        var getBuildSource = function(build, lib)
+        var getBuildList = function(build, lib, list)
         {
-            var list = [];
+            if(!list)
+            {
+                list = [];
+            }
+            if(!$.isArray)
+            {
+                list = [list];
+            }
 
-            var sources = {less: [], js: [], resource: []};
-
-            if(!$.isArray(list)) list = [list];
+            if(build.bundles)
+            {
+                var thisFn = arguments.callee;
+                $.each(build.bundles, function(idx, val)
+                {
+                    if(data.builds[val])
+                    {
+                        thisFn(data.builds[val], lib, list);
+                    }
+                    else
+                    {
+                        list = getItemList(lib, [val], list);
+                    }
+                });
+            }
 
             if(build.basicDpds) list = getItemList(lib, build.basicDpds, list);
             list = getItemList(lib, build.includes, list, build.ignoreDpds);
 
-            $.each(list, function(idx, item)
-            {
-                var libItem = lib[item];
-                if(libItem && libItem.src)
-                {
-                    $.each(typeSet, function(idx1, type)
-                    {
-                        if(libItem.src[type])
-                        {
-                            $.each(libItem.src[type], function(idx2, file)
-                            {
-                                if(indexOfArray(sources[type], file) < 0)
-                                {
-                                    sources[type].push(file);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-
-            return sources;
+            return list;
         };
 
+        var standard = getBuildList(data.builds.standard, data.lib);
+        var lite = getBuildList(data.builds.lite, data.lib);
+        var separate = getBuildList(data.builds.separate, data.lib);
 
         $('#main').children('section').each(function()
         {
@@ -187,25 +189,19 @@ $(function()
             var $header = $section.children('.page-header');
             var id = $section.attr('id');
             var lib = data.lib[id];
-            var standard = getBuildSource(data.builds['standard'], data.lib);
-            var lite = getBuildSource(data.builds['lite'], data.lib);
-            var dist = getBuildSource(data.builds['dist'], data.lib);
             if(lib)
             {
-                var standalone = true;
-                if(indexOfArray(standard, id) >= 0)
+                if(itemInLib(standard, id, data.lib) >= 0)
                 {
                     $header.children('h2').append(' <span class="label label-badge label-primary" title="此组件包含在标准版中提供">ZUI</span>');
-                    standalone = false;
                 }
 
-                if(indexOfArray(lite, id) >= 0)
+                if(itemInLib(lite, id, data.lib) >= 0)
                 {
                     $header.children('h2').append(' <span class="label label-badge label-info" title="此组件也在精简版中提供">ZUI.LITE</span>');
-                    standalone = false;
                 }
 
-                if(standalone && indexOfArray(dist, id) >= 0)
+                if(itemInLib(separate, id, data.lib) >= 0)
                 {
                     $header.children('h2').append(' <span class="label label-badge label-success" title="才组件在lib目中单独提供">LIB</span>');
                 }
@@ -223,19 +219,40 @@ $(function()
             }
         });
 
+        var $buildTable = $('#buildTable tbody').empty();
+        if($buildTable.length)
+        {
+            var getChildCompsList = function(val){return data.lib[val].name;};
+            for(var itemName in data.lib)
+            {
+                var item = data.lib[itemName];
+                if(item.custom) continue;
+
+                var childComps = '';
+                if(!item.src && item.dpds)
+                {
+                    var childList = getItemList(data.lib, item.dpds, null, true, true);
+                    childComps = '合并组件包含：';
+                    childComps += $.map(childList, getChildCompsList).join('，');
+                }
+
+                $buildTable.append('<tr><td title="' + (item.desc || '') + '"><strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') +')</td><td class="text-center">' + (indexOfArray(standard, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td class="text-center">' + (indexOfArray(lite, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td class="text-center">' + (indexOfArray(separate, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td>' + (item.ver ? (' v' + item.ver + '+') : childComps) + '</td></tr>');
+            }
+        }
+
         $('section .page-header h2 > .label').tooltip({placement: 'top'});
     });
 
     /* set lite version label */
     // $('#main > section[data-lite] > .page-header > h2').append(' <small class="label label-info" title="" data-original-title="此内容也在精简版中提供">LITE</small>');
 
-    prettyPrint();
+    window.prettyPrint();
 
     // tooltip demo
     $('.tooltip-demo').tooltip({
       selector: "[data-toggle=tooltip]",
       container: "body"
-    })
+    });
 
     // popover demo
     $("[data-toggle=popover]").popover();
