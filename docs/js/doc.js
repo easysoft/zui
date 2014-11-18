@@ -203,7 +203,7 @@ $(function()
 
                 if(itemInLib(separate, id, data.lib) >= 0)
                 {
-                    $header.children('h2').append(' <span class="label label-badge label-success" title="才组件在lib目中单独提供">LIB</span>');
+                    $header.children('h2').append(' <span class="label label-badge label-success" title="此组件在lib目录中单独提供">LIB</span>');
                 }
 
                 if(lib.ver)
@@ -233,7 +233,7 @@ $(function()
                 {
                     var childList = getItemList(data.lib, item.dpds, null, true, true);
                     childComps = '合并组件包含：';
-                    childComps += $.map(childList, getChildCompsList).join('，');
+                    childComps += $.map(childList, getChildCompsList).join('、');
                 }
 
                 $buildTable.append('<tr><td title="' + (item.desc || '') + '"><strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') +')</td><td class="text-center">' + (indexOfArray(standard, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td class="text-center">' + (indexOfArray(lite, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td class="text-center">' + (indexOfArray(separate, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td>' + (item.ver ? (' v' + item.ver + '+') : childComps) + '</td></tr>');
