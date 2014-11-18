@@ -187,7 +187,7 @@ $(function()
         {
             var $section = $(this);
             var $header = $section.children('.page-header');
-            var id = $section.attr('id');
+            var id = $section.data('id') || $section.attr('id');
             var lib = data.lib[id];
             if(lib)
             {
