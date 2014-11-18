@@ -101,6 +101,7 @@ $(function()
         // var typeSet = ['less', 'js', 'resource'];
         var indexOfArray = function(array, item)
         {
+            if(!$.isArray(array)) return -1;
             for(var i = 0; i < array.length; i++)
             {
                 if(array[i] == item) return i;
@@ -112,8 +113,7 @@ $(function()
         {
             for(var i = 0; i < array.length; i++)
             {
-                // if(item == 'button') console.log(item, array[i], lib[array[i]], lib[array[i]].dpds);
-                if(array[i] == item || (lib[item].dpds && indexOfArray(lib[item].dpds, array[i]) > -1)) return i;
+                if(array[i] == item || (!lib[item].src && lib[item].dpds && indexOfArray(lib[item].dpds, array[i]) > -1)) return i;
             }
             return -1;
         };
