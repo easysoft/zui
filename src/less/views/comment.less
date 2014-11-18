@@ -2,34 +2,39 @@
 {
   > header
   {
-    padding-bottom: 10px;
+    // padding-bottom: 10px;
     border-bottom: 1px solid @color-gray-lighter;
 
-    // > .alert
-    // {
-    //   padding: @alert-padding/2 @alert-padding;
-    //   margin-bottom: -10px;
-    // }
+    > .alert
+    {
+      padding: @alert-padding/2 @alert-padding;
+      margin-bottom: -10px;
+    }
+    //
+    h1, h2, h3
+    {
+        margin: 30px 0 20px;
+    }
   }
 
   > footer
   {
     padding-top: 10px;
-    // > .reply-form
-    // {
-    //   > .avatar
-    //   {
-    //     display: block;
-    //     width: 40px;
-    //     height: 40px;
-    //     float: left;
-    //     margin-top: 10px;
-    //   }
-    //   > .avatar + .form
-    //   {
-    //     padding-left: 50px;
-    //   }
-    // }
+    > .reply-form
+    {
+      > .avatar
+      {
+        display: block;
+        width: 40px;
+        height: 40px;
+        float: left;
+        margin-top: 10px;
+      }
+      > .avatar + .form
+      {
+        padding-left: 50px;
+      }
+    }
   }
 }
 

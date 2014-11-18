@@ -7400,11 +7400,29 @@ body.article-content {
   border-right: none;
 }
 .comments > header {
-  padding-bottom: 10px;
   border-bottom: 1px solid #e5e5e5;
+}
+.comments > header > .alert {
+  padding: 7.5px 15px;
+  margin-bottom: -10px;
+}
+.comments > header h1,
+.comments > header h2,
+.comments > header h3 {
+  margin: 30px 0 20px;
 }
 .comments > footer {
   padding-top: 10px;
+}
+.comments > footer > .reply-form > .avatar {
+  display: block;
+  float: left;
+  width: 40px;
+  height: 40px;
+  margin-top: 10px;
+}
+.comments > footer > .reply-form > .avatar + .form {
+  padding-left: 50px;
 }
 .comment {
   padding: 10px 0;
