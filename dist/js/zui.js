@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-18
+ * ZUI - v1.2.0 - 2014-11-20
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -6014,27 +6014,15 @@
         options.tableClass = options.tableClass || '';
         options.tableClass = ' ' + options.tableClass + ' table-datatable';
 
-        if ($e.hasClass('table-bordered'))
+        $.each(['bordered', 'condensed', 'striped', 'condensed', 'fixed'], function(idx, cls)
         {
-            options.tableClass += ' table-bordered';
-        }
+            cls = 'table-' + cls;
+            if($e.hasClass(cls)) options.tableClass += ' ' + cls;
+        });
 
         if ($e.hasClass('table-hover') || options.rowHover)
         {
             options.tableClass += ' table-hover';
-        }
-
-        if ($e.hasClass('table-striped'))
-        {
-            options.tableClass += ' table-striped';
-        }
-        if ($e.hasClass('table-condensed'))
-        {
-            options.tableClass += ' table-condensed';
-        }
-        if ($e.hasClass('table-fixed'))
-        {
-            options.tableClass += ' table-fixed';
         }
 
         this.options = options;
@@ -6194,7 +6182,7 @@
             dataRowSpan = '<div class="datatable-rows-span datatable-span"><div class="datatable-wrapper"><table class="table"></table></div></div>',
             dataHeadSpan = '<div class="datatable-head-span datatable-span"><div class="datatable-wrapper"><table class="table"><thead></thead></table></div></div>';
 
-        $datatable.children('.datatable-head, .datatable-rows').remove();
+        $datatable.children('.datatable-head, .datatable-rows, .scroll-wrapper').remove();
 
         // Set css class to datatable by options
         $datatable.toggleClass('sortable', options.sortable);
@@ -6610,7 +6598,8 @@
                 syncChecks();
             });
 
-            this.$datatable.on('click', '.check-all', function()
+            var checkAllEventName = 'click.zui.datatable.check-all';
+            this.$datatable.off(checkAllEventName).on(checkAllEventName, '.check-all', function()
             {
                 $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
