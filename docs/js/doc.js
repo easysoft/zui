@@ -227,6 +227,7 @@ $(function()
         if($buildTable.length)
         {
             var getChildCompsList = function(val){return data.lib[val].name;};
+            var $tr, $td;
             for(var itemName in data.lib)
             {
                 var item = data.lib[itemName];
@@ -240,9 +241,36 @@ $(function()
                     childComps += $.map(childList, getChildCompsList).join('、');
                 }
 
-                $buildTable.append('<tr><td title="' + (item.desc || '') + '"><strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') +')</td><td class="text-center">' + (indexOfArray(standard, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td class="text-center">' + (indexOfArray(lite, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td class="text-center">' + (indexOfArray(separate, itemName) > -1 ? '<i class="text-success icon-ok"></i>' : '<i class="text-muted icon-remove"></i>') +'</td><td>' + (item.ver ? (' v' + item.ver + '+') : childComps) + '</td></tr>');
+                $tr = $('<tr/>');
+
+                $td = $('<td/>');
+                $td.attr('title', item.desc);
+                $td.html('<strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') +')');
+                $tr.append($td);
+
+                $.each([standard, lite, separate], function(idx, sLib)
+                {
+                    $td = $('<td class="text-center"/>');
+                    if(indexOfArray(sLib, itemName) > -1)
+                    {
+                        $td.addClass('success').html('<i class="text-success icon-ok"></i>');
+                    }
+                    else
+                    {
+                        $td.html('<i class="text-muted icon-remove"></i>');
+                    }
+                    $tr.append($td);
+                });
+
+                $td = $('<td/>');
+                $td.html(item.ver ? (' v' + item.ver + '+') : childComps);
+                $tr.append($td);
+
+                $buildTable.append($tr);
             }
         }
+
+        $('#buildTable').datatable({rowHover: false});
 
         $('section .page-header h2 > .label').tooltip({placement: 'top'});
     });
