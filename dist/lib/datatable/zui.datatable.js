@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-20
+ * ZUI - v1.2.0 - 2014-11-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -76,6 +76,9 @@
         colHover: true, // apply hover effection to head
         hoverClass: 'hover',
         colHoverClass: 'col-hover',
+
+        // Merge rows
+        mergeRows: false, // Merge rows
 
         // custom columns size
         // customizable: false, // enable customizable
@@ -159,7 +162,8 @@
                         css: $th.attr('style'),
                         type: 'string',
                         ignore: $th.hasClass('ignore'),
-                        sort: !$th.hasClass('sort-disabled')
+                        sort: !$th.hasClass('sort-disabled'),
+                        mergeRows: $th.attr('merge-rows')
                     }, $th.data()));
                 });
 
@@ -762,6 +766,48 @@
             });
 
             if(options.storage) that.sortTable();
+        }
+        else if (options.mergeRows)
+        {
+            this.mergeRows();
+        }
+    };
+
+    DataTable.prototype.mergeRows = function()
+    {
+        var $cells = this.$rowsSpans.find('.table > tbody > tr > td');
+        var cols = this.data.cols;
+        for(var i = 0; i < cols.length; i++)
+        {
+            var col = cols[i];
+            if(col.mergeRows)
+            {
+                var $cs = $cells.filter('[data-index="' + i + '"]');
+                if($cs.length > 1)
+                {
+                    var $lastCell;
+                    $cs.each(function()
+                    {
+                        var $cell = $(this);
+                        if($lastCell)
+                        {
+                            if($cell.html() === $lastCell.html())
+                            {
+                                $lastCell.attr('rowspan', ($lastCell.attr('rowspan') || 1) + 1).css('vertical-align', 'middle');
+                                $cell.remove();
+                            }
+                            else
+                            {
+                                $lastCell = $cell;
+                            }
+                        }
+                        else
+                        {
+                            $lastCell = $cell;
+                        }
+                    });
+                }
+            }
         }
     };
 
