@@ -938,11 +938,12 @@
 
         var findMaxHeight = function($cells)
             {
-                var mx = 0;
+                var mx = 0, $cell;
                 $cells.css('height', 'auto');
                 $cells.each(function()
                 {
-                    mx = Math.max(mx, $(this).height());
+                    $cell = $(this);
+                    if(!$cell.attr('rowspan')) mx = Math.max(mx, $cell.height());
                 });
                 return mx;
             },
