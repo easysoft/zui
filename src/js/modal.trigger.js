@@ -368,11 +368,11 @@
         var modalType = typeof(modal);
         if (modalType === 'undefined')
         {
-            modal = $('.modal.modal-once');
+            modal = $('.modal.modal-trigger');
         }
         else if (modalType === 'string')
         {
-            modal = $('#' + modal).replace('##', '#');
+            modal = $(modal);
         }
         if (modal && (modal instanceof $)) return modal;
         return null;
