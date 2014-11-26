@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-18
+ * ZUI - v1.2.0 - 2014-11-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -119,7 +119,7 @@
   height: 0;
   margin-left: 2px;
   vertical-align: middle;
-  border-top: 4px solid #333;
+  border-top: 4px solid #353535;
   border-right: 4px solid transparent;
   border-bottom: 0 dotted;
   border-left: 4px solid transparent;
@@ -147,7 +147,7 @@
   outline: 0;
 }
 .chosen-container-single .chosen-search input[type="text"]:focus {
-  border-color: #145ccd;
+  border-color: #18609d;
 }
 .chosen-container-single .chosen-search:before {
   position: absolute;
@@ -200,7 +200,7 @@
 }
 .chosen-container .chosen-results li.highlighted {
   color: #fff;
-  background-color: #3280fc;
+  background-color: #108bf1;
 }
 .chosen-container .chosen-results li.no-results {
   display: list-item;
@@ -346,9 +346,9 @@
   cursor: default;
 }
 .chosen-container-active .chosen-single {
-  border-color: #145ccd;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
+  border-color: #18609d;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
 }
 .chosen-container-active.chosen-with-drop .chosen-single {
   border: 1px solid #cbcbcb;
@@ -365,12 +365,12 @@
 .chosen-container-active.chosen-with-drop .chosen-single div b {
   content: "";
   border-top: 0 dotted;
-  border-bottom: 4px solid #333;
+  border-bottom: 4px solid #353535;
 }
 .chosen-container-active .chosen-choices {
-  border-color: #145ccd;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
+  border-color: #18609d;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
 }
 .chosen-container-active .chosen-choices li.search-field input[type="text"] {
   color: #111 !important;

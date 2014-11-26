@@ -13,6 +13,15 @@
   <link href="../css/example.css" rel="stylesheet">
   <style>.example > .modal {display: block; position: static;}</style>
   <script src="../assets/js/example.js"></script>
+  <script>
+$(function()
+{
+    $('#jsHideModal').click(function()
+    {
+        $('#myModal').modal('hide');
+    });
+});
+  </script>
 </head>
 <body>
 <article>
@@ -455,6 +464,7 @@
         <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。<br>雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn" id="jsHideModal">测试.modal('hide')</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button" class="btn btn-primary">确定</button>
       </div>

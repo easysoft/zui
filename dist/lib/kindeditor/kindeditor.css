@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-18
+ * ZUI - v1.2.0 - 2014-11-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -287,10 +287,10 @@
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .ke-container.focus {
-  border-color: #145ccd;
+  border-color: #18609d;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
 }
 /* toolbar */
 .ke-toolbar {
@@ -373,7 +373,7 @@
   overflow: auto;
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
   font-size: 12px;
-  color: #333;
+  color: #353535;
   resize: none;
   background-color: #fff;
 }
@@ -441,7 +441,7 @@
 .ke-menu-item-on {
   color: #fff;
   text-decoration: none;
-  background-color: #3280fc;
+  background-color: #108bf1;
   outline: 0;
 }
 .ke-menu-item-left {
@@ -517,13 +517,13 @@
 }
 .ke-colorpicker-cell-on {
   color: #fff;
-  background-color: #3280fc;
+  background-color: #108bf1;
 }
 .ke-colorpicker-cell-on .ke-colorpicker-cell-color {
-  border: 2px solid #333;
+  border: 2px solid #353535;
 }
 .ke-colorpicker-cell-selected .ke-colorpicker-cell-color {
-  border: 2px solid #333;
+  border: 2px solid #353535;
 }
 /* dialog */
 .ke-dialog {
@@ -719,7 +719,7 @@
   padding: 0 12px;
   margin: 0;
   font-size: 12px;
-  color: #333;
+  color: #353535;
   text-decoration: none;
   background-color: #f2f2f2;
   border: 1px solid #bfbfbf;
@@ -731,7 +731,7 @@
 .ke-button:active,
 .ke-button.active,
 .open .dropdown-toggle.ke-button {
-  color: #333;
+  color: #353535;
   background-color: #dedede;
   border-color: #a1a1a1;
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
@@ -785,10 +785,10 @@ fieldset[disabled] .ke-button.active {
   *display: inline;
 }
 .ke-input-text:focus {
-  border-color: #145ccd;
+  border-color: #18609d;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
 }
 .ke-input-number {
   width: 50px;

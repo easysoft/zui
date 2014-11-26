@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-25
+ * ZUI - v1.2.0 - 2014-11-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -2917,11 +2917,11 @@
         var modalType = typeof(modal);
         if (modalType === 'undefined')
         {
-            modal = $('.modal.modal-once');
+            modal = $('.modal.modal-trigger');
         }
         else if (modalType === 'string')
         {
-            modal = $('#' + modal).replace('##', '#');
+            modal = $(modal);
         }
         if (modal && (modal instanceof $)) return modal;
         return null;
@@ -6066,8 +6066,8 @@
                     rows: []
                 };
                 cols = data.cols;
-                var rows = data.rows,
-                    $th, $tr, $td, row, $t = this.$table;
+                var rows = data.rows, i,
+                    $th, $tr, $td, row, $t = this.$table, colSpan;
 
                 $t.find('thead > tr:first').children('th').each(function()
                 {
@@ -6101,12 +6101,22 @@
                     $tr.children('td').each(function()
                     {
                         $td = $(this);
+                        colSpan = $td.attr('colspan') || 1;
                         row.data.push($.extend(
                         {
                             cssClass: $td.attr('class'),
                             css: $td.attr('style'),
-                            text: $td.html()
+                            text: $td.html(),
+                            colSpan: colSpan
                         }, $td.data()));
+
+                        if(colSpan > 1)
+                        {
+                            for(i = 1; i < colSpan; i++)
+                            {
+                                row.data.push({empty: true});
+                            }
+                        }
                     });
 
                     rows.push(row);
@@ -6309,6 +6319,11 @@
             for (i = 0; i < rowColLen; ++i)
             {
                 rowCol = row.data[i];
+                if(i > 0 && rowCol.empty)
+                {
+                    continue;
+                }
+
                 $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
                 if(i === 0 && checkable)
                 {
@@ -6339,6 +6354,7 @@
                 $td.html(rowCol.text)
                    .addClass(rowCol.cssClass)
                    .addClass(cols[i].colClass)
+                   .attr('colspan', rowCol.colSpan)
                    .attr(
                     {
                         'data-row'   : r,
@@ -6704,7 +6720,7 @@
                 var $cs = $cells.filter('[data-index="' + i + '"]');
                 if($cs.length > 1)
                 {
-                    var $lastCell;
+                    var $lastCell, rowspan;
                     $cs.each(function()
                     {
                         var $cell = $(this);
@@ -6712,7 +6728,14 @@
                         {
                             if($cell.html() === $lastCell.html())
                             {
-                                $lastCell.attr('rowspan', ($lastCell.attr('rowspan') || 1) + 1).css('vertical-align', 'middle');
+                                rowspan = $lastCell.attr('rowspan') || 1;
+                                if(typeof rowspan !== 'number')
+                                {
+                                    rowspan = parseInt(rowspan);
+                                    if(isNaN(rowspan)) rowspan = 1;
+                                }
+
+                                $lastCell.attr('rowspan', rowspan + 1).css('vertical-align', 'middle');
                                 $cell.remove();
                             }
                             else
@@ -6864,11 +6887,12 @@
 
         var findMaxHeight = function($cells)
             {
-                var mx = 0;
+                var mx = 0, $cell;
                 $cells.css('height', 'auto');
                 $cells.each(function()
                 {
-                    mx = Math.max(mx, $(this).height());
+                    $cell = $(this);
+                    if(!$cell.attr('rowspan')) mx = Math.max(mx, $cell.height());
                 });
                 return mx;
             },

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-18
+ * ZUI - v1.2.0 - 2014-11-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -185,23 +185,23 @@
 }
 .datetimepicker td.day.today {
   color: #fff;
-  background-color: #e48600;
-  border-color: #e48600;
+  background-color: #f39c11;
+  border-color: #f39c11;
   border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
 }
 .datetimepicker td.day.active {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
-  background-color: #3280fc;
-  border-color: #0462f7;
+  background-color: #108bf1;
+  border-color: #0b70c3;
   border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
 }
 .datetimepicker td.day.active:hover {
-  background-color: #0462f7;
+  background-color: #0b70c3;
 }
 .datetimepicker td.day.today:hover,
 .datetimepicker td.day.today.active:hover {
-  background-color: #b16800;
+  background-color: #c77e0a;
 }
 .datetimepicker .datetimepicker-hours td span.hour_am,
 .datetimepicker .datetimepicker-hours td span.hour_pm {
@@ -224,8 +224,8 @@
 .datetimepicker td span.active.disabled:hover {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
-  background-color: #3280fc;
-  border-color: #0462f7;
+  background-color: #108bf1;
+  border-color: #0b70c3;
   border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
 }
 .datetimepicker thead tr:first-child th,
