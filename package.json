@@ -1461,6 +1461,24 @@
         "jqueryex", "string", "resize", "date", "store", "basic", "zentao.variables", "transition", "animations", "utilities", "scaffolding", "grid", "typography.basic", "header", "button", "divider", "labels", "icons", "close", "inputgroups", "table.basic", "table.colors", "listgroup", "panels.basic", "collapse", "dropdowns", "alerts.basic", "forms", "code", "navs", "modals", "tooltip", "popovers", "tab", "card", "article", "sortable", "bootbox", "draggable", "droppable"
       ]
     },
+    "zentaochosen":
+    {
+      "title": "Chosen",
+      "dest": "build/zentao/chosen/",
+      "filename": "chosen",
+      "includes": ["chosen"],
+      "basicDpds": ["setting", "icons.variables", "zentao.variables"],
+      "ignoreDpds": true
+    },
+    "zentaokindeditor":
+    {
+      "title": "Kindeditor",
+      "dest": "build/zentao/kindeditor/",
+      "filename": "kindeditor",
+      "includes": ["kindeditor"],
+      "basicDpds": ["setting", "zentao.variables"],
+      "ignoreDpds": true
+    },
     "chanzhi":
     {
       "title": "zui for chanzhi",
