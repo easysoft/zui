@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
   "main": "index.html",
   "directories":
@@ -524,7 +524,7 @@
       "src":
       {
         "less": ["src/less/components/alerts.less"],
-        "js": ["sr/js/alert.js"]
+        "js": ["src/js/alert.js"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
