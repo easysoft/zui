@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-05
+ * ZUI - v1.2.1 - 2014-12-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -5583,7 +5583,7 @@
  * ======================================================================== */
 
 
-+ function($, Math)
+(function($, Math)
 {
     'use strict';
 
@@ -5597,7 +5597,9 @@
     };
 
     Dashboard.DEFAULTS = {
-        height: 360
+        height: 360,
+        shadowType: 'circle',
+        circleShadowSize: 100
     };
 
     Dashboard.prototype.getOptions = function(options)
@@ -5614,10 +5616,10 @@
         this.$.on('click', '.remove-panel', function()
         {
             var panel = $(this).closest('.panel');
-            var name = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, "");
+            var name = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, '');
             var index = panel.attr('data-id');
 
-            if (tip == undefined || confirm(tip.format(name)))
+            if (tip === undefined || confirm(tip.format(name)))
             {
                 panel.parent().remove();
                 if (afterPanelRemoved && $.isFunction(afterPanelRemoved))
@@ -5635,12 +5637,16 @@
             var panel = $(this).closest('.panel');
             refreshPanel(panel);
         });
-    }
+    };
 
     Dashboard.prototype.handleDraggable = function()
     {
         var dashboard = this.$;
-        var afterOrdered = this.options.afterOrdered;
+        var options = this.options;
+        var circleShadow = options.shadowType === 'circle';
+        var circleSize = options.circleShadowSize;
+        var halfCircleSize = circleSize/2;
+        var afterOrdered = options.afterOrdered;
 
         this.$.addClass('dashboard-draggable');
 
@@ -5661,7 +5667,7 @@
             var dColShadow = row.find('.dragging-col-holder');
             if (!dColShadow.length)
             {
-                dColShadow = $("<div class='dragging-col-holder'><div class='panel'></div></div>").addClass(row.children().attr('class')).removeClass('dragging-col').appendTo(row);
+                dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').addClass(row.children().attr('class')).removeClass('dragging-col').appendTo(row);
             }
 
             dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
@@ -5680,6 +5686,26 @@
                 x: event.pageX - pos.left + dPos.left,
                 y: event.pageY - pos.top + dPos.top
             });
+
+            if(circleShadow)
+            {
+                dPanel.addClass('circle');
+                setTimeout(function()
+                {
+                    dPanel.css(
+                    {
+                        left: event.pageX - dPos.left - halfCircleSize,
+                        top: event.pageY - dPos.top - halfCircleSize,
+                        width: circleSize,
+                        height: circleSize
+                    }).data('mouseOffset',
+                    {
+                        x: dPos.left + halfCircleSize,
+                        y: dPos.top + halfCircleSize
+                    });
+
+                }, 100);
+            }
 
             $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
             event.preventDefault();
@@ -5714,8 +5740,8 @@
 
                     if (mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH))
                     {
-                        var dCol = row.find('.dragging-col');
-                        col.addClass('dragging-in')
+                        // var dCol = row.find('.dragging-col');
+                        col.addClass('dragging-in');
                         if (before) dColShadow.insertAfter(col);
                         else dColShadow.insertBefore(col);
                         dashboard.addClass('dashboard-holding');
@@ -5732,7 +5758,7 @@
                 var newOrder = 0;
                 var newOrders = {};
 
-                row.children(':not(.dragging-col-holder)').each(function(index)
+                row.children(':not(.dragging-col-holder)').each(function()
                 {
                     var p = $(this).children('.panel');
                     p.data('order', ++newOrder);
@@ -5804,20 +5830,17 @@
         {
             url: url,
             dataType: 'html'
-        })
-            .done(function(data)
-            {
-                panel.find('.panel-body').html(data);
-            })
-            .fail(function()
-            {
-                panel.addClass('panel-error');
-            })
-            .always(function()
-            {
-                panel.removeClass('panel-loading');
-                panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
-            });
+        }).done(function(data)
+        {
+            panel.find('.panel-body').html(data);
+        }).fail(function()
+        {
+            panel.addClass('panel-error');
+        }).always(function()
+        {
+            panel.removeClass('panel-loading');
+            panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
+        });
     }
 
     Dashboard.prototype.init = function()
@@ -5845,7 +5868,7 @@
 
             refreshPanel($this);
         });
-    }
+    };
 
     $.fn.dashboard = function(option)
     {
@@ -5858,11 +5881,11 @@
             if (!data) $this.data('zui.dashboard', (data = new Dashboard(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.dashboard.Constructor = Dashboard;
-}(jQuery, Math);
+}(jQuery, Math));
 
 /* ========================================================================
  * ZUI: boards.js

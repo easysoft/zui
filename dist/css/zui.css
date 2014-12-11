@@ -7818,6 +7818,7 @@ body.article-content {
 }
 .dashboard .panel-dragging-shadow {
   position: absolute;
+  cursor: move;
   background: rgba(255, 255, 255, .5);
   border: 2px solid rgba(255, 255, 255, .9);
   -webkit-box-shadow: 1px 2px 15px rgba(0, 0, 0, .5) !important;
@@ -7826,6 +7827,16 @@ body.article-content {
 .dashboard .panel-dragging-shadow > * {
   filter: alpha(opacity=70);
   opacity: .7;
+}
+.dashboard .panel-dragging-shadow.circle {
+  overflow: hidden;
+  border-radius: 50%;
+  -webkit-transition: width .2s, height .2s;
+       -o-transition: width .2s, height .2s;
+          transition: width .2s, height .2s;
+}
+.dashboard .panel-dragging-shadow.circle .panel-actions {
+  display: none;
 }
 .dashboard .dragging-col-holder {
   display: none;
