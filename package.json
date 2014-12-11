@@ -1256,6 +1256,16 @@
       "obsolete": "使用其他组件来实现，不包含在标准版和简洁版中",
       "ver": "1.1.0"
     },
+    "tableex":
+    {
+      "name": "表格高级特性",
+      "src":
+      {
+        "js": ["src/js/table.js"]
+      },
+      "obsolete": "使用其他组件来实现，不包含在标准版和简洁版中",
+      "ver": "1.1.0"
+    },
     "colorset.test":
     {
       "name": "配色测试",
@@ -1292,6 +1302,15 @@
       "src":
       {
         "less": ["src/apps/chanzhi/less/controls/icons.less"]
+      },
+      "custom": true
+    },
+    "ranzhi.variables":
+    {
+      "name": "ranzhi variables",
+      "src":
+      {
+        "less": ["src/apps/ranzhi/less/basic/variables.less"]
       },
       "custom": true
     }
@@ -1496,6 +1515,15 @@
       "subdirectories": true,
       "bootstrapStatement": true,
       "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic", "datatable"]
+    },
+    "ranzhi":
+    {
+      "title": "zui for ranzhi",
+      "dest": "build/ranzhi/",
+      "filename": "zui.ranzhi",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": ["jqueryex", "string", "resize", "date", "basic", "ranzhi.variables", "utilities", "animations", "draggable", "board", "hotkeys", "scaffolding", "grid", "typography", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table", "panels", "forms", "code", "pager.basic", "navs", "navbars", "device", "transition", "alerts", "button", "button.group", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article", "comment", "list", "card", "datatable", "scrollbars", "dashboard", "imgcutter", "menu", "carousel", "listgroup", "tableex"]
     }
   }
 }
