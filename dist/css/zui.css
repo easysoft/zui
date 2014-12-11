@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-05
+ * ZUI - v1.2.1 - 2014-12-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -7619,10 +7619,6 @@ body.article-content {
   max-width: 100%;
   vertical-align: middle;
 }
-.card a,
-a.card {
-  color: #353535;
-}
 .card .card-heading {
   display: block;
   padding: 10px;
@@ -7650,10 +7646,6 @@ a.card {
 }
 .card:hover > .card-reveal {
   top: 0;
-}
-.card:hover a,
-a.card:hover {
-  color: #0e385a;
 }
 .cards-borderless .card {
   border: none;
