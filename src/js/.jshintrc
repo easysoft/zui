@@ -83,5 +83,5 @@
     // "yui"           : false,    // Yahoo User Interface
 
     // // Custom Globals
-    "globals"       : {"jQuery": true}        // additional predefined global variables
+    "globals"       : {"jQuery": true, "confirm": true, "alert": true}        // additional predefined global variables
 }
