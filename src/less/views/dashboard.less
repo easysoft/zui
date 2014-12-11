@@ -149,8 +149,18 @@
     border: 2px solid rgba(255,255,255,0.9);
     box-shadow: 1px 2px 15px rgba(0,0,0,0.5)!important;
     background: rgba(255,255,255,0.5);
+    cursor: move;
 
     > * {.opacity(0.7);}
+
+    &.circle
+    {
+      overflow: hidden;
+      transition: width 0.2s, height 0.2s;
+      border-radius: 50%;
+
+      .panel-actions {display: none}
+    }
   }
 
   // .dragging-in:before {box-sizing: content-box; content:' '; display: block; position: absolute; left: -2px; top: -10px; width: 2px; height: 100%; background-color: rgba(0,0,0, 0.15); border: 1px solid #eee;}

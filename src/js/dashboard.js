@@ -20,7 +20,9 @@
     };
 
     Dashboard.DEFAULTS = {
-        height: 360
+        height: 360,
+        shadowType: 'circle',
+        circleShadowSize: 100
     };
 
     Dashboard.prototype.getOptions = function(options)
@@ -63,7 +65,11 @@
     Dashboard.prototype.handleDraggable = function()
     {
         var dashboard = this.$;
-        var afterOrdered = this.options.afterOrdered;
+        var options = this.options;
+        var circleShadow = options.shadowType === 'circle';
+        var circleSize = options.circleShadowSize;
+        var halfCircleSize = circleSize/2;
+        var afterOrdered = options.afterOrdered;
 
         this.$.addClass('dashboard-draggable');
 
@@ -103,6 +109,26 @@
                 x: event.pageX - pos.left + dPos.left,
                 y: event.pageY - pos.top + dPos.top
             });
+
+            if(circleShadow)
+            {
+                dPanel.addClass('circle');
+                setTimeout(function()
+                {
+                    dPanel.css(
+                    {
+                        left: event.pageX - dPos.left - halfCircleSize,
+                        top: event.pageY - dPos.top - halfCircleSize,
+                        width: circleSize,
+                        height: circleSize
+                    }).data('mouseOffset',
+                    {
+                        x: dPos.left + halfCircleSize,
+                        y: dPos.top + halfCircleSize
+                    });
+
+                }, 100);
+            }
 
             $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
             event.preventDefault();
