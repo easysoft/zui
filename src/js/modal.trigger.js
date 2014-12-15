@@ -86,10 +86,10 @@
         var $modal = $('#' + options.name);
         if ($modal.length)
         {
-            if (!this.isShown) $modal.off('.zui.modal');
+            if (!that.isShown) $modal.off('.zui.modal');
             $modal.remove();
         }
-        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body');
+        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data('zui.modaltrigger', that);
 
         var bindEvent = function(optonName, eventName)
         {
@@ -302,16 +302,20 @@
 
     ModalTrigger.prototype.close = function(callback, redirect)
     {
-        this.$modal.on('hidden.zui.modal', function()
+        if(callback || redirect)
         {
-            if ($.isFunction(callback)) callback();
-
-            if (typeof redirect === 'string')
+            this.$modal.on('hidden.zui.modal', function()
             {
-                if (redirect === 'this') window.location.reload();
-                else window.location = redirect;
-            }
-        }).modal('hide');
+                if ($.isFunction(callback)) callback();
+
+                if (typeof redirect === 'string')
+                {
+                    if (redirect === 'this') window.location.reload();
+                    else window.location = redirect;
+                }
+            });
+        }
+        this.$modal.modal('hide');
     };
 
     ModalTrigger.prototype.toggle = function(options)
