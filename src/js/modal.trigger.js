@@ -11,7 +11,9 @@
 
     if (!$.fn.modal) throw new Error('Modal trigger requires modal.js');
 
-    // ONCE MODAL CLASS DEFINITION
+    var NAME = 'zui.modaltrigger';
+
+    // MODAL TRIGGER CLASS DEFINITION
     // ======================
     var ModalTrigger = function(options)
     {
@@ -89,7 +91,7 @@
             if (!that.isShown) $modal.off('.zui.modal');
             $modal.remove();
         }
-        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data('zui.modaltrigger', that);
+        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
 
         var bindEvent = function(optonName, eventName)
         {
@@ -161,7 +163,7 @@
 
                 if (options.type != 'iframe')
                 {
-                    $dialog.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', function()
+                    $dialog.off('resize.' + NAME).on('resize.' + NAME, function()
                     {
                         that.ajustPosition();
                     });
@@ -252,7 +254,7 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                         }
 
                         frame$.extend(
@@ -337,18 +339,18 @@
         return $(this).each(function()
         {
             var $this = $(this);
-            var data = $this.data('zui.modaltrigger'),
+            var data = $this.data(NAME),
                 options = $.extend(
                 {
                     title: $this.attr('title') || $this.text(),
                     url: $this.attr('href'),
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
-            if (!data) $this.data('zui.modaltrigger', (data = new ModalTrigger(options)));
+            if (!data) $this.data(NAME, (data = new ModalTrigger(options)));
             if (typeof option == 'string') data[option](settings);
             else if (options.show) data.show(settings);
 
-            $this.on((options.trigger || 'click') + '.toggle.zui.modaltrigger', function(e)
+            $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e)
             {
                 data.toggle(options);
                 if ($this.is('a')) e.preventDefault();
@@ -389,7 +391,7 @@
         {
             modal.each(function()
             {
-                $(this).data('zui.modaltrigger').close(callback, redirect);
+                $(this).data(NAME).close(callback, redirect);
             });
         }
     };
@@ -409,7 +411,7 @@
         ajustModalPosition: window.ajustModalPosition
     });
 
-    $(document).on('click.zui.modaltrigger.data-api', '[data-toggle="modal"]', function(e)
+    $(document).on('click.' + NAME + '.data-api', '[data-toggle="modal"]', function(e)
     {
         var $this = $(this);
         var href = $this.attr('href');
@@ -422,7 +424,7 @@
         {}
         if (!$target || !$target.length)
         {
-            if (!$this.data('zui.modaltrigger'))
+            if (!$this.data(NAME))
             {
                 $this.modalTrigger(
                 {
@@ -431,7 +433,7 @@
             }
             else
             {
-                $this.trigger('.toggle.zui.modaltrigger');
+                $this.trigger('.toggle.' + NAME);
             }
         }
         if ($this.is('a'))
