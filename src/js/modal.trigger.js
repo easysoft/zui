@@ -148,7 +148,6 @@
         var readyToShow = function(delay)
         {
             if (typeof delay === 'undefined') delay = 300;
-            // $modal.removeClass('fade');
             setTimeout(function()
             {
                 $dialog = $modal.find('.modal-dialog');
@@ -156,9 +155,12 @@
                 {
                     $dialog.css('width', options.width);
                 }
-                if (options.height && options.height != 'auto') $dialog.css('height', options.height);
+                if (options.height && options.height != 'auto')
+                {
+                    $dialog.css('height', options.height);
+                    if(options.type === 'iframe') $body.css('height', $dialog.height() - $header.outerHeight());
+                }
                 that.ajustPosition(options.position);
-                // if(options.fade) $modal.addClass('fade');
                 $modal.removeClass('modal-loading');
 
                 if (options.type != 'iframe')
@@ -221,7 +223,6 @@
                 var frame = document.getElementById(iframeName);
                 frame.onload = frame.onreadystatechange = function()
                 {
-                    $modal.attr('ref', frame.contentWindow.location.href);
                     if (that.firstLoad) $modal.addClass('modal-loading');
                     if (this.readyState && this.readyState != 'complete') return;
                     that.firstLoad = false;
@@ -233,6 +234,7 @@
 
                     try
                     {
+                        $modal.attr('ref', frame.contentWindow.location.href);
                         var frame$ = window.frames[iframeName].$;
                         if (frame$ && options.height === 'auto' && options.size != 'fullscreen')
                         {
