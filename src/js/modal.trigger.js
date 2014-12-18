@@ -274,18 +274,25 @@
             {
                 $.get(options.url, function(data)
                 {
-                    var $data = $(data);
-                    if ($data.hasClass('modal-dialog'))
+                    try
                     {
-                        $dialog.replaceWith($data);
+                        var $data = $(data);
+                        if ($data.hasClass('modal-dialog'))
+                        {
+                            $dialog.replaceWith($data);
+                        }
+                        else if ($data.hasClass('modal-content'))
+                        {
+                            $dialog.find('.modal-content').replaceWith($data);
+                        }
+                        else
+                        {
+                            $body.wrapInner($data);
+                        }
                     }
-                    else if ($data.hasClass('modal-content'))
+                    catch(e)
                     {
-                        $dialog.find('.modal-content').replaceWith($data);
-                    }
-                    else
-                    {
-                        $body.wrapInner($data);
+                        $modal.html(data);
                     }
                     $modal.callEvent('loaded.zui.modal',
                     {
