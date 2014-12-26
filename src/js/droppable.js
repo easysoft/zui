@@ -78,10 +78,6 @@
                     top: event.pageY
                 };
             var containerOffset = $container.offset();
-            // var startPosition = {
-            //     left: startOffset.left - containerOffset.left,
-            //     top: startOffset.top - containerOffset.top
-            // };
             var clickOffset = {
                 left: startMouseOffset.left - startOffset.left,
                 top: startMouseOffset.top - startOffset.top
@@ -138,10 +134,6 @@
                     top: offset.top - containerOffset.top
                 };
                 shadow.css(position);
-                // var moveOffset = {
-                //     left: mouseOffset.left - lastMouseOffset.left,
-                //     top: mouseOffset.top - lastMouseOffset.top
-                // };
                 lastMouseOffset.left = mouseOffset.left;
                 lastMouseOffset.top = mouseOffset.top;
 
@@ -158,8 +150,8 @@
                 {
                     var t = $(this);
                     var tPos = t.offset();
-                    var tW = t.width(),
-                        tH = t.height(),
+                    var tW = t.outerWidth(),
+                        tH = t.outerHeight(),
                         tX = tPos.left + setting.sensorOffsetX,
                         tY = tPos.top + setting.sensorOffsetY;
 
