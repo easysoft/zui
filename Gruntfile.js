@@ -242,8 +242,6 @@ module.exports = function(grunt)
             {
                 grunt.task.run(['build:' + bundle + ':' + lint]);
             });
-
-            return;
         }
 
         lint = lint === 'lint';
