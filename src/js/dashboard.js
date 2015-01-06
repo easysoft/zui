@@ -79,6 +79,7 @@
             event.stopPropagation();
         });
 
+        var pColClass;
         this.$.find('.panel-heading').mousedown(function(event)
         {
             var panel = $(this).closest('.panel');
@@ -90,8 +91,11 @@
             var dColShadow = row.find('.dragging-col-holder');
             if (!dColShadow.length)
             {
-                dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').addClass(row.children().attr('class')).removeClass('dragging-col').appendTo(row);
+                dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').removeClass('dragging-col').appendTo(row);
             }
+
+            if(pColClass) dColShadow.removeClass(pColClass);
+            dColShadow.addClass(pColClass = pCol.attr('class'));
 
             dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
 
