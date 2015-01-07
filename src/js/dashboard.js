@@ -56,7 +56,7 @@
 
     Dashboard.prototype.handleRefreshEvent = function()
     {
-        this.$.on('.click', '.refresh-panel', function()
+        this.$.on('click', '.refresh-panel', function()
         {
             var panel = $(this).closest('.panel');
             refreshPanel(panel);
