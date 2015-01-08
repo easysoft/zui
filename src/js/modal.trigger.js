@@ -393,8 +393,16 @@
         return null;
     }
 
-    window.closeModal = function(callback, redirect, modal)
+    // callback, redirect, modal
+    window.closeModal = function(modal, callback, redirect)
     {
+        if($.isFunction(modal))
+        {
+            var oldModal = redirect;
+            redirect = callback;
+            callback = modal;
+            modal = oldModal;
+        }
         modal = getModal(modal);
         if (modal && modal.length)
         {
