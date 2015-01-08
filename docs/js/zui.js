@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-11
+ * ZUI - v1.2.1 - 2015-01-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 /* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -1938,10 +1938,6 @@
                     top: event.pageY
                 };
             var containerOffset = $container.offset();
-            // var startPosition = {
-            //     left: startOffset.left - containerOffset.left,
-            //     top: startOffset.top - containerOffset.top
-            // };
             var clickOffset = {
                 left: startMouseOffset.left - startOffset.left,
                 top: startMouseOffset.top - startOffset.top
@@ -1998,10 +1994,6 @@
                     top: offset.top - containerOffset.top
                 };
                 shadow.css(position);
-                // var moveOffset = {
-                //     left: mouseOffset.left - lastMouseOffset.left,
-                //     top: mouseOffset.top - lastMouseOffset.top
-                // };
                 lastMouseOffset.left = mouseOffset.left;
                 lastMouseOffset.top = mouseOffset.top;
 
@@ -2018,8 +2010,8 @@
                 {
                     var t = $(this);
                     var tPos = t.offset();
-                    var tW = t.width(),
-                        tH = t.height(),
+                    var tW = t.outerWidth(),
+                        tH = t.outerHeight(),
                         tX = tPos.left + setting.sensorOffsetX,
                         tY = tPos.top + setting.sensorOffsetY;
 
@@ -2668,7 +2660,9 @@
 
     if (!$.fn.modal) throw new Error('Modal trigger requires modal.js');
 
-    // ONCE MODAL CLASS DEFINITION
+    var NAME = 'zui.modaltrigger';
+
+    // MODAL TRIGGER CLASS DEFINITION
     // ======================
     var ModalTrigger = function(options)
     {
@@ -2743,10 +2737,10 @@
         var $modal = $('#' + options.name);
         if ($modal.length)
         {
-            if (!this.isShown) $modal.off('.zui.modal');
+            if (!that.isShown) $modal.off('.zui.modal');
             $modal.remove();
         }
-        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body');
+        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
 
         var bindEvent = function(optonName, eventName)
         {
@@ -2803,7 +2797,6 @@
         var readyToShow = function(delay)
         {
             if (typeof delay === 'undefined') delay = 300;
-            // $modal.removeClass('fade');
             setTimeout(function()
             {
                 $dialog = $modal.find('.modal-dialog');
@@ -2811,14 +2804,17 @@
                 {
                     $dialog.css('width', options.width);
                 }
-                if (options.height && options.height != 'auto') $dialog.css('height', options.height);
+                if (options.height && options.height != 'auto')
+                {
+                    $dialog.css('height', options.height);
+                    if(options.type === 'iframe') $body.css('height', $dialog.height() - $header.outerHeight());
+                }
                 that.ajustPosition(options.position);
-                // if(options.fade) $modal.addClass('fade');
                 $modal.removeClass('modal-loading');
 
                 if (options.type != 'iframe')
                 {
-                    $dialog.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', function()
+                    $dialog.off('resize.' + NAME).on('resize.' + NAME, function()
                     {
                         that.ajustPosition();
                     });
@@ -2876,7 +2872,6 @@
                 var frame = document.getElementById(iframeName);
                 frame.onload = frame.onreadystatechange = function()
                 {
-                    $modal.attr('ref', frame.contentWindow.location.href);
                     if (that.firstLoad) $modal.addClass('modal-loading');
                     if (this.readyState && this.readyState != 'complete') return;
                     that.firstLoad = false;
@@ -2888,6 +2883,7 @@
 
                     try
                     {
+                        $modal.attr('ref', frame.contentWindow.location.href);
                         var frame$ = window.frames[iframeName].$;
                         if (frame$ && options.height === 'auto' && options.size != 'fullscreen')
                         {
@@ -2909,7 +2905,7 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                         }
 
                         frame$.extend(
@@ -2927,18 +2923,25 @@
             {
                 $.get(options.url, function(data)
                 {
-                    var $data = $(data);
-                    if ($data.hasClass('modal-dialog'))
+                    try
                     {
-                        $dialog.replaceWith($data);
+                        var $data = $(data);
+                        if ($data.hasClass('modal-dialog'))
+                        {
+                            $dialog.replaceWith($data);
+                        }
+                        else if ($data.hasClass('modal-content'))
+                        {
+                            $dialog.find('.modal-content').replaceWith($data);
+                        }
+                        else
+                        {
+                            $body.wrapInner($data);
+                        }
                     }
-                    else if ($data.hasClass('modal-content'))
+                    catch(e)
                     {
-                        $dialog.find('.modal-content').replaceWith($data);
-                    }
-                    else
-                    {
-                        $body.wrapInner($data);
+                        $modal.html(data);
                     }
                     $modal.callEvent('loaded.zui.modal',
                     {
@@ -2959,16 +2962,20 @@
 
     ModalTrigger.prototype.close = function(callback, redirect)
     {
-        this.$modal.on('hidden.zui.modal', function()
+        if(callback || redirect)
         {
-            if ($.isFunction(callback)) callback();
-
-            if (typeof redirect === 'string')
+            this.$modal.on('hidden.zui.modal', function()
             {
-                if (redirect === 'this') window.location.reload();
-                else window.location = redirect;
-            }
-        }).modal('hide');
+                if ($.isFunction(callback)) callback();
+
+                if (typeof redirect === 'string')
+                {
+                    if (redirect === 'this') window.location.reload();
+                    else window.location = redirect;
+                }
+            });
+        }
+        this.$modal.modal('hide');
     };
 
     ModalTrigger.prototype.toggle = function(options)
@@ -2990,18 +2997,18 @@
         return $(this).each(function()
         {
             var $this = $(this);
-            var data = $this.data('zui.modaltrigger'),
+            var data = $this.data(NAME),
                 options = $.extend(
                 {
                     title: $this.attr('title') || $this.text(),
                     url: $this.attr('href'),
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
-            if (!data) $this.data('zui.modaltrigger', (data = new ModalTrigger(options)));
+            if (!data) $this.data(NAME, (data = new ModalTrigger(options)));
             if (typeof option == 'string') data[option](settings);
             else if (options.show) data.show(settings);
 
-            $this.on((options.trigger || 'click') + '.toggle.zui.modaltrigger', function(e)
+            $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e)
             {
                 data.toggle(options);
                 if ($this.is('a')) e.preventDefault();
@@ -3035,14 +3042,22 @@
         return null;
     }
 
-    window.closeModal = function(callback, redirect, modal)
+    // callback, redirect, modal
+    window.closeModal = function(modal, callback, redirect)
     {
+        if($.isFunction(modal))
+        {
+            var oldModal = redirect;
+            redirect = callback;
+            callback = modal;
+            modal = oldModal;
+        }
         modal = getModal(modal);
         if (modal && modal.length)
         {
             modal.each(function()
             {
-                $(this).data('zui.modaltrigger').close(callback, redirect);
+                $(this).data(NAME).close(callback, redirect);
             });
         }
     };
@@ -3062,7 +3077,7 @@
         ajustModalPosition: window.ajustModalPosition
     });
 
-    $(document).on('click.zui.modaltrigger.data-api', '[data-toggle="modal"]', function(e)
+    $(document).on('click.' + NAME + '.data-api', '[data-toggle="modal"]', function(e)
     {
         var $this = $(this);
         var href = $this.attr('href');
@@ -3075,7 +3090,7 @@
         {}
         if (!$target || !$target.length)
         {
-            if (!$this.data('zui.modaltrigger'))
+            if (!$this.data(NAME))
             {
                 $this.modalTrigger(
                 {
@@ -3084,7 +3099,7 @@
             }
             else
             {
-                $this.trigger('.toggle.zui.modaltrigger');
+                $this.trigger('.toggle.' + NAME);
             }
         }
         if ($this.is('a'))
@@ -5599,6 +5614,7 @@
     Dashboard.DEFAULTS = {
         height: 360,
         shadowType: 'circle',
+        sensitive: false,
         circleShadowSize: 100
     };
 
@@ -5632,7 +5648,7 @@
 
     Dashboard.prototype.handleRefreshEvent = function()
     {
-        this.$.on('.click', '.refresh-panel', function()
+        this.$.on('click', '.refresh-panel', function()
         {
             var panel = $(this).closest('.panel');
             refreshPanel(panel);
@@ -5656,8 +5672,10 @@
             event.stopPropagation();
         });
 
+        var pColClass;
         this.$.find('.panel-heading').mousedown(function(event)
         {
+            // console.log('--------------------------------');
             var panel = $(this).closest('.panel');
             var pCol = panel.parent();
             var row = panel.closest('.row');
@@ -5665,10 +5683,14 @@
             var pos = panel.offset();
             var dPos = dashboard.offset();
             var dColShadow = row.find('.dragging-col-holder');
+            var sWidth = panel.width(), sHeight = panel.height(), sX1, sY1, sX2, sY2, moveFn, dropCol, dropBefore, nextDropCol;
             if (!dColShadow.length)
             {
-                dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').addClass(row.children().attr('class')).removeClass('dragging-col').appendTo(row);
+                dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').removeClass('dragging-col').appendTo(row);
             }
+
+            if(pColClass) dColShadow.removeClass(pColClass);
+            dColShadow.addClass(pColClass = pCol.attr('class'));
 
             dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
 
@@ -5677,10 +5699,10 @@
 
             dPanel.css(
             {
-                left: pos.left - dPos.left,
-                top: pos.top - dPos.top,
-                width: panel.width(),
-                height: panel.height()
+                left   : pos.left - dPos.left,
+                top    : pos.top - dPos.top,
+                width  : sWidth,
+                height : sHeight
             }).appendTo(dashboard).data('mouseOffset',
             {
                 x: event.pageX - pos.left + dPos.left,
@@ -5694,16 +5716,15 @@
                 {
                     dPanel.css(
                     {
-                        left: event.pageX - dPos.left - halfCircleSize,
-                        top: event.pageY - dPos.top - halfCircleSize,
-                        width: circleSize,
-                        height: circleSize
+                        left   : event.pageX - dPos.left - halfCircleSize,
+                        top    : event.pageY - dPos.top - halfCircleSize,
+                        width  : circleSize,
+                        height : circleSize
                     }).data('mouseOffset',
                     {
                         x: dPos.left + halfCircleSize,
                         y: dPos.top + halfCircleSize
                     });
-
                 }, 100);
             }
 
@@ -5712,21 +5733,28 @@
 
             function mouseMove(event)
             {
+                // console.log('......................');
                 var offset = dPanel.data('mouseOffset');
+                sX1 = event.pageX - offset.x;
+                sY1 = event.pageY - offset.y;
+                sX2 = sX1 + sWidth;
+                sY2 = sY1 + sHeight;
                 dPanel.css(
                 {
-                    left: event.pageX - offset.x,
-                    top: event.pageY - offset.y
+                    left: sX1,
+                    top: sY1
                 });
 
                 row.find('.dragging-in').removeClass('dragging-in');
-                var before = false;
-                row.children().each(function()
+                dropBefore = false;
+                dropCol = null;
+                var area = 0, thisArea;
+                row.children(':not(.dragging-col)').each(function()
                 {
                     var col = $(this);
-                    if (col.hasClass('dragging-col-holder'))
+                    if(col.hasClass('dragging-col-holder'))
                     {
-                        before = true;
+                        dropBefore = (!options.sensitive) || (area < 100);
                         return true;
                     }
                     var p = col.children('.panel');
@@ -5735,24 +5763,62 @@
                         pH = p.height();
                     var pX = pP.left,
                         pY = pP.top;
-                    var mX = event.pageX,
-                        mY = event.pageY;
 
-                    if (mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH))
+                    if(options.sensitive)
                     {
-                        // var dCol = row.find('.dragging-col');
-                        col.addClass('dragging-in');
-                        if (before) dColShadow.insertAfter(col);
-                        else dColShadow.insertBefore(col);
-                        dashboard.addClass('dashboard-holding');
-                        return false;
+                        pX -= dPos.left;
+                        pY -= dPos.top;
+                        thisArea = getIntersectArea(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH);
+                        if(thisArea > 100 && thisArea > area && thisArea > Math.min(getRectArea(sX1, sY1, sX2, sY2), getRectArea(pX, pY, pX + pW, pY + pH))/3)
+                        {
+                            area = thisArea;
+                            dropCol = col;
+                        }
+                        // if(thisArea)
+                        // {
+                        //     console.log('panel ' + col.data('id'), '({0}, {1}, {2}, {3}), ({4}, {5}, {6}, {7})'.format(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH));
+                        // }
+                    }
+                    else
+                    {
+                        var mX = event.pageX,
+                            mY = event.pageY;
+
+                        if (mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH))
+                        {
+                            // var dCol = row.find('.dragging-col');
+                            dropCol = col;
+                            return false;
+                        }
                     }
                 });
+
+                if(dropCol)
+                {
+                    if(moveFn) clearTimeout(moveFn);
+                    nextDropCol= dropCol;
+                    moveFn = setTimeout(movePanel, 50);
+                }
                 event.preventDefault();
+            }
+
+            function movePanel()
+            {
+                if(nextDropCol)
+                {
+                    nextDropCol.addClass('dragging-in');
+                    if (dropBefore) dColShadow.insertAfter(nextDropCol);
+                    else dColShadow.insertBefore(nextDropCol);
+                    dashboard.addClass('dashboard-holding');
+                    moveFn = null;
+                    nextDropCol = null;
+                }
             }
 
             function mouseUp(event)
             {
+                if(moveFn) clearTimeout(moveFn);
+
                 var oldOrder = panel.data('order');
                 panel.parent().insertAfter(dColShadow);
                 var newOrder = 0;
@@ -5841,6 +5907,29 @@
             panel.removeClass('panel-loading');
             panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
         });
+    }
+
+    function getRectArea(x1, y1, x2, y2)
+    {
+        return Math.abs((x2 - x1) * (y2- y1));
+    }
+
+    function isPointInner(x, y, x1, y1, x2, y2)
+    {
+        return x >= x1 && x <= x2 && y >= y1 && y <= y2;
+    }
+
+    function getIntersectArea(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2)
+    {
+        var x1 = Math.max(ax1, bx1),
+            y1 = Math.max(ay1, by1),
+            x2 = Math.min(ax2, bx2),
+            y2 = Math.min(ay2, by2);
+        if(isPointInner(x1, y1, ax1, ay1, ax2, ay2) && isPointInner(x2, y2, ax1, ay1, ax2, ay2) && isPointInner(x1, y1, bx1, by1, bx2, by2) && isPointInner(x2, y2, bx1, by1, bx2, by2))
+        {
+            return getRectArea(x1, y1, x2, y2);
+        }
+        return 0;
     }
 
     Dashboard.prototype.init = function()
@@ -7736,6 +7825,7 @@
 
     $.fn.calendar.Constructor = Calendar;
 }(jQuery, window));
+
 
 /* ========================================================================
  * jQuery Hotkeys Plugin

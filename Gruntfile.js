@@ -222,7 +222,7 @@ module.exports = function(grunt)
                     build =
                     {
                       title: buildLib.name,
-                      dest: "dist/lib/" + name + "/",
+                      dest: 'dist/lib/' + name + '/',
                       filename: name,
                       includes: [name]
                     };

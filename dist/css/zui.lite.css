@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-05
+ * ZUI - v1.2.1 - 2015-01-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 /* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -5110,6 +5110,12 @@ ol.linenums li {
   outline: 0;
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
           box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+}
+/* full screen modal */
+.modal-fullscreen .modal-dialog {
+  width: 100%!important;
+  height: 100%!important;
+  border-radius: 0;
 }
 .modal-backdrop {
   position: fixed;

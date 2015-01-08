@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-11
+ * ZUI - v1.2.1 - 2015-01-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 /* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -6215,6 +6215,12 @@ ol.linenums li {
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
           box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 }
+/* full screen modal */
+.modal-fullscreen .modal-dialog {
+  width: 100%!important;
+  height: 100%!important;
+  border-radius: 0;
+}
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -7784,8 +7790,8 @@ body.article-content {
   margin-left: 4px;
 }
 .dashboard .panel {
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
-          box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
 }
 .dashboard .panel-body {
   padding: 6px 10px;
@@ -7807,8 +7813,8 @@ body.article-content {
 }
 .dashboard .panel-dragging {
   color: #fff;
-  background: rgba(0, 0, 0, .3);
-  border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(0, 0, 0, .1);
+  border: 1px solid #fff;
   -webkit-box-shadow: none!important;
           box-shadow: none!important;
 }
@@ -7821,8 +7827,8 @@ body.article-content {
   cursor: move;
   background: rgba(255, 255, 255, .5);
   border: 2px solid rgba(255, 255, 255, .9);
-  -webkit-box-shadow: 1px 2px 15px rgba(0, 0, 0, .5) !important;
-          box-shadow: 1px 2px 15px rgba(0, 0, 0, .5) !important;
+  -webkit-box-shadow: 1px 5px 15px rgba(0, 0, 0, .5) !important;
+          box-shadow: 1px 5px 15px rgba(0, 0, 0, .5) !important;
 }
 .dashboard .panel-dragging-shadow > * {
   filter: alpha(opacity=70);
@@ -7846,6 +7852,20 @@ body.article-content {
 }
 .dashboard.dashboard-holding .dragging-col {
   display: none;
+}
+.dashboard-inverse {
+  background-color: #108bf1;
+}
+.dashboard-inverse .panel {
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
+          box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
+}
+.dashboard-inverse .panel-dragging {
+  background: rgba(0, 0, 0, .3);
+}
+.dashboard-inverse .panel-dragging-shadow {
+  -webkit-box-shadow: 1px 2px 15px rgba(0, 0, 0, .5) !important;
+          box-shadow: 1px 2px 15px rgba(0, 0, 0, .5) !important;
 }
 .board-item {
   padding: 6px 10px;
