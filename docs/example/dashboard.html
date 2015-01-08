@@ -13,14 +13,14 @@
   <link href="../css/example.css" rel="stylesheet">
 
   <script src="../../assets/jquery.js"></script>
-  <script src="../js/zui.min.js"></script>
+  <script src="../js/zui.js"></script>
 
   <script src="../assets/js/example.js"></script>
 
   <script>
   $(function()
   {
-    $('#dashboard').dashboard({shadowType: 'circle'});
+    $('#dashboard').dashboard({shadowType: 'normal', sensitive: true});
   });
   </script>
 </head>
@@ -83,11 +83,11 @@
   </nav>
   <article>
     <h1>Dashboard</h1>
-    <div class="segment" style='max-width: 1600px; width: inherit; padding: 80px 50px; background: #114DAD'>
+    <div class="segment" style='max-width: 1600px; width: inherit; padding: 80px 50px; background: #f5f5f5'>
       <div id="dashboard" class="dashboard dashboard-draggable" data-height="300">
         <header></header>
         <section class='row'>
-          <div class="col-md-4 col-sm-6" data-id='1'>
+          <div class="col-md-6 col-sm-6" data-id='1'>
             <div class="panel" data-url='http://baidu.com'>
               <div class="panel-heading">
                 <div class="panel-actions">
@@ -117,7 +117,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 col-sm-6" data-id='2'>
+          <div class="col-md-2 col-sm-6" data-id='2'>
             <div class="panel" data-url='http://chanzhi.org'>
               <div class="panel-heading">
                 <div class="panel-actions">
@@ -165,11 +165,11 @@
           </div>
           <div class="col-md-4 col-sm-6" data-id='4'>
             <div class="panel">
-              <div class="panel-heading">4 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+              <div class="panel-heading">4 Panel<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
               <div class="panel-body"></div>
             </div>
           </div>
-          <div class="col-md-4 col-sm-6" data-id='5'>
+          <div class="col-md-3 col-sm-6" data-id='5'>
             <div class="panel">
               <div class="panel-heading">5 Table<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
               <div class="panel-body">
@@ -220,25 +220,19 @@
           </div>
           <div class="col-md-4 col-sm-6" data-id='6'>
             <div class="panel">
-              <div class="panel-heading">6 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+              <div class="panel-heading">6 Panel<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
               <div class="panel-body"></div>
             </div>
           </div>
-          <div class="col-md-4 col-sm-6" data-id='7'>
+          <div class="col-md-7 col-sm-6" data-id='7'>
             <div class="panel">
-              <div class="panel-heading">7 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+              <div class="panel-heading">7 Panel<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
               <div class="panel-body"></div>
             </div>
           </div>
-          <div class="col-md-4 col-sm-6" data-id='8'>
+          <div class="col-md-6 col-sm-6" data-id='9'>
             <div class="panel">
-              <div class="panel-heading">8 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
-              <div class="panel-body"></div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6" data-id='9'>
-            <div class="panel">
-              <div class="panel-heading">9 Panel heading<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
+              <div class="panel-heading">9 Panel<div class="panel-actions"><button class="btn btn-mini"><i class="icon-refresh"></i></button></div></div>
               <div class="panel-body"></div>
             </div>
           </div>
