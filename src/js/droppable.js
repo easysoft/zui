@@ -204,6 +204,7 @@
                     },
                     mouseOffset: mouseOffset
                 });
+                event.preventDefault();
             }
 
             function mouseUp(event)
