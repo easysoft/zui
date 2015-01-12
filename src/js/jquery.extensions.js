@@ -42,8 +42,9 @@
                 {
                     func = $.proxy(func, proxy);
                 }
-                event.result = func(event);
-                return !(event.result !== undefined && (!event.result));
+                var result = func(event);
+                if(event) event.result = result;
+                return !(result !== undefined && (!result));
             }
             return 1;
         },
