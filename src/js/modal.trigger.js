@@ -5,7 +5,7 @@
  * ======================================================================== */
 
 
-(function($)
+(function($, window)
 {
     'use strict';
 
@@ -261,7 +261,7 @@
 
                         frame$.extend(
                         {
-                            closeModal: that.close
+                            closeModal: window.closeModal
                         });
                     }
                     catch (e)
@@ -458,4 +458,4 @@
             e.preventDefault();
         }
     });
-}(window.jQuery));
+}(window.jQuery, window));
