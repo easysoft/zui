@@ -1535,7 +1535,7 @@
       "filename": "zui.ranzhi",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "string", "resize", "date", "basic", "ranzhi.variables", "utilities", "animations", "draggable", "board", "hotkeys", "scaffolding", "grid", "typography", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table", "panels", "forms", "code", "pager.basic", "navs", "navbars", "device", "transition", "alerts", "button", "button.group", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article", "comment", "list", "card", "datatable", "scrollbars", "dashboard", "imgcutter", "menu", "carousel", "listgroup", "progressbar"]
+      "includes": ["jqueryex", "string", "resize", "date", "basic", "ranzhi.variables", "utilities", "animations", "draggable", "board", "hotkeys", "scaffolding", "grid", "typography", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table", "panels", "forms", "code", "pager.basic", "navs", "navbars", "device", "transition", "alerts.basic", "button", "button.group", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article", "comment", "list", "card", "datatable", "scrollbars", "dashboard", "imgcutter", "menu", "carousel", "listgroup", "progressbar"]
     }
   }
 }
