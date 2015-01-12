@@ -62,10 +62,12 @@
             trigger: options.trigger,
             target: self.children(options.selector),
             container: self,
+            always: options.always,
             flex: true,
             start: function(e)
             {
                 if(options.dragCssClass) e.element.addClass(options.dragCssClass);
+                $.callEvent(options['start']);
             },
             drag: function(e)
             {
@@ -89,7 +91,7 @@
             },
             finish: function(e)
             {
-                if(options.dragCssClass) e.element.removeClass(options.dragCssClass);
+                if(options.dragCssClass && e.element) e.element.removeClass(options.dragCssClass);
                 $.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
             }
         });

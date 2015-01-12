@@ -218,6 +218,7 @@
                 {
                     $e.removeClass('drag-from');
                     $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+                    self.callEvent('always', {event: event, cancel: true});
                     return;
                 }
 
@@ -268,6 +269,7 @@
                 shadow.remove();
 
                 self.callEvent('finish', eventOptions);
+                self.callEvent('always', eventOptions);
 
                 event.preventDefault();
             }
