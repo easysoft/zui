@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2015-01-08
+ * ZUI - v1.2.1 - 2015-01-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -51,8 +51,9 @@
                 {
                     func = $.proxy(func, proxy);
                 }
-                event.result = func(event);
-                return !(event.result !== undefined && (!event.result));
+                var result = func(event);
+                if(event) event.result = result;
+                return !(result !== undefined && (!result));
             }
             return 1;
         },
@@ -1889,7 +1890,7 @@
  * ======================================================================== */
 
 
-(function($)
+(function($, window)
 {
     'use strict';
 
@@ -2145,7 +2146,7 @@
 
                         frame$.extend(
                         {
-                            closeModal: that.close
+                            closeModal: window.closeModal
                         });
                     }
                     catch (e)
@@ -2342,7 +2343,7 @@
             e.preventDefault();
         }
     });
-}(window.jQuery));
+}(window.jQuery, window));
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
@@ -2597,6 +2598,9 @@
     var $tip  = this.tip()
     var title = this.getTitle()
 
+    if(this.options.tipId) $tip.attr('id', this.options.tipId)
+    if(this.options.tipClass) $tip.addClass(this.options.tipClass)
+
     $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
     $tip.removeClass('fade in top bottom left right')
   }
@@ -2784,8 +2788,6 @@
   Popover.prototype.setContent = function () {
     var $tip    = this.tip()
     var target = this.getTarget()
-
-    if(this.options.id) $tip.attr('id', this.options.id)
 
     if(target)
     {

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2015-01-08
+ * ZUI - v1.2.1 - 2015-01-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -51,8 +51,9 @@
                 {
                     func = $.proxy(func, proxy);
                 }
-                event.result = func(event);
-                return !(event.result !== undefined && (!event.result));
+                var result = func(event);
+                if(event) event.result = result;
+                return !(result !== undefined && (!result));
             }
             return 1;
         },
@@ -2064,6 +2065,7 @@
                     },
                     mouseOffset: mouseOffset
                 });
+                event.preventDefault();
             }
 
             function mouseUp(event)
@@ -2077,6 +2079,7 @@
                 {
                     $e.removeClass('drag-from');
                     $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+                    self.callEvent('always', {event: event, cancel: true});
                     return;
                 }
 
@@ -2127,6 +2130,7 @@
                 shadow.remove();
 
                 self.callEvent('finish', eventOptions);
+                self.callEvent('always', eventOptions);
 
                 event.preventDefault();
             }
@@ -2221,10 +2225,12 @@
             trigger: options.trigger,
             target: self.children(options.selector),
             container: self,
+            always: options.always,
             flex: true,
             start: function(e)
             {
                 if(options.dragCssClass) e.element.addClass(options.dragCssClass);
+                $.callEvent(options['start']);
             },
             drag: function(e)
             {
@@ -2248,7 +2254,7 @@
             },
             finish: function(e)
             {
-                if(options.dragCssClass) e.element.removeClass(options.dragCssClass);
+                if(options.dragCssClass && e.element) e.element.removeClass(options.dragCssClass);
                 $.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
             }
         });
@@ -2654,7 +2660,7 @@
  * ======================================================================== */
 
 
-(function($)
+(function($, window)
 {
     'use strict';
 
@@ -2910,7 +2916,7 @@
 
                         frame$.extend(
                         {
-                            closeModal: that.close
+                            closeModal: window.closeModal
                         });
                     }
                     catch (e)
@@ -3107,7 +3113,7 @@
             e.preventDefault();
         }
     });
-}(window.jQuery));
+}(window.jQuery, window));
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
@@ -3362,6 +3368,9 @@
     var $tip  = this.tip()
     var title = this.getTitle()
 
+    if(this.options.tipId) $tip.attr('id', this.options.tipId)
+    if(this.options.tipClass) $tip.addClass(this.options.tipClass)
+
     $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
     $tip.removeClass('fade in top bottom left right')
   }
@@ -3549,8 +3558,6 @@
   Popover.prototype.setContent = function () {
     var $tip    = this.tip()
     var target = this.getTarget()
-
-    if(this.options.id) $tip.attr('id', this.options.id)
 
     if(target)
     {

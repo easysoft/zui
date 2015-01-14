@@ -28,12 +28,18 @@
 
 <script src="../../assets/jquery.js"></script>
 <script src="../../dist/js/zui.js"></script>
+<script src="../../dist/lib/calendar/zui.calendar.js"></script>
 <script src="../js/example.js"></script>
 
 <script>
 $(function()
 {
   $('#calendar').calendar();
+  var calendar = $('#calendar').calendar().data('zui.calendar');
+  var newEvent = {title:"吃饭了", desc: "描述", start: '2014-8-14 12:00', end: "2014-8=14 13:00"};
+  calendar.addEvents(newEvent);
+  //
+    // $('#calendar').calendar({data: {events: [{title:"吃饭了", desc: "描述", start: '2014-8-14 12:00', end: "2014-8=14 13:00"}]}});
 });
 </script>
 <script src="http://s95.cnzz.com/stat.php?id=1253026255&web_id=1253026255"></script>

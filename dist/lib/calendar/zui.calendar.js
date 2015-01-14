@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-05
+ * ZUI - v1.2.1 - 2015-01-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -226,54 +226,56 @@
 
     Calendar.prototype.addCalendars = function(calendars)
     {
+        var that = this;
         if ($.isPlainObject(calendars))
         {
             calendars = [calendars];
         }
         $.each(calendars, function(index, value)
         {
-            if (this.callEvent('beforeAddCalendars',
+            if (that.callEvent('beforeAddCalendars',
             {
                 newCalendar: value,
-                data: this.data
+                data: that.data
             }))
             {
-                this.calendars[value.name](value);
+                that.calendars[value.name](value);
             }
         });
 
-        this.display();
-        this.callEvent('addCalendars',
+        that.display();
+        that.callEvent('addCalendars',
         {
             newCalendars: calendars,
-            data: this.data
+            data: that.data
         });
     };
 
     Calendar.prototype.addEvents = function(events)
     {
+        var that = this;
         if ($.isPlainObject(events))
         {
             events = [events];
         }
         $.each(events, function(index, value)
         {
-            if (this.callEvent('beforeAddEvent',
+            if (that.callEvent('beforeAddEvent',
             {
                 newEvent: value,
-                data: this.data
+                data: that.data
             }))
             {
-                this.events.push(value);
+                that.events.push(value);
             }
         });
 
-        this.sortEvents();
-        this.display();
-        this.callEvent('addEvents',
+        that.sortEvents();
+        that.display();
+        that.callEvent('addEvents',
         {
             newEvents: events,
-            data: this.data
+            data: that.data
         });
     };
 
@@ -295,7 +297,7 @@
         var eventsParams = {
             data: this.data,
             changes: []
-        };
+        }, that = this;
 
         if ($.isPlainObject(events))
         {
@@ -312,7 +314,7 @@
             };
             if (typeof event === 'string')
             {
-                event = this.getEvent(event);
+                event = that.getEvent(event);
             }
             if (event)
             {
@@ -322,7 +324,7 @@
                 }
                 $.each(function(idx, chge)
                 {
-                    if (this.callEvent('beforeChange',
+                    if (that.callEvent('beforeChange',
                     {
                         event: event,
                         change: chge.change,
@@ -342,9 +344,9 @@
             eventsParams.changes.push(eventParam);
         });
 
-        this.sortEvents();
-        this.display();
-        this.callEvent('change', eventsParams);
+        that.sortEvents();
+        that.display();
+        that.callEvent('change', eventsParams);
     };
 
     Calendar.prototype.removeEvents = function(events)
@@ -353,7 +355,7 @@
         {
             events = [events];
         }
-        var id, event, idx, evts = this.events,
+        var id, event, idx, evts = this.events, that = this,
             removedEvents = [];
         $.each(events, function(index, value)
         {
@@ -369,11 +371,11 @@
                 }
             }
 
-            if (idx >= 0 && this.callEvent('beforeRemoveEvent',
+            if (idx >= 0 && that.callEvent('beforeRemoveEvent',
             {
                 event: event,
                 eventId: id,
-                data: this.data
+                data: that.data
             }))
             {
                 evts.splice(idx, 1);
@@ -381,12 +383,12 @@
             }
         });
 
-        this.sortEvents();
-        this.display();
-        this.callEvent('removeEvents',
+        that.sortEvents();
+        that.display();
+        that.callEvent('removeEvents',
         {
             removedEvents: removedEvents,
-            data: this.data
+            data: that.data
         });
     };
 
@@ -403,38 +405,39 @@
 
     Calendar.prototype.display = function(view, date)
     {
+        var that = this;
         if (typeof view === 'undefined')
         {
-            view = this.view;
+            view = that.view;
         }
         else
         {
-            this.view = view;
+            that.view = view;
         }
 
         if (typeof date === 'undefined')
         {
-            date = this.date;
+            date = that.date;
         }
         else
         {
-            this.date = date;
+            that.date = date;
         }
 
         if (date === 'today')
         {
             date = new Date();
-            this.date = date;
+            that.date = date;
         }
         else if (typeof date === 'string')
         {
             date = new Date(date);
-            this.date = date;
+            that.date = date;
         }
 
-        if (this.options.storage)
+        if (that.options.storage)
         {
-            window.store.pageSet(this.storeName,
+            window.store.pageSet(that.storeName,
             {
                 date: date,
                 view: view
@@ -445,28 +448,29 @@
             view: view,
             date: date
         };
-        if (this.callEvent('beforeDisplay', eventPramas))
+        if (that.callEvent('beforeDisplay', eventPramas))
         {
             switch (view)
             {
                 case 'month':
-                    this.displayMonth(date);
+                    that.displayMonth(date);
                     break;
             }
 
-            this.callEvent('display', eventPramas);
+            that.callEvent('display', eventPramas);
         }
     };
 
     Calendar.prototype.displayMonth = function()
     {
-        var options = this.options,
-            self = this,
-            lang = this.lang,
-            date = this.date,
+        var that = this;
+        var options = that.options,
+            self = that,
+            lang = that.lang,
+            date = that.date,
             i,
-            $views = this.$views,
-            $e = this.$;
+            $views = that.$views,
+            $e = that.$;
 
         var $view = self.$monthView;
         if (!$view.length)
@@ -545,15 +549,15 @@
 
         if (options.withHeader)
         {
-            this.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1));
-            this.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
+            that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1));
+            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
         }
 
         var $event,
             cal,
             // events = this.events,
-            calendars = this.calendars;
-        $.each(this.events, function(index, e)
+            calendars = that.calendars;
+        $.each(that.events, function(index, e)
         {
             if (e.start >= firstDay && e.start <= lastDay)
             {
