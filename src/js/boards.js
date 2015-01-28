@@ -130,11 +130,12 @@
                 if (e.isNew)
                 {
                     var DROP = 'drop';
+                    var result;
                     if (setting.hasOwnProperty(DROP) && $.isFunction(setting[DROP]))
                     {
-                        setting[DROP](e);
+                        result = setting[DROP](e);
                     }
-                    e.element.insertBefore(e.target);
+                    if(result !== false) e.element.insertBefore(e.target);
                 }
             },
             finish: function()
