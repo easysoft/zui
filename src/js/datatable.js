@@ -420,8 +420,13 @@
                         row: r,
                         index: i
                     };
-                    row.data[i] = rowCol;
                 }
+                else
+                {
+                    rowCol.row = r;
+                    rowCol.index = i;
+                }
+                row.data[i] = rowCol;
 
                 $td = $('<td/>');
 
