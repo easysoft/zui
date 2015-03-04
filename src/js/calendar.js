@@ -211,7 +211,7 @@
             self.callEvent('clickCell',
             {
                 view: self.view,
-                date: $(this).attr('data-date'),
+                date: new Date($(this).children('.day').attr('data-date')),
                 events: self.events
             });
         });
