@@ -117,6 +117,24 @@
                 year: '{0}年',
                 month: '{0}月',
                 yearMonth: '{0}年{1}月'
+            },
+            zh_tw:
+            {
+                weekNames: ['週一', '週二', '週三', '週四', '週五', '週六', '週日'],
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                today: '今天',
+                year: '{0}年',
+                month: '{0}月',
+                yearMonth: '{0}年{1}月'
+            },
+            en:
+            {
+                weekNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                today: 'Today',
+                year: '{0}',
+                month: '{0}',
+                yearMonth: '{2}, {0}'
             }
         },
         data:
@@ -542,7 +560,7 @@
 
         if (options.withHeader)
         {
-            that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1));
+            that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1, lang.monthNames[thisMonth]));
             that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
         }
 
@@ -632,7 +650,6 @@
                                 }]
                             });
                         }
-
                     }
                 },
                 finish: function()
