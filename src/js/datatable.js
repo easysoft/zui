@@ -971,7 +971,7 @@
                 $cells.each(function()
                 {
                     $cell = $(this);
-                    if(!$cell.attr('rowspan')) mx = Math.max(mx, $cell.height());
+                    if(!$cell.attr('rowspan')) mx = Math.max(mx, $cell.outerHeight());
                 });
                 return mx;
             },
@@ -986,14 +986,16 @@
         }
 
         // set height of head cells
-        $headCells.height(findMaxHeight($headCells));
+        var headMaxHeight = findMaxHeight($headCells);
+        $headCells.css('min-height', headMaxHeight).css('height', headMaxHeight);
 
         // set height of data cells
         var $rowCells;
         for (i = 0; i < rows.length; ++i)
         {
             $rowCells = $dataCells.filter('[data-row="' + i + '"]');
-            $rowCells.height(findMaxHeight($rowCells));
+            var rowMaxHeight = findMaxHeight($rowCells);
+            $rowCells.css('min-height', rowMaxHeight).css('height', rowMaxHeight);
         }
     };
 
