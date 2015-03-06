@@ -5,11 +5,13 @@
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
-
 (function($, window)
 {
     'use strict';
     var name = 'zui.calendar';
+    var NUMBER_TYPE_NAME = 'number';
+    var STRING_TYPE_NAME = 'string';
+    var UNDEFINED_TYPE_NAME = 'undefined';
 
     var getNearbyLastWeekDay = function(date, lastWeek)
         {
@@ -73,8 +75,10 @@
             view: 'month'
         });
 
-        this.date = this.options.startDate || (this.options.storage ? this.storeData.date : 'today');
-        this.view = this.options.startView || (this.options.storage ? this.storeData.view : 'month');
+        this.date = this.options.startDate || 'today';
+        this.view = this.options.startView || 'month';
+
+        this.date = 'today';
 
         this.$.toggleClass('limit-event-title', options.limitEventTitle);
 
@@ -165,18 +169,21 @@
             events = [];
         }
 
+        var startType, endType;
         $.each(events, function(index, e)
         {
-            if (typeof e.start === 'string')
+            startType = typeof e.start;
+            endType = typeof e.end;
+            if (startType === NUMBER_TYPE_NAME || startType === STRING_TYPE_NAME)
             {
                 e.start = new Date(e.start);
             }
-            if (typeof e.end === 'string')
+            if (endType === NUMBER_TYPE_NAME || endType === STRING_TYPE_NAME)
             {
                 e.end = new Date(e.end);
             }
 
-            if (typeof e.id === 'undefined')
+            if (typeof e.id === UNDEFINED_TYPE_NAME)
             {
                 e.id = $.uuid();
             }
@@ -323,7 +330,7 @@
                 event: event,
                 changes: []
             };
-            if (typeof event === 'string')
+            if (typeof event === STRING_TYPE_NAME)
             {
                 event = that.getEvent(event);
             }
@@ -417,7 +424,10 @@
     Calendar.prototype.display = function(view, date)
     {
         var that = this;
-        if (typeof view === 'undefined')
+        var viewType = typeof view;
+        var dateType = typeof date;
+
+        if (viewType === UNDEFINED_TYPE_NAME)
         {
             view = that.view;
         }
@@ -426,7 +436,7 @@
             that.view = view;
         }
 
-        if (typeof date === 'undefined')
+        if (dateType === UNDEFINED_TYPE_NAME)
         {
             date = that.date;
         }
@@ -440,7 +450,8 @@
             date = new Date();
             that.date = date;
         }
-        else if (typeof date === 'string')
+
+        if (typeof date === STRING_TYPE_NAME)
         {
             date = new Date(date);
             that.date = date;
@@ -472,13 +483,13 @@
         }
     };
 
-    Calendar.prototype.displayMonth = function()
+    Calendar.prototype.displayMonth = function(date)
     {
         var that = this;
+        date = date || that.date;
         var options = that.options,
             self = that,
             lang = that.lang,
-            date = that.date,
             i,
             $views = that.$views,
             $e = that.$;
@@ -676,7 +687,7 @@
 
             if (!data) $this.data(name, (data = new Calendar(this, options)));
 
-            if (typeof option == 'string') data[option]();
+            if (typeof option == STRING_TYPE_NAME) data[option]();
         });
     };
 
