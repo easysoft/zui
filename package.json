@@ -1355,6 +1355,15 @@
       "basicDpds": ["setting"],
       "ignoreDpds": true
     },
+    "board":
+    {
+      "title": "Board",
+      "dest": "dist/lib/board/",
+      "filename": "zui.board",
+      "includes": ["board"],
+      "basicDpds": ["setting"],
+      "ignoreDpds": true
+    },
     "mindmap":
     {
       "title": "Mindmap",
@@ -1456,7 +1465,7 @@
     "separate":
     {
       "title": "separate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array", "autotrigger", "chosenicons", "hotkey"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array", "autotrigger", "chosenicons", "hotkey", "board"]
     },
     "dist":
     {
