@@ -1278,7 +1278,7 @@
       },
       "desc": "ZUI的色彩预览样式",
       "ver": "1.0.0",
-      "dpds": ["colorset", "mixins", "doc"],
+      "dpds": ["colorset", "mixins"],
       "custom": true
     },
     "zentao.variables":
@@ -1472,7 +1472,7 @@
       "title": "dist",
       "bundles": ["standard", "lite", "theme", "separate"]
     },
-    "doc":
+    "doczui":
     {
       "title": "document",
       "dest": "docs/",
@@ -1481,14 +1481,14 @@
       "bootstrapStatement": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger", "chosenicons"]
     },
-    "doc2":
+    "doc":
     {
       "title": "new document",
       "dest": "docs/docs/",
       "filename": "doc",
       "subdirectories": true,
       "includes": ["doc"],
-      "bundles": ["doc"]
+      "bundles": ["doczui"]
     },
     "zentao":
     {
