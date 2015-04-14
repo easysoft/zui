@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-(function(window, $)
+(function($)
 {
     'use strict';
     var browseHappyTip = {
