@@ -208,6 +208,7 @@
 
     var store = new Store();
 
+    $.store = store;
     window.store = store;
 
     window.store.noConflict = function()
