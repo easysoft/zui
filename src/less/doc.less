@@ -159,6 +159,7 @@
   background-color: @color-primary;
   color: #fff;
   margin-bottom: 20px;
+  padding-top: 80px;
 
   small {
     opacity: .65
@@ -188,10 +189,13 @@
 
 #heading {
   text-align: center;
+  position: relative;
+  overflow: hidden;
 
   > h1 {
     font-size: 48px;
     font-weight: normal;
+    margin-top: 0;
   }
 
   > p {
@@ -215,11 +219,10 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 80px 20px;
-  .transition-fast();
 }
-.screen-phone #search {
-  padding: 40px 10px;
-}
+// .screen-phone #search {
+//   padding: 40px 10px;
+// }
 #searchForm {
   position: relative;
 
@@ -414,22 +417,65 @@
     }
   }
 
-  #startChapter {
+  #chapter-start {
     .chapter-accent(@color-primary; @color-pale);
   }
-  #basicChapter {
+  #chapter-basic {
     .chapter-accent(@color-warning; @color-warning-pale);
   }
-  #controlChapter {
+  #chapter-control {
     .chapter-accent(@color-success; @color-success-pale);
   }
-  #componentChapter {
+  #chapter-component {
     .chapter-accent(@color-danger; @color-danger-pale);
   }
-  #javascriptChapter {
+  #chapter-javascript {
     .chapter-accent(@color-important; @color-important-pale);
   }
-  #viewChapter {
+  #chapter-view {
     .chapter-accent(@color-special; @color-special-pale);
+  }
+}
+
+body.compact-mode {
+  #header, #heading, #search {
+      .transition-normal();
+  }
+
+  #header {
+    z-index: 1025;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 483px;
+  }
+
+  #grid {
+    margin-top: 503px;
+  }
+
+  &.compact-mode-in {
+    #header {
+      height: 190px;
+
+      &.with-shadow {
+        .box-shadow(0 2px 6px 0 rgba(0,0,0,.2));
+      }
+    }
+
+    #heading {
+      opacity: 0;
+      height: 0;
+    }
+
+    #search {
+      padding: 0 20px;
+    }
+
+    #grid {
+      .transition-normal();
+      margin-top: 200px;
+    }
   }
 }
