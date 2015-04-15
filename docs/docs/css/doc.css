@@ -160,8 +160,11 @@
   border-color: rgba(255, 255, 255, .6);
   border-radius: 21px;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #searchInput:-moz-placeholder {
   color: #e5e5e5;
@@ -194,11 +197,6 @@
 #grid > .container {
   background-color: #fff;
 }
-#grid > .container > .row > .col {
-  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-          transition: all .3s cubic-bezier(.175, .885, .32, 1);
-}
 #grid > .container > .row > .col.hide {
   display: block;
   width: 0;
@@ -215,6 +213,12 @@
   display: none;
   margin-bottom: 10px;
   border-radius: 2px;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card.show {
   display: block;
@@ -231,15 +235,21 @@
   color: #fff;
   content: '轻按Enter键打开';
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading {
   position: relative;
   padding: 8px 8px 8px 64px;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > .btn-toggle {
   position: absolute;
@@ -253,8 +263,11 @@
   background-color: #f1f1f1;
   border-radius: 0;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > .btn-toggle > .icon {
   font-size: 28px;
@@ -277,8 +290,11 @@
   text-align: center;
   border-radius: 18px;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > h5 {
   padding: 6px 0;
@@ -286,8 +302,11 @@
   font-size: 16px;
   line-height: 16px;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > small {
   display: block;
@@ -302,8 +321,11 @@
   padding: 0 10px;
   overflow: visible;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-content > ul {
   position: relative;
@@ -326,8 +348,11 @@
   position: relative;
   padding: 5px 0 5px 54px;
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-content > ul > li:before {
   position: absolute;
@@ -704,6 +729,22 @@
 }
 body.input-query-focus #grid .card.choosed:before {
   right: 0;
+}
+@media (min-width: 992px) {
+  body.query-enabled #grid[data-show-col='1'] > .container > .row > .col {
+    float: none;
+    min-width: 780px;
+    margin: 0 auto;
+  }
+  body.query-enabled #grid[data-show-col='1'] > .container > .row > .col.hide {
+    width: 0;
+  }
+  body.query-enabled #grid[data-show-col='2'] > .container > .row > .col {
+    width: 50%;
+  }
+  body.query-enabled #grid[data-show-col='2'] > .container > .row > .col.hide {
+    width: 0;
+  }
 }
 body.compact-mode #header,
 body.compact-mode #heading,

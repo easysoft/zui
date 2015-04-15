@@ -145,18 +145,32 @@
             $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
                 $sections = $grid.find('.section').addClass('in');
                 $chapterHeadings.addClass('in');
-            }, 200));
+            }, 100));
         } else if(debug) {
             console.error("Display sections failed.");
         }
     };
 
     var chooseSection = function($section) {
-        $sections.removeClass('choosed open');
-        if($section && $section.hasClass('section')) {
-            $choosedSection = $section.addClass('choosed open');
+        if($sections) {
+            $sections.removeClass('choosed open');
+            if($section && $section.hasClass('section')) {
+                $choosedSection = $section.addClass('choosed open');
+            }
         }
     }
+
+    var resetQuery = function() {
+        $chaptersCols.removeClass('hide');
+        $chapters.removeClass('hide');
+        $sections.addClass('show');
+        $chapterHeadings.addClass('show');
+        $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
+            $sections.addClass('in');
+            $chapterHeadings.addClass('in');
+        }, 20));
+        $body.removeClass('query-enabled');
+    };
 
     var query = function(keyString) {
         if(!$sections) return;
@@ -167,16 +181,11 @@
         }
 
         if(keyString === UNDEFINED || keyString === null || !keyString.length) {
-            $chaptersCols.removeClass('hide');
-            $chapters.removeClass('hide');
-            $sections.addClass('show');
-            $chapterHeadings.addClass('show');
-            $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
-                $sections.addClass('in');
-                $chapterHeadings.addClass('in');
-            }, 20));
+            resetQuery();
             return;
         }
+
+        $body.addClass('query-enabled');
 
         var keys = [];
         $.each(keyString.split(' '), function(i, key){
@@ -220,8 +229,15 @@
                     keyOption.val = key;
                 }
             }
-            keys.push(keyOption);
+            if(keyOption.val.length) {
+                keys.push(keyOption);
+            }
         });
+
+        if(!keys.length) {
+            resetQuery();
+            return;
+        }
 
         var resultMap = {}, chapterMap = {}, weight, id, chooseThis, chooseThisKey, keyVal, matches, matchType;
         if(eachSection(function(chapter, section){
@@ -343,14 +359,30 @@
                 chapter.$.toggleClass('hide', hide);
             });
             var $col;
+            var showColCount = 0;
             $chaptersCols.each(function(){
                 $col = $(this);
-                $col.toggleClass('hide', !$col.children('.chapter:not(.hide)').length);
+                var showCol = $col.children('.chapter:not(.hide)').length;
+                $col.toggleClass('hide', !showCol);
+                if(showCol) {
+                    showColCount++;
+                    if(!$body.hasClass('compact-mode')) {
+                        var showCount = $col.find('.section:not(.hide)').length;
+                        if(showCount > 2 && $window.height() < ($header.height() + showCount * 70)) {
+                            $body.addClass('compact-mode');
+                            setTimeout(function(){
+                                $window.scrollTop(1);
+                                $body.addClass('compact-mode-in');
+                            }, 10);
+                        }
+                    }
+                }
             });
+            $grid.attr('data-show-col', showColCount);
 
             if($hide.length) {
                 $hide.removeClass('in');
-                setTimeout(function(){$hide.removeClass('show');}, 200);
+                setTimeout(function(){$hide.removeClass('show');}, 100);
             }
             if($show.length) {
                 $show.addClass('show');
