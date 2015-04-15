@@ -20,6 +20,13 @@
 .slide-in-right-50.in {
   left: 0;
 }
+.grow-up-in-height.show {
+  height: 0;
+  overflow: hidden;
+}
+.grow-up-in-height.show.in {
+  height: auto;
+}
 .template {
   display: none;
 }
@@ -187,6 +194,17 @@
 #grid > .container {
   background-color: #fff;
 }
+#grid > .container > .row > .col {
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#grid > .container > .row > .col.hide {
+  display: block;
+  width: 0;
+  padding: 0;
+  opacity: 0;
+}
 #grid .chapter {
   margin-bottom: 30px;
 }
@@ -194,8 +212,27 @@
   margin-bottom: 15px;
 }
 #grid .card {
+  display: none;
   margin-bottom: 10px;
   border-radius: 2px;
+}
+#grid .card.show {
+  display: block;
+}
+#grid .card.choosed {
+  border-color: #808080;
+}
+#grid .card.choosed:before {
+  position: absolute;
+  top: 0;
+  right: -100%;
+  display: block;
+  padding: 3px 8px;
+  color: #fff;
+  content: '轻按Enter键打开';
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading {
   position: relative;
@@ -335,6 +372,15 @@
 #grid #chapter-start .chapter-heading .icon {
   opacity: .8;
 }
+#grid #chapter-start .card.choosed {
+  border-color: #d6e6fe;
+  border-color: rgba(50, 128, 252, .5);
+  -webkit-box-shadow: 0 1px 6px rgba(50, 128, 252, .3);
+          box-shadow: 0 1px 6px rgba(50, 128, 252, .3);
+}
+#grid #chapter-start .card.choosed:before {
+  background-color: #3280fc;
+}
 #grid #chapter-start .card-heading > .icon {
   color: #3280fc;
   background-color: #d6e6fe;
@@ -381,6 +427,15 @@
 }
 #grid #chapter-basic .chapter-heading .icon {
   opacity: .8;
+}
+#grid #chapter-basic .card.choosed {
+  border-color: #ffebd4;
+  border-color: rgba(253, 153, 39, .5);
+  -webkit-box-shadow: 0 1px 6px rgba(253, 153, 39, .3);
+          box-shadow: 0 1px 6px rgba(253, 153, 39, .3);
+}
+#grid #chapter-basic .card.choosed:before {
+  background-color: #fd9927;
 }
 #grid #chapter-basic .card-heading > .icon {
   color: #fd9927;
@@ -429,6 +484,15 @@
 #grid #chapter-control .chapter-heading .icon {
   opacity: .8;
 }
+#grid #chapter-control .card.choosed {
+  border-color: #d5f1d7;
+  border-color: rgba(47, 185, 54, .5);
+  -webkit-box-shadow: 0 1px 6px rgba(47, 185, 54, .3);
+          box-shadow: 0 1px 6px rgba(47, 185, 54, .3);
+}
+#grid #chapter-control .card.choosed:before {
+  background-color: #2fb936;
+}
 #grid #chapter-control .card-heading > .icon {
   color: #2fb936;
   background-color: #d5f1d7;
@@ -475,6 +539,15 @@
 }
 #grid #chapter-component .chapter-heading .icon {
   opacity: .8;
+}
+#grid #chapter-component .card.choosed {
+  border-color: #fcdcd5;
+  border-color: rgba(238, 78, 47, .5);
+  -webkit-box-shadow: 0 1px 6px rgba(238, 78, 47, .3);
+          box-shadow: 0 1px 6px rgba(238, 78, 47, .3);
+}
+#grid #chapter-component .card.choosed:before {
+  background-color: #ee4e2f;
 }
 #grid #chapter-component .card-heading > .icon {
   color: #ee4e2f;
@@ -523,6 +596,15 @@
 #grid #chapter-javascript .chapter-heading .icon {
   opacity: .8;
 }
+#grid #chapter-javascript .card.choosed {
+  border-color: #f2e5da;
+  border-color: rgba(189, 123, 70, .5);
+  -webkit-box-shadow: 0 1px 6px rgba(189, 123, 70, .3);
+          box-shadow: 0 1px 6px rgba(189, 123, 70, .3);
+}
+#grid #chapter-javascript .card.choosed:before {
+  background-color: #bd7b46;
+}
 #grid #chapter-javascript .card-heading > .icon {
   color: #bd7b46;
   background-color: #f2e5da;
@@ -570,6 +652,15 @@
 #grid #chapter-view .chapter-heading .icon {
   opacity: .8;
 }
+#grid #chapter-view .card.choosed {
+  border-color: #e7e0f1;
+  border-color: rgba(134, 102, 184, .5);
+  -webkit-box-shadow: 0 1px 6px rgba(134, 102, 184, .3);
+          box-shadow: 0 1px 6px rgba(134, 102, 184, .3);
+}
+#grid #chapter-view .card.choosed:before {
+  background-color: #8666b8;
+}
 #grid #chapter-view .card-heading > .icon {
   color: #8666b8;
   background-color: #e7e0f1;
@@ -610,6 +701,9 @@
 }
 #grid #chapter-view .card-content > ul > li:hover:after {
   border-color: #8666b8;
+}
+body.input-query-focus #grid .card.choosed:before {
+  right: 0;
 }
 body.compact-mode #header,
 body.compact-mode #heading,

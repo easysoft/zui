@@ -8,6 +8,18 @@
     }
   }
 
+  .card {
+    &.choosed {
+      border-color: @pale;
+      border-color: fade(@color, 50%);
+      box-shadow: 0 1px 6px fade(@color, 30%);
+
+      &:before {
+        background-color: @color;
+      }
+    }
+  }
+
   .card-heading {
     > .icon {
       color: @color;
@@ -95,6 +107,17 @@
 
   &.in {
     left: 0
+  }
+}
+
+.grow-up-in-height {
+  &.show {
+    height: 0;
+    overflow: hidden;
+
+    &.in {
+      height: auto;
+    }
   }
 }
 
@@ -259,6 +282,17 @@
 #grid {
   > .container {
     background-color: #fff;
+
+    > .row > .col {
+      .transition-fast();
+
+      &.hide {
+        display: block;
+        width: 0;
+        opacity: 0;
+        padding: 0;
+      }
+    }
   }
 
   .chapter {
@@ -272,8 +306,28 @@
   }
 
   .card {
+    display: none;
     border-radius: 2px;
     margin-bottom: 10px;
+
+    &.show {
+      display: block;
+    }
+
+    &.choosed {
+      border-color: #808080;
+
+      &:before {
+        .transition-fast();
+        content: '轻按Enter键打开';
+        display: block;
+        position: absolute;
+        right: -100%;
+        top: 0;
+        padding: 3px 8px;
+        color: #fff;
+      }
+    }
   }
 
   .card-heading {
@@ -434,6 +488,12 @@
   }
   #chapter-view {
     .chapter-accent(@color-special; @color-special-pale);
+  }
+}
+
+body.input-query-focus {
+  #grid .card.choosed:before {
+    right: 0;
   }
 }
 
