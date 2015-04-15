@@ -1,0 +1,698 @@
+{
+    "version": "1.2.1",
+    "chapters": 
+    {
+        "start": 
+        {
+            "name": "开始",
+            "sections":
+            [
+                {
+                    "id": "intro",
+                    "name": "说明",
+                    "icon": "icon-heart",
+                    "desc": "为何选择ZUI？",
+                    "topics": [
+                        {"name": "与Bootstrap的关系"},
+                        {"name": "选择使用ZUI"}
+                    ]
+                },
+                {
+                    "id": "about",
+                    "name": "约定",
+                    "icon": "icon-book",
+                    "desc": "了解定义和命名规则",
+                    "topics": [
+                        {"name": "UI元素类型及定义"},
+                        {"name": "通用状态和参数"},
+                        {"name": "界面元素的命名"}
+                    ]
+                },
+                {
+                    "id": "files",
+                    "name": "文件目录结构",
+                    "icon": "icon-sitemap",
+                    "desc": "预编译文件和源码结构",
+                    "topics": [
+                        {"name": "预编译的内容"},
+                        {"name": "源码目录结构"}
+                    ]
+                },
+                {
+                    "id": "edition",
+                    "name": "选择版本",
+                    "icon": "icon-code-fork",
+                    "desc": "选择合适的版本",
+                    "topics": [
+                        {"name": "标准版"},
+                        {"name": "简洁版"},
+                        {"name": "独立版本"},
+                        {"name": "组件清单"}
+                    ]
+                },
+                {
+                    "id": "grunt",
+                    "name": "编译和定制",
+                    "icon": "icon-terminal",
+                    "desc": "定制你自己的版本",
+                    "topics": [
+                        {"name": "安装Grunt"}
+                    ]
+                },
+                {
+                    "id": "browsers",
+                    "name": "受支持的平台",
+                    "icon": "icon-ie",
+                    "desc": "检阅所支持的浏览器版本",
+                    "topics": [
+                        {"name": "桌面浏览器"},
+                        {"name": "移动浏览器"}
+                    ]
+                }
+            ]
+        },
+        "basic":
+        {
+            "name": "基础",
+            "sections": 
+            [
+                {
+                    "desc": "文档基本结构",
+                    "icon": "icon-smile",
+                    "id": "hello",
+                    "name": "Hello world",
+                    "topics": []
+                },
+                {
+                    "desc": "normalize.css",
+                    "icon": "icon-circle-blank",
+                    "id": "global",
+                    "name": "全局样式表",
+                    "topics": []
+                },
+                {
+                    "desc": "为IE单独准备的内容",
+                    "icon": "icon-ie",
+                    "id": "ie",
+                    "name": "兼容IE浏览器",
+                    "topics": [
+                      {"name": "禁用IE兼容模式"},
+                      {"name": "更古老的浏览器"}
+                    ]
+                },
+                {
+                    "desc": "多种屏幕尺寸响应",
+                    "icon": "icon-tablet",
+                    "id": "responsive",
+                    "name": "响应式布局 ",
+                    "topics": [
+                      {"name": "禁用响应式布局"}
+                    ]
+                },
+                {
+                    "desc": "响应式布局的实现",
+                    "icon": "icon-th",
+                    "id": "grid",
+                    "name": "栅格系统",
+                    "topics": []
+                },
+                {
+                    "desc": "文字排版",
+                    "icon": "icon-font",
+                    "id": "typography",
+                    "name": "排版",
+                    "topics": [
+                      {"name": "字体"},
+                      {"name": "文字排版"}
+                    ]
+                },
+                {
+                    "desc": "一些使用的工具类",
+                    "icon": "icon-wrench",
+                    "id": "utilities",
+                    "name": "辅助类",
+                    "topics": [
+                      {"name": "小字号文本"},
+                      {"name": "文本颜色"},
+                      {"name": "文本背景高亮"},
+                      {"name": "文本背景色"},
+                      {"name": "禁用文本换行"},
+                      {"name": "文本超出省略"},
+                      {"name": "内容边距"},
+                      {"name": "关闭按钮"},
+                      {"name": "三角符号"},
+                      {"name": "浮动"},
+                      {"name": "清除浮动"},
+                      {"name": "块居中"},
+                      {"name": "隐藏文本"},
+                      {"name": "显示或隐藏元素"}
+                    ]
+                },
+                {
+                    "desc": "美化浏览器滚动条",
+                    "icon": "icon-long-arrow-down",
+                    "id": "scrollbars",
+                    "name": "滚动条",
+                    "topics": []
+                },
+                {
+                    "desc": "默认配色方案",
+                    "icon": "icon-dashboard",
+                    "id": "colorset",
+                    "name": "配色",
+                    "topics": [
+                      {"name": "主要颜色"},
+                      {"name": "灰度颜色"},
+                      {"name": "额外颜色"},
+                      {"name": "配色设计要点"}
+                    ]
+                },
+                {
+                    "desc": "自定义主题风格",
+                    "icon": "icon-leaf",
+                    "id": "themes",
+                    "name": "主题",
+                    "topics": []
+                }
+            ]
+        },
+        "control":
+        {
+            "name": "控件",
+            "sections":
+            [
+                {
+                    "desc": "使用和查找图标",
+                    "icon": "icon-star",
+                    "id": "icons",
+                    "name": "图标",
+                    "topics": 
+                    [
+                      {"name": "何时使用图标？"}, 
+                      {"name": "使用图标字体"}, 
+                      {"name": "如何使用图标？"}
+                    ]
+                }, 
+                {
+                    "desc": "按钮和按钮组",
+                    "icon": "icon-bold",
+                    "id": "button",
+                    "name": "按钮",
+                    "topics": 
+                    [
+                      {"name": "按钮的类型"}, 
+                      {"name": "按钮的大小"}, 
+                      {"name": "按钮的不同状态"}, 
+                      {"name": "按钮的颜色"}
+                    ]
+                }, 
+                {
+                    "desc": "使用进度条",
+                    "icon": "%",
+                    "id": "progressbar",
+                    "name": "进度条",
+                    "topics": 
+                    [
+                      {"name": "类型"}, 
+                      {"name": "变化"}
+                    ]
+                }, 
+                {
+                    "desc": "使用标签",
+                    "icon": "icon-tags",
+                    "id": "labels",
+                    "name": "标签",
+                    "topics": 
+                    [
+                      {"name": "基本样式"}, 
+                      {"name": "徽标"}, 
+                      {"name": "标签和徽标的颜色"}
+                    ]
+                }, 
+                {
+                    "desc": "文本框及表单控件",
+                    "icon": "icon-minus",
+                    "id": "textbox",
+                    "name": "文本框",
+                    "topics": 
+                    [
+                      {"name": "类型"}, 
+                      {"name": "状态"}, 
+                      {"name": "变化"}
+                    ]
+                }, 
+                {
+                    "desc": "面包屑导航",
+                    "icon": "icon-map-marker",
+                    "id": "breadcrumb",
+                    "name": "面包屑",
+                    "topics": 
+                    []
+                }, 
+                {
+                    "desc": "为图片应用样式",
+                    "icon": "icon-picture",
+                    "id": "images",
+                    "name": "图片",
+                    "topics": 
+                    [
+                      {"name": "类型"}, 
+                      {"name": "参数"}
+                    ]
+                }, 
+                {
+                    "desc": "标题",
+                    "icon": "H",
+                    "id": "headers",
+                    "name": "多级标题",
+                    "topics": 
+                    [
+                      {"name": "类型"}, 
+                      {"name": "参数"}
+                    ]
+                }, 
+                {
+                    "desc": "水平分割线",
+                    "icon": "—",
+                    "id": "dividers",
+                    "name": "分隔线     ",
+                    "topics": 
+                    [
+                      {"name": "类型"}
+                    ]
+                }
+            ]
+        },
+        "component":
+        {
+            "name": "组件",
+            "sections":
+            [
+                {
+                    "id": "alerts",
+                    "icon": "icon-warning-sign",
+                    "desc": "使用消息框引起用户注意",
+                    "name": "消息框",
+                    "topics":
+                    [
+                        {"name": "不同感情色彩的消息框"},
+                        {"name": "使用图标"},
+                        {"name": "块级消息"},
+                        {"name": "消息框中的链接"},
+                        {"name": "可以关闭的消息框"}
+                    ]
+                },
+                {
+                    "id": "code",
+                    "icon": "icon-code",
+                    "desc": "在文档中插入代码",
+                    "name": "代码",
+                    "topics":
+                    [
+                        {"name": "内联代码"},
+                        {"name": "基本代码块"},
+                        {"name": "代码高亮"}
+                    ]
+                },
+                {
+                    "id": "inputgroup",
+                    "icon": "icon-layout",
+                    "desc": "多个输入单元格",
+                    "name": "输入组",
+                    "topics":
+                    [
+                        {"name": "类型"}
+                    ]
+                },
+                {
+                    "id": "listgroup",
+                    "icon": "icon-reorder",
+                    "desc": "垂直的可点击列表",
+                    "name": "列表组",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"}
+                    ]
+                },
+                {
+                    "id": "navs",
+                    "icon": "icon-anchor",
+                    "desc": "多种样式的导航菜单",
+                    "name": "导航",
+                    "topics":
+                    [
+                        {"name": "主要导航"},
+                        {"name": "次要导航"},
+                        {"name": "复合导航"},
+                        {"name": "标签页导航"},
+                        {"name": "圆点导航"},
+                        {"name": "禁用的导航链接"},
+                        {"name": "垂直排列"},
+                        {"name": "自适应宽度"},
+                        {"name": "带标题的导航"}
+                    ]
+                },
+                {
+                    "id": "navbars",
+                    "icon": "icon-compass",
+                    "desc": "应用导航条",
+                    "name": "导航条",
+                    "topics":
+                    [
+                        {"name": "简单导航条"},
+                        {"name": "默认导航条"},
+                        {"name": "深色导航条"},
+                        {"name": "使用表单元素"},
+                        {"name": "将内容放置与导航右侧"},
+                        {"name": "自适应宽度"}
+                    ]
+                },
+                {
+                    "id": "menu",
+                    "icon": "icon-list-ul",
+                    "desc": "垂直方向的导航菜单",
+                    "name": "垂直菜单",
+                    "topics":
+                    [
+                        {"name": "实例"}
+                    ]
+                },
+                {
+                    "id": "pagers",
+                    "icon": "123",
+                    "desc": "为内容分页",
+                    "name": "分页条",
+                    "topics":
+                    [
+                        {"name": "各种分页导航"},
+                        {"name": "禁用的导航"},
+                        {"name": "圆角"},
+                        {"name": "宽松的"},
+                        {"name": "两端对齐"}
+                    ]
+                },
+                {
+                    "id": "panels",
+                    "icon": "icon-list-alt",
+                    "desc": "包含头部和脚部的面板",
+                    "name": "面板",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"}
+                    ]
+                },
+                {
+                    "id": "tables",
+                    "icon": "icon-table",
+                    "desc": "美观实用的表格",
+                    "name": "表格",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "参数"}
+                    ]
+                },
+                {
+                    "id": "buttongroup",
+                    "icon": "icon-th-list",
+                    "desc": "多个按钮组合形式",
+                    "name": "按钮组",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"}
+                    ]
+                }
+            ]
+        },
+        "javascript":
+        {
+            "name": "Javascript插件",
+            "sections":
+            [
+                {
+                    "id": "store",
+                    "icon": "icon-hdd",
+                    "desc": "使用浏览器本地存储读取数据",
+                    "name": "本地存储",
+                    "topics":
+                    [
+                        {"name": "如何使用"},
+                        {"name": "本地页面存储"},
+                        {"name": "实例"}
+                    ]
+                },
+                {
+                    "id": "modals",
+                    "icon": "icon-check-empty",
+                    "desc": "浮动在页面之上的对话框",
+                    "name": "模态框",
+                    "topics":
+                    [
+                        {"name": "实例"},
+                        {"name": "如何使用"}
+                    ]
+                },
+                {
+                    "id": "modaltrigger",
+                    "icon": "icon-signout",
+                    "desc": "动态展示模态框",
+                    "name": "模态框触发器",
+                    "topics":
+                    [
+                        {"name": "实例"},
+                        {"name": "如何使用"}
+                    ]
+                },
+                {
+                    "id": "dropdowns",
+                    "icon": "icon-align-justify",
+                    "desc": "浮动在页面之上的垂直菜单",
+                    "name": "下拉菜单",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"}
+                    ]
+                },
+                {
+                    "id": "tabs",
+                    "icon": "icon-credit",
+                    "desc": "标签页式的导航菜单",
+                    "name": "标签页",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"},
+                        {"name": "方法和事件"}
+                    ]
+                },
+                {
+                    "id": "messager",
+                    "icon": "icon-comment-alt",
+                    "desc": "漂浮在页面之上的无打断消息",
+                    "name": "漂浮消息",
+                    "topics":
+                    [
+                        {"name": "实例"},
+                        {"name": "如何使用"}
+                    ]
+                },
+                {
+                    "id": "tooltips",
+                    "icon": "icon-chat",
+                    "desc": "为元素额外提供消息文本",
+                    "name": "提示消息",
+                    "topics":
+                    [
+                        {"name": "一般工具提示"},
+                        {"name": "不同方向的提示"},
+                        {"name": "Markup"},
+                        {"name": "选项"},
+                        {"name": "标记"},
+                        {"name": "方法"},
+                        {"name": "事件"}
+                    ]
+                },
+                {
+                    "id": "popovers",
+                    "icon": "icon-comment-line",
+                    "desc": "弹出交互式面板",
+                    "name": "弹出框",
+                    "topics":
+                    [
+                        {"name": "静态类型"},
+                        {"name": "不带箭头指示"},
+                        {"name": "动态演示"},
+                        {"name": "指定html元素作为弹出内容"},
+                        {"name": "选项"},
+                        {"name": "方法"},
+                        {"name": "事件"}
+                    ]
+                },
+                {
+                    "id": "collapse",
+                    "icon": "icon-collapse",
+                    "desc": "为元素提供折叠和展开功能",
+                    "name": "折叠",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"}
+                    ]
+                },
+                {
+                    "id": "carousel",
+                    "icon": "icon-forward",
+                    "desc": "定时自动切换的图片内存",
+                    "name": "轮播",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"}
+                    ]
+                },
+                {
+                    "id": "datetimepicker",
+                    "icon": "icon-calendar",
+                    "desc": "为文本框提供方便的日期时间选择功能",
+                    "name": "日期选择",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"}
+                    ]
+                },
+                {
+                    "id": "chosen",
+                    "icon": "icon-search",
+                    "desc": "提供数据选择和筛选功能",
+                    "name": "Chosen",
+                    "topics":
+                    [
+                        {"name": "多项选择和单项选择"},
+                        {"name": "图标选择插件"}
+                    ]
+                },
+                {
+                    "id": "kindeditor",
+                    "icon": "icon-edit",
+                    "desc": "使用Kineditor来编辑富文本",
+                    "name": "富文本编辑器",
+                    "topics":
+                    [
+                        {"name": "类型"},
+                        {"name": "变化"}
+                    ]
+                },
+                {
+                    "id": "droppable",
+                    "icon": "icon-external-link",
+                    "desc": "将内容拖放到另一个容器",
+                    "name": "拖放",
+                    "topics": []
+                },
+                {
+                    "id": "autotrigger",
+                    "icon": "icon-bolt",
+                    "desc": "方便的增加交互效果",
+                    "name": "自动触发器",
+                    "topics":
+                    [
+                        {"name": "参数"},
+                        {"name": "类型"}
+                    ]
+                }
+            ]
+        },
+        "view":
+        {
+            "name": "视图",
+            "sections":
+            [
+                {
+                    "id": "datatable",
+                    "icon": "icon-table",
+                    "desc": "可以固定列和表头的增强表格",
+                    "name": "数据表格",
+                    "topics":
+                    [
+                        {"name": "实例"},
+                        {"name": "用法"},
+                        {"name": "数据"}
+                    ]
+                },
+                {
+                    "id": "calendar",
+                    "icon": "icon-calendar",
+                    "desc": "在日历上展示有时间限定的内容",
+                    "name": "日历",
+                    "topics":
+                    [
+                        {"name": "实例"},
+                        {"name": "使用方法"}
+                    ]
+                },
+                {
+                    "id": "forms",
+                    "icon": "icon-layout",
+                    "desc": "用于用户提交数据的视图",
+                    "name": "表单",
+                    "topics":
+                    [
+                        {"name": "类型"}
+                    ]
+                },
+                {
+                    "id": "article",
+                    "icon": "icon-file-text-alt",
+                    "desc": "包含标题和带格式的文本内容视图",
+                    "name": "文章",
+                    "topics": []
+                },
+                {
+                    "id": "card",
+                    "icon": "icon-th",
+                    "desc": "可以展示图片和文本的卡片网格视图",
+                    "name": "卡片",
+                    "topics": []
+                },
+                {
+                    "id": "list",
+                    "icon": "icon-list",
+                    "desc": "包含标题和简介及图片的媒体内容列表",
+                    "name": "列表",
+                    "topics": []
+                },
+                {
+                    "id": "comment",
+                    "icon": "icon-comments",
+                    "desc": "展示评论的列表视图",
+                    "name": "评论",
+                    "topics":
+                    [
+                        {"name": "一般情况"},
+                        {"name": "回复缩进"},
+                        {"name": "没有用户头像"}
+                    ]
+                },
+                {
+                    "id": "board",
+                    "icon": "icon-columns",
+                    "desc": "在多个列进行拖放内容",
+                    "name": "看板",
+                    "topics": []
+                },
+                {
+                    "id": "dashboard",
+                    "icon": "icon-th-large",
+                    "desc": "支持拖放调整位置的面板网格",
+                    "name": "仪表盘",
+                    "topics": []
+                }
+            ]
+        }
+    }
+}
