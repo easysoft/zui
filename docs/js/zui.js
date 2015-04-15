@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2015-01-14
+ * ZUI - v1.2.1 - 2015-04-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -649,7 +649,7 @@
  * ======================================================================== */
 
 
-(function(window, $)
+(function($)
 {
     'use strict';
     var browseHappyTip = {
@@ -730,16 +730,16 @@
         return ( /*@cc_on!@*/ false);
     };
 
-    window.browser = new Browser();
+    $.browser = new Browser();
 
     $(function()
     {
         if (!$('body').hasClass('disabled-browser-tip'))
         {
-            window.browser.tip();
+            $.browser.tip();
         }
     });
-}(window, jQuery));
+}(jQuery));
 
 /* ========================================================================
  * ZUI: date.js
@@ -1662,6 +1662,7 @@
 
     var store = new Store();
 
+    $.store = store;
     window.store = store;
 
     window.store.noConflict = function()
@@ -6115,11 +6116,12 @@
                 if (e.isNew)
                 {
                     var DROP = 'drop';
+                    var result;
                     if (setting.hasOwnProperty(DROP) && $.isFunction(setting[DROP]))
                     {
-                        setting[DROP](e);
+                        result = setting[DROP](e);
                     }
-                    e.element.insertBefore(e.target);
+                    if(result !== false) e.element.insertBefore(e.target);
                 }
             },
             finish: function()
@@ -6573,8 +6575,13 @@
                         row: r,
                         index: i
                     };
-                    row.data[i] = rowCol;
                 }
+                else
+                {
+                    rowCol.row = r;
+                    rowCol.index = i;
+                }
+                row.data[i] = rowCol;
 
                 $td = $('<td/>');
 
@@ -7114,12 +7121,13 @@
 
         var findMaxHeight = function($cells)
             {
-                var mx = 0, $cell;
+                var mx = 0, $cell, rowSpan;
                 $cells.css('height', 'auto');
                 $cells.each(function()
                 {
                     $cell = $(this);
-                    if(!$cell.attr('rowspan')) mx = Math.max(mx, $cell.height());
+                    rowSpan = $cell.attr('rowspan');
+                    if(!rowSpan || rowSpan == 1) mx = Math.max(mx, $cell.outerHeight());
                 });
                 return mx;
             },
@@ -7134,14 +7142,16 @@
         }
 
         // set height of head cells
-        $headCells.height(findMaxHeight($headCells));
+        var headMaxHeight = findMaxHeight($headCells);
+        $headCells.css('min-height', headMaxHeight).css('height', headMaxHeight);
 
         // set height of data cells
         var $rowCells;
         for (i = 0; i < rows.length; ++i)
         {
             $rowCells = $dataCells.filter('[data-row="' + i + '"]');
-            $rowCells.height(findMaxHeight($rowCells));
+            var rowMaxHeight = findMaxHeight($rowCells);
+            $rowCells.css('min-height', rowMaxHeight).css('height', rowMaxHeight);
         }
     };
 
@@ -7176,11 +7186,13 @@
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
-
 (function($, window)
 {
     'use strict';
     var name = 'zui.calendar';
+    var NUMBER_TYPE_NAME = 'number';
+    var STRING_TYPE_NAME = 'string';
+    var UNDEFINED_TYPE_NAME = 'undefined';
 
     var getNearbyLastWeekDay = function(date, lastWeek)
         {
@@ -7244,8 +7256,10 @@
             view: 'month'
         });
 
-        this.date = this.options.startDate || (this.options.storage ? this.storeData.date : 'today');
-        this.view = this.options.startView || (this.options.storage ? this.storeData.view : 'month');
+        this.date = this.options.startDate || 'today';
+        this.view = this.options.startView || 'month';
+
+        this.date = 'today';
 
         this.$.toggleClass('limit-event-title', options.limitEventTitle);
 
@@ -7288,6 +7302,24 @@
                 year: '{0}年',
                 month: '{0}月',
                 yearMonth: '{0}年{1}月'
+            },
+            zh_tw:
+            {
+                weekNames: ['週一', '週二', '週三', '週四', '週五', '週六', '週日'],
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                today: '今天',
+                year: '{0}年',
+                month: '{0}月',
+                yearMonth: '{0}年{1}月'
+            },
+            en:
+            {
+                weekNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                today: 'Today',
+                year: '{0}',
+                month: '{0}',
+                yearMonth: '{2}, {0}'
             }
         },
         data:
@@ -7318,18 +7350,21 @@
             events = [];
         }
 
+        var startType, endType;
         $.each(events, function(index, e)
         {
-            if (typeof e.start === 'string')
+            startType = typeof e.start;
+            endType = typeof e.end;
+            if (startType === NUMBER_TYPE_NAME || startType === STRING_TYPE_NAME)
             {
                 e.start = new Date(e.start);
             }
-            if (typeof e.end === 'string')
+            if (endType === NUMBER_TYPE_NAME || endType === STRING_TYPE_NAME)
             {
                 e.end = new Date(e.end);
             }
 
-            if (typeof e.id === 'undefined')
+            if (typeof e.id === UNDEFINED_TYPE_NAME)
             {
                 e.id = $.uuid();
             }
@@ -7382,7 +7417,7 @@
             self.callEvent('clickCell',
             {
                 view: self.view,
-                date: $(this).attr('data-date'),
+                date: new Date($(this).children('.day').attr('data-date')),
                 events: self.events
             });
         });
@@ -7476,7 +7511,7 @@
                 event: event,
                 changes: []
             };
-            if (typeof event === 'string')
+            if (typeof event === STRING_TYPE_NAME)
             {
                 event = that.getEvent(event);
             }
@@ -7570,7 +7605,10 @@
     Calendar.prototype.display = function(view, date)
     {
         var that = this;
-        if (typeof view === 'undefined')
+        var viewType = typeof view;
+        var dateType = typeof date;
+
+        if (viewType === UNDEFINED_TYPE_NAME)
         {
             view = that.view;
         }
@@ -7579,7 +7617,7 @@
             that.view = view;
         }
 
-        if (typeof date === 'undefined')
+        if (dateType === UNDEFINED_TYPE_NAME)
         {
             date = that.date;
         }
@@ -7593,7 +7631,8 @@
             date = new Date();
             that.date = date;
         }
-        else if (typeof date === 'string')
+
+        if (typeof date === STRING_TYPE_NAME)
         {
             date = new Date(date);
             that.date = date;
@@ -7625,13 +7664,13 @@
         }
     };
 
-    Calendar.prototype.displayMonth = function()
+    Calendar.prototype.displayMonth = function(date)
     {
         var that = this;
+        date = date || that.date;
         var options = that.options,
             self = that,
             lang = that.lang,
-            date = that.date,
             i,
             $views = that.$views,
             $e = that.$;
@@ -7713,7 +7752,7 @@
 
         if (options.withHeader)
         {
-            that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1));
+            that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1, lang.monthNames[thisMonth]));
             that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
         }
 
@@ -7803,7 +7842,6 @@
                                 }]
                             });
                         }
-
                     }
                 },
                 finish: function()
@@ -7830,13 +7868,12 @@
 
             if (!data) $this.data(name, (data = new Calendar(this, options)));
 
-            if (typeof option == 'string') data[option]();
+            if (typeof option == STRING_TYPE_NAME) data[option]();
         });
     };
 
     $.fn.calendar.Constructor = Calendar;
 }(jQuery, window));
-
 
 /* ========================================================================
  * jQuery Hotkeys Plugin
@@ -8978,6 +9015,12 @@ This file is generated by `grunt build`, do not edit it by hand.
             {
                 container_classes.push("chosen-rtl");
             }
+            var strClass = this.form_field.getAttribute('data-css-class');
+            if(strClass)
+            {
+                container_classes.push(strClass);
+            }
+
             container_props = {
                 'class': container_classes.join(' '),
                 'style': "width: " + (this.container_width()) + ";",

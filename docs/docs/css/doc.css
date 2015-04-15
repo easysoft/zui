@@ -1,10 +1,617 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-26
+ * ZUI - v1.2.1 - 2015-04-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 
+.slide-in-up-100 {
+  position: relative;
+  top: 100px;
+}
+.slide-in-up-100.in {
+  top: 0;
+}
+.slide-in-right-50 {
+  position: relative;
+  left: 50px;
+}
+.slide-in-right-50.in {
+  left: 0;
+}
+.template {
+  display: none;
+}
+.path-zui-36 {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 18px;
+}
+.path-zui-36:before,
+.path-zui-36:after {
+  position: absolute;
+  left: 11px;
+  display: block;
+  width: 14px;
+  height: 4px;
+  content: ' ';
+  border: 2px solid #3280fc;
+}
+.path-zui-36:before {
+  top: 9px;
+  border-bottom: none;
+}
+.path-zui-36:after {
+  top: 23px;
+  border-top: none;
+}
+.path-zui-36 .path-1,
+.path-zui-36 .path-2,
+.path-zui-36 .path-1:before,
+.path-zui-36 .path-1:after,
+.path-zui-36 .path-2:before {
+  position: absolute;
+  display: block;
+  width: 2px;
+  height: 2px;
+  content: ' ';
+  background-color: #3280fc;
+}
+.path-zui-36 .path-1 {
+  top: 19px;
+  left: 15px;
+}
+.path-zui-36 .path-1:before,
+.path-zui-36 .path-2:before {
+  top: 2px;
+  left: -2px;
+}
+.path-zui-36 .path-1:after {
+  top: -2px;
+  left: 2px;
+}
+.path-zui-36 .path-2 {
+  top: 13px;
+  left: 21px;
+}
+#header {
+  margin-bottom: 20px;
+  color: #fff;
+  background-color: #3280fc;
+}
+#header small {
+  opacity: .65;
+}
+#navbar {
+  padding: 20px 0;
+  border-bottom: none;
+}
+#navbar.navbar-inverse {
+  background: none;
+}
+#navbar .navbar-brand {
+  position: relative;
+  padding-left: 58px;
+}
+#navbar .path-zui-36 {
+  position: absolute;
+  top: 0;
+  left: 10px;
+}
+#heading {
+  text-align: center;
+}
+#heading > h1 {
+  font-size: 48px;
+  font-weight: normal;
+}
+#heading > p {
+  opacity: .65;
+}
+#download {
+  padding-top: 20px;
+  text-align: center;
+}
+#download > .btn-primary {
+  margin-bottom: 15px;
+  border-color: #e5e5e5;
+  border-color: rgba(255, 255, 255, .65);
+}
+#search {
+  max-width: 800px;
+  padding: 80px 20px;
+  margin: 0 auto;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+.screen-phone #search {
+  padding: 40px 10px;
+}
+#searchForm {
+  position: relative;
+}
+#searchForm > .icon {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: block;
+  width: 16px;
+  height: 16px;
+  color: #fff;
+  text-align: center;
+  opacity: .65;
+}
+#searchInput {
+  padding-left: 40px;
+  color: #fff;
+  background: none;
+  border: 2px solid #e5e5e5;
+  border-color: rgba(255, 255, 255, .6);
+  border-radius: 21px;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#searchInput:-moz-placeholder {
+  color: #e5e5e5;
+}
+#searchInput::-moz-placeholder {
+  color: #e5e5e5;
+}
+#searchInput:-ms-input-placeholder {
+  color: #e5e5e5;
+}
+#searchInput::-webkit-input-placeholder {
+  color: #e5e5e5;
+}
+#searchInput:-moz-placeholder {
+  color: rgba(255, 255, 255, .5);
+}
+#searchInput::-moz-placeholder {
+  color: rgba(255, 255, 255, .5);
+}
+#searchInput:-ms-input-placeholder {
+  color: rgba(255, 255, 255, .5);
+}
+#searchInput::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, .5);
+}
+#searchInput:focus {
+  background-color: rgba(255, 255, 255, .1);
+  border-color: #fff;
+}
+#grid > .container {
+  background-color: #fff;
+}
+#grid .chapter {
+  margin-bottom: 30px;
+}
+#grid .chapter-heading > h4 {
+  margin-bottom: 15px;
+}
+#grid .card {
+  margin-bottom: 10px;
+  border-radius: 2px;
+}
+#grid .card-heading {
+  position: relative;
+  padding: 8px 8px 8px 64px;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#grid .card-heading > .btn-toggle {
+  position: absolute;
+  top: 0;
+  right: -64px;
+  display: block;
+  width: 0;
+  height: 64px;
+  color: #808080;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-radius: 0;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#grid .card-heading > .btn-toggle > .icon {
+  font-size: 28px;
+  line-height: 64px;
+}
+#grid .card-heading > .btn-toggle:hover,
+#grid .card-heading > .btn-toggle:active,
+#grid .card-heading > .btn-toggle:focus {
+  text-decoration: none;
+}
+#grid .card-heading > .icon {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  font-style: normal;
+  line-height: 36px;
+  text-align: center;
+  border-radius: 18px;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#grid .card-heading > h5 {
+  padding: 6px 0;
+  margin: 0;
+  font-size: 16px;
+  line-height: 16px;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#grid .card-heading > small {
+  display: block;
+  min-height: 18px;
+}
+#grid .card-heading:hover > .btn-toggle {
+  right: 0;
+  width: 64px;
+}
+#grid .card-content {
+  height: 0;
+  padding: 0 10px;
+  overflow: visible;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#grid .card-content > ul {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#grid .card-content > ul:before {
+  position: absolute;
+  top: -26px;
+  bottom: 14px;
+  left: 21px;
+  z-index: 5;
+  display: block;
+  content: ' ';
+  border-left: 1px dotted #e5e5e5;
+  opacity: 0;
+}
+#grid .card-content > ul > li {
+  position: relative;
+  padding: 5px 0 5px 54px;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#grid .card-content > ul > li:before {
+  position: absolute;
+  top: 10px;
+  left: 18px;
+  z-index: 12;
+  display: block;
+  width: 8px;
+  height: 8px;
+  content: ' ';
+  background-color: #e5e5e5;
+  border-radius: 4px;
+}
+#grid .card-content > ul > li:after {
+  position: absolute;
+  top: 14px;
+  left: 22px;
+  z-index: 11;
+  display: block;
+  width: 26px;
+  content: ' ';
+  border-bottom: 1px dotted #e5e5e5;
+}
+#grid .card-content > ul > li:hover {
+  color: #353535;
+  cursor: pointer;
+  background-color: #f1f1f1;
+}
+#grid .card.open .card-content {
+  height: auto;
+  padding: 10px;
+  border-top: 1px dashed #f1f1f1;
+  -webkit-box-shadow: inset 0 10px 64px rgba(0, 0, 0, .03);
+          box-shadow: inset 0 10px 64px rgba(0, 0, 0, .03);
+}
+#grid .card.open .card-content > ul:before {
+  opacity: 1;
+}
+#grid #startChapter .chapter-heading {
+  color: #3280fc;
+}
+#grid #startChapter .chapter-heading .icon {
+  opacity: .8;
+}
+#grid #startChapter .card-heading > .icon {
+  color: #3280fc;
+  background-color: #d6e6fe;
+}
+#grid #startChapter .card-heading > .icon:hover {
+  cursor: pointer;
+}
+#grid #startChapter .card-heading.hover {
+  background-color: #d6e6fe;
+}
+#grid #startChapter .card-heading.hover > .icon {
+  color: #d6e6fe;
+  background-color: #3280fc;
+}
+#grid #startChapter .card-heading:hover > h5 > .name {
+  color: #3280fc;
+}
+#grid #startChapter .card-heading > h5 > .name:hover {
+  cursor: pointer;
+}
+#grid #startChapter .card-heading > .btn-toggle {
+  color: #3280fc;
+  background-color: #d6e6fe;
+}
+#grid #startChapter .card-heading > .btn-toggle:hover {
+  color: #d6e6fe;
+  cursor: pointer;
+  background-color: #3280fc;
+}
+#grid #startChapter .card-content > ul > li:before {
+  background-color: #d6e6fe;
+}
+#grid #startChapter .card-content > ul > li:hover {
+  background-color: #d6e6fe;
+}
+#grid #startChapter .card-content > ul > li:hover:before {
+  background-color: #3280fc;
+}
+#grid #startChapter .card-content > ul > li:hover:after {
+  border-color: #3280fc;
+}
+#grid #basicChapter .chapter-heading {
+  color: #fd9927;
+}
+#grid #basicChapter .chapter-heading .icon {
+  opacity: .8;
+}
+#grid #basicChapter .card-heading > .icon {
+  color: #fd9927;
+  background-color: #ffebd4;
+}
+#grid #basicChapter .card-heading > .icon:hover {
+  cursor: pointer;
+}
+#grid #basicChapter .card-heading.hover {
+  background-color: #ffebd4;
+}
+#grid #basicChapter .card-heading.hover > .icon {
+  color: #ffebd4;
+  background-color: #fd9927;
+}
+#grid #basicChapter .card-heading:hover > h5 > .name {
+  color: #fd9927;
+}
+#grid #basicChapter .card-heading > h5 > .name:hover {
+  cursor: pointer;
+}
+#grid #basicChapter .card-heading > .btn-toggle {
+  color: #fd9927;
+  background-color: #ffebd4;
+}
+#grid #basicChapter .card-heading > .btn-toggle:hover {
+  color: #ffebd4;
+  cursor: pointer;
+  background-color: #fd9927;
+}
+#grid #basicChapter .card-content > ul > li:before {
+  background-color: #ffebd4;
+}
+#grid #basicChapter .card-content > ul > li:hover {
+  background-color: #ffebd4;
+}
+#grid #basicChapter .card-content > ul > li:hover:before {
+  background-color: #fd9927;
+}
+#grid #basicChapter .card-content > ul > li:hover:after {
+  border-color: #fd9927;
+}
+#grid #controlChapter .chapter-heading {
+  color: #2fb936;
+}
+#grid #controlChapter .chapter-heading .icon {
+  opacity: .8;
+}
+#grid #controlChapter .card-heading > .icon {
+  color: #2fb936;
+  background-color: #d5f1d7;
+}
+#grid #controlChapter .card-heading > .icon:hover {
+  cursor: pointer;
+}
+#grid #controlChapter .card-heading.hover {
+  background-color: #d5f1d7;
+}
+#grid #controlChapter .card-heading.hover > .icon {
+  color: #d5f1d7;
+  background-color: #2fb936;
+}
+#grid #controlChapter .card-heading:hover > h5 > .name {
+  color: #2fb936;
+}
+#grid #controlChapter .card-heading > h5 > .name:hover {
+  cursor: pointer;
+}
+#grid #controlChapter .card-heading > .btn-toggle {
+  color: #2fb936;
+  background-color: #d5f1d7;
+}
+#grid #controlChapter .card-heading > .btn-toggle:hover {
+  color: #d5f1d7;
+  cursor: pointer;
+  background-color: #2fb936;
+}
+#grid #controlChapter .card-content > ul > li:before {
+  background-color: #d5f1d7;
+}
+#grid #controlChapter .card-content > ul > li:hover {
+  background-color: #d5f1d7;
+}
+#grid #controlChapter .card-content > ul > li:hover:before {
+  background-color: #2fb936;
+}
+#grid #controlChapter .card-content > ul > li:hover:after {
+  border-color: #2fb936;
+}
+#grid #componentChapter .chapter-heading {
+  color: #ee4e2f;
+}
+#grid #componentChapter .chapter-heading .icon {
+  opacity: .8;
+}
+#grid #componentChapter .card-heading > .icon {
+  color: #ee4e2f;
+  background-color: #fcdcd5;
+}
+#grid #componentChapter .card-heading > .icon:hover {
+  cursor: pointer;
+}
+#grid #componentChapter .card-heading.hover {
+  background-color: #fcdcd5;
+}
+#grid #componentChapter .card-heading.hover > .icon {
+  color: #fcdcd5;
+  background-color: #ee4e2f;
+}
+#grid #componentChapter .card-heading:hover > h5 > .name {
+  color: #ee4e2f;
+}
+#grid #componentChapter .card-heading > h5 > .name:hover {
+  cursor: pointer;
+}
+#grid #componentChapter .card-heading > .btn-toggle {
+  color: #ee4e2f;
+  background-color: #fcdcd5;
+}
+#grid #componentChapter .card-heading > .btn-toggle:hover {
+  color: #fcdcd5;
+  cursor: pointer;
+  background-color: #ee4e2f;
+}
+#grid #componentChapter .card-content > ul > li:before {
+  background-color: #fcdcd5;
+}
+#grid #componentChapter .card-content > ul > li:hover {
+  background-color: #fcdcd5;
+}
+#grid #componentChapter .card-content > ul > li:hover:before {
+  background-color: #ee4e2f;
+}
+#grid #componentChapter .card-content > ul > li:hover:after {
+  border-color: #ee4e2f;
+}
+#grid #javascriptChapter .chapter-heading {
+  color: #bd7b46;
+}
+#grid #javascriptChapter .chapter-heading .icon {
+  opacity: .8;
+}
+#grid #javascriptChapter .card-heading > .icon {
+  color: #bd7b46;
+  background-color: #f2e5da;
+}
+#grid #javascriptChapter .card-heading > .icon:hover {
+  cursor: pointer;
+}
+#grid #javascriptChapter .card-heading.hover {
+  background-color: #f2e5da;
+}
+#grid #javascriptChapter .card-heading.hover > .icon {
+  color: #f2e5da;
+  background-color: #bd7b46;
+}
+#grid #javascriptChapter .card-heading:hover > h5 > .name {
+  color: #bd7b46;
+}
+#grid #javascriptChapter .card-heading > h5 > .name:hover {
+  cursor: pointer;
+}
+#grid #javascriptChapter .card-heading > .btn-toggle {
+  color: #bd7b46;
+  background-color: #f2e5da;
+}
+#grid #javascriptChapter .card-heading > .btn-toggle:hover {
+  color: #f2e5da;
+  cursor: pointer;
+  background-color: #bd7b46;
+}
+#grid #javascriptChapter .card-content > ul > li:before {
+  background-color: #f2e5da;
+}
+#grid #javascriptChapter .card-content > ul > li:hover {
+  background-color: #f2e5da;
+}
+#grid #javascriptChapter .card-content > ul > li:hover:before {
+  background-color: #bd7b46;
+}
+#grid #javascriptChapter .card-content > ul > li:hover:after {
+  border-color: #bd7b46;
+}
+#grid #viewChapter .chapter-heading {
+  color: #8666b8;
+}
+#grid #viewChapter .chapter-heading .icon {
+  opacity: .8;
+}
+#grid #viewChapter .card-heading > .icon {
+  color: #8666b8;
+  background-color: #e7e0f1;
+}
+#grid #viewChapter .card-heading > .icon:hover {
+  cursor: pointer;
+}
+#grid #viewChapter .card-heading.hover {
+  background-color: #e7e0f1;
+}
+#grid #viewChapter .card-heading.hover > .icon {
+  color: #e7e0f1;
+  background-color: #8666b8;
+}
+#grid #viewChapter .card-heading:hover > h5 > .name {
+  color: #8666b8;
+}
+#grid #viewChapter .card-heading > h5 > .name:hover {
+  cursor: pointer;
+}
+#grid #viewChapter .card-heading > .btn-toggle {
+  color: #8666b8;
+  background-color: #e7e0f1;
+}
+#grid #viewChapter .card-heading > .btn-toggle:hover {
+  color: #e7e0f1;
+  cursor: pointer;
+  background-color: #8666b8;
+}
+#grid #viewChapter .card-content > ul > li:before {
+  background-color: #e7e0f1;
+}
+#grid #viewChapter .card-content > ul > li:hover {
+  background-color: #e7e0f1;
+}
+#grid #viewChapter .card-content > ul > li:hover:before {
+  background-color: #8666b8;
+}
+#grid #viewChapter .card-content > ul > li:hover:after {
+  border-color: #8666b8;
+}
 
 /*# sourceMappingURL=doc.css.map */
