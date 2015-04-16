@@ -1484,7 +1484,7 @@
     "doc":
     {
       "title": "new document",
-      "dest": "docs/docs/",
+      "dest": "docs/2/",
       "filename": "doc",
       "subdirectories": true,
       "includes": ["doc"],
