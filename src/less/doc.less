@@ -11,7 +11,7 @@
   .card {
     &.choosed {
       border-color: @pale;
-      border-color: fade(@color, 50%);
+      border-color: fade(@color, 60%);
       box-shadow: 0 1px 6px fade(@color, 30%);
 
       &:before {
@@ -182,6 +182,10 @@
   }
 }
 
+body {
+  .transition(background @animation-speed-fast @animation-type);
+}
+
 #header {
   background-color: @color-primary;
   color: #fff;
@@ -285,8 +289,6 @@
 
 #grid {
   > .container {
-    background-color: #fff;
-
     > .row > .col {
       &.hide {
         display: block;
@@ -308,6 +310,7 @@
   }
 
   .card {
+    background-color: #fff;
     .transition-fast();
     display: none;
     border-radius: 2px;
@@ -472,8 +475,19 @@
         }
       }
     }
+
+    &.without-topics {
+      .card-content {
+        padding: 0;
+        height: 0;
+        border-top: none;
+      }
+    }
   }
 
+  #chapter-learn {
+    .chapter-accent(@color-info; @color-info-pale);
+  }
   #chapter-start {
     .chapter-accent(@color-primary; @color-pale);
   }
@@ -561,6 +575,7 @@ body.compact-mode {
 
     #search {
       padding: 0 20px;
+      z-index: 1028;
     }
 
     #grid {

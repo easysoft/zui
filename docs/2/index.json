@@ -2,6 +2,41 @@
     "version": "1.2.1",
     "chapters": 
     {
+        "learn":
+        {
+            "name": "交流学习",
+            "sections":
+            [
+                {
+                    "id": "qqgroup",
+                    "name": "QQ群",
+                    "desc": "384135104",
+                    "icon": "icon-qq",
+                    "url": null 
+                },
+                {
+                    "id": "forum",
+                    "name": "论坛",
+                    "desc": "发表帖子",
+                    "icon": "icon-comments-alt",
+                    "url": "/" 
+                },
+                {
+                    "id": "github",
+                    "name": "Github",
+                    "icon": "icon-code-fork",
+                    "desc": "Star或Fork来支持项目",
+                    "url": "https://github.com/easysoft/zui"
+                },
+                {
+                    "id": "oschina",
+                    "name": "开源中国",
+                    "icon": "OSC",
+                    "desc": "在开源中国上支持项目",
+                    "url": "http://git.oschina.net/wwccss/zui"
+                }
+            ]
+        },
         "start": 
         {
             "name": "开始",
