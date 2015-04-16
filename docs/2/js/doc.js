@@ -56,10 +56,35 @@
     };
     if(debug) window.dataset = dataset;
 
+    var scrollBarWidth = -1;
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols,
-        $choosedSection,
+        $choosedSection, $page, $pageHeader,
         $header, $sections, $chapterHeadings; // elements
+
+    var checkScrollbar = function()
+    {
+        if (document.body.clientWidth >= window.innerWidth) return;
+
+        if(scrollBarWidth < 0) {
+            var scrollDiv = document.createElement('div');
+            scrollDiv.className = 'modal-scrollbar-measure';
+            $body.append(scrollDiv);
+            scrollBarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+            $body[0].removeChild(scrollDiv);
+        }
+
+        if (scrollBarWidth) {
+            var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
+            $body.css('padding-right', bodyPad + scrollBarWidth);
+        }
+    };
+
+    var resetScrollbar = function()
+    {
+        $body.css('padding-right', '');
+    };
+
 
     var loadData = function(url, callback, forceLoad) {
         var data = dataset[url];
@@ -113,25 +138,30 @@
             });
         });
         return true;
-    }
+    };
+
+    var displaySectionIcon = function($icon, section) {
+        $icon.attr('class', 'icon').text('');
+        if (section.icon === undefined || section.icon === null || section.icon === "") {
+            section.icon = section.name.substr(0, 1).toUpperCase();
+        }
+        if (section.icon.indexOf('icon-') === 0) {
+            $icon.addClass(section.icon);
+        } else {
+            $icon.addClass('text-icon').text(section.icon);
+        }
+    };
 
     var displaySection = function() {
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
-            var $tpl = $sectionTemplate.clone().attr('id', 'section-' + chapterName + '-' + section.id);
+            section.chapter = chapterName;
+            var $tpl = $sectionTemplate.clone().attr('id', 'section-' + chapterName + '-' + section.id).data('section', section);
             $tpl.attr('data-id', section.id).attr('data-chapter', chapterName);
             var $head = $tpl.children('.card-heading');
             $head.find('.name').text(section.name);
             $head.children('.desc').text(section.desc);
-            var $icon = $head.children('.icon');
-            if (section.icon === undefined || section.icon === null || section.icon === "") {
-                section.icon = section.name.substr(0, 1).toUpperCase();
-            }
-            if (section.icon.indexOf('icon-') === 0) {
-                $icon.addClass(section.icon);
-            } else {
-                $icon.addClass('text-icon').text(section.icon);
-            }
+            displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
             if (section.topics && section.topics.length) {
                 for (var tName in section.topics) {
@@ -159,11 +189,16 @@
         }
     };
 
-    var chooseSection = function($section, keepOtherOpen) {
+    var chooseSection = function($section, keepOtherOpen, notOpenSelf) {
         if($sections) {
+            if($section && $section.hasClass('choosed') && !notOpenSelf) {
+                $section.addClass('open');
+                return;
+            }
+            var isOpened = $section && $section.hasClass('open');
             $sections.removeClass(keepOtherOpen ? 'choosed' : 'choosed open');
             if($section && $section.hasClass('section')) {
-                $choosedSection = $section.addClass('choosed open');
+                $choosedSection = $section.addClass((notOpenSelf && !isOpened) ? 'choosed' : 'choosed open');
             }
         }
     };
@@ -402,7 +437,85 @@
         } else if(debug) {
             console.error("Query failed with key: ", keys);
         }
-    }
+    };
+
+    var toggleCompactMode = function(toggle, callback) {
+        var animateName = 'isScrollAnimating';
+        if(toggle) {
+            if(!$body.hasClass('compact-mode')) {
+                $body.data(animateName, true).addClass('compact-mode')
+                setTimeout(function(){
+                    $body.addClass('compact-mode-in');
+                    $window.scrollTop(1);
+                    setTimeout(function(){
+                        $body.data(animateName, false);
+                        if(callback) callback();
+                    }, 500);
+                }, 10);
+            } else if(callback) {
+                callback();
+            }
+        } else {
+            if($body.hasClass('compact-mode')) {
+                $body.data(animateName, true).removeClass('compact-mode-in');
+                setTimeout(function(){
+                    $body.removeClass('compact-mode');
+                    $body.data(animateName, false);
+                    if(callback) callback();
+                }, 500);
+            } else if(callback) {
+                callback();
+            }
+        }
+    };
+
+    var closePage = function() {
+        if($body.hasClass('page-show')) {
+            $body.removeClass('page-show-in');
+            setTimeout(function(){
+                $body.removeClass('page-show');
+                resetScrollbar();
+            }, 150);
+        }
+    };
+
+    var openPage = function(section, topic) {
+        console.log("Open page: ", section, topic, $section);
+
+        var $section;
+        if($.isPlainObject(section)) {
+            $section = $('#section-' + section.chapter + '-' + section.id);
+        } else {
+            var $temp = section;
+            section = $temp.data('section');
+            $section = $temp;
+        }
+        console.log(section, $section);
+
+        chooseSection($section, false, true);
+
+        closePage();
+        $body.attr('data-page-chapter', section.chapter);
+        displaySectionIcon($pageHeader.children('.icon'), section);
+        $pageHeader.find('.name').text(section.name);
+        $pageHeader.children('.desc').text(section.desc);
+
+        toggleCompactMode(true, function(){
+            var offset = $section.offset();
+            $page.css({
+                left: offset.left - $grid.children('.container').offset().left - 15,
+                top: offset.top - $window.scrollTop() - 80,
+                width: $section.outerWidth(),
+                height: $section.outerHeight()
+            });
+
+            checkScrollbar();
+            $body.addClass('page-show');
+            setTimeout(function(){
+                $body.addClass('page-show-in');
+            }, 10);
+        });
+    };
 
     $(function() {
         var stopPropagation = function(e) {
@@ -414,6 +527,8 @@
         $grid = $('#grid');
         $header = $('#header');
         $chaptersCols = $grid.find('.col');
+        $page = $('#page');
+        $pageHeader = $('#pageHeader');
         $chapters = $grid.find('.chapter');
         $queryInput = $('#searchInput');
         $chapterHeadings = $grid.find('.chapter-heading');
@@ -428,57 +543,58 @@
         loadData(INDEX_JSON, displaySection)
 
         // Bind events
-        $(document).on('click', function(){
+        $(document).on('click', function(e){
+            if($body.hasClass('page-show')) {
+                closePage();
+                return;
+            }
+
             chooseSection();
             $sections.removeClass('open');
         });
+        $page.on('click', stopPropagation);
         $grid.on('click', '.card-heading', function(e) {
             var $card = $(this).closest('.card');
-            if($card.hasClass('without-topics')) {
-                $card.find('.btn-toggle').trigger('click');
+            if(!$card.hasClass('choosed')) {
+                chooseSection($card, true);
             } else {
                 $card.toggleClass('open');
-                if(!$card.hasClass('open')) {
-                    e.stopPropagation();
-                }
             }
+            stopPropagation(e);
         }).on('click', '.card', function(e){
             chooseSection($(this), true);
-            e.stopPropagation();
+            stopPropagation(e);
+        }).on('click', '.card-heading > h5 > .name, .card-heading > .icon', function(e){
+            openPage($(this).closest('.section'));
+            stopPropagation(e);
+        }).on('click', '.topics > li', function(e){
+            var $li = $(this);
+            openPage($li.closest('.section'), null, $li.data('id'));
+            stopPropagation(e);
         }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').addClass('hover');
         }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').removeClass('hover');
         });
 
+        $pageHeader.on('click', '.path-close-btn', function(){
+            closePage();
+        });
+
         var scrollHeight = $('#navbar').outerHeight();
-        var isScrollAnimating = false;
         var lastScrollTop;
         $window.on('scroll', function(e){
+            var isScrollAnimating = $body.data('isScrollAnimating');
             if(isScrollAnimating) {
-                $window.scrollTop(lastScrollTop);
+                $window.scrollTop(1);
                 return;
             }
             lastScrollTop = $window.scrollTop();
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
-                isScrollAnimating = true;
-                $body.addClass('compact-mode')
-                setTimeout(function(){
-                    $body.addClass('compact-mode-in');
-                    lastScrollTop = 1;
-                    $window.scrollTop(1);
-                    setTimeout(function(){
-                        isScrollAnimating = false;
-                    }, 500);
-                }, 10);
+                toggleCompactMode(true);
             } else if($body.hasClass('compact-mode')) {
                 if(lastScrollTop < 1) {
-                    isScrollAnimating = true;
-                    $body.removeClass('compact-mode-in');
-                    setTimeout(function(){
-                        $body.removeClass('compact-mode');
-                        isScrollAnimating = false;
-                    }, 500);
+                    toggleCompactMode(false);
                 } else {
                     $header.toggleClass('with-shadow', lastScrollTop > 20);
                 }
@@ -491,7 +607,7 @@
             clearTimeout($queryInput.data(LAST_QUERY_ID));
             $queryInput.data(LAST_QUERY_ID, setTimeout(function(){
                 query(val);
-            }, 150))
+            }, 150));
         }).on('focus', function(){
             $body.addClass('input-query-focus');
             if($queryInput.val() && !$sections.filter('.open').length) {
