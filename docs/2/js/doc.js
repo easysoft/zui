@@ -118,7 +118,7 @@
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
             var $tpl = $sectionTemplate.clone().attr('id', 'section-' + chapterName + '-' + section.id);
-            $tpl.attr('data-id', section.id);
+            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName);
             var $head = $tpl.children('.card-heading');
             $head.find('.name').text(section.name);
             $head.children('.desc').text(section.desc);
@@ -434,6 +434,9 @@
                 $card.find('.btn-toggle').trigger('click');
             } else {
                 $card.toggleClass('open');
+                if(!$card.hasClass('open')) {
+                    e.stopPropagation();
+                }
             }
         }).on('click', '.card', function(e){
             chooseSection($(this));

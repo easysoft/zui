@@ -10,30 +10,30 @@
     <link href="../css/zui.min.css" rel="stylesheet">
     <link href="css/doc.min.css" rel="stylesheet">
   </head>
-  <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" id="navbar" role="banner">
-      <div class="container">
-        <div class="navbar-header">
-          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".zui-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a href="../" class="navbar-brand"><span class="path-zui-36"><i class="path-1"></i><i class="path-2"></i></span> ZUI</a>
-        </div>
-        <nav class="collapse navbar-collapse zui-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <!-- <li><a href="#">开始</a></li> -->
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="https://github.com/easysoft/zui" target="_blank">论坛</a></li>
-            <li><a href="https://github.com/easysoft/zui" target="_blank">Github</a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+  <body class="compact-mode compact-mode-in page-show">
     <header id="header">
+      <div class="navbar navbar-inverse navbar-fixed-top" id="navbar" role="banner">
+        <div class="container">
+          <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".zui-navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a href="../" class="navbar-brand"><span class="path-zui-36"><i class="path-1"></i><i class="path-2"></i></span> ZUI</a>
+          </div>
+          <nav class="collapse navbar-collapse zui-navbar-collapse">
+            <ul class="nav navbar-nav">
+              <!-- <li><a href="#">开始</a></li> -->
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="https://github.com/easysoft/zui" target="_blank">论坛</a></li>
+              <li><a href="https://github.com/easysoft/zui" target="_blank">Github</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
       <div id="heading">
         <h1>ZUI</h1>
         <p>一个开源前端实践方案，帮助你快速构现代跨屏应用。</p>
@@ -49,6 +49,18 @@
         </div>
       </div>
     </header>
+
+    <div id="pageContainer">
+      <div class="container">
+        <div id="page">
+          <div id="pageHeader">
+            <i class="icon icon-star"></i>
+            <h5><span class="name">图标</span></h5>
+            <small class="text-muted desc">使用和查找图标</small>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="grid">
       <div class="container">
