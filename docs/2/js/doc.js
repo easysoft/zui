@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2015-04-15
+ * ZUI - v1.2.1 - 2015-04-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -39,6 +39,7 @@
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
+        learn: {col: 1}, 
         start: {col: 1}, 
         basic: {col: 1}, 
         control: {col: 2}, 
@@ -158,14 +159,14 @@
         }
     };
 
-    var chooseSection = function($section) {
+    var chooseSection = function($section, keepOtherOpen) {
         if($sections) {
-            $sections.removeClass('choosed open');
+            $sections.removeClass(keepOtherOpen ? 'choosed' : 'choosed open');
             if($section && $section.hasClass('section')) {
                 $choosedSection = $section.addClass('choosed open');
             }
         }
-    }
+    };
 
     var resetQuery = function() {
         $chaptersCols.removeClass('hide');
@@ -395,6 +396,9 @@
                 $show.addClass('show');
                 setTimeout(function(){$show.addClass('in');}, 20);
             }
+
+            $window.scrollTop(1);
+            $body.removeClass('page-show page-show-in');
         } else if(debug) {
             console.error("Query failed with key: ", keys);
         }
@@ -439,7 +443,7 @@
                 }
             }
         }).on('click', '.card', function(e){
-            chooseSection($(this));
+            chooseSection($(this), true);
             e.stopPropagation();
         }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').addClass('hover');
@@ -453,15 +457,19 @@
         $window.on('scroll', function(e){
             if(isScrollAnimating) {
                 $window.scrollTop(lastScrollTop);
+                return;
             }
             lastScrollTop = $window.scrollTop();
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 isScrollAnimating = true;
                 $body.addClass('compact-mode')
                 setTimeout(function(){
-                    $window.scrollTop(1);
                     $body.addClass('compact-mode-in');
-                    isScrollAnimating = false;
+                    lastScrollTop = 1;
+                    $window.scrollTop(1);
+                    setTimeout(function(){
+                        isScrollAnimating = false;
+                    }, 500);
                 }, 10);
             } else if($body.hasClass('compact-mode')) {
                 if(lastScrollTop < 1) {
@@ -492,5 +500,7 @@
         }).on('blur', function(){
             $body.removeClass('input-query-focus');
         }).on('click', stopPropagation);
+
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     });
 }(window, jQuery));

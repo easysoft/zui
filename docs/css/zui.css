@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2015-04-15
+ * ZUI - v1.2.1 - 2015-04-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -1426,10 +1426,10 @@ cite {
   color: #25902a;
 }
 .text-info {
-  color: #24c7d9;
+  color: #00acc1;
 }
 .text-info:hover {
-  color: #1d9fad;
+  color: #007f8e;
 }
 .text-important {
   color: #bd7b46;
@@ -1625,10 +1625,10 @@ a.bg-success:hover {
 }
 .bg-info {
   color: #fff;
-  background-color: #24c7d9;
+  background-color: #00acc1;
 }
 a.bg-info:hover {
-  background-color: #1d9fad;
+  background-color: #007f8e;
 }
 .bg-warning {
   color: #fff;
@@ -2040,8 +2040,8 @@ fieldset[disabled] .btn-success.active {
 .btn-info {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
-  background-color: #24c7d9;
-  border-color: #1b97a5;
+  background-color: #00acc1;
+  border-color: #007584;
 }
 .btn-info:hover,
 .btn-info:focus,
@@ -2049,8 +2049,8 @@ fieldset[disabled] .btn-success.active {
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
   color: #fff;
-  background-color: #1ea7b6;
-  border-color: #18838f;
+  background-color: #008898;
+  border-color: #005f6a;
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
           box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
 }
@@ -2076,8 +2076,8 @@ fieldset[disabled] .btn-info:active,
 .btn-info.disabled.active,
 .btn-info[disabled].active,
 fieldset[disabled] .btn-info.active {
-  background-color: #24c7d9;
-  border-color: #20b3c3;
+  background-color: #00acc1;
+  border-color: #0095a8;
 }
 .btn-link {
   font-weight: normal;
@@ -2433,7 +2433,7 @@ input[type="button"].btn-block {
   background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
 }
 .progress-bar-info {
-  background-color: #24c7d9;
+  background-color: #00acc1;
 }
 .progress-striped .progress-bar-info {
   background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, rgba(255, 255, 255, .15)), color-stop(.25, transparent), color-stop(.5, transparent), color-stop(.5, rgba(255, 255, 255, .15)), color-stop(.75, rgba(255, 255, 255, .15)), color-stop(.75, transparent), to(transparent));
@@ -2577,17 +2577,17 @@ hr {
   border: 1px solid #2fb936;
 }
 .label-info {
-  background-color: #24c7d9;
+  background-color: #00acc1;
 }
 .label-info[href]:hover,
 .label-info[href]:focus {
   color: #fff;
-  background-color: #1d9fad;
+  background-color: #007f8e;
 }
 .label-info.label-circle {
-  color: #24c7d9;
+  color: #00acc1;
   background: none;
-  border: 1px solid #24c7d9;
+  border: 1px solid #00acc1;
 }
 .label-warning {
   background-color: #fd9927;
@@ -2625,7 +2625,7 @@ hr {
 }
 .btn-info .label-badge,
 .btn-info .label-dot {
-  background-color: #157782;
+  background-color: #00515b;
 }
 .btn-danger .label-badge,
 .btn-danger .label-dot {
@@ -4145,7 +4145,7 @@ a.list-group-item:focus {
   border-color: #b5f2ec;
 }
 .panel-info > .panel-heading {
-  color: #24c7d9;
+  color: #00acc1;
   background-color: #d3f4f7;
   border-color: #b5f2ec;
 }
@@ -4279,7 +4279,7 @@ a.list-group-item:focus {
   color: #25902a;
 }
 .alert-info {
-  color: #24c7d9;
+  color: #00acc1;
   background-color: #d3f4f7;
   border-color: #b5f2ec;
 }
@@ -4287,7 +4287,7 @@ a.list-group-item:focus {
   border-top-color: #9feee7;
 }
 .alert-info .alert-link {
-  color: #1d9fad;
+  color: #007f8e;
 }
 .alert-warning {
   color: #fd9927;
@@ -7105,7 +7105,7 @@ ol.linenums li {
   background-color: #2fb936;
 }
 .messager-info {
-  background-color: #24c7d9;
+  background-color: #00acc1;
 }
 .messager-warning {
   background-color: #fd9927;
@@ -9023,9 +9023,9 @@ a.calendar .event:hover {
   margin-right: 10px;
   margin-bottom: 10px;
   color: #fff;
-  background-color: #24c7d9;
+  background-color: #00acc1;
   border: 1px solid rgba(0, 0, 0, .5);
-  border-color: #1d9fad;
+  border-color: #007f8e;
 }
 .color-blue:after,
 .color-blue:before {
@@ -9049,13 +9049,13 @@ a.calendar .event:hover {
   background-color: transparent;
 }
 .color-blue:after {
-  content: "#24c7d9";
+  content: "#00acc1";
 }
 .color-blue:before {
   content: "color-blue";
 }
 .color-blue:hover:before {
-  content: "186,72%,50%";
+  content: "187,100%,38%";
 }
 .color-brown {
   position: relative;
@@ -9367,9 +9367,9 @@ a.calendar .event:hover {
   margin-right: 10px;
   margin-bottom: 10px;
   color: #fff;
-  background-color: #24c7d9;
+  background-color: #00acc1;
   border: 1px solid rgba(0, 0, 0, .5);
-  border-color: #1d9fad;
+  border-color: #007f8e;
 }
 .color-info:after,
 .color-info:before {
@@ -9393,13 +9393,13 @@ a.calendar .event:hover {
   background-color: transparent;
 }
 .color-info:after {
-  content: "#24c7d9";
+  content: "#00acc1";
 }
 .color-info:before {
   content: "color-info";
 }
 .color-info:hover:before {
-  content: "186,72%,50%";
+  content: "187,100%,38%";
 }
 .color-important {
   position: relative;
