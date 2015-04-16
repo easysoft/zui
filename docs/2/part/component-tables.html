@@ -1,0 +1,220 @@
+<h3>类型</h3>
+<div class="example" contenteditable="true">
+  <table class="table">
+    <tbody>
+      <tr>
+        <th class="col-md-2">名称</th>
+        <th>描述</th>
+      </tr>
+      <tr>
+        <td>表头</td>
+        <td>
+        一般表格的第一行作为表头，用于描述表中每一列数据名称。为区别于表格其他行，表头具备不同的样式，例如字体加粗等。在垂直显示一组数据的表格中，表头也可能是垂直的第一列，而不是行。</td>
+      </tr>
+      <tr>
+        <td>内容</td>
+        <td>
+        一般内容会在单元格内靠左对齐，对于数字可能靠右对齐比较好。在一些表格中，内容可以按单元格选择或者按行选择，选中的部分会以不同的样式区分。为了使得行与行便于区分，通常也会使得行交替使用不同的背景色。图片或其他控件也可以应用单元格中。</td>
+      </tr>
+      <tr>
+        <td>表尾</td>
+        <td>表位放置与表末尾提供与表相关补充数据或操作，不过并不常见。</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3>参数</h3>
+<h4>隔行交替样式的表</h4>
+<p><code>.table-striped</code></p>
+<div class="example" contenteditable="true">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Sunshine</td>
+        <td>Sunday</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Sunday</td>
+        <td>Sunshine</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>catouse</td>
+        <td>azhi</td>
+        <td>zenUI</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td> </td>
+        <td>Lady Gaga</td>
+        <td>catouse</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h4>响应鼠标悬停</h4>
+<p><code>.table-hover</code></p>
+<div class="example" contenteditable="true">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Sunshine</td>
+        <td>Sunday</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Sunday</td>
+        <td>Sunshine</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>catouse</td>
+        <td>azhi</td>
+        <td>zenUI</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td> </td>
+        <td>Lady Gaga</td>
+        <td>catouse</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h4>带所有边框的表格</h4>
+<p><code>.table-bordered</code></p>
+<div class="example" contenteditable="true">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Sunshine</td>
+        <td>Sunday</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Sunday</td>
+        <td>Sunshine</td>
+        <td>catouse</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>catouse</td>
+        <td>azhi</td>
+        <td>zenUI</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td> </td>
+        <td>Lady Gaga</td>
+        <td>catouse</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h4>更为紧凑的表格</h4>
+<p><code>.table-condensed</code></p>
+<div class="example" contenteditable="true">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>catouse</td>
+        <td>hello</td>
+        <td>world</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>jay</td>
+        <td>thks</td>
+        <td>jajaja</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>JK row</td>
+        <td>thks</td>
+        <td>Pa</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h4>色彩标记</h4>
+<p>可以根据语义标记整行或者某一单元格</p>
+<div class="example" contenteditable="true">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>描述</th>
+        <th>Payment Taken</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="success">
+        <td>1</td>
+        <td>表示成功或积极的行为。</td>
+        <td>01/04/2012</td>
+        <td>Approved</td>
+      </tr>
+      <tr class="danger">
+        <td>2</td>
+        <td>表示一个危险或存有潜在危险的行为。</td>
+        <td>02/04/2012</td>
+        <td>Declined</td>
+      </tr>
+      <tr class="warning">
+        <td>3</td>
+        <td>表示警告，可能需要注意。</td>
+        <td>03/04/2012</td>
+        <td>Pending</td>
+      </tr>
+      <tr class="active">
+        <td>4</td>
+        <td>标记为激活行。</td>
+        <td>04/04/2012</td>
+        <td>Call in to confirm</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

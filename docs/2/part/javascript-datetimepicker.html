@@ -1,0 +1,57 @@
+<p>日期选择插件可以帮助用户更方便准确的选择日期和时间。</p>
+<p>在ZUI中包含的日期选择控件基于开源项目 <a href="http://www.malot.fr/bootstrap-datetimepicker/"
+target="_blank">DateTime Picker</a> 定制开发。</p>
+<h3>类型</h3>
+<h4>日期选择</h4>
+<div class="example">
+  <input type="text" class="form-control form-date" placeholder=
+  "选择或者输入一个日期：yyyy-MM-dd">
+</div>
+<h4>时间选择</h4>
+<div class="example">
+  <input type="text" class="form-control form-time" placeholder=
+  "选择或者输入一个时间：hh:mm">
+</div>
+<h4>日期+时间选择</h4>
+<div class="example">
+  <input type="text" class="form-control form-datetime" placeholder=
+  "选择或者输入一个日期+时间：yyyy-MM-dd hh:mm">
+</div>
+<h3>变化</h3>
+<h4>禁用输入</h4>
+<p>只允许用户选择一个日期或时间，只需要给<code>input</code>加上<code>readonly</code>属性。</p>
+<div class="example row">
+  <div class="col-md-4">
+    <input type="text" class="form-control form-date" placeholder=
+    "选择或者输入一个日期：yyyy-MM-dd" readonly>
+  </div>
+  <div class="col-md-4">
+    <input type="text" class="form-control form-time" placeholder=
+    "选择或者输入一个时间：hh:mm" readonly>
+  </div>
+  <div class="col-md-4">
+    <input type="text" class="form-control form-datetime" placeholder=
+    "选择或者输入一个日期+时间：yyyy-MM-dd hh:mm" readonly>
+  </div>
+</div>
+<h4>使用输入框组</h4>
+<p>输入框组可以添加额外的按钮来操作日期选择插件。</p>
+<p>
+按钮中的<code>.icon-remove</code>用来移除输入的日期。<code>.icon-th</code>,<code>.icon-calendar</code>,<code>.icon-time</code>用来激活日期选择框。</p>
+<div class="example row">
+  <div class="col-md-4 input-group date form-datetime" data-date=
+  "1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p"
+  data-link-field="dtp_input1">
+    <input class="form-control" size="16" type="text" value="" readonly>
+  </div>
+  <div class="col-md-4 input-group date form-date" data-date=""
+  data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format=
+  "yyyy-mm-dd">
+    <input class="form-control" size="16" type="text" value="" readonly>
+  </div>
+  <div class="col-md-4 input-group date form-time" data-date=""
+  data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format=
+  "hh:ii">
+    <input class="form-control" size="16" type="text" value="" readonly>
+  </div>
+</div>

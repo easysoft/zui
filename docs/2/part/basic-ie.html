@@ -1,0 +1,45 @@
+<p>
+因为IE浏览器与各大浏览器区别太大，为了尽可能的保证在所有浏览器中有一致的体验，很多时候需要单独对待IE浏览器。为了保证代码精简及一致，ZUI支持IE8-11。</p>
+<h3>禁用IE兼容模式</h3>
+<p>为了保证IE能够使用最新渲染模式而不是兼容模式，在html文档头部应加入以下代码：</p>
+<pre class="prettyprint">
+<code>&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    ...
+</code>
+</pre>
+<p>
+国内众多浏览器推出“高速”模式（webkit内核）和“兼容”模式（IE内核），不过默认情况下使用“兼容”模式。将一下代码加入到页面中，可以让部分国产浏览器默认采用“高速”模式渲染页面：</p>
+<pre class="prettyprint">
+<code>&lt;meta name=&quot;renderer&quot; content=&quot;webkit&quot;&gt;</code>
+</pre>
+<p>目前只有<a href="http://se.360.cn/v6/help/meta.html" target=
+"_blank">360浏览器</a>支持此<code>meta</code>标签。</p>
+<h3>更古老的浏览器</h3>
+<p>
+针对IE7及更早的版本，应该给出提示，让用户升级浏览器。在<code>body</code>之后加入以下代码可以有选择性的出现浏览器升级提示，并给出链接引导用户访问<a href="http://browsehappy.com/">browsehappy.com</a>：</p>
+<pre class="prettyprint">
+<code>&lt;body&gt;
+    &lt;!--[if lt IE 8]&gt;
+        &lt;div class=&quot;alert alert-danger&quot;&gt;您正在使用 &lt;strong&gt;过时的&lt;/strong&gt; 浏览器. 是时候 &lt;a href=&quot;http://browsehappy.com/&quot;&gt;更换一个更好的浏览器&lt;/a&gt; 来提升用户体验.&lt;/div&gt;
+    &lt;![endif]--&gt;
+    ...
+</code>
+</pre>
+<p>
+因为IE8及早期版本不支持HTML5标签，所以针对IE8浏览器，我们引入html5shiv来使得HTML5标签在IE8中也能使用。在HTML文档的script区域加入以下代码（示例中html5shiv库来自maxcdn）：</p>
+<pre class="prettyprint">
+<code>&lt;!--[if lt IE 9]&gt;
+  &lt;script src=&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
+&lt;![endif]--&gt;
+</code>
+</pre>
+<p>因为IE8及早期版本同样不支持media
+query来实现响应式布局，我们同样可以通过条件注释引入respond.js来帮助ie实现该功能。（示例中的respond.js来自maxcdn，可以和html5shiv共享同一个条件注释区域。）</p>
+<pre class="prettyprint">
+<code>&lt;!--[if lt IE 9]&gt;
+  &lt;script src=&quot;https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js&quot;&gt;&lt;/script&gt;
+&lt;![endif]--&gt;
+</code>
+</pre>

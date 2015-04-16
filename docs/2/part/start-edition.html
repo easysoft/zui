@@ -1,0 +1,72 @@
+<p>
+ZUI中提供了众多丰富的web组件，几乎为你准备构建现代Web应用所有基础内容。但大部分场景并不需要所有组件，所有并没有将所有内容打包为一个CSS文件和一个JS文件，在标准版中仅包含精心选择的组件，这些组件用于绝大部分场景。</p>
+<p>
+在构建轻量的应用时需要的内容更少。ZUI预编译版本中提供了一些简洁的版本。包含了ZUI中大部分常用内容，经过压缩后体积更小。你可以在dist目录下找到文件名包含&#39;.lite&#39;的文件记为简洁的版本。</p>
+<h3>标准版</h3>
+<p>在标准版中包含绝大部分常用组件。预编译的标准版包含以下文件：</p>
+<pre>
+zui/
+└── dist/
+    ├── css/                    CSS文件
+    │   ├── zui.css
+    │   ├── zui.min.css
+    │   └── zui.map.css
+    ├── js/                     Javascript文件
+    │   ├── zui.js
+    │   └── zui.min.js
+    └── fonts/                  图标字体文件
+        ├── zenicon.eot
+        ├── zenicon.ttf
+        ├── zenicon.woff
+        └── zenicon.svg
+</pre>
+<h3>简洁版</h3>
+<p>在简洁版中包含大部分常用组件。标准版中已包含简洁版的所有内容。预编译的简洁版包含以下文件：</p>
+<pre>
+zui/
+└── dist/
+    ├── css/                     CSS文件
+    │   ├── zui.lite.css
+    │   ├── zui.lite.min.css
+    │   └── zui.lite.map.css
+    ├── js/                      Javascript文件
+    │   ├── zui.lite.js
+    │   └── zui.lite.min.js
+    └── fonts/                   图标字体文件
+        ├── zenicon.eot
+        ├── zenicon.ttf
+        ├── zenicon.woff
+        └── zenicon.svg
+</pre>
+<h3>独立组件</h3>
+<p>一些组件可能既不包含在标准版中，也没有包含在简洁版中，使用时需要配合标准版或简洁版独立引用。可以在以下目录中找到独立组件包含的文件：</p>
+<pre>
+zui/
+└── dist/
+    └── lib/                      独立加载的组件
+        ├── chosen/               Chosen组件
+        ├── datetimepicker/       日期时间选择组件
+        ├── datatable/            数据表格组件
+        └── ...                   更多组件....
+</pre>
+<h3>自定义版本</h3>
+<p>如果你需要更精确的控制预编译版本所包含的内容，强烈建议下载我们的源码来进行自定义配置并编译独一无二的版本。请参考章节<a href=
+"#grunt">编译及定制</a>。</p>
+<h3>组件清单</h3>
+<p>组件清单帮助你快速查找所需的组件是否包含在指定版本中。</p>
+<table class="table table-bordered" id="buildTable">
+  <thead>
+    <tr>
+      <th data-width="auto">组件</th>
+      <th data-width="15%" style="width: 15%" class="text-center">标准版</th>
+      <th data-width="15%" style="width: 15%" class="text-center">简洁版</th>
+      <th data-width="15%" style="width: 15%" class="text-center">独立组件</th>
+      <th data-width="30%" style="width: 30%" class="text-center">版本要求</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="5" class="text-muted">正在加载列表...</td>
+    </tr>
+  </tbody>
+</table>

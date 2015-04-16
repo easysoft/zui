@@ -1,0 +1,205 @@
+<p>在ZUI中提供了众多实用的辅助类。任何时候只需要加入对应的CSS类名即可。虽然辅助类使用起来非常方便，但也要避免滥用。使用之前应该了解以下要点。</p>
+<ul>
+  <li>尽量少用或不用辅助类，如果有对应的控件或组件使用。</li>
+  <li>当相同的场景需要大量使用辅助类时，这时应该考虑是否单独定义一个新的控件或组件。</li>
+</ul>
+<h3>小字号文本</h3>
+<p>使用标签<code>&lt;small&gt;</code>或者CSS类名<code>.small</code>来使得文本字号比正常情况小一号。</p>
+<div class="example">
+  <small>小字号文本，small text.</small>
+</div>
+<pre>
+<code>&lt;small&gt;...&lt;/small&gt;</code>
+</pre>
+<h3>文本颜色</h3>
+<div class="example" contenteditable="true">
+  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur.</p>
+  <p class="text-primary">Perferendis eveniet ipsa modi nesciunt, vel.</p>
+  <p class="text-danger">Molestias maxime perspiciatis saepe unde corporis.</p>
+  <p class="text-success">Culpa eum modi assumenda, velit vitae.</p>
+  <p class="text-warning">Cumque consequuntur modi fugiat debitis dolorum.</p>
+  <p class="text-info">Minus nisi consectetur dolorum temporibus
+  architecto.</p>
+  <p class="text-important">Tenetur ullam amet illo sint magni!</p>
+  <p class="text-special">Sapiente voluptates debitis dolor ipsam libero!</p>
+</div>
+<pre class="prettyprint">
+&lt;p class=&quot;text-muted&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;text-primary&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;text-danger&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;text-success&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;text-warning&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;text-info&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;text-important&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;text-special&quot;&gt;...&lt;/p&gt;
+</pre>
+<h3>文本背景高亮</h3>
+<div class="example" contenteditable="true">
+  <p class="highlight-default">Lorem ipsum dolor sit amet, consectetur.</p>
+  <p class="highlight-primary">Perferendis eveniet ipsa modi nesciunt, vel.</p>
+  <p class="highlight-danger">Molestias maxime perspiciatis saepe unde
+  corporis.</p>
+  <p class="highlight-success">Culpa eum modi assumenda, velit vitae.</p>
+  <p class="highlight-warning">Cumque consequuntur modi fugiat debitis
+  dolorum.</p>
+  <p class="highlight-info">Minus nisi consectetur dolorum temporibus
+  architecto.</p>
+  <p class="highlight-important">Tenetur ullam amet illo sint magni!</p>
+  <p class="highlight-special">Sapiente voluptates debitis dolor ipsam
+  libero!</p>
+</div>
+<pre class="prettyprint">
+&lt;p class=&quot;highlight-default&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;highlight-primary&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;highlight-danger&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;highlight-success&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;highlight-warning&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;highlight-info&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;highlight-important&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;highlight-special&quot;&gt;...&lt;/p&gt;
+</pre>
+<h3>文本背景色</h3>
+<div class="example" contenteditable="true">
+  <p class="bg-default">Lorem ipsum dolor sit amet, consectetur.</p>
+  <p class="bg-primary">Perferendis eveniet ipsa modi nesciunt, vel.</p>
+  <p class="bg-danger">Molestias maxime perspiciatis saepe unde corporis.</p>
+  <p class="bg-success">Culpa eum modi assumenda, velit vitae.</p>
+  <p class="bg-warning">Cumque consequuntur modi fugiat debitis dolorum.</p>
+  <p class="bg-info">Minus nisi consectetur dolorum temporibus architecto.</p>
+  <p class="bg-important">Tenetur ullam amet illo sint magni!</p>
+  <p class="bg-special">Sapiente voluptates debitis dolor ipsam libero!</p>
+</div>
+<pre class="prettyprint">
+&lt;p class=&quot;bg-default&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;bg-primary&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;bg-danger&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;bg-success&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;bg-warning&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;bg-info&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;bg-important&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;bg-special&quot;&gt;...&lt;/p&gt;
+</pre>
+<h3>禁用文本换行</h3>
+<p>
+使所有文本在一行显示。超出的部分将会被隐藏。只需要使用<code>.text-nowrap</code>或者<code>.nobr</code>。</p>
+<pre class="prettyprint">
+&lt;h2 class=&quot;text-nowrap&quot;&gt;...&lt;/h2&gt;
+</pre>
+<h3>文本超出省略</h3>
+<p>使所有文本在一行显示。超出的部分会被截断，并且在文本末尾添加省略号。使用<code>.text-ellipsis</code>。</p>
+<pre class="prettyprint">
+&lt;h2 class=&quot;text-ellipsis&quot;&gt;...&lt;/h2&gt;
+</pre>
+<div class="alert alert-warning">
+  <p>并不是所有浏览器都支持此选项。</p>
+</div>
+<h3>内容边距</h3>
+<p>在内容元素内添加内边距，使得元素更易于阅读。使用<code>.with-padding</code>。</p>
+<p>内容边距和文本背景一起使用的例子。</p>
+<div class="example" contenteditable="true">
+  <p class="with-padding bg-default">Lorem ipsum dolor sit amet,
+  consectetur.</p>
+  <p class="with-padding bg-primary">Perferendis eveniet ipsa modi nesciunt,
+  vel.</p>
+  <p class="with-padding bg-danger">Molestias maxime perspiciatis saepe unde
+  corporis.</p>
+  <p class="with-padding bg-success">Culpa eum modi assumenda, velit vitae.</p>
+  <p class="with-padding bg-warning">Cumque consequuntur modi fugiat debitis
+  dolorum.</p>
+  <p class="with-padding bg-info">Minus nisi consectetur dolorum temporibus
+  architecto.</p>
+  <p class="with-padding bg-important">Tenetur ullam amet illo sint magni!</p>
+  <p class="with-padding bg-special">Sapiente voluptates debitis dolor ipsam
+  libero!</p>
+</div>
+<pre class="prettyprint">
+&lt;p class=&quot;with-padding bg-default&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;with-padding bg-primary&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;with-padding bg-danger&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;with-padding bg-success&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;with-padding bg-warning&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;with-padding bg-info&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;with-padding bg-important&quot;&gt;...&lt;/p&gt;
+&lt;p class=&quot;with-padding bg-special&quot;&gt;...&lt;/p&gt;
+</pre>
+<h3>关闭按钮</h3>
+<p>通常用来关闭消息框或者模态框。</p>
+<div class="example">
+  <button type="button" class="close" style="float:none"><span aria-hidden=
+  "true">×</span><span class="sr-only">Close</span></button>
+</div>
+<pre class="prettyprint">
+<code>&lt;button type=&quot;button&quot; class=&quot;close&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;×&lt;/span&gt;&lt;span class=&quot;sr-only&quot;&gt;Close&lt;/span&gt;&lt;/button&gt;</code>
+</pre>
+<h3>三角符号</h3>
+<div class="example"></div>
+<pre class="prettyprint">
+<code>&lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;</code>
+</pre>
+<h3>浮动</h3>
+<p>强制使得一个元素向左或者向右浮动。</p>
+<pre class="prettyprint">
+&lt;div class=&quot;pull-left&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;pull-right&quot;&gt;&lt;/div&gt;
+</pre>
+<p>对应的CSS代码：</p>
+<pre class="prettyprint">
+.pull-right
+{
+  float: right !important;
+}
+.pull-left
+{
+  float: left !important;
+}
+</pre>
+<h3>清除浮动</h3>
+<p>只需要一个CSS类名即可使得内部浮动元素也具备高度等特性。</p>
+<pre class="prettyprint">
+&lt;div class=&quot;clearfix&quot;&gt;...&lt;/div&gt;
+</pre>
+<h3>块居中</h3>
+<p>使得一个具备固定宽度的能够在父级容器中居中显示。</p>
+<pre class="prettyprint">
+&lt;div class=&quot;center-block&quot;&gt;...&lt;/div&gt;
+</pre>
+<p>对应的CSS代码：</p>
+<pre class="prettyprint">
+.center-block
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</pre>
+<h3>隐藏文本</h3>
+<p>隐藏文本能够使得标签内的文本不显示，通常用于图片代替文本。</p>
+<pre class="prettyprint">
+&lt;h1 class=&quot;text-hide&quot;&gt;此处文本不会显示&lt;/h1&gt;
+</pre>
+<h3>显示或隐藏元素</h3>
+<p>提供多个辅助类来帮助切换内容显示。</p>
+<pre class="prettyprint">
+.hide
+{
+  display: none;
+}
+.hidden
+{
+  display: none!important;
+}
+.show
+{
+  display: block;
+}
+.showing
+{
+  display: block!important;
+}
+.invisible
+{
+  visibility: hidden;
+}
+</pre>
+<p>
+<code>.hidden</code>和<code>.showing</code>具备更高的优先级，防止其他规则重写。<code>.invisible</code>仅仅隐藏元素，但元素内容所占的空间并不会清除。</p>
