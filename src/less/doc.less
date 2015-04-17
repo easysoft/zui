@@ -103,7 +103,7 @@
   #pageHeader {
     background-color: @pale;
 
-    > .icon {
+    > .wrapper > .icon {
       background-color: @color;
       color: #fff;
     }
@@ -812,9 +812,42 @@ body.input-query-focus {
 #pageHeader {
   background-color: #fafafa;
   position: relative;
-  padding: 8px 20px 20px 64px;
+  padding: 0;
   min-height: 110px;
-  .transition-fast();
+  
+
+  > .wrapper {
+    max-width: 1160px;
+    margin: 0 auto;
+    position: relative;
+    padding: 8px 20px 20px 66px;
+    .transition-fast();
+
+    > .icon {
+      .transition-fast();
+      // .scale(1.2);
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+      border-radius: 18px;
+      text-align: center;
+      left: 13px;
+      top: 13px;
+      z-index: 10;
+      font-style: normal;
+      color: @color-gray;
+      background-color: @color-gray-lighter;
+    }
+
+    > h2 {
+      .transition-fast();
+      padding: 6px 0;
+      line-height: 16px;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
 
   > .path-btn {
     position: absolute;
@@ -827,31 +860,6 @@ body.input-query-focus {
   > .path-max-btn {
     right: 48px;
     width: 36px;
-  }
-
-  > .icon {
-    .transition-fast();
-    .scale(1.2);
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    border-radius: 18px;
-    text-align: center;
-    left: 13px;
-    top: 13px;
-    z-index: 10;
-    font-style: normal;
-    color: @color-gray;
-    background-color: @color-gray-lighter;
-  }
-
-  > h2 {
-    .transition-fast();
-    padding: 6px 0;
-    line-height: 16px;
-    font-size: 16px;
-    margin: 0;
   }
 
   > .btn {
@@ -1021,17 +1029,19 @@ body.page-show {
     }
 
     #pageHeader {
-      padding-top: 20px;
-      padding-left: 80px;
+      > .wrapper {
+        padding-top: 20px;
+        padding-left: 80px;
 
-      > h2 {
-        padding: 10px 0;
-        font-size: 20px;
-      }
+        > h2 {
+          padding: 10px 0;
+          font-size: 20px;
+        }
 
-      > .icon {
-        left: 26px;
-        top: 30px;
+        > .icon {
+          left: 26px;
+          top: 30px;
+        }
       }
 
       > .btn {
@@ -1041,13 +1051,41 @@ body.page-show {
     }
   }
 
-  &.page-show-full.page-show-in {
+  &.page-show-full {
+    #page {
+      opacity: 0;
+    }
+
+    &.page-show-in {
+       #page {
+         opacity: 1;
+       }
+    }
+
     #pageContainer {
       top: 0;
 
        > .container {
         width: 100%;
         max-width: none;
+      }
+    }
+
+    #pageContent {
+      padding: 0 20px 0 80px;
+      max-width: 1160px;
+      margin: 0 auto;
+
+      &:before {
+        left: 44px;
+      }
+    }
+
+    #pageBody {
+      padding: 20px 0;
+
+      &.with-scrollbar {
+        padding-left: 11px;
       }
     }
 

@@ -46,7 +46,7 @@
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
     var dataset = {
-        'index.json': null
+        // 'index.json': null
     };
     if(debug) window.dataset = dataset;
 
@@ -55,7 +55,7 @@
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols,
         $choosedSection, $page, $pageHeader, $pageContent, 
-        $pageContainer, $pageBody,
+        $pageContainer, $pageBody, $navbar,
         $header, $sections, $chapterHeadings; // elements
 
     var checkScrollbar = function()
@@ -73,14 +73,15 @@
         if (scrollBarWidth) {
             var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
             $body.css('padding-right', bodyPad + scrollBarWidth);
+            $navbar.css('padding-right', scrollBarWidth);
         }
     };
 
     var resetScrollbar = function()
     {
         $body.css('padding-right', '');
+        $navbar.css('padding-right', '');
     };
-
 
     var loadData = function(url, callback, forceLoad) {
         var data = dataset[url];
@@ -702,7 +703,13 @@
 
     var resizePage = function() {
         if($body.hasClass('page-show-out') || $page.hasClass('loading')) return;
-        var height = $body.hasClass(PAGE_SHOW_FULL) ? $window.height() : Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50);
+        var height;
+        if($body.hasClass(PAGE_SHOW_FULL)) {
+            height = $window.height();
+            $pageBody.toggleClass('with-scrollbar', $pageContent.outerHeight() > (height - 40 - $pageHeader.outerHeight()));
+        } else {
+            height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50);
+        }
         $page.css('height', height);
         console.log('resize page height to ', height);
     };
@@ -714,6 +721,7 @@
 
         $window = $(window);
         $body = $('body');
+        $navbar = $('#navbar');
         $grid = $('#grid');
         $header = $('#header');
         $chaptersCols = $grid.find('.col');
