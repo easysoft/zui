@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2015-04-16
+ * ZUI - v1.2.1 - 2015-04-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -57,9 +57,11 @@
     if(debug) window.dataset = dataset;
 
     var scrollBarWidth = -1;
+    var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols,
-        $choosedSection, $page, $pageHeader,
+        $choosedSection, $page, $pageHeader, $pageContent, 
+        $pageContainer, $pageBody,
         $header, $sections, $chapterHeadings; // elements
 
     var checkScrollbar = function()
@@ -88,19 +90,23 @@
 
     var loadData = function(url, callback, forceLoad) {
         var data = dataset[url];
-        var isFirstLoad = data === null;
+        var isFirstLoad = data === UNDEFINED || data === null;
         if(isFirstLoad) {
             data = $.store.get(url, null);
+            console.log(url, data);
             dataset[url] = data;
             if(data !== null) {
                 if(debug) {
-                    console.log('Load data from storage: ', url, '=', data);
+                    console.log('Load data from storage: ', url, ', size:', data.length);
                 }
                 callback(data);
             }
+        } else if(data !== null) {
+            if(debug) console.log('Load data from cache: ', url, ', size:', data.length);
+            callback(data);
         }
 
-        if(data === null || forceLoad || isFirstLoad || (!saveTraffic)) {
+        if(isFirstLoad || data === null || forceLoad || isFirstLoad || (!saveTraffic)) {
             var dataType = url.endsWith('.json') ? 'json' : 'html';
             $.get(url, function(remoteData){
                 if(!debug && data !== null) {
@@ -109,7 +115,7 @@
                 }
                 dataset[url] = remoteData;
                 if(debug) {
-                    console.log('Load data from remote: ', url, '=', remoteData);
+                    console.log('Load data from remote: ', url, ', size:', remoteData.length);
                 }
                 callback(remoteData);
                 $.store.set(url, remoteData);
@@ -153,11 +159,12 @@
     };
 
     var displaySection = function() {
+        var order = 0;
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
             section.chapter = chapterName;
             var $tpl = $sectionTemplate.clone().attr('id', 'section-' + chapterName + '-' + section.id).data('section', section);
-            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName);
+            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName).attr('data-order', order++);
             var $head = $tpl.children('.card-heading');
             $head.find('.name').text(section.name);
             $head.children('.desc').text(section.desc);
@@ -179,6 +186,7 @@
             $sectionList.children().remove();
             return $sectionList;
         })) {
+            $body.children('.loader').removeClass('loading');
             clearTimeout($grid.data(LAST_RELOAD_ANIMATE_ID));
             $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
                 $sections = $grid.find('.section').addClass('in');
@@ -189,17 +197,150 @@
         }
     };
 
+    var scrollToThis = function($container, toTop, callback) {
+        if($container === UNDEFINED) $container = $body;
+        if(toTop === UNDEFINED || toTop === 'down') {
+            toTop = $container.scrollTop() + ($window.height() - $container.offset().top) * 0.8;
+        } else if(toTop === 'up') {
+            toTop = $container.scrollTop() - ($window.height() - $container.offset().top) * 0.8;
+        }
+        $container.animate({scrollTop: toTop}, 200, 'swing', callback);
+    };
+
+    var scrollToSection = function($section) {
+        if($section) {
+            var top = $section.offset().top;
+            var height = $section.outerHeight();
+            var winHeight = $window.height();
+            var scrollTop = $body.scrollTop();
+            if(winHeight < (top + height)) {
+
+            }
+        }
+    };
+
+    var isChoosedSection = function($section) {
+        if($section === UNDEFINED) {
+            $section = $choosedSection;
+        }
+        return $section && $section.hasClass('choosed') && $section.hasClass('show');
+    };
+
     var chooseSection = function($section, keepOtherOpen, notOpenSelf) {
         if($sections) {
-            if($section && $section.hasClass('choosed') && !notOpenSelf) {
-                $section.addClass('open');
+            if(isChoosedSection($section || null) && !notOpenSelf) {
+                $choosedSection = $section.addClass('open');
+                scrollToSection($section);
                 return;
             }
             var isOpened = $section && $section.hasClass('open');
             $sections.removeClass(keepOtherOpen ? 'choosed' : 'choosed open');
             if($section && $section.hasClass('section')) {
                 $choosedSection = $section.addClass((notOpenSelf && !isOpened) ? 'choosed' : 'choosed open');
+                scrollToSection($section);
             }
+        }
+    };
+
+    var choosePrevSection = function() {
+        var $all = $sections.filter('.show');
+        if(isChoosedSection()) {
+            var order = parseInt($choosedSection.data('order'));
+            var $section = $choosedSection;
+            while((--order) > -1) {
+                var $prev = $all.filter('[data-order="' + order + '"]');
+                if($prev.length) {
+                    $section = $prev;
+                    break;
+                }
+            }
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var chooseNextSection = function() {
+        var $all = $sections.filter('.show');
+        if(isChoosedSection()) {
+            var order = parseInt($choosedSection.data('order'));
+            var $section = $choosedSection;
+            var allCount = $sections.length;
+            while((order++) < allCount) {
+                var $next = $all.filter('[data-order="' + order + '"]');
+                if($next.length) {
+                    $section = $next;
+                    break;
+                }
+            }
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var distanceBetweenPoint = function(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 2);
+    };
+
+    var chooseLeftSection = function() {
+        var $all = $sections.filter('.show');
+        if(isChoosedSection()) {
+            var offset = $choosedSection.offset();
+            var left = offset.left - $grid.children('.container').offset().left - 10;
+            if(left < 50) {
+                choosePrevSection();
+                return;
+            }
+            var top = offset.top;
+            left = offset.left;
+            var $section = $choosedSection;
+            var delta = 99999;
+            $all.each(function(){
+                var $this = $(this);
+                var offset = $this.offset();
+                if((offset.left + 50) < left) {
+                    var thisDelta = distanceBetweenPoint(offset.left, offset.top, left, top);
+                    if(thisDelta < delta) {
+                        $section = $this;
+                        delta = thisDelta;
+                    }
+                }
+            });
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var chooseRightSection = function() {
+        var $all = $sections.filter('.show');
+        if(isChoosedSection()) {
+            var offset = $choosedSection.offset();
+            var $container = $grid.children('.container');
+            var left = offset.left - $container.offset().left - 10;
+            if((left + 20 + $choosedSection.outerWidth() + 50) >= $container.outerWidth()) {
+                chooseNextSection();
+                return;
+            }
+            var top = offset.top;
+            left = offset.left;
+            var $section = $choosedSection;
+            var delta = 99999;
+            $all.each(function(){
+                var $this = $(this);
+                var offset = $this.offset();
+                if(offset.left > left) {
+                    var thisDelta = distanceBetweenPoint(offset.left, offset.top, left, top);
+                    if(thisDelta < delta) {
+                        $section = $this;
+                        delta = thisDelta;
+                    }
+                }
+            });
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
         }
     };
 
@@ -433,13 +574,17 @@
             }
 
             $window.scrollTop(1);
-            $body.removeClass('page-show page-show-in');
+            closePage();
         } else if(debug) {
             console.error("Query failed with key: ", keys);
         }
     };
 
     var toggleCompactMode = function(toggle, callback) {
+        if(toggle === UNDEFINED) {
+            toggle = !$body.hasClass('compact-mode');
+        }
+
         var animateName = 'isScrollAnimating';
         if(toggle) {
             if(!$body.hasClass('compact-mode')) {
@@ -471,16 +616,64 @@
 
     var closePage = function() {
         if($body.hasClass('page-show')) {
+            var style = $page.data('trans-style');
+            style['max-height'] = '';
+            $page.css(style);
             $body.removeClass('page-show-in');
             setTimeout(function(){
                 $body.removeClass('page-show');
                 resetScrollbar();
-            }, 150);
+            }, 300);
+            return true;
         }
+        return false;
     };
 
-    var openPage = function(section, topic) {
-        console.log("Open page: ", section, topic, $section);
+    var openPage = function($section, section, topic) {
+        chooseSection($section, false, true);
+        closePage();
+
+        $body.attr('data-page-chapter', section.chapter);
+        displaySectionIcon($pageHeader.children('.icon'), section);
+        $pageHeader.find('.name').text(section.name);
+        $pageHeader.children('.desc').text(section.desc);
+        $pageContent.html('');
+        $page.addClass('loading');
+
+        loadData(section.url, function(data){
+            $page.removeClass('loading');
+            $pageContent.html(data);
+            $queryInput.blur();
+            $pageBody.scrollTop(0);
+        });
+
+        toggleCompactMode(true, function(){
+            var offset = $section.offset();
+            var sectionHeight = $section.outerHeight();
+            var style = {
+                left: offset.left - $grid.children('.container').offset().left - 6,
+                top: offset.top - $window.scrollTop() - 80,
+                width: $section.outerWidth(),
+                height: sectionHeight,
+                'max-height': sectionHeight
+            };
+            $page.css(style).data('trans-style', style);
+            $pageBody.css('width', bestPageWidth);
+
+            checkScrollbar();
+            $body.addClass('page-show');
+            setTimeout(function(){
+                $body.addClass('page-show-in');
+                $pageBody.scrollTop(0);
+                setTimeout(function(){
+                    bestPageWidth = $pageBody.css('width', '').width() + 40;
+                }, 310);
+            }, 10);
+        });
+    };
+
+    var openSection = function(section, topic) {
+        section = section || $choosedSection;
 
         var $section;
         if($.isPlainObject(section)) {
@@ -490,31 +683,30 @@
             section = $temp.data('section');
             $section = $temp;
         }
-        console.log(section, $section);
 
-        chooseSection($section, false, true);
+        var url = section.url;
 
-        closePage();
-        $body.attr('data-page-chapter', section.chapter);
-        displaySectionIcon($pageHeader.children('.icon'), section);
-        $pageHeader.find('.name').text(section.name);
-        $pageHeader.children('.desc').text(section.desc);
+        if(url === null) {
+            if(debug) console.error("Open section stop by null url.");
+            return;
+        }
 
-        toggleCompactMode(true, function(){
-            var offset = $section.offset();
-            $page.css({
-                left: offset.left - $grid.children('.container').offset().left - 15,
-                top: offset.top - $window.scrollTop() - 80,
-                width: $section.outerWidth(),
-                height: $section.outerHeight()
-            });
+        if(!url) {
+            url = 'part/' + section.chapter + '-' + section.id + '.html';
+            section.url = url;
+        }
 
-            checkScrollbar();
-            $body.addClass('page-show');
-            setTimeout(function(){
-                $body.addClass('page-show-in');
-            }, 10);
-        });
+        url = url.toLowerCase();
+        if(url.startsWith('http://') || url.startsWith('https://') ) {
+            window.open(url, '_blank');
+        } else {
+            openPage($section, section, topic);
+        }
+    };
+
+    var resizePage = function() {
+        if(!$body.hasClass('page-show-in') || $page.hasClass('loading')) return;
+        $page.css('height', Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50));
     };
 
     $(function() {
@@ -529,16 +721,20 @@
         $chaptersCols = $grid.find('.col');
         $page = $('#page');
         $pageHeader = $('#pageHeader');
+        $pageContainer = $('#pageContainer');
+        $pageContent = $('#pageContent');
         $chapters = $grid.find('.chapter');
         $queryInput = $('#searchInput');
         $chapterHeadings = $grid.find('.chapter-heading');
         $sectionTemplate = $('#sectionTemplate').attr('id', null);
+        $pageBody = $('#pageBody');
         $.each(chapters, function(chapterId, chapter){
             chapterId = chapterId.toLowerCase();
             chapter.$ = $('#chapter-' + chapterId);
             chapter.id = chapterId;
             chapter.$sections = $('#sections-' + chapterId);
         });
+        bestPageWidth = $grid.children('.container').outerWidth();
 
         loadData(INDEX_JSON, displaySection)
 
@@ -548,7 +744,6 @@
                 closePage();
                 return;
             }
-
             chooseSection();
             $sections.removeClass('open');
         });
@@ -565,17 +760,20 @@
             chooseSection($(this), true);
             stopPropagation(e);
         }).on('click', '.card-heading > h5 > .name, .card-heading > .icon', function(e){
-            openPage($(this).closest('.section'));
+            openSection($(this).closest('.section'));
             stopPropagation(e);
         }).on('click', '.topics > li', function(e){
             var $li = $(this);
-            openPage($li.closest('.section'), null, $li.data('id'));
+            openSection($li.closest('.section'), $li.data('id'));
             stopPropagation(e);
         }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').addClass('hover');
         }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').removeClass('hover');
         });
+
+        $pageContent.on('resize', resizePage);
+        $window.resize(resizePage);
 
         $pageHeader.on('click', '.path-close-btn', function(){
             closePage();
@@ -599,6 +797,52 @@
                     $header.toggleClass('with-shadow', lastScrollTop > 20);
                 }
             }
+        }).on('keydown', function(e){
+            var code = e.which;
+            console.log('keydown', code);
+            var isPageNotShow = !$body.hasClass('page-show');
+            if(code === 13) { // Enter
+                if(isPageNotShow && isChoosedSection()) {
+                    openSection();
+                }
+            } else if(code === 27) { // Esc
+                if(!closePage()) {
+                    if($body.hasClass('input-query-focus')) {
+                        query();
+                    }
+                }
+            } else if(code === 32) { // Space
+                if(closePage()) {
+                } else if(!$body.hasClass('compact-mode')) {
+                    toggleCompactMode(true);
+                } else if(isChoosedSection()) {
+                    openSection();
+                }
+                e.preventDefault();
+            } else if(code === 37) { // Left
+                chooseLeftSection();
+                e.preventDefault();
+            } else if(code === 39) { // Right
+                chooseRightSection();
+                e.preventDefault();
+            } else if(code === 38) { // Top
+                if(isPageNotShow) {
+                    choosePrevSection();
+                } else {
+                    scrollToThis($pageBody, 'up');
+                }
+            } else if(code === 40) { // Down
+                if(isPageNotShow) {
+                    chooseNextSection();
+                } else {
+                    scrollToThis($pageBody);
+                }
+                e.preventDefault();
+            }
+        });
+
+        $pageBody.on('scroll', function(e){
+            $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
         });
 
         $queryInput.on('change keyup paste input propertychange', function(){

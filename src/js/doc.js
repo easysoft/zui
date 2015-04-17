@@ -44,12 +44,14 @@
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
     var INDEX_JSON = 'index.json';
     var UNDEFINED = undefined;
+    var PAGE_SHOW_FULL = 'page-show-full';
     var dataset = {
         'index.json': null
     };
     if(debug) window.dataset = dataset;
 
     var scrollBarWidth = -1;
+    var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols,
         $choosedSection, $page, $pageHeader, $pageContent, 
@@ -82,19 +84,22 @@
 
     var loadData = function(url, callback, forceLoad) {
         var data = dataset[url];
-        var isFirstLoad = data === null;
+        var isFirstLoad = data === UNDEFINED || data === null;
         if(isFirstLoad) {
             data = $.store.get(url, null);
             dataset[url] = data;
             if(data !== null) {
                 if(debug) {
-                    console.log('Load data from storage: ', url, '=', data);
+                    console.log('Load data from storage: ', url, ', size:', data.length);
                 }
                 callback(data);
             }
+        } else if(data !== null) {
+            if(debug) console.log('Load data from cache: ', url, ', size:', data.length);
+            callback(data);
         }
 
-        if(data === null || forceLoad || isFirstLoad || (!saveTraffic)) {
+        if(isFirstLoad || data === null || forceLoad || isFirstLoad || (!saveTraffic)) {
             var dataType = url.endsWith('.json') ? 'json' : 'html';
             $.get(url, function(remoteData){
                 if(!debug && data !== null) {
@@ -174,6 +179,7 @@
             $sectionList.children().remove();
             return $sectionList;
         })) {
+            $body.children('.loader').removeClass('loading');
             clearTimeout($grid.data(LAST_RELOAD_ANIMATE_ID));
             $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
                 $sections = $grid.find('.section').addClass('in');
@@ -182,6 +188,16 @@
         } else if(debug) {
             console.error("Display sections failed.");
         }
+    };
+
+    var scrollToThis = function($container, toTop, callback) {
+        if($container === UNDEFINED) $container = $body;
+        if(toTop === UNDEFINED || toTop === 'down') {
+            toTop = $container.scrollTop() + ($window.height() - $container.offset().top) * 0.8;
+        } else if(toTop === 'up') {
+            toTop = $container.scrollTop() - ($window.height() - $container.offset().top) * 0.8;
+        }
+        $container.animate({scrollTop: toTop}, 200, 'swing', callback);
     };
 
     var scrollToSection = function($section) {
@@ -193,16 +209,19 @@
             if(winHeight < (top + height)) {
 
             }
-
-            // $body.animate({scrollTop:0}, '500', 'swing', function() { 
-            //    alert("Finished animating");
-            // });
         }
+    };
+
+    var isChoosedSection = function($section) {
+        if($section === UNDEFINED) {
+            $section = $choosedSection;
+        }
+        return $section && $section.hasClass('choosed') && $section.hasClass('show');
     };
 
     var chooseSection = function($section, keepOtherOpen, notOpenSelf) {
         if($sections) {
-            if($section && $section.hasClass('choosed') && !notOpenSelf) {
+            if(isChoosedSection($section || null) && !notOpenSelf) {
                 $choosedSection = $section.addClass('open');
                 scrollToSection($section);
                 return;
@@ -218,7 +237,7 @@
 
     var choosePrevSection = function() {
         var $all = $sections.filter('.show');
-        if($choosedSection && $choosedSection.hasClass('choosed')) {
+        if(isChoosedSection()) {
             var order = parseInt($choosedSection.data('order'));
             var $section = $choosedSection;
             while((--order) > -1) {
@@ -236,7 +255,7 @@
 
     var chooseNextSection = function() {
         var $all = $sections.filter('.show');
-        if($choosedSection && $choosedSection.hasClass('choosed')) {
+        if(isChoosedSection()) {
             var order = parseInt($choosedSection.data('order'));
             var $section = $choosedSection;
             var allCount = $sections.length;
@@ -259,7 +278,7 @@
 
     var chooseLeftSection = function() {
         var $all = $sections.filter('.show');
-        if($choosedSection && $choosedSection.hasClass('choosed')) {
+        if(isChoosedSection()) {
             var offset = $choosedSection.offset();
             var left = offset.left - $grid.children('.container').offset().left - 10;
             if(left < 50) {
@@ -289,7 +308,7 @@
 
     var chooseRightSection = function() {
         var $all = $sections.filter('.show');
-        if($choosedSection && $choosedSection.hasClass('choosed')) {
+        if(isChoosedSection()) {
             var offset = $choosedSection.offset();
             var $container = $grid.children('.container');
             var left = offset.left - $container.offset().left - 10;
@@ -548,13 +567,17 @@
             }
 
             $window.scrollTop(1);
-            $body.removeClass('page-show page-show-in');
+            closePage();
         } else if(debug) {
             console.error("Query failed with key: ", keys);
         }
     };
 
     var toggleCompactMode = function(toggle, callback) {
+        if(toggle === UNDEFINED) {
+            toggle = !$body.hasClass('compact-mode');
+        }
+
         var animateName = 'isScrollAnimating';
         if(toggle) {
             if(!$body.hasClass('compact-mode')) {
@@ -586,18 +609,20 @@
 
     var closePage = function() {
         if($body.hasClass('page-show')) {
-            $body.removeClass('page-show-in');
+            var style = $page.data('trans-style');
+            style['max-height'] = '';
+            $page.css(style);
+            $body.addClass('page-show-out').removeClass('page-show-in');
             setTimeout(function(){
-                $body.removeClass('page-show');
+                $body.removeClass('page-show page-show-out');
                 resetScrollbar();
-            }, 150);
+            }, 300);
             return true;
         }
         return false;
     };
 
     var openPage = function($section, section, topic) {
-        console.log("Open page: ", section, topic, $section);
         chooseSection($section, false, true);
         closePage();
 
@@ -606,32 +631,46 @@
         $pageHeader.find('.name').text(section.name);
         $pageHeader.children('.desc').text(section.desc);
         $pageContent.html('');
-        $page.addClass('loading');
+        var $loader = $page.addClass('loading').find('.loader').addClass('loading');
 
         loadData(section.url, function(data){
             $page.removeClass('loading');
+            $loader.removeClass('loading');
             $pageContent.html(data);
+            $queryInput.blur();
             $pageBody.scrollTop(0);
         });
 
         toggleCompactMode(true, function(){
             var offset = $section.offset();
-            $page.css({
-                left: offset.left - $grid.children('.container').offset().left - 5,
+            var sectionHeight = $section.outerHeight();
+            var style = {
+                left: offset.left - $grid.children('.container').offset().left - 6,
                 top: offset.top - $window.scrollTop() - 80,
                 width: $section.outerWidth(),
-                height: $section.outerHeight()
-            });
+                height: sectionHeight,
+                'max-height': sectionHeight
+            };
+            $page.css(style).data('trans-style', style);
+            $pageBody.css('width', bestPageWidth);
 
             checkScrollbar();
             $body.addClass('page-show');
             setTimeout(function(){
                 $body.addClass('page-show-in');
+                if($page.hasClass('loading')) $page.addClass('openning').css('height', 380);
+                $pageBody.scrollTop(0);
+                setTimeout(function(){
+                    $page.removeClass('openning');
+                    bestPageWidth = $pageBody.css('width', '').width() + 40;
+                }, 310);
             }, 10);
         });
     };
 
     var openSection = function(section, topic) {
+        section = section || $choosedSection;
+
         var $section;
         if($.isPlainObject(section)) {
             $section = $('#section-' + section.chapter + '-' + section.id);
@@ -662,8 +701,10 @@
     };
 
     var resizePage = function() {
-        if(!$body.hasClass('page-show') || $page.hasClass('loading')) return;
-        $page.css('height', Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.height() + 40));
+        if($body.hasClass('page-show-out') || $page.hasClass('loading')) return;
+        var height = $body.hasClass(PAGE_SHOW_FULL) ? $window.height() : Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50);
+        $page.css('height', height);
+        console.log('resize page height to ', height);
     };
 
     $(function() {
@@ -691,8 +732,9 @@
             chapter.id = chapterId;
             chapter.$sections = $('#sections-' + chapterId);
         });
-
-        loadData(INDEX_JSON, displaySection)
+        bestPageWidth = $grid.children('.container').outerWidth();
+        $body.toggleClass(PAGE_SHOW_FULL, $.store.get(PAGE_SHOW_FULL, false));
+        loadData(INDEX_JSON, displaySection);
 
         // Bind events
         $(document).on('click', function(e){
@@ -720,7 +762,7 @@
             stopPropagation(e);
         }).on('click', '.topics > li', function(e){
             var $li = $(this);
-            openSection($li.closest('.section'), null, $li.data('id'));
+            openSection($li.closest('.section'), $li.data('id'));
             stopPropagation(e);
         }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').addClass('hover');
@@ -733,6 +775,9 @@
 
         $pageHeader.on('click', '.path-close-btn', function(){
             closePage();
+        }).on('click', '.path-max-btn', function(){
+            $body.toggleClass(PAGE_SHOW_FULL);
+            $.store.set(PAGE_SHOW_FULL, $body.hasClass(PAGE_SHOW_FULL));
         });
 
         var scrollHeight = $('#navbar').outerHeight();
@@ -755,9 +800,11 @@
             }
         }).on('keydown', function(e){
             var code = e.which;
+            console.log('keydown', code);
+            var isPageNotShow = !$body.hasClass('page-show');
             if(code === 13) { // Enter
-                if(!$body.hasClass('page-show') && $choosedSection && $choosedSection.hasClass('choosed')) {
-                    openSection($choosedSection);
+                if(isPageNotShow && isChoosedSection()) {
+                    openSection();
                 }
             } else if(code === 27) { // Esc
                 if(!closePage()) {
@@ -765,6 +812,14 @@
                         query();
                     }
                 }
+            } else if(code === 32) { // Space
+                if(closePage()) {
+                } else if(!$body.hasClass('compact-mode')) {
+                    toggleCompactMode(true);
+                } else if(isChoosedSection()) {
+                    openSection();
+                }
+                e.preventDefault();
             } else if(code === 37) { // Left
                 chooseLeftSection();
                 e.preventDefault();
@@ -772,10 +827,17 @@
                 chooseRightSection();
                 e.preventDefault();
             } else if(code === 38) { // Top
-                choosePrevSection();
-                e.preventDefault();
+                if(isPageNotShow) {
+                    choosePrevSection();
+                } else {
+                    scrollToThis($pageBody, 'up');
+                }
             } else if(code === 40) { // Down
-                chooseNextSection();
+                if(isPageNotShow) {
+                    chooseNextSection();
+                } else {
+                    scrollToThis($pageBody);
+                }
                 e.preventDefault();
             }
         });

@@ -3758,6 +3758,18 @@ button.close {
   background-color: rgba(0, 0, 0, .05);
   -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px -1px 0 rgba(0, 0, 0, .07);
 }
+.scrollbar-hover::-webkit-scrollbar,
+.scrollbar-hover::-webkit-scrollbar-button,
+.scrollbar-hover::-webkit-scrollbar-track,
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  visibility: hidden;
+}
+.scrollbar-hover:hover::-webkit-scrollbar,
+.scrollbar-hover:hover::-webkit-scrollbar-button,
+.scrollbar-hover:hover::-webkit-scrollbar-track,
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+}
 table {
   max-width: 100%;
   background-color: transparent;

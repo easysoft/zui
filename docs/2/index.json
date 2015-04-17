@@ -297,7 +297,7 @@
                 }, 
                 {
                     "desc": "标题",
-                    "icon": "H",
+                    "icon": "H1",
                     "id": "headers",
                     "name": "多级标题",
                     "topics": 
