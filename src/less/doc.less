@@ -86,6 +86,16 @@
 }
 
 .page-accent(@color; @pale) {
+  .path-zui-36 {
+    &:before, &:after {
+      border-color: @color;
+    }
+
+    .path-1, .path-2, .path-1:before, .path-1:after, .path-2:before {
+      background-color: @color;
+    }
+  }
+
   #header{
     background-color: @color;
   }
@@ -96,6 +106,12 @@
     > .icon {
       background-color: @color;
       color: #fff;
+    }
+  }
+
+  #pageContent {
+    > h3:before {
+      background-color: @pale;
     }
   }
 }
@@ -677,12 +693,17 @@ body.input-query-focus {
   position: relative;
   background-color: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25), 0 120px 220px @color-gray-pale;
+
+  &.with-shadow #pageHeader {
+    .box-shadow(0 2px 6px 0 rgba(0,0,0,.2));
+  }
 }
 #pageHeader {
   background-color: #fafafa;
   position: relative;
   padding: 8px 20px 20px 64px;
   min-height: 110px;
+  .transition(box-shadow .5s @animation-type);
 
   > .path-close-btn {
     position: absolute;
@@ -724,6 +745,63 @@ body.input-query-focus {
   bottom: 0;
   width: 100%;
   overflow-y: auto;
+
+  > .loading {
+    .transition-fast();
+    text-align: center;
+    padding-top: 0;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    .scale(.5);
+
+    > .icon {
+      font-size: 42px;
+      display: block;
+      height: 50px;
+      width: 50px;
+      line-height: 50px;
+      margin: 0 auto;
+    }
+  }
+}
+#pageContent {
+  padding-left: 60px;
+  position: relative;
+
+  &:before {
+    position: absolute;
+    content: ' ';
+    display: block;
+    border-left: 1px dotted @color-gray-lighter;
+    left: 24px;
+    top: -20px;
+    bottom: -20px;
+  }
+
+  > h3 {
+    position: relative;
+
+    &:before {
+      position: absolute;
+      content: ' ';
+      display: block;
+      left: -41px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      // border: 1px solid @color-gray-light;
+      background-color: #fff;
+      border-radius: 5px;
+    }
+  }
+}
+
+#page.loading #pageBody > .loading {
+  padding-top: 120px;
+  opacity: 1;
+  height: auto;
+  .scale(1);
 }
 
 body.compact-mode {

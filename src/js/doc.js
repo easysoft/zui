@@ -52,7 +52,8 @@
     var scrollBarWidth = -1;
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols,
-        $choosedSection, $page, $pageHeader,
+        $choosedSection, $page, $pageHeader, $pageContent, 
+        $pageContainer, $pageBody,
         $header, $sections, $chapterHeadings; // elements
 
     var checkScrollbar = function()
@@ -102,7 +103,7 @@
                 }
                 dataset[url] = remoteData;
                 if(debug) {
-                    console.log('Load data from remote: ', url, '=', remoteData);
+                    console.log('Load data from remote: ', url, ', size:', remoteData.length);
                 }
                 callback(remoteData);
                 $.store.set(url, remoteData);
@@ -146,11 +147,12 @@
     };
 
     var displaySection = function() {
+        var order = 0;
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
             section.chapter = chapterName;
             var $tpl = $sectionTemplate.clone().attr('id', 'section-' + chapterName + '-' + section.id).data('section', section);
-            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName);
+            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName).attr('data-order', order++);
             var $head = $tpl.children('.card-heading');
             $head.find('.name').text(section.name);
             $head.children('.desc').text(section.desc);
@@ -182,17 +184,137 @@
         }
     };
 
+    var scrollToSection = function($section) {
+        if($section) {
+            var top = $section.offset().top;
+            var height = $section.outerHeight();
+            var winHeight = $window.height();
+            var scrollTop = $body.scrollTop();
+            if(winHeight < (top + height)) {
+
+            }
+
+            // $body.animate({scrollTop:0}, '500', 'swing', function() { 
+            //    alert("Finished animating");
+            // });
+        }
+    };
+
     var chooseSection = function($section, keepOtherOpen, notOpenSelf) {
         if($sections) {
             if($section && $section.hasClass('choosed') && !notOpenSelf) {
-                $section.addClass('open');
+                $choosedSection = $section.addClass('open');
+                scrollToSection($section);
                 return;
             }
             var isOpened = $section && $section.hasClass('open');
             $sections.removeClass(keepOtherOpen ? 'choosed' : 'choosed open');
             if($section && $section.hasClass('section')) {
                 $choosedSection = $section.addClass((notOpenSelf && !isOpened) ? 'choosed' : 'choosed open');
+                scrollToSection($section);
             }
+        }
+    };
+
+    var choosePrevSection = function() {
+        var $all = $sections.filter('.show');
+        if($choosedSection && $choosedSection.hasClass('choosed')) {
+            var order = parseInt($choosedSection.data('order'));
+            var $section = $choosedSection;
+            while((--order) > -1) {
+                var $prev = $all.filter('[data-order="' + order + '"]');
+                if($prev.length) {
+                    $section = $prev;
+                    break;
+                }
+            }
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var chooseNextSection = function() {
+        var $all = $sections.filter('.show');
+        if($choosedSection && $choosedSection.hasClass('choosed')) {
+            var order = parseInt($choosedSection.data('order'));
+            var $section = $choosedSection;
+            var allCount = $sections.length;
+            while((order++) < allCount) {
+                var $next = $all.filter('[data-order="' + order + '"]');
+                if($next.length) {
+                    $section = $next;
+                    break;
+                }
+            }
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var distanceBetweenPoint = function(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 2);
+    };
+
+    var chooseLeftSection = function() {
+        var $all = $sections.filter('.show');
+        if($choosedSection && $choosedSection.hasClass('choosed')) {
+            var offset = $choosedSection.offset();
+            var left = offset.left - $grid.children('.container').offset().left - 10;
+            if(left < 50) {
+                choosePrevSection();
+                return;
+            }
+            var top = offset.top;
+            left = offset.left;
+            var $section = $choosedSection;
+            var delta = 99999;
+            $all.each(function(){
+                var $this = $(this);
+                var offset = $this.offset();
+                if((offset.left + 50) < left) {
+                    var thisDelta = distanceBetweenPoint(offset.left, offset.top, left, top);
+                    if(thisDelta < delta) {
+                        $section = $this;
+                        delta = thisDelta;
+                    }
+                }
+            });
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var chooseRightSection = function() {
+        var $all = $sections.filter('.show');
+        if($choosedSection && $choosedSection.hasClass('choosed')) {
+            var offset = $choosedSection.offset();
+            var $container = $grid.children('.container');
+            var left = offset.left - $container.offset().left - 10;
+            if((left + 20 + $choosedSection.outerWidth() + 50) >= $container.outerWidth()) {
+                chooseNextSection();
+                return;
+            }
+            var top = offset.top;
+            left = offset.left;
+            var $section = $choosedSection;
+            var delta = 99999;
+            $all.each(function(){
+                var $this = $(this);
+                var offset = $this.offset();
+                if(offset.left > left) {
+                    var thisDelta = distanceBetweenPoint(offset.left, offset.top, left, top);
+                    if(thisDelta < delta) {
+                        $section = $this;
+                        delta = thisDelta;
+                    }
+                }
+            });
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
         }
     };
 
@@ -469,34 +591,33 @@
                 $body.removeClass('page-show');
                 resetScrollbar();
             }, 150);
+            return true;
         }
+        return false;
     };
 
-    var openPage = function(section, topic) {
+    var openPage = function($section, section, topic) {
         console.log("Open page: ", section, topic, $section);
-
-        var $section;
-        if($.isPlainObject(section)) {
-            $section = $('#section-' + section.chapter + '-' + section.id);
-        } else {
-            var $temp = section;
-            section = $temp.data('section');
-            $section = $temp;
-        }
-        console.log(section, $section);
-
         chooseSection($section, false, true);
-
         closePage();
+
         $body.attr('data-page-chapter', section.chapter);
         displaySectionIcon($pageHeader.children('.icon'), section);
         $pageHeader.find('.name').text(section.name);
         $pageHeader.children('.desc').text(section.desc);
+        $pageContent.html('');
+        $page.addClass('loading');
+
+        loadData(section.url, function(data){
+            $page.removeClass('loading');
+            $pageContent.html(data);
+            $pageBody.scrollTop(0);
+        });
 
         toggleCompactMode(true, function(){
             var offset = $section.offset();
             $page.css({
-                left: offset.left - $grid.children('.container').offset().left - 15,
+                left: offset.left - $grid.children('.container').offset().left - 5,
                 top: offset.top - $window.scrollTop() - 80,
                 width: $section.outerWidth(),
                 height: $section.outerHeight()
@@ -508,6 +629,41 @@
                 $body.addClass('page-show-in');
             }, 10);
         });
+    };
+
+    var openSection = function(section, topic) {
+        var $section;
+        if($.isPlainObject(section)) {
+            $section = $('#section-' + section.chapter + '-' + section.id);
+        } else {
+            var $temp = section;
+            section = $temp.data('section');
+            $section = $temp;
+        }
+
+        var url = section.url;
+
+        if(url === null) {
+            if(debug) console.error("Open section stop by null url.");
+            return;
+        }
+
+        if(!url) {
+            url = 'part/' + section.chapter + '-' + section.id + '.html';
+            section.url = url;
+        }
+
+        url = url.toLowerCase();
+        if(url.startsWith('http://') || url.startsWith('https://') ) {
+            window.open(url, '_blank');
+        } else {
+            openPage($section, section, topic);
+        }
+    };
+
+    var resizePage = function() {
+        if(!$body.hasClass('page-show') || $page.hasClass('loading')) return;
+        $page.css('height', Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.height() + 40));
     };
 
     $(function() {
@@ -522,10 +678,13 @@
         $chaptersCols = $grid.find('.col');
         $page = $('#page');
         $pageHeader = $('#pageHeader');
+        $pageContainer = $('#pageContainer');
+        $pageContent = $('#pageContent');
         $chapters = $grid.find('.chapter');
         $queryInput = $('#searchInput');
         $chapterHeadings = $grid.find('.chapter-heading');
         $sectionTemplate = $('#sectionTemplate').attr('id', null);
+        $pageBody = $('#pageBody');
         $.each(chapters, function(chapterId, chapter){
             chapterId = chapterId.toLowerCase();
             chapter.$ = $('#chapter-' + chapterId);
@@ -541,7 +700,6 @@
                 closePage();
                 return;
             }
-
             chooseSection();
             $sections.removeClass('open');
         });
@@ -558,17 +716,20 @@
             chooseSection($(this), true);
             stopPropagation(e);
         }).on('click', '.card-heading > h5 > .name, .card-heading > .icon', function(e){
-            openPage($(this).closest('.section'));
+            openSection($(this).closest('.section'));
             stopPropagation(e);
         }).on('click', '.topics > li', function(e){
             var $li = $(this);
-            openPage($li.closest('.section'), null, $li.data('id'));
+            openSection($li.closest('.section'), null, $li.data('id'));
             stopPropagation(e);
         }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').addClass('hover');
         }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').removeClass('hover');
         });
+
+        $pageContent.on('resize', resizePage);
+        $window.resize(resizePage);
 
         $pageHeader.on('click', '.path-close-btn', function(){
             closePage();
@@ -592,6 +753,35 @@
                     $header.toggleClass('with-shadow', lastScrollTop > 20);
                 }
             }
+        }).on('keydown', function(e){
+            var code = e.which;
+            if(code === 13) { // Enter
+                if(!$body.hasClass('page-show') && $choosedSection && $choosedSection.hasClass('choosed')) {
+                    openSection($choosedSection);
+                }
+            } else if(code === 27) { // Esc
+                if(!closePage()) {
+                    if($body.hasClass('input-query-focus')) {
+                        query();
+                    }
+                }
+            } else if(code === 37) { // Left
+                chooseLeftSection();
+                e.preventDefault();
+            } else if(code === 39) { // Right
+                chooseRightSection();
+                e.preventDefault();
+            } else if(code === 38) { // Top
+                choosePrevSection();
+                e.preventDefault();
+            } else if(code === 40) { // Down
+                chooseNextSection();
+                e.preventDefault();
+            }
+        });
+
+        $pageBody.on('scroll', function(e){
+            $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
         });
 
         $queryInput.on('change keyup paste input propertychange', function(){
