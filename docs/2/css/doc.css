@@ -1057,9 +1057,12 @@ body.input-query-focus #grid .card.choosed:before {
 }
 #pageHeader {
   position: relative;
-  min-height: 110px;
+  height: 64px;
   padding: 0;
   background-color: #fafafa;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
 }
 #pageHeader > .wrapper {
   position: relative;
@@ -1265,6 +1268,9 @@ body.page-show.page-show-in #page {
   width: 100%!important;
   max-height: none!important;
   opacity: 1;
+}
+body.page-show.page-show-in #pageHeader {
+  min-height: 110px;
 }
 body.page-show.page-show-in #pageHeader > .wrapper {
   padding-top: 20px;

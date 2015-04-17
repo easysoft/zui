@@ -813,8 +813,8 @@ body.input-query-focus {
   background-color: #fafafa;
   position: relative;
   padding: 0;
-  min-height: 110px;
-  
+  height: 64px;
+  .transition-fast();
 
   > .wrapper {
     max-width: 1160px;
@@ -1029,6 +1029,8 @@ body.page-show {
     }
 
     #pageHeader {
+      min-height: 110px;
+
       > .wrapper {
         padding-top: 20px;
         padding-left: 80px;
