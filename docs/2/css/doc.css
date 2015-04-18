@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.1 - 2015-04-17
+ * ZUI - v1.2.1 - 2015-04-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -480,6 +480,9 @@ body {
   -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .1s cubic-bezier(.175, .885, .32, 1);
+}
+#grid .card-heading > h5 > a.name {
+  color: #353535;
 }
 #grid .card-heading > small {
   position: relative;
@@ -1047,7 +1050,7 @@ body.input-query-focus #grid .card.choosed:before {
 }
 #page {
   position: relative;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, .8);
   -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, .25), 0 120px 220px #f1f1f1;
           box-shadow: 0 4px 10px rgba(0, 0, 0, .25), 0 120px 220px #f1f1f1;
 }
@@ -1098,6 +1101,14 @@ body.input-query-focus #grid .card.choosed:before {
   -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
           transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#pageHeader > .wrapper > h2 > a.name {
+  color: #353535;
+}
+#pageHeader > .wrapper > h2 > a.name:hover {
+  color: #353535;
+  text-decoration: none;
+  cursor: normal;
 }
 #pageHeader > .path-btn {
   position: absolute;
@@ -1267,6 +1278,7 @@ body.page-show.page-show-in #page {
   left: 0!important;
   width: 100%!important;
   max-height: none!important;
+  background-color: #fff;
   opacity: 1;
 }
 body.page-show.page-show-in #pageHeader {

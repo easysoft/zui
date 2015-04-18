@@ -598,6 +598,10 @@ body {
       font-size: 16px;
       margin: 0;
       padding: 6px 0;
+
+      > a.name {
+        color: @color-fore;
+      }
     }
 
     > small {
@@ -802,7 +806,7 @@ body.input-query-focus {
 }
 #page {
   position: relative;
-  background-color: #fff;
+  background-color: fade(#fff, 80%);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25), 0 120px 220px @color-gray-pale;
 
   &.with-shadow #pageHeader {
@@ -846,6 +850,16 @@ body.input-query-focus {
       line-height: 16px;
       font-size: 16px;
       margin: 0;
+
+      > a.name {
+        color: @color-fore;
+
+        &:hover {
+          text-decoration: none;
+          color: @color-fore;
+          cursor: normal;
+        }
+      }
     }
   }
 
@@ -972,6 +986,7 @@ body.page-show {
   #page {
     overflow: hidden;
     .transition-fast();
+    // transition: all 8s;
   }
 
   #grid {
@@ -1021,6 +1036,7 @@ body.page-show {
     }
 
     #page {
+      background-color: #fff;
       opacity: 1;
       left: 0!important;
       top: 0!important;

@@ -70,6 +70,8 @@
             $body[0].removeChild(scrollDiv);
         }
 
+        console.log('checkScrollbar', scrollBarWidth);
+
         if (scrollBarWidth) {
             var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
             $body.css('padding-right', bodyPad + scrollBarWidth);
@@ -157,10 +159,11 @@
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
             section.chapter = chapterName;
-            var $tpl = $sectionTemplate.clone().attr('id', 'section-' + chapterName + '-' + section.id).data('section', section);
+            var id = chapterName + '-' + section.id;
+            var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
             $tpl.attr('data-id', section.id).attr('data-chapter', chapterName).attr('data-order', order++);
             var $head = $tpl.children('.card-heading');
-            $head.find('.name').text(section.name);
+            $head.find('.name').text(section.name).attr('href', '#' + id);
             $head.children('.desc').text(section.desc);
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
@@ -609,11 +612,11 @@
     };
 
     var closePage = function() {
-        if($body.hasClass('page-show')) {
+        if($body.hasClass('page-open')) {
             var style = $page.data('trans-style');
             style['max-height'] = '';
             $page.css(style);
-            $body.addClass('page-show-out').removeClass('page-show-in');
+            $body.addClass('page-show-out').removeClass('page-open page-show-in');
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
@@ -624,12 +627,17 @@
     };
 
     var openPage = function($section, section, topic) {
+        var pageId = section.chapter + '-' + section.id;
+        if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
+            if(debug) console.error('The page already showed.');
+            return;
+        }
         chooseSection($section, false, true);
-        closePage();
 
-        $body.attr('data-page-chapter', section.chapter);
-        displaySectionIcon($pageHeader.children('.icon'), section);
-        $pageHeader.find('.name').text(section.name);
+        window.location.hash = '#' + pageId;
+        $body.attr('data-page-chapter', section.chapter).attr('data-page', pageId);
+        displaySectionIcon($pageHeader.find('.icon'), section);
+        $pageHeader.find('.name').text(section.name).attr('href', '#' + section.chapter + '-' + section.id);
         $pageHeader.children('.desc').text(section.desc);
         $pageContent.html('');
         var $loader = $page.addClass('loading').find('.loader').addClass('loading');
@@ -642,6 +650,13 @@
             $pageBody.scrollTop(0);
         });
 
+        if($body.hasClass('page-open')) {
+            if(debug) console.log('open section in open page', section);
+            return;
+        }
+
+        $body.addClass('page-open');
+
         toggleCompactMode(true, function(){
             var offset = $section.offset();
             var sectionHeight = $section.outerHeight();
@@ -652,11 +667,11 @@
                 height: sectionHeight,
                 'max-height': sectionHeight
             };
-            $page.css(style).data('trans-style', style);
-            $pageBody.css('width', bestPageWidth);
-
             checkScrollbar();
             $body.addClass('page-show');
+            $page.css(style).data('trans-style', style);
+            $pageBody.css('width', bestPageWidth);
+            
             setTimeout(function(){
                 $body.addClass('page-show-in');
                 if($page.hasClass('loading')) $page.addClass('openning').css('height', 380);
@@ -664,6 +679,7 @@
                 setTimeout(function(){
                     $page.removeClass('openning');
                     bestPageWidth = $pageBody.css('width', '').width() + 40;
+                    resizePage();
                 }, 310);
             }, 10);
         });
@@ -673,6 +689,34 @@
         section = section || $choosedSection;
 
         var $section;
+        if($.isArray(section)) {
+            var docIndex = dataset[INDEX_JSON];
+            if(docIndex && section.length > 1) {
+                var sectionId = section[1];
+                var sections = docIndex.chapters[section[0]].sections;
+                var ok = false;
+                for(var i in sections) {
+                    var s = sections[i];
+                    if(s.id === sectionId) {
+                        if(section.length > 2) {
+                            topic = section[2];
+                        }
+                        section = s;
+                        ok = true;
+                        break;
+                    }
+                }
+                if(!ok) {
+                    console.error("Open section failed: can't find the section with id " + section.join('-'));
+                    return;
+                }
+            } else {
+                if(debug) {
+                    console.error("Open section stop by null docIndex or wrong section value.");
+                }
+                return;
+            }
+        }
         if($.isPlainObject(section)) {
             $section = $('#section-' + section.chapter + '-' + section.id);
         } else {
@@ -701,6 +745,8 @@
         }
     };
 
+    window.openS = openSection;
+
     var resizePage = function() {
         if($body.hasClass('page-show-out') || $page.hasClass('loading')) return;
         var height;
@@ -711,7 +757,6 @@
             height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50);
         }
         $page.css('height', height);
-        console.log('resize page height to ', height);
     };
 
     $(function() {
@@ -742,7 +787,18 @@
         });
         bestPageWidth = $grid.children('.container').outerWidth();
         $body.toggleClass(PAGE_SHOW_FULL, $.store.get(PAGE_SHOW_FULL, false));
-        loadData(INDEX_JSON, displaySection);
+        loadData(INDEX_JSON, function(data){
+            displaySection(data);
+            var hash = window.location.hash
+            if(hash) {
+                hash = hash.substr(1);
+                setTimeout(function(){
+                    openSection(hash.split('-'));
+                }, 300);
+            } else {
+                $queryInput.focus();
+            }
+        });
 
         // Bind events
         $(document).on('click', function(e){
@@ -785,6 +841,7 @@
             closePage();
         }).on('click', '.path-max-btn', function(){
             $body.toggleClass(PAGE_SHOW_FULL);
+            setTimeout(resizePage, 300);
             $.store.set(PAGE_SHOW_FULL, $body.hasClass(PAGE_SHOW_FULL));
         });
 
@@ -808,7 +865,7 @@
             }
         }).on('keydown', function(e){
             var code = e.which;
-            console.log('keydown', code);
+            // console.log('keydown', code);
             var isPageNotShow = !$body.hasClass('page-show');
             if(code === 13) { // Enter
                 if(isPageNotShow && isChoosedSection()) {
@@ -837,12 +894,14 @@
             } else if(code === 38) { // Top
                 if(isPageNotShow) {
                     choosePrevSection();
+                    e.preventDefault();
                 } else {
                     scrollToThis($pageBody, 'up');
                 }
             } else if(code === 40) { // Down
                 if(isPageNotShow) {
                     chooseNextSection();
+                    e.preventDefault();
                 } else {
                     scrollToThis($pageBody);
                 }
