@@ -1,0 +1,1007 @@
+{
+    "resize": {
+        "code": "e667"
+    },
+    "expand-full": {
+        "code": "e6a3",
+        "alias": ["arrows-alt", "fullscreen"]
+    },
+    "collapse-full": {
+        "code": "e682"
+    },
+    "yingyang": {
+        "code": "e687",
+        "alias": ["taiji"]
+    },
+    "window": {
+        "code": "e68e"
+    },
+    "window-alt": {
+        "code": "e68f"
+    },
+    "carousel": {
+        "code": "e6b0"
+    },
+    "spinner-snake": {
+        "code": "e97b"
+    },
+    "spinner-indicator": {
+        "code": "e97c"
+    },
+    "check-board": {
+        "code": "e9b8"
+    },
+    "bar-chart": {
+        "code": "f080",
+        "alias": ["bar-chart-o"]
+    },
+    "github": {
+        "code": "f09b"
+    },
+    "dot-circle": {
+        "code": "f192",
+        "alias": ["dot-circle-o"]
+    },
+    "cube-alt": {
+        "code": "f1b2"
+    },
+    "cubes": {
+        "code": "f1b3"
+    },
+    "file-pdf": {
+        "code": "f1c1"
+    },
+    "file-word": {
+        "code": "f1c2"
+    },
+    "file-excel": {
+        "code": "f1c3"
+    },
+    "file-powerpoint": {
+        "code": "f1c4"
+    },
+    "file-image": {
+        "code": "f1c5",
+        "alias": ["file-photo", "file-picture"]
+    },
+    "file-archive": {
+        "code": "f1c6",
+        "alias": ["file-zip"]
+    },
+    "file-audio": {
+        "code": "f1c7",
+        "alias": ["file-sound"]
+    },
+    "file-movie": {
+        "code": "f1c8",
+        "alias": ["file-video"]
+    },
+    "file-code": {
+        "code": "f1c9"
+    },
+    "circle-o-notch": {
+        "code": "f1ce"
+    },
+    "qq": {
+        "code": "f600"
+    },
+    "wechat": {
+        "code": "f1d7",
+        "alias": ["weixin"]
+    },
+    "history": {
+        "code": "f1da"
+    },
+    "circle-thin": {
+        "code": "f1db"
+    },
+    "sliders": {
+        "code": "f1de"
+    },
+    "newspaper-o": {
+        "code": "f1ea"
+    },
+    "calculator": {
+        "code": "f1ec"
+    },
+    "paint-brush": {
+        "code": "f1fc"
+    },
+    "area-chart": {
+        "code": "f1fe"
+    },
+    "pie-chart": {
+        "code": "f200"
+    },
+    "line-chart": {
+        "code": "f201"
+    },
+    "toggle-off": {
+        "code": "f204"
+    },
+    "toggle-on": {
+        "code": "f205"
+    },
+    "diamond": {
+        "code": "f219"
+    },
+    "venus": {
+        "code": "f221"
+    },
+    "mars": {
+        "code": "f222"
+    },
+    "server": {
+        "code": "f233"
+    },
+    "music": {
+        "code": "e602"
+    },
+    "search": {
+        "code": "e603"
+    },
+    "envelope": {
+        "code": "e604"
+    },
+    "heart": {
+        "code": "e605"
+    },
+    "star": {
+        "code": "e606"
+    },
+    "star-empty": {
+        "code": "e607"
+    },
+    "user": {
+        "code": "e608"
+    },
+    "film": {
+        "code": "e609"
+    },
+    "th-large": {
+        "code": "e60a"
+    },
+    "th": {
+        "code": "e60b"
+    },
+    "th-list": {
+        "code": "e60c"
+    },
+    "check": {
+        "code": "e60d",
+        "alias": ["ok"]
+    },
+    "times": {
+        "code": "d7",
+        "alias": ["remove"]
+    },
+    "zoom-in": {
+        "code": "e60f"
+    },
+    "zoom-out": {
+        "code": "e610"
+    },
+    "off": {
+        "code": "e611"
+    },
+    "cog": {
+        "code": "e613"
+    },
+    "trash": {
+        "code": "e614"
+    },
+    "home": {
+        "code": "e615"
+    },
+    "file-o": {
+        "code": "e616",
+        "alias": ["file-alt"]
+    },
+    "time": {
+        "code": "e617"
+    },
+    "download-alt": {
+        "code": "e618"
+    },
+    "download": {
+        "code": "e619"
+    },
+    "upload": {
+        "code": "e61a"
+    },
+    "inbox": {
+        "code": "e61b"
+    },
+    "play-circle": {
+        "code": "e61c"
+    },
+    "repeat": {
+        "code": "e61d"
+    },
+    "refresh": {
+        "code": "e61e"
+    },
+    "list-alt": {
+        "code": "e61f"
+    },
+    "lock": {
+        "code": "e620"
+    },
+    "flag": {
+        "code": "e621"
+    },
+    "headphones": {
+        "code": "e622"
+    },
+    "volume-off": {
+        "code": "e623"
+    },
+    "volume-up": {
+        "code": "e625"
+    },
+    "qrcode": {
+        "code": "e626"
+    },
+    "barcode": {
+        "code": "e627"
+    },
+    "tag": {
+        "code": "e628"
+    },
+    "tags": {
+        "code": "e629"
+    },
+    "book": {
+        "code": "e62a"
+    },
+    "bookmark": {
+        "code": "e62b"
+    },
+    "print": {
+        "code": "e62c"
+    },
+    "camera": {
+        "code": "e62d"
+    },
+    "font": {
+        "code": "e62e"
+    },
+    "bold": {
+        "code": "e62f"
+    },
+    "align-justify": {
+        "code": "e636"
+    },
+    "list": {
+        "code": "e637"
+    },
+    "picture": {
+        "code": "e63b"
+    },
+    "pencil": {
+        "code": "e63c"
+    },
+    "map-marker": {
+        "code": "e63d"
+    },
+    "adjust": {
+        "code": "e63e"
+    },
+    "tint": {
+        "code": "e63f"
+    },
+    "edit": {
+        "code": "e640"
+    },
+    "share": {
+        "code": "e641"
+    },
+    "check2": {
+        "code": "e642"
+    },
+    "arrows": {
+        "code": "e643",
+        "alias": ["move"]
+    },
+    "step-backward": {
+        "code": "e644"
+    },
+    "fast-backward": {
+        "code": "e645"
+    },
+    "backward": {
+        "code": "e646"
+    },
+    "play": {
+        "code": "e647"
+    },
+    "pause": {
+        "code": "e648"
+    },
+    "stop": {
+        "code": "e649"
+    },
+    "forward": {
+        "code": "e64a"
+    },
+    "fast-forward": {
+        "code": "e64b"
+    },
+    "step-forward": {
+        "code": "e64c"
+    },
+    "eject": {
+        "code": "e64d"
+    },
+    "chevron-left": {
+        "code": "e64e"
+    },
+    "chevron-right": {
+        "code": "e64f"
+    },
+    "plus-sign": {
+        "code": "e650"
+    },
+    "minus-sign": {
+        "code": "e651"
+    },
+    "remove-sign": {
+        "code": "e652"
+    },
+    "check-circle": {
+        "code": "e653",
+        "alias": ["ok-sign"]
+    },
+    "question-sign": {
+        "code": "e654"
+    },
+    "info-sign": {
+        "code": "e655"
+    },
+    "remove-circle": {
+        "code": "e657"
+    },
+    "check-circle-o": {
+        "code": "e658",
+        "alias": ["ok-circle"]
+    },
+    "ban-circle": {
+        "code": "e659"
+    },
+    "arrow-left": {
+        "code": "e65a"
+    },
+    "arrow-right": {
+        "code": "e65b"
+    },
+    "arrow-up": {
+        "code": "e65c"
+    },
+    "arrow-down": {
+        "code": "e65d"
+    },
+    "share-alt": {
+        "code": "e65e"
+    },
+    "resize-full": {
+        "code": "e65f"
+    },
+    "resize-small": {
+        "code": "e660"
+    },
+    "plus": {
+        "code": "e661"
+    },
+    "minus": {
+        "code": "e662"
+    },
+    "asterisk": {
+        "code": "e663"
+    },
+    "exclamation-sign": {
+        "code": "e664"
+    },
+    "gift": {
+        "code": "e665"
+    },
+    "leaf": {
+        "code": "e666"
+    },
+    "eye-open": {
+        "code": "e668"
+    },
+    "eye-close": {
+        "code": "e669"
+    },
+    "warning-sign": {
+        "code": "e66a"
+    },
+    "plane": {
+        "code": "e66b"
+    },
+    "calendar": {
+        "code": "e66c"
+    },
+    "random": {
+        "code": "e66d"
+    },
+    "comment": {
+        "code": "e66e"
+    },
+    "chevron-up": {
+        "code": "e670"
+    },
+    "chevron-down": {
+        "code": "e671"
+    },
+    "shopping-cart": {
+        "code": "e673"
+    },
+    "folder-close": {
+        "code": "e674"
+    },
+    "folder-open": {
+        "code": "e675"
+    },
+    "resize-v": {
+        "code": "e676"
+    },
+    "resize-h": {
+        "code": "e677"
+    },
+    "bar-chart-alt": {
+        "code": "e678"
+    },
+    "camera-retro": {
+        "code": "e679"
+    },
+    "key": {
+        "code": "e67a"
+    },
+    "cogs": {
+        "code": "e67b"
+    },
+    "comments": {
+        "code": "e67c"
+    },
+    "thumbs-o-up": {
+        "code": "e67d"
+    },
+    "thumbs-o-down": {
+        "code": "e67e"
+    },
+    "star-half": {
+        "code": "e67f"
+    },
+    "heart-empty": {
+        "code": "e680"
+    },
+    "signout": {
+        "code": "e681"
+    },
+    "pushpin": {
+        "code": "e683"
+    },
+    "external-link": {
+        "code": "e684"
+    },
+    "signin": {
+        "code": "e685"
+    },
+    "trophy": {
+        "code": "e686"
+    },
+    "upload-alt": {
+        "code": "e688"
+    },
+    "lemon": {
+        "code": "e689"
+    },
+    "phone": {
+        "code": "e68a"
+    },
+    "check-empty": {
+        "code": "e68b"
+    },
+    "bookmark-empty": {
+        "code": "e68c"
+    },
+    "phone-sign": {
+        "code": "e68d"
+    },
+    "credit": {
+        "code": "e690"
+    },
+    "rss": {
+        "code": "e691"
+    },
+    "hdd": {
+        "code": "e692"
+    },
+    "bullhorn": {
+        "code": "e693"
+    },
+    "bell": {
+        "code": "e694"
+    },
+    "certificate": {
+        "code": "e695"
+    },
+    "hand-right": {
+        "code": "e696"
+    },
+    "hand-left": {
+        "code": "e697"
+    },
+    "hand-up": {
+        "code": "e698"
+    },
+    "hand-down": {
+        "code": "e699"
+    },
+    "circle-arrow-left": {
+        "code": "e69a"
+    },
+    "circle-arrow-right": {
+        "code": "e69b"
+    },
+    "circle-arrow-up": {
+        "code": "e69c"
+    },
+    "circle-arrow-down": {
+        "code": "e69d"
+    },
+    "globe": {
+        "code": "e69e"
+    },
+    "wrench": {
+        "code": "e69f"
+    },
+    "tasks": {
+        "code": "e6a0"
+    },
+    "filter": {
+        "code": "e6a1"
+    },
+    "group": {
+        "code": "e6a4"
+    },
+    "link": {
+        "code": "e6a5"
+    },
+    "cloud": {
+        "code": "e6a6"
+    },
+    "beaker": {
+        "code": "e6a7"
+    },
+    "cut": {
+        "code": "e6a8"
+    },
+    "copy": {
+        "code": "e6a9"
+    },
+    "paper-clip": {
+        "code": "e6aa"
+    },
+    "save": {
+        "code": "e6ab"
+    },
+    "sign-blank": {
+        "code": "e6ac"
+    },
+    "bars": {
+        "code": "e6ad",
+        "alias": ["reorder"]
+    },
+    "list-ul": {
+        "code": "e6ae"
+    },
+    "list-ol": {
+        "code": "e6af"
+    },
+    "table": {
+        "code": "e6b2"
+    },
+    "magic": {
+        "code": "e6b3"
+    },
+    "caret-down": {
+        "code": "e6b8"
+    },
+    "caret-up": {
+        "code": "e6b9"
+    },
+    "caret-left": {
+        "code": "e6ba"
+    },
+    "caret-right": {
+        "code": "e6bb"
+    },
+    "columns": {
+        "code": "e6bc"
+    },
+    "sort": {
+        "code": "e6bd"
+    },
+    "sort-down": {
+        "code": "e6be"
+    },
+    "sort-up": {
+        "code": "e6bf"
+    },
+    "envelope-alt": {
+        "code": "e6c0"
+    },
+    "undo": {
+        "code": "e6c1"
+    },
+    "dashboard": {
+        "code": "e6c3"
+    },
+    "comment-alt": {
+        "code": "e6c4"
+    },
+    "comments-alt": {
+        "code": "e6c5"
+    },
+    "bolt": {
+        "code": "e6c6"
+    },
+    "sitemap": {
+        "code": "e6c7"
+    },
+    "umbrella": {
+        "code": "e6c8"
+    },
+    "paste": {
+        "code": "e6c9"
+    },
+    "lightbulb": {
+        "code": "e6ca"
+    },
+    "exchange": {
+        "code": "e6cb"
+    },
+    "cloud-download": {
+        "code": "e6cc"
+    },
+    "cloud-upload": {
+        "code": "e6cd"
+    },
+    "bell-alt": {
+        "code": "e6d1"
+    },
+    "coffee": {
+        "code": "e6d2"
+    },
+    "file-text-o": {
+        "code": "e6d4",
+        "alias": ["file-text-alt"]
+    },
+    "building": {
+        "code": "e6d5"
+    },
+    "double-angle-left": {
+        "code": "e6dc"
+    },
+    "double-angle-right": {
+        "code": "e6dd"
+    },
+    "double-angle-up": {
+        "code": "e6de"
+    },
+    "double-angle-down": {
+        "code": "e6df"
+    },
+    "angle-left": {
+        "code": "e6e0"
+    },
+    "angle-right": {
+        "code": "e6e1"
+    },
+    "angle-up": {
+        "code": "e6e2"
+    },
+    "angle-down": {
+        "code": "e6e3"
+    },
+    "desktop": {
+        "code": "e6e4"
+    },
+    "laptop": {
+        "code": "e6e5"
+    },
+    "tablet": {
+        "code": "e6e6"
+    },
+    "mobile": {
+        "code": "e6e7"
+    },
+    "circle-blank": {
+        "code": "e6e8"
+    },
+    "quote-left": {
+        "code": "e6e9"
+    },
+    "quote-right": {
+        "code": "e6ea"
+    },
+    "spinner": {
+        "code": "e6eb"
+    },
+    "circle": {
+        "code": "e6ec"
+    },
+    "reply": {
+        "code": "e6ed"
+    },
+    "folder-close-alt": {
+        "code": "e6ef"
+    },
+    "folder-open-alt": {
+        "code": "e6f0"
+    },
+    "expand-alt": {
+        "code": "e6f1"
+    },
+    "collapse-alt": {
+        "code": "e6f2"
+    },
+    "smile": {
+        "code": "e6f3"
+    },
+    "frown": {
+        "code": "e6f4"
+    },
+    "meh": {
+        "code": "e6f5"
+    },
+    "gamepad": {
+        "code": "e6f6"
+    },
+    "keyboard": {
+        "code": "e6f7"
+    },
+    "flag-alt": {
+        "code": "e6f8"
+    },
+    "flag-checkered": {
+        "code": "e6f9"
+    },
+    "terminal": {
+        "code": "e6fa"
+    },
+    "code": {
+        "code": "e6fb"
+    },
+    "reply-all": {
+        "code": "e6fc"
+    },
+    "star-half-full": {
+        "code": "e6fd"
+    },
+    "location-arrow": {
+        "code": "e6fe"
+    },
+    "crop": {
+        "code": "e6ff"
+    },
+    "code-fork": {
+        "code": "e700"
+    },
+    "unlink": {
+        "code": "e701"
+    },
+    "question": {
+        "code": "e702"
+    },
+    "info": {
+        "code": "e703"
+    },
+    "shield": {
+        "code": "e70b"
+    },
+    "calendar-empty": {
+        "code": "e70c"
+    },
+    "rocket": {
+        "code": "e70e"
+    },
+    "chevron-sign-left": {
+        "code": "e70f"
+    },
+    "chevron-sign-right": {
+        "code": "e710"
+    },
+    "chevron-sign-up": {
+        "code": "e711"
+    },
+    "chevron-sign-down": {
+        "code": "e712"
+    },
+    "html5": {
+        "code": "e713"
+    },
+    "anchor": {
+        "code": "e714"
+    },
+    "unlock-alt": {
+        "code": "e715"
+    },
+    "bullseye": {
+        "code": "e716"
+    },
+    "ellipsis-h": {
+        "code": "e717"
+    },
+    "ellipsis-v": {
+        "code": "e718"
+    },
+    "rss-sign": {
+        "code": "e719"
+    },
+    "play-sign": {
+        "code": "e71a"
+    },
+    "minus-sign-alt": {
+        "code": "e71c"
+    },
+    "check-minus": {
+        "code": "e71d"
+    },
+    "level-up": {
+        "code": "e71e"
+    },
+    "level-down": {
+        "code": "e71f"
+    },
+    "check-sign": {
+        "code": "e720"
+    },
+    "edit-sign": {
+        "code": "e721"
+    },
+    "external-link-sign": {
+        "code": "e722"
+    },
+    "share-sign": {
+        "code": "e723"
+    },
+    "compass": {
+        "code": "e724"
+    },
+    "collapse": {
+        "code": "e725"
+    },
+    "collapse-top": {
+        "code": "e726"
+    },
+    "expand": {
+        "code": "e727"
+    },
+    "dollar": {
+        "code": "e728"
+    },
+    "yen": {
+        "code": "e729"
+    },
+    "file": {
+        "code": "e72b"
+    },
+    "file-text": {
+        "code": "e72c"
+    },
+    "sort-by-alphabet": {
+        "code": "e72d"
+    },
+    "sort-by-alphabet-alt": {
+        "code": "e72e"
+    },
+    "sort-by-attributes": {
+        "code": "e72f"
+    },
+    "sort-by-attributes-alt": {
+        "code": "e730"
+    },
+    "sort-by-order": {
+        "code": "e731"
+    },
+    "sort-by-order-alt": {
+        "code": "e732"
+    },
+    "thumbs-up": {
+        "code": "e733"
+    },
+    "thumbs-down": {
+        "code": "e734"
+    },
+    "long-arrow-down": {
+        "code": "e736"
+    },
+    "long-arrow-up": {
+        "code": "e737"
+    },
+    "long-arrow-left": {
+        "code": "e738"
+    },
+    "long-arrow-right": {
+        "code": "e739"
+    },
+    "apple": {
+        "code": "e73a"
+    },
+    "windows": {
+        "code": "e73b"
+    },
+    "android": {
+        "code": "e73c"
+    },
+    "linux": {
+        "code": "e73d"
+    },
+    "sun": {
+        "code": "e742"
+    },
+    "moon": {
+        "code": "e743"
+    },
+    "archive": {
+        "code": "e744"
+    },
+    "bug": {
+        "code": "e745"
+    },
+    "weibo": {
+        "code": "e746"
+    },
+    "renren": {
+        "code": "e747"
+    },
+    "chrome": {
+        "code": "e76c"
+    },
+    "firefox": {
+        "code": "e76d"
+    },
+    "ie": {
+        "code": "e76e"
+    },
+    "opera": {
+        "code": "e76f"
+    },
+    "safari": {
+        "code": "e770"
+    },
+    "node": {
+        "code": "e76a"
+    },
+    "layout": {
+        "code": "e768"
+    },
+    "usecase": {
+        "code": "e74a"
+    },
+    "stack": {
+        "code": "e769"
+    },
+    "branch": {
+        "code": "e74b"
+    },
+    "chat": {
+        "code": "e74c"
+    },
+    "chat-line": {
+        "code": "e74f",
+        "alias": ["comment-line"]
+    },
+    "chat-dot": {
+        "code": "e750"
+    },
+    "cube": {
+        "code": "e751"
+    },
+    "align-left": {
+        "code": "e633"
+    }
+}
