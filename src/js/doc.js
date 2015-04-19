@@ -45,11 +45,14 @@
     var INDEX_JSON = 'index.json';
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
+    var dataVersion;
+    var storageEnable;
     var dataset = {
         // 'index.json': null
     };
     if(debug) window.dataset = dataset;
 
+    var sectionsShowed;
     var scrollBarWidth = -1;
     var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
@@ -57,6 +60,13 @@
         $choosedSection, $page, $pageHeader, $pageContent, 
         $pageContainer, $pageBody, $navbar,
         $header, $sections, $chapterHeadings; // elements
+
+    var limitString = function(str, len) {
+        if(str && str.length > len) {
+            return str.substr(0, len) + '...[' + str.length + ']';
+        }
+        return str;
+    };
 
     var checkScrollbar = function()
     {
@@ -69,8 +79,6 @@
             scrollBarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
             $body[0].removeChild(scrollDiv);
         }
-
-        console.log('checkScrollbar', scrollBarWidth);
 
         if (scrollBarWidth) {
             var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
@@ -85,42 +93,57 @@
         $navbar.css('padding-right', '');
     };
 
-    var loadData = function(url, callback, forceLoad) {
-        var data = dataset[url];
-        var isFirstLoad = data === UNDEFINED || data === null;
-        if(isFirstLoad) {
-            data = $.store.get(url, null);
-            dataset[url] = data;
-            if(data !== null) {
-                if(debug) {
-                    console.log('Load data from storage: ', url, ', size:', data.length);
+    var loadData = function(url, callback) {
+        var cacheData = dataset[url];
+        var isHasCache = cacheData && cacheData.version;
+        var isIndexJson = url === INDEX_JSON;
+        if(!isHasCache && storageEnable) {
+            var storedData = $.store.get('//' + url, null);
+            if(storedData !== null) {
+                var storedVersion = $.store.get('//' + url + '::V');
+                if(storedVersion) {
+                    cacheData = {data: storedData, version: storedVersion};
+                    dataset[url] = cacheData;
+                    isHasCache = true;
+                    if(debug) console.log('Load', url, 'from storage:', cacheData);
                 }
-                callback(data);
             }
-        } else if(data !== null) {
-            if(debug) console.log('Load data from cache: ', url, ', size:', data.length);
-            callback(data);
         }
 
-        if(isFirstLoad || data === null || forceLoad || isFirstLoad || (!saveTraffic)) {
-            var dataType = url.endsWith('.json') ? 'json' : 'html';
-            $.get(url, function(remoteData){
-                if(!debug && data !== null) {
-                    if(dataType === 'json' && $.isPlainObject(remoteData) && data.version && remoteData.version && remoteData.version === data.version) return;
-                    if(dataType === 'html' && data === remoteData) return;
-                }
-                dataset[url] = remoteData;
-                if(debug) {
-                    console.log('Load data from remote: ', url, ', size:', remoteData.length);
-                }
-                callback(remoteData);
-                $.store.set(url, remoteData);
-            }, dataType);
+        if(isHasCache && (isIndexJson || cacheData.version === dataVersion)) {
+            if(debug) console.log('Load', url, 'from cache:', cacheData);
+            callback(cacheData.data);
+            if(!isIndexJson) return;
         }
+
+        var dataType = url.endsWith('.json') ? 'json' : 'html';
+        $.get(url, function(data){
+            if(data !== null) {
+                if(isIndexJson) {
+                    dataVersion = data.version;
+                }
+                cacheData = {data: data, version: dataVersion};
+                dataset[url] = cacheData;
+                $.store.set('//' + url, data);
+                $.store.set('//' + url + '::V', dataVersion);
+
+                if(debug) console.log('Load', url, 'from remote:', cacheData);
+                callback(data);
+            } else if(isHasCache && !isIndexJson) {
+                if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
+                callback(cacheData.data);
+            }
+        }, dataType).error(function(){
+            if(debug) console.error("Ajax error:", url);
+            if(isHasCache && !isIndexJson) {
+                if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
+                callback(cacheData.data);
+            }
+        });
     };
 
     var eachSection = function(callback, eachChapterCallback) {
-        var docIndex = dataset[INDEX_JSON];
+        var docIndex = dataset[INDEX_JSON].data;
         if (!docIndex) {
             console.error("Document index is empty.");
             return false;
@@ -177,18 +200,21 @@
                 $topics.remove('.card-content');
                 $tpl.addClass('without-topics');
             }
-            $sectionList.append($tpl.addClass('show'));
+            $sectionList.append($tpl.addClass('show' + (sectionsShowed ? ' in' : '')));
         }, function(chapter, sections){
             var $sectionList = chapter.$sections;
             $sectionList.children().remove();
             return $sectionList;
         })) {
             $body.children('.loader').removeClass('loading');
-            clearTimeout($grid.data(LAST_RELOAD_ANIMATE_ID));
-            $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
-                $sections = $grid.find('.section').addClass('in');
-                $chapterHeadings.addClass('in');
-            }, 100));
+            if(!sectionsShowed) {
+                clearTimeout($grid.data(LAST_RELOAD_ANIMATE_ID));
+                $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
+                    $sections = $grid.find('.section').addClass('in');
+                    $chapterHeadings.addClass('in');
+                }, 100));
+                sectionsShowed = true;
+            }
         } else if(debug) {
             console.error("Display sections failed.");
         }
@@ -662,7 +688,7 @@
             var sectionHeight = $section.outerHeight();
             var style = {
                 left: offset.left - $grid.children('.container').offset().left - 6,
-                top: offset.top - $window.scrollTop() - 80,
+                top: offset.top - $window.scrollTop() - 81,
                 width: $section.outerWidth(),
                 height: sectionHeight,
                 'max-height': sectionHeight
@@ -690,7 +716,7 @@
 
         var $section;
         if($.isArray(section)) {
-            var docIndex = dataset[INDEX_JSON];
+            var docIndex = dataset[INDEX_JSON].data;
             if(docIndex && section.length > 1) {
                 var sectionId = section[1];
                 var sections = docIndex.chapters[section[0]].sections;
@@ -785,8 +811,21 @@
             chapter.id = chapterId;
             chapter.$sections = $('#sections-' + chapterId);
         });
+
         bestPageWidth = $grid.children('.container').outerWidth();
+
         $body.toggleClass(PAGE_SHOW_FULL, $.store.get(PAGE_SHOW_FULL, false));
+
+        // check storage
+        storageEnable = $.store && $.store.enable;
+
+        // Get document version
+        // dataVersion = $body.data('version');
+
+        // Setup ajax
+        $.ajaxSetup({cache: false});
+        
+        // Load index.json
         loadData(INDEX_JSON, function(data){
             displaySection(data);
             var hash = window.location.hash
