@@ -68,6 +68,13 @@
         return str;
     };
 
+    var getQueryString = function(name)
+    {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    };
+
     var checkScrollbar = function()
     {
         if (document.body.clientWidth >= window.innerWidth) return;
@@ -380,7 +387,10 @@
     };
 
     var query = function(keyString) {
-        if(!$sections) return;
+        if(!$sections) {
+            if(debug) console.log('Query failed, $sections is empty. key:', keyString);
+            return;
+        }
 
         if($queryInput.data('queryString') !== keyString) {
             $queryInput.data('queryString', keyString).val(keyString);
@@ -827,15 +837,26 @@
         
         // Load index.json
         loadData(INDEX_JSON, function(data){
+            var firstLoad = !sectionsShowed;
             displaySection(data);
-            var hash = window.location.hash
-            if(hash) {
-                hash = hash.substr(1);
-                setTimeout(function(){
-                    openSection(hash.split('-'));
-                }, 300);
-            } else {
-                $queryInput.focus();
+
+            if(!firstLoad) {
+                var q = getQueryString('q');
+                if(q) {
+                    setTimeout(function(){
+                        query(q);
+                    }, 300);
+                }
+
+                var hash = window.location.hash
+                if(hash) {
+                    hash = hash.substr(1);
+                    setTimeout(function(){
+                        openSection(hash.split('-'));
+                    }, 600);
+                } else {
+                    $queryInput.focus();
+                }
             }
         });
 
