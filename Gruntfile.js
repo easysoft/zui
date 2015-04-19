@@ -188,6 +188,11 @@ module.exports = function(grunt)
             {
                 files: 'Gruntfile.js',
                 tasks: ['jshint:basic']
+            },
+            docless:
+            {
+                files: 'src/less/doc.less',
+                tasks: ['build:docless']
             }
         }
     });
