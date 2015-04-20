@@ -174,14 +174,17 @@
     };
 
     var displaySectionIcon = function($icon, section) {
-        $icon.attr('class', 'icon').text('');
-        if (section.icon === undefined || section.icon === null || section.icon === "") {
-            section.icon = section.name.substr(0, 1).toUpperCase();
+        var icon = section.icon;
+        $icon.attr('class', 'icon').text('').css('background-image', '');
+        if (icon === undefined || icon === null || icon === "") {
+            icon = section.name.substr(0, 1).toUpperCase();
         }
-        if (section.icon.indexOf('icon-') === 0) {
-            $icon.addClass(section.icon);
+        if (icon.startsWith('icon-')) {
+            $icon.addClass(icon);
+        } else if(icon.endsWith('.png')) {
+            $icon.css('background-image', 'url(' + icon + ')').addClass('with-img');
         } else {
-            $icon.addClass('text-icon').text(section.icon);
+            $icon.addClass('text-icon').text(icon);
         }
     };
 
@@ -192,7 +195,12 @@
             section.chapter = chapterName;
             var id = chapterName + '-' + section.id;
             var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
-            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName).attr('data-order', order++);
+            $tpl.attr({
+                'data-id': section.id,
+                'data-chapter': chapterName,
+                'data-order': order++,
+                'data-accent': chapter.accent
+            });
             var $head = $tpl.children('.card-heading');
             $head.find('.name').text(section.name).attr('href', '#' + id);
             $head.children('.desc').text(section.desc);
@@ -675,7 +683,7 @@
         chooseSection($section, false, true);
 
         window.location.hash = '#' + pageId;
-        $body.attr('data-page-accent', section.chapter.accent).attr('data-page', pageId);
+        $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
         $pageHeader.find('.name').text(section.name).attr('href', '#' + section.chapter + '-' + section.id);
         $pageHeader.children('.desc').text(section.desc);

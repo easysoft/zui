@@ -12,12 +12,32 @@
                     "id": "zentaopms",
                     "name": "禅道项目管理",
                     "desc": "以开源的方式做最专业的研发项目管理软件！",
-                    "icon": "PMS",
+                    "icon": "img/zentao_icon.png",
                     "url": "http://www.zentao.net/",
                     "topics": [
                         {"name": "云禅道", "url": "https://www.zentaopm.com/"},
                         {"name": "开源版演示", "url": "http://demo.zentao.net/"},
                         {"name": "专业版演示", "url": "http://pro.demo.zentao.net/"}
+                    ]
+                },
+                {
+                    "id": "chanzhi",
+                    "name": "蝉知",
+                    "desc": "为天下企业提供专业的营销工具！",
+                    "icon": "img/chanzhi_icon.png",
+                    "url": "http://www.chanzhi.org/",
+                    "topics": [
+                        {"name": "云蝉知", "url": "http://www.chanzhi.net/"}
+                    ]
+                },
+                {
+                    "id": "ranzhi",
+                    "name": "然之",
+                    "desc": "中小企业一体化协同管理最佳解决方案！",
+                    "icon": "img/ranzhi_icon.png",
+                    "url": "https://www.ranzhico.com/",
+                    "topics": [
+                        {"name": "云然之", "url": "https://www.ranzhico.com/ranzhisaas-plans.html"}
                     ]
                 }
             ]
@@ -61,6 +81,7 @@
         "start": 
         {
             "name": "开始",
+            "accent": "primary",
             "sections":
             [
                 {
@@ -130,6 +151,7 @@
         "basic":
         {
             "name": "基础",
+            "accent": "yellow",
             "sections": 
             [
                 {
@@ -235,6 +257,7 @@
         "control":
         {
             "name": "控件",
+            "accent": "green",
             "sections":
             [
                 {
@@ -342,6 +365,7 @@
         "component":
         {
             "name": "组件",
+            "accent": "red",
             "sections":
             [
                 {
@@ -486,6 +510,7 @@
         "javascript":
         {
             "name": "JS插件",
+            "accent": "brown",
             "sections":
             [
                 {
@@ -666,6 +691,7 @@
         "view":
         {
             "name": "视图",
+            "accent": "purple",
             "sections":
             [
                 {

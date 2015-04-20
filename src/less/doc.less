@@ -504,6 +504,11 @@ body {
         padding: 0;
       }
     }
+
+    > .row + .row {
+      padding-top: 10px;
+      border-top: 1px solid @color-gray-pale;
+    }
   }
 
   .chapter {
@@ -580,6 +585,8 @@ body {
     > .icon {
       .transition-quickly();
       background-color: @color-gray-pale;
+      background-size: contain;
+      background-position: center;
       position: absolute;
       width: 36px;
       height: 36px;
@@ -590,6 +597,15 @@ body {
       top: 13px;
       z-index: 10;
       font-style: normal;
+
+      &.with-img {
+        .opacity(.8); 
+        background-color: transparent!important;
+
+        &:hover {
+          .opacity(1); 
+        }
+      }
     }
 
     > h5 {
@@ -768,6 +784,13 @@ body {
 body.input-query-focus {
   #grid .card.choosed:before {
     right: 0;
+  }
+}
+
+body.query-enabled {
+  #grid > .container > .row + .row {
+    padding-top: 0;
+    border-top: none;
   }
 }
 
