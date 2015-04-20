@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-18
+ * ZUI - v1.3.0 - 2015-04-20
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -1585,7 +1585,12 @@
     Store.prototype.get = function(key, defaultValue)
     {
         var val = this.deserialize(this.getItem(key));
-        return (defaultValue !== undefined && (typeof val === 'undefined' || val === null || val === undefined)) ? defaultValue : val;
+        if(typeof val === 'undefined' || val === null) {
+            if(typeof defaultValue !== 'undefined') {
+                return defaultValue;
+            }
+        }
+        return val;
     };
 
     /* Get item key by index and deserialize it */

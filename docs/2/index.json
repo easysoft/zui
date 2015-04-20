@@ -9,8 +9,8 @@
             [
                 {
                     "id": "qqgroup",
-                    "name": "QQ群",
-                    "desc": "384135104",
+                    "name": "QQ讨论",
+                    "desc": "官方QQ群：384135104",
                     "icon": "icon-qq",
                     "url": null 
                 },
@@ -24,7 +24,7 @@
                 {
                     "id": "github",
                     "name": "Github",
-                    "icon": "icon-code-fork",
+                    "icon": "icon-github",
                     "desc": "Star或Fork来支持项目",
                     "url": "https://github.com/easysoft/zui"
                 },

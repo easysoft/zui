@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-18
+ * ZUI - v1.3.0 - 2015-04-20
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -417,7 +417,7 @@ body {
   display: block;
   padding: 3px 8px;
   color: #fff;
-  content: '轻按Enter键打开';
+  content: '按Enter键打开';
   -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
           transition: all .1s cubic-bezier(.175, .885, .32, 1);

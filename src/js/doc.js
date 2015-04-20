@@ -214,10 +214,11 @@
             return $sectionList;
         })) {
             $body.children('.loader').removeClass('loading');
+            $sections = $grid.find('.section');
             if(!sectionsShowed) {
                 clearTimeout($grid.data(LAST_RELOAD_ANIMATE_ID));
                 $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
-                    $sections = $grid.find('.section').addClass('in');
+                    $sections.addClass('in');
                     $chapterHeadings.addClass('in');
                 }, 100));
                 sectionsShowed = true;
