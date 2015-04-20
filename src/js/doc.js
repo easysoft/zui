@@ -625,6 +625,7 @@
     };
 
     var toggleCompactMode = function(toggle, callback) {
+        console.log('toggleCompactMode', toggle);
         if(toggle === UNDEFINED) {
             toggle = !$body.hasClass('compact-mode');
         }
@@ -924,14 +925,16 @@
         var lastScrollTop;
         $window.on('scroll', function(e){
             var isScrollAnimating = $body.data('isScrollAnimating');
+            console.log('scroll, isScrollAnimating',isScrollAnimating);
             if(isScrollAnimating) {
                 $window.scrollTop(1);
                 return;
             }
             lastScrollTop = $window.scrollTop();
+            console.log('lastScrollTop', lastScrollTop);
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
-            } else if($body.hasClass('compact-mode')) {
+            } else if(!$body.hasClass('page-show') && $body.hasClass('compact-mode')) {
                 if(lastScrollTop < 1) {
                     toggleCompactMode(false);
                 } else {
@@ -964,15 +967,15 @@
                     e.preventDefault();
                 }
             } else if(code === 37) { // Left
-                if(!$body.hasClass('input-query-focus')){
+                // if(!$body.hasClass('input-query-focus')){
                     chooseLeftSection();
                     e.preventDefault();
-                }
+                // }
             } else if(code === 39) { // Right
-                if(!$body.hasClass('input-query-focus')){
+                // if(!$body.hasClass('input-query-focus')){
                     chooseRightSection();
                     e.preventDefault();
-                }
+                // }
             } else if(code === 38) { // Top
                 if(isPageNotShow) {
                     choosePrevSection();

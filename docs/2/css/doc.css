@@ -343,7 +343,7 @@ body {
   padding-left: 40px;
   color: #fff;
   background: none;
-  border: 2px solid #e5e5e5;
+  border: 1px solid #e5e5e5;
   border-color: rgba(255, 255, 255, .6);
   border-radius: 21px;
   -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
