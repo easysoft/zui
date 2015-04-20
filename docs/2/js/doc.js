@@ -45,7 +45,8 @@
         control: {col: 2}, 
         component: {col: 2}, 
         javascript: {col: 3}, 
-        view: {col: 3}
+        view: {col: 3},
+        promotion: {col: 1, row: 2}
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
@@ -941,24 +942,31 @@
                 }
             } else if(code === 27) { // Esc
                 if(!closePage()) {
-                    if($body.hasClass('input-query-focus')) {
-                        query();
+                    if(!$body.hasClass('input-query-focus')) {
+                        $queryInput.focus();
                     }
+                    query();
                 }
             } else if(code === 32) { // Space
-                if(closePage()) {
-                } else if(!$body.hasClass('compact-mode')) {
-                    toggleCompactMode(true);
-                } else if(isChoosedSection()) {
-                    openSection();
+                if(!$body.hasClass('input-query-focus')){
+                    if(closePage()) {
+                    } else if(!$body.hasClass('compact-mode')) {
+                        toggleCompactMode(true);
+                    } else if(isChoosedSection()) {
+                        openSection();
+                    }
+                    e.preventDefault();
                 }
-                e.preventDefault();
             } else if(code === 37) { // Left
-                chooseLeftSection();
-                e.preventDefault();
+                if(!$body.hasClass('input-query-focus')){
+                    chooseLeftSection();
+                    e.preventDefault();
+                }
             } else if(code === 39) { // Right
-                chooseRightSection();
-                e.preventDefault();
+                if(!$body.hasClass('input-query-focus')){
+                    chooseRightSection();
+                    e.preventDefault();
+                }
             } else if(code === 38) { // Top
                 if(isPageNotShow) {
                     choosePrevSection();

@@ -38,7 +38,8 @@
         control: {col: 2}, 
         component: {col: 2}, 
         javascript: {col: 3}, 
-        view: {col: 3}
+        view: {col: 3},
+        promotion: {col: 1, row: 2}
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
@@ -209,6 +210,7 @@
             }
             $sectionList.append($tpl.addClass('show' + (sectionsShowed ? ' in' : '')));
         }, function(chapter, sections){
+            chapter.$.attr('data-accent', chapter.accent);
             var $sectionList = chapter.$sections;
             $sectionList.children().remove();
             return $sectionList;
@@ -654,6 +656,7 @@
             style['max-height'] = '';
             $page.css(style);
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
+            window.location.hash = '';
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
@@ -672,7 +675,7 @@
         chooseSection($section, false, true);
 
         window.location.hash = '#' + pageId;
-        $body.attr('data-page-chapter', section.chapter).attr('data-page', pageId);
+        $body.attr('data-page-accent', section.chapter.accent).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
         $pageHeader.find('.name').text(section.name).attr('href', '#' + section.chapter + '-' + section.id);
         $pageHeader.children('.desc').text(section.desc);
@@ -839,6 +842,9 @@
         // Load index.json
         loadData(INDEX_JSON, function(data){
             var firstLoad = !sectionsShowed;
+
+
+
             displaySection(data);
 
             if(!firstLoad) {
@@ -934,24 +940,31 @@
                 }
             } else if(code === 27) { // Esc
                 if(!closePage()) {
-                    if($body.hasClass('input-query-focus')) {
-                        query();
+                    if(!$body.hasClass('input-query-focus')) {
+                        $queryInput.focus();
                     }
+                    query();
                 }
             } else if(code === 32) { // Space
-                if(closePage()) {
-                } else if(!$body.hasClass('compact-mode')) {
-                    toggleCompactMode(true);
-                } else if(isChoosedSection()) {
-                    openSection();
+                if(!$body.hasClass('input-query-focus')){
+                    if(closePage()) {
+                    } else if(!$body.hasClass('compact-mode')) {
+                        toggleCompactMode(true);
+                    } else if(isChoosedSection()) {
+                        openSection();
+                    }
+                    e.preventDefault();
                 }
-                e.preventDefault();
             } else if(code === 37) { // Left
-                chooseLeftSection();
-                e.preventDefault();
+                if(!$body.hasClass('input-query-focus')){
+                    chooseLeftSection();
+                    e.preventDefault();
+                }
             } else if(code === 39) { // Right
-                chooseRightSection();
-                e.preventDefault();
+                if(!$body.hasClass('input-query-focus')){
+                    chooseRightSection();
+                    e.preventDefault();
+                }
             } else if(code === 38) { // Top
                 if(isPageNotShow) {
                     choosePrevSection();
