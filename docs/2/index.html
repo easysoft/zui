@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ZUI - 开源HTML5跨屏框架</title>
+
+    <!-- zui -->
+    <link href="../css/zui.min.css" rel="stylesheet">
+    <link href="css/doc.min.css" rel="stylesheet">
+  </head>
+  <body data-page-chapter="control">
+    <header id="header">
+      <div class="navbar navbar-inverse navbar-fixed-top" id="navbar" role="banner">
+        <div class="container">
+          <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".zui-navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a href="../" class="navbar-brand"><span class="path-zui-36"><i class="path-1"></i><i class="path-2"></i></span> ZUI</a>
+          </div>
+          <nav class="collapse navbar-collapse zui-navbar-collapse">
+            <ul class="nav navbar-nav">
+              <!-- <li><a href="#">开始</a></li> -->
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="https://github.com/easysoft/zui" target="_blank">论坛</a></li>
+              <li><a href="https://github.com/easysoft/zui" target="_blank"><i class="icon icon-github"></i></a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div id="headContainer">
+        <div class="container">
+          <div id="heading">
+            <h1>ZUI</h1>
+            <p>一个开源前端实践方案，帮助你快速构现代跨屏应用。</p>
+            <div id="download">
+              <button type="button" class="btn btn-primary btn-lg">立即下载 <i class="icon icon-download-alt"></i></button>
+              <p><small>最新版本 v1.2.1</small></p>
+            </div>
+          </div>
+          <div id="search">
+            <div id="searchForm">
+              <input type="text" class="form-control input-lg" id="searchInput" placeholder="button, panel, icon..."/>
+              <i class="icon icon-search"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="pageContainer">
+      <div class="container">
+        <div id="page">
+          <div id="pageHeader">
+            <div class="wrapper">
+              <i class="icon icon-star"></i>
+              <h2><a class="name" href="###">图标</a></h2>
+              <small class="text-muted desc">使用和查找图标</small>
+            </div>
+            <button data-toggle="tooltip" title="最大化" type="button" class="btn btn-link path-max-btn path-btn"><i class="path-1"></i></button>
+            <button data-toggle="tooltip" title="关闭（ESC）" type="button" class="btn btn-link path-close-btn path-btn"><i class="path-1"></i></button>
+          </div>
+          <div id="pageBody" class="scrollbar-hover">
+            <div class="text-muted loader"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div>
+            <div id="pageContent"></div>
+            <nav></nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-muted loader loading"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div>
+
+    <div id="grid">
+      <div class="container">
+        <div class="row">
+          <div class="col col-md-4">
+            <div class="chapter" id="chapter-learn" data-id="learn">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-node"></i> <span class='name'>交流探索</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-learn">
+              </div>
+            </div>
+            <div class="chapter" id="chapter-start" data-id="start">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-flag"></i> <span class='name'>开始</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-start">
+              </div>
+            </div>
+            <div class="chapter" id="chapter-basic" data-id="basic">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-book"></i> <span class='name'>基础</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-basic">
+              </div>
+            </div>
+          </div>
+          <div class="col col-md-4">
+            <div class="chapter" id="chapter-control" data-id="control">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-check-empty"></i> <span class='name'>控件</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-control">
+              </div>
+            </div>
+            <div class="chapter" id="chapter-component" data-id="component">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-columns"></i> <span class='name'>组件</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-component">
+              </div>
+            </div>
+          </div>
+          <div class="col col-md-4">
+            <div class="chapter" id="chapter-javascript" data-id="javascript">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-magic"></i> <span class='name'>JS插件</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-javascript">
+              </div>
+            </div>
+            <div class="chapter" id="chapter-view" data-id="view">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-list-alt"></i> <span class='name'>视图</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-view">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="template">
+      <div class="card section fade scale slide-in-up-100 slide-in-right-50" id="sectionTemplate">
+        <div class="card-heading">
+          <!-- <a class="btn-toggle" href="###"><i class="icon icon-angle-right"></i></a> -->
+          <i class="icon"></i>
+          <h5><a class="name" href="###"></a></h5>
+          <small class="text-muted desc"></small>
+        </div>
+        <div class="card-content ">
+          <ul class="topics">
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->
+    <script src="../../assets/jquery.js"></script>
+
+    <!-- ZUI Javascript组件 -->
+    <script src="../js/zui.js"></script>
+    <script src="../../src/js/doc.js"></script>
+  </body>
+</html>

@@ -1,0 +1,180 @@
+<h3>字体</h3>
+<p>在ZUI中我们定义了三种字体家族已适应不同的场合。这些字体在中英文环境下都能够很好的显示。</p>
+<table class="table">
+  <tbody>
+    <tr>
+      <th>无衬线字体</th>
+      <td><code>&quot;Helvetica Neue&quot;, Helvetica, Tahoma, Arial,
+      sans-serif</code></td>
+    </tr>
+    <tr>
+      <th>衬线字体</th>
+      <td><code>Georgia, &quot;Times New Roman&quot;, Times, serif</code></td>
+    </tr>
+    <tr>
+      <th>等宽字体</th>
+      <td><code>Monaco, Menlo, Consolas, &quot;Courier New&quot;,
+      monospace</code></td>
+    </tr>
+  </tbody>
+</table>
+<p>使用<a href=
+"http://zh.wikipedia.org/wiki/%E7%84%A1%E8%A5%AF%E7%B7%9A%E5%AD%97%E9%AB%94">无衬线字体</a>来作为页面的默认字体，因为无衬线字体非常适合在屏幕上显示；衬线字体作为一个额外的选择，但并不推荐在小字号中使用，但可以用于特殊文字或者标题中；等宽字体用来显示程序代码。</p>
+<p>默认的字体大小为 <strong>13px</strong>，以保证在所有屏幕上都能有最佳效果。ZUI中也允许使用更小号的字体，不过不要小于
+<strong>12px</strong>。默认行高为字体大小的1.38倍，一般为18px。一至六级标题的行高为字体大小的1.2。</p>
+<h3>文字排版</h3>
+<p>字是组成页面的重要内容，一个好的排版是构建好的用户界面的基石。应根据我们的设计原则来进行文字排版。下表中列举了web设计时会用到的文字排版方式。</p>
+<table class="table">
+  <tbody>
+    <tr>
+      <th style="width:30%">元素</th>
+      <th>标签</th>
+      <th>字体大小</th>
+      <th>说明</th>
+    </tr>
+    <tr>
+      <td>
+        <h1>页面标题</h1>
+      </td>
+      <td><code>&lt;h1&gt;</code></td>
+      <td>26px</td>
+      <td>在一个页面只有一个页面标题。</td>
+    </tr>
+    <tr>
+      <td>
+        <h2>标题</h2>
+      </td>
+      <td><code>&lt;h2&gt;</code></td>
+      <td>22px</td>
+      <td>作为页面第二级标题，可能在一个页面中使用到多个二级标题。</td>
+    </tr>
+    <tr>
+      <td>
+        <h3>三级标题</h3>
+      </td>
+      <td><code>&lt;h3&gt;</code></td>
+      <td>16px 粗体</td>
+      <td>页面第三级标题，嵌套在二级标题下使用。</td>
+    </tr>
+    <tr>
+      <td>
+        <h4>四级标题</h4>
+      </td>
+      <td><code>&lt;h4&gt;</code></td>
+      <td>15px 粗体</td>
+      <td>页面第四级标题，嵌套在三级标题下使用。</td>
+    </tr>
+    <tr>
+      <td>
+        <h5>五级标题</h5>
+      </td>
+      <td><code>&lt;h5&gt;</code></td>
+      <td>13px 粗体 颜色灰色</td>
+      <td>页面第五级标题，嵌套在四级标题下使用。</td>
+    </tr>
+    <tr>
+      <td>
+        <h6>六级标题</h6>
+      </td>
+      <td><code>&lt;h6&gt;</code></td>
+      <td>12px 粗体 颜色灰色</td>
+      <td>页面第六级标题，嵌套在五级标题下使用。</td>
+    </tr>
+    <tr>
+      <td>
+        <p>这是一个段落</p>
+      </td>
+      <td><code>&lt;p&gt;</code></td>
+      <td>13px</td>
+      <td>正文中大部分由段落组成。段落的行高为20px。段落间在垂直方向上有10px边距。</td>
+    </tr>
+    <tr>
+      <td>
+        <p class="lead">这是一个突出的段落</p>
+      </td>
+      <td><code>&lt;p class=&quot;lead&quot;&gt;</code></td>
+      <td>20px</td>
+      <td>突出的段落具有更大的字体，在一个段落上加<code>.lead</code>类。</td>
+    </tr>
+    <tr>
+      <td><strong>粗体文本</strong></td>
+      <td><code>&lt;strong&gt;</code></td>
+      <td>13px</td>
+      <td>通常粗体文本用来强调内容。</td>
+    </tr>
+    <tr>
+      <td><em>斜体文本</em></td>
+      <td><code>&lt;em&gt;</code></td>
+      <td>13px</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><small>小的文本</small></td>
+      <td><code>&lt;small&gt;</code></td>
+      <td>12px 颜色灰色</td>
+      <td>small文本字体只有正常字体大小的85%，通常为11.9px。</td>
+    </tr>
+    <tr>
+      <td>
+        <a href="#">超链接</a>
+      </td>
+      <td><code>&lt;a&gt;</code></td>
+      <td>13px</td>
+      <td>超链接具有不同的颜色以区别其他文本，超链接仅当鼠标悬停时会增加下划线。</td>
+    </tr>
+    <tr>
+      <td>
+        <ol>
+          <li>这是一个有序列表</li>
+          <li>包含三个列表项</li>
+          <li>作为示例</li>
+        </ol>
+      </td>
+      <td><code>&lt;ol&gt;&lt;li&gt;...&lt;/ol&gt;</code></td>
+      <td>13px</td>
+      <td>当组织一些并列项目且关注项目之间顺序时可以使用有序列表。</td>
+    </tr>
+    <tr>
+      <td>
+        <ul>
+          <li>这是一个无序列表</li>
+          <li>包含三个列表项</li>
+          <li>作为示例</li>
+        </ul>
+      </td>
+      <td><code>&lt;ul&gt;&lt;li&gt;...&lt;/ul&gt;</code></td>
+      <td>13px</td>
+      <td>当组织一些并列项目但不关注项目之间顺序时可以使用无序列表。</td>
+    </tr>
+    <tr>
+      <td>
+        <blockquote>
+          这是一大段引用内容
+        </blockquote>
+      </td>
+      <td><code>&lt;blockquote&gt;</code></td>
+      <td>13px</td>
+      <td>用于显示一大段引用的内容。</td>
+    </tr>
+    <tr>
+      <td><q>这是内嵌的引用</q></td>
+      <td><code>&lt;q&gt;</code></td>
+      <td>13px</td>
+      <td>用于在正文行内显示引用的术语。</td>
+    </tr>
+    <tr>
+      <td>
+        <pre>
+<code>&lt;div&gt;
+        &lt;p&gt;代码区域&lt;/p&gt;
+        &lt;/div&gt;</code>
+</pre>
+      </td>
+      <td><code>&lt;pre&gt;&lt;code&gt;...&lt;/code&gt;</code></td>
+      <td>13px 等宽字体</td>
+      <td>
+        代码区域会加上方框，并使用等宽字体显示，详细代码显示规定请参见节<a href="#prettify">代码高亮</a>。
+      </td>
+    </tr>
+  </tbody>
+</table>

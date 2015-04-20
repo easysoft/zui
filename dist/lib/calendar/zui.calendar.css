@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-18
+ * ZUI - v1.2.1 - 2014-12-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -51,7 +51,7 @@
   padding: 1px;
 }
 .calendar .day.drop-to {
-  background-color: #fff4e5;
+  background-color: #fff5e5;
   opacity: 1;
 }
 .calendar .cell-day {
@@ -67,7 +67,7 @@
   opacity: 1;
 }
 .calendar .cell-day.current {
-  background-color: #fff4e5;
+  background-color: #fff5e5;
 }
 .calendar .cell-day.current > .day {
   border: 1px solid #808080;
@@ -76,21 +76,21 @@
   padding: 0;
 }
 .calendar .cell-day.current > .day > .heading {
-  background-color: #ffe5c2;
+  background-color: #ffe8c2;
 }
 .calendar .event {
   padding: 1px 5px;
   margin-bottom: 1px;
   color: #fff;
   cursor: pointer;
-  background-color: #3280fc;
+  background-color: #108bf1;
   opacity: .9;
   -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
 a.calendar .event:hover {
-  background-color: #0462f7;
+  background-color: #0b70c3;
 }
 .calendar .event:hover {
   opacity: 1;

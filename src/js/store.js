@@ -131,7 +131,12 @@
     Store.prototype.get = function(key, defaultValue)
     {
         var val = this.deserialize(this.getItem(key));
-        return (defaultValue !== undefined && (typeof val === 'undefined' || val === null || val === undefined)) ? defaultValue : val;
+        if(typeof val === 'undefined' || val === null) {
+            if(typeof defaultValue !== 'undefined') {
+                return defaultValue;
+            }
+        }
+        return val;
     };
 
     /* Get item key by index and deserialize it */
@@ -208,6 +213,7 @@
 
     var store = new Store();
 
+    $.store = store;
     window.store = store;
 
     window.store.noConflict = function()

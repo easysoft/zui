@@ -70,6 +70,9 @@
         hoverClass: 'hover',
         colHoverClass: 'col-hover',
 
+        // Merge rows
+        mergeRows: false, // Merge rows
+
         // custom columns size
         // customizable: false, // enable customizable
         minColWidth: 20, // min width of columns
@@ -88,27 +91,15 @@
         options.tableClass = options.tableClass || '';
         options.tableClass = ' ' + options.tableClass + ' table-datatable';
 
-        if ($e.hasClass('table-bordered'))
+        $.each(['bordered', 'condensed', 'striped', 'condensed', 'fixed'], function(idx, cls)
         {
-            options.tableClass += ' table-bordered';
-        }
+            cls = 'table-' + cls;
+            if($e.hasClass(cls)) options.tableClass += ' ' + cls;
+        });
 
         if ($e.hasClass('table-hover') || options.rowHover)
         {
             options.tableClass += ' table-hover';
-        }
-
-        if ($e.hasClass('table-striped'))
-        {
-            options.tableClass += ' table-striped';
-        }
-        if ($e.hasClass('table-condensed'))
-        {
-            options.tableClass += ' table-condensed';
-        }
-        if ($e.hasClass('table-fixed'))
-        {
-            options.tableClass += ' table-fixed';
         }
 
         this.options = options;
@@ -149,8 +140,8 @@
                     rows: []
                 };
                 cols = data.cols;
-                var rows = data.rows,
-                    $th, $tr, $td, row, $t = this.$table;
+                var rows = data.rows, i,
+                    $th, $tr, $td, row, $t = this.$table, colSpan;
 
                 $t.find('thead > tr:first').children('th').each(function()
                 {
@@ -164,7 +155,8 @@
                         css: $th.attr('style'),
                         type: 'string',
                         ignore: $th.hasClass('ignore'),
-                        sort: !$th.hasClass('sort-disabled')
+                        sort: !$th.hasClass('sort-disabled'),
+                        mergeRows: $th.attr('merge-rows')
                     }, $th.data()));
                 });
 
@@ -183,12 +175,22 @@
                     $tr.children('td').each(function()
                     {
                         $td = $(this);
+                        colSpan = $td.attr('colspan') || 1;
                         row.data.push($.extend(
                         {
                             cssClass: $td.attr('class'),
                             css: $td.attr('style'),
-                            text: $td.html()
+                            text: $td.html(),
+                            colSpan: colSpan
                         }, $td.data()));
+
+                        if(colSpan > 1)
+                        {
+                            for(i = 1; i < colSpan; i++)
+                            {
+                                row.data.push({empty: true});
+                            }
+                        }
                     });
 
                     rows.push(row);
@@ -268,7 +270,7 @@
             dataRowSpan = '<div class="datatable-rows-span datatable-span"><div class="datatable-wrapper"><table class="table"></table></div></div>',
             dataHeadSpan = '<div class="datatable-head-span datatable-span"><div class="datatable-wrapper"><table class="table"><thead></thead></table></div></div>';
 
-        $datatable.children('.datatable-head, .datatable-rows').remove();
+        $datatable.children('.datatable-head, .datatable-rows, .scroll-wrapper').remove();
 
         // Set css class to datatable by options
         $datatable.toggleClass('sortable', options.sortable);
@@ -391,6 +393,11 @@
             for (i = 0; i < rowColLen; ++i)
             {
                 rowCol = row.data[i];
+                if(i > 0 && rowCol.empty)
+                {
+                    continue;
+                }
+
                 $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
                 if(i === 0 && checkable)
                 {
@@ -413,14 +420,20 @@
                         row: r,
                         index: i
                     };
-                    row.data[i] = rowCol;
                 }
+                else
+                {
+                    rowCol.row = r;
+                    rowCol.index = i;
+                }
+                row.data[i] = rowCol;
 
                 $td = $('<td/>');
 
                 $td.html(rowCol.text)
                    .addClass(rowCol.cssClass)
                    .addClass(cols[i].colClass)
+                   .attr('colspan', rowCol.colSpan)
                    .attr(
                     {
                         'data-row'   : r,
@@ -684,7 +697,8 @@
                 syncChecks();
             });
 
-            this.$datatable.on('click', '.check-all', function()
+            var checkAllEventName = 'click.zui.datatable.check-all';
+            this.$datatable.off(checkAllEventName).on(checkAllEventName, '.check-all', function()
             {
                 $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
@@ -766,6 +780,55 @@
             });
 
             if(options.storage) that.sortTable();
+        }
+        else if (options.mergeRows)
+        {
+            this.mergeRows();
+        }
+    };
+
+    DataTable.prototype.mergeRows = function()
+    {
+        var $cells = this.$rowsSpans.find('.table > tbody > tr > td');
+        var cols = this.data.cols;
+        for(var i = 0; i < cols.length; i++)
+        {
+            var col = cols[i];
+            if(col.mergeRows)
+            {
+                var $cs = $cells.filter('[data-index="' + i + '"]');
+                if($cs.length > 1)
+                {
+                    var $lastCell, rowspan;
+                    $cs.each(function()
+                    {
+                        var $cell = $(this);
+                        if($lastCell)
+                        {
+                            if($cell.html() === $lastCell.html())
+                            {
+                                rowspan = $lastCell.attr('rowspan') || 1;
+                                if(typeof rowspan !== 'number')
+                                {
+                                    rowspan = parseInt(rowspan);
+                                    if(isNaN(rowspan)) rowspan = 1;
+                                }
+
+                                $lastCell.attr('rowspan', rowspan + 1).css('vertical-align', 'middle');
+                                $cell.remove();
+                            }
+                            else
+                            {
+                                $lastCell = $cell;
+                            }
+                        }
+                        else
+                        {
+                            $lastCell = $cell;
+                        }
+                    });
+                }
+            }
         }
     };
 
@@ -903,11 +966,13 @@
 
         var findMaxHeight = function($cells)
             {
-                var mx = 0;
+                var mx = 0, $cell, rowSpan;
                 $cells.css('height', 'auto');
                 $cells.each(function()
                 {
-                    mx = Math.max(mx, $(this).height());
+                    $cell = $(this);
+                    rowSpan = $cell.attr('rowspan');
+                    if(!rowSpan || rowSpan == 1) mx = Math.max(mx, $cell.outerHeight());
                 });
                 return mx;
             },
@@ -922,14 +987,16 @@
         }
 
         // set height of head cells
-        $headCells.height(findMaxHeight($headCells));
+        var headMaxHeight = findMaxHeight($headCells);
+        $headCells.css('min-height', headMaxHeight).css('height', headMaxHeight);
 
         // set height of data cells
         var $rowCells;
         for (i = 0; i < rows.length; ++i)
         {
             $rowCells = $dataCells.filter('[data-row="' + i + '"]');
-            $rowCells.height(findMaxHeight($rowCells));
+            var rowMaxHeight = findMaxHeight($rowCells);
+            $rowCells.css('min-height', rowMaxHeight).css('height', rowMaxHeight);
         }
     };
 

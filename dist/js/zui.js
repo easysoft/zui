@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-18
+ * ZUI - v1.2.1 - 2015-01-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 /* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -51,8 +51,9 @@
                 {
                     func = $.proxy(func, proxy);
                 }
-                event.result = func(event);
-                return !(event.result !== undefined && (!event.result));
+                var result = func(event);
+                if(event) event.result = result;
+                return !(result !== undefined && (!result));
             }
             return 1;
         },
@@ -106,6 +107,114 @@
         return e;
     };
 }(jQuery, window, Math));
+
+/* ========================================================================
+ * Bootstrap: alert.js v3.0.0
+ * http://twbs.github.com/bootstrap/javascript.html#alerts
+ * ========================================================================
+ * Copyright 2013 Twitter, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ======================================================================== */
+
+
++ function($){
+    'use strict';
+
+    // ALERT CLASS DEFINITION
+    // ======================
+
+    var dismiss = '[data-dismiss="alert"]'
+    var Alert = function(el)
+    {
+        $(el).on('click', dismiss, this.close)
+    }
+
+    Alert.prototype.close = function(e)
+    {
+        var $this = $(this)
+        var selector = $this.attr('data-target')
+
+        if (!selector)
+        {
+            selector = $this.attr('href')
+            selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+        }
+
+        var $parent = $(selector)
+
+        if (e) e.preventDefault()
+
+        if (!$parent.length)
+        {
+            $parent = $this.hasClass('alert') ? $this : $this.parent()
+        }
+
+        $parent.trigger(e = $.Event('close.bs.alert'))
+
+        if (e.isDefaultPrevented()) return
+
+        $parent.removeClass('in')
+
+        function removeElement()
+        {
+            $parent.trigger('closed.bs.alert').remove()
+        }
+
+        $.support.transition && $parent.hasClass('fade') ?
+            $parent
+            .one($.support.transition.end, removeElement)
+            .emulateTransitionEnd(150) :
+            removeElement()
+    }
+
+
+    // ALERT PLUGIN DEFINITION
+    // =======================
+
+    var old = $.fn.alert
+
+    $.fn.alert = function(option)
+    {
+        return this.each(function()
+        {
+            var $this = $(this)
+            var data = $this.data('bs.alert')
+
+            if (!data) $this.data('bs.alert', (data = new Alert(this)))
+            if (typeof option == 'string') data[option].call($this)
+        })
+    }
+
+    $.fn.alert.Constructor = Alert
+
+
+    // ALERT NO CONFLICT
+    // =================
+
+    $.fn.alert.noConflict = function()
+    {
+        $.fn.alert = old
+        return this
+    }
+
+
+    // ALERT DATA-API
+    // ==============
+
+    $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
+
+}(window.jQuery);
 
 /* ========================================================================
  * Bootstrap: tab.js v3.0.0
@@ -1830,10 +1939,6 @@
                     top: event.pageY
                 };
             var containerOffset = $container.offset();
-            // var startPosition = {
-            //     left: startOffset.left - containerOffset.left,
-            //     top: startOffset.top - containerOffset.top
-            // };
             var clickOffset = {
                 left: startMouseOffset.left - startOffset.left,
                 top: startMouseOffset.top - startOffset.top
@@ -1890,10 +1995,6 @@
                     top: offset.top - containerOffset.top
                 };
                 shadow.css(position);
-                // var moveOffset = {
-                //     left: mouseOffset.left - lastMouseOffset.left,
-                //     top: mouseOffset.top - lastMouseOffset.top
-                // };
                 lastMouseOffset.left = mouseOffset.left;
                 lastMouseOffset.top = mouseOffset.top;
 
@@ -1910,8 +2011,8 @@
                 {
                     var t = $(this);
                     var tPos = t.offset();
-                    var tW = t.width(),
-                        tH = t.height(),
+                    var tW = t.outerWidth(),
+                        tH = t.outerHeight(),
                         tX = tPos.left + setting.sensorOffsetX,
                         tY = tPos.top + setting.sensorOffsetY;
 
@@ -1964,6 +2065,7 @@
                     },
                     mouseOffset: mouseOffset
                 });
+                event.preventDefault();
             }
 
             function mouseUp(event)
@@ -1977,6 +2079,7 @@
                 {
                     $e.removeClass('drag-from');
                     $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+                    self.callEvent('always', {event: event, cancel: true});
                     return;
                 }
 
@@ -2027,6 +2130,7 @@
                 shadow.remove();
 
                 self.callEvent('finish', eventOptions);
+                self.callEvent('always', eventOptions);
 
                 event.preventDefault();
             }
@@ -2121,10 +2225,12 @@
             trigger: options.trigger,
             target: self.children(options.selector),
             container: self,
+            always: options.always,
             flex: true,
             start: function(e)
             {
                 if(options.dragCssClass) e.element.addClass(options.dragCssClass);
+                $.callEvent(options['start']);
             },
             drag: function(e)
             {
@@ -2148,7 +2254,7 @@
             },
             finish: function(e)
             {
-                if(options.dragCssClass) e.element.removeClass(options.dragCssClass);
+                if(options.dragCssClass && e.element) e.element.removeClass(options.dragCssClass);
                 $.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
             }
         });
@@ -2364,7 +2470,7 @@
             {
                 if (e.which == 27)
                 {
-                    var et = $.Event('escaping.bs.modal')
+                    var et = $.Event('escaping.zui.modal')
                     var result = this.$element.triggerHandler(et, 'esc')
                     if (result != undefined && (!result)) return
                     this.hide()
@@ -2554,13 +2660,15 @@
  * ======================================================================== */
 
 
-(function($)
+(function($, window)
 {
     'use strict';
 
     if (!$.fn.modal) throw new Error('Modal trigger requires modal.js');
 
-    // ONCE MODAL CLASS DEFINITION
+    var NAME = 'zui.modaltrigger';
+
+    // MODAL TRIGGER CLASS DEFINITION
     // ======================
     var ModalTrigger = function(options)
     {
@@ -2635,10 +2743,10 @@
         var $modal = $('#' + options.name);
         if ($modal.length)
         {
-            if (!this.isShown) $modal.off('.zui.modal');
+            if (!that.isShown) $modal.off('.zui.modal');
             $modal.remove();
         }
-        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body');
+        $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
 
         var bindEvent = function(optonName, eventName)
         {
@@ -2695,7 +2803,6 @@
         var readyToShow = function(delay)
         {
             if (typeof delay === 'undefined') delay = 300;
-            // $modal.removeClass('fade');
             setTimeout(function()
             {
                 $dialog = $modal.find('.modal-dialog');
@@ -2703,14 +2810,17 @@
                 {
                     $dialog.css('width', options.width);
                 }
-                if (options.height && options.height != 'auto') $dialog.css('height', options.height);
+                if (options.height && options.height != 'auto')
+                {
+                    $dialog.css('height', options.height);
+                    if(options.type === 'iframe') $body.css('height', $dialog.height() - $header.outerHeight());
+                }
                 that.ajustPosition(options.position);
-                // if(options.fade) $modal.addClass('fade');
                 $modal.removeClass('modal-loading');
 
                 if (options.type != 'iframe')
                 {
-                    $dialog.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', function()
+                    $dialog.off('resize.' + NAME).on('resize.' + NAME, function()
                     {
                         that.ajustPosition();
                     });
@@ -2768,7 +2878,6 @@
                 var frame = document.getElementById(iframeName);
                 frame.onload = frame.onreadystatechange = function()
                 {
-                    $modal.attr('ref', frame.contentWindow.location.href);
                     if (that.firstLoad) $modal.addClass('modal-loading');
                     if (this.readyState && this.readyState != 'complete') return;
                     that.firstLoad = false;
@@ -2780,6 +2889,7 @@
 
                     try
                     {
+                        $modal.attr('ref', frame.contentWindow.location.href);
                         var frame$ = window.frames[iframeName].$;
                         if (frame$ && options.height === 'auto' && options.size != 'fullscreen')
                         {
@@ -2801,12 +2911,12 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.zui.modaltrigger').on('resize.zui.modaltrigger', ajustFrameSize);
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                         }
 
                         frame$.extend(
                         {
-                            closeModal: that.close
+                            closeModal: window.closeModal
                         });
                     }
                     catch (e)
@@ -2819,18 +2929,25 @@
             {
                 $.get(options.url, function(data)
                 {
-                    var $data = $(data);
-                    if ($data.hasClass('modal-dialog'))
+                    try
                     {
-                        $dialog.replaceWith($data);
+                        var $data = $(data);
+                        if ($data.hasClass('modal-dialog'))
+                        {
+                            $dialog.replaceWith($data);
+                        }
+                        else if ($data.hasClass('modal-content'))
+                        {
+                            $dialog.find('.modal-content').replaceWith($data);
+                        }
+                        else
+                        {
+                            $body.wrapInner($data);
+                        }
                     }
-                    else if ($data.hasClass('modal-content'))
+                    catch(e)
                     {
-                        $dialog.find('.modal-content').replaceWith($data);
-                    }
-                    else
-                    {
-                        $body.wrapInner($data);
+                        $modal.html(data);
                     }
                     $modal.callEvent('loaded.zui.modal',
                     {
@@ -2851,16 +2968,20 @@
 
     ModalTrigger.prototype.close = function(callback, redirect)
     {
-        this.$modal.on('hidden.zui.modal', function()
+        if(callback || redirect)
         {
-            if ($.isFunction(callback)) callback();
-
-            if (typeof redirect === 'string')
+            this.$modal.on('hidden.zui.modal', function()
             {
-                if (redirect === 'this') window.location.reload();
-                else window.location = redirect;
-            }
-        }).modal('hide');
+                if ($.isFunction(callback)) callback();
+
+                if (typeof redirect === 'string')
+                {
+                    if (redirect === 'this') window.location.reload();
+                    else window.location = redirect;
+                }
+            });
+        }
+        this.$modal.modal('hide');
     };
 
     ModalTrigger.prototype.toggle = function(options)
@@ -2882,18 +3003,18 @@
         return $(this).each(function()
         {
             var $this = $(this);
-            var data = $this.data('zui.modaltrigger'),
+            var data = $this.data(NAME),
                 options = $.extend(
                 {
                     title: $this.attr('title') || $this.text(),
                     url: $this.attr('href'),
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
-            if (!data) $this.data('zui.modaltrigger', (data = new ModalTrigger(options)));
+            if (!data) $this.data(NAME, (data = new ModalTrigger(options)));
             if (typeof option == 'string') data[option](settings);
             else if (options.show) data.show(settings);
 
-            $this.on((options.trigger || 'click') + '.toggle.zui.modaltrigger', function(e)
+            $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e)
             {
                 data.toggle(options);
                 if ($this.is('a')) e.preventDefault();
@@ -2917,24 +3038,32 @@
         var modalType = typeof(modal);
         if (modalType === 'undefined')
         {
-            modal = $('.modal.modal-once');
+            modal = $('.modal.modal-trigger');
         }
         else if (modalType === 'string')
         {
-            modal = $('#' + modal).replace('##', '#');
+            modal = $(modal);
         }
         if (modal && (modal instanceof $)) return modal;
         return null;
     }
 
-    window.closeModal = function(callback, redirect, modal)
+    // callback, redirect, modal
+    window.closeModal = function(modal, callback, redirect)
     {
+        if($.isFunction(modal))
+        {
+            var oldModal = redirect;
+            redirect = callback;
+            callback = modal;
+            modal = oldModal;
+        }
         modal = getModal(modal);
         if (modal && modal.length)
         {
             modal.each(function()
             {
-                $(this).data('zui.modaltrigger').close(callback, redirect);
+                $(this).data(NAME).close(callback, redirect);
             });
         }
     };
@@ -2954,7 +3083,7 @@
         ajustModalPosition: window.ajustModalPosition
     });
 
-    $(document).on('click.zui.modaltrigger.data-api', '[data-toggle="modal"]', function(e)
+    $(document).on('click.' + NAME + '.data-api', '[data-toggle="modal"]', function(e)
     {
         var $this = $(this);
         var href = $this.attr('href');
@@ -2967,7 +3096,7 @@
         {}
         if (!$target || !$target.length)
         {
-            if (!$this.data('zui.modaltrigger'))
+            if (!$this.data(NAME))
             {
                 $this.modalTrigger(
                 {
@@ -2976,7 +3105,7 @@
             }
             else
             {
-                $this.trigger('.toggle.zui.modaltrigger');
+                $this.trigger('.toggle.' + NAME);
             }
         }
         if ($this.is('a'))
@@ -2984,7 +3113,7 @@
             e.preventDefault();
         }
     });
-}(window.jQuery));
+}(window.jQuery, window));
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
@@ -3239,6 +3368,9 @@
     var $tip  = this.tip()
     var title = this.getTitle()
 
+    if(this.options.tipId) $tip.attr('id', this.options.tipId)
+    if(this.options.tipClass) $tip.addClass(this.options.tipClass)
+
     $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
     $tip.removeClass('fade in top bottom left right')
   }
@@ -3426,8 +3558,6 @@
   Popover.prototype.setContent = function () {
     var $tip    = this.tip()
     var target = this.getTarget()
-
-    if(this.options.id) $tip.attr('id', this.options.id)
 
     if(target)
     {
@@ -5475,7 +5605,7 @@
  * ======================================================================== */
 
 
-+ function($, Math)
+(function($, Math)
 {
     'use strict';
 
@@ -5489,7 +5619,10 @@
     };
 
     Dashboard.DEFAULTS = {
-        height: 360
+        height: 360,
+        shadowType: 'circle',
+        sensitive: false,
+        circleShadowSize: 100
     };
 
     Dashboard.prototype.getOptions = function(options)
@@ -5506,10 +5639,10 @@
         this.$.on('click', '.remove-panel', function()
         {
             var panel = $(this).closest('.panel');
-            var name = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, "");
+            var name = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, '');
             var index = panel.attr('data-id');
 
-            if (tip == undefined || confirm(tip.format(name)))
+            if (tip === undefined || confirm(tip.format(name)))
             {
                 panel.parent().remove();
                 if (afterPanelRemoved && $.isFunction(afterPanelRemoved))
@@ -5522,17 +5655,21 @@
 
     Dashboard.prototype.handleRefreshEvent = function()
     {
-        this.$.on('.click', '.refresh-panel', function()
+        this.$.on('click', '.refresh-panel', function()
         {
             var panel = $(this).closest('.panel');
             refreshPanel(panel);
         });
-    }
+    };
 
     Dashboard.prototype.handleDraggable = function()
     {
         var dashboard = this.$;
-        var afterOrdered = this.options.afterOrdered;
+        var options = this.options;
+        var circleShadow = options.shadowType === 'circle';
+        var circleSize = options.circleShadowSize;
+        var halfCircleSize = circleSize/2;
+        var afterOrdered = options.afterOrdered;
 
         this.$.addClass('dashboard-draggable');
 
@@ -5542,8 +5679,10 @@
             event.stopPropagation();
         });
 
+        var pColClass;
         this.$.find('.panel-heading').mousedown(function(event)
         {
+            // console.log('--------------------------------');
             var panel = $(this).closest('.panel');
             var pCol = panel.parent();
             var row = panel.closest('.row');
@@ -5551,10 +5690,14 @@
             var pos = panel.offset();
             var dPos = dashboard.offset();
             var dColShadow = row.find('.dragging-col-holder');
+            var sWidth = panel.width(), sHeight = panel.height(), sX1, sY1, sX2, sY2, moveFn, dropCol, dropBefore, nextDropCol;
             if (!dColShadow.length)
             {
-                dColShadow = $("<div class='dragging-col-holder'><div class='panel'></div></div>").addClass(row.children().attr('class')).removeClass('dragging-col').appendTo(row);
+                dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').removeClass('dragging-col').appendTo(row);
             }
+
+            if(pColClass) dColShadow.removeClass(pColClass);
+            dColShadow.addClass(pColClass = pCol.attr('class'));
 
             dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
 
@@ -5563,36 +5706,62 @@
 
             dPanel.css(
             {
-                left: pos.left - dPos.left,
-                top: pos.top - dPos.top,
-                width: panel.width(),
-                height: panel.height()
+                left   : pos.left - dPos.left,
+                top    : pos.top - dPos.top,
+                width  : sWidth,
+                height : sHeight
             }).appendTo(dashboard).data('mouseOffset',
             {
                 x: event.pageX - pos.left + dPos.left,
                 y: event.pageY - pos.top + dPos.top
             });
 
+            if(circleShadow)
+            {
+                dPanel.addClass('circle');
+                setTimeout(function()
+                {
+                    dPanel.css(
+                    {
+                        left   : event.pageX - dPos.left - halfCircleSize,
+                        top    : event.pageY - dPos.top - halfCircleSize,
+                        width  : circleSize,
+                        height : circleSize
+                    }).data('mouseOffset',
+                    {
+                        x: dPos.left + halfCircleSize,
+                        y: dPos.top + halfCircleSize
+                    });
+                }, 100);
+            }
+
             $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
             event.preventDefault();
 
             function mouseMove(event)
             {
+                // console.log('......................');
                 var offset = dPanel.data('mouseOffset');
+                sX1 = event.pageX - offset.x;
+                sY1 = event.pageY - offset.y;
+                sX2 = sX1 + sWidth;
+                sY2 = sY1 + sHeight;
                 dPanel.css(
                 {
-                    left: event.pageX - offset.x,
-                    top: event.pageY - offset.y
+                    left: sX1,
+                    top: sY1
                 });
 
                 row.find('.dragging-in').removeClass('dragging-in');
-                var before = false;
-                row.children().each(function()
+                dropBefore = false;
+                dropCol = null;
+                var area = 0, thisArea;
+                row.children(':not(.dragging-col)').each(function()
                 {
                     var col = $(this);
-                    if (col.hasClass('dragging-col-holder'))
+                    if(col.hasClass('dragging-col-holder'))
                     {
-                        before = true;
+                        dropBefore = (!options.sensitive) || (area < 100);
                         return true;
                     }
                     var p = col.children('.panel');
@@ -5601,30 +5770,68 @@
                         pH = p.height();
                     var pX = pP.left,
                         pY = pP.top;
-                    var mX = event.pageX,
-                        mY = event.pageY;
 
-                    if (mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH))
+                    if(options.sensitive)
                     {
-                        var dCol = row.find('.dragging-col');
-                        col.addClass('dragging-in')
-                        if (before) dColShadow.insertAfter(col);
-                        else dColShadow.insertBefore(col);
-                        dashboard.addClass('dashboard-holding');
-                        return false;
+                        pX -= dPos.left;
+                        pY -= dPos.top;
+                        thisArea = getIntersectArea(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH);
+                        if(thisArea > 100 && thisArea > area && thisArea > Math.min(getRectArea(sX1, sY1, sX2, sY2), getRectArea(pX, pY, pX + pW, pY + pH))/3)
+                        {
+                            area = thisArea;
+                            dropCol = col;
+                        }
+                        // if(thisArea)
+                        // {
+                        //     console.log('panel ' + col.data('id'), '({0}, {1}, {2}, {3}), ({4}, {5}, {6}, {7})'.format(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH));
+                        // }
+                    }
+                    else
+                    {
+                        var mX = event.pageX,
+                            mY = event.pageY;
+
+                        if (mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH))
+                        {
+                            // var dCol = row.find('.dragging-col');
+                            dropCol = col;
+                            return false;
+                        }
                     }
                 });
+
+                if(dropCol)
+                {
+                    if(moveFn) clearTimeout(moveFn);
+                    nextDropCol= dropCol;
+                    moveFn = setTimeout(movePanel, 50);
+                }
                 event.preventDefault();
+            }
+
+            function movePanel()
+            {
+                if(nextDropCol)
+                {
+                    nextDropCol.addClass('dragging-in');
+                    if (dropBefore) dColShadow.insertAfter(nextDropCol);
+                    else dColShadow.insertBefore(nextDropCol);
+                    dashboard.addClass('dashboard-holding');
+                    moveFn = null;
+                    nextDropCol = null;
+                }
             }
 
             function mouseUp(event)
             {
+                if(moveFn) clearTimeout(moveFn);
+
                 var oldOrder = panel.data('order');
                 panel.parent().insertAfter(dColShadow);
                 var newOrder = 0;
                 var newOrders = {};
 
-                row.children(':not(.dragging-col-holder)').each(function(index)
+                row.children(':not(.dragging-col-holder)').each(function()
                 {
                     var p = $(this).children('.panel');
                     p.data('order', ++newOrder);
@@ -5696,20 +5903,40 @@
         {
             url: url,
             dataType: 'html'
-        })
-            .done(function(data)
-            {
-                panel.find('.panel-body').html(data);
-            })
-            .fail(function()
-            {
-                panel.addClass('panel-error');
-            })
-            .always(function()
-            {
-                panel.removeClass('panel-loading');
-                panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
-            });
+        }).done(function(data)
+        {
+            panel.find('.panel-body').html(data);
+        }).fail(function()
+        {
+            panel.addClass('panel-error');
+        }).always(function()
+        {
+            panel.removeClass('panel-loading');
+            panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
+        });
+    }
+
+    function getRectArea(x1, y1, x2, y2)
+    {
+        return Math.abs((x2 - x1) * (y2- y1));
+    }
+
+    function isPointInner(x, y, x1, y1, x2, y2)
+    {
+        return x >= x1 && x <= x2 && y >= y1 && y <= y2;
+    }
+
+    function getIntersectArea(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2)
+    {
+        var x1 = Math.max(ax1, bx1),
+            y1 = Math.max(ay1, by1),
+            x2 = Math.min(ax2, bx2),
+            y2 = Math.min(ay2, by2);
+        if(isPointInner(x1, y1, ax1, ay1, ax2, ay2) && isPointInner(x2, y2, ax1, ay1, ax2, ay2) && isPointInner(x1, y1, bx1, by1, bx2, by2) && isPointInner(x2, y2, bx1, by1, bx2, by2))
+        {
+            return getRectArea(x1, y1, x2, y2);
+        }
+        return 0;
     }
 
     Dashboard.prototype.init = function()
@@ -5737,7 +5964,7 @@
 
             refreshPanel($this);
         });
-    }
+    };
 
     $.fn.dashboard = function(option)
     {
@@ -5750,11 +5977,11 @@
             if (!data) $this.data('zui.dashboard', (data = new Dashboard(this, options)));
 
             if (typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.dashboard.Constructor = Dashboard;
-}(jQuery, Math);
+}(jQuery, Math));
 
 /* ========================================================================
  * ZUI: boards.js
@@ -5996,6 +6223,9 @@
         hoverClass: 'hover',
         colHoverClass: 'col-hover',
 
+        // Merge rows
+        mergeRows: false, // Merge rows
+
         // custom columns size
         // customizable: false, // enable customizable
         minColWidth: 20, // min width of columns
@@ -6014,27 +6244,15 @@
         options.tableClass = options.tableClass || '';
         options.tableClass = ' ' + options.tableClass + ' table-datatable';
 
-        if ($e.hasClass('table-bordered'))
+        $.each(['bordered', 'condensed', 'striped', 'condensed', 'fixed'], function(idx, cls)
         {
-            options.tableClass += ' table-bordered';
-        }
+            cls = 'table-' + cls;
+            if($e.hasClass(cls)) options.tableClass += ' ' + cls;
+        });
 
         if ($e.hasClass('table-hover') || options.rowHover)
         {
             options.tableClass += ' table-hover';
-        }
-
-        if ($e.hasClass('table-striped'))
-        {
-            options.tableClass += ' table-striped';
-        }
-        if ($e.hasClass('table-condensed'))
-        {
-            options.tableClass += ' table-condensed';
-        }
-        if ($e.hasClass('table-fixed'))
-        {
-            options.tableClass += ' table-fixed';
         }
 
         this.options = options;
@@ -6075,8 +6293,8 @@
                     rows: []
                 };
                 cols = data.cols;
-                var rows = data.rows,
-                    $th, $tr, $td, row, $t = this.$table;
+                var rows = data.rows, i,
+                    $th, $tr, $td, row, $t = this.$table, colSpan;
 
                 $t.find('thead > tr:first').children('th').each(function()
                 {
@@ -6090,7 +6308,8 @@
                         css: $th.attr('style'),
                         type: 'string',
                         ignore: $th.hasClass('ignore'),
-                        sort: !$th.hasClass('sort-disabled')
+                        sort: !$th.hasClass('sort-disabled'),
+                        mergeRows: $th.attr('merge-rows')
                     }, $th.data()));
                 });
 
@@ -6109,12 +6328,22 @@
                     $tr.children('td').each(function()
                     {
                         $td = $(this);
+                        colSpan = $td.attr('colspan') || 1;
                         row.data.push($.extend(
                         {
                             cssClass: $td.attr('class'),
                             css: $td.attr('style'),
-                            text: $td.html()
+                            text: $td.html(),
+                            colSpan: colSpan
                         }, $td.data()));
+
+                        if(colSpan > 1)
+                        {
+                            for(i = 1; i < colSpan; i++)
+                            {
+                                row.data.push({empty: true});
+                            }
+                        }
                     });
 
                     rows.push(row);
@@ -6194,7 +6423,7 @@
             dataRowSpan = '<div class="datatable-rows-span datatable-span"><div class="datatable-wrapper"><table class="table"></table></div></div>',
             dataHeadSpan = '<div class="datatable-head-span datatable-span"><div class="datatable-wrapper"><table class="table"><thead></thead></table></div></div>';
 
-        $datatable.children('.datatable-head, .datatable-rows').remove();
+        $datatable.children('.datatable-head, .datatable-rows, .scroll-wrapper').remove();
 
         // Set css class to datatable by options
         $datatable.toggleClass('sortable', options.sortable);
@@ -6317,6 +6546,11 @@
             for (i = 0; i < rowColLen; ++i)
             {
                 rowCol = row.data[i];
+                if(i > 0 && rowCol.empty)
+                {
+                    continue;
+                }
+
                 $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
                 if(i === 0 && checkable)
                 {
@@ -6347,6 +6581,7 @@
                 $td.html(rowCol.text)
                    .addClass(rowCol.cssClass)
                    .addClass(cols[i].colClass)
+                   .attr('colspan', rowCol.colSpan)
                    .attr(
                     {
                         'data-row'   : r,
@@ -6610,7 +6845,8 @@
                 syncChecks();
             });
 
-            this.$datatable.on('click', '.check-all', function()
+            var checkAllEventName = 'click.zui.datatable.check-all';
+            this.$datatable.off(checkAllEventName).on(checkAllEventName, '.check-all', function()
             {
                 $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
@@ -6692,6 +6928,55 @@
             });
 
             if(options.storage) that.sortTable();
+        }
+        else if (options.mergeRows)
+        {
+            this.mergeRows();
+        }
+    };
+
+    DataTable.prototype.mergeRows = function()
+    {
+        var $cells = this.$rowsSpans.find('.table > tbody > tr > td');
+        var cols = this.data.cols;
+        for(var i = 0; i < cols.length; i++)
+        {
+            var col = cols[i];
+            if(col.mergeRows)
+            {
+                var $cs = $cells.filter('[data-index="' + i + '"]');
+                if($cs.length > 1)
+                {
+                    var $lastCell, rowspan;
+                    $cs.each(function()
+                    {
+                        var $cell = $(this);
+                        if($lastCell)
+                        {
+                            if($cell.html() === $lastCell.html())
+                            {
+                                rowspan = $lastCell.attr('rowspan') || 1;
+                                if(typeof rowspan !== 'number')
+                                {
+                                    rowspan = parseInt(rowspan);
+                                    if(isNaN(rowspan)) rowspan = 1;
+                                }
+
+                                $lastCell.attr('rowspan', rowspan + 1).css('vertical-align', 'middle');
+                                $cell.remove();
+                            }
+                            else
+                            {
+                                $lastCell = $cell;
+                            }
+                        }
+                        else
+                        {
+                            $lastCell = $cell;
+                        }
+                    });
+                }
+            }
         }
     };
 
@@ -6829,11 +7114,12 @@
 
         var findMaxHeight = function($cells)
             {
-                var mx = 0;
+                var mx = 0, $cell;
                 $cells.css('height', 'auto');
                 $cells.each(function()
                 {
-                    mx = Math.max(mx, $(this).height());
+                    $cell = $(this);
+                    if(!$cell.attr('rowspan')) mx = Math.max(mx, $cell.height());
                 });
                 return mx;
             },

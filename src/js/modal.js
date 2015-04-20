@@ -181,7 +181,7 @@
             {
                 if (e.which == 27)
                 {
-                    var et = $.Event('escaping.bs.modal')
+                    var et = $.Event('escaping.zui.modal')
                     var result = this.$element.triggerHandler(et, 'esc')
                     if (result != undefined && (!result)) return
                     this.hide()

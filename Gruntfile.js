@@ -188,6 +188,11 @@ module.exports = function(grunt)
             {
                 files: 'Gruntfile.js',
                 tasks: ['jshint:basic']
+            },
+            docless:
+            {
+                files: 'src/less/doc.less',
+                tasks: ['build:docless']
             }
         }
     });
@@ -222,7 +227,7 @@ module.exports = function(grunt)
                     build =
                     {
                       title: buildLib.name,
-                      dest: "dist/lib/" + name + "/",
+                      dest: 'dist/lib/' + name + '/',
                       filename: name,
                       includes: [name]
                     };
@@ -242,8 +247,6 @@ module.exports = function(grunt)
             {
                 grunt.task.run(['build:' + bundle + ':' + lint]);
             });
-
-            return;
         }
 
         lint = lint === 'lint';

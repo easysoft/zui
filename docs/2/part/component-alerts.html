@@ -1,0 +1,86 @@
+<p>消息框能够轻松展示一些需要引起用户注意的内容。</p>
+<h3>不同感情色彩的消息框</h3>
+<p>这里提供了5中色彩的消息框用于不同场合。</p>
+<div class="example" contenteditable="true">
+  <div class="alert">
+    <strong>你好!</strong> 有一些内容你可能需要知道。
+  </div>
+  <div class="alert alert-success">
+    <strong>太好了!</strong> 一切已准备就绪。
+  </div>
+  <div class="alert alert-info">
+    <strong>Hi!</strong> 这条消息可能需要你注意。
+  </div>
+  <div class="alert alert-warning">
+    <strong>注意!</strong> 看起来遇到一些问题。
+  </div>
+  <div class="alert alert-danger">
+    <strong>不好了!</strong> 确实遇到了问题，请立即处理吧。
+  </div>
+</div>
+<pre class="prettyprint">
+&lt;div class=&quot;alert&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-danger&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-success&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-warning&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-info&quot;&gt;...&lt;/div&gt;
+</pre>
+<h3>使用图标</h3>
+<p>
+在消息框中使用醒目的合适的图标能更容易让用户接收。需要使<code>.alert</code>配合<code>.with-icon</code>参数一起使用。</p>
+<div class="example" contenteditable="true">
+  <div class="alert with-icon content">
+    <strong>你好!</strong> 有一些内容你可能需要知道。
+  </div>
+  <div class="alert alert-success with-icon content">
+    <strong>太好了!</strong> 一切已准备就绪。
+  </div>
+  <div class="alert alert-info with-icon content">
+    <strong>Hi!</strong> 这条消息可能需要你注意。
+  </div>
+  <div class="alert alert-warning with-icon content">
+    <strong>注意!</strong> 看起来遇到一些问题。
+  </div>
+  <div class="alert alert-danger with-icon content">
+    <strong>不好了!</strong> 确实遇到了问题，请立即处理吧。
+  </div>
+</div>
+<pre class="prettyprint">
+&lt;div class=&quot;alert alert-success with-icon&quot;&gt;
+  &lt;i class=&quot;icon-ok-sign&quot;&gt;&lt;/i&gt;
+  &lt;div class=&quot;content&quot;&gt;...&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+<h3>块级消息</h3>
+<p>块级消息框将没有外边距，适合用在页面顶部或者浮现在页面之上</p>
+<div class=
+"example no-padding alert alert-success alert-block with-icon content">
+  <strong>太好了!</strong> 一切已准备就绪。
+</div>
+<h3>消息框中的链接</h3>
+<p>当消息框中包含链接时，推荐使用工具栏<code>.alert-link</code>来使得链接的样式与消息框类型保持一致。</p>
+<div class="example">
+  <div class="alert with-icon content">
+    <strong>你好!</strong> <a class="alert-link" href="###">有一些内容</a>你可能需要知道。
+  </div>
+  <div class="alert with-icon alert-success content">
+    <strong>太好了!</strong> 一切已<a class="alert-link" href="###">准备就绪</a>。
+  </div>
+  <div class="alert with-icon alert-info content">
+    <strong>Hi!</strong> 这条消息可能<a class="alert-link" href="###">需要你注意</a>。
+  </div>
+  <div class="alert with-icon alert-warning content">
+    <strong>注意!</strong> 看起来遇到<a class="alert-link" href="###">一些问题</a>。
+  </div>
+  <div class="alert with-icon alert-danger content">
+    <strong>不好了!</strong> 确实遇到了问题，请<a class="alert-link" href="###">立即处理</a>吧。
+  </div>
+</div>
+<h3>可以关闭的消息框</h3>
+<p>可以用一个可选的<code>.alert-dismissable</code>和关闭按钮。</p>
+<div class="example alert alert-warning alert-dismissable" contenteditable=
+"true">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden=
+  "true">×</button> <strong>注意!</strong> 看起来遇到一些问题。
+  <p>您可以点击右上角的 来关闭这条消息。</p>
+</div>

@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-(function(window, $)
+(function($)
 {
     'use strict';
     var browseHappyTip = {
@@ -87,13 +87,13 @@
         return ( /*@cc_on!@*/ false);
     };
 
-    window.browser = new Browser();
+    $.browser = new Browser();
 
     $(function()
     {
         if (!$('body').hasClass('disabled-browser-tip'))
         {
-            window.browser.tip();
+            $.browser.tip();
         }
     });
-}(window, jQuery));
+}(jQuery));

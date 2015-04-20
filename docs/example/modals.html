@@ -6,13 +6,22 @@
   <link href="../css/example.css" rel="stylesheet">
 
   <script src="../../assets/jquery.js"></script>
-  <script src="../../dist/js/zui.js"></script>
+  <script src="../js/zui.js"></script>
   <script src="../../assets/google-code-prettify/prettify.js"></script>
 
 
   <link href="../css/example.css" rel="stylesheet">
   <style>.example > .modal {display: block; position: static;}</style>
   <script src="../assets/js/example.js"></script>
+  <script>
+$(function()
+{
+    $('#jsHideModal').click(function()
+    {
+        $('#myModal').modal('hide');
+    });
+});
+  </script>
 </head>
 <body>
 <article>
@@ -300,6 +309,10 @@
     <br>
     <a href="partial/dialog.html" data-type='ajax' data-toggle='modal' class='btn btn-success'><i class='icon-heart'></i> 打开ajax对话框</a>
 
+    <a href="partial/dialog.html" data-type='ajax' data-toggle='modal' class='btn btn-success' data-size='fullscreen'><i class='icon-heart'></i> 打开全屏的ajax对话框</a>
+
+    <a href="http://www.kuaidi100.com/frame/790px.html" data-type='iframe' data-toggle='modal' class='btn btn-success' data-width="600" data-height="750"><i class='icon-heart'></i> 跨域远程内容</a>
+
     <h3>变化</h3>
     <h4>选项</h4>
     <p>aria-labelledby="myModalTitle"属性指向模态框标题。</p>
@@ -455,6 +468,7 @@
         <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。<br>雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn" id="jsHideModal">测试.modal('hide')</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         <button type="button" class="btn btn-primary">确定</button>
       </div>

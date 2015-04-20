@@ -52,8 +52,6 @@
     var $tip    = this.tip()
     var target = this.getTarget()
 
-    if(this.options.id) $tip.attr('id', this.options.id)
-
     if(target)
     {
       if(target.find('.arrow').length < 1)

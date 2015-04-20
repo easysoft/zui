@@ -1,0 +1,127 @@
+<h3>UI元素类型及定义</h3>
+<p>
+ZUI中包含各种各样的界面元素（或控件），例如按钮、列表、表格等，甚至一些特定场景用到的一组元素也会在ZUI中精心设计，例如评论列表。为了更好的展示我们的设计理念，把这些元素归为如下四类：</p>
+<ul>
+  <li><strong>基本控件</strong>：用来构建网页应用的基本界面单元，例如按钮、文本标签、输入框等。</li>
+  <li><strong>组件</strong>：通过一个以上的基本控件组合而成的较复杂的界面单元。例如表单、菜单、表格等。</li>
+  <li><strong>Javascript
+  组件</strong>：这些组件要正常使用会使用到Javascript。某些Javascript组件需要手动调用来启用。</li>
+  <li><strong>视图</strong>：视图是将基本控件和组件组合使用来展现网站上的通用内容，例如评论视图及文章预览列表视图。</li>
+</ul>
+<p>ZUI中的大多数界面元素都有不同的子类型、状态及参数。关于类型、状态及参数的定义如下：</p>
+<ul>
+  <li>
+  <strong>类型</strong>：同一种界面单元的不同类型，例如按钮有主要按钮、次要按钮及危险按钮等，导航菜单类型有普通导航及顶部固定导航等。任何时候都应该只为同一个界面元素指定一种类型，默认类型无需指定。</li>
+  <li>
+  <strong>状态</strong>：状态为同一种界面单元允许在不同的状态中切换，例如按钮有正常状态和不可用状态，下拉菜单有展开及收拢状态，菜单项目有选中和未选中状态等。在同一个界面元素中允许叠加多个状态。</li>
+  <li>
+  <strong>参数</strong>：参数作为界面单元如何展现提供依据，例如表格是否隔行变色，是否启用鼠标悬停等。可以同时指定多个参数。</li>
+</ul>
+<h3>通用状态和参数</h3>
+<p>很多状态和参数在不同的控件或组件中具有一致的用法和相同的含义。在ZUI中，这些通用的状态和参数具有固定的名字（CSS 类名）。</p>
+<p>常用通用状态如下：</p>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th style="width: 80px">名称</th>
+      <th>说明</th>
+      <th>常见使用对象</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>.active</code></td>
+      <td>指示控件或者其子项目已经被激活。</td>
+      <td>导航条目、下拉菜单条目、菜单列表、按钮组中可以激活的按钮等。</td>
+    </tr>
+    <tr>
+      <td><code>.hover</code></td>
+      <td>指示控件正处于鼠标悬停状态，在CSS中相对于<code>:hover</code>选择器。</td>
+      <td>少部分需要Javascript处理的控件。</td>
+    </tr>
+    <tr>
+      <td><code>.focus</code></td>
+      <td>指示控件正处于鼠标悬停状态，在CSS中相对于<code>:focus</code>选择器。</td>
+      <td>少部分需要Javascript处理的控件。</td>
+    </tr>
+    <tr>
+      <td><code>.disabled</code></td>
+      <td>
+      指示控件处于不可用状态，通常与DOM属性<code>disabled=&quot;disabled&quot;</code>一起使用。</td>
+      <td>按钮、可以点击菜单项目、超链接、表单元素等。</td>
+    </tr>
+    <tr>
+      <td><code>.in</code></td>
+      <td>
+      用于控制控件显示或消失的动画过程。在控件显示时指示控件已准备完成CSS动画并完全显示；在控件消失时如果移除该状态指示控件已准备执行控件消失动画；与状态<code>.collapse</code>一起使用时表示处于完全展开状态。</td>
+      <td>标签页、下拉菜单等</td>
+    </tr>
+    <tr>
+      <td><code>.open</code></td>
+      <td>指示隐藏的内容已经完全展示。</td>
+      <td>下拉菜单等。</td>
+    </tr>
+    <tr>
+      <td><code>.collapse</code></td>
+      <td>指示当前组件可以被折叠或展开。与状态<code>.in</code>一起出现时表示组件已被展开，没有此状态则反之。</td>
+      <td>响应式导航、折叠菜单等。</td>
+    </tr>
+    <tr>
+      <td><code>.collapsing</code></td>
+      <td>指示当前组件正处于折叠或展开的动画过程中。</td>
+      <td>响应式导航、折叠菜单等。</td>
+    </tr>
+  </tbody>
+</table>
+<p>常见的通用参数如下：</p>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th style="width: 80px">名称</th>
+      <th>说明</th>
+      <th>常见使用对象</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>.bordered</code></td>
+      <td>使得组件具备边框样式。</td>
+      <td>表格等。</td>
+    </tr>
+    <tr>
+      <td><code>.borderless</code></td>
+      <td>移除控件的边框样式。</td>
+      <td>表格等。</td>
+    </tr>
+    <tr>
+      <td><code>.inverse</code></td>
+      <td>指示组件使用与默认颜色样式相对的样式。</td>
+      <td>导航等。</td>
+    </tr>
+    <tr>
+      <td><code>.fixed</code></td>
+      <td>指示当前组件位置被固定，不收页面交互影响。</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>.with-icon</code></td>
+      <td>指示当前组件在显示内容时能够额外显示一个图标。</td>
+      <td>消息框等。</td>
+    </tr>
+    <tr>
+      <td><code>.with-padding</code></td>
+      <td>指示当前组件内容显示区域包含更多的边距。</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<h3>界面元素的命名</h3>
+<h4>命名原则</h4>
+<ul>
+  <li>
+  所有控件、组件、视图、模块和行为的命名都应该使用最常见的名称，准确提现界面元素功能。例如菜单应该命名为menu，而不是navigation。</li>
+  <li>
+  类型、状态及参数的命名均为元素名加上类型（或状态及参数名）前缀，中间用间隔号分隔，例如固定位置的菜单为<code>.menu-fixed</code>。对于通用状态或参数可以省略前缀，例如一个菜单项目处于激活状态，则只需命名为<code>.active</code>，而不许命名为<code>.menu-active</code>。</li>
+  <li>
+  所有控件、组件、视图、模块和行为的命名均不加与当前元素功能无关的前缀和额外命名，例如一个导航菜单命名为<code>.nav</code>，而不增加额外命名为<code>.ui.nav</code>或者<code>.zui.nav</code>。</li>
+</ul>

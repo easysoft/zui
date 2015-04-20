@@ -99,7 +99,7 @@
 
   .panel
   {
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   .panel-body
@@ -135,8 +135,8 @@
 
   .panel-dragging
   {
-    border: 1px solid rgba(255,255,255,0.1);
-    background:rgba(0,0,0,0.3);
+    border: 1px solid #fff;
+    background:rgba(0,0,0,0.1);
     box-shadow: none!important;
     color:#fff;
 
@@ -147,10 +147,20 @@
   {
     position: absolute;
     border: 2px solid rgba(255,255,255,0.9);
-    box-shadow: 1px 2px 15px rgba(0,0,0,0.5)!important;
+    box-shadow: 1px 5px 15px rgba(0,0,0,0.5)!important;
     background: rgba(255,255,255,0.5);
+    cursor: move;
 
     > * {.opacity(0.7);}
+
+    &.circle
+    {
+      overflow: hidden;
+      transition: width 0.2s, height 0.2s;
+      border-radius: 50%;
+
+      .panel-actions {display: none}
+    }
   }
 
   // .dragging-in:before {box-sizing: content-box; content:' '; display: block; position: absolute; left: -2px; top: -10px; width: 2px; height: 100%; background-color: rgba(0,0,0, 0.15); border: 1px solid #eee;}
@@ -163,5 +173,25 @@
     .dragging-col-holder {display: block;}
 
     .dragging-col {display: none}
+  }
+}
+
+.dashboard-inverse
+{
+  background-color: @color-primary;
+
+  .panel
+  {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  }
+
+  .panel-dragging
+  {
+    background:rgba(0,0,0,0.3);
+  }
+
+  .panel-dragging-shadow
+  {
+    box-shadow: 1px 2px 15px rgba(0,0,0,0.5)!important;
   }
 }

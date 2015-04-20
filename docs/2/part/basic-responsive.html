@@ -1,0 +1,123 @@
+<p>现代web应用应该支持响应式布局。栅格系统已提供良好的基础构建响应式布局页面，同时也提供一些辅助工具类来控制内容在不同设备的展现方式。</p>
+<p>在ZUI中提供针对4中不同尺寸的设备屏幕进行分别控制。</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>屏幕</th>
+      <th>名称</th>
+      <th>尺寸</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>超小屏幕（手机）</td>
+      <td>xs</td>
+      <td>&lt;768px</td>
+    </tr>
+    <tr>
+      <td>小屏幕（平板）</td>
+      <td>sm</td>
+      <td>&gt;=768px</td>
+    </tr>
+    <tr>
+      <td>中等屏幕（笔记本电脑）</td>
+      <td>md</td>
+      <td>&gt;=992px</td>
+    </tr>
+    <tr>
+      <td>大屏幕（桌面电脑）</td>
+      <td>lg</td>
+      <td>&gt;=1200px</td>
+    </tr>
+  </tbody>
+</table>
+<p>针对4种屏幕类型各定义两种辅助类来在不同的设备上显示或隐藏内容。</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>超小屏幕</th>
+      <th>小屏幕</th>
+      <th>中等屏幕</th>
+      <th>大屏幕</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>.visible-xs</th>
+      <td>可见</td>
+      <td>隐藏</td>
+      <td>隐藏</td>
+      <td>隐藏</td>
+    </tr>
+    <tr>
+      <th>.visible-sm</th>
+      <td>隐藏</td>
+      <td>可见</td>
+      <td>隐藏</td>
+      <td>隐藏</td>
+    </tr>
+    <tr>
+      <th>.visible-md</th>
+      <td>隐藏</td>
+      <td>隐藏</td>
+      <td>可见</td>
+      <td>隐藏</td>
+    </tr>
+    <tr>
+      <th>.visible-lg</th>
+      <td>隐藏</td>
+      <td>隐藏</td>
+      <td>隐藏</td>
+      <td>可见</td>
+    </tr>
+    <tr>
+      <th>.hidden-xs</th>
+      <td>隐藏</td>
+      <td>可见</td>
+      <td>可见</td>
+      <td>可见</td>
+    </tr>
+    <tr>
+      <th>.hidden-sm</th>
+      <td>可见</td>
+      <td>隐藏</td>
+      <td>可见</td>
+      <td>可见</td>
+    </tr>
+    <tr>
+      <th>.hidden-md</th>
+      <td>可见</td>
+      <td>可见</td>
+      <td>隐藏</td>
+      <td>可见</td>
+    </tr>
+    <tr>
+      <th>.hidden-lg</th>
+      <td>可见</td>
+      <td>可见</td>
+      <td>可见</td>
+      <td>隐藏</td>
+    </tr>
+  </tbody>
+</table>
+<p>
+其中显示辅助类<code>.visible-xs</code>、<code>.visible-sm</code>、<code>.visible-md</code>、<code>.visible-lg</code>可以组合使用，同理对于隐藏辅助类也可以组合使用以达到不同的效果。但不要将显示辅助类和隐藏辅助类混合使用。</p>
+<p>ZUI也提供用来控制打印机的显示与隐藏的辅助类。显示和隐藏不能同时使用。</p>
+<ul>
+  <li><code>.visible-print</code>：在打印时显示，在浏览器正常浏览时隐藏。</li>
+  <li><code>.hidden-print</code>：在浏览器正常浏览时显示，在打印时隐藏。</li>
+</ul>
+<h3>禁用响应式布局</h3>
+<p>有时你所开发应用仅针对一个设备或平台，并不需要响应式布局。即使这样，也建议你使用响应式布局，因为不需要额外的代码，而且为跨屏提供了可能性。</p>
+<p>在ZUI中并没用一个全局的开关来控制是否启用响应式布局。如果确实要禁用该功能，请参考下面的建议：</p>
+<ul>
+  <li>移除 <code>&lt;meta name=&quot;viewport&quot;
+  content=&quot;width=device-width, initial-scale=1&quot;&gt;</code>
+  标签，禁用移动设备缩放可视窗口尺寸。</li>
+  <li>
+  避免使用一些响应式工具类，例如<code>.visible-xs</code>、<code>.visible-sm</code>、<code>.visible-md</code>、<code>.visible-lg</code>等。</li>
+  <li>当使用栅格系统时避免使用
+  <code>.col-sm-*</code>、<code>.col-md-*</code>、<code>.col-lg-*</code>，统一使用
+  <code>.col-xs-*</code>。</li>
+</ul>

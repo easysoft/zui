@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
   "main": "index.html",
   "directories":
@@ -404,6 +404,15 @@
       },
       "ver": "1.0.0"
     },
+    "icons.json":
+    {
+      "name": "图标集数据",
+      "src":
+      {
+        "resource": ["src//fonts//icons.json"]
+      },
+      "ver": "1.3.0"
+    },
     "icons":
     {
       "name": "图标",
@@ -524,7 +533,7 @@
       "src":
       {
         "less": ["src/less/components/alerts.less"],
-        "js": ["sr/js/alert.js"]
+        "js": ["src/js/alert.js"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
@@ -1245,6 +1254,19 @@
       "ver": "1.0.0",
       "dpds": ["setting"]
     },
+    "doc":
+    {
+      "name": "文档",
+      "src":
+      {
+        "less": ["src/less/doc.less"],
+        "js": ["src/js/doc.js"]
+      },
+      "desc": "ZUI文档依赖样式和工具",
+      "ver": "1.3.0",
+      "dpds": ["setting", "icons.json"],
+      "custom": true
+    },
     "autotrigger":
     {
       "name": "自动触发器",
@@ -1265,7 +1287,7 @@
       },
       "desc": "ZUI的色彩预览样式",
       "ver": "1.0.0",
-      "dpds": ["colorset", "mixins", "doc"],
+      "dpds": ["colorset", "mixins"],
       "custom": true
     },
     "zentao.variables":
@@ -1293,6 +1315,25 @@
       {
         "less": ["src/apps/chanzhi/less/controls/icons.less"]
       },
+      "custom": true
+    },
+    "ranzhi.variables":
+    {
+      "name": "ranzhi variables",
+      "src":
+      {
+        "less": ["src/apps/ranzhi/less/basic/variables.less"]
+      },
+      "custom": true
+    },
+    "docless":
+    {
+      "name": "docless",
+      "src":
+      {
+        "less": ["src/less/doc.less"]
+      },
+      "dpds": ["setting"],
       "custom": true
     }
   },
@@ -1330,6 +1371,15 @@
       "dest": "dist/lib/calendar/",
       "filename": "zui.calendar",
       "includes": ["calendar"],
+      "basicDpds": ["setting"],
+      "ignoreDpds": true
+    },
+    "board":
+    {
+      "title": "Board",
+      "dest": "dist/lib/board/",
+      "filename": "zui.board",
+      "includes": ["board"],
       "basicDpds": ["setting"],
       "ignoreDpds": true
     },
@@ -1434,14 +1484,14 @@
     "separate":
     {
       "title": "separate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array", "autotrigger", "chosenicons", "hotkey"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chartjs", "array", "autotrigger", "chosenicons", "hotkey", "board"]
     },
     "dist":
     {
       "title": "dist",
       "bundles": ["standard", "lite", "theme", "separate"]
     },
-    "doc":
+    "doczui":
     {
       "title": "document",
       "dest": "docs/",
@@ -1449,6 +1499,23 @@
       "subdirectories": true,
       "bootstrapStatement": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger", "chosenicons"]
+    },
+    "doc":
+    {
+      "title": "new document",
+      "dest": "docs/2/",
+      "filename": "doc",
+      "subdirectories": true,
+      "includes": ["doc"],
+      "bundles": ["doczui"]
+    },
+    "docless":
+    {
+      "title": "new document",
+      "dest": "docs/2/",
+      "filename": "doc",
+      "subdirectories": true,
+      "includes": ["docless"]
     },
     "zentao":
     {
@@ -1458,8 +1525,26 @@
       "subdirectories": true,
       "bootstrapStatement": true,
       "includes": [
-        "jqueryex", "string", "resize", "date", "store", "basic", "zentao.variables", "transition", "animations", "utilities", "scaffolding", "grid", "typography.basic", "header", "button", "divider", "labels", "icons", "close", "inputgroups", "table.basic", "table.colors", "listgroup", "panels.basic", "collapse", "dropdowns", "alerts.basic", "forms", "code", "navs", "modals", "tooltip", "popovers", "tab", "card", "article", "sortable", "bootbox", "draggable", "droppable"
+        "jqueryex", "string", "resize", "date", "store", "basic", "zentao.variables", "transition", "animations", "utilities", "scaffolding", "grid", "typography.basic", "header", "button", "divider", "labels", "icons", "browser", "close", "inputgroups", "table.basic", "table.colors", "listgroup", "panels.basic", "collapse", "dropdowns", "alerts.basic", "forms", "code", "navs", "modals", "tooltip", "popovers", "tab", "card", "article", "sortable", "bootbox", "draggable", "droppable"
       ]
+    },
+    "zentaochosen":
+    {
+      "title": "Chosen",
+      "dest": "build/zentao/chosen/",
+      "filename": "chosen",
+      "includes": ["chosen"],
+      "basicDpds": ["setting", "icons.variables", "zentao.variables"],
+      "ignoreDpds": true
+    },
+    "zentaokindeditor":
+    {
+      "title": "Kindeditor",
+      "dest": "build/zentao/kindeditor/",
+      "filename": "kindeditor",
+      "includes": ["kindeditor"],
+      "basicDpds": ["setting", "zentao.variables"],
+      "ignoreDpds": true
     },
     "chanzhi":
     {
@@ -1477,7 +1562,16 @@
       "filename": "zui.yidou",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic", "datatable"]
+      "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic", "datatable"]
+    },
+    "ranzhi":
+    {
+      "title": "zui for ranzhi",
+      "dest": "build/ranzhi/",
+      "filename": "zui.ranzhi",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": ["jqueryex", "string", "resize", "date", "basic", "ranzhi.variables", "utilities", "animations", "draggable", "board", "hotkeys", "scaffolding", "grid", "typography", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table", "panels", "forms", "code", "pager.basic", "navs", "navbars", "device", "transition", "alerts.basic", "button", "button.group", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article", "comment", "list", "card", "datatable", "scrollbars", "dashboard", "imgcutter", "menu", "carousel", "listgroup", "progressbar"]
     }
   }
 }

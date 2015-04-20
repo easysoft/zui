@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.2.0 - 2014-11-18
+ * ZUI - v1.2.1 - 2014-12-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -154,7 +154,7 @@ a.highlight-primary:hover {
 }
 a.list-group-item:hover,
 a.list-group-item:focus {
-  color: #333;
+  color: #353535;
   text-decoration: none;
   background-color: #f9ebef;
 }
@@ -347,8 +347,8 @@ table.tablesorter thead tr .headerSortDown:after {
   border-left-color: #fff;
 }
 .datetimepicker td.day.today {
-  background-color: #e48600 !important;
-  border-color: #e48600 !important;
+  background-color: #f39c11 !important;
+  border-color: #f39c11 !important;
 }
 .datetimepicker td.day.active {
   background-color: #ca011b !important;
@@ -359,7 +359,7 @@ table.tablesorter thead tr .headerSortDown:after {
 }
 .datetimepicker td.day.today:hover,
 .datetimepicker td.day.today.active:hover {
-  background-color: #b16800 !important;
+  background-color: #c77e0a !important;
 }
 .ke-container.focus {
   border-color: #740a18 !important;
@@ -382,10 +382,6 @@ table.tablesorter thead tr .headerSortDown:after {
 }
 .comment:hover > .content > .actions > a {
   color: #740a18;
-}
-.card:hover a,
-a.card:hover {
-  color: #2e0409;
 }
 
 /*# sourceMappingURL=zui-theme.css.map */
