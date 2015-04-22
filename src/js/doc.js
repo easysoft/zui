@@ -53,6 +53,7 @@
     };
     if(debug) window.dataset = dataset;
 
+    var documentTitle = 'ZUI';
     var sectionsShowed;
     var queryGaCallback;
     var scrollBarWidth = -1;
@@ -194,6 +195,7 @@
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
             section.chapter = chapterName;
+            section.chapterName = chapter.name;
             var id = chapterName + '-' + section.id;
             var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
             $tpl.attr({
@@ -676,6 +678,8 @@
             style['max-height'] = '';
             $page.css(style);
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
+
+            window.document.title = documentTitle;
             window.location.hash = '';
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
@@ -697,6 +701,8 @@
         // Send ga data
         var pageUrl = '#' + section.chapter + '/' + section.id;
         if(topic) pageUrl += '/' + topic;
+        console.log(section);
+        window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
         if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
 
@@ -825,6 +831,8 @@
     };
 
     $(function() {
+        documentTitle = window.document.title;
+
         var stopPropagation = function(e) {
             e.stopPropagation();
         }
