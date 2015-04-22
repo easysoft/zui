@@ -488,16 +488,18 @@
                         weight = 100;
                         break;
                     default:
-                        if(section.name.toLowerCase().includes(keyVal)) {
+                        var sectionName = section.name.toLowerCase();
+                        if(sectionName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['section', 'name'];
-                            weight = 80;
+                            weight = sectionName.startsWith(keyVal) ? 85 : 80;
                             break;
                         }
-                        if(chapter.name.toLowerCase().includes(keyVal)) {
+                        var chapterName = chapter.name.toLowerCase();
+                        if(chapterName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['chapter', 'name'];
-                            weight = 70;
+                            weight = chapterName.startsWith(keyVal) ? 75 : 70;
                             break;
                         }
                         if(keyVal.length > 1) {
