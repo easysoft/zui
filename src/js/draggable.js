@@ -41,9 +41,10 @@
             BEFORE = 'before',
             DRAG = 'drag',
             FINISH = 'finish',
-            setting = this.options;
+            setting = this.options,
+            startPos, cPos, startOffset, mousePos, moved;
 
-        $e.mousedown(function(event)
+        var mouseDown = function(event)
         {
             if (setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE]))
             {
@@ -57,18 +58,17 @@
 
             var $container = $(setting.container),
                 pos = $e.offset();
-            var cPos = $container.offset(),
-                startPos = {
-                    x: event.pageX,
-                    y: event.pageY
-                },
-                startOffset = {
-                    x: event.pageX - pos.left + cPos.left,
-                    y: event.pageY - pos.top + cPos.top
-                };
-            var mousePos = $.extend(
-            {}, startPos);
-            var moved = false;
+            cPos = $container.offset();
+            startPos = {
+                x: event.pageX,
+                y: event.pageY
+            };
+            startOffset = {
+                x: event.pageX - pos.left + cPos.left,
+                y: event.pageY - pos.top + cPos.top
+            };
+            mousePos = $.extend({}, startPos);
+            moved = false;
 
             $e.addClass('drag-ready');
             $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
@@ -77,96 +77,105 @@
             {
                 event.stopPropagation();
             }
+        };
 
-            function mouseMove(event)
+        var mouseMove = function(event)
+        {
+            moved = true;
+            var mX = event.pageX,
+                mY = event.pageY;
+            var dragPos = {
+                left: mX - startOffset.x,
+                top: mY - startOffset.y
+            };
+
+            $e.removeClass('drag-ready').addClass('dragging');
+            if (setting.move)
             {
-                moved = true;
-                var mX = event.pageX,
-                    mY = event.pageY;
-                var dragPos = {
-                    left: mX - startOffset.x,
-                    top: mY - startOffset.y
-                };
-
-                $e.removeClass('drag-ready').addClass('dragging');
-                if (setting.move)
-                {
-                    $e.css(dragPos);
-                }
-
-                if (setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG]))
-                {
-                    setting[DRAG](
-                    {
-                        event: event,
-                        element: $e,
-                        startOffset: startOffset,
-                        pos: dragPos,
-                        offset:
-                        {
-                            x: mX - startPos.x,
-                            y: mY - startPos.y
-                        },
-                        smallOffset:
-                        {
-                            x: mX - mousePos.x,
-                            y: mY - mousePos.y
-                        }
-                    });
-                }
-                mousePos.x = mX;
-                mousePos.y = mY;
-
-                if (setting.stopPropagation)
-                {
-                    event.stopPropagation();
-                }
+                $e.css(dragPos);
             }
 
-            function mouseUp(event)
+            if (setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG]))
             {
-                $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
-                if (!moved)
+                setting[DRAG](
                 {
-                    $e.removeClass('drag-ready');
-                    return;
-                }
-                var endPos = {
-                    left: event.pageX - startOffset.x,
-                    top: event.pageY - startOffset.y
-                };
-                $e.removeClass('drag-ready').removeClass('dragging');
-                if (setting.move)
-                {
-                    $e.css(endPos);
-                }
-
-                if (setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH]))
-                {
-                    setting[FINISH](
+                    event: event,
+                    element: $e,
+                    startOffset: startOffset,
+                    pos: dragPos,
+                    offset:
                     {
-                        event: event,
-                        element: $e,
-                        pos: endPos,
-                        offset:
-                        {
-                            x: event.pageX - startPos.x,
-                            y: event.pageY - startPos.y
-                        },
-                        smallOffset:
-                        {
-                            x: event.pageX - mousePos.x,
-                            y: event.pageY - mousePos.y
-                        }
-                    });
-                }
-                event.preventDefault();
-                if (setting.stopPropagation)
-                {
-                    event.stopPropagation();
-                }
+                        x: mX - startPos.x,
+                        y: mY - startPos.y
+                    },
+                    smallOffset:
+                    {
+                        x: mX - mousePos.x,
+                        y: mY - mousePos.y
+                    }
+                });
             }
-        });
+            mousePos.x = mX;
+            mousePos.y = mY;
+
+            if (setting.stopPropagation)
+            {
+                event.stopPropagation();
+            }
+        };
+
+        var mouseUp = function(event)
+        {
+            $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+            if (!moved)
+            {
+                $e.removeClass('drag-ready');
+                return;
+            }
+            var endPos = {
+                left: event.pageX - startOffset.x,
+                top: event.pageY - startOffset.y
+            };
+            $e.removeClass('drag-ready').removeClass('dragging');
+            if (setting.move)
+            {
+                $e.css(endPos);
+            }
+
+            if (setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH]))
+            {
+                setting[FINISH](
+                {
+                    event: event,
+                    element: $e,
+                    pos: endPos,
+                    offset:
+                    {
+                        x: event.pageX - startPos.x,
+                        y: event.pageY - startPos.y
+                    },
+                    smallOffset:
+                    {
+                        x: event.pageX - mousePos.x,
+                        y: event.pageY - mousePos.y
+                    }
+                });
+            }
+            event.preventDefault();
+            if (setting.stopPropagation)
+            {
+                event.stopPropagation();
+            }
+        };
+
+        if(setting.handle)
+        {
+            $e.on('mousedown', setting.handle, mouseDown);
+        }
+        else
+        {
+            $e.on('mousedown', mouseDown);
+        }
     };
 
     $.fn.draggable = function(option)
