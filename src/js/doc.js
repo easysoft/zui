@@ -54,6 +54,7 @@
     if(debug) window.dataset = dataset;
 
     var sectionsShowed;
+    var queryGaCallback;
     var scrollBarWidth = -1;
     var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
@@ -202,7 +203,7 @@
                 'data-accent': chapter.accent
             });
             var $head = $tpl.children('.card-heading');
-            $head.find('.name').text(section.name).attr('href', '#' + id);
+            $head.find('.name').text(section.name).attr('href', '#' + chapterName + '/' + section.id);
             $head.children('.desc').text(section.desc);
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
@@ -414,6 +415,14 @@
         }
 
         $body.addClass('query-enabled');
+
+        // Send ga data
+        if($.isFunction(ga)) {
+            if(queryGaCallback) clearTimeout(queryGaCallback);
+            queryGaCallback = setTimeout(function(){
+                ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
+            }, 2000);
+        }
 
         var keys = [];
         $.each(keyString.split(' '), function(i, key){
@@ -685,10 +694,15 @@
         }
         chooseSection($section, false, true);
 
-        window.location.hash = '#' + pageId;
+        // Send ga data
+        var pageUrl = '#' + section.chapter + '/' + section.id;
+        if(topic) pageUrl += '/' + topic;
+        window.location.hash = pageUrl;
+        if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
+
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
-        $pageHeader.find('.name').text(section.name).attr('href', '#' + section.chapter + '-' + section.id);
+        $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
         $pageHeader.children('.desc').text(section.desc);
         $pageContent.html('');
         var $loader = $page.addClass('loading').find('.loader').addClass('loading');
@@ -854,8 +868,6 @@
         loadData(INDEX_JSON, function(data){
             var firstLoad = !sectionsShowed;
 
-
-
             displaySection(data);
 
             if(!firstLoad) {
@@ -870,7 +882,13 @@
                 if(hash) {
                     hash = hash.substr(1);
                     setTimeout(function(){
-                        openSection(hash.split('-'));
+                        var params = hash.split('/');
+                        var controllerName = params[0].toLowerCase();
+                        if(controllerName === 'search' || controllerName === 'query') {
+                            query(params[1]);
+                        } else {
+                            openSection(params);
+                        }
                     }, 600);
                 } else {
                     $queryInput.focus();
@@ -947,19 +965,20 @@
             var code = e.which;
             // console.log('keydown', code);
             var isPageNotShow = !$body.hasClass('page-show');
+            var isInputFocus = $body.hasClass('input-query-focus');
             if(code === 13) { // Enter
                 if(isPageNotShow && isChoosedSection()) {
                     openSection();
                 }
             } else if(code === 27) { // Esc
                 if(!closePage()) {
-                    if(!$body.hasClass('input-query-focus')) {
+                    if(!isInputFocus) {
                         $queryInput.focus();
                     }
                     query();
                 }
             } else if(code === 32) { // Space
-                if(!$body.hasClass('input-query-focus')){
+                if(!isInputFocus){
                     if(closePage()) {
                     } else if(!$body.hasClass('compact-mode')) {
                         toggleCompactMode(true);
