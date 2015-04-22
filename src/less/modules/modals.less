@@ -61,6 +61,15 @@
   background-clip: padding-box;
   // Remove focus outline from opened modal
   outline: 0;
+
+  &.modal-moveable {
+    position: absolute;
+    margin: 0;
+    
+    .modal-header {
+      cursor: move;
+    }
+  }
 }
 
 /* full screen modal */
