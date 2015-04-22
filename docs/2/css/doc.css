@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-20
+ * ZUI - v1.3.0 - 2015-04-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -593,6 +593,7 @@ body {
 }
 #grid .card.open .card-heading > .icon:after {
   position: absolute;
+  top: 36px;
   left: 18px;
   display: block;
   height: 999px;
