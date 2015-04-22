@@ -36,7 +36,6 @@
       > .icon {
         background-color: @color;
         color: #fff;
-        .scale(1.25);
       }
     }
 
@@ -479,7 +478,7 @@ body {
   background: none;
   border-radius: 21px;
   padding-left: 40px;
-  border: 2px solid #e5e5e5;
+  border: 1px solid #e5e5e5;
   border-color: rgba(255, 255, 255, .6);
   color: #fff;
 
@@ -504,6 +503,11 @@ body {
         opacity: 0;
         padding: 0;
       }
+    }
+
+    > .row + .row {
+      padding-top: 10px;
+      border-top: 1px solid @color-gray-pale;
     }
   }
 
@@ -580,6 +584,9 @@ body {
 
     > .icon {
       .transition-quickly();
+      background-color: @color-gray-pale;
+      background-size: contain;
+      background-position: center;
       position: absolute;
       width: 36px;
       height: 36px;
@@ -590,6 +597,15 @@ body {
       top: 13px;
       z-index: 10;
       font-style: normal;
+
+      &.with-img {
+        .opacity(.8); 
+        background-color: transparent!important;
+
+        &:hover {
+          .opacity(1); 
+        }
+      }
     }
 
     > h5 {
@@ -617,6 +633,16 @@ body {
       > .btn-toggle {
         right: 0;
         width: 64px;
+      }
+    }
+
+    &.hover {
+      background-color: @color-gray-pale;
+
+      > .icon {
+        background-color: @color-gray;
+        color: #fff;
+        .scale(1.25);
       }
     }
   }
@@ -732,32 +758,39 @@ body {
     }
   }
 
-  #chapter-learn {
-    .chapter-accent(@color-info; @color-info-pale);
+  .chapter[data-accent="blue"] {
+    .chapter-accent(@color-blue; @color-blue-pale);
   }
-  #chapter-start {
+  .chapter[data-accent="primary"] {
     .chapter-accent(@color-primary; @color-pale);
   }
-  #chapter-basic {
-    .chapter-accent(@color-warning; @color-warning-pale);
+  .chapter[data-accent="yellow"] {
+    .chapter-accent(@color-yellow; @color-yellow-pale);
   }
-  #chapter-control {
-    .chapter-accent(@color-success; @color-success-pale);
+  .chapter[data-accent="green"] {
+    .chapter-accent(@color-green; @color-green-pale);
   }
-  #chapter-component {
-    .chapter-accent(@color-danger; @color-danger-pale);
+  .chapter[data-accent="red"] {
+    .chapter-accent(@color-red; @color-red-pale);
   }
-  #chapter-javascript {
-    .chapter-accent(@color-important; @color-important-pale);
+  .chapter[data-accent="brown"] {
+    .chapter-accent(@color-brown; @color-brown-pale);
   }
-  #chapter-view {
-    .chapter-accent(@color-special; @color-special-pale);
+  .chapter[data-accent="purple"] {
+    .chapter-accent(@color-purple; @color-purple-pale);
   }
 }
 
 body.input-query-focus {
   #grid .card.choosed:before {
     right: 0;
+  }
+}
+
+body.query-enabled {
+  #grid > .container > .row + .row {
+    padding-top: 0;
+    border-top: none;
   }
 }
 
@@ -1170,25 +1203,25 @@ body.page-show {
     #searchForm {opacity: 0}
   }
 
-  &[data-page-chapter="learn"] {
-    .page-accent(@color-info; @color-info-pale);
+  &[data-page-accent="blue"] {
+    .page-accent(@color-blue; @color-blue-pale);
   }
-  &[data-page-chapter="start"] {
+  &[data-page-accent="primary"] {
     .page-accent(@color-primary; @color-pale);
   }
-  &[data-page-chapter="basic"] {
-    .page-accent(@color-warning; @color-warning-pale);
+  &[data-page-accent="yellow"] {
+    .page-accent(@color-yellow; @color-yellow-pale);
   }
-  &[data-page-chapter="control"] {
-    .page-accent(@color-success; @color-success-pale);
+  &[data-page-accent="green"] {
+    .page-accent(@color-green; @color-green-pale);
   }
-  &[data-page-chapter="component"] {
-    .page-accent(@color-danger; @color-danger-pale);
+  &[data-page-accent="red"] {
+    .page-accent(@color-red; @color-red-pale);
   }
-  &[data-page-chapter="javascript"] {
-    .page-accent(@color-important; @color-important-pale);
+  &[data-page-accent="brown"] {
+    .page-accent(@color-brown; @color-brown-pale);
   }
-  &[data-page-chapter="view"] {
-    .page-accent(@color-special; @color-special-pale);
+  &[data-page-accent="purple"] {
+    .page-accent(@color-purple; @color-purple-pale);
   }
 }

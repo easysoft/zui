@@ -38,7 +38,8 @@
         control: {col: 2}, 
         component: {col: 2}, 
         javascript: {col: 3}, 
-        view: {col: 3}
+        view: {col: 3},
+        promotion: {col: 1, row: 2}
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
@@ -173,14 +174,17 @@
     };
 
     var displaySectionIcon = function($icon, section) {
-        $icon.attr('class', 'icon').text('');
-        if (section.icon === undefined || section.icon === null || section.icon === "") {
-            section.icon = section.name.substr(0, 1).toUpperCase();
+        var icon = section.icon;
+        $icon.attr('class', 'icon').text('').css('background-image', '');
+        if (icon === undefined || icon === null || icon === "") {
+            icon = section.name.substr(0, 1).toUpperCase();
         }
-        if (section.icon.indexOf('icon-') === 0) {
-            $icon.addClass(section.icon);
+        if (icon.startsWith('icon-')) {
+            $icon.addClass(icon);
+        } else if(icon.endsWith('.png')) {
+            $icon.css('background-image', 'url(' + icon + ')').addClass('with-img');
         } else {
-            $icon.addClass('text-icon').text(section.icon);
+            $icon.addClass('text-icon').text(icon);
         }
     };
 
@@ -191,7 +195,12 @@
             section.chapter = chapterName;
             var id = chapterName + '-' + section.id;
             var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
-            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName).attr('data-order', order++);
+            $tpl.attr({
+                'data-id': section.id,
+                'data-chapter': chapterName,
+                'data-order': order++,
+                'data-accent': chapter.accent
+            });
             var $head = $tpl.children('.card-heading');
             $head.find('.name').text(section.name).attr('href', '#' + id);
             $head.children('.desc').text(section.desc);
@@ -209,6 +218,7 @@
             }
             $sectionList.append($tpl.addClass('show' + (sectionsShowed ? ' in' : '')));
         }, function(chapter, sections){
+            chapter.$.attr('data-accent', chapter.accent);
             var $sectionList = chapter.$sections;
             $sectionList.children().remove();
             return $sectionList;
@@ -478,16 +488,18 @@
                         weight = 100;
                         break;
                     default:
-                        if(section.name.toLowerCase().includes(keyVal)) {
+                        var sectionName = section.name.toLowerCase();
+                        if(sectionName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['section', 'name'];
-                            weight = 80;
+                            weight = sectionName.startsWith(keyVal) ? 85 : 80;
                             break;
                         }
-                        if(chapter.name.toLowerCase().includes(keyVal)) {
+                        var chapterName = chapter.name.toLowerCase();
+                        if(chapterName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['chapter', 'name'];
-                            weight = 70;
+                            weight = chapterName.startsWith(keyVal) ? 75 : 70;
                             break;
                         }
                         if(keyVal.length > 1) {
@@ -615,6 +627,7 @@
     };
 
     var toggleCompactMode = function(toggle, callback) {
+        console.log('toggleCompactMode', toggle);
         if(toggle === UNDEFINED) {
             toggle = !$body.hasClass('compact-mode');
         }
@@ -654,6 +667,7 @@
             style['max-height'] = '';
             $page.css(style);
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
+            window.location.hash = '';
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
@@ -672,7 +686,7 @@
         chooseSection($section, false, true);
 
         window.location.hash = '#' + pageId;
-        $body.attr('data-page-chapter', section.chapter).attr('data-page', pageId);
+        $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
         $pageHeader.find('.name').text(section.name).attr('href', '#' + section.chapter + '-' + section.id);
         $pageHeader.children('.desc').text(section.desc);
@@ -839,6 +853,9 @@
         // Load index.json
         loadData(INDEX_JSON, function(data){
             var firstLoad = !sectionsShowed;
+
+
+
             displaySection(data);
 
             if(!firstLoad) {
@@ -910,14 +927,16 @@
         var lastScrollTop;
         $window.on('scroll', function(e){
             var isScrollAnimating = $body.data('isScrollAnimating');
+            console.log('scroll, isScrollAnimating',isScrollAnimating);
             if(isScrollAnimating) {
                 $window.scrollTop(1);
                 return;
             }
             lastScrollTop = $window.scrollTop();
+            console.log('lastScrollTop', lastScrollTop);
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
-            } else if($body.hasClass('compact-mode')) {
+            } else if(!$body.hasClass('page-show') && $body.hasClass('compact-mode')) {
                 if(lastScrollTop < 1) {
                     toggleCompactMode(false);
                 } else {
@@ -934,24 +953,31 @@
                 }
             } else if(code === 27) { // Esc
                 if(!closePage()) {
-                    if($body.hasClass('input-query-focus')) {
-                        query();
+                    if(!$body.hasClass('input-query-focus')) {
+                        $queryInput.focus();
                     }
+                    query();
                 }
             } else if(code === 32) { // Space
-                if(closePage()) {
-                } else if(!$body.hasClass('compact-mode')) {
-                    toggleCompactMode(true);
-                } else if(isChoosedSection()) {
-                    openSection();
+                if(!$body.hasClass('input-query-focus')){
+                    if(closePage()) {
+                    } else if(!$body.hasClass('compact-mode')) {
+                        toggleCompactMode(true);
+                    } else if(isChoosedSection()) {
+                        openSection();
+                    }
+                    e.preventDefault();
                 }
-                e.preventDefault();
             } else if(code === 37) { // Left
-                chooseLeftSection();
-                e.preventDefault();
+                // if(!$body.hasClass('input-query-focus')){
+                    chooseLeftSection();
+                    e.preventDefault();
+                // }
             } else if(code === 39) { // Right
-                chooseRightSection();
-                e.preventDefault();
+                // if(!$body.hasClass('input-query-focus')){
+                    chooseRightSection();
+                    e.preventDefault();
+                // }
             } else if(code === 38) { // Top
                 if(isPageNotShow) {
                     choosePrevSection();
