@@ -952,8 +952,6 @@
         }
     };
 
-    window.openS = openSection;
-
     var resizePage = function() {
         if($body.hasClass('page-show-out') || $page.hasClass('loading')) return;
         var height;
@@ -964,6 +962,26 @@
             height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50);
         }
         $page.css('height', height);
+    };
+
+    var togglePageSection = function($section, toggle) {
+        if($section) {
+            $section.toggleClass('collapsed');
+            var $setions = $pageContent.children('section');
+            var sectionsCount = $setions.length, collapsedSectionCount = $setions.filter('.collapsed').length;
+            if(collapsedSectionCount === 0) {
+                $pageBody.removeClass('collapsed');
+            } else if(collapsedSectionCount === sectionsCount) {
+                $pageBody.addClass('collapsed');
+            }
+        } else {
+            $pageBody.toggleClass('collapsed');
+            if($pageBody.hasClass('collapsed')) {
+                $pageContent.children('section').addClass('collapsed');
+            } else {
+                $pageContent.children('section').removeClass('collapsed');
+            }
+        }
     };
 
     $(function() {
@@ -1086,19 +1104,14 @@
         });
 
         $pageContent.on('click', 'section > header > h3', function(){
-            $(this).closest('section').toggleClass('collapsed');
+            togglePageSection($(this).closest('section'));
         }).on('mouseenter', 'section > header > h3', function(){
             $(this).closest('section').addClass('hover');
         }).on('mouseleave', 'section > header > h3', function(){
             $(this).closest('section').removeClass('hover');
         });
         $pageBody.on('click', '#pageTogger', function(){
-            $pageBody.toggleClass('collapsed');
-            if($pageBody.hasClass('collapsed')) {
-                $pageContent.children('section').addClass('collapsed');
-            } else {
-                $pageContent.children('section').removeClass('collapsed');
-            }
+            togglePageSection();
         });
 
         $pageContent.on('resize', resizePage);

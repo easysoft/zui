@@ -1505,7 +1505,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 #pageContent > section > header > h3:before,
 #pageContent > section > header > h3:after {
   position: absolute;
-  top: 26px;
+  top: 25px;
   left: -26px;
   content: ' ';
   -webkit-transition: background-color .3s cubic-bezier(.175, .885, .32, 1);
@@ -1518,14 +1518,14 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   height: 7px;
 }
 #pageContent > section > header > h3:after {
-  top: 29px;
+  top: 28px;
   left: -29px;
   width: 7px;
   height: 1px;
 }
 #pageContent > section > header:before {
   position: absolute;
-  top: 24px;
+  top: 23px;
   left: -31px;
   display: block;
   width: 11px;
@@ -1631,6 +1631,7 @@ body.compact-mode.compact-mode-in #navbar {
 body.compact-mode.compact-mode-in #navbar .navbar-nav > li > a {
   width: 40px;
   padding: 10px;
+  text-align: center;
 }
 body.compact-mode.compact-mode-in #navbar .navbar-nav > li > a > span {
   display: none;
