@@ -413,6 +413,11 @@ body {
   }
 }
 
+#navDownloadLink {
+  .transition-fast(opacity);
+  opacity: 0;
+}
+
 #navbar {
 
   .transition-normal(padding-top);
@@ -422,6 +427,11 @@ body {
 
   &.navbar-inverse {
     background: none;
+
+    .navbar-toggle {
+      border: none;
+      border-radius: 0;
+    }
   }
 
   .navbar-nav > li > a {
@@ -446,6 +456,45 @@ body {
     position: absolute;
     top: 0;
     left: 10px;
+  }
+
+  .navbar-collapse {
+    &.in, &.collapsing {
+      #navDownloadLink {
+        opacity: 1;
+      }
+
+      background-color: #fff;
+      margin-top: 10px;
+      border: none;
+      width: 150px;
+      float: right;
+      .box-shadow(0 6px 12px rgba(0,0,0,.175));
+      position: relative;
+      overflow: visible;
+
+      &:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: -20px;
+        right: 20px;
+        border-width: 10px;
+        border-style: dashed dashed solid dashed;
+        border-color: transparent transparent #fff transparent;
+      }
+
+      .navbar-nav > li > a {
+        color: @color-fore;
+        opacity: 0;
+      }
+    }
+
+    &.in .navbar-nav > li > a {
+      opacity: 1;
+    }
   }
 }
 
@@ -1132,6 +1181,28 @@ body.compact-mode {
         > span {
           display: none;
         }
+      }
+
+      .navbar-collapse {
+        &.in, &.collapsing {
+          .navbar-nav > li > a {
+            padding: 10px 15px;
+            width: auto;
+
+            > span {
+              display: inline;
+            }
+          }
+        }
+      }
+    }
+
+    #navDownloadLink {
+      opacity: 1;
+
+      > a {
+        width: auto!important;
+        > span {display: inline!important;}
       }
     }
 

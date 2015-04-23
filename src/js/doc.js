@@ -399,7 +399,7 @@
             $sections.addClass('in');
             $chapterHeadings.addClass('in');
         }, 20));
-        $body.removeClass('query-enabled');
+        $body.removeClass('query-enabled').attr('data-query', '');
     };
 
     var chooseIcon = function($icon){
@@ -1043,8 +1043,9 @@
                 closePage();
                 return;
             }
-            chooseSection();
-            $sections.removeClass('open');
+            if(!$body.attr('data-query')) {
+                chooseSection();
+            }
         });
         $page.on('click', stopPropagation);
         $grid.on('click', '.card-heading', function(e) {

@@ -285,6 +285,12 @@ body {
 #header small {
   opacity: .65;
 }
+#navDownloadLink {
+  opacity: 0;
+  -webkit-transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
+          transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
+}
 #navbar {
   padding: 20px 0;
   border-bottom: none;
@@ -294,6 +300,10 @@ body {
 }
 #navbar.navbar-inverse {
   background: none;
+}
+#navbar.navbar-inverse .navbar-toggle {
+  border: none;
+  border-radius: 0;
 }
 #navbar .navbar-nav > li > a {
   height: 40px;
@@ -314,6 +324,43 @@ body {
   position: absolute;
   top: 0;
   left: 10px;
+}
+#navbar .navbar-collapse.in,
+#navbar .navbar-collapse.collapsing {
+  position: relative;
+  float: right;
+  width: 150px;
+  margin-top: 10px;
+  overflow: visible;
+  background-color: #fff;
+  border: none;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+#navbar .navbar-collapse.in #navDownloadLink,
+#navbar .navbar-collapse.collapsing #navDownloadLink {
+  opacity: 1;
+}
+#navbar .navbar-collapse.in:before,
+#navbar .navbar-collapse.collapsing:before {
+  position: absolute;
+  top: -20px;
+  right: 20px;
+  display: block;
+  width: 0;
+  height: 0;
+  content: ' ';
+  border-color: transparent transparent #fff transparent;
+  border-style: dashed dashed solid dashed;
+  border-width: 10px;
+}
+#navbar .navbar-collapse.in .navbar-nav > li > a,
+#navbar .navbar-collapse.collapsing .navbar-nav > li > a {
+  color: #353535;
+  opacity: 0;
+}
+#navbar .navbar-collapse.in .navbar-nav > li > a {
+  opacity: 1;
 }
 #heading {
   position: relative;
@@ -1361,6 +1408,24 @@ body.compact-mode.compact-mode-in #navbar .navbar-nav > li > a {
 }
 body.compact-mode.compact-mode-in #navbar .navbar-nav > li > a > span {
   display: none;
+}
+body.compact-mode.compact-mode-in #navbar .navbar-collapse.in .navbar-nav > li > a,
+body.compact-mode.compact-mode-in #navbar .navbar-collapse.collapsing .navbar-nav > li > a {
+  width: auto;
+  padding: 10px 15px;
+}
+body.compact-mode.compact-mode-in #navbar .navbar-collapse.in .navbar-nav > li > a > span,
+body.compact-mode.compact-mode-in #navbar .navbar-collapse.collapsing .navbar-nav > li > a > span {
+  display: inline;
+}
+body.compact-mode.compact-mode-in #navDownloadLink {
+  opacity: 1;
+}
+body.compact-mode.compact-mode-in #navDownloadLink > a {
+  width: auto!important;
+}
+body.compact-mode.compact-mode-in #navDownloadLink > a > span {
+  display: inline!important;
 }
 body.compact-mode.compact-mode-in #header {
   height: 150px;
