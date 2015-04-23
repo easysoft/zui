@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-20
+ * ZUI - v1.3.0 - 2015-04-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -1720,9 +1720,10 @@
             BEFORE = 'before',
             DRAG = 'drag',
             FINISH = 'finish',
-            setting = this.options;
+            setting = this.options,
+            startPos, cPos, startOffset, mousePos, moved;
 
-        $e.mousedown(function(event)
+        var mouseDown = function(event)
         {
             if (setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE]))
             {
@@ -1736,18 +1737,17 @@
 
             var $container = $(setting.container),
                 pos = $e.offset();
-            var cPos = $container.offset(),
-                startPos = {
-                    x: event.pageX,
-                    y: event.pageY
-                },
-                startOffset = {
-                    x: event.pageX - pos.left + cPos.left,
-                    y: event.pageY - pos.top + cPos.top
-                };
-            var mousePos = $.extend(
-            {}, startPos);
-            var moved = false;
+            cPos = $container.offset();
+            startPos = {
+                x: event.pageX,
+                y: event.pageY
+            };
+            startOffset = {
+                x: event.pageX - pos.left + cPos.left,
+                y: event.pageY - pos.top + cPos.top
+            };
+            mousePos = $.extend({}, startPos);
+            moved = false;
 
             $e.addClass('drag-ready');
             $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
@@ -1756,96 +1756,105 @@
             {
                 event.stopPropagation();
             }
+        };
 
-            function mouseMove(event)
+        var mouseMove = function(event)
+        {
+            moved = true;
+            var mX = event.pageX,
+                mY = event.pageY;
+            var dragPos = {
+                left: mX - startOffset.x,
+                top: mY - startOffset.y
+            };
+
+            $e.removeClass('drag-ready').addClass('dragging');
+            if (setting.move)
             {
-                moved = true;
-                var mX = event.pageX,
-                    mY = event.pageY;
-                var dragPos = {
-                    left: mX - startOffset.x,
-                    top: mY - startOffset.y
-                };
-
-                $e.removeClass('drag-ready').addClass('dragging');
-                if (setting.move)
-                {
-                    $e.css(dragPos);
-                }
-
-                if (setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG]))
-                {
-                    setting[DRAG](
-                    {
-                        event: event,
-                        element: $e,
-                        startOffset: startOffset,
-                        pos: dragPos,
-                        offset:
-                        {
-                            x: mX - startPos.x,
-                            y: mY - startPos.y
-                        },
-                        smallOffset:
-                        {
-                            x: mX - mousePos.x,
-                            y: mY - mousePos.y
-                        }
-                    });
-                }
-                mousePos.x = mX;
-                mousePos.y = mY;
-
-                if (setting.stopPropagation)
-                {
-                    event.stopPropagation();
-                }
+                $e.css(dragPos);
             }
 
-            function mouseUp(event)
+            if (setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG]))
             {
-                $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
-                if (!moved)
+                setting[DRAG](
                 {
-                    $e.removeClass('drag-ready');
-                    return;
-                }
-                var endPos = {
-                    left: event.pageX - startOffset.x,
-                    top: event.pageY - startOffset.y
-                };
-                $e.removeClass('drag-ready').removeClass('dragging');
-                if (setting.move)
-                {
-                    $e.css(endPos);
-                }
-
-                if (setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH]))
-                {
-                    setting[FINISH](
+                    event: event,
+                    element: $e,
+                    startOffset: startOffset,
+                    pos: dragPos,
+                    offset:
                     {
-                        event: event,
-                        element: $e,
-                        pos: endPos,
-                        offset:
-                        {
-                            x: event.pageX - startPos.x,
-                            y: event.pageY - startPos.y
-                        },
-                        smallOffset:
-                        {
-                            x: event.pageX - mousePos.x,
-                            y: event.pageY - mousePos.y
-                        }
-                    });
-                }
-                event.preventDefault();
-                if (setting.stopPropagation)
-                {
-                    event.stopPropagation();
-                }
+                        x: mX - startPos.x,
+                        y: mY - startPos.y
+                    },
+                    smallOffset:
+                    {
+                        x: mX - mousePos.x,
+                        y: mY - mousePos.y
+                    }
+                });
             }
-        });
+            mousePos.x = mX;
+            mousePos.y = mY;
+
+            if (setting.stopPropagation)
+            {
+                event.stopPropagation();
+            }
+        };
+
+        var mouseUp = function(event)
+        {
+            $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+            if (!moved)
+            {
+                $e.removeClass('drag-ready');
+                return;
+            }
+            var endPos = {
+                left: event.pageX - startOffset.x,
+                top: event.pageY - startOffset.y
+            };
+            $e.removeClass('drag-ready').removeClass('dragging');
+            if (setting.move)
+            {
+                $e.css(endPos);
+            }
+
+            if (setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH]))
+            {
+                setting[FINISH](
+                {
+                    event: event,
+                    element: $e,
+                    pos: endPos,
+                    offset:
+                    {
+                        x: event.pageX - startPos.x,
+                        y: event.pageY - startPos.y
+                    },
+                    smallOffset:
+                    {
+                        x: event.pageX - mousePos.x,
+                        y: event.pageY - mousePos.y
+                    }
+                });
+            }
+            event.preventDefault();
+            if (setting.stopPropagation)
+            {
+                event.stopPropagation();
+            }
+        };
+
+        if(setting.handle)
+        {
+            $e.on('mousedown', setting.handle, mouseDown);
+        }
+        else
+        {
+            $e.on('mousedown', mouseDown);
+        }
     };
 
     $.fn.draggable = function(option)
@@ -2305,6 +2314,8 @@
  * 2. added position option to ajust poisition of modal
  * 3. added event 'escaping.zui.modal' with an param 'esc' to judge the esc
  *    key down
+ * 4. get moveable options value from '.modal-moveable' on '.modal-dialog'
+ * 5. add setMoveable method to make modal dialog moveable
  * ======================================================================== */
 
 + function($){
@@ -2321,6 +2332,11 @@
         this.$backdrop =
             this.isShown = null
         this.scrollbarWidth = 0
+
+        if(typeof this.options.moveable === 'undefined')
+        {
+            this.options.moveable = this.$element.hasClass('modal-moveable');
+        }
 
         if (this.options.remote)
         {
@@ -2342,6 +2358,7 @@
         backdrop: true,
         keyboard: true,
         show: true,
+        rememberPos: true,
         position: 'fit' // 'center' or '40px' or '10%'
     }
 
@@ -2355,9 +2372,34 @@
         if (typeof position === 'undefined') position = this.options.position;
         if (typeof position === 'undefined') return;
         var $dialog = this.$element.find('.modal-dialog');
+        // if($dialog.hasClass('modal-dragged')) return;
+
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
-        var pos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
-        $dialog.css('margin-top', pos);
+        var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
+        if($dialog.hasClass('modal-moveable')) {
+            var pos = this.options.rememberPos ? this.$element.data('modal-pos') : null;
+            if(!pos) {
+                pos = {left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2), top: topPos};
+            }
+            $dialog.css(pos);
+        } else {
+            $dialog.css('margin-top', topPos);
+        }
+    }
+
+    Modal.prototype.setMoveale = function()
+    {
+        var that = this;
+        var options = that.options;
+        var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');
+        $dialog.toggleClass('modal-moveable', options.moveable);
+
+        if(!that.$element.data('modal-moveable-setup'))
+        {
+            $dialog.draggable({container: that.$element, handle: '.modal-header', before: function() {
+                $dialog.css('margin-top', '').addClass('modal-dragged');
+            }, finish: function(e){that.$element.data('modal-pos', e.pos);}});
+        }
     }
 
     Modal.prototype.show = function(_relatedTarget, position)
@@ -2368,21 +2410,23 @@
             relatedTarget: _relatedTarget
         })
 
-        this.$element.trigger(e)
+        that.$element.trigger(e)
 
-        if (this.isShown || e.isDefaultPrevented()) return
+        if (that.isShown || e.isDefaultPrevented()) return
 
-        this.isShown = true
+        that.isShown = true
 
-        this.checkScrollbar()
-        this.$body.addClass('modal-open')
+        that.setMoveale();
 
-        this.setScrollbar()
-        this.escape()
+        that.checkScrollbar()
+        that.$body.addClass('modal-open')
 
-        this.$element.on('click.dismiss.zui.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+        that.setScrollbar()
+        that.escape()
 
-        this.backdrop(function()
+        that.$element.on('click.dismiss.zui.modal', '[data-dismiss="modal"]', $.proxy(that.hide, that))
+
+        that.backdrop(function()
         {
             var transition = $.support.transition && that.$element.hasClass('fade')
 

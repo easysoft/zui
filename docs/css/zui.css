@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-20
+ * ZUI - v1.3.0 - 2015-04-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -6400,6 +6400,13 @@ ol.linenums li {
   outline: 0;
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
           box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+}
+.modal-dialog.modal-moveable {
+  position: absolute;
+  margin: 0;
+}
+.modal-dialog.modal-moveable .modal-header {
+  cursor: move;
 }
 /* full screen modal */
 .modal-fullscreen .modal-dialog {

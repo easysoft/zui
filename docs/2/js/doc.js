@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-20
+ * ZUI - v1.3.0 - 2015-04-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -60,7 +60,9 @@
     };
     if(debug) window.dataset = dataset;
 
+    var documentTitle = 'ZUI';
     var sectionsShowed;
+    var queryGaCallback;
     var scrollBarWidth = -1;
     var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
@@ -181,14 +183,17 @@
     };
 
     var displaySectionIcon = function($icon, section) {
-        $icon.attr('class', 'icon').text('');
-        if (section.icon === undefined || section.icon === null || section.icon === "") {
-            section.icon = section.name.substr(0, 1).toUpperCase();
+        var icon = section.icon;
+        $icon.attr('class', 'icon').text('').css('background-image', '');
+        if (icon === undefined || icon === null || icon === "") {
+            icon = section.name.substr(0, 1).toUpperCase();
         }
-        if (section.icon.indexOf('icon-') === 0) {
-            $icon.addClass(section.icon);
+        if (icon.startsWith('icon-')) {
+            $icon.addClass(icon);
+        } else if(icon.endsWith('.png')) {
+            $icon.css('background-image', 'url(' + icon + ')').addClass('with-img');
         } else {
-            $icon.addClass('text-icon').text(section.icon);
+            $icon.addClass('text-icon').text(icon);
         }
     };
 
@@ -197,11 +202,17 @@
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
             section.chapter = chapterName;
+            section.chapterName = chapter.name;
             var id = chapterName + '-' + section.id;
             var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
-            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName).attr('data-order', order++);
+            $tpl.attr({
+                'data-id': section.id,
+                'data-chapter': chapterName,
+                'data-order': order++,
+                'data-accent': chapter.accent
+            });
             var $head = $tpl.children('.card-heading');
-            $head.find('.name').text(section.name).attr('href', '#' + id);
+            $head.find('.name').text(section.name).attr('href', '#' + chapterName + '/' + section.id);
             $head.children('.desc').text(section.desc);
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
@@ -217,6 +228,7 @@
             }
             $sectionList.append($tpl.addClass('show' + (sectionsShowed ? ' in' : '')));
         }, function(chapter, sections){
+            chapter.$.attr('data-accent', chapter.accent);
             var $sectionList = chapter.$sections;
             $sectionList.children().remove();
             return $sectionList;
@@ -413,6 +425,14 @@
 
         $body.addClass('query-enabled');
 
+        // Send ga data
+        if($.isFunction(ga)) {
+            if(queryGaCallback) clearTimeout(queryGaCallback);
+            queryGaCallback = setTimeout(function(){
+                ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
+            }, 2000);
+        }
+
         var keys = [];
         $.each(keyString.split(' '), function(i, key){
             key = $.trim(key).toLowerCase();
@@ -486,16 +506,18 @@
                         weight = 100;
                         break;
                     default:
-                        if(section.name.toLowerCase().includes(keyVal)) {
+                        var sectionName = section.name.toLowerCase();
+                        if(sectionName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['section', 'name'];
-                            weight = 80;
+                            weight = sectionName.startsWith(keyVal) ? 85 : 80;
                             break;
                         }
-                        if(chapter.name.toLowerCase().includes(keyVal)) {
+                        var chapterName = chapter.name.toLowerCase();
+                        if(chapterName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['chapter', 'name'];
-                            weight = 70;
+                            weight = chapterName.startsWith(keyVal) ? 75 : 70;
                             break;
                         }
                         if(keyVal.length > 1) {
@@ -623,6 +645,7 @@
     };
 
     var toggleCompactMode = function(toggle, callback) {
+        console.log('toggleCompactMode', toggle);
         if(toggle === UNDEFINED) {
             toggle = !$body.hasClass('compact-mode');
         }
@@ -662,6 +685,9 @@
             style['max-height'] = '';
             $page.css(style);
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
+
+            window.document.title = documentTitle;
+            window.location.hash = '';
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
@@ -679,10 +705,17 @@
         }
         chooseSection($section, false, true);
 
-        window.location.hash = '#' + pageId;
-        $body.attr('data-page-chapter', section.chapter).attr('data-page', pageId);
+        // Send ga data
+        var pageUrl = '#' + section.chapter + '/' + section.id;
+        if(topic) pageUrl += '/' + topic;
+        console.log(section);
+        window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
+        window.location.hash = pageUrl;
+        if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
+
+        $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
-        $pageHeader.find('.name').text(section.name).attr('href', '#' + section.chapter + '-' + section.id);
+        $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
         $pageHeader.children('.desc').text(section.desc);
         $pageContent.html('');
         var $loader = $page.addClass('loading').find('.loader').addClass('loading');
@@ -805,6 +838,8 @@
     };
 
     $(function() {
+        documentTitle = window.document.title;
+
         var stopPropagation = function(e) {
             e.stopPropagation();
         }
@@ -847,6 +882,7 @@
         // Load index.json
         loadData(INDEX_JSON, function(data){
             var firstLoad = !sectionsShowed;
+
             displaySection(data);
 
             if(!firstLoad) {
@@ -861,7 +897,13 @@
                 if(hash) {
                     hash = hash.substr(1);
                     setTimeout(function(){
-                        openSection(hash.split('-'));
+                        var params = hash.split('/');
+                        var controllerName = params[0].toLowerCase();
+                        if(controllerName === 'search' || controllerName === 'query') {
+                            query(params[1]);
+                        } else {
+                            openSection(params);
+                        }
                     }, 600);
                 } else {
                     $queryInput.focus();
@@ -918,14 +960,16 @@
         var lastScrollTop;
         $window.on('scroll', function(e){
             var isScrollAnimating = $body.data('isScrollAnimating');
+            console.log('scroll, isScrollAnimating',isScrollAnimating);
             if(isScrollAnimating) {
                 $window.scrollTop(1);
                 return;
             }
             lastScrollTop = $window.scrollTop();
+            console.log('lastScrollTop', lastScrollTop);
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
-            } else if($body.hasClass('compact-mode')) {
+            } else if(!$body.hasClass('page-show') && $body.hasClass('compact-mode')) {
                 if(lastScrollTop < 1) {
                     toggleCompactMode(false);
                 } else {
@@ -936,19 +980,20 @@
             var code = e.which;
             // console.log('keydown', code);
             var isPageNotShow = !$body.hasClass('page-show');
+            var isInputFocus = $body.hasClass('input-query-focus');
             if(code === 13) { // Enter
                 if(isPageNotShow && isChoosedSection()) {
                     openSection();
                 }
             } else if(code === 27) { // Esc
                 if(!closePage()) {
-                    if(!$body.hasClass('input-query-focus')) {
+                    if(!isInputFocus) {
                         $queryInput.focus();
                     }
                     query();
                 }
             } else if(code === 32) { // Space
-                if(!$body.hasClass('input-query-focus')){
+                if(!isInputFocus){
                     if(closePage()) {
                     } else if(!$body.hasClass('compact-mode')) {
                         toggleCompactMode(true);
@@ -958,15 +1003,15 @@
                     e.preventDefault();
                 }
             } else if(code === 37) { // Left
-                if(!$body.hasClass('input-query-focus')){
+                // if(!$body.hasClass('input-query-focus')){
                     chooseLeftSection();
                     e.preventDefault();
-                }
+                // }
             } else if(code === 39) { // Right
-                if(!$body.hasClass('input-query-focus')){
+                // if(!$body.hasClass('input-query-focus')){
                     chooseRightSection();
                     e.preventDefault();
-                }
+                // }
             } else if(code === 38) { // Top
                 if(isPageNotShow) {
                     choosePrevSection();

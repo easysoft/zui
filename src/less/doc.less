@@ -69,8 +69,6 @@
         }
 
         &:hover {
-          background-color: @pale;
-
           &:before {
             background-color: @color;
           }
@@ -79,8 +77,16 @@
             border-color: @color;
           }
         }
+
+        &.active > a, > a:hover {
+          background-color: @pale;
+        }
       }
     }
+  }
+
+  .color-accent {
+    color: @color;
   }
 }
 
@@ -113,6 +119,10 @@
       background-color: @pale;
     }
   }
+}
+
+.icon-10x {
+  font-size: 140px;
 }
 
 .transition-quickly(){
@@ -651,7 +661,7 @@ body {
     height: 0;
     padding: 0 10px;
     .transition-quickly();
-    overflow: visible;
+    overflow: hidden;
 
     > ul {
       list-style: none;
@@ -674,7 +684,29 @@ body {
       > li {
         .transition-quickly();
         position: relative;
-        padding: 5px 0 5px 54px;
+        padding: 0;
+
+        > a {
+          color: @color-fore;
+          display: block;
+          padding: 5px 0 5px 54px;
+
+
+          > .icon {
+            display: inline-block;
+            width: 20px;
+            text-align: center;
+          }
+
+          &:hover, &:active, &:focus {
+            text-decoration: none;
+          }
+        }
+
+        &.active > a, > a:hover {
+          background-color: @color-gray-pale;
+          color: @color-fore;
+        }
 
         &:before {
           .transition-quickly();
@@ -701,15 +733,93 @@ body {
           z-index: 11;
         }
 
-        &:hover {
-          cursor: pointer;
-          color: @color-fore;
-          background-color: @color-gray-pale;
-
+        &:hover, &.active {
           &:before {
             .scale(1.25);
           }
         }
+      }
+
+      &[data-view="icons"] {
+        .clearfix();
+        > li {
+          float: left;
+          &:before, &:after {display: none}
+
+          > a {
+            position: relative;
+            text-indent: -999em;
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            overflow: hidden;
+
+            &:hover {
+              .scale(2);
+              z-index: 1;
+            }
+
+            > .icon {
+              display: block;
+              position: absolute;
+              text-indent: 0;
+              width: 30px;
+              height: 30px;
+              line-height: 30px;
+              top: 0;
+              left: 0;
+            }
+          }
+        }
+      }
+
+      &[data-view="grid"] {
+        .clearfix();
+        > li {
+
+        }
+      }
+    }
+  }
+
+  .section-search {
+    height: 0;
+    padding: 0;
+
+    &:before {
+      content: "没有找到，请更改关键字重新检索。";
+      display: block;
+      position: absolute;
+      padding: 0 10px;
+      top: 0;
+      right: 0;
+      height: 30px;
+      line-height: 30px;
+      background-color: @color-red-pale;
+      color: @color-red;
+    }
+  }
+
+  .card.section-preview-show .section-search:before {display: none}
+
+  .section-preview {
+    background-color: @color-gray-pale;
+    height: 0;
+    padding: 0;
+
+    &.icon-preview {
+      > .icons > .icon {
+        display: inline-block;
+        margin: 0 15px;
+      }
+
+      > h3 {
+        padding: 0 10px;
+      }
+
+      > pre {
+        margin-left: 10px;
+        max-width: 400px;
       }
     }
   }
@@ -736,6 +846,11 @@ body {
       height: auto;
       border-top: 1px dashed @color-gray-pale;
       box-shadow: inset 0 10px 64px rgba(0, 0, 0, 0.03);
+
+      &.section-search, &.section-preview {
+        height: 0;
+        padding: 0;
+      }
 
       > ul {
         &:before {
@@ -792,6 +907,23 @@ body.query-enabled {
   #grid > .container > .row + .row {
     padding-top: 0;
     border-top: none;
+  }
+
+  &[data-query='icons'] {
+    #section-control-icons {
+      .card-heading > .icon:before {content: @icon-search}
+    }
+
+    #grid .card.open {
+      &.section-preview-show .card-content.section-preview, .card-content.section-search {
+        height: auto;
+        padding: 10px;
+      }
+
+      &.section-preview-show .section-preview.icon-preview {
+        padding: 20px 10px 10px;
+      }
+    }
   }
 }
 
