@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-22
+ * ZUI - v1.3.0 - 2015-04-23
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -8,6 +8,7 @@
 (function(window, $)
 {
     'use strict';
+
     // Polyfill
     if (!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
@@ -51,6 +52,7 @@
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
     var INDEX_JSON = 'index.json';
+    var ICONS_JSON = 'icons.json';
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
     var dataVersion;
@@ -130,7 +132,7 @@
         if(isHasCache && (isIndexJson || cacheData.version === dataVersion)) {
             if(debug) console.log('Load', url, 'from cache:', cacheData);
             callback(cacheData.data);
-            if(!isIndexJson) return;
+            if(!isIndexJson && !debug) return;
         }
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
@@ -212,15 +214,16 @@
                 'data-accent': chapter.accent
             });
             var $head = $tpl.children('.card-heading');
-            $head.find('.name').text(section.name).attr('href', '#' + chapterName + '/' + section.id);
+            var sectionUrl = '#' + chapterName + '/' + section.id;
+            $head.find('.name').text(section.name).attr('href', sectionUrl);
             $head.children('.desc').text(section.desc);
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
             if (section.topics && section.topics.length) {
                 for (var tName in section.topics) {
                     var topic = section.topics[tName];
-                    topic.id = tName;
-                    $topics.append('<li data-id="' + tName + '">' + topic.name + '</li>');
+                    if(typeof topic.id === 'undefined') topic.id = tName;
+                    $topics.append('<li data-id="' + tName + '"><a href="' + sectionUrl + '/' + topic.id + '">' + topic.name + '</a></li>');
                 }
             } else {
                 $topics.remove('.card-content');
@@ -404,7 +407,123 @@
             $sections.addClass('in');
             $chapterHeadings.addClass('in');
         }, 20));
-        $body.removeClass('query-enabled');
+        $body.removeClass('query-enabled').attr('data-query', '');
+    };
+
+    var chooseIcon = function($icon){
+        var $search = $('#section-control-icons');
+        if(!$icon || !$icon.length) {
+            $search.removeClass('section-preview-show').data('preview', null);
+            return;
+        }
+        $search.addClass('open section-preview-show');
+        var $preview = $search.children('.section-preview');
+        var oldIcon = $search.data('preview');
+        if(!$preview.length) {
+            $preview = $('<div class="card-content section-preview icon-preview"><div class="icons"><i class="icon icon-10x"></i><i class="icon icon-5x"></i><i class="icon icon-2x"></i><i class="icon"></i></div><h3><small><i class="icon "></i></small> <span class="name color-accent"></span>  <small>Unicode: \\<span class="unicode">f3dd</span><span class="alias"> · 别名：<span class="alias-values"></span></span></small></h3><pre><code>&lt;i class=&quot;icon <span class="name"></span>&quot;&gt;&lt;/i&gt;</code></pre></div>');
+            $search.children('.card-heading').after($preview);
+        }
+        $search.children('.section-search').find('li.active').removeClass('active');
+        $icon.addClass('active');
+        if(oldIcon) $preview.find('.icon').removeClass('icon-' + oldIcon);
+        var icon = $icon.data('icon');
+        $search.data('preview', icon.id);
+        var id = 'icon-' + icon.id;
+        $preview.find('.icon').addClass(id);
+        $preview.find('.name').text(id);
+        $preview.find('.unicode').text(icon.code);
+        if(icon.alias && icon.alias.length) {
+            $preview.find('.alias').removeClass('hide').find('.alias-values').text(icon.alias.join(','));
+        } else {
+            $preview.find('.alias').addClass('hide');
+        }
+    };
+
+    var queryIcon = function(keys) {
+        if(!$.isArray(keys) && (keys || keys.length) ) {
+            keys = [keys];
+        }
+
+        var $section = $('#section-control-icons');
+        $body.attr('data-query', 'icons');
+        var $search = $section.children('.section-search');
+        if(!$search.length) {
+            $search = $('<div class="section-search card-content"><div class="loader loading"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div></div>');
+            $section.children('.card-heading').after($search);
+            $search = $section.children('.section-search');
+        }
+
+        loadData(ICONS_JSON, function(data){
+            var $list = $search.children('ul');
+            if(!$list.length) {
+                $list = $('<ul data-view="icons">');
+                $.each(data, function(iconName, icon){
+                    var $li = $('<li id="control-icons-' + iconName + '" data-id="' + iconName + '"><a href="#control/icons/' + iconName + '"><i class="icon icon-' + iconName + '"></i> icon-' + iconName + '</a></li>');
+                    icon.id = iconName;
+                    $li.data('icon', icon);
+                    $list.append($li);
+                });
+                $search.children('.loader').replaceWith($list);
+            }
+
+            if(!keys.length) {
+                $list.children('.hide').removeClass('hide');
+                chooseIcon($list.children().first());
+                return;
+            }
+
+            for(var keyIndex in keys) {
+                keys[keyIndex] = keys[keyIndex].toLowerCase();
+            }
+
+            var $bestMatch, bestMatchWeight = 0;
+            $.each(data, function(iconId, icon){
+                var choosed = false;
+                var weight = 0;
+                iconId = iconId.toLowerCase();
+                $.each(keys, function(keyIndex, key){
+                    var choosedThis = false;
+                    if(iconId.includes(key)) {
+                        choosedThis = true;
+                        weight += iconId.startsWith(key) ? 120: 110;
+                    } else if(icon.name && icon.name.toLowerCase().includes(key)) {
+                        choosedThis = true;
+                        weight += icon.name.toLowerCase().startsWith(key) ? 100: 95;
+                    } else if(key.startsWith('\\') && icon.code && icon.code.toLowerCase().includes(key)) {
+                        choosedThis = true;
+                        weight += 120;
+                    } else {
+                        var filters = [];
+                        if($.isArray(icon.filter) && icon.filter.length) filters = filters.concat(icon.filter);
+                        if($.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
+                        if($.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
+                        if(!filters.length) return;
+                        $.each(filters, function(filterIndex, filter){
+                            filter = filter.toLowerCase();
+                            if(filter.includes(key)) {
+                                choosedThis = true;
+                                weight += 50;
+                                return false;
+                            }
+                        });
+                    }
+
+                    if(!choosedThis) {
+                        choosed = false;
+                        return choosed;
+                    } else {
+                        choosed = true;
+                    }
+                });
+
+                var $li = $('#control-icons-' + iconId).toggleClass('hide', !choosed);
+                if(choosed && bestMatchWeight < weight) {
+                    bestMatchWeight = weight;
+                    $bestMatch = $li;
+                }
+            });
+            chooseIcon($bestMatch);
+        });
     };
 
     var query = function(keyString) {
@@ -423,7 +542,7 @@
             return;
         }
 
-        $body.addClass('query-enabled');
+        $body.addClass('query-enabled').attr('data-query', '');
 
         // Send ga data
         if($.isFunction(ga)) {
@@ -445,7 +564,7 @@
                 keyOption.val = key.substr(5);
             } else if(key.startsWith('i:')) {
                 keyOption.type = 'icon';
-                keyOption.val = key.substr(1);
+                keyOption.val = key.substr(2);
             } else if(key.startsWith('ver:')) {
                 keyOption.type = 'version';
                 keyOption.val = key.substr(4);
@@ -475,7 +594,7 @@
                     keyOption.val = key;
                 }
             }
-            if(keyOption.val.length) {
+            if(keyOption.val.length || (keyOption.type && keyOption.type !== 'any')) {
                 keys.push(keyOption);
             }
         });
@@ -501,9 +620,23 @@
                         weight = 100;
                         break;
                     case 'icon':
-                        chooseThisKey = section.id === 'icons';
-                        if(chooseThisKey) matchType = ['section', 'id'];
-                        weight = 100;
+                        chooseThis = section.id === 'icons';
+                        if(chooseThis) {
+                            weight = 120;
+                            matches.push({key: key, type: ['section', 'id']});
+                            var iconKeys = [];
+                            if(key.val || key.val.length) {
+                                iconKeys.push(key.val);
+                            }
+                            for(var iconKeyIndex in keys) {
+                                var iconKey = keys[iconKeyIndex];
+                                if(iconKey.val !== key.val && (iconKey.val || iconKey.val.length)) {
+                                    iconKeys.push(iconKey.val);
+                                }
+                            }
+                            queryIcon(iconKeys);
+                            return false;
+                        }
                         break;
                     default:
                         var sectionName = section.name.toLowerCase();
@@ -645,7 +778,6 @@
     };
 
     var toggleCompactMode = function(toggle, callback) {
-        console.log('toggleCompactMode', toggle);
         if(toggle === UNDEFINED) {
             toggle = !$body.hasClass('compact-mode');
         }
@@ -716,7 +848,7 @@
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
         $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
-        $pageHeader.children('.desc').text(section.desc);
+        $pageHeader.find('.desc').text(section.desc);
         $pageContent.html('');
         var $loader = $page.addClass('loading').find('.loader').addClass('loading');
 
@@ -739,8 +871,8 @@
             var offset = $section.offset();
             var sectionHeight = $section.outerHeight();
             var style = {
-                left: offset.left - $grid.children('.container').offset().left - 6,
-                top: offset.top - $window.scrollTop() - 81,
+                left: Math.floor(offset.left - $grid.children('.container').offset().left - 6),
+                top: Math.floor(offset.top - $window.scrollTop() - 61),
                 width: $section.outerWidth(),
                 height: sectionHeight,
                 'max-height': sectionHeight
@@ -912,13 +1044,15 @@
         });
 
         // Bind events
+        var oldActivePreivewId;
         $(document).on('click', function(e){
             if($body.hasClass('page-show')) {
                 closePage();
                 return;
             }
-            chooseSection();
-            $sections.removeClass('open');
+            if(!$body.attr('data-query')) {
+                chooseSection();
+            }
         });
         $page.on('click', stopPropagation);
         $grid.on('click', '.card-heading', function(e) {
@@ -943,6 +1077,23 @@
             $(this).closest('.card-heading').addClass('hover');
         }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').removeClass('hover');
+        }).on('mouseenter', '#section-control-icons .section-search > ul > li > a', function(){
+            oldActivePreivewId = $('#section-control-icons').data('preview');
+            chooseIcon($(this).closest('li'));
+        }).on('mouseleave', '#section-control-icons .section-search > ul > li > a', function(){
+            if(oldActivePreivewId) {
+                chooseIcon($('#control-icons-' + oldActivePreivewId));
+            }
+        }).on('click', '#section-control-icons .section-search > ul > li > a', function(){
+            oldActivePreivewId = $(this).closest('li').data('id');
+        });
+
+        $pageContent.on('click', 'section > header', function(){
+            $(this).closest('section').toggleClass('collapsed');
+        }).on('mouseenter', 'section > header', function(){
+            $(this).closest('section').addClass('hover');
+        }).on('mouseleave', 'section > header', function(){
+            $(this).closest('section').removeClass('hover');
         });
 
         $pageContent.on('resize', resizePage);
@@ -960,13 +1111,11 @@
         var lastScrollTop;
         $window.on('scroll', function(e){
             var isScrollAnimating = $body.data('isScrollAnimating');
-            console.log('scroll, isScrollAnimating',isScrollAnimating);
             if(isScrollAnimating) {
                 $window.scrollTop(1);
                 return;
             }
             lastScrollTop = $window.scrollTop();
-            console.log('lastScrollTop', lastScrollTop);
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
             } else if(!$body.hasClass('page-show') && $body.hasClass('compact-mode')) {

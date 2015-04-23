@@ -1,7 +1,7 @@
 (function(window, $)
 {
     'use strict';
-    
+
     // Polyfill
     if (!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
@@ -125,7 +125,7 @@
         if(isHasCache && (isIndexJson || cacheData.version === dataVersion)) {
             if(debug) console.log('Load', url, 'from cache:', cacheData);
             callback(cacheData.data);
-            if(!isIndexJson) return;
+            if(!isIndexJson && !debug) return;
         }
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
@@ -841,7 +841,7 @@
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
         $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
-        $pageHeader.children('.desc').text(section.desc);
+        $pageHeader.find('.desc').text(section.desc);
         $pageContent.html('');
         var $loader = $page.addClass('loading').find('.loader').addClass('loading');
 
@@ -1079,6 +1079,22 @@
             }
         }).on('click', '#section-control-icons .section-search > ul > li > a', function(){
             oldActivePreivewId = $(this).closest('li').data('id');
+        });
+
+        $pageContent.on('click', 'section > header > h3', function(){
+            $(this).closest('section').toggleClass('collapsed');
+        }).on('mouseenter', 'section > header > h3', function(){
+            $(this).closest('section').addClass('hover');
+        }).on('mouseleave', 'section > header > h3', function(){
+            $(this).closest('section').removeClass('hover');
+        });
+        $pageBody.on('click', '#pageTogger', function(){
+            $pageBody.toggleClass('collapsed');
+            if($pageBody.hasClass('collapsed')) {
+                $pageContent.children('section').addClass('collapsed');
+            } else {
+                $pageContent.children('section').removeClass('collapsed');
+            }
         });
 
         $pageContent.on('resize', resizePage);

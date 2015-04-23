@@ -115,8 +115,39 @@
   }
 
   #pageContent {
-    > h3:before {
-      background-color: @pale;
+    > section {
+      > header:before {
+        background-color: @pale;
+      }
+
+      &.hover {
+        > header {
+          &:before {
+            background-color: @color;
+          }
+          &:after {
+            border-color: @color;
+          }
+
+          > h3 {
+            color: @color;
+          }
+        }
+
+        &:before {
+          border-color: @color;
+        }
+      }
+    }
+  }
+
+  #pageTogger {
+    &:hover {
+      border-color: @color;
+
+      &:before, &:after {
+        background-color: @color;
+      }
     }
   }
 }
@@ -463,7 +494,7 @@ body {
     height: 40px;
 
     > .icon {
-      font-size: 20px;
+      font-size: 18px;
     }
   }
 
@@ -1129,7 +1160,7 @@ body.query-enabled {
   }
 }
 #pageBody {
-  padding: 20px;
+  padding: 20px 10px 20px 20px;
   position: absolute;
   top: 110px;
   bottom: 0;
@@ -1137,7 +1168,7 @@ body.query-enabled {
   overflow-y: auto;
 }
 #pageContent {
-  padding-left: 60px;
+  padding-left: 50px;
   position: relative;
 
   &:before {
@@ -1147,32 +1178,161 @@ body.query-enabled {
     border-left: 1px dotted @color-gray-lighter;
     left: 24px;
     top: -20px;
-    bottom: -20px;
+    bottom: -25px;
   }
 
-  > h3 {
+  > section > article, > section > header, > article {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  > section {
     position: relative;
-    margin: 0;
-    padding: 20px 0 10px;
 
     &:before {
       position: absolute;
       content: ' ';
       display: block;
-      left: -41px;
-      top: 4px;
-      width: 10px;
-      height: 10px;
-      // border: 1px solid @color-gray-light;
-      background-color: #fff;
-      border-radius: 5px;
+      border-left: 1px dotted transparent;
+      left: -26px;
+      top: 28px;
+      bottom: -25px;
     }
+
+    > header {
+      position: relative;
+      padding-top: 20px;
+      padding-bottom: 10px;
+
+      > h3 {
+        margin: 0;
+        display: inline-block;
+        cursor: pointer;
+
+        &:before, &:after {
+          position: absolute;
+          content: ' ';
+          left: -26px;
+          top: 26px;
+          .transition-fast(background-color);
+        }
+
+        &:before {
+          display: none;
+          width: 1px;
+          height: 7px;
+        }
+
+        &:after {
+          width: 7px;
+          height: 1px;
+          top: 29px;
+          left: -29px;
+        }
+      }
+
+      &:before {
+        position: absolute;
+        content: ' ';
+        display: block;
+        left: -31px;
+        top: 24px;
+        width: 11px;
+        height: 11px;
+        background-color: @color-gray-light;
+        border-radius: 5px;
+        .transition-fast(background-color);
+      }
+
+      &:after {
+        position: absolute;
+        content: ' ';
+        display: block;
+        width: 24px;
+        border-bottom: 1px dotted @color-gray-lighter;
+        left: -20px;
+        top: 28px;
+      }
+    }
+
+    &.hover {
+      > header {
+        h3 {
+          &:before, &:after {
+            background-color: #fff;
+          }
+        }
+      }
+
+      &.collapsed > header > h3:before {
+        display: block;
+      }
+    }
+
+    > article {
+      height: auto;
+      .transition-fast(opacity; height);
+    }
+
+    &.collapsed {
+      &:before {
+        display: none;
+      }
+
+      > article {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+    }
+  }
+}
+#pageTogger {
+  position: absolute;
+  top: 18px;
+  left: 35px;
+  width: 19px;
+  height: 19px;
+  padding: 0;
+  border-radius: 10px;
+  background-color: #fff;
+  color: @color-gray-light;
+  z-index: 10;
+  border: 1px solid @color-gray-lighter;
+  outline: none;
+
+  &:before, &:after {
+    .transition-normal(background-color);
+    position: absolute;
+    display: block;
+    content: ' ';
+    left: 4px;
+    top: 4px;
+    background-color: @color-gray-light;
+  }
+
+  &:before {
+    height: 9px;
+    width: 1px;
+    left: 8px;
+    display: none;
+  }
+
+  &:after {
+    width: 9px;
+    top: 8px;
+    height: 1px;
+  }
+}
+#pageBody.collapsed {
+  #pageTogger:before {
+    display: block;
   }
 }
 
 body.compact-mode {
   #header, #heading, #search {
-      .transition-normal(padding; height; opcity);
+      .transition-normal(padding; height; opcity; background-color);
   }
 
   #header {
@@ -1374,7 +1534,7 @@ body.page-show {
     }
 
     #pageContent {
-      padding: 0 20px 0 80px;
+      padding: 0 20px 0 70px;
       max-width: 1160px;
       margin: 0 auto;
 
