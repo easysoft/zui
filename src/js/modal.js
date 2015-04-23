@@ -10,6 +10,8 @@
  * 2. added position option to ajust poisition of modal
  * 3. added event 'escaping.zui.modal' with an param 'esc' to judge the esc
  *    key down
+ * 4. get moveable options value from '.modal-moveable' on '.modal-dialog'
+ * 5. add setMoveable method to make modal dialog moveable
  * ======================================================================== */
 
 + function($){
@@ -26,6 +28,11 @@
         this.$backdrop =
             this.isShown = null
         this.scrollbarWidth = 0
+
+        if(typeof this.options.moveable === 'undefined')
+        {
+            this.options.moveable = this.$element.hasClass('modal-moveable');
+        }
 
         if (this.options.remote)
         {
@@ -47,6 +54,7 @@
         backdrop: true,
         keyboard: true,
         show: true,
+        rememberPos: true,
         position: 'fit' // 'center' or '40px' or '10%'
     }
 
@@ -60,9 +68,34 @@
         if (typeof position === 'undefined') position = this.options.position;
         if (typeof position === 'undefined') return;
         var $dialog = this.$element.find('.modal-dialog');
+        // if($dialog.hasClass('modal-dragged')) return;
+
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
-        var pos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
-        $dialog.css('margin-top', pos);
+        var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
+        if($dialog.hasClass('modal-moveable')) {
+            var pos = this.options.rememberPos ? this.$element.data('modal-pos') : null;
+            if(!pos) {
+                pos = {left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2), top: topPos};
+            }
+            $dialog.css(pos);
+        } else {
+            $dialog.css('margin-top', topPos);
+        }
+    }
+
+    Modal.prototype.setMoveale = function()
+    {
+        var that = this;
+        var options = that.options;
+        var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');
+        $dialog.toggleClass('modal-moveable', options.moveable);
+
+        if(!that.$element.data('modal-moveable-setup'))
+        {
+            $dialog.draggable({container: that.$element, handle: '.modal-header', before: function() {
+                $dialog.css('margin-top', '').addClass('modal-dragged');
+            }, finish: function(e){that.$element.data('modal-pos', e.pos);}});
+        }
     }
 
     Modal.prototype.show = function(_relatedTarget, position)
@@ -73,21 +106,23 @@
             relatedTarget: _relatedTarget
         })
 
-        this.$element.trigger(e)
+        that.$element.trigger(e)
 
-        if (this.isShown || e.isDefaultPrevented()) return
+        if (that.isShown || e.isDefaultPrevented()) return
 
-        this.isShown = true
+        that.isShown = true
 
-        this.checkScrollbar()
-        this.$body.addClass('modal-open')
+        that.setMoveale();
 
-        this.setScrollbar()
-        this.escape()
+        that.checkScrollbar()
+        that.$body.addClass('modal-open')
 
-        this.$element.on('click.dismiss.zui.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
+        that.setScrollbar()
+        that.escape()
 
-        this.backdrop(function()
+        that.$element.on('click.dismiss.zui.modal', '[data-dismiss="modal"]', $.proxy(that.hide, that))
+
+        that.backdrop(function()
         {
             var transition = $.support.transition && that.$element.hasClass('fade')
 

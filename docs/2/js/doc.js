@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-20
+ * ZUI - v1.3.0 - 2015-04-23
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -8,6 +8,7 @@
 (function(window, $)
 {
     'use strict';
+
     // Polyfill
     if (!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
@@ -51,6 +52,7 @@
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
     var INDEX_JSON = 'index.json';
+    var ICONS_JSON = 'icons.json';
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
     var dataVersion;
@@ -60,7 +62,9 @@
     };
     if(debug) window.dataset = dataset;
 
+    var documentTitle = 'ZUI';
     var sectionsShowed;
+    var queryGaCallback;
     var scrollBarWidth = -1;
     var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
@@ -128,7 +132,7 @@
         if(isHasCache && (isIndexJson || cacheData.version === dataVersion)) {
             if(debug) console.log('Load', url, 'from cache:', cacheData);
             callback(cacheData.data);
-            if(!isIndexJson) return;
+            if(!isIndexJson && !debug) return;
         }
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
@@ -181,14 +185,17 @@
     };
 
     var displaySectionIcon = function($icon, section) {
-        $icon.attr('class', 'icon').text('');
-        if (section.icon === undefined || section.icon === null || section.icon === "") {
-            section.icon = section.name.substr(0, 1).toUpperCase();
+        var icon = section.icon;
+        $icon.attr('class', 'icon').text('').css('background-image', '');
+        if (icon === undefined || icon === null || icon === "") {
+            icon = section.name.substr(0, 1).toUpperCase();
         }
-        if (section.icon.indexOf('icon-') === 0) {
-            $icon.addClass(section.icon);
+        if (icon.startsWith('icon-')) {
+            $icon.addClass(icon);
+        } else if(icon.endsWith('.png')) {
+            $icon.css('background-image', 'url(' + icon + ')').addClass('with-img');
         } else {
-            $icon.addClass('text-icon').text(section.icon);
+            $icon.addClass('text-icon').text(icon);
         }
     };
 
@@ -197,19 +204,26 @@
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
             section.chapter = chapterName;
+            section.chapterName = chapter.name;
             var id = chapterName + '-' + section.id;
             var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
-            $tpl.attr('data-id', section.id).attr('data-chapter', chapterName).attr('data-order', order++);
+            $tpl.attr({
+                'data-id': section.id,
+                'data-chapter': chapterName,
+                'data-order': order++,
+                'data-accent': chapter.accent
+            });
             var $head = $tpl.children('.card-heading');
-            $head.find('.name').text(section.name).attr('href', '#' + id);
+            var sectionUrl = '#' + chapterName + '/' + section.id;
+            $head.find('.name').text(section.name).attr('href', sectionUrl);
             $head.children('.desc').text(section.desc);
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
             if (section.topics && section.topics.length) {
                 for (var tName in section.topics) {
                     var topic = section.topics[tName];
-                    topic.id = tName;
-                    $topics.append('<li data-id="' + tName + '">' + topic.name + '</li>');
+                    if(typeof topic.id === 'undefined') topic.id = tName;
+                    $topics.append('<li data-id="' + tName + '"><a href="' + sectionUrl + '/' + topic.id + '">' + topic.name + '</a></li>');
                 }
             } else {
                 $topics.remove('.card-content');
@@ -217,6 +231,7 @@
             }
             $sectionList.append($tpl.addClass('show' + (sectionsShowed ? ' in' : '')));
         }, function(chapter, sections){
+            chapter.$.attr('data-accent', chapter.accent);
             var $sectionList = chapter.$sections;
             $sectionList.children().remove();
             return $sectionList;
@@ -392,7 +407,123 @@
             $sections.addClass('in');
             $chapterHeadings.addClass('in');
         }, 20));
-        $body.removeClass('query-enabled');
+        $body.removeClass('query-enabled').attr('data-query', '');
+    };
+
+    var chooseIcon = function($icon){
+        var $search = $('#section-control-icons');
+        if(!$icon || !$icon.length) {
+            $search.removeClass('section-preview-show').data('preview', null);
+            return;
+        }
+        $search.addClass('open section-preview-show');
+        var $preview = $search.children('.section-preview');
+        var oldIcon = $search.data('preview');
+        if(!$preview.length) {
+            $preview = $('<div class="card-content section-preview icon-preview"><div class="icons"><i class="icon icon-10x"></i><i class="icon icon-5x"></i><i class="icon icon-2x"></i><i class="icon"></i></div><h3><small><i class="icon "></i></small> <span class="name color-accent"></span>  <small>Unicode: \\<span class="unicode">f3dd</span><span class="alias"> · 别名：<span class="alias-values"></span></span></small></h3><pre><code>&lt;i class=&quot;icon <span class="name"></span>&quot;&gt;&lt;/i&gt;</code></pre></div>');
+            $search.children('.card-heading').after($preview);
+        }
+        $search.children('.section-search').find('li.active').removeClass('active');
+        $icon.addClass('active');
+        if(oldIcon) $preview.find('.icon').removeClass('icon-' + oldIcon);
+        var icon = $icon.data('icon');
+        $search.data('preview', icon.id);
+        var id = 'icon-' + icon.id;
+        $preview.find('.icon').addClass(id);
+        $preview.find('.name').text(id);
+        $preview.find('.unicode').text(icon.code);
+        if(icon.alias && icon.alias.length) {
+            $preview.find('.alias').removeClass('hide').find('.alias-values').text(icon.alias.join(','));
+        } else {
+            $preview.find('.alias').addClass('hide');
+        }
+    };
+
+    var queryIcon = function(keys) {
+        if(!$.isArray(keys) && (keys || keys.length) ) {
+            keys = [keys];
+        }
+
+        var $section = $('#section-control-icons');
+        $body.attr('data-query', 'icons');
+        var $search = $section.children('.section-search');
+        if(!$search.length) {
+            $search = $('<div class="section-search card-content"><div class="loader loading"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div></div>');
+            $section.children('.card-heading').after($search);
+            $search = $section.children('.section-search');
+        }
+
+        loadData(ICONS_JSON, function(data){
+            var $list = $search.children('ul');
+            if(!$list.length) {
+                $list = $('<ul data-view="icons">');
+                $.each(data, function(iconName, icon){
+                    var $li = $('<li id="control-icons-' + iconName + '" data-id="' + iconName + '"><a href="#control/icons/' + iconName + '"><i class="icon icon-' + iconName + '"></i> icon-' + iconName + '</a></li>');
+                    icon.id = iconName;
+                    $li.data('icon', icon);
+                    $list.append($li);
+                });
+                $search.children('.loader').replaceWith($list);
+            }
+
+            if(!keys.length) {
+                $list.children('.hide').removeClass('hide');
+                chooseIcon($list.children().first());
+                return;
+            }
+
+            for(var keyIndex in keys) {
+                keys[keyIndex] = keys[keyIndex].toLowerCase();
+            }
+
+            var $bestMatch, bestMatchWeight = 0;
+            $.each(data, function(iconId, icon){
+                var choosed = false;
+                var weight = 0;
+                iconId = iconId.toLowerCase();
+                $.each(keys, function(keyIndex, key){
+                    var choosedThis = false;
+                    if(iconId.includes(key)) {
+                        choosedThis = true;
+                        weight += iconId.startsWith(key) ? 120: 110;
+                    } else if(icon.name && icon.name.toLowerCase().includes(key)) {
+                        choosedThis = true;
+                        weight += icon.name.toLowerCase().startsWith(key) ? 100: 95;
+                    } else if(key.startsWith('\\') && icon.code && icon.code.toLowerCase().includes(key)) {
+                        choosedThis = true;
+                        weight += 120;
+                    } else {
+                        var filters = [];
+                        if($.isArray(icon.filter) && icon.filter.length) filters = filters.concat(icon.filter);
+                        if($.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
+                        if($.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
+                        if(!filters.length) return;
+                        $.each(filters, function(filterIndex, filter){
+                            filter = filter.toLowerCase();
+                            if(filter.includes(key)) {
+                                choosedThis = true;
+                                weight += 50;
+                                return false;
+                            }
+                        });
+                    }
+
+                    if(!choosedThis) {
+                        choosed = false;
+                        return choosed;
+                    } else {
+                        choosed = true;
+                    }
+                });
+
+                var $li = $('#control-icons-' + iconId).toggleClass('hide', !choosed);
+                if(choosed && bestMatchWeight < weight) {
+                    bestMatchWeight = weight;
+                    $bestMatch = $li;
+                }
+            });
+            chooseIcon($bestMatch);
+        });
     };
 
     var query = function(keyString) {
@@ -411,7 +542,15 @@
             return;
         }
 
-        $body.addClass('query-enabled');
+        $body.addClass('query-enabled').attr('data-query', '');
+
+        // Send ga data
+        if($.isFunction(ga)) {
+            if(queryGaCallback) clearTimeout(queryGaCallback);
+            queryGaCallback = setTimeout(function(){
+                ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
+            }, 2000);
+        }
 
         var keys = [];
         $.each(keyString.split(' '), function(i, key){
@@ -425,7 +564,7 @@
                 keyOption.val = key.substr(5);
             } else if(key.startsWith('i:')) {
                 keyOption.type = 'icon';
-                keyOption.val = key.substr(1);
+                keyOption.val = key.substr(2);
             } else if(key.startsWith('ver:')) {
                 keyOption.type = 'version';
                 keyOption.val = key.substr(4);
@@ -455,7 +594,7 @@
                     keyOption.val = key;
                 }
             }
-            if(keyOption.val.length) {
+            if(keyOption.val.length || (keyOption.type && keyOption.type !== 'any')) {
                 keys.push(keyOption);
             }
         });
@@ -481,21 +620,37 @@
                         weight = 100;
                         break;
                     case 'icon':
-                        chooseThisKey = section.id === 'icons';
-                        if(chooseThisKey) matchType = ['section', 'id'];
-                        weight = 100;
+                        chooseThis = section.id === 'icons';
+                        if(chooseThis) {
+                            weight = 120;
+                            matches.push({key: key, type: ['section', 'id']});
+                            var iconKeys = [];
+                            if(key.val || key.val.length) {
+                                iconKeys.push(key.val);
+                            }
+                            for(var iconKeyIndex in keys) {
+                                var iconKey = keys[iconKeyIndex];
+                                if(iconKey.val !== key.val && (iconKey.val || iconKey.val.length)) {
+                                    iconKeys.push(iconKey.val);
+                                }
+                            }
+                            queryIcon(iconKeys);
+                            return false;
+                        }
                         break;
                     default:
-                        if(section.name.toLowerCase().includes(keyVal)) {
+                        var sectionName = section.name.toLowerCase();
+                        if(sectionName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['section', 'name'];
-                            weight = 80;
+                            weight = sectionName.startsWith(keyVal) ? 85 : 80;
                             break;
                         }
-                        if(chapter.name.toLowerCase().includes(keyVal)) {
+                        var chapterName = chapter.name.toLowerCase();
+                        if(chapterName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['chapter', 'name'];
-                            weight = 70;
+                            weight = chapterName.startsWith(keyVal) ? 75 : 70;
                             break;
                         }
                         if(keyVal.length > 1) {
@@ -662,6 +817,9 @@
             style['max-height'] = '';
             $page.css(style);
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
+
+            window.document.title = documentTitle;
+            window.location.hash = '';
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
@@ -679,11 +837,18 @@
         }
         chooseSection($section, false, true);
 
-        window.location.hash = '#' + pageId;
-        $body.attr('data-page-chapter', section.chapter).attr('data-page', pageId);
+        // Send ga data
+        var pageUrl = '#' + section.chapter + '/' + section.id;
+        if(topic) pageUrl += '/' + topic;
+        console.log(section);
+        window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
+        window.location.hash = pageUrl;
+        if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
+
+        $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
-        $pageHeader.find('.name').text(section.name).attr('href', '#' + section.chapter + '-' + section.id);
-        $pageHeader.children('.desc').text(section.desc);
+        $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
+        $pageHeader.find('.desc').text(section.desc);
         $pageContent.html('');
         var $loader = $page.addClass('loading').find('.loader').addClass('loading');
 
@@ -706,8 +871,8 @@
             var offset = $section.offset();
             var sectionHeight = $section.outerHeight();
             var style = {
-                left: offset.left - $grid.children('.container').offset().left - 6,
-                top: offset.top - $window.scrollTop() - 81,
+                left: Math.floor(offset.left - $grid.children('.container').offset().left - 6),
+                top: Math.floor(offset.top - $window.scrollTop() - 61),
                 width: $section.outerWidth(),
                 height: sectionHeight,
                 'max-height': sectionHeight
@@ -805,6 +970,8 @@
     };
 
     $(function() {
+        documentTitle = window.document.title;
+
         var stopPropagation = function(e) {
             e.stopPropagation();
         }
@@ -847,6 +1014,7 @@
         // Load index.json
         loadData(INDEX_JSON, function(data){
             var firstLoad = !sectionsShowed;
+
             displaySection(data);
 
             if(!firstLoad) {
@@ -861,7 +1029,13 @@
                 if(hash) {
                     hash = hash.substr(1);
                     setTimeout(function(){
-                        openSection(hash.split('-'));
+                        var params = hash.split('/');
+                        var controllerName = params[0].toLowerCase();
+                        if(controllerName === 'search' || controllerName === 'query') {
+                            query(params[1]);
+                        } else {
+                            openSection(params);
+                        }
                     }, 600);
                 } else {
                     $queryInput.focus();
@@ -870,13 +1044,15 @@
         });
 
         // Bind events
+        var oldActivePreivewId;
         $(document).on('click', function(e){
             if($body.hasClass('page-show')) {
                 closePage();
                 return;
             }
-            chooseSection();
-            $sections.removeClass('open');
+            if(!$body.attr('data-query')) {
+                chooseSection();
+            }
         });
         $page.on('click', stopPropagation);
         $grid.on('click', '.card-heading', function(e) {
@@ -901,6 +1077,23 @@
             $(this).closest('.card-heading').addClass('hover');
         }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').removeClass('hover');
+        }).on('mouseenter', '#section-control-icons .section-search > ul > li > a', function(){
+            oldActivePreivewId = $('#section-control-icons').data('preview');
+            chooseIcon($(this).closest('li'));
+        }).on('mouseleave', '#section-control-icons .section-search > ul > li > a', function(){
+            if(oldActivePreivewId) {
+                chooseIcon($('#control-icons-' + oldActivePreivewId));
+            }
+        }).on('click', '#section-control-icons .section-search > ul > li > a', function(){
+            oldActivePreivewId = $(this).closest('li').data('id');
+        });
+
+        $pageContent.on('click', 'section > header', function(){
+            $(this).closest('section').toggleClass('collapsed');
+        }).on('mouseenter', 'section > header', function(){
+            $(this).closest('section').addClass('hover');
+        }).on('mouseleave', 'section > header', function(){
+            $(this).closest('section').removeClass('hover');
         });
 
         $pageContent.on('resize', resizePage);
@@ -925,7 +1118,7 @@
             lastScrollTop = $window.scrollTop();
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
-            } else if($body.hasClass('compact-mode')) {
+            } else if(!$body.hasClass('page-show') && $body.hasClass('compact-mode')) {
                 if(lastScrollTop < 1) {
                     toggleCompactMode(false);
                 } else {
@@ -936,19 +1129,20 @@
             var code = e.which;
             // console.log('keydown', code);
             var isPageNotShow = !$body.hasClass('page-show');
+            var isInputFocus = $body.hasClass('input-query-focus');
             if(code === 13) { // Enter
                 if(isPageNotShow && isChoosedSection()) {
                     openSection();
                 }
             } else if(code === 27) { // Esc
                 if(!closePage()) {
-                    if(!$body.hasClass('input-query-focus')) {
+                    if(!isInputFocus) {
                         $queryInput.focus();
                     }
                     query();
                 }
             } else if(code === 32) { // Space
-                if(!$body.hasClass('input-query-focus')){
+                if(!isInputFocus){
                     if(closePage()) {
                     } else if(!$body.hasClass('compact-mode')) {
                         toggleCompactMode(true);
@@ -958,15 +1152,15 @@
                     e.preventDefault();
                 }
             } else if(code === 37) { // Left
-                if(!$body.hasClass('input-query-focus')){
+                // if(!$body.hasClass('input-query-focus')){
                     chooseLeftSection();
                     e.preventDefault();
-                }
+                // }
             } else if(code === 39) { // Right
-                if(!$body.hasClass('input-query-focus')){
+                // if(!$body.hasClass('input-query-focus')){
                     chooseRightSection();
                     e.preventDefault();
-                }
+                // }
             } else if(code === 38) { // Top
                 if(isPageNotShow) {
                     choosePrevSection();

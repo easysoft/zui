@@ -1,6 +1,7 @@
 (function(window, $)
 {
     'use strict';
+
     // Polyfill
     if (!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
@@ -44,6 +45,7 @@
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
     var INDEX_JSON = 'index.json';
+    var ICONS_JSON = 'icons.json';
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
     var dataVersion;
@@ -53,6 +55,7 @@
     };
     if(debug) window.dataset = dataset;
 
+    var documentTitle = 'ZUI';
     var sectionsShowed;
     var queryGaCallback;
     var scrollBarWidth = -1;
@@ -122,7 +125,7 @@
         if(isHasCache && (isIndexJson || cacheData.version === dataVersion)) {
             if(debug) console.log('Load', url, 'from cache:', cacheData);
             callback(cacheData.data);
-            if(!isIndexJson) return;
+            if(!isIndexJson && !debug) return;
         }
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
@@ -194,24 +197,39 @@
         if(eachSection(function(chapter, section, $sectionList){
             var chapterName = chapter.id;
             section.chapter = chapterName;
+            section.chapterName = chapter.name;
+
+            var url = section.url;
+            if(typeof url === 'undefined') {
+                section.url = 'part/' + section.chapter + '-' + section.id + '.html';
+                section.target = 'page';
+            } else if(url && (url.toLowerCase().startsWith('http://') || url.toLowerCase().startsWith('https://'))) {
+                section.target = 'external';
+            } else {
+                section.target = '';
+            }
+
             var id = chapterName + '-' + section.id;
-            var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
+            var $tpl = $sectionTemplate.clone().data('section', section);
             $tpl.attr({
+                'id': 'section-' + id,
                 'data-id': section.id,
                 'data-chapter': chapterName,
                 'data-order': order++,
-                'data-accent': chapter.accent
+                'data-accent': chapter.accent,
+                'data-target': section.target
             });
             var $head = $tpl.children('.card-heading');
-            $head.find('.name').text(section.name).attr('href', '#' + chapterName + '/' + section.id);
+            var sectionUrl = '#' + chapterName + '/' + section.id;
+            $head.find('.name').text(section.name).attr('href', sectionUrl);
             $head.children('.desc').text(section.desc);
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
             if (section.topics && section.topics.length) {
                 for (var tName in section.topics) {
                     var topic = section.topics[tName];
-                    topic.id = tName;
-                    $topics.append('<li data-id="' + tName + '">' + topic.name + '</li>');
+                    if(typeof topic.id === 'undefined') topic.id = tName;
+                    $topics.append('<li data-id="' + tName + '"><a href="' + sectionUrl + '/' + topic.id + '">' + topic.name + '</a></li>');
                 }
             } else {
                 $topics.remove('.card-content');
@@ -395,7 +413,123 @@
             $sections.addClass('in');
             $chapterHeadings.addClass('in');
         }, 20));
-        $body.removeClass('query-enabled');
+        $body.removeClass('query-enabled').attr('data-query', '');
+    };
+
+    var chooseIcon = function($icon){
+        var $search = $('#section-control-icons');
+        if(!$icon || !$icon.length) {
+            $search.removeClass('section-preview-show').data('preview', null);
+            return;
+        }
+        $search.addClass('open section-preview-show');
+        var $preview = $search.children('.section-preview');
+        var oldIcon = $search.data('preview');
+        if(!$preview.length) {
+            $preview = $('<div class="card-content section-preview icon-preview"><div class="icons"><i class="icon icon-10x"></i><i class="icon icon-5x"></i><i class="icon icon-2x"></i><i class="icon"></i></div><h3><small><i class="icon "></i></small> <span class="name color-accent"></span>  <small>Unicode: \\<span class="unicode">f3dd</span><span class="alias"> · 别名：<span class="alias-values"></span></span></small></h3><pre><code>&lt;i class=&quot;icon <span class="name"></span>&quot;&gt;&lt;/i&gt;</code></pre></div>');
+            $search.children('.card-heading').after($preview);
+        }
+        $search.children('.section-search').find('li.active').removeClass('active');
+        $icon.addClass('active');
+        if(oldIcon) $preview.find('.icon').removeClass('icon-' + oldIcon);
+        var icon = $icon.data('icon');
+        $search.data('preview', icon.id);
+        var id = 'icon-' + icon.id;
+        $preview.find('.icon').addClass(id);
+        $preview.find('.name').text(id);
+        $preview.find('.unicode').text(icon.code);
+        if(icon.alias && icon.alias.length) {
+            $preview.find('.alias').removeClass('hide').find('.alias-values').text(icon.alias.join(','));
+        } else {
+            $preview.find('.alias').addClass('hide');
+        }
+    };
+
+    var queryIcon = function(keys) {
+        if(!$.isArray(keys) && (keys || keys.length) ) {
+            keys = [keys];
+        }
+
+        var $section = $('#section-control-icons');
+        $body.attr('data-query', 'icons');
+        var $search = $section.children('.section-search');
+        if(!$search.length) {
+            $search = $('<div class="section-search card-content"><div class="loader loading"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div></div>');
+            $section.children('.card-heading').after($search);
+            $search = $section.children('.section-search');
+        }
+
+        loadData(ICONS_JSON, function(data){
+            var $list = $search.children('ul');
+            if(!$list.length) {
+                $list = $('<ul data-view="icons">');
+                $.each(data, function(iconName, icon){
+                    var $li = $('<li id="control-icons-' + iconName + '" data-id="' + iconName + '"><a href="#control/icons/' + iconName + '"><i class="icon icon-' + iconName + '"></i> icon-' + iconName + '</a></li>');
+                    icon.id = iconName;
+                    $li.data('icon', icon);
+                    $list.append($li);
+                });
+                $search.children('.loader').replaceWith($list);
+            }
+
+            if(!keys.length) {
+                $list.children('.hide').removeClass('hide');
+                chooseIcon($list.children().first());
+                return;
+            }
+
+            for(var keyIndex in keys) {
+                keys[keyIndex] = keys[keyIndex].toLowerCase();
+            }
+
+            var $bestMatch, bestMatchWeight = 0;
+            $.each(data, function(iconId, icon){
+                var choosed = false;
+                var weight = 0;
+                iconId = iconId.toLowerCase();
+                $.each(keys, function(keyIndex, key){
+                    var choosedThis = false;
+                    if(iconId.includes(key)) {
+                        choosedThis = true;
+                        weight += iconId.startsWith(key) ? 120: 110;
+                    } else if(icon.name && icon.name.toLowerCase().includes(key)) {
+                        choosedThis = true;
+                        weight += icon.name.toLowerCase().startsWith(key) ? 100: 95;
+                    } else if(key.startsWith('\\') && icon.code && icon.code.toLowerCase().includes(key)) {
+                        choosedThis = true;
+                        weight += 120;
+                    } else {
+                        var filters = [];
+                        if($.isArray(icon.filter) && icon.filter.length) filters = filters.concat(icon.filter);
+                        if($.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
+                        if($.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
+                        if(!filters.length) return;
+                        $.each(filters, function(filterIndex, filter){
+                            filter = filter.toLowerCase();
+                            if(filter.includes(key)) {
+                                choosedThis = true;
+                                weight += 50;
+                                return false;
+                            }
+                        });
+                    }
+
+                    if(!choosedThis) {
+                        choosed = false;
+                        return choosed;
+                    } else {
+                        choosed = true;
+                    }
+                });
+
+                var $li = $('#control-icons-' + iconId).toggleClass('hide', !choosed);
+                if(choosed && bestMatchWeight < weight) {
+                    bestMatchWeight = weight;
+                    $bestMatch = $li;
+                }
+            });
+            chooseIcon($bestMatch);
+        });
     };
 
     var query = function(keyString) {
@@ -414,7 +548,7 @@
             return;
         }
 
-        $body.addClass('query-enabled');
+        $body.addClass('query-enabled').attr('data-query', '');
 
         // Send ga data
         if($.isFunction(ga)) {
@@ -428,15 +562,19 @@
         $.each(keyString.split(' '), function(i, key){
             key = $.trim(key).toLowerCase();
             var keyOption = {origin: key};
-            if(key.startsWith('#')) {
+            if(key.startsWith('@')) {
                 keyOption.type = 'id';
-                keyOption.val = key.substr(1);
+                keyOption.chapter = key.substr(1);
+                keyOption.val = keyOption.chapter;
+            } else if(key.startsWith('#')) {
+                keyOption.type = 'id';
+                keyOption.val = key.substr(2);
             } else if(key.startsWith('icon-') || key.startsWith('icon:')) {
                 keyOption.type = 'icon';
                 keyOption.val = key.substr(5);
             } else if(key.startsWith('i:')) {
                 keyOption.type = 'icon';
-                keyOption.val = key.substr(1);
+                keyOption.val = key.substr(2);
             } else if(key.startsWith('ver:')) {
                 keyOption.type = 'version';
                 keyOption.val = key.substr(4);
@@ -466,7 +604,7 @@
                     keyOption.val = key;
                 }
             }
-            if(keyOption.val.length) {
+            if(keyOption.val.length || (keyOption.type && keyOption.type !== 'any')) {
                 keys.push(keyOption);
             }
         });
@@ -492,9 +630,23 @@
                         weight = 100;
                         break;
                     case 'icon':
-                        chooseThisKey = section.id === 'icons';
-                        if(chooseThisKey) matchType = ['section', 'id'];
-                        weight = 100;
+                        chooseThis = section.id === 'icons';
+                        if(chooseThis) {
+                            weight = 120;
+                            matches.push({key: key, type: ['section', 'id']});
+                            var iconKeys = [];
+                            if(key.val || key.val.length) {
+                                iconKeys.push(key.val);
+                            }
+                            for(var iconKeyIndex in keys) {
+                                var iconKey = keys[iconKeyIndex];
+                                if(iconKey.val !== key.val && (iconKey.val || iconKey.val.length)) {
+                                    iconKeys.push(iconKey.val);
+                                }
+                            }
+                            queryIcon(iconKeys);
+                            return false;
+                        }
                         break;
                     default:
                         var sectionName = section.name.toLowerCase();
@@ -636,7 +788,6 @@
     };
 
     var toggleCompactMode = function(toggle, callback) {
-        console.log('toggleCompactMode', toggle);
         if(toggle === UNDEFINED) {
             toggle = !$body.hasClass('compact-mode');
         }
@@ -676,6 +827,8 @@
             style['max-height'] = '';
             $page.css(style);
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
+
+            window.document.title = documentTitle;
             window.location.hash = '';
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
@@ -684,6 +837,33 @@
             return true;
         }
         return false;
+    };
+
+    var showPageTopic = function(topic) {
+        $page.removeClass('page-collapsed');
+        var valType = typeof topic;
+        console.log('showPageTopic', topic, valType);
+        if(valType === 'undefined') return;
+        if(valType === 'string') {
+            var num = parseInt(topic);
+            if(num !== NaN) {
+                valType = 'number';
+                topic = num;
+            }
+        }
+
+        var expandTopic = function($section) {
+            if($section && $section.length) {
+                togglePageSection(false);
+                togglePageSection($section.addClass('hover'), true);
+            }
+        };
+
+        if(valType === 'number') {
+            expandTopic($pageContent.children('section').eq(topic));
+        } else if(valType === 'string' && valType.length) {
+            // highlight element with the id string.
+        }
     };
 
     var openPage = function($section, section, topic) {
@@ -697,13 +877,14 @@
         // Send ga data
         var pageUrl = '#' + section.chapter + '/' + section.id;
         if(topic) pageUrl += '/' + topic;
+        window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
         if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
 
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
         $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
-        $pageHeader.children('.desc').text(section.desc);
+        $pageHeader.find('.desc').text(section.desc);
         $pageContent.html('');
         var $loader = $page.addClass('loading').find('.loader').addClass('loading');
 
@@ -713,6 +894,7 @@
             $pageContent.html(data);
             $queryInput.blur();
             $pageBody.scrollTop(0);
+            showPageTopic(topic);
         });
 
         if($body.hasClass('page-open')) {
@@ -726,8 +908,8 @@
             var offset = $section.offset();
             var sectionHeight = $section.outerHeight();
             var style = {
-                left: offset.left - $grid.children('.container').offset().left - 6,
-                top: offset.top - $window.scrollTop() - 81,
+                left: Math.floor(offset.left - $grid.children('.container').offset().left - 6),
+                top: Math.floor(offset.top - $window.scrollTop() - 61),
                 width: $section.outerWidth(),
                 height: sectionHeight,
                 'max-height': sectionHeight
@@ -790,27 +972,17 @@
             $section = $temp;
         }
 
-        var url = section.url;
-
-        if(url === null) {
-            if(debug) console.error("Open section stop by null url.");
-            return;
-        }
-
-        if(!url) {
-            url = 'part/' + section.chapter + '-' + section.id + '.html';
-            section.url = url;
-        }
-
-        url = url.toLowerCase();
-        if(url.startsWith('http://') || url.startsWith('https://') ) {
-            window.open(url, '_blank');
-        } else {
-            openPage($section, section, topic);
+        switch(section.target) {
+            case 'external':
+                window.open(section.url, '_blank');
+                break;
+            case 'page':
+                openPage($section, section, topic);
+                break;
+            default:
+                if(debug) console.error("Open section failed: unknown target.");
         }
     };
-
-    window.openS = openSection;
 
     var resizePage = function() {
         if($body.hasClass('page-show-out') || $page.hasClass('loading')) return;
@@ -824,7 +996,34 @@
         $page.css('height', height);
     };
 
+    var togglePageSection = function($section, toggle) {
+        var valType = typeof $section;
+        if(valType === 'object') {
+            if(typeof toggle === 'undefined') {
+                toggle = $section.hasClass('collapsed');
+            }
+            $section.toggleClass('collapsed', !toggle);
+            var $setions = $pageContent.children('section');
+            var sectionsCount = $setions.length, collapsedSectionCount = $setions.filter('.collapsed').length;
+            if(collapsedSectionCount === 0) {
+                $page.removeClass('page-collapsed');
+            } else if(collapsedSectionCount === sectionsCount) {
+                $page.addClass('page-collapsed');
+            }
+        } else {
+            toggle = valType === 'boolean' ? $section : $page.hasClass('page-collapsed');
+            $page.toggleClass('page-collapsed', toggle);
+            if(!toggle) {
+                $pageContent.children('section').addClass('collapsed');
+            } else {
+                $pageContent.children('section').removeClass('collapsed');
+            }
+        }
+    };
+
     $(function() {
+        documentTitle = window.document.title;
+
         var stopPropagation = function(e) {
             e.stopPropagation();
         }
@@ -897,13 +1096,15 @@
         });
 
         // Bind events
+        var oldActivePreivewId;
         $(document).on('click', function(e){
             if($body.hasClass('page-show')) {
                 closePage();
                 return;
             }
-            chooseSection();
-            $sections.removeClass('open');
+            if(!$body.attr('data-query')) {
+                chooseSection();
+            }
         });
         $page.on('click', stopPropagation);
         $grid.on('click', '.card-heading', function(e) {
@@ -914,6 +1115,8 @@
                 $card.toggleClass('open');
             }
             stopPropagation(e);
+        }).on('click', '.chapter-heading > h4 > .name', function(){
+            $queryInput.focus().val('@' + $(this).closest('.chapter').data('id')).change();
         }).on('click', '.card', function(e){
             chooseSection($(this), true);
             stopPropagation(e);
@@ -928,6 +1131,26 @@
             $(this).closest('.card-heading').addClass('hover');
         }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').removeClass('hover');
+        }).on('mouseenter', '#section-control-icons .section-search > ul > li > a', function(){
+            oldActivePreivewId = $('#section-control-icons').data('preview');
+            chooseIcon($(this).closest('li'));
+        }).on('mouseleave', '#section-control-icons .section-search > ul > li > a', function(){
+            if(oldActivePreivewId) {
+                chooseIcon($('#control-icons-' + oldActivePreivewId));
+            }
+        }).on('click', '#section-control-icons .section-search > ul > li > a', function(){
+            oldActivePreivewId = $(this).closest('li').data('id');
+        });
+
+        $pageContent.on('click', 'section > header > h3', function(){
+            togglePageSection($(this).closest('section'));
+        }).on('mouseenter', 'section > header > h3', function(){
+            $(this).closest('section').addClass('hover');
+        }).on('mouseleave', 'section > header > h3', function(){
+            $(this).closest('section').removeClass('hover');
+        });
+        $page.on('click', '#pageTogger', function(){
+            togglePageSection();
         });
 
         $pageContent.on('resize', resizePage);
@@ -945,13 +1168,11 @@
         var lastScrollTop;
         $window.on('scroll', function(e){
             var isScrollAnimating = $body.data('isScrollAnimating');
-            console.log('scroll, isScrollAnimating',isScrollAnimating);
             if(isScrollAnimating) {
                 $window.scrollTop(1);
                 return;
             }
             lastScrollTop = $window.scrollTop();
-            console.log('lastScrollTop', lastScrollTop);
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
             } else if(!$body.hasClass('page-show') && $body.hasClass('compact-mode')) {
