@@ -219,9 +219,33 @@
 {
   .transition(@target @speed @type);
 }
+.transition-none()
+{
+  .transition(none);
+}
 .transition-fast(@target)
 {
   .transition(@target @animation-speed-fast @animation-type);
+}
+.transition-fast(@target1; @target2)
+{
+  .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}");
+}
+.transition-fast(@target1; @target2; @target3)
+{
+  .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}, @{target3} @{animation-speed-fast} @{animation-type}");
+}
+.transition-fast(@target1; @target2; @target3; @target4)
+{
+  .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}, @{target3} @{animation-speed-fast} @{animation-type}, @{target4} @{animation-speed-fast} @{animation-type}");
+}
+.transition-fast(@target1; @target2; @target3; @target4; @target5;)
+{
+  .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}, @{target3} @{animation-speed-fast} @{animation-type}, @{target4} @{animation-speed-fast} @{animation-type}, @{target5} @{animation-speed-fast} @{animation-type}");
+}
+.transition-fast(@target1; @target2; @target3; @target4; @target5; @target6)
+{
+  .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}, @{target3} @{animation-speed-fast} @{animation-type}, @{target4} @{animation-speed-fast} @{animation-type}, @{target5} @{animation-speed-fast} @{animation-type}, @{target6} @{animation-speed-fast} @{animation-type}");
 }
 .transition-fast()
 {
@@ -238,6 +262,14 @@
 .transition-normal(@target)
 {
   .transition(@target @animation-speed-normal @animation-type);
+}
+.transition-normal(@target1; @target2)
+{
+  .transition(~"@{target1} @{animation-speed-normal} @{animation-type}, @{target2} @{animation-speed-normal} @{animation-type}");
+}
+.transition-normal(@target1; @target2; @target3)
+{
+  .transition(~"@{target1} @{animation-speed-normal} @{animation-type}, @{target2} @{animation-speed-normal} @{animation-type}, @{target3} @{animation-speed-normal} @{animation-type}");
 }
 .transition-normal()
 {
