@@ -89,12 +89,25 @@
     color: @color;
   }
 
-  .card[data-target="external"] > .card-heading.hover {
+  .card[data-target="external"] > .card-heading {
     > h5 > a:after {
       display: inline-block;
       margin-left: 5px;
       .icon-zenicon();
       content: @icon-external-link;
+      opacity: 0;
+      .scale(.5);
+      left: -10px;
+      position: relative;
+      .transition-fast(transform; opacity; left);
+    }
+
+    &.hover {
+      > h5 > a:after {
+        left: 0;
+        opacity: 1;
+        .scale(1);
+      }
     }
   }
 }
@@ -652,6 +665,26 @@ body {
   .chapter-heading {
     > h4 {
       margin-bottom: 15px;
+
+      > .name {
+        cursor: pointer;
+
+        &:after {
+          .icon-zenicon();
+          display: inline-block;
+          margin-left: 5px;
+          content: @icon-double-angle-right;
+          position: relative;
+          left: -10px;
+          opacity: 0;
+          .transition-fast(opacity; left);
+        }
+
+        &:hover:after {
+          left: 0;
+          opacity: 1;
+        }
+      }
     }
   }
 

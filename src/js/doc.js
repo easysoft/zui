@@ -562,9 +562,13 @@
         $.each(keyString.split(' '), function(i, key){
             key = $.trim(key).toLowerCase();
             var keyOption = {origin: key};
-            if(key.startsWith('#')) {
+            if(key.startsWith('@')) {
                 keyOption.type = 'id';
-                keyOption.val = key.substr(1);
+                keyOption.chapter = key.substr(1);
+                keyOption.val = keyOption.chapter;
+            } else if(key.startsWith('#')) {
+                keyOption.type = 'id';
+                keyOption.val = key.substr(2);
             } else if(key.startsWith('icon-') || key.startsWith('icon:')) {
                 keyOption.type = 'icon';
                 keyOption.val = key.substr(5);
@@ -1078,6 +1082,8 @@
                 $card.toggleClass('open');
             }
             stopPropagation(e);
+        }).on('click', '.chapter-heading > h4 > .name', function(){
+            $queryInput.focus().val('@' + $(this).closest('.chapter').data('id')).change();
         }).on('click', '.card', function(e){
             chooseSection($(this), true);
             stopPropagation(e);
