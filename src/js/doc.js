@@ -1,6 +1,7 @@
 (function(window, $)
 {
     'use strict';
+    
     // Polyfill
     if (!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
