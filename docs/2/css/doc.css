@@ -1648,12 +1648,6 @@ body.compact-mode.compact-mode-in #navbar .navbar-collapse.collapsing .navbar-na
 body.compact-mode.compact-mode-in #navDownloadLink {
   opacity: 1;
 }
-body.compact-mode.compact-mode-in #navDownloadLink > a {
-  width: auto!important;
-}
-body.compact-mode.compact-mode-in #navDownloadLink > a > span {
-  display: inline!important;
-}
 body.compact-mode.compact-mode-in #header {
   height: 150px;
   padding-top: 60px;
