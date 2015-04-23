@@ -271,6 +271,10 @@
 {
   .transition(~"@{target1} @{animation-speed-normal} @{animation-type}, @{target2} @{animation-speed-normal} @{animation-type}, @{target3} @{animation-speed-normal} @{animation-type}");
 }
+.transition-normal(@target1; @target2; @target3; @target4)
+{
+  .transition(~"@{target1} @{animation-speed-normal} @{animation-type}, @{target2} @{animation-speed-normal} @{animation-type}, @{target3} @{animation-speed-normal} @{animation-type}, @{target4} @{animation-speed-normal} @{animation-type}");
+}
 .transition-normal()
 {
   .transition-normal(all);
