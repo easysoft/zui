@@ -839,6 +839,33 @@
         return false;
     };
 
+    var showPageTopic = function(topic) {
+        $page.removeClass('page-collapsed');
+        var valType = typeof topic;
+        console.log('showPageTopic', topic, valType);
+        if(valType === 'undefined') return;
+        if(valType === 'string') {
+            var num = parseInt(topic);
+            if(num !== NaN) {
+                valType = 'number';
+                topic = num;
+            }
+        }
+
+        var expandTopic = function($section) {
+            if($section && $section.length) {
+                togglePageSection(false);
+                togglePageSection($section.addClass('hover'), true);
+            }
+        };
+
+        if(valType === 'number') {
+            expandTopic($pageContent.children('section').eq(topic));
+        } else if(valType === 'string' && valType.length) {
+            // highlight element with the id string.
+        }
+    };
+
     var openPage = function($section, section, topic) {
         var pageId = section.chapter + '-' + section.id;
         if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
@@ -867,6 +894,7 @@
             $pageContent.html(data);
             $queryInput.blur();
             $pageBody.scrollTop(0);
+            showPageTopic(topic);
         });
 
         if($body.hasClass('page-open')) {
@@ -969,8 +997,12 @@
     };
 
     var togglePageSection = function($section, toggle) {
-        if($section) {
-            $section.toggleClass('collapsed');
+        var valType = typeof $section;
+        if(valType === 'object') {
+            if(typeof toggle === 'undefined') {
+                toggle = $section.hasClass('collapsed');
+            }
+            $section.toggleClass('collapsed', !toggle);
             var $setions = $pageContent.children('section');
             var sectionsCount = $setions.length, collapsedSectionCount = $setions.filter('.collapsed').length;
             if(collapsedSectionCount === 0) {
@@ -979,8 +1011,9 @@
                 $page.addClass('page-collapsed');
             }
         } else {
-            $page.toggleClass('page-collapsed');
-            if($page.hasClass('page-collapsed')) {
+            toggle = valType === 'boolean' ? $section : $page.hasClass('page-collapsed');
+            $page.toggleClass('page-collapsed', toggle);
+            if(!toggle) {
                 $pageContent.children('section').addClass('collapsed');
             } else {
                 $pageContent.children('section').removeClass('collapsed');
