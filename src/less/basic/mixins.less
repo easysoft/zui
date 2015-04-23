@@ -219,17 +219,29 @@
 {
   .transition(@target @speed @type);
 }
+.transition-fast(@target)
+{
+  .transition(@target @animation-speed-fast @animation-type);
+}
 .transition-fast()
 {
-  .transition(all @animation-speed-fast @animation-type);
+  .transition-fast(all);
+}
+.transition-slow(@target)
+{
+  .transition(@target @animation-speed-slow @animation-type);
 }
 .transition-slow()
 {
-  .transition(all @animation-speed-slow @animation-type);
+  .transition-slow(all);
+}
+.transition-normal(@target)
+{
+  .transition(@target @animation-speed-normal @animation-type);
 }
 .transition-normal()
 {
-  .transition(all @animation-speed-normal @animation-type);
+  .transition-normal(all);
 }
 .transition()
 {
