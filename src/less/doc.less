@@ -415,12 +415,27 @@ body {
 
 #navbar {
 
-  &.navbar-inverse {
-    background: none
-  }
+  .transition-normal(padding-top);
 
   padding: 20px 0;
   border-bottom: none;
+
+  &.navbar-inverse {
+    background: none;
+  }
+
+  .navbar-nav > li > a {
+    &:hover, &:focus {
+      background-color: rgba(0,0,0,.2);
+    }
+
+    line-height: 20px;
+    height: 40px;
+
+    > .icon {
+      font-size: 20px;
+    }
+  }
 
   .navbar-brand {
     position: relative;
@@ -957,13 +972,12 @@ body.query-enabled {
 #pageContainer {
   display: none;
   position: fixed;
-  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
   z-index: 1035;
-  top: 80px;
+  top: 60px;
   .transition-fast();
 
   > .container {
@@ -1108,8 +1122,22 @@ body.compact-mode {
   }
 
   &.compact-mode-in {
+    #navbar {
+      padding-top: 10px;
+
+      .navbar-nav > li > a {
+        width: 40px;
+        padding: 10px;
+
+        > span {
+          display: none;
+        }
+      }
+    }
+
     #header {
-      height: 190px;
+      padding-top: 60px;
+      height: 150px;
 
       &.with-shadow {
         .box-shadow(0 2px 6px 0 rgba(0,0,0,.2));
@@ -1122,13 +1150,13 @@ body.compact-mode {
     }
 
     #search {
-      padding: 0 20px;
+      padding: 10px 20px;
       z-index: 1028;
     }
 
     #grid {
       .transition-normal();
-      margin-top: 200px;
+      margin-top: 160px;
     }
   }
 }
@@ -1161,8 +1189,8 @@ body.page-show {
 
   #search {
     position: relative;
-    top: -60px;
-    width: 50%;
+    top: -79px;
+    width: 60%;
     max-width: 300px;
     .transition(none);
   }
@@ -1184,14 +1212,14 @@ body.page-show {
 
   #pageBody {
     transition: left @animation-speed-slow @animation-type, top @animation-speed-slow @animation-type;
-    top: 200px;
+    top: 190px;
     left: 100px;
   }
 
   &.page-show-in {
 
     #pageBody {
-      top: 110px;
+      top: 90px;
       left: 0;
     }
 
@@ -1211,10 +1239,10 @@ body.page-show {
     }
 
     #pageHeader {
-      min-height: 110px;
+      min-height: 90px;
 
       > .wrapper {
-        padding-top: 20px;
+        padding-top: 15px;
         padding-left: 80px;
 
         > h2 {
@@ -1224,7 +1252,7 @@ body.page-show {
 
         > .icon {
           left: 26px;
-          top: 30px;
+          top: 25px;
         }
       }
 

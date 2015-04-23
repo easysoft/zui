@@ -864,8 +864,8 @@
             var offset = $section.offset();
             var sectionHeight = $section.outerHeight();
             var style = {
-                left: offset.left - $grid.children('.container').offset().left - 6,
-                top: offset.top - $window.scrollTop() - 81,
+                left: Math.floor(offset.left - $grid.children('.container').offset().left - 6),
+                top: Math.floor(offset.top - $window.scrollTop() - 61),
                 width: $section.outerWidth(),
                 height: sectionHeight,
                 'max-height': sectionHeight

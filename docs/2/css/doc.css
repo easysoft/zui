@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-22
+ * ZUI - v1.3.0 - 2015-04-23
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -288,9 +288,23 @@ body {
 #navbar {
   padding: 20px 0;
   border-bottom: none;
+  -webkit-transition: padding-top .5s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: padding-top .5s cubic-bezier(.175, .885, .32, 1);
+          transition: padding-top .5s cubic-bezier(.175, .885, .32, 1);
 }
 #navbar.navbar-inverse {
   background: none;
+}
+#navbar .navbar-nav > li > a {
+  height: 40px;
+  line-height: 20px;
+}
+#navbar .navbar-nav > li > a:hover,
+#navbar .navbar-nav > li > a:focus {
+  background-color: rgba(0, 0, 0, .2);
+}
+#navbar .navbar-nav > li > a > .icon {
+  font-size: 20px;
 }
 #navbar .navbar-brand {
   position: relative;
@@ -1188,8 +1202,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 }
 #pageContainer {
   position: fixed;
-  top: 0;
-  top: 80px;
+  top: 60px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -1339,8 +1352,19 @@ body.compact-mode #header {
 body.compact-mode #grid {
   margin-top: 503px;
 }
+body.compact-mode.compact-mode-in #navbar {
+  padding-top: 10px;
+}
+body.compact-mode.compact-mode-in #navbar .navbar-nav > li > a {
+  width: 40px;
+  padding: 10px;
+}
+body.compact-mode.compact-mode-in #navbar .navbar-nav > li > a > span {
+  display: none;
+}
 body.compact-mode.compact-mode-in #header {
-  height: 190px;
+  height: 150px;
+  padding-top: 60px;
 }
 body.compact-mode.compact-mode-in #header.with-shadow {
   -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .2);
@@ -1352,10 +1376,10 @@ body.compact-mode.compact-mode-in #heading {
 }
 body.compact-mode.compact-mode-in #search {
   z-index: 1028;
-  padding: 0 20px;
+  padding: 10px 20px;
 }
 body.compact-mode.compact-mode-in #grid {
-  margin-top: 200px;
+  margin-top: 160px;
   -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
@@ -1385,8 +1409,8 @@ body.page-show #grid {
 }
 body.page-show #search {
   position: relative;
-  top: -60px;
-  width: 50%;
+  top: -79px;
+  width: 60%;
   max-width: 300px;
   -webkit-transition: none;
        -o-transition: none;
@@ -1408,14 +1432,14 @@ body.page-show #searchForm > .icon {
   top: 10px;
 }
 body.page-show #pageBody {
-  top: 200px;
+  top: 190px;
   left: 100px;
   -webkit-transition: left .8s cubic-bezier(.175, .885, .32, 1), top .8s cubic-bezier(.175, .885, .32, 1);
        -o-transition: left .8s cubic-bezier(.175, .885, .32, 1), top .8s cubic-bezier(.175, .885, .32, 1);
           transition: left .8s cubic-bezier(.175, .885, .32, 1), top .8s cubic-bezier(.175, .885, .32, 1);
 }
 body.page-show.page-show-in #pageBody {
-  top: 110px;
+  top: 90px;
   left: 0;
 }
 body.page-show.page-show-in #searchForm {
@@ -1437,10 +1461,10 @@ body.page-show.page-show-in #page {
   opacity: 1;
 }
 body.page-show.page-show-in #pageHeader {
-  min-height: 110px;
+  min-height: 90px;
 }
 body.page-show.page-show-in #pageHeader > .wrapper {
-  padding-top: 20px;
+  padding-top: 15px;
   padding-left: 80px;
 }
 body.page-show.page-show-in #pageHeader > .wrapper > h2 {
@@ -1448,7 +1472,7 @@ body.page-show.page-show-in #pageHeader > .wrapper > h2 {
   font-size: 20px;
 }
 body.page-show.page-show-in #pageHeader > .wrapper > .icon {
-  top: 30px;
+  top: 25px;
   left: 26px;
 }
 body.page-show.page-show-in #pageHeader > .btn {
