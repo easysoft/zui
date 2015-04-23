@@ -970,13 +970,13 @@
             var $setions = $pageContent.children('section');
             var sectionsCount = $setions.length, collapsedSectionCount = $setions.filter('.collapsed').length;
             if(collapsedSectionCount === 0) {
-                $pageBody.removeClass('collapsed');
+                $page.removeClass('page-collapsed');
             } else if(collapsedSectionCount === sectionsCount) {
-                $pageBody.addClass('collapsed');
+                $page.addClass('page-collapsed');
             }
         } else {
-            $pageBody.toggleClass('collapsed');
-            if($pageBody.hasClass('collapsed')) {
+            $page.toggleClass('page-collapsed');
+            if($page.hasClass('page-collapsed')) {
                 $pageContent.children('section').addClass('collapsed');
             } else {
                 $pageContent.children('section').removeClass('collapsed');
@@ -1110,7 +1110,7 @@
         }).on('mouseleave', 'section > header > h3', function(){
             $(this).closest('section').removeClass('hover');
         });
-        $pageBody.on('click', '#pageTogger', function(){
+        $page.on('click', '#pageTogger', function(){
             togglePageSection();
         });
 

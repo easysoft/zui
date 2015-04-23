@@ -1569,7 +1569,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 }
 #pageTogger {
   position: absolute;
-  top: 18px;
+  bottom: -36px;
   left: 35px;
   z-index: 10;
   width: 19px;
@@ -1604,7 +1604,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   width: 9px;
   height: 1px;
 }
-#pageBody.collapsed #pageTogger:before {
+#page.page-collapsed #pageTogger:before {
   display: block;
 }
 body.compact-mode #header,
