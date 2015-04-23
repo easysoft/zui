@@ -198,13 +198,26 @@
             var chapterName = chapter.id;
             section.chapter = chapterName;
             section.chapterName = chapter.name;
+
+            var url = section.url;
+            if(typeof url === 'undefined') {
+                section.url = 'part/' + section.chapter + '-' + section.id + '.html';
+                section.target = 'page';
+            } else if(url && (url.toLowerCase().startsWith('http://') || url.toLowerCase().startsWith('https://'))) {
+                section.target = 'external';
+            } else {
+                section.target = '';
+            }
+
             var id = chapterName + '-' + section.id;
-            var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
+            var $tpl = $sectionTemplate.clone().data('section', section);
             $tpl.attr({
+                'id': 'section-' + id,
                 'data-id': section.id,
                 'data-chapter': chapterName,
                 'data-order': order++,
-                'data-accent': chapter.accent
+                'data-accent': chapter.accent,
+                'data-target': section.target
             });
             var $head = $tpl.children('.card-heading');
             var sectionUrl = '#' + chapterName + '/' + section.id;
@@ -833,7 +846,6 @@
         // Send ga data
         var pageUrl = '#' + section.chapter + '/' + section.id;
         if(topic) pageUrl += '/' + topic;
-        console.log(section);
         window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
         if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
@@ -928,23 +940,15 @@
             $section = $temp;
         }
 
-        var url = section.url;
-
-        if(url === null) {
-            if(debug) console.error("Open section stop by null url.");
-            return;
-        }
-
-        if(!url) {
-            url = 'part/' + section.chapter + '-' + section.id + '.html';
-            section.url = url;
-        }
-
-        url = url.toLowerCase();
-        if(url.startsWith('http://') || url.startsWith('https://') ) {
-            window.open(url, '_blank');
-        } else {
-            openPage($section, section, topic);
+        switch(section.target) {
+            case 'external':
+                window.open(section.url, '_blank');
+                break;
+            case 'page':
+                openPage($section, section, topic);
+                break;
+            default:
+                if(debug) console.error("Open section failed: unknown target.");
         }
     };
 

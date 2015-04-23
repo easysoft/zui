@@ -88,6 +88,15 @@
   .color-accent {
     color: @color;
   }
+
+  .card[data-target="external"] > .card-heading.hover {
+    > h5 > a:after {
+      display: inline-block;
+      margin-left: 5px;
+      .icon-zenicon();
+      content: @icon-external-link;
+    }
+  }
 }
 
 .page-accent(@color; @pale) {
@@ -672,6 +681,14 @@ body {
         padding: 3px 8px;
         color: #fff;
       }
+    }
+
+    &[data-target="external"].choosed:before {
+      content: '按Enter键在新窗口中打开';
+    }
+
+    &[data-target=""].choosed:before {
+      display: none;
     }
 
     &:hover, &.open {

@@ -490,6 +490,12 @@ body {
        -o-transition: right .1s cubic-bezier(.175, .885, .32, 1);
           transition: right .1s cubic-bezier(.175, .885, .32, 1);
 }
+#grid .card[data-target="external"].choosed:before {
+  content: '按Enter键在新窗口中打开';
+}
+#grid .card[data-target=""].choosed:before {
+  display: none;
+}
 #grid .card:hover,
 #grid .card.open {
   border-color: #e5e5e5;
@@ -847,6 +853,22 @@ body {
 #grid .chapter[data-accent="blue"] .color-accent {
   color: #00acc1;
 }
+#grid .chapter[data-accent="blue"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  content: '\e684';
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 #grid .chapter[data-accent="primary"] .chapter-heading {
   color: #3280fc;
 }
@@ -906,6 +928,22 @@ body {
 }
 #grid .chapter[data-accent="primary"] .color-accent {
   color: #3280fc;
+}
+#grid .chapter[data-accent="primary"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  content: '\e684';
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 #grid .chapter[data-accent="yellow"] .chapter-heading {
   color: #fd9927;
@@ -967,6 +1005,22 @@ body {
 #grid .chapter[data-accent="yellow"] .color-accent {
   color: #fd9927;
 }
+#grid .chapter[data-accent="yellow"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  content: '\e684';
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 #grid .chapter[data-accent="green"] .chapter-heading {
   color: #2fb936;
 }
@@ -1026,6 +1080,22 @@ body {
 }
 #grid .chapter[data-accent="green"] .color-accent {
   color: #2fb936;
+}
+#grid .chapter[data-accent="green"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  content: '\e684';
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 #grid .chapter[data-accent="red"] .chapter-heading {
   color: #ee4e2f;
@@ -1087,6 +1157,22 @@ body {
 #grid .chapter[data-accent="red"] .color-accent {
   color: #ee4e2f;
 }
+#grid .chapter[data-accent="red"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  content: '\e684';
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 #grid .chapter[data-accent="brown"] .chapter-heading {
   color: #bd7b46;
 }
@@ -1147,6 +1233,22 @@ body {
 #grid .chapter[data-accent="brown"] .color-accent {
   color: #bd7b46;
 }
+#grid .chapter[data-accent="brown"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  content: '\e684';
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 #grid .chapter[data-accent="purple"] .chapter-heading {
   color: #8666b8;
 }
@@ -1206,6 +1308,22 @@ body {
 }
 #grid .chapter[data-accent="purple"] .color-accent {
   color: #8666b8;
+}
+#grid .chapter[data-accent="purple"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
+  display: inline-block;
+  margin-left: 5px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  content: '\e684';
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 body.input-query-focus #grid .card.choosed:before {
   right: 0;
