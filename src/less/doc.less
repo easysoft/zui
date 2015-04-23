@@ -125,10 +125,30 @@
   font-size: 140px;
 }
 
+@animation-speed-quickly: .1s;
 .transition-quickly(){
-  .transition(all .1s @animation-type);
+  .transition(all @animation-speed-quickly @animation-type);
 }
-
+.transition-quickly(@target)
+{
+  .transition(@target @animation-speed-quickly @animation-type);
+}
+.transition-quickly(@target1; @target2)
+{
+  .transition(~"@{target1} @{animation-speed-quickly} @{animation-type}, @{target2} @{animation-speed-quickly} @{animation-type}");
+}
+.transition-quickly(@target1; @target2; @target3)
+{
+  .transition(~"@{target1} @{animation-speed-quickly} @{animation-type}, @{target2} @{animation-speed-quickly} @{animation-type}, @{target3} @{animation-speed-quickly} @{animation-type}");
+}
+.transition-quickly(@target1; @target2; @target3; @target4)
+{
+  .transition(~"@{target1} @{animation-speed-quickly} @{animation-type}, @{target2} @{animation-speed-quickly} @{animation-type}, @{target3} @{animation-speed-quickly} @{animation-type}, @{target4} @{animation-speed-quickly} @{animation-type}");
+}
+.transition-quickly(@target1; @target2; @target3; @target4; @target5; @target6)
+{
+  .transition(~"@{target1} @{animation-speed-quickly} @{animation-type}, @{target2} @{animation-speed-quickly} @{animation-type}, @{target3} @{animation-speed-quickly} @{animation-type}, @{target4} @{animation-speed-quickly} @{animation-type}, @{target5} @{animation-speed-quickly} @{animation-type}, @{target6} @{animation-speed-quickly} @{animation-type}");
+}
 .slide-in-up-100 {
   position: relative;
   top: 100px;
@@ -251,7 +271,7 @@
   }
 
   &:before, &:after, > .path-1, > .path-1:before, > .path-1:after {
-    .transition(all .3s);
+    .transition-fast();
     position: absolute;
     content: ' ';
     display: block;
@@ -399,7 +419,7 @@
 }
 
 body {
-  .transition(background @animation-speed-fast @animation-type);
+  .transition-fast(background);
 }
 
 #header {
@@ -597,7 +617,7 @@ body {
 
   .card {
     background-color: #fff;
-    .transition-quickly();
+    .transition-quickly(border; height; transform; top; left; opcity);
     display: none;
     border-radius: 0;
     margin-bottom: 10px;
@@ -612,7 +632,7 @@ body {
       border-color: #808080;
 
       &:before {
-        .transition-quickly();
+        .transition-quickly(right);
         content: '按Enter键打开';
         display: block;
         position: absolute;
@@ -629,12 +649,12 @@ body {
   }
 
   .card-heading {
-    .transition-quickly();
+    .transition-quickly(background-color);
     position: relative;
     padding: 8px 8px 8px 64px;
 
     > .btn-toggle {
-      .transition-quickly();
+      // .transition-quickly();
       display: block;
       text-align: center;
       position: absolute;
@@ -657,7 +677,7 @@ body {
     }
 
     > .icon {
-      .transition-quickly();
+      .transition-quickly(transform; background-color; color);
       background-color: @color-gray-pale;
       background-size: contain;
       background-position: center;
@@ -683,7 +703,7 @@ body {
     }
 
     > h5 {
-      .transition-quickly();
+      .transition-quickly(padding; color);
       line-height: 16px;
       font-size: 16px;
       margin: 0;
@@ -724,7 +744,7 @@ body {
   .card-content {
     height: 0;
     padding: 0 10px;
-    .transition-quickly();
+    .transition-quickly(padding; height);
     overflow: hidden;
 
     > ul {
@@ -746,7 +766,6 @@ body {
       }
 
       > li {
-        .transition-quickly();
         position: relative;
         padding: 0;
 
@@ -773,7 +792,7 @@ body {
         }
 
         &:before {
-          .transition-quickly();
+          .transition-quickly(transform; background-color);
           position: absolute;
           display: block;
           content: ' ';
@@ -1027,7 +1046,6 @@ body.query-enabled {
   width: 100%;
   z-index: 1035;
   top: 60px;
-  .transition-fast();
 
   > .container {
     padding: 0;
@@ -1047,17 +1065,17 @@ body.query-enabled {
   position: relative;
   padding: 0;
   height: 64px;
-  .transition-fast();
+  .transition-fast(height);
 
   > .wrapper {
     max-width: 1160px;
     margin: 0 auto;
     position: relative;
     padding: 8px 20px 20px 66px;
-    .transition-fast();
+    .transition-fast(padding);
 
     > .icon {
-      .transition-fast();
+      .transition-fast(transform; background-color; left; top);
       // .scale(1.2);
       position: absolute;
       width: 36px;
@@ -1074,7 +1092,7 @@ body.query-enabled {
     }
 
     > h2 {
-      .transition-fast();
+      .transition-fast(padding; font-size);
       padding: 6px 0;
       line-height: 16px;
       font-size: 16px;
@@ -1154,7 +1172,7 @@ body.query-enabled {
 
 body.compact-mode {
   #header, #heading, #search {
-      .transition-normal();
+      .transition-normal(padding; height; opcity);
   }
 
   #header {
@@ -1226,7 +1244,7 @@ body.compact-mode {
     }
 
     #grid {
-      .transition-normal();
+      .transition-normal(opacity; background-color; margin);
       margin-top: 160px;
     }
   }
@@ -1250,8 +1268,9 @@ body.page-show {
 
   #page {
     overflow: hidden;
-    .transition-fast();
-    // transition: all 8s;
+    // .transition-fast();
+    .transition-fast(box-shadow; opacity; left; width; top; height);
+    // transition: all 8s; 
   }
 
   #grid {
@@ -1282,7 +1301,7 @@ body.page-show {
   }
 
   #pageBody {
-    transition: left @animation-speed-slow @animation-type, top @animation-speed-slow @animation-type;
+    transition: left @animation-speed-normal @animation-type, top @animation-speed-normal @animation-type;
     top: 190px;
     left: 100px;
   }
@@ -1295,7 +1314,7 @@ body.page-show {
     }
 
     #searchForm {
-      .transition-fast();
+      .transition-fast(transform; opacity);
       opacity: 1;
       .scale(1);
     }
@@ -1310,7 +1329,7 @@ body.page-show {
     }
 
     #pageHeader {
-      min-height: 90px;
+      height: 90px;
 
       > .wrapper {
         padding-top: 15px;

@@ -770,7 +770,6 @@
     };
 
     var toggleCompactMode = function(toggle, callback) {
-        console.log('toggleCompactMode', toggle);
         if(toggle === UNDEFINED) {
             toggle = !$body.hasClass('compact-mode');
         }

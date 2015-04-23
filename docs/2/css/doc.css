@@ -141,9 +141,9 @@
   height: 2px;
   content: ' ';
   border: 2px solid #808080;
-  -webkit-transition: all .3s;
-       -o-transition: all .3s;
-          transition: all .3s;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
 }
 .path-btn:after {
   top: 26px;
@@ -468,9 +468,9 @@ body {
   border-radius: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), -webkit-transform .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), -o-transform .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1);
+          transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), transform .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card.show {
   display: block;
@@ -486,9 +486,9 @@ body {
   padding: 3px 8px;
   color: #fff;
   content: '按Enter键打开';
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: right .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: right .1s cubic-bezier(.175, .885, .32, 1);
+          transition: right .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card:hover,
 #grid .card.open {
@@ -497,9 +497,9 @@ body {
 #grid .card-heading {
   position: relative;
   padding: 8px 8px 8px 64px;
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: background-color .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: background-color .1s cubic-bezier(.175, .885, .32, 1);
+          transition: background-color .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > .btn-toggle {
   position: absolute;
@@ -512,9 +512,6 @@ body {
   text-align: center;
   background-color: #f1f1f1;
   border-radius: 0;
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > .btn-toggle > .icon {
   font-size: 28px;
@@ -540,9 +537,9 @@ body {
   -webkit-background-size: contain;
           background-size: contain;
   border-radius: 18px;
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: -webkit-transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition:      -o-transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
+          transition:         transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > .icon.with-img {
   background-color: transparent!important;
@@ -558,9 +555,9 @@ body {
   margin: 0;
   font-size: 16px;
   line-height: 16px;
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
+          transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > h5 > a.name {
   color: #353535;
@@ -591,9 +588,9 @@ body {
   height: 0;
   padding: 0 10px;
   overflow: hidden;
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: padding .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: padding .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1);
+          transition: padding .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-content > ul {
   position: relative;
@@ -615,9 +612,6 @@ body {
 #grid .card-content > ul > li {
   position: relative;
   padding: 0;
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-content > ul > li > a {
   display: block;
@@ -650,9 +644,9 @@ body {
   content: ' ';
   background-color: #e5e5e5;
   border-radius: 4px;
-  -webkit-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .1s cubic-bezier(.175, .885, .32, 1);
-          transition: all .1s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: -webkit-transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition:      -o-transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1);
+          transition:         transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-content > ul > li:after {
   position: absolute;
@@ -1256,9 +1250,6 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   z-index: 1035;
   display: none;
   width: 100%;
-  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-          transition: all .3s cubic-bezier(.175, .885, .32, 1);
 }
 #pageContainer > .container {
   padding: 0;
@@ -1278,18 +1269,18 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   height: 64px;
   padding: 0;
   background-color: #fafafa;
-  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: height .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: height .3s cubic-bezier(.175, .885, .32, 1);
+          transition: height .3s cubic-bezier(.175, .885, .32, 1);
 }
 #pageHeader > .wrapper {
   position: relative;
   max-width: 1160px;
   padding: 8px 20px 20px 66px;
   margin: 0 auto;
-  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: padding .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: padding .3s cubic-bezier(.175, .885, .32, 1);
+          transition: padding .3s cubic-bezier(.175, .885, .32, 1);
 }
 #pageHeader > .wrapper > .icon {
   position: absolute;
@@ -1304,18 +1295,18 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   text-align: center;
   background-color: #e5e5e5;
   border-radius: 18px;
-  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: -webkit-transform .3s cubic-bezier(.175, .885, .32, 1), background-color .3s cubic-bezier(.175, .885, .32, 1), left .3s cubic-bezier(.175, .885, .32, 1), top .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition:      -o-transform .3s cubic-bezier(.175, .885, .32, 1), background-color .3s cubic-bezier(.175, .885, .32, 1), left .3s cubic-bezier(.175, .885, .32, 1), top .3s cubic-bezier(.175, .885, .32, 1);
+          transition:         transform .3s cubic-bezier(.175, .885, .32, 1), background-color .3s cubic-bezier(.175, .885, .32, 1), left .3s cubic-bezier(.175, .885, .32, 1), top .3s cubic-bezier(.175, .885, .32, 1);
 }
 #pageHeader > .wrapper > h2 {
   padding: 6px 0;
   margin: 0;
   font-size: 16px;
   line-height: 16px;
-  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: padding .3s cubic-bezier(.175, .885, .32, 1), font-size .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: padding .3s cubic-bezier(.175, .885, .32, 1), font-size .3s cubic-bezier(.175, .885, .32, 1);
+          transition: padding .3s cubic-bezier(.175, .885, .32, 1), font-size .3s cubic-bezier(.175, .885, .32, 1);
 }
 #pageHeader > .wrapper > h2 > a.name {
   color: #353535;
@@ -1384,9 +1375,9 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 body.compact-mode #header,
 body.compact-mode #heading,
 body.compact-mode #search {
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: padding .5s cubic-bezier(.175, .885, .32, 1), height .5s cubic-bezier(.175, .885, .32, 1), opcity .5s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: padding .5s cubic-bezier(.175, .885, .32, 1), height .5s cubic-bezier(.175, .885, .32, 1), opcity .5s cubic-bezier(.175, .885, .32, 1);
+          transition: padding .5s cubic-bezier(.175, .885, .32, 1), height .5s cubic-bezier(.175, .885, .32, 1), opcity .5s cubic-bezier(.175, .885, .32, 1);
 }
 body.compact-mode #header {
   position: fixed;
@@ -1445,9 +1436,9 @@ body.compact-mode.compact-mode-in #search {
 }
 body.compact-mode.compact-mode-in #grid {
   margin-top: 160px;
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: opacity .5s cubic-bezier(.175, .885, .32, 1), background-color .5s cubic-bezier(.175, .885, .32, 1), margin .5s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .5s cubic-bezier(.175, .885, .32, 1), background-color .5s cubic-bezier(.175, .885, .32, 1), margin .5s cubic-bezier(.175, .885, .32, 1);
+          transition: opacity .5s cubic-bezier(.175, .885, .32, 1), background-color .5s cubic-bezier(.175, .885, .32, 1), margin .5s cubic-bezier(.175, .885, .32, 1);
 }
 body.page-show {
   overflow: hidden;
@@ -1465,9 +1456,9 @@ body.page-show #pageContainer {
 }
 body.page-show #page {
   overflow: hidden;
-  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: -webkit-box-shadow .3s cubic-bezier(.175, .885, .32, 1), opacity .3s cubic-bezier(.175, .885, .32, 1), left .3s cubic-bezier(.175, .885, .32, 1), width .3s cubic-bezier(.175, .885, .32, 1), top .3s cubic-bezier(.175, .885, .32, 1), height .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition:         box-shadow .3s cubic-bezier(.175, .885, .32, 1), opacity .3s cubic-bezier(.175, .885, .32, 1), left .3s cubic-bezier(.175, .885, .32, 1), width .3s cubic-bezier(.175, .885, .32, 1), top .3s cubic-bezier(.175, .885, .32, 1), height .3s cubic-bezier(.175, .885, .32, 1);
+          transition:         box-shadow .3s cubic-bezier(.175, .885, .32, 1), opacity .3s cubic-bezier(.175, .885, .32, 1), left .3s cubic-bezier(.175, .885, .32, 1), width .3s cubic-bezier(.175, .885, .32, 1), top .3s cubic-bezier(.175, .885, .32, 1), height .3s cubic-bezier(.175, .885, .32, 1);
 }
 body.page-show #grid {
   opacity: .5;
@@ -1499,9 +1490,9 @@ body.page-show #searchForm > .icon {
 body.page-show #pageBody {
   top: 190px;
   left: 100px;
-  -webkit-transition: left .8s cubic-bezier(.175, .885, .32, 1), top .8s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: left .8s cubic-bezier(.175, .885, .32, 1), top .8s cubic-bezier(.175, .885, .32, 1);
-          transition: left .8s cubic-bezier(.175, .885, .32, 1), top .8s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: left .5s cubic-bezier(.175, .885, .32, 1), top .5s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: left .5s cubic-bezier(.175, .885, .32, 1), top .5s cubic-bezier(.175, .885, .32, 1);
+          transition: left .5s cubic-bezier(.175, .885, .32, 1), top .5s cubic-bezier(.175, .885, .32, 1);
 }
 body.page-show.page-show-in #pageBody {
   top: 90px;
@@ -1509,9 +1500,9 @@ body.page-show.page-show-in #pageBody {
 }
 body.page-show.page-show-in #searchForm {
   opacity: 1;
-  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
-          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: -webkit-transform .3s cubic-bezier(.175, .885, .32, 1), opacity .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition:      -o-transform .3s cubic-bezier(.175, .885, .32, 1), opacity .3s cubic-bezier(.175, .885, .32, 1);
+          transition:         transform .3s cubic-bezier(.175, .885, .32, 1), opacity .3s cubic-bezier(.175, .885, .32, 1);
   -webkit-transform: scale(1);
       -ms-transform: scale(1);
        -o-transform: scale(1);
@@ -1526,7 +1517,7 @@ body.page-show.page-show-in #page {
   opacity: 1;
 }
 body.page-show.page-show-in #pageHeader {
-  min-height: 90px;
+  height: 90px;
 }
 body.page-show.page-show-in #pageHeader > .wrapper {
   padding-top: 15px;
