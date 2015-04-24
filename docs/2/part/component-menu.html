@@ -1,58 +1,40 @@
-<p>垂直菜单可以方便的为您的应用创建可折叠的菜单。</p>
-<h3>实例</h3>
-<div class="example" contenteditable="false">
-  <nav class="menu" data-toggle="menu" style="width: 200px">
-    <button class="btn btn-primary">CREATE</button> <button class="btn">
-    UPLOAD</button>
-    <ul class="nav nav-primary">
-      <li>
-        <a href="###">Dashboard</a>
-      </li>
-      <li>
-        <a href="###">Me</a>
-      </li>
-      <li>
-        <a href="###">Time</a>
-        <ul class="nav">
-          <li>
-            <a href="###">Today</a>
+<article>
+  <p>垂直菜单可以方便的为您的应用创建可折叠的菜单。</p>
+</article>
+
+<section>
+  <header><h3>实例</h3></header>
+  <article>
+    <div class="example" contenteditable="false">
+      <nav class="menu" data-toggle="menu" style="width: 200px">
+        <button class="btn btn-primary"><i class="icon-edit"></i> CREATE</button>
+        <button class="btn"><i class="icon-cloud-upload"></i> UPLOAD</button>
+        <ul class="nav nav-primary">
+          <li><a href="javascript:;"><i class="icon-th"></i> Dashboard</a></li>
+          <li><a href="javascript:;"><i class="icon-user"></i> Me</a></li>
+          <li class="nav-parent">
+            <a href="javascript:;"><i class="icon-time"></i> Time<i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+            <ul class="nav">
+              <li><a href="javascript:;">Today</a></li>
+              <li><a href="javascript:;">Tomarrow</a></li>
+              <li><a href="javascript:;">Yestorday</a></li>
+              <li><a href="javascript:;">This Week</a></li>
+            </ul>
           </li>
-          <li>
-            <a href="###">Tomarrow</a>
-          </li>
-          <li>
-            <a href="###">Yestorday</a>
-          </li>
-          <li>
-            <a href="###">This Week</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="###">Trash</a>
-      </li>
-      <li>
-        <a href="###">All</a>
-      </li>
-      <li class="active show">
-        <a href="###">Status</a>
-        <ul class="nav">
-          <li>
-            <a href="###">Ready</a>
-          </li>
-          <li class="active">
-            <a href="###">Ongoing</a>
-          </li>
-          <li>
-            <a href="###">Completed</a>
+          <li><a href="javascript:;"><i class="icon-trash"></i> Trash</a></li>
+          <li><a href="javascript:;"><i class="icon-list-ul"></i> All</a></li>
+          <li class="active show nav-parent">
+            <a href="javascript:;"><i class="icon-tasks"></i> Status<i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+            <ul class="nav">
+              <li><a href="javascript:;"><i class="icon-circle-blank"></i> Ready</a></li>
+              <li class="active"><a href="javascript:;"><i class="icon-play-sign"></i> Ongoing</a></li>
+              <li><a href="javascript:;"><i class="icon-ok-sign"></i> Completed</a></li>
+            </ul>
           </li>
         </ul>
-      </li>
-    </ul>
-  </nav>
-</div>
-<pre class="prettyprint">
-<code>&lt;nav class=&quot;menu&quot; data-toggle=&quot;menu&quot; style=&quot;width: 200px&quot;&gt;
+      </nav>
+    </div>
+<pre class="prettyprint"><code>&lt;nav class=&quot;menu&quot; data-toggle=&quot;menu&quot; style=&quot;width: 200px&quot;&gt;
   &lt;button class=&quot;btn btn-primary&quot;&gt;&lt;i class=&quot;icon-edit&quot;&gt;&lt;/i&gt; CREATE&lt;/button&gt;
   &lt;button class=&quot;btn&quot;&gt;&lt;i class=&quot;icon-cloud-upload&quot;&gt;&lt;/i&gt; UPLOAD&lt;/button&gt;
   &lt;ul class=&quot;nav nav-primary&quot;&gt;
@@ -77,5 +59,23 @@
       &lt;/ul&gt;
     &lt;/li&gt;
   &lt;/ul&gt;
-&lt;/nav&gt;</code>
-</pre>
+&lt;/nav&gt;</code></pre>
+  </article>
+</section>
+
+<script>
+function afterPageLoad() {
+  $('#pageBody .menu').menu();
+  $('#pageBody .menu .nav li:not(".nav-parent") a').click(function() {
+      var $this = $(this);
+      $('.menu .nav .active').removeClass('active');
+      $this.closest('li').addClass('active');
+      var parent = $this.closest('.nav-parent');
+      if(parent.length)
+      {
+          parent.addClass('active');
+      }
+  });
+}
+</script>
+
