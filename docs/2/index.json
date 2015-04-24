@@ -5,7 +5,7 @@
         "resource":
         {
             "name": "更多资源",
-            "accent": "green",
+            "accent": "primary",
             "sections":
             [
                 {
@@ -19,7 +19,7 @@
         "promotion":
         {
             "name": "推荐",
-            "accent": "primary",
+            "accent": "purple",
             "sections":
             [
                 {
