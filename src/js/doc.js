@@ -829,7 +829,7 @@
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
 
             window.document.title = documentTitle;
-            window.location.hash = '';
+            window.location.hash = '#/';
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
