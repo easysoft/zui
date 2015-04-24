@@ -2,10 +2,46 @@
     "version": "1.3.0",
     "chapters": 
     {
+        "contribution":
+        {
+            "name": "贡献",
+            "accent": "red",
+            "sections":
+            [
+                {
+                    "id": "contributors",
+                    "name": "贡献者",
+                    "desc": "Github 上的贡献者清单",
+                    "icon": "icon-group",
+                    "url": "https://github.com/easysoft/zui/graphs/contributors"
+                },
+                {
+                    "id": "countme",
+                    "name": "我要加入",
+                    "desc": "加入ZUI，一起成长和改变，联系sunhao@cnezsoft.com",
+                    "icon": "icon-hand-up",
+                    "url": null
+                }
+            ]
+        },
+        "resource":
+        {
+            "name": "更多资源",
+            "accent": "primary",
+            "sections":
+            [
+                {
+                    "id": "help",
+                    "name": "搜索帮助",
+                    "desc": "更高效使用文档",
+                    "icon": "icon-search"
+                }
+            ]
+        },
         "promotion":
         {
             "name": "推荐",
-            "accent": "primary",
+            "accent": "purple",
             "sections":
             [
                 {

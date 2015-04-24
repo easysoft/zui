@@ -47,8 +47,9 @@
           </div>
           <div id="search">
             <div id="searchForm">
-              <input type="text" class="form-control input-lg" id="searchInput" placeholder="button, panel, icon..."/>
+              <input type="text" class="form-control input-lg" id="searchInput" placeholder="icon-star, button, control..."/>
               <i class="icon icon-search"></i>
+              <button id="searchHelpBtn" type="button" class="btn btn-link"><i class="icon icon-question"></i></button>
             </div>
           </div>
         </div>
@@ -69,14 +70,13 @@
             <button data-toggle="tooltip" title="关闭（ESC）" type="button" class="btn btn-link path-close-btn path-btn"><i class="path-1"></i></button>
           </div>
           <div id="pageBody" class="scrollbar-hover">
-            <div class="text-muted loader"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div>
+            <div class="loader"><i class="icon icon-spin icon-spinner"></i> <span class="loading-text">正在拼命加载中...</span><span class="error-text">加载失败，请检查网络重试。</span></div>
             <div id="pageContent"></div>
             <nav></nav>
           </div>
         </div>
       </div>
     </div>
-
     <div class="text-muted loader loading"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div>
 
     <div id="grid">
@@ -142,9 +142,27 @@
           <div class="col col-md-4">
             <div class="chapter" id="chapter-promotion" data-id="promotion">
               <div class="chapter-heading fade scale show">
-                <h4><i class="icon icon-heart"></i> <span class='name'>推荐</span></h4>
+                <h4><i class="icon icon-diamond"></i> <span class='name'>推荐</span></h4>
               </div>
               <div class="chapter-body" id="sections-promotion">
+              </div>
+            </div>
+          </div>
+          <div class="col col-md-4">
+            <div class="chapter" id="chapter-resource" data-id="resource">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-coffee"></i> <span class='name'>更多资源</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-resource">
+              </div>
+            </div>
+          </div>
+          <div class="col col-md-4">
+            <div class="chapter" id="chapter-contribution" data-id="contribution">
+              <div class="chapter-heading fade scale show">
+                <h4><i class="icon icon-heart"></i> <span class='name'>贡献</span></h4>
+              </div>
+              <div class="chapter-body" id="sections-contribution">
               </div>
             </div>
           </div>
@@ -169,6 +187,9 @@
 
     <!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->
     <script src="../../assets/jquery.js"></script>
+
+    <!-- 增强文档插件 -->
+    <script src="../../assets/google-code-prettify/prettify.js"></script>
 
     <!-- ZUI Javascript组件 -->
     <script src="../js/zui.js"></script>
