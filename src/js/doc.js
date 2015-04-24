@@ -151,6 +151,10 @@
                 if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
                 callback(cacheData.data);
             }
+
+            if($body.hasClass('page-open')) {
+                $pageBody.children('.loader').addClass('with-error');
+            }
         });
     };
 
@@ -886,7 +890,7 @@
         $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
         $pageHeader.find('.desc').text(section.desc);
         $pageContent.html('');
-        var $loader = $page.addClass('loading').find('.loader').addClass('loading');
+        var $loader = $page.addClass('loading').find('.loader').removeClass('with-error').addClass('loading');
 
         loadData(section.url, function(data){
             $page.removeClass('loading');
@@ -933,8 +937,7 @@
     };
 
     var openSection = function(section, topic) {
-        if(debug) console.log('openSection', section, topic);
-
+        // if(debug) console.log('openSection', section, topic);
         section = section || $choosedSection;
 
         var $section;

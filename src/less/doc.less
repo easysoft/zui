@@ -233,6 +233,7 @@
 
 
 .loader {
+  color: @color-gray;
   .transition-normal();
   text-align: center;
   padding: 0;
@@ -255,6 +256,31 @@
     opacity: 1;
     height: auto;
     .scale(1);
+
+    > .error-text {
+      display: none;
+    }
+  }
+
+  &.with-error {
+    > .icon-spin {
+      -moz-animation: none;
+      -o-animation: none;
+      -webkit-animation: none;
+      animation: none;
+
+      &:before {
+        content: @icon-exclamation-sign;
+      }
+    }
+
+    > .error-text {
+      display: inline;
+    }
+
+    > .loading-text {
+      display: none;
+    }
   }
 }
 
@@ -1382,6 +1408,9 @@ body.query-enabled {
   #pageTogger:before {
     display: block;
   }
+}
+#page.loading {
+  #pageTogger {display: none}
 }
 
 body.compact-mode {
