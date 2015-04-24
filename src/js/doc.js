@@ -933,10 +933,16 @@
     };
 
     var openSection = function(section, topic) {
+        if(debug) console.log('openSection', section, topic);
+
         section = section || $choosedSection;
 
         var $section;
         if($.isArray(section)) {
+            if(!section[0]) {
+                if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
+                return;
+            }
             var docIndex = dataset[INDEX_JSON].data;
             if(docIndex && section.length > 1) {
                 var sectionId = section[1];
@@ -954,7 +960,7 @@
                     }
                 }
                 if(!ok) {
-                    console.error("Open section failed: can't find the section with id " + section.join('-'));
+                    if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
                     return;
                 }
             } else {
