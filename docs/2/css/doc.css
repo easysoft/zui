@@ -33,6 +33,54 @@
 pre ol.linenums {
   padding-left: 40px;
 }
+@-webkit-keyframes glow {
+  0% {
+    border-color: rgba(71, 164, 71, .9);
+    -webkit-box-shadow: 0 0 12px rgba(71, 164, 71, .1);
+  }
+  100% {
+    border-color: #1a801a;
+    -webkit-box-shadow: 0 0 18px rgba(26, 128, 26, .8), 0 0 12px rgba(71, 164, 71, .5);
+  }
+}
+.example {
+  position: relative;
+  padding: 20px;
+  margin: 0 0 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-style: solid;
+  outline: none;
+  -webkit-transition: all .3s;
+       -o-transition: all .3s;
+          transition: all .3s;
+}
+.example:focus {
+  -webkit-box-shadow: 0 1px 15px rgba(0, 0, 0, .5);
+          box-shadow: 0 1px 15px rgba(0, 0, 0, .5);
+  -webkit-animation-name: glow;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+}
+.example.no-padding {
+  padding: 0;
+}
+.example > *:last-child {
+  margin-bottom: 0;
+}
+.example + pre,
+pre + pre {
+  padding: 10px 20px;
+  margin: -15px 0 15px;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0;
+}
+pre {
+  border-radius: 0;
+}
 .loader {
   height: 0;
   padding: 0;

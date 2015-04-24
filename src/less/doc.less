@@ -235,6 +235,59 @@ pre ol.linenums {
   padding-left: 40px;
 }
 
+// examples
+@-webkit-keyframes glow
+{
+    0% {
+        -webkit-box-shadow: 0 0 12px rgba(71,164,71, 0.1);
+        border-color: rgba(71, 164, 71, 0.9);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 18px rgba(26,128,26, 0.8),0 0 12px rgba(71,164,71, 0.5);
+        border-color: rgba(26, 128, 26, 1.0);
+    }
+}
+.example
+{
+  position: relative;
+  padding: 20px;
+  margin: 0 0 15px;
+  border-style: solid;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  outline: none;
+  transition:all 0.3s;
+}
+.example:focus
+{
+  box-shadow:0px 1px 15px rgba(0,0,0,0.5);
+  -webkit-animation-name: glow;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-timing-function: ease-in-out
+}
+.example.no-padding
+{
+  padding: 0;
+}
+.example > *:last-child
+{
+  margin-bottom: 0;
+}
+.example + pre, pre + pre
+{
+  margin: -15px 0 15px;
+  padding: 10px 20px;
+  border-radius: 0;
+  border: 1px solid #DDD;
+  border-top: none;
+}
+pre
+{
+  border-radius: 0;
+}
+
 .loader {
   color: @color-gray;
   .transition-normal();

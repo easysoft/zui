@@ -41,7 +41,8 @@
         javascript: {col: 3}, 
         view: {col: 3},
         promotion: {col: 1, row: 2},
-        resource: {col: 1, row: 2}
+        resource: {col: 1, row: 2},
+        contribution: {col: 1, row: 2}
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
