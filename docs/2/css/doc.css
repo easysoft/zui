@@ -1940,6 +1940,9 @@ body.page-show #headContainer {
 }
 body.page-show #pageContainer {
   display: block;
+  -webkit-transition: top .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: top .3s cubic-bezier(.175, .885, .32, 1);
+          transition: top .3s cubic-bezier(.175, .885, .32, 1);
 }
 body.page-show #page {
   overflow: hidden;

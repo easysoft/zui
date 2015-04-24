@@ -1336,6 +1336,7 @@
     $.doc = {
         query: query,
         openSection: openSection,
-        closePage: closePage
+        closePage: closePage,
+        loadData: loadData
     };
 }(window, jQuery));
