@@ -2,6 +2,20 @@
     "version": "1.3.0",
     "chapters": 
     {
+        "resource":
+        {
+            "name": "更多资源",
+            "accent": "green",
+            "sections":
+            [
+                {
+                    "id": "help",
+                    "name": "搜索帮助",
+                    "desc": "更高效使用文档",
+                    "icon": "icon-search"
+                }
+            ]
+        },
         "promotion":
         {
             "name": "推荐",

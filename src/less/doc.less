@@ -666,6 +666,35 @@ body {
     .box-shadow(@shadow);
   }
 }
+#searchHelpBtn {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  text-align: center;
+  border-radius: 20px;
+  width: 35px;
+  height: 35px;
+  line-height: 39px;
+  padding: 0;
+  color: #fff;
+  opacity: .65;
+  outline: none;
+
+  &:hover, &:active, &:focus {
+    background-color: #808080;
+    background-color: rgba(0,0,0,.5);
+  }
+
+  > .icon {
+    font-size: 20px;
+  }
+}
+
+#search.with-query-text #searchHelpBtn {
+  > .icon:before {
+    content: @icon-remove;
+  }
+}
 
 #grid {
   > .container {
@@ -1537,6 +1566,14 @@ body.page-show {
 
   #searchForm > .icon {
     top: 10px;
+  }
+
+  #searchHelpBtn {
+    width: 30px;
+    height: 30px;
+    line-height: 34px;
+    top: 3px;
+    right: 3px;
   }
 
   #pageBody {

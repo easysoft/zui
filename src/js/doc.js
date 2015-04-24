@@ -40,7 +40,8 @@
         component: {col: 2}, 
         javascript: {col: 3}, 
         view: {col: 3},
-        promotion: {col: 1, row: 2}
+        promotion: {col: 1, row: 2},
+        resource: {col: 1, row: 2}
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
@@ -828,8 +829,10 @@
     var closePage = function() {
         if($body.hasClass('page-open')) {
             var style = $page.data('trans-style');
-            style['max-height'] = '';
-            $page.css(style);
+            if(style){
+                style['max-height'] = '';
+                $page.css(style);
+            }
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
 
             window.document.title = documentTitle;
@@ -1249,12 +1252,17 @@
             $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
         });
 
+        var $search = $('#search');
+        var lastQueryString;
         $queryInput.on('change keyup paste input propertychange', function(){
             var val = $queryInput.val();
-            if(val === $queryInput.data('queryString')) return;
+            if(val === lastQueryString) return;
+            lastQueryString = val;
+            $search.toggleClass('with-query-text', val.length > 0);
             clearTimeout($queryInput.data(LAST_QUERY_ID));
             $queryInput.data(LAST_QUERY_ID, setTimeout(function(){
-                query(val);
+                if(lastQueryString === $queryInput.data('queryString')) return;
+                query(lastQueryString);
             }, 150));
         }).on('focus', function(){
             $body.addClass('input-query-focus');
@@ -1264,6 +1272,19 @@
         }).on('blur', function(){
             $body.removeClass('input-query-focus');
         }).on('click', stopPropagation);
+
+        $('#searchHelpBtn').on('click', function(e){
+            if($search.hasClass('with-query-text')) {
+                query();
+                $queryInput.focus();
+                $search.removeClass('with-query-text');
+            } else {
+                // query('#help');
+                openSection(['resource', 'help']);
+                $(this).blur();
+            }
+            stopPropagation(e);
+        });
 
         $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     });
