@@ -30,6 +30,9 @@
 .grow-up-in-height.show.in {
   height: auto;
 }
+pre ol.linenums {
+  padding-left: 40px;
+}
 .loader {
   height: 0;
   padding: 0;
@@ -1845,6 +1848,7 @@ body.compact-mode.compact-mode-in #navbar .navbar-collapse.in .navbar-nav > li >
 body.compact-mode.compact-mode-in #navbar .navbar-collapse.collapsing .navbar-nav > li > a {
   width: auto;
   padding: 10px 15px;
+  text-align: left;
 }
 body.compact-mode.compact-mode-in #navbar .navbar-collapse.in .navbar-nav > li > a > span,
 body.compact-mode.compact-mode-in #navbar .navbar-collapse.collapsing .navbar-nav > li > a > span {
