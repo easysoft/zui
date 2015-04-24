@@ -1623,7 +1623,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 #pageContent:before {
   position: absolute;
   top: -20px;
-  bottom: -25px;
+  bottom: 0;
   left: 24px;
   display: block;
   content: ' ';
@@ -1646,6 +1646,9 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   display: block;
   content: ' ';
   border-left: 1px dotted transparent;
+}
+#pageContent > section:last-child:before {
+  bottom: 0;
 }
 #pageContent > section > header {
   position: relative;

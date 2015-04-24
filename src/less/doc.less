@@ -1228,7 +1228,7 @@ body.query-enabled {
     border-left: 1px dotted @color-gray-lighter;
     left: 24px;
     top: -20px;
-    bottom: -25px;
+    bottom: 0;
   }
 
   > section > article, > section > header, > article {
@@ -1247,6 +1247,10 @@ body.query-enabled {
       left: -26px;
       top: 28px;
       bottom: -25px;
+    }
+
+    &:last-child:before {
+      bottom: 0;
     }
 
     > header {

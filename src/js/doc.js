@@ -1012,7 +1012,7 @@
             }
         } else {
             toggle = valType === 'boolean' ? $section : $page.hasClass('page-collapsed');
-            $page.toggleClass('page-collapsed', toggle);
+            $page.toggleClass('page-collapsed', !toggle);
             if(!toggle) {
                 $pageContent.children('section').addClass('collapsed');
             } else {
