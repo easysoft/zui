@@ -880,6 +880,19 @@
         }
     };
 
+    var handlePageLoad = function() {
+        if(window['afterPageLoad']) {
+            window['afterPageLoad']();
+        }
+
+        // pretty code
+        var $codes = $pageBody.find('pre');
+        if($codes.length && window['prettyPrint']) {
+            $codes.addClass('prettyprint');
+            window['prettyPrint']();
+        }
+    };
+
     var openPage = function($section, section, topic) {
         var pageId = section.chapter + '-' + section.id;
         if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
@@ -909,9 +922,7 @@
             $queryInput.blur();
             $pageBody.scrollTop(0);
             showPageTopic(topic);
-            if(window['afterPageLoad']) {
-                window['afterPageLoad']();
-            }
+            handlePageLoad();
         });
 
         if($body.hasClass('page-open')) {
