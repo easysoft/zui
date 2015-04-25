@@ -64,7 +64,7 @@
     var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols,
-        $choosedSection, $page, $pageHeader, $pageContent, 
+        $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
         $pageContainer, $pageBody, $navbar, $search,
         $header, $sections, $chapterHeadings; // elements
 
@@ -842,6 +842,11 @@
 
     var closePage = function() {
         window['afterPageLoad'] = null;
+        window['onPageLoad'] = null;
+        if($.isFunction(window['onPageClose'])) {
+            window['onPageClose']();
+            window['onPageClose'] = null;
+        }
         if($body.hasClass('page-open')) {
             var style = $page.data('trans-style');
             if(style){
@@ -891,17 +896,33 @@
         }
     };
 
+    var mutePageLoading = function() {
+        $page.removeClass('loading');
+        $pageLoader.removeClass('loading');
+    };
+
     var handlePageLoad = function() {
-        if(window['afterPageLoad']) {
-            window['afterPageLoad']();
+        var delayMutedPageLoading = false;
+        if($.isFunction(window['onPageLoad'])) {
+            delayMutedPageLoading = window['onPageLoad']() === false;
         }
 
-        // pretty code
-        var $codes = $pageBody.find('pre');
-        if($codes.length && window['prettyPrint']) {
-            $codes.addClass('prettyprint');
-            window['prettyPrint']();
-        }
+        setTimeout(function(){
+            if($.isFunction(window['afterPageLoad'])) {
+                if(window['afterPageLoad'](mutePageLoading) === true) {
+                    handlePageLoad();
+                }
+            }
+
+            // pretty code
+            var $codes = $pageBody.find('pre');
+            if($codes.length && window['prettyPrint']) {
+                $codes.addClass('prettyprint');
+                window['prettyPrint']();
+            }
+        }, 1000);
+
+        if(!delayMutedPageLoading) mutePageLoading();
     };
 
     var openPage = function($section, section, topic) {
@@ -924,16 +945,15 @@
         $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
         $pageHeader.find('.desc').text(section.desc);
         $pageContent.html('');
-        var $loader = $page.addClass('loading').find('.loader').removeClass('with-error').addClass('loading');
+        $page.addClass('loading');
+        $pageLoader.removeClass('with-error').addClass('loading');
 
         loadData(section.url, function(data){
-            $page.removeClass('loading');
-            $loader.removeClass('loading');
             $pageContent.html(data);
             $queryInput.blur();
             $pageBody.scrollTop(0);
             showPageTopic(topic);
-            setTimeout(handlePageLoad, 1000);
+            handlePageLoad();
         });
 
         if($body.hasClass('page-open')) {
@@ -1104,6 +1124,7 @@
         $chaptersCols = $grid.find('.col');
         $page = $('#page');
         $pageHeader = $('#pageHeader');
+        $pageLoader = $('#pageLoader');
         $pageContainer = $('#pageContainer');
         $pageContent = $('#pageContent');
         $chapters = $grid.find('.chapter');
@@ -1350,6 +1371,7 @@
         query: query,
         openSection: openSection,
         closePage: closePage,
-        loadData: loadData
+        loadData: loadData,
+        mutePageLoading: mutePageLoading
     };
 }(window, jQuery));

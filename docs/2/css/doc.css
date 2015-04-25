@@ -1877,6 +1877,9 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 #page.loading #pageTogger {
   display: none;
 }
+#page.loading #pageContent {
+  opacity: 0;
+}
 body.compact-mode #header,
 body.compact-mode #heading,
 body.compact-mode #search {

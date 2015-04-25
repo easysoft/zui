@@ -2416,7 +2416,7 @@
 
         that.isShown = true
 
-        that.setMoveale();
+        if(that.options.draggable) that.setMoveale();
 
         that.checkScrollbar()
         that.$body.addClass('modal-open')

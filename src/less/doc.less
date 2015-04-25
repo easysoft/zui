@@ -1494,6 +1494,7 @@ body.query-enabled {
 }
 #page.loading {
   #pageTogger {display: none}
+  #pageContent {opacity: 0}
 }
 
 body.compact-mode {
@@ -1633,7 +1634,7 @@ body.page-show {
   }
 
   #pageBody {
-    transition: left @animation-speed-normal @animation-type, top @animation-speed-normal @animation-type;
+    .transition-normal(left; top);
     top: 190px;
     left: 100px;
   }
