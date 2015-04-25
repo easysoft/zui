@@ -1,23 +1,82 @@
-<h3>类型</h3>
-<h4>默认模式</h4>
-<div class="example">
-  <textarea id="content" name="content" class="form-control kindeditor" style=
-  "height:150px;visibility:hidden;">
-Hello, world!
-</textarea>
-</div>
-<h4>简单模式</h4>
-<div class="example">
-  <textarea id="contentSimple" name="content" class=
-  "form-control kindeditorSimple" style="height:150px;visibility:hidden;">
-Hello, world!
-</textarea>
-</div>
-<h3>变化</h3>
-<h4>简单风格</h4>
-<div class="example">
-  <textarea id="contentCustom" name="content" class="form-control customStyle"
-  style="height:150px;visibility:hidden;">
-Hello, world!
-</textarea>
-</div>
+<article>
+  <p>ZUI 推荐的富文本编辑器是 <a href="http://kindeditor.net/" target="_blank">Kindeditor</a>。</p>
+  <p>在 ZUI 中 Kindeditor 的默认主题已经过定制与 ZUI 的风格保持一致。</p>
+</article>
+
+<section>
+  <header><h3>默认模式</h3></header>
+  <article>
+    <div class="example">
+      <textarea id="content" name="content" class="form-control kindeditor" style="height:150px;">Hello, world!</textarea>
+    </div>
+  </article>
+</section>
+
+<section>
+  <header><h3>简单模式</h3></header>
+  <article>
+    <div class="example">
+      <textarea id="contentSimple" name="content" class=
+      "form-control kindeditorSimple" style="height:150px;">Hello, world!</textarea>
+    </div>
+  </article>
+</section>
+
+<section>
+  <header><h3>简单风格</h3></header>
+  <article>
+    <div class="example">
+      <textarea id="contentCustom" name="content" class="form-control customStyle" style="height:150px;">Hello, world!</textarea>
+    </div>
+  </article>
+</section>
+
+<script>
+function onPageLoad() {
+  return false;
+}
+function afterPageLoad() {
+    var initKindeditor = function(){
+        var K = window.KindEditor;
+        if(K)
+        {
+            K.create('textarea.kindeditor',
+            {
+                allowFileManager : true,
+                bodyClass : 'article-content',
+                afterBlur: function(){$('#content').prev('.ke-container').removeClass('focus');},
+                afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
+            });
+
+            K.create('textarea.kindeditorSimple',
+            {
+                bodyClass : 'article-content',
+                resizeType : 1,
+                allowPreviewEmoticons : false,
+                allowImageUpload : false,
+                items : [
+                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                'insertunorderedlist', '|', 'emoticons', 'image', 'link'],
+                afterBlur: function(){$('#contentSimple').prev('.ke-container').removeClass('focus');},
+                afterFocus: function(){$('#contentSimple').prev('.ke-container').addClass('focus');}
+            });
+
+            K.create('textarea.customStyle',
+            {
+                themeType : 'simple',
+                bodyClass : 'article-content',
+                afterBlur: function(){$('#contentCustom').prev('.ke-container').removeClass('focus');},
+                afterFocus: function(){$('#contentCustom').prev('.ke-container').addClass('focus');}
+            });
+        }
+        $.doc.mutePageLoading();
+    };
+
+    $.getScript('../../dist/lib/kindeditor/kindeditor.min.js', initKindeditor);
+
+    $(document).on('click', '.ke-dialog-mask, .ke-dialog', function(e){
+        e.stopPropagation();
+    });
+}
+</script>

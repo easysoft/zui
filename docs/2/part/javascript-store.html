@@ -1,287 +1,321 @@
-<p>本地存储（Local
-storage）是在浏览器本地存储应用数据的好途径。相比较cookie拥有更大的存储空间（相同域下一般达到5M存储空间），使用更灵活，而且不会在每次提交中发送到服务器。几乎所有浏览器都支持本地存储，甚至包括IE8。</p>
-<p>ZUI中提供读写本地存储的插件。文件路径为：<code>/src/js/store.js</code>。</p>
-<h3>如何使用</h3>
-<p>
-要使用本地存储，直接使用<code>windows.store</code>对象。<code>store</code>提供了一系列方法来操作本地存储数据。</p>
-<p>以下列出store对象提供的属性和方法：</p>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>属性或方法</th>
-      <th>说明</th>
-      <th>参数和要点</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>store.enable</code></td>
-      <td>属性，指示本地存储是否可用</td>
-      <td>
-        <ul>
-          <li>如果浏览器不支持本地存储，则该值为<code>false</code>；</li>
-          <li>
-          即便浏览器支持本地存储，但该值被手动设置为<code>false</code>，则无法通过<code>store</code>对象进行本地存储相关操作（原生<code>localStorage</code>不影响）。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.slience</code></td>
-      <td>属性，默认值为<code>true</code></td>
-      <td>当该值为<code>true</code>时，本地存储不可用时进行存储和读取值时不抛出异常。</td>
-    </tr>
-    <tr>
-      <td><code>store.storage</code></td>
-      <td>属性，返回浏览器原生<code>localStorage</code>对象</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><code>store.length()</code></td>
-      <td>方法，返回本地存储条目数量</td>
-      <td>即使本地存储不可用时也会返回0。</td>
-    </tr>
-    <tr>
-      <td><code>store.remove(key)</code></td>
-      <td>移除指定的条目</td>
-      <td>
-        参数：
-        <ul>
-          <li><code>key</code>：需要移除的条目的名称。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.get(key)</code></td>
-      <td>获取存储条目的值</td>
-      <td>
-        <p>参数：</p>
-        <ul>
-          <li><code>key</code>：存储条目的名称。</li>
-        </ul>
-        <p>与原生的<code>getItem</code>方法不同，该方法会进行反序列化操作，返回类型为存储的值的原类型。</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.set(key, value)</code></td>
-      <td>设置存储条目的值</td>
-      <td>
-        <p>参数：</p>
-        <ul>
-          <li><code>key</code>：存储条目的名称。</li>
-          <li>
-          <code>value</code>：可选，存储条目的名称，如果该值为<code>null</code>或者缺省，则会移除之前存储的值。</li>
-        </ul>
-        <p>
-        与原生的<code>setItem</code>方法不同，该方法会进行序列化操作，所有value可以为任意类型，但不能是函数或者对象属性包含函数。</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.key(index)</code></td>
-      <td>根据索引获取存储条目的名称</td>
-      <td>
-        参数：
-        <ul>
-          <li><code>index</code>：条目索引，为自然数。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.forEach(callback)</code></td>
-      <td>遍历所有存储条目</td>
-      <td>
-        参数：
-        <ul>
-          <li>
-          <code>callback</code>：遍历函数，该函数提供两个参数，第一个参数为当前遍历条目的名称，第二个参数为值。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.serialize(value)</code></td>
-      <td>将一个任意类型的值序列化为字符串</td>
-      <td>
-        参数：
-        <ul>
-          <li><code>value</code>：需要序列化的值。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.deserialize(value)</code></td>
-      <td>将一个字符串反序列化为值或对象。</td>
-      <td>
-        参数：
-        <ul>
-          <li><code>value</code>：需要反序列化的字符串。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.getAll()</code></td>
-      <td>获取所有存储的条目</td>
-      <td>
-        <p>返回一个对象，该对象的属性和对应的属性值记为存储的条目。</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.removeItem(key)</code></td>
-      <td>方法<code>store.remove()</code>的别名写法</td>
-      <td>
-        参数：
-        <ul>
-          <li><code>key</code>：需要移除的条目的名称。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.getItem(key)</code></td>
-      <td>获取指定名称的条目值</td>
-      <td>
-        <p>该方法相当于<code>localStorage.getItem(key)</code>，获取的值永远是序列化之后的字符串。</p>
-        <p>参数：</p>
-        <ul>
-          <li><code>key</code>：条目名称。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.setItem(key, value)</code></td>
-      <td>设置存储的值</td>
-      <td>
-        <p>该方法相当于<code>localStorage.setItem(key, value)</code></p>
-        <p>参数：</p>
-        <ul>
-          <li><code>key</code>：存储的名称</li>
-          <li><code>value</code>：存储的值</li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<h4>代码示例</h4>
-<pre class="prettyprint">
-store.set(&#39;name&#39;, &#39;catouse&#39;);                      // 使用本地存储设置&#39;name&#39;值为&#39;catouse&#39;
-store.set(&#39;date&#39;, {year: 2014, month: 8, day: 6}); // 将一个对象存储到本地存储
-console.log(store.get(&#39;name&#39;));                    // 从本地存储获取&#39;name&#39;的值
-console.log(store.get(&#39;date&#39;).year);               // 从本地存储获取&#39;date&#39;值的year属性
+<article>
+  <p>本地存储（Local storage）是在浏览器本地存储应用数据的好途径。相比较cookie拥有更大的存储空间（相同域下一般达到5M存储空间），使用更灵活，而且不会在每次提交中发送到服务器。几乎所有浏览器都支持本地存储，甚至包括IE8。</p>
+  <p>ZUI中提供读写本地存储的插件。文件路径为：<code>/src/js/store.js</code>。</p>
+</article>
+
+<section>
+  <header><h3>如何使用</h3></header>
+  <article>
+    <p>要使用本地存储，直接使用<code>windows.store</code>对象。<code>store</code>提供了一系列方法来操作本地存储数据。</p>
+    <p>以下列出store对象提供的属性和方法：</p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>属性或方法</th>
+          <th>说明</th>
+          <th>参数和要点</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>store.enable</code></td>
+          <td>属性，指示本地存储是否可用</td>
+          <td>
+            <ul>
+              <li>如果浏览器不支持本地存储，则该值为<code>false</code>；</li>
+              <li>即便浏览器支持本地存储，但该值被手动设置为<code>false</code>，则无法通过<code>store</code>对象进行本地存储相关操作（原生<code>localStorage</code>不影响）。</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>store.slience</code></td>
+          <td>属性，默认值为<code>true</code></td>
+          <td>当该值为<code>true</code>时，本地存储不可用时进行存储和读取值时不抛出异常。</td>
+        </tr>
+        <tr>
+          <td><code>store.storage</code></td>
+          <td>属性，返回浏览器原生<code>localStorage</code>对象</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><code>store.length()</code></td>
+          <td>方法，返回本地存储条目数量</td>
+          <td>即使本地存储不可用时也会返回0。</td>
+        </tr>
+        <tr>
+          <td><code>store.remove(key)</code></td>
+          <td>移除指定的条目</td>
+          <td>
+            参数：
+            <ul>
+              <li><code>key</code>：需要移除的条目的名称。</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>store.get(key)</code></td>
+          <td>获取存储条目的值</td>
+          <td>
+            <p>参数：<ul>
+              <li><code>key</code>：存储条目的名称。</li>
+            </ul></p>
+            <p>与原生的<code>getItem</code>方法不同，该方法会进行反序列化操作，返回类型为存储的值的原类型。</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>store.set(key, value)</code></td>
+          <td>设置存储条目的值</td>
+          <td>
+            <p>参数：<ul>
+              <li><code>key</code>：存储条目的名称。</li>
+              <li><code>value</code>：可选，存储条目的名称，如果该值为<code>null</code>或者缺省，则会移除之前存储的值。</li>
+            </ul></p>
+            <p>与原生的<code>setItem</code>方法不同，该方法会进行序列化操作，所有value可以为任意类型，但不能是函数或者对象属性包含函数。</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>store.key(index)</code></td>
+          <td>根据索引获取存储条目的名称</td>
+          <td>参数：<ul>
+            <li><code>index</code>：条目索引，为自然数。</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td><code>store.forEach(callback)</code></td>
+          <td>遍历所有存储条目</td>
+          <td>参数：<ul>
+            <li><code>callback</code>：遍历函数，该函数提供两个参数，第一个参数为当前遍历条目的名称，第二个参数为值。</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td><code>store.serialize(value)</code></td>
+          <td>将一个任意类型的值序列化为字符串</td>
+          <td>参数：<ul>
+            <li><code>value</code>：需要序列化的值。</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td><code>store.deserialize(value)</code></td>
+          <td>将一个字符串反序列化为值或对象。</td>
+          <td>参数：<ul>
+            <li><code>value</code>：需要反序列化的字符串。</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td><code>store.getAll()</code></td>
+          <td>获取所有存储的条目</td>
+          <td>
+            <p>返回一个对象，该对象的属性和对应的属性值记为存储的条目。</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>store.removeItem(key)</code></td>
+          <td>方法<code>store.remove()</code>的别名写法</td>
+          <td>
+            参数：
+            <ul>
+              <li><code>key</code>：需要移除的条目的名称。</li>
+            </ul></td>
+        </tr>
+        <tr>
+          <td><code>store.getItem(key)</code></td>
+          <td>获取指定名称的条目值</td>
+          <td>
+            <p>该方法相当于<code>localStorage.getItem(key)</code>，获取的值永远是序列化之后的字符串。</p>
+            <p>参数：
+            <ul>
+              <li><code>key</code>：条目名称。</li>
+            </ul></td></p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>store.setItem(key, value)</code></td>
+          <td>设置存储的值</td>
+          <td>
+            <p>该方法相当于<code>localStorage.setItem(key, value)</code></p>
+            <p>参数：
+            <ul>
+              <li><code>key</code>：存储的名称</li>
+              <li><code>value</code>：存储的值</li>
+            </ul></p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>代码示例</h4>
+<pre class='prettyprint'>
+store.set('name', 'catouse');                      // 使用本地存储设置'name'值为'catouse'
+store.set('date', {year: 2014, month: 8, day: 6}); // 将一个对象存储到本地存储
+
+console.log(store.get('name'));                    // 从本地存储获取'name'的值
+console.log(store.get('date').year);               // 从本地存储获取'date'值的year属性
+
 store.forEach(function(key, value)                 // 遍历所有本地存储的条目
 {
     console.log(value);
 });
+
 console.log(store.key(0));                         // 获取本地存储第一个条目的名称
-store.remove(&#39;name&#39;);                              // 从本地存储移除‘name’的值
-store.clear();                                     // 清空所有本地存储的条目
-</pre>
-<h3>本地页面存储</h3>
-<p>
-很多时候，不同页面相同名称的条目的值需要分别保存。<code>store</code>对象提供了一系列方法和属性来读写同一页面（相同路径）的条目。</p>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>属性或方法</th>
-      <th>说明</th>
-      <th>参数和要点</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>store.page</code></td>
-      <td>属性，当前页面存储的数据对象</td>
-      <td>
-        <ul>
-          <li>该对象的属性或对应的值即为对应的条目。</li>
-          <li>
-          这些属性都可以读写，如果进行了更改操作，需要调用<code>store.pageSave()</code>方法来存储到本地。如果将属性设置为<code>null</code>，则会在下次调用<code>pageSave()</code>时移除该属性。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.pageGet(key)</code></td>
-      <td>获取当前页面指定名称的值</td>
-      <td>
-        参数：
-        <ul>
-          <li><code>key</code>：指定条目的名称。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.pageSet(key,value)</code></td>
-      <td>设置值</td>
-      <td>
-        参数：
-        <ul>
-          <li><code>key</code>：名称</li>
-          <li><code>value</code>：值</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.pageClear()</code></td>
-      <td>清除当前页面所有存储的条目</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><code>store.pageRemove(key)</code></td>
-      <td>移除当前页面存储的指定条目</td>
-      <td>
-        参数：
-        <ul>
-          <li><code>key</code>：指定条目的名称。</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>store.pageSave()</code></td>
-      <td>立即保存当前页面存储的条目到本地存储</td>
-      <td>一般情况下不需要调用此方法，除非手动更改<code>store.page</code>属性。</td>
-    </tr>
-  </tbody>
-</table>
-<h4>代码示例</h4>
-<pre class="prettyprint">
+
+store.remove('name');                              // 从本地存储移除‘name’的值
+store.clear();                                     // 清空所有本地存储的条目</pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>本地页面存储</h3></header>
+  <article>
+    <p>很多时候，不同页面相同名称的条目的值需要分别保存。<code>store</code>对象提供了一系列方法和属性来读写同一页面（相同路径）的条目。</p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>属性或方法</th>
+          <th>说明</th>
+          <th>参数和要点</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>store.page</code></td>
+          <td>属性，当前页面存储的数据对象</td>
+          <td>
+            <ul>
+              <li>该对象的属性或对应的值即为对应的条目。</li>
+              <li>这些属性都可以读写，如果进行了更改操作，需要调用<code>store.pageSave()</code>方法来存储到本地。如果将属性设置为<code>null</code>，则会在下次调用<code>pageSave()</code>时移除该属性。</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>store.pageGet(key)</code></td>
+          <td>获取当前页面指定名称的值</td>
+          <td>参数：<ul>
+            <li><code>key</code>：指定条目的名称。</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td><code>store.pageSet(key,value)</code></td>
+          <td>设置值</td>
+          <td>参数：<ul>
+            <li><code>key</code>：名称</li>
+            <li><code>value</code>：值</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td><code>store.pageClear()</code></td>
+          <td>清除当前页面所有存储的条目</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><code>store.pageRemove(key)</code></td>
+          <td>移除当前页面存储的指定条目</td>
+          <td>参数：<ul>
+            <li><code>key</code>：指定条目的名称。</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td><code>store.pageSave()</code></td>
+          <td>立即保存当前页面存储的条目到本地存储</td>
+          <td>一般情况下不需要调用此方法，除非手动更改<code>store.page</code>属性。</td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>代码示例</h4>
+<pre class='prettyprint'>
 /* 以下操作的键值仅针对当前页面 */
-store.pageSet(&#39;name&#39;, &#39;catouse&#39;);                      // 使用本地存储设置&#39;name&#39;值为&#39;catouse&#39;
-store.pageSet(&#39;date&#39;, {year: 2014, month: 8, day: 6}); // 将一个对象存储到本地存储
-console.log(store.pageGet(&#39;name&#39;));                    // 从本地存储获取&#39;name&#39;的值
-console.log(store.pageGet(&#39;date&#39;).year);               // 从本地存储获取&#39;date&#39;值的year属性
-store.pageRemove(&#39;name&#39;);                              // 从本地存储移除‘name’的值
-store.pageClear();                                     // 清空所有本地存储的条目
-</pre>
-<h3>实例</h3>
-<div class="example" id="storeExample">
-  <div class="alert hide alert-success">
-    <h4>本地存储可用，刷新页面或关闭浏览器不会丢失你的数据。</h4>
-  </div>
-  <div class="alert hide alert-warning">
-    <h4>本地存储不可用！</h4>
-  </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th style="width:80px">索引</th>
-        <th style="width:40%">名称</th>
-        <th>值</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="storeTable"></tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <div class="input-group">
-            <span class="input-group-addon">名称</span> <input type="text" id=
-            "storeName" name="storeName" class="form-control"> <span class=
-            "input-group-addon fix-border">值</span> <input type="text" id=
-            "storeValue" name="storeValue" class="form-control"> <span class=
-            "input-group-btn"><button type="button" id="storeAdd" class=
-            "btn btn-primary"><span class=
-            "input-group-btn">保存</span></button></span>
-          </div>
-        </td>
-        <td colspan="2"><button type="button" class="btn btn-danger" id=
-        "storeClear">清空</button></td>
-      </tr>
-    </tfoot>
-  </table>
-</div>
+store.pageSet('name', 'catouse');                      // 使用本地存储设置'name'值为'catouse'
+store.pageSet('date', {year: 2014, month: 8, day: 6}); // 将一个对象存储到本地存储
+
+console.log(store.pageGet('name'));                    // 从本地存储获取'name'的值
+console.log(store.pageGet('date').year);               // 从本地存储获取'date'值的year属性
+
+store.pageRemove('name');                              // 从本地存储移除‘name’的值
+store.pageClear();                                     // 清空所有本地存储的条目</pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>实例</h3></header>
+  <article>
+    <div class="example" id="storeExample">
+      <div class="alert hide alert-success">
+        <h4>本地存储可用，刷新页面或关闭浏览器不会丢失你的数据。</h4>
+      </div>
+      <div class="alert hide alert-warning">
+        <h4>本地存储不可用！</h4>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width:80px">索引</th>
+            <th style="width:40%">名称</th>
+            <th>值</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="storeTable">
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan='2'>
+              <div class="input-group">
+                <span class="input-group-addon">名称</span>
+                <input type="text" id="storeName" name="storeName" class="form-control">
+                <span class="input-group-addon fix-border">值</span>
+                <input type="text" id="storeValue" name="storeValue" class="form-control">
+                <span class="input-group-btn"><button type="button" id="storeAdd" class="btn btn-primary">保存</button></span>
+              </div>
+            </td>
+            <td colspan="2"><button type="button" class="btn btn-danger" id="storeClear">清空</button></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </article>
+</section>
+
+<script>
+function afterPageLoad(){
+    $('#storeExample .alert-' + (store.enable ? 'success' : 'warning')).removeClass('hide');
+
+    var $storeTable = $('#storeTable');
+    function refershStore()
+    {
+        $storeTable.empty();
+        var index = 0;
+        store.forEach(function(key,value)
+        {
+            if(key.indexOf('//') === 0) return;
+            $storeTable.append('<tr><td>{0}</td><td class="store-name">{1}</td><td>{2}</td><td><a href="javascript:;" class="text-danger store-delete"><i class="icon-trash"></i></a></td></tr>'.format(index++, key, value));
+        });
+        $storeTable.find('.store-delete').click(function()
+        {
+            store.remove($(this).closest('tr').children('.store-name').text());
+            refershStore();
+        });
+    }
+    $storeTable.click()
+    $('#storeAdd').click(function()
+    {
+        var key = $('#storeName').val(),
+            val = $('#storeValue').val();
+        if(key)
+        {
+            store.setItem(key, val);
+            refershStore();
+        }
+        else
+        {
+            bootbox.alert('必须填写名称。');
+        }
+    });
+
+    $('#storeClear').click(function()
+    {
+        store.clear();
+        refershStore();
+    });
+
+    refershStore();
+}
+</script>
+
