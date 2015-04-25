@@ -432,7 +432,7 @@
         var $preview = $search.children('.section-preview');
         var oldIcon = $search.data('preview');
         if(!$preview.length) {
-            $preview = $('<div class="card-content section-preview icon-preview"><div class="icons"><i class="icon icon-10x"></i><i class="icon icon-5x"></i><i class="icon icon-2x"></i><i class="icon"></i></div><h3><small><i class="icon "></i></small> <span class="name color-accent"></span>  <small>Unicode: \\<span class="unicode">f3dd</span><span class="alias"> · 别名：<span class="alias-values"></span></span></small></h3><pre><code>&lt;i class=&quot;icon <span class="name"></span>&quot;&gt;&lt;/i&gt;</code></pre></div>');
+            $preview = $('#iconPreviewTemplate').clone().attr('id', '');
             $search.children('.card-heading').after($preview);
         }
         $search.children('.section-search').find('li.active').removeClass('active');
@@ -923,7 +923,7 @@
             $queryInput.blur();
             $pageBody.scrollTop(0);
             showPageTopic(topic);
-            handlePageLoad();
+            setTimeout(handlePageLoad, 1000);
         });
 
         if($body.hasClass('page-open')) {
