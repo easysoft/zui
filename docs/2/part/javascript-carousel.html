@@ -1,135 +1,153 @@
-<p>使用方法一：通过data属性可以很容易的控制轮播的定位。 <code>data-slide</code> 可以接受控制播放位置的
-<code>prev</code> 或 <code>next</code> 关键字。另外，还可以通过 <code>data-slide-to</code>
-传递以 <code>0</code> 开始的幻灯片下标。 <code>data-ride=&quot;carousel&quot;</code>
-属性用来标记在页面加载之后即开始启动的轮播组件。</p>
-<p>使用方法二：通过js手动启动轮播组件： <code>$(&#39;.carousel&#39;).carousel()</code></p>
-<h3>类型</h3>
-<h4>基本类型</h4>
-<div class="example container carousel slide" id="carousel-example-generic"
-data-ride="carousel">
-  <ol class="carousel-indicators"></ol>
-  <div class="carousel-inner">
-    <div class="item active">
-      <img alt="First slide" src="img/aqua.jpg">
-      <div class="carousel-caption">
-        <h3>我是第一张幻灯片</h3>
-        <p>:)</p>
+<article>
+  <p>使用方法一：通过data属性可以很容易的控制轮播的定位。 <code>data-slide</code> 可以接受控制播放位置的
+  <code>prev</code> 或 <code>next</code> 关键字。另外，还可以通过 <code>data-slide-to</code>
+  传递以 <code>0</code> 开始的幻灯片下标。 <code>data-ride=&quot;carousel&quot;</code>
+  属性用来标记在页面加载之后即开始启动的轮播组件。</p>
+  <p>使用方法二：通过js手动启动轮播组件： <code>$(&#39;.carousel&#39;).carousel()</code></p>
+</article>
+
+<section>
+  <header><h3>基本类型</h3></header>
+  <article>
+    <div class="example no-padding">
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+          <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="item active">
+            <img alt="First slide" src="img/aqua.jpg">
+            <div class="carousel-caption">
+              <h3>我是第一张幻灯片</h3>
+              <p>:)</p>
+            </div>
+          </div>
+          <div class="item">
+            <img alt="First slide" src="img/color-splash.jpg">
+            <div class="carousel-caption">
+              <h3>我是第二张幻灯片</h3>
+              <p>0.0</p>
+            </div>
+          </div>
+          <div class="item">
+            <img alt="First slide" src="img/color-splash-red.jpg">
+            <div class="carousel-caption">
+              <h3>我是第三张幻灯片</h3>
+              <p>最后一张咯~</p>
+            </div>
+          </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+          <span class="icon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+          <span class="icon-chevron-right"></span>
+        </a>
       </div>
     </div>
-    <div class="item">
-      <img alt="First slide" src="img/color-splash.jpg">
-      <div class="carousel-caption">
-        <h3>我是第二张幻灯片</h3>
-        <p>0.0</p>
-      </div>
-    </div>
-    <div class="item">
-      <img alt="First slide" src="img/color-splash-red.jpg">
-      <div class="carousel-caption">
-        <h3>我是第三张幻灯片</h3>
-        <p>最后一张咯~</p>
-      </div>
-    </div>
-  </div><a class="left carousel-control" href="#carousel-example-generic"
-  data-slide="prev"></a> <a class="right carousel-control" href=
-  "#carousel-example-generic" data-slide="next"></a>
-</div>
-<h3>变化</h3>
-<h4>选项</h4>
-<p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到 <code>data-</code> 之后，例如
-<code>data-interval=&quot;&quot;</code> 。</p>
-<div class="table-responsive">
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th style="width: 100px;">名称</th>
-        <th style="width: 50px;">类型</th>
-        <th style="width: 50px;">默认值</th>
-        <th>描述</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>interval</td>
-        <td>number</td>
-        <td>5000</td>
-        <td>幻灯片轮换的等待时间。如果为false，轮播将不会自动开始循环。</td>
-      </tr>
-      <tr>
-        <td>pause</td>
-        <td>string</td>
-        <td>&quot;hover&quot;</td>
-        <td>鼠标停留在幻灯片区域即暂停轮播，鼠标离开即启动轮播。</td>
-      </tr>
-      <tr>
-        <td>wrap</td>
-        <td>boolean</td>
-        <td>true</td>
-        <td>轮播是否持续循环。</td>
-      </tr>
-    </tbody>
-  </table>
-</div><!-- /.table-responsive -->
-<h4>方法和事件</h4>
-<p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到 <code>data-</code> 之后，例如
-<code>data-interval=&quot;&quot;</code> 。</p>
-<div class="table-responsive">
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th style="width: 100px;">方法</th>
-        <th>描述</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>.carousel(options)</code></td>
-        <td>初始化轮播组件，接受一个可选的object类型的options参数，并开始幻灯片循环。</td>
-      </tr>
-      <tr>
-        <td><code>.carousel(&#39;cycle&#39;)</code></td>
-        <td>从左到右循环各帧。</td>
-      </tr>
-      <tr>
-        <td><code>.carousel(&#39;pause&#39;)</code></td>
-        <td>停止轮播。</td>
-      </tr>
-      <tr>
-        <td><code>.carousel(number)</code></td>
-        <td>将轮播定位到指定的帧上（帧下标以0开始，类似数组）。</td>
-      </tr>
-      <tr>
-        <td><code>.carousel(&#39;pre&#39;)</code></td>
-        <td>返回上一帧。</td>
-      </tr>
-      <tr>
-        <td><code>.carousel(&#39;next&#39;)</code></td>
-        <td>转到下一帧。</td>
-      </tr>
-    </tbody>
-  </table>
-</div><!-- /.table-responsive -->
-<p>Bootstrap的轮播组件暴露了两个事件用于监听。</p>
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th style="width: 150px;">事件类型</th>
-      <th>描述</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>slide.bs.carousel</td>
-      <td>此事件在 <code>slide</code> 方法被调用之后立即出发。</td>
-    </tr>
-    <tr>
-      <td>slid.bs.carousel</td>
-      <td>当所有幻灯片播放完之后被触发。</td>
-    </tr>
-    <tr>
-      <td colspan="2"><code class=
-      "language-js">$(&#39;#myCarousel&#39;).on(&#39;slide.bs.carousel&#39;,
-      function() {// do something…})</code></td>
-    </tr>
-  </tbody>
-</table>
+  </article>
+</section>
+
+<section>
+  <header><h3>参数</h3></header>
+  <article>
+    <p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到 <code>data-</code> 之后，例如 <code>data-interval=&quot;&quot;</code> 。</p>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 100px;">名称</th>
+          <th style="width: 50px;">类型</th>
+          <th style="width: 50px;">默认值</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>interval</td>
+          <td>number</td>
+          <td>5000</td>
+          <td>幻灯片轮换的等待时间。如果为false，轮播将不会自动开始循环。</td>
+        </tr>
+        <tr>
+          <td>pause</td>
+          <td>string</td>
+          <td>"hover"</td>
+          <td>鼠标停留在幻灯片区域即暂停轮播，鼠标离开即启动轮播。</td>
+        </tr>
+        <tr>
+          <td>wrap</td>
+          <td>boolean</td>
+          <td>true</td>
+          <td>轮播是否持续循环。</td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>
+
+<section>
+  <header><h3>方法和事件</h3></header>
+  <article>
+    <p>可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到 <code>data-</code> 之后，例如 <code>data-interval=&quot;&quot;</code> 。</p>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 100px;">方法</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>.carousel(options)</code></td>
+          <td>初始化轮播组件，接受一个可选的object类型的options参数，并开始幻灯片循环。</td>
+        </tr>
+        <tr>
+          <td><code>.carousel(&#39;cycle&#39;)</code></td>
+          <td>从左到右循环各帧。</td>
+        </tr>
+        <tr>
+          <td><code>.carousel(&#39;pause&#39;)</code></td>
+          <td>停止轮播。</td>
+        </tr>
+        <tr>
+          <td><code>.carousel(number)</code></td>
+          <td>将轮播定位到指定的帧上（帧下标以0开始，类似数组）。</td>
+        </tr>
+        <tr>
+          <td><code>.carousel(&#39;pre&#39;)</code></td>
+          <td>返回上一帧。</td>
+        </tr>
+        <tr>
+          <td><code>.carousel(&#39;next&#39;)</code></td>
+          <td>转到下一帧。</td>
+        </tr>
+      </tbody>
+    </table>
+    <h4>用于监听的事件</h4>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 150px;">事件类型</th>
+          <th>描述</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>slide.zui.carousel</td>
+          <td>此事件在 <code>slide</code> 方法被调用之后立即出发。</td>
+        </tr>
+        <tr>
+          <td>slide.zui.carousel</td>
+          <td>当所有幻灯片播放完之后被触发。</td>
+        </tr>
+        <tr>
+          <td colspan="2"><code class=
+          "language-js">$(&#39;#myCarousel&#39;).on(&#39;slide.zui.carousel&#39;,
+          function() {// do something…})</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>

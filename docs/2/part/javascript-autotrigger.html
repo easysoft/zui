@@ -1,162 +1,180 @@
-<p>利用自动触发器能够不写一行Javascript代码做很多有趣的事情。</p>
-<h3>参数</h3>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>参数名</th>
-      <th>说明</th>
-      <th>可选值</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>trigger</code></td>
-      <td>触发器类型</td>
-      <td>
-        <ul>
-          <li><code>&quot;toggle&quot;</code>(默认值) 切换显示或隐藏状态</li>
-          <li><code>&quot;show&quot;</code> 显示</li>
-          <li><code>&quot;hide&quot;</code> 隐藏</li>
-          <li><code>&quot;toggleClass&quot;</code> 增加或隐藏css class</li>
-          <li><code>&quot;addClass&quot;</code> 增加css class</li>
-          <li><code>&quot;removeClass&quot;</code>移除css class</li>
-          <li><code>function(){/*自定义执行的操作*/}</code> 执行给定函数</li>
+<article>
+  <p>利用自动触发器能够不写一行Javascript代码做很多有趣的事情。</p>
+</article>
+
+<section>
+  <header><h3>参数</h3></header>
+  <article>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>参数名</th>
+          <th>说明</th>
+          <th>可选值</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>trigger</code></td>
+          <td>触发器类型</td>
+          <td>
+            <ul>
+              <li><code>&quot;toggle&quot;</code>(默认值) 切换显示或隐藏状态</li>
+              <li><code>&quot;show&quot;</code> 显示</li>
+              <li><code>&quot;hide&quot;</code> 隐藏</li>
+              <li><code>&quot;toggleClass&quot;</code> 增加或隐藏css class</li>
+              <li><code>&quot;addClass&quot;</code> 增加css class</li>
+              <li><code>&quot;removeClass&quot;</code>移除css class</li>
+              <li><code>function(){/*自定义执行的操作*/}</code> 执行给定函数</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>selector</code></td>
+          <td>子代选择器，用来过滤触发条件</td>
+          <td>默认为<code>null</code></td>
+        </tr>
+        <tr>
+          <td><code>events</code></td>
+          <td>触发事件名</td>
+          <td>绑定在触发器上的事件名称，默认为&#39;click&#39;，即点击元素时触发</td>
+        </tr>
+        <tr>
+          <td><code>animate</code></td>
+          <td>动画类型</td>
+          <td>
+            当显示或隐藏元素时执行动画的类型
+            <ul>
+              <li><code>&quot;slide&quot;</code>(默认)</li>
+              <li><code>&quot;fade&quot;</code></li>
+              <li><code>&quot;normal&quot;</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>easing</code></td>
+          <td>动画缓动函数</td>
+          <td>
+            <ul>
+              <li><code>&quot;linear&quot;</code>(默认)</li>
+              <li><code>&quot;swing&quot;</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>animateSpeed</code></td>
+          <td>动画执行速度</td>
+          <td>
+            <ul>
+              <li><code>&quot;normal&quot;</code>(默认)</li>
+              <li><code>&quot;slow&quot;</code></li>
+              <li><code>&quot;fast&quot;</code></li>
+              <li><code>400</code> 指定数字，表示动画执行可用的时间</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>preventDefault</code></td>
+          <td>是否阻止事件默认行为</td>
+          <td>
+            <ul>
+              <li><code>true</code>(默认)</li>
+              <li><code>false</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>cancelBubble</code></td>
+          <td>是否取消事件冒泡</td>
+          <td>
+            <ul>
+              <li><code>true</code>(默认)</li>
+              <li><code>false</code></li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>target</code></td>
+          <td>触发后事件执行的主体</td>
+          <td>使用jquery对象或者jquery选择器字符串来指定，如果为<code>null</code>，则指定为触发器自身</td>
+        </tr>
+        <tr>
+          <td><code>before</code></td>
+          <td>触发事件发生之前调用</td>
+          <td>指定一个函数在触发事件发生之前调用，如果在此函数内返回<code>false</code>，则不执行后续触发过程</td>
+        </tr>
+        <tr>
+          <td><code>after</code></td>
+          <td>触发事件发生之后调用</td>
+          <td>指定一个函数在触发事件发生之后调用</td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>
+
+<section>
+  <header><h3>显示或隐藏元素</h3></header>
+  <article>
+    <div class="example">
+      <div class="row">
+        <div class="col-sm-3">
+          <button type="button" class="btn-block btn" data-toggle="toggle" data-target="#target1" data-animate="fade">显示或隐藏</button>
+          <button type="button" class="btn-block btn" data-toggle="show" data-target="#target1">仅显示</button>
+          <button type="button" class="btn-block btn" data-toggle="hide" data-target="#target1">仅隐藏</button>
+        </div>
+        <div class="col-sm-9"><img id="target1" src="img/img2.jpg" width="200px" height="200px" class="img-circle" alt=""></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section>
+  <header><h3>切换 CSS class</h3></header>
+  <article>
+    <div class="example">
+      <div class="row">
+        <div class="col-sm-3">
+          <button type="button" class="btn-block btn" data-toggle="toggleClass" data-target="#target2" data-data="img-circle">切换 .img-circle</button>
+          <button type="button" class="btn-block btn" data-toggle="addClass" data-target="#target2" data-data="img-thumbnail">增加 .img-thumbnail</button>
+          <button type="button" class="btn-block btn" data-toggle="removeClass" data-target="#target2" data-data="img-thumbnail">移除 .img-thumbnail</button>
+        </div>
+        <div class="col-sm-9"><img id="target2" src="img/img2.jpg" width="200px" height="200px" class="img-circle" alt=""></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<section>
+  <header><h3>综合使用</h3></header>
+  <article>
+    <div class="example">
+      <div class="dropdown">
+        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+          展开例子
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li>
+            <a href="javascript:;" data-toggle="show" data-target="#createForm" id="createBtn" data-triggers="click,hide,self">新建</a>
+            <form id="createForm" class="hide" style="padding: 10px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; background:#f1f1f1; margin: 0 0 5px 0">
+              <div style="margin-bottom: 10px;">
+                <textarea name="createsomething" class="form-control" id="createsomething" cols="30" rows="5" style="width: 500px"></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit">提交</button>
+              <button class="btn" data-toggle="hide" data-target="#createForm" data-triggers="click,show,#createBtn">取消</button>
+            </form>
+          </li>
+
+          <li role="presentation" class="dropdown-header">Dropdown header</li>
+          <li>
+            <a href="#">编辑</a>
+          </li>
+          <li>
+            <a href="#">删除</a>
+          </li>
         </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>selector</code></td>
-      <td>子代选择器，用来过滤触发条件</td>
-      <td>默认为<code>null</code></td>
-    </tr>
-    <tr>
-      <td><code>events</code></td>
-      <td>触发事件名</td>
-      <td>绑定在触发器上的事件名称，默认为&#39;click&#39;，即点击元素时触发</td>
-    </tr>
-    <tr>
-      <td><code>animate</code></td>
-      <td>动画类型</td>
-      <td>
-        当显示或隐藏元素时执行动画的类型
-        <ul>
-          <li><code>&quot;slide&quot;</code>(默认)</li>
-          <li><code>&quot;fade&quot;</code></li>
-          <li><code>&quot;normal&quot;</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>easing</code></td>
-      <td>动画缓动函数</td>
-      <td>
-        <ul>
-          <li><code>&quot;linear&quot;</code>(默认)</li>
-          <li><code>&quot;swing&quot;</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>animateSpeed</code></td>
-      <td>动画执行速度</td>
-      <td>
-        <ul>
-          <li><code>&quot;normal&quot;</code>(默认)</li>
-          <li><code>&quot;slow&quot;</code></li>
-          <li><code>&quot;fast&quot;</code></li>
-          <li><code>400</code> 指定数字，表示动画执行可用的时间</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>preventDefault</code></td>
-      <td>是否阻止事件默认行为</td>
-      <td>
-        <ul>
-          <li><code>true</code>(默认)</li>
-          <li><code>false</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>cancelBubble</code></td>
-      <td>是否取消事件冒泡</td>
-      <td>
-        <ul>
-          <li><code>true</code>(默认)</li>
-          <li><code>false</code></li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>target</code></td>
-      <td>触发后事件执行的主体</td>
-      <td>使用jquery对象或者jquery选择器字符串来指定，如果为<code>null</code>，则指定为触发器自身</td>
-    </tr>
-    <tr>
-      <td><code>before</code></td>
-      <td>触发事件发生之前调用</td>
-      <td>指定一个函数在触发事件发生之前调用，如果在此函数内返回<code>false</code>，则不执行后续触发过程</td>
-    </tr>
-    <tr>
-      <td><code>after</code></td>
-      <td>触发事件发生之后调用</td>
-      <td>指定一个函数在触发事件发生之后调用</td>
-    </tr>
-  </tbody>
-</table>
-<h3>类型</h3>
-<h4>显示或隐藏元素</h4>
-<div class="example row">
-  <div class="col-sm-3">
-    <button type="button" class="btn-block btn" data-toggle="toggle"
-    data-target="#target1" data-animate="fade">显示或隐藏</button> <button type=
-    "button" class="btn-block btn" data-toggle="show" data-target=
-    "#target1">仅显示</button> <button type="button" class="btn-block btn"
-    data-toggle="hide" data-target="#target1">仅隐藏</button>
-  </div>
-  <div class="col-sm-9"><img id="target1" src="img/img2.jpg" width="200px"
-  height="200px" class="img-circle" alt=""></div>
-</div>
-<h4>切换css class</h4>
-<div class="example row">
-  <div class="col-sm-3">
-    <button type="button" class="btn-block btn" data-toggle="toggleClass"
-    data-target="#target2" data-data="img-circle">切换 .img-circle</button>
-    <button type="button" class="btn-block btn" data-toggle="addClass"
-    data-target="#target2" data-data="img-thumbnail">增加 .img-thumbnail</button>
-    <button type="button" class="btn-block btn" data-toggle="removeClass"
-    data-target="#target2" data-data="img-thumbnail">移除 .img-thumbnail</button>
-  </div>
-  <div class="col-sm-9"><img id="target2" src="img/img2.jpg" width="200px"
-  height="200px" class="img-circle" alt=""></div>
-</div>
-<h5>综合例子</h5>
-<div class="example dropdown">
-  <button class="btn dropdown-toggle" type="button" data-toggle=
-  "dropdown">展开例子</button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-    <li>
-      <a href="javascript:;" data-toggle="show" data-target="#createForm" id=
-      "createBtn" data-triggers="click,hide,self">新建</a>
-      <form id="createForm" class="hide" style=
-      "padding: 10px; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; background:#f1f1f1; margin: 0 0 5px 0"
-      name="createForm">
-        <div style="margin-bottom: 10px;">
-          <textarea name="createsomething" class="form-control" id=
-          "createsomething" cols="30" rows="5" style="width: 500px">
-</textarea>
-        </div><button class="btn btn-primary" type="submit">提交</button>
-        <button class="btn" data-toggle="hide" data-target="#createForm"
-        data-triggers="click,show,#createBtn">取消</button>
-      </form>
-    </li>
-    <li role="presentation" class="dropdown-header">Dropdown header</li>
-    <li>
-      <a href="#">编辑</a>
-    </li>
-    <li>
-      <a href="#">删除</a>
-    </li>
-  </ul>
-</div>
+      </div>
+    </div>
+  </article>
+</section>

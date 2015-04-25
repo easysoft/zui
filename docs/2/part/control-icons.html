@@ -1,330 +1,92 @@
-<p>图标能在视觉上简洁有效的指引用户操作。特殊情况下，使用图标能够代替文本。</p>
-<h3>何时使用图标？</h3>
-<p>同一个应用程序中的图标应该具有一致的外观及用户行为响应，应该将整个图标集作为用户界面中的重要部分。一般图标用于如下情况：</p>
-<ul>
-  <li>用于应用程序头部，便于用户识别正在使用的应用；</li>
-  <li>用于按钮，对于一些常用的按钮可以使用图标取代按钮中的文本，使得界面更加简洁；</li>
-  <li>用于提示消息，图标能指明消息类型，便于用户无需仔细阅读消息内容就可以迅速做出决策；</li>
-  <li>用于一些简单但重要列表，在列表项目前面加上合适的图标能大大增强列表识别程度；</li>
-  <li>等同与标签，图标能简明表达项目或信息类型。</li>
-</ul>
-<h3>使用图标字体</h3>
-<p>
-在图标字体没有普及之前，图标通常是通过图片来展示，如今图标字体是展示图标的更好方式。使用图标字体能使用CSS对图标进行调整，例如定义大小、颜色及特殊效果。在ZUI中将使用图标字体作为系统图标集方案。采用开源web图标字体<a href="http://fortawesome.github.io/Font-Awesome/"
-target="_blank">Font Awesome</a>是一个不错的选择。</p>
-<p>在Font Awesome 3.2.1中提供了361个图标。ZUI基于FontAwesome
-3.2.1定制，去除了一些不常用的图标，并加入了一些适合中国使用的图标。</p>
-<p>在ZUI中提供了290个图标：</p>
-<div class="icons example">
-  <ul class="clearfix">
-    <li>music</li>
-    <li>search</li>
-    <li>envelope</li>
-    <li>heart</li>
-    <li>star</li>
-    <li>star-empty</li>
-    <li>user</li>
-    <li>film</li>
-    <li>th-large</li>
-    <li>th</li>
-    <li>th-list</li>
-    <li>ok</li>
-    <li>remove</li>
-    <li>zoom-in</li>
-    <li>zoom-out</li>
-    <li>off</li>
-    <li>cog</li>
-    <li>trash</li>
-    <li>home</li>
-    <li>file</li>
-    <li>time</li>
-    <li>download-alt</li>
-    <li>download</li>
-    <li>upload</li>
-    <li>inbox</li>
-    <li>play-circle</li>
-    <li>repeat</li>
-    <li>refresh</li>
-    <li>list-alt</li>
-    <li>lock</li>
-    <li>flag</li>
-    <li>headphones</li>
-    <li>volume-off</li>
-    <li>volume-up</li>
-    <li>qrcode</li>
-    <li>barcode</li>
-    <li>tag</li>
-    <li>tags</li>
-    <li>book</li>
-    <li>bookmark</li>
-    <li>print</li>
-    <li>camera</li>
-    <li>font</li>
-    <li>bold</li>
-    <li>align-justify</li>
-    <li>list</li>
-    <li>picture</li>
-    <li>pencil</li>
-    <li>map-marker</li>
-    <li>adjust</li>
-    <li>tint</li>
-    <li>edit</li>
-    <li>share</li>
-    <li>check</li>
-    <li>move</li>
-    <li>step-backward</li>
-    <li>fast-backward</li>
-    <li>backward</li>
-    <li>play</li>
-    <li>pause</li>
-    <li>stop</li>
-    <li>forward</li>
-    <li>fast-forward</li>
-    <li>step-forward</li>
-    <li>eject</li>
-    <li>chevron-left</li>
-    <li>chevron-right</li>
-    <li>plus-sign</li>
-    <li>minus-sign</li>
-    <li>remove-sign</li>
-    <li>ok-sign</li>
-    <li>question-sign</li>
-    <li>info-sign</li>
-    <li>remove-circle</li>
-    <li>ok-circle</li>
-    <li>ban-circle</li>
-    <li>arrow-left</li>
-    <li>arrow-right</li>
-    <li>arrow-up</li>
-    <li>arrow-down</li>
-    <li>share-alt</li>
-    <li>resize-full</li>
-    <li>resize-small</li>
-    <li>plus</li>
-    <li>minus</li>
-    <li>asterisk</li>
-    <li>exclamation-sign</li>
-    <li>gift</li>
-    <li>leaf</li>
-    <li>eye-open</li>
-    <li>eye-close</li>
-    <li>warning-sign</li>
-    <li>plane</li>
-    <li>calendar</li>
-    <li>random</li>
-    <li>comment</li>
-    <li>chevron-up</li>
-    <li>chevron-down</li>
-    <li>shopping-cart</li>
-    <li>folder-close</li>
-    <li>folder-open</li>
-    <li>resize-vertical</li>
-    <li>resize-horizontal</li>
-    <li>bar-chart</li>
-    <li>camera-retro</li>
-    <li>key</li>
-    <li>cogs</li>
-    <li>comments</li>
-    <li>thumbs-up</li>
-    <li>thumbs-down</li>
-    <li>star-half</li>
-    <li>heart-empty</li>
-    <li>signout</li>
-    <li>pushpin</li>
-    <li>external-link</li>
-    <li>signin</li>
-    <li>trophy</li>
-    <li>upload-alt</li>
-    <li>lemon</li>
-    <li>phone</li>
-    <li>check-empty</li>
-    <li>bookmark-empty</li>
-    <li>phone-sign</li>
-    <li>credit</li>
-    <li>rss</li>
-    <li>hdd</li>
-    <li>bullhorn</li>
-    <li>bell</li>
-    <li>certificate</li>
-    <li>hand-right</li>
-    <li>hand-left</li>
-    <li>hand-up</li>
-    <li>hand-down</li>
-    <li>circle-arrow-left</li>
-    <li>circle-arrow-right</li>
-    <li>circle-arrow-up</li>
-    <li>circle-arrow-down</li>
-    <li>globe</li>
-    <li>wrench</li>
-    <li>tasks</li>
-    <li>filter</li>
-    <li>fullscreen</li>
-    <li>group</li>
-    <li>link</li>
-    <li>cloud</li>
-    <li>beaker</li>
-    <li>cut</li>
-    <li>copy</li>
-    <li>paper-clip</li>
-    <li>save</li>
-    <li>sign-blank</li>
-    <li>reorder</li>
-    <li>list-ul</li>
-    <li>list-ol</li>
-    <li>table</li>
-    <li>magic</li>
-    <li>caret-down</li>
-    <li>caret-up</li>
-    <li>caret-left</li>
-    <li>caret-right</li>
-    <li>columns</li>
-    <li>sort</li>
-    <li>sort-down</li>
-    <li>sort-up</li>
-    <li>envelope-alt</li>
-    <li>undo</li>
-    <li>dashboard</li>
-    <li>comment-alt</li>
-    <li>comments-alt</li>
-    <li>bolt</li>
-    <li>sitemap</li>
-    <li>umbrella</li>
-    <li>paste</li>
-    <li>lightbulb</li>
-    <li>exchange</li>
-    <li>cloud-download</li>
-    <li>cloud-upload</li>
-    <li>bell-alt</li>
-    <li>coffee</li>
-    <li>file-alt</li>
-    <li>building</li>
-    <li>double-angle-left</li>
-    <li>double-angle-right</li>
-    <li>double-angle-up</li>
-    <li>double-angle-down</li>
-    <li>angle-left</li>
-    <li>angle-right</li>
-    <li>angle-up</li>
-    <li>angle-down</li>
-    <li>desktop</li>
-    <li>laptop</li>
-    <li>tablet</li>
-    <li>mobile</li>
-    <li>circle-blank</li>
-    <li>quote-left</li>
-    <li>quote-right</li>
-    <li>spinner</li>
-    <li>circle</li>
-    <li>reply</li>
-    <li>folder-close-alt</li>
-    <li>folder-open-alt</li>
-    <li>expand-alt</li>
-    <li>collapse-alt</li>
-    <li>smile</li>
-    <li>frown</li>
-    <li>meh</li>
-    <li>gamepad</li>
-    <li>keyboard</li>
-    <li>flag-alt</li>
-    <li>flag-checkered</li>
-    <li>terminal</li>
-    <li>code</li>
-    <li>reply-all</li>
-    <li>star-half-full</li>
-    <li>location-arrow</li>
-    <li>crop</li>
-    <li>code-fork</li>
-    <li>unlink</li>
-    <li>question</li>
-    <li>info</li>
-    <li>shield</li>
-    <li>calendar-empty</li>
-    <li>rocket</li>
-    <li>chevron-sign-left</li>
-    <li>chevron-sign-right</li>
-    <li>chevron-sign-up</li>
-    <li>chevron-sign-down</li>
-    <li>html5</li>
-    <li>anchor</li>
-    <li>unlock-alt</li>
-    <li>bullseye</li>
-    <li>ellipsis-horizontal</li>
-    <li>ellipsis-vertical</li>
-    <li>rss-sign</li>
-    <li>play-sign</li>
-    <li>minus-sign-alt</li>
-    <li>check-minus</li>
-    <li>level-up</li>
-    <li>level-down</li>
-    <li>check-sign</li>
-    <li>edit-sign</li>
-    <li>external-link-sign</li>
-    <li>share-sign</li>
-    <li>compass</li>
-    <li>collapse</li>
-    <li>collapse-top</li>
-    <li>expand</li>
-    <li>dollar</li>
-    <li>yen</li>
-    <li>renminbi</li>
-    <li>file2</li>
-    <li>file-text</li>
-    <li>sort-by-alphabet</li>
-    <li>sort-by-alphabet-alt</li>
-    <li>sort-by-attributes</li>
-    <li>sort-by-attributes-alt</li>
-    <li>sort-by-order</li>
-    <li>sort-by-order-alt</li>
-    <li>thumbs-up2</li>
-    <li>thumbs-down2</li>
-    <li>long-arrow-down</li>
-    <li>long-arrow-up</li>
-    <li>long-arrow-left</li>
-    <li>long-arrow-right</li>
-    <li>apple</li>
-    <li>windows</li>
-    <li>android</li>
-    <li>linux</li>
-    <li>sun</li>
-    <li>moon</li>
-    <li>archive</li>
-    <li>bug</li>
-    <li>weibo</li>
-    <li>renren</li>
-    <li>qq</li>
-    <li>chrome</li>
-    <li>firefox</li>
-    <li>ie</li>
-    <li>opera</li>
-    <li>safari</li>
-    <li>node</li>
-    <li>layout</li>
-    <li>usecase</li>
-    <li>stack</li>
-    <li>branch</li>
-    <li>chat</li>
-    <li>comment-line</li>
-    <li>chat-dot</li>
-    <li>cube</li>
-    <li>align-left</li>
-  </ul>
-</div>
-<p>
-使用图标字体有一个好处就是图标就是文本字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小、颜色，甚至一些CSS3特效。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：</p>
-<ul>
-  <li>图标应具备统一的颜色，如果有交互行为样式也应该保持一致；</li>
-  <li>图标的大小应该保持一致，正文中的图标大小应为14px，标题中的图标可以为28px；</li>
-  <li>图标应与所指示的内容对应，不同地方的同一个指示内容应该使用同一个图标。</li>
-</ul>
-<p>如有需要，也可以自定义专有的图标字体。例如需要使用一些Font Awesome中没有定义的图标，或者由于性能要求太高需要去掉Font
-Awesome中没有用到的图标。</p>
-<h3>如何使用图标？</h3>
-<p>
-使用一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>并增加对应的CSS类名即可，用来作为图标的标签不需要包含任何文本也不应该如此。</p>
-<pre class="prettyprint">
-<code>&lt;i class=&quot;icon-star&quot;&gt;&lt;/i&gt;</code>
-</pre>
-<div class="alert alert-danger">
-  <p>
-  不要将在任何控件标签上直接应用图标CSS类名，应该嵌套一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>标签。</p>
-</div>
+<style>
+#iconsExample ul {padding: 0;}
+#iconsExample li
+{
+  cursor: pointer;
+  float: left;
+  width: 150px;
+  line-height: 25px;
+  list-style: none;
+  padding: 2px 10px;
+  white-space: nowrap;
+  transition: all .3s;
+}
+#iconsExample li a {color: #333}
+#iconsExample li a:hover {text-decoration: none}
+#iconsExample li a > i {display: inline-block; width: 20px}
+#iconsExample li:hover {background-color: #d5f1d7; transform: scale(1.2);}
+</style>
+
+<article>
+  <p>图标能在视觉上简洁有效的指引用户操作。特殊情况下，使用图标能够代替文本。</p>
+</article>
+
+<section>
+  <header><h3>何时使用图标？</h3></header>
+  <article>
+    <p>同一个应用程序中的图标应该具有一致的外观及用户行为响应，应该将整个图标集作为用户界面中的重要部分。一般图标用于如下情况：</p>
+    <ul>
+      <li>用于应用程序头部，便于用户识别正在使用的应用；</li>
+      <li>用于按钮，对于一些常用的按钮可以使用图标取代按钮中的文本，使得界面更加简洁；</li>
+      <li>用于提示消息，图标能指明消息类型，便于用户无需仔细阅读消息内容就可以迅速做出决策；</li>
+      <li>用于一些简单但重要列表，在列表项目前面加上合适的图标能大大增强列表识别程度；</li>
+      <li>等同与标签，图标能简明表达项目或信息类型。</li>
+    </ul>
+  </article>
+</section>
+
+<section>
+  <header><h3>使用图标字体</h3></header>
+  <article>
+    <p>在图标字体没有普及之前，图标通常是通过图片来展示，如今图标字体是展示图标的更好方式。使用图标字体能使用CSS对图标进行调整，例如定义大小、颜色及特殊效果。在ZUI中将使用图标字体作为系统图标集方案。采用开源web图标字体<a href="http://fortawesome.github.io/Font-Awesome/" target="_blank">Font Awesome</a>是一个不错的选择。</p>
+    <p>ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入了一些适合中国使用的图标。</p>
+  </article>
+</section>
+
+<section>
+  <header><h3>ZUI中的图标</h3></header>
+  <article>
+    <p>在ZUI中提供了<span class="icons-count">?</span>个图标：</p>
+    <div class="example" id="iconsExample">
+      <div class="text-center text-muted"><i class="icon icon-spin icon-spinner-indicator"></i> 请稍后...</div>
+    </div>
+  </article>
+</section>
+
+<section>
+  <header><h3>如何使用图标？</h3></header>
+  <article>
+    <p>使用一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>并增加对应的CSS类名即可，用来作为图标的标签不需要包含任何文本也不应该如此。</p>
+    <pre class="prettyprint"><code>&lt;i class=&quot;icon icon-star&quot;&gt;&lt;/i&gt;</code></pre>
+    <p>使用图标字体有一个好处就是图标就是文本字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小、颜色，甚至一些CSS3特效。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：</p>
+    <ul>
+      <li>图标应具备统一的颜色，如果有交互行为样式也应该保持一致；</li>
+      <li>图标的大小应该保持一致，正文中的图标大小应为14px，标题中的图标可以为28px；</li>
+      <li>图标应与所指示的内容对应，不同地方的同一个指示内容应该使用同一个图标。</li>
+    </ul>
+    <div class="alert alert-danger">
+      <p>
+      不要将在任何控件标签上直接应用图标CSS类名，应该嵌套一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>标签。</p>
+    </div>
+  </article>
+</section>
+
+<script>
+function afterPageLoad() {
+  if($.doc) {
+    $.doc.loadData('icons.json', function(data){
+      var iconCount = 0;
+      var $list = $('<ul class="clearfix"></ul>');
+      $.each(data, function(name, icon){
+        iconCount++;
+        var $li = $('<li><a href="#search/icon-' + name + '"><i class="icon-' + name + '"></i> ' + name + '</a></li>');
+        icon.id = name;
+        $li.data('icon', icon);
+        $list.append($li);
+      });
+      $('#iconsExample').empty().append($list);
+      $('#pageBody .icons-count').text(iconCount);
+    });
+  }
+}
+</script>

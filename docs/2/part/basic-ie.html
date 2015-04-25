@@ -12,8 +12,7 @@
     &lt;meta charset=&quot;utf-8&quot;&gt;
     &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
     ...
-</code>
-    </pre>
+</code></pre>
   </article>
 </section>
 
@@ -28,24 +27,21 @@
         &lt;div class=&quot;alert alert-danger&quot;&gt;您正在使用 &lt;strong&gt;过时的&lt;/strong&gt; 浏览器. 是时候 &lt;a href=&quot;http://browsehappy.com/&quot;&gt;更换一个更好的浏览器&lt;/a&gt; 来提升用户体验.&lt;/div&gt;
     &lt;![endif]--&gt;
     ...
-</code>
-    </pre>
+</code></pre>
     <p>
     因为IE8及早期版本不支持HTML5标签，所以针对IE8浏览器，我们引入html5shiv来使得HTML5标签在IE8中也能使用。在HTML文档的script区域加入以下代码（示例中html5shiv库来自maxcdn）：</p>
     <pre>
 <code>&lt;!--[if lt IE 9]&gt;
   &lt;script src=&quot;https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js&quot;&gt;&lt;/script&gt;
 &lt;![endif]--&gt;
-</code>
-    </pre>
+</code></pre>
     <p>因为IE8及早期版本同样不支持media
     query来实现响应式布局，我们同样可以通过条件注释引入respond.js来帮助ie实现该功能。（示例中的respond.js来自maxcdn，可以和html5shiv共享同一个条件注释区域。）</p>
     <pre>
 <code>&lt;!--[if lt IE 9]&gt;
   &lt;script src=&quot;https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js&quot;&gt;&lt;/script&gt;
 &lt;![endif]--&gt;
-</code>
-    </pre>
+</code></pre>
   </article>
 </section>
 

@@ -1,6 +1,6 @@
 /* ========================================================================
  * Bootstrap: carousel.js v3.0.0
- * http://twbs.github.com/bootstrap/javascript.html#carousel
+ * http://twzui.github.com/bootstrap/javascript.html#carousel
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *
@@ -185,7 +185,7 @@
 
         isCycling && this.pause()
 
-        var e = $.Event('slide.bs.carousel',
+        var e = $.Event('slide.zui.carousel',
         {
             relatedTarget: $next[0],
             direction: direction
@@ -250,12 +250,12 @@
         return this.each(function()
         {
             var $this = $(this)
-            var data = $this.data('bs.carousel')
+            var data = $this.data('zui.carousel')
             var options = $.extend(
             {}, Carousel.DEFAULTS, $this.data(), typeof option == 'object' && option)
             var action = typeof option == 'string' ? option : options.slide
 
-            if (!data) $this.data('bs.carousel', (data = new Carousel(this, options)))
+            if (!data) $this.data('zui.carousel', (data = new Carousel(this, options)))
             if (typeof option == 'number') data.to(option)
             else if (action) data[action]()
             else if (options.interval) data.pause().cycle()
@@ -280,7 +280,7 @@
     // CAROUSEL DATA-API
     // =================
 
-    $(document).on('click.bs.carousel.data-api', '[data-slide], [data-slide-to]', function(e)
+    $(document).on('click.zui.carousel.data-api', '[data-slide], [data-slide-to]', function(e)
     {
         var $this = $(this),
             href
@@ -294,7 +294,7 @@
 
         if (slideIndex = $this.attr('data-slide-to'))
         {
-            $target.data('bs.carousel').to(slideIndex)
+            $target.data('zui.carousel').to(slideIndex)
         }
 
         e.preventDefault()
