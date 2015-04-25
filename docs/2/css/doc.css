@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-24
+ * ZUI - v1.3.0 - 2015-04-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -977,6 +977,7 @@ body {
 #grid .chapter[data-accent="blue"] .color-accent {
   color: #00acc1;
 }
+#grid .chapter[data-accent="blue"] .card-content > ul > li > a[target="_blank"]:after,
 #grid .chapter[data-accent="blue"] .card[data-target="external"] > .card-heading > h5 > a:after {
   position: relative;
   left: -10px;
@@ -1003,6 +1004,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#grid .chapter[data-accent="blue"] .card-content > ul > li > a[target="_blank"]:hover:after,
 #grid .chapter[data-accent="blue"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
   left: 0;
   opacity: 1;
@@ -1071,6 +1073,7 @@ body {
 #grid .chapter[data-accent="primary"] .color-accent {
   color: #3280fc;
 }
+#grid .chapter[data-accent="primary"] .card-content > ul > li > a[target="_blank"]:after,
 #grid .chapter[data-accent="primary"] .card[data-target="external"] > .card-heading > h5 > a:after {
   position: relative;
   left: -10px;
@@ -1097,6 +1100,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#grid .chapter[data-accent="primary"] .card-content > ul > li > a[target="_blank"]:hover:after,
 #grid .chapter[data-accent="primary"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
   left: 0;
   opacity: 1;
@@ -1165,6 +1169,7 @@ body {
 #grid .chapter[data-accent="yellow"] .color-accent {
   color: #fd9927;
 }
+#grid .chapter[data-accent="yellow"] .card-content > ul > li > a[target="_blank"]:after,
 #grid .chapter[data-accent="yellow"] .card[data-target="external"] > .card-heading > h5 > a:after {
   position: relative;
   left: -10px;
@@ -1191,6 +1196,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#grid .chapter[data-accent="yellow"] .card-content > ul > li > a[target="_blank"]:hover:after,
 #grid .chapter[data-accent="yellow"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
   left: 0;
   opacity: 1;
@@ -1259,6 +1265,7 @@ body {
 #grid .chapter[data-accent="green"] .color-accent {
   color: #2fb936;
 }
+#grid .chapter[data-accent="green"] .card-content > ul > li > a[target="_blank"]:after,
 #grid .chapter[data-accent="green"] .card[data-target="external"] > .card-heading > h5 > a:after {
   position: relative;
   left: -10px;
@@ -1285,6 +1292,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#grid .chapter[data-accent="green"] .card-content > ul > li > a[target="_blank"]:hover:after,
 #grid .chapter[data-accent="green"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
   left: 0;
   opacity: 1;
@@ -1353,6 +1361,7 @@ body {
 #grid .chapter[data-accent="red"] .color-accent {
   color: #ee4e2f;
 }
+#grid .chapter[data-accent="red"] .card-content > ul > li > a[target="_blank"]:after,
 #grid .chapter[data-accent="red"] .card[data-target="external"] > .card-heading > h5 > a:after {
   position: relative;
   left: -10px;
@@ -1379,6 +1388,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#grid .chapter[data-accent="red"] .card-content > ul > li > a[target="_blank"]:hover:after,
 #grid .chapter[data-accent="red"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
   left: 0;
   opacity: 1;
@@ -1447,6 +1457,7 @@ body {
 #grid .chapter[data-accent="brown"] .color-accent {
   color: #bd7b46;
 }
+#grid .chapter[data-accent="brown"] .card-content > ul > li > a[target="_blank"]:after,
 #grid .chapter[data-accent="brown"] .card[data-target="external"] > .card-heading > h5 > a:after {
   position: relative;
   left: -10px;
@@ -1473,6 +1484,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#grid .chapter[data-accent="brown"] .card-content > ul > li > a[target="_blank"]:hover:after,
 #grid .chapter[data-accent="brown"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
   left: 0;
   opacity: 1;
@@ -1541,6 +1553,7 @@ body {
 #grid .chapter[data-accent="purple"] .color-accent {
   color: #8666b8;
 }
+#grid .chapter[data-accent="purple"] .card-content > ul > li > a[target="_blank"]:after,
 #grid .chapter[data-accent="purple"] .card[data-target="external"] > .card-heading > h5 > a:after {
   position: relative;
   left: -10px;
@@ -1567,6 +1580,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+#grid .chapter[data-accent="purple"] .card-content > ul > li > a[target="_blank"]:hover:after,
 #grid .chapter[data-accent="purple"] .card[data-target="external"] > .card-heading.hover > h5 > a:after {
   left: 0;
   opacity: 1;

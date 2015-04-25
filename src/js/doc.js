@@ -68,6 +68,14 @@
         $pageContainer, $pageBody, $navbar, $search,
         $header, $sections, $chapterHeadings; // elements
 
+    var isExternalUrl = function(url) {
+        if(typeof url === 'string') {
+            url = url.toLowerCase();
+            return url.startsWith('http://') || url.startsWith('https://');
+        }
+        return false;
+    };
+
     var limitString = function(str, len) {
         if(str && str.length > len) {
             return str.substr(0, len) + '...[' + str.length + ']';
@@ -209,7 +217,7 @@
             if(typeof url === 'undefined') {
                 section.url = 'part/' + section.chapter + '-' + section.id + '.html';
                 section.target = 'page';
-            } else if(url && (url.toLowerCase().startsWith('http://') || url.toLowerCase().startsWith('https://'))) {
+            } else if(isExternalUrl(url)) {
                 section.target = 'external';
             } else {
                 section.target = '';
@@ -234,8 +242,11 @@
             if (section.topics && section.topics.length) {
                 for (var tName in section.topics) {
                     var topic = section.topics[tName];
+
                     if(typeof topic.id === 'undefined') topic.id = tName;
-                    $topics.append('<li data-id="' + tName + '"><a href="' + sectionUrl + '/' + topic.id + '">' + topic.name + '</a></li>');
+                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + topic.id) : topic.url;
+
+                    $topics.append('<li data-id="' + tName + '"><a href="' + topicUrl + '"' + (isExternalUrl(topicUrl) ? ' target="_blank"' : '') + '>' + topic.name + '</a></li>');
                 }
             } else {
                 $topics.remove('.card-content');
@@ -1072,8 +1083,10 @@
                     openSection(params);
                 }
             }, 600);
-        } else {
+        } else if(isExternalUrl(url)) {
             window.open(url, '_blank');
+        } else {
+            if(debug) console.error('Open page url failed: unknown url', url);
         }
     };
 
@@ -1179,9 +1192,10 @@
         }).on('click', '.card-heading > h5 > .name, .card-heading > .icon', function(e){
             openSection($(this).closest('.section'));
             stopPropagation(e);
-        }).on('click', '.topics > li', function(e){
-            var $li = $(this);
-            openSection($li.closest('.section'), $li.data('id'));
+        }).on('click', '.topics > li > a', function(e){
+            var $a = $(this);
+            openPageUrl($a.attr('href'));
+            e.preventDefault();
             stopPropagation(e);
         }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').addClass('hover');
