@@ -868,7 +868,6 @@
     var showPageTopic = function(topic) {
         $page.removeClass('page-collapsed');
         var valType = typeof topic;
-        console.log('showPageTopic', topic, valType);
         if(valType === 'undefined') return;
         if(valType === 'string') {
             var num = parseInt(topic);

@@ -710,17 +710,6 @@
                     "desc": "将内容拖放到另一个容器",
                     "name": "拖放",
                     "topics": []
-                },
-                {
-                    "id": "autotrigger",
-                    "icon": "icon-bolt",
-                    "desc": "方便的增加交互效果",
-                    "name": "自动触发器",
-                    "topics":
-                    [
-                        {"name": "参数"},
-                        {"name": "类型"}
-                    ]
                 }
             ]
         },

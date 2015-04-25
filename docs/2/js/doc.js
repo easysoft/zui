@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-23
+ * ZUI - v1.3.0 - 2015-04-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -47,7 +47,9 @@
         component: {col: 2}, 
         javascript: {col: 3}, 
         view: {col: 3},
-        promotion: {col: 1, row: 2}
+        promotion: {col: 1, row: 2},
+        resource: {col: 1, row: 2},
+        contribution: {col: 1, row: 2}
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
@@ -70,8 +72,16 @@
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols,
         $choosedSection, $page, $pageHeader, $pageContent, 
-        $pageContainer, $pageBody, $navbar,
+        $pageContainer, $pageBody, $navbar, $search,
         $header, $sections, $chapterHeadings; // elements
+
+    var isExternalUrl = function(url) {
+        if(typeof url === 'string') {
+            url = url.toLowerCase();
+            return url.startsWith('http://') || url.startsWith('https://');
+        }
+        return false;
+    };
 
     var limitString = function(str, len) {
         if(str && str.length > len) {
@@ -158,6 +168,10 @@
                 if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
                 callback(cacheData.data);
             }
+
+            if($body.hasClass('page-open')) {
+                $pageBody.children('.loader').addClass('with-error');
+            }
         });
     };
 
@@ -205,13 +219,26 @@
             var chapterName = chapter.id;
             section.chapter = chapterName;
             section.chapterName = chapter.name;
+
+            var url = section.url;
+            if(typeof url === 'undefined') {
+                section.url = 'part/' + section.chapter + '-' + section.id + '.html';
+                section.target = 'page';
+            } else if(isExternalUrl(url)) {
+                section.target = 'external';
+            } else {
+                section.target = '';
+            }
+
             var id = chapterName + '-' + section.id;
-            var $tpl = $sectionTemplate.clone().attr('id', 'section-' + id).data('section', section);
+            var $tpl = $sectionTemplate.clone().data('section', section);
             $tpl.attr({
+                'id': 'section-' + id,
                 'data-id': section.id,
                 'data-chapter': chapterName,
                 'data-order': order++,
-                'data-accent': chapter.accent
+                'data-accent': chapter.accent,
+                'data-target': section.target
             });
             var $head = $tpl.children('.card-heading');
             var sectionUrl = '#' + chapterName + '/' + section.id;
@@ -222,8 +249,11 @@
             if (section.topics && section.topics.length) {
                 for (var tName in section.topics) {
                     var topic = section.topics[tName];
+
                     if(typeof topic.id === 'undefined') topic.id = tName;
-                    $topics.append('<li data-id="' + tName + '"><a href="' + sectionUrl + '/' + topic.id + '">' + topic.name + '</a></li>');
+                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + topic.id) : topic.url;
+
+                    $topics.append('<li data-id="' + tName + '"><a href="' + topicUrl + '"' + (isExternalUrl(topicUrl) ? ' target="_blank"' : '') + '>' + topic.name + '</a></li>');
                 }
             } else {
                 $topics.remove('.card-content');
@@ -420,7 +450,7 @@
         var $preview = $search.children('.section-preview');
         var oldIcon = $search.data('preview');
         if(!$preview.length) {
-            $preview = $('<div class="card-content section-preview icon-preview"><div class="icons"><i class="icon icon-10x"></i><i class="icon icon-5x"></i><i class="icon icon-2x"></i><i class="icon"></i></div><h3><small><i class="icon "></i></small> <span class="name color-accent"></span>  <small>Unicode: \\<span class="unicode">f3dd</span><span class="alias"> · 别名：<span class="alias-values"></span></span></small></h3><pre><code>&lt;i class=&quot;icon <span class="name"></span>&quot;&gt;&lt;/i&gt;</code></pre></div>');
+            $preview = $('#iconPreviewTemplate').clone().attr('id', '');
             $search.children('.card-heading').after($preview);
         }
         $search.children('.section-search').find('li.active').removeClass('active');
@@ -489,7 +519,7 @@
                     } else if(icon.name && icon.name.toLowerCase().includes(key)) {
                         choosedThis = true;
                         weight += icon.name.toLowerCase().startsWith(key) ? 100: 95;
-                    } else if(key.startsWith('\\') && icon.code && icon.code.toLowerCase().includes(key)) {
+                    } else if(key.startsWith('\\') && icon.code && icon.code.toLowerCase().includes(key.substr(1))) {
                         choosedThis = true;
                         weight += 120;
                     } else {
@@ -539,8 +569,10 @@
 
         if(keyString === UNDEFINED || keyString === null || !keyString.length) {
             resetQuery();
+            $search.removeClass('with-query-text');
             return;
         }
+        $search.addClass('with-query-text');
 
         $body.addClass('query-enabled').attr('data-query', '');
 
@@ -556,9 +588,13 @@
         $.each(keyString.split(' '), function(i, key){
             key = $.trim(key).toLowerCase();
             var keyOption = {origin: key};
-            if(key.startsWith('#')) {
+            if(key.startsWith('@')) {
                 keyOption.type = 'id';
-                keyOption.val = key.substr(1);
+                keyOption.chapter = key.substr(1);
+                keyOption.val = keyOption.chapter;
+            } else if(key.startsWith('#')) {
+                keyOption.type = 'id';
+                keyOption.val = key.substr(2);
             } else if(key.startsWith('icon-') || key.startsWith('icon:')) {
                 keyOption.type = 'icon';
                 keyOption.val = key.substr(5);
@@ -812,14 +848,21 @@
     };
 
     var closePage = function() {
+        window['afterPageLoad'] = null;
         if($body.hasClass('page-open')) {
             var style = $page.data('trans-style');
-            style['max-height'] = '';
-            $page.css(style);
+            if(style){
+                style['max-height'] = '';
+                $page.css(style);
+            }
             $body.addClass('page-show-out').removeClass('page-open page-show-in');
 
+            if($queryInput.val() !== '') {
+                $queryInput.focus();
+            }
+
             window.document.title = documentTitle;
-            window.location.hash = '';
+            window.location.hash = '#/';
             setTimeout(function(){
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
@@ -827,6 +870,46 @@
             return true;
         }
         return false;
+    };
+
+    var showPageTopic = function(topic) {
+        $page.removeClass('page-collapsed');
+        var valType = typeof topic;
+        console.log('showPageTopic', topic, valType);
+        if(valType === 'undefined') return;
+        if(valType === 'string') {
+            var num = parseInt(topic);
+            if(num !== NaN) {
+                valType = 'number';
+                topic = num;
+            }
+        }
+
+        var expandTopic = function($section) {
+            if($section && $section.length) {
+                togglePageSection(false);
+                togglePageSection($section.addClass('hover'), true);
+            }
+        };
+
+        if(valType === 'number') {
+            expandTopic($pageContent.children('section').eq(topic));
+        } else if(valType === 'string' && valType.length) {
+            // highlight element with the id string.
+        }
+    };
+
+    var handlePageLoad = function() {
+        if(window['afterPageLoad']) {
+            window['afterPageLoad']();
+        }
+
+        // pretty code
+        var $codes = $pageBody.find('pre');
+        if($codes.length && window['prettyPrint']) {
+            $codes.addClass('prettyprint');
+            window['prettyPrint']();
+        }
     };
 
     var openPage = function($section, section, topic) {
@@ -840,7 +923,6 @@
         // Send ga data
         var pageUrl = '#' + section.chapter + '/' + section.id;
         if(topic) pageUrl += '/' + topic;
-        console.log(section);
         window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
         if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
@@ -850,7 +932,7 @@
         $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
         $pageHeader.find('.desc').text(section.desc);
         $pageContent.html('');
-        var $loader = $page.addClass('loading').find('.loader').addClass('loading');
+        var $loader = $page.addClass('loading').find('.loader').removeClass('with-error').addClass('loading');
 
         loadData(section.url, function(data){
             $page.removeClass('loading');
@@ -858,6 +940,8 @@
             $pageContent.html(data);
             $queryInput.blur();
             $pageBody.scrollTop(0);
+            showPageTopic(topic);
+            setTimeout(handlePageLoad, 1000);
         });
 
         if($body.hasClass('page-open')) {
@@ -896,10 +980,20 @@
     };
 
     var openSection = function(section, topic) {
+        // if(debug) console.log('openSection', section, topic);
         section = section || $choosedSection;
 
         var $section;
         if($.isArray(section)) {
+            if(typeof topic !== 'undefined') section = section.push(topic);
+            if(!section[0]) {
+                if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
+                return;
+            }
+            if(section.length > 0 && section[0] === 'search') {
+                query(section[1]);
+                return;
+            }
             var docIndex = dataset[INDEX_JSON].data;
             if(docIndex && section.length > 1) {
                 var sectionId = section[1];
@@ -917,7 +1011,7 @@
                     }
                 }
                 if(!ok) {
-                    console.error("Open section failed: can't find the section with id " + section.join('-'));
+                    if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
                     return;
                 }
             } else {
@@ -935,27 +1029,17 @@
             $section = $temp;
         }
 
-        var url = section.url;
-
-        if(url === null) {
-            if(debug) console.error("Open section stop by null url.");
-            return;
-        }
-
-        if(!url) {
-            url = 'part/' + section.chapter + '-' + section.id + '.html';
-            section.url = url;
-        }
-
-        url = url.toLowerCase();
-        if(url.startsWith('http://') || url.startsWith('https://') ) {
-            window.open(url, '_blank');
-        } else {
-            openPage($section, section, topic);
+        switch(section.target) {
+            case 'external':
+                window.open(section.url, '_blank');
+                break;
+            case 'page':
+                openPage($section, section, topic);
+                break;
+            default:
+                if(debug) console.error("Open section failed: unknown target.");
         }
     };
-
-    window.openS = openSection;
 
     var resizePage = function() {
         if($body.hasClass('page-show-out') || $page.hasClass('loading')) return;
@@ -967,6 +1051,50 @@
             height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50);
         }
         $page.css('height', height);
+    };
+
+    var togglePageSection = function($section, toggle) {
+        var valType = typeof $section;
+        if(valType === 'object') {
+            if(typeof toggle === 'undefined') {
+                toggle = $section.hasClass('collapsed');
+            }
+            $section.toggleClass('collapsed', !toggle);
+            var $setions = $pageContent.children('section');
+            var sectionsCount = $setions.length, collapsedSectionCount = $setions.filter('.collapsed').length;
+            if(collapsedSectionCount === 0) {
+                $page.removeClass('page-collapsed');
+            } else if(collapsedSectionCount === sectionsCount) {
+                $page.addClass('page-collapsed');
+            }
+        } else {
+            toggle = valType === 'boolean' ? $section : $page.hasClass('page-collapsed');
+            $page.toggleClass('page-collapsed', !toggle);
+            if(!toggle) {
+                $pageContent.children('section').addClass('collapsed');
+            } else {
+                $pageContent.children('section').removeClass('collapsed');
+            }
+        }
+    };
+
+    var openPageUrl = function(url) {
+        if(url.startsWith('#')) {
+            url = url.substr(1);
+            setTimeout(function(){
+                var params = url.split('/');
+                var controllerName = params[0].toLowerCase();
+                if(controllerName === 'search' || controllerName === 'query') {
+                    query(params[1]);
+                } else {
+                    openSection(params);
+                }
+            }, 600);
+        } else if(isExternalUrl(url)) {
+            window.open(url, '_blank');
+        } else {
+            if(debug) console.error('Open page url failed: unknown url', url);
+        }
     };
 
     $(function() {
@@ -1027,16 +1155,7 @@
 
                 var hash = window.location.hash
                 if(hash) {
-                    hash = hash.substr(1);
-                    setTimeout(function(){
-                        var params = hash.split('/');
-                        var controllerName = params[0].toLowerCase();
-                        if(controllerName === 'search' || controllerName === 'query') {
-                            query(params[1]);
-                        } else {
-                            openSection(params);
-                        }
-                    }, 600);
+                    openPageUrl(hash);
                 } else {
                     $queryInput.focus();
                 }
@@ -1045,7 +1164,12 @@
 
         // Bind events
         var oldActivePreivewId;
+        var cancelClickInPage;
         $(document).on('click', function(e){
+            if(cancelClickInPage) {
+                cancelClickInPage = false;
+                return;
+            }
             if($body.hasClass('page-show')) {
                 closePage();
                 return;
@@ -1053,8 +1177,12 @@
             if(!$body.attr('data-query')) {
                 chooseSection();
             }
+        }).on('click', 'a[href^="#"]', function(){
+            openPageUrl($(this).attr('href'));
         });
-        $page.on('click', stopPropagation);
+        $page.on('click', function(e){
+            cancelClickInPage = true;
+        });
         $grid.on('click', '.card-heading', function(e) {
             var $card = $(this).closest('.card');
             if(!$card.hasClass('choosed')) {
@@ -1063,15 +1191,18 @@
                 $card.toggleClass('open');
             }
             stopPropagation(e);
+        }).on('click', '.chapter-heading > h4 > .name', function(){
+            $queryInput.focus().val('@' + $(this).closest('.chapter').data('id')).change();
         }).on('click', '.card', function(e){
             chooseSection($(this), true);
             stopPropagation(e);
         }).on('click', '.card-heading > h5 > .name, .card-heading > .icon', function(e){
             openSection($(this).closest('.section'));
             stopPropagation(e);
-        }).on('click', '.topics > li', function(e){
-            var $li = $(this);
-            openSection($li.closest('.section'), $li.data('id'));
+        }).on('click', '.topics > li > a', function(e){
+            var $a = $(this);
+            openPageUrl($a.attr('href'));
+            e.preventDefault();
             stopPropagation(e);
         }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').addClass('hover');
@@ -1088,12 +1219,15 @@
             oldActivePreivewId = $(this).closest('li').data('id');
         });
 
-        $pageContent.on('click', 'section > header', function(){
-            $(this).closest('section').toggleClass('collapsed');
-        }).on('mouseenter', 'section > header', function(){
+        $pageContent.on('click', 'section > header > h3', function(){
+            togglePageSection($(this).closest('section'));
+        }).on('mouseenter', 'section > header > h3', function(){
             $(this).closest('section').addClass('hover');
-        }).on('mouseleave', 'section > header', function(){
+        }).on('mouseleave', 'section > header > h3', function(){
             $(this).closest('section').removeClass('hover');
+        });
+        $page.on('click', '#pageTogger', function(){
+            togglePageSection();
         });
 
         $pageContent.on('resize', resizePage);
@@ -1183,12 +1317,17 @@
             $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
         });
 
+        $search = $('#search');
+        var lastQueryString;
         $queryInput.on('change keyup paste input propertychange', function(){
             var val = $queryInput.val();
-            if(val === $queryInput.data('queryString')) return;
+            if(val === lastQueryString) return;
+            lastQueryString = val;
+            $search.toggleClass('with-query-text', val.length > 0);
             clearTimeout($queryInput.data(LAST_QUERY_ID));
             $queryInput.data(LAST_QUERY_ID, setTimeout(function(){
-                query(val);
+                if(lastQueryString === $queryInput.data('queryString')) return;
+                query(lastQueryString);
             }, 150));
         }).on('focus', function(){
             $body.addClass('input-query-focus');
@@ -1199,6 +1338,26 @@
             $body.removeClass('input-query-focus');
         }).on('click', stopPropagation);
 
+        $('#searchHelpBtn').on('click', function(e){
+            if($search.hasClass('with-query-text')) {
+                query();
+                $queryInput.focus();
+                $search.removeClass('with-query-text');
+            } else {
+                // query('#help');
+                openSection(['resource', 'help']);
+                $(this).blur();
+            }
+            stopPropagation(e);
+        });
+
         $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     });
+
+    $.doc = {
+        query: query,
+        openSection: openSection,
+        closePage: closePage,
+        loadData: loadData
+    };
 }(window, jQuery));
