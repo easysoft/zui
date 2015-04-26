@@ -1,10 +1,15 @@
-<p>数据表格插件是一个展示大量数据的强力工具。</p>
-<h3>实例</h3>
-<p>
-在下面的例子中，表格左侧5列和右侧两列分别固定在两侧，其宽度不受外部容器宽度影响，中间位置的列则在宽度不够时会隐藏超出的部分，隐藏的列可以通过拖拽表头移动到可视区域，也可以使用下方的滚动条来调整隐藏的列显示区域。当向下滚动页面时，如果表头一旦处于不可见的位置时，则表头会调整样式而固定在页面顶端保持一直可见。</p>
-<div class="example datatable"></div>
-<pre class="prettyprint">
-<code>&lt;!-- HTML 代码 --&gt;
+<article>
+  <p>数据表格插件是一个展示大量数据的强力工具。</p>
+</article>
+
+<section>
+  <header><h3>简单应用</h3></header>
+  <article>
+    <p>在下面的例子中，表格左侧5列和右侧两列分别固定在两侧，其宽度不受外部容器宽度影响，中间位置的列则在宽度不够时会隐藏超出的部分，隐藏的列可以通过拖拽表头移动到可视区域，也可以使用下方的滚动条来调整隐藏的列显示区域。当向下滚动页面时，如果表头一旦处于不可见的位置时，则表头会调整样式而固定在页面顶端保持一直可见。</p>
+    <div class="example">
+      <div class="datatable"></div>
+    </div>
+<pre class='prettyprint'><code>&lt;!-- HTML 代码 --&gt;
 &lt;table class=&quot;table datatable&quot;&gt;
   &lt;thead&gt;
     &lt;tr&gt;
@@ -20,320 +25,396 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
+
 /* JS 代码 */
 $(&#39;table.datatable&#39;).datatable();
-</code>
-</pre>
-<h4>启用排序</h4>
-<p>只需要更改一个参数即可启用数据排序功能。DataTable支持对数字、日期或字符串进行升序和降序排序。</p>
-<div class="example datatable" data-sortable="true"></div>
-<pre class="prettyprint">
-<code>/* JS 代码 */
-$(&#39;table.datatable&#39;).datatable({sortable: true});
-</code>
-</pre>
-<h4>选中行</h4>
-<p>启用该选项后，单击行会更改选中与非选中状态。</p>
-<div class="example datatable" data-checkable="true"></div>
-<pre class="prettyprint">
-<code>/* JS 代码 */
-$(&#39;table.datatable&#39;).datatable({checkable: true});
-</code>
-</pre><!--       <h4>自定义列宽</h4>
-      <p>允许你拖拽表头边缘来更改列宽。</p>
-      <div class="example">
-        <div class="datatable" data-customizable='true'></div>
-      </div>
+</code></pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>启用排序功能</h3></header>
+  <article>
+    <p>只需要更改一个参数即可启用数据排序功能。DataTable支持对数字、日期或字符串进行升序和降序排序。</p>
+    <div class="example">
+      <div class="datatable" data-sortable='true'></div>
+    </div>
 <pre class='prettyprint'><code>/* JS 代码 */
-$(&#39;table.datatable&#39;).datatable({customizable: true});
-</code></pre> -->
-<!-- <h4>更多选项</h4> -->
-<h4>综合示例</h4>
-<p>你可以启用所有增强选项。</p>
-<div class="example datatable" data-checkable="true" data-sortable="true">
-</div>
-<pre class="prettyprint">
-<code>/* JS 代码 */
+$(&#39;table.datatable&#39;).datatable({sortable: true});
+</code></pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>高亮选中行</h3></header>
+  <article>
+    <div class="example">
+      <div class="datatable" data-checkable='true'></div>
+    </div>
+<pre class='prettyprint'><code>/* JS 代码 */
+$(&#39;table.datatable&#39;).datatable({checkable: true});
+</code></pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>综合示例</h3></header>
+  <article>
+    <p>你可以启用所有增强选项。</p>
+    <div class="example">
+      <div class="datatable" data-checkable='true' data-sortable='true'></div>
+    </div>
+<pre class='prettyprint'><code>/* JS 代码 */
 $(&#39;table.datatable&#39;).datatable({checkable: true, sortable: true});
-</code>
-</pre>
-<h3>用法</h3>
-<h4>启动参数</h4>
-<table class="table-bordered table">
-  <thead>
-    <tr>
-      <th>参数</th>
-      <th>可选值</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>checkable</code></td>
-      <td>
-        <ul>
-          <li><code>false</code> (默认)</li>
-          <li><code>true</code></li>
-        </ul>
-      </td>
-      <td>是否启用行选中状态维护，启用后将在列首显示多选按钮</td>
-    </tr>
-    <tr>
-      <td><code>checkByClickRow</code></td>
-      <td>
-        <ul>
-          <li><code>false</code></li>
-          <li><code>true</code> (默认)</li>
-        </ul>
-      </td>
-      <td>
-        <p>是否点击行的任意位置来切换选中状态</p>
-        <p>仅在<code>checkable</code>选项为<code>true</code>时生效</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>checkedClass</code></td>
-      <td>字符串，默认为<code>&quot;active&quot;</code></td>
-      <td>
-        <p>行选中时，为表格中的<code>&lt;tr&gt;</code>标签增加的类名由该参数指定</p>
-        <p>仅在<code>checkable</code>选项为<code>true</code>时生效</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>storage</code></td>
-      <td>
-        <ul>
-          <li><code>false</code></li>
-          <li><code>true</code> (默认)</li>
-        </ul>
-      </td>
-      <td>是否启用本地存储来增强用户体验。启用该选项之后，表格排序状态及选中的行在用户刷新页面之后仍然会还原为之前的扎状态。</td>
-    </tr>
-    <tr>
-      <td><code>sortable</code></td>
-      <td>
-        <ul>
-          <li><code>false</code> (默认)</li>
-          <li><code>true</code></li>
-        </ul>
-      </td>
-      <td>是否启用表格排序，点击表头能够以该列来为数据排序</td>
-    </tr>
-    <tr>
-      <td><code>fixedHeader</code></td>
-      <td>
-        <ul>
-          <li><code>false</code></li>
-          <li><code>true</code> (默认)</li>
-        </ul>
-      </td>
-      <td>是否固定表格头部，如果启用当页面滚动到下方导致表头不可见时重新定位表头到页面顶部保持可见</td>
-    </tr>
-    <tr>
-      <td><code>fixedHeaderOffset</code></td>
-      <td>数字，默认值为<code>0</code></td>
-      <td>
-        <p>当标题固定时距离顶部的高度，当页面顶部包含其他固定的内容时需要调整该值</p>
-        <p>仅在<code>fixedHeaderOffset</code>选项为<code>true</code>时生效</p>
-      </td>
-    </tr>
-    <tr>
-      <td><code>fixedLeftWidth</code></td>
-      <td>数字或者表示百分比的字符串，默认值为<code>&quot;30%&quot;</code></td>
-      <td>左侧固定的所有列的宽度，可以指定为百分比</td>
-    </tr>
-    <tr>
-      <td><code>fixedRightWidth</code></td>
-      <td>数字或者表示百分比的字符串，默认值为<code>&quot;30%&quot;</code></td>
-      <td>右侧固定的所有列的宽度，可以指定为百分比</td>
-    </tr>
-    <tr>
-      <td><code>flexHeadDrag</code></td>
-      <td>
-        <ul>
-          <li><code>false</code></li>
-          <li><code>true</code> (默认)</li>
-        </ul>
-      </td>
-      <td>是否能够通告拖拽可变区域的头部来调整可见区域</td>
-    </tr>
-    <tr>
-      <td><code>scrollPos</code></td>
-      <td>
-        <ul>
-          <li><code>&#39;in&#39;</code> (默认)</li>
-          <li><code>&#39;out&#39;</code></li>
-        </ul>
-      </td>
-      <td>滚动条位置</td>
-    </tr>
-    <tr>
-      <td><code>rowHover</code></td>
-      <td>
-        <ul>
-          <li><code>false</code></li>
-          <li><code>true</code> (默认)</li>
-        </ul>
-      </td>
-      <td>是否在行上启用鼠标悬停样式</td>
-    </tr>
-    <tr>
-      <td><code>colHover</code></td>
-      <td>
-        <ul>
-          <li><code>false</code></li>
-          <li><code>true</code> (默认)</li>
-        </ul>
-      </td>
-      <td>是否在列上启用鼠标悬停样式，仅当鼠标悬停表头时生效</td>
-    </tr><!--           <tr>
-            <td><code>customizable</code></td>
-            <td>
-              <ul>
-                <li><code>false</code> (默认)</li>
-                <li><code>true</code></li>
-              </ul>
-            </td>
-            <td>是否能够通过拖拽表头边缘来更改列宽</td>
-          </tr> -->
-    <tr>
-      <td><code>minColWidth</code></td>
-      <td>数字，默认为<code>20</code></td>
-      <td>列的最小宽度</td>
-    </tr>
-    <tr>
-      <td><code>minFixedLeftWidth</code></td>
-      <td>数字，默认为<code>200</code></td>
-      <td>左侧所有固定列的最小宽度</td>
-    </tr>
-    <tr>
-      <td><code>minFixedRightWidth</code></td>
-      <td>数字，默认为<code>200</code></td>
-      <td>右侧所有固定列的最小宽度</td>
-    </tr>
-    <tr>
-      <td><code>minFlexAreaWidth</code></td>
-      <td>数字，默认为<code>200</code></td>
-      <td>中间可变区域最小宽度</td>
-    </tr>
-  </tbody>
-</table>
-<pre class="prettyprint">
-<code>/* JS 代码 */
+</code></pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>启动参数</h3></header>
+  <article>
+    <table class="table-bordered table">
+      <thead>
+        <th>参数</th>
+        <th>可选值</th>
+        <th>说明</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>checkable</code></td>
+          <td>
+            <ul>
+              <li><code>false</code> (默认)</li>
+              <li><code>true</code></li>
+            </ul>
+          </td>
+          <td>是否启用行选中状态维护，启用后将在列首显示多选按钮</td>
+        </tr>
+        <tr>
+          <td><code>checkByClickRow</code></td>
+          <td>
+            <ul>
+              <li><code>false</code></li>
+              <li><code>true</code> (默认)</li>
+            </ul>
+          </td>
+          <td>
+            <p>是否点击行的任意位置来切换选中状态</p>
+            <p>仅在<code>checkable</code>选项为<code>true</code>时生效</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>checkedClass</code></td>
+          <td>字符串，默认为<code>"active"</code></td>
+          <td>
+            <p>行选中时，为表格中的<code>&lt;tr&gt;</code>标签增加的类名由该参数指定</p>
+            <p>仅在<code>checkable</code>选项为<code>true</code>时生效</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>storage</code></td>
+          <td>
+            <ul>
+              <li><code>false</code></li>
+              <li><code>true</code> (默认)</li>
+            </ul>
+          </td>
+          <td>是否启用本地存储来增强用户体验。启用该选项之后，表格排序状态及选中的行在用户刷新页面之后仍然会还原为之前的扎状态。</td>
+        </tr>
+        <tr>
+          <td><code>sortable</code></td>
+          <td>
+            <ul>
+              <li><code>false</code> (默认)</li>
+              <li><code>true</code></li>
+            </ul>
+          </td>
+          <td>是否启用表格排序，点击表头能够以该列来为数据排序</td>
+        </tr>
+        <tr>
+          <td><code>fixedHeader</code></td>
+          <td>
+            <ul>
+              <li><code>false</code></li>
+              <li><code>true</code> (默认)</li>
+            </ul>
+          </td>
+          <td>是否固定表格头部，如果启用当页面滚动到下方导致表头不可见时重新定位表头到页面顶部保持可见</td>
+        </tr>
+        <tr>
+          <td><code>fixedHeaderOffset</code></td>
+          <td>数字，默认值为<code>0</code></td>
+          <td>
+            <p>当标题固定时距离顶部的高度，当页面顶部包含其他固定的内容时需要调整该值</p>
+            <p>仅在<code>fixedHeaderOffset</code>选项为<code>true</code>时生效</p>
+          </td>
+        </tr>
+        <tr>
+          <td><code>fixedLeftWidth</code></td>
+          <td>数字或者表示百分比的字符串，默认值为<code>"30%"</code></td>
+          <td>左侧固定的所有列的宽度，可以指定为百分比</td>
+        </tr>
+        <tr>
+          <td><code>fixedRightWidth</code></td>
+          <td>数字或者表示百分比的字符串，默认值为<code>"30%"</code></td>
+          <td>右侧固定的所有列的宽度，可以指定为百分比</td>
+        </tr>
+        <tr>
+          <td><code>flexHeadDrag</code></td>
+          <td>
+            <ul>
+              <li><code>false</code></li>
+              <li><code>true</code> (默认)</li>
+            </ul>
+          </td>
+          <td>是否能够通告拖拽可变区域的头部来调整可见区域</td>
+        </tr>
+        <tr>
+          <td><code>scrollPos</code></td>
+          <td>
+            <ul>
+              <li><code>'in'</code> (默认)</li>
+              <li><code>'out'</code></li>
+            </ul>
+          </td>
+          <td>滚动条位置</td>
+        </tr>
+        <tr>
+          <td><code>rowHover</code></td>
+          <td>
+            <ul>
+              <li><code>false</code></li>
+              <li><code>true</code> (默认)</li>
+            </ul>
+          </td>
+          <td>是否在行上启用鼠标悬停样式</td>
+        </tr>
+        <tr>
+          <td><code>colHover</code></td>
+          <td>
+            <ul>
+              <li><code>false</code></li>
+              <li><code>true</code> (默认)</li>
+            </ul>
+          </td>
+          <td>是否在列上启用鼠标悬停样式，仅当鼠标悬停表头时生效</td>
+        </tr>
+<!--           <tr>
+          <td><code>customizable</code></td>
+          <td>
+            <ul>
+              <li><code>false</code> (默认)</li>
+              <li><code>true</code></li>
+            </ul>
+          </td>
+          <td>是否能够通过拖拽表头边缘来更改列宽</td>
+        </tr> -->
+        <tr>
+          <td><code>minColWidth</code></td>
+          <td>数字，默认为<code>20</code></td>
+          <td>列的最小宽度</td>
+        </tr>
+        <tr>
+          <td><code>minFixedLeftWidth</code></td>
+          <td>数字，默认为<code>200</code></td>
+          <td>左侧所有固定列的最小宽度</td>
+        </tr>
+        <tr>
+          <td><code>minFixedRightWidth</code></td>
+          <td>数字，默认为<code>200</code></td>
+          <td>右侧所有固定列的最小宽度</td>
+        </tr>
+        <tr>
+          <td><code>minFlexAreaWidth</code></td>
+          <td>数字，默认为<code>200</code></td>
+          <td>中间可变区域最小宽度</td>
+        </tr>
+      </tbody>
+    </table>
+<pre class='prettyprint'><code>/* JS 代码 */
 $(&#39;table.datatable&#39;).datatable(
 {
     checkable: true,
     sortable: true,
-    checkedClass: &quot;checked&quot;,
+    checkedClass: "checked",
     minFixedLeftWidth: 300
     // 更多参数...
 });
-</code>
-</pre>
-<p>启动参数也可以直接使用<code>data-*</code>属性写在要增强的HTML标签上。</p>
-<h4>事件</h4>
-<p>Datatable中的事件既可以使用jQuery原生方法来绑定，也可以写在启动参数中。</p>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>事件名称</th>
-      <th>jQuery事件名称</th>
-      <th>说明</th>
-      <th>事件参数</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>afterLoad</code></td>
-      <td><code>&quot;afterLoad.zui.datatable&quot;</code></td>
-      <td>数据加载完毕后调用</td>
-      <td>
-        <ul>
-          <li><code>event.data</code> 表格数据</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>ready</code></td>
-      <td><code>&quot;ready.zui.datatable&quot;</code></td>
-      <td>渲染完毕后调用，可以在此事件中为DOM绑定其他事件</td>
-      <td>无</td>
-    </tr>
-    <tr>
-      <td><code>sort</code></td>
-      <td><code>&quot;sort.zui.datatable&quot;</code></td>
-      <td>表格重新排序之后</td>
-      <td>
-        <ul>
-          <li><code>event.sorter.index</code> 数字，排序所依据的列序号</li>
-          <li><code>event.sorter.sortUp</code>
-          排序方向，<code>true</code>为升序，<code>false</code> 为降序</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>sizeChanged</code></td>
-      <td><code>&quot;sizeChanged.zui.datatable&quot;</code></td>
-      <td>列宽发生更改时发生</td>
-      <td>
-        <ul>
-          <li><code>event.changes.change</code>
-          字符串，变化的类型，<code>&quot;fixedLeftWidth&quot;</code>
-          为左侧所有固定列总宽度发生变化，<code>&quot;fixedRightWidth&quot;</code>
-          为右侧所有固定列总宽度发生变化，<code>&quot;colWidth&quot;</code> 为单个列宽度发生变化</li>
-          <li><code>event.changes.oldWidth</code> 数字，发生变化之前的宽度值</li>
-          <li><code>event.changes.newWidth</code> 数字，新的宽度值</li>
-          <li><code>event.changes.colIndex</code>
-          数字，如果是单个列宽发生变化，则该值指示发生变化列的序号</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>checksChanged</code></td>
-      <td><code>&quot;checksChanged.zui.datatable&quot;</code></td>
-      <td>当行的选中状态发生变化时发生</td>
-      <td>
-        <ul>
-          <li><code>event.checks.checkedAll</code> 如果为<code>true</code>
-          标识当前所有行都被选中，反之则表示至少有一行为被选中</li>
-          <li><code>event.checks.checks</code> 数字数组，包含所有已选中的行的ID</li>
-        </ul>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<h5>使用启动参数处理事件</h5>
-<pre class="prettyprint">
-<code>$(&#39;table.datatable&#39;).datatable(
+</code></pre>
+    <p>启动参数也可以直接使用<code>data-*</code>属性写在要增强的HTML标签上。</p>
+  </article>
+</section>
+
+<section>
+  <header><h3>事件</h3></header>
+  <article>
+    <p>Datatable中的事件既可以使用jQuery原生方法来绑定，也可以写在启动参数中。</p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>事件名称</th>
+          <th>jQuery事件名称</th>
+          <th>说明</th>
+          <th>事件参数</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>afterLoad</code></td>
+          <td><code>"afterLoad.zui.datatable"</code></td>
+          <td>数据加载完毕后调用</td>
+          <td>
+            <ul>
+              <li><code>event.data</code> 表格数据</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>ready</code></td>
+          <td><code>"ready.zui.datatable"</code></td>
+          <td>渲染完毕后调用，可以在此事件中为DOM绑定其他事件</td>
+          <td>无</td>
+        </tr>
+        <tr>
+          <td><code>sort</code></td>
+          <td><code>"sort.zui.datatable"</code></td>
+          <td>表格重新排序之后</td>
+          <td>
+            <ul>
+              <li><code>event.sorter.index</code> 数字，排序所依据的列序号</li>
+              <li><code>event.sorter.sortUp</code> 排序方向，<code>true</code>为升序，<code>false</code> 为降序</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>sizeChanged</code></td>
+          <td><code>"sizeChanged.zui.datatable"</code></td>
+          <td>列宽发生更改时发生</td>
+          <td>
+            <ul>
+              <li><code>event.changes.change</code> 字符串，变化的类型，<code>"fixedLeftWidth"</code> 为左侧所有固定列总宽度发生变化，<code>"fixedRightWidth"</code> 为右侧所有固定列总宽度发生变化，<code>"colWidth"</code> 为单个列宽度发生变化</li>
+              <li><code>event.changes.oldWidth</code> 数字，发生变化之前的宽度值</li>
+              <li><code>event.changes.newWidth</code> 数字，新的宽度值</li>
+              <li><code>event.changes.colIndex</code> 数字，如果是单个列宽发生变化，则该值指示发生变化列的序号</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>checksChanged</code></td>
+          <td><code>"checksChanged.zui.datatable"</code></td>
+          <td>当行的选中状态发生变化时发生</td>
+          <td>
+            <ul>
+              <li><code>event.checks.checkedAll</code> 如果为<code>true</code> 标识当前所有行都被选中，反之则表示至少有一行为被选中</li>
+              <li><code>event.checks.checks</code> 数字数组，包含所有已选中的行的ID</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h5>使用启动参数处理事件</h5>
+<pre class='prettyprint'><code>$(&#39;table.datatable&#39;).datatable(
 {
     sort: function(event)
     {
         console.log(event);
-        // console.log(&quot;表格已重新排序！&quot;);
+        // console.log("表格已重新排序！");
         // 处理 sort 事件
         // ...
     }
-});</code>
-</pre>
-<h5>使用jQuery方法绑定事件处理函数</h5>
-<pre class="prettyprint">
-<code>$(&#39;table.datatable&#39;).datatable().on(&quot;sort.zui.datatable&quot;, function(event)
+});</code></pre>
+      <h5>使用jQuery方法绑定事件处理函数</h5>
+<pre class='prettyprint'><code>$(&#39;table.datatable&#39;).datatable().on("sort.zui.datatable", function(event)
 {
     console.log(event);
-    // console.log(&quot;表格已重新排序！&quot;);
+    // console.log("表格已重新排序！");
     // 处理 sort 事件
     // ...
-});</code>
-</pre>
-<h3>数据</h3>
-<h4>增强现有表格</h4>
-<p>直接对一个包含完整头部和数据的普通表格进行增强。DataTable或自动获取所有表头和行上的数据，并配置相关选项。</p>
-<p>增强现有的表格能够在DataTable组件不可用时也能够正常显示原表格数据。</p>
-<h4>在启动选项中初始化数据</h4>
-<p>通过设置启动选项的<code>data</code>属性来初始化数据。</p>
-<h4>更新数据</h4>
-<p>当数据表格所依据的原始数据发生变更时，需要手动调用<code>load</code>方法来更新数据表格。</p>
-<pre class="prettyprint">
-<code>// 当原始数据发生变更时：
-$(&#39;table.datatable&#39;).datatable(&#39;load&#39;);</code>
-</pre>
+});</code></pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>数据配置</h3></header>
+  <article>
+    <h4>增强现有表格</h4>
+    <p>直接对一个包含完整头部和数据的普通表格进行增强。DataTable或自动获取所有表头和行上的数据，并配置相关选项。</p>
+    <p>增强现有的表格能够在DataTable组件不可用时也能够正常显示原表格数据。</p>
+
+    <h4>在启动选项中初始化数据</h4>
+    <p>通过设置启动选项的<code>data</code>属性来初始化数据。</p>
+
+    <h4>更新数据</h4>
+    <p>当数据表格所依据的原始数据发生变更时，需要手动调用<code>load</code>方法来更新数据表格。</p>
+<pre class='prettyprint'><code>// 当原始数据发生变更时：
+$(&#39;table.datatable&#39;).datatable('load');</code></pre>
+  </article>
+</section>
+
+<script>
+function onPageLoad() {
+  return false;
+}
+function afterPageLoad() {
+    var now = new Date();
+    var start = now.getSeconds(),
+        calendars = ['success', 'danger', 'important', 'warning', 'info', 'specail', 'primary'],
+        rooms = ['A003', 'A004', 'A010', 'A143', 'B008', 'B098', 'B487', 'B340', 'Z000', 'Z431', 'Z018', 'Z864'],
+        peoples = ['奥特曼', '行者孙', '地卜师', '绿巨人', 'Catouse', '路人丙'],
+        events = ['进食', '喝水', '交谈', '睡觉', '捶打墙壁', '自言自语', '搬动椅子', '唱歌', '上网', '梦游', '观望天花板'],
+        eventsTypes = ['happy', 'sad', ':]'],
+        tools = ['桌子', '椅子', '水杯', '枪', '随从'],
+        descs = ['没有完成', '这次失败了', '徒劳', '很满意', '禁止再次发生', '也行', '情况不明', '发现未知征兆'];
+    var dtDataGenerater = function(rowsCount)
+    {
+        var data =
+        {
+            cols:
+            [
+                {width: 100, text: '#', type: 'number', flex: false, colClass: 'text-center'},
+                {sort: 'down', width: 160, text: '时间', type: 'date', flex: false, colClass: ''},
+                {width: 80, text: '房间', type: 'string', flex: false, colClass: ''},
+                {width: 100, text: '人物', type: 'string', flex: false, colClass: ''},
+                {width: 'auto', text: '事件', type: 'string', flex: false, colClass: ''},
+                {width: 100, text: '事件类型', type: 'string', flex: true, colClass: 'text-center'},
+                {sort: false, width: 200, text: '描述', type: 'string', flex: true, colClass: ''},
+                {width: 100, text: '相关人物', type: 'string', flex: true, colClass: ''},
+                {width: 100, text: '相关物品', type: 'string', flex: true, colClass: ''},
+                {width: 60, text: '评分', type: 'number', flex: false, colClass: 'text-center text-important'},
+                {sort: false, width: 'auto', text: '操作', type: 'string', flex: false, colClass: ''},
+            ],
+            rows: []
+        };
+
+        for (var i = 0; i < rowsCount; i++)
+        {
+            var row = {checked: Math.random() > 0.9, data:
+            [
+                start + i + 101000,
+                now.format('yyyy-MM-dd hh:mm:ss'),
+                rooms[Math.floor(Math.random()*rooms.length)],
+                peoples[Math.floor(Math.random()*peoples.length)],
+                events[Math.floor(Math.random()*events.length)],
+                eventsTypes[Math.floor(Math.random()*eventsTypes.length)],
+                descs[Math.floor(Math.random()*descs.length)],
+                peoples[Math.floor(Math.random()*peoples.length)],
+                tools[Math.floor(Math.random()*tools.length)],
+                Math.floor(Math.random()*100)/10,
+                "<a href='###'><i class='icon-ok-sign'></i></a> &nbsp; <a href='###' class='text-danger'><i class='icon-trash'></i></a> "
+            ]};
+            data.rows.push(row);
+            now = new Date(now.getTime() - (Math.random()*1000*60*60));
+        };
+
+        return data;
+    };
+
+    $('#pageContent .datatable').each(function()
+    {
+        var $this = $(this);
+        $this.datatable({fixedLeftWidth: '60%', fixedRightWidth: '15%', data: dtDataGenerater($this.data('rows') || 5)});
+    });
+
+    $.doc.mutePageLoading();
+}
+</script>
