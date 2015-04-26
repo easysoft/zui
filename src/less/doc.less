@@ -229,6 +229,10 @@
   }
 }
 
+.margin-zero {
+  margin: 0!important;
+}
+
 pre ol.linenums {
   padding-left: 40px;
 }
@@ -251,7 +255,6 @@ pre ol.linenums {
   padding: 20px;
   margin: 0 0 15px;
   border-style: solid;
-  background-color: #fff;
   border: 1px solid #ddd;
   outline: none;
   transition:all 0.3s;
@@ -285,6 +288,24 @@ pre
 {
   border-radius: 0;
 }
+
+a.avatar
+{
+  display: block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  background-color: #e5e5e5;
+  border-radius: 4px;
+  margin-top: 5px!important;
+  color:#aaa!important;
+  font-size: 30px;
+  line-height: 40px;
+}
+
+a.avatar > i {font-size: 28px}
+
+a.avatar:hover {text-decoration: none}
 
 .loader {
   color: @color-gray;
@@ -740,7 +761,7 @@ body {
   }
 
   > .icon {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 

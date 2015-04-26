@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-25
+ * ZUI - v1.3.0 - 2015-04-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -258,7 +258,7 @@
     if ($this.parent('li').hasClass('active')) return
 
     var previous = $ul.find('.active:last a')[0]
-    var e        = $.Event('show.bs.tab', {
+    var e        = $.Event('show.zui.tab', {
       relatedTarget: previous
     })
 
@@ -271,7 +271,7 @@
     this.activate($this.parent('li'), $ul)
     this.activate($target, $target.parent(), function () {
       $this.trigger({
-        type: 'shown.bs.tab'
+        type: 'shown.zui.tab'
       , relatedTarget: previous
       })
     })
@@ -323,9 +323,9 @@
   $.fn.tab = function ( option ) {
     return this.each(function () {
       var $this = $(this)
-      var data  = $this.data('bs.tab')
+      var data  = $this.data('zui.tab')
 
-      if (!data) $this.data('bs.tab', (data = new Tab(this)))
+      if (!data) $this.data('zui.tab', (data = new Tab(this)))
       if (typeof option == 'string') data[option]()
     })
   }
@@ -345,7 +345,7 @@
   // TAB DATA-API
   // ============
 
-  $(document).on('click.bs.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
+  $(document).on('click.zui.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
     e.preventDefault()
     $(this).tab('show')
   })

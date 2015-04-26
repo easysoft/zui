@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-25
+ * ZUI - v1.3.0 - 2015-04-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -30,6 +30,9 @@
 .grow-up-in-height.show.in {
   height: auto;
 }
+.margin-zero {
+  margin: 0!important;
+}
 pre ol.linenums {
   padding-left: 40px;
 }
@@ -47,7 +50,6 @@ pre ol.linenums {
   position: relative;
   padding: 20px;
   margin: 0 0 15px;
-  background-color: #fff;
   border: 1px solid #ddd;
   border-style: solid;
   outline: none;
@@ -80,6 +82,24 @@ pre + pre {
 }
 pre {
   border-radius: 0;
+}
+a.avatar {
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin-top: 5px!important;
+  font-size: 30px;
+  line-height: 40px;
+  color: #aaa!important;
+  text-align: center;
+  background-color: #e5e5e5;
+  border-radius: 4px;
+}
+a.avatar > i {
+  font-size: 28px;
+}
+a.avatar:hover {
+  text-decoration: none;
 }
 .loader {
   height: 0;
@@ -534,7 +554,7 @@ body {
   background-color: rgba(0, 0, 0, .5);
 }
 #searchHelpBtn > .icon {
-  font-size: 20px;
+  font-size: 18px;
 }
 #search.with-query-text #searchHelpBtn > .icon:before {
   content: '\d7';

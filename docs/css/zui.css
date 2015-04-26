@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-25
+ * ZUI - v1.3.0 - 2015-04-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -7453,7 +7453,6 @@ ol.linenums li {
   font-size: 12px;
   color: #686868;
   background-color: #f1f1f1;
-  border-radius: 4px;
 }
 .article > header > .abstract > p:last-child,
 .article > header > dl > p:last-child {
@@ -7592,9 +7591,11 @@ body.article-content {
 }
 .article-condensed > footer > .pager-justify > .previous > a {
   border-left: none;
+  border-radius: 0;
 }
 .article-condensed > footer > .pager-justify > .next > a {
   border-right: none;
+  border-radius: 0;
 }
 .comments > header {
   border-bottom: 1px solid #e5e5e5;
