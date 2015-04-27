@@ -44,8 +44,7 @@
     {
         var auto = this.options.auto;
         var $menu = this.$;
-
-        this.$.find('.nav-parent > a').click(function(event)
+        this.$.on('click', '.nav-parent > a', function(event)
         {
             if (auto)
             {
