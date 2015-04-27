@@ -50,7 +50,7 @@
 $('#triggerButton').modalTrigger({custom: '&lt;h1&gt;此内容是自定义的&lt;/h1&gt;&lt;p&gt;哈哈:)&lt;/p&gt;'});
 
 /* 使用触发器对象直接显示 */
-(new ModalTrigger({custom: '自定义内容'})).show();</code></pre>
+(new $.zui.ModalTrigger({custom: '自定义内容'})).show();</code></pre>
 
     <h4>指定页面元素作为内容</h4>
     <p>通过指定一个jQuery选择器名称来获取其内容作为模态框的内容。</p>
@@ -67,7 +67,7 @@ $('#triggerButton').modalTrigger({custom: '&lt;h1&gt;此内容是自定义的&lt
 $('#triggerButton').modalTrigger({custom: '#myModalAlert'});
 
 /* 使用触发器对象直接显示 */
-(new ModalTrigger({custom: '#myModalAlert'})).show();</code></pre>
+(new $.zui.ModalTrigger({custom: '#myModalAlert'})).show();</code></pre>
 
     <h4>使用jQuery对象作为内容</h4>
     <p>直接为custom参数赋值为一个jQuery对象，此对象的内容将显示在对话框中。此方式无法使用data属性调用。</p>
@@ -75,7 +75,7 @@ $('#triggerButton').modalTrigger({custom: '#myModalAlert'});
 $('#triggerButton').modalTrigger({custom: $('#myModalAlert')});
 
 /* 使用触发器对象直接显示 */
-(new ModalTrigger({custom: $('#myModalAlert')})).show();</code></pre>
+(new $.zui.ModalTrigger({custom: $('#myModalAlert')})).show();</code></pre>
 
     <h4>使用回调函数动态生成内容</h4>
     <p>将一个回调函数赋值给custom参数，触发器对象会自动调用此函数来实时获得动态内容并显示在模态框中。</p>
@@ -90,7 +90,7 @@ $('#triggerButton').modalTrigger({custom: function()
 }});
 
 /* 使用触发器对象直接显示 */
-(new ModalTrigger({custom: function()
+(new $.zui.ModalTrigger({custom: function()
 {
     return "当模态框显示时，时间是：" + (new Date).toString();
 }})).show();</code></pre>
@@ -123,7 +123,7 @@ $('#triggerButton').modalTrigger({custom: function()
 $('#triggerButton').modalTrigger({showHeader: false});
 
 /* 使用触发器对象直接显示 */
-(new ModalTrigger({showHeader: false})).show();</code></pre>
+(new $.zui.ModalTrigger({showHeader: false})).show();</code></pre>
 
     <h4>自定义模态框标题</h4>
     <p>如果不指定模态框的标题，会自动使用触发按钮的title属性或文本作为模态框的标题。</p>
@@ -134,7 +134,7 @@ $('#triggerButton').modalTrigger({showHeader: false});
 $('#triggerButton').modalTrigger({title: '新的标题'});
 
 /* 使用触发器对象直接显示 */
-(new ModalTrigger({title: '新的标题'})).show();</code></pre>
+(new $.zui.ModalTrigger({title: '新的标题'})).show();</code></pre>
 
     <h4>使用图标</h4>
     <p>通过指定<code>icon</code>属性来在标题前面增加一个图标。</p>
@@ -146,7 +146,7 @@ $('#triggerButton').modalTrigger({title: '新的标题'});
 $('#triggerButton').modalTrigger({icon: 'heart'});
 
 /* 使用触发器对象直接显示 */
-(new ModalTrigger({icon: 'heart'})).show();</code></pre>
+(new $.zui.ModalTrigger({icon: 'heart'})).show();</code></pre>
   </article>
 </section>
 
@@ -162,12 +162,12 @@ $('#triggerButton').modalTrigger({icon: 'heart'});
     <p>使得一个jquery对象能够监听事件（一般为点击）并启动模态框。</p>
     <pre class='prettyprint'><code>$('#triggerButton').modalTrigger(options);</code></pre>
     <p>也可以使用<code>modalTrigger</code>的别名方法<code>modal</code>，这样与传统模态框的初始化方法完全一致。</p>
-    <h4>使用window对象属性</h4>
-    <p>在window对象上已默认绑定了一个模态框触发器对象，可以直接使用<code>方法</code>并传递不同的参数来随时启动模态框。</p>
-    <pre class='prettyprint'><code>window.modalTrigger.show(options);</code></pre>
+    <h4>使用预设的modalTrigger实例</h4>
+    <p>在<code>$.zui</code>对象上已默认绑定了一个模态框触发器对象，可以直接使用<code>方法</code>并传递不同的参数来随时启动模态框。</p>
+    <pre class='prettyprint'><code>$.zui.modalTrigger.show(options);</code></pre>
     <h4>创建新的触发器对象</h4>
     <p>创建一个新的模态框触发器来保存配置并启动模态框。</p>
-    <pre class='prettyprint'><code>var myModalTrigger = new ModalTrigger(options);
+    <pre class='prettyprint'><code>var myModalTrigger = new $.zui.ModalTrigger(options);
 myModalTrigger.show();</code></pre>
 
     <h4>参数</h4>
@@ -336,10 +336,10 @@ myModalTrigger.show();</code></pre>
     <p>要使用触发器方法，需要首先获取触发器对象的实例。</p>
     <h6>通过触发按钮的data属性</h6>
     <pre class='prettyprint'><code>var modalTrigger = $('#triggerButton').data('zui.modaltrigger');</code></pre>
-    <h6>使用window对象绑定的触发器</h6>
-    <pre class='prettyprint'><code>var myTrigger = window.modalTrigger;</code></pre>
+    <h6>使用预设的<code>$.zui</code>对象绑定的触发器</h6>
+    <pre class='prettyprint'><code>var myTrigger = $.zui.modalTrigger;</code></pre>
     <h6>创建新的触发器实例</h6>
-    <pre class='prettyprint'><code>var newTrigger = new ModalTrigger(options);</code></pre>
+    <pre class='prettyprint'><code>var newTrigger = new $.zui.ModalTrigger(options);</code></pre>
 
     <h4>显示模态框</h4>
     <p>在显示模态框时，可以重新传入新的参数，而不影响触发器对象原来的参数。</p>
@@ -406,6 +406,14 @@ myModalTrigger.show();</code></pre>
     <pre class='prettyprint'><code>$('#triggerModal').on('shown.zui.modal', function(){...});</code></pre>
   </article>
 </section>
+
+<style>
+.modal > .loader {
+  opacity: 1;
+  height: auto;
+  transform: scale(1);
+}
+</style>
 
 <script>
 function afterPageLoad() {

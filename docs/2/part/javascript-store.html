@@ -6,7 +6,7 @@
 <section>
   <header><h3>如何使用</h3></header>
   <article>
-    <p>要使用本地存储，直接使用<code>windows.store</code>对象。<code>store</code>提供了一系列方法来操作本地存储数据。</p>
+    <p>要使用本地存储，直接使用<code>$.zui.store</code>对象。<code>store</code>提供了一系列方法来操作本地存储数据。</p>
     <p>以下列出store对象提供的属性和方法：</p>
     <table class="table table-bordered">
       <thead>
@@ -144,21 +144,21 @@
     </table>
     <h4>代码示例</h4>
 <pre class='prettyprint'>
-store.set('name', 'catouse');                      // 使用本地存储设置'name'值为'catouse'
-store.set('date', {year: 2014, month: 8, day: 6}); // 将一个对象存储到本地存储
+$.zui.store.set('name', 'catouse');                      // 使用本地存储设置'name'值为'catouse'
+$.zui.store.set('date', {year: 2014, month: 8, day: 6}); // 将一个对象存储到本地存储
 
-console.log(store.get('name'));                    // 从本地存储获取'name'的值
-console.log(store.get('date').year);               // 从本地存储获取'date'值的year属性
+console.log($.zui.store.get('name'));                    // 从本地存储获取'name'的值
+console.log($.zui.store.get('date').year);               // 从本地存储获取'date'值的year属性
 
-store.forEach(function(key, value)                 // 遍历所有本地存储的条目
+$.zui.store.forEach(function(key, value)                 // 遍历所有本地存储的条目
 {
     console.log(value);
 });
 
-console.log(store.key(0));                         // 获取本地存储第一个条目的名称
+console.log($.zui.store.key(0));                         // 获取本地存储第一个条目的名称
 
-store.remove('name');                              // 从本地存储移除‘name’的值
-store.clear();                                     // 清空所有本地存储的条目</pre>
+$.zui.store.remove('name');                              // 从本地存储移除‘name’的值
+$.zui.store.clear();                                     // 清空所有本地存储的条目</pre>
   </article>
 </section>
 
@@ -222,14 +222,14 @@ store.clear();                                     // 清空所有本地存储�
     <h4>代码示例</h4>
 <pre class='prettyprint'>
 /* 以下操作的键值仅针对当前页面 */
-store.pageSet('name', 'catouse');                      // 使用本地存储设置'name'值为'catouse'
-store.pageSet('date', {year: 2014, month: 8, day: 6}); // 将一个对象存储到本地存储
+$.zui.store.pageSet('name', 'catouse');                      // 使用本地存储设置'name'值为'catouse'
+$.zui.store.pageSet('date', {year: 2014, month: 8, day: 6}); // 将一个对象存储到本地存储
 
-console.log(store.pageGet('name'));                    // 从本地存储获取'name'的值
-console.log(store.pageGet('date').year);               // 从本地存储获取'date'值的year属性
+console.log($.zui.store.pageGet('name'));                    // 从本地存储获取'name'的值
+console.log($.zui.store.pageGet('date').year);               // 从本地存储获取'date'值的year属性
 
-store.pageRemove('name');                              // 从本地存储移除‘name’的值
-store.pageClear();                                     // 清空所有本地存储的条目</pre>
+$.zui.store.pageRemove('name');                              // 从本地存储移除‘name’的值
+$.zui.store.pageClear();                                     // 清空所有本地存储的条目</pre>
   </article>
 </section>
 
@@ -275,21 +275,21 @@ store.pageClear();                                     // 清空所有本地存�
 
 <script>
 function afterPageLoad(){
-    $('#storeExample .alert-' + (store.enable ? 'success' : 'warning')).removeClass('hide');
+    $('#storeExample .alert-' + ($.zui.store.enable ? 'success' : 'warning')).removeClass('hide');
 
     var $storeTable = $('#storeTable');
     function refershStore()
     {
         $storeTable.empty();
         var index = 0;
-        store.forEach(function(key,value)
+        $.zui.store.forEach(function(key,value)
         {
             if(key.indexOf('//') === 0) return;
             $storeTable.append('<tr><td>{0}</td><td class="store-name">{1}</td><td>{2}</td><td><a href="javascript:;" class="text-danger store-delete"><i class="icon-trash"></i></a></td></tr>'.format(index++, key, value));
         });
         $storeTable.find('.store-delete').click(function()
         {
-            store.remove($(this).closest('tr').children('.store-name').text());
+            $.zui.store.remove($(this).closest('tr').children('.store-name').text());
             refershStore();
         });
     }
@@ -300,7 +300,7 @@ function afterPageLoad(){
             val = $('#storeValue').val();
         if(key)
         {
-            store.setItem(key, val);
+            $.zui.store.setItem(key, val);
             refershStore();
         }
         else
@@ -311,7 +311,7 @@ function afterPageLoad(){
 
     $('#storeClear').click(function()
     {
-        store.clear();
+        $.zui.store.clear();
         refershStore();
     });
 

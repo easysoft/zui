@@ -86,9 +86,9 @@
       </tbody>
     </table>
 <pre class='prettyprint'><code>// 使用jQuery对象
-var msg = new $.Messager('消息内容', {placement: 'bottom'});
+var msg = new $.zui.Messager('消息内容', {placement: 'bottom'});
 // 使用window对象
-// var msg = new window.Messager('消息内容', {placement: 'bottom'});
+// var msg = new $.zui.Messager('消息内容', {placement: 'bottom'});
 
 // 显示消息
 msg.show();
@@ -98,12 +98,12 @@ msg.hide();
 </code></pre>
     <h4>快速显示</h4>
     <p>使用jQuery对象或<code>window</code>对象的<code>messager</code>实例的<code>show()</code>方法来即时显示一个漂浮消息。</p>
-    <p>调用<code>$.messager.show()</code>或者<code>window.messager.show()</code>之后立即显示并返回新创建的<code>Messager</code>实例。可以使用返回的实例来手动执行<code>hide</code>方法隐藏此消息。</p>
+    <p>调用<code>$.zui.messager.show()</code>或者<code>$.zui.messager.show()</code>之后立即显示并返回新创建的<code>Messager</code>实例。可以使用返回的实例来手动执行<code>hide</code>方法隐藏此消息。</p>
     <p><code>show()</code>方法提供两个参数，定义于<code>Messager</code>构造函数参数定义相同。</p>
 <pre class='prettyprint'><code>// 使用jQuery对象
-var msg = $.messager.show('消息内容', {placement: 'bottom'});
+var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
 // 使用window对象
-// var msg = window.messager.show('消息内容', {placement: 'bottom'});
+// var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
 
 // 隐藏消息
 msg.hide();
@@ -177,14 +177,14 @@ function afterPageLoad() {
         else
         {
             var options = $this.data();
-            $this.data('zui.messager', $.messager.show(options.content, options));
+            $this.data('zui.messager', $.zui.messager.show(options.content, options));
         }
     });
 
     $('#pageContent .messager-example').click(function()
     {
         var $this = $(this);
-        $.messager.show($this.find('.messager-content').html(), $this.data());
+        $.zui.messager.show($this.find('.messager-content').html(), $this.data());
     });
 }
 </script>
