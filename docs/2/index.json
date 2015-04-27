@@ -22,6 +22,71 @@
                     "name": "我要加入",
                     "desc": "加入ZUI，一起成长和改变，联系sunhao@cnezsoft.com",
                     "icon": "icon-hand-up"
+                },
+                {
+                    "id": "learn",
+                    "name": "站在巨人的肩膀上",
+                    "desc": "ZUI 构建于众多优秀的开源项目之上",
+                    "icon": "icon-certificate",
+                    "topics": 
+                    [
+                        {
+                            "name": "Grunt",
+                            "url": "http://gruntjs.com/"
+                        },
+                        {
+                            "name": "Less",
+                            "url": "http://lesscss.org/"
+                        },
+                        {
+                            "name": "normalize",
+                            "url": "http://necolas.github.io/normalize.css/"
+                        },
+                        {
+                            "name": "jQuery",
+                            "url": "http://jquery.com/"
+                        },
+                        {
+                            "name": "Bootstrap",
+                            "url": "http://getbootstrap.com/"
+                        },
+                        {
+                            "name": "kindeditor",
+                            "url": "http://kindeditor.net/"
+                        },
+                        {
+                            "name": "Chosen",
+                            "url": "http://harvesthq.github.io/chosen/"
+                        },
+                        {
+                            "name": "Datetime picker",
+                            "url": "http://www.malot.fr/bootstrap-datetimepicker"
+                        },
+                        {
+                            "name": "FontAwesome",
+                            "url": "http://fortawesome.github.io/Font-Awesome/"
+                        },
+                        {
+                            "name": "google code prettify",
+                            "url": "https://code.google.com/p/google-code-prettify/"
+                        },
+                        {
+                            "name": "jQuery hotkey",
+                            "url": "http://github.com/tzuryby/hotkeys"
+                        },
+                        {
+                            "name": "Bootbox",
+                            "url": "http://bootboxjs.com/"
+                        },
+                        {
+                            "name": "Explorer canvas",
+                            "url": "https://code.google.com/p/explorercanvas/"
+                        },
+                        {
+                            "name": "Chart.js",
+                            "url": "http://www.chartjs.org/"
+                        }
+                    ]
                 }
             ]
         },
