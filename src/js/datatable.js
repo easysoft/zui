@@ -520,7 +520,7 @@
         var that       = this,
             data       = this.data,
             options    = this.options,
-            store      = window.store,
+            store      = $.zui.store,
             $datatable = this.$datatable;
 
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
@@ -836,7 +836,7 @@
     // Sort table
     DataTable.prototype.sortTable = function($th)
     {
-        var store = window.store,
+        var store = $.zui.store,
             options = this.options;
         var sorterStoreName = this.id + '_datatableSorter';
         var sorter = options.storage ? store.pageGet(sorterStoreName) : null;
