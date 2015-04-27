@@ -29,7 +29,7 @@
     }
 
     var saveTraffic = false;
-    var debug = 1;
+    var debug = 0;
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
@@ -947,13 +947,22 @@
         $pageContent.html('');
         $page.addClass('loading');
         $pageLoader.removeClass('with-error').addClass('loading');
+        var lastShowDataCall;
+        var pageSh
 
         loadData(section.url, function(data){
-            $pageContent.html(data);
-            $queryInput.blur();
-            $pageBody.scrollTop(0);
-            showPageTopic(topic);
-            handlePageLoad();
+            var showData = function(){
+                $pageContent.html(data);
+                $pageBody.scrollTop(0);
+                showPageTopic(topic);
+                handlePageLoad();
+            }
+            if($page.hasClass('openning')) {
+                if(lastShowDataCall) clearTimeout(lastShowDataCall);
+                lastShowDataCall = setTimeout(showData, 320);
+            } else {
+                showData();
+            }
         });
 
         if($body.hasClass('page-open')) {
@@ -967,8 +976,8 @@
             var offset = $section.offset();
             var sectionHeight = $section.outerHeight();
             var style = {
-                left: Math.floor(offset.left - $grid.children('.container').offset().left - 6),
-                top: Math.floor(offset.top - $window.scrollTop() - 61),
+                left: Math.floor(offset.left - $grid.children('.container').offset().left - 5),
+                top: Math.floor(offset.top - $window.scrollTop() - 60),
                 width: $section.outerWidth(),
                 height: sectionHeight,
                 'max-height': sectionHeight
@@ -986,7 +995,7 @@
                     $page.removeClass('openning');
                     bestPageWidth = $pageBody.css('width', '').width() + 40;
                     resizePage();
-                }, 310);
+                }, 300);
             }, 10);
         });
     };
