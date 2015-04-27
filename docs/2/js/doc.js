@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-26
+ * ZUI - v1.3.0 - 2015-04-27
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -127,9 +127,9 @@
         var isHasCache = cacheData && cacheData.version;
         var isIndexJson = url === INDEX_JSON;
         if(!isHasCache && storageEnable) {
-            var storedData = $.store.get('//' + url, null);
+            var storedData = $.zui.store.get('//' + url, null);
             if(storedData !== null) {
-                var storedVersion = $.store.get('//' + url + '::V');
+                var storedVersion = $.zui.store.get('//' + url + '::V');
                 if(storedVersion) {
                     cacheData = {data: storedData, version: storedVersion};
                     dataset[url] = cacheData;
@@ -153,8 +153,8 @@
                 }
                 cacheData = {data: data, version: dataVersion};
                 dataset[url] = cacheData;
-                $.store.set('//' + url, data);
-                $.store.set('//' + url + '::V', dataVersion);
+                $.zui.store.set('//' + url, data);
+                $.zui.store.set('//' + url + '::V', dataVersion);
 
                 if(debug) console.log('Load', url, 'from remote:', cacheData);
                 callback(data);
@@ -954,13 +954,22 @@
         $pageContent.html('');
         $page.addClass('loading');
         $pageLoader.removeClass('with-error').addClass('loading');
+        var lastShowDataCall;
+        var pageSh
 
         loadData(section.url, function(data){
-            $pageContent.html(data);
-            $queryInput.blur();
-            $pageBody.scrollTop(0);
-            showPageTopic(topic);
-            handlePageLoad();
+            var showData = function(){
+                $pageContent.html(data);
+                $pageBody.scrollTop(0);
+                showPageTopic(topic);
+                handlePageLoad();
+            }
+            if($page.hasClass('openning')) {
+                if(lastShowDataCall) clearTimeout(lastShowDataCall);
+                lastShowDataCall = setTimeout(showData, 320);
+            } else {
+                showData();
+            }
         });
 
         if($body.hasClass('page-open')) {
@@ -974,8 +983,8 @@
             var offset = $section.offset();
             var sectionHeight = $section.outerHeight();
             var style = {
-                left: Math.floor(offset.left - $grid.children('.container').offset().left - 6),
-                top: Math.floor(offset.top - $window.scrollTop() - 61),
+                left: Math.floor(offset.left - $grid.children('.container').offset().left - 5),
+                top: Math.floor(offset.top - $window.scrollTop() - 60),
                 width: $section.outerWidth(),
                 height: sectionHeight,
                 'max-height': sectionHeight
@@ -993,7 +1002,7 @@
                     $page.removeClass('openning');
                     bestPageWidth = $pageBody.css('width', '').width() + 40;
                     resizePage();
-                }, 310);
+                }, 300);
             }, 10);
         });
     };
@@ -1046,6 +1055,11 @@
             var $temp = section;
             section = $temp.data('section');
             $section = $temp;
+        }
+
+        if(section.url === '') {
+            $.zui.messager.show('该链接所指示的文档尚未完成。你可以Fork项目来完善文档。');
+            return;
         }
 
         switch(section.target) {
@@ -1148,10 +1162,10 @@
 
         bestPageWidth = $grid.children('.container').outerWidth();
 
-        $body.toggleClass(PAGE_SHOW_FULL, $.store.get(PAGE_SHOW_FULL, false));
+        $body.toggleClass(PAGE_SHOW_FULL, $.zui.store.get(PAGE_SHOW_FULL, false));
 
         // check storage
-        storageEnable = $.store && $.store.enable;
+        storageEnable = $.zui.store && $.zui.store.enable;
 
         // Get document version
         // dataVersion = $body.data('version');
@@ -1258,7 +1272,7 @@
         }).on('click', '.path-max-btn', function(){
             $body.toggleClass(PAGE_SHOW_FULL);
             setTimeout(resizePage, 300);
-            $.store.set(PAGE_SHOW_FULL, $body.hasClass(PAGE_SHOW_FULL));
+            $.zui.store.set(PAGE_SHOW_FULL, $body.hasClass(PAGE_SHOW_FULL));
         });
 
         var scrollHeight = $('#navbar').outerHeight();
@@ -1295,16 +1309,16 @@
                     }
                     query();
                 }
-            } else if(code === 32) { // Space
-                if(!isInputFocus){
-                    if(closePage()) {
-                    } else if(!$body.hasClass('compact-mode')) {
-                        toggleCompactMode(true);
-                    } else if(isChoosedSection()) {
-                        openSection();
-                    }
-                    e.preventDefault();
-                }
+            // } else if(code === 32) { // Space
+            //     if(!isInputFocus){
+            //         if(closePage()) {
+            //         } else if(!$body.hasClass('compact-mode')) {
+            //             toggleCompactMode(true);
+            //         } else if(isChoosedSection()) {
+            //             openSection();
+            //         }
+            //         e.preventDefault();
+            //     }
             } else if(code === 37) { // Left
                 // if(!$body.hasClass('input-query-focus')){
                     chooseLeftSection();
@@ -1339,7 +1353,7 @@
 
         $search = $('#search');
         var lastQueryString;
-        $queryInput.on('change keyup paste input propertychange', function(){
+        $queryInput.focus().on('change keyup paste input propertychange', function(){
             var val = $queryInput.val();
             if(val === lastQueryString) return;
             lastQueryString = val;

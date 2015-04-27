@@ -122,7 +122,8 @@
   }
 
   #header{
-    background-color: @color;
+    background-color: darken(@color, 10%);
+    background-color: fade(darken(@color, 10%), 90%);
   }
 
   #pageHeader {
@@ -772,7 +773,7 @@ body {
 }
 
 #grid {
-  .transition-normal(opacity; background-color; margin);
+  // .transition-normal(opacity; background-color; margin);
 
   > .container {
     > .row > .col {
@@ -1532,6 +1533,7 @@ body.compact-mode {
   }
 
   #grid {
+    .transition-normal(opacity; background-color; margin);
     margin-top: 503px;
   }
 

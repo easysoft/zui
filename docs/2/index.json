@@ -11,16 +11,17 @@
                 {
                     "id": "contributors",
                     "name": "贡献者",
-                    "desc": "Github 上的贡献者清单",
+                    "desc": "看看这些有爱的人吧",
                     "icon": "icon-group",
-                    "url": "https://github.com/easysoft/zui/graphs/contributors"
+                    "topics": [
+                        {"name": "Github 上的贡献者用户清单", "url": "https://github.com/easysoft/zui/graphs/contributors"}
+                    ]
                 },
                 {
                     "id": "countme",
                     "name": "我要加入",
                     "desc": "加入ZUI，一起成长和改变，联系sunhao@cnezsoft.com",
-                    "icon": "icon-hand-up",
-                    "url": null
+                    "icon": "icon-hand-up"
                 }
             ]
         },
@@ -35,6 +36,12 @@
                     "name": "搜索帮助",
                     "desc": "更高效使用文档",
                     "icon": "icon-search"
+                },
+                {
+                    "id": "migrate1.2",
+                    "name": "从1.2版本升级指南",
+                    "desc": "一份1.2以下版本升级到最新版的向导",
+                    "icon": "1.2"
                 }
             ]
         },
@@ -96,7 +103,7 @@
                     "name": "论坛",
                     "desc": "发表帖子",
                     "icon": "icon-comments-alt",
-                    "url": "http://forum.zui.sexy/" 
+                    "url": ""
                 },
                 {
                     "id": "github",

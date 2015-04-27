@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-26
+ * ZUI - v1.3.0 - 2015-04-27
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -15,32 +15,27 @@
  * ======================================================================== */
 
 
-(function($, window, Math)
-{
+(function($, window){
     'use strict';
 
     /* Check jquery */
-    if(typeof($) === 'undefined')
-    {
-      throw new Error('ZUI requires jQuery');
-    }
+    if (typeof($) === 'undefined') throw new Error('ZUI requires jQuery');
 
-    $.extend(
+    // ZUI shared object
+    if (!$.zui) $.zui = function(obj)
+    {
+        if ($.isPlainObject(obj))
+        {
+            $.extend($.zui, obj);
+        }
+    };
+
+    var lastUuidAmend = 0;
+    $.zui(
     {
         uuid: function()
         {
-            var d = (new Date()).getTime();
-            while (d < 10000000000000000)
-            {
-                d *= 10;
-            }
-            return d + Math.floor(Math.random() * 9999);
-        },
-
-        getPropertyCount: function(obj)
-        {
-            if (typeof(obj) !== 'object' || obj === null) return 0;
-            return Object.getOwnPropertyNames(obj).length;
+            return (new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
         },
 
         callEvent: function(func, event, proxy)
@@ -52,7 +47,7 @@
                     func = $.proxy(func, proxy);
                 }
                 var result = func(event);
-                if(event) event.result = result;
+                if (event) event.result = result;
                 return !(result !== undefined && (!result));
             }
             return 1;
@@ -61,9 +56,10 @@
         clientLang: function()
         {
             var lang;
-            if (typeof(window.config) != 'undefined' && window.config.clientLang)
+            var config = window.config;
+            if (typeof(config) != 'undefined' && config.clientLang)
             {
-                lang = window.config.clientLang;
+                lang = config.clientLang;
             }
             else
             {
@@ -89,8 +85,6 @@
         }
         var e = $.Event(name, event);
 
-        // var result = $this.trigger(e);
-
         if ((typeof model === 'undefined') && dotIndex > 0)
         {
             model = $this.data(name.substring(dotIndex + 1));
@@ -101,12 +95,12 @@
             var func = model.options[shortName];
             if ($.isFunction(func))
             {
-                $.callEvent(model.options[shortName], e, model);
+                $.zui.callEvent(model.options[shortName], e, model);
             }
         }
         return e;
     };
-}(jQuery, window, Math));
+}(jQuery, window));
 
 /* ========================================================================
  * Bootstrap: alert.js v3.0.0
@@ -135,6 +129,8 @@
     // ======================
 
     var dismiss = '[data-dismiss="alert"]'
+    var zuiname = 'zui.alert';
+
     var Alert = function(el)
     {
         $(el).on('click', dismiss, this.close)
@@ -160,7 +156,7 @@
             $parent = $this.hasClass('alert') ? $this : $this.parent()
         }
 
-        $parent.trigger(e = $.Event('close.bs.alert'))
+        $parent.trigger(e = $.Event('close.' + zuiname))
 
         if (e.isDefaultPrevented()) return
 
@@ -168,7 +164,7 @@
 
         function removeElement()
         {
-            $parent.trigger('closed.bs.alert').remove()
+            $parent.trigger('closed.' + zuiname).remove()
         }
 
         $.support.transition && $parent.hasClass('fade') ?
@@ -189,9 +185,9 @@
         return this.each(function()
         {
             var $this = $(this)
-            var data = $this.data('bs.alert')
+            var data = $this.data(zuiname)
 
-            if (!data) $this.data('bs.alert', (data = new Alert(this)))
+            if (!data) $this.data(zuiname, (data = new Alert(this)))
             if (typeof option == 'string') data[option].call($this)
         })
     }
@@ -212,7 +208,7 @@
     // ALERT DATA-API
     // ==============
 
-    $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
+    $(document).on('click.' + zuiname + '.data-api', dismiss, Alert.prototype.close)
 
 }(window.jQuery);
 
@@ -241,6 +237,7 @@
   // TAB CLASS DEFINITION
   // ====================
 
+  var zuiname = 'zui.tab'
   var Tab = function (element) {
     this.element = $(element)
   }
@@ -258,7 +255,7 @@
     if ($this.parent('li').hasClass('active')) return
 
     var previous = $ul.find('.active:last a')[0]
-    var e        = $.Event('show.zui.tab', {
+    var e        = $.Event('show.' + zuiname, {
       relatedTarget: previous
     })
 
@@ -271,7 +268,7 @@
     this.activate($this.parent('li'), $ul)
     this.activate($target, $target.parent(), function () {
       $this.trigger({
-        type: 'shown.zui.tab'
+        type: 'shown.' + zuiname
       , relatedTarget: previous
       })
     })
@@ -323,9 +320,9 @@
   $.fn.tab = function ( option ) {
     return this.each(function () {
       var $this = $(this)
-      var data  = $this.data('zui.tab')
+      var data  = $this.data(zuiname)
 
-      if (!data) $this.data('zui.tab', (data = new Tab(this)))
+      if (!data) $this.data(zuiname, (data = new Tab(this)))
       if (typeof option == 'string') data[option]()
     })
   }
@@ -361,54 +358,68 @@
  * ======================================================================== */
 
 
-+function ($) {
-  'use strict';
++ function($){
+    'use strict';
 
-  // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
-  // ============================================================
+    // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
+    // ============================================================
 
-  function transitionEnd() {
-    var el = document.createElement('bootstrap')
+    function transitionEnd()
+    {
+        var el = document.createElement('bootstrap')
 
-    var transEndEventNames = {
-      WebkitTransition : 'webkitTransitionEnd',
-      MozTransition    : 'transitionend',
-      OTransition      : 'oTransitionEnd otransitionend',
-      transition       : 'transitionend'
+        var transEndEventNames = {
+            WebkitTransition: 'webkitTransitionEnd',
+            MozTransition: 'transitionend',
+            OTransition: 'oTransitionEnd otransitionend',
+            transition: 'transitionend'
+        }
+
+        for (var name in transEndEventNames)
+        {
+            if (el.style[name] !== undefined)
+            {
+                return {
+                    end: transEndEventNames[name]
+                }
+            }
+        }
+
+        return false // explicit for ie8 (  ._.)
     }
 
-    for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
-        return { end: transEndEventNames[name] }
-      }
+    // http://blog.alexmaccaw.com/css-transitions
+    $.fn.emulateTransitionEnd = function(duration)
+    {
+        var called = false
+        var $el = this
+        $(this).one('bsTransitionEnd', function()
+        {
+            called = true
+        })
+        var callback = function()
+        {
+            if (!called) $($el).trigger($.support.transition.end)
+        }
+        setTimeout(callback, duration)
+        return this
     }
 
-    return false // explicit for ie8 (  ._.)
-  }
+    $(function()
+    {
+        $.support.transition = transitionEnd()
 
-  // http://blog.alexmaccaw.com/css-transitions
-  $.fn.emulateTransitionEnd = function (duration) {
-    var called = false
-    var $el = this
-    $(this).one('bsTransitionEnd', function () { called = true })
-    var callback = function () { if (!called) $($el).trigger($.support.transition.end) }
-    setTimeout(callback, duration)
-    return this
-  }
+        if (!$.support.transition) return
 
-  $(function () {
-    $.support.transition = transitionEnd()
-
-    if (!$.support.transition) return
-
-    $.event.special.bsTransitionEnd = {
-      bindType: $.support.transition.end,
-      delegateType: $.support.transition.end,
-      handle: function (e) {
-        if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
-      }
-    }
-  })
+        $.event.special.bsTransitionEnd = {
+            bindType: $.support.transition.end,
+            delegateType: $.support.transition.end,
+            handle: function(e)
+            {
+                if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+            }
+        }
+    })
 
 }(jQuery);
 
@@ -434,6 +445,8 @@
 
 + function($){
     'use strict';
+
+    var zuiname = 'zui.collapse'
 
     // COLLAPSE PUBLIC CLASS DEFINITION
     // ================================
@@ -463,7 +476,7 @@
     {
         if (this.transitioning || this.$element.hasClass('in')) return
 
-        var startEvent = $.Event('show.bs.collapse')
+        var startEvent = $.Event('show.' + zuiname)
         this.$element.trigger(startEvent)
         if (startEvent.isDefaultPrevented()) return
 
@@ -471,10 +484,10 @@
 
         if (actives && actives.length)
         {
-            var hasData = actives.data('bs.collapse')
+            var hasData = actives.data(zuiname)
             if (hasData && hasData.transitioning) return
             actives.collapse('hide')
-            hasData || actives.data('bs.collapse', null)
+            hasData || actives.data(zuiname, null)
         }
 
         var dimension = this.dimension()
@@ -491,7 +504,7 @@
                 .removeClass('collapsing')
                 .addClass('in')[dimension]('auto')
             this.transitioning = 0
-            this.$element.trigger('shown.bs.collapse')
+            this.$element.trigger('shown.' + zuiname)
         }
 
         if (!$.support.transition) return complete.call(this)
@@ -507,7 +520,7 @@
     {
         if (this.transitioning || !this.$element.hasClass('in')) return
 
-        var startEvent = $.Event('hide.bs.collapse')
+        var startEvent = $.Event('hide.' + zuiname)
         this.$element.trigger(startEvent)
         if (startEvent.isDefaultPrevented()) return
 
@@ -526,7 +539,7 @@
         {
             this.transitioning = 0
             this.$element
-                .trigger('hidden.bs.collapse')
+                .trigger('hidden.' + zuiname)
                 .removeClass('collapsing')
                 .addClass('collapse')
         }
@@ -554,11 +567,11 @@
         return this.each(function()
         {
             var $this = $(this)
-            var data = $this.data('bs.collapse')
+            var data = $this.data(zuiname)
             var options = $.extend(
             {}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-            if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
+            if (!data) $this.data(zuiname, (data = new Collapse(this, options)))
             if (typeof option == 'string') data[option]()
         })
     }
@@ -579,13 +592,13 @@
     // COLLAPSE DATA-API
     // =================
 
-    $(document).on('click.bs.collapse.data-api', '[data-toggle=collapse]', function(e)
+    $(document).on('click.' + zuiname + '.data-api', '[data-toggle=collapse]', function(e)
     {
         var $this = $(this),
             href
         var target = $this.attr('data-target') || e.preventDefault() || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
         var $target = $(target)
-        var data = $target.data('bs.collapse')
+        var data = $target.data(zuiname)
         var option = data ? 'toggle' : $this.data()
         var parent = $this.attr('data-parent')
         var $parent = parent && $(parent)
@@ -652,6 +665,7 @@
 (function($)
 {
     'use strict';
+
     var browseHappyTip = {
         'zh_cn': '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
         'zh_tw': '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
@@ -711,7 +725,7 @@
                 $browseHappy.prependTo('body');
             }
 
-            $browseHappy.find('.content').html(this.browseHappyTip || browseHappyTip[$.clientLang() || 'zh_cn']);
+            $browseHappy.find('.content').html(this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
         }
     };
 
@@ -730,13 +744,13 @@
         return ( /*@cc_on!@*/ false);
     };
 
-    $.browser = new Browser();
+    $.zui({browser: new Browser()});
 
     $(function()
     {
         if (!$('body').hasClass('disabled-browser-tip'))
         {
-            $.browser.tip();
+            $.zui.browser.tip();
         }
     });
 }(jQuery));
@@ -765,226 +779,229 @@
      * @param  string   format
      * @return string
      */
-    Date.prototype.format = function(format)
+    if(!Date.prototype.format)
     {
-        var date = {
-            'M+': this.getMonth() + 1,
-            'd+': this.getDate(),
-            'h+': this.getHours(),
-            'm+': this.getMinutes(),
-            's+': this.getSeconds(),
-            'q+': Math.floor((this.getMonth() + 3) / 3),
-            'S+': this.getMilliseconds()
-        };
-        if (/(y+)/i.test(format))
+        Date.prototype.format = function(format)
         {
-            format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
-        }
-        for (var k in date)
-        {
-            if (new RegExp('(' + k + ')').test(format))
+            var date = {
+                'M+': this.getMonth() + 1,
+                'd+': this.getDate(),
+                'h+': this.getHours(),
+                'm+': this.getMinutes(),
+                's+': this.getSeconds(),
+                'q+': Math.floor((this.getMonth() + 3) / 3),
+                'S+': this.getMilliseconds()
+            };
+            if (/(y+)/i.test(format))
             {
-                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ('00' + date[k]).substr(('' + date[k]).length));
+                format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
             }
-        }
-        return format;
-    };
-
-    // /**
-    //  * Descript date with friendly way
-    //  * @return {string}
-    //  */
-    // Date.prototype.friendlyStr = function()
-    // {
-    //     var date    = this,
-    //         curDate = new Date(),
-    //         year    = date.getFullYear(),
-    //         month   = date.getMonth() + 10,
-    //         day     = date.getDate(),
-    //         hour    = date.getHours(),
-    //         minute  = date.getMinutes(),
-    //         curYear = curDate.getFullYear(),
-    //         curHour = curDate.getHours(),
-    //         timeStr;
-
-    //     if(year < curYear)
-    //     {
-    //         timeStr = year +'年'+ month +'月'+ day +'日 '+ hour +':'+ minute;
-    //     }
-    //     else
-    //     {
-    //         var pastTime = curDate - date,
-    //             pastH = pastTime/3600000;
-
-    //         if(pastH > curHour)
-    //         {
-    //             timeStr = month +'月'+ day +'日 '+ hour +':'+ minute;
-    //         }
-    //         else if(pastH >= 1)
-    //         {
-    //             timeStr = '今天 ' + hour +':'+ minute +'分';
-    //         }
-    //         else
-    //         {
-    //               var pastM = curDate.getMinutes() - minute;
-    //               if(pastM > 1)
-    //               {
-    //                   timeStr = pastM +'分钟前';
-    //               }
-    //               else
-    //               {
-    //                   timeStr = '刚刚';
-    //               }
-    //         }
-    //     }
-    //     return timeStr;
-    // };
+            for (var k in date)
+            {
+                if (new RegExp('(' + k + ')').test(format))
+                {
+                    format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ('00' + date[k]).substr(('' + date[k]).length));
+                }
+            }
+            return format;
+        };
+    }
 
     /**
      * Add milliseconds to the date
      * @param {number} value
      */
-    Date.prototype.addMilliseconds = function(value)
+    if(!Date.prototype.addMilliseconds)
     {
-        this.setTime(this.getTime() + value);
-        return this;
-    };
+        Date.prototype.addMilliseconds = function(value)
+        {
+            this.setTime(this.getTime() + value);
+            return this;
+        };
+    }
+
 
     /**
      * Add days to the date
      * @param {number} days
      */
-    Date.prototype.addDays = function(days)
+    if(!Date.prototype.addDays)
     {
-        this.addMilliseconds(days * Date.ONEDAY_TICKS);
-        return this;
-    };
+        Date.prototype.addDays = function(days)
+        {
+            this.addMilliseconds(days * Date.ONEDAY_TICKS);
+            return this;
+        };
+    }
+
 
     /**
      * Clone a new date instane from the date
      * @return {Date}
      */
-    Date.prototype.clone = function()
+    if(!Date.prototype.clone)
     {
-        var date = new Date();
-        date.setTime(this.getTime());
-        return date;
-    };
+        Date.prototype.clone = function()
+        {
+            var date = new Date();
+            date.setTime(this.getTime());
+            return date;
+        };
+    }
+
 
     /**
      * Judge the year is in a leap year
      * @param  {integer}  year
      * @return {Boolean}
      */
-    Date.isLeapYear = function(year)
+    if(!Date.isLeapYear)
     {
-        return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
-    };
+        Date.isLeapYear = function(year)
+        {
+            return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
+        };
+    }
 
-    /**
-     * Get days number of the date
-     * @param  {integer} year
-     * @param  {integer} month
-     * @return {integer}
-     */
-    Date.getDaysInMonth = function(year, month)
+    if(!Date.getDaysInMonth)
     {
-        return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
-    };
+        /**
+         * Get days number of the date
+         * @param  {integer} year
+         * @param  {integer} month
+         * @return {integer}
+         */
+        Date.getDaysInMonth = function(year, month)
+        {
+            return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+        };
+    }
+
 
     /**
      * Judge the date is in a leap year
      * @return {Boolean}
      */
-    Date.prototype.isLeapYear = function()
+    if(!Date.prototype.isLeapYear)
     {
-        return Date.isLeapYear(this.getFullYear());
-    };
+        Date.prototype.isLeapYear = function()
+        {
+            return Date.isLeapYear(this.getFullYear());
+        };
+    }
+
 
     /**
      * Clear time part of the date
      * @return {date}
      */
-    Date.prototype.clearTime = function()
+    if(!Date.prototype.clearTime)
     {
-        this.setHours(0);
-        this.setMinutes(0);
-        this.setSeconds(0);
-        this.setMilliseconds(0);
-        return this;
-    };
+        Date.prototype.clearTime = function()
+        {
+            this.setHours(0);
+            this.setMinutes(0);
+            this.setSeconds(0);
+            this.setMilliseconds(0);
+            return this;
+        };
+    }
+
 
     /**
      * Get days of this month of the date
      * @return {integer}
      */
-    Date.prototype.getDaysInMonth = function()
+    if(!Date.prototype.getDaysInMonth)
     {
-        return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
-    };
+        Date.prototype.getDaysInMonth = function()
+        {
+            return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+        };
+    }
+
 
     /**
      * Add months to the date
      * @param {date} value
      */
-    Date.prototype.addMonths = function(value)
+    if(!Date.prototype.addMonths)
     {
-        var n = this.getDate();
-        this.setDate(1);
-        this.setMonth(this.getMonth() + value);
-        this.setDate(Math.min(n, this.getDaysInMonth()));
-        return this;
-    };
+        Date.prototype.addMonths = function(value)
+        {
+            var n = this.getDate();
+            this.setDate(1);
+            this.setMonth(this.getMonth() + value);
+            this.setDate(Math.min(n, this.getDaysInMonth()));
+            return this;
+        };
+    }
+
 
     /**
      * Get last week day of the date
      * @param  {integer} day
      * @return {date}
      */
-    Date.prototype.getLastWeekday = function(day)
+    if(!Date.prototype.getLastWeekday)
     {
-        day = day || 1;
-
-        var d = this.clone();
-        while (d.getDay() != day)
+        Date.prototype.getLastWeekday = function(day)
         {
-            d.addDays(-1);
-        }
-        d.clearTime();
-        return d;
-    };
+            day = day || 1;
+
+            var d = this.clone();
+            while (d.getDay() != day)
+            {
+                d.addDays(-1);
+            }
+            d.clearTime();
+            return d;
+        };
+    }
+
 
     /**
      * Judge the date is same day as another date
      * @param  {date}  date
      * @return {Boolean}
      */
-    Date.prototype.isSameDay = function(date)
+    if(!Date.prototype.isSameDay)
     {
-        return date.toDateString() === this.toDateString();
-    };
+        Date.prototype.isSameDay = function(date)
+        {
+            return date.toDateString() === this.toDateString();
+        };
+    }
+
 
     /**
      * Judge the date is in same week as another date
      * @param  {date}  date
      * @return {Boolean}
      */
-    Date.prototype.isSameWeek = function(date)
+    if(!Date.prototype.isSameWeek)
     {
-        var weekStart = this.getLastWeekday();
-        var weekEnd = weekStart.clone().addDays(7);
-        return date >= weekStart && date < weekEnd;
-    };
+        Date.prototype.isSameWeek = function(date)
+        {
+            var weekStart = this.getLastWeekday();
+            var weekEnd = weekStart.clone().addDays(7);
+            return date >= weekStart && date < weekEnd;
+        };
+    }
+
 
     /**
      * Judge the date is in same year as another date
      * @param  {date}  date
      * @return {Boolean}
      */
-    Date.prototype.isSameYear = function(date)
+    if(!Date.prototype.isSameYear)
     {
-        return this.getFullYear() === date.getFullYear();
-    };
+        Date.prototype.isSameYear = function(date)
+        {
+            return this.getFullYear() === date.getFullYear();
+        };
+    }
 }());
 
 /* ========================================================================
@@ -999,38 +1016,40 @@
 {
     'use strict';
 
-    String.prototype.format = function(args)
+    if (!String.prototype.format)
     {
-        var result = this;
-        if (arguments.length > 0)
+        String.prototype.format = function(args)
         {
-            var reg;
-            if (arguments.length == 1 && typeof(args) == "object")
+            var result = this;
+            if (arguments.length > 0)
             {
-                for (var key in args)
+                var reg;
+                if (arguments.length == 1 && typeof(args) == "object")
                 {
-                    if (args[key] !== undefined)
+                    for (var key in args)
                     {
-                        reg = new RegExp("({" + key + "})", "g");
-                        result = result.replace(reg, args[key]);
+                        if (args[key] !== undefined)
+                        {
+                            reg = new RegExp("({" + key + "})", "g");
+                            result = result.replace(reg, args[key]);
+                        }
+                    }
+                }
+                else
+                {
+                    for (var i = 0; i < arguments.length; i++)
+                    {
+                        if (arguments[i] !== undefined)
+                        {
+                            reg = new RegExp("({[" + i + "]})", "g");
+                            result = result.replace(reg, arguments[i]);
+                        }
                     }
                 }
             }
-            else
-            {
-                for (var i = 0; i < arguments.length; i++)
-                {
-                    if (arguments[i] !== undefined)
-                    {
-                        reg = new RegExp("({[" + i + "]})", "g");
-                        result = result.replace(reg, arguments[i]);
-                    }
-                }
-            }
-        }
-        return result;
-    };
-
+            return result;
+        };
+    }
 
     /**
      * Judge the string is a integer number
@@ -1038,17 +1057,21 @@
      * @access public
      * @return bool
      */
-    String.prototype.isNum = function(s)
+    if (!String.prototype.isNum)
     {
-        if (s !== null)
+        String.prototype.isNum = function(s)
         {
-            var r, re;
-            re = /\d*/i;
-            r = s.match(re);
-            return (r == s) ? true : false;
-        }
-        return false;
-    };
+            if (s !== null)
+            {
+                var r, re;
+                re = /\d*/i;
+                r = s.match(re);
+                return (r == s) ? true : false;
+            }
+            return false;
+        };
+    }
+
 })();
 
 /*!
@@ -1313,13 +1336,14 @@
   // SCROLLSPY CLASS DEFINITION
   // ==========================
 
+  var zuiname = 'zui.scrollspy'
   function ScrollSpy(element, options) {
     var href
     var process  = $.proxy(this.process, this)
 
     this.$element       = $(element).is('body') ? $(window) : $(element)
     this.$body          = $('body')
-    this.$scrollElement = this.$element.on('scroll.bs.scroll-spy.data-api', process)
+    this.$scrollElement = this.$element.on('scroll. ' + zuiname + ' .data-api', process)
     this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
     if(!this.selector) this.selector       = (this.options.target
       || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
@@ -1408,7 +1432,7 @@
         .addClass('active')
     }
 
-    active.trigger('activate.bs.scrollspy')
+    active.trigger('activate.' + zuiname)
   }
 
 
@@ -1420,10 +1444,10 @@
   $.fn.scrollspy = function (option) {
     return this.each(function () {
       var $this   = $(this)
-      var data    = $this.data('bs.scrollspy')
+      var data    = $this.data(zuiname)
       var options = typeof option == 'object' && option
 
-      if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+      if (!data) $this.data(zuiname, (data = new ScrollSpy(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }
@@ -1489,7 +1513,8 @@
         }
         else
         {
-            var forDeletes = [], i;
+            var forDeletes = [],
+                i;
             for (i in this.page)
             {
                 var val = this.page[i];
@@ -1585,8 +1610,10 @@
     Store.prototype.get = function(key, defaultValue)
     {
         var val = this.deserialize(this.getItem(key));
-        if(typeof val === 'undefined' || val === null) {
-            if(typeof defaultValue !== 'undefined') {
+        if (typeof val === 'undefined' || val === null)
+        {
+            if (typeof defaultValue !== 'undefined')
+            {
                 return defaultValue;
             }
         }
@@ -1665,16 +1692,10 @@
         }
     };
 
-    var store = new Store();
-
-    $.store = store;
-    window.store = store;
-
-    window.store.noConflict = function()
+    $.zui(
     {
-        window.store = old;
-        return store;
-    };
+        store: new Store()
+    });
 }(window, jQuery));
 
 /* ========================================================================
@@ -1746,7 +1767,8 @@
                 x: event.pageX - pos.left + cPos.left,
                 y: event.pageY - pos.top + cPos.top
             };
-            mousePos = $.extend({}, startPos);
+            mousePos = $.extend(
+            {}, startPos);
             moved = false;
 
             $e.addClass('drag-ready');
@@ -1847,7 +1869,7 @@
             }
         };
 
-        if(setting.handle)
+        if (setting.handle)
         {
             $e.on('mousedown', setting.handle, mouseDown);
         }
@@ -1896,11 +1918,11 @@
 
     Droppable.DEFAULTS = {
         container: 'body',
-        flex: false,
+        // flex: false,
+        // nested: false,
         deviation: 5,
         sensorOffsetX: 0,
-        sensorOffsetY: 0,
-        nested: false
+        sensorOffsetY: 0
     };
 
     Droppable.prototype.getOptions = function(options)
@@ -1912,7 +1934,7 @@
 
     Droppable.prototype.callEvent = function(name, params)
     {
-        return $.callEvent(this.options[name], params, this);
+        return $.zui.callEvent(this.options[name], params, this);
     };
 
     Droppable.prototype.init = function()
@@ -2245,7 +2267,7 @@
             start: function(e)
             {
                 if(options.dragCssClass) e.element.addClass(options.dragCssClass);
-                $.callEvent(options['start']);
+                $.zui.callEvent(options['start']);
             },
             drag: function(e)
             {
@@ -2264,13 +2286,13 @@
                     }
                     var list = self.children(options.selector);
                     markOrders(list);
-                    $.callEvent(options['order'], {list: list, element: $ele});
+                    $.zui.callEvent(options['order'], {list: list, element: $ele});
                 }
             },
             finish: function(e)
             {
                 if(options.dragCssClass && e.element) e.element.removeClass(options.dragCssClass);
-                $.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
+                $.zui.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
             }
         });
 
@@ -2324,6 +2346,7 @@
     // MODAL CLASS DEFINITION
     // ======================
 
+    var zuiname = 'zui.modal'
     var Modal = function(element, options)
     {
         this.options = options
@@ -2333,7 +2356,7 @@
             this.isShown = null
         this.scrollbarWidth = 0
 
-        if(typeof this.options.moveable === 'undefined')
+        if (typeof this.options.moveable === 'undefined')
         {
             this.options.moveable = this.$element.hasClass('modal-moveable');
         }
@@ -2344,7 +2367,7 @@
                 .find('.modal-content')
                 .load(this.options.remote, $.proxy(function()
                 {
-                    this.$element.trigger('loaded.zui.modal')
+                    this.$element.trigger('loaded.' + zuiname)
                 }, this))
         }
     }
@@ -2376,13 +2399,20 @@
 
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
         var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
-        if($dialog.hasClass('modal-moveable')) {
+        if ($dialog.hasClass('modal-moveable'))
+        {
             var pos = this.options.rememberPos ? this.$element.data('modal-pos') : null;
-            if(!pos) {
-                pos = {left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2), top: topPos};
+            if (!pos)
+            {
+                pos = {
+                    left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2),
+                    top: topPos
+                };
             }
             $dialog.css(pos);
-        } else {
+        }
+        else
+        {
             $dialog.css('margin-top', topPos);
         }
     }
@@ -2394,18 +2424,28 @@
         var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');
         $dialog.toggleClass('modal-moveable', options.moveable);
 
-        if(!that.$element.data('modal-moveable-setup'))
+        if (!that.$element.data('modal-moveable-setup'))
         {
-            $dialog.draggable({container: that.$element, handle: '.modal-header', before: function() {
-                $dialog.css('margin-top', '').addClass('modal-dragged');
-            }, finish: function(e){that.$element.data('modal-pos', e.pos);}});
+            $dialog.draggable(
+            {
+                container: that.$element,
+                handle: '.modal-header',
+                before: function()
+                {
+                    $dialog.css('margin-top', '').addClass('modal-dragged');
+                },
+                finish: function(e)
+                {
+                    that.$element.data('modal-pos', e.pos);
+                }
+            });
         }
     }
 
     Modal.prototype.show = function(_relatedTarget, position)
     {
         var that = this
-        var e = $.Event('show.zui.modal',
+        var e = $.Event('show.' + zuiname,
         {
             relatedTarget: _relatedTarget
         })
@@ -2416,7 +2456,7 @@
 
         that.isShown = true
 
-        if(that.options.draggable) that.setMoveale();
+        if (that.options.draggable) that.setMoveale();
 
         that.checkScrollbar()
         that.$body.addClass('modal-open')
@@ -2424,7 +2464,7 @@
         that.setScrollbar()
         that.escape()
 
-        that.$element.on('click.dismiss.zui.modal', '[data-dismiss="modal"]', $.proxy(that.hide, that))
+        that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]', $.proxy(that.hide, that))
 
         that.backdrop(function()
         {
@@ -2452,17 +2492,17 @@
 
             that.enforceFocus()
 
-            var e = $.Event('shown.zui.modal',
+            var e = $.Event('shown.' + zuiname,
             {
                 relatedTarget: _relatedTarget
             })
 
             transition ?
                 that.$element.find('.modal-dialog') // wait for modal to slide in
-            .one('bsTransitionEnd', function()
-            {
-                that.$element.trigger('focus').trigger(e)
-            })
+                .one('bsTransitionEnd', function()
+                {
+                    that.$element.trigger('focus').trigger(e)
+                })
                 .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
                 that.$element.trigger('focus').trigger(e)
         })
@@ -2472,7 +2512,7 @@
     {
         if (e) e.preventDefault()
 
-        e = $.Event('hide.zui.modal')
+        e = $.Event('hide.' + zuiname)
 
         this.$element.trigger(e)
 
@@ -2485,12 +2525,12 @@
         this.resetScrollbar()
         this.escape()
 
-        $(document).off('focusin.zui.modal')
+        $(document).off('focusin.' + zuiname)
 
         this.$element
             .removeClass('in')
             .attr('aria-hidden', true)
-            .off('click.dismiss.zui.modal')
+            .off('click.dismiss.' + zuiname)
 
         $.support.transition && this.$element.hasClass('fade') ?
             this.$element
@@ -2502,25 +2542,25 @@
     Modal.prototype.enforceFocus = function()
     {
         $(document)
-            .off('focusin.zui.modal') // guard against infinite focus loop
-        .on('focusin.zui.modal', $.proxy(function(e)
-        {
-            if (this.$element[0] !== e.target && !this.$element.has(e.target).length)
+            .off('focusin.' + zuiname) // guard against infinite focus loop
+            .on('focusin.' + zuiname, $.proxy(function(e)
             {
-                this.$element.trigger('focus')
-            }
-        }, this))
+                if (this.$element[0] !== e.target && !this.$element.has(e.target).length)
+                {
+                    this.$element.trigger('focus')
+                }
+            }, this))
     }
 
     Modal.prototype.escape = function()
     {
         if (this.isShown && this.options.keyboard)
         {
-            $(document).on('keydown.dismiss.zui.modal', $.proxy(function(e)
+            $(document).on('keydown.dismiss.' + zuiname, $.proxy(function(e)
             {
                 if (e.which == 27)
                 {
-                    var et = $.Event('escaping.zui.modal')
+                    var et = $.Event('escaping.' + zuiname)
                     var result = this.$element.triggerHandler(et, 'esc')
                     if (result != undefined && (!result)) return
                     this.hide()
@@ -2529,7 +2569,7 @@
         }
         else if (!this.isShown)
         {
-            $(document).off('keydown.dismiss.zui.modal')
+            $(document).off('keydown.dismiss.' + zuiname)
         }
     }
 
@@ -2539,7 +2579,7 @@
         this.$element.hide()
         this.backdrop(function()
         {
-            that.$element.trigger('hidden.zui.modal')
+            that.$element.trigger('hidden.' + zuiname)
         })
     }
 
@@ -2561,7 +2601,7 @@
             this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
                 .appendTo(this.$body)
 
-            this.$element.on('mousedown.dismiss.zui.modal', $.proxy(function(e)
+            this.$element.on('mousedown.dismiss.' + zuiname, $.proxy(function(e)
             {
                 if (e.target !== e.currentTarget) return
                 this.options.backdrop == 'static' ? this.$element[0].focus.call(this.$element[0]) : this.hide.call(this)
@@ -2638,11 +2678,11 @@
         return this.each(function()
         {
             var $this = $(this)
-            var data = $this.data('zui.modal')
+            var data = $this.data(zuiname)
             var options = $.extend(
             {}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-            if (!data) $this.data('zui.modal', (data = new Modal(this, options)))
+            if (!data) $this.data(zuiname, (data = new Modal(this, options)))
             if (typeof option == 'string') data[option](_relatedTarget, position)
             else if (options.show) data.show(_relatedTarget, position)
         })
@@ -2667,7 +2707,7 @@
     // MODAL DATA-API
     // ==============
 
-    $(document).on('click.zui.modal.data-api', '[data-toggle="modal"]', function(e)
+    $(document).on('click.' + zuiname + '.data-api', '[data-toggle="modal"]', function(e)
     {
         var $this = $(this)
         var href = $this.attr('href')
@@ -2682,18 +2722,18 @@
             return
         }
         if (!$target.length) return;
-        var option = $target.data('zui.modal') ? 'toggle' : $.extend(
+        var option = $target.data(zuiname) ? 'toggle' : $.extend(
         {
             remote: !/#/.test(href) && href
         }, $target.data(), $this.data())
 
         if ($this.is('a')) e.preventDefault()
 
-        $target.one('show.zui.modal', function(showEvent)
+        $target.one('show.' + zuiname, function(showEvent)
         {
             // only register focus restorer if modal will actually get shown
             if (showEvent.isDefaultPrevented()) return
-            $target.one('hidden.zui.modal', function()
+            $target.one('hidden.' + zuiname, function()
             {
                 $this.is(':visible') && $this.trigger('focus')
             })
@@ -2716,7 +2756,10 @@
 
     if (!$.fn.modal) throw new Error('Modal trigger requires modal.js');
 
-    var NAME = 'zui.modaltrigger';
+    var NAME = 'zui.modaltrigger',
+        STR_AJAX = 'ajax',
+        ZUI_MODAL = '.zui.modal',
+        STR_STRING = 'string';
 
     // MODAL TRIGGER CLASS DEFINITION
     // ======================
@@ -2724,19 +2767,19 @@
     {
         options = $.extend(
         {}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
-        this.isShown = false;
+        this.isShown;
         this.options = options;
-        this.id = $.uuid();
+        this.id = $.zui.uuid();
 
         // todo: handle when: options.show = true
     };
 
     ModalTrigger.DEFAULTS = {
         type: 'custom',
-        width: null, // number, css definition
-        size: null, // 'md', 'sm', 'lg', 'fullscreen'
+        // width: null, // number, css definition
+        // size: null, // 'md', 'sm', 'lg', 'fullscreen'
         height: 'auto',
-        icon: null,
+        // icon: null,
         name: 'triggerModal',
         fade: true,
         position: 'fit',
@@ -2751,25 +2794,25 @@
         var that = this;
         if (options.url)
         {
-            if (!options.type || (options.type != 'ajax' && options.type != 'iframe'))
+            if (!options.type || (options.type != STR_AJAX && options.type != 'iframe'))
             {
-                options.type = 'ajax';
+                options.type = STR_AJAX;
             }
         }
         if (options.remote)
         {
-            options.type = 'ajax';
-            if (typeof options.remote === 'string') options.url = options.remote;
+            options.type = STR_AJAX;
+            if (typeof options.remote === STR_STRING) options.url = options.remote;
         }
         else if (options.iframe)
         {
             options.type = 'iframe';
-            if (typeof options.iframe === 'string') options.url = options.iframe;
+            if (typeof options.iframe === STR_STRING) options.url = options.iframe;
         }
         else if (options.custom)
         {
             options.type = 'custom';
-            if (typeof options.custom === 'string')
+            if (typeof options.custom === STR_STRING)
             {
                 var $doms;
                 try
@@ -2793,7 +2836,7 @@
         var $modal = $('#' + options.name);
         if ($modal.length)
         {
-            if (!that.isShown) $modal.off('.zui.modal');
+            if (!that.isShown) $modal.off(ZUI_MODAL);
             $modal.remove();
         }
         $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
@@ -2801,7 +2844,7 @@
         var bindEvent = function(optonName, eventName)
         {
             var handleFunc = options[optonName];
-            if ($.isFunction(handleFunc)) $modal.on(eventName + '.zui.modal', handleFunc);
+            if ($.isFunction(handleFunc)) $modal.on(eventName + ZUI_MODAL, handleFunc);
         };
         bindEvent('onShow', 'show');
         bindEvent('shown', 'shown');
@@ -2809,10 +2852,10 @@
         bindEvent('hidden', 'hidden');
         bindEvent('loaded', 'loaded');
 
-        $modal.on('shown.zui.modal', function()
+        $modal.on('shown' + ZUI_MODAL, function()
         {
             that.isShown = true;
-        }).on('hidden.zui.modal', function()
+        }).on('hidden' + ZUI_MODAL, function()
         {
             that.isShown = false;
         });
@@ -2889,7 +2932,7 @@
                     modalTrigger: that,
                     ready: readyToShow
                 });
-                if (typeof customContent === 'string')
+                if (typeof customContent === STR_STRING)
                 {
                     $body.html(customContent);
                     readyToShow();
@@ -2954,7 +2997,7 @@
                                 readyToShow();
                             };
 
-                            $modal.callEvent('loaded.zui.modal',
+                            $modal.callEvent('loaded' + ZUI_MODAL,
                             {
                                 modalType: 'iframe'
                             });
@@ -2999,9 +3042,9 @@
                     {
                         $modal.html(data);
                     }
-                    $modal.callEvent('loaded.zui.modal',
+                    $modal.callEvent('loaded' + ZUI_MODAL,
                     {
-                        modalType: 'ajax'
+                        modalType: STR_AJAX
                     });
                     readyToShow();
                 });
@@ -3020,11 +3063,11 @@
     {
         if(callback || redirect)
         {
-            this.$modal.on('hidden.zui.modal', function()
+            this.$modal.on('hidden' + ZUI_MODAL, function()
             {
                 if ($.isFunction(callback)) callback();
 
-                if (typeof redirect === 'string')
+                if (typeof redirect === STR_STRING)
                 {
                     if (redirect === 'this') window.location.reload();
                     else window.location = redirect;
@@ -3045,8 +3088,7 @@
         this.$modal.modal('ajustPosition', position || this.options.position);
     };
 
-    window.ModalTrigger = ModalTrigger;
-    window.modalTrigger = new ModalTrigger();
+    $.zui({ModalTrigger: ModalTrigger, modalTrigger: new ModalTrigger()});
 
     $.fn.modalTrigger = function(option, settings)
     {
@@ -3061,7 +3103,7 @@
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
             if (!data) $this.data(NAME, (data = new ModalTrigger(options)));
-            if (typeof option == 'string') data[option](settings);
+            if (typeof option == STR_STRING) data[option](settings);
             else if (options.show) data.show(settings);
 
             $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e)
@@ -3083,23 +3125,23 @@
         });
     };
 
-    function getModal(modal)
+    var getModal = function(modal)
     {
         var modalType = typeof(modal);
         if (modalType === 'undefined')
         {
             modal = $('.modal.modal-trigger');
         }
-        else if (modalType === 'string')
+        else if (modalType === STR_STRING)
         {
             modal = $(modal);
         }
         if (modal && (modal instanceof $)) return modal;
         return null;
-    }
+    };
 
     // callback, redirect, modal
-    window.closeModal = function(modal, callback, redirect)
+    var closeModal = function(modal, callback, redirect)
     {
         if($.isFunction(modal))
         {
@@ -3118,7 +3160,7 @@
         }
     };
 
-    window.ajustModalPosition = function(position, modal)
+    var ajustModalPosition = function(position, modal)
     {
         modal = getModal(modal);
         if (modal && modal.length)
@@ -3127,10 +3169,10 @@
         }
     };
 
-    $.extend(
+    $.zui(
     {
-        closeModal: window.closeModal,
-        ajustModalPosition: window.ajustModalPosition
+        closeModal: closeModal,
+        ajustModalPosition: ajustModalPosition
     });
 
     $(document).on('click.' + NAME + '.data-api', '[data-toggle="modal"]', function(e)
@@ -3167,7 +3209,7 @@
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0
- * http://twbs.github.com/bootstrap/javascript.html#tooltip
+ * http://twzui.github.com/bootstrap/javascript.html#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
@@ -3186,372 +3228,447 @@
  * ======================================================================== */
 
 
-+function ($) { 'use strict';
++ function($){
+    'use strict';
 
-  // TOOLTIP PUBLIC CLASS DEFINITION
-  // ===============================
+    // TOOLTIP PUBLIC CLASS DEFINITION
+    // ===============================
 
-  var Tooltip = function (element, options) {
-    this.type       =
-    this.options    =
-    this.enabled    =
-    this.timeout    =
-    this.hoverState =
-    this.$element   = null
+    var Tooltip = function(element, options)
+    {
+        this.type =
+            this.options =
+            this.enabled =
+            this.timeout =
+            this.hoverState =
+            this.$element = null
 
-    this.init('tooltip', element, options)
-  }
-
-  Tooltip.DEFAULTS = {
-    animation: true
-  , placement: 'top'
-  , selector: false
-  , template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
-  , trigger: 'hover focus'
-  , title: ''
-  , delay: 0
-  , html: false
-  , container: false
-  }
-
-  Tooltip.prototype.init = function (type, element, options) {
-    this.enabled  = true
-    this.type     = type
-    this.$element = $(element)
-    this.options  = this.getOptions(options)
-
-    var triggers = this.options.trigger.split(' ')
-
-    for (var i = triggers.length; i--;) {
-      var trigger = triggers[i]
-
-      if (trigger == 'click') {
-        this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
-      } else if (trigger != 'manual') {
-        var eventIn  = trigger == 'hover' ? 'mouseenter' : 'focus'
-        var eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
-
-        this.$element.on(eventIn  + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
-        this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
-      }
+        this.init('tooltip', element, options)
     }
 
-    this.options.selector ?
-      (this._options = $.extend({}, this.options, { trigger: 'manual', selector: '' })) :
-      this.fixTitle()
-  }
-
-  Tooltip.prototype.getDefaults = function () {
-    return Tooltip.DEFAULTS
-  }
-
-  Tooltip.prototype.getOptions = function (options) {
-    options = $.extend({}, this.getDefaults(), this.$element.data(), options)
-
-    if (options.delay && typeof options.delay == 'number') {
-      options.delay = {
-        show: options.delay
-      , hide: options.delay
-      }
+    Tooltip.DEFAULTS = {
+        animation: true,
+        placement: 'top',
+        selector: false,
+        template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
+        trigger: 'hover focus',
+        title: '',
+        delay: 0,
+        html: false,
+        container: false
     }
 
-    return options
-  }
+    Tooltip.prototype.init = function(type, element, options)
+    {
+        this.enabled = true
+        this.type = type
+        this.$element = $(element)
+        this.options = this.getOptions(options)
 
-  Tooltip.prototype.getDelegateOptions = function () {
-    var options  = {}
-    var defaults = this.getDefaults()
+        var triggers = this.options.trigger.split(' ')
 
-    this._options && $.each(this._options, function (key, value) {
-      if (defaults[key] != value) options[key] = value
-    })
+        for (var i = triggers.length; i--;)
+        {
+            var trigger = triggers[i]
 
-    return options
-  }
+            if (trigger == 'click')
+            {
+                this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
+            }
+            else if (trigger != 'manual')
+            {
+                var eventIn = trigger == 'hover' ? 'mouseenter' : 'focus'
+                var eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
 
-  Tooltip.prototype.enter = function (obj) {
-    var self = obj instanceof this.constructor ?
-      obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+                this.$element.on(eventIn + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
+                this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
+            }
+        }
 
-    clearTimeout(self.timeout)
+        this.options.selector ?
+            (this._options = $.extend(
+            {}, this.options,
+            {
+                trigger: 'manual',
+                selector: ''
+            })) :
+            this.fixTitle()
+    }
 
-    self.hoverState = 'in'
+    Tooltip.prototype.getDefaults = function()
+    {
+        return Tooltip.DEFAULTS
+    }
 
-    if (!self.options.delay || !self.options.delay.show) return self.show()
+    Tooltip.prototype.getOptions = function(options)
+    {
+        options = $.extend(
+        {}, this.getDefaults(), this.$element.data(), options)
 
-    self.timeout = setTimeout(function () {
-      if (self.hoverState == 'in') self.show()
-    }, self.options.delay.show)
-  }
+        if (options.delay && typeof options.delay == 'number')
+        {
+            options.delay = {
+                show: options.delay,
+                hide: options.delay
+            }
+        }
 
-  Tooltip.prototype.leave = function (obj) {
-    var self = obj instanceof this.constructor ?
-      obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type)
+        return options
+    }
 
-    clearTimeout(self.timeout)
+    Tooltip.prototype.getDelegateOptions = function()
+    {
+        var options = {}
+        var defaults = this.getDefaults()
 
-    self.hoverState = 'out'
+        this._options && $.each(this._options, function(key, value)
+        {
+            if (defaults[key] != value) options[key] = value
+        })
 
-    if (!self.options.delay || !self.options.delay.hide) return self.hide()
+        return options
+    }
 
-    self.timeout = setTimeout(function () {
-      if (self.hoverState == 'out') self.hide()
-    }, self.options.delay.hide)
-  }
+    Tooltip.prototype.enter = function(obj)
+    {
+        var self = obj instanceof this.constructor ?
+            obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('zui.' + this.type)
 
-  Tooltip.prototype.show = function () {
-    var e = $.Event('show.bs.'+ this.type)
+        clearTimeout(self.timeout)
 
-    if (this.hasContent() && this.enabled) {
-      this.$element.trigger(e)
+        self.hoverState = 'in'
 
-      if (e.isDefaultPrevented()) return
+        if (!self.options.delay || !self.options.delay.show) return self.show()
 
-      var $tip = this.tip()
+        self.timeout = setTimeout(function()
+        {
+            if (self.hoverState == 'in') self.show()
+        }, self.options.delay.show)
+    }
 
-      this.setContent()
+    Tooltip.prototype.leave = function(obj)
+    {
+        var self = obj instanceof this.constructor ?
+            obj : $(obj.currentTarget)[this.type](this.getDelegateOptions()).data('zui.' + this.type)
 
-      if (this.options.animation) $tip.addClass('fade')
+        clearTimeout(self.timeout)
 
-      var placement = typeof this.options.placement == 'function' ?
-        this.options.placement.call(this, $tip[0], this.$element[0]) :
-        this.options.placement
+        self.hoverState = 'out'
 
-      var autoToken = /\s?auto?\s?/i
-      var autoPlace = autoToken.test(placement)
-      if (autoPlace) placement = placement.replace(autoToken, '') || 'top'
+        if (!self.options.delay || !self.options.delay.hide) return self.hide()
 
-      $tip
-        .detach()
-        .css({ top: 0, left: 0, display: 'block' })
-        .addClass(placement)
+        self.timeout = setTimeout(function()
+        {
+            if (self.hoverState == 'out') self.hide()
+        }, self.options.delay.hide)
+    }
 
-      this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+    Tooltip.prototype.show = function()
+    {
+        var e = $.Event('show.zui.' + this.type)
 
-      var pos          = this.getPosition()
-      var actualWidth  = $tip[0].offsetWidth
-      var actualHeight = $tip[0].offsetHeight
+        if (this.hasContent() && this.enabled)
+        {
+            this.$element.trigger(e)
 
-      if (autoPlace) {
-        var $parent = this.$element.parent()
+            if (e.isDefaultPrevented()) return
 
-        var orgPlacement = placement
-        var docScroll    = document.documentElement.scrollTop || document.body.scrollTop
-        var parentWidth  = this.options.container == 'body' ? window.innerWidth  : $parent.outerWidth()
-        var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
-        var parentLeft   = this.options.container == 'body' ? 0 : $parent.offset().left
+            var $tip = this.tip()
 
-        placement = placement == 'bottom' && pos.top   + pos.height  + actualHeight - docScroll > parentHeight  ? 'top'    :
-                    placement == 'top'    && pos.top   - docScroll   - actualHeight < 0                         ? 'bottom' :
-                    placement == 'right'  && pos.right + actualWidth > parentWidth                              ? 'left'   :
-                    placement == 'left'   && pos.left  - actualWidth < parentLeft                               ? 'right'  :
+            this.setContent()
+
+            if (this.options.animation) $tip.addClass('fade')
+
+            var placement = typeof this.options.placement == 'function' ?
+                this.options.placement.call(this, $tip[0], this.$element[0]) :
+                this.options.placement
+
+            var autoToken = /\s?auto?\s?/i
+            var autoPlace = autoToken.test(placement)
+            if (autoPlace) placement = placement.replace(autoToken, '') || 'top'
+
+            $tip
+                .detach()
+                .css(
+                {
+                    top: 0,
+                    left: 0,
+                    display: 'block'
+                })
+                .addClass(placement)
+
+            this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+
+            var pos = this.getPosition()
+            var actualWidth = $tip[0].offsetWidth
+            var actualHeight = $tip[0].offsetHeight
+
+            if (autoPlace)
+            {
+                var $parent = this.$element.parent()
+
+                var orgPlacement = placement
+                var docScroll = document.documentElement.scrollTop || document.body.scrollTop
+                var parentWidth = this.options.container == 'body' ? window.innerWidth : $parent.outerWidth()
+                var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
+                var parentLeft = this.options.container == 'body' ? 0 : $parent.offset().left
+
+                placement = placement == 'bottom' && pos.top + pos.height + actualHeight - docScroll > parentHeight ? 'top' :
+                    placement == 'top' && pos.top - docScroll - actualHeight < 0 ? 'bottom' :
+                    placement == 'right' && pos.right + actualWidth > parentWidth ? 'left' :
+                    placement == 'left' && pos.left - actualWidth < parentLeft ? 'right' :
                     placement
 
+                $tip
+                    .removeClass(orgPlacement)
+                    .addClass(placement)
+            }
+
+            var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
+
+            this.applyPlacement(calculatedOffset, placement)
+            this.$element.trigger('shown.zui.' + this.type)
+        }
+    }
+
+    Tooltip.prototype.applyPlacement = function(offset, placement)
+    {
+        var replace
+        var $tip = this.tip()
+        var width = $tip[0].offsetWidth
+        var height = $tip[0].offsetHeight
+
+        // manually read margins because getBoundingClientRect includes difference
+        var marginTop = parseInt($tip.css('margin-top'), 10)
+        var marginLeft = parseInt($tip.css('margin-left'), 10)
+
+        // we must check for NaN for ie 8/9
+        if (isNaN(marginTop)) marginTop = 0
+        if (isNaN(marginLeft)) marginLeft = 0
+
+        offset.top = offset.top + marginTop
+        offset.left = offset.left + marginLeft
+
         $tip
-          .removeClass(orgPlacement)
-          .addClass(placement)
-      }
+            .offset(offset)
+            .addClass('in')
 
-      var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
+        // check to see if placing tip in new offset caused the tip to resize itself
+        var actualWidth = $tip[0].offsetWidth
+        var actualHeight = $tip[0].offsetHeight
 
-      this.applyPlacement(calculatedOffset, placement)
-      this.$element.trigger('shown.bs.' + this.type)
-    }
-  }
+        if (placement == 'top' && actualHeight != height)
+        {
+            replace = true
+            offset.top = offset.top + height - actualHeight
+        }
 
-  Tooltip.prototype.applyPlacement = function(offset, placement) {
-    var replace
-    var $tip   = this.tip()
-    var width  = $tip[0].offsetWidth
-    var height = $tip[0].offsetHeight
+        if (/bottom|top/.test(placement))
+        {
+            var delta = 0
 
-    // manually read margins because getBoundingClientRect includes difference
-    var marginTop = parseInt($tip.css('margin-top'), 10)
-    var marginLeft = parseInt($tip.css('margin-left'), 10)
+            if (offset.left < 0)
+            {
+                delta = offset.left * -2
+                offset.left = 0
 
-    // we must check for NaN for ie 8/9
-    if (isNaN(marginTop))  marginTop  = 0
-    if (isNaN(marginLeft)) marginLeft = 0
+                $tip.offset(offset)
 
-    offset.top  = offset.top  + marginTop
-    offset.left = offset.left + marginLeft
+                actualWidth = $tip[0].offsetWidth
+                actualHeight = $tip[0].offsetHeight
+            }
 
-    $tip
-      .offset(offset)
-      .addClass('in')
+            this.replaceArrow(delta - width + actualWidth, actualWidth, 'left')
+        }
+        else
+        {
+            this.replaceArrow(actualHeight - height, actualHeight, 'top')
+        }
 
-    // check to see if placing tip in new offset caused the tip to resize itself
-    var actualWidth  = $tip[0].offsetWidth
-    var actualHeight = $tip[0].offsetHeight
-
-    if (placement == 'top' && actualHeight != height) {
-      replace = true
-      offset.top = offset.top + height - actualHeight
+        if (replace) $tip.offset(offset)
     }
 
-    if (/bottom|top/.test(placement)) {
-      var delta = 0
-
-      if (offset.left < 0) {
-        delta       = offset.left * -2
-        offset.left = 0
-
-        $tip.offset(offset)
-
-        actualWidth  = $tip[0].offsetWidth
-        actualHeight = $tip[0].offsetHeight
-      }
-
-      this.replaceArrow(delta - width + actualWidth, actualWidth, 'left')
-    } else {
-      this.replaceArrow(actualHeight - height, actualHeight, 'top')
+    Tooltip.prototype.replaceArrow = function(delta, dimension, position)
+    {
+        this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + "%") : '')
     }
 
-    if (replace) $tip.offset(offset)
-  }
+    Tooltip.prototype.setContent = function()
+    {
+        var $tip = this.tip()
+        var title = this.getTitle()
 
-  Tooltip.prototype.replaceArrow = function(delta, dimension, position) {
-    this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + "%") : '')
-  }
+        if (this.options.tipId) $tip.attr('id', this.options.tipId)
+        if (this.options.tipClass) $tip.addClass(this.options.tipClass)
 
-  Tooltip.prototype.setContent = function () {
-    var $tip  = this.tip()
-    var title = this.getTitle()
-
-    if(this.options.tipId) $tip.attr('id', this.options.tipId)
-    if(this.options.tipClass) $tip.addClass(this.options.tipClass)
-
-    $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
-    $tip.removeClass('fade in top bottom left right')
-  }
-
-  Tooltip.prototype.hide = function () {
-    var that = this
-    var $tip = this.tip()
-    var e    = $.Event('hide.bs.' + this.type)
-
-    function complete() {
-      if (that.hoverState != 'in') $tip.detach()
+        $tip.find('.tooltip-inner')[this.options.html ? 'html' : 'text'](title)
+        $tip.removeClass('fade in top bottom left right')
     }
 
-    this.$element.trigger(e)
+    Tooltip.prototype.hide = function()
+    {
+        var that = this
+        var $tip = this.tip()
+        var e = $.Event('hide.zui.' + this.type)
 
-    if (e.isDefaultPrevented()) return
+        function complete()
+        {
+            if (that.hoverState != 'in') $tip.detach()
+        }
 
-    $tip.removeClass('in')
+        this.$element.trigger(e)
 
-    $.support.transition && this.$tip.hasClass('fade') ?
-      $tip
-        .one($.support.transition.end, complete)
-        .emulateTransitionEnd(150) :
-      complete()
+        if (e.isDefaultPrevented()) return
 
-    this.$element.trigger('hidden.bs.' + this.type)
+        $tip.removeClass('in')
 
-    return this
-  }
+        $.support.transition && this.$tip.hasClass('fade') ?
+            $tip
+            .one($.support.transition.end, complete)
+            .emulateTransitionEnd(150) :
+            complete()
 
-  Tooltip.prototype.fixTitle = function () {
-    var $e = this.$element
-    if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
-      $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
+        this.$element.trigger('hidden.zui.' + this.type)
+
+        return this
     }
-  }
 
-  Tooltip.prototype.hasContent = function () {
-    return this.getTitle()
-  }
-
-  Tooltip.prototype.getPosition = function () {
-    var el = this.$element[0]
-    return $.extend({}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() : {
-      width: el.offsetWidth
-    , height: el.offsetHeight
-    }, this.$element.offset())
-  }
-
-  Tooltip.prototype.getCalculatedOffset = function (placement, pos, actualWidth, actualHeight) {
-    return placement == 'bottom' ? { top: pos.top + pos.height,   left: pos.left + pos.width / 2 - actualWidth / 2  } :
-           placement == 'top'    ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2  } :
-           placement == 'left'   ? { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth } :
-        /* placement == 'right' */ { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width   }
-  }
-
-  Tooltip.prototype.getTitle = function () {
-    var title
-    var $e = this.$element
-    var o  = this.options
-
-    title = $e.attr('data-original-title')
-      || (typeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
-
-    return title
-  }
-
-  Tooltip.prototype.tip = function () {
-    return this.$tip = this.$tip || $(this.options.template)
-  }
-
-  Tooltip.prototype.arrow = function () {
-    return this.$arrow = this.$arrow || this.tip().find('.tooltip-arrow')
-  }
-
-  Tooltip.prototype.validate = function () {
-    if (!this.$element[0].parentNode) {
-      this.hide()
-      this.$element = null
-      this.options  = null
+    Tooltip.prototype.fixTitle = function()
+    {
+        var $e = this.$element
+        if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string')
+        {
+            $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
+        }
     }
-  }
 
-  Tooltip.prototype.enable = function () {
-    this.enabled = true
-  }
+    Tooltip.prototype.hasContent = function()
+    {
+        return this.getTitle()
+    }
 
-  Tooltip.prototype.disable = function () {
-    this.enabled = false
-  }
+    Tooltip.prototype.getPosition = function()
+    {
+        var el = this.$element[0]
+        return $.extend(
+        {}, (typeof el.getBoundingClientRect == 'function') ? el.getBoundingClientRect() :
+        {
+            width: el.offsetWidth,
+            height: el.offsetHeight
+        }, this.$element.offset())
+    }
 
-  Tooltip.prototype.toggleEnabled = function () {
-    this.enabled = !this.enabled
-  }
+    Tooltip.prototype.getCalculatedOffset = function(placement, pos, actualWidth, actualHeight)
+    {
+        return placement == 'bottom' ?
+            {
+                top: pos.top + pos.height,
+                left: pos.left + pos.width / 2 - actualWidth / 2
+            } :
+            placement == 'top' ?
+            {
+                top: pos.top - actualHeight,
+                left: pos.left + pos.width / 2 - actualWidth / 2
+            } :
+            placement == 'left' ?
+            {
+                top: pos.top + pos.height / 2 - actualHeight / 2,
+                left: pos.left - actualWidth
+            } :
+            /* placement == 'right' */
+            {
+                top: pos.top + pos.height / 2 - actualHeight / 2,
+                left: pos.left + pos.width
+            }
+    }
 
-  Tooltip.prototype.toggle = function (e) {
-    var self = e ? $(e.currentTarget)[this.type](this.getDelegateOptions()).data('bs.' + this.type) : this
-    self.tip().hasClass('in') ? self.leave(self) : self.enter(self)
-  }
+    Tooltip.prototype.getTitle = function()
+    {
+        var title
+        var $e = this.$element
+        var o = this.options
 
-  Tooltip.prototype.destroy = function () {
-    this.hide().$element.off('.' + this.type).removeData('bs.' + this.type)
-  }
+        title = $e.attr('data-original-title') || (typeof o.title == 'function' ? o.title.call($e[0]) : o.title)
+
+        return title
+    }
+
+    Tooltip.prototype.tip = function()
+    {
+        return this.$tip = this.$tip || $(this.options.template)
+    }
+
+    Tooltip.prototype.arrow = function()
+    {
+        return this.$arrow = this.$arrow || this.tip().find('.tooltip-arrow')
+    }
+
+    Tooltip.prototype.validate = function()
+    {
+        if (!this.$element[0].parentNode)
+        {
+            this.hide()
+            this.$element = null
+            this.options = null
+        }
+    }
+
+    Tooltip.prototype.enable = function()
+    {
+        this.enabled = true
+    }
+
+    Tooltip.prototype.disable = function()
+    {
+        this.enabled = false
+    }
+
+    Tooltip.prototype.toggleEnabled = function()
+    {
+        this.enabled = !this.enabled
+    }
+
+    Tooltip.prototype.toggle = function(e)
+    {
+        var self = e ? $(e.currentTarget)[this.type](this.getDelegateOptions()).data('zui.' + this.type) : this
+        self.tip().hasClass('in') ? self.leave(self) : self.enter(self)
+    }
+
+    Tooltip.prototype.destroy = function()
+    {
+        this.hide().$element.off('.' + this.type).removeData('zui.' + this.type)
+    }
 
 
-  // TOOLTIP PLUGIN DEFINITION
-  // =========================
+    // TOOLTIP PLUGIN DEFINITION
+    // =========================
 
-  var old = $.fn.tooltip
+    var old = $.fn.tooltip
 
-  $.fn.tooltip = function (option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.tooltip')
-      var options = typeof option == 'object' && option
+    $.fn.tooltip = function(option)
+    {
+        return this.each(function()
+        {
+            var $this = $(this)
+            var data = $this.data('zui.tooltip')
+            var options = typeof option == 'object' && option
 
-      if (!data) $this.data('bs.tooltip', (data = new Tooltip(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
+            if (!data) $this.data('zui.tooltip', (data = new Tooltip(this, options)))
+            if (typeof option == 'string') data[option]()
+        })
+    }
 
-  $.fn.tooltip.Constructor = Tooltip
+    $.fn.tooltip.Constructor = Tooltip
 
 
-  // TOOLTIP NO CONFLICT
-  // ===================
+    // TOOLTIP NO CONFLICT
+    // ===================
 
-  $.fn.tooltip.noConflict = function () {
-    $.fn.tooltip = old
-    return this
-  }
+    $.fn.tooltip.noConflict = function()
+    {
+        $.fn.tooltip = old
+        return this
+    }
 
 }(window.jQuery);
 
@@ -3575,122 +3692,135 @@
  * ======================================================================== */
 
 
-+function ($) { 'use strict';
++ function($){
+    'use strict';
 
-  // POPOVER PUBLIC CLASS DEFINITION
-  // ===============================
+    // POPOVER PUBLIC CLASS DEFINITION
+    // ===============================
 
-  var Popover = function (element, options) {
-    this.init('popover', element, options)
-  }
-
-  if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
-
-  Popover.DEFAULTS = $.extend({} , $.fn.tooltip.Constructor.DEFAULTS, {
-    placement: 'right'
-  , trigger: 'click'
-  , content: ''
-  , template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
-  })
-
-
-  // NOTE: POPOVER EXTENDS tooltip.js
-  // ================================
-
-  Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype)
-
-  Popover.prototype.constructor = Popover
-
-  Popover.prototype.getDefaults = function () {
-    return Popover.DEFAULTS
-  }
-
-  Popover.prototype.setContent = function () {
-    var $tip    = this.tip()
-    var target = this.getTarget()
-
-    if(target)
+    var Popover = function(element, options)
     {
-      if(target.find('.arrow').length < 1)
-        $tip.addClass('no-arrow')
-      $tip.html(target.html())
-      return
+        this.init('popover', element, options)
     }
 
-    var title   = this.getTitle()
-    var content = this.getContent()
+    if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-    $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
-    $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
+    Popover.DEFAULTS = $.extend(
+    {}, $.fn.tooltip.Constructor.DEFAULTS,
+    {
+        placement: 'right',
+        trigger: 'click',
+        content: '',
+        template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+    })
 
-    $tip.removeClass('fade top bottom left right in')
 
-    // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
-    // this manually by checking the contents.
-    if (!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
-  }
+    // NOTE: POPOVER EXTENDS tooltip.js
+    // ================================
 
-  Popover.prototype.hasContent = function () {
-    return this.getTarget() || this.getTitle() || this.getContent()
-  }
+    Popover.prototype = $.extend(
+    {}, $.fn.tooltip.Constructor.prototype)
 
-  Popover.prototype.getContent = function () {
-    var $e = this.$element
-    var o  = this.options
+    Popover.prototype.constructor = Popover
 
-    return $e.attr('data-content')
-      || (typeof o.content == 'function' ?
+    Popover.prototype.getDefaults = function()
+    {
+        return Popover.DEFAULTS
+    }
+
+    Popover.prototype.setContent = function()
+    {
+        var $tip = this.tip()
+        var target = this.getTarget()
+
+        if (target)
+        {
+            if (target.find('.arrow').length < 1)
+                $tip.addClass('no-arrow')
+            $tip.html(target.html())
+            return
+        }
+
+        var title = this.getTitle()
+        var content = this.getContent()
+
+        $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
+        $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
+
+        $tip.removeClass('fade top bottom left right in')
+
+        // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
+        // this manually by checking the contents.
+        if (!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
+    }
+
+    Popover.prototype.hasContent = function()
+    {
+        return this.getTarget() || this.getTitle() || this.getContent()
+    }
+
+    Popover.prototype.getContent = function()
+    {
+        var $e = this.$element
+        var o = this.options
+
+        return $e.attr('data-content') || (typeof o.content == 'function' ?
             o.content.call($e[0]) :
             o.content)
-  }
+    }
 
-  Popover.prototype.getTarget = function () {
-    var $e = this.$element
-    var o  = this.options
+    Popover.prototype.getTarget = function()
+    {
+        var $e = this.$element
+        var o = this.options
 
-    var target = $e.attr('data-target')
-      || (typeof o.target == 'function' ?
+        var target = $e.attr('data-target') || (typeof o.target == 'function' ?
             o.target.call($e[0]) :
             o.target)
-    return (target && true) ? ( target == '$next' ? $e.next('.popover') : $(target)) : false
-  }
+        return (target && true) ? (target == '$next' ? $e.next('.popover') : $(target)) : false
+    }
 
-  Popover.prototype.arrow = function () {
-    return this.$arrow = this.$arrow || this.tip().find('.arrow')
-  }
+    Popover.prototype.arrow = function()
+    {
+        return this.$arrow = this.$arrow || this.tip().find('.arrow')
+    }
 
-  Popover.prototype.tip = function () {
-    if (!this.$tip) this.$tip = $(this.options.template)
-    return this.$tip
-  }
-
-
-  // POPOVER PLUGIN DEFINITION
-  // =========================
-
-  var old = $.fn.popover
-
-  $.fn.popover = function (option) {
-    return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.popover')
-      var options = typeof option == 'object' && option
-
-      if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }
-
-  $.fn.popover.Constructor = Popover
+    Popover.prototype.tip = function()
+    {
+        if (!this.$tip) this.$tip = $(this.options.template)
+        return this.$tip
+    }
 
 
-  // POPOVER NO CONFLICT
-  // ===================
+    // POPOVER PLUGIN DEFINITION
+    // =========================
 
-  $.fn.popover.noConflict = function () {
-    $.fn.popover = old
-    return this
-  }
+    var old = $.fn.popover
+
+    $.fn.popover = function(option)
+    {
+        return this.each(function()
+        {
+            var $this = $(this)
+            var data = $this.data('bs.popover')
+            var options = typeof option == 'object' && option
+
+            if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
+            if (typeof option == 'string') data[option]()
+        })
+    }
+
+    $.fn.popover.Constructor = Popover
+
+
+    // POPOVER NO CONFLICT
+    // ===================
+
+    $.fn.popover.noConflict = function()
+    {
+        $.fn.popover = old
+        return this
+    }
 
 }(window.jQuery);
 
@@ -3720,11 +3850,12 @@
     // DROPDOWN CLASS DEFINITION
     // =========================
 
+    var zuiname = 'zui.dropdown';
     var backdrop = '.dropdown-backdrop'
     var toggle = '[data-toggle=dropdown]'
     var Dropdown = function(element)
     {
-        var $el = $(element).on('click.bs.dropdown', this.toggle)
+        var $el = $(element).on('click.' + zuiname, this.toggle)
     }
 
     Dropdown.prototype.toggle = function(e)
@@ -3746,13 +3877,13 @@
                 $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
             }
 
-            $parent.trigger(e = $.Event('show.bs.dropdown'))
+            $parent.trigger(e = $.Event('show.' + zuiname))
 
             if (e.isDefaultPrevented()) return
 
             $parent
                 .toggleClass('open')
-                .trigger('shown.bs.dropdown')
+                .trigger('shown.' + zuiname)
 
             $this.focus()
         }
@@ -3800,9 +3931,9 @@
         {
             var $parent = getParent($(this))
             if (!$parent.hasClass('open')) return
-            $parent.trigger(e = $.Event('hide.bs.dropdown'))
+            $parent.trigger(e = $.Event('hide.' + zuiname))
             if (e.isDefaultPrevented()) return
-            $parent.removeClass('open').trigger('hidden.bs.dropdown')
+            $parent.removeClass('open').trigger('hidden.' + zuiname)
         })
     }
 
@@ -3855,14 +3986,15 @@
     // APPLY TO STANDARD DROPDOWN ELEMENTS
     // ===================================
 
+    var apiName = zuiname + '.data-api'
     $(document)
-        .on('click.bs.dropdown.data-api', clearMenus)
-        .on('click.bs.dropdown.data-api', '.dropdown form', function(e)
+        .on('click.' + apiName, clearMenus)
+        .on('click.' + apiName, '.dropdown form', function(e)
         {
             e.stopPropagation()
         })
-        .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-        .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu]', Dropdown.prototype.keydown)
+        .on('click.' + apiName, toggle, Dropdown.prototype.toggle)
+        .on('keydown.' + apiName, toggle + ', [role=menu]', Dropdown.prototype.keydown)
 
 }(window.jQuery);
 
@@ -3923,10 +4055,6 @@
         if (!this.options.touchable) return;
 
         this.$element.on('touchstart touchmove touchend', touch);
-        // this.$element.on('touchstart touchmove touchend', $.proxy(touch,this));
-
-        // $('.carousel').on('touchstart touchmove touchend',  touch);
-
         var touchStartX, touchStartY;
 
         /* listen the touch event */
@@ -4202,7 +4330,7 @@
         alert('size ready: width=' + this.width + '; height=' + this.height);
       });
      */
-    window.imgReady = (function()
+    $.zui.imgReady = (function()
     {
         var list = [],
             intervalId = null,
@@ -4304,7 +4432,7 @@
     'use strict';
 
     if (!$.fn.modalTrigger) throw new Error('modal & modalTrigger requires for lightbox');
-    if (!window.imgReady) throw new Error('imgReady requires for lightbox');
+    if (!$.zui.imgReady) throw new Error('imgReady requires for lightbox');
 
     var Lightbox = function(element, options)
     {
@@ -4377,7 +4505,7 @@
                     .data('group-index', groupIndex);
                 var dialog = modal.find('.modal-dialog'),
                     winWidth = $(window).width();
-                window.imgReady(options.image, function()
+                $.zui.imgReady(options.image, function()
                 {
                     dialog.css(
                     {
@@ -4405,7 +4533,7 @@
                             .removeClass('lightbox-full');
                         modal.find('.lightbox-img').attr('src', image);
                         winWidth = $(window).width();
-                        window.imgReady(image, function()
+                        $.zui.imgReady(image, function()
                         {
                             dialog.css(
                             {
@@ -4474,8 +4602,7 @@
 
     var id = 0;
     var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content"></div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>';
-    var defaultOptions =
-    {
+    var defaultOptions = {
         type: 'default',
         placement: 'top',
         time: 4000,
@@ -4492,11 +4619,12 @@
     {
         var that = this;
         that.id = id++;
-        options = that.options = $.extend({}, defaultOptions, options);
+        options = that.options = $.extend(
+        {}, defaultOptions, options);
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
-        if(!options.close)
+        if (!options.close)
         {
             that.$.find('.close').remove();
         }
@@ -4516,27 +4644,28 @@
 
     Messager.prototype.show = function(message)
     {
-        var that = this, options = this.options;
+        var that = this,
+            options = this.options;
 
-        if(lastMessager)
+        if (lastMessager)
         {
-            if(lastMessager.id == that.id)
+            if (lastMessager.id == that.id)
             {
                 that.$.removeClass('in');
             }
-            else if(lastMessager.isShow)
+            else if (lastMessager.isShow)
             {
                 lastMessager.hide();
             }
         }
 
-        if(that.hiding)
+        if (that.hiding)
         {
             clearTimeout(that.hiding);
             that.hiding = null;
         }
 
-        if(message)
+        if (message)
         {
             that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
             that.$.find('.messager-content').html(that.message);
@@ -4556,9 +4685,12 @@
 
         that.$.addClass('in');
 
-        if(options.time)
+        if (options.time)
         {
-            that.hiding = setTimeout(function(){that.hide();}, options.time);
+            that.hiding = setTimeout(function()
+            {
+                that.hide();
+            }, options.time);
         }
 
         that.isShow = true;
@@ -4568,28 +4700,25 @@
     Messager.prototype.hide = function()
     {
         var that = this;
-        if(that.$.hasClass('in'))
+        if (that.$.hasClass('in'))
         {
             that.$.removeClass('in');
-            setTimeout(function(){that.$.remove();}, 200);
+            setTimeout(function()
+            {
+                that.$.remove();
+            }, 200);
         }
 
         that.isShow = false;
     };
 
-    $.Messager = Messager;
-    var noConflictMessager = window.Messager;
-    window.Messager = $.Messager;
-    window.Messager.noConflict = function()
+    var showMessage = function(message, options)
     {
-        window.Messager = noConflictMessager;
-    };
-
-    $.showMessage = function(message, options)
-    {
-        if(typeof options === 'string')
+        if (typeof options === 'string')
         {
-            options = {type: options};
+            options = {
+                type: options
+            };
         }
         var msg = new Messager(message, options);
         msg.show();
@@ -4598,48 +4727,73 @@
 
     var getOptions = function(options)
     {
-        return (typeof options === 'string') ? {placement: options} : options;
+        return (typeof options === 'string') ?
+        {
+            placement: options
+        } : options;
     };
 
-    $.messager =
-    {
-        show: $.showMessage,
-        primary: function(message, options)
+    $.zui({
+        Messager: Messager,
+        showMessager: showMessage,
+        messager:
         {
-            return $.showMessage(message, $.extend({type: 'primary'}, getOptions(options)));
-        },
-        success: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'success', icon: 'ok-sign'}, getOptions(options)));
-        },
-        info: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'info', icon: 'info-sign'}, getOptions(options)));
-        },
-        warning: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'warning', icon: 'warning-sign'}, getOptions(options)));
-        },
-        danger: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'danger', icon: 'exclamation-sign'}, getOptions(options)));
-        },
-        important: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'important'}, getOptions(options)));
-        },
-        special: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'special'}, getOptions(options)));
+            show: showMessage,
+            primary: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'primary'
+                }, getOptions(options)));
+            },
+            success: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'success',
+                    icon: 'ok-sign'
+                }, getOptions(options)));
+            },
+            info: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'info',
+                    icon: 'info-sign'
+                }, getOptions(options)));
+            },
+            warning: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'warning',
+                    icon: 'warning-sign'
+                }, getOptions(options)));
+            },
+            danger: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'danger',
+                    icon: 'exclamation-sign'
+                }, getOptions(options)));
+            },
+            important: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'important'
+                }, getOptions(options)));
+            },
+            special: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'special'
+                }, getOptions(options)));
+            }
         }
-    };
-
-    var noConflict = window.messager;
-    window.messager = $.messager;
-    window.messager.noConflict = function()
-    {
-        window.messager = noConflict;
-    };
+    });
 }(jQuery, window));
 
 /* ========================================================================
@@ -5718,7 +5872,7 @@
         var options = this.options;
         var circleShadow = options.shadowType === 'circle';
         var circleSize = options.circleShadowSize;
-        var halfCircleSize = circleSize/2;
+        var halfCircleSize = circleSize / 2;
         var afterOrdered = options.afterOrdered;
 
         this.$.addClass('dashboard-draggable');
@@ -5740,13 +5894,15 @@
             var pos = panel.offset();
             var dPos = dashboard.offset();
             var dColShadow = row.find('.dragging-col-holder');
-            var sWidth = panel.width(), sHeight = panel.height(), sX1, sY1, sX2, sY2, moveFn, dropCol, dropBefore, nextDropCol;
+            var sWidth = panel.width(),
+                sHeight = panel.height(),
+                sX1, sY1, sX2, sY2, moveFn, dropCol, dropBefore, nextDropCol;
             if (!dColShadow.length)
             {
                 dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').removeClass('dragging-col').appendTo(row);
             }
 
-            if(pColClass) dColShadow.removeClass(pColClass);
+            if (pColClass) dColShadow.removeClass(pColClass);
             dColShadow.addClass(pColClass = pCol.attr('class'));
 
             dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
@@ -5756,27 +5912,27 @@
 
             dPanel.css(
             {
-                left   : pos.left - dPos.left,
-                top    : pos.top - dPos.top,
-                width  : sWidth,
-                height : sHeight
+                left: pos.left - dPos.left,
+                top: pos.top - dPos.top,
+                width: sWidth,
+                height: sHeight
             }).appendTo(dashboard).data('mouseOffset',
             {
                 x: event.pageX - pos.left + dPos.left,
                 y: event.pageY - pos.top + dPos.top
             });
 
-            if(circleShadow)
+            if (circleShadow)
             {
                 dPanel.addClass('circle');
                 setTimeout(function()
                 {
                     dPanel.css(
                     {
-                        left   : event.pageX - dPos.left - halfCircleSize,
-                        top    : event.pageY - dPos.top - halfCircleSize,
-                        width  : circleSize,
-                        height : circleSize
+                        left: event.pageX - dPos.left - halfCircleSize,
+                        top: event.pageY - dPos.top - halfCircleSize,
+                        width: circleSize,
+                        height: circleSize
                     }).data('mouseOffset',
                     {
                         x: dPos.left + halfCircleSize,
@@ -5805,11 +5961,12 @@
                 row.find('.dragging-in').removeClass('dragging-in');
                 dropBefore = false;
                 dropCol = null;
-                var area = 0, thisArea;
+                var area = 0,
+                    thisArea;
                 row.children(':not(.dragging-col)').each(function()
                 {
                     var col = $(this);
-                    if(col.hasClass('dragging-col-holder'))
+                    if (col.hasClass('dragging-col-holder'))
                     {
                         dropBefore = (!options.sensitive) || (area < 100);
                         return true;
@@ -5821,12 +5978,12 @@
                     var pX = pP.left,
                         pY = pP.top;
 
-                    if(options.sensitive)
+                    if (options.sensitive)
                     {
                         pX -= dPos.left;
                         pY -= dPos.top;
                         thisArea = getIntersectArea(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH);
-                        if(thisArea > 100 && thisArea > area && thisArea > Math.min(getRectArea(sX1, sY1, sX2, sY2), getRectArea(pX, pY, pX + pW, pY + pH))/3)
+                        if (thisArea > 100 && thisArea > area && thisArea > Math.min(getRectArea(sX1, sY1, sX2, sY2), getRectArea(pX, pY, pX + pW, pY + pH)) / 3)
                         {
                             area = thisArea;
                             dropCol = col;
@@ -5850,10 +6007,10 @@
                     }
                 });
 
-                if(dropCol)
+                if (dropCol)
                 {
-                    if(moveFn) clearTimeout(moveFn);
-                    nextDropCol= dropCol;
+                    if (moveFn) clearTimeout(moveFn);
+                    nextDropCol = dropCol;
                     moveFn = setTimeout(movePanel, 50);
                 }
                 event.preventDefault();
@@ -5861,7 +6018,7 @@
 
             function movePanel()
             {
-                if(nextDropCol)
+                if (nextDropCol)
                 {
                     nextDropCol.addClass('dragging-in');
                     if (dropBefore) dColShadow.insertAfter(nextDropCol);
@@ -5874,7 +6031,7 @@
 
             function mouseUp(event)
             {
-                if(moveFn) clearTimeout(moveFn);
+                if (moveFn) clearTimeout(moveFn);
 
                 var oldOrder = panel.data('order');
                 panel.parent().insertAfter(dColShadow);
@@ -5968,7 +6125,7 @@
 
     function getRectArea(x1, y1, x2, y2)
     {
-        return Math.abs((x2 - x1) * (y2- y1));
+        return Math.abs((x2 - x1) * (y2 - y1));
     }
 
     function isPointInner(x, y, x1, y1, x2, y2)
@@ -5982,7 +6139,7 @@
             y1 = Math.max(ay1, by1),
             x2 = Math.min(ax2, bx2),
             y2 = Math.min(ay2, by2);
-        if(isPointInner(x1, y1, ax1, ay1, ax2, ay2) && isPointInner(x2, y2, ax1, ay1, ax2, ay2) && isPointInner(x1, y1, bx1, by1, bx2, by2) && isPointInner(x2, y2, bx1, by1, bx2, by2))
+        if (isPointInner(x1, y1, ax1, ay1, ax2, ay2) && isPointInner(x2, y2, ax1, ay1, ax2, ay2) && isPointInner(x1, y1, bx1, by1, bx2, by2) && isPointInner(x2, y2, bx1, by1, bx2, by2))
         {
             return getRectArea(x1, y1, x2, y2);
         }
@@ -6041,8 +6198,7 @@
  * ======================================================================== */
 
 
-(function($)
-{
+(function($){
     'use strict';
 
     if (!$.fn.droppable) throw new Error('droppable requires for boards');
@@ -6062,15 +6218,15 @@
         {
             'zh-cn':
             {
-                appendToTheEnd: '移动到末尾'
+                append2end: '移动到末尾'
             },
             'zh-tw':
             {
-                appendToTheEnd: '移动到末尾'
+                append2end: '移动到末尾'
             },
             'en':
             {
-                appendToTheEnd: 'Move to the end.'
+                append2end: 'Move to the end.'
             }
         }
     }; // default options
@@ -6119,7 +6275,7 @@
 
             if ($this.hasClass('board'))
             {
-                $this.find('.board-list').append('<div class="board-item board-item-empty"><i class="icon-plus"></i> {appendToTheEnd}</div>'.format(lang))
+                $this.find('.board-list').append('<div class="board-item board-item-empty"><i class="icon-plus"></i> {append2end}</div>'.format(lang))
                     .append('<div class="board-item board-item-shadow"></div>'.format(lang));
             }
         });
@@ -6170,7 +6326,7 @@
                     {
                         result = setting[DROP](e);
                     }
-                    if(result !== false) e.element.insertBefore(e.target);
+                    if (result !== false) e.element.insertBefore(e.target);
                 }
             },
             finish: function()
@@ -6215,6 +6371,7 @@
     'use strict';
 
     var name = 'zui.datatable';
+    var store = $.zui.store;
 
     var DataTable = function(element, options)
     {
@@ -6225,7 +6382,7 @@
         if (this.isTable)
         {
             this.$table = this.$;
-            this.id = 'datatable-' + (this.$.attr('id') || $.uuid());
+            this.id = 'datatable-' + (this.$.attr('id') || $.zui.uuid());
         }
         else
         {
@@ -6236,7 +6393,7 @@
             }
             else
             {
-                this.id = 'datatable-' + $.uuid();
+                this.id = 'datatable-' + $.zui.uuid();
                 this.$.attr('id', this.id);
             }
         }
@@ -7266,27 +7423,27 @@
             return d;
         };
 
-        // getLastDayOfMonth = function(date)
-        // {
-        //     var d = date.clone();
-        //     var month = d.getMonth();
-        //     d.setDate(28);
+    // getLastDayOfMonth = function(date)
+    // {
+    //     var d = date.clone();
+    //     var month = d.getMonth();
+    //     d.setDate(28);
 
-        //     while (d.getMonth() == month)
-        //     {
-        //         d.addDays(1);
-        //     }
+    //     while (d.getMonth() == month)
+    //     {
+    //         d.addDays(1);
+    //     }
 
-        //     d.addDays(-1);
+    //     d.addDays(-1);
 
-        //     return d;
-        // };
+    //     return d;
+    // };
 
     var Calendar = function(element, options)
     {
         this.name = name;
         this.$ = $(element);
-        this.id = this.$.attr('id') || (name + $.uuid());
+        this.id = this.$.attr('id') || (name + $.zui.uuid());
         this.$.attr('id', this.id);
         this.storeName = name + '.' + this.id;
 
@@ -7299,7 +7456,7 @@
         this.events = this.data.events;
         this.sortEvents();
 
-        this.storeData = window.store.pageGet(this.storeName,
+        this.storeData = $.zui.store.pageGet(this.storeName,
         {
             date: 'today',
             view: 'month'
@@ -7415,7 +7572,7 @@
 
             if (typeof e.id === UNDEFINED_TYPE_NAME)
             {
-                e.id = $.uuid();
+                e.id = $.zui.uuid();
             }
         });
 
@@ -7482,10 +7639,10 @@
         $.each(calendars, function(index, value)
         {
             if (that.callEvent('beforeAddCalendars',
-            {
-                newCalendar: value,
-                data: that.data
-            }))
+                {
+                    newCalendar: value,
+                    data: that.data
+                }))
             {
                 that.calendars[value.name](value);
             }
@@ -7509,10 +7666,10 @@
         $.each(events, function(index, value)
         {
             if (that.callEvent('beforeAddEvent',
-            {
-                newEvent: value,
-                data: that.data
-            }))
+                {
+                    newEvent: value,
+                    data: that.data
+                }))
             {
                 that.events.push(value);
             }
@@ -7543,9 +7700,10 @@
     Calendar.prototype.updateEvents = function(events)
     {
         var eventsParams = {
-            data: this.data,
-            changes: []
-        }, that = this;
+                data: this.data,
+                changes: []
+            },
+            that = this;
 
         if ($.isPlainObject(events))
         {
@@ -7573,12 +7731,12 @@
                 $.each(function(idx, chge)
                 {
                     if (that.callEvent('beforeChange',
-                    {
-                        event: event,
-                        change: chge.change,
-                        to: chge.to,
-                        from: event[chge.change]
-                    }))
+                        {
+                            event: event,
+                            change: chge.change,
+                            to: chge.to,
+                            from: event[chge.change]
+                        }))
                     {
                         eventParam.changes.push($.entend(true,
                         {}, chge,
@@ -7603,7 +7761,8 @@
         {
             events = [events];
         }
-        var id, event, idx, evts = this.events, that = this,
+        var id, event, idx, evts = this.events,
+            that = this,
             removedEvents = [];
         $.each(events, function(index, value)
         {
@@ -7620,11 +7779,11 @@
             }
 
             if (idx >= 0 && that.callEvent('beforeRemoveEvent',
-            {
-                event: event,
-                eventId: id,
-                data: that.data
-            }))
+                {
+                    event: event,
+                    eventId: id,
+                    data: that.data
+                }))
             {
                 evts.splice(idx, 1);
                 removedEvents.push(event);
@@ -7648,7 +7807,7 @@
 
     Calendar.prototype.getLang = function()
     {
-        this.lang = this.options.langs[this.options.lang || $.clientLang()];
+        this.lang = this.options.langs[this.options.lang || $.zui.clientLang()];
     };
 
     Calendar.prototype.display = function(view, date)
@@ -7689,7 +7848,7 @@
 
         if (that.options.storage)
         {
-            window.store.pageSet(that.storeName,
+            $.zui.store.pageSet(that.storeName,
             {
                 date: date,
                 view: view
@@ -7858,11 +8017,11 @@
                         newDate.setSeconds(startDate.getSeconds());
 
                         if (self.callEvent('beforeChange',
-                        {
-                            event: et,
-                            change: 'start',
-                            to: newDate
-                        }))
+                            {
+                                event: et,
+                                change: 'start',
+                                to: newDate
+                            }))
                         {
                             var oldEnd = et.end.clone();
 
@@ -8112,8 +8271,7 @@
  * ======================================================================== */
 
 
-(function($)
-{
+(function($){
     'use strict';
 
     var AutoTrigger = function(element, options)
@@ -8126,16 +8284,16 @@
 
     AutoTrigger.DEFAULTS = {
         trigger: 'toggle',
-        selector: null,
+        // selector: null,
         animate: 'slide',
         easing: 'linear',
         animateSpeed: 'fast',
         events: 'click',
+        // target: null,
         preventDefault: true,
-        cancelBubble: true,
-        target: null
-        //,before:
-        //,after:
+        cancelBubble: true
+            //,before:
+            //,after:
     }; // default options
 
     AutoTrigger.prototype.getOptions = function(options)
@@ -8196,11 +8354,11 @@
                 target: target,
                 options: options
             };
-            if (!$.callEvent(options.before, data, that)) return;
+            if (!$.zui.callEvent(options.before, data, that)) return;
 
             if ($.isFunction(options.trigger))
             {
-                $.callEvent(options.trigger, data, that);
+                $.zui.callEvent(options.trigger, data, that);
             }
             else
             {
@@ -8265,7 +8423,7 @@
                 }
             }
 
-            $.callEvent(options.after, data, that);
+            $.zui.callEvent(options.after, data, that);
 
             if (options.preventDefault) event.preventDefault();
             if (options.cancelBubble) event.stopPropagation();

@@ -29,7 +29,7 @@
     }
 
     var saveTraffic = false;
-    var debug = 0;
+    var debug = 1;
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
@@ -120,9 +120,9 @@
         var isHasCache = cacheData && cacheData.version;
         var isIndexJson = url === INDEX_JSON;
         if(!isHasCache && storageEnable) {
-            var storedData = $.store.get('//' + url, null);
+            var storedData = $.zui.store.get('//' + url, null);
             if(storedData !== null) {
-                var storedVersion = $.store.get('//' + url + '::V');
+                var storedVersion = $.zui.store.get('//' + url + '::V');
                 if(storedVersion) {
                     cacheData = {data: storedData, version: storedVersion};
                     dataset[url] = cacheData;
@@ -146,8 +146,8 @@
                 }
                 cacheData = {data: data, version: dataVersion};
                 dataset[url] = cacheData;
-                $.store.set('//' + url, data);
-                $.store.set('//' + url + '::V', dataVersion);
+                $.zui.store.set('//' + url, data);
+                $.zui.store.set('//' + url + '::V', dataVersion);
 
                 if(debug) console.log('Load', url, 'from remote:', cacheData);
                 callback(data);
@@ -1050,6 +1050,11 @@
             $section = $temp;
         }
 
+        if(section.url === '') {
+            $.zui.messager.show('该链接所指示的文档尚未完成。你可以Fork项目来完善文档。');
+            return;
+        }
+
         switch(section.target) {
             case 'external':
                 window.open(section.url, '_blank');
@@ -1150,10 +1155,10 @@
 
         bestPageWidth = $grid.children('.container').outerWidth();
 
-        $body.toggleClass(PAGE_SHOW_FULL, $.store.get(PAGE_SHOW_FULL, false));
+        $body.toggleClass(PAGE_SHOW_FULL, $.zui.store.get(PAGE_SHOW_FULL, false));
 
         // check storage
-        storageEnable = $.store && $.store.enable;
+        storageEnable = $.zui.store && $.zui.store.enable;
 
         // Get document version
         // dataVersion = $body.data('version');
@@ -1260,7 +1265,7 @@
         }).on('click', '.path-max-btn', function(){
             $body.toggleClass(PAGE_SHOW_FULL);
             setTimeout(resizePage, 300);
-            $.store.set(PAGE_SHOW_FULL, $body.hasClass(PAGE_SHOW_FULL));
+            $.zui.store.set(PAGE_SHOW_FULL, $body.hasClass(PAGE_SHOW_FULL));
         });
 
         var scrollHeight = $('#navbar').outerHeight();
@@ -1297,16 +1302,16 @@
                     }
                     query();
                 }
-            } else if(code === 32) { // Space
-                if(!isInputFocus){
-                    if(closePage()) {
-                    } else if(!$body.hasClass('compact-mode')) {
-                        toggleCompactMode(true);
-                    } else if(isChoosedSection()) {
-                        openSection();
-                    }
-                    e.preventDefault();
-                }
+            // } else if(code === 32) { // Space
+            //     if(!isInputFocus){
+            //         if(closePage()) {
+            //         } else if(!$body.hasClass('compact-mode')) {
+            //             toggleCompactMode(true);
+            //         } else if(isChoosedSection()) {
+            //             openSection();
+            //         }
+            //         e.preventDefault();
+            //     }
             } else if(code === 37) { // Left
                 // if(!$body.hasClass('input-query-focus')){
                     chooseLeftSection();
