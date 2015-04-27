@@ -78,7 +78,52 @@ target="_blank">DateTime Picker</a> 定制开发。</p>
         </div>
       </div>
     </div>
-    <br><br><br><br><br><br><br><br><br><br><br>
+  </article>
+</section>
+
+<section>
+  <header><h3>用法</h3></header>
+  <article>
+    <pre><code>// 选择时间和日期
+$(&quot;.form-datetime&quot;).datetimepicker(
+{
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1,
+    format: &quot;yyyy-mm-dd hh:ii&quot;
+});
+
+// 仅选择日期
+$(&quot;.form-date&quot;).datetimepicker(
+{
+    language:  &quot;zh-CN&quot;,
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0,
+    format: &quot;yyyy-mm-dd&quot;
+});
+
+// 选择时间
+$(&quot;.form-time&quot;).datetimepicker({
+    language:  &quot;zh-CN&quot;,
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0,
+    format: 'hh:ii'
+});</code></pre>
   </article>
 </section>
 
