@@ -1341,7 +1341,7 @@
 
         $search = $('#search');
         var lastQueryString;
-        $queryInput.on('change keyup paste input propertychange', function(){
+        $queryInput.focus().on('change keyup paste input propertychange', function(){
             var val = $queryInput.val();
             if(val === lastQueryString) return;
             lastQueryString = val;
