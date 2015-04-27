@@ -20,11 +20,11 @@
 
     Droppable.DEFAULTS = {
         container: 'body',
-        flex: false,
+        // flex: false,
+        // nested: false,
         deviation: 5,
         sensorOffsetX: 0,
-        sensorOffsetY: 0,
-        nested: false
+        sensorOffsetY: 0
     };
 
     Droppable.prototype.getOptions = function(options)
@@ -36,7 +36,7 @@
 
     Droppable.prototype.callEvent = function(name, params)
     {
-        return $.callEvent(this.options[name], params, this);
+        return $.zui.callEvent(this.options[name], params, this);
     };
 
     Droppable.prototype.init = function()

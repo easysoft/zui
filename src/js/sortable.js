@@ -67,7 +67,7 @@
             start: function(e)
             {
                 if(options.dragCssClass) e.element.addClass(options.dragCssClass);
-                $.callEvent(options['start']);
+                $.zui.callEvent(options['start']);
             },
             drag: function(e)
             {
@@ -86,13 +86,13 @@
                     }
                     var list = self.children(options.selector);
                     markOrders(list);
-                    $.callEvent(options['order'], {list: list, element: $ele});
+                    $.zui.callEvent(options['order'], {list: list, element: $ele});
                 }
             },
             finish: function(e)
             {
                 if(options.dragCssClass && e.element) e.element.removeClass(options.dragCssClass);
-                $.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
+                $.zui.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
             }
         });
 

@@ -6,8 +6,7 @@
  * ======================================================================== */
 
 
-(function($)
-{
+(function($){
     'use strict';
 
     if (!$.fn.droppable) throw new Error('droppable requires for boards');
@@ -27,15 +26,15 @@
         {
             'zh-cn':
             {
-                appendToTheEnd: '移动到末尾'
+                append2end: '移动到末尾'
             },
             'zh-tw':
             {
-                appendToTheEnd: '移动到末尾'
+                append2end: '移动到末尾'
             },
             'en':
             {
-                appendToTheEnd: 'Move to the end.'
+                append2end: 'Move to the end.'
             }
         }
     }; // default options
@@ -84,7 +83,7 @@
 
             if ($this.hasClass('board'))
             {
-                $this.find('.board-list').append('<div class="board-item board-item-empty"><i class="icon-plus"></i> {appendToTheEnd}</div>'.format(lang))
+                $this.find('.board-list').append('<div class="board-item board-item-empty"><i class="icon-plus"></i> {append2end}</div>'.format(lang))
                     .append('<div class="board-item board-item-shadow"></div>'.format(lang));
             }
         });
@@ -135,7 +134,7 @@
                     {
                         result = setting[DROP](e);
                     }
-                    if(result !== false) e.element.insertBefore(e.target);
+                    if (result !== false) e.element.insertBefore(e.target);
                 }
             },
             finish: function()

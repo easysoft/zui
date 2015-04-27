@@ -6,8 +6,7 @@
  * ======================================================================== */
 
 
-(function($)
-{
+(function($){
     'use strict';
 
     var AutoTrigger = function(element, options)
@@ -20,16 +19,16 @@
 
     AutoTrigger.DEFAULTS = {
         trigger: 'toggle',
-        selector: null,
+        // selector: null,
         animate: 'slide',
         easing: 'linear',
         animateSpeed: 'fast',
         events: 'click',
+        // target: null,
         preventDefault: true,
-        cancelBubble: true,
-        target: null
-        //,before:
-        //,after:
+        cancelBubble: true
+            //,before:
+            //,after:
     }; // default options
 
     AutoTrigger.prototype.getOptions = function(options)
@@ -90,11 +89,11 @@
                 target: target,
                 options: options
             };
-            if (!$.callEvent(options.before, data, that)) return;
+            if (!$.zui.callEvent(options.before, data, that)) return;
 
             if ($.isFunction(options.trigger))
             {
-                $.callEvent(options.trigger, data, that);
+                $.zui.callEvent(options.trigger, data, that);
             }
             else
             {
@@ -159,7 +158,7 @@
                 }
             }
 
-            $.callEvent(options.after, data, that);
+            $.zui.callEvent(options.after, data, that);
 
             if (options.preventDefault) event.preventDefault();
             if (options.cancelBubble) event.stopPropagation();

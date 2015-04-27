@@ -23,6 +23,7 @@
   // TAB CLASS DEFINITION
   // ====================
 
+  var zuiname = 'zui.tab'
   var Tab = function (element) {
     this.element = $(element)
   }
@@ -40,7 +41,7 @@
     if ($this.parent('li').hasClass('active')) return
 
     var previous = $ul.find('.active:last a')[0]
-    var e        = $.Event('show.zui.tab', {
+    var e        = $.Event('show.' + zuiname, {
       relatedTarget: previous
     })
 
@@ -53,7 +54,7 @@
     this.activate($this.parent('li'), $ul)
     this.activate($target, $target.parent(), function () {
       $this.trigger({
-        type: 'shown.zui.tab'
+        type: 'shown.' + zuiname
       , relatedTarget: previous
       })
     })
@@ -105,9 +106,9 @@
   $.fn.tab = function ( option ) {
     return this.each(function () {
       var $this = $(this)
-      var data  = $this.data('zui.tab')
+      var data  = $this.data(zuiname)
 
-      if (!data) $this.data('zui.tab', (data = new Tab(this)))
+      if (!data) $this.data(zuiname, (data = new Tab(this)))
       if (typeof option == 'string') data[option]()
     })
   }

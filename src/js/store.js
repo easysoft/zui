@@ -35,7 +35,8 @@
         }
         else
         {
-            var forDeletes = [], i;
+            var forDeletes = [],
+                i;
             for (i in this.page)
             {
                 var val = this.page[i];
@@ -131,8 +132,10 @@
     Store.prototype.get = function(key, defaultValue)
     {
         var val = this.deserialize(this.getItem(key));
-        if(typeof val === 'undefined' || val === null) {
-            if(typeof defaultValue !== 'undefined') {
+        if (typeof val === 'undefined' || val === null)
+        {
+            if (typeof defaultValue !== 'undefined')
+            {
                 return defaultValue;
             }
         }
@@ -211,14 +214,8 @@
         }
     };
 
-    var store = new Store();
-
-    $.store = store;
-    window.store = store;
-
-    window.store.noConflict = function()
+    $.zui(
     {
-        window.store = old;
-        return store;
-    };
+        store: new Store()
+    });
 }(window, jQuery));

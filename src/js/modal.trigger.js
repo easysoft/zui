@@ -11,7 +11,10 @@
 
     if (!$.fn.modal) throw new Error('Modal trigger requires modal.js');
 
-    var NAME = 'zui.modaltrigger';
+    var NAME = 'zui.modaltrigger',
+        STR_AJAX = 'ajax',
+        ZUI_MODAL = '.zui.modal',
+        STR_STRING = 'string';
 
     // MODAL TRIGGER CLASS DEFINITION
     // ======================
@@ -19,19 +22,19 @@
     {
         options = $.extend(
         {}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
-        this.isShown = false;
+        this.isShown;
         this.options = options;
-        this.id = $.uuid();
+        this.id = $.zui.uuid();
 
         // todo: handle when: options.show = true
     };
 
     ModalTrigger.DEFAULTS = {
         type: 'custom',
-        width: null, // number, css definition
-        size: null, // 'md', 'sm', 'lg', 'fullscreen'
+        // width: null, // number, css definition
+        // size: null, // 'md', 'sm', 'lg', 'fullscreen'
         height: 'auto',
-        icon: null,
+        // icon: null,
         name: 'triggerModal',
         fade: true,
         position: 'fit',
@@ -46,25 +49,25 @@
         var that = this;
         if (options.url)
         {
-            if (!options.type || (options.type != 'ajax' && options.type != 'iframe'))
+            if (!options.type || (options.type != STR_AJAX && options.type != 'iframe'))
             {
-                options.type = 'ajax';
+                options.type = STR_AJAX;
             }
         }
         if (options.remote)
         {
-            options.type = 'ajax';
-            if (typeof options.remote === 'string') options.url = options.remote;
+            options.type = STR_AJAX;
+            if (typeof options.remote === STR_STRING) options.url = options.remote;
         }
         else if (options.iframe)
         {
             options.type = 'iframe';
-            if (typeof options.iframe === 'string') options.url = options.iframe;
+            if (typeof options.iframe === STR_STRING) options.url = options.iframe;
         }
         else if (options.custom)
         {
             options.type = 'custom';
-            if (typeof options.custom === 'string')
+            if (typeof options.custom === STR_STRING)
             {
                 var $doms;
                 try
@@ -88,7 +91,7 @@
         var $modal = $('#' + options.name);
         if ($modal.length)
         {
-            if (!that.isShown) $modal.off('.zui.modal');
+            if (!that.isShown) $modal.off(ZUI_MODAL);
             $modal.remove();
         }
         $modal = $('<div id="' + options.name + '" class="modal modal-trigger"><div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
@@ -96,7 +99,7 @@
         var bindEvent = function(optonName, eventName)
         {
             var handleFunc = options[optonName];
-            if ($.isFunction(handleFunc)) $modal.on(eventName + '.zui.modal', handleFunc);
+            if ($.isFunction(handleFunc)) $modal.on(eventName + ZUI_MODAL, handleFunc);
         };
         bindEvent('onShow', 'show');
         bindEvent('shown', 'shown');
@@ -104,10 +107,10 @@
         bindEvent('hidden', 'hidden');
         bindEvent('loaded', 'loaded');
 
-        $modal.on('shown.zui.modal', function()
+        $modal.on('shown' + ZUI_MODAL, function()
         {
             that.isShown = true;
-        }).on('hidden.zui.modal', function()
+        }).on('hidden' + ZUI_MODAL, function()
         {
             that.isShown = false;
         });
@@ -184,7 +187,7 @@
                     modalTrigger: that,
                     ready: readyToShow
                 });
-                if (typeof customContent === 'string')
+                if (typeof customContent === STR_STRING)
                 {
                     $body.html(customContent);
                     readyToShow();
@@ -249,7 +252,7 @@
                                 readyToShow();
                             };
 
-                            $modal.callEvent('loaded.zui.modal',
+                            $modal.callEvent('loaded' + ZUI_MODAL,
                             {
                                 modalType: 'iframe'
                             });
@@ -294,9 +297,9 @@
                     {
                         $modal.html(data);
                     }
-                    $modal.callEvent('loaded.zui.modal',
+                    $modal.callEvent('loaded' + ZUI_MODAL,
                     {
-                        modalType: 'ajax'
+                        modalType: STR_AJAX
                     });
                     readyToShow();
                 });
@@ -315,11 +318,11 @@
     {
         if(callback || redirect)
         {
-            this.$modal.on('hidden.zui.modal', function()
+            this.$modal.on('hidden' + ZUI_MODAL, function()
             {
                 if ($.isFunction(callback)) callback();
 
-                if (typeof redirect === 'string')
+                if (typeof redirect === STR_STRING)
                 {
                     if (redirect === 'this') window.location.reload();
                     else window.location = redirect;
@@ -340,8 +343,7 @@
         this.$modal.modal('ajustPosition', position || this.options.position);
     };
 
-    window.ModalTrigger = ModalTrigger;
-    window.modalTrigger = new ModalTrigger();
+    $.zui({ModalTrigger: ModalTrigger, modalTrigger: new ModalTrigger()});
 
     $.fn.modalTrigger = function(option, settings)
     {
@@ -356,7 +358,7 @@
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
             if (!data) $this.data(NAME, (data = new ModalTrigger(options)));
-            if (typeof option == 'string') data[option](settings);
+            if (typeof option == STR_STRING) data[option](settings);
             else if (options.show) data.show(settings);
 
             $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e)
@@ -378,23 +380,23 @@
         });
     };
 
-    function getModal(modal)
+    var getModal = function(modal)
     {
         var modalType = typeof(modal);
         if (modalType === 'undefined')
         {
             modal = $('.modal.modal-trigger');
         }
-        else if (modalType === 'string')
+        else if (modalType === STR_STRING)
         {
             modal = $(modal);
         }
         if (modal && (modal instanceof $)) return modal;
         return null;
-    }
+    };
 
     // callback, redirect, modal
-    window.closeModal = function(modal, callback, redirect)
+    var closeModal = function(modal, callback, redirect)
     {
         if($.isFunction(modal))
         {
@@ -413,7 +415,7 @@
         }
     };
 
-    window.ajustModalPosition = function(position, modal)
+    var ajustModalPosition = function(position, modal)
     {
         modal = getModal(modal);
         if (modal && modal.length)
@@ -422,10 +424,10 @@
         }
     };
 
-    $.extend(
+    $.zui(
     {
-        closeModal: window.closeModal,
-        ajustModalPosition: window.ajustModalPosition
+        closeModal: closeModal,
+        ajustModalPosition: ajustModalPosition
     });
 
     $(document).on('click.' + NAME + '.data-api', '[data-toggle="modal"]', function(e)

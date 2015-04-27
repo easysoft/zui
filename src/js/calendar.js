@@ -36,27 +36,27 @@
             return d;
         };
 
-        // getLastDayOfMonth = function(date)
-        // {
-        //     var d = date.clone();
-        //     var month = d.getMonth();
-        //     d.setDate(28);
+    // getLastDayOfMonth = function(date)
+    // {
+    //     var d = date.clone();
+    //     var month = d.getMonth();
+    //     d.setDate(28);
 
-        //     while (d.getMonth() == month)
-        //     {
-        //         d.addDays(1);
-        //     }
+    //     while (d.getMonth() == month)
+    //     {
+    //         d.addDays(1);
+    //     }
 
-        //     d.addDays(-1);
+    //     d.addDays(-1);
 
-        //     return d;
-        // };
+    //     return d;
+    // };
 
     var Calendar = function(element, options)
     {
         this.name = name;
         this.$ = $(element);
-        this.id = this.$.attr('id') || (name + $.uuid());
+        this.id = this.$.attr('id') || (name + $.zui.uuid());
         this.$.attr('id', this.id);
         this.storeName = name + '.' + this.id;
 
@@ -69,7 +69,7 @@
         this.events = this.data.events;
         this.sortEvents();
 
-        this.storeData = window.store.pageGet(this.storeName,
+        this.storeData = $.zui.store.pageGet(this.storeName,
         {
             date: 'today',
             view: 'month'
@@ -185,7 +185,7 @@
 
             if (typeof e.id === UNDEFINED_TYPE_NAME)
             {
-                e.id = $.uuid();
+                e.id = $.zui.uuid();
             }
         });
 
@@ -252,10 +252,10 @@
         $.each(calendars, function(index, value)
         {
             if (that.callEvent('beforeAddCalendars',
-            {
-                newCalendar: value,
-                data: that.data
-            }))
+                {
+                    newCalendar: value,
+                    data: that.data
+                }))
             {
                 that.calendars[value.name](value);
             }
@@ -279,10 +279,10 @@
         $.each(events, function(index, value)
         {
             if (that.callEvent('beforeAddEvent',
-            {
-                newEvent: value,
-                data: that.data
-            }))
+                {
+                    newEvent: value,
+                    data: that.data
+                }))
             {
                 that.events.push(value);
             }
@@ -313,9 +313,10 @@
     Calendar.prototype.updateEvents = function(events)
     {
         var eventsParams = {
-            data: this.data,
-            changes: []
-        }, that = this;
+                data: this.data,
+                changes: []
+            },
+            that = this;
 
         if ($.isPlainObject(events))
         {
@@ -343,12 +344,12 @@
                 $.each(function(idx, chge)
                 {
                     if (that.callEvent('beforeChange',
-                    {
-                        event: event,
-                        change: chge.change,
-                        to: chge.to,
-                        from: event[chge.change]
-                    }))
+                        {
+                            event: event,
+                            change: chge.change,
+                            to: chge.to,
+                            from: event[chge.change]
+                        }))
                     {
                         eventParam.changes.push($.entend(true,
                         {}, chge,
@@ -373,7 +374,8 @@
         {
             events = [events];
         }
-        var id, event, idx, evts = this.events, that = this,
+        var id, event, idx, evts = this.events,
+            that = this,
             removedEvents = [];
         $.each(events, function(index, value)
         {
@@ -390,11 +392,11 @@
             }
 
             if (idx >= 0 && that.callEvent('beforeRemoveEvent',
-            {
-                event: event,
-                eventId: id,
-                data: that.data
-            }))
+                {
+                    event: event,
+                    eventId: id,
+                    data: that.data
+                }))
             {
                 evts.splice(idx, 1);
                 removedEvents.push(event);
@@ -418,7 +420,7 @@
 
     Calendar.prototype.getLang = function()
     {
-        this.lang = this.options.langs[this.options.lang || $.clientLang()];
+        this.lang = this.options.langs[this.options.lang || $.zui.clientLang()];
     };
 
     Calendar.prototype.display = function(view, date)
@@ -459,7 +461,7 @@
 
         if (that.options.storage)
         {
-            window.store.pageSet(that.storeName,
+            $.zui.store.pageSet(that.storeName,
             {
                 date: date,
                 view: view
@@ -628,11 +630,11 @@
                         newDate.setSeconds(startDate.getSeconds());
 
                         if (self.callEvent('beforeChange',
-                        {
-                            event: et,
-                            change: 'start',
-                            to: newDate
-                        }))
+                            {
+                                event: et,
+                                change: 'start',
+                                to: newDate
+                            }))
                         {
                             var oldEnd = et.end.clone();
 

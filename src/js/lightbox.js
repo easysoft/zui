@@ -11,7 +11,7 @@
     'use strict';
 
     if (!$.fn.modalTrigger) throw new Error('modal & modalTrigger requires for lightbox');
-    if (!window.imgReady) throw new Error('imgReady requires for lightbox');
+    if (!$.zui.imgReady) throw new Error('imgReady requires for lightbox');
 
     var Lightbox = function(element, options)
     {
@@ -84,7 +84,7 @@
                     .data('group-index', groupIndex);
                 var dialog = modal.find('.modal-dialog'),
                     winWidth = $(window).width();
-                window.imgReady(options.image, function()
+                $.zui.imgReady(options.image, function()
                 {
                     dialog.css(
                     {
@@ -112,7 +112,7 @@
                             .removeClass('lightbox-full');
                         modal.find('.lightbox-img').attr('src', image);
                         winWidth = $(window).width();
-                        window.imgReady(image, function()
+                        $.zui.imgReady(image, function()
                         {
                             dialog.css(
                             {

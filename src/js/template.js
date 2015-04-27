@@ -15,8 +15,8 @@
     // The $componentName$ modal class
     var $ComponentName$ = function(element, options)
     {
-        this.name      = name;
-        this.$         = $(element);
+        this.name = name;
+        this.$ = $(element);
 
         this.getOptions(options);
         this.init();
@@ -24,13 +24,14 @@
         // Initialize here
     };
 
-     // default options
+    // default options
     $ComponentName$.DEFAULTS = {};
 
     // Get and init options
-    $ComponentName$.prototype.getOptions = function (options)
+    $ComponentName$.prototype.getOptions = function(options)
     {
-        this.options = $.extend({}, $ComponentName$.DEFAULTS, this.$.data(), options);
+        this.options = $.extend(
+        {}, $ComponentName$.DEFAULTS, this.$.data(), options);
     };
 
     // Call event helper
@@ -45,8 +46,8 @@
     {
         return this.each(function()
         {
-            var $this   = $(this);
-            var data    = $this.data(name);
+            var $this = $(this);
+            var data = $this.data(name);
             var options = typeof option == 'object' && option;
 
             if (!data) $this.data(name, (data = new $ComponentName$(this, options)));

@@ -538,6 +538,6 @@
         return parseFloat(n);
     }
 
-    window.Color = Color;
+    $.zui({Color: Color});
 
 }(jQuery, Math, window));

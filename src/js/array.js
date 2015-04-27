@@ -7,9 +7,10 @@
  * ======================================================================== */
 
 
-(function()
-{
+(function(){
     'use strict';
+
+    var STR_FUNCTION = 'function';
 
     /**
      *  Calls a function for each element in the array.
@@ -19,7 +20,7 @@
         Array.prototype.forEach = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != 'function')
+            if (typeof fun != STR_FUNCTION)
                 throw new TypeError();
 
             var thisp = arguments[1];
@@ -32,33 +33,6 @@
             }
         };
     }
-
-    /**
-     * Call a function for each element in the array, break by return false
-     */
-    // if (!Array.each)
-    // {
-    //     Array.prototype.each = function(fun /*, thisp*/ )
-    //     {
-    //         var len = this.length;
-    //         if (typeof fun != 'function')
-    //             throw new TypeError();
-
-    //         var thisp = arguments[1],
-    //             result;
-    //         for (var i = 0; i < len; i++)
-    //         {
-    //             if (i in this)
-    //             {
-    //                 result = fun.call(thisp, this[i], i, this);
-    //                 if (result === false)
-    //                 {
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //     };
-    // }
 
     /**
      * Judge an object is an real array
@@ -112,7 +86,7 @@
         Array.prototype.every = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != 'function')
+            if (typeof fun != STR_FUNCTION)
                 throw new TypeError();
 
             var thisp = arguments[1];
@@ -135,7 +109,7 @@
         Array.prototype.filter = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != 'function')
+            if (typeof fun != STR_FUNCTION)
                 throw new TypeError();
 
             var res = [];
@@ -186,7 +160,7 @@
         Array.prototype.map = function(fun /*, thisp*/ )
         {
             var len = this.length;
-            if (typeof fun != 'function')
+            if (typeof fun != STR_FUNCTION)
                 throw new TypeError();
 
             var res = new Array(len);
@@ -207,91 +181,100 @@
      * @param  {array} result
      * @return {array}
      */
-    Array.prototype.where = function(conditions, result)
+    if (!Array.prototype.mawherep)
     {
-        result = result || [];
-        var cdt, ok, objVal;
-        this.forEach(function(val)
+        Array.prototype.where = function(conditions, result)
         {
-            ok = true;
-            for (var key in conditions)
+            result = result || [];
+            var cdt, ok, objVal;
+            this.forEach(function(val)
             {
-                cdt = conditions[key];
-                if (typeof cdt === 'function')
+                ok = true;
+                for (var key in conditions)
                 {
-                    ok = cdt(val);
+                    cdt = conditions[key];
+                    if (typeof cdt === STR_FUNCTION)
+                    {
+                        ok = cdt(val);
+                    }
+                    else
+                    {
+                        objVal = val[key];
+                        ok = (objVal && objVal === cdt);
+                    }
+                    if (!ok) break;
                 }
-                else
-                {
-                    objVal = val[key];
-                    ok = (objVal && objVal === cdt);
-                }
-                if (!ok) break;
-            }
-            if (ok) result.push(val);
-        });
+                if (ok) result.push(val);
+            });
 
-        return result;
-    };
+            return result;
+        };
+    }
 
     /**
      * Return a object contains grouped result as object key
      * @param  {string} key
      * @return {Object}
      */
-    Array.prototype.groupBy = function(key)
+    if (!Array.prototype.groupBy)
     {
-        var result = {};
-        this.forEach(function(val)
+        Array.prototype.groupBy = function(key)
         {
-            var keyName = val[key];
-            if (!keyName)
+            var result = {};
+            this.forEach(function(val)
             {
-                keyName = 'unkown';
-            }
+                var keyName = val[key];
+                if (!keyName)
+                {
+                    keyName = 'unkown';
+                }
 
-            if (!result[keyName])
-            {
-                result[keyName] = [];
-            }
-            result[keyName].push(val);
-        });
-        return result;
-    };
+                if (!result[keyName])
+                {
+                    result[keyName] = [];
+                }
+                result[keyName].push(val);
+            });
+            return result;
+        };
+    }
 
     /**
      * Returns true if at least one element in this array satisfies the provided testing conditions.
      * @param  {function or plain object}  conditions
      * @return {Boolean}
      */
-    Array.prototype.has = function(conditions)
+    if (!Array.prototype.has)
     {
-        var result = false,
-            cdt, ok, objVal;
-        this.forEach(function(val)
+        Array.prototype.has = function(conditions)
         {
-            ok = true;
-            for (var key in conditions)
+            var result = false,
+                cdt, ok, objVal;
+            this.forEach(function(val)
             {
-                cdt = conditions[key];
-                if (typeof cdt === 'function')
+                ok = true;
+                for (var key in conditions)
                 {
-                    ok = cdt(val);
+                    cdt = conditions[key];
+                    if (typeof cdt === STR_FUNCTION)
+                    {
+                        ok = cdt(val);
+                    }
+                    else
+                    {
+                        objVal = val[key];
+                        ok = (objVal && objVal === cdt);
+                    }
+                    if (!ok) break;
                 }
-                else
+                if (ok)
                 {
-                    objVal = val[key];
-                    ok = (objVal && objVal === cdt);
+                    result = true;
+                    return false;
                 }
-                if (!ok) break;
-            }
-            if (ok)
-            {
-                result = true;
-                return false;
-            }
-        });
+            });
 
-        return result;
-    };
+            return result;
+        };
+    }
 }());

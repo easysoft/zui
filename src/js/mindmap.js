@@ -83,7 +83,7 @@
             expand: true,
             theme: 'default',
             caption: '',
-            id: $.uuid() + ''
+            id: $.zui.uuid() + ''
         },
         nodeTeamplate: "<div id='node-{id}' class='mindmap-node expand-{expand}' data-type='{type}' data-id='{id}' data-parent='{parent}'><div class='wrapper'><div class='text'>{text}</div><div class='caption'>{caption}</div></div></div>",
         hSpace: 100,
@@ -150,7 +150,7 @@
 
         if (!$this.attr('id'))
         {
-            $this.attr('id', 'mindmap-' + $.uuid());
+            $this.attr('id', 'mindmap-' + $.zui.uuid());
         }
         this.id = $this.attr('id');
 
@@ -199,7 +199,7 @@
 
     Mindmap.prototype.callEvent = function(name, params)
     {
-        return $.callEvent(this.options[name], params, this);
+        return $.zui.callEvent(this.options[name], params, this);
     };
 
     /* compute position with offset */
@@ -252,7 +252,7 @@
     {
         var data = {
             expand: true,
-            id: $.uuid() + '',
+            id: $.zui.uuid() + '',
             parent: parentData.id
         };
         if (parentData.type === 'root')
@@ -569,7 +569,7 @@
         if (typeof(nodeData.expand) === UDF) nodeData.expand = true;
         if (typeof(nodeData.data) === UDF) nodeData.data = {};
         if (typeof(nodeData.type) === UDF) nodeData.type = 'node';
-        if (typeof(nodeData.id) === UDF) nodeData.id = $.uuid() + '';
+        if (typeof(nodeData.id) === UDF) nodeData.id = $.zui.uuid() + '';
         if (typeof(nodeData.readonly) === UDF) nodeData.readonly = false;
         if (typeof(nodeData.ui) === UDF) nodeData.ui = {};
         nodeData.parent = parentId;

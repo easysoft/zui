@@ -67,7 +67,8 @@
                 x: event.pageX - pos.left + cPos.left,
                 y: event.pageY - pos.top + cPos.top
             };
-            mousePos = $.extend({}, startPos);
+            mousePos = $.extend(
+            {}, startPos);
             moved = false;
 
             $e.addClass('drag-ready');
@@ -168,7 +169,7 @@
             }
         };
 
-        if(setting.handle)
+        if (setting.handle)
         {
             $e.on('mousedown', setting.handle, mouseDown);
         }

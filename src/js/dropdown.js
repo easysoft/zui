@@ -24,11 +24,12 @@
     // DROPDOWN CLASS DEFINITION
     // =========================
 
+    var zuiname = 'zui.dropdown';
     var backdrop = '.dropdown-backdrop'
     var toggle = '[data-toggle=dropdown]'
     var Dropdown = function(element)
     {
-        var $el = $(element).on('click.bs.dropdown', this.toggle)
+        var $el = $(element).on('click.' + zuiname, this.toggle)
     }
 
     Dropdown.prototype.toggle = function(e)
@@ -50,13 +51,13 @@
                 $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
             }
 
-            $parent.trigger(e = $.Event('show.bs.dropdown'))
+            $parent.trigger(e = $.Event('show.' + zuiname))
 
             if (e.isDefaultPrevented()) return
 
             $parent
                 .toggleClass('open')
-                .trigger('shown.bs.dropdown')
+                .trigger('shown.' + zuiname)
 
             $this.focus()
         }
@@ -104,9 +105,9 @@
         {
             var $parent = getParent($(this))
             if (!$parent.hasClass('open')) return
-            $parent.trigger(e = $.Event('hide.bs.dropdown'))
+            $parent.trigger(e = $.Event('hide.' + zuiname))
             if (e.isDefaultPrevented()) return
-            $parent.removeClass('open').trigger('hidden.bs.dropdown')
+            $parent.removeClass('open').trigger('hidden.' + zuiname)
         })
     }
 
@@ -159,13 +160,14 @@
     // APPLY TO STANDARD DROPDOWN ELEMENTS
     // ===================================
 
+    var apiName = zuiname + '.data-api'
     $(document)
-        .on('click.bs.dropdown.data-api', clearMenus)
-        .on('click.bs.dropdown.data-api', '.dropdown form', function(e)
+        .on('click.' + apiName, clearMenus)
+        .on('click.' + apiName, '.dropdown form', function(e)
         {
             e.stopPropagation()
         })
-        .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-        .on('keydown.bs.dropdown.data-api', toggle + ', [role=menu]', Dropdown.prototype.keydown)
+        .on('click.' + apiName, toggle, Dropdown.prototype.toggle)
+        .on('keydown.' + apiName, toggle + ', [role=menu]', Dropdown.prototype.keydown)
 
 }(window.jQuery);

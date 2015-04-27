@@ -12,8 +12,7 @@
 
     var id = 0;
     var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content"></div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>';
-    var defaultOptions =
-    {
+    var defaultOptions = {
         type: 'default',
         placement: 'top',
         time: 4000,
@@ -30,11 +29,12 @@
     {
         var that = this;
         that.id = id++;
-        options = that.options = $.extend({}, defaultOptions, options);
+        options = that.options = $.extend(
+        {}, defaultOptions, options);
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
-        if(!options.close)
+        if (!options.close)
         {
             that.$.find('.close').remove();
         }
@@ -54,27 +54,28 @@
 
     Messager.prototype.show = function(message)
     {
-        var that = this, options = this.options;
+        var that = this,
+            options = this.options;
 
-        if(lastMessager)
+        if (lastMessager)
         {
-            if(lastMessager.id == that.id)
+            if (lastMessager.id == that.id)
             {
                 that.$.removeClass('in');
             }
-            else if(lastMessager.isShow)
+            else if (lastMessager.isShow)
             {
                 lastMessager.hide();
             }
         }
 
-        if(that.hiding)
+        if (that.hiding)
         {
             clearTimeout(that.hiding);
             that.hiding = null;
         }
 
-        if(message)
+        if (message)
         {
             that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
             that.$.find('.messager-content').html(that.message);
@@ -94,9 +95,12 @@
 
         that.$.addClass('in');
 
-        if(options.time)
+        if (options.time)
         {
-            that.hiding = setTimeout(function(){that.hide();}, options.time);
+            that.hiding = setTimeout(function()
+            {
+                that.hide();
+            }, options.time);
         }
 
         that.isShow = true;
@@ -106,28 +110,25 @@
     Messager.prototype.hide = function()
     {
         var that = this;
-        if(that.$.hasClass('in'))
+        if (that.$.hasClass('in'))
         {
             that.$.removeClass('in');
-            setTimeout(function(){that.$.remove();}, 200);
+            setTimeout(function()
+            {
+                that.$.remove();
+            }, 200);
         }
 
         that.isShow = false;
     };
 
-    $.Messager = Messager;
-    var noConflictMessager = window.Messager;
-    window.Messager = $.Messager;
-    window.Messager.noConflict = function()
+    var showMessage = function(message, options)
     {
-        window.Messager = noConflictMessager;
-    };
-
-    $.showMessage = function(message, options)
-    {
-        if(typeof options === 'string')
+        if (typeof options === 'string')
         {
-            options = {type: options};
+            options = {
+                type: options
+            };
         }
         var msg = new Messager(message, options);
         msg.show();
@@ -136,46 +137,71 @@
 
     var getOptions = function(options)
     {
-        return (typeof options === 'string') ? {placement: options} : options;
+        return (typeof options === 'string') ?
+        {
+            placement: options
+        } : options;
     };
 
-    $.messager =
-    {
-        show: $.showMessage,
-        primary: function(message, options)
+    $.zui({
+        Messager: Messager,
+        showMessager: showMessage,
+        messager:
         {
-            return $.showMessage(message, $.extend({type: 'primary'}, getOptions(options)));
-        },
-        success: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'success', icon: 'ok-sign'}, getOptions(options)));
-        },
-        info: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'info', icon: 'info-sign'}, getOptions(options)));
-        },
-        warning: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'warning', icon: 'warning-sign'}, getOptions(options)));
-        },
-        danger: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'danger', icon: 'exclamation-sign'}, getOptions(options)));
-        },
-        important: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'important'}, getOptions(options)));
-        },
-        special: function(message, options)
-        {
-            return $.showMessage(message, $.extend({type: 'special'}, getOptions(options)));
+            show: showMessage,
+            primary: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'primary'
+                }, getOptions(options)));
+            },
+            success: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'success',
+                    icon: 'ok-sign'
+                }, getOptions(options)));
+            },
+            info: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'info',
+                    icon: 'info-sign'
+                }, getOptions(options)));
+            },
+            warning: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'warning',
+                    icon: 'warning-sign'
+                }, getOptions(options)));
+            },
+            danger: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'danger',
+                    icon: 'exclamation-sign'
+                }, getOptions(options)));
+            },
+            important: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'important'
+                }, getOptions(options)));
+            },
+            special: function(message, options)
+            {
+                return $.showMessage(message, $.extend(
+                {
+                    type: 'special'
+                }, getOptions(options)));
+            }
         }
-    };
-
-    var noConflict = window.messager;
-    window.messager = $.messager;
-    window.messager.noConflict = function()
-    {
-        window.messager = noConflict;
-    };
+    });
 }(jQuery, window));

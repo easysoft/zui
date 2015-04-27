@@ -21,7 +21,7 @@
         alert('size ready: width=' + this.width + '; height=' + this.height);
       });
      */
-    window.imgReady = (function()
+    $.zui.imgReady = (function()
     {
         var list = [],
             intervalId = null,

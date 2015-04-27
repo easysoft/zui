@@ -13,13 +13,14 @@
   // SCROLLSPY CLASS DEFINITION
   // ==========================
 
+  var zuiname = 'zui.scrollspy'
   function ScrollSpy(element, options) {
     var href
     var process  = $.proxy(this.process, this)
 
     this.$element       = $(element).is('body') ? $(window) : $(element)
     this.$body          = $('body')
-    this.$scrollElement = this.$element.on('scroll.bs.scroll-spy.data-api', process)
+    this.$scrollElement = this.$element.on('scroll. ' + zuiname + ' .data-api', process)
     this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
     if(!this.selector) this.selector       = (this.options.target
       || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
@@ -108,7 +109,7 @@
         .addClass('active')
     }
 
-    active.trigger('activate.bs.scrollspy')
+    active.trigger('activate.' + zuiname)
   }
 
 
@@ -120,10 +121,10 @@
   $.fn.scrollspy = function (option) {
     return this.each(function () {
       var $this   = $(this)
-      var data    = $this.data('bs.scrollspy')
+      var data    = $this.data(zuiname)
       var options = typeof option == 'object' && option
 
-      if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+      if (!data) $this.data(zuiname, (data = new ScrollSpy(this, options)))
       if (typeof option == 'string') data[option]()
     })
   }

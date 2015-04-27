@@ -55,10 +55,6 @@
         if (!this.options.touchable) return;
 
         this.$element.on('touchstart touchmove touchend', touch);
-        // this.$element.on('touchstart touchmove touchend', $.proxy(touch,this));
-
-        // $('.carousel').on('touchstart touchmove touchend',  touch);
-
         var touchStartX, touchStartY;
 
         /* listen the touch event */

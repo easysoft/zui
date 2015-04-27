@@ -6,32 +6,27 @@
  * ======================================================================== */
 
 
-(function($, window, Math)
-{
+(function($, window){
     'use strict';
 
     /* Check jquery */
-    if(typeof($) === 'undefined')
-    {
-      throw new Error('ZUI requires jQuery');
-    }
+    if (typeof($) === 'undefined') throw new Error('ZUI requires jQuery');
 
-    $.extend(
+    // ZUI shared object
+    if (!$.zui) $.zui = function(obj)
+    {
+        if ($.isPlainObject(obj))
+        {
+            $.extend($.zui, obj);
+        }
+    };
+
+    var lastUuidAmend = 0;
+    $.zui(
     {
         uuid: function()
         {
-            var d = (new Date()).getTime();
-            while (d < 10000000000000000)
-            {
-                d *= 10;
-            }
-            return d + Math.floor(Math.random() * 9999);
-        },
-
-        getPropertyCount: function(obj)
-        {
-            if (typeof(obj) !== 'object' || obj === null) return 0;
-            return Object.getOwnPropertyNames(obj).length;
+            return (new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
         },
 
         callEvent: function(func, event, proxy)
@@ -43,7 +38,7 @@
                     func = $.proxy(func, proxy);
                 }
                 var result = func(event);
-                if(event) event.result = result;
+                if (event) event.result = result;
                 return !(result !== undefined && (!result));
             }
             return 1;
@@ -52,9 +47,10 @@
         clientLang: function()
         {
             var lang;
-            if (typeof(window.config) != 'undefined' && window.config.clientLang)
+            var config = window.config;
+            if (typeof(config) != 'undefined' && config.clientLang)
             {
-                lang = window.config.clientLang;
+                lang = config.clientLang;
             }
             else
             {
@@ -80,8 +76,6 @@
         }
         var e = $.Event(name, event);
 
-        // var result = $this.trigger(e);
-
         if ((typeof model === 'undefined') && dotIndex > 0)
         {
             model = $this.data(name.substring(dotIndex + 1));
@@ -92,9 +86,9 @@
             var func = model.options[shortName];
             if ($.isFunction(func))
             {
-                $.callEvent(model.options[shortName], e, model);
+                $.zui.callEvent(model.options[shortName], e, model);
             }
         }
         return e;
     };
-}(jQuery, window, Math));
+}(jQuery, window));

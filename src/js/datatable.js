@@ -11,6 +11,7 @@
     'use strict';
 
     var name = 'zui.datatable';
+    var store = $.zui.store;
 
     var DataTable = function(element, options)
     {
@@ -21,7 +22,7 @@
         if (this.isTable)
         {
             this.$table = this.$;
-            this.id = 'datatable-' + (this.$.attr('id') || $.uuid());
+            this.id = 'datatable-' + (this.$.attr('id') || $.zui.uuid());
         }
         else
         {
@@ -32,7 +33,7 @@
             }
             else
             {
-                this.id = 'datatable-' + $.uuid();
+                this.id = 'datatable-' + $.zui.uuid();
                 this.$.attr('id', this.id);
             }
         }

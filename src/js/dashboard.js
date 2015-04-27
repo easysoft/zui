@@ -69,7 +69,7 @@
         var options = this.options;
         var circleShadow = options.shadowType === 'circle';
         var circleSize = options.circleShadowSize;
-        var halfCircleSize = circleSize/2;
+        var halfCircleSize = circleSize / 2;
         var afterOrdered = options.afterOrdered;
 
         this.$.addClass('dashboard-draggable');
@@ -91,13 +91,15 @@
             var pos = panel.offset();
             var dPos = dashboard.offset();
             var dColShadow = row.find('.dragging-col-holder');
-            var sWidth = panel.width(), sHeight = panel.height(), sX1, sY1, sX2, sY2, moveFn, dropCol, dropBefore, nextDropCol;
+            var sWidth = panel.width(),
+                sHeight = panel.height(),
+                sX1, sY1, sX2, sY2, moveFn, dropCol, dropBefore, nextDropCol;
             if (!dColShadow.length)
             {
                 dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').removeClass('dragging-col').appendTo(row);
             }
 
-            if(pColClass) dColShadow.removeClass(pColClass);
+            if (pColClass) dColShadow.removeClass(pColClass);
             dColShadow.addClass(pColClass = pCol.attr('class'));
 
             dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
@@ -107,27 +109,27 @@
 
             dPanel.css(
             {
-                left   : pos.left - dPos.left,
-                top    : pos.top - dPos.top,
-                width  : sWidth,
-                height : sHeight
+                left: pos.left - dPos.left,
+                top: pos.top - dPos.top,
+                width: sWidth,
+                height: sHeight
             }).appendTo(dashboard).data('mouseOffset',
             {
                 x: event.pageX - pos.left + dPos.left,
                 y: event.pageY - pos.top + dPos.top
             });
 
-            if(circleShadow)
+            if (circleShadow)
             {
                 dPanel.addClass('circle');
                 setTimeout(function()
                 {
                     dPanel.css(
                     {
-                        left   : event.pageX - dPos.left - halfCircleSize,
-                        top    : event.pageY - dPos.top - halfCircleSize,
-                        width  : circleSize,
-                        height : circleSize
+                        left: event.pageX - dPos.left - halfCircleSize,
+                        top: event.pageY - dPos.top - halfCircleSize,
+                        width: circleSize,
+                        height: circleSize
                     }).data('mouseOffset',
                     {
                         x: dPos.left + halfCircleSize,
@@ -156,11 +158,12 @@
                 row.find('.dragging-in').removeClass('dragging-in');
                 dropBefore = false;
                 dropCol = null;
-                var area = 0, thisArea;
+                var area = 0,
+                    thisArea;
                 row.children(':not(.dragging-col)').each(function()
                 {
                     var col = $(this);
-                    if(col.hasClass('dragging-col-holder'))
+                    if (col.hasClass('dragging-col-holder'))
                     {
                         dropBefore = (!options.sensitive) || (area < 100);
                         return true;
@@ -172,12 +175,12 @@
                     var pX = pP.left,
                         pY = pP.top;
 
-                    if(options.sensitive)
+                    if (options.sensitive)
                     {
                         pX -= dPos.left;
                         pY -= dPos.top;
                         thisArea = getIntersectArea(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH);
-                        if(thisArea > 100 && thisArea > area && thisArea > Math.min(getRectArea(sX1, sY1, sX2, sY2), getRectArea(pX, pY, pX + pW, pY + pH))/3)
+                        if (thisArea > 100 && thisArea > area && thisArea > Math.min(getRectArea(sX1, sY1, sX2, sY2), getRectArea(pX, pY, pX + pW, pY + pH)) / 3)
                         {
                             area = thisArea;
                             dropCol = col;
@@ -201,10 +204,10 @@
                     }
                 });
 
-                if(dropCol)
+                if (dropCol)
                 {
-                    if(moveFn) clearTimeout(moveFn);
-                    nextDropCol= dropCol;
+                    if (moveFn) clearTimeout(moveFn);
+                    nextDropCol = dropCol;
                     moveFn = setTimeout(movePanel, 50);
                 }
                 event.preventDefault();
@@ -212,7 +215,7 @@
 
             function movePanel()
             {
-                if(nextDropCol)
+                if (nextDropCol)
                 {
                     nextDropCol.addClass('dragging-in');
                     if (dropBefore) dColShadow.insertAfter(nextDropCol);
@@ -225,7 +228,7 @@
 
             function mouseUp(event)
             {
-                if(moveFn) clearTimeout(moveFn);
+                if (moveFn) clearTimeout(moveFn);
 
                 var oldOrder = panel.data('order');
                 panel.parent().insertAfter(dColShadow);
@@ -319,7 +322,7 @@
 
     function getRectArea(x1, y1, x2, y2)
     {
-        return Math.abs((x2 - x1) * (y2- y1));
+        return Math.abs((x2 - x1) * (y2 - y1));
     }
 
     function isPointInner(x, y, x1, y1, x2, y2)
@@ -333,7 +336,7 @@
             y1 = Math.max(ay1, by1),
             x2 = Math.min(ax2, bx2),
             y2 = Math.min(ay2, by2);
-        if(isPointInner(x1, y1, ax1, ay1, ax2, ay2) && isPointInner(x2, y2, ax1, ay1, ax2, ay2) && isPointInner(x1, y1, bx1, by1, bx2, by2) && isPointInner(x2, y2, bx1, by1, bx2, by2))
+        if (isPointInner(x1, y1, ax1, ay1, ax2, ay2) && isPointInner(x2, y2, ax1, ay1, ax2, ay2) && isPointInner(x1, y1, bx1, by1, bx2, by2) && isPointInner(x2, y2, bx1, by1, bx2, by2))
         {
             return getRectArea(x1, y1, x2, y2);
         }

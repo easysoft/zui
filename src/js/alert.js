@@ -25,6 +25,8 @@
     // ======================
 
     var dismiss = '[data-dismiss="alert"]'
+    var zuiname = 'zui.alert';
+
     var Alert = function(el)
     {
         $(el).on('click', dismiss, this.close)
@@ -50,7 +52,7 @@
             $parent = $this.hasClass('alert') ? $this : $this.parent()
         }
 
-        $parent.trigger(e = $.Event('close.bs.alert'))
+        $parent.trigger(e = $.Event('close.' + zuiname))
 
         if (e.isDefaultPrevented()) return
 
@@ -58,7 +60,7 @@
 
         function removeElement()
         {
-            $parent.trigger('closed.bs.alert').remove()
+            $parent.trigger('closed.' + zuiname).remove()
         }
 
         $.support.transition && $parent.hasClass('fade') ?
@@ -79,9 +81,9 @@
         return this.each(function()
         {
             var $this = $(this)
-            var data = $this.data('bs.alert')
+            var data = $this.data(zuiname)
 
-            if (!data) $this.data('bs.alert', (data = new Alert(this)))
+            if (!data) $this.data(zuiname, (data = new Alert(this)))
             if (typeof option == 'string') data[option].call($this)
         })
     }
@@ -102,6 +104,6 @@
     // ALERT DATA-API
     // ==============
 
-    $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
+    $(document).on('click.' + zuiname + '.data-api', dismiss, Alert.prototype.close)
 
 }(window.jQuery);
