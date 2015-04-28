@@ -1291,7 +1291,12 @@
             // console.log('keydown', code);
             var isPageNotShow = !$body.hasClass('page-show');
             var isInputFocus = $body.hasClass('input-query-focus');
-            if(code === 13) { // Enter
+            if(code === 9) { // Tab
+                if(!$body.hasClass('input-query-focus')) {
+                    $queryInput.focus();
+                    e.preventDefault();
+                }
+            } else if(code === 13) { // Enter
                 if(isPageNotShow && isChoosedSection()) {
                     openSection();
                 }
