@@ -672,14 +672,26 @@
                         if(sectionName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['section', 'name'];
-                            weight = sectionName.startsWith(keyVal) ? 85 : 80;
+                            weight = sectionName.startsWith(keyVal) ? 85 : 82;
+                            break;
+                        }
+                        if(section.filter && section.filter.includes(keyVal)) {
+                            chooseThisKey = true;
+                            matchType = ['section', 'filter'];
+                            weight = 80;
                             break;
                         }
                         var chapterName = chapter.name.toLowerCase();
                         if(chapterName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['chapter', 'name'];
-                            weight = chapterName.startsWith(keyVal) ? 75 : 70;
+                            weight = chapterName.startsWith(keyVal) ? 75 : 73;
+                            break;
+                        }
+                        if(chapter.filter && chapter.filter.includes(keyVal)) {
+                            chooseThisKey = true;
+                            matchType = ['chapter', 'filter'];
+                            weight = 70;
                             break;
                         }
                         if(keyVal.length > 1) {
