@@ -378,6 +378,42 @@ module.exports = function(grunt)
         }
     });
 
+
+    grunt.registerTask('pinyin', '', function(text){
+        var mergeString = function(strs, s) {
+            var str = '';
+            s = s || '';
+            strs.forEach(function(strs2){
+                strs2.forEach(function(str3){
+                    str += str3 + s;
+                });
+            });
+            return str;
+        };
+        var pinyin = require("pinyin");
+        var toPinYin = function(text) {
+            var py1 = mergeString(pinyin(text, {style: pinyin.STYLE_NORMAL}));
+            if(py1 === '' || py1 === text) return '';
+            return py1 + ' ' + mergeString(pinyin(text, {style: pinyin.STYLE_FIRST_LETTER}));
+        };
+        
+        if(text) {
+            grunt.log.writeln(text + '  >>>');
+            grunt.log.writeln(toPinYin(text));
+        } else {
+            var docIndex = grunt.file.readJSON('docs/2/index.json');
+            for(var chapterName in docIndex.chapters) {
+                var chapter = docIndex.chapters[chapterName];
+                chapter.filter = toPinYin(chapter.name).toLowerCase();
+                for(var sectionName in chapter.sections) {
+                    var section = chapter.sections[sectionName];
+                    section.filter = toPinYin(section.name).toLowerCase();
+                }
+            }
+            grunt.file.write('index.json', JSON.stringify(docIndex));
+        }
+    });
+
     grunt.registerTask('dist', ['clean:dist', 'build:dist']);
     grunt.registerTask('doc', ['build:doc']);
 
