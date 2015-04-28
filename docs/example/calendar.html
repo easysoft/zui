@@ -27,20 +27,91 @@
   </article>
 
 <script src="../../assets/jquery.js"></script>
-<script src="../../dist/js/zui.js"></script>
-<script src="../../dist/lib/calendar/zui.calendar.js"></script>
+<script src="../js/zui.js"></script>
 <script src="../js/example.js"></script>
 
 <script>
-$(function()
-{
-  $('#calendar').calendar();
-  var calendar = $('#calendar').calendar().data('zui.calendar');
-  var newEvent = {title:"吃饭了", desc: "描述", start: '2014-8-14 12:00', end: "2014-8=14 13:00"};
-  calendar.addEvents(newEvent);
-  //
-    // $('#calendar').calendar({data: {events: [{title:"吃饭了", desc: "描述", start: '2014-8-14 12:00', end: "2014-8=14 13:00"}]}});
-});
+function afterPageLoad() {
+  var now = new Date();
+  var start = now.getSeconds(),
+      calendars = ['success', 'danger', 'important', 'warning', 'info', 'specail', 'primary'],
+      rooms = ['A003', 'A004', 'A010', 'A143', 'B008', 'B098', 'B487', 'B340', 'Z000', 'Z431', 'Z018', 'Z864'],
+      peoples = ['奥特曼', '行者孙', '地卜师', '绿巨人', 'Catouse', '路人丙'],
+      events = ['进食', '喝水', '交谈', '睡觉', '捶打墙壁', '自言自语', '搬动椅子', '唱歌', '上网', '梦游', '观望天花板'],
+      eventsTypes = ['happy', 'sad', ':]'],
+      tools = ['桌子', '椅子', '水杯', '枪', '随从'],
+      descs = ['没有完成', '这次失败了', '徒劳', '很满意', '禁止再次发生', '也行', '情况不明', '发现未知征兆'];
+  var calEventGenerater = function()
+      {
+          var start = now.clone().addDays(Math.random() * 400 - 200);
+          var e =
+          {
+              title: (Math.random() > 0.5 ? ('和' + peoples[Math.floor(Math.random()*peoples.length)]) : '') + events[Math.floor(Math.random()*events.length)],
+              desc: descs[Math.floor(Math.random()*descs.length)],
+              calendar: calendars[Math.floor(Math.random()*calendars.length)],
+              allDay: Math.random() > 0.9,
+              start: start,
+              end: start.clone().addDays(Math.random() * 3)
+          };
+          return e;
+      };
+  var calDataGenerater = function(count)
+      {
+          var data =
+          {
+              calendars:
+              [
+                  {name: "success", color: 'green'},
+                  {name: "warning", color: 'yellow'},
+                  {name: "danger", color: 'red'},
+                  {name: "info", color: 'blue'},
+                  {name: "important", color: 'brown'},
+                  {name: "special", color: 'purple'},
+                  {name: "primary", color: 'primary'}
+              ],
+              events: []
+          };
+
+          for (var i = count - 1; i >= 0; i--)
+          {
+              data.events.push(calEventGenerater());
+          }
+          
+
+          var nowTime = now.clone();
+          var e = {
+              title: 1,
+              desc: descs[Math.floor(Math.random()*descs.length)],
+              calendar: calendars[Math.floor(Math.random()*calendars.length)],
+              allDay: false,
+              start: nowTime.clone().addDays(2),
+              end: nowTime.clone().addDays(5)
+          };
+          data.events.push(e);
+
+          return data;
+      };
+  $(function()
+  {
+    $('.calendar').each(function()
+    {
+        var $this = $(this);
+        var data = calDataGenerater($this.data('exampleCount') || 300);
+        $this.calendar({data: data, clickEvent: function(e)
+        {
+            console.log(e);
+            $.zui.messager.show('您点击了 <strong>' + e.event.title + '</strong>');
+        }, beforeChange: function(e)
+        {
+            if(e.change === 'start')
+            {
+                $.zui.messager.show('起始时间更改为 ' + e.to.format('yyyy年MM月dd日 hh:mm'));
+            }
+        }});
+    });
+  });
+}
+$(afterPageLoad);
 </script>
 <script src="http://s95.cnzz.com/stat.php?id=1253026255&web_id=1253026255"></script>
 <script>

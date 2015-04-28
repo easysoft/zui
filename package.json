@@ -1230,7 +1230,7 @@
         "js": ["src/js/calendar.js"]
       },
       "ver": "1.2.0",
-      "dpds": ["basic", "jqueryex", "resize", "string", "date", "table", "droppable"]
+      "dpds": ["basic", "jqueryex", "color", "resize", "string", "date", "table", "droppable"]
     },
     "mindmap":
     {

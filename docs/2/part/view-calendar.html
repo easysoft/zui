@@ -548,7 +548,7 @@ function afterPageLoad() {
               calendar: calendars[Math.floor(Math.random()*calendars.length)],
               allDay: Math.random() > 0.9,
               start: start,
-              end: start.clone().addDays(Math.random() * 1.5)
+              end: start.clone().addDays(Math.random() > 0.9 ? Math.random() * 5 : 0)
           };
           return e;
       };
@@ -600,14 +600,15 @@ function afterPageLoad() {
           var data =
           {
               calendars:
-              {
-                  success: {color: '#229f24'},
-                  warning: {color: '#e48600'},
-                  danger: {color: '#d2322d'},
-                  info: {color: '#39b3d7'},
-                  important: {color: '#81511c'},
-                  special: {color: '#8957a1'}
-              },
+              [
+                  {name: "success", color: 'green'},
+                  {name: "warning", color: 'yellow'},
+                  {name: "danger", color: 'red'},
+                  {name: "info", color: 'blue'},
+                  {name: "important", color: 'brown'},
+                  {name: "special", color: 'purple'},
+                  {name: "primary", color: 'primary'}
+              ],
               events: []
           };
           for (var i = count - 1; i >= 0; i--)
@@ -626,12 +627,12 @@ function afterPageLoad() {
         $this.calendar({data: data, clickEvent: function(e)
         {
             console.log(e);
-            $.messager.show('您点击了 <strong>' + e.event.title + '</strong>');
+            $.zui.messager.show('您点击了 <strong>' + e.event.title + '</strong>');
         }, beforeChange: function(e)
         {
             if(e.change === 'start')
             {
-                $.messager.show('起始时间更改为 ' + e.to.format('yyyy年MM月dd日 hh:mm'));
+                $.zui.messager.show('起始时间更改为 ' + e.to.format('yyyy年MM月dd日 hh:mm'));
             }
         }});
     });

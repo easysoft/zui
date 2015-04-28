@@ -57,7 +57,6 @@
 
     > .content
     {
-      padding: 1px;
       min-height: 70px;
       height: 100%;
     }
@@ -94,11 +93,7 @@
     &.current
     {
       background-color: @color-warning-pale;
-
-      > .day
-      {
-        border: 1px solid @color-gray;
-      }
+      box-shadow: inset 1px 1px 0 @color-gray, inset -1px -1px 0 @color-gray;
 
       > .day > .content
       {
@@ -107,7 +102,7 @@
 
       > .day > .heading
       {
-        background-color: darken(@color-warning-pale, 7%);
+        background-color: rgba(0, 0, 0, .1);
       }
     }
   }
@@ -116,8 +111,8 @@
   {
     cursor: pointer;
     padding: 1px 5px;
-    opacity: .9;
-    margin-bottom: 1px;
+    opacity: .95;
+    margin: 0 1px 1px;
     .bg-primary();
     .transition();
 
@@ -135,6 +130,13 @@
     {
       opacity: .25;
     }
+
+    &.color-red {.bg-danger();}
+    &.color-green {.bg-success();}
+    &.color-yellow {.bg-warning();}
+    &.color-blue {.bg-info();}
+    &.color-brown {.bg-important();}
+    &.color-purple {.bg-special();}
   }
 
   &.limit-event-title
