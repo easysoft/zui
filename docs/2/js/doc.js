@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-27
+ * ZUI - v1.3.0 - 2015-04-28
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -679,14 +679,26 @@
                         if(sectionName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['section', 'name'];
-                            weight = sectionName.startsWith(keyVal) ? 85 : 80;
+                            weight = sectionName.startsWith(keyVal) ? 85 : 82;
+                            break;
+                        }
+                        if(section.filter && section.filter.includes(keyVal)) {
+                            chooseThisKey = true;
+                            matchType = ['section', 'filter'];
+                            weight = 80;
                             break;
                         }
                         var chapterName = chapter.name.toLowerCase();
                         if(chapterName.includes(keyVal)) {
                             chooseThisKey = true;
                             matchType = ['chapter', 'name'];
-                            weight = chapterName.startsWith(keyVal) ? 75 : 70;
+                            weight = chapterName.startsWith(keyVal) ? 75 : 73;
+                            break;
+                        }
+                        if(chapter.filter && chapter.filter.includes(keyVal)) {
+                            chooseThisKey = true;
+                            matchType = ['chapter', 'filter'];
+                            weight = 70;
                             break;
                         }
                         if(keyVal.length > 1) {
@@ -1298,7 +1310,12 @@
             // console.log('keydown', code);
             var isPageNotShow = !$body.hasClass('page-show');
             var isInputFocus = $body.hasClass('input-query-focus');
-            if(code === 13) { // Enter
+            if(code === 9) { // Tab
+                if(!$body.hasClass('input-query-focus')) {
+                    $queryInput.focus();
+                    e.preventDefault();
+                }
+            } else if(code === 13) { // Enter
                 if(isPageNotShow && isChoosedSection()) {
                     openSection();
                 }

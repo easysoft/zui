@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-27
+ * ZUI - v1.3.0 - 2015-04-28
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -8400,7 +8400,6 @@ body.article-content {
 .calendar .day > .content {
   height: 100%;
   min-height: 70px;
-  padding: 1px;
 }
 .calendar .day.drop-to {
   background-color: #ffebd4;
@@ -8420,23 +8419,22 @@ body.article-content {
 }
 .calendar .cell-day.current {
   background-color: #ffebd4;
-}
-.calendar .cell-day.current > .day {
-  border: 1px solid #808080;
+  -webkit-box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #808080;
+          box-shadow: inset 1px 1px 0 #808080, inset -1px -1px 0 #808080;
 }
 .calendar .cell-day.current > .day > .content {
   padding: 0;
 }
 .calendar .cell-day.current > .day > .heading {
-  background-color: #ffdab0;
+  background-color: rgba(0, 0, 0, .1);
 }
 .calendar .event {
   padding: 1px 5px;
-  margin-bottom: 1px;
+  margin: 0 1px 1px;
   color: #fff;
   cursor: pointer;
   background-color: #3280fc;
-  opacity: .9;
+  opacity: .95;
   -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
@@ -8455,6 +8453,66 @@ a.calendar .event:hover {
 }
 .calendar .event.drag-from {
   opacity: .25;
+}
+.calendar .event.color-red {
+  color: #fff;
+  background-color: #ee4e2f;
+}
+a.calendar .event.color-red:hover {
+  background-color: #d83212;
+}
+a.calendar .event.color-red:hover {
+  background-color: #d83212;
+}
+.calendar .event.color-green {
+  color: #fff;
+  background-color: #2fb936;
+}
+a.calendar .event.color-green:hover {
+  background-color: #25902a;
+}
+a.calendar .event.color-green:hover {
+  background-color: #25902a;
+}
+.calendar .event.color-yellow {
+  color: #fff;
+  background-color: #fd9927;
+}
+a.calendar .event.color-yellow:hover {
+  background-color: #ef8002;
+}
+a.calendar .event.color-yellow:hover {
+  background-color: #ef8002;
+}
+.calendar .event.color-blue {
+  color: #fff;
+  background-color: #00acc1;
+}
+a.calendar .event.color-blue:hover {
+  background-color: #007f8e;
+}
+a.calendar .event.color-blue:hover {
+  background-color: #007f8e;
+}
+.calendar .event.color-brown {
+  color: #fff;
+  background-color: #bd7b46;
+}
+a.calendar .event.color-brown:hover {
+  background-color: #996337;
+}
+a.calendar .event.color-brown:hover {
+  background-color: #996337;
+}
+.calendar .event.color-purple {
+  color: #fff;
+  background-color: #8666b8;
+}
+a.calendar .event.color-purple:hover {
+  background-color: #6c4aa1;
+}
+a.calendar .event.color-purple:hover {
+  background-color: #6c4aa1;
 }
 .calendar.limit-event-title .event {
   overflow: hidden;
@@ -8527,7 +8585,7 @@ a.calendar .event:hover {
 .color-tile:hover:before {
   opacity: 1;
 }
-.color-primary {
+.colorset .color-primary {
   position: relative;
   display: block;
   float: left;
@@ -8540,8 +8598,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #0462f7;
 }
-.color-primary:after,
-.color-primary:before {
+.colorset .color-primary:after,
+.colorset .color-primary:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -8558,7 +8616,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-primary:after {
+.colorset .color-primary:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -8566,24 +8624,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-primary:hover:after,
-.color-primary:hover:before {
+.colorset .color-primary:hover:after,
+.colorset .color-primary:hover:before {
   opacity: 1;
 }
-.color-primary:after,
-.color-primary:before {
+.colorset .color-primary:after,
+.colorset .color-primary:before {
   color: #fff;
 }
-.color-primary:after {
+.colorset .color-primary:after {
   content: "#3280fc";
 }
-.color-primary:before {
+.colorset .color-primary:before {
   content: "color-primary";
 }
-.color-primary:hover:before {
+.colorset .color-primary:hover:before {
   content: "217,97%,59%";
 }
-.color-secondary {
+.colorset .color-secondary {
   position: relative;
   display: block;
   float: left;
@@ -8596,8 +8654,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #10479f;
 }
-.color-secondary:after,
-.color-secondary:before {
+.colorset .color-secondary:after,
+.colorset .color-secondary:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -8614,7 +8672,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-secondary:after {
+.colorset .color-secondary:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -8622,24 +8680,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-secondary:hover:after,
-.color-secondary:hover:before {
+.colorset .color-secondary:hover:after,
+.colorset .color-secondary:hover:before {
   opacity: 1;
 }
-.color-secondary:after,
-.color-secondary:before {
+.colorset .color-secondary:after,
+.colorset .color-secondary:before {
   color: #fff;
 }
-.color-secondary:after {
+.colorset .color-secondary:after {
   content: "#145ccd";
 }
-.color-secondary:before {
+.colorset .color-secondary:before {
   content: "color-secondary";
 }
-.color-secondary:hover:before {
+.colorset .color-secondary:hover:before {
   content: "217,82%,44%";
 }
-.color-pale {
+.colorset .color-pale {
   position: relative;
   display: block;
   float: left;
@@ -8652,8 +8710,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #a4c8fd;
 }
-.color-pale:after,
-.color-pale:before {
+.colorset .color-pale:after,
+.colorset .color-pale:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -8670,7 +8728,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-pale:after {
+.colorset .color-pale:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -8678,24 +8736,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-pale:hover:after,
-.color-pale:hover:before {
+.colorset .color-pale:hover:after,
+.colorset .color-pale:hover:before {
   opacity: 1;
 }
-.color-pale:after,
-.color-pale:before {
+.colorset .color-pale:after,
+.colorset .color-pale:before {
   color: #353535;
 }
-.color-pale:after {
+.colorset .color-pale:after {
   content: "#d6e6fe";
 }
-.color-pale:before {
+.colorset .color-pale:before {
   content: "color-pale";
 }
-.color-pale:hover:before {
+.colorset .color-pale:hover:before {
   content: "216,95%,92%";
 }
-.color-fore {
+.colorset .color-fore {
   position: relative;
   display: block;
   float: left;
@@ -8708,8 +8766,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #1c1c1c;
 }
-.color-fore:after,
-.color-fore:before {
+.colorset .color-fore:after,
+.colorset .color-fore:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -8726,7 +8784,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-fore:after {
+.colorset .color-fore:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -8734,24 +8792,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-fore:hover:after,
-.color-fore:hover:before {
+.colorset .color-fore:hover:after,
+.colorset .color-fore:hover:before {
   opacity: 1;
 }
-.color-fore:after,
-.color-fore:before {
+.colorset .color-fore:after,
+.colorset .color-fore:before {
   color: #fff;
 }
-.color-fore:after {
+.colorset .color-fore:after {
   content: "#353535";
 }
-.color-fore:before {
+.colorset .color-fore:before {
   content: "color-fore";
 }
-.color-fore:hover:before {
+.colorset .color-fore:hover:before {
   content: "0,0%,21%";
 }
-.color-back {
+.colorset .color-back {
   position: relative;
   display: block;
   float: left;
@@ -8764,8 +8822,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #e6e6e6;
 }
-.color-back:after,
-.color-back:before {
+.colorset .color-back:after,
+.colorset .color-back:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -8782,7 +8840,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-back:after {
+.colorset .color-back:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -8790,24 +8848,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-back:hover:after,
-.color-back:hover:before {
+.colorset .color-back:hover:after,
+.colorset .color-back:hover:before {
   opacity: 1;
 }
-.color-back:after,
-.color-back:before {
+.colorset .color-back:after,
+.colorset .color-back:before {
   color: #353535;
 }
-.color-back:after {
+.colorset .color-back:after {
   content: "#ffffff";
 }
-.color-back:before {
+.colorset .color-back:before {
   content: "color-back";
 }
-.color-back:hover:before {
+.colorset .color-back:hover:before {
   content: "0,0%,100%";
 }
-.color-gray-darker {
+.colorset .color-gray-darker {
   position: relative;
   display: block;
   float: left;
@@ -8820,8 +8878,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #090909;
 }
-.color-gray-darker:after,
-.color-gray-darker:before {
+.colorset .color-gray-darker:after,
+.colorset .color-gray-darker:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -8838,7 +8896,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-gray-darker:after {
+.colorset .color-gray-darker:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -8846,24 +8904,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-gray-darker:hover:after,
-.color-gray-darker:hover:before {
+.colorset .color-gray-darker:hover:after,
+.colorset .color-gray-darker:hover:before {
   opacity: 1;
 }
-.color-gray-darker:after,
-.color-gray-darker:before {
+.colorset .color-gray-darker:after,
+.colorset .color-gray-darker:before {
   color: #fff;
 }
-.color-gray-darker:after {
+.colorset .color-gray-darker:after {
   content: "#222222";
 }
-.color-gray-darker:before {
+.colorset .color-gray-darker:before {
   content: "color-gray-darker";
 }
-.color-gray-darker:hover:before {
+.colorset .color-gray-darker:hover:before {
   content: "0,0%,14%";
 }
-.color-gray-dark {
+.colorset .color-gray-dark {
   position: relative;
   display: block;
   float: left;
@@ -8876,8 +8934,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #1a1a1a;
 }
-.color-gray-dark:after,
-.color-gray-dark:before {
+.colorset .color-gray-dark:after,
+.colorset .color-gray-dark:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -8894,7 +8952,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-gray-dark:after {
+.colorset .color-gray-dark:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -8902,24 +8960,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-gray-dark:hover:after,
-.color-gray-dark:hover:before {
+.colorset .color-gray-dark:hover:after,
+.colorset .color-gray-dark:hover:before {
   opacity: 1;
 }
-.color-gray-dark:after,
-.color-gray-dark:before {
+.colorset .color-gray-dark:after,
+.colorset .color-gray-dark:before {
   color: #fff;
 }
-.color-gray-dark:after {
+.colorset .color-gray-dark:after {
   content: "#333333";
 }
-.color-gray-dark:before {
+.colorset .color-gray-dark:before {
   content: "color-gray-dark";
 }
-.color-gray-dark:hover:before {
+.colorset .color-gray-dark:hover:before {
   content: "0,0%,20%";
 }
-.color-gray {
+.colorset .color-gray {
   position: relative;
   display: block;
   float: left;
@@ -8932,8 +8990,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #666;
 }
-.color-gray:after,
-.color-gray:before {
+.colorset .color-gray:after,
+.colorset .color-gray:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -8950,7 +9008,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-gray:after {
+.colorset .color-gray:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -8958,24 +9016,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-gray:hover:after,
-.color-gray:hover:before {
+.colorset .color-gray:hover:after,
+.colorset .color-gray:hover:before {
   opacity: 1;
 }
-.color-gray:after,
-.color-gray:before {
+.colorset .color-gray:after,
+.colorset .color-gray:before {
   color: #fff;
 }
-.color-gray:after {
+.colorset .color-gray:after {
   content: "#808080";
 }
-.color-gray:before {
+.colorset .color-gray:before {
   content: "color-gray";
 }
-.color-gray:hover:before {
+.colorset .color-gray:hover:before {
   content: "0,0%,50%";
 }
-.color-gray-light {
+.colorset .color-gray-light {
   position: relative;
   display: block;
   float: left;
@@ -8988,8 +9046,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #c4c4c4;
 }
-.color-gray-light:after,
-.color-gray-light:before {
+.colorset .color-gray-light:after,
+.colorset .color-gray-light:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9006,7 +9064,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-gray-light:after {
+.colorset .color-gray-light:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9014,24 +9072,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-gray-light:hover:after,
-.color-gray-light:hover:before {
+.colorset .color-gray-light:hover:after,
+.colorset .color-gray-light:hover:before {
   opacity: 1;
 }
-.color-gray-light:after,
-.color-gray-light:before {
+.colorset .color-gray-light:after,
+.colorset .color-gray-light:before {
   color: #353535;
 }
-.color-gray-light:after {
+.colorset .color-gray-light:after {
   content: "#dddddd";
 }
-.color-gray-light:before {
+.colorset .color-gray-light:before {
   content: "color-gray-light";
 }
-.color-gray-light:hover:before {
+.colorset .color-gray-light:hover:before {
   content: "0,0%,87%";
 }
-.color-gray-lighter {
+.colorset .color-gray-lighter {
   position: relative;
   display: block;
   float: left;
@@ -9044,8 +9102,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #cbcbcb;
 }
-.color-gray-lighter:after,
-.color-gray-lighter:before {
+.colorset .color-gray-lighter:after,
+.colorset .color-gray-lighter:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9062,7 +9120,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-gray-lighter:after {
+.colorset .color-gray-lighter:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9070,24 +9128,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-gray-lighter:hover:after,
-.color-gray-lighter:hover:before {
+.colorset .color-gray-lighter:hover:after,
+.colorset .color-gray-lighter:hover:before {
   opacity: 1;
 }
-.color-gray-lighter:after,
-.color-gray-lighter:before {
+.colorset .color-gray-lighter:after,
+.colorset .color-gray-lighter:before {
   color: #353535;
 }
-.color-gray-lighter:after {
+.colorset .color-gray-lighter:after {
   content: "#e5e5e5";
 }
-.color-gray-lighter:before {
+.colorset .color-gray-lighter:before {
   content: "color-gray-lighter";
 }
-.color-gray-lighter:hover:before {
+.colorset .color-gray-lighter:hover:before {
   content: "0,0%,90%";
 }
-.color-gray-pale {
+.colorset .color-gray-pale {
   position: relative;
   display: block;
   float: left;
@@ -9100,8 +9158,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #d7d7d7;
 }
-.color-gray-pale:after,
-.color-gray-pale:before {
+.colorset .color-gray-pale:after,
+.colorset .color-gray-pale:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9118,7 +9176,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-gray-pale:after {
+.colorset .color-gray-pale:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9126,24 +9184,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-gray-pale:hover:after,
-.color-gray-pale:hover:before {
+.colorset .color-gray-pale:hover:after,
+.colorset .color-gray-pale:hover:before {
   opacity: 1;
 }
-.color-gray-pale:after,
-.color-gray-pale:before {
+.colorset .color-gray-pale:after,
+.colorset .color-gray-pale:before {
   color: #353535;
 }
-.color-gray-pale:after {
+.colorset .color-gray-pale:after {
   content: "#f1f1f1";
 }
-.color-gray-pale:before {
+.colorset .color-gray-pale:before {
   content: "color-gray-pale";
 }
-.color-gray-pale:hover:before {
+.colorset .color-gray-pale:hover:before {
   content: "0,0%,95%";
 }
-.color-white {
+.colorset .color-white {
   position: relative;
   display: block;
   float: left;
@@ -9156,8 +9214,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #e6e6e6;
 }
-.color-white:after,
-.color-white:before {
+.colorset .color-white:after,
+.colorset .color-white:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9174,7 +9232,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-white:after {
+.colorset .color-white:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9182,24 +9240,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-white:hover:after,
-.color-white:hover:before {
+.colorset .color-white:hover:after,
+.colorset .color-white:hover:before {
   opacity: 1;
 }
-.color-white:after,
-.color-white:before {
+.colorset .color-white:after,
+.colorset .color-white:before {
   color: #353535;
 }
-.color-white:after {
+.colorset .color-white:after {
   content: "#ffffff";
 }
-.color-white:before {
+.colorset .color-white:before {
   content: "color-white";
 }
-.color-white:hover:before {
+.colorset .color-white:hover:before {
   content: "0,0%,100%";
 }
-.color-black {
+.colorset .color-black {
   position: relative;
   display: block;
   float: left;
@@ -9212,8 +9270,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #000;
 }
-.color-black:after,
-.color-black:before {
+.colorset .color-black:after,
+.colorset .color-black:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9230,7 +9288,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-black:after {
+.colorset .color-black:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9238,24 +9296,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-black:hover:after,
-.color-black:hover:before {
+.colorset .color-black:hover:after,
+.colorset .color-black:hover:before {
   opacity: 1;
 }
-.color-black:after,
-.color-black:before {
+.colorset .color-black:after,
+.colorset .color-black:before {
   color: #fff;
 }
-.color-black:after {
+.colorset .color-black:after {
   content: "#000000";
 }
-.color-black:before {
+.colorset .color-black:before {
   content: "color-black";
 }
-.color-black:hover:before {
+.colorset .color-black:hover:before {
   content: "0,0%,0%";
 }
-.color-red {
+.colorset .color-red {
   position: relative;
   display: block;
   float: left;
@@ -9268,8 +9326,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #d83212;
 }
-.color-red:after,
-.color-red:before {
+.colorset .color-red:after,
+.colorset .color-red:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9286,7 +9344,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-red:after {
+.colorset .color-red:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9294,24 +9352,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-red:hover:after,
-.color-red:hover:before {
+.colorset .color-red:hover:after,
+.colorset .color-red:hover:before {
   opacity: 1;
 }
-.color-red:after,
-.color-red:before {
+.colorset .color-red:after,
+.colorset .color-red:before {
   color: #fff;
 }
-.color-red:after {
+.colorset .color-red:after {
   content: "#ee4e2f";
 }
-.color-red:before {
+.colorset .color-red:before {
   content: "color-red";
 }
-.color-red:hover:before {
+.colorset .color-red:hover:before {
   content: "10,85%,56%";
 }
-.color-yellow {
+.colorset .color-yellow {
   position: relative;
   display: block;
   float: left;
@@ -9324,8 +9382,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #ef8002;
 }
-.color-yellow:after,
-.color-yellow:before {
+.colorset .color-yellow:after,
+.colorset .color-yellow:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9342,7 +9400,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-yellow:after {
+.colorset .color-yellow:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9350,24 +9408,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-yellow:hover:after,
-.color-yellow:hover:before {
+.colorset .color-yellow:hover:after,
+.colorset .color-yellow:hover:before {
   opacity: 1;
 }
-.color-yellow:after,
-.color-yellow:before {
+.colorset .color-yellow:after,
+.colorset .color-yellow:before {
   color: #fff;
 }
-.color-yellow:after {
+.colorset .color-yellow:after {
   content: "#fd9927";
 }
-.color-yellow:before {
+.colorset .color-yellow:before {
   content: "color-yellow";
 }
-.color-yellow:hover:before {
+.colorset .color-yellow:hover:before {
   content: "32,98%,57%";
 }
-.color-green {
+.colorset .color-green {
   position: relative;
   display: block;
   float: left;
@@ -9380,8 +9438,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #25902a;
 }
-.color-green:after,
-.color-green:before {
+.colorset .color-green:after,
+.colorset .color-green:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9398,7 +9456,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-green:after {
+.colorset .color-green:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9406,24 +9464,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-green:hover:after,
-.color-green:hover:before {
+.colorset .color-green:hover:after,
+.colorset .color-green:hover:before {
   opacity: 1;
 }
-.color-green:after,
-.color-green:before {
+.colorset .color-green:after,
+.colorset .color-green:before {
   color: #fff;
 }
-.color-green:after {
+.colorset .color-green:after {
   content: "#2fb936";
 }
-.color-green:before {
+.colorset .color-green:before {
   content: "color-green";
 }
-.color-green:hover:before {
+.colorset .color-green:hover:before {
   content: "123,59%,45%";
 }
-.color-blue {
+.colorset .color-blue {
   position: relative;
   display: block;
   float: left;
@@ -9436,8 +9494,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #007f8e;
 }
-.color-blue:after,
-.color-blue:before {
+.colorset .color-blue:after,
+.colorset .color-blue:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9454,7 +9512,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-blue:after {
+.colorset .color-blue:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9462,24 +9520,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-blue:hover:after,
-.color-blue:hover:before {
+.colorset .color-blue:hover:after,
+.colorset .color-blue:hover:before {
   opacity: 1;
 }
-.color-blue:after,
-.color-blue:before {
+.colorset .color-blue:after,
+.colorset .color-blue:before {
   color: #fff;
 }
-.color-blue:after {
+.colorset .color-blue:after {
   content: "#00acc1";
 }
-.color-blue:before {
+.colorset .color-blue:before {
   content: "color-blue";
 }
-.color-blue:hover:before {
+.colorset .color-blue:hover:before {
   content: "187,100%,38%";
 }
-.color-brown {
+.colorset .color-brown {
   position: relative;
   display: block;
   float: left;
@@ -9492,8 +9550,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #996337;
 }
-.color-brown:after,
-.color-brown:before {
+.colorset .color-brown:after,
+.colorset .color-brown:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9510,7 +9568,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-brown:after {
+.colorset .color-brown:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9518,24 +9576,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-brown:hover:after,
-.color-brown:hover:before {
+.colorset .color-brown:hover:after,
+.colorset .color-brown:hover:before {
   opacity: 1;
 }
-.color-brown:after,
-.color-brown:before {
+.colorset .color-brown:after,
+.colorset .color-brown:before {
   color: #fff;
 }
-.color-brown:after {
+.colorset .color-brown:after {
   content: "#bd7b46";
 }
-.color-brown:before {
+.colorset .color-brown:before {
   content: "color-brown";
 }
-.color-brown:hover:before {
+.colorset .color-brown:hover:before {
   content: "27,47%,51%";
 }
-.color-purple {
+.colorset .color-purple {
   position: relative;
   display: block;
   float: left;
@@ -9548,8 +9606,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #6c4aa1;
 }
-.color-purple:after,
-.color-purple:before {
+.colorset .color-purple:after,
+.colorset .color-purple:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9566,7 +9624,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-purple:after {
+.colorset .color-purple:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9574,24 +9632,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-purple:hover:after,
-.color-purple:hover:before {
+.colorset .color-purple:hover:after,
+.colorset .color-purple:hover:before {
   opacity: 1;
 }
-.color-purple:after,
-.color-purple:before {
+.colorset .color-purple:after,
+.colorset .color-purple:before {
   color: #fff;
 }
-.color-purple:after {
+.colorset .color-purple:after {
   content: "#8666b8";
 }
-.color-purple:before {
+.colorset .color-purple:before {
   content: "color-purple";
 }
-.color-purple:hover:before {
+.colorset .color-purple:hover:before {
   content: "263,37%,56%";
 }
-.color-light {
+.colorset .color-light {
   position: relative;
   display: block;
   float: left;
@@ -9604,8 +9662,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #e6e6e6;
 }
-.color-light:after,
-.color-light:before {
+.colorset .color-light:after,
+.colorset .color-light:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9622,7 +9680,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-light:after {
+.colorset .color-light:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9630,24 +9688,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-light:hover:after,
-.color-light:hover:before {
+.colorset .color-light:hover:after,
+.colorset .color-light:hover:before {
   opacity: 1;
 }
-.color-light:after,
-.color-light:before {
+.colorset .color-light:after,
+.colorset .color-light:before {
   color: #353535;
 }
-.color-light:after {
+.colorset .color-light:after {
   content: "#ffffff";
 }
-.color-light:before {
+.colorset .color-light:before {
   content: "color-light";
 }
-.color-light:hover:before {
+.colorset .color-light:hover:before {
   content: "0,0%,100%";
 }
-.color-dark {
+.colorset .color-dark {
   position: relative;
   display: block;
   float: left;
@@ -9660,8 +9718,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #1c1c1c;
 }
-.color-dark:after,
-.color-dark:before {
+.colorset .color-dark:after,
+.colorset .color-dark:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9678,7 +9736,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-dark:after {
+.colorset .color-dark:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9686,24 +9744,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-dark:hover:after,
-.color-dark:hover:before {
+.colorset .color-dark:hover:after,
+.colorset .color-dark:hover:before {
   opacity: 1;
 }
-.color-dark:after,
-.color-dark:before {
+.colorset .color-dark:after,
+.colorset .color-dark:before {
   color: #fff;
 }
-.color-dark:after {
+.colorset .color-dark:after {
   content: "#353535";
 }
-.color-dark:before {
+.colorset .color-dark:before {
   content: "color-dark";
 }
-.color-dark:hover:before {
+.colorset .color-dark:hover:before {
   content: "0,0%,21%";
 }
-.color-success {
+.colorset .color-success {
   position: relative;
   display: block;
   float: left;
@@ -9716,8 +9774,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #25902a;
 }
-.color-success:after,
-.color-success:before {
+.colorset .color-success:after,
+.colorset .color-success:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9734,7 +9792,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-success:after {
+.colorset .color-success:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9742,24 +9800,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-success:hover:after,
-.color-success:hover:before {
+.colorset .color-success:hover:after,
+.colorset .color-success:hover:before {
   opacity: 1;
 }
-.color-success:after,
-.color-success:before {
+.colorset .color-success:after,
+.colorset .color-success:before {
   color: #fff;
 }
-.color-success:after {
+.colorset .color-success:after {
   content: "#2fb936";
 }
-.color-success:before {
+.colorset .color-success:before {
   content: "color-success";
 }
-.color-success:hover:before {
+.colorset .color-success:hover:before {
   content: "123,59%,45%";
 }
-.color-warning {
+.colorset .color-warning {
   position: relative;
   display: block;
   float: left;
@@ -9772,8 +9830,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #ef8002;
 }
-.color-warning:after,
-.color-warning:before {
+.colorset .color-warning:after,
+.colorset .color-warning:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9790,7 +9848,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-warning:after {
+.colorset .color-warning:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9798,24 +9856,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-warning:hover:after,
-.color-warning:hover:before {
+.colorset .color-warning:hover:after,
+.colorset .color-warning:hover:before {
   opacity: 1;
 }
-.color-warning:after,
-.color-warning:before {
+.colorset .color-warning:after,
+.colorset .color-warning:before {
   color: #fff;
 }
-.color-warning:after {
+.colorset .color-warning:after {
   content: "#fd9927";
 }
-.color-warning:before {
+.colorset .color-warning:before {
   content: "color-warning";
 }
-.color-warning:hover:before {
+.colorset .color-warning:hover:before {
   content: "32,98%,57%";
 }
-.color-danger {
+.colorset .color-danger {
   position: relative;
   display: block;
   float: left;
@@ -9828,8 +9886,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #d83212;
 }
-.color-danger:after,
-.color-danger:before {
+.colorset .color-danger:after,
+.colorset .color-danger:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9846,7 +9904,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-danger:after {
+.colorset .color-danger:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9854,24 +9912,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-danger:hover:after,
-.color-danger:hover:before {
+.colorset .color-danger:hover:after,
+.colorset .color-danger:hover:before {
   opacity: 1;
 }
-.color-danger:after,
-.color-danger:before {
+.colorset .color-danger:after,
+.colorset .color-danger:before {
   color: #fff;
 }
-.color-danger:after {
+.colorset .color-danger:after {
   content: "#ee4e2f";
 }
-.color-danger:before {
+.colorset .color-danger:before {
   content: "color-danger";
 }
-.color-danger:hover:before {
+.colorset .color-danger:hover:before {
   content: "10,85%,56%";
 }
-.color-info {
+.colorset .color-info {
   position: relative;
   display: block;
   float: left;
@@ -9884,8 +9942,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #007f8e;
 }
-.color-info:after,
-.color-info:before {
+.colorset .color-info:after,
+.colorset .color-info:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9902,7 +9960,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-info:after {
+.colorset .color-info:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9910,24 +9968,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-info:hover:after,
-.color-info:hover:before {
+.colorset .color-info:hover:after,
+.colorset .color-info:hover:before {
   opacity: 1;
 }
-.color-info:after,
-.color-info:before {
+.colorset .color-info:after,
+.colorset .color-info:before {
   color: #fff;
 }
-.color-info:after {
+.colorset .color-info:after {
   content: "#00acc1";
 }
-.color-info:before {
+.colorset .color-info:before {
   content: "color-info";
 }
-.color-info:hover:before {
+.colorset .color-info:hover:before {
   content: "187,100%,38%";
 }
-.color-important {
+.colorset .color-important {
   position: relative;
   display: block;
   float: left;
@@ -9940,8 +9998,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #996337;
 }
-.color-important:after,
-.color-important:before {
+.colorset .color-important:after,
+.colorset .color-important:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -9958,7 +10016,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-important:after {
+.colorset .color-important:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -9966,24 +10024,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-important:hover:after,
-.color-important:hover:before {
+.colorset .color-important:hover:after,
+.colorset .color-important:hover:before {
   opacity: 1;
 }
-.color-important:after,
-.color-important:before {
+.colorset .color-important:after,
+.colorset .color-important:before {
   color: #fff;
 }
-.color-important:after {
+.colorset .color-important:after {
   content: "#bd7b46";
 }
-.color-important:before {
+.colorset .color-important:before {
   content: "color-important";
 }
-.color-important:hover:before {
+.colorset .color-important:hover:before {
   content: "27,47%,51%";
 }
-.color-special {
+.colorset .color-special {
   position: relative;
   display: block;
   float: left;
@@ -9996,8 +10054,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #6c4aa1;
 }
-.color-special:after,
-.color-special:before {
+.colorset .color-special:after,
+.colorset .color-special:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10014,7 +10072,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-special:after {
+.colorset .color-special:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10022,24 +10080,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-special:hover:after,
-.color-special:hover:before {
+.colorset .color-special:hover:after,
+.colorset .color-special:hover:before {
   opacity: 1;
 }
-.color-special:after,
-.color-special:before {
+.colorset .color-special:after,
+.colorset .color-special:before {
   color: #fff;
 }
-.color-special:after {
+.colorset .color-special:after {
   content: "#8666b8";
 }
-.color-special:before {
+.colorset .color-special:before {
   content: "color-special";
 }
-.color-special:hover:before {
+.colorset .color-special:hover:before {
   content: "263,37%,56%";
 }
-.color-success-pale {
+.colorset .color-success-pale {
   position: relative;
   display: block;
   float: left;
@@ -10052,8 +10110,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #afe4b3;
 }
-.color-success-pale:after,
-.color-success-pale:before {
+.colorset .color-success-pale:after,
+.colorset .color-success-pale:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10070,7 +10128,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-success-pale:after {
+.colorset .color-success-pale:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10078,24 +10136,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-success-pale:hover:after,
-.color-success-pale:hover:before {
+.colorset .color-success-pale:hover:after,
+.colorset .color-success-pale:hover:before {
   opacity: 1;
 }
-.color-success-pale:after,
-.color-success-pale:before {
+.colorset .color-success-pale:after,
+.colorset .color-success-pale:before {
   color: #353535;
 }
-.color-success-pale:after {
+.colorset .color-success-pale:after {
   content: "#d5f1d7";
 }
-.color-success-pale:before {
+.colorset .color-success-pale:before {
   content: "color-success-pale";
 }
-.color-success-pale:hover:before {
+.colorset .color-success-pale:hover:before {
   content: "124,50%,89%";
 }
-.color-warning-pale {
+.colorset .color-warning-pale {
   position: relative;
   display: block;
   float: left;
@@ -10108,8 +10166,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #ffd3a1;
 }
-.color-warning-pale:after,
-.color-warning-pale:before {
+.colorset .color-warning-pale:after,
+.colorset .color-warning-pale:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10126,7 +10184,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-warning-pale:after {
+.colorset .color-warning-pale:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10134,24 +10192,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-warning-pale:hover:after,
-.color-warning-pale:hover:before {
+.colorset .color-warning-pale:hover:after,
+.colorset .color-warning-pale:hover:before {
   opacity: 1;
 }
-.color-warning-pale:after,
-.color-warning-pale:before {
+.colorset .color-warning-pale:after,
+.colorset .color-warning-pale:before {
   color: #353535;
 }
-.color-warning-pale:after {
+.colorset .color-warning-pale:after {
   content: "#ffebd4";
 }
-.color-warning-pale:before {
+.colorset .color-warning-pale:before {
   content: "color-warning-pale";
 }
-.color-warning-pale:hover:before {
+.colorset .color-warning-pale:hover:before {
   content: "32,100%,92%";
 }
-.color-danger-pale {
+.colorset .color-danger-pale {
   position: relative;
   display: block;
   float: left;
@@ -10164,8 +10222,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #f9b4a5;
 }
-.color-danger-pale:after,
-.color-danger-pale:before {
+.colorset .color-danger-pale:after,
+.colorset .color-danger-pale:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10182,7 +10240,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-danger-pale:after {
+.colorset .color-danger-pale:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10190,24 +10248,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-danger-pale:hover:after,
-.color-danger-pale:hover:before {
+.colorset .color-danger-pale:hover:after,
+.colorset .color-danger-pale:hover:before {
   opacity: 1;
 }
-.color-danger-pale:after,
-.color-danger-pale:before {
+.colorset .color-danger-pale:after,
+.colorset .color-danger-pale:before {
   color: #353535;
 }
-.color-danger-pale:after {
+.colorset .color-danger-pale:after {
   content: "#fcdcd5";
 }
-.color-danger-pale:before {
+.colorset .color-danger-pale:before {
   content: "color-danger-pale";
 }
-.color-danger-pale:hover:before {
+.colorset .color-danger-pale:hover:before {
   content: "11,87%,91%";
 }
-.color-info-pale {
+.colorset .color-info-pale {
   position: relative;
   display: block;
   float: left;
@@ -10220,8 +10278,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #a8e9ef;
 }
-.color-info-pale:after,
-.color-info-pale:before {
+.colorset .color-info-pale:after,
+.colorset .color-info-pale:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10238,7 +10296,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-info-pale:after {
+.colorset .color-info-pale:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10246,24 +10304,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-info-pale:hover:after,
-.color-info-pale:hover:before {
+.colorset .color-info-pale:hover:after,
+.colorset .color-info-pale:hover:before {
   opacity: 1;
 }
-.color-info-pale:after,
-.color-info-pale:before {
+.colorset .color-info-pale:after,
+.colorset .color-info-pale:before {
   color: #353535;
 }
-.color-info-pale:after {
+.colorset .color-info-pale:after {
   content: "#d3f4f7";
 }
-.color-info-pale:before {
+.colorset .color-info-pale:before {
   content: "color-info-pale";
 }
-.color-info-pale:hover:before {
+.colorset .color-info-pale:hover:before {
   content: "185,69%,90%";
 }
-.color-important-pale {
+.colorset .color-important-pale {
   position: relative;
   display: block;
   float: left;
@@ -10276,8 +10334,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #e5cab4;
 }
-.color-important-pale:after,
-.color-important-pale:before {
+.colorset .color-important-pale:after,
+.colorset .color-important-pale:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10294,7 +10352,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-important-pale:after {
+.colorset .color-important-pale:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10302,24 +10360,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-important-pale:hover:after,
-.color-important-pale:hover:before {
+.colorset .color-important-pale:hover:after,
+.colorset .color-important-pale:hover:before {
   opacity: 1;
 }
-.color-important-pale:after,
-.color-important-pale:before {
+.colorset .color-important-pale:after,
+.colorset .color-important-pale:before {
   color: #353535;
 }
-.color-important-pale:after {
+.colorset .color-important-pale:after {
   content: "#f2e5da";
 }
-.color-important-pale:before {
+.colorset .color-important-pale:before {
   content: "color-important-pale";
 }
-.color-important-pale:hover:before {
+.colorset .color-important-pale:hover:before {
   content: "28,48%,90%";
 }
-.color-special-pale {
+.colorset .color-special-pale {
   position: relative;
   display: block;
   float: left;
@@ -10332,8 +10390,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #ccbde1;
 }
-.color-special-pale:after,
-.color-special-pale:before {
+.colorset .color-special-pale:after,
+.colorset .color-special-pale:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10350,7 +10408,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-special-pale:after {
+.colorset .color-special-pale:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10358,24 +10416,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-special-pale:hover:after,
-.color-special-pale:hover:before {
+.colorset .color-special-pale:hover:after,
+.colorset .color-special-pale:hover:before {
   opacity: 1;
 }
-.color-special-pale:after,
-.color-special-pale:before {
+.colorset .color-special-pale:after,
+.colorset .color-special-pale:before {
   color: #353535;
 }
-.color-special-pale:after {
+.colorset .color-special-pale:after {
   content: "#e7e0f1";
 }
-.color-special-pale:before {
+.colorset .color-special-pale:before {
   content: "color-special-pale";
 }
-.color-special-pale:hover:before {
+.colorset .color-special-pale:hover:before {
   content: "265,38%,91%";
 }
-.color-1 {
+.colorset .color-1 {
   position: relative;
   display: block;
   float: left;
@@ -10388,8 +10446,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #dfdfdf;
 }
-.color-1:after,
-.color-1:before {
+.colorset .color-1:after,
+.colorset .color-1:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10406,7 +10464,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-1:after {
+.colorset .color-1:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10414,24 +10472,24 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-1:hover:after,
-.color-1:hover:before {
+.colorset .color-1:hover:after,
+.colorset .color-1:hover:before {
   opacity: 1;
 }
-.color-1:after,
-.color-1:before {
+.colorset .color-1:after,
+.colorset .color-1:before {
   color: #353535;
 }
-.color-1:after {
+.colorset .color-1:after {
   content: "#f9f9f9";
 }
-.color-1:before {
+.colorset .color-1:before {
   content: "color-1";
 }
-.color-1:hover:before {
+.colorset .color-1:hover:before {
   content: "0,0%,98%";
 }
-.color-2 {
+.colorset .color-2 {
   position: relative;
   display: block;
   float: left;
@@ -10444,8 +10502,8 @@ a.calendar .event:hover {
   border: 1px solid rgba(0, 0, 0, .5);
   border-color: #dcdcdc;
 }
-.color-2:after,
-.color-2:before {
+.colorset .color-2:after,
+.colorset .color-2:before {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -10462,7 +10520,7 @@ a.calendar .event:hover {
        -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
           transition: all .5s cubic-bezier(.175, .885, .32, 1);
 }
-.color-2:after {
+.colorset .color-2:after {
   top: 0;
   bottom: auto;
   color: rgba(255, 255, 255, .9);
@@ -10470,21 +10528,21 @@ a.calendar .event:hover {
   text-transform: uppercase;
   background-color: transparent;
 }
-.color-2:hover:after,
-.color-2:hover:before {
+.colorset .color-2:hover:after,
+.colorset .color-2:hover:before {
   opacity: 1;
 }
-.color-2:after,
-.color-2:before {
+.colorset .color-2:after,
+.colorset .color-2:before {
   color: #353535;
 }
-.color-2:after {
+.colorset .color-2:after {
   content: "#f5f5f5";
 }
-.color-2:before {
+.colorset .color-2:before {
   content: "color-2";
 }
-.color-2:hover:before {
+.colorset .color-2:hover:before {
   content: "0,0%,96%";
 }
 .chosen-container {
