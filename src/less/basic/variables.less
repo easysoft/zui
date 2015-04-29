@@ -16,12 +16,12 @@
 @state-success-text:         @color-success;
 @state-success-bg:           @color-success-pale;
 @state-success-inverse-bg:   @color-success;
-@state-success-border:       darken(spin(@state-success-bg, -10), 5%);
+@state-success-border:       darken(spin(@state-success-bg, -10), 7%);
 
 @state-info-text:            @color-info;
 @state-info-bg:              @color-info-pale;
 @state-info-inverse-bg:      @color-info;
-@state-info-border:          darken(spin(@state-info-bg, -10), 7%);
+@state-info-border:          darken(spin(@state-info-bg, -10), 10%);
 
 @state-warning-text:         @color-warning;
 @state-warning-bg:           @color-warning-pale;
@@ -415,6 +415,10 @@
 @alert-padding:               15px;
 @alert-border-radius:         @border-radius-small;
 @alert-link-font-weight:      bold;
+
+@alert-primary-bg:            @color-pale;
+@alert-primary-text:          @color-fore;
+@alert-primary-border:        darken(@color-pale, 7%);
 
 @alert-default-bg:            @state-default-bg;
 @alert-default-text:          @state-default-text;

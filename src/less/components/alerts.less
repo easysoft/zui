@@ -28,13 +28,17 @@
     font-weight: @alert-link-font-weight;
   }
 
+  hr {
+    margin: 10px 0;
+  }
+
   // Improve alignment and spacing of inner content
-  > p,
-  > ul
+  p,
+  ul
   {
     margin-bottom: 0;
   }
-  > p + p
+  p + p
   {
     margin-top: 5px;
   }
@@ -50,7 +54,7 @@
 
   >[class*="icon-"] + .content
   {
-    margin-left: 50px;
+    margin-left: 64px;
     min-height: 30px;
   }
 
@@ -70,7 +74,8 @@
 
     >[class*="icon-"]
     {
-      width: 40px;
+      width: 48px;
+      text-align: center;
     }
 
     >[class*="icon-"] + .content
@@ -83,8 +88,8 @@
 // Block alert
 .alert-block
 {
-    margin: 0;
-    border-radius: 0;
+  margin: 0;
+  border-radius: 0;
 }
 
 // Dismissable alerts
@@ -109,7 +114,10 @@
 // Alternate styles
 //
 // Generate contextual modifier classes for colorizing the alert.
-
+.alert-primary
+{
+  .alert-variant(@alert-primary-bg; @alert-primary-border; @alert-primary-text);
+}
 .alert-success
 {
   .alert-variant(@alert-success-bg; @alert-success-border; @alert-success-text);

@@ -539,12 +539,12 @@
       "ver": "1.0.0",
       "dpds": ["basic"]
     },
-    "alerts.hover":
+    "alerts.inverse":
     {
       "name": "消息框增强样式",
       "src":
       {
-        "less": ["src/less/components/alerts.hover.less"]
+        "less": ["src/less/components/alerts.inverse.less"]
       },
       "ver": "1.0.0",
       "dpds": ["alerts.basic"]
@@ -552,7 +552,7 @@
     "alerts":
     {
       "name": "消息框",
-      "dpds": ["alerts.basic", "alerts.hover"]
+      "dpds": ["alerts.basic", "alerts.inverse"]
     },
     "inputgroups.basic":
     {

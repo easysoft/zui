@@ -545,13 +545,27 @@
 // -------------------------
 .alert-variant(@background; @border; @text-color) {
   background-color: @background;
+  // border-color: darken(@background, 10%);
   border-color: @border;
-  color: @text-color;
+  color: darken(@text-color, 5%);
   hr {
-    border-top-color: darken(@border, 5%);
+    border-top-color: @border;
   }
   .alert-link {
-    color: darken(@text-color, 10%);
+    color: darken(@text-color, 12%);
+  }
+}
+
+.alert-inverse-variant(@color;) {
+  background-color: @color;
+  border-color: @color;
+  color: @color-white;
+  hr {
+    border-top-color: @color-gray-light; // fallback color
+    border-top-color: fade(@color-gray-light, 25%);
+  }
+  .alert-link {
+    color: fade(@color-white, 80%);
   }
 }
 
