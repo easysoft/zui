@@ -6,12 +6,21 @@
   <header><h3>不同感情色彩的消息框</h3></header>
   <article>
     <p>这里提供了5中色彩的消息框用于不同场合。</p>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <div class="alert">
-        <strong>你好!</strong> 有一些内容你可能需要知道。
+        <h4>你好</h4>
+        <hr>
+        <p>有一些内容你可能需要知道。</p>
+      </div>
+      <div class="alert alert-primary">
+        <h4>Hello</h4>
+        <hr>
+        <p>World.</p>
       </div>
       <div class="alert alert-success">
-        <strong>太好了!</strong> 一切已准备就绪。
+        <h4>太好了!</h4>
+        <hr>
+        <strong>一切已准备就绪。</strong>
       </div>
       <div class="alert alert-info">
         <strong>Hi!</strong> 这条消息可能需要你注意。
@@ -20,11 +29,13 @@
         <strong>注意!</strong> 看起来遇到一些问题。
       </div>
       <div class="alert alert-danger">
-        <strong>不好了!</strong> 确实遇到了问题，请立即处理吧。
+        <h4>不好了!</h4>
+        <p>确实遇到了问题，请立即处理吧。</p>
       </div>
     </div>
 <pre class="prettyprint">
 &lt;div class=&quot;alert&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-primary&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-danger&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-success&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-warning&quot;&gt;...&lt;/div&gt;
@@ -38,21 +49,45 @@
   <article>
     <p>
     在消息框中使用醒目的合适的图标能更容易让用户接收。需要使<code>.alert</code>配合<code>.with-icon</code>参数一起使用。</p>
-    <div class="example" contenteditable="true">
-      <div class="alert with-icon content">
-        <strong>你好!</strong> 有一些内容你可能需要知道。
+    <div class="example">
+      <div class="alert with-icon">
+        <i class="icon-inbox"></i>
+        <div class="content">
+          <h4>你好</h4>
+          <hr>
+          <p>有一些内容你可能需要知道。</p>
+        </div>
       </div>
-      <div class="alert alert-success with-icon content">
-        <strong>太好了!</strong> 一切已准备就绪。
+      <div class="alert alert-success with-icon">
+        <i class="icon-ok-sign"></i>
+        <div class="content">
+          <h4>太好了!</h4>
+          <hr>
+          <strong>一切已准备就绪。</strong>
+        </div>
       </div>
-      <div class="alert alert-info with-icon content">
-        <strong>Hi!</strong> 这条消息可能需要你注意。
+      <div class="alert alert-primary with-icon">
+        <i class="icon-star"></i>
+        <div class="content">
+          <h4>Hello</h4>
+          <hr>
+          <p>World.</p>
+        </div>
       </div>
-      <div class="alert alert-warning with-icon content">
-        <strong>注意!</strong> 看起来遇到一些问题。
+      <div class="alert alert-info with-icon">
+        <i class="icon-info-sign"></i>
+        <div class="content"><strong>Hi!</strong> 这条消息可能需要你注意。</div>
       </div>
-      <div class="alert alert-danger with-icon content">
-        <strong>不好了!</strong> 确实遇到了问题，请立即处理吧。
+      <div class="alert alert-warning with-icon">
+        <i class="icon-frown"></i>
+        <div class="content"><strong>注意!</strong> 看起来遇到一些问题。</div>
+      </div>
+      <div class="alert alert-danger with-icon">
+        <i class="icon-remove-sign"></i>
+        <div class="content">
+          <h4>不好了!</h4>
+          <p>确实遇到了问题，请立即处理吧。</p>
+        </div>
       </div>
     </div>
 <pre class="prettyprint">
@@ -60,6 +95,61 @@
   &lt;i class=&quot;icon-ok-sign&quot;&gt;&lt;/i&gt;
   &lt;div class=&quot;content&quot;&gt;...&lt;/div&gt;
 &lt;/div&gt;
+</pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>使用反色主题</h3></header>
+  <article>
+    <div class="example">
+      <div class="alert alert-inverse with-icon">
+        <i class="icon-inbox"></i>
+        <div class="content">
+          <h4>你好</h4>
+          <hr>
+          <p>有一些内容你可能需要知道。</p>
+        </div>
+      </div>
+      <div class="alert alert-primary-inverse with-icon">
+        <i class="icon-star"></i>
+        <div class="content">
+          <h4>Hello</h4>
+          <hr>
+          <p>World.</p>
+        </div>
+      </div>
+      <div class="alert alert-success-inverse with-icon">
+        <i class="icon-ok-sign"></i>
+        <div class="content">
+          <h4>太好了!</h4>
+          <hr>
+          <strong>一切已准备就绪。</strong>
+        </div>
+      </div>
+      <div class="alert alert-info-inverse with-icon">
+        <i class="icon-info-sign"></i>
+        <div class="content"><strong>Hi!</strong> 这条消息可能需要你注意。</div>
+      </div>
+      <div class="alert alert-warning-inverse with-icon">
+        <i class="icon-frown"></i>
+        <div class="content"><strong>注意!</strong> 看起来遇到一些问题。</div>
+      </div>
+      <div class="alert alert-danger-inverse with-icon">
+        <i class="icon-remove-sign"></i>
+        <div class="content">
+          <h4>不好了!</h4>
+          <p>确实遇到了问题，请立即处理吧。</p>
+        </div>
+      </div>
+    </div>
+<pre class="prettyprint">
+&lt;div class=&quot;alert alert-inverse&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-primary-inverse&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-danger-inverse&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-success-inverse&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-warning-inverse&quot;&gt;...&lt;/div&gt;
+&lt;div class=&quot;alert alert-info-inverse&quot;&gt;...&lt;/div&gt;
 </pre>
   </article>
 </section>
@@ -82,20 +172,33 @@
   <article>
     <p>当消息框中包含链接时，推荐使用工具栏<code>.alert-link</code>来使得链接的样式与消息框类型保持一致。</p>
     <div class="example">
-      <div class="alert with-icon content">
-        <strong>你好!</strong> <a class="alert-link" href="###">有一些内容</a>你可能需要知道。
+      <div class="alert with-icon">
+        <i class="icon-inbox"></i>
+        <div class="content"><strong>你好!</strong> <a class="alert-link" href="###">有一些内容</a>你可能需要知道。</div>
       </div>
-      <div class="alert with-icon alert-success content">
-        <strong>太好了!</strong> 一切已<a class="alert-link" href="###">准备就绪</a>。
+      <div class="alert alert-primary with-icon">
+        <i class="icon-star"></i>
+        <div class="content">
+          <h4>Hello</h4>
+          <hr>
+          <p><a href="###">World.</a></p>
+        </div>
       </div>
-      <div class="alert with-icon alert-info content">
-        <strong>Hi!</strong> 这条消息可能<a class="alert-link" href="###">需要你注意</a>。
+      <div class="alert with-icon alert-success">
+        <i class="icon-ok-sign"></i>
+        <div class="content"><strong>太好了!</strong> 一切已<a class="alert-link" href="###">准备就绪</a>。</div>
       </div>
-      <div class="alert with-icon alert-warning content">
-        <strong>注意!</strong> 看起来遇到<a class="alert-link" href="###">一些问题</a>。
+      <div class="alert with-icon alert-info">
+        <i class="icon-info-sign"></i>
+        <div class="content"><strong>Hi!</strong> 这条消息可能<a class="alert-link" href="###">需要你注意</a>。</div>
       </div>
-      <div class="alert with-icon alert-danger content">
-        <strong>不好了!</strong> 确实遇到了问题，请<a class="alert-link" href="###">立即处理</a>吧。
+      <div class="alert with-icon alert-warning">
+        <i class="icon-frown"></i>
+        <div class="content"><strong>注意!</strong> 看起来遇到<a class="alert-link" href="###">一些问题</a>。</div>
+      </div>
+      <div class="alert with-icon alert-danger">
+        <i class="icon-remove-sign"></i>
+        <div class="content"><strong>不好了!</strong> 确实遇到了问题，请<a class="alert-link" href="###">立即处理</a>吧。</div>
       </div>
     </div>
   </article>
