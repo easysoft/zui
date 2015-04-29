@@ -112,6 +112,36 @@ module.exports = function(grunt)
         return file.replace(/\/\//g, '/');
     };
 
+    var buildColorsetJS = function(build, name) {
+        var source = getBuildSource(build);
+        if(source.less) {
+            var destPath = getBuildDestFilename(build, 'js');
+            console.log(destPath);
+            grunt.config('less.' + name,
+            {
+                src: source.less,
+                dest: destPath
+            });
+
+            grunt.config('usebanner.' + name,
+            {
+                options: {banner: banner},
+                files: {src: destPath}
+            });
+
+            grunt.registerTask('tidy:' + name, 'tidy colorset js code', function(){
+                var css = grunt.file.read(destPath);
+                css = css.replace(/\/\*\*/g, '').replace(/\*\*\//g, '');
+                css = css.replace(/\.color-(\w+) \{\n  color: (#?\w+);\n\}/g, "        $1: '$2',");
+                css = css.replace(',\n    };', '\n    };');
+                css = css.replace('\n\n', '\n');
+                grunt.file.write(destPath, css);
+            });
+
+            grunt.task.run(['less:' + name, 'tidy:' + name, 'usebanner:' + name]);
+        }
+    };
+
     // project config
     grunt.initConfig(
     {
@@ -249,8 +279,18 @@ module.exports = function(grunt)
             });
         }
 
+        if(build.includes.indexOf('colorset.js') > -1) {
+            grunt.task.run(['build:colorset.less2js']);
+        }
+
+        name = name.replace(/\./g, '_');
         lint = lint === 'lint';
         grunt.log.subhead('=== BUILD ' + name.toUpperCase() + ' (' + build.title + ') ===');
+
+        if(name.toLowerCase() === 'colorset_less2js') {
+            buildColorsetJS(build, name);
+            return;
+        }
 
         var source = getBuildSource(build),
             sbanner =  banner + (build.bootstrapStatement ? statement : '');
@@ -377,7 +417,6 @@ module.exports = function(grunt)
             grunt.task.run(['copy:' + name]);
         }
     });
-
 
     grunt.registerTask('pinyin', '', function(text){
         var mergeString = function(strs, s) {
