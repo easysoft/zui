@@ -75,7 +75,7 @@ function afterPageLoad() {
                     event.target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
                     msg += '成功拖动到区域 ' + event.target.find('.area-name').text();
                 }
-                $.messager.show(msg);
+                $.zui.messager.show(msg);
             },
             drag: function(event)
             {
