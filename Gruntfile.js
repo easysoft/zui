@@ -279,7 +279,7 @@ module.exports = function(grunt)
             });
         }
 
-        if(build.includes.indexOf('colorset.js') > -1) {
+        if(build.includes && build.includes.indexOf('colorset.js') > -1) {
             grunt.task.run(['build:colorset.less2js']);
         }
 
