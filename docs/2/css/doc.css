@@ -1016,7 +1016,7 @@ body {
   opacity: .8;
 }
 #grid .chapter[data-accent="primary"] .card.choosed {
-  border-color: #d8e8ff;
+  border-color: #ebf2f9;
   border-color: rgba(50, 128, 252, .6);
   -webkit-box-shadow: 0 1px 6px rgba(50, 128, 252, .3);
           box-shadow: 0 1px 6px rgba(50, 128, 252, .3);
@@ -1026,13 +1026,13 @@ body {
 }
 #grid .chapter[data-accent="primary"] .card-heading > .icon {
   color: #3280fc;
-  background-color: #d8e8ff;
+  background-color: #ebf2f9;
 }
 #grid .chapter[data-accent="primary"] .card-heading > .icon:hover {
   cursor: pointer;
 }
 #grid .chapter[data-accent="primary"] .card-heading.hover {
-  background-color: #d8e8ff;
+  background-color: #ebf2f9;
 }
 #grid .chapter[data-accent="primary"] .card-heading.hover > .icon {
   color: #fff;
@@ -1046,15 +1046,15 @@ body {
 }
 #grid .chapter[data-accent="primary"] .card-heading > .btn-toggle {
   color: #3280fc;
-  background-color: #d8e8ff;
+  background-color: #ebf2f9;
 }
 #grid .chapter[data-accent="primary"] .card-heading > .btn-toggle:hover {
-  color: #d8e8ff;
+  color: #ebf2f9;
   cursor: pointer;
   background-color: #3280fc;
 }
 #grid .chapter[data-accent="primary"] .card-content > ul > li:before {
-  background-color: #d8e8ff;
+  background-color: #ebf2f9;
 }
 #grid .chapter[data-accent="primary"] .card-content > ul > li:hover:before {
   background-color: #3280fc;
@@ -1064,7 +1064,7 @@ body {
 }
 #grid .chapter[data-accent="primary"] .card-content > ul > li.active > a,
 #grid .chapter[data-accent="primary"] .card-content > ul > li > a:hover {
-  background-color: #d8e8ff;
+  background-color: #ebf2f9;
 }
 #grid .chapter[data-accent="primary"] .color-accent {
   color: #3280fc;
@@ -2161,14 +2161,14 @@ body.page-show[data-page-accent="primary"] #header {
   background-color: #3280fc;
 }
 body.page-show[data-page-accent="primary"] #pageHeader {
-  background-color: #d8e8ff;
+  background-color: #ebf2f9;
 }
 body.page-show[data-page-accent="primary"] #pageHeader > .wrapper > .icon {
   color: #fff;
   background-color: #3280fc;
 }
 body.page-show[data-page-accent="primary"] #pageContent > section > header:before {
-  background-color: #d8e8ff;
+  background-color: #ebf2f9;
 }
 body.page-show[data-page-accent="primary"] #pageContent > section.hover > header:before {
   background-color: #3280fc;
