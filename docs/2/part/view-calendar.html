@@ -366,6 +366,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           <td>当点击一个事件时发生</td>
           <td>
             <ul>
+              <li><code>event.element</code> 获取当前点击的DOM对象实例</li>
               <li><code>event.event</code> 事件对象实例，当前点击的事件对象实例</li>
               <li><code>event.events</code> 事件对象实例数组，当前所有事件</li>
             </ul>
@@ -497,6 +498,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
           <td>当点击一个日期单元格时发生</td>
           <td>
             <ul>
+              <li><code>event.element</code> 获取被点击的单元格实例</li>
               <li><code>event.view</code> 字符串，当前视图名称</li>
               <li><code>event.date</code> 日期事件对象实例，当前单元格的日期</li>
             </ul>

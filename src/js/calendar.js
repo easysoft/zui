@@ -219,6 +219,7 @@
         {
             self.callEvent('clickEvent',
             {
+                element: this,
                 event: $(this).data('event'),
                 events: self.events
             });
@@ -227,6 +228,7 @@
         {
             self.callEvent('clickCell',
             {
+                element: this,
                 view: self.view,
                 date: new Date($(this).children('.day').attr('data-date')),
                 events: self.events

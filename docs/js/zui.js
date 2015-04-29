@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-28
+ * ZUI - v1.3.0 - 2015-04-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -8149,6 +8149,7 @@
         {
             self.callEvent('clickEvent',
             {
+                element: this,
                 event: $(this).data('event'),
                 events: self.events
             });
@@ -8157,6 +8158,7 @@
         {
             self.callEvent('clickCell',
             {
+                element: this,
                 view: self.view,
                 date: new Date($(this).children('.day').attr('data-date')),
                 events: self.events
