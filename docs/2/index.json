@@ -173,6 +173,18 @@
             "accent": "blue",
             "sections": [
             {
+                "id": "newly",
+                "name": "新鲜内容",
+                "desc": "1.3新增内容",
+                "icon": "icon-flag",
+                "url": null,
+                "filter": "new xinxianneirong xxnr xznr",
+                "topics":
+                [
+                    {"name": "图表", "url": "#view/chart"}
+                ]
+            },
+            {
                 "id": "qqgroup",
                 "name": "QQ讨论",
                 "desc": "官方QQ群：384135104",
