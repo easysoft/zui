@@ -1129,6 +1129,26 @@
                 "filter": "pinglun pl"
             },
             {
+                "id": "chart",
+                "icon": "icon-bar-chart",
+                "desc": "展示曲线图和饼图",
+                "name": "图表",
+                "topics": [
+                {
+                    "name": "创建图表"
+                },
+                {
+                    "name": "曲线图"
+                },
+                {
+                    "name": "饼图"
+                },
+                {
+                    "name": "兼容IE浏览器"
+                }],
+                "filter": "tubiao tb quxiantu qxt bingtu bt"
+            },
+            {
                 "id": "board",
                 "icon": "icon-columns",
                 "desc": "在多个列进行拖放内容",
