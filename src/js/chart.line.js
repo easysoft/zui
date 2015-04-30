@@ -1,774 +1,475 @@
-/* ========================================================================
- * ZUI: Chart.js
- * http://chartjs.org/
- * ========================================================================
- * Copyright 2013 Nick Downie
- * Released under the MIT license
- * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
- * ======================================================================== */
+/// ----- ZUI change begin -----
+/// Add jquery object to namespace
 
-(function()
-{
-    //Define the global Chart Variable as a class.
-    window.Chart = function(context)
+/// (function(){ // Old code
+(function($){
+
+/// ----- ZUI change end -----
+    "use strict";
+
+/// ----- ZUI change begin -----
+/// Change root to zui shared object
+/// 
+///   var root = this, // old code
+      var root = $ && $.zui ? $.zui : this,
+/// ----- ZUI change end -----
+        Chart = root.Chart,
+        helpers = Chart.helpers;
+
+    var defaultConfig = {
+
+        ///Boolean - Whether grid lines are shown across the chart
+        scaleShowGridLines: true,
+
+        //String - Colour of the grid lines
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+
+        //Number - Width of the grid lines
+        scaleGridLineWidth: 1,
+
+        //Boolean - Whether to show horizontal lines (except X axis)
+        scaleShowHorizontalLines: true,
+
+        //Boolean - Whether to show vertical lines (except Y axis)
+        scaleShowVerticalLines: true,
+
+        //Boolean - Whether the line is curved between points
+        bezierCurve: true,
+
+        //Number - Tension of the bezier curve between points
+        bezierCurveTension: 0.4,
+
+        //Boolean - Whether to show a dot for each point
+        pointDot: true,
+
+        //Number - Radius of each point dot in pixels
+        pointDotRadius: 4,
+
+        //Number - Pixel width of point dot stroke
+        pointDotStrokeWidth: 1,
+
+        //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+        pointHitDetectionRadius: 20,
+
+        //Boolean - Whether to show a stroke for datasets
+        datasetStroke: true,
+
+        //Number - Pixel width of dataset stroke
+        datasetStrokeWidth: 2,
+
+        //Boolean - Whether to fill the dataset with a colour
+        datasetFill: true,
+
+        //String - A legend template
+        legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+
+    };
+
+
+    Chart.Type.extend(
     {
+        name: "Line",
+        defaults: defaultConfig,
 
-        var chart = this;
-
-
-        //Easing functions adapted from Robert Penner's easing equations
-        //http://www.robertpenner.com/easing/
-
-        var animationOptions = {
-            linear: function(t)
-            {
-                return t;
-            },
-            easeInQuad: function(t)
-            {
-                return t * t;
-            },
-            easeOutQuad: function(t)
-            {
-                return -1 * t * (t - 2);
-            },
-            easeInOutQuad: function(t)
-            {
-                if ((t /= 1 / 2) < 1) return 1 / 2 * t * t;
-                return -1 / 2 * ((--t) * (t - 2) - 1);
-            },
-            easeInCubic: function(t)
-            {
-                return t * t * t;
-            },
-            easeOutCubic: function(t)
-            {
-                return 1 * ((t = t / 1 - 1) * t * t + 1);
-            },
-            easeInOutCubic: function(t)
-            {
-                if ((t /= 1 / 2) < 1) return 1 / 2 * t * t * t;
-                return 1 / 2 * ((t -= 2) * t * t + 2);
-            },
-            easeInQuart: function(t)
-            {
-                return t * t * t * t;
-            },
-            easeOutQuart: function(t)
-            {
-                return -1 * ((t = t / 1 - 1) * t * t * t - 1);
-            },
-            easeInOutQuart: function(t)
-            {
-                if ((t /= 1 / 2) < 1) return 1 / 2 * t * t * t * t;
-                return -1 / 2 * ((t -= 2) * t * t * t - 2);
-            },
-            easeInQuint: function(t)
-            {
-                return 1 * (t /= 1) * t * t * t * t;
-            },
-            easeOutQuint: function(t)
-            {
-                return 1 * ((t = t / 1 - 1) * t * t * t * t + 1);
-            },
-            easeInOutQuint: function(t)
-            {
-                if ((t /= 1 / 2) < 1) return 1 / 2 * t * t * t * t * t;
-                return 1 / 2 * ((t -= 2) * t * t * t * t + 2);
-            },
-            easeInSine: function(t)
-            {
-                return -1 * Math.cos(t / 1 * (Math.PI / 2)) + 1;
-            },
-            easeOutSine: function(t)
-            {
-                return 1 * Math.sin(t / 1 * (Math.PI / 2));
-            },
-            easeInOutSine: function(t)
-            {
-                return -1 / 2 * (Math.cos(Math.PI * t / 1) - 1);
-            },
-            easeInExpo: function(t)
-            {
-                return (t == 0) ? 1 : 1 * Math.pow(2, 10 * (t / 1 - 1));
-            },
-            easeOutExpo: function(t)
-            {
-                return (t == 1) ? 1 : 1 * (-Math.pow(2, -10 * t / 1) + 1);
-            },
-            easeInOutExpo: function(t)
-            {
-                if (t == 0) return 0;
-                if (t == 1) return 1;
-                if ((t /= 1 / 2) < 1) return 1 / 2 * Math.pow(2, 10 * (t - 1));
-                return 1 / 2 * (-Math.pow(2, -10 * --t) + 2);
-            },
-            easeInCirc: function(t)
-            {
-                if (t >= 1) return t;
-                return -1 * (Math.sqrt(1 - (t /= 1) * t) - 1);
-            },
-            easeOutCirc: function(t)
-            {
-                return 1 * Math.sqrt(1 - (t = t / 1 - 1) * t);
-            },
-            easeInOutCirc: function(t)
-            {
-                if ((t /= 1 / 2) < 1) return -1 / 2 * (Math.sqrt(1 - t * t) - 1);
-                return 1 / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1);
-            },
-            easeInElastic: function(t)
-            {
-                var s = 1.70158;
-                var p = 0;
-                var a = 1;
-                if (t == 0) return 0;
-                if ((t /= 1) == 1) return 1;
-                if (!p) p = 1 * .3;
-                if (a < Math.abs(1))
-                {
-                    a = 1;
-                    var s = p / 4;
-                }
-                else var s = p / (2 * Math.PI) * Math.asin(1 / a);
-                return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * 1 - s) * (2 * Math.PI) / p));
-            },
-            easeOutElastic: function(t)
-            {
-                var s = 1.70158;
-                var p = 0;
-                var a = 1;
-                if (t == 0) return 0;
-                if ((t /= 1) == 1) return 1;
-                if (!p) p = 1 * .3;
-                if (a < Math.abs(1))
-                {
-                    a = 1;
-                    var s = p / 4;
-                }
-                else var s = p / (2 * Math.PI) * Math.asin(1 / a);
-                return a * Math.pow(2, -10 * t) * Math.sin((t * 1 - s) * (2 * Math.PI) / p) + 1;
-            },
-            easeInOutElastic: function(t)
-            {
-                var s = 1.70158;
-                var p = 0;
-                var a = 1;
-                if (t == 0) return 0;
-                if ((t /= 1 / 2) == 2) return 1;
-                if (!p) p = 1 * (.3 * 1.5);
-                if (a < Math.abs(1))
-                {
-                    a = 1;
-                    var s = p / 4;
-                }
-                else var s = p / (2 * Math.PI) * Math.asin(1 / a);
-                if (t < 1) return -.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * 1 - s) * (2 * Math.PI) / p));
-                return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * 1 - s) * (2 * Math.PI) / p) * .5 + 1;
-            },
-            easeInBack: function(t)
-            {
-                var s = 1.70158;
-                return 1 * (t /= 1) * t * ((s + 1) * t - s);
-            },
-            easeOutBack: function(t)
-            {
-                var s = 1.70158;
-                return 1 * ((t = t / 1 - 1) * t * ((s + 1) * t + s) + 1);
-            },
-            easeInOutBack: function(t)
-            {
-                var s = 1.70158;
-                if ((t /= 1 / 2) < 1) return 1 / 2 * (t * t * (((s *= (1.525)) + 1) * t - s));
-                return 1 / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2);
-            },
-            easeInBounce: function(t)
-            {
-                return 1 - animationOptions.easeOutBounce(1 - t);
-            },
-            easeOutBounce: function(t)
-            {
-                if ((t /= 1) < (1 / 2.75))
-                {
-                    return 1 * (7.5625 * t * t);
-                }
-                else if (t < (2 / 2.75))
-                {
-                    return 1 * (7.5625 * (t -= (1.5 / 2.75)) * t + .75);
-                }
-                else if (t < (2.5 / 2.75))
-                {
-                    return 1 * (7.5625 * (t -= (2.25 / 2.75)) * t + .9375);
-                }
-                else
-                {
-                    return 1 * (7.5625 * (t -= (2.625 / 2.75)) * t + .984375);
-                }
-            },
-            easeInOutBounce: function(t)
-            {
-                if (t < 1 / 2) return animationOptions.easeInBounce(t * 2) * .5;
-                return animationOptions.easeOutBounce(t * 2 - 1) * .5 + 1 * .5;
-            }
-        };
-
-        //Variables global to the chart
-        var width = context.canvas.width;
-        var height = context.canvas.height;
-
-
-        //High pixel density displays - multiply the size of the canvas height/width by the device pixel ratio, then scale.
-        if (window.devicePixelRatio)
+        initialize: function(data)
         {
-            context.canvas.style.width = width + "px";
-            context.canvas.style.height = height + "px";
-            context.canvas.height = height * window.devicePixelRatio;
-            context.canvas.width = width * window.devicePixelRatio;
-            context.scale(window.devicePixelRatio, window.devicePixelRatio);
-        }
-
-        this.Line = function(data, options)
-        {
-
-            chart.Line.defaults = {
-                scaleOverlay: false,
-                scaleOverride: false,
-                scaleSteps: null,
-                scaleStepWidth: null,
-                scaleStartValue: null,
-                scaleLineColor: "rgba(0,0,0,.1)",
-                scaleLineWidth: 1,
-                scaleShowLabels: false,
-                scaleLabel: "<%=value%>",
-                scaleFontFamily: "'Arial'",
-                scaleFontSize: 12,
-                scaleFontStyle: "normal",
-                scaleFontColor: "#666",
-                scaleShowGridLines: false,
-                scaleGridLineColor: "rgba(0,0,0,.05)",
-                scaleGridLineWidth: 1,
-                bezierCurve: true,
-                pointDot: false,
-                pointDotRadius: 4,
-                pointDotStrokeWidth: 2,
-                datasetStroke: true,
-                datasetStrokeWidth: 1,
-                datasetFill: true,
-                animation: true,
-                animationSteps: 30,
-                animationEasing: "easeOutQuart",
-                onAnimationComplete: null
-            };
-            var config = (options) ? mergeChartConfig(chart.Line.defaults, options) : chart.Line.defaults;
-
-            return new Line(data, config, context);
-        }
-
-        var clear = function(c)
-        {
-            c.clearRect(0, 0, width, height);
-        };
-
-        var Line = function(data, config, ctx)
-        {
-            var maxSize, scaleHop, calculatedScale, labelHeight, scaleHeight, valueBounds, labelTemplateString, valueHop, widestXLabel, xAxisLength, yAxisPosX, xAxisPosY, rotateLabels = 0;
-
-            calculateDrawingSizes();
-
-            valueBounds = getValueBounds();
-            //Check and set the scale
-            labelTemplateString = (config.scaleShowLabels) ? config.scaleLabel : "";
-            if (!config.scaleOverride)
+            //Declare the extension of the default point, to cater for the options passed in to the constructor
+            this.PointClass = Chart.Point.extend(
             {
-
-                calculatedScale = calculateScale(scaleHeight, valueBounds.maxSteps, valueBounds.minSteps, valueBounds.maxValue, valueBounds.minValue, labelTemplateString);
-            }
-            else
-            {
-                calculatedScale = {
-                    steps: config.scaleSteps,
-                    stepValue: config.scaleStepWidth,
-                    graphMin: config.scaleStartValue,
-                    labels: []
-                }
-                populateLabels(labelTemplateString, calculatedScale.labels, calculatedScale.steps, config.scaleStartValue, config.scaleStepWidth);
-            }
-
-            scaleHop = Math.floor(scaleHeight / calculatedScale.steps);
-            calculateXAxisSize();
-            animationLoop(config, drawScale, drawLines, ctx);
-
-            function drawLines(animPc)
-            {
-                for (var i = 0; i < data.datasets.length; i++)
+                strokeWidth: this.options.pointDotStrokeWidth,
+                radius: this.options.pointDotRadius,
+                display: this.options.pointDot,
+                hitDetectionRadius: this.options.pointHitDetectionRadius,
+                ctx: this.chart.ctx,
+                inRange: function(mouseX)
                 {
-                    ctx.strokeStyle = data.datasets[i].strokeColor;
-                    ctx.lineWidth = config.datasetStrokeWidth;
-                    ctx.beginPath();
-                    ctx.moveTo(yAxisPosX, xAxisPosY - animPc * (calculateOffset(data.datasets[i].data[0], calculatedScale, scaleHop)))
+                    return (Math.pow(mouseX - this.x, 2) < Math.pow(this.radius + this.hitDetectionRadius, 2));
+                }
+            });
 
-                    for (var j = 1; j < data.datasets[i].data.length; j++)
+            this.datasets = [];
+
+            //Set up tooltip events on the chart
+            if (this.options.showTooltips)
+            {
+                helpers.bindEvents(this, this.options.tooltipEvents, function(evt)
+                {
+                    var activePoints = (evt.type !== 'mouseout') ? this.getPointsAtEvent(evt) : [];
+                    this.eachPoints(function(point)
                     {
-                        if (config.bezierCurve)
+                        point.restore(['fillColor', 'strokeColor']);
+                    });
+                    helpers.each(activePoints, function(activePoint)
+                    {
+                        activePoint.fillColor = activePoint.highlightFill;
+                        activePoint.strokeColor = activePoint.highlightStroke;
+                    });
+                    this.showTooltip(activePoints);
+                });
+            }
+
+            //Iterate through each of the datasets, and build this into a property of the chart
+            helpers.each(data.datasets, function(dataset)
+            {
+/// ----- ZUI change begin -----
+// add color theme
+                if($.zui && $.zui.Color && $.zui.Color.get)
+                {
+                    var accentColor = $.zui.Color.get(dataset.color);
+                    var accentColorValue = accentColor.toCssStr();
+
+                    if(!dataset.fillColor) dataset.fillColor = accentColor.clone().fade(20).toCssStr();
+                    if(!dataset.strokeColor) dataset.strokeColor = accentColorValue;
+                    if(!dataset.pointColor) dataset.pointColor = accentColorValue;
+                    if(!dataset.pointStrokeColor) dataset.pointStrokeColor = '#fff';
+                    if(!dataset.pointHighlightFill) dataset.pointHighlightFill = '#fff';
+                    if(!dataset.pointHighlightStroke) dataset.pointHighlightStroke = accentColorValue;
+                }
+/// ----- ZUI change begin -----
+
+                var datasetObject = {
+                    label: dataset.label || null,
+                    fillColor: dataset.fillColor,
+                    strokeColor: dataset.strokeColor,
+                    pointColor: dataset.pointColor,
+                    pointStrokeColor: dataset.pointStrokeColor,
+                    points: []
+                };
+
+                this.datasets.push(datasetObject);
+
+
+                helpers.each(dataset.data, function(dataPoint, index)
+                {
+                    //Add a new point for each piece of data, passing any required data to draw.
+                    datasetObject.points.push(new this.PointClass(
+                    {
+                        value: dataPoint,
+                        label: data.labels[index],
+                        datasetLabel: dataset.label,
+                        strokeColor: dataset.pointStrokeColor,
+                        fillColor: dataset.pointColor,
+                        highlightFill: dataset.pointHighlightFill || dataset.pointColor,
+                        highlightStroke: dataset.pointHighlightStroke || dataset.pointStrokeColor
+                    }));
+                }, this);
+
+                this.buildScale(data.labels);
+
+
+                this.eachPoints(function(point, index)
+                {
+                    helpers.extend(point,
+                    {
+                        x: this.scale.calculateX(index),
+                        y: this.scale.endPoint
+                    });
+                    point.save();
+                }, this);
+
+            }, this);
+
+
+            this.render();
+        },
+        update: function()
+        {
+            this.scale.update();
+            // Reset any highlight colours before updating.
+            helpers.each(this.activeElements, function(activeElement)
+            {
+                activeElement.restore(['fillColor', 'strokeColor']);
+            });
+            this.eachPoints(function(point)
+            {
+                point.save();
+            });
+            this.render();
+        },
+        eachPoints: function(callback)
+        {
+            helpers.each(this.datasets, function(dataset)
+            {
+                helpers.each(dataset.points, callback, this);
+            }, this);
+        },
+        getPointsAtEvent: function(e)
+        {
+            var pointsArray = [],
+                eventPosition = helpers.getRelativePosition(e);
+            helpers.each(this.datasets, function(dataset)
+            {
+                helpers.each(dataset.points, function(point)
+                {
+                    if (point.inRange(eventPosition.x, eventPosition.y)) pointsArray.push(point);
+                });
+            }, this);
+            return pointsArray;
+        },
+        buildScale: function(labels)
+        {
+            var self = this;
+
+            var dataTotal = function()
+            {
+                var values = [];
+                self.eachPoints(function(point)
+                {
+                    values.push(point.value);
+                });
+
+                return values;
+            };
+
+            var scaleOptions = {
+                templateString: this.options.scaleLabel,
+                height: this.chart.height,
+                width: this.chart.width,
+                ctx: this.chart.ctx,
+                textColor: this.options.scaleFontColor,
+                fontSize: this.options.scaleFontSize,
+                fontStyle: this.options.scaleFontStyle,
+                fontFamily: this.options.scaleFontFamily,
+                valuesCount: labels.length,
+                beginAtZero: this.options.scaleBeginAtZero,
+                integersOnly: this.options.scaleIntegersOnly,
+                calculateYRange: function(currentHeight)
+                {
+                    var updatedRanges = helpers.calculateScaleRange(
+                        dataTotal(),
+                        currentHeight,
+                        this.fontSize,
+                        this.beginAtZero,
+                        this.integersOnly
+                    );
+                    helpers.extend(this, updatedRanges);
+                },
+                xLabels: labels,
+                font: helpers.fontString(this.options.scaleFontSize, this.options.scaleFontStyle, this.options.scaleFontFamily),
+                lineWidth: this.options.scaleLineWidth,
+                lineColor: this.options.scaleLineColor,
+                showHorizontalLines: this.options.scaleShowHorizontalLines,
+                showVerticalLines: this.options.scaleShowVerticalLines,
+                gridLineWidth: (this.options.scaleShowGridLines) ? this.options.scaleGridLineWidth : 0,
+                gridLineColor: (this.options.scaleShowGridLines) ? this.options.scaleGridLineColor : "rgba(0,0,0,0)",
+                padding: (this.options.showScale) ? 0 : this.options.pointDotRadius + this.options.pointDotStrokeWidth,
+                showLabels: this.options.scaleShowLabels,
+                display: this.options.showScale
+            };
+
+            if (this.options.scaleOverride)
+            {
+                helpers.extend(scaleOptions,
+                {
+                    calculateYRange: helpers.noop,
+                    steps: this.options.scaleSteps,
+                    stepValue: this.options.scaleStepWidth,
+                    min: this.options.scaleStartValue,
+                    max: this.options.scaleStartValue + (this.options.scaleSteps * this.options.scaleStepWidth)
+                });
+            }
+
+
+            this.scale = new Chart.Scale(scaleOptions);
+        },
+        addData: function(valuesArray, label)
+        {
+            //Map the values array for each of the datasets
+
+            helpers.each(valuesArray, function(value, datasetIndex)
+            {
+                //Add a new point for each piece of data, passing any required data to draw.
+                this.datasets[datasetIndex].points.push(new this.PointClass(
+                {
+                    value: value,
+                    label: label,
+                    x: this.scale.calculateX(this.scale.valuesCount + 1),
+                    y: this.scale.endPoint,
+                    strokeColor: this.datasets[datasetIndex].pointStrokeColor,
+                    fillColor: this.datasets[datasetIndex].pointColor
+                }));
+            }, this);
+
+            this.scale.addXLabel(label);
+            //Then re-render the chart.
+            this.update();
+        },
+        removeData: function()
+        {
+            this.scale.removeXLabel();
+            //Then re-render the chart.
+            helpers.each(this.datasets, function(dataset)
+            {
+                dataset.points.shift();
+            }, this);
+            this.update();
+        },
+        reflow: function()
+        {
+            var newScaleProps = helpers.extend(
+            {
+                height: this.chart.height,
+                width: this.chart.width
+            });
+            this.scale.update(newScaleProps);
+        },
+        draw: function(ease)
+        {
+            var easingDecimal = ease || 1;
+            this.clear();
+
+            var ctx = this.chart.ctx;
+
+            // Some helper methods for getting the next/prev points
+            var hasValue = function(item)
+                {
+                    return item.value !== null;
+                },
+                nextPoint = function(point, collection, index)
+                {
+                    return helpers.findNextWhere(collection, hasValue, index) || point;
+                },
+                previousPoint = function(point, collection, index)
+                {
+                    return helpers.findPreviousWhere(collection, hasValue, index) || point;
+                };
+
+            this.scale.draw(easingDecimal);
+
+
+            helpers.each(this.datasets, function(dataset)
+            {
+                var pointsWithValues = helpers.where(dataset.points, hasValue);
+
+                //Transition each point first so that the line and point drawing isn't out of sync
+                //We can use this extra loop to calculate the control points of this dataset also in this loop
+
+                helpers.each(dataset.points, function(point, index)
+                {
+                    if (point.hasValue())
+                    {
+                        point.transition(
                         {
-                            ctx.bezierCurveTo(xPos(j - 0.5), yPos(i, j - 1), xPos(j - 0.5), yPos(i, j), xPos(j), yPos(i, j));
+                            y: this.scale.calculateY(point.value),
+                            x: this.scale.calculateX(index)
+                        }, easingDecimal);
+                    }
+                }, this);
+
+
+                // Control points need to be calculated in a seperate loop, because we need to know the current x/y of the point
+                // This would cause issues when there is no animation, because the y of the next point would be 0, so beziers would be skewed
+                if (this.options.bezierCurve)
+                {
+                    helpers.each(pointsWithValues, function(point, index)
+                    {
+                        var tension = (index > 0 && index < pointsWithValues.length - 1) ? this.options.bezierCurveTension : 0;
+                        point.controlPoints = helpers.splineCurve(
+                            previousPoint(point, pointsWithValues, index),
+                            point,
+                            nextPoint(point, pointsWithValues, index),
+                            tension
+                        );
+
+                        // Prevent the bezier going outside of the bounds of the graph
+
+                        // Cap puter bezier handles to the upper/lower scale bounds
+                        if (point.controlPoints.outer.y > this.scale.endPoint)
+                        {
+                            point.controlPoints.outer.y = this.scale.endPoint;
+                        }
+                        else if (point.controlPoints.outer.y < this.scale.startPoint)
+                        {
+                            point.controlPoints.outer.y = this.scale.startPoint;
+                        }
+
+                        // Cap inner bezier handles to the upper/lower scale bounds
+                        if (point.controlPoints.inner.y > this.scale.endPoint)
+                        {
+                            point.controlPoints.inner.y = this.scale.endPoint;
+                        }
+                        else if (point.controlPoints.inner.y < this.scale.startPoint)
+                        {
+                            point.controlPoints.inner.y = this.scale.startPoint;
+                        }
+                    }, this);
+                }
+
+
+                //Draw the line between all the points
+                ctx.lineWidth = this.options.datasetStrokeWidth;
+                ctx.strokeStyle = dataset.strokeColor;
+                ctx.beginPath();
+
+                helpers.each(pointsWithValues, function(point, index)
+                {
+                    if (index === 0)
+                    {
+                        ctx.moveTo(point.x, point.y);
+                    }
+                    else
+                    {
+                        if (this.options.bezierCurve)
+                        {
+                            var previous = previousPoint(point, pointsWithValues, index);
+
+                            ctx.bezierCurveTo(
+                                previous.controlPoints.outer.x,
+                                previous.controlPoints.outer.y,
+                                point.controlPoints.inner.x,
+                                point.controlPoints.inner.y,
+                                point.x,
+                                point.y
+                            );
                         }
                         else
                         {
-                            ctx.lineTo(xPos(j), yPos(i, j));
+                            ctx.lineTo(point.x, point.y);
                         }
                     }
-                    ctx.stroke();
-                    if (config.datasetFill)
-                    {
-                        ctx.lineTo(yAxisPosX + (valueHop * (data.datasets[i].data.length - 1)), xAxisPosY);
-                        ctx.lineTo(yAxisPosX, xAxisPosY);
-                        ctx.closePath();
-                        ctx.fillStyle = data.datasets[i].fillColor;
-                        ctx.fill();
-                    }
-                    else
-                    {
-                        ctx.closePath();
-                    }
-                    if (config.pointDot)
-                    {
-                        ctx.fillStyle = data.datasets[i].pointColor;
-                        ctx.strokeStyle = data.datasets[i].pointStrokeColor;
-                        ctx.lineWidth = config.pointDotStrokeWidth;
-                        for (var k = 0; k < data.datasets[i].data.length; k++)
-                        {
-                            ctx.beginPath();
-                            ctx.arc(yAxisPosX + (valueHop * k), xAxisPosY - animPc * (calculateOffset(data.datasets[i].data[k], calculatedScale, scaleHop)), config.pointDotRadius, 0, Math.PI * 2, true);
-                            ctx.fill();
-                            ctx.stroke();
-                        }
-                    }
-                }
+                }, this);
 
-                function yPos(dataSet, iteration)
-                {
-                    return xAxisPosY - animPc * (calculateOffset(data.datasets[dataSet].data[iteration], calculatedScale, scaleHop));
-                }
-
-                function xPos(iteration)
-                {
-                    return yAxisPosX + (valueHop * iteration);
-                }
-            }
-
-            function drawScale()
-            {
-                //X axis line
-                ctx.lineWidth = config.scaleLineWidth;
-                ctx.strokeStyle = config.scaleLineColor;
-                ctx.beginPath();
-                ctx.moveTo(width - widestXLabel / 2 + 5, xAxisPosY);
-                ctx.lineTo(width - (widestXLabel / 2) - xAxisLength - 5, xAxisPosY);
                 ctx.stroke();
 
-
-                if (rotateLabels > 0)
+                if (this.options.datasetFill && pointsWithValues.length > 0)
                 {
-                    ctx.save();
-                    ctx.textAlign = "right";
-                }
-                else
-                {
-                    ctx.textAlign = "center";
-                }
-                ctx.fillStyle = config.scaleFontColor;
-                for (var i = 0; i < data.labels.length; i++)
-                {
-                    ctx.save();
-                    // if (rotateLabels > 0){
-                    //   ctx.translate(yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize);
-                    //   ctx.rotate(-(rotateLabels * (Math.PI/180)));
-                    //   ctx.fillText(data.labels[i], 0,0);
-                    //   ctx.restore();
-                    // }
-
-                    // else{
-                    //   ctx.fillText(data.labels[i], yAxisPosX + i*valueHop,xAxisPosY + config.scaleFontSize+3);
-                    // }
-
-                    ctx.beginPath();
-                    ctx.moveTo(yAxisPosX + i * valueHop, xAxisPosY + 3);
-
-                    //Check i isnt 0, so we dont go over the Y axis twice.
-                    if (config.scaleShowGridLines && i > 0)
-                    {
-                        ctx.lineWidth = config.scaleGridLineWidth;
-                        ctx.strokeStyle = config.scaleGridLineColor;
-                        ctx.lineTo(yAxisPosX + i * valueHop, 5);
-                    }
-                    else
-                    {
-                        ctx.lineTo(yAxisPosX + i * valueHop, xAxisPosY + 3);
-                    }
-                    ctx.stroke();
+                    //Round off the line by going to the base of the chart, back to the start, then fill.
+                    ctx.lineTo(pointsWithValues[pointsWithValues.length - 1].x, this.scale.endPoint);
+                    ctx.lineTo(pointsWithValues[0].x, this.scale.endPoint);
+                    ctx.fillStyle = dataset.fillColor;
+                    ctx.closePath();
+                    ctx.fill();
                 }
 
-                //Y axis
-                ctx.lineWidth = config.scaleLineWidth;
-                ctx.strokeStyle = config.scaleLineColor;
-                // ctx.beginPath();
-                // ctx.moveTo(yAxisPosX,xAxisPosY+5);
-                // ctx.lineTo(yAxisPosX,5);
-                // ctx.stroke();
-
-                ctx.textAlign = "right";
-                ctx.textBaseline = "middle";
-                for (var j = 0; j < calculatedScale.steps; j++)
+                //Now draw the points over the line
+                //A little inefficient double looping, but better than the line
+                //lagging behind the point positions
+                helpers.each(pointsWithValues, function(point)
                 {
-                    ctx.beginPath();
-                    ctx.moveTo(yAxisPosX - 3, xAxisPosY - ((j + 1) * scaleHop));
-                    if (config.scaleShowGridLines)
-                    {
-                        ctx.lineWidth = config.scaleGridLineWidth;
-                        ctx.strokeStyle = config.scaleGridLineColor;
-                        ctx.lineTo(yAxisPosX + xAxisLength + 5, xAxisPosY - ((j + 1) * scaleHop));
-                    }
-                    else
-                    {
-                        ctx.lineTo(yAxisPosX - 0.5, xAxisPosY - ((j + 1) * scaleHop));
-                    }
-
-                    ctx.stroke();
-
-                    if (config.scaleShowLabels)
-                    {
-                        ctx.fillText(calculatedScale.labels[j], yAxisPosX - 8, xAxisPosY - ((j + 1) * scaleHop));
-                    }
-                }
-
-
-            }
-
-            function calculateXAxisSize()
-            {
-                xAxisLength = width;
-                valueHop = xAxisLength / (data.labels.length - 1);
-                yAxisPosX = 0;
-                xAxisPosY = height;
-            }
-
-            function calculateDrawingSizes()
-            {
-                maxSize = height;
-
-                //Need to check the X axis first - measure the length of each text metric, and figure out if we need to rotate by 45 degrees.
-                ctx.font = config.scaleFontStyle + " " + config.scaleFontSize + "px " + config.scaleFontFamily;
-                widestXLabel = 1;
-                for (var i = 0; i < data.labels.length; i++)
-                {
-                    // var textLength = ctx.measureText(data.labels[i]).width;
-                    var textLength = 0;
-                    //If the text length is longer - make that equal to longest text!
-                    widestXLabel = (textLength > widestXLabel) ? textLength : widestXLabel;
-                }
-                if (width / data.labels.length < widestXLabel)
-                {
-                    rotateLabels = 45;
-                    if (width / data.labels.length < Math.cos(rotateLabels) * widestXLabel)
-                    {
-                        rotateLabels = 90;
-                        maxSize -= widestXLabel;
-                    }
-                    else
-                    {
-                        maxSize -= Math.sin(rotateLabels) * widestXLabel;
-                    }
-                }
-                else
-                {
-                    maxSize -= config.scaleFontSize;
-                }
-
-                labelHeight = config.scaleFontSize;
-
-                maxSize = height;
-                scaleHeight = maxSize; /////
-
-            }
-
-            function getValueBounds()
-            {
-                var upperValue = Number.MIN_VALUE;
-                var lowerValue = Number.MAX_VALUE;
-                for (var i = 0; i < data.datasets.length; i++)
-                {
-                    for (var j = 0; j < data.datasets[i].data.length; j++)
-                    {
-                        if (data.datasets[i].data[j] > upperValue)
-                        {
-                            upperValue = data.datasets[i].data[j]
-                        };
-                        if (data.datasets[i].data[j] < lowerValue)
-                        {
-                            lowerValue = data.datasets[i].data[j]
-                        };
-                    }
-                };
-
-                var maxSteps = Math.floor((scaleHeight / (labelHeight * 0.66)));
-                var minSteps = Math.floor((scaleHeight / labelHeight * 0.5));
-
-                return {
-                    maxValue: upperValue,
-                    minValue: lowerValue,
-                    maxSteps: maxSteps,
-                    minSteps: minSteps
-                }
-            }
+                    point.draw();
+                });
+            }, this);
         }
+    });
 
-        function calculateOffset(val, calculatedScale, scaleHop)
-        {
-            var outerValue = calculatedScale.steps * calculatedScale.stepValue;
-            var adjustedValue = val - calculatedScale.graphMin;
-            var scalingFactor = CapValue(adjustedValue / outerValue, 1, 0);
-            return (scaleHop * calculatedScale.steps) * scalingFactor;
-        }
-
-        function animationLoop(config, drawScale, drawData, ctx)
-        {
-            var animFrameAmount = (config.animation) ? 1 / CapValue(config.animationSteps, Number.MAX_VALUE, 1) : 1,
-                easingFunction = animationOptions[config.animationEasing],
-                percentAnimComplete = (config.animation) ? 0 : 1;
-
-
-
-            if (typeof drawScale !== "function") drawScale = function() {};
-
-            requestAnimFrame(animLoop);
-
-            function animateFrame()
-            {
-                var easeAdjustedAnimationPercent = (config.animation) ? CapValue(easingFunction(percentAnimComplete), null, 0) : 1;
-                clear(ctx);
-                if (config.scaleOverlay)
-                {
-                    drawData(easeAdjustedAnimationPercent);
-                    drawScale();
-                }
-                else
-                {
-                    drawScale();
-                    drawData(easeAdjustedAnimationPercent);
-                }
-            }
-
-            function animLoop()
-            {
-                //We need to check if the animation is incomplete (less than 1), or complete (1).
-                percentAnimComplete += animFrameAmount;
-                animateFrame();
-                //Stop the loop continuing forever
-                if (percentAnimComplete <= 1)
-                {
-                    requestAnimFrame(animLoop);
-                }
-                else
-                {
-                    if (typeof config.onAnimationComplete == "function") config.onAnimationComplete();
-                }
-
-            }
-
-        }
-
-        //Declare global functions to be called within this namespace here.
-
-
-        // shim layer with setTimeout fallback
-        var requestAnimFrame = (function()
-        {
-            return window.requestAnimationFrame ||
-                window.webkitRequestAnimationFrame ||
-                window.mozRequestAnimationFrame ||
-                window.oRequestAnimationFrame ||
-                window.msRequestAnimationFrame ||
-                function(callback)
-                {
-                    window.setTimeout(callback, 1000 / 60);
-                };
-        })();
-
-        function calculateScale(drawingHeight, maxSteps, minSteps, maxValue, minValue, labelTemplateString)
-        {
-            var graphMin, graphMax, graphRange, stepValue, numberOfSteps, valueRange, rangeOrderOfMagnitude, decimalNum;
-
-            valueRange = maxValue - minValue;
-
-            rangeOrderOfMagnitude = calculateOrderOfMagnitude(valueRange);
-
-            graphMin = Math.floor(minValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
-
-            graphMax = Math.ceil(maxValue / (1 * Math.pow(10, rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
-
-            graphRange = graphMax - graphMin;
-
-            stepValue = Math.pow(10, rangeOrderOfMagnitude);
-
-            numberOfSteps = Math.round(graphRange / stepValue);
-
-            //Compare number of steps to the max and min for that size graph, and add in half steps if need be.
-            while (numberOfSteps < minSteps || numberOfSteps > maxSteps)
-            {
-                if (numberOfSteps < minSteps)
-                {
-                    stepValue /= 2;
-                    numberOfSteps = Math.round(graphRange / stepValue);
-                }
-                else
-                {
-                    stepValue *= 2;
-                    numberOfSteps = Math.round(graphRange / stepValue);
-                }
-            };
-
-            var labels = [];
-            populateLabels(labelTemplateString, labels, numberOfSteps, graphMin, stepValue);
-
-            return {
-                steps: numberOfSteps,
-                stepValue: stepValue,
-                graphMin: graphMin,
-                labels: labels
-
-            }
-
-            function calculateOrderOfMagnitude(val)
-            {
-                return Math.floor(Math.log(val) / Math.LN10);
-            }
-
-
-        }
-
-        //Populate an array of all the labels by interpolating the string.
-        function populateLabels(labelTemplateString, labels, numberOfSteps, graphMin, stepValue)
-        {
-            if (labelTemplateString)
-            {
-                //Fix floating point errors by setting to fixed the on the same decimal as the stepValue.
-                for (var i = 1; i < numberOfSteps + 1; i++)
-                {
-                    labels.push(tmpl(labelTemplateString,
-                    {
-                        value: (graphMin + (stepValue * i)).toFixed(getDecimalPlaces(stepValue))
-                    }));
-                }
-            }
-        }
-
-        //Max value from array
-        function Max(array)
-        {
-            return Math.max.apply(Math, array);
-        };
-        //Min value from array
-        function Min(array)
-        {
-            return Math.min.apply(Math, array);
-        };
-        //Default if undefined
-        function Default(userDeclared, valueIfFalse)
-        {
-            if (!userDeclared)
-            {
-                return valueIfFalse;
-            }
-            else
-            {
-                return userDeclared;
-            }
-        };
-        //Is a number function
-        function isNumber(n)
-        {
-            return !isNaN(parseFloat(n)) && isFinite(n);
-        }
-        //Apply cap a value at a high or low number
-        function CapValue(valueToCap, maxValue, minValue)
-        {
-            if (isNumber(maxValue))
-            {
-                if (valueToCap > maxValue)
-                {
-                    return maxValue;
-                }
-            }
-            if (isNumber(minValue))
-            {
-                if (valueToCap < minValue)
-                {
-                    return minValue;
-                }
-            }
-            return valueToCap;
-        }
-
-        function getDecimalPlaces(num)
-        {
-            var numberOfDecimalPlaces;
-            if (num % 1 != 0)
-            {
-                return num.toString().split(".")[1].length
-            }
-            else
-            {
-                return 0;
-            }
-
-        }
-
-        function mergeChartConfig(defaults, userDefined)
-        {
-            var returnObj = {};
-            for (var attrname in defaults)
-            {
-                returnObj[attrname] = defaults[attrname];
-            }
-            for (var attrname in userDefined)
-            {
-                returnObj[attrname] = userDefined[attrname];
-            }
-            return returnObj;
-        }
-
-        //Javascript micro templating by John Resig - source at http://ejohn.org/blog/javascript-micro-templating/
-        var cache = {};
-
-        function tmpl(str, data)
-        {
-            // Figure out if we're getting a template, or if we need to
-            // load the template - and be sure to cache the result.
-            var fn = !/\W/.test(str) ?
-                cache[str] = cache[str] ||
-                tmpl(document.getElementById(str).innerHTML) :
-
-                // Generate a reusable function that will serve as a template
-                // generator (and which will be cached).
-                new Function("obj",
-                    "var p=[],print=function(){p.push.apply(p,arguments);};" +
-
-                    // Introduce the data as local variables using with(){}
-                    "with(obj){p.push('" +
-
-                    // Convert the template into pure JavaScript
-                    str
-                    .replace(/[\r\t\n]/g, " ")
-                    .split("<%").join("\t")
-                    .replace(/((^|%>)[^\t]*)'/g, "$1\r")
-                    .replace(/\t=(.*?)%>/g, "',$1,'")
-                    .split("\t").join("');")
-                    .split("%>").join("p.push('")
-                    .split("\r").join("\\'") + "');}return p.join('');");
-
-            // Provide some basic currying to the user
-            return data ? fn(data) : fn;
-        };
+/// ----- ZUI change begin -----
+/// Use jquery object to create Chart object
+    $.fn.lineChart = function(data, options)
+    {
+        var lineCharts = [];
+        this.each(function(){
+            var $this = $(this);
+            lineCharts.push(new Chart(this.getContext("2d")).Line(data, $.extend($this.data(), options)));
+        });
+        return lineCharts.length === 1 ? lineCharts[0] : lineCharts;
     }
-}());
+
+/// ----- ZUI change end -----
+
+/// ----- ZUI change begin -----
+/// Add jquery object to namespace
+
+/// }).call(this); // Old code
+}).call(this, jQuery);
+
+/// ----- ZUI change end -----
