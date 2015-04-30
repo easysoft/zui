@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-29
+ * ZUI - v1.3.0 - 2015-04-30
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -11,7 +11,10 @@
 (function($)
 {
     'use strict';
-    var color =
+    var nextColorIndex = 0;
+    var presetColors = ['primary', 'black', 'red', 'yellow', 'green', 'blue', 'purple', 'brown', 'dark'];
+
+    var colorset =
     {
         theme: 'light',
         primary: '#3280fc',
@@ -54,7 +57,16 @@
         importantPale: '#f7ebe1',
         specialPale: '#f5eeff'
     };
+    
+    colorset.get = function(colorName)
+    {
+        if(typeof colorName === 'undefined' || colorName === 'random') {
+            colorName = presetColors[nextColorIndex % presetColors.length];
+        }
 
-    $.zui({colorset: color});
-    if($.zui.Color) $.extend($.zui.Color, color);
+        return new $.zui.Color(colorset[colorName] ? colorset[colorName] : colorName);
+    }
+
+    $.zui({colorset: colorset});
+    if($.zui.Color) $.extend($.zui.Color, colorset);
 }(jQuery));
