@@ -162,8 +162,8 @@ myLineChart.addData([40, 60], &quot;十三月&quot;);</code></pre>
     <p>饼图支持一般饼图和环行饼图。</p>
     <div class="example">
       <div class="row">
-        <div class="col-xs-6 text-center"><canvas id="myPieChart" width="200" height="200"></canvas></div>
-        <div class="col-xs-6 text-center"><canvas id="myDoughnutChart" width="200" height="200"></canvas></div>
+        <div class="col-xs-6 text-center"><canvas id="myPieChart" width="320" height="200"></canvas></div>
+        <div class="col-xs-6 text-center"><canvas id="myDoughnutChart" width="320" height="200"></canvas></div>
       </div>
     </div>
     <pre><code>var data = [
@@ -191,7 +191,9 @@ myLineChart.addData([40, 60], &quot;十三月&quot;);</code></pre>
 }];
 
 // 图表配置项，可以留空来使用默认的配置
-var options = {};
+var options = {
+    scaleShowLabels: true, // 展示标签
+};
 
 // 创建饼图
 var myPieChart = $(&quot;#myPieChart&quot;).pieChart(data, options);
@@ -213,8 +215,20 @@ var myDoughnutChart = $(&quot;#myDoughnutChart&quot;).doughnutChart(data, {segme
     //Number - 环形中间留空圆形半径的百分比
     percentageInnerCutout : 50, // 如果设置为0则为一般实心饼图
 
+    // Boolean - 是否显示标签
+    scaleShowLabels: false,
+
+    // 标签文本模板
+    scaleLabel: &quot;<%=value%>&quot;,
+
+    // String - 标签位置，可选值有：
+    // 'outside' - 在扇形区域外显示
+    // 'inside' - 在扇形区域内显示
+    // 'auto' - 自动决定显示位置
+    scaleLabelPlacement: &quot;auto&quot;,
+
     //Number - 动画执行总步数
-    animationSteps : 100,
+    animationSteps : 60,
 
     //String - 动画效果
     animationEasing : &quot;easeOutBounce&quot;,
@@ -352,9 +366,9 @@ function afterPageLoad() {
         }
     ];
     // 创建饼图
-    var myPieChart = $("#myPieChart").pieChart(data2);
+    var myPieChart = $("#myPieChart").pieChart(data2, {scaleShowLabels: true});
     // 创建环形饼图
-    var myDoughnutChart = $("#myDoughnutChart").doughnutChart(data2, {segmentShowStroke: false});
+    var myDoughnutChart = $("#myDoughnutChart").doughnutChart(data2, {segmentShowStroke: false, scaleShowLabels: true, scaleLabelPlacement: 'outside'});
 
     // 综合示例
     var myPieChart2 = $("#myPieChart2").pieChart(data2);

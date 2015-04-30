@@ -30,11 +30,7 @@
         //The percentage of the chart that we cut out of the middle.
         percentageInnerCutout: 50,
 
-        //Number - Amount of animation steps
 /// ZUI change begin
-///        animationSteps: 100, // old code
-        animationSteps: 60,
-
         // Boolean - Whether to show labels on the scale
         scaleShowLabels: false,
 
@@ -44,6 +40,9 @@
         // String - Scale label position
         scaleLabelPlacement: 'auto',
 
+///        Number - Amount of animation steps // old code
+///        animationSteps: 100, // old code
+        animationSteps: 60,
 /// ZUI change end
 
         //String - Animation easing effect
