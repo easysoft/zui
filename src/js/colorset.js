@@ -12,7 +12,7 @@
 {
     'use strict';
     var nextColorIndex = 0;
-    var presetColors = ['primary', 'black', 'red', 'yellow', 'green', 'blue', 'purple', 'brown', 'dark'];
+    var presetColors = ['primary', 'red', 'yellow', 'green', 'blue', 'purple', 'brown', 'dark'];
 
     var colorset =
     {
@@ -61,7 +61,7 @@
     colorset.get = function(colorName)
     {
         if(typeof colorName === 'undefined' || colorName === 'random') {
-            colorName = presetColors[nextColorIndex % presetColors.length];
+            colorName = presetColors[(nextColorIndex++) % presetColors.length];
         }
 
         return new $.zui.Color(colorset[colorName] ? colorset[colorName] : colorName);
