@@ -1,3 +1,9 @@
+<style>
+.text-middle th, .text-middle td {
+    vertical-align: middle;
+}
+</style>
+
 <article>
   <p>ZUI中的图表视图使用 <a href="http://www.chartjs.org/" target="_blank">Chart.js</a> 实现。</p>
   <p>目前提供曲线图和饼图的实现。</p>
@@ -122,11 +128,28 @@ var myLineChart = $(&quot;#myLineChart&quot;).lineChart(data, options);</code></
     legendTemplate : &quot;&lt;ul class='&lt;%=name.toLowerCase()%&gt;-legend'&gt;&lt;% for (var i=0; i&lt;datasets.length; i++){%&gt;&lt;li&gt;&lt;span style='background-color:&lt;%=datasets[i].strokeColor%&gt;'&gt;&lt;/span&gt;&lt;%if(datasets[i].label){%&gt;&lt;%=datasets[i].label%&gt;&lt;%}%&gt;&lt;/li&gt;&lt;%}%&gt;&lt;/ul&gt;&quot;
 };</code></pre>
 
-    <h4>方法与事件</h4>
-    <h5>.getPointsAtEvent( event )</h5>
-    <h5>.update( )</h5>
-    <h5>.addData( valuesArray, label )</h5>
-    <h5>.removeData( index )</h5>
+    <h4>方法</h4>
+    <p>创建图表后得到的图表实例拥有一些有用的方法。</p>
+    <h5>.getPointsAtEvent(event)</h5>
+    <p>传入一个jQuery点击事件参数，则返回鼠标在图表上点击所在的水平方向刻度对应的点集合。</p>
+    <pre><code>$(&quot;#myLineChart&quot;).on(&quot;click&quot;, function(evt){
+    var activePoints = myLineChart.getPointsAtEvent(evt);
+    // activePoints 为一个数组，如果当前点击所在的位置没有对应的数据，则为空
+});</code></pre>
+    <h5>.update()</h5>
+    <p>更新数据集，并重新绘制图表。</p>
+    <pre><code>// 更新第一个数据集的第三个数据值为50
+myLineChart.datasets[0].points[2].value = 50;
+
+// 调用update方法根据更新后的数据集重新绘制图表
+myLineChart.update();</code></pre>
+    <h5>.addData(valuesArray, label)</h5>
+    <p>向图表数据集增加一组新的数据，并立即重回图表。</p>
+    <pre><code>// 向数据集添加一组新的数据
+myLineChart.addData([40, 60], &quot;十三月&quot;);</code></pre>
+    <h5>.removeData()</h5>
+    <p>移除数据集中的第一组数据，并重绘图表，会应用动画效果。</p>
+    <pre><code>myLineChart.removeData();</code></pre>
   </article>
 </section>
 
@@ -206,10 +229,69 @@ var myDoughnutChart = $(&quot;#myDoughnutChart&quot;).doughnutChart(data, {segme
     legendTemplate : &quot;&lt;ul class='&lt;%=name.toLowerCase()%&gt;-legend'&gt;&lt;% for (var i=0; i&lt;segments.length; i++){%&gt;&lt;li&gt;&lt;span style='background-color:&lt;%=segments[i].fillColor%&gt;'&gt;&lt;/span&gt;&lt;%if(segments[i].label){%&gt;&lt;%=segments[i].label%&gt;&lt;%}%&gt;&lt;/li&gt;&lt;%}%&gt;&lt;/ul&gt;&quot;
 }</code></pre>
     <h4>方法与事件</h4>
-    <h5>.getSegmentsAtEvent( event )</h5>
-    <h5>.update( )</h5>
-    <h5>.addData( segmentData, index )</h5>
-    <h5>.removeData( index )</h5>
+    <h5>.getSegmentsAtEvent(event)</h5>
+    <p>传入一个鼠标点击事件参数，以数组的形式返回当前点击的扇形区域对应的数据。</p>
+    <pre><code>$(&quot;#myPieChart&quot;).on(&quot;click&quot;, function(evt){
+    var activePoints = myPieChart.getSegmentsAtEvent(evt);
+    // activePoints 为一个数组，如果当前点击所在的位置没有对应的数据，则为空
+});</code></pre>
+    <h5>.update()</h5>
+    <p>更新数据集，并重新绘制图表。</p>
+    <pre><code>// 更新第一个数据集（默认只有一个数据集）的第二个数据值为50
+myPieChart.segments[1].value = 10;
+
+// 调用update方法根据更新后的数据集重新绘制图表
+myPieChart.update();</code></pre>
+    <h5>.addData(segmentData, index)</h5>
+    <p>向图表数据集增加一组新的数据，并立即重回图表。</p>
+    <pre><code>myPieChart.addData({
+    value: 130,
+    color: "purple",
+    label: "紫队"
+});</code></pre>
+    <h5>.removeData(index)</h5>
+    <p>移除指定索引位置的数据，如果不指定索引，则默认移除最后一个数据。</p>
+    <pre><code>myPieChart.removeData();</code></pre>
+    <h5>综合示例</h5>
+    <div class="example">
+      <div class="row">
+        <div class="col-xs-6">
+          <table class="table table-bordered text-middle">
+            <tbody>
+              <tr><th>getSegmentsAtEvent</th><td id="pieGetSegmentsAtEvent"><span class="text-muted"><i class="icon icon-info-sign"></i> 点击图表来获取点击的数据</span></td></tr>
+              <tr><th>update</th><td>
+                <div class="input-group">
+                  <span class="input-group-addon">更改第</span>
+                  <input type="text" id="updatePieNum" name="updatePieNum" class="form-control" value="0">
+                  <span class="input-group-addon fix-border">个数据值为</span>
+                  <input type="text" id="updatePieValue" name="updatePieValue" class="form-control" value="100">
+                  <span class="input-group-btn"><button type="button" id="updatePie" class="btn btn-primary">确定</button></span>
+                </div>
+              </td></tr>
+              <tr><th>addData</th><td>
+                <div class="input-group">
+                  <span class="input-group-addon">增加值为</span>
+                  <input type="text" id="addPieValue" name="addPieValue" class="form-control" value="50" placeholder="value">
+                  <span class="input-group-addon fix-border">标题为</span>
+                  <input type="text" id="addPieLabel" name="addPieLabel" class="form-control" value="新队" placeholder="label">
+                  <span class="input-group-btn"><button type="button" id="addPie" class="btn btn-primary">确定</button></span>
+                </div>
+              </td></tr>
+              <tr><th>update</th><td>
+                <div class="input-group">
+                  <span class="input-group-addon">移除第</span>
+                  <input type="text" id="removePieIndex" name="removePieIndex" class="form-control" placeholder="默认最后一个">
+                  <span class="input-group-addon fix-border">个数据</span>
+                  <span class="input-group-btn"><button type="button" id="removePieData" class="btn btn-primary">确定</button></span>
+                </div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-3 text-center"><canvas id="myPieChart2" width="200" height="200"></canvas></div>
+        <div class="col-xs-3 text-center"><canvas id="myDoughnutChart2" width="200" height="200"></canvas></div>
+      </div>
+    </div>
   </article>
   </article>
 </section>
@@ -245,34 +327,93 @@ function afterPageLoad() {
     };
     var myLineChart = $("#myLineChart").lineChart(data, {bezierCurve: true, responsive: true});
 
-    data = [
-    {
-        value: 150,
-        color: "blue", // 使用颜色名称
-        label: "蓝队"
-    },
-    {
-        value: 250,
-        color:"#F7464A", // 自定义颜色
-        // highlight: "#FF5A5E", // 自定义高亮颜色
-        label: "红队"
-    },
-    {
-        value: 50,
-        color: 'green',
-        label: "绿队"
-    },
-    {
-        // 不指定color值，使用随机颜色
-        // 
-        value: 100,
-        label: "随机颜色队"
-    }];
-
+    var data2 = [
+        {
+            value: 150,
+            color: "blue", // 使用颜色名称
+            label: "蓝队"
+        },
+        {
+            value: 250,
+            color:"#F7464A", // 自定义颜色
+            // highlight: "#FF5A5E", // 自定义高亮颜色
+            label: "红队"
+        },
+        {
+            value: 50,
+            color: 'green',
+            label: "绿队"
+        },
+        {
+            // 不指定color值，使用随机颜色
+            // 
+            value: 100,
+            label: "随机颜色队"
+        }
+    ];
     // 创建饼图
-    var myPieChart = $("#myPieChart").pieChart(data);
-
+    var myPieChart = $("#myPieChart").pieChart(data2);
     // 创建环形饼图
-    var myDoughnutChart = $("#myDoughnutChart").doughnutChart(data, {segmentShowStroke: false});
+    var myDoughnutChart = $("#myDoughnutChart").doughnutChart(data2, {segmentShowStroke: false});
+
+    // 综合示例
+    var myPieChart2 = $("#myPieChart2").pieChart(data2);
+    var myDoughnutChart2 = $("#myDoughnutChart2").doughnutChart(data2, {segmentShowStroke: false});
+    $("#myPieChart2").on('click', function(e){
+        var point = myPieChart2.getSegmentsAtEvent(e)[0];
+        $('#pieGetSegmentsAtEvent').html(point ? '你点击了 <strong><i class="icon text-muted icon-circle"></i> 饼图 </strong>的 <span style="color: #fff; display: inline-block; padding: 0 5px; background-color: ' + point.fillColor + '">' + point.label + '</span>，当前值为 <strong>' + point.value + '</strong>' : '你点击了空白地方。');
+    });
+    $("#myDoughnutChart2").on('click', function(e){
+        var point = myDoughnutChart2.getSegmentsAtEvent(e)[0];
+        $('#pieGetSegmentsAtEvent').html(point ? '你点击了 <strong><i class="icon text-muted icon-circle"></i> 环图 </strong>的 <strong style="color: #fff; display: inline-block; padding: 0 5px; background-color: ' + point.fillColor + '">' + point.label + '</strong>，当前值为 <strong>' + point.value + '</strong>' : '你点击了空白地方。');
+    });
+    $('#updatePie').on('click', function(){
+        var num = parseInt($('#updatePieNum').val());
+        var val = parseInt($('#updatePieValue').val());
+        if(!isNaN(num) && !isNaN(val)) {
+            myPieChart2.segments[num].value = val;
+            myPieChart2.update();
+            myDoughnutChart2.segments[num].value = val;
+            myDoughnutChart2.update();
+            var next = Math.min(80,Math.round(Math.random() * 500));
+            var nextIndex = Math.floor(Math.random() * myPieChart2.segments.length);
+            $('#updatePieValue').val(next);
+            $('#updatePieNum').val(nextIndex);
+        } else {
+            $.zui.messager.warning('请输入有效的数据。', {placement: 'center'});
+        }
+    });
+
+    $('#addPie').click(function(){
+        var val = parseInt($('#addPieValue').val());
+        var label = $('#addPieLabel').val();
+        if(!isNaN(val) && label) {
+            var dt = {
+                value: val,
+                label: label
+            };
+            myPieChart2.addData(dt);
+            myDoughnutChart2.addData(dt);
+
+            var next = Math.min(80,Math.round(Math.random() * 500));
+            $('#addPieValue').val(next);
+            $('#addPieLabel').val('幸运' + next);
+        } else {
+            $.zui.messager.warning('请输入有效的数据。', {placement: 'center'});
+        }
+    });
+
+    $('#removePieData').click(function(){
+        var idx = parseInt($('#removePieIndex').val());
+        if(!isNaN(idx) || !idx) {
+            idx = undefined;
+            myPieChart2.removeData(idx);
+            myDoughnutChart2.removeData(idx);
+            var nextIndex = Math.floor(Math.random() * myPieChart2.segments.length);
+            $('#removePieIndex').val(nextIndex);
+        } else {
+            $.zui.messager.warning('请输入有效的数据。', {placement: 'center'});
+        }
+    });
 }
 </script>
