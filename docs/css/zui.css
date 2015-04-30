@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-04-29
+ * ZUI - v1.3.0 - 2015-04-30
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -5175,17 +5175,12 @@ pre code {
 .pln {
   color: #48484c;
 }
-.prettyprint {
-  padding: 8px;
-  background-color: #f7f7f9;
-}
 .prettyprint.linenums {
   -webkit-box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
           box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
 }
-/* Specify class=linenums on a pre to get line numbering */
-ol.linenums li {
-  padding-left: 12px;
+.prettyprint ol.linenums {
+  padding-left: 40px;
   line-height: 20px;
   color: #bebec5;
   text-shadow: 0 1px 0 #fff;
