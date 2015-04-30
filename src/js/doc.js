@@ -65,7 +65,7 @@
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols,
         $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
-        $pageContainer, $pageBody, $navbar, $search,
+        $pageContainer, $pageBody, $navbar, $search, lastQueryString,
         $header, $sections, $chapterHeadings; // elements
 
     var isExternalUrl = function(url) {
@@ -555,12 +555,14 @@
             return;
         }
 
+        if(typeof keyString === 'undefined') keyString = null;
+
         if($queryInput.data('queryString') !== keyString) {
             $queryInput.data('queryString', keyString).val(keyString);
             $grid.css('min-height', $grid.height());
         }
 
-        if(keyString === UNDEFINED || keyString === null || !keyString.length) {
+        if(keyString === null || !keyString.length) {
             resetQuery();
             $search.removeClass('with-query-text');
             return;
@@ -1317,6 +1319,7 @@
                     if(!isInputFocus) {
                         $queryInput.focus();
                     }
+                    lastQueryString = '';
                     query();
                 }
             // } else if(code === 32) { // Space
@@ -1362,7 +1365,7 @@
         });
 
         $search = $('#search');
-        var lastQueryString;
+        
         $queryInput.focus().on('change keyup paste input propertychange', function(){
             var val = $queryInput.val();
             if(val === lastQueryString) return;
@@ -1384,6 +1387,7 @@
 
         $('#searchHelpBtn').on('click', function(e){
             if($search.hasClass('with-query-text')) {
+                lastQueryString = '';
                 query();
                 $queryInput.focus();
                 $search.removeClass('with-query-text');
