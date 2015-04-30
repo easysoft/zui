@@ -151,14 +151,14 @@
             show: showMessage,
             primary: function(message, options)
             {
-                return $.showMessage(message, $.extend(
+                return showMessage(message, $.extend(
                 {
                     type: 'primary'
                 }, getOptions(options)));
             },
             success: function(message, options)
             {
-                return $.showMessage(message, $.extend(
+                return showMessage(message, $.extend(
                 {
                     type: 'success',
                     icon: 'ok-sign'
@@ -166,7 +166,7 @@
             },
             info: function(message, options)
             {
-                return $.showMessage(message, $.extend(
+                return showMessage(message, $.extend(
                 {
                     type: 'info',
                     icon: 'info-sign'
@@ -174,7 +174,7 @@
             },
             warning: function(message, options)
             {
-                return $.showMessage(message, $.extend(
+                return showMessage(message, $.extend(
                 {
                     type: 'warning',
                     icon: 'warning-sign'
@@ -182,7 +182,7 @@
             },
             danger: function(message, options)
             {
-                return $.showMessage(message, $.extend(
+                return showMessage(message, $.extend(
                 {
                     type: 'danger',
                     icon: 'exclamation-sign'
@@ -190,14 +190,14 @@
             },
             important: function(message, options)
             {
-                return $.showMessage(message, $.extend(
+                return showMessage(message, $.extend(
                 {
                     type: 'important'
                 }, getOptions(options)));
             },
             special: function(message, options)
             {
-                return $.showMessage(message, $.extend(
+                return showMessage(message, $.extend(
                 {
                     type: 'special'
                 }, getOptions(options)));
