@@ -255,7 +255,7 @@
                 "filter": "yueding yd"
             },
             {
-                "id": "files",
+                "id": "file",
                 "name": "文件目录结构",
                 "icon": "icon-sitemap",
                 "desc": "预编译文件和源码结构",
@@ -300,7 +300,7 @@
                 "filter": "bianyihedingzhi byhdz"
             },
             {
-                "id": "browsers",
+                "id": "browser",
                 "name": "受支持的平台",
                 "icon": "icon-ie",
                 "desc": "检阅所支持的浏览器版本",
@@ -436,7 +436,7 @@
             {
                 "desc": "美化浏览器滚动条",
                 "icon": "icon-long-arrow-down",
-                "id": "scrollbars",
+                "id": "scrollbar",
                 "name": "滚动条",
                 "topics": [],
                 "filter": "gundongtiao gdt"
@@ -464,7 +464,7 @@
             {
                 "desc": "自定义主题风格",
                 "icon": "icon-leaf",
-                "id": "themes",
+                "id": "theme",
                 "name": "主题",
                 "topics": [],
                 "filter": "zhuti zt"
@@ -479,7 +479,7 @@
             {
                 "desc": "使用和查找图标",
                 "icon": "icon-star",
-                "id": "icons",
+                "id": "icon",
                 "name": "图标",
                 "topics": [
                 {
@@ -530,7 +530,7 @@
             {
                 "desc": "使用标签",
                 "icon": "icon-tags",
-                "id": "labels",
+                "id": "label",
                 "name": "标签",
                 "topics": [
                 {
@@ -572,7 +572,7 @@
             {
                 "desc": "为图片应用样式",
                 "icon": "icon-picture",
-                "id": "images",
+                "id": "image",
                 "name": "图片",
                 "topics": [
                 {
@@ -586,7 +586,7 @@
             {
                 "desc": "标题",
                 "icon": "H1",
-                "id": "headers",
+                "id": "header",
                 "name": "多级标题",
                 "topics": [
                 {
@@ -600,7 +600,7 @@
             {
                 "desc": "水平分割线",
                 "icon": "—",
-                "id": "dividers",
+                "id": "divider",
                 "name": "分隔线     ",
                 "topics": [
                 {
@@ -616,7 +616,7 @@
             "accent": "red",
             "sections": [
             {
-                "id": "alerts",
+                "id": "alert",
                 "icon": "icon-warning-sign",
                 "desc": "使用消息框引起用户注意",
                 "name": "消息框",
@@ -681,7 +681,7 @@
                 "filter": "liebiaozu lbz"
             },
             {
-                "id": "navs",
+                "id": "nav",
                 "icon": "icon-anchor",
                 "desc": "多种样式的导航菜单",
                 "name": "导航",
@@ -716,7 +716,7 @@
                 "filter": "daohang dh"
             },
             {
-                "id": "navbars",
+                "id": "navbar",
                 "icon": "icon-compass",
                 "desc": "应用导航条",
                 "name": "导航条",
@@ -753,7 +753,7 @@
                 "filter": "chuizhicaidan czcd"
             },
             {
-                "id": "pagers",
+                "id": "pager",
                 "icon": "123",
                 "desc": "为内容分页",
                 "name": "分页条",
@@ -776,7 +776,7 @@
                 "filter": "fenyetiao fyt"
             },
             {
-                "id": "panels",
+                "id": "panel",
                 "icon": "icon-list-alt",
                 "desc": "包含头部和脚部的面板",
                 "name": "面板",
@@ -790,7 +790,7 @@
                 "filter": "mianban mb"
             },
             {
-                "id": "tables",
+                "id": "table",
                 "icon": "icon-table",
                 "desc": "美观实用的表格",
                 "name": "表格",
@@ -842,7 +842,7 @@
                 "filter": "bendicunchu bdcc"
             },
             {
-                "id": "modals",
+                "id": "modal",
                 "icon": "icon-check-empty",
                 "desc": "浮动在页面之上的对话框",
                 "name": "模态框",
@@ -870,7 +870,7 @@
                 "filter": "motaikuangchufaqi mtkcfq"
             },
             {
-                "id": "dropdowns",
+                "id": "dropdown",
                 "icon": "icon-align-justify",
                 "desc": "浮动在页面之上的垂直菜单",
                 "name": "下拉菜单",
@@ -944,7 +944,7 @@
                 "filter": "tishixiaoxi tsxx"
             },
             {
-                "id": "popovers",
+                "id": "popover",
                 "icon": "icon-comment-line",
                 "desc": "弹出交互式面板",
                 "name": "弹出框",
