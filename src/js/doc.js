@@ -48,6 +48,7 @@
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
     var INDEX_JSON = 'index.json';
     var ICONS_JSON = 'icons.json';
+    var PKG_JSON = '/package.json';
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
     var dataVersion;
@@ -1137,6 +1138,12 @@
         }
     };
 
+    var loadPackage = function (){
+        loadData(PKG_JSON, function(pkg) {
+              $('.zui-version').text('v' + pkg.version);
+        });
+    };
+
     $(function() {
         documentTitle = window.document.title;
 
@@ -1200,6 +1207,8 @@
                 } else {
                     $queryInput.focus();
                 }
+
+                loadPackage();
             }
         });
 
