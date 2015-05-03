@@ -33,12 +33,12 @@
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
-        learn: {col: 1}, 
-        start: {col: 1}, 
-        basic: {col: 1}, 
-        control: {col: 2}, 
-        component: {col: 2}, 
-        javascript: {col: 3}, 
+        learn: {col: 1},
+        start: {col: 1},
+        basic: {col: 1},
+        control: {col: 2},
+        component: {col: 2},
+        javascript: {col: 3},
         view: {col: 3},
         promotion: {col: 1, row: 2},
         resource: {col: 1, row: 2},
@@ -57,6 +57,7 @@
         // 'index.json': null
     };
     if(debug) window.dataset = dataset;
+    var pkgLibs = {standard: null, lite: null, separate: null};
 
     var documentTitle = 'ZUI';
     var sectionsShowed;
@@ -1001,7 +1002,7 @@
             $body.addClass('page-show');
             $page.css(style).data('trans-style', style);
             $pageBody.css('width', bestPageWidth);
-            
+
             setTimeout(function(){
                 $body.addClass('page-show-in');
                 if($page.hasClass('loading')) $page.addClass('openning').css('height', 380);
@@ -1138,9 +1139,124 @@
         }
     };
 
+    var getBuildList = function(pkg, build, lib, list)
+    {
+        if(!list)
+        {
+            list = [];
+        }
+        if(!$.isArray(list))
+        {
+            list = [list];
+        }
+
+        if(build.bundles)
+        {
+            $.each(build.bundles, function(idx, val)
+            {
+                if(pkg.builds[val])
+                {
+                    getBuildList(pkg, pkg.builds[val], lib, list);
+                }
+                else
+                {
+                    list = getItemList(lib, [val], list);
+                }
+            });
+        }
+
+        if(build.basicDpds) list = getItemList(lib, build.basicDpds, list);
+        list = getItemList(lib, build.includes, list, build.ignoreDpds);
+
+        return list;
+    };
+
+    var getItemList  = function(lib, list, items, ignoreDpds, ignoreCombine)
+    {
+        items = items || [];
+
+        if($.isArray(list))
+        {
+            $.each(list, function(idx, name)
+            {
+                getItemList(lib, name, items, ignoreDpds);
+            });
+        }
+        else
+        {
+            var item = lib[list];
+            if(item && items.indexOf(list) < 0)
+            {
+                if(!ignoreDpds && item.dpds)
+                {
+                    getItemList(lib, item.dpds, items, ignoreDpds);
+                }
+                if(item.src || !ignoreCombine) items.push(list);
+            }
+        }
+
+        return items;
+    };
+
     var loadPackage = function (){
         loadData(PKG_JSON, function(pkg) {
-              $('.zui-version').text('v' + pkg.version);
+            $('.zui-version').text('v' + pkg.version);
+            pkgLibs.standard = getBuildList(pkg, pkg.builds.standard, pkg.lib);
+            pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
+            pkgLibs.separate = getBuildList(pkg, pkg.builds.separate, pkg.lib);
+        });
+    };
+
+    var displayPkgLibTable = function($table) {
+        if(!$table.length) return;
+        loadData(PKG_JSON, function(data){
+            var $tbody = $('<tbody></tbody>');
+
+            var getChildCompsList = function(val){return data.lib[val].name;};
+            var $tr, $td;
+            for(var itemName in data.lib)
+            {
+                var item = data.lib[itemName];
+                if(item.custom) continue;
+
+                var childComps = '';
+                if(!item.src && item.dpds)
+                {
+                    var childList = getItemList(data.lib, item.dpds, null, true, true);
+                    childComps = '合并组件包含：';
+                    childComps += $.map(childList, getChildCompsList).join('、');
+                }
+
+                $tr = $('<tr/>');
+
+                $td = $('<td/>');
+                $td.attr('title', item.desc);
+                $td.html('<strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') +')');
+                $tr.append($td);
+
+                $.each(pkgLibs, function(idx, sLib)
+                {
+                    $td = $('<td class="text-center"/>');
+                    if(sLib.indexOf(itemName) > -1)
+                    {
+                        $td.addClass('success').html('<i class="text-success icon-ok"></i>');
+                    }
+                    else
+                    {
+                        $td.html('<i class="text-muted icon-remove"></i>');
+                    }
+                    $tr.append($td);
+                });
+
+                $td = $('<td/>');
+                $td.html(item.ver ? (' v' + item.ver + '+') : childComps);
+                $tr.append($td);
+
+                $tbody.append($tr);
+            }
+            $table.find('tbody').remove();
+            $table.append($tbody);
+            $table.datatable({rowHover: false, fixedHeaderOffset: 200});
         });
     };
 
@@ -1186,7 +1302,7 @@
 
         // Setup ajax
         $.ajaxSetup({cache: false});
-        
+
         // Load index.json
         loadData(INDEX_JSON, function(data){
             var firstLoad = !sectionsShowed;
@@ -1374,7 +1490,7 @@
         });
 
         $search = $('#search');
-        
+
         $queryInput.focus().on('change keyup paste input propertychange', function(){
             var val = $queryInput.val();
             if(val === lastQueryString) return;
@@ -1416,6 +1532,7 @@
         openSection: openSection,
         closePage: closePage,
         loadData: loadData,
-        mutePageLoading: mutePageLoading
+        mutePageLoading: mutePageLoading,
+        displayPkgLibTable: displayPkgLibTable
     };
 }(window, jQuery));

@@ -87,14 +87,17 @@
       </thead>
       <tbody>
         <tr>
-          <td colspan="5" class="text-muted">正在加载列表...</td>
+          <td colspan="5" class="text-muted"><i class='icon icon-spin icon-spinner-indicator'></i> 正在加载列表...</td>
         </tr>
       </tbody>
     </table>
   </article>
 </section>
 
-
-
-
-
+<script>
+function afterPageLoad() {
+    if($.doc) {
+        $.doc.displayPkgLibTable($('#buildTable'));
+    }
+}
+</script>
