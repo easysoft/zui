@@ -72,22 +72,24 @@
   bottom: 0;
   width: @carousel-control-width;
   .opacity(@carousel-control-opacity);
-  font-size: @carousel-control-font-size;
   color: @carousel-control-color;
   text-align: center;
   text-shadow: @carousel-text-shadow;
   outline: none;
+
+  > [class^=icon-] {font-size: @carousel-control-font-size;}
+
   // We can't have this transition here because webkit cancels the carousel
   // animation if you trip this while in the middle of another animation.
 
   // Set gradients for backgrounds
   &.left {
-    #gradient > .horizontal(@start-color: rgba(0,0,0,.5); @end-color: rgba(0,0,0,.0001));
+    #gradient > .horizontal(@start-color: rgba(0,0,0,.3); @end-color: rgba(0,0,0,.0001));
   }
   &.right {
     left: auto;
     right: 0;
-    #gradient > .horizontal(@start-color: rgba(0,0,0,.0001); @end-color: rgba(0,0,0,.5));
+    #gradient > .horizontal(@start-color: rgba(0,0,0,.0001); @end-color: rgba(0,0,0,.3));
   }
 
   // Hover/focus state
@@ -96,7 +98,7 @@
     color: @carousel-control-color;
     text-decoration: none;
     outline: none;
-    .opacity(.9);
+    .opacity(1);
   }
 
   // Toggles
