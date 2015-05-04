@@ -78,6 +78,11 @@
           }
         }
 
+        > a[href^='#search/']:before {
+          background-color: @pale;
+          color: @color;
+        }
+
         &.active > a, > a:hover {
           background-color: @pale;
         }
@@ -994,6 +999,23 @@ body {
           &:hover, &:active, &:focus {
             text-decoration: none;
           }
+
+          &[href^='#search/']:before {
+            .icon-zenicon();
+            display: block;
+            content: '\e603';
+            background-color: @color-gray-lighter;
+            border-radius: 12px;
+            width: 24px;
+            height: 24px;
+            left: 9px;
+            top: 2px;
+            z-index: 100;
+            color: @color-gray;
+            line-height: 22px;
+            text-align: center;
+            position: absolute;
+          }
         }
 
         &.active > a, > a:hover {
@@ -1066,12 +1088,12 @@ body {
         }
       }
 
-      &[data-view="grid"] {
-        .clearfix();
-        > li {
+      // &[data-view="grid"] {
+      //   .clearfix();
+      //   > li {
 
-        }
-      }
+      //   }
+      // }
     }
   }
 

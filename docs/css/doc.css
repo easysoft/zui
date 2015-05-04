@@ -751,6 +751,32 @@ body {
 #grid .card-content > ul > li > a:focus {
   text-decoration: none;
 }
+#grid .card-content > ul > li > a[href^='#search/']:before {
+  position: absolute;
+  top: 2px;
+  left: 9px;
+  z-index: 100;
+  display: block;
+  width: 24px;
+  height: 24px;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  line-height: 22px;
+  color: #808080;
+  text-align: center;
+  text-transform: none;
+  content: '\e603';
+  background-color: #e5e5e5;
+  border-radius: 12px;
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 #grid .card-content > ul > li.active > a,
 #grid .card-content > ul > li > a:hover {
   color: #353535;
@@ -829,16 +855,6 @@ body {
   height: 30px;
   line-height: 30px;
   text-indent: 0;
-}
-#grid .card-content > ul[data-view="grid"]:before,
-#grid .card-content > ul[data-view="grid"]:after {
-  /* 1 */
-  display: table;
-  content: " ";
-  /* 2 */
-}
-#grid .card-content > ul[data-view="grid"]:after {
-  clear: both;
 }
 #grid .section-search {
   height: 0;
@@ -963,6 +979,10 @@ body {
 #grid .chapter[data-accent="blue"] .card-content > ul > li:hover:after {
   border-color: #03b8cf;
 }
+#grid .chapter[data-accent="blue"] .card-content > ul > li > a[href^='#search/']:before {
+  color: #03b8cf;
+  background-color: #ddf3f5;
+}
 #grid .chapter[data-accent="blue"] .card-content > ul > li.active > a,
 #grid .chapter[data-accent="blue"] .card-content > ul > li > a:hover {
   background-color: #ddf3f5;
@@ -1058,6 +1078,10 @@ body {
 }
 #grid .chapter[data-accent="primary"] .card-content > ul > li:hover:after {
   border-color: #3280fc;
+}
+#grid .chapter[data-accent="primary"] .card-content > ul > li > a[href^='#search/']:before {
+  color: #3280fc;
+  background-color: #ebf2f9;
 }
 #grid .chapter[data-accent="primary"] .card-content > ul > li.active > a,
 #grid .chapter[data-accent="primary"] .card-content > ul > li > a:hover {
@@ -1155,6 +1179,10 @@ body {
 #grid .chapter[data-accent="yellow"] .card-content > ul > li:hover:after {
   border-color: #f1a325;
 }
+#grid .chapter[data-accent="yellow"] .card-content > ul > li > a[href^='#search/']:before {
+  color: #f1a325;
+  background-color: #fff0d5;
+}
 #grid .chapter[data-accent="yellow"] .card-content > ul > li.active > a,
 #grid .chapter[data-accent="yellow"] .card-content > ul > li > a:hover {
   background-color: #fff0d5;
@@ -1250,6 +1278,10 @@ body {
 }
 #grid .chapter[data-accent="green"] .card-content > ul > li:hover:after {
   border-color: #38b03f;
+}
+#grid .chapter[data-accent="green"] .card-content > ul > li > a[href^='#search/']:before {
+  color: #38b03f;
+  background-color: #ddf4df;
 }
 #grid .chapter[data-accent="green"] .card-content > ul > li.active > a,
 #grid .chapter[data-accent="green"] .card-content > ul > li > a:hover {
@@ -1347,6 +1379,10 @@ body {
 #grid .chapter[data-accent="red"] .card-content > ul > li:hover:after {
   border-color: #ea644a;
 }
+#grid .chapter[data-accent="red"] .card-content > ul > li > a[href^='#search/']:before {
+  color: #ea644a;
+  background-color: #ffe5e0;
+}
 #grid .chapter[data-accent="red"] .card-content > ul > li.active > a,
 #grid .chapter[data-accent="red"] .card-content > ul > li > a:hover {
   background-color: #ffe5e0;
@@ -1443,6 +1479,10 @@ body {
 #grid .chapter[data-accent="brown"] .card-content > ul > li:hover:after {
   border-color: #bd7b46;
 }
+#grid .chapter[data-accent="brown"] .card-content > ul > li > a[href^='#search/']:before {
+  color: #bd7b46;
+  background-color: #f7ebe1;
+}
 #grid .chapter[data-accent="brown"] .card-content > ul > li.active > a,
 #grid .chapter[data-accent="brown"] .card-content > ul > li > a:hover {
   background-color: #f7ebe1;
@@ -1538,6 +1578,10 @@ body {
 }
 #grid .chapter[data-accent="purple"] .card-content > ul > li:hover:after {
   border-color: #8666b8;
+}
+#grid .chapter[data-accent="purple"] .card-content > ul > li > a[href^='#search/']:before {
+  color: #8666b8;
+  background-color: #f5eeff;
 }
 #grid .chapter[data-accent="purple"] .card-content > ul > li.active > a,
 #grid .chapter[data-accent="purple"] .card-content > ul > li > a:hover {
