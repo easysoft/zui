@@ -8,6 +8,7 @@
             "accent": "red",
             "sections": [
             {
+                "author": "Catouse",
                 "id": "contributors",
                 "name": "贡献者",
                 "desc": "看看这些有爱的人吧",
@@ -20,6 +21,7 @@
                 "filter": "gongxianzhe gxz"
             },
             {
+                "author": "Catouse",
                 "id": "countme",
                 "name": "我要加入",
                 "desc": "加入ZUI，一起成长和改变，联系sunhao@cnezsoft.com",
@@ -27,6 +29,7 @@
                 "filter": "woyaojiaru wyjr"
             },
             {
+                "author": "Catouse",
                 "id": "learn",
                 "name": "站在巨人的肩膀上",
                 "desc": "ZUI 构建于众多优秀的开源项目之上",
@@ -98,6 +101,7 @@
             "accent": "primary",
             "sections": [
             {
+                "author": "Catouse",
                 "id": "help",
                 "name": "搜索帮助",
                 "desc": "更高效使用文档",
@@ -105,6 +109,7 @@
                 "filter": "sousuobangzhu ssbz"
             },
             {
+                "author": "Catouse",
                 "id": "migrate1.2",
                 "name": "从1.2版本升级指南",
                 "desc": "一份1.2以下版本升级到最新版的向导",
@@ -119,6 +124,7 @@
             "accent": "purple",
             "sections": [
             {
+                "author": "Catouse",
                 "id": "zentaopms",
                 "name": "禅道项目管理",
                 "desc": "以开源的方式做最专业的研发项目管理软件！",
@@ -140,6 +146,7 @@
                 "filter": "chandaoxiangmuguanli cdxmgl"
             },
             {
+                "author": "Catouse",
                 "id": "chanzhi",
                 "name": "蝉知",
                 "desc": "为天下企业提供专业的营销工具！",
@@ -153,6 +160,7 @@
                 "filter": "chanzhi cz"
             },
             {
+                "author": "Catouse",
                 "id": "ranzhi",
                 "name": "然之",
                 "desc": "中小企业一体化协同管理最佳解决方案！",
@@ -173,6 +181,7 @@
             "accent": "blue",
             "sections": [
             {
+                "author": "Catouse",
                 "id": "newly",
                 "name": "新鲜内容",
                 "desc": "1.3新增内容",
@@ -185,6 +194,7 @@
                 ]
             },
             {
+                "author": "Catouse",
                 "id": "qqgroup",
                 "name": "QQ讨论",
                 "desc": "官方QQ群：384135104",
@@ -193,6 +203,7 @@
                 "filter": "qqtaolun qqtl"
             },
             {
+                "author": "Catouse",
                 "id": "forum",
                 "name": "论坛",
                 "desc": "去发表帖子吧",
@@ -201,6 +212,7 @@
                 "filter": "luntan lt"
             },
             {
+                "author": "Catouse",
                 "id": "github",
                 "name": "Github",
                 "icon": "icon-github",
@@ -209,6 +221,7 @@
                 "filter": ""
             },
             {
+                "author": "Catouse",
                 "id": "oschina",
                 "name": "开源中国",
                 "icon": "OSC",
@@ -224,6 +237,7 @@
             "accent": "primary",
             "sections": [
             {
+                "author": "Catouse",
                 "id": "intro",
                 "name": "说明",
                 "icon": "icon-heart",
@@ -238,6 +252,7 @@
                 "filter": "shuoming sm"
             },
             {
+                "author": "Catouse",
                 "id": "about",
                 "name": "约定",
                 "icon": "icon-book",
@@ -255,6 +270,7 @@
                 "filter": "yueding yd"
             },
             {
+                "author": "Catouse",
                 "id": "file",
                 "name": "文件目录结构",
                 "icon": "icon-sitemap",
@@ -269,6 +285,7 @@
                 "filter": "wenjianmulujiegou wjmljg"
             },
             {
+                "author": "Catouse",
                 "id": "edition",
                 "name": "选择版本",
                 "icon": "icon-code-fork",
@@ -289,6 +306,7 @@
                 "filter": "xuanzebanben xzbb"
             },
             {
+                "author": "Catouse",
                 "id": "grunt",
                 "name": "编译和定制",
                 "icon": "icon-terminal",
@@ -300,6 +318,7 @@
                 "filter": "bianyihedingzhi byhdz"
             },
             {
+                "author": "Catouse",
                 "id": "browser",
                 "name": "受支持的平台",
                 "icon": "icon-ie",
@@ -321,6 +340,7 @@
             "accent": "yellow",
             "sections": [
             {
+                "author": "Catouse",
                 "desc": "文档基本结构",
                 "icon": "icon-smile",
                 "id": "hello",
@@ -329,6 +349,7 @@
                 "filter": "helloworld helloworld"
             },
             {
+                "author": "Catouse",
                 "desc": "normalize.css",
                 "icon": "icon-circle-blank",
                 "id": "global",
@@ -337,6 +358,7 @@
                 "filter": "quanjuyangshibiao qjysb"
             },
             {
+                "author": "Catouse",
                 "desc": "为IE单独准备的内容",
                 "icon": "icon-ie",
                 "id": "ie",
@@ -351,6 +373,7 @@
                 "filter": "jianrongieliulanqi jriellq"
             },
             {
+                "author": "Catouse",
                 "desc": "多种屏幕尺寸响应",
                 "icon": "icon-tablet",
                 "id": "responsive",
@@ -362,6 +385,7 @@
                 "filter": "xiangyingshibuju xysbj"
             },
             {
+                "author": "Catouse",
                 "desc": "响应式布局的实现",
                 "icon": "icon-th",
                 "id": "grid",
@@ -370,6 +394,7 @@
                 "filter": "zhagexitong zgxt"
             },
             {
+                "author": "Catouse",
                 "desc": "文字排版",
                 "icon": "icon-font",
                 "id": "typography",
@@ -384,6 +409,7 @@
                 "filter": "paiban pb"
             },
             {
+                "author": "Catouse",
                 "desc": "一些使用的工具类",
                 "icon": "icon-wrench",
                 "id": "utilities",
@@ -434,6 +460,7 @@
                 "filter": "fuzhulei fzl"
             },
             {
+                "author": "Catouse",
                 "desc": "美化浏览器滚动条",
                 "icon": "icon-long-arrow-down",
                 "id": "scrollbar",
@@ -442,6 +469,7 @@
                 "filter": "gundongtiao gdt"
             },
             {
+                "author": "Catouse",
                 "desc": "默认配色方案",
                 "icon": "icon-dashboard",
                 "id": "colorset",
@@ -462,6 +490,7 @@
                 "filter": "peise ps"
             },
             {
+                "author": "Catouse",
                 "desc": "自定义主题风格",
                 "icon": "icon-leaf",
                 "id": "theme",
@@ -477,6 +506,7 @@
             "accent": "green",
             "sections": [
             {
+                "author": "Catouse",
                 "desc": "使用和查找图标",
                 "icon": "icon-star",
                 "id": "icon",
@@ -498,6 +528,7 @@
                 "filter": "tubiao tb"
             },
             {
+                "author": "Catouse",
                 "desc": "按钮和按钮组",
                 "icon": "icon-bold",
                 "id": "button",
@@ -518,6 +549,7 @@
                 "filter": "anniu an"
             },
             {
+                "author": "Catouse",
                 "desc": "使用进度条",
                 "icon": "%",
                 "id": "progressbar",
@@ -532,6 +564,7 @@
                 "filter": "jindutiao jdt"
             },
             {
+                "author": "Catouse",
                 "desc": "使用标签",
                 "icon": "icon-tags",
                 "id": "label",
@@ -549,6 +582,7 @@
                 "filter": "biaoqian bq"
             },
             {
+                "author": "Catouse",
                 "desc": "文本框及表单控件",
                 "icon": "icon-minus",
                 "id": "textbox",
@@ -566,6 +600,7 @@
                 "filter": "wenbenkuang wbk"
             },
             {
+                "author": "Catouse",
                 "desc": "面包屑导航",
                 "icon": "icon-map-marker",
                 "id": "breadcrumb",
@@ -574,6 +609,7 @@
                 "filter": "mianbaoxie mbx"
             },
             {
+                "author": "Catouse",
                 "desc": "为图片应用样式",
                 "icon": "icon-picture",
                 "id": "image",
@@ -588,6 +624,7 @@
                 "filter": "tupian tp"
             },
             {
+                "author": "Catouse",
                 "desc": "标题",
                 "icon": "H1",
                 "id": "header",
@@ -602,6 +639,7 @@
                 "filter": "duojibiaoti djbt"
             },
             {
+                "author": "Catouse",
                 "desc": "水平分割线",
                 "icon": "—",
                 "id": "divider",
@@ -620,6 +658,7 @@
             "accent": "red",
             "sections": [
             {
+                "author": "Catouse",
                 "id": "alert",
                 "icon": "icon-warning-sign",
                 "desc": "使用消息框引起用户注意",
@@ -643,6 +682,7 @@
                 "filter": "xiaoxikuang xxk"
             },
             {
+                "author": "Catouse",
                 "id": "code",
                 "icon": "icon-code",
                 "desc": "在文档中插入代码",
@@ -660,6 +700,7 @@
                 "filter": "daima dm"
             },
             {
+                "author": "Catouse",
                 "id": "inputgroup",
                 "icon": "icon-layout",
                 "desc": "多个输入单元格",
@@ -671,6 +712,7 @@
                 "filter": "shuruzu srz"
             },
             {
+                "author": "Catouse",
                 "id": "listgroup",
                 "icon": "icon-reorder",
                 "desc": "垂直的可点击列表",
@@ -685,6 +727,7 @@
                 "filter": "liebiaozu lbz"
             },
             {
+                "author": "Catouse",
                 "id": "nav",
                 "icon": "icon-anchor",
                 "desc": "多种样式的导航菜单",
@@ -720,6 +763,7 @@
                 "filter": "daohang dh"
             },
             {
+                "author": "Catouse",
                 "id": "navbar",
                 "icon": "icon-compass",
                 "desc": "应用导航条",
@@ -746,6 +790,7 @@
                 "filter": "daohangtiao dht"
             },
             {
+                "author": "Catouse",
                 "id": "menu",
                 "icon": "icon-list-ul",
                 "desc": "垂直方向的导航菜单",
@@ -757,6 +802,7 @@
                 "filter": "chuizhicaidan czcd"
             },
             {
+                "author": "Catouse",
                 "id": "pager",
                 "icon": "123",
                 "desc": "为内容分页",
@@ -780,6 +826,7 @@
                 "filter": "fenyetiao fyt"
             },
             {
+                "author": "Catouse",
                 "id": "panel",
                 "icon": "icon-list-alt",
                 "desc": "包含头部和脚部的面板",
@@ -794,6 +841,7 @@
                 "filter": "mianban mb"
             },
             {
+                "author": "Catouse",
                 "id": "table",
                 "icon": "icon-table",
                 "desc": "美观实用的表格",
@@ -808,6 +856,7 @@
                 "filter": "biaoge bg"
             },
             {
+                "author": "Catouse",
                 "id": "buttongroup",
                 "icon": "icon-th-list",
                 "desc": "多个按钮组合形式",
@@ -829,6 +878,7 @@
             "accent": "brown",
             "sections": [
             {
+                "author": "Catouse",
                 "id": "store",
                 "icon": "icon-hdd",
                 "desc": "使用浏览器本地存储读取数据",
@@ -846,6 +896,7 @@
                 "filter": "bendicunchu bdcc"
             },
             {
+                "author": "Catouse",
                 "id": "modal",
                 "icon": "icon-check-empty",
                 "desc": "浮动在页面之上的对话框",
@@ -860,6 +911,7 @@
                 "filter": "motaikuang mtk"
             },
             {
+                "author": "Catouse",
                 "id": "modaltrigger",
                 "icon": "icon-signout",
                 "desc": "动态展示模态框",
@@ -874,6 +926,7 @@
                 "filter": "motaikuangchufaqi mtkcfq"
             },
             {
+                "author": "Catouse",
                 "id": "dropdown",
                 "icon": "icon-align-justify",
                 "desc": "浮动在页面之上的垂直菜单",
@@ -888,6 +941,7 @@
                 "filter": "xialacaidan xlcd"
             },
             {
+                "author": "Catouse",
                 "id": "tabs",
                 "icon": "icon-credit",
                 "desc": "标签页式的导航菜单",
@@ -905,6 +959,7 @@
                 "filter": "biaoqianye bqy"
             },
             {
+                "author": "Catouse",
                 "id": "messager",
                 "icon": "icon-comment-alt",
                 "desc": "漂浮在页面之上的无打断消息",
@@ -919,6 +974,7 @@
                 "filter": "piaofuxiaoxi pfxx"
             },
             {
+                "author": "Catouse",
                 "id": "tooltips",
                 "icon": "icon-chat",
                 "desc": "为元素额外提供消息文本",
@@ -948,6 +1004,7 @@
                 "filter": "tishixiaoxi tsxx"
             },
             {
+                "author": "Catouse",
                 "id": "popover",
                 "icon": "icon-comment-line",
                 "desc": "弹出交互式面板",
@@ -977,6 +1034,7 @@
                 "filter": "danchukuang dck"
             },
             {
+                "author": "Catouse",
                 "id": "collapse",
                 "icon": "icon-collapse",
                 "desc": "为元素提供折叠和展开功能",
@@ -991,6 +1049,7 @@
                 "filter": "zhedie zd"
             },
             {
+                "author": "Catouse",
                 "id": "carousel",
                 "icon": "icon-forward",
                 "desc": "定时自动切换的图片内存",
@@ -1005,6 +1064,7 @@
                 "filter": "lunbo lb"
             },
             {
+                "author": "Catouse",
                 "id": "datetimepicker",
                 "icon": "icon-calendar",
                 "desc": "为文本框提供方便的日期时间选择功能",
@@ -1019,6 +1079,7 @@
                 "filter": "riqixuanze rqxz"
             },
             {
+                "author": "Catouse",
                 "id": "chosen",
                 "icon": "icon-search",
                 "desc": "提供数据选择和筛选功能",
@@ -1033,6 +1094,7 @@
                 "filter": ""
             },
             {
+                "author": "Catouse",
                 "id": "kindeditor",
                 "icon": "icon-edit",
                 "desc": "使用Kineditor来编辑富文本",
@@ -1047,6 +1109,7 @@
                 "filter": "fuwenbenbianjiqi fwbbjq"
             },
             {
+                "author": "Catouse",
                 "id": "droppable",
                 "icon": "icon-external-link",
                 "desc": "将内容拖放到另一个容器",
@@ -1062,6 +1125,7 @@
             "accent": "purple",
             "sections": [
             {
+                "author": "Catouse",
                 "id": "datatable",
                 "icon": "icon-table",
                 "desc": "可以固定列和表头的增强表格",
@@ -1079,6 +1143,7 @@
                 "filter": "shujubiaoge sjbg"
             },
             {
+                "author": "Catouse",
                 "id": "calendar",
                 "icon": "icon-calendar",
                 "desc": "在日历上展示有时间限定的内容",
@@ -1093,6 +1158,7 @@
                 "filter": "rili rl"
             },
             {
+                "author": "Catouse",
                 "id": "forms",
                 "icon": "icon-layout",
                 "desc": "用于用户提交数据的视图",
@@ -1104,6 +1170,7 @@
                 "filter": "biaodan bd"
             },
             {
+                "author": "Catouse",
                 "id": "article",
                 "icon": "icon-file-text-alt",
                 "desc": "包含标题和带格式的文本内容视图",
@@ -1112,6 +1179,7 @@
                 "filter": "wenzhang wz"
             },
             {
+                "author": "Catouse",
                 "id": "card",
                 "icon": "icon-th",
                 "desc": "可以展示图片和文本的卡片网格视图",
@@ -1120,6 +1188,7 @@
                 "filter": "kapian kp"
             },
             {
+                "author": "Catouse",
                 "id": "list",
                 "icon": "icon-list",
                 "desc": "包含标题和简介及图片的媒体内容列表",
@@ -1128,6 +1197,7 @@
                 "filter": "liebiao lb"
             },
             {
+                "author": "Catouse",
                 "id": "comment",
                 "icon": "icon-comments",
                 "desc": "展示评论的列表视图",
@@ -1145,6 +1215,7 @@
                 "filter": "pinglun pl"
             },
             {
+                "author": "Catouse",
                 "id": "chart",
                 "icon": "icon-bar-chart",
                 "desc": "展示曲线图和饼图",
@@ -1165,6 +1236,7 @@
                 "filter": "tubiao tb quxiantu qxt bingtu bt"
             },
             {
+                "author": "Catouse",
                 "id": "board",
                 "icon": "icon-columns",
                 "desc": "在多个列进行拖放内容",
@@ -1173,6 +1245,7 @@
                 "filter": "kanban kb"
             },
             {
+                "author": "Catouse",
                 "id": "dashboard",
                 "icon": "icon-th-large",
                 "desc": "支持拖放调整位置的面板网格",
