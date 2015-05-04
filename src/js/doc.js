@@ -915,6 +915,7 @@
     var mutePageLoading = function() {
         $page.removeClass('loading');
         $pageLoader.removeClass('loading');
+        setTimeout(resizePage, 400);
     };
 
     var handlePageLoad = function() {
