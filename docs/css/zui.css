@@ -7034,7 +7034,7 @@ pre code {
   outline: none;
   opacity: .4;
 }
-.carousel-control > [class^=icon-] {
+.carousel-control > .icon {
   font-size: 20px;
 }
 .carousel-control.left {
