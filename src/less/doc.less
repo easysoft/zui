@@ -305,6 +305,8 @@ a.avatar
   line-height: 40px;
 }
 
+body > .tooltip {z-index: 9999}
+
 a.avatar > i {font-size: 28px}
 
 a.avatar:hover {text-decoration: none}
@@ -1360,6 +1362,77 @@ body.query-enabled {
   width: 100%;
   overflow-y: auto;
 }
+#pageAttrs {
+  padding: 0 0 10px 34px;
+  // background-color: @color-gray-pale;
+  margin: 0 0 20px 16px;
+  border-bottom: 4px double @color-gray-pale;
+
+  > .badge {
+    float: left;
+    background-color: @color-gray-pale;
+    margin-right: 10px;
+    padding: 6px 10px;
+    min-width: 40px;
+    text-align: center;
+    border-radius: 3px;
+    opacity: .8;
+    line-height: 20px;
+    .transition-fast();
+
+    &.pull-right {
+      margin-right: 0;
+      margin-left: 10px;
+    }
+
+    &:hover {
+      opacity: 1;
+      background-color: @color-gray-lighter;
+      text-decoration: none;
+    }
+
+    &.badge-zui {
+      background-color: @color-pale;
+      color: @color-primary;
+
+      &:hover {
+        background-color: darken(@color-pale, 5%);
+      }
+    }
+    &.badge-lite {
+      background-color: @color-blue-pale;
+      color: @color-blue;
+
+      &:hover, &:active, &:focus {
+        background-color: darken(@color-blue-pale, 5%);
+      }
+    }
+    &.badge-lib {
+      background-color: @color-green-pale;
+      color: @color-green;
+
+      &:hover {
+        background-color: darken(@color-green-pale, 5%);
+      }
+    }
+    &.badge-party {
+      background-color: @color-red-pale;
+      color: @color-red;
+
+      &:hover {
+        background-color: darken(@color-red-pale, 5%);
+      }
+    }
+    &.badge-custom {
+      background-color: @color-brown-pale;
+      color: @color-brown;
+
+      &:hover {
+        background-color: darken(@color-brown-pale, 5%);
+      }
+    }
+  }
+}
 #pageContent {
   padding-left: 50px;
   position: relative;
@@ -1370,7 +1443,7 @@ body.query-enabled {
     display: block;
     border-left: 1px dotted @color-gray-lighter;
     left: 24px;
-    top: -20px;
+    top: -50px;
     bottom: 0;
   }
 
@@ -1741,6 +1814,10 @@ body.page-show {
       &.with-scrollbar {
         padding-left: 11px;
       }
+    }
+
+    #pageAttrs {
+      margin-left: 34px;
     }
 
     .path-max-btn {

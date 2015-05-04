@@ -92,6 +92,9 @@ a.avatar {
   background-color: #e5e5e5;
   border-radius: 4px;
 }
+body > .tooltip {
+  z-index: 9999;
+}
 a.avatar > i {
   font-size: 28px;
 }
@@ -1747,13 +1750,78 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   padding: 20px 10px 20px 20px;
   overflow-y: auto;
 }
+#pageAttrs {
+  padding: 0 0 10px 34px;
+  margin: 0 0 20px 16px;
+  border-bottom: 4px double #f1f1f1;
+}
+#pageAttrs > .badge {
+  float: left;
+  min-width: 40px;
+  padding: 6px 10px;
+  margin-right: 10px;
+  line-height: 20px;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  opacity: .8;
+  -webkit-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .3s cubic-bezier(.175, .885, .32, 1);
+          transition: all .3s cubic-bezier(.175, .885, .32, 1);
+}
+#pageAttrs > .badge.pull-right {
+  margin-right: 0;
+  margin-left: 10px;
+}
+#pageAttrs > .badge:hover {
+  text-decoration: none;
+  background-color: #e5e5e5;
+  opacity: 1;
+}
+#pageAttrs > .badge.badge-zui {
+  color: #3280fc;
+  background-color: #ebf2f9;
+}
+#pageAttrs > .badge.badge-zui:hover {
+  background-color: #d7e5f3;
+}
+#pageAttrs > .badge.badge-lite {
+  color: #03b8cf;
+  background-color: #ddf3f5;
+}
+#pageAttrs > .badge.badge-lite:hover,
+#pageAttrs > .badge.badge-lite:active,
+#pageAttrs > .badge.badge-lite:focus {
+  background-color: #c9ecef;
+}
+#pageAttrs > .badge.badge-lib {
+  color: #38b03f;
+  background-color: #ddf4df;
+}
+#pageAttrs > .badge.badge-lib:hover {
+  background-color: #caeecd;
+}
+#pageAttrs > .badge.badge-party {
+  color: #ea644a;
+  background-color: #ffe5e0;
+}
+#pageAttrs > .badge.badge-party:hover {
+  background-color: #ffd0c6;
+}
+#pageAttrs > .badge.badge-custom {
+  color: #bd7b46;
+  background-color: #f7ebe1;
+}
+#pageAttrs > .badge.badge-custom:hover {
+  background-color: #f2decd;
+}
 #pageContent {
   position: relative;
   padding-left: 50px;
 }
 #pageContent:before {
   position: absolute;
-  top: -20px;
+  top: -50px;
   bottom: 0;
   left: 24px;
   display: block;
@@ -2085,6 +2153,9 @@ body.page-show.page-show-full #pageBody {
 }
 body.page-show.page-show-full #pageBody.with-scrollbar {
   padding-left: 11px;
+}
+body.page-show.page-show-full #pageAttrs {
+  margin-left: 34px;
 }
 body.page-show.page-show-full .path-max-btn:before,
 body.page-show.page-show-full .path-max-btn:after,

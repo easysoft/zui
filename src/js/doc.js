@@ -65,7 +65,7 @@
     var scrollBarWidth = -1;
     var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
-        $queryInput, $chapters, $chaptersCols,
+        $queryInput, $chapters, $chaptersCols, $pageAttrs,
         $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
         $pageContainer, $pageBody, $navbar, $search, lastQueryString,
         $header, $sections, $chapterHeadings; // elements
@@ -962,6 +962,22 @@
         displaySectionIcon($pageHeader.find('.icon'), section);
         $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
         $pageHeader.find('.desc').text(section.desc);
+
+        // page attributes
+        $pageAttrs.hide();
+        $pageAttrs.children('.badge-author').toggle(!!section.author).find('.author-name').text(section.author);
+        $pageAttrs.children('.badge-source').toggle(!!section.url).attr('href', 'https://github.com/easysoft/zui/tree/master' + section.url);
+        var lib = section.lib;
+        if(lib) {
+            $pageAttrs.children('.badge-zui').toggle(!!lib.bundles.standard);
+            $pageAttrs.children('.badge-lite').toggle(!!lib.bundles.lite);
+            $pageAttrs.children('.badge-lib').toggle(!!lib.bundles.separate);
+            $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
+            
+            $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
+            $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
+        }
+
         $pageContent.html('');
         $page.addClass('loading');
         $pageLoader.removeClass('with-error').addClass('loading');
@@ -974,6 +990,7 @@
                 $pageBody.scrollTop(0);
                 showPageTopic(topic);
                 handlePageLoad();
+                $pageAttrs.show();
             }
             if($page.hasClass('openning')) {
                 if(lastShowDataCall) clearTimeout(lastShowDataCall);
@@ -1007,7 +1024,7 @@
 
             setTimeout(function(){
                 $body.addClass('page-show-in');
-                if($page.hasClass('loading')) $page.addClass('openning').css('height', 380);
+                if($page.hasClass('loading')) $page.addClass('openning').css('height', 470);
                 $pageBody.scrollTop(0);
                 setTimeout(function(){
                     $page.removeClass('openning');
@@ -1092,7 +1109,7 @@
             height = $window.height();
             $pageBody.toggleClass('with-scrollbar', $pageContent.outerHeight() > (height - 40 - $pageHeader.outerHeight()));
         } else {
-            height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50);
+            height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50 + $pageAttrs.outerHeight());
         }
         $page.css('height', height);
     };
@@ -1139,6 +1156,21 @@
         } else {
             if(debug) console.error('Open page url failed: unknown url', url);
         }
+    };
+
+    var isInLib = function(name, libNames, lib) {
+        if(libNames) {
+            var len = libNames.length;
+            name = name.toLowerCase();
+            var names = name + 's', nameDot = name + '.', namesDot = name + 's.';
+            for(var i = 0; i < len; ++i) {
+                var item = libNames[i];
+                if(item === name || item === names || (lib && !lib.src && isInLib(name, lib.dpds))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     };
 
     var getBuildList = function(pkg, build, lib, list)
@@ -1206,6 +1238,43 @@
             pkgLibs.standard = getBuildList(pkg, pkg.builds.standard, pkg.lib);
             pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
             pkgLibs.separate = getBuildList(pkg, pkg.builds.separate, pkg.lib);
+
+            eachSection(function(chapter, section, $sectionList){
+                var pkgLib = pkg.lib[section.id] || pkg.lib[section.id + 's'];
+                var lib = {bundles: {}};
+                $.each(pkgLibs, function(name, libNames){
+                    if(isInLib(section.id, libNames, pkgLib)) {
+                        lib.bundles[name] = true;
+                    }
+                });
+
+                if(pkgLib) {
+                    if(pkgLib.thirdpart) {
+                        lib.thirdpart = true;
+                        lib.partUrl = pkgLib.website;
+                        lib.pver = pkgLib.pver;
+                    }
+
+                    if(!pkgLib.src && pkgLib.dpds) {
+                        lib.custom = true;
+                    }
+
+                    if(pkgLib.ver) {
+                        lib.ver = pkgLib.ver;
+                    } else if(lib.custom) {
+                        for(var j = 0; j < pkgLib.dpds.length; ++j) {
+                            var dpdsLibName = pkgLib.dpds[j];
+                            var dpdsLib = pkg.lib[dpdsLibName] || pkg.lib[dpdsLibName + 's'];
+                            if(dpdsLib && dpdsLib.ver) {
+                                lib.ver = dpdsLib.ver;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                section.lib = lib;
+            });
         });
     };
 
@@ -1277,6 +1346,7 @@
         $chaptersCols = $grid.find('.col');
         $page = $('#page');
         $pageHeader = $('#pageHeader');
+        $pageAttrs = $('#pageAttrs');
         $pageLoader = $('#pageLoader');
         $pageContainer = $('#pageContainer');
         $pageContent = $('#pageContent');
