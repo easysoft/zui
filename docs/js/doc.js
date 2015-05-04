@@ -1,231 +1,1225 @@
-$(function()
+/*!
+ * ZUI - v1.3.0 - 2015-05-04
+ * http://zui.sexy
+ * GitHub: https://github.com/easysoft/zui.git 
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
+ */
+
+(function(window, $)
 {
-    var version = '1.0',
-        versionToNumber = function(ver)
-        {
-            ver = ver.split('.', 3);
-            var num = '';
-            for(var i = 0; i < ver.length; i++)
-            {
-                var v = ver[i];
-                while(v.length < 4)
-                {
-                    v += '0';
+    'use strict';
+
+    // Polyfill
+    if (!String.prototype.endsWith) {
+        String.prototype.endsWith = function(searchString, position) {
+            var subjectString = this.toString();
+            if (position === undefined || position > subjectString.length) {
+                position = subjectString.length;
+            }
+            position -= searchString.length;
+            var lastIndex = subjectString.indexOf(searchString, position);
+            return lastIndex !== -1 && lastIndex === position;
+        };
+    }
+
+    if (!String.prototype.startsWith) {
+        String.prototype.startsWith = function(searchString, position) {
+            position = position || 0;
+            return this.lastIndexOf(searchString, position) === position;
+        };
+    }
+
+    if (!String.prototype.includes) {
+        String.prototype.includes = function() {
+            return String.prototype.indexOf.apply(this, arguments) !== -1;
+        };
+    }
+
+    var saveTraffic = false;
+    var debug = 1;
+    if(debug) console.error("DEBUG ENABLED.");
+
+    var chapters = {
+        learn: {col: 1},
+        start: {col: 1},
+        basic: {col: 1},
+        control: {col: 2},
+        component: {col: 2},
+        javascript: {col: 3},
+        view: {col: 3},
+        promotion: {col: 1, row: 2},
+        resource: {col: 1, row: 2},
+        contribution: {col: 1, row: 2}
+    };
+    var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
+    var LAST_QUERY_ID = 'LAST_QUERY_ID';
+    var INDEX_JSON = '/docs/index.json';
+    var ICONS_JSON = '/docs/icons.json';
+    var PKG_JSON = '/package.json';
+    var UNDEFINED = undefined;
+    var PAGE_SHOW_FULL = 'page-show-full';
+    var dataVersion;
+    var storageEnable;
+    var dataset = {
+        // 'index.json': null
+    };
+    if(debug) window.dataset = dataset;
+    var pkgLibs = {standard: null, lite: null, separate: null};
+
+    var documentTitle = 'ZUI';
+    var sectionsShowed;
+    var queryGaCallback;
+    var scrollBarWidth = -1;
+    var bestPageWidth = 1120;
+    var $body, $window, $grid, $sectionTemplate,
+        $queryInput, $chapters, $chaptersCols,
+        $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
+        $pageContainer, $pageBody, $navbar, $search, lastQueryString,
+        $header, $sections, $chapterHeadings; // elements
+
+    var isExternalUrl = function(url) {
+        if(typeof url === 'string') {
+            url = url.toLowerCase();
+            return url.startsWith('http://') || url.startsWith('https://');
+        }
+        return false;
+    };
+
+    var limitString = function(str, len) {
+        if(str && str.length > len) {
+            return str.substr(0, len) + '...[' + str.length + ']';
+        }
+        return str;
+    };
+
+    var getQueryString = function(name)
+    {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    };
+
+    var checkScrollbar = function()
+    {
+        if (document.body.clientWidth >= window.innerWidth) return;
+
+        if(scrollBarWidth < 0) {
+            var scrollDiv = document.createElement('div');
+            scrollDiv.className = 'modal-scrollbar-measure';
+            $body.append(scrollDiv);
+            scrollBarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+            $body[0].removeChild(scrollDiv);
+        }
+
+        if (scrollBarWidth) {
+            var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
+            $body.css('padding-right', bodyPad + scrollBarWidth);
+            $navbar.css('padding-right', scrollBarWidth);
+        }
+    };
+
+    var resetScrollbar = function()
+    {
+        $body.css('padding-right', '');
+        $navbar.css('padding-right', '');
+    };
+
+    var loadData = function(url, callback) {
+        var cacheData = dataset[url];
+        var isHasCache = cacheData && cacheData.version;
+        var isIndexJson = url === INDEX_JSON;
+        if(!isHasCache && storageEnable) {
+            var storedData = $.zui.store.get('//' + url, null);
+            if(storedData !== null) {
+                var storedVersion = $.zui.store.get('//' + url + '::V');
+                if(storedVersion) {
+                    cacheData = {data: storedData, version: storedVersion};
+                    dataset[url] = cacheData;
+                    isHasCache = true;
+                    if(debug) console.log('Load', url, 'from storage:', cacheData);
                 }
-                num += v;
             }
-            while(num.length < 12)
-            {
-                num += '0';
+        }
+
+        if(isHasCache && (isIndexJson || cacheData.version === dataVersion)) {
+            if(debug) console.log('Load', url, 'from cache:', cacheData);
+            callback(cacheData.data);
+            if(!isIndexJson && !debug) return;
+        }
+
+        var dataType = url.endsWith('.json') ? 'json' : 'html';
+        $.get(url, function(data){
+            if(data !== null) {
+                if(isIndexJson) {
+                    dataVersion = data.version;
+                }
+                cacheData = {data: data, version: dataVersion};
+                dataset[url] = cacheData;
+                $.zui.store.set('//' + url, data);
+                $.zui.store.set('//' + url + '::V', dataVersion);
+
+                if(debug) console.log('Load', url, 'from remote:', cacheData);
+                callback(data);
+            } else if(isHasCache && !isIndexJson) {
+                if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
+                callback(cacheData.data);
             }
-            return parseInt(num);
-        },
-        isGithub = window.location.host === 'easysoft.github.io';
-    var fixPath = function(path)
-        {
-            return isGithub ? ('/zui' + path) : path;
+        }, dataType).error(function(){
+            if(debug) console.error("Ajax error:", url);
+            if(isHasCache && !isIndexJson) {
+                if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
+                callback(cacheData.data);
+            }
+
+            if($body.hasClass('page-open')) {
+                $pageBody.children('.loader').addClass('with-error');
+            }
+        });
+    };
+
+    var eachSection = function(callback, eachChapterCallback) {
+        var docIndex = dataset[INDEX_JSON].data;
+        if (!docIndex) {
+            console.error("Document index is empty.");
+            return false;
         };
 
-    var resizeMainContent = function()
-    {
-        $('#main').css('min-height', $(window).height());
+        $.each(chapters, function(chapterName, chapter){
+            if(!docIndex.chapters[chapterName]) return;
+            $.extend(chapter, docIndex.chapters[chapterName]);
+            var sections = chapter.sections;
+            var data = null;
+            if(eachChapterCallback) {
+                data = eachChapterCallback(chapter, sections);
+                if(data === false) return false;
+            }
+            $.each(sections, function(i, section){
+                if(callback(chapter, section, data) === false) return false;
+            });
+        });
+        return true;
     };
-    resizeMainContent();
 
-    $(window).resize(resizeMainContent);
+    var displaySectionIcon = function($icon, section) {
+        var icon = section.icon;
+        $icon.attr('class', 'icon').text('').css('background-image', '');
+        if (icon === undefined || icon === null || icon === "") {
+            icon = section.name.substr(0, 1).toUpperCase();
+        }
+        if (icon.startsWith('icon-')) {
+            $icon.addClass(icon);
+        } else if(icon.endsWith('.png')) {
+            $icon.css('background-image', 'url(' + icon + ')').addClass('with-img');
+        } else {
+            $icon.addClass('text-icon').text(icon);
+        }
+    };
 
-    /* set navbar */
-    var $header = $('body > header');
-    $header.load(fixPath('/docs/partial/navbar.html'), function()
-    {
-        if(!$('#navbar').length)
-        {
-            $('body').addClass('without-navbar');
+    var displaySection = function() {
+        var order = 0;
+        if(eachSection(function(chapter, section, $sectionList){
+            var chapterName = chapter.id;
+            section.chapter = chapterName;
+            section.chapterName = chapter.name;
+
+            var url = section.url;
+            if(typeof url === 'undefined') {
+                section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
+                section.target = 'page';
+            } else if(isExternalUrl(url)) {
+                section.target = 'external';
+            } else {
+                section.target = '';
+            }
+
+            var id = chapterName + '-' + section.id;
+            var $tpl = $sectionTemplate.clone().data('section', section);
+            $tpl.attr({
+                'id': 'section-' + id,
+                'data-id': section.id,
+                'data-chapter': chapterName,
+                'data-order': order++,
+                'data-accent': chapter.accent,
+                'data-target': section.target
+            });
+            var $head = $tpl.children('.card-heading');
+            var sectionUrl = '#' + chapterName + '/' + section.id;
+            $head.find('.name').text(section.name).attr('href', sectionUrl);
+            $head.children('.desc').text(section.desc);
+            displaySectionIcon($head.children('.icon'), section);
+            var $topics = $tpl.find('.topics');
+            if (section.topics && section.topics.length) {
+                for (var tName in section.topics) {
+                    var topic = section.topics[tName];
+
+                    if(typeof topic.id === 'undefined') topic.id = tName;
+                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + topic.id) : topic.url;
+
+                    $topics.append('<li data-id="' + tName + '"><a href="' + topicUrl + '"' + (isExternalUrl(topicUrl) ? ' target="_blank"' : '') + '>' + topic.name + '</a></li>');
+                }
+            } else {
+                $topics.remove('.card-content');
+                $tpl.addClass('without-topics');
+            }
+            $sectionList.append($tpl.addClass('show' + (sectionsShowed ? ' in' : '')));
+        }, function(chapter, sections){
+            chapter.$.attr('data-accent', chapter.accent);
+            var $sectionList = chapter.$sections;
+            $sectionList.children().remove();
+            return $sectionList;
+        })) {
+            $body.children('.loader').removeClass('loading');
+            $sections = $grid.find('.section');
+            if(!sectionsShowed) {
+                clearTimeout($grid.data(LAST_RELOAD_ANIMATE_ID));
+                $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
+                    $sections.addClass('in');
+                    $chapterHeadings.addClass('in');
+                }, 100));
+                sectionsShowed = true;
+            }
+        } else if(debug) {
+            console.error("Display sections failed.");
+        }
+    };
+
+    var scrollToThis = function($container, toTop, callback) {
+        if($container === UNDEFINED) $container = $body;
+        if(toTop === UNDEFINED || toTop === 'down') {
+            toTop = $container.scrollTop() + ($window.height() - $container.offset().top) * 0.8;
+        } else if(toTop === 'up') {
+            toTop = $container.scrollTop() - ($window.height() - $container.offset().top) * 0.8;
+        }
+        $container.animate({scrollTop: toTop}, 200, 'swing', callback);
+    };
+
+    var scrollToSection = function($section) {
+        if($section) {
+            var top = $section.offset().top;
+            var height = $section.outerHeight();
+            var winHeight = $window.height();
+            var scrollTop = $body.scrollTop();
+            if(winHeight < (top + height)) {
+
+            }
+        }
+    };
+
+    var isChoosedSection = function($section) {
+        if($section === UNDEFINED) {
+            $section = $choosedSection;
+        }
+        return $section && $section.hasClass('choosed') && $section.hasClass('show');
+    };
+
+    var chooseSection = function($section, keepOtherOpen, notOpenSelf) {
+        if($sections) {
+            if(isChoosedSection($section || null) && !notOpenSelf) {
+                $choosedSection = $section.addClass('open');
+                scrollToSection($section);
+                return;
+            }
+            var isOpened = $section && $section.hasClass('open');
+            $sections.removeClass(keepOtherOpen ? 'choosed' : 'choosed open');
+            if($section && $section.hasClass('section')) {
+                $choosedSection = $section.addClass((notOpenSelf && !isOpened) ? 'choosed' : 'choosed open');
+                scrollToSection($section);
+            }
+        }
+    };
+
+    var choosePrevSection = function() {
+        var $all = $sections.filter('.show');
+        if(isChoosedSection()) {
+            var order = parseInt($choosedSection.data('order'));
+            var $section = $choosedSection;
+            while((--order) > -1) {
+                var $prev = $all.filter('[data-order="' + order + '"]');
+                if($prev.length) {
+                    $section = $prev;
+                    break;
+                }
+            }
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var chooseNextSection = function() {
+        var $all = $sections.filter('.show');
+        if(isChoosedSection()) {
+            var order = parseInt($choosedSection.data('order'));
+            var $section = $choosedSection;
+            var allCount = $sections.length;
+            while((order++) < allCount) {
+                var $next = $all.filter('[data-order="' + order + '"]');
+                if($next.length) {
+                    $section = $next;
+                    break;
+                }
+            }
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var distanceBetweenPoint = function(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 2);
+    };
+
+    var chooseLeftSection = function() {
+        var $all = $sections.filter('.show');
+        if(isChoosedSection()) {
+            var offset = $choosedSection.offset();
+            var left = offset.left - $grid.children('.container').offset().left - 10;
+            if(left < 50) {
+                choosePrevSection();
+                return;
+            }
+            var top = offset.top;
+            left = offset.left;
+            var $section = $choosedSection;
+            var delta = 99999;
+            $all.each(function(){
+                var $this = $(this);
+                var offset = $this.offset();
+                if((offset.left + 50) < left) {
+                    var thisDelta = distanceBetweenPoint(offset.left, offset.top, left, top);
+                    if(thisDelta < delta) {
+                        $section = $this;
+                        delta = thisDelta;
+                    }
+                }
+            });
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var chooseRightSection = function() {
+        var $all = $sections.filter('.show');
+        if(isChoosedSection()) {
+            var offset = $choosedSection.offset();
+            var $container = $grid.children('.container');
+            var left = offset.left - $container.offset().left - 10;
+            if((left + 20 + $choosedSection.outerWidth() + 50) >= $container.outerWidth()) {
+                chooseNextSection();
+                return;
+            }
+            var top = offset.top;
+            left = offset.left;
+            var $section = $choosedSection;
+            var delta = 99999;
+            $all.each(function(){
+                var $this = $(this);
+                var offset = $this.offset();
+                if(offset.left > left) {
+                    var thisDelta = distanceBetweenPoint(offset.left, offset.top, left, top);
+                    if(thisDelta < delta) {
+                        $section = $this;
+                        delta = thisDelta;
+                    }
+                }
+            });
+            chooseSection($section);
+        } else {
+            chooseSection($all.first());
+        }
+    };
+
+    var resetQuery = function() {
+        $chaptersCols.removeClass('hide');
+        $chapters.removeClass('hide');
+        $sections.addClass('show');
+        $chapterHeadings.addClass('show');
+        $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
+            $sections.addClass('in');
+            $chapterHeadings.addClass('in');
+        }, 20));
+        $body.removeClass('query-enabled').attr('data-query', '');
+    };
+
+    var chooseIcon = function($icon){
+        var $search = $('#section-control-icons');
+        if(!$icon || !$icon.length) {
+            $search.removeClass('section-preview-show').data('preview', null);
+            return;
+        }
+        $search.addClass('open section-preview-show');
+        var $preview = $search.children('.section-preview');
+        var oldIcon = $search.data('preview');
+        if(!$preview.length) {
+            $preview = $('#iconPreviewTemplate').clone().attr('id', '');
+            $search.children('.card-heading').after($preview);
+        }
+        $search.children('.section-search').find('li.active').removeClass('active');
+        $icon.addClass('active');
+        if(oldIcon) $preview.find('.icon').removeClass('icon-' + oldIcon);
+        var icon = $icon.data('icon');
+        $search.data('preview', icon.id);
+        var id = 'icon-' + icon.id;
+        $preview.find('.icon').addClass(id);
+        $preview.find('.name').text(id);
+        $preview.find('.unicode').text(icon.code);
+        if(icon.alias && icon.alias.length) {
+            $preview.find('.alias').removeClass('hide').find('.alias-values').text(icon.alias.join(','));
+        } else {
+            $preview.find('.alias').addClass('hide');
+        }
+    };
+
+    var queryIcon = function(keys) {
+        if(!$.isArray(keys) && (keys || keys.length) ) {
+            keys = [keys];
+        }
+
+        var $section = $('#section-control-icons');
+        $body.attr('data-query', 'icons');
+        var $search = $section.children('.section-search');
+        if(!$search.length) {
+            $search = $('<div class="section-search card-content"><div class="loader loading"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div></div>');
+            $section.children('.card-heading').after($search);
+            $search = $section.children('.section-search');
+        }
+
+        loadData(ICONS_JSON, function(data){
+            var $list = $search.children('ul');
+            if(!$list.length) {
+                $list = $('<ul data-view="icons">');
+                $.each(data, function(iconName, icon){
+                    var $li = $('<li id="control-icons-' + iconName + '" data-id="' + iconName + '"><a href="#control/icons/' + iconName + '"><i class="icon icon-' + iconName + '"></i> icon-' + iconName + '</a></li>');
+                    icon.id = iconName;
+                    $li.data('icon', icon);
+                    $list.append($li);
+                });
+                $search.children('.loader').replaceWith($list);
+            }
+
+            if(!keys.length) {
+                $list.children('.hide').removeClass('hide');
+                chooseIcon($list.children().first());
+                return;
+            }
+
+            for(var keyIndex in keys) {
+                keys[keyIndex] = keys[keyIndex].toLowerCase();
+            }
+
+            var $bestMatch, bestMatchWeight = 0;
+            $.each(data, function(iconId, icon){
+                var choosed = false;
+                var weight = 0;
+                iconId = iconId.toLowerCase();
+                $.each(keys, function(keyIndex, key){
+                    var choosedThis = false;
+                    if(iconId.includes(key)) {
+                        choosedThis = true;
+                        weight += iconId.startsWith(key) ? 120: 110;
+                    } else if(icon.name && icon.name.toLowerCase().includes(key)) {
+                        choosedThis = true;
+                        weight += icon.name.toLowerCase().startsWith(key) ? 100: 95;
+                    } else if(key.startsWith('\\') && icon.code && icon.code.toLowerCase().includes(key.substr(1))) {
+                        choosedThis = true;
+                        weight += 120;
+                    } else {
+                        var filters = [];
+                        if($.isArray(icon.filter) && icon.filter.length) filters = filters.concat(icon.filter);
+                        if($.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
+                        if($.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
+                        if(!filters.length) return;
+                        $.each(filters, function(filterIndex, filter){
+                            filter = filter.toLowerCase();
+                            if(filter.includes(key)) {
+                                choosedThis = true;
+                                weight += 50;
+                                return false;
+                            }
+                        });
+                    }
+
+                    if(!choosedThis) {
+                        choosed = false;
+                        return choosed;
+                    } else {
+                        choosed = true;
+                    }
+                });
+
+                var $li = $('#control-icons-' + iconId).toggleClass('hide', !choosed);
+                if(choosed && bestMatchWeight < weight) {
+                    bestMatchWeight = weight;
+                    $bestMatch = $li;
+                }
+            });
+            chooseIcon($bestMatch);
+        });
+    };
+
+    var query = function(keyString) {
+        if(!$sections) {
+            if(debug) console.log('Query failed, $sections is empty. key:', keyString);
             return;
         }
 
-        var tab = $header.data('tab') || 'index',
-            $navbarCollapse = $('#navbar-collapse');
+        if(typeof keyString === 'undefined') keyString = null;
 
-        if(tab != 'index')
-        {
-            var $navTab = $navbarCollapse.find('[data-tab="' + tab + '"]');
-            $navTab.removeClass('collapsed');
-            document.title = $navTab.find('.nav-heading').text() + ' - ' + document.title;
+        if($queryInput.data('queryString') !== keyString) {
+            $queryInput.data('queryString', keyString).val(keyString);
+            $grid.css('min-height', $grid.height());
         }
 
-        $navbarCollapse.find('.nav > li > a').each(function()
-        {
-            var $this = $(this);
-            var href = $this.attr('href');
-            var target = href.substring(href.indexOf('#'), href.length);
-            $this.attr('data-target', target).attr('href', fixPath($this.attr('href')));
-        });
+        if(keyString === null || !keyString.length) {
+            resetQuery();
+            $search.removeClass('with-query-text');
+            return;
+        }
+        $search.addClass('with-query-text');
 
-        $('body').addClass('with-navbar').scrollspy({target: '#navbar-collapse'});
+        $body.addClass('query-enabled').attr('data-query', '');
 
-        if(isGithub)
-        {
-            $('#navbar .navbar-brand').attr('href', '/zui');
+        // Send ga data
+        if($.isFunction(ga)) {
+            if(queryGaCallback) clearTimeout(queryGaCallback);
+            queryGaCallback = setTimeout(function(){
+                ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
+            }, 2000);
         }
 
-        // navbar collapse
-        $navbarCollapse.find('.nav > .nav-heading').click(function()
-        {
-            var $nav = $(this).closest('.nav');
-            if($nav.hasClass('collapsed'))
-            {
-                $('.navbar-collapsed .nav').not($nav).children('li:not(.nav-heading)').slideUp('fast', function(){
-                    $(this).closest('.nav').addClass('collapsed');
+        var keys = [];
+        $.each(keyString.split(' '), function(i, key){
+            key = $.trim(key).toLowerCase();
+            var keyOption = {origin: key};
+            if(key.startsWith('@')) {
+                keyOption.type = 'id';
+                keyOption.chapter = key.substr(1);
+                keyOption.val = keyOption.chapter;
+            } else if(key.startsWith('#')) {
+                keyOption.type = 'id';
+                keyOption.val = key.substr(2);
+            } else if(key.startsWith('icon-') || key.startsWith('icon:')) {
+                keyOption.type = 'icon';
+                keyOption.val = key.substr(5);
+            } else if(key.startsWith('i:')) {
+                keyOption.type = 'icon';
+                keyOption.val = key.substr(2);
+            } else if(key.startsWith('ver:')) {
+                keyOption.type = 'version';
+                keyOption.val = key.substr(4);
+            } else if(key.startsWith('v:')) {
+                keyOption.type = 'version';
+                keyOption.val = key.substr(2);
+            } else if(key.startsWith('version:')) {
+                keyOption.type = 'version';
+                keyOption.val = key.substr(8);
+            } else if(key.startsWith('grunt:') || key.startsWith('build:')) {
+                keyOption.type = 'build';
+                keyOption.val = key.substr(6);
+            } else if(key.startsWith('g:') || key.startsWith('b:')) {
+                keyOption.type = 'build';
+                keyOption.val = key.substr(2);
+            } else {
+                $.each(chapters, function(name){
+                    if(key.startsWith(name + ':')) {
+                        keyOption.type = 'id';
+                        keyOption.chapter = name;
+                        keyOption.val = key.substr(name.length);
+                        return false;
+                    }
                 });
-                if($(window).width() < 767)
-                {
+                if(!keyOption.type) {
+                    keyOption.type = 'any';
+                    keyOption.val = key;
                 }
-                $nav.removeClass('collapsed').children('li:not(.nav-heading)').slideDown('fast');
             }
-            else
-            {
-                $nav.children('li:not(.nav-heading)').slideUp('fast', function(){$nav.addClass('collapsed');});
+            if(keyOption.val.length || (keyOption.type && keyOption.type !== 'any')) {
+                keys.push(keyOption);
             }
         });
-    });
 
-    /* get version */
-    $.getJSON(fixPath('/package.json'), function(data)
+        if(!keys.length) {
+            resetQuery();
+            return;
+        }
+
+        var resultMap = {}, chapterMap = {}, weight, id, chooseThis, chooseThisKey, keyVal, matches, matchType;
+        if(eachSection(function(chapter, section){
+            chooseThis = true;
+            matches = [];
+            weight = 0;
+            $.each(keys, function(keyIndex, key){
+                keyVal = key.val;
+                matchType = null;
+                chooseThisKey = false;
+                switch(key.type) {
+                    case 'id':
+                        chooseThisKey = (key.chapter ? chapter : section).id.includes(keyVal);
+                        if(chooseThisKey) matchType = [key.chapter ? 'chapter' : 'section', 'id'];
+                        weight = 100;
+                        break;
+                    case 'icon':
+                        chooseThis = section.id === 'icons';
+                        if(chooseThis) {
+                            weight = 120;
+                            matches.push({key: key, type: ['section', 'id']});
+                            var iconKeys = [];
+                            if(key.val || key.val.length) {
+                                iconKeys.push(key.val);
+                            }
+                            for(var iconKeyIndex in keys) {
+                                var iconKey = keys[iconKeyIndex];
+                                if(iconKey.val !== key.val && (iconKey.val || iconKey.val.length)) {
+                                    iconKeys.push(iconKey.val);
+                                }
+                            }
+                            queryIcon(iconKeys);
+                            return false;
+                        }
+                        break;
+                    default:
+                        var sectionName = section.name.toLowerCase();
+                        if(sectionName.includes(keyVal)) {
+                            chooseThisKey = true;
+                            matchType = ['section', 'name'];
+                            weight = sectionName.startsWith(keyVal) ? 85 : 82;
+                            break;
+                        }
+                        if(section.filter && section.filter.includes(keyVal)) {
+                            chooseThisKey = true;
+                            matchType = ['section', 'filter'];
+                            weight = 80;
+                            break;
+                        }
+                        var chapterName = chapter.name.toLowerCase();
+                        if(chapterName.includes(keyVal)) {
+                            chooseThisKey = true;
+                            matchType = ['chapter', 'name'];
+                            weight = chapterName.startsWith(keyVal) ? 75 : 73;
+                            break;
+                        }
+                        if(chapter.filter && chapter.filter.includes(keyVal)) {
+                            chooseThisKey = true;
+                            matchType = ['chapter', 'filter'];
+                            weight = 70;
+                            break;
+                        }
+                        if(keyVal.length > 1) {
+                            if(section.id.includes(keyVal)) {
+                                chooseThisKey = true;
+                                matchType = ['section', 'id'];
+                                weight = 65;
+                                break;
+                            }
+                            if(chapter.id.includes(keyVal)) {
+                                chooseThisKey = true;
+                                matchType = ['chapter', 'id'];
+                                weight = 60;
+                                break;
+                            }
+                            if($.isArray(section.topics)) {
+                                var isBreak = false;
+                                $.each(section.topics, function(topicIndex, topic){
+                                    if(topic.name && topic.name.toLowerCase().includes(keyVal)) {
+                                        chooseThisKey = true;
+                                        matchType = ['section', 'topic', topicIndex];
+                                        isBreak = true;
+                                        weight = 20;
+                                        return false;
+                                    }
+                                });
+                                if(isBreak) break;
+                            }
+                            if(section.desc.toLowerCase().includes(keyVal)) {
+                                chooseThisKey = true;
+                                matchType = 'section.desc';
+                                weight = 30;
+                                break;
+                            }
+                        } else {
+                            if(chapter.id.startsWith(keyVal)) {
+                                chooseThisKey = true;
+                                matchType = ['chapter', 'id'];
+                                weight = 60;
+                                break;
+                            }
+                            if(section.id.startsWith(keyVal)) {
+                                chooseThisKey = true;
+                                matchType = ['section', 'id'];
+                                weight = 50;
+                                break;
+                            }
+                        }
+                }
+                if(!chooseThisKey) {
+                    chooseThis = false;
+                    return false;
+                } else {
+                    matches.push({key: key, type: matchType});
+                }
+            });
+
+            id = chapter.id + '-' + section.id;
+            if(chooseThis) {
+                chapterMap[chapter.id]++;
+                resultMap[id] = {hidden: false, matches: matches, weight: weight};
+            } else {
+                resultMap[id] = {hidden: true};
+            }
+        }, function(chapter){
+            chapterMap[chapter.id] = 0;
+        })) {
+            var $hide = $(), $show = $(), $section, choosedWeight = -1, $choosed;
+            $.each(resultMap, function(id, result){
+                $section = $('#section-' + id);
+                if(result.hidden) {
+                    $hide = $hide.add($section);
+                } else {
+                    $show = $show.add($section);
+                    if(choosedWeight < result.weight) {
+                        $choosed = $section;
+                        choosedWeight = result.weight;
+                    }
+                }
+                chooseSection($choosed);
+            });
+
+            var $chapter, hide, chapter;
+            $.each(chapterMap, function(chapterId, resultCount){
+                chapter = chapters[chapterId];
+                hide = !resultCount;
+                chapter.$.toggleClass('hide', hide);
+            });
+            var $col;
+            var showColCount = 0;
+            $chaptersCols.each(function(){
+                $col = $(this);
+                var showCol = $col.children('.chapter:not(.hide)').length;
+                $col.toggleClass('hide', !showCol);
+                if(showCol) {
+                    showColCount++;
+                    if(!$body.hasClass('compact-mode')) {
+                        var showCount = $col.find('.section:not(.hide)').length;
+                        if(showCount > 2 && $window.height() < ($header.height() + showCount * 70)) {
+                            $body.addClass('compact-mode');
+                            setTimeout(function(){
+                                $window.scrollTop(1);
+                                $body.addClass('compact-mode-in');
+                            }, 10);
+                        }
+                    }
+                }
+            });
+            $grid.attr('data-show-col', showColCount);
+
+            if($hide.length) {
+                $hide.removeClass('in');
+                setTimeout(function(){$hide.removeClass('show');}, 100);
+            }
+            if($show.length) {
+                $show.addClass('show');
+                setTimeout(function(){$show.addClass('in');}, 20);
+            }
+
+            $window.scrollTop(1);
+            closePage();
+        } else if(debug) {
+            console.error("Query failed with key: ", keys);
+        }
+    };
+
+    var toggleCompactMode = function(toggle, callback) {
+        if(toggle === UNDEFINED) {
+            toggle = !$body.hasClass('compact-mode');
+        }
+
+        var animateName = 'isScrollAnimating';
+        if(toggle) {
+            if(!$body.hasClass('compact-mode')) {
+                $body.data(animateName, true).addClass('compact-mode')
+                setTimeout(function(){
+                    $body.addClass('compact-mode-in');
+                    $window.scrollTop(1);
+                    setTimeout(function(){
+                        $body.data(animateName, false);
+                        if(callback) callback();
+                    }, 500);
+                }, 10);
+            } else if(callback) {
+                callback();
+            }
+        } else {
+            if($body.hasClass('compact-mode')) {
+                $body.data(animateName, true).removeClass('compact-mode-in');
+                setTimeout(function(){
+                    $body.removeClass('compact-mode');
+                    $body.data(animateName, false);
+                    if(callback) callback();
+                }, 500);
+            } else if(callback) {
+                callback();
+            }
+        }
+    };
+
+    var closePage = function() {
+        window['afterPageLoad'] = null;
+        window['onPageLoad'] = null;
+        if($.isFunction(window['onPageClose'])) {
+            window['onPageClose']();
+            window['onPageClose'] = null;
+        }
+        if($body.hasClass('page-open')) {
+            var style = $page.data('trans-style');
+            if(style){
+                style['max-height'] = '';
+                $page.css(style);
+            }
+            $body.addClass('page-show-out').removeClass('page-open page-show-in');
+
+            if($queryInput.val() !== '') {
+                $queryInput.focus();
+            }
+
+            window.document.title = documentTitle;
+            window.location.hash = '#/';
+            setTimeout(function(){
+                $body.removeClass('page-show page-show-out');
+                resetScrollbar();
+            }, 300);
+            return true;
+        }
+        return false;
+    };
+
+    var showPageTopic = function(topic) {
+        $page.removeClass('page-collapsed');
+        var valType = typeof topic;
+        if(valType === 'undefined') return;
+        if(valType === 'string') {
+            var num = parseInt(topic);
+            if(num !== NaN) {
+                valType = 'number';
+                topic = num;
+            }
+        }
+
+        var expandTopic = function($section) {
+            if($section && $section.length) {
+                togglePageSection(false);
+                togglePageSection($section.addClass('hover'), true);
+            }
+        };
+
+        if(valType === 'number') {
+            expandTopic($pageContent.children('section').eq(topic));
+        } else if(valType === 'string' && valType.length) {
+            // highlight element with the id string.
+        }
+    };
+
+    var mutePageLoading = function() {
+        $page.removeClass('loading');
+        $pageLoader.removeClass('loading');
+        setTimeout(resizePage, 400);
+    };
+
+    var handlePageLoad = function() {
+        var delayMutedPageLoading = false;
+        if($.isFunction(window['onPageLoad'])) {
+            delayMutedPageLoading = window['onPageLoad']() === false;
+        }
+
+        setTimeout(function(){
+            if($.isFunction(window['afterPageLoad'])) {
+                if(window['afterPageLoad'](mutePageLoading) === true) {
+                    handlePageLoad();
+                }
+            }
+
+            // pretty code
+            var $codes = $pageBody.find('pre');
+            if($codes.length && window['prettyPrint']) {
+                $codes.addClass('prettyprint');
+                window['prettyPrint']();
+            }
+        }, 1000);
+
+        if(!delayMutedPageLoading) mutePageLoading();
+    };
+
+    var openPage = function($section, section, topic) {
+        var pageId = section.chapter + '-' + section.id;
+        if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
+            if(debug) console.error('The page already showed.');
+            return;
+        }
+        chooseSection($section, false, true);
+
+        // Send ga data
+        var pageUrl = '#' + section.chapter + '/' + section.id;
+        if(topic) pageUrl += '/' + topic;
+        window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
+        window.location.hash = pageUrl;
+        if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
+
+        $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
+        displaySectionIcon($pageHeader.find('.icon'), section);
+        $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
+        $pageHeader.find('.desc').text(section.desc);
+        $pageContent.html('');
+        $page.addClass('loading');
+        $pageLoader.removeClass('with-error').addClass('loading');
+        var lastShowDataCall;
+        var pageSh
+
+        loadData(section.url, function(data){
+            var showData = function(){
+                $pageContent.html(data);
+                $pageBody.scrollTop(0);
+                showPageTopic(topic);
+                handlePageLoad();
+            }
+            if($page.hasClass('openning')) {
+                if(lastShowDataCall) clearTimeout(lastShowDataCall);
+                lastShowDataCall = setTimeout(showData, 320);
+            } else {
+                showData();
+            }
+        });
+
+        if($body.hasClass('page-open')) {
+            if(debug) console.log('open section in open page', section);
+            return;
+        }
+
+        $body.addClass('page-open');
+
+        toggleCompactMode(true, function(){
+            var offset = $section.offset();
+            var sectionHeight = $section.outerHeight();
+            var style = {
+                left: Math.floor(offset.left - $grid.children('.container').offset().left - 5),
+                top: Math.floor(offset.top - $window.scrollTop() - 60),
+                width: $section.outerWidth(),
+                height: sectionHeight,
+                'max-height': sectionHeight
+            };
+            checkScrollbar();
+            $body.addClass('page-show');
+            $page.css(style).data('trans-style', style);
+            $pageBody.css('width', bestPageWidth);
+
+            setTimeout(function(){
+                $body.addClass('page-show-in');
+                if($page.hasClass('loading')) $page.addClass('openning').css('height', 380);
+                $pageBody.scrollTop(0);
+                setTimeout(function(){
+                    $page.removeClass('openning');
+                    bestPageWidth = $pageBody.css('width', '').width() + 40;
+                    resizePage();
+                }, 300);
+            }, 10);
+        });
+    };
+
+    var openSection = function(section, topic) {
+        // if(debug) console.log('openSection', section, topic);
+        section = section || $choosedSection;
+
+        var $section;
+        if($.isArray(section)) {
+            if(typeof topic !== 'undefined') section = section.push(topic);
+            if(!section[0]) {
+                if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
+                return;
+            }
+            if(section.length > 0 && section[0] === 'search') {
+                query(section[1]);
+                return;
+            }
+            var docIndex = dataset[INDEX_JSON].data;
+            if(docIndex && section.length > 1) {
+                var sectionId = section[1];
+                var sections = docIndex.chapters[section[0]].sections;
+                var ok = false;
+                for(var i in sections) {
+                    var s = sections[i];
+                    if(s.id === sectionId) {
+                        if(section.length > 2) {
+                            topic = section[2];
+                        }
+                        section = s;
+                        ok = true;
+                        break;
+                    }
+                }
+                if(!ok) {
+                    if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
+                    return;
+                }
+            } else {
+                if(debug) {
+                    console.error("Open section stop by null docIndex or wrong section value.");
+                }
+                return;
+            }
+        }
+        if($.isPlainObject(section)) {
+            $section = $('#section-' + section.chapter + '-' + section.id);
+        } else {
+            var $temp = section;
+            section = $temp.data('section');
+            $section = $temp;
+        }
+
+        if(section.url === '') {
+            $.zui.messager.show('该链接所指示的文档尚未完成。你可以Fork项目来完善文档。');
+            return;
+        }
+
+        switch(section.target) {
+            case 'external':
+                window.open(section.url, '_blank');
+                break;
+            case 'page':
+                openPage($section, section, topic);
+                break;
+            default:
+                if(debug) console.error("Open section failed: unknown target.");
+        }
+    };
+
+    var resizePage = function() {
+        if($body.hasClass('page-show-out') || $page.hasClass('loading')) return;
+        var height;
+        if($body.hasClass(PAGE_SHOW_FULL)) {
+            height = $window.height();
+            $pageBody.toggleClass('with-scrollbar', $pageContent.outerHeight() > (height - 40 - $pageHeader.outerHeight()));
+        } else {
+            height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50);
+        }
+        $page.css('height', height);
+    };
+
+    var togglePageSection = function($section, toggle) {
+        var valType = typeof $section;
+        if(valType === 'object') {
+            if(typeof toggle === 'undefined') {
+                toggle = $section.hasClass('collapsed');
+            }
+            $section.toggleClass('collapsed', !toggle);
+            var $setions = $pageContent.children('section');
+            var sectionsCount = $setions.length, collapsedSectionCount = $setions.filter('.collapsed').length;
+            if(collapsedSectionCount === 0) {
+                $page.removeClass('page-collapsed');
+            } else if(collapsedSectionCount === sectionsCount) {
+                $page.addClass('page-collapsed');
+            }
+        } else {
+            toggle = valType === 'boolean' ? $section : $page.hasClass('page-collapsed');
+            $page.toggleClass('page-collapsed', !toggle);
+            if(!toggle) {
+                $pageContent.children('section').addClass('collapsed');
+            } else {
+                $pageContent.children('section').removeClass('collapsed');
+            }
+        }
+    };
+
+    var openPageUrl = function(url) {
+        if(url.startsWith('#')) {
+            url = url.substr(1);
+            setTimeout(function(){
+                var params = url.split('/');
+                var controllerName = params[0].toLowerCase();
+                if(controllerName === 'search' || controllerName === 'query') {
+                    query(params[1]);
+                } else {
+                    openSection(params);
+                }
+            }, 600);
+        } else if(isExternalUrl(url)) {
+            window.open(url, '_blank');
+        } else {
+            if(debug) console.error('Open page url failed: unknown url', url);
+        }
+    };
+
+    var getBuildList = function(pkg, build, lib, list)
     {
-        version = data.version;
-
-        $('.version-current').text('v' + version);
-
-
-        // var typeSet = ['less', 'js', 'resource'];
-        var indexOfArray = function(array, item)
+        if(!list)
         {
-            if(!$.isArray(array)) return -1;
-            for(var i = 0; i < array.length; i++)
-            {
-                if(array[i] == item) return i;
-            }
-            return -1;
-        };
-
-        var itemInLib = function(array, item, lib)
+            list = [];
+        }
+        if(!$.isArray(list))
         {
-            for(var i = 0; i < array.length; i++)
-            {
-                if(array[i] == item || (!lib[item].src && lib[item].dpds && indexOfArray(lib[item].dpds, array[i]) > -1)) return i;
-            }
-            return -1;
-        };
+            list = [list];
+        }
 
-        var getItemList  = function(lib, list, items, ignoreDpds, ignoreCombine)
+        if(build.bundles)
         {
-            items = items || [];
-            var thisFn = arguments.callee;
-
-            if($.isArray(list))
+            $.each(build.bundles, function(idx, val)
             {
-                $.each(list, function(idx, name)
+                if(pkg.builds[val])
                 {
-                    thisFn(lib, name, items, ignoreDpds);
-                });
-            }
-            else
-            {
-                var item = lib[list];
-                if(item && indexOfArray(items, list) < 0)
-                {
-                    if(!ignoreDpds && item.dpds)
-                    {
-                        thisFn(lib, item.dpds, items, ignoreDpds);
-                    }
-                    if(item.src || !ignoreCombine) items.push(list);
+                    getBuildList(pkg, pkg.builds[val], lib, list);
                 }
-            }
+                else
+                {
+                    list = getItemList(lib, [val], list);
+                }
+            });
+        }
 
-            return items;
-        };
+        if(build.basicDpds) list = getItemList(lib, build.basicDpds, list);
+        list = getItemList(lib, build.includes, list, build.ignoreDpds);
 
-        var getBuildList = function(build, lib, list)
+        return list;
+    };
+
+    var getItemList  = function(lib, list, items, ignoreDpds, ignoreCombine)
+    {
+        items = items || [];
+
+        if($.isArray(list))
         {
-            if(!list)
+            $.each(list, function(idx, name)
             {
-                list = [];
-            }
-            if(!$.isArray)
-            {
-                list = [list];
-            }
-
-            if(build.bundles)
-            {
-                var thisFn = arguments.callee;
-                $.each(build.bundles, function(idx, val)
-                {
-                    if(data.builds[val])
-                    {
-                        thisFn(data.builds[val], lib, list);
-                    }
-                    else
-                    {
-                        list = getItemList(lib, [val], list);
-                    }
-                });
-            }
-
-            if(build.basicDpds) list = getItemList(lib, build.basicDpds, list);
-            list = getItemList(lib, build.includes, list, build.ignoreDpds);
-
-            return list;
-        };
-
-        var standard = getBuildList(data.builds.standard, data.lib);
-        var lite = getBuildList(data.builds.lite, data.lib);
-        var separate = getBuildList(data.builds.separate, data.lib);
-
-        $('#main').children('section').each(function()
+                getItemList(lib, name, items, ignoreDpds);
+            });
+        }
+        else
         {
-            var $section = $(this);
-            var $header = $section.children('.page-header');
-            var id = $section.data('id') || $section.attr('id');
-            var lib = data.lib[id];
-            if(lib)
+            var item = lib[list];
+            if(item && items.indexOf(list) < 0)
             {
-                if(itemInLib(standard, id, data.lib) >= 0)
+                if(!ignoreDpds && item.dpds)
                 {
-                    $header.children('h2').append(' <span class="label label-badge label-primary" title="此组件包含在标准版中提供">ZUI</span>');
+                    getItemList(lib, item.dpds, items, ignoreDpds);
                 }
-
-                if(itemInLib(lite, id, data.lib) >= 0)
-                {
-                    $header.children('h2').append(' <span class="label label-badge label-info" title="此组件也在精简版中提供">ZUI.LITE</span>');
-                }
-
-                if(itemInLib(separate, id, data.lib) >= 0)
-                {
-                    $header.children('h2').append(' <span class="label label-badge label-success" title="此组件在lib目录中单独提供">LIB</span>');
-                }
-
-                if(lib.ver)
-                {
-                    $header.children('h2').append(' <span class="label label-badge" title="最早提供版本为' + lib.ver + '">v' + lib.ver + '+</span>');
-                }
-
-                if(lib.thirdpart)
-                {
-                    $header.children('h2').append(' <a target="_blank" href="' + lib.website + '" class="label label-badge label-danger" title="这是一个第三方组件，点击访问网站"><i class="icon-heart"></i>' + (lib.pver ? (' v' + lib.pver) : '') + '</a>');
-                }
-
-                if(!lib.src && lib.dpds)
-                {
-                  $header.children('h2').append(' <span class="label label-badge label-warning" title="此组件可以拆分使用"><i class="icon-cogs"></i></span>');
-                }
+                if(item.src || !ignoreCombine) items.push(list);
             }
+        }
+
+        return items;
+    };
+
+    var loadPackage = function (){
+        loadData(PKG_JSON, function(pkg) {
+            $('.zui-version').text('v' + pkg.version);
+            pkgLibs.standard = getBuildList(pkg, pkg.builds.standard, pkg.lib);
+            pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
+            pkgLibs.separate = getBuildList(pkg, pkg.builds.separate, pkg.lib);
         });
+    };
 
-        var $buildTable = $('#buildTable tbody').empty();
-        if($buildTable.length)
-        {
+    var displayPkgLibTable = function($table) {
+        if(!$table.length) return;
+        loadData(PKG_JSON, function(data){
+            var $tbody = $('<tbody></tbody>');
+
             var getChildCompsList = function(val){return data.lib[val].name;};
             var $tr, $td;
             for(var itemName in data.lib)
@@ -248,10 +1242,10 @@ $(function()
                 $td.html('<strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') +')');
                 $tr.append($td);
 
-                $.each([standard, lite, separate], function(idx, sLib)
+                $.each(pkgLibs, function(idx, sLib)
                 {
                     $td = $('<td class="text-center"/>');
-                    if(indexOfArray(sLib, itemName) > -1)
+                    if(sLib.indexOf(itemName) > -1)
                     {
                         $td.addClass('success').html('<i class="text-success icon-ok"></i>');
                     }
@@ -266,144 +1260,287 @@ $(function()
                 $td.html(item.ver ? (' v' + item.ver + '+') : childComps);
                 $tr.append($td);
 
-                $buildTable.append($tr);
+                $tbody.append($tr);
             }
+            $table.find('tbody').remove();
+            $table.append($tbody);
+            $table.datatable({rowHover: false, fixedHeaderOffset: 200});
+        });
+    };
+
+    $(function() {
+        documentTitle = window.document.title;
+
+        var stopPropagation = function(e) {
+            e.stopPropagation();
         }
 
-        $('#buildTable').datatable({rowHover: false});
+        $window = $(window);
+        $body = $('body');
+        $navbar = $('#navbar');
+        $grid = $('#grid');
+        $header = $('#header');
+        $chaptersCols = $grid.find('.col');
+        $page = $('#page');
+        $pageHeader = $('#pageHeader');
+        $pageLoader = $('#pageLoader');
+        $pageContainer = $('#pageContainer');
+        $pageContent = $('#pageContent');
+        $chapters = $grid.find('.chapter');
+        $queryInput = $('#searchInput');
+        $chapterHeadings = $grid.find('.chapter-heading');
+        $sectionTemplate = $('#sectionTemplate').attr('id', null);
+        $pageBody = $('#pageBody');
+        $.each(chapters, function(chapterId, chapter){
+            chapterId = chapterId.toLowerCase();
+            chapter.$ = $('#chapter-' + chapterId);
+            chapter.id = chapterId;
+            chapter.$sections = $('#sections-' + chapterId);
+        });
 
-        $('section .page-header h2 > .label').tooltip({placement: 'top'});
-    });
+        bestPageWidth = $grid.children('.container').outerWidth();
 
-    /* set lite version label */
-    // $('#main > section[data-lite] > .page-header > h2').append(' <small class="label label-info" title="" data-original-title="此内容也在精简版中提供">LITE</small>');
+        $body.toggleClass(PAGE_SHOW_FULL, $.zui.store.get(PAGE_SHOW_FULL, false));
 
-    window.prettyPrint();
+        // check storage
+        storageEnable = $.zui.store && $.zui.store.enable;
 
-    // tooltip demo
-    $('.tooltip-demo').tooltip({
-      selector: "[data-toggle=tooltip]",
-      container: "body"
-    });
+        // Get document version
+        // dataVersion = $body.data('version');
 
-    // popover demo
-    $("[data-toggle=popover]").popover();
+        // Setup ajax
+        $.ajaxSetup({cache: false});
 
-    $('#changeTheme').click(function()
-    {
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = '../dist/css/zui-theme.css';
-        document.getElementsByTagName('head')[0].appendChild(link);
-    });
+        // Load index.json
+        loadData(INDEX_JSON, function(data){
+            var firstLoad = !sectionsShowed;
 
-    if($.fn.dashboard) $('#dashboard').dashboard();
+            displaySection(data);
 
-    if($.fn.droppable)
-    {
-        $('[data-toggle="droppable"]').droppable(
-        {
-            start: function()
-            {
-                $('.droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里。');
-            },
-            drop: function(event)
-            {
-                window.messager.show('真棒！');
-                $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
-                if(event.target)
-                {
-                    event.target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
+            if(!firstLoad) {
+                var q = getQueryString('q');
+                if(q) {
+                    setTimeout(function(){
+                        query(q);
+                    }, 300);
                 }
-            },
-            drag: function(event)
-            {
 
-                $('.droppable-target').removeClass('panel-success').removeClass('panel-warning');
-                if(event.target) event.target.addClass('panel-warning');
+                var hash = window.location.hash
+                if(hash) {
+                    openPageUrl(hash);
+                } else {
+                    $queryInput.focus();
+                }
+
+                loadPackage();
             }
         });
-    }
 
-    if($.fn.boards) $('.boards').boards();
-
-    // Chosen
-    if($.fn.chosen) $('.chosen-select').chosen();
-    if($.fn.chosenIcons) $('#chosenIcons').chosenIcons();
-
-    // datetime picker
-    if($.fn.datetimepicker)
-    {
-        $('.form-datetime').datetimepicker(
-        {
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            forceParse: 0,
-            showMeridian: 1,
-            format: 'yyyy-mm-dd hh:ii'
+        // Bind events
+        var oldActivePreivewId;
+        var cancelClickInPage;
+        $(document).on('click', function(e){
+            if(cancelClickInPage) {
+                cancelClickInPage = false;
+                return;
+            }
+            if($body.hasClass('page-show')) {
+                closePage();
+                return;
+            }
+            if(!$body.attr('data-query')) {
+                chooseSection();
+            }
+        }).on('click', 'a[href^="#"]', function(){
+            openPageUrl($(this).attr('href'));
         });
-        $('.form-date').datetimepicker(
-        {
-            language:  'zh-CN',
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0,
-            format: 'yyyy-mm-dd'
+        $page.on('click', function(e){
+            cancelClickInPage = true;
         });
-        $('.form-time').datetimepicker({
-            language:  'zh-CN',
-            weekStart: 1,
-            todayBtn:  1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 1,
-            minView: 0,
-            maxView: 1,
-            forceParse: 0,
-            format: 'hh:ii'
+        $grid.on('click', '.card-heading', function(e) {
+            var $card = $(this).closest('.card');
+            if(!$card.hasClass('choosed')) {
+                chooseSection($card, true);
+            } else {
+                $card.toggleClass('open');
+            }
+            stopPropagation(e);
+        }).on('click', '.chapter-heading > h4 > .name', function(){
+            $queryInput.focus().val('@' + $(this).closest('.chapter').data('id')).change();
+        }).on('click', '.card', function(e){
+            chooseSection($(this), true);
+            stopPropagation(e);
+        }).on('click', '.card-heading > h5 > .name, .card-heading > .icon', function(e){
+            openSection($(this).closest('.section'));
+            stopPropagation(e);
+        }).on('click', '.topics > li > a', function(e){
+            var $a = $(this);
+            openPageUrl($a.attr('href'));
+            e.preventDefault();
+            stopPropagation(e);
+        }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
+            $(this).closest('.card-heading').addClass('hover');
+        }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
+            $(this).closest('.card-heading').removeClass('hover');
+        }).on('mouseenter', '#section-control-icons .section-search > ul > li > a', function(){
+            oldActivePreivewId = $('#section-control-icons').data('preview');
+            chooseIcon($(this).closest('li'));
+        }).on('mouseleave', '#section-control-icons .section-search > ul > li > a', function(){
+            if(oldActivePreivewId) {
+                chooseIcon($('#control-icons-' + oldActivePreivewId));
+            }
+        }).on('click', '#section-control-icons .section-search > ul > li > a', function(){
+            oldActivePreivewId = $(this).closest('li').data('id');
         });
-    }
 
-    if(window.KindEditor)
-    {
-        KindEditor.ready(function(K)
-        {
-          K.create('textarea.kindeditor',
-          {
-            allowFileManager : true,
-            bodyClass : 'article-content',
-            afterBlur: function(){$('#content').prev('.ke-container').removeClass('focus');},
-            afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
-          });
-
-          K.create('textarea.kindeditorSimple',
-          {
-            bodyClass : 'article-content',
-            resizeType : 1,
-            allowPreviewEmoticons : false,
-            allowImageUpload : false,
-            items : [
-            'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-            'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-            'insertunorderedlist', '|', 'emoticons', 'image', 'link'],
-            afterBlur: function(){$('#contentSimple').prev('.ke-container').removeClass('focus');},
-              afterFocus: function(){$('#contentSimple').prev('.ke-container').addClass('focus');}
-          });
-
-          K.create('textarea.customStyle',
-          {
-            themeType : 'simple',
-            bodyClass : 'article-content',
-            afterBlur: function(){$('#contentCustom').prev('.ke-container').removeClass('focus');},
-              afterFocus: function(){$('#contentCustom').prev('.ke-container').addClass('focus');}
-          });
+        $pageContent.on('click', 'section > header > h3', function(){
+            togglePageSection($(this).closest('section'));
+        }).on('mouseenter', 'section > header > h3', function(){
+            $(this).closest('section').addClass('hover');
+        }).on('mouseleave', 'section > header > h3', function(){
+            $(this).closest('section').removeClass('hover');
         });
-    }
-});
+        $page.on('click', '#pageTogger', function(){
+            togglePageSection();
+        });
+
+        $pageContent.on('resize', resizePage);
+        $window.resize(resizePage);
+
+        $pageHeader.on('click', '.path-close-btn', function(){
+            closePage();
+        }).on('click', '.path-max-btn', function(){
+            $body.toggleClass(PAGE_SHOW_FULL);
+            setTimeout(resizePage, 300);
+            $.zui.store.set(PAGE_SHOW_FULL, $body.hasClass(PAGE_SHOW_FULL));
+        });
+
+        var scrollHeight = $('#navbar').outerHeight();
+        var lastScrollTop;
+        $window.on('scroll', function(e){
+            var isScrollAnimating = $body.data('isScrollAnimating');
+            if(isScrollAnimating) {
+                $window.scrollTop(1);
+                return;
+            }
+            lastScrollTop = $window.scrollTop();
+            if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
+                toggleCompactMode(true);
+            } else if(!$body.hasClass('page-show') && $body.hasClass('compact-mode')) {
+                if(lastScrollTop < 1) {
+                    toggleCompactMode(false);
+                } else {
+                    $header.toggleClass('with-shadow', lastScrollTop > 20);
+                }
+            }
+        }).on('keydown', function(e){
+            var code = e.which;
+            // console.log('keydown', code);
+            var isPageNotShow = !$body.hasClass('page-show');
+            var isInputFocus = $body.hasClass('input-query-focus');
+            if(code === 9) { // Tab
+                if(!$body.hasClass('input-query-focus')) {
+                    $queryInput.focus();
+                    e.preventDefault();
+                }
+            } else if(code === 13) { // Enter
+                if(isPageNotShow && isChoosedSection()) {
+                    openSection();
+                }
+            } else if(code === 27) { // Esc
+                if(!closePage()) {
+                    if(!isInputFocus) {
+                        $queryInput.focus();
+                    }
+                    lastQueryString = '';
+                    query();
+                }
+            // } else if(code === 32) { // Space
+            //     if(!isInputFocus){
+            //         if(closePage()) {
+            //         } else if(!$body.hasClass('compact-mode')) {
+            //             toggleCompactMode(true);
+            //         } else if(isChoosedSection()) {
+            //             openSection();
+            //         }
+            //         e.preventDefault();
+            //     }
+            } else if(code === 37) { // Left
+                // if(!$body.hasClass('input-query-focus')){
+                    chooseLeftSection();
+                    e.preventDefault();
+                // }
+            } else if(code === 39) { // Right
+                // if(!$body.hasClass('input-query-focus')){
+                    chooseRightSection();
+                    e.preventDefault();
+                // }
+            } else if(code === 38) { // Top
+                if(isPageNotShow) {
+                    choosePrevSection();
+                    e.preventDefault();
+                } else {
+                    scrollToThis($pageBody, 'up');
+                }
+            } else if(code === 40) { // Down
+                if(isPageNotShow) {
+                    chooseNextSection();
+                    e.preventDefault();
+                } else {
+                    scrollToThis($pageBody);
+                }
+                e.preventDefault();
+            }
+        });
+
+        $pageBody.on('scroll', function(e){
+            $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
+        });
+
+        $search = $('#search');
+
+        $queryInput.focus().on('change keyup paste input propertychange', function(){
+            var val = $queryInput.val();
+            if(val === lastQueryString) return;
+            lastQueryString = val;
+            $search.toggleClass('with-query-text', val.length > 0);
+            clearTimeout($queryInput.data(LAST_QUERY_ID));
+            $queryInput.data(LAST_QUERY_ID, setTimeout(function(){
+                if(lastQueryString === $queryInput.data('queryString')) return;
+                query(lastQueryString);
+            }, 150));
+        }).on('focus', function(){
+            $body.addClass('input-query-focus');
+            if($queryInput.val() && !$sections.filter('.open').length) {
+                chooseSection($sections.filter('.show:first'));
+            }
+        }).on('blur', function(){
+            $body.removeClass('input-query-focus');
+        }).on('click', stopPropagation);
+
+        $('#searchHelpBtn').on('click', function(e){
+            if($search.hasClass('with-query-text')) {
+                lastQueryString = '';
+                query();
+                $queryInput.focus();
+                $search.removeClass('with-query-text');
+            } else {
+                // query('#help');
+                openSection(['resource', 'help']);
+                $(this).blur();
+            }
+            stopPropagation(e);
+        });
+
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+    });
+
+    $.doc = {
+        query: query,
+        openSection: openSection,
+        closePage: closePage,
+        loadData: loadData,
+        mutePageLoading: mutePageLoading,
+        displayPkgLibTable: displayPkgLibTable
+    };
+}(window, jQuery));

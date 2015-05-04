@@ -1533,7 +1533,7 @@
     "doc":
     {
       "title": "new document",
-      "dest": "docs/2/",
+      "dest": "docs/",
       "filename": "doc",
       "subdirectories": true,
       "includes": ["doc"],
@@ -1542,7 +1542,7 @@
     "docless":
     {
       "title": "new document",
-      "dest": "docs/2/",
+      "dest": "docs/",
       "filename": "doc",
       "subdirectories": true,
       "includes": ["docless"]
