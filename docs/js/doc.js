@@ -249,11 +249,12 @@
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
             if (section.topics && section.topics.length) {
+                var topicId = 0;
                 for (var tName in section.topics) {
                     var topic = section.topics[tName];
 
                     if(typeof topic.id === 'undefined') topic.id = tName;
-                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + topic.id) : topic.url;
+                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + (topicId++)) : topic.url;
 
                     $topics.append('<li data-id="' + tName + '"><a href="' + topicUrl + '"' + (isExternalUrl(topicUrl) ? ' target="_blank"' : '') + '>' + topic.name + '</a></li>');
                 }
@@ -443,7 +444,7 @@
     };
 
     var chooseIcon = function($icon){
-        var $search = $('#section-control-icons');
+        var $search = $('#section-control-icon');
         if(!$icon || !$icon.length) {
             $search.removeClass('section-preview-show').data('preview', null);
             return;
@@ -476,7 +477,7 @@
             keys = [keys];
         }
 
-        var $section = $('#section-control-icons');
+        var $section = $('#section-control-icon');
         $body.attr('data-query', 'icons');
         var $search = $section.children('.section-search');
         if(!$search.length) {
@@ -490,7 +491,7 @@
             if(!$list.length) {
                 $list = $('<ul data-view="icons">');
                 $.each(data, function(iconName, icon){
-                    var $li = $('<li id="control-icons-' + iconName + '" data-id="' + iconName + '"><a href="#control/icons/' + iconName + '"><i class="icon icon-' + iconName + '"></i> icon-' + iconName + '</a></li>');
+                    var $li = $('<li id="control-icon-' + iconName + '" data-id="' + iconName + '"><a href="#control/icons/' + iconName + '"><i class="icon icon-' + iconName + '"></i> icon-' + iconName + '</a></li>');
                     icon.id = iconName;
                     $li.data('icon', icon);
                     $list.append($li);
@@ -548,7 +549,7 @@
                     }
                 });
 
-                var $li = $('#control-icons-' + iconId).toggleClass('hide', !choosed);
+                var $li = $('#control-icon-' + iconId).toggleClass('hide', !choosed);
                 if(choosed && bestMatchWeight < weight) {
                     bestMatchWeight = weight;
                     $bestMatch = $li;
@@ -660,7 +661,7 @@
                         weight = 100;
                         break;
                     case 'icon':
-                        chooseThis = section.id === 'icons';
+                        chooseThis = section.id === 'icon';
                         if(chooseThis) {
                             weight = 120;
                             matches.push({key: key, type: ['section', 'id']});
@@ -1382,14 +1383,14 @@
             $(this).closest('.card-heading').addClass('hover');
         }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
             $(this).closest('.card-heading').removeClass('hover');
-        }).on('mouseenter', '#section-control-icons .section-search > ul > li > a', function(){
-            oldActivePreivewId = $('#section-control-icons').data('preview');
+        }).on('mouseenter', '#section-control-icon .section-search > ul > li > a', function(){
+            oldActivePreivewId = $('#section-control-icon').data('preview');
             chooseIcon($(this).closest('li'));
-        }).on('mouseleave', '#section-control-icons .section-search > ul > li > a', function(){
+        }).on('mouseleave', '#section-control-icon .section-search > ul > li > a', function(){
             if(oldActivePreivewId) {
-                chooseIcon($('#control-icons-' + oldActivePreivewId));
+                chooseIcon($('#control-icon-' + oldActivePreivewId));
             }
-        }).on('click', '#section-control-icons .section-search > ul > li > a', function(){
+        }).on('click', '#section-control-icon .section-search > ul > li > a', function(){
             oldActivePreivewId = $(this).closest('li').data('id');
         });
 

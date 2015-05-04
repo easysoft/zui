@@ -242,11 +242,12 @@
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
             if (section.topics && section.topics.length) {
+                var topicId = 0;
                 for (var tName in section.topics) {
                     var topic = section.topics[tName];
 
                     if(typeof topic.id === 'undefined') topic.id = tName;
-                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + topic.id) : topic.url;
+                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + (topicId++)) : topic.url;
 
                     $topics.append('<li data-id="' + tName + '"><a href="' + topicUrl + '"' + (isExternalUrl(topicUrl) ? ' target="_blank"' : '') + '>' + topic.name + '</a></li>');
                 }

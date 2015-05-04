@@ -483,6 +483,10 @@
                 "name": "图标",
                 "topics": [
                 {
+                    "name": "搜索图标",
+                    "url": "#search/icon:"
+                },
+                {
                     "name": "何时使用图标？"
                 },
                 {
