@@ -42,6 +42,7 @@ function afterPageLoad() {
         {
             K.create('textarea.kindeditor',
             {
+                basePath: '/dist/lib/kindeditor/',
                 allowFileManager : true,
                 bodyClass : 'article-content',
                 afterBlur: function(){$('#content').prev('.ke-container').removeClass('focus');},
@@ -50,6 +51,7 @@ function afterPageLoad() {
 
             K.create('textarea.kindeditorSimple',
             {
+                basePath: '/dist/lib/kindeditor/',
                 bodyClass : 'article-content',
                 resizeType : 1,
                 allowPreviewEmoticons : false,
@@ -64,6 +66,7 @@ function afterPageLoad() {
 
             K.create('textarea.customStyle',
             {
+                basePath: '/dist/lib/kindeditor/',
                 themeType : 'simple',
                 bodyClass : 'article-content',
                 afterBlur: function(){$('#contentCustom').prev('.ke-container').removeClass('focus');},
@@ -73,7 +76,7 @@ function afterPageLoad() {
         $.doc.mutePageLoading();
     };
 
-    $.getScript('../../dist/lib/kindeditor/kindeditor.min.js', initKindeditor);
+    $.getScript('/dist/lib/kindeditor/kindeditor.min.js', initKindeditor);
 
     $(document).on('click', '.ke-dialog-mask, .ke-dialog', function(e){
         e.stopPropagation();
