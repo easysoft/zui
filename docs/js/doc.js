@@ -224,7 +224,7 @@
 
             var url = section.url;
             if(typeof url === 'undefined') {
-                section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
+                section.url = '/docs/part/' + section.chapter + '-' + section.id + '.html';
                 section.target = 'page';
             } else if(isExternalUrl(url)) {
                 section.target = 'external';
