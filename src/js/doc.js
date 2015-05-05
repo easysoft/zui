@@ -221,6 +221,9 @@
                 section.target = 'page';
             } else if(isExternalUrl(url)) {
                 section.target = 'external';
+            } else if(url && url.endsWith('.md')) {
+                section.target = 'page';
+                section.targetType = 'markdown';
             } else {
                 section.target = '';
             }
@@ -966,7 +969,7 @@
         // page attributes
         $pageAttrs.hide();
         $pageAttrs.children('.badge-author').toggle(!!section.author).find('.author-name').text(section.author);
-        $pageAttrs.children('.badge-source').toggle(!!section.url).attr('href', 'https://github.com/easysoft/zui/tree/master' + section.url);
+        $pageAttrs.children('.badge-source').toggle(!!section.url).attr('href', 'https://github.com/easysoft/zui/tree/master/' + section.url);
         var lib = section.lib;
         if(lib) {
             $pageAttrs.children('.badge-zui').toggle(!!lib.bundles.standard);
@@ -986,7 +989,18 @@
 
         loadData(section.url, function(data){
             var showData = function(){
-                $pageContent.html(data);
+                if(markdown && section.targetType === 'markdown') {
+                    var $article = $('<article>');
+                    $article.html(markdown.toHTML(data));
+                    var $h1 = $article.children('h1').first();
+                    if($h1) {
+                        $pageHeader.find('h2 > .name').text($h1.text());
+                        $h1.remove();
+                    }
+                    $pageContent.empty().append($article);
+                } else {
+                    $pageContent.html(data);
+                }
                 $pageBody.scrollTop(0);
                 showPageTopic(topic);
                 handlePageLoad();
