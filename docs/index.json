@@ -942,7 +942,7 @@
             },
             {
                 "author": "Catouse",
-                "id": "tabs",
+                "id": "tab",
                 "icon": "icon-credit",
                 "desc": "标签页式的导航菜单",
                 "name": "标签页",
@@ -975,7 +975,7 @@
             },
             {
                 "author": "Catouse",
-                "id": "tooltips",
+                "id": "tooltip",
                 "icon": "icon-chat",
                 "desc": "为元素额外提供消息文本",
                 "name": "提示消息",
@@ -1159,7 +1159,7 @@
             },
             {
                 "author": "Catouse",
-                "id": "forms",
+                "id": "form",
                 "icon": "icon-layout",
                 "desc": "用于用户提交数据的视图",
                 "name": "表单",
