@@ -48,7 +48,7 @@
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
     var INDEX_JSON = 'docs/index.json';
     var ICONS_JSON = 'docs/icons.json';
-    var PKG_JSON = '/package.json';
+    var PKG_JSON = 'package.json';
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
     var dataVersion;
