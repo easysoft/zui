@@ -73,7 +73,7 @@ function afterPageLoad() {
                 afterFocus: function(){$('#contentCustom').prev('.ke-container').addClass('focus');}
             });
         }
-        $.doc.mutePageLoading();
+        setTimeout($.doc.mutePageLoading, 500);
     };
 
     $.getScript('/dist/lib/kindeditor/kindeditor.min.js', initKindeditor);
