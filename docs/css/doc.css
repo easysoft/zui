@@ -1926,6 +1926,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 }
 #pageContent > article > .alert,
 #pageContent > section > article > .alert {
+  border: none;
   border-radius: 0;
 }
 #pageContent > article > .alert code,
