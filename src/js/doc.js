@@ -1107,9 +1107,9 @@
         var height;
         if($body.hasClass(PAGE_SHOW_FULL)) {
             height = $window.height();
-            $pageBody.toggleClass('with-scrollbar', $pageContent.outerHeight() > (height - 40 - $pageHeader.outerHeight()));
+            $pageBody.toggleClass('with-scrollbar', $pageContent.outerHeight() > (height - 40 - $pageHeader.outerHeight() - $pageAttrs.outerHeight()));
         } else {
-            height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50 + $pageAttrs.outerHeight());
+            height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50 + $pageAttrs.outerHeight() + 20);
         }
         $page.css('height', height);
     };
