@@ -46,8 +46,8 @@
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
-    var INDEX_JSON = '/docs/index.json';
-    var ICONS_JSON = '/docs/icons.json';
+    var INDEX_JSON = 'docs/index.json';
+    var ICONS_JSON = 'docs/icons.json';
     var PKG_JSON = '/package.json';
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
@@ -217,7 +217,7 @@
 
             var url = section.url;
             if(typeof url === 'undefined') {
-                section.url = '/docs/part/' + section.chapter + '-' + section.id + '.html';
+                section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
                 section.target = 'page';
             } else if(isExternalUrl(url)) {
                 section.target = 'external';
