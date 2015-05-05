@@ -990,12 +990,47 @@
         loadData(section.url, function(data){
             var showData = function(){
                 if(markdown && section.targetType === 'markdown') {
-                    var $article = $('<article>');
-                    $article.html(markdown.toHTML(data));
-                    var $h1 = $article.children('h1').first();
-                    if($h1) {
-                        $pageHeader.find('h2 > .name').text($h1.text());
-                        $h1.remove();
+                    var $article = $();
+                    var $markdown = $(markdown.toHTML(data));
+                    var $lastSection, checkFirstH1 = true;
+                    var hasH2 = $markdown.filter('h2').length > 0;
+                    $markdown.each(function(){
+                        var $tag = $(this);
+                        var tagName = $tag.prop('tagName');
+                        if(checkFirstH1) {
+                            if(tagName === 'H1') {
+                                $pageHeader.find('h2 > .name').text($tag.html());
+                            }
+                            checkFirstH1 = false;
+                            return;
+                        }
+                        if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
+                            if($lastSection) {
+                                $article = $article.add($lastSection);
+                            }
+                            $lastSection = $('<section><header><h3>' + $tag.html() + '</h3></header><article></article></section>');
+                        } else {
+                            if(hasH2) {
+                                if(tagName === 'H3') {
+                                    $tag = $('<h4>').html($tag.html());
+                                } else if(tagName === 'H4') {
+                                    $tag = $('<h5>').html($tag.html());
+                                } else if(tagName === 'H5') {
+                                    $tag = $('<h6>').html($tag.html());
+                                }
+                            }
+                            if(!$lastSection) {
+                                $lastSection = $('<article></article>');
+                            }
+                            if($lastSection.prop('tagName') === 'ARTICLE') {
+                                $lastSection.append($tag);
+                            } else {
+                                $lastSection.children('article').append($tag);
+                            }
+                        }
+                    });
+                    if($lastSection) {
+                        $article = $article.add($lastSection);
                     }
                     $pageContent.empty().append($article);
                 } else {
