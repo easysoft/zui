@@ -74,7 +74,7 @@
 <script>
 function afterPageLoad() {
   if($.doc) {
-    $.doc.loadData('/docs/icons.json', function(data){
+    $.doc.loadData('docs/icons.json', function(data){
       var iconCount = 0;
       var $list = $('<ul class="clearfix"></ul>');
       $.each(data, function(name, icon){
