@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-05
+ * ZUI - v1.3.0 - 2015-05-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 
@@ -133,7 +133,7 @@
 }
 .chosen-container-single .chosen-search input[type="text"] {
   width: 100%;
-  height: auto;
+  height: 20px;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -147,7 +147,7 @@
   outline: 0;
 }
 .chosen-container-single .chosen-search input[type="text"]:focus {
-  border-color: #18609d;
+  border-color: #145ccd;
 }
 .chosen-container-single .chosen-search:before {
   position: absolute;
@@ -156,7 +156,7 @@
   display: block;
   font-family: ZenIcon;
   color: #808080;
-  content: "\e603";
+  content: '\e603';
 }
 .chosen-container-single .chosen-drop {
   margin-top: -1px;
@@ -200,7 +200,7 @@
 }
 .chosen-container .chosen-results li.highlighted {
   color: #fff;
-  background-color: #108bf1;
+  background-color: #3280fc;
 }
 .chosen-container .chosen-results li.no-results {
   display: list-item;
@@ -346,9 +346,9 @@
   cursor: default;
 }
 .chosen-container-active .chosen-single {
-  border-color: #18609d;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
+  border-color: #145ccd;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
 }
 .chosen-container-active.chosen-with-drop .chosen-single {
   border: 1px solid #cbcbcb;
@@ -368,9 +368,9 @@
   border-bottom: 4px solid #353535;
 }
 .chosen-container-active .chosen-choices {
-  border-color: #18609d;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
-          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(24, 96, 157, .6);
+  border-color: #145ccd;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
 }
 .chosen-container-active .chosen-choices li.search-field input[type="text"] {
   color: #111 !important;

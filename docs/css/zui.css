@@ -10758,7 +10758,7 @@ a.calendar .event.color-purple:hover {
 }
 .chosen-container-single .chosen-search input[type="text"] {
   width: 100%;
-  height: auto;
+  height: 27px;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -10776,12 +10776,22 @@ a.calendar .event.color-purple:hover {
 }
 .chosen-container-single .chosen-search:before {
   position: absolute;
-  top: 8px;
+  top: 10px;
   right: 10px;
   display: block;
   font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
   color: #808080;
+  text-transform: none;
   content: '\e603';
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .chosen-container-single .chosen-drop {
   margin-top: -1px;
@@ -10910,6 +10920,29 @@ a.calendar .event.color-purple:hover {
 .chosen-container-multi .chosen-choices li.search-field .default {
   color: #999;
 }
+.chosen-container-multi .chosen-choices li.search-field:before {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  display: block;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  color: #808080;
+  text-transform: none;
+  content: '\e603';
+  opacity: 0;
+  -webkit-transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
+          transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 .chosen-container-multi .chosen-choices li.search-choice {
   position: relative;
   padding: 3px 20px 3px 5px;
@@ -10972,7 +11005,7 @@ a.calendar .event.color-purple:hover {
   background-position: -42px -10px;
 }
 .chosen-container-multi .chosen-results {
-  padding: 0;
+  padding: 5px 0;
   margin: 0;
 }
 .chosen-container-multi .chosen-drop .result-selected {
@@ -11009,6 +11042,9 @@ a.calendar .event.color-purple:hover {
 }
 .chosen-container-active .chosen-choices li.search-field input[type="text"] {
   color: #111 !important;
+}
+.chosen-container-active .chosen-choices li.search-field:before {
+  opacity: 1;
 }
 .chosen-disabled {
   cursor: default;
