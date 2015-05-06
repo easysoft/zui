@@ -56,13 +56,13 @@
       <div class="container">
         <div id="page">
           <div id="pageHeader">
-            <div class="wrapper">
+            <div class="wrapper container">
               <i class="icon icon-star"></i>
               <h2><a class="name" href="###">图标</a></h2>
               <small class="text-muted desc">使用和查找图标</small>
               <button type="button" class="btn btn-link" id="pageTogger"></button>
             </div>
-            <button data-toggle="tooltip" title="最大化" type="button" class="btn btn-link path-max-btn path-btn"><i class="path-1"></i></button>
+            <button data-toggle="tooltip" title="最大化" type="button" class="btn btn-link path-max-btn path-btn hidden-xs"><i class="path-1"></i></button>
             <button data-toggle="tooltip" title="关闭（ESC）" type="button" class="btn btn-link path-close-btn path-btn"><i class="path-1"></i></button>
           </div>
           <div id="pageBody" class="scrollbar-hover">
@@ -79,8 +79,10 @@
               </div>
             </div>
             <div class="loader" id="pageLoader"><i class="icon icon-spin icon-spinner-indicator"></i> <span class="loading-text">正在拼命加载中...</span><span class="error-text">加载失败，请检查网络重试。<br>另一个导致无法加载文档的原因可能是该文档尚未完成。<br>欢迎你在 <a href="https://github.com/easysoft/zui">Github</a> 上 <a href="https://github.com/easysoft/zui/fork">Fork</a> 项目来完善文档。</span></div>
-            <div id="pageContent"></div>
-            <nav></nav>
+            <div class="container">
+              <div id="pageContent"></div>
+              <nav></nav>
+            </div>
           </div>
         </div>
       </div>

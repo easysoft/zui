@@ -841,7 +841,7 @@
                     setTimeout(function(){
                         $body.data(animateName, false);
                         if(callback) callback();
-                    }, 500);
+                    }, 300);
                 }, 10);
             } else if(callback) {
                 callback();
@@ -853,7 +853,7 @@
                     $body.removeClass('compact-mode');
                     $body.data(animateName, false);
                     if(callback) callback();
-                }, 500);
+                }, 300);
             } else if(callback) {
                 callback();
             }
