@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-05
+ * ZUI - v1.3.0 - 2015-05-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -1821,7 +1821,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 }
 #pageContent:before {
   position: absolute;
-  top: -50px;
+  top: -250px;
   bottom: 0;
   left: 24px;
   display: block;

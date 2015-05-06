@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-05
+ * ZUI - v1.3.0 - 2015-05-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -55,7 +55,7 @@
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
     var INDEX_JSON = 'docs/index.json';
     var ICONS_JSON = 'docs/icons.json';
-    var PKG_JSON = '/package.json';
+    var PKG_JSON = 'package.json';
     var UNDEFINED = undefined;
     var PAGE_SHOW_FULL = 'page-show-full';
     var dataVersion;
@@ -228,6 +228,9 @@
                 section.target = 'page';
             } else if(isExternalUrl(url)) {
                 section.target = 'external';
+            } else if(url && url.endsWith('.md')) {
+                section.target = 'page';
+                section.targetType = 'markdown';
             } else {
                 section.target = '';
             }
@@ -973,7 +976,7 @@
         // page attributes
         $pageAttrs.hide();
         $pageAttrs.children('.badge-author').toggle(!!section.author).find('.author-name').text(section.author);
-        $pageAttrs.children('.badge-source').toggle(!!section.url).attr('href', 'https://github.com/easysoft/zui/tree/master' + section.url);
+        $pageAttrs.children('.badge-source').toggle(!!section.url).attr('href', 'https://github.com/easysoft/zui/tree/master/' + section.url);
         var lib = section.lib;
         if(lib) {
             $pageAttrs.children('.badge-zui').toggle(!!lib.bundles.standard);
@@ -993,7 +996,57 @@
 
         loadData(section.url, function(data){
             var showData = function(){
-                $pageContent.html(data);
+                if(marked && section.targetType === 'markdown') {
+                    var $article = $();
+                    var $markdown = $(marked(data));
+                    var $lastSection, checkFirstH1 = true;
+                    var hasH2 = $markdown.filter('h2').length > 0;
+                    $markdown.each(function(){
+                        var $tag = $(this);
+                        var tagName = $tag.prop('tagName');
+                        if(tagName === 'STYLE' || tagName === 'SCRIPT') {
+                            $article = $article.add($tag);
+                            return;
+                        }
+                        if(checkFirstH1) {
+                            if(tagName === 'H1') {
+                                $pageHeader.find('h2 > .name').text($tag.html());
+                            }
+                            checkFirstH1 = false;
+                            return;
+                        }
+                        if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
+                            if($lastSection) {
+                                $article = $article.add($lastSection);
+                            }
+                            $lastSection = $('<section><header><h3>' + $tag.html() + '</h3></header><article></article></section>');
+                        } else {
+                            if(hasH2) {
+                                if(tagName === 'H3') {
+                                    $tag = $('<h4>').html($tag.html());
+                                } else if(tagName === 'H4') {
+                                    $tag = $('<h5>').html($tag.html());
+                                } else if(tagName === 'H5') {
+                                    $tag = $('<h6>').html($tag.html());
+                                }
+                            }
+                            if(!$lastSection) {
+                                $lastSection = $('<article></article>');
+                            }
+                            if($lastSection.prop('tagName') === 'ARTICLE') {
+                                $lastSection.append($tag);
+                            } else {
+                                $lastSection.children('article').append($tag);
+                            }
+                        }
+                    });
+                    if($lastSection) {
+                        $article = $article.add($lastSection);
+                    }
+                    $pageContent.empty().append($article);
+                } else {
+                    $pageContent.html(data);
+                }
                 $pageBody.scrollTop(0);
                 showPageTopic(topic);
                 handlePageLoad();
