@@ -989,14 +989,18 @@
 
         loadData(section.url, function(data){
             var showData = function(){
-                if(markdown && section.targetType === 'markdown') {
+                if(marked && section.targetType === 'markdown') {
                     var $article = $();
-                    var $markdown = $(markdown.toHTML(data));
+                    var $markdown = $(marked(data));
                     var $lastSection, checkFirstH1 = true;
                     var hasH2 = $markdown.filter('h2').length > 0;
                     $markdown.each(function(){
                         var $tag = $(this);
                         var tagName = $tag.prop('tagName');
+                        if(tagName === 'STYLE' || tagName === 'SCRIPT') {
+                            $article = $article.add($tag);
+                            return;
+                        }
                         if(checkFirstH1) {
                             if(tagName === 'H1') {
                                 $pageHeader.find('h2 > .name').text($tag.html());
