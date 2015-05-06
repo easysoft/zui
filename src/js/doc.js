@@ -29,7 +29,7 @@
     }
 
     var saveTraffic = false;
-    var debug = 1;
+    var debug = 0;
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
@@ -578,7 +578,7 @@
         $body.addClass('query-enabled').attr('data-query', '');
 
         // Send ga data
-        if($.isFunction(ga)) {
+        if(window['ga'] && $.isFunction(ga)) {
             if(queryGaCallback) clearTimeout(queryGaCallback);
             queryGaCallback = setTimeout(function(){
                 ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
@@ -959,7 +959,7 @@
         if(topic) pageUrl += '/' + topic;
         window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
-        if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
+        if(window['ga'] && $.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
 
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
@@ -1384,7 +1384,7 @@
         });
     };
 
-    $(function() {
+    var init = function(){
         documentTitle = window.document.title;
 
         var stopPropagation = function(e) {
@@ -1650,7 +1650,9 @@
         });
 
         $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-    });
+    };
+
+    init();
 
     $.doc = {
         query: query,
