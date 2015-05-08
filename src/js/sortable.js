@@ -18,7 +18,7 @@
         this.init();
     };
 
-    Sortable.DEFAULTS = {list: 'li, div', dragCssClass: 'invisible'}; // default options
+    Sortable.DEFAULTS = {selector: 'li, div', dragCssClass: 'invisible'}; // default options
 
     Sortable.prototype.getOptions = function (options)
     {
@@ -34,7 +34,7 @@
     Sortable.prototype.reset = function()
     {
         var that = this, order = 0;
-        var list = this.$.children(this.options.selector);
+        var list = this.$.children(this.options.selector).not('.drag-shadow');
         list.each(function()
         {
             var $this = $(this);
@@ -47,7 +47,6 @@
             {
                 that.bindEventToList($this);
             }
-            $(this).attr('data-order', ++order);
         });
     };
 
@@ -71,6 +70,7 @@
             },
             drag: function(e)
             {
+                self.addClass('sortable-sorting');
                 if(e.isIn)
                 {
                     var $ele = e.element, $target = e.target;
@@ -84,7 +84,7 @@
                     {
                         $target.after($ele);
                     }
-                    var list = self.children(options.selector);
+                    var list = self.children(options.selector).not('.drag-shadow');
                     markOrders(list);
                     $.zui.callEvent(options['order'], {list: list, element: $ele});
                 }
@@ -93,15 +93,38 @@
             {
                 if(options.dragCssClass && e.element) e.element.removeClass(options.dragCssClass);
                 $.zui.callEvent(options['finish'], {list: self.children(options.selector), element: e.element});
+                self.removeClass('sortable-sorting');
             }
         });
 
         function markOrders(list)
         {
-            var order = 0;
+            var orders = [];
             list.each(function()
             {
-                $(this).attr('data-order', ++order);
+                var thisOrder = $(this).data('order');
+                if(typeof thisOrder === 'number')
+                {
+                    orders.push(thisOrder);
+                }
+            });
+            orders.sort(function(a, b) {return a - b;});
+
+            var listSize = list.length;
+            while(orders.length < listSize)
+            {
+                orders.push(orders.length ? (orders[orders.length - 1] + 1) : 0);
+            }
+
+            if(options.reverse)
+            {
+                orders.reverse();
+            }
+
+            var listIndex = 0
+            list.each(function()
+            {
+                $(this).attr('data-order', orders[listIndex++]);
             });
         }
     };
