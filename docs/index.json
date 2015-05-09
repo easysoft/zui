@@ -9,19 +9,6 @@
             "sections": [
             {
                 "author": "Catouse",
-                "id": "contributors",
-                "name": "贡献者",
-                "desc": "看看这些有爱的人吧",
-                "icon": "icon-group",
-                "topics": [
-                {
-                    "name": "Github 上的贡献者用户清单",
-                    "url": "https://github.com/easysoft/zui/graphs/contributors"
-                }],
-                "filter": "gongxianzhe gxz"
-            },
-            {
-                "author": "Catouse",
                 "id": "countme",
                 "name": "我要加入",
                 "desc": "加入ZUI，一起成长和改变，联系sunhao@cnezsoft.com",
