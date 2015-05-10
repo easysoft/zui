@@ -29,7 +29,7 @@
     }
 
     var saveTraffic = false;
-    var debug = 0;
+    var debug = 2;
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
@@ -1535,6 +1535,7 @@
         var scrollHeight = $('#navbar').outerHeight();
         var lastScrollTop;
         $window.on('scroll', function(e){
+            if($body.hasClass('layout-classic')) return;
             var isScrollAnimating = $body.data('isScrollAnimating');
             if(isScrollAnimating) {
                 $window.scrollTop(1);

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-06
+ * ZUI - v1.3.0 - 2015-05-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -2584,6 +2584,62 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
   body.page-show.input-query-focus #navbar .navbar-brand {
     display: none;
   }
+}
+body.layout-classic #heading {
+  display: none;
+}
+body.layout-classic #navbar {
+  top: 0;
+  left: 0;
+  width: 400px;
+  padding: 10px 0;
+  margin-bottom: 0;
+}
+body.layout-classic #navbar .navbar-header {
+  float: none;
+}
+body.layout-classic #navbar .navbar-toggle {
+  display: block;
+  float: right;
+  margin-right: 0;
+}
+body.layout-classic #navbar .navbar-collapse {
+  display: none!important;
+}
+body.layout-classic #navbar .navbar-collapse.in,
+body.layout-classic #navbar .navbar-collapse.collapsing {
+  display: block!important;
+  width: 140px;
+}
+body.layout-classic #navbar .navbar-collapse.in:before,
+body.layout-classic #navbar .navbar-collapse.collapsing:before {
+  right: 10px;
+}
+body.layout-classic #navbar .navbar-collapse.in > .navbar-right,
+body.layout-classic #navbar .navbar-collapse.collapsing > .navbar-right {
+  float: none!important;
+}
+body.layout-classic #navbar .navbar-collapse.in > .navbar-nav > li,
+body.layout-classic #navbar .navbar-collapse.collapsing > .navbar-nav > li {
+  float: none;
+}
+body.layout-classic #search {
+  padding: 0;
+}
+body.layout-classic #header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 200px;
+  padding-top: 60px;
+}
+body.layout-classic #grid {
+  position: fixed;
+  top: 100px;
+  bottom: 0;
+  left: 0;
+  width: 400px;
 }
 
 /*# sourceMappingURL=doc.css.map */

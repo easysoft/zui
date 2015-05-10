@@ -1978,3 +1978,72 @@ body.page-show {
     #navbar .navbar-brand {display: none}
   }
 }
+
+body.layout-classic
+{
+  #heading {display: none}
+
+  #navbar {
+    width: 400px;
+    left: 0;
+    top: 0;
+    padding: 10px 0;
+    margin-bottom: 0;
+
+    .navbar-header {
+      float: none;
+    }
+
+    .navbar-toggle {
+      display: block;
+      float: right;
+      margin-right: 0;
+    }
+
+    .navbar-collapse {
+      display: none!important;
+
+      &.in, &.collapsing {
+        &:before {
+          right: 10px;
+        }
+
+        > .navbar-right {
+          float: none!important;
+        }
+
+        display: block!important;
+        width: 140px;
+
+        > .navbar-nav > li {
+          float: none;
+        }
+      }
+    }
+  }
+
+  #search {
+    padding: 0;
+  }
+
+  #header {
+    position: fixed; 
+    left: 0; 
+    top: 0; 
+    height: 200px;
+    width: 400px;
+    padding-top: 60px;
+  }
+
+  #searchInput {
+
+  }
+
+  #grid {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    bottom: 0;
+    width: 400px;
+  }
+}
