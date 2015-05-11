@@ -25,7 +25,10 @@
         segmentStrokeColor: "#fff",
 
         //Number - The width of each segment stroke
-        segmentStrokeWidth: 2,
+/// ZUI change begin
+///        segmentStrokeWidth: 2, // old code
+        segmentStrokeWidth: 1,
+/// ZUI change end
 
         //The percentage of the chart that we cut out of the middle.
         percentageInnerCutout: 50,
