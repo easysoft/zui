@@ -133,6 +133,9 @@
                     strokeColor: dataset.strokeColor,
                     pointColor: dataset.pointColor,
                     pointStrokeColor: dataset.pointStrokeColor,
+/// ZUI change begin
+                    showTooltips: dataset.showTooltips !== false,
+/// ZUI change end
                     points: []
                 };
 

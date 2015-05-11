@@ -1174,6 +1174,9 @@
                                 yMin;
                             helpers.each(this.datasets, function(dataset)
                             {
+/// ZUI change begin
+                                if(dataset.showTooltips === false) return;
+/// ZUI change end
                                 dataCollection = dataset.points || dataset.bars || dataset.segments;
                                 if (dataCollection[dataIndex] && dataCollection[dataIndex].hasValue())
                                 {
