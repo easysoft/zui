@@ -138,6 +138,7 @@
             var index = atIndex || this.segments.length;
             this.segments.splice(index, 0, new this.SegmentArc(
             {
+                id: typeof segment.id === 'undefined' ? index : segment.id, 
                 value: segment.value,
                 outerRadius: (this.options.animateScale) ? 0 : this.outerRadius,
                 innerRadius: (this.options.animateScale) ? 0 : (this.outerRadius / 100) * this.options.percentageInnerCutout,
@@ -226,7 +227,7 @@
 
             var x = Math.cos(middleAngle) * segment.outerRadius,
                 y = Math.sin(middleAngle) * segment.outerRadius,
-                text = helpers.template(options.scaleLabel, {value: typeof easeDecimal === 'undefined' ? segment.value : Math.round(easeDecimal * segment.value)});
+                text = helpers.template(options.scaleLabel, {value: typeof easeDecimal === 'undefined' ? segment.value : Math.round(easeDecimal * segment.value), label: segment.label});
 
             var ctx = this.chart.ctx;
             ctx.font = helpers.fontString(options.scaleFontSize, options.scaleFontStyle, options.scaleFontFamily);
