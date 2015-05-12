@@ -1188,7 +1188,7 @@
       "website": "http://www.chartjs.org/",
       "src":
       {
-        "js": ["src/js/Chart.Core.js", "src/js/Chart.Line.js", "src/js/Chart.Doughnut.js"],
+        "js": ["src/js/Chart.Core.js", "src/js/Chart.Line.js", "src/js/Chart.Doughnut.js", "src/js/Chart.Bar.js"],
         "require": ["colorset.js", "jqueryex"]
       }
     },

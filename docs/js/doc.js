@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-06
+ * ZUI - v1.3.0 - 2015-05-12
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -36,7 +36,7 @@
     }
 
     var saveTraffic = false;
-    var debug = 1;
+    var debug = 2;
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
@@ -585,7 +585,7 @@
         $body.addClass('query-enabled').attr('data-query', '');
 
         // Send ga data
-        if($.isFunction(ga)) {
+        if(window['ga'] && $.isFunction(ga)) {
             if(queryGaCallback) clearTimeout(queryGaCallback);
             queryGaCallback = setTimeout(function(){
                 ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
@@ -966,7 +966,7 @@
         if(topic) pageUrl += '/' + topic;
         window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
-        if($.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
+        if(window['ga'] && $.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
 
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
@@ -1391,7 +1391,7 @@
         });
     };
 
-    $(function() {
+    var init = function(){
         documentTitle = window.document.title;
 
         var stopPropagation = function(e) {
@@ -1542,6 +1542,7 @@
         var scrollHeight = $('#navbar').outerHeight();
         var lastScrollTop;
         $window.on('scroll', function(e){
+            if($body.hasClass('layout-classic')) return;
             var isScrollAnimating = $body.data('isScrollAnimating');
             if(isScrollAnimating) {
                 $window.scrollTop(1);
@@ -1657,7 +1658,9 @@
         });
 
         $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-    });
+    };
+
+    init();
 
     $.doc = {
         query: query,
