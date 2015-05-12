@@ -1218,6 +1218,9 @@
                     "name": "饼图"
                 },
                 {
+                    "name": "柱状图"
+                },
+                {
                     "name": "兼容IE浏览器"
                 }],
                 "filter": "tubiao tb quxiantu qxt bingtu bt"

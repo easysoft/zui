@@ -45,7 +45,7 @@ var allMyCharts = $("canvas").chart();</code></pre>
     <p>曲线图用连接一组或多组点集的曲线来展示数据。通常用曲线图来展示数据的变化趋势，或对比多个数据集的趋势。</p>
     <h4>实例</h4>
     <div class="example">
-      <canvas id="myLineChart" width="100" height="36"></canvas>
+      <div class='chart-canvas'><canvas id="myLineChart" width="100" height="36"></canvas></div>
     </div>
     <pre><code>var data = {
     // labels 数据包含依次在X轴上显示的文本标签
@@ -311,6 +311,74 @@ myPieChart.update();</code></pre>
 </section>
 
 <section>
+  <header><h3>柱状图</h3></header>
+  <article>
+    <h4>实例</h4>
+    <div class="example"><div class='chart-canvas'><canvas id="myBarChart" width="500" height="200"></canvas></div></div>
+    <pre><code>var data = {
+    labels: [&quot;一月&quot;, &quot;二月&quot;, &quot;三月&quot;, &quot;四月&quot;, &quot;五月&quot;, &quot;六月&quot;, &quot;七月&quot;],
+    datasets: 
+    [        
+        {
+            label: &quot;蓝队&quot;,
+            color: 'primary',
+            data: [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+            label: &quot;绿队&quot;,
+            color: 'green',
+            data: [28, 48, 40, 19, 86, 27, 90]
+        }
+    ]
+};
+
+var options = {responsive: true}; // 图表配置项，可以留空来使用默认的配置
+var myBarChart = $('#myBarChart').barChart(data, options);</code></pre>
+    <h4>配置项</h4>
+    <p>以下列出所有可用的选项及其默认值</p>
+    <pre><code>{
+    //Boolean - 垂直刻度是否从0开始，如果为false，则从最小值开始
+    scaleBeginAtZero: true,
+
+    //Boolean - 是否显示网格线
+    scaleShowGridLines: true,
+
+    //String - 网格线条颜色
+    scaleGridLineColor: &quot;rgba(0,0,0,.05)&quot;,
+
+    //Number - 网格线条宽度
+    scaleGridLineWidth: 1,
+
+    //Boolean - 是否显示水平轴线
+    scaleShowHorizontalLines: true,
+
+    //Boolean - 是否显示垂直轴线
+    scaleShowVerticalLines: true,
+
+    //Boolean - 柱状条是否绘制描边
+    barShowStroke: true,
+
+    //Number - 柱状条描边宽度
+    barStrokeWidth: 1,
+
+    //Number - 每一组值在水平轴上的间隔宽度
+    barValueSpacing: 5,
+
+    //Number - 每个数据集相邻的间隔
+    barDatasetSpacing: 1,
+
+    //String - 图例模板
+    legendTemplate: &quot;&lt;ul class=\&quot;&lt;%=name.toLowerCase()%&gt;-legend\&quot;&gt;&lt;% for (var i=0; i&lt;datasets.length; i++){%&gt;&lt;li&gt;&lt;span style=\&quot;background-color:&lt;%=datasets[i].fillColor%&gt;\&quot;&gt;&lt;/span&gt;&lt;%if(datasets[i].label){%&gt;&lt;%=datasets[i].label%&gt;&lt;%}%&gt;&lt;/li&gt;&lt;%}%&gt;&lt;/ul&gt;&quot;
+}</code></pre>
+    <h4>方法</h4>
+    <h5>.getBarsAtEvent(event)</h5>
+    <h5>.update()</h5>
+    <h5>.addData(valuesArray, label)</h5>
+    <h5>.removeData()</h5>
+  </article>
+</section>
+
+<section>
   <header>
     <h3>兼容IE8浏览器</h3>
   </header>
@@ -429,5 +497,23 @@ function afterPageLoad() {
             $.zui.messager.warning('请输入有效的数据。', {placement: 'center'});
         }
     });
+
+    var data3 = {
+        labels: ["一月", "二月", "三月", "四月", "五月", "六月", "七月"],
+        datasets: 
+        [        
+            {
+                label: "蓝队",
+                color: 'primary',
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
+            {
+                label: "绿队",
+                color: 'green',
+                data: [28, 48, 40, 19, 86, 27, 90]
+            }
+        ]
+    };
+    var myBarChart = $('#myBarChart').barChart(data3, {responsive: true});
 }
 </script>
