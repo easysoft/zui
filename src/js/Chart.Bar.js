@@ -7,7 +7,12 @@
     /// ----- ZUI change end -----
     "use strict";
 
-    var root = this,
+/// ----- ZUI change begin -----
+/// Change root to zui shared object
+/// 
+///   var root = this, // old code
+      var root = $ && $.zui ? $.zui : this,
+/// ----- ZUI change end -----
         Chart = root.Chart,
         helpers = Chart.helpers;
 
@@ -35,7 +40,10 @@
         barShowStroke: true,
 
         //Number - Pixel width of the bar stroke
-        barStrokeWidth: 2,
+/// ZUI change begin
+///        barStrokeWidth: 2,
+        barStrokeWidth: 1,
+/// ZUI change end
 
         //Number - Spacing between each of the X value sets
         barValueSpacing: 5,
@@ -45,7 +53,6 @@
 
         //String - A legend template
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
-
     };
 
 
@@ -117,6 +124,17 @@
             //Iterate through each of the datasets, and build this into a property of the chart
             helpers.each(data.datasets, function(dataset, datasetIndex)
             {
+/// ----- ZUI change begin -----
+// add color theme
+                if($.zui && $.zui.Color && $.zui.Color.get)
+                {
+                    var accentColor = $.zui.Color.get(dataset.color);
+                    var accentColorValue = accentColor.toCssStr();
+
+                    if(!dataset.fillColor) dataset.fillColor = accentColor.clone().fade(50).toCssStr();
+                    if(!dataset.strokeColor) dataset.strokeColor = accentColorValue;
+                }
+/// ----- ZUI change begin -----
 
                 var datasetObject = {
                     label: dataset.label || null,
