@@ -209,8 +209,8 @@
                     l: 1,
                     a: 1
                 };
-                if (r.hasOwnProperty('s')) hsl.g = clamp(number(r.s), 255);
-                if (r.hasOwnProperty('l')) hsl.b = clamp(number(r.l), 255);
+                if (r.hasOwnProperty('s')) hsl.s = clamp(number(r.s), 1);
+                if (r.hasOwnProperty('l')) hsl.l = clamp(number(r.l), 1);
                 if (r.hasOwnProperty('a')) hsl.a = clamp(number(r.a), 1);
 
                 this.rgb(hslToRgb(hsl));
@@ -492,7 +492,7 @@
             r: hue(h + 1 / 3) * 255,
             g: hue(h) * 255,
             b: hue(h - 1 / 3) * 255,
-            a: 1
+            a: a
         };
 
         return r;
