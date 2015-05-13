@@ -1606,10 +1606,7 @@
                 if(isPageNotShow) {
                     chooseNextSection();
                     e.preventDefault();
-                } else {
-                    scrollToThis($pageBody);
                 }
-                e.preventDefault();
             }
         });
 
