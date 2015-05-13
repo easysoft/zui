@@ -987,71 +987,73 @@
         var lastShowDataCall;
         var pageSh
 
-        loadData(section.url, function(data){
-            var showData = function(){
-                if(marked && section.targetType === 'markdown') {
-                    var $article = $();
-                    var $markdown = $(marked(data));
-                    var $lastSection, checkFirstH1 = true;
-                    var hasH2 = $markdown.filter('h2').length > 0;
-                    $markdown.each(function(){
-                        var $tag = $(this);
-                        var tagName = $tag.prop('tagName');
-                        if(tagName === 'STYLE' || tagName === 'SCRIPT') {
-                            $article = $article.add($tag);
-                            return;
-                        }
-                        if(checkFirstH1) {
-                            if(tagName === 'H1') {
-                                $pageHeader.find('h2 > .name').text($tag.html());
+        setTimeout(function(){
+            loadData(section.url, function(data){
+                var showData = function(){
+                    if(marked && section.targetType === 'markdown') {
+                        var $article = $();
+                        var $markdown = $(marked(data));
+                        var $lastSection, checkFirstH1 = true;
+                        var hasH2 = $markdown.filter('h2').length > 0;
+                        $markdown.each(function(){
+                            var $tag = $(this);
+                            var tagName = $tag.prop('tagName');
+                            if(tagName === 'STYLE' || tagName === 'SCRIPT') {
+                                $article = $article.add($tag);
+                                return;
                             }
-                            checkFirstH1 = false;
-                            return;
-                        }
-                        if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
-                            if($lastSection) {
-                                $article = $article.add($lastSection);
+                            if(checkFirstH1) {
+                                if(tagName === 'H1') {
+                                    $pageHeader.find('h2 > .name').text($tag.html());
+                                }
+                                checkFirstH1 = false;
+                                return;
                             }
-                            $lastSection = $('<section><header><h3>' + $tag.html() + '</h3></header><article></article></section>');
-                        } else {
-                            if(hasH2) {
-                                if(tagName === 'H3') {
-                                    $tag = $('<h4>').html($tag.html());
-                                } else if(tagName === 'H4') {
-                                    $tag = $('<h5>').html($tag.html());
-                                } else if(tagName === 'H5') {
-                                    $tag = $('<h6>').html($tag.html());
+                            if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
+                                if($lastSection) {
+                                    $article = $article.add($lastSection);
+                                }
+                                $lastSection = $('<section><header><h3>' + $tag.html() + '</h3></header><article></article></section>');
+                            } else {
+                                if(hasH2) {
+                                    if(tagName === 'H3') {
+                                        $tag = $('<h4>').html($tag.html());
+                                    } else if(tagName === 'H4') {
+                                        $tag = $('<h5>').html($tag.html());
+                                    } else if(tagName === 'H5') {
+                                        $tag = $('<h6>').html($tag.html());
+                                    }
+                                }
+                                if(!$lastSection) {
+                                    $lastSection = $('<article></article>');
+                                }
+                                if($lastSection.prop('tagName') === 'ARTICLE') {
+                                    $lastSection.append($tag);
+                                } else {
+                                    $lastSection.children('article').append($tag);
                                 }
                             }
-                            if(!$lastSection) {
-                                $lastSection = $('<article></article>');
-                            }
-                            if($lastSection.prop('tagName') === 'ARTICLE') {
-                                $lastSection.append($tag);
-                            } else {
-                                $lastSection.children('article').append($tag);
-                            }
+                        });
+                        if($lastSection) {
+                            $article = $article.add($lastSection);
                         }
-                    });
-                    if($lastSection) {
-                        $article = $article.add($lastSection);
+                        $pageContent.empty().append($article);
+                    } else {
+                        $pageContent.html(data);
                     }
-                    $pageContent.empty().append($article);
-                } else {
-                    $pageContent.html(data);
+                    $pageBody.scrollTop(0);
+                    showPageTopic(topic);
+                    handlePageLoad();
+                    $pageAttrs.show();
                 }
-                $pageBody.scrollTop(0);
-                showPageTopic(topic);
-                handlePageLoad();
-                $pageAttrs.show();
-            }
-            if($page.hasClass('openning')) {
-                if(lastShowDataCall) clearTimeout(lastShowDataCall);
-                lastShowDataCall = setTimeout(showData, 320);
-            } else {
-                showData();
-            }
-        });
+                if($page.hasClass('openning')) {
+                    if(lastShowDataCall) clearTimeout(lastShowDataCall);
+                    lastShowDataCall = setTimeout(showData, 320);
+                } else {
+                    showData();
+                }
+            });
+        }, 700)
 
         if($body.hasClass('page-open')) {
             if(debug) console.log('open section in open page', section);
