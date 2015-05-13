@@ -1540,18 +1540,14 @@
             if($body.hasClass('layout-classic')) return;
             var isScrollAnimating = $body.data('isScrollAnimating');
             if(isScrollAnimating) {
-                $window.scrollTop(1);
+                $window.scrollTop(0);
                 return;
             }
             lastScrollTop = $window.scrollTop();
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
-            } else if(!$body.hasClass('page-show') && $body.hasClass('compact-mode')) {
-                if(lastScrollTop < 1) {
-                    toggleCompactMode(false);
-                } else {
-                    $header.toggleClass('with-shadow', lastScrollTop > 20);
-                }
+            } else if(!$body.hasClass('page-show')) {
+                $header.toggleClass('with-shadow', lastScrollTop > 20);
             }
         }).on('keydown', function(e){
             var code = e.which;
@@ -1647,6 +1643,10 @@
                 $(this).blur();
             }
             stopPropagation(e);
+        });
+
+        $('#compactTogger').on('click', function(){
+            toggleCompactMode(false);
         });
 
         $('[data-toggle="tooltip"]').tooltip({container: 'body'});

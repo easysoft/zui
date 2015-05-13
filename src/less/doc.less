@@ -676,6 +676,28 @@ body {
   }
 }
 
+#compactTogger {
+  position: absolute;
+  color: #fff;
+  left: 50%;
+  margin-left: -21px;
+  border-radius: 0;
+  display: none;
+  opacity: 0;
+  top: -40px;
+  outline: none;
+  .transition-normal();
+
+  &:hover, &:focus {
+    background-color: rgba(0,0,0,.2);
+    opacity: 1!important;
+  }
+
+  > .icon {
+    font-size: 28px;
+  }
+}
+
 #heading {
   text-align: center;
   position: relative;
@@ -1617,6 +1639,10 @@ body.compact-mode {
       .transition-fast(height; opcity;);
   }
 
+  #compactTogger {
+    display: block;
+  }
+
   #search {
     .transition-fast(padding);
   }
@@ -1669,6 +1695,11 @@ body.compact-mode {
       opacity: 1;
     }
 
+    #compactTogger {
+      opacity: .65;
+      top: 10px;
+    }
+
     #header {
       padding-top: 60px;
       height: 150px;
@@ -1697,6 +1728,8 @@ body.compact-mode {
 body.page-show {
   background-color: #f1f1f1;
   overflow: hidden;
+
+  #compactTogger {opacity: 0!important;}
 
   #headContainer {
     position: fixed;

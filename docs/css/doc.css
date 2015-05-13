@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-10
+ * ZUI - v1.3.0 - 2015-05-13
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -450,6 +450,28 @@ body {
 }
 #navbar .navbar-collapse.in .navbar-nav > li > a {
   opacity: 1;
+}
+#compactTogger {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  display: none;
+  margin-left: -21px;
+  color: #fff;
+  border-radius: 0;
+  outline: none;
+  opacity: 0;
+  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .5s cubic-bezier(.175, .885, .32, 1);
+          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+}
+#compactTogger:hover,
+#compactTogger:focus {
+  background-color: rgba(0, 0, 0, .2);
+  opacity: 1!important;
+}
+#compactTogger > .icon {
+  font-size: 28px;
 }
 #heading {
   position: relative;
@@ -1977,6 +1999,9 @@ body.compact-mode #heading {
        -o-transition: height .3s cubic-bezier(.175, .885, .32, 1), opcity .3s cubic-bezier(.175, .885, .32, 1);
           transition: height .3s cubic-bezier(.175, .885, .32, 1), opcity .3s cubic-bezier(.175, .885, .32, 1);
 }
+body.compact-mode #compactTogger {
+  display: block;
+}
 body.compact-mode #search {
   -webkit-transition: padding .3s cubic-bezier(.175, .885, .32, 1);
        -o-transition: padding .3s cubic-bezier(.175, .885, .32, 1);
@@ -2023,6 +2048,10 @@ body.compact-mode.compact-mode-in #navbar .navbar-collapse.collapsing .navbar-na
 body.compact-mode.compact-mode-in #navDownloadLink {
   opacity: 1;
 }
+body.compact-mode.compact-mode-in #compactTogger {
+  top: 10px;
+  opacity: .65;
+}
 body.compact-mode.compact-mode-in #header {
   height: 150px;
   padding-top: 60px;
@@ -2045,6 +2074,9 @@ body.compact-mode.compact-mode-in #grid {
 body.page-show {
   overflow: hidden;
   background-color: #f1f1f1;
+}
+body.page-show #compactTogger {
+  opacity: 0!important;
 }
 body.page-show #headContainer {
   position: fixed;
