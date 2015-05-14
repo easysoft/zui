@@ -28,8 +28,15 @@
         };
     }
 
+    var getQueryString = function(name, defaultValue)
+    {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r !== null) return unescape(r[2]); return defaultValue;
+    };
+
     var saveTraffic = false;
-    var debug = 2;
+    var debug = getQueryString('debug', 0);
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
@@ -83,13 +90,6 @@
             return str.substr(0, len) + '...[' + str.length + ']';
         }
         return str;
-    };
-
-    var getQueryString = function(name)
-    {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null) return unescape(r[2]); return null;
     };
 
     var checkScrollbar = function()
