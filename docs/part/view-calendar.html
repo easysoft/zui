@@ -625,7 +625,7 @@ function afterPageLoad() {
     $('#pageContent .calendar').each(function()
     {
         var $this = $(this);
-        var data = calDataGenerater($this.data('exampleCount') || 400);
+        var data = calDataGenerater($this.data('exampleCount') || 100);
         $this.calendar({data: data, clickEvent: function(e)
         {
             console.log(e);
