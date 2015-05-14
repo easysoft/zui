@@ -10,8 +10,8 @@
             {
                 "author": "Catouse",
                 "id": "countme",
-                "name": "我要加入",
-                "desc": "加入ZUI，一起成长和改变，联系sunhao@cnezsoft.com",
+                "name": "我要贡献自己的力量",
+                "desc": "加入ZUI，一起成长和改变。联系sunhao@cnezsoft.com",
                 "icon": "icon-hand-up",
                 "filter": "woyaojiaru wyjr"
             },
@@ -186,7 +186,7 @@
                 "name": "QQ讨论",
                 "desc": "官方QQ群：384135104",
                 "icon": "icon-qq",
-                "url": null,
+                "url": "http://forum.zui.sexy/forum/",
                 "filter": "qqtaolun qqtl"
             },
             {
