@@ -21,7 +21,7 @@
 
     Dashboard.DEFAULTS = {
         height: 360,
-        shadowType: 'circle',
+        shadowType: 'normal',
         sensitive: false,
         circleShadowSize: 100
     };
