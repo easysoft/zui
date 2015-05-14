@@ -1306,6 +1306,15 @@
       "ver": "1.3.0",
       "dpds": ["color"]
     },
+    "migrate1.2":
+    {
+      "name": "1.2升级到1.3兼容插件",
+      "src":
+      {
+        "js": ["src/js/zui.migrate.1.2.js"]
+      },
+      "ver": "1.3.0"
+    },
     "colorset.test":
     {
       "name": "配色测试",
@@ -1510,10 +1519,17 @@
       "filename": "hotkey",
       "includes": ["hotkey"]
     },
+    "migrate1.2":
+    {
+      "title": "migrate1.2",
+      "dest": "dist/lib/migrate",
+      "filename": "migrate1.2",
+      "includes": ["migrate1.2"]
+    },
     "separate":
     {
       "title": "separate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chart", "array", "chosenicons", "hotkey", "board", "chart"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chart", "array", "chosenicons", "hotkey", "board", "chart", "migrate1.2"]
     },
     "dist":
     {

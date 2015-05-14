@@ -224,6 +224,9 @@
             } else if(url && url.endsWith('.md')) {
                 section.target = 'page';
                 section.targetType = 'markdown';
+                if(url === '.md') {
+                    section.url = 'docs/part/' + section.chapter + '-' + section.id + '.md';
+                }
             } else {
                 section.target = '';
             }
@@ -1045,15 +1048,16 @@
                     showPageTopic(topic);
                     handlePageLoad();
                     $pageAttrs.show();
+                    if(debug) console.log('show data', data);
                 }
+                if(lastShowDataCall) clearTimeout(lastShowDataCall);
                 if($page.hasClass('openning')) {
-                    if(lastShowDataCall) clearTimeout(lastShowDataCall);
                     lastShowDataCall = setTimeout(showData, 320);
                 } else {
                     showData();
                 }
             });
-        }, 700)
+        }, 400)
 
         if($body.hasClass('page-open')) {
             if(debug) console.log('open section in open page', section);
@@ -1646,6 +1650,7 @@
         });
 
         $('#compactTogger').on('click', function(){
+            $window.scrollTop(0);
             toggleCompactMode(false);
         });
 
