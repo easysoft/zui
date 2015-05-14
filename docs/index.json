@@ -195,7 +195,7 @@
                 "name": "论坛",
                 "desc": "去发表帖子吧",
                 "icon": "icon-comments-alt",
-                "url": "",
+                "url": "http://forum.zui.sexy/forum/",
                 "filter": "luntan lt"
             },
             {
