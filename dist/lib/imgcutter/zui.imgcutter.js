@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-05
+ * ZUI - v1.3.0 - 2015-05-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -27,7 +27,7 @@
     ImgCutter.DEFAULTS = {
         coverColor: '#000',
         coverOpacity: 0.6,
-        fixedRatio: false,
+        // fixedRatio: false,
         defaultWidth: 128,
         defaultHeight: 128,
         minWidth: 48,
@@ -36,7 +36,7 @@
 
     ImgCutter.prototype.callEvent = function(name, params)
     {
-        return $.callEvent(this.options[name], params);
+        return $.zui.callEvent(this.options[name], params);
     };
 
     ImgCutter.prototype.initOptions = function(options)
@@ -83,7 +83,7 @@
         var that = this;
         if (typeof that.imgWidth === 'undefined')
         {
-            window.imgReady(that.options.img, function()
+            $.zui.imgReady(that.options.img, function()
             {
                 that.imgWidth = this.width;
                 that.imgHeight = this.height;
@@ -189,11 +189,11 @@
             if (url !== null)
             {
                 $.ajax(
-                {
-                    type: options.post ? 'POST' : 'GET',
-                    url: url,
-                    data: data
-                })
+                    {
+                        type: options.post ? 'POST' : 'GET',
+                        url: url,
+                        data: data
+                    })
                     .done(function(e)
                     {
                         that.callEvent('done', e);

@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-05
+ * ZUI - v1.3.0 - 2015-05-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -18,6 +18,7 @@
     'use strict';
 
     var name = 'zui.datatable';
+    var store = $.zui.store;
 
     var DataTable = function(element, options)
     {
@@ -28,7 +29,7 @@
         if (this.isTable)
         {
             this.$table = this.$;
-            this.id = 'datatable-' + (this.$.attr('id') || $.uuid());
+            this.id = 'datatable-' + (this.$.attr('id') || $.zui.uuid());
         }
         else
         {
@@ -39,7 +40,7 @@
             }
             else
             {
-                this.id = 'datatable-' + $.uuid();
+                this.id = 'datatable-' + $.zui.uuid();
                 this.$.attr('id', this.id);
             }
         }
@@ -427,8 +428,13 @@
                         row: r,
                         index: i
                     };
-                    row.data[i] = rowCol;
                 }
+                else
+                {
+                    rowCol.row = r;
+                    rowCol.index = i;
+                }
+                row.data[i] = rowCol;
 
                 $td = $('<td/>');
 
@@ -521,7 +527,7 @@
         var that       = this,
             data       = this.data,
             options    = this.options,
-            store      = window.store,
+            store      = $.zui.store,
             $datatable = this.$datatable;
 
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
@@ -837,7 +843,7 @@
     // Sort table
     DataTable.prototype.sortTable = function($th)
     {
-        var store = window.store,
+        var store = $.zui.store,
             options = this.options;
         var sorterStoreName = this.id + '_datatableSorter';
         var sorter = options.storage ? store.pageGet(sorterStoreName) : null;
@@ -968,12 +974,13 @@
 
         var findMaxHeight = function($cells)
             {
-                var mx = 0, $cell;
+                var mx = 0, $cell, rowSpan;
                 $cells.css('height', 'auto');
                 $cells.each(function()
                 {
                     $cell = $(this);
-                    if(!$cell.attr('rowspan')) mx = Math.max(mx, $cell.height());
+                    rowSpan = $cell.attr('rowspan');
+                    if(!rowSpan || rowSpan == 1) mx = Math.max(mx, $cell.outerHeight());
                 });
                 return mx;
             },
@@ -988,14 +995,16 @@
         }
 
         // set height of head cells
-        $headCells.height(findMaxHeight($headCells));
+        var headMaxHeight = findMaxHeight($headCells);
+        $headCells.css('min-height', headMaxHeight).css('height', headMaxHeight);
 
         // set height of data cells
         var $rowCells;
         for (i = 0; i < rows.length; ++i)
         {
             $rowCells = $dataCells.filter('[data-row="' + i + '"]');
-            $rowCells.height(findMaxHeight($rowCells));
+            var rowMaxHeight = findMaxHeight($rowCells);
+            $rowCells.css('min-height', rowMaxHeight).css('height', rowMaxHeight);
         }
     };
 

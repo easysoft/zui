@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.2.1 - 2014-12-05
+ * ZUI - v1.3.0 - 2015-05-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2015 cnezsoft.com; Licensed MIT
  */
 
 
@@ -46,17 +46,17 @@
 .datatable .table > thead > tr > th.check-btn.checked > .icon-check-empty:before,
 .datatable .table > tbody > tr > td.check-btn.checked > .icon-check-empty:before,
 .datatable .table > tbody > tr.active > td.check-btn > .icon-check-empty:before {
-  content: "\e642";
+  content: '\e60d';
 }
 .datatable .table > thead > tr > th.col-hover {
   background-color: #e2e2e2;
 }
 .datatable .table > tbody > tr > td.col-hover,
 .datatable .table > tbody > tr.hover > td {
-  background-color: #ebf5f9;
+  background-color: #ebf2f9;
 }
 .datatable .table > tbody > tr.active.hover td {
-  background-color: #ffe2b2;
+  background-color: #ffdea2;
 }
 .datatable.head-fixed > .datatable-head {
   position: fixed;
@@ -84,19 +84,19 @@
   line-height: 1;
   color: #808080;
   text-transform: none;
-  content: "\e6bd";
+  content: '\e6bd';
 
   speak: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .datatable.sortable .datatable-head-span .table > thead > tr > th.sort-down:after {
-  color: #18609d;
-  content: "\e6b8";
+  color: #145ccd;
+  content: '\e6b8';
 }
 .datatable.sortable .datatable-head-span .table > thead > tr > th.sort-up:after {
-  color: #18609d;
-  content: "\e6b9";
+  color: #145ccd;
+  content: '\e6b9';
 }
 .datatable.sortable .datatable-head-span .table > thead > tr > th.check-btn:after,
 .datatable.sortable .datatable-head-span .table > thead > tr > th.sort-disabled:after {
