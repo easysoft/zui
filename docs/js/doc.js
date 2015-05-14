@@ -35,8 +35,15 @@
         };
     }
 
+    var getQueryString = function(name, defaultValue)
+    {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r !== null) return unescape(r[2]); return defaultValue;
+    };
+
     var saveTraffic = false;
-    var debug = 1;
+    var debug = getQueryString('debug', 0);
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
@@ -90,13 +97,6 @@
             return str.substr(0, len) + '...[' + str.length + ']';
         }
         return str;
-    };
-
-    var getQueryString = function(name)
-    {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-        var r = window.location.search.substr(1).match(reg);
-        if (r != null) return unescape(r[2]); return null;
     };
 
     var checkScrollbar = function()
@@ -231,6 +231,9 @@
             } else if(url && url.endsWith('.md')) {
                 section.target = 'page';
                 section.targetType = 'markdown';
+                if(url === '.md') {
+                    section.url = 'docs/part/' + section.chapter + '-' + section.id + '.md';
+                }
             } else {
                 section.target = '';
             }
@@ -1052,15 +1055,16 @@
                     showPageTopic(topic);
                     handlePageLoad();
                     $pageAttrs.show();
+                    if(debug) console.log('show data', data);
                 }
+                if(lastShowDataCall) clearTimeout(lastShowDataCall);
                 if($page.hasClass('openning')) {
-                    if(lastShowDataCall) clearTimeout(lastShowDataCall);
                     lastShowDataCall = setTimeout(showData, 320);
                 } else {
                     showData();
                 }
             });
-        }, 700)
+        }, 400)
 
         if($body.hasClass('page-open')) {
             if(debug) console.log('open section in open page', section);
@@ -1653,6 +1657,7 @@
         });
 
         $('#compactTogger').on('click', function(){
+            $window.scrollTop(0);
             toggleCompactMode(false);
         });
 

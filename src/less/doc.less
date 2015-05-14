@@ -619,6 +619,7 @@ body {
 
     line-height: 20px;
     height: 40px;
+    border-radius: 4px;
 
     > .icon {
       font-size: 18px;
@@ -681,7 +682,6 @@ body {
   color: #fff;
   left: 50%;
   margin-left: -21px;
-  border-radius: 0;
   display: none;
   opacity: 0;
   top: -40px;
@@ -850,7 +850,6 @@ body {
     background-color: #fff;
     .transition-quickly(border; height; transform; top; left; opcity);
     display: none;
-    border-radius: 0;
     margin-bottom: 10px;
     border-color: #fff;
     box-shadow: none;
@@ -1012,7 +1011,7 @@ body {
           color: @color-fore;
           display: block;
           padding: 5px 0 5px 54px;
-
+          border-radius: 4px;
 
           > .icon {
             display: inline-block;
@@ -1308,6 +1307,7 @@ body.query-enabled {
   }
 }
 #page {
+  border-radius: 4px;
   position: relative;
   background-color: fade(#fff, 80%);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25), 0 120px 220px @color-gray-pale;
@@ -1317,6 +1317,7 @@ body.query-enabled {
   }
 }
 #pageHeader {
+  border-radius: 4px 4px 0 0;
   background-color: #fafafa;
   position: relative;
   padding: 0;
@@ -1821,6 +1822,7 @@ body.page-show {
 
   &.page-show-full {
     #page {
+      border-radius: 0;
       opacity: 0;
     }
 
@@ -1847,6 +1849,10 @@ body.page-show {
       &:before {
         // left: 44px;
       }
+    }
+
+    #pageHeader {
+      border-radius: 0;
     }
 
     #pageBody {

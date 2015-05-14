@@ -22,15 +22,6 @@
   </article>
 </section>
 
-<section>
-  <header><h3>简单风格</h3></header>
-  <article>
-    <div class="example">
-      <textarea id="contentCustom" name="content" class="form-control customStyle" style="height:150px;">Hello, world!</textarea>
-    </div>
-  </article>
-</section>
-
 <script>
 function onPageLoad() {
   return false;
@@ -62,15 +53,6 @@ function afterPageLoad() {
                 'insertunorderedlist', '|', 'emoticons', 'image', 'link'],
                 afterBlur: function(){$('#contentSimple').prev('.ke-container').removeClass('focus');},
                 afterFocus: function(){$('#contentSimple').prev('.ke-container').addClass('focus');}
-            });
-
-            K.create('textarea.customStyle',
-            {
-                basePath: '/dist/lib/kindeditor/',
-                themeType : 'simple',
-                bodyClass : 'article-content',
-                afterBlur: function(){$('#contentCustom').prev('.ke-container').removeClass('focus');},
-                afterFocus: function(){$('#contentCustom').prev('.ke-container').addClass('focus');}
             });
         }
         setTimeout($.doc.mutePageLoading, 500);

@@ -1,0 +1,117 @@
+<article>
+  <div class="alert alert-warning with-icon">
+    <i class="icon-info-sign"></i>
+    <div class="content">
+      <h4>注意</h4>
+      <p>本文的适合从1.2及更低的版本升级到1.3的用户，其他用户可以忽略。</p>
+    </div>
+  </div>
+</article>
+
+<section>
+  <header><h3>有哪些变化</h3></header>
+  <article>
+    <p>为避免全局变量污染，ZUI在1.3中移除了之前在<code>window</code>和<code>jQuery</code>实例上的对象绑定。现在所有共享对象方法全部绑定在<code>$.zui</code>对象上。如果你在代码中用到了如下对象方法，则需要更改您的代码（代码）或者使用兼容插件。</p>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>1.2版本之前的用法</th>
+          <th>1.3版本的用法</th>
+          <th>相关组件</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>$.uuid</code></td>
+          <td><code>$.zui.uuid</code></td>
+          <td>ZUI的jQuery扩展</td>
+        </tr>
+        <tr>
+          <td><code>$.callEvent</code></td>
+          <td><code>$.zui.callEvent</code></td>
+          <td>ZUI的jQuery扩展</td>
+        </tr>
+        <tr>
+          <td><code>$.clientLang</code></td>
+          <td><code>$.zui.clientLang</code></td>
+          <td>ZUI的jQuery扩展</td>
+        </tr>
+        <tr>
+          <td><code>$.browser</code></td>
+          <td><code>$.zui.browser</code></td>
+          <td>IE浏览器版本判断插件</td>
+        </tr>
+        <tr>
+          <td><code>$.messager</code>
+          <code>window.messager</code></td>
+          <td><code>$.zui.messager</code></td>
+          <td>漂浮消息</td>
+        </tr>
+        <tr>
+          <td><code>$.Messager</code>
+          <code>window.Messager</code></td>
+          <td><code>$.zui.Messager</code></td>
+          <td>漂浮消息</td>
+        </tr>
+        <tr>
+          <td><code>$.showMessager</code>
+          <code>window.showMessager</code></td>
+          <td><code>$.zui.showMessager</code></td>
+          <td>漂浮消息</td>
+        </tr>
+        <tr>
+          <td><code>$.closeModal</code>
+          <code>window.closeModal</code></td>
+          <td><code>$.zui.closeModal</code></td>
+          <td>模态框触发器</td>
+        </tr>
+        <tr>
+          <td><code>$.ajustModalPosition</code>
+          <code>window.ajustModalPosition</code></td>
+          <td><code>$.zui.ajustModalPosition</code></td>
+          <td>模态框触发器</td>
+        </tr>
+        <tr>
+          <td><code>$.ModalTrigger</code>
+          <code>window.ModalTrigger</code></td>
+          <td><code>$.zui.ModalTrigger</code></td>
+          <td>模态框触发器</td>
+        </tr>
+        <tr>
+          <td><code>$.modalTrigger</code>
+          <code>window.modalTrigger</code></td>
+          <td><code>$.zui.modalTrigger</code></td>
+          <td>模态框触发器</td>
+        </tr>
+        <tr>
+          <td><code>$.store</code>
+          <code>window.store</code></td>
+          <td><code>$.zui.store</code></td>
+          <td>本地存储</td>
+        </tr>
+        <tr>
+          <td><code>window.Color</code></td>
+          <td><code>$.zui.Color</code></td>
+          <td>色彩辅助方法</td>
+        </tr>
+        <tr>
+          <td><code>window.imgReady</code></td>
+          <td><code>$.zui.imgReady</code></td>
+          <td>图片加载判断</td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+</section>
+
+<section>
+  <header><h3>如何处理</h3></header>
+  <article>
+    <p>有两种方法来兼容之前的用法。</p>
+    <ul>
+      <li>手动将之前的写法更改为新的写法（推荐）；</li>
+      <li>使用1.3中提供的兼容插件，这样可以在1.3中继续使用之前的用法，兼容插件包含在<code>dist/lib/migrate/</code>目录下。</li>
+    </ul>
+  </article>
+</section>

@@ -397,6 +397,7 @@ body {
 #navbar .navbar-nav > li > a {
   height: 40px;
   line-height: 20px;
+  border-radius: 4px;
 }
 #navbar .navbar-nav > li > a:hover,
 #navbar .navbar-nav > li > a:focus {
@@ -458,7 +459,6 @@ body {
   display: none;
   margin-left: -21px;
   color: #fff;
-  border-radius: 0;
   outline: none;
   opacity: 0;
   -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
@@ -628,7 +628,6 @@ body {
   margin-bottom: 10px;
   background-color: #fff;
   border-color: #fff;
-  border-radius: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
   -webkit-transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), -webkit-transform .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1);
@@ -765,6 +764,7 @@ body {
   display: block;
   padding: 5px 0 5px 54px;
   color: #353535;
+  border-radius: 4px;
 }
 #grid .card-content > ul > li > a > .icon {
   display: inline-block;
@@ -1701,6 +1701,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 #page {
   position: relative;
   background-color: rgba(255, 255, 255, .8);
+  border-radius: 4px;
   -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, .25), 0 120px 220px #f1f1f1;
           box-shadow: 0 4px 10px rgba(0, 0, 0, .25), 0 120px 220px #f1f1f1;
 }
@@ -1714,6 +1715,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   padding: 0;
   background-color: #fafafa;
   filter: alpha(opacity=0);
+  border-radius: 4px 4px 0 0;
   opacity: 0;
   -webkit-transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
        -o-transition: opacity .3s cubic-bezier(.175, .885, .32, 1);
@@ -2162,6 +2164,7 @@ body.page-show.page-show-in #pageHeader {
   opacity: 1;
 }
 body.page-show.page-show-full #page {
+  border-radius: 0;
   opacity: 0;
 }
 body.page-show.page-show-full.page-show-in #page {
@@ -2173,6 +2176,9 @@ body.page-show.page-show-full #pageContainer {
 body.page-show.page-show-full #pageContainer > .container {
   width: 100%;
   max-width: none;
+}
+body.page-show.page-show-full #pageHeader {
+  border-radius: 0;
 }
 body.page-show.page-show-full #pageBody.with-scrollbar {
   padding-left: 11px;
