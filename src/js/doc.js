@@ -71,6 +71,7 @@
     var queryGaCallback;
     var scrollBarWidth = -1;
     var bestPageWidth = 1120;
+    var openInNewWindow = true;
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $chaptersCols, $pageAttrs,
         $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
@@ -957,6 +958,12 @@
         }
         chooseSection($section, false, true);
 
+        if(openInNewWindow) {
+            var url = 'docs/page/#' + section.chapter + '/' + section.id + '/' + (topic || '');
+            window.open(url, '_blank');
+            return;
+        }
+
         // Send ga data
         var pageUrl = '#' + section.chapter + '/' + section.id;
         if(topic) pageUrl += '/' + topic;
@@ -1423,10 +1430,20 @@
 
         bestPageWidth = $grid.children('.container').outerWidth();
 
-        $body.toggleClass(PAGE_SHOW_FULL, $.zui.store.get(PAGE_SHOW_FULL, false));
 
         // check storage
         storageEnable = $.zui.store && $.zui.store.enable;
+
+        $body.toggleClass(PAGE_SHOW_FULL, $.zui.store.get(PAGE_SHOW_FULL, false));
+
+        openInNewWindow = getQueryString('newwindow', null);
+        if(openInNewWindow === null) {
+            openInNewWindow = $.zui.store.get('open_page_in_new_window', true)
+        } else {
+            $.zui.store.set('open_page_in_new_window', openInNewWindow);
+        }
+
+        
 
         // Get document version
         // dataVersion = $body.data('version');

@@ -2086,3 +2086,21 @@ body.layout-classic
     width: 400px;
   }
 }
+
+body.layout-page {
+  padding-top: 60px;
+  overflow-y: auto;
+
+  #header {height: auto!important}
+
+  #page {
+    // .transition-fast();
+    box-shadow: none;
+
+    &.loading {
+      #pageAttrs {display: none}
+    }
+  }
+
+  #pageBody {position: relative; top: auto!important; bottom: auto!important}
+}

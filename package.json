@@ -1275,6 +1275,17 @@
       "dpds": ["setting", "icons.json", "icons.variables"],
       "custom": true
     },
+    "doc.page":
+    {
+      "name": "文档",
+      "src":
+      {
+        "js": ["src/js/doc.page.js"]
+      },
+      "desc": "ZUI文档依赖样式和工具",
+      "ver": "1.3.0",
+      "custom": true
+    },
     "autotrigger":
     {
       "name": "自动触发器",
@@ -1545,6 +1556,14 @@
       "bootstrapStatement": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger", "chosenicons", "colorset.js", "chart"]
     },
+    "doc.page":
+    {
+      "title": "page for new document",
+      "dest": "docs/",
+      "filename": "doc.page",
+      "subdirectories": true,
+      "includes": ["doc.page"]
+    },
     "doc":
     {
       "title": "new document",
@@ -1552,7 +1571,7 @@
       "filename": "doc",
       "subdirectories": true,
       "includes": ["doc"],
-      "bundles": ["doczui"]
+      "bundles": ["doczui", "doc.page"]
     },
     "docless":
     {

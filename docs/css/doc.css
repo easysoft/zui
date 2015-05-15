@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-14
+ * ZUI - v1.3.0 - 2015-05-15
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -2678,6 +2678,25 @@ body.layout-classic #grid {
   bottom: 0;
   left: 0;
   width: 400px;
+}
+body.layout-page {
+  padding-top: 60px;
+  overflow-y: auto;
+}
+body.layout-page #header {
+  height: auto !important;
+}
+body.layout-page #page {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+body.layout-page #page.loading #pageAttrs {
+  display: none;
+}
+body.layout-page #pageBody {
+  position: relative;
+  top: auto!important;
+  bottom: auto !important;
 }
 
 /*# sourceMappingURL=doc.css.map */
