@@ -962,7 +962,7 @@
         }
         chooseSection($section, false, true);
 
-        if(parseInt(openInNewWindow)) {
+        if(openInNewWindow && openInNewWindow !== '0' && openInNewWindow !== 'false') {
             var url = 'docs/page/#' + section.chapter + '/' + section.id + '/' + (topic || '');
             window.open(url, '_blank');
             return;
