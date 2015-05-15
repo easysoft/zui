@@ -955,7 +955,7 @@
         }
         chooseSection($section, false, true);
 
-        if(openInNewWindow) {
+        if(parseInt(openInNewWindow)) {
             var url = 'docs/page/#' + section.chapter + '/' + section.id + '/' + (topic || '');
             window.open(url, '_blank');
             return;
@@ -1436,11 +1436,6 @@
         } else {
             $.zui.store.set('open_page_in_new_window', openInNewWindow);
         }
-
-        
-
-        // Get document version
-        // dataVersion = $body.data('version');
 
         // Setup ajax
         $.ajaxSetup({cache: false});
