@@ -417,6 +417,18 @@ myModalTrigger.show();</code></pre>
 
 <script>
 function afterPageLoad() {
+    if($('body').hasClass('layout-page')) {
+      $('[data-toggle="modal"]').each(function(){
+          var $this = $(this);
+          if($this.attr('data-remote')) {
+            $this.attr('data-remote', '../' + $this.attr('data-remote'));
+          }
+          if($this.attr('data-iframe')) {
+            $this.attr('data-iframe', '../' + $this.attr('data-iframe'));
+          }
+      });
+    }
+
     $(document).on('click', '.modal-backdrop.in, .modal', function(e) {
         e.stopPropagation();
     });
