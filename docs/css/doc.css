@@ -475,6 +475,7 @@ body {
 }
 #compactTogger:hover,
 #compactTogger:focus {
+  background-color: #1868e8;
   background-color: rgba(0, 0, 0, .2);
   filter: alpha(opacity=100) !important;
   opacity: 1 !important;
