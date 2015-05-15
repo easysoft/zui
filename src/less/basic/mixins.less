@@ -398,6 +398,13 @@
   filter: ~"alpha(opacity=@{opacity-ie})";
 }
 
+.opacity-important(@opacity) {
+  opacity: @opacity!important;
+  // IE8 filter
+  @opacity-ie: (@opacity * 100);
+  filter: ~"alpha(opacity=@{opacity-ie})"!important;
+}
+
 
 
 // GRADIENTS
@@ -1015,7 +1022,7 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  
+
   // Better Font Rendering
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

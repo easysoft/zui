@@ -986,7 +986,7 @@
             $pageAttrs.children('.badge-lite').toggle(!!lib.bundles.lite);
             $pageAttrs.children('.badge-lib').toggle(!!lib.bundles.separate);
             $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
-            
+
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
             $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
         }
@@ -1059,7 +1059,7 @@
                 }
                 if(lastShowDataCall) clearTimeout(lastShowDataCall);
                 if($page.hasClass('openning')) {
-                    lastShowDataCall = setTimeout(showData, 320);
+                    lastShowDataCall = setTimeout(showData, 700);
                 } else {
                     showData();
                 }
@@ -1338,7 +1338,7 @@
                         }
                     }
                 }
-                
+
                 section.lib = lib;
             });
         });
