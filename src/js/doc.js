@@ -73,7 +73,7 @@
     var bestPageWidth = 1120;
     var openInNewWindow = true;
     var $body, $window, $grid, $sectionTemplate,
-        $queryInput, $chapters, $chaptersCols, $pageAttrs,
+        $queryInput, $chapters, $pageAttrs,
         $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
         $pageContainer, $pageBody, $navbar, $search, lastQueryString,
         $header, $sections, $chapterHeadings; // elements
@@ -430,7 +430,7 @@
     };
 
     var resetQuery = function() {
-        $chaptersCols.removeClass('hide');
+        $grid.find('.col.hide').removeClass('hide');
         $chapters.removeClass('hide');
         $sections.addClass('show');
         $chapterHeadings.addClass('show');
@@ -601,7 +601,7 @@
             } else if(key.startsWith('icon-') || key.startsWith('icon:')) {
                 keyOption.type = 'icon';
                 keyOption.val = key.substr(5);
-            } else if(key.startsWith('i:')) {
+            } else if(key.startsWith('i:') || key.startsWith('i-')) {
                 keyOption.type = 'icon';
                 keyOption.val = key.substr(2);
             } else if(key.startsWith('ver:')) {
@@ -789,27 +789,27 @@
                 hide = !resultCount;
                 chapter.$.toggleClass('hide', hide);
             });
-            var $col;
-            var showColCount = 0;
-            $chaptersCols.each(function(){
-                $col = $(this);
-                var showCol = $col.children('.chapter:not(.hide)').length;
-                $col.toggleClass('hide', !showCol);
-                if(showCol) {
-                    showColCount++;
-                    if(!$body.hasClass('compact-mode')) {
-                        var showCount = $col.find('.section:not(.hide)').length;
-                        if(showCount > 2 && $window.height() < ($header.height() + showCount * 70)) {
-                            $body.addClass('compact-mode');
-                            setTimeout(function(){
-                                $window.scrollTop(1);
-                                $body.addClass('compact-mode-in');
-                            }, 10);
+            var finalShowColsCount = 0;
+            $grid.find('.row').each(function(){
+                var showColsCount = 0;
+                var $row = $(this);
+                $row.children('.col').each(function(){
+                    var $col = $(this);
+                    var showCol = $col.children('.chapter:not(.hide)').length;
+                    $col.toggleClass('hide', !showCol);
+                    if(showCol) {
+                        showColsCount++;
+                        if(!$body.hasClass('compact-mode')) {
+                            var showCount = $col.find('.section:not(.hide)').length;
+                            if(showCount > 2 && $window.height() < ($header.height() + showCount * 70)) {
+                                toggleCompactMode(true);
+                            }
                         }
                     }
-                }
+                });
+                finalShowColsCount = Math.max(finalShowColsCount, showColsCount);
             });
-            $grid.attr('data-show-col', showColCount);
+            $grid.attr('data-show-col', finalShowColsCount);
 
             if($hide.length) {
                 $hide.removeClass('in');
@@ -1403,7 +1403,6 @@
         $navbar = $('#navbar');
         $grid = $('#grid');
         $header = $('#header');
-        $chaptersCols = $grid.find('.col');
         $page = $('#page');
         $pageHeader = $('#pageHeader');
         $pageAttrs = $('#pageAttrs');

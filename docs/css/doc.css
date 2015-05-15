@@ -9,6 +9,11 @@
 .icon-10x {
   font-size: 140px;
 }
+@media (min-width: 992px) {
+  .col-md-d5 {
+    width: 20%;
+  }
+}
 .slide-in-up-100 {
   position: relative;
   top: 100px;
@@ -642,7 +647,7 @@ body {
 }
 #grid .card {
   display: none;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   background-color: #fff;
   border-color: #fff;
   -webkit-box-shadow: none;
@@ -664,13 +669,13 @@ body {
   display: block;
   padding: 3px 8px;
   color: #fff;
-  content: '按Enter键打开';
+  content: 'Enter';
   -webkit-transition: right .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: right .1s cubic-bezier(.175, .885, .32, 1);
           transition: right .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card[data-target="external"].choosed:before {
-  content: '按Enter键在新窗口中打开';
+  content: 'Enter';
 }
 #grid .card[data-target=""].choosed:before {
   display: none;
@@ -679,31 +684,34 @@ body {
 #grid .card.open {
   border-color: #e5e5e5;
 }
+#grid .card.open {
+  margin-bottom: 5px;
+}
 #grid .card-heading {
   position: relative;
-  padding: 8px 8px 8px 64px;
+  padding: 8px 8px 8px 50px;
   -webkit-transition: background-color .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: background-color .1s cubic-bezier(.175, .885, .32, 1);
           transition: background-color .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > .icon {
   position: absolute;
-  top: 13px;
-  left: 13px;
+  top: 5px;
+  left: 10px;
   z-index: 10;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   font-style: normal;
-  line-height: 36px;
+  line-height: 30px;
   text-align: center;
   background-color: #f1f1f1;
   background-position: center;
   -webkit-background-size: contain;
           background-size: contain;
-  border-radius: 18px;
-  -webkit-transition: -webkit-transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition:      -o-transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
-          transition:         transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
+  border-radius: 16px;
+  -webkit-transition: background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
+          transition: background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
 }
 #grid .card-heading > .icon.with-img {
   background-color: transparent!important;
@@ -715,10 +723,11 @@ body {
   opacity: 1;
 }
 #grid .card-heading > h5 {
-  padding: 6px 0;
+  padding: 5px 0;
   margin: 0;
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 14px;
   -webkit-transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
           transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
@@ -728,9 +737,10 @@ body {
 }
 #grid .card-heading > small {
   position: relative;
-  display: block;
+  display: none;
   min-height: 18px;
   max-height: 48px;
+  font-size: 12px;
   white-space: normal;
 }
 #grid .card-heading:hover > .btn-toggle {
@@ -743,10 +753,6 @@ body {
 #grid .card-heading.hover > .icon {
   color: #fff;
   background-color: #808080;
-  -webkit-transform: scale(1.25);
-      -ms-transform: scale(1.25);
-       -o-transform: scale(1.25);
-          transform: scale(1.25);
 }
 #grid .card-content {
   height: 0;
@@ -766,7 +772,7 @@ body {
   position: absolute;
   top: -10px;
   bottom: 14px;
-  left: 21px;
+  left: 15px;
   z-index: 5;
   display: block;
   content: ' ';
@@ -780,7 +786,7 @@ body {
 }
 #grid .card-content > ul > li > a {
   display: block;
-  padding: 5px 0 5px 54px;
+  padding: 5px 0 5px 40px;
   color: #353535;
   border-radius: 4px;
 }
@@ -797,7 +803,7 @@ body {
 #grid .card-content > ul > li > a[href^='#search/']:before {
   position: absolute;
   top: 2px;
-  left: 9px;
+  left: 3px;
   z-index: 100;
   display: block;
   width: 24px;
@@ -828,7 +834,7 @@ body {
 #grid .card-content > ul > li:before {
   position: absolute;
   top: 10px;
-  left: 18px;
+  left: 12px;
   z-index: 12;
   display: block;
   width: 8px;
@@ -843,10 +849,10 @@ body {
 #grid .card-content > ul > li:after {
   position: absolute;
   top: 14px;
-  left: 22px;
+  left: 15px;
   z-index: 11;
   display: block;
-  width: 26px;
+  width: 20px;
   content: ' ';
   border-bottom: 1px dotted #e5e5e5;
 }
@@ -1750,6 +1756,18 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
     width: 50%;
   }
   body.query-enabled #grid[data-show-col='2'] > .container > .row > .col.hide {
+    width: 0;
+  }
+  body.query-enabled #grid[data-show-col='3'] > .container > .row > .col {
+    width: 33.333333333333%;
+  }
+  body.query-enabled #grid[data-show-col='3'] > .container > .row > .col.hide {
+    width: 0;
+  }
+  body.query-enabled #grid[data-show-col='4'] > .container > .row > .col {
+    width: 25%;
+  }
+  body.query-enabled #grid[data-show-col='4'] > .container > .row > .col.hide {
     width: 0;
   }
 }

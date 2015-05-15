@@ -1752,7 +1752,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
   font-weight: bold;
   line-height: 1.1;
   color: inherit;
@@ -1780,7 +1780,7 @@ h6.header-dividing {
   display: inline-block;
   padding: 5px 12px;
   margin-bottom: 0;
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   line-height: 1.53846154;

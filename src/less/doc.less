@@ -211,6 +211,11 @@
 {
   .transition(~"@{target1} @{animation-speed-quickly} @{animation-type}, @{target2} @{animation-speed-quickly} @{animation-type}, @{target3} @{animation-speed-quickly} @{animation-type}, @{target4} @{animation-speed-quickly} @{animation-type}, @{target5} @{animation-speed-quickly} @{animation-type}, @{target6} @{animation-speed-quickly} @{animation-type}");
 }
+
+@media (min-width: 992px) {
+  .col-md-d5 {width: 20%;}
+}
+
 .slide-in-up-100 {
   position: relative;
   top: 100px;
@@ -857,7 +862,7 @@ body {
     background-color: #fff;
     .transition-quickly(border; height; transform; top; left; opcity);
     display: none;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     border-color: #fff;
     box-shadow: none;
 
@@ -870,7 +875,7 @@ body {
 
       &:before {
         .transition-quickly(right);
-        content: '按Enter键打开';
+        content: 'Enter';
         display: block;
         position: absolute;
         right: -100%;
@@ -881,7 +886,7 @@ body {
     }
 
     &[data-target="external"].choosed:before {
-      content: '按Enter键在新窗口中打开';
+      content: 'Enter';
     }
 
     &[data-target=""].choosed:before {
@@ -891,49 +896,30 @@ body {
     &:hover, &.open {
       border-color: @color-gray-lighter;
     }
+
+    &.open {
+      margin-bottom: 5px;
+    }
   }
 
   .card-heading {
     .transition-quickly(background-color);
     position: relative;
-    padding: 8px 8px 8px 64px;
-
-    // > .btn-toggle {
-    //   // .transition-quickly();
-    //   display: block;
-    //   text-align: center;
-    //   position: absolute;
-    //   right: -64px;
-    //   top: 0;
-    //   border-radius: 0;
-    //   height: 64px;
-    //   width: 0;
-    //   color: @color-gray;
-    //   background-color: @color-gray-pale;
-
-    //   > .icon {
-    //     font-size: 28px;
-    //     line-height: 64px;
-    //   }
-
-    //   &:hover, &:active, &:focus {
-    //     text-decoration: none;
-    //   }
-    // }
+    padding: 8px 8px 8px 50px;
 
     > .icon {
-      .transition-quickly(transform; background-color; color);
+      .transition-quickly(background-color; color);
       background-color: @color-gray-pale;
       background-size: contain;
       background-position: center;
       position: absolute;
-      width: 36px;
-      height: 36px;
-      line-height: 36px;
-      border-radius: 18px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 16px;
       text-align: center;
-      left: 13px;
-      top: 13px;
+      left: 10px;
+      top: 5px;
       z-index: 10;
       font-style: normal;
 
@@ -949,10 +935,11 @@ body {
 
     > h5 {
       .transition-quickly(padding; color);
-      line-height: 16px;
-      font-size: 16px;
+      line-height: 15px;
+      font-size: 15px;
+      font-weight: 500;
       margin: 0;
-      padding: 6px 0;
+      padding: 5px 0;
 
       > a.name {
         color: @color-fore;
@@ -960,7 +947,8 @@ body {
     }
 
     > small {
-      display: block;
+      font-size: 12px;
+      display: none;
       min-height: 18px;
       white-space: normal;
       max-height: 48px;
@@ -981,7 +969,6 @@ body {
       > .icon {
         background-color: @color-gray;
         color: #fff;
-        .scale(1.25);
       }
     }
   }
@@ -1004,7 +991,7 @@ body {
         position: absolute;
         display: block;
         content: ' ';
-        left: 21px;
+        left: 15px;
         top: -10px;
         bottom: 14px;
         border-left: 1px dotted @color-gray-lighter;
@@ -1017,7 +1004,7 @@ body {
         > a {
           color: @color-fore;
           display: block;
-          padding: 5px 0 5px 54px;
+          padding: 5px 0 5px 40px;
           border-radius: 4px;
 
           > .icon {
@@ -1038,7 +1025,7 @@ body {
             border-radius: 12px;
             width: 24px;
             height: 24px;
-            left: 9px;
+            left: 3px;
             top: 2px;
             z-index: 100;
             color: @color-gray;
@@ -1062,7 +1049,7 @@ body {
           height: 8px;
           border-radius: 4px;
           background-color: @color-gray-lighter;
-          left: 18px;
+          left: 12px;
           top: 10px;
           z-index: 12;
         }
@@ -1072,8 +1059,8 @@ body {
           display: block;
           content: ' ';
           border-bottom: 1px dotted @color-gray-lighter;
-          width: 26px;
-          left: 22px;
+          width: 20px;
+          left: 15px;
           top: 14px;
           z-index: 11;
         }
@@ -1289,6 +1276,24 @@ body.query-enabled {
       &[data-show-col='2'] {
         > .container > .row > .col {
           width: 50%;
+
+          &.hide {
+            width: 0;
+          }
+        }
+      }
+      &[data-show-col='3'] {
+        > .container > .row > .col {
+          width: 33.333333333333%;
+
+          &.hide {
+            width: 0;
+          }
+        }
+      }
+      &[data-show-col='4'] {
+        > .container > .row > .col {
+          width: 25%;
 
           &.hide {
             width: 0;
