@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-14
+ * ZUI - v1.3.0 - 2015-05-15
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -5846,7 +5846,7 @@
 
     Dashboard.DEFAULTS = {
         height: 360,
-        shadowType: 'circle',
+        shadowType: 'normal',
         sensitive: false,
         circleShadowSize: 100
     };
