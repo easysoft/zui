@@ -503,9 +503,9 @@
                 return;
             }
 
-            for(var keyIndex in keys) {
+            keys.forEach(function(keyVal, keyIndex){
                 keys[keyIndex] = keys[keyIndex].toLowerCase();
-            }
+            });
 
             var $bestMatch, bestMatchWeight = 0;
             $.each(data, function(iconId, icon){
@@ -667,12 +667,11 @@
                             if(key.val || key.val.length) {
                                 iconKeys.push(key.val);
                             }
-                            for(var iconKeyIndex in keys) {
-                                var iconKey = keys[iconKeyIndex];
+                            keys.forEach(function(iconKey){
                                 if(iconKey.val !== key.val && (iconKey.val || iconKey.val.length)) {
                                     iconKeys.push(iconKey.val);
                                 }
-                            }
+                            });
                             queryIcon(iconKeys);
                             return false;
                         }
@@ -1119,17 +1118,16 @@
                 var sectionId = section[1];
                 var sections = docIndex.chapters[section[0]].sections;
                 var ok = false;
-                for(var i in sections) {
-                    var s = sections[i];
+                $.each(sections, function(i, s){
                     if(s.id === sectionId) {
                         if(section.length > 2) {
                             topic = section[2];
                         }
                         section = s;
                         ok = true;
-                        break;
+                        return false;
                     }
-                }
+                });
                 if(!ok) {
                     if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
                     return;
@@ -1349,10 +1347,8 @@
 
             var getChildCompsList = function(val){return data.lib[val].name;};
             var $tr, $td;
-            for(var itemName in data.lib)
-            {
-                var item = data.lib[itemName];
-                if(item.custom) continue;
+            $.each(data.lib, function(itemName, item){
+                if(item.custom) return;
 
                 var childComps = '';
                 if(!item.src && item.dpds)
@@ -1388,7 +1384,7 @@
                 $tr.append($td);
 
                 $tbody.append($tr);
-            }
+            });
             $table.find('tbody').remove();
             $table.append($tbody);
             $table.datatable({rowHover: false, fixedHeaderOffset: 200});
