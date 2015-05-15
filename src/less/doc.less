@@ -23,7 +23,7 @@
   .card-heading {
     > .icon {
       color: @color;
-      background-color: @pale;
+      border-color: @pale;
 
       &:hover {
         cursor: pointer;
@@ -35,6 +35,7 @@
 
       > .icon {
         background-color: @color;
+        border-color: @color;
         color: #fff;
 
         &:before {
@@ -909,7 +910,7 @@ body {
 
     > .icon {
       .transition-quickly(background-color; color);
-      background-color: @color-gray-pale;
+      border: 1px solid @color-gray-pale;
       background-size: contain;
       background-position: center;
       position: absolute;

@@ -704,10 +704,10 @@ body {
   font-style: normal;
   line-height: 30px;
   text-align: center;
-  background-color: #f1f1f1;
   background-position: center;
   -webkit-background-size: contain;
           background-size: contain;
+  border: 1px solid #f1f1f1;
   border-radius: 16px;
   -webkit-transition: background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: background-color .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
@@ -727,7 +727,7 @@ body {
   margin: 0;
   font-size: 15px;
   font-weight: 500;
-  line-height: 14px;
+  line-height: 15px;
   -webkit-transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
           transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
@@ -994,7 +994,7 @@ body {
 }
 #grid .chapter[data-accent="blue"] .card-heading > .icon {
   color: #03b8cf;
-  background-color: #ddf3f5;
+  border-color: #ddf3f5;
 }
 #grid .chapter[data-accent="blue"] .card-heading > .icon:hover {
   cursor: pointer;
@@ -1005,6 +1005,7 @@ body {
 #grid .chapter[data-accent="blue"] .card-heading.hover > .icon {
   color: #fff;
   background-color: #03b8cf;
+  border-color: #03b8cf;
 }
 #grid .chapter[data-accent="blue"] .card-heading.hover > .icon:before {
   color: #fff;
@@ -1101,7 +1102,7 @@ body {
 }
 #grid .chapter[data-accent="primary"] .card-heading > .icon {
   color: #3280fc;
-  background-color: #ebf2f9;
+  border-color: #ebf2f9;
 }
 #grid .chapter[data-accent="primary"] .card-heading > .icon:hover {
   cursor: pointer;
@@ -1112,6 +1113,7 @@ body {
 #grid .chapter[data-accent="primary"] .card-heading.hover > .icon {
   color: #fff;
   background-color: #3280fc;
+  border-color: #3280fc;
 }
 #grid .chapter[data-accent="primary"] .card-heading.hover > .icon:before {
   color: #fff;
@@ -1208,7 +1210,7 @@ body {
 }
 #grid .chapter[data-accent="yellow"] .card-heading > .icon {
   color: #f1a325;
-  background-color: #fff0d5;
+  border-color: #fff0d5;
 }
 #grid .chapter[data-accent="yellow"] .card-heading > .icon:hover {
   cursor: pointer;
@@ -1219,6 +1221,7 @@ body {
 #grid .chapter[data-accent="yellow"] .card-heading.hover > .icon {
   color: #fff;
   background-color: #f1a325;
+  border-color: #f1a325;
 }
 #grid .chapter[data-accent="yellow"] .card-heading.hover > .icon:before {
   color: #fff;
@@ -1315,7 +1318,7 @@ body {
 }
 #grid .chapter[data-accent="green"] .card-heading > .icon {
   color: #38b03f;
-  background-color: #ddf4df;
+  border-color: #ddf4df;
 }
 #grid .chapter[data-accent="green"] .card-heading > .icon:hover {
   cursor: pointer;
@@ -1326,6 +1329,7 @@ body {
 #grid .chapter[data-accent="green"] .card-heading.hover > .icon {
   color: #fff;
   background-color: #38b03f;
+  border-color: #38b03f;
 }
 #grid .chapter[data-accent="green"] .card-heading.hover > .icon:before {
   color: #fff;
@@ -1422,7 +1426,7 @@ body {
 }
 #grid .chapter[data-accent="red"] .card-heading > .icon {
   color: #ea644a;
-  background-color: #ffe5e0;
+  border-color: #ffe5e0;
 }
 #grid .chapter[data-accent="red"] .card-heading > .icon:hover {
   cursor: pointer;
@@ -1433,6 +1437,7 @@ body {
 #grid .chapter[data-accent="red"] .card-heading.hover > .icon {
   color: #fff;
   background-color: #ea644a;
+  border-color: #ea644a;
 }
 #grid .chapter[data-accent="red"] .card-heading.hover > .icon:before {
   color: #fff;
@@ -1529,7 +1534,7 @@ body {
 }
 #grid .chapter[data-accent="brown"] .card-heading > .icon {
   color: #bd7b46;
-  background-color: #f7ebe1;
+  border-color: #f7ebe1;
 }
 #grid .chapter[data-accent="brown"] .card-heading > .icon:hover {
   cursor: pointer;
@@ -1540,6 +1545,7 @@ body {
 #grid .chapter[data-accent="brown"] .card-heading.hover > .icon {
   color: #fff;
   background-color: #bd7b46;
+  border-color: #bd7b46;
 }
 #grid .chapter[data-accent="brown"] .card-heading.hover > .icon:before {
   color: #fff;
@@ -1636,7 +1642,7 @@ body {
 }
 #grid .chapter[data-accent="purple"] .card-heading > .icon {
   color: #8666b8;
-  background-color: #f5eeff;
+  border-color: #f5eeff;
 }
 #grid .chapter[data-accent="purple"] .card-heading > .icon:hover {
   cursor: pointer;
@@ -1647,6 +1653,7 @@ body {
 #grid .chapter[data-accent="purple"] .card-heading.hover > .icon {
   color: #fff;
   background-color: #8666b8;
+  border-color: #8666b8;
 }
 #grid .chapter[data-accent="purple"] .card-heading.hover > .icon:before {
   color: #fff;
