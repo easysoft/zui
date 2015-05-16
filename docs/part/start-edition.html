@@ -63,14 +63,6 @@
 </section>
 
 <section>
-  <header><h3>自定义版本</h3></header>
-  <article>
-    <p>如果你需要更精确的控制预编译版本所包含的内容，强烈建议下载我们的源码来进行自定义配置并编译独一无二的版本。请参考章节<a href=
-    "#grunt">编译及定制</a>。</p>
-  </article>
-</section>
-
-<section>
   <header><h3>组件清单</h3></header>
   <article>
     <h3>组件清单</h3>
@@ -91,6 +83,125 @@
         </tr>
       </tbody>
     </table>
+  </article>
+</section>
+
+<section>
+  <header><h3>使用Grunt定制</h3></header>
+  <article>
+    <p>ZUI使用 <a href="http://gruntjs.com/">Grunt</a> 作为构建系统。如果不了解 Grunt
+  也没有关系，Grunt是一个非常棒而且容易上手的工具。下面给出简要步骤来准备编译ZUI，如果想了解更多请访问Grunt官方网站。</p>
+    <h4>安装Grunt</h4>
+    <p>Grunt构建在nodejs之上。在安装Grunt之前需要首先<a href="http://nodejs.org/download/" target=
+    "_blank">下载并安装node.js</a>。最新版的nodejs已包含npm（<a href="http://npmjs.org/" target=
+    "_blank">node packaged modules</a>）。npm是nodejs用来管理扩展包的工具。</p>
+    <p>安装nodejs之后，在命令行进行如下操作：</p>
+    <ol>
+      <li>在全局环境中安装<code>grunt-cli</code>：<code>npm install -g
+      grunt-cli</code>。</li>
+      <li>进入ZUI源码目录，执行<code>npm
+      install</code>命令。nmp将读取包配置文件<code>package.json</code>文件并自动安装所有依赖的扩展包。</li>
+    </ol>
+    <h4>使用 Grunt 来构建</h4>
+    <p>完成上述步骤就可以进行编译了。只需要进入ZUI中使用命令行输入对应的命令就可以启动编译任务。内置的<code>build</code>命令可以完成大部分编译任务。以下为ZUI内置的一些常用任务命令。</p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th style="width: 200px">命令</th>
+          <th style="width: 40%">说明</th>
+          <th>输出目录</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>grunt build:standard</code></td>
+          <td>编译标准版</td>
+          <td>
+            <ul>
+              <li>dist/js/zui*.js</li>
+              <li>dist/css/zui*.css</li>
+              <li>dist/fonts/**</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>grunt build:lite</code></td>
+          <td>编译简洁版</td>
+          <td>
+            <ul>
+              <li>dist/js/zui.lite*.js</li>
+              <li>dist/css/zui.lite*.css</li>
+              <li>dist/fonts/**</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>grunt build:dist</code></td>
+          <td>编译标准版和简洁版以及常用独立组件</td>
+          <td>
+            <ul>
+              <li>dist/js/**</li>
+              <li>dist/css/**</li>
+              <li>dist/fonts/**</li>
+              <li>dist/lib/*/**</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>grunt dist</code></td>
+          <td><code>grunt build:dist</code>的简单写法</td>
+          <td>
+            <ul>
+              <li>dist/js/**</li>
+              <li>dist/css/**</li>
+              <li>dist/fonts/**</li>
+              <li>dist/lib/*/**</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>grunt build:doc</code></td>
+          <td>编译文档所需资源</td>
+          <td>
+            <ul>
+              <li>doc/js/zui*.js</li>
+              <li>doc/css/zui*.css</li>
+              <li>doc/fonts/**</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>grunt build:theme</code></td>
+          <td>编译主题</td>
+          <td>
+            <ul>
+              <li>dist/css/zui-theme*.css</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>grunt build:[build name]</code></td>
+          <td>编译独立组件包，<code>[build
+          name]</code>为组件包名称，可以为<code>calendar</code>、<code>kindeditor</code>、<code>chosen</code>等</td>
+          <td>
+            <ul>
+              <li>dist/lib/[build name]/**</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><code>grunt build:[control name]</code></td>
+          <td>编译单独控件，<code>[control
+          name]</code>为控件名称，可以为<code>button</code>、<code>alerts</code>、<code>panels</code>等</td>
+          <td>
+            <ul>
+              <li>dist/lib/[control name]/**</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>如果了解Grunt，当然可以通过编辑<code>Gruntfile.js</code>文件来定义自己的编译任务。</p>
   </article>
 </section>
 

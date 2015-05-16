@@ -288,7 +288,7 @@
             {
                 "author": "Catouse",
                 "id": "edition",
-                "name": "选择版本",
+                "name": "选择版本和定制",
                 "icon": "icon-code-fork",
                 "desc": "选择合适的版本",
                 "topics": [
@@ -303,20 +303,11 @@
                 },
                 {
                     "name": "组件清单"
+                },
+                {
+                    "name": "使用Grunt定制"
                 }],
                 "filter": "xuanzebanben xzbb"
-            },
-            {
-                "author": "Catouse",
-                "id": "grunt",
-                "name": "编译和定制",
-                "icon": "icon-terminal",
-                "desc": "定制你自己的版本",
-                "topics": [
-                {
-                    "name": "安装Grunt"
-                }],
-                "filter": "bianyihedingzhi byhdz"
             },
             {
                 "author": "Catouse",
@@ -459,15 +450,6 @@
                     "name": "显示或隐藏元素"
                 }],
                 "filter": "fuzhulei fzl"
-            },
-            {
-                "author": "Catouse",
-                "desc": "美化浏览器滚动条",
-                "icon": "icon-long-arrow-down",
-                "id": "scrollbar",
-                "name": "滚动条",
-                "topics": [],
-                "filter": "gundongtiao gdt"
             },
             {
                 "author": "Catouse",
@@ -650,6 +632,15 @@
                     "name": "类型"
                 }],
                 "filter": "fengexian fgx"
+            },
+            {
+                "author": "Catouse",
+                "desc": "美化浏览器滚动条",
+                "icon": "icon-resize-v",
+                "id": "scrollbar",
+                "name": "滚动条",
+                "topics": [],
+                "filter": "gundongtiao gdt"
             }],
             "filter": "kongjian kj"
         },
