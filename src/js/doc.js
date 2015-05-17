@@ -1654,9 +1654,12 @@
             stopPropagation(e);
         });
 
-        $('#compactTogger').on('click', function(){
-            $window.scrollTop(0);
-            toggleCompactMode(false);
+        $('#navbar .navbar-brand').on('click', function(e){
+            if($body.hasClass('compact-mode-in')) {
+                $window.scrollTop(0);
+                toggleCompactMode(false);
+                e.preventDefault();
+            }
         });
 
         $('[data-toggle="tooltip"]').tooltip({container: 'body'});
