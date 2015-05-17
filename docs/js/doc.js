@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-15
+ * ZUI - v1.3.0 - 2015-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -42,7 +42,6 @@
         if (r !== null) return unescape(r[2]); return defaultValue;
     };
 
-    var saveTraffic = false;
     var debug = getQueryString('debug', 0);
     if(debug) console.error("DEBUG ENABLED.");
 
@@ -64,13 +63,9 @@
     var ICONS_JSON = 'docs/icons.json';
     var PKG_JSON = 'package.json';
     var UNDEFINED = undefined;
-    var PAGE_SHOW_FULL = 'page-show-full';
     var dataVersion;
     var storageEnable;
-    var dataset = {
-        // 'index.json': null
-    };
-    if(debug) window.dataset = dataset;
+    var docIndex;
     var pkgLibs = {standard: null, lite: null, separate: null};
 
     var documentTitle = 'ZUI';
@@ -82,7 +77,7 @@
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $pageAttrs,
         $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
-        $pageContainer, $pageBody, $navbar, $search, lastQueryString,
+        $pageBody, $navbar, $search, lastQueryString,
         $header, $sections, $chapterHeadings; // elements
 
     var isExternalUrl = function(url) {
@@ -125,18 +120,23 @@
         $navbar.css('padding-right', '');
     };
 
-    var loadData = function(url, callback) {
-        var cacheData = dataset[url];
-        var isHasCache = cacheData && cacheData.version;
+    var loadData = function(url, callback, delayLoadRemote) {
+        var cacheData = null;
         var isIndexJson = url === INDEX_JSON;
-        if(!isHasCache && storageEnable) {
+        var isHasCache = false;
+        if(isIndexJson && docIndex) {
+            cacheData = {data: docIndex, version: docIndex.version};
+            isHasCache = true;
+        } else if(storageEnable) {
             var storedData = $.zui.store.get('//' + url, null);
             if(storedData !== null) {
                 var storedVersion = $.zui.store.get('//' + url + '::V');
                 if(storedVersion) {
                     cacheData = {data: storedData, version: storedVersion};
-                    dataset[url] = cacheData;
                     isHasCache = true;
+                    if(!docIndex && isIndexJson) {
+                        docIndex = storedData;
+                    }
                     if(debug) console.log('Load', url, 'from storage:', cacheData);
                 }
             }
@@ -144,42 +144,51 @@
 
         if(isHasCache && (isIndexJson || cacheData.version === dataVersion)) {
             if(debug) console.log('Load', url, 'from cache:', cacheData);
-            callback(cacheData.data);
+            callback(cacheData.data, 'cache');
             if(!isIndexJson && !debug) return;
         }
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
-        $.get(url, function(data){
-            if(data !== null) {
-                if(isIndexJson) {
-                    dataVersion = data.version;
+        var loadFromRemote = function(){
+            $.get(url, function(data){
+                if(data !== null) {
+                    if(isIndexJson) {
+                        dataVersion = data.version;
+                        docIndex = data;
+                    }
+                    cacheData = {data: data, version: dataVersion};
+                    $.zui.store.set('//' + url, data);
+                    $.zui.store.set('//' + url + '::V', dataVersion);
+
+                    if(debug) console.log('Load', url, 'from remote:', cacheData);
+                    callback(data, 'remote');
+                } else if(isHasCache && !isIndexJson) {
+                    if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
+                    callback(cacheData.data, 'cache');
                 }
-                cacheData = {data: data, version: dataVersion};
-                dataset[url] = cacheData;
-                $.zui.store.set('//' + url, data);
-                $.zui.store.set('//' + url + '::V', dataVersion);
+            }, dataType).error(function(){
+                if(debug) console.error("Ajax error:", url);
+                if(isHasCache && !isIndexJson) {
+                    if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
+                    callback(cacheData.data, 'cache');
+                }
 
-                if(debug) console.log('Load', url, 'from remote:', cacheData);
-                callback(data);
-            } else if(isHasCache && !isIndexJson) {
-                if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
-                callback(cacheData.data);
-            }
-        }, dataType).error(function(){
-            if(debug) console.error("Ajax error:", url);
-            if(isHasCache && !isIndexJson) {
-                if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
-                callback(cacheData.data);
-            }
+                if($body.hasClass('page-open')) {
+                    $pageBody.children('.loader').addClass('with-error');
+                }
+            });
+        }
 
-            if($body.hasClass('page-open')) {
-                $pageBody.children('.loader').addClass('with-error');
+        if(delayLoadRemote !== false) {
+            if(delayLoadRemote) {
+                setTimeout(loadFromRemote, delayLoadRemote);
+            } else {
+                loadFromRemote();
             }
-        });
+        }
     };
 
     var eachSection = function(callback, eachChapterCallback) {
-        var docIndex = dataset[INDEX_JSON].data;
         if (!docIndex) {
             console.error("Document index is empty.");
             return false;
@@ -252,7 +261,7 @@
             var $head = $tpl.children('.card-heading');
             var sectionUrl = '#' + chapterName + '/' + section.id;
             $head.find('.name').text(section.name).attr('href', sectionUrl);
-            $head.children('.desc').text(section.desc);
+            // $head.children('.desc').text(section.desc);
             displaySectionIcon($head.children('.icon'), section);
             var $topics = $tpl.find('.topics');
             if (section.topics && section.topics.length) {
@@ -927,7 +936,6 @@
     var mutePageLoading = function() {
         $page.removeClass('loading');
         $pageLoader.removeClass('loading');
-        setTimeout(resizePage, 400);
     };
 
     var handlePageLoad = function() {
@@ -949,7 +957,7 @@
                 $codes.addClass('prettyprint');
                 window['prettyPrint']();
             }
-        }, 1000);
+        }, 200);
 
         if(!delayMutedPageLoading) mutePageLoading();
     };
@@ -978,7 +986,7 @@
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
         $pageHeader.find('.name').text(section.name).attr('href', pageUrl);
-        $pageHeader.find('.desc').text(section.desc);
+        // $pageHeader.find('.desc').text(section.desc);
 
         // page attributes
         $pageAttrs.hide();
@@ -995,80 +1003,77 @@
             $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
         }
 
-        $pageContent.html('');
+        $pageContent.empty();
         $page.addClass('loading');
         $pageLoader.removeClass('with-error').addClass('loading');
         var lastShowDataCall;
-        var pageSh
 
-        setTimeout(function(){
-            loadData(section.url, function(data){
-                var showData = function(){
-                    if(marked && section.targetType === 'markdown') {
-                        var $article = $();
-                        var $markdown = $(marked(data));
-                        var $lastSection, checkFirstH1 = true;
-                        var hasH2 = $markdown.filter('h2').length > 0;
-                        $markdown.each(function(){
-                            var $tag = $(this);
-                            var tagName = $tag.prop('tagName');
-                            if(tagName === 'STYLE' || tagName === 'SCRIPT') {
-                                $article = $article.add($tag);
-                                return;
-                            }
-                            if(checkFirstH1) {
-                                if(tagName === 'H1') {
-                                    $pageHeader.find('h2 > .name').text($tag.html());
-                                }
-                                checkFirstH1 = false;
-                                return;
-                            }
-                            if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
-                                if($lastSection) {
-                                    $article = $article.add($lastSection);
-                                }
-                                $lastSection = $('<section><header><h3>' + $tag.html() + '</h3></header><article></article></section>');
-                            } else {
-                                if(hasH2) {
-                                    if(tagName === 'H3') {
-                                        $tag = $('<h4>').html($tag.html());
-                                    } else if(tagName === 'H4') {
-                                        $tag = $('<h5>').html($tag.html());
-                                    } else if(tagName === 'H5') {
-                                        $tag = $('<h6>').html($tag.html());
-                                    }
-                                }
-                                if(!$lastSection) {
-                                    $lastSection = $('<article></article>');
-                                }
-                                if($lastSection.prop('tagName') === 'ARTICLE') {
-                                    $lastSection.append($tag);
-                                } else {
-                                    $lastSection.children('article').append($tag);
-                                }
-                            }
-                        });
-                        if($lastSection) {
-                            $article = $article.add($lastSection);
+        loadData(section.url, function(data){
+            var showData = function(){
+                if(marked && section.targetType === 'markdown') {
+                    var $article = $();
+                    var $markdown = $(marked(data));
+                    var $lastSection, checkFirstH1 = true;
+                    var hasH2 = $markdown.filter('h2').length > 0;
+                    $markdown.each(function(){
+                        var $tag = $(this);
+                        var tagName = $tag.prop('tagName');
+                        if(tagName === 'STYLE' || tagName === 'SCRIPT') {
+                            $article = $article.add($tag);
+                            return;
                         }
-                        $pageContent.empty().append($article);
-                    } else {
-                        $pageContent.html(data);
+                        if(checkFirstH1) {
+                            if(tagName === 'H1') {
+                                $pageHeader.find('h2 > .name').text($tag.html());
+                            }
+                            checkFirstH1 = false;
+                            return;
+                        }
+                        if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
+                            if($lastSection) {
+                                $article = $article.add($lastSection);
+                            }
+                            $lastSection = $('<section><header><h3>' + $tag.html() + '</h3></header><article></article></section>');
+                        } else {
+                            if(hasH2) {
+                                if(tagName === 'H3') {
+                                    $tag = $('<h4>').html($tag.html());
+                                } else if(tagName === 'H4') {
+                                    $tag = $('<h5>').html($tag.html());
+                                } else if(tagName === 'H5') {
+                                    $tag = $('<h6>').html($tag.html());
+                                }
+                            }
+                            if(!$lastSection) {
+                                $lastSection = $('<article></article>');
+                            }
+                            if($lastSection.prop('tagName') === 'ARTICLE') {
+                                $lastSection.append($tag);
+                            } else {
+                                $lastSection.children('article').append($tag);
+                            }
+                        }
+                    });
+                    if($lastSection) {
+                        $article = $article.add($lastSection);
                     }
-                    $pageBody.scrollTop(0);
-                    showPageTopic(topic);
-                    handlePageLoad();
-                    $pageAttrs.show();
-                    if(debug) console.log('show data', data);
-                }
-                if(lastShowDataCall) clearTimeout(lastShowDataCall);
-                if($page.hasClass('openning')) {
-                    lastShowDataCall = setTimeout(showData, 700);
+                    $pageContent.empty().append($article);
                 } else {
-                    showData();
+                    $pageContent.html(data);
                 }
-            });
-        }, 400)
+                $pageBody.scrollTop(0);
+                showPageTopic(topic);
+                handlePageLoad();
+                $pageAttrs.show();
+                if(debug) console.log('show data', data);
+            }
+            if(lastShowDataCall) clearTimeout(lastShowDataCall);
+            if($page.hasClass('openning')) {
+                lastShowDataCall = setTimeout(showData, 700);
+            } else {
+                showData();
+            }
+        }, 400);
 
         if($body.hasClass('page-open')) {
             if(debug) console.log('open section in open page', section);
@@ -1078,28 +1083,15 @@
         $body.addClass('page-open');
 
         toggleCompactMode(true, function(){
-            var offset = $section.offset();
-            var sectionHeight = $section.outerHeight();
-            var style = {
-                left: Math.floor(offset.left - $grid.children('.container').offset().left - 5),
-                top: Math.floor(offset.top - $window.scrollTop() - 60),
-                width: $section.outerWidth(),
-                height: sectionHeight,
-                'max-height': sectionHeight
-            };
             checkScrollbar();
             $body.addClass('page-show');
-            $page.css(style).data('trans-style', style);
-            $pageBody.css('width', bestPageWidth);
 
             setTimeout(function(){
                 $body.addClass('page-show-in');
-                if($page.hasClass('loading')) $page.addClass('openning').css('height', 470);
+                if($page.hasClass('loading')) $page.addClass('openning');
                 $pageBody.scrollTop(0);
                 setTimeout(function(){
                     $page.removeClass('openning');
-                    bestPageWidth = $pageBody.css('width', '').width() + 40;
-                    resizePage();
                 }, 300);
             }, 10);
         });
@@ -1120,7 +1112,6 @@
                 query(section[1]);
                 return;
             }
-            var docIndex = dataset[INDEX_JSON].data;
             if(docIndex && section.length > 1) {
                 var sectionId = section[1];
                 var sections = docIndex.chapters[section[0]].sections;
@@ -1169,18 +1160,6 @@
             default:
                 if(debug) console.error("Open section failed: unknown target.");
         }
-    };
-
-    var resizePage = function() {
-        if($body.hasClass('page-show-out') || $page.hasClass('loading')) return;
-        var height;
-        if($body.hasClass(PAGE_SHOW_FULL)) {
-            height = $window.height();
-            $pageBody.toggleClass('with-scrollbar', $pageContent.outerHeight() > (height - 40 - $pageHeader.outerHeight() - $pageAttrs.outerHeight()));
-        } else {
-            height = Math.min($pageContainer.outerHeight(), $pageHeader.outerHeight() + $pageContent.outerHeight() + 50 + $pageAttrs.outerHeight() + 20);
-        }
-        $page.css('height', height);
     };
 
     var togglePageSection = function($section, toggle) {
@@ -1414,7 +1393,6 @@
         $pageHeader = $('#pageHeader');
         $pageAttrs = $('#pageAttrs');
         $pageLoader = $('#pageLoader');
-        $pageContainer = $('#pageContainer');
         $pageContent = $('#pageContent');
         $chapters = $grid.find('.chapter');
         $queryInput = $('#searchInput');
@@ -1434,11 +1412,9 @@
         // check storage
         storageEnable = $.zui.store && $.zui.store.enable;
 
-        $body.toggleClass(PAGE_SHOW_FULL, $.zui.store.get(PAGE_SHOW_FULL, false));
-
         openInNewWindow = getQueryString('newwindow', null);
         if(openInNewWindow === null) {
-            openInNewWindow = $.zui.store.get('open_page_in_new_window', true)
+            openInNewWindow = $.zui.store.get('open_page_in_new_window', false)
         } else {
             $.zui.store.set('open_page_in_new_window', openInNewWindow);
         }
@@ -1477,10 +1453,6 @@
         $(document).on('click', function(e){
             if(cancelClickInPage) {
                 cancelClickInPage = false;
-                return;
-            }
-            if($body.hasClass('page-show')) {
-                closePage();
                 return;
             }
             if(!$body.attr('data-query')) {
@@ -1539,15 +1511,8 @@
             togglePageSection();
         });
 
-        $pageContent.on('resize', resizePage);
-        $window.resize(resizePage);
-
         $pageHeader.on('click', '.path-close-btn', function(){
             closePage();
-        }).on('click', '.path-max-btn', function(){
-            $body.toggleClass(PAGE_SHOW_FULL);
-            setTimeout(resizePage, 300);
-            $.zui.store.set(PAGE_SHOW_FULL, $body.hasClass(PAGE_SHOW_FULL));
         });
 
         var scrollHeight = $('#navbar').outerHeight();
@@ -1567,7 +1532,6 @@
             }
         }).on('keydown', function(e){
             var code = e.which;
-            // console.log('keydown', code);
             var isPageNotShow = !$body.hasClass('page-show');
             var isInputFocus = $body.hasClass('input-query-focus');
             if(code === 9) { // Tab
@@ -1587,16 +1551,6 @@
                     lastQueryString = '';
                     query();
                 }
-            // } else if(code === 32) { // Space
-            //     if(!isInputFocus){
-            //         if(closePage()) {
-            //         } else if(!$body.hasClass('compact-mode')) {
-            //             toggleCompactMode(true);
-            //         } else if(isChoosedSection()) {
-            //             openSection();
-            //         }
-            //         e.preventDefault();
-            //     }
             } else if(code === 37) { // Left
                 // if(!$body.hasClass('input-query-focus')){
                     chooseLeftSection();
@@ -1661,9 +1615,19 @@
             stopPropagation(e);
         });
 
-        $('#compactTogger').on('click', function(){
-            $window.scrollTop(0);
-            toggleCompactMode(false);
+        $('#navbar .navbar-brand').on('click', function(e){
+            if($body.hasClass('page-show')) {
+                closePage();
+                stopPropagation(e);
+                e.preventDefault();
+                console.log('close page')
+            } else if($body.hasClass('compact-mode-in')) {
+                $window.scrollTop(0);
+                toggleCompactMode(false);
+                stopPropagation(e);
+                e.preventDefault();
+                console.log('toggleCompactMode')
+            }
         });
 
         $('[data-toggle="tooltip"]').tooltip({container: 'body'});

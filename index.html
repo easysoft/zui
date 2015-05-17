@@ -26,7 +26,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a href="/" class="navbar-brand"><span class="path-zui-36"><i class="path-1"></i><i class="path-2"></i></span> <span class="brand-title">ZUI</span> &nbsp;<small class="zui-version"></small> <i data-toggle="tooltip" title="展开顶部" id="compactTogger" data-placement="bottom" class="icon icon-long-arrow-up"></i></a>
+            <a href="/" class="navbar-brand"><span class="path-zui-36"><i class="path-1"></i><i class="path-2"></i></span> <span class="brand-title">ZUI</span> &nbsp;<small class="zui-version"></small> <i data-toggle="tooltip" id="compactTogger" data-placement="bottom" class="icon icon-home"></i></a>
           </div>
           <nav class="collapse navbar-collapse zui-navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -58,38 +58,32 @@
       </div>
     </header>
 
-    <div id="pageContainer">
-      <div class="container">
-        <div id="page">
-          <div id="pageHeader">
-            <div class="wrapper container">
-              <i class="icon icon-star"></i>
-              <h2><a class="name" href="###">图标</a></h2>
-              <small class="text-muted desc">使用和查找图标</small>
-              <button type="button" class="btn btn-link" id="pageTogger" title="折叠/展开 章节" data-toggle="tooltip"></button>
-            </div>
-            <button data-toggle="tooltip" title="最大化" type="button" class="btn btn-link path-max-btn path-btn"><i class="path-1"></i></button>
-            <button data-toggle="tooltip" title="关闭（ESC）" type="button" class="btn btn-link path-close-btn path-btn"><i class="path-1"></i></button>
+    <div id="page">
+      <div id="pageHeader">
+        <div class="wrapper container">
+          <i class="icon icon-star"></i>
+          <h2><a class="name" href="###">图标</a></h2>
+          <button type="button" class="btn btn-link" id="pageTogger" title="折叠/展开 章节" data-toggle="tooltip"></button>
+          <button data-toggle="tooltip" title="关闭（ESC）" type="button" class="btn btn-link path-close-btn path-btn" id="pageCloseBtn"><i class="path-1"></i></button>
+        </div>
+      </div>
+      <div id="pageBody" class="scrollbar-hover">
+        <div class="container">
+          <div id="pageAttrs" class="clearfix">
+            <div class="badge badge-zui" style="display: none" data-toggle="tooltip" title="此组件在标准版中提供">ZUI</div>
+            <div class="badge badge-lite" style="display: none" data-toggle="tooltip" title="此组件在简洁版中提供">LITE</div>
+            <div class="badge badge-lib" style="display: none" data-toggle="tooltip" title="此组件在lib目录中单独提供">LIB</div>
+            <a class="badge badge-party" style="display: none" data-toggle="tooltip" title="这是第三方组件，点击访问网站" target="_blank"><i class="icon icon-heart"></i> <span class="product-ver"></span></a>
+            <div class="badge badge-custom" style="display: none" data-toggle="tooltip" title="此组件可以拆分使用"><i class="icon icon-cogs"></i></div>
+            <div class="badge badge-version" style="display: none" data-toggle="tooltip" title="此组件的最早提供版本">1.2.0+</div>
+            <div class="badge badge-author hidden" data-toggle="tooltip" title="本文档作者"><i class="icon icon-user"></i> <span class="author-name">Catouse</span></div>
+            <a target="_blank" href="https://github.com/easysoft/zui/tree/master/docs/part" class="badge badge-source pull-right" data-toggle="tooltip" title="访问文档源码，Fork项目来完善文档"><i class="icon icon-pencil"></i></a>
           </div>
-          <div id="pageBody" class="scrollbar-hover">
-            <div class="container">
-              <div id="pageAttrs" class="clearfix">
-                <div class="badge badge-zui" style="display: none" data-toggle="tooltip" title="此组件在标准版中提供">ZUI</div>
-                <div class="badge badge-lite" style="display: none" data-toggle="tooltip" title="此组件在简洁版中提供">LITE</div>
-                <div class="badge badge-lib" style="display: none" data-toggle="tooltip" title="此组件在lib目录中单独提供">LIB</div>
-                <a class="badge badge-party" style="display: none" data-toggle="tooltip" title="这是第三方组件，点击访问网站" target="_blank"><i class="icon icon-heart"></i> <span class="product-ver"></span></a>
-                <div class="badge badge-custom" style="display: none" data-toggle="tooltip" title="此组件可以拆分使用"><i class="icon icon-cogs"></i></div>
-                <div class="badge badge-version" style="display: none" data-toggle="tooltip" title="此组件的最早提供版本">1.2.0+</div>
-                <div class="badge badge-author hidden" data-toggle="tooltip" title="本文档作者"><i class="icon icon-user"></i> <span class="author-name">Catouse</span></div>
-                <a target="_blank" href="https://github.com/easysoft/zui/tree/master/docs/part" class="badge badge-source pull-right" data-toggle="tooltip" title="访问文档源码，Fork项目来完善文档"><i class="icon icon-pencil"></i></a>
-              </div>
-            </div>
-            <div class="loader" id="pageLoader"><i class="icon icon-spin icon-spinner-indicator"></i> <span class="loading-text">正在拼命加载中...</span><span class="error-text">加载失败，请检查网络重试。<br>另一个导致无法加载文档的原因可能是该文档尚未完成。<br>欢迎你在 <a href="https://github.com/easysoft/zui">Github</a> 上 <a href="https://github.com/easysoft/zui/fork">Fork</a> 项目来完善文档。</span></div>
-            <div class="container">
-              <div id="pageContent"></div>
-              <nav></nav>
-            </div>
-          </div>
+        </div>
+        <div class="loader" id="pageLoader"><i class="icon icon-spin icon-spinner-indicator"></i> <span class="loading-text">正在拼命加载中...</span><span class="error-text">加载失败，请检查网络重试。<br>另一个导致无法加载文档的原因可能是该文档尚未完成。<br>欢迎你在 <a href="https://github.com/easysoft/zui">Github</a> 上 <a href="https://github.com/easysoft/zui/fork">Fork</a> 项目来完善文档。</span></div>
+        <div class="container">
+          <div id="pageContent"></div>
+          <nav></nav>
         </div>
       </div>
     </div>
@@ -195,10 +189,8 @@
     <div class="template">
       <div class="card section fade scale slide-in-up-100 slide-in-right-50" id="sectionTemplate">
         <div class="card-heading">
-          <!-- <a class="btn-toggle" href="###"><i class="icon icon-angle-right"></i></a> -->
           <i class="icon"></i>
           <h5><a class="name" href="###"></a></h5>
-          <small class="text-muted desc"></small>
         </div>
         <div class="card-content">
           <ul class="topics">
@@ -216,8 +208,8 @@
     <script src="assets/jquery.js"></script>
 
     <!-- ZUI Javascript组件 -->
-    <script src="docs/js/zui.js"></script>
-    <script src="src/js/doc.js"></script>
+    <script src="docs/js/zui.min.js"></script>
+    <script src="docs/js/doc.min.js"></script>
 
     <!-- 增强文档插件 -->
     <script async src="assets/google-code-prettify/prettify.js"></script>
