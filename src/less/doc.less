@@ -1788,14 +1788,6 @@ body.page-show {
   background-color: #f1f1f1;
   overflow: hidden;
 
-  #headContainer {
-    position: fixed;
-    left: 0;
-    top: 80px;
-    right: 0;
-    z-index: 1030;
-  }
-
   #pageContainer {
     display: block;
     .transition-fast(top);
@@ -1945,8 +1937,6 @@ body.page-show {
         }
       }
     }
-
-    #searchForm {.opacity(0)}
   }
 
   &[data-page-accent="blue"] {
@@ -1973,6 +1963,9 @@ body.page-show {
 }
 
 @media (max-width: 767px) {
+  #search {
+    padding: 30px 10px 40px;
+  }
   #pageTogger {
     bottom: -72px;
     left: 8px;
@@ -2009,31 +2002,47 @@ body.page-show {
     }
   }
 
-  body.page-show {
-     #search {
-      width: 40%;
-      padding-left: 0;
-     }
+  body.compact-mode {
+    #header {
+      height: 413px;
+    }
+    #grid {
+      margin-top: 433px;
+    }
+
+    #navbar .navbar-brand {
+      .zui-version, .brand-title {display: none}
+
+      #compactTogger {margin-left: 0; left: -12px;}
+    }
+
+    #search {
+      left: 70px;
+      right: 60px;
+    }
 
     #searchInput{
       .placeholder(transparent);
     }
+
   }
 
-  body.page-show.input-query-focus {
-    #search {
-      width: auto;
-      margin-left: 0;
-      margin-right: 50px;
-      max-width: none;
-    }
+  body.page-show {
+    #navbar .navbar-toggle {margin-right: 0;}
+  }
 
+  body.input-query-focus {
+    #search {
+      left: 10px;
+      right: 10px;
+    }
+    
     #searchInput{
       .placeholder(#e5e5e5);
       .placeholder(rgba(255, 255, 255, .5));
     }
 
-    #navbar .navbar-brand {display: none}
+    #navbar .navbar-brand, #navbar .navbar-toggle {display: none}
   }
 }
 
