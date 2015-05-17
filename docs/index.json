@@ -201,7 +201,11 @@
                 "desc": "官方QQ群：384135104",
                 "icon": "icon-qq",
                 "url": "http://forum.zui.sexy/forum/",
-                "filter": "qqtaolun qqtl"
+                "filter": "qqtaolun qqtl",
+                "topics":
+                [
+                    {"name": "官方QQ群：384135104", "url": null}
+                ]
             },
             {
                 "author": "Catouse",
@@ -210,7 +214,13 @@
                 "desc": "去发表帖子吧",
                 "icon": "icon-comments-alt",
                 "url": "http://forum.zui.sexy/forum/",
-                "filter": "luntan lt"
+                "filter": "luntan lt",
+                "topics":
+                [
+                    {"name": "问题反馈", "url": "http://forum.zui.sexy/forum/c2.html"},
+                    {"name": "案例展示", "url": "http://forum.zui.sexy/forum/c3.html"},
+                    {"name": "前端讨论", "url": "http://forum.zui.sexy/forum/c4.html"}
+                ]
             },
             {
                 "author": "Catouse",
