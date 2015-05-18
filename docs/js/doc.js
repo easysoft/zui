@@ -46,13 +46,12 @@
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
-        learn: {col: 1},
-        start: {col: 1},
         basic: {col: 1},
         control: {col: 2},
         component: {col: 2},
         javascript: {col: 3},
         view: {col: 3},
+        learn: {col: 1},
         promotion: {col: 1, row: 2},
         resource: {col: 1, row: 2},
         contribution: {col: 1, row: 2}
