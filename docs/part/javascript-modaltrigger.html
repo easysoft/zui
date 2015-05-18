@@ -12,7 +12,7 @@
     <h4>使用Ajax</h4>
     <p>使用<code>data-remote="(ajax get url)"</code>属性来指定ajax片段获取地址。或者同时指定<code>data-type="ajax"</code>和<code>data-url="(ajax get url)"</code>属性。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-remote="partial/remote-modal.html" data-toggle="modal">Ajax模态框</button>
+      <button type="button" class="btn btn-primary" data-remote="docs/partial/remote-modal.html" data-toggle="modal">Ajax模态框</button>
     </div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-remote属性 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-remote=&quot;partial/remote-modal.html&quot; data-toggle=&quot;modal&quot;&gt;Ajax模态框&lt;/button&gt;
@@ -24,7 +24,7 @@
     <h4>使用iframe（内嵌框架）</h4>
     <p>使用<code>data-iframe="(iframe url)"</code>属性来指定远程页面内容获取地址。或者同时指定<code>data-type="iframe"</code>和<code>data-url="(iframe url)"</code>属性。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-iframe="partial/iframe-modal.html" data-toggle="modal">iframe模态框</button>
+      <button type="button" class="btn btn-primary" data-iframe="docs/partial/iframe-modal.html" data-toggle="modal">iframe模态框</button>
     </div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-iframe属性 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-iframe=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe模态框&lt;/button&gt;
@@ -417,18 +417,6 @@ myModalTrigger.show();</code></pre>
 
 <script>
 function afterPageLoad() {
-    if($('body').hasClass('layout-page')) {
-      $('[data-toggle="modal"]').each(function(){
-          var $this = $(this);
-          if($this.attr('data-remote')) {
-            $this.attr('data-remote', '../' + $this.attr('data-remote'));
-          }
-          if($this.attr('data-iframe')) {
-            $this.attr('data-iframe', '../' + $this.attr('data-iframe'));
-          }
-      });
-    }
-
     $(document).on('click', '.modal-backdrop.in, .modal', function(e) {
         e.stopPropagation();
     });
