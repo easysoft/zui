@@ -1437,6 +1437,8 @@
 
                 loadPackage();
             }
+
+            $('.doc-version').text(data.version);
         });
 
         // Bind events
