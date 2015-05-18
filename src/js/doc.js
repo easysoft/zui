@@ -58,7 +58,7 @@
     var UNDEFINED = undefined;
     var dataVersion;
     var storageEnable;
-    var docIndex;
+    var docIndex, iconsIndex;
     var pkgLibs = {standard: null, lite: null, separate: null};
 
     var documentTitle = 'ZUI';
@@ -116,9 +116,13 @@
     var loadData = function(url, callback, delayLoadRemote) {
         var cacheData = null;
         var isIndexJson = url === INDEX_JSON;
+        var isIconsJson = url === ICONS_JSON;
         var isHasCache = false;
         if(isIndexJson && docIndex) {
             cacheData = {data: docIndex, version: docIndex.version};
+            isHasCache = true;
+        } else if(isIconsJson && iconsIndex) {
+            cacheData = iconsIndex;
             isHasCache = true;
         } else if(storageEnable) {
             var storedData = $.zui.store.get('//' + url, null);
@@ -148,6 +152,8 @@
                     if(isIndexJson) {
                         dataVersion = data.version;
                         docIndex = data;
+                    } else if(isIconsJson) {
+                        iconsIndex = {data: data, version: dataVersion};
                     }
                     cacheData = {data: data, version: dataVersion};
                     $.zui.store.set('//' + url, data);
@@ -1619,7 +1625,6 @@
                 toggleCompactMode(false);
                 stopPropagation(e);
                 e.preventDefault();
-                console.log('toggleCompactMode')
             }
         });
 
