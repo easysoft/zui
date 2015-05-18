@@ -242,9 +242,9 @@
             }],
             "filter": "jiaoliutansuo jlts"
         },
-        "start":
+        "basic":
         {
-            "name": "开始",
+            "name": "基础",
             "accent": "primary",
             "sections": [
             {
@@ -333,14 +333,7 @@
                     "name": "移动浏览器"
                 }],
                 "filter": "shouzhichidipingtai szcdpt"
-            }],
-            "filter": "kaishi ks"
-        },
-        "basic":
-        {
-            "name": "基础",
-            "accent": "yellow",
-            "sections": [
+            },
             {
                 "author": "Catouse",
                 "desc": "文档基本结构",
