@@ -75,6 +75,7 @@
     var bestPageWidth = 1120;
     var $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $pageAttrs,
+        firstOpenPage = true,
         $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
         $pageBody, $navbar, $search, lastQueryString,
         $header, $sections, $chapterHeadings; // elements
@@ -1064,7 +1065,6 @@
                 showPageTopic(topic);
                 handlePageLoad();
                 $pageAttrs.show();
-                if(debug) console.log('show data', data);
             }
             if(lastShowDataCall) clearTimeout(lastShowDataCall);
             if($page.hasClass('openning')) {
@@ -1091,6 +1091,17 @@
                 $pageBody.scrollTop(0);
                 setTimeout(function(){
                     $page.removeClass('openning');
+                    if(firstOpenPage) {
+                        firstOpenPage = $.zui.store.get('first_open_page', true);
+                        if(firstOpenPage) {
+                            firstOpenPage = false;
+                            $.zui.store.set('first_open_page', false);
+                            setTimeout(function(){
+                                $('#pageCloseBtn').tooltip('show').addClass('active');
+                                setTimeout(function(){$('#pageCloseBtn').tooltip('hide').removeClass('active');}, 6000);
+                            }, 500);
+                        }
+                    }
                 }, 300);
             }, 10);
         });
@@ -1614,7 +1625,6 @@
                 closePage();
                 stopPropagation(e);
                 e.preventDefault();
-                console.log('close page')
             } else if($body.hasClass('compact-mode-in')) {
                 $window.scrollTop(0);
                 toggleCompactMode(false);

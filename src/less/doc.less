@@ -868,6 +868,7 @@ body {
         top: 0;
         padding: 3px 8px;
         color: #fff;
+        border-radius: 0 3px 0 3px;
       }
     }
 
@@ -1377,10 +1378,11 @@ body.query-enabled {
 }
 #pageCloseBtn {
   position: absolute;
-  right: 0;
+  right: 15px;
   top: 5px;
   width: 48px;
   height: 48px;
+  border-radius: 4px;
 }
 #pageBody {
   padding: 15px 0;
@@ -1853,6 +1855,9 @@ body.page-show {
       display: none;
     }
   }
+
+  #pageHeader > .container {padding-left: 60px;}
+  #pageHeader > .container > .icon {left: 15px;}
 
   #pageContent > section:before {
     left: -15px;

@@ -592,6 +592,7 @@ body {
   padding: 3px 8px;
   color: #fff;
   content: 'Enter';
+  border-radius: 0 3px 0 3px;
   -webkit-transition: right .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: right .1s cubic-bezier(.175, .885, .32, 1);
           transition: right .1s cubic-bezier(.175, .885, .32, 1);
@@ -1776,9 +1777,10 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 #pageCloseBtn {
   position: absolute;
   top: 5px;
-  right: 0;
+  right: 15px;
   width: 48px;
   height: 48px;
+  border-radius: 4px;
 }
 #pageBody {
   position: absolute;
@@ -2389,6 +2391,12 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
   #pageContent:before {
     left: 0;
     display: none;
+  }
+  #pageHeader > .container {
+    padding-left: 60px;
+  }
+  #pageHeader > .container > .icon {
+    left: 15px;
   }
   #pageContent > section:before {
     left: -15px;
