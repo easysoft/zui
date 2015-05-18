@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-17
+ * ZUI - v1.3.0 - 2015-05-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -432,7 +432,7 @@ body {
 }
 #search {
   max-width: 800px;
-  padding: 80px 20px;
+  padding: 60px 20px 70px;
   margin: 0 auto;
 }
 #searchForm {
@@ -2406,10 +2406,10 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
     left: -18px;
   }
   body.compact-mode #header {
-    height: 413px;
+    height: 433px;
   }
   body.compact-mode #grid {
-    margin-top: 433px;
+    margin-top: 463px;
   }
   body.compact-mode #navbar .navbar-brand .zui-version,
   body.compact-mode #navbar .navbar-brand .brand-title {
@@ -2438,36 +2438,36 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
   body.page-show #navbar .navbar-toggle {
     margin-right: 0;
   }
-  body.input-query-focus #search {
+  body.input-query-focus.compact-mode #search {
     right: 10px;
     left: 10px;
   }
-  body.input-query-focus #searchInput:-moz-placeholder {
+  body.input-query-focus.compact-mode #searchInput:-moz-placeholder {
     color: #e5e5e5;
   }
-  body.input-query-focus #searchInput::-moz-placeholder {
+  body.input-query-focus.compact-mode #searchInput::-moz-placeholder {
     color: #e5e5e5;
   }
-  body.input-query-focus #searchInput:-ms-input-placeholder {
+  body.input-query-focus.compact-mode #searchInput:-ms-input-placeholder {
     color: #e5e5e5;
   }
-  body.input-query-focus #searchInput::-webkit-input-placeholder {
+  body.input-query-focus.compact-mode #searchInput::-webkit-input-placeholder {
     color: #e5e5e5;
   }
-  body.input-query-focus #searchInput:-moz-placeholder {
+  body.input-query-focus.compact-mode #searchInput:-moz-placeholder {
     color: rgba(255, 255, 255, .5);
   }
-  body.input-query-focus #searchInput::-moz-placeholder {
+  body.input-query-focus.compact-mode #searchInput::-moz-placeholder {
     color: rgba(255, 255, 255, .5);
   }
-  body.input-query-focus #searchInput:-ms-input-placeholder {
+  body.input-query-focus.compact-mode #searchInput:-ms-input-placeholder {
     color: rgba(255, 255, 255, .5);
   }
-  body.input-query-focus #searchInput::-webkit-input-placeholder {
+  body.input-query-focus.compact-mode #searchInput::-webkit-input-placeholder {
     color: rgba(255, 255, 255, .5);
   }
-  body.input-query-focus #navbar .navbar-brand,
-  body.input-query-focus #navbar .navbar-toggle {
+  body.input-query-focus.compact-mode #navbar .navbar-brand,
+  body.input-query-focus.compact-mode #navbar .navbar-toggle {
     display: none;
   }
 }
