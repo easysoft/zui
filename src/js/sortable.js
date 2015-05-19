@@ -54,6 +54,7 @@
     {
         var self = this.$,
             options = this.options;
+        var isReverse = options.reverse;
 
         markOrders($list);
         $list.droppable(
@@ -78,11 +79,11 @@
                     if(eleOrder == targetOrder) return;
                     else if(eleOrder > targetOrder)
                     {
-                        $target.before($ele);
+                        $target[isReverse ? 'after' : 'before']($ele);
                     }
                     else
                     {
-                        $target.after($ele);
+                        $target[isReverse ? 'before' : 'after']($ele);
                     }
                     var list = self.children(options.selector).not('.drag-shadow');
                     markOrders(list);
@@ -116,7 +117,7 @@
                 orders.push(orders.length ? (orders[orders.length - 1] + 1) : 0);
             }
 
-            if(options.reverse)
+            if(isReverse)
             {
                 orders.reverse();
             }
