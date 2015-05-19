@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-15
+ * ZUI - v1.3.1 - 2015-05-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -572,7 +572,7 @@
   min-height: 16.53846154px;
   padding: 7.5px 15px;
   margin: 0;
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
   font-size: 13px;
   font-weight: bold;
   text-align: left;

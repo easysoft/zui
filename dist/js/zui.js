@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-15
+ * ZUI - v1.3.1 - 2015-05-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -2254,6 +2254,7 @@
     {
         var self = this.$,
             options = this.options;
+        var isReverse = options.reverse;
 
         markOrders($list);
         $list.droppable(
@@ -2278,11 +2279,11 @@
                     if(eleOrder == targetOrder) return;
                     else if(eleOrder > targetOrder)
                     {
-                        $target.before($ele);
+                        $target[isReverse ? 'after' : 'before']($ele);
                     }
                     else
                     {
-                        $target.after($ele);
+                        $target[isReverse ? 'before' : 'after']($ele);
                     }
                     var list = self.children(options.selector).not('.drag-shadow');
                     markOrders(list);
@@ -2316,7 +2317,7 @@
                 orders.push(orders.length ? (orders[orders.length - 1] + 1) : 0);
             }
 
-            if(options.reverse)
+            if(isReverse)
             {
                 orders.reverse();
             }
@@ -4339,7 +4340,7 @@
  * ======================================================================== */
 
 
-(function()
+(function($)
 {
     'use strict';
 
@@ -4440,7 +4441,7 @@
             }
         };
     })();
-}());
+}(jQuery));
 
 /* ========================================================================
  * ZUI: lightbox.js
