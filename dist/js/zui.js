@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.1 - 2015-05-19
+ * ZUI - v1.3.1 - 2015-05-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -2985,7 +2985,7 @@
                 $body.detach();
                 $content.empty().append($header).append($body);
                 $body.css('padding', 0)
-                    .html('<iframe id="' + iframeName + '" name="' + iframeName + '" src="' + options.url + '" frameborder="no" allowtransparency="true" scrolling="auto" style="width: 100%; height: 100%; left: 0px;"></iframe>');
+                    .html('<iframe id="' + iframeName + '" name="' + iframeName + '" src="' + options.url + '" frameborder="no"  allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"  allowtransparency="true" scrolling="auto" style="width: 100%; height: 100%; left: 0px;"></iframe>');
 
                 if (options.waittime > 0)
                 {

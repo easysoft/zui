@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.1 - 2015-05-19
+ * ZUI - v1.3.1 - 2015-05-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -3069,6 +3069,9 @@
                 strokeColor: this.options.segmentStrokeColor,
                 startAngle: Math.PI * 1.5,
                 circumference: (this.options.animateRotate) ? 0 : this.calculateCircumference(segment.value),
+/// ----- ZUI change begin -----
+                showLabel: segment.showLabel !== false,
+/// ----- ZUI change begin -----
                 label: segment.label
             }));
             if (!silent)
@@ -3231,7 +3234,7 @@
                 }
 
 /// ZUI change begin
-                if(this.options.scaleShowLabels)
+                if(this.options.scaleShowLabels && segment.showLabel)
                 {
                     if(!labelPositionMap) labelPositionMap = {};
                     this.drawLabel(segment, easeDecimal, labelPositionMap);
