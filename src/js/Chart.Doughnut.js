@@ -149,6 +149,9 @@
                 strokeColor: this.options.segmentStrokeColor,
                 startAngle: Math.PI * 1.5,
                 circumference: (this.options.animateRotate) ? 0 : this.calculateCircumference(segment.value),
+/// ----- ZUI change begin -----
+                showLabel: segment.showLabel !== false,
+/// ----- ZUI change begin -----
                 label: segment.label
             }));
             if (!silent)
@@ -311,7 +314,7 @@
                 }
 
 /// ZUI change begin
-                if(this.options.scaleShowLabels)
+                if(this.options.scaleShowLabels && segment.showLabel)
                 {
                     if(!labelPositionMap) labelPositionMap = {};
                     this.drawLabel(segment, easeDecimal, labelPositionMap);
