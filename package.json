@@ -522,16 +522,31 @@
       "name": "面板类型",
       "dpds": ["panels.basic", "panels.types", "panels.group", "panels.fix"]
     },
-    "alerts.basic":
+    "alerts.style":
     {
-      "name": "基本消息框",
+      "name": "基本消息框基本样式",
       "src":
       {
-        "less": ["src/less/components/alerts.less"],
+        "less": ["src/less/components/alerts.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"]
+    },
+    "alerts.dismiss":
+    {
+      "name": "可关闭的消息框",
+      "src":
+      {
         "js": ["src/js/alert.js"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"]
+    },
+    "alerts.basic":
+    {
+      "name": "基本消息框",
+      "ver": "1.0.0",
+      "dpds": ["alerts.style", "alerts.basic"]
     },
     "alerts.inverse":
     {
@@ -703,16 +718,26 @@
       "name": "导航条",
       "dpds": ["navbars.basic", "navbars.form", "navbars.fixedleft"]
     },
+    "animations.style":
+    {
+      "name": "过度动画",
+      "src":
+      {
+        "less": ["src/less/modules/animations.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["mixins"],
+      "require": ["jquery"]
+    },
     "animations":
     {
       "name": "过度动画",
       "src":
       {
-        "less": ["src/less/modules/animations.less"],
         "js": ["src/js/transition.js"]
       },
       "ver": "1.0.0",
-      "dpds": ["mixins"],
+      "dpds": ["animations.style"],
       "require": ["jquery"]
     },
     "collapse":
@@ -1404,6 +1429,24 @@
       "subdirectories": true,
       "bootstrapStatement": true,
       "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "alerts.basic", "inputgroups", "forms.basic", "code", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations", "collapse", "device", "browser", "date", "string", "resize", "store", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "article", "comment", "list", "card.basic"]
+    },
+    "app":
+    {
+      "title": "Mobile app edition",
+      "dest": "dist/",
+      "filename": "zui.app",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "alerts.style", "inputgroups", "forms.basic", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations.style", "collapse", "store", "tab", "modals", "tooltip", "popovers", "dropdowns", "carousel", "article", "comment", "list", "card"]
+    },
+    "app.lite":
+    {
+      "title": "Mobile app lite edition",
+      "dest": "dist/",
+      "filename": "zui.app.lite",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": ["basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "inputgroups", "forms.basic", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations.style", "alerts.style", "article", "comment", "list", "card"]
     },
     "theme":
     {
