@@ -130,7 +130,7 @@
 
         that.isShown = true
 
-        if (that.options.draggable) that.setMoveale();
+        if (that.options.moveable) that.setMoveale();
 
         that.checkScrollbar()
         that.$body.addClass('modal-open')
