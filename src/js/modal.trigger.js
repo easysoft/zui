@@ -310,6 +310,7 @@
         {
             show: 'show',
             backdrop: options.backdrop,
+            moveable: options.moveable,
             keyboard: options.keyboard
         });
     };
