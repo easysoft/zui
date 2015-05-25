@@ -328,6 +328,19 @@ myModalTrigger.show();</code></pre>
           </td>
           <td>当为<code>ture</code>时，按下<code>esc</code>键会关闭模态框。</td>
         </tr>
+        <tr>
+          <td><code>moveable</code></td>
+          <td>
+            可移动的
+          </td>
+          <td>
+            <ul>
+              <li><code>false</code>（默认），不启用；</li>
+              <li><code>true</code>，启用；</li>
+            </ul>
+          </td>
+          <td>是否启用模态框拖拽移动功能</td>
+        </tr>
       </tbody>
     </table>
 
@@ -424,7 +437,7 @@ function afterPageLoad() {
     /* modal trigger */
     var $trigger = $('#modalTriggerByFunc');
     if(!$trigger.data('modalTriggerSetup')) {
-        $trigger.modalTrigger({custom: function()
+        $trigger.modalTrigger({moveable: true, custom: function()
         {
             return "当模态框显示时，时间是：" + (new Date).toString();
         }});

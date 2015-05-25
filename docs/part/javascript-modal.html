@@ -45,7 +45,7 @@
       <h4>动态实例</h4>
       <p>点击按钮通过Javascript来启动一个模态框。</p>
       <div class="example">
-        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal">启动模态框</button>
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal" data-moveable="true">启动模态框</button>
       </div>
     <pre class='prettyprint'><code>&lt;!-- 模态框触发按钮 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-lg btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;启动模态框&lt;/button&gt;
@@ -111,6 +111,18 @@
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>可移动的模态框</h3></header>
+  <article>
+    <p>启用该功能后能够通过拖动模态框的头部来移动模态框到鼠标所在的位置。</p>
+    <p>要启用此功能需要手动设置<code>moveable</code>参数值为<code>true</code>。</p>
+    <div class="example">
+      <button type="button" class="btn btn-primary" data-moveable="true" data-toggle="modal" data-target="#myModal">默认位置</button>
+    </div>
+<pre class='prettyprint'><code>&lt;button type=&quot;button&quot; class=&quot;btn&quot; data-moveable=&quot;true&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;默认位置&lt;/button&gt;</code></pre>
   </article>
 </section>
 
@@ -224,6 +236,19 @@
           </td>
           <td>默认位置是在窗口中部稍偏上的地方。</td>
         </tr>
+        <tr>
+          <td><code>moveable</code></td>
+          <td>
+            可移动的
+          </td>
+          <td>
+            <ul>
+              <li><code>false</code>（默认），不启用；</li>
+              <li><code>true</code>，启用；</li>
+            </ul>
+          </td>
+          <td>是否启用模态框拖拽移动功能</td>
+        </tr>
       </tbody>
     </table>
 
@@ -302,7 +327,7 @@
 <div class="hide" id="modalToBody">
   <!-- modal examples -->
   <div class="modal modal-for-page fade" id="myModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-moveable">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
