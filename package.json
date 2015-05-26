@@ -1311,6 +1311,19 @@
       "obsolete": "使用其他组件来实现，不包含在标准版和简洁版中",
       "ver": "1.1.0"
     },
+    "zeroclipboard":
+    {
+      "name": "ZeroClipboard",
+      "src":
+      {
+        "resource": ["assets//zeroclipboard/zeroclipboard.min.js", "assets//zeroclipboard/zeroclipboard.swf"]
+      },
+      "ver": "1.3.2",
+      "pver": "2.2.0",
+      "desc": "The ZeroClipboard library provides an easy way to copy text to the clipboard using an invisible Adobe Flash movie and a JavaScript interface.",
+      "thirdpart": true,
+      "website": "http://zeroclipboard.org/"
+    },
     "colorset.less2js":
     {
       "name": "JS配色表",
