@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.1 - 2015-05-22
+ * ZUI - v1.3.2 - 2015-05-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -1675,7 +1675,7 @@
 
         that.isShown = true
 
-        if (that.options.draggable) that.setMoveale();
+        if (that.options.moveable) that.setMoveale();
 
         that.checkScrollbar()
         that.$body.addClass('modal-open')
@@ -2274,6 +2274,7 @@
         {
             show: 'show',
             backdrop: options.backdrop,
+            moveable: options.moveable,
             keyboard: options.keyboard
         });
     };
