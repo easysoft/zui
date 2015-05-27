@@ -1,0 +1,40 @@
+{
+  "name": "zui",
+  "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
+  "keywords": [
+    "css",
+    "js",
+    "less",
+    "html5",
+    "responsive",
+    "front-end",
+    "framework",
+    "web"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/easysoft/zui.git"
+  },
+  "homepage": "http://zui.sexy",
+  "license": "MIT",
+  "moduleType": [
+    "globals"
+  ],
+  "main": [
+    "dist/css/zui.css",
+    "dist/js/zui.js"
+  ],
+  "ignore": [
+    "/.*",
+    "docs",
+    "index.html",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.9.1"
+  }
+}
