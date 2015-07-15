@@ -126,7 +126,7 @@
       "name": "配置",
       "src":
       {
-        "less": ["src/less/basic/variables.less"]
+        "less": ["src/less/basic/variables.less", "src/less/basic/setting.less"]
       },
       "dpds": ["colorset"],
       "config": true,
