@@ -182,7 +182,8 @@
                             cssClass: $td.attr('class'),
                             css: $td.attr('style'),
                             text: $td.html(),
-                            colSpan: colSpan
+                            colSpan: colSpan,
+                            title: $td.attr('title')
                         }, $td.data()));
 
                         if(colSpan > 1)
@@ -441,7 +442,8 @@
                         'data-index' : i,
                         'data-flex'  : false,
                         'data-type'  : cols[i].type,
-                        style        : rowCol.css
+                        style        : rowCol.css,
+                        title        : rowCol.title || ''
                     });
 
 

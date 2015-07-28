@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2015-05-26
+ * ZUI - v1.3.2 - 2015-07-28
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -189,7 +189,8 @@
                             cssClass: $td.attr('class'),
                             css: $td.attr('style'),
                             text: $td.html(),
-                            colSpan: colSpan
+                            colSpan: colSpan,
+                            title: $td.attr('title')
                         }, $td.data()));
 
                         if(colSpan > 1)
@@ -448,7 +449,8 @@
                         'data-index' : i,
                         'data-flex'  : false,
                         'data-type'  : cols[i].type,
-                        style        : rowCol.css
+                        style        : rowCol.css,
+                        title        : rowCol.title || ''
                     });
 
 
