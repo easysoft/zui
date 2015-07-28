@@ -102,6 +102,7 @@
 
         items.droppable(
         {
+            before: setting.before,
             target: '.board-item:not(".disable-drop, .board-item-shadow")',
             flex: true,
             start: function(e)
