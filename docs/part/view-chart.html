@@ -457,7 +457,7 @@ function afterPageLoad() {
             myPieChart2.update();
             myDoughnutChart2.segments[num].value = val;
             myDoughnutChart2.update();
-            var next = Math.min(80,Math.round(Math.random() * 500));
+            var next = Math.max(1,Math.round(Math.random() * 100));
             var nextIndex = Math.floor(Math.random() * myPieChart2.segments.length);
             $('#updatePieValue').val(next);
             $('#updatePieNum').val(nextIndex);
@@ -477,7 +477,7 @@ function afterPageLoad() {
             myPieChart2.addData(dt);
             myDoughnutChart2.addData(dt);
 
-            var next = Math.min(80,Math.round(Math.random() * 500));
+            var next = Math.max(1,Math.round(Math.random() * 100));
             $('#addPieValue').val(next);
             $('#addPieLabel').val('幸运' + next);
         } else {
