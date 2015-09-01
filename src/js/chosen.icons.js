@@ -134,7 +134,7 @@
 
     ChosenIcons.prototype.getOptionHtml = function(value)
     {
-        name = value;
+        var name = value;
         if (value && value.length > 0)
         {
             value = 'icon-' + value;
