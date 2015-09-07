@@ -14,34 +14,31 @@
     var zui = $.zui;
     if (zui)
     {
-        var extendTo = function(name, $orWindow)
+        function extendTo(name, target)
         {
             if ($.isArray(name))
             {
                 $.each(name, function(i, n)
                 {
-                    extendTo(n, $orWindow);
+                    extendTo(n, target);
                 });
                 return;
             }
 
-            if ($orWindow)
+            var config = {};
+            config[name] = zui[name];
+
+            if (target)
             {
-                $.extend(window,
-                {
-                    name: zui[name]
-                });
+                $.extend(target, config);
             }
             else
             {
-                $.extend(
-                {
-                    name: zui[name]
-                });
+                $.extend(config);
             }
         }
 
         extendTo(['uuid', 'callEvent', 'clientLang', 'browser', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store']);
-        extendTo(['Color', 'imgReady', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store'], true);
+        extendTo(['Color', 'imgReady', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store'], window);
     }
 }(jQuery, window));
