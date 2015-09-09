@@ -118,6 +118,8 @@
 
         this.$modal = $modal;
         this.$dialog = $modal.find('.modal-dialog');
+
+        if(options.mergeOptions) this.options = options;
     };
 
     ModalTrigger.prototype.show = function(option)
@@ -256,8 +258,9 @@
 
                             $modal.callEvent('loaded' + ZUI_MODAL,
                             {
-                                modalType: 'iframe'
-                            });
+                                modalType: 'iframe',
+                                jQuery: frame$
+                            }, that);
 
                             setTimeout(ajustFrameSize, 100);
 
@@ -302,7 +305,7 @@
                     $modal.callEvent('loaded' + ZUI_MODAL,
                     {
                         modalType: STR_AJAX
-                    });
+                    }, that);
                     readyToShow();
                 });
             }
