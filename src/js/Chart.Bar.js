@@ -9,7 +9,7 @@
 
 /// ----- ZUI change begin -----
 /// Change root to zui shared object
-/// 
+///
 ///   var root = this, // old code
       var root = $ && $.zui ? $.zui : this,
 /// ----- ZUI change end -----
@@ -43,6 +43,9 @@
 /// ZUI change begin
 ///        barStrokeWidth: 2,
         barStrokeWidth: 1,
+
+        // String - Sacle value labels placement
+        scaleValuePlacement: 'auto', // none, auto, outside, inside-top, inside-middle, inside-bottom
 /// ZUI change end
 
         //Number - Spacing between each of the X value sets
@@ -336,6 +339,26 @@
             });
             this.scale.update(newScaleProps);
         },
+/// ZUI change begin
+        drawLabel: function(bar, placement)
+        {
+            var options = this.options;
+            placement = placement || options.scaleValuePlacement;
+            placement = placement ? placement.toLowerCase() : 'auto';
+            if(placement === 'auto')
+            {
+                placement = bar.y < 15 ? 'insdie' : 'outside';
+            }
+
+            var y = placement === 'insdie' ? (bar.y + 10) : (bar.y - 10);
+            var ctx = this.chart.ctx;
+            ctx.font = helpers.fontString(options.scaleFontSize, options.scaleFontStyle, options.scaleFontFamily);
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            ctx.fillStyle = options.scaleFontColor;
+            ctx.fillText(bar.value, bar.x, y);
+        },
+/// ZUI change end
         draw: function(ease)
         {
             var easingDecimal = ease || 1;
@@ -345,6 +368,9 @@
 
             this.scale.draw(easingDecimal);
 
+/// ZUI change begin
+            var showScaleValue = this.options.scaleShowLabels && this.options.scaleValuePlacement;
+/// ZUI change end
             //Draw all the bars for each dataset
             helpers.each(this.datasets, function(dataset, datasetIndex)
             {
@@ -361,6 +387,12 @@
                             width: this.scale.calculateBarWidth(this.datasets.length)
                         }, easingDecimal).draw();
                     }
+/// ZUI change begin
+                    if(showScaleValue)
+                    {
+                        this.drawLabel(bar);
+                    }
+/// ZUI change end
                 }, this);
 
             }, this);
