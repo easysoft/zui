@@ -40,6 +40,7 @@
         position: 'fit',
         showHeader: true,
         delay: 0,
+        // iframeBodyClass: '',
         backdrop: true,
         keyboard: true
     };
@@ -243,6 +244,7 @@
                         {
                             // todo: update iframe url to ref attribute
                             var $framebody = frame$('body').addClass('body-modal');
+                            if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
                             var ajustFrameSize = function()
                             {
                                 $modal.removeClass('fade');
