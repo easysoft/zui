@@ -632,10 +632,10 @@
         dialog = exports.dialog(options);
 
         // clear the existing handler focusing the submit button...
-        dialog.off("shown.bs.modal");
+        dialog.off("shown.zui.modal");
 
         // ...and replace it with one focusing our input, if possible
-        dialog.on("shown.bs.modal", function()
+        dialog.on("shown.zui.modal", function()
         {
             input.focus();
         });
@@ -730,7 +730,7 @@
          * modal has performed certain actions
          */
 
-        dialog.on("hidden.bs.modal", function(e)
+        dialog.on("hidden.zui.modal", function(e)
         {
             // ensure we don't accidentally intercept hidden events triggered
             // by children of the current dialog. We shouldn't anymore now BS
@@ -742,7 +742,7 @@
         });
 
         /*
-    dialog.on("show.bs.modal", function() {
+    dialog.on("show.zui.modal", function() {
       // sadly this doesn't work; show is called *just* before
       // the backdrop is added so we'd need a setTimeout hack or
       // otherwise... leaving in as would be nice
@@ -752,7 +752,7 @@
     });
     */
 
-        dialog.on("shown.bs.modal", function()
+        dialog.on("shown.zui.modal", function()
         {
             dialog.find(".btn-primary:first").focus();
         });
