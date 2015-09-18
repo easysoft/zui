@@ -135,6 +135,15 @@
         return msg;
     };
 
+    var hideMessage = function()
+    {
+        $('.messager').each(function()
+        {
+            var msg = $(this).data('zui.messager');
+            if(msg && msg.hide) msg.hide();
+        });
+    };
+
     var getOptions = function(options)
     {
         return (typeof options === 'string') ?
@@ -149,6 +158,7 @@
         messager:
         {
             show: showMessage,
+            hide: hideMessage,
             primary: function(message, options)
             {
                 return showMessage(message, $.extend(
