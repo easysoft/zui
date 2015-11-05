@@ -259,7 +259,8 @@ module.exports = function(grunt)
                       title: buildLib.name,
                       dest: 'dist/lib/' + name + '/',
                       filename: name,
-                      includes: [name]
+                      includes: [name],
+                      thirdpart: buildLib.buildLib
                     };
                 }
                 else
@@ -293,7 +294,7 @@ module.exports = function(grunt)
         }
 
         var source = getBuildSource(build),
-            sbanner =  banner + (build.bootstrapStatement ? statement : '');
+            sbanner = build.thirdpart ? '' : banner + (build.bootstrapStatement ? statement : '');
 
         if(source.js && source.js.length)
         {

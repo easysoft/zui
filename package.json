@@ -1495,6 +1495,7 @@
     },
     "kindeditor":
     {
+      "thirdpart": true,
       "title": "Kindeditor",
       "dest": "dist/lib/kindeditor/",
       "filename": "kindeditor",
@@ -1504,6 +1505,7 @@
     },
     "datetimepicker":
     {
+      "thirdpart": true,
       "title": "Datetimepicker",
       "dest": "dist/lib/datetimepicker/",
       "filename": "datetimepicker",
@@ -1513,6 +1515,7 @@
     },
     "jquery":
     {
+      "thirdpart": true,
       "title": "jQuery",
       "dest": "dist/lib/jquery/",
       "filename": "jquery",
@@ -1520,6 +1523,7 @@
     },
     "chosen":
     {
+      "thirdpart": true,
       "title": "Chosen",
       "dest": "dist/lib/chosen/",
       "filename": "chosen",
@@ -1563,6 +1567,7 @@
     },
     "chart":
     {
+      "thirdpart": true,
       "title": "Chart.js",
       "dest": "dist/lib/chart/",
       "filename": "chart",
@@ -1603,7 +1608,7 @@
     },
     "doc":
     {
-      "title": "new document",
+      "title": "Document",
       "dest": "docs/",
       "filename": "doc",
       "subdirectories": true,
@@ -1654,7 +1659,7 @@
       "filename": "zui.chanzhi",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons.font", "icons.core", "icons.variables", "chanzhi.icons.set", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic"]
+      "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons.font", "icons.core", "icons.variables", "chanzhi.icons.set", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "colorset.js", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic", "migrate1.2"]
     },
     "yidou":
     {
@@ -1672,7 +1677,7 @@
       "filename": "zui.ranzhi",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "string", "resize", "date", "basic", "ranzhi.variables", "utilities", "animations", "draggable", "board", "hotkeys", "scaffolding", "grid", "typography", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table", "panels", "forms", "code", "pager.basic", "navs", "navbars", "device", "transition", "alerts.basic", "button", "button.group", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article", "comment", "list", "card", "datatable", "scrollbars", "dashboard", "imgcutter", "menu", "carousel", "listgroup", "progressbar"]
+      "includes": ["jqueryex", "string", "resize", "date", "basic", "ranzhi.variables", "utilities", "animations", "draggable", "board", "hotkeys", "scaffolding", "grid", "typography", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table", "panels", "forms", "code", "pager.basic", "navs", "navbars", "device", "transition", "alerts.basic", "button", "button.group", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "colorset.js", "droppable", "sortable", "article", "comment", "list", "card", "datatable", "scrollbars", "dashboard", "imgcutter", "menu", "carousel", "listgroup", "progressbar"]
     }
   }
 }
