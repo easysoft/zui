@@ -41,6 +41,7 @@
         showHeader: true,
         delay: 0,
         // iframeBodyClass: '',
+        // onlyIncreaseHeight: false,
         backdrop: true,
         keyboard: true
     };
@@ -247,10 +248,15 @@
                             // todo: update iframe url to ref attribute
                             var $framebody = frame$('body').addClass('body-modal');
                             if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
-                            var ajustFrameSize = function()
+                            var ajustFrameSize = function(check)
                             {
                                 $modal.removeClass('fade');
                                 var height = $framebody.outerHeight();
+                                if(check === true && options.onlyIncreaseHeight)
+                                {
+                                    height = Math.max(height, $body.data('minModalHeight') || 0);
+                                    $body.data('minModalHeight', height);
+                                }
                                 $body.css('height', height);
                                 if (options.fade) $modal.addClass('fade');
                                 readyToShow();
@@ -264,7 +270,7 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, function(){ajustFrameSize(true)});
                         }
 
                         frame$.extend(
