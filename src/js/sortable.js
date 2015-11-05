@@ -64,6 +64,7 @@
             container: self,
             always: options.always,
             flex: true,
+            before: options.before,
             start: function(e)
             {
                 if(options.dragCssClass) e.element.addClass(options.dragCssClass);
