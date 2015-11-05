@@ -109,7 +109,8 @@
 // -------------------------
 
 // Font family.
-@font-family-sans-serif:  "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
+@font-family-headings:    @font-family-sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 @font-family-monospace:   Monaco, Menlo, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
@@ -131,7 +132,7 @@
 @line-height-computed:    floor((@font-size-base * @line-height-base)); // 20px
 
 // Headings font.
-@headings-font-family:    @font-family-base;
+@headings-font-family:    @font-family-headings;
 @headings-font-weight:    bold;
 @headings-line-height:    1.1;
 @headings-color:          inherit;
@@ -638,8 +639,8 @@
 @carousel-text-shadow:                        0 1px 2px rgba(0,0,0,.6);
 
 @carousel-control-color:                      @color-light;
-@carousel-control-width:                      15%;
-@carousel-control-opacity:                    .5;
+@carousel-control-width:                      10%;
+@carousel-control-opacity:                    .4;
 @carousel-control-font-size:                  20px;
 
 @carousel-indicator-active-bg:                @color-light;
