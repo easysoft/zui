@@ -1922,6 +1922,7 @@
             {
                 ctx.fillStyle = this.textColor;
                 ctx.font = this.font;
+                var beyondLineLength = this.showBeyondLine ? 5 : 0;
                 each(this.yLabels, function(labelString, index)
                 {
                     var yLabelCenter = this.endPoint - (yLabelGap * index),
@@ -1972,7 +1973,7 @@
                     ctx.lineWidth = this.lineWidth;
                     ctx.strokeStyle = this.lineColor;
                     ctx.beginPath();
-                    ctx.moveTo(xStart - 5, linePositionY);
+                    ctx.moveTo(xStart - beyondLineLength, linePositionY);
                     ctx.lineTo(xStart, linePositionY);
                     ctx.stroke();
                     ctx.closePath();
@@ -2027,7 +2028,7 @@
                     // Small lines at the bottom of the base grid line
                     ctx.beginPath();
                     ctx.moveTo(linePos, this.endPoint);
-                    ctx.lineTo(linePos, this.endPoint + 5);
+                    ctx.lineTo(linePos, this.endPoint + beyondLineLength);
                     ctx.stroke();
                     ctx.closePath();
 

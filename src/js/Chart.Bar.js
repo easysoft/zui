@@ -36,6 +36,11 @@
         //Boolean - Whether to show vertical lines (except Y axis)
         scaleShowVerticalLines: true,
 
+/// ZUI change begin
+        //Boolean - Whether to show beyond lines
+        scaleShowBeyondLine: true,
+/// ZUI change end
+/// 
         //Boolean - If there is a stroke on each bar
         barShowStroke: true,
 
@@ -271,6 +276,9 @@
                 lineColor: this.options.scaleLineColor,
                 showHorizontalLines: this.options.scaleShowHorizontalLines,
                 showVerticalLines: this.options.scaleShowVerticalLines,
+/// ZUI change begin
+                showBeyondLine: this.options.scaleShowBeyondLine,
+/// ZUI change end
                 gridLineWidth: (this.options.scaleShowGridLines) ? this.options.scaleGridLineWidth : 0,
                 gridLineColor: (this.options.scaleShowGridLines) ? this.options.scaleGridLineColor : "rgba(0,0,0,0)",
                 padding: (this.options.showScale) ? 0 : (this.options.barShowStroke) ? this.options.barStrokeWidth : 0,
