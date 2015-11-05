@@ -1,11 +1,4 @@
 /*!
- * ZUI - v1.3.2 - 2015-05-26
- * http://zui.sexy
- * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2015 cnezsoft.com; Licensed MIT
- */
-
-/*!
  * Chart.js
  * http://chartjs.org/
  * Version: 1.0.2
@@ -1929,6 +1922,7 @@
             {
                 ctx.fillStyle = this.textColor;
                 ctx.font = this.font;
+                var beyondLineLength = this.showBeyondLine ? 5 : 0;
                 each(this.yLabels, function(labelString, index)
                 {
                     var yLabelCenter = this.endPoint - (yLabelGap * index),
@@ -1979,7 +1973,7 @@
                     ctx.lineWidth = this.lineWidth;
                     ctx.strokeStyle = this.lineColor;
                     ctx.beginPath();
-                    ctx.moveTo(xStart - 5, linePositionY);
+                    ctx.moveTo(xStart - beyondLineLength, linePositionY);
                     ctx.lineTo(xStart, linePositionY);
                     ctx.stroke();
                     ctx.closePath();
@@ -2034,7 +2028,7 @@
                     // Small lines at the bottom of the base grid line
                     ctx.beginPath();
                     ctx.moveTo(linePos, this.endPoint);
-                    ctx.lineTo(linePos, this.endPoint + 5);
+                    ctx.lineTo(linePos, this.endPoint + beyondLineLength);
                     ctx.stroke();
                     ctx.closePath();
 
@@ -2471,6 +2465,11 @@
         //Boolean - Whether to show horizontal lines (except X axis)
         scaleShowHorizontalLines: true,
 
+/// ZUI change end
+        //Boolean - Whether to show beyond lines
+        scaleShowBeyondLine: true,
+/// ZUI change end
+/// 
         //Boolean - Whether to show vertical lines (except Y axis)
         scaleShowVerticalLines: true,
 
@@ -2694,6 +2693,9 @@
                 lineColor: this.options.scaleLineColor,
                 showHorizontalLines: this.options.scaleShowHorizontalLines,
                 showVerticalLines: this.options.scaleShowVerticalLines,
+/// ZUI change begin
+                showBeyondLine: this.options.scaleShowBeyondLine,
+/// ZUI change end
                 gridLineWidth: (this.options.scaleShowGridLines) ? this.options.scaleGridLineWidth : 0,
                 gridLineColor: (this.options.scaleShowGridLines) ? this.options.scaleGridLineColor : "rgba(0,0,0,0)",
                 padding: (this.options.showScale) ? 0 : this.options.pointDotRadius + this.options.pointDotStrokeWidth,
@@ -3296,7 +3298,7 @@
 
 /// ----- ZUI change begin -----
 /// Change root to zui shared object
-/// 
+///
 ///   var root = this, // old code
       var root = $ && $.zui ? $.zui : this,
 /// ----- ZUI change end -----
@@ -3323,6 +3325,11 @@
         //Boolean - Whether to show vertical lines (except Y axis)
         scaleShowVerticalLines: true,
 
+/// ZUI change begin
+        //Boolean - Whether to show beyond lines
+        scaleShowBeyondLine: true,
+/// ZUI change end
+/// 
         //Boolean - If there is a stroke on each bar
         barShowStroke: true,
 
@@ -3330,6 +3337,9 @@
 /// ZUI change begin
 ///        barStrokeWidth: 2,
         barStrokeWidth: 1,
+
+        // String - Sacle value labels placement
+        scaleValuePlacement: 'auto', // none, auto, outside, inside-top, inside-middle, inside-bottom
 /// ZUI change end
 
         //Number - Spacing between each of the X value sets
@@ -3555,6 +3565,9 @@
                 lineColor: this.options.scaleLineColor,
                 showHorizontalLines: this.options.scaleShowHorizontalLines,
                 showVerticalLines: this.options.scaleShowVerticalLines,
+/// ZUI change begin
+                showBeyondLine: this.options.scaleShowBeyondLine,
+/// ZUI change end
                 gridLineWidth: (this.options.scaleShowGridLines) ? this.options.scaleGridLineWidth : 0,
                 gridLineColor: (this.options.scaleShowGridLines) ? this.options.scaleGridLineColor : "rgba(0,0,0,0)",
                 padding: (this.options.showScale) ? 0 : (this.options.barShowStroke) ? this.options.barStrokeWidth : 0,
@@ -3623,6 +3636,26 @@
             });
             this.scale.update(newScaleProps);
         },
+/// ZUI change begin
+        drawLabel: function(bar, placement)
+        {
+            var options = this.options;
+            placement = placement || options.scaleValuePlacement;
+            placement = placement ? placement.toLowerCase() : 'auto';
+            if(placement === 'auto')
+            {
+                placement = bar.y < 15 ? 'insdie' : 'outside';
+            }
+
+            var y = placement === 'insdie' ? (bar.y + 10) : (bar.y - 10);
+            var ctx = this.chart.ctx;
+            ctx.font = helpers.fontString(options.scaleFontSize, options.scaleFontStyle, options.scaleFontFamily);
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            ctx.fillStyle = options.scaleFontColor;
+            ctx.fillText(bar.value, bar.x, y);
+        },
+/// ZUI change end
         draw: function(ease)
         {
             var easingDecimal = ease || 1;
@@ -3632,6 +3665,9 @@
 
             this.scale.draw(easingDecimal);
 
+/// ZUI change begin
+            var showScaleValue = this.options.scaleShowLabels && this.options.scaleValuePlacement;
+/// ZUI change end
             //Draw all the bars for each dataset
             helpers.each(this.datasets, function(dataset, datasetIndex)
             {
@@ -3648,6 +3684,12 @@
                             width: this.scale.calculateBarWidth(this.datasets.length)
                         }, easingDecimal).draw();
                     }
+/// ZUI change begin
+                    if(showScaleValue)
+                    {
+                        this.drawLabel(bar);
+                    }
+/// ZUI change end
                 }, this);
 
             }, this);

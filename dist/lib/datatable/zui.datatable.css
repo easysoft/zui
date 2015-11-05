@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2015-07-28
+ * ZUI - v1.3.2 - 2015-11-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -168,6 +168,7 @@
   left: 0;
   min-width: 50px;
   height: 10px;
+  cursor: move;
   background-color: #a6a6a6;
 }
 .datatable .scroll-slide:hover > .bar {

@@ -1,11 +1,4 @@
 /*!
- * ZUI - v1.3.2 - 2015-05-26
- * http://zui.sexy
- * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2015 cnezsoft.com; Licensed MIT
- */
-
-/*!
 Chosen, a Select Box Enhancer for jQuery and Prototype
 by Patrick Filler for Harvest, http://getharvest.com
 

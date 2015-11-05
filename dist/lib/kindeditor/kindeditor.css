@@ -1,10 +1,3 @@
-/*!
- * ZUI - v1.3.2 - 2015-05-26
- * http://zui.sexy
- * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2015 cnezsoft.com; Licensed MIT
- */
-
 
 /* common */
 .ke-inline-block {
@@ -425,7 +418,7 @@
 .ke-menu {
   padding: 5px 0;
   overflow: hidden;
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
   font-size: 12px;
   text-align: left;
   background-color: #fff;
@@ -509,7 +502,7 @@
 .ke-colorpicker-cell-top {
   padding: 0;
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
   font-size: 12px;
   line-height: 25px;
   text-align: center;
@@ -600,7 +593,7 @@
 .ke-dialog-body {
   width: 100%;
   overflow: hidden;
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
   font-size: 12px;
   text-align: left;
 }
@@ -723,7 +716,7 @@
   text-decoration: none;
   background-color: #f2f2f2;
   border: 1px solid #bfbfbf;
-  border-color: #d4d4d4;
+  border-color: #f2f2f2;
   border-radius: 4px;
 }
 .ke-button:hover,

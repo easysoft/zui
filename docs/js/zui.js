@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-18
+ * ZUI - v1.3.2 - 2015-11-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -2535,6 +2535,7 @@
     {
         var self = this.$,
             options = this.options;
+        var isReverse = options.reverse;
 
         markOrders($list);
         $list.droppable(
@@ -2544,6 +2545,7 @@
             container: self,
             always: options.always,
             flex: true,
+            before: options.before,
             start: function(e)
             {
                 if(options.dragCssClass) e.element.addClass(options.dragCssClass);
@@ -2559,11 +2561,11 @@
                     if(eleOrder == targetOrder) return;
                     else if(eleOrder > targetOrder)
                     {
-                        $target.before($ele);
+                        $target[isReverse ? 'after' : 'before']($ele);
                     }
                     else
                     {
-                        $target.after($ele);
+                        $target[isReverse ? 'before' : 'after']($ele);
                     }
                     var list = self.children(options.selector).not('.drag-shadow');
                     markOrders(list);
@@ -2597,7 +2599,7 @@
                 orders.push(orders.length ? (orders[orders.length - 1] + 1) : 0);
             }
 
-            if(options.reverse)
+            if(isReverse)
             {
                 orders.reverse();
             }
@@ -2760,7 +2762,7 @@
 
         that.isShown = true
 
-        if (that.options.draggable) that.setMoveale();
+        if (that.options.moveable) that.setMoveale();
 
         that.checkScrollbar()
         that.$body.addClass('modal-open')
@@ -3089,6 +3091,8 @@
         position: 'fit',
         showHeader: true,
         delay: 0,
+        // iframeBodyClass: '',
+        // onlyIncreaseHeight: false,
         backdrop: true,
         keyboard: true
     };
@@ -3166,6 +3170,8 @@
 
         this.$modal = $modal;
         this.$dialog = $modal.find('.modal-dialog');
+
+        if(options.mergeOptions) this.options = options;
     };
 
     ModalTrigger.prototype.show = function(option)
@@ -3265,7 +3271,7 @@
                 $body.detach();
                 $content.empty().append($header).append($body);
                 $body.css('padding', 0)
-                    .html('<iframe id="' + iframeName + '" name="' + iframeName + '" src="' + options.url + '" frameborder="no" allowtransparency="true" scrolling="auto" style="width: 100%; height: 100%; left: 0px;"></iframe>');
+                    .html('<iframe id="' + iframeName + '" name="' + iframeName + '" src="' + options.url + '" frameborder="no"  allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"  allowtransparency="true" scrolling="auto" style="width: 100%; height: 100%; left: 0px;"></iframe>');
 
                 if (options.waittime > 0)
                 {
@@ -3292,10 +3298,16 @@
                         {
                             // todo: update iframe url to ref attribute
                             var $framebody = frame$('body').addClass('body-modal');
-                            var ajustFrameSize = function()
+                            if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
+                            var ajustFrameSize = function(check)
                             {
                                 $modal.removeClass('fade');
                                 var height = $framebody.outerHeight();
+                                if(check === true && options.onlyIncreaseHeight)
+                                {
+                                    height = Math.max(height, $body.data('minModalHeight') || 0);
+                                    $body.data('minModalHeight', height);
+                                }
                                 $body.css('height', height);
                                 if (options.fade) $modal.addClass('fade');
                                 readyToShow();
@@ -3303,12 +3315,13 @@
 
                             $modal.callEvent('loaded' + ZUI_MODAL,
                             {
-                                modalType: 'iframe'
-                            });
+                                modalType: 'iframe',
+                                jQuery: frame$
+                            }, that);
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, function(){ajustFrameSize(true)});
                         }
 
                         frame$.extend(
@@ -3349,7 +3362,7 @@
                     $modal.callEvent('loaded' + ZUI_MODAL,
                     {
                         modalType: STR_AJAX
-                    });
+                    }, that);
                     readyToShow();
                 });
             }
@@ -3359,6 +3372,7 @@
         {
             show: 'show',
             backdrop: options.backdrop,
+            moveable: options.moveable,
             keyboard: options.keyboard
         });
     };
@@ -4052,6 +4066,9 @@
         $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
 
         $tip.removeClass('fade top bottom left right in')
+        
+        if (this.options.tipId) $tip.attr('id', this.options.tipId)
+        if (this.options.tipClass) $tip.addClass(this.options.tipClass)
 
         // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
         // this manually by checking the contents.
@@ -4620,7 +4637,7 @@
  * ======================================================================== */
 
 
-(function()
+(function($)
 {
     'use strict';
 
@@ -4721,7 +4738,7 @@
             }
         };
     })();
-}());
+}(jQuery));
 
 /* ========================================================================
  * ZUI: lightbox.js
@@ -5029,6 +5046,15 @@
         return msg;
     };
 
+    var hideMessage = function()
+    {
+        $('.messager').each(function()
+        {
+            var msg = $(this).data('zui.messager');
+            if(msg && msg.hide) msg.hide();
+        });
+    };
+
     var getOptions = function(options)
     {
         return (typeof options === 'string') ?
@@ -5043,6 +5069,7 @@
         messager:
         {
             show: showMessage,
+            hide: hideMessage,
             primary: function(message, options)
             {
                 return showMessage(message, $.extend(
@@ -5836,10 +5863,10 @@
         dialog = exports.dialog(options);
 
         // clear the existing handler focusing the submit button...
-        dialog.off("shown.bs.modal");
+        dialog.off("shown.zui.modal");
 
         // ...and replace it with one focusing our input, if possible
-        dialog.on("shown.bs.modal", function()
+        dialog.on("shown.zui.modal", function()
         {
             input.focus();
         });
@@ -5934,7 +5961,7 @@
          * modal has performed certain actions
          */
 
-        dialog.on("hidden.bs.modal", function(e)
+        dialog.on("hidden.zui.modal", function(e)
         {
             // ensure we don't accidentally intercept hidden events triggered
             // by children of the current dialog. We shouldn't anymore now BS
@@ -5946,7 +5973,7 @@
         });
 
         /*
-    dialog.on("show.bs.modal", function() {
+    dialog.on("show.zui.modal", function() {
       // sadly this doesn't work; show is called *just* before
       // the backdrop is added so we'd need a setTimeout hack or
       // otherwise... leaving in as would be nice
@@ -5956,7 +5983,7 @@
     });
     */
 
-        dialog.on("shown.bs.modal", function()
+        dialog.on("shown.zui.modal", function()
         {
             dialog.find(".btn-primary:first").focus();
         });
@@ -6597,6 +6624,7 @@
 
         items.droppable(
         {
+            before: setting.before,
             target: '.board-item:not(".disable-drop, .board-item-shadow")',
             flex: true,
             start: function(e)
@@ -6845,7 +6873,8 @@
                             cssClass: $td.attr('class'),
                             css: $td.attr('style'),
                             text: $td.html(),
-                            colSpan: colSpan
+                            colSpan: colSpan,
+                            title: $td.attr('title')
                         }, $td.data()));
 
                         if(colSpan > 1)
@@ -7104,7 +7133,8 @@
                         'data-index' : i,
                         'data-flex'  : false,
                         'data-type'  : cols[i].type,
-                        style        : rowCol.css
+                        style        : rowCol.css,
+                        title        : rowCol.title || ''
                     });
 
 
@@ -11198,7 +11228,7 @@ This file is generated by `grunt build`, do not edit it by hand.
 
     ChosenIcons.prototype.getOptionHtml = function(value)
     {
-        name = value;
+        var name = value;
         if (value && value.length > 0)
         {
             value = 'icon-' + value;
@@ -11229,7 +11259,7 @@ This file is generated by `grunt build`, do not edit it by hand.
 }(jQuery);
 
 /*!
- * ZUI - v1.3.0 - 2015-05-18
+ * ZUI - v1.3.2 - 2015-11-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -13225,6 +13255,7 @@ This file is generated by `grunt build`, do not edit it by hand.
             {
                 ctx.fillStyle = this.textColor;
                 ctx.font = this.font;
+                var beyondLineLength = this.showBeyondLine ? 5 : 0;
                 each(this.yLabels, function(labelString, index)
                 {
                     var yLabelCenter = this.endPoint - (yLabelGap * index),
@@ -13275,7 +13306,7 @@ This file is generated by `grunt build`, do not edit it by hand.
                     ctx.lineWidth = this.lineWidth;
                     ctx.strokeStyle = this.lineColor;
                     ctx.beginPath();
-                    ctx.moveTo(xStart - 5, linePositionY);
+                    ctx.moveTo(xStart - beyondLineLength, linePositionY);
                     ctx.lineTo(xStart, linePositionY);
                     ctx.stroke();
                     ctx.closePath();
@@ -13330,7 +13361,7 @@ This file is generated by `grunt build`, do not edit it by hand.
                     // Small lines at the bottom of the base grid line
                     ctx.beginPath();
                     ctx.moveTo(linePos, this.endPoint);
-                    ctx.lineTo(linePos, this.endPoint + 5);
+                    ctx.lineTo(linePos, this.endPoint + beyondLineLength);
                     ctx.stroke();
                     ctx.closePath();
 
@@ -13767,6 +13798,11 @@ This file is generated by `grunt build`, do not edit it by hand.
         //Boolean - Whether to show horizontal lines (except X axis)
         scaleShowHorizontalLines: true,
 
+/// ZUI change end
+        //Boolean - Whether to show beyond lines
+        scaleShowBeyondLine: true,
+/// ZUI change end
+/// 
         //Boolean - Whether to show vertical lines (except Y axis)
         scaleShowVerticalLines: true,
 
@@ -13990,6 +14026,9 @@ This file is generated by `grunt build`, do not edit it by hand.
                 lineColor: this.options.scaleLineColor,
                 showHorizontalLines: this.options.scaleShowHorizontalLines,
                 showVerticalLines: this.options.scaleShowVerticalLines,
+/// ZUI change begin
+                showBeyondLine: this.options.scaleShowBeyondLine,
+/// ZUI change end
                 gridLineWidth: (this.options.scaleShowGridLines) ? this.options.scaleGridLineWidth : 0,
                 gridLineColor: (this.options.scaleShowGridLines) ? this.options.scaleGridLineColor : "rgba(0,0,0,0)",
                 padding: (this.options.showScale) ? 0 : this.options.pointDotRadius + this.options.pointDotStrokeWidth,
@@ -14365,6 +14404,9 @@ This file is generated by `grunt build`, do not edit it by hand.
                 strokeColor: this.options.segmentStrokeColor,
                 startAngle: Math.PI * 1.5,
                 circumference: (this.options.animateRotate) ? 0 : this.calculateCircumference(segment.value),
+/// ----- ZUI change begin -----
+                showLabel: segment.showLabel !== false,
+/// ----- ZUI change begin -----
                 label: segment.label
             }));
             if (!silent)
@@ -14527,7 +14569,7 @@ This file is generated by `grunt build`, do not edit it by hand.
                 }
 
 /// ZUI change begin
-                if(this.options.scaleShowLabels)
+                if(this.options.scaleShowLabels && segment.showLabel)
                 {
                     if(!labelPositionMap) labelPositionMap = {};
                     this.drawLabel(segment, easeDecimal, labelPositionMap);
@@ -14589,7 +14631,7 @@ This file is generated by `grunt build`, do not edit it by hand.
 
 /// ----- ZUI change begin -----
 /// Change root to zui shared object
-/// 
+///
 ///   var root = this, // old code
       var root = $ && $.zui ? $.zui : this,
 /// ----- ZUI change end -----
@@ -14616,6 +14658,11 @@ This file is generated by `grunt build`, do not edit it by hand.
         //Boolean - Whether to show vertical lines (except Y axis)
         scaleShowVerticalLines: true,
 
+/// ZUI change begin
+        //Boolean - Whether to show beyond lines
+        scaleShowBeyondLine: true,
+/// ZUI change end
+/// 
         //Boolean - If there is a stroke on each bar
         barShowStroke: true,
 
@@ -14623,6 +14670,9 @@ This file is generated by `grunt build`, do not edit it by hand.
 /// ZUI change begin
 ///        barStrokeWidth: 2,
         barStrokeWidth: 1,
+
+        // String - Sacle value labels placement
+        scaleValuePlacement: 'auto', // none, auto, outside, inside-top, inside-middle, inside-bottom
 /// ZUI change end
 
         //Number - Spacing between each of the X value sets
@@ -14848,6 +14898,9 @@ This file is generated by `grunt build`, do not edit it by hand.
                 lineColor: this.options.scaleLineColor,
                 showHorizontalLines: this.options.scaleShowHorizontalLines,
                 showVerticalLines: this.options.scaleShowVerticalLines,
+/// ZUI change begin
+                showBeyondLine: this.options.scaleShowBeyondLine,
+/// ZUI change end
                 gridLineWidth: (this.options.scaleShowGridLines) ? this.options.scaleGridLineWidth : 0,
                 gridLineColor: (this.options.scaleShowGridLines) ? this.options.scaleGridLineColor : "rgba(0,0,0,0)",
                 padding: (this.options.showScale) ? 0 : (this.options.barShowStroke) ? this.options.barStrokeWidth : 0,
@@ -14916,6 +14969,26 @@ This file is generated by `grunt build`, do not edit it by hand.
             });
             this.scale.update(newScaleProps);
         },
+/// ZUI change begin
+        drawLabel: function(bar, placement)
+        {
+            var options = this.options;
+            placement = placement || options.scaleValuePlacement;
+            placement = placement ? placement.toLowerCase() : 'auto';
+            if(placement === 'auto')
+            {
+                placement = bar.y < 15 ? 'insdie' : 'outside';
+            }
+
+            var y = placement === 'insdie' ? (bar.y + 10) : (bar.y - 10);
+            var ctx = this.chart.ctx;
+            ctx.font = helpers.fontString(options.scaleFontSize, options.scaleFontStyle, options.scaleFontFamily);
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            ctx.fillStyle = options.scaleFontColor;
+            ctx.fillText(bar.value, bar.x, y);
+        },
+/// ZUI change end
         draw: function(ease)
         {
             var easingDecimal = ease || 1;
@@ -14925,6 +14998,9 @@ This file is generated by `grunt build`, do not edit it by hand.
 
             this.scale.draw(easingDecimal);
 
+/// ZUI change begin
+            var showScaleValue = this.options.scaleShowLabels && this.options.scaleValuePlacement;
+/// ZUI change end
             //Draw all the bars for each dataset
             helpers.each(this.datasets, function(dataset, datasetIndex)
             {
@@ -14941,6 +15017,12 @@ This file is generated by `grunt build`, do not edit it by hand.
                             width: this.scale.calculateBarWidth(this.datasets.length)
                         }, easingDecimal).draw();
                     }
+/// ZUI change begin
+                    if(showScaleValue)
+                    {
+                        this.drawLabel(bar);
+                    }
+/// ZUI change end
                 }, this);
 
             }, this);

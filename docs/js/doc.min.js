@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-18
+ * ZUI - v1.3.2 - 2015-11-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2015-05-26
+ * ZUI - v1.3.2 - 2015-11-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -21,34 +21,31 @@
     var zui = $.zui;
     if (zui)
     {
-        var extendTo = function(name, $orWindow)
+        function extendTo(name, target)
         {
             if ($.isArray(name))
             {
                 $.each(name, function(i, n)
                 {
-                    extendTo(n, $orWindow);
+                    extendTo(n, target);
                 });
                 return;
             }
 
-            if ($orWindow)
+            var config = {};
+            config[name] = zui[name];
+
+            if (target)
             {
-                $.extend(window,
-                {
-                    name: zui[name]
-                });
+                $.extend(target, config);
             }
             else
             {
-                $.extend(
-                {
-                    name: zui[name]
-                });
+                $.extend(config);
             }
         }
 
         extendTo(['uuid', 'callEvent', 'clientLang', 'browser', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store']);
-        extendTo(['Color', 'imgReady', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store'], true);
+        extendTo(['Color', 'imgReady', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store'], window);
     }
 }(jQuery, window));

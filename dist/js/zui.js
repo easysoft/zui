@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2015-05-26
+ * ZUI - v1.3.2 - 2015-11-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -2264,6 +2264,7 @@
             container: self,
             always: options.always,
             flex: true,
+            before: options.before,
             start: function(e)
             {
                 if(options.dragCssClass) e.element.addClass(options.dragCssClass);
@@ -2809,6 +2810,8 @@
         position: 'fit',
         showHeader: true,
         delay: 0,
+        // iframeBodyClass: '',
+        // onlyIncreaseHeight: false,
         backdrop: true,
         keyboard: true
     };
@@ -2886,6 +2889,8 @@
 
         this.$modal = $modal;
         this.$dialog = $modal.find('.modal-dialog');
+
+        if(options.mergeOptions) this.options = options;
     };
 
     ModalTrigger.prototype.show = function(option)
@@ -3012,10 +3017,16 @@
                         {
                             // todo: update iframe url to ref attribute
                             var $framebody = frame$('body').addClass('body-modal');
-                            var ajustFrameSize = function()
+                            if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
+                            var ajustFrameSize = function(check)
                             {
                                 $modal.removeClass('fade');
                                 var height = $framebody.outerHeight();
+                                if(check === true && options.onlyIncreaseHeight)
+                                {
+                                    height = Math.max(height, $body.data('minModalHeight') || 0);
+                                    $body.data('minModalHeight', height);
+                                }
                                 $body.css('height', height);
                                 if (options.fade) $modal.addClass('fade');
                                 readyToShow();
@@ -3023,12 +3034,13 @@
 
                             $modal.callEvent('loaded' + ZUI_MODAL,
                             {
-                                modalType: 'iframe'
-                            });
+                                modalType: 'iframe',
+                                jQuery: frame$
+                            }, that);
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, function(){ajustFrameSize(true)});
                         }
 
                         frame$.extend(
@@ -3069,7 +3081,7 @@
                     $modal.callEvent('loaded' + ZUI_MODAL,
                     {
                         modalType: STR_AJAX
-                    });
+                    }, that);
                     readyToShow();
                 });
             }
@@ -3773,6 +3785,9 @@
         $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
 
         $tip.removeClass('fade top bottom left right in')
+        
+        if (this.options.tipId) $tip.attr('id', this.options.tipId)
+        if (this.options.tipClass) $tip.addClass(this.options.tipClass)
 
         // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
         // this manually by checking the contents.
@@ -4750,6 +4765,15 @@
         return msg;
     };
 
+    var hideMessage = function()
+    {
+        $('.messager').each(function()
+        {
+            var msg = $(this).data('zui.messager');
+            if(msg && msg.hide) msg.hide();
+        });
+    };
+
     var getOptions = function(options)
     {
         return (typeof options === 'string') ?
@@ -4764,6 +4788,7 @@
         messager:
         {
             show: showMessage,
+            hide: hideMessage,
             primary: function(message, options)
             {
                 return showMessage(message, $.extend(
@@ -5557,10 +5582,10 @@
         dialog = exports.dialog(options);
 
         // clear the existing handler focusing the submit button...
-        dialog.off("shown.bs.modal");
+        dialog.off("shown.zui.modal");
 
         // ...and replace it with one focusing our input, if possible
-        dialog.on("shown.bs.modal", function()
+        dialog.on("shown.zui.modal", function()
         {
             input.focus();
         });
@@ -5655,7 +5680,7 @@
          * modal has performed certain actions
          */
 
-        dialog.on("hidden.bs.modal", function(e)
+        dialog.on("hidden.zui.modal", function(e)
         {
             // ensure we don't accidentally intercept hidden events triggered
             // by children of the current dialog. We shouldn't anymore now BS
@@ -5667,7 +5692,7 @@
         });
 
         /*
-    dialog.on("show.bs.modal", function() {
+    dialog.on("show.zui.modal", function() {
       // sadly this doesn't work; show is called *just* before
       // the backdrop is added so we'd need a setTimeout hack or
       // otherwise... leaving in as would be nice
@@ -5677,7 +5702,7 @@
     });
     */
 
-        dialog.on("shown.bs.modal", function()
+        dialog.on("shown.zui.modal", function()
         {
             dialog.find(".btn-primary:first").focus();
         });
@@ -6318,6 +6343,7 @@
 
         items.droppable(
         {
+            before: setting.before,
             target: '.board-item:not(".disable-drop, .board-item-shadow")',
             flex: true,
             start: function(e)

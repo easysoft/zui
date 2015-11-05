@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.0 - 2015-05-18
+ * ZUI - v1.3.2 - 2015-11-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -663,7 +663,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
   font-size: 13px;
   line-height: 1.53846154;
   color: #353535;
@@ -792,6 +792,7 @@ ul {
 .row:after {
   clear: both;
 }
+.col,
 .col-xs-1,
 .col-xs-2,
 .col-xs-3,
@@ -1658,52 +1659,52 @@ a.bg-important:hover {
 a.bg-special:hover {
   background-color: #6c4aa1;
 }
-.highlight-default {
+hldefault {
   background-color: #f1f1f1;
 }
-a.highlight-default:hover {
+ahldefault:hover {
   background-color: #d7d7d7;
 }
-.highlight-primary {
+.hl-primary {
   background-color: #ebf2f9;
 }
-a.highlight-primary:hover {
+a.hl-primary:hover {
   background-color: #c4d8ed;
 }
-.highlight-success {
+.hl-success {
   background-color: #ddf4df;
 }
-a.highlight-success:hover {
+a.hl-success:hover {
   background-color: #b6e8bb;
 }
-.highlight-info {
+.hl-info {
   background-color: #ddf3f5;
 }
-a.highlight-info:hover {
+a.hl-info:hover {
   background-color: #b6e5e9;
 }
-.highlight-warning {
+.hl-warning {
   background-color: #fff0d5;
 }
-a.highlight-warning:hover {
+a.hl-warning:hover {
   background-color: #ffdea2;
 }
-.highlight-danger {
+.hl-danger {
   background-color: #ffe5e0;
 }
-a.highlight-danger:hover {
+a.hl-danger:hover {
   background-color: #ffbaad;
 }
-.highlight-important {
+.hl-important {
   background-color: #f7ebe1;
 }
-a.highlight-important:hover {
+a.hl-important:hover {
   background-color: #ecd0b9;
 }
-.highlight-special {
+.hl-special {
   background-color: #f5eeff;
 }
-a.highlight-special:hover {
+a.hl-special:hover {
   background-color: #d7bbff;
 }
 h1,
@@ -1830,7 +1831,7 @@ fieldset[disabled] .btn {
   color: #353535;
   text-shadow: 0 1px 0 #fff;
   background-color: #f2f2f2;
-  border-color: #d4d4d4;
+  border-color: #f2f2f2;
   border-color: #ccc;
 }
 .btn:hover,
@@ -1873,7 +1874,7 @@ fieldset[disabled] .btn.active {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
   background-color: #3280fc;
-  border-color: #035eed;
+  border-color: #3280fc;
 }
 .btn-primary:hover,
 .btn-primary:focus,
@@ -1915,7 +1916,7 @@ fieldset[disabled] .btn-primary.active {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
   background-color: #f1a325;
-  border-color: #cc830d;
+  border-color: #f1a325;
 }
 .btn-warning:hover,
 .btn-warning:focus,
@@ -1957,7 +1958,7 @@ fieldset[disabled] .btn-warning.active {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
   background-color: #ea644a;
-  border-color: #dd391a;
+  border-color: #ea644a;
 }
 .btn-danger:hover,
 .btn-danger:focus,
@@ -1999,7 +2000,7 @@ fieldset[disabled] .btn-danger.active {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
   background-color: #38b03f;
-  border-color: #29822e;
+  border-color: #38b03f;
 }
 .btn-success:hover,
 .btn-success:focus,
@@ -2041,7 +2042,7 @@ fieldset[disabled] .btn-success.active {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
   background-color: #03b8cf;
-  border-color: #028293;
+  border-color: #03b8cf;
 }
 .btn-info:hover,
 .btn-info:focus,
@@ -2813,7 +2814,7 @@ a .icon-flip-vertical:before {
 .icon-collapse-full:before {
   content: '\e682';
 }
-.icon-yingyang:before {
+.icon-yinyang:before {
   content: '\e687';
 }
 .icon-taiji:before {
@@ -8396,6 +8397,7 @@ body.article-content {
   left: 0;
   min-width: 50px;
   height: 10px;
+  cursor: move;
   background-color: #a6a6a6;
 }
 .datatable .scroll-slide:hover > .bar {

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2015-05-26
+ * ZUI - v1.3.2 - 2015-11-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2015 cnezsoft.com; Licensed MIT
@@ -141,7 +141,7 @@
 
     ChosenIcons.prototype.getOptionHtml = function(value)
     {
-        name = value;
+        var name = value;
         if (value && value.length > 0)
         {
             value = 'icon-' + value;
