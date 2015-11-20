@@ -1,8 +1,8 @@
 // Google scrollbar
 
 ::-webkit-scrollbar {
-    height:11px;
-    width:11px
+    height: @scrollbar-size;
+    width: @scrollbar-size
 }
 ::-webkit-scrollbar-button {
     height:0;
@@ -19,13 +19,14 @@
     border-color:transparent
 }
 ::-webkit-scrollbar-track:vertical::-webkit-scrollbar-track:horizontal{
-    background-clip:padding-box;
-    background-color:#fff;
+    background-clip: padding-box;
+    background-color: #fff;
 }
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow:inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);
     background-clip:padding-box;
     background-color:rgba(0,0,0,.2);
+    border-radius: @scrollbar-radius;
     min-height:28px;
     padding-top:100
 }
