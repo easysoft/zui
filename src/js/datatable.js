@@ -1010,7 +1010,7 @@
         return !(result !== undefined && (!result));
     };
 
-    $.fn.datatable = function(option)
+    $.fn.datatable = function(option, newData)
     {
         return this.each(function()
         {
@@ -1020,7 +1020,7 @@
 
             if (!data) $this.data(name, (data = new DataTable(this, options)));
 
-            if (typeof option == 'string') data[option]();
+            if (typeof option == 'string') data[option](newData);
         });
     };
 
