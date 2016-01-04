@@ -4,3 +4,4 @@ build/
 *.sublime-workspace
 ISSUES.md
 /*.zip
+zui.custom.json
