@@ -21,8 +21,8 @@
     "globals"
   ],
   "main": [
-    "dist/css/zui.css",
-    "dist/js/zui.js"
+    "dist/css/zui.min.css",
+    "dist/js/zui.min.js"
   ],
   "ignore": [
     "/.*",
