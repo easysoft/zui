@@ -374,7 +374,7 @@
                 {
                     chgs = [chgs];
                 }
-                $.each(function(idx, chge)
+                $.each(changes, function(idx, chge)
                 {
                     if (that.callEvent('beforeChange',
                         {
@@ -384,7 +384,7 @@
                             from: event[chge.change]
                         }))
                     {
-                        eventParam.changes.push($.entend(true,
+                        eventParam.changes.push($.extend(true,
                         {}, chge,
                         {
                             from: event[chge.change]
@@ -453,7 +453,7 @@
 
     Calendar.prototype.getLang = function()
     {
-        this.lang = this.options.langs[this.options.lang || $.zui.clientLang()];
+        this.lang = this.options.langs[this.options.lang || ($.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh-cn')];
     };
 
     Calendar.prototype.display = function(view, date)
