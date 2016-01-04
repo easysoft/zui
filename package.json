@@ -1401,6 +1401,51 @@
       },
       "custom": true
     },
+    "ranzhi.theme.index":
+    {
+      "name": "ranzhi index theme",
+      "src":
+      {
+        "less": ["src/apps/ranzhi/less/theme.index.less"]
+      },
+      "custom": true
+    },
+    "ranzhi.theme.crm":
+    {
+      "name": "ranzhi crm theme",
+      "src":
+      {
+        "less": ["src/apps/ranzhi/less/theme.crm.less"]
+      },
+      "custom": true
+    },
+    "ranzhi.theme.oa":
+    {
+      "name": "ranzhi oa theme",
+      "src":
+      {
+        "less": ["src/apps/ranzhi/less/theme.oa.less"]
+      },
+      "custom": true
+    },
+    "ranzhi.theme.cash":
+    {
+      "name": "ranzhi cash theme",
+      "src":
+      {
+        "less": ["src/apps/ranzhi/less/theme.cash.less"]
+      },
+      "custom": true
+    },
+    "ranzhi.theme.team":
+    {
+      "name": "ranzhi team theme",
+      "src":
+      {
+        "less": ["src/apps/ranzhi/less/theme.team.less"]
+      },
+      "custom": true
+    },
     "docless":
     {
       "name": "docless",
@@ -1669,6 +1714,47 @@
       "subdirectories": true,
       "bootstrapStatement": true,
       "includes": ["jqueryex", "string", "resize", "basic", "chanzhi.variables", "utilities", "animations", "scaffolding", "grid", "typography.basic", "header", "image", "divider", "labels", "icons", "breadcrumbs", "browser", "close", "inputgroups.basic", "table.basic", "table.colors", "panels.basic", "forms.basic", "code", "pager.basic", "navs", "navbars.basic", "device", "transition", "alerts.basic", "button.basic", "button.group", "carousel", "collapse", "dropdowns", "modals", "modaltrigger", "tab", "tooltip", "popovers", "imgready", "lightbox", "bootbox", "messager", "color", "droppable", "sortable", "article.basic", "comment", "list", "cards.basic", "datatable"]
+    },
+    "ranzhiThemeIndex": 
+    {
+      "title": "Ranzhi index theme",
+      "dest": "../ranzhi/trunk/www/theme/clear/",
+      "filename": "style",
+      "includes": ["ranzhi.theme.index"]
+    },
+    "ranzhiThemeCrm": 
+    {
+      "title": "Ranzhi crm them",
+      "dest": "../ranzhi/trunk/www/theme/clear/",
+      "filename": "theme.crm",
+      "includes": ["ranzhi.theme.crm"]
+    },
+    "ranzhiThemeOa": 
+    {
+      "title": "Ranzhi oa theme",
+      "dest": "../ranzhi/trunk/www/theme/clear/",
+      "filename": "theme.oa",
+      "includes": ["ranzhi.theme.oa"]
+    },
+    "ranzhiThemeTeam": 
+    {
+      "title": "Ranzhi team theme",
+      "dest": "../ranzhi/trunk/www/theme/clear/",
+      "filename": "theme.team",
+      "includes": ["ranzhi.theme.team"]
+    },
+    "ranzhiThemeCash": 
+    {
+      "title": "Ranzhi cash theme",
+      "dest": "../ranzhi/trunk/www/theme/clear/",
+      "filename": "theme.cash",
+      "includes": ["ranzhi.theme.cash"]
+    },
+    "ranzhiTheme": 
+    {
+      "title": "Ranzhi themes",
+      "dest": "../ranzhi/trunk/www/theme/clear/",
+      "bundles": ["ranzhiThemeIndex", "ranzhiThemeCrm", "ranzhiThemeOa", "ranzhiThemeTeam", "ranzhiThemeCash"]
     },
     "ranzhi":
     {
