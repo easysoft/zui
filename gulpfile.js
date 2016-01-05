@@ -223,7 +223,8 @@ function buildBundle(name, callback, type) {
     var source        = getBuildSource(build),
         bannerContent = build.thirdpart ? 
             '' : banner + (build.bootstrapStatement ? statement : ''),
-        taskList      = [];
+        taskList      = [],
+        depTaskList   = [];
 
     if(source.js && source.js.length && (!type || type === 'js')) {
         console.log(('+  Ready to process ' + source.js.length + ' javascript files.').bold);
@@ -309,11 +310,22 @@ function buildBundle(name, callback, type) {
         });
     }
 
-    if(taskList.length) {
-        runSequence(taskList, function() {
+    if(taskList.length || depTaskList.length) {
+        var completeCallback = function() {
             console.log(('√  Build ' + name.bold + ' success! ').green);
             callback && callback();
-        });
+        };
+        
+        if(taskList.length) {
+            if(depTaskList.length) {
+                runSequence(depTaskList, taskList, completeCallback);
+            } else {
+                runSequence(taskList, completeCallback);
+            }
+        } else {
+            runSequence(depTaskList, completeCallback);
+        }
+        
     } else {
         console.log(('No source files for build: ' + name).red);
         callback && callback();
