@@ -1,0 +1,133 @@
+.tree {
+  padding-left: 0;
+
+  ul {
+    display: none;
+    padding-left: 0;
+  }
+
+  li {
+    list-style: none;
+    position: relative;
+    padding: 2px 0 2px 20px;
+
+    &:before {
+      display: block;
+      content: ' ';
+      width: 3px;
+      height: 3px;
+      background-color: #999;
+      position: absolute;
+      left: 8px;
+      top: 10px;
+    }
+
+    &.has-list:before {
+      display: none;
+    }
+
+    > .list-toggle {
+      position: absolute;
+      left: 0;
+      top: -1px;
+      width: 20px;
+      line-height: 24px;
+      text-align: center;
+      color: @color-gray;
+      cursor: pointer;
+      z-index: 10;
+
+      &:before {
+        content: '\e6f1';
+      }
+
+      &:hover, &:active {
+        color: @link-hover-color;
+      }
+    }
+
+    &.open {
+      > ul {
+        display: block;
+      }
+
+      > .list-toggle:before {
+        content: '\e6f2';
+      }
+    }
+  }
+}
+
+.tree-animate {
+  ul {
+    opacity: 0;
+    transform: scale(1, .5);
+    .transition-fast(opacity, transform);
+  }
+
+  li {
+    &.open.in {
+      > ul {
+        transform: scale(1, 1);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.tree-lines {
+  li {
+    &.has-list {
+      &.open > ul:after {
+        display: block;
+        position: absolute;
+        content: ' ';
+        border-left: 1px dotted #999;
+        top: 16px;
+        left: 9px;
+        bottom: 16px;
+        z-index: 1;
+      }
+    }
+  }
+
+  ul > li {
+    &:after {
+      display: block;
+      position: absolute;
+      content: ' ';
+      border-top: 1px dotted #999;
+      top: 11px;
+      left: -10px;
+      z-index: 1;
+      width: 18px;
+    }
+  }
+}
+
+.tree-folders {
+  li > .list-toggle:before {content: '\e6ef'}
+  li.open > .list-toggle:before {content: '\e6f0'}
+
+  li:before {border: 1px solid #999; background-color: #fff; width: 4px; height: 4px; border-radius: 2px; left: 7px; top: 9px;}
+
+  &.tree-lines li.has-list.open > ul:after {top: 16px}
+  ul > li.has-list:after {width: 13px}
+  ul > li.has-list.open:after {width: 15px}
+}
+
+.tree-chevrons {
+  li > .list-toggle:before {content: '\e710'}
+  li.open > .list-toggle:before {content: '\e712'}
+
+  li:before {background-color: @color-gray-light; width: 10px; height: 10px; border-radius: 5px; left: 4px; top: 6px;}
+
+  ul > li:after {width: 13px}
+}
+
+.tree-angles {
+  li > .list-toggle:before {content: '\e6e1'}
+  li.open > .list-toggle:before {content: '\e6e3'}
+
+  ul > li.has-list:after {width: 15px}
+}
