@@ -152,6 +152,11 @@
             options.height = '';
         }
 
+        var resizeDialog = function() {
+            clearTimeout(this.resizeTask);
+            this.resizeTask = setTimeout(function(){that.ajustPosition();}, 100);
+        };
+
         var readyToShow = function(delay)
         {
             if (typeof delay === 'undefined') delay = 300;
@@ -172,10 +177,7 @@
 
                 if (options.type != 'iframe')
                 {
-                    $dialog.off('resize.' + NAME).on('resize.' + NAME, function()
-                    {
-                        that.ajustPosition();
-                    });
+                    $dialog.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
                 }
             }, delay);
         };
@@ -270,7 +272,7 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.' + NAME).on('resize.' + NAME, function(){ajustFrameSize(true)});
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
                         }
 
                         frame$.extend(
