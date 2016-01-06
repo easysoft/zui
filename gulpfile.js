@@ -10,6 +10,7 @@ var extend              = require('extend'),
     header              = require('gulp-header'),
     uglify              = require('gulp-uglify'),
     rename              = require('gulp-rename'),
+    sourcemaps          = require('gulp-sourcemaps'),
     lessPluginCleanCSS  = require('less-plugin-clean-css'),
     mkdirp              = require('mkdirp'),
     del                 = require('del'),
@@ -17,7 +18,8 @@ var extend              = require('extend'),
     colors              = require('colors'),
     gulp                = require('gulp'),
     zui                 = require('./zui.json'),
-    pkg                 = require('./package.json');
+    pkg                 = require('./package.json'),
+    showFileDetail      = true;
 
 // Disable the 'possible EventEmitter memory leak detected' warning.
 gulp.setMaxListeners(0);
@@ -119,13 +121,15 @@ function getSourceConfig(src) {
     if (idx > 0) {
         return {
             base: src.substr(0, idx + 1),
-            src: src.replace(/\/\//g, '/')
+            src: src.replace(/\/\//g, '/'),
+            file: src.substr(idx + 2)
         };
     }
     idx = src.lastIndexOf('/');
     return {
         base: src.substr(0, idx + 1),
-        src: src
+        src: src,
+        file: src.substr(idx + 1)
     }
 }
 
@@ -149,6 +153,8 @@ function getBuildDestFilename(build, type, suffix) {
 function buildBundle(name, callback, type) {
     name  = name|| 'all';
     var build = builds[name];
+    var taskList      = [],
+        depTaskList   = [];
 
     // clean files
     if(name === 'dist') {
@@ -162,9 +168,8 @@ function buildBundle(name, callback, type) {
 
     if(!build) {
         if(name === 'all') {
-            console.log('========== BUILD ALL =========='.blue.bold);
+            console.log('           ========== BUILD ALL =========='.blue.bold);
             var buildList = Object.keys(builds);
-            var taskList = [];
             buildList.forEach(function(nm) {
                 build = builds[nm];
                 if(build && !build.bundles) {
@@ -176,7 +181,7 @@ function buildBundle(name, callback, type) {
                 }
             });
             if(taskList.length) runSequence(taskList, function() {
-                console.log(('√  Build ' + 'ALL'.bold + ' success! ').green);
+                console.log(('        √  Build ' + 'ALL'.bold + ' success! ').green);
                 callback && callback();
             });
             return;
@@ -191,48 +196,47 @@ function buildBundle(name, callback, type) {
                     thirdpart: buildLib.thirdpart
                 };
             } else {
-                console.log(('Cannot found the build config: ' + name).red);
+                console.log(('           Cannot found the build config: ' + name).red);
                 return false;
             }
         }
     } else if (build.bundles) {
-        console.log(('=== BUILD BUNDLES ' + name.toUpperCase() + ' (' + build.title + ') ===').blue.bold);
-        var taskList = [];
+        console.log(('           === BUILD BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.join(', ') + '] ===').blue.bold);
+        var bundlesTaskList = [];
         build.bundles.forEach(function(bundleName) {
-            build = builds[bundleName];
-            if(build) {
-                var taskName = 'build:' + bundleName;
-
-                gulp.task(taskName, function(cb) {
+            var bundleBuild = builds[bundleName];
+            if(bundleBuild) {
+                gulp.task('build:' + bundleName, function(cb) {
                     buildBundle(bundleName, cb, type);
                 });
 
-                taskList.push(taskName);
+                bundlesTaskList.push('build:' + bundleName);
             }
         });
 
-        if(taskList.length) runSequence(taskList, function() {
-            console.log(('√  Build BUNDLES ' + name.toUpperCase().bold + ' (' + build.title + ') success! ').green);
-            callback && callback();
+        gulp.task('build:' + name + ':bundles', function(cb) {
+            runSequence(bundlesTaskList, function() {
+                console.log(('         √ Build BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.join(', ') + '] success! ').green);
+                cb();
+            });
         });
-        return;
+
+        depTaskList.push('build:' + name + ':bundles');
     }
 
-    console.log(('--- build ' + name + ' ---').cyan.bold);
+    console.log(('           --- build ' + name + ' ---').cyan.bold);
     
     var source        = getBuildSource(build),
         bannerContent = build.thirdpart ? 
-            '' : banner + (build.bootstrapStatement ? statement : ''),
-        taskList      = [],
-        depTaskList   = [];
+            '' : banner + (build.bootstrapStatement ? statement : '');
 
     if(source.js && source.js.length && (!type || type === 'js')) {
-        console.log(('+  Ready to process ' + source.js.length + ' javascript files.').bold);
+        console.log(('         + Ready to process ' + source.js.length + ' javascript files.').bold);
         source.js.forEach(function(f, idx) {
             if(f.indexOf('~/') === 0) {
                 source.js[idx] = f = 'src/js/' + f.substr(2);
             }
-            console.log(('   - ' + f).italic);
+            if(showFileDetail) console.log(('         | ' + f).italic);
         });
 
         //ar taskName = 'build:' + name + ':js';
@@ -242,17 +246,25 @@ function buildBundle(name, callback, type) {
                 .pipe(concat(build.filename + '.js'))
                 .pipe(header(bannerContent))
                 .pipe(gulp.dest(destPath))
+                .on('end', function() {
+                    console.log('      js > '.yellow.bold + (destPath + build.filename + '.js').italic.underline);
+                })
+                //.pipe(sourcemaps.init())
                 .pipe(uglify())
                 .pipe(rename({suffix: '.min'}))
                 .pipe(header(bannerContent))
-                .pipe(gulp.dest(destPath));
+                //.pipe(sourcemaps.write())
+                .pipe(gulp.dest(destPath))
+                .on('end', function() {
+                    console.log('      js > '.yellow.bold + (destPath + build.filename + '.min.js').italic.underline);
+                });
         });
         taskList.push('build:' + name + ':js');
     }
 
     if(source.less && source.less.length && (!type || type === 'less')) {
         var lessFileContent = '// \n// ' + build.title + '\n// Build config: ' + name + '\n//\n// This file generated by ZUI builder automatically at ' + today.toString() + '.\n//\n\n';
-        console.log(('+  Ready to process ' + source.less.length + ' less files.').bold);
+        console.log(('         + Ready to process ' + source.less.length + ' less files.').bold);
         source.less.forEach(function(f, idx) {
             if(f.indexOf('~/') === 0) {
                 source.less[idx] = f = 'src/less/' + f.substr(2);
@@ -262,12 +274,12 @@ function buildBundle(name, callback, type) {
                 lessFileContent += '@import "';
                 lessFileContent += '../../' + f;
                 lessFileContent += '";\n';
-                console.log(('   - ' + f).italic);
+                if(showFileDetail) console.log(('         | ' + f).italic);
             } else {
                 lessFileContent += '// @import "';
                 lessFileContent += '../../' + f;
                 lessFileContent += '" // FILE NOT FOUND;\n';
-                console.log(('   ! ' + f + ' [NOT FOUND]').red.italic);
+                if(showFileDetail) console.log(('         - ' + f + ' [NOT FOUND]').red.italic);
             }
         });
 
@@ -283,28 +295,38 @@ function buildBundle(name, callback, type) {
                 .pipe(autoprefixer({browsers: ['> 1%'], cascade: true}))
                 .pipe(csscomb())
                 .pipe(header(bannerContent))
-                .pipe(rename(build.filename + '.css'))
                 .pipe(gulp.dest(destPath))
+                .on('end', function() {
+                    console.log('    less > '.yellow.bold + (destPath + build.filename + '.css').italic.underline);
+                })
+                //.pipe(sourcemaps.init())
                 .pipe(cssmin())
                 .pipe(rename({suffix: '.min'}))
                 .pipe(header(bannerContent))
-                .pipe(gulp.dest(destPath));
+                //.pipe(sourcemaps.write())
+                .pipe(gulp.dest(destPath))
+                .on('end', function() {
+                    console.log('    less > '.yellow.bold + (destPath + build.filename + '.min.css').italic.underline);
+                });
         });
         taskList.push('build:' + name + ':less');
     }
 
     if(source.resource && source.resource.length && (!type || type === 'resource')) {
-        console.log(('+  Ready to process ' + source.resource.length + ' resource files.').bold);
+        console.log(('         + Ready to process ' + source.resource.length + ' resource files.').bold);
         var destPath = getBuildPath(build, '');
         source.resource.forEach(function(f, idx) {
             if(f.indexOf('~/') === 0) {
                 source.resource[idx] = f = 'src//' + f.substr(2);
             }
-            console.log(('   - [' + idx + '] ' + f).italic);
+            if(showFileDetail) console.log(('         | [' + idx + '] ' + f).italic);
             gulp.task('build:' + name + ':resource:' + idx, function() {
                 var sourceConfig = getSourceConfig(f);
                 return gulp.src(sourceConfig.src, {base: sourceConfig.base})
-                    .pipe(gulp.dest(destPath));
+                    .pipe(gulp.dest(destPath))
+                    .on('end', function() {
+                        console.log('resource > '.yellow.bold + (destPath + sourceConfig.file).italic.underline);
+                    });
             });
             taskList.push('build:' + name + ':resource:' + idx);
         });
@@ -312,7 +334,7 @@ function buildBundle(name, callback, type) {
 
     if(taskList.length || depTaskList.length) {
         var completeCallback = function() {
-            console.log(('√  Build ' + name.bold + ' success! ').green);
+            console.log(('         √ Build ' + name.bold + ' success! ').green);
             callback && callback();
         };
         
@@ -327,7 +349,7 @@ function buildBundle(name, callback, type) {
         }
         
     } else {
-        console.log(('No source files for build: ' + name).red);
+        console.log(('           No source files for build: ' + name).red);
         callback && callback();
     }
 }
@@ -337,8 +359,10 @@ gulp.task('build', function(callback) {
     if(name && name[0] === '-') name = name.substr(1);
     var type = process.argv.length > 4 ? process.argv[4] : false;
     if(type && type[0] === '-') type = type.substr(1);
-    console.log(('>>  Build ' + name.bold + ' BEGIN ').inverse);
-    buildBundle(name, callback, type);
+    console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
+    buildBundle(name, function() {
+        console.log('    END >> ' + (' Build ' + name.bold + ' completed.').green.inverse);
+    }, type);
 });
 
 ['dist', 'doc'].forEach(function(name) {
