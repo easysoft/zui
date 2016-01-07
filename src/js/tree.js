@@ -23,7 +23,7 @@
     };
 
     // default options
-    Tree.DEFAULTS = {animate: false, initialState: 'normal'};
+    Tree.DEFAULTS = {animate: null, initialState: 'normal'};
 
     Tree.prototype.init = function() {
         if(this.options.animate) this.$.addClass('tree-animate');
@@ -32,14 +32,17 @@
         this.$lists.parent('li').addClass('has-list').prepend('<i class="list-toggle icon"></i>');
 
         var that = this;
-        this.$.on('click', '.list-toggle, a[href=#]', function() {
+        this.$.on('click', '.list-toggle, a[href=#]', function(e) {
             that.toggle($(this).parent('li'));
+            e.preventDefault();
         });
 
         if(this.options.initialState === 'expand') {
             this.expand();
         } else if(this.options.initialState === 'collapse') {
             this.collapse();
+        } else if(this.options.animate) {
+            this.$.find('li.has-list.open').addClass('in');
         }
     };
 
@@ -83,8 +86,10 @@
     // Get and init options
     Tree.prototype.getOptions = function(options)
     {
-        this.options = $.extend(
-        {}, Tree.DEFAULTS, this.$.data(), options);
+        this.options = $.extend({}, Tree.DEFAULTS, this.$.data(), options);
+        if(this.options.animate === null && this.$.hasClass('tree-animate')) {
+            this.options.animate = true;
+        }
     };
 
     // Call event helper
