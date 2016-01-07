@@ -157,9 +157,9 @@ function buildBundle(name, callback, type) {
         depTaskList   = [];
 
     // clean files
-    if(name === 'dist') {
+    if(!type && name === 'dist') {
         del.sync('./dist/**/*');
-    } else if(name === 'doc') {
+    } else if(!type && name === 'doc') {
         del.sync([
             './docs/js/**/*',
             './docs/css/**/*',
