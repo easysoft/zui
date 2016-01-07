@@ -44,6 +44,12 @@ input[type="file"] { display: block; }
 // Make multiple select elements height not fixed
 select[multiple], select[size] { height: auto; }
 
+// Remove dashed box in firefox
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
 // Fix optgroup Firefox bug per https://github.com/twbs/bootstrap/issues/7611
 select optgroup { font-size: inherit; font-style: inherit; font-family: inherit; }
 
