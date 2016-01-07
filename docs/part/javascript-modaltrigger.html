@@ -24,7 +24,7 @@
     <h4>使用iframe（内嵌框架）</h4>
     <p>使用<code>data-iframe="(iframe url)"</code>属性来指定远程页面内容获取地址。或者同时指定<code>data-type="iframe"</code>和<code>data-url="(iframe url)"</code>属性。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-waittime='5000' data-iframe="docs/partial/iframe-modal.html" data-toggle="modal">iframe模态框</button>
+      <button type="button" class="btn btn-primary" data-waittime='5000' data-iframe="docs/partial/iframe-modal.html" data-toggle="modal" data-loading-icon='icon-spinner-snake'>iframe模态框</button>
     </div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-iframe属性 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-iframe=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe模态框&lt;/button&gt;
@@ -348,6 +348,17 @@ myModalTrigger.show();</code></pre>
             整数，代表等待的毫秒数，默认为<code>0</code>
           </td>
           <td>在指定的时间之后会直接显示对话框，不管远程内容是否加载完毕；默认值为<code>0</code>，表示一直等待直到远程内容加载完毕才显示对话框。在等待时会显示正在加载的动画。</td>
+        </tr>
+        <tr>
+          <td><code>loadingIcon</code></td>
+          <td>加载时显示的动画所使用的图标</td>
+          <td>
+            <ul>
+              <li>以<code>icon-*</code>形式定义的图标名称</li>
+              <li>自定义加载动画所使用的html</li>
+            </ul>
+          </td>
+          <td><code>icon-*</code>定义的图标名称请参考<a class="name" href="#search/icon:spin">图标</a>。</td>
         </tr>
       </tbody>
     </table>
