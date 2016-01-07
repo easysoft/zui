@@ -361,32 +361,32 @@ gulp.task('build', function(callback) {
     if(type && type[0] === '-') type = type.substr(1);
     console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
     buildBundle(name, function() {
-        console.log('    END >> ' + (' Build ' + name.bold + ' completed.').green.inverse);
+        console.log('    END >> ' + (' Build ' + name.bold + ' completed. ').green.inverse);
     }, type);
 });
 
 ['dist', 'doc'].forEach(function(name) {
     gulp.task(name, function(callback) {
-        console.log(('>>  Build ' + name.bold + ' BEGIN ').inverse);
+        console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
         buildBundle(name, callback);
     });
 
     gulp.task('watch:' + name, function() {
         gulp.watch(["./src/less/**/*"], function(event) {
             buildBundle(name, function() {
-                console.log((' √ WATCH ' + name.bold + ' COMPLETED!').yellow.inverse);
+                console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
             }, 'less');
         });
 
         gulp.watch(["./src/js/**/*"], function(event) {
             buildBundle(name, function() {
-                console.log((' √ WATCH ' + name.bold + ' COMPLETED!').yellow.inverse);
+                console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
             }, 'js');
         });
 
         gulp.watch(["./src/fonts/**/*"], function(event) {
             buildBundle(name, function() {
-                console.log((' √ WATCH ' + name.bold + ' COMPLETED!').yellow.inverse);
+                console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
             }, 'resource');
         });
     });
