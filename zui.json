@@ -48,6 +48,17 @@
       "name": "为IE专门设置",
       "dpds": ["html5shiv", "respond", "excanvas"]
     },
+    "prettify": {
+      "name": "prettify",
+      "pver": "1.0.0",
+      "ver": "1.4.0",
+      "src": {
+        "resource": ["assets/prettify//**/*"]
+      },
+      "desc": "Automatically exported from code.google.com/p/google-code-prettify",
+      "thirdpart": true,
+      "website": "https://github.com/google/code-prettify"
+    },
     "jqueryex": {
       "name": "jQuery扩展",
       "ver": "1.0.0",
@@ -1175,6 +1186,13 @@
       "dest": "dist/lib/jquery/",
       "filename": "jquery",
       "includes": ["jquery"]
+    },
+    "prettify": {
+      "thirdpart": true,
+      "title": "Google code prettify",
+      "dest": "dist/lib/prettify/",
+      "filename": "prettify",
+      "includes": ["prettify"]
     },
     "chosen": {
       "thirdpart": true,
