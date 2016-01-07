@@ -24,7 +24,7 @@
     <h4>使用iframe（内嵌框架）</h4>
     <p>使用<code>data-iframe="(iframe url)"</code>属性来指定远程页面内容获取地址。或者同时指定<code>data-type="iframe"</code>和<code>data-url="(iframe url)"</code>属性。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-iframe="docs/partial/iframe-modal.html" data-toggle="modal">iframe模态框</button>
+      <button type="button" class="btn btn-primary" data-waittime='5000' data-iframe="docs/partial/iframe-modal.html" data-toggle="modal">iframe模态框</button>
     </div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-iframe属性 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-iframe=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe模态框&lt;/button&gt;
@@ -341,6 +341,14 @@ myModalTrigger.show();</code></pre>
           </td>
           <td>是否启用模态框拖拽移动功能</td>
         </tr>
+        <tr>
+          <td><code>waittime</code></td>
+          <td>加载远程内容时的最大等待时间</td>
+          <td>
+            整数，代表等待的毫秒数，默认为<code>0</code>
+          </td>
+          <td>在指定的时间之后会直接显示对话框，不管远程内容是否加载完毕；默认值为<code>0</code>，表示一直等待直到远程内容加载完毕才显示对话框。在等待时会显示正在加载的动画。</td>
+        </tr>
       </tbody>
     </table>
 
@@ -406,6 +414,11 @@ myModalTrigger.show();</code></pre>
           <td><code>loaded</code></td>
           <td><code>loaded.zui.modal</code></td>
           <td>当远程内容加载完成后发生</td>
+        </tr>
+        <tr>
+          <td><code>broken</code></td>
+          <td><code>broken.zui.modal</code></td>
+          <td>当加载远程内容失败之后调用，在次回调方法中返回字符串会更新模态框现实的内容（例如在模态框中显示一个加载失败之后的帮助信息）。</td>
         </tr>
       </tbody>
     </table>
