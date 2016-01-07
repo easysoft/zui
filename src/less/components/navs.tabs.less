@@ -3,41 +3,6 @@
 // --------------------------------------------------
 
 
-// Move borders to anchors instead of bottom of list
-.nav-tabs-justified
-{
-  border-bottom: 0;
-
-  > li > a
-  {
-    // Override margin from .nav-tabs
-    margin-right: 0;
-    border-radius: @border-radius-base;
-  }
-
-  > .active > a,
-  > .active > a:hover,
-  > .active > a:focus
-  {
-    border: 1px solid @nav-tabs-justified-link-border-color;
-  }
-
-  @media (min-width: @screen-sm-min)
-  {
-    > li > a
-    {
-      border-bottom: 1px solid @nav-tabs-justified-link-border-color;
-      border-radius: @border-radius-base @border-radius-base 0 0;
-    }
-    > .active > a,
-    > .active > a:hover,
-    > .active > a:focus
-    {
-      border-bottom-color: @nav-tabs-justified-active-link-border-color;
-    }
-  }
-}
-
 // Tabs
 // -------------------------
 
@@ -77,6 +42,10 @@
         border-bottom-color: transparent;
         cursor: default;
       }
+
+      &::-moz-focus {
+        outline: none;
+      }
     }
   }
   // pulling this in mainly for less shorthand
@@ -87,6 +56,45 @@
   }
 }
 
+// Remove tab outline in firefox
+@-moz-document url-prefix() { 
+  .nav-tabs > li > a:focus {outline: 0}
+}
+
+// Move borders to anchors instead of bottom of list
+.nav-tabs-justified
+{
+  border-bottom: 0;
+
+  > li > a
+  {
+    // Override margin from .nav-tabs
+    margin-right: 0;
+    border-radius: @border-radius-base;
+  }
+
+  > .active > a,
+  > .active > a:hover,
+  > .active > a:focus
+  {
+    border: 1px solid @nav-tabs-justified-link-border-color;
+  }
+
+  @media (min-width: @screen-sm-min)
+  {
+    > li > a
+    {
+      border-bottom: 1px solid @nav-tabs-justified-link-border-color;
+      border-radius: @border-radius-base @border-radius-base 0 0;
+    }
+    > .active > a,
+    > .active > a:hover,
+    > .active > a:focus
+    {
+      border-bottom-color: @nav-tabs-justified-active-link-border-color;
+    }
+  }
+}
 
 
 // Tabbable tabs
