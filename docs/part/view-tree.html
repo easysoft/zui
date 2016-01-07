@@ -1,0 +1,424 @@
+<style>
+.nav-examples > li > a > code {display: none}
+.nav-examples > li.active > a > code {display: inline;}
+</style>
+
+<article>
+  <p>树形菜单提供一种展示层级关系（例如文件系统目录）菜单的视图。</p>
+</article>
+
+<section>
+  <header>
+    <h3>综合示例</h3>
+  </header>
+  <article>
+    <p>下方展示了一个树形菜单，当一个链接包含一个子菜单时，通过点击链接左侧的图标可以展开内部子菜单。子菜单中的链接也可以包含另一个子菜单。</p>
+    <div class="example">
+      <ul id="treeExample" class="tree" data-ride="tree">
+        <li>
+          <a href="#">水果</a>
+          <ul>
+            <li><a href="#">苹果</a></li>
+            <li>
+              <a href="#">热带水果</a>
+              <ul>
+                <li><a href="#">香蕉</a></li>
+                <li><a href="#">芒果</a></li>
+                <li><a href="#">椰子</a></li>
+                <li><a href="#">菠萝</a></li>
+              </ul>
+            </li>
+            <li><a href="#">梨子</a></li>
+            <li><a href="#">草莓</a></li>
+            <li><a href="#">杏</a></li>
+            <li><a href="#">桃子</a></li>
+            <li><a href="#">梅子</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">蔬菜</a>
+          <ul>
+            <li>
+              <a href="#">我的菜</a>
+              <ul>
+                <li><a href="#">青菜</a></li>
+                <li><a href="#">娃娃菜</a></li>
+                <li><a href="#">菠菜</a></li>
+                <li><a href="#">甘蓝</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">你的瓜</a>
+              <ul>
+                <li><a href="#">黄瓜</a></li>
+                <li><a href="#">南瓜</a></li>
+                <li><a href="#">丝瓜</a></li>
+                <li><a href="#">苦瓜</a></li>
+                <li><a href="#">木瓜</a></li>
+              </ul>
+            </li>
+            <li><a href="#">白蓝</a></li>
+            <li><a href="#">土豆</a></li>
+            <li><a href="#">茄子</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">甜点</a>
+          <ul>
+            <li><a href="#">蛋糕</a></li>
+            <li><a href="#">冰淇淋</a></li>
+            <li><a href="#">果冻</a></li>
+          </ul>
+        </li>
+        <li class='open'>
+          <a href="#">坚果</a>
+          <ul>
+            <li><a href="#">瓜子</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">饮料</a>
+          <ul>
+            <li><a href="#">咖啡</a></li>
+            <li><a href="#">茶</a></li>
+          </ul>
+        </li>
+        <li><a href="#">酒水</a></li>
+        <li><a href="#">粥饭</a></li>
+      </ul>
+    </div>
+    <pre class="prettyprint"><code>&lt;ul class=&quot;tree&quot; data-ride=&quot;tree&quot;&gt;
+  &lt;li&gt;
+    &lt;a href=&quot;#&quot;&gt;水果&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;苹果&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;
+        &lt;a href=&quot;#&quot;&gt;热带水果&lt;/a&gt;
+        &lt;ul&gt;
+          ...
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;梨子&lt;/a&gt;&lt;/li&gt;
+      ...
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;粥饭&lt;/a&gt;&lt;/li&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+  </article>
+</section>
+
+<section>
+  <header>
+    <h3>外观选项</h3>
+  </header>
+  <article>
+    <h4>在层级菜单之间显示连接线</h4>
+    <p><code>.tree-lines</code></p>
+    <div class="example">
+      <ul class="tree tree-lines" data-ride="tree">
+        <li class="open">
+          <a href="#">水果</a>
+          <ul>
+            <li><a href="#">苹果</a></li>
+            <li>
+              <a href="#">热带水果</a>
+              <ul>
+                <li><a href="#">香蕉</a></li>
+                <li><a href="#">芒果</a></li>
+                <li><a href="#">椰子</a></li>
+                <li><a href="#">菠萝</a></li>
+              </ul>
+            </li>
+            <li><a href="#">梨子</a></li>
+            <li><a href="#">草莓</a></li>
+            <li><a href="#">杏</a></li>
+            <li><a href="#">桃子</a></li>
+            <li><a href="#">梅子</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">蔬菜</a>
+          <ul>
+            <li>
+              <a href="#">我的菜</a>
+              <ul>
+                <li><a href="#">青菜</a></li>
+                <li><a href="#">娃娃菜</a></li>
+                <li><a href="#">菠菜</a></li>
+                <li><a href="#">甘蓝</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">你的瓜</a>
+              <ul>
+                <li><a href="#">黄瓜</a></li>
+                <li><a href="#">南瓜</a></li>
+                <li><a href="#">丝瓜</a></li>
+                <li><a href="#">苦瓜</a></li>
+                <li><a href="#">木瓜</a></li>
+              </ul>
+            </li>
+            <li><a href="#">白蓝</a></li>
+            <li><a href="#">土豆</a></li>
+            <li><a href="#">茄子</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <pre class="prettyprint"><code>&lt;ul class=&quot;tree tree-lines&quot; data-ride=&quot;tree&quot;&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+    <h4>使用不同的图标</h4>
+    <h5>内置图标类型</h5>
+    <ul class="nav nav-tabs nav-examples" id="treeIconsExampleNav">
+      <li class="active">
+        <a href="###">默认</a>
+      </li>
+      <li>
+        <a href="#folders">文件夹<code>.tree-folders</code></a>
+      </li>
+      <li>
+        <a href="#chevrons">V形<code>.tree-chevrons</code></a>
+      </li>
+      <li>
+        <a href="#angles">直角<code>.tree-angles</code></a>
+      </li>
+    </ul>
+    <div class="example">
+      <ul class="tree tree-lines" id="treeIconsExample" data-ride="tree">
+        <li class="open">
+          <a href="#">水果</a>
+          <ul>
+            <li><a href="#">苹果</a></li>
+            <li>
+              <a href="#">热带水果</a>
+              <ul>
+                <li><a href="#">香蕉</a></li>
+                <li><a href="#">芒果</a></li>
+                <li><a href="#">椰子</a></li>
+                <li><a href="#">菠萝</a></li>
+              </ul>
+            </li>
+            <li><a href="#">梨子</a></li>
+            <li><a href="#">草莓</a></li>
+            <li><a href="#">杏</a></li>
+            <li><a href="#">桃子</a></li>
+            <li><a href="#">梅子</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">蔬菜</a>
+          <ul>
+            <li>
+              <a href="#">我的菜</a>
+              <ul>
+                <li><a href="#">青菜</a></li>
+                <li><a href="#">娃娃菜</a></li>
+                <li><a href="#">菠菜</a></li>
+                <li><a href="#">甘蓝</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">你的瓜</a>
+              <ul>
+                <li><a href="#">黄瓜</a></li>
+                <li><a href="#">南瓜</a></li>
+                <li><a href="#">丝瓜</a></li>
+                <li><a href="#">苦瓜</a></li>
+                <li><a href="#">木瓜</a></li>
+              </ul>
+            </li>
+            <li><a href="#">白蓝</a></li>
+            <li><a href="#">土豆</a></li>
+            <li><a href="#">茄子</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <pre class="prettyprint"><code>&lt;ul class=&quot;tree tree-lines<strong class="text-important" id="treeIconsNameForExample"></strong>&quot; data-ride=&quot;tree&quot;&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+    <h5>使用CSS来自定义图标</h5>
+    <pre class="prettyprint"><code>.tree-custom-icons > li > .list-toggle:before {content: '\e6dd'}
+.tree-custom-icons > li.open > .list-toggle:before {content: '\e6df'}</code></pre>
+    <h4>启用动画效果</h4>
+    <p><code>data-animate="true"</code></p>
+    <div class="example">
+      <ul class="tree tree-lines" data-ride="tree" data-animate="true">
+        <li class="open in">
+          <a href="#">水果</a>
+          <ul>
+            <li><a href="#">苹果</a></li>
+            <li>
+              <a href="#">热带水果</a>
+              <ul>
+                <li><a href="#">香蕉</a></li>
+                <li><a href="#">芒果</a></li>
+                <li><a href="#">椰子</a></li>
+                <li><a href="#">菠萝</a></li>
+              </ul>
+            </li>
+            <li><a href="#">梨子</a></li>
+            <li><a href="#">草莓</a></li>
+            <li><a href="#">杏</a></li>
+            <li><a href="#">桃子</a></li>
+            <li><a href="#">梅子</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">蔬菜</a>
+          <ul>
+            <li>
+              <a href="#">我的菜</a>
+              <ul>
+                <li><a href="#">青菜</a></li>
+                <li><a href="#">娃娃菜</a></li>
+                <li><a href="#">菠菜</a></li>
+                <li><a href="#">甘蓝</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">你的瓜</a>
+              <ul>
+                <li><a href="#">黄瓜</a></li>
+                <li><a href="#">南瓜</a></li>
+                <li><a href="#">丝瓜</a></li>
+                <li><a href="#">苦瓜</a></li>
+                <li><a href="#">木瓜</a></li>
+              </ul>
+            </li>
+            <li><a href="#">白蓝</a></li>
+            <li><a href="#">土豆</a></li>
+            <li><a href="#">茄子</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <pre class="prettyprint"><code>&lt;ul class=&quot;tree tree-lines&quot; data-animate=&quot;true&quot; data-ride=&quot;tree&quot;&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+  </article>
+</section>
+
+<section>
+  <header>
+    <h3>用法</h3>
+  </header>
+  <article>
+    <h4>调用方式</h4>
+    <p>提供两种方式来使用树形菜单。</p>
+    <ul>
+      <li>为<code>ul.tree</code>结构添加<code>data-ride="tree"</code>属性，则会在文档加载完毕之后自动初始化树形菜单;</li>
+      <li>使用jQuery方法手动初始化树形菜单。</li>
+    </ul>
+    <pre class='prettyprint'><code>$('#tree').tree(options);</code></pre>
+    <h4>参数</h4>
+    <p>可用参数如下：</p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>参数</th>
+          <th style="width: 80px">名称</th>
+          <th style="width: 300px">可选值</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>animate</code></td>
+          <td>动画效果</td>
+          <td>
+            <ul>
+              <li><code>true</code> 启用动画</li>
+              <li><code>false</code>（默认） 禁用动画</li>
+            </ul>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><code>initialState</code></td>
+          <td>初始状态</td>
+          <td>
+            <ul>
+              <li><code>'normal'</code>（默认) 自动根据dom结构决定</li>
+              <li><code>'expand'</code> 全部展开</li>
+              <li><code>'collapse'</code> 全部折叠</li>
+            </ul>
+          </td>
+          <td>
+            当使用<code>'normal'</code>选项时，如果一个<code>&lt;li&gt;</code>标签包含class<code>.open</code>且包含内部子菜单则子菜单（不包括子菜单的子菜单）在初始化之后会展开显示，其他情况下则折叠显示。
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>参数可以在手动调用<code>$().tree(options)</code>方法时传入，或者以<code>data-*=""</code>形式指定。</p>
+    <h4>方法</h4>
+    <h5>展开菜单</h5>
+    <pre class='prettyprint'><code>$('#tree').tree('expand', params);</code></pre>
+    <p><code>params</code>参数可选值如下：</p>
+    <ul>
+      <li>空参数，展开所有层级的子菜单；</li>
+      <li>一个jQuery<code>&lt;li&gt;</code>对象，指定需要展开的菜单。</li>
+    </ul>
+    <h5>折叠菜单</h5>
+    <pre class='prettyprint'><code>$('#tree').tree('collapse', params);</code></pre>
+    <p><code>params</code>参数可选值如下：</p>
+    <ul>
+      <li>空参数，折叠所有层级的子菜单；</li>
+      <li>一个jQuery<code>&lt;li&gt;</code>对象，指定需要折叠的菜单。</li>
+    </ul>
+    <h5>切换菜单</h5>
+    <pre class='prettyprint'><code>$('#tree').tree('toggle', params);</code></pre>
+    <p><code>params</code>参数可选值如下：</p>
+    <ul>
+      <li>空参数，切换所有层级的子菜单；</li>
+      <li>一个jQuery<code>&lt;li&gt;</code>对象，指定需要切换的菜单。</li>
+    </ul>
+    <h4>事件</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>事件</th>
+          <th>jquery事件名称</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>expand</code></td>
+          <td><code>expand.zui.tree</code></td>
+          <td>当菜单展开之后会触发此事件</td>
+        </tr>
+        <tr>
+          <td><code>collapse</code></td>
+          <td><code>collapse.zui.tree</code></td>
+          <td>当菜单被折叠之后会触发此事件</td>
+        </tr>
+      </tbody>
+    </table>
+    <h5></h5>
+    <pre class='prettyprint'><code>// 通过jQuery方法绑定事件
+$('#tree').on('expand.zui.tree', function(){...});
+
+// 通过参数指定事件回调方法</h5>
+$('#tree').tree({expand: function(){...}});</code></pre>
+  </article>
+</section>
+
+<script>
+function afterPageLoad() {
+    var $nav = $('#treeIconsExampleNav'),
+        $example = $('#treeIconsExample'),
+        $nameInCode = $('#treeIconsNameForExample');
+    $nav.on('click', 'a', function() {
+        var $a = $(this);
+        $nav.find('li.active').removeClass('active');
+        $a.parent('li').addClass('active');
+        var name = $a.attr('href').replace(/#/g, '');
+        if(name) name = ' tree-' + name;
+        $nameInCode.text(name);
+        $example.attr('class', 'tree tree-lines' + name);
+    });
+}
+</script>

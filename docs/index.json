@@ -1,5 +1,5 @@
 {
-    "version": "1.3.1.0",
+    "version": "1.3.2.0",
     "chapters":
     {
         "contribution":
@@ -1119,6 +1119,24 @@
             "name": "视图",
             "accent": "purple",
             "sections": [
+            {
+                "author": "Catouse",
+                "id": "tree",
+                "icon": "icon-th-list",
+                "desc": "体现层级关系的树形菜单",
+                "name": "树形菜单",
+                "topics": [
+                {
+                    "name": "综合示例"
+                },
+                {
+                    "name": "外观选项"
+                },
+                {
+                    "name": "用法"
+                }],
+                "filter": "shuxingcaidan sxcd shuxcd"
+            },
             {
                 "author": "Catouse",
                 "id": "datatable",
