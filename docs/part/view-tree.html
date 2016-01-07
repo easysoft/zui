@@ -236,7 +236,7 @@
         </li>
       </ul>
     </div>
-    <pre class="prettyprint"><code>&lt;ul class=&quot;tree tree-lines<strong class="text-important" id="treeIconsNameForExample"></strong>&quot; data-ride=&quot;tree&quot;&gt;
+    <pre class="prettyprint"><code>&lt;ul class=&quot;tree tree-lines<strong class="text-danger" id="treeIconsNameForExample"></strong>&quot; data-ride=&quot;tree&quot;&gt;
   ...
 &lt;/ul&gt;</code></pre>
     <h5>使用CSS来自定义图标</h5>
@@ -420,5 +420,7 @@ function afterPageLoad() {
         $nameInCode.text(name);
         $example.attr('class', 'tree tree-lines' + name);
     });
+
+    $('[data-ride=tree]').tree();
 }
 </script>
