@@ -44,7 +44,7 @@
 
     this.element = $(element);
 
-    this.language = (options.language || this.element.data('date-language') || ($.clientLang ? $.clientLang().replace('_', '-') : "en")).toLowerCase();
+    this.language = (options.language || this.element.data('date-language') || ($.zui && $.zui.clientLang ? $.zui.clientLang().replace('_', '-') : "zh-cn")).toLowerCase();
     this.language = this.language in dates ? this.language : "en";
     this.isRTL = dates[this.language].rtl || false;
     this.formatType = options.formatType || this.element.data('format-type') || 'standard';
