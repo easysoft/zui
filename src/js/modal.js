@@ -55,7 +55,8 @@
         backdrop: true,
         keyboard: true,
         show: true,
-        rememberPos: true,
+        // rememberPos: false,
+        // moveable: false,
         position: 'fit' // 'center' or '40px' or '10%'
     }
 
@@ -75,7 +76,14 @@
         var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
         if ($dialog.hasClass('modal-moveable'))
         {
-            var pos = this.options.rememberPos ? this.$element.data('modal-pos') : null;
+            var pos = null;
+            if(this.options.rememberPos) {
+                if(this.options.rememberPos === true) {
+                    pos = this.$element.data('modal-pos');
+                } else if($.zui.store) {
+                    pos = $.zui.store.pageGet(zuiname + '.rememberPos');
+                }
+            }
             if (!pos)
             {
                 pos = {
@@ -110,7 +118,12 @@
                 },
                 finish: function(e)
                 {
-                    that.$element.data('modal-pos', e.pos);
+                    if(options.rememberPos) {
+                        that.$element.data('modal-pos', e.pos);
+                        if($.zui.store && options.rememberPos !== true) {
+                            $.zui.store.pageSet(zuiname + '.rememberPos', e.pos);
+                        }
+                    }
                 }
             });
         }
