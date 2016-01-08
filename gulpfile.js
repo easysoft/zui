@@ -1,54 +1,55 @@
-var extend              = require('extend'),
-    runSequence         = require('run-sequence'),
-    fs                  = require('fs'),
-    moment              = require('moment'),
-    less                = require('gulp-less'),
-    cssmin              = require('gulp-cssmin'),
-    csscomb             = require('gulp-csscomb'),
-    autoprefixer        = require('gulp-autoprefixer'),
-    concat              = require('gulp-concat'),
-    header              = require('gulp-header'),
-    uglify              = require('gulp-uglify'),
-    rename              = require('gulp-rename'),
-    sourcemaps          = require('gulp-sourcemaps'),
-    lessPluginCleanCSS  = require('less-plugin-clean-css'),
-    mkdirp              = require('mkdirp'),
-    del                 = require('del'),
-    format              = require('string-format').extend(String.prototype),
-    colors              = require('colors'),
-    gulp                = require('gulp'),
-    zui                 = require('./zui.json'),
-    pkg                 = require('./package.json'),
-    showFileDetail      = true;
+var extend = require('extend'),
+    runSequence = require('run-sequence'),
+    fs = require('fs'),
+    moment = require('moment'),
+    less = require('gulp-less'),
+    cssmin = require('gulp-cssmin'),
+    csscomb = require('gulp-csscomb'),
+    autoprefixer = require('gulp-autoprefixer'),
+    concat = require('gulp-concat'),
+    header = require('gulp-header'),
+    uglify = require('gulp-uglify'),
+    rename = require('gulp-rename'),
+    sourcemaps = require('gulp-sourcemaps'),
+    prettify = require('gulp-jsbeautifier'),
+    lessPluginCleanCSS = require('less-plugin-clean-css'),
+    mkdirp = require('mkdirp'),
+    del = require('del'),
+    format = require('string-format').extend(String.prototype),
+    colors = require('colors'),
+    gulp = require('gulp'),
+    zui = require('./zui.json'),
+    pkg = require('./package.json'),
+    showFileDetail = true;
 
 // Disable the 'possible EventEmitter memory leak detected' warning.
 gulp.setMaxListeners(0);
 
 // try load zui.custom.json and merge into zui.
 try {
-    var zuicustom  = require('./zui.custom.json');
+    var zuicustom = require('./zui.custom.json');
     if(zuicustom) extend(true, zui, zuicustom);
 } catch(e) {}
 
-var today   = moment();
+var today = moment();
 var typeSet = ['less', 'js', 'resource'],
-    lib     = zui.lib,
-    builds  = zui.builds,
-    banner  = ('/*!\n' +
+    lib = zui.lib,
+    builds = zui.builds,
+    banner = ('/*!\n' +
         ' * {title} - v{version} - {date}\n' +
         ' * {homepage}\n' +
         ' * GitHub: {repo} \n' +
         ' * Copyright (c) {year} {author}; Licensed {license}\n' +
         ' */\n\n').format({
-            title: pkg.title || pkg.name,
-            version: pkg.version,
-            date: today.format('YYYY-MM-DD'),
-            homepage: pkg.homepage,
-            repo: pkg.repository.url,
-            year: today.format('YYYY'),
-            author: pkg.author,
-            license: pkg.license
-        }),
+        title: pkg.title || pkg.name,
+        version: pkg.version,
+        date: today.format('YYYY-MM-DD'),
+        homepage: pkg.homepage,
+        repo: pkg.repository.url,
+        year: today.format('YYYY'),
+        author: pkg.author,
+        license: pkg.license
+    }),
     statement = '/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n';
 
 function tryStatSync(path) {
@@ -67,17 +68,17 @@ function isFileExist(path) {
 function getItemList(list, items, ignoreDpds) {
     items = items || [];
 
-    if (Array.isArray(list)) {
+    if(Array.isArray(list)) {
         list.forEach(function(name) {
             getItemList(name, items, ignoreDpds);
         });
     } else {
         var item = lib[list];
-        if (item && items.indexOf(list) < 0) {
-            if (!ignoreDpds && item.dpds) {
+        if(item && items.indexOf(list) < 0) {
+            if(!ignoreDpds && item.dpds) {
                 getItemList(item.dpds, items, ignoreDpds);
             }
-            if (item.src) items.push(list);
+            if(item.src) items.push(list);
         }
     }
 
@@ -93,18 +94,18 @@ function getBuildSource(build) {
         resource: []
     };
 
-    if (!Array.isArray(list)) list = [list];
+    if(!Array.isArray(list)) list = [list];
 
-    if (build.basicDpds) list = getItemList(build.basicDpds, list);
+    if(build.basicDpds) list = getItemList(build.basicDpds, list);
     list = getItemList(build.includes, list, build.ignoreDpds);
 
     list.forEach(function(item) {
         var libItem = lib[item];
-        if (libItem && libItem.src) {
+        if(libItem && libItem.src) {
             typeSet.forEach(function(type) {
-                if (libItem.src[type]) {
+                if(libItem.src[type]) {
                     libItem.src[type].forEach(function(file) {
-                        if (sources[type].indexOf(file) < 0) {
+                        if(sources[type].indexOf(file) < 0) {
                             sources[type].push(file);
                         }
                     });
@@ -118,7 +119,7 @@ function getBuildSource(build) {
 
 function getSourceConfig(src) {
     var idx = src.lastIndexOf('//');
-    if (idx > 0) {
+    if(idx > 0) {
         return {
             base: src.substr(0, idx + 1),
             src: src.replace(/\/\//g, '/'),
@@ -135,7 +136,7 @@ function getSourceConfig(src) {
 
 function getBuildPath(build, type) {
     var path = build.dest;
-    if (build.subdirectories) {
+    if(build.subdirectories) {
         path += '/' + type + '/';
     }
     if(path.indexOf('.') !== 0) {
@@ -151,10 +152,10 @@ function getBuildDestFilename(build, type, suffix) {
 }
 
 function buildBundle(name, callback, type) {
-    name  = name|| 'all';
+    name = name || 'all';
     var build = builds[name];
-    var taskList      = [],
-        depTaskList   = [];
+    var taskList = [],
+        depTaskList = [];
 
     // clean files
     if(!type && name === 'dist') {
@@ -163,7 +164,8 @@ function buildBundle(name, callback, type) {
         del.sync([
             './docs/js/**/*',
             './docs/css/**/*',
-            './docs/fonts/**/*']);
+            './docs/fonts/**/*'
+        ]);
     }
 
     if(!build) {
@@ -187,7 +189,7 @@ function buildBundle(name, callback, type) {
             return;
         } else {
             var buildLib = lib[name];
-            if (buildLib) {
+            if(buildLib) {
                 build = {
                     title: buildLib.name,
                     dest: 'dist/lib/' + name + '/',
@@ -200,7 +202,7 @@ function buildBundle(name, callback, type) {
                 return false;
             }
         }
-    } else if (build.bundles) {
+    } else if(build.bundles) {
         console.log(('           === BUILD BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.join(', ') + '] ===').blue.bold);
         var bundlesTaskList = [];
         build.bundles.forEach(function(bundleName) {
@@ -225,10 +227,10 @@ function buildBundle(name, callback, type) {
     }
 
     console.log(('           --- build ' + name + ' ---').cyan.bold);
-    
-    var source        = getBuildSource(build),
-        bannerContent = build.thirdpart ? 
-            '' : banner + (build.bootstrapStatement ? statement : '');
+
+    var source = getBuildSource(build),
+        bannerContent = build.thirdpart ?
+        '' : banner + (build.bootstrapStatement ? statement : '');
 
     if(source.js && source.js.length && (!type || type === 'js')) {
         console.log(('         + Ready to process ' + source.js.length + ' javascript files.').bold);
@@ -251,7 +253,9 @@ function buildBundle(name, callback, type) {
                 })
                 //.pipe(sourcemaps.init())
                 .pipe(uglify())
-                .pipe(rename({suffix: '.min'}))
+                .pipe(rename({
+                    suffix: '.min'
+                }))
                 .pipe(header(bannerContent))
                 //.pipe(sourcemaps.write())
                 .pipe(gulp.dest(destPath))
@@ -292,7 +296,10 @@ function buildBundle(name, callback, type) {
 
             return gulp.src(buildSourceFilePath)
                 .pipe(less())
-                .pipe(autoprefixer({browsers: ['> 1%'], cascade: true}))
+                .pipe(autoprefixer({
+                    browsers: ['> 1%'],
+                    cascade: true
+                }))
                 .pipe(csscomb())
                 .pipe(header(bannerContent))
                 .pipe(gulp.dest(destPath))
@@ -301,7 +308,9 @@ function buildBundle(name, callback, type) {
                 })
                 //.pipe(sourcemaps.init())
                 .pipe(cssmin())
-                .pipe(rename({suffix: '.min'}))
+                .pipe(rename({
+                    suffix: '.min'
+                }))
                 .pipe(header(bannerContent))
                 //.pipe(sourcemaps.write())
                 .pipe(gulp.dest(destPath))
@@ -322,7 +331,9 @@ function buildBundle(name, callback, type) {
             if(showFileDetail) console.log(('         | [' + idx + '] ' + f).italic);
             gulp.task('build:' + name + ':resource:' + idx, function() {
                 var sourceConfig = getSourceConfig(f);
-                return gulp.src(sourceConfig.src, {base: sourceConfig.base})
+                return gulp.src(sourceConfig.src, {
+                        base: sourceConfig.base
+                    })
                     .pipe(gulp.dest(destPath))
                     .on('end', function() {
                         console.log('resource > '.yellow.bold + (destPath + sourceConfig.file).italic.underline);
@@ -337,7 +348,7 @@ function buildBundle(name, callback, type) {
             console.log(('         √ Build ' + name.bold + ' success! ').green);
             callback && callback();
         };
-        
+
         if(taskList.length) {
             if(depTaskList.length) {
                 runSequence(depTaskList, taskList, completeCallback);
@@ -347,7 +358,7 @@ function buildBundle(name, callback, type) {
         } else {
             runSequence(depTaskList, completeCallback);
         }
-        
+
     } else {
         console.log(('           No source files for build: ' + name).red);
         callback && callback();
@@ -392,6 +403,19 @@ gulp.task('build', function(callback) {
     });
 });
 
+gulp.task('prettify:js', function() {
+    return gulp.src('./src/js/**/*')
+        .pipe(prettify({
+            logSuccess: true,
+            config: '.jsbeautifyrc',
+            mode: 'VERIFY_AND_WRITE'
+        }))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('prettify', ['prettify:js']);
+
 gulp.task('default', function() {
     buildBundle('all');
 });
+
