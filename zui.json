@@ -822,7 +822,7 @@
       "name": "日期时间选择",
       "src": {
         "less": ["~/modules/datetimepicker.less"],
-        "js": ["assets/datetimepicker/js/datetimepicker.js"]
+        "js": ["~/datetimepicker.js"]
       },
       "ver": "1.0.0",
       "thirdpart": true,
