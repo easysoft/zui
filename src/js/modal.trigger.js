@@ -39,6 +39,8 @@
         delay: 0,
         // iframeBodyClass: '',
         // onlyIncreaseHeight: false,
+        // moveable: false,
+        // rememberPos: false,
         backdrop: true,
         keyboard: true,
         waittime: 0,
