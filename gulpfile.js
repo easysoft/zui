@@ -407,10 +407,10 @@ gulp.task('prettify:js', function() {
     return gulp.src('./src/js/**/*')
         .pipe(prettify({
             logSuccess: true,
-            config: '.jsbeautifyrc',
+            config: './.jsbeautifyrc',
             mode: 'VERIFY_AND_WRITE'
         }))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('./src/js/'));
 });
 
 gulp.task('prettify', ['prettify:js']);
