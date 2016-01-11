@@ -866,6 +866,7 @@
         "js": ["src/js/bootbox.js"]
       },
       "ver": "1.0.0",
+      "pver": "4.4.0",
       "dpds": ["modals"],
       "thirdpart": true,
       "custom": ["ui"],

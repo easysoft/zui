@@ -1,5 +1,6 @@
-/* ========================================================================
- * bootbox.js [master branch]
+/**
+ * bootbox.js [v4.4.0]
+ *
  * http://bootboxjs.com/license.txt
  * ========================================================================
  * Updates in ZUI:
@@ -60,9 +61,9 @@
 
     var defaults = {
         // default language
-        locale: judgeClientLang(),
-        // show backdrop or not
-        backdrop: true,
+        locale: $.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh_cn',
+        // show backdrop or not. Default to static so user has to interact with dialog
+        backdrop: "static",
         // animate the modal in/out
         animate: true,
         // additional class string applied to the top level dialog
@@ -106,7 +107,7 @@
 
         // so, if the callback can be invoked and it *explicitly returns false*
         // then we'll set a flag to keep the dialog active...
-        var preserveDialog = $.isFunction(callback) && callback(e) === false;
+        var preserveDialog = $.isFunction(callback) && callback.call(dialog, e) === false;
 
         // ... otherwise we'll bin it
         if(!preserveDialog) {
@@ -149,11 +150,6 @@
             options.buttons = {};
         }
 
-        // we only support Bootstrap's "static" and false backdrop args
-        // supporting true would mean you could dismiss the dialog without
-        // explicitly interacting with it
-        options.backdrop = options.backdrop ? "static" : false;
-
         buttons = options.buttons;
 
         total = getKeyLength(buttons);
@@ -179,7 +175,7 @@
             }
 
             if(!button.className) {
-                if(total == 1 || (total >= 2 && key === 'confirm')) {
+                if(total <= 2 && index === total - 1) {
                     // always add a primary to the main option in a two-button dialog
                     button.className = "btn-primary";
                 } else {
@@ -313,7 +309,7 @@
          */
         options.buttons.ok.callback = options.onEscape = function() {
             if($.isFunction(options.callback)) {
-                return options.callback();
+                return options.callback.call(this);
             }
             return true;
         };
@@ -324,17 +320,17 @@
     exports.confirm = function() {
         var options;
 
-        options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
+        options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
 
         /**
          * overrides; undo anything the user tried to set they shouldn't have
          */
         options.buttons.cancel.callback = options.onEscape = function() {
-            return options.callback(false);
+            return options.callback.call(this, false);
         };
 
         options.buttons.confirm.callback = function() {
-            return options.callback(true);
+            return options.callback.call(this, true);
         };
 
         // confirm specific validation
@@ -367,7 +363,7 @@
         // just because of 'value' and 'inputType' - can we refactor?
         defaults = {
             className: "bootbox-prompt",
-            buttons: createLabels("confirm", "cancel"),
+            buttons: createLabels("cancel", "confirm"),
             value: "",
             inputType: "text"
         };
@@ -381,21 +377,13 @@
         // it, but we need to make sure we respect a preference not to show it
         shouldShow = (options.show === undefined) ? true : options.show;
 
-        // check if the browser supports the option.inputType
-        var html5inputs = ["date", "time", "number"];
-        var i = document.createElement("input");
-        i.setAttribute("type", options.inputType);
-        if(html5inputs[options.inputType]) {
-            options.inputType = i.type;
-        }
-
         /**
          * overrides; undo anything the user tried to set they shouldn't have
          */
         options.message = form;
 
         options.buttons.cancel.callback = options.onEscape = function() {
-            return options.callback(null);
+            return options.callback.call(this, null);
         };
 
         options.buttons.confirm.callback = function() {
@@ -426,7 +414,7 @@
                     break;
             }
 
-            return options.callback(value);
+            return options.callback.call(this, value);
         };
 
         options.show = false;
@@ -462,6 +450,10 @@
                 var groups = {};
                 inputOptions = options.inputOptions || [];
 
+                if(!$.isArray(inputOptions)) {
+                    throw new Error("Please pass an array of input options");
+                }
+
                 if(!inputOptions.length) {
                     throw new Error("prompt with select requires options");
                 }
@@ -474,7 +466,6 @@
                     if(option.value === undefined || option.text === undefined) {
                         throw new Error("given options in wrong format");
                     }
-
 
                     // ... but override that element if this option sits in a group
 
@@ -533,12 +524,18 @@
                 break;
         }
 
+        // @TODO provide an attributes option instead
+        // and simply map that as keys: vals
         if(options.placeholder) {
             input.attr("placeholder", options.placeholder);
         }
 
         if(options.pattern) {
             input.attr("pattern", options.pattern);
+        }
+
+        if(options.maxlength) {
+            input.attr("maxlength", options.maxlength);
         }
 
         // now place it in our form
@@ -560,6 +557,8 @@
 
         // ...and replace it with one focusing our input, if possible
         dialog.on("shown.zui.modal", function() {
+            // need the closure here since input isn't
+            // an object otherwise
             input.focus();
         });
 
@@ -582,6 +581,14 @@
             onEscape: options.onEscape
         };
 
+        if($.fn.modal === undefined) {
+            throw new Error(
+                "$.fn.modal is not defined; please double check you have included " +
+                "the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ " +
+                "for more details."
+            );
+        }
+
         each(buttons, function(key, button) {
 
             // @TODO I don't like this string appending to itself; bit dirty. Needs reworking
@@ -603,9 +610,7 @@
 
         if(options.size === "large") {
             innerDialog.addClass("modal-lg");
-        }
-
-        if(options.size === "small") {
+        } else if(options.size === "small") {
             innerDialog.addClass("modal-sm");
         }
 
@@ -649,15 +654,15 @@
         });
 
         /*
-    dialog.on("show.zui.modal", function() {
-      // sadly this doesn't work; show is called *just* before
-      // the backdrop is added so we'd need a setTimeout hack or
-      // otherwise... leaving in as would be nice
-      if (options.backdrop) {
-        dialog.next(".modal-backdrop").addClass("bootbox-backdrop");
-      }
-    });
-    */
+        dialog.on("show.zui.modal", function() {
+          // sadly this doesn't work; show is called *just* before
+          // the backdrop is added so we'd need a setTimeout hack or
+          // otherwise... leaving in as would be nice
+          if (options.backdrop) {
+            dialog.next(".modal-backdrop").addClass("bootbox-backdrop");
+          }
+        });
+        */
 
         dialog.on("shown.zui.modal", function() {
             dialog.find(".btn-primary:first").focus();
@@ -668,6 +673,30 @@
          * just an attempt to decouple some behaviours from their
          * respective triggers
          */
+
+        if(options.backdrop !== "static") {
+            // A boolean true/false according to the Bootstrap docs
+            // should show a dialog the user can dismiss by clicking on
+            // the background.
+            // We always only ever pass static/false to the actual
+            // $.modal function because with `true` we can't trap
+            // this event (the .modal-backdrop swallows it)
+            // However, we still want to sort of respect true
+            // and invoke the escape mechanism instead
+            dialog.on("click.dismiss.zui.modal", function(e) {
+                // @NOTE: the target varies in >= 3.3.x releases since the modal backdrop
+                // moved *inside* the outer dialog rather than *alongside* it
+                if(dialog.children(".modal-backdrop").length) {
+                    e.currentTarget = dialog.children(".modal-backdrop").get(0);
+                }
+
+                if(e.target !== e.currentTarget) {
+                    return;
+                }
+
+                dialog.trigger("escape.close.bb");
+            });
+        }
 
         dialog.on("escape.close.bb", function(e) {
             if(callbacks.onEscape) {
@@ -684,7 +713,6 @@
             var callbackKey = $(this).data("bb-handler");
 
             processCallback(e, dialog, callbacks[callbackKey]);
-
         });
 
         dialog.on("click", ".bootbox-close-button", function(e) {
@@ -708,7 +736,7 @@
         $(options.container).append(dialog);
 
         dialog.modal({
-            backdrop: options.backdrop,
+            backdrop: options.backdrop ? "static" : false,
             keyboard: false,
             show: false
         });
@@ -723,19 +751,19 @@
         // of d.modal("hide");
 
         /*
-    function BBDialog(elem) {
-      this.elem = elem;
-    }
+         function BBDialog(elem) {
+           this.elem = elem;
+         }
 
-    BBDialog.prototype = {
-      hide: function() {
-        return this.elem.modal("hide");
-      },
-      show: function() {
-        return this.elem.modal("show");
-      }
-    };
-    */
+         BBDialog.prototype = {
+           hide: function() {
+             return this.elem.modal("hide");
+           },
+           show: function() {
+             return this.elem.modal("show");
+           }
+         };
+         */
 
         return dialog;
 
@@ -757,6 +785,8 @@
 
     exports.hideAll = function() {
         $(".bootbox").modal("hide");
+
+        return exports;
     };
 
 
@@ -780,6 +810,32 @@
             CANCEL: "取消",
             CONFIRM: "確認"
         }
+    };
+
+    exports.addLocale = function(name, values) {
+        $.each(["OK", "CANCEL", "CONFIRM"], function(_, v) {
+            if(!values[v]) {
+                throw new Error("Please supply a translation for '" + v + "'");
+            }
+        });
+
+        locales[name] = {
+            OK: values.OK,
+            CANCEL: values.CANCEL,
+            CONFIRM: values.CONFIRM
+        };
+
+        return exports;
+    };
+
+    exports.removeLocale = function(name) {
+        delete locales[name];
+
+        return exports;
+    };
+
+    exports.setLocale = function(name) {
+        return exports.setDefaults("locale", name);
     };
 
     exports.init = function(_$) {
