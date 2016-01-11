@@ -27,7 +27,7 @@
 
         callEvent: function(func, event, proxy) {
             if($.isFunction(func)) {
-                if(typeof proxy != 'undefined') {
+                if(proxy !== undefined) {
                     func = $.proxy(func, proxy);
                 }
                 var result = func(event);
@@ -61,7 +61,7 @@
         }
         var e = $.Event(name, event);
 
-        if((typeof model === 'undefined') && dotIndex > 0) {
+        if((model === undefined) && dotIndex > 0) {
             model = $this.data(name.substring(dotIndex + 1));
         }
 
