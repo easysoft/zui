@@ -11,9 +11,10 @@
           <select data-placeholder="选择一个宠物..." class="chosen-select form-control" tabindex="2">
             <option value=""></option>
             <option value="cat">小猫</option>
-            <option value="dog">小狗</option>
             <option value="fish">金鱼</option>
             <option value="dragon">龙</option>
+            <option value="mammoth">猛犸</option>
+            <option value="gollum">咕噜</option>
           </select>
         </div>
         <div class="col-md-6">
@@ -37,7 +38,7 @@
     <p>为方便选择漂亮的图标，依赖于Chosen新作了图标选择插件。</p>
     <div class="example">
       <form>
-        <select class="chosen-select form-control" name="chosenIcons" id="chosenIcons" data-value='icon-star'></select>
+        <select class="chosen-select-icons form-control" name="chosenIcons" id="chosenIcons" data-value='icon-star'></select>
       </form>
     </div>
   </article>
@@ -46,8 +47,10 @@
 <script>
 function onPageLoad() {return false;}
 function afterPageLoad() {
-  if($.fn.chosen) $('#pageBody .chosen-select').chosen();
-  if($.fn.chosenIcons) $('#chosenIcons').chosenIcons();
-  setTimeout($.doc.stopPageLoading, 500);
+    if($.fn.chosen) $('#pageBody .chosen-select').chosen({
+        allow_single_deselect: true,
+    });
+    if($.fn.chosenIcons) $('#chosenIcons').chosenIcons();
+    setTimeout($.doc.stopPageLoading, 500);
 }
 </script>
