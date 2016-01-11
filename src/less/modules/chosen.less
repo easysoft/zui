@@ -23,7 +23,7 @@
     border: 1px solid @dropdown-border;
     border-top: 0;
     background: #fff;
-    box-shadow: 0 4px 5px rgba(0,0,0,.15);
+    .box-shadow(0 6px 12px rgba(0,0,0,.175));
 
     &.chosen-drop-size-limited
     {
@@ -82,13 +82,14 @@
     top: 7px;
     right: 24px;
     display: block;
-    width: (@font-size-base * 1.5);
-    height: (@font-size-base * 1.5);
-    line-height: (@font-size-base * 1.5);
+    width: 20px;
+    height: 20px;
+    line-height: 14px;
     font-size: (@font-size-base * 1.5);
     font-weight: @close-font-weight;
     color: @close-color;
     text-shadow: @close-text-shadow;
+    text-align: center;
     .opacity(.2);
     &:before
     {
@@ -305,13 +306,14 @@
       .search-choice-close
       {
         position: absolute;
-        top: -1px;
+        top: 0;
         right: 0px;
         text-align: center;
         display: block;
-        width: (@font-size-base * 1.5);
-        height: (@font-size-base * 1.5);
-        line-height: (@font-size-base * 1.5);
+        width: 20px;
+        height: 20px;
+        line-height: 14px;
+        text-align: center;
         font-size: (@font-size-base * 1.2);
         font-weight: @close-font-weight;
         color: @close-color;
