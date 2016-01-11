@@ -333,7 +333,7 @@
         }
     };
 
-    var mutePageLoading = function() {
+    var stopPageLoading = function() {
         $page.removeClass('loading');
         $pageLoader.removeClass('loading');
         $body.addClass('page-show page-show-in');
@@ -352,7 +352,7 @@
 
         setTimeout(function() {
             if($.isFunction(window['afterPageLoad'])) {
-                if(window['afterPageLoad'](mutePageLoading) === true) {
+                if(window['afterPageLoad'](stopPageLoading) === true) {
                     handlePageLoad();
                 }
             }
@@ -365,7 +365,7 @@
             }
         }, 1000);
 
-        if(!delayMutedPageLoading) mutePageLoading();
+        if(!delayMutedPageLoading) stopPageLoading();
     };
 
     var openPage = function(section, topic) {
@@ -819,7 +819,7 @@
         openSection: openSection,
         closePage: closePage,
         loadData: loadData,
-        mutePageLoading: mutePageLoading,
+        stopPageLoading: stopPageLoading,
         displayPkgLibTable: displayPkgLibTable
     };
 }(window, jQuery));

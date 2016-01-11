@@ -55,7 +55,7 @@ function afterPageLoad() {
                 afterFocus: function(){$('#contentSimple').prev('.ke-container').addClass('focus');}
             });
         }
-        setTimeout($.doc.mutePageLoading, 500);
+        setTimeout($.doc.stopPageLoading, 500);
     };
 
     $.getScript('/dist/lib/kindeditor/kindeditor.min.js', initKindeditor);

@@ -415,6 +415,6 @@ function afterPageLoad() {
         $this.datatable({fixedLeftWidth: '60%', fixedRightWidth: '15%', data: dtDataGenerater($this.data('rows') || 5)});
     });
 
-    $.doc.mutePageLoading();
+    $.doc.stopPageLoading();
 }
 </script>

@@ -48,6 +48,6 @@ function onPageLoad() {return false;}
 function afterPageLoad() {
   if($.fn.chosen) $('#pageBody .chosen-select').chosen();
   if($.fn.chosenIcons) $('#chosenIcons').chosenIcons();
-  setTimeout($.doc.mutePageLoading, 500);
+  setTimeout($.doc.stopPageLoading, 500);
 }
 </script>
