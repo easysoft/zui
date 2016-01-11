@@ -60,7 +60,7 @@
     };
 
     ChosenIcons.prototype.init = function() {
-        var $this = this.$.addClass('chosen-icons').addClass(this.id);
+        var $this = this.$.addClass('chosen-icons').addClass(this.id).removeClass('form-control');
 
         $this.empty();
 
@@ -105,18 +105,18 @@
         if(val) {
             $this.val(val).change();
         }
-
     }
 
     ChosenIcons.prototype.getgroupHtml = function(name) {
-        var icons = this.options[name];
-        var html = '<optgroup label="' + this.lang[name] + '">';
+        var icons = this.options[name],
+            iconsHtml = [],
+            that = this;
 
-        for(var i in icons) {
-            html += this.getOptionHtml(icons[i]);
-        }
+        $.each(icons, function(i, icon) {
+            iconsHtml.push(that.getOptionHtml(icon));
+        });
 
-        return html + '</optgroup>';
+        return '<optgroup label="' + this.lang[name] + '">' + iconsHtml.join('') + '</optgroup>';
     }
 
     ChosenIcons.prototype.getOptionHtml = function(value) {
