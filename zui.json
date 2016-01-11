@@ -849,7 +849,7 @@
       "name": "选择器",
       "src": {
         "less": ["~/modules/chosen.less"],
-        "js": ["assets/chosen/js/chosen.jquery.js"]
+        "js": ["~/chosen.js"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"],
@@ -863,7 +863,7 @@
       "name": "模态消息",
       "src": {
         "less": ["~/modules/modals.bootbox.less"],
-        "js": ["src/js/bootbox.js"]
+        "js": ["~/bootbox.js"]
       },
       "ver": "1.0.0",
       "pver": "4.4.0",
