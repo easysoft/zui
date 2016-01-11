@@ -304,7 +304,7 @@ function buildBundle(name, callback, type) {
                 .pipe(header(bannerContent))
                 .pipe(gulp.dest(destPath))
                 .on('end', function() {
-                    console.log('    less > '.yellow.bold + (destPath + build.filename + '.css').italic.underline);
+                    console.log('     css > '.yellow.bold + (destPath + build.filename + '.css').italic.underline);
                 })
                 //.pipe(sourcemaps.init())
                 .pipe(cssmin())
@@ -315,7 +315,7 @@ function buildBundle(name, callback, type) {
                 //.pipe(sourcemaps.write())
                 .pipe(gulp.dest(destPath))
                 .on('end', function() {
-                    console.log('    less > '.yellow.bold + (destPath + build.filename + '.min.css').italic.underline);
+                    console.log('     css > '.yellow.bold + (destPath + build.filename + '.min.css').italic.underline);
                 });
         });
         taskList.push('build:' + name + ':less');
