@@ -10,6 +10,7 @@ var extend = require('extend'),
     header = require('gulp-header'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
+    change = require('gulp-change'),
     sourcemaps = require('gulp-sourcemaps'),
     prettify = require('gulp-jsbeautifier'),
     lessPluginCleanCSS = require('less-plugin-clean-css'),
@@ -151,6 +152,29 @@ function getBuildDestFilename(build, type, suffix) {
     return file.replace(/\/\//g, '/');
 }
 
+
+function gulpBuildColorsetJS(build, lessSrc, bannerContent) {
+    var name = 'build:' + build.name;
+    var destPath = getBuildPath(build, 'js');
+    return gulp.src(lessSrc)
+        .pipe(less())
+        .pipe(rename({
+            extname: '.js'
+        }))
+        .pipe(change(function(css, done) {
+            css = css.replace(/\/\*\*/g, '').replace(/\*\*\//g, '');
+            css = css.replace(/\.color-(\w+) \{\n  color: (#?\w+);\n\}/g, "        $1: '$2',");
+            css = css.replace(',\n    };', '\n    };');
+            css = css.replace('\n\n', '\n');
+            done(null, css);
+        }))
+        .pipe(header(bannerContent))
+        .pipe(gulp.dest(destPath))
+        .on('end', function() {
+            console.log('     js > '.yellow.bold + (destPath + build.filename + '.js').italic.underline);
+        });
+}
+
 function buildBundle(name, callback, type) {
     name = name || 'all';
     var build = builds[name];
@@ -226,6 +250,14 @@ function buildBundle(name, callback, type) {
         depTaskList.push('build:' + name + ':bundles');
     }
 
+    if(build.includes && build.includes.indexOf('colorset.js') > -1) {
+        gulp.task('build:colorset.less2js', function(cb) {
+            buildBundle('colorset.less2js', cb, 'less');
+        });
+
+        depTaskList.push('build:colorset.less2js');
+    }
+
     console.log(('           --- build ' + name + ' ---').cyan.bold);
 
     var source = getBuildSource(build),
@@ -293,6 +325,10 @@ function buildBundle(name, callback, type) {
 
             mkdirp.sync('./build/less/');
             fs.writeFileSync(buildSourceFilePath, lessFileContent);
+
+            if(name === 'colorset.less2js') {
+                return gulpBuildColorsetJS(build, buildSourceFilePath, bannerContent);
+            }
 
             return gulp.src(buildSourceFilePath)
                 .pipe(less())
