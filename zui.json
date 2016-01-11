@@ -1202,10 +1202,11 @@
       "filename": "chosen",
       "includes": ["chosen"],
       "basicDpds": ["setting", "icons.variables"],
-      "ignoreDpds": true
+      "ignoreDpds": true,
+      "includes": ["chosenicons"]
     },
     "chosenicons": {
-      "title": "Chosen",
+      "title": "Chosen icons selector",
       "dest": "dist/lib/chosen/",
       "filename": "chosen.icons",
       "includes": ["chosenicons"],
@@ -1255,7 +1256,7 @@
     },
     "separate": {
       "title": "separate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chart", "array", "chosenicons", "hotkey", "board", "migrate1.2"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2"]
     },
     "dist": {
       "title": "dist",
