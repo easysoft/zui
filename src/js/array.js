@@ -1,13 +1,14 @@
 /* ========================================================================
- * ZUI: array.js
+ * ZUI: Array polyfills
  * Array Polyfill.
  * http://zui.sexy
  * ========================================================================
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
+// Some polyfills copy from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-(function(){
+(function() {
     'use strict';
 
     var STR_FUNCTION = 'function';
@@ -15,19 +16,15 @@
     /**
      *  Calls a function for each element in the array.
      */
-    if (!Array.prototype.forEach)
-    {
-        Array.prototype.forEach = function(fun /*, thisp*/ )
-        {
+    if(!Array.prototype.forEach) {
+        Array.prototype.forEach = function(fun /*, thisp*/ ) {
             var len = this.length;
-            if (typeof fun != STR_FUNCTION)
+            if(typeof fun != STR_FUNCTION)
                 throw new TypeError();
 
             var thisp = arguments[1];
-            for (var i = 0; i < len; i++)
-            {
-                if (i in this)
-                {
+            for(var i = 0; i < len; i++) {
+                if(i in this) {
                     fun.call(thisp, this[i], i, this);
                 }
             }
@@ -37,10 +34,8 @@
     /**
      * Judge an object is an real array
      */
-    if (!Array.isArray)
-    {
-        Array.isArray = function(obj)
-        {
+    if(!Array.isArray) {
+        Array.isArray = function(obj) {
             return Object.toString.call(obj) === '[object Array]';
         };
     }
@@ -48,29 +43,23 @@
     /**
      * Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.
      */
-    if (!Array.prototype.lastIndexOf)
-    {
-        Array.prototype.lastIndexOf = function(elt /*, from*/ )
-        {
+    if(!Array.prototype.lastIndexOf) {
+        Array.prototype.lastIndexOf = function(elt /*, from*/ ) {
             var len = this.length;
 
             var from = Number(arguments[1]);
-            if (isNaN(from))
-            {
+            if(isNaN(from)) {
                 from = len - 1;
-            }
-            else
-            {
+            } else {
                 from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-                if (from < 0)
+                if(from < 0)
                     from += len;
-                else if (from >= len)
+                else if(from >= len)
                     from = len - 1;
             }
 
-            for (; from > -1; from--)
-            {
-                if (from in this &&
+            for(; from > -1; from--) {
+                if(from in this &&
                     this[from] === elt)
                     return from;
             }
@@ -81,18 +70,15 @@
     /**
      * Returns true if every element in this array satisfies the provided testing function.
      */
-    if (!Array.prototype.every)
-    {
-        Array.prototype.every = function(fun /*, thisp*/ )
-        {
+    if(!Array.prototype.every) {
+        Array.prototype.every = function(fun /*, thisp*/ ) {
             var len = this.length;
-            if (typeof fun != STR_FUNCTION)
+            if(typeof fun != STR_FUNCTION)
                 throw new TypeError();
 
             var thisp = arguments[1];
-            for (var i = 0; i < len; i++)
-            {
-                if (i in this &&
+            for(var i = 0; i < len; i++) {
+                if(i in this &&
                     !fun.call(thisp, this[i], i, this))
                     return false;
             }
@@ -104,22 +90,18 @@
     /**
      * Creates a new array with all of the elements of this array for which the provided filtering function returns true.
      */
-    if (!Array.prototype.filter)
-    {
-        Array.prototype.filter = function(fun /*, thisp*/ )
-        {
+    if(!Array.prototype.filter) {
+        Array.prototype.filter = function(fun /*, thisp*/ ) {
             var len = this.length;
-            if (typeof fun != STR_FUNCTION)
+            if(typeof fun != STR_FUNCTION)
                 throw new TypeError();
 
             var res = [];
             var thisp = arguments[1];
-            for (var i = 0; i < len; i++)
-            {
-                if (i in this)
-                {
+            for(var i = 0; i < len; i++) {
+                if(i in this) {
                     var val = this[i]; // in case fun mutates this
-                    if (fun.call(thisp, val, i, this))
+                    if(fun.call(thisp, val, i, this))
                         res.push(val);
                 }
             }
@@ -131,20 +113,17 @@
     /**
      * Returns the first (least) index of an element within the array equal to the specified value, or -1 if none is found.
      */
-    if (!Array.prototype.indexOf)
-    {
-        Array.prototype.indexOf = function(elt /*, from*/ )
-        {
+    if(!Array.prototype.indexOf) {
+        Array.prototype.indexOf = function(elt /*, from*/ ) {
             var len = this.length;
 
             var from = Number(arguments[1]) || 0;
             from = (from < 0) ? Math.ceil(from) : Math.floor(from);
-            if (from < 0)
+            if(from < 0)
                 from += len;
 
-            for (; from < len; from++)
-            {
-                if (from in this &&
+            for(; from < len; from++) {
+                if(from in this &&
                     this[from] === elt)
                     return from;
             }
@@ -155,19 +134,16 @@
     /**
      * Creates a new array with the results of calling a provided function on every element in this array.
      */
-    if (!Array.prototype.map)
-    {
-        Array.prototype.map = function(fun /*, thisp*/ )
-        {
+    if(!Array.prototype.map) {
+        Array.prototype.map = function(fun /*, thisp*/ ) {
             var len = this.length;
-            if (typeof fun != STR_FUNCTION)
+            if(typeof fun != STR_FUNCTION)
                 throw new TypeError();
 
             var res = new Array(len);
             var thisp = arguments[1];
-            for (var i = 0; i < len; i++)
-            {
-                if (i in this)
+            for(var i = 0; i < len; i++) {
+                if(i in this)
                     res[i] = fun.call(thisp, this[i], i, this);
             }
 
@@ -181,30 +157,23 @@
      * @param  {array} result
      * @return {array}
      */
-    if (!Array.prototype.mawherep)
-    {
-        Array.prototype.where = function(conditions, result)
-        {
+    if(!Array.prototype.mawherep) {
+        Array.prototype.where = function(conditions, result) {
             result = result || [];
             var cdt, ok, objVal;
-            this.forEach(function(val)
-            {
+            this.forEach(function(val) {
                 ok = true;
-                for (var key in conditions)
-                {
+                for(var key in conditions) {
                     cdt = conditions[key];
-                    if (typeof cdt === STR_FUNCTION)
-                    {
+                    if(typeof cdt === STR_FUNCTION) {
                         ok = cdt(val);
-                    }
-                    else
-                    {
+                    } else {
                         objVal = val[key];
                         ok = (objVal && objVal === cdt);
                     }
-                    if (!ok) break;
+                    if(!ok) break;
                 }
-                if (ok) result.push(val);
+                if(ok) result.push(val);
             });
 
             return result;
@@ -216,21 +185,16 @@
      * @param  {string} key
      * @return {Object}
      */
-    if (!Array.prototype.groupBy)
-    {
-        Array.prototype.groupBy = function(key)
-        {
+    if(!Array.prototype.groupBy) {
+        Array.prototype.groupBy = function(key) {
             var result = {};
-            this.forEach(function(val)
-            {
+            this.forEach(function(val) {
                 var keyName = val[key];
-                if (!keyName)
-                {
+                if(!keyName) {
                     keyName = 'unkown';
                 }
 
-                if (!result[keyName])
-                {
+                if(!result[keyName]) {
                     result[keyName] = [];
                 }
                 result[keyName].push(val);
@@ -244,31 +208,23 @@
      * @param  {function or plain object}  conditions
      * @return {Boolean}
      */
-    if (!Array.prototype.has)
-    {
-        Array.prototype.has = function(conditions)
-        {
+    if(!Array.prototype.has) {
+        Array.prototype.has = function(conditions) {
             var result = false,
                 cdt, ok, objVal;
-            this.forEach(function(val)
-            {
+            this.forEach(function(val) {
                 ok = true;
-                for (var key in conditions)
-                {
+                for(var key in conditions) {
                     cdt = conditions[key];
-                    if (typeof cdt === STR_FUNCTION)
-                    {
+                    if(typeof cdt === STR_FUNCTION) {
                         ok = cdt(val);
-                    }
-                    else
-                    {
+                    } else {
                         objVal = val[key];
                         ok = (objVal && objVal === cdt);
                     }
-                    if (!ok) break;
+                    if(!ok) break;
                 }
-                if (ok)
-                {
+                if(ok) {
                     result = true;
                     return false;
                 }
@@ -278,3 +234,4 @@
         };
     }
 }());
+

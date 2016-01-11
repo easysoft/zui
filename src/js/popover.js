@@ -18,22 +18,19 @@
  * ======================================================================== */
 
 
-+ function($){
++ function($) {
     'use strict';
 
     // POPOVER PUBLIC CLASS DEFINITION
     // ===============================
 
-    var Popover = function(element, options)
-    {
+    var Popover = function(element, options) {
         this.init('popover', element, options)
     }
 
-    if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
+    if(!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-    Popover.DEFAULTS = $.extend(
-    {}, $.fn.tooltip.Constructor.DEFAULTS,
-    {
+    Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
         placement: 'right',
         trigger: 'click',
         content: '',
@@ -44,24 +41,20 @@
     // NOTE: POPOVER EXTENDS tooltip.js
     // ================================
 
-    Popover.prototype = $.extend(
-    {}, $.fn.tooltip.Constructor.prototype)
+    Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype)
 
     Popover.prototype.constructor = Popover
 
-    Popover.prototype.getDefaults = function()
-    {
+    Popover.prototype.getDefaults = function() {
         return Popover.DEFAULTS
     }
 
-    Popover.prototype.setContent = function()
-    {
+    Popover.prototype.setContent = function() {
         var $tip = this.tip()
         var target = this.getTarget()
 
-        if (target)
-        {
-            if (target.find('.arrow').length < 1)
+        if(target) {
+            if(target.find('.arrow').length < 1)
                 $tip.addClass('no-arrow')
             $tip.html(target.html())
             return
@@ -74,22 +67,20 @@
         $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
 
         $tip.removeClass('fade top bottom left right in')
-        
-        if (this.options.tipId) $tip.attr('id', this.options.tipId)
-        if (this.options.tipClass) $tip.addClass(this.options.tipClass)
+
+        if(this.options.tipId) $tip.attr('id', this.options.tipId)
+        if(this.options.tipClass) $tip.addClass(this.options.tipClass)
 
         // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
         // this manually by checking the contents.
-        if (!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
+        if(!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
     }
 
-    Popover.prototype.hasContent = function()
-    {
+    Popover.prototype.hasContent = function() {
         return this.getTarget() || this.getTitle() || this.getContent()
     }
 
-    Popover.prototype.getContent = function()
-    {
+    Popover.prototype.getContent = function() {
         var $e = this.$element
         var o = this.options
 
@@ -98,25 +89,22 @@
             o.content)
     }
 
-    Popover.prototype.getTarget = function()
-    {
+    Popover.prototype.getTarget = function() {
         var $e = this.$element
         var o = this.options
 
         var target = $e.attr('data-target') || (typeof o.target == 'function' ?
             o.target.call($e[0]) :
             o.target)
-        return (target && true) ? (target == '$next' ? $e.next('.popover') : $(target)) : false
+        return(target && true) ? (target == '$next' ? $e.next('.popover') : $(target)) : false
     }
 
-    Popover.prototype.arrow = function()
-    {
+    Popover.prototype.arrow = function() {
         return this.$arrow = this.$arrow || this.tip().find('.arrow')
     }
 
-    Popover.prototype.tip = function()
-    {
-        if (!this.$tip) this.$tip = $(this.options.template)
+    Popover.prototype.tip = function() {
+        if(!this.$tip) this.$tip = $(this.options.template)
         return this.$tip
     }
 
@@ -126,16 +114,14 @@
 
     var old = $.fn.popover
 
-    $.fn.popover = function(option)
-    {
-        return this.each(function()
-        {
+    $.fn.popover = function(option) {
+        return this.each(function() {
             var $this = $(this)
             var data = $this.data('zui.popover')
             var options = typeof option == 'object' && option
 
-            if (!data) $this.data('zui.popover', (data = new Popover(this, options)))
-            if (typeof option == 'string') data[option]()
+            if(!data) $this.data('zui.popover', (data = new Popover(this, options)))
+            if(typeof option == 'string') data[option]()
         })
     }
 
@@ -145,10 +131,10 @@
     // POPOVER NO CONFLICT
     // ===================
 
-    $.fn.popover.noConflict = function()
-    {
+    $.fn.popover.noConflict = function() {
         $.fn.popover = old
         return this
     }
 
 }(window.jQuery);
+

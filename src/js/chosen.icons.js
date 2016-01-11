@@ -6,12 +6,10 @@
  * ======================================================================== */
 
 
-+ function($)
-{
++ function($) {
     'use strict';
 
-    var ChosenIcons = function(element, options)
-    {
+    var ChosenIcons = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
         this.lang = ChosenIcons.LANGS[this.options.lang];
@@ -56,21 +54,17 @@
         otherIcons: '其他圖標'
     };
 
-    ChosenIcons.prototype.getOptions = function(options)
-    {
-        options = $.extend(
-        {}, ChosenIcons.DEFAULTS, this.$.data(), options);
+    ChosenIcons.prototype.getOptions = function(options) {
+        options = $.extend({}, ChosenIcons.DEFAULTS, this.$.data(), options);
         return options;
     };
 
-    ChosenIcons.prototype.init = function()
-    {
+    ChosenIcons.prototype.init = function() {
         var $this = this.$.addClass('chosen-icons').addClass(this.id);
 
         $this.empty();
 
-        if (this.options.canEmpty)
-        {
+        if(this.options.canEmpty) {
             $this.append(this.getOptionHtml());
         }
 
@@ -82,8 +76,7 @@
         $this.append(this.getgroupHtml('directionalIcons'));
         $this.append(this.getgroupHtml('otherIcons'));
 
-        $this.chosen(
-        {
+        $this.chosen({
             placeholder_text: ' ',
             disable_search: true,
             width: '100%',
@@ -92,74 +85,63 @@
 
         var chosenSelector = '.chosen-container.' + this.id;
 
-        $this.on('chosen:showing_dropdown', function()
-        {
-            $(chosenSelector + ' .chosen-results .group-option').each(function()
-            {
+        $this.on('chosen:showing_dropdown', function() {
+            $(chosenSelector + ' .chosen-results .group-option').each(function() {
                 var $this = $(this).addClass('icon');
                 var text = $(this).text();
                 $this.html('<i class="icon-' + text + '" title="' + text + '"></i>');
             });
-        }).change(function()
-        {
+        }).change(function() {
             var span = $(chosenSelector + ' .chosen-single > span');
             var text = $(this).val();
 
-            if (text && text.length > 0)
+            if(text && text.length > 0)
                 span.html('<i class="' + text + '"></i> &nbsp; <span class="text-muted">' + text.substr(5).replace(/-/g, ' ') + '</span>');
             else span.html('<span class="text-muted">' + lang.emptyIcon + '</span>')
 
         });
 
         var val = $this.data('value');
-        if (val)
-        {
+        if(val) {
             $this.val(val).change();
         }
 
     }
 
-    ChosenIcons.prototype.getgroupHtml = function(name)
-    {
+    ChosenIcons.prototype.getgroupHtml = function(name) {
         var icons = this.options[name];
         var html = '<optgroup label="' + this.lang[name] + '">';
 
-        for (var i in icons)
-        {
+        for(var i in icons) {
             html += this.getOptionHtml(icons[i]);
         }
 
         return html + '</optgroup>';
     }
 
-    ChosenIcons.prototype.getOptionHtml = function(value)
-    {
+    ChosenIcons.prototype.getOptionHtml = function(value) {
         var name = value;
-        if (value && value.length > 0)
-        {
+        if(value && value.length > 0) {
             value = 'icon-' + value;
-        }
-        else
-        {
+        } else {
             value = '';
             name = this.lang.emptyIcon;
         }
         return '<option value="' + value + '">' + name + '</option>';
     }
 
-    $.fn.chosenIcons = function(option)
-    {
-        return this.each(function()
-        {
+    $.fn.chosenIcons = function(option) {
+        return this.each(function() {
             var $this = $(this);
             var data = $this.data('zui.chosenIcons');
             var options = typeof option == 'object' && option;
 
-            if (!data) $this.data('zui.chosenIcons', (data = new ChosenIcons(this, options)));
+            if(!data) $this.data('zui.chosenIcons', (data = new ChosenIcons(this, options)));
 
-            if (typeof option == 'string') data[option]();
+            if(typeof option == 'string') data[option]();
         })
     };
 
     $.fn.chosenIcons.Constructor = ChosenIcons;
 }(jQuery);
+

@@ -21,14 +21,13 @@
  * ======================================================================== */
 
 
-+ function($){
++ function($) {
     'use strict';
 
     // CAROUSEL CLASS DEFINITION
     // =========================
 
-    var Carousel = function(element, options)
-    {
+    var Carousel = function(element, options) {
         this.$element = $(element)
         this.$indicators = this.$element.find('.carousel-indicators')
         this.options = options
@@ -50,22 +49,19 @@
         touchable: true
     }
 
-    Carousel.prototype.touchable = function()
-    {
-        if (!this.options.touchable) return;
+    Carousel.prototype.touchable = function() {
+        if(!this.options.touchable) return;
 
         this.$element.on('touchstart touchmove touchend', touch);
         var touchStartX, touchStartY;
 
         /* listen the touch event */
-        function touch(event)
-        {
+        function touch(event) {
             var event = event || window.event;
-            if (event.originalEvent) event = event.originalEvent;
+            if(event.originalEvent) event = event.originalEvent;
             var carousel = $(this);
 
-            switch (event.type)
-            {
+            switch(event.type) {
                 case "touchstart":
                     touchStartX = event.touches[0].pageX;
                     touchStartY = event.touches[0].pageY;
@@ -73,19 +69,14 @@
                 case "touchend":
                     var distanceX = event.changedTouches[0].pageX - touchStartX;
                     var distanceY = event.changedTouches[0].pageY - touchStartY;
-                    if (Math.abs(distanceX) > Math.abs(distanceY))
-                    {
+                    if(Math.abs(distanceX) > Math.abs(distanceY)) {
                         handleCarousel(carousel, distanceX);
-                        if (Math.abs(distanceX) > 10)
-                        {
+                        if(Math.abs(distanceX) > 10) {
                             event.preventDefault();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         var $w = $(window);
-                        $('body,html').animate(
-                        {
+                        $('body,html').animate({
                             scrollTop: $w.scrollTop() - distanceY
                         }, 400)
                     }
@@ -93,15 +84,13 @@
             }
         }
 
-        function handleCarousel(carousel, distance)
-        {
-            if (distance > 10) carousel.find('.left.carousel-control').click();
-            if (distance < -10) carousel.find('.right.carousel-control').click();
+        function handleCarousel(carousel, distance) {
+            if(distance > 10) carousel.find('.left.carousel-control').click();
+            if(distance < -10) carousel.find('.right.carousel-control').click();
         }
     }
 
-    Carousel.prototype.cycle = function(e)
-    {
+    Carousel.prototype.cycle = function(e) {
         e || (this.paused = false)
 
         this.interval && clearInterval(this.interval)
@@ -111,36 +100,31 @@
         return this
     }
 
-    Carousel.prototype.getActiveIndex = function()
-    {
+    Carousel.prototype.getActiveIndex = function() {
         this.$active = this.$element.find('.item.active')
         this.$items = this.$active.parent().children()
 
         return this.$items.index(this.$active)
     }
 
-    Carousel.prototype.to = function(pos)
-    {
+    Carousel.prototype.to = function(pos) {
         var that = this
         var activeIndex = this.getActiveIndex()
 
-        if (pos > (this.$items.length - 1) || pos < 0) return
+        if(pos > (this.$items.length - 1) || pos < 0) return
 
-        if (this.sliding) return this.$element.one('slid', function()
-        {
+        if(this.sliding) return this.$element.one('slid', function() {
             that.to(pos)
         })
-        if (activeIndex == pos) return this.pause().cycle()
+        if(activeIndex == pos) return this.pause().cycle()
 
         return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
     }
 
-    Carousel.prototype.pause = function(e)
-    {
+    Carousel.prototype.pause = function(e) {
         e || (this.paused = true)
 
-        if (this.$element.find('.next, .prev').length && $.support.transition.end)
-        {
+        if(this.$element.find('.next, .prev').length && $.support.transition.end) {
             this.$element.trigger($.support.transition.end)
             this.cycle(true)
         }
@@ -150,20 +134,17 @@
         return this
     }
 
-    Carousel.prototype.next = function()
-    {
-        if (this.sliding) return
+    Carousel.prototype.next = function() {
+        if(this.sliding) return
         return this.slide('next')
     }
 
-    Carousel.prototype.prev = function()
-    {
-        if (this.sliding) return
+    Carousel.prototype.prev = function() {
+        if(this.sliding) return
         return this.slide('prev')
     }
 
-    Carousel.prototype.slide = function(type, next)
-    {
+    Carousel.prototype.slide = function(type, next) {
         var $active = this.$element.find('.item.active')
         var $next = next || $active[type]()
         var isCycling = this.interval
@@ -171,9 +152,8 @@
         var fallback = type == 'next' ? 'first' : 'last'
         var that = this
 
-        if (!$next.length)
-        {
-            if (!this.options.wrap) return
+        if(!$next.length) {
+            if(!this.options.wrap) return
             $next = this.$element.find('.item')[fallback]()
         }
 
@@ -181,49 +161,41 @@
 
         isCycling && this.pause()
 
-        var e = $.Event('slide.zui.carousel',
-        {
+        var e = $.Event('slide.zui.carousel', {
             relatedTarget: $next[0],
             direction: direction
         })
 
-        if ($next.hasClass('active')) return
+        if($next.hasClass('active')) return
 
-        if (this.$indicators.length)
-        {
+        if(this.$indicators.length) {
             this.$indicators.find('.active').removeClass('active')
-            this.$element.one('slid', function()
-            {
+            this.$element.one('slid', function() {
                 var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
                 $nextIndicator && $nextIndicator.addClass('active')
             })
         }
 
-        if ($.support.transition && this.$element.hasClass('slide'))
-        {
+        if($.support.transition && this.$element.hasClass('slide')) {
             this.$element.trigger(e)
-            if (e.isDefaultPrevented()) return
+            if(e.isDefaultPrevented()) return
             $next.addClass(type)
             $next[0].offsetWidth // force reflow
             $active.addClass(direction)
             $next.addClass(direction)
             $active
-                .one($.support.transition.end, function()
-                {
+                .one($.support.transition.end, function() {
                     $next.removeClass([type, direction].join(' ')).addClass('active')
                     $active.removeClass(['active', direction].join(' '))
                     that.sliding = false
-                    setTimeout(function()
-                    {
+                    setTimeout(function() {
                         that.$element.trigger('slid')
                     }, 0)
                 })
                 .emulateTransitionEnd(600)
-        }
-        else
-        {
+        } else {
             this.$element.trigger(e)
-            if (e.isDefaultPrevented()) return
+            if(e.isDefaultPrevented()) return
             $active.removeClass('active')
             $next.addClass('active')
             this.sliding = false
@@ -241,22 +213,19 @@
 
     var old = $.fn.carousel
 
-    $.fn.carousel = function(option)
-    {
-        return this.each(function()
-        {
+    $.fn.carousel = function(option) {
+        return this.each(function() {
             var $this = $(this)
             var data = $this.data('zui.carousel')
-            var options = $.extend(
-            {}, Carousel.DEFAULTS, $this.data(), typeof option == 'object' && option)
+            var options = $.extend({}, Carousel.DEFAULTS, $this.data(), typeof option == 'object' && option)
             var action = typeof option == 'string' ? option : options.slide
 
-            if (!data) $this.data('zui.carousel', (data = new Carousel(this, options)))
-            if (typeof option == 'number') data.to(option)
-            else if (action) data[action]()
-            else if (options.interval) data.pause().cycle()
+            if(!data) $this.data('zui.carousel', (data = new Carousel(this, options)))
+            if(typeof option == 'number') data.to(option)
+            else if(action) data[action]()
+            else if(options.interval) data.pause().cycle()
 
-            if (options.touchable) data.touchable()
+            if(options.touchable) data.touchable()
         })
     }
 
@@ -266,8 +235,7 @@
     // CAROUSEL NO CONFLICT
     // ====================
 
-    $.fn.carousel.noConflict = function()
-    {
+    $.fn.carousel.noConflict = function() {
         $.fn.carousel = old
         return this
     }
@@ -276,33 +244,29 @@
     // CAROUSEL DATA-API
     // =================
 
-    $(document).on('click.zui.carousel.data-api', '[data-slide], [data-slide-to]', function(e)
-    {
+    $(document).on('click.zui.carousel.data-api', '[data-slide], [data-slide-to]', function(e) {
         var $this = $(this),
             href
         var $target = $($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
-        var options = $.extend(
-        {}, $target.data(), $this.data())
+        var options = $.extend({}, $target.data(), $this.data())
         var slideIndex = $this.attr('data-slide-to')
-        if (slideIndex) options.interval = false
+        if(slideIndex) options.interval = false
 
         $target.carousel(options)
 
-        if (slideIndex = $this.attr('data-slide-to'))
-        {
+        if(slideIndex = $this.attr('data-slide-to')) {
             $target.data('zui.carousel').to(slideIndex)
         }
 
         e.preventDefault()
     })
 
-    $(window).on('load', function()
-    {
-        $('[data-ride="carousel"]').each(function()
-        {
+    $(window).on('load', function() {
+        $('[data-ride="carousel"]').each(function() {
             var $carousel = $(this)
             $carousel.carousel($carousel.data())
         })
     })
 
 }(window.jQuery);
+

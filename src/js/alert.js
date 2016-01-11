@@ -18,7 +18,7 @@
  * ======================================================================== */
 
 
-+ function($){
++ function($) {
     'use strict';
 
     // ALERT CLASS DEFINITION
@@ -27,39 +27,34 @@
     var dismiss = '[data-dismiss="alert"]'
     var zuiname = 'zui.alert';
 
-    var Alert = function(el)
-    {
+    var Alert = function(el) {
         $(el).on('click', dismiss, this.close)
     }
 
-    Alert.prototype.close = function(e)
-    {
+    Alert.prototype.close = function(e) {
         var $this = $(this)
         var selector = $this.attr('data-target')
 
-        if (!selector)
-        {
+        if(!selector) {
             selector = $this.attr('href')
             selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
         }
 
         var $parent = $(selector)
 
-        if (e) e.preventDefault()
+        if(e) e.preventDefault()
 
-        if (!$parent.length)
-        {
+        if(!$parent.length) {
             $parent = $this.hasClass('alert') ? $this : $this.parent()
         }
 
         $parent.trigger(e = $.Event('close.' + zuiname))
 
-        if (e.isDefaultPrevented()) return
+        if(e.isDefaultPrevented()) return
 
         $parent.removeClass('in')
 
-        function removeElement()
-        {
+        function removeElement() {
             $parent.trigger('closed.' + zuiname).remove()
         }
 
@@ -76,15 +71,13 @@
 
     var old = $.fn.alert
 
-    $.fn.alert = function(option)
-    {
-        return this.each(function()
-        {
+    $.fn.alert = function(option) {
+        return this.each(function() {
             var $this = $(this)
             var data = $this.data(zuiname)
 
-            if (!data) $this.data(zuiname, (data = new Alert(this)))
-            if (typeof option == 'string') data[option].call($this)
+            if(!data) $this.data(zuiname, (data = new Alert(this)))
+            if(typeof option == 'string') data[option].call($this)
         })
     }
 
@@ -94,8 +87,7 @@
     // ALERT NO CONFLICT
     // =================
 
-    $.fn.alert.noConflict = function()
-    {
+    $.fn.alert.noConflict = function() {
         $.fn.alert = old
         return this
     }
@@ -107,3 +99,4 @@
     $(document).on('click.' + zuiname + '.data-api', dismiss, Alert.prototype.close)
 
 }(window.jQuery);
+

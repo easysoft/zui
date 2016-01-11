@@ -14,15 +14,14 @@
  * 5. add setMoveable method to make modal dialog moveable
  * ======================================================================== */
 
-+ function($){
++ function($) {
     'use strict';
 
     // MODAL CLASS DEFINITION
     // ======================
 
     var zuiname = 'zui.modal'
-    var Modal = function(element, options)
-    {
+    var Modal = function(element, options) {
         this.options = options
         this.$body = $(document.body)
         this.$element = $(element)
@@ -30,17 +29,14 @@
             this.isShown = null
         this.scrollbarWidth = 0
 
-        if (typeof this.options.moveable === 'undefined')
-        {
+        if(typeof this.options.moveable === 'undefined') {
             this.options.moveable = this.$element.hasClass('modal-moveable');
         }
 
-        if (this.options.remote)
-        {
+        if(this.options.remote) {
             this.$element
                 .find('.modal-content')
-                .load(this.options.remote, $.proxy(function()
-                {
+                .load(this.options.remote, $.proxy(function() {
                     this.$element.trigger('loaded.' + zuiname)
                 }, this))
         }
@@ -60,22 +56,19 @@
         position: 'fit' // 'center' or '40px' or '10%'
     }
 
-    Modal.prototype.toggle = function(_relatedTarget, position)
-    {
+    Modal.prototype.toggle = function(_relatedTarget, position) {
         return this.isShown ? this.hide() : this.show(_relatedTarget, position)
     }
 
-    Modal.prototype.ajustPosition = function(position)
-    {
-        if (typeof position === 'undefined') position = this.options.position;
-        if (typeof position === 'undefined') return;
+    Modal.prototype.ajustPosition = function(position) {
+        if(typeof position === 'undefined') position = this.options.position;
+        if(typeof position === 'undefined') return;
         var $dialog = this.$element.find('.modal-dialog');
         // if($dialog.hasClass('modal-dragged')) return;
 
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
         var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
-        if ($dialog.hasClass('modal-moveable'))
-        {
+        if($dialog.hasClass('modal-moveable')) {
             var pos = null;
             if(this.options.rememberPos) {
                 if(this.options.rememberPos === true) {
@@ -84,40 +77,32 @@
                     pos = $.zui.store.pageGet(zuiname + '.rememberPos');
                 }
             }
-            if (!pos)
-            {
+            if(!pos) {
                 pos = {
                     left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2),
                     top: topPos
                 };
             }
             $dialog.css(pos);
-        }
-        else
-        {
+        } else {
             $dialog.css('margin-top', topPos);
         }
     }
 
-    Modal.prototype.setMoveale = function()
-    {
+    Modal.prototype.setMoveale = function() {
         var that = this;
         var options = that.options;
         var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');
         $dialog.toggleClass('modal-moveable', options.moveable);
 
-        if (!that.$element.data('modal-moveable-setup'))
-        {
-            $dialog.draggable(
-            {
+        if(!that.$element.data('modal-moveable-setup')) {
+            $dialog.draggable({
                 container: that.$element,
                 handle: '.modal-header',
-                before: function()
-                {
+                before: function() {
                     $dialog.css('margin-top', '').addClass('modal-dragged');
                 },
-                finish: function(e)
-                {
+                finish: function(e) {
                     if(options.rememberPos) {
                         that.$element.data('modal-pos', e.pos);
                         if($.zui.store && options.rememberPos !== true) {
@@ -129,21 +114,19 @@
         }
     }
 
-    Modal.prototype.show = function(_relatedTarget, position)
-    {
+    Modal.prototype.show = function(_relatedTarget, position) {
         var that = this
-        var e = $.Event('show.' + zuiname,
-        {
+        var e = $.Event('show.' + zuiname, {
             relatedTarget: _relatedTarget
         })
 
         that.$element.trigger(e)
 
-        if (that.isShown || e.isDefaultPrevented()) return
+        if(that.isShown || e.isDefaultPrevented()) return
 
         that.isShown = true
 
-        if (that.options.moveable) that.setMoveale();
+        if(that.options.moveable) that.setMoveale();
 
         that.checkScrollbar()
         that.$body.addClass('modal-open')
@@ -153,12 +136,10 @@
 
         that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]', $.proxy(that.hide, that))
 
-        that.backdrop(function()
-        {
+        that.backdrop(function() {
             var transition = $.support.transition && that.$element.hasClass('fade')
 
-            if (!that.$element.parent().length)
-            {
+            if(!that.$element.parent().length) {
                 that.$element.appendTo(that.$body) // don't move modals dom position
             }
 
@@ -166,8 +147,7 @@
                 .show()
                 .scrollTop(0)
 
-            if (transition)
-            {
+            if(transition) {
                 that.$element[0].offsetWidth // force reflow
             }
 
@@ -179,15 +159,13 @@
 
             that.enforceFocus()
 
-            var e = $.Event('shown.' + zuiname,
-            {
+            var e = $.Event('shown.' + zuiname, {
                 relatedTarget: _relatedTarget
             })
 
             transition ?
                 that.$element.find('.modal-dialog') // wait for modal to slide in
-                .one('bsTransitionEnd', function()
-                {
+                .one('bsTransitionEnd', function() {
                     that.$element.trigger('focus').trigger(e)
                 })
                 .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
@@ -195,15 +173,14 @@
         })
     }
 
-    Modal.prototype.hide = function(e)
-    {
-        if (e) e.preventDefault()
+    Modal.prototype.hide = function(e) {
+        if(e) e.preventDefault()
 
         e = $.Event('hide.' + zuiname)
 
         this.$element.trigger(e)
 
-        if (!this.isShown || e.isDefaultPrevented()) return
+        if(!this.isShown || e.isDefaultPrevented()) return
 
         this.isShown = false
 
@@ -226,79 +203,64 @@
             this.hideModal()
     }
 
-    Modal.prototype.enforceFocus = function()
-    {
+    Modal.prototype.enforceFocus = function() {
         $(document)
             .off('focusin.' + zuiname) // guard against infinite focus loop
-            .on('focusin.' + zuiname, $.proxy(function(e)
-            {
-                if (this.$element[0] !== e.target && !this.$element.has(e.target).length)
-                {
+            .on('focusin.' + zuiname, $.proxy(function(e) {
+                if(this.$element[0] !== e.target && !this.$element.has(e.target).length) {
                     this.$element.trigger('focus')
                 }
             }, this))
     }
 
-    Modal.prototype.escape = function()
-    {
-        if (this.isShown && this.options.keyboard)
-        {
-            $(document).on('keydown.dismiss.' + zuiname, $.proxy(function(e)
-            {
-                if (e.which == 27)
-                {
+    Modal.prototype.escape = function() {
+        if(this.isShown && this.options.keyboard) {
+            $(document).on('keydown.dismiss.' + zuiname, $.proxy(function(e) {
+                if(e.which == 27) {
                     var et = $.Event('escaping.' + zuiname)
                     var result = this.$element.triggerHandler(et, 'esc')
-                    if (result != undefined && (!result)) return
+                    if(result != undefined && (!result)) return
                     this.hide()
                 }
             }, this))
-        }
-        else if (!this.isShown)
-        {
+        } else if(!this.isShown) {
             $(document).off('keydown.dismiss.' + zuiname)
         }
     }
 
-    Modal.prototype.hideModal = function()
-    {
+    Modal.prototype.hideModal = function() {
         var that = this
         this.$element.hide()
-        this.backdrop(function()
-        {
+        this.backdrop(function() {
             that.$element.trigger('hidden.' + zuiname)
         })
     }
 
-    Modal.prototype.removeBackdrop = function()
-    {
+    Modal.prototype.removeBackdrop = function() {
         this.$backdrop && this.$backdrop.remove()
         this.$backdrop = null
     }
 
-    Modal.prototype.backdrop = function(callback)
-    {
+    Modal.prototype.backdrop = function(callback) {
         var that = this
         var animate = this.$element.hasClass('fade') ? 'fade' : ''
 
-        if (this.isShown && this.options.backdrop)
-        {
+        if(this.isShown && this.options.backdrop) {
             var doAnimate = $.support.transition && animate
 
             this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
                 .appendTo(this.$body)
 
-            this.$element.on('mousedown.dismiss.' + zuiname, $.proxy(function(e)
-            {
-                if (e.target !== e.currentTarget) return
+            this.$element.on('mousedown.dismiss.' + zuiname, $.proxy(function(e) {
+                if(e.target !== e.currentTarget) return
                 this.options.backdrop == 'static' ? this.$element[0].focus.call(this.$element[0]) : this.hide.call(this)
             }, this))
 
-            if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
+            if(doAnimate) this.$backdrop[0].offsetWidth // force reflow
 
             this.$backdrop.addClass('in')
 
-            if (!callback) return
+            if(!callback) return
 
             doAnimate ?
                 this.$backdrop
@@ -306,13 +268,10 @@
                 .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
                 callback()
 
-        }
-        else if (!this.isShown && this.$backdrop)
-        {
+        } else if(!this.isShown && this.$backdrop) {
             this.$backdrop.removeClass('in')
 
-            var callbackRemove = function()
-            {
+            var callbackRemove = function() {
                 that.removeBackdrop()
                 callback && callback()
             }
@@ -322,32 +281,26 @@
                 .emulateTransitionEnd(Modal.BACKDROP_TRANSITION_DURATION) :
                 callbackRemove()
 
-        }
-        else if (callback)
-        {
+        } else if(callback) {
             callback()
         }
     }
 
-    Modal.prototype.checkScrollbar = function()
-    {
-        if (document.body.clientWidth >= window.innerWidth) return
+    Modal.prototype.checkScrollbar = function() {
+        if(document.body.clientWidth >= window.innerWidth) return
         this.scrollbarWidth = this.scrollbarWidth || this.measureScrollbar()
     }
 
-    Modal.prototype.setScrollbar = function()
-    {
+    Modal.prototype.setScrollbar = function() {
         var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-        if (this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+        if(this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
     }
 
-    Modal.prototype.resetScrollbar = function()
-    {
+    Modal.prototype.resetScrollbar = function() {
         this.$body.css('padding-right', '')
     }
 
-    Modal.prototype.measureScrollbar = function()
-    { // thx walsh
+    Modal.prototype.measureScrollbar = function() { // thx walsh
         var scrollDiv = document.createElement('div')
         scrollDiv.className = 'modal-scrollbar-measure'
         this.$body.append(scrollDiv)
@@ -360,18 +313,15 @@
     // MODAL PLUGIN DEFINITION
     // =======================
 
-    function Plugin(option, _relatedTarget, position)
-    {
-        return this.each(function()
-        {
+    function Plugin(option, _relatedTarget, position) {
+        return this.each(function() {
             var $this = $(this)
             var data = $this.data(zuiname)
-            var options = $.extend(
-            {}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
+            var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-            if (!data) $this.data(zuiname, (data = new Modal(this, options)))
-            if (typeof option == 'string') data[option](_relatedTarget, position)
-            else if (options.show) data.show(_relatedTarget, position)
+            if(!data) $this.data(zuiname, (data = new Modal(this, options)))
+            if(typeof option == 'string') data[option](_relatedTarget, position)
+            else if(options.show) data.show(_relatedTarget, position)
         })
     }
 
@@ -384,8 +334,7 @@
     // MODAL NO CONFLICT
     // =================
 
-    $.fn.modal.noConflict = function()
-    {
+    $.fn.modal.noConflict = function() {
         $.fn.modal = old
         return this
     }
@@ -394,34 +343,27 @@
     // MODAL DATA-API
     // ==============
 
-    $(document).on('click.' + zuiname + '.data-api', '[data-toggle="modal"]', function(e)
-    {
+    $(document).on('click.' + zuiname + '.data-api', '[data-toggle="modal"]', function(e) {
         var $this = $(this)
         var href = $this.attr('href')
         var $target = null
-        try
-        {
+        try {
             // strip for ie7
             $target = $($this.attr('data-target') || (href && href.replace(/.*(?=#[^\s]+$)/, '')));
-        }
-        catch (ex)
-        {
+        } catch(ex) {
             return
         }
-        if (!$target.length) return;
-        var option = $target.data(zuiname) ? 'toggle' : $.extend(
-        {
+        if(!$target.length) return;
+        var option = $target.data(zuiname) ? 'toggle' : $.extend({
             remote: !/#/.test(href) && href
         }, $target.data(), $this.data())
 
-        if ($this.is('a')) e.preventDefault()
+        if($this.is('a')) e.preventDefault()
 
-        $target.one('show.' + zuiname, function(showEvent)
-        {
+        $target.one('show.' + zuiname, function(showEvent) {
             // only register focus restorer if modal will actually get shown
-            if (showEvent.isDefaultPrevented()) return
-            $target.one('hidden.' + zuiname, function()
-            {
+            if(showEvent.isDefaultPrevented()) return
+            $target.one('hidden.' + zuiname, function() {
                 $this.is(':visible') && $this.trigger('focus')
             })
         })
@@ -429,3 +371,4 @@
     })
 
 }(jQuery);
+

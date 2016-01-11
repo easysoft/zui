@@ -6,8 +6,7 @@
  * ======================================================================== */
 
 
-(function(window, $)
-{
+(function(window, $) {
     'use strict';
     var desktopLg = 1200,
         desktop = 992,
@@ -23,8 +22,7 @@
 
     var $window = $(window);
 
-    var resetCssClass = function()
-    {
+    var resetCssClass = function() {
         var width = $window.width();
         $('html').toggleClass(cssNames.desktop, width >= desktop && width < desktopLg)
             .toggleClass(cssNames.desktopLg, width >= desktopLg)
@@ -37,3 +35,4 @@
     $window.resize(resetCssClass);
     resetCssClass();
 }(window, jQuery));
+

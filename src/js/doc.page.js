@@ -1,12 +1,11 @@
-(function(window, $)
-{
+(function(window, $) {
     'use strict';
 
     // Polyfill
-    if (!String.prototype.endsWith) {
+    if(!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
             var subjectString = this.toString();
-            if (position === undefined || position > subjectString.length) {
+            if(position === undefined || position > subjectString.length) {
                 position = subjectString.length;
             }
             position -= searchString.length;
@@ -15,40 +14,63 @@
         };
     }
 
-    if (!String.prototype.startsWith) {
+    if(!String.prototype.startsWith) {
         String.prototype.startsWith = function(searchString, position) {
             position = position || 0;
             return this.lastIndexOf(searchString, position) === position;
         };
     }
 
-    if (!String.prototype.includes) {
+    if(!String.prototype.includes) {
         String.prototype.includes = function() {
             return String.prototype.indexOf.apply(this, arguments) !== -1;
         };
     }
 
-    var getQueryString = function(name, defaultValue)
-    {
+    var getQueryString = function(name, defaultValue) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
-        if (r !== null) return unescape(r[2]); return defaultValue;
+        if(r !== null) return unescape(r[2]);
+        return defaultValue;
     };
 
     var debug = getQueryString('debug', 0);
     if(debug) console.error("DEBUG ENABLED.");
 
     var chapters = {
-        learn: {col: 1},
-        start: {col: 1},
-        basic: {col: 1},
-        control: {col: 2},
-        component: {col: 2},
-        javascript: {col: 3},
-        view: {col: 3},
-        promotion: {col: 1, row: 2},
-        resource: {col: 1, row: 2},
-        contribution: {col: 1, row: 2}
+        learn: {
+            col: 1
+        },
+        start: {
+            col: 1
+        },
+        basic: {
+            col: 1
+        },
+        control: {
+            col: 2
+        },
+        component: {
+            col: 2
+        },
+        javascript: {
+            col: 3
+        },
+        view: {
+            col: 3
+        },
+        promotion: {
+            col: 1,
+            row: 2
+        },
+        resource: {
+            col: 1,
+            row: 2
+        },
+        contribution: {
+            col: 1,
+            row: 2
+        }
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
     var LAST_QUERY_ID = 'LAST_QUERY_ID';
@@ -62,7 +84,11 @@
         // 'index.json': null
     };
     if(debug) window.dataset = dataset;
-    var pkgLibs = {standard: null, lite: null, separate: null};
+    var pkgLibs = {
+        standard: null,
+        lite: null,
+        separate: null
+    };
 
     var documentTitle = 'ZUI';
     var sectionsShowed;
@@ -90,9 +116,8 @@
         return str;
     };
 
-    var checkScrollbar = function()
-    {
-        if (document.body.clientWidth >= window.innerWidth) return;
+    var checkScrollbar = function() {
+        if(document.body.clientWidth >= window.innerWidth) return;
 
         if(scrollBarWidth < 0) {
             var scrollDiv = document.createElement('div');
@@ -102,15 +127,14 @@
             $body[0].removeChild(scrollDiv);
         }
 
-        if (scrollBarWidth) {
+        if(scrollBarWidth) {
             var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
             $body.css('padding-right', bodyPad + scrollBarWidth);
             $navbar.css('padding-right', scrollBarWidth);
         }
     };
 
-    var resetScrollbar = function()
-    {
+    var resetScrollbar = function() {
         $body.css('padding-right', '');
         $navbar.css('padding-right', '');
     };
@@ -124,7 +148,10 @@
             if(storedData !== null) {
                 var storedVersion = $.zui.store.get('//' + url + '::V');
                 if(storedVersion) {
-                    cacheData = {data: storedData, version: storedVersion};
+                    cacheData = {
+                        data: storedData,
+                        version: storedVersion
+                    };
                     dataset[url] = cacheData;
                     isHasCache = true;
                     if(debug) console.log('Load', url, 'from storage:', cacheData);
@@ -139,12 +166,15 @@
         }
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
-        $.get(url, function(data){
+        $.get(url, function(data) {
             if(data !== null) {
                 if(isIndexJson) {
                     dataVersion = data.version;
                 }
-                cacheData = {data: data, version: dataVersion};
+                cacheData = {
+                    data: data,
+                    version: dataVersion
+                };
                 dataset[url] = cacheData;
                 $.zui.store.set('//' + url, data);
                 $.zui.store.set('//' + url + '::V', dataVersion);
@@ -155,7 +185,7 @@
                 if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
                 callback(cacheData.data);
             }
-        }, dataType).error(function(){
+        }, dataType).error(function() {
             if(debug) console.error("Ajax error:", url);
             if(isHasCache && !isIndexJson) {
                 if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
@@ -170,12 +200,12 @@
 
     var eachSection = function(callback, eachChapterCallback) {
         var docIndex = dataset[INDEX_JSON].data;
-        if (!docIndex) {
+        if(!docIndex) {
             console.error("Document index is empty.");
             return false;
         };
 
-        $.each(chapters, function(chapterName, chapter){
+        $.each(chapters, function(chapterName, chapter) {
             if(!docIndex.chapters[chapterName]) return;
             $.extend(chapter, docIndex.chapters[chapterName]);
             var sections = chapter.sections;
@@ -184,7 +214,7 @@
                 data = eachChapterCallback(chapter, sections);
                 if(data === false) return false;
             }
-            $.each(sections, function(i, section){
+            $.each(sections, function(i, section) {
                 if(callback(chapter, section, data) === false) return false;
             });
         });
@@ -194,10 +224,10 @@
     var displaySectionIcon = function($icon, section) {
         var icon = section.icon;
         $icon.attr('class', 'icon').text('').css('background-image', '');
-        if (icon === undefined || icon === null || icon === "") {
+        if(icon === undefined || icon === null || icon === "") {
             icon = section.name.substr(0, 1).toUpperCase();
         }
-        if (icon.startsWith('icon-')) {
+        if(icon.startsWith('icon-')) {
             $icon.addClass(icon);
         } else if(icon.endsWith('.png')) {
             $icon.css('background-image', 'url(' + icon + ')').addClass('with-img');
@@ -208,40 +238,40 @@
 
     var initSections = function() {
         var order = 0;
-        if(eachSection(function(chapter, section, $sectionList){
-            var chapterName = chapter.id;
-            section.chapter = chapterName;
-            section.chapterName = chapter.name;
-            section.accent = chapter.accent;
+        if(eachSection(function(chapter, section, $sectionList) {
+                var chapterName = chapter.id;
+                section.chapter = chapterName;
+                section.chapterName = chapter.name;
+                section.accent = chapter.accent;
 
-            var url = section.url;
-            if(typeof url === 'undefined') {
-                section.url = '../part/' + section.chapter + '-' + section.id + '.html';
-                section.target = 'page';
-            } else if(isExternalUrl(url)) {
-                section.target = 'external';
-            } else if(url && url.endsWith('.md')) {
-                section.target = 'page';
-                section.targetType = 'markdown';
-                if(url === '.md') {
-                    section.url = '../part/' + section.chapter + '-' + section.id + '.md';
+                var url = section.url;
+                if(typeof url === 'undefined') {
+                    section.url = '../part/' + section.chapter + '-' + section.id + '.html';
+                    section.target = 'page';
+                } else if(isExternalUrl(url)) {
+                    section.target = 'external';
+                } else if(url && url.endsWith('.md')) {
+                    section.target = 'page';
+                    section.targetType = 'markdown';
+                    if(url === '.md') {
+                        section.url = '../part/' + section.chapter + '-' + section.id + '.md';
+                    }
+                } else {
+                    section.target = '';
                 }
-            } else {
-                section.target = '';
-            }
 
-            var id = chapterName + '-' + section.id;
-            var sectionUrl = '#' + chapterName + '/' + section.id;
-            if (section.topics && section.topics.length) {
-                var topicId = 0;
-                for (var tName in section.topics) {
-                    var topic = section.topics[tName];
+                var id = chapterName + '-' + section.id;
+                var sectionUrl = '#' + chapterName + '/' + section.id;
+                if(section.topics && section.topics.length) {
+                    var topicId = 0;
+                    for(var tName in section.topics) {
+                        var topic = section.topics[tName];
 
-                    if(typeof topic.id === 'undefined') topic.id = tName;
-                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + (topicId++)) : topic.url;
+                        if(typeof topic.id === 'undefined') topic.id = tName;
+                        var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + (topicId++)) : topic.url;
+                    }
                 }
-            }
-        })) {
+            })) {
             $body.children('.loader').removeClass('loading');
         } else if(debug) {
             console.error("Display sections failed.");
@@ -257,7 +287,7 @@
         }
         if($body.hasClass('page-open')) {
             var style = $page.data('trans-style');
-            if(style){
+            if(style) {
                 style['max-height'] = '';
                 $page.css(style);
             }
@@ -268,7 +298,7 @@
             }
 
             window.document.title = documentTitle;
-            setTimeout(function(){
+            setTimeout(function() {
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
             }, 300);
@@ -315,12 +345,12 @@
             delayMutedPageLoading = window['onPageLoad']() === false;
         }
 
-        $pageContent.find('img[src^="docs/"]').each(function(){
+        $pageContent.find('img[src^="docs/"]').each(function() {
             var $img = $(this);
             $img.attr('src', $img.attr('src').replace(/docs\//g, '../'));
         });
 
-        setTimeout(function(){
+        setTimeout(function() {
             if($.isFunction(window['afterPageLoad'])) {
                 if(window['afterPageLoad'](mutePageLoading) === true) {
                     handlePageLoad();
@@ -349,7 +379,7 @@
         var pageUrl = '#' + section.chapter + '/' + section.id;
         if(topic) pageUrl += '/' + topic;
         window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
-        if(window['ga'] && $.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
+        if(window['ga'] && $.isFunction(ga)) ga('send', 'pageview', window.location.pathname + pageUrl);
 
         $body.attr('data-page-accent', section.accent).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
@@ -366,7 +396,7 @@
             $pageAttrs.children('.badge-lite').toggle(!!lib.bundles.lite);
             $pageAttrs.children('.badge-lib').toggle(!!lib.bundles.separate);
             $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
-            
+
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
             $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
         }
@@ -375,14 +405,14 @@
         $page.addClass('loading');
         $pageLoader.removeClass('with-error').addClass('loading');
         var lastShowDataCall;
-        loadData(section.url, function(data){
-            var showData = function(){
+        loadData(section.url, function(data) {
+            var showData = function() {
                 if(marked && section.targetType === 'markdown') {
                     var $article = $();
                     var $markdown = $(marked(data));
                     var $lastSection, checkFirstH1 = true;
                     var hasH2 = $markdown.filter('h2').length > 0;
-                    $markdown.each(function(){
+                    $markdown.each(function() {
                         var $tag = $(this);
                         var tagName = $tag.prop('tagName');
                         if(tagName === 'STYLE' || tagName === 'SCRIPT') {
@@ -509,7 +539,8 @@
             }
             $section.toggleClass('collapsed', !toggle);
             var $setions = $pageContent.children('section');
-            var sectionsCount = $setions.length, collapsedSectionCount = $setions.filter('.collapsed').length;
+            var sectionsCount = $setions.length,
+                collapsedSectionCount = $setions.filter('.collapsed').length;
             if(collapsedSectionCount === 0) {
                 $page.removeClass('page-collapsed');
             } else if(collapsedSectionCount === sectionsCount) {
@@ -530,7 +561,7 @@
         if(debug) console.log('Open page url', url);
         if(url.startsWith('#')) {
             url = url.substr(1);
-            setTimeout(function(){
+            setTimeout(function() {
                 var params = url.split('/');
                 var controllerName = params[0].toLowerCase();
                 if(controllerName === 'search' || controllerName === 'query') {
@@ -550,7 +581,9 @@
         if(libNames) {
             var len = libNames.length;
             name = name.toLowerCase();
-            var names = name + 's', nameDot = name + '.', namesDot = name + 's.';
+            var names = name + 's',
+                nameDot = name + '.',
+                namesDot = name + 's.';
             for(var i = 0; i < len; ++i) {
                 var item = libNames[i];
                 if(item === name || item === names || (lib && !lib.src && isInLib(name, lib.dpds))) {
@@ -561,27 +594,19 @@
         return false;
     };
 
-    var getBuildList = function(pkg, build, lib, list)
-    {
-        if(!list)
-        {
+    var getBuildList = function(pkg, build, lib, list) {
+        if(!list) {
             list = [];
         }
-        if(!$.isArray(list))
-        {
+        if(!$.isArray(list)) {
             list = [list];
         }
 
-        if(build.bundles)
-        {
-            $.each(build.bundles, function(idx, val)
-            {
-                if(pkg.builds[val])
-                {
+        if(build.bundles) {
+            $.each(build.bundles, function(idx, val) {
+                if(pkg.builds[val]) {
                     getBuildList(pkg, pkg.builds[val], lib, list);
-                }
-                else
-                {
+                } else {
                     list = getItemList(lib, [val], list);
                 }
             });
@@ -593,24 +618,17 @@
         return list;
     };
 
-    var getItemList  = function(lib, list, items, ignoreDpds, ignoreCombine)
-    {
+    var getItemList = function(lib, list, items, ignoreDpds, ignoreCombine) {
         items = items || [];
 
-        if($.isArray(list))
-        {
-            $.each(list, function(idx, name)
-            {
+        if($.isArray(list)) {
+            $.each(list, function(idx, name) {
                 getItemList(lib, name, items, ignoreDpds);
             });
-        }
-        else
-        {
+        } else {
             var item = lib[list];
-            if(item && items.indexOf(list) < 0)
-            {
-                if(!ignoreDpds && item.dpds)
-                {
+            if(item && items.indexOf(list) < 0) {
+                if(!ignoreDpds && item.dpds) {
                     getItemList(lib, item.dpds, items, ignoreDpds);
                 }
                 if(item.src || !ignoreCombine) items.push(list);
@@ -620,17 +638,19 @@
         return items;
     };
 
-    var loadPackage = function (){
+    var loadPackage = function() {
         loadData(PKG_JSON, function(pkg) {
             $('.zui-version').text('v' + pkg.version);
             pkgLibs.standard = getBuildList(pkg, pkg.builds.standard, pkg.lib);
             pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
             pkgLibs.separate = getBuildList(pkg, pkg.builds.separate, pkg.lib);
 
-            eachSection(function(chapter, section, $sectionList){
+            eachSection(function(chapter, section, $sectionList) {
                 var pkgLib = pkg.lib[section.id] || pkg.lib[section.id + 's'];
-                var lib = {bundles: {}};
-                $.each(pkgLibs, function(name, libNames){
+                var lib = {
+                    bundles: {}
+                };
+                $.each(pkgLibs, function(name, libNames) {
                     if(isInLib(section.id, libNames, pkgLib)) {
                         lib.bundles[name] = true;
                     }
@@ -660,7 +680,7 @@
                         }
                     }
                 }
-                
+
                 section.lib = lib;
             });
         });
@@ -668,19 +688,19 @@
 
     var displayPkgLibTable = function($table) {
         if(!$table.length) return;
-        loadData(PKG_JSON, function(data){
+        loadData(PKG_JSON, function(data) {
             var $tbody = $('<tbody></tbody>');
 
-            var getChildCompsList = function(val){return data.lib[val].name;};
+            var getChildCompsList = function(val) {
+                return data.lib[val].name;
+            };
             var $tr, $td;
-            for(var itemName in data.lib)
-            {
+            for(var itemName in data.lib) {
                 var item = data.lib[itemName];
                 if(item.custom) continue;
 
                 var childComps = '';
-                if(!item.src && item.dpds)
-                {
+                if(!item.src && item.dpds) {
                     var childList = getItemList(data.lib, item.dpds, null, true, true);
                     childComps = '合并组件包含：';
                     childComps += $.map(childList, getChildCompsList).join('、');
@@ -690,18 +710,14 @@
 
                 $td = $('<td/>');
                 $td.attr('title', item.desc);
-                $td.html('<strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') +')');
+                $td.html('<strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') + ')');
                 $tr.append($td);
 
-                $.each(pkgLibs, function(idx, sLib)
-                {
+                $.each(pkgLibs, function(idx, sLib) {
                     $td = $('<td class="text-center"/>');
-                    if(sLib.indexOf(itemName) > -1)
-                    {
+                    if(sLib.indexOf(itemName) > -1) {
                         $td.addClass('success').html('<i class="text-success icon-ok"></i>');
-                    }
-                    else
-                    {
+                    } else {
                         $td.html('<i class="text-muted icon-remove"></i>');
                     }
                     $tr.append($td);
@@ -715,11 +731,14 @@
             }
             $table.find('tbody').remove();
             $table.append($tbody);
-            $table.datatable({rowHover: false, fixedHeaderOffset: 60});
+            $table.datatable({
+                rowHover: false,
+                fixedHeaderOffset: 60
+            });
         });
     };
 
-    var init = function(){
+    var init = function() {
         documentTitle = window.document.title;
 
         var stopPropagation = function(e) {
@@ -736,7 +755,7 @@
         $pageLoader = $('#pageLoader');
         $pageBody = $('#pageBody');
         $pageContent = $('#pageContent');
-        $.each(chapters, function(chapterId, chapter){
+        $.each(chapters, function(chapterId, chapter) {
             chapterId = chapterId.toLowerCase();
             chapter.id = chapterId;
         });
@@ -745,11 +764,13 @@
         storageEnable = $.zui.store && $.zui.store.enable;
 
         // Setup ajax
-        $.ajaxSetup({cache: false});
+        $.ajaxSetup({
+            cache: false
+        });
 
         // Load index.json
         var firstLoad = true;
-        loadData(INDEX_JSON, function(data){
+        loadData(INDEX_JSON, function(data) {
 
             initSections(data);
 
@@ -768,26 +789,28 @@
         // Bind events
         var oldActivePreivewId;
         var cancelClickInPage;
-        $(document).on('click', 'a[href^="#"]', function(){
+        $(document).on('click', 'a[href^="#"]', function() {
             openPageUrl($(this).attr('href'));
         });
 
-        $pageContent.on('click', 'section > header > h3', function(){
+        $pageContent.on('click', 'section > header > h3', function() {
             togglePageSection($(this).closest('section'));
-        }).on('mouseenter', 'section > header > h3', function(){
+        }).on('mouseenter', 'section > header > h3', function() {
             $(this).closest('section').addClass('hover');
-        }).on('mouseleave', 'section > header > h3', function(){
+        }).on('mouseleave', 'section > header > h3', function() {
             $(this).closest('section').removeClass('hover');
         });
-        $page.on('click', '#pageTogger', function(){
+        $page.on('click', '#pageTogger', function() {
             togglePageSection();
         });
 
-        $pageBody.on('scroll', function(e){
+        $pageBody.on('scroll', function(e) {
             $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
         });
 
-        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        $('[data-toggle="tooltip"]').tooltip({
+            container: 'body'
+        });
     };
 
     init();
@@ -800,3 +823,4 @@
         displayPkgLibTable: displayPkgLibTable
     };
 }(window, jQuery));
+

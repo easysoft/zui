@@ -12,17 +12,17 @@
 /// Add jquery object to namespace
 
 /// (function(){ // Old code
-(function($){
+(function($) {
 
     /// ----- ZUI change end -----
     "use strict";
 
-/// ----- ZUI change begin -----
-/// Change root to zui shared object
-///
-///   var root = this, // old code
-      var root = $ && $.zui ? $.zui : this,
-/// ----- ZUI change end -----
+    /// ----- ZUI change begin -----
+    /// Change root to zui shared object
+    ///
+    ///   var root = this, // old code
+    var root = $ && $.zui ? $.zui : this,
+        /// ----- ZUI change end -----
         Chart = root.Chart,
         helpers = Chart.helpers;
 
@@ -46,22 +46,22 @@
         //Boolean - Whether to show vertical lines (except Y axis)
         scaleShowVerticalLines: true,
 
-/// ZUI change begin
+        /// ZUI change begin
         //Boolean - Whether to show beyond lines
         scaleShowBeyondLine: true,
-/// ZUI change end
-/// 
+        /// ZUI change end
+        /// 
         //Boolean - If there is a stroke on each bar
         barShowStroke: true,
 
         //Number - Pixel width of the bar stroke
-/// ZUI change begin
-///        barStrokeWidth: 2,
+        /// ZUI change begin
+        ///        barStrokeWidth: 2,
         barStrokeWidth: 1,
 
         // String - Sacle value labels placement
         scaleValuePlacement: 'auto', // none, auto, outside, inside-top, inside-middle, inside-bottom
-/// ZUI change end
+        /// ZUI change end
 
         //Number - Spacing between each of the X value sets
         barValueSpacing: 5,
@@ -74,21 +74,17 @@
     };
 
 
-    Chart.Type.extend(
-    {
+    Chart.Type.extend({
         name: "Bar",
         defaults: defaultConfig,
-        initialize: function(data)
-        {
+        initialize: function(data) {
 
             //Expose options as a scope variable here so we can access it in the ScaleClass
             var options = this.options;
 
-            this.ScaleClass = Chart.Scale.extend(
-            {
+            this.ScaleClass = Chart.Scale.extend({
                 offsetGridLines: true,
-                calculateBarX: function(datasetCount, datasetIndex, barIndex)
-                {
+                calculateBarX: function(datasetCount, datasetIndex, barIndex) {
                     //Reusable method for calculating the xPosition of a given bar based on datasetIndex & width of the bar
                     var xWidth = this.calculateBaseWidth(),
                         xAbsolute = this.calculateX(barIndex) - (xWidth / 2),
@@ -96,34 +92,28 @@
 
                     return xAbsolute + (barWidth * datasetIndex) + (datasetIndex * options.barDatasetSpacing) + barWidth / 2;
                 },
-                calculateBaseWidth: function()
-                {
-                    return (this.calculateX(1) - this.calculateX(0)) - (2 * options.barValueSpacing);
+                calculateBaseWidth: function() {
+                    return(this.calculateX(1) - this.calculateX(0)) - (2 * options.barValueSpacing);
                 },
-                calculateBarWidth: function(datasetCount)
-                {
+                calculateBarWidth: function(datasetCount) {
                     //The padding between datasets is to the right of each bar, providing that there are more than 1 dataset
                     var baseWidth = this.calculateBaseWidth() - ((datasetCount - 1) * options.barDatasetSpacing);
 
-                    return (baseWidth / datasetCount);
+                    return(baseWidth / datasetCount);
                 }
             });
 
             this.datasets = [];
 
             //Set up tooltip events on the chart
-            if (this.options.showTooltips)
-            {
-                helpers.bindEvents(this, this.options.tooltipEvents, function(evt)
-                {
+            if(this.options.showTooltips) {
+                helpers.bindEvents(this, this.options.tooltipEvents, function(evt) {
                     var activeBars = (evt.type !== 'mouseout') ? this.getBarsAtEvent(evt) : [];
 
-                    this.eachBars(function(bar)
-                    {
+                    this.eachBars(function(bar) {
                         bar.restore(['fillColor', 'strokeColor']);
                     });
-                    helpers.each(activeBars, function(activeBar)
-                    {
+                    helpers.each(activeBars, function(activeBar) {
                         activeBar.fillColor = activeBar.highlightFill;
                         activeBar.strokeColor = activeBar.highlightStroke;
                     });
@@ -132,27 +122,24 @@
             }
 
             //Declare the extension of the default point, to cater for the options passed in to the constructor
-            this.BarClass = Chart.Rectangle.extend(
-            {
+            this.BarClass = Chart.Rectangle.extend({
                 strokeWidth: this.options.barStrokeWidth,
                 showStroke: this.options.barShowStroke,
                 ctx: this.chart.ctx
             });
 
             //Iterate through each of the datasets, and build this into a property of the chart
-            helpers.each(data.datasets, function(dataset, datasetIndex)
-            {
-/// ----- ZUI change begin -----
-// add color theme
-                if($.zui && $.zui.Color && $.zui.Color.get)
-                {
+            helpers.each(data.datasets, function(dataset, datasetIndex) {
+                /// ----- ZUI change begin -----
+                // add color theme
+                if($.zui && $.zui.Color && $.zui.Color.get) {
                     var accentColor = $.zui.Color.get(dataset.color);
                     var accentColorValue = accentColor.toCssStr();
 
                     if(!dataset.fillColor) dataset.fillColor = accentColor.clone().fade(50).toCssStr();
                     if(!dataset.strokeColor) dataset.strokeColor = accentColorValue;
                 }
-/// ----- ZUI change begin -----
+                /// ----- ZUI change begin -----
 
                 var datasetObject = {
                     label: dataset.label || null,
@@ -163,11 +150,9 @@
 
                 this.datasets.push(datasetObject);
 
-                helpers.each(dataset.data, function(dataPoint, index)
-                {
+                helpers.each(dataset.data, function(dataPoint, index) {
                     //Add a new point for each piece of data, passing any required data to draw.
-                    datasetObject.bars.push(new this.BarClass(
-                    {
+                    datasetObject.bars.push(new this.BarClass({
                         value: dataPoint,
                         label: data.labels[index],
                         datasetLabel: dataset.label,
@@ -184,10 +169,8 @@
 
             this.BarClass.prototype.base = this.scale.endPoint;
 
-            this.eachBars(function(bar, index, datasetIndex)
-            {
-                helpers.extend(bar,
-                {
+            this.eachBars(function(bar, index, datasetIndex) {
+                helpers.extend(bar, {
                     width: this.scale.calculateBarWidth(this.datasets.length),
                     x: this.scale.calculateBarX(this.datasets.length, datasetIndex, index),
                     y: this.scale.endPoint
@@ -197,44 +180,34 @@
 
             this.render();
         },
-        update: function()
-        {
+        update: function() {
             this.scale.update();
             // Reset any highlight colours before updating.
-            helpers.each(this.activeElements, function(activeElement)
-            {
+            helpers.each(this.activeElements, function(activeElement) {
                 activeElement.restore(['fillColor', 'strokeColor']);
             });
 
-            this.eachBars(function(bar)
-            {
+            this.eachBars(function(bar) {
                 bar.save();
             });
             this.render();
         },
-        eachBars: function(callback)
-        {
-            helpers.each(this.datasets, function(dataset, datasetIndex)
-            {
+        eachBars: function(callback) {
+            helpers.each(this.datasets, function(dataset, datasetIndex) {
                 helpers.each(dataset.bars, callback, this, datasetIndex);
             }, this);
         },
-        getBarsAtEvent: function(e)
-        {
+        getBarsAtEvent: function(e) {
             var barsArray = [],
                 eventPosition = helpers.getRelativePosition(e),
-                datasetIterator = function(dataset)
-                {
+                datasetIterator = function(dataset) {
                     barsArray.push(dataset.bars[barIndex]);
                 },
                 barIndex;
 
-            for (var datasetIndex = 0; datasetIndex < this.datasets.length; datasetIndex++)
-            {
-                for (barIndex = 0; barIndex < this.datasets[datasetIndex].bars.length; barIndex++)
-                {
-                    if (this.datasets[datasetIndex].bars[barIndex].inRange(eventPosition.x, eventPosition.y))
-                    {
+            for(var datasetIndex = 0; datasetIndex < this.datasets.length; datasetIndex++) {
+                for(barIndex = 0; barIndex < this.datasets[datasetIndex].bars.length; barIndex++) {
+                    if(this.datasets[datasetIndex].bars[barIndex].inRange(eventPosition.x, eventPosition.y)) {
                         helpers.each(this.datasets, datasetIterator);
                         return barsArray;
                     }
@@ -243,15 +216,12 @@
 
             return barsArray;
         },
-        buildScale: function(labels)
-        {
+        buildScale: function(labels) {
             var self = this;
 
-            var dataTotal = function()
-            {
+            var dataTotal = function() {
                 var values = [];
-                self.eachBars(function(bar)
-                {
+                self.eachBars(function(bar) {
                     values.push(bar.value);
                 });
                 return values;
@@ -269,8 +239,7 @@
                 valuesCount: labels.length,
                 beginAtZero: this.options.scaleBeginAtZero,
                 integersOnly: this.options.scaleIntegersOnly,
-                calculateYRange: function(currentHeight)
-                {
+                calculateYRange: function(currentHeight) {
                     var updatedRanges = helpers.calculateScaleRange(
                         dataTotal(),
                         currentHeight,
@@ -286,9 +255,9 @@
                 lineColor: this.options.scaleLineColor,
                 showHorizontalLines: this.options.scaleShowHorizontalLines,
                 showVerticalLines: this.options.scaleShowVerticalLines,
-/// ZUI change begin
+                /// ZUI change begin
                 showBeyondLine: this.options.scaleShowBeyondLine,
-/// ZUI change end
+                /// ZUI change end
                 gridLineWidth: (this.options.scaleShowGridLines) ? this.options.scaleGridLineWidth : 0,
                 gridLineColor: (this.options.scaleShowGridLines) ? this.options.scaleGridLineColor : "rgba(0,0,0,0)",
                 padding: (this.options.showScale) ? 0 : (this.options.barShowStroke) ? this.options.barStrokeWidth : 0,
@@ -296,10 +265,8 @@
                 display: this.options.showScale
             };
 
-            if (this.options.scaleOverride)
-            {
-                helpers.extend(scaleOptions,
-                {
+            if(this.options.scaleOverride) {
+                helpers.extend(scaleOptions, {
                     calculateYRange: helpers.noop,
                     steps: this.options.scaleSteps,
                     stepValue: this.options.scaleStepWidth,
@@ -310,14 +277,11 @@
 
             this.scale = new this.ScaleClass(scaleOptions);
         },
-        addData: function(valuesArray, label)
-        {
+        addData: function(valuesArray, label) {
             //Map the values array for each of the datasets
-            helpers.each(valuesArray, function(value, datasetIndex)
-            {
+            helpers.each(valuesArray, function(value, datasetIndex) {
                 //Add a new point for each piece of data, passing any required data to draw.
-                this.datasets[datasetIndex].bars.push(new this.BarClass(
-                {
+                this.datasets[datasetIndex].bars.push(new this.BarClass({
                     value: value,
                     label: label,
                     x: this.scale.calculateBarX(this.datasets.length, datasetIndex, this.scale.valuesCount + 1),
@@ -333,38 +297,31 @@
             //Then re-render the chart.
             this.update();
         },
-        removeData: function()
-        {
+        removeData: function() {
             this.scale.removeXLabel();
             //Then re-render the chart.
-            helpers.each(this.datasets, function(dataset)
-            {
+            helpers.each(this.datasets, function(dataset) {
                 dataset.bars.shift();
             }, this);
             this.update();
         },
-        reflow: function()
-        {
-            helpers.extend(this.BarClass.prototype,
-            {
+        reflow: function() {
+            helpers.extend(this.BarClass.prototype, {
                 y: this.scale.endPoint,
                 base: this.scale.endPoint
             });
-            var newScaleProps = helpers.extend(
-            {
+            var newScaleProps = helpers.extend({
                 height: this.chart.height,
                 width: this.chart.width
             });
             this.scale.update(newScaleProps);
         },
-/// ZUI change begin
-        drawLabel: function(bar, placement)
-        {
+        /// ZUI change begin
+        drawLabel: function(bar, placement) {
             var options = this.options;
             placement = placement || options.scaleValuePlacement;
             placement = placement ? placement.toLowerCase() : 'auto';
-            if(placement === 'auto')
-            {
+            if(placement === 'auto') {
                 placement = bar.y < 15 ? 'insdie' : 'outside';
             }
 
@@ -376,9 +333,8 @@
             ctx.fillStyle = options.scaleFontColor;
             ctx.fillText(bar.value, bar.x, y);
         },
-/// ZUI change end
-        draw: function(ease)
-        {
+        /// ZUI change end
+        draw: function(ease) {
             var easingDecimal = ease || 1;
             this.clear();
 
@@ -386,31 +342,26 @@
 
             this.scale.draw(easingDecimal);
 
-/// ZUI change begin
+            /// ZUI change begin
             var showScaleValue = this.options.scaleShowLabels && this.options.scaleValuePlacement;
-/// ZUI change end
+            /// ZUI change end
             //Draw all the bars for each dataset
-            helpers.each(this.datasets, function(dataset, datasetIndex)
-            {
-                helpers.each(dataset.bars, function(bar, index)
-                {
-                    if (bar.hasValue())
-                    {
+            helpers.each(this.datasets, function(dataset, datasetIndex) {
+                helpers.each(dataset.bars, function(bar, index) {
+                    if(bar.hasValue()) {
                         bar.base = this.scale.endPoint;
                         //Transition then draw
-                        bar.transition(
-                        {
+                        bar.transition({
                             x: this.scale.calculateBarX(this.datasets.length, datasetIndex, index),
                             y: this.scale.calculateY(bar.value),
                             width: this.scale.calculateBarWidth(this.datasets.length)
                         }, easingDecimal).draw();
                     }
-/// ZUI change begin
-                    if(showScaleValue)
-                    {
+                    /// ZUI change begin
+                    if(showScaleValue) {
                         this.drawLabel(bar);
                     }
-/// ZUI change end
+                    /// ZUI change end
                 }, this);
 
             }, this);
@@ -419,11 +370,9 @@
 
     /// ----- ZUI change begin -----
     /// Use jquery object to create Chart object
-    $.fn.barChart = function(data, options)
-    {
+    $.fn.barChart = function(data, options) {
         var barCharts = [];
-        this.each(function()
-        {
+        this.each(function() {
             var $this = $(this);
             barCharts.push(new Chart(this.getContext("2d")).Bar(data, $.extend($this.data(), options)));
         });
@@ -439,3 +388,4 @@
 }).call(this, jQuery);
 
 /// ----- ZUI change end -----
+

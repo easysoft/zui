@@ -5,12 +5,12 @@
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
+//  Deprecated: Use jquery way instead.
 
-(function($){
+(function($) {
     'use strict';
 
-    var AutoTrigger = function(element, options)
-    {
+    var AutoTrigger = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
 
@@ -31,57 +31,44 @@
             //,after:
     }; // default options
 
-    AutoTrigger.prototype.getOptions = function(options)
-    {
-        options = $.extend(
-        {}, AutoTrigger.DEFAULTS, this.$.data(), options);
+    AutoTrigger.prototype.getOptions = function(options) {
+        options = $.extend({}, AutoTrigger.DEFAULTS, this.$.data(), options);
         return options;
     };
 
-    AutoTrigger.prototype.init = function()
-    {
+    AutoTrigger.prototype.init = function() {
         this.bindEvents();
     };
 
-    AutoTrigger.prototype.bindEvents = function()
-    {
+    AutoTrigger.prototype.bindEvents = function() {
         var options = this.options,
             i;
         this.bindTrigger(options);
 
-        if ($.isArray(options.triggers))
-        {
-            for (i in options.triggers)
-            {
-                this.bindTrigger($.extend(
-                {}, options, options.triggers[i]));
+        if($.isArray(options.triggers)) {
+            for(i in options.triggers) {
+                this.bindTrigger($.extend({}, options, options.triggers[i]));
             }
-        }
-        else if (typeof options.triggers === 'string')
-        {
+        } else if(typeof options.triggers === 'string') {
             /* events,trigger,target,data */
             var triggers = options.triggers.split('|');
-            for (i in triggers)
-            {
+            for(i in triggers) {
                 var ops = triggers[i].split(',', 4);
-                if (ops.length < 2) continue;
+                if(ops.length < 2) continue;
                 var option = {};
-                if (ops[0]) option.events = ops[0];
-                if (ops[1]) option.trigger = ops[1];
-                if (ops[2]) option.target = ops[2];
-                if (ops[3]) option.data = ops[3];
+                if(ops[0]) option.events = ops[0];
+                if(ops[1]) option.trigger = ops[1];
+                if(ops[2]) option.target = ops[2];
+                if(ops[3]) option.data = ops[3];
 
-                this.bindTrigger($.extend(
-                {}, options, option));
+                this.bindTrigger($.extend({}, options, option));
             }
         }
     };
 
-    AutoTrigger.prototype.bindTrigger = function(options)
-    {
+    AutoTrigger.prototype.bindTrigger = function(options) {
         var that = this;
-        that.$.on(options.events, options.selector, function(event)
-        {
+        that.$.on(options.events, options.selector, function(event) {
             var target = (!options.target) || options.target == 'self' ? that.$ : $(options.target);
             var data = {
                 event: event,
@@ -89,22 +76,17 @@
                 target: target,
                 options: options
             };
-            if (!$.zui.callEvent(options.before, data, that)) return;
+            if(!$.zui.callEvent(options.before, data, that)) return;
 
-            if ($.isFunction(options.trigger))
-            {
+            if($.isFunction(options.trigger)) {
                 $.zui.callEvent(options.trigger, data, that);
-            }
-            else
-            {
+            } else {
                 var type = options.trigger;
-                if (type === 'toggle')
-                {
+                if(type === 'toggle') {
                     type = target.hasClass('hide') ? 'show' : 'hide';
                 }
                 var params;
-                switch (type)
-                {
+                switch(type) {
                     case 'toggle':
                         target.toggle();
                         break;
@@ -115,16 +97,11 @@
                         };
 
                         target.removeClass('hide');
-                        if (options.animate === 'slide')
-                        {
+                        if(options.animate === 'slide') {
                             target.slideDown(params);
-                        }
-                        else if (options.animate === 'fade')
-                        {
+                        } else if(options.animate === 'fade') {
                             target.fadeIn(params);
-                        }
-                        else
-                        {
+                        } else {
                             target.show(params);
                         }
                         break;
@@ -132,21 +109,15 @@
                         params = {
                             duration: options.animateSpeed,
                             easing: options.easing,
-                            complete: function()
-                            {
+                            complete: function() {
                                 target.addClass('hide');
                             }
                         };
-                        if (options.animate === 'slide')
-                        {
+                        if(options.animate === 'slide') {
                             target.slideUp(params);
-                        }
-                        else if (options.animate === 'fade')
-                        {
+                        } else if(options.animate === 'fade') {
                             target.fadeOut(params);
-                        }
-                        else
-                        {
+                        } else {
                             target.hide(params);
                         }
                         break;
@@ -160,50 +131,43 @@
 
             $.zui.callEvent(options.after, data, that);
 
-            if (options.preventDefault) event.preventDefault();
-            if (options.cancelBubble) event.stopPropagation();
+            if(options.preventDefault) event.preventDefault();
+            if(options.cancelBubble) event.stopPropagation();
         });
     };
 
-    $.fn.autoTrigger = function(option)
-    {
-        return this.each(function()
-        {
+    $.fn.autoTrigger = function(option) {
+        return this.each(function() {
             var $this = $(this);
             var data = $this.data('zui.autoTrigger');
             var options = typeof option == 'object' && option;
 
-            if (!data) $this.data('zui.autoTrigger', (data = new AutoTrigger(this, options)));
+            if(!data) $this.data('zui.autoTrigger', (data = new AutoTrigger(this, options)));
 
-            if (typeof option == 'string') data[option]();
+            if(typeof option == 'string') data[option]();
         });
     };
 
     $.fn.autoTrigger.Constructor = AutoTrigger;
 
-    $(function()
-    {
+    $(function() {
         $('[data-toggle="autoTrigger"]').autoTrigger();
         $('[data-toggle="toggle"]').autoTrigger();
-        $('[data-toggle="show"]').autoTrigger(
-        {
+        $('[data-toggle="show"]').autoTrigger({
             trigger: 'show'
         });
-        $('[data-toggle="hide"]').autoTrigger(
-        {
+        $('[data-toggle="hide"]').autoTrigger({
             trigger: 'hide'
         });
-        $('[data-toggle="addClass"]').autoTrigger(
-        {
+        $('[data-toggle="addClass"]').autoTrigger({
             trigger: 'addClass'
         });
-        $('[data-toggle="removeClass"]').autoTrigger(
-        {
+        $('[data-toggle="removeClass"]').autoTrigger({
             trigger: 'removeClass'
         });
-        $('[data-toggle="toggleClass"]').autoTrigger(
-        {
+        $('[data-toggle="toggleClass"]').autoTrigger({
             trigger: 'toggleClass'
         });
     });
 }(jQuery));
+

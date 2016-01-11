@@ -6,15 +6,13 @@
  * ======================================================================== */
 
 
-(function($, window, Math)
-{
+(function($, window, Math) {
     'use strict';
 
-    if (!$.fn.modalTrigger) throw new Error('modal & modalTrigger requires for lightbox');
-    if (!$.zui.imgReady) throw new Error('imgReady requires for lightbox');
+    if(!$.fn.modalTrigger) throw new Error('modal & modalTrigger requires for lightbox');
+    if(!$.zui.imgReady) throw new Error('imgReady requires for lightbox');
 
-    var Lightbox = function(element, options)
-    {
+    var Lightbox = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
 
@@ -25,33 +23,26 @@
         modalTeamplate: '<div class="icon-spinner icon-spin loader"></div><div class="modal-dialog"><button class="close" data-dismiss="modal" aria-hidden="true"><i class="icon-remove"></i></button><button class="controller prev"><i class="icon icon-chevron-left"></i></button><button class="controller next"><i class="icon icon-chevron-right"></i></button><img class="lightbox-img" src="{image}" alt="" data-dismiss="modal" /><div class="caption"><div class="content">{caption}<div></div></div>'
     }; // default options
 
-    Lightbox.prototype.getOptions = function(options)
-    {
+    Lightbox.prototype.getOptions = function(options) {
         var IMAGE = 'image';
-        options = $.extend(
-        {}, Lightbox.DEFAULTS, this.$.data(), options);
-        if (!options[IMAGE])
-        {
+        options = $.extend({}, Lightbox.DEFAULTS, this.$.data(), options);
+        if(!options[IMAGE]) {
             options[IMAGE] = this.$.attr('src') || this.$.attr('href') || this.$.find('img').attr('src');
             this.$.data(IMAGE, options[IMAGE]);
         }
         return options;
     };
 
-    Lightbox.prototype.init = function()
-    {
+    Lightbox.prototype.init = function() {
         this.bindEvents();
     };
 
-    Lightbox.prototype.initGroups = function()
-    {
+    Lightbox.prototype.initGroups = function() {
         var groups = this.$.data('groups');
-        if (!groups)
-        {
+        if(!groups) {
             groups = $('[data-toggle="lightbox"][data-group="' + this.options.group + '"], [data-lightbox-group="' + this.options.group + '"]');
             this.$.data('groups', groups);
-            groups.each(function(index)
-            {
+            groups.each(function(index) {
                 $(this).attr('data-group-index', index);
             });
         }
@@ -59,19 +50,16 @@
         this.groupIndex = parseInt(this.$.data('group-index'));
     };
 
-    Lightbox.prototype.bindEvents = function()
-    {
+    Lightbox.prototype.bindEvents = function() {
         var $e = this.$,
             that = this;
         var options = this.options;
-        if (!options.image) return false;
-        $e.modalTrigger(
-        {
+        if(!options.image) return false;
+        $e.modalTrigger({
             type: 'custom',
             name: 'lightboxModal',
             position: 'center',
-            custom: function(e)
-            {
+            custom: function(e) {
                 that.initGroups();
                 var modal = e.modal,
                     groups = that.groups,
@@ -84,26 +72,22 @@
                     .data('group-index', groupIndex);
                 var dialog = modal.find('.modal-dialog'),
                     winWidth = $(window).width();
-                $.zui.imgReady(options.image, function()
-                {
-                    dialog.css(
-                    {
+                $.zui.imgReady(options.image, function() {
+                    dialog.css({
                         width: Math.min(winWidth, this.width)
                     });
-                    if (winWidth < (this.width + 30)) modal.addClass('lightbox-full');
+                    if(winWidth < (this.width + 30)) modal.addClass('lightbox-full');
                     e.ready();
                 });
 
                 modal.find('.prev').toggleClass('show', groups.filter('[data-group-index="' + (groupIndex - 1) + '"]').length > 0);
                 modal.find('.next').toggleClass('show', groups.filter('[data-group-index="' + (groupIndex + 1) + '"]').length > 0);
 
-                modal.find('.controller').click(function()
-                {
+                modal.find('.controller').click(function() {
                     var $this = $(this);
                     var id = modal.data('group-index') + ($this.hasClass('prev') ? -1 : 1);
                     var $e = groups.filter('[data-group-index="' + id + '"]');
-                    if ($e.length)
-                    {
+                    if($e.length) {
                         var image = $e.data('image'),
                             caption = $e.data('caption');
                         modal.addClass('modal-loading')
@@ -112,13 +96,11 @@
                             .removeClass('lightbox-full');
                         modal.find('.lightbox-img').attr('src', image);
                         winWidth = $(window).width();
-                        $.zui.imgReady(image, function()
-                        {
-                            dialog.css(
-                            {
+                        $.zui.imgReady(image, function() {
+                            dialog.css({
                                 width: Math.min(winWidth, this.width)
                             });
-                            if (winWidth < (this.width + 30)) modal.addClass('lightbox-full');
+                            if(winWidth < (this.width + 30)) modal.addClass('lightbox-full');
                             e.ready();
                         });
                     }
@@ -130,39 +112,32 @@
         });
     };
 
-    $.fn.lightbox = function(option)
-    {
+    $.fn.lightbox = function(option) {
         var defaultGroup = 'group' + (new Date()).getTime();
-        return this.each(function()
-        {
+        return this.each(function() {
             var $this = $(this);
 
             var options = typeof option == 'object' && option;
-            if (typeof options == 'object' && options.group)
-            {
+            if(typeof options == 'object' && options.group) {
                 $this.attr('data-lightbox-group', options.group);
-            }
-            else if ($this.data('group'))
-            {
+            } else if($this.data('group')) {
                 $this.attr('data-lightbox-group', $this.data('group'));
-            }
-            else
-            {
+            } else {
                 $this.attr('data-lightbox-group', defaultGroup);
             }
             $this.data('group', $this.data('lightbox-group'));
 
             var data = $this.data('zui.lightbox');
-            if (!data) $this.data('zui.lightbox', (data = new Lightbox(this, options)));
+            if(!data) $this.data('zui.lightbox', (data = new Lightbox(this, options)));
 
-            if (typeof option == 'string') data[option]();
+            if(typeof option == 'string') data[option]();
         });
     };
 
     $.fn.lightbox.Constructor = Lightbox;
 
-    $(function()
-    {
+    $(function() {
         $('[data-toggle="lightbox"]').lightbox();
     });
 }(jQuery, window, Math));
+

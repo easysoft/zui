@@ -6,8 +6,7 @@
  * ======================================================================== */
 
 
-(function($)
-{
+(function($) {
     'use strict';
 
     var browseHappyTip = {
@@ -17,16 +16,12 @@
     };
 
     // The browser modal class
-    var Browser = function()
-    {
+    var Browser = function() {
         var isIE = this.isIE;
         var ie = isIE();
-        if (ie)
-        {
-            for (var i = 10; i > 5; i--)
-            {
-                if (isIE(i))
-                {
+        if(ie) {
+            for(var i = 10; i > 5; i--) {
+                if(isIE(i)) {
                     ie = i;
                     break;
                 }
@@ -39,14 +34,12 @@
     };
 
     // Append CSS class to html tag
-    Browser.prototype.cssHelper = function()
-    {
+    Browser.prototype.cssHelper = function() {
         var ie = this.ie,
             $html = $('html');
         $html.toggleClass('ie', ie)
             .removeClass('ie-6 ie-7 ie-8 ie-9 ie-10');
-        if (ie)
-        {
+        if(ie) {
             $html.addClass('ie-' + ie)
                 .toggleClass('gt-ie-7 gte-ie-8 support-ie', ie >= 8)
                 .toggleClass('lte-ie-7 lt-ie-8 outdated-ie', ie < 8)
@@ -58,13 +51,10 @@
     };
 
     // Show browse happy tip
-    Browser.prototype.tip = function()
-    {
-        if (this.ie && this.ie < 8)
-        {
+    Browser.prototype.tip = function() {
+        if(this.ie && this.ie < 8) {
             var $browseHappy = $('#browseHappyTip');
-            if (!$browseHappy.length)
-            {
+            if(!$browseHappy.length) {
                 $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
                 $browseHappy.prependTo('body');
             }
@@ -74,8 +64,7 @@
     };
 
     // Detect it is IE, can given a version
-    Browser.prototype.isIE = function(version)
-    {
+    Browser.prototype.isIE = function(version) {
         // var ie = /*@cc_on !@*/false;
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
@@ -83,18 +72,18 @@
     };
 
     // Detect ie 10 with hack
-    Browser.prototype.isIE10 = function()
-    {
-        return ( /*@cc_on!@*/ false);
+    Browser.prototype.isIE10 = function() {
+        return( /*@cc_on!@*/ false);
     };
 
-    $.zui({browser: new Browser()});
+    $.zui({
+        browser: new Browser()
+    });
 
-    $(function()
-    {
-        if (!$('body').hasClass('disabled-browser-tip'))
-        {
+    $(function() {
+        if(!$('body').hasClass('disabled-browser-tip')) {
             $.zui.browser.tip();
         }
     });
 }(jQuery));
+

@@ -6,8 +6,7 @@
  * ======================================================================== */
 
 
-(function($, window)
-{
+(function($, window) {
     'use strict';
 
     var id = 0;
@@ -25,23 +24,17 @@
     };
     var lastMessager;
 
-    var Messager = function(message, options)
-    {
+    var Messager = function(message, options) {
         var that = this;
         that.id = id++;
-        options = that.options = $.extend(
-        {}, defaultOptions, options);
+        options = that.options = $.extend({}, defaultOptions, options);
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
-        if (!options.close)
-        {
+        if(!options.close) {
             that.$.find('.close').remove();
-        }
-        else
-        {
-            that.$.on('click', '.close', function()
-            {
+        } else {
+            that.$.on('click', '.close', function() {
                 that.hide();
             });
         }
@@ -52,53 +45,42 @@
         that.$.data('zui.messager', that);
     };
 
-    Messager.prototype.show = function(message)
-    {
+    Messager.prototype.show = function(message) {
         var that = this,
             options = this.options;
 
-        if (lastMessager)
-        {
-            if (lastMessager.id == that.id)
-            {
+        if(lastMessager) {
+            if(lastMessager.id == that.id) {
                 that.$.removeClass('in');
-            }
-            else if (lastMessager.isShow)
-            {
+            } else if(lastMessager.isShow) {
                 lastMessager.hide();
             }
         }
 
-        if (that.hiding)
-        {
+        if(that.hiding) {
             clearTimeout(that.hiding);
             that.hiding = null;
         }
 
-        if (message)
-        {
+        if(message) {
             that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
             that.$.find('.messager-content').html(that.message);
         }
 
         that.$.appendTo(options.parent).show();
 
-        if (options.placement === 'top' || options.placement === 'bottom' || options.placement === 'center')
-        {
+        if(options.placement === 'top' || options.placement === 'bottom' || options.placement === 'center') {
             that.$.css('left', ($(window).width() - that.$.width() - 50) / 2);
         }
 
-        if (options.placement === 'left' || options.placement === 'right' || options.placement === 'center')
-        {
+        if(options.placement === 'left' || options.placement === 'right' || options.placement === 'center') {
             that.$.css('top', ($(window).height() - that.$.height() - 50) / 2);
         }
 
         that.$.addClass('in');
 
-        if (options.time)
-        {
-            that.hiding = setTimeout(function()
-            {
+        if(options.time) {
+            that.hiding = setTimeout(function() {
                 that.hide();
             }, options.time);
         }
@@ -107,14 +89,11 @@
         lastMessager = that;
     };
 
-    Messager.prototype.hide = function()
-    {
+    Messager.prototype.hide = function() {
         var that = this;
-        if (that.$.hasClass('in'))
-        {
+        if(that.$.hasClass('in')) {
             that.$.removeClass('in');
-            setTimeout(function()
-            {
+            setTimeout(function() {
                 that.$.remove();
             }, 200);
         }
@@ -122,10 +101,8 @@
         that.isShow = false;
     };
 
-    var showMessage = function(message, options)
-    {
-        if (typeof options === 'string')
-        {
+    var showMessage = function(message, options) {
+        if(typeof options === 'string') {
             options = {
                 type: options
             };
@@ -135,19 +112,15 @@
         return msg;
     };
 
-    var hideMessage = function()
-    {
-        $('.messager').each(function()
-        {
+    var hideMessage = function() {
+        $('.messager').each(function() {
             var msg = $(this).data('zui.messager');
             if(msg && msg.hide) msg.hide();
         });
     };
 
-    var getOptions = function(options)
-    {
-        return (typeof options === 'string') ?
-        {
+    var getOptions = function(options) {
+        return(typeof options === 'string') ? {
             placement: options
         } : options;
     };
@@ -155,63 +128,49 @@
     $.zui({
         Messager: Messager,
         showMessager: showMessage,
-        messager:
-        {
+        messager: {
             show: showMessage,
             hide: hideMessage,
-            primary: function(message, options)
-            {
-                return showMessage(message, $.extend(
-                {
+            primary: function(message, options) {
+                return showMessage(message, $.extend({
                     type: 'primary'
                 }, getOptions(options)));
             },
-            success: function(message, options)
-            {
-                return showMessage(message, $.extend(
-                {
+            success: function(message, options) {
+                return showMessage(message, $.extend({
                     type: 'success',
                     icon: 'ok-sign'
                 }, getOptions(options)));
             },
-            info: function(message, options)
-            {
-                return showMessage(message, $.extend(
-                {
+            info: function(message, options) {
+                return showMessage(message, $.extend({
                     type: 'info',
                     icon: 'info-sign'
                 }, getOptions(options)));
             },
-            warning: function(message, options)
-            {
-                return showMessage(message, $.extend(
-                {
+            warning: function(message, options) {
+                return showMessage(message, $.extend({
                     type: 'warning',
                     icon: 'warning-sign'
                 }, getOptions(options)));
             },
-            danger: function(message, options)
-            {
-                return showMessage(message, $.extend(
-                {
+            danger: function(message, options) {
+                return showMessage(message, $.extend({
                     type: 'danger',
                     icon: 'exclamation-sign'
                 }, getOptions(options)));
             },
-            important: function(message, options)
-            {
-                return showMessage(message, $.extend(
-                {
+            important: function(message, options) {
+                return showMessage(message, $.extend({
                     type: 'important'
                 }, getOptions(options)));
             },
-            special: function(message, options)
-            {
-                return showMessage(message, $.extend(
-                {
+            special: function(message, options) {
+                return showMessage(message, $.extend({
                     type: 'special'
                 }, getOptions(options)));
             }
         }
     });
 }(jQuery, window));
+

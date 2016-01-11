@@ -6,33 +6,25 @@
  * ======================================================================== */
 
 
-(function($)
-{
+(function($) {
     'use strict';
 
     var name = 'zui.datatable';
     var store = $.zui.store;
 
-    var DataTable = function(element, options)
-    {
+    var DataTable = function(element, options) {
         this.name = name;
         this.$ = $(element);
         this.isTable = (this.$[0].tagName === 'TABLE');
         this.firstShow = true;
-        if (this.isTable)
-        {
+        if(this.isTable) {
             this.$table = this.$;
             this.id = 'datatable-' + (this.$.attr('id') || $.zui.uuid());
-        }
-        else
-        {
+        } else {
             this.$datatable = this.$.addClass('datatable');
-            if (this.$.attr('id'))
-            {
+            if(this.$.attr('id')) {
                 this.id = this.$.attr('id');
-            }
-            else
-            {
+            } else {
                 this.id = 'datatable-' + $.zui.uuid();
                 this.$.attr('id', this.id);
             }
@@ -58,12 +50,12 @@
         storage: true, // enable storage
 
         // fixed header of columns
-        fixedHeader: true,      // fixed header
-        fixedHeaderOffset: 0,   // set top offset of header when fixed
-        fixedLeftWidth: '30%',  // set left width after first render
+        fixedHeader: true, // fixed header
+        fixedHeaderOffset: 0, // set top offset of header when fixed
+        fixedLeftWidth: '30%', // set left width after first render
         fixedRightWidth: '30%', // set right width after first render
-        flexHeadDrag: true,     // scroll flexarea by drag header
-        scrollPos: 'in',        // scroll bar position: 'out' | 'in'
+        flexHeadDrag: true, // scroll flexarea by drag header
+        scrollPos: 'in', // scroll bar position: 'out' | 'in'
 
         // hover effection
         rowHover: true, // apply hover effection to row
@@ -83,23 +75,19 @@
     };
 
     // Get options
-    DataTable.prototype.getOptions = function(options)
-    {
+    DataTable.prototype.getOptions = function(options) {
         var $e = this.$;
-        options = $.extend(
-            {}, DataTable.DEFAULTS, this.$.data(), options);
+        options = $.extend({}, DataTable.DEFAULTS, this.$.data(), options);
 
         options.tableClass = options.tableClass || '';
         options.tableClass = ' ' + options.tableClass + ' table-datatable';
 
-        $.each(['bordered', 'condensed', 'striped', 'condensed', 'fixed'], function(idx, cls)
-        {
+        $.each(['bordered', 'condensed', 'striped', 'condensed', 'fixed'], function(idx, cls) {
             cls = 'table-' + cls;
             if($e.hasClass(cls)) options.tableClass += ' ' + cls;
         });
 
-        if ($e.hasClass('table-hover') || options.rowHover)
-        {
+        if($e.hasClass('table-hover') || options.rowHover) {
             options.tableClass += ' table-hover';
         }
 
@@ -107,48 +95,39 @@
     };
 
     // Load data form options or table dom
-    DataTable.prototype.load = function(data)
-    {
+    DataTable.prototype.load = function(data) {
         var options = this.options,
             cols;
 
-        if($.isPlainObject(data))
-        {
+        if($.isPlainObject(data)) {
             this.data = data;
-        }
-        else if(typeof data === 'string')
-        {
+        } else if(typeof data === 'string') {
             var $table = $(data);
-            if($table.length)
-            {
+            if($table.length) {
                 this.$table = $table.first();
                 this.$table.data(name, this);
                 this.isTable = true;
             }
             data = null;
-        }
-        else
-        {
+        } else {
             data = options.data;
         }
 
-        if (!data)
-        {
-            if (this.isTable)
-            {
+        if(!data) {
+            if(this.isTable) {
                 data = {
                     cols: [],
                     rows: []
                 };
                 cols = data.cols;
-                var rows = data.rows, i,
-                    $th, $tr, $td, row, $t = this.$table, colSpan;
+                var rows = data.rows,
+                    i,
+                    $th, $tr, $td, row, $t = this.$table,
+                    colSpan;
 
-                $t.find('thead > tr:first').children('th').each(function()
-                {
+                $t.find('thead > tr:first').children('th').each(function() {
                     $th = $(this);
-                    cols.push($.extend(
-                    {
+                    cols.push($.extend({
                         text: $th.html(),
                         flex: false || $th.hasClass('flex-col'),
                         width: 'auto',
@@ -161,11 +140,9 @@
                     }, $th.data()));
                 });
 
-                $t.find('tbody > tr').each(function()
-                {
+                $t.find('tbody > tr').each(function() {
                     $tr = $(this);
-                    row = $.extend(
-                    {
+                    row = $.extend({
                         data: [],
                         checked: false,
                         cssClass: $tr.attr('class'),
@@ -173,12 +150,10 @@
                         id: $tr.attr('id')
                     }, $tr.data());
 
-                    $tr.children('td').each(function()
-                    {
+                    $tr.children('td').each(function() {
                         $td = $(this);
                         colSpan = $td.attr('colspan') || 1;
-                        row.data.push($.extend(
-                        {
+                        row.data.push($.extend({
                             cssClass: $td.attr('class'),
                             css: $td.attr('style'),
                             text: $td.html(),
@@ -186,11 +161,11 @@
                             title: $td.attr('title')
                         }, $td.data()));
 
-                        if(colSpan > 1)
-                        {
-                            for(i = 1; i < colSpan; i++)
-                            {
-                                row.data.push({empty: true});
+                        if(colSpan > 1) {
+                            for(i = 1; i < colSpan; i++) {
+                                row.data.push({
+                                    empty: true
+                                });
                             }
                         }
                     });
@@ -199,13 +174,10 @@
                 });
 
                 var $tfoot = $t.find('tfoot');
-                if ($tfoot.length)
-                {
+                if($tfoot.length) {
                     data.footer = $('<table class="table' + options.tableClass + '"></table>').append($tfoot);
                 }
-            }
-            else
-            {
+            } else {
                 throw new Error('No data avaliable!');
             }
         }
@@ -215,13 +187,10 @@
 
         cols = data.cols;
         data.colsLength = cols.length;
-        for (var i = 0; i < data.colsLength; ++i)
-        {
+        for(var i = 0; i < data.colsLength; ++i) {
             var col = cols[i];
-            if (col.flex)
-            {
-                if (data.flexStart < 0)
-                {
+            if(col.flex) {
+                if(data.flexStart < 0) {
                     data.flexStart = i;
                 }
 
@@ -229,8 +198,7 @@
             }
         }
 
-        if (data.flexStart === 0 && data.flexEnd === data.colsLength)
-        {
+        if(data.flexStart === 0 && data.flexEnd === data.colsLength) {
             data.flexStart = -1;
             data.flexEnd = -1;
         }
@@ -238,8 +206,7 @@
         data.flexArea = data.flexStart >= 0;
         data.fixedRight = data.flexEnd >= 0 && data.flexEnd < (data.colsLength - 1);
         data.fixedLeft = data.flexStart > 0;
-        if (data.flexStart < 0 && data.flexEnd < 0)
-        {
+        if(data.flexStart < 0 && data.flexEnd < 0) {
             data.fixedLeft = true;
             data.flexStart = data.colsLength;
             data.flexEnd = data.colsLength;
@@ -247,8 +214,7 @@
 
         this.data = data;
 
-        this.callEvent('afterLoad',
-        {
+        this.callEvent('afterLoad', {
             data: data
         });
 
@@ -256,8 +222,7 @@
     };
 
     // Render datatable
-    DataTable.prototype.render = function()
-    {
+    DataTable.prototype.render = function() {
         var that = this;
         var $datatable = that.$datatable || (that.isTable ? $('<div class="datatable" id="' + that.id + '"/>') : that.$datatable),
             options = that.options,
@@ -286,12 +251,10 @@
         $left = $('<tr/>');
         $right = $('<tr/>');
         $flex = $('<tr/>');
-        for (i = 0; i < cols.length; i++)
-        {
+        for(i = 0; i < cols.length; i++) {
             col = cols[i];
             $tr = i < data.flexStart ? $left : ((i >= data.flexStart && i <= data.flexEnd) ? $flex : $right);
-            if(i === 0 && checkable)
-            {
+            if(i === 0 && checkable) {
                 $tr.append('<th data-index="check" class="check-all check-btn"><i class="icon-check-empty"></i></th>');
             }
             if(col.ignore) continue;
@@ -300,17 +263,16 @@
 
             // set sort class
             $th.toggleClass('sort-down', col.sort === 'down')
-               .toggleClass('sort-up', col.sort === 'up')
-               .toggleClass('sort-disabled', col.sort === false);
+                .toggleClass('sort-up', col.sort === 'up')
+                .toggleClass('sort-disabled', col.sort === false);
 
             $th.addClass(col.cssClass)
-               .addClass(col.colClass)
-               .html(col.text)
-               .attr(
-                {
-                    'data-index' : i,
-                    'data-type'  : col.type,
-                    style        : col.css
+                .addClass(col.colClass)
+                .html(col.text)
+                .attr({
+                    'data-index': i,
+                    'data-type': col.type,
+                    style: col.css
                 });
 
 
@@ -318,37 +280,34 @@
         }
 
         var $headSpan;
-        if(data.fixedLeft)
-        {
+        if(data.fixedLeft) {
             $headSpan = $(dataHeadSpan);
             $headSpan.addClass('fixed-left')
-                     // .find('.datatable-wrapper')
-                     // .append('<div class="size-handle size-handle-head size-handle-left"></div>')
-                     .find('table')
-                     .addClass(options.tableClass)
-                     .find('thead').append($left);
+                // .find('.datatable-wrapper')
+                // .append('<div class="size-handle size-handle-head size-handle-left"></div>')
+                .find('table')
+                .addClass(options.tableClass)
+                .find('thead').append($left);
             $head.append($headSpan);
         }
-        if (data.flexArea)
-        {
+        if(data.flexArea) {
             $headSpan = $(dataHeadSpan);
             $headSpan.addClass('flexarea')
-                     .find('.datatable-wrapper')
-                     .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
-                     .find('table')
-                     .addClass(options.tableClass)
-                     .find('thead').append($flex);
+                .find('.datatable-wrapper')
+                .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
+                .find('table')
+                .addClass(options.tableClass)
+                .find('thead').append($flex);
             $head.append($headSpan);
         }
-        if (data.fixedRight)
-        {
+        if(data.fixedRight) {
             $headSpan = $(dataHeadSpan);
             $headSpan.addClass('fixed-right')
-                     // .find('.datatable-wrapper')
-                     // .append('<div class="size-handle size-handle-head size-handle-right"></div>')
-                     .find('table')
-                     .addClass(options.tableClass)
-                     .find('thead').append($right);
+                // .find('.datatable-wrapper')
+                // .append('<div class="size-handle size-handle-head size-handle-right"></div>')
+                .find('table')
+                .addClass(options.tableClass)
+                .find('thead').append($right);
             $head.append($headSpan);
         }
         $datatable.append($head);
@@ -369,43 +328,36 @@
         $right = $('<tbody/>');
         $flex = $('<tbody/>');
 
-        for (var r = 0; r < rowLen; ++r)
-        {
+        for(var r = 0; r < rowLen; ++r) {
             row = rows[r];
 
             // format row
-            if(typeof row.id === 'undefined')
-            {
+            if(typeof row.id === 'undefined') {
                 row.id = r;
             }
             row.index = r;
 
             $leftRow = $('<tr/>');
             $leftRow.addClass(row.cssClass)
-                   .toggleClass(options.checkedClass, row.checked)
-                   .attr(
-                    {
-                        'data-index' : r,
-                        'data-id'    : row.id
-                    });
+                .toggleClass(options.checkedClass, row.checked)
+                .attr({
+                    'data-index': r,
+                    'data-id': row.id
+                });
             $flexRow = $leftRow.clone();
             $rightRow = $leftRow.clone();
 
             rowColLen = row.data.length;
-            for (i = 0; i < rowColLen; ++i)
-            {
+            for(i = 0; i < rowColLen; ++i) {
                 rowCol = row.data[i];
-                if(i > 0 && rowCol.empty)
-                {
+                if(i > 0 && rowCol.empty) {
                     continue;
                 }
 
                 $tr = i < data.flexStart ? $leftRow : ((i >= data.flexStart && i <= data.flexEnd) ? $flexRow : $rightRow);
-                if(i === 0 && checkable)
-                {
+                if(i === 0 && checkable) {
                     $cTd = $('<td data-index="check" class="check-row check-btn"><i class="icon-check-empty"></i></td>');
-                    if(options.checkboxName)
-                    {
+                    if(options.checkboxName) {
                         $cTd.append('<input class="hide" type="checkbox" name="' + options.checkboxName + '" value="' + row.id + '">');
                     }
                     $tr.append($cTd);
@@ -414,17 +366,13 @@
                 if(cols[i].ignore) continue;
 
                 // format row column
-                if (!$.isPlainObject(rowCol))
-                {
-                    rowCol =
-                    {
+                if(!$.isPlainObject(rowCol)) {
+                    rowCol = {
                         text: rowCol,
                         row: r,
                         index: i
                     };
-                }
-                else
-                {
+                } else {
                     rowCol.row = r;
                     rowCol.index = i;
                 }
@@ -433,17 +381,16 @@
                 $td = $('<td/>');
 
                 $td.html(rowCol.text)
-                   .addClass(rowCol.cssClass)
-                   .addClass(cols[i].colClass)
-                   .attr('colspan', rowCol.colSpan)
-                   .attr(
-                    {
-                        'data-row'   : r,
-                        'data-index' : i,
-                        'data-flex'  : false,
-                        'data-type'  : cols[i].type,
-                        style        : rowCol.css,
-                        title        : rowCol.title || ''
+                    .addClass(rowCol.cssClass)
+                    .addClass(cols[i].colClass)
+                    .attr('colspan', rowCol.colSpan)
+                    .attr({
+                        'data-row': r,
+                        'data-index': i,
+                        'data-flex': false,
+                        'data-type': cols[i].type,
+                        style: rowCol.css,
+                        title: rowCol.title || ''
                     });
 
 
@@ -456,56 +403,48 @@
         }
 
         var $rowSpan;
-        if (data.fixedLeft)
-        {
+        if(data.fixedLeft) {
             $rowSpan = $(dataRowSpan);
             $rowSpan.addClass('fixed-left')
-                    .find('table')
-                    .addClass(options.tableClass)
-                    .append($left);
+                .find('table')
+                .addClass(options.tableClass)
+                .append($left);
             $rows.append($rowSpan);
         }
-        if (data.flexArea)
-        {
+        if(data.flexArea) {
             $rowSpan = $(dataRowSpan);
             $rowSpan.addClass('flexarea')
-                    .find('.datatable-wrapper')
-                    .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
-                    .find('table')
-                    .addClass(options.tableClass)
-                    .append($flex);
+                .find('.datatable-wrapper')
+                .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
+                .find('table')
+                .addClass(options.tableClass)
+                .append($flex);
             $rows.append($rowSpan);
         }
-        if (data.fixedRight)
-        {
+        if(data.fixedRight) {
             $rowSpan = $(dataRowSpan);
             $rowSpan.addClass('fixed-right')
-                    .find('table')
-                    .addClass(options.tableClass)
-                    .append($right);
+                .find('table')
+                .addClass(options.tableClass)
+                .append($right);
             $rows.append($rowSpan);
         }
         $datatable.append($rows);
 
-        if(data.flexArea)
-        {
+        if(data.flexArea) {
             $datatable.append('<div class="scroll-wrapper"><div class="scroll-slide scroll-pos-' + options.scrollPos + '"><div class="bar"></div></div></div>');
         }
 
         var $oldFooter = $datatable.children('.datatable-footer').detach();
-        if (data.footer)
-        {
+        if(data.footer) {
             $datatable.append($('<div class="datatable-footer"/>').append(data.footer));
             data.footer = null;
-        }
-        else if($oldFooter.length)
-        {
+        } else if($oldFooter.length) {
             $datatable.append($oldFooter);
         }
 
         that.$datatable = $datatable.data(name, that);
-        if (that.isTable && that.firstShow)
-        {
+        if(that.isTable && that.firstShow) {
             that.$table.attr('data-datatable-id', this.id).hide().after($datatable);
             that.firstShow = false;
         }
@@ -517,56 +456,48 @@
     };
 
     // Bind global events
-    DataTable.prototype.bindEvents = function()
-    {
-        var that       = this,
-            data       = this.data,
-            options    = this.options,
-            store      = $.zui.store,
+    DataTable.prototype.bindEvents = function() {
+        var that = this,
+            data = this.data,
+            options = this.options,
+            store = $.zui.store,
             $datatable = this.$datatable;
 
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
         var $rowsSpans = that.$rowsSpans = $datatable.children('.datatable-rows').children('.datatable-rows-span');
         var $headSpans = that.$headSpans = $datatable.children('.datatable-head').children('.datatable-head-span');
-        var $cells     = that.$cells     = $dataSpans.find('td, th');
+        var $cells = that.$cells = $dataSpans.find('td, th');
         var $dataCells = that.$dataCells = $cells.filter('td');
         that.$headCells = $cells.filter('th');
-        var $rows      = that.$rows      = that.$rowsSpans.find('.table > tbody > tr');
+        var $rows = that.$rows = that.$rowsSpans.find('.table > tbody > tr');
 
         // handle row hover events
-        if(options.rowHover)
-        {
+        if(options.rowHover) {
             var hoverClass = options.hoverClass;
-            $rowsSpans.on('mouseenter', 'td', function()
-            {
+            $rowsSpans.on('mouseenter', 'td', function() {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
                 $rows.filter('.' + hoverClass).removeClass(hoverClass);
 
                 $rows.filter('[data-index="' + $(this).addClass(hoverClass).closest('tr').data('index') + '"]').addClass(hoverClass);
-            }).on('mouseleave', 'td', function()
-            {
+            }).on('mouseleave', 'td', function() {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
                 $rows.filter('.' + hoverClass).removeClass(hoverClass);
             });
         }
 
         // handle col hover events
-        if (options.colHover)
-        {
+        if(options.colHover) {
             var colHoverClass = options.colHoverClass;
-            $headSpans.on('mouseenter', 'th', function()
-            {
+            $headSpans.on('mouseenter', 'th', function() {
                 $cells.filter('.' + colHoverClass).removeClass(colHoverClass);
                 $cells.filter('[data-index="' + $(this).data('index') + '"]').addClass(colHoverClass);
-            }).on('mouseleave', 'th', function()
-            {
+            }).on('mouseleave', 'th', function() {
                 $cells.filter('.' + colHoverClass).removeClass(colHoverClass);
             });
         }
 
         // handle srcoll for flex area
-        if(data.flexArea)
-        {
+        if(data.flexArea) {
             var $scrollbar = $datatable.find('.scroll-slide'),
                 // $flexArea = $datatable.find('.datatable-span.flexarea .table'),
                 $flexArea = $datatable.find('.datatable-span.flexarea'),
@@ -584,16 +515,13 @@
                 left;
 
             that.width = $datatable.width();
-            $datatable.resize(function()
-            {
+            $datatable.resize(function() {
                 that.width = $datatable.width();
             });
 
-            var srollTable = function(offset, silence)
-            {
+            var srollTable = function(offset, silence) {
                 barLeft = Math.max(0, Math.min(flexWidth - scrollWidth, offset));
-                if (!silence)
-                {
+                if(!silence) {
                     $datatable.addClass('scrolling');
                 }
                 $bar.css('left', barLeft);
@@ -606,8 +534,7 @@
 
                 if(options.storage) store.pageSet(scrollOffsetStoreName, barLeft);
             };
-            var resizeScrollbar = function()
-            {
+            var resizeScrollbar = function() {
                 flexWidth = $flexArea.width();
                 $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
                 tableWidth = $flexTable.width();
@@ -616,14 +543,12 @@
                 $flexTable.css('min-width', flexWidth);
                 $datatable.toggleClass('show-scroll-slide', tableWidth > flexWidth);
 
-                if (!firtScroll && flexWidth !== scrollWidth)
-                {
+                if(!firtScroll && flexWidth !== scrollWidth) {
                     firtScroll = true;
                     srollTable(store.pageGet(scrollOffsetStoreName, 0), true); // todo: unused?
                 }
 
-                if ($datatable.hasClass('size-changing'))
-                {
+                if($datatable.hasClass('size-changing')) {
                     srollTable(barLeft, true);
                 }
             };
@@ -634,107 +559,86 @@
             var dragOptions = {
                 move: false,
                 stopPropagation: true,
-                drag: function(e)
-                {
+                drag: function(e) {
                     srollTable($bar.position().left + e.smallOffset.x * (e.element.hasClass('bar') ? 1 : -1));
                 },
-                finish: function()
-                {
+                finish: function() {
                     $datatable.removeClass('scrolling');
                 }
             };
 
             $bar.draggable(dragOptions);
-            if (options.flexHeadDrag)
-            {
+            if(options.flexHeadDrag) {
                 $datatable.find('.datatable-head-span.flexarea').draggable(dragOptions);
             }
 
-            $scrollbar.mousedown(function(event)
-            {
+            $scrollbar.mousedown(function(event) {
                 var x = event.pageX - $scrollbar.offset().left;
                 srollTable(x - (scrollWidth / 2));
             });
         }
 
         //  handle row check events
-        if (options.checkable)
-        {
+        if(options.checkable) {
             var checkedStatusStoreName = that.id + '_checkedStatus',
                 checkedClass = options.checkedClass,
                 rowId;
-            var syncChecks = function()
-            {
+            var syncChecks = function() {
                 var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
                 var $checkedRows = $checkRows.filter('.' + checkedClass);
                 $checkRows.find('.check-row input:checkbox').prop('checked', false);
                 var checkedStatus = {
                     checkedAll: $checkRows.length === $checkedRows.length && $checkedRows.length > 0,
-                    checks: $checkedRows.map(function()
-                    {
+                    checks: $checkedRows.map(function() {
                         rowId = $(this).data('id');
-                        if(options.checkboxName)
-                        {
+                        if(options.checkboxName) {
                             $(this).find('.check-row input:checkbox').prop('checked', true);
                         }
                         return rowId;
                     }).toArray()
                 };
-                $.each(data.rows, function(index, value)
-                {
+                $.each(data.rows, function(index, value) {
                     value.checked = ($.inArray(value.id, checkedStatus.checks) > -1);
                 });
                 $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
 
                 if(options.storage) store.pageSet(checkedStatusStoreName, checkedStatus);
 
-                that.callEvent('checksChanged',
-                {
+                that.callEvent('checksChanged', {
                     checks: checkedStatus
                 });
             };
 
-            this.$rowsSpans.on('click', options.checkByClickRow ? 'tr' : '.check-row', function()
-            {
+            this.$rowsSpans.on('click', options.checkByClickRow ? 'tr' : '.check-row', function() {
                 $rows.filter('[data-index="' + $(this).closest('tr').data('index') + '"]').toggleClass(checkedClass);
                 syncChecks();
             });
 
             var checkAllEventName = 'click.zui.datatable.check-all';
-            this.$datatable.off(checkAllEventName).on(checkAllEventName, '.check-all', function()
-            {
+            this.$datatable.off(checkAllEventName).on(checkAllEventName, '.check-all', function() {
                 $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
-            }).on('click', '.check-none', function()
-            {
+            }).on('click', '.check-none', function() {
                 $rows.toggleClass(checkedClass, false);
                 syncChecks();
-            }).on('click', '.check-inverse', function()
-            {
+            }).on('click', '.check-inverse', function() {
                 $rows.toggleClass(checkedClass);
                 syncChecks();
             });
 
-            if(options.storage)
-            {
+            if(options.storage) {
                 var checkedStatus = store.pageGet(checkedStatusStoreName);
-                if (checkedStatus)
-                {
+                if(checkedStatus) {
                     $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
-                    if (checkedStatus.checkedAll)
-                    {
+                    if(checkedStatus.checkedAll) {
                         $rows.addClass(checkedClass);
-                    }
-                    else
-                    {
+                    } else {
                         $rows.removeClass(checkedClass);
-                        $.each(checkedStatus.checks, function(index, ele)
-                        {
+                        $.each(checkedStatus.checks, function(index, ele) {
                             $rows.filter('[data-id="' + ele + '"]').addClass(checkedClass);
                         });
                     }
-                    if (checkedStatus.checks.length)
-                    {
+                    if(checkedStatus.checks.length) {
                         syncChecks();
                     }
                 }
@@ -742,29 +646,23 @@
         }
 
         // fixed header
-        if(options.fixedHeader)
-        {
+        if(options.fixedHeader) {
             var offsetTop,
                 height,
                 scrollTop,
                 $dataTableHead = $datatable.children('.datatable-head'),
                 navbarHeight = options.fixedHeaderOffset || $('.navbar.navbar-fixed-top').height() || 0;
-            var handleScroll = function()
-            {
+            var handleScroll = function() {
                 offsetTop = $datatable.offset().top;
                 scrollTop = $(window).scrollTop();
                 height = $datatable.height();
                 $datatable.toggleClass('head-fixed', (scrollTop + navbarHeight) > offsetTop && (scrollTop + navbarHeight) < (offsetTop + height));
-                if($datatable.hasClass('head-fixed'))
-                {
-                    $dataTableHead.css(
-                    {
+                if($datatable.hasClass('head-fixed')) {
+                    $dataTableHead.css({
                         width: $datatable.width(),
                         top: navbarHeight
                     });
-                }
-                else
-                {
+                } else {
                     $dataTableHead.attr('style', '');
                 }
             };
@@ -774,59 +672,43 @@
         }
 
         // handle sort
-        if (options.sortable)
-        {
-            $headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function()
-            {
-                if ($datatable.hasClass('size-changing')) return;
+        if(options.sortable) {
+            $headSpans.on('click', 'th:not(.sort-disabled, .check-btn)', function() {
+                if($datatable.hasClass('size-changing')) return;
                 that.sortTable($(this));
             });
 
             if(options.storage) that.sortTable();
-        }
-        else if (options.mergeRows)
-        {
+        } else if(options.mergeRows) {
             this.mergeRows();
         }
     };
 
-    DataTable.prototype.mergeRows = function()
-    {
+    DataTable.prototype.mergeRows = function() {
         var $cells = this.$rowsSpans.find('.table > tbody > tr > td');
         var cols = this.data.cols;
-        for(var i = 0; i < cols.length; i++)
-        {
+        for(var i = 0; i < cols.length; i++) {
             var col = cols[i];
-            if(col.mergeRows)
-            {
+            if(col.mergeRows) {
                 var $cs = $cells.filter('[data-index="' + i + '"]');
-                if($cs.length > 1)
-                {
+                if($cs.length > 1) {
                     var $lastCell, rowspan;
-                    $cs.each(function()
-                    {
+                    $cs.each(function() {
                         var $cell = $(this);
-                        if($lastCell)
-                        {
-                            if($cell.html() === $lastCell.html())
-                            {
+                        if($lastCell) {
+                            if($cell.html() === $lastCell.html()) {
                                 rowspan = $lastCell.attr('rowspan') || 1;
-                                if(typeof rowspan !== 'number')
-                                {
+                                if(typeof rowspan !== 'number') {
                                     rowspan = parseInt(rowspan);
                                     if(isNaN(rowspan)) rowspan = 1;
                                 }
 
                                 $lastCell.attr('rowspan', rowspan + 1).css('vertical-align', 'middle');
                                 $cell.remove();
-                            }
-                            else
-                            {
+                            } else {
                                 $lastCell = $cell;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             $lastCell = $cell;
                         }
                     });
@@ -836,27 +718,21 @@
     };
 
     // Sort table
-    DataTable.prototype.sortTable = function($th)
-    {
+    DataTable.prototype.sortTable = function($th) {
         var store = $.zui.store,
             options = this.options;
         var sorterStoreName = this.id + '_datatableSorter';
         var sorter = options.storage ? store.pageGet(sorterStoreName) : null;
 
-        if (!$th)
-        {
-            if (sorter)
-            {
+        if(!$th) {
+            if(sorter) {
                 $th = this.$headCells.filter('[data-index="' + sorter.index + '"]').addClass('sort-' + sorter.type);
-            }
-            else
-            {
+            } else {
                 $th = this.$headCells.filter('.sort-up, .sort-down').first();
             }
         }
 
-        if (!$th.length)
-        {
+        if(!$th.length) {
             return;
         }
 
@@ -876,44 +752,33 @@
         index = $th.data('index');
         sortUp = $th.hasClass('sort-up');
 
-        $.each(cols, function(idx, col)
-        {
-            if (idx != index && (col.sort === 'up' || col.sort === 'down'))
-            {
+        $.each(cols, function(idx, col) {
+            if(idx != index && (col.sort === 'up' || col.sort === 'down')) {
                 col.sort = true;
-            }
-            else if (idx == index)
-            {
+            } else if(idx == index) {
                 col.sort = sortUp ? 'up' : 'down';
                 type = col.type;
             }
         });
 
         var valA, valB, result, $dataRows = this.$dataCells.filter('[data-index="' + index + '"]');
-        rows.sort(function(cellA, cellB)
-        {
+        rows.sort(function(cellA, cellB) {
             cellA = cellA.data[index];
             cellB = cellB.data[index];
             valA = $dataRows.filter('[data-row="' + cellA.row + '"]').text();
             valB = $dataRows.filter('[data-row="' + cellB.row + '"]').text();
-            if (type === 'number')
-            {
+            if(type === 'number') {
                 valA = parseFloat(valA);
                 valB = parseFloat(valB);
-            }
-            else if (type === 'date')
-            {
+            } else if(type === 'date') {
                 valA = Date.parse(valA);
                 valB = Date.parse(valB);
-            }
-            else
-            {
+            } else {
                 valA = valA.toLowerCase();
                 valB = valB.toLowerCase();
             }
             result = valA > valB ? 1 : (valA < valB ? -1 : 0);
-            if (sortUp)
-            {
+            if(sortUp) {
                 result = result * (-1);
             }
             return result;
@@ -922,19 +787,14 @@
         var $rows = this.$rows,
             lastRows = [],
             $row, $lastRow, $r;
-        $.each(rows, function(idx, row)
-        {
+        $.each(rows, function(idx, row) {
             $row = $rows.filter('[data-index="' + row.index + '"]');
-            $row.each(function(rIdx)
-            {
+            $row.each(function(rIdx) {
                 $r = $(this);
                 $lastRow = lastRows[rIdx];
-                if ($lastRow)
-                {
+                if($lastRow) {
                     $lastRow.after($r);
-                }
-                else
-                {
+                } else {
                     $r.parent().prepend($r);
                 }
                 lastRows[rIdx] = $r;
@@ -949,15 +809,13 @@
         // save sort with local storage
         if(options.storage) store.pageSet(sorterStoreName, sorter);
 
-        this.callEvent('sort',
-        {
+        this.callEvent('sort', {
             sorter: sorter
         });
     };
 
     // Refresh size
-    DataTable.prototype.refreshSize = function()
-    {
+    DataTable.prototype.refreshSize = function() {
         var $datatable = this.$datatable,
             options = this.options,
             rows = this.data.rows,
@@ -967,12 +825,11 @@
         $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
         $datatable.find('.datatable-span.fixed-right').css('width', options.fixedRightWidth);
 
-        var findMaxHeight = function($cells)
-            {
-                var mx = 0, $cell, rowSpan;
+        var findMaxHeight = function($cells) {
+                var mx = 0,
+                    $cell, rowSpan;
                 $cells.css('height', 'auto');
-                $cells.each(function()
-                {
+                $cells.each(function() {
                     $cell = $(this);
                     rowSpan = $cell.attr('rowspan');
                     if(!rowSpan || rowSpan == 1) mx = Math.max(mx, $cell.outerHeight());
@@ -984,8 +841,7 @@
             $headCells = this.$headCells;
 
         // set width of data cells
-        for (i = 0; i < cols.length; ++i)
-        {
+        for(i = 0; i < cols.length; ++i) {
             $cells.filter('[data-index="' + i + '"]').css('width', cols[i].width);
         }
 
@@ -995,8 +851,7 @@
 
         // set height of data cells
         var $rowCells;
-        for (i = 0; i < rows.length; ++i)
-        {
+        for(i = 0; i < rows.length; ++i) {
             $rowCells = $dataCells.filter('[data-row="' + i + '"]');
             var rowMaxHeight = findMaxHeight($rowCells);
             $rowCells.css('min-height', rowMaxHeight).css('height', rowMaxHeight);
@@ -1004,25 +859,23 @@
     };
 
     // Call event
-    DataTable.prototype.callEvent = function(name, params)
-    {
+    DataTable.prototype.callEvent = function(name, params) {
         var result = this.$.callEvent(name + '.' + this.name, params, this).result;
         return !(result !== undefined && (!result));
     };
 
-    $.fn.datatable = function(option, newData)
-    {
-        return this.each(function()
-        {
+    $.fn.datatable = function(option, newData) {
+        return this.each(function() {
             var $this = $(this);
             var data = $this.data(name);
             var options = typeof option == 'object' && option;
 
-            if (!data) $this.data(name, (data = new DataTable(this, options)));
+            if(!data) $this.data(name, (data = new DataTable(this, options)));
 
-            if (typeof option == 'string') data[option](newData);
+            if(typeof option == 'string') data[option](newData);
         });
     };
 
     $.fn.datatable.Constructor = DataTable;
 }(jQuery));
+

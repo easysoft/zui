@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-(function($, Math, window){
+(function($, Math, window) {
     'use strict';
 
     var hexReg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
@@ -154,91 +154,69 @@
     };
 
     /* color */
-    var Color = function(r, g, b, a)
-    {
+    var Color = function(r, g, b, a) {
         this.r = 0;
         this.g = 0;
         this.b = 0;
         this.a = 1;
 
-        if (a !== undefined) this.a = clamp(number(a), 1);
+        if(a !== undefined) this.a = clamp(number(a), 1);
 
-        if (r !== undefined && g !== undefined && b !== undefined)
-        {
+        if(r !== undefined && g !== undefined && b !== undefined) {
             this.r = parseInt(clamp(number(r), 255));
             this.g = parseInt(clamp(number(g), 255));
             this.b = parseInt(clamp(number(b), 255));
-        }
-        else if (r !== undefined)
-        {
+        } else if(r !== undefined) {
             var type = typeof(r);
-            if (type == 'string')
-            {
+            if(type == 'string') {
                 r = r.toLowerCase();
-                if (r === 'transparent')
-                {
+                if(r === 'transparent') {
                     this.a = 0;
-                }
-                else if (namedColors[r])
-                {
+                } else if(namedColors[r]) {
                     this.rgb(hexToRgb(namedColors[r]));
-                }
-                else
-                {
+                } else {
                     this.rgb(hexToRgb(r));
                 }
-            }
-            else if (type == 'number' && g === undefined)
-            {
+            } else if(type == 'number' && g === undefined) {
                 this.r = parseInt(clamp(r, 255));
                 this.g = this.r;
                 this.b = this.r;
-            }
-            else if (type == 'object' && r.hasOwnProperty('r'))
-            {
+            } else if(type == 'object' && r.hasOwnProperty('r')) {
                 this.r = parseInt(clamp(number(r.r), 255));
-                if (r.hasOwnProperty('g')) this.g = parseInt(clamp(number(r.g), 255));
-                if (r.hasOwnProperty('b')) this.b = parseInt(clamp(number(r.b), 255));
-                if (r.hasOwnProperty('a')) this.a = clamp(number(r.a), 1);
-            }
-            else if (type == 'object' && r.hasOwnProperty('h'))
-            {
+                if(r.hasOwnProperty('g')) this.g = parseInt(clamp(number(r.g), 255));
+                if(r.hasOwnProperty('b')) this.b = parseInt(clamp(number(r.b), 255));
+                if(r.hasOwnProperty('a')) this.a = clamp(number(r.a), 1);
+            } else if(type == 'object' && r.hasOwnProperty('h')) {
                 var hsl = {
                     h: clamp(number(r.h), 360),
                     s: 1,
                     l: 1,
                     a: 1
                 };
-                if (r.hasOwnProperty('s')) hsl.s = clamp(number(r.s), 1);
-                if (r.hasOwnProperty('l')) hsl.l = clamp(number(r.l), 1);
-                if (r.hasOwnProperty('a')) hsl.a = clamp(number(r.a), 1);
+                if(r.hasOwnProperty('s')) hsl.s = clamp(number(r.s), 1);
+                if(r.hasOwnProperty('l')) hsl.l = clamp(number(r.l), 1);
+                if(r.hasOwnProperty('a')) hsl.a = clamp(number(r.a), 1);
 
                 this.rgb(hslToRgb(hsl));
             }
         }
     };
 
-    Color.prototype.rgb = function(rgb)
-    {
-        if (rgb !== undefined)
-        {
-            if (typeof(rgb) == 'object')
-            {
-                if (rgb.hasOwnProperty('r')) this.r = parseInt(clamp(number(rgb.r), 255));
-                if (rgb.hasOwnProperty('g')) this.g = parseInt(clamp(number(rgb.g), 255));
-                if (rgb.hasOwnProperty('b')) this.b = parseInt(clamp(number(rgb.b), 255));
-                if (rgb.hasOwnProperty('a')) this.a = clamp(number(rgb.a), 1);
-            }
-            else
-            {
+    Color.prototype.rgb = function(rgb) {
+        if(rgb !== undefined) {
+            if(typeof(rgb) == 'object') {
+                if(rgb.hasOwnProperty('r')) this.r = parseInt(clamp(number(rgb.r), 255));
+                if(rgb.hasOwnProperty('g')) this.g = parseInt(clamp(number(rgb.g), 255));
+                if(rgb.hasOwnProperty('b')) this.b = parseInt(clamp(number(rgb.b), 255));
+                if(rgb.hasOwnProperty('a')) this.a = clamp(number(rgb.a), 1);
+            } else {
                 var v = parseInt(number(rgb));
                 this.r = v;
                 this.g = v;
                 this.b = v;
             }
             return this;
-        }
-        else return {
+        } else return {
             r: this.r,
             g: this.g,
             b: this.b,
@@ -246,13 +224,11 @@
         };
     };
 
-    Color.prototype.hue = function(hue)
-    {
+    Color.prototype.hue = function(hue) {
         var hsl = this.toHsl();
 
-        if (hue === undefined) return hsl.h;
-        else
-        {
+        if(hue === undefined) return hsl.h;
+        else {
             hsl.h = clamp(number(hue), 360);
             this.rgb(hslToRgb(hsl));
 
@@ -260,8 +236,7 @@
         }
     };
 
-    Color.prototype.darken = function(amount)
-    {
+    Color.prototype.darken = function(amount) {
         var hsl = this.toHsl();
 
         hsl.l -= amount / 100;
@@ -271,25 +246,21 @@
         return this;
     };
 
-    Color.prototype.clone = function()
-    {
+    Color.prototype.clone = function() {
         return new Color(this.r, this.g, this.b, this.a);
     };
 
-    Color.prototype.lighten = function(amount)
-    {
+    Color.prototype.lighten = function(amount) {
         return this.darken(-amount);
     };
 
-    Color.prototype.fade = function(amount)
-    {
+    Color.prototype.fade = function(amount) {
         this.a = clamp(amount / 100, 1);
 
         return this;
     };
 
-    Color.prototype.spin = function(amount)
-    {
+    Color.prototype.spin = function(amount) {
         var hsl = this.toHsl();
         var hue = (hsl.h + amount) % 360;
 
@@ -299,8 +270,7 @@
         return this;
     };
 
-    Color.prototype.toHsl = function()
-    {
+    Color.prototype.toHsl = function() {
         var r = this.r / 255,
             g = this.g / 255,
             b = this.b / 255,
@@ -311,16 +281,12 @@
         var h, s, l = (max + min) / 2,
             d = max - min;
 
-        if (max === min)
-        {
+        if(max === min) {
             h = s = 0;
-        }
-        else
-        {
+        } else {
             s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
 
-            switch (max)
-            {
+            switch(max) {
                 case r:
                     h = (g - b) / d + (g < b ? 6 : 0);
                     break;
@@ -341,8 +307,7 @@
         };
     };
 
-    Color.prototype.luma = function()
-    {
+    Color.prototype.luma = function() {
         var r = this.r / 255,
             g = this.g / 255,
             b = this.b / 255;
@@ -354,8 +319,7 @@
         return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     };
 
-    Color.prototype.saturate = function(amount)
-    {
+    Color.prototype.saturate = function(amount) {
         var hsl = this.toHsl();
 
         hsl.s += amount / 100;
@@ -366,67 +330,53 @@
         return this;
     };
 
-    Color.prototype.desaturate = function(amount)
-    {
+    Color.prototype.desaturate = function(amount) {
         return this.saturate(-amount);
     };
 
-    Color.prototype.contrast = function(dark, light, threshold)
-    {
-        if (typeof light === 'undefined') light = new Color(255, 255, 255, 1);
+    Color.prototype.contrast = function(dark, light, threshold) {
+        if(typeof light === 'undefined') light = new Color(255, 255, 255, 1);
         else light = new Color(light);
-        if (typeof dark === 'undefined') dark = new Color(0, 0, 0, 1);
+        if(typeof dark === 'undefined') dark = new Color(0, 0, 0, 1);
         else dark = new Color(dark);
 
-        if (this.a < 0.5) return dark;
+        if(this.a < 0.5) return dark;
 
-        if (threshold === undefined) threshold = 0.43;
+        if(threshold === undefined) threshold = 0.43;
         else threshold = number(threshold);
 
-        if (dark.luma() > light.luma())
-        {
+        if(dark.luma() > light.luma()) {
             var t = light;
             light = dark;
             dark = t;
         }
 
-        if (this.luma() < threshold)
-        {
+        if(this.luma() < threshold) {
             return light;
-        }
-        else
-        {
+        } else {
             return dark;
         }
     };
 
-    Color.prototype.hexStr = function()
-    {
+    Color.prototype.hexStr = function() {
         var r = this.r.toString(16),
             g = this.g.toString(16),
             b = this.b.toString(16);
-        if (r.length == 1) r = '0' + r;
-        if (g.length == 1) g = '0' + g;
-        if (b.length == 1) b = '0' + b;
+        if(r.length == 1) r = '0' + r;
+        if(g.length == 1) g = '0' + g;
+        if(b.length == 1) b = '0' + b;
 
         return '#' + r + g + b;
     };
 
-    Color.prototype.toCssStr = function()
-    {
-        if (this.a > 0)
-        {
-            if (this.a < 1)
-            {
+    Color.prototype.toCssStr = function() {
+        if(this.a > 0) {
+            if(this.a < 1) {
                 return 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
-            }
-            else
-            {
+            } else {
                 return this.hexStr();
             }
-        }
-        else
-        {
+        } else {
             return 'transparent';
         }
     };
@@ -434,25 +384,20 @@
     Color.prototype.isColor = isColor;
 
     /* helpers */
-    function hexToRgb(hex)
-    {
+    function hexToRgb(hex) {
         hex = hex.toLowerCase();
-        if (hex && hexReg.test(hex))
-        {
+        if(hex && hexReg.test(hex)) {
             var i;
-            if (hex.length === 4)
-            {
+            if(hex.length === 4) {
                 var hexNew = '#';
-                for (i = 1; i < 4; i += 1)
-                {
+                for(i = 1; i < 4; i += 1) {
                     hexNew += hex.slice(i, i + 1).concat(hex.slice(i, i + 1));
                 }
                 hex = hexNew;
             }
 
             var hexChange = [];
-            for (i = 1; i < 7; i += 2)
-            {
+            for(i = 1; i < 7; i += 2) {
                 hexChange.push(parseInt('0x' + hex.slice(i, i + 2)));
             }
             return {
@@ -461,20 +406,16 @@
                 b: hexChange[2],
                 a: 1
             };
-        }
-        else
-        {
+        } else {
             throw new Error('function hexToRgb: Wrong hex string! (hex: ' + hex + ')');
         }
     }
 
-    function isColor(hex)
-    {
+    function isColor(hex) {
         return typeof(hex) === 'string' && (hex.toLowerCase() === 'transparent' || namedColors[hex.toLowerCase()] || hexReg.test($.trim(hex.toLowerCase())));
     }
 
-    function hslToRgb(hsl)
-    {
+    function hslToRgb(hsl) {
         var h = hsl.h,
             s = hsl.s,
             l = hsl.l,
@@ -497,47 +438,39 @@
 
         return r;
 
-        function hue(h)
-        {
+        function hue(h) {
             h = h < 0 ? h + 1 : (h > 1 ? h - 1 : h);
-            if (h * 6 < 1)
-            {
+            if(h * 6 < 1) {
                 return m1 + (m2 - m1) * h * 6;
-            }
-            else if (h * 2 < 1)
-            {
+            } else if(h * 2 < 1) {
                 return m2;
-            }
-            else if (h * 3 < 2)
-            {
+            } else if(h * 3 < 2) {
                 return m1 + (m2 - m1) * (2 / 3 - h) * 6;
-            }
-            else
-            {
+            } else {
                 return m1;
             }
         }
     }
 
-    function fit(n, end, start)
-    {
-        if (start === undefined) start = 0;
-        if (end === undefined) end = 255;
+    function fit(n, end, start) {
+        if(start === undefined) start = 0;
+        if(end === undefined) end = 255;
 
         return Math.min(Math.max(n, start), end);
     }
 
-    function clamp(v, max)
-    {
+    function clamp(v, max) {
         return fit(v, max);
     }
 
-    function number(n)
-    {
-        if (typeof(n) == 'number') return n;
+    function number(n) {
+        if(typeof(n) == 'number') return n;
         return parseFloat(n);
     }
 
-    $.zui({Color: Color});
+    $.zui({
+        Color: Color
+    });
 
 }(jQuery, Math, window));
+

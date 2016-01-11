@@ -18,7 +18,7 @@
  * ======================================================================== */
 
 
-+ function($){
++ function($) {
     'use strict';
 
     var zuiname = 'zui.collapse'
@@ -26,41 +26,36 @@
     // COLLAPSE PUBLIC CLASS DEFINITION
     // ================================
 
-    var Collapse = function(element, options)
-    {
+    var Collapse = function(element, options) {
         this.$element = $(element)
-        this.options = $.extend(
-        {}, Collapse.DEFAULTS, options)
+        this.options = $.extend({}, Collapse.DEFAULTS, options)
         this.transitioning = null
 
-        if (this.options.parent) this.$parent = $(this.options.parent)
-        if (this.options.toggle) this.toggle()
+        if(this.options.parent) this.$parent = $(this.options.parent)
+        if(this.options.toggle) this.toggle()
     }
 
     Collapse.DEFAULTS = {
         toggle: true
     }
 
-    Collapse.prototype.dimension = function()
-    {
+    Collapse.prototype.dimension = function() {
         var hasWidth = this.$element.hasClass('width')
         return hasWidth ? 'width' : 'height'
     }
 
-    Collapse.prototype.show = function()
-    {
-        if (this.transitioning || this.$element.hasClass('in')) return
+    Collapse.prototype.show = function() {
+        if(this.transitioning || this.$element.hasClass('in')) return
 
         var startEvent = $.Event('show.' + zuiname)
         this.$element.trigger(startEvent)
-        if (startEvent.isDefaultPrevented()) return
+        if(startEvent.isDefaultPrevented()) return
 
         var actives = this.$parent && this.$parent.find('> .panel > .in')
 
-        if (actives && actives.length)
-        {
+        if(actives && actives.length) {
             var hasData = actives.data(zuiname)
-            if (hasData && hasData.transitioning) return
+            if(hasData && hasData.transitioning) return
             actives.collapse('hide')
             hasData || actives.data(zuiname, null)
         }
@@ -73,8 +68,7 @@
 
         this.transitioning = 1
 
-        var complete = function()
-        {
+        var complete = function() {
             this.$element
                 .removeClass('collapsing')
                 .addClass('in')[dimension]('auto')
@@ -82,7 +76,7 @@
             this.$element.trigger('shown.' + zuiname)
         }
 
-        if (!$.support.transition) return complete.call(this)
+        if(!$.support.transition) return complete.call(this)
 
         var scrollSize = $.camelCase(['scroll', dimension].join('-'))
 
@@ -91,13 +85,12 @@
             .emulateTransitionEnd(350)[dimension](this.$element[0][scrollSize])
     }
 
-    Collapse.prototype.hide = function()
-    {
-        if (this.transitioning || !this.$element.hasClass('in')) return
+    Collapse.prototype.hide = function() {
+        if(this.transitioning || !this.$element.hasClass('in')) return
 
         var startEvent = $.Event('hide.' + zuiname)
         this.$element.trigger(startEvent)
-        if (startEvent.isDefaultPrevented()) return
+        if(startEvent.isDefaultPrevented()) return
 
         var dimension = this.dimension()
 
@@ -110,8 +103,7 @@
 
         this.transitioning = 1
 
-        var complete = function()
-        {
+        var complete = function() {
             this.transitioning = 0
             this.$element
                 .trigger('hidden.' + zuiname)
@@ -119,15 +111,14 @@
                 .addClass('collapse')
         }
 
-        if (!$.support.transition) return complete.call(this)
+        if(!$.support.transition) return complete.call(this)
 
         this.$element[dimension](0)
             .one($.support.transition.end, $.proxy(complete, this))
             .emulateTransitionEnd(350)
     }
 
-    Collapse.prototype.toggle = function()
-    {
+    Collapse.prototype.toggle = function() {
         this[this.$element.hasClass('in') ? 'hide' : 'show']()
     }
 
@@ -137,17 +128,14 @@
 
     var old = $.fn.collapse
 
-    $.fn.collapse = function(option)
-    {
-        return this.each(function()
-        {
+    $.fn.collapse = function(option) {
+        return this.each(function() {
             var $this = $(this)
             var data = $this.data(zuiname)
-            var options = $.extend(
-            {}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+            var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
-            if (!data) $this.data(zuiname, (data = new Collapse(this, options)))
-            if (typeof option == 'string') data[option]()
+            if(!data) $this.data(zuiname, (data = new Collapse(this, options)))
+            if(typeof option == 'string') data[option]()
         })
     }
 
@@ -157,8 +145,7 @@
     // COLLAPSE NO CONFLICT
     // ====================
 
-    $.fn.collapse.noConflict = function()
-    {
+    $.fn.collapse.noConflict = function() {
         $.fn.collapse = old
         return this
     }
@@ -167,8 +154,7 @@
     // COLLAPSE DATA-API
     // =================
 
-    $(document).on('click.' + zuiname + '.data-api', '[data-toggle=collapse]', function(e)
-    {
+    $(document).on('click.' + zuiname + '.data-api', '[data-toggle=collapse]', function(e) {
         var $this = $(this),
             href
         var target = $this.attr('data-target') || e.preventDefault() || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
@@ -178,9 +164,8 @@
         var parent = $this.attr('data-parent')
         var $parent = parent && $(parent)
 
-        if (!data || !data.transitioning)
-        {
-            if ($parent) $parent.find('[data-toggle=collapse][data-parent="' + parent + '"]').not($this).addClass('collapsed')
+        if(!data || !data.transitioning) {
+            if($parent) $parent.find('[data-toggle=collapse][data-parent="' + parent + '"]').not($this).addClass('collapsed')
             $this[$target.hasClass('in') ? 'addClass' : 'removeClass']('collapsed')
         }
 
@@ -188,3 +173,4 @@
     })
 
 }(window.jQuery);
+

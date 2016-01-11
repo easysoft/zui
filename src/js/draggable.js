@@ -6,12 +6,10 @@
  * ======================================================================== */
 
 
-(function($)
-{
+(function($) {
     'use strict';
 
-    var Draggable = function(element, options)
-    {
+    var Draggable = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
 
@@ -23,20 +21,16 @@
         move: true
     };
 
-    Draggable.prototype.getOptions = function(options)
-    {
-        options = $.extend(
-        {}, Draggable.DEFAULTS, this.$.data(), options);
+    Draggable.prototype.getOptions = function(options) {
+        options = $.extend({}, Draggable.DEFAULTS, this.$.data(), options);
         return options;
     };
 
-    Draggable.prototype.init = function()
-    {
+    Draggable.prototype.init = function() {
         this.handleMouseEvents();
     };
 
-    Draggable.prototype.handleMouseEvents = function()
-    {
+    Draggable.prototype.handleMouseEvents = function() {
         var $e = this.$,
             BEFORE = 'before',
             DRAG = 'drag',
@@ -44,16 +38,13 @@
             setting = this.options,
             startPos, cPos, startOffset, mousePos, moved;
 
-        var mouseDown = function(event)
-        {
-            if (setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE]))
-            {
-                var isSure = setting[BEFORE](
-                {
+        var mouseDown = function(event) {
+            if(setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE])) {
+                var isSure = setting[BEFORE]({
                     event: event,
                     element: $e
                 });
-                if (isSure !== undefined && (!isSure)) return;
+                if(isSure !== undefined && (!isSure)) return;
             }
 
             var $container = $(setting.container),
@@ -67,21 +58,18 @@
                 x: event.pageX - pos.left + cPos.left,
                 y: event.pageY - pos.top + cPos.top
             };
-            mousePos = $.extend(
-            {}, startPos);
+            mousePos = $.extend({}, startPos);
             moved = false;
 
             $e.addClass('drag-ready');
             $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
             event.preventDefault();
-            if (setting.stopPropagation)
-            {
+            if(setting.stopPropagation) {
                 event.stopPropagation();
             }
         };
 
-        var mouseMove = function(event)
-        {
+        var mouseMove = function(event) {
             moved = true;
             var mX = event.pageX,
                 mY = event.pageY;
@@ -91,26 +79,21 @@
             };
 
             $e.removeClass('drag-ready').addClass('dragging');
-            if (setting.move)
-            {
+            if(setting.move) {
                 $e.css(dragPos);
             }
 
-            if (setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG]))
-            {
-                setting[DRAG](
-                {
+            if(setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG])) {
+                setting[DRAG]({
                     event: event,
                     element: $e,
                     startOffset: startOffset,
                     pos: dragPos,
-                    offset:
-                    {
+                    offset: {
                         x: mX - startPos.x,
                         y: mY - startPos.y
                     },
-                    smallOffset:
-                    {
+                    smallOffset: {
                         x: mX - mousePos.x,
                         y: mY - mousePos.y
                     }
@@ -119,17 +102,14 @@
             mousePos.x = mX;
             mousePos.y = mY;
 
-            if (setting.stopPropagation)
-            {
+            if(setting.stopPropagation) {
                 event.stopPropagation();
             }
         };
 
-        var mouseUp = function(event)
-        {
+        var mouseUp = function(event) {
             $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
-            if (!moved)
-            {
+            if(!moved) {
                 $e.removeClass('drag-ready');
                 return;
             }
@@ -138,60 +118,50 @@
                 top: event.pageY - startOffset.y
             };
             $e.removeClass('drag-ready').removeClass('dragging');
-            if (setting.move)
-            {
+            if(setting.move) {
                 $e.css(endPos);
             }
 
-            if (setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH]))
-            {
-                setting[FINISH](
-                {
+            if(setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH])) {
+                setting[FINISH]({
                     event: event,
                     element: $e,
                     pos: endPos,
-                    offset:
-                    {
+                    offset: {
                         x: event.pageX - startPos.x,
                         y: event.pageY - startPos.y
                     },
-                    smallOffset:
-                    {
+                    smallOffset: {
                         x: event.pageX - mousePos.x,
                         y: event.pageY - mousePos.y
                     }
                 });
             }
             event.preventDefault();
-            if (setting.stopPropagation)
-            {
+            if(setting.stopPropagation) {
                 event.stopPropagation();
             }
         };
 
-        if (setting.handle)
-        {
+        if(setting.handle) {
             $e.on('mousedown', setting.handle, mouseDown);
-        }
-        else
-        {
+        } else {
             $e.on('mousedown', mouseDown);
         }
     };
 
-    $.fn.draggable = function(option)
-    {
-        return this.each(function()
-        {
+    $.fn.draggable = function(option) {
+        return this.each(function() {
             var $this = $(this);
             var data = $this.data('zui.draggable');
             var options = typeof option == 'object' && option;
 
-            if (!data) $this.data('zui.draggable', (data = new Draggable(this, options)));
+            if(!data) $this.data('zui.draggable', (data = new Draggable(this, options)));
 
-            if (typeof option == 'string') data[option]();
+            if(typeof option == 'string') data[option]();
         });
     };
 
     $.fn.draggable.Constructor = Draggable;
 }(jQuery));
+

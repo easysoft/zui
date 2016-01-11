@@ -7,14 +7,13 @@
  * ======================================================================== */
 
 
-+ function($){
++ function($) {
     'use strict';
 
     // CSS TRANSITION SUPPORT (Shoutout: http://www.modernizr.com/)
     // ============================================================
 
-    function transitionEnd()
-    {
+    function transitionEnd() {
         var el = document.createElement('bootstrap')
 
         var transEndEventNames = {
@@ -24,10 +23,8 @@
             transition: 'transitionend'
         }
 
-        for (var name in transEndEventNames)
-        {
-            if (el.style[name] !== undefined)
-            {
+        for(var name in transEndEventNames) {
+            if(el.style[name] !== undefined) {
                 return {
                     end: transEndEventNames[name]
                 }
@@ -38,36 +35,32 @@
     }
 
     // http://blog.alexmaccaw.com/css-transitions
-    $.fn.emulateTransitionEnd = function(duration)
-    {
+    $.fn.emulateTransitionEnd = function(duration) {
         var called = false
         var $el = this
-        $(this).one('bsTransitionEnd', function()
-        {
+        $(this).one('bsTransitionEnd', function() {
             called = true
         })
-        var callback = function()
-        {
-            if (!called) $($el).trigger($.support.transition.end)
+        var callback = function() {
+            if(!called) $($el).trigger($.support.transition.end)
         }
         setTimeout(callback, duration)
         return this
     }
 
-    $(function()
-    {
+    $(function() {
         $.support.transition = transitionEnd()
 
-        if (!$.support.transition) return
+        if(!$.support.transition) return
 
         $.event.special.bsTransitionEnd = {
             bindType: $.support.transition.end,
             delegateType: $.support.transition.end,
-            handle: function(e)
-            {
-                if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
+            handle: function(e) {
+                if($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
             }
         }
     })
 
 }(jQuery);
+

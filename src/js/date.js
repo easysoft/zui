@@ -6,8 +6,7 @@
  * ======================================================================== */
 
 
-(function()
-{
+(function() {
     'use strict';
 
     /**
@@ -22,10 +21,8 @@
      * @param  string   format
      * @return string
      */
-    if(!Date.prototype.format)
-    {
-        Date.prototype.format = function(format)
-        {
+    if(!Date.prototype.format) {
+        Date.prototype.format = function(format) {
             var date = {
                 'M+': this.getMonth() + 1,
                 'd+': this.getDate(),
@@ -35,14 +32,11 @@
                 'q+': Math.floor((this.getMonth() + 3) / 3),
                 'S+': this.getMilliseconds()
             };
-            if (/(y+)/i.test(format))
-            {
+            if(/(y+)/i.test(format)) {
                 format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
             }
-            for (var k in date)
-            {
-                if (new RegExp('(' + k + ')').test(format))
-                {
+            for(var k in date) {
+                if(new RegExp('(' + k + ')').test(format)) {
                     format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ('00' + date[k]).substr(('' + date[k]).length));
                 }
             }
@@ -54,10 +48,8 @@
      * Add milliseconds to the date
      * @param {number} value
      */
-    if(!Date.prototype.addMilliseconds)
-    {
-        Date.prototype.addMilliseconds = function(value)
-        {
+    if(!Date.prototype.addMilliseconds) {
+        Date.prototype.addMilliseconds = function(value) {
             this.setTime(this.getTime() + value);
             return this;
         };
@@ -68,10 +60,8 @@
      * Add days to the date
      * @param {number} days
      */
-    if(!Date.prototype.addDays)
-    {
-        Date.prototype.addDays = function(days)
-        {
+    if(!Date.prototype.addDays) {
+        Date.prototype.addDays = function(days) {
             this.addMilliseconds(days * Date.ONEDAY_TICKS);
             return this;
         };
@@ -82,10 +72,8 @@
      * Clone a new date instane from the date
      * @return {Date}
      */
-    if(!Date.prototype.clone)
-    {
-        Date.prototype.clone = function()
-        {
+    if(!Date.prototype.clone) {
+        Date.prototype.clone = function() {
             var date = new Date();
             date.setTime(this.getTime());
             return date;
@@ -98,24 +86,20 @@
      * @param  {integer}  year
      * @return {Boolean}
      */
-    if(!Date.isLeapYear)
-    {
-        Date.isLeapYear = function(year)
-        {
-            return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
+    if(!Date.isLeapYear) {
+        Date.isLeapYear = function(year) {
+            return(((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
         };
     }
 
-    if(!Date.getDaysInMonth)
-    {
+    if(!Date.getDaysInMonth) {
         /**
          * Get days number of the date
          * @param  {integer} year
          * @param  {integer} month
          * @return {integer}
          */
-        Date.getDaysInMonth = function(year, month)
-        {
+        Date.getDaysInMonth = function(year, month) {
             return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
         };
     }
@@ -125,10 +109,8 @@
      * Judge the date is in a leap year
      * @return {Boolean}
      */
-    if(!Date.prototype.isLeapYear)
-    {
-        Date.prototype.isLeapYear = function()
-        {
+    if(!Date.prototype.isLeapYear) {
+        Date.prototype.isLeapYear = function() {
             return Date.isLeapYear(this.getFullYear());
         };
     }
@@ -138,10 +120,8 @@
      * Clear time part of the date
      * @return {date}
      */
-    if(!Date.prototype.clearTime)
-    {
-        Date.prototype.clearTime = function()
-        {
+    if(!Date.prototype.clearTime) {
+        Date.prototype.clearTime = function() {
             this.setHours(0);
             this.setMinutes(0);
             this.setSeconds(0);
@@ -155,10 +135,8 @@
      * Get days of this month of the date
      * @return {integer}
      */
-    if(!Date.prototype.getDaysInMonth)
-    {
-        Date.prototype.getDaysInMonth = function()
-        {
+    if(!Date.prototype.getDaysInMonth) {
+        Date.prototype.getDaysInMonth = function() {
             return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
         };
     }
@@ -168,10 +146,8 @@
      * Add months to the date
      * @param {date} value
      */
-    if(!Date.prototype.addMonths)
-    {
-        Date.prototype.addMonths = function(value)
-        {
+    if(!Date.prototype.addMonths) {
+        Date.prototype.addMonths = function(value) {
             var n = this.getDate();
             this.setDate(1);
             this.setMonth(this.getMonth() + value);
@@ -186,15 +162,12 @@
      * @param  {integer} day
      * @return {date}
      */
-    if(!Date.prototype.getLastWeekday)
-    {
-        Date.prototype.getLastWeekday = function(day)
-        {
+    if(!Date.prototype.getLastWeekday) {
+        Date.prototype.getLastWeekday = function(day) {
             day = day || 1;
 
             var d = this.clone();
-            while (d.getDay() != day)
-            {
+            while(d.getDay() != day) {
                 d.addDays(-1);
             }
             d.clearTime();
@@ -208,10 +181,8 @@
      * @param  {date}  date
      * @return {Boolean}
      */
-    if(!Date.prototype.isSameDay)
-    {
-        Date.prototype.isSameDay = function(date)
-        {
+    if(!Date.prototype.isSameDay) {
+        Date.prototype.isSameDay = function(date) {
             return date.toDateString() === this.toDateString();
         };
     }
@@ -222,10 +193,8 @@
      * @param  {date}  date
      * @return {Boolean}
      */
-    if(!Date.prototype.isSameWeek)
-    {
-        Date.prototype.isSameWeek = function(date)
-        {
+    if(!Date.prototype.isSameWeek) {
+        Date.prototype.isSameWeek = function(date) {
             var weekStart = this.getLastWeekday();
             var weekEnd = weekStart.clone().addDays(7);
             return date >= weekStart && date < weekEnd;
@@ -238,11 +207,10 @@
      * @param  {date}  date
      * @return {Boolean}
      */
-    if(!Date.prototype.isSameYear)
-    {
-        Date.prototype.isSameYear = function(date)
-        {
+    if(!Date.prototype.isSameYear) {
+        Date.prototype.isSameYear = function(date) {
             return this.getFullYear() === date.getFullYear();
         };
     }
 }());
+

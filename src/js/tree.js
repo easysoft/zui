@@ -6,15 +6,13 @@
  * ======================================================================== */
 
 
-(function($)
-{
+(function($) {
     'use strict';
 
     var name = 'zui.tree'; // modal name
 
     // The tree modal class
-    var Tree = function(element, options)
-    {
+    var Tree = function(element, options) {
         this.name = name;
         this.$ = $(element);
 
@@ -23,7 +21,10 @@
     };
 
     // default options
-    Tree.DEFAULTS = {animate: null, initialState: 'normal'};
+    Tree.DEFAULTS = {
+        animate: null,
+        initialState: 'normal'
+    };
 
     Tree.prototype.init = function() {
         if(this.options.animate) this.$.addClass('tree-animate');
@@ -84,8 +85,7 @@
     };
 
     // Get and init options
-    Tree.prototype.getOptions = function(options)
-    {
+    Tree.prototype.getOptions = function(options) {
         this.options = $.extend({}, Tree.DEFAULTS, this.$.data(), options);
         if(this.options.animate === null && this.$.hasClass('tree-animate')) {
             this.options.animate = true;
@@ -93,32 +93,29 @@
     };
 
     // Call event helper
-    Tree.prototype.callEvent = function(name, params)
-    {
+    Tree.prototype.callEvent = function(name, params) {
         var result = this.$.callEvent(name + '.' + this.name, params, this);
         return !(result.result !== undefined && (!result.result));
     };
 
     // Extense jquery element
-    $.fn.tree = function(option, params)
-    {
-        return this.each(function()
-        {
+    $.fn.tree = function(option, params) {
+        return this.each(function() {
             var $this = $(this);
             var data = $this.data(name);
             var options = typeof option == 'object' && option;
 
-            if (!data) $this.data(name, (data = new Tree(this, options)));
+            if(!data) $this.data(name, (data = new Tree(this, options)));
 
-            if (typeof option == 'string') data[option](params);
+            if(typeof option == 'string') data[option](params);
         });
     };
 
     $.fn.tree.Constructor = Tree;
 
     // Auto call tree after document load complete
-    $(function()
-    {
+    $(function() {
         $('[data-ride="tree"]').tree();
     });
 }(jQuery));
+
