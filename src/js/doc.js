@@ -1,4 +1,4 @@
-(function(window, $) {
++(function(window, $) {
     'use strict';
 
     // Polyfill
@@ -96,7 +96,8 @@
         firstOpenPage = true,
         $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
         $pageBody, $navbar, $search, lastQueryString,
-        $header, $sections, $chapterHeadings; // elements
+        $header, $sections, $chapterHeadings,
+        $copyCodeBtn; // elements
 
     var isExternalUrl = function(url) {
         if(typeof url === 'string') {
@@ -671,7 +672,7 @@
             } else if(key.startsWith('version:')) {
                 keyOption.type = 'version';
                 keyOption.val = key.substr(8);
-            } else if(key.startsWith('grunt:') || key.startsWith('build:')) {
+            } else if(key.startsWith('gulp:') || key.startsWith('build:')) {
                 keyOption.type = 'build';
                 keyOption.val = key.substr(6);
             } else if(key.startsWith('g:') || key.startsWith('b:')) {
@@ -1014,11 +1015,13 @@
                 }
             }
 
-            // pretty code
             var $codes = $pageBody.find('pre');
-            if($codes.length && window['prettyPrint']) {
-                $codes.addClass('prettyprint');
-                window['prettyPrint']();
+            if($codes.length && window.prettyPrint) {
+                // pretty code
+                if(window.prettyPrint) {
+                    $codes.addClass('prettyprint');
+                    window.prettyPrint();
+                }
             }
         }, 200);
 
@@ -1478,7 +1481,6 @@
 
         bestPageWidth = $grid.children('.container').outerWidth();
 
-
         // check storage
         storageEnable = $.zui.store && $.zui.store.enable;
 
@@ -1695,6 +1697,39 @@
             }
         });
 
+        $copyCodeBtn = $('#copyCodeBtn');
+        var clipboard = new window.Clipboard($copyCodeBtn.get(0));
+        clipboard.on('success', function(e) {
+            $('#copyCodeTip').addClass('tooltip-success');
+            $copyCodeBtn.tooltip('show', '已复制 <i class="icon icon-ok"></i>');
+            e.clearSelection();
+        });
+
+        clipboard.on('error', function(e) {
+            $('#copyCodeTip').addClass('tooltip-warning');
+            $copyCodeBtn.tooltip('show', '按 <strong>Ctrl+C</strong> 完成复制');
+        });
+
+        $copyCodeBtn.on('hide.zui.tooltip', function() {
+            $('#copyCodeTip').removeClass('tooltip-success');
+        });
+
+        $(document).on('mouseenter', 'pre.prettyprint, pre.copyable', function() {
+            var $pre = $(this);
+            var $codes = $pre.children('code, .linenums');
+            if(!$codes.length) return;
+
+            if(!$codes.attr('id')) {
+                $codes.attr('id', 'code-' + $.zui.uuid())
+            }
+            $pre.prepend($copyCodeBtn);
+            $copyCodeBtn.attr('data-clipboard-target', '#' + $codes.attr('id'));
+            $pre.one('mouseleave', function() {
+                 $copyCodeBtn.detach();
+            });
+        });
+
+        // init tooltip
         $('[data-toggle="tooltip"]').tooltip({
             container: 'body'
         });
