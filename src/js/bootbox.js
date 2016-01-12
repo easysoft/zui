@@ -3,7 +3,7 @@
  *
  * http://bootboxjs.com/license.txt
  * ========================================================================
- * Updates in ZUI:
+ * Improvement in ZUI:
  * 1. Determine client language and apply setting automatically.
  * 2. Changed button position.
  * ======================================================================== */

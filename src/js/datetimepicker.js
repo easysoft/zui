@@ -20,6 +20,14 @@
  * limitations under the License.
  * ========================================================= */
 
+ /* ========================================================================
+ * Improvement in ZUI:
+ * 1. Determine client language and apply setting automatically.
+ * 2. New option for 'pickerPosition':
+ *    - 'auto-left';
+ *    - 'auto-right'.
+ * ======================================================================== */
+
 /*
  * Improvement by CuGBabyBeaR @ 2013-09-12
  *
