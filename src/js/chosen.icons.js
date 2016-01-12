@@ -20,7 +20,7 @@
 
     ChosenIcons.DEFAULTS = {
         optional: true,
-        lang: 'zh-cn',
+        lang: 'zh_cn',
         icons: {
             common: ['heart', 'user', 'group', 'list-ul', 'th', 'th-large', 'star', 'star-empty', 'search', 'envelope', 'dashboard', 'sitemap', 'umbrella', 'lightbulb', 'envelope-alt', 'cog', 'ok', 'remove', 'home', 'time', 'flag', 'flag-alt', 'flag-checkered', 'qrcode', 'tag', 'tags', 'book', 'bookmark', 'bookmark-empty', 'print', 'camera', 'picture', 'globe', 'map-marker', 'edit', 'edit-sign', 'play', 'stop', 'plus-sign', 'minus-sign', 'remove-sign', 'ok-sign', 'check-sign', 'question-sign', 'info-sign', 'exclamation-sign', 'plus', 'plus-sign', 'minus', 'minus-sign', 'asterisk', 'calendar', 'calendar-empty', 'comment', 'comment-alt', 'comments', 'comments-alt', 'folder-close', 'folder-open', 'folder-close-alt', 'folder-open-alt', 'thumbs-up', 'thumbs-down', 'pushpin', 'building', 'phone', 'rss', 'rss-sign', 'bullhorn', 'bell', 'bell-alt', 'certificate', 'wrench', 'tasks', 'cloud', 'beaker', 'magic', 'smile', 'frown', 'meh', 'code', 'location-arrow'],
             web: ['share', 'pencil', 'trash', 'file-alt', 'file', 'file-text', 'download-alt', 'upload-alt', 'inbox', 'repeat', 'refresh', 'lock', 'check', 'check-empty', 'eye-open', 'eye-close', 'key', 'signin', 'signout', 'external-link', 'external-link-sign', 'link', 'reorder', 'quote-left', 'quote-right', 'spinner', 'reply', 'question', 'info', 'archive', 'collapse', 'collapse-top'],
@@ -31,7 +31,7 @@
     };
 
     ChosenIcons.LANGS = {};
-    ChosenIcons.LANGS['zh-cn'] = {
+    ChosenIcons.LANGS['zh_cn'] = {
         emptyIcon: '[没有图标]',
         commonIcons: '常用图标',
         webIcons: 'Web 图标',
@@ -47,7 +47,7 @@
         directionalIcons: 'Directional Icons',
         otherIcons: 'Other Icons'
     };
-    ChosenIcons.LANGS['zh-tw'] = {
+    ChosenIcons.LANGS['zh_tw'] = {
         emptyIcon: '[沒有圖標]',
         commonIcons: '常用圖標',
         webIcons: 'Web 圖標',
