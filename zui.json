@@ -1053,16 +1053,16 @@
       "ver": "1.4.0",
       "dpds": ["icons"]
     },
-    "zeroclipboard": {
-      "name": "ZeroClipboard",
+    "clipboard": {
+      "name": "clipboard",
       "src": {
-        "resource": ["assets//zeroclipboard/zeroclipboard.min.js", "assets//zeroclipboard/zeroclipboard.swf"]
+        "resource": ["assets/clipboard//clipboard.min.js", "assets/clipboard//clipboard.js"]
       },
-      "ver": "1.3.2",
-      "pver": "2.2.0",
-      "desc": "The ZeroClipboard library provides an easy way to copy text to the clipboard using an invisible Adobe Flash movie and a JavaScript interface.",
+      "ver": "1.4.0",
+      "pver": "1.5.5",
+      "desc": "Modern copy to clipboard. No Flash. Just 2kb.",
       "thirdpart": true,
-      "website": "http://zeroclipboard.org/"
+      "website": "https://clipboardjs.com/"
     },
     "colorset.less2js": {
       "name": "JS配色表",
@@ -1247,7 +1247,7 @@
     },
     "separate": {
       "title": "separate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard"]
     },
     "dist": {
       "title": "dist",
