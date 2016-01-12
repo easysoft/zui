@@ -343,7 +343,12 @@ function buildBundle(name, callback, type) {
                     console.log('     css > '.yellow.bold + (destPath + build.filename + '.css').italic.underline);
                 })
                 //.pipe(sourcemaps.init())
-                .pipe(cssmin())
+                .pipe(cssmin({
+                    compatibility: 'ie8',
+                    keepSpecialComments: '*',
+                    sourceMap: true,
+                    advanced: false
+                }))
                 .pipe(rename({
                     suffix: '.min'
                 }))
