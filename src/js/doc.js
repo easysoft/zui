@@ -1697,37 +1697,39 @@
             }
         });
 
-        $copyCodeBtn = $('#copyCodeBtn');
-        var clipboard = new window.Clipboard($copyCodeBtn.get(0));
-        clipboard.on('success', function(e) {
-            $('#copyCodeTip').addClass('tooltip-success');
-            $copyCodeBtn.tooltip('show', '已复制 <i class="icon icon-ok"></i>');
-            e.clearSelection();
-        });
-
-        clipboard.on('error', function(e) {
-            $('#copyCodeTip').addClass('tooltip-warning');
-            $copyCodeBtn.tooltip('show', '按 <strong>Ctrl+C</strong> 完成复制');
-        });
-
-        $copyCodeBtn.on('hide.zui.tooltip', function() {
-            $('#copyCodeTip').removeClass('tooltip-success');
-        });
-
-        $(document).on('mouseenter', 'pre.prettyprint, pre.copyable', function() {
-            var $pre = $(this);
-            var $codes = $pre.children('code, .linenums');
-            if(!$codes.length) return;
-
-            if(!$codes.attr('id')) {
-                $codes.attr('id', 'code-' + $.zui.uuid())
-            }
-            $pre.prepend($copyCodeBtn);
-            $copyCodeBtn.attr('data-clipboard-target', '#' + $codes.attr('id'));
-            $pre.one('mouseleave', function() {
-                 $copyCodeBtn.detach();
+        if(!$.zui.browser.isIE || $.zui.browser.ie > 8) {
+            $copyCodeBtn = $('#copyCodeBtn');
+            var clipboard = new window.Clipboard($copyCodeBtn.get(0));
+            clipboard.on('success', function(e) {
+                $('#copyCodeTip').addClass('tooltip-success');
+                $copyCodeBtn.tooltip('show', '已复制 <i class="icon icon-ok"></i>');
+                e.clearSelection();
             });
-        });
+
+            clipboard.on('error', function(e) {
+                $('#copyCodeTip').addClass('tooltip-warning');
+                $copyCodeBtn.tooltip('show', '按 <strong>Ctrl+C</strong> 完成复制');
+            });
+
+            $copyCodeBtn.on('hide.zui.tooltip', function() {
+                $('#copyCodeTip').removeClass('tooltip-success tooltip-warning');
+            });
+
+            $(document).on('mouseenter', 'pre.prettyprint, pre.copyable', function() {
+                var $pre = $(this);
+                var $codes = $pre.children('code, .linenums');
+                if(!$codes.length) return;
+
+                if(!$codes.attr('id')) {
+                    $codes.attr('id', 'code-' + $.zui.uuid())
+                }
+                $pre.prepend($copyCodeBtn);
+                $copyCodeBtn.attr('data-clipboard-target', '#' + $codes.attr('id'));
+                $pre.one('mouseleave', function() {
+                     $copyCodeBtn.detach();
+                });
+            });
+        }
 
         // init tooltip
         $('[data-toggle="tooltip"]').tooltip({
