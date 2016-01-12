@@ -1697,7 +1697,7 @@
             }
         });
 
-        if(!$.zui.browser.isIE || $.zui.browser.ie > 8) {
+        if(!$.zui.browser.isIE() || $.zui.browser.ie > 8) {
             $copyCodeBtn = $('#copyCodeBtn');
             var clipboard = new window.Clipboard($copyCodeBtn.get(0));
             clipboard.on('success', function(e) {
