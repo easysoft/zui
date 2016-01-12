@@ -20,5 +20,9 @@
      "wrap_attributes": "auto",
      "wrap_attributes_indent_size": 4,
      "end_with_newline": true
+  },
+  "css": {
+    "indent_char": " ",
+    "indent_size": 2
   }
 }
