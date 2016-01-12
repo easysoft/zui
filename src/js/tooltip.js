@@ -136,7 +136,7 @@
         }, self.options.delay.hide)
     }
 
-    Tooltip.prototype.show = function() {
+    Tooltip.prototype.show = function(content) {
         var e = $.Event('show.zui.' + this.type)
 
         if(this.hasContent() && this.enabled) {
@@ -146,7 +146,7 @@
 
             var $tip = this.tip()
 
-            this.setContent()
+            this.setContent(content)
 
             if(this.options.animation) $tip.addClass('fade')
 
@@ -255,9 +255,9 @@
         this.arrow().css(position, delta ? (50 * (1 - delta / dimension) + "%") : '')
     }
 
-    Tooltip.prototype.setContent = function() {
+    Tooltip.prototype.setContent = function(content) {
         var $tip = this.tip()
-        var title = this.getTitle()
+        var title = content || this.getTitle()
 
         if(this.options.tipId) $tip.attr('id', this.options.tipId)
         if(this.options.tipClass) $tip.addClass(this.options.tipClass)
@@ -384,14 +384,14 @@
 
     var old = $.fn.tooltip
 
-    $.fn.tooltip = function(option) {
+    $.fn.tooltip = function(option, params) {
         return this.each(function() {
             var $this = $(this)
             var data = $this.data('zui.tooltip')
             var options = typeof option == 'object' && option
 
             if(!data) $this.data('zui.tooltip', (data = new Tooltip(this, options)))
-            if(typeof option == 'string') data[option]()
+            if(typeof option == 'string') data[option](params)
         })
     }
 
