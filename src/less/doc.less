@@ -1354,7 +1354,7 @@ body.query-enabled {
   // background-color: @color-gray-pale;
   margin: 0 0 20px 21px;
   border-bottom: 4px double @color-gray-pale;
-  > .badge {
+  .badge {
     float: left;
     background-color: @color-gray-pale;
     margin-right: 10px;
@@ -1365,6 +1365,34 @@ body.query-enabled {
     .opacity(.8);
     line-height: 20px;
     .transition-fast();
+
+    &.btn {
+      border: none;
+    }
+
+    &[data-toggle='dropdown'] {
+      position: relative;
+
+      &:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        right: 1px;
+        bottom: 1px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 0 6px 6px;
+        border-color: transparent transparent #ccc transparent;
+        .transition-fast(border);
+        border-bottom-color: rgba(0, 0, 0, 0.15);
+      }
+
+      &:hover:before {
+        border-bottom-color: rgba(0, 0, 0, 0.35);
+      }
+    }
+
     &.pull-right {
       margin-right: 0;
       margin-left: 10px;
@@ -1409,6 +1437,67 @@ body.query-enabled {
       color: @color-brown;
       &:hover {
         background-color: darken(@color-brown-pale, 5%);
+      }
+    }
+    &.badge-code {
+      background-color: @color-pale;
+      color: @color-primary;
+      &:hover {
+        background-color: darken(@color-pale, 5%);
+
+        &:before {
+          border-bottom-color: @color-primary;
+        }
+      }
+
+      &[data-type="has-source-bundles"] {
+        .badge-code-pkgs {display: inline-block; margin-left: 8px;}
+      }
+    }
+  }
+
+  .dropdown-menu {
+    padding-top: 0;
+
+    > li > a {
+      padding-left: 30px;
+      padding-right: 10px;
+      position: relative;
+
+      &:before {
+        position: absolute;
+        display: block;
+        left: 15px;
+        top: 9px;
+        border-radius: 4px;
+        content: ' ';
+        width: 8px;
+        height: 8px;
+        background: #ddd;
+      }
+    }
+  }
+
+  .dropdown-header {
+    color: #999;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    &.primary-header {
+      color: #fff;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      background-color: @color-pale;
+      color: @color-primary;
+
+      &[data-type="source"] {
+        color: @color-blue;
+        // background-color: @color-blue-pale;
+      }
+
+      &[data-type="bundles"] {
+        color: @color-green;
+        // background-color: @color-green-pale;
       }
     }
   }
