@@ -80,7 +80,7 @@
 
     &:hover:before
     {
-      content: %("%s,%d,%a", hue(@@c), saturation(@@c), lightness(@@c));
+      content: %("%s,%d,%a", round(hue(@@c)), round(saturation(@@c)), round(lightness(@@c)));
     }
   }
 }
