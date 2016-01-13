@@ -417,7 +417,7 @@ gulp.task('build', function(callback) {
     }, type);
 });
 
-['dist', 'doc'].forEach(function(name) {
+['dist', 'doc', 'theme'].forEach(function(name) {
     gulp.task(name, function(callback) {
         console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
         buildBundle(name, callback);
