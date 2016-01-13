@@ -1136,10 +1136,13 @@
                             $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f.replace('/**/*', '') + '">' + f + '</a></li>');
                         });
                     }
-
                     if(lib.bundles.separate) {
                         $dropdown.append('<li class="dropdown-header">独立组件</li>');
                         $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/lib/' + section.id + '">dist/lib/' + section.id + '/**/*</a></li>');
+                    }
+                    if(lib.code === 'theme') {
+                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.css">dist/dist/zui-theme.css</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme-min.css">dist/dist/zui-theme-min.css</a></li>');
                     }
                 }
             }
@@ -1515,6 +1518,7 @@
                     if(!!lib.bundles.standard) lib.bundlesCount++;
                     if(!!lib.bundles.lite) lib.bundlesCount++;
                     if(!!lib.bundles.separate) lib.bundlesCount++;
+                    if(lib.code === 'theme') lib.bundlesCount++;
                 }
 
                 section.lib = lib;

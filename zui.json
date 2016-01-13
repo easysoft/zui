@@ -836,7 +836,7 @@
       "src": {
         "less": ["~/modules/kindeditor.less"],
         "js": ["assets/kindeditor/kindeditor-all.js"],
-        "resource": ["assets/kindeditor//themes/**", "assets/kindeditor//lang/*"]
+        "resource": ["assets/kindeditor//themes/**/*", "assets/kindeditor//lang/**/*"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"],
@@ -1193,8 +1193,7 @@
       "filename": "chosen",
       "includes": ["chosen"],
       "basicDpds": ["setting", "icons.variables"],
-      "ignoreDpds": true,
-      "includes": ["chosenicons"]
+      "ignoreDpds": true
     },
     "chosenicons": {
       "title": "Chosen icons selector",
@@ -1259,7 +1258,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree"]
+      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree", "chosenicons"]
     },
     "doc": {
       "title": "Document",
