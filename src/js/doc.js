@@ -1244,8 +1244,8 @@
                         $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/lib/' + section.id + '">dist/lib/' + section.id + '/**/*</a></li>');
                     }
                     if(lib.code === 'theme') {
-                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.css">dist/dist/zui-theme.css</a></li>');
-                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.min.css">dist/dist/zui-theme.min.css</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.css">dist/css/zui-theme.css</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.min.css">dist/css/zui-theme.min.css</a></li>');
                     }
                 }
             }
