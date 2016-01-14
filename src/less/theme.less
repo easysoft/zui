@@ -285,6 +285,16 @@ a
 }
 
 // Navbar
+.navbar-toggle {
+  border-radius: @border-radius-base;
+}
+
+.navbar {
+  @media (min-width: @grid-float-breakpoint) {
+    border-radius: @navbar-border-radius;
+  }
+}
+
 .navbar-inverse
 {
   background-color: @navbar-inverse-bg;
