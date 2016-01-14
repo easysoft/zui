@@ -1238,6 +1238,12 @@
       "filename": "hotkey",
       "includes": ["hotkey"]
     },
+    "prettify": {
+      "title": "prettify",
+      "dest": "dist/lib/prettify/",
+      "filename": "prettify",
+      "includes": ["prettify"]
+    },
     "migrate1.2": {
       "title": "migrate1.2",
       "dest": "dist/lib/migrate",
@@ -1246,7 +1252,7 @@
     },
     "separate": {
       "title": "separate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify"]
     },
     "dist": {
       "title": "dist",
