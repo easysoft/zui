@@ -1245,7 +1245,7 @@
                     }
                     if(lib.code === 'theme') {
                         $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.css">dist/dist/zui-theme.css</a></li>');
-                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme-min.css">dist/dist/zui-theme-min.css</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.min.css">dist/dist/zui-theme.min.css</a></li>');
                     }
                 }
             }
@@ -1534,6 +1534,7 @@
                         lib: $.extend({}, zui.lib, customZui.lib),
                         builds: $.extend({}, zui.builds, customZui.builds)
                     });
+                    if($.doc) $.doc.pkg = zuiPkg;
                     callback(zuiPkg);
                 }, null, true);
             }, null, true);
