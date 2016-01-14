@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.3.2 - 2015-11-05
+ * ZUI - v1.3.2 - 2016-01-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2015 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -17,13 +17,12 @@
  * ======================================================================== */
 
 
-(function(jQuery){
+(function(jQuery) {
 
     jQuery.hotkeys = {
         version: "0.8",
 
-        specialKeys:
-        {
+        specialKeys: {
             8: "backspace",
             9: "tab",
             13: "return",
@@ -77,8 +76,7 @@
             224: "meta"
         },
 
-        shiftNums:
-        {
+        shiftNums: {
             "`": "~",
             "1": "!",
             "2": "@",
@@ -101,23 +99,19 @@
         }
     };
 
-    function keyHandler(handleObj)
-    {
+    function keyHandler(handleObj) {
         // Only care when a possible input has been specified
-        if (typeof handleObj.data !== "string")
-        {
+        if(typeof handleObj.data !== "string") {
             return;
         }
 
         var origHandler = handleObj.handler,
             keys = handleObj.data.toLowerCase().split(" ");
 
-        handleObj.handler = function(event)
-        {
+        handleObj.handler = function(event) {
             // Don't fire in text-accepting inputs that we didn't directly bind to
-            if (this !== event.target && (/textarea|select/i.test(event.target.nodeName) ||
-                event.target.type === "text"))
-            {
+            if(this !== event.target && (/textarea|select/i.test(event.target.nodeName) ||
+                    event.target.type === "text")) {
                 return;
             }
 
@@ -128,59 +122,49 @@
                 possible = {};
 
             // check combinations (alt|ctrl|shift+anything)
-            if (event.altKey && special !== "alt")
-            {
+            if(event.altKey && special !== "alt") {
                 modif += "alt+";
             }
 
-            if (event.ctrlKey && special !== "ctrl")
-            {
+            if(event.ctrlKey && special !== "ctrl") {
                 modif += "ctrl+";
             }
 
             // TODO: Need to make sure this works consistently across platforms
-            if (event.metaKey && !event.ctrlKey && special !== "meta")
-            {
+            if(event.metaKey && !event.ctrlKey && special !== "meta") {
                 modif += "meta+";
             }
 
-            if (event.shiftKey && special !== "shift")
-            {
+            if(event.shiftKey && special !== "shift") {
                 modif += "shift+";
             }
 
-            if (special)
-            {
+            if(special) {
                 possible[modif + special] = true;
 
-            }
-            else
-            {
+            } else {
                 possible[modif + character] = true;
                 possible[modif + jQuery.hotkeys.shiftNums[character]] = true;
 
                 // "$" can be triggered as "Shift+4" or "Shift+$" or just "$"
-                if (modif === "shift+")
-                {
+                if(modif === "shift+") {
                     possible[jQuery.hotkeys.shiftNums[character]] = true;
                 }
             }
 
-            for (var i = 0, l = keys.length; i < l; i++)
-            {
-                if (possible[keys[i]])
-                {
+            for(var i = 0, l = keys.length; i < l; i++) {
+                if(possible[keys[i]]) {
                     return origHandler.apply(this, arguments);
                 }
             }
         };
     }
 
-    jQuery.each(["keydown", "keyup", "keypress"], function()
-    {
+    jQuery.each(["keydown", "keyup", "keypress"], function() {
         jQuery.event.special[this] = {
             add: keyHandler
         };
     });
 
 })(jQuery);
+

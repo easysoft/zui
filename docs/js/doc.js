@@ -1,19 +1,18 @@
 /*!
- * ZUI - v1.3.2 - 2015-11-05
+ * ZUI - v1.3.2 - 2016-01-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2015 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
-(function(window, $)
-{
++(function(window, $) {
     'use strict';
 
     // Polyfill
-    if (!String.prototype.endsWith) {
+    if(!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
             var subjectString = this.toString();
-            if (position === undefined || position > subjectString.length) {
+            if(position === undefined || position > subjectString.length) {
                 position = subjectString.length;
             }
             position -= searchString.length;
@@ -22,62 +21,193 @@
         };
     }
 
-    if (!String.prototype.startsWith) {
+    if(!String.prototype.startsWith) {
         String.prototype.startsWith = function(searchString, position) {
             position = position || 0;
             return this.lastIndexOf(searchString, position) === position;
         };
     }
 
-    if (!String.prototype.includes) {
+    if(!String.prototype.includes) {
         String.prototype.includes = function() {
             return String.prototype.indexOf.apply(this, arguments) !== -1;
         };
     }
 
-    var getQueryString = function(name, defaultValue)
-    {
+    var getQueryString = function(name, defaultValue) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
-        if (r !== null) return unescape(r[2]); return defaultValue;
+        if(r !== null) return unescape(r[2]);
+        return defaultValue;
     };
 
     var debug = getQueryString('debug', 0);
-    if(debug) console.error("DEBUG ENABLED.");
+    if(debug) console.warn("DEBUG ENABLED.");
 
     var chapters = {
-        basic: {col: 1},
-        control: {col: 2},
-        component: {col: 2},
-        javascript: {col: 3},
-        view: {col: 3},
-        learn: {col: 1},
-        promotion: {col: 1, row: 2},
-        resource: {col: 1, row: 2},
-        contribution: {col: 1, row: 2}
+        basic: {
+            col: 1
+        },
+        control: {
+            col: 2
+        },
+        component: {
+            col: 2
+        },
+        javascript: {
+            col: 3
+        },
+        view: {
+            col: 3
+        },
+        learn: {
+            col: 1
+        },
+        promotion: {
+            col: 1,
+            row: 2
+        },
+        resource: {
+            col: 1,
+            row: 2
+        },
+        contribution: {
+            col: 1,
+            row: 2
+        }
     };
-    var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate';
-    var LAST_QUERY_ID = 'LAST_QUERY_ID';
-    var INDEX_JSON = 'docs/index.json';
-    var ICONS_JSON = 'docs/icons.json';
-    var PKG_JSON = 'package.json';
-    var UNDEFINED = undefined;
-    var dataVersion;
-    var storageEnable;
-    var docIndex, iconsIndex;
-    var pkgLibs = {standard: null, lite: null, separate: null};
+    var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate',
+        LAST_QUERY_ID = 'LAST_QUERY_ID',
+        INDEX_JSON = 'docs/index.json',
+        ICONS_JSON = 'docs/icons.json',
+        PKG_JSON = 'package.json',
+        ZUI_JSON = 'zui.json',
+        ZUI_CUSTOM_JSON = 'zui.custom.json',
+        UNDEFINED = undefined,
+        dataVersion,
+        storageEnable,
+        docIndex, iconsIndex,
+        zuiPkg,
+        pkgLibs = {
+            standard: null,
+            lite: null,
+            separate: null
+        };
+    var docThemes = {
+        "default": {
+            variables: {
+                'color-primary': '#3280fc',
+                'color-secondary': '#145ccd',
+                'color-pale': '#ebf2f9',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '3px'
+            }
+        },
+        "blue": {
+            variables: {
+                'color-primary': '#039BE5',
+                'color-secondary': '#0288d1',
+                'color-pale': '#e1f5fe',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '2px'
+            }
+        },
+        "red": {
+            variables: {
+                'color-primary': '#d9534f',
+                'color-secondary': '#c74743',
+                'color-pale': '#ffebee',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '2px'
+            }
+        },
+        "green": {
+            variables: {
+                'color-primary': '#4caf50',
+                'color-secondary': '#43a047',
+                'color-pale': '#e8f5e9',
+                'border-radius-base': 0,
+                'border-radius-large': 0,
+                'border-radius-small': 0
+            }
+        },
+        "purple": {
+            variables: {
+                'color-primary': '#8666b8',
+                'color-secondary': '#673AB7',
+                'color-pale': '#f5eeff',
+                'border-radius-base': 0,
+                'border-radius-large': 0,
+                'border-radius-small': 0
+            }
+        },
+        "brown": {
+            variables: {
+                'color-primary': '#8D6E63',
+                'color-secondary': '#795548',
+                'color-pale': '#f7ebe1',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '2px'
+            }
+        },
+        "yellow": {
+            variables: {
+                'color-primary': '#d0884d',
+                'color-secondary': '#bd7b46',
+                'color-pale': '#fff0d5',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '2px'
+            }
+        },
+        "indigo": {
+            variables: {
+                'color-primary': '#3F51B5',
+                'color-secondary': '#3949AB',
+                'color-pale': '#ECEFF1',
+                'border-radius-base': 0,
+                'border-radius-large': '1px',
+                'border-radius-small': 0
+            }
+        },
+        "bluegrey": {
+            variables: {
+                'color-primary': '#607D8B',
+                'color-secondary': '#546E7A',
+                'color-pale': '#ECEFF1',
+                'border-radius-base': 0,
+                'border-radius-large': 0,
+                'border-radius-small': 0
+            }
+        },
+        "black": {
+            variables: {
+                'color-primary': '#333',
+                'color-secondary': '#222',
+                'color-pale': '#f5f5f5',
+                'border-radius-base': 0,
+                'border-radius-large': 0,
+                'border-radius-small': 0
+            }
+        }
+    };
 
-    var documentTitle = 'ZUI';
-    var sectionsShowed;
-    var queryGaCallback;
-    var scrollBarWidth = -1;
-    var bestPageWidth = 1120;
-    var $body, $window, $grid, $sectionTemplate,
+    var documentTitle = 'ZUI',
+        sectionsShowed,
+        queryGaCallback,
+        scrollBarWidth = -1,
+        bestPageWidth = 1120,
+        $body, $window, $grid, $sectionTemplate,
         $queryInput, $chapters, $pageAttrs,
         firstOpenPage = true,
         $choosedSection, $page, $pageHeader, $pageContent, $pageLoader,
         $pageBody, $navbar, $search, lastQueryString,
-        $header, $sections, $chapterHeadings; // elements
+        $header, $sections, $chapterHeadings,
+        $copyCodeBtn; // elements
 
     var isExternalUrl = function(url) {
         if(typeof url === 'string') {
@@ -94,9 +224,8 @@
         return str;
     };
 
-    var checkScrollbar = function()
-    {
-        if (document.body.clientWidth >= window.innerWidth) return;
+    var checkScrollbar = function() {
+        if(document.body.clientWidth >= window.innerWidth) return;
 
         if(scrollBarWidth < 0) {
             var scrollDiv = document.createElement('div');
@@ -106,26 +235,28 @@
             $body[0].removeChild(scrollDiv);
         }
 
-        if (scrollBarWidth) {
+        if(scrollBarWidth) {
             var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
             $body.css('padding-right', bodyPad + scrollBarWidth);
             $navbar.css('padding-right', scrollBarWidth);
         }
     };
 
-    var resetScrollbar = function()
-    {
+    var resetScrollbar = function() {
         $body.css('padding-right', '');
         $navbar.css('padding-right', '');
     };
 
-    var loadData = function(url, callback, delayLoadRemote) {
+    var loadData = function(url, callback, delayLoadRemote, waitRemote) {
         var cacheData = null;
         var isIndexJson = url === INDEX_JSON;
         var isIconsJson = url === ICONS_JSON;
         var isHasCache = false;
         if(isIndexJson && docIndex) {
-            cacheData = {data: docIndex, version: docIndex.version};
+            cacheData = {
+                data: docIndex,
+                version: docIndex.version
+            };
             isHasCache = true;
         } else if(isIconsJson && iconsIndex) {
             cacheData = iconsIndex;
@@ -135,33 +266,44 @@
             if(storedData !== null) {
                 var storedVersion = $.zui.store.get('//' + url + '::V');
                 if(storedVersion) {
-                    cacheData = {data: storedData, version: storedVersion};
+                    cacheData = {
+                        data: storedData,
+                        version: storedVersion
+                    };
                     isHasCache = true;
                     if(!docIndex && isIndexJson) {
                         docIndex = storedData;
                     }
-                    if(debug) console.log('Load', url, 'from storage:', cacheData);
+                    if(debug) console.log('Ready storage data ', url, ':', cacheData);
                 }
             }
         }
 
         if(isHasCache && (isIndexJson || cacheData.version === dataVersion)) {
             if(debug) console.log('Load', url, 'from cache:', cacheData);
-            callback(cacheData.data, 'cache');
-            if(!isIndexJson && !debug) return;
+            if(!waitRemote) {
+                callback(cacheData.data, 'cache');
+                if(!isIndexJson && !debug) return;
+            }
         }
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
-        var loadFromRemote = function(){
-            $.get(url, function(data){
+        var loadFromRemote = function() {
+            $.get(url, function(data) {
                 if(data !== null) {
                     if(isIndexJson) {
                         dataVersion = data.version;
                         docIndex = data;
                     } else if(isIconsJson) {
-                        iconsIndex = {data: data, version: dataVersion};
+                        iconsIndex = {
+                            data: data,
+                            version: dataVersion
+                        };
                     }
-                    cacheData = {data: data, version: dataVersion};
+                    cacheData = {
+                        data: data,
+                        version: dataVersion
+                    };
                     $.zui.store.set('//' + url, data);
                     $.zui.store.set('//' + url + '::V', dataVersion);
 
@@ -171,11 +313,13 @@
                     if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
                     callback(cacheData.data, 'cache');
                 }
-            }, dataType).error(function(){
-                if(debug) console.error("Ajax error:", url);
+            }, dataType).error(function() {
+                if(debug) console.warn("Ajax error:", url);
                 if(isHasCache && !isIndexJson) {
                     if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
                     callback(cacheData.data, 'cache');
+                } else {
+                    callback(null, 'error');
                 }
 
                 if($body.hasClass('page-open')) {
@@ -194,12 +338,12 @@
     };
 
     var eachSection = function(callback, eachChapterCallback) {
-        if (!docIndex) {
+        if(!docIndex) {
             console.error("Document index is empty.");
             return false;
         };
 
-        $.each(chapters, function(chapterName, chapter){
+        $.each(chapters, function(chapterName, chapter) {
             if(!docIndex.chapters[chapterName]) return;
             $.extend(chapter, docIndex.chapters[chapterName]);
             var sections = chapter.sections;
@@ -208,7 +352,7 @@
                 data = eachChapterCallback(chapter, sections);
                 if(data === false) return false;
             }
-            $.each(sections, function(i, section){
+            $.each(sections, function(i, section) {
                 if(callback(chapter, section, data) === false) return false;
             });
         });
@@ -218,10 +362,10 @@
     var displaySectionIcon = function($icon, section) {
         var icon = section.icon;
         $icon.attr('class', 'icon').text('').css('background-image', '');
-        if (icon === undefined || icon === null || icon === "") {
+        if(icon === undefined || icon === null || icon === "") {
             icon = section.name.substr(0, 1).toUpperCase();
         }
-        if (icon.startsWith('icon-')) {
+        if(icon.startsWith('icon-')) {
             $icon.addClass(icon);
         } else if(icon.endsWith('.png')) {
             $icon.css('background-image', 'url(' + icon + ')').addClass('with-img');
@@ -232,67 +376,67 @@
 
     var displaySection = function() {
         var order = 0;
-        if(eachSection(function(chapter, section, $sectionList){
-            var chapterName = chapter.id;
-            section.chapter = chapterName;
-            section.chapterName = chapter.name;
+        if(eachSection(function(chapter, section, $sectionList) {
+                var chapterName = chapter.id;
+                section.chapter = chapterName;
+                section.chapterName = chapter.name;
 
-            var url = section.url;
-            if(typeof url === 'undefined') {
-                section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
-                section.target = 'page';
-            } else if(isExternalUrl(url)) {
-                section.target = 'external';
-            } else if(url && url.endsWith('.md')) {
-                section.target = 'page';
-                section.targetType = 'markdown';
-                if(url === '.md') {
-                    section.url = 'docs/part/' + section.chapter + '-' + section.id + '.md';
+                var url = section.url;
+                if(typeof url === 'undefined') {
+                    section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
+                    section.target = 'page';
+                } else if(isExternalUrl(url)) {
+                    section.target = 'external';
+                } else if(url && url.endsWith('.md')) {
+                    section.target = 'page';
+                    section.targetType = 'markdown';
+                    if(url === '.md') {
+                        section.url = 'docs/part/' + section.chapter + '-' + section.id + '.md';
+                    }
+                } else {
+                    section.target = '';
                 }
-            } else {
-                section.target = '';
-            }
 
-            var id = chapterName + '-' + section.id;
-            var $tpl = $sectionTemplate.clone().data('section', section);
-            $tpl.attr({
-                'id': 'section-' + id,
-                'data-id': section.id,
-                'data-chapter': chapterName,
-                'data-order': order++,
-                'data-accent': chapter.accent,
-                'data-target': section.target
-            });
-            var $head = $tpl.children('.card-heading');
-            var sectionUrl = '#' + chapterName + '/' + section.id;
-            $head.find('.name').text(section.name).attr('href', sectionUrl);
-            // $head.children('.desc').text(section.desc);
-            displaySectionIcon($head.children('.icon'), section);
-            var $topics = $tpl.find('.topics');
-            if (section.topics && section.topics.length) {
-                var topicId = 0;
-                $.each(section.topics, function(tName, topic){
-                    if(typeof topic.id === 'undefined') topic.id = tName;
-                    var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + (topicId++)) : topic.url;
-
-                    $topics.append('<li data-id="' + tName + '"><a href="' + topicUrl + '"' + (isExternalUrl(topicUrl) ? ' target="_blank"' : '') + '>' + topic.name + '</a></li>');
+                var id = chapterName + '-' + section.id;
+                var $tpl = $sectionTemplate.clone().data('section', section);
+                $tpl.attr({
+                    'id': 'section-' + id,
+                    'data-id': section.id,
+                    'data-chapter': chapterName,
+                    'data-order': order++,
+                    'data-accent': chapter.accent,
+                    'data-target': section.target
                 });
-            } else {
-                $topics.remove('.card-content');
-                $tpl.addClass('without-topics');
-            }
-            $sectionList.append($tpl.addClass('show' + (sectionsShowed ? ' in' : '')));
-        }, function(chapter, sections){
-            chapter.$.attr('data-accent', chapter.accent);
-            var $sectionList = chapter.$sections;
-            $sectionList.children().remove();
-            return $sectionList;
-        })) {
+                var $head = $tpl.children('.card-heading');
+                var sectionUrl = '#' + chapterName + '/' + section.id;
+                $head.find('.name').text(section.name).attr('href', sectionUrl);
+                // $head.children('.desc').text(section.desc);
+                displaySectionIcon($head.children('.icon'), section);
+                var $topics = $tpl.find('.topics');
+                if(section.topics && section.topics.length) {
+                    var topicId = 0;
+                    $.each(section.topics, function(tName, topic) {
+                        if(typeof topic.id === 'undefined') topic.id = tName;
+                        var topicUrl = typeof topic.url === 'undefined' ? (sectionUrl + '/' + (topicId++)) : topic.url;
+
+                        $topics.append('<li data-id="' + tName + '"><a href="' + topicUrl + '"' + (isExternalUrl(topicUrl) ? ' target="_blank"' : '') + '>' + topic.name + '</a></li>');
+                    });
+                } else {
+                    $topics.remove('.card-content');
+                    $tpl.addClass('without-topics');
+                }
+                $sectionList.append($tpl.addClass('show' + (sectionsShowed ? ' in' : '')));
+            }, function(chapter, sections) {
+                chapter.$.attr('data-accent', chapter.accent);
+                var $sectionList = chapter.$sections;
+                $sectionList.children().remove();
+                return $sectionList;
+            })) {
             $body.children('.loader').removeClass('loading');
             $sections = $grid.find('.section');
             if(!sectionsShowed) {
                 clearTimeout($grid.data(LAST_RELOAD_ANIMATE_ID));
-                $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
+                $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function() {
                     $sections.addClass('in');
                     $chapterHeadings.addClass('in');
                 }, 100));
@@ -310,7 +454,9 @@
         } else if(toTop === 'up') {
             toTop = $container.scrollTop() - ($window.height() - $container.offset().top) * 0.8;
         }
-        $container.animate({scrollTop: toTop}, 200, 'swing', callback);
+        $container.animate({
+            scrollTop: toTop
+        }, 200, 'swing', callback);
     };
 
     var scrollToSection = function($section) {
@@ -402,7 +548,7 @@
             left = offset.left;
             var $section = $choosedSection;
             var delta = 99999;
-            $all.each(function(){
+            $all.each(function() {
                 var $this = $(this);
                 var offset = $this.offset();
                 if((offset.left + 50) < left) {
@@ -433,7 +579,7 @@
             left = offset.left;
             var $section = $choosedSection;
             var delta = 99999;
-            $all.each(function(){
+            $all.each(function() {
                 var $this = $(this);
                 var offset = $this.offset();
                 if(offset.left > left) {
@@ -455,14 +601,14 @@
         $chapters.removeClass('hide');
         $sections.addClass('show');
         $chapterHeadings.addClass('show');
-        $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function(){
+        $grid.data(LAST_RELOAD_ANIMATE_ID, setTimeout(function() {
             $sections.addClass('in');
             $chapterHeadings.addClass('in');
         }, 20));
         $body.removeClass('query-enabled').attr('data-query', '');
     };
 
-    var chooseIcon = function($icon){
+    var chooseIcon = function($icon) {
         var $search = $('#section-control-icon');
         if(!$icon || !$icon.length) {
             $search.removeClass('section-preview-show').data('preview', null);
@@ -492,7 +638,7 @@
     };
 
     var queryIcon = function(keys) {
-        if(!$.isArray(keys) && (keys || keys.length) ) {
+        if(!$.isArray(keys) && (keys || keys.length)) {
             keys = [keys];
         }
 
@@ -505,11 +651,11 @@
             $search = $section.children('.section-search');
         }
 
-        loadData(ICONS_JSON, function(data){
+        loadData(ICONS_JSON, function(data) {
             var $list = $search.children('ul');
             if(!$list.length) {
                 $list = $('<ul data-view="icons">');
-                $.each(data, function(iconName, icon){
+                $.each(data, function(iconName, icon) {
                     var $li = $('<li id="control-icon-' + iconName + '" data-id="' + iconName + '"><a href="#control/icons/' + iconName + '"><i class="icon icon-' + iconName + '"></i> icon-' + iconName + '</a></li>');
                     icon.id = iconName;
                     $li.data('icon', icon);
@@ -524,23 +670,23 @@
                 return;
             }
 
-            keys.forEach(function(keyVal, keyIndex){
+            keys.forEach(function(keyVal, keyIndex) {
                 keys[keyIndex] = keys[keyIndex].toLowerCase();
             });
 
             var $bestMatch, bestMatchWeight = 0;
-            $.each(data, function(iconId, icon){
+            $.each(data, function(iconId, icon) {
                 var choosed = false;
                 var weight = 0;
                 iconId = iconId.toLowerCase();
-                $.each(keys, function(keyIndex, key){
+                $.each(keys, function(keyIndex, key) {
                     var choosedThis = false;
                     if(iconId.includes(key)) {
                         choosedThis = true;
-                        weight += iconId.startsWith(key) ? 120: 110;
+                        weight += iconId.startsWith(key) ? 120 : 110;
                     } else if(icon.name && icon.name.toLowerCase().includes(key)) {
                         choosedThis = true;
-                        weight += icon.name.toLowerCase().startsWith(key) ? 100: 95;
+                        weight += icon.name.toLowerCase().startsWith(key) ? 100 : 95;
                     } else if(key.startsWith('\\') && icon.code && icon.code.toLowerCase().includes(key.substr(1))) {
                         choosedThis = true;
                         weight += 120;
@@ -550,7 +696,7 @@
                         if($.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
                         if($.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
                         if(!filters.length) return;
-                        $.each(filters, function(filterIndex, filter){
+                        $.each(filters, function(filterIndex, filter) {
                             filter = filter.toLowerCase();
                             if(filter.includes(key)) {
                                 choosedThis = true;
@@ -603,15 +749,17 @@
         // Send ga data
         if(window['ga'] && $.isFunction(ga)) {
             if(queryGaCallback) clearTimeout(queryGaCallback);
-            queryGaCallback = setTimeout(function(){
+            queryGaCallback = setTimeout(function() {
                 ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
             }, 2000);
         }
 
         var keys = [];
-        $.each(keyString.split(' '), function(i, key){
+        $.each(keyString.split(' '), function(i, key) {
             key = $.trim(key).toLowerCase();
-            var keyOption = {origin: key};
+            var keyOption = {
+                origin: key
+            };
             if(key.startsWith('@')) {
                 keyOption.type = 'id';
                 keyOption.chapter = key.substr(1);
@@ -634,14 +782,14 @@
             } else if(key.startsWith('version:')) {
                 keyOption.type = 'version';
                 keyOption.val = key.substr(8);
-            } else if(key.startsWith('grunt:') || key.startsWith('build:')) {
+            } else if(key.startsWith('gulp:') || key.startsWith('build:')) {
                 keyOption.type = 'build';
                 keyOption.val = key.substr(6);
             } else if(key.startsWith('g:') || key.startsWith('b:')) {
                 keyOption.type = 'build';
                 keyOption.val = key.substr(2);
             } else {
-                $.each(chapters, function(name){
+                $.each(chapters, function(name) {
                     if(key.startsWith(name + ':')) {
                         keyOption.type = 'id';
                         keyOption.chapter = name;
@@ -664,133 +812,150 @@
             return;
         }
 
-        var resultMap = {}, chapterMap = {}, weight, id, chooseThis, chooseThisKey, keyVal, matches, matchType;
-        if(eachSection(function(chapter, section){
-            chooseThis = true;
-            matches = [];
-            weight = 0;
-            $.each(keys, function(keyIndex, key){
-                keyVal = key.val;
-                matchType = null;
-                chooseThisKey = false;
-                switch(key.type) {
-                    case 'id':
-                        chooseThisKey = (key.chapter ? chapter : section).id.includes(keyVal);
-                        if(chooseThisKey) matchType = [key.chapter ? 'chapter' : 'section', 'id'];
-                        weight = 100;
-                        break;
-                    case 'icon':
-                        chooseThis = section.id === 'icon';
-                        if(chooseThis) {
-                            weight = 120;
-                            matches.push({key: key, type: ['section', 'id']});
-                            var iconKeys = [];
-                            if(key.val || key.val.length) {
-                                iconKeys.push(key.val);
-                            }
-                            keys.forEach(function(iconKey){
-                                if(iconKey.val !== key.val && (iconKey.val || iconKey.val.length)) {
-                                    iconKeys.push(iconKey.val);
+        var resultMap = {},
+            chapterMap = {},
+            weight, id, chooseThis, chooseThisKey, keyVal, matches, matchType;
+        if(eachSection(function(chapter, section) {
+                chooseThis = true;
+                matches = [];
+                weight = 0;
+                $.each(keys, function(keyIndex, key) {
+                    keyVal = key.val;
+                    matchType = null;
+                    chooseThisKey = false;
+                    switch(key.type) {
+                        case 'id':
+                            chooseThisKey = (key.chapter ? chapter : section).id.includes(keyVal);
+                            if(chooseThisKey) matchType = [key.chapter ? 'chapter' : 'section', 'id'];
+                            weight = 100;
+                            break;
+                        case 'icon':
+                            chooseThis = section.id === 'icon';
+                            if(chooseThis) {
+                                weight = 120;
+                                matches.push({
+                                    key: key,
+                                    type: ['section', 'id']
+                                });
+                                var iconKeys = [];
+                                if(key.val || key.val.length) {
+                                    iconKeys.push(key.val);
                                 }
-                            });
-                            queryIcon(iconKeys);
-                            return false;
-                        }
-                        break;
-                    default:
-                        var sectionName = section.name.toLowerCase();
-                        if(sectionName.includes(keyVal)) {
-                            chooseThisKey = true;
-                            matchType = ['section', 'name'];
-                            weight = sectionName.startsWith(keyVal) ? 85 : 82;
-                            break;
-                        }
-                        if(section.filter && section.filter.includes(keyVal)) {
-                            chooseThisKey = true;
-                            matchType = ['section', 'filter'];
-                            weight = 80;
-                            break;
-                        }
-                        var chapterName = chapter.name.toLowerCase();
-                        if(chapterName.includes(keyVal)) {
-                            chooseThisKey = true;
-                            matchType = ['chapter', 'name'];
-                            weight = chapterName.startsWith(keyVal) ? 75 : 73;
-                            break;
-                        }
-                        if(chapter.filter && chapter.filter.includes(keyVal)) {
-                            chooseThisKey = true;
-                            matchType = ['chapter', 'filter'];
-                            weight = 70;
-                            break;
-                        }
-                        if(keyVal.length > 1) {
-                            if(section.id.includes(keyVal)) {
-                                chooseThisKey = true;
-                                matchType = ['section', 'id'];
-                                weight = 65;
-                                break;
-                            }
-                            if(chapter.id.includes(keyVal)) {
-                                chooseThisKey = true;
-                                matchType = ['chapter', 'id'];
-                                weight = 60;
-                                break;
-                            }
-                            if($.isArray(section.topics)) {
-                                var isBreak = false;
-                                $.each(section.topics, function(topicIndex, topic){
-                                    if(topic.name && topic.name.toLowerCase().includes(keyVal)) {
-                                        chooseThisKey = true;
-                                        matchType = ['section', 'topic', topicIndex];
-                                        isBreak = true;
-                                        weight = 20;
-                                        return false;
+                                keys.forEach(function(iconKey) {
+                                    if(iconKey.val !== key.val && (iconKey.val || iconKey.val.length)) {
+                                        iconKeys.push(iconKey.val);
                                     }
                                 });
-                                if(isBreak) break;
+                                queryIcon(iconKeys);
+                                return false;
                             }
-                            if(section.desc.toLowerCase().includes(keyVal)) {
+                            break;
+                        default:
+                            var sectionName = section.name.toLowerCase();
+                            if(sectionName.includes(keyVal)) {
                                 chooseThisKey = true;
-                                matchType = 'section.desc';
-                                weight = 30;
+                                matchType = ['section', 'name'];
+                                weight = sectionName.startsWith(keyVal) ? 85 : 82;
                                 break;
                             }
-                        } else {
-                            if(chapter.id.startsWith(keyVal)) {
+                            if(section.filter && section.filter.includes(keyVal)) {
                                 chooseThisKey = true;
-                                matchType = ['chapter', 'id'];
-                                weight = 60;
+                                matchType = ['section', 'filter'];
+                                weight = 80;
                                 break;
                             }
-                            if(section.id.startsWith(keyVal)) {
+                            var chapterName = chapter.name.toLowerCase();
+                            if(chapterName.includes(keyVal)) {
                                 chooseThisKey = true;
-                                matchType = ['section', 'id'];
-                                weight = 50;
+                                matchType = ['chapter', 'name'];
+                                weight = chapterName.startsWith(keyVal) ? 75 : 73;
                                 break;
                             }
-                        }
-                }
-                if(!chooseThisKey) {
-                    chooseThis = false;
-                    return false;
-                } else {
-                    matches.push({key: key, type: matchType});
-                }
-            });
+                            if(chapter.filter && chapter.filter.includes(keyVal)) {
+                                chooseThisKey = true;
+                                matchType = ['chapter', 'filter'];
+                                weight = 70;
+                                break;
+                            }
+                            if(keyVal.length > 1) {
+                                if(section.id.includes(keyVal)) {
+                                    chooseThisKey = true;
+                                    matchType = ['section', 'id'];
+                                    weight = 65;
+                                    break;
+                                }
+                                if(chapter.id.includes(keyVal)) {
+                                    chooseThisKey = true;
+                                    matchType = ['chapter', 'id'];
+                                    weight = 60;
+                                    break;
+                                }
+                                if($.isArray(section.topics)) {
+                                    var isBreak = false;
+                                    $.each(section.topics, function(topicIndex, topic) {
+                                        if(topic.name && topic.name.toLowerCase().includes(keyVal)) {
+                                            chooseThisKey = true;
+                                            matchType = ['section', 'topic', topicIndex];
+                                            isBreak = true;
+                                            weight = 20;
+                                            return false;
+                                        }
+                                    });
+                                    if(isBreak) break;
+                                }
+                                if(section.desc.toLowerCase().includes(keyVal)) {
+                                    chooseThisKey = true;
+                                    matchType = 'section.desc';
+                                    weight = 30;
+                                    break;
+                                }
+                            } else {
+                                if(chapter.id.startsWith(keyVal)) {
+                                    chooseThisKey = true;
+                                    matchType = ['chapter', 'id'];
+                                    weight = 60;
+                                    break;
+                                }
+                                if(section.id.startsWith(keyVal)) {
+                                    chooseThisKey = true;
+                                    matchType = ['section', 'id'];
+                                    weight = 50;
+                                    break;
+                                }
+                            }
+                    }
+                    if(!chooseThisKey) {
+                        chooseThis = false;
+                        return false;
+                    } else {
+                        matches.push({
+                            key: key,
+                            type: matchType
+                        });
+                    }
+                });
 
-            id = chapter.id + '-' + section.id;
-            if(chooseThis) {
-                chapterMap[chapter.id]++;
-                resultMap[id] = {hidden: false, matches: matches, weight: weight};
-            } else {
-                resultMap[id] = {hidden: true};
-            }
-        }, function(chapter){
-            chapterMap[chapter.id] = 0;
-        })) {
-            var $hide = $(), $show = $(), $section, choosedWeight = -1, $choosed;
-            $.each(resultMap, function(id, result){
+                id = chapter.id + '-' + section.id;
+                if(chooseThis) {
+                    chapterMap[chapter.id]++;
+                    resultMap[id] = {
+                        hidden: false,
+                        matches: matches,
+                        weight: weight
+                    };
+                } else {
+                    resultMap[id] = {
+                        hidden: true
+                    };
+                }
+            }, function(chapter) {
+                chapterMap[chapter.id] = 0;
+            })) {
+            var $hide = $(),
+                $show = $(),
+                $section, choosedWeight = -1,
+                $choosed;
+            $.each(resultMap, function(id, result) {
                 $section = $('#section-' + id);
                 if(result.hidden) {
                     $hide = $hide.add($section);
@@ -805,16 +970,16 @@
             });
 
             var $chapter, hide, chapter;
-            $.each(chapterMap, function(chapterId, resultCount){
+            $.each(chapterMap, function(chapterId, resultCount) {
                 chapter = chapters[chapterId];
                 hide = !resultCount;
                 chapter.$.toggleClass('hide', hide);
             });
             var finalShowColsCount = 0;
-            $grid.find('.row').each(function(){
+            $grid.find('.row').each(function() {
                 var showColsCount = 0;
                 var $row = $(this);
-                $row.children('.col').each(function(){
+                $row.children('.col').each(function() {
                     var $col = $(this);
                     var showCol = $col.children('.chapter:not(.hide)').length;
                     $col.toggleClass('hide', !showCol);
@@ -834,11 +999,15 @@
 
             if($hide.length) {
                 $hide.removeClass('in');
-                setTimeout(function(){$hide.removeClass('show');}, 100);
+                setTimeout(function() {
+                    $hide.removeClass('show');
+                }, 100);
             }
             if($show.length) {
                 $show.addClass('show');
-                setTimeout(function(){$show.addClass('in');}, 20);
+                setTimeout(function() {
+                    $show.addClass('in');
+                }, 20);
             }
 
             $window.scrollTop(1);
@@ -857,10 +1026,10 @@
         if(toggle) {
             if(!$body.hasClass('compact-mode')) {
                 $body.data(animateName, true).addClass('compact-mode')
-                setTimeout(function(){
+                setTimeout(function() {
                     $body.addClass('compact-mode-in');
                     $window.scrollTop(1);
-                    setTimeout(function(){
+                    setTimeout(function() {
                         $body.data(animateName, false);
                         if(callback) callback();
                     }, 300);
@@ -871,7 +1040,7 @@
         } else {
             if($body.hasClass('compact-mode')) {
                 $body.data(animateName, true).removeClass('compact-mode-in');
-                setTimeout(function(){
+                setTimeout(function() {
                     $body.removeClass('compact-mode');
                     $body.data(animateName, false);
                     if(callback) callback();
@@ -891,7 +1060,7 @@
         }
         if($body.hasClass('page-open')) {
             var style = $page.data('trans-style');
-            if(style){
+            if(style) {
                 style['max-height'] = '';
                 $page.css(style);
             }
@@ -903,7 +1072,7 @@
 
             window.document.title = documentTitle;
             window.location.hash = '#/';
-            setTimeout(function(){
+            setTimeout(function() {
                 $body.removeClass('page-show page-show-out');
                 resetScrollbar();
             }, 300);
@@ -938,7 +1107,7 @@
         }
     };
 
-    var mutePageLoading = function() {
+    var stopPageLoading = function() {
         $page.removeClass('loading');
         $pageLoader.removeClass('loading');
     };
@@ -949,28 +1118,30 @@
             delayMutedPageLoading = window['onPageLoad']() === false;
         }
 
-        setTimeout(function(){
+        setTimeout(function() {
             if($.isFunction(window['afterPageLoad'])) {
-                if(window['afterPageLoad'](mutePageLoading) === true) {
+                if(window['afterPageLoad'](stopPageLoading) === true) {
                     handlePageLoad();
                 }
             }
 
-            // pretty code
             var $codes = $pageBody.find('pre');
-            if($codes.length && window['prettyPrint']) {
-                $codes.addClass('prettyprint');
-                window['prettyPrint']();
+            if($codes.length && window.prettyPrint) {
+                // pretty code
+                if(window.prettyPrint) {
+                    $codes.addClass('prettyprint');
+                    window.prettyPrint();
+                }
             }
         }, 200);
 
-        if(!delayMutedPageLoading) mutePageLoading();
+        if(!delayMutedPageLoading) stopPageLoading();
     };
 
     var openPage = function($section, section, topic) {
         var pageId = section.chapter + '-' + section.id;
         if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
-            if(debug) console.error('The page already showed.');
+            if(debug) console.warn('The page already showed.');
             return;
         }
         chooseSection($section, false, true);
@@ -980,7 +1151,7 @@
         if(topic) pageUrl += '/' + topic;
         window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
-        if(window['ga'] && $.isFunction(ga)) ga('send','pageview', window.location.pathname + pageUrl);
+        if(window['ga'] && $.isFunction(ga)) ga('send', 'pageview', window.location.pathname + pageUrl);
 
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
@@ -1000,6 +1171,91 @@
 
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
             $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
+
+            var isShowCodeBadage = lib.srcCount > 0 || lib.bundlesCount > 0;
+            var $codeDropMenu = $pageAttrs.children('.badge-code-dropdown').toggle(isShowCodeBadage);
+            if(isShowCodeBadage) {
+                var $badge = $codeDropMenu.find('.badge-code').attr('data-type', 'has' + (!!lib.srcCount ? '-source' : '') + (!!lib.bundlesCount ? '-bundles' : ''));
+                $badge.children('.badge-code-source').toggle(!!lib.srcCount).find('.count').text(lib.srcCount);
+                $badge.children('.badge-code-pkgs').toggle(!!lib.bundlesCount).find('.count').text(lib.bundlesCount);
+
+                var $dropdown = $codeDropMenu.find('.dropdown-menu').empty();
+                var srcTypes = {
+                    js: "Javascript",
+                    css: "CSS",
+                    less: "LESS",
+                    resource: "资源",
+                };
+                if(lib.srcCount) {
+                    $dropdown.append('<li class="dropdown-header primary-header" data-type="source"><i class="icon icon-file-code"></i>  源码 ' + lib.srcCount + '</li>');
+                    $.each(lib.src, function(srcName, files) {
+                        $dropdown.append('<li class="dropdown-header">' + (srcTypes[srcName] || srcName) + '</li>');
+                        files.forEach(function(f) {
+                            f = f.replace(/\/\//g, '/');
+                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f + '">' + f + '</a></li>');
+                        });
+                    });
+                }
+                if(lib.bundlesCount) {
+                    $dropdown.append('<li class="dropdown-header primary-header" data-type="bundles"><i class="icon icon-cube"></i> 打包</li>');
+                    if(lib.bundles.standard) {
+                        $dropdown.append('<li class="dropdown-header">标准版</li>');
+                        var files = [];
+                        if(lib.src.js && lib.src.js.length) {
+                            files.push('dist/js/zui.js', 'dist/js/zui.min.js');
+                        }
+                        if(lib.src.less && lib.src.less.length) {
+                            files.push('dist/css/zui.css', 'dist/css/zui.min.css');
+                        }
+                        if(lib.src.resource && lib.src.resource.length) {
+                            lib.src.resource.forEach(function(rf) {
+                                if(rf.indexOf('//') > -1) {
+                                    rf = 'dist/' + rf.substr(rf.indexOf('//') + 1);
+                                } else {
+                                    rf = rf.replace('src/', 'dist/').replace('assets/', 'dist/');
+                                }
+                                files.push(rf);
+                            });
+                        }
+                        files.forEach(function(f) {
+                            f = f.replace(/\/\//g, '/');
+                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f.replace('/**/*', '') + '">' + f + '</a></li>');
+                        });
+                    }
+                    if(lib.bundles.lite) {
+                        $dropdown.append('<li class="dropdown-header">简洁版</li>');
+                        var files = [];
+                        if(lib.src.js && lib.src.js.length) {
+                            files.push('dist/js/zui.lite.js', 'dist/js/zui.lite.min.js');
+                        }
+                        if(lib.src.less && lib.src.less.length) {
+                            files.push('dist/css/zui.lite.css', 'dist/css/zui.lite.min.css');
+                        }
+                        if(lib.src.resource && lib.src.resource.length) {
+                            lib.src.resource.forEach(function(rf) {
+                                if(rf.indexOf('//') > -1) {
+                                    rf = 'dist/' + rf.substr(rf.indexOf('//') + 1);
+                                } else {
+                                    rf = rf.replace('src/', 'dist/').replace('assets/', 'dist/');
+                                }
+                                files.push(rf);
+                            });
+                        }
+                        files.forEach(function(f) {
+                            f = f.replace(/\/\//g, '/');
+                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f.replace('/**/*', '') + '">' + f + '</a></li>');
+                        });
+                    }
+                    if(lib.bundles.separate) {
+                        $dropdown.append('<li class="dropdown-header">独立组件</li>');
+                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/lib/' + section.id + '">dist/lib/' + section.id + '/**/*</a></li>');
+                    }
+                    if(lib.code === 'theme') {
+                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.css">dist/css/zui-theme.css</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.min.css">dist/css/zui-theme.min.css</a></li>');
+                    }
+                }
+            }
         }
 
         $pageContent.empty();
@@ -1007,14 +1263,14 @@
         $pageLoader.removeClass('with-error').addClass('loading');
         var lastShowDataCall;
 
-        loadData(section.url, function(data){
-            var showData = function(){
+        loadData(section.url, function(data) {
+            var showData = function() {
                 if(marked && section.targetType === 'markdown') {
                     var $article = $();
                     var $markdown = $(marked(data));
                     var $lastSection, checkFirstH1 = true;
                     var hasH2 = $markdown.filter('h2').length > 0;
-                    $markdown.each(function(){
+                    $markdown.each(function() {
                         var $tag = $(this);
                         var tagName = $tag.prop('tagName');
                         if(tagName === 'STYLE' || tagName === 'SCRIPT') {
@@ -1080,24 +1336,26 @@
 
         $body.addClass('page-open');
 
-        toggleCompactMode(true, function(){
+        toggleCompactMode(true, function() {
             checkScrollbar();
             $body.addClass('page-show');
 
-            setTimeout(function(){
+            setTimeout(function() {
                 $body.addClass('page-show-in');
                 if($page.hasClass('loading')) $page.addClass('openning');
                 $pageBody.scrollTop(0);
-                setTimeout(function(){
+                setTimeout(function() {
                     $page.removeClass('openning');
                     if(firstOpenPage) {
                         firstOpenPage = $.zui.store.get('first_open_page', true);
                         if(firstOpenPage) {
                             firstOpenPage = false;
                             $.zui.store.set('first_open_page', false);
-                            setTimeout(function(){
+                            setTimeout(function() {
                                 $('#pageCloseBtn').tooltip('show').addClass('active');
-                                setTimeout(function(){$('#pageCloseBtn').tooltip('hide').removeClass('active');}, 6000);
+                                setTimeout(function() {
+                                    $('#pageCloseBtn').tooltip('hide').removeClass('active');
+                                }, 6000);
                             }, 500);
                         }
                     }
@@ -1114,7 +1372,7 @@
         if($.isArray(section)) {
             if(typeof topic !== 'undefined') section = section.push(topic);
             if(!section[0]) {
-                if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
+                if(debug) console.warn("Open section failed: can't find the section with id " + section.join('-'));
                 return;
             }
             if(section.length > 0 && section[0] === 'search') {
@@ -1125,7 +1383,7 @@
                 var sectionId = section[1];
                 var sections = docIndex.chapters[section[0]].sections;
                 var ok = false;
-                $.each(sections, function(i, s){
+                $.each(sections, function(i, s) {
                     if(s.id === sectionId) {
                         if(section.length > 2) {
                             topic = section[2];
@@ -1136,13 +1394,11 @@
                     }
                 });
                 if(!ok) {
-                    if(debug) console.error("Open section failed: can't find the section with id " + section.join('-'));
+                    if(debug) console.warn("Open section failed: can't find the section with id " + section.join('-'));
                     return;
                 }
             } else {
-                if(debug) {
-                    console.error("Open section stop by null docIndex or wrong section value.");
-                }
+                if(debug) console.warn("Open section stop by null docIndex or wrong section value.");
                 return;
             }
         }
@@ -1179,7 +1435,8 @@
             }
             $section.toggleClass('collapsed', !toggle);
             var $setions = $pageContent.children('section');
-            var sectionsCount = $setions.length, collapsedSectionCount = $setions.filter('.collapsed').length;
+            var sectionsCount = $setions.length,
+                collapsedSectionCount = $setions.filter('.collapsed').length;
             if(collapsedSectionCount === 0) {
                 $page.removeClass('page-collapsed');
             } else if(collapsedSectionCount === sectionsCount) {
@@ -1197,9 +1454,9 @@
     };
 
     var openPageUrl = function(url) {
-        if(url.startsWith('#')) {
+        if(url.startsWith('#') && url.length > 1) {
             url = url.substr(1);
-            setTimeout(function(){
+            setTimeout(function() {
                 var params = url.split('/');
                 var controllerName = params[0].toLowerCase();
                 if(controllerName === 'search' || controllerName === 'query') {
@@ -1211,7 +1468,7 @@
         } else if(isExternalUrl(url)) {
             window.open(url, '_blank');
         } else {
-            if(debug) console.error('Open page url failed: unknown url', url);
+            if(debug) console.warn('Open page url failed: unknown url', url);
         }
     };
 
@@ -1219,7 +1476,9 @@
         if(libNames) {
             var len = libNames.length;
             name = name.toLowerCase();
-            var names = name + 's', nameDot = name + '.', namesDot = name + 's.';
+            var names = name + 's',
+                nameDot = name + '.',
+                namesDot = name + 's.';
             for(var i = 0; i < len; ++i) {
                 var item = libNames[i];
                 if(item === name || item === names || (lib && !lib.src && isInLib(name, lib.dpds))) {
@@ -1230,27 +1489,19 @@
         return false;
     };
 
-    var getBuildList = function(pkg, build, lib, list)
-    {
-        if(!list)
-        {
+    var getBuildList = function(pkg, build, lib, list) {
+        if(!list) {
             list = [];
         }
-        if(!$.isArray(list))
-        {
+        if(!$.isArray(list)) {
             list = [list];
         }
 
-        if(build.bundles)
-        {
-            $.each(build.bundles, function(idx, val)
-            {
-                if(pkg.builds[val])
-                {
+        if(build.bundles) {
+            $.each(build.bundles, function(idx, val) {
+                if(pkg.builds[val]) {
                     getBuildList(pkg, pkg.builds[val], lib, list);
-                }
-                else
-                {
+                } else {
                     list = getItemList(lib, [val], list);
                 }
             });
@@ -1262,24 +1513,17 @@
         return list;
     };
 
-    var getItemList  = function(lib, list, items, ignoreDpds, ignoreCombine)
-    {
+    var getItemList = function(lib, list, items, ignoreDpds, ignoreCombine) {
         items = items || [];
 
-        if($.isArray(list))
-        {
-            $.each(list, function(idx, name)
-            {
+        if($.isArray(list)) {
+            $.each(list, function(idx, name) {
                 getItemList(lib, name, items, ignoreDpds);
             });
-        }
-        else
-        {
+        } else {
             var item = lib[list];
-            if(item && items.indexOf(list) < 0)
-            {
-                if(!ignoreDpds && item.dpds)
-                {
+            if(item && items.indexOf(list) < 0) {
+                if(!ignoreDpds && item.dpds) {
                     getItemList(lib, item.dpds, items, ignoreDpds);
                 }
                 if(item.src || !ignoreCombine) items.push(list);
@@ -1289,17 +1533,65 @@
         return items;
     };
 
-    var loadPackage = function (){
+    var loadPackage = function(callback) {
         loadData(PKG_JSON, function(pkg) {
+            loadData(ZUI_JSON, function(zui) {
+                loadData(ZUI_CUSTOM_JSON, function(customZui) {
+                    zuiPkg = $.extend(pkg, {
+                        lib: $.extend({}, zui.lib, customZui.lib),
+                        builds: $.extend({}, zui.builds, customZui.builds)
+                    });
+                    if($.doc) $.doc.pkg = zuiPkg;
+                    callback(zuiPkg);
+                }, null, true);
+            }, null, true);
+        }, null, true);
+    };
+
+    var initPackage = function() {
+        loadPackage(function(pkg) {
             $('.zui-version').text('v' + pkg.version);
             pkgLibs.standard = getBuildList(pkg, pkg.builds.standard, pkg.lib);
             pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
             pkgLibs.separate = getBuildList(pkg, pkg.builds.separate, pkg.lib);
 
-            eachSection(function(chapter, section, $sectionList){
-                var pkgLib = pkg.lib[section.id] || pkg.lib[section.id + 's'];
-                var lib = {bundles: {}};
-                $.each(pkgLibs, function(name, libNames){
+            function getLibSource(lib, src, libName) {
+                if(lib.src && !lib.thirdpart) {
+                    ['less', 'js', 'resource'].forEach(function(srcTypeName) {
+                        if(lib.src[srcTypeName]) {
+                            lib.src[srcTypeName].forEach(function(srcName) {
+                                if(srcName.startsWith('~/')) {
+                                    srcName = srcName.replace('~/', srcTypeName === 'js' ? 'src/js/' : srcTypeName === 'less' ? 'src/less/' : 'src/');
+                                }
+                                if(!src[srcTypeName]) src[srcTypeName] = [];
+                                if(src[srcTypeName].indexOf(srcName) < 0) {
+                                    src[srcTypeName].push(srcName);
+                                }
+                            });
+                        }
+                    });
+                }
+                if(lib.dpds && lib.dpds) {
+                    lib.dpds.forEach(function(dpdsName) {
+                        if(dpdsName.startsWith(libName) && pkg.lib[dpdsName]) {
+                            getLibSource(pkg.lib[dpdsName], src, libName);
+                        } 
+                    });
+                }
+            };
+
+            eachSection(function(chapter, section, $sectionList) {
+                var libName = section.dpds || section.id;
+                var pkgLib = pkg.lib[libName];
+                if(!pkgLib) {
+                    libName = section.id + 's';
+                    pkgLib = pkg.lib[libName];
+                }
+                var lib = {
+                    code: libName,
+                    bundles: {}
+                };
+                $.each(pkgLibs, function(name, libNames) {
                     if(isInLib(section.id, libNames, pkgLib)) {
                         lib.bundles[name] = true;
                     }
@@ -1328,6 +1620,17 @@
                             }
                         }
                     }
+
+                    lib.src = {};
+
+                    getLibSource(pkgLib, lib.src, lib.code);
+
+                    lib.srcCount = (lib.src.js ? lib.src.js.length : 0) + (lib.src.less ? lib.src.less.length : 0) + (lib.src.source ? lib.src.source.length : 0);
+                    lib.bundlesCount = 0;
+                    if(!!lib.bundles.standard) lib.bundlesCount++;
+                    if(!!lib.bundles.lite) lib.bundlesCount++;
+                    if(!!lib.bundles.separate) lib.bundlesCount++;
+                    if(lib.code === 'theme') lib.bundlesCount++;
                 }
 
                 section.lib = lib;
@@ -1337,17 +1640,18 @@
 
     var displayPkgLibTable = function($table) {
         if(!$table.length) return;
-        loadData(PKG_JSON, function(data){
+        loadPackage(function(data) {
             var $tbody = $('<tbody></tbody>');
 
-            var getChildCompsList = function(val){return data.lib[val].name;};
+            var getChildCompsList = function(val) {
+                return data.lib[val].name;
+            };
             var $tr, $td;
-            $.each(data.lib, function(itemName, item){
+            $.each(data.lib, function(itemName, item) {
                 if(item.custom) return;
 
                 var childComps = '';
-                if(!item.src && item.dpds)
-                {
+                if(!item.src && item.dpds) {
                     var childList = getItemList(data.lib, item.dpds, null, true, true);
                     childComps = '合并组件包含：';
                     childComps += $.map(childList, getChildCompsList).join('、');
@@ -1357,18 +1661,14 @@
 
                 $td = $('<td/>');
                 $td.attr('title', item.desc);
-                $td.html('<strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') +')');
+                $td.html('<strong>' + item.name + '</strong> (' + itemName + ((item.pver) ? (' v' + item.pver) : '') + ')');
                 $tr.append($td);
 
-                $.each(pkgLibs, function(idx, sLib)
-                {
+                $.each(pkgLibs, function(idx, sLib) {
                     $td = $('<td class="text-center"/>');
-                    if(sLib.indexOf(itemName) > -1)
-                    {
+                    if(sLib.indexOf(itemName) > -1) {
                         $td.addClass('success').html('<i class="text-success icon-ok"></i>');
-                    }
-                    else
-                    {
+                    } else {
                         $td.html('<i class="text-muted icon-remove"></i>');
                     }
                     $tr.append($td);
@@ -1382,11 +1682,144 @@
             });
             $table.find('tbody').remove();
             $table.append($tbody);
-            $table.datatable({rowHover: false, fixedHeaderOffset: 200});
+            $table.datatable({
+                rowHover: false,
+                fixedHeaderOffset: 200
+            });
         });
     };
 
-    var init = function(){
+    var initCopyable = function() {
+        if(!$.zui.browser.isIE() || $.zui.browser.ie > 8) {
+            $copyCodeBtn = $('#copyCodeBtn');
+            var clipboard = new window.Clipboard($copyCodeBtn.get(0));
+            clipboard.on('success', function(e) {
+                $('#copyCodeTip').addClass('tooltip-success');
+                $copyCodeBtn.tooltip('show', '已复制 <i class="icon icon-ok"></i>');
+                e.clearSelection();
+            });
+
+            clipboard.on('error', function(e) {
+                $('#copyCodeTip').addClass('tooltip-warning');
+                $copyCodeBtn.tooltip('show', '按 <strong>Ctrl+C</strong> 完成复制');
+            });
+
+            $copyCodeBtn.on('hide.zui.tooltip', function() {
+                $('#copyCodeTip').removeClass('tooltip-success tooltip-warning');
+            });
+
+            $(document).on('mouseenter', 'pre.prettyprint, pre.copyable', function() {
+                var $pre = $(this);
+                var $codes = $pre.children('code, .linenums');
+                if(!$codes.length) return;
+
+                if(!$codes.attr('id')) {
+                    $codes.attr('id', 'code-' + $.zui.uuid())
+                }
+                $pre.prepend($copyCodeBtn);
+                $copyCodeBtn.attr('data-clipboard-target', '#' + $codes.attr('id'));
+                $pre.one('mouseleave', function() {
+                     $copyCodeBtn.detach();
+                });
+            });
+        }
+    };
+
+    var compileThemeVariables = function(theme) {
+        if(typeof theme === 'string') theme = docThemes[theme];
+        if(theme.variables) {
+            theme.variablesLess = '';
+            $.each(theme.variables, function(vName, vValue) {
+                theme.variablesLess += '@' + vName + ': ' + vValue + ';\n';
+            });
+        } else if(!theme.variablesLess) {
+            theme.variablesLess = '';
+        }
+        return theme;
+    };
+
+    var compileTheme = function(theme, options, callback) {
+        if(typeof theme === 'string') theme = docThemes[theme];
+        if(typeof options === 'function') {
+            callback = options;
+            options = null;
+        }
+
+        if(!theme.variablesLess) {
+            compileThemeVariables(theme);
+        }
+        if(!theme.imports) {
+            theme.imports = ["src/less/basic/colorset.less",
+                "src/less/basic/variables.less",
+                "src/less/basic/mixins.less",
+                "src/less/theme.less",
+                "src/less/controls/icons.variables.less",
+                "src/less/doc.less"];
+        }
+        var lessCode = $.isArray(theme.imports) ? theme.imports.map(function(i) {
+            return '@import "' + i + '";'; 
+        }).join('\n') : theme.imports;
+        lessCode += theme.variablesLess + (theme.lessCode || '');
+        window.less.render(lessCode, $.extend({
+          compress: true
+        }, options), function (e, style) {
+            callback && callback(style, theme);
+        });
+    };
+
+    var updateThemeStyle = function(cssText) {
+        var styleTag = document.getElementById('themeStyle');
+        if (styleTag.styleSheet){
+          styleTag.styleSheet.cssText = cssText;
+        } else {
+          styleTag.innerHTML = cssText;
+        }
+    };
+
+    var changeTheme = function(theme, callback) {
+        var $body = $('body');
+        var readyChangeTheme = function(css) {
+            updateThemeStyle(css || '');
+            callback && callback(theme);
+            $body.removeClass('theme-changing');
+            if(css) $.zui.store.set('doc_theme', theme);
+            else $.zui.store.remove('doc_theme');
+        };
+
+        if(!theme || theme === 'default' || theme.name === 'default') {
+            readyChangeTheme();
+            return;
+        }
+        if(typeof theme === 'string') theme = docThemes[theme];
+        
+        if($body.hasClass('theme-changing')) return false;
+        $body.addClass('theme-changing');
+
+        if(theme.css) {
+            readyChangeTheme(theme.css);
+        } else {
+            setTimeout(function() {
+                compileTheme(theme, null, function(style) {
+                    theme.css = style.css;
+                    readyChangeTheme(style.css);
+                });
+            }, 500);
+        }
+
+        return true;
+    };
+
+    var initTheme = function() {
+        $.each(docThemes, function(tName, t) {
+            if(!t.name) t.name = tName;
+        });
+        var savedTheme = $.zui.store.get('doc_theme');
+        if(savedTheme) {
+            changeTheme(savedTheme)
+        }
+    };
+
+    var init = function() {
         documentTitle = window.document.title;
 
         var stopPropagation = function(e) {
@@ -1408,7 +1841,7 @@
         $chapterHeadings = $grid.find('.chapter-heading');
         $sectionTemplate = $('#sectionTemplate').attr('id', null);
         $pageBody = $('#pageBody');
-        $.each(chapters, function(chapterId, chapter){
+        $.each(chapters, function(chapterId, chapter) {
             chapterId = chapterId.toLowerCase();
             chapter.$ = $('#chapter-' + chapterId);
             chapter.id = chapterId;
@@ -1417,15 +1850,16 @@
 
         bestPageWidth = $grid.children('.container').outerWidth();
 
-
         // check storage
         storageEnable = $.zui.store && $.zui.store.enable;
 
         // Setup ajax
-        $.ajaxSetup({cache: false});
+        $.ajaxSetup({
+            cache: false
+        });
 
         // Load index.json
-        loadData(INDEX_JSON, function(data){
+        loadData(INDEX_JSON, function(data) {
             var firstLoad = !sectionsShowed;
 
             displaySection(data);
@@ -1433,7 +1867,7 @@
             if(!firstLoad) {
                 var q = getQueryString('q');
                 if(q) {
-                    setTimeout(function(){
+                    setTimeout(function() {
                         query(q);
                     }, 300);
                 }
@@ -1445,7 +1879,7 @@
                     $queryInput.focus();
                 }
 
-                loadPackage();
+                initPackage();
             }
 
             $('.doc-version').text(data.version);
@@ -1454,7 +1888,7 @@
         // Bind events
         var oldActivePreivewId;
         var cancelClickInPage;
-        $(document).on('click', function(e){
+        $(document).on('click', function(e) {
             if(cancelClickInPage) {
                 cancelClickInPage = false;
                 return;
@@ -1462,10 +1896,10 @@
             if(!$body.attr('data-query')) {
                 chooseSection();
             }
-        }).on('click', 'a[href^="#"]', function(){
+        }).on('click', 'a[href^="#"]', function() {
             openPageUrl($(this).attr('href'));
         });
-        $page.on('click', function(e){
+        $page.on('click', function(e) {
             cancelClickInPage = true;
         });
         $grid.on('click', '.card-heading', function(e) {
@@ -1476,52 +1910,52 @@
                 $card.toggleClass('open');
             }
             stopPropagation(e);
-        }).on('click', '.chapter-heading > h4 > .name', function(){
+        }).on('click', '.chapter-heading > h4 > .name', function() {
             $queryInput.focus().val('@' + $(this).closest('.chapter').data('id')).change();
-        }).on('click', '.card', function(e){
+        }).on('click', '.card', function(e) {
             chooseSection($(this), true);
             stopPropagation(e);
-        }).on('click', '.card-heading > h5 > .name, .card-heading > .icon', function(e){
+        }).on('click', '.card-heading > h5 > .name, .card-heading > .icon', function(e) {
             openSection($(this).closest('.section'));
             stopPropagation(e);
-        }).on('click', '.topics > li > a', function(e){
+        }).on('click', '.topics > li > a', function(e) {
             var $a = $(this);
             openPageUrl($a.attr('href'));
             e.preventDefault();
             stopPropagation(e);
-        }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function(){
+        }).on('mouseenter', '.card-heading > h5 > .name, .card-heading > .icon', function() {
             $(this).closest('.card-heading').addClass('hover');
-        }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function(){
+        }).on('mouseleave', '.card-heading > h5 > .name, .card-heading > .icon', function() {
             $(this).closest('.card-heading').removeClass('hover');
-        }).on('mouseenter', '#section-control-icon .section-search > ul > li > a', function(){
+        }).on('mouseenter', '#section-control-icon .section-search > ul > li > a', function() {
             oldActivePreivewId = $('#section-control-icon').data('preview');
             chooseIcon($(this).closest('li'));
-        }).on('mouseleave', '#section-control-icon .section-search > ul > li > a', function(){
+        }).on('mouseleave', '#section-control-icon .section-search > ul > li > a', function() {
             if(oldActivePreivewId) {
                 chooseIcon($('#control-icon-' + oldActivePreivewId));
             }
-        }).on('click', '#section-control-icon .section-search > ul > li > a', function(){
+        }).on('click', '#section-control-icon .section-search > ul > li > a', function() {
             oldActivePreivewId = $(this).closest('li').data('id');
         });
 
-        $pageContent.on('click', 'section > header > h3', function(){
+        $pageContent.on('click', 'section > header > h3', function() {
             togglePageSection($(this).closest('section'));
-        }).on('mouseenter', 'section > header > h3', function(){
+        }).on('mouseenter', 'section > header > h3', function() {
             $(this).closest('section').addClass('hover');
-        }).on('mouseleave', 'section > header > h3', function(){
+        }).on('mouseleave', 'section > header > h3', function() {
             $(this).closest('section').removeClass('hover');
         });
-        $page.on('click', '#pageTogger', function(){
+        $page.on('click', '#pageTogger', function() {
             togglePageSection();
         });
 
-        $pageHeader.on('click', '.path-close-btn', function(){
+        $pageHeader.on('click', '.path-close-btn', function() {
             closePage();
         });
 
         var scrollHeight = $('#navbar').outerHeight();
         var lastScrollTop;
-        $window.on('scroll', function(e){
+        $window.on('scroll', function(e) {
             if($body.hasClass('layout-classic')) return;
             var isScrollAnimating = $body.data('isScrollAnimating');
             if(isScrollAnimating) {
@@ -1534,7 +1968,7 @@
             } else if(!$body.hasClass('page-show')) {
                 $header.toggleClass('with-shadow', lastScrollTop > 20);
             }
-        }).on('keydown', function(e){
+        }).on('keydown', function(e) {
             var code = e.which;
             var isPageNotShow = !$body.hasClass('page-show');
             var isInputFocus = $body.hasClass('input-query-focus');
@@ -1557,13 +1991,13 @@
                 }
             } else if(code === 37) { // Left
                 // if(!$body.hasClass('input-query-focus')){
-                    chooseLeftSection();
-                    e.preventDefault();
+                chooseLeftSection();
+                e.preventDefault();
                 // }
             } else if(code === 39) { // Right
                 // if(!$body.hasClass('input-query-focus')){
-                    chooseRightSection();
-                    e.preventDefault();
+                chooseRightSection();
+                e.preventDefault();
                 // }
             } else if(code === 38) { // Top
                 if(isPageNotShow) {
@@ -1580,32 +2014,32 @@
             }
         });
 
-        $pageBody.on('scroll', function(e){
+        $pageBody.on('scroll', function(e) {
             $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
         });
 
         $search = $('#search');
 
-        $queryInput.focus().on('change keyup paste input propertychange', function(){
+        $queryInput.focus().on('change keyup paste input propertychange', function() {
             var val = $queryInput.val();
             if(val === lastQueryString) return;
             lastQueryString = val;
             $search.toggleClass('with-query-text', val.length > 0);
             clearTimeout($queryInput.data(LAST_QUERY_ID));
-            $queryInput.data(LAST_QUERY_ID, setTimeout(function(){
+            $queryInput.data(LAST_QUERY_ID, setTimeout(function() {
                 if(lastQueryString === $queryInput.data('queryString')) return;
                 query(lastQueryString);
             }, 150));
-        }).on('focus', function(){
+        }).on('focus', function() {
             $body.addClass('input-query-focus');
             if($queryInput.val() && !$sections.filter('.open').length) {
                 chooseSection($sections.filter('.show:first'));
             }
-        }).on('blur', function(){
+        }).on('blur', function() {
             $body.removeClass('input-query-focus');
         }).on('click', stopPropagation);
 
-        $('#searchHelpBtn').on('click', function(e){
+        $('#searchHelpBtn').on('click', function(e) {
             if($search.hasClass('with-query-text')) {
                 lastQueryString = '';
                 query();
@@ -1619,7 +2053,7 @@
             stopPropagation(e);
         });
 
-        $('#navbar .navbar-brand').on('click', function(e){
+        $('#navbar .navbar-brand').on('click', function(e) {
             if($body.hasClass('page-show')) {
                 closePage();
                 stopPropagation(e);
@@ -1632,17 +2066,32 @@
             }
         });
 
-        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        // init code copy function
+        initCopyable();
+
+        // init theme
+        initTheme();
+
+        // init tooltip
+        $('[data-toggle="tooltip"]').tooltip({
+            container: 'body'
+        });
     };
 
     init();
 
     $.doc = {
         query: query,
+        themes: docThemes,
+        changeTheme: changeTheme,
+        compileTheme: compileTheme,
+        compileThemeVariables: compileThemeVariables,
         openSection: openSection,
         closePage: closePage,
         loadData: loadData,
-        mutePageLoading: mutePageLoading,
-        displayPkgLibTable: displayPkgLibTable
+        stopPageLoading: stopPageLoading,
+        displayPkgLibTable: displayPkgLibTable,
+        pkg: zuiPkg
     };
 }(window, jQuery));
+

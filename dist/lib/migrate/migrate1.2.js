@@ -1,8 +1,8 @@
 /*!
- * ZUI - v1.3.2 - 2015-11-05
+ * ZUI - v1.3.2 - 2016-01-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2015 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -16,17 +16,12 @@
  * ======================================================================== */
 
 
-(function($, window)
-{
+(function($, window) {
     var zui = $.zui;
-    if (zui)
-    {
-        function extendTo(name, target)
-        {
-            if ($.isArray(name))
-            {
-                $.each(name, function(i, n)
-                {
+    if(zui) {
+        function extendTo(name, target) {
+            if($.isArray(name)) {
+                $.each(name, function(i, n) {
                     extendTo(n, target);
                 });
                 return;
@@ -35,12 +30,9 @@
             var config = {};
             config[name] = zui[name];
 
-            if (target)
-            {
+            if(target) {
                 $.extend(target, config);
-            }
-            else
-            {
+            } else {
                 $.extend(config);
             }
         }
@@ -49,3 +41,4 @@
         extendTo(['Color', 'imgReady', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store'], window);
     }
 }(jQuery, window));
+

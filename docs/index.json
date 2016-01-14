@@ -398,7 +398,11 @@
                 "icon": "icon-leaf",
                 "id": "theme",
                 "name": "主题",
-                "topics": [],
+                "topics": [
+                    {"name": "体验主题"},
+                    {"name": "重新编译ZUI"},
+                    {"name": "定制主题"}
+                ],
                 "filter": "zhuti zt"
             }],
             "filter": "jichu jc"
