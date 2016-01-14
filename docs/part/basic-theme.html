@@ -129,12 +129,12 @@ function afterPageLoad() {
         var today = new Date();
         var pkg = $.doc.pkg;
         var banner = ('/*!\n' +
-            ' * {title} user custom theme for - v{version} - {date}\n' +
+            ' * {title} user custom theme variables for - v{version} - {date}\n' +
             ' * {homepage}\n' +
             ' * GitHub: {repo} \n' +
             ' * Copyright (c) {year} {author}; Licensed {license}\n' +
-            ' * ' +
-            ' * Import the file as <link href="*"> after zui in your document. ' + 
+            ' * \n' +
+            ' * Copy the less file to zui/src/less/basic/ and run gulp task "gulp theme".\n' +
             ' */\n\n').format({
             title: pkg.title || pkg.name,
             version: pkg.version,
@@ -156,8 +156,8 @@ function afterPageLoad() {
             ' * {homepage}\n' +
             ' * GitHub: {repo} \n' +
             ' * Copyright (c) {year} {author}; Licensed {license}\n' +
-            ' * ' +
-            ' * Import the file as <link href="*"> after zui in your document. ' + 
+            ' * \n' +
+            ' * Import this css file as <link href="*"> after zui in your document.\n' +
             ' */\n\n').format({
             title: pkg.title || pkg.name,
             version: pkg.version,
