@@ -80,11 +80,114 @@
         dataVersion,
         storageEnable,
         docIndex, iconsIndex,
+        zuiPkg,
         pkgLibs = {
             standard: null,
             lite: null,
             separate: null
         };
+    var docThemes = {
+        "default": {
+            variables: {
+                'color-primary': '#3280fc',
+                'color-secondary': '#145ccd',
+                'color-pale': '#ebf2f9',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '3px'
+            }
+        },
+        "blue": {
+            variables: {
+                'color-primary': '#039BE5',
+                'color-secondary': '#0288d1',
+                'color-pale': '#e1f5fe',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '2px'
+            }
+        },
+        "red": {
+            variables: {
+                'color-primary': '#d9534f',
+                'color-secondary': '#c74743',
+                'color-pale': '#ffebee',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '2px'
+            }
+        },
+        "green": {
+            variables: {
+                'color-primary': '#4caf50',
+                'color-secondary': '#43a047',
+                'color-pale': '#e8f5e9',
+                'border-radius-base': 0,
+                'border-radius-large': 0,
+                'border-radius-small': 0
+            }
+        },
+        "purple": {
+            variables: {
+                'color-primary': '#8666b8',
+                'color-secondary': '#673AB7',
+                'color-pale': '#f5eeff',
+                'border-radius-base': 0,
+                'border-radius-large': 0,
+                'border-radius-small': 0
+            }
+        },
+        "brown": {
+            variables: {
+                'color-primary': '#8D6E63',
+                'color-secondary': '#795548',
+                'color-pale': '#f7ebe1',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '2px'
+            }
+        },
+        "yellow": {
+            variables: {
+                'color-primary': '#d0884d',
+                'color-secondary': '#bd7b46',
+                'color-pale': '#fff0d5',
+                'border-radius-base': '4px',
+                'border-radius-large': '6px',
+                'border-radius-small': '2px'
+            }
+        },
+        "indigo": {
+            variables: {
+                'color-primary': '#3F51B5',
+                'color-secondary': '#3949AB',
+                'color-pale': '#ECEFF1',
+                'border-radius-base': 0,
+                'border-radius-large': '1px',
+                'border-radius-small': 0
+            }
+        },
+        "bluegrey": {
+            variables: {
+                'color-primary': '#607D8B',
+                'color-secondary': '#546E7A',
+                'color-pale': '#ECEFF1',
+                'border-radius-base': 0,
+                'border-radius-large': 0,
+                'border-radius-small': 0
+            }
+        },
+        "black": {
+            variables: {
+                'color-primary': '#333',
+                'color-secondary': '#222',
+                'color-pale': '#f5f5f5',
+                'border-radius-base': 0,
+                'border-radius-large': 0,
+                'border-radius-small': 0
+            }
+        }
+    };
 
     var documentTitle = 'ZUI',
         sectionsShowed,
@@ -1427,10 +1530,11 @@
         loadData(PKG_JSON, function(pkg) {
             loadData(ZUI_JSON, function(zui) {
                 loadData(ZUI_CUSTOM_JSON, function(customZui) {
-                    callback($.extend(pkg, {
+                    zuiPkg = $.extend(pkg, {
                         lib: $.extend({}, zui.lib, customZui.lib),
                         builds: $.extend({}, zui.builds, customZui.builds)
-                    }));
+                    });
+                    callback(zuiPkg);
                 }, null, true);
             }, null, true);
         }, null, true);
@@ -1575,6 +1679,136 @@
                 fixedHeaderOffset: 200
             });
         });
+    };
+
+    var initCopyable = function() {
+        if(!$.zui.browser.isIE() || $.zui.browser.ie > 8) {
+            $copyCodeBtn = $('#copyCodeBtn');
+            var clipboard = new window.Clipboard($copyCodeBtn.get(0));
+            clipboard.on('success', function(e) {
+                $('#copyCodeTip').addClass('tooltip-success');
+                $copyCodeBtn.tooltip('show', '已复制 <i class="icon icon-ok"></i>');
+                e.clearSelection();
+            });
+
+            clipboard.on('error', function(e) {
+                $('#copyCodeTip').addClass('tooltip-warning');
+                $copyCodeBtn.tooltip('show', '按 <strong>Ctrl+C</strong> 完成复制');
+            });
+
+            $copyCodeBtn.on('hide.zui.tooltip', function() {
+                $('#copyCodeTip').removeClass('tooltip-success tooltip-warning');
+            });
+
+            $(document).on('mouseenter', 'pre.prettyprint, pre.copyable', function() {
+                var $pre = $(this);
+                var $codes = $pre.children('code, .linenums');
+                if(!$codes.length) return;
+
+                if(!$codes.attr('id')) {
+                    $codes.attr('id', 'code-' + $.zui.uuid())
+                }
+                $pre.prepend($copyCodeBtn);
+                $copyCodeBtn.attr('data-clipboard-target', '#' + $codes.attr('id'));
+                $pre.one('mouseleave', function() {
+                     $copyCodeBtn.detach();
+                });
+            });
+        }
+    };
+
+    var compileThemeVariables = function(theme) {
+        if(typeof theme === 'string') theme = docThemes[theme];
+        if(theme.variables) {
+            theme.variablesLess = '';
+            $.each(theme.variables, function(vName, vValue) {
+                theme.variablesLess += '@' + vName + ': ' + vValue + ';\n';
+            });
+        } else if(!theme.variablesLess) {
+            theme.variablesLess = '';
+        }
+        return theme;
+    };
+
+    var compileTheme = function(theme, options, callback) {
+        if(typeof theme === 'string') theme = docThemes[theme];
+        if(typeof options === 'function') {
+            callback = options;
+            options = null;
+        }
+
+        if(!theme.variablesLess) {
+            compileThemeVariables(theme);
+        }
+        if(!theme.imports) {
+            theme.imports = ["src/less/basic/colorset.less",
+                "src/less/basic/variables.less",
+                "src/less/basic/mixins.less",
+                "src/less/theme.less",
+                "src/less/controls/icons.variables.less",
+                "src/less/doc.less"];
+        }
+        var lessCode = $.isArray(theme.imports) ? theme.imports.map(function(i) {
+            return '@import "' + i + '";'; 
+        }).join('\n') : theme.imports;
+        lessCode += theme.variablesLess + (theme.lessCode || '');
+        window.less.render(lessCode, $.extend({
+          compress: true
+        }, options), function (e, style) {
+            callback && callback(style, theme);
+        });
+    };
+
+    var updateThemeStyle = function(cssText) {
+        var styleTag = document.getElementById('themeStyle');
+        if (styleTag.styleSheet){
+          styleTag.styleSheet.cssText = cssText;
+        } else {
+          styleTag.innerHTML = cssText;
+        }
+    };
+
+    var changeTheme = function(theme, callback) {
+        var $body = $('body');
+        var readyChangeTheme = function(css) {
+            updateThemeStyle(css || '');
+            callback && callback(theme);
+            $body.removeClass('theme-changing');
+            if(css) $.zui.store.set('doc_theme', theme);
+            else $.zui.store.remove('doc_theme');
+        };
+
+        if(!theme || theme === 'default' || theme.name === 'default') {
+            readyChangeTheme();
+            return;
+        }
+        if(typeof theme === 'string') theme = docThemes[theme];
+        
+        if($body.hasClass('theme-changing')) return false;
+        $body.addClass('theme-changing');
+
+        if(theme.css) {
+            readyChangeTheme(theme.css);
+        } else {
+            setTimeout(function() {
+                compileTheme(theme, null, function(style) {
+                    theme.css = style.css;
+                    readyChangeTheme(style.css);
+                });
+            }, 500);
+        }
+
+        return true;
+    };
+
+    var initTheme = function() {
+        $.each(docThemes, function(tName, t) {
+            if(!t.name) t.name = tName;
+        });
+        var savedTheme = $.zui.store.get('doc_theme');
+        if(savedTheme) {
+            changeTheme(savedTheme)
+        }
     };
 
     var init = function() {
@@ -1824,39 +2058,11 @@
             }
         });
 
-        if(!$.zui.browser.isIE() || $.zui.browser.ie > 8) {
-            $copyCodeBtn = $('#copyCodeBtn');
-            var clipboard = new window.Clipboard($copyCodeBtn.get(0));
-            clipboard.on('success', function(e) {
-                $('#copyCodeTip').addClass('tooltip-success');
-                $copyCodeBtn.tooltip('show', '已复制 <i class="icon icon-ok"></i>');
-                e.clearSelection();
-            });
+        // init code copy function
+        initCopyable();
 
-            clipboard.on('error', function(e) {
-                $('#copyCodeTip').addClass('tooltip-warning');
-                $copyCodeBtn.tooltip('show', '按 <strong>Ctrl+C</strong> 完成复制');
-            });
-
-            $copyCodeBtn.on('hide.zui.tooltip', function() {
-                $('#copyCodeTip').removeClass('tooltip-success tooltip-warning');
-            });
-
-            $(document).on('mouseenter', 'pre.prettyprint, pre.copyable', function() {
-                var $pre = $(this);
-                var $codes = $pre.children('code, .linenums');
-                if(!$codes.length) return;
-
-                if(!$codes.attr('id')) {
-                    $codes.attr('id', 'code-' + $.zui.uuid())
-                }
-                $pre.prepend($copyCodeBtn);
-                $copyCodeBtn.attr('data-clipboard-target', '#' + $codes.attr('id'));
-                $pre.one('mouseleave', function() {
-                     $copyCodeBtn.detach();
-                });
-            });
-        }
+        // init theme
+        initTheme();
 
         // init tooltip
         $('[data-toggle="tooltip"]').tooltip({
@@ -1868,11 +2074,16 @@
 
     $.doc = {
         query: query,
+        themes: docThemes,
+        changeTheme: changeTheme,
+        compileTheme: compileTheme,
+        compileThemeVariables: compileThemeVariables,
         openSection: openSection,
         closePage: closePage,
         loadData: loadData,
         stopPageLoading: stopPageLoading,
-        displayPkgLibTable: displayPkgLibTable
+        displayPkgLibTable: displayPkgLibTable,
+        pkg: zuiPkg
     };
 }(window, jQuery));
 

@@ -472,6 +472,7 @@ a.avatar:hover {
     height: 2px;
     width: 10px;
     border: 2px solid @color-gray;
+    border: 2px solid rgba(0,0,0,0.4);
     left: 19px;
     top: 18px;
   }
@@ -601,7 +602,6 @@ body {
 }
 
 #header {
-  background-color: @color-primary;
   color: #fff;
   margin-bottom: 20px;
   padding-top: 80px;
@@ -2015,5 +2015,36 @@ body.layout-page {
     position: relative;
     top: auto!important;
     bottom: auto!important
+  }
+}
+
+body[data-page="basic-theme"] {
+  @color-primary-inverse: contrast(@color-primary, #333, #fff);
+  @color-primary-dark: darken(@color-primary, 10%);
+
+  #pageHeader,
+  #pageHeader > .container > h2 > a.name {
+    background-color: @color-primary;
+    color: @color-primary-inverse;
+  }
+
+  #pageHeader {
+    border-color: @color-primary-dark;
+  }
+
+  &.page-show[data-page-accent=primary] #pageHeader > .wrapper > .icon {
+    background-color: @color-primary-dark;
+  }
+
+  .path-btn {
+    &:before,
+    &:after,
+    > .path-1,
+    > .path-1:before,
+    > .path-1:after {
+      .transition-fast();
+      border-color: #ddd;
+      border-color: rgba(255,255,255,.7);
+    }
   }
 }
