@@ -1246,7 +1246,7 @@
     },
     "separate": {
       "title": "separate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard"]
     },
     "dist": {
       "title": "dist",
