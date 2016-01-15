@@ -678,24 +678,24 @@
                 "id": "modal",
                 "icon": "icon-check-empty",
                 "desc": "浮动在页面之上的对话框",
-                "name": "模态框",
+                "name": "对话框",
                 "topics": [{
                     "name": "实例"
                 }, {
                     "name": "如何使用"
                 }],
-                "filter": "motaikuang mtk"
+                "filter": "dhk mtk duihuakuang motaikuang"
             }, {
                 "id": "modaltrigger",
                 "icon": "icon-signout",
-                "desc": "动态展示模态框",
-                "name": "模态框触发器",
+                "desc": "动态展示对话框",
+                "name": "对话框触发器",
                 "topics": [{
                     "name": "实例"
                 }, {
                     "name": "如何使用"
                 }],
-                "filter": "motaikuangchufaqi mtkcfq"
+                "filter": "duihuakuangchufaqi dhkcfq motaikuang mtk"
             }, {
                 "id": "dropdown",
                 "icon": "icon-align-justify",
@@ -842,6 +842,13 @@
                 "name": "拖放",
                 "topics": [],
                 "filter": "tuofang tf"
+            }, {
+                "id": "bootbox",
+                "icon": "icon-question-sign",
+                "desc": "警告、确认和内容编辑模态框",
+                "name": "模态对话框 (Bootbox)",
+                "topics": [],
+                "filter": "motaiduihuakuang mtdhk"
             }, {
                 "id": "scrollspy",
                 "icon": "icon-link",

@@ -860,7 +860,7 @@
       "require": ["jquery"]
     },
     "bootbox": {
-      "name": "模态消息",
+      "name": "模态对话框",
       "src": {
         "less": ["~/modules/modals.bootbox.less"],
         "js": ["~/bootbox.js"]
