@@ -26,8 +26,8 @@
                 "desc": "ZUI 构建于众多优秀的开源项目之上",
                 "icon": "icon-certificate",
                 "topics": [{
-                    "name": "Grunt",
-                    "url": "http://gruntjs.com/"
+                    "name": "Gulp",
+                    "url": "http://gulpjs.com/"
                 }, {
                     "name": "Less",
                     "url": "http://lesscss.org/"
@@ -267,7 +267,7 @@
                 }, {
                     "name": "组件清单"
                 }, {
-                    "name": "使用Grunt定制"
+                    "name": "使用Gulp定制"
                 }],
                 "filter": "xuanzebanben xzbb"
             }, {

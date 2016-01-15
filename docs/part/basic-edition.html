@@ -87,22 +87,20 @@
 </section>
 
 <section>
-  <header><h3>使用Grunt定制</h3></header>
+  <header><h3>使用Gulp定制</h3></header>
   <article>
-    <p>ZUI使用 <a href="http://gruntjs.com/">Grunt</a> 作为构建系统。如果不了解 Grunt
-  也没有关系，Grunt是一个非常棒而且容易上手的工具。下面给出简要步骤来准备编译ZUI，如果想了解更多请访问Grunt官方网站。</p>
-    <h4>安装Grunt</h4>
-    <p>Grunt构建在nodejs之上。在安装Grunt之前需要首先<a href="http://nodejs.org/download/" target=
+    <p>ZUI使用 <a href="http://gulpjs.com/" target="_blank">Gulp</a> 作为构建系统。如果不了解 Gulp
+  也没有关系，Gulp是一个非常棒而且容易上手的工具。下面给出简要步骤来准备编译ZUI，如果想了解更多请访问<a href="http://gulpjs.com/" target="_blank">Gulp官方网站</a>。</p>
+    <h4>安装Gulp</h4>
+    <p>Gulp构建在nodejs之上。在安装Gulp之前需要首先<a href="http://nodejs.org/download/" target=
     "_blank">下载并安装node.js</a>。最新版的nodejs已包含npm（<a href="http://npmjs.org/" target=
     "_blank">node packaged modules</a>）。npm是nodejs用来管理扩展包的工具。</p>
     <p>安装nodejs之后，在命令行进行如下操作：</p>
-    <ol>
-      <li>在全局环境中安装<code>grunt-cli</code>：<code>npm install -g
-      grunt-cli</code>。</li>
+    <ul>
       <li>进入ZUI源码目录，执行<code>npm
-      install</code>命令。nmp将读取包配置文件<code>package.json</code>文件并自动安装所有依赖的扩展包。</li>
-    </ol>
-    <h4>使用 Grunt 来构建</h4>
+      install</code>命令。nmp将读取包配置文件<code>package.json</code>文件并自动安装Gulp和所有依赖的扩展包。</li>
+    </ul>
+    <h4>使用 Gulp 来构建</h4>
     <p>完成上述步骤就可以进行编译了。只需要进入ZUI中使用命令行输入对应的命令就可以启动编译任务。内置的<code>build</code>命令可以完成大部分编译任务。以下为ZUI内置的一些常用任务命令。</p>
     <table class="table table-bordered">
       <thead>
@@ -114,7 +112,7 @@
       </thead>
       <tbody>
         <tr>
-          <td><code>grunt build:standard</code></td>
+          <td><code>gulp build -standard</code></td>
           <td>编译标准版</td>
           <td>
             <ul>
@@ -125,7 +123,7 @@
           </td>
         </tr>
         <tr>
-          <td><code>grunt build:lite</code></td>
+          <td><code>gulp build -lite</code></td>
           <td>编译简洁版</td>
           <td>
             <ul>
@@ -136,7 +134,7 @@
           </td>
         </tr>
         <tr>
-          <td><code>grunt build:dist</code></td>
+          <td><code>gulp build -dist</code></td>
           <td>编译标准版和简洁版以及常用独立组件</td>
           <td>
             <ul>
@@ -148,8 +146,8 @@
           </td>
         </tr>
         <tr>
-          <td><code>grunt dist</code></td>
-          <td><code>grunt build:dist</code>的简单写法</td>
+          <td><code>gulp dist</code></td>
+          <td><code>gulp build -dist</code>的简单写法</td>
           <td>
             <ul>
               <li>dist/js/**</li>
@@ -160,7 +158,7 @@
           </td>
         </tr>
         <tr>
-          <td><code>grunt build:doc</code></td>
+          <td><code>gulp build -doc</code></td>
           <td>编译文档所需资源</td>
           <td>
             <ul>
@@ -171,7 +169,7 @@
           </td>
         </tr>
         <tr>
-          <td><code>grunt build:theme</code></td>
+          <td><code>gulp build -theme</code></td>
           <td>编译主题</td>
           <td>
             <ul>
@@ -180,7 +178,7 @@
           </td>
         </tr>
         <tr>
-          <td><code>grunt build:[build name]</code></td>
+          <td><code>gulp build -[build name]</code></td>
           <td>编译独立组件包，<code>[build
           name]</code>为组件包名称，可以为<code>calendar</code>、<code>kindeditor</code>、<code>chosen</code>等</td>
           <td>
@@ -190,7 +188,7 @@
           </td>
         </tr>
         <tr>
-          <td><code>grunt build:[control name]</code></td>
+          <td><code>gulp build -[control name]</code></td>
           <td>编译单独控件，<code>[control
           name]</code>为控件名称，可以为<code>button</code>、<code>alerts</code>、<code>panels</code>等</td>
           <td>
@@ -201,7 +199,7 @@
         </tr>
       </tbody>
     </table>
-    <p>如果了解Grunt，当然可以通过编辑<code>Gruntfile.js</code>文件来定义自己的编译任务。</p>
+    <p>你也可以通过编辑<code>gulpfile.js</code>文件来定义自己的编译任务。</p>
   </article>
 </section>
 
