@@ -590,7 +590,7 @@ function _ready(fn) {
   _bind(window, 'load', readyFunc);
 }
 if (_IE) {
-  window.attachEvent('onunload', function() {
+  window[window.attachEvent ? 'attachEvent' : 'addEventListener']('onunload', function() {
     _each(_eventData, function(key, events) {
       if (events.el) {
         _unbind(events.el);
