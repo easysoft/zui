@@ -1,7 +1,67 @@
-.modal-lightbox
-{
-  .modal-dialog
-  {
+[data-toggle="lightbox"] {cursor: pointer}
+
+.modal-lightbox {
+  .close {
+    display: block;
+    font-size: 14px;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    background-color: @color-primary;
+    background-color: fade(@color-primary, 20%);
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #fff;
+    border-radius: 0 0 0 20px;
+    .transition-fast(opacity, background-color);
+    .opacity(.8);
+    z-index: 10;
+
+    > i {
+      position: relative;
+      left: 2px;
+      top: -1px
+    }
+  }
+
+  .controller {
+    display: none;
+    height: 100%;
+    line-height: 100%;
+    top: 0;
+    position: absolute;
+    cursor: pointer;
+    color: #fff;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    .transition-fast(background);
+    &.show {
+      display: block
+    }
+    > .icon {
+      display: inline-block;
+      width: 60px;
+      height: 50px;
+      line-height: 50px;
+      text-shadow: 0 1px 2px rgba(0,0,0,.6);
+      background-color: transparent;
+      .transition-fast(background);
+      &:before {
+        font-size: 20px;
+      }
+    }
+    &.prev {
+      left: 0;
+    }
+    &.next {
+      right: 0;
+    }
+  }
+
+  .modal-dialog {
     border: none;
     position: relative;
     -webkit-box-shadow: none;
@@ -11,122 +71,59 @@
     max-height: 100%;
     margin-bottom: 0;
     .transition();
-
     &:hover,
-    &:focus
-    {
-      .close
-      {
+    &:focus {
+      .close {
         .opacity(1);
-      }
+        background-color: fade(@color-primary, 70%);
 
-      .controller
-      {
-        outline: none;
-        .opacity(.9);
-        > .icon
-        {
-          box-shadow:1px 1px 16px rgba(0, 0, 0, .5);
+        &:hover {
+          background-color: @color-primary;
+        }
+      }
+      .controller {
+
+        > .icon {
+          background-color: @color-primary;
+          background-color: fade(@color-primary, 70%);
+          text-shadow: none;
+        }
+
+        &:hover {
+          > .icon {
+            background-color: @color-primary;
+          }
         }
       }
     }
   }
 
-  .close
-  {
-    display: block;
-    font-size: 14px;
-    text-align: center;
-    width: 30px;
-    height: 30px;
-    background-color: #333;
-    position: absolute;
-    right: -13px;
-    top: -15px;
-    color: #fff;
-    border: 1px solid #fff;
-    -webkit-radius:15px;
-    -moz-border-radius:15px;
-    border-radius:15px;
-    .opacity(.9);
-    -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, .5);
-    box-shadow: 0 5px 5px rgba(0, 0, 0, .5);
+  .caption {
+    display: none
   }
 
-  &.lightbox-full .close {right: 10px; top: 10px;}
-
-  .controller
-  {
-    display: none;
-    height: 100%;
-    line-height: 100%;
-    top: 0;
-    position: absolute;
-    cursor: pointer;
-    padding: 10px 20px;
-    color: #fff;
-    background:none;
-    border: none;
-    .opacity(.05);
-    .transition();
-
-    &.show {display: block}
-
-    > .icon
-    {
-      display: inline-block;
-      -webkit-radius:25px;
-      -moz-border-radius:25px;
-      border-radius:25px;
-      background-color: #333;
-      width: 50px;
-      height: 50px;
-      line-height: 50px;
-      border: 2px solid #fff;
-
-      &:before {font-size: 28px;}
+  &.lightbox-with-caption {
+    .caption {
+      display: block;
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      padding: 10px 15px;
+      color: #fff;
+      background: rgba(0, 0, 0, .15);
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
+      opacity: .5;
+      text-align: center;
+      .transition();
     }
-
-    &:hover
-    {
-      .opacity(1);
+    .modal-dialog:hover .caption {
+      opacity: 1;
+      background: rgba(0, 0, 0, .6);
     }
-
-    &.prev
-    {
-      left: 0;
-    }
-
-    &.next
-    {
-      right: 0;
-    }
-  }
-
-  .caption {display: none}
-
-  &.lightbox-with-caption
-  {
-      .caption
-      {
-          display: block;
-          position: absolute;
-          width: 100%;
-          bottom: 0;
-          padding: 10px 15px;
-          color: #fff;
-          background: rgba(0, 0, 0, .15);
-          text-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
-          opacity: .5;
-          text-align: center;
-          .transition();
-      }
-
-      .modal-dialog:hover .caption {opacity: 1; background: rgba(0, 0, 0, .6);}
   }
 }
-.lightbox-img
-{
+
+.lightbox-img {
   width: inherit;
   height: auto;
   max-width: 100%;

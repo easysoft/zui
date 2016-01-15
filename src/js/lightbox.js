@@ -95,6 +95,7 @@
                             .toggleClass('lightbox-with-caption', typeof caption == 'string')
                             .removeClass('lightbox-full');
                         modal.find('.lightbox-img').attr('src', image);
+                        modal.find('.caption > .content').text(caption);
                         winWidth = $(window).width();
                         $.zui.imgReady(image, function() {
                             dialog.css({
