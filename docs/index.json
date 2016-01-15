@@ -891,6 +891,14 @@
                 "filter": "fuwenbenbianjiqi fwbbjq"
             }, {
                 "author": "Catouse",
+                "id": "lightbox",
+                "icon": "icon-carousel",
+                "desc": "灯箱式图片浏览",
+                "name": "图片浏览 (Lightbox)",
+                "topics": [],
+                "filter": "tupianliulan tpll dxs tp dengxiangshi tupian tpyl"
+            }, {
+                "author": "Catouse",
                 "id": "droppable",
                 "icon": "icon-external-link",
                 "desc": "将内容拖放到另一个容器",
