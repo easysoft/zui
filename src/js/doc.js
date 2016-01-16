@@ -142,9 +142,9 @@
                 'color-primary': '#8D6E63',
                 'color-secondary': '#795548',
                 'color-pale': '#f7ebe1',
-                'border-radius-base': '4px',
-                'border-radius-large': '6px',
-                'border-radius-small': '2px'
+                'border-radius-base': '15px',
+                'border-radius-large': '15px',
+                'border-radius-small': '15px'
             }
         },
         "yellow": {
@@ -1157,6 +1157,7 @@
         $pageAttrs.children('.badge-source').toggle(!!section.url).attr('href', 'https://github.com/easysoft/zui/tree/master/' + section.url);
         var lib = section.lib;
         if(lib) {
+            console.info('>>>', lib);
             $pageAttrs.children('.badge-zui').toggle(!!lib.bundles.standard);
             $pageAttrs.children('.badge-lite').toggle(!!lib.bundles.lite);
             $pageAttrs.children('.badge-lib').toggle(!!lib.bundles.separate);
@@ -1549,7 +1550,7 @@
             pkgLibs.separate = getBuildList(pkg, pkg.builds.separate, pkg.lib);
 
             function getLibSource(lib, src, libName) {
-                if(lib.src && !lib.thirdpart) {
+                if(lib.src) {
                     ['less', 'js', 'resource'].forEach(function(srcTypeName) {
                         if(lib.src[srcTypeName]) {
                             lib.src[srcTypeName].forEach(function(srcName) {
@@ -1566,7 +1567,7 @@
                 }
                 if(lib.dpds && lib.dpds) {
                     lib.dpds.forEach(function(dpdsName) {
-                        if(dpdsName.startsWith(libName) && pkg.lib[dpdsName]) {
+                        if(dpdsName.startsWith(libName) && pkg.lib[dpdsName] && !pkg.lib[dpdsName]) {
                             getLibSource(pkg.lib[dpdsName], src, libName);
                         } 
                     });
@@ -1615,7 +1616,6 @@
                     }
 
                     lib.src = {};
-
                     getLibSource(pkgLib, lib.src, lib.code);
 
                     lib.srcCount = (lib.src.js ? lib.src.js.length : 0) + (lib.src.less ? lib.src.less.length : 0) + (lib.src.source ? lib.src.source.length : 0);
@@ -1793,8 +1793,10 @@
         } else {
             setTimeout(function() {
                 compileTheme(theme, null, function(style) {
-                    theme.css = style.css;
-                    readyChangeTheme(style.css);
+                    if(style) {
+                        theme.css = style.css;
+                    }
+                    readyChangeTheme(style ? style.css : '');
                 });
             }, 500);
         }
