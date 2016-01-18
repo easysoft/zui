@@ -99,7 +99,10 @@
         var options = this.options,
             cols;
 
-        if($.isPlainObject(data)) {
+        if($.isFunction(data)) {
+            data = data(this.data, this);
+            data.keepSort = true;
+        } else if($.isPlainObject(data)) {
             this.data = data;
         } else if(typeof data === 'string') {
             var $table = $(data);
@@ -746,11 +749,13 @@
             index;
 
         sortUp = !$th.hasClass('sort-up');
+        if(data.keepSort) sortUp = !sortUp;
+        data.keepSort = false;
+
         $headCells.removeClass('sort-up sort-down');
         $th.addClass(sortUp ? 'sort-up' : 'sort-down');
 
         index = $th.data('index');
-        sortUp = $th.hasClass('sort-up');
 
         $.each(cols, function(idx, col) {
             if(idx != index && (col.sort === 'up' || col.sort === 'down')) {
@@ -872,7 +877,10 @@
 
             if(!data) $this.data(name, (data = new DataTable(this, options)));
 
-            if(typeof option == 'string') data[option](newData);
+            if(typeof option == 'string') {
+                if($.isPlainObject(newData) typeof newData.keepSort !== 'boolean') newData.keepSort = true;
+                data[option](newData);
+            }
         });
     };
 
