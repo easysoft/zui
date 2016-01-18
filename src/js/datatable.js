@@ -878,7 +878,7 @@
             if(!data) $this.data(name, (data = new DataTable(this, options)));
 
             if(typeof option == 'string') {
-                if($.isPlainObject(newData) typeof newData.keepSort !== 'boolean') newData.keepSort = true;
+                if(option === 'load' && $.isPlainObject(newData) && typeof newData.keepSort !== 'boolean') newData.keepSort = true;
                 data[option](newData);
             }
         });
