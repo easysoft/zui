@@ -13,7 +13,6 @@ var extend = require('extend'),
     change = require('gulp-change'),
     sourcemaps = require('gulp-sourcemaps'),
     prettify = require('gulp-jsbeautifier'),
-    lessPluginCleanCSS = require('less-plugin-clean-css'),
     mkdirp = require('mkdirp'),
     del = require('del'),
     format = require('string-format').extend(String.prototype),
@@ -151,7 +150,6 @@ function getBuildDestFilename(build, type, suffix) {
     file += '/' + build.filename + '.' + (suffix || type);
     return file.replace(/\/\//g, '/');
 }
-
 
 function gulpBuildColorsetJS(build, lessSrc, bannerContent) {
     var name = 'build:' + build.name;
@@ -461,3 +459,25 @@ gulp.task('default', function() {
     buildBundle('all');
 });
 
+// Init custom gulp tasks
+if(isFileExist("gulpfile.custom.js")) {
+    require("./gulpfile.custom.js")(gulp, {
+        less: less,
+        cssmin: cssmin,
+        csscomb: csscomb,
+        autoprefixer: autoprefixer,
+        concat: concat,
+        header: header,
+        uglify: uglify,
+        rename: rename,
+        change: change,
+        sourcemaps: sourcemaps,
+        prettify: prettify,
+        buildBundle: buildBundle,
+        zui: zui,
+        pkg: pkg,
+        del: del,
+        mkdirp: mkdirp,
+        runSequence: runSequence
+    });
+}
