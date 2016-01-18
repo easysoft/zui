@@ -4,11 +4,11 @@
 </style>
 
 <article>
-  <p>通过本插件允许用户通过拖拽范围边框来选定裁剪范围。</p>
+  <p>通过本插件允许用户通过拖拽区域边框来选定裁剪区域。</p>
   <div class="alert alert-primary-inverse">
     <h4>提示</h4>
-    <p>为兼容更多的浏览器，此插件实际并不会对图片进行剪裁操作。当确定裁剪范围后，你需要将剪裁范围数据上传到服务器，让服务器进行图片裁剪操作。</p>
-    <p>你仍然可以通过监听<code>before</code>事件来自行处理确定裁剪范围后的操作，包括在本地对图片进行剪裁。</p>
+    <p>为兼容更多的浏览器，此插件实际并不会对图片进行剪裁操作。当确定裁剪区域后，你需要将剪裁区域数据上传到服务器，让服务器进行图片裁剪操作。</p>
+    <p>你仍然可以通过监听<code>before</code>事件来自行处理确定裁剪区域后的操作，包括在本地对图片进行剪裁。</p>
   </div>
 </article>
 
@@ -94,13 +94,13 @@ $(&quot;#imgCutter&quot;).imgCutter(options);</code></pre>
           <td><code>post</code></td>
           <td>提交地址</td>
           <td>默认为<code>null</code></td>
-          <td>当用户确认裁剪尺寸范围后会将尺寸范围数据通过POST请求提交到此地址</td>
+          <td>当用户确认裁剪尺寸区域后会将尺寸区域数据通过POST请求提交到此地址</td>
         </tr>
         <tr>
           <td><code>get</code></td>
           <td>提交地址</td>
           <td>默认为<code>null</code></td>
-          <td>当用户确认裁剪尺寸范围后会将尺寸范围数据通过GET请求提交到此地址</td>
+          <td>当用户确认裁剪尺寸区域后会将尺寸区域数据通过GET请求提交到此地址</td>
         </tr>
       </tbody>
     </table>
@@ -127,27 +127,27 @@ $(&quot;#imgCutter&quot;).imgCutter({
         <tr>
           <td><code>change</code></td>
           <td>change.zui.imgcutter</td>
-          <td>当用户更改所选择的范围时触发</td>
+          <td>当用户更改所选择的区域时触发</td>
         </tr>
         <tr>
           <td><code>before</code></td>
           <td>before.zui.imgcutter</td>
-          <td>当用户确认提交所选择的范围时触发，在该事件回调函数中返回<code>false</code>可以取消此次提交</td>
+          <td>当用户确认提交所选择的区域时触发，在该事件回调函数中返回<code>false</code>可以取消此次提交</td>
         </tr>
         <tr>
           <td><code>done</code></td>
           <td>done.zui.imgcutter</td>
-          <td>当提交范围数据到服务器成功后触发</td>
+          <td>当提交数据到服务器成功后触发</td>
         </tr>
         <tr>
           <td><code>fail</code></td>
           <td>fail.zui.imgcutter</td>
-          <td>当提交范围数据到服务器失败后触发</td>
+          <td>当提交数据到服务器失败后触发</td>
         </tr>
         <tr>
           <td><code>always</code></td>
           <td>always.zui.imgcutter</td>
-          <td>当提交范围数据到服务器完成后触发</td>
+          <td>当提交数据到服务器完成后触发</td>
         </tr>
       </tbody>
   </article>
