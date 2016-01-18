@@ -278,18 +278,19 @@
   margin-bottom: 0;
 }
 
+pre {
+  margin-bottom: 15px;
+  border-radius: 0;
+  position: relative;
+  border-color: #ddd;
+  padding: 10px 20px;
+}
 .example + pre,
 pre + pre {
   margin: -15px 0 15px;
-  padding: 10px 20px;
   border-radius: 0;
   border: 1px solid #DDD;
   border-top: none;
-}
-
-pre {
-  border-radius: 0;
-  position: relative;
 }
 
 .btn-copy-code {
@@ -909,6 +910,10 @@ body {
         &:hover {
           .opacity(1);
         }
+      }
+
+      &:before {
+        position: relative;
       }
     }
     > h5 {
