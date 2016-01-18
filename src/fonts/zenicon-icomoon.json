@@ -66663,7 +66663,7 @@
 					"order": 54,
 					"prevSize": 32,
 					"code": 58946,
-					"name": "check2",
+					"name": "check2, checked",
 					"ligatures": "",
 					"tempChar": ""
 				},
@@ -68813,7 +68813,7 @@
 			"showGlyphs": true,
 			"metrics": {
 				"emSize": 512,
-				"baseline": 14,
+				"baseline": 15,
 				"whitespace": 50
 			},
 			"resetPoint": 58880,
@@ -68852,8 +68852,7 @@
 		"showSVGs": true,
 		"quickUsageToken": {
 			"zenicon": "Mzg0ZmM2NWUzM2M0NzYwM2ZlYWJlMDU5ODE4NzIwMzYjMSMxNDI5MzQ4MTg1IyMj"
-		},
-		"fontHostingName": false
+		}
 	},
 	"externalSets": [],
 	"uid": -1
