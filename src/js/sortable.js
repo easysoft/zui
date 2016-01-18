@@ -34,12 +34,17 @@
         var that = this,
             order = 0;
         var $list = this.$.children(this.options.selector).not('.drag-shadow');
-        if($list.data('zui.droppable')) {
-            $list.data('zui.droppable').options.target = $list;
-            $list.droppable('reset');
-        } else {
-            that.bindEventToList($list);
-        }
+
+        $list.each(function() {
+            var $this = $(this);
+            if($this.data('zui.droppable')) {
+                $this.data('zui.droppable').options.target = $list;
+                $this.droppable('reset');
+            } else {
+                that.bindEventToList($list);
+                return false;
+            }
+        });
     };
 
     Sortable.prototype.bindEventToList = function($list) {
