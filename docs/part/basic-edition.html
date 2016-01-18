@@ -197,9 +197,56 @@
             </ul>
           </td>
         </tr>
+        <tr>
+          <td><code>gulp watch:doc</code></td>
+          <td colspan="2">监听<code>src/</code>目录下的文件变更，当文件发生更改之后立即调用 <code>gulp build -doc</code>命令。</td>
+        </tr>
+        <tr>
+          <td><code>gulp watch:dist</code></td>
+          <td colspan="2">监听<code>src/</code>目录下的文件变更，当文件发生更改之后立即调用 <code>gulp build -dist</code>命令。</td>
+        </tr>
+        <tr>
+          <td><code>gulp watch:theme</code></td>
+          <td colspan="2">监听<code>src/</code>目录下的文件变更，当文件发生更改之后立即调用 <code>gulp build -theme</code>命令。</td>
+        </tr>
+        <tr>
+          <td><code>gulp prettify:js</code></td>
+          <td colspan="2">整理并优化<code>src/</code>目录下所有javascript源码文件的代码格式。</td>
+        </tr>
       </tbody>
     </table>
     <p>你也可以通过编辑<code>gulpfile.js</code>文件来定义自己的编译任务。</p>
+    <h4>自定义gulpfile</h4>
+    <p>你可以在ZUI源码根目录新建一个<code>gulpfile.custom.js</code>文件，然后在此文件中自定义更多的gulp任务。</p>
+    <pre><code>// 文件：gulpfile.custom.js
+// 必须导出一个函数 function(gulp, $)
+module.exports = function(gulp, $) {
+    // 自定义gulp任务'hello'
+    gulp.task('hello', function() {
+        console.log('hello world!');
+    });
+
+    // $ 包含gulpfile.js中大部分可用工具函数和数据
+    // $: {
+    //     less: less,
+    //     cssmin: cssmin,
+    //     csscomb: csscomb,
+    //     autoprefixer: autoprefixer,
+    //     concat: concat,
+    //     header: header,
+    //     uglify: uglify,
+    //     rename: rename,
+    //     change: change,
+    //     sourcemaps: sourcemaps,
+    //     prettify: jsbeautifier
+    //     buildBundle: buildBundle,
+    //     zui: zui,
+    //     pkg: pkg,
+    //     del: del,
+    //     mkdirp: mkdirp,
+    //     runSequence: runSequence
+    // }
+};</code></pre>
   </article>
 </section>
 
