@@ -17,9 +17,10 @@
 
     // MODAL TRIGGER CLASS DEFINITION
     // ======================
-    var ModalTrigger = function(options) {
-        options = $.extend({}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
+    var ModalTrigger = function(options, $trigger) {
+        options = $.extend({}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, $trigger ? $trigger.data() : null, options);
         this.isShown;
+        this.$trigger = $trigger;
         this.options = options;
         this.id = $.zui.uuid();
 
@@ -106,7 +107,7 @@
     };
 
     ModalTrigger.prototype.show = function(option) {
-        var options = $.extend({}, this.options, option);
+        var options = $.extend({}, this.options, {url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url}, option);
         this.init(options);
         var that = this,
             $modal = this.$modal,
@@ -315,7 +316,7 @@
                     url: $this.attr('href'),
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
-            if(!data) $this.data(NAME, (data = new ModalTrigger(options)));
+            if(!data) $this.data(NAME, (data = new ModalTrigger(options, $this)));
             if(typeof option == STR_STRING) data[option](settings);
             else if(options.show) data.show(settings);
 
@@ -384,7 +385,7 @@
         if(!$target || !$target.length) {
             if(!$this.data(NAME)) {
                 $this.modalTrigger({
-                    show: true
+                    show: true,
                 });
             } else {
                 $this.trigger('.toggle.' + NAME);
