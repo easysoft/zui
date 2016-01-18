@@ -23,12 +23,9 @@
     &lt;tr&gt;...&lt;/tr&gt;
     ...
   &lt;/tbody&gt;
-&lt;/table&gt;
-
-
-/* JS 代码 */
-$(&#39;table.datatable&#39;).datatable();
-</code></pre>
+&lt;/table&gt;</code></pre>
+  <pre><code>/* 初始化数据表格 */
+$(&#39;table.datatable&#39;).datatable();</code></pre>
   </article>
 </section>
 
@@ -339,21 +336,89 @@ $(&#39;table.datatable&#39;).datatable(
   <article>
     <h4>增强现有表格</h4>
     <p>直接对一个包含完整头部和数据的普通表格进行增强。DataTable或自动获取所有表头和行上的数据，并配置相关选项。</p>
-    <p>增强现有的表格能够在DataTable组件不可用时也能够正常显示原表格数据。</p>
+    <pre class='prettyprint'><code>&lt;!-- 使用Datatable来增强下面的原生表格 --&gt;
+&lt;table class=&quot;table datatable&quot;&gt;
+  &lt;!-- 定义表头 --&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th data-type=&quot;number&quot; data-width=&quot;80&quot;&gt;#&lt;/th&gt;
+      &lt;th data-type=&quot;date&quot;&gt;时间&lt;/th&gt;
+      &lt;th data-col-class=&quot;text-primary&quot;&gt;名称&lt;/th&gt;
+      ...
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;!-- 定义表格数据，每一个tr对应一个数据，不支持跨行内容 --&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;...&lt;/tr&gt;
+    &lt;tr&gt;...&lt;/tr&gt;
+    ...
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+    <pre><code>/* 初始化数据表格 */
+$(&#39;table.datatable&#39;).datatable(options);</code></pre>
+    <div class="alert alert-primary-inverse">
+      <p>使用增强现有表格的方式能够在DataTable组件不可用时也能够正常显示原表格数据。</p>
+    </div>
 
     <h4>在启动选项中初始化数据</h4>
     <p>通过设置启动选项的<code>data</code>属性来初始化数据。</p>
+    <pre><code>&lt;!-- 使用一个div来显示数据表格 --&gt;
+&lt;div class=&quot;datatable&quot; data-checkable=&quot;true&quot; data-sortable=&quot;true&quot;&gt;&lt;/div&gt;&lt;/code&gt;</code></pre>
+    <pre><code>/* 使用启动参数选项来初始化数据 */
+$(&#39;table.datatable&#39;).datatable({
+    data: {
+        cols: [
+            {width: 80, text: '#', type: 'number', flex: false, colClass: 'text-center'},
+            {width: 160, text: '时间', type: 'date', flex: false, sort: 'down'},
+            {width: 80, text: '名称', type: 'string', flex: true, colClass: ''}
+        ],
+        rows: [
+            {checked: false, data: [1, '2016-01-18 11:05:15', '名称示例1']},
+            {checked: false, data: [2, '2016-01-20 12:06:16', '名称示例2']},
+            // 更多数据
+        ]
+    },
+    // 其他启动参数选项
+});</code></pre>
 
     <h4>更新数据</h4>
-    <p>当数据表格所依据的原始数据发生变更时，需要手动调用<code>load</code>方法来更新数据表格。</p>
-<pre class='prettyprint'><code>// 当原始数据发生变更时：
+    <p>当数据表格所依据的原始数据或原始表格发生变更时，需要手动调用<code>load()</code>方法来更新数据表格。<code>load(data)</code>方法允许增加一个参数来使用需要更新的数据。</p>
+    <p><code>data</code>参数可以为一个回调函数，此回调函数的第一个参数为原始数据，可以直接在回调函数中修改原始数据。</p>
+    <div class="example">
+      <div id="datatableChangeExample" class="datatable datatable-update-example" data-checkable='true' data-sortable='true'></div>
+      <button class="btn btn-primary" type="button" id="datatableChangeBtn">更新评分</button>
+    </div>
+    <pre class='prettyprint'><code>// 更改原始表格数据内容
+$('table.datatable-origin').find('td.data-for-change').text('更新此单元格');
+
+// 当原始数据发生变更时：
 $(&#39;table.datatable&#39;).datatable('load');</code></pre>
+    <pre class='prettyprint'><code>// 使用data参数更新数据：
+$(&#39;table.datatable&#39;).datatable('load', {
+    cols: [
+        {width: 80, text: '#', type: 'number', flex: false, colClass: 'text-center'},
+        {width: 160, text: '时间', type: 'date', flex: false, sort: 'down'},
+        {width: 80, text: '名称', type: 'string', flex: true, colClass: ''}
+    ],
+    rows: [
+        {checked: false, data: [1, '2016-01-18 11:09:36', '新的名称示例1']},
+        {checked: false, data: [2, '2016-01-22 12:06:16', '新的名称示例2']},
+        // 更多数据
+    ]}
+});</code></pre>
+    <pre class='prettyprint'><code>// 使用data参数可以使用一个回调函数来修改之前的数据：
+$(&#39;table.datatable&#39;).datatable('load', function(data) {
+    // 修改第1行的第3列数据值为'新的名称示例1'
+    data.rows[0].data[2] = '新的名称示例1';
+    // 更多的修改...
+});</code></pre>
+    <p></p>
   </article>
 </section>
 
 <script>
 function onPageLoad() {
-  return false;
+    return false;
 }
 function afterPageLoad() {
     var now = new Date();
@@ -365,12 +430,9 @@ function afterPageLoad() {
         eventsTypes = ['happy', 'sad', ':]'],
         tools = ['桌子', '椅子', '水杯', '枪', '随从'],
         descs = ['没有完成', '这次失败了', '徒劳', '很满意', '禁止再次发生', '也行', '情况不明', '发现未知征兆'];
-    var dtDataGenerater = function(rowsCount)
-    {
-        var data =
-        {
-            cols:
-            [
+    var dtDataGenerater = function(rowsCount) {
+        var data = {
+            cols: [
                 {width: 100, text: '#', type: 'number', flex: false, colClass: 'text-center'},
                 {sort: 'down', width: 160, text: '时间', type: 'date', flex: false, colClass: ''},
                 {width: 80, text: '房间', type: 'string', flex: false, colClass: ''},
@@ -386,10 +448,8 @@ function afterPageLoad() {
             rows: []
         };
 
-        for (var i = 0; i < rowsCount; i++)
-        {
-            var row = {checked: Math.random() > 0.9, data:
-            [
+        for (var i = 0; i < rowsCount; i++) {
+            var row = {checked: Math.random() > 0.9, data: [
                 start + i + 101000,
                 now.format('yyyy-MM-dd hh:mm:ss'),
                 rooms[Math.floor(Math.random()*rooms.length)],
@@ -409,10 +469,24 @@ function afterPageLoad() {
         return data;
     };
 
-    $('#pageContent .datatable').each(function()
-    {
+    $('#pageContent .datatable').each(function() {
         var $this = $(this);
-        $this.datatable({fixedLeftWidth: '60%', fixedRightWidth: '15%', data: dtDataGenerater($this.data('rows') || 5)});
+        var data = dtDataGenerater($this.data('rows') || 5);
+        if($this.attr('id') === 'datatableChangeExample') {
+            $this.data('origin-data', data);
+        }
+        $this.datatable({fixedLeftWidth: '60%', fixedRightWidth: '15%', data: data});
+    });
+
+    var $datatableChangeExample = $('#datatableChangeExample');
+    $('#datatableChangeBtn').click(function() {
+        var data = $datatableChangeExample.data('origin-data');
+        if(data) {
+            $.each(data.rows, function(rowIndex, row) {
+                row.data[9] = Math.floor(Math.random()*100)/10;
+            });
+            $datatableChangeExample.datatable('load', data);
+        }
     });
 
     $.doc.stopPageLoading();
