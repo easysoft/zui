@@ -293,6 +293,10 @@ pre + pre {
   border-top: none;
 }
 
+.copyable {
+  position: relative;
+}
+
 .btn-copy-code {
   position: absolute;
   right: 3px;
@@ -317,7 +321,9 @@ pre + pre {
   }
 }
 
-pre:hover > .btn-copy-code {
+pre:hover > .btn-copy-code,
+.copyable:hover > .btn-copy-code,
+.copyable.fixed-copy-btn > .btn-copy-code {
   opacity: 1;
 }
 

@@ -1157,7 +1157,6 @@
         $pageAttrs.children('.badge-source').toggle(!!section.url).attr('href', 'https://github.com/easysoft/zui/tree/master/' + section.url);
         var lib = section.lib;
         if(lib) {
-            console.info('>>>', lib);
             $pageAttrs.children('.badge-zui').toggle(!!lib.bundles.standard);
             $pageAttrs.children('.badge-lite').toggle(!!lib.bundles.lite);
             $pageAttrs.children('.badge-lib').toggle(!!lib.bundles.separate);
@@ -1701,17 +1700,17 @@
                 $('#copyCodeTip').removeClass('tooltip-success tooltip-warning');
             });
 
-            $(document).on('mouseenter', 'pre.prettyprint, pre.copyable', function() {
-                var $pre = $(this);
-                var $codes = $pre.children('code, .linenums');
-                if(!$codes.length) return;
+            $(document).on('mouseenter', 'pre.prettyprint, .copyable', function() {
+                var $copyable = $(this);
+                var $copyableTarget = $copyable.children('code, .linenums, .copyable-target');
+                if(!$copyableTarget.length) return;
 
-                if(!$codes.attr('id')) {
-                    $codes.attr('id', 'code-' + $.zui.uuid())
+                if(!$copyableTarget.attr('id')) {
+                    $copyableTarget.attr('id', 'code-' + $.zui.uuid())
                 }
-                $pre.prepend($copyCodeBtn);
-                $copyCodeBtn.attr('data-clipboard-target', '#' + $codes.attr('id'));
-                $pre.one('mouseleave', function() {
+                $copyable.prepend($copyCodeBtn);
+                $copyCodeBtn.attr('data-clipboard-target', '#' + $copyableTarget.attr('id'));
+                $copyable.one('mouseleave', function() {
                      $copyCodeBtn.detach();
                 });
             });
