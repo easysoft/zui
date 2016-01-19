@@ -17,11 +17,10 @@
 
     // The browser modal class
     var Browser = function() {
-        var isIE = this.isIE;
-        var ie = isIE();
+        var ie = this.isIE() || this.isIE10() || false;
         if(ie) {
             for(var i = 10; i > 5; i--) {
-                if(isIE(i)) {
+                if(this.isIE(i)) {
                     ie = i;
                     break;
                 }
@@ -51,21 +50,19 @@
     };
 
     // Show browse happy tip
-    Browser.prototype.tip = function() {
-        if(this.ie && this.ie < 8) {
-            var $browseHappy = $('#browseHappyTip');
-            if(!$browseHappy.length) {
-                $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
-                $browseHappy.prependTo('body');
-            }
-
-            $browseHappy.find('.content').html(this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
+    Browser.prototype.tip = function(showCoontent) {
+        var $browseHappy = $('#browseHappyTip');
+        if(!$browseHappy.length) {
+            $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger-inverse alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
+            $browseHappy.prependTo('body');
         }
+
+        $browseHappy.find('.content').html(showCoontent || this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
     };
 
     // Detect it is IE, can given a version
     Browser.prototype.isIE = function(version) {
-        // var ie = /*@cc_on !@*/false;
+        if(version === 10) return this.isIE10();
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
         return b.getElementsByTagName('i').length === 1;
@@ -73,7 +70,7 @@
 
     // Detect ie 10 with hack
     Browser.prototype.isIE10 = function() {
-        return( /*@cc_on!@*/ false);
+        return (/*@cc_on!@*/false);
     };
 
     $.zui({
@@ -82,7 +79,9 @@
 
     $(function() {
         if(!$('body').hasClass('disabled-browser-tip')) {
-            $.zui.browser.tip();
+            if($.zui.browser.ie && $.zui.browser.ie < 8) {
+                $.zui.browser.tip();
+            }
         }
     });
 }(jQuery));
