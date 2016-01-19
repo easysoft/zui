@@ -1,7 +1,47 @@
 <article>
   <p>本地存储（Local storage）是在浏览器本地存储应用数据的好途径。相比较cookie拥有更大的存储空间（相同域下一般达到5M存储空间），使用更灵活，而且不会在每次提交中发送到服务器。几乎所有浏览器都支持本地存储，甚至包括IE8。</p>
-  <p>ZUI中提供读写本地存储的插件。文件路径为：<code>/src/js/store.js</code>。</p>
+  <p>ZUI中提供读写本地存储的插件。</p>
 </article>
+
+<section>
+  <header><h3>实例</h3></header>
+  <article>
+    <div class="example" id="storeExample">
+      <div class="alert hide alert-success">
+        <h4>本地存储可用，刷新页面或关闭浏览器不会丢失你的数据。</h4>
+      </div>
+      <div class="alert hide alert-warning">
+        <h4>本地存储不可用！</h4>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width:80px">索引</th>
+            <th style="width:40%">名称</th>
+            <th>值</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="storeTable">
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan='2'>
+              <div class="input-group">
+                <span class="input-group-addon">名称</span>
+                <input type="text" id="storeName" name="storeName" class="form-control">
+                <span class="input-group-addon fix-border">值</span>
+                <input type="text" id="storeValue" name="storeValue" class="form-control">
+                <span class="input-group-btn"><button type="button" id="storeAdd" class="btn btn-primary">保存</button></span>
+              </div>
+            </td>
+            <td colspan="2"><button type="button" class="btn btn-danger" id="storeClear">清空</button></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </article>
+</section>
 
 <section>
   <header><h3>如何使用</h3></header>
@@ -230,46 +270,6 @@ console.log($.zui.store.pageGet('date').year);               // 从本地存储�
 
 $.zui.store.pageRemove('name');                              // 从本地存储移除‘name’的值
 $.zui.store.pageClear();                                     // 清空所有本地存储的条目</pre>
-  </article>
-</section>
-
-<section>
-  <header><h3>实例</h3></header>
-  <article>
-    <div class="example" id="storeExample">
-      <div class="alert hide alert-success">
-        <h4>本地存储可用，刷新页面或关闭浏览器不会丢失你的数据。</h4>
-      </div>
-      <div class="alert hide alert-warning">
-        <h4>本地存储不可用！</h4>
-      </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="width:80px">索引</th>
-            <th style="width:40%">名称</th>
-            <th>值</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="storeTable">
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan='2'>
-              <div class="input-group">
-                <span class="input-group-addon">名称</span>
-                <input type="text" id="storeName" name="storeName" class="form-control">
-                <span class="input-group-addon fix-border">值</span>
-                <input type="text" id="storeValue" name="storeValue" class="form-control">
-                <span class="input-group-btn"><button type="button" id="storeAdd" class="btn btn-primary">保存</button></span>
-              </div>
-            </td>
-            <td colspan="2"><button type="button" class="btn btn-danger" id="storeClear">清空</button></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
   </article>
 </section>
 
