@@ -1466,6 +1466,9 @@
     };
 
     var isInLib = function(name, libNames, lib) {
+        if(name === 'button') {
+            console.log('isInLib', name, libNames, lib);
+        }
         if(libNames) {
             var len = libNames.length;
             name = name.toLowerCase();
@@ -1474,11 +1477,14 @@
                 namesDot = name + 's.';
             for(var i = 0; i < len; ++i) {
                 var item = libNames[i];
-                if(item === name || item === names || (lib && !lib.src && isInLib(name, lib.dpds))) {
+                if(item === name || item === names || item.startsWith(nameDot) || item.startsWith(namesDot)) {
+                    if(name === 'button') console.log('isInLib>', true);
                     return true;
                 }
             }
+            // return lib && !lib.src && isInLib(name, lib.dpds);
         }
+        if(name === 'button') console.log('isInLib>', false);
         return false;
     };
 
@@ -1564,9 +1570,9 @@
                         }
                     });
                 }
-                if(lib.dpds && lib.dpds) {
+                if(lib.dpds) {
                     lib.dpds.forEach(function(dpdsName) {
-                        if(dpdsName.startsWith(libName) && pkg.lib[dpdsName] && !pkg.lib[dpdsName]) {
+                        if(dpdsName.startsWith(libName) && pkg.lib[dpdsName] && !pkg.lib[dpdsName].thirdpart) {
                             getLibSource(pkg.lib[dpdsName], src, libName);
                         } 
                     });
