@@ -10,7 +10,6 @@
 {
   padding: @alert-padding;
   margin-bottom: @line-height-computed;
-  border: 1px solid transparent;
   border-radius: @alert-border-radius;
   .alert-variant(@alert-default-bg; @alert-default-border; @alert-default-text);
   .transition;
@@ -49,7 +48,7 @@
     font-size: 42px;
     opacity: 0.6;
     margin-top: -5px;
-    .transition(opacity,@animation-speed-fast,@animation-type);
+    .transition(opacity, @animation-speed-fast, @animation-type);
   }
 
   >[class*="icon-"] + .content
@@ -104,7 +103,7 @@
   .close
   {
     position: relative;
-    top: -2px;
+    top: -6px;
     right: -21px;
     color: inherit;
   }
