@@ -1,18 +1,28 @@
 <section>
   <header><h3>基本类型</h3></header>
   <article>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <ul class="list-group">
         <li class="list-group-item">
           <a href="#">用ul &gt; li实现，点击区域只有文字</a>
         </li>
-        <li class="list-group-item">todo</li>
-        <li class="list-group-item">story</li>
-        <li class="list-group-item">task</li>
-        <li class="list-group-item">bug</li>
-        <li class="list-group-item">case</li>
+        <li class="list-group-item"><a href='#'>待办</a></li>
+        <li class="list-group-item"><a href='#'>需求</a></li>
+        <li class="list-group-item"><a href='#'>任务</a></li>
+        <li class="list-group-item"><a href='#'>Bug</a></li>
+        <li class="list-group-item">用例</li>
       </ul>
     </div>
+    <pre><code>&lt;ul class=&quot;list-group&quot;&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;
+    &lt;a href=&quot;#&quot;&gt;项目&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;待办&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;需求&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;任务&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;&lt;a href=&quot;#&quot;&gt;Bug&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;list-group-item&quot;&gt;用例&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
   </article>
 </section>
 
@@ -21,29 +31,69 @@
     <h3>链接</h3>
   </header>
   <article>
-    <div class="example list-group" contenteditable="true">
-      <a href="#" class="list-group-item">用div &gt; a实现，实现整行点击</a> <a href="#"
-      class="list-group-item">todo</a> <a href="#" class=
-      "list-group-item">story</a> <a href="#" class="list-group-item active">task
-      active</a> <a href="#" class="list-group-item">bug</a> <a href="#" class=
-      "list-group-item">case</a>
+    <div class="example">
+      <div class="list-group">
+        <a href="#" class="list-group-item">用div &gt; a实现，实现整行点击</a>
+        <a href="#" class="list-group-item">待办</a>
+        <a href="#" class="list-group-item">需求</a>
+        <a href="#" class="list-group-item active">任务</a>
+        <a href="#" class="list-group-item">Bug</a>
+        <a href="#" class="list-group-item">用例</a>
+      </div>
     </div>
+    <pre><code>&lt;div class=&quot;list-group&quot;&gt;
+  &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;用div &gt;项目&lt;/a&gt;
+  &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;待办&lt;/a&gt;
+  &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;需求&lt;/a&gt;
+  &lt;a href=&quot;#&quot; class=&quot;list-group-item active&quot;&gt;任务&lt;/a&gt;
+  &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;Bug&lt;/a&gt;
+  &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;用例&lt;/a&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
 <section>
   <header><h3>定制列表内容</h3></header>
   <article>
-    <div class="example list-group" contenteditable="true">
-      <a href="#" class="list-group-item">
-      <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
-      <p class="list-group-item-text">我是包含在a标签里面的p标签，</p></a> <a href="#" class=
-      "list-group-item active">
-      <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
-      <p class="list-group-item-text">我是包含在a标签里面的p标签，</p></a> <a href="#" class=
-      "list-group-item">
-      <h4 class="list-group-item-heading">我是包含在a标签里面的h4标签</h4>
-      <p class="list-group-item-text">我是包含在a标签里面的p标签，</p></a>
+    <div class="example">
+      <div class="list-group">
+        <a href="#" class="list-group-item">
+          <h4 class="list-group-item-heading">项目</h4>
+          <p class="list-group-item-text text-muted">共12个新条目</p>
+        </a>
+        <a href="#" class="list-group-item active">
+          <h4 class="list-group-item-heading">Bug</h4>
+          <p class="list-group-item-text text-muted">没有未处理的bug</p>
+        </a>
+        <a href="#" class="list-group-item">
+          <h4 class="list-group-item-heading">任务</h4>
+          <p class="list-group-item-text text-muted"># 处理bug</p>
+        </a>
+      </div>
     </div>
+    <pre><code>&lt;div class="list-group"&gt;
+  &lt;a href="#" class="list-group-item"&gt;
+    &lt;h4 class="list-group-item-heading"&gt;项目&lt;/h4&gt;
+    &lt;p class="list-group-item-text text-muted"&gt;共12个新条目&lt;/p&gt;
+  &lt;/a&gt;
+  &lt;a href="#" class="list-group-item active"&gt;
+    &lt;h4 class="list-group-item-heading"&gt;Bug&lt;/h4&gt;
+    &lt;p class="list-group-item-text text-muted"&gt;没有未处理的bug&lt;/p&gt;
+  &lt;/a&gt;
+  &lt;a href="#" class="list-group-item"&gt;
+    &lt;h4 class="list-group-item-heading"&gt;任务&lt;/h4&gt;
+    &lt;p class="list-group-item-text text-muted"&gt;# 处理bug&lt;/p&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
+
+<script>
+function afterPageLoad() {
+    $('#pageContent').on('click', '.list-group > a.list-group-item', function() {
+        var $item = $(this);
+        $item.parent().children('.active').removeClass('active');
+        $item.addClass('active');
+    });
+}
+</script>

@@ -5,7 +5,7 @@
       <h4>消除双边框</h4>
       <p>当按钮处于两个文本框中间时，需要在<code>.input-group-addon</code>上添加样式修复工具类<code>.fix-border</code>。</p>
     </div>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <div class="row">
         <div class="col-md-6">
           <div class="input-group">
@@ -47,7 +47,12 @@
           </div>
         </div>
       </div>
-    </div>    
+    </div>
+    <pre><code>&lt;div class=&quot;input-group&quot;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;@&lt;/span&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;用户名&quot;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;&lt;i class=&quot;icon icon-heart&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
@@ -59,7 +64,7 @@
       <h4>兼容IE浏览器</h4>
       <p>因为IE8不支持<code>:empty</code>选择器，为兼容IE8浏览器，需要在<code>.input-group-addon</code>上添加额外的样式修复工具类<code>.fix-padding</code>。</p>
     </div>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <div class="row">
         <div class="col-md-6">
           <div class="input-group">
@@ -84,13 +89,19 @@
         </div>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;input-group&quot;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;姓名&lt;/span&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;姓氏&quot;&gt;
+  &lt;span class=&quot;input-group-addon fix-border fix-padding&quot;&gt;&lt;/span&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;名字&quot;&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
 <section>
   <header><h3>单选框和复选框</h3></header>
   <article>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <div class="row">
         <div class="col-md-6">
           <div class="input-group">
@@ -110,6 +121,20 @@
         </div>
       </div>
     </div>
+    <pre><code>&lt;!-- 复选框 --&gt;
+&lt;div class=&quot;input-group&quot;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;
+    &lt;input type=&quot;checkbox&quot;&gt;
+  &lt;/span&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot;&gt;
+&lt;/div&gt;</code></pre>
+    <pre><code>&lt;!-- 单选框 --&gt;
+&lt;div class=&quot;input-group&quot;&gt;
+  &lt;span class=&quot;input-group-addon&quot;&gt;
+    &lt;input type=&quot;radio&quot;&gt;
+  &lt;/span&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot;&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
@@ -120,7 +145,7 @@
       <h4>消除双边框</h4>
       <p>当按钮处于两个文本框中间时，需要在<code>.input-group-btn</code>上添加样式修复工具类<code>.fix-border</code>。</p>
     </div>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <div class="row">
         <div class="col-md-6">
           <div class="input-group">
@@ -158,14 +183,20 @@
           </div>
         </div>
       </div>
-    </div>    
+    </div>
+    <pre><code>&lt;div class=&quot;input-group&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot;&gt;
+  &lt;span class=&quot;input-group-btn&quot;&gt;
+    &lt;button class=&quot;btn btn-default&quot; type=&quot;button&quot;&gt;搜索&lt;/button&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
 <section>
   <header><h3>带下拉菜单的按钮</h3></header>
   <article>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <div class="row">
         <div class="col-md-6">
           <div class="input-group">
@@ -199,6 +230,19 @@
         </div><!-- /.col-md-6 -->
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;input-group&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot;&gt;
+  &lt;div class=&quot;input-group-btn&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-default dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;选项 &lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;ul class=&quot;dropdown-menu pull-right&quot; role=&quot;menu&quot;&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;选项&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;另一个选项&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;更多选项&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;特别内容&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
@@ -209,14 +253,14 @@
       <h4>浏览器兼容性问题</h4>
       <p>通常并不推荐在输入框组中使用select元素。这样可能会带来难以处理的兼容性问题。推荐使用 <strong>Dropdown</strong> 或者 <strong>Chosen</strong>来代替下拉列表。</p>
     </div>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <div class="row">
         <div class="col-md-6">
           <div class="input-group">
             <select class="form-control">
-              <option value="1">吃饭</option>
-              <option value="2">睡觉</option>
-              <option value="3">编程</option>
+              <option value="eat">吃饭</option>
+              <option value="sleep">睡觉</option>
+              <option value="code">写代码</option>
             </select>
             <span class="input-group-btn">
               <button class="btn btn-default" type="button">搜索</button>
@@ -246,13 +290,23 @@
         </div>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;input-group&quot;&gt;
+  &lt;select class=&quot;form-control&quot;&gt;
+    &lt;option value=&quot;eat&quot;&gt;吃饭&lt;/option&gt;
+    &lt;option value=&quot;sleep&quot;&gt;睡觉&lt;/option&gt;
+    &lt;option value=&quot;code&quot;&gt;写代码&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;span class=&quot;input-group-btn&quot;&gt;
+    &lt;button class=&quot;btn btn-default&quot; type=&quot;button&quot;&gt;搜索&lt;/button&gt;
+  &lt;/span&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
 <section>
   <header><h3>分段按钮</h3></header>
   <article>
-    <div class="example" contenteditable="true">
+    <div class="example">
       <div class="row">
         <div class="col-md-6">
           <div class="input-group">
@@ -294,5 +348,22 @@
         </div><!-- /.col-md-6 -->
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;input-group&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;form-control&quot;&gt;
+  &lt;div class=&quot;input-group-btn&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; tabindex=&quot;-1&quot;&gt;主要选项&lt;/button&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-default dropdown-toggle&quot; data-toggle=&quot;dropdown&quot; tabindex=&quot;-1&quot;&gt;
+      &lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;
+      &lt;span class=&quot;sr-only&quot;&gt;更多选项&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;ul class=&quot;dropdown-menu pull-right&quot; role=&quot;menu&quot;&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;选项&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;另一个选项&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;更多选项&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;特别内容&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>

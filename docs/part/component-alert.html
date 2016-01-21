@@ -33,14 +33,12 @@
         <p>确实遇到了问题，请立即处理吧。</p>
       </div>
     </div>
-<pre class="prettyprint">
-&lt;div class=&quot;alert&quot;&gt;...&lt;/div&gt;
+<pre class="prettyprint"><code>&lt;div class=&quot;alert&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-primary&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-danger&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-success&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-warning&quot;&gt;...&lt;/div&gt;
-&lt;div class=&quot;alert alert-info&quot;&gt;...&lt;/div&gt;
-</pre>
+&lt;div class=&quot;alert alert-info&quot;&gt;...&lt;/div&gt;</code></pre>
   </article>
 </section>
 
@@ -90,12 +88,10 @@
         </div>
       </div>
     </div>
-<pre class="prettyprint">
-&lt;div class=&quot;alert alert-success with-icon&quot;&gt;
+<pre class="prettyprint"><code>&lt;div class=&quot;alert alert-success with-icon&quot;&gt;
   &lt;i class=&quot;icon-ok-sign&quot;&gt;&lt;/i&gt;
   &lt;div class=&quot;content&quot;&gt;...&lt;/div&gt;
-&lt;/div&gt;
-</pre>
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
@@ -143,27 +139,26 @@
         </div>
       </div>
     </div>
-<pre class="prettyprint">
-&lt;div class=&quot;alert alert-inverse&quot;&gt;...&lt;/div&gt;
+<pre class="prettyprint"><code>&lt;div class=&quot;alert alert-inverse&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-primary-inverse&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-danger-inverse&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-success-inverse&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;alert alert-warning-inverse&quot;&gt;...&lt;/div&gt;
-&lt;div class=&quot;alert alert-info-inverse&quot;&gt;...&lt;/div&gt;
-</pre>
+&lt;div class=&quot;alert alert-info-inverse&quot;&gt;...&lt;/div&gt;</code></pre>
   </article>
 </section>
 
 <section>
   <header><h3>块级消息</h3></header>
   <article>
-    <p>块级消息框将没有外边距，适合用在页面顶部或者浮现在页面之上</p>
-    <div class="example no-padding">
+    <p>块级消息框将没有外边距和边框圆角，适合用在页面顶部或者浮现在页面之上</p>
+    <div class="example no-padding borderless">
       <div class="alert alert-success alert-block with-icon">
         <i class="icon-ok-sign"></i>
         <div class="content"><strong>太好了!</strong> 一切已准备就绪。</div>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;alert alert-block&quot;&gt;...&lt;/div&gt;</code></pre>
   </article>
 </section>
 
@@ -201,6 +196,7 @@
         <div class="content"><strong>不好了!</strong> 确实遇到了问题，请<a class="alert-link" href="###">立即处理</a>吧。</div>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;alert&quot;&gt;注意消息框中的&lt;a class=&quot;alert-link&quot; href=&quot;your/url/&quot;&gt;链接&lt;/a&gt;。&lt;/div&gt;</code></pre>
   </article>
 </section>
 
@@ -215,6 +211,10 @@
         <p>您可以点击右上角的 <i class="icon-remove"></i> 来关闭这条消息。</p>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;alert alert-warning alert-dismissable&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/button&gt;
+  &lt;p&gt;您可以点击右上角的 &lt;i class=&quot;icon-remove&quot;&gt;&lt;/i&gt; 来关闭这条消息。&lt;/p&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
