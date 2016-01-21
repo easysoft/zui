@@ -210,9 +210,17 @@
       "ver": "1.0.0",
       "dpds": ["button.basic"]
     },
+    "button.js": {
+      "name": "按钮状态切换",
+      "src": {
+        "js": ["~/button.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["button.basic"]
+    },
     "button": {
       "name": "按钮",
-      "dpds": ["button.basic", "button.group", "button.vertical"]
+      "dpds": ["button.basic", "button.group", "button.vertical", "button.js"]
     },
     "progressbar": {
       "name": "进度条",
