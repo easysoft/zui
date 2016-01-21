@@ -9,8 +9,7 @@
 
 fieldset { padding: 0; margin: 0; border: 0; }
 
-legend 
-{
+legend {
   display: block;
   width: 100%;
   padding: 0;
@@ -31,8 +30,7 @@ label { display: inline-block; margin-bottom: 5px; font-weight: bold; }
 input[type="search"] { .box-sizing(border-box); }
 
 // Position radios and checkboxes better
-input[type="radio"], input[type="checkbox"] 
-{
+input[type="radio"], input[type="checkbox"] {
   margin: 4px 0 0;
   margin-top: 1px \9; /* IE8-9 */
   line-height: normal;
@@ -94,8 +92,7 @@ input[type="number"] {
 // input[type="tel"]
 // input[type="color"]
 
-.form-control 
-{
+.form-control {
   display: block;
   width: 100%;
   height: @input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
@@ -136,32 +133,40 @@ input[type="number"] {
 //
 // Indent the labels to position radios/checkboxes as hanging controls.
 
-.radio, .checkbox 
-{
+.radio, .checkbox {
+  position: relative;
   display: block;
-  min-height: @line-height-computed; // clear the floating input if there is no label text
   margin-top: 10px;
   margin-bottom: 10px;
-  padding-left: 20px;
-  vertical-align: middle;
-  label { display: inline; margin-bottom: 0; font-weight: normal; cursor: pointer; }
+
+  label {
+    min-height: @line-height-computed; // Ensure the input doesn't jump when there is no text
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+  }
 }
+
 .radio input[type="radio"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
-  float: left;
+  position: absolute;
   margin-left: -20px;
+  margin-top: 3px;
+  margin-top: ~"4px \9";
 }
 
-.radio + .radio, .checkbox + .checkbox 
-{
+.radio + .radio,
+.checkbox + .checkbox {
   margin-top: -5px; // Move up sibling radios or checkboxes for tighter spacing
 }
 
 // Radios and checkboxes on same line
-.radio-inline, .checkbox-inline 
-{
+.radio-inline,
+.checkbox-inline {
+  position: relative;
   display: inline-block;
   padding-left: 20px;
   margin-bottom: 0;
@@ -169,20 +174,41 @@ input[type="number"] {
   font-weight: normal;
   cursor: pointer;
 }
-
-.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline 
-{
+.radio-inline + .radio-inline,
+.checkbox-inline + .checkbox-inline {
   margin-top: 0;
   margin-left: 10px; // space out consecutive inline controls
 }
 
 // Apply same disabled cursor tweak as for inputs
+// Some special care is needed because <label>s don't inherit their parent's `cursor`.
 //
 // Note: Neither radios nor checkboxes can be readonly.
-input[type="radio"], input[type="checkbox"], .radio, .radio-inline, .checkbox, .checkbox-inline 
-{
+input[type="radio"],
+input[type="checkbox"] {
   &[disabled],
-  fieldset[disabled] & { cursor: not-allowed; }
+  &.disabled,
+  fieldset[disabled] & {
+    cursor: @cursor-disabled;
+  }
+}
+// These classes are used directly on <label>s
+.radio-inline,
+.checkbox-inline {
+  &.disabled,
+  fieldset[disabled] & {
+    cursor: @cursor-disabled;
+  }
+}
+// These classes are used on elements with <label> descendants
+.radio,
+.checkbox {
+  &.disabled,
+  fieldset[disabled] & {
+    label {
+      cursor: @cursor-disabled;
+    }
+  }
 }
 
 // Form control sizing
@@ -204,12 +230,14 @@ input[type="radio"], input[type="checkbox"], .radio, .radio-inline, .checkbox, .
 // Apply class to a `p` element to make any string of text align with labels in
 // a horizontal form layout.
 
-.form-control-static 
-{
-  margin-bottom: 0; // Remove default margin from `p`
+.form-control-static {
+  // Size it appropriately next to real form controls
   padding-top: (@padding-base-vertical + 1);
+  padding-bottom: (@padding-base-vertical + 1);
+  // Remove default margin from `p`
+  margin-bottom: 0;
+  min-height: (@line-height-computed + @font-size-base);
 }
-
 
 // Help text
 //
