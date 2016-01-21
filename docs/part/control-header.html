@@ -1,11 +1,11 @@
 <section>
-  <header><h3>标准内容标题</h3></header>
+  <header><h3>普通标题</h3></header>
   <article>
     <p>内容标题用来对一段内容进行总结。内容标题有1-6个级别，用html中的<code>h1</code>、<code>h2</code>...<code>h6</code>来应用样式</p>
     <table class="table">
       <thead>
         <tr>
-          <th style="width:30%">元素</th>
+          <th style="width:30%">实例</th>
           <th>标签</th>
           <th>像素大小</th>
           <th>说明</th>
@@ -17,7 +17,7 @@
             <h1>Heading1 一级标题</h1>
           </td>
           <td><code>&lt;h1&gt;</code></td>
-          <td>28px</td>
+          <td>20px</td>
           <td>在一个页面（或在<code>hgroup</code>标记的范围内）只有一个页面标题。</td>
         </tr>
         <tr>
@@ -33,7 +33,7 @@
             <h3>Heading3 三级标题</h3>
           </td>
           <td><code>&lt;h3&gt;</code></td>
-          <td>20px 粗体</td>
+          <td>16px 粗体</td>
           <td>页面第三级标题，嵌套在二级标题下使用。</td>
         </tr>
         <tr>
@@ -41,7 +41,7 @@
             <h4>Heading4 四级标题</h4>
           </td>
           <td><code>&lt;h4&gt;</code></td>
-          <td>16px 粗体</td>
+          <td>14px 粗体</td>
           <td>页面第四级标题，嵌套在三级标题下使用。</td>
         </tr>
         <tr>
@@ -49,7 +49,7 @@
             <h5>Heading5 五级标题</h5>
           </td>
           <td><code>&lt;h5&gt;</code></td>
-          <td>14px 粗体 颜色灰色</td>
+          <td>13px 粗体 颜色灰色</td>
           <td>页面第五级标题，嵌套在四级标题下使用。</td>
         </tr>
         <tr>
@@ -62,41 +62,28 @@
         </tr>
       </tbody>
     </table>
+    <pre><code>&lt;h1&gt;Heading1 一级标题&lt;/h1&gt;
+&lt;h1&gt;Heading2 二级标题&lt;/h1&gt;
+&lt;h1&gt;Heading3 三级标题&lt;/h1&gt;
+&lt;h1&gt;Heading4 四级标题&lt;/h1&gt;
+&lt;h1&gt;Heading5 五级标题&lt;/h1&gt;
+&lt;h1&gt;Heading6 六级标题&lt;/h1&gt;</code></pre>
   </article>
 </section>
 
 <section>
-  <header><h3>带额外内容的标题</h3></header>
+  <header><h3>包含副标题</h3></header>
   <article>
-    <p>标题中可以加入解释性的文本，这些文本通过一个<code>small</code>标签加入。</p>
+    <p>标题中可以显示一个副标题。副标题的文本通过一个<code>small</code>标签加入。</p>
     <div class="example" contenteditable="true">
-      <h1>Heading1 标题1 <small>额外的标题 secondary headings</small></h1>
-      <h2>Heading2 标题2 <small>额外的标题 secondary headings</small></h2>
-      <h3>Heading3 标题3 <small>额外的标题 secondary headings</small></h3>
-      <h4>Heading4 标题4 <small>额外的标题 secondary headings</small></h4>
-      <h5>Heading5 标题5 <small>额外的标题 secondary headings</small></h5>
-      <h6>Heading6 标题6 <small>额外的标题 secondary headings</small></h6>
+      <h1>Heading1 标题1 <small>副标题 secondary headings</small></h1>
+      <h2>Heading2 标题2 <small>副标题 secondary headings</small></h2>
+      <h3>Heading3 标题3 <small>副标题 secondary headings</small></h3>
+      <h4>Heading4 标题4 <small>副标题 secondary headings</small></h4>
+      <h5>Heading5 标题5 <small>副标题 secondary headings</small></h5>
+      <h6>Heading6 标题6 <small>副标题 secondary headings</small></h6>
     </div>
-  </article>
-</section>
-
-<section>
-  <header><h3>单独一行的文本</h3></header>
-  <article>
-    <div class="example" contenteditable="true">
-      <h2>Heading1 标题1 <small class="block">这是关于标题的解释性文本 secondary
-      headings</small></h2>
-    </div>
-  </article>
-</section>
-
-<section>
-  <header><h3>带图标的标题</h3></header>
-  <article>
-    <p>页面标题使用额外的<code>div.header</code>来为页面内容提供更多的样式控制，与其他控件完美整合在一起。</p>
-    <div class="example" contenteditable="true">
-      <h2><i class="icon icon-film"></i> 带图标的标题</h2>
-    </div>
+    <pre><code>&lt;h1&gt;Heading1 标题 &lt;small&gt;副标题&lt;/small&gt;&lt;/h1&gt;</code></pre>
   </article>
 </section>
 
@@ -107,5 +94,6 @@
     <div class="example" contenteditable="true">
       <h3 class="header-dividing">标题</h3>
     </div>
+    <pre><code>&lt;h1 class=&quot;header-dividing&quot;&gt;Heading1 一级标题&lt;/h1&gt;</code></pre>
   </article>
 </section>

@@ -58,7 +58,7 @@
   <article>
     <p>使用一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>并增加对应的CSS类名即可，用来作为图标的标签不需要包含任何文本也不应该如此。</p>
     <pre class="prettyprint"><code>&lt;i class=&quot;icon icon-star&quot;&gt;&lt;/i&gt;</code></pre>
-    <p>使用图标字体有一个好处就是图标就是文本字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小、颜色，甚至一些CSS3特效。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：</p>
+    <p>使用图标字体有一个特大好处就是图标就是文本字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小、颜色，甚至一些CSS3特效。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：</p>
     <ul>
       <li>图标应具备统一的颜色，如果有交互行为样式也应该保持一致；</li>
       <li>图标的大小应该保持一致，正文中的图标大小应为14px，标题中的图标可以为28px；</li>
@@ -73,21 +73,21 @@
 
 <script>
 function afterPageLoad() {
-  if($.doc) {
-    var url = $('body').hasClass('layout-page') ? '../icons.json' : 'docs/icons.json';
-    $.doc.loadData(url, function(data){
-      var iconCount = 0;
-      var $list = $('<ul class="clearfix"></ul>');
-      $.each(data, function(name, icon){
-        iconCount++;
-        var $li = $('<li><a href="#search/icon-' + name + '"><i class="icon-' + name + '"></i> ' + name + '</a></li>');
-        icon.id = name;
-        $li.data('icon', icon);
-        $list.append($li);
-      });
-      $('#iconsExample').empty().append($list);
-      $('#pageBody .icons-count').text(iconCount);
-    });
-  }
+    if($.doc) {
+        var url = $('body').hasClass('layout-page') ? '../icons.json' : 'docs/icons.json';
+        $.doc.loadData(url, function(data) {
+            var iconCount = 0;
+            var $list = $('<ul class="clearfix"></ul>');
+            $.each(data, function(name, icon) {
+                iconCount++;
+                var $li = $('<li><a href="#search/icon-' + name + '"><i class="icon-' + name + '"></i> ' + name + '</a></li>');
+                icon.id = name;
+                $li.data('icon', icon);
+                $list.append($li);
+            });
+            $('#iconsExample').empty().append($list);
+            $('#pageBody .icons-count').text(iconCount);
+        });
+    }
 }
 </script>

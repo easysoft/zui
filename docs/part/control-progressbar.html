@@ -1,3 +1,6 @@
+<style>
+.progress {margin-bottom: 0;}
+</style>
 <article>
   <p>提供工作或动作的实时反馈，只用简单且灵活的进度条。</p>
   <p>进度条使用了CSS3的transition和animation属性来完成一些效果。这些特性在Internet Explorer
@@ -17,11 +20,19 @@
           <td>
             <div class="progress">
               <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                <span class="sr-only">40% Complete (success)</span>
+                <span class="sr-only"><span class="progressbar-value">40</span>% Complete (success)</span>
               </div>
             </div>
+            <p><strong class="text-primary"><span class="progressbar-value">40</span>%</strong></p>
           </td>
-          <td>默认的进度条</td>
+          <td>
+            <pre><code>&lt;div class=&quot;progress&quot;&gt;
+  &lt;div class=&quot;progress-bar&quot; role=&quot;progressbar&quot; aria-valuenow=&quot;<span class="progressbar-value">40</span>&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; style=&quot;width: <span class="progressbar-value">40</span>%&quot;&gt;
+    &lt;span class=&quot;sr-only&quot;&gt;40% Complete (success)&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <p>默认的进度条。为<code>.progress-bar</code>应用CSS的width值（%）来更改进度值。</p>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -34,68 +45,73 @@
     <p>为了一致的样式，进度条颜色使用与按钮相同的类。</p>
     <table class="table col-md-12">
       <tbody><tr>
-        <th width="40%">进度条</th>
+        <th width="40%">进度条。</th>
         <th>描述</th>
       </tr>
       <tr>
         <td>
           <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-              <span class="sr-only">40% Complete (success)</span>
+              <span class="sr-only"><span class="progressbar-value">40</span>% Complete (success)</span>
             </div>
           </div>
+          <p><strong class="text-primary"><span class="progressbar-value">40</span>%</strong></p>
         </td>
-        <td>主要/默认</td>
+        <td>
+          <p>主要/默认</p>
+        </td>
       </tr>
       <tr>
         <td>
           <div class="progress">
             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-              <span class="sr-only">40% Complete (success)</span>
+              <span class="sr-only"><span class="progressbar-value">40</span>% Complete (success)</span>
             </div>
           </div>
+          <p><strong class="text-info"><span class="progressbar-value">40</span>%</strong></p>
         </td>
-        <td>信息</td>
+        <td>
+          <p>信息：<code>.progress-bar-info</code></p>
+        </td>
       </tr>
       <tr>
         <td>
           <div class="progress">
             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-              <span class="sr-only">40% Complete (success)</span>
+              <span class="sr-only"><span class="progressbar-value">40</span>% Complete (success)</span>
             </div>
           </div>
+          <p><strong class="text-success"><span class="progressbar-value">40</span>%</strong></p>
         </td>
-        <td>成功</td>
+        <td>
+          <p>成功：<code>.progress-bar-success</code></p>
+        </td>
       </tr>
       <tr>
         <td>
           <div class="progress">
             <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-              <span class="sr-only">60% Complete (warning)</span>
+              <span class="sr-only"><span class="progressbar-value">60</span>% Complete (warning)</span>
             </div>
           </div>
+          <p><strong class="text-warning"><span class="progressbar-value">40</span>%</strong></p>
         </td>
-        <td>警告</td>
+        <td>
+          <p>警告：<code>.progress-bar-warning</code></p>
+        </td>
       </tr>
       <tr>
         <td>
           <div class="progress">
             <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-            <span class="sr-only">80% Complete (danger)</span>
+            <span class="sr-only"><span class="progressbar-value">80</span>% Complete (danger)</span>
             </div>
           </div>
+          <p><strong class="text-danger"><span class="progressbar-value">40</span>%</strong></p>
         </td>
-        <td>危险</td>
-      </tr>
-      <tr>
         <td>
-          <div class="progress">
-            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-              <span class="sr-only">40% Complete (success)</span>
-            </div>
-          </div>
+          <p>危险：<code>.progress-bar-danger</code></p>
         </td>
-        <td>成功</td>
       </tr>
     </tbody></table>
   </article>
@@ -114,38 +130,85 @@
         <td>
           <div class="progress progress-striped">
             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-              <span class="sr-only">40% Complete (success)</span>
+              <span class="sr-only"><span class="progressbar-value">40</span>% Complete (success)</span>
             </div>
           </div>
+          <p><strong class="text-success"><span class="progressbar-value">40</span>%</strong></p>
         </td>
-        <td>条纹效果</td>
+        <td>条纹效果：<code>.progress-striped</code></td>
       </tr>
       <tr>
         <td>
           <div class="progress progress-striped active">
             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-              <span class="sr-only">45% Complete</span>
+              <span class="sr-only"><span class="progressbar-value">45</span>% Complete</span>
             </div>
           </div>
+          <p><strong class="text-info"><span class="progressbar-value">40</span>%</strong></p>
         </td>
-        <td><p>运动效果。给<code>.progress-striped</code>加上<code>.active</code>使它由右向左运动。在IE的所有版本不可用。</p></td>
+        <td><p>动画效果。给<code>.progress-striped</code>加上<code>.active</code>使它由右向左运动。在IE的所有版本不可用。</p></td>
       </tr>
       <tr>
         <td>
           <div class="progress">
             <div class="progress-bar progress-bar-success" style="width: 35%">
-              <span class="sr-only">35% Complete (success)</span>
+              <span class="sr-only"><span class="progressbar-value">35</span>% Complete (success)</span>
             </div>
             <div class="progress-bar progress-bar-warning" style="width: 20%">
-              <span class="sr-only">20% Complete (warning)</span>
+              <span class="sr-only"><span class="progressbar-value">20</span>% Complete (warning)</span>
             </div>
             <div class="progress-bar progress-bar-danger" style="width: 10%">
-              <span class="sr-only">10% Complete (danger)</span>
+              <span class="sr-only"><span class="progressbar-value">10</span>% Complete (danger)</span>
             </div>
           </div>
         </td>
         <td><p>堆叠效果。把多个进度条放入同一个<code>.progress</code>，使它们堆叠。</p></td>
       </tr>
     </tbody></table>
+    <pre><code>&lt;!-- 条纹效果 --&gt;
+&lt;div class=&quot;progress progress-striped&quot;&gt;
+  &lt;div class=&quot;progress-bar&quot; role=&quot;progressbar progress-bar-success&quot; aria-valuenow=&quot;<span class="progressbar-value">40</span>&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; style=&quot;width: <span class="progressbar-value">40</span>%&quot;&gt;
+    &lt;span class=&quot;sr-only&quot;&gt;40% Complete (success)&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <pre><code>&lt;!-- 动画效果 --&gt;
+&lt;div class=&quot;progress progress-striped active&quot;&gt;
+  &lt;div class=&quot;progress-bar&quot; role=&quot;progressbar progress-bar-success&quot; aria-valuenow=&quot;<span class="progressbar-value">40</span>&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot; style=&quot;width: <span class="progressbar-value">40</span>%&quot;&gt;
+    &lt;span class=&quot;sr-only&quot;&gt;40% Complete (success)&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <pre><code>&lt;!-- 堆叠效果 --&gt;
+&lt;div class=&quot;progress&quot;&gt;
+  &lt;div class=&quot;progress-bar progress-bar-success&quot; style=&quot;width: 35%&quot;&gt;
+    &lt;span class=&quot;sr-only&quot;&gt;35% Complete (success)&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;progress-bar progress-bar-warning&quot; style=&quot;width: 20%&quot;&gt;
+    &lt;span class=&quot;sr-only&quot;&gt;20% Complete (warning)&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;progress-bar progress-bar-danger&quot; style=&quot;width: 10%&quot;&gt;
+    &lt;span class=&quot;sr-only&quot;&gt;10% Complete (danger)&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
+
+<script>
+function afterPageLoad() {
+    var changeProgressBar = function() {
+        var $progressbar = $(this);
+        var $bar = $progressbar.children('.progress-bar');
+        if($bar.length === 1) {
+            var val = Math.round(Math.random() *  100);
+            $bar.css('width', val + '%').closest('tr').find('.progressbar-value').text(val);
+        } else {
+            var total = 100;
+            $bar.each(function() {
+                var val = Math.round(Math.random() *  Math.min(70, total));
+                total -= val;
+                $(this).css('width', val + '%').find('.progressbar-value').text(val);
+            })
+        }
+    }
+    $('#pageContent').on('mouseenter', '.progress', changeProgressBar);
+}
+</script>
