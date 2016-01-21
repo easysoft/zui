@@ -50,7 +50,7 @@
 <section>
   <header><h3>独立组件</h3></header>
   <article>
-    <p>一些组件可能既不包含在标准版中，也没有包含在简洁版中，使用时需要配合标准版或简洁版独立引用。可以在以下目录中找到独立组件包含的文件：</p>
+    <p>一些组件可能既不包含在标准版中，也没有包含在简洁版中，使用时只需要按需引用对应的资源文件即可。你可以在以下目录中找到独立组件包含的资源文件：</p>
 <pre><code>zui/
 └── dist/
     └── lib/                      独立加载的组件
@@ -59,6 +59,10 @@
         ├── datatable/            数据表格组件
         └── ...                   更多组件....
 </code></pre>
+    <div class="alert alert-warning-inverse">
+      <h4>提示</h4>
+      <p>ZUI包含的很多独立组件都需要jQuery和ZUI的其他基础插件支持，所以需要配合jQuery和ZUI标准版或简洁版来使用。</p>
+    </div>
   </article>
 </section>
 
@@ -221,12 +225,13 @@
     <pre><code>// 文件：gulpfile.custom.js
 // 必须导出一个函数 function(gulp, $)
 module.exports = function(gulp, $) {
+
     // 自定义gulp任务'hello'
     gulp.task('hello', function() {
         console.log('hello world!');
     });
 
-    // $ 包含gulpfile.js中大部分可用工具函数和数据
+    // 第二个参数 $ 包含gulpfile.js中大部分可用工具函数和数据
     // $: {
     //     less: less,
     //     cssmin: cssmin,

@@ -81,7 +81,7 @@ function afterPageLoad() {
     var lastThemeVariablesLess;
     var selectTheme = $.zui.store.get('doc_theme', 'default');
     $.each($.doc.themes, function(themeName, theme) {
-        var $theme = $('<div class="theme-tile"><i class="icon icon-ok"></i></div>');
+        var $theme = $('<div class="theme-tile" toggle="tooltip" title="' + (theme.title || themeName) + '"><i class="icon icon-ok"></i></div>');
         $theme.attr('data-theme', themeName);
         $theme.css({
           'background-color': theme.variables['color-primary'],
@@ -93,6 +93,8 @@ function afterPageLoad() {
         $example.append($theme);
     });
 
+    $example.find('[toggle="tooltip"]').tooltip();
+
     $example.on('click', '.theme-tile', function() {
         var $theme = $(this);
         $example.children('.theme-tile.active').removeClass('active');
@@ -100,7 +102,7 @@ function afterPageLoad() {
         var theme = $.doc.themes[$theme.data('theme')];
         lastThemeVariablesLess = $.doc.compileThemeVariables(theme).variablesLess;
         $themeVariablesLess.val(lastThemeVariablesLess);
-        $currentThemeName.text(theme.name || theme.title);
+        $currentThemeName.text(theme.title || theme.name);
         $.doc.changeTheme(theme);
     });
 
@@ -117,7 +119,7 @@ function afterPageLoad() {
     };
 
     lastThemeVariablesLess = $.doc.compileThemeVariables(selectTheme).variablesLess;
-    $currentThemeName.text(selectTheme.name || selectTheme.title);
+    $currentThemeName.text(selectTheme.title || selectTheme.name);
     $themeVariablesLess.val(lastThemeVariablesLess).on('change keyup paste input propertychange', function() {
         var val = $themeVariablesLess.val();
         if(!val || lastThemeVariablesLess === val) return;
