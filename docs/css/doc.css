@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -57,7 +57,9 @@
   -webkit-transition: all .3s;
           transition: all .3s;
   }
-.example:focus {
+.example:focus,
+.example [contenteditable]:focus {
+  outline: none;
   box-shadow: 0 1px 15px rgba(0, 0, 0, .5);
   -webkit-animation-name: glow;
   -webkit-animation-duration: 1s;
@@ -68,20 +70,38 @@
 .example.no-padding {
   padding: 0;
   }
+.example.borderless {
+  border: none;
+  }
 .example > *:last-child {
   margin-bottom: 0;
   }
+pre {
+  position: relative;
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  border-color: #ddd;
+  border-radius: 0;
+  }
+pre em {
+  display: inline-block;
+  font-weight: 700;
+  }
+pre:hover em {
+  background-color: #ffe5e0;
+  }
+pre.linenums {
+  padding: 10px;
+  }
 .example + pre,
 pre + pre {
-  padding: 10px 20px;
   margin: -15px 0 15px;
   border: 1px solid #ddd;
   border-top: none;
   border-radius: 0;
   }
-pre {
+.copyable {
   position: relative;
-  border-radius: 0;
   }
 .btn-copy-code {
   position: absolute;
@@ -104,7 +124,9 @@ pre {
   background-color: #fff;
   border-color: #3280fc;
   }
-pre:hover > .btn-copy-code {
+pre:hover > .btn-copy-code,
+.copyable:hover > .btn-copy-code,
+.copyable.fixed-copy-btn > .btn-copy-code {
   opacity: 1;
   }
 .nav-examples.nav-tabs > li > a {
@@ -142,8 +164,8 @@ a.avatar:hover {
   text-align: center;
   filter: alpha(opacity=0);
   opacity: 0;
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+          transition: all .4s cubic-bezier(.175, .885, .32, 1);
   -webkit-transform: scale(.5);
           transform: scale(.5);
   }
@@ -344,8 +366,8 @@ body {
 #navbar {
   padding: 20px 0;
   border-bottom: none;
-  -webkit-transition: padding-top .5s cubic-bezier(.175, .885, .32, 1);
-          transition: padding-top .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: padding-top .4s cubic-bezier(.175, .885, .32, 1);
+          transition: padding-top .4s cubic-bezier(.175, .885, .32, 1);
   }
 #navbar > .container {
   position: relative;
@@ -654,6 +676,9 @@ body {
   filter: alpha(opacity=100);
   opacity: 1;
   }
+#grid .card-heading > .icon:before {
+  position: relative;
+  }
 #grid .card-heading > h5 {
   padding: 5px 0;
   margin: 0;
@@ -925,6 +950,9 @@ body {
 #grid .chapter[data-accent="blue"] .card-heading > .icon:hover {
   cursor: pointer;
   }
+#grid .chapter[data-accent="blue"] .card-heading > .icon.text-icon {
+  font-size: 12px;
+  }
 #grid .chapter[data-accent="blue"] .card-heading.hover {
   background-color: #ddf3f5;
   }
@@ -1029,6 +1057,9 @@ body {
   }
 #grid .chapter[data-accent="primary"] .card-heading > .icon:hover {
   cursor: pointer;
+  }
+#grid .chapter[data-accent="primary"] .card-heading > .icon.text-icon {
+  font-size: 12px;
   }
 #grid .chapter[data-accent="primary"] .card-heading.hover {
   background-color: #ebf2f9;
@@ -1135,6 +1166,9 @@ body {
 #grid .chapter[data-accent="yellow"] .card-heading > .icon:hover {
   cursor: pointer;
   }
+#grid .chapter[data-accent="yellow"] .card-heading > .icon.text-icon {
+  font-size: 12px;
+  }
 #grid .chapter[data-accent="yellow"] .card-heading.hover {
   background-color: #fff0d5;
   }
@@ -1239,6 +1273,9 @@ body {
   }
 #grid .chapter[data-accent="green"] .card-heading > .icon:hover {
   cursor: pointer;
+  }
+#grid .chapter[data-accent="green"] .card-heading > .icon.text-icon {
+  font-size: 12px;
   }
 #grid .chapter[data-accent="green"] .card-heading.hover {
   background-color: #ddf4df;
@@ -1345,6 +1382,9 @@ body {
 #grid .chapter[data-accent="red"] .card-heading > .icon:hover {
   cursor: pointer;
   }
+#grid .chapter[data-accent="red"] .card-heading > .icon.text-icon {
+  font-size: 12px;
+  }
 #grid .chapter[data-accent="red"] .card-heading.hover {
   background-color: #ffe5e0;
   }
@@ -1450,6 +1490,9 @@ body {
 #grid .chapter[data-accent="brown"] .card-heading > .icon:hover {
   cursor: pointer;
   }
+#grid .chapter[data-accent="brown"] .card-heading > .icon.text-icon {
+  font-size: 12px;
+  }
 #grid .chapter[data-accent="brown"] .card-heading.hover {
   background-color: #f7ebe1;
   }
@@ -1554,6 +1597,9 @@ body {
   }
 #grid .chapter[data-accent="purple"] .card-heading > .icon:hover {
   cursor: pointer;
+  }
+#grid .chapter[data-accent="purple"] .card-heading > .icon.text-icon {
+  font-size: 12px;
   }
 #grid .chapter[data-accent="purple"] .card-heading.hover {
   background-color: #f5eeff;
@@ -2045,8 +2091,8 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   display: block;
   content: ' ';
   background-color: #ddd;
-  -webkit-transition: background-color .5s cubic-bezier(.175, .885, .32, 1);
-          transition: background-color .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: background-color .4s cubic-bezier(.175, .885, .32, 1);
+          transition: background-color .4s cubic-bezier(.175, .885, .32, 1);
   }
 #pageTogger:before {
   left: 8px;
@@ -2193,8 +2239,8 @@ body.page-show {
   }
 body.page-show #header {
   box-shadow: none!important;
-  -webkit-transition: background-color .5s cubic-bezier(.175, .885, .32, 1);
-          transition: background-color .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: background-color .4s cubic-bezier(.175, .885, .32, 1);
+          transition: background-color .4s cubic-bezier(.175, .885, .32, 1);
   }
 body.page-show #compactTogger:before {
   content: '\e60b';

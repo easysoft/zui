@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -321,6 +321,115 @@
         };
     }
 }());
+
+
+/* ========================================================================
+ * Bootstrap: button.js v3.0.3
+ * http://getbootstrap.com/javascript/#buttons
+ * ========================================================================
+ * Copyright 2011-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++ function($) {
+    'use strict';
+
+    // BUTTON PUBLIC CLASS DEFINITION
+    // ==============================
+
+    var Button = function(element, options) {
+        this.$element = $(element)
+        this.options = $.extend({}, Button.DEFAULTS, options)
+        this.isLoading = false
+    }
+
+    Button.DEFAULTS = {
+        loadingText: 'loading...'
+    }
+
+    Button.prototype.setState = function(state) {
+        var d = 'disabled'
+        var $el = this.$element
+        var val = $el.is('input') ? 'val' : 'html'
+        var data = $el.data()
+
+        state = state + 'Text'
+
+        if(!data.resetText) $el.data('resetText', $el[val]())
+
+        $el[val](data[state] || this.options[state])
+
+        // push to event loop to allow forms to submit
+        setTimeout($.proxy(function() {
+            if(state == 'loadingText') {
+                this.isLoading = true
+                $el.addClass(d).attr(d, d)
+            } else if(this.isLoading) {
+                this.isLoading = false
+                $el.removeClass(d).removeAttr(d)
+            }
+        }, this), 0)
+    }
+
+    Button.prototype.toggle = function() {
+        var changed = true
+        var $parent = this.$element.closest('[data-toggle="buttons"]')
+
+        if($parent.length) {
+            var $input = this.$element.find('input')
+            if($input.prop('type') == 'radio') {
+                if($input.prop('checked') && this.$element.hasClass('active')) changed = false
+                else $parent.find('.active').removeClass('active')
+            }
+            if(changed) $input.prop('checked', !this.$element.hasClass('active')).trigger('change')
+        }
+
+        if(changed) this.$element.toggleClass('active')
+    }
+
+
+    // BUTTON PLUGIN DEFINITION
+    // ========================
+
+    var old = $.fn.button
+
+    $.fn.button = function(option) {
+        return this.each(function() {
+            var $this = $(this)
+            var data = $this.data('zui.button')
+            var options = typeof option == 'object' && option
+
+            if(!data) $this.data('zui.button', (data = new Button(this, options)))
+
+            if(option == 'toggle') data.toggle()
+            else if(option) data.setState(option)
+        })
+    }
+
+    $.fn.button.Constructor = Button
+
+
+    // BUTTON NO CONFLICT
+    // ==================
+
+    $.fn.button.noConflict = function() {
+        $.fn.button = old
+        return this
+    }
+
+
+    // BUTTON DATA-API
+    // ===============
+
+    $(document).on('click.zui.button.data-api', '[data-toggle^=button]', function(e) {
+        var $btn = $(e.target)
+        if(!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
+        $btn.button('toggle')
+        e.preventDefault()
+    })
+
+}(jQuery);
 
 
 /* ========================================================================
@@ -865,11 +974,10 @@
 
     // The browser modal class
     var Browser = function() {
-        var isIE = this.isIE;
-        var ie = isIE();
+        var ie = this.isIE() || this.isIE10() || false;
         if(ie) {
             for(var i = 10; i > 5; i--) {
-                if(isIE(i)) {
+                if(this.isIE(i)) {
                     ie = i;
                     break;
                 }
@@ -899,21 +1007,19 @@
     };
 
     // Show browse happy tip
-    Browser.prototype.tip = function() {
-        if(this.ie && this.ie < 8) {
-            var $browseHappy = $('#browseHappyTip');
-            if(!$browseHappy.length) {
-                $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
-                $browseHappy.prependTo('body');
-            }
-
-            $browseHappy.find('.content').html(this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
+    Browser.prototype.tip = function(showCoontent) {
+        var $browseHappy = $('#browseHappyTip');
+        if(!$browseHappy.length) {
+            $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger-inverse alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
+            $browseHappy.prependTo('body');
         }
+
+        $browseHappy.find('.content').html(showCoontent || this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
     };
 
     // Detect it is IE, can given a version
     Browser.prototype.isIE = function(version) {
-        // var ie = /*@cc_on !@*/false;
+        if(version === 10) return this.isIE10();
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
         return b.getElementsByTagName('i').length === 1;
@@ -921,7 +1027,7 @@
 
     // Detect ie 10 with hack
     Browser.prototype.isIE10 = function() {
-        return( /*@cc_on!@*/ false);
+        return (/*@cc_on!@*/false);
     };
 
     $.zui({
@@ -930,7 +1036,9 @@
 
     $(function() {
         if(!$('body').hasClass('disabled-browser-tip')) {
-            $.zui.browser.tip();
+            if($.zui.browser.ie && $.zui.browser.ie < 8) {
+                $.zui.browser.tip();
+            }
         }
     });
 }(jQuery));
@@ -1490,7 +1598,7 @@
 
         this.$element = $(element).is('body') ? $(window) : $(element)
         this.$body = $('body')
-        this.$scrollElement = this.$element.on('scroll. ' + zuiname + ' .data-api', process)
+        this.$scrollElement = this.$element.on('scroll.' + zuiname + '.data-api', process)
         this.options = $.extend({}, ScrollSpy.DEFAULTS, options)
         if(!this.selector) this.selector = (this.options.target || ((href = $(element).attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) //strip for ie7
             || '') + ' .nav li > a'
@@ -2280,14 +2388,16 @@
     Sortable.prototype.reset = function() {
         var that = this,
             order = 0;
-        var list = this.$.children(this.options.selector).not('.drag-shadow');
-        list.each(function() {
+        var $list = this.$.children(this.options.selector).not('.drag-shadow');
+
+        $list.each(function() {
             var $this = $(this);
             if($this.data('zui.droppable')) {
-                $this.data('zui.droppable').options.target = list;
+                $this.data('zui.droppable').options.target = $list;
                 $this.droppable('reset');
             } else {
-                that.bindEventToList($this);
+                that.bindEventToList($list);
+                return false;
             }
         });
     };
@@ -2779,9 +2889,10 @@
 
     // MODAL TRIGGER CLASS DEFINITION
     // ======================
-    var ModalTrigger = function(options) {
-        options = $.extend({}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
+    var ModalTrigger = function(options, $trigger) {
+        options = $.extend({}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, $trigger ? $trigger.data() : null, options);
         this.isShown;
+        this.$trigger = $trigger;
         this.options = options;
         this.id = $.zui.uuid();
 
@@ -2868,7 +2979,7 @@
     };
 
     ModalTrigger.prototype.show = function(option) {
-        var options = $.extend({}, this.options, option);
+        var options = $.extend({}, this.options, {url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url}, option);
         this.init(options);
         var that = this,
             $modal = this.$modal,
@@ -3077,7 +3188,7 @@
                     url: $this.attr('href'),
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
-            if(!data) $this.data(NAME, (data = new ModalTrigger(options)));
+            if(!data) $this.data(NAME, (data = new ModalTrigger(options, $this)));
             if(typeof option == STR_STRING) data[option](settings);
             else if(options.show) data.show(settings);
 
@@ -3146,7 +3257,7 @@
         if(!$target || !$target.length) {
             if(!$this.data(NAME)) {
                 $this.modalTrigger({
-                    show: true
+                    show: true,
                 });
             } else {
                 $this.trigger('.toggle.' + NAME);
@@ -4342,6 +4453,7 @@
                             .toggleClass('lightbox-with-caption', typeof caption == 'string')
                             .removeClass('lightbox-full');
                         modal.find('.lightbox-img').attr('src', image);
+                        modal.find('.caption > .content').text(caption);
                         winWidth = $(window).width();
                         $.zui.imgReady(image, function() {
                             dialog.css({
@@ -6073,7 +6185,10 @@
         var options = this.options,
             cols;
 
-        if($.isPlainObject(data)) {
+        if($.isFunction(data)) {
+            data = data(this.data, this);
+            data.keepSort = true;
+        } else if($.isPlainObject(data)) {
             this.data = data;
         } else if(typeof data === 'string') {
             var $table = $(data);
@@ -6720,11 +6835,13 @@
             index;
 
         sortUp = !$th.hasClass('sort-up');
+        if(data.keepSort) sortUp = !sortUp;
+        data.keepSort = null;
+
         $headCells.removeClass('sort-up sort-down');
         $th.addClass(sortUp ? 'sort-up' : 'sort-down');
 
         index = $th.data('index');
-        sortUp = $th.hasClass('sort-up');
 
         $.each(cols, function(idx, col) {
             if(idx != index && (col.sort === 'up' || col.sort === 'down')) {
@@ -6846,7 +6963,10 @@
 
             if(!data) $this.data(name, (data = new DataTable(this, options)));
 
-            if(typeof option == 'string') data[option](newData);
+            if(typeof option == 'string') {
+                if(option === 'load' && $.isPlainObject(newData) && (newData.keepSort === undefined || newData.keepSort === null)) newData.keepSort = true;
+                data[option](newData);
+            }
         });
     };
 
@@ -9843,7 +9963,7 @@ This file is generated by `grunt build`, do not edit it by hand.
 
 
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
