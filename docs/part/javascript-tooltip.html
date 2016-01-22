@@ -55,8 +55,10 @@
   <article>
     <p>通过JavaScript激活工具提示：</p>
     <div class="example">
-      <pre><code class="language-js">$(<span class="string">&#39;#example&#39;</span>).tooltip();</code></pre>
+      鼠标悬停显示<a href="###" data-toggle="tooltip" title="这是提示消息内容">提示消息</a>
     </div>
+    <pre><code>&lt;a href=&quot;your/nice/url&quot; <em>data-toggle=&quot;tooltip&quot;</em> <em>title=&quot;&#x8fd9;&#x662f;&#x63d0;&#x793a;&#x6d88;&#x606f;&#x5185;&#x5bb9;&quot;</em>&gt;&#x9f20;&#x6807;&#x60ac;&#x505c;&#x663e;&#x793a;&#x63d0;&#x793a;&#x6d88;&#x606f;&lt;/a&gt;</code></pre>
+    <pre><code class="language-js">$(<span class="string">&#39;[toggle='tooltip']&#39;</span>).tooltip(options);</code></pre>
   </article>
 </section>
 
