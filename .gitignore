@@ -1,3 +1,4 @@
+apps/
 node_modules/
 build/
 *.sublime-project
