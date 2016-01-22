@@ -1,5 +1,5 @@
 <article>
-  <p>模态框触发器允许你不需要书写静态模态框HTML，直接使用触发按钮或者一行Javascript代码即可让一个全新的模态框展现。支持使用Ajax从远程获取内容，或者通过iframe加载任何页面内容，当然不使用远程内容，直接使用本地内容也是很方便。</p>
+  <p>对话框触发器允许你不需要书写静态对话框HTML，直接使用触发按钮或者一行Javascript代码即可让一个全新的对话框展现。支持使用Ajax从远程获取内容，或者通过iframe加载任何页面内容，当然不使用远程内容，直接使用本地内容也是很方便。</p>
 </article>
 
 <section>
@@ -12,32 +12,32 @@
     <h4>使用Ajax</h4>
     <p>使用<code>data-remote="(ajax get url)"</code>属性来指定ajax片段获取地址。或者同时指定<code>data-type="ajax"</code>和<code>data-url="(ajax get url)"</code>属性。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-remote="docs/partial/remote-modal.html" data-toggle="modal">Ajax模态框</button>
+      <button type="button" class="btn btn-primary" data-remote="docs/partial/remote-modal.html" data-toggle="modal">Ajax对话框</button>
     </div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-remote属性 --&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-remote=&quot;partial/remote-modal.html&quot; data-toggle=&quot;modal&quot;&gt;Ajax模态框&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-remote=&quot;partial/remote-modal.html&quot; data-toggle=&quot;modal&quot;&gt;Ajax对话框&lt;/button&gt;
 
 &lt;!-- 使用data-type 和data-url属性 --&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-type=&quot;ajax&quot; data-url=&quot;partial/remote-modal.html&quot; data-toggle=&quot;modal&quot;&gt;Ajax模态框&lg;/button&gt;</code></pre>
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-type=&quot;ajax&quot; data-url=&quot;partial/remote-modal.html&quot; data-toggle=&quot;modal&quot;&gt;Ajax对话框&lg;/button&gt;</code></pre>
     <p>在返回的ajax片段中，你可以包含一个完整的<code>.modal-dialog</code>内容，或者仅包含<code>.modal-content</code>，甚至不是任何静态modal结构，触发器会根据所包含的内容自动补全对话框的缺失部分。</p>
 
     <h4>使用iframe（内嵌框架）</h4>
     <p>使用<code>data-iframe="(iframe url)"</code>属性来指定远程页面内容获取地址。或者同时指定<code>data-type="iframe"</code>和<code>data-url="(iframe url)"</code>属性。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-waittime='5000' data-iframe="docs/partial/iframe-modal.html" data-toggle="modal" data-loading-icon='icon-spinner-snake'>iframe模态框</button>
+      <button type="button" class="btn btn-primary" data-waittime='5000' data-iframe="docs/partial/iframe-modal.html" data-toggle="modal" data-loading-icon='icon-spinner-snake'>iframe对话框</button>
     </div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-iframe属性 --&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-iframe=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe模态框&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-iframe=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe对话框&lt;/button&gt;
 
 &lt;!-- 使用data-type 和data-url属性 --&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-type=&quot;iframe&quot; data-url=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe模态框&lg;/button&gt;</code></pre>
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-type=&quot;iframe&quot; data-url=&quot;partial/iframe-modal.html&quot; data-toggle=&quot;modal&quot;&gt;iframe对话框&lg;/button&gt;</code></pre>
   </article>
 </section>
 
 <section>
   <header><h3>加载自定义内容</h3></header>
   <article>
-    <p>通过定义<code>custom</code>属性可以更灵活的为模态框更新内容。</p>
+    <p>通过定义<code>custom</code>属性可以更灵活的为对话框更新内容。</p>
     <h4>指定内容文本</h4>
     <p>最简单的方法是为custom指定内容文本即可。同样可以使用<code>data-custom</code>属性。</p>
     <div class="example">
@@ -53,7 +53,7 @@ $('#triggerButton').modalTrigger({custom: '&lt;h1&gt;此内容是自定义的&lt
 (new $.zui.ModalTrigger({custom: '自定义内容'})).show();</code></pre>
 
     <h4>指定页面元素作为内容</h4>
-    <p>通过指定一个jQuery选择器名称来获取其内容作为模态框的内容。</p>
+    <p>通过指定一个jQuery选择器名称来获取其内容作为对话框的内容。</p>
     <div class="example">
       <div id="myModalAlert" class="alert alert-success with-icon">
         <i class="icon-ok"></i>
@@ -78,21 +78,19 @@ $('#triggerButton').modalTrigger({custom: $('#myModalAlert')});
 (new $.zui.ModalTrigger({custom: $('#myModalAlert')})).show();</code></pre>
 
     <h4>使用回调函数动态生成内容</h4>
-    <p>将一个回调函数赋值给custom参数，触发器对象会自动调用此函数来实时获得动态内容并显示在模态框中。</p>
-    <p>回调函数提供一个参数对象，可以在生成内容时灵活运用。如果生成的内容是异步的时候，需要在内容准备就绪时调用参数提供的<code>.ready()</code>方法来显示模态框。</p>
+    <p>将一个回调函数赋值给custom参数，触发器对象会自动调用此函数来实时获得动态内容并显示在对话框中。</p>
+    <p>回调函数提供一个参数对象，可以在生成内容时灵活运用。如果生成的内容是异步的时候，需要在内容准备就绪时调用参数提供的<code>.ready()</code>方法来显示对话框。</p>
     <div class="example">
       <button type="button" class="btn btn-primary" id="modalTriggerByFunc">使用函数生成内容</button>
     </div>
     <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
-$('#triggerButton').modalTrigger({custom: function()
-{
-    return "当模态框显示时，时间是：" + (new Date).toString();
+$('#triggerButton').modalTrigger({custom: function() {
+    return "当对话框显示时，时间是：" + (new Date).toString();
 }});
 
 /* 使用触发器对象直接显示 */
-(new $.zui.ModalTrigger({custom: function()
-{
-    return "当模态框显示时，时间是：" + (new Date).toString();
+(new $.zui.ModalTrigger({custom: function() {
+    return "当对话框显示时，时间是：" + (new Date).toString();
 }})).show();</code></pre>
     <p>如果你的回调函数是全局的，则只需要将custom参数指定为该函数的名称的字符串。</p>
   </article>
@@ -101,11 +99,21 @@ $('#triggerButton').modalTrigger({custom: function()
 <section>
   <header><h3>自动调整位置</h3></header>
   <article>
-    <p>当模态框内的内容发生更改导致模态框尺寸发生改变时，模态框会根据设置自动调整位置。</p>
-    <p>自动调整位置适合任何形式的模态框。</p>
+    <p>当对话框内的内容发生更改导致对话框尺寸发生改变时，对话框会根据设置自动调整位置。</p>
+    <p>自动调整位置适合任何形式的对话框。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-custom="<div contenteditable='true' style='height: auto' class='form-control'>输入一些内容和换行来更改模态框大小</div>" id="modalTriggerByFunc">测试自动调整位置</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-custom="<div contenteditable='true' style='height: auto' class='form-control'>输入一些内容和换行来更改对话框大小</div>" id="modalTriggerByFunc">测试自动调整位置</button>
     </div>
+  </article>
+</section>
+
+<section>
+  <header><h3>全屏对话框</h3></header>
+  <article>
+    <div class="example">
+      <button type="button" class="btn btn-primary" data-custom="<h1>这是一个全屏对话框示例</h1>" data-toggle="modal" data-size="fullscreen">全屏对话框</button>
+    </div>
+    <pre><code>&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-custom=&quot;...&quot; data-toggle=&quot;modal&quot; <em>data-size=&quot;fullscreen&quot;</em>&gt;&#x5168;&#x5c4f;&#x5bf9;&#x8bdd;&#x6846;&lt;/button&gt;</code></pre>
   </article>
 </section>
 
@@ -115,7 +123,7 @@ $('#triggerButton').modalTrigger({custom: function()
     <h4>不显示头部</h4>
     <p>不显示头部需要指定参数<code>showHeader</code>为<code>false</code>。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-custom="这个模态框不显示头部" data-show-header="false" id="modalTriggerByFunc">不显示头部</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-custom="这个对话框不显示头部" data-show-header="false" id="modalTriggerByFunc">不显示头部</button>
     </div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-showHeader 属性 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-show-header=&quot;false&quot; data-toggle=&quot;modal&quot;&gt;不显示头部&lt;/button&gt;</code></pre>
@@ -125,9 +133,9 @@ $('#triggerButton').modalTrigger({showHeader: false});
 /* 使用触发器对象直接显示 */
 (new $.zui.ModalTrigger({showHeader: false})).show();</code></pre>
 
-    <h4>自定义模态框标题</h4>
-    <p>如果不指定模态框的标题，会自动使用触发按钮的title属性或文本作为模态框的标题。</p>
-    <div class="example"><button type="button" class="btn btn-primary" data-toggle="modal" data-custom="此模态框的标题是新的" data-title="新的标题很重要" id="modalTriggerByFunc">自定义标题</button></div>
+    <h4>自定义对话框标题</h4>
+    <p>如果不指定对话框的标题，会自动使用触发按钮的title属性或文本作为对话框的标题。</p>
+    <div class="example"><button type="button" class="btn btn-primary" data-toggle="modal" data-custom="此对话框的标题是新的" data-title="新的标题很重要" id="modalTriggerByFunc">自定义标题</button></div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-title 属性 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-title=&quot;新的标题&quot; data-toggle=&quot;modal&quot;&gt;不显示头部&lt;/button&gt;</code></pre>
     <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
@@ -139,7 +147,7 @@ $('#triggerButton').modalTrigger({title: '新的标题'});
     <h4>使用图标</h4>
     <p>通过指定<code>icon</code>属性来在标题前面增加一个图标。</p>
     <p>图标的定义请参考“控件->图标”章节。</p>
-    <div class="example"><button type="button" class="btn btn-primary" data-toggle="modal" data-custom="此模态框标题包含一个图标" data-icon="heart" data-title="图标很重要" id="modalTriggerByFunc">看看图标是什么</button></div>
+    <div class="example"><button type="button" class="btn btn-primary" data-toggle="modal" data-custom="此对话框标题包含一个图标" data-icon="heart" data-title="图标很重要" id="modalTriggerByFunc">看看图标是什么</button></div>
     <pre class='prettyprint'><code>&lt;!-- 使用data-title 属性 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-icon=&quot;heart&quot; data-toggle=&quot;modal&quot;&gt;不显示头部&lt;/button&gt;</code></pre>
     <pre class='prettyprint'><code>/* 使用Javascript方法绑定在按钮上触发 */
@@ -151,12 +159,13 @@ $('#triggerButton').modalTrigger({icon: 'heart'});
 </section>
 
 <section>
-  <header><h3>可拖动的模态框</h3></header>
+  <header><h3>可拖动的对话框</h3></header>
   <article>
-    <p>开启此选项可以允许用户在模态框显示之后通过拖拽头部移动模态框。</p>
+    <p>开启此选项可以允许用户在对话框显示之后通过拖拽头部移动对话框。</p>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-icon="move" data-moveable="true" data-toggle="modal" data-custom="<div><p>拖动我的头部来移动此模态框。</p><h1>:)</h1></div>" id="modalTriggerMoveable"><i class="icon icon-move"></i> 打开我 拖动我</button>
+      <button type="button" class="btn btn-primary" data-icon="move" data-moveable="true" data-toggle="modal" data-custom="<div><p>拖动我的头部来移动此对话框。</p><h1>:)</h1></div>" id="modalTriggerMoveable"><i class="icon icon-move"></i> 打开我 拖动我</button>
     </div>
+    <pre><code>&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; <em>data-moveable=&quot;true&quot;</em> data-toggle=&quot;modal&quot; data-custom=&quot;...&quot;&gt;&lt;i class=&quot;icon icon-move&quot;&gt;&lt;/i&gt; &#x6253;&#x5f00;&#x6211; &#x62d6;&#x52a8;&#x6211;&lt;/button&gt;</code></pre>
   </article>
 </section>
 
@@ -164,24 +173,24 @@ $('#triggerButton').modalTrigger({icon: 'heart'});
   <header><h3>如何使用</h3></header>
   <article>
     <h4>使用data属性来调用</h4>
-    <p>使用在触发按钮上设置data属性即可使用。此方法与常规模态框触发按钮属性书写方式完全一致，只不过需要增加几个特殊属性，包括<code>data-remote</code>、<code>data-iframe</code>和<code>data-custom</code>。</p>
+    <p>使用在触发按钮上设置data属性即可使用。此方法与常规对话框触发按钮属性书写方式完全一致，只不过需要增加几个特殊属性，包括<code>data-remote</code>、<code>data-iframe</code>和<code>data-custom</code>。</p>
     <p>使用dta属性来调用请参考上面的实例章节。</p>
     <h4>使用Javascript手动调用</h4>
     <p>Javascript方法也十分灵活。</p>
     <h4>jQuery对象方法</h4>
-    <p>使得一个jquery对象能够监听事件（一般为点击）并启动模态框。</p>
+    <p>使得一个jquery对象能够监听事件（一般为点击）并启动对话框。</p>
     <pre class='prettyprint'><code>$('#triggerButton').modalTrigger(options);</code></pre>
-    <p>也可以使用<code>modalTrigger</code>的别名方法<code>modal</code>，这样与传统模态框的初始化方法完全一致。</p>
+    <p>也可以使用<code>modalTrigger</code>的别名方法<code>modal</code>，这样与传统对话框的初始化方法完全一致。</p>
     <h4>使用预设的modalTrigger实例</h4>
-    <p>在<code>$.zui</code>对象上已默认绑定了一个模态框触发器对象，可以直接使用<code>方法</code>并传递不同的参数来随时启动模态框。</p>
+    <p>在<code>$.zui</code>对象上已默认绑定了一个对话框触发器对象，可以直接使用<code>方法</code>并传递不同的参数来随时启动对话框。</p>
     <pre class='prettyprint'><code>$.zui.modalTrigger.show(options);</code></pre>
     <h4>创建新的触发器对象</h4>
-    <p>创建一个新的模态框触发器来保存配置并启动模态框。</p>
+    <p>创建一个新的对话框触发器来保存配置并启动对话框。</p>
     <pre class='prettyprint'><code>var myModalTrigger = new $.zui.ModalTrigger(options);
 myModalTrigger.show();</code></pre>
 
     <h4>参数</h4>
-    <p>在初始化模态框或者显示时都能够使用参数来个性化你的模态框。</p>
+    <p>在初始化对话框或者显示时都能够使用参数来个性化你的对话框。</p>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -194,7 +203,7 @@ myModalTrigger.show();</code></pre>
       <tbody>
         <tr>
           <td><code>type</code></td>
-          <td>模态框类型</td>
+          <td>对话框类型</td>
           <td>
             <ul>
               <li><code>'custom'</code>（默认），自定义类型</li>
@@ -230,12 +239,12 @@ myModalTrigger.show();</code></pre>
         </tr>
         <tr>
           <td><code>size</code></td>
-          <td>模态框大小</td>
+          <td>对话框大小</td>
           <td>
             <ul>
               <li><code>''</code>（默认），默认大小</li>
-              <li><code>'lg'</code>，大模态框</li>
-              <li><code>'sm'</code>，小模态框</li>
+              <li><code>'lg'</code>，大对话框</li>
+              <li><code>'sm'</code>，小对话框</li>
               <li><code>'fullscreen'</code>，全屏显示</li>
             </ul>
           </td>
@@ -243,7 +252,7 @@ myModalTrigger.show();</code></pre>
         </tr>
         <tr>
           <td><code>width</code></td>
-          <td>模态框宽度</td>
+          <td>对话框宽度</td>
           <td>
             <ul>
               <li><code>null</code>（默认），默认宽度</li>
@@ -254,7 +263,7 @@ myModalTrigger.show();</code></pre>
         </tr>
         <tr>
           <td><code>height</code></td>
-          <td>模态框宽度</td>
+          <td>对话框宽度</td>
           <td>
             <ul>
               <li><code>'auto'</code>（默认），自动根据内容调整</li>
@@ -276,7 +285,7 @@ myModalTrigger.show();</code></pre>
         </tr>
         <tr>
           <td><code>title</code></td>
-          <td>模态框标题文本</td>
+          <td>对话框标题文本</td>
           <td>
             字符串
           </td>
@@ -284,7 +293,7 @@ myModalTrigger.show();</code></pre>
         </tr>
         <tr>
           <td><code>icon</code></td>
-          <td>模态框标题图标</td>
+          <td>对话框标题图标</td>
           <td>
             图标名称字符串
           </td>
@@ -303,7 +312,7 @@ myModalTrigger.show();</code></pre>
         </tr>
         <tr>
           <td><code>position</code></td>
-          <td>模态框位置</td>
+          <td>对话框位置</td>
           <td>
             <ul>
               <li><code>'fit'</code>（默认），最佳位置</li>
@@ -325,7 +334,7 @@ myModalTrigger.show();</code></pre>
               <li><code>'static'</code></li>
             </ul>
           </td>
-          <td>使用布尔值来启用或禁用背景遮罩，如果指定为<code>'static'</code>则会启动背景遮罩，但点击背景遮罩时不会触发关闭模态框的过程。</td>
+          <td>使用布尔值来启用或禁用背景遮罩，如果指定为<code>'static'</code>则会启动背景遮罩，但点击背景遮罩时不会触发关闭对话框的过程。</td>
         </tr>
         <tr>
           <td><code>keyboard</code></td>
@@ -336,7 +345,7 @@ myModalTrigger.show();</code></pre>
               <li><code>false</code></li>
             </ul>
           </td>
-          <td>当为<code>ture</code>时，按下<code>esc</code>键会关闭模态框。</td>
+          <td>当为<code>ture</code>时，按下<code>esc</code>键会关闭对话框。</td>
         </tr>
         <tr>
           <td><code>moveable</code></td>
@@ -349,7 +358,7 @@ myModalTrigger.show();</code></pre>
               <li><code>true</code>，启用；</li>
             </ul>
           </td>
-          <td>是否启用模态框拖拽移动功能</td>
+          <td>是否启用对话框拖拽移动功能</td>
         </tr>
         <tr>
           <td><code>waittime</code></td>
@@ -383,25 +392,25 @@ myModalTrigger.show();</code></pre>
     <h6>创建新的触发器实例</h6>
     <pre class='prettyprint'><code>var newTrigger = new $.zui.ModalTrigger(options);</code></pre>
 
-    <h4>显示模态框</h4>
-    <p>在显示模态框时，可以重新传入新的参数，而不影响触发器对象原来的参数。</p>
+    <h4>显示对话框</h4>
+    <p>在显示对话框时，可以重新传入新的参数，而不影响触发器对象原来的参数。</p>
     <pre class='prettyprint'><code>myModalTrigger.show(options);</code></pre>
 
-    <h4>关闭模态框</h4>
+    <h4>关闭对话框</h4>
     <pre class='prettyprint'><code>myModalTrigger.close();</code></pre>
 
     <h4>切换显示和关闭状态</h4>
-    <p>如果模态框没有显示，则立即显示，如果已经显示则关闭。</p>
+    <p>如果对话框没有显示，则立即显示，如果已经显示则关闭。</p>
     <p>在切换显示和关闭状态时，可以重新传入新的参数，而不影响触发器对象原来的参数。</p>
     <pre class='prettyprint'><code>myModalTrigger.toggle(options);</code></pre>
 
     <h4>重新调整位置</h4>
-    <p>使用新的位置参数来重新设置模态框的显示位置。</p>
+    <p>使用新的位置参数来重新设置对话框的显示位置。</p>
     <pre class='prettyprint'><code>myModalTrigger.ajustPosition(options);</code></pre>
 
 
     <h4>事件</h4>
-    <p>因为模态框的DOM内容是动态生成的，不方便使用jQuery方法来绑定事件，不过可以将监听事件的回调函数传入参数中。</p>
+    <p>因为对话框的DOM内容是动态生成的，不方便使用jQuery方法来绑定事件，不过可以将监听事件的回调函数传入参数中。</p>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -414,22 +423,22 @@ myModalTrigger.show();</code></pre>
         <tr>
           <td><code>onShow</code></td>
           <td><code>show.zui.modal</code></td>
-          <td>当模态框的show方法被调用时立即发生</td>
+          <td>当对话框的show方法被调用时立即发生</td>
         </tr>
         <tr>
           <td><code>shown</code></td>
           <td><code>shown.zui.modal</code></td>
-          <td>当模态框完全显示后发生（执行完显示动画之后）</td>
+          <td>当对话框完全显示后发生（执行完显示动画之后）</td>
         </tr>
         <tr>
           <td><code>onHide</code></td>
           <td><code>hide.zui.modal</code></td>
-          <td>当模态框hide方法被调用是立即发生</td>
+          <td>当对话框hide方法被调用是立即发生</td>
         </tr>
         <tr>
           <td><code>hidden</code></td>
           <td><code>hidden.zui.modal</code></td>
-          <td>当模态框完全隐藏后发生（执行完隐藏动画之后）</td>
+          <td>当对话框完全隐藏后发生（执行完隐藏动画之后）</td>
         </tr>
         <tr>
           <td><code>loaded</code></td>
@@ -439,18 +448,17 @@ myModalTrigger.show();</code></pre>
         <tr>
           <td><code>broken</code></td>
           <td><code>broken.zui.modal</code></td>
-          <td>当加载远程内容失败之后调用，在次回调方法中返回字符串会更新模态框现实的内容（例如在模态框中显示一个加载失败之后的帮助信息）。</td>
+          <td>当加载远程内容失败之后调用，在次回调方法中返回字符串会更新对话框现实的内容（例如在对话框中显示一个加载失败之后的帮助信息）。</td>
         </tr>
       </tbody>
     </table>
 
-    <pre class='prettyprint'><code>myModalTrigger.show({shown: function()
-{
-    alert('模态框已显示。');
+    <pre class='prettyprint'><code>myModalTrigger.show({shown: function() {
+    alert('对话框已显示。');
 }});</code></pre>
 
-    <p>如果模态框的<code>name</code>参数是已知的，则可以获取模态框的jquery对象实例通过jQuery对象的on方法来绑定事件。</p>
-    <pre class='prettyprint'><code>$('#triggerModal').on('shown.zui.modal', function(){...});</code></pre>
+    <p>如果对话框的<code>name</code>参数是已知的，则可以获取对话框的jquery对象实例通过jQuery对象的on方法来绑定事件。</p>
+    <pre class='prettyprint'><code>$('#triggerModal').on('shown.zui.modal', function() {...});</code></pre>
   </article>
 </section>
 
@@ -473,7 +481,7 @@ function afterPageLoad() {
     if(!$trigger.data('modalTriggerSetup')) {
         $trigger.modalTrigger({moveable: true, custom: function()
         {
-            return "当模态框显示时，时间是：" + (new Date).toString();
+            return "当对话框显示时，时间是：" + (new Date).toString();
         }});
         $trigger.data('modalTriggerSetup', 1)
     }

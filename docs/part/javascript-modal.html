@@ -1,5 +1,5 @@
 <article>
-  <p>模态框允许以对话框的形式弹出，有半透明的页面遮罩层，并在显示和隐藏时支持动画。</p>
+  <p>对话框允许以对话框的形式弹出，有半透明的页面遮罩层，并在显示和隐藏时支持动画。</p>
 </article>
 
 <section>
@@ -43,14 +43,14 @@
 &lt;/div&gt;
 &lt;/div&gt;</code></pre>
       <h4>动态实例</h4>
-      <p>点击按钮通过Javascript来启动一个模态框。</p>
+      <p>点击按钮通过Javascript来启动一个对话框。</p>
       <div class="example">
-        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal">启动模态框</button>
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal">启动对话框</button>
       </div>
-    <pre class='prettyprint'><code>&lt;!-- 模态框触发按钮 --&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-lg btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;启动模态框&lt;/button&gt;
+    <pre class='prettyprint'><code>&lt;!-- 对话框触发按钮 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-lg btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;启动对话框&lt;/button&gt;
 
-&lt;!-- 模态框HTML --&gt;
+&lt;!-- 对话框HTML --&gt;
 &lt;div class=&quot;modal fade&quot; id=&quot;myModal&quot;&gt;
   &lt;div class=&quot;modal-dialog&quot;&gt;
     &lt;div class=&quot;modal-content&quot;&gt;
@@ -62,9 +62,9 @@
 </section>
 
 <section>
-  <header><h3>设置模态框显示位置</h3></header>
+  <header><h3>设置对话框显示位置</h3></header>
   <article>
-    <p>默认情况下模态框会根据自身内容高度展示在页面中心稍靠上方的位置。通过一些参数可以重新决定模态框的展现位置（具体参数参考“如何使用”章节）。</p>
+    <p>默认情况下对话框会根据自身内容高度展示在页面中心稍靠上方的位置。通过一些参数可以重新决定对话框的展现位置（具体参数参考“如何使用”章节）。</p>
     <div class="example">
       <button type="button" class="btn btn-primary" data-position="fit" data-toggle="modal" data-target="#myModal">默认位置</button>
       <button type="button" class="btn btn-primary" data-position="center" data-toggle="modal" data-target="#myModal">窗口中间</button>
@@ -79,19 +79,19 @@
 </section>
 
 <section>
-  <header><h3>更改模态框大小</h3></header>
+  <header><h3>更改对话框大小</h3></header>
   <article>
-    <p>模态框的默认宽度为<code>600px</code>，你可以通过为<code>.modal-dialog</code>应用CSS样式来更改模态框的宽度。在ZUI中也提供了额外两种预设的宽度，通过为<code>.modal-dialog</code>添加CSS类名来调整实现：</p>
+    <p>对话框的默认宽度为<code>600px</code>，你可以通过为<code>.modal-dialog</code>应用CSS样式来更改对话框的宽度。在ZUI中也提供了额外两种预设的宽度，通过为<code>.modal-dialog</code>添加CSS类名来调整实现：</p>
     <ul>
-      <li>大模态框：添加<code>.modal-lg</code>CSS类名，宽度为<code>900px</code>；</li>
-      <li>小模态框：添加<code>.modal-sm</code>CSS类名，宽度为<code>300px</code>。</li>
+      <li>大对话框：添加<code>.modal-lg</code>CSS类名，宽度为<code>900px</code>；</li>
+      <li>小对话框：添加<code>.modal-sm</code>CSS类名，宽度为<code>300px</code>。</li>
     </ul>
     <div class="example">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myLgModal">大模态框</button>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mySmModal">小模态框</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myLgModal">大对话框</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mySmModal">小对话框</button>
     </div>
-    <pre class='prettyprint'><code>&lt;!-- 大模态框 --&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myLgModal&quot;&gt;大模态框&lt;/button&gt;
+    <pre class='prettyprint'><code>&lt;!-- 大对话框 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myLgModal&quot;&gt;大对话框&lt;/button&gt;
 
 &lt;div class=&quot;modal fade&quot; id=&quot;myLgModal&quot;&gt;
   &lt;div class=&quot;modal-dialog modal-lg&quot;&gt;
@@ -101,8 +101,8 @@
   &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;!-- 小模态框 --&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#mySmModal&quot;&gt;小模态框&lt;/button&gt;
+&lt;!-- 小对话框 --&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#mySmModal&quot;&gt;小对话框&lt;/button&gt;
 
 &lt;div class=&quot;modal fade&quot; id=&quot;mySmModal&quot;&gt;
   &lt;div class=&quot;modal-dialog modal-lg&quot;&gt;
@@ -115,15 +115,15 @@
 </section>
 
 <section>
-  <header><h3>可移动的模态框</h3></header>
+  <header><h3>可移动的对话框</h3></header>
   <article>
-    <p>开启此选项可以允许用户在模态框显示之后通过拖拽头部移动模态框。</p>
+    <p>开启此选项可以允许用户在对话框显示之后通过拖拽头部移动对话框。</p>
     <p>要启用此功能需要手动设置<code>moveable</code>参数值为<code>true</code>，或者为<code>.modal-dialog</code>增加一个class<code>.modal-moveable</code>。</p>
     <div class="example">
       <button type="button" class="btn btn-primary" data-moveable="true" data-remember-pos="false" data-toggle="modal" data-target="#moveableModal" data-position="center"><i class="icon icon-move"></i> 打开我 拖动我</button>
     </div>
 <pre class='prettyprint'><code>&lt;button type=&quot;button&quot; class=&quot;btn&quot; data-moveable=&quot;true&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;默认位置&lt;/button&gt;</code></pre>
-    <p>通过设置<code>rememberPos</code>为<code>true</code>来记住模态框移动之后的位置。<code>rememberPos</code>可取的值如下：</p>
+    <p>通过设置<code>rememberPos</code>为<code>true</code>来记住对话框移动之后的位置。<code>rememberPos</code>可取的值如下：</p>
     <ul>
       <li><code>false</code>（默认），不记住位置；</li>
       <li><code>true</code>，记住位置，但关闭页面或浏览器之后会复位；</li>
@@ -138,11 +138,11 @@
 <section>
   <header><h3>禁用动画效果</h3></header>
   <article>
-    <p>模态框在弹出或隐藏时会伴随动画效果（淡入淡出效果），如果不需要，只需要移除<code>.modal</code>标签上的<code>.fade</code>类即可。</p>
+    <p>对话框在弹出或隐藏时会伴随动画效果（淡入淡出效果），如果不需要，只需要移除<code>.modal</code>标签上的<code>.fade</code>类即可。</p>
     <div class="example">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fastModal">立即展现</button>
     </div>
-    <pre class='prettyprint'><code>&lt;!-- 禁用动画效果的模态框 --&gt;
+    <pre class='prettyprint'><code>&lt;!-- 禁用动画效果的对话框 --&gt;
 &lt;div class=&quot;modal&quot;&gt;
 ...
 &lt;/div&gt;
@@ -151,9 +151,9 @@
 </section>
 
 <section>
-  <header><h3>关闭模态框</h3></header>
+  <header><h3>关闭对话框</h3></header>
   <article>
-    <p>在静态模态框HTML中增加一个按钮并添加data属性<code>data-dismiss="modal"</code>，这样当点击该按钮时会关闭此对话框。你可以将该属性添加至模态框内的任何元素。</p>
+    <p>在静态对话框HTML中增加一个按钮并添加data属性<code>data-dismiss="modal"</code>，这样当点击该按钮时会关闭此对话框。你可以将该属性添加至对话框内的任何元素。</p>
     <pre class='prettyprint'><code>&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot;&gt;&lt;span aria-hidden=&quot;true&quot;&gt;×&lt;/span&gt;&lt;span class=&quot;sr-only&quot;&gt;关闭&lt;/span&gt;&lt;/button&gt;</code></pre>
   </article>
 </section>
@@ -162,22 +162,22 @@
   <header><h3>如何使用</h3></header>
   <article>
     <h4>使用data属性</h4>
-    <p>一般情况下不需要手动调用Javascript来使用模态框，只需要在触发模态框的按钮或链接上增加两个额外的data属性即可：<code>data-toggle="modal"</code>和<code>data-target="#myModal"</code>。</p>
-    <p>其中<code>data-toggle</code>属性声明该按钮或链接点击后会显示或隐藏模态框。<code>data-target</code>属性指明静态模态框的ID属性。</p>
-    <p>如果使用<code>&lt;a&gt;</code>触发模态框，可以直接将静态模块框的ID写在<code>href</code>属性内，<code>data-target</code>属性则可以忽略。</p>
+    <p>一般情况下不需要手动调用Javascript来使用对话框，只需要在触发对话框的按钮或链接上增加两个额外的data属性即可：<code>data-toggle="modal"</code>和<code>data-target="#myModal"</code>。</p>
+    <p>其中<code>data-toggle</code>属性声明该按钮或链接点击后会显示或隐藏对话框。<code>data-target</code>属性指明静态对话框的ID属性。</p>
+    <p>如果使用<code>&lt;a&gt;</code>触发对话框，可以直接将静态模块框的ID写在<code>href</code>属性内，<code>data-target</code>属性则可以忽略。</p>
     <p>使用data属性也可以来为对话框提供其他参数。</p>
     <pre class='prettyprint'><code>&lt;!-- 使用按钮 --&gt;
-&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;启动模态框&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myModal&quot;&gt;启动对话框&lt;/button&gt;
 
 &lt;!-- 使用超链接 --&gt;
-&lt;a data-toggle=&quot;modal&quot; href=&quot;#myModal&quot;&gt;启动模态框&lt;/a&gt;</code></pre>
+&lt;a data-toggle=&quot;modal&quot; href=&quot;#myModal&quot;&gt;启动对话框&lt;/a&gt;</code></pre>
 
     <h4>手动调用Javascript</h4>
-    <p>不使用按钮或链接来触发模态框也可以使用Javascript来手动触发。</p>
+    <p>不使用按钮或链接来触发对话框也可以使用Javascript来手动触发。</p>
     <pre class='prettyprint'><code>$('#myModal').modal(options)</code></pre>
 
     <h4>参数</h4>
-    <p>参数既可以在手动调用的时候指定，也可以在静态模态框或者触发器上使用data属性来指定。</p>
+    <p>参数既可以在手动调用的时候指定，也可以在静态对话框或者触发器上使用data属性来指定。</p>
     <p>可用的参数如下：</p>
     <table class="table table-bordered">
       <thead>
@@ -191,9 +191,9 @@
       <tbody>
         <tr>
           <td><code>name</code></td>
-          <td>模态框名称</td>
+          <td>对话框名称</td>
           <td>字符串，默认为<code>'triggerModal'</code></td>
-          <td>此参数会指定模态框DOM的id属性和iframe的id属性和name属性。</td>
+          <td>此参数会指定对话框DOM的id属性和iframe的id属性和name属性。</td>
         </tr>
         <tr>
           <td><code>backdrop</code></td>
@@ -205,7 +205,7 @@
               <li><code>false</code></li>
             </ul>
           </td>
-          <td>使用布尔值来启用或禁用背景遮罩，如果指定为<code>'static'</code>则会启动背景遮罩，但点击背景遮罩时不会触发关闭模态框的过程。</td>
+          <td>使用布尔值来启用或禁用背景遮罩，如果指定为<code>'static'</code>则会启动背景遮罩，但点击背景遮罩时不会触发关闭对话框的过程。</td>
         </tr>
         <tr>
           <td><code>keyboard</code></td>
@@ -216,7 +216,7 @@
               <li><code>false</code></li>
             </ul>
           </td>
-          <td>当为<code>ture</code>时，按下<code>esc</code>键会关闭模态框。</td>
+          <td>当为<code>ture</code>时，按下<code>esc</code>键会关闭对话框。</td>
         </tr>
         <tr>
           <td><code>show</code></td>
@@ -227,7 +227,7 @@
               <li><code>false</code></li>
             </ul>
           </td>
-          <td>是否在模态框初始化之后立即显示出来。</td>
+          <td>是否在对话框初始化之后立即显示出来。</td>
         </tr>
         <tr>
           <td><code>position</code></td>
@@ -256,7 +256,7 @@
               <li><code>true</code>，启用；</li>
             </ul>
           </td>
-          <td>是否启用模态框拖拽移动功能</td>
+          <td>是否启用对话框拖拽移动功能</td>
         </tr>
         <tr>
           <td><code>rememberPos</code></td>
@@ -279,7 +279,7 @@
 
     <h4>方法</h4>
     <h5>.modal(options)</h5>
-    <p>使用参数对象来初始化模态框。</p>
+    <p>使用参数对象来初始化对话框。</p>
     <pre class='prettyprint'><code>$('#myModal').modal(
 {
     keyboard : false,
@@ -287,23 +287,23 @@
 })</code></pre>
 
     <h5>.modal('toggle', position)</h5>
-    <p>手动显示或隐藏模态框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
+    <p>手动显示或隐藏对话框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
     <pre class='prettyprint'><code>$('#myModal').modal('toggle', 'center')</code></pre>
 
     <h5>.modal('show', position)</h5>
-    <p>手动显示模态框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
+    <p>手动显示对话框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
     <pre class='prettyprint'><code>$('#myModal').modal('show', 'fit')</code></pre>
 
     <h5>.modal('hide', position)</h5>
-    <p>手动隐藏模态框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
+    <p>手动隐藏对话框。<code>position</code>参数为可选的，用来指定显示的位置。</p>
     <pre class='prettyprint'><code>$('#myModal').modal('hide', 'fit')</code></pre>
 
     <h5>.modal('ajustPosition', position)</h5>
-    <p>手动重新调整模态框显示位置。<code>position</code>参数为可选的，用来指定显示的位置。</p>
+    <p>手动重新调整对话框显示位置。<code>position</code>参数为可选的，用来指定显示的位置。</p>
     <pre class='prettyprint'><code>$('#myModal').modal('ajustPosition', 'fit')</code></pre>
 
     <h4>事件</h4>
-    <p>模态框提供了一系列事件用于监听模态框运行状态，便于在合适的时机运行你自己的代码。</p>
+    <p>对话框提供了一系列事件用于监听对话框运行状态，便于在合适的时机运行你自己的代码。</p>
     <table class="table table-bordered">
       <thead>
        <tr>
@@ -342,9 +342,9 @@
 
     <h4>使用要点</h4>
     <ul>
-      <li>不能在一个模态框上重叠另一个模态框，也不支持在遮罩层同时显示两个以上的模态框；</li>
-      <li>静态模态框的HTML代码应该放在文档最高层级内，作为<code>&lt;body&gt;</code>的直接子元素，以避免与文档中的其他组件冲突；</li>
-      <li>模态框继承自Bootstrap模态框(v3.2)，包含其所有功能和接口。参考：<a target="_blank" href="http://getbootstrap.com/javascript/#modals">英</a>，<a target="_blank" href="http://v3.bootcss.com/javascript/#modals">中</a>。</li>
+      <li>不能在一个对话框上重叠另一个对话框，也不支持在遮罩层同时显示两个以上的对话框；</li>
+      <li>静态对话框的HTML代码应该放在文档最高层级内，作为<code>&lt;body&gt;</code>的直接子元素，以避免与文档中的其他组件冲突；</li>
+      <li>对话框继承自Bootstrap对话框(v3.2)，包含其所有功能和接口。参考：<a target="_blank" href="http://getbootstrap.com/javascript/#modals">英</a>，<a target="_blank" href="http://v3.bootcss.com/javascript/#modals">中</a>。</li>
     </ul>
   </article>
 </section>
@@ -374,7 +374,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-          <h4 class="modal-title">大模态框</h4>
+          <h4 class="modal-title">大对话框</h4>
         </div>
         <div class="modal-body">...</div>
       </div>
@@ -385,7 +385,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-          <h4 class="modal-title">小模态框</h4>
+          <h4 class="modal-title">小对话框</h4>
         </div>
         <div class="modal-body">...</div>
       </div>
@@ -407,7 +407,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-          <h4 class="modal-title">可拖拽的模态框</h4>
+          <h4 class="modal-title">可拖拽的对话框</h4>
         </div>
         <div class="modal-body">
           <h1 class="text-warning">:)</h1>
@@ -421,12 +421,12 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-          <h4 class="modal-title">可拖拽的模态框</h4>
+          <h4 class="modal-title">可拖拽的对话框</h4>
         </div>
         <div class="modal-body">
           <h1 class="text-warning">:)</h1>
           <p>拖动我的头部来更改我的位置。</p>
-          <p>关闭此页面或浏览器再次打开我，模态框会在上次显示的位置显示。</p>
+          <p>关闭此页面或浏览器再次打开我，对话框会在上次显示的位置显示。</p>
         </div>
       </div>
     </div>
