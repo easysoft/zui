@@ -22,7 +22,12 @@
      "end_with_newline": true
   },
   "css": {
+    "allowed_file_extensions": ["css", "scss", "sass", "less"],
+    "end_with_newline": false,
     "indent_char": " ",
-    "indent_size": 2
+    "indent_size": 2,
+    "newline_between_rules": true,
+    "selector_separator": " ",
+    "selector_separator_newline": true
   }
 }
