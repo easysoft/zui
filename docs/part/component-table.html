@@ -3,28 +3,60 @@
   <article>
     <div class="example">
       <table class="table">
-        <tbody>
+        <thead>
           <tr>
             <th class="col-md-2">名称</th>
             <th>描述</th>
           </tr>
+        </thead>
+        <tbody>
           <tr>
-            <td>表头</td>
+            <td>表头 <code>&lt;thead&gt;</code></td>
             <td>
             一般表格的第一行作为表头，用于描述表中每一列数据名称。为区别于表格其他行，表头具备不同的样式，例如字体加粗等。在垂直显示一组数据的表格中，表头也可能是垂直的第一列，而不是行。</td>
           </tr>
           <tr>
-            <td>内容</td>
+            <td>内容 <code>&lt;tbody&gt;</code></td>
             <td>
             一般内容会在单元格内靠左对齐，对于数字可能靠右对齐比较好。在一些表格中，内容可以按单元格选择或者按行选择，选中的部分会以不同的样式区分。为了使得行与行便于区分，通常也会使得行交替使用不同的背景色。图片或其他控件也可以应用单元格中。</td>
           </tr>
           <tr>
-            <td>表尾</td>
+            <td>表尾 <code>&lt;tfoot&gt;</code></td>
             <td>表位放置与表末尾提供与表相关补充数据或操作，不过并不常见。</td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <th>提示</th>
+            <td>表头、内容、和表尾都是可选的。</td>
+          </tr>
+        </tfoot>
       </table>
     </div>
+    <pre><code>&lt;table class=&quot;table&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;...&lt;/th&gt;
+      &lt;th&gt;...&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;td&gt;...&lt;/td&gt;
+      &lt;td&gt;...&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
   </article>
 </section>
 
@@ -63,13 +95,16 @@
           </tr>
           <tr>
             <td>3</td>
-            <td> </td>
+            <td>God</td>
             <td>Lady Gaga</td>
             <td>catouse</td>
           </tr>
         </tbody>
       </table>
     </div>
+    <pre><code>&lt;table class=&quot;table <em>table-striped</em>&quot;&gt;
+  ...
+&lt;/table&gt;</code></pre>
   </article>
 </section>
 
@@ -108,13 +143,16 @@
           </tr>
           <tr>
             <td>3</td>
-            <td> </td>
+            <td>God</td>
             <td>Lady Gaga</td>
             <td>catouse</td>
           </tr>
         </tbody>
       </table>
     </div>
+    <pre><code>&lt;table class=&quot;table <em>table-hover</em>&quot;&gt;
+  ...
+&lt;/table&gt;</code></pre>
   </article>
 </section>
 
@@ -153,12 +191,15 @@
           </tr>
           <tr>
             <td>3</td>
-            <td> </td>
+            <td>God</td>
             <td>Lady Gaga</td>
             <td>catouse</td>
           </tr>
         </tbody>
       </table>
+      <pre><code>&lt;table class=&quot;table <em>table-bordered</em>&quot;&gt;
+  ...
+&lt;/table&gt;</code></pre>
     </div>
   </article>
 </section>
@@ -199,6 +240,9 @@
         </tbody>
       </table>
     </div>
+    <pre><code>&lt;table class=&quot;table <em>table-condensed</em>&quot;&gt;
+  ...
+&lt;/table&gt;</code></pre>
   </article>
 </section>
 
@@ -244,5 +288,21 @@
         </tbody>
       </table>
     </div>
+    <pre><code>&lt;table class=&quot;table&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr class=&quot;<em>success</em>&quot;&gt;
+      ...
+    &lt;/tr&gt;
+    &lt;tr class=&quot;<em>danger</em>&quot;&gt;
+      ...
+    &lt;/tr&gt;
+    &lt;tr class=&quot;<em>warning</em>&quot;&gt;
+      ...
+    &lt;/tr&gt;
+    &lt;tr class=&quot;<em>active</em>&quot;&gt;
+      ...
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
   </article>
 </section>

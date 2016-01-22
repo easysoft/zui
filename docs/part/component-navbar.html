@@ -1,60 +1,76 @@
 <section>
   <header><h3>简单导航条</h3></header>
   <article>
-    <p>简单导航条并没用添加过多的样式。便于进行定制。</p>
+    <p>简单导航条可以很方便的进行定制。</p>
     <div spellcheck="false" class="example">
       <nav class="navbar" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
+        <!-- 导航头部 -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
+          <!-- 移动设备上的导航切换按钮 -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-example">
+            <span class="sr-only">切换导航</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Brand</a>
+          <!-- 品牌名称或logo -->
+          <a class="navbar-brand" href="#">ZUI</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- 导航项目 -->
         <div class="collapse navbar-collapse navbar-collapse-example">
+          <!-- 一般导航项目 -->
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
+            <li class="active"><a href="#">项目</a></li>
+            <li><a  href="#">需求</a></li>
+            <li><a  href="#">测试</a></li>
+            <!-- 导航中的下拉菜单 -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理 <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a  href="#">任务</a></li>
+                <li><a  href="#">待办</a></li>
+                <li><a  href="#">Bug</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
+                <li><a  href="#">用例</a></li>
               </ul>
             </li>
           </ul>
-          <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
+        </div><!-- END .navbar-collapse -->
       </nav>
     </div>
+    <pre><code>&lt;nav class=&quot;navbar&quot; role=&quot;navigation&quot;&gt;
+  &lt;!-- &#x5bfc;&#x822a;&#x5934;&#x90e8; --&gt;
+  &lt;div class=&quot;navbar-header&quot;&gt;
+    &lt;!-- &#x79fb;&#x52a8;&#x8bbe;&#x5907;&#x4e0a;&#x7684;&#x5bfc;&#x822a;&#x5207;&#x6362;&#x6309;&#x94ae; --&gt;
+    &lt;button type=&quot;button&quot; class=&quot;navbar-toggle&quot; data-toggle=&quot;collapse&quot; data-target=&quot;.navbar-collapse-example&quot;&gt;
+      &lt;span class=&quot;sr-only&quot;&gt;&#x5207;&#x6362;&#x5bfc;&#x822a;&lt;/span&gt;
+      &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+      &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+      &lt;span class=&quot;icon-bar&quot;&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;!-- &#x54c1;&#x724c;&#x540d;&#x79f0;&#x6216;logo --&gt;
+    &lt;a class=&quot;navbar-brand&quot; href=&quot;your/nice/url&quot;&gt;ZUI&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;!-- &#x5bfc;&#x822a;&#x9879;&#x76ee; --&gt;
+  &lt;div class=&quot;collapse navbar-collapse navbar-collapse-example&quot;&gt;
+    &lt;!-- &#x4e00;&#x822c;&#x5bfc;&#x822a;&#x9879;&#x76ee; --&gt;
+    &lt;ul class=&quot;nav navbar-nav&quot;&gt;
+      &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;your/nice/url&quot;&gt;&#x9879;&#x76ee;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;your/nice/url&quot;&gt;&#x9700;&#x6c42;&lt;/a&gt;&lt;/li&gt;
+      ...
+      &lt;!-- &#x5bfc;&#x822a;&#x4e2d;&#x7684;&#x4e0b;&#x62c9;&#x83dc;&#x5355; --&gt;
+      &lt;li class=&quot;dropdown&quot;&gt;
+        &lt;a href=&quot;your/nice/url&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;&#x7ba1;&#x7406; &lt;b class=&quot;caret&quot;&gt;&lt;/b&gt;&lt;/a&gt;
+        &lt;ul class=&quot;dropdown-menu&quot; role=&quot;menu&quot;&gt;
+          &lt;li&gt;&lt;a href=&quot;your/nice/url&quot;&gt;&#x4efb;&#x52a1;&lt;/a&gt;&lt;/li&gt;
+          ...
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;&lt;!-- END .navbar-collapse --&gt;
+&lt;/nav&gt;</code></pre>
   </article>
 </section>
 
@@ -66,38 +82,44 @@
     <p><code>.navbar-default</code></p>
     <div spellcheck="false" class="example">
       <nav class="navbar navbar-default" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
+        <!-- 导航头部 -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
+          <!-- 移动设备上的导航切换按钮 -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-example">
+            <span class="sr-only">切换导航</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Brand</a>
+          <!-- 品牌名称或logo -->
+          <a class="navbar-brand" href="#">ZUI</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- 导航项目 -->
         <div class="collapse navbar-collapse navbar-collapse-example">
+          <!-- 一般导航项目 -->
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
+            <li class="active"><a href="#">项目</a></li>
+            <li><a  href="#">需求</a></li>
+            <!-- 导航中的下拉菜单 -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理 <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a  href="#">任务</a></li>
+                <li><a  href="#">待办</a></li>
+                <li><a  href="#">Bug</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
+                <li><a  href="#">测试</a></li>
+                <li><a  href="#">用例</a></li>
               </ul>
             </li>
           </ul>
-        </div><!-- /.navbar-collapse -->
+        </div><!-- END .navbar-collapse -->
       </nav>
     </div>
+    <pre><code>&lt;nav class=&quot;navbar <em>navbar-default</em>&quot; role=&quot;navigation&quot;&gt;
+  ...
+&lt;/nav&gt;</code></pre>
   </article>
 </section>
 
@@ -107,38 +129,44 @@
     <p><code>.navbar-inverse</code></p>
     <div spellcheck="false" class="example">
       <nav class="navbar navbar-inverse" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
+        <!-- 导航头部 -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
+          <!-- 移动设备上的导航切换按钮 -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-example">
+            <span class="sr-only">切换导航</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Brand</a>
+          <!-- 品牌名称或logo -->
+          <a class="navbar-brand" href="#">ZUI</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- 导航项目 -->
         <div class="collapse navbar-collapse navbar-collapse-example">
+          <!-- 一般导航项目 -->
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
+            <li class="active"><a href="#">项目</a></li>
+            <li><a  href="#">需求</a></li>
+            <!-- 导航中的下拉菜单 -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理 <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a  href="#">任务</a></li>
+                <li><a  href="#">待办</a></li>
+                <li><a  href="#">Bug</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
+                <li><a  href="#">测试</a></li>
+                <li><a  href="#">用例</a></li>
               </ul>
             </li>
           </ul>
-        </div><!-- /.navbar-collapse -->
+        </div><!-- END .navbar-collapse -->
       </nav>
     </div>
+    <pre><code>&lt;nav class=&quot;navbar <em>navbar-inverse</em>&quot; role=&quot;navigation&quot;&gt;
+  ...
+&lt;/nav&gt;</code></pre>
   </article>
 </section>
 
@@ -146,45 +174,65 @@
   <header><h3>使用表单元素</h3></header>
   <article>
     <div spellcheck="false" class="example">
-      <nav class="navbar navbar-inverse" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
+      <nav class="navbar navbar-default" role="navigation">
+        <!-- 导航头部 -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
+          <!-- 移动设备上的导航切换按钮 -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-example">
+            <span class="sr-only">切换导航</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Brand</a>
+          <!-- 品牌名称或logo -->
+          <a class="navbar-brand" href="#">ZUI</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- 导航项目 -->
         <div class="collapse navbar-collapse navbar-collapse-example">
+          <!-- 一般导航项目 -->
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
+            <li class="active"><a href="#">项目</a></li>
+            <li><a  href="#">需求</a></li>
+            <!-- 导航中的下拉菜单 -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理 <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a  href="#">任务</a></li>
+                <li><a  href="#">待办</a></li>
+                <li><a  href="#">Bug</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
+                <li><a  href="#">测试</a></li>
+                <li><a  href="#">用例</a></li>
               </ul>
             </li>
           </ul>
+          <!-- 导航中的表单 -->
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
+              <input type="text" class="form-control" placeholder="搜索">
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default">搜索</button>
           </form>
-        </div><!-- /.navbar-collapse -->
+        </div><!-- END .navbar-collapse -->
       </nav>
     </div>
+    <pre><code>&lt;nav class=&quot;navbar navbar-default&quot; role=&quot;navigation&quot;&gt;
+  ...
+  &lt;div class=&quot;navbar-header&quot;&gt;
+    ...
+  &lt;/div&gt;
+  &lt;div class=&quot;collapse navbar-collapse navbar-collapse-example&quot;&gt;
+    ...
+    &lt;!-- &#x5bfc;&#x822a;&#x4e2d;&#x7684;&#x8868;&#x5355; --&gt;
+    &lt;form class=&quot;<em>navbar-form</em> navbar-left&quot; role=&quot;search&quot;&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;&#x641c;&#x7d22;&quot;&gt;
+      &lt;/div&gt;
+      &lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;&#x641c;&#x7d22;&lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
   </article>
 </section>
 
@@ -193,51 +241,80 @@
   <article>
     <div spellcheck="false" class="example">
       <nav class="navbar navbar-default" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
+        <!-- 导航头部 -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
+          <!-- 移动设备上的导航切换按钮 -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-example">
+            <span class="sr-only">切换导航</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Brand</a>
+          <!-- 品牌名称或logo -->
+          <a class="navbar-brand" href="#">ZUI</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- 导航项目 -->
         <div class="collapse navbar-collapse navbar-collapse-example">
+          <!-- 一般导航项目 -->
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
+            <li class="active"><a href="#">项目</a></li>
+            <li><a  href="#">需求</a></li>
+            <!-- 导航中的下拉菜单 -->
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">管理 <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a  href="#">任务</a></li>
+                <li><a  href="#">待办</a></li>
+                <li><a  href="#">Bug</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
+                <li><a  href="#">测试</a></li>
+                <li><a  href="#">用例</a></li>
               </ul>
             </li>
           </ul>
+          <!-- 右侧的导航项目 -->
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Link</a></li>
+            <li><a  href="#">帮助</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">探索 <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
+                <li><a  href="#">敏捷开发</a></li>
+                <li><a  href="#">HTML5</a></li>
+                <li><a  href="#">Javascript</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
+                <li><a  href="#">探索宇宙</a></li>
               </ul>
             </li>
           </ul>
-        </div><!-- /.navbar-collapse -->
+        </div><!-- END .navbar-collapse -->
       </nav>
     </div>
+    <pre><code>&lt;nav class=&quot;navbar navbar-default&quot; role=&quot;navigation&quot;&gt;
+  &lt;!-- &#x5bfc;&#x822a;&#x5934;&#x90e8; --&gt;
+  &lt;div class=&quot;navbar-header&quot;&gt;
+    ...
+  &lt;/div&gt;
+
+  &lt;!-- &#x5bfc;&#x822a;&#x9879;&#x76ee; --&gt;
+  &lt;div class=&quot;collapse navbar-collapse navbar-collapse-example&quot;&gt;
+    ...
+    &lt;!-- &#x53f3;&#x4fa7;&#x7684;&#x5bfc;&#x822a;&#x9879;&#x76ee; --&gt;
+    &lt;ul class=&quot;nav navbar-nav <em>navbar-right</em>&quot;&gt;
+      &lt;li&gt;&lt;a href=&quot;your/nice/url&quot;&gt;&#x5e2e;&#x52a9;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;dropdown&quot;&gt;
+        &lt;a href=&quot;your/nice/url&quot; class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;&#x63a2;&#x7d22; &lt;b class=&quot;caret&quot;&gt;&lt;/b&gt;&lt;/a&gt;
+        &lt;ul class=&quot;dropdown-menu&quot; role=&quot;menu&quot;&gt;
+          &lt;li&gt;&lt;a href=&quot;your/nice/url&quot;&gt;&#x654f;&#x6377;&#x5f00;&#x53d1;&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;your/nice/url&quot;&gt;HTML5&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;your/nice/url&quot;&gt;Javascript&lt;/a&gt;&lt;/li&gt;
+          &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;your/nice/url&quot;&gt;&#x63a2;&#x7d22;&#x5b87;&#x5b99;&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;&lt;!-- END .navbar-collapse --&gt;
+&lt;/nav&gt;</code></pre>
   </article>
 </section>
 
@@ -245,20 +322,37 @@
   <header><h3>自适应宽度</h3></header>
   <article>
     <p>在<code>.nav</code>上添加<code>.nav-justified</code>。</p>
-    <div spellcheck="false" class="example" contenteditable="true">
+    <div spellcheck="false" class="example">
       <nav class="navbar navbar-default" role="navigation">
         <ul class="nav navbar-nav nav-justified">
-          <li class="cat-item nav-system-home"><a href="/">首页</a></li>
-          <li class="cat-item nav-custom-"><a href="">演示</a></li>
-          <li class="cat-item nav-article-1 active"><a href="/download.html">下载</a></li>
-          <li class="cat-item nav-custom-"><a href="http://www.chanzhi.net" target="_blank">云蝉知</a></li>
-          <li class="cat-item nav-system-help"><a href="/help/">帮助</a></li>
-          <li class="cat-item nav-custom-"><a href="http://www.chanzhi.org/vip/25_vip-support.html">支持</a></li>
-          <li class="cat-item nav-system-forum"><a href="/forum/">论坛</a></li>
-          <li class="cat-item nav-article-2 active"><a href="/dynamic.html">动态</a></li>
-          <li class="cat-item nav-custom-"><a href="">团队</a></li>
+          <li><a  href="###">首页</a></li>
+          <li><a  href="###">项目</a></li>
+          <li class="active"><a href="###">需求</a></li>
+          <li><a  href="###">测试</a></li>
+          <li><a  href="###">任务</a></li>
+          <li><a  href="###">论坛</a></li>
+          <li><a  href="###">帮助</a></li>
+          <li><a  href="###">探索</a></li>
         </ul>
       </nav>
     </div>
+    <pre><code>&lt;nav class=&quot;navbar navbar-default&quot; role=&quot;navigation&quot;&gt;
+  &lt;ul class=&quot;nav navbar-nav nav-justified&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;your/nice/url/1&quot;&gt;&#x9996;&#x9875;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;your/nice/url/2&quot;&gt;&#x9879;&#x76ee;&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;your/nice/url/3&quot;&gt;&#x9700;&#x6c42;&lt;/a&gt;&lt;/li&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
   </article>
 </section>
+
+<script>
+function afterPageLoad() {
+    $('#pageContent').on('click', '.navbar-nav > li > a', function() {
+        var $item = $(this).parent('li');
+        $item.parent().children('.active').removeClass('active');
+        $item.addClass('active');
+    });
+}
+</script>

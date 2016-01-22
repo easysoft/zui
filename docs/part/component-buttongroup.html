@@ -12,35 +12,57 @@
         <button type="button" class="btn">右</button>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;btn-group&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x5de6;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x4e2d;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x53f3;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
     <h4>多组按钮</h4>
     <p>通过div.btn-toolbar包含.div.btn-group</p>
     <div class="example">
       <div class="btn-toolbar" style="margin: 0;">
         <div class="btn-group">
-          <button class="btn">1</button>
-          <button class="btn">2</button>
-          <button class="btn">3</button>
-          <button class="btn">4</button>
+          <button class="btn">复制</button>
+          <button class="btn">剪切</button>
+          <button class="btn">粘贴</button>
+          <button class="btn">删除</button>
         </div>
         <div class="btn-group">
-          <button class="btn">5</button>
-          <button class="btn">6</button>
-          <button class="btn">7</button>
+          <button class="btn"><i class="icon icon-picture"></i></button>
+          <button class="btn"><i class="icon icon-file-movie"></i></button>
+          <button class="btn"><i class="icon icon-file-text-o"></i></button>
         </div>
         <div class="btn-group">
-          <button class="btn">8</button>
+          <button class="btn"><i class="icon icon-code"></i></button>
         </div>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;btn-toolbar&quot;&gt;
+  &lt;div class=&quot;btn-group&quot;&gt;
+    &lt;button class=&quot;btn&quot;&gt;&lt;i class=&quot;icon icon-paste&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+    ...
+  &lt;/div&gt;
+  &lt;div class=&quot;btn-group&quot;&gt;
+    ...
+  &lt;/div&gt;
+  &lt;div class=&quot;btn-group&quot;&gt;
+    ...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
     <h4>垂直按钮组</h4>
     <p>通过div.btn-group-vertical实现</p>
     <div class="example">
       <div class="btn-group btn-group-vertical">
-        <button type="button" class="btn">上</button>
-        <button type="button" class="btn">中</button>
-        <button type="button" class="btn">下</button>
+        <button type="button" class="btn">上面</button>
+        <button type="button" class="btn">中间</button>
+        <button type="button" class="btn">下面</button>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;btn-group <em>btn-group-vertical</em>&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x4e0a;&#x9762;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x4e2d;&#x95f4;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x4e0b;&#x9762;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
@@ -48,24 +70,31 @@
   <header><h3>变化</h3></header>
   <article>
     <h4>基本下拉按钮组</h4>
-    <p>将<code>.input-group</code>放置于另一个<code>.input-group</code>中。</p>
+    <p>将<code>.btn-group</code>放置于另一个<code>.btn-group</code>中。</p>
     <div class="example">
       <div class="btn-group">
-        <button type="button" class="btn btn-default">吃</button>
-        <button type="button" class="btn btn-default">喝</button>
-
+        <button type="button" class="btn">春天</button>
+        <button type="button" class="btn">夏天</button>
         <div class="btn-group">
-          <button id="btnGroupDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-            更多
-            <span class="caret"></span>
-          </button>
+          <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle" data-toggle="dropdown">未来 <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupDrop1">
-            <li><a href="#">拉</a></li>
-            <li><a href="#">撒</a></li>
+            <li><a href="#">秋天</a></li>
+            <li><a href="#">冬天</a></li>
           </ul>
         </div>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;btn-group&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x6625;&#x5929;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x590f;&#x5929;&lt;/button&gt;
+  <em>&lt;div class=&quot;btn-group&quot;&gt;</em>
+    &lt;button id=&quot;btnGroupDrop1&quot; type=&quot;button&quot; class=&quot;btn dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;&#x672a;&#x6765; &lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;ul class=&quot;dropdown-menu&quot; role=&quot;menu&quot; aria-labelledby=&quot;btnGroupDrop1&quot;&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&#x79cb;&#x5929;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&#x51ac;&#x5929;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  <em>&lt;/div&gt;</em>
+&lt;/div&gt;</code></pre>
     <h4>分裂式下拉按钮组</h4>
     <p>基本按钮组的变形，将第二个按钮改成图标即可。</p>
     <div class="example">
@@ -80,11 +109,26 @@
             <li><a href="#">编辑</a></li>
             <li><a href="#">删除</a></li>
             <li class="divider"></li>
-            <li><a href="#">增加</a></li>
+            <li><a href="#">撤销</a></li>
           </ul>
         </div>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;btn-group&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn btn-danger&quot;&gt;&#x64cd;&#x4f5c;&lt;/button&gt;
+  <em>&lt;div class=&quot;btn-group&quot;&gt;</em>
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-danger dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;
+      &lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;
+      &lt;span class=&quot;sr-only&quot;&gt;&#x64cd;&#x4f5c;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;ul class=&quot;dropdown-menu&quot; role=&quot;menu&quot;&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&#x7f16;&#x8f91;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&#x5220;&#x9664;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&#x64a4;&#x9500;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  <em>&lt;/div&gt;</em>
+&lt;/div&gt;</code></pre>
     <h4>上拉按钮组</h4>
     <p>通过div.dropup实现</p>
     <div class="example">
@@ -99,11 +143,26 @@
             <li><a href="#">编辑</a></li>
             <li><a href="#">删除</a></li>
             <li class="divider"></li>
-            <li><a href="#">增加</a></li>
+            <li><a href="#">撤销</a></li>
           </ul>
         </div>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;btn-group <em>dropup</em>&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn btn-danger&quot;&gt;&#x64cd;&#x4f5c;&lt;/button&gt;
+  &lt;div class=&quot;btn-group&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-danger dropdown-toggle&quot; data-toggle=&quot;dropdown&quot;&gt;
+      &lt;span class=&quot;caret&quot;&gt;&lt;/span&gt;
+      &lt;span class=&quot;sr-only&quot;&gt;&#x64cd;&#x4f5c;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;ul class=&quot;dropdown-menu&quot; role=&quot;menu&quot;&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&#x7f16;&#x8f91;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&#x5220;&#x9664;&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&#x64a4;&#x9500;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
     <h4>大小</h4>
     <p>通过.btn-lg .btn-sm .btn-xs实现</p>
     <div class="example">
@@ -130,10 +189,34 @@
         </div>
       </div>
     </div>
+    <pre><code>&lt;!-- &#x5927;&#x7684; --&gt;
+&lt;div class=&quot;btn-group&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-lg</em>&quot;&gt;&#x5de6;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-lg</em>&quot;&gt;&#x4e2d;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-lg</em>&quot;&gt;&#x53f3;&lt;/button&gt;
+&lt;/div&gt;
+&lt;!-- &#x9ed8;&#x8ba4;&#x5927;&#x5c0f; --&gt;
+&lt;div class=&quot;btn-group&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x5de6;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x4e2d;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;&#x53f3;&lt;/button&gt;
+&lt;/div&gt;
+&lt;!-- &#x5c0f;&#x7684; --&gt;
+&lt;div class=&quot;btn-group&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-sm</em>&quot;&gt;&#x5de6;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-sm</em>&quot;&gt;&#x4e2d;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-sm</em>&quot;&gt;&#x53f3;&lt;/button&gt;
+&lt;/div&gt;
+&lt;!-- &#x8d85;&#x5c0f;&#x7684; --&gt;
+&lt;div class=&quot;btn-group&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-xs</em>&quot;&gt;&#x5de6;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-xs</em>&quot;&gt;&#x4e2d;&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-xs</em>&quot;&gt;&#x53f3;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
     <h4>颜色</h4>
     <div class="example">
       <div class="btn-group">
-        <button type="button" class="btn">默认</button>
+        <button type="button" class="btn">Normal</button>
         <button type="button" class="btn btn-primary">.btn-primary</button>
         <button type="button" class="btn btn-warning">.btn-warning</button>
         <button type="button" class="btn btn-danger">.btn-danger</button>
@@ -141,6 +224,14 @@
         <button type="button" class="btn btn-info">.btn-info</button>
       </div>
     </div>
+    <pre><code>&lt;div class=&quot;btn-group&quot;&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn&quot;&gt;Normal&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-primary</em>&quot;&gt;.btn-primary&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-warning</em>&quot;&gt;.btn-warning&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-danger</em>&quot;&gt;.btn-danger&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-success</em>&quot;&gt;.btn-success&lt;/button&gt;
+  &lt;button type=&quot;button&quot; class=&quot;btn <em>btn-info</em>&quot;&gt;.btn-info&lt;/button&gt;
+&lt;/div&gt;</code></pre>
   </article>
 </section>
 
