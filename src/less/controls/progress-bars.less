@@ -7,29 +7,25 @@
 // -------------------------
 
 // Webkit
-@-webkit-keyframes progress-bar-stripes 
-{
+@-webkit-keyframes progress-bar-stripes {
   from  { background-position: 40px 0; }
   to    { background-position: 0 0; }
 }
 
 // Firefox
-@-moz-keyframes progress-bar-stripes 
-{
+@-moz-keyframes progress-bar-stripes {
   from  { background-position: 40px 0; }
   to    { background-position: 0 0; }
 }
 
 // Opera
-@-o-keyframes progress-bar-stripes 
-{
+@-o-keyframes progress-bar-stripes {
   from  { background-position: 0 0; }
   to    { background-position: 40px 0; }
 }
 
 // Spec and IE10+
-@keyframes progress-bar-stripes 
-{
+@keyframes progress-bar-stripes {
   from  { background-position: 40px 0; }
   to    { background-position: 0 0; }
 }
@@ -40,8 +36,7 @@
 // -------------------------
 
 // Outer container
-.progress 
-{
+.progress  {
   overflow: hidden;
   height: @line-height-computed;
   margin-bottom: @line-height-computed;
@@ -50,8 +45,7 @@
 }
 
 // Bar of progress
-.progress-bar 
-{
+.progress-bar  {
   float: left;
   width: 0%;
   height: 100%;
@@ -63,23 +57,19 @@
 }
 
 // Striped bars
-.progress-striped .progress-bar 
-{
+.progress-striped .progress-bar  {
   #gradient > .striped(@progress-bar-bg);
   background-size: 40px 40px;
 }
 
 // Call animation for the active one
-.progress.active .progress-bar 
-{
+.progress.active .progress-bar  {
   -webkit-animation: progress-bar-stripes 2s linear infinite;
      -moz-animation: progress-bar-stripes 2s linear infinite;
       -ms-animation: progress-bar-stripes 2s linear infinite;
        -o-animation: progress-bar-stripes 2s linear infinite;
           animation: progress-bar-stripes 2s linear infinite;
 }
-
-
 
 // Variations
 // -------------------------

@@ -1,12 +1,10 @@
-.cards
-{
+.cards {
   padding-top: 10px;
   padding-bottom: 10px;
   .make-row();
 }
 
-.card
-{
+.card {
   display: block; // Override the inline-block from `.img-thumbnail`
   margin-bottom: @line-height-computed;
   padding: 0;
@@ -17,14 +15,12 @@
   border-radius: @border-radius-base;
   border: 1px solid @card-border-color;
 
-  > img
-  {
+  > img {
     .opacity(1);
     .img-responsive();
   }
 
-  > .media-wrapper
-  {
+  > .media-wrapper {
     .opacity(1);
     display: block;
     background-color: @color-gray-pale;
@@ -32,58 +28,49 @@
     text-align: center;
     width: 100%;
     .transition(all, @animation-speed-normal, @animation-type);
-    > img
-    {
+    > img {
       max-width: 100%;
       vertical-align: middle;
     }
   }
 
-  .card-heading
-  {
+  .card-heading {
     display: block;
     margin: 0;
     padding: 10px;
     .text-overflow();
   }
 
-  .card-content,.card-actions
-  {
+  .card-content,.card-actions {
     padding: 0 10px 10px 10px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  &:hover
-  {
+  &:hover {
     .box-shadow(~"0 1px 5px rgba(0,0,0,.175)");
     text-decoration: none;
 
     > img,
-    > .media-wrapper
-    {
+    > .media-wrapper {
       .opacity(0.9);
       background-color: #e5e5e5;
     }
 
-    > .card-reveal
-    {
+    > .card-reveal {
       top: 0;
     }
   }
 }
 
-.cards-borderless
-{
-  .card
-  {
+.cards-borderless {
+  .card {
     border: none;
     box-shadow: none;
 
     > .card-heading,
     > .card-actions,
-    > .card-content
-    {
+    > .card-content {
       padding-left: 0;
       padding-right: 0;
     }

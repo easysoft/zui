@@ -8,14 +8,11 @@
 // By default, space out list group content from panel headings to account for
 // any kind of custom content between the two.
 
-.panel
-{
-  > .list-group
-  {
+.panel {
+  > .list-group {
     margin-bottom: 0;
 
-    .list-group-item
-    {
+    .list-group-item {
       border-width: 1px 0;
 
       // Remove border radius for top one
@@ -25,11 +22,10 @@
     }
   }
 }
+
 // Collapse space between when there's no additional content.
-.panel-heading + .list-group
-{
-  .list-group-item:first-child
-  {
+.panel-heading + .list-group {
+  .list-group-item:first-child {
     border-top-width: 0;
   }
 }

@@ -1,53 +1,43 @@
-.calendar
-{
+.calendar {
   margin-bottom: 20px;
 
-  > header
-  {
+  > header {
     margin-bottom: 10px;
 
-    .btn-toolbar > .btn-group
-    {
+    .btn-toolbar > .btn-group {
       margin-right: 10px;
     }
 
-    .calendar-caption
-    {
+    .calendar-caption {
       line-height: 30px;
     }
   }
 
-  .table
-  {
+  .table {
     table-layout: fixed;
     margin-bottom: 0;
 
     > thead > tr > th,
-    > tbody> tr > td
-    {
+    > tbody> tr > td {
       width: 14.28571428571429%;
       padding: 0;
     }
 
-    > thead > tr > th
-    {
+    > thead > tr > th {
       background-color: @color-back;
       text-align: center;
       color: @color-gray;
     }
   }
 
-  .day
-  {
+  .day {
     opacity: .7;
 
-    > .heading
-    {
+    > .heading {
       text-align: right;
       padding: 2px 5px;
 
-      > .month
-      {
+      > .month {
         background-color: lighten(@color-gray, 20%);
         color: @color-back;
         border-radius: @border-radius-small;
@@ -55,60 +45,49 @@
       }
     }
 
-    > .content
-    {
+    > .content {
       min-height: 70px;
       height: 100%;
     }
 
-    &.drop-to
-    {
+    &.drop-to {
       opacity: 1;
       background-color: @color-warning-pale;
     }
   }
 
-  .cell-day
-  {
+  .cell-day {
     background-color: @color-gray-pale;
 
-    &.past
-    {
-      > .day > .content
-      {
+    &.past {
+      > .day > .content {
         opacity: .7;
       }
     }
 
-    &.current-month
-    {
+    &.current-month {
       background: none;
 
-      > .day
-      {
+      > .day {
         opacity: 1;
       }
     }
 
-    &.current
-    {
+    &.current {
       background-color: @color-warning-pale;
       box-shadow: inset 1px 1px 0 @color-gray, inset -1px -1px 0 @color-gray;
 
-      > .day > .content
-      {
+      > .day > .content {
         padding: 0;
       }
 
-      > .day > .heading
-      {
+      > .day > .heading {
         background-color: rgba(0, 0, 0, .1);
       }
     }
   }
 
-  .event
-  {
+  .event {
     cursor: pointer;
     padding: 1px 5px;
     opacity: .95;
@@ -116,18 +95,15 @@
     .bg-primary();
     .transition();
 
-    &:hover
-    {
+    &:hover {
       opacity: 1;
     }
 
-    &.drag-shadow
-    {
+    &.drag-shadow {
       cursor: move;
     }
 
-    &.drag-from
-    {
+    &.drag-from {
       opacity: .25;
     }
 
@@ -139,10 +115,8 @@
     &.color-purple {.bg-special();}
   }
 
-  &.limit-event-title
-  {
-    .event
-    {
+  &.limit-event-title {
+    .event {
       .nobr();
       text-overflow: ellipsis;
     }

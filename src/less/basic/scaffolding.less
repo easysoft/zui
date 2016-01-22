@@ -25,29 +25,25 @@ body
 input,
 button,
 select,
-textarea
-{
+textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
 }
 
 // Links
-a
-{
+a {
   color: @link-color;
   text-decoration: none;
   .transition(all, @animation-speed-normal, @animation-type);
 
   &:hover,
-  &:focus
-  {
+  &:focus {
     color: @link-hover-color;
     text-decoration: @link-hover-decoration;
   }
 
-  &:focus
-  {
+  &:focus {
     .tab-focus();
   }
 
@@ -56,8 +52,7 @@ a
   &.disabled:focus,
   &[disabled],
   &[disabled]:hover,
-  &[disabled]:focus
-  {
+  &[disabled]:focus {
     text-decoration: none;
     color: #aaa;
     cursor: default;
@@ -72,8 +67,7 @@ audio,
 canvas,
 img,
 svg,
-video
-{
+video {
   vertical-align: middle;
   max-width: 100%;
 }
@@ -81,8 +75,7 @@ video
 // Only display content to screen readers
 //
 // See: http://a11yproject.com/posts/how-to-hide-content/
-.sr-only
-{
+.sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -97,20 +90,17 @@ video
 // Remove text-shadow in selection highlight: h5bp.com/i
 // These selection rule sets have to be separate.
 // Customize the background color to match your design.
-::-moz-selection
-{
+::-moz-selection {
   background: #b3d4fc;
   text-shadow: none;
 }
-::selection
-{
+::selection {
   background: #b3d4fc;
   text-shadow: none;
 }
 
 // Remove default fieldset styles.
-fieldset
-{
+fieldset {
   border: 0;
   margin: 0;
   padding: 0;
@@ -118,10 +108,10 @@ fieldset
 
 
 // Allow only vertical resizing of textareas.
-textarea
-{
+textarea {
   resize: vertical;
 }
 
 // reset ol&ul padding left
-ol, ul {padding-left: 20px;}
+ol,
+ul {padding-left: 20px;}

@@ -1,12 +1,9 @@
-.article-condensed
-{
+.article-condensed {
   padding: @article-padding 0;
-  > header
-  {
+  > header {
     padding: 0 @article-padding;
     > .abstract,
-    > dl
-    {
+    > dl {
       padding: @article-section-padding;
       margin: 0 -@article-padding;
       // border-bottom: 1px dashed darken(@article-abstract-bg, 10%);
@@ -14,8 +11,7 @@
     }
   }
 
-  > .article-content
-  {
+  > .article-content {
     > p,
     > blockquote,
     > div,
@@ -26,55 +22,46 @@
     > h3,
     > h4,
     > h5,
-    > h6
-    {
+    > h6 {
       padding-left: @article-padding;
       padding-right: @article-padding;
     }
 
     > ul,
     > ol,
-    > dl
-    {
+    > dl {
       padding-left: @article-padding * 3;
     }
 
-    > img
-    {
+    > img {
       border-radius: 0;
     }
     
-    > table
-    {
+    > table {
       border-left: none;
       border-right: none;
       tr > td:first-child,
-      tr > th:first-child,
-      {
+      tr > th:first-child, {
         padding-left: @article-padding;
         border-left: none ;
       }
 
       tr > td:last-child,
-      tr > th:last-child,
-      {
+      tr > th:last-child, {
         padding-right: @article-padding;
         border-right: none;
       }
     }
   }
 
-  > footer
-  {
+  > footer {
     border-top: 1px dashed darken(@article-abstract-bg, 10%);
 
-    > p
-    {
+    > p {
       padding: @article-section-padding;
     }
 
-    > .pager-justify
-    {
+    > .pager-justify {
       > .previous > a { border-left: none; border-radius: 0}
       > .next > a { border-right: none; border-radius: 0}
     }

@@ -68,8 +68,7 @@
   white-space: nowrap;
 }
 
-.nobr()
-{
+.nobr() {
   white-space:nowrap;
   overflow:hidden;
 }
@@ -215,72 +214,55 @@
           transition: transform @transition;
 }
 
-.transition(@target; @speed; @type)
-{
+.transition(@target; @speed; @type) {
   .transition(@target @speed @type);
 }
-.transition-none()
-{
+.transition-none() {
   .transition(none);
 }
-.transition-fast(@target)
-{
+.transition-fast(@target) {
   .transition(@target @animation-speed-fast @animation-type);
 }
-.transition-fast(@target1; @target2)
-{
+.transition-fast(@target1; @target2) {
   .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}");
 }
-.transition-fast(@target1; @target2; @target3)
-{
+.transition-fast(@target1; @target2; @target3) {
   .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}, @{target3} @{animation-speed-fast} @{animation-type}");
 }
-.transition-fast(@target1; @target2; @target3; @target4)
-{
+.transition-fast(@target1; @target2; @target3; @target4) {
   .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}, @{target3} @{animation-speed-fast} @{animation-type}, @{target4} @{animation-speed-fast} @{animation-type}");
 }
-.transition-fast(@target1; @target2; @target3; @target4; @target5;)
-{
+.transition-fast(@target1; @target2; @target3; @target4; @target5;) {
   .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}, @{target3} @{animation-speed-fast} @{animation-type}, @{target4} @{animation-speed-fast} @{animation-type}, @{target5} @{animation-speed-fast} @{animation-type}");
 }
-.transition-fast(@target1; @target2; @target3; @target4; @target5; @target6)
-{
+.transition-fast(@target1; @target2; @target3; @target4; @target5; @target6) {
   .transition(~"@{target1} @{animation-speed-fast} @{animation-type}, @{target2} @{animation-speed-fast} @{animation-type}, @{target3} @{animation-speed-fast} @{animation-type}, @{target4} @{animation-speed-fast} @{animation-type}, @{target5} @{animation-speed-fast} @{animation-type}, @{target6} @{animation-speed-fast} @{animation-type}");
 }
-.transition-fast()
-{
+.transition-fast() {
   .transition-fast(all);
 }
-.transition-slow(@target)
-{
+.transition-slow(@target) {
   .transition(@target @animation-speed-slow @animation-type);
 }
-.transition-slow()
-{
+.transition-slow() {
   .transition-slow(all);
 }
-.transition-normal(@target)
-{
+.transition-normal(@target) {
   .transition(@target @animation-speed-normal @animation-type);
 }
-.transition-normal(@target1; @target2)
-{
+.transition-normal(@target1; @target2) {
   .transition(~"@{target1} @{animation-speed-normal} @{animation-type}, @{target2} @{animation-speed-normal} @{animation-type}");
 }
-.transition-normal(@target1; @target2; @target3)
-{
+.transition-normal(@target1; @target2; @target3) {
   .transition(~"@{target1} @{animation-speed-normal} @{animation-type}, @{target2} @{animation-speed-normal} @{animation-type}, @{target3} @{animation-speed-normal} @{animation-type}");
 }
-.transition-normal(@target1; @target2; @target3; @target4)
-{
+.transition-normal(@target1; @target2; @target3; @target4) {
   .transition(~"@{target1} @{animation-speed-normal} @{animation-type}, @{target2} @{animation-speed-normal} @{animation-type}, @{target3} @{animation-speed-normal} @{animation-type}, @{target4} @{animation-speed-normal} @{animation-type}");
 }
-.transition-normal()
-{
+.transition-normal() {
   .transition-normal(all);
 }
-.transition()
-{
+.transition() {
   .transition-normal();
 }
 
@@ -482,7 +464,6 @@
 .reset-filter() {
   filter: e(%("progid:DXImageTransform.Microsoft.gradient(enabled = false)"));
 }
-
 
 
 // Retina images
@@ -955,41 +936,8 @@
   }
 }
 
-//
-// Accent active mark
-// -------------------
-
-.active-mark-top()
-{
-  // .transition(box-shadow, @animation-speed-fast,@animation-type);
-  // border-top: 2px solid @active-border-color~'\9';
-  // .box-shadow(inset 0 @active-border-width 0 @active-border-color);
-}
-
-.active-mark-bottom()
-{
-  // .transition(box-shadow, @animation-speed-fast,@animation-type);
-  // border-bottom: 2px solid @active-border-color~'\9';
-  // .box-shadow(inset 0 -@active-border-width 0 @active-border-color);
-}
-
-.active-mark-left()
-{
-  // .transition(box-shadow, @animation-speed-fast,@animation-type);
-  // border-left: 2px solid @active-border-color~'\9';
-  // .box-shadow(inset @active-border-width 0 0 @active-border-color);
-}
-
-.active-mark-right()
-{
-  // .transition(box-shadow, @animation-speed-fast,@animation-type);
-  // border-right: 2px solid @active-border-color~'\9';
-  // .box-shadow(inset -@active-border-width 0 0 @active-border-color);
-}
-
 // Dropdown arrow/caret
-.caret()
-{
+.caret() {
   display: inline-block;
   width: 0;
   height: 0;
@@ -1004,8 +952,7 @@
 }
 
 // Reverse the caret
-.caret-reverse()
-{
+.caret-reverse() {
   // Firefox fix for https://github.com/twbs/bootstrap/issues/9538. Once this
   // gets fixed, restore `border-top: 0;`.
   border-top: 0 dotted;

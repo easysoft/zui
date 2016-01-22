@@ -6,35 +6,30 @@
 // Base class
 // --------------------------------------------------
 
-.nav
-{
+.nav {
   margin-bottom: 0;
   padding-left: 0; // Override default ul/ol
   list-style: none;
   .clearfix();
 
-  > .nav-heading
-  {
+  > .nav-heading {
     padding: @nav-link-padding;
     color: @color-gray;
     font-weight: @headings-font-weight;
   }
 
-  > li
-  {
+  > li {
     position: relative;
     display: block;
 
-    > a
-    {
+    > a {
       position: relative;
       display: block;
       padding: @nav-link-padding;
       .transition(all,@animation-speed-fast,@animation-type);
       color: @color-fore;
       &:hover,
-      &:focus
-      {
+      &:focus {
         text-decoration: none;
         background-color: @nav-link-hover-bg;
         color: @link-hover-color;
@@ -42,13 +37,11 @@
     }
 
     // Disabled state sets text to gray and nukes hover/tab effects
-    &.disabled > a
-    {
+    &.disabled > a {
       color: @nav-disabled-link-color;
 
       &:hover,
-      &:focus
-      {
+      &:focus {
         color: @nav-disabled-link-hover-color;
         text-decoration: none;
         background-color: transparent;
@@ -58,17 +51,14 @@
   }
 
   // Open dropdowns
-  .open > a
-  {
+  .open > a {
     &,
     &:hover,
-    &:focus
-    {
+    &:focus {
       background-color: @nav-link-hover-bg;
       border-color: @link-color;
 
-      .caret
-      {
+      .caret {
         border-top-color: @link-hover-color;
         border-bottom-color: @link-hover-color;
       }
@@ -88,47 +78,34 @@
   // Prevent IE8 from misplacing imgs
   //
   // See https://github.com/h5bp/html5-boilerplate/issues/984#issuecomment-3985989
-  > li > a > img
-  {
+  > li > a > img {
     max-width: none;
   }
 }
 
 // Pills
 // -------------------------
-.nav-pills
-{
-  > li
-  {
+.nav-pills {
+  > li {
     float: left;
 
     // Links rendered as pills
-    > a
-    {
+    > a {
       border-radius: @nav-pills-border-radius;
     }
-    + li
-    {
+    + li {
       margin-left: 2px;
     }
 
-    // &:hover,
-    // &:focus {
-    //   border-radius: 
-    // }
-
     // Active state
-    &.active > a
-    {
+    &.active > a {
       &,
       &:hover,
-      &:focus
-      {
+      &:focus {
         color: @nav-pills-active-link-hover-color;
         background-color: @nav-pills-active-link-hover-bg;
 
-        .caret
-        {
+        .caret {
           border-top-color: @nav-pills-active-link-hover-color;
           border-bottom-color: @nav-pills-active-link-hover-color;
         }
@@ -139,49 +116,39 @@
 
 // Secondary
 // -------------------------
-.nav-primary
-{
-  > li
-  {
+.nav-primary {
+  > li {
     float: left;
     margin-left: -1px;
 
-    &:first-child
-    {
-      > a
-      {
+    &:first-child {
+      > a {
         margin-left: 0;
         .border-left-radius(@border-radius-base);
       }
     }
 
-    &:last-child
-    {
-      > a
-      {
+    &:last-child {
+      > a {
         .border-right-radius(@border-radius-base);
       }
     }
 
     // Links rendered
-    > a
-    {
+    > a {
       border: 1px solid @nav-primary-border-color;
     }
 
     // Active state
-    &.active > a
-    {
+    &.active > a {
       &,
       &:hover,
-      &:focus
-      {
+      &:focus {
         background-color: @component-active-bg;
         border-color: @component-active-bg;
         color: @component-active-color;
 
-        .caret
-        {
+        .caret {
           border-top-color: @component-active-caret-color;
           border-bottom-color: @component-active-caret-color;
         }
@@ -192,148 +159,116 @@
 
 // Secondary
 // -------------------------
-.nav-secondary
-{
-  > li
-  {
+.nav-secondary {
+  > li {
     float: left;
 
     // Links rendered
-    > a
-    {
+    > a {
       border-bottom: 2px solid @nav-secondary-border-color;
     }
-    + li
-    {
+    + li {
       // margin-left: 2px;
     }
 
     // Active state
-    &.active > a
-    {
+    &.active > a {
       &,
       &:hover,
-      &:focus
-      {
+      &:focus {
         color: @nav-secondary-active-link-hover-color;
         border-bottom-color: @nav-secondary-active-border-color;
 
-        .caret
-        {
+        .caret {
           border-top-color: @nav-secondary-active-link-hover-color;
           border-bottom-color: @nav-secondary-active-link-hover-color;
         }
       }
     }
 
-    &.nav-heading
-    {
+    &.nav-heading {
       border-bottom: 2px solid @nav-secondary-border-color;
     }
   }
 }
 
 // Stacked pills
-.nav-stacked
-{
-  > li
-  {
+.nav-stacked {
+  > li {
     float: none;
-    + li
-    {
+    + li {
       margin-top: 2px;
       margin-left: 0; // no need for this gap between nav items
     }
   }
 
-  &.nav-primary
-  {
-    > li
-    {
+  &.nav-primary {
+    > li {
       &,
-      > a
-      {
+      > a {
         margin-left: 0;
         .border-bottom-radius(0);
       }
-      + li
-      {
+      + li {
         margin-top: -1px;
       }
-      &:first-child
-      {
+      &:first-child {
         margin-top: 0;
         > a,
-        &.nav-heading
-        {
+        &.nav-heading {
           margin-left: 0;
           .border-top-radius(@border-radius-base);
         }
       }
 
-      &:last-child
-      {
-        > a
-        {
+      &:last-child {
+        > a {
           .border-top-radius(0);
           .border-bottom-radius(@border-radius-base);
         }
       }
 
       // Active state
-      &.active > a
-      {
+      &.active > a {
         &,
         &:hover,
-        &:focus
-        {
-          // .active-mark-left();
+        &:focus {
         }
       }
-      &.nav-heading
-      {
+      &.nav-heading {
         border: 1px solid @color-gray-light;
         background-color: @color-gray-pale;
       }
     }
   }
 
-  &.nav-secondary
-  {
-    > li
-    {
-      > a
-      {
+  &.nav-secondary {
+    > li {
+      > a {
         border: none;
         .border-right-radius(@border-radius-base);
         .box-shadow(inset 2px 0 0 @nav-secondary-active-link-hover-bg);
 
-        &:hover
-        {
+        &:hover {
           .box-shadow(inset 2px 0 0 @nav-secondary-border-color);
         }
       }
-      + li
-      {
+      + li {
         margin-top: -1px;
       }
-      &:first-child
-      {
+      &:first-child {
         margin-top: 0;
       }
       // Active state
-      &.active > a
-      {
+      &.active > a {
         &,
         &:hover,
-        &:focus
-        {
+        &:focus {
           background-color: @nav-secondary-active-link-hover-bg;
           .box-shadow(inset 2px 0 0 @nav-secondary-active-border-color);
         }
       }
-      &.nav-heading
-      {
+      &.nav-heading {
         border-bottom: 1px solid @color-gray-light;
       }
     }
@@ -347,42 +282,30 @@
 // Justified nav links
 // -------------------------
 
-.nav-justified
-{
+.nav-justified {
   width: 100%;
 
-  > li
-  {
+  > li {
     float: none;
-     > a
-     {
+     > a {
       text-align: center;
       margin-bottom: 5px;
     }
   }
 
-
-
-  @media (min-width: @screen-sm-min)
-  {
-    > li
-    {
+  @media (min-width: @screen-sm-min) {
+    > li {
       display: table-cell;
       width: 1%;
-      > a
-      {
+      > a {
         margin-bottom: 0;
       }
     }
 
-    &.nav-primary
-    {
-      > li
-      {
-        + li
-        {
-          > a
-          {
+    &.nav-primary {
+      > li {
+        + li {
+          > a {
             border-left: 0;
           }
         }
@@ -395,13 +318,11 @@
 // -------------------------
 
 // Make dropdown carets use link color in navs
-.nav .caret
-{
+.nav .caret {
   border-top-color: @link-color;
   border-bottom-color: @link-color;
 }
-.nav a:hover .caret
-{
+.nav a:hover .caret {
   border-top-color: @link-hover-color;
   border-bottom-color: @link-hover-color;
 }

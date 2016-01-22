@@ -1,81 +1,63 @@
-.list
-{
+.list {
   padding: 0 @list-padding;
-  > header
-  {
+  > header {
     padding-bottom: 10px;
     border-bottom: 1px solid @color-gray-lighter;
   }
-
 }
 
 
-.items
-{
-  .item
-  {
+.items {
+  .item {
     border-bottom: 1px solid @color-gray-lighter;
     padding: 10px 0;
     .transition(all,@animation-speed-normal,@animation-type);
   }
 
-  .item-heading
-  {
-    > h6, h5, h4, h3,h2,h1
-    {
+  .item-heading {
+    > h6, h5, h4, h3,h2,h1 {
       margin-top: 5px;
     }
   }
 
-  .item-content
-  {
+  .item-content {
     .clearfix();
-    > .media
-    {
+    > .media {
       margin: @padding-base-vertical 0;
-      &.pull-left
-      {
+      &.pull-left {
         margin: 0;
         margin-right: @padding-small-horizontal;
       }
       
-      &.pull-right
-      {
+      &.pull-right {
         margin: 0;
         margin-left: @padding-small-horizontal;
       }
     }
   }
 
-  .item-footer
-  {
-    > a
-    {
+  .item-footer {
+    > a {
       color: @color-gray;
     }
     padding-top: @padding-base-vertical;
   }
 }
 
-.items-hover
-{
-  .item
-  {
-    &:hover
-    {
+.items-hover {
+  .item {
+    &:hover {
       background-color: @list-item-bg-hover;
     }
   }
 }
 
-.list-condensed
-{
+.list-condensed {
   padding: 0;
 
   > header,
   > footer,
-  > .items > .item
-  {
+  > .items > .item {
     padding-left: 15px;
     padding-right: 15px;
   }

@@ -1,84 +1,68 @@
-.dashboard
-{
+.dashboard {
   position: relative;
 
-  > .row
-  {
+  > .row {
     margin: 0 -10px;
 
     > [class^="col-"],
-    > [class*=" col-"]
-    {
+    > [class*=" col-"] {
       padding: 0 10px;
     }
   }
 
-  .panel-heading
-  {
+  .panel-heading {
     font-weight: bold;
     padding: 6px;
     white-space: nowrap;
     text-overflow: ellipsis;
     height: 34px;
 
-    &:hover
-    {
-      > .panel-actions
-      {
+    &:hover {
+      > .panel-actions {
         > .btn,
         > .dropdown > .btn,
         > .dropdown > a,
-        > a
-        {
+        > a {
           .opacity(1);
         }
 
       }
     }
 
-    > [class^='icon-']
-    {
+    > [class^='icon-'] {
       .opacity(0.7);
     }
   }
 
-  .panel-actions
-  {
+  .panel-actions {
     float: right;
 
-    .dropdown
-    {
+    .dropdown {
       display: inline-block;
     }
 
-    .dropdown-menu
-    {
+    .dropdown-menu {
       min-width: 80px;
 
-      > li > a
-      {
+      > li > a {
         padding: 3px 10px;
       }
     }
 
-    .btn
-    {
+    .btn {
       margin-top: -4px;
     }
 
     > a,
-    > .dropdown > a
-    {
+    > .dropdown > a {
       color: @color-gray;
       display: inline-block;
 
-      :hover
-      {
+      :hover {
         text-decoration: none;
       }
 
-      > .caret
-      {
+      > .caret {
         line-height: 20px;
       }
     }
@@ -86,55 +70,45 @@
     > .btn,
     > .dropdown > .btn,
     > .dropdown > a,
-    > a
-    {
+    > a {
       .opacity(0.7);
     }
 
-    .btn + .btn
-    {
+    .btn + .btn {
       margin-left: 4px;
     }
   }
 
-  .panel
-  {
+  .panel {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
-  .panel-body
-  {
+  .panel-body {
     padding: 6px 10px;
     overflow: auto;
 
-    &.no-padding
-    {
+    &.no-padding {
       padding: 0;
     }
 
-    > dl
-    {
+    > dl {
       margin: 0;
     }
 
     > ul,
-    > ol
-    {
+    > ol {
       padding-left: 20px;
       margin: 0;
     }
   }
 
-  &.dashboard-draggable
-  {
-    .panel-heading
-    {
+  &.dashboard-draggable {
+    .panel-heading {
       cursor: move;
     }
   }
 
-  .panel-dragging
-  {
+  .panel-dragging {
     border: 1px solid #fff;
     background:rgba(0,0,0,0.1);
     box-shadow: none!important;
@@ -143,8 +117,7 @@
     > * {.opacity(0.1);}
   }
 
-  .panel-dragging-shadow
-  {
+  .panel-dragging-shadow {
     position: absolute;
     border: 2px solid rgba(255,255,255,0.9);
     box-shadow: 1px 5px 15px rgba(0,0,0,0.5)!important;
@@ -153,8 +126,7 @@
 
     > * {.opacity(0.7);}
 
-    &.circle
-    {
+    &.circle {
       overflow: hidden;
       transition: width 0.2s, height 0.2s;
       border-radius: 50%;
@@ -168,30 +140,25 @@
 
   .dragging-col-holder {display: none}
 
-  &.dashboard-holding
-  {
+  &.dashboard-holding {
     .dragging-col-holder {display: block;}
 
     .dragging-col {display: none}
   }
 }
 
-.dashboard-inverse
-{
+.dashboard-inverse {
   background-color: @color-primary;
 
-  .panel
-  {
+  .panel {
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   }
 
-  .panel-dragging
-  {
+  .panel-dragging {
     background:rgba(0,0,0,0.3);
   }
 
-  .panel-dragging-shadow
-  {
+  .panel-dragging-shadow {
     box-shadow: 1px 2px 15px rgba(0,0,0,0.5)!important;
   }
 }

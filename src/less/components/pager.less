@@ -3,19 +3,16 @@
 // --------------------------------------------------
 
 
-.pager
-{
+.pager {
   display: inline-block;
   padding-left: 0;
   margin: @line-height-computed 0;
   border-radius: @border-radius-base;
 
-  > li
-  {
+  > li {
     display: inline; // Remove list-style and block-level defaults
     > a,
-    > span
-    {
+    > span {
       .transition(all,@animation-speed-fast,@animation-type);
       position: relative;
       float: left; // Collapse white-space
@@ -26,58 +23,47 @@
       border: 1px solid @pager-border;
       margin-left: -1px;
     }
-    &:first-child
-    {
+    &:first-child {
       > a,
-      > span
-      {
+      > span {
         margin-left: 0;
         .border-left-radius(@border-radius-base);
       }
     }
-    &:last-child
-    {
+    &:last-child {
       > a,
-      > span
-      {
+      > span {
         .border-right-radius(@border-radius-base);
       }
     }
   }
 
   > li > a,
-  > li > span
-  {
+  > li > span {
     &:hover,
-    &:focus
-    {
+    &:focus {
       background-color: @pager-hover-bg;
     }
   }
 
   > .active > a,
-  > .active > span
-  {
+  > .active > span {
     &,
-    &:hover,
-    &:focus {
+    &:hover {
       z-index: 2;
       color: @pager-active-color;
       background-color: @pager-active-bg;
       cursor: default;
-      .active-mark-bottom();
     }
   }
 
-  > .disabled
-  {
+  > .disabled {
     > span,
     > span:hover,
     > span:focus,
     > a,
     > a:hover,
-    > a:focus
-    {
+    > a:focus {
       color: @pager-disabled-color;
       background-color: @pager-bg;
       border-color: @pager-border;
@@ -86,26 +72,20 @@
   }
 }
 
-.pager-justify
-{
+.pager-justify {
   display: block;
   .clearfix();
-  .next
-  {
+  .next {
     > a,
-    > span
-    {
+    > span {
       float: right;
     }
   }
 
-  .previous
-  {
+  .previous {
     > a,
-    > span
-    {
+    > span {
       float: left;
     }
   }
-
 }

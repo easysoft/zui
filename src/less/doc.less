@@ -24,7 +24,6 @@
       &:hover {
         cursor: pointer;
       }
-
       &.text-icon {
         font-size: 12px;
       }
@@ -261,7 +260,8 @@
   transition: all 0.3s;
 }
 
-.example:focus, .example [contenteditable]:focus {
+.example:focus,
+.example [contenteditable]:focus {
   outline: none;
   box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.5);
   -webkit-animation-name: glow;
@@ -271,9 +271,13 @@
   -webkit-animation-timing-function: ease-in-out
 }
 
-.example.no-padding {padding: 0;}
+.example.no-padding {
+  padding: 0;
+}
 
-.example.borderless {border: none}
+.example.borderless {
+  border: none
+}
 
 .example > *:last-child {
   margin-bottom: 0;
@@ -285,21 +289,21 @@ pre {
   position: relative;
   border-color: #ddd;
   padding: 10px 20px;
-
   em {
     display: inline-block;
     font-weight: 700;
   }
-
   &:hover {
     em {
       background-color: @color-danger-pale;
     }
   }
 }
+
 pre.linenums {
   padding: 10px;
 }
+
 .example + pre,
 pre + pre {
   margin: -15px 0 15px;
@@ -324,11 +328,9 @@ pre + pre {
   line-height: 20px;
   text-shadow: none;
   opacity: 0;
-
   > .icon {
     line-height: 20px;
   }
-
   &:hover {
     background-color: @color-back;
     color: @color-secondary;
@@ -502,7 +504,7 @@ a.avatar:hover {
     height: 2px;
     width: 10px;
     border: 2px solid @color-gray;
-    border: 2px solid rgba(0,0,0,0.4);
+    border: 2px solid rgba(0, 0, 0, 0.4);
     left: 19px;
     top: 18px;
   }
@@ -932,7 +934,6 @@ body {
           .opacity(1);
         }
       }
-
       &:before {
         position: relative;
       }
@@ -1399,14 +1400,11 @@ body.query-enabled {
     .opacity(.8);
     line-height: 20px;
     .transition-fast();
-
     &.btn {
       border: none;
     }
-
     &[data-toggle='dropdown'] {
       position: relative;
-
       &:before {
         content: ' ';
         display: block;
@@ -1421,12 +1419,10 @@ body.query-enabled {
         .transition-fast(border);
         border-bottom-color: rgba(0, 0, 0, 0.15);
       }
-
       &:hover:before {
         border-bottom-color: rgba(0, 0, 0, 0.35);
       }
     }
-
     &.pull-right {
       margin-right: 0;
       margin-left: 10px;
@@ -1478,26 +1474,24 @@ body.query-enabled {
       color: @color-primary;
       &:hover {
         background-color: darken(@color-pale, 5%);
-
         &:before {
           border-bottom-color: @color-primary;
         }
       }
-
       &[data-type="has-source-bundles"] {
-        .badge-code-pkgs {display: inline-block; margin-left: 8px;}
+        .badge-code-pkgs {
+          display: inline-block;
+          margin-left: 8px;
+        }
       }
     }
   }
-
   .dropdown-menu {
     padding-top: 0;
-
     > li > a {
       padding-left: 30px;
       padding-right: 10px;
       position: relative;
-
       &:before {
         position: absolute;
         display: block;
@@ -1511,24 +1505,20 @@ body.query-enabled {
       }
     }
   }
-
   .dropdown-header {
     color: #999;
     padding-left: 15px;
     padding-right: 15px;
-
     &.primary-header {
       color: #fff;
       padding-top: 8px;
       padding-bottom: 8px;
       background-color: @color-pale;
       color: @color-primary;
-
       &[data-type="source"] {
         color: @color-blue;
         // background-color: @color-blue-pale;
       }
-
       &[data-type="bundles"] {
         color: @color-green;
         // background-color: @color-green-pale;
@@ -1842,10 +1832,6 @@ body.page-show {
     #page {
       .opacity(1);
       .scale(1);
-      // &.with-shadow {
-      //   z-index: 1050;
-      //   top: 0;
-      // }
     }
     #grid {
       .opacity(0);
@@ -2020,7 +2006,6 @@ body.layout-classic {
     width: 400px;
     padding-top: 60px;
   }
-  #searchInput {}
   #grid {
     position: fixed;
     top: 100px;
@@ -2037,7 +2022,6 @@ body.layout-page {
     height: auto!important
   }
   #page {
-    // .transition-fast();
     box-shadow: none;
     &.loading {
       #pageAttrs {
@@ -2055,21 +2039,17 @@ body.layout-page {
 body[data-page="basic-theme"] {
   @color-primary-inverse: contrast(@color-primary, #333, #fff);
   @color-primary-dark: darken(@color-primary, 10%);
-
   #pageHeader,
   #pageHeader > .container > h2 > a.name {
     background-color: @color-primary;
     color: @color-primary-inverse;
   }
-
   #pageHeader {
     border-color: @color-primary-dark;
   }
-
   &.page-show[data-page-accent=primary] #pageHeader > .wrapper > .icon {
     background-color: @color-primary-dark;
   }
-
   .path-btn {
     &:before,
     &:after,
@@ -2078,7 +2058,7 @@ body[data-page="basic-theme"] {
     > .path-1:after {
       .transition-fast();
       border-color: #ddd;
-      border-color: rgba(255,255,255,.7);
+      border-color: rgba(255, 255, 255, .7);
     }
   }
 }

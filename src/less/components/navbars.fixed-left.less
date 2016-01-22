@@ -5,8 +5,7 @@
 
 @import '../controls/icons.variables.less';
 
-.navbar-fixed-left
-{
+.navbar-fixed-left {
   z-index: @zindex-navbar-fixed;
   position: fixed;
   left: 0;
@@ -19,12 +18,10 @@
   .navbar-nav,
   .navbar-nav > li,
   .navbar-header,
-  .navbar-form
-  {
+  .navbar-form {
     float: none;
   }
-  .navbar-collapse
-  {
+  .navbar-collapse {
     max-height: 100%;
     padding: 0;
     overflow: auto !important;
@@ -33,90 +30,74 @@
     padding-bottom: 60px;
   }
 
-  .navbar-nav.navbar-right,.navbar-nav,.navbar-form
-  {
+  .navbar-nav.navbar-right,
+  .navbar-nav,
+  .navbar-form {
     margin: 7.5px 0;
   }
 
-  .navbar-toggle
-  {
+  .navbar-toggle {
     display: none;
   }
 
-  &.navbar-default
-  {
-    .navbar-header
-    {
+  &.navbar-default {
+    .navbar-header {
       border-bottom: 1px solid #ddd;
       border-color: rgba(0, 0, 0, 0.05);
     }
 
-    .navbar-nav > li.nav-heading
-    {
+    .navbar-nav > li.nav-heading {
       background: none
     }
   }
 
-  &.navbar-inverse
-  {
+  &.navbar-inverse {
     border-color: darken(@color-dark, 5%);
-    .navbar-header
-    {
+    .navbar-header {
       border-bottom: 1px solid #333;
       border-color: rgba(255, 255, 255, 0.05);
     }
 
-    .navbar-nav
-    {
+    .navbar-nav {
       background: darken(@color-dark, 10%);
 
       &.collapsed {background: none}
     }
 
-    .navbar-nav > li.nav-heading
-    {
+    .navbar-nav > li.nav-heading {
         background: none
     }
   }
 
-  .navbar-nav
-  {
+  .navbar-nav {
     margin: 0;
     padding: 5px 0;
 
-    > li.nav-heading
-    {
-      + li > a
-      {
+    > li.nav-heading {
+      + li > a {
           box-shadow: 0 1px 0  rgba(0, 0, 0, .1) inset;
       }
     }
 
     > li > a,
-    > li.nav-heading
-    {
+    > li.nav-heading {
       .text-overflow();
       padding-top:    6px;
       padding-bottom: 6px;
     }
   }
 
-  &.navbar-collapsed
-  {
-    .navbar-nav
-    {
-      > li > a
-      {
+  &.navbar-collapsed {
+    .navbar-nav {
+      > li > a {
           padding-left: 30px;
       }
-      > li.nav-heading
-      {
+      > li.nav-heading {
         cursor: pointer;
         padding-left: 30px;
         .transition();
 
-        &:before
-        {
+        &:before {
           content: @icon-angle-down;
           font-family: ZenIcon;
           display: inline-block;
@@ -131,58 +112,56 @@
       }
 
 
-      &.collapsed
-      {
+      &.collapsed {
         padding-bottom: 1px;
 
-        > li > a
-        {
+        > li > a {
           display: none;
         }
 
-        > li.nav-heading
-        {
+        > li.nav-heading {
           display: block;
 
-          &:before
-          {
+          &:before {
             content: @icon-angle-right;
           }
         }
       }
     }
 
-    &.navbar-default
-    {
-      .navbar-nav
-      {
-        > li.nav-heading:hover
-        {
+    &.navbar-default {
+      .navbar-nav {
+        > li.nav-heading:hover {
           color: lighten(@navbar-default-link-color, 5%);
           background-color: darken(@navbar-default-bg, 8%);
         }
       }
     }
 
-    &.navbar-inverse
-    {
-      .navbar-nav
-      {
-        > li.nav-heading:hover
-        {
+    &.navbar-inverse {
+      .navbar-nav {
+        > li.nav-heading:hover {
           color: lighten(@navbar-inverse-link-color, 5%);
           background-color: darken(@navbar-inverse-bg, 8%);
         }
       }
 
-      .navbar-collapse {border-color: @color-dark;}
+      .navbar-collapse { border-color: @color-dark; }
 
-      .navbar-toggle {border-color: @color-gray-light;}
+      .navbar-toggle { border-color: @color-gray-light; }
 
-      .navbar-nav>li.nav-heading:hover,.navbar-nav>li>a:hover, .navbar-nav>li>a:focus, .navbar-toggle:hover, .navbar-toggle:focus {background: darken(@color-dark, 15%);}
+      .navbar-nav > li.nav-heading:hover,
+      .navbar-nav > li > a:hover,
+      .navbar-nav > li > a:focus,
+      .navbar-toggle:hover,
+      .navbar-toggle:focus { background: darken(@color-dark, 15%); }
 
-      .navbar-nav>.active>a, .navbar-nav>.active>a:hover, .navbar-nav>.active>a:focus
-      {background: darken(@color-dark, 20%); box-shadow: 2px 0 0  @color-primary inset;}
+      .navbar-nav > .active > a,
+      .navbar-nav > .active > a:hover,
+      .navbar-nav > .active > a:focus {
+        background: darken(@color-dark, 20%);
+        box-shadow: 2px 0 0  @color-primary inset;
+      }
     }
   }
 }

@@ -7,21 +7,18 @@
 .panel-group
 {
   // Tighten up margin so it's only between panels
-  .panel 
-  {
+  .panel  {
     margin-bottom: 0;
     border-radius: @panel-border-radius;
     overflow: hidden; // crop contents when collapsed
     + .panel { margin-top: 5px; }
   }
 
-  .panel-heading 
-  {
+  .panel-heading  {
     border-bottom: 0;
     + .panel-collapse .panel-body { border-top: 1px solid @panel-inner-border; }
   }
-  .panel-footer 
-  {
+  .panel-footer  {
     border-top: 0;
     + .panel-collapse .panel-body { border-bottom: 1px solid @panel-inner-border; }
   }

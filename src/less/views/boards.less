@@ -1,5 +1,4 @@
-.board-item
-{
+.board-item {
   border: 1px solid @color-gray-light;
   margin-bottom: 5px;
   padding: 6px 10px;
@@ -7,20 +6,17 @@
   .transition();
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
 
-  &:hover
-  {
+  &:hover {
     box-shadow: 0 1px 1 rgba(0, 0, 0, 0.1);
   }
 
-  &.board-item-empty
-  {
+  &.board-item-empty {
     color: @color-gray;
     display: none;
     border-style: dashed;
   }
 
-  &.board-item-shadow
-  {
+  &.board-item-shadow {
     .transition();
     display: none;
     border: none;
@@ -30,8 +26,7 @@
     border-color: @color-gray-light;
   }
 
-  &.drag-shadow
-  {
+  &.drag-shadow {
     width: 250px;
     border-color: darken(@color-gray-light, 10%);
     background-color: @color-back;
@@ -40,50 +35,42 @@
     opacity: 0.9;
   }
 
-  &.drag-from
-  {
+  &.drag-from {
     background-color: @color-pale;
   }
 }
-.board-list
-{
+
+.board-list {
   .board-item:last-child {margin-bottom: 0;}
 }
-.board
-{
+
+.board {
   float: left;
   width: 250px;
   margin-right: 10px;
 
-  &.drop-in-empty
-  {
-     .board-item-empty
-     {
+  &.drop-in-empty {
+     .board-item-empty {
         height: 0; padding: 0; border: transparent; overflow: hidden; margin: 0;
      }
   }
 
-  &:last-child
-  {
+  &:last-child {
     margin-right: 0;
   }
 
-  > .panel-body
-  {
+  > .panel-body {
     padding: 5px;
     background: @color-gray-pale;
   }
 }
-.boards
-{
+
+.boards {
   .clearfix();
 
-  &.dragging
-  {
-    .board
-    {
-      &.drop-in
-      {
+  &.dragging {
+    .board {
+      &.drop-in {
          border-color: darken(@color-gray-light, 10%);
          box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.25);
         .board-item-shadow {display: block;}
@@ -95,8 +82,7 @@
     .board-item.disable-drop {display: none;}
   }
 
-  &.drop-in
-  {
+  &.drop-in {
     .board-item.drag-from {height: 0; padding: 0; border: transparent; overflow: hidden; margin: 0;}
   }
 }

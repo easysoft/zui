@@ -2,8 +2,7 @@
 // Labels
 // --------------------------------------------------
 
-.label 
-{
+.label {
   display: inline;
   padding: .2em .6em .2em;
   font-size: 75%;
@@ -17,11 +16,9 @@
   .label-variant(@label-default-bg); 
 
   // Add hover effects, but only for links
-  &[href] 
-  {
+  &[href] {
     &:hover,
-    &:focus 
-    {
+    &:focus {
       color: @label-link-hover-color;
       text-decoration: none;
       cursor: pointer;
@@ -32,8 +29,7 @@
   &:empty { display: none; }
 }
 
-.label-badge
-{
+.label-badge {
   display: inline-block;
   border-radius: @badge-border-radius;
   min-width: 10px;
@@ -43,8 +39,7 @@
   line-height: @badge-line-height;
 }
 
-.label-dot
-{
+.label-dot {
   text-indent: -9999em;
   &:empty { display: inline-block; }
   display: inline-block;
@@ -56,8 +51,7 @@
 }
 
 // Quick fix for labels/badges in buttons
-.btn .label-badge
-{
+.btn .label-badge {
   position: relative;
   top: -1px;
 }
@@ -72,8 +66,7 @@
 //   background-color: @badge-active-bg;
 // }
 .nav > li > a > .label-badge,
-.nav > li > a > .label-dot
-{
+.nav > li > a > .label-dot {
   margin-left: 3px;
   padding-top: 3px;
   padding-bottom: 3px;

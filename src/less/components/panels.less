@@ -4,8 +4,7 @@
 
 
 // Base class
-.panel 
-{
+.panel {
   margin-bottom: @line-height-computed;
   background-color: @panel-bg;
   border: 1px solid transparent;
@@ -23,23 +22,20 @@
 // Place a non-bordered `.table` within a panel (not within a `.panel-body`) and
 // watch it go full width.
 
-.panel 
-{
+.panel {
   > .table { margin-bottom: 0; }
   > .panel-body + .table { border-top: 1px solid @table-border-color; }
 }
 
 // Optional heading
-.panel-heading 
-{
+.panel-heading {
   padding: 8px 15px;
   border-bottom: 1px solid transparent;
   .border-top-radius(@panel-border-radius - 1);
 }
 
 // Within heading, strip any `h*` tag of it's default margins for spacing.
-.panel-title 
-{
+.panel-title {
   margin-top: 0;
   margin-bottom: 0;
   font-size: ceil((@font-size-base * 1.125));
@@ -47,8 +43,7 @@
 }
 
 // // Optional footer (stays gray in every modifier class)
-.panel-footer 
-{
+.panel-footer {
   padding: 10px 15px;
   background-color: @panel-footer-bg;
   border-top: 1px solid @panel-inner-border;

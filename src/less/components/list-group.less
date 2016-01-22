@@ -5,18 +5,17 @@
 // Base class
 //
 // Easily usable on <ul>, <ol>, or <div>.
-.list-group 
-{
+.list-group {
   // No need to set list-style: none; since .list-group-item is block level
   margin-bottom: 20px;
   padding-left: 0; // reset padding because ul and ol
 }
 
+
 // Individual list items
 // -------------------------
 
-.list-group-item 
-{
+.list-group-item {
   position: relative;
   display: block;
   padding: 10px 15px;
@@ -34,8 +33,7 @@
   > .label-badge + .label-badge { margin-right: 5px; }
 
   // Linked list items
-  a& 
-  {
+  a& {
     color: @list-group-link-color;
     .list-group-item-heading { color: @list-group-link-heading-color; }
     // Hover state
@@ -46,8 +44,7 @@
   // Active class on item itself, not parent
   &.active,
   &.active:hover,
-  &.active:focus 
-  {
+  &.active:focus {
     z-index: 2; // Place active items above their siblings for proper border styling
     background-color: @component-active-bg;
     border-color: @component-active-bg;

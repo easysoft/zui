@@ -1,7 +1,5 @@
-.card
-{
-  > .card-reveal
-  {
+.card {
+  > .card-reveal {
     position: absolute;
     top: 100%;
     left: 0;
@@ -10,16 +8,13 @@
     background-color: @card-reveal-bg;
     .transition(all, @animation-speed-slow, @animation-type);
 
-    > .card-heading
-    {
+    > .card-heading {
       padding: 20px 10px;
     }
   }
 
-  &:hover
-  {
-    > .card-reveal
-    {
+  &:hover {
+    > .card-reveal {
       top: 0;
     }
   }

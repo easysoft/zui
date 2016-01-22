@@ -1,11 +1,9 @@
 // Vertical button groups
 // ----------------------
 
-.btn-group-vertical
-{
+.btn-group-vertical {
   > .btn,
-  > .btn-group
-  {
+  > .btn-group {
     display: block;
     float: none;
     width: 100%;
@@ -13,11 +11,9 @@
   }
 
   // Clear floats so dropdown menus can be properly placed
-  > .btn-group
-  {
+  > .btn-group {
     .clearfix();
-    > .btn
-    {
+    > .btn {
       float: none;
     }
   }
@@ -25,43 +21,34 @@
   > .btn + .btn,
   > .btn + .btn-group,
   > .btn-group + .btn,
-  > .btn-group + .btn-group
-  {
+  > .btn-group + .btn-group {
     margin-top: -1px;
     margin-left: 0;
   }
 }
 
-.btn-group-vertical > .btn
-{
-  &:not(:first-child):not(:last-child)
-  {
+.btn-group-vertical > .btn {
+  &:not(:first-child):not(:last-child) {
     border-radius: 0;
   }
-  &:first-child:not(:last-child):not(.dropdown-toggle)
-  {
+  &:first-child:not(:last-child):not(.dropdown-toggle) {
     border-top-right-radius: @border-radius-base;
     .border-bottom-radius(0);
   }
-  &:last-child:not(:first-child)
-  {
+  &:last-child:not(:first-child) {
     border-bottom-left-radius: @border-radius-base;
     .border-top-radius(0);
   }
 }
-.btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn
-{
+.btn-group-vertical > .btn-group:not(:first-child):not(:last-child) > .btn {
   border-radius: 0;
 }
-.btn-group-vertical > .btn-group:first-child
-{
+.btn-group-vertical > .btn-group:first-child {
   > .btn:last-child,
-  > .dropdown-toggle
-  {
+  > .dropdown-toggle {
     .border-bottom-radius(0);
   }
 }
-.btn-group-vertical > .btn-group:last-child > .btn:first-child
-{
+.btn-group-vertical > .btn-group:last-child > .btn:first-child {
   .border-top-radius(0);
 }

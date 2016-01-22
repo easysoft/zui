@@ -1,37 +1,29 @@
-.comments
-{
-  > header
-  {
+.comments {
+  > header {
     // padding-bottom: 10px;
     border-bottom: 1px solid @color-gray-lighter;
 
-    > .alert
-    {
+    > .alert {
       padding: @alert-padding/2 @alert-padding;
       margin-bottom: -10px;
     }
     //
-    h1, h2, h3
-    {
+    h1, h2, h3 {
         margin: 30px 0 20px;
     }
   }
 
-  > footer
-  {
+  > footer {
     padding-top: 10px;
-    > .reply-form
-    {
-      > .avatar
-      {
+    > .reply-form {
+      > .avatar {
         display: block;
         width: 40px;
         height: 40px;
         float: left;
         margin-top: 10px;
       }
-      > .avatar + .form
-      {
+      > .avatar + .form {
         padding-left: 50px;
       }
     }
@@ -39,42 +31,34 @@
 }
 
 
-.comment
-{
+.comment {
   padding: 10px 0;
   border-bottom: 1px solid @color-gray-lighter;
 
   .clearfix();
   > .avatar,
-  > .content
-  {
+  > .content {
     display: block;
   }
 
-  > .avatar
-  {
+  > .avatar {
     width: 40px;
     height: 40px;
     float: left;
     margin-top: 10px;
   }
 
-  > .avatar + .content
-  {
+  > .avatar + .content {
     padding-left: 50px;
   }
 
-  > .content
-  {
-    > .text
-    {
+  > .content {
+    > .text {
       padding-top: 5px;
     }
 
-    > .actions
-    {
-      > a
-      {
+    > .actions {
+      > a {
         padding-left: 2px;
         display: inline-block;
         padding-right: 5px;
@@ -83,33 +67,26 @@
     }
   }
 
-  &:hover
-  {
-    > .content
-    {
-      > .actions
-      {
-        > a
-        {
+  &:hover {
+    > .content {
+      > .actions {
+        > a {
           color: @link-color;
         }
       }
     }
   }
 
-  > .comments-list
-  {
+  > .comments-list {
     padding-left: 30px;
     margin-left: 20px;
     border-left: 1px dashed @color-gray-lighter;
     padding-top: 10px;
     padding-bottom: 0;
-    > .comment
-    {
+    > .comment {
       border: none;
       border-top: 1px solid @color-gray-lighter;
-      &:last-child
-      {
+      &:last-child {
         padding-bottom: 0;
       }
     }

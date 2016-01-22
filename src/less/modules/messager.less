@@ -1,5 +1,4 @@
-.messager
-{
+.messager {
   position: fixed;
   color: @color-light;
   background-color: @color-dark;
@@ -9,112 +8,93 @@
   max-width: 80%;
   z-index: 99999;
 
-  &.top
-  {
+  &.top {
     top: 20px;
   }
 
-  &.top-left
-  {
+  &.top-left {
     top: 20px;
     left: 20px;
   }
 
-  &.top-right
-  {
+  &.top-right {
     top: 20px;
     right: 20px;
   }
 
-  &.bottom
-  {
+  &.bottom {
     bottom: 20px;
   }
 
-  &.bottom-left
-  {
+  &.bottom-left {
     bottom: 20px;
     left: 20px;
   }
 
-  &.bottom-right
-  {
+  &.bottom-right {
     bottom: 20px;
     right: 20px;
   }
 }
 
-.messager-content
-{
+.messager-content {
   padding: 10px 20px;
 
-  > [class^='icon-']
-  {
+  > [class^='icon-'] {
      display: inline-block;
      margin-right: 8px;
   }
 }
 
-.messager-actions
-{
+.messager-actions {
   position: absolute;
   right: 15px;
   top: 8px;
 
-  > .action
-  {
+  > .action {
     color: #fafafa;
     color: rgba(255, 255, 255, 0.6);
     background: none;
     border: none;
     text-shadow: none;
 
-    &.close
-    {
+    &.close {
       opacity: 1;
       font-size: 20px;
       font-weight: normal;
     }
 
-    &:hover
-    {
+    &:hover {
       color: #fff;
     }
   }
 }
 
-.messager-primary
-{
+.messager-primary {
   background-color: @state-primary-inverse-bg;
 }
 
-.messager-success
-{
+.messager-success {
   background-color: @state-success-inverse-bg;
 }
 
-.messager-info
-{
+.messager-info {
   background-color: @state-info-inverse-bg;
 }
 
-.messager-warning
-{
+.messager-warning {
   background-color: @state-warning-inverse-bg;
 }
 
-.messager-danger
-{
+.messager-danger {
   background-color: @state-danger-inverse-bg;
 }
 
-.messager-important
-{
+.messager-important {
   background-color: @state-important-inverse-bg;
 }
 
-.messager-special
-{
+.messager-special {
   background-color: @state-special-inverse-bg;
 }
 

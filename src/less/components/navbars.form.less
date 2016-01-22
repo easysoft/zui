@@ -3,8 +3,7 @@
 // Extension of the `.form-inline` with some extra flavor for optimum display in
 // our navbars.
 
-.navbar-form
-{
+.navbar-form {
   margin-left: -@navbar-padding-horizontal;
   margin-right: -@navbar-padding-horizontal;
   padding: 10px @navbar-padding-horizontal;
@@ -16,10 +15,8 @@
   // Mixin behavior for optimum display
   .form-inline();
 
-  .form-group
-  {
-    @media (max-width: @screen-xs-max)
-    {
+  .form-group {
+    @media (max-width: @screen-xs-max) {
       margin-bottom: 5px;
     }
   }
@@ -28,8 +25,7 @@
   .navbar-vertical-align(@input-height-base);
 
   // Undo 100% width for pull classes
-  @media (min-width: @grid-float-breakpoint)
-  {
+  @media (min-width: @grid-float-breakpoint) {
     width: auto;
     border: 0;
     margin-left: 0;

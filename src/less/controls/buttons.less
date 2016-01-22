@@ -6,8 +6,7 @@
 // --------------------------------------------------
 
 // Core styles
-.btn
-{
+.btn {
   font-family: @headings-font-family;
   display: inline-block;
   margin-bottom: 0; // For input.btn
@@ -22,21 +21,18 @@
   .user-select(none);
   .transition(all, @animation-speed-normal, @animation-type);
 
-  &:focus
-  {
+  &:focus {
     .tab-focus();
   }
 
   &:hover,
-  &:focus
-  {
+  &:focus {
     color: @btn-default-color;
     text-decoration: none;
   }
 
   &:active,
-  &.active
-  {
+  &.active {
     outline: none;
     background-image: none;
     .box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
@@ -44,8 +40,7 @@
 
   &.disabled,
   &[disabled],
-  fieldset[disabled] &
-  {
+  fieldset[disabled] & {
     cursor: not-allowed;
     pointer-events: none; // Future-proof disabling of clicks
     .opacity(.65);
@@ -58,37 +53,31 @@
 // --------------------------------------------------
 
 // .btn-default,
-.btn
-{
+.btn {
   .button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
   text-shadow: 0 1px 0 #fff;
 }
-.btn-primary
-{
+.btn-primary {
   .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
 }
 // Warning appears as orange
-.btn-warning
-{
+.btn-warning {
   .button-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
 }
 // Danger and error appear as red
-.btn-danger
-{
+.btn-danger {
   .button-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
 }
 // Success appears as green
-.btn-success
-{
+.btn-success {
   .button-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
 }
 // Info appears as blue-green
-.btn-info
-{
+.btn-info {
   .button-variant(@btn-info-color; @btn-info-bg; @btn-info-border);
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
 }
@@ -98,8 +87,7 @@
 // -------------------------
 
 // Make a button look and behave like a link
-.btn-link
-{
+.btn-link {
   color: @link-color;
   font-weight: normal;
   cursor: pointer;
@@ -112,22 +100,18 @@
   &[disabled],
   fieldset[disabled] &,
   &:hover,
-  &:focus
-  {
+  &:focus {
     border-color: transparent;
     .box-shadow(none);
   }
   &:hover,
-  &:focus
-  {
+  &:focus {
     color: @link-hover-color;
   }
   &[disabled],
-  fieldset[disabled] &
-  {
+  fieldset[disabled] & {
     &:hover,
-    &:focus
-    {
+    &:focus {
       color: @btn-link-disabled-color;
       text-decoration: none;
     }
@@ -136,19 +120,16 @@
 
 // Button Sizes
 // --------------------------------------------------
-.btn-lg
-{
+.btn-lg {
   // line-height: ensure even-numbered height of button next to large input
   .button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @border-radius-base);
 }
 .btn-sm,
-.btn-xs,.btn-mini
-{
+.btn-xs,.btn-mini {
   // line-height: ensure proper height of button next to small input
   .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-base);
 }
-.btn-xs,.btn-mini
-{
+.btn-xs,.btn-mini {
   padding: 1px 5px;
 }
 
@@ -156,8 +137,7 @@
 // Block button
 // --------------------------------------------------
 
-.btn-block
-{
+.btn-block {
   display: block;
   width: 100%;
   padding-left: 0;
@@ -165,44 +145,37 @@
 }
 
 // Vertically space out multiple block buttons
-.btn-block + .btn-block
-{
+.btn-block + .btn-block {
   margin-top: 5px;
 }
 
 // Specificity overrides
 input[type="submit"],
 input[type="reset"],
-input[type="button"]
-{
-  &.btn-block
-  {
+input[type="button"] {
+  &.btn-block {
     width: 100%;
   }
 }
 
 
 // Reposition the caret
-.btn .caret
-{
+.btn .caret {
   margin-left: 0;
 }
 // Carets in other button sizes
-.btn-lg .caret
-{
+.btn-lg .caret {
   border-width: @caret-width-large @caret-width-large 0;
   border-bottom-width: 0;
 }
 // Upside down carets for .dropup
-.dropup .btn-lg .caret
-{
+.dropup .btn-lg .caret {
   border-width: 0 @caret-width-large @caret-width-large;
 }
 
 
 // Checkbox and radio options
 [data-toggle="buttons"] > .btn > input[type="radio"],
-[data-toggle="buttons"] > .btn > input[type="checkbox"]
-{
+[data-toggle="buttons"] > .btn > input[type="checkbox"] {
   display: none;
 }

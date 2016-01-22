@@ -31,8 +31,7 @@
 
 /* icons */
 [class^="ke-icon-"],
-[class*=" ke-icon-"]
-{
+[class*=" ke-icon-"] {
   width: 16px;
   height: 16px;
 }
@@ -153,10 +152,8 @@
   background-image: url(default.png);
 }
 
-.ke-toolbar
-{
-  .ke-outline
-  {
+.ke-toolbar {
+  .ke-outline {
     border: 1px solid @input-bg;
     margin: 1px;
     padding: 1px 2px;
@@ -170,30 +167,23 @@
     .opacity(0.8);
     .transition(all, @animation-speed-normal, @animation-type);
   }
-
   .ke-on,
-  .ke-selected
-  {
+  .ke-selected {
     .opacity(1);
     border-color: @color-gray-light;
   }
-
-  .ke-selected
-  {
+  .ke-selected {
     background-color: @color-gray-pale;
   }
-
-  .ke-disabled
-  {
+  .ke-disabled {
     cursor: default;
   }
-
   .ke-separator {
     height: 16px;
     margin: 2px 3px;
     border-left: 1px dotted @color-gray-light;
-    border-top:0;
-    border-bottom:0;
+    border-top: 0;
+    border-bottom: 0;
     width: 0;
     font-size: 0;
     line-height: 0;
@@ -247,20 +237,17 @@
   .opacity(0);
 
   .ke-statusbar-center-icon,
-  .ke-statusbar-right-icon
-  {
+  .ke-statusbar-right-icon {
     height: 11px;
     background-image: url(default.png);
 
   }
-  .ke-statusbar-center-icon
-  {
+  .ke-statusbar-center-icon {
     background-position: -0px -754px;
     width: 15px;
   }
 
-  .ke-statusbar-right-icon
-  {
+  .ke-statusbar-right-icon {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -269,8 +256,7 @@
     width: 11px;
   }
 
-  &:hover
-  {
+  &:hover {
     .opacity(1);
   }
 
@@ -451,8 +437,7 @@
   cursor: pointer;
   .opacity(0.6);
 
-  &:hover
-  {
+  &:hover {
     .opacity(1);
   }
 }

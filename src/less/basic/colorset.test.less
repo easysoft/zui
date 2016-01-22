@@ -2,17 +2,14 @@
 // Colorset
 // --------------------------------------------------
 
-
-.colorset
-{
+.colorset {
   .clearfix();
   padding-bottom: 10px;
   padding-top: 20px;
   border-bottom: 1px dashed darken(@color-back, 10%);
 }
 
-.color-tile
-{
+.color-tile {
   display: block;
   width: 160px;
   height: 160px;
@@ -23,14 +20,14 @@
   margin-bottom: 10px;
   border: 1px solid rgba(0, 0, 0, 0.5);
 
-  &:after,&:before
-  {
+  &:after,
+  &:before {
     display: block;
     position: absolute;
     bottom: 0;
     left: 0;
     height: 24px;
-    line-height:24px;
+    line-height: 24px;
     width: 100%;
     font-size: 12px;
     color: rgba(255, 255, 255, 0.7);
@@ -40,46 +37,39 @@
     .transition-normal();
   }
 
-  &:after
-  {
+  &:after {
     top: 0;
     bottom: auto;
     background-color: transparent;
     text-align: right;
-    text-transform:uppercase;
+    text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
   }
-
+  
   &:hover {
-    &:after,&:before {opacity: 1}
+    &:after,
+    &:before {
+      opacity: 1
+    }
   }
 }
 
-.color(@c)
-{
-  .colorset .@{c}
-  {
+.color(@c) {
+  .colorset .@{c} {
     .color-tile();
     border-color: darken(@@c, 10%);
-
     background-color: @@c;
-
-    &:after, &:before {
+    &:after,
+    &:before {
       color: contrast(@@c, @color-fore, @color-back, 70%);
     }
-
-    &:after
-    {
+    &:after {
       content: %("%d", @@c);
     }
-
-    &:before
-    {
+    &:before {
       content: %("%s", @c);
     }
-
-    &:hover:before
-    {
+    &:hover:before {
       content: %("%s,%d,%a", round(hue(@@c)), round(saturation(@@c)), round(lightness(@@c)));
     }
   }

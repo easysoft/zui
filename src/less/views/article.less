@@ -1,121 +1,98 @@
-.article
-{
+.article {
   padding: @article-padding;
 
-  > header
-  {
+  > header {
     h1,
     h2,
-    h3,
-    {
+    h3, {
       line-height: 1.5;
     }
 
     > .abstract,
-    > dl
-    {
+    > dl {
       font-size: @font-size-small;
       padding: @article-section-padding;
       background-color: @article-abstract-bg;
       color: @article-abstract-color;
-      > p:last-child
-      {
+      > p:last-child {
         margin-bottom: 0;
       }
     }
 
-    > dl
-    {
+    > dl {
       border-bottom: 1px solid darken(@article-abstract-bg, 3%);
       margin: 0;
-      &.pull-right
-      {
+      &.pull-right {
         background-color: transparent;
         border: none;
       }
     }
   }
 
-  > footer
-  {
+  > footer {
     border-top: 1px dashed darken(@article-abstract-bg, 10%);
-    > p
-    {
+    > p {
       padding: @article-section-padding;
     }
   }
 }
 
-.article-content
-{
+.article-content {
   font-size: @article-font-size;
   line-height: @article-line-height;
 
   padding: @line-height-computed 0;
 
-  h1 
-  {
+  h1  {
     font-size: @article-font-size-h1;
   }
-  h2 
-  {
+  h2  {
     font-size: @article-font-size-h2;
   }
-  h3 
-  {
+  h3  {
     font-size: @article-font-size-h3;
   }
-  h4 
-  {
+  h4  {
     margin-top: 15px;
     font-size: @article-font-size-h4;
   }
-  h5 
-  {
+  h5  {
     margin-top: 15px;
     font-size: @article-font-size-h5;
   }
-  h6 
-  {
+  h6  {
     margin-top: 15px;
     font-size: @article-font-size-h6;
   }
 
-  img
-  {
+  img {
     margin: @line-height-computed / 2 0;
   }
 
-  p
-  {
+  p {
     margin: 0;
 
-    > img
-    {
+    > img {
       margin-right: 10px;
 
-      &[align='right']
-      {
+      &[align='right'] {
         margin-left: 10px;
       }
     }
   }
 
-  dl
-  {
+  dl {
     padding-left: 2em;
     padding-right: 2em;
   }
 
-  table
-  {
+  table {
     width: 100%;
     margin-bottom: @line-height-computed;
 
     // Cells
     th,
-    td
-    {
+    td {
       padding: @table-cell-padding;
       line-height: @line-height-base;
       vertical-align: top;
@@ -125,8 +102,7 @@
     }
 
     // Bottom align for column headings
-    > thead > tr > th 
-    {
+    > thead > tr > th  {
       vertical-align: bottom;
       border-bottom: 1px solid @table-border-color;
       background-color: @table-head-bg;
@@ -134,7 +110,6 @@
   }
 }
 
-body.article-content
-{
+body.article-content {
   padding: 8px;
 }
