@@ -482,8 +482,9 @@
         "name": "Share",
         "categories": ["Web Application Icons"]
     },
-    "check2": {
-        "code": "e642"
+    "checked": {
+        "code": "e642",
+        "alias": ["check2"]
     },
     "arrows": {
         "code": "e643",
