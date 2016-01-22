@@ -750,7 +750,7 @@
 
         sortUp = !$th.hasClass('sort-up');
         if(data.keepSort) sortUp = !sortUp;
-        data.keepSort = false;
+        data.keepSort = null;
 
         $headCells.removeClass('sort-up sort-down');
         $th.addClass(sortUp ? 'sort-up' : 'sort-down');
@@ -878,7 +878,7 @@
             if(!data) $this.data(name, (data = new DataTable(this, options)));
 
             if(typeof option == 'string') {
-                if(option === 'load' && $.isPlainObject(newData) && typeof newData.keepSort !== 'boolean') newData.keepSort = true;
+                if(option === 'load' && $.isPlainObject(newData) && (newData.keepSort === undefined || newData.keepSort === null)) newData.keepSort = true;
                 data[option](newData);
             }
         });
