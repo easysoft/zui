@@ -418,7 +418,10 @@ gulp.task('build', function(callback) {
 ['dist', 'doc', 'theme'].forEach(function(name) {
     gulp.task(name, function(callback) {
         console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
-        buildBundle(name, callback);
+        buildBundle(name, function() {
+            console.log('    END >> ' + (' Build ' + name.bold + ' completed. ').green.inverse);
+            callback();
+        });
     });
 
     gulp.task('watch:' + name, function() {
