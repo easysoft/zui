@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -490,11 +490,10 @@
 
     // The browser modal class
     var Browser = function() {
-        var isIE = this.isIE;
-        var ie = isIE();
+        var ie = this.isIE() || this.isIE10() || false;
         if(ie) {
             for(var i = 10; i > 5; i--) {
-                if(isIE(i)) {
+                if(this.isIE(i)) {
                     ie = i;
                     break;
                 }
@@ -524,21 +523,19 @@
     };
 
     // Show browse happy tip
-    Browser.prototype.tip = function() {
-        if(this.ie && this.ie < 8) {
-            var $browseHappy = $('#browseHappyTip');
-            if(!$browseHappy.length) {
-                $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
-                $browseHappy.prependTo('body');
-            }
-
-            $browseHappy.find('.content').html(this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
+    Browser.prototype.tip = function(showCoontent) {
+        var $browseHappy = $('#browseHappyTip');
+        if(!$browseHappy.length) {
+            $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger-inverse alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
+            $browseHappy.prependTo('body');
         }
+
+        $browseHappy.find('.content').html(showCoontent || this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
     };
 
     // Detect it is IE, can given a version
     Browser.prototype.isIE = function(version) {
-        // var ie = /*@cc_on !@*/false;
+        if(version === 10) return this.isIE10();
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
         return b.getElementsByTagName('i').length === 1;
@@ -546,7 +543,7 @@
 
     // Detect ie 10 with hack
     Browser.prototype.isIE10 = function() {
-        return( /*@cc_on!@*/ false);
+        return (/*@cc_on!@*/false);
     };
 
     $.zui({
@@ -555,7 +552,9 @@
 
     $(function() {
         if(!$('body').hasClass('disabled-browser-tip')) {
-            $.zui.browser.tip();
+            if($.zui.browser.ie && $.zui.browser.ie < 8) {
+                $.zui.browser.tip();
+            }
         }
     });
 }(jQuery));
@@ -1805,9 +1804,10 @@
 
     // MODAL TRIGGER CLASS DEFINITION
     // ======================
-    var ModalTrigger = function(options) {
-        options = $.extend({}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, options);
+    var ModalTrigger = function(options, $trigger) {
+        options = $.extend({}, ModalTrigger.DEFAULTS, $.ModalTriggerDefaults, $trigger ? $trigger.data() : null, options);
         this.isShown;
+        this.$trigger = $trigger;
         this.options = options;
         this.id = $.zui.uuid();
 
@@ -1894,7 +1894,7 @@
     };
 
     ModalTrigger.prototype.show = function(option) {
-        var options = $.extend({}, this.options, option);
+        var options = $.extend({}, this.options, {url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url}, option);
         this.init(options);
         var that = this,
             $modal = this.$modal,
@@ -2103,7 +2103,7 @@
                     url: $this.attr('href'),
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
-            if(!data) $this.data(NAME, (data = new ModalTrigger(options)));
+            if(!data) $this.data(NAME, (data = new ModalTrigger(options, $this)));
             if(typeof option == STR_STRING) data[option](settings);
             else if(options.show) data.show(settings);
 
@@ -2172,7 +2172,7 @@
         if(!$target || !$target.length) {
             if(!$this.data(NAME)) {
                 $this.modalTrigger({
-                    show: true
+                    show: true,
                 });
             } else {
                 $this.trigger('.toggle.' + NAME);

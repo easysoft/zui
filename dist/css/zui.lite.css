@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -671,8 +671,8 @@ textarea {
 a {
   color: #145ccd;
   text-decoration: none;
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+          transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 a:hover,
 a:focus {
@@ -1683,8 +1683,8 @@ h6.header-dividing {
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
-  -webkit-transition: all .8s cubic-bezier(.175, .885, .32, 1);
-          transition: all .8s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+          transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .btn:focus {
   outline: thin dotted #333;
@@ -1730,8 +1730,10 @@ fieldset[disabled] .btn {
 .btn:active,
 .btn.active,
 .open .dropdown-toggle.btn {
+  background-color: #ccc;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #a6a6a6;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn.disabled,
 .btn[disabled],
@@ -1770,8 +1772,10 @@ fieldset[disabled] .btn.active {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
+  background-color: #0358de;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #0358de;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-primary.disabled,
 .btn-primary[disabled],
@@ -1810,8 +1814,10 @@ fieldset[disabled] .btn-primary.active {
 .btn-warning:active,
 .btn-warning.active,
 .open .dropdown-toggle.btn-warning {
+  background-color: #bd7a0c;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #bd7a0c;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-warning.disabled,
 .btn-warning[disabled],
@@ -1850,8 +1856,10 @@ fieldset[disabled] .btn-warning.active {
 .btn-danger:active,
 .btn-danger.active,
 .open .dropdown-toggle.btn-danger {
+  background-color: #cf3618;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #cf3618;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-danger.disabled,
 .btn-danger[disabled],
@@ -1890,8 +1898,10 @@ fieldset[disabled] .btn-danger.active {
 .btn-success:active,
 .btn-success.active,
 .open .dropdown-toggle.btn-success {
+  background-color: #26762a;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #26762a;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-success.disabled,
 .btn-success[disabled],
@@ -1930,8 +1940,10 @@ fieldset[disabled] .btn-success.active {
 .btn-info:active,
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
+  background-color: #027584;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #027584;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-info.disabled,
 .btn-info[disabled],
@@ -2172,7 +2184,7 @@ hr {
   content: "/\00a0";
   }
 .breadcrumb > .active {
-  color: #ddd;
+  color: #808080;
   }
 /*! | Font Awesome 3.2.1 | License: | - The Font Awesome font is licensed under SIL OFL 1.1 - | - Font Awesome CSS, LESS, and SASS files are licensed under MIT License - | - Font Awesome documentation licensed under CC BY 3.0 - | "Font Awesome by Dave Gandy - http://fontawesome.io"
 */
@@ -2620,7 +2632,8 @@ a .icon-flip-vertical:before {
 .icon-share:before {
   content: '\e641';
   }
-.icon-check2:before {
+.icon-check2:before,
+.icon-checked:before {
   content: '\e642';
   }
 .icon-move:before {
@@ -3648,11 +3661,9 @@ a.list-group-item:focus {
   margin-bottom: 20px;
   color: #282828;
   background-color: #f1f1f1;
-  border: 1px solid transparent;
-  border-color: #e4e4e4;
   border-radius: 3px;
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+          transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .alert hr {
   border-top-color: #e4e4e4;
@@ -3717,14 +3728,13 @@ a.list-group-item:focus {
   }
 .alert-dismissable .close {
   position: relative;
-  top: -2px;
+  top: -6px;
   right: -21px;
   color: inherit;
   }
 .alert-primary {
   color: #282828;
   background-color: #ebf2f9;
-  border-color: #d0e0f1;
   }
 .alert-primary hr {
   border-top-color: #d0e0f1;
@@ -3735,7 +3745,6 @@ a.list-group-item:focus {
 .alert-success {
   color: #329d38;
   background-color: #ddf4df;
-  border-color: #bae8b6;
   }
 .alert-success hr {
   border-top-color: #bae8b6;
@@ -3746,7 +3755,6 @@ a.list-group-item:focus {
 .alert-info {
   color: #03a2b6;
   background-color: #ddf3f5;
-  border-color: #a2e4de;
   }
 .alert-info hr {
   border-top-color: #a2e4de;
@@ -3757,7 +3765,6 @@ a.list-group-item:focus {
 .alert-warning {
   color: #ed980f;
   background-color: #fff0d5;
-  border-color: #ffdcbc;
   }
 .alert-warning hr {
   border-top-color: #ffdcbc;
@@ -3768,7 +3775,6 @@ a.list-group-item:focus {
 .alert-danger {
   color: #e75033;
   background-color: #ffe5e0;
-  border-color: #ffc6c7;
   }
 .alert-danger hr {
   border-top-color: #ffc6c7;
@@ -4043,16 +4049,15 @@ textarea.form-control {
   }
 .radio,
 .checkbox {
+  position: relative;
   display: block;
-  min-height: 20px;
-  padding-left: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
-  vertical-align: middle;
   }
 .radio label,
 .checkbox label {
-  display: inline;
+  min-height: 20px;
+  padding-left: 20px;
   margin-bottom: 0;
   font-weight: normal;
   cursor: pointer;
@@ -4061,7 +4066,9 @@ textarea.form-control {
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
-  float: left;
+  position: absolute;
+  margin-top: 3px;
+  margin-top: 4px \9;
   margin-left: -20px;
   }
 .radio + .radio,
@@ -4070,6 +4077,7 @@ textarea.form-control {
   }
 .radio-inline,
 .checkbox-inline {
+  position: relative;
   display: inline-block;
   padding-left: 20px;
   margin-bottom: 0;
@@ -4084,16 +4092,22 @@ textarea.form-control {
   }
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
-.radio[disabled],
-.radio-inline[disabled],
-.checkbox[disabled],
-.checkbox-inline[disabled],
+input[type="radio"].disabled,
+input[type="checkbox"].disabled,
 fieldset[disabled] input[type="radio"],
-fieldset[disabled] input[type="checkbox"],
-fieldset[disabled] .radio,
+fieldset[disabled] input[type="checkbox"] {
+  cursor: not-allowed;
+  }
+.radio-inline.disabled,
+.checkbox-inline.disabled,
 fieldset[disabled] .radio-inline,
-fieldset[disabled] .checkbox,
 fieldset[disabled] .checkbox-inline {
+  cursor: not-allowed;
+  }
+.radio.disabled label,
+.checkbox.disabled label,
+fieldset[disabled] .radio label,
+fieldset[disabled] .checkbox label {
   cursor: not-allowed;
   }
 .input-sm {
@@ -4176,7 +4190,9 @@ textarea.input-lg {
   border-color: #38b03f;
   }
 .form-control-static {
+  min-height: 33px;
   padding-top: 6px;
+  padding-bottom: 6px;
   margin-bottom: 0;
   }
 .help-block {
@@ -4334,6 +4350,7 @@ pre code {
   }
 .prettyprint ol.linenums {
   padding-left: 40px;
+  margin-bottom: 0;
   line-height: 20px;
   color: #bebec5;
   text-shadow: 0 1px 0 #fff;
@@ -4380,9 +4397,7 @@ pre code {
 .pager > .active > a,
 .pager > .active > span,
 .pager > .active > a:hover,
-.pager > .active > span:hover,
-.pager > .active > a:focus,
-.pager > .active > span:focus {
+.pager > .active > span:hover {
   z-index: 2;
   color: #fff;
   cursor: default;
@@ -4608,6 +4623,30 @@ pre code {
 .nav-stacked.nav-primary > li.nav-heading {
   background-color: #f1f1f1;
   border: 1px solid #ddd;
+  }
+.nav-stacked.nav-secondary > li > a {
+  border: none;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  box-shadow: inset 2px 0 0 #f5f5f5;
+  }
+.nav-stacked.nav-secondary > li > a:hover {
+  box-shadow: inset 2px 0 0 #e5e5e5;
+  }
+.nav-stacked.nav-secondary > li + li {
+  margin-top: -1px;
+  }
+.nav-stacked.nav-secondary > li:first-child {
+  margin-top: 0;
+  }
+.nav-stacked.nav-secondary > li.active > a,
+.nav-stacked.nav-secondary > li.active > a:hover,
+.nav-stacked.nav-secondary > li.active > a:focus {
+  background-color: #f5f5f5;
+  box-shadow: inset 2px 0 0 #3280fc;
+  }
+.nav-stacked.nav-secondary > li.nav-heading {
+  border-bottom: 1px solid #ddd;
   }
 .nav-justified {
   width: 100%;
@@ -6393,8 +6432,8 @@ body.article-content {
 .items .item {
   padding: 10px 0;
   border-bottom: 1px solid #e5e5e5;
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+          transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .items .item-heading > h6,
 .items .item-heading h5,

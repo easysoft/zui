@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -31,8 +31,10 @@ a:focus {
 .btn:active,
 .btn.active,
 .open .dropdown-toggle.btn {
+  background-color: #d9d9d9;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #b3b3b3;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn.disabled,
 .btn[disabled],
@@ -98,8 +100,10 @@ fieldset[disabled] .btn.active {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
+  background-color: #2b387c;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #313e8b;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-primary.disabled,
 .btn-primary[disabled],
@@ -165,8 +169,10 @@ fieldset[disabled] .btn-primary.active {
 .btn-warning:active,
 .btn-warning.active,
 .open .dropdown-toggle.btn-warning {
+  background-color: #df8a13;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #ec951a;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-warning.disabled,
 .btn-warning[disabled],
@@ -232,8 +238,10 @@ fieldset[disabled] .btn-warning.active {
 .btn-danger:active,
 .btn-danger.active,
 .open .dropdown-toggle.btn-danger {
+  background-color: #b52b27;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #c52f2b;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-danger.disabled,
 .btn-danger[disabled],
@@ -299,8 +307,10 @@ fieldset[disabled] .btn-danger.active {
 .btn-success:active,
 .btn-success.active,
 .open .dropdown-toggle.btn-success {
+  background-color: #357a38;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #3b883e;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-success.disabled,
 .btn-success[disabled],
@@ -366,8 +376,10 @@ fieldset[disabled] .btn-success.active {
 .btn-info:active,
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
+  background-color: #026899;
   background-image: none;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+  border-color: #0276ae;
+  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-info.disabled,
 .btn-info[disabled],
@@ -879,6 +891,9 @@ table.tablesorter thead tr .headerSortDown:after {
 .datetimepicker td.day.today.active:hover {
   background-color: #ec971f !important;
   }
+.ke-container {
+  border-radius: 0 !important;
+  }
 .ke-container.focus {
   border-color: #3949ab !important;
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(57, 73, 171, .6)!important;
@@ -926,7 +941,6 @@ table.tablesorter thead tr .headerSortDown:after {
 .alert-primary {
   color: #282828;
   background-color: #eceff1;
-  border-color: #eceff1;
   }
 .alert-primary hr {
   border-top-color: #eceff1;
@@ -937,7 +951,6 @@ table.tablesorter thead tr .headerSortDown:after {
 .alert-success {
   color: #449d48;
   background-color: #ddf4df;
-  border-color: #ddf4df;
   }
 .alert-success hr {
   border-top-color: #ddf4df;
@@ -948,7 +961,6 @@ table.tablesorter thead tr .headerSortDown:after {
 .alert-info {
   color: #038acc;
   background-color: #ddf3f5;
-  border-color: #ddf3f5;
   }
 .alert-info hr {
   border-top-color: #ddf3f5;
@@ -959,7 +971,6 @@ table.tablesorter thead tr .headerSortDown:after {
 .alert-warning {
   color: #eea236;
   background-color: #fff0d5;
-  border-color: #fff0d5;
   }
 .alert-warning hr {
   border-top-color: #fff0d5;
@@ -970,7 +981,6 @@ table.tablesorter thead tr .headerSortDown:after {
 .alert-danger {
   color: #d43f3a;
   background-color: #ffe5e0;
-  border-color: #ffe5e0;
   }
 .alert-danger hr {
   border-top-color: #ffe5e0;
@@ -989,9 +999,6 @@ table.tablesorter thead tr .headerSortDown:after {
   }
 .alert-primary-inverse .alert-link {
   color: rgba(255, 255, 255, .8);
-  }
-.ke-container {
-  border-radius: 0 !important;
   }
 .modal-dialog {
   border-radius: 1px;

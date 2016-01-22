@@ -304,8 +304,8 @@
   border: 1px solid #ddd;
   border-radius: 3px;
   box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(0,0,0,.05);
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+          transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .chosen-container-multi .chosen-choices li.search-choice:hover {
   background-color: #fff;

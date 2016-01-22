@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -16,7 +16,10 @@
 (function($, Math) {
     'use strict';
 
+    var name = 'zui.imgcutter';
+
     var ImgCutter = function(element, options) {
+        this.name = name;
         this.$ = $(element);
         this.initOptions(options);
         this.init();
@@ -33,7 +36,8 @@
     }; // default options
 
     ImgCutter.prototype.callEvent = function(name, params) {
-        return $.zui.callEvent(this.options[name], params);
+        var result = this.$.callEvent(name + '.' + this.name, params, this);
+        return !(result.result !== undefined && (!result.result));
     };
 
     ImgCutter.prototype.initOptions = function(options) {
@@ -150,8 +154,10 @@
             var data = {
                 originWidth: that.imgWidth,
                 originHeight: that.imgHeight,
-                width: that.width,
-                height: that.height,
+                scaleWidth: that.width,
+                scaleHeight: that.height,
+                width: that.right - that.left,
+                height: that.bottom - that.top,
                 left: that.left,
                 top: that.top,
                 right: that.right,

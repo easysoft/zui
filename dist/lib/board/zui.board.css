@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -11,8 +11,8 @@
   background: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+          transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .board-item:hover {
   box-shadow: 0 1px 1 rgba(0, 0, 0, .1);
@@ -29,8 +29,8 @@
   border: none;
   border-color: #ddd;
   box-shadow: inset 0 0 4px rgba(0, 0, 0, .1);
-  -webkit-transition: all .5s cubic-bezier(.175, .885, .32, 1);
-          transition: all .5s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+          transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .board-item.drag-shadow {
   width: 250px;

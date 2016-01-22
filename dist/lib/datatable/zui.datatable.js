@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.3.2 - 2016-01-14
+ * ZUI - v1.4.0 - 2016-01-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -106,7 +106,10 @@
         var options = this.options,
             cols;
 
-        if($.isPlainObject(data)) {
+        if($.isFunction(data)) {
+            data = data(this.data, this);
+            data.keepSort = true;
+        } else if($.isPlainObject(data)) {
             this.data = data;
         } else if(typeof data === 'string') {
             var $table = $(data);
@@ -753,11 +756,13 @@
             index;
 
         sortUp = !$th.hasClass('sort-up');
+        if(data.keepSort) sortUp = !sortUp;
+        data.keepSort = null;
+
         $headCells.removeClass('sort-up sort-down');
         $th.addClass(sortUp ? 'sort-up' : 'sort-down');
 
         index = $th.data('index');
-        sortUp = $th.hasClass('sort-up');
 
         $.each(cols, function(idx, col) {
             if(idx != index && (col.sort === 'up' || col.sort === 'down')) {
@@ -879,7 +884,10 @@
 
             if(!data) $this.data(name, (data = new DataTable(this, options)));
 
-            if(typeof option == 'string') data[option](newData);
+            if(typeof option == 'string') {
+                if(option === 'load' && $.isPlainObject(newData) && (newData.keepSort === undefined || newData.keepSort === null)) newData.keepSort = true;
+                data[option](newData);
+            }
         });
     };
 
