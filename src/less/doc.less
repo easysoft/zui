@@ -261,7 +261,8 @@
   transition: all 0.3s;
 }
 
-.example:focus {
+.example:focus, .example [contenteditable]:focus {
+  outline: none;
   box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.5);
   -webkit-animation-name: glow;
   -webkit-animation-duration: 1s;
@@ -284,6 +285,17 @@ pre {
   position: relative;
   border-color: #ddd;
   padding: 10px 20px;
+
+  em {
+    display: inline-block;
+    font-weight: 700;
+  }
+
+  &:hover {
+    em {
+      background-color: @color-danger-pale;
+    }
+  }
 }
 pre.linenums {
   padding: 10px;

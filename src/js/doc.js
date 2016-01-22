@@ -1466,9 +1466,6 @@
     };
 
     var isInLib = function(name, libNames, lib) {
-        if(name === 'button') {
-            console.log('isInLib', name, libNames, lib);
-        }
         if(libNames) {
             var len = libNames.length;
             name = name.toLowerCase();
@@ -1478,13 +1475,10 @@
             for(var i = 0; i < len; ++i) {
                 var item = libNames[i];
                 if(item === name || item === names || item.startsWith(nameDot) || item.startsWith(namesDot)) {
-                    if(name === 'button') console.log('isInLib>', true);
                     return true;
                 }
             }
-            // return lib && !lib.src && isInLib(name, lib.dpds);
         }
-        if(name === 'button') console.log('isInLib>', false);
         return false;
     };
 
