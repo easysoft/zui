@@ -84,11 +84,13 @@
     <p>对话框的默认宽度为<code>600px</code>，你可以通过为<code>.modal-dialog</code>应用CSS样式来更改对话框的宽度。在ZUI中也提供了额外两种预设的宽度，通过为<code>.modal-dialog</code>添加CSS类名来调整实现：</p>
     <ul>
       <li>大对话框：添加<code>.modal-lg</code>CSS类名，宽度为<code>900px</code>；</li>
-      <li>小对话框：添加<code>.modal-sm</code>CSS类名，宽度为<code>300px</code>。</li>
+      <li>小对话框：添加<code>.modal-sm</code>CSS类名，宽度为<code>300px</code>;</li>
+      <li>全屏对话框：添加<code>.modal-fullscreen</code>CSS类名。</li>
     </ul>
     <div class="example">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myLgModal">大对话框</button>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mySmModal">小对话框</button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myFullscreenModal">全屏对话框</button>
     </div>
     <pre class='prettyprint'><code>&lt;!-- 大对话框 --&gt;
 &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#myLgModal&quot;&gt;大对话框&lt;/button&gt;
@@ -382,6 +384,17 @@
   </div>
   <div class="modal modal-for-page fade" id="mySmModal">
     <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+          <h4 class="modal-title">小对话框</h4>
+        </div>
+        <div class="modal-body">...</div>
+      </div>
+    </div>
+  </div>
+  <div class="modal modal-for-page fade" id="myFullscreenModal">
+    <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>

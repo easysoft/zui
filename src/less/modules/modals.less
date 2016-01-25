@@ -72,9 +72,6 @@
   }
 }
 
-/* full screen modal */
-.modal-fullscreen .modal-dialog {width: 100%!important; height: 100%!important; border-radius: 0}
-
 // // Actual modal
 // .modal-content {
 //   position: relative;
@@ -161,6 +158,13 @@
 
   // Modal sizes
   .modal-sm { width: @modal-sm; }
+
+  /* full screen modal */
+  .modal-fullscreen {
+    width: 100%!important;
+    height: 100%!important;
+    border-radius: 0;
+  }
 }
 
 @media (min-width: @screen-md-min) {

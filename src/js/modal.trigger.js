@@ -119,11 +119,13 @@
 
         $modal.toggleClass('fade', options.fade)
             .addClass(options.cssClass)
-            .toggleClass('modal-md', options.size === 'md')
+            .toggleClass('modal-loading', !this.isShown);
+
+        $dialog.toggleClass('modal-md', options.size === 'md')
             .toggleClass('modal-sm', options.size === 'sm')
             .toggleClass('modal-lg', options.size === 'lg')
-            .toggleClass('modal-fullscreen', options.size === 'fullscreen')
-            .toggleClass('modal-loading', !this.isShown);
+            .toggleClass('modal-fullscreen', options.size === 'fullscreen');
+
         $header.toggle(options.showHeader);
         $header.find('.modal-icon').attr('class', 'modal-icon icon-' + options.icon);
         $header.find('.modal-title-name').html(options.title || '');
