@@ -15,6 +15,10 @@
 #iconsExample li a:hover {text-decoration: none}
 #iconsExample li a > i {display: inline-block; width: 20px}
 #iconsExample li:hover {background-color: #d5f1d7; transform: scale(1.2);}
+
+.table-icons-example td {vertical-align: middle;}
+.table-icons-example td pre {margin-bottom: 0;}
+
 </style>
 
 <article>
@@ -56,8 +60,10 @@
 <section>
   <header><h3>如何使用图标？</h3></header>
   <article>
+    <h4>用法</h4>
     <p>使用一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>并增加对应的CSS类名即可，用来作为图标的标签不需要包含任何文本也不应该如此。</p>
     <pre class="prettyprint"><code>&lt;i class=&quot;icon icon-star&quot;&gt;&lt;/i&gt;</code></pre>
+    <h4>注意要点</h4>
     <p>使用图标字体有一个特大好处就是图标就是文本字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小、颜色，甚至一些CSS3特效。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：</p>
     <ul>
       <li>图标应具备统一的颜色，如果有交互行为样式也应该保持一致；</li>
@@ -68,6 +74,89 @@
       <p>
       不要将在任何控件标签上直接应用图标CSS类名，应该嵌套一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>标签。</p>
     </div>
+    <h4>预设的图标尺寸</h4>
+    <div class="example">
+      <table class="table table-icons-example">
+        <tr>
+          <td>正常大小</td>
+          <td><i class="icon icon-star"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-star&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-2x</code></td>
+          <td><i class="icon icon-star icon-2x"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-star <em>icon-2x</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-3x</code></td>
+          <td><i class="icon icon-star icon-3x"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-star <em>icon-3x</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-4x</code></td>
+          <td><i class="icon icon-star icon-4x"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-star <em>icon-4x</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-5x</code></td>
+          <td><i class="icon icon-star icon-5x"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-star <em>icon-5x</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+      </table>
+    </div>
+
+    <h4>旋转</h4>
+    <div class="example">
+      <table class="table table-icons-example">
+        <tr>
+          <td>不旋转</td>
+          <td><i class="icon icon-2x icon-flag"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-flag&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-rotate-90</code></td>
+          <td><i class="icon icon-2x icon-flag icon-rotate-90"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-flag <em>icon-rotate-90</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-rotate-180</code></td>
+          <td><i class="icon icon-2x icon-flag icon-rotate-180"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-flag <em>icon-rotate-180</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-rotate-270</code></td>
+          <td><i class="icon icon-2x icon-flag icon-rotate-270"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-flag <em>icon-rotate-270</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-flip-horizontal</code></td>
+          <td><i class="icon icon-2x icon-flag icon-flip-horizontal"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-flag <em>icon-flip-horizontal</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+        <tr>
+          <td><code>.icon-flip-vertical</code></td>
+          <td><i class="icon icon-2x icon-flag icon-flip-vertical"></i></td>
+          <td><pre><code>&lt;i class=&quot;icon icon-flag <em>icon-flip-vertical</em>&quot;&gt;&lt;/i&gt;</code></pre></td>
+        </tr>
+      </table>
+    </div>
+
+    <h5>旋转动画</h5>
+    <p>使用旋转动画方便制作用于加载指示的动画效果。</p>
+    <div class="example">
+      <i class="icon icon-spin icon-spinner-snake"></i> &nbsp; 
+      <i class="icon icon-spin icon-spinner-indicator"></i> &nbsp; 
+      <i class="icon icon-spin icon-circle-o-notch"></i> &nbsp; 
+      <i class="icon icon-spin icon-cog"></i> &nbsp; 
+      <i class="icon icon-spin icon-refresh"></i> &nbsp; 
+      <i class="icon icon-spin icon-spinner"></i>
+    </div>
+    <pre><code>&lt;i class=&quot;icon <em>icon-spin</em> icon-spinner-snake&quot;&gt;&lt;/i&gt;</code></pre>
+    <pre><code>&lt;i class=&quot;icon <em>icon-spin</em> icon-spinner-indicator&quot;&gt;&lt;/i&gt;</code></pre>
+    <pre><code>&lt;i class=&quot;icon <em>icon-spin</em> icon-circle-o-notch&quot;&gt;&lt;/i&gt;</code></pre>
+    <pre><code>&lt;i class=&quot;icon <em>icon-spin</em> icon-cog&quot;&gt;&lt;/i&gt;</code></pre>
+    <pre><code>&lt;i class=&quot;icon <em>icon-spin</em> icon-refresh&quot;&gt;&lt;/i&gt;</code></pre>
+    <pre><code>&lt;i class=&quot;icon <em>icon-spin</em> icon-spinner&quot;&gt;&lt;/i&gt;</code></pre>
   </article>
 </section>
 

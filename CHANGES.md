@@ -25,6 +25,7 @@
      - 提示消息的`show(content)`方法增加content参数来动态改变现实的内容；
  * 图标：
      - 图标名称`icon-yingyang`更正为`icon-yinyang`，`icon-check2`更正为`icon-checked`；
+     - 修复图标旋转效果无法生效的问题；
      - 更新图标字体，更改了字体的`base height`，现在图标和文字混合时更为自然；
  * 消息框：
      - 移除了消息框的边框，现在看起来更为扁平；

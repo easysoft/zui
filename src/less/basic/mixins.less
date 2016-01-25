@@ -978,5 +978,6 @@
 
 .icon(@icon) {
   .icon-zenicon();
-  content: @icon;
+
+  &:before { content: @icon; }
 }
