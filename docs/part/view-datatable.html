@@ -13,8 +13,17 @@
 &lt;table class=&quot;table datatable&quot;&gt;
   &lt;thead&gt;
     &lt;tr&gt;
+      &lt;!-- 以下两列左侧固定 --&gt;
       &lt;th&gt;#&lt;/th&gt;
       &lt;th&gt;时间&lt;/th&gt;
+
+      &lt;!-- 以下三列中间可滚动 --&gt;
+      &lt;th class=&quot;flex-col&quot;&gt;事件类型&lt;/th&gt; 
+      &lt;th class=&quot;flex-col&quot;&gt;描述&lt;/th&gt;
+      &lt;th class=&quot;flex-col&quot;&gt;相关人物&lt;/th&gt;
+
+      &lt;!-- 以下列右侧固定 --&gt;
+      &lt;th&gt;评分&lt;/th&gt;
       ...
     &lt;/tr&gt;
   &lt;/thead&gt;
@@ -380,6 +389,96 @@ $(&#39;table.datatable&#39;).datatable({
     },
     // 其他启动参数选项
 });</code></pre>
+
+    <h4>数据格式</h4>
+    <p>一个完整的数据包含列定义和行数据。类定义在javascript代码中为一个数组，在DOM中为<code>thead</code>中的<code>tr</code>标签。行数据在javascript中为一个数组，在DOM中为<code>tbody</code>中的<code>td</code>标签。</p>
+    <pre><code>{
+    // 列定义
+    cols: [
+        {width: 80, text: '#', type: 'number', flex: false, colClass: 'text-center'},
+        {width: 160, text: '时间', type: 'date', flex: false, sort: 'down'},
+        {width: 80, text: '名称', type: 'string', flex: true, colClass: ''}
+    ],
+
+    // 行数据
+    rows: [
+        {checked: false, data: [1, '2016-01-18 11:05:15', '名称示例1']},
+        {checked: false, data: [2, '2016-01-20 12:06:16', '名称示例2']},
+        // 更多数据
+    ]
+}</code></pre>
+    <p>列定义和行数据定义的大部分非数据属性都可以在原始表格中的<code>th</code>和<code>tr</code>标签上以<code>data-*</code>属性的形式定义。</p>
+    <h5>列定义</h5>
+    <p>每列的可定义属性如下：</p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>属性名称</th>
+          <th style="width: 30%">合法值</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>text</code></td>
+          <td>字符串</td>
+          <td>定义此列在界面上显示的名称。</td>
+        </tr>
+        <tr>
+          <td><code>width</code></td>
+          <td><code>80</code> | <code>'80px'</code> | <code>'80%'</code> | <code>'auto'</code>(默认)</td>
+          <td>定义此列的宽度。</td>
+        </tr>
+        <tr>
+          <td><code>flex</code></td>
+          <td><code>true</code> | <code>false</code>(默认)</td>
+          <td>定义此列在数据表格中显示在为水平可滚动的区域，在此列之前的没有定义<code>flex=true</code>的列则固定在左侧，在此列之后的没有定义<code>flex=true</code>的列会固定在右侧。必须为连续的多列的<code>flex</code>属性定义为<code>true</code>。在DOM中可以为<code>th</code>标签增加CLASS<code>col-flex</code>实现，等同于<code>flex=true</code>。</td>
+        </tr>
+        <tr>
+          <td><code>cssClass</code></td>
+          <td>字符串</td>
+          <td>定义数据表格中此列的附加的CSS CLASS值。</td>
+        </tr>
+        <tr>
+          <td><code>type</code></td>
+          <td><code>string</code>(默认) | <code>number</code> | <code>date</code></td>
+          <td>定义此列数据的类型，目前支持字符串、数字和日期。</td>
+        </tr>
+        <tr>
+          <td><code>sort</code></td>
+          <td>
+            <ul>
+              <li><code>true</code>（默认）：支持排序；</li>
+              <li><code>false</code>：不支持排序；</li>
+              <li><code>'down'</code>：默认使用降序排序；</li>
+              <li><code>'up'</code>：默认使用升序排序；</li>
+            </ul>
+          </td>
+          <td>如果排序启用时定义此列是否可以排序。</td>
+        </tr>
+      </tbody>
+    </table>
+    <h5>行数据</h5>
+    <p>每行数据的可定义属性如下：</p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>属性名称</th>
+          <th>合法值</th>
+          <th>说明</th>
+        </tr>
+        <tr>
+          <td><code>checked</code></td>
+          <td><code>true</code> | <code>false</code>(默认)</td>
+          <td>此行数据在开始时是否为选中状态。</td>
+        </tr>
+        <tr>
+          <td><code>data</code></td>
+          <td>数组</td>
+          <td>依次表示此行中每列对应的数据。</td>
+        </tr>
+      </thead>
+    </table>
 
     <h4>更新数据</h4>
     <p>当数据表格所依据的原始数据或原始表格发生变更时，需要手动调用<code>load()</code>方法来更新数据表格。<code>load(data)</code>方法允许增加一个参数来使用需要更新的数据。</p>
