@@ -2298,11 +2298,11 @@ a .icon-spin {
   -webkit-transform: scale(1, -1);
           transform: scale(1, -1);
   }
-a .icon-rotate-90:before,
-a .icon-rotate-180:before,
-a .icon-rotate-270:before,
-a .icon-flip-horizontal:before,
-a .icon-flip-vertical:before {
+.icon-rotate-90:before,
+.icon-rotate-180:before,
+.icon-rotate-270:before,
+.icon-flip-horizontal:before,
+.icon-flip-vertical:before {
   display: inline-block;
   }
 .icon-resize:before {

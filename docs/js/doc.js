@@ -627,8 +627,9 @@
         var icon = $icon.data('icon');
         $search.data('preview', icon.id);
         var id = 'icon-' + icon.id;
-        $preview.find('.icon').addClass(id);
-        $preview.find('.name').text(id);
+        var isSpinner = (icon.id.startsWith('spin') || (icon.categories && icon.categories.indexOf('Spinner Icons') > -1)) === true;
+        $preview.find('.icon').addClass(id).toggleClass('icon-spin', isSpinner);
+        $preview.find('.name').text(isSpinner ? ('icon-spin ' + id) : id);
         $preview.find('.unicode').text(icon.code);
         if(icon.alias && icon.alias.length) {
             $preview.find('.alias').removeClass('hide').find('.alias-values').text(icon.alias.join(','));
@@ -1536,14 +1537,14 @@
     var loadPackage = function(callback) {
         loadData(PKG_JSON, function(pkg) {
             loadData(ZUI_JSON, function(zui) {
-                loadData(ZUI_CUSTOM_JSON, function(customZui) {
+                // loadData(ZUI_CUSTOM_JSON, function(customZui) {
                     zuiPkg = $.extend(pkg, {
-                        lib: $.extend({}, zui.lib, customZui ? customZui.lib : null),
-                        builds: $.extend({}, zui.builds, customZui ? customZui.builds : null)
+                        lib: $.extend({}, zui.lib/*, customZui ? customZui.lib : null*/),
+                        builds: $.extend({}, zui.builds/*, customZui ? customZui.builds : null*/)
                     });
                     if($.doc) $.doc.pkg = zuiPkg;
                     callback(zuiPkg);
-                }, null, true);
+                // }, null, true);
             }, null, true);
         }, null, true);
     };
