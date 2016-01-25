@@ -1529,14 +1529,14 @@
     var loadPackage = function(callback) {
         loadData(PKG_JSON, function(pkg) {
             loadData(ZUI_JSON, function(zui) {
-                loadData(ZUI_CUSTOM_JSON, function(customZui) {
+                // loadData(ZUI_CUSTOM_JSON, function(customZui) {
                     zuiPkg = $.extend(pkg, {
-                        lib: $.extend({}, zui.lib, customZui ? customZui.lib : null),
-                        builds: $.extend({}, zui.builds, customZui ? customZui.builds : null)
+                        lib: $.extend({}, zui.lib/*, customZui ? customZui.lib : null*/),
+                        builds: $.extend({}, zui.builds/*, customZui ? customZui.builds : null*/)
                     });
                     if($.doc) $.doc.pkg = zuiPkg;
                     callback(zuiPkg);
-                }, null, true);
+                // }, null, true);
             }, null, true);
         }, null, true);
     };
