@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-22
+ * ZUI - v1.4.0 - 2016-01-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -4697,8 +4697,8 @@ input[type="search"] {
   }
 input[type="radio"],
 input[type="checkbox"] {
-  margin: 4px 0 0;
-  margin-top: 1px \9;
+  margin: 5px 0 0;
+  margin-top: 0 \9;
   /* IE8-9 */
   line-height: normal;
   }
@@ -6413,12 +6413,6 @@ pre code {
 .modal-dialog.modal-moveable .modal-header {
   cursor: move;
   }
-/* full screen modal */
-.modal-fullscreen .modal-dialog {
-  width: 100%!important;
-  height: 100%!important;
-  border-radius: 0;
-  }
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -6482,6 +6476,12 @@ pre code {
     }
   .modal-sm {
     width: 300px;
+    }
+  /* full screen modal */
+  .modal-fullscreen {
+    width: 100%!important;
+    height: 100%!important;
+    border-radius: 0;
     }
   }
 @media (min-width: 992px) {

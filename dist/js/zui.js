@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-22
+ * ZUI - v1.4.0 - 2016-01-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -2753,11 +2753,13 @@
 
         $modal.toggleClass('fade', options.fade)
             .addClass(options.cssClass)
-            .toggleClass('modal-md', options.size === 'md')
+            .toggleClass('modal-loading', !this.isShown);
+
+        $dialog.toggleClass('modal-md', options.size === 'md')
             .toggleClass('modal-sm', options.size === 'sm')
             .toggleClass('modal-lg', options.size === 'lg')
-            .toggleClass('modal-fullscreen', options.size === 'fullscreen')
-            .toggleClass('modal-loading', !this.isShown);
+            .toggleClass('modal-fullscreen', options.size === 'fullscreen');
+
         $header.toggle(options.showHeader);
         $header.find('.modal-icon').attr('class', 'modal-icon icon-' + options.icon);
         $header.find('.modal-title-name').html(options.title || '');
