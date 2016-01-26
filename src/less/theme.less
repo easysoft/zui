@@ -457,12 +457,37 @@ a {
 
 .nav-primary {
   > li {
+
+    &:first-child {
+      > a {
+        .border-left-radius(@border-radius-base);
+      }
+    }
+
+    &:last-child {
+      > a {
+        .border-right-radius(@border-radius-base);
+      }
+    }
+
+    // Links rendered
+    > a {
+      border: 1px solid @nav-primary-border-color;
+    }
+
+    // Active state
     &.active > a {
       &,
       &:hover,
       &:focus {
         background-color: @component-active-bg;
         border-color: @component-active-bg;
+        color: @component-active-color;
+
+        .caret {
+          border-top-color: @component-active-caret-color;
+          border-bottom-color: @component-active-caret-color;
+        }
       }
     }
   }
@@ -486,14 +511,53 @@ a {
 }
 
 .nav-stacked {
+  &.nav-primary {
+    > li {
+      &,
+      > a {
+        .border-bottom-radius(0);
+      }
+      &:first-child {
+        > a,
+        &.nav-heading {
+          .border-top-radius(@border-radius-base);
+        }
+      }
+
+      &:last-child {
+        > a {
+          .border-top-radius(0);
+          .border-bottom-radius(@border-radius-base);
+        }
+      }
+      &.nav-heading {
+        border: 1px solid @color-gray-light;
+        background-color: @color-gray-pale;
+      }
+    }
+  }
+
   &.nav-secondary {
     > li {
+      > a {
+        .border-right-radius(@border-radius-base);
+        .box-shadow(inset 2px 0 0 @nav-secondary-active-link-hover-bg);
+
+        &:hover {
+          .box-shadow(inset 2px 0 0 @nav-secondary-border-color);
+        }
+      }
+      // Active state
       &.active > a {
         &,
         &:hover,
         &:focus {
-          .box-shadow(inset -2px 0 0 @nav-secondary-active-border-color);
+          background-color: @nav-secondary-active-link-hover-bg;
+          .box-shadow(inset 2px 0 0 @nav-secondary-active-border-color);
         }
+      }
+      &.nav-heading {
+        border-bottom: 1px solid @color-gray-light;
       }
     }
   }
