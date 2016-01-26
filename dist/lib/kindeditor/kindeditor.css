@@ -412,7 +412,7 @@
 .ke-menu {
   padding: 5px 0;
   overflow: hidden;
-  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-size: 12px;
   text-align: left;
   background-color: #fff;
@@ -495,7 +495,7 @@
 .ke-colorpicker-cell-top {
   padding: 0;
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-size: 12px;
   line-height: 25px;
   text-align: center;
@@ -557,7 +557,7 @@
   min-height: 16.53846154px;
   padding: 7.5px 15px;
   margin: 0;
-  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-size: 13px;
   font-weight: bold;
   text-align: left;
@@ -585,7 +585,7 @@
 .ke-dialog-body {
   width: 100%;
   overflow: hidden;
-  font-family: "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-size: 12px;
   text-align: left;
   }

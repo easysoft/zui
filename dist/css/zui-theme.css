@@ -811,11 +811,29 @@ a.list-group-item:focus {
 .nav-pills > li.active > a:focus {
   background-color: #3f51b5;
   }
+.nav-primary > li:first-child > a {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  }
+.nav-primary > li:last-child > a {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  }
+.nav-primary > li > a {
+  border: 1px solid #ddd;
+  }
 .nav-primary > li.active > a,
 .nav-primary > li.active > a:hover,
 .nav-primary > li.active > a:focus {
+  color: #fff;
   background-color: #3f51b5;
   border-color: #3f51b5;
+  }
+.nav-primary > li.active > a .caret,
+.nav-primary > li.active > a:hover .caret,
+.nav-primary > li.active > a:focus .caret {
+  border-top-color: #fff;
+  border-bottom-color: #fff;
   }
 .nav-secondary > li.active > a,
 .nav-secondary > li.active > a:hover,
@@ -829,10 +847,42 @@ a.list-group-item:focus {
   border-top-color: #3f51b5;
   border-bottom-color: #3f51b5;
   }
+.nav-stacked.nav-primary > li,
+.nav-stacked.nav-primary > li > a {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  }
+.nav-stacked.nav-primary > li:first-child > a,
+.nav-stacked.nav-primary > li:first-child.nav-heading {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  }
+.nav-stacked.nav-primary > li:last-child > a {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  }
+.nav-stacked.nav-primary > li.nav-heading {
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  }
+.nav-stacked.nav-secondary > li > a {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: inset 2px 0 0 #f5f5f5;
+  }
+.nav-stacked.nav-secondary > li > a:hover {
+  box-shadow: inset 2px 0 0 #e5e5e5;
+  }
 .nav-stacked.nav-secondary > li.active > a,
 .nav-stacked.nav-secondary > li.active > a:hover,
 .nav-stacked.nav-secondary > li.active > a:focus {
-  box-shadow: inset -2px 0 0 #3f51b5;
+  background-color: #f5f5f5;
+  box-shadow: inset 2px 0 0 #3f51b5;
+  }
+.nav-stacked.nav-secondary > li.nav-heading {
+  border-bottom: 1px solid #ddd;
   }
 .nav-tabs > li > a {
   border-radius: 0 0 0 0;
