@@ -7,22 +7,15 @@
     text-align: center;
     width: 40px;
     height: 40px;
-    background-color: @color-primary;
-    background-color: fade(@color-primary, 20%);
+    background-color: @color-dark;
+    background-color: fade(@color-dark, 20%);
     position: absolute;
     right: 0;
     top: 0;
     color: #fff;
-    border-radius: 0 0 0 20px;
     .transition-fast(opacity, background-color);
     .opacity(.8);
     z-index: 10;
-
-    > i {
-      position: relative;
-      left: 2px;
-      top: -1px
-    }
   }
 
   .controller {
@@ -75,23 +68,24 @@
     &:focus {
       .close {
         .opacity(1);
-        background-color: fade(@color-primary, 70%);
+        background-color: fade(@color-dark, 50%);
 
         &:hover {
-          background-color: @color-primary;
+          background-color: fade(@color-dark, 90%);
         }
       }
       .controller {
 
         > .icon {
-          background-color: @color-primary;
-          background-color: fade(@color-primary, 70%);
+          background-color: @color-dark;
+          background-color: fade(@color-dark,50%);
           text-shadow: none;
         }
 
         &:hover {
           > .icon {
-            background-color: @color-primary;
+            background-color: @color-dark;
+            background-color: fade(@color-dark, 90%);
           }
         }
       }
