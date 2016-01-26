@@ -1,5 +1,6 @@
 {
-    "version": "1.4.0.2",
+    "version": "1.4.0.3",
+    "updateTime": "2016-01-26 11:09:29",
     "chapters": {
         "contribution": {
             "name": "贡献",
@@ -119,8 +120,8 @@
                 "icon": "docs/img/chanzhi_icon.png",
                 "url": "http://www.chanzhi.org/",
                 "topics": [{
-                    "name": "云蝉知",
-                    "url": "http://www.chanzhi.net/"
+                    "name": "臻网建站",
+                    "url": "http://www.zsite.com"
                 }],
                 "filter": "chanzhi cz"
             }, {
