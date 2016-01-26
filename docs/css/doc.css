@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-25
+ * ZUI - v1.4.0 - 2016-01-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1923,6 +1923,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   }
 #pageAttrs .dropdown-menu {
   padding-top: 0;
+  overflow: hidden;
   }
 #pageAttrs .dropdown-menu > li > a {
   position: relative;
