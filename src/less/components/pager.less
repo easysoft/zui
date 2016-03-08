@@ -46,18 +46,19 @@
     }
   }
 
-  > .active > a,
-  > .active > span {
+  > li.active > a,
+  > li.active > span {
     &,
     &:hover {
       z-index: 2;
       color: @pager-active-color;
       background-color: @pager-active-bg;
+      border-color: @pager-active-bg;
       cursor: default;
     }
   }
 
-  > .disabled {
+  > li.disabled {
     > span,
     > span:hover,
     > span:focus,

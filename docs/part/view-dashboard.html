@@ -172,6 +172,11 @@
 
 <script>
 function onPageLoad() {
-  if($.fn.dashboard) $('#dashboard').dashboard({shadowType: 'normal'});
+    if($.fn.dashboard) $('#dashboard').dashboard({
+        shadowType: 'normal', 
+        afterOrdered: function(orders) {
+            console.log(orders);
+        }
+    });
 }
 </script>
