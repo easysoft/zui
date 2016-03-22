@@ -175,7 +175,7 @@
             }
 
             if(!button.className) {
-                if(total <= 2 && index === total - 1) {
+                if((total === 2 && (key === 'ok' || key === 'confirm')) || total === 1) {
                     // always add a primary to the main option in a two-button dialog
                     button.className = "btn-primary";
                 } else {
@@ -320,7 +320,10 @@
     exports.confirm = function() {
         var options;
 
-        options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+        // ZUI change begin
+        options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
+        // OLD WAY: options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+        // ZUI change end
 
         /**
          * overrides; undo anything the user tried to set they shouldn't have
@@ -369,7 +372,10 @@
         };
 
         options = validateButtons(
-            mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]
+            // ZUI change begin
+            mergeArguments(defaults, arguments, ["title", "callback"]), ["confirm", "cancel"]
+            // OLD WAY: mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]arguments);
+            // ZUI change end
         );
 
         // capture the user's show value; we always set this to false before
@@ -571,6 +577,7 @@
 
     exports.dialog = function(options) {
         options = sanitize(options);
+
 
         var dialog = $(templates.dialog);
         var innerDialog = dialog.find(".modal-dialog");
