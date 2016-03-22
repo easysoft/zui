@@ -14,7 +14,7 @@
   <article>
     <p>下方展示了一个树形菜单，当一个链接包含一个子菜单时，通过点击链接左侧的图标可以展开内部子菜单。子菜单中的链接也可以包含另一个子菜单。</p>
     <div class="example">
-      <ul id="treeExample" class="tree" data-ride="tree">
+      <ul id="treeExample" class="tree" data-ride="tree" data-initial-state="preserve">
         <li>
           <a href="#">水果</a>
           <ul>
@@ -344,6 +344,7 @@
               <li><code>'normal'</code>（默认) 自动根据dom结构决定</li>
               <li><code>'expand'</code> 全部展开</li>
               <li><code>'collapse'</code> 全部折叠</li>
+              <li><code>'preserve'</code> 从本地存储还原用户上次操作状态</li>
             </ul>
           </td>
           <td>

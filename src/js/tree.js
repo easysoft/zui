@@ -10,6 +10,7 @@
     'use strict';
 
     var name = 'zui.tree'; // modal name
+    var globalId = 0;
 
     // The tree modal class
     var Tree = function(element, options) {
@@ -23,7 +24,7 @@
     // default options
     Tree.DEFAULTS = {
         animate: null,
-        initialState: 'normal'
+        initialState: 'normal' // 'normal' | 'preserve' | 'expand' | 'collapse'
     };
 
     Tree.prototype.init = function() {
@@ -38,16 +39,59 @@
             e.preventDefault();
         });
 
-        if(this.options.initialState === 'expand') {
+        var initialState = this.options.initialState;
+
+        if(initialState === 'preserve' && (!$.zui || !$.zui.store || !$.zui.store.enable)) {
+            initialState = 'normal';
+        }
+
+        if(initialState === 'expand') {
             this.expand();
-        } else if(this.options.initialState === 'collapse') {
+        } else if(initialState === 'collapse') {
             this.collapse();
-        } else if(this.options.animate) {
+        } else if(initialState === 'preserve') {
+            this.isPreserve = true;
+            this.selector = 'zui.tree::#' + (this.$.attr('id') || globalId++);
+            this.store = $.zui.store.pageGet(this.selector, {});
+            function markLevel($ul, level) {
+                if(!$ul.length) return;
+                level = level || 1;
+                var idx = 1;
+                $ul.attr('data-id', level).children('li').each(function() {
+                    var $li = $(this);
+                    var id = level + '-' + idx;
+                    $li.attr('data-id', id);
+                    if(that.store.time) that[that.store[id] ? 'expand' : 'collapse']($li, true, true);
+                    markLevel($li.children('ul').first(), id);
+                    idx++;
+                });
+            }
+            markLevel(this.$);
+        }
+
+        if(this.options.animate) {
             this.$.find('li.has-list.open').addClass('in');
         }
     };
 
-    Tree.prototype.expand = function($li, disabledAnimate) {
+    Tree.prototype.preserve = function($li, id, expand) {
+        var that = this;
+        if($li) {
+            id = id || $li.data('id');
+            expand = expand === undefined ? $li.hasClass('open') : false;
+            if(expand) this.store[id] = expand;
+            else delete this.store[id];
+            this.store.time = new Date();
+            $.zui.store.pageSet(this.selector, this.store);
+        } else {
+            this.store = {};
+            this.$.find('li').each(function() {
+                that.store($(this));
+            });
+        }
+    };
+
+    Tree.prototype.expand = function($li, disabledAnimate, notStore) {
         if($li) {
             $li.addClass('open');
             if(!disabledAnimate && this.options.animate) {
@@ -58,12 +102,13 @@
                 $li.addClass('in');
             }
         } else {
-            this.$.find('li.has-list').addClass('open in');
+            $li = this.$.find('li.has-list').addClass('open in');
         }
+        if(!notStore) this.preserve($li);
         this.callEvent('expand', $li, this);
     };
 
-    Tree.prototype.collapse = function($li, disabledAnimate) {
+    Tree.prototype.collapse = function($li, disabledAnimate, notStore) {
         if($li) {
             if(!disabledAnimate && this.options.animate) {
                 $li.removeClass('in');
@@ -74,8 +119,9 @@
                 $li.removeClass('open in');
             }
         } else {
-            this.$.find('li.has-list').removeClass('open in');
+            $li = this.$.find('li.has-list').removeClass('open in');
         }
+        if(!notStore) this.preserve($li);
         this.callEvent('collapse', $li, this);
     };
 
