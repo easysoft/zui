@@ -740,7 +740,7 @@
 
 <script>
 function afterPageLoad() {
-    $('#pageContent').on('click', '.nav > li > a', function() {
+    $('#pageContent').on('click', '.nav > li:not(.disabled) > a', function() {
         var $item = $(this).parent('li');
         $item.parent().children('.active').removeClass('active');
         $item.addClass('active');
