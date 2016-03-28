@@ -576,7 +576,7 @@
 
         if(options.withHeader) {
             that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1, lang.monthNames[thisMonth]));
-            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
+            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth && thisYear === todayYear);
         }
 
         // var $event,
