@@ -92,8 +92,6 @@
         this.date = this.options.startDate || 'today';
         this.view = this.options.startView || 'month';
 
-        this.date = 'today';
-
         this.$.toggleClass('limit-event-title', options.limitEventTitle);
 
         if(this.options.withHeader) {
