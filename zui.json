@@ -1105,6 +1105,15 @@
       "ver": "1.0.0",
       "dpds": ["colorset", "mixins"],
       "custom": true
+    },
+    "colorpicker": {
+      "name": "JS配色表",
+      "src": {
+        "js": ["src/js/colorpicker.js"],
+        "less": ["src/less/modules/colorpicker.less"]
+      },
+      "ver": "1.4.0",
+      "dpds": ["color"]
     }
   },
   "builds": {
@@ -1278,7 +1287,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree", "chosenicons"]
+      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree", "chosenicons", "colorpicker"]
     },
     "doc": {
       "title": "Document",
