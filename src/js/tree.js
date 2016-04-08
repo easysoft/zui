@@ -24,7 +24,7 @@
     // default options
     Tree.DEFAULTS = {
         animate: null,
-        initialState: 'normal' // 'normal' | 'preserve' | 'expand' | 'collapse'
+        initialState: 'normal' // 'normal' | 'preserve' | 'expand' | 'collapse',
     };
 
     Tree.prototype.init = function() {
@@ -51,8 +51,8 @@
             this.collapse();
         } else if(initialState === 'preserve') {
             this.isPreserve = true;
-            this.selector = 'zui.tree::#' + (this.$.attr('id') || globalId++);
-            this.store = $.zui.store.pageGet(this.selector, {});
+            this.selector = name + '::' + (this.options.name || '') + '#' + (this.$.attr('id') || globalId++);
+            this.store = $.zui.store[this.options.name ? 'get' : 'pageGet'](this.selector, {});
             function markLevel($ul, level) {
                 if(!$ul.length) return;
                 level = level || 1;
@@ -82,7 +82,7 @@
             if(expand) this.store[id] = expand;
             else delete this.store[id];
             this.store.time = new Date();
-            $.zui.store.pageSet(this.selector, this.store);
+            $.zui.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
         } else {
             this.store = {};
             this.$.find('li').each(function() {
