@@ -101,7 +101,6 @@
 
     ColorPicker.prototype.setValue = function(color, notSetInput) {
         var c = new $.zui.Color(color);
-        console.log('set color', c);
         var hex = c.toCssStr().toLowerCase();
         this.$btn.css({
             background: hex,
