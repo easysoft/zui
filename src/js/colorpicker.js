@@ -10,7 +10,7 @@
     'use strict';
 
     var name = 'zui.colorPicker'; // modal name
-    var TEAMPLATE = '<div class="colorpicker"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="cp-title"></span><i class="icon icon-caret-down"></i></button><ul class="dropdown-menu clearfix"></ul></div>';
+    var TEAMPLATE = '<div class="colorpicker"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="cp-title"></span><i class="icon"></i></button><ul class="dropdown-menu clearfix"></ul></div>';
     var LANG = {
         zh_cn: {
             errorTip: "不是有效的颜色值"
@@ -36,13 +36,15 @@
 
     // default options
     ColorPicker.DEFAULTS = {
-        colors: ['#3280fc', '#ea644a', '#38b03f', '#03b8cf', '#8666b8', '#bd7b46', '#fff', '#333'],
+        colors: ['#3280fc', '#ea644a', '#38b03f', '#03b8cf', '#8666b8', '#bd7b46'],
         pullMenuRight: true,
         wrapper: 'btn-wrapper',
         tileSize: 30,
-        pickerWidth: 210,
+        lineCount: 5,
         optional: true,
         tooltip: 'top',
+        icon: 'caret-down',
+        // btnTip: 'Tool tip in button'
     };
 
     ColorPicker.prototype.init = function() {
@@ -52,6 +54,10 @@
         this.$picker.find('.cp-title').toggle(options.title !== undefined).text(options.title);
         this.$menu = this.$picker.find('.dropdown-menu').toggleClass('pull-right', options.pullMenuRight);
         this.$btn = this.$picker.find('.btn.dropdown-toggle');
+        this.$btn.find('.icon').addClass('icon-' + options.icon);
+        if(options.btnTip) {
+            this.$picker.attr('data-toggle', 'tooltip').tooltip({title: options.btnTip, placement: options.tooltip});
+        }
         this.$.attr('data-provide', null).after(this.$picker);
         this.updateColors();
         var that = this;
@@ -77,41 +83,61 @@
                     }
                 }
             }).trigger('input');
+        } else {
+            $input.appendTo(this.$picker);
         }
     };
 
     ColorPicker.prototype.updateColors = function() {
         var $picker = this.$picker, $menu = this.$menu.empty(), options = this.options;
-        var bestWidth = 6;
+        var bestLineCount = 0;
+        if(options.optional) {
+            var $li = $('<li><a class="cp-tile empty" href="###"></a></li>').css({width: options.tileSize, height: options.tileSize});
+            this.$menu.append($li);
+            bestLineCount++;
+        }
         $.each(this.options.colors, function(idx, color) {
             if($.zui.Color.isColor(color)) {
                 var c = new $.zui.Color(color);
                 var $a = $('<a href="###" class="cp-tile"></a>', {
                     titile: color
                 }).data('color', c).css({
+                    'color': c.contrast().toCssStr(),
                     'background': c.toCssStr(),
                     'border-color': c.luma() > 0.43 ? '#ccc' : 'transparent'
                 }).attr('data-color', c.toCssStr());
                 $menu.append($('<li/>').css({width: options.tileSize, height: options.tileSize}).append($a));
             }
-            bestWidth += options.tileSize;
+            bestLineCount++;
         });
-        $menu.css('width', Math.min(bestWidth, options.pickerWidth + 6));
+        $menu.css('width', Math.min(bestLineCount, options.lineCount) * options.tileSize + 6);
     };
 
     ColorPicker.prototype.setValue = function(color, notSetInput) {
-        var c = new $.zui.Color(color);
-        var hex = c.toCssStr().toLowerCase();
-        this.$btn.css({
-            background: hex,
-            color: c.contrast().toCssStr(),
-            borderColor: c.luma() > 0.43 ? '#ccc' : hex
-        });
-        if(!notSetInput && this.$.val().toLowerCase() !== hex) {
-            this.$.val(hex);
-            this.$.trigger('change');
+        this.$menu.find('.cp-tile.active').removeClass('active');
+        if(color) {
+            var c = new $.zui.Color(color);
+            var hex = c.toCssStr().toLowerCase();
+            this.$btn.css({
+                background: hex,
+                color: c.contrast().toCssStr(),
+                borderColor: c.luma() > 0.43 ? '#ccc' : hex
+            });
+            if(!notSetInput && this.$.val().toLowerCase() !== hex) {
+                this.$.val(hex).trigger('change');
+            }
+            this.$menu.find('.cp-tile[data-color=' + hex + ']').addClass('active');
+            this.$.tooltip('hide');
+        } else {
+            this.$btn.attr('style', null);
+            if(!notSetInput && this.$.val() !== '') {
+                this.$.val(hex).trigger('change');
+            }
+            if(this.options.optional) {
+                this.$.tooltip('hide');
+            }
+            this.$menu.find('.cp-tile.empty').addClass('active');
         }
-        this.$.tooltip('hide');
     };
 
     // Get and init options
