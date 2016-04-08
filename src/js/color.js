@@ -381,7 +381,7 @@
         }
     };
 
-    Color.prototype.isColor = isColor;
+    Color.isColor = isColor;
 
     /* helpers */
     function hexToRgb(hex) {
