@@ -63,13 +63,13 @@
 
         this.$.addClass('dashboard-draggable');
 
-        this.$.find('.panel-actions').mousedown(function(event) {
+        this.$.on('mousedown', '.panel-actions', function(event) {
             event.preventDefault();
             event.stopPropagation();
         });
 
         var pColClass;
-        this.$.find('.panel-heading').mousedown(function(event) {
+        this.$.on('mousedown', '.panel-heading, .panel-drag-handler', function(event) {
             // console.log('--------------------------------');
             var panel = $(this).closest('.panel');
             var pCol = panel.parent();
@@ -231,7 +231,7 @@
     };
 
     Dashboard.prototype.handlePanelPadding = function() {
-        this.$.find('.panel-body > table, .panel-body > .list-group').closest('.panel-body').addClass('no-padding');
+        this.$.find('.panel-body > table, .panel-body > .list-group').parent().addClass('no-padding');
     };
 
     Dashboard.prototype.handlePanelHeight = function() {
@@ -249,10 +249,7 @@
                 });
             }
 
-            panels.each(function() {
-                var $this = $(this);
-                $this.find('.panel-body').css('height', height - $this.find('.panel-heading').outerHeight() - 2);
-            });
+            panels.css('height', height);
         });
     };
 
@@ -264,7 +261,12 @@
             url: url,
             dataType: 'html'
         }).done(function(data) {
-            panel.find('.panel-body').html(data);
+            var $data = $(data);
+            if($data.hasClass('panel')) {
+                panel.empty().append($data.children());
+            } else {
+                panel.html(data);
+            }
         }).fail(function() {
             panel.addClass('panel-error');
         }).always(function() {
@@ -293,6 +295,26 @@
     }
 
     Dashboard.prototype.init = function() {
+        if(this.options.data) {
+            var $row = $('<div class="row"/>');
+            $.each(this.options.data, function(idx, config) {
+                var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>', config.colAttrs);
+                var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>', config.panelAttrs);
+                if(config.content !== undefined) {
+                    if($.isFunction(config.content)) {
+                        var content = config.content($panel);
+                        if(content !== true) {
+                            $panel.html(content);
+                        }
+                    } else {
+                        $panel.html(config.content);
+                    }
+                }
+                $row.append($col.append($panel.data('url', config.url)));
+            });
+            this.$.append($row);
+        }
+
         this.handlePanelHeight();
         this.handlePanelPadding();
         this.handleRemoveEvent();
