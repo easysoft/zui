@@ -4,6 +4,7 @@
   ul {
     display: none;
     padding-left: 0;
+    position: relative;
   }
 
   li {
@@ -58,6 +59,32 @@
   }
 }
 
+.tree-actions {
+  display: inline-block;
+  margin-left: 5px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.tree-action {
+  display: inline-block;
+  margin-left: 5px;
+  color: @color-gray;
+
+  &:hover, &:active {
+    text-decoration: none;
+  }
+}
+
+.tree li:hover > .tree-actions {
+  opacity: 1;
+}
+
+.tree-drag-holder {
+  opacity: 0.4;
+  background-color: @color-pale;
+}
+
 .tree-animate {
   ul {
     opacity: 0;
@@ -85,9 +112,9 @@
         position: absolute;
         content: ' ';
         border-left: 1px dotted #999;
-        top: 16px;
-        left: 9px;
-        bottom: 16px;
+        top: -5px;
+        left: -11px;
+        bottom: 12px;
         z-index: 1;
       }
     }
@@ -104,6 +131,8 @@
       z-index: 1;
       width: 18px;
     }
+    
+    &.drag-shadow:after {display: none}
 
     &.has-list:after {
       width: 14px;
