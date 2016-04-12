@@ -70,7 +70,7 @@
 
     function createActionEle(action, name, template) {
         name = name || action.type;
-        return $(template || action.template).addClass('tree-action').attr('data-type', name).data('action', action);
+        return $(template || action.template).addClass('tree-action').attr($.extend({'data-type': name, title: action.title || ''}, action.attr)).data('action', action);
     }
 
     // default options
@@ -99,7 +99,15 @@
                 items = [items];
             }
             $.each(items, function(idx, item) {
-                var $li = $('<li/>').data(item).append($('<a/>', {href: item.url || '#'}).text(item.title)).appendTo($ul);
+                var $li = $('<li/>').data(item).appendTo($ul);
+                if(item.html) {
+                    $li.html(item.html)
+                } else if($.isFunction(that.options.itemCreator)) {
+                    var itemContent = that.options.itemCreator($li, item);
+                    if(itemContent !== true) $li.html(itemContent);
+                } else {
+                    $li.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
+                }
                 that._initItem($li, item.idx || idx, $ul, item);
                 if(item.children) {
                     that.add($li, item.children);
@@ -144,8 +152,8 @@
                     dragCssClass: 'tree-drag-holder', 
                     trigger: '.sort-handler', 
                     selector: 'li:not(.tree-action-item)',
-                    finish: function() {
-                        that.callEvent('action', {action: actions.sort, list: $list, target: $parentItem, item: data});
+                    finish: function(e) {
+                        that.callEvent('action', {action: actions.sort, $list: $list, target: e.target, item: data});
                     }
                 }, actions.sort.options, $.isPlainObject(this.options.sortable) ? this.options.sortable : null));
             }
@@ -176,7 +184,7 @@
             if(!$actions.length) {
                 $actions = $('<div class="tree-actions"/>').appendTo($item);
                 $.each(actions, function(actionName, action) {
-                    $actions.append(createActionEle(action, actionName));
+                    if(action) $actions.append(createActionEle(action, actionName));
                 });
             }
         }
@@ -222,7 +230,7 @@
         }
 
         // Bind event
-        this.$.on('click', '.list-toggle, a[href=#]', function(e) {
+        this.$.on('click', '.list-toggle, a[href=#], .tree-toggle', function(e) {
             var $li = $(this).parent('li');
             that.callEvent('hit', {target: $li, item: $li.data()});
             that.toggle($li);
@@ -230,9 +238,10 @@
         }).on('click', '.tree-action', function() {
             var $action = $(this);
             var action = $action.data();
-            if(action === 'sort') return;
+            if(action.action) action = action.action;
+            if(action.type === 'sort') return;
             var $li = $action.closest('li:not(.tree-action-item)');
-            that.callEvent('action', {action: action, target: $li, item: $li.data()});
+            that.callEvent('action', {action: action, target: this, $item: $li, item: $li.data()});
         });
     };
 
@@ -271,6 +280,22 @@
         this.callEvent('expand', $li, this);
     };
 
+    Tree.prototype.show = function($li, disabledAnimate, notStore) {
+        this.expand($li, disabledAnimate, notStore);
+        if($li) {
+            var $ul = $li.parent('ul');
+            while($ul && $ul.length && !$ul.hasClass('tree')) {
+                var $parentLi = $ul.parent('li');
+                if($parentLi.length) {
+                    this.expand($parentLi, disabledAnimate, notStore);
+                    $ul = $parentLi.parent('ul');
+                } else {
+                    $ul = false;
+                }
+            }
+        }
+    };
+
     Tree.prototype.collapse = function($li, disabledAnimate, notStore) {
         if($li) {
             if(!disabledAnimate && this.options.animate) {
@@ -299,6 +324,23 @@
         if(this.options.animate === null && this.$.hasClass('tree-animate')) {
             this.options.animate = true;
         }
+    };
+
+    Tree.prototype.toData = function($ul, filter) {
+        if($.isFunction($ul)) {
+            filter = $ul;
+            $ul = null;
+        }
+        $ul = $ul || this.$;
+        var that = this;
+        return $ul.children('li:not(.tree-action-item)').map(function() {
+            var $li = $(this);
+            var data = $li.data();
+            delete data['zui.droppable'];
+            var $children = $li.children('ul');
+            if($children.length) data.children = that.toData($children);
+            return $.isFunction(filter) ? filter(data, $li) : data;
+        }).get();
     };
 
     // Call event helper
