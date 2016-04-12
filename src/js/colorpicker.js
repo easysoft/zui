@@ -36,7 +36,7 @@
 
     // default options
     ColorPicker.DEFAULTS = {
-        colors: ['#3280fc', '#ea644a', '#38b03f', '#03b8cf', '#8666b8', '#bd7b46'],
+        colors: ['#00BCD4', '#388E3C', '#3280fc', '#3F51B5', '#9C27B0', '#795548', '#F57C00', '#F44336', '#E91E63'],
         pullMenuRight: true,
         wrapper: 'btn-wrapper',
         tileSize: 30,
@@ -48,7 +48,8 @@
     };
 
     ColorPicker.prototype.init = function() {
-        var options = this.options;
+        var options = this.options,
+            that = this;
         
         this.$picker = $(TEAMPLATE).addClass(options.wrapper);
         this.$picker.find('.cp-title').toggle(options.title !== undefined).text(options.title);
@@ -56,87 +57,131 @@
         this.$btn = this.$picker.find('.btn.dropdown-toggle');
         this.$btn.find('.icon').addClass('icon-' + options.icon);
         if(options.btnTip) {
-            this.$picker.attr('data-toggle', 'tooltip').tooltip({title: options.btnTip, placement: options.tooltip});
+            this.$picker.attr('data-toggle', 'tooltip').tooltip({title: options.btnTip, placement: options.tooltip, container: 'body'});
         }
         this.$.attr('data-provide', null).after(this.$picker);
+
+        // init colors
+        this.colors = {};
+        $.each(this.options.colors, function(idx, rawColor) {
+            if($.zui.Color.isColor(rawColor)) {
+                var color = new $.zui.Color(rawColor);
+                that.colors[color.toCssStr()] = color;
+            }
+        });
+
         this.updateColors();
         var that = this;
         this.$picker.on('click', '.cp-tile', function() {
             that.setValue($(this).data('color'));
         });
         var $input = this.$;
+        var setInputColor = function() {
+            var val = $input.val();
+            var isColor = $.zui.Color.isColor(val);
+            $input.parent().toggleClass('has-error', !isColor && !(options.optional && val === ''));
+            if(isColor) {
+                that.setValue(val, true);
+            } else {
+                if(options.optional && val === '') {
+                    $input.tooltip('hide');
+                } else {
+                    $input.tooltip('show', options.errorTip);
+                }
+            }
+        }
         if($input.is('input:not([type=hidden])')) {
             if(options.tooltip) {
                 $input.attr('data-toggle', 'tooltip').tooltip({trigger: 'manual', placement: options.tooltip, tipClass: 'tooltip-danger'});
             }
-            $input.on('keyup paste input', function() {
-                var val = $input.val();
-                var isColor = $.zui.Color.isColor(val);
-                $input.parent().toggleClass('has-error', !isColor && !(options.optional && val === ''));
-                if(isColor) {
-                    that.setValue(val, true);
-                } else {
-                    if(options.optional && val === '') {
-                        $input.tooltip('hide');
-                    } else {
-                        $input.tooltip('show', options.errorTip);
-                    }
-                }
-            }).trigger('input');
+            $input.on('keyup paste input', setInputColor);
         } else {
             $input.appendTo(this.$picker);
         }
+        setInputColor();
     };
 
-    ColorPicker.prototype.updateColors = function() {
-        var $picker = this.$picker, $menu = this.$menu.empty(), options = this.options;
+    ColorPicker.prototype.addColor = function(color) {
+        var hex = color.toCssStr(),
+            options = this.options;
+
+        if(!this.colors[hex]) {
+            this.colors[hex] = color;
+        }
+
+        var $a = $('<a href="###" class="cp-tile"></a>', {
+            titile: color
+        }).data('color', color).css({
+            'color': color.contrast().toCssStr(),
+            'background': hex,
+            'border-color': color.luma() > 0.43 ? '#ccc' : 'transparent'
+        }).attr('data-color', hex);
+        this.$menu.append($('<li/>').css({width: options.tileSize, height: options.tileSize}).append($a));
+        if(options.optional) {
+            this.$menu.find('.cp-tile.empty').parent().detach().appendTo(this.$menu);
+        }
+    };
+
+    ColorPicker.prototype.updateColors = function(colors) {
+        var $picker = this.$picker, 
+            $menu = this.$menu.empty(), 
+            options = this.options,
+            colors = colors || this.colors,
+            that = this;
         var bestLineCount = 0;
+        $.each(colors, function(idx, color) {
+            that.addColor(color);
+            bestLineCount++;
+        });
         if(options.optional) {
             var $li = $('<li><a class="cp-tile empty" href="###"></a></li>').css({width: options.tileSize, height: options.tileSize});
             this.$menu.append($li);
             bestLineCount++;
         }
-        $.each(this.options.colors, function(idx, color) {
-            if($.zui.Color.isColor(color)) {
-                var c = new $.zui.Color(color);
-                var $a = $('<a href="###" class="cp-tile"></a>', {
-                    titile: color
-                }).data('color', c).css({
-                    'color': c.contrast().toCssStr(),
-                    'background': c.toCssStr(),
-                    'border-color': c.luma() > 0.43 ? '#ccc' : 'transparent'
-                }).attr('data-color', c.toCssStr());
-                $menu.append($('<li/>').css({width: options.tileSize, height: options.tileSize}).append($a));
-            }
-            bestLineCount++;
-        });
         $menu.css('width', Math.min(bestLineCount, options.lineCount) * options.tileSize + 6);
     };
 
     ColorPicker.prototype.setValue = function(color, notSetInput) {
+        var options = this.options;
         this.$menu.find('.cp-tile.active').removeClass('active');
+        var hex = null;
         if(color) {
             var c = new $.zui.Color(color);
-            var hex = c.toCssStr().toLowerCase();
+            hex = c.toCssStr().toLowerCase();
             this.$btn.css({
                 background: hex,
                 color: c.contrast().toCssStr(),
                 borderColor: c.luma() > 0.43 ? '#ccc' : hex
             });
+            if(!this.colors[hex]) {
+                this.addColor(c);
+            }
             if(!notSetInput && this.$.val().toLowerCase() !== hex) {
                 this.$.val(hex).trigger('change');
             }
             this.$menu.find('.cp-tile[data-color=' + hex + ']').addClass('active');
             this.$.tooltip('hide');
+            this.$.trigger('colorchange', c);
         } else {
             this.$btn.attr('style', null);
             if(!notSetInput && this.$.val() !== '') {
                 this.$.val(hex).trigger('change');
             }
-            if(this.options.optional) {
+            if(options.optional) {
                 this.$.tooltip('hide');
             }
             this.$menu.find('.cp-tile.empty').addClass('active');
+            this.$.trigger('colorchange', null);
+        }
+
+        if(options.updateBorder) {
+            $(options.updateBorder).css('border-color', hex);
+        }
+        if(options.updateBackground) {
+            $(options.updateBackground).css('background-color', hex);
+        }
+        if(options.updateText) {
+            $(options.updateText).css('color', hex);
         }
     };
 
