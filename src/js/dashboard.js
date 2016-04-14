@@ -21,7 +21,10 @@
         height: 360,
         shadowType: 'normal',
         sensitive: false,
-        circleShadowSize: 100
+        circleShadowSize: 100,
+        onlyRefreshBody: true,
+        resizable: true,
+        resizeMessage: true
     };
 
     Dashboard.prototype.getOptions = function(options) {
@@ -47,9 +50,10 @@
     };
 
     Dashboard.prototype.handleRefreshEvent = function() {
+        var onlyRefreshBody = this.options.onlyRefreshBody;
         this.$.on('click', '.refresh-panel', function() {
             var panel = $(this).closest('.panel');
-            refreshPanel(panel);
+            refreshPanel(panel, onlyRefreshBody);
         });
     };
 
@@ -63,14 +67,12 @@
 
         this.$.addClass('dashboard-draggable');
 
-        this.$.on('mousedown', '.panel-actions', function(event) {
-            event.preventDefault();
+        this.$.on('mousedown', '.panel-actions, .drag-disabled', function(event) {
             event.stopPropagation();
         });
 
         var pColClass;
         this.$.on('mousedown', '.panel-heading, .panel-drag-handler', function(event) {
-            // console.log('--------------------------------');
             var panel = $(this).closest('.panel');
             var pCol = panel.parent();
             var row = panel.closest('.row');
@@ -205,11 +207,11 @@
                 row.children(':not(.dragging-col-holder)').each(function() {
                     var p = $(this).children('.panel');
                     p.data('order', ++newOrder);
-                    newOrders[p.attr('id')] = newOrder;
+                    newOrders[p.data('id') || p.attr('id')] = newOrder;
                     p.parent().attr('data-order', newOrder);
                 });
 
-                if(oldOrder != newOrders[panel.attr('id')]) {
+                if(oldOrder != newOrders[panel.data('id') || panel.attr('id')]) {
                     row.data('orders', newOrders);
 
                     if(afterOrdered && $.isFunction(afterOrdered)) {
@@ -237,7 +239,7 @@
     Dashboard.prototype.handlePanelHeight = function() {
         var dHeight = this.options.height;
 
-        this.$.find('.row').each(function() {
+        this.$.children('.row').each(function() {
             var row = $(this);
             var panels = row.find('.panel');
             var height = row.data('height') || dHeight;
@@ -253,7 +255,60 @@
         });
     };
 
-    function refreshPanel(panel) {
+    Dashboard.prototype.handleResizeEvent = function() {
+        var onResize = this.options.onResize;
+        var resizeMessage = this.options.resizeMessage;
+        this.$.on('mousedown', '.resize-handle', function(e) {
+            var $col = $(this).parent().addClass('resizing');
+            var $row = $col.closest('.row');
+            var startX = e.pageX;
+            var startWidth = $col.width();
+            var rowWidth = $row.width();
+            var oldGrid = Math.round(rowWidth/startWidth);
+            var lastGrid = oldGrid;
+
+            var mouseMove = function(event) {
+                var x = event.pageX;
+                var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
+                if(lastGrid != grid) {
+                    $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
+                    if(resizeMessage && $.zui.messager) $.zui.messager.show(Math.round(100*grid/12) + '% (' + grid + '/12)', {scale:  false, placement: 'center', icon: 'resize-h', fade: false, close: false});
+                    lastGrid = grid;
+                }
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            var mouseUp = function(event) {
+                if($.zui.messager) $.zui.messager.hide();
+
+                $col.removeClass('resizing');
+                var lastGrid = $col.attr('data-grid');
+                if(oldGrid !== lastGrid) {
+                    if($.isFunction(onResize)) {
+                        var revert = function() {
+                            $col.attr('data-grid', oldGrid).css('width', null);
+                        };
+                        var result = onResize({element: $col, old: oldGrid, grid: lastGrid, revert: revert});
+                        if(result === false) revert();
+                        else if(result !== true) {
+                            if(resizeMessage && $.zui.messager) $.zui.messager.success(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)', {placement: 'center', time: 1000, close: false});
+                        }
+                    }
+                }
+
+                $('body').off('mousemove.resize', mouseMove).off('mouseup.resize', mouseUp);
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            $('body').on('mousemove.resize', mouseMove).on('mouseup.resize', mouseUp);
+            e.preventDefault();
+            e.stopPropagation();
+        }).children('.row').children(':not(.dragging-col-holder)').append('<div class="resize-handle"><i class="icon icon-resize-h"></i></div>');
+    }
+
+    function refreshPanel(panel, onlyRefreshBody) {
         var url = panel.data('url');
         if(!url) return;
         panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
@@ -264,6 +319,8 @@
             var $data = $(data);
             if($data.hasClass('panel')) {
                 panel.empty().append($data.children());
+            } else if(onlyRefreshBody) {
+                panel.find('.panel-body').empty().html(data);
             } else {
                 panel.html(data);
             }
@@ -295,9 +352,10 @@
     }
 
     Dashboard.prototype.init = function() {
-        if(this.options.data) {
+        var options = this.options;
+        if(options.data) {
             var $row = $('<div class="row"/>');
-            $.each(this.options.data, function(idx, config) {
+            $.each(options.data, function(idx, config) {
                 var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>', config.colAttrs);
                 var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>', config.panelAttrs);
                 if(config.content !== undefined) {
@@ -319,7 +377,7 @@
         this.handlePanelPadding();
         this.handleRemoveEvent();
         this.handleRefreshEvent();
-
+        if(options.resizable) this.handleResizeEvent();
         if(this.draggable) this.handleDraggable();
 
         var orderSeed = 0;
@@ -333,7 +391,7 @@
                 $this.attr('data-id', orderSeed);
             }
 
-            refreshPanel($this);
+            refreshPanel($this, options.onlyRefreshBody);
         });
     };
 
