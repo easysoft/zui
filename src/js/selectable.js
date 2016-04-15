@@ -45,8 +45,6 @@
             border: '1px solid ' + ($.zui.colorset ? $.zui.colorset.primary : '#3280fc'),
             backgroundColor: $.zui.colorset ? (new $.zui.Color($.zui.colorset.primary).fade(20).toCssStr()) : 'rgba(50, 128, 252, 0.2)'
         },
-        // start: function() {},
-        // finish: function() {}
     };
 
     // Get and init options
@@ -76,7 +74,7 @@
             $element.addClass(that.options.selectClass);
             if(!that.selections[id]) {
                 that.selections[id] = that.selectOrder++;
-                that.callEvent('select', {id: id, selections: that.selections, $target: $element}, that);
+                that.callEvent('select', {id: id, selections: that.selections, target: $element}, that);
             }
         }
     };
@@ -103,7 +101,7 @@
             $element.removeClass(that.options.selectClass);
             if(that.selections[id]) {
                 that.selections[id] = false;
-                that.callEvent('unselect', {id: id, selections: that.selections, $target: $element}, that);
+                that.callEvent('unselect', {id: id, selections: that.selections, target: $element}, that);
             }
         }
     };
@@ -112,21 +110,39 @@
         var options = this.options, that = this;
         var eventNamespace = '.' + this.name + '.' + this.id;
         var startX, startY, $range, range, x, y, checkRangeCall;
+        var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
+        var rangeFunc = $.isFunction(options.rangeFunc) ? options.rangeFunc : null;
+        
         var checkRange = function() {
             if(!range) return;
-            
             that.$children.each(function() {
                 var $item = $(this);
                 var offset = $item.offset();
                 offset.width = $item.outerWidth();
                 offset.height = $item.outerHeight();
-                if(isIntersectArea(range, offset)) {
-                    that.select($item);
-                } else if(!that.multiKey) {
-                    that.unselect($item);
+                var isIntersect = rangeFunc ? rangeFunc.call(this, range, offset) : isIntersectArea(range, offset);
+                if(checkFunc) {
+                    var result = checkFunc.call(that, {
+                        intersect: isIntersect, 
+                        target: $item, 
+                        range: range,
+                        targetRange: offset
+                    });
+                    if(result === true) {
+                        that.select($item);
+                    } else if(result === false) {
+                        that.unselect($item);
+                    }
+                } else {
+                    if(isIntersect) {
+                        that.select($item);
+                    } else if(!that.multiKey) {
+                        that.unselect($item);
+                    }
                 }
             });
         };
+
         var mousemove = function(e) {
             x = e.pageX;
             y = e.pageY;
@@ -154,6 +170,7 @@
             clearTimeout(checkRangeCall);
             checkRangeCall = setTimeout(checkRange, 10);
         };
+
         var mouseup = function(e) {
             if(range) {
                 clearTimeout(checkRangeCall);
@@ -165,17 +182,18 @@
             $(document).off(eventNamespace);
             event.preventDefault();
         };
+
         var mousedown = function(e) {
+            if(that.callEvent('start', e) === false) {
+                return;
+            }
+
             var $children = that.$children = that.$.find(options.selector);
             $children.addClass('slectable-item');
 
             if(!that.multiKey) {
                 $children.removeClass(options.selectClass);
                 that.selections = {};
-            }
-
-            if(that.callEvent('start') === false) {
-                return;
             }
 
             that.select(e.target);
@@ -208,8 +226,8 @@
     Selectable.prototype.callEvent = function(name, params) {
         var event = $.Event(name + '.' + this.name);
         this.$.trigger(event, params);
-        var callback = this.options[name];
         var result = event.result;
+        var callback = this.options[name];
         if($.isFunction(callback)) {
             result = callback.apply(this, $.isArray(params) ? params : [params]);
         }
