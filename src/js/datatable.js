@@ -42,6 +42,7 @@
         checkByClickRow: true, // change check status by click anywhere on a row
         checkedClass: 'active', // apply CSS class to an checked row
         checkboxName: null,
+        selectable: true,
 
         // Sort options
         sortable: false, // enable sorter
@@ -90,6 +91,8 @@
         if($e.hasClass('table-hover') || options.rowHover) {
             options.tableClass += ' table-hover';
         }
+
+        if(!options.checkable || !$.fn.selectable) options.selectable = false;
 
         this.options = options;
     };
@@ -612,22 +615,51 @@
                 });
             };
 
-            this.$rowsSpans.on('click', options.checkByClickRow ? 'tr' : '.check-row', function() {
-                $rows.filter('[data-index="' + $(this).closest('tr').data('index') + '"]').toggleClass(checkedClass);
-                syncChecks();
-            });
+            var toggleRowClass = function(ele, toggle) {
+                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, toggle);
+            };
 
-            var checkAllEventName = 'click.zui.datatable.check-all';
-            this.$datatable.off(checkAllEventName).on(checkAllEventName, '.check-all', function() {
-                $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
-                syncChecks();
-            }).on('click', '.check-none', function() {
-                $rows.toggleClass(checkedClass, false);
-                syncChecks();
-            }).on('click', '.check-inverse', function() {
-                $rows.toggleClass(checkedClass);
-                syncChecks();
-            });
+            if(options.selectable) {
+                this.$datatable.selectable({
+                    selector: '.datatable-rows tr',
+                    start: function(e) {
+                        var $checkRow = $(e.target).closest('.check-row');
+                        if($checkRow.length) {
+                            toggleRowClass($checkRow);
+                            syncChecks();
+                            return false;
+                        }
+                    },
+                    rangeFunc: function(range, targetRange) {
+                        return Math.max(range.top, targetRange.top) < Math.min(range.top + range.height, targetRange.top + targetRange.height);
+                    },
+                    select: function(e) {
+                        toggleRowClass(e.target, true);
+                    },
+                    unselect: function(e) {
+                        toggleRowClass(e.target, false);
+                    },
+                    finish: function(e) {
+                        syncChecks();
+                    }
+                });
+            } else {
+                var checkEventPrefix = 'click.zui.datatable.check';
+                this.$rowsSpans.off(checkEventPrefix).on(checkEventPrefix, options.checkByClickRow ? 'tr' : '.check-row', function() {
+                    toggleRowClass(this);
+                    syncChecks();
+                });
+                this.$datatable.off(checkEventPrefix).on(checkEventPrefix + '.all', '.check-all', function() {
+                    $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
+                    syncChecks();
+                }).on(checkEventPrefix + '.none', '.check-none', function() {
+                    $rows.toggleClass(checkedClass, false);
+                    syncChecks();
+                }).on(checkEventPrefix + '.inverse', '.check-inverse', function() {
+                    $rows.toggleClass(checkedClass);
+                    syncChecks();
+                });
+            }
 
             if(options.storage) {
                 var checkedStatus = store.pageGet(checkedStatusStoreName);
