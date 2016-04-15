@@ -16,17 +16,15 @@
         this.name = name;
         this.$ = $(element);
         this.id = $.zui.uuid();
-
-        this.getOptions(options);
-        this._init();
         this.selectOrder = 1;
         this.selections = {};
 
-        // Initialize here
+        this.getOptions(options);
+        this._init();
     };
 
     var isPointInner = function(x, y, a) {
-        return x > a.left && x < (a.left + a.width) && y > a.top && y < (a.top + a.height);
+        return x >= a.left && x <= (a.left + a.width) && y >= a.top && y <= (a.top + a.height);
     };
 
     var isIntersectArea = function(a, b) {
@@ -70,7 +68,7 @@
             id = elementOrid;
             $element = that.$.find('.slectable-item[data-id="' + id + '"]');
         }
-        if($element) {
+        if($element && $element.length) {
             if(!id) {
                 id = $.zui.uuid();
                 $element.attr('data-id', id);
@@ -97,7 +95,7 @@
             id = elementOrid;
             $element = that.$.find('.slectable-item[data-id="' + id + '"]');
         }
-        if($element) {
+        if($element && $element.length) {
             if(!id) {
                 id = $.zui.uuid();
                 $element.attr('data-id', id);
@@ -113,9 +111,10 @@
     Selectable.prototype._init = function() {
         var options = this.options, that = this;
         var eventNamespace = '.' + this.name + '.' + this.id;
-        var startX, startY, $range, range, x, y;
+        var startX, startY, $range, range, x, y, checkRangeCall;
         var checkRange = function() {
             if(!range) return;
+            
             that.$children.each(function() {
                 var $item = $(this);
                 var offset = $item.offset();
@@ -137,13 +136,31 @@
                 left: x > startX ? startX : x,
                 top: y > startY ? startY : y
             };
+            if(!$range) {
+                $range = $('.selectable-range[data-id="' + that.id + '"]');
+                if(!$range.length) {
+                    $range = $('<div class="selectable-range" data-id="' + that.id + '"></div>')
+                        .css($.extend({
+                            zIndex: 1060,
+                            position: 'absolute',
+                            top: startX,
+                            left: startY,
+                            pointerEvents: 'none',
+                        }, that.options.rangeStyle))
+                        .appendTo($('body'));
+                }
+            }
             $range.css(range);
-            setTimeout(checkRange, 100);
+            clearTimeout(checkRangeCall);
+            checkRangeCall = setTimeout(checkRange, 10);
         };
         var mouseup = function(e) {
-            if(range) checkRange();
-            range = null;
-            $range.remove();
+            if(range) {
+                clearTimeout(checkRangeCall);
+                checkRange();
+                range = null;
+            }
+            if($range) $range.remove();
             that.callEvent('finish', {selections: that.selections});
             $(document).off(eventNamespace);
             event.preventDefault();
@@ -166,18 +183,7 @@
             startX = e.pageX;
             startY = e.pageY;
 
-            $range = $('.selectable-range[data-id="' + that.id + '"]');
-            if(!$range.length) {
-                $range = $('<div class="selectable-range" data-id="' + that.id + '"></div>')
-                    .css($.extend({
-                        zIndex: 1060,
-                        position: 'absolute',
-                        top: startX,
-                        left: startY,
-                        pointerEvents: 'none'
-                    }, that.options.rangeStyle))
-                    .appendTo($('body'));
-            }
+            $range = null;
 
             $(document).on('mousemove' + eventNamespace, mousemove).on('mouseup' + eventNamespace, mouseup);
             event.preventDefault();
