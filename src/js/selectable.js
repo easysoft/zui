@@ -45,6 +45,7 @@
             border: '1px solid ' + ($.zui.colorset ? $.zui.colorset.primary : '#3280fc'),
             backgroundColor: $.zui.colorset ? (new $.zui.Color($.zui.colorset.primary).fade(20).toCssStr()) : 'rgba(50, 128, 252, 0.2)'
         },
+        clickBehavior: 'toggle'
     };
 
     // Get and init options
@@ -53,37 +54,18 @@
     };
 
     Selectable.prototype.select = function(elementOrid) {
-        var $element, id, selector = this.options.selector, that = this;
-        if(elementOrid === true) {
-            this.$.find(selector).each(function() {
-                that.select(this);
-            });
-            return;
-        } else if(typeof elementOrid === 'object') {
-            $element = $(elementOrid).closest(selector);
-            id = $element.data('id');
-        } else {
-            id = elementOrid;
-            $element = that.$.find('.slectable-item[data-id="' + id + '"]');
-        }
-        if($element && $element.length) {
-            if(!id) {
-                id = $.zui.uuid();
-                $element.attr('data-id', id);
-            }
-            $element.addClass(that.options.selectClass);
-            if(!that.selections[id]) {
-                that.selections[id] = that.selectOrder++;
-                that.callEvent('select', {id: id, selections: that.selections, target: $element}, that);
-            }
-        }
+        this.toggle(elementOrid, true);
     };
 
     Selectable.prototype.unselect = function(elementOrid) {
+        this.toggle(elementOrid, false);
+    };
+
+    Selectable.prototype.toggle = function(elementOrid, isSelect, handle) {
         var $element, id, selector = this.options.selector, that = this;
-        if(elementOrid === true) {
+        if(elementOrid === undefined) {
             this.$.find(selector).each(function() {
-                that.unselect(this);
+                that.toggle(this, isSelect);
             });
             return;
         } else if(typeof elementOrid === 'object') {
@@ -98,11 +80,20 @@
                 id = $.zui.uuid();
                 $element.attr('data-id', id);
             }
-            $element.removeClass(that.options.selectClass);
-            if(that.selections[id]) {
-                that.selections[id] = false;
-                that.callEvent('unselect', {id: id, selections: that.selections, target: $element}, that);
+            if(isSelect === undefined || isSelect === null) {
+                isSelect = !that.selections[id];
             }
+            if(!!isSelect !== !!that.selections[id]) {
+                var handleResult;
+                if($.isFunction(handle)) {
+                    handleResult = handle(isSelect);
+                }
+                if(handleResult !== true) {
+                    that.selections[id] = isSelect ? that.selectOrder++ : false;
+                    that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element}, that);
+                }
+            }
+            $element.toggleClass(that.options.selectClass, isSelect);
         }
     };
 
@@ -112,7 +103,7 @@
         var startX, startY, $range, range, x, y, checkRangeCall;
         var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
         var rangeFunc = $.isFunction(options.rangeFunc) ? options.rangeFunc : null;
-        
+
         var checkRange = function() {
             if(!range) return;
             that.$children.each(function() {
@@ -191,12 +182,17 @@
             var $children = that.$children = that.$.find(options.selector);
             $children.addClass('slectable-item');
 
-            if(!that.multiKey) {
-                $children.removeClass(options.selectClass);
-                that.selections = {};
+            var clickBehavior = that.multiKey ? 'multi' : options.clickBehavior;
+            if(clickBehavior === 'multi') {
+                that.toggle(e.target);
+            } else if(clickBehavior === 'single') {
+                that.unselect();
+                that.select(e.target);
+            } else if(clickBehavior === 'toggle') {
+                that.toggle(e.target, null, function(isSelect) {
+                    that.unselect();
+                });
             }
-
-            that.select(e.target);
 
             startX = e.pageX;
             startY = e.pageY;
