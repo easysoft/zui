@@ -619,14 +619,19 @@
                 $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, toggle);
             };
 
+            var checkEventPrefix = 'click.zui.datatable.check';
             if(options.selectable) {
                 this.$datatable.selectable({
                     selector: '.datatable-rows tr',
+                    trigger: '.datatable-rows',
                     start: function(e) {
-                        var $checkRow = $(e.target).closest('.check-row');
+                        var $checkRow = $(e.target).closest('.check-row, .check-btn');
+                        console.log('start', $checkRow.length, $checkRow.attr('class'), $checkRow);
                         if($checkRow.length) {
-                            toggleRowClass($checkRow);
-                            syncChecks();
+                            if($checkRow.is('.check-row')) {
+                                toggleRowClass($checkRow);
+                                syncChecks();
+                            }
                             return false;
                         }
                     },
@@ -644,22 +649,22 @@
                     }
                 });
             } else {
-                var checkEventPrefix = 'click.zui.datatable.check';
-                this.$rowsSpans.off(checkEventPrefix).on(checkEventPrefix, options.checkByClickRow ? 'tr' : '.check-row', function() {
+                this.$rowsSpans.off(checkEventPrefix).on(checkEventPrefix + 'row', options.checkByClickRow ? 'tr' : '.check-row', function() {
                     toggleRowClass(this);
                     syncChecks();
                 });
-                this.$datatable.off(checkEventPrefix).on(checkEventPrefix + '.all', '.check-all', function() {
-                    $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
-                    syncChecks();
-                }).on(checkEventPrefix + '.none', '.check-none', function() {
-                    $rows.toggleClass(checkedClass, false);
-                    syncChecks();
-                }).on(checkEventPrefix + '.inverse', '.check-inverse', function() {
-                    $rows.toggleClass(checkedClass);
-                    syncChecks();
-                });
             }
+
+            this.$datatable.off(checkEventPrefix).on('click.zui.datatable.check', '.check-all', function() {
+                $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
+                syncChecks();
+            }).on(checkEventPrefix + '.none', '.check-none', function() {
+                $rows.toggleClass(checkedClass, false);
+                syncChecks();
+            }).on(checkEventPrefix + '.inverse', '.check-inverse', function() {
+                $rows.toggleClass(checkedClass);
+                syncChecks();
+            });
 
             if(options.storage) {
                 var checkedStatus = store.pageGet(checkedStatusStoreName);
