@@ -264,8 +264,9 @@
             var startX = e.pageX;
             var startWidth = $col.width();
             var rowWidth = $row.width();
-            var oldGrid = Math.round(rowWidth/startWidth);
+            var oldGrid = Math.round(12*startWidth/rowWidth);
             var lastGrid = oldGrid;
+            $col.attr('data-grid', oldGrid);
 
             var mouseMove = function(event) {
                 var x = event.pageX;
@@ -284,7 +285,7 @@
 
                 $col.removeClass('resizing');
                 var lastGrid = $col.attr('data-grid');
-                if(oldGrid !== lastGrid) {
+                if(oldGrid != lastGrid) {
                     if($.isFunction(onResize)) {
                         var revert = function() {
                             $col.attr('data-grid', oldGrid).css('width', null);
