@@ -626,7 +626,6 @@
                     trigger: '.datatable-rows',
                     start: function(e) {
                         var $checkRow = $(e.target).closest('.check-row, .check-btn');
-                        console.log('start', $checkRow.length, $checkRow.attr('class'), $checkRow);
                         if($checkRow.length) {
                             if($checkRow.is('.check-row')) {
                                 toggleRowClass($checkRow);
