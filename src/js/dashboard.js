@@ -50,10 +50,11 @@
     };
 
     Dashboard.prototype.handleRefreshEvent = function() {
+        var that = this;
         var onlyRefreshBody = this.options.onlyRefreshBody;
         this.$.on('click', '.refresh-panel', function() {
             var panel = $(this).closest('.panel');
-            refreshPanel(panel, onlyRefreshBody);
+            that.refresh(panel, onlyRefreshBody);
         });
     };
 
@@ -307,31 +308,44 @@
             e.preventDefault();
             e.stopPropagation();
         }).children('.row').children(':not(.dragging-col-holder)').append('<div class="resize-handle"><i class="icon icon-resize-h"></i></div>');
-    }
+    };
 
-    function refreshPanel(panel, onlyRefreshBody) {
-        var url = panel.data('url');
+    Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
+        var afterRefresh = this.options.afterRefresh;
+        $panel = $($panel);
+        var url = $panel.data('url');
         if(!url) return;
-        panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
+        $panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
         $.ajax({
             url: url,
             dataType: 'html'
         }).done(function(data) {
             var $data = $(data);
             if($data.hasClass('panel')) {
-                panel.empty().append($data.children());
+                $panel.empty().append($data.children());
             } else if(onlyRefreshBody) {
-                panel.find('.panel-body').empty().html(data);
+                $panel.find('.panel-body').empty().html(data);
             } else {
-                panel.html(data);
+                $panel.html(data);
+            }
+            if($.isFunction(afterRefresh)) {
+                afterRefresh.call(this, {
+                    result: true,
+                    data: data
+                });
             }
         }).fail(function() {
-            panel.addClass('panel-error');
+            $panel.addClass('panel-error');
+            if($.isFunction(afterRefresh)) {
+                afterRefresh.call(this, {
+                    result: false
+                });
+            }
         }).always(function() {
-            panel.removeClass('panel-loading');
-            panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
+            $panel.removeClass('panel-loading');
+            $panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
         });
-    }
+    };
 
     function getRectArea(x1, y1, x2, y2) {
         return Math.abs((x2 - x1) * (y2 - y1));
@@ -353,7 +367,7 @@
     }
 
     Dashboard.prototype.init = function() {
-        var options = this.options;
+        var options = this.options, that = this;
         if(options.data) {
             var $row = $('<div class="row"/>');
             $.each(options.data, function(idx, config) {
@@ -371,18 +385,18 @@
                 }
                 $row.append($col.append($panel.data('url', config.url)));
             });
-            this.$.append($row);
+            that.$.append($row);
         }
 
-        this.handlePanelHeight();
-        this.handlePanelPadding();
-        this.handleRemoveEvent();
-        this.handleRefreshEvent();
-        if(options.resizable) this.handleResizeEvent();
-        if(this.draggable) this.handleDraggable();
+        that.handlePanelHeight();
+        that.handlePanelPadding();
+        that.handleRemoveEvent();
+        that.handleRefreshEvent();
+        if(options.resizable) that.handleResizeEvent();
+        if(that.draggable) that.handleDraggable();
 
         var orderSeed = 0;
-        this.$.find('.panel').each(function() {
+        that.$.find('.panel').each(function() {
             var $this = $(this);
             $this.data('order', ++orderSeed);
             if(!$this.attr('id')) {
@@ -392,7 +406,7 @@
                 $this.attr('data-id', orderSeed);
             }
 
-            refreshPanel($this, options.onlyRefreshBody);
+            that.refresh($this, options.onlyRefreshBody);
         });
     };
 
