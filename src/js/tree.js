@@ -37,6 +37,7 @@
     };
 
     function formatActions(actions, parentActions) {
+        if(actions === false) return actions;
         if(!actions) return parentActions;
 
         if(actions === true) {
@@ -81,7 +82,7 @@
     };
 
     Tree.prototype.add = function(rootEle, items) {
-        var $e = $(rootEle), $ul;
+        var $e = $(rootEle), $ul, options = this.options;
         if($e.is('li')) {
             $ul = $e.children('ul');
             if(!$ul.length) {
@@ -100,13 +101,14 @@
             }
             $.each(items, function(idx, item) {
                 var $li = $('<li/>').data(item).appendTo($ul);
+                var $wrapper = options.itemWrapper ? $('<div class="tree-item-wrapper"/>').appendTo($li) : $li;
                 if(item.html) {
-                    $li.html(item.html)
+                    $wrapper.html(item.html)
                 } else if($.isFunction(that.options.itemCreator)) {
-                    var itemContent = that.options.itemCreator($li, item);
-                    if(itemContent !== true) $li.html(itemContent);
+                    var itemContent = that.options.itemCreator($wrapper, item);
+                    if(itemContent !== true) $wrapper.html(itemContent);
                 } else {
-                    $li.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
+                    $wrapper.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
                 }
                 that._initItem($li, item.idx || idx, $ul, item);
                 if(item.children) {
@@ -119,7 +121,7 @@
 
     Tree.prototype.remove = function($li) {
 
-    }
+    };
 
     Tree.prototype._initList = function($list, $parentItem, idx, data) {
         var that = this;
@@ -139,7 +141,7 @@
         data = data || ($parentItem ? $parentItem.data() : null);
         var actions = formatActions(data ? data.actions : null, this.actions);
         if(actions) {
-            if(actions.add) {
+            if(actions.add && actions.add.templateInList !== false) {
                 var $actionItem = $list.children('li.tree-action-item');
                 if(!$actionItem.length) {
                     $('<li class="tree-action-item"/>').append(createActionEle(actions.add, 'add', actions.add.templateInList)).appendTo($list);
@@ -182,7 +184,7 @@
         if(actions) {
             var $actions = $item.find('.tree-actions');
             if(!$actions.length) {
-                $actions = $('<div class="tree-actions"/>').appendTo($item);
+                $actions = $('<div class="tree-actions"/>').appendTo(this.options.itemWrapper ? $item.find('.tree-item-wrapper') : $item);
                 $.each(actions, function(actionName, action) {
                     if(action) $actions.append(createActionEle(action, actionName));
                 });
