@@ -81,7 +81,7 @@
         toggleTemplate: '<i class="list-toggle icon"></i>',
     };
 
-    Tree.prototype.add = function(rootEle, items) {
+    Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
         var $e = $(rootEle), $ul, options = this.options;
         if($e.is('li')) {
             $ul = $e.children('ul');
@@ -116,11 +116,26 @@
                 }
             });
             this._initList($ul);
+            if(expand && !$ul.hasClass('tree')) {
+                that.expand($ul.parent('li'), disabledAnimate, notStore);
+            }
         }
     };
 
-    Tree.prototype.remove = function($li) {
+    Tree.prototype.reload = function(data) {
+        var that = this;
+        that.$.empty();
+        that.add(that.$, data);
 
+        if(that.isPreserve)
+        {
+            if(that.store.time) {
+                that.$.find('li:not(.tree-action-item)').each(function() {
+                    var $li= $(this);
+                    that[that.store[$li.data('id')] ? 'expand' : 'collapse']($li, true, true);
+                });
+            }
+        }
     };
 
     Tree.prototype._initList = function($list, $parentItem, idx, data) {
@@ -206,29 +221,27 @@
 
         this._initList(this.$);
 
-        // init data
-        if(options.data) {
-            this.add(this.$, options.data);
+        var initialState = options.initialState;
+        var isPreserveEnable = $.zui && $.zui.store && $.zui.store.enable;
+        if(isPreserveEnable) {
+            this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
+            this.store = $.zui.store[options.name ? 'get' : 'pageGet'](this.selector, {});
+        }
+        if(initialState === 'preserve') {
+            if(isPreserveEnable) this.isPreserve = true;
+            else initialState = 'normal';
         }
 
-        var initialState = options.initialState;
-        if(initialState === 'preserve' && (!$.zui || !$.zui.store || !$.zui.store.enable)) {
-            initialState = 'normal';
+        // init data
+        if(options.data) {
+            this.reload(options.data);
         }
+        if(isPreserveEnable) this.isPreserve = true;
+
         if(initialState === 'expand') {
             this.expand();
         } else if(initialState === 'collapse') {
             this.collapse();
-        } else if(initialState === 'preserve') {
-            this.isPreserve = true;
-            this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
-            this.store = $.zui.store[options.name ? 'get' : 'pageGet'](this.selector, {});
-            if(this.store.time) {
-                this.$.find('li:not(.tree-action-item)').each(function() {
-                    var $li= $(this);
-                    that[that.store[$li.data('id')] ? 'expand' : 'collapse']($li, true, true);
-                });
-            }
         }
 
         // Bind event
@@ -282,20 +295,24 @@
         this.callEvent('expand', $li, this);
     };
 
-    Tree.prototype.show = function($li, disabledAnimate, notStore) {
-        this.expand($li, disabledAnimate, notStore);
-        if($li) {
-            var $ul = $li.parent('ul');
-            while($ul && $ul.length && !$ul.hasClass('tree')) {
-                var $parentLi = $ul.parent('li');
-                if($parentLi.length) {
-                    this.expand($parentLi, disabledAnimate, notStore);
-                    $ul = $parentLi.parent('ul');
-                } else {
-                    $ul = false;
+    Tree.prototype.show = function($lis, disabledAnimate, notStore) {
+        var that = this;
+        $lis.each(function() {
+            var $li = $(this);
+            that.expand($li, disabledAnimate, notStore);
+            if($li) {
+                var $ul = $li.parent('ul');
+                while($ul && $ul.length && !$ul.hasClass('tree')) {
+                    var $parentLi = $ul.parent('li');
+                    if($parentLi.length) {
+                        that.expand($parentLi, disabledAnimate, notStore);
+                        $ul = $parentLi.parent('ul');
+                    } else {
+                        $ul = false;
+                    }
                 }
             }
-        }
+        });
     };
 
     Tree.prototype.collapse = function($li, disabledAnimate, notStore) {
