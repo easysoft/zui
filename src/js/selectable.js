@@ -38,7 +38,7 @@
 
     // default options
     Selectable.DEFAULTS = {
-        selector: 'li, tr',
+        selector: 'li,tr,div',
         trigger: '',
         selectClass: 'active',
         rangeStyle: {
