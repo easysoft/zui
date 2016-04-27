@@ -124,8 +124,11 @@
 
     Tree.prototype.reload = function(data) {
         var that = this;
-        that.$.empty();
-        that.add(that.$, data);
+
+        if(data) {
+            that.$.empty();
+            that.add(that.$, data);
+        }
 
         if(that.isPreserve)
         {
@@ -229,13 +232,11 @@
         }
         if(initialState === 'preserve') {
             if(isPreserveEnable) this.isPreserve = true;
-            else initialState = 'normal';
+            else this.options.initialState = initialState = 'normal';
         }
 
         // init data
-        if(options.data) {
-            this.reload(options.data);
-        }
+        this.reload(options.data);
         if(isPreserveEnable) this.isPreserve = true;
 
         if(initialState === 'expand') {
