@@ -50,7 +50,7 @@ var typeSet = ['less', 'js', 'resource'],
         author: pkg.author,
         license: pkg.license
     }),
-    statement = '/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n';
+    statement = '/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n';
 
 function tryStatSync(path) {
     try {
@@ -353,7 +353,6 @@ function buildBundle(name, callback, type) {
                 .pipe(rename({
                     suffix: '.min'
                 }))
-                .pipe(header(bannerContent))
                 //.pipe(sourcemaps.write())
                 .pipe(gulp.dest(destPath))
                 .on('end', function() {
