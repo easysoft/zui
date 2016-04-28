@@ -111,7 +111,7 @@
                     $wrapper.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
                 }
                 that._initItem($li, item.idx || idx, $ul, item);
-                if(item.children) {
+                if(item.children && item.children.length) {
                     that.add($li, item.children);
                 }
             });
