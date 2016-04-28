@@ -65,18 +65,19 @@ function isFileExist(path) {
     return stats && stats.isFile();
 }
 
-function getItemList(list, items, ignoreDpds) {
+function getItemList(list, items, ignoreDpds, ignoreBasic) {
     items = items || [];
 
     if(Array.isArray(list)) {
         list.forEach(function(name) {
-            getItemList(name, items, ignoreDpds);
+            if(name === 'basic' && ignoreBasic) return;
+            getItemList(name, items, ignoreDpds, ignoreBasic);
         });
-    } else {
+    } else if(!(list === 'basic' && ignoreBasic)) {
         var item = lib[list];
         if(item && items.indexOf(list) < 0) {
             if(!ignoreDpds && item.dpds) {
-                getItemList(item.dpds, items, ignoreDpds);
+                getItemList(item.dpds, items, ignoreDpds, ignoreBasic);
             }
             if(item.src) items.push(list);
         }
@@ -96,8 +97,8 @@ function getBuildSource(build) {
 
     if(!Array.isArray(list)) list = [list];
 
-    if(build.basicDpds) list = getItemList(build.basicDpds, list);
-    list = getItemList(build.includes, list, build.ignoreDpds);
+    if(build.settingDpds) list = getItemList(build.settingDpds, list);
+    list = getItemList(build.includes, list, build.ignoreDpds, build.ignoreBasic);
 
     list.forEach(function(item) {
         var libItem = lib[item];
@@ -217,7 +218,9 @@ function buildBundle(name, callback, type) {
                     dest: 'dist/lib/' + name + '/',
                     filename: name,
                     includes: [name],
-                    thirdpart: buildLib.thirdpart
+                    thirdpart: buildLib.thirdpart,
+                    settingDpds: ['setting'],
+                    ignoreBasic: true
                 };
             } else {
                 console.log(('           Cannot found the build config: ' + name).red);
