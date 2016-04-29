@@ -62,6 +62,8 @@
             $.each(actions, function(name, action) {
                 if(action) {
                     _actions[name] = $.extend({type: name}, DETAULT_ACTIONS[name], $.isPlainObject(action) ? action : null);
+                } else {
+                    _actions[name] = false;
                 }
             });
             actions = _actions;
