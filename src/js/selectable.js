@@ -171,7 +171,7 @@
             if($range) $range.remove();
             that.callEvent('finish', {selections: that.selections});
             $(document).off(eventNamespace);
-            event.preventDefault();
+            e.preventDefault();
         };
 
         var mousedown = function(e) {
@@ -200,7 +200,7 @@
             $range = null;
 
             $(document).on('mousemove' + eventNamespace, mousemove).on('mouseup' + eventNamespace, mouseup);
-            event.preventDefault();
+            e.preventDefault();
         };
 
         var $container = options.container && options.container !== 'default' ? $(options.container) : this.$;
