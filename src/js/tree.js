@@ -270,13 +270,13 @@
             expand = expand === undefined ? $li.hasClass('open') : false;
             if(expand) this.store[id] = expand;
             else delete this.store[id];
-            this.store.time = new Date();
+            this.store.time = new Date().getTime();
             $.zui.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
         } else {
             var that = this;
             this.store = {};
             this.$.find('li').each(function() {
-                that.store($(this));
+                that.preserve($(this));
             });
         }
     };
