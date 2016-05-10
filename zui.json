@@ -1028,7 +1028,15 @@
         "less": ["~/theme.less"]
       },
       "desc": "ZUI的默认主题示例",
-      "ver": "1.0.0",
+      "ver": "1.0.0"
+    },
+    "themeConfig": {
+      "name": "主题示例",
+      "src": {
+        "less": ["~/basic/variables.theme.less"]
+      },
+      "desc": "ZUI的默认主题配置",
+      "ver": "1.4.0",
       "dpds": ["setting"]
     },
     "doc": {
@@ -1059,7 +1067,8 @@
         "less": ["~/views/tree.less"]
       },
       "ver": "1.4.0",
-      "dpds": ["icons"]
+      "dpds": ["icons.variables"],
+      "require": ["icons"]
     },
     "clipboard": {
       "name": "clipboard",
@@ -1132,7 +1141,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "color", "tree"]
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "forms", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "color", "tree"]
     },
     "lite": {
       "title": "Lite edition",
@@ -1140,13 +1149,14 @@
       "filename": "zui.lite",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "alerts.basic", "inputgroups", "forms.basic", "code", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations", "collapse", "device", "browser", "date", "string", "resize", "store", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "article", "comment", "list", "card.basic"]
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "forms.basic", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "alerts.basic", "inputgroups",  "code", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations", "collapse", "device", "browser", "date", "string", "resize", "store", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "article", "comment", "list", "card.basic"]
     },
     "theme": {
       "title": "Theme",
       "filename": "zui-theme",
       "dest": "dist/",
       "subdirectories": true,
+      "settingDpds": ["setting", "themeConfig"],
       "includes": ["theme"]
     },
     "colorset.less2js": {
@@ -1161,7 +1171,7 @@
       "dest": "dist/lib/calendar/",
       "filename": "zui.calendar",
       "includes": ["calendar"],
-      "basicDpds": ["setting"],
+      "settingDpds": ["setting"],
       "ignoreDpds": true
     },
     "board": {
@@ -1169,7 +1179,7 @@
       "dest": "dist/lib/board/",
       "filename": "zui.board",
       "includes": ["board"],
-      "basicDpds": ["setting"],
+      "settingDpds": ["setting"],
       "ignoreDpds": true
     },
     "mindmap": {
@@ -1177,7 +1187,7 @@
       "dest": "dist/lib/mindmap/",
       "filename": "zui.mindmap",
       "includes": ["mindmap"],
-      "basicDpds": ["setting"],
+      "settingDpds": ["setting"],
       "ignoreDpds": true
     },
     "kindeditor": {
@@ -1186,7 +1196,7 @@
       "dest": "dist/lib/kindeditor/",
       "filename": "kindeditor",
       "includes": ["kindeditor"],
-      "basicDpds": ["setting"],
+      "settingDpds": ["setting"],
       "ignoreDpds": true
     },
     "datetimepicker": {
@@ -1195,7 +1205,7 @@
       "dest": "dist/lib/datetimepicker/",
       "filename": "datetimepicker",
       "includes": ["datetimepicker"],
-      "basicDpds": ["setting"],
+      "settingDpds": ["setting"],
       "ignoreDpds": true
     },
     "jquery": {
@@ -1218,7 +1228,7 @@
       "dest": "dist/lib/chosen/",
       "filename": "chosen",
       "includes": ["chosen"],
-      "basicDpds": ["setting", "icons.variables"],
+      "settingDpds": ["setting", "icons.variables"],
       "ignoreDpds": true
     },
     "chosenicons": {
@@ -1226,7 +1236,7 @@
       "dest": "dist/lib/chosen/",
       "filename": "chosen.icons",
       "includes": ["chosenicons"],
-      "basicDpds": ["setting", "icons.variables"],
+      "settingDpds": ["setting", "icons.variables"],
       "ignoreDpds": true
     },
     "imgcutter": {
@@ -1234,7 +1244,7 @@
       "dest": "dist/lib/imgcutter/",
       "filename": "zui.imgcutter",
       "includes": ["imgcutter"],
-      "basicDpds": ["setting"],
+      "settingDpds": ["setting"],
       "ignoreDpds": true
     },
     "datatable": {
@@ -1242,7 +1252,7 @@
       "dest": "dist/lib/datatable/",
       "filename": "zui.datatable",
       "includes": ["datatable"],
-      "basicDpds": ["setting", "icons.variables"],
+      "settingDpds": ["setting", "icons.variables"],
       "ignoreDpds": true
     },
     "ieonly": {
