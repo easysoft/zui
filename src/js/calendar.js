@@ -619,6 +619,7 @@
                 drop: function(e) {
                     var et = e.element.data('event'),
                         newDate = e.target.attr('data-date');
+                    if(!et || !newDate) return;
                     var startDate = et.start.clone();
                     if(startDate.toDateString() != newDate) {
                         newDate = new Date(newDate);
