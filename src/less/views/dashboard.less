@@ -155,7 +155,7 @@
     width: 12px;
     cursor: e-resize;
     border-radius: @border-radius-base;
-    opacity: 0;
+    .opacity(0);
     .transition-normal(opacity);
 
     > .icon {
@@ -174,7 +174,7 @@
     }
 
     &:hover {
-      opacity: 1;
+      .opacity(1);
       background-color: fade(@color-primary, 12%);
 
       > .icon {
