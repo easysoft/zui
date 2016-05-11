@@ -1,12 +1,149 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI - v1.4.0 - 2016-05-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
-/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
+/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
+/**(function($) {
+    'use strict';
+
+    var nextColorIndex = 0;
+    var presetColors = ['primary', 'red', 'yellow', 'green', 'blue', 'purple', 'brown', 'dark'];
+
+    var colorset = {**/
+.color-primary {
+  color: #3280fc;
+  }
+.color-secondary {
+  color: #145ccd;
+  }
+.color-pale {
+  color: #ebf2f9;
+  }
+.color-fore {
+  color: #353535;
+  }
+.color-back {
+  color: #fff;
+  }
+.color-grayDarker {
+  color: #222;
+  }
+.color-grayDark {
+  color: #333;
+  }
+.color-gray {
+  color: #808080;
+  }
+.color-grayLight {
+  color: #ddd;
+  }
+.color-grayLighter {
+  color: #e5e5e5;
+  }
+.color-grayPale {
+  color: #f1f1f1;
+  }
+.color-white {
+  color: #fff;
+  }
+.color-black {
+  color: #000;
+  }
+.color-red {
+  color: #ea644a;
+  }
+.color-yellow {
+  color: #f1a325;
+  }
+.color-green {
+  color: #38b03f;
+  }
+.color-blue {
+  color: #03b8cf;
+  }
+.color-purple {
+  color: #8666b8;
+  }
+.color-brown {
+  color: #bd7b46;
+  }
+.color-greenPale {
+  color: #ddf4df;
+  }
+.color-yellowPale {
+  color: #fff0d5;
+  }
+.color-redPale {
+  color: #ffe5e0;
+  }
+.color-bluePale {
+  color: #ddf3f5;
+  }
+.color-brownPale {
+  color: #f7ebe1;
+  }
+.color-purplePale {
+  color: #f5eeff;
+  }
+.color-light {
+  color: #fff;
+  }
+.color-dark {
+  color: #353535;
+  }
+.color-success {
+  color: #38b03f;
+  }
+.color-warning {
+  color: #f1a325;
+  }
+.color-danger {
+  color: #ea644a;
+  }
+.color-info {
+  color: #03b8cf;
+  }
+.color-important {
+  color: #bd7b46;
+  }
+.color-special {
+  color: #8666b8;
+  }
+.color-successPale {
+  color: #ddf4df;
+  }
+.color-warningPale {
+  color: #fff0d5;
+  }
+.color-dangerPale {
+  color: #ffe5e0;
+  }
+.color-infoPale {
+  color: #ddf3f5;
+  }
+.color-importantPale {
+  color: #f7ebe1;
+  }
+.color-specialPale {
+  color: #f5eeff;
+  }
+/**    };
+    
+    colorset.get = function(colorName) {
+        if(typeof colorName === 'undefined' || colorName === 'random') {
+            colorName = presetColors[(nextColorIndex++) % presetColors.length];
+        }
+
+        return new $.zui.Color(colorset[colorName] ? colorset[colorName] : colorName);
+    }
+
+    $.zui({colorset: colorset});
+    if($.zui.Color) $.extend($.zui.Color, colorset);
+}(jQuery));**/
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
 article,
 aside,
@@ -4394,21 +4531,22 @@ pre code {
 .pager > li > span:focus {
   background-color: #e5e5e5;
   }
-.pager > .active > a,
-.pager > .active > span,
-.pager > .active > a:hover,
-.pager > .active > span:hover {
+.pager > li.active > a,
+.pager > li.active > span,
+.pager > li.active > a:hover,
+.pager > li.active > span:hover {
   z-index: 2;
   color: #fff;
   cursor: default;
   background-color: #3280fc;
+  border-color: #3280fc;
   }
-.pager > .disabled > span,
-.pager > .disabled > span:hover,
-.pager > .disabled > span:focus,
-.pager > .disabled > a,
-.pager > .disabled > a:hover,
-.pager > .disabled > a:focus {
+.pager > li.disabled > span,
+.pager > li.disabled > span:hover,
+.pager > li.disabled > span:focus,
+.pager > li.disabled > a,
+.pager > li.disabled > a:hover,
+.pager > li.disabled > a:focus {
   color: #ddd;
   cursor: not-allowed;
   background-color: #fff;

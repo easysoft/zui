@@ -1,11 +1,11 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI - v1.4.0 - 2016-05-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
-/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
+/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
 /* ========================================================================
  * ZUI: jquery.extensions.js
@@ -62,13 +62,8 @@
     $.fn.callEvent = function(name, event, model) {
         var $this = $(this);
         var dotIndex = name.indexOf('.zui.');
-        var shortName = name;
-        if(dotIndex < 0 && model && model.name) {
-            name += '.' + model.name;
-        } else {
-            shortName = name.substring(0, dotIndex);
-        }
-        var e = $.Event(name, event);
+        var shortName = dotIndex < 0 ? name : name.substring(0, dotIndex);
+        var e = $.Event(shortName, event);
 
         if((model === undefined) && dotIndex > 0) {
             model = $this.data(name.substring(dotIndex + 1));
@@ -77,9 +72,10 @@
         if(model && model.options) {
             var func = model.options[shortName];
             if($.isFunction(func)) {
-                $.zui.callEvent(model.options[shortName], e, model);
+                $.zui.callEvent(func, e, model);
             }
         }
+        $this.trigger(e);
         return e;
     };
 }(jQuery, window));
@@ -2871,11 +2867,13 @@
                             $modal.callEvent('loaded' + ZUI_MODAL, {
                                 modalType: 'iframe',
                                 jQuery: frame$
-                            }, that);
+                            }, null);
 
                             setTimeout(ajustFrameSize, 100);
 
                             $framebody.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                        } else {
+                            readyToShow();
                         }
 
                         frame$.extend({
@@ -3803,6 +3801,7 @@
 
         this.$element.on('touchstart touchmove touchend', touch);
         var touchStartX, touchStartY;
+        var that = this;
 
         /* listen the touch event */
         function touch(event) {
@@ -3834,8 +3833,8 @@
         }
 
         function handleCarousel(carousel, distance) {
-            if(distance > 10) carousel.find('.left.carousel-control').click();
-            if(distance < -10) carousel.find('.right.carousel-control').click();
+            if(distance > 10) that.prev();
+            else if(distance < -10) that.next();
         }
     }
 
@@ -4705,7 +4704,7 @@
             }
 
             if(!button.className) {
-                if(total <= 2 && index === total - 1) {
+                if((total === 2 && (key === 'ok' || key === 'confirm')) || total === 1) {
                     // always add a primary to the main option in a two-button dialog
                     button.className = "btn-primary";
                 } else {
@@ -4850,7 +4849,10 @@
     exports.confirm = function() {
         var options;
 
-        options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+        // ZUI change begin
+        options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
+        // OLD WAY: options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+        // ZUI change end
 
         /**
          * overrides; undo anything the user tried to set they shouldn't have
@@ -4899,7 +4901,10 @@
         };
 
         options = validateButtons(
-            mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]
+            // ZUI change begin
+            mergeArguments(defaults, arguments, ["title", "callback"]), ["confirm", "cancel"]
+            // OLD WAY: mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]arguments);
+            // ZUI change end
         );
 
         // capture the user's show value; we always set this to false before
@@ -5101,6 +5106,7 @@
 
     exports.dialog = function(options) {
         options = sanitize(options);
+
 
         var dialog = $(templates.dialog);
         var innerDialog = dialog.find(".modal-dialog");
@@ -5399,7 +5405,10 @@
         height: 360,
         shadowType: 'normal',
         sensitive: false,
-        circleShadowSize: 100
+        circleShadowSize: 100,
+        onlyRefreshBody: true,
+        resizable: true,
+        resizeMessage: true
     };
 
     Dashboard.prototype.getOptions = function(options) {
@@ -5425,9 +5434,11 @@
     };
 
     Dashboard.prototype.handleRefreshEvent = function() {
+        var that = this;
+        var onlyRefreshBody = this.options.onlyRefreshBody;
         this.$.on('click', '.refresh-panel', function() {
             var panel = $(this).closest('.panel');
-            refreshPanel(panel);
+            that.refresh(panel, onlyRefreshBody);
         });
     };
 
@@ -5441,14 +5452,12 @@
 
         this.$.addClass('dashboard-draggable');
 
-        this.$.find('.panel-actions').mousedown(function(event) {
-            event.preventDefault();
+        this.$.on('mousedown', '.panel-actions, .drag-disabled', function(event) {
             event.stopPropagation();
         });
 
         var pColClass;
-        this.$.find('.panel-heading').mousedown(function(event) {
-            // console.log('--------------------------------');
+        this.$.on('mousedown', '.panel-heading, .panel-drag-handler', function(event) {
             var panel = $(this).closest('.panel');
             var pCol = panel.parent();
             var row = panel.closest('.row');
@@ -5583,11 +5592,11 @@
                 row.children(':not(.dragging-col-holder)').each(function() {
                     var p = $(this).children('.panel');
                     p.data('order', ++newOrder);
-                    newOrders[p.attr('id')] = newOrder;
+                    newOrders[p.data('id') || p.attr('id')] = newOrder;
                     p.parent().attr('data-order', newOrder);
                 });
 
-                if(oldOrder != newOrders[panel.attr('id')]) {
+                if(oldOrder != newOrders[panel.data('id') || panel.attr('id')]) {
                     row.data('orders', newOrders);
 
                     if(afterOrdered && $.isFunction(afterOrdered)) {
@@ -5609,13 +5618,13 @@
     };
 
     Dashboard.prototype.handlePanelPadding = function() {
-        this.$.find('.panel-body > table, .panel-body > .list-group').closest('.panel-body').addClass('no-padding');
+        this.$.find('.panel-body > table, .panel-body > .list-group').parent().addClass('no-padding');
     };
 
     Dashboard.prototype.handlePanelHeight = function() {
         var dHeight = this.options.height;
 
-        this.$.find('.row').each(function() {
+        this.$.children('.row').each(function() {
             var row = $(this);
             var panels = row.find('.panel');
             var height = row.data('height') || dHeight;
@@ -5627,29 +5636,100 @@
                 });
             }
 
-            panels.each(function() {
-                var $this = $(this);
-                $this.find('.panel-body').css('height', height - $this.find('.panel-heading').outerHeight() - 2);
-            });
+            panels.css('height', height);
         });
     };
 
-    function refreshPanel(panel) {
-        var url = panel.data('url');
+    Dashboard.prototype.handleResizeEvent = function() {
+        var onResize = this.options.onResize;
+        var resizeMessage = this.options.resizeMessage;
+        this.$.on('mousedown', '.resize-handle', function(e) {
+            var $col = $(this).parent().addClass('resizing');
+            var $row = $col.closest('.row');
+            var startX = e.pageX;
+            var startWidth = $col.width();
+            var rowWidth = $row.width();
+            var oldGrid = Math.round(12*startWidth/rowWidth);
+            var lastGrid = oldGrid;
+            $col.attr('data-grid', oldGrid);
+
+            var mouseMove = function(event) {
+                var x = event.pageX;
+                var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
+                if(lastGrid != grid) {
+                    $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
+                    if(resizeMessage && $.zui.messager) $.zui.messager.show(Math.round(100*grid/12) + '% (' + grid + '/12)', {scale:  false, placement: 'center', icon: 'resize-h', fade: false, close: false});
+                    lastGrid = grid;
+                }
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            var mouseUp = function(event) {
+                if($.zui.messager) $.zui.messager.hide();
+
+                $col.removeClass('resizing');
+                var lastGrid = $col.attr('data-grid');
+                if(oldGrid != lastGrid) {
+                    if($.isFunction(onResize)) {
+                        var revert = function() {
+                            $col.attr('data-grid', oldGrid).css('width', null);
+                        };
+                        var result = onResize({element: $col, old: oldGrid, grid: lastGrid, revert: revert});
+                        if(result === false) revert();
+                        else if(result !== true) {
+                            if(resizeMessage && $.zui.messager) $.zui.messager.success(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)', {placement: 'center', time: 1000, close: false});
+                        }
+                    }
+                }
+
+                $('body').off('mousemove.resize', mouseMove).off('mouseup.resize', mouseUp);
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            $('body').on('mousemove.resize', mouseMove).on('mouseup.resize', mouseUp);
+            e.preventDefault();
+            e.stopPropagation();
+        }).children('.row').children(':not(.dragging-col-holder)').append('<div class="resize-handle"><i class="icon icon-resize-h"></i></div>');
+    };
+
+    Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
+        var afterRefresh = this.options.afterRefresh;
+        $panel = $($panel);
+        var url = $panel.data('url');
         if(!url) return;
-        panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
+        $panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
         $.ajax({
             url: url,
             dataType: 'html'
         }).done(function(data) {
-            panel.find('.panel-body').html(data);
+            var $data = $(data);
+            if($data.hasClass('panel')) {
+                $panel.empty().append($data.children());
+            } else if(onlyRefreshBody) {
+                $panel.find('.panel-body').empty().html(data);
+            } else {
+                $panel.html(data);
+            }
+            if($.isFunction(afterRefresh)) {
+                afterRefresh.call(this, {
+                    result: true,
+                    data: data
+                });
+            }
         }).fail(function() {
-            panel.addClass('panel-error');
+            $panel.addClass('panel-error');
+            if($.isFunction(afterRefresh)) {
+                afterRefresh.call(this, {
+                    result: false
+                });
+            }
         }).always(function() {
-            panel.removeClass('panel-loading');
-            panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
+            $panel.removeClass('panel-loading');
+            $panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
         });
-    }
+    };
 
     function getRectArea(x1, y1, x2, y2) {
         return Math.abs((x2 - x1) * (y2 - y1));
@@ -5671,15 +5751,36 @@
     }
 
     Dashboard.prototype.init = function() {
-        this.handlePanelHeight();
-        this.handlePanelPadding();
-        this.handleRemoveEvent();
-        this.handleRefreshEvent();
+        var options = this.options, that = this;
+        if(options.data) {
+            var $row = $('<div class="row"/>');
+            $.each(options.data, function(idx, config) {
+                var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>', config.colAttrs);
+                var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>', config.panelAttrs);
+                if(config.content !== undefined) {
+                    if($.isFunction(config.content)) {
+                        var content = config.content($panel);
+                        if(content !== true) {
+                            $panel.html(content);
+                        }
+                    } else {
+                        $panel.html(config.content);
+                    }
+                }
+                $row.append($col.append($panel.data('url', config.url)));
+            });
+            that.$.append($row);
+        }
 
-        if(this.draggable) this.handleDraggable();
+        that.handlePanelHeight();
+        that.handlePanelPadding();
+        that.handleRemoveEvent();
+        that.handleRefreshEvent();
+        if(options.resizable) that.handleResizeEvent();
+        if(that.draggable) that.handleDraggable();
 
         var orderSeed = 0;
-        this.$.find('.panel').each(function() {
+        that.$.find('.panel').each(function() {
             var $this = $(this);
             $this.data('order', ++orderSeed);
             if(!$this.attr('id')) {
@@ -5689,7 +5790,7 @@
                 $this.attr('data-id', orderSeed);
             }
 
-            refreshPanel($this);
+            that.refresh($this, options.onlyRefreshBody);
         });
     };
 
@@ -6231,7 +6332,7 @@
         }
     };
 
-    Color.prototype.isColor = isColor;
+    Color.isColor = isColor;
 
     /* helpers */
     function hexToRgb(hex) {
@@ -6337,6 +6438,7 @@
     'use strict';
 
     var name = 'zui.tree'; // modal name
+    var globalId = 0;
 
     // The tree modal class
     var Tree = function(element, options) {
@@ -6344,37 +6446,270 @@
         this.$ = $(element);
 
         this.getOptions(options);
-        this.init();
+        this._init();
     };
+
+    var DETAULT_ACTIONS = {
+        sort: {
+            template: '<a class="sort-handler" href="javascript:;"><i class="icon icon-move"></i></a>'
+        },
+        add: {
+            template: '<a href="javascript:;"><i class="icon icon-plus"></i></a>'
+        },
+        edit: {
+            template: '<a href="javascript:;"><i class="icon icon-pencil"></i></a>'
+        },
+        "delete": {
+            template: '<a href="javascript:;"><i class="icon icon-trash"></i></a>'
+        }
+    };
+
+    function formatActions(actions, parentActions) {
+        if(actions === false) return actions;
+        if(!actions) return parentActions;
+
+        if(actions === true) {
+            actions = {add: true, "delete": true, edit: true, sort: true};
+        } else if(typeof actions === 'string') {
+            actions = actions.split(',');
+        }
+        var _actions;
+        if($.isArray(actions)) {
+            _actions = {};
+            $.each(actions, function(idx, action) {
+                if($.isPlainObject(action)) {
+                    _actions[action.action] = action;
+                } else {
+                    _actions[action] = true;
+                }
+            });
+            actions = _actions;
+        }
+        if($.isPlainObject(actions)) {
+            _actions = {};
+            $.each(actions, function(name, action) {
+                if(action) {
+                    _actions[name] = $.extend({type: name}, DETAULT_ACTIONS[name], $.isPlainObject(action) ? action : null);
+                } else {
+                    _actions[name] = false;
+                }
+            });
+            actions = _actions;
+        }
+        return parentActions ? $.extend(true, {}, parentActions, actions) : actions;
+    }
+
+    function createActionEle(action, name, template) {
+        name = name || action.type;
+        return $(template || action.template).addClass('tree-action').attr($.extend({'data-type': name, title: action.title || ''}, action.attr)).data('action', action);
+    }
 
     // default options
     Tree.DEFAULTS = {
         animate: null,
-        initialState: 'normal'
+        initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
+        toggleTemplate: '<i class="list-toggle icon"></i>',
     };
 
-    Tree.prototype.init = function() {
-        if(this.options.animate) this.$.addClass('tree-animate');
+    Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
+        var $e = $(rootEle), $ul, options = this.options;
+        if($e.is('li')) {
+            $ul = $e.children('ul');
+            if(!$ul.length) {
+                $ul = $('<ul/>');
+                $e.append($ul);
+                this._initList($ul, $e);
+            }
+        } else {
+            $ul = $e;
+        }
 
-        this.$lists = this.$.find('ul');
-        this.$lists.parent('li').addClass('has-list').prepend('<i class="list-toggle icon"></i>');
-
-        var that = this;
-        this.$.on('click', '.list-toggle, a[href=#]', function(e) {
-            that.toggle($(this).parent('li'));
-            e.preventDefault();
-        });
-
-        if(this.options.initialState === 'expand') {
-            this.expand();
-        } else if(this.options.initialState === 'collapse') {
-            this.collapse();
-        } else if(this.options.animate) {
-            this.$.find('li.has-list.open').addClass('in');
+        if($ul) {
+            var that = this;
+            if(!$.isArray(items)) {
+                items = [items];
+            }
+            $.each(items, function(idx, item) {
+                var $li = $('<li/>').data(item).appendTo($ul);
+                var $wrapper = options.itemWrapper ? $('<div class="tree-item-wrapper"/>').appendTo($li) : $li;
+                if(item.html) {
+                    $wrapper.html(item.html)
+                } else if($.isFunction(that.options.itemCreator)) {
+                    var itemContent = that.options.itemCreator($wrapper, item);
+                    if(itemContent !== true) $wrapper.html(itemContent);
+                } else {
+                    $wrapper.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
+                }
+                that._initItem($li, item.idx || idx, $ul, item);
+                if(item.children && item.children.length) {
+                    that.add($li, item.children);
+                }
+            });
+            this._initList($ul);
+            if(expand && !$ul.hasClass('tree')) {
+                that.expand($ul.parent('li'), disabledAnimate, notStore);
+            }
         }
     };
 
-    Tree.prototype.expand = function($li, disabledAnimate) {
+    Tree.prototype.reload = function(data) {
+        var that = this;
+
+        if(data) {
+            that.$.empty();
+            that.add(that.$, data);
+        }
+
+        if(that.isPreserve)
+        {
+            if(that.store.time) {
+                that.$.find('li:not(.tree-action-item)').each(function() {
+                    var $li= $(this);
+                    that[that.store[$li.data('id')] ? 'expand' : 'collapse']($li, true, true);
+                });
+            }
+        }
+    };
+
+    Tree.prototype._initList = function($list, $parentItem, idx, data) {
+        var that = this;
+        if(!$list.hasClass('tree')) {
+            $parentItem = ($parentItem || $list.closest('li')).addClass('has-list');
+            if(!$parentItem.find('.list-toggle').length) {
+                $parentItem.prepend(this.options.toggleTemplate);
+            }
+            idx = idx || $parentItem.data('idx');
+        } else {
+            idx = 0;
+            $parentItem = null;
+        }
+        $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
+            that._initItem($(this), index + 1, $list);
+        });
+        data = data || ($parentItem ? $parentItem.data() : null);
+        var actions = formatActions(data ? data.actions : null, this.actions);
+        if(actions) {
+            if(actions.add && actions.add.templateInList !== false) {
+                var $actionItem = $list.children('li.tree-action-item');
+                if(!$actionItem.length) {
+                    $('<li class="tree-action-item"/>').append(createActionEle(actions.add, 'add', actions.add.templateInList)).appendTo($list);
+                } else {
+                    $actionItem.detach().appendTo($list);
+                }
+            }
+            if(actions.sort) {
+                $list.sortable($.extend({
+                    dragCssClass: 'tree-drag-holder', 
+                    trigger: '.sort-handler', 
+                    selector: 'li:not(.tree-action-item)',
+                    finish: function(e) {
+                        that.callEvent('action', {action: actions.sort, $list: $list, target: e.target, item: data});
+                    }
+                }, actions.sort.options, $.isPlainObject(this.options.sortable) ? this.options.sortable : null));
+            }
+        }
+        if($parentItem && ($parentItem.hasClass('open') || (data && data.open))) {
+            $parentItem.addClass('open in');
+        }
+    };
+
+    Tree.prototype._initItem = function($item, idx, $parentList, data) {
+        if(idx === undefined) {
+            var $pre = $item.prev('li');
+            idx = $pre.length ? ($pre.data('idx') + 1) : 1;
+        }
+        $parentList = $parentList || $item.closest('ul');
+        $item.attr('data-idx', idx);
+        if(!$item.data('id')) {
+            var id = idx;
+            if(!$parentList.hasClass('tree')) {
+                id = $parentList.parent('li').data('id') + '-' + id;
+            }
+            $item.attr('data-id', id);
+        }
+        data = data || $item.data();
+        var actions = formatActions(data.actions, this.actions);
+        if(actions) {
+            var $actions = $item.find('.tree-actions');
+            if(!$actions.length) {
+                $actions = $('<div class="tree-actions"/>').appendTo(this.options.itemWrapper ? $item.find('.tree-item-wrapper') : $item);
+                $.each(actions, function(actionName, action) {
+                    if(action) $actions.append(createActionEle(action, actionName));
+                });
+            }
+        }
+
+        var $children = $item.children('ul');
+        if($children.length) {
+            this._initList($children, $item, idx, data);
+        }
+    };
+
+    Tree.prototype._init = function() {
+        var options = this.options, that = this;
+        this.actions = formatActions(options.actions);
+
+        this.$.addClass('tree');
+        if(options.animate) this.$.addClass('tree-animate');
+
+        this._initList(this.$);
+
+        var initialState = options.initialState;
+        var isPreserveEnable = $.zui && $.zui.store && $.zui.store.enable;
+        if(isPreserveEnable) {
+            this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
+            this.store = $.zui.store[options.name ? 'get' : 'pageGet'](this.selector, {});
+        }
+        if(initialState === 'preserve') {
+            if(isPreserveEnable) this.isPreserve = true;
+            else this.options.initialState = initialState = 'normal';
+        }
+
+        // init data
+        this.reload(options.data);
+        if(isPreserveEnable) this.isPreserve = true;
+
+        if(initialState === 'expand') {
+            this.expand();
+        } else if(initialState === 'collapse') {
+            this.collapse();
+        }
+
+        // Bind event
+        this.$.on('click', '.list-toggle, a[href=#], .tree-toggle', function(e) {
+            var $li = $(this).parent('li');
+            that.callEvent('hit', {target: $li, item: $li.data()});
+            that.toggle($li);
+            e.preventDefault();
+        }).on('click', '.tree-action', function() {
+            var $action = $(this);
+            var action = $action.data();
+            if(action.action) action = action.action;
+            if(action.type === 'sort') return;
+            var $li = $action.closest('li:not(.tree-action-item)');
+            that.callEvent('action', {action: action, target: this, $item: $li, item: $li.data()});
+        });
+    };
+
+    Tree.prototype.preserve = function($li, id, expand) {
+        if(!this.isPreserve) return;
+        if($li) {
+            id = id || $li.data('id');
+            expand = expand === undefined ? $li.hasClass('open') : false;
+            if(expand) this.store[id] = expand;
+            else delete this.store[id];
+            this.store.time = new Date().getTime();
+            $.zui.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
+        } else {
+            var that = this;
+            this.store = {};
+            this.$.find('li').each(function() {
+                that.preserve($(this));
+            });
+        }
+    };
+
+    Tree.prototype.expand = function($li, disabledAnimate, notStore) {
         if($li) {
             $li.addClass('open');
             if(!disabledAnimate && this.options.animate) {
@@ -6385,12 +6720,33 @@
                 $li.addClass('in');
             }
         } else {
-            this.$.find('li.has-list').addClass('open in');
+            $li = this.$.find('li.has-list').addClass('open in');
         }
+        if(!notStore) this.preserve($li);
         this.callEvent('expand', $li, this);
     };
 
-    Tree.prototype.collapse = function($li, disabledAnimate) {
+    Tree.prototype.show = function($lis, disabledAnimate, notStore) {
+        var that = this;
+        $lis.each(function() {
+            var $li = $(this);
+            that.expand($li, disabledAnimate, notStore);
+            if($li) {
+                var $ul = $li.parent('ul');
+                while($ul && $ul.length && !$ul.hasClass('tree')) {
+                    var $parentLi = $ul.parent('li');
+                    if($parentLi.length) {
+                        that.expand($parentLi, disabledAnimate, notStore);
+                        $ul = $parentLi.parent('ul');
+                    } else {
+                        $ul = false;
+                    }
+                }
+            }
+        });
+    };
+
+    Tree.prototype.collapse = function($li, disabledAnimate, notStore) {
         if($li) {
             if(!disabledAnimate && this.options.animate) {
                 $li.removeClass('in');
@@ -6401,8 +6757,9 @@
                 $li.removeClass('open in');
             }
         } else {
-            this.$.find('li.has-list').removeClass('open in');
+            $li = this.$.find('li.has-list').removeClass('open in');
         }
+        if(!notStore) this.preserve($li);
         this.callEvent('collapse', $li, this);
     };
 
@@ -6419,10 +6776,31 @@
         }
     };
 
+    Tree.prototype.toData = function($ul, filter) {
+        if($.isFunction($ul)) {
+            filter = $ul;
+            $ul = null;
+        }
+        $ul = $ul || this.$;
+        var that = this;
+        return $ul.children('li:not(.tree-action-item)').map(function() {
+            var $li = $(this);
+            var data = $li.data();
+            delete data['zui.droppable'];
+            var $children = $li.children('ul');
+            if($children.length) data.children = that.toData($children);
+            return $.isFunction(filter) ? filter(data, $li) : data;
+        }).get();
+    };
+
     // Call event helper
     Tree.prototype.callEvent = function(name, params) {
-        var result = this.$.callEvent(name + '.' + this.name, params, this);
-        return !(result.result !== undefined && (!result.result));
+        var result;
+        if($.isFunction(this.options[name])) {
+            result = this.options[name](params, this);
+        }
+        this.$.trigger($.Event(name + '.' + this.name, params));
+        return result;
     };
 
     // Extense jquery element

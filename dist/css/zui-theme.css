@@ -1,10 +1,147 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI - v1.4.0 - 2016-05-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
+/**(function($) {
+    'use strict';
+
+    var nextColorIndex = 0;
+    var presetColors = ['primary', 'red', 'yellow', 'green', 'blue', 'purple', 'brown', 'dark'];
+
+    var colorset = {**/
+.color-primary {
+  color: #3f51b5;
+  }
+.color-secondary {
+  color: #3949ab;
+  }
+.color-pale {
+  color: #eceff1;
+  }
+.color-fore {
+  color: #353535;
+  }
+.color-back {
+  color: #fff;
+  }
+.color-grayDarker {
+  color: #222;
+  }
+.color-grayDark {
+  color: #333;
+  }
+.color-gray {
+  color: #808080;
+  }
+.color-grayLight {
+  color: #ddd;
+  }
+.color-grayLighter {
+  color: #e5e5e5;
+  }
+.color-grayPale {
+  color: #f1f1f1;
+  }
+.color-white {
+  color: #fff;
+  }
+.color-black {
+  color: #000;
+  }
+.color-red {
+  color: #d9534f;
+  }
+.color-yellow {
+  color: #f0ad4e;
+  }
+.color-green {
+  color: #4caf50;
+  }
+.color-blue {
+  color: #039be5;
+  }
+.color-purple {
+  color: #8666b8;
+  }
+.color-brown {
+  color: #bd7b46;
+  }
+.color-greenPale {
+  color: #ddf4df;
+  }
+.color-yellowPale {
+  color: #fff0d5;
+  }
+.color-redPale {
+  color: #ffe5e0;
+  }
+.color-bluePale {
+  color: #ddf3f5;
+  }
+.color-brownPale {
+  color: #f7ebe1;
+  }
+.color-purplePale {
+  color: #f5eeff;
+  }
+.color-light {
+  color: #fff;
+  }
+.color-dark {
+  color: #353535;
+  }
+.color-success {
+  color: #4caf50;
+  }
+.color-warning {
+  color: #f0ad4e;
+  }
+.color-danger {
+  color: #d9534f;
+  }
+.color-info {
+  color: #039be5;
+  }
+.color-important {
+  color: #bd7b46;
+  }
+.color-special {
+  color: #8666b8;
+  }
+.color-successPale {
+  color: #ddf4df;
+  }
+.color-warningPale {
+  color: #fff0d5;
+  }
+.color-dangerPale {
+  color: #ffe5e0;
+  }
+.color-infoPale {
+  color: #ddf3f5;
+  }
+.color-importantPale {
+  color: #f7ebe1;
+  }
+.color-specialPale {
+  color: #f5eeff;
+  }
+/**    };
+    
+    colorset.get = function(colorName) {
+        if(typeof colorName === 'undefined' || colorName === 'random') {
+            colorName = presetColors[(nextColorIndex++) % presetColors.length];
+        }
+
+        return new $.zui.Color(colorset[colorName] ? colorset[colorName] : colorName);
+    }
+
+    $.zui({colorset: colorset});
+    if($.zui.Color) $.extend($.zui.Color, colorset);
+}(jQuery));**/
 a {
   color: #3949ab;
   }

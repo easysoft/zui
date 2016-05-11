@@ -1,11 +1,11 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI - v1.4.0 - 2016-05-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
-/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
+/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
 /* ========================================================================
  * ZUI: jquery.extensions.js
@@ -62,13 +62,8 @@
     $.fn.callEvent = function(name, event, model) {
         var $this = $(this);
         var dotIndex = name.indexOf('.zui.');
-        var shortName = name;
-        if(dotIndex < 0 && model && model.name) {
-            name += '.' + model.name;
-        } else {
-            shortName = name.substring(0, dotIndex);
-        }
-        var e = $.Event(name, event);
+        var shortName = dotIndex < 0 ? name : name.substring(0, dotIndex);
+        var e = $.Event(shortName, event);
 
         if((model === undefined) && dotIndex > 0) {
             model = $this.data(name.substring(dotIndex + 1));
@@ -77,9 +72,10 @@
         if(model && model.options) {
             var func = model.options[shortName];
             if($.isFunction(func)) {
-                $.zui.callEvent(model.options[shortName], e, model);
+                $.zui.callEvent(func, e, model);
             }
         }
+        $this.trigger(e);
         return e;
     };
 }(jQuery, window));
@@ -2024,11 +2020,13 @@
                             $modal.callEvent('loaded' + ZUI_MODAL, {
                                 modalType: 'iframe',
                                 jQuery: frame$
-                            }, that);
+                            }, null);
 
                             setTimeout(ajustFrameSize, 100);
 
                             $framebody.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                        } else {
+                            readyToShow();
                         }
 
                         frame$.extend({
@@ -2956,6 +2954,7 @@
 
         this.$element.on('touchstart touchmove touchend', touch);
         var touchStartX, touchStartY;
+        var that = this;
 
         /* listen the touch event */
         function touch(event) {
@@ -2987,8 +2986,8 @@
         }
 
         function handleCarousel(carousel, distance) {
-            if(distance > 10) carousel.find('.left.carousel-control').click();
-            if(distance < -10) carousel.find('.right.carousel-control').click();
+            if(distance > 10) that.prev();
+            else if(distance < -10) that.next();
         }
     }
 

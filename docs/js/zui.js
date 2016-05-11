@@ -1,11 +1,11 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI - v1.4.0 - 2016-05-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
-/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
+/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
 /* ========================================================================
  * ZUI: jquery.extensions.js
@@ -62,13 +62,8 @@
     $.fn.callEvent = function(name, event, model) {
         var $this = $(this);
         var dotIndex = name.indexOf('.zui.');
-        var shortName = name;
-        if(dotIndex < 0 && model && model.name) {
-            name += '.' + model.name;
-        } else {
-            shortName = name.substring(0, dotIndex);
-        }
-        var e = $.Event(name, event);
+        var shortName = dotIndex < 0 ? name : name.substring(0, dotIndex);
+        var e = $.Event(shortName, event);
 
         if((model === undefined) && dotIndex > 0) {
             model = $this.data(name.substring(dotIndex + 1));
@@ -77,9 +72,10 @@
         if(model && model.options) {
             var func = model.options[shortName];
             if($.isFunction(func)) {
-                $.zui.callEvent(model.options[shortName], e, model);
+                $.zui.callEvent(func, e, model);
             }
         }
+        $this.trigger(e);
         return e;
     };
 }(jQuery, window));
@@ -3109,11 +3105,13 @@
                             $modal.callEvent('loaded' + ZUI_MODAL, {
                                 modalType: 'iframe',
                                 jQuery: frame$
-                            }, that);
+                            }, null);
 
                             setTimeout(ajustFrameSize, 100);
 
                             $framebody.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                        } else {
+                            readyToShow();
                         }
 
                         frame$.extend({
@@ -4041,6 +4039,7 @@
 
         this.$element.on('touchstart touchmove touchend', touch);
         var touchStartX, touchStartY;
+        var that = this;
 
         /* listen the touch event */
         function touch(event) {
@@ -4072,8 +4071,8 @@
         }
 
         function handleCarousel(carousel, distance) {
-            if(distance > 10) carousel.find('.left.carousel-control').click();
-            if(distance < -10) carousel.find('.right.carousel-control').click();
+            if(distance > 10) that.prev();
+            else if(distance < -10) that.next();
         }
     }
 
@@ -4943,7 +4942,7 @@
             }
 
             if(!button.className) {
-                if(total <= 2 && index === total - 1) {
+                if((total === 2 && (key === 'ok' || key === 'confirm')) || total === 1) {
                     // always add a primary to the main option in a two-button dialog
                     button.className = "btn-primary";
                 } else {
@@ -5088,7 +5087,10 @@
     exports.confirm = function() {
         var options;
 
-        options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+        // ZUI change begin
+        options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
+        // OLD WAY: options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+        // ZUI change end
 
         /**
          * overrides; undo anything the user tried to set they shouldn't have
@@ -5137,7 +5139,10 @@
         };
 
         options = validateButtons(
-            mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]
+            // ZUI change begin
+            mergeArguments(defaults, arguments, ["title", "callback"]), ["confirm", "cancel"]
+            // OLD WAY: mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]arguments);
+            // ZUI change end
         );
 
         // capture the user's show value; we always set this to false before
@@ -5339,6 +5344,7 @@
 
     exports.dialog = function(options) {
         options = sanitize(options);
+
 
         var dialog = $(templates.dialog);
         var innerDialog = dialog.find(".modal-dialog");
@@ -5637,7 +5643,10 @@
         height: 360,
         shadowType: 'normal',
         sensitive: false,
-        circleShadowSize: 100
+        circleShadowSize: 100,
+        onlyRefreshBody: true,
+        resizable: true,
+        resizeMessage: true
     };
 
     Dashboard.prototype.getOptions = function(options) {
@@ -5663,9 +5672,11 @@
     };
 
     Dashboard.prototype.handleRefreshEvent = function() {
+        var that = this;
+        var onlyRefreshBody = this.options.onlyRefreshBody;
         this.$.on('click', '.refresh-panel', function() {
             var panel = $(this).closest('.panel');
-            refreshPanel(panel);
+            that.refresh(panel, onlyRefreshBody);
         });
     };
 
@@ -5679,14 +5690,12 @@
 
         this.$.addClass('dashboard-draggable');
 
-        this.$.find('.panel-actions').mousedown(function(event) {
-            event.preventDefault();
+        this.$.on('mousedown', '.panel-actions, .drag-disabled', function(event) {
             event.stopPropagation();
         });
 
         var pColClass;
-        this.$.find('.panel-heading').mousedown(function(event) {
-            // console.log('--------------------------------');
+        this.$.on('mousedown', '.panel-heading, .panel-drag-handler', function(event) {
             var panel = $(this).closest('.panel');
             var pCol = panel.parent();
             var row = panel.closest('.row');
@@ -5821,11 +5830,11 @@
                 row.children(':not(.dragging-col-holder)').each(function() {
                     var p = $(this).children('.panel');
                     p.data('order', ++newOrder);
-                    newOrders[p.attr('id')] = newOrder;
+                    newOrders[p.data('id') || p.attr('id')] = newOrder;
                     p.parent().attr('data-order', newOrder);
                 });
 
-                if(oldOrder != newOrders[panel.attr('id')]) {
+                if(oldOrder != newOrders[panel.data('id') || panel.attr('id')]) {
                     row.data('orders', newOrders);
 
                     if(afterOrdered && $.isFunction(afterOrdered)) {
@@ -5847,13 +5856,13 @@
     };
 
     Dashboard.prototype.handlePanelPadding = function() {
-        this.$.find('.panel-body > table, .panel-body > .list-group').closest('.panel-body').addClass('no-padding');
+        this.$.find('.panel-body > table, .panel-body > .list-group').parent().addClass('no-padding');
     };
 
     Dashboard.prototype.handlePanelHeight = function() {
         var dHeight = this.options.height;
 
-        this.$.find('.row').each(function() {
+        this.$.children('.row').each(function() {
             var row = $(this);
             var panels = row.find('.panel');
             var height = row.data('height') || dHeight;
@@ -5865,29 +5874,100 @@
                 });
             }
 
-            panels.each(function() {
-                var $this = $(this);
-                $this.find('.panel-body').css('height', height - $this.find('.panel-heading').outerHeight() - 2);
-            });
+            panels.css('height', height);
         });
     };
 
-    function refreshPanel(panel) {
-        var url = panel.data('url');
+    Dashboard.prototype.handleResizeEvent = function() {
+        var onResize = this.options.onResize;
+        var resizeMessage = this.options.resizeMessage;
+        this.$.on('mousedown', '.resize-handle', function(e) {
+            var $col = $(this).parent().addClass('resizing');
+            var $row = $col.closest('.row');
+            var startX = e.pageX;
+            var startWidth = $col.width();
+            var rowWidth = $row.width();
+            var oldGrid = Math.round(12*startWidth/rowWidth);
+            var lastGrid = oldGrid;
+            $col.attr('data-grid', oldGrid);
+
+            var mouseMove = function(event) {
+                var x = event.pageX;
+                var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
+                if(lastGrid != grid) {
+                    $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
+                    if(resizeMessage && $.zui.messager) $.zui.messager.show(Math.round(100*grid/12) + '% (' + grid + '/12)', {scale:  false, placement: 'center', icon: 'resize-h', fade: false, close: false});
+                    lastGrid = grid;
+                }
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            var mouseUp = function(event) {
+                if($.zui.messager) $.zui.messager.hide();
+
+                $col.removeClass('resizing');
+                var lastGrid = $col.attr('data-grid');
+                if(oldGrid != lastGrid) {
+                    if($.isFunction(onResize)) {
+                        var revert = function() {
+                            $col.attr('data-grid', oldGrid).css('width', null);
+                        };
+                        var result = onResize({element: $col, old: oldGrid, grid: lastGrid, revert: revert});
+                        if(result === false) revert();
+                        else if(result !== true) {
+                            if(resizeMessage && $.zui.messager) $.zui.messager.success(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)', {placement: 'center', time: 1000, close: false});
+                        }
+                    }
+                }
+
+                $('body').off('mousemove.resize', mouseMove).off('mouseup.resize', mouseUp);
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            $('body').on('mousemove.resize', mouseMove).on('mouseup.resize', mouseUp);
+            e.preventDefault();
+            e.stopPropagation();
+        }).children('.row').children(':not(.dragging-col-holder)').append('<div class="resize-handle"><i class="icon icon-resize-h"></i></div>');
+    };
+
+    Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
+        var afterRefresh = this.options.afterRefresh;
+        $panel = $($panel);
+        var url = $panel.data('url');
         if(!url) return;
-        panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
+        $panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
         $.ajax({
             url: url,
             dataType: 'html'
         }).done(function(data) {
-            panel.find('.panel-body').html(data);
+            var $data = $(data);
+            if($data.hasClass('panel')) {
+                $panel.empty().append($data.children());
+            } else if(onlyRefreshBody) {
+                $panel.find('.panel-body').empty().html(data);
+            } else {
+                $panel.html(data);
+            }
+            if($.isFunction(afterRefresh)) {
+                afterRefresh.call(this, {
+                    result: true,
+                    data: data
+                });
+            }
         }).fail(function() {
-            panel.addClass('panel-error');
+            $panel.addClass('panel-error');
+            if($.isFunction(afterRefresh)) {
+                afterRefresh.call(this, {
+                    result: false
+                });
+            }
         }).always(function() {
-            panel.removeClass('panel-loading');
-            panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
+            $panel.removeClass('panel-loading');
+            $panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
         });
-    }
+    };
 
     function getRectArea(x1, y1, x2, y2) {
         return Math.abs((x2 - x1) * (y2 - y1));
@@ -5909,15 +5989,36 @@
     }
 
     Dashboard.prototype.init = function() {
-        this.handlePanelHeight();
-        this.handlePanelPadding();
-        this.handleRemoveEvent();
-        this.handleRefreshEvent();
+        var options = this.options, that = this;
+        if(options.data) {
+            var $row = $('<div class="row"/>');
+            $.each(options.data, function(idx, config) {
+                var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>', config.colAttrs);
+                var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>', config.panelAttrs);
+                if(config.content !== undefined) {
+                    if($.isFunction(config.content)) {
+                        var content = config.content($panel);
+                        if(content !== true) {
+                            $panel.html(content);
+                        }
+                    } else {
+                        $panel.html(config.content);
+                    }
+                }
+                $row.append($col.append($panel.data('url', config.url)));
+            });
+            that.$.append($row);
+        }
 
-        if(this.draggable) this.handleDraggable();
+        that.handlePanelHeight();
+        that.handlePanelPadding();
+        that.handleRemoveEvent();
+        that.handleRefreshEvent();
+        if(options.resizable) that.handleResizeEvent();
+        if(that.draggable) that.handleDraggable();
 
         var orderSeed = 0;
-        this.$.find('.panel').each(function() {
+        that.$.find('.panel').each(function() {
             var $this = $(this);
             $this.data('order', ++orderSeed);
             if(!$this.attr('id')) {
@@ -5927,7 +6028,7 @@
                 $this.attr('data-id', orderSeed);
             }
 
-            refreshPanel($this);
+            that.refresh($this, options.onlyRefreshBody);
         });
     };
 
@@ -6130,6 +6231,7 @@
         checkByClickRow: true, // change check status by click anywhere on a row
         checkedClass: 'active', // apply CSS class to an checked row
         checkboxName: null,
+        selectable: true,
 
         // Sort options
         sortable: false, // enable sorter
@@ -6178,6 +6280,8 @@
         if($e.hasClass('table-hover') || options.rowHover) {
             options.tableClass += ' table-hover';
         }
+
+        if(!options.checkable || !$.fn.selectable) options.selectable = false;
 
         this.options = options;
     };
@@ -6700,19 +6804,52 @@
                 });
             };
 
-            this.$rowsSpans.on('click', options.checkByClickRow ? 'tr' : '.check-row', function() {
-                $rows.filter('[data-index="' + $(this).closest('tr').data('index') + '"]').toggleClass(checkedClass);
-                syncChecks();
-            });
+            var toggleRowClass = function(ele, toggle) {
+                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, toggle);
+            };
 
-            var checkAllEventName = 'click.zui.datatable.check-all';
-            this.$datatable.off(checkAllEventName).on(checkAllEventName, '.check-all', function() {
+            var checkEventPrefix = 'click.zui.datatable.check';
+            if(options.selectable) {
+                this.$datatable.selectable({
+                    selector: '.datatable-rows tr',
+                    trigger: '.datatable-rows',
+                    start: function(e) {
+                        var $checkRow = $(e.target).closest('.check-row, .check-btn');
+                        if($checkRow.length) {
+                            if($checkRow.is('.check-row')) {
+                                toggleRowClass($checkRow);
+                                syncChecks();
+                            }
+                            return false;
+                        }
+                    },
+                    rangeFunc: function(range, targetRange) {
+                        return Math.max(range.top, targetRange.top) < Math.min(range.top + range.height, targetRange.top + targetRange.height);
+                    },
+                    select: function(e) {
+                        toggleRowClass(e.target, true);
+                    },
+                    unselect: function(e) {
+                        toggleRowClass(e.target, false);
+                    },
+                    finish: function(e) {
+                        syncChecks();
+                    }
+                });
+            } else {
+                this.$rowsSpans.off(checkEventPrefix).on(checkEventPrefix + 'row', options.checkByClickRow ? 'tr' : '.check-row', function() {
+                    toggleRowClass(this);
+                    syncChecks();
+                });
+            }
+
+            this.$datatable.off(checkEventPrefix).on('click.zui.datatable.check', '.check-all', function() {
                 $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
-            }).on('click', '.check-none', function() {
+            }).on(checkEventPrefix + '.none', '.check-none', function() {
                 $rows.toggleClass(checkedClass, false);
                 syncChecks();
-            }).on('click', '.check-inverse', function() {
+            }).on(checkEventPrefix + '.inverse', '.check-inverse', function() {
                 $rows.toggleClass(checkedClass);
                 syncChecks();
             });
@@ -7359,7 +7496,7 @@
         }
     };
 
-    Color.prototype.isColor = isColor;
+    Color.isColor = isColor;
 
     /* helpers */
     function hexToRgb(hex) {
@@ -7546,8 +7683,6 @@
 
         this.date = this.options.startDate || 'today';
         this.view = this.options.startView || 'month';
-
-        this.date = 'today';
 
         this.$.toggleClass('limit-event-title', options.limitEventTitle);
 
@@ -8031,7 +8166,7 @@
 
         if(options.withHeader) {
             that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1, lang.monthNames[thisMonth]));
-            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
+            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth && thisYear === todayYear);
         }
 
         // var $event,
@@ -9965,7 +10100,7 @@ This file is generated by `grunt build`, do not edit it by hand.
 
 
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI - v1.4.0 - 2016-05-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -12658,7 +12793,7 @@ This file is generated by `grunt build`, do not edit it by hand.
                 segment.color = color.toCssStr();
                 if(!segment.highlight) segment.highlight = color.lighten(5).toCssStr();
             }
-            /// ----- ZUI change begin -----
+            /// ----- ZUI change end -----
             var index = atIndex || this.segments.length;
             this.segments.splice(index, 0, new this.SegmentArc({
                 id: typeof segment.id === 'undefined' ? index : segment.id,
@@ -12674,7 +12809,7 @@ This file is generated by `grunt build`, do not edit it by hand.
                 circumference: (this.options.animateRotate) ? 0 : this.calculateCircumference(segment.value),
                 /// ----- ZUI change begin -----
                 showLabel: segment.showLabel !== false,
-                /// ----- ZUI change begin -----
+                /// ----- ZUI change end -----
                 label: segment.label
             }));
             if(!silent) {
@@ -12754,7 +12889,7 @@ This file is generated by `grunt build`, do not edit it by hand.
             var chartWidthHalf = this.chart.width / 2;
             var chartHeightHalf = this.chart.height / 2;
 
-            if(placement === 'outside') {
+            if(placement === 'outside') { // outside
                 var isRight = x >= 0;
                 var lineX = x + chartWidthHalf;
                 var lineY = y + chartHeightHalf;
@@ -12774,7 +12909,8 @@ This file is generated by `grunt build`, do not edit it by hand.
                     else labelPos++;
                 }
                 while(labelPosMap[isRight ? labelPos : (-labelPos)] && labelPos < maxPos) labelPos++;
-                if(labelPosMap[labelPos]) return;
+
+                if(labelPosMap[isRight ? labelPos : (-labelPos)]) return;
                 y = (labelPos - 1) * textHeight + options.scaleFontSize / 2;
                 labelPosMap[labelPos] = true;
 
@@ -12787,12 +12923,11 @@ This file is generated by `grunt build`, do not edit it by hand.
                 ctx.strokeWidth = options.scaleLineWidth;
                 ctx.stroke();
                 ctx.fillStyle = segment.fillColor;
-            } else { // outside
+            } else { // inside
                 x = x * 0.6 + chartWidthHalf;
                 y = y * 0.6 + chartHeightHalf;
                 ctx.fillStyle = ($.zui && $.zui.Color) ? (new $.zui.Color(segment.fillColor).contrast().toCssStr()) : '#fff';
             }
-
             ctx.fillText(text, x, y);
         },
         // ZUI change end
@@ -13272,6 +13407,7 @@ This file is generated by `grunt build`, do not edit it by hand.
     'use strict';
 
     var name = 'zui.tree'; // modal name
+    var globalId = 0;
 
     // The tree modal class
     var Tree = function(element, options) {
@@ -13279,37 +13415,270 @@ This file is generated by `grunt build`, do not edit it by hand.
         this.$ = $(element);
 
         this.getOptions(options);
-        this.init();
+        this._init();
     };
+
+    var DETAULT_ACTIONS = {
+        sort: {
+            template: '<a class="sort-handler" href="javascript:;"><i class="icon icon-move"></i></a>'
+        },
+        add: {
+            template: '<a href="javascript:;"><i class="icon icon-plus"></i></a>'
+        },
+        edit: {
+            template: '<a href="javascript:;"><i class="icon icon-pencil"></i></a>'
+        },
+        "delete": {
+            template: '<a href="javascript:;"><i class="icon icon-trash"></i></a>'
+        }
+    };
+
+    function formatActions(actions, parentActions) {
+        if(actions === false) return actions;
+        if(!actions) return parentActions;
+
+        if(actions === true) {
+            actions = {add: true, "delete": true, edit: true, sort: true};
+        } else if(typeof actions === 'string') {
+            actions = actions.split(',');
+        }
+        var _actions;
+        if($.isArray(actions)) {
+            _actions = {};
+            $.each(actions, function(idx, action) {
+                if($.isPlainObject(action)) {
+                    _actions[action.action] = action;
+                } else {
+                    _actions[action] = true;
+                }
+            });
+            actions = _actions;
+        }
+        if($.isPlainObject(actions)) {
+            _actions = {};
+            $.each(actions, function(name, action) {
+                if(action) {
+                    _actions[name] = $.extend({type: name}, DETAULT_ACTIONS[name], $.isPlainObject(action) ? action : null);
+                } else {
+                    _actions[name] = false;
+                }
+            });
+            actions = _actions;
+        }
+        return parentActions ? $.extend(true, {}, parentActions, actions) : actions;
+    }
+
+    function createActionEle(action, name, template) {
+        name = name || action.type;
+        return $(template || action.template).addClass('tree-action').attr($.extend({'data-type': name, title: action.title || ''}, action.attr)).data('action', action);
+    }
 
     // default options
     Tree.DEFAULTS = {
         animate: null,
-        initialState: 'normal'
+        initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
+        toggleTemplate: '<i class="list-toggle icon"></i>',
     };
 
-    Tree.prototype.init = function() {
-        if(this.options.animate) this.$.addClass('tree-animate');
+    Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
+        var $e = $(rootEle), $ul, options = this.options;
+        if($e.is('li')) {
+            $ul = $e.children('ul');
+            if(!$ul.length) {
+                $ul = $('<ul/>');
+                $e.append($ul);
+                this._initList($ul, $e);
+            }
+        } else {
+            $ul = $e;
+        }
 
-        this.$lists = this.$.find('ul');
-        this.$lists.parent('li').addClass('has-list').prepend('<i class="list-toggle icon"></i>');
-
-        var that = this;
-        this.$.on('click', '.list-toggle, a[href=#]', function(e) {
-            that.toggle($(this).parent('li'));
-            e.preventDefault();
-        });
-
-        if(this.options.initialState === 'expand') {
-            this.expand();
-        } else if(this.options.initialState === 'collapse') {
-            this.collapse();
-        } else if(this.options.animate) {
-            this.$.find('li.has-list.open').addClass('in');
+        if($ul) {
+            var that = this;
+            if(!$.isArray(items)) {
+                items = [items];
+            }
+            $.each(items, function(idx, item) {
+                var $li = $('<li/>').data(item).appendTo($ul);
+                var $wrapper = options.itemWrapper ? $('<div class="tree-item-wrapper"/>').appendTo($li) : $li;
+                if(item.html) {
+                    $wrapper.html(item.html)
+                } else if($.isFunction(that.options.itemCreator)) {
+                    var itemContent = that.options.itemCreator($wrapper, item);
+                    if(itemContent !== true) $wrapper.html(itemContent);
+                } else {
+                    $wrapper.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
+                }
+                that._initItem($li, item.idx || idx, $ul, item);
+                if(item.children && item.children.length) {
+                    that.add($li, item.children);
+                }
+            });
+            this._initList($ul);
+            if(expand && !$ul.hasClass('tree')) {
+                that.expand($ul.parent('li'), disabledAnimate, notStore);
+            }
         }
     };
 
-    Tree.prototype.expand = function($li, disabledAnimate) {
+    Tree.prototype.reload = function(data) {
+        var that = this;
+
+        if(data) {
+            that.$.empty();
+            that.add(that.$, data);
+        }
+
+        if(that.isPreserve)
+        {
+            if(that.store.time) {
+                that.$.find('li:not(.tree-action-item)').each(function() {
+                    var $li= $(this);
+                    that[that.store[$li.data('id')] ? 'expand' : 'collapse']($li, true, true);
+                });
+            }
+        }
+    };
+
+    Tree.prototype._initList = function($list, $parentItem, idx, data) {
+        var that = this;
+        if(!$list.hasClass('tree')) {
+            $parentItem = ($parentItem || $list.closest('li')).addClass('has-list');
+            if(!$parentItem.find('.list-toggle').length) {
+                $parentItem.prepend(this.options.toggleTemplate);
+            }
+            idx = idx || $parentItem.data('idx');
+        } else {
+            idx = 0;
+            $parentItem = null;
+        }
+        $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
+            that._initItem($(this), index + 1, $list);
+        });
+        data = data || ($parentItem ? $parentItem.data() : null);
+        var actions = formatActions(data ? data.actions : null, this.actions);
+        if(actions) {
+            if(actions.add && actions.add.templateInList !== false) {
+                var $actionItem = $list.children('li.tree-action-item');
+                if(!$actionItem.length) {
+                    $('<li class="tree-action-item"/>').append(createActionEle(actions.add, 'add', actions.add.templateInList)).appendTo($list);
+                } else {
+                    $actionItem.detach().appendTo($list);
+                }
+            }
+            if(actions.sort) {
+                $list.sortable($.extend({
+                    dragCssClass: 'tree-drag-holder', 
+                    trigger: '.sort-handler', 
+                    selector: 'li:not(.tree-action-item)',
+                    finish: function(e) {
+                        that.callEvent('action', {action: actions.sort, $list: $list, target: e.target, item: data});
+                    }
+                }, actions.sort.options, $.isPlainObject(this.options.sortable) ? this.options.sortable : null));
+            }
+        }
+        if($parentItem && ($parentItem.hasClass('open') || (data && data.open))) {
+            $parentItem.addClass('open in');
+        }
+    };
+
+    Tree.prototype._initItem = function($item, idx, $parentList, data) {
+        if(idx === undefined) {
+            var $pre = $item.prev('li');
+            idx = $pre.length ? ($pre.data('idx') + 1) : 1;
+        }
+        $parentList = $parentList || $item.closest('ul');
+        $item.attr('data-idx', idx);
+        if(!$item.data('id')) {
+            var id = idx;
+            if(!$parentList.hasClass('tree')) {
+                id = $parentList.parent('li').data('id') + '-' + id;
+            }
+            $item.attr('data-id', id);
+        }
+        data = data || $item.data();
+        var actions = formatActions(data.actions, this.actions);
+        if(actions) {
+            var $actions = $item.find('.tree-actions');
+            if(!$actions.length) {
+                $actions = $('<div class="tree-actions"/>').appendTo(this.options.itemWrapper ? $item.find('.tree-item-wrapper') : $item);
+                $.each(actions, function(actionName, action) {
+                    if(action) $actions.append(createActionEle(action, actionName));
+                });
+            }
+        }
+
+        var $children = $item.children('ul');
+        if($children.length) {
+            this._initList($children, $item, idx, data);
+        }
+    };
+
+    Tree.prototype._init = function() {
+        var options = this.options, that = this;
+        this.actions = formatActions(options.actions);
+
+        this.$.addClass('tree');
+        if(options.animate) this.$.addClass('tree-animate');
+
+        this._initList(this.$);
+
+        var initialState = options.initialState;
+        var isPreserveEnable = $.zui && $.zui.store && $.zui.store.enable;
+        if(isPreserveEnable) {
+            this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
+            this.store = $.zui.store[options.name ? 'get' : 'pageGet'](this.selector, {});
+        }
+        if(initialState === 'preserve') {
+            if(isPreserveEnable) this.isPreserve = true;
+            else this.options.initialState = initialState = 'normal';
+        }
+
+        // init data
+        this.reload(options.data);
+        if(isPreserveEnable) this.isPreserve = true;
+
+        if(initialState === 'expand') {
+            this.expand();
+        } else if(initialState === 'collapse') {
+            this.collapse();
+        }
+
+        // Bind event
+        this.$.on('click', '.list-toggle, a[href=#], .tree-toggle', function(e) {
+            var $li = $(this).parent('li');
+            that.callEvent('hit', {target: $li, item: $li.data()});
+            that.toggle($li);
+            e.preventDefault();
+        }).on('click', '.tree-action', function() {
+            var $action = $(this);
+            var action = $action.data();
+            if(action.action) action = action.action;
+            if(action.type === 'sort') return;
+            var $li = $action.closest('li:not(.tree-action-item)');
+            that.callEvent('action', {action: action, target: this, $item: $li, item: $li.data()});
+        });
+    };
+
+    Tree.prototype.preserve = function($li, id, expand) {
+        if(!this.isPreserve) return;
+        if($li) {
+            id = id || $li.data('id');
+            expand = expand === undefined ? $li.hasClass('open') : false;
+            if(expand) this.store[id] = expand;
+            else delete this.store[id];
+            this.store.time = new Date().getTime();
+            $.zui.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
+        } else {
+            var that = this;
+            this.store = {};
+            this.$.find('li').each(function() {
+                that.preserve($(this));
+            });
+        }
+    };
+
+    Tree.prototype.expand = function($li, disabledAnimate, notStore) {
         if($li) {
             $li.addClass('open');
             if(!disabledAnimate && this.options.animate) {
@@ -13320,12 +13689,33 @@ This file is generated by `grunt build`, do not edit it by hand.
                 $li.addClass('in');
             }
         } else {
-            this.$.find('li.has-list').addClass('open in');
+            $li = this.$.find('li.has-list').addClass('open in');
         }
+        if(!notStore) this.preserve($li);
         this.callEvent('expand', $li, this);
     };
 
-    Tree.prototype.collapse = function($li, disabledAnimate) {
+    Tree.prototype.show = function($lis, disabledAnimate, notStore) {
+        var that = this;
+        $lis.each(function() {
+            var $li = $(this);
+            that.expand($li, disabledAnimate, notStore);
+            if($li) {
+                var $ul = $li.parent('ul');
+                while($ul && $ul.length && !$ul.hasClass('tree')) {
+                    var $parentLi = $ul.parent('li');
+                    if($parentLi.length) {
+                        that.expand($parentLi, disabledAnimate, notStore);
+                        $ul = $parentLi.parent('ul');
+                    } else {
+                        $ul = false;
+                    }
+                }
+            }
+        });
+    };
+
+    Tree.prototype.collapse = function($li, disabledAnimate, notStore) {
         if($li) {
             if(!disabledAnimate && this.options.animate) {
                 $li.removeClass('in');
@@ -13336,8 +13726,9 @@ This file is generated by `grunt build`, do not edit it by hand.
                 $li.removeClass('open in');
             }
         } else {
-            this.$.find('li.has-list').removeClass('open in');
+            $li = this.$.find('li.has-list').removeClass('open in');
         }
+        if(!notStore) this.preserve($li);
         this.callEvent('collapse', $li, this);
     };
 
@@ -13354,10 +13745,31 @@ This file is generated by `grunt build`, do not edit it by hand.
         }
     };
 
+    Tree.prototype.toData = function($ul, filter) {
+        if($.isFunction($ul)) {
+            filter = $ul;
+            $ul = null;
+        }
+        $ul = $ul || this.$;
+        var that = this;
+        return $ul.children('li:not(.tree-action-item)').map(function() {
+            var $li = $(this);
+            var data = $li.data();
+            delete data['zui.droppable'];
+            var $children = $li.children('ul');
+            if($children.length) data.children = that.toData($children);
+            return $.isFunction(filter) ? filter(data, $li) : data;
+        }).get();
+    };
+
     // Call event helper
     Tree.prototype.callEvent = function(name, params) {
-        var result = this.$.callEvent(name + '.' + this.name, params, this);
-        return !(result.result !== undefined && (!result.result));
+        var result;
+        if($.isFunction(this.options[name])) {
+            result = this.options[name](params, this);
+        }
+        this.$.trigger($.Event(name + '.' + this.name, params));
+        return result;
     };
 
     // Extense jquery element
@@ -13378,6 +13790,480 @@ This file is generated by `grunt build`, do not edit it by hand.
     // Auto call tree after document load complete
     $(function() {
         $('[data-ride="tree"]').tree();
+    });
+}(jQuery));
+
+
+/* ========================================================================
+ * ZUI: ColorPicker.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
+(function($) {
+    'use strict';
+
+    var name = 'zui.colorPicker'; // modal name
+    var TEAMPLATE = '<div class="colorpicker"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="cp-title"></span><i class="icon"></i></button><ul class="dropdown-menu clearfix"></ul></div>';
+    var LANG = {
+        zh_cn: {
+            errorTip: "不是有效的颜色值"
+        },
+        zh_tw: {
+            errorTip: "不是有效的顏色值"
+        },
+        en: {
+            errorTip: "Not a valid color value"
+        }
+    };
+
+    // The ColorPicker modal class
+    var ColorPicker = function(element, options) {
+        this.name = name;
+        this.$ = $(element);
+
+        this.getOptions(options);
+        this.init();
+
+        // Initialize here
+    };
+
+    // default options
+    ColorPicker.DEFAULTS = {
+        colors: ['#00BCD4', '#388E3C', '#3280fc', '#3F51B5', '#9C27B0', '#795548', '#F57C00', '#F44336', '#E91E63'],
+        pullMenuRight: true,
+        wrapper: 'btn-wrapper',
+        tileSize: 30,
+        lineCount: 5,
+        optional: true,
+        tooltip: 'top',
+        icon: 'caret-down',
+        // btnTip: 'Tool tip in button'
+    };
+
+    ColorPicker.prototype.init = function() {
+        var options = this.options,
+            that = this;
+        
+        this.$picker = $(TEAMPLATE).addClass(options.wrapper);
+        this.$picker.find('.cp-title').toggle(options.title !== undefined).text(options.title);
+        this.$menu = this.$picker.find('.dropdown-menu').toggleClass('pull-right', options.pullMenuRight);
+        this.$btn = this.$picker.find('.btn.dropdown-toggle');
+        this.$btn.find('.icon').addClass('icon-' + options.icon);
+        if(options.btnTip) {
+            this.$picker.attr('data-toggle', 'tooltip').tooltip({title: options.btnTip, placement: options.tooltip, container: 'body'});
+        }
+        this.$.attr('data-provide', null).after(this.$picker);
+
+        // init colors
+        this.colors = {};
+        $.each(this.options.colors, function(idx, rawColor) {
+            if($.zui.Color.isColor(rawColor)) {
+                var color = new $.zui.Color(rawColor);
+                that.colors[color.toCssStr()] = color;
+            }
+        });
+
+        this.updateColors();
+        var that = this;
+        this.$picker.on('click', '.cp-tile', function() {
+            that.setValue($(this).data('color'));
+        });
+        var $input = this.$;
+        var setInputColor = function() {
+            var val = $input.val();
+            var isColor = $.zui.Color.isColor(val);
+            $input.parent().toggleClass('has-error', !isColor && !(options.optional && val === ''));
+            if(isColor) {
+                that.setValue(val, true);
+            } else {
+                if(options.optional && val === '') {
+                    $input.tooltip('hide');
+                } else {
+                    $input.tooltip('show', options.errorTip);
+                }
+            }
+        }
+        if($input.is('input:not([type=hidden])')) {
+            if(options.tooltip) {
+                $input.attr('data-toggle', 'tooltip').tooltip({trigger: 'manual', placement: options.tooltip, tipClass: 'tooltip-danger'});
+            }
+            $input.on('keyup paste input', setInputColor);
+        } else {
+            $input.appendTo(this.$picker);
+        }
+        setInputColor();
+    };
+
+    ColorPicker.prototype.addColor = function(color) {
+        var hex = color.toCssStr(),
+            options = this.options;
+
+        if(!this.colors[hex]) {
+            this.colors[hex] = color;
+        }
+
+        var $a = $('<a href="###" class="cp-tile"></a>', {
+            titile: color
+        }).data('color', color).css({
+            'color': color.contrast().toCssStr(),
+            'background': hex,
+            'border-color': color.luma() > 0.43 ? '#ccc' : 'transparent'
+        }).attr('data-color', hex);
+        this.$menu.append($('<li/>').css({width: options.tileSize, height: options.tileSize}).append($a));
+        if(options.optional) {
+            this.$menu.find('.cp-tile.empty').parent().detach().appendTo(this.$menu);
+        }
+    };
+
+    ColorPicker.prototype.updateColors = function(colors) {
+        var $picker = this.$picker, 
+            $menu = this.$menu.empty(), 
+            options = this.options,
+            colors = colors || this.colors,
+            that = this;
+        var bestLineCount = 0;
+        $.each(colors, function(idx, color) {
+            that.addColor(color);
+            bestLineCount++;
+        });
+        if(options.optional) {
+            var $li = $('<li><a class="cp-tile empty" href="###"></a></li>').css({width: options.tileSize, height: options.tileSize});
+            this.$menu.append($li);
+            bestLineCount++;
+        }
+        $menu.css('width', Math.min(bestLineCount, options.lineCount) * options.tileSize + 6);
+    };
+
+    ColorPicker.prototype.setValue = function(color, notSetInput) {
+        var options = this.options;
+        this.$menu.find('.cp-tile.active').removeClass('active');
+        var hex = null;
+        if(color) {
+            var c = new $.zui.Color(color);
+            hex = c.toCssStr().toLowerCase();
+            this.$btn.css({
+                background: hex,
+                color: c.contrast().toCssStr(),
+                borderColor: c.luma() > 0.43 ? '#ccc' : hex
+            });
+            if(!this.colors[hex]) {
+                this.addColor(c);
+            }
+            if(!notSetInput && this.$.val().toLowerCase() !== hex) {
+                this.$.val(hex).trigger('change');
+            }
+            this.$menu.find('.cp-tile[data-color=' + hex + ']').addClass('active');
+            this.$.tooltip('hide');
+            this.$.trigger('colorchange', c);
+        } else {
+            this.$btn.attr('style', null);
+            if(!notSetInput && this.$.val() !== '') {
+                this.$.val(hex).trigger('change');
+            }
+            if(options.optional) {
+                this.$.tooltip('hide');
+            }
+            this.$menu.find('.cp-tile.empty').addClass('active');
+            this.$.trigger('colorchange', null);
+        }
+
+        if(options.updateBorder) {
+            $(options.updateBorder).css('border-color', hex);
+        }
+        if(options.updateBackground) {
+            $(options.updateBackground).css('background-color', hex);
+        }
+        if(options.updateText) {
+            $(options.updateText).css('color', hex);
+        }
+    };
+
+    // Get and init options
+    ColorPicker.prototype.getOptions = function(options) {
+        var thisOptions = $.extend({}, ColorPicker.DEFAULTS, this.$.data(), options);
+        if(typeof thisOptions.colors === 'string') thisOptions.colors = thisOptions.colors.split(',');
+        var lang = (thisOptions.lang || $.zui.clientLang()).toLowerCase();
+        if(!thisOptions.errorTip) {
+            thisOptions.errorTip = LANG[lang].errorTip;
+        }
+        this.options = thisOptions;
+    };
+
+    // Extense jquery element
+    $.fn.colorPicker = function(option) {
+        return this.each(function() {
+            var $this = $(this);
+            var data = $this.data(name);
+            var options = typeof option == 'object' && option;
+
+            if(!data) $this.data(name, (data = new ColorPicker(this, options)));
+
+            if(typeof option == 'string') data[option]();
+        });
+    };
+
+    $.fn.colorPicker.Constructor = ColorPicker;
+
+    // Auto call colorPicker after document load complete
+    $(function() {
+        $('[data-provide="colorpicker"]').colorPicker();
+    });
+}(jQuery));
+
+
+/* ========================================================================
+ * ZUI: selectable.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
+(function($) {
+    'use strict';
+
+    var name = 'zui.selectable'; // module name
+
+    // The selectable modal class
+    var Selectable = function(element, options) {
+        this.name = name;
+        this.$ = $(element);
+        this.id = $.zui.uuid();
+        this.selectOrder = 1;
+        this.selections = {};
+
+        this.getOptions(options);
+        this._init();
+    };
+
+    var isPointInner = function(x, y, a) {
+        return x >= a.left && x <= (a.left + a.width) && y >= a.top && y <= (a.top + a.height);
+    };
+
+    var isIntersectArea = function(a, b) {
+        var x1 = Math.max(a.left, b.left),
+            y1 = Math.max(a.top, b.top),
+            x2 = Math.min(a.left + a.width, b.left + b.width),
+            y2 = Math.min(a.top + a.height, b.top + b.height);
+
+        return isPointInner(x1, y1, a) && isPointInner(x2, y2, a) && isPointInner(x1, y1, b) && isPointInner(x2, y2, b);
+    };
+
+    // default options
+    Selectable.DEFAULTS = {
+        selector: 'li,tr,div',
+        trigger: '',
+        selectClass: 'active',
+        rangeStyle: {
+            border: '1px solid ' + ($.zui.colorset ? $.zui.colorset.primary : '#3280fc'),
+            backgroundColor: $.zui.colorset ? (new $.zui.Color($.zui.colorset.primary).fade(20).toCssStr()) : 'rgba(50, 128, 252, 0.2)'
+        },
+        clickBehavior: 'toggle'
+    };
+
+    // Get and init options
+    Selectable.prototype.getOptions = function(options) {
+        this.options = $.extend({}, Selectable.DEFAULTS, this.$.data(), options);
+    };
+
+    Selectable.prototype.select = function(elementOrid) {
+        this.toggle(elementOrid, true);
+    };
+
+    Selectable.prototype.unselect = function(elementOrid) {
+        this.toggle(elementOrid, false);
+    };
+
+    Selectable.prototype.toggle = function(elementOrid, isSelect, handle) {
+        var $element, id, selector = this.options.selector, that = this;
+        if(elementOrid === undefined) {
+            this.$.find(selector).each(function() {
+                that.toggle(this, isSelect);
+            });
+            return;
+        } else if(typeof elementOrid === 'object') {
+            $element = $(elementOrid).closest(selector);
+            id = $element.data('id');
+        } else {
+            id = elementOrid;
+            $element = that.$.find('.slectable-item[data-id="' + id + '"]');
+        }
+        if($element && $element.length) {
+            if(!id) {
+                id = $.zui.uuid();
+                $element.attr('data-id', id);
+            }
+            if(isSelect === undefined || isSelect === null) {
+                isSelect = !that.selections[id];
+            }
+            if(!!isSelect !== !!that.selections[id]) {
+                var handleResult;
+                if($.isFunction(handle)) {
+                    handleResult = handle(isSelect);
+                }
+                if(handleResult !== true) {
+                    that.selections[id] = isSelect ? that.selectOrder++ : false;
+                    that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element}, that);
+                }
+            }
+            $element.toggleClass(that.options.selectClass, isSelect);
+        }
+    };
+
+    Selectable.prototype._init = function() {
+        var options = this.options, that = this;
+        var eventNamespace = '.' + this.name + '.' + this.id;
+        var startX, startY, $range, range, x, y, checkRangeCall;
+        var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
+        var rangeFunc = $.isFunction(options.rangeFunc) ? options.rangeFunc : null;
+
+        var checkRange = function() {
+            if(!range) return;
+            that.$children.each(function() {
+                var $item = $(this);
+                var offset = $item.offset();
+                offset.width = $item.outerWidth();
+                offset.height = $item.outerHeight();
+                var isIntersect = rangeFunc ? rangeFunc.call(this, range, offset) : isIntersectArea(range, offset);
+                if(checkFunc) {
+                    var result = checkFunc.call(that, {
+                        intersect: isIntersect, 
+                        target: $item, 
+                        range: range,
+                        targetRange: offset
+                    });
+                    if(result === true) {
+                        that.select($item);
+                    } else if(result === false) {
+                        that.unselect($item);
+                    }
+                } else {
+                    if(isIntersect) {
+                        that.select($item);
+                    } else if(!that.multiKey) {
+                        that.unselect($item);
+                    }
+                }
+            });
+        };
+
+        var mousemove = function(e) {
+            x = e.pageX;
+            y = e.pageY;
+            range = {
+                width: Math.abs(x - startX),
+                height: Math.abs(y - startY),
+                left: x > startX ? startX : x,
+                top: y > startY ? startY : y
+            };
+            if(!$range) {
+                $range = $('.selectable-range[data-id="' + that.id + '"]');
+                if(!$range.length) {
+                    $range = $('<div class="selectable-range" data-id="' + that.id + '"></div>')
+                        .css($.extend({
+                            zIndex: 1060,
+                            position: 'absolute',
+                            top: startX,
+                            left: startY,
+                            pointerEvents: 'none',
+                        }, that.options.rangeStyle))
+                        .appendTo($('body'));
+                }
+            }
+            $range.css(range);
+            clearTimeout(checkRangeCall);
+            checkRangeCall = setTimeout(checkRange, 10);
+        };
+
+        var mouseup = function(e) {
+            if(range) {
+                clearTimeout(checkRangeCall);
+                checkRange();
+                range = null;
+            }
+            if($range) $range.remove();
+            that.callEvent('finish', {selections: that.selections});
+            $(document).off(eventNamespace);
+            e.preventDefault();
+        };
+
+        var mousedown = function(e) {
+            if(that.callEvent('start', e) === false) {
+                return;
+            }
+
+            var $children = that.$children = that.$.find(options.selector);
+            $children.addClass('slectable-item');
+
+            var clickBehavior = that.multiKey ? 'multi' : options.clickBehavior;
+            if(clickBehavior === 'multi') {
+                that.toggle(e.target);
+            } else if(clickBehavior === 'single') {
+                that.unselect();
+                that.select(e.target);
+            } else if(clickBehavior === 'toggle') {
+                that.toggle(e.target, null, function(isSelect) {
+                    that.unselect();
+                });
+            }
+
+            startX = e.pageX;
+            startY = e.pageY;
+
+            $range = null;
+
+            $(document).on('mousemove' + eventNamespace, mousemove).on('mouseup' + eventNamespace, mouseup);
+            e.preventDefault();
+        };
+
+        var $container = options.container && options.container !== 'default' ? $(options.container) : this.$;
+        if(options.trigger) {
+            $container.on('mousedown' + eventNamespace, options.trigger, mousedown);
+        } else {
+            $container.on('mousedown' + eventNamespace, mousedown);
+        }
+
+        $(document).on('keydown', function(e) {
+            var code = e.keyCode;
+            if(code === 17 || code == 91) that.multiKey = code;
+        }).on('keyup', function(e) {
+            that.multiKey = false;
+        });
+    };
+
+    // Call event helper
+    Selectable.prototype.callEvent = function(name, params) {
+        var event = $.Event(name + '.' + this.name);
+        this.$.trigger(event, params);
+        var result = event.result;
+        var callback = this.options[name];
+        if($.isFunction(callback)) {
+            result = callback.apply(this, $.isArray(params) ? params : [params]);
+        }
+        return result;
+    };
+
+    // Extense jquery element
+    $.fn.selectable = function(option) {
+        return this.each(function() {
+            var $this = $(this);
+            var data = $this.data(name);
+            var options = typeof option == 'object' && option;
+
+            if(!data) $this.data(name, (data = new Selectable(this, options)));
+
+            if(typeof option == 'string') data[option]();
+        });
+    };
+
+    $.fn.selectable.Constructor = Selectable;
+
+    // Auto call selectable after document load complete
+    $(function() {
+        $('[data-ride="selectable"]').selectable();
     });
 }(jQuery));
 
