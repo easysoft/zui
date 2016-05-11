@@ -7,3 +7,4 @@ ISSUES.md
 /*.zip
 zui.custom.json
 gulpfile.custom.js
+bower_components/

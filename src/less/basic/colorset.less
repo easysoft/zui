@@ -1,52 +1,67 @@
-// COLOR SCHEME
-// -------------------------------------------------
+/// ========================================================================
+/// ZUI: colorset.js.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright (c) 2014 cnezsoft.com; Licensed MIT
+/// ========================================================================
 
-@color-theme:                light;
-@color-primary:              #3280fc; // old color is #304269
-@color-secondary:            desaturate(darken(@color-primary, 15%), 15%);
-@color-pale:                 #ebf2f9;
-@color-fore:                 #353535;
-@color-back:                 #fff;
+@import "colorset.js.less";
+/**(function($) {
+    'use strict';
 
-// Grays
-@color-gray-darker:          lighten(#000, 13.5%); // #222
-@color-gray-dark:            lighten(#000, 20%);   // #333
-@color-gray:                 lighten(#000, 50%);   // #808080
-@color-gray-light:           lighten(#000, 86.7%); // #ddd
-@color-gray-lighter:         lighten(#000, 89.7%); // #e5e5e5
-@color-gray-pale:            lighten(#000, 94.5%); // #f1f1f1
+    var nextColorIndex = 0;
+    var presetColors = ['primary', 'red', 'yellow', 'green', 'blue', 'purple', 'brown', 'dark'];
 
-// Color set
-@color-white:                #fff;
-@color-black:                #000;
-@color-red:                  #ea644a;
-@color-yellow:               #f1a325;
-@color-green:                #38b03f;
-@color-blue:                 #03b8cf;
-@color-purple:               #8666b8;
-@color-brown:                #bd7b46;
+    var colorset = {**/
+.color-primary {color: @color-primary}
+.color-secondary {color: @color-secondary}
+.color-pale {color: @color-pale}
+.color-fore {color: @color-fore}
+.color-back {color: @color-back}
+.color-grayDarker {color: @color-gray-darker}
+.color-grayDark {color: @color-gray-dark}
+.color-gray {color: @color-gray}
+.color-grayLight {color: @color-gray-light}
+.color-grayLighter {color: @color-gray-lighter}
+.color-grayPale {color: @color-gray-pale}
+.color-white {color: @color-white}
+.color-black {color: @color-black}
+.color-red {color: @color-red}
+.color-yellow {color: @color-yellow}
+.color-green {color: @color-green}
+.color-blue {color: @color-blue}
+.color-purple {color: @color-purple}
+.color-brown {color: @color-brown}
+.color-greenPale {color: @color-green-pale}
+.color-yellowPale {color: @color-yellow-pale}
+.color-redPale {color: @color-red-pale}
+.color-bluePale {color: @color-blue-pale}
+.color-brownPale {color: @color-brown-pale}
+.color-purplePale {color: @color-purple-pale}
+.color-light {color: @color-light}
+.color-dark {color: @color-dark}
+.color-success {color: @color-success}
+.color-warning {color: @color-warning}
+.color-danger {color: @color-danger}
+.color-info {color: @color-info}
+.color-important {color: @color-important}
+.color-special {color: @color-special}
+.color-successPale {color: @color-success-pale}
+.color-warningPale {color: @color-warning-pale}
+.color-dangerPale {color: @color-danger-pale}
+.color-infoPale {color: @color-info-pale}
+.color-importantPale {color: @color-important-pale}
+.color-specialPale {color: @color-special-pale}
+/**    };
+    
+    colorset.get = function(colorName) {
+        if(typeof colorName === 'undefined' || colorName === 'random') {
+            colorName = presetColors[(nextColorIndex++) % presetColors.length];
+        }
 
-@color-green-pale:           #ddf4df;
-@color-yellow-pale:          #fff0d5;
-@color-red-pale:             #ffe5e0;
-@color-blue-pale:            #ddf3f5;
-@color-brown-pale:           #f7ebe1;
-@color-purple-pale:          #f5eeff;
+        return new $.zui.Color(colorset[colorName] ? colorset[colorName] : colorName);
+    }
 
-// Brand colors
-@color-light:                @color-back;
-@color-dark:                 @color-fore;
-
-@color-success:              @color-green;
-@color-warning:              @color-yellow;
-@color-danger:               @color-red;
-@color-info:                 @color-blue;
-@color-important:            @color-brown;
-@color-special:              @color-purple;
-
-@color-success-pale:         @color-green-pale;
-@color-warning-pale:         @color-yellow-pale;
-@color-danger-pale:          @color-red-pale;
-@color-info-pale:            @color-blue-pale;
-@color-important-pale:       @color-brown-pale;
-@color-special-pale:         @color-purple-pale;
+    $.zui({colorset: colorset});
+    if($.zui.Color) $.extend($.zui.Color, colorset);
+}(jQuery));**/

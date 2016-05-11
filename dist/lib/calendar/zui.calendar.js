@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI - v1.4.0 - 2016-05-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -98,8 +98,6 @@
 
         this.date = this.options.startDate || 'today';
         this.view = this.options.startView || 'month';
-
-        this.date = 'today';
 
         this.$.toggleClass('limit-event-title', options.limitEventTitle);
 
@@ -583,7 +581,7 @@
 
         if(options.withHeader) {
             that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1, lang.monthNames[thisMonth]));
-            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
+            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth && thisYear === todayYear);
         }
 
         // var $event,
