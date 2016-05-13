@@ -144,7 +144,7 @@
     ColorPicker.prototype.setValue = function(color, notSetInput) {
         var options = this.options;
         this.$menu.find('.cp-tile.active').removeClass('active');
-        var hex = null;
+        var hex = '';
         if(color) {
             var c = new $.zui.Color(color);
             hex = c.toCssStr().toLowerCase();
