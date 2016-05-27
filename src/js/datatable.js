@@ -8,9 +8,44 @@
 
 (function($) {
     'use strict';
+    var UrlParam = function () {
+        function UrlParam() {
+            this.params = [];
+            this.parseLocation();
+        }
+        UrlParam.prototype.parseLocation = function () {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == "")
+                    continue;
+                this.params.push({ key: sParameterName[0], value: sParameterName[1] });
+            }
+        };
+        UrlParam.prototype.get = function (name) {
+            var pl = this.params.filter(function (i) { return i.key == name; });
+            return pl.length > 0 ? pl[0].value : null;
+        };
+        UrlParam.prototype.set = function (name, value) {
+            for (var i = 0; i < this.params.length; i++) {
+                if (this.params[i].key == name) {
+                    this.params[i].value = value;
+                    return;
+                }
+            }
+            this.params.push({ key: name, value: value });
+        };
+        UrlParam.prototype.toString = function () {
+            return window.location.protocol + "//" + window.location.host + window.location.pathname
+                + "?" + this.params.map(function (i) { return i.key + "=" + i.value; }).join('&');
+        };
+        return UrlParam;
+    }();
 
     var name = 'zui.datatable';
     var store = $.zui.store;
+    var uriParam = new UrlParam();
 
     var DataTable = function(element, options) {
         this.name = name;
@@ -46,6 +81,7 @@
 
         // Sort options
         sortable: false, // enable sorter
+        sortByServer: false, //set sort by server
 
         // storage
         storage: true, // enable storage
@@ -136,7 +172,7 @@
                     cols.push($.extend({
                         text: $th.html(),
                         flex: false || $th.hasClass('flex-col'),
-                        width: 'auto',
+                        width: $th.attr('width') ? $th.attr('width') : 'auto', //支持设定列宽度
                         cssClass: $th.attr('class'),
                         css: $th.attr('style'),
                         type: 'string',
@@ -271,6 +307,12 @@
             $th.toggleClass('sort-down', col.sort === 'down')
                 .toggleClass('sort-up', col.sort === 'up')
                 .toggleClass('sort-disabled', col.sort === false);
+            if (uriParam.get('index') == i) {
+                if (uriParam.get('ordering') == 'asc')
+                    $th.addClass('sort-up');
+                else
+                    $th.addClass('sort-down');
+            }
 
             $th.addClass(col.cssClass)
                 .addClass(col.colClass)
@@ -717,7 +759,7 @@
                 that.sortTable($(this));
             });
 
-            if(options.storage) that.sortTable();
+            if(options.storage && !options.sortByServer ) that.sortTable();
         } else if(options.mergeRows) {
             this.mergeRows();
         }
@@ -788,10 +830,18 @@
         if(data.keepSort) sortUp = !sortUp;
         data.keepSort = null;
 
-        $headCells.removeClass('sort-up sort-down');
-        $th.addClass(sortUp ? 'sort-up' : 'sort-down');
+        if (!options.sortByServer) {
+          $headCells.removeClass('sort-up sort-down');
+          $th.addClass(sortUp ? 'sort-up' : 'sort-down');
+        }
 
         index = $th.data('index');
+        if (this.options.sortByServer) { //如果使用服务器端排序，则忽略本地排序
+            uriParam.set('index', index);
+            uriParam.set('ordering', sortUp ? "asc" : "desc");
+            window.location.href = uriParam.toString();
+            return;
+        }
 
         $.each(cols, function(idx, col) {
             if(idx != index && (col.sort === 'up' || col.sort === 'down')) {
@@ -922,4 +972,3 @@
 
     $.fn.datatable.Constructor = DataTable;
 }(jQuery));
-
