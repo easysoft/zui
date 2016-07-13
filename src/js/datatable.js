@@ -621,7 +621,7 @@
 
             var checkEventPrefix = 'click.zui.datatable.check';
             if(options.selectable) {
-                this.$datatable.selectable({
+                var selectableOptions = {
                     selector: '.datatable-rows tr',
                     trigger: '.datatable-rows',
                     start: function(e) {
@@ -646,7 +646,11 @@
                     finish: function(e) {
                         syncChecks();
                     }
-                });
+                };
+                if($.isPlainObject(options.selectable)) {
+                    $.extend(selectableOptions, options.selectable);
+                }
+                this.$datatable.selectable(selectableOptions);
             } else {
                 this.$rowsSpans.off(checkEventPrefix).on(checkEventPrefix + 'row', options.checkByClickRow ? 'tr' : '.check-row', function() {
                     toggleRowClass(this);
