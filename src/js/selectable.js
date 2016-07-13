@@ -45,7 +45,8 @@
             border: '1px solid ' + ($.zui.colorset ? $.zui.colorset.primary : '#3280fc'),
             backgroundColor: $.zui.colorset ? (new $.zui.Color($.zui.colorset.primary).fade(20).toCssStr()) : 'rgba(50, 128, 252, 0.2)'
         },
-        clickBehavior: 'toggle'
+        clickBehavior: 'toggle',
+        ignoreVal: 3
     };
 
     // Get and init options
@@ -99,6 +100,7 @@
 
     Selectable.prototype._init = function() {
         var options = this.options, that = this;
+        var ignoreVal = options.ignoreVal;
         var eventNamespace = '.' + this.name + '.' + this.id;
         var startX, startY, $range, range, x, y, checkRangeCall;
         var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
@@ -143,6 +145,8 @@
                 left: x > startX ? startX : x,
                 top: y > startY ? startY : y
             };
+            
+            if(range.width < ignoreVal && range.height < ignoreVal) return;
             if(!$range) {
                 $range = $('.selectable-range[data-id="' + that.id + '"]');
                 if(!$range.length) {
