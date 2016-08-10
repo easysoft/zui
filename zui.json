@@ -89,7 +89,9 @@
       "src": {
         "less": ["~/basic/normalize.less"]
       },
-      "ver": "1.0.0"
+      "ver": "1.0.0",
+      "pver": "3.0.3",
+      "website": "http://necolas.github.io/normalize.css/"
     },
     "mixins": {
       "name": "样式片段",
