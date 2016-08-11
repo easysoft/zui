@@ -483,8 +483,7 @@
         "categories": ["Web Application Icons"]
     },
     "checked": {
-        "code": "e642",
-        "alias": ["check2"]
+        "code": "e642"
     },
     "arrows": {
         "code": "e643",
@@ -1513,6 +1512,27 @@
         "name": "Bug",
         "filter": ["report"],
         "categories": ["Web Application Icons"]
+    },
+    "zhifubao": {
+        "code": "e901",
+        "alias": ["alipay"],
+        "name": "Zhi Fu Bao",
+        "filter": ["taobao", "zhifubao", "alipay"],
+        "categories": ["Brand Icons"]
+    },
+    "zhifubao-square": {
+        "code": "e900",
+        "alias": ["alipay-square"],
+        "name": "Zhi Fu Bao square",
+        "filter": ["taobao", "zhifubao", "square", "alipay"],
+        "categories": ["Brand Icons"]
+    },
+    "taobao": {
+        "code": "e902",
+        "alias": ["alipay"],
+        "name": "Zhi Fu Bao",
+        "filter": ["taobao", "zhifubao", "alipay"],
+        "categories": ["Brand Icons"]
     },
     "weibo": {
         "code": "e746",
