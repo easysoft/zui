@@ -247,10 +247,12 @@
       > a {
         border: none;
         .border-right-radius(@border-radius-base);
-        .box-shadow(inset 2px 0 0 @nav-secondary-active-link-hover-bg);
+        box-shadow: inset 2px 0 0 @nav-secondary-active-link-hover-bg;
+
 
         &:hover {
-          .box-shadow(inset 2px 0 0 @nav-secondary-border-color);
+          box-shadow: inset 2px 0 0 @nav-secondary-border-color;
+
         }
       }
       + li {
@@ -265,7 +267,8 @@
         &:hover,
         &:focus {
           background-color: @nav-secondary-active-link-hover-bg;
-          .box-shadow(inset 2px 0 0 @nav-secondary-active-border-color);
+          box-shadow: inset 2px 0 0 @nav-secondary-active-border-color;
+
         }
       }
       &.nav-heading {

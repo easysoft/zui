@@ -79,7 +79,9 @@
   }
 
   &:hover {
-    .box-shadow(~"0 0 5px rgba(0, 0, 0, 0.4)");
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+
+
     > .wrapper {
       border-color: #999
     }
@@ -145,7 +147,9 @@
   &.active:hover,
   &.drag-shadow {
     z-index: 900;
-    .box-shadow(~"none");
+    box-shadow: none;
+
+
     > .wrapper {
       border-color: lighten(@input-border-focus, 10%);
       color: @color-back;
@@ -158,7 +162,10 @@
   &.drop-to,
   {
     @color-rgba: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
-    .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @color-rgba;
+
+
+
     > .wrapper {
       border-color: @input-border-focus;
       background: @color-back;
@@ -204,5 +211,7 @@
 .shadow-right > .shadow-right,
 .shadow-top > .shadow-top,
 .shadow-bottom > .shadow-bottom {
-  .box-shadow(~"0 0 8px rgba(0, 0, 0, 0.8)");
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+
+
 }
