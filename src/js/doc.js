@@ -1196,10 +1196,10 @@
                         $dropdown.append('<li class="dropdown-header">标准版</li>');
                         var files = [];
                         if(lib.src.js && lib.src.js.length) {
-                            files.push('dist/js/zui.js', 'dist/js/zui.min.js');
+                            files.push('dist/js/zui.js');
                         }
                         if(lib.src.less && lib.src.less.length) {
-                            files.push('dist/css/zui.css', 'dist/css/zui.min.css');
+                            files.push('dist/css/zui.css');
                         }
                         if(lib.src.resource && lib.src.resource.length) {
                             lib.src.resource.forEach(function(rf) {
@@ -1220,10 +1220,10 @@
                         $dropdown.append('<li class="dropdown-header">简洁版</li>');
                         var files = [];
                         if(lib.src.js && lib.src.js.length) {
-                            files.push('dist/js/zui.lite.js', 'dist/js/zui.lite.min.js');
+                            files.push('dist/js/zui.lite.js');
                         }
                         if(lib.src.less && lib.src.less.length) {
-                            files.push('dist/css/zui.lite.css', 'dist/css/zui.lite.min.css');
+                            files.push('dist/css/zui.lite.css');
                         }
                         if(lib.src.resource && lib.src.resource.length) {
                             lib.src.resource.forEach(function(rf) {
@@ -1246,7 +1246,6 @@
                     }
                     if(lib.code === 'theme') {
                         $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.css">dist/css/zui-theme.css</a></li>');
-                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.min.css">dist/css/zui-theme.min.css</a></li>');
                     }
                 }
             }
