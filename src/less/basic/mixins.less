@@ -58,7 +58,7 @@
 // Placeholder text
 
 .placeholder(@color: @input-color-placeholder) {
-  &::placeholder { color: @input-color-placeholder; }
+  &::placeholder { color: @color; }
 }
 
 
@@ -633,117 +633,6 @@
   &:extend(.clearfix all);
 }
 
-// Generate the extra small columns
-.make-xs-column(@columns; @gutter: @grid-gutter-width) {
-  position: relative;
-  float: left;
-  width: percentage((@columns / @grid-columns));
-  // Prevent columns from collapsing when empty
-  min-height: 1px;
-  // Inner gutter via padding
-  padding-left:  (@gutter / 2);
-  padding-right: (@gutter / 2);
-}
-
-// Generate the small columns
-.make-sm-column(@columns; @gutter: @grid-gutter-width) {
-  position: relative;
-  // Prevent columns from collapsing when empty
-  min-height: 1px;
-  // Inner gutter via padding
-  padding-left:  (@gutter / 2);
-  padding-right: (@gutter / 2);
-
-  // Calculate width based on number of columns available
-  @media (min-width: @screen-sm-min) {
-    float: left;
-    width: percentage((@columns / @grid-columns));
-  }
-}
-
-// Generate the small column offsets
-.make-sm-column-offset(@columns) {
-  @media (min-width: @screen-sm-min) {
-    margin-left: percentage((@columns / @grid-columns));
-  }
-}
-.make-sm-column-push(@columns) {
-  @media (min-width: @screen-sm-min) {
-    left: percentage((@columns / @grid-columns));
-  }
-}
-.make-sm-column-pull(@columns) {
-  @media (min-width: @screen-sm-min) {
-    right: percentage((@columns / @grid-columns));
-  }
-}
-
-// Generate the medium columns
-.make-md-column(@columns; @gutter: @grid-gutter-width) {
-  position: relative;
-  // Prevent columns from collapsing when empty
-  min-height: 1px;
-  // Inner gutter via padding
-  padding-left:  (@gutter / 2);
-  padding-right: (@gutter / 2);
-
-  // Calculate width based on number of columns available
-  @media (min-width: @screen-md-min) {
-    float: left;
-    width: percentage((@columns / @grid-columns));
-  }
-}
-
-// Generate the medium column offsets
-.make-md-column-offset(@columns) {
-  @media (min-width: @screen-md-min) {
-    margin-left: percentage((@columns / @grid-columns));
-  }
-}
-.make-md-column-push(@columns) {
-  @media (min-width: @screen-md) {
-    left: percentage((@columns / @grid-columns));
-  }
-}
-.make-md-column-pull(@columns) {
-  @media (min-width: @screen-md-min) {
-    right: percentage((@columns / @grid-columns));
-  }
-}
-
-// Generate the large columns
-.make-lg-column(@columns; @gutter: @grid-gutter-width) {
-  position: relative;
-  // Prevent columns from collapsing when empty
-  min-height: 1px;
-  // Inner gutter via padding
-  padding-left:  (@gutter / 2);
-  padding-right: (@gutter / 2);
-
-  // Calculate width based on number of columns available
-  @media (min-width: @screen-lg-min) {
-    float: left;
-    width: percentage((@columns / @grid-columns));
-  }
-}
-
-// Generate the large column offsets
-.make-lg-column-offset(@columns) {
-  @media (min-width: @screen-lg-min) {
-    margin-left: percentage((@columns / @grid-columns));
-  }
-}
-.make-lg-column-push(@columns) {
-  @media (min-width: @screen-lg-min) {
-    left: percentage((@columns / @grid-columns));
-  }
-}
-.make-lg-column-pull(@columns) {
-  @media (min-width: @screen-lg-min) {
-    right: percentage((@columns / @grid-columns));
-  }
-}
-
 
 // Form validation states
 
@@ -759,12 +648,11 @@
   {
     border-color: @border-color;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
- // Redeclare so transitions work
+    // Redeclare so transitions work
     &:focus {
       border-color: darken(@border-color, 10%);
       @shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@border-color, 20%);
       box-shadow: @shadow;
-
     }
   }
   // Set validation states also for addons
@@ -790,12 +678,6 @@
     border-color: @color;
     outline: 0;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @color-rgba;
-
-
-
-    // box-shadow: inset 0 1px 1px rgba(0,0,0,.175);
-
-
   }
 }
 
