@@ -1,17 +1,24 @@
-//
-// Navs
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: navs.less
+/// https://github.com/twbs/bootstrap/blob/master/less/navs.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
 
 // Base class
-// --------------------------------------------------
 
 .nav {
   margin-bottom: 0;
   padding-left: 0; // Override default ul/ol
   list-style: none;
-  .clearfix();
+  &:extend(.clearfix all);
 
+  // nav heading is <li> tag without <a> in side
   > .nav-heading {
     padding: @nav-link-padding;
     color: @color-gray;
@@ -26,8 +33,8 @@
       position: relative;
       display: block;
       padding: @nav-link-padding;
-      .transition(all,@animation-speed-fast,@animation-type);
       color: @color-fore;
+
       &:hover,
       &:focus {
         text-decoration: none;
@@ -57,45 +64,25 @@
     &:focus {
       background-color: @nav-link-hover-bg;
       border-color: @link-color;
-
-      .caret {
-        border-top-color: @link-hover-color;
-        border-bottom-color: @link-hover-color;
-      }
     }
   }
-
-  // // Nav dividers (deprecated with v3.0.1)
-  // //
-  // // This should have been removed in v3 with the dropping of `.nav-list`, but
-  // // we missed it. We don't currently support this anywhere, but in the interest
-  // // of maintaining backward compatibility in case you use it, it's deprecated.
-  // .nav-divider
-  // {
-  //   .nav-divider();
-  // }
 
   // Prevent IE8 from misplacing imgs
   //
   // See https://github.com/h5bp/html5-boilerplate/issues/984#issuecomment-3985989
-  > li > a > img {
-    max-width: none;
-  }
+  > li > a > img { max-width: none; }
 }
 
+
 // Pills
-// -------------------------
+
 .nav-pills {
   > li {
     float: left;
 
     // Links rendered as pills
-    > a {
-      border-radius: @nav-pills-border-radius;
-    }
-    + li {
-      margin-left: 2px;
-    }
+    > a { border-radius: @nav-pills-border-radius; }
+    + li { margin-left: 2px; }
 
     // Active state
     &.active > a {
@@ -104,18 +91,14 @@
       &:focus {
         color: @nav-pills-active-link-hover-color;
         background-color: @nav-pills-active-link-hover-bg;
-
-        .caret {
-          border-top-color: @nav-pills-active-link-hover-color;
-          border-bottom-color: @nav-pills-active-link-hover-color;
-        }
       }
     }
   }
 }
 
-// Secondary
-// -------------------------
+
+// Primary
+
 .nav-primary {
   > li {
     float: left;
@@ -135,9 +118,7 @@
     }
 
     // Links rendered
-    > a {
-      border: 1px solid @nav-primary-border-color;
-    }
+    > a { border: 1px solid @nav-primary-border-color; }
 
     // Active state
     &.active > a {
@@ -147,29 +128,20 @@
         background-color: @component-active-bg;
         border-color: @component-active-bg;
         color: @component-active-color;
-
-        .caret {
-          border-top-color: @component-active-caret-color;
-          border-bottom-color: @component-active-caret-color;
-        }
       }
     }
   }
 }
 
+
 // Secondary
-// -------------------------
+
 .nav-secondary {
   > li {
     float: left;
 
     // Links rendered
-    > a {
-      border-bottom: 2px solid @nav-secondary-border-color;
-    }
-    + li {
-      // margin-left: 2px;
-    }
+    > a { border-bottom: 2px solid @nav-secondary-border-color; }
 
     // Active state
     &.active > a {
@@ -178,11 +150,6 @@
       &:focus {
         color: @nav-secondary-active-link-hover-color;
         border-bottom-color: @nav-secondary-active-border-color;
-
-        .caret {
-          border-top-color: @nav-secondary-active-link-hover-color;
-          border-bottom-color: @nav-secondary-active-link-hover-color;
-        }
       }
     }
 
@@ -192,7 +159,9 @@
   }
 }
 
-// Stacked pills
+
+// Stacked navs
+
 .nav-stacked {
   > li {
     float: none;
@@ -246,21 +215,13 @@
     > li {
       > a {
         border: none;
-        .border-right-radius(@border-radius-base);
         box-shadow: inset 2px 0 0 @nav-secondary-active-link-hover-bg;
+        .border-right-radius(@border-radius-base);
 
-
-        &:hover {
-          box-shadow: inset 2px 0 0 @nav-secondary-border-color;
-
-        }
+        &:hover { box-shadow: inset 2px 0 0 @nav-secondary-border-color; }
       }
-      + li {
-        margin-top: -1px;
-      }
-      &:first-child {
-        margin-top: 0;
-      }
+      + li { margin-top: -1px; }
+      &:first-child { margin-top: 0; }
       // Active state
       &.active > a {
         &,
@@ -271,19 +232,13 @@
 
         }
       }
-      &.nav-heading {
-        border-bottom: 1px solid @color-gray-light;
-      }
+      &.nav-heading { border-bottom: 1px solid @color-gray-light; }
     }
   }
 }
 
 
-// Nav variations
-// --------------------------------------------------
-
 // Justified nav links
-// -------------------------
 
 .nav-justified {
   width: 100%;
@@ -300,32 +255,22 @@
     > li {
       display: table-cell;
       width: 1%;
-      > a {
-        margin-bottom: 0;
-      }
+      > a { margin-bottom: 0; }
     }
 
     &.nav-primary {
-      > li {
-        + li {
-          > a {
-            border-left: 0;
-          }
-        }
-      }
+      > li + li > a { border-left: 0; }
     }
   }
 }
 
-// Dropdowns
-// -------------------------
 
-// Make dropdown carets use link color in navs
-.nav .caret {
-  border-top-color: @link-color;
-  border-bottom-color: @link-color;
-}
-.nav a:hover .caret {
-  border-top-color: @link-hover-color;
-  border-bottom-color: @link-hover-color;
+// Dropdowns
+
+// Specific dropdowns
+.nav-tabs .dropdown-menu {
+  // make dropdown border overlap tab border
+  margin-top: -1px;
+  // Remove the top rounded corners here since there is a hard edge above the menu
+  .border-top-radius(0);
 }

@@ -1,10 +1,16 @@
-//
-// Navbar tabs
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: navs.tabs.less
+/// https://github.com/twbs/bootstrap/blob/master/less/navs.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
 
 // Tabs
-// -------------------------
 
 // Give the tabs something to sit on
 .nav-tabs {
@@ -36,10 +42,6 @@
         border-bottom-color: transparent;
         cursor: default;
       }
-
-      &::-moz-focus {
-        outline: none;
-      }
     }
   }
   // pulling this in mainly for less shorthand
@@ -50,11 +52,15 @@
 }
 
 // Remove tab outline in firefox
-@-moz-document url-prefix() { 
+@-moz-document url-prefix() {
+  .nav-tabs > li.active > a:focus 
   .nav-tabs > li > a:focus {
     outline: 0;
   }
 }
+
+
+// Justified nav tabs
 
 // Move borders to anchors instead of bottom of list
 .nav-tabs-justified {
@@ -87,26 +93,20 @@
 
 
 // Tabbable tabs
-// -------------------------
 
-// Clear any floats
-.tabbable {
-  .clearfix();
-}
-
-// Show/hide tabbable areas
-.tab-content > .tab-pane,
-.pill-content > .pill-pane {
-  display: none;
-}
-.tab-content,
-.pill-content {
+// Hide tabbable panes to start, show them when `.active`
+.tab-content {
+  > .tab-pane {
+    display: none;
+  }
   > .active {
     display: block;
   }
 }
 
+
 // Specific dropdowns
+
 .nav-tabs .dropdown-menu {
   // make dropdown border overlap tab border
   margin-top: -1px;

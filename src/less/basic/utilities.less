@@ -1,58 +1,49 @@
-//
-// Utility classes
-// --------------------------------------------------
-// Floats
-// -------------------------
-.clearfix {
-  .clearfix();
-}
+/// ========================================================================
+/// Bootstrap: utilities.less
+/// https://github.com/twbs/bootstrap/blob/master/less/utilities.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
-.center-block {
-  .center-block();
-}
 
-.pull-right {
-  float: right !important;
-}
+// Floats and clearfix
 
-.pull-left {
-  float: left !important;
-}
+.clearfix { .clearfix(); }
+
+.center-block { .center-block(); }
+
+.pull-right { float: right !important; }
+.pull-left  { float: left !important; }
+
 
 // Toggling content
-// -------------------------
-// Note: Deprecated .hide in favor of .hidden or .sr-only (as appropriate) in v3.0.1
-.hide {
-  display: none;
-}
 
-.hidden {
+.hide      { display: none; }
+.show      { display: block; }
+
+.hidden    { 
   display: none!important;
+  visibility: hidden !important;
 }
-
-.show {
-  display: block;
-}
-
-.showing {
+.showing   {
   display: block!important;
+  visibility: visible !important;
 }
 
-.invisible {
-  visibility: hidden;
-}
+.invisible { visibility: hidden; }
 
-.text-hide {
-  .text-hide();
-}
+.text-hide { .text-hide(); }
+
 
 // For Affix plugin
-// -------------------------
-.affix {
-  position: fixed;
-}
 
-// padding and margin
-.with-padding {
-  padding: @padding-base-vertical @padding-base-horizontal;
-}
+.affix { position: fixed; }
+
+
+// Padding and margin
+
+.with-padding { padding: @padding-base-vertical @padding-base-horizontal; }

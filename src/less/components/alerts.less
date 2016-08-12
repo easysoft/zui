@@ -1,10 +1,16 @@
-//
-// Alerts
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: alert.less
+/// https://github.com/twbs/bootstrap/blob/master/less/alert.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
 
 // Base styles
-// -------------------------
 
 .alert {
   padding: @alert-padding;
@@ -20,25 +26,24 @@
     color: inherit;
   }
 
-  // Provide class for links that match alerts
-  .alert-link {
-    font-weight: @alert-link-font-weight;
-  }
-
-  hr {
-    margin: 10px 0;
-  }
+  hr { margin: 10px 0; }
 
   // Improve alignment and spacing of inner content
   p,
-  ul {
-    margin-bottom: 0;
-  }
+  ul { margin-bottom: 0; }
   
-  p + p {
-    margin-top: 5px;
-  }
+  p + p { margin-top: 5px; }
+}
 
+
+// Provide class for links that match alerts
+
+.alert-link { font-weight: @alert-link-font-weight; }
+
+
+// Alert with icon inside
+
+.alert {
   >[class*="icon-"] {
     float: left;
     font-size: 42px;
@@ -75,11 +80,14 @@
   }
 }
 
+
 // Block alert
+
 .alert-block {
   margin: 0;
   border-radius: 0;
 }
+
 
 // Dismissable alerts
 //
@@ -99,7 +107,7 @@
 
 
 // Alternate styles
-//
+
 // Generate contextual modifier classes for colorizing the alert.
 .alert-primary {
   .alert-variant(@alert-primary-bg; @alert-primary-border; @alert-primary-text);

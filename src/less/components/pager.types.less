@@ -1,52 +1,54 @@
-// .pager-pills
-// --------------------------------------------------
+/// ========================================================================
+/// ZUI: pager.types.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
 
+
+// Pills
 
 .pager-pills {
   > li:first-child {
     > a,
-    > span {
-      border-radius: @pager-border-radius 0 0 @pager-border-radius;
-    }
+    > span { border-radius: @pager-border-radius 0 0 @pager-border-radius; }
   }
 
   > li:last-child {
     > a,
-    > span {
-      border-radius: 0 @pager-border-radius @pager-border-radius 0;
-    }
+    > span { border-radius: 0 @pager-border-radius @pager-border-radius 0; }
   }
 
 
   &.pager-justify > li {
       > a,
-      > span {
-        border-radius: @pager-border-radius;
-      }
+      > span { border-radius: @pager-border-radius; }
   }
 }
+
+
+// Loose
 
 .pager-loose {
   display: block;
   margin: @line-height-computed 0;
-  .clearfix();
+
+  &:extend(.clearfix all);
+
   &.pager-pills > li {
       > a,
-      > span {
-        border-radius: @pager-border-radius;
-      }
+      > span { border-radius: @pager-border-radius; }
   }
 
   > li {
     > a,
     > span {
+      border-radius: @border-radius-base;
       margin-left: 5px;
     }
   }
   > li:first-child {
     > a,
-    > span {
-      margin-left: 0;
-    }
+    > span { margin-left: 0; }
   }
 }

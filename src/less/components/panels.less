@@ -1,9 +1,17 @@
-//
-// Panels
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: panels.less
+/// https://github.com/twbs/bootstrap/blob/master/less/panels.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
 
 // Base class
+
 .panel {
   margin-bottom: @line-height-computed;
   background-color: @panel-bg;
@@ -15,7 +23,10 @@
 }
 
 // Panel contents
-.panel-body { padding: 15px; .clearfix(); }
+.panel-body {
+  padding: 15px;
+  &:extend(.clearfix all);
+}
 
 
 // Tables in panels
@@ -28,14 +39,18 @@
   > .panel-body + .table { border-top: 1px solid @table-border-color; }
 }
 
+
 // Optional heading
+
 .panel-heading {
   padding: 8px 15px;
   border-bottom: 1px solid transparent;
   .border-top-radius(@panel-border-radius - 1);
 }
 
+
 // Within heading, strip any `h*` tag of it's default margins for spacing.
+
 .panel-title {
   margin-top: 0;
   margin-bottom: 0;
@@ -43,7 +58,9 @@
   > a { color: inherit; }
 }
 
-// // Optional footer (stays gray in every modifier class)
+
+// Optional footer (stays gray in every modifier class)
+
 .panel-footer {
   padding: 10px 15px;
   background-color: @panel-footer-bg;

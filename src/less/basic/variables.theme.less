@@ -1,5 +1,15 @@
+/// ========================================================================
+/// ZUI: variables.theme.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
 // COLOR SCHEME
-// -------------------------------------------------
+// ============
+
+// Basic colors
 
 @color-theme:                light;
 @color-primary:              #3F51B5;
@@ -8,7 +18,9 @@
 @color-fore:                 #353535;
 @color-back:                 #fff;
 
-// Grays
+
+// Grays colors
+
 @color-gray-darker:          lighten(#000, 13.5%); // #222
 @color-gray-dark:            lighten(#000, 20%);   // #333
 @color-gray:                 lighten(#000, 50%);   // #808080
@@ -16,7 +28,9 @@
 @color-gray-lighter:         lighten(#000, 89.7%); // #e5e5e5
 @color-gray-pale:            lighten(#000, 94.5%); // #f1f1f1
 
-// Color set
+
+// Named colors
+
 @color-white:                #fff;
 @color-black:                #000;
 @color-red:                  #d9534f;
@@ -33,9 +47,11 @@
 @color-brown-pale:           #f7ebe1;
 @color-purple-pale:          #f5eeff;
 
-// Brand colors
 @color-light:                @color-back;
 @color-dark:                 @color-fore;
+
+
+// Brand colors
 
 @color-success:              @color-green;
 @color-warning:              @color-yellow;
@@ -52,11 +68,12 @@
 @color-special-pale:         @color-purple-pale;
 
 
-//
-// The Variables of ZUI.
-// =========================
+// VARIABLES
+// =========
 
-// Form states and alerts
+
+// States
+
 @state-default-text:         @color-dark;
 @state-default-bg:           @color-gray-pale;
 @state-default-inverse-bg:   @color-dark;
@@ -99,17 +116,19 @@
 
 
 // Scaffolding
+
 @body-bg:               @color-back;
 @text-color:            @color-fore;
 
+
 // Links
+
 @link-color:            @color-secondary;
 @link-hover-color:      darken(@link-color, 15%);
 @link-hover-decoration: underline;
 
 
 // MEDIA QUERIES TYPES
-// -------------------------
 
 // Extra small screen (phone).
 @screen-xs:                  480px;
@@ -138,7 +157,6 @@
 
 
 // GRID SYSTEM
-// -------------------------
 
 // Number of grid columns.
 @grid-columns:               12;
@@ -156,10 +174,9 @@
 
 
 // TYPOGRAPHY
-// -------------------------
 
 // Font family.
-@font-family-sans-serif:  "Helvetica Neue", Helvetica, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', Tahoma, Arial, sans-serif;
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
 @font-family-headings:    @font-family-sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 @font-family-monospace:   Monaco, Menlo, Consolas, "Courier New", monospace;
@@ -170,11 +187,11 @@
 @font-size-large:         ceil((@font-size-base * 1.25)); // 18px
 @font-size-small:         ceil((@font-size-base * 0.85)); // 12px
 
-@font-size-h1:            floor((@font-size-base * 2.00)); //  28px
-@font-size-h2:            floor((@font-size-base * 1.58)); //  22px
-@font-size-h3:            floor((@font-size-base * 1.29)); //  18px
-@font-size-h4:            floor((@font-size-base * 1.15)); //  16px
-@font-size-h5:            @font-size-base;
+@font-size-h1:            floor((@font-size-base * 2.00)); //  26px
+@font-size-h2:            floor((@font-size-base * 1.58)); //  20px
+@font-size-h3:            floor((@font-size-base * 1.29)); //  16px
+@font-size-h4:            floor((@font-size-base * 1.15)); //  14px
+@font-size-h5:            @font-size-base;                 //  13px
 @font-size-h6:            ceil((@font-size-base * 0.85));  //  12px
 
 // Line height.
@@ -189,7 +206,6 @@
 
 
 // COMPONENTS CONFIG
-// -------------------------
 
 @padding-base-vertical:          5px;
 @padding-base-horizontal:        12px;
@@ -232,8 +248,8 @@
 @caret-width-base:               4px;
 @caret-width-large:              5px;
 
+
 // Z-index master list
-// -------------------------
 // Used for a bird's eye view of components dependent on the z-axis
 // Try to avoid customizing these :)
 
@@ -247,7 +263,6 @@
 
 
 // TABLES
-// -------------------------
 
 @table-cell-padding:                 8px;
 @table-condensed-cell-padding:       5px;
@@ -262,7 +277,6 @@
 
 
 // DROPDOWNS
-// -------------------------
 
 @dropdown-bg:                    @component-bg;
 @dropdown-border:                @component-border;
@@ -282,7 +296,6 @@
 
 
 // BUTTONS
-// -------------------------
 
 @btn-font-weight:                normal;
 
@@ -324,8 +337,9 @@
 @progress-bar-danger-bg:      @color-danger;
 @progress-bar-info-bg:        @color-info;
 
+
 // THUMBNAILS
-// -------------------------
+
 @thumbnail-padding:           4px;
 @thumbnail-bg:                @body-bg;
 @thumbnail-border:            @color-gray-light;
@@ -336,14 +350,12 @@
 
 
 // DIVIDER
-// -------------------------
 
 // Hr border color
 @hr-border:                   @color-gray-lighter;
 
 
 // LEBELS
-// -------------------------
 
 @label-default-bg:            @color-gray;
 @label-primary-bg:            @color-primary;
@@ -355,8 +367,9 @@
 @label-color:                 @color-light;
 @label-link-hover-color:      @color-light;
 
+
 // BADGES
-// -------------------------
+
 @badge-link-hover-color:      @color-light;
 @badge-bg:                    @color-gray-light;
 
@@ -367,7 +380,9 @@
 @badge-line-height:           1;
 @badge-border-radius:         12px;
 
+
 // INPUT
+
 @input-bg:                       @color-light;
 @input-bg-disabled:              @color-gray-lighter;
 
@@ -388,15 +403,18 @@
 @input-group-addon-bg:           @color-gray-pale;
 @input-group-addon-border-color: @input-border;
 
+//** Disabled cursor for form controls and buttons.
+@cursor-disabled:                not-allowed;
+
 
 // BREADCUMBS
-// -------------------------
+
 @breadcrumb-color:            #ccc;
 @breadcrumb-active-color:     @color-gray-light;
 
 
 // LIST GROUP
-// -------------------------
+
 @list-group-bg:               @color-light;
 @list-group-border:           @color-gray-light;
 @list-group-border-radius:    @border-radius-base;
@@ -444,7 +462,7 @@
 
 
 // MODALS
-// -------------------------
+
 @modal-inner-padding:         15px;
 
 @modal-title-padding:         15px;
@@ -465,7 +483,7 @@
 
 
 // ALERTS
-// -------------------------
+
 @alert-padding:               15px;
 @alert-border-radius:         @border-radius-small;
 @alert-link-font-weight:      bold;
@@ -496,15 +514,15 @@
 
 
 // ANIMATION
-// --------------------------
-@animation-speed-normal:             0.5s;
-@animation-speed-fast:               0.3s;
+
+@animation-speed-normal:             0.4s;
+@animation-speed-fast:               0.2s;
 @animation-speed-slow:               0.8s;
 @animation-type:                     cubic-bezier(0.175,.885,.32,1);
 
 
 // CODE
-// ------------------------
+
 @code-color:                  @color-danger;
 @code-bg:                     @color-gray-pale;
 
@@ -512,10 +530,11 @@
 @pre-color:                   @color-gray-dark;
 @pre-border-color:            #ccc;
 @pre-scrollable-max-height:   340px;
+@pre-line-height:             18/13;
 
 
 // TYPE
-// ------------------------
+
 @text-muted:                  @color-gray;
 @abbr-border-color:           @color-gray-light;
 @headings-small-color:        @color-gray;
@@ -526,7 +545,6 @@
 
 
 // MISCELLANEOUS
-// -------------------------
 
 // Hr border color
 @hr-border:                   @color-gray-lighter;
@@ -536,7 +554,6 @@
 
 
 // ARTICLE
-// -------------------------
 
 @article-padding:                 20px;
 @article-section-padding:         10px 15px;
@@ -556,21 +573,18 @@
 
 
 // CONTENTS LIST
-// -----------------------
 
 @list-padding:                15px;
 @list-item-bg-hover:          #f5f5f5;
 
 
 // CARDS
-// ----------------------
 
 @card-border-color:           @color-gray-light;
 @card-reveal-bg:              @color-gray-pale;
 
 
 // PAGER
-// -------------------------
 
 @pager-bg:                        @color-light;
 @pager-border:                    @color-gray-light;
@@ -585,7 +599,6 @@
 
 
 // NAVBAR
-// -------------------------
 
 // Basics of a navbar
 @navbar-height:                    40px;
@@ -647,7 +660,6 @@
 
 
 // NAVS
-// -------------------------
 
 @nav-link-padding:                            8px 15px;
 @nav-link-padding-top:                        10px;
@@ -689,7 +701,6 @@
 
 
 // CAROUSEL
-// ------------------------
 
 @carousel-text-shadow:                        0 1px 2px rgba(0,0,0,.6);
 
@@ -705,14 +716,14 @@
 
 
 // CLOSE
-// ------------------------
+
 @close-color:                 @color-black;
 @close-font-weight:           bold;
 @close-text-shadow:           0 1px 0 @color-light;
 
 
 // TOOLTIPS
-// -------------------------
+
 @tooltip-max-width:           200px;
 @tooltip-color:               @color-back;
 @tooltip-bg:                  @color-fore;
@@ -722,7 +733,7 @@
 
 
 // POPOVER
-// -------------------------
+
 @popover-bg:                          @color-light;
 @popover-max-width:                   300px;
 @popover-border-color:                rgba(0,0,0,.2);
@@ -739,9 +750,9 @@
 
 
 // ICON FONT
-// -------------------------
+
 @icon-font-path:          "../fonts";
-@icon-font-version:       "2.1.0";
+@icon-font-version:       "2.2.0";
 @icon-border-color:       @color-gray-light;
 @icon-muted-color:        @color-gray-light;
 @icon-light-color:        @color-light;
@@ -752,11 +763,10 @@
 
 
 // SCROLLBAR
-// -------------------------
+
 @scrollbar-size:  10px;
 @scrollbar-radius: 0;
 
 
 // MESSAGER
-// -------------------------
 @messager-radius: 0;

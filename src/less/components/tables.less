@@ -1,21 +1,33 @@
-//
-// Tables
-// ==================================================
+/// ========================================================================
+/// Bootstrap: tables.less
+/// https://github.com/twbs/bootstrap/blob/master/less/tables.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
+
+// Reset
 
 table {
   max-width: 100%;
   background-color: @table-bg;
+}
+caption {
+  padding-top: @table-cell-padding;
+  padding-bottom: @table-cell-padding;
+  color: @text-muted;
+  text-align: left;
 }
 th {
   text-align: left;
 }
 
 
-// Types
-// --------------------------------------------------
-
-// default
+// Base
 
 .table {
   width: 100%;
@@ -28,9 +40,8 @@ th {
     line-height: @line-height-base;
     vertical-align: top;
     border-bottom: 1px solid @table-border-color;
-    // border-top: 1px solid lighten(@table-border-color, 5%);
 
-    .transition(all,@animation-speed-fast,@animation-type);
+    .transition(background, @animation-speed-fast, @animation-type);
   }
 
   // Bottom align for column headings
@@ -39,7 +50,12 @@ th {
     border-bottom: 1px solid @table-border-color;
     background-color: @table-head-bg;
   }
+  // Account for multiple tbody instances
+  > tbody + tbody {
+    border-top: 2px solid @table-border-color;
+  }
 }
+
 
 // Table with fixed layout
 
@@ -47,24 +63,27 @@ th {
   table-layout: fixed;
 
   th, td {
-    overflow:hidden;
-    white-space:nowrap;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   tfoot > tr > th,
   tfoot > tr > td,
-  th.nofixed,
-  td.nofixed { overflow: visible; }
+  .nofixed,
+  .nofixed {overflow: visible;}
 }
+
 
 // Table without border
 
 .table-borderless {
+  thead > tr > th,
   th,
   td {
     border: none;
   }
 }
+
 
 // Condensed table w/ half padding
 
@@ -74,6 +93,7 @@ th {
     padding: @table-condensed-cell-padding;
   }
 }
+
 
 // Bordered version
 //

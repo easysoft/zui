@@ -1,21 +1,31 @@
-//
-// Responsive tables
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: tables.responsive.less
+/// https://github.com/twbs/bootstrap/blob/master/less/tables.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
+
+// Responsive tables
 
 // Wrap your tables in `.table-responsive` and we'll make them mobile friendly
 // by enabling horizontal scrolling. Only applies <768px. Everything above that
 // will display normally.
 
-@media (max-width: @screen-sm-min) {
-  .table-responsive {
+.table-responsive {
+  overflow-x: auto;
+  min-height: 0.01%; // Workaround for IE9 bug (see https://github.com/twbs/bootstrap/issues/14837)
+
+  @media screen and (max-width: @screen-xs-max) {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: (@line-height-computed * 0.75);
     overflow-y: hidden;
-    overflow-x: scroll;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     border: 1px solid @table-border-color;
-    -webkit-overflow-scrolling: touch;
 
     // Tighten up spacing
     > .table {
@@ -66,6 +76,7 @@
           }
         }
       }
+
     }
   }
 }

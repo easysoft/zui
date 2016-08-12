@@ -1,5 +1,17 @@
+/// ========================================================================
+/// Bootstrap: navbars.form.less
+/// https://github.com/twbs/bootstrap/blob/master/less/navbars.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
+
+
 // Navbar form
-//
+
 // Extension of the `.form-inline` with some extra flavor for optimum display in
 // our navbars.
 
@@ -9,16 +21,18 @@
   padding: 10px @navbar-padding-horizontal;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
-  @shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
-  box-shadow: @shadow;
-
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.1);
 
   // Mixin behavior for optimum display
   .form-inline();
 
   .form-group {
-    @media (max-width: @screen-xs-max) {
+    @media (max-width: @grid-float-breakpoint-max) {
       margin-bottom: 5px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 
@@ -34,6 +48,5 @@
     padding-top: 0;
     padding-bottom: 0;
     box-shadow: none;
-
   }
 }

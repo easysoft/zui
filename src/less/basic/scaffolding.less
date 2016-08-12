@@ -1,19 +1,32 @@
-//
+/// ========================================================================
+/// Bootstrap: scaffolding.less
+/// https://github.com/twbs/bootstrap/blob/master/less/scaffolding.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
+
+
 // Scaffolding
-// ==================================================
+// ===========
+
+
+// Reset box sizing
 
 *, *:before, *:after { box-sizing: border-box; }
 
+
 // Body reset
 
-html
-{
+html {
   font-size: 10px;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
-body
-{
+body {
   font-family: @font-family-base;
   font-size: @font-size-base;
   line-height: @line-height-base;
@@ -21,7 +34,9 @@ body
   background-color: @body-bg;
 }
 
+
 // Reset fonts for relevant elements
+
 input,
 button,
 select,
@@ -31,7 +46,9 @@ textarea {
   line-height: inherit;
 }
 
+
 // Links
+
 a {
   color: @link-color;
   text-decoration: none;
@@ -63,6 +80,7 @@ a {
 // Remove the gap between images, videos, audio and canvas and the bottom of
 // their containers: h5bp.com/i/440
 // Make media width auto fit containers
+
 audio,
 canvas,
 img,
@@ -72,9 +90,11 @@ video {
   max-width: 100%;
 }
 
+
 // Only display content to screen readers
 //
 // See: http://a11yproject.com/posts/how-to-hide-content/
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -90,6 +110,7 @@ video {
 // Remove text-shadow in selection highlight: h5bp.com/i
 // These selection rule sets have to be separate.
 // Customize the background color to match your design.
+
 ::-moz-selection {
   background: #b3d4fc;
   text-shadow: none;
@@ -99,7 +120,9 @@ video {
   text-shadow: none;
 }
 
+
 // Remove default fieldset styles.
+
 fieldset {
   border: 0;
   margin: 0;
@@ -108,10 +131,11 @@ fieldset {
 
 
 // Allow only vertical resizing of textareas.
-textarea {
-  resize: vertical;
-}
+
+textarea { resize: vertical; }
+
 
 // reset ol&ul padding left
+
 ol,
-ul {padding-left: 20px;}
+ul { padding-left: 20px; }

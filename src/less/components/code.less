@@ -1,15 +1,22 @@
-//
-// Code (inline and blocK)
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: code.less
+/// https://github.com/twbs/bootstrap/blob/master/less/code.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
 
 // Inline and block code styles
+
 code,
 kbd,
 pre,
-samp {
-  font-family: @font-family-monospace;
-}
+samp { font-family: @font-family-monospace; }
+
 
 // Inline code
 
@@ -37,6 +44,7 @@ kbd {
 
 
 // Blocks of code
+
 pre {
   display: block;
   padding: ((@line-height-computed - 1) / 2);
@@ -51,6 +59,7 @@ pre {
   border-radius: @border-radius-base;
 
   // Account for some code outputs that place code tags in pre tags
+  
   code {
     padding: 0;
     font-size: inherit;
@@ -62,7 +71,9 @@ pre {
   }
 }
 
+
 // Enable scrollable blocks of code
+
 .pre-scrollable {
   max-height: @pre-scrollable-max-height;
   overflow-y: scroll;
@@ -70,7 +81,7 @@ pre {
 
 
 // prettify.css
-// ----------------------
+
 .com { color: #93a1a1; }
 .lit { color: #195f91; }
 .pun, .opn, .clo { color: #93a1a1; }
@@ -83,12 +94,10 @@ pre {
 .prettyprint {
   &.linenums {
     box-shadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
-
-
   }
 
   ol.linenums {
-    padding-left: 40px;
+    padding-left: 35px;
     color: #bebec5;
     line-height: 20px;
     text-shadow: 0 1px 0 #fff;
