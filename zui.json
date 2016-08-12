@@ -552,14 +552,6 @@
       "ver": "1.0.0",
       "dpds": ["navbars.basic"]
     },
-    "navbars.fixedleft": {
-      "name": "左侧导航条",
-      "src": {
-        "less": ["~/components/navbars.fixed-left.less"]
-      },
-      "ver": "1.0.0",
-      "dpds": ["navbars.basic"]
-    },
     "navbars": {
       "name": "导航条",
       "dpds": ["navbars.basic", "navbars.form", "navbars.fixedleft"]
