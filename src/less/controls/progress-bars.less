@@ -1,22 +1,24 @@
-//
-// Progress bars
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: progress-bars.less
+/// https://github.com/twbs/bootstrap/blob/master/less/progress-bars.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
 
 // Bar animations
-// -------------------------
 
-
-// Spec and IE10+
 @keyframes progress-bar-stripes {
   from  { background-position: 40px 0; }
   to    { background-position: 0 0; }
 }
 
 
-
 // Bar itself
-// -------------------------
 
 // Outer container
 .progress  {
@@ -41,7 +43,7 @@
 
 // Striped bars
 .progress-striped .progress-bar  {
-  #gradient > .striped(@progress-bar-bg);
+  #gradient > .striped();
   background-size: 40px 40px;
 }
 
