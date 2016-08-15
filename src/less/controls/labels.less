@@ -1,22 +1,32 @@
-//
-// Labels
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: labels.less
+/// https://github.com/twbs/bootstrap/blob/master/less/labels.less
+/// https://github.com/twbs/bootstrap/blob/master/less/badges.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
+
+
+// Core style
 
 .label {
   display: inline;
   padding: .2em .6em .2em;
   font-size: 75%;
-  // font-weight: bold;
   line-height: 1;
   color: @label-color;
   text-align: center;
   white-space: nowrap;
-  vertical-align: baseline;
+  vertical-align: middle;
   border-radius: .25em;
   .label-variant(@label-default-bg); 
 
   // Add hover effects, but only for links
-  &[href] {
+  a& {
     &:hover,
     &:focus {
       color: @label-link-hover-color;
@@ -29,48 +39,30 @@
   &:empty { display: none; }
 }
 
+
+// Badge
+
 .label-badge {
   display: inline-block;
   border-radius: @badge-border-radius;
-  min-width: 10px;
-  padding: 5px 7px;
+  min-width: 18px;
+  padding: 3px 7px;
   font-size: @font-size-small;
-  // font-weight: @badge-font-weight;
   line-height: @badge-line-height;
 }
 
 .label-dot {
   text-indent: -9999em;
-  &:empty { display: inline-block; }
   display: inline-block;
   padding: 0px;
   border-radius: 5px;
   width: 10px;
   height: 10px;
   line-height: 13px;
+
+  &:empty { display: inline-block; }
 }
 
-// Quick fix for labels/badges in buttons
-.btn .label-badge {
-  position: relative;
-  top: -1px;
-}
-
-// Account for counters in navs
-// a.list-group-item.active > .label-badge,
-// .nav-pills > .active > a > .label-badge,
-// a.list-group-item.active > .label-dot,
-// .nav-pills > .active > a > .label-dot
-// {
-//   color: @badge-active-color;
-//   background-color: @badge-active-bg;
-// }
-.nav > li > a > .label-badge,
-.nav > li > a > .label-dot {
-  margin-left: 3px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
 
 
 // Colors

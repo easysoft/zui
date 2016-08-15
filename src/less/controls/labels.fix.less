@@ -1,21 +1,41 @@
+/// ========================================================================
+/// Bootstrap: labels.fix.less
+/// https://github.com/twbs/bootstrap/blob/master/less/labels.less
+/// https://github.com/twbs/bootstrap/blob/master/less/badges.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
-.btn-primary .label-badge,
-.btn-primary .label-dot {
-  background-color: lighten(@btn-primary-bg, 20%)
+
+// Label in button
+
+.nav-primary > li > a > .label,
+.btn .label {
+  position: relative;
+  top: -1px;
 }
-.btn-success .label-badge,
-.btn-success .label-dot {
-  background-color: darken(@btn-success-bg, 20%)
+
+.btn-primary,
+.btn-success,
+.btn-info,
+.btn-danger,
+.btn-warning {
+  .label { background-color: rgba(0,0,0,.2); }
 }
-.btn-info .label-badge,
-.btn-info .label-dot {
-  background-color: darken(@btn-info-bg, 20%)
+
+
+// Account for counters in navs
+
+.list-group-item.active > .label,
+.nav-primary > .active > a > .label,
+.nav-pills > .active > a > .label {
+  color: @badge-active-color;
+  background-color: @badge-active-bg;
 }
-.btn-danger .label-badge,
-.btn-danger .label-dot {
-  background-color: darken(@btn-danger-bg, 20%)
-}
-.btn-warning .label-badge,
-.btn-warning .label-dot {
-  background-color: darken(@btn-warning-bg, 20%)
+.nav > li > a > .label  {
+  margin-left: 3px;
 }
