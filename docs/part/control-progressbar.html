@@ -10,7 +10,7 @@
 <section>
   <header><h3>基本类型</h3></header>
   <article>
-    <table class="table col-md-12">
+    <table class="table">
       <tbody>
         <tr>
           <th width="40%">进度条</th>
@@ -43,7 +43,7 @@
   <header><h3>颜色主题</h3></header>
   <article>
     <p>为了一致的样式，进度条颜色使用与按钮相同的类。</p>
-    <table class="table col-md-12">
+    <table class="table">
       <tbody><tr>
         <th width="40%">进度条。</th>
         <th>描述</th>
@@ -121,7 +121,7 @@
   <header><h3>特殊效果</h3></header>
   <article>
     <p>用一个渐变可以创建条纹效果，在IE8中不可用。</p>
-    <table class="table col-md-12">
+    <table class="table">
       <tbody><tr>
         <th width="40%">进度条</th>
         <th>描述</th>
@@ -197,6 +197,7 @@ function afterPageLoad() {
     var changeProgressBar = function() {
         var $progressbar = $(this);
         var $bar = $progressbar.children('.progress-bar');
+        console.log("change", $bar);
         if($bar.length === 1) {
             var val = Math.round(Math.random() *  100);
             $bar.css('width', val + '%').closest('tr').find('.progressbar-value').text(val);
