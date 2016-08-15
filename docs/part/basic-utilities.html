@@ -11,7 +11,7 @@
   <article>
     <p>使用标签<code>&lt;small&gt;</code>或者CSS类名<code>.small</code>来使得文本字号比正常情况小一号。</p>
     <div class="example">
-      <small>小字号文本，small text.</small>
+      <small contenteditable="true">小字号文本，small text.</small>
     </div>
     <pre><code>&lt;small&gt;小字号文本，small text.&lt;/small&gt;</code></pre>
   </article>
@@ -20,16 +20,16 @@
 <section>
   <header><h3>文本颜色</h3></header>
   <article>
-    <div class="example" contenteditable="true">
-      <p class="text-muted">Lorem ipsum dolor sit amet, consectetur.</p>
-      <p class="text-primary">Perferendis eveniet ipsa modi nesciunt, vel.</p>
-      <p class="text-danger">Molestias maxime perspiciatis saepe unde corporis.</p>
-      <p class="text-success">Culpa eum modi assumenda, velit vitae.</p>
-      <p class="text-warning">Cumque consequuntur modi fugiat debitis dolorum.</p>
-      <p class="text-info">Minus nisi consectetur dolorum temporibus
+    <div class="example">
+      <p class="text-muted" contenteditable="true">Lorem ipsum dolor sit amet, consectetur.</p>
+      <p class="text-primary" contenteditable="true">Perferendis eveniet ipsa modi nesciunt, vel.</p>
+      <p class="text-danger" contenteditable="true">Molestias maxime perspiciatis saepe unde corporis.</p>
+      <p class="text-success" contenteditable="true">Culpa eum modi assumenda, velit vitae.</p>
+      <p class="text-warning" contenteditable="true">Cumque consequuntur modi fugiat debitis dolorum.</p>
+      <p class="text-info" contenteditable="true">Minus nisi consectetur dolorum temporibus
       architecto.</p>
-      <p class="text-important">Tenetur ullam amet illo sint magni!</p>
-      <p class="text-special">Sapiente voluptates debitis dolor ipsam libero!</p>
+      <p class="text-important" contenteditable="true">Tenetur ullam amet illo sint magni!</p>
+      <p class="text-special" contenteditable="true">Sapiente voluptates debitis dolor ipsam libero!</p>
     </div>
     <pre><code>&lt;p class=&quot;text-muted&quot;&gt;...&lt;/p&gt;
 &lt;p class=&quot;text-primary&quot;&gt;...&lt;/p&gt;
@@ -45,18 +45,18 @@
 <section>
   <header><h3>文本背景高亮</h3></header>
   <article>
-    <div class="example" contenteditable="true">
-      <p class="hl-default">Lorem ipsum dolor sit amet, consectetur.</p>
-      <p class="hl-primary">Perferendis eveniet ipsa modi nesciunt, vel.</p>
-      <p class="hl-danger">Molestias maxime perspiciatis saepe unde
+    <div class="example">
+      <p class="hl-default" contenteditable="true">Lorem ipsum dolor sit amet, consectetur.</p>
+      <p class="hl-primary" contenteditable="true">Perferendis eveniet ipsa modi nesciunt, vel.</p>
+      <p class="hl-danger" contenteditable="true">Molestias maxime perspiciatis saepe unde
       corporis.</p>
-      <p class="hl-success">Culpa eum modi assumenda, velit vitae.</p>
-      <p class="hl-warning">Cumque consequuntur modi fugiat debitis
+      <p class="hl-success" contenteditable="true">Culpa eum modi assumenda, velit vitae.</p>
+      <p class="hl-warning" contenteditable="true">Cumque consequuntur modi fugiat debitis
       dolorum.</p>
-      <p class="hl-info">Minus nisi consectetur dolorum temporibus
+      <p class="hl-info" contenteditable="true">Minus nisi consectetur dolorum temporibus
       architecto.</p>
-      <p class="hl-important">Tenetur ullam amet illo sint magni!</p>
-      <p class="hl-special">Sapiente voluptates debitis dolor ipsam
+      <p class="hl-important" contenteditable="true">Tenetur ullam amet illo sint magni!</p>
+      <p class="hl-special" contenteditable="true">Sapiente voluptates debitis dolor ipsam
       libero!</p>
     </div>
 <pre><code>&lt;p class=&quot;hl-default&quot;&gt;...&lt;/p&gt;
@@ -73,15 +73,15 @@
 <section>
   <header><h3>文本背景色</h3></header>
   <article>
-    <div class="example" contenteditable="true">
-      <p class="bg-default">Lorem ipsum dolor sit amet, consectetur.</p>
-      <p class="bg-primary">Perferendis eveniet ipsa modi nesciunt, vel.</p>
-      <p class="bg-danger">Molestias maxime perspiciatis saepe unde corporis.</p>
-      <p class="bg-success">Culpa eum modi assumenda, velit vitae.</p>
-      <p class="bg-warning">Cumque consequuntur modi fugiat debitis dolorum.</p>
-      <p class="bg-info">Minus nisi consectetur dolorum temporibus architecto.</p>
-      <p class="bg-important">Tenetur ullam amet illo sint magni!</p>
-      <p class="bg-special">Sapiente voluptates debitis dolor ipsam libero!</p>
+    <div class="example">
+      <p class="bg-default" contenteditable="true">Lorem ipsum dolor sit amet, consectetur.</p>
+      <p class="bg-primary" contenteditable="true">Perferendis eveniet ipsa modi nesciunt, vel.</p>
+      <p class="bg-danger" contenteditable="true">Molestias maxime perspiciatis saepe unde corporis.</p>
+      <p class="bg-success" contenteditable="true">Culpa eum modi assumenda, velit vitae.</p>
+      <p class="bg-warning" contenteditable="true">Cumque consequuntur modi fugiat debitis dolorum.</p>
+      <p class="bg-info" contenteditable="true">Minus nisi consectetur dolorum temporibus architecto.</p>
+      <p class="bg-important" contenteditable="true">Tenetur ullam amet illo sint magni!</p>
+      <p class="bg-special" contenteditable="true">Sapiente voluptates debitis dolor ipsam libero!</p>
     </div>
     <pre><code>&lt;p class=&quot;bg-default&quot;&gt;...&lt;/p&gt;
 &lt;p class=&quot;bg-primary&quot;&gt;...&lt;/p&gt;
@@ -119,20 +119,20 @@
   <article>
     <p>在内容元素内添加内边距，使得元素更易于阅读。使用<code>.with-padding</code>。</p>
     <p>内容边距和文本背景一起使用的例子。</p>
-    <div class="example" contenteditable="true">
-      <p class="with-padding bg-default">Lorem ipsum dolor sit amet,
+    <div class="example">
+      <p class="with-padding bg-default" contenteditable="true">Lorem ipsum dolor sit amet,
       consectetur.</p>
-      <p class="with-padding bg-primary">Perferendis eveniet ipsa modi nesciunt,
+      <p class="with-padding bg-primary" contenteditable="true">Perferendis eveniet ipsa modi nesciunt,
       vel.</p>
-      <p class="with-padding bg-danger">Molestias maxime perspiciatis saepe unde
+      <p class="with-padding bg-danger" contenteditable="true">Molestias maxime perspiciatis saepe unde
       corporis.</p>
-      <p class="with-padding bg-success">Culpa eum modi assumenda, velit vitae.</p>
-      <p class="with-padding bg-warning">Cumque consequuntur modi fugiat debitis
+      <p class="with-padding bg-success" contenteditable="true">Culpa eum modi assumenda, velit vitae.</p>
+      <p class="with-padding bg-warning" contenteditable="true">Cumque consequuntur modi fugiat debitis
       dolorum.</p>
-      <p class="with-padding bg-info">Minus nisi consectetur dolorum temporibus
+      <p class="with-padding bg-info" contenteditable="true">Minus nisi consectetur dolorum temporibus
       architecto.</p>
-      <p class="with-padding bg-important">Tenetur ullam amet illo sint magni!</p>
-      <p class="with-padding bg-special">Sapiente voluptates debitis dolor ipsam
+      <p class="with-padding bg-important" contenteditable="true">Tenetur ullam amet illo sint magni!</p>
+      <p class="with-padding bg-special" contenteditable="true">Sapiente voluptates debitis dolor ipsam
       libero!</p>
     </div>
 <pre><code>&lt;p class=&quot;with-padding bg-default&quot;&gt;...&lt;/p&gt;
