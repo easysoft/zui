@@ -1,14 +1,22 @@
+/// ========================================================================
+/// ZUI: boards.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Boards view
+
 .board-item {
   border: 1px solid @color-gray-light;
   margin-bottom: 5px;
   padding: 6px 10px;
   background: @color-back;
-  .transition();
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+  .transition();
 
-  &:hover {
-    box-shadow: 0 1px 1 rgba(0, 0, 0, 0.1);
-  }
+  &:hover { box-shadow: 0 1px 1 rgba(0, 0, 0, 0.1); }
 
   &.board-item-empty {
     color: @color-gray;
@@ -35,9 +43,7 @@
     opacity: 0.9;
   }
 
-  &.drag-from {
-    background-color: @color-pale;
-  }
+  &.drag-from { background-color: @color-pale; }
 }
 
 .board-list {
@@ -55,9 +61,7 @@
      }
   }
 
-  &:last-child {
-    margin-right: 0;
-  }
+  &:last-child { margin-right: 0; }
 
   > .panel-body {
     padding: 5px;

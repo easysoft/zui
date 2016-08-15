@@ -1,3 +1,13 @@
+/// ========================================================================
+/// ZUI: tree.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Tree view
+
 .tree {
   padding-left: 0;
 
@@ -23,9 +33,7 @@
       top: 10px;
     }
 
-    &.has-list:before {
-      display: none;
-    }
+    &.has-list:before { display: none; }
 
     > .list-toggle {
       position: absolute;
@@ -38,23 +46,18 @@
       cursor: pointer;
       z-index: 10;
 
-      &:before {
-        content: '\e6f1';
-      }
+      &:before { content: '\e6f1'; }
 
-      &:hover, &:active {
+      &:hover,
+      &:active {
         color: @link-hover-color;
       }
     }
 
     &.open {
-      > ul {
-        display: block;
-      }
+      > ul { display: block; }
 
-      > .list-toggle:before {
-        content: '\e6f2';
-      }
+      > .list-toggle:before { content: '\e6f2'; }
     }
   }
 }
@@ -71,12 +74,14 @@
   margin-left: 5px;
   color: @color-gray;
 
-  &:hover, &:active {
+  &:hover,
+  &:active {
     text-decoration: none;
   }
 }
 
-.tree li:hover > .tree-actions, .tree-item-wrapper:hover > .tree-actions {
+.tree li:hover > .tree-actions,
+.tree-item-wrapper:hover > .tree-actions {
   opacity: 1;
 }
 
@@ -85,9 +90,7 @@
   background-color: @color-pale;
 }
 
-.tree .sort-handler {
-  cursor: move;
-}
+.tree .sort-handler { cursor: move; }
 
 .tree-animate {
   ul {

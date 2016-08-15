@@ -1,3 +1,13 @@
+/// ========================================================================
+/// ZUI: datatable.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Datatable view
+
 .datatable-head,
 .datatable-rows {
   display: table;
@@ -8,9 +18,7 @@
 .datatable {
   margin-bottom: 20px;
 
-  > .datatable-head {
-    transition: box-shadow .2s;
-  }
+  > .datatable-head { transition: box-shadow .2s; }
 
   .table {
     margin: 0;
@@ -191,9 +199,7 @@
     overflow: hidden;
 
     &.datatable-head-span {
-      &.dragging {
-        cursor: move !important;
-      }
+      &.dragging { cursor: move !important; }
     }
 
     .table {
@@ -213,8 +219,7 @@
       .transition();
     }
 
-    .scrolled-in-shadow { left: -30px; }
-
+    .scrolled-in-shadow  { left: -30px; }
     .scrolled-out-shadow { right: -30px; }
   }
 }

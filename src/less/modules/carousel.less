@@ -1,12 +1,19 @@
-//
-// Carousel
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: carousel.less
+/// https://github.com/twbs/bootstrap/blob/master/less/carousel.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
+
+// Core style
 
 // Wrapper for the slide container and indicators
-.carousel {
-  position: relative;
-}
+.carousel { position: relative; }
 
 .carousel-inner {
   position: relative;
@@ -21,18 +28,18 @@
     // Account for jankitude on images
     > img,
     > a > img {
-      .img-responsive();
+      &:extend(.img-responsive);
       line-height: 1;
     }
   }
 
   > .active,
   > .next,
-  > .prev { display: block; }
-
-  > .active {
-    left: 0;
+  > .prev {
+    display: block;
   }
+
+  > .active { left: 0; }
 
   > .next,
   > .prev {
@@ -42,28 +49,19 @@
 
   }
 
-  > .next {
-    left: 100%;
-  }
-  > .prev {
-    left: -100%;
-  }
+  > .next { left: 100%; }
+  > .prev { left: -100%; }
   > .next.left,
   > .prev.right {
     left: 0;
   }
 
-  > .active.left {
-    left: -100%;
-  }
-  > .active.right {
-    left: 100%;
-  }
-
+  > .active.left { left: -100%; }
+  > .active.right { left: 100%; }
 }
 
+
 // Left/right controls for nav
-// ---------------------------
 
 .carousel-control {
   position: absolute;
@@ -140,8 +138,9 @@
   }
 }
 
+
 // Optional captions
-// -----------------------------
+
 // Hidden by default for smaller viewports
 .carousel-caption {
   position: absolute;

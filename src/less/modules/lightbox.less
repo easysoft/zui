@@ -1,3 +1,13 @@
+/// ========================================================================
+/// ZUI: lightbox.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Lightbox style for module lightbox.js
+
 [data-toggle="lightbox"] {cursor: pointer}
 
 .modal-lightbox {
@@ -13,9 +23,9 @@
     right: 0;
     top: 0;
     color: #fff;
+    z-index: 10;
     .transition-fast(opacity, background-color);
     .opacity(.8);
-    z-index: 10;
   }
 
   .controller {
@@ -46,12 +56,8 @@
         font-size: 20px;
       }
     }
-    &.prev {
-      left: 0;
-    }
-    &.next {
-      right: 0;
-    }
+    &.prev { left: 0; }
+    &.next { right: 0; }
   }
 
   .modal-dialog {
@@ -92,9 +98,7 @@
     }
   }
 
-  .caption {
-    display: none
-  }
+  .caption { display: none; }
 
   &.lightbox-with-caption {
     .caption {

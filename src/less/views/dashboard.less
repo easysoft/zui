@@ -1,3 +1,13 @@
+/// ========================================================================
+/// ZUI: dashboard.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Dashboard view
+
 .dashboard {
   position: relative;
 
@@ -25,46 +35,33 @@
         > a {
           .opacity(1);
         }
-
       }
     }
 
-    > [class^='icon-'] {
-      .opacity(0.7);
-    }
+    > [class^='icon-'] { .opacity(0.7); }
   }
 
   .panel-actions {
     float: right;
 
-    .dropdown {
-      display: inline-block;
-    }
+    .dropdown { display: inline-block; }
 
     .dropdown-menu {
       min-width: 80px;
 
-      > li > a {
-        padding: 3px 10px;
-      }
+      > li > a { padding: 3px 10px; }
     }
 
-    .btn {
-      margin-top: -4px;
-    }
+    .btn { margin-top: -4px; }
 
     > a,
     > .dropdown > a {
       color: @color-gray;
       display: inline-block;
 
-      :hover {
-        text-decoration: none;
-      }
+      &:hover { text-decoration: none; }
 
-      > .caret {
-        line-height: 20px;
-      }
+      > .caret { line-height: 20px; }
     }
 
     > .btn,
@@ -74,9 +71,7 @@
       .opacity(0.7);
     }
 
-    .btn + .btn {
-      margin-left: 4px;
-    }
+    .btn + .btn { margin-left: 4px; }
   }
 
   .panel {
@@ -88,13 +83,9 @@
     padding: 6px 10px;
     overflow: auto;
 
-    &.no-padding {
-      padding: 0;
-    }
+    &.no-padding { padding: 0; }
 
-    > dl {
-      margin: 0;
-    }
+    > dl { margin: 0; }
 
     > ul,
     > ol {
@@ -104,9 +95,7 @@
   }
 
   &.dashboard-draggable {
-    .panel-heading {
-      cursor: move;
-    }
+    .panel-heading { cursor: move; }
   }
 
   .panel-dragging {
@@ -143,7 +132,6 @@
 
   &.dashboard-holding {
     .dragging-col-holder {display: block;}
-
     .dragging-col {display: none}
   }
 
@@ -177,22 +165,17 @@
       .opacity(1);
       background-color: fade(@color-primary, 12%);
 
-      > .icon {
-        left: -4px;
-      }
+      > .icon { left: -4px; }
     }
   }
 
-  .resizing { 
-    .transition-fast(width);
-  }
+  .resizing { .transition-fast(width); }
 
   .resizing {
     .resize-handle {
       opacity: 1;
-      > .icon {
-        left: -4px;
-      }
+
+      > .icon { left: -4px; }
     }
   }
 
@@ -204,15 +187,9 @@
 .dashboard-inverse {
   background-color: @color-primary;
 
-  .panel {
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  }
+  .panel { box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15); }
 
-  .panel-dragging {
-    background:rgba(0,0,0,0.3);
-  }
+  .panel-dragging { background:rgba(0,0,0,0.3); }
 
-  .panel-dragging-shadow {
-    box-shadow: 1px 2px 15px rgba(0,0,0,0.5)!important;
-  }
+  .panel-dragging-shadow { box-shadow: 1px 2px 15px rgba(0,0,0,0.5)!important; }
 }

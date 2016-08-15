@@ -1,10 +1,41 @@
-//
-// Headers
-// =====================================
+/// ========================================================================
+/// Bootstrap: headers.less
+/// https://github.com/twbs/bootstrap/blob/master/less/type.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
+
+
+// Page header
+
+.page-header,
+.header-dividing {
+  padding-bottom: ((@line-height-computed / 2) - 1);
+  margin: (@line-height-computed * 2) 0 @line-height-computed;
+  border-bottom: 1px solid @header-dividing-color;
+}
 
 
 // Headings
-// -------------------------
+
+h1, h2, h3, h4, h5, h6
+{
+  font-family: @headings-font-family;
+  font-weight: @headings-font-weight;
+  line-height: @headings-line-height;
+  color: @headings-color;
+
+  small
+  {
+    font-weight: normal;
+    line-height: 1;
+    color: @headings-small-color;
+  }
+}
 
 h1,
 h2,
@@ -23,43 +54,9 @@ h6 {
   small { font-size: 75%; }
 }
 
-h1{ font-size: @font-size-h1; }
-h2{ font-size: @font-size-h2; }
-h3{ font-size: @font-size-h3; }
-h4{ font-size: @font-size-h4; }
-h5{ font-size: @font-size-h5; }
-h6{ font-size: @font-size-h6; }
-
-h1, h2, h3, h4, h5, h6
-{
-  font-family: @headings-font-family;
-  font-weight: @headings-font-weight;
-  line-height: @headings-line-height;
-  color: @headings-color;
-
-  small
-  {
-    font-weight: normal;
-    line-height: 1;
-    color: @headings-small-color;
-
-    // &.block
-    // {
-    //   display: block;
-    //   line-height: @headings-line-height;
-    //   font-size: @font-size-base;
-    // }
-  }
-
-  // &.header-block
-  // {
-  //   background-color: @headings-block-background;
-  //   padding: @padding-base-vertical @padding-base-horizontal;
-  // }
-
-  &.header-dividing
-  {
-    border-bottom: 1px solid @header-dividing-color;
-    padding-bottom: ((@line-height-computed / 2) - 1);
-  }
-}
+h1 { font-size: @font-size-h1; }
+h2 { font-size: @font-size-h2; }
+h3 { font-size: @font-size-h3; }
+h4 { font-size: @font-size-h4; }
+h5 { font-size: @font-size-h5; }
+h6 { font-size: @font-size-h6; }

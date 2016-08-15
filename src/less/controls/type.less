@@ -1,9 +1,16 @@
-//
-// Typography
-// --------------------------------------------------
+/// ========================================================================
+/// Bootstrap: type.less
+/// https://github.com/twbs/bootstrap/blob/master/less/type.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
+
 
 // Body text
-// -------------------------
 
 p {
   margin: 0 0 (@line-height-computed / 2);
@@ -20,7 +27,6 @@ p {
 
 
 // Emphasis & misc
-// -------------------------
 
 // Ex: 14px base font * 85% = about 12px
 small,
@@ -29,7 +35,9 @@ small,
 // Undo browser default styling
 cite     { font-style: normal; }
 
-// Contextual emphasis
+
+// Contextual style
+
 .text-muted {
   color: @text-muted;
 
@@ -93,6 +101,7 @@ cite     { font-style: normal; }
 
 
 // link with text color
+
 .text-link {
   color: @color-fore;
   &:hover,
@@ -103,13 +112,15 @@ cite     { font-style: normal; }
 
 
 // Alignment
-.text-left          { text-align: left; }
-.text-right         { text-align: right; }
-.text-center        { text-align: center; }
+
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
+.text-center { text-align: center; }
 
 // text wrap
+
 .text-nowrap,
-.nobr               { .nobr(); }
+.nobr { .nobr(); }
 
 
 // text ellipsis
@@ -143,23 +154,8 @@ ol {
 }
 
 
-// Inline turns list items into inline-block
-// .list-inline
-// {
-//   .list-unstyled();
-//   > li
-//   {
-//     display: inline-block;
-//     padding-left: 5px;
-//     padding-right: 5px;
-//     &:first-child
-//     {
-//       padding-left: 0;
-//     }
-//   }
-// }
-
 // Description Lists
+
 dl {
   margin-bottom: @line-height-computed;
 }
@@ -177,28 +173,17 @@ dd {
   margin-left: 0; // Undo browser default
 }
 
-.dl-inline {
-  .clearfix();
-  dt {
-    display: inline-block;
-  }
-  dd {
-    display: inline-block;
-    padding-right: 1em;
-    &:last-child {
-      padding-right: 0;
-    }
-  }
-}
-
-
 // Horizontal description lists
 //
 // Defaults to being stacked without any of the below styles applied, until the
 // grid breakpoint is reached (default of ~768px).
 
-@media (min-width: @grid-float-breakpoint) {
-  .dl-horizontal {
+.dl-horizontal {
+  dd {
+    &:extend(.clearfix all); // Clear the floated `dt` if an empty `dd` is present
+  }
+
+  @media (min-width: @grid-float-breakpoint) {
     dt {
       float: left;
       width: (@component-offset-horizontal - 20);
@@ -208,30 +193,13 @@ dd {
     }
     dd {
       margin-left: @component-offset-horizontal;
-      .clearfix(); // Clear the floated `dt` if an empty `dd` is present
     }
   }
 }
 
 
-// // MISC
-// // ----
-
-// // Abbreviations and acronyms
-// abbr[title],
-// // Added data-* attribute to help out our tooltip plugin, per https://github.com/twbs/bootstrap/issues/5257
-// abbr[data-original-title]
-// {
-//   cursor: help;
-//   border-bottom: 1px dotted @abbr-border-color;
-// }
-// abbr.initialism
-// {
-//   font-size: 90%;
-//   text-transform: uppercase;
-// }
-
 // Blockquotes
+
 blockquote {
   padding: (@line-height-computed / 2) @line-height-computed;
   margin: 0 0 @line-height-computed;
@@ -272,17 +240,3 @@ blockquote {
     }
   }
 }
-
-// Quotes
-blockquote:before,
-blockquote:after {
-  content: "";
-}
-
-// // Addresses
-// address
-// {
-//   margin-bottom: @line-height-computed;
-//   font-style: normal;
-//   line-height: @line-height-base;
-// }

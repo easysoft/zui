@@ -1,20 +1,35 @@
-.chosen-container.chosen-icons .chosen-results {
-  padding: 5px;
-}
-.chosen-container.chosen-icons .chosen-results li {
-  border-radius: @border-radius-base;
-}
-.chosen-container.chosen-icons .chosen-results li.group-result {
-  padding: 5px 0;
-  color: #666;
-  font-size: 12px;
-  border-radius: 0;
-}
-.chosen-container.chosen-icons .chosen-results li.group-option {
-  display: inline-block;
-  padding: 8px;
-  font-size: 14px;
-  line-height: 14px;
-  width: 30px;
-  text-align: center;
+/// ========================================================================
+/// ZUI: chosen.icons.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Icons selector style with chosen module
+
+.chosen-container.chosen-icons {
+  .chosen-results {
+    padding: 5px;
+
+    li {
+      border-radius: @border-radius-base;
+
+      &.group-result {
+        padding: 5px 0;
+        color: #666;
+        font-size: 12px;
+        border-radius: 0;
+      }
+
+      &.group-option {
+        display: inline-block;
+        padding: 8px;
+        font-size: 14px;
+        line-height: 14px;
+        width: 30px;
+        text-align: center;
+      }
+    }
+  }
 }

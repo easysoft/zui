@@ -1,10 +1,20 @@
+/// ========================================================================
+/// ZUI: article.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Article view
+
 .article {
   padding: @article-padding;
 
   > header {
     h1,
     h2,
-    h3, {
+    h3 {
       line-height: 1.5;
     }
 
@@ -43,15 +53,9 @@
 
   padding: @line-height-computed 0;
 
-  h1  {
-    font-size: @article-font-size-h1;
-  }
-  h2  {
-    font-size: @article-font-size-h2;
-  }
-  h3  {
-    font-size: @article-font-size-h3;
-  }
+  h1  { font-size: @article-font-size-h1; }
+  h2  { font-size: @article-font-size-h2; }
+  h3  { font-size: @article-font-size-h3; }
   h4  {
     margin-top: 15px;
     font-size: @article-font-size-h4;
@@ -65,9 +69,7 @@
     font-size: @article-font-size-h6;
   }
 
-  img {
-    margin: @line-height-computed / 2 0;
-  }
+  img { margin: @line-height-computed / 2 0; }
 
   p {
     margin: 0;
@@ -110,6 +112,4 @@
   }
 }
 
-body.article-content {
-  padding: 8px;
-}
+body.article-content { padding: 8px; }

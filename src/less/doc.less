@@ -1,4 +1,17 @@
+/// ========================================================================
+/// ZUI: article.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// DOCUMENT SITE STYLE
+// ===================
+
+
 // mixins
+
 .chapter-accent(@color;
 @pale) {
   .chapter-heading {
@@ -110,19 +123,7 @@
 
 .page-accent(@color;
 @pale) {
-  // .path-zui-36 {
-  //   &:before, &:after {
-  //     border-color: @color;
-  //   }
-  //   .path-1, .path-2, .path-1:before, .path-1:after, .path-2:before {
-  //     background-color: @color;
-  //   }
-  // }
-  // #header {
-  //   background-color: @color;
-  // }
   #pageHeader {
-    // background-color: @pale;
     > .wrapper > .icon {
       background-color: @color;
       color: #fff;
@@ -162,9 +163,7 @@
   }
 }
 
-.icon-10x {
-  font-size: 140px;
-}
+.icon-10x { font-size: 140px; }
 
 @animation-speed-quickly: .1s;
 .transition-quickly() {
@@ -211,32 +210,24 @@
 .slide-in-up-100 {
   position: relative;
   top: 100px;
-  &.in {
-    top: 0
-  }
+  &.in { top: 0; }
 }
 
 .slide-in-right-50 {
   position: relative;
   left: 50px;
-  &.in {
-    left: 0
-  }
+  &.in { left: 0; }
 }
 
 .grow-up-in-height {
   &.show {
     height: 0;
     overflow: hidden;
-    &.in {
-      height: auto;
-    }
+    &.in { height: auto; }
   }
 }
 
-.margin-zero {
-  margin: 0!important;
-}
+.margin-zero { margin: 0!important; }
 
 // examples
 @-webkit-keyframes glow {
@@ -271,13 +262,9 @@
   -webkit-animation-timing-function: ease-in-out
 }
 
-.example.no-padding {
-  padding: 0;
-}
+.example.no-padding { padding: 0; }
 
-.example.borderless {
-  border: none
-}
+.example.borderless { border: none; }
 
 .example > *:last-child {
   margin-bottom: 0;
@@ -300,9 +287,7 @@ pre {
   }
 }
 
-pre.linenums {
-  padding: 10px;
-}
+pre.linenums { padding: 10px; }
 
 .example + pre,
 pre + pre {
@@ -312,9 +297,7 @@ pre + pre {
   border-top: none;
 }
 
-.copyable {
-  position: relative;
-}
+.copyable { position: relative; }
 
 .btn-copy-code {
   position: absolute;
@@ -328,9 +311,7 @@ pre + pre {
   line-height: 20px;
   text-shadow: none;
   opacity: 0;
-  > .icon {
-    line-height: 20px;
-  }
+  > .icon { line-height: 20px; }
   &:hover {
     background-color: @color-back;
     color: @color-secondary;
@@ -1845,32 +1826,25 @@ body.page-show {
     }
   }
   &[data-page-accent="blue"] {
-    .page-accent(@color-blue;
-    @color-blue-pale);
+    .page-accent(@color-blue; @color-blue-pale);
   }
   &[data-page-accent="primary"] {
-    .page-accent(@color-primary;
-    @color-pale);
+    .page-accent(@color-primary; @color-pale);
   }
   &[data-page-accent="yellow"] {
-    .page-accent(@color-yellow;
-    @color-yellow-pale);
+    .page-accent(@color-yellow; @color-yellow-pale);
   }
   &[data-page-accent="green"] {
-    .page-accent(@color-green;
-    @color-green-pale);
+    .page-accent(@color-green; @color-green-pale);
   }
   &[data-page-accent="red"] {
-    .page-accent(@color-red;
-    @color-red-pale);
+    .page-accent(@color-red; @color-red-pale);
   }
   &[data-page-accent="brown"] {
-    .page-accent(@color-brown;
-    @color-brown-pale);
+    .page-accent(@color-brown; @color-brown-pale);
   }
   &[data-page-accent="purple"] {
-    .page-accent(@color-purple;
-    @color-purple-pale);
+    .page-accent(@color-purple; @color-purple-pale);
   }
 }
 

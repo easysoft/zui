@@ -1,11 +1,20 @@
-//
+/// ========================================================================
+/// Bootstrap: modals.less
+/// https://github.com/twbs/bootstrap/blob/master/less/modals.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
+
+
 // Modals
-// --------------------------------------------------
 
 // .modal-open      - body class for killing the scroll
 // .modal           - container to scroll within
-// .modal-dialog    - positioning shell for the actual modal
-// .modal-content   - actual modal w/ bg and corners and shit
+// .modal-dialog    - actual modal w/ bg and corners and shit
 
 // Kill the scroll on the body
 .modal-open {
@@ -30,16 +39,27 @@
 
   // When fading in the modal, animate it to slide down
   &.fade .modal-dialog {
-    .translate3d(0, -25%, 0);
+    .translate(0, -25%);
     .transition-transform(~"0.3s ease-out");
   }
-  &.in .modal-dialog { .translate3d(0, 0, 0) }
+  &.in .modal-dialog { .translate(0, 0); }
 
-  > .loader {display: none}
+  > .loader { display: none; }
+
   &.modal-loading
   {
-    .modal-dialog {opacity: 0}
-    .loader{position: absolute; display: block; text-align: center; font-size: 56px; color: #fff; top: 35%; width: 80px; left: 50%; margin-left: -40px;}
+    .modal-dialog { opacity: 0; }
+    .loader {
+      position: absolute;
+      display: block;
+      text-align: center;
+      font-size: 56px;
+      color: #fff;
+      top: 35%;
+      width: 80px;
+      left: 50%;
+      margin-left: -40px;
+    }
   }
 }
 .modal-open .modal {
@@ -47,9 +67,14 @@
   overflow-y: auto;
 }
 
+
+// Tag <iframe> in modal
+
 .modal-iframe .modal-body > iframe {border-radius: 0 0 @border-radius-large @border-radius-large}
 
-// Shell div to position the modal with bottom padding
+
+// Actual modal
+
 .modal-dialog {
   position: relative;
   width: auto;
@@ -67,18 +92,13 @@
     position: absolute;
     margin: 0;
     
-    .modal-header {
-      cursor: move;
-    }
+    .modal-header { cursor: move; }
   }
 }
 
-// // Actual modal
-// .modal-content {
-//   position: relative;
-// }
 
 // Modal background
+
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -92,12 +112,15 @@
   &.in { .opacity(@modal-backdrop-opacity); }
 }
 
+
 // Modal header
+
 // Top section of the modal w/ title and dismiss
 .modal-header {
   padding: @modal-title-padding;
   border-bottom: 1px solid @modal-header-border-color;
   min-height: (@modal-title-padding + @modal-title-line-height);
+  &:extend(.clearfix all);
 }
 // Close icon
 .modal-header .close {
@@ -110,14 +133,18 @@
   line-height: @modal-title-line-height;
 }
 
+
 // Modal body
+
 // Where all modal content resides (sibling of .modal-header and .modal-footer)
 .modal-body {
   position: relative;
   padding: @modal-inner-padding;
 }
 
+
 // Footer (for actions)
+
 .modal-footer {
   padding: @modal-inner-padding;
   text-align: right; // right align buttons
@@ -139,7 +166,9 @@
   }
 }
 
+
 // Measure scrollbar width for padding body during modal show/hide
+
 .modal-scrollbar-measure {
   position: absolute;
   top: -9999px;
@@ -148,7 +177,9 @@
   overflow: scroll;
 }
 
+
 // Scale up the modal
+
 @media (min-width: @screen-sm-min) {
   // Automatically set modal's width for larger viewports
   .modal-dialog {

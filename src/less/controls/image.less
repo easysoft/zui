@@ -1,19 +1,31 @@
-// Images
-// ------------------------
+/// ========================================================================
+/// Bootstrap: image.less
+/// https://github.com/twbs/bootstrap/blob/master/less/scaffolding.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
+
 
 // Responsive images (ensure images don't scale beyond their parents)
+
 .img-responsive {
   .img-responsive();
 }
 
+
 // Rounded corners
+
 .img-rounded {
   border-radius: @border-radius-large;
 }
 
+
 // Image thumbnails
-//
-// Heads up! This is mixin-ed into thumbnails.less for `.thumbnail`.
+
 .img-thumbnail {
   padding: @thumbnail-padding;
   line-height: @line-height-base;
@@ -26,7 +38,9 @@
   .img-responsive(inline-block);
 }
 
+
 // Perfect circle
+
 .img-circle {
   border-radius: 50%; // set radius in percents
 }

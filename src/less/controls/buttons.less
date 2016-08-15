@@ -1,20 +1,24 @@
-//
-// Buttons
-// ==================================================
+/// ========================================================================
+/// Bootstrap: buttons.less
+/// https://github.com/twbs/bootstrap/blob/master/less/buttons.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
 
-// Base styles
-// --------------------------------------------------
 
 // Core styles
+
 .btn {
-  font-family: @headings-font-family;
   display: inline-block;
   margin-bottom: 0; // For input.btn
   font-weight: @btn-font-weight;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
-  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
   white-space: nowrap;
   user-select: none;
@@ -44,21 +48,20 @@
   fieldset[disabled] & {
     cursor: not-allowed;
     pointer-events: none; // Future-proof disabling of clicks
-    .opacity(.65);
     box-shadow: none;
-
+    .opacity(.65);
   }
 }
 
 
 // Alternate buttons
-// --------------------------------------------------
 
-// .btn-default,
+// Default button
 .btn {
   .button-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
   text-shadow: 0 1px 0 #fff;
 }
+// Primary button
 .btn-primary {
   .button-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
   text-shadow: 0 -1px 0 rgba(0,0,0,.2);
@@ -86,7 +89,6 @@
 
 
 // Link buttons
-// -------------------------
 
 // Make a button look and behave like a link
 .btn-link {
@@ -121,8 +123,9 @@
   }
 }
 
+
 // Button Sizes
-// --------------------------------------------------
+
 .btn-lg {
   // line-height: ensure even-numbered height of button next to large input
   .button-size(@padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @border-radius-base);
@@ -132,19 +135,16 @@
   // line-height: ensure proper height of button next to small input
   .button-size(@padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @border-radius-base);
 }
-.btn-xs,.btn-mini {
+.btn-xs, .btn-mini {
   padding: 1px 5px;
 }
 
 
 // Block button
-// --------------------------------------------------
 
 .btn-block {
   display: block;
   width: 100%;
-  padding-left: 0;
-  padding-right: 0;
 }
 
 // Vertically space out multiple block buttons
@@ -159,26 +159,4 @@ input[type="button"] {
   &.btn-block {
     width: 100%;
   }
-}
-
-
-// Reposition the caret
-.btn .caret {
-  margin-left: 0;
-}
-// Carets in other button sizes
-.btn-lg .caret {
-  border-width: @caret-width-large @caret-width-large 0;
-  border-bottom-width: 0;
-}
-// Upside down carets for .dropup
-.dropup .btn-lg .caret {
-  border-width: 0 @caret-width-large @caret-width-large;
-}
-
-
-// Checkbox and radio options
-[data-toggle="buttons"] > .btn > input[type="radio"],
-[data-toggle="buttons"] > .btn > input[type="checkbox"] {
-  display: none;
 }

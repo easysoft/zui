@@ -1,7 +1,18 @@
+/// ========================================================================
+/// ZUI: article.condensed.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2014-2016 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Condensed article view
+
 .article-condensed {
   padding: @article-padding 0;
   > header {
     padding: 0 @article-padding;
+    
     > .abstract,
     > dl {
       padding: @article-section-padding;
@@ -15,27 +26,17 @@
     > p,
     > blockquote,
     > div,
-    > ul,
-    > ol,
-    > h1,
-    > h2,
-    > h3,
-    > h4,
-    > h5,
-    > h6 {
+    > ul, > ol,
+    > h1, > h2, > h3, > h4, > h5, > h6 {
       padding-left: @article-padding;
       padding-right: @article-padding;
     }
 
-    > ul,
-    > ol,
-    > dl {
+    > ul, > ol, > dl {
       padding-left: @article-padding * 3;
     }
 
-    > img {
-      border-radius: 0;
-    }
+    > img { border-radius: 0; }
     
     > table {
       border-left: none;
@@ -57,9 +58,7 @@
   > footer {
     border-top: 1px dashed darken(@article-abstract-bg, 10%);
 
-    > p {
-      padding: @article-section-padding;
-    }
+    > p { padding: @article-section-padding; }
 
     > .pager-justify {
       > .previous > a { border-left: none; border-radius: 0}

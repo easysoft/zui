@@ -1,6 +1,16 @@
-//
+/// ========================================================================
+/// Bootstrap: animations.less
+/// https://github.com/twbs/bootstrap/blob/master/less/component-animations.less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// Bootsrap version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Bootrap: Copyright 2011-2016 Twitter, Inc. Licensed under MIT
+/// ========================================================================
+
+
 // Component animations
-// --------------------------------------------------
 
 // Heads up!
 //
@@ -17,7 +27,7 @@
 
 .scale {
   .scale(0.8);
-  .transition(all .15s linear);
+  .transition(all .15s ease);
   &.in {
     .scale(1);
   }
@@ -25,9 +35,9 @@
 
 .collapse {
   display: none;
-  &.in {
-    display: block;
-  }
+  &.in      { display: block; }
+  tr&.in    { display: table-row; }
+  tbody&.in { display: table-row-group; }
 }
 .collapsing {
   position: relative;

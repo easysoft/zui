@@ -1,8 +1,20 @@
-/*! | Font Awesome 3.2.1 | License: | - The Font Awesome font is licensed under SIL OFL 1.1 - | - Font Awesome CSS, LESS, and SASS files are licensed under MIT License - | - Font Awesome documentation licensed under CC BY 3.0 - | "Font Awesome by Dave Gandy - http://fontawesome.io"
-*/
+/// ========================================================================
+/// Font Awesome: icons.core.less
+/// https://github.com/FortAwesome/Font-Awesome/tree/master/less
+/// 
+/// ZUI: The file has been changed in ZUI. It will not keep update with the
+/// FontAwesome version in the future.
+/// http://zui.sexy
+/// ========================================================================
+/// Font Awesome 3.2.1: The Font Awesome font is licensed under SIL OFL 1.1
+/// Font Awesome CSS, LESS, and SASS files are licensed under MIT License
+/// Font Awesome documentation licensed under CC BY 3.0
+/// Font Awesome by Dave Gandy - http://fontawesome.io
+/// ========================================================================
 
-// FONT PATH
-// --------------------------
+
+// Font family definition
+
 @font-face {
   font-family: @icon-font-name;
   src: url('@{icon-font-path}/@{icon-font-file-name}.eot?v=@{icon-font-version}');
@@ -14,13 +26,17 @@
   font-style: normal;
 }
 
-// FONT CORE
-// --------------------------
+
+// Core style
+
 .icon,
 [class^="icon-"],
 [class*=" icon-"] {
   .icon-zenicon();
 }
+
+
+// Fixed width
 
 .icon:before {
   display: inline-block;
@@ -28,14 +44,9 @@
   text-align: center;
 }
 
-// makes the font 33% larger relative to the icon container
-.icon-lg:before,
-.icon-large:before{
-  vertical-align: -10%;
-  font-size: 4/3em;
-}
 
 // makes sure icons active on rollover in links
+
 a {
   .icon,
   [class^="icon-"],
@@ -44,35 +55,22 @@ a {
   }
 }
 
-// Icon Sizes
-// -------------------------
 
+// Icon Sizes
+
+// makes the font 33% larger relative to the icon container
+.icon-lg:before {
+  vertical-align: -10%;
+  font-size: 4/3em;
+}
 .icon-2x { font-size: 28px; }
 .icon-3x { font-size: 42px; }
 .icon-4x { font-size: 56px; }
 .icon-5x { font-size: 70px; }
 
-// more sprites.less reset
-.icon-white,
-.nav-pills > .active > a > [class^="icon-"],
-.nav-pills > .active > a > [class*=" icon-"],
-.nav-list > .active > a > [class^="icon-"],
-.nav-list > .active > a > [class*=" icon-"],
-.navbar-inverse .nav > .active > a > [class^="icon-"],
-.navbar-inverse .nav > .active > a > [class*=" icon-"],
-.dropdown-menu > li > a:hover > [class^="icon-"],
-.dropdown-menu > li > a:hover > [class*=" icon-"],
-.dropdown-menu > .active > a > [class^="icon-"],
-.dropdown-menu > .active > a > [class*=" icon-"],
-.dropdown-submenu:hover > a > [class^="icon-"],
-.dropdown-submenu:hover > a > [class*=" icon-"] {
-  background-image: none;
-}
-
-// EXTRAS
-// --------------------------
 
 // Animated rotating icon
+
 .icon-spin {
   display: inline-block;
   animation: spin 2s infinite linear;
@@ -89,26 +87,25 @@ a .icon-spin {
   100% { transform: rotate(359deg); }
 }
 
+
+// 3D transform
+
 // Icon rotations and mirroring
 .icon-rotate-90:before {
   transform: rotate(90deg);
   ilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 }
-
 .icon-rotate-180:before {
   transform: rotate(180deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 }
-
 .icon-rotate-270:before {
   transform: rotate(270deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
-
 .icon-flip-horizontal:before {
   transform: scale(-1, 1);
 }
-
 .icon-flip-vertical:before {
   transform: scale(1, -1);
 }
