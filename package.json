@@ -17,7 +17,7 @@
   "author": "cnezsoft.com",
   "license": "MIT",
   "bugs": {
-    "url": "http://forum.zui.sexy/forum/"
+    "url": "https://github.com/easysoft/zui/issues"
   },
   "homepage": "http://zui.sexy",
   "devDependencies": {
@@ -45,5 +45,17 @@
     "pinyin": "~2.3.3",
     "run-sequence": "^1.1.5",
     "string-format": "^0.5.0"
-  }
+  },
+  "files": [
+    "dist",
+    "assets",
+    "docs",
+    "src",
+    "gulpfile.js",
+    "index.html",
+    "CHANGES.md",
+    "README.md",
+    "zui.json",
+    "LICENSE"
+  ],
 }
