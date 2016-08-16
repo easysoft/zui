@@ -79,17 +79,6 @@
     // our public object; augmented after our private API
     var exports = {};
 
-    function judgeClientLang() {
-        var lang;
-        if(typeof(config) != 'undefined' && config.clientLang) {
-            lang = config.clientLang;
-        } else {
-            var hl = $('html').attr('lang');
-            lang = hl ? hl : 'en';
-        }
-        return lang.replace('-', '_').toLowerCase();
-    }
-
     /**
      * @private
      */
