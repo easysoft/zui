@@ -357,16 +357,16 @@
         if(isUndefined(dark)) dark = new Color(0, 0, 0, 1);
         else dark = new Color(dark);
 
-        if(this.a < 0.5) return dark;
-
-        if(isUndefined(threshold)) threshold = 0.43;
-        else threshold = number(threshold);
-
         if(dark.luma() > light.luma()) {
             var t = light;
             light = dark;
             dark = t;
         }
+        
+        if(this.a < 0.5) return dark;
+
+        if(isUndefined(threshold)) threshold = 0.43;
+        else threshold = number(threshold);
 
         if(this.luma() < threshold) {
             return light;
