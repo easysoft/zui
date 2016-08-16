@@ -596,7 +596,7 @@
 // Grid System
 
 // Centered container element
-.container-fixed(@gutter: @grid-gutter-width) {
+.make-container(@gutter: @grid-gutter-width) {
   margin-right: auto;
   margin-left: auto;
   padding-left:  floor((@gutter / 2));
@@ -610,6 +610,8 @@
 // More easily include all the states for responsive-utilities.less.
 .responsive-visibility() {
   display: block !important;
+  .inline& { display: inline !important; }
+  .inline-block& { display: inline-block !important; }
   tr& { display: table-row !important; }
   th&,
   td& { display: table-cell !important; }

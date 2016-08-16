@@ -14,22 +14,32 @@
 // ==========
 
 
+// Common style of containers
+
+.container,
+.container-fluid,
+.container-fixed,
+.container-fixed-md,
+.container-fixed-sm,
+.container-fixed-xs {
+  .make-container();
+}
+
 // Responsive container
 
 .container {
-  .container-fixed();
-
   @media(min-width: @screen-tablet)     { max-width: @container-tablet; }
   @media(min-width: @screen-desktop)    { max-width: @container-desktop; }
   @media(min-width: @screen-lg-desktop) { max-width: @container-lg-desktop; }
 }
 
 
-// Fluid container
+// Fixed width container
 
-.container-fluid {
-  .container-fixed();
-}
+.container-fixed    { width: @container-lg-desktop; }
+.container-fixed-md { width: @container-desktop; }
+.container-fixed-sm { width: @container-tablet; }
+.container-fixed-xs { width: @container-phone; }
 
 
 // ROWS & COLUMNS
