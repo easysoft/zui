@@ -22,13 +22,13 @@
           </tr>
           <tr>
             <td>表尾 <code>&lt;tfoot&gt;</code></td>
-            <td>表位放置与表末尾提供与表相关补充数据或操作，不过并不常见。</td>
+            <td>与表头作用相同，或者用来放置与表相关补充数据或操作。</td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <th>提示</th>
-            <td>表头、内容、和表尾都是可选的。</td>
+            <th>名称</th>
+            <th>描述</th>
           </tr>
         </tfoot>
       </table>
@@ -61,7 +61,7 @@
 </section>
 
 <section>
-  <header><h3>隔行交替样式的表</h3></header>
+  <header><h3>隔行交替样式</h3></header>
   <article>
     <p><code>.table-striped</code></p>
     <div class="example">
@@ -253,6 +253,49 @@
 </section>
 
 <section>
+  <header><h3>自动宽度的表格</h3></header>
+  <article>
+    <p><code>.table-auto</code></p>
+    <p>将表格的宽度设置为 <code>auto</code>，但最大宽度不超过 <code>100%</code>。</p>
+    <div class="example">
+      <table class="table table-auto">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>catouse</td>
+            <td>hello</td>
+            <td>world</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>jay</td>
+            <td>thks</td>
+            <td>jajaja</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>JK row</td>
+            <td>thks</td>
+            <td>Pa</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <pre><code>&lt;table class=&quot;table <em>table-auto</em>&quot;&gt;
+  ...
+&lt;/table&gt;</code></pre>
+  </article>
+</section>
+
+<section>
   <header><h3>更为紧凑的表格</h3></header>
   <article>
     <p><code>.table-condensed</code></p>
@@ -289,6 +332,50 @@
       </table>
     </div>
     <pre><code>&lt;table class=&quot;table <em>table-condensed</em>&quot;&gt;
+  ...
+&lt;/table&gt;</code></pre>
+  </article>
+</section>
+
+<section>
+  <header><h3>固定布局的表格</h3></header>
+  <article>
+    <p><code>.table-fixed</code></p>
+    <p>将表格的 <code>table-layout</code> 属性设置为 <code>fixed</code>。</p>
+    <p>在固定表格布局中，水平布局仅取决于表格宽度、列宽度、表格边框宽度、单元格间距，而与单元格的内容无关。</p>
+    <div class="example">
+      <table class="table table-fixed">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>catouse</td>
+            <td>hello</td>
+            <td>world</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>jay</td>
+            <td>thks</td>
+            <td>jajaja</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>JK row</td>
+            <td>thks</td>
+            <td>Pa</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <pre><code>&lt;table class=&quot;table <em>table-fixed</em>&quot;&gt;
   ...
 &lt;/table&gt;</code></pre>
   </article>

@@ -643,11 +643,25 @@
                 "desc": "美观实用的表格",
                 "name": "表格",
                 "topics": [{
-                    "name": "类型"
+                    "name": "基本类型"
                 }, {
-                    "name": "参数"
+                    "name": "隔行交替样式"
+                }, {
+                    "name": "响应鼠标悬停"
+                }, {
+                    "name": "带所有边框的表格"
+                }, {
+                    "name": "不带边框的表格"
+                }, {
+                    "name": "自动宽度的表格"
+                }, {
+                    "name": "更为紧凑的表格"
+                }, {
+                    "name": "固定布局的表格"
+                }, {
+                    "name": "色彩主题"
                 }],
-                "filter": "biaoge bg"
+                "filter": "biaoge bg table-bordered table-borderless table-auto table-striped table-hover"
             }, {
                 "id": "buttongroup",
                 "icon": "icon-th-list",
