@@ -15,6 +15,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ======================================================================== */
 
 
@@ -99,4 +103,3 @@
     $(document).on('click.' + zuiname + '.data-api', dismiss, Alert.prototype.close)
 
 }(window.jQuery);
-

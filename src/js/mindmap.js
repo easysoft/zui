@@ -2,7 +2,7 @@
  * ZUI: mindmap.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 

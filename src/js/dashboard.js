@@ -2,7 +2,7 @@
  * ZUI: dashboard.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -162,16 +162,11 @@
                             area = thisArea;
                             dropCol = col;
                         }
-                        // if(thisArea)
-                        // {
-                        //     console.log('panel ' + col.data('id'), '({0}, {1}, {2}, {3}), ({4}, {5}, {6}, {7})'.format(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH));
-                        // }
                     } else {
                         var mX = event.pageX,
                             mY = event.pageY;
 
                         if(mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH)) {
-                            // var dCol = row.find('.dragging-col');
                             dropCol = col;
                             return false;
                         }

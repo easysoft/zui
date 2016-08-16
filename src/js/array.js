@@ -1,9 +1,9 @@
 /* ========================================================================
- * ZUI: Array polyfills
+ * ZUI: array.js
  * Array Polyfill.
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 // Some polyfills copy from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
@@ -234,4 +234,3 @@
         };
     }
 }());
-

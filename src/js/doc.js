@@ -1,3 +1,12 @@
+/* ========================================================================
+ * ZUI: doc.js
+ * For document UI
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
 +(function(window, $) {
     'use strict';
 
@@ -38,36 +47,15 @@
     if(debug) console.warn("DEBUG ENABLED.");
 
     var chapters = {
-        basic: {
-            col: 1
-        },
-        control: {
-            col: 2
-        },
-        component: {
-            col: 2
-        },
-        javascript: {
-            col: 3
-        },
-        view: {
-            col: 3
-        },
-        learn: {
-            col: 1
-        },
-        promotion: {
-            col: 1,
-            row: 2
-        },
-        resource: {
-            col: 1,
-            row: 2
-        },
-        contribution: {
-            col: 1,
-            row: 2
-        }
+        basic       : {col: 1},
+        control     : {col: 2},
+        component   : {col: 2},
+        javascript  : {col: 3},
+        view        : {col: 3},
+        learn       : {col: 1},
+        promotion   : {col: 1, row: 2},
+        resource    : {col: 1, row: 2},
+        contribution: {col: 1, row: 2}
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate',
         LAST_QUERY_ID = 'LAST_QUERY_ID',

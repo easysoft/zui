@@ -1,7 +1,11 @@
 /* ========================================================================
  * jQuery Hotkeys Plugin
  * Based upon the plugin by Tzury Bar Yochay:
- * http://github.com/tzuryby/hotkeys
+ * https://github.com/tzuryby/jquery.hotkeys
+ *  
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * official version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2010, John Resig
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -9,6 +13,18 @@
  * Binny V A, http://www.openjs.com/scripts/events/keyboard_shortcuts/
  * ======================================================================== */
 
+
+/*!
+ * jQuery Hotkeys Plugin
+ * Copyright 2010, John Resig
+ * Dual licensed under the MIT or GPL Version 2 licenses.
+ *
+ * Based upon the plugin by Tzury Bar Yochay:
+ * http://github.com/tzuryby/hotkeys
+ *
+ * Original idea by:
+ * Binny V A, http://www.openjs.com/scripts/events/keyboard_shortcuts/
+*/
 
 (function(jQuery) {
 

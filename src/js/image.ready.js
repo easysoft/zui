@@ -1,11 +1,17 @@
 /* ========================================================================
- * image.ready.js
+ * TangBin: image.ready.js
  * http://www.planeart.cn/?p=1121
+ *
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * original version in the future.
+ * http://zui.sexy
  * ========================================================================
  * @version 2011.05.27
  * @author  TangBin
  * ======================================================================== */
 
+
+/*! TangBin: image.ready.js http://www.planeart.cn/?p=1121 */
 
 (function($) {
     'use strict';

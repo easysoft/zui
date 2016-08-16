@@ -2,6 +2,10 @@
  * Bootstrap: tooltip.js v3.0.0
  * http://twzui.github.com/bootstrap/javascript.html#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
+ *  
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *

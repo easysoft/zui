@@ -53,22 +53,6 @@
             }
         };
 
-    // getLastDayOfMonth = function(date)
-    // {
-    //     var d = date.clone();
-    //     var month = d.getMonth();
-    //     d.setDate(28);
-
-    //     while (d.getMonth() == month)
-    //     {
-    //         d.addDays(1);
-    //     }
-
-    //     d.addDays(-1);
-
-    //     return d;
-    // };
-
     var Calendar = function(element, options) {
         this.name = name;
         this.$ = $(element);
@@ -577,37 +561,6 @@
             that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth && thisYear === todayYear);
         }
 
-        // var $event,
-        //     cal;
-        // $.each(that.events, function(index, e)
-        // {
-        //     if (e.start >= firstDay && e.start <= lastDay)
-        //     {
-        //         $day = $days.filter('[data-date="' + e.start.toDateString() + '"]');
-        //         if ($day.length)
-        //         {
-        //             $event = $('<div data-id="' + e.id + '" class="event" title="' + e.desc + '"><span class="time">' + e.start.format('hh:mm') + '</span> <span class="title">' + e.title + '</span></div>');
-        //             $event.find('.time').toggle(!e.allDay);
-        //             $event.data('event', e);
-
-        //             if (e.calendar)
-        //             {
-        //                 cal = calendars[e.calendar];
-        //                 if (cal)
-        //                 {
-        //                     if(cal.presetColor) {
-        //                         $event.addClass('color-' + cal.color);
-        //                     } else {
-        //                         $event.css({'background-color': cal.color, color: cal.textColor});
-        //                     }
-        //                 }
-        //             }
-
-        //             $day.find('.events').append($event);
-        //         }
-        //     }
-        // });
-
         if(options.dragThenDrop) {
             $view.find('.event').droppable({
                 target: $days,
@@ -637,7 +590,6 @@
                             et.end.addMilliseconds(et.end.getTime() - startDate.getTime());
                             et.start = newDate;
 
-                            // e.target.find('.events').append(e.element);
                             that.display();
 
                             self.callEvent('change', {

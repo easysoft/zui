@@ -1,5 +1,5 @@
 /* ========================================================================
- * ZUI: ColorPicker.js
+ * ZUI: ColorPicker.js [1.5.0+]
  * http://zui.sexy
  * ========================================================================
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -30,8 +30,6 @@
 
         this.getOptions(options);
         this.init();
-
-        // Initialize here
     };
 
     // default options
@@ -193,6 +191,7 @@
         if(!thisOptions.errorTip) {
             thisOptions.errorTip = LANG[lang].errorTip;
         }
+        if(!$.fn.tooltip) thisOptions.btnTip = false;
         this.options = thisOptions;
     };
 
@@ -216,4 +215,3 @@
         $('[data-provide="colorpicker"]').colorPicker();
     });
 }(jQuery));
-

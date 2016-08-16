@@ -1,3 +1,17 @@
+/* ========================================================================
+ * Resize: resize.js [Version: 1.1]
+ * http://benalman.com/projects/jquery-resize-plugin/
+ *  
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * official version in the future.
+ * http://zui.sexy
+ * ========================================================================
+ * opyright (c) 2010 "Cowboy" Ben Alman
+ * Dual licensed under the MIT and GPL licenses.
+ * http://benalman.com/about/license/
+ * ======================================================================== */
+
+
 /*!
  * jQuery resize event - v1.1 - 3/14/2010
  * http://benalman.com/projects/jquery-resize-plugin/

@@ -1,13 +1,21 @@
-/**
- * bootbox.js [v4.4.0]
+/* ========================================================================
+ * Bootbox: bootbox.js [v4.4.0]
+ * http://bootboxjs.com/
  *
- * http://bootboxjs.com/license.txt
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * official version in the future.
+ * http://zui.sexy
  * ========================================================================
+ * http://bootboxjs.com/license.txt
  * Improvement in ZUI:
  * 1. Determine client language and apply setting automatically.
  * 2. Changed button position.
  * ======================================================================== */
 
+/*!
+ * bootbox.js [v4.4.0]
+ * http://bootboxjs.com/license.txt
+ */
 
 // @see https://github.com/makeusabrew/bootbox/issues/180
 // @see https://github.com/makeusabrew/bootbox/issues/186
@@ -840,4 +848,3 @@
 
     return exports;
 }));
-

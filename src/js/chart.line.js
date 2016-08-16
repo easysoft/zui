@@ -1,12 +1,15 @@
-/*!
- * Chart.js
+/* ========================================================================
+ * Chart.js: Chart.line.js [Version: 1.0.2]
  * http://chartjs.org/
- * Version: 1.0.2
- *
- * Copyright 2015 Nick Downie
- * Released under the MIT license
+ * 
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * official version in the future.
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright 2015 Nick Downie, Released under the MIT license
  * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
- */
+ * ======================================================================== */
+
 
 /// ----- ZUI change begin -----
 /// Add jquery object to namespace

@@ -1,14 +1,20 @@
 /* ========================================================================
  * ZUI: string.js
+ * String Polyfill.
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
 (function() {
     'use strict';
 
+    /**
+     * Format string with argument list or object
+     * @param  {object | arguments} args
+     * @return {String}
+     */
     if(!String.prototype.format) {
         String.prototype.format = function(args) {
             var result = this;

@@ -1,7 +1,8 @@
 /* ========================================================================
- * ZUI: modal.trigger.js v1.2.0
- * http://zui.sexy/docs/javascript.html#modals
- * Licensed under MIT
+ * ZUI: modal.trigger.js [1.2.0+]
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
