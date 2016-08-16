@@ -173,6 +173,24 @@ dd {
   margin-left: 0; // Undo browser default
 }
 
+
+// Inline description list
+
+.dl-inline {
+  .clearfix();
+  dt {
+    display: inline-block;
+  }
+  dd {
+    display: inline-block;
+    padding-right: 1em;
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+
 // Horizontal description lists
 //
 // Defaults to being stacked without any of the below styles applied, until the
