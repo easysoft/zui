@@ -1044,16 +1044,6 @@
       "dpds": ["setting", "icons.json", "icons.variables"],
       "custom": true
     },
-    "autotrigger": {
-      "name": "自动触发器",
-      "src": {
-        "js": ["src/js/auto-trigger.js"]
-      },
-      "desc": "操作DOM的快捷方法。",
-      "obsolete": "使用其他组件来实现，不包含在标准版和简洁版中",
-      "ver": "1.1.0",
-      "deprecated": "Use jquery way instead."
-    },
     "tree": {
       "name": "树形菜单",
       "src": {
@@ -1300,7 +1290,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "autotrigger", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree", "chosenicons", "colorpicker", "selectable"]
+      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree", "chosenicons", "colorpicker", "selectable"]
     },
     "doc": {
       "title": "Document",
