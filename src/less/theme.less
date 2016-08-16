@@ -32,7 +32,6 @@
     background-color: darken(@background, 8%);
     border-color: darken(@border, 12%);
     box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1);
-
   }
   &.disabled,
   &[disabled],
@@ -111,7 +110,6 @@ a {
   &:focus {
     border-color: transparent;
     box-shadow: none;
-
   }
   &:hover,
   &:focus {
@@ -915,9 +913,7 @@ table.tablesorter thead tr .headerSortDown:after{color:@link-color!important;}
   &:hover {
     > .content {
       > .actions {
-        > a {
-          color: @link-color;
-        }
+        > a { color: @link-color; }
       }
     }
   }
