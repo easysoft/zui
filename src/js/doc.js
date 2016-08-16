@@ -1258,17 +1258,32 @@
 
         loadData(section.url, function(data) {
             var showData = function() {
-                if(marked && section.targetType === 'markdown') {
+                if(window.marked && section.targetType === 'markdown') {
                     var $article = $();
-                    var $markdown = $(marked(data));
+                    var $markdown = $(window.marked(data));
                     var $lastSection, checkFirstH1 = true;
                     var hasH2 = $markdown.filter('h2').length > 0;
+                    var $lastTemplate = null;
                     $markdown.each(function() {
                         var $tag = $(this);
                         var tagName = $tag.prop('tagName');
-                        if(tagName === 'STYLE' || tagName === 'SCRIPT') {
+                        if(!tagName || tagName === 'STYLE' || tagName === 'SCRIPT') {
                             $article = $article.add($tag);
                             return;
+                        }
+                        if(tagName === 'TEMPLATE') {
+                            $lastTemplate = $tag;
+                            return;
+                        } else if($lastTemplate) {
+                            var attrs = {};
+                            $.each($lastTemplate[0].attributes, function(index, attribute) {
+                                attrs[attribute.name] = attribute.value;
+                            });
+                            $tag.attr(attrs);
+                            $lastTemplate = null;
+                        }
+                        if(tagName === 'TABLE') {
+                            $tag.addClass('table');
                         }
                         if(checkFirstH1) {
                             if(tagName === 'H1') {
