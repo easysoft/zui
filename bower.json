@@ -1,6 +1,9 @@
 {
   "name": "zui",
   "description": "一个开源前端实践方案，帮助你快速构现代跨屏应用。",
+  "authors": [
+    "Catouse <catouse@gmail.com>"
+  ],
   "keywords": [
     "css",
     "js",
