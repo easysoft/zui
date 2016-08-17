@@ -1232,7 +1232,7 @@
     },
     "seperate": {
       "title": "seperate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "droppable", "selectable", "colorpicker", "colorset.js"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "droppable", "selectable", "colorpicker", "colorset.js", "imgready"]
     },
     "dist": {
       "title": "dist",
