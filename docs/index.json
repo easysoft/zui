@@ -280,8 +280,12 @@
                 "icon": "icon-circle-blank",
                 "id": "global",
                 "name": "全局样式表",
-                "topics": [],
-                "filter": "quanjuyangshibiao qjysb"
+                "topics": [{
+                    "name": "Normalize.css"
+                }, {
+                    "name": "基础排版和链接"
+                }],
+                "filter": "quanjuyangshibiao qjysb body html lianjie paiban"
             }, {
                 "desc": "为IE单独准备的内容",
                 "icon": "icon-ie",
@@ -294,12 +298,26 @@
                 }],
                 "filter": "jianrongieliulanqi jriellq"
             }, {
+                "desc": "",
+                "icon": "icon-window",
+                "id": "layout",
+                "name": "布局容器",
+                "url": ".md",
+                "topics": [{
+                    "name": "响应式布局"
+                }, {
+                    "name": "液态化布局"
+                }, {
+                    "name": "固定宽度布局"
+                }],
+                "filter": "xiangyingshibuju xysbj container fixed fluid bujurongqi bjrq"
+            }, {
                 "desc": "多种屏幕尺寸响应",
                 "icon": "icon-tablet",
                 "id": "responsive",
-                "name": "响应式布局 ",
+                "name": "响应式设计 ",
                 "topics": [{
-                    "name": "禁用响应式布局"
+                    "name": "禁用响应式设计"
                 }],
                 "filter": "xiangyingshibuju xysbj"
             }, {
@@ -530,6 +548,8 @@
                 "name": "代码",
                 "topics": [{
                     "name": "内联代码"
+                }, {
+                    "name": "键盘码"
                 }, {
                     "name": "基本代码块"
                 }, {
