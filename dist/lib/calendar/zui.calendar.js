@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI: 日历 - v1.4.0 - 2016-08-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -60,22 +60,6 @@
             }
         };
 
-    // getLastDayOfMonth = function(date)
-    // {
-    //     var d = date.clone();
-    //     var month = d.getMonth();
-    //     d.setDate(28);
-
-    //     while (d.getMonth() == month)
-    //     {
-    //         d.addDays(1);
-    //     }
-
-    //     d.addDays(-1);
-
-    //     return d;
-    // };
-
     var Calendar = function(element, options) {
         this.name = name;
         this.$ = $(element);
@@ -98,8 +82,6 @@
 
         this.date = this.options.startDate || 'today';
         this.view = this.options.startView || 'month';
-
-        this.date = 'today';
 
         this.$.toggleClass('limit-event-title', options.limitEventTitle);
 
@@ -583,39 +565,8 @@
 
         if(options.withHeader) {
             that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1, lang.monthNames[thisMonth]));
-            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth);
+            that.$todayBtn.toggleClass('disabled', thisMonth === todayMonth && thisYear === todayYear);
         }
-
-        // var $event,
-        //     cal;
-        // $.each(that.events, function(index, e)
-        // {
-        //     if (e.start >= firstDay && e.start <= lastDay)
-        //     {
-        //         $day = $days.filter('[data-date="' + e.start.toDateString() + '"]');
-        //         if ($day.length)
-        //         {
-        //             $event = $('<div data-id="' + e.id + '" class="event" title="' + e.desc + '"><span class="time">' + e.start.format('hh:mm') + '</span> <span class="title">' + e.title + '</span></div>');
-        //             $event.find('.time').toggle(!e.allDay);
-        //             $event.data('event', e);
-
-        //             if (e.calendar)
-        //             {
-        //                 cal = calendars[e.calendar];
-        //                 if (cal)
-        //                 {
-        //                     if(cal.presetColor) {
-        //                         $event.addClass('color-' + cal.color);
-        //                     } else {
-        //                         $event.css({'background-color': cal.color, color: cal.textColor});
-        //                     }
-        //                 }
-        //             }
-
-        //             $day.find('.events').append($event);
-        //         }
-        //     }
-        // });
 
         if(options.dragThenDrop) {
             $view.find('.event').droppable({
@@ -628,6 +579,7 @@
                 drop: function(e) {
                     var et = e.element.data('event'),
                         newDate = e.target.attr('data-date');
+                    if(!et || !newDate) return;
                     var startDate = et.start.clone();
                     if(startDate.toDateString() != newDate) {
                         newDate = new Date(newDate);
@@ -645,7 +597,6 @@
                             et.end.addMilliseconds(et.end.getTime() - startDate.getTime());
                             et.start = newDate;
 
-                            // e.target.find('.events').append(e.element);
                             that.display();
 
                             self.callEvent('change', {

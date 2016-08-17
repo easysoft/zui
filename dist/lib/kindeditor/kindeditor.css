@@ -1,3 +1,4 @@
+/*! KindEditor Copyright (C) kindsoft.net, Licence: http://kindeditor.net/license.php */
 /* common */
 .ke-inline-block {
   display: -moz-inline-stack;
@@ -20,7 +21,8 @@
   content: ".";
   }
 .ke-shadow {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
   }
 /* icons */
 [class^="ke-icon-"],
@@ -273,13 +275,17 @@
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   }
 .ke-container.focus {
   border-color: #145ccd;
   outline: 0;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
   }
 /* toolbar */
 .ke-toolbar {
@@ -314,6 +320,7 @@
   border-radius: 4px;
   opacity: .8;
   -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .4s cubic-bezier(.175, .885, .32, 1);
           transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .ke-toolbar .ke-on,
@@ -383,6 +390,7 @@
   border-top: 1px solid #ccc;
   opacity: 0;
   -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .4s cubic-bezier(.175, .885, .32, 1);
           transition: all .4s cubic-bezier(.175, .885, .32, 1);
 
   *height: 12px;
@@ -490,6 +498,7 @@
   padding: 0;
   border: 0;
   -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .4s cubic-bezier(.175, .885, .32, 1);
           transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .ke-colorpicker-cell-top {
@@ -551,7 +560,8 @@
   width: 100%;
   height: 100%;
   background-color: #f0f0ee;
-  box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+          box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
   }
 .ke-dialog-header {
   min-height: 16.53846154px;
@@ -634,9 +644,13 @@
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   }
 .ke-dialog-body .ke-form {
   padding: 0;
@@ -717,7 +731,8 @@
   color: #353535;
   background-color: #dedede;
   border-color: #a1a1a1;
-  box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
+  -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
+          box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
   }
 .ke-button:active,
 .ke-button.active,
@@ -725,7 +740,8 @@
   background-color: #ccc;
   background-image: none;
   border-color: #a6a6a6;
-  box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+  -webkit-box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+          box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .ke-button.disabled,
 .ke-button[disabled],
@@ -759,16 +775,21 @@ fieldset[disabled] .ke-button.active {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
 
   *display: inline;
   }
 .ke-input-text:focus {
   border-color: #145ccd;
   outline: 0;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(20, 92, 205, .6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
   }
 .ke-input-number {
   width: 50px;

@@ -1,10 +1,16 @@
-/* =========================================================
- * bootstrap-datetimepicker.js
- * =========================================================
+/* ========================================================================
+ * Datetimepicker: bootstrap-datetimepicker.js
+ * http://www.malot.fr/bootstrap-datetimepicker
+ *
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * official version in the future.
+ * http://zui.sexy
+ * ========================================================================
  * Copyright 2012 Stefan Petre
  * Improvements by Andrew Rowls
  * Improvements by Sébastien Malot
  * Improvements by Yun Lai
+ * Improvement by CuGBabyBeaR @ 2013-09-12
  * Project URL : http://www.malot.fr/bootstrap-datetimepicker
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +24,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ========================================================= */
-
- /* ========================================================================
+ * ========================================================================
  * Improvement in ZUI:
  * 1. Determine client language and apply setting automatically.
  * 2. New option for 'pickerPosition':
@@ -28,10 +32,12 @@
  *    - 'auto-right'.
  * ======================================================================== */
 
-/*
- * Improvement by CuGBabyBeaR @ 2013-09-12
- *
- * Make it work in bootstrap v3
+
+/*!
+ * Datetimepicker for Bootstrap
+ * Copyright 2012 Stefan Petre
+ * Improvements by ZUI
+ * Licensed under the Apache License v2.0
  */
 
 ! function($) {

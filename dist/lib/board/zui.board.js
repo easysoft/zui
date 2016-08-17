@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI: 看板 - v1.4.0 - 2016-08-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -9,7 +9,7 @@
  * ZUI: boards.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -142,4 +142,3 @@
         $('[data-toggle="boards"]').boards();
     });
 }(jQuery));
-

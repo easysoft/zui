@@ -1,17 +1,17 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI: Standard edition - v1.4.0 - 2016-08-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  */
 
-/* Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
+/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
 
 /* ========================================================================
  * ZUI: jquery.extensions.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -62,13 +62,8 @@
     $.fn.callEvent = function(name, event, model) {
         var $this = $(this);
         var dotIndex = name.indexOf('.zui.');
-        var shortName = name;
-        if(dotIndex < 0 && model && model.name) {
-            name += '.' + model.name;
-        } else {
-            shortName = name.substring(0, dotIndex);
-        }
-        var e = $.Event(name, event);
+        var shortName = dotIndex < 0 ? name : name.substring(0, dotIndex);
+        var e = $.Event(shortName, event);
 
         if((model === undefined) && dotIndex > 0) {
             model = $this.data(name.substring(dotIndex + 1));
@@ -77,9 +72,10 @@
         if(model && model.options) {
             var func = model.options[shortName];
             if($.isFunction(func)) {
-                $.zui.callEvent(model.options[shortName], e, model);
+                $.zui.callEvent(func, e, model);
             }
         }
+        $this.trigger(e);
         return e;
     };
 }(jQuery, window));
@@ -88,6 +84,10 @@
 /* ========================================================================
  * Bootstrap: button.js v3.0.3
  * http://getbootstrap.com/javascript/#buttons
+ * 
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -211,6 +211,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ======================================================================== */
 
 
@@ -296,10 +300,13 @@
 
 }(window.jQuery);
 
-
 /* ========================================================================
  * Bootstrap: tab.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#tabs
+ *  
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *
@@ -437,6 +444,10 @@
 /* ========================================================================
  * Bootstrap: transition.js v3.2.0
  * http://getbootstrap.com/javascript/#transitions
+ *  
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -504,6 +515,10 @@
 /* ========================================================================
  * Bootstrap: collapse.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#collapse
+ * 
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *
@@ -682,7 +697,7 @@
  * ZUI: device.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -808,6 +823,7 @@
 
 /* ========================================================================
  * ZUI: date.js
+ * Date polyfills
  * http://zui.sexy
  * ========================================================================
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
@@ -1025,15 +1041,21 @@
 
 /* ========================================================================
  * ZUI: string.js
+ * String Polyfill.
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
 (function() {
     'use strict';
 
+    /**
+     * Format string with argument list or object
+     * @param  {object | arguments} args
+     * @return {String}
+     */
     if(!String.prototype.format) {
         String.prototype.format = function(args) {
             var result = this;
@@ -1078,6 +1100,20 @@
     }
 
 })();
+
+
+/* ========================================================================
+ * Resize: resize.js [Version: 1.1]
+ * http://benalman.com/projects/jquery-resize-plugin/
+ *  
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * official version in the future.
+ * http://zui.sexy
+ * ========================================================================
+ * opyright (c) 2010 "Cowboy" Ben Alman
+ * Dual licensed under the MIT and GPL licenses.
+ * http://benalman.com/about/license/
+ * ======================================================================== */
 
 
 /*!
@@ -1340,6 +1376,10 @@
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.0.3
  * http://getbootstrap.com/javascript/#scrollspy
+ *  
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -1495,7 +1535,7 @@
  * ZUI: storeb.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -1677,7 +1717,7 @@
  * ZUI: draggable.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -1845,7 +1885,7 @@
  * ZUI: droppable.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -2119,7 +2159,7 @@
  * ZUI: sortable.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -2260,6 +2300,10 @@
 /* ========================================================================
  * Bootstrap: modal.js v3.2.0
  * http://getbootstrap.com/javascript/#modals
+ *
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -2633,9 +2677,10 @@
 
 
 /* ========================================================================
- * ZUI: modal.trigger.js v1.2.0
- * http://zui.sexy/docs/javascript.html#modals
- * Licensed under MIT
+ * ZUI: modal.trigger.js [1.2.0+]
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -2871,11 +2916,13 @@
                             $modal.callEvent('loaded' + ZUI_MODAL, {
                                 modalType: 'iframe',
                                 jQuery: frame$
-                            }, that);
+                            }, null);
 
                             setTimeout(ajustFrameSize, 100);
 
                             $framebody.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                        } else {
+                            readyToShow();
                         }
 
                         frame$.extend({
@@ -3038,6 +3085,10 @@
  * Bootstrap: tooltip.js v3.0.0
  * http://twzui.github.com/bootstrap/javascript.html#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
+ *  
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *
@@ -3448,6 +3499,10 @@
 /* ========================================================================
  * Bootstrap: popover.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#popovers
+ *
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *
@@ -3589,6 +3644,10 @@
 /* ========================================================================
  * Bootstrap: dropdown.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#dropdowns
+ *
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *
@@ -3750,6 +3809,10 @@
 /* ========================================================================
  * Bootstrap: carousel.js v3.0.0
  * http://twzui.github.com/bootstrap/javascript.html#carousel
+ * 
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * Bootsrap version in the future.
+ * http://zui.sexy
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *
@@ -3803,6 +3866,7 @@
 
         this.$element.on('touchstart touchmove touchend', touch);
         var touchStartX, touchStartY;
+        var that = this;
 
         /* listen the touch event */
         function touch(event) {
@@ -3834,8 +3898,8 @@
         }
 
         function handleCarousel(carousel, distance) {
-            if(distance > 10) carousel.find('.left.carousel-control').click();
-            if(distance < -10) carousel.find('.right.carousel-control').click();
+            if(distance > 10) that.prev();
+            else if(distance < -10) that.next();
         }
     }
 
@@ -4021,13 +4085,19 @@
 
 
 /* ========================================================================
- * image.ready.js
+ * TangBin: image.ready.js
  * http://www.planeart.cn/?p=1121
+ *
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * original version in the future.
+ * http://zui.sexy
  * ========================================================================
  * @version 2011.05.27
  * @author  TangBin
  * ======================================================================== */
 
+
+/*! TangBin: image.ready.js http://www.planeart.cn/?p=1121 */
 
 (function($) {
     'use strict';
@@ -4124,7 +4194,7 @@
  * ZUI: lightbox.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -4269,7 +4339,7 @@
  * ZUI: messager.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -4446,7 +4516,7 @@
  * ZUI: menu.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -4528,16 +4598,24 @@
 }(jQuery));
 
 
-/**
- * bootbox.js [v4.4.0]
+/* ========================================================================
+ * Bootbox: bootbox.js [v4.4.0]
+ * http://bootboxjs.com/
  *
- * http://bootboxjs.com/license.txt
+ * ZUI: The file has been changed in ZUI. It will not keep update with the
+ * official version in the future.
+ * http://zui.sexy
  * ========================================================================
+ * http://bootboxjs.com/license.txt
  * Improvement in ZUI:
  * 1. Determine client language and apply setting automatically.
  * 2. Changed button position.
  * ======================================================================== */
 
+/*!
+ * bootbox.js [v4.4.0]
+ * http://bootboxjs.com/license.txt
+ */
 
 // @see https://github.com/makeusabrew/bootbox/issues/180
 // @see https://github.com/makeusabrew/bootbox/issues/186
@@ -4608,17 +4686,6 @@
 
     // our public object; augmented after our private API
     var exports = {};
-
-    function judgeClientLang() {
-        var lang;
-        if(typeof(config) != 'undefined' && config.clientLang) {
-            lang = config.clientLang;
-        } else {
-            var hl = $('html').attr('lang');
-            lang = hl ? hl : 'en';
-        }
-        return lang.replace('-', '_').toLowerCase();
-    }
 
     /**
      * @private
@@ -4705,7 +4772,7 @@
             }
 
             if(!button.className) {
-                if(total <= 2 && index === total - 1) {
+                if((total === 2 && (key === 'ok' || key === 'confirm')) || total === 1) {
                     // always add a primary to the main option in a two-button dialog
                     button.className = "btn-primary";
                 } else {
@@ -4850,7 +4917,10 @@
     exports.confirm = function() {
         var options;
 
-        options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+        // ZUI change begin
+        options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
+        // OLD WAY: options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
+        // ZUI change end
 
         /**
          * overrides; undo anything the user tried to set they shouldn't have
@@ -4899,7 +4969,10 @@
         };
 
         options = validateButtons(
-            mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]
+            // ZUI change begin
+            mergeArguments(defaults, arguments, ["title", "callback"]), ["confirm", "cancel"]
+            // OLD WAY: mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]arguments);
+            // ZUI change end
         );
 
         // capture the user's show value; we always set this to false before
@@ -5101,6 +5174,7 @@
 
     exports.dialog = function(options) {
         options = sanitize(options);
+
 
         var dialog = $(templates.dialog);
         var innerDialog = dialog.find(".modal-dialog");
@@ -5375,12 +5449,11 @@
     return exports;
 }));
 
-
 /* ========================================================================
  * ZUI: dashboard.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -5399,7 +5472,10 @@
         height: 360,
         shadowType: 'normal',
         sensitive: false,
-        circleShadowSize: 100
+        circleShadowSize: 100,
+        onlyRefreshBody: true,
+        resizable: true,
+        resizeMessage: true
     };
 
     Dashboard.prototype.getOptions = function(options) {
@@ -5425,9 +5501,11 @@
     };
 
     Dashboard.prototype.handleRefreshEvent = function() {
+        var that = this;
+        var onlyRefreshBody = this.options.onlyRefreshBody;
         this.$.on('click', '.refresh-panel', function() {
             var panel = $(this).closest('.panel');
-            refreshPanel(panel);
+            that.refresh(panel, onlyRefreshBody);
         });
     };
 
@@ -5441,14 +5519,12 @@
 
         this.$.addClass('dashboard-draggable');
 
-        this.$.find('.panel-actions').mousedown(function(event) {
-            event.preventDefault();
+        this.$.on('mousedown', '.panel-actions, .drag-disabled', function(event) {
             event.stopPropagation();
         });
 
         var pColClass;
-        this.$.find('.panel-heading').mousedown(function(event) {
-            // console.log('--------------------------------');
+        this.$.on('mousedown', '.panel-heading, .panel-drag-handler', function(event) {
             var panel = $(this).closest('.panel');
             var pCol = panel.parent();
             var row = panel.closest('.row');
@@ -5537,16 +5613,11 @@
                             area = thisArea;
                             dropCol = col;
                         }
-                        // if(thisArea)
-                        // {
-                        //     console.log('panel ' + col.data('id'), '({0}, {1}, {2}, {3}), ({4}, {5}, {6}, {7})'.format(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH));
-                        // }
                     } else {
                         var mX = event.pageX,
                             mY = event.pageY;
 
                         if(mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH)) {
-                            // var dCol = row.find('.dragging-col');
                             dropCol = col;
                             return false;
                         }
@@ -5583,11 +5654,11 @@
                 row.children(':not(.dragging-col-holder)').each(function() {
                     var p = $(this).children('.panel');
                     p.data('order', ++newOrder);
-                    newOrders[p.attr('id')] = newOrder;
+                    newOrders[p.data('id') || p.attr('id')] = newOrder;
                     p.parent().attr('data-order', newOrder);
                 });
 
-                if(oldOrder != newOrders[panel.attr('id')]) {
+                if(oldOrder != newOrders[panel.data('id') || panel.attr('id')]) {
                     row.data('orders', newOrders);
 
                     if(afterOrdered && $.isFunction(afterOrdered)) {
@@ -5609,13 +5680,13 @@
     };
 
     Dashboard.prototype.handlePanelPadding = function() {
-        this.$.find('.panel-body > table, .panel-body > .list-group').closest('.panel-body').addClass('no-padding');
+        this.$.find('.panel-body > table, .panel-body > .list-group').parent().addClass('no-padding');
     };
 
     Dashboard.prototype.handlePanelHeight = function() {
         var dHeight = this.options.height;
 
-        this.$.find('.row').each(function() {
+        this.$.children('.row').each(function() {
             var row = $(this);
             var panels = row.find('.panel');
             var height = row.data('height') || dHeight;
@@ -5627,29 +5698,100 @@
                 });
             }
 
-            panels.each(function() {
-                var $this = $(this);
-                $this.find('.panel-body').css('height', height - $this.find('.panel-heading').outerHeight() - 2);
-            });
+            panels.css('height', height);
         });
     };
 
-    function refreshPanel(panel) {
-        var url = panel.data('url');
+    Dashboard.prototype.handleResizeEvent = function() {
+        var onResize = this.options.onResize;
+        var resizeMessage = this.options.resizeMessage;
+        this.$.on('mousedown', '.resize-handle', function(e) {
+            var $col = $(this).parent().addClass('resizing');
+            var $row = $col.closest('.row');
+            var startX = e.pageX;
+            var startWidth = $col.width();
+            var rowWidth = $row.width();
+            var oldGrid = Math.round(12*startWidth/rowWidth);
+            var lastGrid = oldGrid;
+            $col.attr('data-grid', oldGrid);
+
+            var mouseMove = function(event) {
+                var x = event.pageX;
+                var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
+                if(lastGrid != grid) {
+                    $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
+                    if(resizeMessage && $.zui.messager) $.zui.messager.show(Math.round(100*grid/12) + '% (' + grid + '/12)', {scale:  false, placement: 'center', icon: 'resize-h', fade: false, close: false});
+                    lastGrid = grid;
+                }
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            var mouseUp = function(event) {
+                if($.zui.messager) $.zui.messager.hide();
+
+                $col.removeClass('resizing');
+                var lastGrid = $col.attr('data-grid');
+                if(oldGrid != lastGrid) {
+                    if($.isFunction(onResize)) {
+                        var revert = function() {
+                            $col.attr('data-grid', oldGrid).css('width', null);
+                        };
+                        var result = onResize({element: $col, old: oldGrid, grid: lastGrid, revert: revert});
+                        if(result === false) revert();
+                        else if(result !== true) {
+                            if(resizeMessage && $.zui.messager) $.zui.messager.success(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)', {placement: 'center', time: 1000, close: false});
+                        }
+                    }
+                }
+
+                $('body').off('mousemove.resize', mouseMove).off('mouseup.resize', mouseUp);
+                event.preventDefault();
+                event.stopPropagation();
+            };
+
+            $('body').on('mousemove.resize', mouseMove).on('mouseup.resize', mouseUp);
+            e.preventDefault();
+            e.stopPropagation();
+        }).children('.row').children(':not(.dragging-col-holder)').append('<div class="resize-handle"><i class="icon icon-resize-h"></i></div>');
+    };
+
+    Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
+        var afterRefresh = this.options.afterRefresh;
+        $panel = $($panel);
+        var url = $panel.data('url');
         if(!url) return;
-        panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
+        $panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
         $.ajax({
             url: url,
             dataType: 'html'
         }).done(function(data) {
-            panel.find('.panel-body').html(data);
+            var $data = $(data);
+            if($data.hasClass('panel')) {
+                $panel.empty().append($data.children());
+            } else if(onlyRefreshBody) {
+                $panel.find('.panel-body').empty().html(data);
+            } else {
+                $panel.html(data);
+            }
+            if($.isFunction(afterRefresh)) {
+                afterRefresh.call(this, {
+                    result: true,
+                    data: data
+                });
+            }
         }).fail(function() {
-            panel.addClass('panel-error');
+            $panel.addClass('panel-error');
+            if($.isFunction(afterRefresh)) {
+                afterRefresh.call(this, {
+                    result: false
+                });
+            }
         }).always(function() {
-            panel.removeClass('panel-loading');
-            panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
+            $panel.removeClass('panel-loading');
+            $panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
         });
-    }
+    };
 
     function getRectArea(x1, y1, x2, y2) {
         return Math.abs((x2 - x1) * (y2 - y1));
@@ -5671,15 +5813,36 @@
     }
 
     Dashboard.prototype.init = function() {
-        this.handlePanelHeight();
-        this.handlePanelPadding();
-        this.handleRemoveEvent();
-        this.handleRefreshEvent();
+        var options = this.options, that = this;
+        if(options.data) {
+            var $row = $('<div class="row"/>');
+            $.each(options.data, function(idx, config) {
+                var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>', config.colAttrs);
+                var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>', config.panelAttrs);
+                if(config.content !== undefined) {
+                    if($.isFunction(config.content)) {
+                        var content = config.content($panel);
+                        if(content !== true) {
+                            $panel.html(content);
+                        }
+                    } else {
+                        $panel.html(config.content);
+                    }
+                }
+                $row.append($col.append($panel.data('url', config.url)));
+            });
+            that.$.append($row);
+        }
 
-        if(this.draggable) this.handleDraggable();
+        that.handlePanelHeight();
+        that.handlePanelPadding();
+        that.handleRemoveEvent();
+        that.handleRefreshEvent();
+        if(options.resizable) that.handleResizeEvent();
+        if(that.draggable) that.handleDraggable();
 
         var orderSeed = 0;
-        this.$.find('.panel').each(function() {
+        that.$.find('.panel').each(function() {
             var $this = $(this);
             $this.data('order', ++orderSeed);
             if(!$this.attr('id')) {
@@ -5689,7 +5852,7 @@
                 $this.attr('data-id', orderSeed);
             }
 
-            refreshPanel($this);
+            that.refresh($this, options.onlyRefreshBody);
         });
     };
 
@@ -5713,7 +5876,7 @@
  * ZUI: boards.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -5847,257 +6010,276 @@
     });
 }(jQuery));
 
-
 /* ========================================================================
  * ZUI: color.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
-(function($, Math, window) {
+(function($, Math, window, undefined) {
     'use strict';
 
-    var hexReg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
-    var namedColors = {
-        aliceblue: '#f0f8ff',
-        antiquewhite: '#faebd7',
-        aqua: '#00ffff',
-        aquamarine: '#7fffd4',
-        azure: '#f0ffff',
-        beige: '#f5f5dc',
-        bisque: '#ffe4c4',
-        black: '#000000',
-        blanchedalmond: '#ffebcd',
-        blue: '#0000ff',
-        blueviolet: '#8a2be2',
-        brown: '#a52a2a',
-        burlywood: '#deb887',
-        cadetblue: '#5f9ea0',
-        chartreuse: '#7fff00',
-        chocolate: '#d2691e',
-        coral: '#ff7f50',
-        cornflowerblue: '#6495ed',
-        cornsilk: '#fff8dc',
-        crimson: '#dc143c',
-        cyan: '#00ffff',
-        darkblue: '#00008b',
-        darkcyan: '#008b8b',
-        darkgoldenrod: '#b8860b',
-        darkgray: '#a9a9a9',
-        darkgreen: '#006400',
-        darkkhaki: '#bdb76b',
-        darkmagenta: '#8b008b',
-        darkolivegreen: '#556b2f',
-        darkorange: '#ff8c00',
-        darkorchid: '#9932cc',
-        darkred: '#8b0000',
-        darksalmon: '#e9967a',
-        darkseagreen: '#8fbc8f',
-        darkslateblue: '#483d8b',
-        darkslategray: '#2f4f4f',
-        darkturquoise: '#00ced1',
-        darkviolet: '#9400d3',
-        deeppink: '#ff1493',
-        deepskyblue: '#00bfff',
-        dimgray: '#696969',
-        dodgerblue: '#1e90ff',
-        firebrick: '#b22222',
-        floralwhite: '#fffaf0',
-        forestgreen: '#228b22',
-        fuchsia: '#ff00ff',
-        gainsboro: '#dcdcdc',
-        ghostwhite: '#f8f8ff',
-        gold: '#ffd700',
-        goldenrod: '#daa520',
-        gray: '#808080',
-        green: '#008000',
-        greenyellow: '#adff2f',
-        honeydew: '#f0fff0',
-        hotpink: '#ff69b4',
-        indianred: '#cd5c5c',
-        indigo: '#4b0082',
-        ivory: '#fffff0',
-        khaki: '#f0e68c',
-        lavender: '#e6e6fa',
-        lavenderblush: '#fff0f5',
-        lawngreen: '#7cfc00',
-        lemonchiffon: '#fffacd',
-        lightblue: '#add8e6',
-        lightcoral: '#f08080',
-        lightcyan: '#e0ffff',
-        lightgoldenrodyellow: '#fafad2',
-        lightgray: '#d3d3d3',
-        lightgreen: '#90ee90',
-        lightpink: '#ffb6c1',
-        lightsalmon: '#ffa07a',
-        lightseagreen: '#20b2aa',
-        lightskyblue: '#87cefa',
-        lightslategray: '#778899',
-        lightsteelblue: '#b0c4de',
-        lightyellow: '#ffffe0',
-        lime: '#00ff00',
-        limegreen: '#32cd32',
-        linen: '#faf0e6',
-        magenta: '#ff00ff',
-        maroon: '#800000',
-        mediumaquamarine: '#66cdaa',
-        mediumblue: '#0000cd',
-        mediumorchid: '#ba55d3',
-        mediumpurple: '#9370db',
-        mediumseagreen: '#3cb371',
-        mediumslateblue: '#7b68ee',
-        mediumspringgreen: '#00fa9a',
-        mediumturquoise: '#48d1cc',
-        mediumvioletred: '#c71585',
-        midnightblue: '#191970',
-        mintcream: '#f5fffa',
-        mistyrose: '#ffe4e1',
-        moccasin: '#ffe4b5',
-        navajowhite: '#ffdead',
-        navy: '#000080',
-        oldlace: '#fdf5e6',
-        olive: '#808000',
-        olivedrab: '#6b8e23',
-        orange: '#ffa500',
-        orangered: '#ff4500',
-        orchid: '#da70d6',
-        palegoldenrod: '#eee8aa',
-        palegreen: '#98fb98',
-        paleturquoise: '#afeeee',
-        palevioletred: '#db7093',
-        papayawhip: '#ffefd5',
-        peachpuff: '#ffdab9',
-        peru: '#cd853f',
-        pink: '#ffc0cb',
-        plum: '#dda0dd',
-        powderblue: '#b0e0e6',
-        purple: '#800080',
-        red: '#ff0000',
-        rosybrown: '#bc8f8f',
-        royalblue: '#4169e1',
-        saddlebrown: '#8b4513',
-        salmon: '#fa8072',
-        sandybrown: '#f4a460',
-        seagreen: '#2e8b57',
-        seashell: '#fff5ee',
-        sienna: '#a0522d',
-        silver: '#c0c0c0',
-        skyblue: '#87ceeb',
-        slateblue: '#6a5acd',
-        slategray: '#708090',
-        snow: '#fffafa',
-        springgreen: '#00ff7f',
-        steelblue: '#4682b4',
-        tan: '#d2b48c',
-        teal: '#008080',
-        thistle: '#d8bfd8',
-        tomato: '#ff6347',
-        turquoise: '#40e0d0',
-        violet: '#ee82ee',
-        wheat: '#f5deb3',
-        white: '#ffffff',
-        whitesmoke: '#f5f5f5',
-        yellow: '#ffff00',
-        yellowgreen: '#9acd32'
+    var hexReg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/,
+        N255 = 255,
+        N360 = 360,
+        N100 = 100,
+        STR_STRING = 'string',
+        STR_OBJECT = 'object',
+        namedColors = {
+            aliceblue: '#f0f8ff',
+            antiquewhite: '#faebd7',
+            aqua: '#00ffff',
+            aquamarine: '#7fffd4',
+            azure: '#f0ffff',
+            beige: '#f5f5dc',
+            bisque: '#ffe4c4',
+            black: '#000000',
+            blanchedalmond: '#ffebcd',
+            blue: '#0000ff',
+            blueviolet: '#8a2be2',
+            brown: '#a52a2a',
+            burlywood: '#deb887',
+            cadetblue: '#5f9ea0',
+            chartreuse: '#7fff00',
+            chocolate: '#d2691e',
+            coral: '#ff7f50',
+            cornflowerblue: '#6495ed',
+            cornsilk: '#fff8dc',
+            crimson: '#dc143c',
+            cyan: '#00ffff',
+            darkblue: '#00008b',
+            darkcyan: '#008b8b',
+            darkgoldenrod: '#b8860b',
+            darkgray: '#a9a9a9',
+            darkgreen: '#006400',
+            darkkhaki: '#bdb76b',
+            darkmagenta: '#8b008b',
+            darkolivegreen: '#556b2f',
+            darkorange: '#ff8c00',
+            darkorchid: '#9932cc',
+            darkred: '#8b0000',
+            darksalmon: '#e9967a',
+            darkseagreen: '#8fbc8f',
+            darkslateblue: '#483d8b',
+            darkslategray: '#2f4f4f',
+            darkturquoise: '#00ced1',
+            darkviolet: '#9400d3',
+            deeppink: '#ff1493',
+            deepskyblue: '#00bfff',
+            dimgray: '#696969',
+            dodgerblue: '#1e90ff',
+            firebrick: '#b22222',
+            floralwhite: '#fffaf0',
+            forestgreen: '#228b22',
+            fuchsia: '#ff00ff',
+            gainsboro: '#dcdcdc',
+            ghostwhite: '#f8f8ff',
+            gold: '#ffd700',
+            goldenrod: '#daa520',
+            gray: '#808080',
+            green: '#008000',
+            greenyellow: '#adff2f',
+            honeydew: '#f0fff0',
+            hotpink: '#ff69b4',
+            indianred: '#cd5c5c',
+            indigo: '#4b0082',
+            ivory: '#fffff0',
+            khaki: '#f0e68c',
+            lavender: '#e6e6fa',
+            lavenderblush: '#fff0f5',
+            lawngreen: '#7cfc00',
+            lemonchiffon: '#fffacd',
+            lightblue: '#add8e6',
+            lightcoral: '#f08080',
+            lightcyan: '#e0ffff',
+            lightgoldenrodyellow: '#fafad2',
+            lightgray: '#d3d3d3',
+            lightgreen: '#90ee90',
+            lightpink: '#ffb6c1',
+            lightsalmon: '#ffa07a',
+            lightseagreen: '#20b2aa',
+            lightskyblue: '#87cefa',
+            lightslategray: '#778899',
+            lightsteelblue: '#b0c4de',
+            lightyellow: '#ffffe0',
+            lime: '#00ff00',
+            limegreen: '#32cd32',
+            linen: '#faf0e6',
+            magenta: '#ff00ff',
+            maroon: '#800000',
+            mediumaquamarine: '#66cdaa',
+            mediumblue: '#0000cd',
+            mediumorchid: '#ba55d3',
+            mediumpurple: '#9370db',
+            mediumseagreen: '#3cb371',
+            mediumslateblue: '#7b68ee',
+            mediumspringgreen: '#00fa9a',
+            mediumturquoise: '#48d1cc',
+            mediumvioletred: '#c71585',
+            midnightblue: '#191970',
+            mintcream: '#f5fffa',
+            mistyrose: '#ffe4e1',
+            moccasin: '#ffe4b5',
+            navajowhite: '#ffdead',
+            navy: '#000080',
+            oldlace: '#fdf5e6',
+            olive: '#808000',
+            olivedrab: '#6b8e23',
+            orange: '#ffa500',
+            orangered: '#ff4500',
+            orchid: '#da70d6',
+            palegoldenrod: '#eee8aa',
+            palegreen: '#98fb98',
+            paleturquoise: '#afeeee',
+            palevioletred: '#db7093',
+            papayawhip: '#ffefd5',
+            peachpuff: '#ffdab9',
+            peru: '#cd853f',
+            pink: '#ffc0cb',
+            plum: '#dda0dd',
+            powderblue: '#b0e0e6',
+            purple: '#800080',
+            red: '#ff0000',
+            rosybrown: '#bc8f8f',
+            royalblue: '#4169e1',
+            saddlebrown: '#8b4513',
+            salmon: '#fa8072',
+            sandybrown: '#f4a460',
+            seagreen: '#2e8b57',
+            seashell: '#fff5ee',
+            sienna: '#a0522d',
+            silver: '#c0c0c0',
+            skyblue: '#87ceeb',
+            slateblue: '#6a5acd',
+            slategray: '#708090',
+            snow: '#fffafa',
+            springgreen: '#00ff7f',
+            steelblue: '#4682b4',
+            tan: '#d2b48c',
+            teal: '#008080',
+            thistle: '#d8bfd8',
+            tomato: '#ff6347',
+            turquoise: '#40e0d0',
+            violet: '#ee82ee',
+            wheat: '#f5deb3',
+            white: '#ffffff',
+            whitesmoke: '#f5f5f5',
+            yellow: '#ffff00',
+            yellowgreen: '#9acd32'
+        };
+
+    var isUndefined = function(x) {
+        return x === undefined;
+    };
+
+    var isNotUndefined = function(x) {
+        return !isUndefined(x);
+    };
+
+    var convertToInt = function(x) {
+        return parseInt(x);
+    };
+
+    var convertToRgbInt = function(x) {
+        return convertToInt(clamp(number(x), N255));
     };
 
     /* color */
     var Color = function(r, g, b, a) {
-        this.r = 0;
-        this.g = 0;
-        this.b = 0;
-        this.a = 1;
+        var that = this;
+        that.r = that.g = that.b = 0;
+        that.a = 1;
 
-        if(a !== undefined) this.a = clamp(number(a), 1);
-
-        if(r !== undefined && g !== undefined && b !== undefined) {
-            this.r = parseInt(clamp(number(r), 255));
-            this.g = parseInt(clamp(number(g), 255));
-            this.b = parseInt(clamp(number(b), 255));
-        } else if(r !== undefined) {
+        if(isNotUndefined(a)) that.a = clamp(number(a), 1);
+        if(isNotUndefined(r) && isNotUndefined(g) && isNotUndefined(b)) {
+            that.r = convertToRgbInt(r);
+            that.g = convertToRgbInt(g);
+            that.b = convertToRgbInt(b);
+        } else if(isNotUndefined(r)) {
             var type = typeof(r);
-            if(type == 'string') {
+            if(type == STR_STRING) {
                 r = r.toLowerCase();
                 if(r === 'transparent') {
-                    this.a = 0;
+                    that.a = 0;
                 } else if(namedColors[r]) {
                     this.rgb(hexToRgb(namedColors[r]));
                 } else {
-                    this.rgb(hexToRgb(r));
+                    that.rgb(hexToRgb(r));
                 }
-            } else if(type == 'number' && g === undefined) {
-                this.r = parseInt(clamp(r, 255));
-                this.g = this.r;
-                this.b = this.r;
-            } else if(type == 'object' && r.hasOwnProperty('r')) {
-                this.r = parseInt(clamp(number(r.r), 255));
-                if(r.hasOwnProperty('g')) this.g = parseInt(clamp(number(r.g), 255));
-                if(r.hasOwnProperty('b')) this.b = parseInt(clamp(number(r.b), 255));
-                if(r.hasOwnProperty('a')) this.a = clamp(number(r.a), 1);
-            } else if(type == 'object' && r.hasOwnProperty('h')) {
+            } else if(type == 'number' && isUndefined(g)) {
+                that.r = that.g = that.b = convertToRgbInt(r);
+            } else if(type == STR_OBJECT && isNotUndefined(r.r)) {
+                that.r = convertToRgbInt(r.r);
+                if(isNotUndefined(r.g)) that.g = convertToRgbInt(r.g);
+                if(isNotUndefined(r.b)) that.b = convertToRgbInt(r.b);
+                if(isNotUndefined(r.a)) that.a = clamp(number(r.a), 1);
+            } else if(type == STR_OBJECT && isNotUndefined(r.h)) {
                 var hsl = {
-                    h: clamp(number(r.h), 360),
+                    h: clamp(number(r.h), N360),
                     s: 1,
                     l: 1,
                     a: 1
                 };
-                if(r.hasOwnProperty('s')) hsl.s = clamp(number(r.s), 1);
-                if(r.hasOwnProperty('l')) hsl.l = clamp(number(r.l), 1);
-                if(r.hasOwnProperty('a')) hsl.a = clamp(number(r.a), 1);
+                if(isNotUndefined(r.s)) hsl.s = clamp(number(r.s), 1);
+                if(isNotUndefined(r.l)) hsl.l = clamp(number(r.l), 1);
+                if(isNotUndefined(r.a)) hsl.a = clamp(number(r.a), 1);
 
-                this.rgb(hslToRgb(hsl));
+                that.rgb(hslToRgb(hsl));
             }
         }
     };
 
     Color.prototype.rgb = function(rgb) {
-        if(rgb !== undefined) {
-            if(typeof(rgb) == 'object') {
-                if(rgb.hasOwnProperty('r')) this.r = parseInt(clamp(number(rgb.r), 255));
-                if(rgb.hasOwnProperty('g')) this.g = parseInt(clamp(number(rgb.g), 255));
-                if(rgb.hasOwnProperty('b')) this.b = parseInt(clamp(number(rgb.b), 255));
-                if(rgb.hasOwnProperty('a')) this.a = clamp(number(rgb.a), 1);
+        var that = this;
+        if(isNotUndefined(rgb)) {
+            if(typeof(rgb) == STR_OBJECT) {
+                if(isNotUndefined(rgb.r)) that.r = convertToRgbInt(rgb.r);
+                if(isNotUndefined(rgb.g)) that.g = convertToRgbInt(rgb.g);
+                if(isNotUndefined(rgb.b)) that.b = convertToRgbInt(rgb.b);
+                if(isNotUndefined(rgb.a)) that.a = clamp(number(rgb.a), 1);
             } else {
-                var v = parseInt(number(rgb));
-                this.r = v;
-                this.g = v;
-                this.b = v;
+                var v = convertToInt(number(rgb));
+                that.r = v;
+                that.g = v;
+                that.b = v;
             }
-            return this;
+            return that;
         } else return {
-            r: this.r,
-            g: this.g,
-            b: this.b,
-            a: this.a
+            r: that.r,
+            g: that.g,
+            b: that.b,
+            a: that.a
         };
     };
 
     Color.prototype.hue = function(hue) {
-        var hsl = this.toHsl();
+        var that = this;
+        var hsl = that.toHsl();
 
-        if(hue === undefined) return hsl.h;
+        if(isUndefined(hue)) return hsl.h;
         else {
-            hsl.h = clamp(number(hue), 360);
-            this.rgb(hslToRgb(hsl));
-
-            return this;
+            hsl.h = clamp(number(hue), N360);
+            that.rgb(hslToRgb(hsl));
+            return that;
         }
     };
 
     Color.prototype.darken = function(amount) {
-        var hsl = this.toHsl();
+        var that = this;
+        var hsl = that.toHsl();
 
-        hsl.l -= amount / 100;
+        hsl.l -= amount / N100;
         hsl.l = clamp(hsl.l, 1);
 
-        this.rgb(hslToRgb(hsl));
-        return this;
+        that.rgb(hslToRgb(hsl));
+        return that;
     };
 
     Color.prototype.clone = function() {
-        return new Color(this.r, this.g, this.b, this.a);
+        var that = this;
+        return new Color(that.r, that.g, that.b, that.a);
     };
 
     Color.prototype.lighten = function(amount) {
@@ -6105,26 +6287,25 @@
     };
 
     Color.prototype.fade = function(amount) {
-        this.a = clamp(amount / 100, 1);
+        this.a = clamp(amount / N100, 1);
 
         return this;
     };
 
     Color.prototype.spin = function(amount) {
         var hsl = this.toHsl();
-        var hue = (hsl.h + amount) % 360;
+        var hue = (hsl.h + amount) % N360;
 
-        hsl.h = hue < 0 ? 360 + hue : hue;
-        this.rgb(hslToRgb(hsl));
-
-        return this;
+        hsl.h = hue < 0 ? N360 + hue : hue;
+        return this.rgb(hslToRgb(hsl));
     };
 
     Color.prototype.toHsl = function() {
-        var r = this.r / 255,
-            g = this.g / 255,
-            b = this.b / 255,
-            a = this.a;
+        var that = this;
+        var r = that.r / N255,
+            g = that.g / N255,
+            b = that.b / N255,
+            a = that.a;
 
         var max = Math.max(r, g, b),
             min = Math.min(r, g, b);
@@ -6150,7 +6331,7 @@
             h /= 6;
         }
         return {
-            h: h * 360,
+            h: h * N360,
             s: s,
             l: l,
             a: a
@@ -6158,9 +6339,9 @@
     };
 
     Color.prototype.luma = function() {
-        var r = this.r / 255,
-            g = this.g / 255,
-            b = this.b / 255;
+        var r = this.r / N255,
+            g = this.g / N255,
+            b = this.b / N255;
 
         r = (r <= 0.03928) ? r / 12.92 : Math.pow(((r + 0.055) / 1.055), 2.4);
         g = (g <= 0.03928) ? g / 12.92 : Math.pow(((g + 0.055) / 1.055), 2.4);
@@ -6172,12 +6353,10 @@
     Color.prototype.saturate = function(amount) {
         var hsl = this.toHsl();
 
-        hsl.s += amount / 100;
+        hsl.s += amount / N100;
         hsl.s = clamp(hsl.s);
 
-        this.rgb(hslToRgb(hsl));
-
-        return this;
+        return this.rgb(hslToRgb(hsl));
     };
 
     Color.prototype.desaturate = function(amount) {
@@ -6185,21 +6364,21 @@
     };
 
     Color.prototype.contrast = function(dark, light, threshold) {
-        if(typeof light === 'undefined') light = new Color(255, 255, 255, 1);
+        if(isUndefined(light)) light = new Color(N255, N255, N255, 1);
         else light = new Color(light);
-        if(typeof dark === 'undefined') dark = new Color(0, 0, 0, 1);
+        if(isUndefined(dark)) dark = new Color(0, 0, 0, 1);
         else dark = new Color(dark);
-
-        if(this.a < 0.5) return dark;
-
-        if(threshold === undefined) threshold = 0.43;
-        else threshold = number(threshold);
 
         if(dark.luma() > light.luma()) {
             var t = light;
             light = dark;
             dark = t;
         }
+        
+        if(this.a < 0.5) return dark;
+
+        if(isUndefined(threshold)) threshold = 0.43;
+        else threshold = number(threshold);
 
         if(this.luma() < threshold) {
             return light;
@@ -6220,18 +6399,19 @@
     };
 
     Color.prototype.toCssStr = function() {
-        if(this.a > 0) {
-            if(this.a < 1) {
-                return 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
+        var that = this;
+        if(that.a > 0) {
+            if(that.a < 1) {
+                return 'rgba(' + that.r + ',' + that.g + ',' + that.b + ',' + that.a + ')';
             } else {
-                return this.hexStr();
+                return that.hexStr();
             }
         } else {
             return 'transparent';
         }
     };
 
-    Color.prototype.isColor = isColor;
+    Color.isColor = isColor;
 
     /* helpers */
     function hexToRgb(hex) {
@@ -6248,7 +6428,7 @@
 
             var hexChange = [];
             for(i = 1; i < 7; i += 2) {
-                hexChange.push(parseInt('0x' + hex.slice(i, i + 2)));
+                hexChange.push(convertToInt('0x' + hex.slice(i, i + 2)));
             }
             return {
                 r: hexChange[0],
@@ -6257,12 +6437,12 @@
                 a: 1
             };
         } else {
-            throw new Error('function hexToRgb: Wrong hex string! (hex: ' + hex + ')');
+            throw new Error('Wrong hex string! (hex: ' + hex + ')');
         }
     }
 
     function isColor(hex) {
-        return typeof(hex) === 'string' && (hex.toLowerCase() === 'transparent' || namedColors[hex.toLowerCase()] || hexReg.test($.trim(hex.toLowerCase())));
+        return typeof(hex) === STR_STRING && (hex.toLowerCase() === 'transparent' || namedColors[hex.toLowerCase()] || hexReg.test($.trim(hex.toLowerCase())));
     }
 
     function hslToRgb(hsl) {
@@ -6271,7 +6451,7 @@
             l = hsl.l,
             a = hsl.a;
 
-        h = (number(h) % 360) / 360;
+        h = (number(h) % N360) / N360;
         s = clamp(number(s));
         l = clamp(number(l));
         a = clamp(number(a));
@@ -6280,9 +6460,9 @@
         var m1 = l * 2 - m2;
 
         var r = {
-            r: hue(h + 1 / 3) * 255,
-            g: hue(h) * 255,
-            b: hue(h - 1 / 3) * 255,
+            r: hue(h + 1 / 3) * N255,
+            g: hue(h) * N255,
+            b: hue(h - 1 / 3) * N255,
             a: a
         };
 
@@ -6303,8 +6483,8 @@
     }
 
     function fit(n, end, start) {
-        if(start === undefined) start = 0;
-        if(end === undefined) end = 255;
+        if(isUndefined(start)) start = 0;
+        if(isUndefined(end)) end = N255;
 
         return Math.min(Math.max(n, start), end);
     }
@@ -6322,14 +6502,13 @@
         Color: Color
     });
 
-}(jQuery, Math, window));
-
+}(jQuery, Math, window, undefined));
 
 /* ========================================================================
- * ZUI: tree.js
+ * ZUI: tree.js [1.4.0+]
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -6337,6 +6516,7 @@
     'use strict';
 
     var name = 'zui.tree'; // modal name
+    var globalId = 0;
 
     // The tree modal class
     var Tree = function(element, options) {
@@ -6344,37 +6524,270 @@
         this.$ = $(element);
 
         this.getOptions(options);
-        this.init();
+        this._init();
     };
+
+    var DETAULT_ACTIONS = {
+        sort: {
+            template: '<a class="sort-handler" href="javascript:;"><i class="icon icon-move"></i></a>'
+        },
+        add: {
+            template: '<a href="javascript:;"><i class="icon icon-plus"></i></a>'
+        },
+        edit: {
+            template: '<a href="javascript:;"><i class="icon icon-pencil"></i></a>'
+        },
+        "delete": {
+            template: '<a href="javascript:;"><i class="icon icon-trash"></i></a>'
+        }
+    };
+
+    function formatActions(actions, parentActions) {
+        if(actions === false) return actions;
+        if(!actions) return parentActions;
+
+        if(actions === true) {
+            actions = {add: true, "delete": true, edit: true, sort: true};
+        } else if(typeof actions === 'string') {
+            actions = actions.split(',');
+        }
+        var _actions;
+        if($.isArray(actions)) {
+            _actions = {};
+            $.each(actions, function(idx, action) {
+                if($.isPlainObject(action)) {
+                    _actions[action.action] = action;
+                } else {
+                    _actions[action] = true;
+                }
+            });
+            actions = _actions;
+        }
+        if($.isPlainObject(actions)) {
+            _actions = {};
+            $.each(actions, function(name, action) {
+                if(action) {
+                    _actions[name] = $.extend({type: name}, DETAULT_ACTIONS[name], $.isPlainObject(action) ? action : null);
+                } else {
+                    _actions[name] = false;
+                }
+            });
+            actions = _actions;
+        }
+        return parentActions ? $.extend(true, {}, parentActions, actions) : actions;
+    }
+
+    function createActionEle(action, name, template) {
+        name = name || action.type;
+        return $(template || action.template).addClass('tree-action').attr($.extend({'data-type': name, title: action.title || ''}, action.attr)).data('action', action);
+    }
 
     // default options
     Tree.DEFAULTS = {
         animate: null,
-        initialState: 'normal'
+        initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
+        toggleTemplate: '<i class="list-toggle icon"></i>',
     };
 
-    Tree.prototype.init = function() {
-        if(this.options.animate) this.$.addClass('tree-animate');
+    Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
+        var $e = $(rootEle), $ul, options = this.options;
+        if($e.is('li')) {
+            $ul = $e.children('ul');
+            if(!$ul.length) {
+                $ul = $('<ul/>');
+                $e.append($ul);
+                this._initList($ul, $e);
+            }
+        } else {
+            $ul = $e;
+        }
 
-        this.$lists = this.$.find('ul');
-        this.$lists.parent('li').addClass('has-list').prepend('<i class="list-toggle icon"></i>');
-
-        var that = this;
-        this.$.on('click', '.list-toggle, a[href=#]', function(e) {
-            that.toggle($(this).parent('li'));
-            e.preventDefault();
-        });
-
-        if(this.options.initialState === 'expand') {
-            this.expand();
-        } else if(this.options.initialState === 'collapse') {
-            this.collapse();
-        } else if(this.options.animate) {
-            this.$.find('li.has-list.open').addClass('in');
+        if($ul) {
+            var that = this;
+            if(!$.isArray(items)) {
+                items = [items];
+            }
+            $.each(items, function(idx, item) {
+                var $li = $('<li/>').data(item).appendTo($ul);
+                var $wrapper = options.itemWrapper ? $('<div class="tree-item-wrapper"/>').appendTo($li) : $li;
+                if(item.html) {
+                    $wrapper.html(item.html)
+                } else if($.isFunction(that.options.itemCreator)) {
+                    var itemContent = that.options.itemCreator($wrapper, item);
+                    if(itemContent !== true) $wrapper.html(itemContent);
+                } else {
+                    $wrapper.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
+                }
+                that._initItem($li, item.idx || idx, $ul, item);
+                if(item.children && item.children.length) {
+                    that.add($li, item.children);
+                }
+            });
+            this._initList($ul);
+            if(expand && !$ul.hasClass('tree')) {
+                that.expand($ul.parent('li'), disabledAnimate, notStore);
+            }
         }
     };
 
-    Tree.prototype.expand = function($li, disabledAnimate) {
+    Tree.prototype.reload = function(data) {
+        var that = this;
+
+        if(data) {
+            that.$.empty();
+            that.add(that.$, data);
+        }
+
+        if(that.isPreserve)
+        {
+            if(that.store.time) {
+                that.$.find('li:not(.tree-action-item)').each(function() {
+                    var $li= $(this);
+                    that[that.store[$li.data('id')] ? 'expand' : 'collapse']($li, true, true);
+                });
+            }
+        }
+    };
+
+    Tree.prototype._initList = function($list, $parentItem, idx, data) {
+        var that = this;
+        if(!$list.hasClass('tree')) {
+            $parentItem = ($parentItem || $list.closest('li')).addClass('has-list');
+            if(!$parentItem.find('.list-toggle').length) {
+                $parentItem.prepend(this.options.toggleTemplate);
+            }
+            idx = idx || $parentItem.data('idx');
+        } else {
+            idx = 0;
+            $parentItem = null;
+        }
+        $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
+            that._initItem($(this), index + 1, $list);
+        });
+        data = data || ($parentItem ? $parentItem.data() : null);
+        var actions = formatActions(data ? data.actions : null, this.actions);
+        if(actions) {
+            if(actions.add && actions.add.templateInList !== false) {
+                var $actionItem = $list.children('li.tree-action-item');
+                if(!$actionItem.length) {
+                    $('<li class="tree-action-item"/>').append(createActionEle(actions.add, 'add', actions.add.templateInList)).appendTo($list);
+                } else {
+                    $actionItem.detach().appendTo($list);
+                }
+            }
+            if(actions.sort) {
+                $list.sortable($.extend({
+                    dragCssClass: 'tree-drag-holder', 
+                    trigger: '.sort-handler', 
+                    selector: 'li:not(.tree-action-item)',
+                    finish: function(e) {
+                        that.callEvent('action', {action: actions.sort, $list: $list, target: e.target, item: data});
+                    }
+                }, actions.sort.options, $.isPlainObject(this.options.sortable) ? this.options.sortable : null));
+            }
+        }
+        if($parentItem && ($parentItem.hasClass('open') || (data && data.open))) {
+            $parentItem.addClass('open in');
+        }
+    };
+
+    Tree.prototype._initItem = function($item, idx, $parentList, data) {
+        if(idx === undefined) {
+            var $pre = $item.prev('li');
+            idx = $pre.length ? ($pre.data('idx') + 1) : 1;
+        }
+        $parentList = $parentList || $item.closest('ul');
+        $item.attr('data-idx', idx);
+        if(!$item.data('id')) {
+            var id = idx;
+            if(!$parentList.hasClass('tree')) {
+                id = $parentList.parent('li').data('id') + '-' + id;
+            }
+            $item.attr('data-id', id);
+        }
+        data = data || $item.data();
+        var actions = formatActions(data.actions, this.actions);
+        if(actions) {
+            var $actions = $item.find('.tree-actions');
+            if(!$actions.length) {
+                $actions = $('<div class="tree-actions"/>').appendTo(this.options.itemWrapper ? $item.find('.tree-item-wrapper') : $item);
+                $.each(actions, function(actionName, action) {
+                    if(action) $actions.append(createActionEle(action, actionName));
+                });
+            }
+        }
+
+        var $children = $item.children('ul');
+        if($children.length) {
+            this._initList($children, $item, idx, data);
+        }
+    };
+
+    Tree.prototype._init = function() {
+        var options = this.options, that = this;
+        this.actions = formatActions(options.actions);
+
+        this.$.addClass('tree');
+        if(options.animate) this.$.addClass('tree-animate');
+
+        this._initList(this.$);
+
+        var initialState = options.initialState;
+        var isPreserveEnable = $.zui && $.zui.store && $.zui.store.enable;
+        if(isPreserveEnable) {
+            this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
+            this.store = $.zui.store[options.name ? 'get' : 'pageGet'](this.selector, {});
+        }
+        if(initialState === 'preserve') {
+            if(isPreserveEnable) this.isPreserve = true;
+            else this.options.initialState = initialState = 'normal';
+        }
+
+        // init data
+        this.reload(options.data);
+        if(isPreserveEnable) this.isPreserve = true;
+
+        if(initialState === 'expand') {
+            this.expand();
+        } else if(initialState === 'collapse') {
+            this.collapse();
+        }
+
+        // Bind event
+        this.$.on('click', '.list-toggle, a[href=#], .tree-toggle', function(e) {
+            var $li = $(this).parent('li');
+            that.callEvent('hit', {target: $li, item: $li.data()});
+            that.toggle($li);
+            e.preventDefault();
+        }).on('click', '.tree-action', function() {
+            var $action = $(this);
+            var action = $action.data();
+            if(action.action) action = action.action;
+            if(action.type === 'sort') return;
+            var $li = $action.closest('li:not(.tree-action-item)');
+            that.callEvent('action', {action: action, target: this, $item: $li, item: $li.data()});
+        });
+    };
+
+    Tree.prototype.preserve = function($li, id, expand) {
+        if(!this.isPreserve) return;
+        if($li) {
+            id = id || $li.data('id');
+            expand = expand === undefined ? $li.hasClass('open') : false;
+            if(expand) this.store[id] = expand;
+            else delete this.store[id];
+            this.store.time = new Date().getTime();
+            $.zui.store[this.options.name ? 'set' : 'pageSet'](this.selector, this.store);
+        } else {
+            var that = this;
+            this.store = {};
+            this.$.find('li').each(function() {
+                that.preserve($(this));
+            });
+        }
+    };
+
+    Tree.prototype.expand = function($li, disabledAnimate, notStore) {
         if($li) {
             $li.addClass('open');
             if(!disabledAnimate && this.options.animate) {
@@ -6385,12 +6798,33 @@
                 $li.addClass('in');
             }
         } else {
-            this.$.find('li.has-list').addClass('open in');
+            $li = this.$.find('li.has-list').addClass('open in');
         }
+        if(!notStore) this.preserve($li);
         this.callEvent('expand', $li, this);
     };
 
-    Tree.prototype.collapse = function($li, disabledAnimate) {
+    Tree.prototype.show = function($lis, disabledAnimate, notStore) {
+        var that = this;
+        $lis.each(function() {
+            var $li = $(this);
+            that.expand($li, disabledAnimate, notStore);
+            if($li) {
+                var $ul = $li.parent('ul');
+                while($ul && $ul.length && !$ul.hasClass('tree')) {
+                    var $parentLi = $ul.parent('li');
+                    if($parentLi.length) {
+                        that.expand($parentLi, disabledAnimate, notStore);
+                        $ul = $parentLi.parent('ul');
+                    } else {
+                        $ul = false;
+                    }
+                }
+            }
+        });
+    };
+
+    Tree.prototype.collapse = function($li, disabledAnimate, notStore) {
         if($li) {
             if(!disabledAnimate && this.options.animate) {
                 $li.removeClass('in');
@@ -6401,8 +6835,9 @@
                 $li.removeClass('open in');
             }
         } else {
-            this.$.find('li.has-list').removeClass('open in');
+            $li = this.$.find('li.has-list').removeClass('open in');
         }
+        if(!notStore) this.preserve($li);
         this.callEvent('collapse', $li, this);
     };
 
@@ -6419,10 +6854,31 @@
         }
     };
 
+    Tree.prototype.toData = function($ul, filter) {
+        if($.isFunction($ul)) {
+            filter = $ul;
+            $ul = null;
+        }
+        $ul = $ul || this.$;
+        var that = this;
+        return $ul.children('li:not(.tree-action-item)').map(function() {
+            var $li = $(this);
+            var data = $li.data();
+            delete data['zui.droppable'];
+            var $children = $li.children('ul');
+            if($children.length) data.children = that.toData($children);
+            return $.isFunction(filter) ? filter(data, $li) : data;
+        }).get();
+    };
+
     // Call event helper
     Tree.prototype.callEvent = function(name, params) {
-        var result = this.$.callEvent(name + '.' + this.name, params, this);
-        return !(result.result !== undefined && (!result.result));
+        var result;
+        if($.isFunction(this.options[name])) {
+            result = this.options[name](params, this);
+        }
+        this.$.trigger($.Event(name + '.' + this.name, params));
+        return result;
     };
 
     // Extense jquery element

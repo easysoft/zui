@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI: 看板 - v1.4.0 - 2016-08-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -10,12 +10,15 @@
   margin-bottom: 5px;
   background: #fff;
   border: 1px solid #ddd;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
+          box-shadow: 0 1px 0 rgba(0, 0, 0, .05);
   -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .4s cubic-bezier(.175, .885, .32, 1);
           transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .board-item:hover {
-  box-shadow: 0 1px 1 rgba(0, 0, 0, .1);
+  -webkit-box-shadow: 0 1px 1 rgba(0, 0, 0, .1);
+          box-shadow: 0 1px 1 rgba(0, 0, 0, .1);
   }
 .board-item.board-item-empty {
   display: none;
@@ -28,8 +31,10 @@
   background: #ddd;
   border: none;
   border-color: #ddd;
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, .1);
+  -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, .1);
+          box-shadow: inset 0 0 4px rgba(0, 0, 0, .1);
   -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .4s cubic-bezier(.175, .885, .32, 1);
           transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .board-item.drag-shadow {
@@ -37,7 +42,8 @@
   cursor: move;
   background-color: #fff;
   border-color: #c4c4c4;
-  box-shadow: 1px 1px 15px rgba(0, 0, 0, .25);
+  -webkit-box-shadow: 1px 1px 15px rgba(0, 0, 0, .25);
+          box-shadow: 1px 1px 15px rgba(0, 0, 0, .25);
   opacity: .9;
   }
 .board-item.drag-from {
@@ -77,7 +83,8 @@
   }
 .boards.dragging .board.drop-in {
   border-color: #c4c4c4;
-  box-shadow: 1px 1px 15px rgba(0, 0, 0, .25);
+  -webkit-box-shadow: 1px 1px 15px rgba(0, 0, 0, .25);
+          box-shadow: 1px 1px 15px rgba(0, 0, 0, .25);
   }
 .boards.dragging .board.drop-in .board-item-shadow {
   display: block;

@@ -1,5 +1,5 @@
 /*!
- * ZUI - v1.4.0 - 2016-01-26
+ * ZUI: 数据表格 - v1.4.0 - 2016-08-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -15,8 +15,11 @@
   margin-bottom: 20px;
   }
 .datatable > .datatable-head {
-  -webkit-transition: box-shadow .2s;
-          transition: box-shadow .2s;
+  -webkit-transition: -webkit-box-shadow .2s;
+       -o-transition:         box-shadow .2s;
+          transition: -webkit-box-shadow .2s;
+          transition:         box-shadow .2s;
+          transition:         box-shadow .2s, -webkit-box-shadow .2s;
   }
 .datatable .table {
   margin: 0;
@@ -58,8 +61,9 @@
   }
 .datatable.head-fixed > .datatable-head {
   position: fixed;
-  z-index: 10000;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
+  z-index: 1030;
+  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
+          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
   }
 .datatable.sortable .datatable-head-span .table > thead > tr > th {
   overflow: hidden;
@@ -126,9 +130,11 @@
   bottom: 0;
   display: none;
   width: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+          box-shadow: 0 0 10px rgba(0, 0, 0, .15);
   opacity: 0;
   -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: all .4s cubic-bezier(.175, .885, .32, 1);
           transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 .datatable-span.flexarea .scrolled-in-shadow {
@@ -154,6 +160,7 @@
   border-bottom: none;
   opacity: 0;
   -webkit-transition: opacity .5s, background .3s;
+       -o-transition: opacity .5s, background .3s;
           transition: opacity .5s, background .3s;
   }
 .datatable .scroll-slide > .bar {
