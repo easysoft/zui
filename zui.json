@@ -1224,22 +1224,22 @@
       "includes": ["theme"]
     },
     "colorset.less2js": {
-      "title": "Convert less to javascript for colorset",
+      "title": "Generated from less code",
       "dest": "src/js/",
       "filename": "colorset",
       "subdirectories": false,
       "includes": ["colorset.less2js"]
     },
     "seperate": {
-      "title": "seperate",
+      "title": "Seperate bundles",
       "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "droppable", "selectable", "colorpicker", "colorset.js", "imgready"]
     },
     "dist": {
-      "title": "dist",
+      "title": "Dist bundles",
       "bundles": ["standard", "lite", "theme", "seperate"]
     },
     "doczui": {
-      "title": "Document zui bundle",
+      "title": "ZUI for official website",
       "dest": "docs/",
       "filename": "zui",
       "subdirectories": true,
