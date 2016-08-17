@@ -7,6 +7,16 @@
   "directories": {
     "doc": "docs"
   },
+  "keywords": [
+    "css",
+    "js",
+    "less",
+    "html5",
+    "responsive",
+    "front-end",
+    "framework",
+    "web"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
