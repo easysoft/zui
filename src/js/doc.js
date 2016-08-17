@@ -1509,7 +1509,6 @@
                         ignoreDpds: buildLib.ignoreDpds === undefined ? true : buildLib.ignoreDpds
                     };
                     pkg.builds[name] = bundleBuild;
-                    console.log('> bundleBuild', bundleBuild);
                 }
 
                 getBuildList(pkg, bundleBuild, lib, list);
