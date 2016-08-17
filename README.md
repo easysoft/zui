@@ -4,7 +4,7 @@
 
 从项目网站了解更多： http://zui.sexy/ 。
 
-🔥 推荐为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://zui.sexy/m/)。
+🔥 推荐为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://zui.sexy/m/), [Github](https://github.com/easysoft/mzui)。
 
 ## 特色
 
