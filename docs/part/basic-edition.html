@@ -1,6 +1,6 @@
 <article>
-  <p>ZUI中提供了众多丰富的web组件，几乎为你准备构建现代Web应用所有基础内容。但大部分场景并不需要所有组件，所有并没有将所有内容打包为一个CSS文件和一个JS文件，在标准版中仅包含精心选择的组件，这些组件用于绝大部分场景。</p>
-  <p>在构建轻量的应用时需要的内容更少。ZUI预编译版本中提供了一些简洁的版本。包含了ZUI中大部分常用内容，经过压缩后体积更小。你可以在dist目录下找到文件名包含&#39;.lite&#39;的文件记为简洁的版本。</p>
+  <p>ZUI 中提供了众多丰富的 Web 组件，几乎为你准备构建现代Web应用所有基础内容。但大部分场景并不需要所有组件，所有并没有将所有内容打包为一个 CSS 文件和一个 JS 文件，在标准版中仅包含精心选择的组件，这些组件用于绝大部分场景。</p>
+  <p>在构建轻量的应用时需要的内容更少。ZUI预编译版本中提供了一些简洁的版本。包含了 ZUI 中大部分常用内容，经过压缩后体积更小。你可以在 dist 目录下找到文件名包含 &#39;.lite&#39; 的文件记为简洁的版本。</p>
 </article>
 
 <section>
@@ -11,8 +11,7 @@
 └── dist/
     ├── css/                    CSS文件
     │   ├── zui.css
-    │   ├── zui.min.css
-    │   └── zui.map.css
+    │   └── zui.min.css
     ├── js/                     Javascript文件
     │   ├── zui.js
     │   └── zui.min.js
@@ -33,8 +32,7 @@
 └── dist/
     ├── css/                     CSS文件
     │   ├── zui.lite.css
-    │   ├── zui.lite.min.css
-    │   └── zui.lite.map.css
+    │   └── zui.lite.min.css
     ├── js/                      Javascript文件
     │   ├── zui.lite.js
     │   └── zui.lite.min.js
@@ -61,7 +59,7 @@
 </code></pre>
     <div class="alert alert-warning-inverse">
       <h4>提示</h4>
-      <p>ZUI包含的很多独立组件都需要jQuery和ZUI的其他基础插件支持，所以尽量配合jQuery和ZUI标准版或简洁版来使用。</p>
+      <p>ZUI 包含的很多独立组件都需要jQuery和ZUI的其他基础插件支持，所以尽量配合 jQuery 和 ZUI 标准版或简洁版来使用。</p>
     </div>
   </article>
 </section>
@@ -69,16 +67,16 @@
 <section>
   <header><h3>组件清单</h3></header>
   <article>
-    <h3>组件清单</h3>
-    <p>组件清单帮助你快速查找所需的组件是否包含在指定版本中。</p>
+    <p>组件清单帮助你快速查找所需的组件是否包含在指定版本中。在 ZUI 中目前包含 <strong class="components-count"></strong> 个可以选择使用的组件（不包括合并组件）。</p>
     <table class="table table-bordered" id="buildTable">
       <thead>
         <tr>
           <th data-width="auto">组件</th>
-          <th data-width="15%" style="width: 15%" class="text-center">标准版</th>
-          <th data-width="15%" style="width: 15%" class="text-center">简洁版</th>
-          <th data-width="15%" style="width: 15%" class="text-center">独立组件</th>
-          <th data-width="30%" style="width: 30%" class="text-center">版本要求</th>
+          <th data-width="10%" style="width: 15%" class="text-center">标准版</th>
+          <th data-width="10%" style="width: 15%" class="text-center">简洁版</th>
+          <th data-width="10%" style="width: 15%" class="text-center">独立组件</th>
+          <th data-width="15%" style="width: 15%" class="text-center">来源</th>
+          <th data-width="30%" style="width: 30%" class="text-center">版本及描述</th>
         </tr>
       </thead>
       <tbody>
@@ -87,22 +85,27 @@
         </tr>
       </tbody>
     </table>
+    <div class="alert alert-primary-inverse">
+      <h4>提示</h4>
+      <p>几乎所有第三方组件都经过 ZUI 定制，这些组件一般也不会一直与官方最新版本保持同步。</p>
+    </div>
   </article>
 </section>
 
 <section>
-  <header><h3>使用Gulp定制</h3></header>
+  <header><h3>使用 Gulp 定制</h3></header>
   <article>
-    <p>ZUI使用 <a href="http://gulpjs.com/" target="_blank">Gulp</a> 作为构建系统。如果不了解 Gulp
-  也没有关系，Gulp是一个非常棒而且容易上手的工具。下面给出简要步骤来准备编译ZUI，如果想了解更多请访问<a href="http://gulpjs.com/" target="_blank">Gulp官方网站</a>。</p>
-    <h4>安装Gulp</h4>
-    <p>Gulp构建在nodejs之上。在安装Gulp之前需要首先<a href="http://nodejs.org/download/" target=
-    "_blank">下载并安装node.js</a>。最新版的nodejs已包含npm（<a href="http://npmjs.org/" target=
-    "_blank">node packaged modules</a>）。npm是nodejs用来管理扩展包的工具。</p>
-    <p>安装nodejs之后，在命令行进行如下操作：</p>
+    <p>ZUI 使用 <a href="http://gulpjs.com/" target="_blank">Gulp</a> 作为构建系统。如果不了解 Gulp
+  也没有关系，Gulp 是一个非常棒而且容易上手的工具。下面给出简要步骤来准备编译 ZUI，如果想了解更多请访问 <a href="http://gulpjs.com/" target="_blank">Gulp 官方网站</a>。</p>
+    <h4>安装 Gulp</h4>
+    <p>Gulp 构建在nodejs 之上。在安装 Gulp 之前需要首先<a href="http://nodejs.org/download/" target=
+    "_blank">下载并安装 node.js</a>。最新版的 node.js 安装包已包含 npm（<a href="http://npmjs.org/" target=
+    "_blank">node packaged modules</a>）。npm 是nodejs用来管理扩展包的工具。</p>
+    <p>安装 nodejs 之后，在命令行进行如下操作：</p>
     <ul>
-      <li>进入ZUI源码目录，执行<code>npm
-      install</code>命令。nmp将读取包配置文件<code>package.json</code>文件并自动安装Gulp和所有依赖的扩展包。</li>
+      <li>在全局环境中安装 gulp ：<code>npm install -g gulp</code>；</li>
+      <li>进入 ZUI 源码目录，执行 <code>npm
+      install</code> 命令。nmp将读取包配置文件<code>package.json</code>文件并自动安装Gulp和所有依赖的扩展包。</li>
     </ul>
     <h4>使用 Gulp 来构建</h4>
     <p>完成上述步骤就可以进行编译了。只需要进入ZUI中使用命令行输入对应的命令就可以启动编译任务。内置的<code>build</code>命令可以完成大部分编译任务。以下为ZUI内置的一些常用任务命令。</p>
