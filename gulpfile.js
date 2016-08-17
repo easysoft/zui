@@ -35,12 +35,13 @@ var today = moment();
 var typeSet = ['less', 'js', 'resource'],
     lib = zui.lib,
     builds = zui.builds,
-    banner = ('/*!\n' +
+    BANNER = ('/*!\n' +
         ' * {title} - v{version} - {date}\n' +
         ' * {homepage}\n' +
         ' * GitHub: {repo} \n' +
         ' * Copyright (c) {year} {author}; Licensed {license}\n' +
-        ' */\n\n').format({
+        ' */\n\n'),
+    BANNER_OPTONS = {
         title: pkg.title || pkg.name,
         version: pkg.version,
         date: today.format('YYYY-MM-DD'),
@@ -49,8 +50,16 @@ var typeSet = ['less', 'js', 'resource'],
         year: today.format('YYYY'),
         author: pkg.author,
         license: pkg.license
-    }),
-    statement = '/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n';
+    },
+    BOOTSTRAP_STATEMENT = '/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n';
+
+function formatBanner(options) {
+    if(options && options.title) {
+        options.title = BANNER_OPTONS.title + ': ' + options.title;
+    }
+    options = Object.assign({}, BANNER_OPTONS, options);
+    return BANNER.format(options);
+}
 
 function tryStatSync(path) {
     try {
@@ -216,11 +225,12 @@ function buildBundle(name, callback, type) {
                 build = {
                     title: buildLib.name,
                     dest: 'dist/lib/' + name + '/',
-                    filename: name,
+                    filename: (buildLib.source && buildLib.source !== 'Bootstrap') ? name : ('zui.' + name),
                     includes: [name],
-                    thirdpart: buildLib.thirdpart,
-                    settingDpds: ['setting'],
-                    ignoreBasic: true
+                    source: buildLib.source,
+                    settingDpds: (buildLib.src && buildLib.src.less && buildLib.src.less.length) ? ['setting'] : null,
+                    ignoreBasic: true,
+                    ignoreDpds: buildLib.ignoreDpds !== undefined ? buildLib.ignoreDpds : true
                 };
             } else {
                 console.log(('           Cannot found the build config: ' + name).red);
@@ -231,14 +241,11 @@ function buildBundle(name, callback, type) {
         console.log(('           === BUILD BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.join(', ') + '] ===').blue.bold);
         var bundlesTaskList = [];
         build.bundles.forEach(function(bundleName) {
-            var bundleBuild = builds[bundleName];
-            if(bundleBuild) {
-                gulp.task('build:' + bundleName, function(cb) {
-                    buildBundle(bundleName, cb, type);
-                });
+            gulp.task('build:' + bundleName, function(cb) {
+                buildBundle(bundleName, cb, type);
+            });
 
-                bundlesTaskList.push('build:' + bundleName);
-            }
+            bundlesTaskList.push('build:' + bundleName);
         });
 
         gulp.task('build:' + name + ':bundles', function(cb) {
@@ -261,9 +268,10 @@ function buildBundle(name, callback, type) {
 
     console.log(('           --- build ' + name + ' ---').cyan.bold);
 
+    var banner = formatBanner({title: build.title || name});
     var source = getBuildSource(build),
-        bannerContent = build.thirdpart ?
-        '' : banner + (build.bootstrapStatement ? statement : '');
+        bannerContent = (build.source && build.source !== 'Bootstrap') ?
+        '' : banner + (build.bootstrapStatement ? BOOTSTRAP_STATEMENT : '');
 
     if(source.js && source.js.length && (!type || type === 'js')) {
         console.log(('         + Ready to process ' + source.js.length + ' javascript files.').bold);
@@ -285,11 +293,10 @@ function buildBundle(name, callback, type) {
                     console.log('      js > '.yellow.bold + (destPath + build.filename + '.js').italic.underline);
                 })
                 //.pipe(sourcemaps.init())
-                .pipe(uglify())
+                .pipe(uglify({preserveComments: 'some'}))
                 .pipe(rename({
                     suffix: '.min'
                 }))
-                .pipe(header(bannerContent))
                 //.pipe(sourcemaps.write())
                 .pipe(gulp.dest(destPath))
                 .on('end', function() {
