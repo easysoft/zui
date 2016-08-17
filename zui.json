@@ -8,8 +8,10 @@
         "resource": ["assets/jquery.js"]
       },
       "desc": "ZUI的绝大部分JS组件都依赖于jQuery",
-      "thirdpart": true,
-      "website": "http://jquery.com/"
+      "website": "http://jquery.com/",
+      "license": "MIT",
+      "licenseFile": "https://jquery.org/license/",
+      "source": "jQuery"
     },
     "excanvas": {
       "name": "excanvas",
@@ -19,8 +21,9 @@
         "resource": ["assets/excanvas.js"]
       },
       "desc": "HTML5 Canvas for Internet Explorer",
-      "thirdpart": true,
-      "website": "https://code.google.com/p/explorercanvas/"
+      "source": "Google",
+      "license": "Apache 2.0",
+      "website": "https://github.com/arv/explorercanvas"
     },
     "html5shiv": {
       "name": "html5shiv",
@@ -30,8 +33,10 @@
         "resource": ["assets/html5shiv.js"]
       },
       "desc": "HTML5 IE enabling script",
-      "thirdpart": true,
-      "website": "https://code.google.com/p/html5shiv/"
+      "source": "aFarkas",
+      "license": "MIT & GPL2",
+      "licenseFile": "https://github.com/aFarkas/html5shiv/blob/master/MIT%20and%20GPL2%20licenses.md",
+      "website": "https://github.com/afarkas/html5shiv"
     },
     "respond": {
       "name": "respond",
@@ -41,12 +46,15 @@
         "resource": ["assets/respond.js"]
       },
       "desc": "min/max-width media query polyfill",
-      "thirdpart": true,
+      "Souce": "Scott Jehl",
+      "license": "MIT",
+      "licenseFile": "https://github.com/scottjehl/Respond/blob/master/LICENSE-MIT",
       "website": "https://github.com/scottjehl/Respond"
     },
     "ieonly": {
       "name": "为IE专门设置",
-      "dpds": ["html5shiv", "respond", "excanvas"]
+      "dpds": ["html5shiv", "respond", "excanvas"],
+      "ignoreDpds": false
     },
     "prettify": {
       "name": "prettify",
@@ -56,7 +64,8 @@
         "resource": ["assets/prettify//**/*"]
       },
       "desc": "Automatically exported from code.google.com/p/google-code-prettify",
-      "thirdpart": true,
+      "source": "Google",
+      "license": "Apache 2.0",
       "website": "https://github.com/google/code-prettify"
     },
     "jqueryex": {
@@ -82,6 +91,7 @@
       },
       "dpds": ["colorset"],
       "config": true,
+      "source": "Bootstrap",
       "ver": "1.0.0"
     },
     "normalize": {
@@ -91,6 +101,8 @@
       },
       "ver": "1.0.0",
       "pver": "3.0.3",
+      "source": "Nicolas Gallagher and Jonathan Neal",
+      "license": "MIT",
       "website": "http://necolas.github.io/normalize.css/"
     },
     "mixins": {
@@ -101,12 +113,13 @@
       },
       "ver": "1.0.0",
       "config": true,
+      "source": "Bootstrap",
       "dpds": ["variables"]
     },
     "setting": {
       "name": "ZUI配置",
       "config": true,
-      "dpds": ["variables", "mixins"]
+      "dpds": ["variables", "icons.variables", "mixins"]
     },
     "basic": {
       "name": "基础样式",
@@ -119,6 +132,7 @@
         "less": ["~/basic/utilities.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "utilities.responsive": {
@@ -128,6 +142,7 @@
       },
       "desc": "支持多设备响应的辅助类",
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "utilities": {
@@ -141,6 +156,7 @@
         "less": ["~/basic/scaffolding.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["mixins"]
     },
     "grid": {
@@ -150,6 +166,7 @@
       },
       "desc": "使用栅格来帮助布局",
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "typography.basic": {
@@ -158,6 +175,7 @@
         "less": ["~/controls/type.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "typography.bg": {
@@ -186,6 +204,7 @@
         "less": ["~/controls/headers.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "button.basic": {
@@ -194,6 +213,7 @@
         "less": ["~/controls/buttons.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "button.group": {
@@ -202,6 +222,7 @@
         "less": ["~/controls/buttons.group.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["button.basic"]
     },
     "button.vertical": {
@@ -210,6 +231,7 @@
         "less": ["~/controls/buttons.vertical.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["button.basic"]
     },
     "button.js": {
@@ -218,6 +240,7 @@
         "js": ["~/button.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["button.basic"]
     },
     "button": {
@@ -230,6 +253,7 @@
         "less": ["~/controls/progress-bars.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "image": {
@@ -238,6 +262,7 @@
         "less": ["~/controls/image.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "divider": {
@@ -254,6 +279,7 @@
         "less": ["~/controls/labels.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "labels.fix": {
@@ -262,6 +288,7 @@
         "less": ["~/controls/labels.fix.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["labels.basic"]
     },
     "labels": {
@@ -274,6 +301,7 @@
         "less": ["~/controls/breadcrumbs.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "icons.core": {
@@ -282,6 +310,10 @@
         "less": ["~/controls/icons.core.less"]
       },
       "ver": "1.0.0",
+      "source": "FontAwesome",
+      "website": "http://fontawesome.io",
+      "license": "MIT",
+      "licenseFile": "http://fontawesome.io/license/",
       "dpds": ["basic"]
     },
     "icons.variables": {
@@ -299,6 +331,10 @@
       },
       "ver": "1.0.0",
       "config": true,
+      "source": "FontAwesome",
+      "website": "http://fontawesome.io",
+      "license": "MIT",
+      "licenseFile": "http://fontawesome.io/license/",
       "dpds": ["icons.variables"]
     },
     "icons.font": {
@@ -306,6 +342,10 @@
       "src": {
         "resource": ["src//fonts/zenicon.eot", "src//fonts/zenicon.svg", "src//fonts/zenicon.ttf", "src//fonts/zenicon.woff"]
       },
+      "source": "FontAwesome",
+      "website": "http://fontawesome.io",
+      "license": "SIL OFL 1.1",
+      "licenseFile": "http://fontawesome.io/license/",
       "ver": "1.0.0"
     },
     "icons.json": {
@@ -326,6 +366,7 @@
         "less": ["~/controls/close.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "scrollbars": {
@@ -341,6 +382,7 @@
         "less": ["~/components/tables.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "table.colors": {
@@ -349,6 +391,7 @@
         "less": ["~/components/tables.colors.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["table.basic"]
     },
     "table.responsive": {
@@ -357,6 +400,7 @@
         "less": ["~/components/tables.responsive.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["table.basic"]
     },
     "table": {
@@ -369,6 +413,7 @@
         "less": ["~/components/list-group.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "panels.basic": {
@@ -377,6 +422,7 @@
         "less": ["~/components/panels.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "panels.types": {
@@ -385,6 +431,7 @@
         "less": ["~/components/panels.types.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["panels.basic"]
     },
     "panels.group": {
@@ -393,6 +440,7 @@
         "less": ["~/components/panels.group.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["panels.basic"]
     },
     "panels.fix": {
@@ -401,6 +449,7 @@
         "less": ["~/components/panels.fix.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["panels.basic"]
     },
     "panels": {
@@ -413,6 +462,7 @@
         "less": ["~/components/alerts.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "alerts.dismiss": {
@@ -421,6 +471,7 @@
         "js": ["src/js/alert.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "alerts.basic": {
@@ -446,6 +497,7 @@
         "less": ["~/components/input-groups.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "inputgroups.size": {
@@ -454,6 +506,7 @@
         "less": ["~/components/input-groups.size.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["inputgroups.basic"]
     },
     "inputgroups": {
@@ -466,6 +519,7 @@
         "less": ["~/components/forms.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "forms.condensed": {
@@ -486,6 +540,7 @@
         "less": ["~/components/code.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "pager.basic": {
@@ -494,6 +549,7 @@
         "less": ["~/components/pager.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "pager.size": {
@@ -502,6 +558,7 @@
         "less": ["~/components/pager.size.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["pager.basic"]
     },
     "pager.types": {
@@ -522,6 +579,7 @@
         "less": ["~/components/navs.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "navs.tabs": {
@@ -530,6 +588,7 @@
         "less": ["~/components/navs.tabs.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["tab", "navs.basic"]
     },
     "navs": {
@@ -542,6 +601,7 @@
         "less": ["~/components/navbars.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic"]
     },
     "navbars.form": {
@@ -550,6 +610,7 @@
         "less": ["~/components/navbars.form.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["navbars.basic"]
     },
     "navbars": {
@@ -562,6 +623,7 @@
         "less": ["~/modules/animations.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["mixins"],
       "require": ["jquery"]
     },
@@ -571,6 +633,7 @@
         "js": ["src/js/transition.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["animations.style"],
       "require": ["jquery"]
     },
@@ -580,6 +643,7 @@
         "js": ["src/js/collapse.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["animations"]
     },
     "device": {
@@ -611,7 +675,8 @@
       "src": {
         "js": ["src/js/image.ready.js"]
       },
-      "thirdpart": true,
+      "ver": "1.2.0",
+      "source": "TangBin",
       "website": "http://www.planeart.cn/?p=1121"
     },
     "hotkey": {
@@ -620,8 +685,9 @@
         "js": ["src/js/hotkeys.js"]
       },
       "ver": "1.0.0",
-      "thirdpart": true,
-      "website": "http://github.com/tzuryby/hotkeys",
+      "source": "Bootstrap",
+      "license": "MIT or GPL 2",
+      "website": "https://github.com/tzuryby/jquery.hotkeys",
       "require": ["jquery"]
     },
     "date": {
@@ -652,8 +718,9 @@
       },
       "ver": "1.0.0",
       "pver": "1.1",
-      "thirdpart": true,
-      "website": "http://benalman.com/projects/jquery-resize-plugin/",
+      "license": "MIT & GPL",
+      "source": "Ben Alman",
+      "website": "https://github.com/cowboy/jquery-resize",
       "require": ["jquery"]
     },
     "scrollspy": {
@@ -662,6 +729,7 @@
         "js": ["src/js/scrollspy.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "require": ["jquery"]
     },
     "store": {
@@ -705,6 +773,7 @@
         "js": ["src/js/tab.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["animation"],
       "require": ["jquery"]
     },
@@ -715,6 +784,7 @@
         "js": ["src/js/modal.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic", "animations"],
       "require": ["jquery"]
     },
@@ -734,6 +804,7 @@
         "js": ["src/js/tooltip.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic", "animations"],
       "require": ["jquery"]
     },
@@ -744,6 +815,7 @@
         "js": ["src/js/popover.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["tooltip", "animations"],
       "require": ["jquery"]
     },
@@ -754,6 +826,7 @@
         "js": ["src/js/dropdown.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic", "animations"],
       "require": ["jquery"]
     },
@@ -764,6 +837,7 @@
         "js": ["src/js/carousel.js"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["basic", "animations"],
       "require": ["jquery"]
     },
@@ -773,6 +847,7 @@
         "less": ["~/modules/carousel.indicators.less"]
       },
       "ver": "1.0.0",
+      "source": "Bootstrap",
       "dpds": ["carousel.basic"]
     },
     "carousel": {
@@ -827,7 +902,8 @@
         "js": ["~/datetimepicker.js"]
       },
       "ver": "1.0.0",
-      "thirdpart": true,
+      "license": "Apache 2.0",
+      "source": "Stefan Petre",
       "dpds": ["basic", "dropdowns"],
       "website": "http://www.malot.fr/bootstrap-datetimepicker",
       "custom": ["ui"],
@@ -843,8 +919,10 @@
       "ver": "1.0.0",
       "dpds": ["basic"],
       "pver": "4.1.0",
+      "license": "GNU",
+      "source": "kindsoft",
+      "project": "https://github.com/kindsoft/kindeditor",
       "website": "http://kindeditor.net/",
-      "thirdpart": true,
       "custom": ["ui"]
     },
     "chosen": {
@@ -856,8 +934,9 @@
       "ver": "1.0.0",
       "dpds": ["basic"],
       "pver": "1.1.0",
+      "license": "MIT",
+      "source": "Patrick Filler",
       "website": "https://github.com/harvesthq/chosen",
-      "thirdpart": true,
       "custom": ["ui"],
       "require": ["jquery"]
     },
@@ -870,7 +949,10 @@
       "ver": "1.0.0",
       "pver": "4.4.0",
       "dpds": ["modals"],
-      "thirdpart": true,
+      "source": "Nick Payne",
+      "license": "MIT",
+      "website": "http://bootboxjs.com/",
+      "project": "https://github.com/makeusabrew/bootbox",
       "custom": ["ui"],
       "require": ["jquery"]
     },
@@ -960,7 +1042,6 @@
       "name": "Chart.js",
       "pver": "1.0.2",
       "ver": "1.3.0",
-      "thirdpart": true,
       "website": "http://www.chartjs.org/",
       "src": {
         "js": ["src/js/Chart.Core.js", "src/js/Chart.Line.js", "src/js/Chart.Doughnut.js", "src/js/Chart.Bar.js"],
@@ -1014,7 +1095,7 @@
       },
       "ver": "2.0.0",
       "dpds": ["basic", "jqueryex", "resize", "string", "date", "droppable"],
-      "custom": true
+      "hidden": true
     },
     "theme": {
       "name": "主题示例",
@@ -1025,7 +1106,7 @@
       "ver": "1.0.0"
     },
     "themeConfig": {
-      "name": "主题示例",
+      "name": "主题选项",
       "src": {
         "less": ["~/basic/variables.theme.less"]
       },
@@ -1041,8 +1122,8 @@
       },
       "desc": "ZUI文档依赖样式和工具",
       "ver": "1.3.0",
-      "dpds": ["setting", "icons.json", "icons.variables"],
-      "custom": true
+      "dpds": ["setting", "icons.json"],
+      "hidden": true
     },
     "tree": {
       "name": "树形菜单",
@@ -1051,7 +1132,6 @@
         "less": ["~/views/tree.less"]
       },
       "ver": "1.4.0",
-      "dpds": ["icons.variables"],
       "require": ["icons"]
     },
     "clipboard": {
@@ -1062,7 +1142,8 @@
       "ver": "1.4.0",
       "pver": "1.5.5",
       "desc": "Modern copy to clipboard. No Flash. Just 2kb.",
-      "thirdpart": true,
+      "source": "Zeno Rocha",
+      "license": "MIT",
       "website": "https://clipboardjs.com/"
     },
     "colorset.less2js": {
@@ -1071,7 +1152,8 @@
         "less": ["~/basic/colorset.js.less"]
       },
       "ver": "1.3.0",
-      "dpds": ["colorset"]
+      "dpds": ["colorset"],
+      "hidden": true
     },
     "colorset.js": {
       "name": "JS配色表",
@@ -1097,10 +1179,10 @@
       "desc": "ZUI的色彩预览样式",
       "ver": "1.0.0",
       "dpds": ["colorset", "mixins"],
-      "custom": true
+      "hidden": true
     },
     "colorpicker": {
-      "name": "JS配色表",
+      "name": "颜色选择器",
       "src": {
         "js": ["src/js/colorpicker.js"],
         "less": ["src/less/modules/colorpicker.less"]
@@ -1111,11 +1193,9 @@
     "selectable": {
       "name": "拖拽选择",
       "src": {
-        "js": ["src/js/selectable.js"],
-        "less": ["src/less/modules/selectable.less"]
+        "js": ["src/js/selectable.js"]
       },
-      "ver": "1.5.0",
-      "dpds": ["basic"]
+      "ver": "1.5.0"
     }
   },
   "builds": {
@@ -1150,142 +1230,16 @@
       "subdirectories": false,
       "includes": ["colorset.less2js"]
     },
-    "calendar": {
-      "title": "Calendar",
-      "dest": "dist/lib/calendar/",
-      "filename": "zui.calendar",
-      "includes": ["calendar"],
-      "settingDpds": ["setting"],
-      "ignoreDpds": true
-    },
-    "board": {
-      "title": "Board",
-      "dest": "dist/lib/board/",
-      "filename": "zui.board",
-      "includes": ["board"],
-      "settingDpds": ["setting"],
-      "ignoreDpds": true
-    },
-    "mindmap": {
-      "title": "Mindmap",
-      "dest": "dist/lib/mindmap/",
-      "filename": "zui.mindmap",
-      "includes": ["mindmap"],
-      "settingDpds": ["setting"],
-      "ignoreDpds": true
-    },
-    "kindeditor": {
-      "thirdpart": true,
-      "title": "Kindeditor",
-      "dest": "dist/lib/kindeditor/",
-      "filename": "kindeditor",
-      "includes": ["kindeditor"],
-      "settingDpds": ["setting"],
-      "ignoreDpds": true
-    },
-    "datetimepicker": {
-      "thirdpart": true,
-      "title": "Datetimepicker",
-      "dest": "dist/lib/datetimepicker/",
-      "filename": "datetimepicker",
-      "includes": ["datetimepicker"],
-      "settingDpds": ["setting"],
-      "ignoreDpds": true
-    },
-    "jquery": {
-      "thirdpart": true,
-      "title": "jQuery",
-      "dest": "dist/lib/jquery/",
-      "filename": "jquery",
-      "includes": ["jquery"]
-    },
-    "prettify": {
-      "thirdpart": true,
-      "title": "Google code prettify",
-      "dest": "dist/lib/prettify/",
-      "filename": "prettify",
-      "includes": ["prettify"]
-    },
-    "chosen": {
-      "thirdpart": true,
-      "title": "Chosen",
-      "dest": "dist/lib/chosen/",
-      "filename": "chosen",
-      "includes": ["chosen"],
-      "settingDpds": ["setting", "icons.variables"],
-      "ignoreDpds": true
-    },
-    "chosenicons": {
-      "title": "Chosen icons selector",
-      "dest": "dist/lib/chosen/",
-      "filename": "chosen.icons",
-      "includes": ["chosenicons"],
-      "settingDpds": ["setting", "icons.variables"],
-      "ignoreDpds": true
-    },
-    "imgcutter": {
-      "title": "Image cutter",
-      "dest": "dist/lib/imgcutter/",
-      "filename": "zui.imgcutter",
-      "includes": ["imgcutter"],
-      "settingDpds": ["setting"],
-      "ignoreDpds": true
-    },
-    "datatable": {
-      "title": "Image cutter",
-      "dest": "dist/lib/datatable/",
-      "filename": "zui.datatable",
-      "includes": ["datatable"],
-      "settingDpds": ["setting", "icons.variables"],
-      "ignoreDpds": true
-    },
-    "ieonly": {
-      "title": "Only for ie browser",
-      "dest": "dist/lib/ieonly/",
-      "filename": "ie",
-      "includes": ["ieonly"]
-    },
-    "chart": {
-      "thirdpart": true,
-      "title": "Chart.js",
-      "dest": "dist/lib/chart/",
-      "filename": "chart",
-      "includes": ["chart"]
-    },
-    "hotkey": {
-      "title": "hotkey",
-      "dest": "dist/lib/hotkey/",
-      "filename": "hotkey",
-      "includes": ["hotkey"]
-    },
-    "hotkey": {
-      "title": "hotkey",
-      "dest": "dist/lib/hotkey/",
-      "filename": "hotkey",
-      "includes": ["hotkey"]
-    },
-    "droppable": {
-      "title": "droppable",
-      "dest": "dist/lib/droppable/",
-      "filename": "droppable",
-      "includes": ["droppable"]
-    },
-    "migrate1.2": {
-      "title": "migrate1.2",
-      "dest": "dist/lib/migrate",
-      "filename": "migrate1.2",
-      "includes": ["migrate1.2"]
-    },
-    "separate": {
-      "title": "separate",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "droppable"]
+    "seperate": {
+      "title": "seperate",
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "droppable", "selectable", "colorpicker", "colorset.js"]
     },
     "dist": {
       "title": "dist",
-      "bundles": ["standard", "lite", "theme", "separate"]
+      "bundles": ["standard", "lite", "theme", "seperate"]
     },
     "doczui": {
-      "title": "document",
+      "title": "Document zui bundle",
       "dest": "docs/",
       "filename": "zui",
       "subdirectories": true,
