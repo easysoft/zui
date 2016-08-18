@@ -36,6 +36,14 @@
         };
     }
 
+    $.fn.allAttrs = function() {
+        var attrs = {};
+        $.each($(this)[0].attributes, function(index, attribute) {
+            attrs[attribute.name] = attribute.value;
+        });
+        return attrs;
+    }
+
     var getQueryString = function(name, defaultValue) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
@@ -1259,15 +1267,11 @@
                             $article = $article.add($tag);
                             return;
                         }
-                        if(tagName === 'TEMPLATE') {
+                        if(tagName === 'TEMPLATE' || tagName === 'HOLDER') {
                             $lastTemplate = $tag;
                             return;
                         } else if($lastTemplate) {
-                            var attrs = {};
-                            $.each($lastTemplate[0].attributes, function(index, attribute) {
-                                attrs[attribute.name] = attribute.value;
-                            });
-                            $tag.attr(attrs);
+                            $tag.attr($lastTemplate.allAttrs());
                             $lastTemplate = null;
                         }
                         if(tagName === 'TABLE') {
@@ -1279,6 +1283,9 @@
                             }
                             checkFirstH1 = false;
                             return;
+                        }
+                        if(tagName === 'EXAMPLE') {
+                            $tag = $('<div/>').attr($tag.allAttrs()).html($tag.html()).addClass('example');
                         }
                         if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
                             if($lastSection) {
