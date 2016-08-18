@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.4.0 - 2016-08-17
+ * ZUI: ZUI for official website - v1.5.0 - 2016-08-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -9990,7 +9990,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.4.0 - 2016-08-17
+ * ZUI: Generated from less code - v1.5.0 - 2016-08-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -14016,7 +14016,11 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 }
                 if(handleResult !== true) {
                     that.selections[id] = isSelect ? that.selectOrder++ : false;
-                    that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element}, that);
+                    var selected = [];
+                    $.each(that.selections, function(thisId, thisIsSelected) {
+                        if(thisIsSelected) selected.push(thisId);
+                    });
+                    that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element, selected: selected}, that);
                 }
             }
             $element.toggleClass(that.options.selectClass, isSelect);
@@ -14098,7 +14102,11 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 range = null;
             }
             if($range) $range.remove();
-            that.callEvent('finish', {selections: that.selections});
+            var selected = [];
+            $.each(that.selections, function(thisId, thisIsSelected) {
+                if(thisIsSelected) selected.push(thisId);
+            });
+            that.callEvent('finish', {selections: that.selections, selected: selected});
             $(document).off(eventNamespace);
             e.preventDefault();
         };
