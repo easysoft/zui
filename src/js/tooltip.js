@@ -143,7 +143,7 @@
     Tooltip.prototype.show = function(content) {
         var e = $.Event('show.zui.' + this.type)
 
-        if(this.hasContent() && this.enabled) {
+        if((content || this.hasContent()) && this.enabled) {
             this.$element.trigger(e)
 
             if(e.isDefaultPrevented()) return
