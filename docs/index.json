@@ -878,7 +878,35 @@
                 "icon": "icon-th",
                 "desc": "通过拖拽来选择元素",
                 "name": "拖拽选取",
-                "topics": [],
+                "topics": [{
+                    "name": "综合示例"
+                }, {
+                    "name": "选取不规则元素"
+                }, {
+                    "name": "如何使用"
+                }, {
+                    "name": "数据表格"
+                }],
+                "url": ".md",
+                "filter": "tuozhuai tz"
+            }, {
+                "id": "colorpicker",
+                "icon": "icon-tint",
+                "desc": "从下拉菜单中选择预设的颜色值",
+                "name": "颜色选择器",
+                "topics": [{
+                    "name": "按钮选择器"
+                }, {
+                    "name": "使用输入组"
+                }, {
+                    "name": "自定义预设颜色"
+                }, {
+                    "name": "自定义按钮图标"
+                }, {
+                    "name": "同步更新"
+                }, {
+                    "name": "使用方法"
+                }],
                 "url": ".md",
                 "filter": "tuozhuai tz"
             }, {
