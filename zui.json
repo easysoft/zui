@@ -489,7 +489,7 @@
     },
     "alerts": {
       "name": "消息框",
-      "dpds": ["alerts.basic", "alerts.inverse"]
+      "dpds": ["alerts.style", "alerts.basic", "alerts.inverse"]
     },
     "inputgroups.basic": {
       "name": "基本输入框组",

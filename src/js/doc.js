@@ -1158,7 +1158,7 @@
             $pageAttrs.children('.badge-lite').toggle(!!lib.bundles.lite);
             $pageAttrs.children('.badge-lib').toggle(!!lib.bundles.seperate);
             $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
-
+            $pageAttrs.children('.badge-bootstrap').toggle(lib.source === 'Bootstrap');
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
             $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
 
@@ -1615,6 +1615,8 @@
                 });
 
                 if(pkgLib) {
+                    lib.source = pkgLib.source;
+
                     if(pkgLib.thirdpart) {
                         lib.thirdpart = true;
                         lib.partUrl = pkgLib.website;
@@ -1623,6 +1625,12 @@
 
                     if(!pkgLib.src && pkgLib.dpds) {
                         lib.custom = true;
+                        if(!lib.source) {
+                            $.each(pkgLib.dpds, function(_, dpdLibName) {
+                                var dpdLib = pkg.lib[dpdLibName];
+                                if(dpdLib && dpdLib.source) lib.source = dpdLib.source;
+                            });
+                        }
                     }
 
                     if(pkgLib.ver) {
