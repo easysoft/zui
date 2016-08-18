@@ -1,6 +1,6 @@
 {
-    "version": "1.4.0.3",
-    "updateTime": "2016-01-26 11:09:29",
+    "version": "1.5.0.0",
+    "updateTime": "2016-08-18 16:13:33",
     "chapters": {
         "contribution": {
             "name": "贡献",
@@ -873,6 +873,14 @@
                 "name": "拖放",
                 "topics": [],
                 "filter": "tuofang tf"
+            }, {
+                "id": "selectable",
+                "icon": "icon-th",
+                "desc": "通过拖拽来选择元素",
+                "name": "拖拽选取",
+                "topics": [],
+                "url": ".md",
+                "filter": "tuozhuai tz"
             }, {
                 "id": "bootbox",
                 "icon": "icon-question-sign",
