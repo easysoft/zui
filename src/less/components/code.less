@@ -12,6 +12,7 @@
 
 // Inline and block code styles
 
+.code,
 code,
 kbd,
 pre,
@@ -23,12 +24,9 @@ samp { font-family: @font-family-monospace; }
 kbd,
 code {
   padding: 2px 4px;
-  margin:0 4px;
   font-size: 90%;
   color: @code-color;
   background-color: @code-bg;
-  border: 1px solid darken(@code-bg, 10%);
-  white-space: nowrap;
   border-radius: @border-radius-base;
 }
 
@@ -36,9 +34,11 @@ code {
 // Keyboard text
 
 kbd {
-  border: 1px solid darken(@code-bg, 10%);
+  padding: 1px 4px;
+  background-color: @kbd-bg;
+  border: 1px solid darken(@kbd-bg, 10%);
   border-bottom-width: 2px;
-  color: #666;
+  color: @kbd-color;
   font-weight: bold;
 }
 
