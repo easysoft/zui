@@ -151,11 +151,17 @@
                 "topics": [{
                     "name": "新版本更新明细"
                 }, {
-                    "name": "[1.4] 树形菜单",
-                    "url": "#view/tree"
+                    "name": "[1.5] 布局",
+                    "url": "#basic/layout"
                 }, {
-                    "name": "[1.4] 主题",
-                    "url": "#basic/theme"
+                    "name": "[1.5] 拖拽选取",
+                    "url": "#javascript/selectable"
+                }, {
+                    "name": "[1.5] 颜色选择器",
+                    "url": "#javascript/colrpicker"
+                }, {
+                    "name": "[1.5] 树形菜单：数据加载与更新",
+                    "url": "#view/tree/3"
                 }]
             }, {
                 "id": "qqgroup",
@@ -947,6 +953,8 @@
                     "name": "外观选项"
                 }, {
                     "name": "用法"
+                }, {
+                    "name": "数据加载与更新"
                 }],
                 "filter": "shuxingcaidan sxcd shuxcd"
             }, {
