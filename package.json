@@ -18,7 +18,8 @@
     "web"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server -a 127.0.0.1 -p 8088"
   },
   "repository": {
     "type": "git",
@@ -49,6 +50,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
     "gulp-zip": "^3.0.2",
+    "http-server": "^0.9.0",
     "less-plugin-clean-css": "^1.5.1",
     "mkdirp": "^0.5.1",
     "moment": "^2.11.0",
