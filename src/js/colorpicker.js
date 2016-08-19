@@ -83,7 +83,7 @@
             } else {
                 if(options.optional && val === '') {
                     $input.tooltip('hide');
-                } else {
+                } else if(!$input.is(':focus')) {
                     $input.tooltip('show', options.errorTip);
                 }
             }
@@ -92,7 +92,7 @@
             if(options.tooltip) {
                 $input.attr('data-toggle', 'tooltip').tooltip({trigger: 'manual', placement: options.tooltip, tipClass: 'tooltip-danger', container: 'body'});
             }
-            $input.on('keyup paste input', setInputColor);
+            $input.on('keyup paste input change', setInputColor);
         } else {
             $input.appendTo(this.$picker);
         }
