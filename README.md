@@ -33,6 +33,22 @@ bower install zui
  - [v 1.4.0](http://z.com/docs/download/zui-1.4.0-dist.zip)
  - [v 1.4.0 源码](https://github.com/easysoft/zui/archive/v1.4.0.zip)
 
+### 文档
+
+文档网站请直接访问 http://zui.sexy/
+
+开发中的文档访问 http://easysoft.github.io/zui/
+
+你也可以自己部署文档网站：下载源码后，请使用 http 或 https 协议访问源码根目录下的 `index.html`。
+
+如果你的安装了 nodejs 环境，则可以按照如下步骤启动网站：
+
+1. 进入 ZUI 源码目录；
+2. 执行 `npm install`；
+3. 执行 `npm start`；
+4. 在浏览器中访问 `http://127.0.0.1:8088`。
+
+
 ## 使用ZUI开发的项目
 
 - [禅道项目管理软件](http://zentao.net)
