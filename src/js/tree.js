@@ -81,6 +81,7 @@
         animate: null,
         initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
         toggleTemplate: '<i class="list-toggle icon"></i>',
+        // sortable: false, //
     };
 
     Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
@@ -103,14 +104,17 @@
             }
             $.each(items, function(idx, item) {
                 var $li = $('<li/>').data(item).appendTo($ul);
-                var $wrapper = options.itemWrapper ? $('<div class="tree-item-wrapper"/>').appendTo($li) : $li;
+                if(item.id !== undefined) $li.attr('data-id', item.id);
+                var $wrapper = options.itemWrapper ? $(options.itemWrapper === true ? '<div class="tree-item-wrapper"/>' : options.itemWrapper).appendTo($li) : $li;
                 if(item.html) {
                     $wrapper.html(item.html)
                 } else if($.isFunction(that.options.itemCreator)) {
-                    var itemContent = that.options.itemCreator($wrapper, item);
-                    if(itemContent !== true) $wrapper.html(itemContent);
+                    var itemContent = that.options.itemCreator($li, item);
+                    if(itemContent !== true && itemContent !== false) $wrapper.html(itemContent);
+                } else if(item.url) {
+                    $wrapper.append($('<a/>', {href: item.url}).text(item.title || item.name));
                 } else {
-                    $wrapper.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
+                    $wrapper.append($('<span/>').text(item.title || item.name));
                 }
                 that._initItem($li, item.idx || idx, $ul, item);
                 if(item.children && item.children.length) {
