@@ -14,9 +14,9 @@
   background-color: @color-dark;
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: @messager-radius;
-  padding-right: 50px;
   max-width: 80%;
   z-index: 99999;
+  &:extend(.clearfix all);
 
   &.top {
     top: 20px;
@@ -49,6 +49,7 @@
 
 .messager-content {
   padding: 10px 20px;
+  float: left;
 
   > [class^='icon-'] {
      display: inline-block;
@@ -57,18 +58,21 @@
 }
 
 .messager-actions {
-  position: absolute;
-  right: 15px;
-  top: 8px;
+  float: right;
 
   > .action {
     color: #fafafa;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255,255,255,.6);
     background: none;
     border: none;
     text-shadow: none;
+    min-width: 40px;
+    padding: 0 12px;
+    height: 40px;
+    text-align: center;
 
     &.close {
+      padding-bottom: 5px;
       opacity: 1;
       font-size: 20px;
       font-weight: normal;
@@ -76,8 +80,11 @@
 
     &:hover {
       color: #fff;
+      background: rgba(0,0,0,.1);
     }
   }
+
+  .action-icon + .action-text {margin-left: 8px;}
 }
 
 .messager-primary {

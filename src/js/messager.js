@@ -6,11 +6,11 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     var id = 0;
-    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content"></div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>';
+    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-actions"></div><div class="messager-content"></div></div>';
     var defaultOptions = {
         type: 'default',
         placement: 'top',
@@ -19,6 +19,10 @@
         // clear: false,
         icon: null,
         close: true,
+        // actions: [{icon, name, action, title}],
+        // contentClass: null,
+        // cssClass: null,
+        // onAction: function,
         fade: true,
         scale: true
     };
@@ -31,16 +35,63 @@
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
-        if(!options.close) {
-            that.$.find('.close').remove();
-        } else {
-            that.$.on('click', '.close', function() {
-                that.hide();
+
+        if(options.cssClass) that.$.addClass(options.cssClass);
+
+        var hasCloseAction = false;
+        var $actions = that.$.find('.messager-actions');
+        var appendAction = function(action) {
+            var $btn = $('<button type="button" class="action action-' + action.name + '"/>');
+            if(action.name === 'close') $btn.addClass('close');
+            if(action.html !== undefined) {
+                $btn.html(action.html);
+            }
+            if(action.icon !== undefined) {
+                $btn.append('<i class="action-icon icon-' + action.icon + '"/>');
+            }
+            if(action.text !== undefined) {
+                $btn.append('<span class="action-text">' + action.text + '</span>');
+            }
+            if(action.tooltip !== undefined) {
+                $btn.attr('title', action.tooltip).tooltip();
+            }
+            $btn.data('action', action);
+            $actions.append($btn);
+        };
+        if(options.actions) {
+            $.each(options.actions, function(idx, action) {
+                if(action.name === undefined) action.name = idx;
+                if(action.name == 'close') hasCloseAction = true;
+                appendAction(action);
             });
         }
+        if(!hasCloseAction && options.close) {
+            appendAction({name: 'close', html: '&times;'});
+        }
 
-        that.$.find('.messager-content').html(that.message);
+        that.$.on('click', '.action', function(e) {
+            var action = $(this).data('action'), result;
+            if(options.onAction) {
+                result = options.onAction.call(this, action.name, action, that);
+                if(result === false) return;
+            }
+            if($.isFunction(action.action)) {
+                result = action.action.call(this, that);
+                if(result === false) return;
+            }
+            that.hide();
+            e.stopPropagation();
+        });
 
+        that.$.on('click', function(e) {
+            if(options.onAction) {
+                result = options.onAction.call(this, 'content', null, that);
+                if(result === true) that.hide();
+            }
+        });
+
+        var $content = that.$.find('.messager-content').html(that.message);
+        if(options.contentClass) $content.addClass(options.cssClass);
 
         that.$.data('zui.messager', that);
     };
@@ -70,11 +121,11 @@
         that.$.appendTo(options.parent).show();
 
         if(options.placement === 'top' || options.placement === 'bottom' || options.placement === 'center') {
-            that.$.css('left', ($(window).width() - that.$.width() - 50) / 2);
+            that.$.css('left', ($(window).width() - that.$.width()) / 2);
         }
 
         if(options.placement === 'left' || options.placement === 'right' || options.placement === 'center') {
-            that.$.css('top', ($(window).height() - that.$.height() - 50) / 2);
+            that.$.css('top', ($(window).height() - that.$.height()) / 2);
         }
 
         that.$.addClass('in');
@@ -172,5 +223,5 @@
             }
         }
     });
-}(jQuery, window));
+}(jQuery, window, undefined));
 
