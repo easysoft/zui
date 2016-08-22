@@ -10,7 +10,7 @@
     'use strict';
 
     var id = 0;
-    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-actions"></div><div class="messager-content"></div></div>';
+    var template = '<div class="messager messager-{type} {placement}" id="messager{id}"><div class="messager-content"></div><div class="messager-actions"></div></div>';
     var defaultOptions = {
         type: 'default',
         placement: 'top',
@@ -26,7 +26,7 @@
         fade: true,
         scale: true
     };
-    var lastMessager;
+    var all = {};
 
     var Messager = function(message, options) {
         var that = this;
@@ -100,14 +100,6 @@
         var that = this,
             options = this.options;
 
-        if(lastMessager) {
-            if(lastMessager.id == that.id) {
-                that.$.removeClass('in');
-            } else if(lastMessager.isShow) {
-                lastMessager.hide();
-            }
-        }
-
         if(that.hiding) {
             clearTimeout(that.hiding);
             that.hiding = null;
@@ -118,14 +110,18 @@
             that.$.find('.messager-content').html(that.message);
         }
 
-        that.$.appendTo(options.parent).show();
+        if(that.isShow) return;
 
-        if(options.placement === 'top' || options.placement === 'bottom' || options.placement === 'center') {
-            that.$.css('left', ($(window).width() - that.$.width()) / 2);
+        var placement = options.placement;
+        var $parent = $(options.parent);
+        var $holder = $parent.children('.messagers-holder.' + placement);
+        if(!$holder.length) {
+            $holder = $('<div/>').attr('class', 'messagers-holder ' + placement).appendTo($parent);
         }
-
-        if(options.placement === 'left' || options.placement === 'right' || options.placement === 'center') {
-            that.$.css('top', ($(window).height() - that.$.height()) / 2);
+        $holder.append(that.$);
+        if(placement === 'center') {
+            var offset = $(window).height() - $holder.height();
+            $holder.css('top', Math.max(-offset, offset/2));
         }
 
         that.$.addClass('in');
@@ -137,7 +133,6 @@
         }
 
         that.isShow = true;
-        lastMessager = that;
     };
 
     Messager.prototype.hide = function() {
@@ -145,7 +140,9 @@
         if(that.$.hasClass('in')) {
             that.$.removeClass('in');
             setTimeout(function() {
+                var $parent = that.$.parent();
                 that.$.remove();
+                if(!$parent.children().length) $parent.remove();
             }, 200);
         }
 

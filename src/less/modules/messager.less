@@ -9,47 +9,19 @@
 // Messager style for module messager.js
 
 .messager {
-  position: fixed;
+  display: table;
   color: @color-light;
   background-color: @color-dark;
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: @messager-radius;
-  max-width: 80%;
-  z-index: 99999;
-  &:extend(.clearfix all);
-
-  &.top {
-    top: 20px;
-  }
-
-  &.top-left {
-    top: 20px;
-    left: 20px;
-  }
-
-  &.top-right {
-    top: 20px;
-    right: 20px;
-  }
-
-  &.bottom {
-    bottom: 20px;
-  }
-
-  &.bottom-left {
-    bottom: 20px;
-    left: 20px;
-  }
-
-  &.bottom-right {
-    bottom: 20px;
-    right: 20px;
-  }
+  margin: 10px;
+  pointer-events: auto;
 }
 
 .messager-content {
-  padding: 10px 20px;
-  float: left;
+  padding: 10px 15px;
+  display: table-cell;
+  vertical-align: top;
 
   > [class^='icon-'] {
      display: inline-block;
@@ -58,7 +30,8 @@
 }
 
 .messager-actions {
-  float: right;
+  display: table-cell;
+  vertical-align: top;
 
   > .action {
     color: #fafafa;
@@ -85,6 +58,61 @@
   }
 
   .action-icon + .action-text {margin-left: 8px;}
+}
+
+.messagers-holder {
+  z-index: 99999;
+  position: fixed;
+  padding: 10px;
+  pointer-events: none;
+  .transition-fast(top);
+
+  &.top {
+    top: 0;
+    
+  }
+
+  &.top-left {
+    top: 0;
+    left: 0;
+  }
+
+  &.top-right {
+    top: 0;
+    right: 0;
+  }
+
+  &.bottom {
+    bottom: 0;
+  }
+
+  &.bottom-left {
+    bottom: 0;
+    left: 0;
+  }
+
+  &.bottom-right {
+    bottom: 0;
+    right: 0;
+  }
+
+  &.top-right,
+  &.bottom-right {
+    .messager { margin-left: auto; }
+  }
+
+  &.center {
+    top: 0;
+  }
+
+  &.top,
+  &.bottom,
+  &.center {
+    left: 0;
+    right: 0;
+
+    .messager { margin: 10px auto; }
+  }
 }
 
 .messager-primary {
