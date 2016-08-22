@@ -10,7 +10,7 @@
     'use strict';
 
     var id = 0;
-    var template = '<div class="messager messager-{type} {placement}" id="messager{id}"><div class="messager-content"></div><div class="messager-actions"></div></div>';
+    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
     var defaultOptions = {
         type: 'default',
         placement: 'top',
@@ -124,7 +124,7 @@
             $holder.css('top', Math.max(-offset, offset/2));
         }
 
-        that.$.addClass('in');
+        that.$.show().addClass('in');
 
         if(options.time) {
             that.hiding = setTimeout(function() {
