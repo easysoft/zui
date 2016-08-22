@@ -7,7 +7,7 @@
   <article>
     <p>漂浮消息可以设置图标，并且可以决定是否显示关闭按钮。</p>
     <div class="example">
-      <button class="btn btn-primary show-messager" type="button" data-content="这是一个浮动消息。" data-icon="bell">显示漂浮消息</button>
+      <button class="btn btn-primary show-messager" type="button" data-content="这是一个浮动消息。" data-icon="bell" data-time="30000">显示漂浮消息</button>
     </div>
     <pre><code>// 点击按钮时显示漂浮消息
 $('.btn').on('click', function() {
@@ -28,7 +28,7 @@ $('.btn').on('click', function() {
       <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="top-left">左上</button>
       <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="top-right">右上</button>
       <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="bottom-left">左下</button>
-      <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="bottom-right" data-time="20000">右下</button>
+      <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="bottom-right">右下</button>
       <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="center">中间</button>
     </div>
     <pre><code>new $.zui.Messager('这是一个浮动消息。', {
