@@ -1317,7 +1317,12 @@
                     }
                     $pageContent.empty().append($article);
                 } else {
-                    $pageContent.html(data);
+                    try {
+                        $pageContent.html(data);
+                    } catch (e) {
+                        console.error('Page data has error: ', {content: data, error: e});
+                    }
+                    
                 }
                 $pageBody.scrollTop(0);
                 showPageTopic(topic);
