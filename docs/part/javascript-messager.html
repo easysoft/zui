@@ -3,11 +3,11 @@
 </article>
 
 <section>
-  <header><h3>一般示例</h3></header>
+  <header><h3>示例</h3></header>
   <article>
     <p>漂浮消息可以设置图标，并且可以决定是否显示关闭按钮。</p>
     <div class="example">
-      <button class="btn btn-primary show-messager" type="button" data-content="这是一个浮动消息。" data-icon="bell" data-time="30000">显示漂浮消息</button>
+      <button class="btn btn-primary show-messager" type="button" data-content="这是一个浮动消息。" data-icon="bell">显示漂浮消息</button>
     </div>
     <pre><code>// 点击按钮时显示漂浮消息
 $('.btn').on('click', function() {
@@ -19,7 +19,7 @@ $('.btn').on('click', function() {
 </section>
 
 <section>
-  <header><h3>更改显示位置</h3></header>
+  <header><h3>显示位置</h3></header>
   <article>
     <p>提供7个预设的显示位置。</p>
     <div class="example">
@@ -315,24 +315,20 @@ var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
 
 <script>
 function afterPageLoad() {
-    $('#pageContent .show-messager').on('click', function()
-    {
+    $('#pageContent .show-messager').on('click', function() {
         var $this = $(this);
         var data = $this.data('zui.messager');
-        if(data)
-        {
+        if(data) {
             data.show(new Date());
         }
-        else
-        {
+        else {
             var options = $this.data();
             if(typeof options.actions === 'string') options.actions = $.parseJSON(options.actions);
             $this.data('zui.messager', new $.zui.Messager(options.content, options).show());
         }
     });
 
-    $('#pageContent .messager-example').click(function()
-    {
+    $('#pageContent .messager-example').click(function() {
         var $this = $(this);
         options = $this.data();
         if(typeof options.actions === 'string') options.actions = $.parseJSON(options.actions);
