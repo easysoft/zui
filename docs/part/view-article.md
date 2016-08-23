@@ -1,0 +1,286 @@
+﻿section: view
+id: article
+description: 包含标题和带格式的文本内容视图
+icon: icon-file-text-alt
+filter: wenzhang wz
+---
+
+# 文章
+
+文章视图用于展示带标题和其他额外信息的丰富图文内容，以下为ZUI中文章视图的结构：
+
+<table class="table">
+  <tbody>
+    <tr>
+      <td>头部</td>
+      <td>头部使用 `header`，包含文章标题、文章信息和摘要</td>
+    </tr>
+    <tr>
+      <td>正文</td>
+      <td>正文的多个部分使用`section`</td>
+    </tr>
+    <tr>
+      <td>底部</td>
+      <td>底部使用 `footer`，显示版权及文章的其他信息</td>
+    </tr>
+  </tbody>
+</table>
+
+## 普通文章视图
+
+<div contenteditable="true" spellcheck="false" class="example">
+  <br>
+  <ul class="breadcrumb">
+    <li><i class="icon-location-arrow icon-muted"></i></li>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Library</a></li>
+    <li class="active">Data</li>
+  </ul>
+  <article class="article">
+    <header>
+      <h1 class="text-center">文章标题</h1>
+      <dl class="dl-inline">
+        <dt>发布时间：</dt>
+        <dd>2013-11-07 17:14:22</dd>
+        <dt>作者：</dt>
+        <dd>Catouse</dd>
+        <dt></dt>
+        <dd class="pull-right"><span class="label label-success">NEW</span> <span class="label label-warning">火爆</span> <span class="label label-info">原创</span> <span class="label label-danger"><i class="icon-eye-open"></i> 235</span></dd>
+      </dl>
+      <section class="abstract">
+        <p><strong>摘要：</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus, necessitatibus provident quasi suscipit laborum nemo tenetur ad accusantium explicabo pariatur?</p>
+      </section>
+    </header>
+    <section class="article-content">
+      <h1>Lorem ipsum dolor sit amet.</h1>
+      <h2>Lorem ipsum dolor sit amet, consectetur.</h2>
+      <h3>Lorem ipsum dolor sit amet, consectetur.</h3>
+      <h4>Lorem ipsum dolor sit amet, consectetur.</h4>
+      <h5>Lorem ipsum dolor sit amet, consectetur.</h5>
+      <h6>Lorem ipsum dolor sit amet, consectetur.</h6>
+      <p><a href="###4">Lorem ipsum dolor</a> sit amet, consectetur adipisicing elit. Autem, ad, libero hic voluptatem sapiente possimus recusandae laboriosam adipisci voluptates inventore perferendis nam aliquid odio nostrum voluptate quasi totam itaque. Veritatis, dolore, sint, reiciendis repellat est non enim tenetur unde odio eius recusandae ut quae vero incidunt dolorem excepturi consectetur itaque.</p>
+      <blockquote>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+        <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat, officiis!</small>
+      </blockquote>
+      <h3>Lorem ipsum dolor sit amet, consectetur.</h3>
+      <p>Voluptates, repellat, voluptatibus temporibus facere veritatis ab similique quas nobis provident ratione eum sequi officiis sunt atque reprehenderit ut ipsum vel tempora alias consectetur numquam consequatur dignissimos eligendi rerum voluptas cupiditate tempore neque quam itaque illo veniam aspernatur distinctio praesentium labore et quod autem officia est beatae fuga corrupti inventore.</p>
+      <img src="docs/img/slide2.jpg" alt="">
+      <p>Architecto, officiis, incidunt, excepturi, repudiandae iusto quam tempora blanditiis sed quae aliquam quaerat soluta distinctio nulla vero at. Reprehenderit, aperiam laboriosam dolores eius quam autem magnam est fugiat minima nihil. Aut, minus, nemo iure fuga corporis repellendus perspiciatis iusto veritatis iste similique. Totam ut repudiandae nemo cumque aperiam aut sint.</p>
+      <h2>Lorem ipsum dolor sit amet, consectetur.</h2>
+      <ul>
+        <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis soluta eveniet aspernatur facere quisquam veniam eos voluptates similique quis voluptas.</li>
+        <li>Quaerat, aut atque praesentium quidem consequatur consequuntur repudiandae error maxime laboriosam nesciunt vitae illo laborum voluptas enim aliquid eius ad!</li>
+        <li>Qui, soluta, ipsum, alias reiciendis iusto natus ullam distinctio nam exercitationem culpa veniam mollitia id sapiente quisquam nihil totam in.</li>
+      </ul>
+      <hr>
+      <p>Magnam, modi, repellat beatae perferendis illo dicta illum dolore minus aperiam sit perspiciatis voluptas molestias eaque numquam ipsum deserunt at aut quam quisquam tenetur. Repellat, ratione nihil voluptate sit pariatur quasi ipsum? Sapiente, fugit nesciunt placeat ut expedita id inventore nobis iure adipisci ullam aliquid laboriosam facere officiis molestiae mollitia!</p>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Lorem ipsum.</th>
+            <th>Quis, ut.</th>
+            <th>Officia, odio?</th>
+            <th>Eos, modi!</th>
+            <th>Autem, doloremque!</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lorem ipsum.</td>
+            <td>Dolor, rem.</td>
+            <td>Iure, quaerat.</td>
+            <td>Quibusdam, nam.</td>
+            <td>Blanditiis, quo.</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum.</td>
+            <td>Aliquid, dicta.</td>
+            <td>Architecto, perspiciatis.</td>
+            <td>Eos, corporis.</td>
+            <td>Similique, cum.</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum.</td>
+            <td>Id, minus!</td>
+            <td>Eos, sit.</td>
+            <td>Quae, dolores?</td>
+            <td>Consectetur, deleniti!</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum.</td>
+            <td>Nam, excepturi.</td>
+            <td>Assumenda, cumque!</td>
+            <td>Vero, eligendi.</td>
+            <td>Odit, porro.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Adipisci reprehenderit placeat quos provident alias cupiditate ratione perspiciatis! Fuga, fugit id nisi sapiente voluptatibus quidem. Tempora, optio, animi, iste fugiat quisquam veniam aliquam sed labore at ad numquam eum nobis natus quasi magni. Sequi, dolor, sed, at, debitis accusamus ad qui voluptas est odit ipsa consequatur sint odio porro.</p>
+      <ol>
+        <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum, rerum, molestias possimus minima magnam libero iste amet ad. Ratione, deserunt, adipisci! Ducimus, nihil totam ad beatae corporis. Voluptatem, facere minima!</li>
+        <li>Cupiditate, omnis, sit, ducimus, natus quo quam quia excepturi numquam deleniti totam odit illum voluptate id! Commodi, itaque magni saepe porro rem ducimus animi error ullam. Animi, consequatur totam natus.</li>
+        <li>Quae, magni, dolorum odio quia labore asperiores sit dolorem vel hic laboriosam doloribus minima necessitatibus veritatis earum aliquid non rem ad id itaque pariatur repudiandae dolore eligendi illo nobis fuga.</li>
+      </ol>
+      <dl>
+        <dt>Lorem.</dt>
+        <dd>Lorem ipsum dolor sit amet.</dd>
+        <dt>Ut.</dt>
+        <dd>Necessitatibus, fugit repellat fugiat a.</dd>
+        <dt>Aliquam.</dt>
+        <dd>Obcaecati cum suscipit consequuntur voluptas?</dd>
+        <dt>Minima!</dt>
+        <dd>Esse soluta iure corporis porro.</dd>
+        <dt>Sunt.</dt>
+        <dd>Delectus quos amet quidem eaque!</dd>
+      </dl>
+      <p>Nemo, dolorum nisi sequi recusandae deserunt soluta nobis itaque expedita atque excepturi quidem sapiente qui perferendis maiores quas consectetur nulla quae libero impedit ea corporis eos dicta blanditiis ad quis quos quaerat reiciendis aliquam minima rem nesciunt odit est mollitia ipsa vero ratione ipsum. Dolorum, reprehenderit sint vero distinctio aliquam.</p>
+    </section>
+    <footer>
+      <p class="pull-right text-muted">
+        发布时间：2013年11月7日 16:44:21 &nbsp;点击数：234
+      </p>
+      <p class="text-important">本文版权所有归<a href="###">@catouse</a></p>
+      <ul class="pager pager-justify">
+        <li class="previous"><a href="#"><i class="icon-arrow-left"></i> 论烧火煮饭</a></li>
+        <li><a href="#"><i class="icon-list-ul"></i> 目录</a></li>
+        <li class="next disabled"><a href="#">没有下一篇 <i class="icon-arrow-right"></i></a></li>
+      </ul>
+    </footer>
+  </article>
+</div>
+
+## 更紧凑的文章视图
+
+<div contenteditable="true" spellcheck="false" class="example no-padding">
+  <br>
+  <ul class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Library</a></li>
+    <li class="active">Data <i class="icon-map-marker"></i></li>
+  </ul>
+  <article class="article article-condensed" contenteditable="true">
+    <header>
+      <dl class="dl-inline pull-right">
+        <dt>发布时间：</dt>
+        <dd>2013-11-07 17:14:22</dd>
+        <dt>作者：</dt>
+        <dd>Catouse</dd>
+        <dt></dt>
+        <dd><span class="label label-success">最新</span> <span class="label label-warning">火爆</span> <span class="label label-info">原创</span></dd>
+      </dl>
+      <h1>文章标题</h1>
+      <dl class="dl-inline">
+        <dt>发布时间：</dt>
+        <dd>2013-11-07 17:14:22</dd>
+        <dt>作者：</dt>
+        <dd>Catouse</dd>
+        <dt></dt>
+        <dd><span class="label label-info">原创</span></dd>
+      </dl>
+      <section class="abstract">
+        <p><strong>摘要：</strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus, necessitatibus provident quasi suscipit laborum nemo tenetur ad accusantium explicabo pariatur?</p>
+      </section>
+    </header>
+    <section class="article-content">
+      <h1>Lorem ipsum dolor sit amet.</h1>
+      <h2>Lorem ipsum dolor sit amet, consectetur.</h2>
+      <h3>Lorem ipsum dolor sit amet, consectetur.</h3>
+      <h4>Lorem ipsum dolor sit amet, consectetur.</h4>
+      <h5>Lorem ipsum dolor sit amet, consectetur.</h5>
+      <h6>Lorem ipsum dolor sit amet, consectetur.</h6>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem, ad, libero hic voluptatem sapiente possimus recusandae laboriosam adipisci voluptates inventore perferendis nam aliquid odio nostrum voluptate quasi totam itaque. Veritatis, dolore, sint, reiciendis repellat est non enim tenetur unde odio eius recusandae ut quae vero incidunt dolorem excepturi consectetur itaque.</p>
+      <blockquote>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+        <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat, officiis!</small>
+      </blockquote>
+      <p>Voluptates, repellat, voluptatibus temporibus facere veritatis ab similique quas nobis provident ratione eum sequi officiis sunt atque reprehenderit ut ipsum vel tempora alias consectetur numquam consequatur dignissimos eligendi rerum voluptas cupiditate tempore neque quam itaque illo veniam aspernatur distinctio praesentium labore et quod autem officia est beatae fuga corrupti inventore.</p>
+      <img src="docs/img/slide1.jpg" alt="" style="width:100%">
+      <p>Architecto, officiis, incidunt, excepturi, repudiandae iusto quam tempora blanditiis sed quae aliquam quaerat soluta distinctio nulla vero at. Reprehenderit, aperiam laboriosam dolores eius quam autem magnam est fugiat minima nihil. Aut, minus, nemo iure fuga corporis repellendus perspiciatis iusto veritatis iste similique. Totam ut repudiandae nemo cumque aperiam aut sint.</p>
+      <ul>
+        <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis soluta eveniet aspernatur facere quisquam veniam eos voluptates similique quis voluptas.</li>
+        <li>Quaerat, aut atque praesentium quidem consequatur consequuntur repudiandae error maxime laboriosam nesciunt vitae illo laborum voluptas enim aliquid eius ad!</li>
+        <li>Qui, soluta, ipsum, alias reiciendis iusto natus ullam distinctio nam exercitationem culpa veniam mollitia id sapiente quisquam nihil totam in.</li>
+      </ul>
+      <p>Magnam, modi, repellat beatae perferendis illo dicta illum dolore minus aperiam sit perspiciatis voluptas molestias eaque numquam ipsum deserunt at aut quam quisquam tenetur. Repellat, ratione nihil voluptate sit pariatur quasi ipsum? Sapiente, fugit nesciunt placeat ut expedita id inventore nobis iure adipisci ullam aliquid laboriosam facere officiis molestiae mollitia!</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Lorem ipsum.</th>
+            <th>Quis, ut.</th>
+            <th>Officia, odio?</th>
+            <th>Eos, modi!</th>
+            <th>Autem, doloremque!</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lorem ipsum.</td>
+            <td>Dolor, rem.</td>
+            <td>Iure, quaerat.</td>
+            <td>Quibusdam, nam.</td>
+            <td>Blanditiis, quo.</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum.</td>
+            <td>Aliquid, dicta.</td>
+            <td>Architecto, perspiciatis.</td>
+            <td>Eos, corporis.</td>
+            <td>Similique, cum.</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum.</td>
+            <td>Id, minus!</td>
+            <td>Eos, sit.</td>
+            <td>Quae, dolores?</td>
+            <td>Consectetur, deleniti!</td>
+          </tr>
+          <tr>
+            <td>Lorem ipsum.</td>
+            <td>Nam, excepturi.</td>
+            <td>Assumenda, cumque!</td>
+            <td>Vero, eligendi.</td>
+            <td>Odit, porro.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Adipisci reprehenderit placeat quos provident alias cupiditate ratione perspiciatis! Fuga, fugit id nisi sapiente voluptatibus quidem. Tempora, optio, animi, iste fugiat quisquam veniam aliquam sed labore at ad numquam eum nobis natus quasi magni. Sequi, dolor, sed, at, debitis accusamus ad qui voluptas est odit ipsa consequatur sint odio porro.</p>
+      <ol>
+        <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum, rerum, molestias possimus minima magnam libero iste amet ad. Ratione, deserunt, adipisci! Ducimus, nihil totam ad beatae corporis. Voluptatem, facere minima!</li>
+        <li>Cupiditate, omnis, sit, ducimus, natus quo quam quia excepturi numquam deleniti totam odit illum voluptate id! Commodi, itaque magni saepe porro rem ducimus animi error ullam. Animi, consequatur totam natus.</li>
+        <li>Quae, magni, dolorum odio quia labore asperiores sit dolorem vel hic laboriosam doloribus minima necessitatibus veritatis earum aliquid non rem ad id itaque pariatur repudiandae dolore eligendi illo nobis fuga.</li>
+      </ol>
+      <dl>
+        <dt>Lorem.</dt>
+        <dd>Lorem ipsum dolor sit amet.</dd>
+        <dt>Ut.</dt>
+        <dd>Necessitatibus, fugit repellat fugiat a.</dd>
+        <dt>Aliquam.</dt>
+        <dd>Obcaecati cum suscipit consequuntur voluptas?</dd>
+        <dt>Minima!</dt>
+        <dd>Esse soluta iure corporis porro.</dd>
+        <dt>Sunt.</dt>
+        <dd>Delectus quos amet quidem eaque!</dd>
+      </dl>
+      <p>Nemo, dolorum nisi sequi recusandae deserunt soluta nobis itaque expedita atque excepturi quidem sapiente qui perferendis maiores quas consectetur nulla quae libero impedit ea corporis eos dicta blanditiis ad quis quos quaerat reiciendis aliquam minima rem nesciunt odit est mollitia ipsa vero ratione ipsum. Dolorum, reprehenderit sint vero distinctio aliquam.</p>
+    </section>
+    <footer>
+      <p class="pull-right text-muted">
+        发布时间：2013年11月7日 16:44:21 &nbsp;点击数：234
+      </p>
+      <p class="text-important">本文版权所有归<a href="###">@catouse</a></p>
+      <ul class="pager pager-justify">
+        <li class="previous"><a href="#">« 上一篇：论烧火煮饭</a></li>
+        <li class="next"><a href="#">下一篇：合适不合适？ »</a></li>
+      </ul>
+    </footer>
+  </article>
+</div>
+
+<div class="alert with-icon">
+  <i class="icon-smile"></i>
+  <div class="content">
+    <p>非常感谢 <a class="alert-link" href="http://weibo.com/snowinfish" target="_blank">@snowinfish</a> 为本章节提供演示所用的全部图片。</p>
+    <p class="margin-zero">图片仅供 ZUI 演示使用，未经作者授权，不得用作他用。</p>
+  </div>
+</div>
