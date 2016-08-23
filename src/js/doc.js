@@ -369,18 +369,26 @@
                 var chapterName = chapter.id;
                 section.chapter = chapterName;
                 section.chapterName = chapter.name;
-
                 var url = section.url;
                 if(typeof url === 'undefined') {
-                    section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
+                    section.url = 'docs/part/' + section.chapter + '-' + section.id + '.md';
                     section.target = 'page';
+                    section.targetType = 'markdown';
+                    section.oldUrl = 'docs/part/' + section.chapter + '-' + section.id + '.html';
                 } else if(isExternalUrl(url)) {
                     section.target = 'external';
+                    section.targetType = null;
                 } else if(url && url.endsWith('.md')) {
                     section.target = 'page';
                     section.targetType = 'markdown';
                     if(url === '.md') {
                         section.url = 'docs/part/' + section.chapter + '-' + section.id + '.md';
+                    }
+                } else if(url && url.endsWith('.html')) {
+                    section.target = 'page';
+                    section.targetType = 'html';
+                    if(url === '.html') {
+                        section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
                     }
                 } else {
                     section.target = '';
@@ -1254,8 +1262,10 @@
 
         loadData(section.url, function(data) {
             var showData = function() {
-                if(window.marked && section.targetType === 'markdown') {
+                if(data && window.marked && section.targetType === 'markdown') {
                     var $article = $();
+                    var frontMatterIndex = data.indexOf('\n---\n');
+                    if(frontMatterIndex > -1) data = data.substr(frontMatterIndex + 5);
                     var $markdown = $(window.marked(data));
                     var $lastSection, checkFirstH1 = true;
                     var hasH2 = $markdown.filter('h2').length > 0;
@@ -1322,7 +1332,6 @@
                     } catch (e) {
                         console.error('Page data has error: ', {content: data, error: e});
                     }
-                    
                 }
                 $pageBody.scrollTop(0);
                 showPageTopic(topic);
