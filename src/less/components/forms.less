@@ -130,7 +130,15 @@ input[type="number"] {
   // Note: HTML5 says that controls under a fieldset > legend:first-child won't
   // be disabled if the fieldset is disabled. Due to implementation difficulty,
   // we don't honor that edge case; we style them as disabled anyway.
-  &[disabled], &[readonly], fieldset[disabled] & { cursor: not-allowed; background-color: @input-bg-disabled; }
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & 
+  { 
+    cursor: not-allowed;
+    background-color: @input-bg-disabled;
+  }
+
+  &[readonly] { cursor: default; }
 
   // Reset height for `textarea`s
   textarea& { height: auto; }
@@ -287,10 +295,18 @@ input[type="checkbox"] {
   @media (min-width: @screen-tablet) 
   {
     // Inline-block all the things for "inline"
-    .form-group  { display: inline-block; margin-bottom: 0; vertical-align: middle; }
+    .form-group  {
+      display: inline-block;
+      margin-bottom: 0; 
+      vertical-align: middle;
+    }
 
     // In navbar-form, allow folks to *not* use `.form-group`
-    .form-control { display: inline-block; }
+    .form-control { 
+      display: inline-block;
+      width: auto;
+      vertical-align: middle;
+    }
 
     // Remove default margin on radios/checkboxes that were used for stacking, and
     // then undo the floating of radios and checkboxes to match (which also avoids
@@ -313,7 +329,7 @@ input[type="checkbox"] {
 
 .form-horizontal {
   // Consistent vertical alignment of labels, radios, and checkboxes
-  .control-label,
+  .form-group > label,
   .radio,
   .checkbox,
   .radio-inline,
@@ -328,7 +344,7 @@ input[type="checkbox"] {
 
   // Only right align form labels here when the columns stop stacking
   @media (min-width: @screen-tablet) {
-    .control-label { text-align: right; }
+    .form-group > label { text-align: right; }
   }
 }
 

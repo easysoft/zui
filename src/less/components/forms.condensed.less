@@ -9,6 +9,8 @@
 // Condensed form
 
 .form-condensed {
+  .form-group { margin-bottom: 10px; }
+
   .form-control { .input-sm(); }
   
   textarea.form-control { height: auto; }
@@ -21,5 +23,15 @@
     padding: @padding-small-vertical @padding-small-horizontal;
     font-size: @font-size-small;
     .border-right-radius(@border-radius-small);
+  }
+
+  &.form-horizontal {
+    .form-group > label,
+    .radio,
+    .checkbox,
+    .radio-inline,
+    .checkbox-inline {
+      padding-top: 1px;
+    }
   }
 }
