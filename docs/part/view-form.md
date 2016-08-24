@@ -571,6 +571,102 @@ filter: biaodan bd
 </div>
 ```
 
+## 标记必填项
+
+标记必填项的一种通用方法是在标签上添加星标 <strong class="text-danger">*</strong>，在表单控件组中只需要为 `<label>` 添加 `.required` 类即可。
+
+<example>
+  <form>
+    <div class="form-group">
+      <label for="exampleInputAccount8" class="required">账号</label>
+      <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword8" class="required">密码</label>
+      <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
+    </div>
+    <button type="submit" class="btn btn-primary">提交</button>
+  </form>
+</example>
+
+```html
+<form>
+  <div class="form-group">
+    <label for="exampleInputAccount8" class="required">账号</label>
+    <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword8" class="required">密码</label>
+    <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
+  </div>
+  <button type="submit" class="btn btn-primary">提交</button>
+</form>
+```
+
+星星标记同样适用于水平排列的表单。
+
+<example>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label for="exampleInputAccount9" class="col-sm-2 required">账号</label>
+      <div class="col-md-6 col-sm-10">
+        <input type="text" class="form-control" id="exampleInputAccount9" placeholder="电子邮件/手机号/用户名">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword9" class="col-sm-2 required">密码</label>
+      <div class="col-md-6 col-sm-10">
+        <input type="password" class="form-control" id="exampleInputPassword9" placeholder="密码">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> 记住我
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">登录</button>
+      </div>
+    </div>
+  </form>
+</example>
+
+```html
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="exampleInputAccount9" class="col-sm-2 required">账号</label>
+    <div class="col-md-6 col-sm-10">
+      <input type="text" class="form-control" id="exampleInputAccount9" placeholder="电子邮件/手机号/用户名">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword4" class="col-sm-2 required">密码</label>
+    <div class="col-md-6 col-sm-10">
+      <input type="password" class="form-control" id="exampleInputPassword4" placeholder="密码">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> 记住我
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">登录</button>
+    </div>
+  </div>
+</form>
+```
+
 ## 更为紧凑的表单
 
 为表单元素添加 `.form-condensed` 可以减小表单内的所有控件和文本尺寸及间距，从而获得一个更加紧凑的表单视图。
@@ -578,12 +674,12 @@ filter: biaodan bd
 <example>
   <form class="form-condensed">
     <div class="form-group">
-      <label for="exampleInputAccount1">账号</label>
-      <input type="text" class="form-control" id="exampleInputAccount1" placeholder="电子邮件/手机号/用户名">
+      <label for="exampleInputAccount6">账号</label>
+      <input type="text" class="form-control" id="exampleInputAccount6" placeholder="电子邮件/手机号/用户名">
     </div>
     <div class="form-group">
-      <label for="exampleInputPassword1">密码</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+      <label for="exampleInputPassword6">密码</label>
+      <input type="password" class="form-control" id="exampleInputPassword6" placeholder="">
     </div>
     <div class="form-group">
       <label for="exampleInputMoney1">捐赠金额</label>
@@ -600,12 +696,12 @@ filter: biaodan bd
 ```html
 <form class="form-condensed">
   <div class="form-group">
-    <label for="exampleInputAccount1">账号</label>
-    <input type="text" class="form-control" id="exampleInputAccount1" placeholder="电子邮件/手机号/用户名">
+    <label for="exampleInputAccount6">账号</label>
+    <input type="text" class="form-control" id="exampleInputAccount6" placeholder="电子邮件/手机号/用户名">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">密码</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+    <label for="exampleInputPassword6">密码</label>
+    <input type="password" class="form-control" id="exampleInputPassword6" placeholder="">
   </div>
   <div class="form-group">
     <label for="exampleInputMoney1">捐赠金额</label>
@@ -624,30 +720,30 @@ filter: biaodan bd
 <example>
   <form class="form-horizontal form-condensed">
     <div class="form-group">
-      <label for="exampleInputAccount4" class="col-sm-2">账号</label>
+      <label for="exampleInputAccount7" class="col-sm-2">账号</label>
       <div class="col-md-6 col-sm-10">
-        <input type="text" class="form-control" id="exampleInputAccount4" placeholder="电子邮件/手机号/用户名">
+        <input type="text" class="form-control" id="exampleInputAccount7" placeholder="电子邮件/手机号/用户名">
       </div>
     </div>
     <div class="form-group">
-      <label for="exampleInputPassword4" class="col-sm-2">密码</label>
+      <label for="exampleInputPassword7" class="col-sm-2">密码</label>
       <div class="col-md-6 col-sm-10">
-        <input type="password" class="form-control" id="exampleInputPassword4" placeholder="密码">
+        <input type="password" class="form-control" id="exampleInputPassword7" placeholder="密码">
       </div>
     </div>
     <div class="form-group">
-      <label for="exampleInputAddress1" class="col-sm-2">地址</label>
+      <label for="exampleInputAddress7" class="col-sm-2">地址</label>
       <div class="col-sm-3">
-        <select class="form-control" id="exampleInputAddress1">
+        <select class="form-control" id="exampleInputAddress7">
           <option>北京</option>
           <option>上海</option>
         </select>
       </div>
       <div class="col-sm-3">
-        <input type="text" class="form-control" id="exampleInputAddress2" placeholder="市/县">
+        <input type="text" class="form-control" id="exampleInputAddress8" placeholder="市/县">
       </div>
       <div class="col-sm-4">
-        <input type="text" class="form-control" id="exampleInputAddress3" placeholder="详细地址">
+        <input type="text" class="form-control" id="exampleInputAddress9" placeholder="详细地址">
       </div>
     </div>
     <div class="form-group">
@@ -670,30 +766,30 @@ filter: biaodan bd
 ```html
 <form class="form-horizontal form-condensed">
   <div class="form-group">
-    <label for="exampleInputAccount4" class="col-sm-2">账号</label>
+    <label for="exampleInputAccount7" class="col-sm-2">账号</label>
     <div class="col-md-6 col-sm-10">
-      <input type="text" class="form-control" id="exampleInputAccount4" placeholder="电子邮件/手机号/用户名">
+      <input type="text" class="form-control" id="exampleInputAccount7" placeholder="电子邮件/手机号/用户名">
     </div>
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword4" class="col-sm-2">密码</label>
+    <label for="exampleInputPassword7" class="col-sm-2">密码</label>
     <div class="col-md-6 col-sm-10">
-      <input type="password" class="form-control" id="exampleInputPassword4" placeholder="密码">
+      <input type="password" class="form-control" id="exampleInputPassword7" placeholder="密码">
     </div>
   </div>
   <div class="form-group">
-    <label for="exampleInputAddress1" class="col-sm-2">地址</label>
+    <label for="exampleInputAddress7" class="col-sm-2">地址</label>
     <div class="col-sm-3">
-      <select class="form-control" id="exampleInputAddress1">
+      <select class="form-control" id="exampleInputAddress7">
         <option>北京</option>
         <option>上海</option>
       </select>
     </div>
     <div class="col-sm-3">
-      <input type="text" class="form-control" id="exampleInputAddress2" placeholder="市/县">
+      <input type="text" class="form-control" id="exampleInputAddress8" placeholder="市/县">
     </div>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="exampleInputAddress3" placeholder="详细地址">
+      <input type="text" class="form-control" id="exampleInputAddress9" placeholder="详细地址">
     </div>
   </div>
   <div class="form-group">

@@ -355,7 +355,13 @@ input[type="checkbox"] {
     color: @state-danger-text;
     display: inline-block;
     position: absolute;
-    top: 5px;
+    top: 0;
+    right: -10px;
     font-size: @font-size-large;
+  }
+
+  .form-horizontal &:after {
+    top: 5px;
+    right: -1px;
   }
 }
