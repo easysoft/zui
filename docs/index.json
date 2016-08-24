@@ -467,18 +467,33 @@
                 }],
                 "filter": "biaoqian bq"
             }, {
-                "desc": "文本框及表单控件",
+                "desc": "包括输入框和下拉列表",
                 "icon": "icon-minus",
                 "id": "textbox",
-                "name": "文本框",
+                "name": "表单控件",
+                "dpds": "forms",
                 "topics": [{
-                    "name": "类型"
+                    "name": "基本类型"
                 }, {
                     "name": "状态"
                 }, {
-                    "name": "变化"
+                    "name": "尺寸"
+                }, {
+                    "name": "使用栅格"
                 }],
-                "filter": "wenbenkuang wbk"
+                "filter": "wenbenkuang wbk input file textarea wj wenjian"
+            }, {
+                "desc": "内联或块级的多选和单选框",
+                "icon": "icon-check-sign",
+                "id": "checkbox",
+                "name": "多选和单选框",
+                "dpds": "forms",
+                "topics": [{
+                    "name": "默认外观"
+                }, {
+                    "name": "内联形式"
+                }],
+                "filter": "duoxuanhedanxuankuang dxhdx radio"
             }, {
                 "desc": "面包屑导航",
                 "icon": "icon-map-marker",
@@ -995,7 +1010,25 @@
                 "desc": "用于用户提交数据的视图",
                 "name": "表单",
                 "topics": [{
-                    "name": "类型"
+                    "name": "基本形式"
+                }, {
+                    "name": "水平排列的表单"
+                }, {
+                    "name": "内联表单"
+                }, {
+                    "name": "帮助性文本"
+                }, {
+                    "name": "多选框和单选框"
+                }, {
+                    "name": "效验状态"
+                }, {
+                    "name": "使用 fieldset"
+                }, {
+                    "name": "静态文本"
+                }, {
+                    "name": "禁用状态和只读状态"
+                }, {
+                    "name": "更为紧凑的表单"
                 }],
                 "filter": "biaodan bd"
             }, {
