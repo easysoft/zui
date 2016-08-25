@@ -9,6 +9,11 @@
 + function($, window, document, Math) {
     'use strict';
 
+    if(!$.fn.droppable) {
+        console.error('Sortable requires droppable.js');
+        return;
+    }
+
     var Sortable = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);

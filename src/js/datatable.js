@@ -573,9 +573,13 @@
                 }
             };
 
-            $bar.draggable(dragOptions);
-            if(options.flexHeadDrag) {
-                $datatable.find('.datatable-head-span.flexarea').draggable(dragOptions);
+            if($.fn.draggable) {
+                $bar.draggable(dragOptions);
+                if(options.flexHeadDrag) {
+                    $datatable.find('.datatable-head-span.flexarea').draggable(dragOptions);
+                }
+            } else {
+                console.error('DataTable requires draggable.js to improve UI.');
             }
 
             $scrollbar.mousedown(function(event) {

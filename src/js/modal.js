@@ -94,6 +94,7 @@
     }
 
     Modal.prototype.setMoveale = function() {
+        if(!$.fn.draggable) console.error('Moveable modal requires draggable.js.');
         var that = this;
         var options = that.options;
         var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');

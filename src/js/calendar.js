@@ -562,58 +562,62 @@
         }
 
         if(options.dragThenDrop) {
-            $view.find('.event').droppable({
-                target: $days,
-                container: $view,
-                flex: true,
-                start: function() {
-                    $e.addClass('event-dragging');
-                },
-                drop: function(e) {
-                    var et = e.element.data('event'),
-                        newDate = e.target.attr('data-date');
-                    if(!et || !newDate) return;
-                    var startDate = et.start.clone();
-                    if(startDate.toDateString() != newDate) {
-                        newDate = new Date(newDate);
-                        newDate.setHours(startDate.getHours());
-                        newDate.setMinutes(startDate.getMinutes());
-                        newDate.setSeconds(startDate.getSeconds());
+            if($.fn.droppable) {
+                $view.find('.event').droppable({
+                    target: $days,
+                    container: $view,
+                    flex: true,
+                    start: function() {
+                        $e.addClass('event-dragging');
+                    },
+                    drop: function(e) {
+                        var et = e.element.data('event'),
+                            newDate = e.target.attr('data-date');
+                        if(!et || !newDate) return;
+                        var startDate = et.start.clone();
+                        if(startDate.toDateString() != newDate) {
+                            newDate = new Date(newDate);
+                            newDate.setHours(startDate.getHours());
+                            newDate.setMinutes(startDate.getMinutes());
+                            newDate.setSeconds(startDate.getSeconds());
 
-                        if(self.callEvent('beforeChange', {
-                                event: et,
-                                change: 'start',
-                                to: newDate
-                            })) {
-                            var oldEnd = et.end.clone();
-
-                            et.end.addMilliseconds(et.end.getTime() - startDate.getTime());
-                            et.start = newDate;
-
-                            that.display();
-
-                            self.callEvent('change', {
-                                data: self.data,
-                                changes: [{
+                            if(self.callEvent('beforeChange', {
                                     event: et,
+                                    change: 'start',
+                                    to: newDate
+                                })) {
+                                var oldEnd = et.end.clone();
+
+                                et.end.addMilliseconds(et.end.getTime() - startDate.getTime());
+                                et.start = newDate;
+
+                                that.display();
+
+                                self.callEvent('change', {
+                                    data: self.data,
                                     changes: [{
-                                        change: 'start',
-                                        from: startDate,
-                                        to: et.start
-                                    }, {
-                                        change: 'end',
-                                        from: oldEnd,
-                                        to: et.end
+                                        event: et,
+                                        changes: [{
+                                            change: 'start',
+                                            from: startDate,
+                                            to: et.start
+                                        }, {
+                                            change: 'end',
+                                            from: oldEnd,
+                                            to: et.end
+                                        }]
                                     }]
-                                }]
-                            });
+                                });
+                            }
                         }
+                    },
+                    finish: function() {
+                        $e.removeClass('event-dragging');
                     }
-                },
-                finish: function() {
-                    $e.removeClass('event-dragging');
-                }
-            });
+                });
+            } else {
+                console.error('Calendar dragThenDrop option requires droppable.js');
+            }
         }
     };
 

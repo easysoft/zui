@@ -9,6 +9,9 @@
 (function($, Math) {
     'use strict';
 
+    if(!$.fn.draggable) console.error('img-cutter requires draggable.js');
+    if(!$.zui.imgReady) console.error('img-cutter requires image.ready.js');
+
     var name = 'zui.imgcutter';
 
     var ImgCutter = function(element, options) {

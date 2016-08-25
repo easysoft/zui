@@ -12,7 +12,6 @@
     var Draggable = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
-
         this.init();
     };
 
@@ -39,12 +38,12 @@
             startPos, cPos, startOffset, mousePos, moved;
 
         var mouseDown = function(event) {
-            if(setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE])) {
+            if($.isFunction(setting[BEFORE])) {
                 var isSure = setting[BEFORE]({
                     event: event,
                     element: $e
                 });
-                if(isSure !== undefined && (!isSure)) return;
+                if(isSure === false) return;
             }
 
             var $container = $(setting.container),
@@ -83,7 +82,7 @@
                 $e.css(dragPos);
             }
 
-            if(setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG])) {
+            if($.isFunction(setting[DRAG])) {
                 setting[DRAG]({
                     event: event,
                     element: $e,
@@ -122,10 +121,11 @@
                 $e.css(endPos);
             }
 
-            if(setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH])) {
+            if($.isFunction(setting[FINISH])) {
                 setting[FINISH]({
                     event: event,
                     element: $e,
+                    startOffset: startOffset,
                     pos: endPos,
                     offset: {
                         x: event.pageX - startPos.x,

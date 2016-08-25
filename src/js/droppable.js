@@ -47,12 +47,12 @@
         this.$triggerTarget = (setting.trigger ? ($.isFunction(setting.trigger) ? setting.trigger($e) : $e.find(setting.trigger)).first() : $e);
 
         this.$triggerTarget.on('mousedown', function(event) {
-            if(setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE])) {
+            if($.isFunction(setting[BEFORE])) {
                 var isSure = setting[BEFORE]({
                     event: event,
                     element: $e
                 });
-                if(isSure !== undefined && (!isSure)) return;
+                if(isSure === false) return;
             }
 
             var $targets = $.isFunction(setting.target) ? setting.target($e) : $(setting.target),
