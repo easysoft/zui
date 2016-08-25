@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.5.0 - 2016-08-18
+ * ZUI: ZUI for official website - v1.5.0 - 2016-08-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -3463,7 +3463,7 @@
     Tooltip.prototype.show = function(content) {
         var e = $.Event('show.zui.' + this.type)
 
-        if(this.hasContent() && this.enabled) {
+        if((content || this.hasContent()) && this.enabled) {
             this.$element.trigger(e)
 
             if(e.isDefaultPrevented()) return
@@ -4506,7 +4506,7 @@
                         width: Math.min(winWidth, this.width)
                     });
                     if(winWidth < (this.width + 30)) modal.addClass('lightbox-full');
-                    e.ready();
+                    e.ready(200);
                 });
 
                 modal.find('.prev').toggleClass('show', groups.filter('[data-group-index="' + (groupIndex - 1) + '"]').length > 0);
@@ -4580,11 +4580,11 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     var id = 0;
-    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content"></div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>';
+    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
     var defaultOptions = {
         type: 'default',
         placement: 'top',
@@ -4593,10 +4593,14 @@
         // clear: false,
         icon: null,
         close: true,
+        // actions: [{icon, name, action, title}],
+        // contentClass: null,
+        // cssClass: null,
+        // onAction: function,
         fade: true,
         scale: true
     };
-    var lastMessager;
+    var all = {};
 
     var Messager = function(message, options) {
         var that = this;
@@ -4605,16 +4609,63 @@
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
-        if(!options.close) {
-            that.$.find('.close').remove();
-        } else {
-            that.$.on('click', '.close', function() {
-                that.hide();
+
+        if(options.cssClass) that.$.addClass(options.cssClass);
+
+        var hasCloseAction = false;
+        var $actions = that.$.find('.messager-actions');
+        var appendAction = function(action) {
+            var $btn = $('<button type="button" class="action action-' + action.name + '"/>');
+            if(action.name === 'close') $btn.addClass('close');
+            if(action.html !== undefined) {
+                $btn.html(action.html);
+            }
+            if(action.icon !== undefined) {
+                $btn.append('<i class="action-icon icon-' + action.icon + '"/>');
+            }
+            if(action.text !== undefined) {
+                $btn.append('<span class="action-text">' + action.text + '</span>');
+            }
+            if(action.tooltip !== undefined) {
+                $btn.attr('title', action.tooltip).tooltip();
+            }
+            $btn.data('action', action);
+            $actions.append($btn);
+        };
+        if(options.actions) {
+            $.each(options.actions, function(idx, action) {
+                if(action.name === undefined) action.name = idx;
+                if(action.name == 'close') hasCloseAction = true;
+                appendAction(action);
             });
         }
+        if(!hasCloseAction && options.close) {
+            appendAction({name: 'close', html: '&times;'});
+        }
 
-        that.$.find('.messager-content').html(that.message);
+        that.$.on('click', '.action', function(e) {
+            var action = $(this).data('action'), result;
+            if(options.onAction) {
+                result = options.onAction.call(this, action.name, action, that);
+                if(result === false) return;
+            }
+            if($.isFunction(action.action)) {
+                result = action.action.call(this, that);
+                if(result === false) return;
+            }
+            that.hide();
+            e.stopPropagation();
+        });
 
+        that.$.on('click', function(e) {
+            if(options.onAction) {
+                result = options.onAction.call(this, 'content', null, that);
+                if(result === true) that.hide();
+            }
+        });
+
+        var $content = that.$.find('.messager-content').html(that.message);
+        if(options.contentClass) $content.addClass(options.cssClass);
 
         that.$.data('zui.messager', that);
     };
@@ -4622,14 +4673,6 @@
     Messager.prototype.show = function(message) {
         var that = this,
             options = this.options;
-
-        if(lastMessager) {
-            if(lastMessager.id == that.id) {
-                that.$.removeClass('in');
-            } else if(lastMessager.isShow) {
-                lastMessager.hide();
-            }
-        }
 
         if(that.hiding) {
             clearTimeout(that.hiding);
@@ -4641,17 +4684,21 @@
             that.$.find('.messager-content').html(that.message);
         }
 
-        that.$.appendTo(options.parent).show();
+        if(that.isShow) return;
 
-        if(options.placement === 'top' || options.placement === 'bottom' || options.placement === 'center') {
-            that.$.css('left', ($(window).width() - that.$.width() - 50) / 2);
+        var placement = options.placement;
+        var $parent = $(options.parent);
+        var $holder = $parent.children('.messagers-holder.' + placement);
+        if(!$holder.length) {
+            $holder = $('<div/>').attr('class', 'messagers-holder ' + placement).appendTo($parent);
+        }
+        $holder.append(that.$);
+        if(placement === 'center') {
+            var offset = $(window).height() - $holder.height();
+            $holder.css('top', Math.max(-offset, offset/2));
         }
 
-        if(options.placement === 'left' || options.placement === 'right' || options.placement === 'center') {
-            that.$.css('top', ($(window).height() - that.$.height() - 50) / 2);
-        }
-
-        that.$.addClass('in');
+        that.$.show().addClass('in');
 
         if(options.time) {
             that.hiding = setTimeout(function() {
@@ -4660,7 +4707,6 @@
         }
 
         that.isShow = true;
-        lastMessager = that;
     };
 
     Messager.prototype.hide = function() {
@@ -4668,7 +4714,9 @@
         if(that.$.hasClass('in')) {
             that.$.removeClass('in');
             setTimeout(function() {
+                var $parent = that.$.parent();
                 that.$.remove();
+                if(!$parent.children().length) $parent.remove();
             }, 200);
         }
 
@@ -4746,7 +4794,7 @@
             }
         }
     });
-}(jQuery, window));
+}(jQuery, window, undefined));
 
 
 /* ========================================================================
@@ -9990,7 +10038,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.5.0 - 2016-08-18
+ * ZUI: Generated from less code - v1.5.0 - 2016-08-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -13389,6 +13437,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         animate: null,
         initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
         toggleTemplate: '<i class="list-toggle icon"></i>',
+        // sortable: false, //
     };
 
     Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
@@ -13411,14 +13460,17 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             }
             $.each(items, function(idx, item) {
                 var $li = $('<li/>').data(item).appendTo($ul);
-                var $wrapper = options.itemWrapper ? $('<div class="tree-item-wrapper"/>').appendTo($li) : $li;
+                if(item.id !== undefined) $li.attr('data-id', item.id);
+                var $wrapper = options.itemWrapper ? $(options.itemWrapper === true ? '<div class="tree-item-wrapper"/>' : options.itemWrapper).appendTo($li) : $li;
                 if(item.html) {
                     $wrapper.html(item.html)
                 } else if($.isFunction(that.options.itemCreator)) {
-                    var itemContent = that.options.itemCreator($wrapper, item);
-                    if(itemContent !== true) $wrapper.html(itemContent);
+                    var itemContent = that.options.itemCreator($li, item);
+                    if(itemContent !== true && itemContent !== false) $wrapper.html(itemContent);
+                } else if(item.url) {
+                    $wrapper.append($('<a/>', {href: item.url}).text(item.title || item.name));
                 } else {
-                    $wrapper.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
+                    $wrapper.append($('<span/>').text(item.title || item.name));
                 }
                 that._initItem($li, item.idx || idx, $ul, item);
                 if(item.children && item.children.length) {
@@ -13717,7 +13769,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
     'use strict';
 
     var name = 'zui.colorPicker'; // modal name
-    var TEAMPLATE = '<div class="colorpicker"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="cp-title"></span><i class="icon"></i></button><ul class="dropdown-menu clearfix"></ul></div>';
+    var TEAMPLATE = '<div class="colorpicker"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="cp-title"></span><i class="ic"></i></button><ul class="dropdown-menu clearfix"></ul></div>';
     var LANG = {
         zh_cn: {
             errorTip: "不是有效的颜色值"
@@ -13760,7 +13812,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         this.$picker.find('.cp-title').toggle(options.title !== undefined).text(options.title);
         this.$menu = this.$picker.find('.dropdown-menu').toggleClass('pull-right', options.pullMenuRight);
         this.$btn = this.$picker.find('.btn.dropdown-toggle');
-        this.$btn.find('.icon').addClass('icon-' + options.icon);
+        this.$btn.find('.ic').addClass('icon-' + options.icon);
         if(options.btnTip) {
             this.$picker.attr('data-toggle', 'tooltip').tooltip({title: options.btnTip, placement: options.tooltip, container: 'body'});
         }
@@ -13790,16 +13842,16 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             } else {
                 if(options.optional && val === '') {
                     $input.tooltip('hide');
-                } else {
+                } else if(!$input.is(':focus')) {
                     $input.tooltip('show', options.errorTip);
                 }
             }
         }
         if($input.is('input:not([type=hidden])')) {
             if(options.tooltip) {
-                $input.attr('data-toggle', 'tooltip').tooltip({trigger: 'manual', placement: options.tooltip, tipClass: 'tooltip-danger'});
+                $input.attr('data-toggle', 'tooltip').tooltip({trigger: 'manual', placement: options.tooltip, tipClass: 'tooltip-danger', container: 'body'});
             }
-            $input.on('keyup paste input', setInputColor);
+            $input.on('keyup paste input change', setInputColor);
         } else {
             $input.appendTo(this.$picker);
         }
@@ -13885,8 +13937,11 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         if(options.updateBackground) {
             $(options.updateBackground).css('background-color', hex);
         }
-        if(options.updateText) {
+        if(options.updateColor) {
             $(options.updateText).css('color', hex);
+        }
+        if(options.updateText) {
+            $(options.updateText).text(hex);
         }
     };
 

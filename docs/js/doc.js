@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-08-18
+ * ZUI: Document - v1.5.0 - 2016-08-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -376,18 +376,26 @@
                 var chapterName = chapter.id;
                 section.chapter = chapterName;
                 section.chapterName = chapter.name;
-
                 var url = section.url;
                 if(typeof url === 'undefined') {
-                    section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
+                    section.url = 'docs/part/' + section.chapter + '-' + section.id + '.md';
                     section.target = 'page';
+                    section.targetType = 'markdown';
+                    section.oldUrl = 'docs/part/' + section.chapter + '-' + section.id + '.html';
                 } else if(isExternalUrl(url)) {
                     section.target = 'external';
+                    section.targetType = null;
                 } else if(url && url.endsWith('.md')) {
                     section.target = 'page';
                     section.targetType = 'markdown';
                     if(url === '.md') {
                         section.url = 'docs/part/' + section.chapter + '-' + section.id + '.md';
+                    }
+                } else if(url && url.endsWith('.html')) {
+                    section.target = 'page';
+                    section.targetType = 'html';
+                    if(url === '.html') {
+                        section.url = 'docs/part/' + section.chapter + '-' + section.id + '.html';
                     }
                 } else {
                     section.target = '';
@@ -1165,7 +1173,7 @@
             $pageAttrs.children('.badge-lite').toggle(!!lib.bundles.lite);
             $pageAttrs.children('.badge-lib').toggle(!!lib.bundles.seperate);
             $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
-
+            $pageAttrs.children('.badge-bootstrap').toggle(lib.source === 'Bootstrap');
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
             $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
 
@@ -1261,8 +1269,10 @@
 
         loadData(section.url, function(data) {
             var showData = function() {
-                if(window.marked && section.targetType === 'markdown') {
+                if(data && window.marked && section.targetType === 'markdown') {
                     var $article = $();
+                    var frontMatterIndex = data.indexOf('\n---\n');
+                    if(frontMatterIndex > -1) data = data.substr(frontMatterIndex + 5);
                     var $markdown = $(window.marked(data));
                     var $lastSection, checkFirstH1 = true;
                     var hasH2 = $markdown.filter('h2').length > 0;
@@ -1324,7 +1334,11 @@
                     }
                     $pageContent.empty().append($article);
                 } else {
-                    $pageContent.html(data);
+                    try {
+                        $pageContent.html(data);
+                    } catch (e) {
+                        console.error('Page data has error: ', {content: data, error: e});
+                    }
                 }
                 $pageBody.scrollTop(0);
                 showPageTopic(topic);
@@ -1589,7 +1603,7 @@
                                 }
                                 if(!src[srcTypeName]) src[srcTypeName] = [];
                                 if(src[srcTypeName].indexOf(srcName) < 0) {
-                                    src[srcTypeName].push(srcName);
+                                     src[srcTypeName].push(srcName);
                                 }
                             });
                         }
@@ -1622,6 +1636,8 @@
                 });
 
                 if(pkgLib) {
+                    lib.source = pkgLib.source;
+
                     if(pkgLib.thirdpart) {
                         lib.thirdpart = true;
                         lib.partUrl = pkgLib.website;
@@ -1630,6 +1646,12 @@
 
                     if(!pkgLib.src && pkgLib.dpds) {
                         lib.custom = true;
+                        if(!lib.source) {
+                            $.each(pkgLib.dpds, function(_, dpdLibName) {
+                                var dpdLib = pkg.lib[dpdLibName];
+                                if(dpdLib && dpdLib.source) lib.source = dpdLib.source;
+                            });
+                        }
                     }
 
                     if(pkgLib.ver) {

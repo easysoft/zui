@@ -1,5 +1,5 @@
 /*!
- * ZUI: 图片裁剪工具 - v1.4.0 - 2016-08-17
+ * ZUI: 图片裁剪工具 - v1.5.0 - 2016-08-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT

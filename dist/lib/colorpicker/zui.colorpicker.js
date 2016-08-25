@@ -1,5 +1,5 @@
 /*!
- * ZUI: 颜色选择器 - v1.4.0 - 2016-08-17
+ * ZUI: 颜色选择器 - v1.5.0 - 2016-08-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -17,7 +17,7 @@
     'use strict';
 
     var name = 'zui.colorPicker'; // modal name
-    var TEAMPLATE = '<div class="colorpicker"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="cp-title"></span><i class="icon"></i></button><ul class="dropdown-menu clearfix"></ul></div>';
+    var TEAMPLATE = '<div class="colorpicker"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="cp-title"></span><i class="ic"></i></button><ul class="dropdown-menu clearfix"></ul></div>';
     var LANG = {
         zh_cn: {
             errorTip: "不是有效的颜色值"
@@ -60,7 +60,7 @@
         this.$picker.find('.cp-title').toggle(options.title !== undefined).text(options.title);
         this.$menu = this.$picker.find('.dropdown-menu').toggleClass('pull-right', options.pullMenuRight);
         this.$btn = this.$picker.find('.btn.dropdown-toggle');
-        this.$btn.find('.icon').addClass('icon-' + options.icon);
+        this.$btn.find('.ic').addClass('icon-' + options.icon);
         if(options.btnTip) {
             this.$picker.attr('data-toggle', 'tooltip').tooltip({title: options.btnTip, placement: options.tooltip, container: 'body'});
         }
@@ -90,16 +90,16 @@
             } else {
                 if(options.optional && val === '') {
                     $input.tooltip('hide');
-                } else {
+                } else if(!$input.is(':focus')) {
                     $input.tooltip('show', options.errorTip);
                 }
             }
         }
         if($input.is('input:not([type=hidden])')) {
             if(options.tooltip) {
-                $input.attr('data-toggle', 'tooltip').tooltip({trigger: 'manual', placement: options.tooltip, tipClass: 'tooltip-danger'});
+                $input.attr('data-toggle', 'tooltip').tooltip({trigger: 'manual', placement: options.tooltip, tipClass: 'tooltip-danger', container: 'body'});
             }
-            $input.on('keyup paste input', setInputColor);
+            $input.on('keyup paste input change', setInputColor);
         } else {
             $input.appendTo(this.$picker);
         }
@@ -185,8 +185,11 @@
         if(options.updateBackground) {
             $(options.updateBackground).css('background-color', hex);
         }
-        if(options.updateText) {
+        if(options.updateColor) {
             $(options.updateText).css('color', hex);
+        }
+        if(options.updateText) {
+            $(options.updateText).text(hex);
         }
     };
 

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.4.0 - 2016-08-17
+ * ZUI: Lite edition - v1.5.0 - 2016-08-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -2371,7 +2371,7 @@
     Tooltip.prototype.show = function(content) {
         var e = $.Event('show.zui.' + this.type)
 
-        if(this.hasContent() && this.enabled) {
+        if((content || this.hasContent()) && this.enabled) {
             this.$element.trigger(e)
 
             if(e.isDefaultPrevented()) return

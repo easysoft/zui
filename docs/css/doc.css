@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-08-18
+ * ZUI: Document - v1.5.0 - 2016-08-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1968,6 +1968,13 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   }
 #pageAttrs .badge.badge-party:hover {
   background-color: #ffd0c6;
+  }
+#pageAttrs .badge.badge-bootstrap {
+  color: #8666b8;
+  background-color: #f5eeff;
+  }
+#pageAttrs .badge.badge-bootstrap:hover {
+  background-color: #e6d5ff;
   }
 #pageAttrs .badge.badge-custom {
   color: #bd7b46;

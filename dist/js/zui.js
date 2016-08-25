@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.4.0 - 2016-08-17
+ * ZUI: Standard edition - v1.5.0 - 2016-08-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -2156,148 +2156,6 @@
 
 
 /* ========================================================================
- * ZUI: sortable.js
- * http://zui.sexy
- * ========================================================================
- * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
- * ======================================================================== */
-
-
-+ function($, window, document, Math) {
-    'use strict';
-
-    var Sortable = function(element, options) {
-        this.$ = $(element);
-        this.options = this.getOptions(options);
-
-        this.init();
-    };
-
-    Sortable.DEFAULTS = {
-        selector: 'li, div',
-        dragCssClass: 'invisible'
-    }; // default options
-
-    Sortable.prototype.getOptions = function(options) {
-        options = $.extend({}, Sortable.DEFAULTS, this.$.data(), options);
-        return options;
-    };
-
-    Sortable.prototype.init = function() {
-        this.bindEventToList(this.$.children(this.options.selector));
-    };
-
-    Sortable.prototype.reset = function() {
-        var that = this,
-            order = 0;
-        var $list = this.$.children(this.options.selector).not('.drag-shadow');
-
-        $list.each(function() {
-            var $this = $(this);
-            if($this.data('zui.droppable')) {
-                $this.data('zui.droppable').options.target = $list;
-                $this.droppable('reset');
-            } else {
-                that.bindEventToList($list);
-                return false;
-            }
-        });
-    };
-
-    Sortable.prototype.bindEventToList = function($list) {
-        var self = this.$,
-            options = this.options;
-        var isReverse = options.reverse;
-
-        markOrders($list);
-        $list.droppable({
-            trigger: options.trigger,
-            target: self.children(options.selector),
-            container: self,
-            always: options.always,
-            flex: true,
-            before: options.before,
-            start: function(e) {
-                if(options.dragCssClass) e.element.addClass(options.dragCssClass);
-                $.zui.callEvent(options['start']);
-            },
-            drag: function(e) {
-                self.addClass('sortable-sorting');
-                if(e.isIn) {
-                    var $ele = e.element,
-                        $target = e.target;
-                    var eleOrder = $ele.attr('data-order'),
-                        targetOrder = $target.attr('data-order');
-                    if(eleOrder == targetOrder) return;
-                    else if(eleOrder > targetOrder) {
-                        $target[isReverse ? 'after' : 'before']($ele);
-                    } else {
-                        $target[isReverse ? 'before' : 'after']($ele);
-                    }
-                    var list = self.children(options.selector).not('.drag-shadow');
-                    markOrders(list);
-                    $.zui.callEvent(options['order'], {
-                        list: list,
-                        element: $ele
-                    });
-                }
-            },
-            finish: function(e) {
-                if(options.dragCssClass && e.element) e.element.removeClass(options.dragCssClass);
-                $.zui.callEvent(options['finish'], {
-                    list: self.children(options.selector),
-                    element: e.element
-                });
-                self.removeClass('sortable-sorting');
-            }
-        });
-
-        function markOrders(list) {
-            var orders = [];
-            list.each(function() {
-                var thisOrder = $(this).data('order');
-                if(typeof thisOrder === 'number') {
-                    orders.push(thisOrder);
-                }
-            });
-            orders.sort(function(a, b) {
-                return a - b;
-            });
-
-            var listSize = list.length;
-            while(orders.length < listSize) {
-                orders.push(orders.length ? (orders[orders.length - 1] + 1) : 0);
-            }
-
-            if(isReverse) {
-                orders.reverse();
-            }
-
-            var listIndex = 0
-            list.each(function() {
-                $(this).attr('data-order', orders[listIndex++]);
-            });
-        }
-    };
-
-    $.fn.sortable = function(option) {
-        return this.each(function() {
-            var $this = $(this);
-            var data = $this.data('zui.sortable');
-            var options = typeof option == 'object' && option;
-
-            if(!data) $this.data('zui.sortable', (data = new Sortable(this, options)));
-            else if(typeof option == 'object') data.reset();
-
-            if(typeof option == 'string') data[option]();
-        })
-    };
-
-    $.fn.sortable.Constructor = Sortable;
-}(jQuery, window, document, Math);
-
-
-/* ========================================================================
  * Bootstrap: modal.js v3.2.0
  * http://getbootstrap.com/javascript/#modals
  *
@@ -3226,7 +3084,7 @@
     Tooltip.prototype.show = function(content) {
         var e = $.Event('show.zui.' + this.type)
 
-        if(this.hasContent() && this.enabled) {
+        if((content || this.hasContent()) && this.enabled) {
             this.$element.trigger(e)
 
             if(e.isDefaultPrevented()) return
@@ -4269,7 +4127,7 @@
                         width: Math.min(winWidth, this.width)
                     });
                     if(winWidth < (this.width + 30)) modal.addClass('lightbox-full');
-                    e.ready();
+                    e.ready(200);
                 });
 
                 modal.find('.prev').toggleClass('show', groups.filter('[data-group-index="' + (groupIndex - 1) + '"]').length > 0);
@@ -4343,11 +4201,11 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     var id = 0;
-    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display:none"><div class="messager-content"></div><div class="messager-actions"><button type="button" class="close action">&times;</button></div></div>';
+    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
     var defaultOptions = {
         type: 'default',
         placement: 'top',
@@ -4356,10 +4214,14 @@
         // clear: false,
         icon: null,
         close: true,
+        // actions: [{icon, name, action, title}],
+        // contentClass: null,
+        // cssClass: null,
+        // onAction: function,
         fade: true,
         scale: true
     };
-    var lastMessager;
+    var all = {};
 
     var Messager = function(message, options) {
         var that = this;
@@ -4368,16 +4230,63 @@
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
-        if(!options.close) {
-            that.$.find('.close').remove();
-        } else {
-            that.$.on('click', '.close', function() {
-                that.hide();
+
+        if(options.cssClass) that.$.addClass(options.cssClass);
+
+        var hasCloseAction = false;
+        var $actions = that.$.find('.messager-actions');
+        var appendAction = function(action) {
+            var $btn = $('<button type="button" class="action action-' + action.name + '"/>');
+            if(action.name === 'close') $btn.addClass('close');
+            if(action.html !== undefined) {
+                $btn.html(action.html);
+            }
+            if(action.icon !== undefined) {
+                $btn.append('<i class="action-icon icon-' + action.icon + '"/>');
+            }
+            if(action.text !== undefined) {
+                $btn.append('<span class="action-text">' + action.text + '</span>');
+            }
+            if(action.tooltip !== undefined) {
+                $btn.attr('title', action.tooltip).tooltip();
+            }
+            $btn.data('action', action);
+            $actions.append($btn);
+        };
+        if(options.actions) {
+            $.each(options.actions, function(idx, action) {
+                if(action.name === undefined) action.name = idx;
+                if(action.name == 'close') hasCloseAction = true;
+                appendAction(action);
             });
         }
+        if(!hasCloseAction && options.close) {
+            appendAction({name: 'close', html: '&times;'});
+        }
 
-        that.$.find('.messager-content').html(that.message);
+        that.$.on('click', '.action', function(e) {
+            var action = $(this).data('action'), result;
+            if(options.onAction) {
+                result = options.onAction.call(this, action.name, action, that);
+                if(result === false) return;
+            }
+            if($.isFunction(action.action)) {
+                result = action.action.call(this, that);
+                if(result === false) return;
+            }
+            that.hide();
+            e.stopPropagation();
+        });
 
+        that.$.on('click', function(e) {
+            if(options.onAction) {
+                result = options.onAction.call(this, 'content', null, that);
+                if(result === true) that.hide();
+            }
+        });
+
+        var $content = that.$.find('.messager-content').html(that.message);
+        if(options.contentClass) $content.addClass(options.cssClass);
 
         that.$.data('zui.messager', that);
     };
@@ -4385,14 +4294,6 @@
     Messager.prototype.show = function(message) {
         var that = this,
             options = this.options;
-
-        if(lastMessager) {
-            if(lastMessager.id == that.id) {
-                that.$.removeClass('in');
-            } else if(lastMessager.isShow) {
-                lastMessager.hide();
-            }
-        }
 
         if(that.hiding) {
             clearTimeout(that.hiding);
@@ -4404,17 +4305,21 @@
             that.$.find('.messager-content').html(that.message);
         }
 
-        that.$.appendTo(options.parent).show();
+        if(that.isShow) return;
 
-        if(options.placement === 'top' || options.placement === 'bottom' || options.placement === 'center') {
-            that.$.css('left', ($(window).width() - that.$.width() - 50) / 2);
+        var placement = options.placement;
+        var $parent = $(options.parent);
+        var $holder = $parent.children('.messagers-holder.' + placement);
+        if(!$holder.length) {
+            $holder = $('<div/>').attr('class', 'messagers-holder ' + placement).appendTo($parent);
+        }
+        $holder.append(that.$);
+        if(placement === 'center') {
+            var offset = $(window).height() - $holder.height();
+            $holder.css('top', Math.max(-offset, offset/2));
         }
 
-        if(options.placement === 'left' || options.placement === 'right' || options.placement === 'center') {
-            that.$.css('top', ($(window).height() - that.$.height() - 50) / 2);
-        }
-
-        that.$.addClass('in');
+        that.$.show().addClass('in');
 
         if(options.time) {
             that.hiding = setTimeout(function() {
@@ -4423,7 +4328,6 @@
         }
 
         that.isShow = true;
-        lastMessager = that;
     };
 
     Messager.prototype.hide = function() {
@@ -4431,7 +4335,9 @@
         if(that.$.hasClass('in')) {
             that.$.removeClass('in');
             setTimeout(function() {
+                var $parent = that.$.parent();
                 that.$.remove();
+                if(!$parent.children().length) $parent.remove();
             }, 200);
         }
 
@@ -4509,7 +4415,7 @@
             }
         }
     });
-}(jQuery, window));
+}(jQuery, window, undefined));
 
 
 /* ========================================================================
@@ -4597,1418 +4503,6 @@
     });
 }(jQuery));
 
-
-/* ========================================================================
- * Bootbox: bootbox.js [v4.4.0]
- * http://bootboxjs.com/
- *
- * ZUI: The file has been changed in ZUI. It will not keep update with the
- * official version in the future.
- * http://zui.sexy
- * ========================================================================
- * http://bootboxjs.com/license.txt
- * Improvement in ZUI:
- * 1. Determine client language and apply setting automatically.
- * 2. Changed button position.
- * ======================================================================== */
-
-/*!
- * bootbox.js [v4.4.0]
- * http://bootboxjs.com/license.txt
- */
-
-// @see https://github.com/makeusabrew/bootbox/issues/180
-// @see https://github.com/makeusabrew/bootbox/issues/186
-(function(root, factory) {
-
-    'use strict';
-    if(typeof define === "function" && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(["jquery"], factory);
-    } else if(typeof exports === "object") {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like environments that support module.exports,
-        // like Node.
-        module.exports = factory(require("jquery"));
-    } else {
-        // Browser globals (root is window)
-        root.bootbox = factory(root.jQuery);
-    }
-
-}(this, function init($, undefined) {
-
-    'use strict';
-
-    // the base DOM structure needed to create a modal
-    var templates = {
-        dialog: "<div class='bootbox modal' tabindex='-1' role='dialog'>" +
-            "<div class='modal-dialog'>" +
-            "<div class='modal-content'>" +
-            "<div class='modal-body'><div class='bootbox-body'></div></div>" +
-            "</div>" +
-            "</div>" +
-            "</div>",
-        header: "<div class='modal-header'>" +
-            "<h4 class='modal-title'></h4>" +
-            "</div>",
-        footer: "<div class='modal-footer'></div>",
-        closeButton: "<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",
-        form: "<form class='bootbox-form'></form>",
-        inputs: {
-            text: "<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />",
-            textarea: "<textarea class='bootbox-input bootbox-input-textarea form-control'></textarea>",
-            email: "<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />",
-            select: "<select class='bootbox-input bootbox-input-select form-control'></select>",
-            checkbox: "<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>",
-            date: "<input class='bootbox-input bootbox-input-date form-control' autocomplete=off type='date' />",
-            time: "<input class='bootbox-input bootbox-input-time form-control' autocomplete=off type='time' />",
-            number: "<input class='bootbox-input bootbox-input-number form-control' autocomplete=off type='number' />",
-            password: "<input class='bootbox-input bootbox-input-password form-control' autocomplete='off' type='password' />"
-        }
-    };
-
-    var defaults = {
-        // default language
-        locale: $.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh_cn',
-        // show backdrop or not. Default to static so user has to interact with dialog
-        backdrop: "static",
-        // animate the modal in/out
-        animate: true,
-        // additional class string applied to the top level dialog
-        className: null,
-        // whether or not to include a close button
-        closeButton: true,
-        // show the dialog immediately by default
-        show: true,
-        // dialog container
-        container: "body"
-    };
-
-    // our public object; augmented after our private API
-    var exports = {};
-
-    /**
-     * @private
-     */
-    function _t(key) {
-        var locale = locales[defaults.locale];
-        return locale ? locale[key] : locales.en[key];
-    }
-
-    function processCallback(e, dialog, callback) {
-        e.stopPropagation();
-        e.preventDefault();
-
-        // by default we assume a callback will get rid of the dialog,
-        // although it is given the opportunity to override this
-
-        // so, if the callback can be invoked and it *explicitly returns false*
-        // then we'll set a flag to keep the dialog active...
-        var preserveDialog = $.isFunction(callback) && callback.call(dialog, e) === false;
-
-        // ... otherwise we'll bin it
-        if(!preserveDialog) {
-            dialog.modal("hide");
-        }
-    }
-
-    function getKeyLength(obj) {
-        // @TODO defer to Object.keys(x).length if available?
-        var k, t = 0;
-        for(k in obj) {
-            t++;
-        }
-        return t;
-    }
-
-    function each(collection, iterator) {
-        var index = 0;
-        $.each(collection, function(key, value) {
-            iterator(key, value, index++);
-        });
-    }
-
-    function sanitize(options) {
-        var buttons;
-        var total;
-
-        if(typeof options !== "object") {
-            throw new Error("Please supply an object of options");
-        }
-
-        if(!options.message) {
-            throw new Error("Please specify a message");
-        }
-
-        // make sure any supplied options take precedence over defaults
-        options = $.extend({}, defaults, options);
-
-        if(!options.buttons) {
-            options.buttons = {};
-        }
-
-        buttons = options.buttons;
-
-        total = getKeyLength(buttons);
-
-        each(buttons, function(key, button, index) {
-
-            if($.isFunction(button)) {
-                // short form, assume value is our callback. Since button
-                // isn't an object it isn't a reference either so re-assign it
-                button = buttons[key] = {
-                    callback: button
-                };
-            }
-
-            // before any further checks make sure by now button is the correct type
-            if($.type(button) !== "object") {
-                throw new Error("button with key " + key + " must be an object");
-            }
-
-            if(!button.label) {
-                // the lack of an explicit label means we'll assume the key is good enough
-                button.label = key;
-            }
-
-            if(!button.className) {
-                if((total === 2 && (key === 'ok' || key === 'confirm')) || total === 1) {
-                    // always add a primary to the main option in a two-button dialog
-                    button.className = "btn-primary";
-                } else {
-                    button.className = "btn-default";
-                }
-            }
-        });
-
-        return options;
-    }
-
-    /**
-     * map a flexible set of arguments into a single returned object
-     * if args.length is already one just return it, otherwise
-     * use the properties argument to map the unnamed args to
-     * object properties
-     * so in the latter case:
-     * mapArguments(["foo", $.noop], ["message", "callback"])
-     * -> { message: "foo", callback: $.noop }
-     */
-    function mapArguments(args, properties) {
-        var argn = args.length;
-        var options = {};
-
-        if(argn < 1 || argn > 2) {
-            throw new Error("Invalid argument length");
-        }
-
-        if(argn === 2 || typeof args[0] === "string") {
-            options[properties[0]] = args[0];
-            options[properties[1]] = args[1];
-        } else {
-            options = args[0];
-        }
-
-        return options;
-    }
-
-    /**
-     * merge a set of default dialog options with user supplied arguments
-     */
-    function mergeArguments(defaults, args, properties) {
-        return $.extend(
-            // deep merge
-            true,
-            // ensure the target is an empty, unreferenced object
-            {},
-            // the base options object for this type of dialog (often just buttons)
-            defaults,
-            // args could be an object or array; if it's an array properties will
-            // map it to a proper options object
-            mapArguments(
-                args,
-                properties
-            )
-        );
-    }
-
-    /**
-     * this entry-level method makes heavy use of composition to take a simple
-     * range of inputs and return valid options suitable for passing to bootbox.dialog
-     */
-    function mergeDialogOptions(className, labels, properties, args) {
-        //  build up a base set of dialog properties
-        var baseOptions = {
-            className: "bootbox-" + className,
-            buttons: createLabels.apply(null, labels)
-        };
-
-        // ensure the buttons properties generated, *after* merging
-        // with user args are still valid against the supplied labels
-        return validateButtons(
-            // merge the generated base properties with user supplied arguments
-            mergeArguments(
-                baseOptions,
-                args,
-                // if args.length > 1, properties specify how each arg maps to an object key
-                properties
-            ),
-            labels
-        );
-    }
-
-    /**
-     * from a given list of arguments return a suitable object of button labels
-     * all this does is normalise the given labels and translate them where possible
-     * e.g. "ok", "confirm" -> { ok: "OK, cancel: "Annuleren" }
-     */
-    function createLabels() {
-        var buttons = {};
-
-        for(var i = 0, j = arguments.length; i < j; i++) {
-            var argument = arguments[i];
-            var key = argument.toLowerCase();
-            var value = argument.toUpperCase();
-
-            buttons[key] = {
-                label: _t(value)
-            };
-        }
-
-        return buttons;
-    }
-
-    function validateButtons(options, buttons) {
-        var allowedButtons = {};
-        each(buttons, function(key, value) {
-            allowedButtons[value] = true;
-        });
-
-        each(options.buttons, function(key) {
-            if(allowedButtons[key] === undefined) {
-                throw new Error("button key " + key + " is not allowed (options are " + buttons.join("\n") + ")");
-            }
-        });
-
-        return options;
-    }
-
-    exports.alert = function() {
-        var options;
-
-        options = mergeDialogOptions("alert", ["ok"], ["message", "callback"], arguments);
-
-        if(options.callback && !$.isFunction(options.callback)) {
-            throw new Error("alert requires callback property to be a function when provided");
-        }
-
-        /**
-         * overrides
-         */
-        options.buttons.ok.callback = options.onEscape = function() {
-            if($.isFunction(options.callback)) {
-                return options.callback.call(this);
-            }
-            return true;
-        };
-
-        return exports.dialog(options);
-    };
-
-    exports.confirm = function() {
-        var options;
-
-        // ZUI change begin
-        options = mergeDialogOptions("confirm", ["confirm", "cancel"], ["message", "callback"], arguments);
-        // OLD WAY: options = mergeDialogOptions("confirm", ["cancel", "confirm"], ["message", "callback"], arguments);
-        // ZUI change end
-
-        /**
-         * overrides; undo anything the user tried to set they shouldn't have
-         */
-        options.buttons.cancel.callback = options.onEscape = function() {
-            return options.callback.call(this, false);
-        };
-
-        options.buttons.confirm.callback = function() {
-            return options.callback.call(this, true);
-        };
-
-        // confirm specific validation
-        if(!$.isFunction(options.callback)) {
-            throw new Error("confirm requires a callback");
-        }
-
-        return exports.dialog(options);
-    };
-
-    exports.prompt = function() {
-        var options;
-        var defaults;
-        var dialog;
-        var form;
-        var input;
-        var shouldShow;
-        var inputOptions;
-
-        // we have to create our form first otherwise
-        // its value is undefined when gearing up our options
-        // @TODO this could be solved by allowing message to
-        // be a function instead...
-        form = $(templates.form);
-
-        // prompt defaults are more complex than others in that
-        // users can override more defaults
-        // @TODO I don't like that prompt has to do a lot of heavy
-        // lifting which mergeDialogOptions can *almost* support already
-        // just because of 'value' and 'inputType' - can we refactor?
-        defaults = {
-            className: "bootbox-prompt",
-            buttons: createLabels("cancel", "confirm"),
-            value: "",
-            inputType: "text"
-        };
-
-        options = validateButtons(
-            // ZUI change begin
-            mergeArguments(defaults, arguments, ["title", "callback"]), ["confirm", "cancel"]
-            // OLD WAY: mergeArguments(defaults, arguments, ["title", "callback"]), ["cancel", "confirm"]arguments);
-            // ZUI change end
-        );
-
-        // capture the user's show value; we always set this to false before
-        // spawning the dialog to give us a chance to attach some handlers to
-        // it, but we need to make sure we respect a preference not to show it
-        shouldShow = (options.show === undefined) ? true : options.show;
-
-        /**
-         * overrides; undo anything the user tried to set they shouldn't have
-         */
-        options.message = form;
-
-        options.buttons.cancel.callback = options.onEscape = function() {
-            return options.callback.call(this, null);
-        };
-
-        options.buttons.confirm.callback = function() {
-            var value;
-
-            switch(options.inputType) {
-                case "text":
-                case "textarea":
-                case "email":
-                case "select":
-                case "date":
-                case "time":
-                case "number":
-                case "password":
-                    value = input.val();
-                    break;
-
-                case "checkbox":
-                    var checkedItems = input.find("input:checked");
-
-                    // we assume that checkboxes are always multiple,
-                    // hence we default to an empty array
-                    value = [];
-
-                    each(checkedItems, function(_, item) {
-                        value.push($(item).val());
-                    });
-                    break;
-            }
-
-            return options.callback.call(this, value);
-        };
-
-        options.show = false;
-
-        // prompt specific validation
-        if(!options.title) {
-            throw new Error("prompt requires a title");
-        }
-
-        if(!$.isFunction(options.callback)) {
-            throw new Error("prompt requires a callback");
-        }
-
-        if(!templates.inputs[options.inputType]) {
-            throw new Error("invalid prompt type");
-        }
-
-        // create the input based on the supplied type
-        input = $(templates.inputs[options.inputType]);
-
-        switch(options.inputType) {
-            case "text":
-            case "textarea":
-            case "email":
-            case "date":
-            case "time":
-            case "number":
-            case "password":
-                input.val(options.value);
-                break;
-
-            case "select":
-                var groups = {};
-                inputOptions = options.inputOptions || [];
-
-                if(!$.isArray(inputOptions)) {
-                    throw new Error("Please pass an array of input options");
-                }
-
-                if(!inputOptions.length) {
-                    throw new Error("prompt with select requires options");
-                }
-
-                each(inputOptions, function(_, option) {
-
-                    // assume the element to attach to is the input...
-                    var elem = input;
-
-                    if(option.value === undefined || option.text === undefined) {
-                        throw new Error("given options in wrong format");
-                    }
-
-                    // ... but override that element if this option sits in a group
-
-                    if(option.group) {
-                        // initialise group if necessary
-                        if(!groups[option.group]) {
-                            groups[option.group] = $("<optgroup/>").attr("label", option.group);
-                        }
-
-                        elem = groups[option.group];
-                    }
-
-                    elem.append("<option value='" + option.value + "'>" + option.text + "</option>");
-                });
-
-                each(groups, function(_, group) {
-                    input.append(group);
-                });
-
-                // safe to set a select's value as per a normal input
-                input.val(options.value);
-                break;
-
-            case "checkbox":
-                var values = $.isArray(options.value) ? options.value : [options.value];
-                inputOptions = options.inputOptions || [];
-
-                if(!inputOptions.length) {
-                    throw new Error("prompt with checkbox requires options");
-                }
-
-                if(!inputOptions[0].value || !inputOptions[0].text) {
-                    throw new Error("given options in wrong format");
-                }
-
-                // checkboxes have to nest within a containing element, so
-                // they break the rules a bit and we end up re-assigning
-                // our 'input' element to this container instead
-                input = $("<div/>");
-
-                each(inputOptions, function(_, option) {
-                    var checkbox = $(templates.inputs[options.inputType]);
-
-                    checkbox.find("input").attr("value", option.value);
-                    checkbox.find("label").append(option.text);
-
-                    // we've ensured values is an array so we can always iterate over it
-                    each(values, function(_, value) {
-                        if(value === option.value) {
-                            checkbox.find("input").prop("checked", true);
-                        }
-                    });
-
-                    input.append(checkbox);
-                });
-                break;
-        }
-
-        // @TODO provide an attributes option instead
-        // and simply map that as keys: vals
-        if(options.placeholder) {
-            input.attr("placeholder", options.placeholder);
-        }
-
-        if(options.pattern) {
-            input.attr("pattern", options.pattern);
-        }
-
-        if(options.maxlength) {
-            input.attr("maxlength", options.maxlength);
-        }
-
-        // now place it in our form
-        form.append(input);
-
-        form.on("submit", function(e) {
-            e.preventDefault();
-            // Fix for SammyJS (or similar JS routing library) hijacking the form post.
-            e.stopPropagation();
-            // @TODO can we actually click *the* button object instead?
-            // e.g. buttons.confirm.click() or similar
-            dialog.find(".btn-primary").click();
-        });
-
-        dialog = exports.dialog(options);
-
-        // clear the existing handler focusing the submit button...
-        dialog.off("shown.zui.modal");
-
-        // ...and replace it with one focusing our input, if possible
-        dialog.on("shown.zui.modal", function() {
-            // need the closure here since input isn't
-            // an object otherwise
-            input.focus();
-        });
-
-        if(shouldShow === true) {
-            dialog.modal("show");
-        }
-
-        return dialog;
-    };
-
-    exports.dialog = function(options) {
-        options = sanitize(options);
-
-
-        var dialog = $(templates.dialog);
-        var innerDialog = dialog.find(".modal-dialog");
-        var body = dialog.find(".modal-body");
-        var buttons = options.buttons;
-        var buttonStr = "";
-        var callbacks = {
-            onEscape: options.onEscape
-        };
-
-        if($.fn.modal === undefined) {
-            throw new Error(
-                "$.fn.modal is not defined; please double check you have included " +
-                "the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ " +
-                "for more details."
-            );
-        }
-
-        each(buttons, function(key, button) {
-
-            // @TODO I don't like this string appending to itself; bit dirty. Needs reworking
-            // can we just build up button elements instead? slower but neater. Then button
-            // can just become a template too
-            buttonStr += "<button data-bb-handler='" + key + "' type='button' class='btn " + button.className + "'>" + button.label + "</button>";
-            callbacks[key] = button.callback;
-        });
-
-        body.find(".bootbox-body").html(options.message);
-
-        if(options.animate === true) {
-            dialog.addClass("fade");
-        }
-
-        if(options.className) {
-            dialog.addClass(options.className);
-        }
-
-        if(options.size === "large") {
-            innerDialog.addClass("modal-lg");
-        } else if(options.size === "small") {
-            innerDialog.addClass("modal-sm");
-        }
-
-        if(options.title) {
-            body.before(templates.header);
-        }
-
-        if(options.closeButton) {
-            var closeButton = $(templates.closeButton);
-
-            if(options.title) {
-                dialog.find(".modal-header").prepend(closeButton);
-            } else {
-                closeButton.css("margin-top", "-10px").prependTo(body);
-            }
-        }
-
-        if(options.title) {
-            dialog.find(".modal-title").html(options.title);
-        }
-
-        if(buttonStr.length) {
-            body.after(templates.footer);
-            dialog.find(".modal-footer").html(buttonStr);
-        }
-
-
-        /**
-         * Bootstrap event listeners; used handle extra
-         * setup & teardown required after the underlying
-         * modal has performed certain actions
-         */
-
-        dialog.on("hidden.zui.modal", function(e) {
-            // ensure we don't accidentally intercept hidden events triggered
-            // by children of the current dialog. We shouldn't anymore now BS
-            // namespaces its events; but still worth doing
-            if(e.target === this) {
-                dialog.remove();
-            }
-        });
-
-        /*
-        dialog.on("show.zui.modal", function() {
-          // sadly this doesn't work; show is called *just* before
-          // the backdrop is added so we'd need a setTimeout hack or
-          // otherwise... leaving in as would be nice
-          if (options.backdrop) {
-            dialog.next(".modal-backdrop").addClass("bootbox-backdrop");
-          }
-        });
-        */
-
-        dialog.on("shown.zui.modal", function() {
-            dialog.find(".btn-primary:first").focus();
-        });
-
-        /**
-         * Bootbox event listeners; experimental and may not last
-         * just an attempt to decouple some behaviours from their
-         * respective triggers
-         */
-
-        if(options.backdrop !== "static") {
-            // A boolean true/false according to the Bootstrap docs
-            // should show a dialog the user can dismiss by clicking on
-            // the background.
-            // We always only ever pass static/false to the actual
-            // $.modal function because with `true` we can't trap
-            // this event (the .modal-backdrop swallows it)
-            // However, we still want to sort of respect true
-            // and invoke the escape mechanism instead
-            dialog.on("click.dismiss.zui.modal", function(e) {
-                // @NOTE: the target varies in >= 3.3.x releases since the modal backdrop
-                // moved *inside* the outer dialog rather than *alongside* it
-                if(dialog.children(".modal-backdrop").length) {
-                    e.currentTarget = dialog.children(".modal-backdrop").get(0);
-                }
-
-                if(e.target !== e.currentTarget) {
-                    return;
-                }
-
-                dialog.trigger("escape.close.bb");
-            });
-        }
-
-        dialog.on("escape.close.bb", function(e) {
-            if(callbacks.onEscape) {
-                processCallback(e, dialog, callbacks.onEscape);
-            }
-        });
-
-        /**
-         * Standard jQuery event listeners; used to handle user
-         * interaction with our dialog
-         */
-
-        dialog.on("click", ".modal-footer button", function(e) {
-            var callbackKey = $(this).data("bb-handler");
-
-            processCallback(e, dialog, callbacks[callbackKey]);
-        });
-
-        dialog.on("click", ".bootbox-close-button", function(e) {
-            // onEscape might be falsy but that's fine; the fact is
-            // if the user has managed to click the close button we
-            // have to close the dialog, callback or not
-            processCallback(e, dialog, callbacks.onEscape);
-        });
-
-        dialog.on("keyup", function(e) {
-            if(e.which === 27) {
-                dialog.trigger("escape.close.bb");
-            }
-        });
-
-        // the remainder of this method simply deals with adding our
-        // dialogent to the DOM, augmenting it with Bootstrap's modal
-        // functionality and then giving the resulting object back
-        // to our caller
-
-        $(options.container).append(dialog);
-
-        dialog.modal({
-            backdrop: options.backdrop ? "static" : false,
-            keyboard: false,
-            show: false
-        });
-
-        if(options.show) {
-            dialog.modal("show");
-        }
-
-        // @TODO should we return the raw element here or should
-        // we wrap it in an object on which we can expose some neater
-        // methods, e.g. var d = bootbox.alert(); d.hide(); instead
-        // of d.modal("hide");
-
-        /*
-         function BBDialog(elem) {
-           this.elem = elem;
-         }
-
-         BBDialog.prototype = {
-           hide: function() {
-             return this.elem.modal("hide");
-           },
-           show: function() {
-             return this.elem.modal("show");
-           }
-         };
-         */
-
-        return dialog;
-
-    };
-
-    exports.setDefaults = function() {
-        var values = {};
-
-        if(arguments.length === 2) {
-            // allow passing of single key/value...
-            values[arguments[0]] = arguments[1];
-        } else {
-            // ... and as an object too
-            values = arguments[0];
-        }
-
-        $.extend(defaults, values);
-    };
-
-    exports.hideAll = function() {
-        $(".bootbox").modal("hide");
-
-        return exports;
-    };
-
-
-    /**
-     * standard locales. Please add more according to ISO 639-1 standard. Multiple language variants are
-     * unlikely to be required. If this gets too large it can be split out into separate JS files.
-     */
-    var locales = {
-        en: {
-            OK: "OK",
-            CANCEL: "Cancel",
-            CONFIRM: "OK"
-        },
-        zh_cn: {
-            OK: "确认",
-            CANCEL: "取消",
-            CONFIRM: "确认"
-        },
-        zh_tw: {
-            OK: "確認",
-            CANCEL: "取消",
-            CONFIRM: "確認"
-        }
-    };
-
-    exports.addLocale = function(name, values) {
-        $.each(["OK", "CANCEL", "CONFIRM"], function(_, v) {
-            if(!values[v]) {
-                throw new Error("Please supply a translation for '" + v + "'");
-            }
-        });
-
-        locales[name] = {
-            OK: values.OK,
-            CANCEL: values.CANCEL,
-            CONFIRM: values.CONFIRM
-        };
-
-        return exports;
-    };
-
-    exports.removeLocale = function(name) {
-        delete locales[name];
-
-        return exports;
-    };
-
-    exports.setLocale = function(name) {
-        return exports.setDefaults("locale", name);
-    };
-
-    exports.init = function(_$) {
-        return init(_$ || $);
-    };
-
-    return exports;
-}));
-
-/* ========================================================================
- * ZUI: dashboard.js
- * http://zui.sexy
- * ========================================================================
- * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
- * ======================================================================== */
-
-
-(function($, Math) {
-    'use strict';
-
-    var Dashboard = function(element, options) {
-        this.$ = $(element);
-        this.options = this.getOptions(options);
-        this.draggable = this.$.hasClass('dashboard-draggable') || this.options.draggable;
-
-        this.init();
-    };
-
-    Dashboard.DEFAULTS = {
-        height: 360,
-        shadowType: 'normal',
-        sensitive: false,
-        circleShadowSize: 100,
-        onlyRefreshBody: true,
-        resizable: true,
-        resizeMessage: true
-    };
-
-    Dashboard.prototype.getOptions = function(options) {
-        options = $.extend({}, Dashboard.DEFAULTS, this.$.data(), options);
-        return options;
-    };
-
-    Dashboard.prototype.handleRemoveEvent = function() {
-        var afterPanelRemoved = this.options.afterPanelRemoved;
-        var tip = this.options.panelRemovingTip;
-        this.$.on('click', '.remove-panel', function() {
-            var panel = $(this).closest('.panel');
-            var name = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, '');
-            var index = panel.attr('data-id');
-
-            if(tip === undefined || confirm(tip.format(name))) {
-                panel.parent().remove();
-                if(afterPanelRemoved && $.isFunction(afterPanelRemoved)) {
-                    afterPanelRemoved(index);
-                }
-            }
-        });
-    };
-
-    Dashboard.prototype.handleRefreshEvent = function() {
-        var that = this;
-        var onlyRefreshBody = this.options.onlyRefreshBody;
-        this.$.on('click', '.refresh-panel', function() {
-            var panel = $(this).closest('.panel');
-            that.refresh(panel, onlyRefreshBody);
-        });
-    };
-
-    Dashboard.prototype.handleDraggable = function() {
-        var dashboard = this.$;
-        var options = this.options;
-        var circleShadow = options.shadowType === 'circle';
-        var circleSize = options.circleShadowSize;
-        var halfCircleSize = circleSize / 2;
-        var afterOrdered = options.afterOrdered;
-
-        this.$.addClass('dashboard-draggable');
-
-        this.$.on('mousedown', '.panel-actions, .drag-disabled', function(event) {
-            event.stopPropagation();
-        });
-
-        var pColClass;
-        this.$.on('mousedown', '.panel-heading, .panel-drag-handler', function(event) {
-            var panel = $(this).closest('.panel');
-            var pCol = panel.parent();
-            var row = panel.closest('.row');
-            var dPanel = panel.clone().addClass('panel-dragging-shadow');
-            var pos = panel.offset();
-            var dPos = dashboard.offset();
-            var dColShadow = row.find('.dragging-col-holder');
-            var sWidth = panel.width(),
-                sHeight = panel.height(),
-                sX1, sY1, sX2, sY2, moveFn, dropCol, dropBefore, nextDropCol;
-            if(!dColShadow.length) {
-                dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').removeClass('dragging-col').appendTo(row);
-            }
-
-            if(pColClass) dColShadow.removeClass(pColClass);
-            dColShadow.addClass(pColClass = pCol.attr('class'));
-
-            dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
-
-            dashboard.addClass('dashboard-dragging');
-            panel.addClass('panel-dragging').parent().addClass('dragging-col');
-
-            dPanel.css({
-                left: pos.left - dPos.left,
-                top: pos.top - dPos.top,
-                width: sWidth,
-                height: sHeight
-            }).appendTo(dashboard).data('mouseOffset', {
-                x: event.pageX - pos.left + dPos.left,
-                y: event.pageY - pos.top + dPos.top
-            });
-
-            if(circleShadow) {
-                dPanel.addClass('circle');
-                setTimeout(function() {
-                    dPanel.css({
-                        left: event.pageX - dPos.left - halfCircleSize,
-                        top: event.pageY - dPos.top - halfCircleSize,
-                        width: circleSize,
-                        height: circleSize
-                    }).data('mouseOffset', {
-                        x: dPos.left + halfCircleSize,
-                        y: dPos.top + halfCircleSize
-                    });
-                }, 100);
-            }
-
-            $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
-            event.preventDefault();
-
-            function mouseMove(event) {
-                // console.log('......................');
-                var offset = dPanel.data('mouseOffset');
-                sX1 = event.pageX - offset.x;
-                sY1 = event.pageY - offset.y;
-                sX2 = sX1 + sWidth;
-                sY2 = sY1 + sHeight;
-                dPanel.css({
-                    left: sX1,
-                    top: sY1
-                });
-
-                row.find('.dragging-in').removeClass('dragging-in');
-                dropBefore = false;
-                dropCol = null;
-                var area = 0,
-                    thisArea;
-                row.children(':not(.dragging-col)').each(function() {
-                    var col = $(this);
-                    if(col.hasClass('dragging-col-holder')) {
-                        dropBefore = (!options.sensitive) || (area < 100);
-                        return true;
-                    }
-                    var p = col.children('.panel');
-                    var pP = p.offset(),
-                        pW = p.width(),
-                        pH = p.height();
-                    var pX = pP.left,
-                        pY = pP.top;
-
-                    if(options.sensitive) {
-                        pX -= dPos.left;
-                        pY -= dPos.top;
-                        thisArea = getIntersectArea(sX1, sY1, sX2, sY2, pX, pY, pX + pW, pY + pH);
-                        if(thisArea > 100 && thisArea > area && thisArea > Math.min(getRectArea(sX1, sY1, sX2, sY2), getRectArea(pX, pY, pX + pW, pY + pH)) / 3) {
-                            area = thisArea;
-                            dropCol = col;
-                        }
-                    } else {
-                        var mX = event.pageX,
-                            mY = event.pageY;
-
-                        if(mX > pX && mY > pY && mX < (pX + pW) && mY < (pY + pH)) {
-                            dropCol = col;
-                            return false;
-                        }
-                    }
-                });
-
-                if(dropCol) {
-                    if(moveFn) clearTimeout(moveFn);
-                    nextDropCol = dropCol;
-                    moveFn = setTimeout(movePanel, 50);
-                }
-                event.preventDefault();
-            }
-
-            function movePanel() {
-                if(nextDropCol) {
-                    nextDropCol.addClass('dragging-in');
-                    if(dropBefore) dColShadow.insertAfter(nextDropCol);
-                    else dColShadow.insertBefore(nextDropCol);
-                    dashboard.addClass('dashboard-holding');
-                    moveFn = null;
-                    nextDropCol = null;
-                }
-            }
-
-            function mouseUp(event) {
-                if(moveFn) clearTimeout(moveFn);
-
-                var oldOrder = panel.data('order');
-                panel.parent().insertAfter(dColShadow);
-                var newOrder = 0;
-                var newOrders = {};
-
-                row.children(':not(.dragging-col-holder)').each(function() {
-                    var p = $(this).children('.panel');
-                    p.data('order', ++newOrder);
-                    newOrders[p.data('id') || p.attr('id')] = newOrder;
-                    p.parent().attr('data-order', newOrder);
-                });
-
-                if(oldOrder != newOrders[panel.data('id') || panel.attr('id')]) {
-                    row.data('orders', newOrders);
-
-                    if(afterOrdered && $.isFunction(afterOrdered)) {
-                        afterOrdered(newOrders);
-                    }
-                }
-
-                dPanel.remove();
-
-                dashboard.removeClass('dashboard-holding');
-                dashboard.find('.dragging-col').removeClass('dragging-col');
-                dashboard.find('.panel-dragging').removeClass('panel-dragging');
-                row.find('.dragging-in').removeClass('dragging-in');
-                dashboard.removeClass('dashboard-dragging');
-                $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
-                event.preventDefault();
-            }
-        });
-    };
-
-    Dashboard.prototype.handlePanelPadding = function() {
-        this.$.find('.panel-body > table, .panel-body > .list-group').parent().addClass('no-padding');
-    };
-
-    Dashboard.prototype.handlePanelHeight = function() {
-        var dHeight = this.options.height;
-
-        this.$.children('.row').each(function() {
-            var row = $(this);
-            var panels = row.find('.panel');
-            var height = row.data('height') || dHeight;
-
-            if(typeof height != 'number') {
-                height = 0;
-                panels.each(function() {
-                    height = Math.max(height, $(this).innerHeight());
-                });
-            }
-
-            panels.css('height', height);
-        });
-    };
-
-    Dashboard.prototype.handleResizeEvent = function() {
-        var onResize = this.options.onResize;
-        var resizeMessage = this.options.resizeMessage;
-        this.$.on('mousedown', '.resize-handle', function(e) {
-            var $col = $(this).parent().addClass('resizing');
-            var $row = $col.closest('.row');
-            var startX = e.pageX;
-            var startWidth = $col.width();
-            var rowWidth = $row.width();
-            var oldGrid = Math.round(12*startWidth/rowWidth);
-            var lastGrid = oldGrid;
-            $col.attr('data-grid', oldGrid);
-
-            var mouseMove = function(event) {
-                var x = event.pageX;
-                var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
-                if(lastGrid != grid) {
-                    $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
-                    if(resizeMessage && $.zui.messager) $.zui.messager.show(Math.round(100*grid/12) + '% (' + grid + '/12)', {scale:  false, placement: 'center', icon: 'resize-h', fade: false, close: false});
-                    lastGrid = grid;
-                }
-                event.preventDefault();
-                event.stopPropagation();
-            };
-
-            var mouseUp = function(event) {
-                if($.zui.messager) $.zui.messager.hide();
-
-                $col.removeClass('resizing');
-                var lastGrid = $col.attr('data-grid');
-                if(oldGrid != lastGrid) {
-                    if($.isFunction(onResize)) {
-                        var revert = function() {
-                            $col.attr('data-grid', oldGrid).css('width', null);
-                        };
-                        var result = onResize({element: $col, old: oldGrid, grid: lastGrid, revert: revert});
-                        if(result === false) revert();
-                        else if(result !== true) {
-                            if(resizeMessage && $.zui.messager) $.zui.messager.success(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)', {placement: 'center', time: 1000, close: false});
-                        }
-                    }
-                }
-
-                $('body').off('mousemove.resize', mouseMove).off('mouseup.resize', mouseUp);
-                event.preventDefault();
-                event.stopPropagation();
-            };
-
-            $('body').on('mousemove.resize', mouseMove).on('mouseup.resize', mouseUp);
-            e.preventDefault();
-            e.stopPropagation();
-        }).children('.row').children(':not(.dragging-col-holder)').append('<div class="resize-handle"><i class="icon icon-resize-h"></i></div>');
-    };
-
-    Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
-        var afterRefresh = this.options.afterRefresh;
-        $panel = $($panel);
-        var url = $panel.data('url');
-        if(!url) return;
-        $panel.addClass('panel-loading').find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').addClass('icon-spin');
-        $.ajax({
-            url: url,
-            dataType: 'html'
-        }).done(function(data) {
-            var $data = $(data);
-            if($data.hasClass('panel')) {
-                $panel.empty().append($data.children());
-            } else if(onlyRefreshBody) {
-                $panel.find('.panel-body').empty().html(data);
-            } else {
-                $panel.html(data);
-            }
-            if($.isFunction(afterRefresh)) {
-                afterRefresh.call(this, {
-                    result: true,
-                    data: data
-                });
-            }
-        }).fail(function() {
-            $panel.addClass('panel-error');
-            if($.isFunction(afterRefresh)) {
-                afterRefresh.call(this, {
-                    result: false
-                });
-            }
-        }).always(function() {
-            $panel.removeClass('panel-loading');
-            $panel.find('.panel-heading .icon-refresh,.panel-heading .icon-repeat').removeClass('icon-spin');
-        });
-    };
-
-    function getRectArea(x1, y1, x2, y2) {
-        return Math.abs((x2 - x1) * (y2 - y1));
-    }
-
-    function isPointInner(x, y, x1, y1, x2, y2) {
-        return x >= x1 && x <= x2 && y >= y1 && y <= y2;
-    }
-
-    function getIntersectArea(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2) {
-        var x1 = Math.max(ax1, bx1),
-            y1 = Math.max(ay1, by1),
-            x2 = Math.min(ax2, bx2),
-            y2 = Math.min(ay2, by2);
-        if(isPointInner(x1, y1, ax1, ay1, ax2, ay2) && isPointInner(x2, y2, ax1, ay1, ax2, ay2) && isPointInner(x1, y1, bx1, by1, bx2, by2) && isPointInner(x2, y2, bx1, by1, bx2, by2)) {
-            return getRectArea(x1, y1, x2, y2);
-        }
-        return 0;
-    }
-
-    Dashboard.prototype.init = function() {
-        var options = this.options, that = this;
-        if(options.data) {
-            var $row = $('<div class="row"/>');
-            $.each(options.data, function(idx, config) {
-                var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>', config.colAttrs);
-                var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>', config.panelAttrs);
-                if(config.content !== undefined) {
-                    if($.isFunction(config.content)) {
-                        var content = config.content($panel);
-                        if(content !== true) {
-                            $panel.html(content);
-                        }
-                    } else {
-                        $panel.html(config.content);
-                    }
-                }
-                $row.append($col.append($panel.data('url', config.url)));
-            });
-            that.$.append($row);
-        }
-
-        that.handlePanelHeight();
-        that.handlePanelPadding();
-        that.handleRemoveEvent();
-        that.handleRefreshEvent();
-        if(options.resizable) that.handleResizeEvent();
-        if(that.draggable) that.handleDraggable();
-
-        var orderSeed = 0;
-        that.$.find('.panel').each(function() {
-            var $this = $(this);
-            $this.data('order', ++orderSeed);
-            if(!$this.attr('id')) {
-                $this.attr('id', 'panel' + orderSeed);
-            }
-            if(!$this.attr('data-id')) {
-                $this.attr('data-id', orderSeed);
-            }
-
-            that.refresh($this, options.onlyRefreshBody);
-        });
-    };
-
-    $.fn.dashboard = function(option) {
-        return this.each(function() {
-            var $this = $(this);
-            var data = $this.data('zui.dashboard');
-            var options = typeof option == 'object' && option;
-
-            if(!data) $this.data('zui.dashboard', (data = new Dashboard(this, options)));
-
-            if(typeof option == 'string') data[option]();
-        });
-    };
-
-    $.fn.dashboard.Constructor = Dashboard;
-}(jQuery, Math));
-
-
-/* ========================================================================
- * ZUI: boards.js
- * http://zui.sexy
- * ========================================================================
- * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
- * ======================================================================== */
-
-
-(function($) {
-    'use strict';
-
-    if(!$.fn.droppable) throw new Error('Droppable requires for boards');
-
-    var Boards = function(element, options) {
-        this.$ = $(element);
-        this.options = this.getOptions(options);
-
-        this.getLang();
-        this.init();
-    };
-
-    Boards.DEFAULTS = {
-        lang: 'zh-cn',
-        langs: {
-            'zh-cn': {
-                append2end: '移动到末尾'
-            },
-            'zh-tw': {
-                append2end: '移动到末尾'
-            },
-            'en': {
-                append2end: 'Move to the end.'
-            }
-        }
-    }; // default options
-
-    Boards.prototype.getOptions = function(options) {
-        options = $.extend({}, Boards.DEFAULTS, this.$.data(), options);
-        return options;
-    };
-
-    Boards.prototype.getLang = function() {
-        var config = window.config;
-        if(!this.options.lang) {
-            if(typeof(config) != 'undefined' && config.clientLang) {
-                this.options.lang = config.clientLang;
-            } else {
-                var hl = $('html').attr('lang');
-                this.options.lang = hl ? hl : 'en';
-            }
-            this.options.lang = this.options.lang.replace(/-/, '_').toLowerCase();
-        }
-        this.lang = this.options.langs[this.options.lang] || this.options.langs[Boards.DEFAULTS.lang];
-    };
-
-    Boards.prototype.init = function() {
-        var idSeed = 1;
-        var lang = this.lang;
-        this.$.find('.board-item:not(".disable-drop"), .board:not(".disable-drop")').each(function() {
-            var $this = $(this);
-            if($this.attr('id')) {
-                $this.attr('data-id', $this.attr('id'));
-            } else if(!$this.attr('data-id')) {
-                $this.attr('data-id', 'board' + (idSeed++));
-            }
-
-            if($this.hasClass('board')) {
-                $this.find('.board-list').append('<div class="board-item board-item-empty"><i class="icon-plus"></i> {append2end}</div>'.format(lang))
-                    .append('<div class="board-item board-item-shadow"></div>'.format(lang));
-            }
-        });
-
-        this.bind();
-    };
-
-    Boards.prototype.bind = function(items) {
-        var $boards = this.$,
-            setting = this.options;
-        if(typeof(items) == 'undefined') {
-            items = $boards.find('.board-item:not(".disable-drop, .board-item-shadow")');
-        }
-
-        items.droppable({
-            before: setting.before,
-            target: '.board-item:not(".disable-drop, .board-item-shadow")',
-            flex: true,
-            start: function(e) {
-                $boards.addClass('dragging').find('.board-item-shadow').height(e.element.outerHeight());
-            },
-            drag: function(e) {
-                $boards.find('.board.drop-in-empty').removeClass('drop-in-empty');
-                if(e.isIn) {
-                    var board = e.target.closest('.board').addClass('drop-in');
-                    var shadow = board.find('.board-item-shadow');
-                    var target = e.target;
-
-                    $boards.addClass('drop-in').find('.board.drop-in').not(board).removeClass('drop-in');
-
-                    shadow.insertBefore(target);
-
-                    board.toggleClass('drop-in-empty', target.hasClass('board-item-empty'));
-                }
-            },
-            drop: function(e) {
-                if(e.isNew) {
-                    var DROP = 'drop';
-                    var result;
-                    if(setting.hasOwnProperty(DROP) && $.isFunction(setting[DROP])) {
-                        result = setting[DROP](e);
-                    }
-                    if(result !== false) e.element.insertBefore(e.target);
-                }
-            },
-            finish: function() {
-                $boards.removeClass('dragging').removeClass('drop-in').find('.board.drop-in').removeClass('drop-in');
-            }
-        });
-    };
-
-    $.fn.boards = function(option) {
-        return this.each(function() {
-            var $this = $(this);
-            var data = $this.data('zui.boards');
-            var options = typeof option == 'object' && option;
-
-            if(!data) $this.data('zui.boards', (data = new Boards(this, options)));
-
-            if(typeof option == 'string') data[option]();
-        });
-    };
-
-    $.fn.boards.Constructor = Boards;
-
-    $(function() {
-        $('[data-toggle="boards"]').boards();
-    });
-}(jQuery));
 
 /* ========================================================================
  * ZUI: color.js
@@ -6587,6 +5081,7 @@
         animate: null,
         initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
         toggleTemplate: '<i class="list-toggle icon"></i>',
+        // sortable: false, //
     };
 
     Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
@@ -6609,14 +5104,17 @@
             }
             $.each(items, function(idx, item) {
                 var $li = $('<li/>').data(item).appendTo($ul);
-                var $wrapper = options.itemWrapper ? $('<div class="tree-item-wrapper"/>').appendTo($li) : $li;
+                if(item.id !== undefined) $li.attr('data-id', item.id);
+                var $wrapper = options.itemWrapper ? $(options.itemWrapper === true ? '<div class="tree-item-wrapper"/>' : options.itemWrapper).appendTo($li) : $li;
                 if(item.html) {
                     $wrapper.html(item.html)
                 } else if($.isFunction(that.options.itemCreator)) {
-                    var itemContent = that.options.itemCreator($wrapper, item);
-                    if(itemContent !== true) $wrapper.html(itemContent);
+                    var itemContent = that.options.itemCreator($li, item);
+                    if(itemContent !== true && itemContent !== false) $wrapper.html(itemContent);
+                } else if(item.url) {
+                    $wrapper.append($('<a/>', {href: item.url}).text(item.title || item.name));
                 } else {
-                    $wrapper.append($('<a/>', {href: item.url || '#'}).text(item.title || item.name));
+                    $wrapper.append($('<span/>').text(item.title || item.name));
                 }
                 that._initItem($li, item.idx || idx, $ul, item);
                 if(item.children && item.children.length) {
