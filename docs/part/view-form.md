@@ -11,7 +11,7 @@ filter: biaodan bd
 
 将 [**控件 → 表单控件**](#control/textbox) 包裹在 `<div class="form-group">` 内即可得到一个表单控件组。
 
-表单控件组中通常还包括文本标签 `<label>`，[**输入组**](#component/inputgroup)（`.input-group`）也可以放置在表单控件组中。
+表单控件组中通常还包括文本标签 `<label>`，[**组件 → 输入组**](#component/inputgroup)（`.input-group`）也可以放置在表单控件组中。
 
 将多个表单控件组堆叠在 `<form>` 内即可得到一个垂直排列的表单。
 
