@@ -1584,8 +1584,6 @@
             pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
             pkgLibs.seperate = getBuildList(pkg, pkg.builds.seperate, pkg.lib);
 
-            console.log('pkgLibs', pkgLibs);
-
             function getLibSource(lib, src, libName) {
                 if(lib.src) {
                     ['less', 'js', 'resource'].forEach(function(srcTypeName) {
@@ -1615,7 +1613,7 @@
                 var libName = section.dpds || section.id;
                 var pkgLib = pkg.lib[libName];
                 if(!pkgLib) {
-                    libName = section.id + 's';
+                    libName = libName + 's';
                     pkgLib = pkg.lib[libName];
                 }
                 var lib = {
@@ -1623,7 +1621,7 @@
                     bundles: {}
                 };
                 $.each(pkgLibs, function(name, libNames) {
-                    if(isInLib(section.id, libNames, pkgLib)) {
+                    if(isInLib(libName, libNames, pkgLib)) {
                         lib.bundles[name] = true;
                     }
                 });
