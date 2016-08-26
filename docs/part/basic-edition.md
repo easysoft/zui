@@ -72,7 +72,7 @@ zui/
 
 ## 组件清单
 
-组件清单帮助你快速查找所需的组件是否包含在指定版本中。在 ZUI 中目前包含 个可以选择使用的组件（不包括合并组件）。
+组件清单帮助你快速查找所需的组件是否包含在指定版本中。在 ZUI 中目前包含 <span class="components-count"></span> 个可以选择使用的组件（不包括合并组件）。
 
 <table class="table table-bordered" id="buildTable">
   <thead>
