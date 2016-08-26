@@ -291,6 +291,12 @@
                 }],
                 "filter": "yueding yd"
             }, {
+                "icon": "icon-smile",
+                "id": "hello",
+                "name": "Hello world",
+                "topics": [],
+                "filter": "helloworld helloworld"
+            }, {
                 "id": "file",
                 "name": "文件目录结构",
                 "icon": "icon-sitemap",
@@ -330,13 +336,6 @@
                     "name": "浏览器检测"
                 }],
                 "filter": "shouzhichidipingtai szcdpt"
-            }, {
-                "desc": "文档基本结构",
-                "icon": "icon-smile",
-                "id": "hello",
-                "name": "Hello world",
-                "topics": [],
-                "filter": "helloworld helloworld"
             }, {
                 "desc": "normalize.css",
                 "icon": "icon-circle-blank",
@@ -1029,8 +1028,8 @@
             }, {
                 "id": "bootbox",
                 "icon": "icon-question-sign",
-                "desc": "警告、确认和内容编辑模态框",
-                "name": "模态对话框 (Bootbox)",
+                "desc": "警告、确认和内容编辑模态框（使用 Bootbox）",
+                "name": "模态对话框",
                 "topics": [],
                 "filter": "motaiduihuakuang mtdhk"
             }, {
@@ -1190,8 +1189,8 @@
             }, {
                 "id": "lightbox",
                 "icon": "icon-carousel",
-                "desc": "灯箱式图片浏览",
-                "name": "图片浏览 (Lightbox)",
+                "desc": "灯箱式图片浏览 (Lightbox)",
+                "name": "图片浏览",
                 "topics": [],
                 "filter": "tupianliulan tpll dxs tp dengxiangshi tupian tpyl"
             }],
