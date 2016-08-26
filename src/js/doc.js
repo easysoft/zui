@@ -407,7 +407,7 @@
                 var $head = $tpl.children('.card-heading');
                 var sectionUrl = '#' + chapterName + '/' + section.id;
                 $head.find('.name').text(section.name).attr('href', sectionUrl);
-                // $head.children('.desc').text(section.desc);
+                $head.attr('title', section.desc);
                 displaySectionIcon($head.children('.icon'), section);
                 var $topics = $tpl.find('.topics');
                 if(section.topics && section.topics.length) {
@@ -763,8 +763,8 @@
                 keyOption.chapter = key.substr(1);
                 keyOption.val = keyOption.chapter;
             } else if(key.startsWith('#')) {
-                keyOption.type = 'id';
-                keyOption.val = key.substr(2);
+                keyOption.type = 'tag';
+                keyOption.val = key.substr(1);
             } else if(key.startsWith('icon-') || key.startsWith('icon:')) {
                 keyOption.type = 'icon';
                 keyOption.val = key.substr(5);
@@ -847,6 +847,18 @@
                                 queryIcon(iconKeys);
                                 return false;
                             }
+                            break;
+                        case 'version':
+                            if(key.val == 'new') {
+                                chooseThisKey = section.isNew;
+                            } else if(key.val == 'update') {
+                                chooseThisKey = section.isUpdate;
+                            }  else if(!key.val) {
+                                chooseThisKey = section.isUpdate || section.isNew;
+                            } else {
+                                chooseThisKey = section.version === key.val;
+                            }
+                            weight = 100;
                             break;
                         default:
                             var sectionName = section.name.toLowerCase();
