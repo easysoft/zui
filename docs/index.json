@@ -90,6 +90,43 @@
                 "desc": "一份1.2以下版本升级到最新版的向导",
                 "icon": "1.2",
                 "filter": "cong1.2banbenshengjizhinan c1.2bbsjzn"
+            }, {
+                "id": "bootstrap",
+                "name": "Bootstrap",
+                "desc": "访问 Bootstrap 官方网站",
+                "version": "1.5.0",
+                "icon": "B",
+                "url": "http://getbootstrap.com/",
+                "topics": [{
+                    "name": "中文文档",
+                    "url": "http://v3.bootcss.com/getting-started/"
+                }]
+            }, {
+                "id": "jquery",
+                "name": "jQuery",
+                "desc": "访问 jQuery 官方网站",
+                "version": "1.5.0",
+                "icon": "jQ",
+                "url": "http://jquery.com/",
+                "topics": []
+            }, {
+                "id": "fontawesome",
+                "name": "FontAwesome",
+                "desc": "访问 FontAwesome 官方网站",
+                "version": "1.5.0",
+                "icon": "icon-flag",
+                "url": "http://fontawesome.io/",
+                "topics": [],
+                "filter": "icons"
+            }, {
+                "id": "icomoonapp",
+                "name": "IconMoon App",
+                "desc": "制作图标字体",
+                "version": "1.5.0",
+                "icon": "IC",
+                "url": "https://icomoon.io/app/",
+                "topics": [],
+                "filter": "icons"
             }],
             "filter": "gengduoziyuan gdzy"
         },
@@ -97,6 +134,15 @@
             "name": "推荐",
             "accent": "purple",
             "sections": [{
+                "id": "mzui",
+                "name": "MZUI：移动前端框架",
+                "desc": "为移动端设计，基于 Flex 的 UI 框架。",
+                "icon": "M",
+                "url": "http://zui.sexy/m/",
+                "version": "1.5.0",
+                "topics": [],
+                "filter": "mzui yidongqianduankuangjia flex"
+            }, {
                 "id": "zentaopms",
                 "name": "禅道项目管理",
                 "desc": "以开源的方式做最专业的研发项目管理软件！",
