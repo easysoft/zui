@@ -767,6 +767,10 @@
       "dpds": ["jqueryex", "droppable"],
       "require": ["jquery"]
     },
+    "dragDropSort": {
+      "name": "Drag, drop and sort",
+      "dpds": ["draggable", "droppable", "sortable"]
+    },
     "tab": {
       "name": "标签页",
       "src": {
@@ -892,7 +896,7 @@
         "js": ["src/js/img-cutter.js"]
       },
       "ver": "1.0.0",
-      "dpds": ["basic", "imgready"],
+      "dpds": ["basic", "imgready", "draggable"],
       "require": ["jquery"]
     },
     "datetimepicker": {
