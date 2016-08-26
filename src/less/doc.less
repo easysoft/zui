@@ -376,11 +376,14 @@ a.avatar:hover {
     line-height: 50px;
     margin: 0 auto;
   }
-  &.loading {
+  &.loading,
+  &.with-error {
     padding: 80px 0;
     .opacity(1);
     height: auto;
     .scale(1);
+  }
+  &.loading {
     > .error-text {
       display: none;
     }
