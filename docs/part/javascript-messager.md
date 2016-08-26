@@ -14,7 +14,7 @@ filter: piaofuxiaoxi pfxx
 漂浮消息可以设置图标，并且可以决定是否显示关闭按钮。
 
 <div class="example">
-  <button class="btn btn-primary show-messager" type="button" data-content="这是一个浮动消息。" data-icon="bell">显示漂浮消息</button>
+  <button class="btn btn-primary show-messager" type="button" data-content="这是一个浮动消息。" data-icon="bell" data-time="100000">显示漂浮消息</button>
 </div>
 
 ```
@@ -212,9 +212,75 @@ new $.zui.Messager('此消息没有动画效果。', {
 
 ## 如何使用
 
-### 使用Messager对象
+创建一个 `Messager` 实例，并调用 `show()` 和 `hide()` 方法来显示或隐藏消息。
 
-创建一个`Messager`实例来使用漂浮消息。
+### 创建 Messager 实例
+
+创建 Messager 实例方法调用形式：
+
+ - <strong class="code text-danger">new $.zui.Messager()</strong>
+ - <strong class="code text-danger">new $.zui.Messager(message)</strong>
+ - <strong class="code text-danger">new $.zui.Messager(options)</strong>
+ - <strong class="code text-danger">new $.zui.Messager(message, options)</strong>
+
+参数定义如下：
+
+ - `message`：用于设定要进行显示的消息内容；
+ - `options`：初始化选项；
+
+```javascript
+var myMessager = new $.zui.Messager('Hello, messager!', {
+    type: 'success'
+});
+```
+
+### 显示消息
+
+使用 Messager 实例方法 `show()` 来显示消息，该方法可用形式有：
+
+ - <strong class="code text-danger">show()</strong>
+ - <strong class="code text-danger">show(message)</strong>
+ - <strong class="code text-danger">show(callback)</strong>
+ - <strong class="code text-danger">show(message, callback)</strong>
+
+参数定义如下：
+
+ - `message`：用于设定要进行显示的消息内容；
+ - `callback`：消息显示之后的回调函数；
+
+```javascript
+// 创建 Messager 实例
+var myMessager = new $.zui.Messager({type: 'success'});
+
+myMessager.show('Hello, messager');
+```
+
+### 隐藏消息
+
+使用 Messager 实例方法 `hide()` 来隐藏消息，该方法可用形式有：
+
+ - <strong class="code text-danger">hide()</strong>
+ - <strong class="code text-danger">hide(callback)</strong>
+
+参数定义如下：
+
+ - `callback`：消息隐藏之后的回调函数；
+
+```javascript
+// 创建 Messger 实例
+var myMessager = new $.zui.Messager('Hello, messager!', {
+    type: 'success',
+    time: 0 // 不进行自动隐藏
+});
+
+// 先显示消息
+myMessager.show();
+
+// 5 秒之后隐藏消息
+setTimeout(function() {
+    myMessager.hide();
+}, 5000);
+```
 
 <table class="table table-bordered">
   <thead>
@@ -298,6 +364,11 @@ var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
       <td>自显示之后超过此时间设定会自动隐藏消息。如果设置为0则不会自动隐藏。</td>
     </tr>
     <tr>
+      <td>`message`</td>
+      <td>默认为 `null`</td>
+      <td>使用选项来设置要显示的消息。</td>
+    </tr>
+    <tr>
       <td>`parent`</td>
       <td>`'body'`</td>
       <td>一个jquery选择器，决定消息内容DOM的父节点。</td>
@@ -346,6 +417,11 @@ var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
       <td>`'my-messager-content'`，默认不设置</td>
       <td>为 `.messager-content` 追加额外的 CSS 类</td>
     </tr>
+    <tr>
+      <td>`show`</td>
+      <td>`true` | `false`(默认)</td>
+      <td>是否在初始化之后立即显示消息。</td>
+    </tr>
   </tbody>
 </table>
 
@@ -355,6 +431,7 @@ function afterPageLoad() {
         var $this = $(this);
         var data = $this.data('zui.messager');
         if(data) {
+            console.log('use', data);
             data.show(new Date());
         }
         else {

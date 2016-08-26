@@ -29,6 +29,11 @@
     var all = {};
 
     var Messager = function(message, options) {
+        if($.isPlainObject(message)) {
+            options = message;
+            message = options.message;
+        }
+
         var that = this;
         that.id = id++;
         options = that.options = $.extend({}, defaultOptions, options);
@@ -94,23 +99,40 @@
         if(options.contentClass) $content.addClass(options.cssClass);
 
         that.$.data('zui.messager', that);
+
+        if(options.show && that.message !== undefined) {
+            that.show();
+        }
     };
 
-    Messager.prototype.show = function(message) {
+    Messager.prototype.show = function(message, callback) {
         var that = this,
             options = this.options;
+
+        if(that.isShow) {
+            that.hide(function() {
+                that.show(message, callback);
+            });
+            return;
+        }
 
         if(that.hiding) {
             clearTimeout(that.hiding);
             that.hiding = null;
         }
 
+        if($.isFunction(message)) {
+            var oldCallback = callback;
+            callback = message;
+            if(oldCallback !== undefined) {
+                message = oldCallback;
+            }
+        }
+
         if(message) {
             that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
             that.$.find('.messager-content').html(that.message);
         }
-
-        if(that.isShow) return;
 
         var placement = options.placement;
         var $parent = $(options.parent);
@@ -133,9 +155,11 @@
         }
 
         that.isShow = true;
+        callback && callback();
+        return that;
     };
 
-    Messager.prototype.hide = function() {
+    Messager.prototype.hide = function(callback) {
         var that = this;
         if(that.$.hasClass('in')) {
             that.$.removeClass('in');
@@ -143,7 +167,10 @@
                 var $parent = that.$.parent();
                 that.$.remove();
                 if(!$parent.children().length) $parent.remove();
+                callback && callback(true);
             }, 200);
+        } else {
+            callback && callback(false);
         }
 
         that.isShow = false;
