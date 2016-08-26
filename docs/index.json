@@ -114,6 +114,15 @@
                 }],
                 "filter": "chandaoxiangmuguanli cdxmgl"
             }, {
+                "id": "zdoo",
+                "name": "Zdoo",
+                "desc": "可深度定制的云端一体化协作平台",
+                "version": "1.5.0",
+                "icon": "docs/img/zdoo_icon.png",
+                "url": "http://www.zdoo.com/",
+                "topics": [],
+                "filter": "zdoo ezsoft cloud yunduan docker"
+            }, {
                 "id": "chanzhi",
                 "name": "蝉知",
                 "desc": "为天下企业提供专业的营销工具！",
