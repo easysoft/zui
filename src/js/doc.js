@@ -1870,7 +1870,6 @@
             readyChangeTheme(theme.css);
         } else {
             setTimeout(function() {
-                theme.variablesLess += '@pageTheme: true;';
                 compileTheme(theme, null, function(style) {
                     if(style) {
                         theme.css = style.css;
