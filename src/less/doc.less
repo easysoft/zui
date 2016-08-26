@@ -726,10 +726,32 @@ body {
 }
 
 #download {
-  > .btn-primary {
+  > .btn-lg {
     border-color: #e5e5e5;
     border-color: rgba(255, 255, 255, .65);
     margin-bottom: 15px;
+
+    + .btn { margin-left: 10px }
+
+    > .icon {
+      position: relative;
+      margin-left: 6px;
+      margin-right: -3px;
+      top: -1px;
+    }
+
+    &.btn-white {
+      background: #fff;
+      color: @color-primary;
+      opacity: .9;
+
+      &:hover,
+      &:focus,
+      &:active {
+        opacity: 1;
+        color: @color-secondary;
+      }
+    }
   }
   padding-top: 20px;
   text-align: center;

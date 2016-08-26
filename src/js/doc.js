@@ -10,6 +10,12 @@
 +(function(window, $) {
     'use strict';
 
+    if(window.location.protocol === 'file:') {
+        $('#fileProtocolTip').removeClass('hidden');
+        $('.loading.loader').removeClass('loading');
+        return;
+    }
+
     // Polyfill
     if(!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
