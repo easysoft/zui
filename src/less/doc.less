@@ -9,6 +9,7 @@
 // DOCUMENT SITE STYLE
 // ===================
 
+@pageTheme: false;
 
 // mixins
 
@@ -959,6 +960,10 @@ body {
         box-shadow: 0 0 0 1px #fff;
         border-radius: 2px;
         z-index: 12;
+
+        & when(@pageTheme = true) {
+          background-image: url('docs/img/update_badage.gif');
+        }
       }
     }
     &.section-new {
