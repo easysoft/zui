@@ -1202,13 +1202,14 @@
                     less: "LESS",
                     resource: "资源",
                 };
+                var srcPrefix = 'https://github.com/easysoft/zui/blob/' + (zuiPkg.version ? ('v' + zuiPkg.version) : 'master') + '/';
                 if(lib.srcCount) {
                     $dropdown.append('<li class="dropdown-header primary-header" data-type="source"><i class="icon icon-file-code"></i>  源码 ' + lib.srcCount + '</li>');
                     $.each(lib.src, function(srcName, files) {
                         $dropdown.append('<li class="dropdown-header">' + (srcTypes[srcName] || srcName) + '</li>');
                         files.forEach(function(f) {
                             f = f.replace(/\/\//g, '/');
-                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f + '">' + f + '</a></li>');
+                            $dropdown.append('<li><a target="_blank" href="' + srcPrefix + f + '">' + f + '</a></li>');
                         });
                     });
                 }
@@ -1235,7 +1236,7 @@
                         }
                         files.forEach(function(f) {
                             f = f.replace(/\/\//g, '/');
-                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f.replace('/**/*', '') + '">' + f + '</a></li>');
+                            $dropdown.append('<li><a target="_blank" href="' + srcPrefix + f.replace('/**/*', '') + '">' + f + '</a></li>');
                         });
                     }
                     if(lib.bundles.lite) {
@@ -1259,15 +1260,15 @@
                         }
                         files.forEach(function(f) {
                             f = f.replace(/\/\//g, '/');
-                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f.replace('/**/*', '') + '">' + f + '</a></li>');
+                            $dropdown.append('<li><a target="_blank" href="' + srcPrefix + f.replace('/**/*', '') + '">' + f + '</a></li>');
                         });
                     }
                     if(lib.bundles.seperate) {
                         $dropdown.append('<li class="dropdown-header">独立组件</li>');
-                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/lib/' + section.id + '">dist/lib/' + section.id + '/**/*</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="' + srcPrefix + 'dist/lib/' + section.id + '">dist/lib/' + section.id + '/**/*</a></li>');
                     }
                     if(lib.code === 'theme') {
-                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.css">dist/css/zui-theme.css</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="' + srcPrefix + 'dist/zui-theme.css">dist/css/zui-theme.css</a></li>');
                     }
                 }
             }
