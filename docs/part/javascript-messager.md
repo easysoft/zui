@@ -255,6 +255,24 @@ var myMessager = new $.zui.Messager({type: 'success'});
 myMessager.show('Hello, messager');
 ```
 
+你可以在任何时候调用 `show()` 方法来显示消息，如果消息已经显示，则会更新所显示的内容。
+
+### 同时显示多条消息
+
+如果你要同时显示多条消息，只需要使用不同的 Messager 实例，然后调用各自的 `show()` 方法即可。
+
+```javascript
+// 创建 Messager 实例
+var myMessager1 = new $.zui.Messager('消息一');
+var myMessager2 = new $.zui.Messager('消息二');
+
+// 显示消息一
+myMessager1.show();
+
+// 显示消息二
+myMessager2.show();
+```
+
 ### 隐藏消息
 
 使用 Messager 实例方法 `hide()` 来隐藏消息，该方法可用形式有：
@@ -431,7 +449,6 @@ function afterPageLoad() {
         var $this = $(this);
         var data = $this.data('zui.messager');
         if(data) {
-            console.log('use', data);
             data.show(new Date());
         }
         else {
