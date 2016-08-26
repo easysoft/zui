@@ -260,6 +260,7 @@
                 "name": "选择版本和定制",
                 "icon": "icon-code-fork",
                 "desc": "选择合适的版本",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "标准版"
                 }, {
@@ -317,6 +318,7 @@
                 "icon": "icon-window",
                 "id": "layout",
                 "name": "布局容器",
+                "version": "1.5.0",
                 "url": ".md",
                 "topics": [{
                     "name": "响应式布局"
@@ -425,6 +427,7 @@
                 "icon": "icon-star",
                 "id": "icon",
                 "name": "图标",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "搜索图标",
                     "url": "#search/icon:"
@@ -481,6 +484,7 @@
                 "id": "textbox",
                 "name": "表单控件",
                 "dpds": "forms",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "基本类型"
                 }, {
@@ -497,6 +501,7 @@
                 "id": "checkbox",
                 "name": "多选和单选框",
                 "dpds": "forms",
+                "version": "1.5.0",
                 "topics": [{
                     "name": "默认外观"
                 }, {
@@ -574,8 +579,9 @@
             }, {
                 "id": "code",
                 "icon": "icon-code",
-                "desc": "在文档中插入代码",
+                "desc": "展示美丽的代码",
                 "name": "代码",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "内联代码"
                 }, {
@@ -692,6 +698,7 @@
                 "icon": "icon-table",
                 "desc": "美观实用的表格",
                 "name": "表格",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "基本类型"
                 }, {
@@ -793,6 +800,7 @@
                 "icon": "icon-comment-alt",
                 "desc": "漂浮在页面之上的无打断消息",
                 "name": "漂浮消息",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "示例"
                 }, {
@@ -905,17 +913,41 @@
                 }],
                 "filter": "fuwenbenbianjiqi fwbbjq"
             }, {
+                "id": "draggable",
+                "icon": "icon-move",
+                "desc": "拖动目标元素",
+                "name": "拖动",
+                "version": "1.5.0",
+                "topics": [{
+                    "name": "综合示例"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "处理拖动过程"
+                }],
+                "filter": "tuodong td"
+            }, {
                 "id": "droppable",
                 "icon": "icon-external-link",
-                "desc": "将内容拖放到另一个容器",
+                "desc": "拖动并放置在目标位置",
                 "name": "拖放",
+                "update": "1.5.0",
                 "topics": [],
                 "filter": "tuofang tf"
+            }, {
+                "id": "sortable",
+                "icon": "icon-sort",
+                "desc": "拖动元素来排列顺序",
+                "name": "拖放排序",
+                "version": "1.5.0",
+                "topics": [],
+                "filter": "tuofangpaixu tfpx"
             }, {
                 "id": "selectable",
                 "icon": "icon-th",
                 "desc": "通过拖拽来选择元素",
                 "name": "拖拽选取",
+                "version": "1.5.0",
                 "topics": [{
                     "name": "综合示例"
                 }, {
@@ -932,6 +964,7 @@
                 "icon": "icon-tint",
                 "desc": "从下拉菜单中选择预设的颜色值",
                 "name": "颜色选择器",
+                "version": "1.5.0",
                 "topics": [{
                     "name": "按钮选择器"
                 }, {
@@ -979,6 +1012,7 @@
                 "icon": "icon-th-list",
                 "desc": "体现层级关系的树形菜单",
                 "name": "树形菜单",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "综合示例"
                 }, {

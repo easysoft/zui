@@ -1670,6 +1670,10 @@
                 }
 
                 section.lib = lib;
+                section.isNew = section.version === pkg.version;
+                section.isUpdate = section.update === pkg.version;
+                
+                $('#section-' + section.chapter + '-' + section.id).toggleClass('section-update', section.isUpdate).toggleClass('section-new', section.isNew);
             });
         });
     };

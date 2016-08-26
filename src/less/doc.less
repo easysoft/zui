@@ -889,6 +889,30 @@ body {
     &.open {
       margin-bottom: 5px;
     }
+
+    &.section-new,
+    &.section-update {
+      > .card-heading:before {
+        display: block;
+        content: ' ';
+        width: 29px;
+        height: 9px;
+        background: @color-yellow url(../img/update_badage.gif) no-repeat 0 -10px;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        box-shadow: 0 0 0 1px #fff;
+        border-radius: 2px;
+        z-index: 12;
+      }
+    }
+    &.section-new {
+      > .card-heading:before {
+        width: 18px;
+        background-color: @color-red;
+        background-position: 0 0;
+      }
+    }
   }
   .card-heading {
     .transition-quickly(background-color);
