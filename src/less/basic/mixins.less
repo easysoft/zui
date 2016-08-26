@@ -610,6 +610,7 @@
 // More easily include all the states for responsive-utilities.less.
 .responsive-visibility() {
   display: block !important;
+  
   .inline& { display: inline !important; }
   .inline-block& { display: inline-block !important; }
   tr& { display: table-row !important; }
@@ -618,7 +619,9 @@
 }
 
 .responsive-invisibility() {
-    &,
+  &,
+  .inline&,
+  .inline-block&,
   tr&,
   th&,
   td& { display: none !important; }
