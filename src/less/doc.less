@@ -804,6 +804,61 @@ body {
   }
 }
 
+#ad {
+  transition: opacity .2s;
+  padding-bottom: 20px;
+  margin-top: -30px;
+
+  > a {
+    opacity: .8;
+    color: #fff;
+    display: block;
+    padding: 10px;
+    background: rgba(0,0,0,.15);
+    border-radius: @border-radius-base;
+    font-size: 14px;
+    width: 340px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+
+    &:after,
+    &:before {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      transform: skewX(-45deg) translate(-120px,0);
+      width: 100px;
+      left: 0;
+      background-color: rgba(255,255,255,.2);
+      opacity: 1;
+      transition: transform .3s, opacity .3s;
+    }
+
+    &:after {
+      top: 20px;
+      right: 0;
+      transform: none;
+      width: auto;
+      background-color: rgba(0,0,0,.1);
+    }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+      background: rgba(0,0,0,.2);
+      text-decoration: none;
+      box-shadow: rgba(0,0,0,.12) 0 1px 6px,rgba(0,0,0,.15) 0 1px 4px;
+
+      &:before {
+        opacity: 1;
+        transform: skewX(-45deg) translate(360px,0);
+      }
+    }
+  }
+}
+
 #grid {
   position: relative;
   > .container {
@@ -1768,6 +1823,9 @@ body.compact-mode {
     .transition-fast(margin-top);
     margin-top: 503px;
   }
+  #ad {
+    opacity: 0;
+  }
   &.compact-mode-in {
     #navbar {
       padding-top: 10px;
@@ -1822,6 +1880,7 @@ body.compact-mode {
     #grid {
       margin-top: 70px;
     }
+    #ad {display: none}
   }
 }
 
