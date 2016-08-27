@@ -919,7 +919,7 @@
                                     });
                                     if(isBreak) break;
                                 }
-                                if(section.desc.toLowerCase().includes(keyVal)) {
+                                if(section.desc && section.desc.toLowerCase().includes(keyVal)) {
                                     chooseThisKey = true;
                                     matchType = 'section.desc';
                                     weight = 30;
