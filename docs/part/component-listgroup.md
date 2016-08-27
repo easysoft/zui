@@ -37,6 +37,8 @@ filter: liebiaozu lbz
 
 ## 链接
 
+直接为 `<a>` 添加 `.list-group-item` 类。
+
 <div class="example">
   <div class="list-group">
     <a href="#" class="list-group-item">用div &gt; a实现，实现整行点击</a>

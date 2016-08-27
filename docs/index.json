@@ -291,6 +291,14 @@
                 }],
                 "filter": "yueding yd"
             }, {
+                "desc": "下载并使用ZUI",
+                "icon": "icon-download",
+                "id": "download",
+                "name": "下载与使用",
+                "version": "1.5.0",
+                "topics": [],
+                "filter": "xiazai xz shiyong sy"
+            }, {
                 "icon": "icon-smile",
                 "id": "hello",
                 "name": "Hello world",
@@ -865,16 +873,13 @@
                 "icon": "icon-chat",
                 "desc": "为元素额外提供消息文本",
                 "name": "提示消息",
+                "update": "1.5.0",
                 "topics": [{
-                    "name": "一般工具提示"
+                    "name": "示例"
                 }, {
                     "name": "不同方向的提示"
                 }, {
-                    "name": "Markup"
-                }, {
                     "name": "选项"
-                }, {
-                    "name": "标记"
                 }, {
                     "name": "方法"
                 }, {
@@ -977,7 +982,13 @@
                 "desc": "拖动并放置在目标位置",
                 "name": "拖放",
                 "update": "1.5.0",
-                "topics": [],
+                "topics": [{
+                    "name": "综合示例"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "处理拖放过程"
+                }],
                 "filter": "tuofang tf"
             }, {
                 "id": "sortable",
@@ -985,7 +996,13 @@
                 "desc": "拖动元素来排列顺序",
                 "name": "拖放排序",
                 "version": "1.5.0",
-                "topics": [],
+                "topics": [{
+                    "name": "综合示例"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "处理拖放排序过程"
+                }],
                 "filter": "tuofangpaixu tfpx"
             }, {
                 "id": "selectable",
@@ -1097,6 +1114,7 @@
                 "icon": "icon-layout",
                 "desc": "用于用户提交数据的视图",
                 "name": "表单",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "基本形式"
                 }, {
@@ -1177,7 +1195,16 @@
                 "icon": "icon-columns",
                 "desc": "在多个列进行拖放内容",
                 "name": "看板",
-                "topics": [],
+                "update": "1.5.0",
+                "topics": [{
+                    "name": "综合示例"
+                }, {
+                    "name": "HTML 结构"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "处理看板交互过程"
+                }],
                 "filter": "kanban kb"
             }, {
                 "id": "dashboard",

@@ -280,7 +280,7 @@ $('#droppableBtn').droppable(options)
 4. `beforeDrop`，在此回调函数返回 `false`，可以取消 `drop` 的调用；
 5. `drop`
 6. `finish`
-7. 'always'
+7. `always`
 
 当点击了鼠标但没有移动鼠标进行拖动，则只有 `before` 和 `always` 回调函数被调用。
 

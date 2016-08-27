@@ -7,204 +7,191 @@ filter: tishixiaoxi tsxx
 
 # 提示消息
 
-## 一般工具提示
+提示消息又称“工具提示”，在用户鼠标悬停在元素上时及时显示额外的内容。
 
-<div class="example tooltip-demo">
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore,
-  cupiditate, eius, modi, veniam iure perspiciatis hic vitae quisquam ullam
-  animi ipsum repellat temporibus <a href="#" data-toggle="tooltip" title="This is a tooltip">have a</a> officiis voluptatibus nostrum laborum debitis
-  quidem illo deleniti iste! Minima, facilis aut explicabo debitis fugit dolor
-  sint at soluta nulla omnis itaque <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> illum commodi numquam enim quod architecto
-  molestias qui eveniet et amet <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> laborum quisquam quam provident esse beatae quas
-  impedit voluptas nostrum <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> aspernatur deleniti suscipit blanditiis
-  dignissimos temporibus eligendi quae corrupti <a href="#" data-toggle="tooltip" title="Another tooltip">have a</a> pariatur quo! Enim, ipsa, odio
-  quasi laboriosam provident id nihil maxime architecto dolorum quas harum
-  veniam perspiciatis tempora ducimus qui! Rem, obcaecati reiciendis officia
-  quam.</p>
+## 示例
+
+下面示例中的每个链接都有提示消息，将鼠标移到链接上可以查看提示消息。
+
+<example class="tooltip-demo">
+  <p><a href="#" data-toggle="tooltip" title="英语：Cascading Style Sheets，简写CSS">层叠样式表</a>，又称串样式列表、级联样式表、串接样式表、层叠样式表、階層式樣式表，一种用来为<a href="#" data-toggle="tooltip" title="如HTML文档或XML应用">结构化文档</a>添加样式（字体、间距和颜色等）的计算机语言，由 W3C 定义和维护。目前最新版本是 CSS2.1，为 W3C 的推荐标准。CSS3现在已被大部分现代浏览器支持，而下一版的 CSS4 仍在开发过程中。（摘自<a href="https://zh.wikipedia.org/wiki/%E5%B1%82%E5%8F%A0%E6%A0%B7%E5%BC%8F%E8%A1%A8" data-toggle="tooltip" title="访问“层叠样式表”词条" target="_blank">维基百科</a>）</p>
+</example>
+
+```html
+<a href="#" data-toggle="tooltip" title="英语：Cascading Style Sheets，简写CSS">层叠样式表</a>
+```
+
+```javascript
+// 你需要手动初始化工具提示
+$('[data-toggle="tooltip"]').tooltip();
+```
+
+为需要显示工具提示的元素添加 `[data-toggle="tooltip"]` 属性，并调用工具提示初始化方法即可。默认情况下元素的 `[title]` 属性值即为工具提示显示的内容。
+
+<div class="alert alert-warning">
+  <h4>提示</h4>
+  <p>提示消息与按钮组和输入框组联合使用时需要一些特殊设置：在 .btn-group 或 .input-group 内的元素上使用提示消息时，你需要指定 container: 'body'选项以避免不需要的副作用（例如，当工具提示显示之后，与其合作的页面元素可能变得更宽或是去圆角）。</p>
 </div>
+
 
 ## 不同方向的提示
 
 <div class="example tooltip-demo">
-  <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="Tooltip on left">左侧Tooltip</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">上方Tooltip</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom">下方Tooltip</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="" data-original-title="Tooltip on right">右侧Tooltip</button>
+  <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="左侧提示内容">左侧提示</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="上方提示内容">上方提示</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="下方提示内容">下方提示</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="" data-original-title="右侧提示内容">右侧提示</button>
 </div>
 
-## 使用提醒
-
-*   选择性加入的功能：出于性能方面的考虑，工具提示和弹框组件的data属性api是选择性加入的，也就是说 **你必须自己初始化他们**。
-*   工具提示与按钮组和输入框组联合使用时需要一些特殊设置：在 `.btn-group` 或 `.input-group` 内的元素上使用工具提示时，你需要指定 `container: 'body'`选项以避免不需要的副作用（例如，当工具提示显示之后，与其合作的页面元素可能变得更宽或是去圆角）。
-*   在禁止使用的页面元素上使用工具提示时需要额外增加一个元素将其包裹起来：为了给 `disabled` 或 `.disabled` 元素添加工具提示，将需要增加工具提示的页面元素包裹在一个 `<div>` 中，然后对这个 `<div>` 元素应用工具提示。
-
-## 用法
-
-通过JavaScript激活工具提示：
-
-<div class="example">
-  鼠标悬停显示<a href="###" data-toggle="tooltip" title="这是提示消息内容">提示消息</a>
-</div>
-
-```
-<a href="your/nice/url" data-toggle="tooltip" title="这是提示消息内容">鼠标悬停显示提示消息</a>
-```
-
-```
-<code class="language-js">$(<span class="string">'[data-toggle="tooltip"]'</span>).tooltip(options);</code>
-```
+使用 `placement` 选项来指定工具提示相对于元素显示的位置。
 
 ## 选项
 
-可以将选项通过data属性或JavaScript传递。对于data属性，需要将选项名称放到 `data-` 之后，例如 `data-animation=""` 。
+可以将选项通过 `[data-*]` 属性或 JavaScript 对象指定。
 
-<div class="table-responsive">
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th style="width: 100px;">名称</th>
-        <th style="width: 100px;">类型</th>
-        <th style="width: 50px;">默认值</th>
-        <th>描述</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>animation</td>
-        <td>boolean</td>
-        <td>true</td>
-        <td>决定是否应用淡入淡出动画。</td>
-      </tr>
-      <tr>
-        <td>html</td>
-        <td>boolean</td>
-        <td>false</td>
-        <td>是否允许展示html标签。</td>
-      </tr>
-      <tr>
-        <td>placement</td>
-        <td>string | function</td>
-        <td>'top'</td>
-        <td>top | bottom | left | right | auto.
-        <br>
-        显示的位置。</td>
-      </tr>
-      <tr>
-        <td>selector</td>
-        <td>string</td>
-        <td>false</td>
-        <td>当需要为动态DOM应用工具提示，需要手动指定选择器。</td>
-      </tr>
-      <tr>
-        <td>title</td>
-        <td>string | function</td>
-        <td>''</td>
-        <td>标题。</td>
-      </tr>
-      <tr>
-        <td>trigger</td>
-        <td>string</td>
-        <td>'hover focus'</td>
-        <td>click | hover | focus | manual. 触发方式。</td>
-      </tr>
-      <tr>
-        <td>delay</td>
-        <td>number | object</td>
-        <td>0</td>
-        <td>
-          <p>如果指定，则应用延迟。</p>
-          <p><code>delay: { show: 500, hide: 100 }</code></p>
-        </td>
-      </tr>
-      <tr>
-        <td>container</td>
-        <td>string | false</td>
-        <td>false</td>
-        <td>
-          <p>决定相对位置的父级容器。 <code>container: 'body'</code></p>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-使用data属性可以为单个工具提示指定额外选项，如下所示。
-
-## 标记
-
-<div class="example">
-  <pre><code class="language-html">&lt;a href="#" data-toggle="tooltip" title="first tooltip"&gt;Hover over me&lt;/a&gt;</code></pre>
-</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th style="width: 100px;">名称</th>
+      <th style="width: 100px;">类型</th>
+      <th style="width: 50px;">默认值</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`animation`</td>
+      <td>布尔值</td>
+      <td>`true`</td>
+      <td>决定是否应用淡入淡出动画。</td>
+    </tr>
+    <tr>
+      <td>`container`</td>
+      <td>字符串 | `false`</td>
+      <td>`false`</td>
+      <td>
+        <p>决定相对位置的父级容器，例如：`container: 'body'`</p>
+      </td>
+    </tr>
+    <tr>
+      <td>`delay`</td>
+      <td>数字 | 对象</td>
+      <td>`0`</td>
+      <td>
+        <p>如果指定为数字，则在指定数值的毫秒数后再显示。</p>
+        <p>如果指定为对象，则可以分别为显示或隐藏之前延迟的数值，例如：`delay: { show: 500, hide: 100 }`</p>
+      </td>
+    </tr>
+    <tr>
+      <td>`html`</td>
+      <td>布尔值</td>
+      <td>`false`</td>
+      <td>是否允许消息内容包含 HTML 格式源码。如果设置为 `false`，则仅仅使用 jQuery 的 `text()` 方法来设置消息内容。</td>
+    </tr>
+    <tr>
+      <td>`placement`</td>
+      <td>字符串 | 函数</td>
+      <td>`'top'`</td>
+      <td>指定消息显示的位置，可选值有：`'top'`, `'bottom'`, `'left'`, `'right'`, `'auto'`。如果设置为 `'auto'`，则会自动决定位置。也可以指定为一个函数，来动态返回应该显示的位置。</td>
+    </tr>
+    <tr>
+      <td>`selector`</td>
+      <td>字符串 | `false`</td>
+      <td>`false`</td>
+      <td>如果指定了该选项，则会在代理元素来触发显示工具提示，这样可以对于一些动态内容展示工具提示。</td>
+    </tr>
+    <tr>
+      <td>`template`</td>
+      <td>字符串</td>
+      <td>`'<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'`</td>
+      <td>HTML 模板字符串用来创建工具提示显示内容元素。要求顶级元素必须有 `.tooltip` 类，工具提示的内容会设置为 `.tooltip-inner` 的内容，`.tooltip-arrow` 将作为箭头元素。</td>
+    </tr>
+    <tr>
+      <td>`title`</td>
+      <td>字符串 | 函数</td>
+      <td>`''`</td>
+      <td>设定提示消息内容，如果为函数，可以动态返回用于提示消息内容文本。</td>
+    </tr>
+    <tr>
+      <td>`trigger`</td>
+      <td>字符串</td>
+      <td>`'hover focus'`</td>
+      <td>指定哪些事件会触发显示提示消息，多个事件用空格隔开，可选值包括：`'click'`、`'hover'`、`'focus'`、`'manual'`。</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 方法
 
-### $().tooltip(options)
+### <span class="code">$().tooltip(options)</span>
 
 为一组元素应用工具提示。
 
-### .tooltip('show')
+### <span class="code">.tooltip('show')</span>
 
 展示工具提示。
 
-<div class="example">
-  <pre><code>$('#element').tooltip('show');</code></pre>
-</div>
+```javascript
+$('#element').tooltip('show');
+```
 
-### .tooltip('hide')
+### <span class="code">.tooltip('hide')</span>
 
 隐藏工具提示。
 
-<div class="example">
-  <pre><code>$('#element').tooltip('hide');</code></pre>
-</div>
+```javascript
+$('#element').tooltip('hide');
+```
 
-### .tooltip('toggle')
+### <span class="code">.tooltip('toggle')</span>
 
 展示或隐藏工具提示。
 
-<div class="example">
-  <pre><code>$('#element').tooltip('toggle');</code></pre>
-</div>
+```javascript
+$('#element').tooltip('toggle');
+```
 
-### .tooltip('destroy')
+### <span class="code">.tooltip('destroy')</span>
 
 隐藏并销毁工具提示。
 
-<div class="example">
-  <pre><code>$('#element').tooltip('destroy');</code></pre>
-</div>
+```javascript
+$('#element').tooltip('destroy');
+```
 
 ## 事件
 
-<div class="table-responsive">
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th style="width: 150px;">事件类型</th>
-        <th>描述</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>show.zui.tooltip</td>
-        <td>当 <code>show</code> 方法被调用之后，此事件将被立即触发。</td>
-      </tr>
-      <tr>
-        <td>shown.zui.tooltip</td>
-        <td>当工具提示展示到用户面前之后（同时CSS过渡效果执行完之后）此事件被触发。</td>
-      </tr>
-      <tr>
-        <td>hide.zui.tooltip</td>
-        <td>当 <code>hide</code> 方法被调用之后，此事件被触发。</td>
-      </tr>
-      <tr>
-        <td>hidden.zui.tooltip</td>
-        <td>当工具提示被隐藏之后（同时CSS过渡效果执行完之后），此事件被触发。</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th style="width: 150px;">事件类型</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`show.zui.tooltip`</td>
+      <td>当 <code>show</code> 方法被调用之后，此事件将被立即触发。</td>
+    </tr>
+    <tr>
+      <td>`shown.zui.tooltip`</td>
+      <td>当工具提示展示到用户面前之后（同时CSS过渡效果执行完之后）此事件被触发。</td>
+    </tr>
+    <tr>
+      <td>`hide.zui.tooltip`</td>
+      <td>当 <code>hide</code> 方法被调用之后，此事件被触发。</td>
+    </tr>
+    <tr>
+      <td>`hidden.zui.tooltip`</td>
+      <td>当工具提示被隐藏之后（同时CSS过渡效果执行完之后），此事件被触发。</td>
+    </tr>
+  </tbody>
+</table>
 
-<div class="example">
-  <pre><code class="language-js"></code></pre>
-</div>
+使用 jQuery `on()` 方法来绑定事件。
+
+```javascript
+$('[data-toggle="tooltip"]').on('show.zui.tooltip', function() {
+    // 处理工具提示显示时的事件
+});
+```
 
 <script>
 function afterPageLoad() {
