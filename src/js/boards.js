@@ -20,12 +20,12 @@
     };
 
     Boards.DEFAULTS = {
-        lang: 'zh-cn',
+        // lang: null,
         langs: {
-            'zh-cn': {
+            'zh_cn': {
                 append2end: '移动到末尾'
             },
-            'zh-tw': {
+            'zh_tw': {
                 append2end: '移动到末尾'
             },
             'en': {
@@ -35,22 +35,13 @@
     }; // default options
 
     Boards.prototype.getOptions = function(options) {
-        options = $.extend({}, Boards.DEFAULTS, this.$.data(), options);
+        options = $.extend({lang: $.zui.clientLang()}, Boards.DEFAULTS, this.$.data(), options);
         return options;
     };
 
     Boards.prototype.getLang = function() {
-        var config = window.config;
-        if(!this.options.lang) {
-            if(typeof(config) != 'undefined' && config.clientLang) {
-                this.options.lang = config.clientLang;
-            } else {
-                var hl = $('html').attr('lang');
-                this.options.lang = hl ? hl : 'en';
-            }
-            this.options.lang = this.options.lang.replace(/-/, '_').toLowerCase();
-        }
-        this.lang = this.options.langs[this.options.lang] || this.options.langs[Boards.DEFAULTS.lang];
+        var options = this.options;
+        this.lang = options.langs[options.lang] || options.langs[Boards.DEFAULTS.lang];
     };
 
     Boards.prototype.init = function() {
@@ -80,7 +71,7 @@
             items = $boards.find('.board-item:not(".disable-drop, .board-item-shadow")');
         }
 
-        items.droppable({
+        items.droppable($.extend({
             before: setting.before,
             target: '.board-item:not(".disable-drop, .board-item-shadow")',
             flex: true,
@@ -103,10 +94,9 @@
             },
             drop: function(e) {
                 if(e.isNew) {
-                    var DROP = 'drop';
                     var result;
-                    if(setting.hasOwnProperty(DROP) && $.isFunction(setting[DROP])) {
-                        result = setting[DROP](e);
+                    if($.isFunction(setting['drop'])) {
+                        result = setting['drop'](e);
                     }
                     if(result !== false) e.element.insertBefore(e.target);
                 }
@@ -114,7 +104,7 @@
             finish: function() {
                 $boards.removeClass('dragging').removeClass('drop-in').find('.board.drop-in').removeClass('drop-in');
             }
-        });
+        }, setting.droppable));
     };
 
     $.fn.boards = function(option) {
@@ -130,8 +120,4 @@
     };
 
     $.fn.boards.Constructor = Boards;
-
-    $(function() {
-        $('[data-toggle="boards"]').boards();
-    });
 }(jQuery));
