@@ -167,6 +167,7 @@ $("#imgCutter").imgCutter({
 </table>
 
 <script src="../../dist/lib/imgcutter/zui.imgcutter.js"></script>
+<link rel="stylesheet" href="../../dist/lib/imgcutter/zui.imgcutter.css">
 <script>
 function afterPageLoad() {
     var $imgCutterInfo = $('.img-cutter-info');
