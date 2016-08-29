@@ -191,15 +191,26 @@
 
   // Modal sizes
   .modal-sm { width: @modal-sm; }
-
-  /* full screen modal */
-  .modal-fullscreen {
-    width: 100%!important;
-    height: 100%!important;
-    border-radius: 0;
-  }
 }
 
 @media (min-width: @screen-md-min) {
   .modal-lg { width: @modal-lg; }
+}
+
+/* full screen modal */
+.modal-fullscreen {
+  width: 100%!important;
+  height: 100%!important;
+  margin: 0;
+  border-radius: 0;
+  position: relative;
+
+  .modal-body {
+    position: absolute;
+    top: 52px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+  }
 }
