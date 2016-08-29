@@ -13,12 +13,10 @@
 
 
 /*!
- * jQuery resize event - v1.1 - 3/14/2010
+ * jQuery resize event - v1.1
  * http://benalman.com/projects/jquery-resize-plugin/
- *
  * Copyright (c) 2010 "Cowboy" Ben Alman
- * Dual licensed under the MIT and GPL licenses.
- * http://benalman.com/about/license/
+ * MIT & GPL http://benalman.com/about/license/
  */
 
 // Script: jQuery resize event

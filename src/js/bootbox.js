@@ -12,10 +12,7 @@
  * 2. Changed button position.
  * ======================================================================== */
 
-/*!
- * bootbox.js [v4.4.0]
- * http://bootboxjs.com/license.txt
- */
+/*! bootbox.js v4.4.0 http://bootboxjs.com/license.txt */
 
 // @see https://github.com/makeusabrew/bootbox/issues/180
 // @see https://github.com/makeusabrew/bootbox/issues/186
