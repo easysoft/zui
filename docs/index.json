@@ -1090,12 +1090,23 @@
                 "icon": "icon-table",
                 "desc": "可以固定列和表头的增强表格",
                 "name": "数据表格",
+                "update": "1.5.0",
                 "topics": [{
-                    "name": "实例"
+                    "name": "简单应用"
                 }, {
-                    "name": "用法"
+                    "name": "启用排序功能"
                 }, {
-                    "name": "数据"
+                    "name": "高亮选中行"
+                }, {
+                    "name": "综合示例"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "事件"
+                }, {
+                    "name": "属性"
+                }, {
+                    "name": "数据配置"
                 }],
                 "filter": "shujubiaoge sjbg"
             }, {
