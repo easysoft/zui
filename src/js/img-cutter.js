@@ -6,16 +6,15 @@
  * ======================================================================== */
 
 
-(function($, Math) {
+(function($, Math, undefined) {
     'use strict';
 
     if(!$.fn.draggable) console.error('img-cutter requires draggable.js');
     if(!$.zui.imgReady) console.error('img-cutter requires image.ready.js');
 
-    var name = 'zui.imgcutter';
+    var NAME = 'zui.imgCutter';
 
     var ImgCutter = function(element, options) {
-        this.name = name;
         this.$ = $(element);
         this.initOptions(options);
         this.init();
@@ -70,9 +69,19 @@
         }
     };
 
+    ImgCutter.prototype.resetImage = function(img) {
+        var that = this;
+        that.options.img = img;
+        that.$img.attr('src', img);
+        that.$chipImg.attr('src', img);
+        that.imgWidth = undefined;
+        that.left = undefined;
+        that.initSize();
+    };
+
     ImgCutter.prototype.initSize = function() {
         var that = this;
-        if(typeof that.imgWidth === 'undefined') {
+        if(!that.imgWidth) {
             $.zui.imgReady(that.options.img, function() {
                 that.imgWidth = this.width;
                 that.imgHeight = this.height;
@@ -82,7 +91,7 @@
 
 
         var waitImgWidth = setInterval(function() {
-            if(typeof that.imgWidth != 'undefined') {
+            if(that.imgWidth) {
                 clearInterval(waitImgWidth);
 
                 that.width = Math.min(that.imgWidth, that.$.width());
@@ -90,7 +99,7 @@
                 that.$cliper.css('width', this.width);
                 that.height = that.$canvas.height();
 
-                if(typeof that.left === 'undefined') {
+                if(that.left === undefined) {
                     that.left = Math.floor((that.width - that.$controller.width()) / 2);
                     that.top = Math.floor((that.height - that.$controller.height()) / 2);
                 }
@@ -140,6 +149,24 @@
         });
     };
 
+    ImgCutter.prototype.getData = function() {
+        var that = this;
+        that.data = {
+            originWidth: that.imgWidth,
+            originHeight: that.imgHeight,
+            scaleWidth: that.width,
+            scaleHeight: that.height,
+            width: that.right - that.left,
+            height: that.bottom - that.top,
+            left: that.left,
+            top: that.top,
+            right: that.right,
+            bottom: that.bottom,
+            scaled: that.imgWidth != that.width || that.imgHeight != that.height
+        };
+        return that.data;
+    };
+
     ImgCutter.prototype.bindEvents = function() {
         var that = this,
             options = this.options;
@@ -147,19 +174,7 @@
         this.$btn.hover(function() {
             that.$.toggleClass('hover');
         }).click(function() {
-            var data = {
-                originWidth: that.imgWidth,
-                originHeight: that.imgHeight,
-                scaleWidth: that.width,
-                scaleHeight: that.height,
-                width: that.right - that.left,
-                height: that.bottom - that.top,
-                left: that.left,
-                top: that.top,
-                right: that.right,
-                bottom: that.bottom,
-                scaled: that.imgWidth != that.width || that.imgHeight != that.height
-            };
+            var data = that.getData();
 
             if(!that.callEvent('before', data)) return;
 
@@ -240,10 +255,10 @@
     $.fn.imgCutter = function(option) {
         return this.each(function() {
             var $this = $(this);
-            var data = $this.data('zui.imgCutter');
+            var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data('zui.imgCutter', (data = new ImgCutter(this, options)));
+            if(!data) $this.data(NAME, (data = new ImgCutter(this, options)));
 
             if(typeof option == 'string') data[option]();
         });
@@ -254,5 +269,5 @@
     $(function() {
         $('[data-toggle="imgCutter"]').imgCutter();
     });
-}(jQuery, Math));
+}(jQuery, Math, undefined));
 

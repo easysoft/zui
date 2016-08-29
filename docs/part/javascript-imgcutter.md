@@ -13,10 +13,15 @@ filter: tupianjianqie tpjq cj caijian
 
 通过本插件允许用户通过拖拽区域边框来选定裁剪区域。
 
-<div class="alert alert-primary-inverse">
+<div class="alert alert-primary">
   <h4>提示</h4>
   <p>为兼容更多的浏览器，此插件实际并不会对图片进行剪裁操作。当确定裁剪区域后，你需要将剪裁区域数据上传到服务器，让服务器进行图片裁剪操作。</p>
   <p>你仍然可以通过监听<code>before</code>事件来自行处理确定裁剪区域后的操作，包括在本地对图片进行剪裁。</p>
+</div>
+
+<div class="alert alert-warning">
+  <h4>已知兼容性问题</h4>
+  <p>此插件在 IE8-9 上有兼容性问题。</p>
 </div>
 
 ## 综合示例
@@ -45,12 +50,10 @@ filter: tupianjianqie tpjq cj caijian
 
 ```
 // 通过Javascript初始化
-$("#imgCutter").imgCutter(options);
+$('#imgCutter').imgCutter(options);
 ```
 
-## 用法
-
-### 启动参数
+## 选项
 
 <table class="table table-bordered">
   <thead>
@@ -116,13 +119,103 @@ $("#imgCutter").imgCutter(options);
 </table>
 
 ```
-// 使用启动参数
+// 使用选项
 $("#imgCutter").imgCutter({
     fixedRatio: true
 });
 ```
 
-### 事件
+## 方法
+
+### <span class="code">resetImage(img)</span>
+
+该方法可以重新设置要剪切的图片。其中参数 `img` 为新的图片地址。
+
+### <span class="code">getData()</span>
+
+获取当前图片剪切数据。该数据为一个对象，其属性定义如下：
+
+<table class="table table-bordered table-condensed">
+  <thead>
+    <th>属性</th>
+    <th>示例值</th>
+    <th>说明</th>
+  </thead>
+  <tbody>
+    <tr>
+      <th>`originWidth`</th>
+      <td>`800`</td>
+      <td>原始图片宽度</td>
+    </tr>
+    <tr>
+      <th>`originHeight`</th>
+      <td>`533`</td>
+      <td>原始图片高度</td>
+    </tr>
+    <tr>
+      <th>`scaled`</th>
+      <td>`false`</td>
+      <td>裁剪之前是否对原始图片进行了缩放</td>
+    </tr>
+    <tr>
+      <th>`scaleHeight`</th>
+      <td>`533`</td>
+      <td>原始图片缩放后的高度</td>
+    </tr>
+    <tr>
+      <th>`scaleWidth`</th>
+      <td>`800`</td>
+      <td>原始图片缩放后的宽度</td>
+    </tr>
+    <tr>
+      <th>`width`</th>
+      <td>`128`</td>
+      <td>裁剪后的宽度</td>
+    </tr>
+    <tr>
+      <th>`height`</th>
+      <td>`128`</td>
+      <td>裁剪后的高度</td>
+    </tr>
+    <tr>
+      <th>`left`</th>
+      <td>`327`</td>
+      <td>裁剪位置距离左侧的距离</td>
+    </tr>
+    <tr>
+      <th>`right`</th>
+      <td>`455`</td>
+      <td>裁剪位置距离右侧的距离</td>
+    </tr>
+    <tr>
+      <th>`top`</th>
+      <td>`237`</td>
+      <td>裁剪位置距离上边的距离</td>
+    </tr>
+    <tr>
+      <th>`bottom`</th>
+      <td>`365`</td>
+      <td>裁剪位置距离下边的距离</td>
+    </tr>
+  </tbody>
+</table>
+
+### 调用方法
+
+调用方法需要先获取插件实例。
+
+```javascript
+// 获取 imgCutter 实例
+var myImgCutter = $('#imgCutter').data('zui.imgCutter');
+
+// 调用 resetImg 方法
+myImgCutter.resetImage('http://zui.sexy/docs/img/img1.jpg');
+
+// 调用 getData 方法
+var myImgCutterData = myImgCutter.getData();
+```
+
+## 事件
 
 <table class="table table-bordered">
   <thead>

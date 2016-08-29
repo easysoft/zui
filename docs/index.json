@@ -1054,7 +1054,16 @@
                 "icon": "icon-crop",
                 "desc": "裁剪图片",
                 "name": "图片剪切",
-                "topics": [],
+                "update": "1.5.0",
+                "topics": [{
+                    "name": "综合示例"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "方法"
+                }, {
+                    "name": "事件"
+                }],
                 "filter": "tupianjianqie tpjq cj caijian"
             }, {
                 "id": "scrollspy",
