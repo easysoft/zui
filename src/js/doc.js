@@ -1186,7 +1186,7 @@
             $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
             $pageAttrs.children('.badge-bootstrap').toggle(lib.source === 'Bootstrap');
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
-            $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
+            $pageAttrs.children('.badge-party').toggle(lib.source && lib.source !== 'Bootstrap').attr('href', lib.website || lib.project || 'javascript:;').find('.product-ver').text(lib.pver);
 
             var isShowCodeBadage = lib.srcCount > 0 || lib.bundlesCount > 0;
             var $codeDropMenu = $pageAttrs.children('.badge-code-dropdown').toggle(isShowCodeBadage);
@@ -1646,7 +1646,7 @@
                 });
 
                 if(pkgLib) {
-                    lib.source = pkgLib.source;
+                    $.extend(lib, pkgLib);
 
                     if(pkgLib.thirdpart) {
                         lib.thirdpart = true;
