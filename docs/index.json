@@ -1211,8 +1211,21 @@
                 "icon": "icon-th-large",
                 "desc": "支持拖放调整位置的面板网格",
                 "name": "仪表盘",
-                "topics": [],
-                "filter": "yibiaopan ybp"
+                "update": "1.5.0",
+                "topics": [{
+                    "name": "使用示例"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "结构"
+                }, {
+                    "name": "用户个性化定制"
+                }, {
+                    "name": "操作按钮"
+                }, {
+                    "name": "从远程加载"
+                }],
+                "filter": "yibiaopan ybp panel mianban mb"
             }, {
                 "id": "lightbox",
                 "icon": "icon-carousel",
