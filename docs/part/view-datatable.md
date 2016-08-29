@@ -131,8 +131,8 @@ $('table.datatable').datatable({checkable: true, sortable: true});
     </tr>
     <tr>
       <td>`fixedHeader`</td>
-      <td>*   `false`
-*   `true` (默认)</td>
+      <td>*   `false` (默认)
+*   `true`</td>
       <td>是否固定表格头部，如果启用当页面滚动到下方导致表头不可见时重新定位表头到页面顶部保持可见</td>
     </tr>
     <tr>
@@ -587,7 +587,7 @@ function afterPageLoad() {
         if($this.attr('id') === 'datatableChangeExample') {
             $this.data('origin-data', data);
         }
-        $this.datatable({fixedLeftWidth: '60%', fixedRightWidth: '15%', data: data});
+        $this.datatable({fixedLeftWidth: '60%', fixedRightWidth: '15%', data: data, scrollContainer: '#pageBody', fixedHeaderOffset: 60});
     });
 
     var $datatableChangeExample = $('#datatableChangeExample');

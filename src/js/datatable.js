@@ -51,7 +51,7 @@
         storage: true, // enable storage
 
         // fixed header of columns
-        fixedHeader: true, // fixed header
+        fixedHeader: false, // fixed header
         fixedHeaderOffset: 0, // set top offset of header when fixed
         fixedLeftWidth: '30%', // set left width after first render
         fixedRightWidth: '30%', // set right width after first render
