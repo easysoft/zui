@@ -125,6 +125,7 @@
   display: inline-block;
   width: 0;
   height: 0;
+  margin-bottom: 2px;
   margin-left: 2px;
   vertical-align: middle;
   border-top: 4px dashed;

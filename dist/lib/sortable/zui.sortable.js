@@ -1,5 +1,5 @@
 /*!
- * ZUI: 排序 - v1.5.0 - 2016-08-25
+ * ZUI: 排序 - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -15,6 +15,11 @@
 
 + function($, window, document, Math) {
     'use strict';
+
+    if(!$.fn.droppable) {
+        console.error('Sortable requires droppable.js');
+        return;
+    }
 
     var Sortable = function(element, options) {
         this.$ = $(element);

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.5.0 - 2016-08-25
+ * ZUI: Standard edition - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1117,12 +1117,10 @@
 
 
 /*!
- * jQuery resize event - v1.1 - 3/14/2010
+ * jQuery resize event - v1.1
  * http://benalman.com/projects/jquery-resize-plugin/
- *
  * Copyright (c) 2010 "Cowboy" Ben Alman
- * Dual licensed under the MIT and GPL licenses.
- * http://benalman.com/about/license/
+ * MIT & GPL http://benalman.com/about/license/
  */
 
 // Script: jQuery resize event
@@ -1727,7 +1725,6 @@
     var Draggable = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
-
         this.init();
     };
 
@@ -1754,12 +1751,12 @@
             startPos, cPos, startOffset, mousePos, moved;
 
         var mouseDown = function(event) {
-            if(setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE])) {
+            if($.isFunction(setting[BEFORE])) {
                 var isSure = setting[BEFORE]({
                     event: event,
                     element: $e
                 });
-                if(isSure !== undefined && (!isSure)) return;
+                if(isSure === false) return;
             }
 
             var $container = $(setting.container),
@@ -1798,7 +1795,7 @@
                 $e.css(dragPos);
             }
 
-            if(setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG])) {
+            if($.isFunction(setting[DRAG])) {
                 setting[DRAG]({
                     event: event,
                     element: $e,
@@ -1837,10 +1834,11 @@
                 $e.css(endPos);
             }
 
-            if(setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH])) {
+            if($.isFunction(setting[FINISH])) {
                 setting[FINISH]({
                     event: event,
                     element: $e,
+                    startOffset: startOffset,
                     pos: endPos,
                     offset: {
                         x: event.pageX - startPos.x,
@@ -1930,12 +1928,12 @@
         this.$triggerTarget = (setting.trigger ? ($.isFunction(setting.trigger) ? setting.trigger($e) : $e.find(setting.trigger)).first() : $e);
 
         this.$triggerTarget.on('mousedown', function(event) {
-            if(setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE])) {
+            if($.isFunction(setting[BEFORE])) {
                 var isSure = setting[BEFORE]({
                     event: event,
                     element: $e
                 });
-                if(isSure !== undefined && (!isSure)) return;
+                if(isSure === false) return;
             }
 
             var $targets = $.isFunction(setting.target) ? setting.target($e) : $(setting.target),
@@ -2251,6 +2249,7 @@
     }
 
     Modal.prototype.setMoveale = function() {
+        if(!$.fn.draggable) console.error('Moveable modal requires draggable.js.');
         var that = this;
         var options = that.options;
         var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');
@@ -4224,6 +4223,11 @@
     var all = {};
 
     var Messager = function(message, options) {
+        if($.isPlainObject(message)) {
+            options = message;
+            message = options.message;
+        }
+
         var that = this;
         that.id = id++;
         options = that.options = $.extend({}, defaultOptions, options);
@@ -4289,23 +4293,51 @@
         if(options.contentClass) $content.addClass(options.cssClass);
 
         that.$.data('zui.messager', that);
+
+        if(options.show && that.message !== undefined) {
+            that.show();
+        }
     };
 
-    Messager.prototype.show = function(message) {
+    Messager.prototype.update = function(message, newOptions) {
+        var that = this;
+        var options = that.options;
+        that.$.removeClass('messager-' + options.type);
+        if(newOptions) {
+            options = $.extend(options, newOptions);
+            that.$.addClass('messager-' + options.type);
+        }
+        if(message) {
+            that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
+            that.$.find('.messager-content').html(that.message);
+        }
+    };
+
+    Messager.prototype.show = function(message, callback) {
         var that = this,
             options = this.options;
+
+        if(that.isShow) {
+            that.hide(function() {
+                that.show(message, callback);
+            });
+            return;
+        }
 
         if(that.hiding) {
             clearTimeout(that.hiding);
             that.hiding = null;
         }
 
-        if(message) {
-            that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
-            that.$.find('.messager-content').html(that.message);
+        if($.isFunction(message)) {
+            var oldCallback = callback;
+            callback = message;
+            if(oldCallback !== undefined) {
+                message = oldCallback;
+            }
         }
 
-        if(that.isShow) return;
+        that.update(message);
 
         var placement = options.placement;
         var $parent = $(options.parent);
@@ -4328,20 +4360,30 @@
         }
 
         that.isShow = true;
+        callback && callback();
+        return that;
     };
 
-    Messager.prototype.hide = function() {
+    Messager.prototype.hide = function(callback) {
         var that = this;
         if(that.$.hasClass('in')) {
             that.$.removeClass('in');
             setTimeout(function() {
                 var $parent = that.$.parent();
-                that.$.remove();
+                that.$.detach();
                 if(!$parent.children().length) $parent.remove();
+                callback && callback(true);
             }, 200);
+        } else {
+            callback && callback(false);
         }
 
         that.isShow = false;
+    };
+
+    Messager.prototype.destory = function() {
+        that.$.remove();
+        that.$ = null;
     };
 
     var showMessage = function(message, options) {

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-08-25
+ * ZUI: Document - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -16,6 +16,12 @@
 
 +(function(window, $) {
     'use strict';
+
+    if(window.location.protocol === 'file:') {
+        $('#fileProtocolTip').removeClass('hidden');
+        $('.loading.loader').removeClass('loading');
+        return;
+    }
 
     // Polyfill
     if(!String.prototype.endsWith) {
@@ -414,7 +420,7 @@
                 var $head = $tpl.children('.card-heading');
                 var sectionUrl = '#' + chapterName + '/' + section.id;
                 $head.find('.name').text(section.name).attr('href', sectionUrl);
-                // $head.children('.desc').text(section.desc);
+                $head.attr('title', section.desc);
                 displaySectionIcon($head.children('.icon'), section);
                 var $topics = $tpl.find('.topics');
                 if(section.topics && section.topics.length) {
@@ -770,8 +776,8 @@
                 keyOption.chapter = key.substr(1);
                 keyOption.val = keyOption.chapter;
             } else if(key.startsWith('#')) {
-                keyOption.type = 'id';
-                keyOption.val = key.substr(2);
+                keyOption.type = 'tag';
+                keyOption.val = key.substr(1);
             } else if(key.startsWith('icon-') || key.startsWith('icon:')) {
                 keyOption.type = 'icon';
                 keyOption.val = key.substr(5);
@@ -855,6 +861,18 @@
                                 return false;
                             }
                             break;
+                        case 'version':
+                            if(key.val == 'new') {
+                                chooseThisKey = section.isNew;
+                            } else if(key.val == 'update') {
+                                chooseThisKey = section.isUpdate;
+                            }  else if(!key.val) {
+                                chooseThisKey = section.isUpdate || section.isNew;
+                            } else {
+                                chooseThisKey = section.version === key.val;
+                            }
+                            weight = 100;
+                            break;
                         default:
                             var sectionName = section.name.toLowerCase();
                             if(sectionName.includes(keyVal)) {
@@ -908,7 +926,7 @@
                                     });
                                     if(isBreak) break;
                                 }
-                                if(section.desc.toLowerCase().includes(keyVal)) {
+                                if(section.desc && section.desc.toLowerCase().includes(keyVal)) {
                                     chooseThisKey = true;
                                     matchType = 'section.desc';
                                     weight = 30;
@@ -1175,7 +1193,7 @@
             $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
             $pageAttrs.children('.badge-bootstrap').toggle(lib.source === 'Bootstrap');
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
-            $pageAttrs.children('.badge-party').toggle(!!lib.thirdpart).attr('href', lib.partUrl || 'javascript:;').find('.product-ver').text(lib.pver);
+            $pageAttrs.children('.badge-party').toggle(lib.source && lib.source !== 'Bootstrap').attr('href', lib.website || lib.project || 'javascript:;').find('.product-ver').text(lib.pver);
 
             var isShowCodeBadage = lib.srcCount > 0 || lib.bundlesCount > 0;
             var $codeDropMenu = $pageAttrs.children('.badge-code-dropdown').toggle(isShowCodeBadage);
@@ -1191,13 +1209,14 @@
                     less: "LESS",
                     resource: "资源",
                 };
+                var srcPrefix = 'https://github.com/easysoft/zui/blob/' + (zuiPkg.version ? ('v' + zuiPkg.version) : 'master') + '/';
                 if(lib.srcCount) {
                     $dropdown.append('<li class="dropdown-header primary-header" data-type="source"><i class="icon icon-file-code"></i>  源码 ' + lib.srcCount + '</li>');
                     $.each(lib.src, function(srcName, files) {
                         $dropdown.append('<li class="dropdown-header">' + (srcTypes[srcName] || srcName) + '</li>');
                         files.forEach(function(f) {
                             f = f.replace(/\/\//g, '/');
-                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f + '">' + f + '</a></li>');
+                            $dropdown.append('<li><a target="_blank" href="' + srcPrefix + f + '">' + f + '</a></li>');
                         });
                     });
                 }
@@ -1224,7 +1243,7 @@
                         }
                         files.forEach(function(f) {
                             f = f.replace(/\/\//g, '/');
-                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f.replace('/**/*', '') + '">' + f + '</a></li>');
+                            $dropdown.append('<li><a target="_blank" href="' + srcPrefix + f.replace('/**/*', '') + '">' + f + '</a></li>');
                         });
                     }
                     if(lib.bundles.lite) {
@@ -1248,15 +1267,15 @@
                         }
                         files.forEach(function(f) {
                             f = f.replace(/\/\//g, '/');
-                            $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/' + f.replace('/**/*', '') + '">' + f + '</a></li>');
+                            $dropdown.append('<li><a target="_blank" href="' + srcPrefix + f.replace('/**/*', '') + '">' + f + '</a></li>');
                         });
                     }
                     if(lib.bundles.seperate) {
                         $dropdown.append('<li class="dropdown-header">独立组件</li>');
-                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/lib/' + section.id + '">dist/lib/' + section.id + '/**/*</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="' + srcPrefix + 'dist/lib/' + section.id + '">dist/lib/' + section.id + '/**/*</a></li>');
                     }
                     if(lib.code === 'theme') {
-                        $dropdown.append('<li><a target="_blank" href="https://github.com/easysoft/zui/blob/master/dist/zui-theme.css">dist/css/zui-theme.css</a></li>');
+                        $dropdown.append('<li><a target="_blank" href="' + srcPrefix + 'dist/zui-theme.css">dist/css/zui-theme.css</a></li>');
                     }
                 }
             }
@@ -1591,8 +1610,6 @@
             pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
             pkgLibs.seperate = getBuildList(pkg, pkg.builds.seperate, pkg.lib);
 
-            console.log('pkgLibs', pkgLibs);
-
             function getLibSource(lib, src, libName) {
                 if(lib.src) {
                     ['less', 'js', 'resource'].forEach(function(srcTypeName) {
@@ -1603,7 +1620,7 @@
                                 }
                                 if(!src[srcTypeName]) src[srcTypeName] = [];
                                 if(src[srcTypeName].indexOf(srcName) < 0) {
-                                     src[srcTypeName].push(srcName);
+                                    src[srcTypeName].push(srcName);
                                 }
                             });
                         }
@@ -1622,7 +1639,7 @@
                 var libName = section.dpds || section.id;
                 var pkgLib = pkg.lib[libName];
                 if(!pkgLib) {
-                    libName = section.id + 's';
+                    libName = libName + 's';
                     pkgLib = pkg.lib[libName];
                 }
                 var lib = {
@@ -1630,13 +1647,13 @@
                     bundles: {}
                 };
                 $.each(pkgLibs, function(name, libNames) {
-                    if(isInLib(section.id, libNames, pkgLib)) {
+                    if(isInLib(libName, libNames, pkgLib)) {
                         lib.bundles[name] = true;
                     }
                 });
 
                 if(pkgLib) {
-                    lib.source = pkgLib.source;
+                    $.extend(lib, pkgLib);
 
                     if(pkgLib.thirdpart) {
                         lib.thirdpart = true;
@@ -1679,6 +1696,10 @@
                 }
 
                 section.lib = lib;
+                section.isNew = section.version === pkg.version;
+                section.isUpdate = section.update === pkg.version;
+                
+                $('#section-' + section.chapter + '-' + section.id).toggleClass('section-update', section.isUpdate).toggleClass('section-new', section.isNew);
             });
         });
     };

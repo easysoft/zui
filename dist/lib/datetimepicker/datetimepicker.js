@@ -36,7 +36,6 @@
 /*!
  * Datetimepicker for Bootstrap
  * Copyright 2012 Stefan Petre
- * Improvements by ZUI
  * Licensed under the Apache License v2.0
  */
 

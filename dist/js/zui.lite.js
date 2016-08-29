@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.5.0 - 2016-08-25
+ * ZUI: Lite edition - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -863,12 +863,10 @@
 
 
 /*!
- * jQuery resize event - v1.1 - 3/14/2010
+ * jQuery resize event - v1.1
  * http://benalman.com/projects/jquery-resize-plugin/
- *
  * Copyright (c) 2010 "Cowboy" Ben Alman
- * Dual licensed under the MIT and GPL licenses.
- * http://benalman.com/about/license/
+ * MIT & GPL http://benalman.com/about/license/
  */
 
 // Script: jQuery resize event
@@ -1538,6 +1536,7 @@
     }
 
     Modal.prototype.setMoveale = function() {
+        if(!$.fn.draggable) console.error('Moveable modal requires draggable.js.');
         var that = this;
         var options = that.options;
         var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');

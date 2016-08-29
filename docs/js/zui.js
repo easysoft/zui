@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.5.0 - 2016-08-25
+ * ZUI: ZUI for official website - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1354,12 +1354,10 @@
 
 
 /*!
- * jQuery resize event - v1.1 - 3/14/2010
+ * jQuery resize event - v1.1
  * http://benalman.com/projects/jquery-resize-plugin/
- *
  * Copyright (c) 2010 "Cowboy" Ben Alman
- * Dual licensed under the MIT and GPL licenses.
- * http://benalman.com/about/license/
+ * MIT & GPL http://benalman.com/about/license/
  */
 
 // Script: jQuery resize event
@@ -1964,7 +1962,6 @@
     var Draggable = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
-
         this.init();
     };
 
@@ -1991,12 +1988,12 @@
             startPos, cPos, startOffset, mousePos, moved;
 
         var mouseDown = function(event) {
-            if(setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE])) {
+            if($.isFunction(setting[BEFORE])) {
                 var isSure = setting[BEFORE]({
                     event: event,
                     element: $e
                 });
-                if(isSure !== undefined && (!isSure)) return;
+                if(isSure === false) return;
             }
 
             var $container = $(setting.container),
@@ -2035,7 +2032,7 @@
                 $e.css(dragPos);
             }
 
-            if(setting.hasOwnProperty(DRAG) && $.isFunction(setting[DRAG])) {
+            if($.isFunction(setting[DRAG])) {
                 setting[DRAG]({
                     event: event,
                     element: $e,
@@ -2074,10 +2071,11 @@
                 $e.css(endPos);
             }
 
-            if(setting.hasOwnProperty(FINISH) && $.isFunction(setting[FINISH])) {
+            if($.isFunction(setting[FINISH])) {
                 setting[FINISH]({
                     event: event,
                     element: $e,
+                    startOffset: startOffset,
                     pos: endPos,
                     offset: {
                         x: event.pageX - startPos.x,
@@ -2167,12 +2165,12 @@
         this.$triggerTarget = (setting.trigger ? ($.isFunction(setting.trigger) ? setting.trigger($e) : $e.find(setting.trigger)).first() : $e);
 
         this.$triggerTarget.on('mousedown', function(event) {
-            if(setting.hasOwnProperty(BEFORE) && $.isFunction(setting[BEFORE])) {
+            if($.isFunction(setting[BEFORE])) {
                 var isSure = setting[BEFORE]({
                     event: event,
                     element: $e
                 });
-                if(isSure !== undefined && (!isSure)) return;
+                if(isSure === false) return;
             }
 
             var $targets = $.isFunction(setting.target) ? setting.target($e) : $(setting.target),
@@ -2403,6 +2401,11 @@
 + function($, window, document, Math) {
     'use strict';
 
+    if(!$.fn.droppable) {
+        console.error('Sortable requires droppable.js');
+        return;
+    }
+
     var Sortable = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
@@ -2630,6 +2633,7 @@
     }
 
     Modal.prototype.setMoveale = function() {
+        if(!$.fn.draggable) console.error('Moveable modal requires draggable.js.');
         var that = this;
         var options = that.options;
         var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');
@@ -4603,6 +4607,11 @@
     var all = {};
 
     var Messager = function(message, options) {
+        if($.isPlainObject(message)) {
+            options = message;
+            message = options.message;
+        }
+
         var that = this;
         that.id = id++;
         options = that.options = $.extend({}, defaultOptions, options);
@@ -4668,23 +4677,51 @@
         if(options.contentClass) $content.addClass(options.cssClass);
 
         that.$.data('zui.messager', that);
+
+        if(options.show && that.message !== undefined) {
+            that.show();
+        }
     };
 
-    Messager.prototype.show = function(message) {
+    Messager.prototype.update = function(message, newOptions) {
+        var that = this;
+        var options = that.options;
+        that.$.removeClass('messager-' + options.type);
+        if(newOptions) {
+            options = $.extend(options, newOptions);
+            that.$.addClass('messager-' + options.type);
+        }
+        if(message) {
+            that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
+            that.$.find('.messager-content').html(that.message);
+        }
+    };
+
+    Messager.prototype.show = function(message, callback) {
         var that = this,
             options = this.options;
+
+        if(that.isShow) {
+            that.hide(function() {
+                that.show(message, callback);
+            });
+            return;
+        }
 
         if(that.hiding) {
             clearTimeout(that.hiding);
             that.hiding = null;
         }
 
-        if(message) {
-            that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
-            that.$.find('.messager-content').html(that.message);
+        if($.isFunction(message)) {
+            var oldCallback = callback;
+            callback = message;
+            if(oldCallback !== undefined) {
+                message = oldCallback;
+            }
         }
 
-        if(that.isShow) return;
+        that.update(message);
 
         var placement = options.placement;
         var $parent = $(options.parent);
@@ -4707,20 +4744,30 @@
         }
 
         that.isShow = true;
+        callback && callback();
+        return that;
     };
 
-    Messager.prototype.hide = function() {
+    Messager.prototype.hide = function(callback) {
         var that = this;
         if(that.$.hasClass('in')) {
             that.$.removeClass('in');
             setTimeout(function() {
                 var $parent = that.$.parent();
-                that.$.remove();
+                that.$.detach();
                 if(!$parent.children().length) $parent.remove();
+                callback && callback(true);
             }, 200);
+        } else {
+            callback && callback(false);
         }
 
         that.isShow = false;
+    };
+
+    Messager.prototype.destory = function() {
+        that.$.remove();
+        that.$ = null;
     };
 
     var showMessage = function(message, options) {
@@ -4897,10 +4944,7 @@
  * 2. Changed button position.
  * ======================================================================== */
 
-/*!
- * bootbox.js [v4.4.0]
- * http://bootboxjs.com/license.txt
- */
+/*! bootbox.js v4.4.0 http://bootboxjs.com/license.txt */
 
 // @see https://github.com/makeusabrew/bootbox/issues/180
 // @see https://github.com/makeusabrew/bootbox/issues/186
@@ -5745,6 +5789,8 @@
 (function($, Math) {
     'use strict';
 
+    var dashboardMessager = $.zui.Messager ? new $.zui.Messager({placement: 'top', time: 1500, close: 0, scale: false, fade: false}) : 0;
+
     var Dashboard = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
@@ -5776,7 +5822,7 @@
             var name = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, '');
             var index = panel.attr('data-id');
 
-            if(tip === undefined || confirm(tip.format(name))) {
+            if(tip === undefined || tip === false || confirm(tip.format(name))) {
                 panel.parent().remove();
                 if(afterPanelRemoved && $.isFunction(afterPanelRemoved)) {
                     afterPanelRemoved(index);
@@ -5990,6 +6036,7 @@
     Dashboard.prototype.handleResizeEvent = function() {
         var onResize = this.options.onResize;
         var resizeMessage = this.options.resizeMessage;
+        var messagerAvaliable = resizeMessage && dashboardMessager;
         this.$.on('mousedown', '.resize-handle', function(e) {
             var $col = $(this).parent().addClass('resizing');
             var $row = $col.closest('.row');
@@ -6005,7 +6052,7 @@
                 var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
                 if(lastGrid != grid) {
                     $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
-                    if(resizeMessage && $.zui.messager) $.zui.messager.show(Math.round(100*grid/12) + '% (' + grid + '/12)', {scale:  false, placement: 'center', icon: 'resize-h', fade: false, close: false});
+                    if(messagerAvaliable) dashboardMessager[dashboardMessager.isShow ? 'update' : 'show'](Math.round(100*grid/12) + '% (' + grid + '/12)');
                     lastGrid = grid;
                 }
                 event.preventDefault();
@@ -6013,8 +6060,6 @@
             };
 
             var mouseUp = function(event) {
-                if($.zui.messager) $.zui.messager.hide();
-
                 $col.removeClass('resizing');
                 var lastGrid = $col.attr('data-grid');
                 if(oldGrid != lastGrid) {
@@ -6022,10 +6067,10 @@
                         var revert = function() {
                             $col.attr('data-grid', oldGrid).css('width', null);
                         };
-                        var result = onResize({element: $col, old: oldGrid, grid: lastGrid, revert: revert});
+                        var result = onResize({id: $col.children('.panel').data('id'), element: $col, old: oldGrid, grid: lastGrid, revert: revert});
                         if(result === false) revert();
                         else if(result !== true) {
-                            if(resizeMessage && $.zui.messager) $.zui.messager.success(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)', {placement: 'center', time: 1000, close: false});
+                            if(messagerAvaliable) dashboardMessager.show(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)');
                         }
                     }
                 }
@@ -6139,6 +6184,8 @@
 
             that.refresh($this, options.onlyRefreshBody);
         });
+
+        that.$.find('[data-toggle="tooltip"]').tooltip({container: 'body'});
     };
 
     $.fn.dashboard = function(option) {
@@ -6179,12 +6226,12 @@
     };
 
     Boards.DEFAULTS = {
-        lang: 'zh-cn',
+        // lang: null,
         langs: {
-            'zh-cn': {
+            'zh_cn': {
                 append2end: '移动到末尾'
             },
-            'zh-tw': {
+            'zh_tw': {
                 append2end: '移动到末尾'
             },
             'en': {
@@ -6194,22 +6241,13 @@
     }; // default options
 
     Boards.prototype.getOptions = function(options) {
-        options = $.extend({}, Boards.DEFAULTS, this.$.data(), options);
+        options = $.extend({lang: $.zui.clientLang()}, Boards.DEFAULTS, this.$.data(), options);
         return options;
     };
 
     Boards.prototype.getLang = function() {
-        var config = window.config;
-        if(!this.options.lang) {
-            if(typeof(config) != 'undefined' && config.clientLang) {
-                this.options.lang = config.clientLang;
-            } else {
-                var hl = $('html').attr('lang');
-                this.options.lang = hl ? hl : 'en';
-            }
-            this.options.lang = this.options.lang.replace(/-/, '_').toLowerCase();
-        }
-        this.lang = this.options.langs[this.options.lang] || this.options.langs[Boards.DEFAULTS.lang];
+        var options = this.options;
+        this.lang = options.langs[options.lang] || options.langs[Boards.DEFAULTS.lang];
     };
 
     Boards.prototype.init = function() {
@@ -6239,7 +6277,7 @@
             items = $boards.find('.board-item:not(".disable-drop, .board-item-shadow")');
         }
 
-        items.droppable({
+        items.droppable($.extend({
             before: setting.before,
             target: '.board-item:not(".disable-drop, .board-item-shadow")',
             flex: true,
@@ -6262,10 +6300,9 @@
             },
             drop: function(e) {
                 if(e.isNew) {
-                    var DROP = 'drop';
                     var result;
-                    if(setting.hasOwnProperty(DROP) && $.isFunction(setting[DROP])) {
-                        result = setting[DROP](e);
+                    if($.isFunction(setting['drop'])) {
+                        result = setting['drop'](e);
                     }
                     if(result !== false) e.element.insertBefore(e.target);
                 }
@@ -6273,7 +6310,7 @@
             finish: function() {
                 $boards.removeClass('dragging').removeClass('drop-in').find('.board.drop-in').removeClass('drop-in');
             }
-        });
+        }, setting.droppable));
     };
 
     $.fn.boards = function(option) {
@@ -6289,10 +6326,6 @@
     };
 
     $.fn.boards.Constructor = Boards;
-
-    $(function() {
-        $('[data-toggle="boards"]').boards();
-    });
 }(jQuery));
 
 /* ========================================================================
@@ -6348,7 +6381,7 @@
         storage: true, // enable storage
 
         // fixed header of columns
-        fixedHeader: true, // fixed header
+        fixedHeader: false, // fixed header
         fixedHeaderOffset: 0, // set top offset of header when fixed
         fixedLeftWidth: '30%', // set left width after first render
         fixedRightWidth: '30%', // set right width after first render
@@ -6642,7 +6675,7 @@
 
             $leftRow = $('<tr/>');
             $leftRow.addClass(row.cssClass)
-                .toggleClass(options.checkedClass, row.checked)
+                .toggleClass(options.checkedClass, !!row.checked)
                 .attr({
                     'data-index': r,
                     'data-id': row.id
@@ -6870,9 +6903,13 @@
                 }
             };
 
-            $bar.draggable(dragOptions);
-            if(options.flexHeadDrag) {
-                $datatable.find('.datatable-head-span.flexarea').draggable(dragOptions);
+            if($.fn.draggable) {
+                $bar.draggable(dragOptions);
+                if(options.flexHeadDrag) {
+                    $datatable.find('.datatable-head-span.flexarea').draggable(dragOptions);
+                }
+            } else {
+                console.error('DataTable requires draggable.js to improve UI.');
             }
 
             $scrollbar.mousedown(function(event) {
@@ -6900,10 +6937,11 @@
                         return rowId;
                     }).toArray()
                 };
+                that.checks = checkedStatus;
                 $.each(data.rows, function(index, value) {
                     value.checked = ($.inArray(value.id, checkedStatus.checks) > -1);
                 });
-                $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
+                $headSpans.find('.check-all').toggleClass('checked', !!checkedStatus.checkedAll);
 
                 if(options.storage) store.pageSet(checkedStatusStoreName, checkedStatus);
 
@@ -6913,7 +6951,7 @@
             };
 
             var toggleRowClass = function(ele, toggle) {
-                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, toggle);
+                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, !!toggle);
             };
 
             var checkEventPrefix = 'click.zui.datatable.check';
@@ -8283,58 +8321,62 @@
         }
 
         if(options.dragThenDrop) {
-            $view.find('.event').droppable({
-                target: $days,
-                container: $view,
-                flex: true,
-                start: function() {
-                    $e.addClass('event-dragging');
-                },
-                drop: function(e) {
-                    var et = e.element.data('event'),
-                        newDate = e.target.attr('data-date');
-                    if(!et || !newDate) return;
-                    var startDate = et.start.clone();
-                    if(startDate.toDateString() != newDate) {
-                        newDate = new Date(newDate);
-                        newDate.setHours(startDate.getHours());
-                        newDate.setMinutes(startDate.getMinutes());
-                        newDate.setSeconds(startDate.getSeconds());
+            if($.fn.droppable) {
+                $view.find('.event').droppable({
+                    target: $days,
+                    container: $view,
+                    flex: true,
+                    start: function() {
+                        $e.addClass('event-dragging');
+                    },
+                    drop: function(e) {
+                        var et = e.element.data('event'),
+                            newDate = e.target.attr('data-date');
+                        if(!et || !newDate) return;
+                        var startDate = et.start.clone();
+                        if(startDate.toDateString() != newDate) {
+                            newDate = new Date(newDate);
+                            newDate.setHours(startDate.getHours());
+                            newDate.setMinutes(startDate.getMinutes());
+                            newDate.setSeconds(startDate.getSeconds());
 
-                        if(self.callEvent('beforeChange', {
-                                event: et,
-                                change: 'start',
-                                to: newDate
-                            })) {
-                            var oldEnd = et.end.clone();
-
-                            et.end.addMilliseconds(et.end.getTime() - startDate.getTime());
-                            et.start = newDate;
-
-                            that.display();
-
-                            self.callEvent('change', {
-                                data: self.data,
-                                changes: [{
+                            if(self.callEvent('beforeChange', {
                                     event: et,
+                                    change: 'start',
+                                    to: newDate
+                                })) {
+                                var oldEnd = et.end.clone();
+
+                                et.end.addMilliseconds(et.end.getTime() - startDate.getTime());
+                                et.start = newDate;
+
+                                that.display();
+
+                                self.callEvent('change', {
+                                    data: self.data,
                                     changes: [{
-                                        change: 'start',
-                                        from: startDate,
-                                        to: et.start
-                                    }, {
-                                        change: 'end',
-                                        from: oldEnd,
-                                        to: et.end
+                                        event: et,
+                                        changes: [{
+                                            change: 'start',
+                                            from: startDate,
+                                            to: et.start
+                                        }, {
+                                            change: 'end',
+                                            from: oldEnd,
+                                            to: et.end
+                                        }]
                                     }]
-                                }]
-                            });
+                                });
+                            }
                         }
+                    },
+                    finish: function() {
+                        $e.removeClass('event-dragging');
                     }
-                },
-                finish: function() {
-                    $e.removeClass('event-dragging');
-                }
-            });
+                });
+            } else {
+                console.error('Calendar dragThenDrop option requires droppable.js');
+            }
         }
     };
 
@@ -10038,7 +10080,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.5.0 - 2016-08-25
+ * ZUI: Generated from less code - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -10117,13 +10159,10 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * Chart.js
- * http://chartjs.org/
- * Version: 1.0.2
- *
+ * Chart.js 1.0.2 
  * Copyright 2015 Nick Downie
  * Released under the MIT license
- * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
+ * http://chartjs.org/
  */
 
 /// ----- ZUI change begin -----

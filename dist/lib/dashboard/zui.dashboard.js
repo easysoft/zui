@@ -1,5 +1,5 @@
 /*!
- * ZUI: 控制面板 - v1.5.0 - 2016-08-25
+ * ZUI: 控制面板 - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -15,6 +15,8 @@
 
 (function($, Math) {
     'use strict';
+
+    var dashboardMessager = $.zui.Messager ? new $.zui.Messager({placement: 'top', time: 1500, close: 0, scale: false, fade: false}) : 0;
 
     var Dashboard = function(element, options) {
         this.$ = $(element);
@@ -47,7 +49,7 @@
             var name = panel.data('name') || panel.find('.panel-heading').text().replace('\n', '').replace(/(^\s*)|(\s*$)/g, '');
             var index = panel.attr('data-id');
 
-            if(tip === undefined || confirm(tip.format(name))) {
+            if(tip === undefined || tip === false || confirm(tip.format(name))) {
                 panel.parent().remove();
                 if(afterPanelRemoved && $.isFunction(afterPanelRemoved)) {
                     afterPanelRemoved(index);
@@ -261,6 +263,7 @@
     Dashboard.prototype.handleResizeEvent = function() {
         var onResize = this.options.onResize;
         var resizeMessage = this.options.resizeMessage;
+        var messagerAvaliable = resizeMessage && dashboardMessager;
         this.$.on('mousedown', '.resize-handle', function(e) {
             var $col = $(this).parent().addClass('resizing');
             var $row = $col.closest('.row');
@@ -276,7 +279,7 @@
                 var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
                 if(lastGrid != grid) {
                     $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
-                    if(resizeMessage && $.zui.messager) $.zui.messager.show(Math.round(100*grid/12) + '% (' + grid + '/12)', {scale:  false, placement: 'center', icon: 'resize-h', fade: false, close: false});
+                    if(messagerAvaliable) dashboardMessager[dashboardMessager.isShow ? 'update' : 'show'](Math.round(100*grid/12) + '% (' + grid + '/12)');
                     lastGrid = grid;
                 }
                 event.preventDefault();
@@ -284,8 +287,6 @@
             };
 
             var mouseUp = function(event) {
-                if($.zui.messager) $.zui.messager.hide();
-
                 $col.removeClass('resizing');
                 var lastGrid = $col.attr('data-grid');
                 if(oldGrid != lastGrid) {
@@ -293,10 +294,10 @@
                         var revert = function() {
                             $col.attr('data-grid', oldGrid).css('width', null);
                         };
-                        var result = onResize({element: $col, old: oldGrid, grid: lastGrid, revert: revert});
+                        var result = onResize({id: $col.children('.panel').data('id'), element: $col, old: oldGrid, grid: lastGrid, revert: revert});
                         if(result === false) revert();
                         else if(result !== true) {
-                            if(resizeMessage && $.zui.messager) $.zui.messager.success(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)', {placement: 'center', time: 1000, close: false});
+                            if(messagerAvaliable) dashboardMessager.show(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)');
                         }
                     }
                 }
@@ -410,6 +411,8 @@
 
             that.refresh($this, options.onlyRefreshBody);
         });
+
+        that.$.find('[data-toggle="tooltip"]').tooltip({container: 'body'});
     };
 
     $.fn.dashboard = function(option) {

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格 - v1.5.0 - 2016-08-25
+ * ZUI: 数据表格 - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -58,7 +58,7 @@
         storage: true, // enable storage
 
         // fixed header of columns
-        fixedHeader: true, // fixed header
+        fixedHeader: false, // fixed header
         fixedHeaderOffset: 0, // set top offset of header when fixed
         fixedLeftWidth: '30%', // set left width after first render
         fixedRightWidth: '30%', // set right width after first render
@@ -352,7 +352,7 @@
 
             $leftRow = $('<tr/>');
             $leftRow.addClass(row.cssClass)
-                .toggleClass(options.checkedClass, row.checked)
+                .toggleClass(options.checkedClass, !!row.checked)
                 .attr({
                     'data-index': r,
                     'data-id': row.id
@@ -580,9 +580,13 @@
                 }
             };
 
-            $bar.draggable(dragOptions);
-            if(options.flexHeadDrag) {
-                $datatable.find('.datatable-head-span.flexarea').draggable(dragOptions);
+            if($.fn.draggable) {
+                $bar.draggable(dragOptions);
+                if(options.flexHeadDrag) {
+                    $datatable.find('.datatable-head-span.flexarea').draggable(dragOptions);
+                }
+            } else {
+                console.error('DataTable requires draggable.js to improve UI.');
             }
 
             $scrollbar.mousedown(function(event) {
@@ -610,10 +614,11 @@
                         return rowId;
                     }).toArray()
                 };
+                that.checks = checkedStatus;
                 $.each(data.rows, function(index, value) {
                     value.checked = ($.inArray(value.id, checkedStatus.checks) > -1);
                 });
-                $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
+                $headSpans.find('.check-all').toggleClass('checked', !!checkedStatus.checkedAll);
 
                 if(options.storage) store.pageSet(checkedStatusStoreName, checkedStatus);
 
@@ -623,7 +628,7 @@
             };
 
             var toggleRowClass = function(ele, toggle) {
-                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, toggle);
+                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, !!toggle);
             };
 
             var checkEventPrefix = 'click.zui.datatable.check';

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-08-25
+ * ZUI: Document - v1.5.0 - 2016-08-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -182,7 +182,8 @@ a.avatar:hover {
   font-size: 42px;
   line-height: 50px;
   }
-.loader.loading {
+.loader.loading,
+.loader.with-error {
   height: auto;
   padding: 80px 0;
   filter: alpha(opacity=100);
@@ -477,10 +478,30 @@ body {
   padding-top: 20px;
   text-align: center;
   }
-#download > .btn-primary {
+#download > .btn-lg {
   margin-bottom: 15px;
   border-color: #e5e5e5;
   border-color: rgba(255, 255, 255, .65);
+  }
+#download > .btn-lg + .btn {
+  margin-left: 10px;
+  }
+#download > .btn-lg > .icon {
+  position: relative;
+  top: -1px;
+  margin-right: -3px;
+  margin-left: 6px;
+  }
+#download > .btn-lg.btn-white {
+  color: #3280fc;
+  background: #fff;
+  opacity: .9;
+  }
+#download > .btn-lg.btn-white:hover,
+#download > .btn-lg.btn-white:focus,
+#download > .btn-lg.btn-white:active {
+  color: #145ccd;
+  opacity: 1;
   }
 #search {
   max-width: 800px;
@@ -566,6 +587,72 @@ body {
   }
 #search.with-query-text #searchHelpBtn > .icon:before {
   content: '\d7';
+  }
+#ad {
+  padding-bottom: 20px;
+  margin-top: -50px;
+  -webkit-transition: opacity .2s;
+       -o-transition: opacity .2s;
+          transition: opacity .2s;
+  }
+#ad > a {
+  position: relative;
+  display: block;
+  width: 340px;
+  padding: 10px;
+  margin: 0 auto;
+  overflow: hidden;
+  font-size: 14px;
+  color: #fff;
+  background: rgba(0, 0, 0, .15);
+  border-radius: 4px;
+  opacity: .8;
+  }
+#ad > a:after,
+#ad > a:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  content: ' ';
+  background-color: rgba(255, 255, 255, .2);
+  opacity: 1;
+  -webkit-transition: opacity .3s, -webkit-transform .3s;
+       -o-transition: transform .3s, opacity .3s, -o-transform .3s;
+          transition: opacity .3s, -webkit-transform .3s;
+          transition: transform .3s, opacity .3s;
+          transition: transform .3s, opacity .3s, -webkit-transform .3s, -o-transform .3s;
+  -webkit-transform: skewX(-45deg) translate(-120px, 0);
+      -ms-transform: skewX(-45deg) translate(-120px, 0);
+       -o-transform: skewX(-45deg) translate(-120px, 0);
+          transform: skewX(-45deg) translate(-120px, 0);
+  }
+#ad > a:after {
+  top: 20px;
+  right: 0;
+  width: auto;
+  background-color: rgba(0, 0, 0, .1);
+  -webkit-transform: none;
+      -ms-transform: none;
+       -o-transform: none;
+          transform: none;
+  }
+#ad > a:hover,
+#ad > a:focus {
+  text-decoration: none;
+  background: rgba(0, 0, 0, .2);
+  -webkit-box-shadow: rgba(0, 0, 0, .12) 0 1px 6px, rgba(0, 0, 0, .15) 0 1px 4px;
+          box-shadow: rgba(0, 0, 0, .12) 0 1px 6px, rgba(0, 0, 0, .15) 0 1px 4px;
+  opacity: 1;
+  }
+#ad > a:hover:before,
+#ad > a:focus:before {
+  opacity: 1;
+  -webkit-transform: skewX(-45deg) translate(360px, 0);
+      -ms-transform: skewX(-45deg) translate(360px, 0);
+       -o-transform: skewX(-45deg) translate(360px, 0);
+          transform: skewX(-45deg) translate(360px, 0);
   }
 #grid {
   position: relative;
@@ -663,6 +750,26 @@ body {
   }
 #grid .card.open {
   margin-bottom: 5px;
+  }
+#grid .card.section-new > .card-heading:before,
+#grid .card.section-update > .card-heading:before {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 12;
+  display: block;
+  width: 29px;
+  height: 9px;
+  content: ' ';
+  background: #f1a325 url("data:image/gif;base64,R0lGODlhHQATAIAAAP///////yH5BAEAAAEALAAAAAAdABMAAAJBjI+py+0JTAQ0RPlQnefa3FnT9nnZxUkjiJVky8byTNf2TaOi2qFbFSoJU7oPBAPkUJIqk86jbBUhU6bRZ8JpHwUAOw==") no-repeat 0 -10px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 0 0 1px #fff;
+          box-shadow: 0 0 0 1px #fff;
+  }
+#grid .card.section-new > .card-heading:before {
+  width: 18px;
+  background-color: #ea644a;
+  background-position: 0 0;
   }
 #grid .card-heading {
   position: relative;
@@ -2266,6 +2373,9 @@ body.compact-mode #grid {
        -o-transition: margin-top .2s cubic-bezier(.175, .885, .32, 1);
           transition: margin-top .2s cubic-bezier(.175, .885, .32, 1);
   }
+body.compact-mode #ad {
+  opacity: 0;
+  }
 body.compact-mode.compact-mode-in #navbar {
   padding-top: 10px;
   }
@@ -2323,6 +2433,9 @@ body.compact-mode.compact-mode-in #searchForm {
   }
 body.compact-mode.compact-mode-in #grid {
   margin-top: 70px;
+  }
+body.compact-mode.compact-mode-in #ad {
+  display: none;
   }
 body.page-show {
   overflow: hidden;
@@ -2556,6 +2669,12 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
 @media (max-width: 767px) {
   #search {
     padding: 30px 10px 40px;
+    }
+  #ad {
+    margin-top: -20px;
+    }
+  #ad > a {
+    width: 250px;
     }
   #pageTogger {
     bottom: -68px;
