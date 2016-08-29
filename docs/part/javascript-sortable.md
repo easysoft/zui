@@ -66,7 +66,7 @@ $('#sortableList').sortable();
 
 ## 选项
 
-在进行初始化时允许传入一个对象参数作为初始化选项。可以使用的选项如下：
+在进行初始化时允许传入一个对象或者使用 `[data-*]` 属性参数作为初始化选项。可以使用的选项如下：
 
 <table class="table table-bordered">
   <thead>
