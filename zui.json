@@ -618,7 +618,7 @@
       "dpds": ["navbars.basic", "navbars.form", "navbars.fixedleft"]
     },
     "animations.style": {
-      "name": "过度动画",
+      "name": "过渡动画",
       "src": {
         "less": ["~/modules/animations.less"]
       },
@@ -628,7 +628,7 @@
       "require": ["jquery"]
     },
     "animations": {
-      "name": "过度动画",
+      "name": "过渡动画",
       "src": {
         "js": ["src/js/transition.js"]
       },
@@ -685,7 +685,7 @@
         "js": ["src/js/hotkeys.js"]
       },
       "ver": "1.0.0",
-      "source": "Bootstrap",
+      "source": "John Resig",
       "license": "MIT or GPL 2",
       "website": "https://github.com/tzuryby/jquery.hotkeys",
       "require": ["jquery"]
@@ -1107,6 +1107,7 @@
         "less": ["~/theme.less"]
       },
       "desc": "ZUI的默认主题示例",
+      "dpds": ["themeConfig"],
       "ver": "1.0.0"
     },
     "themeConfig": {
