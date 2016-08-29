@@ -105,6 +105,20 @@
         }
     };
 
+    Messager.prototype.update = function(message, newOptions) {
+        var that = this;
+        var options = that.options;
+        that.$.removeClass('messager-' + options.type);
+        if(newOptions) {
+            options = $.extend(options, newOptions);
+            that.$.addClass('messager-' + options.type);
+        }
+        if(message) {
+            that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
+            that.$.find('.messager-content').html(that.message);
+        }
+    };
+
     Messager.prototype.show = function(message, callback) {
         var that = this,
             options = this.options;
@@ -129,10 +143,7 @@
             }
         }
 
-        if(message) {
-            that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
-            that.$.find('.messager-content').html(that.message);
-        }
+        that.update(message);
 
         var placement = options.placement;
         var $parent = $(options.parent);
