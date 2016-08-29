@@ -1,6 +1,7 @@
 var extend = require('extend'),
     runSequence = require('run-sequence'),
     fs = require('fs'),
+    chmod = require('gulp-chmod'),
     moment = require('moment'),
     less = require('gulp-less'),
     cssmin = require('gulp-cssmin'),
@@ -288,6 +289,7 @@ function buildBundle(name, callback, type) {
             return gulp.src(source.js)
                 .pipe(concat(build.filename + '.js'))
                 .pipe(header(bannerContent))
+                .pipe(chmod(644))
                 .pipe(gulp.dest(destPath))
                 .on('end', function() {
                     console.log('      js > '.yellow.bold + (destPath + build.filename + '.js').italic.underline);
@@ -298,6 +300,7 @@ function buildBundle(name, callback, type) {
                     suffix: '.min'
                 }))
                 //.pipe(sourcemaps.write())
+                .pipe(chmod(644))
                 .pipe(gulp.dest(destPath))
                 .on('end', function() {
                     console.log('      js > '.yellow.bold + (destPath + build.filename + '.min.js').italic.underline);
@@ -353,6 +356,7 @@ function buildBundle(name, callback, type) {
                 }))
                 .pipe(csscomb())
                 .pipe(header(bannerContent))
+                .pipe(chmod(644))
                 .pipe(gulp.dest(destPath))
                 .on('end', function() {
                     console.log('     css > '.yellow.bold + (destPath + build.filename + '.css').italic.underline);
@@ -367,7 +371,9 @@ function buildBundle(name, callback, type) {
                 .pipe(rename({
                     suffix: '.min'
                 }))
+
                 //.pipe(sourcemaps.write())
+                .pipe(chmod(644))
                 .pipe(gulp.dest(destPath))
                 .on('end', function() {
                     console.log('     css > '.yellow.bold + (destPath + build.filename + '.min.css').italic.underline);
@@ -389,6 +395,7 @@ function buildBundle(name, callback, type) {
                 return gulp.src(sourceConfig.src, {
                         base: sourceConfig.base
                     })
+                    .pipe(chmod(644))
                     .pipe(gulp.dest(destPath))
                     .on('end', function() {
                         console.log('resource > '.yellow.bold + (destPath + sourceConfig.file).italic.underline);
@@ -481,6 +488,7 @@ gulp.task('default', function() {
 // Init custom gulp tasks
 if(isFileExist("gulpfile.custom.js")) {
     require("./gulpfile.custom.js")(gulp, {
+        chmod: chmod,
         less: less,
         cssmin: cssmin,
         csscomb: csscomb,
