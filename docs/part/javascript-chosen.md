@@ -70,7 +70,7 @@ $('select.chosen-select').chosen({
 
 ## 用法
 
-### 启动参数
+### 选项
 
 <table class="table table-bordered">
   <thead>
@@ -85,23 +85,34 @@ $('select.chosen-select').chosen({
     <tr>
       <td>`lang`</td>
       <td>界面语言</td>
-      <td>*   `'zh_cn'`（默认），中文简体
-*   `'zh_tw'`中文繁体
-*   `'en'`，英文</td>
-      <td>如果不设置此值，会自动优先从``属性作为界面语言设置。</td>
+      <td>
+        <ul>
+          <li><code>'zh_cn'</code>（默认）</li>
+          <li><code>'zh_tw'</code></li>
+          <li><code>'en'</code></li>
+        </ul>
+      </td>
+      <td>如果不设置此值，会自动优先从 `<html>` 的 `[lang]` 属性作为界面语言设置。</td>
     </tr>
     <tr>
       <td>`allow_single_deselect`</td>
       <td>允许取消单选</td>
-      <td>*   `true` 允许取消
-*   `false`（默认） 不允许</td>
+      <td>
+        <ul>
+          <li><code>'true'</code>：允许取消</li>
+          <li><code>'false'</code>（默认）：不允许</li>
+        </ul>
       <td>如果允许单选取消，则会在用户选择选项之后，显示一个移除按钮，点击此按钮会移除用户选择的项目。</td>
     </tr>
     <tr>
       <td>`disable_search`</td>
       <td>禁用检索</td>
-      <td>*   `false`（默认) 不禁用
-*   `true` 禁用</td>
+      <td>
+        <ul>
+          <li><code>'true'</code>：禁用</li>
+          <li><code>'false'</code>（默认）：不禁用</li>
+        </ul>
+      </td>
       <td>禁用检索功能，将不再现实搜索框来让用户检索选项。</td>
     </tr>
     <tr>
@@ -112,9 +123,9 @@ $('select.chosen-select').chosen({
     </tr>
     <tr>
       <td>`inherit_select_classes`</td>
-      <td>继承select的CLASS</td>
+      <td>继承 `<select>` 的 CLASS</td>
       <td>默认为`false`</td>
-      <td>如果设置为`true`，chosen在初始化之后会获取原`<select>`上的CSS CLASS值并添加在chosen容器``上。</select></td>
+      <td>如果设置为`true`，chosen 在初始化之后会获取原 `<select>` 上的CSS CLASS 值并添加在chosen容器 `.chosen-container`上。</select></td>
     </tr>
     <tr>
       <td>`max_selected_options`</td>
@@ -179,9 +190,13 @@ $('select.chosen-select').chosen({
     <tr>
       <td>`drop_direction`</td>
       <td>选项列表弹出方向</td>
-      <td>*   `"auto"`（默认) 自动决定
-*   `"down"` 向下
-*   `"up"` 向上</td>
+      <td>
+        <ul>
+          <li><code>"auto"</code>（默认) 自动决定</li>
+          <li><code>"down"</code></li>
+          <li><code>"up"</code></li>
+        </ul>
+      </td>
       <td>在自动决定情况下默认向下弹出，如果下方空间不够会自动改为向上弹出</td>
     </tr>
   </tbody>
