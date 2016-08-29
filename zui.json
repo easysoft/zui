@@ -1059,7 +1059,7 @@
         "js": ["src/js/dashboard.js"]
       },
       "ver": "1.0.0",
-      "dpds": ["panels"],
+      "dpds": ["panels", "grid", "icons"],
       "require": ["jquery"]
     },
     "board": {
