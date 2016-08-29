@@ -304,6 +304,23 @@ $('table.datatable').datatable().on("sort.zui.datatable", function(event) {
 });
 ```
 
+## 属性
+
+当 `checkable` 选项被启用时可以使用数据表格实例上的 `checks` 属性来获取当前已选择行的状态。
+
+```javascript
+// 获取数据表格实例对象
+var myDatatable = $('table.datatable').data('zui.datatable');
+
+// 获取行选中数据
+var checksStatus = myDatatable.checks;
+```
+
+`checks` 属性值为一个对象包含如下属性：
+
+ - `checkedAll`：是否已选中所有行；
+ - `checks`：一个数组包含所有被选中的行编号；
+
 ## 数据配置
 
 ### 增强现有表格

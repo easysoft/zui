@@ -345,7 +345,7 @@
 
             $leftRow = $('<tr/>');
             $leftRow.addClass(row.cssClass)
-                .toggleClass(options.checkedClass, row.checked)
+                .toggleClass(options.checkedClass, !!row.checked)
                 .attr({
                     'data-index': r,
                     'data-id': row.id
@@ -607,10 +607,11 @@
                         return rowId;
                     }).toArray()
                 };
+                that.checks = checkedStatus;
                 $.each(data.rows, function(index, value) {
                     value.checked = ($.inArray(value.id, checkedStatus.checks) > -1);
                 });
-                $headSpans.find('.check-all').toggleClass('checked', checkedStatus.checkedAll);
+                $headSpans.find('.check-all').toggleClass('checked', !!checkedStatus.checkedAll);
 
                 if(options.storage) store.pageSet(checkedStatusStoreName, checkedStatus);
 
@@ -620,7 +621,7 @@
             };
 
             var toggleRowClass = function(ele, toggle) {
-                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, toggle);
+                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, !!toggle);
             };
 
             var checkEventPrefix = 'click.zui.datatable.check';
