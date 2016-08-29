@@ -118,7 +118,14 @@ $(".form-time").datetimepicker({
 });
 ```
 
+<link rel="stylesheet" href="../../dist/lib/datetimepicker/datetimepicker.min.css">
 <script>
+function onPageClose() {
+    if($.fn.datetimepicker) $('#pageBody').find('.form-date,.form-datetime,.form-time').datetimepicker('remove');
+}
+function onPageLoad() {
+    onPageClose();
+}
 function afterPageLoad() {
     $.getScript('/dist/lib/datetimepicker/datetimepicker.min.js', function() {
         if($.fn.datetimepicker) {
