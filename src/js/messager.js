@@ -176,7 +176,7 @@
             that.$.removeClass('in');
             setTimeout(function() {
                 var $parent = that.$.parent();
-                that.$.remove();
+                that.$.detach();
                 if(!$parent.children().length) $parent.remove();
                 callback && callback(true);
             }, 200);
@@ -185,6 +185,11 @@
         }
 
         that.isShow = false;
+    };
+
+    Messager.prototype.destory = function() {
+        that.$.remove();
+        that.$ = null;
     };
 
     var showMessage = function(message, options) {
