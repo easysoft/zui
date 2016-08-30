@@ -65,8 +65,8 @@
         if(typeof colorName === 'undefined' || colorName === 'random') {
             colorName = presetColors[(nextColorIndex++) % presetColors.length];
         }
-
-        return new $.zui.Color(colorset[colorName] ? colorset[colorName] : colorName);
+        var color = colorset[colorName] ? colorset[colorName] : colorName;
+        return $.zui.Color ? new $.zui.Color(color) : color;
     }
 
     $.zui({colorset: colorset});
