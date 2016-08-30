@@ -1174,9 +1174,15 @@
             }, {
                 "id": "article",
                 "icon": "icon-file-text-alt",
-                "desc": "包含标题和带格式的文本内容视图",
+                "desc": "用于展示带标题和其他额外信息的图文内容",
                 "name": "文章",
-                "topics": [],
+                "topics": [{
+                    "name": "结构"
+                }, {
+                    "name": "综合示例"
+                }, {
+                    "name": "更紧凑的文章视图"
+                }],
                 "filter": "wenzhang wz"
             }, {
                 "id": "card",
