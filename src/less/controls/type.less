@@ -221,15 +221,18 @@ dd {
 blockquote {
   padding: (@line-height-computed / 2) @line-height-computed;
   margin: 0 0 @line-height-computed;
+  font-size: (@font-size-base * 1.25);
   border-left: 5px solid @blockquote-border-color;
-  p {
-    font-size: (@font-size-base * 1.25);
+
+  p,
+  ul,
+  ol {
     font-weight: 300;
-    line-height: 1.25;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
-  p:last-child {
-    margin-bottom: 0;
-  }
+
   small {
     display: block;
     line-height: @line-height-base;
