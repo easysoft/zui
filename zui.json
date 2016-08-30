@@ -1165,6 +1165,7 @@
       "src": {
         "js": ["src/js/colorset.js"]
       },
+      "filename": "colorset",
       "ver": "1.3.0",
       "dpds": ["color"]
     },
