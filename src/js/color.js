@@ -400,6 +400,7 @@
     };
 
     Color.isColor = isColor;
+    Color.names = namedColors;
 
     /* helpers */
     function hexToRgb(hex) {
