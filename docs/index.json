@@ -963,6 +963,18 @@
                 }],
                 "filter": "fuwenbenbianjiqi fwbbjq"
             }, {
+                "id": "color",
+                "icon": "icon-tint",
+                "desc": "色彩工具",
+                "name": "Color",
+                "version": "1.5.0",
+                "topics": [{
+                    "name": "类型"
+                }, {
+                    "name": "变化"
+                }],
+                "filter": "secai sc"
+            }, {
                 "id": "draggable",
                 "icon": "icon-move",
                 "desc": "拖动目标元素",
