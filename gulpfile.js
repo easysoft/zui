@@ -226,7 +226,7 @@ function buildBundle(name, callback, type) {
                 build = {
                     title: buildLib.name,
                     dest: 'dist/lib/' + name + '/',
-                    filename: (buildLib.source && buildLib.source !== 'Bootstrap') ? name : ('zui.' + name),
+                    filename: buildLib.filename || ((buildLib.source && buildLib.source !== 'Bootstrap') ? name : ('zui.' + name)),
                     includes: [name],
                     source: buildLib.source,
                     settingDpds: (buildLib.src && buildLib.src.less && buildLib.src.less.length) ? ['setting'] : null,
