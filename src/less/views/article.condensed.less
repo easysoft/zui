@@ -17,41 +17,23 @@
     > dl {
       padding: @article-section-padding;
       margin: 0 -@article-padding;
-      // border-bottom: 1px dashed darken(@article-abstract-bg, 10%);
-      // border-left: none;
     }
   }
 
+  > .content,
   > .article-content {
-    > p,
-    > blockquote,
-    > div,
-    > ul, > ol,
-    > h1, > h2, > h3, > h4, > h5, > h6 {
-      padding-left: @article-padding;
-      padding-right: @article-padding;
+    padding: @article-padding;
+
+    > img,
+    > pre {
+      border-radius: 0;
+      margin-left: -@article-padding;
+      margin-right: -@article-padding;
     }
 
-    > ul, > ol, > dl {
-      padding-left: @article-padding * 3;
-    }
-
-    > img { border-radius: 0; }
-    
-    > table {
+    > pre {
       border-left: none;
       border-right: none;
-      tr > td:first-child,
-      tr > th:first-child, {
-        padding-left: @article-padding;
-        border-left: none ;
-      }
-
-      tr > td:last-child,
-      tr > th:last-child, {
-        padding-right: @article-padding;
-        border-right: none;
-      }
     }
   }
 

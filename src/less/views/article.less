@@ -16,6 +16,7 @@
     h2,
     h3 {
       line-height: 1.5;
+      margin-bottom: @line-height-computed;
     }
 
     > .abstract,
@@ -47,6 +48,7 @@
   }
 }
 
+.article > .content,
 .article-content {
   font-size: @article-font-size;
   line-height: @article-line-height;
@@ -72,8 +74,6 @@
   img { margin: @line-height-computed / 2 0; }
 
   p {
-    margin: 0;
-
     > img {
       margin-right: 10px;
 
@@ -89,7 +89,6 @@
   }
 
   table {
-    width: 100%;
     margin-bottom: @line-height-computed;
 
     // Cells
@@ -99,8 +98,6 @@
       line-height: @line-height-base;
       vertical-align: top;
       border-bottom: 1px solid @table-border-color;
-
-      .transition(all,@animation-speed-fast,@animation-type);
     }
 
     // Bottom align for column headings
@@ -109,6 +106,16 @@
       border-bottom: 1px solid @table-border-color;
       background-color: @table-head-bg;
     }
+  }
+}
+
+.article-content p { margin-bottom: 0; }
+.article-content table { width: 100%; }
+.article > .content table {
+  th,
+  td,
+  > thead > tr > th {
+    border: 1px solid @table-border-color;
   }
 }
 
