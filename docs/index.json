@@ -1191,14 +1191,34 @@
                 "icon": "icon-th",
                 "desc": "可以展示图片和文本的卡片网格视图",
                 "name": "卡片",
-                "topics": [],
+                "update": "1.5.0",
+                "topics": [{
+                    "name": "结构"
+                }, {
+                    "name": "简单示例"
+                }, {
+                    "name": "卡片内容类型"
+                }, {
+                    "name": "无边框视图"
+                }, {
+                    "name": "紧凑视图"
+                }],
                 "filter": "kapian kp"
             }, {
                 "id": "list",
                 "icon": "icon-list",
-                "desc": "包含标题和简介及图片的媒体内容列表",
+                "desc": "包含图文内容的列表",
                 "name": "列表",
-                "topics": [],
+                "update": "1.5.0",
+                "topics": [{
+                    "name": "结构"
+                }, {
+                    "name": "列表项"
+                }, {
+                    "name": "综合示例"
+                }, {
+                    "name": "更紧凑的列表"
+                }],
                 "filter": "liebiao lb"
             }, {
                 "id": "comment",
