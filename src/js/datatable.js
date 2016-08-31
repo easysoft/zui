@@ -466,7 +466,6 @@
         var that = this,
             data = this.data,
             options = this.options,
-            store = $.zui.store,
             $datatable = this.$datatable;
 
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
