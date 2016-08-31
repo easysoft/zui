@@ -126,54 +126,95 @@ Gulp 构建在nodejs 之上。在安装 Gulp 之前需要首先[下载并安装 
     <tr>
       <td>`gulp build -standard`</td>
       <td>编译标准版</td>
-      <td>*   dist/js/zui*.js
-*   dist/css/zui*.css
-*   dist/fonts/**</td>
+      <td>
+        <ul>
+          <li>`dist/js/zui*.js`</li>
+          <li>`dist/css/zui*.css`</li>
+          <li>`dist/fonts/**`</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td>`gulp build -lite`</td>
       <td>编译简洁版</td>
-      <td>*   dist/js/zui.lite*.js
-*   dist/css/zui.lite*.css
-*   dist/fonts/**</td>
+      <td>
+        <ul>
+          <li>`dist/js/zui.lite*.js`</li>
+          <li>`dist/css/zui.lite*.css`</li>
+          <li>`dist/fonts/**`</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td>`gulp build -dist`</td>
       <td>编译标准版和简洁版以及常用独立组件</td>
-      <td>*   dist/js/**
-*   dist/css/**
-*   dist/fonts/**
-*   dist/lib/*/**</td>
+      <td>
+        <ul>
+          <li>`dist/js/**`</li>
+          <li>`dist/css/**`</li>
+          <li>`dist/fonts/**`</li>
+          <li>`dist/lib/*/**`</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td>`gulp dist`</td>
       <td>`gulp build -dist`的简单写法</td>
-      <td>*   dist/js/**
-*   dist/css/**
-*   dist/fonts/**
-*   dist/lib/*/**</td>
+      <td>
+        <ul>
+          <li>`dist/js/**`</li>
+          <li>`dist/css/**`</li>
+          <li>`dist/fonts/**`</li>
+          <li>`dist/lib/*/**`</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>`gulp lib`</td>
+      <td>`gulp build -lib`的简单写法，编译所有独立组件</td>
+      <td>
+        <ul>
+          <li>`dist/lib/**`</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td>`gulp build -doc`</td>
       <td>编译文档所需资源</td>
-      <td>*   doc/js/zui*.js
-*   doc/css/zui*.css
-*   doc/fonts/**</td>
+      <td>
+        <ul>
+          <li>`doc/js/zui*.js`</li>
+          <li>`doc/css/zui*.css`</li>
+          <li>`doc/fonts/**`</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td>`gulp build -theme`</td>
       <td>编译主题</td>
-      <td>*   dist/css/zui-theme*.css</td>
+      <td>
+        <ul>
+          <li>`dist/css/zui-theme*.css`</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td>`gulp build -[build name]`</td>
       <td>编译独立组件包，`[build name]`为组件包名称，可以为`calendar`、`kindeditor`、`chosen`等</td>
-      <td>*   dist/lib/[build name]/**</td>
+      <td>
+        <ul>
+          <li>`dist/lib/[build name]/**`</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td>`gulp build -[control name]`</td>
       <td>编译单独控件，`[control name]`为控件名称，可以为`button`、`alerts`、`panels`等</td>
-      <td>*   dist/lib/[control name]/**</td>
+      <td>
+        <ul>
+          <li>`dist/lib/[control name]/**`</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td>`gulp watch:doc`</td>
