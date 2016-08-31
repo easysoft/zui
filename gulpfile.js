@@ -430,6 +430,7 @@ function buildBundle(name, callback, type) {
 gulp.task('build', function(callback) {
     var name = process.argv[3] || 'dist';
     if(name && name[0] === '-') name = name.substr(1);
+    if(name === 'lib') name = 'seperate';
     var type = process.argv.length > 4 ? process.argv[4] : false;
     if(type && type[0] === '-') type = type.substr(1);
     console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
@@ -438,10 +439,10 @@ gulp.task('build', function(callback) {
     }, type);
 });
 
-['dist', 'doc', 'theme'].forEach(function(name) {
+['dist', 'doc', 'theme', 'lib'].forEach(function(name) {
     gulp.task(name, function(callback) {
         console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
-        buildBundle(name, function() {
+        buildBundle(name == 'lib' ? 'seperate' : name, function() {
             console.log('    END >> ' + (' Build ' + name.bold + ' completed. ').green.inverse);
             callback();
         });
