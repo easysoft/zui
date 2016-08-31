@@ -1225,12 +1225,15 @@
                 "icon": "icon-comments",
                 "desc": "展示评论的列表视图",
                 "name": "评论",
+                "update": "1.5.0",
                 "topics": [{
-                    "name": "一般情况"
+                    "name": "结构"
                 }, {
-                    "name": "回复缩进"
+                    "name": "评论条目"
                 }, {
-                    "name": "没有用户头像"
+                    "name": "评论表单"
+                }, {
+                    "name": "综合示例"
                 }],
                 "filter": "pinglun pl"
             }, {
