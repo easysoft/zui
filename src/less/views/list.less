@@ -25,7 +25,7 @@
   }
 
   .item-heading {
-    > h6, h5, h4, h3,h2,h1 {
+    > h6, h5, h4, h3, h2, h1 {
       margin-top: 5px;
     }
   }
@@ -33,13 +33,16 @@
   .item-content {
     .clearfix();
     > .media {
+      max-width: 100%;
       margin: @padding-base-vertical 0;
       &.pull-left {
+        max-width: 150px;
         margin: 0;
         margin-right: @padding-small-horizontal;
       }
       
       &.pull-right {
+        max-width: 150px;
         margin: 0;
         margin-left: @padding-small-horizontal;
       }
