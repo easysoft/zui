@@ -330,7 +330,7 @@ filter: pinglun pl
         <a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
         <form class="form">
           <div class="form-group">
-            <textarea class="form-control new-comment-text" rows="2" placeholder="write a comment..."></textarea>
+            <textarea class="form-control new-comment-text" rows="2" placeholder="撰写评论..."></textarea>
           </div>
           <div class="form-group comment-user">
             <div class="row">
@@ -381,7 +381,7 @@ filter: pinglun pl
       <a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
       <form class="form">
         <div class="form-group">
-          <textarea class="form-control new-comment-text" rows="2" placeholder="write a comment..."></textarea>
+          <textarea class="form-control new-comment-text" rows="2" placeholder="撰写评论..."></textarea>
         </div>
         <div class="form-group comment-user">
           <div class="row">
@@ -492,7 +492,7 @@ filter: pinglun pl
         <a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
         <form class="form">
           <div class="form-group">
-            <textarea class="form-control new-comment-text" rows="2" placeholder="write a comment..."></textarea>
+            <textarea class="form-control new-comment-text" rows="2" placeholder="撰写评论..."></textarea>
           </div>
           <div class="form-group comment-user">
             <div class="row">
@@ -603,7 +603,7 @@ filter: pinglun pl
       <a href="###" class="avatar"><i class="icon-user icon-2x"></i></a>
       <form class="form">
         <div class="form-group">
-          <textarea class="form-control new-comment-text" rows="2" placeholder="write a comment..."></textarea>
+          <textarea class="form-control new-comment-text" rows="2" placeholder="撰写评论..."></textarea>
         </div>
         <div class="form-group comment-user">
           <div class="row">
