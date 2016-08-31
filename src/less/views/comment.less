@@ -17,8 +17,11 @@
       margin-bottom: -10px;
     }
     h1, h2, h3 {
-      margin: 30px 0 20px;
+      margin: 10px 0;
+      padding: 10px 0;
     }
+
+    > .pull-right {}
   }
 
   > footer {
@@ -57,14 +60,15 @@
   > .avatar + .content { padding-left: 50px; }
 
   > .content {
-    > .text { padding-top: 5px; }
+    > .text { margin-top: 5px; }
 
     > .actions {
+      margin-top: 4px;
       > a {
-        padding-left: 2px;
         display: inline-block;
-        padding-right: 5px;
         color: @color-gray;
+
+        + a {margin-left: 5px;}
       }
     }
   }
