@@ -58,6 +58,13 @@
     text-overflow: ellipsis;
   }
 
+  .card-actions {
+    .btn + .pull-right {
+      line-height: 20px;
+      padding: 6px 0;
+    }
+  }
+
   &:hover {
     box-shadow: 0 1px 5px rgba(0,0,0,.175);
     text-decoration: none;
@@ -76,6 +83,13 @@
   .card {
     border: none;
     box-shadow: none;
+    border-radius: 0;
+
+    > img,
+    > .media-wrapper {
+      border-radius: @border-radius-base;
+      overflow: hidden;
+    }
 
     > .card-heading,
     > .card-actions,
