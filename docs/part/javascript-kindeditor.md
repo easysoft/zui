@@ -13,15 +13,48 @@ ZUI 推荐的富文本编辑器是 [Kindeditor](http://kindeditor.net/)。
 
 ## 默认模式
 
-<div class="example">
+<example>
   <textarea id="content" name="content" class="form-control kindeditor" style="height:150px;">Hello, world!</textarea>
-</div>
+</example>
+
+```html
+<textarea id="content" name="content" class="form-control kindeditor" style="height:150px;">Hello, world!</textarea>
+```
+
+```javascript
+KindEditor.create('textarea.kindeditor', {
+    basePath: '/dist/lib/kindeditor/',
+    allowFileManager : true,
+    bodyClass : 'article-content'
+});
+```
 
 ## 简单模式
 
-<div class="example">
+自定义工具栏，禁用文件上传。
+
+<example>
   <textarea id="contentSimple" name="content" class="form-control kindeditorSimple" style="height:150px;">Hello, world!</textarea>
-</div>
+</example>
+
+```html
+<textarea id="contentSimple" name="content" class="form-control kindeditorSimple" style="height:150px;">Hello, world!</textarea>
+```
+
+```javascript
+KindEditor.create('textarea.kindeditor', {
+    basePath: '/dist/lib/kindeditor/',
+    bodyClass : 'article-content',
+    resizeType : 1,
+    allowPreviewEmoticons : false,
+    allowImageUpload : false,
+    items : [
+        'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+        'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+        'insertunorderedlist', '|', 'emoticons', 'image', 'link'
+    ]
+});
+```
 
 <script>
 function onPageLoad() {
@@ -34,9 +67,7 @@ function afterPageLoad() {
             K.create('textarea.kindeditor', {
                 basePath: '/dist/lib/kindeditor/',
                 allowFileManager : true,
-                bodyClass : 'article-content',
-                afterBlur: function(){$('#content').prev('.ke-container').removeClass('focus');},
-                afterFocus: function(){$('#content').prev('.ke-container').addClass('focus');}
+                bodyClass : 'article-content'
             });
 
             K.create('textarea.kindeditorSimple', {
@@ -46,11 +77,10 @@ function afterPageLoad() {
                 allowPreviewEmoticons : false,
                 allowImageUpload : false,
                 items : [
-                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                'insertunorderedlist', '|', 'emoticons', 'image', 'link'],
-                afterBlur: function(){$('#contentSimple').prev('.ke-container').removeClass('focus');},
-                afterFocus: function(){$('#contentSimple').prev('.ke-container').addClass('focus');}
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link'
+                ]
             });
         }
         setTimeout($.doc.stopPageLoading, 500);

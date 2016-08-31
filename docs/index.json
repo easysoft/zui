@@ -956,10 +956,11 @@
                 "icon": "icon-edit",
                 "desc": "使用Kineditor来编辑富文本",
                 "name": "富文本编辑器",
+                "update": "1.5.0",
                 "topics": [{
-                    "name": "类型"
+                    "name": "默认模式"
                 }, {
-                    "name": "变化"
+                    "name": "简单模式"
                 }],
                 "filter": "fuwenbenbianjiqi fwbbjq"
             }, {
