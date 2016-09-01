@@ -855,12 +855,15 @@
                 "icon": "icon-credit",
                 "desc": "标签页式的导航菜单",
                 "name": "标签页",
+                "update": "1.5.0",
                 "topics": [{
-                    "name": "类型"
+                    "name": "结构"
                 }, {
-                    "name": "变化"
+                    "name": "动画效果"
                 }, {
-                    "name": "方法和事件"
+                    "name": "方法"
+                }, {
+                    "name": "事件"
                 }],
                 "filter": "biaoqianye bqy"
             }, {

@@ -7,244 +7,126 @@ filter: biaoqianye bqy
 
 # 标签页
 
-一般结合导航使用。
+标签页允许通过点击一个导航或列表项目来切换显示的内容。
 
-## 基本类型
+## 结构
 
-通过 `ul.nav + div.tab-content` 的方式实现。
+标签页一般配合[导航](#component/nav)使用，为导航上每个用于切换标签内容的链接添加 `[href]` 或 `[data-target]` 属性指向当前标签页内容的 ID，并添加 `[data-toggle="tab"]` 属性。
 
-<div class="example">
-  <ul id="myTab" class="nav nav-tabs">
-    <li class="active">
-      <a href="#tab1" data-toggle="tab">Tab1</a>
-    </li>
-    <li>
-      <a href="#tab2" data-toggle="tab">Tab2</a>
-    </li>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        Other tabs <b class="caret"></b>
-      </a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-        <li>
-          <a href="#tab3" tabindex="-1" data-toggle="tab">Tab3</a>
-        </li>
-        <li>
-          <a href="#tab4" tabindex="-1" data-toggle="tab">Tab4</a>
-        </li>
-      </ul>
-    </li>
+另一种快捷方法是为用于切换标签页的链接使用 `[data-tab]` 属性，属性值指向所切换的 `.tab-pane` 元素。这种方法不需要 `[data-target]` 和 `[data-toggle="tab"]` 属性。
+
+标签页内容使用 `.tab-pane` 作为容器元素，所有供切换显示的 `.tab-pane` 放置在 `.tab-content` 容器元素内。
+
+为确保在页面显示的时候标签页能够指示正确的标签和显示正确的内容，在初始状态需要为当前选中的导航项目 `<li>` 元素添加 `.active` 类，并且为当前显示的标签页内容元素 `.tab-pane` 添加 `.active` 类。
+
+### 示例
+
+<example class="example-tabs-with-nav">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="###" data-tab="#tabContent1">标签1</a></li>
+    <li><a href="###" data-tab="#tabContent2">标签2</a></li>
+    <li><a href="###" data-tab="#tabContent3">标签3</a></li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane in active" id="tab1">
-      <p>口是心非你深情的承诺</p>
-      <p>都随着西风飘渺远走</p>
-      <p>痴人梦话我钟情的倚托</p>
-      <p>就像枯萎凋零的花朵</p>
+    <div class="tab-pane active" id="tabContent1">
+      <p>我是标签1。</p>
     </div>
-    <div class="tab-pane" id="tab2">
-      <p>星火燎原我热情的眼眸</p>
-      <p>曾点亮最灿烂的天空</p>
-      <p>晴天霹雳你绝情的放手</p>
-      <p>在我最需要你的时候</p>
-      <p>于是爱恨交错人消瘦</p>
+    <div class="tab-pane" id="tabContent2">
+      <p>标签2的内容。</p>
     </div>
-
-    <div class="tab-pane" id="tab3">
-      <p>怕是怕这些苦没来由</p>
-      <p>于是悲欢起落人静默</p>
-      <p>等一等这些伤会自由</p>
-      <p>于是爱恨交错人消瘦</p>
-      <p>怕是怕这些苦没来由</p>
-      <p>于是悲欢起落人静默</p>
-      <p>等一等这些伤会自由</p>
-    </div>
-    <div class="tab-pane" id="tab4">
-      <p>口是心非你矫情的面容</p>
-      <p>都烙印在心灵的角落</p>
-      <p>无话可说我纵情的结果</p>
-      <p>就像残破光秃的山头</p>
-      <p>浑然天成我纯情的悸动</p>
-      <p>曾奔放最滚烫的节奏</p>
-      <p>不可收拾你滥情的抛空</p>
+    <div class="tab-pane" id="tabContent3">
+      <p>这是标签3的内容。</p>
     </div>
   </div>
-</div>
+</example>
 
-## 导航样式
+<style>
+.example-tabs-with-nav .nav {margin-bottom: 20px;}
+</style>
 
-`ul.nav.nav-pills`，通过修改ul的.nav-*来修改导航样式，具体见导航控件。
-
-<div class="example">
-  <ul id="myTab2" class="nav nav-pills">
-    <li class="active">
-      <a href="#tab11" data-toggle="tab">Tab1</a>
-    </li>
-    <li>
-      <a href="#tab22" data-toggle="tab">Tab2</a>
-    </li>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        Other tabs <b class="caret"></b>
-      </a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-        <li>
-          <a href="#tab33" tabindex="-1" data-toggle="tab">Tab3</a>
-        </li>
-        <li>
-          <a href="#tab44" tabindex="-1" data-toggle="tab">Tab4</a>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane in active" id="tab11">
-      <p>口是心非你深情的承诺</p>
-      <p>都随着西风飘渺远走</p>
-      <p>痴人梦话我钟情的倚托</p>
-      <p>就像枯萎凋零的花朵</p>
-    </div>
-    <div class="tab-pane" id="tab22">
-      <p>星火燎原我热情的眼眸</p>
-      <p>曾点亮最灿烂的天空</p>
-      <p>晴天霹雳你绝情的放手</p>
-      <p>在我最需要你的时候</p>
-      <p>于是爱恨交错人消瘦</p>
-    </div>
-
-    <div class="tab-pane" id="tab33">
-      <p>怕是怕这些苦没来由</p>
-      <p>于是悲欢起落人静默</p>
-      <p>等一等这些伤会自由</p>
-      <p>于是爱恨交错人消瘦</p>
-      <p>怕是怕这些苦没来由</p>
-      <p>于是悲欢起落人静默</p>
-      <p>等一等这些伤会自由</p>
-    </div>
-    <div class="tab-pane" id="tab44">
-      <p>口是心非你矫情的面容</p>
-      <p>都烙印在心灵的角落</p>
-      <p>无话可说我纵情的结果</p>
-      <p>就像残破光秃的山头</p>
-      <p>浑然天成我纯情的悸动</p>
-      <p>曾奔放最滚烫的节奏</p>
-      <p>不可收拾你滥情的抛空</p>
-    </div>
+```html
+<ul class="nav nav-tabs">
+  <li class="active"><a href="###" data-tab="#tabContent1">标签1</a></li>
+  <li><a href="###" data-tab="#tabContent2">标签2</a></li>
+  <li><a href="###" data-tab="#tabContent3">标签3</a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane active" id="tabContent1">
+    <p>我是标签1。</p>
+  </div>
+  <div class="tab-pane" id="tabContent2">
+    <p>标签2的内容。</p>
+  </div>
+  <div class="tab-pane" id="tabContent3">
+    <p>这是标签3的内容。</p>
   </div>
 </div>
-
-## 载入效果
-
-为每个.tab-pane添加.fade可以让标签页具有淡入的特效。同时第一个标签页所对应的的内容区必须也添加.in
-
-<div class="example">
-  <ul id="myTab3" class="nav nav-pills">
-    <li class="active">
-      <a href="#tab111" data-toggle="tab">fade in</a>
-    </li>
-    <li>
-      <a href="#tab222" data-toggle="tab">in</a>
-    </li>
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        Other tabs
-        <b class="caret"></b>
-      </a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-        <li>
-          <a href="#tab333" tabindex="-1" data-toggle="tab">fade</a>
-        </li>
-        <li>
-          <a href="#tab444" tabindex="-1" data-toggle="tab">fade</a>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <div class="tab-content">
-    <div class="tab-pane fade in active" id="tab111">
-      <p>口是心非你深情的承诺</p>
-      <p>都随着西风飘渺远走</p>
-      <p>痴人梦话我钟情的倚托</p>
-      <p>就像枯萎凋零的花朵</p>
-    </div>
-    <div class="tab-pane fade" id="tab222">
-      <p>星火燎原我热情的眼眸</p>
-      <p>曾点亮最灿烂的天空</p>
-      <p>晴天霹雳你绝情的放手</p>
-      <p>在我最需要你的时候</p>
-      <p>于是爱恨交错人消瘦</p>
-    </div>
-
-    <div class="tab-pane fade" id="tab333">
-      <p>怕是怕这些苦没来由</p>
-      <p>于是悲欢起落人静默</p>
-      <p>等一等这些伤会自由</p>
-      <p>于是爱恨交错人消瘦</p>
-      <p>怕是怕这些苦没来由</p>
-      <p>于是悲欢起落人静默</p>
-      <p>等一等这些伤会自由</p>
-    </div>
-    <div class="tab-pane fade" id="tab444">
-      <p>口是心非你矫情的面容</p>
-      <p>都烙印在心灵的角落</p>
-      <p>无话可说我纵情的结果</p>
-      <p>就像残破光秃的山头</p>
-      <p>浑然天成我纯情的悸动</p>
-      <p>曾奔放最滚烫的节奏</p>
-      <p>不可收拾你滥情的抛空</p>
-    </div>
-  </div>
-</div>
-
-## 方法和事件
-
-<h3></h3>
-
-<table class="table table-bordered table-striped">
-  <tbody>
-    <tr>
-      <td>方法</td>
-      <td>例子</td>
-      <td>描述</td>
-    </tr>
-    <tr>
-      <td>`.tab('show')`</td>
-      <td>`$("#myTab a:last").tab('show')`</td>
-      <td>激活标签页和内容区</td>
-    </tr>
-  </tbody>
-</table>
-
-<table class="table table-bordered table-striped">
-  <tbody>
-    <tr>
-      <td>事件</td>
-      <td>使用</td>
-      <td>描述</td>
-    </tr>
-    <tr>
-      <td>show.zui.tab</td>
-      <td>$('a[data-toggle="tab"]').on('show.zui.tab', function (e) { e.target // activated tab e.relatedTarget // previous tab })</td>
-      <td>当要激活标签页和标签内容的时候激活该事件</td>
-    </tr>
-    <tr>
-      <td>shown.zui.tab</td>
-      <td>$('a[data-toggle="tab"]').on('shown.zui.tab', function (e) { e.target // activated tab e.relatedTarget // previous tab })</td>
-      <td>当标签页和标签内容载入完毕后，激活该事件</td>
-    </tr>
-  </tbody>
-</table>
-
-关于 `e.target` 和 `e.relatedTarget` 分别表示当前激活标签对象和前一个标签对象。
-
-可遍历对象查看对象各个属性和值：
-
 ```
-$('#myTab a[data-toggle="tab"]').on('shown.zui.tab', function (e)
-{
-    $.each(e.target, function(n, value)
-    {
-        if(value) alert(n + ': ' + value);
-    })
-})
+
+## 动画效果
+
+为每个 `.tab-pane` 添加 `.fade` 类，可以使得标签内容在显示时获得渐变动画效果。在初始状态要显示的标签页内容 `.tab-pane` 不仅需要添加 `.active` 类，还需要添加 `.in` 类。
+
+<example class="example-tabs-with-nav">
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="###" data-target="#tab2Content1" data-toggle="tab">标签1</a></li>
+    <li><a href="###" data-target="#tab2Content2" data-toggle="tab">标签2</a></li>
+    <li><a href="###" data-target="#tab2Content3" data-toggle="tab">标签3</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane fade active in" id="tab2Content1">
+      <p>我是标签1。</p>
+    </div>
+    <div class="tab-pane fade" id="tab2Content2">
+      <p>标签2的内容。</p>
+    </div>
+    <div class="tab-pane fade" id="tab2Content3">
+      <p>这是标签3的内容。</p>
+    </div>
+  </div>
+</example>
+
+```html
+<ul class="nav nav-tabs">
+  <li class="active"><a href="###" data-target="#tab2Content1" data-toggle="tab">标签1</a></li>
+  <li><a href="###" data-target="#tab2Content2" data-toggle="tab">标签2</a></li>
+  <li><a href="###" data-target="#tab2Content3" data-toggle="tab">标签3</a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade active in" id="tab2Content1">
+    <p>我是标签1。</p>
+  </div>
+  <div class="tab-pane fade" id="tab2Content2">
+    <p>标签2的内容。</p>
+  </div>
+  <div class="tab-pane fade" id="tab2Content3">
+    <p>这是标签3的内容。</p>
+  </div>
+</div>
+```
+
+## 方法
+
+### 显示标签页内容
+
+ - $().tab('show')
+
+用于手动显示当前元素指示的标签页内容。
+
+```javascript
+$('#myTabLink').tab('show');
+```
+
+## 事件
+
+当显示一个新的标签页时，这些事件会被触发：
+
+ - `show.zui.tab`：当前标签页在显示时触发；
+ - `shown.zui.tab`：当前标签页在显示后（动画执行完毕）触发。
+
+```javascript
+$('[data-tab]').on('shown.zui.tab', function(e) {
+    console.log('当前被激活的标签页', e.target);
+    console.log('上一个标签页', e.relatedTarget);
+});
 ```
