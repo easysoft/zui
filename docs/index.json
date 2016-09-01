@@ -909,20 +909,13 @@
                 "icon": "icon-comment-line",
                 "desc": "弹出交互式面板",
                 "name": "弹出面板",
+                "update": "1.5.0",
                 "topics": [{
                     "name": "静态类型"
                 }, {
-                    "name": "不带箭头指示"
-                }, {
                     "name": "动态演示"
                 }, {
-                    "name": "指定html元素作为弹出内容"
-                }, {
-                    "name": "选项"
-                }, {
-                    "name": "方法"
-                }, {
-                    "name": "事件"
+                    "name": "用法"
                 }],
                 "filter": "tanchumianban tcmb"
             }, {
@@ -930,10 +923,13 @@
                 "icon": "icon-collapse",
                 "desc": "为元素提供折叠和展开功能",
                 "name": "折叠",
+                "update": "1.5.0",
                 "topics": [{
-                    "name": "类型"
+                    "name": "结构"
                 }, {
-                    "name": "变化"
+                    "name": "折叠分组"
+                }, {
+                    "name": "使用方法"
                 }],
                 "filter": "zhedie zd"
             }, {

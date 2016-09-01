@@ -455,6 +455,11 @@ $('table.datatable').datatable({
 *   `'up'`：默认使用升序排序；</td>
       <td>如果排序启用时定义此列是否可以排序。</td>
     </tr>
+    <tr>
+      <td>`ignore`</td>
+      <td>`true` | `false`(默认)</td>
+      <td>是否在构建数据表格时忽略该列，不会在页面显示。</td>
+    </tr>
   </tbody>
 </table>
 
@@ -470,9 +475,24 @@ $('table.datatable').datatable({
       <th>说明</th>
     </tr>
     <tr>
+      <td>`id`</td>
+      <td>全局唯一字符串</td>
+      <td>该行的唯一编号，如果不指定则由程序按顺序生成。</td>
+    </tr>
+    <tr>
       <td>`checked`</td>
       <td>`true` | `false`(默认)</td>
       <td>此行数据在开始时是否为选中状态。</td>
+    </tr>
+    <tr>
+      <td>`cssClass`</td>
+      <td>字符串，默认 `''`</td>
+      <td>用于添加到生成的行元素 `<tr>` 上的 CSS 类。</td>
+    </tr>
+    <tr>
+      <td>`css`</td>
+      <td>字符串，默认 `''`</td>
+      <td>用设置 `<tr>` 上的 `[style]` 属性，用于自定义行样式。</td>
     </tr>
     <tr>
       <td>`data`</td>

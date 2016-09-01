@@ -23,9 +23,9 @@ filter: biaoqianye bqy
 
 <example class="example-tabs-with-nav">
   <ul class="nav nav-tabs">
-    <li class="active"><a href="###" data-tab="#tabContent1">标签1</a></li>
-    <li><a href="###" data-tab="#tabContent2">标签2</a></li>
-    <li><a href="###" data-tab="#tabContent3">标签3</a></li>
+    <li class="active"><a data-tab href="#tabContent1">标签1</a></li>
+    <li><a data-tab href="#tabContent2">标签2</a></li>
+    <li><a data-tab href="#tabContent3">标签3</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="tabContent1">
@@ -46,9 +46,9 @@ filter: biaoqianye bqy
 
 ```html
 <ul class="nav nav-tabs">
-  <li class="active"><a href="###" data-tab="#tabContent1">标签1</a></li>
-  <li><a href="###" data-tab="#tabContent2">标签2</a></li>
-  <li><a href="###" data-tab="#tabContent3">标签3</a></li>
+  <li class="active"><a data-tab href="#tabContent1">标签1</a></li>
+  <li><a data-tab href="#tabContent2">标签2</a></li>
+  <li><a data-tab href="#tabContent3">标签3</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane active" id="tabContent1">
