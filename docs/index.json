@@ -829,10 +829,25 @@
                 "icon": "icon-align-justify",
                 "desc": "浮动在页面之上的垂直菜单",
                 "name": "下拉菜单",
+                "update": "1.5.0",
                 "topics": [{
-                    "name": "类型"
+                    "name": "结构"
                 }, {
-                    "name": "变化"
+                    "name": "使用按钮组"
+                }, {
+                    "name": "下拉菜单三角图标"
+                }, {
+                    "name": "标题和分割线"
+                }, {
+                    "name": "浮动方向"
+                }, {
+                    "name": "多级子菜单"
+                }, {
+                    "name": "禁用的菜单项"
+                }, {
+                    "name": "自定义菜单"
+                }, {
+                    "name": "在导航和导航条中使用"
                 }],
                 "filter": "xialacaidan xlcd"
             }, {
