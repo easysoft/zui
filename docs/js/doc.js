@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-08-29
+ * ZUI: Document - v1.5.0 - 2016-09-01
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -65,7 +65,10 @@
     };
 
     var debug = getQueryString('debug', 0);
-    if(debug) console.warn("DEBUG ENABLED.");
+    if(debug) {
+        console.warn("DEBUG ENABLED.");
+        $('#pageReloadBtn').show();
+    }
 
     var chapters = {
         basic       : {col: 1},
@@ -88,7 +91,7 @@
         UNDEFINED = undefined,
         dataVersion,
         storageEnable,
-        docIndex, iconsIndex,
+        docIndex, iconsIndex, currentSection,
         zuiPkg,
         pkgLibs = {
             standard: null,
@@ -1161,12 +1164,115 @@
         if(!delayMutedPageLoading) stopPageLoading();
     };
 
+    var loadPage = function(section, topic, waitRemote) {
+        section = section || currentSection;
+
+        $pageContent.empty();
+        $page.addClass('loading');
+        $pageLoader.removeClass('with-error').addClass('loading');
+        var lastShowDataCall;
+
+        loadData(section.url, function(data, dataType) {
+            var showData = function() {
+                if(data && window.marked && section.targetType === 'markdown') {
+                    var $article = $();
+                    var frontMatterIndex = data.indexOf('\n---\n');
+                    if(frontMatterIndex > -1) data = data.substr(frontMatterIndex + 5);
+                    var $markdown = $(window.marked(data));
+                    var $lastSection, checkFirstH1 = true;
+                    var hasH2 = $markdown.filter('h2').length > 0;
+                    var $lastTemplate = null;
+                    $markdown.each(function() {
+                        var $tag = $(this);
+                        var tagName = $tag.prop('tagName');
+                        if(!tagName || tagName === 'STYLE' || tagName === 'SCRIPT') {
+                            $article = $article.add($tag);
+                            return;
+                        }
+                        if(tagName === 'TEMPLATE' || tagName === 'HOLDER') {
+                            $lastTemplate = $tag;
+                            return;
+                        } else if($lastTemplate) {
+                            $tag.attr($lastTemplate.allAttrs());
+                            $lastTemplate = null;
+                        }
+                        if(tagName === 'TABLE') {
+                            $tag.addClass('table');
+                        }
+                        if(checkFirstH1) {
+                            if(tagName === 'H1') {
+                                $pageHeader.find('h2 > .name').text($tag.html());
+                            }
+                            checkFirstH1 = false;
+                            return;
+                        }
+                        if(tagName === 'EXAMPLE') {
+                            $tag = $('<div/>').attr($tag.allAttrs()).html($tag.html()).addClass('example');
+                        }
+                        if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
+                            if($lastSection) {
+                                $article = $article.add($lastSection);
+                            }
+                            $lastSection = $('<section><header><h3>' + $tag.html() + '</h3></header><article></article></section>');
+                        } else {
+                            if(hasH2) {
+                                if(tagName === 'H3') {
+                                    $tag = $('<h4>').html($tag.html());
+                                } else if(tagName === 'H4') {
+                                    $tag = $('<h5>').html($tag.html());
+                                } else if(tagName === 'H5') {
+                                    $tag = $('<h6>').html($tag.html());
+                                }
+                            }
+                            if(!$lastSection) {
+                                $lastSection = $('<article></article>');
+                            }
+                            if($lastSection.prop('tagName') === 'ARTICLE') {
+                                $lastSection.append($tag);
+                            } else {
+                                $lastSection.children('article').append($tag);
+                            }
+                        }
+                    });
+                    if($lastSection) {
+                        $article = $article.add($lastSection);
+                    }
+                    $pageContent.empty().append($article);
+                } else {
+                    try {
+                        $pageContent.html(data);
+                    } catch (e) {
+                        console.error('Page data has error: ', {content: data, error: e});
+                    }
+                }
+                $pageBody.scrollTop(0);
+                showPageTopic(topic);
+                handlePageLoad();
+                $pageAttrs.show();
+            }
+            if(lastShowDataCall) clearTimeout(lastShowDataCall);
+            if($page.hasClass('openning')) {
+                lastShowDataCall = setTimeout(showData, 700);
+            } else {
+                showData();
+            }
+        }, 400, waitRemote);
+
+        if($body.hasClass('page-open')) {
+            if(debug) console.log('open section in open page', section);
+            return;
+        }
+
+        $body.addClass('page-open');
+    };
+
     var openPage = function($section, section, topic) {
         var pageId = section.chapter + '-' + section.id;
         if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
             if(debug) console.warn('The page already showed.');
             return;
         }
+        currentSection = section;
         chooseSection($section, false, true);
 
         // Send ga data
@@ -1193,7 +1299,7 @@
             $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
             $pageAttrs.children('.badge-bootstrap').toggle(lib.source === 'Bootstrap');
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
-            $pageAttrs.children('.badge-party').toggle(lib.source && lib.source !== 'Bootstrap').attr('href', lib.website || lib.project || 'javascript:;').find('.product-ver').text(lib.pver);
+            $pageAttrs.children('.badge-party').toggle(!!(lib.source && lib.source !== 'Bootstrap')).attr('href', lib.website || lib.project || 'javascript:;').find('.product-ver').text(lib.pver);
 
             var isShowCodeBadage = lib.srcCount > 0 || lib.bundlesCount > 0;
             var $codeDropMenu = $pageAttrs.children('.badge-code-dropdown').toggle(isShowCodeBadage);
@@ -1281,103 +1387,7 @@
             }
         }
 
-        $pageContent.empty();
-        $page.addClass('loading');
-        $pageLoader.removeClass('with-error').addClass('loading');
-        var lastShowDataCall;
-
-        loadData(section.url, function(data) {
-            var showData = function() {
-                if(data && window.marked && section.targetType === 'markdown') {
-                    var $article = $();
-                    var frontMatterIndex = data.indexOf('\n---\n');
-                    if(frontMatterIndex > -1) data = data.substr(frontMatterIndex + 5);
-                    var $markdown = $(window.marked(data));
-                    var $lastSection, checkFirstH1 = true;
-                    var hasH2 = $markdown.filter('h2').length > 0;
-                    var $lastTemplate = null;
-                    $markdown.each(function() {
-                        var $tag = $(this);
-                        var tagName = $tag.prop('tagName');
-                        if(!tagName || tagName === 'STYLE' || tagName === 'SCRIPT') {
-                            $article = $article.add($tag);
-                            return;
-                        }
-                        if(tagName === 'TEMPLATE' || tagName === 'HOLDER') {
-                            $lastTemplate = $tag;
-                            return;
-                        } else if($lastTemplate) {
-                            $tag.attr($lastTemplate.allAttrs());
-                            $lastTemplate = null;
-                        }
-                        if(tagName === 'TABLE') {
-                            $tag.addClass('table');
-                        }
-                        if(checkFirstH1) {
-                            if(tagName === 'H1') {
-                                $pageHeader.find('h2 > .name').text($tag.html());
-                            }
-                            checkFirstH1 = false;
-                            return;
-                        }
-                        if(tagName === 'EXAMPLE') {
-                            $tag = $('<div/>').attr($tag.allAttrs()).html($tag.html()).addClass('example');
-                        }
-                        if((hasH2 && (tagName === 'H1' || tagName === 'H2')) || (!hasH2 && tagName === 'H3')) {
-                            if($lastSection) {
-                                $article = $article.add($lastSection);
-                            }
-                            $lastSection = $('<section><header><h3>' + $tag.html() + '</h3></header><article></article></section>');
-                        } else {
-                            if(hasH2) {
-                                if(tagName === 'H3') {
-                                    $tag = $('<h4>').html($tag.html());
-                                } else if(tagName === 'H4') {
-                                    $tag = $('<h5>').html($tag.html());
-                                } else if(tagName === 'H5') {
-                                    $tag = $('<h6>').html($tag.html());
-                                }
-                            }
-                            if(!$lastSection) {
-                                $lastSection = $('<article></article>');
-                            }
-                            if($lastSection.prop('tagName') === 'ARTICLE') {
-                                $lastSection.append($tag);
-                            } else {
-                                $lastSection.children('article').append($tag);
-                            }
-                        }
-                    });
-                    if($lastSection) {
-                        $article = $article.add($lastSection);
-                    }
-                    $pageContent.empty().append($article);
-                } else {
-                    try {
-                        $pageContent.html(data);
-                    } catch (e) {
-                        console.error('Page data has error: ', {content: data, error: e});
-                    }
-                }
-                $pageBody.scrollTop(0);
-                showPageTopic(topic);
-                handlePageLoad();
-                $pageAttrs.show();
-            }
-            if(lastShowDataCall) clearTimeout(lastShowDataCall);
-            if($page.hasClass('openning')) {
-                lastShowDataCall = setTimeout(showData, 700);
-            } else {
-                showData();
-            }
-        }, 400);
-
-        if($body.hasClass('page-open')) {
-            if(debug) console.log('open section in open page', section);
-            return;
-        }
-
-        $body.addClass('page-open');
+        loadPage(section, topic);
 
         toggleCompactMode(true, function() {
             checkScrollbar();
@@ -2152,6 +2162,12 @@
                 e.preventDefault();
             }
         });
+
+        if(debug) {
+            $('#pageReloadBtn').on('click', function() {
+                loadPage(null, null, true);
+            });
+        }
 
         // init code copy function
         initCopyable();

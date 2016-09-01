@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.5.0 - 2016-08-29
+ * ZUI: Lite edition - v1.5.0 - 2016-09-01
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1746,14 +1746,17 @@ dd {
 blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
+  font-size: 16.25px;
   border-left: 5px solid #e5e5e5;
   }
-blockquote p {
-  font-size: 16.25px;
+blockquote p,
+blockquote ul,
+blockquote ol {
   font-weight: 300;
-  line-height: 1.25;
   }
-blockquote p:last-child {
+blockquote p:last-child,
+blockquote ul:last-child,
+blockquote ol:last-child {
   margin-bottom: 0;
   }
 blockquote small {
@@ -6296,6 +6299,7 @@ a.hl-special:hover {
 .article > header h1,
 .article > header h2,
 .article > header h3 {
+  margin-bottom: 20px;
   line-height: 1.5;
   }
 .article > header > .abstract,
@@ -6323,66 +6327,85 @@ a.hl-special:hover {
 .article > footer > p {
   padding: 10px 15px;
   }
+.article > .content,
 .article-content {
   padding: 20px 0;
   font-size: 14px;
   line-height: 1.78571429;
   }
+.article > .content h1,
 .article-content h1 {
   font-size: 20px;
   }
+.article > .content h2,
 .article-content h2 {
   font-size: 18px;
   }
+.article > .content h3,
 .article-content h3 {
   font-size: 16px;
   }
+.article > .content h4,
 .article-content h4 {
   margin-top: 15px;
   font-size: 14px;
   }
+.article > .content h5,
 .article-content h5 {
   margin-top: 15px;
   font-size: 13px;
   }
+.article > .content h6,
 .article-content h6 {
   margin-top: 15px;
   font-size: 11px;
   }
+.article > .content img,
 .article-content img {
   margin: 10px 0;
   }
-.article-content p {
-  margin: 0;
-  }
+.article > .content p > img,
 .article-content p > img {
   margin-right: 10px;
   }
+.article > .content p > img[align='right'],
 .article-content p > img[align='right'] {
   margin-left: 10px;
   }
+.article > .content dl,
 .article-content dl {
   padding-right: 2em;
   padding-left: 2em;
   }
+.article > .content table,
 .article-content table {
-  width: 100%;
   margin-bottom: 20px;
   }
+.article > .content table th,
 .article-content table th,
+.article > .content table td,
 .article-content table td {
   padding: 8px;
   line-height: 1.53846154;
   vertical-align: top;
   border-bottom: 1px solid #ddd;
-  -webkit-transition: all .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: all .2s cubic-bezier(.175, .885, .32, 1);
-          transition: all .2s cubic-bezier(.175, .885, .32, 1);
   }
+.article > .content table > thead > tr > th,
 .article-content table > thead > tr > th {
   vertical-align: bottom;
   background-color: #f1f1f1;
   border-bottom: 1px solid #ddd;
+  }
+.article-content p {
+  margin-bottom: 0;
+  }
+.article-content table {
+  width: 100%;
+  }
+.article > .content table th,
+.article > .content table td,
+.article > .content table > thead > tr > th {
+  border: 1px solid #ddd;
   }
 body.article-content {
   padding: 8px;
@@ -6398,41 +6421,22 @@ body.article-content {
   padding: 10px 15px;
   margin: 0 -20px;
   }
-.article-condensed > .article-content > p,
-.article-condensed > .article-content > blockquote,
-.article-condensed > .article-content > div,
-.article-condensed > .article-content > ul,
-.article-condensed > .article-content > ol,
-.article-condensed > .article-content > h1,
-.article-condensed > .article-content > h2,
-.article-condensed > .article-content > h3,
-.article-condensed > .article-content > h4,
-.article-condensed > .article-content > h5,
-.article-condensed > .article-content > h6 {
-  padding-right: 20px;
-  padding-left: 20px;
+.article-condensed > .content,
+.article-condensed > .article-content {
+  padding: 20px;
   }
-.article-condensed > .article-content > ul,
-.article-condensed > .article-content > ol,
-.article-condensed > .article-content > dl {
-  padding-left: 60px;
-  }
-.article-condensed > .article-content > img {
+.article-condensed > .content > img,
+.article-condensed > .article-content > img,
+.article-condensed > .content > pre,
+.article-condensed > .article-content > pre {
+  margin-right: -20px;
+  margin-left: -20px;
   border-radius: 0;
   }
-.article-condensed > .article-content > table {
+.article-condensed > .content > pre,
+.article-condensed > .article-content > pre {
   border-right: none;
   border-left: none;
-  }
-.article-condensed > .article-content > table tr > td:first-child,
-.article-condensed > .article-content > table tr > th:first-child {
-  padding-left: 20px;
-  border-left: none ;
-  }
-.article-condensed > .article-content > table tr > td:last-child,
-.article-condensed > .article-content > table tr > th:last-child {
-  padding-right: 20px;
-  border-right: none;
   }
 .article-condensed > footer {
   border-top: 1px dashed #d7d7d7;
@@ -6458,7 +6462,8 @@ body.article-content {
 .comments > header h1,
 .comments > header h2,
 .comments > header h3 {
-  margin: 30px 0 20px;
+  padding: 10px 0;
+  margin: 10px 0;
   }
 .comments > footer {
   padding-top: 10px;
@@ -6511,13 +6516,17 @@ body.article-content {
   padding-left: 50px;
   }
 .comment > .content > .text {
-  padding-top: 5px;
+  margin-top: 5px;
+  }
+.comment > .content > .actions {
+  margin-top: 4px;
   }
 .comment > .content > .actions > a {
   display: inline-block;
-  padding-right: 5px;
-  padding-left: 2px;
   color: #808080;
+  }
+.comment > .content > .actions > a + a {
+  margin-left: 5px;
   }
 .comment:hover > .content > .actions > a {
   color: #145ccd;
@@ -6579,13 +6588,16 @@ body.article-content {
   clear: both;
   }
 .items .item-content > .media {
+  max-width: 100%;
   margin: 5px 0;
   }
 .items .item-content > .media.pull-left {
+  max-width: 150px;
   margin: 0;
   margin-right: 8px;
   }
 .items .item-content > .media.pull-right {
+  max-width: 150px;
   margin: 0;
   margin-left: 8px;
   }

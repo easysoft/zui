@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-08-29
+ * ZUI: Document - v1.5.0 - 2016-09-01
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1982,6 +1982,18 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   width: 48px;
   height: 48px;
   border-radius: 4px;
+  }
+#pageReloadBtn {
+  position: absolute;
+  top: 5px;
+  right: 70px;
+  display: none;
+  width: 48px;
+  height: 48px;
+  color: #808080;
+  }
+#pageReloadBtn:hover {
+  color: #353535;
   }
 #pageBody {
   position: absolute;

@@ -304,7 +304,7 @@
   background-repeat: no-repeat;
   }
 .ke-toolbar-icon-url {
-  background-image: url(default.png);
+  background-image: url(themes/default/default.png);
   }
 .ke-toolbar .ke-outline {
   display: block;
@@ -398,7 +398,7 @@
 .ke-statusbar .ke-statusbar-center-icon,
 .ke-statusbar .ke-statusbar-right-icon {
   height: 11px;
-  background-image: url(default.png);
+  background-image: url(themes/default/default.png);
   }
 .ke-statusbar .ke-statusbar-center-icon {
   width: 15px;

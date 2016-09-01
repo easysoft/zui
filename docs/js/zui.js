@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.5.0 - 2016-08-29
+ * ZUI: ZUI for official website - v1.5.0 - 2016-09-01
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1779,6 +1779,7 @@
 
     var lsName = 'localStorage';
     var storage = window[lsName],
+        dataset,
         old = window.store,
         pageName = 'page_' + window.location.pathname + window.location.search;
 
@@ -1786,8 +1787,42 @@
     var Store = function() {
         this.slience = true;
         this.enable = (lsName in window) && window[lsName] && window[lsName].setItem;
+        if(!this.enable) {
+            dataset = {};
+            storage = {
+                getLength: function() {
+                    var length = 0;
+                    $.each(dataset, function() {
+                        length++;
+                    });
+                    return length;
+                },
+                key: function(index) {
+                    var key, i = 0;
+                    $.each(dataset, function(k) {
+                        if(i === index) {
+                            key = k;
+                            return false;
+                        }
+                        i++;
+                    });
+                    return key;
+                },
+                removeItem: function(key) {
+                    delete dataset[key];
+                },
+                getItem: function(key) {
+                    return dataset[key];
+                },
+                setItem: function(key, val) {
+                    dataset[key] = val;
+                },
+                clear: function() {
+                    dataset = {};
+                }
+            };
+        }
         this.storage = storage;
-
         this.page = this.get(pageName, {});
     };
 
@@ -1909,7 +1944,8 @@
 
     /* Iterate all items with callback */
     Store.prototype.forEach = function(callback) {
-        for(var i = storage.length - 1; i >= 0; i--) {
+        var length = this.length();
+        for(var i = length - 1; i >= 0; i--) {
             var key = storage.key(i);
             callback(key, this.get(key));
         }
@@ -4588,7 +4624,7 @@
     'use strict';
 
     var id = 0;
-    var template = '<div class="messager messager-{type} {placement}" id="messager{id}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
+    var template = '<div class="messager messager-{type} {placement}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
     var defaultOptions = {
         type: 'default',
         placement: 'top',
@@ -4613,7 +4649,10 @@
         }
 
         var that = this;
-        that.id = id++;
+        that.id = options.id || (id++);
+        var oldMessager = all[that.id];
+        if(oldMessager) oldMessager.destory();
+        all[that.id] = that;
         options = that.options = $.extend({}, defaultOptions, options);
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
@@ -4689,8 +4728,8 @@
         that.$.removeClass('messager-' + options.type);
         if(newOptions) {
             options = $.extend(options, newOptions);
-            that.$.addClass('messager-' + options.type);
         }
+        that.$.addClass('messager-' + options.type);
         if(message) {
             that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
             that.$.find('.messager-content').html(that.message);
@@ -4748,16 +4787,22 @@
         return that;
     };
 
-    Messager.prototype.hide = function(callback) {
+    Messager.prototype.hide = function(callback, immediately) {
+        if(callback === true) {
+            immediately = true;
+            callback = null;
+        }
         var that = this;
         if(that.$.hasClass('in')) {
             that.$.removeClass('in');
-            setTimeout(function() {
+            var removeMessager = function() {
                 var $parent = that.$.parent();
                 that.$.detach();
                 if(!$parent.children().length) $parent.remove();
                 callback && callback(true);
-            }, 200);
+            };
+            if(immediately) removeMessager();
+            else setTimeout(removeMessager, 200);
         } else {
             callback && callback(false);
         }
@@ -4766,8 +4811,20 @@
     };
 
     Messager.prototype.destory = function() {
+        var that = this;
+        that.hide(true);
         that.$.remove();
         that.$ = null;
+        delete all[that.id];
+    };
+
+    Messager.all = all;
+
+    var hideMessage = function() {
+        $('.messager').each(function() {
+            var msg = $(this).data('zui.messager');
+            if(msg && msg.hide) msg.hide(true);
+        });
     };
 
     var showMessage = function(message, options) {
@@ -4776,16 +4833,11 @@
                 type: options
             };
         }
-        var msg = new Messager(message, options);
+        options = $.extend({}, options);
+        if(options.id === undefined) hideMessage();
+        var msg = all[options.id] || new Messager(message, options);
         msg.show();
         return msg;
-    };
-
-    var hideMessage = function() {
-        $('.messager').each(function() {
-            var msg = $(this).data('zui.messager');
-            if(msg && msg.hide) msg.hide();
-        });
     };
 
     var getOptions = function(options) {
@@ -4794,52 +4846,32 @@
         } : options;
     };
 
+    var zuiMessager = {
+        show: showMessage,
+        hide: hideMessage
+    };
+
+    $.each({
+        primary  : 0,
+        success  : 'ok-sign',
+        info     : 'info-sign',
+        warning  : 'warning-sign',
+        danger   : 'exclamation-sign',
+        important: 0,
+        special  : 0
+    }, function(name, icon){
+        zuiMessager[name] = function(message, options) {
+            return showMessage(message, $.extend({
+                type: name,
+                icon: icon || null
+            }, getOptions(options)));
+        };
+    });
+
     $.zui({
         Messager: Messager,
         showMessager: showMessage,
-        messager: {
-            show: showMessage,
-            hide: hideMessage,
-            primary: function(message, options) {
-                return showMessage(message, $.extend({
-                    type: 'primary'
-                }, getOptions(options)));
-            },
-            success: function(message, options) {
-                return showMessage(message, $.extend({
-                    type: 'success',
-                    icon: 'ok-sign'
-                }, getOptions(options)));
-            },
-            info: function(message, options) {
-                return showMessage(message, $.extend({
-                    type: 'info',
-                    icon: 'info-sign'
-                }, getOptions(options)));
-            },
-            warning: function(message, options) {
-                return showMessage(message, $.extend({
-                    type: 'warning',
-                    icon: 'warning-sign'
-                }, getOptions(options)));
-            },
-            danger: function(message, options) {
-                return showMessage(message, $.extend({
-                    type: 'danger',
-                    icon: 'exclamation-sign'
-                }, getOptions(options)));
-            },
-            important: function(message, options) {
-                return showMessage(message, $.extend({
-                    type: 'important'
-                }, getOptions(options)));
-            },
-            special: function(message, options) {
-                return showMessage(message, $.extend({
-                    type: 'special'
-                }, getOptions(options)));
-            }
-        }
+        messager: zuiMessager
     });
 }(jQuery, window, undefined));
 
@@ -6796,7 +6828,6 @@
         var that = this,
             data = this.data,
             options = this.options,
-            store = $.zui.store,
             $datatable = this.$datatable;
 
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
@@ -7665,6 +7696,7 @@
     };
 
     Color.isColor = isColor;
+    Color.names = namedColors;
 
     /* helpers */
     function hexToRgb(hex) {
@@ -10080,7 +10112,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.5.0 - 2016-08-29
+ * ZUI: Generated from less code - v1.5.0 - 2016-09-01
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -10137,8 +10169,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         if(typeof colorName === 'undefined' || colorName === 'random') {
             colorName = presetColors[(nextColorIndex++) % presetColors.length];
         }
-
-        return new $.zui.Color(colorset[colorName] ? colorset[colorName] : colorName);
+        var color = colorset[colorName] ? colorset[colorName] : colorName;
+        return $.zui.Color ? new $.zui.Color(color) : color;
     }
 
     $.zui({colorset: colorset});

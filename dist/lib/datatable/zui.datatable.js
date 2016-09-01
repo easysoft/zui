@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格 - v1.5.0 - 2016-08-29
+ * ZUI: 数据表格 - v1.5.0 - 2016-09-01
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -473,7 +473,6 @@
         var that = this,
             data = this.data,
             options = this.options,
-            store = $.zui.store,
             $datatable = this.$datatable;
 
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
