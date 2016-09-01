@@ -201,7 +201,10 @@
   margin-left: -1px;
   border-radius: @border-radius-base;
 }
-.dropdown-submenu:hover > .dropdown-menu { display: block; }
+.dropdown-submenu.open,
+.dropdown-submenu:hover {
+   > .dropdown-menu { display: block; }
+}
 
 // Dropups
 .dropup .dropdown-submenu > .dropdown-menu {
@@ -230,16 +233,11 @@
 .dropdown-submenu:hover > a:after { border-left-color: @dropdown-link-hover-color; }
 
 // Left aligned submenus
-.dropdown-submenu.pull-left {
+.dropdown-submenu {
   > a {min-width:160px;} // compatibly width the min-widht:160px of .dropdown-menu.
-  // Undo the float
-  // Yes, this is awkward since .pull-left adds a float, but it sticks to our conventions elsewhere.
-  float: none;
 
-  // Positioning the submenu
-  > .dropdown-menu {
+  > .dropdown-menu.pull-left {
     left: -100%;
-    border-radius: @border-radius-base;
   }
 }
 
