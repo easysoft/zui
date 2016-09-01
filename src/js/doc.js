@@ -1154,6 +1154,10 @@
             }
         }, 200);
 
+        if(zuiPkg) {
+            $pageBody.find('.zui-version').text(zuiPkg.version);
+        }
+
         if(!delayMutedPageLoading) stopPageLoading();
     };
 
@@ -1238,7 +1242,8 @@
                         console.error('Page data has error: ', {content: data, error: e});
                     }
                 }
-                $pageBody.scrollTop(0);
+
+                if(topic !== '!refresh') $pageBody.scrollTop(0);
                 showPageTopic(topic);
                 handlePageLoad();
                 $pageAttrs.show();
@@ -1500,7 +1505,7 @@
     };
 
     var openPageUrl = function(url) {
-        if(url.startsWith('#') && url.length > 1) {
+        if(url.startsWith('#') && url.length > 1 && url.indexOf('##') !== 0) {
             url = url.substr(1);
             setTimeout(function() {
                 var params = url.split('/');
@@ -1608,7 +1613,7 @@
 
     var initPackage = function() {
         loadPackage(function(pkg) {
-            $('.zui-version').text('v' + pkg.version);
+            $('.zui-version').text(pkg.version);
             pkgLibs.standard = getBuildList(pkg, pkg.builds.standard, pkg.lib);
             pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
             pkgLibs.seperate = getBuildList(pkg, pkg.builds.seperate, pkg.lib);
@@ -2158,7 +2163,7 @@
 
         if(debug) {
             $('#pageReloadBtn').on('click', function() {
-                loadPage(null, null, true);
+                loadPage(null, '!refresh', true);
             });
         }
 
