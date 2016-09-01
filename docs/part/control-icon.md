@@ -67,7 +67,7 @@ ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入�
 
 ### 注意要点
 
-使用图标字体有一个特大好处就是图标就是文本字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小、颜色，甚至一些CSS3特效。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：
+使用图标字体有一个好处就是图标就是文本字符，所有能用于文本的样式都可以用于图标，这样就可以随意定义图标的大小、颜色，甚至一些CSS3特效。但应该在同一个应用程序中图标应具有统一的样式，包含如下内容：
 
 *   图标应具备统一的颜色，如果有交互行为样式也应该保持一致；
 *   图标的大小应该保持一致，正文中的图标大小应为14px，标题中的图标可以为28px；
@@ -77,6 +77,49 @@ ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入�
   <p>
   不要将在任何控件标签上直接应用图标CSS类名，应该嵌套一个单独的<code>&lt;span&gt;</code>标签或者<code>&lt;i&gt;</code>标签。</p>
 </div>
+
+### 等宽图标
+
+通常情况下 `.icon-*` 不需要和 `.icon` 类一起使用，但由于不同的图标外形不同，其在文字行中所占据的宽度也不同，如果需要使图标的宽度一致，则需要为 `.icon-*` 添加 `.icon` 类，这样就得到等宽图标。
+
+等宽图标对于在一个列表中用于垂直对其图标非常有必要。
+
+<example>
+  <div class="row">
+    <div class="col-sm-6">
+      <ul style="margin: 0">
+        <li><i class="icon-flag"></i> 普通图标</li>
+        <li><i class="icon-heart"></i> <span class="code">icon-heart</span></li>
+        <li><i class="icon-resize-v"></i> <span class="code">icon-resize-v</span></li>
+        <li><i class="icon-film"></i> <span class="code">icon-film</span></li>
+      </ul>
+    </div>
+    <div class="col-sm-6">
+      <ul style="margin: 0">
+        <li><i class="icon icon-flag"></i> 等宽图标</li>
+        <li><i class="icon icon-heart"></i> <span class="code">icon icon-heart</span></li>
+        <li><i class="icon icon-resize-v"></i> <span class="code">icon icon-resize-v</span></li>
+        <li><i class="icon icon-film"></i> <span class="code">icon icon-film</span></li>
+      </ul>
+    </div>
+  </div>
+</example>
+
+```
+<ul>
+  <li><i class="icon-flag"></i> 普通图标</li>
+  <li><i class="icon-heart"></i> icon-heart</li>
+  <li><i class="icon-resize-v"></i> icon-resize-v</li>
+  <li><i class="icon-film"></i> icon-film</li>
+</ul>
+
+<ul>
+  <li><i class="icon icon-flag"></i> 等宽图标</li>
+  <li><i class="icon icon-heart"></i> icon icon-heart</li>
+  <li><i class="icon icon-resize-v"></i> icon icon-resize-v</li>
+  <li><i class="icon icon-film"></i> icon icon-film</li>
+</ul>
+```
 
 ### 预设的图标尺寸
 
