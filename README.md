@@ -1,10 +1,15 @@
 # ![ZUI](https://raw.githubusercontent.com/easysoft/zui/master/docs/img/zui-logo-48.png)
 
+[![npm version](https://badge.fury.io/js/zui.svg)](https://badge.fury.io/js/zui)
+[![Bower version](https://badge.fury.io/bo/zui.svg)](https://badge.fury.io/bo/zui)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/easysoft/zui/blob/master/LICENSE)
+[![官方QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-384135104-03b8cf.svg)](http://shang.qq.com/wpa/qunwpa?idkey=7ae4c241aab7cca58f55ac03b2b5fb48b71242475a9f1be06b5af053008d6bfc)
+
 一个基于 Bootstrap 深度定制开源前端实践方案，帮助你快速构建现代跨屏应用。
 
 从官方网站了解更多： http://zui.sexy/ 。
 
-💎 &nbsp;推荐为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://zui.sexy/m/)。
+💎 &nbsp;为移动端设计，基于 Flex 的 UI 框架： [![MZUI](https://img.shields.io/badge/%E6%8E%A8%E8%8D%90-MZUI-3280fc.svg?style=flat-square)](http://zui.sexy/m/)。
 
 ## 特色
 
@@ -15,6 +20,8 @@
 - 易于定制，有多个版本供选择，主要版本包含大部分特性，额外的内容按需加载。
 
 ## 快速使用
+
+详细使用说明访问 http://zui.sexy/#basic/download 。
 
 ### NPM
 
@@ -48,14 +55,14 @@ bower install zui
 
 ### 下载
 
- - [v 1.5.0](https://github.com/easysoft/zui/releases/download/zui-1.5.0-dist.zip)
+ - [v 1.5.0 生产包](https://github.com/easysoft/zui/releases/download/zui-1.5.0-dist.zip)
  - [v 1.5.0 源码](https://github.com/easysoft/zui/archive/v1.5.0.zip)
 
 ### 文档
 
-文档网站请直接访问官方网站 http://zui.sexy/
+文档请直接访问官方网站 http://zui.sexy/ 。
 
-开发中的文档访问 https://easysoft.github.io/zui/
+开发中的文档请访问 https://easysoft.github.io/zui/ 。
 
 你也可以自己部署文档网站：下载源码后，请使用 `http:` 或 `https:` 协议访问源码根目录下的 `index.html`。
 
@@ -66,9 +73,8 @@ bower install zui
 3. 执行 `npm start`；
 4. 在浏览器中访问 `http://127.0.0.1:8088`。
 
+## 使用 ZUI 开发的项目
 
-## 使用ZUI开发的项目
-
-- [禅道项目管理软件](http://zentao.net)
-- [蝉知企业门户系统](http://chanzhi.org)
-- [然之企业管理系统](http://ranzhi.org)
+- [禅道](http://zentao.net)
+- [蝉知](http://chanzhi.org)
+- [然之](http://ranzhi.org)
