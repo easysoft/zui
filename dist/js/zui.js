@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.5.0 - 2016-09-01
+ * ZUI: Standard edition - v1.5.0 - 2016-09-02
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -338,7 +338,7 @@
     Tab.prototype.show = function() {
         var $this = this.element
         var $ul = $this.closest('ul:not(.dropdown-menu)')
-        var selector = $this.attr('data-target')
+        var selector = $this.attr('data-target') || $this.attr('data-tab')
 
         if(!selector) {
             selector = $this.attr('href')
@@ -433,7 +433,7 @@
     // TAB DATA-API
     // ============
 
-    $(document).on('click.zui.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function(e) {
+    $(document).on('click.zui.tab.data-api', '[data-toggle="tab"], [data-tab]', function(e) {
         e.preventDefault()
         $(this).tab('show')
     })
@@ -569,7 +569,7 @@
         this.$element.trigger(startEvent)
         if(startEvent.isDefaultPrevented()) return
 
-        var actives = this.$parent && this.$parent.find('> .panel > .in')
+        var actives = this.$parent && this.$parent.find('.in')
 
         if(actives && actives.length) {
             var hasData = actives.data(zuiname)
@@ -1061,17 +1061,17 @@
             var result = this;
             if(arguments.length > 0) {
                 var reg;
-                if(arguments.length == 1 && typeof(args) == "object") {
+                if(arguments.length <= 2 && typeof(args) == 'object') {
                     for(var key in args) {
                         if(args[key] !== undefined) {
-                            reg = new RegExp("({" + key + "})", "g");
+                            reg = new RegExp('(' + (arguments[1] ? arguments[1].replace('0', key) : '{' + key + '}') + ')', 'g');
                             result = result.replace(reg, args[key]);
                         }
                     }
                 } else {
                     for(var i = 0; i < arguments.length; i++) {
                         if(arguments[i] !== undefined) {
-                            reg = new RegExp("({[" + i + "]})", "g");
+                            reg = new RegExp('({[' + i + ']})', 'g');
                             result = result.replace(reg, arguments[i]);
                         }
                     }

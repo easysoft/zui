@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-09-01
+ * ZUI: Document - v1.5.0 - 2016-09-02
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1161,18 +1161,23 @@
             }
         }, 200);
 
+        if(zuiPkg) {
+            $pageBody.find('.zui-version').text(zuiPkg.version);
+        }
+
         if(!delayMutedPageLoading) stopPageLoading();
     };
 
     var loadPage = function(section, topic, waitRemote) {
         section = section || currentSection;
 
-        $pageContent.empty();
+        if(topic !== '!refresh') $pageContent.empty();
         $page.addClass('loading');
         $pageLoader.removeClass('with-error').addClass('loading');
         var lastShowDataCall;
 
         loadData(section.url, function(data, dataType) {
+            if(zuiPkg) data = data.format(zuiPkg, '{\\$0}');
             var showData = function() {
                 if(data && window.marked && section.targetType === 'markdown') {
                     var $article = $();
@@ -1245,7 +1250,8 @@
                         console.error('Page data has error: ', {content: data, error: e});
                     }
                 }
-                $pageBody.scrollTop(0);
+
+                if(topic !== '!refresh') $pageBody.scrollTop(0);
                 showPageTopic(topic);
                 handlePageLoad();
                 $pageAttrs.show();
@@ -1507,7 +1513,7 @@
     };
 
     var openPageUrl = function(url) {
-        if(url.startsWith('#') && url.length > 1) {
+        if(url.startsWith('#') && url.length > 1 && url.indexOf('##') !== 0) {
             url = url.substr(1);
             setTimeout(function() {
                 var params = url.split('/');
@@ -1615,7 +1621,7 @@
 
     var initPackage = function() {
         loadPackage(function(pkg) {
-            $('.zui-version').text('v' + pkg.version);
+            $('.zui-version').text(pkg.version);
             pkgLibs.standard = getBuildList(pkg, pkg.builds.standard, pkg.lib);
             pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
             pkgLibs.seperate = getBuildList(pkg, pkg.builds.seperate, pkg.lib);
@@ -2165,7 +2171,7 @@
 
         if(debug) {
             $('#pageReloadBtn').on('click', function() {
-                loadPage(null, null, true);
+                loadPage(null, '!refresh', true);
             });
         }
 

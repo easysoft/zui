@@ -403,7 +403,7 @@
 .chosen-container-active.chosen-with-drop .chosen-single div b {
   content: "";
   border-top: 0 dotted;
-  border-bottom: 4px solid #353535;
+  border-bottom: 4px solid;
   }
 .chosen-container-active.chosen-with-drop.chosen-up .chosen-single {
   border-top-left-radius: 0;

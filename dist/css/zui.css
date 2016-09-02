@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.5.0 - 2016-09-01
+ * ZUI: Standard edition - v1.5.0 - 2016-09-02
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -6987,7 +6987,7 @@ tbody.collapse.in {
 .navbar-fixed-bottom .dropdown .caret {
   content: "";
   border-top: 0 dotted;
-  border-bottom: 4px solid #353535;
+  border-bottom: 4px solid;
   }
 .dropup .dropdown-menu,
 .navbar-fixed-bottom .dropdown .dropdown-menu {
@@ -7011,6 +7011,7 @@ tbody.collapse.in {
   margin-left: -1px;
   border-radius: 4px;
   }
+.dropdown-submenu.open > .dropdown-menu,
 .dropdown-submenu:hover > .dropdown-menu {
   display: block;
   }
@@ -7037,15 +7038,11 @@ tbody.collapse.in {
 .dropdown-submenu:hover > a:after {
   border-left-color: #fff;
   }
-.dropdown-submenu.pull-left {
-  float: none;
-  }
-.dropdown-submenu.pull-left > a {
+.dropdown-submenu > a {
   min-width: 160px;
   }
-.dropdown-submenu.pull-left > .dropdown-menu {
+.dropdown-submenu > .dropdown-menu.pull-left {
   left: -100%;
-  border-radius: 4px;
   }
 .dropdown-submenu:hover > a,
 .dropdown-submenu:focus > a {
