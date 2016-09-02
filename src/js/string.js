@@ -20,17 +20,17 @@
             var result = this;
             if(arguments.length > 0) {
                 var reg;
-                if(arguments.length == 1 && typeof(args) == "object") {
+                if(arguments.length <= 2 && typeof(args) == 'object') {
                     for(var key in args) {
                         if(args[key] !== undefined) {
-                            reg = new RegExp("({" + key + "})", "g");
+                            reg = new RegExp('(' + (arguments[1] ? arguments[1].replace('0', key) : '{' + key + '}') + ')', 'g');
                             result = result.replace(reg, args[key]);
                         }
                     }
                 } else {
                     for(var i = 0; i < arguments.length; i++) {
                         if(arguments[i] !== undefined) {
-                            reg = new RegExp("({[" + i + "]})", "g");
+                            reg = new RegExp('({[' + i + ']})', 'g');
                             result = result.replace(reg, arguments[i]);
                         }
                     }
