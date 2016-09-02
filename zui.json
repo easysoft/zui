@@ -914,7 +914,7 @@
       "require": ["jquery"]
     },
     "kindeditor": {
-      "name": "富文本编辑器",
+      "name": "Kindeditor",
       "src": {
         "less": ["~/modules/kindeditor.less"],
         "js": ["assets/kindeditor/kindeditor-all.js"],
@@ -927,6 +927,20 @@
       "source": "kindsoft",
       "project": "https://github.com/kindsoft/kindeditor",
       "website": "http://kindeditor.net/",
+      "custom": ["ui"]
+    },
+    "ueditor": {
+      "name": "UEditor",
+      "src": {
+        "less": ["~/modules/ueditor.less"]
+      },
+      "ver": "1.5.0",
+      "dpds": ["basic"],
+      "pver": "1.4.3",
+      "license": "MIT",
+      "source": "Baidu",
+      "project": "https://github.com/fex-team/ueditor",
+      "website": "http://ueditor.baidu.com/",
       "custom": ["ui"]
     },
     "chosen": {
@@ -1238,7 +1252,7 @@
     },
     "seperate": {
       "title": "Seperate bundles",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor"]
     },
     "dist": {
       "title": "Dist bundles",

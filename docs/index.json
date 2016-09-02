@@ -975,17 +975,18 @@
                 }],
                 "filter": ""
             }, {
-                "id": "kindeditor",
+                "id": "htmleditor",
                 "icon": "icon-edit",
-                "desc": "使用Kineditor来编辑富文本",
+                "desc": "使用 Kineditor 或 UEditor 来编辑富文本",
                 "name": "富文本编辑器",
                 "update": "1.5.0",
+                "dpds": "kindeditor",
                 "topics": [{
-                    "name": "默认模式"
+                    "name": "UEditor"
                 }, {
-                    "name": "简单模式"
+                    "name": "Kindeitor"
                 }],
-                "filter": "fuwenbenbianjiqi fwbbjq"
+                "filter": "fuwenbenbianjiqi fwbbjq rich text"
             }, {
                 "id": "color",
                 "icon": "icon-tint",
