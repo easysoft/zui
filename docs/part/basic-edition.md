@@ -99,7 +99,7 @@ zui/
 
 ## 使用 Gulp 定制
 
-ZUI 使用 [Gulp](http://gulpjs.com/) 作为构建系统。如果不了解 Gulp 也没有关系，Gulp 是一个非常棒而且容易上手的工具。下面给出简要步骤来准备编译 ZUI，如果想了解更多请访问 [Gulp 官方网站](http://gulpjs.com/)。
+ZUI 使用 [Gulp](http://gulpjs.com/) 作为构建工具。如果不了解 Gulp 也没有关系，Gulp 是一个非常棒而且容易上手的工具。下面给出简要步骤来准备编译 ZUI，如果想了解更多请访问 [Gulp 官方网站](http://gulpjs.com/)。
 
 ### 安装 Gulp
 
