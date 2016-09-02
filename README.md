@@ -1,10 +1,10 @@
-# ZUI
+# ![ZUI](https://raw.githubusercontent.com/easysoft/zui/master/docs/img/zui-logo-48.png)
 
 一个基于 Bootstrap 深度定制开源前端实践方案，帮助你快速构建现代跨屏应用。
 
-从项目网站了解更多： http://zui.sexy/ 。
+从官方网站了解更多： http://zui.sexy/ 。
 
-🔥 推荐为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://zui.sexy/m/), [Github](https://github.com/easysoft/mzui)。
+💎 &nbsp;推荐为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://zui.sexy/m/)。
 
 ## 特色
 
@@ -28,14 +28,32 @@ npm install zui
 bower install zui
 ```
 
+### CDN
+
+由 <a href="https://cdnjs.com/libraries/zui" target="_blank">cdnjs</a> 提供：
+
+```html
+<!-- ZUI 标准版压缩后的 CSS 文件 -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/1.5.0/css/zui.min.css">
+
+<!-- ZUI Javascript 依赖 jQuery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.5.0/lib/jquery/jquery.js"></script>
+<!-- ZUI 标准版压缩后的 JavaScript 文件 -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.5.0/js/zui.min.js"></script>
+```
+
+其他 CDN:
+
+ - 由国内 <a href="http://www.bootcdn.cn/" target="_blank">BootCDN</a> 提供
+
 ### 下载
 
- - [v 1.4.0](http://z.com/docs/download/zui-1.4.0-dist.zip)
- - [v 1.4.0 源码](https://github.com/easysoft/zui/archive/v1.4.0.zip)
+ - [v 1.5.0](https://github.com/easysoft/zui/releases/download/zui-1.5.0-dist.zip)
+ - [v 1.5.0 源码](https://github.com/easysoft/zui/archive/v1.5.0.zip)
 
 ### 文档
 
-文档网站请直接访问 http://zui.sexy/
+文档网站请直接访问官方网站 http://zui.sexy/
 
 开发中的文档访问 https://easysoft.github.io/zui/
 
