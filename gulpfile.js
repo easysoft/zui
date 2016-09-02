@@ -449,6 +449,7 @@ gulp.task('build', function(callback) {
     });
 
     gulp.task('watch:' + name, function() {
+        if(name === 'lib') name = 'seperate';
         gulp.watch(["./src/less/**/*"], function(event) {
             buildBundle(name, function() {
                 console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
