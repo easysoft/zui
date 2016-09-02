@@ -1164,12 +1164,13 @@
     var loadPage = function(section, topic, waitRemote) {
         section = section || currentSection;
 
-        $pageContent.empty();
+        if(topic !== '!refresh') $pageContent.empty();
         $page.addClass('loading');
         $pageLoader.removeClass('with-error').addClass('loading');
         var lastShowDataCall;
 
         loadData(section.url, function(data, dataType) {
+            if(zuiPkg) data = data.format(zuiPkg, '{\\$0}');
             var showData = function() {
                 if(data && window.marked && section.targetType === 'markdown') {
                     var $article = $();
