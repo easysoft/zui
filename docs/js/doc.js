@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-09-02
+ * ZUI: Document - v1.5.0 - 2016-09-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -83,10 +83,10 @@
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate',
         LAST_QUERY_ID = 'LAST_QUERY_ID',
-        INDEX_JSON = 'docs/index.json',
-        ICONS_JSON = 'docs/icons.json',
+        INDEX_JSON = debug ? 'docs/index.json' : 'docs/index.min.json',
+        ICONS_JSON = debug ? 'docs/icons.json' : 'docs/icons.min.json',
         PKG_JSON = 'package.json',
-        ZUI_JSON = 'zui.json',
+        ZUI_JSON = debug ? 'docs/zui.json' : 'docs/zui.min.json',
         ZUI_CUSTOM_JSON = 'zui.custom.json',
         UNDEFINED = undefined,
         dataVersion,
@@ -294,41 +294,47 @@
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
         var loadFromRemote = function() {
-            $.get(url, function(data) {
-                if(data !== null) {
-                    if(isIndexJson) {
-                        dataVersion = data.version;
-                        docIndex = data;
-                    } else if(isIconsJson) {
-                        iconsIndex = {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: dataType,
+                success: function(data) {
+                    if(data !== null) {
+                        if(isIndexJson) {
+                            dataVersion = data.version;
+                            docIndex = data;
+                        } else if(isIconsJson) {
+                            iconsIndex = {
+                                data: data,
+                                version: dataVersion
+                            };
+                        }
+                        cacheData = {
                             data: data,
                             version: dataVersion
                         };
+                        $.zui.store.set('//' + url, data);
+                        $.zui.store.set('//' + url + '::V', dataVersion);
+
+                        if(debug) console.log('Load', url, 'from remote:', cacheData);
+                        callback(data, 'remote');
+                    } else if(isHasCache && !isIndexJson) {
+                        if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
+                        callback(cacheData.data, 'cache');
                     }
-                    cacheData = {
-                        data: data,
-                        version: dataVersion
-                    };
-                    $.zui.store.set('//' + url, data);
-                    $.zui.store.set('//' + url + '::V', dataVersion);
+                },
+                error: function() {
+                    if(debug) console.warn("Ajax error:", url);
+                    if(isHasCache && !isIndexJson) {
+                        if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
+                        callback(cacheData.data, 'cache');
+                    } else {
+                        callback(null, 'error');
+                    }
 
-                    if(debug) console.log('Load', url, 'from remote:', cacheData);
-                    callback(data, 'remote');
-                } else if(isHasCache && !isIndexJson) {
-                    if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
-                    callback(cacheData.data, 'cache');
-                }
-            }, dataType).error(function() {
-                if(debug) console.warn("Ajax error:", url);
-                if(isHasCache && !isIndexJson) {
-                    if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
-                    callback(cacheData.data, 'cache');
-                } else {
-                    callback(null, 'error');
-                }
-
-                if($body.hasClass('page-open')) {
-                    $pageBody.children('.loader').addClass('with-error');
+                    if($body.hasClass('page-open')) {
+                        $pageBody.children('.loader').addClass('with-error');
+                    }
                 }
             });
         }
@@ -409,6 +415,8 @@
                 } else {
                     section.target = '';
                 }
+
+                if(section.hidden) return;
 
                 var id = chapterName + '-' + section.id;
                 var $tpl = $sectionTemplate.clone().data('section', section);
@@ -1275,7 +1283,8 @@
     var openPage = function($section, section, topic) {
         var pageId = section.chapter + '-' + section.id;
         if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
-            if(debug) console.warn('The page already showed.');
+            if(debug) console.warn('The page already showed, page will be reload.');
+            loadPage();
             return;
         }
         currentSection = section;
@@ -1479,7 +1488,16 @@
                 window.open(section.url, '_blank');
                 break;
             case 'page':
-                openPage($section, section, topic);
+                var pageViewLayout = $.zui.store.get('pageViewLayout');
+                if(!pageViewLayout && $(window).width() >= 1600) {
+                    $('#changeViewModal').on('hide.zui.modal', function() {
+                        pageViewLayout = $.zui.store.get('pageViewLayout');
+                        if(!pageViewLayout) $.zui.store.set('pageViewLayout', 'single');
+                        openPage($section, section, topic);
+                    }).modal('show');
+                } else {
+                    openPage($section, section, topic);
+                }
                 break;
             default:
                 if(debug) console.error("Open section failed: unknown target.");
@@ -1922,6 +1940,30 @@
         }
     };
 
+    var initChangeView = function() {
+        var changePageView = function(pageViewLayout) {
+            if(pageViewLayout) {
+                $.zui.store.set('pageViewLayout', pageViewLayout);
+            } else {
+                pageViewLayout = $.zui.store.get('pageViewLayout');
+            }
+            var isDoubleView = pageViewLayout === 'double' && $(window).width() >= 1200;
+            $('body').toggleClass('view-double', isDoubleView);
+        };
+
+        var $modal = $('#changeViewModal');
+        $modal.on('show.zui.modal', function() {
+            var isDoubleView = $('body').hasClass('view-double');
+            $modal.find('.view-option.active').removeClass('active');
+            $modal.find('.view-option-' + (isDoubleView ? 'double' : 'single')).addClass('active');
+        }).on('click', '.view-option', function() {
+            changePageView($(this).hasClass('view-option-double') ? 'double' : 'single');
+            $modal.modal('hide');
+        });
+
+        changePageView();
+    };
+
     var init = function() {
         documentTitle = window.document.title;
 
@@ -1962,12 +2004,12 @@
         });
 
         // Load index.json
-        loadData(INDEX_JSON, function(data) {
+        loadData(INDEX_JSON, function(data, type) {
             var firstLoad = !sectionsShowed;
 
             displaySection(data);
 
-            if(!firstLoad) {
+            if(firstLoad) {
                 var q = getQueryString('q');
                 if(q) {
                     setTimeout(function() {
@@ -2074,6 +2116,7 @@
         }).on('keydown', function(e) {
             var code = e.which;
             var isPageNotShow = !$body.hasClass('page-show');
+            var isDoubleView = $body.hasClass('view-double');
             var isInputFocus = $body.hasClass('input-query-focus');
             if(code === 9) { // Tab
                 if(!$body.hasClass('input-query-focus')) {
@@ -2081,7 +2124,7 @@
                     e.preventDefault();
                 }
             } else if(code === 13) { // Enter
-                if(isPageNotShow && isChoosedSection()) {
+                if((isDoubleView || isPageNotShow) && isChoosedSection()) {
                     openSection();
                 }
             } else if(code === 27) { // Esc
@@ -2102,15 +2145,15 @@
                 chooseRightSection();
                 e.preventDefault();
                 // }
-            } else if(code === 38) { // Top
-                if(isPageNotShow) {
+            } else if(code === 38) { // Up
+                if(isPageNotShow || isDoubleView) {
                     choosePrevSection();
                     e.preventDefault();
                 } else {
                     scrollToThis($pageBody, 'up');
                 }
             } else if(code === 40) { // Down
-                if(isPageNotShow) {
+                if(isPageNotShow || isDoubleView) {
                     chooseNextSection();
                     e.preventDefault();
                 }
@@ -2174,6 +2217,8 @@
                 loadPage(null, '!refresh', true);
             });
         }
+
+        initChangeView();
 
         // init code copy function
         initCopyable();

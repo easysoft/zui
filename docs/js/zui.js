@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.5.0 - 2016-09-02
+ * ZUI: ZUI for official website - v1.5.0 - 2016-09-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1778,15 +1778,19 @@
     'use strict';
 
     var lsName = 'localStorage';
-    var storage = window[lsName],
+    var storage,
         dataset,
-        old = window.store,
         pageName = 'page_' + window.location.pathname + window.location.search;
 
     /* The Store object */
     var Store = function() {
         this.slience = true;
-        this.enable = (lsName in window) && window[lsName] && window[lsName].setItem;
+        try {
+            if((lsName in window) && window[lsName] && window[lsName].setItem) {
+                this.enable = true;
+                storage = window[lsName];
+            }
+        } catch(e){}
         if(!this.enable) {
             dataset = {};
             storage = {
@@ -4034,9 +4038,10 @@
             selector = $this.attr('href')
             selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
         }
-
-        var $parent = selector && $(selector)
-
+        var $parent;
+        try {
+            $parent = selector && $(selector);
+        } catch(e) {}
         return $parent && $parent.length ? $parent : $this.parent()
     }
 
@@ -10112,7 +10117,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.5.0 - 2016-09-02
+ * ZUI: Generated from less code - v1.5.0 - 2016-09-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -13679,7 +13684,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         }
 
         // Bind event
-        this.$.on('click', '.list-toggle, a[href=#], .tree-toggle', function(e) {
+        this.$.on('click', '.list-toggle,a[href="#"],.tree-toggle', function(e) {
             var $li = $(this).parent('li');
             that.callEvent('hit', {target: $li, item: $li.data()});
             that.toggle($li);
