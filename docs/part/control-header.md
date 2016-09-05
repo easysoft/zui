@@ -23,37 +23,37 @@ filter: duojibiaoti djbt
   <tbody>
     <tr>
       <td><h1>Heading1 一级标题</h1></td>
-      <td>`<h1>`</h1></td>
+      <td>`<h1>`</td>
       <td>20px</td>
       <td>在一个页面（或在`hgroup`标记的范围内）只有一个页面标题。</td>
     </tr>
     <tr>
       <td><h2>Heading2 二级标题</h2></td>
-      <td>`<h2>`</h2></td>
+      <td>`<h2>`</td>
       <td>24px</td>
       <td>作为页面第二级标题，可能在一个页面中使用到多个二级标题。</td>
     </tr>
     <tr>
       <td><h3>Heading3 三级标题</h3></td>
-      <td>`<h3>`</h3></td>
+      <td>`<h3>`</td>
       <td>16px 粗体</td>
       <td>页面第三级标题，嵌套在二级标题下使用。</td>
     </tr>
     <tr>
       <td><h4>Heading4 四级标题</h4></td>
-      <td>`<h4>`</h4></td>
+      <td>`<h4>`</td>
       <td>14px 粗体</td>
       <td>页面第四级标题，嵌套在三级标题下使用。</td>
     </tr>
     <tr>
       <td><h5>Heading5 五级标题</h5></td>
-      <td>`<h5>`</h5></td>
+      <td>`<h5>`</td>
       <td>13px 粗体 颜色灰色</td>
       <td>页面第五级标题，嵌套在四级标题下使用。</td>
     </tr>
     <tr>
       <td><h6>Heading6 六级标题</h6></td>
-      <td>`<h6>`</h6></td>
+      <td>`<h6>`</td>
       <td>12px 粗体 颜色灰色</td>
       <td>页面第六级标题，嵌套在五级标题下使用。</td>
     </tr>
