@@ -10,15 +10,19 @@
     'use strict';
 
     var lsName = 'localStorage';
-    var storage = window[lsName],
+    var storage,
         dataset,
-        old = window.store,
         pageName = 'page_' + window.location.pathname + window.location.search;
 
     /* The Store object */
     var Store = function() {
         this.slience = true;
-        this.enable = (lsName in window) && window[lsName] && window[lsName].setItem;
+        try {
+            if((lsName in window) && window[lsName] && window[lsName].setItem) {
+                this.enable = true;
+                storage = window[lsName];
+            }
+        } catch(e){}
         if(!this.enable) {
             dataset = {};
             storage = {
