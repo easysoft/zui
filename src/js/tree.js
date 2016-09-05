@@ -252,7 +252,7 @@
         }
 
         // Bind event
-        this.$.on('click', '.list-toggle, a[href=#], .tree-toggle', function(e) {
+        this.$.on('click', '.list-toggle,a[href="#"],.tree-toggle', function(e) {
             var $li = $(this).parent('li');
             that.callEvent('hit', {target: $li, item: $li.data()});
             that.toggle($li);
