@@ -1974,6 +1974,7 @@ body.page-show {
 }
 
 @media (max-width: 767px) {
+  #navbar .navbar-nav > li > a {border-radius: 0}
   #search {padding: 30px 10px 40px;}
   #ad {
     margin-top: -20px;
@@ -2144,11 +2145,15 @@ body[data-page="basic-theme"] {
           }
           > .navbar-right {
             float: none!important;
+            margin-right: 0;
           }
           display: block!important;
           width: 140px;
           > .navbar-nav > li {
             float: none;
+            > a {
+              border-radius: 0;
+            }
           }
         }
       }
@@ -2237,8 +2242,8 @@ body[data-page="basic-theme"] {
       position: fixed;
       left: 0;
       bottom: 0;
-      width: 400px;
-      background: rgba(255,255,255,.5);
+      width: 340px;
+      background: rgba(255,255,255,.9);
 
       > .container {width: 100%!important;}
 

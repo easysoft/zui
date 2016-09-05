@@ -2679,6 +2679,9 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
   background-color: #8666b8;
   }
 @media (max-width: 767px) {
+  #navbar .navbar-nav > li > a {
+    border-radius: 0;
+    }
   #search {
     padding: 30px 10px 40px;
     }
@@ -2871,10 +2874,15 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
   body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.in > .navbar-right,
   body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.collapsing > .navbar-right {
     float: none!important;
+    margin-right: 0;
     }
   body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.in > .navbar-nav > li,
   body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.collapsing > .navbar-nav > li {
     float: none;
+    }
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.in > .navbar-nav > li > a,
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.collapsing > .navbar-nav > li > a {
+    border-radius: 0;
     }
   body.view-double.compact-mode-in.page-open #navbar #compactTogger,
   body.view-double.compact-mode-in.page-open #navbar .brand-title {
@@ -3009,8 +3017,8 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 400px;
-    background: rgba(255, 255, 255, .5);
+    width: 340px;
+    background: rgba(255, 255, 255, .9);
     }
   body.view-double.compact-mode-in.page-open > footer > .container {
     width: 100%!important;

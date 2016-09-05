@@ -463,6 +463,8 @@
                 }, 100));
                 sectionsShowed = true;
             }
+            $('.text-page-count').text($sections.filter('[data-target="page"]').length);
+            $('.text-external-count').text($sections.filter('[data-target="external"]').length);
         } else if(debug) {
             console.error("Display sections failed.");
         }
@@ -506,6 +508,7 @@
                 scrollToSection($section);
                 return;
             }
+            $sections.find(':focus').blur();
             var isOpened = $section && $section.hasClass('open');
             $sections.removeClass(keepOtherOpen ? 'choosed' : 'choosed open');
             if($section && $section.hasClass('section')) {
@@ -1045,7 +1048,7 @@
             }
 
             $window.scrollTop(1);
-            closePage();
+            if(!$('body').hasClass('view-double')) closePage();
         } else if(debug) {
             console.error("Query failed with key: ", keys);
         }
@@ -1085,14 +1088,14 @@
         }
     };
 
-    var closePage = function() {
+    var closePage = function(onlyEvent) {
         window['afterPageLoad'] = null;
         window['onPageLoad'] = null;
         if($.isFunction(window['onPageClose'])) {
             window['onPageClose']();
             window['onPageClose'] = null;
         }
-        if($body.hasClass('page-open')) {
+        if(!onlyEvent && $body.hasClass('page-open')) {
             var style = $page.data('trans-style');
             if(style) {
                 style['max-height'] = '';
@@ -1135,7 +1138,7 @@
         };
 
         if(valType === 'number') {
-            expandTopic($pageContent.children('section').eq(topic));
+            expandTopic($pageContent.children('section').removeClass('hover').eq(topic));
         } else if(valType === 'string' && valType.length) {
             // highlight element with the id string.
         }
@@ -1282,11 +1285,19 @@
 
     var openPage = function($section, section, topic) {
         var pageId = section.chapter + '-' + section.id;
-        if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
+        var isPageOpen = $body.hasClass('page-open');
+        if(isPageOpen && pageId === $body.attr('data-page')) {
             if(debug) console.warn('The page already showed, page will be reload.');
-            loadPage();
+            if(topic !== undefined) {
+                showPageTopic(topic);
+            } else {
+                closePage(true);
+                loadPage(null, '!refresh', true);
+            }
             return;
         }
+        if(isPageOpen) closePage(true);
+
         currentSection = section;
         chooseSection($section, false, true);
 
@@ -1314,7 +1325,7 @@
             $pageAttrs.children('.badge-custom').toggle(!!lib.custom);
             $pageAttrs.children('.badge-bootstrap').toggle(lib.source === 'Bootstrap');
             $pageAttrs.children('.badge-version').toggle(!!lib.ver).text(lib.ver + '+');
-            $pageAttrs.children('.badge-party').toggle(!!(lib.source && lib.source !== 'Bootstrap')).attr('href', lib.website || lib.project || 'javascript:;').find('.product-ver').text(lib.pver);
+            $pageAttrs.children('.badge-party').toggle(!!(lib.source && lib.source !== 'Bootstrap')).attr('href', lib.website || lib.project || 'javascript:;').find('.product-ver').text(lib.pver || '');
 
             var isShowCodeBadage = lib.srcCount > 0 || lib.bundlesCount > 0;
             var $codeDropMenu = $pageAttrs.children('.badge-code-dropdown').toggle(isShowCodeBadage);
@@ -2136,15 +2147,15 @@
                     query();
                 }
             } else if(code === 37) { // Left
-                // if(!$body.hasClass('input-query-focus')){
-                chooseLeftSection();
-                e.preventDefault();
-                // }
+                if(!isDoubleView){
+                    chooseLeftSection();
+                    e.preventDefault();
+                }
             } else if(code === 39) { // Right
-                // if(!$body.hasClass('input-query-focus')){
-                chooseRightSection();
-                e.preventDefault();
-                // }
+                if(!isDoubleView){
+                    chooseRightSection();
+                    e.preventDefault();
+                }
             } else if(code === 38) { // Up
                 if(isPageNotShow || isDoubleView) {
                     choosePrevSection();

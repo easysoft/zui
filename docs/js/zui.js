@@ -6987,7 +6987,9 @@
             };
 
             var toggleRowClass = function(ele, toggle) {
-                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, !!toggle);
+                var $tr = $(ele).closest('tr');
+                if(toggle === undefined) toggle = !$tr.hasClass(checkedClass);
+                $rows.filter('[data-index="' + $tr.data('index') + '"]').toggleClass(checkedClass, !!toggle);
             };
 
             var checkEventPrefix = 'click.zui.datatable.check';
