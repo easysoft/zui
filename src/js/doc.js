@@ -76,10 +76,10 @@
     };
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate',
         LAST_QUERY_ID = 'LAST_QUERY_ID',
-        INDEX_JSON = 'docs/index.json',
-        ICONS_JSON = 'docs/icons.json',
+        INDEX_JSON = debug ? 'docs/index.json' : 'docs/index.min.json',
+        ICONS_JSON = debug ? 'docs/icons.json' : 'docs/icons.min.json',
         PKG_JSON = 'package.json',
-        ZUI_JSON = 'zui.json',
+        ZUI_JSON = debug ? 'docs/zui.json' : 'docs/zui.min.json',
         ZUI_CUSTOM_JSON = 'zui.custom.json',
         UNDEFINED = undefined,
         dataVersion,
@@ -1997,12 +1997,12 @@
         });
 
         // Load index.json
-        loadData(INDEX_JSON, function(data) {
+        loadData(INDEX_JSON, function(data, type) {
             var firstLoad = !sectionsShowed;
 
             displaySection(data);
 
-            if(!firstLoad) {
+            if(firstLoad) {
                 var q = getQueryString('q');
                 if(q) {
                     setTimeout(function() {
