@@ -22,7 +22,7 @@ filter: jianrongieliulanqi jriellq
   ...
 ```
 
-## 提示IE7及更早的用户
+## 提示IE7及更早版本的用户
 
 针对IE7及更早的版本，应该给出提示，让用户升级浏览器。在`body`之后加入以下代码可以有选择性的出现浏览器升级提示，并给出链接引导用户访问[browsehappy.com](http://browsehappy.com/)：
 

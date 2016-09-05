@@ -86,9 +86,9 @@ ZUI的配色表包含三部分：主要颜色，灰度颜色及额外颜色。
   <div class="color-special-pale" data-color="specialPale"></div>
 </div>
 
-## 在JS中使用获取配色表
+## 在JS中使用配色表
 
-你可以在Javascript代码中获取和使用这些配色。具体用法参考章节[配色表](#javascript/colorset)。
+你可以在Javascript代码中获取和使用这些配色。具体用法参考章节[配色表](#javascript/color)。
 
 ## 配色设计要点
 

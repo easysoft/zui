@@ -45,61 +45,61 @@ filter: paiban pb
       <th>说明</th>
     </tr>
     <tr>
-      <td># 页面标题</td>
+      <td><h1>页面标题</h1></td>
       <td>`<h1>`</h1></td>
       <td>26px</td>
       <td>在一个页面只有一个页面标题。</td>
     </tr>
     <tr>
-      <td>## 标题</td>
+      <td><h2>标题</h2></td>
       <td>`<h2>`</h2></td>
       <td>22px</td>
       <td>作为页面第二级标题，可能在一个页面中使用到多个二级标题。</td>
     </tr>
     <tr>
-      <td>### 三级标题</td>
+      <td><h3>三级标题</h3></td>
       <td>`<h3>`</h3></td>
       <td>16px 粗体</td>
       <td>页面第三级标题，嵌套在二级标题下使用。</td>
     </tr>
     <tr>
-      <td>#### 四级标题</td>
+      <td><h4>四级标题</h4></td>
       <td>`<h4>`</h4></td>
       <td>15px 粗体</td>
       <td>页面第四级标题，嵌套在三级标题下使用。</td>
     </tr>
     <tr>
-      <td>##### 五级标题</td>
+      <td><h5>五级标题</h5></td>
       <td>`<h5>`</h5></td>
       <td>13px 粗体 颜色灰色</td>
       <td>页面第五级标题，嵌套在四级标题下使用。</td>
     </tr>
     <tr>
-      <td>###### 六级标题</td>
+      <td><h6>六级标题</h6></td>
       <td>`<h6>`</h6></td>
       <td>12px 粗体 颜色灰色</td>
       <td>页面第六级标题，嵌套在五级标题下使用。</td>
     </tr>
     <tr>
-      <td>这是一个段落</td>
+      <td><p>这是一个段落</p></td>
       <td>`<p>`</p></td>
       <td>13px</td>
       <td>正文中大部分由段落组成。段落的行高为20px。段落间在垂直方向上有10px边距。</td>
     </tr>
     <tr>
-      <td>这是一个突出的段落</td>
+      <td><p class="lead">这是一个突出的段落</p></td>
       <td>`<p class="lead">`</p></td>
       <td>20px</td>
       <td>突出的段落具有更大的字体，在一个段落上加`.lead`类。</td>
     </tr>
     <tr>
-      <td>**粗体文本**</td>
+      <td><strong>粗体文本</strong></td>
       <td>`<strong>`</strong></td>
       <td>13px</td>
       <td>通常粗体文本用来强调内容。</td>
     </tr>
     <tr>
-      <td>_斜体文本_</td>
+      <td><em>强调文本</em></td>
       <td>`<em>`</em></td>
       <td>13px</td>
       <td></td>
@@ -117,24 +117,32 @@ filter: paiban pb
       <td>超链接具有不同的颜色以区别其他文本，超链接仅当鼠标悬停时会增加下划线。</td>
     </tr>
     <tr>
-      <td>1.  这是一个有序列表
-2.包含三个列表项
-3.作为示例</td>
+      <td>
+        <ol>
+          <li>这是一个有序列表</li>
+          <li>含三个列表项</li>
+          <li>作为示例</li>
+        </ol>
+      </td>
       <td>`<ol><li>...</li></ol>`</td>
       <td>13px</td>
       <td>当组织一些并列项目且关注项目之间顺序时可以使用有序列表。</td>
     </tr>
     <tr>
-      <td>*   这是一个无序列表
-*   包含三个列表项
-*   作为示例</td>
+      <td>
+        <ul>
+          <li>这是一个无序列表</li>
+          <li>含三个列表项</li>
+          <li>作为示例</li>
+        </ul>
+      </td>
       <td>`<ul><li>...</li></ul>`</td>
       <td>13px</td>
       <td>当组织一些并列项目但不关注项目之间顺序时可以使用无序列表。</td>
     </tr>
     <tr>
-      <td>&gt; 这是一大段引用内容</td>
-      <td>`<blockquote>`</blockquote></td>
+      <td><blockquote>这是一大段引用内容</blockquote></td>
+      <td>`<blockquote>`</td>
       <td>13px</td>
       <td>用于显示一大段引用的内容。</td>
     </tr>

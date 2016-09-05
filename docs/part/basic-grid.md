@@ -25,7 +25,7 @@ filter: zhagexitong zgxt
     <tr>
       <th class="text-nowrap">栅格系统行为</th>
       <td>总是水平排列</td>
-      <td colspan="3">开始是堆叠在一起的，当大于这些阈值时将变为水平排列C</td>
+      <td colspan="3">开始是堆叠在一起的，当大于这些阈值时将变为水平排列</td>
     </tr>
     <tr>
       <th class="text-nowrap"><code>.container</code> 最大宽度</th>

@@ -63,7 +63,7 @@ filter: mianban mb
 </div>
 ```
 
-## 使用不同色彩主题
+## 色彩主题
 
 <div class="example">
   <div class="panel panel-primary">

@@ -18,7 +18,7 @@ filter: biaoqian bq
 <span class="label">标签</span>
 ```
 
-## 标签和徽标的颜色
+## 颜色主题
 
 <div class="example">
   <span class="label">Default</span>
@@ -53,7 +53,7 @@ filter: biaoqian bq
 <span class="label label-danger">Danger</span>
 ```
 
-## 徽标
+## 作为徽标
 
 `.label-badge`
 
