@@ -25,7 +25,7 @@ filter: helloworld helloworld
   <body>
     <h1>Hello, world!</h1>
 
-    <!-- 在此处挥洒你的创意 -->
+    <!-- 在此处编码你的创意 -->
 
     <!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
