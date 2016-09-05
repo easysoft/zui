@@ -631,7 +631,12 @@
                 "icon": "icon-resize-v",
                 "id": "scrollbar",
                 "name": "滚动条",
-                "topics": [],
+                "update": "1.5.0",
+                "topics": [{
+                    "name": "基本样式"
+                }, {
+                    "name": "动态隐藏与显示"
+                }],
                 "filter": "gundongtiao gdt"
             }],
             "filter": "kongjian kj"
