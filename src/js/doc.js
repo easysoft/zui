@@ -79,7 +79,7 @@
         INDEX_JSON = debug ? 'docs/index.json' : 'docs/index.min.json',
         ICONS_JSON = debug ? 'docs/icons.json' : 'docs/icons.min.json',
         PKG_JSON = 'package.json',
-        ZUI_JSON = debug ? 'docs/zui.json' : 'docs/zui.min.json',
+        ZUI_JSON = debug ? 'zui.json' : 'docs/zui.min.json',
         ZUI_CUSTOM_JSON = 'zui.custom.json',
         UNDEFINED = undefined,
         dataVersion,
@@ -2121,7 +2121,7 @@
                     openSection();
                 }
             } else if(code === 27) { // Esc
-                if(!closePage()) {
+                if(!isDoubleView && !closePage()) {
                     if(!isInputFocus) {
                         $queryInput.focus();
                     }

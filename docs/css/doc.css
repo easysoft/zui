@@ -2835,61 +2835,61 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
   #changeViewBtn:active {
     background-color: rgba(0, 0, 0, .2);
     }
-  body.view-double.compact-mode-in #changeViewBtn {
+  body.view-double.compact-mode-in.page-open #changeViewBtn {
     color: #666;
     }
-  body.view-double.compact-mode-in[data-page="basic-theme"] #changeViewBtn {
+  body.view-double.compact-mode-in.page-open[data-page="basic-theme"] #changeViewBtn {
     color: #fff;
     }
-  body.view-double.compact-mode-in #navbar {
+  body.view-double.compact-mode-in.page-open #navbar {
     top: 0;
     left: 0;
     width: 360px;
     padding: 10px 0!important;
     margin-bottom: 0;
     }
-  body.view-double.compact-mode-in #navbar .navbar-header {
+  body.view-double.compact-mode-in.page-open #navbar .navbar-header {
     float: none;
     }
-  body.view-double.compact-mode-in #navbar .navbar-toggle {
+  body.view-double.compact-mode-in.page-open #navbar .navbar-toggle {
     display: block;
     float: right;
     margin-right: 0;
     }
-  body.view-double.compact-mode-in #navbar .navbar-collapse {
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse {
     display: none!important;
     }
-  body.view-double.compact-mode-in #navbar .navbar-collapse.in,
-  body.view-double.compact-mode-in #navbar .navbar-collapse.collapsing {
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.in,
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.collapsing {
     display: block!important;
     width: 140px;
     }
-  body.view-double.compact-mode-in #navbar .navbar-collapse.in:before,
-  body.view-double.compact-mode-in #navbar .navbar-collapse.collapsing:before {
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.in:before,
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.collapsing:before {
     right: 10px;
     }
-  body.view-double.compact-mode-in #navbar .navbar-collapse.in > .navbar-right,
-  body.view-double.compact-mode-in #navbar .navbar-collapse.collapsing > .navbar-right {
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.in > .navbar-right,
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.collapsing > .navbar-right {
     float: none!important;
     }
-  body.view-double.compact-mode-in #navbar .navbar-collapse.in > .navbar-nav > li,
-  body.view-double.compact-mode-in #navbar .navbar-collapse.collapsing > .navbar-nav > li {
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.in > .navbar-nav > li,
+  body.view-double.compact-mode-in.page-open #navbar .navbar-collapse.collapsing > .navbar-nav > li {
     float: none;
     }
-  body.view-double.compact-mode-in #navbar #compactTogger,
-  body.view-double.compact-mode-in #navbar .brand-title {
+  body.view-double.compact-mode-in.page-open #navbar #compactTogger,
+  body.view-double.compact-mode-in.page-open #navbar .brand-title {
     display: none;
     }
-  body.view-double.compact-mode-in #headContainer {
+  body.view-double.compact-mode-in.page-open #headContainer {
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
     }
-  body.view-double.compact-mode-in #headContainer > .container {
+  body.view-double.compact-mode-in.page-open #headContainer > .container {
     width: 100% !important;
     }
-  body.view-double.compact-mode-in #search {
+  body.view-double.compact-mode-in.page-open #search {
     right: 60px;
     left: auto;
     width: 120px;
@@ -2898,49 +2898,49 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
          -o-transition: width .2s;
             transition: width .2s;
     }
-  body.view-double.compact-mode-in #searchInput::-webkit-input-placeholder {
+  body.view-double.compact-mode-in.page-open #searchInput::-webkit-input-placeholder {
     color: transparent;
     -webkit-transition: color .2s;
          -o-transition: color .2s;
             transition: color .2s;
     }
-  body.view-double.compact-mode-in #searchInput::-moz-placeholder {
+  body.view-double.compact-mode-in.page-open #searchInput::-moz-placeholder {
     color: transparent;
     -webkit-transition: color .2s;
          -o-transition: color .2s;
             transition: color .2s;
     }
-  body.view-double.compact-mode-in #searchInput:-ms-input-placeholder {
+  body.view-double.compact-mode-in.page-open #searchInput:-ms-input-placeholder {
     color: transparent;
     -webkit-transition: color .2s;
          -o-transition: color .2s;
             transition: color .2s;
     }
-  body.view-double.compact-mode-in #searchInput::placeholder {
+  body.view-double.compact-mode-in.page-open #searchInput::placeholder {
     color: transparent;
     -webkit-transition: color .2s;
          -o-transition: color .2s;
             transition: color .2s;
     }
-  body.view-double.compact-mode-in.input-query-focus #search {
+  body.view-double.compact-mode-in.page-open.input-query-focus #search {
     width: 240px;
     }
-  body.view-double.compact-mode-in.input-query-focus #navbar .zui-version {
+  body.view-double.compact-mode-in.page-open.input-query-focus #navbar .zui-version {
     display: none;
     }
-  body.view-double.compact-mode-in.input-query-focus #searchInput::-webkit-input-placeholder {
+  body.view-double.compact-mode-in.page-open.input-query-focus #searchInput::-webkit-input-placeholder {
     color: rgba(255, 255, 255, .5);
     }
-  body.view-double.compact-mode-in.input-query-focus #searchInput::-moz-placeholder {
+  body.view-double.compact-mode-in.page-open.input-query-focus #searchInput::-moz-placeholder {
     color: rgba(255, 255, 255, .5);
     }
-  body.view-double.compact-mode-in.input-query-focus #searchInput:-ms-input-placeholder {
+  body.view-double.compact-mode-in.page-open.input-query-focus #searchInput:-ms-input-placeholder {
     color: rgba(255, 255, 255, .5);
     }
-  body.view-double.compact-mode-in.input-query-focus #searchInput::placeholder {
+  body.view-double.compact-mode-in.page-open.input-query-focus #searchInput::placeholder {
     color: rgba(255, 255, 255, .5);
     }
-  body.view-double.compact-mode-in #header {
+  body.view-double.compact-mode-in.page-open #header {
     position: fixed;
     top: 0;
     left: 0;
@@ -2948,10 +2948,10 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
     height: 60px;
     padding-top: 60px;
     }
-  body.view-double.compact-mode-in #pageLoader {
+  body.view-double.compact-mode-in.page-open #pageLoader {
     max-width: 1160px;
     }
-  body.view-double.compact-mode-in #grid {
+  body.view-double.compact-mode-in.page-open #grid {
     position: fixed;
     top: 60px;
     bottom: 0;
@@ -2967,31 +2967,31 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
          -o-transform: none!important;
             transform: none!important;
     }
-  body.view-double.compact-mode-in #grid > .container {
+  body.view-double.compact-mode-in.page-open #grid > .container {
     width: 100%!important;
     }
-  body.view-double.compact-mode-in #grid > .container .row > .col {
+  body.view-double.compact-mode-in.page-open #grid > .container .row > .col {
     width: 100%;
     }
-  body.view-double.compact-mode-in #grid .chapter {
+  body.view-double.compact-mode-in.page-open #grid .chapter {
     margin-bottom: 10px;
     }
-  body.view-double.compact-mode-in #grid .section-preview.icon-preview > .icons > .icon.icon-10x {
+  body.view-double.compact-mode-in.page-open #grid .section-preview.icon-preview > .icons > .icon.icon-10x {
     font-size: 70px;
     }
-  body.view-double.compact-mode-in #grid .section-preview.icon-preview > .icons > .icon.icon-5x {
+  body.view-double.compact-mode-in.page-open #grid .section-preview.icon-preview > .icons > .icon.icon-5x {
     font-size: 42px;
     }
-  body.view-double.compact-mode-in #grid .section-preview.icon-preview > .icons > .icon.icon-2x {
+  body.view-double.compact-mode-in.page-open #grid .section-preview.icon-preview > .icons > .icon.icon-2x {
     font-size: 28px;
     }
-  body.view-double.compact-mode-in #pageCloseBtn {
+  body.view-double.compact-mode-in.page-open #pageCloseBtn {
     display: none;
     }
-  body.view-double.compact-mode-in #pageReloadBtn {
+  body.view-double.compact-mode-in.page-open #pageReloadBtn {
     right: 15px;
     }
-  body.view-double.compact-mode-in #page {
+  body.view-double.compact-mode-in.page-open #page {
     position: fixed;
     top: 0;
     right: 0;
@@ -2999,26 +2999,26 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
     left: 360px;
     display: block!important;
     }
-  body.view-double.compact-mode-in #pageHeader > .container {
+  body.view-double.compact-mode-in.page-open #pageHeader > .container {
     margin: 0 auto 0 15px;
     }
-  body.view-double.compact-mode-in #pageBody > .container {
+  body.view-double.compact-mode-in.page-open #pageBody > .container {
     margin: 0 auto 0 10px;
     }
-  body.view-double.compact-mode-in > footer {
+  body.view-double.compact-mode-in.page-open > footer {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 400px;
     background: rgba(255, 255, 255, .5);
     }
-  body.view-double.compact-mode-in > footer > .container {
+  body.view-double.compact-mode-in.page-open > footer > .container {
     width: 100%!important;
     }
-  body.view-double.compact-mode-in > footer hr {
+  body.view-double.compact-mode-in.page-open > footer hr {
     display: none;
     }
-  body.view-double.compact-mode-in > footer p {
+  body.view-double.compact-mode-in.page-open > footer p {
     height: 20px;
     margin: 0;
     line-height: 20px;
