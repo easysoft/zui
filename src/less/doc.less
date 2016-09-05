@@ -1401,8 +1401,7 @@ body.query-enabled {
   display: none;
   overflow-y: auto;
   &.with-shadow #pageHeader {
-    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .2);
-
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
   }
   .loader {
     .transition(none);
@@ -2118,8 +2117,9 @@ body[data-page="basic-theme"] {
   }
 
   body.view-double.compact-mode-in {
-    #changeViewBtn {
-      color: #666;
+    #changeViewBtn {color: #666;}
+    &[data-page="basic-theme"] {
+      #changeViewBtn {color: #fff;}
     }
     #navbar {
       width: 360px;
@@ -2189,7 +2189,7 @@ body[data-page="basic-theme"] {
       width: 360px;
       padding-top: 60px;
     }
-
+    #pageLoader {max-width: 1160px}
     #grid {
       position: fixed;
       padding: 10px 0;

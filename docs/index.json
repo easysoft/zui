@@ -10,6 +10,7 @@
                 "name": "我要贡献自己的力量",
                 "desc": "对美好的追求永不停歇，你也来吧！",
                 "icon": "icon-hand-up",
+                "hidden": true,
                 "filter": "woyaojiaru wyjr"
             }, {
                 "id": "plan",
@@ -17,6 +18,7 @@
                 "desc": "关注ZUI的后续开发计划",
                 "icon": "icon-flag-checkered",
                 "url": ".md",
+                "hidden": true,
                 "filter": "houxujihua hxjh"
             }, {
                 "id": "learn",
@@ -272,9 +274,9 @@
                 "icon": "icon-heart",
                 "desc": "为何选择ZUI？",
                 "topics": [{
-                    "name": "与Bootstrap的关系"
+                    "name": "基于 Bootstrap 定制"
                 }, {
-                    "name": "选择使用ZUI"
+                    "name": "选中 ZUI 还是 Bootstrap？"
                 }],
                 "filter": "shuoming sm"
             }, {
@@ -334,11 +336,11 @@
                 }, {
                     "name": "简洁版"
                 }, {
-                    "name": "独立版本"
+                    "name": "独立组件"
                 }, {
                     "name": "组件清单"
                 }, {
-                    "name": "使用Gulp定制"
+                    "name": "使用 Gulp 定制"
                 }],
                 "filter": "xuanzebanben xzbb"
             }, {
@@ -371,7 +373,7 @@
                 "topics": [{
                     "name": "禁用IE兼容模式"
                 }, {
-                    "name": "更古老的浏览器"
+                    "name": "提示 IE7 及更早版本的用户"
                 }],
                 "filter": "jianrongieliulanqi jriellq"
             }, {
@@ -404,7 +406,9 @@
                 "icon": "icon-th",
                 "id": "grid",
                 "name": "栅格系统",
-                "topics": [],
+                "topics": [{
+                    "name": "栅格参数"
+                }],
                 "filter": "zhagexitong zgxt"
             }, {
                 "desc": "文字排版",
@@ -464,6 +468,8 @@
                 }, {
                     "name": "额外颜色"
                 }, {
+                    "name": "在 JS 中使用配色表"
+                }, {
                     "name": "配色设计要点"
                 }],
                 "filter": "peise ps"
@@ -474,8 +480,8 @@
                 "name": "主题",
                 "topics": [
                     {"name": "体验主题"},
-                    {"name": "重新编译ZUI"},
-                    {"name": "定制主题"}
+                    {"name": "重新编译 ZUI"},
+                    {"name": "开始定制主题"}
                 ],
                 "filter": "zhuti zt"
             }],
@@ -497,6 +503,8 @@
                     "name": "何时使用图标？"
                 }, {
                     "name": "使用图标字体"
+                }, {
+                    "name": "ZUI 中的图标"
                 }, {
                     "name": "如何使用图标？"
                 }],
@@ -522,9 +530,11 @@
                 "id": "progressbar",
                 "name": "进度条",
                 "topics": [{
-                    "name": "类型"
+                    "name": "基本类型"
                 }, {
-                    "name": "变化"
+                    "name": "颜色主题"
+                }, {
+                    "name": "特殊效果"
                 }],
                 "filter": "jindutiao jdt"
             }, {
@@ -535,9 +545,9 @@
                 "topics": [{
                     "name": "基本样式"
                 }, {
-                    "name": "徽标"
+                    "name": "色彩主题"
                 }, {
-                    "name": "标签和徽标的颜色"
+                    "name": "作为徽标"
                 }],
                 "filter": "biaoqian bq"
             }, {
@@ -575,7 +585,9 @@
                 "icon": "icon-map-marker",
                 "id": "breadcrumb",
                 "name": "面包屑",
-                "topics": [],
+                "topics": [{
+                    "name": "示例"
+                }],
                 "filter": "mianbaoxie mbx"
             }, {
                 "desc": "为图片应用样式",
@@ -583,9 +595,13 @@
                 "id": "image",
                 "name": "图片",
                 "topics": [{
-                    "name": "类型"
+                    "name": "圆角图片"
                 }, {
-                    "name": "参数"
+                    "name": "圆形图片"
+                }, {
+                    "name": "缩略图"
+                }, {
+                    "name": "响应式图片"
                 }],
                 "filter": "tupian tp"
             }, {
@@ -594,18 +610,20 @@
                 "id": "header",
                 "name": "多级标题",
                 "topics": [{
-                    "name": "类型"
+                    "name": "普通标题"
                 }, {
-                    "name": "参数"
+                    "name": "包含副标题"
+                }, {
+                    "name": "带底部水平分隔线的标题"
                 }],
                 "filter": "duojibiaoti djbt"
             }, {
-                "desc": "水平分割线",
+                "desc": "水平分隔线",
                 "icon": "—",
                 "id": "divider",
-                "name": "分隔线     ",
+                "name": "分隔线",
                 "topics": [{
-                    "name": "类型"
+                    "name": "水平分隔线"
                 }],
                 "filter": "fengexian fgx"
             }, {
@@ -630,6 +648,8 @@
                     "name": "不同感情色彩的消息框"
                 }, {
                     "name": "使用图标"
+                }, {
+                    "name": "使用反色主题"
                 }, {
                     "name": "块级消息"
                 }, {
@@ -660,7 +680,19 @@
                 "desc": "多个输入单元格",
                 "name": "输入组",
                 "topics": [{
-                    "name": "类型"
+                    "name": "基本类型"
+                }, {
+                    "name": "连续分段的文本框"
+                }, {
+                    "name": "单选框和复选框"
+                }, {
+                    "name": "带按钮"
+                }, {
+                    "name": "带下拉菜单按钮"
+                }, {
+                    "name": "使用 Select"
+                }, {
+                    "name": "分段按钮"
                 }],
                 "filter": "shuruzu srz"
             }, {
@@ -669,9 +701,11 @@
                 "desc": "垂直的可点击列表",
                 "name": "列表组",
                 "topics": [{
-                    "name": "类型"
+                    "name": "基本类型"
                 }, {
-                    "name": "变化"
+                    "name": "链接"
+                }, {
+                    "name": "定制列表内容"
                 }],
                 "filter": "liebiaozu lbz"
             }, {
@@ -683,8 +717,6 @@
                     "name": "主要导航"
                 }, {
                     "name": "次要导航"
-                }, {
-                    "name": "复合导航"
                 }, {
                     "name": "标签页导航"
                 }, {
@@ -737,9 +769,9 @@
                 }, {
                     "name": "禁用的导航"
                 }, {
-                    "name": "圆角"
+                    "name": "圆角样式"
                 }, {
-                    "name": "宽松的"
+                    "name": "宽松样式"
                 }, {
                     "name": "两端对齐"
                 }],
@@ -750,9 +782,19 @@
                 "desc": "包含头部和脚部的面板",
                 "name": "面板",
                 "topics": [{
-                    "name": "类型"
+                    "name": "基本类型"
                 }, {
-                    "name": "变化"
+                    "name": "带标题的面板"
+                }, {
+                    "name": "带脚注的面板"
+                }, {
+                    "name": "色彩主题"
+                }, {
+                    "name": "包含表格"
+                }, {
+                    "name": "包含列表"
+                }, {
+                    "name": "面板组"
                 }],
                 "filter": "mianban mb"
             }, {
@@ -819,6 +861,16 @@
                 "topics": [{
                     "name": "实例"
                 }, {
+                    "name": "设置对话框显示位置"
+                }, {
+                    "name": "更改对话框大小"
+                }, {
+                    "name": "可移动的对话框"
+                }, {
+                    "name": "禁用动画效果"
+                }, {
+                    "name": "关闭对话框"
+                }, {
                     "name": "如何使用"
                 }],
                 "filter": "dhk mtk duihuakuang motaikuang"
@@ -828,7 +880,17 @@
                 "desc": "动态展示对话框",
                 "name": "对话框触发器",
                 "topics": [{
-                    "name": "实例"
+                    "name": "加载远程内容"
+                }, {
+                    "name": "加载自定义内容"
+                }, {
+                    "name": "自动调整位置"
+                }, {
+                    "name": "全屏对话框"
+                }, {
+                    "name": "自定义头部"
+                }, {
+                    "name": "可拖动的对话框"
                 }, {
                     "name": "如何使用"
                 }],
@@ -947,9 +1009,11 @@
                 "desc": "定时自动切换的图片内存",
                 "name": "轮播",
                 "topics": [{
-                    "name": "类型"
+                    "name": "基本类型"
                 }, {
-                    "name": "变化"
+                    "name": "参数"
+                }, {
+                    "name": "方法和事件"
                 }],
                 "filter": "lunbo lb"
             }, {
@@ -958,9 +1022,17 @@
                 "desc": "为文本框提供方便的日期时间选择功能",
                 "name": "日期选择",
                 "topics": [{
-                    "name": "类型"
+                    "name": "日期选择"
                 }, {
-                    "name": "变化"
+                    "name": "时间选择"
+                }, {
+                    "name": "日期+时间选择"
+                }, {
+                    "name": "禁用输入"
+                }, {
+                    "name": "使用输入框"
+                }, {
+                    "name": "用法"
                 }],
                 "filter": "riqixuanze rqxz"
             }, {
@@ -969,7 +1041,9 @@
                 "desc": "提供数据选择和筛选功能",
                 "name": "Chosen",
                 "topics": [{
-                    "name": "多项选择和单项选择"
+                    "name": "示例"
+                }, {
+                    "name": "用法"
                 }, {
                     "name": "图标选择插件"
                 }],
@@ -1318,7 +1392,11 @@
                 "icon": "icon-carousel",
                 "desc": "灯箱式图片浏览 (Lightbox)",
                 "name": "图片浏览",
-                "topics": [],
+                "topics": [{
+                    "name": "实例"
+                }, {
+                    "name": "用法"
+                }],
                 "filter": "tupianliulan tpll dxs tp dengxiangshi tupian tpyl"
             }],
             "filter": "shitu st"

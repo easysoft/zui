@@ -409,6 +409,8 @@
                     section.target = '';
                 }
 
+                if(section.hidden) return;
+
                 var id = chapterName + '-' + section.id;
                 var $tpl = $sectionTemplate.clone().data('section', section);
                 $tpl.attr({
@@ -1274,7 +1276,8 @@
     var openPage = function($section, section, topic) {
         var pageId = section.chapter + '-' + section.id;
         if($body.hasClass('page-open') && pageId === $body.attr('data-page')) {
-            if(debug) console.warn('The page already showed.');
+            if(debug) console.warn('The page already showed, page will be reload.');
+            loadPage();
             return;
         }
         currentSection = section;
