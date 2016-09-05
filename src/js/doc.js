@@ -287,41 +287,47 @@
 
         var dataType = url.endsWith('.json') ? 'json' : 'html';
         var loadFromRemote = function() {
-            $.get(url, function(data) {
-                if(data !== null) {
-                    if(isIndexJson) {
-                        dataVersion = data.version;
-                        docIndex = data;
-                    } else if(isIconsJson) {
-                        iconsIndex = {
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: dataType,
+                success: function(data) {
+                    if(data !== null) {
+                        if(isIndexJson) {
+                            dataVersion = data.version;
+                            docIndex = data;
+                        } else if(isIconsJson) {
+                            iconsIndex = {
+                                data: data,
+                                version: dataVersion
+                            };
+                        }
+                        cacheData = {
                             data: data,
                             version: dataVersion
                         };
+                        $.zui.store.set('//' + url, data);
+                        $.zui.store.set('//' + url + '::V', dataVersion);
+
+                        if(debug) console.log('Load', url, 'from remote:', cacheData);
+                        callback(data, 'remote');
+                    } else if(isHasCache && !isIndexJson) {
+                        if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
+                        callback(cacheData.data, 'cache');
                     }
-                    cacheData = {
-                        data: data,
-                        version: dataVersion
-                    };
-                    $.zui.store.set('//' + url, data);
-                    $.zui.store.set('//' + url + '::V', dataVersion);
+                },
+                error: function() {
+                    if(debug) console.warn("Ajax error:", url);
+                    if(isHasCache && !isIndexJson) {
+                        if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
+                        callback(cacheData.data, 'cache');
+                    } else {
+                        callback(null, 'error');
+                    }
 
-                    if(debug) console.log('Load', url, 'from remote:', cacheData);
-                    callback(data, 'remote');
-                } else if(isHasCache && !isIndexJson) {
-                    if(debug) console.log('Failed load', url, 'from remote, instead load cache:', cacheData);
-                    callback(cacheData.data, 'cache');
-                }
-            }, dataType).error(function() {
-                if(debug) console.warn("Ajax error:", url);
-                if(isHasCache && !isIndexJson) {
-                    if(debug) console.log('Failed load', url, 'from remote with error, instead load cache:', cacheData);
-                    callback(cacheData.data, 'cache');
-                } else {
-                    callback(null, 'error');
-                }
-
-                if($body.hasClass('page-open')) {
-                    $pageBody.children('.loader').addClass('with-error');
+                    if($body.hasClass('page-open')) {
+                        $pageBody.children('.loader').addClass('with-error');
+                    }
                 }
             });
         }
