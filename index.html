@@ -67,6 +67,7 @@
       </div>
     </header>
 
+    <!-- 新开子页面 -->
     <div id="page">
       <div id="pageHeader">
         <div class="wrapper container">
@@ -104,6 +105,7 @@
       </div>
     </div>
 
+    <!-- 当 file: 协议访问时的提示 -->
     <div id="fileProtocolTip" class="hidden">
       <div class="container-fixed-sm">
         <h1>不支持 <code>file://</code> 协议</h1>
@@ -123,8 +125,14 @@
       </div>
     </div>
 
+    <div data-placement="left" title="切换界面布局" data-toggle="tooltip" id="changeViewWrapper">
+      <button type="button" class="btn btn-primary" id="changeViewBtn" data-toggle="modal" data-target="#changeViewModal"><i class="icon icon-columns"></i></button>
+    </div>
+
+    <!-- 远程内容加载图标 -->
     <div class="text-muted loader loading"><i class="icon icon-spin icon-spinner-indicator"></i> 加载中...</div>
 
+    <!-- 内容目录 -->
     <div id="grid">
       <div class="container">
         <div class="row">
@@ -221,7 +229,7 @@
         <p class="text-muted"><small>文档版本 <span class="doc-version"><i class="icon icon-spin icon-spinner-indicator"></i></span></small></p>
       </div>
     </footer>
- 
+
     <!-- 一些html模板代码片段 -->
     <div class="template">
       <div class="card section fade scale slide-in-up-100 slide-in-right-50" id="sectionTemplate">
@@ -240,6 +248,35 @@
         <pre class="copyable"><code><span class="tag">&lt;i</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">&quot;icon <em class="name"></em>&quot;</span><span class="tag">&gt;&lt;/i&gt;</span></code></pre>
       </div>
       <button id="copyCodeBtn" data-html="true" data-animation="false" data-toggle="tooltip" data-title="复制代码" type="button" class="btn btn-copy-code"  data-tip-id="copyCodeTip" data-container="body"><i class="icon icon-copy"></i></button>
+    </div>
+
+    <div class="modal fade" id="changeViewModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+            <h4 class="modal-title">你想用哪种布局展示页面？</h4>
+          </div>
+          <div class="modal-body">
+            <div class="view-options">
+              <a class="view-option view-option-single">
+                <div class="view-shape">
+                  <div class="s-1"></div>
+                </div>
+                <div class="title strong">单页面</div>
+                <p class="text-muted">页面在页面中间显示，并隐藏目录。</p>
+              </a>
+              <a class="view-option view-option-double">
+                <div class="view-shape">
+                  <div class="s-1"></div>
+                </div>
+                <div class="title strong">双栏</div>
+                <p class="text-muted">目录在左侧显示，页面在右侧显示，更好的利用宽屏空间。</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- jQuery (ZUI中的Javascript组件依赖于jQuery) -->

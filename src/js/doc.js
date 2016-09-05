@@ -1478,7 +1478,16 @@
                 window.open(section.url, '_blank');
                 break;
             case 'page':
-                openPage($section, section, topic);
+                var pageViewLayout = $.zui.store.get('pageViewLayout');
+                if(!pageViewLayout && $(window).width() >= 1600) {
+                    $('#changeViewModal').on('hide.zui.modal', function() {
+                        pageViewLayout = $.zui.store.get('pageViewLayout');
+                        if(!pageViewLayout) $.zui.store.set('pageViewLayout', 'single');
+                        openPage($section, section, topic);
+                    }).modal('show');
+                } else {
+                    openPage($section, section, topic);
+                }
                 break;
             default:
                 if(debug) console.error("Open section failed: unknown target.");
@@ -1921,6 +1930,30 @@
         }
     };
 
+    var initChangeView = function() {
+        var changePageView = function(pageViewLayout) {
+            if(pageViewLayout) {
+                $.zui.store.set('pageViewLayout', pageViewLayout);
+            } else {
+                pageViewLayout = $.zui.store.get('pageViewLayout');
+            }
+            var isDoubleView = pageViewLayout === 'double' && $(window).width() >= 1200;
+            $('body').toggleClass('view-double', isDoubleView);
+        };
+
+        var $modal = $('#changeViewModal');
+        $modal.on('show.zui.modal', function() {
+            var isDoubleView = $('body').hasClass('view-double');
+            $modal.find('.view-option.active').removeClass('active');
+            $modal.find('.view-option-' + (isDoubleView ? 'double' : 'single')).addClass('active');
+        }).on('click', '.view-option', function() {
+            changePageView($(this).hasClass('view-option-double') ? 'double' : 'single');
+            $modal.modal('hide');
+        });
+
+        changePageView();
+    };
+
     var init = function() {
         documentTitle = window.document.title;
 
@@ -2073,6 +2106,7 @@
         }).on('keydown', function(e) {
             var code = e.which;
             var isPageNotShow = !$body.hasClass('page-show');
+            var isDoubleView = $body.hasClass('view-double');
             var isInputFocus = $body.hasClass('input-query-focus');
             if(code === 9) { // Tab
                 if(!$body.hasClass('input-query-focus')) {
@@ -2080,7 +2114,7 @@
                     e.preventDefault();
                 }
             } else if(code === 13) { // Enter
-                if(isPageNotShow && isChoosedSection()) {
+                if((isDoubleView || isPageNotShow) && isChoosedSection()) {
                     openSection();
                 }
             } else if(code === 27) { // Esc
@@ -2101,15 +2135,15 @@
                 chooseRightSection();
                 e.preventDefault();
                 // }
-            } else if(code === 38) { // Top
-                if(isPageNotShow) {
+            } else if(code === 38) { // Up
+                if(isPageNotShow || isDoubleView) {
                     choosePrevSection();
                     e.preventDefault();
                 } else {
                     scrollToThis($pageBody, 'up');
                 }
             } else if(code === 40) { // Down
-                if(isPageNotShow) {
+                if(isPageNotShow || isDoubleView) {
                     chooseNextSection();
                     e.preventDefault();
                 }
@@ -2173,6 +2207,8 @@
                 loadPage(null, '!refresh', true);
             });
         }
+
+        initChangeView();
 
         // init code copy function
         initCopyable();
