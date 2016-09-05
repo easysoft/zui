@@ -19,6 +19,7 @@ var extend = require('extend'),
     format = require('string-format').extend(String.prototype),
     colors = require('colors'),
     gulp = require('gulp'),
+    jsonminify = require('gulp-jsonminify'),
     zui = require('./zui.json'),
     pkg = require('./package.json'),
     showFileDetail = true;
@@ -440,7 +441,8 @@ gulp.task('build', function(callback) {
 });
 
 ['dist', 'doc', 'theme', 'lib'].forEach(function(name) {
-    gulp.task(name, function(callback) {
+    var depsTasks = (name == 'dist' || name == 'doc') ? ['minJSON'] : [];
+    gulp.task(name, depsTasks, function(callback) {
         console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
         buildBundle(name == 'lib' ? 'seperate' : name, function() {
             console.log('    END >> ' + (' Build ' + name.bold + ' completed. ').green.inverse);
@@ -469,6 +471,18 @@ gulp.task('build', function(callback) {
             }, 'resource');
         });
     });
+});
+
+gulp.task('minJSON', function(cb) {
+    gulp.src(['./docs/index.json', './docs/icons.json'])
+        .pipe(jsonminify())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./docs/'));
+    gulp.src(['zui.json'])
+        .pipe(jsonminify())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('./docs/'));
+    cb();
 });
 
 gulp.task('prettify:js', function() {
