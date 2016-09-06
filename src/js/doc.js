@@ -16,6 +16,10 @@
         return;
     }
 
+    if($.zui.browser.ie && $.zui.browser.ie < 11) {
+        $.zui.messager.danger('你正在使用 IE 较低版本访问，无法获得 ZUI 文档网站的完整体验，建议你更换浏览器再访问。', {time: 20000});
+    }
+
     // Polyfill
     if(!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
