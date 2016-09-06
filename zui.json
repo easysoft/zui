@@ -1067,7 +1067,7 @@
       }
     },
     "dashboard": {
-      "name": "控制面板",
+      "name": "仪表盘",
       "src": {
         "less": ["~/views/dashboard.less"],
         "js": ["src/js/dashboard.js"]
