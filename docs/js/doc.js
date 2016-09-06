@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-09-05
+ * ZUI: Document - v1.5.0 - 2016-09-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -81,6 +81,7 @@
         resource    : {col: 1, row: 2},
         contribution: {col: 1, row: 2}
     };
+    var isTouchScreen = 'ontouchstart' in document.documentElement;
     var LAST_RELOAD_ANIMATE_ID = 'lastReloadAnimate',
         LAST_QUERY_ID = 'LAST_QUERY_ID',
         INDEX_JSON = debug ? 'docs/index.json' : 'docs/index.min.json',
@@ -1214,6 +1215,7 @@
                         }
                         if(tagName === 'TABLE') {
                             $tag.addClass('table');
+                            $tag = $('<div class="table-responsive"/>').append($tag);
                         }
                         if(checkFirstH1) {
                             if(tagName === 'H1') {
@@ -1430,12 +1432,14 @@
                         if(firstOpenPage) {
                             firstOpenPage = false;
                             $.zui.store.set('first_open_page', false);
-                            setTimeout(function() {
-                                $('#pageCloseBtn').tooltip('show').addClass('active');
+                            if(!isTouchScreen) {
                                 setTimeout(function() {
-                                    $('#pageCloseBtn').tooltip('hide').removeClass('active');
-                                }, 6000);
-                            }, 500);
+                                    $('#pageCloseBtn').tooltip('show').addClass('active');
+                                    setTimeout(function() {
+                                        $('#pageCloseBtn').tooltip('hide').removeClass('active');
+                                    }, 6000);
+                                }, 500);
+                            }
                         }
                     }
                 }, 300);
@@ -1831,7 +1835,7 @@
 
             clipboard.on('error', function(e) {
                 $('#copyCodeTip').addClass('tooltip-warning');
-                $copyCodeBtn.tooltip('show', '按 <strong>Ctrl+C</strong> 完成复制');
+                $copyCodeBtn.tooltip('show', isTouchScreen ? '你的浏览器不支持直接复制，请自行选择并复制。' : '按 <strong>Ctrl+C</strong> 完成复制');
             });
 
             $copyCodeBtn.on('hide.zui.tooltip', function() {
@@ -1849,7 +1853,7 @@
                 $copyable.prepend($copyCodeBtn);
                 $copyCodeBtn.attr('data-clipboard-target', '#' + $copyableTarget.attr('id'));
                 $copyable.one('mouseleave', function() {
-                     $copyCodeBtn.detach();
+                    $copyCodeBtn.detach();
                 });
             });
         }
@@ -2237,10 +2241,12 @@
         // init theme
         initTheme();
 
-        // init tooltip
-        $('[data-toggle="tooltip"]').tooltip({
-            container: 'body'
-        });
+        if(!isTouchScreen) {
+            // init tooltip
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body'
+            });
+        }
     };
 
     init();

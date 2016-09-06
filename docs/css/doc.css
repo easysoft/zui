@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-09-05
+ * ZUI: Document - v1.5.0 - 2016-09-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -2154,6 +2154,25 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
 #pageAttrs .dropdown-header.primary-header[data-type="bundles"] {
   color: #38b03f;
   }
+@media (max-width: 767px) {
+  #pageAttrs {
+    padding-bottom: 10px;
+    padding-left: 0;
+    margin: 0 0 10px 0;
+    }
+  #pageAttrs > .pull-right {
+    margin: 0 0 5px 5px !important;
+    }
+  #pageAttrs .badge {
+    min-width: 30px;
+    padding: 5px;
+    margin-right: 5px;
+    margin-left: 0;
+    }
+  #pageAttrs > .badge {
+    margin-bottom: 5px;
+    }
+  }
 #pageContent {
   position: relative;
   padding-left: 44px;
@@ -2305,6 +2324,11 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   width: 9px;
   height: 1px;
   }
+@media (max-width: 767px) {
+  #pageTogger {
+    display: none;
+    }
+  }
 #page.page-collapsed #pageTogger:before {
   display: block;
   }
@@ -2373,7 +2397,7 @@ body.compact-mode #header {
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1025;
+  z-index: 1010;
   height: 483px;
   }
 body.compact-mode #headContainer > .container {
@@ -2691,19 +2715,17 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
   #ad > a {
     width: 250px;
     }
-  #pageTogger {
-    bottom: -68px;
-    left: 8px;
+  #grid .col {
+    width: 100%;
     }
-  #pageAttrs {
-    padding-left: 0;
-    margin-left: 20px;
+  #page {
+    top: 0;
+    z-index: 1015;
     }
   #pageContent {
-    padding-left: 20px;
+    padding-left: 0;
     }
   #pageContent:before {
-    left: 0;
     display: none;
     }
   #pageHeader > .container {
@@ -2713,19 +2735,37 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
     left: 15px;
     }
   #pageContent > section:before {
-    left: -15px;
+    display: none;
     }
-  #pageContent > section > header:before {
-    left: -20px;
-    }
+  #pageContent > section > header:before,
   #pageContent > section > header:after {
     display: none;
     }
+  #pageContent > section > header > h3 {
+    position: relative;
+    }
   #pageContent > section > header > h3:before {
-    left: -15px;
+    display: none;
     }
   #pageContent > section > header > h3:after {
-    left: -18px;
+    top: 1px;
+    right: -12px;
+    left: auto;
+    font-family: ZenIcon;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-transform: none;
+    content: '\e651';
+
+    speak: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    }
+  #pageContent > section.collapsed > header > h3:after {
+    content: '\e650';
     }
   body.compact-mode #header {
     height: 433px;

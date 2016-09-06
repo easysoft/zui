@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.5.0 - 2016-09-05
+ * ZUI: ZUI for official website - v1.5.0 - 2016-09-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -4040,80 +4040,82 @@ button.close {
   background: transparent;
   border: 0;
   }
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  }
-::-webkit-scrollbar-button {
-  width: 0;
-  height: 0;
-  }
-::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment {
-  display: block;
-  }
-::-webkit-scrollbar-button:vertical:start:increment,
-::-webkit-scrollbar-button:vertical:end:decrement {
-  display: none;
-  }
-::-webkit-scrollbar-track:vertical,
-::-webkit-scrollbar-track:horizontal,
-::-webkit-scrollbar-thumb:vertical,
-::-webkit-scrollbar-thumb:horizontal,
-::-webkit-scrollbar-track:vertical,
-::-webkit-scrollbar-track:horizontal,
-::-webkit-scrollbar-thumb:vertical,
-::-webkit-scrollbar-thumb:horizontal {
-  border-color: transparent;
-  border-style: solid;
-  }
-::-webkit-scrollbar-track:vertical::-webkit-scrollbar-track:horizontal {
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-          background-clip: padding-box;
-  }
-::-webkit-scrollbar-thumb {
-  min-height: 28px;
-  padding-top: 100;
-  background-color: rgba(0, 0, 0, .2);
-  -webkit-background-clip: padding-box;
-          background-clip: padding-box;
-  border-radius: 5px;
-  -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
-  }
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, .4);
-  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .25);
-  }
-::-webkit-scrollbar-thumb:active {
-  background-color: rgba(0, 0, 0, .5);
-  -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .35);
-  }
-::-webkit-scrollbar-track:vertical,
-::-webkit-scrollbar-track:horizontal,
-::-webkit-scrollbar-thumb:vertical,
-::-webkit-scrollbar-thumb:horizontal {
-  border-width: 0;
-  }
-::-webkit-scrollbar-track:hover {
-  background-color: rgba(0, 0, 0, .05);
-  -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1);
-  }
-::-webkit-scrollbar-track:active {
-  background-color: rgba(0, 0, 0, .05);
-  -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px -1px 0 rgba(0, 0, 0, .07);
-  }
-.scrollbar-hover::-webkit-scrollbar,
-.scrollbar-hover::-webkit-scrollbar-button,
-.scrollbar-hover::-webkit-scrollbar-track,
-.scrollbar-hover::-webkit-scrollbar-thumb {
-  visibility: hidden;
-  }
-.scrollbar-hover:hover::-webkit-scrollbar,
-.scrollbar-hover:hover::-webkit-scrollbar-button,
-.scrollbar-hover:hover::-webkit-scrollbar-track,
-.scrollbar-hover:hover::-webkit-scrollbar-thumb {
-  visibility: visible;
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    }
+  ::-webkit-scrollbar-button:start:decrement,
+  ::-webkit-scrollbar-button:end:increment {
+    display: block;
+    }
+  ::-webkit-scrollbar-button:vertical:start:increment,
+  ::-webkit-scrollbar-button:vertical:end:decrement {
+    display: none;
+    }
+  ::-webkit-scrollbar-track:vertical,
+  ::-webkit-scrollbar-track:horizontal,
+  ::-webkit-scrollbar-thumb:vertical,
+  ::-webkit-scrollbar-thumb:horizontal,
+  ::-webkit-scrollbar-track:vertical,
+  ::-webkit-scrollbar-track:horizontal,
+  ::-webkit-scrollbar-thumb:vertical,
+  ::-webkit-scrollbar-thumb:horizontal {
+    border-color: transparent;
+    border-style: solid;
+    }
+  ::-webkit-scrollbar-track:vertical::-webkit-scrollbar-track:horizontal {
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+    }
+  ::-webkit-scrollbar-thumb {
+    min-height: 28px;
+    padding-top: 100;
+    background-color: rgba(0, 0, 0, .2);
+    -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+    border-radius: 5px;
+    -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
+    }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, .4);
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .25);
+    }
+  ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(0, 0, 0, .5);
+    -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .35);
+    }
+  ::-webkit-scrollbar-track:vertical,
+  ::-webkit-scrollbar-track:horizontal,
+  ::-webkit-scrollbar-thumb:vertical,
+  ::-webkit-scrollbar-thumb:horizontal {
+    border-width: 0;
+    }
+  ::-webkit-scrollbar-track:hover {
+    background-color: rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1);
+    }
+  ::-webkit-scrollbar-track:active {
+    background-color: rgba(0, 0, 0, .05);
+    -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px -1px 0 rgba(0, 0, 0, .07);
+    }
+  .scrollbar-hover::-webkit-scrollbar,
+  .scrollbar-hover::-webkit-scrollbar-button,
+  .scrollbar-hover::-webkit-scrollbar-track,
+  .scrollbar-hover::-webkit-scrollbar-thumb {
+    visibility: hidden;
+    }
+  .scrollbar-hover:hover::-webkit-scrollbar,
+  .scrollbar-hover:hover::-webkit-scrollbar-button,
+  .scrollbar-hover:hover::-webkit-scrollbar-track,
+  .scrollbar-hover:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+    }
   }
 table {
   max-width: 100%;
@@ -4298,6 +4300,9 @@ table th[class*="col-"] {
     }
   .table-responsive > .table-bordered {
     border: 0;
+    }
+  .table-responsive > .table-bordered th {
+    border-top: none;
     }
   .table-responsive > .table-bordered > thead > tr > th:first-child,
   .table-responsive > .table-bordered > tbody > tr > th:first-child,

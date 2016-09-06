@@ -17,7 +17,8 @@
             tablet: 'screen-tablet',
             phone: 'screen-phone',
             isMobile: 'device-mobile',
-            isDesktop: 'device-desktop'
+            isDesktop: 'device-desktop',
+            touch: 'is-touchable'
         };
 
     var $window = $(window);
@@ -29,6 +30,7 @@
             .toggleClass(cssNames.tablet, width >= tablet && width < desktop)
             .toggleClass(cssNames.phone, width < tablet)
             .toggleClass(cssNames.isMobile, width < desktop)
+            .toggleClass(cssNames.touch, 'ontouchstart' in document.documentElement)
             .toggleClass(cssNames.isDesktop, width >= desktop);
     };
 
