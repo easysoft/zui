@@ -23,6 +23,10 @@
         return;
     }
 
+    if($.zui.browser.ie && $.zui.browser.ie < 11) {
+        $.zui.messager.danger('你正在使用 IE 较低版本访问，无法获得 ZUI 文档网站的完整体验，建议你更换浏览器再访问。', {time: 20000});
+    }
+
     // Polyfill
     if(!String.prototype.endsWith) {
         String.prototype.endsWith = function(searchString, position) {
@@ -90,6 +94,7 @@
         ZUI_JSON = debug ? 'zui.json' : 'docs/zui.min.json',
         ZUI_CUSTOM_JSON = 'zui.custom.json',
         UNDEFINED = undefined,
+        isNewRelease = (new Date().getTime()) < 1483027200000, // 2016/12/30
         dataVersion,
         storageEnable,
         docIndex, iconsIndex, currentSection,
@@ -1748,7 +1753,9 @@
                 section.isNew = section.version === pkg.version;
                 section.isUpdate = section.update === pkg.version;
                 
-                $('#section-' + section.chapter + '-' + section.id).toggleClass('section-update', section.isUpdate).toggleClass('section-new', section.isNew);
+                if(isNewRelease) {
+                    $('#section-' + section.chapter + '-' + section.id).toggleClass('section-update', section.isUpdate).toggleClass('section-new', section.isNew);
+                }
             });
         });
     };
