@@ -274,9 +274,13 @@ module.exports = function(gulp, $) {
 ```
 
 <script>
+function onPageLoad() {
+  return false;
+}
 function afterPageLoad() {
     if($.doc) {
         $.doc.displayPkgLibTable($('#buildTable'));
     }
+    setTimeout($.doc.stopPageLoading, 1500);
 }
 </script>
