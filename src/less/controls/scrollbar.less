@@ -9,93 +9,95 @@
 // The google style like scrollbar
 // Inspired by scrollbar style in gmail(https://google.com/google/)
 
-// Google scrollbar
-::-webkit-scrollbar {
-  height: @scrollbar-size;
-  width: @scrollbar-size
-}
-
-::-webkit-scrollbar-button {
-  height: 0;
-  width: 0
-}
-
-::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment {
-  display: block
-}
-
-::-webkit-scrollbar-button:vertical:start:increment,
-::-webkit-scrollbar-button:vertical:end:decrement {
-  display: none
-}
-
-::-webkit-scrollbar-track:vertical,
-::-webkit-scrollbar-track:horizontal,
-::-webkit-scrollbar-thumb:vertical,
-::-webkit-scrollbar-thumb:horizontal,
-::-webkit-scrollbar-track:vertical,
-::-webkit-scrollbar-track:horizontal,
-::-webkit-scrollbar-thumb:vertical,
-::-webkit-scrollbar-thumb:horizontal {
-  border-style: solid;
-  border-color: transparent
-}
-
-::-webkit-scrollbar-track:vertical::-webkit-scrollbar-track:horizontal {
-  background-clip: padding-box;
-  background-color: #fff;
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
-  background-clip: padding-box;
-  background-color: rgba(0, 0, 0, .2);
-  border-radius: @scrollbar-radius;
-  min-height: 28px;
-  padding-top: 100
-}
-
-::-webkit-scrollbar-thumb:hover {
-  -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .25);
-  background-color: rgba(0, 0, 0, .4)
-}
-
-::-webkit-scrollbar-thumb:active {
-  -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .35);
-  background-color: rgba(0, 0, 0, .5)
-}
-
-::-webkit-scrollbar-track:vertical,
-::-webkit-scrollbar-track:horizontal,
-::-webkit-scrollbar-thumb:vertical,
-::-webkit-scrollbar-thumb:horizontal {
-  border-width: 0;
-}
-
-::-webkit-scrollbar-track:hover {
-  -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1);
-  background-color: rgba(0, 0, 0, .05)
-}
-
-::-webkit-scrollbar-track:active {
-  -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px -1px 0 rgba(0, 0, 0, .07);
-  background-color: rgba(0, 0, 0, .05)
-}
-
-.scrollbar-hover {
-  &::-webkit-scrollbar,
-  &::-webkit-scrollbar-button,
-  &::-webkit-scrollbar-track,
-  &::-webkit-scrollbar-thumb {
-    visibility: hidden;
+@media (min-width: 768px) {
+  // Google scrollbar
+  ::-webkit-scrollbar {
+    height: @scrollbar-size;
+    width: @scrollbar-size
   }
-  &:hover {
+
+  ::-webkit-scrollbar-button {
+    height: 0;
+    width: 0
+  }
+
+  ::-webkit-scrollbar-button:start:decrement,
+  ::-webkit-scrollbar-button:end:increment {
+    display: block
+  }
+
+  ::-webkit-scrollbar-button:vertical:start:increment,
+  ::-webkit-scrollbar-button:vertical:end:decrement {
+    display: none
+  }
+
+  ::-webkit-scrollbar-track:vertical,
+  ::-webkit-scrollbar-track:horizontal,
+  ::-webkit-scrollbar-thumb:vertical,
+  ::-webkit-scrollbar-thumb:horizontal,
+  ::-webkit-scrollbar-track:vertical,
+  ::-webkit-scrollbar-track:horizontal,
+  ::-webkit-scrollbar-thumb:vertical,
+  ::-webkit-scrollbar-thumb:horizontal {
+    border-style: solid;
+    border-color: transparent
+  }
+
+  ::-webkit-scrollbar-track:vertical::-webkit-scrollbar-track:horizontal {
+    background-clip: padding-box;
+    background-color: #fff;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset 0 -1px 0 rgba(0, 0, 0, .07);
+    background-clip: padding-box;
+    background-color: rgba(0, 0, 0, .2);
+    border-radius: @scrollbar-radius;
+    min-height: 28px;
+    padding-top: 100
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .25);
+    background-color: rgba(0, 0, 0, .4)
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .35);
+    background-color: rgba(0, 0, 0, .5)
+  }
+
+  ::-webkit-scrollbar-track:vertical,
+  ::-webkit-scrollbar-track:horizontal,
+  ::-webkit-scrollbar-thumb:vertical,
+  ::-webkit-scrollbar-thumb:horizontal {
+    border-width: 0;
+  }
+
+  ::-webkit-scrollbar-track:hover {
+    -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, .05)
+  }
+
+  ::-webkit-scrollbar-track:active {
+    -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px -1px 0 rgba(0, 0, 0, .07);
+    background-color: rgba(0, 0, 0, .05)
+  }
+
+  .scrollbar-hover {
     &::-webkit-scrollbar,
     &::-webkit-scrollbar-button,
     &::-webkit-scrollbar-track,
     &::-webkit-scrollbar-thumb {
-      visibility: visible;
+      visibility: hidden;
+    }
+    &:hover {
+      &::-webkit-scrollbar,
+      &::-webkit-scrollbar-button,
+      &::-webkit-scrollbar-track,
+      &::-webkit-scrollbar-thumb {
+        visibility: visible;
+      }
     }
   }
 }
