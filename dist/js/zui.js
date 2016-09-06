@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.5.0 - 2016-09-05
+ * ZUI: Standard edition - v1.5.0 - 2016-09-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -712,7 +712,8 @@
             tablet: 'screen-tablet',
             phone: 'screen-phone',
             isMobile: 'device-mobile',
-            isDesktop: 'device-desktop'
+            isDesktop: 'device-desktop',
+            touch: 'is-touchable'
         };
 
     var $window = $(window);
@@ -724,6 +725,7 @@
             .toggleClass(cssNames.tablet, width >= tablet && width < desktop)
             .toggleClass(cssNames.phone, width < tablet)
             .toggleClass(cssNames.isMobile, width < desktop)
+            .toggleClass(cssNames.touch, 'ontouchstart' in document.documentElement)
             .toggleClass(cssNames.isDesktop, width >= desktop);
     };
 

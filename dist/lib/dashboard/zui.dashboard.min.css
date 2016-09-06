@@ -1,5 +1,5 @@
 /*!
- * ZUI: 控制面板 - v1.5.0 - 2016-09-05
+ * ZUI: 仪表盘 - v1.5.0 - 2016-09-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT

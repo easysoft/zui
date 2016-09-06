@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格 - v1.5.0 - 2016-09-05
+ * ZUI: 数据表格 - v1.5.0 - 2016-09-06
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -627,7 +627,9 @@
             };
 
             var toggleRowClass = function(ele, toggle) {
-                $rows.filter('[data-index="' + $(ele).closest('tr').data('index') + '"]').toggleClass(checkedClass, !!toggle);
+                var $tr = $(ele).closest('tr');
+                if(toggle === undefined) toggle = !$tr.hasClass(checkedClass);
+                $rows.filter('[data-index="' + $tr.data('index') + '"]').toggleClass(checkedClass, !!toggle);
             };
 
             var checkEventPrefix = 'click.zui.datatable.check';
