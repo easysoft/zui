@@ -826,6 +826,8 @@
                     "name": "固定布局的表格"
                 }, {
                     "name": "色彩主题"
+                }, {
+                    "name": "响应式表格"
                 }],
                 "filter": "biaoge bg table-bordered table-borderless table-auto table-striped table-hover"
             }, {

@@ -48,6 +48,8 @@
     > .table-bordered {
       border: 0;
 
+      th {border-top: none}
+
       // Nuke the appropriate borders so that the parent can handle them
       > thead,
       > tbody,
@@ -76,7 +78,6 @@
           }
         }
       }
-
     }
   }
 }
