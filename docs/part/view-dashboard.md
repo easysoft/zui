@@ -9,6 +9,11 @@ filter: yibiaopan ybp panel mianban mb
 
 仪表盘提供了一种灵活的方式来通过多个面板组（`.panel`）并配合栅格来展现内容的方式。
 
+<div class="alert alert-warning">
+  <h4>兼容性提示</h4>
+  <p>仪表盘视图在触摸屏上无法完成拖拽排序功能。</p>
+</div>
+
 ## 使用示例
 
 <example style="padding-bottom: 0">

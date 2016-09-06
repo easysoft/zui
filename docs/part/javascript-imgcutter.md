@@ -13,15 +13,19 @@ filter: tupianjianqie tpjq cj caijian
 
 通过本插件允许用户通过拖拽区域边框来选定裁剪区域。
 
-<div class="alert alert-primary">
+<div class="alert alert-warning">
   <h4>提示</h4>
   <p>为兼容更多的浏览器，此插件实际并不会对图片进行剪裁操作。当确定裁剪区域后，你需要将剪裁区域数据上传到服务器，让服务器进行图片裁剪操作。</p>
   <p>你仍然可以通过监听<code>before</code>事件来自行处理确定裁剪区域后的操作，包括在本地对图片进行剪裁。</p>
 </div>
 
-<div class="alert alert-warning">
-  <h4>已知兼容性问题</h4>
-  <p>此插件在 IE8-9 上有兼容性问题。</p>
+<div class="alert alert-danger">
+  <h4>兼容性问题</h4>
+  <ul>
+    <li>在 IE8-9 上有兼容性问题；</li>
+    <li>在触摸屏上无法进行拖拽功能；</li>
+    <li>在小屏幕上无法获得最佳体验。</li>
+  </ul>
 </div>
 
 ## 综合示例

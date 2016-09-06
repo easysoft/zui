@@ -10,6 +10,11 @@ filter: gundongtiao gdt
 ZUI也针对浏览器的滚动条进行了样式优化。
 
 <div class="alert alert-warning">
+  <h4>提示</h4>
+  <p>滚动条样式仅仅使用桌面浏览器，在设备屏幕宽度小于 `768px` 时不会应用滚动条样式。</p>
+</div>
+
+<div class="alert alert-warning">
   <h4>浏览器兼容性</h4>
   <p>滚动条样式目前仅支持Webkit内核浏览器。</p>
 </div>

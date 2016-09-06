@@ -9,6 +9,11 @@ filter: tuodong td
 
 拖动插件可以方便的允许一个元素在父级容器内通过拖动操作来更改位置。
 
+<div class="alert alert-danger">
+  <h4>兼容性问题</h4>
+  <p>在触摸屏上无法支持拖拽功能。</p>
+</div>
+
 **被拖动的元素需要设置 CSS `position` 为 `absolute`**。当元素被拖动时，其位置是相对文档 `<body>` 来计算的，也可以通过设置 `container` 选项来指定计算位置时所使用的参考元素。
 
 使用 `$().draggable()` 来为被拖动的元素进行初始化。

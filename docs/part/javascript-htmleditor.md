@@ -13,6 +13,11 @@ ZUI 专为 UEditor 和 Kindeitor 定制了与 ZUI 风格一致的主题。
 
 ## UEditor
 
+<div class="alert alert-danger">
+  <h4>兼容性问题</h4>
+  <p>在触摸屏或小屏幕上无法获取最佳体验。</p>
+</div>
+
 ### 使用 UEditor
 
 因为 UEditor 用到的文件比较多，ZUI 并不提供 UEditor JavaScript 文件。你需要访问 UEditor 官方网站来下载相关资源，以下为 UEditor 相关资源网站：
@@ -29,6 +34,11 @@ ZUI 专为 UEditor 和 Kindeitor 定制了与 ZUI 风格一致的主题。
 你需要将 ZUI `dist/lib/ueditor/ueditor.css` 和 `dist/lib/ueditor/ueditor.min.css` 文件替换在 UEditor 的 `themes/default/css/` 目录下的 CSS 文件。
 
 ## Kindeitor
+
+<div class="alert alert-danger">
+  <h4>兼容性问题</h4>
+  <p>在触摸屏或小屏幕上无法获取最佳体验。</p>
+</div>
 
 详细用法请访问 Kindeitor 官方网站：<a target="_blank" href="http://kindeditor.org/">http://kindeditor.org/</a>，项目地址：<a target="_blank" href="hhttps://github.com/kindsoft/kindeditor">hhttps://github.com/kindsoft/kindeditor</a>。
 

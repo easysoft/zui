@@ -13,6 +13,11 @@ filter: tuofang tf
 
 拖放插件不会更改你的元素 DOM 结构，也就是说如果你需要将用户拖动的元素移动到目标容器内，则需要你自己使用 JavaScript 来移动相关 DOM 节点。
 
+<div class="alert alert-danger">
+  <h4>兼容性问题</h4>
+  <p>在触摸屏上无法支持拖拽功能。</p>
+</div>
+
 ## 综合示例
 
 <example>
