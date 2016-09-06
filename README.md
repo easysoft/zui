@@ -55,7 +55,7 @@ bower install zui
 
 ### 下载
 
- - [v 1.5.0 生产包](https://github.com/easysoft/zui/releases/download/zui-1.5.0-dist.zip)
+ - [v 1.5.0 生产包](https://github.com/easysoft/zui/releases/download/v1.5.0/zui-1.5.0-dist.zip)
  - [v 1.5.0 源码](https://github.com/easysoft/zui/archive/v1.5.0.zip)
 
 ### 文档
