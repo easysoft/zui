@@ -307,6 +307,7 @@
     };
 
     Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
+        if(onlyRefreshBody === undefined) onlyRefreshBody = this.options.onlyRefreshBody;
         var afterRefresh = this.options.afterRefresh;
         $panel = $($panel);
         var url = $panel.data('url');
