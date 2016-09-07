@@ -311,6 +311,12 @@ $('#dashboard').dashboard({draggable: true});
       <td>指定一个对象数组用来在初始化时生成栅格和面板。</td>
     </tr>
     <tr>
+      <td>`onlyRefreshBody`</td>
+      <td>远程更新方式</td>
+      <td>`true`（默认）、`false`</td>
+      <td>如果设置为 `true`，则远程内容仅仅用于更新 `.panel-body` 元素，否则会更新 `.panel`。</td>
+    </tr>
+    <tr>
       <td>`afterPanelRemoved`</td>
       <td>面板被移除时的回调函数</td>
       <td>函数</td>
@@ -581,8 +587,9 @@ $('#myDashboard').dashboard{
 该方法形式如下：
 
  - `refresh(panel)`
+ - `refresh(panel, onlyRefreshBody)`
 
-其中 `panel` 参数为需要进行更新的面板（`.panel`）对象。
+其中 `panel` 参数使用 CSS 选择器指定为需要进行更新的面板（`.panel`）对象；`onlyRefreshBody` 参数为布尔值，指定是否仅仅使用远程内容来更新 `.panel-body` 元素。
 
 ```javascript
 // 获取仪表盘实例

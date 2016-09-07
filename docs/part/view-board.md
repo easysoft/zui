@@ -160,6 +160,7 @@ $('#myBoards').boards({
  - `.board`：标识一个看板容器，应作为 `.boards` 的直接子元素或子元素的后代元素；
  - `.board-list`：看板列表容器，应作为 `.board` 的直接子元素或子元素的后代元素；
  - `.board-item`：看板列表条目，必须为 `.board-list` 的直接子元素；
+ - `.disable-drop`：为 `.board-item` 添加 `.disable-drop` 类来禁用此列表条目被拖动；
  - `.board-item-shadow`：当拖动时由程序动态生成的被拖动看板列表条目的影子元素，为 `.board-list` 的直接子元素。
 
 只要保证各个特殊类的层级关系，你可以自由定制自己的看板结构。
