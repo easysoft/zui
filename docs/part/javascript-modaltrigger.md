@@ -327,7 +327,7 @@ myModalTrigger.show();
     </tr>
     <tr>
       <td>`height`</td>
-      <td>对话框宽度</td>
+      <td>对话框高度</td>
       <td>*   `'auto'`（默认），自动根据内容调整
 *   其他表示高度的CSS值字符串</td>
       <td>如果指定了高度不是`'auto'`则可能出现内容与高度不匹配的情况。</td>
