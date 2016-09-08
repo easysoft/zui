@@ -2311,19 +2311,21 @@ body[data-page="basic-theme"] {
         content: ' ';
         position: absolute;
         top: 0;
-        right: 10px;
-        left: 10px;
       }
 
       &:before {
         height: 10px;
-        background: @color-primary;
+        background: @color-gray;
+        right: 0;
+        left: 0;
       }
 
       &:after {
         top: 12px;
         background: @color-gray-light;
         bottom: 0;
+        right: 10px;
+        left: 10px;
       }
 
       .s-1 {
@@ -2370,7 +2372,7 @@ body[data-page="basic-theme"] {
       }
 
       &:before {
-        background: @color-primary;
+        background: @color-gray;
         height: 10px;
       }
 
@@ -2434,6 +2436,10 @@ body[data-page="basic-theme"] {
       color: @color-primary;
       text-decoration: none;
 
+      .view-shape:before {
+        background: @color-primary;
+      }
+
       .view-shape .s-1 {
         animation: scale-shape 2s infinite linear normal;
       }
@@ -2442,13 +2448,18 @@ body[data-page="basic-theme"] {
     }
 
     &.active {
-      background: @color-green-pale;
+      background: @color-pale;
       > .title:after {
         content: '(当前)';
-        color: @color-green;
+        color: @color-primary;
         display: inline-block;
         margin-left: 5px;
         font-weight: normal;
+      }
+
+      .view-shape {
+        border-color: @color-primary;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@color-primary, 20%);
       }
     }
   }
