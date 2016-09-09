@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-09-06
+ * ZUI: Document - v1.5.0 - 2016-09-09
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1963,9 +1963,9 @@
     };
 
     var initChangeView = function() {
-        var changePageView = function(pageViewLayout) {
+        var changePageView = function(pageViewLayout, notSave) {
             if(pageViewLayout) {
-                $.zui.store.set('pageViewLayout', pageViewLayout);
+                if(!notSave) $.zui.store.set('pageViewLayout', pageViewLayout);
             } else {
                 pageViewLayout = $.zui.store.get('pageViewLayout');
             }
@@ -1974,13 +1974,24 @@
         };
 
         var $modal = $('#changeViewModal');
+        var hoverEnable = false, isDoubleView;
         $modal.on('show.zui.modal', function() {
-            var isDoubleView = $('body').hasClass('view-double');
+            isDoubleView = $('body').hasClass('view-double');
+            hoverEnable = true;
             $modal.find('.view-option.active').removeClass('active');
             $modal.find('.view-option-' + (isDoubleView ? 'double' : 'single')).addClass('active');
         }).on('click', '.view-option', function() {
+            hoverEnable = false;
             changePageView($(this).hasClass('view-option-double') ? 'double' : 'single');
             $modal.modal('hide');
+        }).on('mouseenter', '.view-option', function() {
+            if(hoverEnable) {
+               changePageView($(this).hasClass('view-option-double') ? 'double' : 'single');
+            }
+        }).on('mouseleave', '.view-option', function() {
+            if(hoverEnable) {
+               changePageView(isDoubleView ? 'double' : 'single');
+            }
         });
 
         changePageView();

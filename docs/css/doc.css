@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-09-06
+ * ZUI: Document - v1.5.0 - 2016-09-09
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -3146,18 +3146,20 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
 #changeViewModal .view-option-single .view-shape:after {
   position: absolute;
   top: 0;
-  right: 10px;
-  left: 10px;
   display: block;
   content: ' ';
   }
 #changeViewModal .view-option-single .view-shape:before {
+  right: 0;
+  left: 0;
   height: 10px;
-  background: #3280fc;
+  background: #808080;
   }
 #changeViewModal .view-option-single .view-shape:after {
   top: 12px;
+  right: 10px;
   bottom: 0;
+  left: 10px;
   background: #ddd;
   }
 #changeViewModal .view-option-single .view-shape .s-1 {
@@ -3197,7 +3199,7 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
   }
 #changeViewModal .view-option-double .view-shape:before {
   height: 10px;
-  background: #3280fc;
+  background: #808080;
   }
 #changeViewModal .view-option-double .view-shape:after {
   top: 10px;
@@ -3253,6 +3255,12 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
   text-decoration: none;
   background-color: #ebf2f9;
   }
+#changeViewModal .view-option.active .view-shape:before,
+#changeViewModal .view-option:hover .view-shape:before,
+#changeViewModal .view-option:focus .view-shape:before,
+#changeViewModal .view-option:active .view-shape:before {
+  background: #3280fc;
+  }
 #changeViewModal .view-option.active .view-shape .s-1,
 #changeViewModal .view-option:hover .view-shape .s-1,
 #changeViewModal .view-option:focus .view-shape .s-1,
@@ -3268,12 +3276,17 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
   opacity: 1;
   }
 #changeViewModal .view-option.active {
-  background: #ddf4df;
+  background: #ebf2f9;
   }
 #changeViewModal .view-option.active > .title:after {
   display: inline-block;
   margin-left: 5px;
   font-weight: normal;
-  color: #38b03f;
+  color: #3280fc;
   content: '(当前)';
+  }
+#changeViewModal .view-option.active .view-shape {
+  border-color: #3280fc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #97befd;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #97befd;
   }
