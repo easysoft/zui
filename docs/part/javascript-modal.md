@@ -489,7 +489,8 @@ $('#myModal').on('shown.zui.modal', function() {
 
 <script>
 function afterPageLoad() {
-    $('#modalToBody .modal-for-page').appendTo('body').on('click', function(e) {
+    $('body > .modal-for-page').remove();
+    $('#pageBody .modal-for-page').appendTo('body').on('click', function(e) {
         e.stopPropagation();
     });
 }

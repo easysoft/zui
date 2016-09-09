@@ -19,7 +19,7 @@ filter: chuizhicaidan czcd
       <li><a href="javascript:;"><i class="icon-th"></i> Dashboard</a></li>
       <li><a href="javascript:;"><i class="icon-user"></i> Me</a></li>
       <li class="nav-parent">
-        <a href="javascript:;"><i class="icon-time"></i> Time<i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+        <a href="javascript:;"><i class="icon-time"></i> Time</a>
         <ul class="nav">
           <li><a href="javascript:;">Today</a></li>
           <li><a href="javascript:;">Tomarrow</a></li>
@@ -30,7 +30,7 @@ filter: chuizhicaidan czcd
       <li><a href="javascript:;"><i class="icon-trash"></i> Trash</a></li>
       <li><a href="javascript:;"><i class="icon-list-ul"></i> All</a></li>
       <li class="active show nav-parent">
-        <a href="javascript:;"><i class="icon-tasks"></i> Status<i class="icon-chevron-right nav-parent-fold-icon"></i></a>
+        <a href="javascript:;"><i class="icon-tasks"></i> Status</a>
         <ul class="nav">
           <li><a href="javascript:;"><i class="icon-circle-blank"></i> Ready</a></li>
           <li class="active"><a href="javascript:;"><i class="icon-play-sign"></i> Ongoing</a></li>
@@ -46,24 +46,25 @@ filter: chuizhicaidan czcd
   <button class="btn btn-primary"><i class="icon-edit"></i> CREATE</button>
   <button class="btn"><i class="icon-cloud-upload"></i> UPLOAD</button>
   <ul class="nav nav-primary">
-    <li><a href="#"><i class="icon-th"></i> Dashboard</a></li>
-    <li><a href="#"><i class="icon-user"></i> Me</a></li>
-    <li>
-      <a href="#"><i class="icon-time"></i> Time</a>
+    <li><a href="javascript:;"><i class="icon-th"></i> Dashboard</a></li>
+    <li><a href="javascript:;"><i class="icon-user"></i> Me</a></li>
+    <li class="nav-parent">
+      <a href="javascript:;"><i class="icon-time"></i> Time</a>
       <ul class="nav">
-        <li><a href="#">Today</a></li>
-        <li><a href="#">Tomarrow</a></li>
-        ...
+        <li><a href="javascript:;">Today</a></li>
+        <li><a href="javascript:;">Tomarrow</a></li>
+        <li><a href="javascript:;">Yestorday</a></li>
+        <li><a href="javascript:;">This Week</a></li>
       </ul>
     </li>
-    <li><a href="#"><i class="icon-list-ul"></i> All</a></li>
-    ...
-    <li class="active show">
-      <a href="#"><i class="icon-tasks"></i> Status</a>
+    <li><a href="javascript:;"><i class="icon-trash"></i> Trash</a></li>
+    <li><a href="javascript:;"><i class="icon-list-ul"></i> All</a></li>
+    <li class="active show nav-parent">
+      <a href="javascript:;"><i class="icon-tasks"></i> Status</a>
       <ul class="nav">
-        <li><a href="#"><i class="icon-circle-blank"></i> Ready</a></li>
-        <li class="active"><a href="#"><i class="icon-play-sign"></i> Ongoing</a></li>
-        ...
+        <li><a href="javascript:;"><i class="icon-circle-blank"></i> Ready</a></li>
+        <li class="active"><a href="javascript:;"><i class="icon-play-sign"></i> Ongoing</a></li>
+        <li><a href="javascript:;"><i class="icon-ok-sign"></i> Completed</a></li>
       </ul>
     </li>
   </ul>
