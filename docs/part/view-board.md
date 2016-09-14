@@ -76,7 +76,7 @@ function afterPageLoad() {
 
 ```html
 <!-- 使用 .boards 类来管理多个 .board -->
-<div class="boards" id="myBoard">
+<div class="boards" id="myBoards">
   <!-- .board 为单个容器 -->
   <div class="board panel">
     <div class="panel-heading">
