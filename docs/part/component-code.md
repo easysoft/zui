@@ -24,7 +24,7 @@ filter: daima dm
 </div>
 
 ```html
-<h1 class="_code_">HelloCode();</h1>
+<h1 class="code">HelloCode();</h1>
 ```
 
 ## 键盘码

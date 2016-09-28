@@ -100,7 +100,7 @@ function afterPageLoad() {
           'color': theme.variables['color-pale'],
           'border-radius': theme.variables['border-radius-base']
         });
-        $theme.find('.icon').css('background-color', theme.variables['color-secondary']);
+        $theme.find('.icon').css({'background-color': theme.variables['color-secondary'], 'border-radius': theme.variables['border-radius-base']});
         $theme.toggleClass('active', themeName === selectTheme || themeName === selectTheme.name);
         $example.append($theme);
     });
