@@ -35,11 +35,12 @@
         }
 
         var that = this;
+        options = that.options = $.extend({}, defaultOptions, options);
+        
         that.id = options.id || (id++);
         var oldMessager = all[that.id];
         if(oldMessager) oldMessager.destory();
         all[that.id] = that;
-        options = that.options = $.extend({}, defaultOptions, options);
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
