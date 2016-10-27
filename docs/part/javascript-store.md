@@ -266,12 +266,13 @@ function afterPageLoad(){
         var index = 0;
         $.zui.store.forEach(function(key,value) {
             if(key.indexOf('//') === 0) return;
-            $storeTable.append('<tr><td>{0}</td><td class="store-name">{1}</td><td>{2}</td><td><a href="javascript:;" class="text-danger store-delete"><i class="icon-trash"></i></a></td></tr>'.format(index++, key, value));
+            $storeTable.append('<tr><td>{0}</td><td class="store-name">{1}</td><td><pre style="padding: 5px; margin: 0" class="prettyprint">{2}</pre></td><td><a href="javascript:;" class="text-danger store-delete"><i class="icon-trash"></i></a></td></tr>'.format(index++, key, typeof value === 'object' ? JSON.stringify(value, null, 2) : (typeof value === 'string' ? ('"' + value + '"') : value)));
         });
         $storeTable.find('.store-delete').click(function() {
             $.zui.store.remove($(this).closest('tr').children('.store-name').text());
             refershStore();
         });
+        window.prettyPrint();
     }
     $storeTable.click()
     $('#storeAdd').click(function() {
