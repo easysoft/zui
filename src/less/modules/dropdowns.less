@@ -117,14 +117,23 @@
   }
 }
 
+
+// Dropdown hover option
+// Open dorpdown menu on hover
+
+.dropdown-hover .dropdown-menu {
+  margin: -1px 0;
+}
+
 // Open state for the dropdown
+.dropdown-hover:hover,
 .open {
   // Show the menu
   > .dropdown-menu { display: block; }
 
   // Remove the outline when :focus is triggered
   > a { outline: 0; }
-}
+} 
 
 
 // Dropdown section headers
