@@ -31,7 +31,7 @@
     }; // default options
 
     ImgCutter.prototype.callEvent = function(name, params) {
-        var result = this.$.callEvent(name + '.' + this.name, params, this);
+        var result = this.$.callEvent(name + '.' + NAME, params, this);
         return !(result.result !== undefined && (!result.result));
     };
 
