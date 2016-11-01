@@ -105,6 +105,7 @@
     Selectable.prototype._init = function() {
         var options = this.options, that = this;
         var ignoreVal = options.ignoreVal;
+        var isIgnoreMove = true;
         var eventNamespace = '.' + this.name + '.' + this.id;
         var startX, startY, $range, range, x, y, checkRangeCall;
         var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
@@ -150,7 +151,7 @@
                 top: y > startY ? startY : y
             };
             
-            if(range.width < ignoreVal && range.height < ignoreVal) return;
+            if(isIgnoreMove && range.width < ignoreVal && range.height < ignoreVal) return;
             if(!$range) {
                 $range = $('.selectable-range[data-id="' + that.id + '"]');
                 if(!$range.length) {
@@ -168,21 +169,25 @@
             $range.css(range);
             clearTimeout(checkRangeCall);
             checkRangeCall = setTimeout(checkRange, 10);
+            isIgnoreMove = false;
         };
 
         var mouseup = function(e) {
-            if(range) {
-                clearTimeout(checkRangeCall);
-                checkRange();
-                range = null;
-            }
-            if($range) $range.remove();
-            var selected = [];
-            $.each(that.selections, function(thisId, thisIsSelected) {
-                if(thisIsSelected) selected.push(thisId);
-            });
-            that.callEvent('finish', {selections: that.selections, selected: selected});
             $(document).off(eventNamespace);
+            if($range) $range.remove();
+            if(!isIgnoreMove)
+            {
+                if(range) {
+                    clearTimeout(checkRangeCall);
+                    checkRange();
+                    range = null;
+                }
+                var selected = [];
+                $.each(that.selections, function(thisId, thisIsSelected) {
+                    if(thisIsSelected) selected.push(thisId);
+                });
+            }
+            that.callEvent('finish', {selections: that.selections, selected: selected});
             e.preventDefault();
         };
 
@@ -210,6 +215,7 @@
             startY = e.pageY;
 
             $range = null;
+            isIgnoreMove = true;
 
             $(document).on('mousemove' + eventNamespace, mousemove).on('mouseup' + eventNamespace, mouseup);
             e.preventDefault();
