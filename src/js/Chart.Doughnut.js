@@ -208,7 +208,7 @@
             var placement = options.scaleLabelPlacement;
             if(placement !== 'inside' && placement !== 'outside') {
                 if((this.chart.width - this.chart.height) > 50) {
-                    if(segment.circumference < (Math.PI / 36)) {
+                    if(segment.circumference < (Math.PI / 18)) {
                         placement = 'outside';
                     }
                 }
@@ -245,15 +245,16 @@
                 var textHeight = options.scaleFontSize;
                 var labelPos = Math.round((y * 0.8 + chartHeightHalf) / textHeight) + 1;
                 var maxPos = Math.floor(this.chart.width / textHeight) + 1;
-                if(labelPosMap[isRight ? labelPos : (-labelPos)]) {
+                var labelPosDirection = isRight ? 1 : (-1);
+                if(labelPosMap[labelPos*labelPosDirection]) {
                     if(labelPos > 1) labelPos--;
                     else labelPos++;
                 }
-                while(labelPosMap[isRight ? labelPos : (-labelPos)] && labelPos < maxPos) labelPos++;
+                // while(labelPosMap[labelPos*labelPosDirection] && labelPos < maxPos) labelPos++;
 
-                if(labelPosMap[isRight ? labelPos : (-labelPos)]) return;
+                if(labelPosMap[labelPos*labelPosDirection]) return;
                 y = (labelPos - 1) * textHeight + options.scaleFontSize / 2;
-                labelPosMap[labelPos] = true;
+                labelPosMap[labelPos*labelPosDirection] = true;
 
                 ctx.beginPath();
                 ctx.moveTo(lineX, lineY);
@@ -265,8 +266,8 @@
                 ctx.stroke();
                 ctx.fillStyle = segment.fillColor;
             } else { // inside
-                x = x * 0.6 + chartWidthHalf;
-                y = y * 0.6 + chartHeightHalf;
+                x = x * 0.7 + chartWidthHalf;
+                y = y * 0.7 + chartHeightHalf;
                 ctx.fillStyle = ($.zui && $.zui.Color) ? (new $.zui.Color(segment.fillColor).contrast().toCssStr()) : '#fff';
             }
             ctx.fillText(text, x, y);
@@ -295,14 +296,17 @@
                 if(index < this.segments.length - 1) {
                     this.segments[index + 1].startAngle = segment.endAngle;
                 }
-
-                /// ZUI change begin
-                if(this.options.scaleShowLabels && segment.showLabel) {
-                    if(!labelPositionMap) labelPositionMap = {};
-                    this.drawLabel(segment, easeDecimal, labelPositionMap);
-                }
-                /// ZUI change end
             }, this);
+
+            /// ZUI change begin
+            if(this.options.scaleShowLabels) {
+                var segmentsArray = this.segments.slice().sort(function(a,b){return b.value - a.value;});
+                var labelPositionMap = {};
+                helpers.each(segmentsArray, function(segment, index) {
+                    if(segment.showLabel) this.drawLabel(segment, easeDecimal, labelPositionMap);
+                }, this);
+            }
+            /// ZUI change end
         }
     });
 
