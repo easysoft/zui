@@ -192,7 +192,7 @@
         };
 
         var mousedown = function(e) {
-            if(that.callEvent('start', e) === false) {
+            if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }
 
@@ -209,6 +209,10 @@
                 that.toggle(e.target, null, function(isSelect) {
                     that.unselect();
                 });
+            }
+
+            if(that.callEvent('startDrag', e) === false) {
+                return;
             }
 
             startX = e.pageX;
@@ -231,8 +235,10 @@
         $(document).on('keydown', function(e) {
             var code = e.keyCode;
             if(code === 17 || code == 91) that.multiKey = code;
+            else if(code === 18) that.altKey = true;
         }).on('keyup', function(e) {
             that.multiKey = false;
+            that.altKey = false;
         });
     };
 
