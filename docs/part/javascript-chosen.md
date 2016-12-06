@@ -322,7 +322,8 @@ function onPageLoad() {return false;}
 function afterPageLoad() {
     if($.fn.chosen) $('#pageBody .chosen-select').chosen({
         allow_single_deselect: true,
-        search_contains: true
+        search_contains: true,
+        width: '100%'
     });
     if($.fn.chosenIcons) $('#chosenIcons').chosenIcons();
     setTimeout($.doc.stopPageLoading, 500);
