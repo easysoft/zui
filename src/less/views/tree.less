@@ -121,7 +121,7 @@
       top: 11px;
       left: -10px;
       z-index: 1;
-      width: 18px;
+      width: 22px;
     }
 
     &:before,
@@ -144,7 +144,13 @@
       height: 23px;
     }
 
-    &:first-child:before {top: -7px;}
+    &:first-child:before {
+      top: -7px;
+    }
+
+    &.tree-single-item:before {
+      height: 19px;
+    }
 
     &.has-list:after {
       width: 14px;

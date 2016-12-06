@@ -159,9 +159,13 @@
             idx = 0;
             $parentItem = null;
         }
-        $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
+        var $children = $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
             that._initItem($(this), index + 1, $list);
         });
+        if($children.length === 1 && !$children.find('ul').length)
+        {
+            $children.addClass('tree-single-item');
+        }
         data = data || ($parentItem ? $parentItem.data() : null);
         var actions = formatActions(data ? data.actions : null, this.actions);
         if(actions) {
@@ -195,7 +199,7 @@
             idx = $pre.length ? ($pre.data('idx') + 1) : 1;
         }
         $parentList = $parentList || $item.closest('ul');
-        $item.attr('data-idx', idx);
+        $item.attr('data-idx', idx).removeClass('tree-single-item');
         if(!$item.data('id')) {
             var id = idx;
             if(!$parentList.hasClass('tree')) {
@@ -253,10 +257,11 @@
 
         // Bind event
         this.$.on('click', '.list-toggle,a[href="#"],.tree-toggle', function(e) {
-            var $li = $(this).parent('li');
+            var $this = $(this);
+            var $li = $this.parent('li');
             that.callEvent('hit', {target: $li, item: $li.data()});
             that.toggle($li);
-            e.preventDefault();
+            if($this.is('a')) e.preventDefault();
         }).on('click', '.tree-action', function() {
             var $action = $(this);
             var action = $action.data();
