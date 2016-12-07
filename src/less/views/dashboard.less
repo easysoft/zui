@@ -63,7 +63,6 @@
     padding: 6px 60px 6px 6px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
     height: 32px;
 
     > .icon { .opacity(0.7); }
@@ -192,7 +191,7 @@
     content: ' ';
     display: block;
     visibility: hidden;
-    opacity: 1;
+    opacity: 0;
     transition: visibility .2s, opacity .2s;
   }
 
@@ -203,7 +202,6 @@
     left: 0;
     right: 0;
     background-color: #fff;
-    background-color: rgba(255,255,255,.7);
   }
 
   .panel-body:after {
@@ -227,7 +225,7 @@
     &:before,
     &:after {
       visibility: visible;
-      opacity: 1;
+      opacity: .5;
     }
   }
 }
