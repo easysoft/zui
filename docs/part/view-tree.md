@@ -145,7 +145,6 @@ filter: shuxingcaidan sxcd shuxcd
           <a href="#">莓</a>
           <ul>
             <li><a href="">黑莓</a></li>
-            <li><a href="">蓝莓</a></li>
           </ul>
         </li>
       </ul>
@@ -190,12 +189,14 @@ filter: shuxingcaidan sxcd shuxcd
 
 #### 内置图标类型
 
-*   [默认](###)
-*   [文件夹`.tree-folders`](#folders)
-*   [V形`.tree-chevrons`](#chevrons)
-*   [直角`.tree-angles`](#angles)
 
 <div class="example">
+  <ul class="nav nav-tabs" id="treeIconsExampleNav" style="margin: -21px -21px 10px -21px; background-color: #fafafa">
+    <li class="active"><a href="###">默认</a></li>
+    <li><a href="folders">文件夹`.tree-folders`</a></li>
+    <li><a href="chevrons">V形`.tree-chevrons`</a></li>
+    <li><a href="angles">直角`.tree-angles`</a></li>
+  </ul>
   <ul class="tree tree-lines" id="treeIconsExample" data-ride="tree">
     <li class="open">
       <a href="#">水果</a>
@@ -576,7 +577,7 @@ function afterPageLoad() {
     var $nav = $('#treeIconsExampleNav'),
         $example = $('#treeIconsExample'),
         $nameInCode = $('#treeIconsNameForExample');
-    $nav.on('click', 'a', function() {
+    $nav.on('click', 'a', function(e) {
         var $a = $(this);
         $nav.find('li.active').removeClass('active');
         $a.parent('li').addClass('active');
@@ -584,6 +585,7 @@ function afterPageLoad() {
         if(name) name = ' tree-' + name;
         $nameInCode.text(name);
         $example.attr('class', 'tree tree-lines' + name);
+        e.preventDefault();
     });
 
     $('[data-ride=tree]').tree();
