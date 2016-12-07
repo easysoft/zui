@@ -459,7 +459,7 @@ gulp.task('build', function(callback) {
         });
 
         gulp.watch(["./src/js/**/*"], function(event) {
-            if(event.path && (event.path.lastIndexOf('src/js/colorset.js') > -1) || event.path.lastIndexOf('src\\js\\colorset.js')) return;
+            if(event.path && (event.path.lastIndexOf('src/js/colorset.js') > -1) || event.path.lastIndexOf('src\\js\\colorset.js') > -1) return;
             buildBundle(name, function() {
                 console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
             }, 'js');
