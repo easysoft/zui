@@ -1794,16 +1794,17 @@
 
                 $td = $('<td/>');
                 if(item.source) {
-                    var $a = $('<a/>', {
+                    var $a = $('<a data-toggle="tooltip"/>', {
                         target: '_blank',
-                        title: 'License: ' + item.license,
+                        title: 'License: ' + (item.source === 'Bootstrap' ? 'MIT' : item.license),
                         href: item.website || item.project || (item.source === 'Bootstrap' ? 'http://getbootstrap.com/' : '###')
                     }).text(item.source);
                     $td.append($a);
+                    console.log('>', item, $a);
                 } else if(item.merged) {
                     $td.append('<span class="text-muted">(合并组件)</span>');
                 } else {
-                    $td.append('ZUI');
+                    $td.append('<span data-toggle="tooltip" title="License: MIT">ZUI</span>');
                 }
                 $tr.append($td);
 
@@ -1819,6 +1820,7 @@
                 rowHover: false,
                 fixedHeaderOffset: 200
             });
+            $('#datatable-buildTable').find('[data-toggle="tooltip"]').tooltip();
             $('.components-count').text(totalCount);
         });
     };
@@ -2136,9 +2138,9 @@
             lastScrollTop = $window.scrollTop();
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
-            } else if(!$body.hasClass('page-show')) {
+            }/* else if(!$body.hasClass('page-show')) {
                 $header.toggleClass('with-shadow', lastScrollTop > 20);
-            }
+            }*/
         }).on('keydown', function(e) {
             var code = e.which;
             var isPageNotShow = !$body.hasClass('page-show');
@@ -2186,9 +2188,9 @@
             }
         });
 
-        $pageBody.on('scroll', function(e) {
-            $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
-        });
+        // $pageBody.on('scroll', function(e) {
+        //     $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
+        // });
 
         $search = $('#search');
 
