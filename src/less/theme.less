@@ -131,9 +131,9 @@ a {
 }
 
 // Labels
-.label {
-  border-radius: 0;
-}
+.label       {border-radius: @border-radius-small;}
+.label-badge {border-radius: @badge-border-radius;}
+.label-dot   {border-radius: 5px;}
 
 .label-primary { .label-variant(@label-primary-bg); }
 .label-success { .label-variant(@label-success-bg); }
