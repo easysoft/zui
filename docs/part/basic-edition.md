@@ -78,10 +78,11 @@ zui/
   <thead>
     <tr>
       <th data-width="auto">组件</th>
-      <th data-width="10%" style="width: 15%" class="text-center">标准版</th>
-      <th data-width="10%" style="width: 15%" class="text-center">简洁版</th>
-      <th data-width="10%" style="width: 15%" class="text-center">独立组件</th>
+      <th data-width="7%" style="width: 7%" class="text-center">标准版</th>
+      <th data-width="7%" style="width: 7%" class="text-center">简洁版</th>
+      <th data-width="7%" style="width: 7%" class="text-center">独立组件</th>
       <th data-width="15%" style="width: 15%" class="text-center">来源</th>
+      <th data-width="9%" style="width: 9%" class="text-center">许可</th>
       <th data-width="30%" style="width: 30%" class="text-center">版本及描述</th>
     </tr>
   </thead>

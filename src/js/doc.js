@@ -1765,7 +1765,7 @@
             $.each(data.lib, function(itemName, item) {
                 if(item.hidden) return;
 
-                var childComps = '';
+                var childComps = '', isZUI = false;
                 if(!item.src && item.dpds) {
                     var childList = getItemList(data.lib, item.dpds, null, true, true);
                     childComps = '包含：';
@@ -1794,19 +1794,20 @@
 
                 $td = $('<td/>');
                 if(item.source) {
-                    var $a = $('<a data-toggle="tooltip"/>', {
+                    var $a = $('<a data-toggle="tooltip"/>').attr({
                         target: '_blank',
-                        title: 'License: ' + (item.source === 'Bootstrap' ? 'MIT' : item.license),
                         href: item.website || item.project || (item.source === 'Bootstrap' ? 'http://getbootstrap.com/' : '###')
                     }).text(item.source);
                     $td.append($a);
-                    console.log('>', item, $a);
                 } else if(item.merged) {
                     $td.append('<span class="text-muted">(合并组件)</span>');
                 } else {
+                    isZUI = true;
                     $td.append('<span data-toggle="tooltip" title="License: MIT">ZUI</span>');
                 }
                 $tr.append($td);
+
+                $tr.append('<td>' + (item.source === 'Bootstrap' ? 'MIT' : (isZUI ? 'MIT' : (item.license || ''))) + '</td>');
 
                 $td = $('<td/>');
                 $td.html(item.ver ? (' v' + item.ver + '+') : childComps);
@@ -1820,7 +1821,6 @@
                 rowHover: false,
                 fixedHeaderOffset: 200
             });
-            $('#datatable-buildTable').find('[data-toggle="tooltip"]').tooltip();
             $('.components-count').text(totalCount);
         });
     };
