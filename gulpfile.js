@@ -440,6 +440,34 @@ gulp.task('build', function(callback) {
     }, type);
 });
 
+function startWatchSrc(name) {
+    if(name === 'lib') name = 'seperate';
+    gulp.watch(["./src/less/**/*"], function(event) {
+        buildBundle(name, function() {
+            console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
+        }, 'less');
+    });
+
+    gulp.watch(["./src/js/**/*"], function(event) {
+        if(event.path && (event.path.lastIndexOf('src/js/colorset.js') > -1) || event.path.lastIndexOf('src\\js\\colorset.js') > -1) return;
+        buildBundle(name, function() {
+            console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
+        }, 'js');
+    });
+
+    gulp.watch(["./src/fonts/**/*"], function(event) {
+        buildBundle(name, function() {
+            console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
+        }, 'resource');
+    });
+}
+
+gulp.task('watch', function(callback) {
+    var name = process.argv[3] || 'dist';
+    if(name && name[0] === '-') name = name.substr(1);
+    startWatchSrc(name);
+});
+
 ['dist', 'doc', 'theme', 'lib'].forEach(function(name) {
     var depsTasks = (name == 'dist' || name == 'doc') ? ['minJSON'] : [];
     gulp.task(name, depsTasks, function(callback) {
@@ -451,25 +479,7 @@ gulp.task('build', function(callback) {
     });
 
     gulp.task('watch:' + name, function() {
-        if(name === 'lib') name = 'seperate';
-        gulp.watch(["./src/less/**/*"], function(event) {
-            buildBundle(name, function() {
-                console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
-            }, 'less');
-        });
-
-        gulp.watch(["./src/js/**/*"], function(event) {
-            if(event.path && (event.path.lastIndexOf('src/js/colorset.js') > -1) || event.path.lastIndexOf('src\\js\\colorset.js') > -1) return;
-            buildBundle(name, function() {
-                console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
-            }, 'js');
-        });
-
-        gulp.watch(["./src/fonts/**/*"], function(event) {
-            buildBundle(name, function() {
-                console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
-            }, 'resource');
-        });
+        startWatchSrc(name);
     });
 });
 
