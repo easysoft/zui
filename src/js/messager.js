@@ -127,6 +127,14 @@
         var that = this,
             options = this.options;
 
+        if($.isFunction(message)) {
+            var oldCallback = callback;
+            callback = message;
+            if(oldCallback !== undefined) {
+                message = oldCallback;
+            }
+        }
+
         if(that.isShow) {
             that.hide(function() {
                 that.show(message, callback);
@@ -137,14 +145,6 @@
         if(that.hiding) {
             clearTimeout(that.hiding);
             that.hiding = null;
-        }
-
-        if($.isFunction(message)) {
-            var oldCallback = callback;
-            callback = message;
-            if(oldCallback !== undefined) {
-                message = oldCallback;
-            }
         }
 
         that.update(message);
