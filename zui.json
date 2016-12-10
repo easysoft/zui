@@ -68,6 +68,19 @@
       "license": "Apache 2.0",
       "website": "https://github.com/google/code-prettify"
     },
+    "plupload": {
+      "name": "Plupload",
+      "pver": "2.2.1",
+      "ver": "1.6.0",
+      "src": {
+        "js": ["assets/plupload/plupload.full.min.js"],
+        "resource": ["assets/plupload/Moxie.swf", "assets/plupload/Moxie.xap"]
+      },
+      "license": "GPL-2.0",
+      "licenseFile": "https://github.com/moxiecode/plupload/blob/master/license.txt",
+      "source": "Moxie",
+      "website": "http://www.plupload.com/"
+    },
     "jqueryex": {
       "name": "jQuery扩展",
       "ver": "1.0.0",
