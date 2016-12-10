@@ -46,7 +46,7 @@
         "resource": ["assets/respond.js"]
       },
       "desc": "min/max-width media query polyfill",
-      "Souce": "Scott Jehl",
+      "souce": "Scott Jehl",
       "license": "MIT",
       "licenseFile": "https://github.com/scottjehl/Respond/blob/master/LICENSE-MIT",
       "website": "https://github.com/scottjehl/Respond"
@@ -1229,6 +1229,16 @@
         "js": ["src/js/selectable.js"]
       },
       "ver": "1.5.0"
+    },
+    "uploader": {
+      "name": "文件上传",
+      "src": {
+        "js": ["src/js/uploader.js"],
+        "less": ["src/less/views/uploader.less"]
+      },
+      "dpds": ["plupload"],
+      "ver": "1.6.0",
+      "ignoreDpds": false
     }
   },
   "builds": {
@@ -1265,7 +1275,7 @@
     },
     "seperate": {
       "title": "Seperate bundles",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader"]
     },
     "dist": {
       "title": "Dist bundles",
