@@ -963,7 +963,7 @@
                 }, {
                     "name": "如何使用"
                 }],
-                "filter": "piaofuxiaoxi pfxx"
+                "filter": "piaofuxiaoxi pfxx toast"
             }, {
                 "id": "tooltip",
                 "icon": "icon-chat",
@@ -1237,6 +1237,14 @@
                 }],
                 "filter": "shujubiaoge sjbg"
             }, {
+                "id": "uploader",
+                "icon": "icon-cloud-upload",
+                "name": "文件上传",
+                "desc": "提供文件管理和大文件批量上传功能。",
+                "update": "1.6.0",
+                "topics": [],
+                "filter": "wenjiangshangchuan wjsc"
+            }, {
                 "id": "calendar",
                 "icon": "icon-calendar",
                 "desc": "在日历上展示有时间限定的内容",
@@ -1324,7 +1332,7 @@
                 }, {
                     "name": "更紧凑的列表"
                 }],
-                "filter": "liebiao lb"
+                "filter": "liebiao lb media meiti"
             }, {
                 "id": "comment",
                 "icon": "icon-comments",
