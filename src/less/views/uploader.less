@@ -192,6 +192,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    border: 1px solid @color-gray-light;
   }
 
   .file-name {
@@ -386,6 +387,7 @@
     left: -1px;
     right: -1px;
     bottom: -1px;
+    border: none;
   }
 
   .file-wrapper {
@@ -442,6 +444,7 @@
     padding: 4px;
     text-align: left;
   }
+  .file[data-status="uploading"] .file-wrapper > .content > .file-size,
   .file:hover .file-wrapper > .content > .file-size {.opacity(1);}
 
   .file-wrapper > .actions {
@@ -473,6 +476,7 @@
     > .text {padding: 0;}
   }
 
+  .file[data-status="failed"] .file-wrapper > .actions > .file-status > .icon {font-size: 14px;}
   .file[data-status="uploading"] .file-wrapper > .actions > .file-status > .text {
     position: absolute;
     top: 4px;
