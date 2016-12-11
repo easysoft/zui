@@ -135,6 +135,7 @@
             if(file.status === Plupload.FAILED) {
                 file.status = Plupload.QUEUED;
                 that.showFile(file);
+                if(options.autoUpload) that.start();
             }
         });
         if(options.rename) {
