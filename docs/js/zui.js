@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.5.0 - 2016-09-06
+ * ZUI: ZUI for official website - v1.5.0 - 2016-12-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -51,11 +51,22 @@
             var config = window.config;
             if(typeof(config) != 'undefined' && config.clientLang) {
                 lang = config.clientLang;
-            } else {
+            }
+            if(!lang) {
                 var hl = $('html').attr('lang');
                 lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || 'zh_cn');
             }
             return lang.replace('-', '_').toLowerCase();
+        },
+
+        strCode: function(str) {
+            var code = 0;
+            if(str && str.length) {
+                for(var i = 0; i < str.length; ++i) {
+                    code += i * str.charCodeAt(i);
+                }
+            }
+            return code;
         }
     });
 
@@ -4656,11 +4667,12 @@
         }
 
         var that = this;
+        options = that.options = $.extend({}, defaultOptions, options);
+        
         that.id = options.id || (id++);
         var oldMessager = all[that.id];
         if(oldMessager) oldMessager.destory();
         all[that.id] = that;
-        options = that.options = $.extend({}, defaultOptions, options);
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
@@ -4747,6 +4759,14 @@
         var that = this,
             options = this.options;
 
+        if($.isFunction(message)) {
+            var oldCallback = callback;
+            callback = message;
+            if(oldCallback !== undefined) {
+                message = oldCallback;
+            }
+        }
+
         if(that.isShow) {
             that.hide(function() {
                 that.show(message, callback);
@@ -4757,14 +4777,6 @@
         if(that.hiding) {
             clearTimeout(that.hiding);
             that.hiding = null;
-        }
-
-        if($.isFunction(message)) {
-            var oldCallback = callback;
-            callback = message;
-            if(oldCallback !== undefined) {
-                message = oldCallback;
-            }
         }
 
         that.update(message);
@@ -6126,6 +6138,7 @@
     };
 
     Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
+        if(onlyRefreshBody === undefined) onlyRefreshBody = this.options.onlyRefreshBody;
         var afterRefresh = this.options.afterRefresh;
         $panel = $($panel);
         var url = $panel.data('url');
@@ -8869,6 +8882,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.single_backstroke_delete = this.options.single_backstroke_delete != null ? this.options.single_backstroke_delete : true;
             this.max_selected_options = this.options.max_selected_options || Infinity;
             this.drop_direction = this.options.drop_direction || 'auto';
+            this.middle_highlight = this.options.middle_highlight;
             this.inherit_select_classes = this.options.inherit_select_classes || false;
             this.display_selected_options = this.options.display_selected_options != null ? this.options.display_selected_options : true;
             return this.display_disabled_options = this.options.display_disabled_options != null ? this.options.display_disabled_options : true;
@@ -9025,13 +9039,13 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
         AbstractChosen.prototype.results_search = function(evt) {
             if(this.results_showing) {
-                return this.winnow_results();
+                return this.winnow_results(1);
             } else {
                 return this.results_show();
             }
         };
 
-        AbstractChosen.prototype.winnow_results = function() {
+        AbstractChosen.prototype.winnow_results = function(canMiddleHighlight) {
             var escapedSearchText, option, regex, regexAnchor, results, results_group, searchText, startpos, text, zregex, _i, _len, _ref;
             this.no_results_clear();
             results = 0;
@@ -9090,7 +9104,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 return this.no_results(searchText);
             } else {
                 this.update_results_content(this.results_option_build());
-                return this.winnow_results_set_highlight();
+                return this.winnow_results_set_highlight(canMiddleHighlight);
             }
         };
 
@@ -9539,21 +9553,27 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             return this.parsing = false;
         };
 
-        Chosen.prototype.result_do_highlight = function(el) {
-            var high_bottom, high_top, maxHeight, visible_bottom, visible_top;
+        Chosen.prototype.result_do_highlight = function(el, canMiddleHighlight) {
+            var high_bottom, high_top, maxHeight, visible_bottom, visible_top, resultHeight, scrollTop = -1;
             if(el.length) {
                 this.result_clear_highlight();
                 this.result_highlight = el;
                 this.result_highlight.addClass("highlighted");
                 maxHeight = parseInt(this.search_results.css("maxHeight"), 10);
+                resultHeight = this.result_highlight.outerHeight();
                 visible_top = this.search_results.scrollTop();
                 visible_bottom = maxHeight + visible_top;
                 high_top = this.result_highlight.position().top + this.search_results.scrollTop();
-                high_bottom = high_top + this.result_highlight.outerHeight();
-                if(high_bottom >= visible_bottom) {
-                    return this.search_results.scrollTop((high_bottom - maxHeight) > 0 ? high_bottom - maxHeight : 0);
+                high_bottom = high_top + resultHeight;
+                if(this.middle_highlight && (canMiddleHighlight || this.middle_highlight === 'always' || high_bottom >= visible_bottom || high_top < visible_top)) {
+                    scrollTop = Math.min(high_top - resultHeight, Math.max(0, high_top - (maxHeight - resultHeight)/2));
+                } else if(high_bottom >= visible_bottom) {
+                    scrollTop = (high_bottom - maxHeight) > 0 ? high_bottom - maxHeight : 0;
                 } else if(high_top < visible_top) {
-                    return this.search_results.scrollTop(high_top);
+                    scrollTop = high_top;
+                }
+                if(scrollTop > -1) {
+                    this.search_results.scrollTop(scrollTop);
                 }
             }
         };
@@ -9576,7 +9596,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.results_showing = true;
             this.search_field.focus();
             this.search_field.val(this.search_field.val());
-            this.winnow_results();
+            this.winnow_results(1);
 
             var dropDirection = this.drop_direction;
             if(dropDirection === 'auto') {
@@ -9824,12 +9844,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             }
         };
 
-        Chosen.prototype.winnow_results_set_highlight = function() {
+        Chosen.prototype.winnow_results_set_highlight = function(canMiddleHighlight) {
             var do_high, selected_results;
             selected_results = !this.is_multiple ? this.search_results.find(".result-selected.active-result") : [];
             do_high = selected_results.length ? selected_results.first() : this.search_results.find(".active-result").first();
             if(do_high != null) {
-                return this.result_do_highlight(do_high);
+                return this.result_do_highlight(do_high, canMiddleHighlight);
             }
         };
 
@@ -10121,7 +10141,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.5.0 - 2016-09-06
+ * ZUI: Generated from less code - v1.5.0 - 2016-12-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -12903,7 +12923,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             var placement = options.scaleLabelPlacement;
             if(placement !== 'inside' && placement !== 'outside') {
                 if((this.chart.width - this.chart.height) > 50) {
-                    if(segment.circumference < (Math.PI / 36)) {
+                    if(segment.circumference < (Math.PI / 18)) {
                         placement = 'outside';
                     }
                 }
@@ -12940,15 +12960,16 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 var textHeight = options.scaleFontSize;
                 var labelPos = Math.round((y * 0.8 + chartHeightHalf) / textHeight) + 1;
                 var maxPos = Math.floor(this.chart.width / textHeight) + 1;
-                if(labelPosMap[isRight ? labelPos : (-labelPos)]) {
+                var labelPosDirection = isRight ? 1 : (-1);
+                if(labelPosMap[labelPos*labelPosDirection]) {
                     if(labelPos > 1) labelPos--;
                     else labelPos++;
                 }
-                while(labelPosMap[isRight ? labelPos : (-labelPos)] && labelPos < maxPos) labelPos++;
+                // while(labelPosMap[labelPos*labelPosDirection] && labelPos < maxPos) labelPos++;
 
-                if(labelPosMap[isRight ? labelPos : (-labelPos)]) return;
+                if(labelPosMap[labelPos*labelPosDirection]) return;
                 y = (labelPos - 1) * textHeight + options.scaleFontSize / 2;
-                labelPosMap[labelPos] = true;
+                labelPosMap[labelPos*labelPosDirection] = true;
 
                 ctx.beginPath();
                 ctx.moveTo(lineX, lineY);
@@ -12960,8 +12981,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 ctx.stroke();
                 ctx.fillStyle = segment.fillColor;
             } else { // inside
-                x = x * 0.6 + chartWidthHalf;
-                y = y * 0.6 + chartHeightHalf;
+                x = x * 0.7 + chartWidthHalf;
+                y = y * 0.7 + chartHeightHalf;
                 ctx.fillStyle = ($.zui && $.zui.Color) ? (new $.zui.Color(segment.fillColor).contrast().toCssStr()) : '#fff';
             }
             ctx.fillText(text, x, y);
@@ -12990,14 +13011,17 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 if(index < this.segments.length - 1) {
                     this.segments[index + 1].startAngle = segment.endAngle;
                 }
-
-                /// ZUI change begin
-                if(this.options.scaleShowLabels && segment.showLabel) {
-                    if(!labelPositionMap) labelPositionMap = {};
-                    this.drawLabel(segment, easeDecimal, labelPositionMap);
-                }
-                /// ZUI change end
             }, this);
+
+            /// ZUI change begin
+            if(this.options.scaleShowLabels) {
+                var segmentsArray = this.segments.slice().sort(function(a,b){return b.value - a.value;});
+                var labelPositionMap = {};
+                helpers.each(segmentsArray, function(segment, index) {
+                    if(segment.showLabel) this.drawLabel(segment, easeDecimal, labelPositionMap);
+                }, this);
+            }
+            /// ZUI change end
         }
     });
 
@@ -13595,9 +13619,13 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             idx = 0;
             $parentItem = null;
         }
-        $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
+        var $children = $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
             that._initItem($(this), index + 1, $list);
         });
+        if($children.length === 1 && !$children.find('ul').length)
+        {
+            $children.addClass('tree-single-item');
+        }
         data = data || ($parentItem ? $parentItem.data() : null);
         var actions = formatActions(data ? data.actions : null, this.actions);
         if(actions) {
@@ -13631,7 +13659,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             idx = $pre.length ? ($pre.data('idx') + 1) : 1;
         }
         $parentList = $parentList || $item.closest('ul');
-        $item.attr('data-idx', idx);
+        $item.attr('data-idx', idx).removeClass('tree-single-item');
         if(!$item.data('id')) {
             var id = idx;
             if(!$parentList.hasClass('tree')) {
@@ -13689,10 +13717,11 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
         // Bind event
         this.$.on('click', '.list-toggle,a[href="#"],.tree-toggle', function(e) {
-            var $li = $(this).parent('li');
+            var $this = $(this);
+            var $li = $this.parent('li');
             that.callEvent('hit', {target: $li, item: $li.data()});
             that.toggle($li);
-            e.preventDefault();
+            if($this.is('a')) e.preventDefault();
         }).on('click', '.tree-action', function() {
             var $action = $(this);
             var action = $action.data();
@@ -13996,7 +14025,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(!notSetInput && this.$.val().toLowerCase() !== hex) {
                 this.$.val(hex).trigger('change');
             }
-            this.$menu.find('.cp-tile[data-color=' + hex + ']').addClass('active');
+            this.$menu.find('.cp-tile[data-color="' + hex + '"]').addClass('active');
             this.$.tooltip('hide');
             this.$.trigger('colorchange', c);
         } else {
@@ -14165,6 +14194,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
     Selectable.prototype._init = function() {
         var options = this.options, that = this;
         var ignoreVal = options.ignoreVal;
+        var isIgnoreMove = true;
         var eventNamespace = '.' + this.name + '.' + this.id;
         var startX, startY, $range, range, x, y, checkRangeCall;
         var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
@@ -14210,7 +14240,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 top: y > startY ? startY : y
             };
             
-            if(range.width < ignoreVal && range.height < ignoreVal) return;
+            if(isIgnoreMove && range.width < ignoreVal && range.height < ignoreVal) return;
             if(!$range) {
                 $range = $('.selectable-range[data-id="' + that.id + '"]');
                 if(!$range.length) {
@@ -14228,26 +14258,30 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             $range.css(range);
             clearTimeout(checkRangeCall);
             checkRangeCall = setTimeout(checkRange, 10);
+            isIgnoreMove = false;
         };
 
         var mouseup = function(e) {
-            if(range) {
-                clearTimeout(checkRangeCall);
-                checkRange();
-                range = null;
-            }
-            if($range) $range.remove();
-            var selected = [];
-            $.each(that.selections, function(thisId, thisIsSelected) {
-                if(thisIsSelected) selected.push(thisId);
-            });
-            that.callEvent('finish', {selections: that.selections, selected: selected});
             $(document).off(eventNamespace);
+            if($range) $range.remove();
+            if(!isIgnoreMove)
+            {
+                if(range) {
+                    clearTimeout(checkRangeCall);
+                    checkRange();
+                    range = null;
+                }
+                var selected = [];
+                $.each(that.selections, function(thisId, thisIsSelected) {
+                    if(thisIsSelected) selected.push(thisId);
+                });
+            }
+            that.callEvent('finish', {selections: that.selections, selected: selected});
             e.preventDefault();
         };
 
         var mousedown = function(e) {
-            if(that.callEvent('start', e) === false) {
+            if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }
 
@@ -14266,10 +14300,15 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 });
             }
 
+            if(that.callEvent('startDrag', e) === false) {
+                return;
+            }
+
             startX = e.pageX;
             startY = e.pageY;
 
             $range = null;
+            isIgnoreMove = true;
 
             $(document).on('mousemove' + eventNamespace, mousemove).on('mouseup' + eventNamespace, mouseup);
             e.preventDefault();
@@ -14285,8 +14324,10 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         $(document).on('keydown', function(e) {
             var code = e.keyCode;
             if(code === 17 || code == 91) that.multiKey = code;
+            else if(code === 18) that.altKey = true;
         }).on('keyup', function(e) {
             that.multiKey = false;
+            that.altKey = false;
         });
     };
 

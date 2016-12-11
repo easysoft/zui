@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格 - v1.5.0 - 2016-09-06
+ * ZUI: 数据表格 - v1.5.0 - 2016-12-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -32,7 +32,7 @@
 .datatable .table > tbody > tr > td.check-btn,
 .datatable .table > thead > tr > th.check-btn {
   width: 30px;
-  color: #9b9b9b;
+  color: #aaa;
   text-align: center;
   cursor: pointer;
   }
@@ -42,7 +42,7 @@
 .datatable .table > tbody > tr > td.check-btn:hover,
 .datatable .table > thead > tr > th.check-btn.checked,
 .datatable .table > tbody > tr > td.check-btn.checked {
-  color: #4f4f4f;
+  color: #5e5e5e;
   }
 .datatable .table > thead > tr > th.check-btn.checked > .icon-check-empty:before,
 .datatable .table > tbody > tr > td.check-btn.checked > .icon-check-empty:before,
@@ -54,7 +54,7 @@
   }
 .datatable .table > tbody > tr > td.col-hover,
 .datatable .table > tbody > tr.hover > td {
-  background-color: #ebf2f9;
+  background-color: #e8eaf6;
   }
 .datatable .table > tbody > tr.active.hover td {
   background-color: #ffdea2;
@@ -92,11 +92,11 @@
   -moz-osx-font-smoothing: grayscale;
   }
 .datatable.sortable .datatable-head-span .table > thead > tr > th.sort-down:after {
-  color: #145ccd;
+  color: #3949ab;
   content: '\e6b8';
   }
 .datatable.sortable .datatable-head-span .table > thead > tr > th.sort-up:after {
-  color: #145ccd;
+  color: #3949ab;
   content: '\e6b9';
   }
 .datatable.sortable .datatable-head-span .table > thead > tr > th.check-btn:after,

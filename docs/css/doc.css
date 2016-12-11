@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-09-09
+ * ZUI: Document - v1.5.0 - 2016-12-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1923,10 +1923,6 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   overflow-y: auto;
   background-color: #fff;
   }
-#page.with-shadow #pageHeader {
-  -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
-          box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .1);
-  }
 #page .loader {
   -webkit-transition: none;
        -o-transition: none;
@@ -2445,10 +2441,6 @@ body.compact-mode.compact-mode-in #compactTogger {
 body.compact-mode.compact-mode-in #header {
   height: 60px;
   padding: 0;
-  }
-body.compact-mode.compact-mode-in #header.with-shadow {
-  -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .2);
-          box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .2);
   }
 body.compact-mode.compact-mode-in #heading {
   height: 0;

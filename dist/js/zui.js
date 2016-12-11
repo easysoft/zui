@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.5.0 - 2016-09-06
+ * ZUI: Standard edition - v1.5.0 - 2016-11-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -4272,11 +4272,12 @@
         }
 
         var that = this;
+        options = that.options = $.extend({}, defaultOptions, options);
+        
         that.id = options.id || (id++);
         var oldMessager = all[that.id];
         if(oldMessager) oldMessager.destory();
         all[that.id] = that;
-        options = that.options = $.extend({}, defaultOptions, options);
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
         that.$ = $(template.format(options)).toggleClass('fade', options.fade).toggleClass('scale', options.scale).attr('id', 'messager-' + that.id);
@@ -4363,6 +4364,14 @@
         var that = this,
             options = this.options;
 
+        if($.isFunction(message)) {
+            var oldCallback = callback;
+            callback = message;
+            if(oldCallback !== undefined) {
+                message = oldCallback;
+            }
+        }
+
         if(that.isShow) {
             that.hide(function() {
                 that.show(message, callback);
@@ -4373,14 +4382,6 @@
         if(that.hiding) {
             clearTimeout(that.hiding);
             that.hiding = null;
-        }
-
-        if($.isFunction(message)) {
-            var oldCallback = callback;
-            callback = message;
-            if(oldCallback !== undefined) {
-                message = oldCallback;
-            }
         }
 
         that.update(message);
@@ -5241,9 +5242,13 @@
             idx = 0;
             $parentItem = null;
         }
-        $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
+        var $children = $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
             that._initItem($(this), index + 1, $list);
         });
+        if($children.length === 1 && !$children.find('ul').length)
+        {
+            $children.addClass('tree-single-item');
+        }
         data = data || ($parentItem ? $parentItem.data() : null);
         var actions = formatActions(data ? data.actions : null, this.actions);
         if(actions) {
@@ -5277,7 +5282,7 @@
             idx = $pre.length ? ($pre.data('idx') + 1) : 1;
         }
         $parentList = $parentList || $item.closest('ul');
-        $item.attr('data-idx', idx);
+        $item.attr('data-idx', idx).removeClass('tree-single-item');
         if(!$item.data('id')) {
             var id = idx;
             if(!$parentList.hasClass('tree')) {
@@ -5335,10 +5340,11 @@
 
         // Bind event
         this.$.on('click', '.list-toggle,a[href="#"],.tree-toggle', function(e) {
-            var $li = $(this).parent('li');
+            var $this = $(this);
+            var $li = $this.parent('li');
             that.callEvent('hit', {target: $li, item: $li.data()});
             that.toggle($li);
-            e.preventDefault();
+            if($this.is('a')) e.preventDefault();
         }).on('click', '.tree-action', function() {
             var $action = $(this);
             var action = $action.data();

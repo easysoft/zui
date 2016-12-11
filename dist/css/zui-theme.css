@@ -1,5 +1,5 @@
 /*!
- * ZUI: Theme - v1.5.0 - 2016-09-06
+ * ZUI: Theme - v1.5.0 - 2016-11-22
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -918,19 +918,20 @@ a.list-group-item:focus {
 .pager > li > span:focus {
   background-color: #e5e5e5;
   }
-.pager > .active > a,
-.pager > .active > span,
-.pager > .active > a:hover,
-.pager > .active > span:hover {
+.pager > li.active > a,
+.pager > li.active > span,
+.pager > li.active > a:hover,
+.pager > li.active > span:hover {
   color: #fff;
   background-color: #3f51b5;
+  border-color: #3f51b5;
   }
-.pager > .disabled > span,
-.pager > .disabled > span:hover,
-.pager > .disabled > span:focus,
-.pager > .disabled > a,
-.pager > .disabled > a:hover,
-.pager > .disabled > a:focus {
+.pager > li.disabled > span,
+.pager > li.disabled > span:hover,
+.pager > li.disabled > span:focus,
+.pager > li.disabled > a,
+.pager > li.disabled > a:hover,
+.pager > li.disabled > a:focus {
   color: #ddd;
   background-color: #fff;
   border-color: #ddd;
@@ -944,6 +945,9 @@ a.list-group-item:focus {
   background-image: none;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  }
+.panel-group .panel {
+  border-radius: 0;
   }
 .dashboard .panel {
   -webkit-box-shadow: none;

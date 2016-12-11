@@ -1,5 +1,5 @@
 /*!
- * ZUI: 仪表盘 - v1.5.0 - 2016-09-06
+ * ZUI: 仪表盘 - v1.5.0 - 2016-12-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -314,6 +314,7 @@
     };
 
     Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
+        if(onlyRefreshBody === undefined) onlyRefreshBody = this.options.onlyRefreshBody;
         var afterRefresh = this.options.afterRefresh;
         $panel = $($panel);
         var url = $panel.data('url');

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-09-09
+ * ZUI: Document - v1.5.0 - 2016-12-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -1772,7 +1772,7 @@
             $.each(data.lib, function(itemName, item) {
                 if(item.hidden) return;
 
-                var childComps = '';
+                var childComps = '', isZUI = false;
                 if(!item.src && item.dpds) {
                     var childList = getItemList(data.lib, item.dpds, null, true, true);
                     childComps = '包含：';
@@ -1801,18 +1801,20 @@
 
                 $td = $('<td/>');
                 if(item.source) {
-                    var $a = $('<a/>', {
+                    var $a = $('<a data-toggle="tooltip"/>').attr({
                         target: '_blank',
-                        title: 'License: ' + item.license,
                         href: item.website || item.project || (item.source === 'Bootstrap' ? 'http://getbootstrap.com/' : '###')
                     }).text(item.source);
                     $td.append($a);
                 } else if(item.merged) {
                     $td.append('<span class="text-muted">(合并组件)</span>');
                 } else {
-                    $td.append('ZUI');
+                    isZUI = true;
+                    $td.append('<span data-toggle="tooltip" title="License: MIT">ZUI</span>');
                 }
                 $tr.append($td);
+
+                $tr.append('<td>' + (item.source === 'Bootstrap' ? 'MIT' : (isZUI ? 'MIT' : (item.license || ''))) + '</td>');
 
                 $td = $('<td/>');
                 $td.html(item.ver ? (' v' + item.ver + '+') : childComps);
@@ -2143,9 +2145,9 @@
             lastScrollTop = $window.scrollTop();
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
-            } else if(!$body.hasClass('page-show')) {
+            }/* else if(!$body.hasClass('page-show')) {
                 $header.toggleClass('with-shadow', lastScrollTop > 20);
-            }
+            }*/
         }).on('keydown', function(e) {
             var code = e.which;
             var isPageNotShow = !$body.hasClass('page-show');
@@ -2193,9 +2195,9 @@
             }
         });
 
-        $pageBody.on('scroll', function(e) {
-            $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
-        });
+        // $pageBody.on('scroll', function(e) {
+        //     $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
+        // });
 
         $search = $('#search');
 

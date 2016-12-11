@@ -1,5 +1,5 @@
 /*!
- * ZUI: 拖拽选择 - v1.5.0 - 2016-09-06
+ * ZUI: 拖拽选择 - v1.5.0 - 2016-12-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -112,6 +112,7 @@
     Selectable.prototype._init = function() {
         var options = this.options, that = this;
         var ignoreVal = options.ignoreVal;
+        var isIgnoreMove = true;
         var eventNamespace = '.' + this.name + '.' + this.id;
         var startX, startY, $range, range, x, y, checkRangeCall;
         var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
@@ -157,7 +158,7 @@
                 top: y > startY ? startY : y
             };
             
-            if(range.width < ignoreVal && range.height < ignoreVal) return;
+            if(isIgnoreMove && range.width < ignoreVal && range.height < ignoreVal) return;
             if(!$range) {
                 $range = $('.selectable-range[data-id="' + that.id + '"]');
                 if(!$range.length) {
@@ -175,26 +176,30 @@
             $range.css(range);
             clearTimeout(checkRangeCall);
             checkRangeCall = setTimeout(checkRange, 10);
+            isIgnoreMove = false;
         };
 
         var mouseup = function(e) {
-            if(range) {
-                clearTimeout(checkRangeCall);
-                checkRange();
-                range = null;
-            }
-            if($range) $range.remove();
-            var selected = [];
-            $.each(that.selections, function(thisId, thisIsSelected) {
-                if(thisIsSelected) selected.push(thisId);
-            });
-            that.callEvent('finish', {selections: that.selections, selected: selected});
             $(document).off(eventNamespace);
+            if($range) $range.remove();
+            if(!isIgnoreMove)
+            {
+                if(range) {
+                    clearTimeout(checkRangeCall);
+                    checkRange();
+                    range = null;
+                }
+                var selected = [];
+                $.each(that.selections, function(thisId, thisIsSelected) {
+                    if(thisIsSelected) selected.push(thisId);
+                });
+            }
+            that.callEvent('finish', {selections: that.selections, selected: selected});
             e.preventDefault();
         };
 
         var mousedown = function(e) {
-            if(that.callEvent('start', e) === false) {
+            if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }
 
@@ -213,10 +218,15 @@
                 });
             }
 
+            if(that.callEvent('startDrag', e) === false) {
+                return;
+            }
+
             startX = e.pageX;
             startY = e.pageY;
 
             $range = null;
+            isIgnoreMove = true;
 
             $(document).on('mousemove' + eventNamespace, mousemove).on('mouseup' + eventNamespace, mouseup);
             e.preventDefault();
@@ -232,8 +242,10 @@
         $(document).on('keydown', function(e) {
             var code = e.keyCode;
             if(code === 17 || code == 91) that.multiKey = code;
+            else if(code === 18) that.altKey = true;
         }).on('keyup', function(e) {
             that.multiKey = false;
+            that.altKey = false;
         });
     };
 

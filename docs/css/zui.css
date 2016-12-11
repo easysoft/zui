@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.5.0 - 2016-09-06
+ * ZUI: ZUI for official website - v1.5.0 - 2016-12-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2016 cnezsoft.com; Licensed MIT
@@ -272,14 +272,14 @@ table {
 .hide {
   display: none;
   }
-.show {
+.showing {
   display: block;
   }
 .hidden {
   display: none!important;
   visibility: hidden !important;
   }
-.showing {
+.show {
   display: block!important;
   visibility: visible !important;
   }
@@ -890,7 +890,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 body {
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-size: 13px;
   line-height: 1.53846154;
   color: #353535;
@@ -1914,7 +1914,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
   font-weight: bold;
   line-height: 1.1;
   color: inherit;
@@ -2671,6 +2671,13 @@ hr {
   border: 0;
   border-top: 1px solid #e5e5e5;
   }
+hr.divider-sm {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  }
+hr.divider {
+  margin: 0;
+  }
 .label {
   display: inline;
   padding: .2em .6em .2em;
@@ -2917,12 +2924,11 @@ a .icon-spin {
     }
   }
 .icon-rotate-90:before {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   -webkit-transform: rotate(90deg);
       -ms-transform: rotate(90deg);
        -o-transform: rotate(90deg);
           transform: rotate(90deg);
-
-  ilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   }
 .icon-rotate-180:before {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
@@ -5204,8 +5210,7 @@ textarea.input-lg {
   }
 .help-block {
   display: block;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  margin: 5px 0;
   color: #757575;
   }
 @media (min-width: 768px) {
@@ -6962,9 +6967,14 @@ tbody.collapse.in {
   background-image: none;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   }
+.dropdown-hover .dropdown-menu {
+  margin: -1px 0;
+  }
+.dropdown-hover:hover > .dropdown-menu,
 .open > .dropdown-menu {
   display: block;
   }
+.dropdown-hover:hover > a,
 .open > a {
   outline: 0;
   }
@@ -8146,7 +8156,6 @@ body.article-content {
 .dashboard .panel-heading {
   height: 32px;
   padding: 6px 60px 6px 6px;
-  overflow: hidden;
   font-weight: bold;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -8287,7 +8296,7 @@ body.article-content {
   display: block;
   visibility: hidden;
   content: ' ';
-  opacity: 1;
+  opacity: 0;
   -webkit-transition: visibility .2s, opacity .2s;
        -o-transition: visibility .2s, opacity .2s;
           transition: visibility .2s, opacity .2s;
@@ -8299,7 +8308,6 @@ body.article-content {
   bottom: 0;
   left: 0;
   background-color: #fff;
-  background-color: rgba(255, 255, 255, .7);
   }
 .dashboard .panel-body:after {
   position: absolute;
@@ -8334,7 +8342,7 @@ body.article-content {
 .dashboard .panel-loading > .panel-body:before,
 .dashboard .panel-loading > .panel-body:after {
   visibility: visible;
-  opacity: 1;
+  opacity: .5;
   }
 .dashboard-inverse {
   background-color: #3280fc;
@@ -11549,7 +11557,7 @@ a.calendar .event.color-purple:hover {
   left: -10px;
   z-index: 1;
   display: block;
-  width: 18px;
+  width: 22px;
   content: ' ';
   border-top: 1px dotted #999;
   }
@@ -11573,6 +11581,9 @@ a.calendar .event.color-purple:hover {
   }
 .tree-lines ul > li:first-child:before {
   top: -7px;
+  }
+.tree-lines ul > li.tree-single-item:before {
+  height: 19px;
   }
 .tree-lines ul > li.has-list:after {
   width: 14px;
