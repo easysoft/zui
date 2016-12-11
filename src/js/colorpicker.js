@@ -157,7 +157,7 @@
             if(!notSetInput && this.$.val().toLowerCase() !== hex) {
                 this.$.val(hex).trigger('change');
             }
-            this.$menu.find('.cp-tile[data-color=' + hex + ']').addClass('active');
+            this.$menu.find('.cp-tile[data-color="' + hex + '"]').addClass('active');
             this.$.tooltip('hide');
             this.$.trigger('colorchange', c);
         } else {
