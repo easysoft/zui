@@ -8,14 +8,14 @@
 
 <div class="alert alert-primary">
   <h4>提示</h4>
-  <p>在此页面内的测试文件上传时，你的文件会上传到服务器（<strong class="text-hostname"></strong>），但不会在服务器保存你的文件，你可以放心进行测试。</p>
+  <p>在此页面内的测试文件上传时，你的文件会上传到服务器（<a target="_blank" class="alert-link text-hostname" href="http://httpbin.org/post"><strong>http://httpbin.org/</strong></a>），但不会在服务器保存你的文件，你可以放心进行测试。</p>
 </div>
 
 
 ### 普遍文件列表
 
 <div class="example">
-  <div id="uploaderExample" class="uploader" data-ride="uploader" data-url="docs/partial/remote-modal.html" data-auto-upload="true">
+  <div id="uploaderExample" class="uploader" data-auto-upload="true">
     <div class="file-list" data-drag-placeholder="请拖拽文件到此处"></div>
     <button type="button" class="btn btn-primary btn-uploader-browse"><i class="icon icon-cloud-upload"></i> 上传文件</button>
   </div>
@@ -38,7 +38,7 @@ $('#uploaderExample').uploader({
 ### 大号文件列表
 
 <div class="example">
-  <div id='uploaderExample2' class="uploader" data-ride="uploader" data-url="docs/partial/remote-modal.html">
+  <div id='uploaderExample2' class="uploader">
     <div class="uploader-message text-center">
       <div class="content"></div>
       <button type="button" class="close">×</button>
@@ -70,7 +70,7 @@ $('#uploaderExample').uploader({
 ### 文件网格视图
 
 <div class="example">
-  <div id='uploaderExample3' class="uploader" data-ride="uploader" data-url="docs/partial/remote-modal.html">
+  <div id='uploaderExample3' class="uploader">
     <div class="uploader-message text-center">
       <div class="content"></div>
       <button type="button" class="close">×</button>
@@ -106,7 +106,10 @@ $('#uploaderExample').uploader({
 
 <script>
 function afterPageLoad() {
-    $('.text-hostname').text(window.location.hostname);
+    $('.uploader').uploader({
+        chunk_size: '50kb',
+        url: window.location.protocol + '//httpbin.org/post'
+    });
 }
 </script>
 
