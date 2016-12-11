@@ -42,11 +42,22 @@
             var config = window.config;
             if(typeof(config) != 'undefined' && config.clientLang) {
                 lang = config.clientLang;
-            } else {
+            }
+            if(!lang) {
                 var hl = $('html').attr('lang');
                 lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || 'zh_cn');
             }
             return lang.replace('-', '_').toLowerCase();
+        },
+
+        strCode: function(str) {
+            var code = 0;
+            if(str && str.length) {
+                for(var i = 0; i < str.length; ++i) {
+                    code += i * str.charCodeAt(i);
+                }
+            }
+            return code;
         }
     });
 
