@@ -196,6 +196,8 @@
   }
 
   .file-name {
+    display: block;
+    text-decoration: none;
     transition: all @animation-speed-fast;
 
     &[contenteditable] {
@@ -235,7 +237,7 @@
     > .icon {
       vertical-align: middle;
       line-height: 20px;
-      transition: all @animation-speed-slow .2s;
+      transition: all @animation-speed-slow;
       transform: scale(1);
       opacity: 1;
 
@@ -272,9 +274,13 @@
   .file[data-status="done"] .file-status {color: @color-success;}
 
   .file .actions > .btn-reset-file,
+  .file .actions > .btn-download-file,
   .file[data-status="failed"] .actions > .btn-rename-file,
   .file[data-status="uploading"] .actions > .btn,
   .file[data-status="done"] .actions > .btn {display: none}
+  .file[data-status="done"] .actions > .btn-download-file[href],
+  .file-show-rename-acton-on-done .file[data-status="done"] .actions > .btn-rename-file,
+  .file-show-delete-acton-on-done .file[data-status="done"] .actions > .btn-delete-file,
   .file[data-status="failed"] .actions > .btn-reset-file {display: inline-block;}
 
   &.file-rename-by-click [data-status="queue"] .file-name:hover {
@@ -292,6 +298,7 @@
     .opacity(0);
     box-shadow: inset 0 -2px @color-primary;
     transition: width .6s ease, opacity @animation-speed-normal;
+    pointer-events: none;
   }
 
   .file[data-status="uploading"] .file-progress-bar {.opacity(1);}
@@ -420,8 +427,8 @@
     line-height: 18px;
     display: block;
     position: absolute;
-    top: -26px;
-    left: 8px;
+    top: -24px;
+    left: 4px;
     padding: 0 5px;
     border-radius: 9px;
     background-color: #808080;
@@ -476,7 +483,10 @@
     > .text {padding: 0;}
   }
 
-  .file[data-status="failed"] .file-wrapper > .actions > .file-status > .icon {font-size: 14px;}
+  .file[data-status="failed"] .file-wrapper > .actions > .file-status > .icon {
+    font-size: 14px;
+    text-shadow: none;
+  }
   .file[data-status="uploading"] .file-wrapper > .actions > .file-status > .text {
     position: absolute;
     top: 4px;
