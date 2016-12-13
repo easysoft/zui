@@ -44,7 +44,7 @@
         that.$list = $list;
 
         if(options.browseByClickList || $list.hasClass('uploader-btn-browse')) {
-            $list.addClass('uploader-btn-browse').on('click', '.file-wrapper > .actions', function(e) {
+            $list.addClass('uploader-btn-browse').on('click', '.file-wrapper > .actions,.file-renaming .file-name', function(e) {
                 e.stopPropagation();
             });
         }
@@ -225,6 +225,14 @@
 
     // default options
     Uploader.DEFAULTS = {
+        // qiniu: {
+        //     uptoken_url,
+        //     uptoken,
+        //     save_key,
+        //     domain,
+        //     get_new_uptoken,
+        //     key
+        // },
         // filesList: '', // 'default', 'large', 'grid', '>.file-list', '#myFileList', '<div class="uploader-files file-list"></div>'
         // fileTemplate: '',
         // fileFormater: null,
@@ -260,6 +268,7 @@
         // multipart_params: null, // Object
         // max_retries: 0,
         chunk_size: '1mb', // Number, String
+        max_retries: 3,
         // resize: {}, // {width, height, crop, quality, preserve_headers},
         // multi_selection: true, // true, false,
         // required_features: null, // String
@@ -548,166 +557,183 @@
             drop_element: that.$dropElement[0],
             multipart_params: null
         });
-        Plupload.addI18n(that.lang.i18n);
-        var plupload = new Plupload.Uploader(plOptions);
-        plupload.init();
-
-        plupload.bind('FilesAdded', function(uploader, files) {
-            var limitFilesCount = options.limitFilesCount;
-            if(limitFilesCount) {
-                if(limitFilesCount === true) limitFilesCount = 1;
-                var existCount = that.$list.children('.file').length;
-                if((existCount + files.length) > limitFilesCount) {
-                    that.showMessage(that.lang.limitFilesCountMessage.format({count: limitFilesCount}), 'warning');
-                    var newFiles = [];
-                    for(var i = 0; i < files.length; ++i) {
-                        if((existCount + i + 1) <= limitFilesCount) {
-                            newFiles.push(files[i]);
-                        } else {
-                            plupload.removeFile(files[i]);
-                        }
-                    }
-                    if(!newFiles.length) return;
-                    files = newFiles;
-                }
-            }
-            that.showFile(files);
-            if(options.autoUpload) that.start();
-            that.showStatus();
-            that.callEvent('onFilesAdded', [files]);
-        });
-
-        plupload.bind('UploadProgress', function(uploader, file) {
-            that.showFile(file);
-            that.delayShowStatus();
-            that.callEvent('onUploadProgress', file);
-        });
-
-        plupload.bind('FileUploaded', function(uploader, file, responseObject) {
-            var responseHandlerOption = options.responseHandler;
-            if(responseHandlerOption) {
-                var error = null;
-                if($.isFunction(responseHandlerOption)) {
-                    error = responseHandlerOption.call(that, responseObject, file);
-                } else if(responseObject.response) {
-                    try {
-                        var json = $.parseJSON(responseObject.response);
-                        if($.isPlainObject(json)) {
-                            var result = json.status || json.result;
-                            if(result !== undefined && result !== 'ok' && result !== 'success' && result !== 'success' && result !== 200) {
-                                error = {message: json.message, data: json};
+        var eventHandlers = {
+            FilesAdded: function(uploader, files) {
+                var limitFilesCount = options.limitFilesCount;
+                if(limitFilesCount) {
+                    if(limitFilesCount === true) limitFilesCount = 1;
+                    var existCount = that.$list.children('.file').length;
+                    if((existCount + files.length) > limitFilesCount) {
+                        that.showMessage(that.lang.limitFilesCountMessage.format({count: limitFilesCount}), 'warning');
+                        var newFiles = [];
+                        for(var i = 0; i < files.length; ++i) {
+                            if((existCount + i + 1) <= limitFilesCount) {
+                                newFiles.push(files[i]);
+                            } else {
+                                uploader.removeFile(files[i]);
                             }
-                            if(json.id !== undefined) file.remoteId = json.id;
-                            if(json.url !== undefined) file.url = json.url;
-                            file.remoteData = json;
                         }
-                    } catch (e) {}
+                        if(!newFiles.length) return;
+                        files = newFiles;
+                    }
                 }
-                if(error) {
-                    error = $.isPlainObject(error) ? error : {message: error};
-                        file.status = Plupload.FAILED;
-                    if(error.code === undefined) error.code = Plupload.GENERIC_ERROR;
-                    error.file = file;
-                    error.responseObject = responseObject;
-                    plupload.trigger('Error', error);
-                    return;
+                that.showFile(files);
+                if(options.autoUpload) that.start();
+                that.showStatus();
+                that.callEvent('onFilesAdded', [files]);
+            },
+            UploadProgress: function(uploader, file) {
+                that.showFile(file);
+                that.delayShowStatus();
+                that.callEvent('onUploadProgress', file);
+            },
+            FileUploaded: function(uploader, file, responseObject) {
+                var responseHandlerOption = options.responseHandler;
+                if(responseHandlerOption) {
+                    var error = null;
+                    if($.isFunction(responseHandlerOption)) {
+                        error = responseHandlerOption.call(that, responseObject, file);
+                    } else if(responseObject.response) {
+                        try {
+                            var json = $.parseJSON(responseObject.response);
+                            if($.isPlainObject(json)) {
+                                var result = json.status || json.result;
+                                if(result !== undefined && result !== 'ok' && result !== 'success' && result !== 'success' && result !== 200) {
+                                    error = {message: json.message, data: json};
+                                }
+                                if(json.id !== undefined) file.remoteId = json.id;
+                                if(json.url !== undefined) file.url = json.url;
+                                file.remoteData = json;
+                            }
+                        } catch (e) {}
+                    }
+                    if(error) {
+                        error = $.isPlainObject(error) ? error : {message: error};
+                            file.status = Plupload.FAILED;
+                        if(error.code === undefined) error.code = Plupload.GENERIC_ERROR;
+                        error.file = file;
+                        error.responseObject = responseObject;
+                        uploader.trigger('Error', error);
+                        return;
+                    }
                 }
-            }
 
-            if(file.status === Plupload.DONE) {
-                that.lastUploadedCount++;
-            }
-            that.showFile(file, responseObject);
-            that.showStatus();
-            that.callEvent('onFileUploaded', [file, responseObject]);
-
-            if(file.status === Plupload.DONE) {
-                var optionRemoveUploaded = options.removeUploaded;
-                if(optionRemoveUploaded) {
-                    setTimeout(function() {
-                        $('#file-' + file.id).fadeOut(function() {
-                            $(this).remove();
-                        });
-                    }, (typeof optionRemoveUploaded) === 'number' ? optionRemoveUploaded : 2000);
+                if(file.status === Plupload.DONE) {
+                    that.lastUploadedCount++;
                 }
-            }
-        });
+                that.showFile(file, responseObject);
+                that.showStatus();
+                that.callEvent('onFileUploaded', [file, responseObject]);
 
-        plupload.bind('UploadComplete', function(uploader, files) {
-            that.showFile(files);
-            that.showStatus();
-            if(options.uploadedMessage) {
-                var uploadedCount = that.lastUploadedCount;
-                var failedCount = 0;
+                if(file.status === Plupload.DONE) {
+                    var optionRemoveUploaded = options.removeUploaded;
+                    if(optionRemoveUploaded) {
+                        setTimeout(function() {
+                            $('#file-' + file.id).fadeOut(function() {
+                                $(this).remove();
+                            });
+                        }, (typeof optionRemoveUploaded) === 'number' ? optionRemoveUploaded : 2000);
+                    }
+                }
+            },
+            UploadComplete: function(uploader, files) {
+                that.showFile(files);
+                that.showStatus();
+                if(options.uploadedMessage) {
+                    var uploadedCount = that.lastUploadedCount;
+                    var failedCount = 0;
+                    $.each(files, function(idx, file) {
+                        if(file.status === Plupload.FAILED) failedCount++;
+                    });
+                    var msg = that.lang[failedCount > 0 ? 'uploadHasFailedMessage' : (uploadedCount > 0 ? 'uploadSuccessMessage' : 'uploadEmptyMessage')].format({
+                        uploaded: uploadedCount,
+                        failed: failedCount
+                    });
+                    that.showMessage(msg, failedCount > 0 ? 'danger' : (uploadedCount > 0 ? 'success' : 'warning'), 3);
+                }
+                that.callEvent('onUploadComplete', [files]);
+            },
+            FilesRemoved: function(uploader, files) {
                 $.each(files, function(idx, file) {
-                    if(file.status === Plupload.FAILED) failedCount++;
+                    that.removeFile(file, true);
                 });
-                var msg = that.lang[failedCount > 0 ? 'uploadHasFailedMessage' : (uploadedCount > 0 ? 'uploadSuccessMessage' : 'uploadEmptyMessage')].format({
-                    uploaded: uploadedCount,
-                    failed: failedCount
-                });
-                that.showMessage(msg, failedCount > 0 ? 'danger' : (uploadedCount > 0 ? 'success' : 'warning'), 3);
-            }
-            that.callEvent('onUploadComplete', [files]);
-        });
+                that.showStatus();
+                that.callEvent('onFilesRemoved', files);
+            },
+            ChunkUploaded: function(uploader, file, responseObject) {
+                that.callEvent('onChunkUploaded', [file, responseObject]);
+            },
+            UploadFile: function(uploader, file) {
+                that.showStatus();
+                that.callEvent('onUploadFile', file);
+            },
+            BeforeUpload: function(uploader, file) {
+                var oldParams = uploader.getOption('multipart_params');
+                var multipartParamsOption = options.multipart_params;
+                var params = {};
+                if(options.sendFileName) params[options.sendFileName === true ? 'name' : options.sendFileName] = file.name;
+                if(options.sendFileId) params[options.sendFileId === true ? 'uuid' : options.sendFileId] = file.id;
+                params = $.extend(params, oldParams, $.isFunction(multipartParamsOption) ? multipartParamsOption() : multipartParamsOption);
+                uploader.setOption('multipart_params', params);
 
-        plupload.bind('FilesRemoved', function(uploader, files) {
-            $.each(files, function(idx, file) {
-                that.removeFile(file, true);
+                that.callEvent('onBeforeUpload', file);
+            },
+            Refresh: function(uploader) {
+                that.showStatus();
+                that.callEvent('onRefresh');
+            },
+            StateChanged: function(uploader) {
+                if(uploader.state === Plupload.STARTED) {
+                    that.lastUploadedCount = 0;
+                }
+                that.$.toggleClass('uploader-started', Plupload.STARTED === uploader.state);
+                that.hideMessage();
+                that.showStatus();
+                that.callEvent('onStateChanged');
+            },
+            QueueChanged: function(uploader) {
+                that.showStatus();
+                that.callEvent('onQueueChanged');
+            },
+            Error: function(uploader, error) {
+                var type = 'danger';
+                if(error.code === Plupload.FILE_SIZE_ERROR || error.code === Plupload.FILE_SIZE_ERROR || error.code === Plupload.FILE_EXTENSION_ERROR || error.code === Plupload.FILE_DUPLICATE_ERROR || error.code === Plupload.MAGE_FORMAT_ERROR) type = 'warning';
+                that.showMessage(error.message, type);
+                that.callEvent('onError', error);
+            }
+        };
+        var qiniuEnable = $.isPlainObject(options.qiniu) && window.Qiniu;
+
+        Plupload.addI18n(that.lang.i18n);
+
+        if(qiniuEnable) {
+            var qiniuOptions = options.qiniu;
+            var qiniuKeyFunc = qiniuOptions.key;
+            delete plOptions.qiniu;
+            if(qiniuKeyFunc) {
+                delete qiniuOptions.key;
+                if($.isFunction(qiniuKeyFunc)) {
+                    eventHandlers.Key = qiniuKeyFunc;
+                }
+            } else {
+                eventHandlers.Key = function(uploader, file) {
+                    return file.name;
+                };
+            }
+            qiniuOptions.init = eventHandlers;
+            plOptions = $.extend(plOptions, qiniuOptions);
+            var qiniuSKD = new QiniuJsSDK();
+            var plupload = qiniuSKD.uploader(plOptions);
+            that.plupload = plupload;
+        } else {
+            var plupload = new Plupload.Uploader(plOptions);
+            plupload.init();
+            that.plOptions = plOptions;
+            that.plupload = plupload;
+            $.each(eventHandlers, function(eventName, eventHandler) {
+                plupload.bind(eventName, eventHandler);
             });
-            that.showStatus();
-            that.callEvent('onFilesRemoved', files);
-        });
-
-        plupload.bind('ChunkUploaded', function(uploader, file, responseObject) {
-            that.callEvent('onChunkUploaded', [file, responseObject]);
-        });
-
-        plupload.bind('UploadFile', function(uploader, file) {
-            that.showStatus();
-            that.callEvent('onUploadFile', file);
-        });
-
-        plupload.bind('BeforeUpload', function(uploader, file) {
-            var multipartParamsOption = options.multipart_params;
-            var params = {};
-            if(options.sendFileName) params[options.sendFileName === true ? 'name' : options.sendFileName] = file.name;
-            if(options.sendFileId) params[options.sendFileId === true ? 'uuid' : options.sendFileId] = file.id;
-            params = $.extend(params, $.isFunction(multipartParamsOption) ? multipartParamsOption() : multipartParamsOption);
-            plupload.setOption('multipart_params', params);
-
-            that.callEvent('onBeforeUpload', file);
-        });
-
-        plupload.bind('Refresh', function(uploader) {
-            that.showStatus();
-            that.callEvent('onRefresh');
-        });
-
-        plupload.bind('StateChanged', function(uploader) {
-            if(plupload.state === Plupload.STARTED) {
-                that.lastUploadedCount = 0;
-            }
-            that.$.toggleClass('uploader-started', Plupload.STARTED === uploader.state);
-            that.hideMessage();
-            that.showStatus();
-            that.callEvent('onStateChanged');
-        });
-
-        plupload.bind('QueueChanged', function(uploader) {
-            that.showStatus();
-            that.callEvent('onQueueChanged');
-        });
-
-        plupload.bind('Error', function(uploader, error) {
-            var type = 'danger';
-            if(error.code === Plupload.FILE_SIZE_ERROR || error.code === Plupload.FILE_SIZE_ERROR || error.code === Plupload.FILE_EXTENSION_ERROR || error.code === Plupload.FILE_DUPLICATE_ERROR || error.code === Plupload.MAGE_FORMAT_ERROR) type = 'warning';
-            that.showMessage(error.message, type);
-            that.callEvent('onError', error);
-        });
-
-        that.plOptions = plOptions;
-        that.plupload = plupload;
+        }
     };
 
     // Get and init options
@@ -720,9 +746,11 @@
 
     // Call event helper
     Uploader.prototype.callEvent = function(name, params) {
-        if($.isFunction(this.options[name])) {
-            if(!$.isArray(params)) params = [params];
-            return this.options[name].apply(this, params);
+        var that = this;
+        if(!$.isArray(params)) params = [params];
+        that.$.trigger(name, params);
+        if($.isFunction(that.options[name])) {
+            return that.options[name].apply(that, params);
         }
     };
 
@@ -740,7 +768,6 @@
     };
 
     Uploader.NAME = NAME;
-
     Uploader.LANG = {
         zh_cn: {"limitFilesCountMessage": "所有文件数目不能超过 {count} 个，如果要上传此文件请先从列表移除文件。", "uploadEmptyMessage": "没有文件等待上传。", "uploadSuccessMessage": "已上传 <strong>{uploaded}</strong> 个文件。", "uploadHasFailedMessage": "已上传 <strong>{uploaded}</strong> 个文件，<strong>{failed}</strong> 个文件上传失败。", "startedStatusText": "正在上传第 <strong>{uploading}</strong> 个文件，共 <strong title=\"总大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 个文件，<span class=\"uploader-status-uploaded\">已上传 <strong title=\"总大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 个文件，</span><span class=\"uploader-status-failed\"><strong>{failed}</strong> 个上传失败，</span>进度 <strong>{percent}%</strong>，平均速度 <strong>{speed}</strong>。", "initStatusText": "添加文件或拖放文件来上传。", "stoppedStatusText": "共 <strong title=\"总大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 个文件<span class=\"uploader-status-queue\">，<strong>{queue}</strong> 个文件等待上传</span><span class=\"uploader-status-uploaded\">，已上传 <strong title=\"总大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 个文件</span><span class=\"uploader-status-failed\">，<strong>{failed}</strong> 个上传失败</span><span class=\"uploader-status-uploaded\">，平均速度 <strong>{speed}</strong></span>。", "deleteConfirm": "确定移除文件【{name}】？", "download": "下载", "rename": "重命名", "repeat": "重新上传", "remove": "移除", "dropPlaceholder": "将文件拖放至在此处。", "queue": "待上传", "uploading": "正在上传", "failed": "失败", "done": "已上传", "i18n": {"Stop Upload":"停止上传","Upload URL might be wrong or doesn't exist.":"上传的URL可能是错误的或不存在。","tb":"tb","Size":"大小","Close":"关闭","You must specify either browse_button or drop_element.":"您必须指定 browse_button 或者 drop_element。","Init error.":"初始化错误。","Add files to the upload queue and click the start button.":"将文件添加到上传队列，然后点击”开始上传“按钮。","List":"列表","Filename":"文件名","%s specified, but cannot be found.":"%s 已指定，但是没有找到。","Image format either wrong or not supported.":"图片格式错误或者不支持。","Status":"状态","HTTP Error.":"HTTP 错误。","Start Upload":"开始上传","Error: File too large:":"错误: 文件太大:","kb":"kb","Duplicate file error.":"无法添加重复文件。","File size error.":"文件大小错误。","N/A":"N/A","gb":"gb","Error: Invalid file extension:":"错误：无效的文件扩展名:","Select files":"选择文件","%s already present in the queue.":"%s 已经在当前队列里。","Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.":"超限。<b>%s</b> 支持最大 %wx%hpx 的图片。","File: %s":"文件: %s","b":"b","Uploaded %d/%d files":"已上传 %d/%d 个文件","Upload element accepts only %d file(s) at a time. Extra files were stripped.":"每次只接受同时上传 %d 个文件，多余的文件将会被删除。","%d files queued":"%d 个文件加入到队列","File: %s, size: %d, max file size: %d":"文件: %s, 大小: %d, 最大文件大小: %d","Thumbnails":"缩略图","Drag files here.":"把文件拖到这里。","Runtime ran out of available memory.":"运行时已消耗所有可用内存。","File count error.":"文件数量错误。","File extension error.":"文件扩展名错误。","mb":"mb","Add Files":"增加文件"}},
         zh_tw: {"limitFilesCountMessage": "所有文件數目不能超過 {count} 個。","uploadEmptyMessage": "没有文件等待上傳。", "uploadSuccessMessage": "已上傳 <strong>{uploaded}</strong> 个文件。", "uploadHasFailedMessage": "文件上傳完成，已上傳 <strong>{uploaded}</strong> 個文件，<strong>{failed}</strong> 個文件上傳失败。", "startedStatusText": "正在上傳第<strong>{uploading}</strong> 個文件，共<strong title=\"總大小：{size}\" data-toggle=\"tooltip\" class=\"text -primary\">{total}</strong> 個文件，<span class=\"uploader-status-uploaded\">已上傳<strong title=\"總大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 個文件，</span><span class=\"uploader-status-failed\"><strong>{failed}</ strong> 個上傳失敗，</span>進度<strong>{percent}%</strong>，平均速度<strong>{speed}</strong>。", "initStatusText": "添加文件或拖放文件來上傳。", "stoppedStatusText": "共<strong title=\"總大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 個文件<span class=\"uploader-status-queue\">，<strong>{queue}</strong> 個文件等待上傳</span><span class=\"uploader-status-uploaded\">，已上傳<strong title=\"總大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 個文件</span><span class=\" uploader-status-failed\">，<strong>{failed}</strong> 個上傳失敗</span><span class=\"uploader-status-uploaded\">，平均速度<strong>{speed}< /strong></span>。", "deleteConfirm": "確定移除文件【{name}】？", "download": "下载", "rename": "重命名", "repeat": "重新上傳", "remove": "移除", "dropPlaceholder": "將文件拖放至在此處。", "queue": "待上傳", "uploading": "正在上傳", "failed": "失敗", "done": "已上傳", "i18n": {"Stop Upload":"停止上傳","Upload URL might be wrong or doesn't exist.":"檔案URL可能有誤或者不存在。","tb":"tb","Size":"大小","Close":"關閉","You must specify either browse_button or drop_element.":"您必須指定 browse_button 或 drop_element。","Init error.":"初始化錯誤。","Add files to the upload queue and click the start button.":"將檔案加入上傳序列，然後點選”開始上傳“按鈕。","List":"清單","Filename":"檔案名稱","%s specified, but cannot be found.":"找不到已選擇的 %s。","Image format either wrong or not supported.":"圖片格式錯誤或者不支援。","Status":"狀態","HTTP Error.":"HTTP 錯誤。","Start Upload":"開始上傳","Error: File too large:":"錯誤: 檔案大小太大:","kb":"kb","Duplicate file error.":"錯誤：檔案重複。","File size error.":"錯誤：檔案大小超過限制。","N/A":"N/A","gb":"gb","Error: Invalid file extension:":"錯誤：不接受的檔案格式:","Select files":"選擇檔案","%s already present in the queue.":"%s 已經存在目前的檔案序列。","Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.":"圖片解析度超出範圍！ <b>%s</b> 最高只支援到 %wx%hpx。","File: %s":"檔案: %s","b":"b","Uploaded %d/%d files":"已上傳 %d/%d 個文件","Upload element accepts only %d file(s) at a time. Extra files were stripped.":"每次只能上傳 %d 個檔案，超過限制數量的檔案將被忽略。","%d files queued":"%d 個檔案加入到序列","File: %s, size: %d, max file size: %d":"檔案: %s, 大小: %d, 檔案大小上限: %d","Thumbnails":"縮圖","Drag files here.":"把檔案拖曳到這裡。","Runtime ran out of available memory.":"執行時耗盡了所有可用的記憶體。","File count error.":"檔案數量錯誤。","File extension error.":"檔案副檔名錯誤。","mb":"mb","Add Files":"增加檔案"}},
@@ -751,6 +778,12 @@
     $.zui.moxie    = Moxie;
 
     $.fn.uploader.Constructor = Uploader;
+
+    // For qiniu
+    if(!window.mOxie) window.mOxie = {
+        Env: Moxie.core.utils.Env,
+        XMLHttpRequest: Moxie.xhr.XMLHttpRequest
+    };
 
     // Auto call uploader after document load complete
     $(function() {
