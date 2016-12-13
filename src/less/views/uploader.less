@@ -13,6 +13,15 @@
   position: relative;
 }
 
+.uploader-btn-hidden {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
 
 // File drag and drop
 
@@ -28,7 +37,7 @@
   width: 100%;
   height: 100%;
   border: 2px dashed @color-warning;
-  background-color: rgba(255,255,255,.7);
+  background-color: fade(@color-warning-pale, 50%);
   z-index: 10;
   font-size: 16px;
   transition: all @animation-speed-fast;
@@ -42,6 +51,7 @@
   transform: scale(1);
 }
 .file-drag-enter[data-drop-placeholder]:before {
+  border-style: solid;
   background-color: @color-warning-pale;
 }
 
@@ -223,6 +233,7 @@
 
   .file-wrapper > .content > .file-name {float: left;}
   .file-wrapper > .content > .file-size {float: right; margin-top: 2px;}
+  .file-wrapper > .actions > .btn {border-radius: 0;}
 
   .file-status {
     display: inline-block;
@@ -279,8 +290,8 @@
   .file[data-status="uploading"] .actions > .btn,
   .file[data-status="done"] .actions > .btn {display: none}
   .file[data-status="done"] .actions > .btn-download-file[href],
-  .file-show-rename-acton-on-done .file[data-status="done"] .actions > .btn-rename-file,
-  .file-show-delete-acton-on-done .file[data-status="done"] .actions > .btn-delete-file,
+  &.file-show-rename-action-on-done .file[data-status="done"] .actions > .btn-rename-file,
+  &.file-show-delete-action-on-done .file[data-status="done"] .actions > .btn-delete-file,
   .file[data-status="failed"] .actions > .btn-reset-file {display: inline-block;}
 
   &.file-rename-by-click [data-status="queue"] .file-name:hover {
