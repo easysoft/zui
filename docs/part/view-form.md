@@ -58,7 +58,7 @@ filter: biaodan bd
     </div>
   </div>
   <button type="submit" class="btn btn-primary">提交</button>
-<form>
+</form>
 ```
 
 ## 水平排列的表单
