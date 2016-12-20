@@ -187,7 +187,7 @@ KindEditor.plugin('image', function(K) {
 			fieldName : filePostName,
 			form : K('.ke-form', div),
 			target : target,
-			width: 60,
+			width: 66,
 			afterUpload : function(data) {
 				dialog.hideLoading();
 				if (data.error === 0) {
