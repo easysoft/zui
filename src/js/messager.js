@@ -39,7 +39,7 @@
         
         that.id = options.id || (id++);
         var oldMessager = all[that.id];
-        if(oldMessager) oldMessager.destory();
+        if(oldMessager) oldMessager.destroy();
         all[that.id] = that;
         that.message = (options.icon ? '<i class="icon-' + options.icon + ' icon"></i> ' : '') + message;
 
@@ -197,11 +197,13 @@
         that.isShow = false;
     };
 
-    Messager.prototype.destory = function() {
+    Messager.prototype.destroy = function() {
         var that = this;
-        that.hide(true);
-        that.$.remove();
-        that.$ = null;
+        that.hide(function()
+        {
+            that.$.remove();
+            that.$ = null;
+        }, true);
         delete all[that.id];
     };
 
