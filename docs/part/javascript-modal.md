@@ -123,7 +123,7 @@ filter: dhk mtk duihuakuang motaikuang
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mySmModal">小对话框</button>
 
 <div class="modal fade" id="mySmModal">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-sm">
     <div class="modal-content">
       ...
     </div>
