@@ -102,23 +102,23 @@ filter: duojibiaoti djbt
 ```
 
 ```html
-<h1>Heading2 标题2 <small>副标题</small></h2>
+<h2>Heading2 标题2 <small>副标题</small></h2>
 ```
 
 ```html
-<h1>Heading3 标题3 <small>副标题</small></h3>
+<h3>Heading3 标题3 <small>副标题</small></h3>
 ```
 
 ```html
-<h1>Heading4 标题4 <small>副标题</small></h4>
+<h4>Heading4 标题4 <small>副标题</small></h4>
 ```
 
 ```html
-<h1>Heading5 标题5 <small>副标题</small></h5>
+<h5>Heading5 标题5 <small>副标题</small></h5>
 ```
 
 ```html
-<h1>Heading6 标题6 <small>副标题</small></h6>
+<h6>Heading6 标题6 <small>副标题</small></h6>
 ```
 
 ## 带底部水平分隔线的标题
