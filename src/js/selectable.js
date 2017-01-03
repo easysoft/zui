@@ -91,15 +91,20 @@
                 }
                 if(handleResult !== true) {
                     that.selections[id] = isSelect ? that.selectOrder++ : false;
-                    var selected = [];
-                    $.each(that.selections, function(thisId, thisIsSelected) {
-                        if(thisIsSelected) selected.push(thisId);
-                    });
-                    that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element, selected: selected}, that);
+                    that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element, selected: that.getSelectedArray()}, that);
                 }
             }
             $element.toggleClass(that.options.selectClass, isSelect);
         }
+    };
+
+    Selectable.prototype.getSelectedArray = function()
+    {
+        var selected = [];
+        $.each(this.selections, function(thisId, thisIsSelected) {
+            if(thisIsSelected) selected.push(thisId);
+        });
+        return selected;
     };
 
     Selectable.prototype._init = function() {
@@ -182,12 +187,8 @@
                     checkRange();
                     range = null;
                 }
-                var selected = [];
-                $.each(that.selections, function(thisId, thisIsSelected) {
-                    if(thisIsSelected) selected.push(thisId);
-                });
             }
-            that.callEvent('finish', {selections: that.selections, selected: selected});
+            that.callEvent('finish', {selections: that.selections, selected: that.getSelectedArray()});
             e.preventDefault();
         };
 
@@ -212,6 +213,7 @@
             }
 
             if(that.callEvent('startDrag', e) === false) {
+                that.callEvent('finish', {selections: that.selections, selected: that.getSelectedArray()});
                 return;
             }
 
