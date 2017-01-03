@@ -12,6 +12,12 @@
     var name = 'zui.datatable';
     var store = $.zui.store;
 
+    /**
+     * Datatable class
+     * 
+     * @param object element           DOM element or jquery element
+     * @param object options           Datatable options
+     */
     var DataTable = function(element, options) {
         this.name = name;
         this.$ = $(element);
@@ -280,8 +286,6 @@
                     'data-type': col.type,
                     style: col.css
                 });
-
-
             $tr.append($th);
         }
 
@@ -595,7 +599,7 @@
             var syncChecks = function() {
                 var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
                 var $checkedRows = $checkRows.filter('.' + checkedClass);
-                $checkRows.find('.check-row input:checkbox').prop('checked', false);
+                if(options.checkboxName) $checkRows.find('.check-row input:checkbox').prop('checked', false);
                 var checkedStatus = {
                     checkedAll: $checkRows.length === $checkedRows.length && $checkedRows.length > 0,
                     checks: $checkedRows.map(function() {
@@ -784,7 +788,6 @@
         if(!$th.length) {
             return;
         }
-
 
         var data = this.data;
         var cols = data.cols,
