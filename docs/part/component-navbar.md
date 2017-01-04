@@ -344,31 +344,27 @@ filter: daohangtiao dht
 
 <example>
   <nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-      <ul class="nav navbar-nav nav-justified">
-        <li><a href="###">首页</a></li>
-        <li><a href="###">项目</a></li>
-        <li class="active"><a href="###">需求</a></li>
-        <li><a href="###">测试</a></li>
-        <li><a href="###">任务</a></li>
-        <li><a href="###">论坛</a></li>
-        <li><a href="###">帮助</a></li>
-        <li><a href="###">探索</a></li>
-      </ul>
-    </div>
+    <ul class="nav navbar-nav nav-justified">
+      <li><a href="###">首页</a></li>
+      <li><a href="###">项目</a></li>
+      <li class="active"><a href="###">需求</a></li>
+      <li><a href="###">测试</a></li>
+      <li><a href="###">任务</a></li>
+      <li><a href="###">论坛</a></li>
+      <li><a href="###">帮助</a></li>
+      <li><a href="###">探索</a></li>
+    </ul>
   </nav>
 </example>
 
 ```html
 <nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav nav-justified">
-      <li><a href="your/nice/url/1">首页</a></li>
-      <li><a href="your/nice/url/2">项目</a></li>
-      <li class="active"><a href="your/nice/url/3">需求</a></li>
-      ...
-    </ul>
-  </div>
+  <ul class="nav navbar-nav nav-justified">
+    <li><a href="your/nice/url/1">首页</a></li>
+    <li><a href="your/nice/url/2">项目</a></li>
+    <li class="active"><a href="your/nice/url/3">需求</a></li>
+    ...
+  </ul>
 </nav>
 ```
 

@@ -43,18 +43,18 @@ filter: anniu an
     <tr>
       <td>
         <div class="btn-group">
-          <button class="btn">按钮组</button> <button class=
-          "btn">第二个</button> <button class=
-          "btn">第三个</button>
+          <button class="btn">按钮组</button>
+          <button class="btn">第二个</button>
+          <button class="btn">第三个</button>
         </div>
       </td>
       <td>
         <pre><code>&lt;div class=&quot;btn-group&quot;&gt;
-&lt;button class=&quot;btn&quot;&gt;按钮组&lt;/button&gt;
-&lt;button class=&quot;btn&quot;&gt;第二个&lt;/button&gt;
-&lt;button class=&quot;btn&quot;&gt;第三个&lt;/button&gt;
+  &lt;button class=&quot;btn&quot;&gt;按钮组&lt;/button&gt;
+  &lt;button class=&quot;btn&quot;&gt;第二个&lt;/button&gt;
+  &lt;button class=&quot;btn&quot;&gt;第三个&lt;/button&gt;
 &lt;/div&gt;</code></pre>
-        <p>按钮组能够将相关的按钮并排展示，并且紧密相邻体现某些共同之处。通常会使用图标来代替按钮上的文字。</p>
+        <p>按钮组能够将相关的按钮并排展示，并且紧密相邻体现某些共同之处。通常会使用图标来代替按钮上的文字。按钮组的用法参见 <a href="#component/buttongroup">组件 → 按钮组</a>。</p>
       </td>
     </tr>
   </tbody>
@@ -151,17 +151,17 @@ filter: anniu an
       </td>
       <td>
         <pre><code>&lt;div class=&quot;btn-group&quot; data-toggle=&quot;buttons&quot;&gt;
-&lt;label class=&quot;btn active&quot;&gt;
-&lt;input type=&quot;checkbox&quot; checked&gt; 多选1
-&lt;/label&gt;
-&lt;label class=&quot;btn&quot;&gt;
-&lt;input type=&quot;checkbox&quot;&gt; 多选2
-&lt;/label&gt;
-&lt;label class=&quot;btn&quot;&gt;
-&lt;input type=&quot;checkbox&quot;&gt; 多选3
-&lt;/label&gt;
+  &lt;label class=&quot;btn active&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; checked&gt; 多选1
+  &lt;/label&gt;
+  &lt;label class=&quot;btn&quot;&gt;
+    &lt;input type=&quot;checkbox&quot;&gt; 多选2
+  &lt;/label&gt;
+  &lt;label class=&quot;btn&quot;&gt;
+    &lt;input type=&quot;checkbox&quot;&gt; 多选3
+  &lt;/label&gt;
 &lt;/div&gt;</code></pre>
-        <p>为按钮组中的每个按钮使用<code>&lt;label&gt;</code>标签，并在其中包含checkbox类型的表单控件就可以启用一个按钮组的多选组件。其机制同于表单中的多项选择控件（复选框）。</p>
+        <p>为按钮组中的每个按钮使用<code>&lt;label&gt;</code>标签，并在其中包含checkbox类型的表单控件就可以启用一个按钮组的多选组件。其机制同于表单中的多项选择控件（复选框）。按钮组的用法参见 <a href="#component/buttongroup">组件 → 按钮组</a>。</p>
       </td>
     </tr>
     <tr>
@@ -180,17 +180,17 @@ filter: anniu an
       </td>
       <td>
         <pre><code>&lt;div class=&quot;btn-group&quot; data-toggle=&quot;buttons&quot;&gt;
-&lt;label class=&quot;btn btn-primary active&quot;&gt;
-&lt;input type=&quot;radio&quot; name=&quot;options&quot; id=&quot;option1&quot; checked&gt; 单选1
-&lt;/label&gt;
-&lt;label class=&quot;btn btn-primary&quot;&gt;
-&lt;input type=&quot;radio&quot; name=&quot;options&quot; id=&quot;option2&quot;&gt; 单选2
-&lt;/label&gt;
-&lt;label class=&quot;btn btn-primary&quot;&gt;
-&lt;input type=&quot;radio&quot; name=&quot;options&quot; id=&quot;option3&quot;&gt; 单选3
-&lt;/label&gt;
+  &lt;label class=&quot;btn btn-primary active&quot;&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;options&quot; id=&quot;option1&quot; checked&gt; 单选1
+  &lt;/label&gt;
+  &lt;label class=&quot;btn btn-primary&quot;&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;options&quot; id=&quot;option2&quot;&gt; 单选2
+  &lt;/label&gt;
+  &lt;label class=&quot;btn btn-primary&quot;&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;options&quot; id=&quot;option3&quot;&gt; 单选3
+  &lt;/label&gt;
 &lt;/div&gt;</code></pre>
-        <p>为按钮组中的每个按钮使用<code>&lt;label&gt;</code>标签，并在其中包含radio类型的表单控件就可以启用一个按钮组的单选组件。其机制同于表单中的单项选择控件。</p>
+        <p>为按钮组中的每个按钮使用<code>&lt;label&gt;</code>标签，并在其中包含radio类型的表单控件就可以启用一个按钮组的单选组件。其机制同于表单中的单项选择控件。按钮组的用法参见 <a href="#component/buttongroup">组件 → 按钮组</a>。</p>
     </tr>
     <tr>
       <td><button id="loadingBtnExample" type="button" class="btn btn-primary" data-loading-text="正在加载...">加载状态</button></td>
