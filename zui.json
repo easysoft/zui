@@ -100,7 +100,7 @@
     "variables": {
       "name": "配置",
       "src": {
-        "less": ["~/basic/variables.less", "~/basic/setting.less"]
+        "less": ["~/basic/variables.less", "~/basic/variables.custom.less"]
       },
       "dpds": ["colorset"],
       "config": true,
