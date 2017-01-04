@@ -5,5 +5,5 @@ build/
 *.sublime-workspace
 ISSUES.md
 /*.zip
-zui.custom.json
-gulpfile.custom.js
+*custom.*
+*test.*
