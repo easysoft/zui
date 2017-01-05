@@ -1,11 +1,11 @@
 /*!
- * ZUI: 文件上传 - v1.5.0 - 2016-12-11
+ * ZUI: 文件上传 - v1.5.0 - 2017-01-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017 cnezsoft.com; Licensed MIT
  */
 
-/**
+/*!
  * mOxie - multi-runtime File API & XMLHttpRequest L2 Polyfill
  * v1.5.2
  *
@@ -34,6 +34,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
  * Date: 2016-11-23
  */
 !function(e,t){var i=function(){var e={};return t.apply(e,arguments),e.plupload};"function"==typeof define&&define.amd?define("plupload",["./moxie"],i):"object"==typeof module&&module.exports?module.exports=i(require("./moxie")):e.plupload=i(e.moxie)}(this||window,function(e){!function(e,t,i){function n(e){function t(e,t,i){var r={chunks:"slice_blob",jpgresize:"send_binary_string",pngresize:"send_binary_string",progress:"report_upload_progress",multi_selection:"select_multiple",dragdrop:"drag_and_drop",drop_element:"drag_and_drop",headers:"send_custom_headers",urlstream_upload:"send_binary_string",canSendBinary:"send_binary",triggerDialog:"summon_file_dialog"};r[e]?n[r[e]]=t:i||(n[e]=t)}var i=e.required_features,n={};return"string"==typeof i?l.each(i.split(/\s*,\s*/),function(e){t(e,!0)}):"object"==typeof i?l.each(i,function(e,i){t(i,e)}):i===!0&&(e.chunk_size>0&&(n.slice_blob=!0),l.isEmptyObj(e.resize)&&e.multipart||(n.send_binary_string=!0),l.each(e,function(e,i){t(i,!!e,!0)})),n}var r=window.setTimeout,s={},a=t.core.utils,o=t.runtime.Runtime,l={VERSION:"2.2.1",STOPPED:1,STARTED:2,QUEUED:1,UPLOADING:2,FAILED:4,DONE:5,GENERIC_ERROR:-100,HTTP_ERROR:-200,IO_ERROR:-300,SECURITY_ERROR:-400,INIT_ERROR:-500,FILE_SIZE_ERROR:-600,FILE_EXTENSION_ERROR:-601,FILE_DUPLICATE_ERROR:-602,IMAGE_FORMAT_ERROR:-700,MEMORY_ERROR:-701,IMAGE_DIMENSIONS_ERROR:-702,mimeTypes:a.Mime.mimes,ua:a.Env,typeOf:a.Basic.typeOf,extend:a.Basic.extend,guid:a.Basic.guid,getAll:function(e){var t,i=[];"array"!==l.typeOf(e)&&(e=[e]);for(var n=e.length;n--;)t=l.get(e[n]),t&&i.push(t);return i.length?i:null},get:a.Dom.get,each:a.Basic.each,getPos:a.Dom.getPos,getSize:a.Dom.getSize,xmlEncode:function(e){var t={"<":"lt",">":"gt","&":"amp",'"':"quot","'":"#39"},i=/[<>&\"\']/g;return e?(""+e).replace(i,function(e){return t[e]?"&"+t[e]+";":e}):e},toArray:a.Basic.toArray,inArray:a.Basic.inArray,inSeries:a.Basic.inSeries,addI18n:t.core.I18n.addI18n,translate:t.core.I18n.translate,sprintf:a.Basic.sprintf,isEmptyObj:a.Basic.isEmptyObj,hasClass:a.Dom.hasClass,addClass:a.Dom.addClass,removeClass:a.Dom.removeClass,getStyle:a.Dom.getStyle,addEvent:a.Events.addEvent,removeEvent:a.Events.removeEvent,removeAllEvents:a.Events.removeAllEvents,cleanName:function(e){var t,i;for(i=[/[\300-\306]/g,"A",/[\340-\346]/g,"a",/\307/g,"C",/\347/g,"c",/[\310-\313]/g,"E",/[\350-\353]/g,"e",/[\314-\317]/g,"I",/[\354-\357]/g,"i",/\321/g,"N",/\361/g,"n",/[\322-\330]/g,"O",/[\362-\370]/g,"o",/[\331-\334]/g,"U",/[\371-\374]/g,"u"],t=0;t<i.length;t+=2)e=e.replace(i[t],i[t+1]);return e=e.replace(/\s+/g,"_"),e=e.replace(/[^a-z0-9_\-\.]+/gi,"")},buildUrl:function(e,t){var i="";return l.each(t,function(e,t){i+=(i?"&":"")+encodeURIComponent(t)+"="+encodeURIComponent(e)}),i&&(e+=(e.indexOf("?")>0?"&":"?")+i),e},formatSize:function(e){function t(e,t){return Math.round(e*Math.pow(10,t))/Math.pow(10,t)}if(e===i||/\D/.test(e))return l.translate("N/A");var n=Math.pow(1024,4);return e>n?t(e/n,1)+" "+l.translate("tb"):e>(n/=1024)?t(e/n,1)+" "+l.translate("gb"):e>(n/=1024)?t(e/n,1)+" "+l.translate("mb"):e>1024?Math.round(e/1024)+" "+l.translate("kb"):e+" "+l.translate("b")},parseSize:a.Basic.parseSizeStr,predictRuntime:function(e,t){var i,n;return i=new l.Uploader(e),n=o.thatCan(i.getOption().required_features,t||e.runtimes),i.destroy(),n},addFileFilter:function(e,t){s[e]=t}};l.addFileFilter("mime_types",function(e,t,i){e.length&&!e.regexp.test(t.name)?(this.trigger("Error",{code:l.FILE_EXTENSION_ERROR,message:l.translate("File extension error."),file:t}),i(!1)):i(!0)}),l.addFileFilter("max_file_size",function(e,t,i){var n;e=l.parseSize(e),t.size!==n&&e&&t.size>e?(this.trigger("Error",{code:l.FILE_SIZE_ERROR,message:l.translate("File size error."),file:t}),i(!1)):i(!0)}),l.addFileFilter("prevent_duplicates",function(e,t,i){if(e)for(var n=this.files.length;n--;)if(t.name===this.files[n].name&&t.size===this.files[n].size)return this.trigger("Error",{code:l.FILE_DUPLICATE_ERROR,message:l.translate("Duplicate file error."),file:t}),i(!1),void 0;i(!0)}),l.Uploader=function(e){function a(){var e,t,i=0;if(this.state==l.STARTED){for(t=0;t<T.length;t++)e||T[t].status!=l.QUEUED?i++:(e=T[t],this.trigger("BeforeUpload",e)&&(e.status=l.UPLOADING,this.trigger("UploadFile",e)));i==T.length&&(this.state!==l.STOPPED&&(this.state=l.STOPPED,this.trigger("StateChanged")),this.trigger("UploadComplete",T))}}function u(e){e.percent=e.size>0?Math.ceil(100*(e.loaded/e.size)):100,d()}function d(){var e,t;for(w.reset(),e=0;e<T.length;e++)t=T[e],t.size!==i?(w.size+=t.origSize,w.loaded+=t.loaded*t.origSize/t.size):w.size=i,t.status==l.DONE?w.uploaded++:t.status==l.FAILED?w.failed++:w.queued++;w.size===i?w.percent=T.length>0?Math.ceil(100*(w.uploaded/T.length)):0:(w.bytesPerSec=Math.ceil(w.loaded/((+new Date-S||1)/1e3)),w.percent=w.size>0?Math.ceil(100*(w.loaded/w.size)):0)}function c(){var e=A[0]||P[0];return e?e.getRuntime().uid:!1}function f(e,t){if(e.ruid){var i=o.getInfo(e.ruid);if(i)return i.can(t)}return!1}function p(){this.bind("FilesAdded FilesRemoved",function(e){e.trigger("QueueChanged"),e.refresh()}),this.bind("CancelUpload",y),this.bind("BeforeUpload",m),this.bind("UploadFile",E),this.bind("UploadProgress",v),this.bind("StateChanged",b),this.bind("QueueChanged",d),this.bind("Error",z),this.bind("FileUploaded",R),this.bind("Destroy",O)}function g(e,i){var n=this,r=0,s=[],a={runtime_order:e.runtimes,required_caps:e.required_features,preferred_caps:F,swf_url:e.flash_swf_url,xap_url:e.silverlight_xap_url};l.each(e.runtimes.split(/\s*,\s*/),function(t){e[t]&&(a[t]=e[t])}),e.browse_button&&l.each(e.browse_button,function(i){s.push(function(s){var u=new t.file.FileInput(l.extend({},a,{accept:e.filters.mime_types,name:e.file_data_name,multiple:e.multi_selection,container:e.container,browse_button:i}));u.onready=function(){var e=o.getInfo(this.ruid);l.extend(n.features,{chunks:e.can("slice_blob"),multipart:e.can("send_multipart"),multi_selection:e.can("select_multiple")}),r++,A.push(this),s()},u.onchange=function(){n.addFile(this.files)},u.bind("mouseenter mouseleave mousedown mouseup",function(t){U||(e.browse_button_hover&&("mouseenter"===t.type?l.addClass(i,e.browse_button_hover):"mouseleave"===t.type&&l.removeClass(i,e.browse_button_hover)),e.browse_button_active&&("mousedown"===t.type?l.addClass(i,e.browse_button_active):"mouseup"===t.type&&l.removeClass(i,e.browse_button_active)))}),u.bind("mousedown",function(){n.trigger("Browse")}),u.bind("error runtimeerror",function(){u=null,s()}),u.init()})}),e.drop_element&&l.each(e.drop_element,function(e){s.push(function(i){var s=new t.file.FileDrop(l.extend({},a,{drop_zone:e}));s.onready=function(){var e=o.getInfo(this.ruid);l.extend(n.features,{chunks:e.can("slice_blob"),multipart:e.can("send_multipart"),dragdrop:e.can("drag_and_drop")}),r++,P.push(this),i()},s.ondrop=function(){n.addFile(this.files)},s.bind("error runtimeerror",function(){s=null,i()}),s.init()})}),l.inSeries(s,function(){"function"==typeof i&&i(r)})}function h(e,n,r){var s=new t.image.Image;try{s.onload=function(){return n.width>this.width&&n.height>this.height&&n.quality===i&&n.preserve_headers&&!n.crop?(this.destroy(),r(e)):(s.downsize(n.width,n.height,n.crop,n.preserve_headers),void 0)},s.onresize=function(){r(this.getAsBlob(e.type,n.quality)),this.destroy()},s.onerror=function(){r(e)},s.load(e)}catch(a){r(e)}}function _(e,i,r){function s(e,i,n){var r=I[e];switch(e){case"max_file_size":"max_file_size"===e&&(I.max_file_size=I.filters.max_file_size=i);break;case"chunk_size":(i=l.parseSize(i))&&(I[e]=i,I.send_file_name=!0);break;case"multipart":I[e]=i,i||(I.send_file_name=!0);break;case"unique_names":I[e]=i,i&&(I.send_file_name=!0);break;case"filters":"array"===l.typeOf(i)&&(i={mime_types:i}),n?l.extend(I.filters,i):I.filters=i,i.mime_types&&("string"===l.typeOf(i.mime_types)&&(i.mime_types=t.core.utils.Mime.mimes2extList(i.mime_types)),i.mime_types.regexp=function(e){var t=[];return l.each(e,function(e){l.each(e.extensions.split(/,/),function(e){/^\s*\*\s*$/.test(e)?t.push("\\.*"):t.push("\\."+e.replace(new RegExp("["+"/^$.*+?|()[]{}\\".replace(/./g,"\\$&")+"]","g"),"\\$&"))})}),new RegExp("("+t.join("|")+")$","i")}(i.mime_types),I.filters.mime_types=i.mime_types);break;case"resize":I.resize=i?l.extend({preserve_headers:!0,crop:!1},i):!1;break;case"prevent_duplicates":I.prevent_duplicates=I.filters.prevent_duplicates=!!i;break;case"container":case"browse_button":case"drop_element":i="container"===e?l.get(i):l.getAll(i);case"runtimes":case"multi_selection":case"flash_swf_url":case"silverlight_xap_url":I[e]=i,n||(u=!0);break;default:I[e]=i}n||a.trigger("OptionChanged",e,i,r)}var a=this,u=!1;"object"==typeof e?l.each(e,function(e,t){s(t,e,r)}):s(e,i,r),r?(I.required_features=n(l.extend({},I)),F=n(l.extend({},I,{required_features:!0}))):u&&(a.trigger("Destroy"),g.call(a,I,function(e){e?(a.runtime=o.getInfo(c()).type,a.trigger("Init",{runtime:a.runtime}),a.trigger("PostInit")):a.trigger("Error",{code:l.INIT_ERROR,message:l.translate("Init error.")})}))}function m(e,t){if(e.settings.unique_names){var i=t.name.match(/\.([^.]+)$/),n="part";i&&(n=i[1]),t.target_name=t.id+"."+n}}function E(e,i){function n(){d-->0?r(s,1e3):(i.loaded=p,e.trigger("Error",{code:l.HTTP_ERROR,message:l.translate("HTTP Error."),file:i,response:D.responseText,status:D.status,responseHeaders:D.getAllResponseHeaders()}))}function s(){var f,g,h,_={};i.status===l.UPLOADING&&e.state!==l.STOPPED&&(e.settings.send_file_name&&(_.name=i.target_name||i.name),u&&c.chunks&&a.size>u?(h=Math.min(u,a.size-p),f=a.slice(p,p+h)):(h=a.size,f=a),u&&c.chunks&&(e.settings.send_chunk_number?(_.chunk=Math.ceil(p/u),_.chunks=Math.ceil(a.size/u)):(_.offset=p,_.total=a.size)),D=new t.xhr.XMLHttpRequest,D.upload&&(D.upload.onprogress=function(t){i.loaded=Math.min(i.size,p+t.loaded),e.trigger("UploadProgress",i)}),D.onload=function(){return D.status>=400?(n(),void 0):(d=e.settings.max_retries,h<a.size?(f.destroy(),p+=h,i.loaded=Math.min(p,a.size),e.trigger("ChunkUploaded",i,{offset:i.loaded,total:a.size,response:D.responseText,status:D.status,responseHeaders:D.getAllResponseHeaders()}),"Android Browser"===l.ua.browser&&e.trigger("UploadProgress",i)):i.loaded=i.size,f=g=null,!p||p>=a.size?(i.size!=i.origSize&&(a.destroy(),a=null),e.trigger("UploadProgress",i),i.status=l.DONE,e.trigger("FileUploaded",i,{response:D.responseText,status:D.status,responseHeaders:D.getAllResponseHeaders()})):r(s,1),void 0)},D.onerror=function(){n()},D.onloadend=function(){this.destroy(),D=null},e.settings.multipart&&c.multipart?(D.open("post",o,!0),l.each(e.settings.headers,function(e,t){D.setRequestHeader(t,e)}),g=new t.xhr.FormData,l.each(l.extend(_,e.settings.multipart_params),function(e,t){g.append(t,e)}),g.append(e.settings.file_data_name,f),D.send(g,{runtime_order:e.settings.runtimes,required_caps:e.settings.required_features,preferred_caps:F,swf_url:e.settings.flash_swf_url,xap_url:e.settings.silverlight_xap_url})):(o=l.buildUrl(e.settings.url,l.extend(_,e.settings.multipart_params)),D.open("post",o,!0),l.each(e.settings.headers,function(e,t){D.setRequestHeader(t,e)}),D.hasRequestHeader("Content-Type")||D.setRequestHeader("Content-Type","application/octet-stream"),D.send(f,{runtime_order:e.settings.runtimes,required_caps:e.settings.required_features,preferred_caps:F,swf_url:e.settings.flash_swf_url,xap_url:e.settings.silverlight_xap_url})))}var a,o=e.settings.url,u=e.settings.chunk_size,d=e.settings.max_retries,c=e.features,p=0;i.loaded&&(p=i.loaded=u?u*Math.floor(i.loaded/u):0),a=i.getSource(),!l.isEmptyObj(e.settings.resize)&&f(a,"send_binary_string")&&-1!==l.inArray(a.type,["image/jpeg","image/png"])?h.call(this,a,e.settings.resize,function(e){a=e,i.size=e.size,s()}):s()}function v(e,t){u(t)}function b(e){if(e.state==l.STARTED)S=+new Date;else if(e.state==l.STOPPED)for(var t=e.files.length-1;t>=0;t--)e.files[t].status==l.UPLOADING&&(e.files[t].status=l.QUEUED,d())}function y(){D&&D.abort()}function R(e){d(),r(function(){a.call(e)},1)}function z(e,t){t.code===l.INIT_ERROR?e.destroy():t.code===l.HTTP_ERROR&&(t.file.status=l.FAILED,u(t.file),e.state==l.STARTED&&(e.trigger("CancelUpload"),r(function(){a.call(e)},1)))}function O(e){e.stop(),l.each(T,function(e){e.destroy()}),T=[],A.length&&(l.each(A,function(e){e.destroy()}),A=[]),P.length&&(l.each(P,function(e){e.destroy()}),P=[]),F={},U=!1,S=D=null,w.reset()}var I,S,w,D,x=l.guid(),T=[],F={},A=[],P=[],U=!1;I={runtimes:o.order,max_retries:0,chunk_size:0,multipart:!0,multi_selection:!0,file_data_name:"file",flash_swf_url:"js/Moxie.swf",silverlight_xap_url:"js/Moxie.xap",filters:{mime_types:[],prevent_duplicates:!1,max_file_size:0},resize:!1,send_file_name:!0,send_chunk_number:!0},_.call(this,e,null,!0),w=new l.QueueProgress,l.extend(this,{id:x,uid:x,state:l.STOPPED,features:{},runtime:null,files:T,settings:I,total:w,init:function(){var e,t,i=this;return e=i.getOption("preinit"),"function"==typeof e?e(i):l.each(e,function(e,t){i.bind(t,e)}),p.call(i),l.each(["container","browse_button","drop_element"],function(e){return null===i.getOption(e)?(t={code:l.INIT_ERROR,message:l.sprintf(l.translate("%s specified, but cannot be found."),e)},!1):void 0}),t?i.trigger("Error",t):I.browse_button||I.drop_element?(g.call(i,I,function(e){var t=i.getOption("init");"function"==typeof t?t(i):l.each(t,function(e,t){i.bind(t,e)}),e?(i.runtime=o.getInfo(c()).type,i.trigger("Init",{runtime:i.runtime}),i.trigger("PostInit")):i.trigger("Error",{code:l.INIT_ERROR,message:l.translate("Init error.")})}),void 0):i.trigger("Error",{code:l.INIT_ERROR,message:l.translate("You must specify either browse_button or drop_element.")})},setOption:function(e,t){_.call(this,e,t,!this.runtime)},getOption:function(e){return e?I[e]:I},refresh:function(){A.length&&l.each(A,function(e){e.trigger("Refresh")}),this.trigger("Refresh")},start:function(){this.state!=l.STARTED&&(this.state=l.STARTED,this.trigger("StateChanged"),a.call(this))},stop:function(){this.state!=l.STOPPED&&(this.state=l.STOPPED,this.trigger("StateChanged"),this.trigger("CancelUpload"))},disableBrowse:function(){U=arguments[0]!==i?arguments[0]:!0,A.length&&l.each(A,function(e){e.disable(U)}),this.trigger("DisableBrowse",U)},getFile:function(e){var t;for(t=T.length-1;t>=0;t--)if(T[t].id===e)return T[t]},addFile:function(e,i){function n(e,t){var i=[];l.each(u.settings.filters,function(t,n){s[n]&&i.push(function(i){s[n].call(u,t,e,function(e){i(!e)})})}),l.inSeries(i,t)}function a(e){var s=l.typeOf(e);if(e instanceof t.file.File){if(!e.ruid&&!e.isDetached()){if(!o)return!1;e.ruid=o,e.connectRuntime(o)}a(new l.File(e))}else e instanceof t.file.Blob?(a(e.getSource()),e.destroy()):e instanceof l.File?(i&&(e.name=i),d.push(function(t){n(e,function(i){i||(T.push(e),f.push(e),u.trigger("FileFiltered",e)),r(t,1)})})):-1!==l.inArray(s,["file","blob"])?a(new t.file.File(null,e)):"node"===s&&"filelist"===l.typeOf(e.files)?l.each(e.files,a):"array"===s&&(i=null,l.each(e,a))}var o,u=this,d=[],f=[];o=c(),a(e),d.length&&l.inSeries(d,function(){f.length&&u.trigger("FilesAdded",f)})},removeFile:function(e){for(var t="string"==typeof e?e:e.id,i=T.length-1;i>=0;i--)if(T[i].id===t)return this.splice(i,1)[0]},splice:function(e,t){var n=T.splice(e===i?0:e,t===i?T.length:t),r=!1;return this.state==l.STARTED&&(l.each(n,function(e){return e.status===l.UPLOADING?(r=!0,!1):void 0}),r&&this.stop()),this.trigger("FilesRemoved",n),l.each(n,function(e){e.destroy()}),r&&this.start(),n},dispatchEvent:function(e){var t,i;if(e=e.toLowerCase(),t=this.hasEventListener(e)){t.sort(function(e,t){return t.priority-e.priority}),i=[].slice.call(arguments),i.shift(),i.unshift(this);for(var n=0;n<t.length;n++)if(t[n].fn.apply(t[n].scope,i)===!1)return!1}return!0},bind:function(e,t,i,n){l.Uploader.prototype.bind.call(this,e,t,n,i)},destroy:function(){this.trigger("Destroy"),I=w=null,this.unbindAll()}})},l.Uploader.prototype=t.core.EventTarget.instance,l.File=function(){function e(e){l.extend(this,{id:l.guid(),name:e.name||e.fileName,type:e.type||"",size:e.size||e.fileSize,origSize:e.size||e.fileSize,loaded:0,percent:0,status:l.QUEUED,lastModifiedDate:e.lastModifiedDate||(new Date).toLocaleString(),getNative:function(){var e=this.getSource().getSource();return-1!==l.inArray(l.typeOf(e),["blob","file"])?e:null},getSource:function(){return t[this.id]?t[this.id]:null},destroy:function(){var e=this.getSource();e&&(e.destroy(),delete t[this.id])}}),t[this.id]=e}var t={};return e}(),l.QueueProgress=function(){var e=this;e.size=0,e.loaded=0,e.uploaded=0,e.failed=0,e.queued=0,e.percent=0,e.bytesPerSec=0,e.reset=function(){e.size=e.loaded=e.uploaded=e.failed=e.queued=e.percent=e.bytesPerSec=0}},e.plupload=l}(this,e)});
+
 /* ========================================================================
  * ZUI: uploader.js
  * http://zui.sexy
@@ -45,9 +46,20 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
 (function($, window, Plupload, Moxie, undefined) {
     'use strict';
 
+    if(!$.zui.strCode) {
+        $.zui.strCode = function(str) {
+            var code = 0;
+            if(str && str.length) {
+                for(var i = 0; i < str.length; ++i) {
+                    code += i * str.charCodeAt(i);
+                }
+            }
+            return code;
+        };
+    }
+
     var NAME = 'zui.uploader'; // modal name
-    var pluploadEvents = [''];
-    var FILE_TEMPLATE = '<div class="file"><div class="file-progress-bar"></div><div class="file-wrapper"><div class="file-icon"><i class="icon icon-file-o"></i></div><div class="content"><div class="file-name"></div><div class="file-size small text-muted">0KB</div></div><div class="actions"><div class="file-status" data-toggle="tooltip"><i class="icon"></i> <span class="text"></span></div><button type="button" data-toggle="tooltip" class="btn btn-link btn-reset-file" title="Repeat"><i class="icon icon-repeat"></i></button><button type="button" data-toggle="tooltip" class="btn btn-link btn-rename-file" title="Rename"><i class="icon icon-pencil"></i></button><button type="button" data-toggle="tooltip" title="Remove" class="btn btn-link btn-delete-file"><i class="icon icon-trash text-danger"></i></button></div></div></div>';
+    var FILE_TEMPLATE = '<div class="file"><div class="file-progress-bar"></div><div class="file-wrapper"><div class="file-icon"><i class="icon icon-file-o"></i></div><div class="content"><div class="file-name"></div><div class="file-size small text-muted">0KB</div></div><div class="actions"><div class="file-status" data-toggle="tooltip"><i class="icon"></i> <span class="text"></span></div><a data-toggle="tooltip" class="btn btn-link btn-download-file" target="_blank"><i class="icon icon-download-alt"></i></a><button type="button" data-toggle="tooltip" class="btn btn-link btn-reset-file" title="Repeat"><i class="icon icon-repeat"></i></button><button type="button" data-toggle="tooltip" class="btn btn-link btn-rename-file" title="Rename"><i class="icon icon-pencil"></i></button><button type="button" data-toggle="tooltip" title="Remove" class="btn btn-link btn-delete-file"><i class="icon icon-trash text-danger"></i></button></div></div></div>';
     var STATUS = {};
     STATUS[Plupload.QUEUED] = 'queue';
     STATUS[Plupload.UPLOADING] = 'uploading';
@@ -62,7 +74,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         options = that.getOptions(options);
 
         // Init lang
-        var lang = $.isPlainObject(options.lang) ? ($.extend({}, Uploader.LANG[lang.lang || $.zui.clientLang()], options.lang)) : Uploader.LANG[options.lang];
+        var lang = $.isPlainObject(options.lang) ? ($.extend(true, {}, Uploader.LANG[lang.lang || $.zui.clientLang()], options.lang)) : Uploader.LANG[options.lang];
         that.lang = lang;
 
         // Init file list element
@@ -73,11 +85,18 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
             $list = $this.find('.file-list');
         } else if(fileList.indexOf('>') === 0) $list = $this.find(fileList.substr(1));
         else $list = $(fileList);
-        if(!$list || !$list.length) $list = $('<div class="file-list"></div>');
+        if(!$list || !$list.length) $list = $('<div class="uploader-files file-list"></div>');
         if(!$list.parent().length) $this.append($list);
         if(fileList == 'large') $list.addClass('file-list-lg');
         else if(fileList == 'grid') $list.addClass('file-list-grid');
+        $list.children('.file').addClass('file-static');
         that.$list = $list;
+
+        if(options.browseByClickList || $list.hasClass('uploader-btn-browse')) {
+            $list.addClass('uploader-btn-browse').on('click', '.file-wrapper > .actions,.file-renaming .file-name', function(e) {
+                e.stopPropagation();
+            });
+        }
 
         // Init file template
         var template = options.fileTemplate;
@@ -97,16 +116,21 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
 
         // Init browse button element
         var browseBtn = options.browse_button;
-        var $btn;
-        if(browseBtn.indexOf('>') === 0) $btn = $this.find(browseBtn.substr(1));
-        else $btn = $(browseBtn);
+        var $btn = null;
+        if(browseBtn) {
+            if(browseBtn.indexOf('>') === 0) $btn = $this.find(browseBtn.substr(1));
+            else if(browseBtn !== 'hidden') $btn = $(browseBtn);
+        }
+        if(!$btn || !$btn.length) {
+            $btn = $('<div class="uploader-btn-browse uploader-btn-hidden"></div>').appendTo($this);
+        }
         that.$button = $btn.first();
 
         // Init drop element
         var dropElement = options.drop_element;
         var $dropElement = (dropElement == 'fileList' ? that.$list : (dropElement == 'self' ? that.$ : $(dropElement))).first().addClass('file-drag-area');
         var dropPlaceholder = options.dropPlaceholder;
-        if(dropPlaceholder == true) dropPlaceholder = lang.dropPlaceholder;
+        if(dropPlaceholder === true) dropPlaceholder = lang.dropPlaceholder;
         if(dropPlaceholder) $dropElement.attr('data-drop-placeholder', dropPlaceholder);
         that.$dropElement = $dropElement;
 
@@ -123,12 +147,12 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         that.initPlupload();
 
         // Bind events
-        $this.on('click.' + NAME, '.btn-uploader-start', function(e) {
+        $this.on('click.' + NAME, '.uploader-btn-start', function(e) {
             that.start();
-        }).on('click.' + NAME, '.btn-uploader-browse', function(e) {
+        }).on('click.' + NAME, '.uploader-btn-browse', function(e) {
             if($(this).is(that.$button)) return;
             that.$button.trigger('click');
-        }).on('click.' + NAME, '.btn-uploader-stop', function(e) {
+        }).on('click.' + NAME, '.uploader-btn-stop', function(e) {
             that.stop();
         });
 
@@ -146,9 +170,21 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         $list.on('click.' + NAME, '.btn-delete-file', function() {
             var $file = $(this).closest('.file');
             var file = $file.data('file');
-            if(file.status === Plupload.QUEUED || file.status === Plupload.FAILED) {
+            var deleteActionOnDoneOption = options.deleteActionOnDone;
+            var doneActionAble = file.status === Plupload.DONE && $.isFunction(deleteActionOnDoneOption);
+            if(file.status === Plupload.QUEUED || file.status === Plupload.FAILED || doneActionAble) {
+                var doRemoveFile = function() {
+                    that.removeFile(file);
+                };
                 var removeFile = function() {
-                    that.plupload.removeFile(file);
+                    if(doneActionAble) {
+                        var result = deleteActionOnDoneOption.call(that, file, doRemoveFile);
+                        if(result === true) {
+                            doRemoveFile();
+                        }
+                    } else {
+                        doRemoveFile();
+                    }
                 };
                 var deleteConfirmOption = options.deleteConfirm;
                 if(deleteConfirmOption) {
@@ -167,33 +203,51 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
             }
         }).on('click.' + NAME, '.btn-reset-file', function() {
             var $file = $(this).closest('.file');
-            var file = that.plupload.getFile($file.data('id'));
+            var file = that.plupload.getFile($file.data('id')) || $file.data('file');
             if(file.status === Plupload.FAILED) {
                 file.status = Plupload.QUEUED;
                 that.showFile(file);
+                if(options.autoUpload) that.start();
             }
         });
         if(options.rename) {
-            if(options.renameByClick) $list.addClass('file-rename-by-click');
+            $list.toggleClass('file-rename-by-click', !!options.renameByClick)
+                 .toggleClass('file-show-delete-action-on-done', !!options.deleteActionOnDone)
+                 .toggleClass('file-show-rename-action-on-done', !!options.renameActionOnDone);
             $list.on('click.' + NAME, '.btn-rename-file' + (options.renameByClick ? ',.file-name' : ''), function() {
                 var $file = $(this).closest('.file');
                 if($file.hasClass('file-renaming')) return;
-                var file = that.plupload.getFile($file.data('id'));
-                if(file.status === Plupload.QUEUED) {
+                var file = that.plupload.getFile($file.data('id')) || $file.data('file');
+                var renameActionOnDoneOption = options.renameActionOnDone;
+                var renameActionAble = file.status === Plupload.DONE && $.isFunction(renameActionOnDoneOption);
+                if(renameActionAble || file.status === Plupload.QUEUED) {
                     var $filename = $file.find('.file-name').first();
                     $file.addClass('file-renaming');
                     $filename.attr('contenteditable', 'true').one('blur', function() {
                         var filename = $.trim($filename.text());
-                        if(filename !== undefined && filename !== null && filename !== '') {
-                            var ext = file.ext;
-                            if(ext.length && !options.renameExtension && filename.lastIndexOf('.' + ext) !== (filename.length - ext.length - 1)) {
-                                filename += '.' + ext;
+                        var renameFile = function() {
+                            if(filename !== undefined && filename !== null && filename !== '') {
+                                var ext = file.ext;
+                                if(ext.length && !options.renameExtension && filename.lastIndexOf('.' + ext) !== (filename.length - ext.length - 1)) {
+                                    filename += '.' + ext;
+                                }
+                                file.name = filename;
                             }
-                            file.name = filename;
+                            that.showFile(file);
+                        };
+                        if(renameActionAble) {
+                            var result = renameActionOnDoneOption.call(that, file, filename, renameFile);
+                            if(result === true) {
+                                doRemoveFile();
+                            } else if(result === false) {
+                                that.showFile(file);
+                            }
+                        } else {
+                            renameFile();
                         }
-                        that.showFile(file);
-                        $file.removeClass('file-renaming')
+                        $file.removeClass('file-renaming');
                         $filename.off('keydown.' + NAME).attr('contenteditable', null);
+
                      }).on('keydown.' + NAME, function(e) {
                         if(e.keyCode === 13) {
                             $filename.blur();
@@ -204,30 +258,58 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
                 }
             });
         }
+
+        // Init static files
+        if(options.staticFiles) {
+            $.each(options.staticFiles, function(idx, file) {
+                file = $.extend({status: Plupload.DONE}, file);
+                file.static = true;
+                if(!file.id) file.id = $.zui.uuid();
+                that.showFile(file);
+            });
+        }
+
+        that.callEvent('onInit');
     };
 
     // default options
     Uploader.DEFAULTS = {
-        // filesList: '', // 'default', 'large', 'grid', '>.file-list', '#myFileList', '<div class="file-list"></div>'
+        // qiniu: {
+        //     uptoken_url,
+        //     uptoken,
+        //     save_key,
+        //     domain,
+        //     get_new_uptoken,
+        //     key
+        // },
+        // filesList: '', // 'default', 'large', 'grid', '>.file-list', '#myFileList', '<div class="uploader-files file-list"></div>'
         // fileTemplate: '',
         // fileFormater: null,
         // fileIconCreator: null,
+        // staticFiles: null,
         rename: true,
         // autoUpload: false,
         // renameExtension: false,
         renameByClick: true,
+        // browseByClickList: false,
         dropPlaceholder: true,
         // messageCreator: null,
         previewImageIcon: true,
+        sendFileName: true,
+        sendFileId: true,
+        responseHandler: true,
+        // limitFilesCount: false,
         // deleteConfirm: false,
         // removeUploaded: false,
         // statusCreator: null, // Function
         // previewImageSize: {width: 200, height: 200},
         uploadedMessage: true,
+        // deleteActionOnDone: false, // false, true or function
+        // renameActionOnDone: false,   // false, true or function
 
         // plupload options
         drop_element: 'self', // 'self', 'fileList', String or jQuery object,
-        browse_button: '>.btn-uploader-browse', // String or jQuery object
+        browse_button: '>.uploader-btn-browse', // String or jQuery object
         // url: '', // String
         filters: {prevent_duplicates: true}, // {mime_types, max_file_size, prevent_duplicates}
         // headers: null, // Object
@@ -235,6 +317,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         // multipart_params: null, // Object
         // max_retries: 0,
         chunk_size: '1mb', // Number, String
+        max_retries: 3,
         // resize: {}, // {width, height, crop, quality, preserve_headers},
         // multi_selection: true, // true, false,
         // required_features: null, // String
@@ -278,7 +361,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
     };
 
     Uploader.prototype.disableBrowse = function(disable) {
-        $this.find('.btn-uploader-browse').attr('disable', disable ? 'disable' : null).toggle('disable', !!disable);
+        this.$.find('.uploader-btn-browse').attr('disable', disable ? 'disable' : null).toggle('disable', !!disable);
         return this.plupload.disableBrowse();
     };
 
@@ -302,16 +385,16 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
 
     // see https://github.com/moxiecode/moxie/wiki/API
     Uploader.prototype.previewImageSrc = function(file, callback) {
-        if(!file || !/image\//.test(file.type)) return;
+        if(!file || !file.getSource || !/image\//.test(file.type)) return;
         var size = $.extend({width: 200, height: 200}, this.options.previewImageSize);
         if(file.type == 'image/gif') {
             //mOxie.Image only support jpg and png
             var fr = new Moxie.file.FileReader();
             fr.onload = function() {
-                callback && callback(fr.result);
+                callback(fr.result);
                 fr.destroy();
                 fr = null;
-            }
+            };
             fr.readAsDataURL(file.getSource());
         } else {
             var preloader = new Moxie.image.Image();
@@ -319,28 +402,31 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
                 // compressImage
                 preloader.downsize(size.width, size.height); 
                 var imgsrc = preloader.type == 'image/jpeg' ? preloader.getAsDataURL('image/jpeg', 80) : preloader.getAsDataURL(); // return base64 data
-                callback && callback(imgsrc);
+                callback(imgsrc);
                 preloader.destroy();
                 preloader = null;
             };
             preloader.load(file.getSource());
         }
-    };
+    };  
 
     Uploader.prototype.createFileIcon = function(file) {
         var fileType = file.type;
         var ext = file.ext;
         var icon = 'file-o';
-        var types = fileType.split('/');
-        var type = types.length ? types[0] : '', subType = types.length > 1 ? types[1] : '';
+        var types = fileType ? fileType.split('/') : null;
+        var type = (types && types.length) ? types[0] : '', subType = (types && types.length) > 1 ? types[1] : '';
         if(type == 'image') icon = 'file-image';
         else if(ext == 'doc' || ext == 'docx' || ext == 'pages') icon = 'file-word';
         else if(ext == 'ppt' || ext == 'pptx' || ext == 'key') icon = 'file-powerpoint';
         else if(ext == 'xls' || ext == 'xlsx' || ext == 'numbers') icon = 'file-excel';
         else if(ext == 'html' || ext == 'htm') icon = 'globe';
-        else if(ext == 'js' || ext == 'php' || ext == 'cs' || ext == 'jsx' || ext == 'css' || ext == 'less' || ext == 'json' || ext == 'java' || ext == 'lua' || ext == 'py' || ext == 'c' || ext == 'cpp' || ext == 'swift' || ext == 'h' || ext == 'sh' || ext == 'rb' || ext == 'yml' || ext == 'ini' || ext == 'sql') icon = 'file-code';
+        else if(ext == 'js' || ext == 'php' || ext == 'cs' || ext == 'jsx' || ext == 'css' || ext == 'less' || ext == 'json' || ext == 'java' || ext == 'lua' || ext == 'py' || ext == 'c' || ext == 'cpp' || ext == 'swift' || ext == 'h' || ext == 'sh' || ext == 'rb' || ext == 'yml' || ext == 'ini' || ext == 'sql' || ext == 'xml') icon = 'file-code';
         else if(ext == 'apk') icon = 'android';
         else if(ext == 'exe') icon = 'windows';
+        else if(ext == 'pkg' || ext == 'msi' || ext == 'dmg') icon = 'cube';
+        else if(ext == 'epub') icon = 'book';
+        else if(ext == 'sketch') icon = 'diamond';
         else if(subType == 'zip' || subType == 'x-rar' || subType == 'x-7z-compressed') icon = 'file-archive';
         else if(subType == 'pdf') icon = 'file-pdf';
         else if(type == 'video') icon = 'file-movie';
@@ -364,7 +450,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
             else ext = '';
             file.ext = ext;
 
-            if(/image\//.test(file.type)) {
+            if(file.type && /image\//.test(file.type)) {
                 file.isImage = file.ext;
             }
         }
@@ -378,20 +464,22 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
                 $file.find('.btn-rename-file').attr('title', that.lang.rename);
                 $file.find('.btn-delete-file').attr('title', that.lang.remove);
                 $file.find('.btn-reset-file').attr('title', that.lang.repeat);
+                $file.find('.btn-download-file').attr('title', that.lang.download);
             }
             $file.data('id', file.id)
+                 .toggleClass('file-static', !!file.static)
                  .attr('id', 'file-' + file.id)
                  .appendTo(that.$list);
-            if($.fn.tooltip) $file.find('[data-toggle="tooltip"]').tooltip({container: 'body'});
+            if($.fn.tooltip) $file.find('[data-toggle="tooltip"]').tooltip();
         }
         return $file;
     };
 
-    Uploader.prototype.showFile = function(file) {
+    Uploader.prototype.showFile = function(file, responseObject) {
         var that = this;
         if($.isArray(file)) {
             $.each(file, function(idx, f) {
-                that.showFile(f);
+                that.showFile(f, responseObject);
             });
             return;
         }
@@ -410,15 +498,17 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         var options = that.options;
         var status = STATUS[file.status];
         if(options.fileFormater) {
-            options.fileFormater($file, file);
+            options.fileFormater.call(that, $file, file, status);
         } else {
+            var downloadUrl = (status == 'done' && file.url) ? file.url : null;
             $file.find('.file-name').text(file.name);
             $file.find('.file-size').text((status == 'uploading' ? (Plupload.formatSize(Math.floor(file.size*file.percent/100)).toUpperCase() + '/') : '') + Plupload.formatSize(file.size).toUpperCase());
-            $file.find('.file-icon').html(options.fileIconCreator ? options.fileIconCreator(file.type, file, that) : that.createFileIcon(file)).css('color', 'hsl(' + $.zui.strCode(file.type) + ', 70%, 40%)');
+            $file.find('.file-icon').html(options.fileIconCreator ? options.fileIconCreator(file.type, file, that) : that.createFileIcon(file)).css('color', 'hsl(' + $.zui.strCode(file.type || file.ext) + ', 70%, 40%)');
             $file.find('.file-progress-bar').css('width', file.percent + '%');
             var $status = $file.find('.file-status').attr('title', that.lang[status]);
             $status.find('.text').text(status == 'uploading' ? (file.percent + '%') : ((status == 'failed') ? that.lang[status] : ''));
             if($.fn.tooltip) $file.find('[data-toggle="tooltip"]').tooltip('fixTitle');
+            $file.find('a.btn-download-file, a.file-name').attr('href', downloadUrl);
         }
 
         if(options.previewImageIcon && file.isImage) {
@@ -437,6 +527,8 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
 
         $file.attr('data-status', status)
              .data('file', file);
+
+        // console.log('FILE', file);
     };
 
     Uploader.prototype.showStatus = function() {
@@ -449,7 +541,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         } else {
             var stateObj = {
                 uploading: Math.max(0, Math.min(totalCount, total.uploaded + 1)),
-                total: totalCount,
+                total: that.$list.children('.file-static').length + totalCount,
                 size: Plupload.formatSize(total.size).toUpperCase(),
                 queue: total.queued,
                 failed: total.failed,
@@ -462,7 +554,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
                 statusText = that.lang.startedStatusText.format(stateObj);
             } else {
                 if(totalCount < 1) {
-                    status = that.lang.initStatusText;
+                    statusText = that.lang.initStatusText;
                 } else {
                     statusText = that.lang.stoppedStatusText.format(stateObj);
                 }
@@ -486,127 +578,216 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         }, delay);
     };
 
+    Uploader.prototype.removeFile = function(file, onlyRemoveDom) {
+        var that = this;
+        if(typeof file == 'string') {
+            file = that.plupload.getFile(file);
+        }
+        if(onlyRemoveDom || file.static) {
+            var $file = $('#file-' + file.id);
+            if($.fn.tooltip) {
+                $file.find('[data-toggle="tooltip"]').tooltip('destroy');
+                $('.tooltip').remove();
+            }
+            $file.fadeOut(function() {
+                $(this).remove();
+            });
+        } else {
+            that.plupload.removeFile(file);
+        }
+    };
+
     Uploader.prototype.initPlupload = function() {
         var that = this;
         var options = that.options;
         var plOptions = $.extend({}, options, {
             browse_button: that.$button[0],
             container: that.$[0],
-            drop_element: that.$dropElement[0]
+            drop_element: that.$dropElement[0],
+            multipart_params: null
         });
-        Plupload.addI18n(that.lang);
-        var plupload = new Plupload.Uploader(plOptions);
-        plupload.init();
-
-        plupload.bind('FilesAdded', function(uploader, files) {
-            that.showFile(files);
-            if(options.autoUpload) that.start();
-            that.showStatus();
-            that.callEvent('onFilesAdded', [files]);
-        });
-
-        plupload.bind('UploadProgress', function(uploader, file) {
-            that.showFile(file);
-            that.delayShowStatus();
-            that.callEvent('onUploadProgress', file);
-        });
-
-        plupload.bind('FileUploaded', function(uploader, file) {
-            if(file.status === Plupload.DONE) {
-                that.lastUploadedCount++;
-            }
-            that.showFile(file);
-            that.showStatus();
-            that.callEvent('onFileUploaded', file);
-            var optionRemoveUploaded = options.removeUploaded;
-            if(optionRemoveUploaded) {
-                setTimeout(function() {
-                    $('#file-' + file.id).fadeOut(function() {
-                        $(this).remove();
-                    });
-                }, (typeof optionRemoveUploaded) === 'number' ? optionRemoveUploaded : 2000);
-            }
-        });
-
-        plupload.bind('UploadComplete', function(uploader, files) {
-            that.showFile(files);
-            that.showStatus();
-            if(options.uploadedMessage) {
-                var uploadedCount = that.lastUploadedCount;
-                var failedCount = 0;
-                $.each(files, function(idx, file) {
-                    if(file.status === Plupload.FAILED) failedCount++;
-                });
-                var msg = that.lang[failedCount > 0 ? 'uploadHasFailedMessage' : (uploadedCount > 0 ? 'uploadSuccessMessage' : 'uploadEmptyMessage')].format({
-                    uploaded: uploadedCount,
-                    failed: failedCount
-                });
-                that.showMessage(msg, failedCount > 0 ? 'danger' : (uploadedCount > 0 ? 'success' : 'warning'), 3);
-            }
-            that.callEvent('onUploadComplete', [files]);
-        });
-
-        plupload.bind('FilesRemoved', function(uploader, files) {
-            $.each(files, function(idx, file) {
-                var $file = $('#file-' + file.id);
-                if($.fn.tooltip) {
-                    $file.find('[data-toggle="tooltip"]').tooltip('destroy');
-                    $('.tooltip').remove();
+        var eventHandlers = {
+            FilesAdded: function(uploader, files) {
+                var limitFilesCount = options.limitFilesCount;
+                if(limitFilesCount) {
+                    if(limitFilesCount === true) limitFilesCount = 1;
+                    var existCount = that.$list.children('.file').length;
+                    if((existCount + files.length) > limitFilesCount) {
+                        that.showMessage(that.lang.limitFilesCountMessage.format({count: limitFilesCount}), 'warning');
+                        var newFiles = [];
+                        for(var i = 0; i < files.length; ++i) {
+                            if((existCount + i + 1) <= limitFilesCount) {
+                                newFiles.push(files[i]);
+                            } else {
+                                uploader.removeFile(files[i]);
+                            }
+                        }
+                        if(!newFiles.length) return;
+                        files = newFiles;
+                    }
                 }
-                $file.fadeOut(function() {
-                    $(this).remove();
+                that.showFile(files);
+                if(options.autoUpload) that.start();
+                that.showStatus();
+                that.callEvent('onFilesAdded', [files]);
+            },
+            UploadProgress: function(uploader, file) {
+                that.showFile(file);
+                that.delayShowStatus();
+                that.callEvent('onUploadProgress', file);
+            },
+            FileUploaded: function(uploader, file, responseObject) {
+                if(responseObject) {
+                    var responseData = typeof responseObject === 'object' ? responseObject.response : responseObject;
+                    try {file.remoteData = $.parseJSON(responseData);}
+                    catch(e) {}
+                }
+                if(that.qiniuEnable && file.remoteData) {
+                    file.url = uploader.settings.domain + file.remoteData.key;
+                }
+                var responseHandlerOption = options.responseHandler;
+                if(responseHandlerOption) {
+                    var error = null;
+                    if($.isFunction(responseHandlerOption)) {
+                        error = responseHandlerOption.call(that, responseObject, file);
+                    } else if(responseObject.response) {
+                        var json = file.remoteData;
+                        if($.isPlainObject(json)) {
+                            var result = json.status || json.result;
+                            if(result !== undefined && result !== 'ok' && result !== 'success' && result !== 'success' && result !== 200) {
+                                error = {message: json.message, data: json};
+                            }
+                            if(json.id !== undefined) file.remoteId = json.id;
+                            if(json.url !== undefined) file.url = json.url;
+                        }
+                    }
+                    if(error) {
+                        error = $.isPlainObject(error) ? error : {message: error};
+                            file.status = Plupload.FAILED;
+                        if(error.code === undefined) error.code = Plupload.GENERIC_ERROR;
+                        error.file = file;
+                        error.responseObject = responseObject;
+                        uploader.trigger('Error', error);
+                        return;
+                    }
+                }
+
+                if(file.status === Plupload.DONE) {
+                    that.lastUploadedCount++;
+                }
+                that.showFile(file, responseObject);
+                that.showStatus();
+                that.callEvent('onFileUploaded', [file, responseObject]);
+
+                if(file.status === Plupload.DONE) {
+                    var optionRemoveUploaded = options.removeUploaded;
+                    if(optionRemoveUploaded) {
+                        setTimeout(function() {
+                            $('#file-' + file.id).fadeOut(function() {
+                                $(this).remove();
+                            });
+                        }, (typeof optionRemoveUploaded) === 'number' ? optionRemoveUploaded : 2000);
+                    }
+                }
+            },
+            UploadComplete: function(uploader, files) {
+                that.showFile(files);
+                that.showStatus();
+                if(options.uploadedMessage) {
+                    var uploadedCount = that.lastUploadedCount;
+                    var failedCount = 0;
+                    $.each(files, function(idx, file) {
+                        if(file.status === Plupload.FAILED) failedCount++;
+                    });
+                    var msg = that.lang[failedCount > 0 ? 'uploadHasFailedMessage' : (uploadedCount > 0 ? 'uploadSuccessMessage' : 'uploadEmptyMessage')].format({
+                        uploaded: uploadedCount,
+                        failed: failedCount
+                    });
+                    that.showMessage(msg, failedCount > 0 ? 'danger' : (uploadedCount > 0 ? 'success' : 'warning'), 3);
+                }
+                that.callEvent('onUploadComplete', [files]);
+            },
+            FilesRemoved: function(uploader, files) {
+                $.each(files, function(idx, file) {
+                    that.removeFile(file, true);
                 });
-            });
-            that.showStatus();
-            that.callEvent('onFilesRemoved', files);
-        });
+                that.showStatus();
+                that.callEvent('onFilesRemoved', files);
+            },
+            ChunkUploaded: function(uploader, file, responseObject) {
+                that.callEvent('onChunkUploaded', [file, responseObject]);
+            },
+            UploadFile: function(uploader, file) {
+                that.showStatus();
+                that.callEvent('onUploadFile', file);
+            },
+            BeforeUpload: function(uploader, file) {
+                var oldParams = uploader.getOption('multipart_params');
+                var multipartParamsOption = options.multipart_params;
+                var params = {};
+                if(options.sendFileName) params[options.sendFileName === true ? 'name' : options.sendFileName] = file.name;
+                if(options.sendFileId) params[options.sendFileId === true ? 'uuid' : options.sendFileId] = file.id;
+                params = $.extend(params, oldParams, $.isFunction(multipartParamsOption) ? multipartParamsOption() : multipartParamsOption);
+                uploader.setOption('multipart_params', params);
 
-        plupload.bind('ChunkUploaded', function(uploader, file, responseObject) {
-            that.callEvent('onChunkUploaded', [file, responseObject]);
-        });
-
-        plupload.bind('UploadFile', function(uploader, file) {
-            that.showStatus();
-            that.callEvent('onUploadFile', file);
-        });
-
-        plupload.bind('BeforeUpload', function(uploader, file) {
-            that.callEvent('onBeforeUpload', file);
-        });
-
-        plupload.bind('Refresh', function(uploader) {
-            that.showStatus();
-            that.callEvent('onRefresh');
-        });
-
-        plupload.bind('StateChanged', function(uploader) {
-            if(plupload.state === Plupload.STARTED) {
-                that.lastUploadedCount = 0;
+                that.callEvent('onBeforeUpload', file);
+            },
+            Refresh: function(uploader) {
+                that.showStatus();
+                that.callEvent('onRefresh');
+            },
+            StateChanged: function(uploader) {
+                if(uploader.state === Plupload.STARTED) {
+                    that.lastUploadedCount = 0;
+                }
+                that.$.toggleClass('uploader-started', Plupload.STARTED === uploader.state);
+                that.hideMessage();
+                that.showStatus();
+                that.callEvent('onStateChanged');
+            },
+            QueueChanged: function(uploader) {
+                that.showStatus();
+                that.callEvent('onQueueChanged');
+            },
+            Error: function(uploader, error) {
+                var type = 'danger';
+                if(error.code === Plupload.FILE_SIZE_ERROR || error.code === Plupload.FILE_SIZE_ERROR || error.code === Plupload.FILE_EXTENSION_ERROR || error.code === Plupload.FILE_DUPLICATE_ERROR || error.code === Plupload.MAGE_FORMAT_ERROR) type = 'warning';
+                that.showMessage(error.message, type);
+                that.callEvent('onError', error);
             }
-            that.$.toggleClass('uploader-started', Plupload.STARTED === uploader.state);
-            that.hideMessage();
-            that.showStatus();
-            that.callEvent('onStateChanged');
-        });
+        };
 
-        plupload.bind('QueueChanged', function(uploader) {
-            that.showStatus();
-            that.callEvent('onQueueChanged');
-        });
+        Plupload.addI18n(that.lang.i18n);
 
-        plupload.bind('Error', function(uploader, error) {
-            var type = 'danger';
-            if(error.code === Plupload.FILE_SIZE_ERROR 
-               || error.code === Plupload.FILE_SIZE_ERROR 
-               || error.code === Plupload.FILE_EXTENSION_ERROR 
-               || error.code === Plupload.FILE_DUPLICATE_ERROR 
-               || error.code === Plupload.MAGE_FORMAT_ERROR) type = 'warning';
-            that.showMessage(error.message, type);
-            that.callEvent('onError', error);
-        });
-
-        that.plOptions = plOptions;
-        that.plupload = plupload;
+        that.qiniuEnable = $.isPlainObject(options.qiniu) && window.Qiniu;
+        if(that.qiniuEnable) {
+            var qiniuOptions = options.qiniu;
+            var qiniuKeyFunc = qiniuOptions.key;
+            delete plOptions.qiniu;
+            if(qiniuKeyFunc) {
+                delete qiniuOptions.key;
+                if($.isFunction(qiniuKeyFunc)) {
+                    eventHandlers.Key = qiniuKeyFunc;
+                }
+            } else {
+                eventHandlers.Key = function(uploader, file) {
+                    return file.name;
+                };
+            }
+            qiniuOptions.init = eventHandlers;
+            plOptions = $.extend(plOptions, qiniuOptions);
+            var qiniuSKD = new QiniuJsSDK();
+            var plupload = qiniuSKD.uploader(plOptions);
+            that.plupload = plupload;
+        } else {
+            var plupload = new Plupload.Uploader(plOptions);
+            plupload.init();
+            that.plOptions = plOptions;
+            that.plupload = plupload;
+            $.each(eventHandlers, function(eventName, eventHandler) {
+                plupload.bind(eventName, eventHandler);
+            });
+        }
     };
 
     // Get and init options
@@ -619,8 +800,12 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
 
     // Call event helper
     Uploader.prototype.callEvent = function(name, params) {
-        var result = this.$.callEvent(name + '.' + this.name, params, this);
-        return !(result.result !== undefined && (!result.result));
+        var that = this;
+        if(!$.isArray(params)) params = [params];
+        that.$.trigger(name, params);
+        if($.isFunction(that.options[name])) {
+            return that.options[name].apply(that, params);
+        }
     };
 
     // Extense jquery element
@@ -637,17 +822,22 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
     };
 
     Uploader.NAME = NAME;
-
     Uploader.LANG = {
-        zh_cn: {"uploadEmptyMessage": "没有文件等待上传。", "uploadSuccessMessage": "已上传 <strong>{uploaded}</strong> 个文件。", "uploadHasFailedMessage": "已上传 <strong>{uploaded}</strong> 个文件，<strong>{failed}</strong> 个文件上传失败。", "startedStatusText": "正在上传第 <strong>{uploading}</strong> 个文件，共 <strong title=\"总大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 个文件，<span class=\"uploader-status-uploaded\">已上传 <strong title=\"总大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 个文件，</span><span class=\"uploader-status-failed\"><strong>{failed}</strong> 个上传失败，</span>进度 <strong>{percent}%</strong>，平均速度 <strong>{speed}</strong>。", "initStatusText": "添加文件或拖放文件来上传。", "stoppedStatusText": "共 <strong title=\"总大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 个文件<span class=\"uploader-status-queue\">，<strong>{queue}</strong> 个文件等待上传</span><span class=\"uploader-status-uploaded\">，已上传 <strong title=\"总大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 个文件</span><span class=\"uploader-status-failed\">，<strong>{failed}</strong> 个上传失败</span><span class=\"uploader-status-uploaded\">，平均速度 <strong>{speed}</strong></span>。", "deleteConfirm": "确定移除文件【{name}】？", "rename": "重命名", "repeat": "重新上传", "remove": "移除", "dropPlaceholder": "将文件拖放至在此处。", "queue": "待上传", "uploading": "正在上传", "failed": "失败", "done": "已上传","Stop Upload":"停止上传","Upload URL might be wrong or doesn't exist.":"上传的URL可能是错误的或不存在。","tb":"tb","Size":"大小","Close":"关闭","You must specify either browse_button or drop_element.":"您必须指定 browse_button 或者 drop_element。","Init error.":"初始化错误。","Add files to the upload queue and click the start button.":"将文件添加到上传队列，然后点击”开始上传“按钮。","List":"列表","Filename":"文件名","%s specified, but cannot be found.":"%s 已指定，但是没有找到。","Image format either wrong or not supported.":"图片格式错误或者不支持。","Status":"状态","HTTP Error.":"HTTP 错误。","Start Upload":"开始上传","Error: File too large:":"错误: 文件太大:","kb":"kb","Duplicate file error.":"无法添加重复文件。","File size error.":"文件大小错误。","N/A":"N/A","gb":"gb","Error: Invalid file extension:":"错误：无效的文件扩展名:","Select files":"选择文件","%s already present in the queue.":"%s 已经在当前队列里。","Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.":"超限。<b>%s</b> 支持最大 %wx%hpx 的图片。","File: %s":"文件: %s","b":"b","Uploaded %d/%d files":"已上传 %d/%d 个文件","Upload element accepts only %d file(s) at a time. Extra files were stripped.":"每次只接受同时上传 %d 个文件，多余的文件将会被删除。","%d files queued":"%d 个文件加入到队列","File: %s, size: %d, max file size: %d":"文件: %s, 大小: %d, 最大文件大小: %d","Thumbnails":"缩略图","Drag files here.":"把文件拖到这里。","Runtime ran out of available memory.":"运行时已消耗所有可用内存。","File count error.":"文件数量错误。","File extension error.":"文件扩展名错误。","mb":"mb","Add Files":"增加文件"},
-        zh_tw: {"uploadEmptyMessage": "没有文件等待上傳。", "uploadSuccessMessage": "已上傳 <strong>{uploaded}</strong> 个文件。", "uploadHasFailedMessage": "文件上傳完成，已上傳 <strong>{uploaded}</strong> 個文件，<strong>{failed}</strong> 個文件上傳失败。", "startedStatusText": "正在上傳第<strong>{uploading}</strong> 個文件，共<strong title=\"總大小：{size}\" data-toggle=\"tooltip\" class=\"text -primary\">{total}</strong> 個文件，<span class=\"uploader-status-uploaded\">已上傳<strong title=\"總大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 個文件，</span><span class=\"uploader-status-failed\"><strong>{failed}</ strong> 個上傳失敗，</span>進度<strong>{percent}%</strong>，平均速度<strong>{speed}</strong>。", "initStatusText": "添加文件或拖放文件來上傳。", "stoppedStatusText": "共<strong title=\"總大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 個文件<span class=\"uploader-status-queue\">，<strong>{queue}</strong> 個文件等待上傳</span><span class=\"uploader-status-uploaded\">，已上傳<strong title=\"總大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 個文件</span><span class=\" uploader-status-failed\">，<strong>{failed}</strong> 個上傳失敗</span><span class=\"uploader-status-uploaded\">，平均速度<strong>{speed}< /strong></span>。", "deleteConfirm": "確定移除文件【{name}】？", "rename": "重命名", "repeat": "重新上傳", "remove": "移除", "dropPlaceholder": "將文件拖放至在此處。", "queue": "待上傳", "uploading": "正在上傳", "failed": "失敗", "done": "已上傳","Stop Upload":"停止上傳","Upload URL might be wrong or doesn't exist.":"檔案URL可能有誤或者不存在。","tb":"tb","Size":"大小","Close":"關閉","You must specify either browse_button or drop_element.":"您必須指定 browse_button 或 drop_element。","Init error.":"初始化錯誤。","Add files to the upload queue and click the start button.":"將檔案加入上傳序列，然後點選”開始上傳“按鈕。","List":"清單","Filename":"檔案名稱","%s specified, but cannot be found.":"找不到已選擇的 %s。","Image format either wrong or not supported.":"圖片格式錯誤或者不支援。","Status":"狀態","HTTP Error.":"HTTP 錯誤。","Start Upload":"開始上傳","Error: File too large:":"錯誤: 檔案大小太大:","kb":"kb","Duplicate file error.":"錯誤：檔案重複。","File size error.":"錯誤：檔案大小超過限制。","N/A":"N/A","gb":"gb","Error: Invalid file extension:":"錯誤：不接受的檔案格式:","Select files":"選擇檔案","%s already present in the queue.":"%s 已經存在目前的檔案序列。","Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.":"圖片解析度超出範圍！ <b>%s</b> 最高只支援到 %wx%hpx。","File: %s":"檔案: %s","b":"b","Uploaded %d/%d files":"已上傳 %d/%d 個文件","Upload element accepts only %d file(s) at a time. Extra files were stripped.":"每次只能上傳 %d 個檔案，超過限制數量的檔案將被忽略。","%d files queued":"%d 個檔案加入到序列","File: %s, size: %d, max file size: %d":"檔案: %s, 大小: %d, 檔案大小上限: %d","Thumbnails":"縮圖","Drag files here.":"把檔案拖曳到這裡。","Runtime ran out of available memory.":"執行時耗盡了所有可用的記憶體。","File count error.":"檔案數量錯誤。","File extension error.":"檔案副檔名錯誤。","mb":"mb","Add Files":"增加檔案"},
-        en: {"uploadEmptyMessage": "No file in queue to upload", "uploadSuccessMessage": "Uploaded <strong>{uploaded}</strong> files。", "uploadHasFailedMessage": "Uploaded complete, <strong>{uploaded}</strong> success, <strong>{failed}</strong> failed.", "startedStatusText": "Uploading NO.<strong>{uploading}</strong> file, total <strong title=\"Total size: {size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> files, <span class=\"uploader-status-uploaded\">Uploaded <strong title=\"Total size: {uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> files, </span><span class=\"uploader-status-failed\"><strong>{failed}</strong> failed, </span>progress <strong>{percent}%</strong>, average spped <strong>{speed}</strong>。", "initStatusText": "Append or drag file here.", "stoppedStatusText": "Total <strong title=\"Total size: {size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> files<span class=\"uploader-status-queue\">, <strong>{queue}</strong> files in queue</span><span class=\"uploader-status-uploaded\">, uploaded <strong title=\"Total size: {uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> files</span><span class=\"uploader-status-failed\">, <strong>{failed}</strong> failed</span><span class=\"uploader-status-uploaded\">, average spped <strong>{speed}</strong></span>。", "deleteConfirm": "Remove file \"{name}\" form upload queue?", "rename": "Rename", "repeat": "Repeat", "remove": "Remove", "dropPlaceholder": "Drop file here.", "queue": "Wait", "uploading": "Uploading", "failed": "Failed", "done": "Done","Stop Upload":"Stop Upload","Upload URL might be wrong or doesn't exist.":"Upload URL might be wrong or doesn't exist.","tb":"tb","Size":"Size","Close":"Close","You must specify either browse_button or drop_element.":"You must specify either browse_button or drop_element.","Init error.":"Init error.","Add files to the upload queue and click the start button.":"Add files to the upload queue and click the start button.","List":"List","Filename":"Filename","%s specified, but cannot be found.":"%s specified, but cannot be found.","Image format either wrong or not supported.":"Image format either wrong or not supported.","Status":"Status","HTTP Error.":"HTTP Error.","Start Upload":"Start Upload","Error: File too large:":"Error: File too large:","kb":"kb","Duplicate file error.":"Duplicate file error.","File size error.":"File size error.","N/A":"N/A","gb":"gb","Error: Invalid file extension:":"Error: Invalid file extension:","Select files":"Select files","%s already present in the queue.":"%s already present in the queue.","Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.":"Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.","File: %s":"File: %s","b":"b","Uploaded %d/%d files":"Uploaded %d/%d files","Upload element accepts only %d file(s) at a time. Extra files were stripped.":"Upload element accepts only %d file(s) at a time. Extra files were stripped.","%d files queued":"%d files queued","File: %s, size: %d, max file size: %d":"File: %s, size: %d, max file size: %d","Thumbnails":"Thumbnails","Drag files here.":"Drag files here.","Runtime ran out of available memory.":"Runtime ran out of available memory.","File count error.":"File count error.","File extension error.":"File extension error.","mb":"mb","Add Files":"Add Files"}
+        zh_cn: {"limitFilesCountMessage": "所有文件数目不能超过 {count} 个，如果要上传此文件请先从列表移除文件。", "uploadEmptyMessage": "没有文件等待上传。", "uploadSuccessMessage": "已上传 <strong>{uploaded}</strong> 个文件。", "uploadHasFailedMessage": "已上传 <strong>{uploaded}</strong> 个文件，<strong>{failed}</strong> 个文件上传失败。", "startedStatusText": "正在上传第 <strong>{uploading}</strong> 个文件，共 <strong title=\"总大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 个文件，<span class=\"uploader-status-uploaded\">已上传 <strong title=\"总大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 个文件，</span><span class=\"uploader-status-failed\"><strong>{failed}</strong> 个上传失败，</span>进度 <strong>{percent}%</strong>，平均速度 <strong>{speed}</strong>。", "initStatusText": "添加文件或拖放文件来上传。", "stoppedStatusText": "共 <strong title=\"总大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 个文件<span class=\"uploader-status-queue\">，<strong>{queue}</strong> 个文件等待上传</span><span class=\"uploader-status-uploaded\">，已上传 <strong title=\"总大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 个文件</span><span class=\"uploader-status-failed\">，<strong>{failed}</strong> 个上传失败</span><span class=\"uploader-status-uploaded\">，平均速度 <strong>{speed}</strong></span>。", "deleteConfirm": "确定移除文件【{name}】？", "download": "下载", "rename": "重命名", "repeat": "重新上传", "remove": "移除", "dropPlaceholder": "将文件拖放至在此处。", "queue": "待上传", "uploading": "正在上传", "failed": "失败", "done": "已上传", "i18n": {"Stop Upload":"停止上传","Upload URL might be wrong or doesn't exist.":"上传的URL可能是错误的或不存在。","tb":"tb","Size":"大小","Close":"关闭","You must specify either browse_button or drop_element.":"您必须指定 browse_button 或者 drop_element。","Init error.":"初始化错误。","Add files to the upload queue and click the start button.":"将文件添加到上传队列，然后点击”开始上传“按钮。","List":"列表","Filename":"文件名","%s specified, but cannot be found.":"%s 已指定，但是没有找到。","Image format either wrong or not supported.":"图片格式错误或者不支持。","Status":"状态","HTTP Error.":"HTTP 错误。","Start Upload":"开始上传","Error: File too large:":"错误: 文件太大:","kb":"kb","Duplicate file error.":"无法添加重复文件。","File size error.":"文件大小错误。","N/A":"N/A","gb":"gb","Error: Invalid file extension:":"错误：无效的文件扩展名:","Select files":"选择文件","%s already present in the queue.":"%s 已经在当前队列里。","Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.":"超限。<b>%s</b> 支持最大 %wx%hpx 的图片。","File: %s":"文件: %s","b":"b","Uploaded %d/%d files":"已上传 %d/%d 个文件","Upload element accepts only %d file(s) at a time. Extra files were stripped.":"每次只接受同时上传 %d 个文件，多余的文件将会被删除。","%d files queued":"%d 个文件加入到队列","File: %s, size: %d, max file size: %d":"文件: %s, 大小: %d, 最大文件大小: %d","Thumbnails":"缩略图","Drag files here.":"把文件拖到这里。","Runtime ran out of available memory.":"运行时已消耗所有可用内存。","File count error.":"文件数量错误。","File extension error.":"文件扩展名错误。","mb":"mb","Add Files":"增加文件"}},
+        zh_tw: {"limitFilesCountMessage": "所有文件數目不能超過 {count} 個。","uploadEmptyMessage": "没有文件等待上傳。", "uploadSuccessMessage": "已上傳 <strong>{uploaded}</strong> 个文件。", "uploadHasFailedMessage": "文件上傳完成，已上傳 <strong>{uploaded}</strong> 個文件，<strong>{failed}</strong> 個文件上傳失败。", "startedStatusText": "正在上傳第<strong>{uploading}</strong> 個文件，共<strong title=\"總大小：{size}\" data-toggle=\"tooltip\" class=\"text -primary\">{total}</strong> 個文件，<span class=\"uploader-status-uploaded\">已上傳<strong title=\"總大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 個文件，</span><span class=\"uploader-status-failed\"><strong>{failed}</ strong> 個上傳失敗，</span>進度<strong>{percent}%</strong>，平均速度<strong>{speed}</strong>。", "initStatusText": "添加文件或拖放文件來上傳。", "stoppedStatusText": "共<strong title=\"總大小：{size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> 個文件<span class=\"uploader-status-queue\">，<strong>{queue}</strong> 個文件等待上傳</span><span class=\"uploader-status-uploaded\">，已上傳<strong title=\"總大小：{uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> 個文件</span><span class=\" uploader-status-failed\">，<strong>{failed}</strong> 個上傳失敗</span><span class=\"uploader-status-uploaded\">，平均速度<strong>{speed}< /strong></span>。", "deleteConfirm": "確定移除文件【{name}】？", "download": "下载", "rename": "重命名", "repeat": "重新上傳", "remove": "移除", "dropPlaceholder": "將文件拖放至在此處。", "queue": "待上傳", "uploading": "正在上傳", "failed": "失敗", "done": "已上傳", "i18n": {"Stop Upload":"停止上傳","Upload URL might be wrong or doesn't exist.":"檔案URL可能有誤或者不存在。","tb":"tb","Size":"大小","Close":"關閉","You must specify either browse_button or drop_element.":"您必須指定 browse_button 或 drop_element。","Init error.":"初始化錯誤。","Add files to the upload queue and click the start button.":"將檔案加入上傳序列，然後點選”開始上傳“按鈕。","List":"清單","Filename":"檔案名稱","%s specified, but cannot be found.":"找不到已選擇的 %s。","Image format either wrong or not supported.":"圖片格式錯誤或者不支援。","Status":"狀態","HTTP Error.":"HTTP 錯誤。","Start Upload":"開始上傳","Error: File too large:":"錯誤: 檔案大小太大:","kb":"kb","Duplicate file error.":"錯誤：檔案重複。","File size error.":"錯誤：檔案大小超過限制。","N/A":"N/A","gb":"gb","Error: Invalid file extension:":"錯誤：不接受的檔案格式:","Select files":"選擇檔案","%s already present in the queue.":"%s 已經存在目前的檔案序列。","Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.":"圖片解析度超出範圍！ <b>%s</b> 最高只支援到 %wx%hpx。","File: %s":"檔案: %s","b":"b","Uploaded %d/%d files":"已上傳 %d/%d 個文件","Upload element accepts only %d file(s) at a time. Extra files were stripped.":"每次只能上傳 %d 個檔案，超過限制數量的檔案將被忽略。","%d files queued":"%d 個檔案加入到序列","File: %s, size: %d, max file size: %d":"檔案: %s, 大小: %d, 檔案大小上限: %d","Thumbnails":"縮圖","Drag files here.":"把檔案拖曳到這裡。","Runtime ran out of available memory.":"執行時耗盡了所有可用的記憶體。","File count error.":"檔案數量錯誤。","File extension error.":"檔案副檔名錯誤。","mb":"mb","Add Files":"增加檔案"}},
+        en: {"limitFilesCountMessage": "All files count can not over {count}.","uploadEmptyMessage": "No file in queue to upload", "uploadSuccessMessage": "Uploaded <strong>{uploaded}</strong> files。", "uploadHasFailedMessage": "Uploaded complete, <strong>{uploaded}</strong> success, <strong>{failed}</strong> failed.", "startedStatusText": "Uploading NO.<strong>{uploading}</strong> file, total <strong title=\"Total size: {size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> files, <span class=\"uploader-status-uploaded\">Uploaded <strong title=\"Total size: {uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> files, </span><span class=\"uploader-status-failed\"><strong>{failed}</strong> failed, </span>progress <strong>{percent}%</strong>, average spped <strong>{speed}</strong>。", "initStatusText": "Append or drag file here.", "stoppedStatusText": "Total <strong title=\"Total size: {size}\" data-toggle=\"tooltip\" class=\"text-primary\">{total}</strong> files<span class=\"uploader-status-queue\">, <strong>{queue}</strong> files in queue</span><span class=\"uploader-status-uploaded\">, uploaded <strong title=\"Total size: {uploadedSize}\" data-toggle=\"tooltip\" class=\"text-primary\">{uploaded}</strong> files</span><span class=\"uploader-status-failed\">, <strong>{failed}</strong> failed</span><span class=\"uploader-status-uploaded\">, average spped <strong>{speed}</strong></span>。", "deleteConfirm": "Remove file \"{name}\" form upload queue?", "rename": "Rename", "download": "Download", "repeat": "Repeat", "remove": "Remove", "dropPlaceholder": "Drop file here.", "queue": "Wait", "uploading": "Uploading", "failed": "Failed", "done": "Done", "i18n": {"Stop Upload":"Stop Upload","Upload URL might be wrong or doesn't exist.":"Upload URL might be wrong or doesn't exist.","tb":"tb","Size":"Size","Close":"Close","You must specify either browse_button or drop_element.":"You must specify either browse_button or drop_element.","Init error.":"Init error.","Add files to the upload queue and click the start button.":"Add files to the upload queue and click the start button.","List":"List","Filename":"Filename","%s specified, but cannot be found.":"%s specified, but cannot be found.","Image format either wrong or not supported.":"Image format either wrong or not supported.","Status":"Status","HTTP Error.":"HTTP Error.","Start Upload":"Start Upload","Error: File too large:":"Error: File too large:","kb":"kb","Duplicate file error.":"Duplicate file error.","File size error.":"File size error.","N/A":"N/A","gb":"gb","Error: Invalid file extension:":"Error: Invalid file extension:","Select files":"Select files","%s already present in the queue.":"%s already present in the queue.","Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.":"Resoultion out of boundaries! <b>%s</b> runtime supports images only up to %wx%hpx.","File: %s":"File: %s","b":"b","Uploaded %d/%d files":"Uploaded %d/%d files","Upload element accepts only %d file(s) at a time. Extra files were stripped.":"Upload element accepts only %d file(s) at a time. Extra files were stripped.","%d files queued":"%d files queued","File: %s, size: %d, max file size: %d":"File: %s, size: %d, max file size: %d","Thumbnails":"Thumbnails","Drag files here.":"Drag files here.","Runtime ran out of available memory.":"Runtime ran out of available memory.","File count error.":"File count error.","File extension error.":"File extension error.","mb":"mb","Add Files":"Add Files"}}
     };
 
     $.zui.plupload = Plupload;
     $.zui.moxie    = Moxie;
 
     $.fn.uploader.Constructor = Uploader;
+
+    // For qiniu
+    if(!window.mOxie) window.mOxie = {
+        Env: Moxie.core.utils.Env,
+        XMLHttpRequest: Moxie.xhr.XMLHttpRequest
+    };
 
     // Auto call uploader after document load complete
     $(function() {
