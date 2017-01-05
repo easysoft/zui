@@ -9,6 +9,18 @@
 (function($, window, Plupload, Moxie, undefined) {
     'use strict';
 
+    if(!$.zui.strCode) {
+        $.zui.strCode = function(str) {
+            var code = 0;
+            if(str && str.length) {
+                for(var i = 0; i < str.length; ++i) {
+                    code += i * str.charCodeAt(i);
+                }
+            }
+            return code;
+        };
+    }
+
     var NAME = 'zui.uploader'; // modal name
     var FILE_TEMPLATE = '<div class="file"><div class="file-progress-bar"></div><div class="file-wrapper"><div class="file-icon"><i class="icon icon-file-o"></i></div><div class="content"><div class="file-name"></div><div class="file-size small text-muted">0KB</div></div><div class="actions"><div class="file-status" data-toggle="tooltip"><i class="icon"></i> <span class="text"></span></div><a data-toggle="tooltip" class="btn btn-link btn-download-file" target="_blank"><i class="icon icon-download-alt"></i></a><button type="button" data-toggle="tooltip" class="btn btn-link btn-reset-file" title="Repeat"><i class="icon icon-repeat"></i></button><button type="button" data-toggle="tooltip" class="btn btn-link btn-rename-file" title="Rename"><i class="icon icon-pencil"></i></button><button type="button" data-toggle="tooltip" title="Remove" class="btn btn-link btn-delete-file"><i class="icon icon-trash text-danger"></i></button></div></div></div>';
     var STATUS = {};
@@ -588,24 +600,29 @@
                 that.callEvent('onUploadProgress', file);
             },
             FileUploaded: function(uploader, file, responseObject) {
+                if(responseObject) {
+                    var responseData = typeof responseObject === 'object' ? responseObject.response : responseObject;
+                    try {file.remoteData = $.parseJSON(responseData);}
+                    catch(e) {}
+                }
+                if(that.qiniuEnable && file.remoteData) {
+                    file.url = uploader.settings.domain + file.remoteData.key;
+                }
                 var responseHandlerOption = options.responseHandler;
                 if(responseHandlerOption) {
                     var error = null;
                     if($.isFunction(responseHandlerOption)) {
                         error = responseHandlerOption.call(that, responseObject, file);
                     } else if(responseObject.response) {
-                        try {
-                            var json = $.parseJSON(responseObject.response);
-                            if($.isPlainObject(json)) {
-                                var result = json.status || json.result;
-                                if(result !== undefined && result !== 'ok' && result !== 'success' && result !== 'success' && result !== 200) {
-                                    error = {message: json.message, data: json};
-                                }
-                                if(json.id !== undefined) file.remoteId = json.id;
-                                if(json.url !== undefined) file.url = json.url;
-                                file.remoteData = json;
+                        var json = file.remoteData;
+                        if($.isPlainObject(json)) {
+                            var result = json.status || json.result;
+                            if(result !== undefined && result !== 'ok' && result !== 'success' && result !== 'success' && result !== 200) {
+                                error = {message: json.message, data: json};
                             }
-                        } catch (e) {}
+                            if(json.id !== undefined) file.remoteId = json.id;
+                            if(json.url !== undefined) file.url = json.url;
+                        }
                     }
                     if(error) {
                         error = $.isPlainObject(error) ? error : {message: error};
@@ -702,11 +719,11 @@
                 that.callEvent('onError', error);
             }
         };
-        var qiniuEnable = $.isPlainObject(options.qiniu) && window.Qiniu;
 
         Plupload.addI18n(that.lang.i18n);
 
-        if(qiniuEnable) {
+        that.qiniuEnable = $.isPlainObject(options.qiniu) && window.Qiniu;
+        if(that.qiniuEnable) {
             var qiniuOptions = options.qiniu;
             var qiniuKeyFunc = qiniuOptions.key;
             delete plOptions.qiniu;
