@@ -325,3 +325,11 @@ $('#dragBtn').draggable({
  - `e.offset`：被拖动元素当前相对于开始拖动时的位置变化；
  - `e.smallOffset`：被拖动元素当前相对于上次位置发生变化时的位置变化；
  - `e.startOffset`：被拖动元素在开始拖动前相对父级容器（`container` 指定）的位置变化。
+
+### <span class="code">$().draggable('destroy')</span>
+
+如果以确定不需要拖拽操作，则可以调用 `$().draggable('destroy')` 来销毁拖拽插件。销毁之后如果需要重新启用拖拽则重新进行初始化即可。
+
+```js
+$('#dragEles').draggable('destroy');
+```
