@@ -168,6 +168,7 @@
         var eventSuffix    = '.' + NAME + '.' + this.id;
         this.$.off(eventSuffix);
         $(document).off(eventSuffix);
+        this.$.data(NAME, null);
     };
 
     $.fn.draggable = function(option) {
