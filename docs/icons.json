@@ -432,6 +432,31 @@
         "name": "bold",
         "categories": ["Text Editor Icons"]
     },
+    "italic": {
+        "code" : "f033",
+        "name" : "italic",
+        "categories": ["Text Editor Icons"]
+    },
+    "header": {
+        "code" : "f1dc",
+        "name" : "header",
+        "categories": ["Text Editor Icons"]
+    },
+    "underline": {
+        "code" : "f0cd",
+        "name" : "underline",
+        "categories": ["Text Editor Icons"]
+    },
+    "strikethrough": {
+        "code" : "f0cc",
+        "name" : "strikethrough",
+        "categories": ["Text Editor Icons"]
+    },
+    "eraser": {
+        "code": "f12d",
+        "name": "eraser",
+        "categories": ["Text Editor Icons"]
+    },
     "align-justify": {
         "code": "e636",
         "name": "align-justify",
@@ -1587,6 +1612,11 @@
     "cube": {
         "code": "e751",
         "name": "Cube",
+        "categories": ["Web Application Icons"]
+    },
+    "database": {
+        "code": "f1c0",
+        "name": "Database",
         "categories": ["Web Application Icons"]
     },
     "align-left": {
