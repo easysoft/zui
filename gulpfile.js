@@ -436,7 +436,7 @@ gulp.task('build', function(callback) {
     if(type && type[0] === '-') type = type.substr(1);
     console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
     buildBundle(name, function() {
-        console.log('    END >> ' + (' Build ' + name.bold + ' completed. ').green.inverse);
+        console.log('    END >> ' + (' Build ' + name.bold + ' completed :)').green.inverse);
     }, type);
 });
 
