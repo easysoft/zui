@@ -18,7 +18,9 @@ filter: tuofang tf
   <p>在触摸屏上无法支持拖拽功能。</p>
 </div>
 
-## 综合示例
+## 示例
+
+### 简单应用
 
 <example>
   <div class="row" id="droppableContainer">
@@ -71,31 +73,6 @@ filter: tuofang tf
   color: #808080;
 }
 </style>
-
-<script>
-function afterPageLoad() {
-    if(!$.fn.droppable) return;
-    $('#droppableBtn').droppable({
-        target: '.droppable-target',
-        start: function() {
-            $('#droppableContainer .droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里吗？');
-        },
-        drop: function(event) {
-            var msg = '真棒！';
-            $('#droppableContainer .droppable-target').removeClass('panel-success').removeClass('panel-warning');
-            if(event.target) {
-                event.target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
-                msg += '成功拖动到区域 ' + event.target.find('.area-name').text();
-            }
-            $.zui.messager.show(msg);
-        },
-        drag: function(event) {
-            $('#droppableContainer .droppable-target').removeClass('panel-success').removeClass('panel-warning');
-            if(event.target) event.target.addClass('panel-warning');
-        }
-    });
-}
-</script>
 
 ```html
 <div class="row" id="droppableContainer">
@@ -164,6 +141,134 @@ $('#droppableBtn').droppable({
 });
 ```
 
+### 拖放容器内的多个元素
+
+<example>
+  <div class="row" id="multiDroppableContainer">
+    <div class="col-sm-3">
+      <div class="panel">
+        <div class="panel-heading">开始吧</div>
+        <div class="panel-body" style="height: 150px; text-align: center; line-height: 40px">
+          <button type="button" class="btn btn-primary btn-droppable"><i class="icon icon-move"></i> 按钮 #<span class="btn-droppable-id">1</span></button><br>
+          <button type="button" class="btn btn-success btn-droppable"><i class="icon icon-move"></i> 按钮 #<span class="btn-droppable-id">2</span></button><br>
+          <button type="button" class="btn btn-danger btn-droppable"><i class="icon icon-move"></i> 按钮 #<span class="btn-droppable-id">3</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="panel droppable-target" data-id="1">
+        <div class="panel-heading">拖动到这里。</div>
+        <div class="panel-body" style="height: 150px">
+          <div class="area-name">A</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="panel droppable-target" data-id="2">
+        <div class="panel-heading">这里。</div>
+        <div class="panel-body" style="height: 150px">
+          <div class="area-name">B</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="panel droppable-target" data-id="3">
+        <div class="panel-heading">或这里。</div>
+        <div class="panel-body" style="height: 150px">
+          <div class="area-name">C</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</example>
+
+<style>
+#multiDroppableContainer .btn-droppable {
+  cursor: move; /* 为被拖动的按钮更改光标类型 */
+}
+#multiDroppableContainer .area-name {
+  font-size: 50px;
+  line-height: 80px;
+  text-align: center;
+  color: #808080;
+}
+</style>
+
+```html
+<div class="row" id="multiDroppableContainer">
+  <div class="col-sm-3">
+    <div class="panel">
+      <div class="panel-heading">开始吧</div>
+      <div class="panel-body" style="height: 150px; text-align: center; line-height: 40px">
+        <button type="button" class="btn btn-primary btn-droppable"><i class="icon icon-move"></i> 按钮 #<span class="btn-droppable-id">1</span></button><br>
+        <button type="button" class="btn btn-success btn-droppable"><i class="icon icon-move"></i> 按钮 #<span class="btn-droppable-id">2</span></button><br>
+        <button type="button" class="btn btn-danger btn-droppable"><i class="icon icon-move"></i> 按钮 #<span class="btn-droppable-id">3</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="panel droppable-target" data-id="1">
+      <div class="panel-heading">拖动到这里。</div>
+      <div class="panel-body" style="height: 150px">
+        <div class="area-name">A</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="panel droppable-target" data-id="2">
+      <div class="panel-heading">这里。</div>
+      <div class="panel-body" style="height: 150px">
+        <div class="area-name">B</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="panel droppable-target" data-id="3">
+      <div class="panel-heading">或这里。</div>
+      <div class="panel-body" style="height: 150px">
+        <div class="area-name">C</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+```css
+#multiDroppableContainer .btn-droppable {
+  cursor: move; /* 为被拖动的按钮更改光标类型 */
+}
+#multiDroppableContainer .area-name {
+  font-size: 50px;
+  line-height: 80px;
+  text-align: center;
+  color: #808080;
+}
+```
+
+```js
+$('#multiDroppableContainer').droppable({
+    selector: '.btn-droppable', // 定义允许拖放的元素
+    target: '.droppable-target',
+    start: function() {
+        $('#multiDroppableContainer .droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里吗？');
+    },
+    drop: function(event) {
+        var msg = '真棒！';
+        $('#multiDroppableContainer .droppable-target').removeClass('panel-success').removeClass('panel-warning');
+        if(event.target) {
+            var elementId = event.element.find('.btn-droppable-id').text();
+            event.target.addClass('panel-success').find('.panel-heading').text('成功将【按钮#' + elementId + '】拖到目的地。');
+            msg += '成功拖动【按钮#' + elementId + '】到区域 ' + event.target.find('.area-name').text();
+        }
+        $.zui.messager.show(msg);
+    },
+    drag: function(event) {
+        $('#multiDroppableContainer .droppable-target').removeClass('panel-success').removeClass('panel-warning');
+        if(event.target) event.target.addClass('panel-warning');
+    }
+});
+```
+
 ## 选项
 
 在进行初始化时允许传入一个对象参数作为初始化选项。可以使用的选项如下：
@@ -185,9 +290,21 @@ $('#droppableBtn').droppable({
       <td>使用 jQuery 选择器来指定用于计算位置的父级容器。用于父级容器的节点其 `position` 应该为 `'relative'`、`'absolute'`及`'fixed'` 中的一种；如果为 `'static'`，则会在拖动过程中被设置为 `'relative'`。</td>
     </tr>
     <tr>
+      <td>`selector`</td>
+      <td>拖动元素选择器 (1.6+)</td>
+      <td>默认 `""`（可选）</td>
+      <td>当设置此选项后将 `$()` 选定的元素作为容器，`selector` 选项用于指定容器内的哪些元素可以拖动。</td>
+    </tr>
+    <tr>
+      <td>`handle`</td>
+      <td>拖动事件触发元素选择器</td>
+      <td>默认为 `null`</td>
+      <td>用于选择被拖动元素内部元素的选择器，如果指定该选项，则仅当鼠标在指定的子元素上点按鼠标会触发拖动事件。</td>
+    </tr>
+    <tr>
       <td>`target`</td>
       <td>定义可放置元素</td>
-      <td>必选项</td>
+      <td>必选项，默认 `'.droppable-target'`</td>
       <td>值类型为 jQuery 实例或有效的 jQuery 选择器字符串，也可以设置为一个回调函数来返回可放置元素。</td>
     </tr>
     <tr>
@@ -350,3 +467,59 @@ $('#dragBtn').draggable({
 
  - `e.event`：鼠标按下时 `mousedown` 事件参数对象；
  - `e.cancel`：其值为 `true`，指示是否没有发生拖动操作或者拖动操作在 `before` 中被取消。
+
+### <span class="code">$().droppable('destroy')</span>
+
+如果以确定不需要拖放操作，则可以调用 `$().droppable('destroy')` 来销毁拖放插件。销毁之后如果需要重新启用拖放则重新进行初始化即可。
+
+```js
+$('#dragDropEles').droppable('destroy');
+```
+
+<script>
+function afterPageLoad() {
+    if(!$.fn.droppable) return;
+    $('#droppableBtn').droppable({
+        target: '.droppable-target',
+        start: function() {
+            $('#droppableContainer .droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里吗？');
+        },
+        drop: function(event) {
+            var msg = '真棒！';
+            $('#droppableContainer .droppable-target').removeClass('panel-success').removeClass('panel-warning');
+            if(event.target) {
+                event.target.addClass('panel-success').find('.panel-heading').text('成功拖到目的地。');
+                msg += '成功拖动到区域 ' + event.target.find('.area-name').text();
+            }
+            $.zui.messager.show(msg);
+        },
+        drag: function(event) {
+            $('#droppableContainer .droppable-target').removeClass('panel-success').removeClass('panel-warning');
+            if(event.target) event.target.addClass('panel-warning');
+        }
+    });
+
+    $('#multiDroppableContainer').droppable({
+        selector: '.btn-droppable', // 定义允许拖放的元素
+        target: '.droppable-target',
+        handle: '.btn-droppable-id',
+        start: function() {
+            $('#multiDroppableContainer .droppable-target').removeClass('panel-warning').removeClass('panel-success').find('.panel-heading').text('拖动到这里吗？');
+        },
+        drop: function(event) {
+            var msg = '真棒！';
+            $('#multiDroppableContainer .droppable-target').removeClass('panel-success').removeClass('panel-warning');
+            if(event.target) {
+                var elementId = event.element.find('.btn-droppable-id').text();
+                event.target.addClass('panel-success').find('.panel-heading').text('成功将【按钮#' + elementId + '】拖到目的地。');
+                msg += '成功拖动【按钮#' + elementId + '】到区域 ' + event.target.find('.area-name').text();
+            }
+            $.zui.messager.show(msg);
+        },
+        drag: function(event) {
+            $('#multiDroppableContainer .droppable-target').removeClass('panel-success').removeClass('panel-warning');
+            if(event.target) event.target.addClass('panel-warning');
+        }
+    });
+}
+</script>
