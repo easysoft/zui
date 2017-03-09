@@ -18,10 +18,11 @@
     var idIncrementer = 0;
 
     var Draggable = function(element, options) {
-        this.$       = $(element);
-        this.id      = idIncrementer++;
-        this.options = $.extend({}, DEFAULTS, this.$.data(), options);
-        this.init();
+        var that     = this;
+        that.$       = $(element);
+        that.id      = idIncrementer++;
+        that.options = $.extend({}, DEFAULTS, that.$.data(), options);
+        that.init();
     };
 
     Draggable.DEFAULTS = DEFAULTS;
@@ -46,43 +47,6 @@
             startOffset,
             mousePos,
             moved;
-
-        var mouseDown = function(event) {
-            var $mouseDownEle = $(this);
-            if(selector) {
-                $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
-            }
-
-            if(setting[BEFORE]) {
-                var isSure = setting[BEFORE]({
-                    event: event,
-                    element: $ele
-                });
-                if(isSure === false) return;
-            }
-
-            var $container = $(setting.container),
-                pos        = $ele.offset();
-                cPos       = $container.offset();
-                startPos   = {
-                    x: event.pageX,
-                    y: event.pageY
-                };
-                startOffset = {
-                    x: event.pageX - pos.left + cPos.left,
-                    y: event.pageY - pos.top + cPos.top
-                };
-                mousePos    = $.extend({}, startPos);
-                moved       = false;
-
-            $ele.addClass('drag-ready');
-            $(document).on(mouseMoveEvent, mouseMove).on(mouseUpEvent, mouseUp);
-            event.preventDefault();
-
-            if(setting.stopPropagation) {
-                event.stopPropagation();
-            }
-        };
 
         var mouseMove = function(event) {
             var mX      = event.pageX,
@@ -155,17 +119,55 @@
             }
         };
 
-        if(selector) {
-            $root.on(mouseDownEvent, selector, mouseDown);
-        } else if(handle) {
+        var mouseDown = function(event) {
+            var $mouseDownEle = $(this);
+            if(selector) {
+                $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
+            }
+
+            if(setting[BEFORE]) {
+                var isSure = setting[BEFORE]({
+                    event: event,
+                    element: $ele
+                });
+                if(isSure === false) return;
+            }
+
+            var $container = $(setting.container),
+                pos        = $ele.offset();
+                cPos       = $container.offset();
+                startPos   = {
+                    x: event.pageX,
+                    y: event.pageY
+                };
+                startOffset = {
+                    x: event.pageX - pos.left + cPos.left,
+                    y: event.pageY - pos.top + cPos.top
+                };
+                mousePos    = $.extend({}, startPos);
+                moved       = false;
+
+            $ele.addClass('drag-ready');
+            event.preventDefault();
+
+            if(setting.stopPropagation) {
+                event.stopPropagation();
+            }
+
+            $(document).on(mouseMoveEvent, mouseMove).on(mouseUpEvent, mouseUp);
+        };
+
+        if(handle) {
             $root.on(mouseDownEvent, handle, mouseDown);
+        } else if(selector) {
+            $root.on(mouseDownEvent, selector, mouseDown);
         } else {
             $root.on(mouseDownEvent, mouseDown);
         }
     };
 
     Draggable.prototype.destroy = function() {
-        var eventSuffix    = '.' + NAME + '.' + this.id;
+        var eventSuffix = '.' + NAME + '.' + this.id;
         this.$.off(eventSuffix);
         $(document).off(eventSuffix);
         this.$.data(NAME, null);

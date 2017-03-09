@@ -227,7 +227,7 @@ $('#draggableBox2').draggable({
       <td>`selector`</td>
       <td>拖动元素选择器 (1.6+)</td>
       <td>默认为 `""`</td>
-      <td>当设置此选项后将 `$()` 选定的元素作为容器，`select` 选项用于指定容器内的哪些元素可以拖动。</td>
+      <td>当设置此选项后将 `$()` 选定的元素作为容器，`selector` 选项用于指定容器内的哪些元素可以拖动。</td>
     </tr>
     <tr>
       <td>`handle`</td>
