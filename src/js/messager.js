@@ -94,7 +94,7 @@
 
         that.$.on('click', function(e) {
             if(options.onAction) {
-                result = options.onAction.call(this, 'content', null, that);
+                var result = options.onAction.call(this, 'content', null, that);
                 if(result === true) that.hide();
             }
         });
