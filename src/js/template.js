@@ -9,7 +9,7 @@
 (function($) {
     'use strict';
 
-    var name = 'zui.$componentObject$'; // modal name
+    var NAME = 'zui.$componentObject$'; // modal name
 
     // The $componentName$ modal class
     var $ComponentName$ = function(element, options) {
@@ -40,14 +40,16 @@
     $.fn.$componentObject$ = function(option) {
         return this.each(function() {
             var $this = $(this);
-            var data = $this.data(name);
+            var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data(name, (data = new $ComponentName$(this, options)));
+            if(!data) $this.data(NAME, (data = new $ComponentName$(this, options)));
 
             if(typeof option == 'string') data[option]();
         });
     };
+
+    $ComponentName$.NAME = NAME;
 
     $.fn.$componentObject$.Constructor = $ComponentName$;
 
