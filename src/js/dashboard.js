@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-(function($, Math) {
+(function($, Math, undefined) {
     'use strict';
 
     var dashboardMessager = $.zui.Messager ? new $.zui.Messager({placement: 'top', time: 1500, close: 0, scale: false, fade: false}) : 0;
@@ -20,13 +20,14 @@
     };
 
     Dashboard.DEFAULTS = {
+        minHeight: 100,
         height: 360,
         shadowType: 'normal',
         sensitive: false,
         circleShadowSize: 100,
         onlyRefreshBody: true,
-        resizable: true,
-        resizeMessage: true
+        resizable: true, // 'vertical', 'horizontal'
+        resizeMessage: false
     };
 
     Dashboard.prototype.getOptions = function(options) {
@@ -234,67 +235,147 @@
         this.$.find('.panel-body > table, .panel-body > .list-group').parent().addClass('no-padding');
     };
 
-    Dashboard.prototype.handlePanelHeight = function() {
-        var dHeight = this.options.height;
+    Dashboard.prototype.updatePanelHeight = function() {
+        var that = this;
+        var defaultHeight = that.options.height;
+        var minHeight = that.options.minHeight;
+        var sizeConfig = {};
+        if(that.id && $.zui.store) {
+            sizeConfig = $.zui.store.pageGet('zui.dashboard.' + that.id + '.sizeConfig', sizeConfig);
+        }
 
         this.$.children('.row').each(function() {
-            var row = $(this);
-            var panels = row.find('.panel');
-            var height = row.data('height') || dHeight;
-
-            if(typeof height != 'number') {
-                height = 0;
-                panels.each(function() {
-                    height = Math.max(height, $(this).innerHeight());
+            var $row = $(this);
+            var rowWidth = $row.width();
+            var rows = [], row = [], calWidth = 0;
+            $row.children(':not(.dragging-col-holder)').each(function() {
+                var $col = $(this);
+                var colWidth = $col.width();
+                if(calWidth + colWidth > rowWidth) {
+                    if(row.length) rows.push(row);
+                    row = [$col];
+                    calWidth = colWidth;
+                } else {
+                    calWidth += colWidth;
+                    row.push($col);
+                }
+            });
+            if(row.length) rows.push(row);
+            if(rows.length) {
+                $.each(rows, function(rowId) {
+                    row = rows[rowId];
+                    var bestHeight = 0;
+                    var panels = [];
+                    var setNewHeight = false;
+                    $.each(row, function(colId) {
+                        var $col = row[colId].data('row-id', rowId);
+                        var $panel = $col.children('.panel:first');
+                        panels.push($panel);
+                        if(setNewHeight) return;
+                        var newHeight = $panel.data('newHeight');
+                        if(newHeight) {
+                            $panel.data('newHeight', null).data('height', newHeight);
+                            bestHeight = Math.max(minHeight, newHeight);
+                            setNewHeight = true;
+                        } else {
+                            var panelHeight = $panel.data('height') || sizeConfig[$panel.data('id')];
+                            if(panelHeight) bestHeight = Math.max(bestHeight, panelHeight);
+                        }
+                    });
+                    if(!bestHeight) {
+                        bestHeight = defaultHeight;
+                    }
+                    $.each(panels, function(idx) {
+                        var $panel = panels[idx].css('height', bestHeight);
+                        sizeConfig[$panel.data('id')] = $panel.data('height');
+                    });
                 });
             }
-
-            panels.css('height', height);
         });
+
+        if(that.id && $.zui.store) {
+            $.zui.store.pageSet('zui.dashboard.' + that.id + '.sizeConfig', sizeConfig);
+        }
+
+        return sizeConfig;
     };
 
     Dashboard.prototype.handleResizeEvent = function() {
-        var onResize = this.options.onResize;
-        var resizeMessage = this.options.resizeMessage;
+        var that = this;
+        var options = that.options;
+        var resizable = options.resizable;
+        var onResize = options.onResize;
+        var minHeight = options.minHeight;
+        var resizeMessage = options.resizeMessage;
         var messagerAvaliable = resizeMessage && dashboardMessager;
-        this.$.on('mousedown', '.resize-handle', function(e) {
-            var $col = $(this).parent().addClass('resizing');
+        that.$.on('mousedown', '.resize-handle', function(e) {
+            var $handle = $(this);
+            var isVertical = $handle.hasClass('resize-vertical');
+            var $col = $handle.parent()
+                .addClass('resizing')
+                .toggleClass('resizing-v', isVertical)
+                .toggleClass('resizing-h', !isVertical);
             var $row = $col.closest('.row');
-            var startX = e.pageX;
-            var startWidth = $col.width();
+            var $panel = $col.children('.panel');
+            var startX = e.pageX, startY = e.pageY;
+            var startWidth = $col.width(), startHeight = $panel.height();
             var rowWidth = $row.width();
             var oldGrid = Math.round(12*startWidth/rowWidth);
             var lastGrid = oldGrid;
-            $col.attr('data-grid', oldGrid);
+            if(!isVertical) $col.attr('data-grid', oldGrid);
 
             var mouseMove = function(event) {
-                var x = event.pageX;
-                var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
-                if(lastGrid != grid) {
-                    $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
-                    if(messagerAvaliable) dashboardMessager[dashboardMessager.isShow ? 'update' : 'show'](Math.round(100*grid/12) + '% (' + grid + '/12)');
-                    lastGrid = grid;
+                if(isVertical) {
+                    $panel.css('height', Math.max(minHeight, startHeight + (event.pageY - startY)));
+                }
+                else {
+                    var x = event.pageX;
+                    var grid = Math.max(1, Math.min(12, Math.round(12 * (startWidth + (x - startX)) / rowWidth)));
+                    if(lastGrid != grid) {
+                        $col.attr('data-grid', grid).css('width', (100*grid/12) + '%');
+                        if(messagerAvaliable) dashboardMessager[dashboardMessager.isShow ? 'update' : 'show'](Math.round(100*grid/12) + '% (' + grid + '/12)');
+                        lastGrid = grid;
+                    }
                 }
                 event.preventDefault();
                 event.stopPropagation();
             };
 
             var mouseUp = function(event) {
-                $col.removeClass('resizing');
-                var lastGrid = $col.attr('data-grid');
-                if(oldGrid != lastGrid) {
-                    if($.isFunction(onResize)) {
-                        var revert = function() {
-                            $col.attr('data-grid', oldGrid).css('width', null);
-                        };
-                        var result = onResize({id: $col.children('.panel').data('id'), element: $col, old: oldGrid, grid: lastGrid, revert: revert});
-                        if(result === false) revert();
-                        else if(result !== true) {
-                            if(messagerAvaliable) dashboardMessager.show(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)');
+                $col.removeClass('resizing resizing-v resizing-h');
+
+                if(isVertical) {
+                    var newHeight = Math.max(minHeight, startHeight + (event.pageY - startY));
+                    if(newHeight !== startHeight)
+                    {
+                        if($.isFunction(onResize))
+                        {
+                            var revert = function() {
+                                $panel.css('height', startHeight).data('height', startHeight);
+                                that.updatePanelHeight();
+                            };
+                            var result = onResize({type: 'vertical', id: $panel.data('id'), element: $col, old: startHeight, height: newHeight, revert: revert});
+                            if(result === false) revert();
+                        }
+                        $panel.css('height', newHeight).data('newHeight', newHeight);;
+                    }
+                } else {
+                    var lastGrid = $col.attr('data-grid');
+                    if(oldGrid != lastGrid) {
+                        if($.isFunction(onResize)) {
+                            var revert = function() {
+                                $col.attr('data-grid', oldGrid).css('width', null);
+                                that.updatePanelHeight();
+                            };
+                            var result = onResize({type: 'horizontal', id: $panel.data('id'), element: $col, old: oldGrid, grid: lastGrid, revert: revert});
+                            if(result === false) revert();
+                            else if(result !== true) {
+                                if(messagerAvaliable) dashboardMessager.show(Math.round(100*lastGrid/12) + '% (' + lastGrid + '/12)');
+                            }
                         }
                     }
                 }
-
+                that.updatePanelHeight();
                 $('body').off('mousemove.resize', mouseMove).off('mouseup.resize', mouseUp);
                 event.preventDefault();
                 event.stopPropagation();
@@ -303,7 +384,16 @@
             $('body').on('mousemove.resize', mouseMove).on('mouseup.resize', mouseUp);
             e.preventDefault();
             e.stopPropagation();
-        }).children('.row').children(':not(.dragging-col-holder)').append('<div class="resize-handle"><i class="icon icon-resize-h"></i></div>');
+        });
+        var $col = that.$.children('.row').children(':not(.dragging-col-holder)');
+        if(resizable === true || resizable === 'horizontal')
+        {
+            $col.append('<div class="resize-handle resize-horizontal"><i class="icon icon-resize-h"></i></div>');
+        }
+        if(resizable === true || resizable === 'vertical')
+        {
+            $col.append('<div class="resize-handle resize-vertical"><i class="icon icon-resize-v"></i></div>');
+        }
     };
 
     Dashboard.prototype.refresh = function($panel, onlyRefreshBody) {
@@ -328,14 +418,16 @@
             if($.isFunction(afterRefresh)) {
                 afterRefresh.call(this, {
                     result: true,
-                    data: data
+                    data: data,
+                    $panel: $panel
                 });
             }
         }).fail(function() {
             $panel.addClass('panel-error');
             if($.isFunction(afterRefresh)) {
                 afterRefresh.call(this, {
-                    result: false
+                    result: false,
+                    $panel: $panel
                 });
             }
         }).always(function() {
@@ -365,11 +457,13 @@
 
     Dashboard.prototype.init = function() {
         var options = this.options, that = this;
+        that.id = options.id ? options.id : that.$.attr('id');
         if(options.data) {
             var $row = $('<div class="row"/>');
             $.each(options.data, function(idx, config) {
                 var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>', config.colAttrs);
                 var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>', config.panelAttrs);
+                if(config.height !== undefined) $panel.data('height', config.height);
                 if(config.content !== undefined) {
                     if($.isFunction(config.content)) {
                         var content = config.content($panel);
@@ -385,7 +479,7 @@
             that.$.append($row);
         }
 
-        that.handlePanelHeight();
+        that.updatePanelHeight();
         that.handlePanelPadding();
         that.handleRemoveEvent();
         that.handleRefreshEvent();
@@ -422,5 +516,5 @@
     };
 
     $.fn.dashboard.Constructor = Dashboard;
-}(jQuery, Math));
+}(jQuery, Math, undefined));
 
