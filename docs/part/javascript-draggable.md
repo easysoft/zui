@@ -1,10 +1,3 @@
-section: javascript
-id: draggable
-description: 拖动目标元素
-icon: icon-move
-filter: tuodong td
----
-
 # 拖动
 
 拖动插件可以方便的允许一个元素在父级容器内通过拖动操作来更改位置。
@@ -18,7 +11,9 @@ filter: tuodong td
 
 使用 `$().draggable()` 来为被拖动的元素进行初始化。
 
-## 综合示例
+## 示例
+
+### 简单应用
 
 <style>
 #draggableBox {
@@ -106,6 +101,102 @@ $('#draggableBtn').draggable({
 });
 ```
 
+### 容器内多个元素拖动
+
+<style>
+#draggableBox2 {
+    height: 340px;
+    background-color: #fafafa;
+    position: relative;
+}
+#draggableBox2 .btn-draggable {
+    position: absolute;
+    transition: none;
+    cursor: move;
+}
+#dragLog2 {
+    margin: 0;
+    border: none;
+    background: none;
+}
+</style>
+
+<example>
+  <div id="draggableBox2">
+    <pre id="dragLog2" class="pre-scrollable">用于输出演示日志信息</pre>
+    <button type="button" class="btn btn-primary btn-draggable" style="top: 10px; left: 10px;"><i class="icon-move"></i> 按钮 #<span class="btn-draggable-id">1</span></button>
+    <button type="button" class="btn btn-danger btn-draggable" style="top: 60px; left: 10px;"><i class="icon-move"></i> 按钮 #<span class="btn-draggable-id">2</span></button>
+    <button type="button" class="btn btn-success btn-draggable" style="top: 110px; left: 110px;"><i class="icon-move"></i> 按钮 #<span class="btn-draggable-id">3</span></button>
+    <button type="button" class="btn btn-warning btn-draggable" style="top: 160px; left: 210px;"><i class="icon-move"></i> 按钮 #<span class="btn-draggable-id">4</span></button>
+  </div>
+</example>
+
+<script>
+$(function() {
+    var count = 0;
+    var $dragLog = $('#dragLog2');
+    $('#draggableBox2').draggable({
+        container: '#draggableBox2',
+        selector: '.btn-draggable',
+        before: function(e) {
+            $dragLog.prepend(count++ + ': ' + '[开始] 拖动【按钮#' + e.element.find('.btn-draggable-id').text() + '】...\n');
+        },
+        drag: function(e) {
+            $dragLog.prepend(count++ + ': ' + '拖动【按钮#' + e.element.find('.btn-draggable-id').text() + '】: pos = ' + JSON.stringify(e.pos) + ', offset = ' + JSON.stringify(e.offset) + '\n');
+        },
+        finish: function(e) {
+            $dragLog.prepend(count++ + ': ' + '[完毕]【按钮#' + e.element.find('.btn-draggable-id').text() + '】：pos = ' + JSON.stringify(e.pos) + ', offset = ' + JSON.stringify(e.offset) + '\n');
+        }
+    });
+});
+</script>
+
+```html
+<div id="draggableBox2">
+  <pre id="dragLog2" class="pre-scrollable">用于输出演示日志信息</pre>
+  <button type="button" class="btn btn-primary btn-draggable" style="top: 10px; left: 10px;"><i class="icon-move"></i> 按钮 #<span class="btn-draggable-id">1</span></button>
+  <button type="button" class="btn btn-danger btn-draggable" style="top: 60px; left: 10px;"><i class="icon-move"></i> 按钮 #<span class="btn-draggable-id">2</span></button>
+  <button type="button" class="btn btn-success btn-draggable" style="top: 110px; left: 110px;"><i class="icon-move"></i> 按钮 #<span class="btn-draggable-id">3</span></button>
+  <button type="button" class="btn btn-warning btn-draggable" style="top: 160px; left: 210px;"><i class="icon-move"></i> 按钮 #<span class="btn-draggable-id">4</span></button>
+</div>
+```
+
+```css
+#draggableBox2 {
+    height: 340px;
+    background-color: #fafafa;
+    position: relative;
+}
+#draggableBox2 .btn-draggable {
+    position: absolute;
+    transition: none;
+    cursor: move;
+}
+#dragLog2 {
+    margin: 0;
+    border: none;
+    background: none;
+}
+```
+
+```js
+var count = 0;
+var $dragLog = $('#dragLog2');
+$('#draggableBox2').draggable({
+    container: '#draggableBox2',
+    selector: '.btn-draggable', // 可拖动元素选择器
+    before: function(e) {
+        $dragLog.prepend(count++ + ': ' + '[开始] 拖动【按钮#' + e.element.find('.btn-draggable-id').text() + '】...\n');
+    },
+    drag: function(e) {
+        $dragLog.prepend(count++ + ': ' + '拖动【按钮#' + e.element.find('.btn-draggable-id').text() + '】: pos = ' + JSON.stringify(e.pos) + ', offset = ' + JSON.stringify(e.offset) + '\n');
+    },
+    finish: function(e) {
+        $dragLog.prepend(count++ + ': ' + '[完毕]【按钮#' + e.element.find('.btn-draggable-id').text() + '】：pos = ' + JSON.stringify(e.pos) + ', offset = ' + JSON.stringify(e.offset) + '\n');
+    }
+});
+```
+
 ## 选项
 
 在进行初始化时允许传入一个对象参数作为初始化选项。可以使用的选项如下：
@@ -133,8 +224,14 @@ $('#draggableBtn').draggable({
       <td>如果设置为 `false`，则拖动目标元素时并不会更改目标元素当前显示的位置，但仍然可以获得鼠标当前拖到的位置信息。</td>
     </tr>
     <tr>
+      <td>`selector`</td>
+      <td>拖动元素选择器 (1.6+)</td>
+      <td>默认为 `""`</td>
+      <td>当设置此选项后将 `$()` 选定的元素作为容器，`select` 选项用于指定容器内的哪些元素可以拖动。</td>
+    </tr>
+    <tr>
       <td>`handle`</td>
-      <td>拖动触发元素选择器</td>
+      <td>拖动事件触发元素选择器</td>
       <td>默认为 `null`</td>
       <td>用于选择被拖动元素内部元素的选择器，如果指定该选项，则仅当鼠标在指定的子元素上点按鼠标会触发拖动事件。</td>
     </tr>

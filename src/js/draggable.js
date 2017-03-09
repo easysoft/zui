@@ -6,98 +6,112 @@
  * ======================================================================== */
 
 
-(function($) {
+(function($, document) {
     'use strict';
 
-    var Draggable = function(element, options) {
-        this.$ = $(element);
-        this.options = this.getOptions(options);
-        this.init();
-    };
-
-    Draggable.DEFAULTS = {
+    var NAME     = 'zui.draggable';
+    var DEFAULTS = {
+        // selector: '',
         container: 'body',
         move: true
     };
+    var idIncrementer = 0;
 
-    Draggable.prototype.getOptions = function(options) {
-        options = $.extend({}, Draggable.DEFAULTS, this.$.data(), options);
-        return options;
+    var Draggable = function(element, options) {
+        this.$       = $(element);
+        this.id      = idIncrementer++;
+        this.options = $.extend({}, DEFAULTS, this.$.data(), options);
+        this.init();
     };
+
+    Draggable.DEFAULTS = DEFAULTS;
+    Draggable.NAME     = NAME;
 
     Draggable.prototype.init = function() {
-        this.handleMouseEvents();
-    };
-
-    Draggable.prototype.handleMouseEvents = function() {
-        var $e = this.$,
-            BEFORE = 'before',
-            DRAG = 'drag',
-            FINISH = 'finish',
-            setting = this.options,
-            startPos, cPos, startOffset, mousePos, moved;
+        var that           = this,
+            $root          = that.$,
+            BEFORE         = 'before',
+            DRAG           = 'drag',
+            FINISH         = 'finish',
+            eventSuffix    = '.' + NAME + '.' + that.id,
+            mouseDownEvent = 'mousedown' + eventSuffix,
+            mouseUpEvent   = 'mouseup' + eventSuffix,
+            mouseMoveEvent = 'mousemove' + eventSuffix,
+            setting        = that.options,
+            selector       = setting.selector,
+            handle         = setting.handle,
+            $ele           = $root,
+            startPos,
+            cPos,
+            startOffset,
+            mousePos,
+            moved;
 
         var mouseDown = function(event) {
-            if($.isFunction(setting[BEFORE])) {
+            var $mouseDownEle = $(this);
+            if(selector) {
+                $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
+            }
+
+            if(setting[BEFORE]) {
                 var isSure = setting[BEFORE]({
                     event: event,
-                    element: $e
+                    element: $ele
                 });
                 if(isSure === false) return;
             }
 
             var $container = $(setting.container),
-                pos = $e.offset();
-            cPos = $container.offset();
-            startPos = {
-                x: event.pageX,
-                y: event.pageY
-            };
-            startOffset = {
-                x: event.pageX - pos.left + cPos.left,
-                y: event.pageY - pos.top + cPos.top
-            };
-            mousePos = $.extend({}, startPos);
-            moved = false;
+                pos        = $ele.offset();
+                cPos       = $container.offset();
+                startPos   = {
+                    x: event.pageX,
+                    y: event.pageY
+                };
+                startOffset = {
+                    x: event.pageX - pos.left + cPos.left,
+                    y: event.pageY - pos.top + cPos.top
+                };
+                mousePos    = $.extend({}, startPos);
+                moved       = false;
 
-            $e.addClass('drag-ready');
-            $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
+            $ele.addClass('drag-ready');
+            $(document).on(mouseMoveEvent, mouseMove).on(mouseUpEvent, mouseUp);
             event.preventDefault();
+
             if(setting.stopPropagation) {
                 event.stopPropagation();
             }
         };
 
         var mouseMove = function(event) {
-            moved = true;
-            var mX = event.pageX,
-                mY = event.pageY;
+            var mX      = event.pageX,
+                mY      = event.pageY;
+                moved   = true;
             var dragPos = {
                 left: mX - startOffset.x,
                 top: mY - startOffset.y
             };
 
-            $e.removeClass('drag-ready').addClass('dragging');
+            $ele.removeClass('drag-ready').addClass('dragging');
             if(setting.move) {
-                $e.css(dragPos);
+                $ele.css(dragPos);
             }
 
-            if($.isFunction(setting[DRAG])) {
-                setting[DRAG]({
-                    event: event,
-                    element: $e,
-                    startOffset: startOffset,
-                    pos: dragPos,
-                    offset: {
-                        x: mX - startPos.x,
-                        y: mY - startPos.y
-                    },
-                    smallOffset: {
-                        x: mX - mousePos.x,
-                        y: mY - mousePos.y
-                    }
-                });
-            }
+            setting[DRAG] && setting[DRAG]({
+                event: event,
+                element: $ele,
+                startOffset: startOffset,
+                pos: dragPos,
+                offset: {
+                    x: mX - startPos.x,
+                    y: mY - startPos.y
+                },
+                smallOffset: {
+                    x: mX - mousePos.x,
+                    y: mY - mousePos.y
+                }
+            });
             mousePos.x = mX;
             mousePos.y = mY;
 
@@ -107,61 +121,66 @@
         };
 
         var mouseUp = function(event) {
-            $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+            $(document).off(eventSuffix);
             if(!moved) {
-                $e.removeClass('drag-ready');
+                $ele.removeClass('drag-ready');
                 return;
             }
             var endPos = {
                 left: event.pageX - startOffset.x,
                 top: event.pageY - startOffset.y
             };
-            $e.removeClass('drag-ready').removeClass('dragging');
+            $ele.removeClass('drag-ready dragging');
             if(setting.move) {
-                $e.css(endPos);
+                $ele.css(endPos);
             }
 
-            if($.isFunction(setting[FINISH])) {
-                setting[FINISH]({
-                    event: event,
-                    element: $e,
-                    startOffset: startOffset,
-                    pos: endPos,
-                    offset: {
-                        x: event.pageX - startPos.x,
-                        y: event.pageY - startPos.y
-                    },
-                    smallOffset: {
-                        x: event.pageX - mousePos.x,
-                        y: event.pageY - mousePos.y
-                    }
-                });
-            }
+            setting[FINISH] && setting[FINISH]({
+                event: event,
+                element: $ele,
+                startOffset: startOffset,
+                pos: endPos,
+                offset: {
+                    x: event.pageX - startPos.x,
+                    y: event.pageY - startPos.y
+                },
+                smallOffset: {
+                    x: event.pageX - mousePos.x,
+                    y: event.pageY - mousePos.y
+                }
+            });
             event.preventDefault();
             if(setting.stopPropagation) {
                 event.stopPropagation();
             }
         };
 
-        if(setting.handle) {
-            $e.on('mousedown', setting.handle, mouseDown);
+        if(selector) {
+            $root.on(mouseDownEvent, selector, mouseDown);
+        } else if(handle) {
+            $root.on(mouseDownEvent, handle, mouseDown);
         } else {
-            $e.on('mousedown', mouseDown);
+            $root.on(mouseDownEvent, mouseDown);
         }
+    };
+
+    Draggable.prototype.destroy = function() {
+        var eventSuffix    = '.' + NAME + '.' + this.id;
+        this.$.off(eventSuffix);
+        $(document).off(eventSuffix);
     };
 
     $.fn.draggable = function(option) {
         return this.each(function() {
             var $this = $(this);
-            var data = $this.data('zui.draggable');
+            var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data('zui.draggable', (data = new Draggable(this, options)));
-
+            if(!data) $this.data(NAME, (data = new Draggable(this, options)));
             if(typeof option == 'string') data[option]();
         });
     };
 
     $.fn.draggable.Constructor = Draggable;
-}(jQuery));
+}(jQuery, document));
 
