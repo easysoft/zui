@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-+ function($, window, document, Math) {
++ function($, window, document) {
     'use strict';
 
     if(!$.fn.droppable) {
@@ -14,106 +14,50 @@
         return;
     }
 
+    var NAME     = 'zui.sortable',
+        DEFAULTS = {
+            selector     : 'li,div',
+            dragCssClass : 'invisible',
+            sortingClass : 'sortable-sorting'
+        },
+        STR_ORDER = 'order';
+
     var Sortable = function(element, options) {
-        this.$ = $(element);
-        this.options = this.getOptions(options);
-
-        this.init();
+        var that     = this;
+        that.$       = $(element);
+        that.options = $.extend({}, DEFAULTS, that.$.data(), options);
+        that.init();
     };
 
-    Sortable.DEFAULTS = {
-        selector: 'li, div',
-        dragCssClass: 'invisible'
-    }; // default options
+    Sortable.DEFAULTS = DEFAULTS;
+    Sortable.NAME     = NAME;
 
-    Sortable.prototype.getOptions = function(options) {
-        options = $.extend({}, Sortable.DEFAULTS, this.$.data(), options);
-        return options;
-    };
+    Sortable.prototype.init = function($list) {
+        var that         = this,
+            $root        = that.$,
+            options      = that.options,
+            selector     = options.selector,
+            sortingClass = options.sortingClass,
+            dragCssClass = options.dragCssClass,
+            isReverse    = options.reverse;
 
-    Sortable.prototype.init = function() {
-        this.bindEventToList(this.$.children(this.options.selector));
-    };
-
-    Sortable.prototype.reset = function() {
-        var that = this,
-            order = 0;
-        var $list = this.$.children(this.options.selector).not('.drag-shadow');
-
-        $list.each(function() {
-            var $this = $(this);
-            if($this.data('zui.droppable')) {
-                $this.data('zui.droppable').options.target = $list;
-                $this.droppable('reset');
-            } else {
-                that.bindEventToList($list);
-                return false;
-            }
-        });
-    };
-
-    Sortable.prototype.bindEventToList = function($list) {
-        var self = this.$,
-            options = this.options;
-        var isReverse = options.reverse;
-
-        markOrders($list);
-        $list.droppable({
-            trigger: options.trigger,
-            target: self.children(options.selector),
-            container: self,
-            always: options.always,
-            flex: true,
-            before: options.before,
-            start: function(e) {
-                if(options.dragCssClass) e.element.addClass(options.dragCssClass);
-                $.zui.callEvent(options['start']);
-            },
-            drag: function(e) {
-                self.addClass('sortable-sorting');
-                if(e.isIn) {
-                    var $ele = e.element,
-                        $target = e.target;
-                    var eleOrder = $ele.attr('data-order'),
-                        targetOrder = $target.attr('data-order');
-                    if(eleOrder == targetOrder) return;
-                    else if(eleOrder > targetOrder) {
-                        $target[isReverse ? 'after' : 'before']($ele);
-                    } else {
-                        $target[isReverse ? 'before' : 'after']($ele);
-                    }
-                    var list = self.children(options.selector).not('.drag-shadow');
-                    markOrders(list);
-                    $.zui.callEvent(options['order'], {
-                        list: list,
-                        element: $ele
-                    });
-                }
-            },
-            finish: function(e) {
-                if(options.dragCssClass && e.element) e.element.removeClass(options.dragCssClass);
-                $.zui.callEvent(options['finish'], {
-                    list: self.children(options.selector),
-                    element: e.element
-                });
-                self.removeClass('sortable-sorting');
-            }
-        });
-
-        function markOrders(list) {
+        var markOrders = function($items) {
+            $items = $items || that.getItems(1);
             var orders = [];
-            list.each(function() {
-                var thisOrder = $(this).data('order');
-                if(typeof thisOrder === 'number') {
-                    orders.push(thisOrder);
+
+            $items.each(function() {
+                var order = $(this).data(STR_ORDER);
+                if(typeof order === 'number') {
+                    orders.push(order);
                 }
             });
+
             orders.sort(function(a, b) {
                 return a - b;
             });
 
-            var listSize = list.length;
-            while(orders.length < listSize) {
+            var itemsCount = $items.length;
+            while(orders.length < itemsCount) {
                 orders.push(orders.length ? (orders[orders.length - 1] + 1) : 0);
             }
 
@@ -121,26 +65,92 @@
                 orders.reverse();
             }
 
-            var listIndex = 0
-            list.each(function() {
-                $(this).attr('data-order', orders[listIndex++]);
+            $items.each(function(idx) {
+                $(this).data(STR_ORDER, orders[idx]).attr('data-' + STR_ORDER, orders[idx]);
+            });
+        };
+
+        markOrders();
+
+        $root.droppable({
+            handle   : options.trigger,
+            target   : selector,
+            selector : selector,
+            container: $root,
+            always   : options.always,
+            flex     : true,
+            before   : options.before,
+            start: function(e) {
+                if(dragCssClass) e.element.addClass(dragCssClass);
+                that.trigger('start');
+            },
+            drag: function(e) {
+                $root.addClass(sortingClass);
+                if(e.isIn) {
+                    var $ele        = e.element,
+                        $target     = e.target,
+                        eleOrder    = $ele.data(STR_ORDER),
+                        targetOrder = $target.data(STR_ORDER);
+                    if(eleOrder == targetOrder) return;
+                    else if(eleOrder > targetOrder) {
+                        $target[isReverse ? 'after' : 'before']($ele);
+                    } else {
+                        $target[isReverse ? 'before' : 'after']($ele);
+                    }
+                    var $items = that.getItems(1);
+                    markOrders($items);
+                    that.trigger(STR_ORDER, {
+                        list: $items,
+                        element: $ele
+                    });
+                }
+            },
+            finish: function(e) {
+                if(dragCssClass && e.element) e.element.removeClass(dragCssClass);
+                $root.removeClass(sortingClass);
+                that.trigger('finish', {
+                    list: that.getItems(1),
+                    element: e.element
+                });
+            }
+        });
+    };
+
+    Sortable.prototype.destroy = function() {
+        that.$.droppable('destroy');
+    };
+
+    Sortable.prototype.getItems = function(onlyElements) {
+        var $items = this.$.children(this.options.selector).not('.drag-shadow');
+        if(!onlyElements) {
+            return $items.map(function() {
+                var $item = $(this);
+                return {
+                    item: $item,
+                    order: $item.data('order')
+                };
             });
         }
+        return $items;
+    };
+
+    Sortable.prototype.trigger = function(name, params) {
+        return $.zui.callEvent(this.options[name], params, this);
     };
 
     $.fn.sortable = function(option) {
         return this.each(function() {
             var $this = $(this);
-            var data = $this.data('zui.sortable');
+            var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data('zui.sortable', (data = new Sortable(this, options)));
+            if(!data) $this.data(NAME, (data = new Sortable(this, options)));
             else if(typeof option == 'object') data.reset();
 
             if(typeof option == 'string') data[option]();
-        })
+        });
     };
 
     $.fn.sortable.Constructor = Sortable;
-}(jQuery, window, document, Math);
+}(jQuery, window, document);
 
