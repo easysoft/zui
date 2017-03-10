@@ -9,8 +9,8 @@
 (function($, document, Math) {
     'use strict';
 
-    var NAME     = 'zui.droppable';
-    var DEFAULTS = {
+    var NAME     = 'zui.droppable',
+        DEFAULTS = {
         // container: '',
         // selector: '',
         // handle: '',

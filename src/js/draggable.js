@@ -9,8 +9,8 @@
 (function($, document) {
     'use strict';
 
-    var NAME     = 'zui.draggable';
-    var DEFAULTS = {
+    var NAME     = 'zui.draggable',
+        DEFAULTS = {
         // selector: '',
         container: 'body',
         move: true
