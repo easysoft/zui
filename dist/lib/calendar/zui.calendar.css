@@ -1,8 +1,8 @@
 /*!
- * ZUI: 日历 - v1.5.0 - 2016-12-08
+ * ZUI: 日历 - v1.5.0 - 2017-03-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017 cnezsoft.com; Licensed MIT
  */
 
 .calendar {
@@ -80,14 +80,14 @@
   margin: 0 1px 1px;
   color: #fff;
   cursor: pointer;
-  background-color: #3f51b5;
+  background-color: #3280fc;
   opacity: .95;
   -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .4s cubic-bezier(.175, .885, .32, 1);
           transition: all .4s cubic-bezier(.175, .885, .32, 1);
   }
 a.calendar .event:hover {
-  background-color: #32408f;
+  background-color: #0462f7;
   }
 .calendar .event:hover {
   opacity: 1;

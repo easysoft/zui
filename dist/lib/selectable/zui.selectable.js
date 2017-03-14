@@ -1,8 +1,8 @@
 /*!
- * ZUI: 拖拽选择 - v1.5.0 - 2016-12-08
+ * ZUI: 拖拽选择 - v1.5.0 - 2017-03-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -98,15 +98,20 @@
                 }
                 if(handleResult !== true) {
                     that.selections[id] = isSelect ? that.selectOrder++ : false;
-                    var selected = [];
-                    $.each(that.selections, function(thisId, thisIsSelected) {
-                        if(thisIsSelected) selected.push(thisId);
-                    });
-                    that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element, selected: selected}, that);
+                    that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element, selected: that.getSelectedArray()}, that);
                 }
             }
             $element.toggleClass(that.options.selectClass, isSelect);
         }
+    };
+
+    Selectable.prototype.getSelectedArray = function()
+    {
+        var selected = [];
+        $.each(this.selections, function(thisId, thisIsSelected) {
+            if(thisIsSelected) selected.push(thisId);
+        });
+        return selected;
     };
 
     Selectable.prototype._init = function() {
@@ -189,12 +194,8 @@
                     checkRange();
                     range = null;
                 }
-                var selected = [];
-                $.each(that.selections, function(thisId, thisIsSelected) {
-                    if(thisIsSelected) selected.push(thisId);
-                });
             }
-            that.callEvent('finish', {selections: that.selections, selected: selected});
+            that.callEvent('finish', {selections: that.selections, selected: that.getSelectedArray()});
             e.preventDefault();
         };
 
@@ -219,6 +220,7 @@
             }
 
             if(that.callEvent('startDrag', e) === false) {
+                that.callEvent('finish', {selections: that.selections, selected: that.getSelectedArray()});
                 return;
             }
 

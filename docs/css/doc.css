@@ -1,8 +1,8 @@
 /*!
- * ZUI: Document - v1.5.0 - 2016-12-11
+ * ZUI: Document - v1.5.0 - 2017-03-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017 cnezsoft.com; Licensed MIT
  */
 
 .icon-10x {
@@ -605,7 +605,7 @@ body {
   font-size: 14px;
   color: #fff;
   background: rgba(0, 0, 0, .15);
-  border-radius: 4px;
+  border-radius: 0;
   opacity: .8;
   }
 #ad > a:after,
@@ -2013,7 +2013,7 @@ body.query-enabled[data-query='icons'] #grid .card.open.section-preview-show .se
   text-align: center;
   background-color: #f1f1f1;
   filter: alpha(opacity=80);
-  border-radius: 4px;
+  border-radius: 0;
   opacity: .8;
   -webkit-transition: all .2s cubic-bezier(.175, .885, .32, 1);
        -o-transition: all .2s cubic-bezier(.175, .885, .32, 1);

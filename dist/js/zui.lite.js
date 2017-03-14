@@ -1,8 +1,8 @@
 /*!
- * ZUI: Lite edition - v1.5.0 - 2016-11-22
+ * ZUI: Lite edition - v1.5.0 - 2017-03-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -51,11 +51,22 @@
             var config = window.config;
             if(typeof(config) != 'undefined' && config.clientLang) {
                 lang = config.clientLang;
-            } else {
+            }
+            if(!lang) {
                 var hl = $('html').attr('lang');
                 lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || 'zh_cn');
             }
             return lang.replace('-', '_').toLowerCase();
+        },
+
+        strCode: function(str) {
+            var code = 0;
+            if(str && str.length) {
+                for(var i = 0; i < str.length; ++i) {
+                    code += i * str.charCodeAt(i);
+                }
+            }
+            return code;
         }
     });
 

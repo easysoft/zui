@@ -1,8 +1,8 @@
 /*!
- * ZUI: 颜色选择器 - v1.5.0 - 2016-12-08
+ * ZUI: 颜色选择器 - v1.5.0 - 2017-03-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -164,7 +164,7 @@
             if(!notSetInput && this.$.val().toLowerCase() !== hex) {
                 this.$.val(hex).trigger('change');
             }
-            this.$menu.find('.cp-tile[data-color=' + hex + ']').addClass('active');
+            this.$menu.find('.cp-tile[data-color="' + hex + '"]').addClass('active');
             this.$.tooltip('hide');
             this.$.trigger('colorchange', c);
         } else {

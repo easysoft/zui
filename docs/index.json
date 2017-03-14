@@ -1245,7 +1245,27 @@
                 "name": "文件上传",
                 "desc": "提供文件管理和大文件批量上传功能。",
                 "update": "1.6.0",
-                "topics": [],
+                "topics": [{
+                    "name": "综合示例"
+                }, {
+                    "name": "使用"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "对象和属性"
+                }, {
+                    "name": "方法"
+                }, {
+                    "name": "事件"
+                }, {
+                    "name": "自定义 UI"
+                }, {
+                    "name": "处理服务器结果"
+                }, {
+                    "name": "使用七牛 JavaScript SDK"
+                }, {
+                    "name": "获取 plupload 对象"
+                }],
                 "filter": "wenjiangshangchuan wjsc file"
             }, {
                 "id": "calendar",

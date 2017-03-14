@@ -1,8 +1,8 @@
 /*!
- * ZUI: Chart.js - v1.5.0 - 2016-12-08
+ * ZUI: Chart.js - v1.5.0 - 2017-03-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================

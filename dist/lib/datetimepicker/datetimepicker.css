@@ -183,12 +183,12 @@
 .datetimepicker td.day.active {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
-  background-color: #3f51b5;
-  border-color: #32408f;
+  background-color: #3280fc;
+  border-color: #0462f7;
   border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
   }
 .datetimepicker td.day.active:hover {
-  background-color: #32408f;
+  background-color: #0462f7;
   }
 .datetimepicker td.day.today:hover,
 .datetimepicker td.day.today.active:hover {
@@ -215,8 +215,8 @@
 .datetimepicker td span.active.disabled:hover {
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
-  background-color: #3f51b5;
-  border-color: #32408f;
+  background-color: #3280fc;
+  border-color: #0462f7;
   border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
   }
 .datetimepicker thead tr:first-child th,

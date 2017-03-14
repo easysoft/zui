@@ -1,8 +1,8 @@
 /*!
- * ZUI: 数据表格 - v1.5.0 - 2016-12-08
+ * ZUI: 数据表格 - v1.5.0 - 2017-03-14
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -19,6 +19,12 @@
     var name = 'zui.datatable';
     var store = $.zui.store;
 
+    /**
+     * Datatable class
+     * 
+     * @param object element           DOM element or jquery element
+     * @param object options           Datatable options
+     */
     var DataTable = function(element, options) {
         this.name = name;
         this.$ = $(element);
@@ -287,8 +293,6 @@
                     'data-type': col.type,
                     style: col.css
                 });
-
-
             $tr.append($th);
         }
 
@@ -602,7 +606,7 @@
             var syncChecks = function() {
                 var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
                 var $checkedRows = $checkRows.filter('.' + checkedClass);
-                $checkRows.find('.check-row input:checkbox').prop('checked', false);
+                if(options.checkboxName) $checkRows.find('.check-row input:checkbox').prop('checked', false);
                 var checkedStatus = {
                     checkedAll: $checkRows.length === $checkedRows.length && $checkedRows.length > 0,
                     checks: $checkedRows.map(function() {
@@ -791,7 +795,6 @@
         if(!$th.length) {
             return;
         }
-
 
         var data = this.data;
         var cols = data.cols,
