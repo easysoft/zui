@@ -100,6 +100,9 @@
     };
 
     ColorPicker.prototype.addColor = function(color) {
+        if(!(color instanceof $.zui.Color)) {
+            color = new $.zui.Color(color);
+        }
         var hex = color.toCssStr(),
             options = this.options;
 
