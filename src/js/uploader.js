@@ -59,7 +59,7 @@
 
             // plupload options
             drop_element: 'self', // 'self', 'fileList', String or jQuery object,
-            browse_button: '>.uploader-btn-browse', // String or jQuery object
+            browse_button: 'hidden', // String or jQuery object
             // url: '', // String
             filters: {prevent_duplicates: true}, // {mime_types, max_file_size, prevent_duplicates}
             // headers: null, // Object
@@ -345,6 +345,26 @@
         return this.plupload.stop();
     };
 
+    Uploader.prototype.getState = function() {
+        return this.plupload.state;
+    };
+
+    Uploader.prototype.isStarted = function() {
+        return this.getState() === Plupload.STARTED;
+    };
+
+    Uploader.prototype.isStopped = function() {
+        return this.getState() === Plupload.STOPPED;
+    };
+
+    Uploader.prototype.getFiles = function() {
+        return this.plupload.files;
+    };
+
+    Uploader.prototype.getTotal = function() {
+        return this.plupload.total;
+    };
+
     Uploader.prototype.disableBrowse = function(disable) {
         this.$.find('.uploader-btn-browse').attr('disable', disable ? 'disable' : null).toggle('disable', !!disable);
         return this.plupload.disableBrowse();
@@ -354,14 +374,10 @@
         return this.plupload.getFile(id);
     };
 
-    Uploader.prototype.removeFile = function(file) {
-        return this.plupload.removeFile(file);
-    };
-
     Uploader.prototype.destroy = function() {
         var that = this;
         var eventNamespace = '.' + NAME;
-        that.$.off(eventNamespace);
+        that.$.off(eventNamespace).data(NAME, null);
         that.$list.off(eventNamespace);
         that.$dropElement.off(eventNamespace);
         $('body').off(eventNamespace);
@@ -563,12 +579,12 @@
         }, delay);
     };
 
-    Uploader.prototype.removeFile = function(file, onlyRemoveDom) {
+    Uploader.prototype.removeFile = function(file, onlyRemoveElement) {
         var that = this;
         if(typeof file == 'string') {
             file = that.plupload.getFile(file);
         }
-        if(onlyRemoveDom || file.static) {
+        if(onlyRemoveElement || file.static) {
             var $file = $('#file-' + file.id);
             if($.fn.tooltip) {
                 $file.find('[data-toggle="tooltip"]').tooltip('destroy');
@@ -639,7 +655,7 @@
                         var json = file.remoteData;
                         if($.isPlainObject(json)) {
                             var result = json.status || json.result;
-                            if(result !== undefined && result !== 'ok' && result !== 'success' && result !== 'success' && result !== 200) {
+                            if(result !== undefined && result !== 'ok' && result !== 'success' && result !== 200) {
                                 error = {message: json.message, data: json};
                             }
                             if(json.id !== undefined) file.remoteId = json.id;
@@ -737,7 +753,7 @@
                 that.$.toggleClass('uploader-started', Plupload.STARTED === uploader.state);
                 that.hideMessage();
                 that.showStatus();
-                that.callEvent('onStateChanged');
+                that.callEvent('onStateChanged', uploader.state);
             },
             QueueChanged: function(uploader) {
                 that.showStatus();
@@ -827,6 +843,7 @@
 
     $.zui.plupload = Plupload;
     $.zui.moxie    = Moxie;
+    $.zui.Uploader = Uploader;
 
     $.fn.uploader.Constructor = Uploader;
 

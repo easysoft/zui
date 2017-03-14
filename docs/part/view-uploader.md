@@ -16,7 +16,7 @@
 
 <div class="example">
   <div id="uploaderExample" class="uploader" data-auto-upload="true">
-    <div class="file-list" data-drag-placeholder="请拖拽文件到此处"></div>
+    <div class="uploader-files file-list" data-drag-placeholder="请拖拽文件到此处"></div>
     <button type="button" class="btn btn-primary uploader-btn-browse"><i class="icon icon-cloud-upload"></i> 选择文件</button>
   </div>
 </div>
@@ -43,7 +43,7 @@ $('#uploaderExample').uploader({
       <div class="content"></div>
       <button type="button" class="close">×</button>
     </div>
-    <div class="file-list file-list-lg" data-drag-placeholder="请拖拽文件到此处"></div>
+    <div class="uploader-files file-list file-list-lg" data-drag-placeholder="请拖拽文件到此处"></div>
     <div class="uploader-actions">
       <div class="uploader-status pull-right text-muted"></div>
       <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
@@ -58,7 +58,7 @@ $('#uploaderExample').uploader({
     <div class="content"></div>
     <button type="button" class="close">×</button>
   </div>
-  <div class="file-list file-list-lg" data-drag-placeholder="请拖拽文件到此处"></div>
+  <div class="uploader-files file-list file-list-lg" data-drag-placeholder="请拖拽文件到此处"></div>
   <div class="uploader-actions">
     <div class="uploader-status pull-right text-muted"></div>
     <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
@@ -75,7 +75,7 @@ $('#uploaderExample').uploader({
       <div class="content"></div>
       <button type="button" class="close">×</button>
     </div>
-    <div class="file-list file-list-grid"></div>
+    <div class="uploader-files file-list file-list-grid"></div>
     <div>
       <hr class="divider">
       <div class="uploader-status pull-right text-muted"></div>
@@ -91,7 +91,7 @@ $('#uploaderExample').uploader({
     <div class="content"></div>
     <button type="button" class="close">×</button>
   </div>
-  <div class="file-list file-list-grid"></div>
+  <div class="uploader-files file-list file-list-grid"></div>
   <div>
     <hr class="divider">
     <div class="uploader-status pull-right text-muted"></div>
@@ -101,83 +101,49 @@ $('#uploaderExample').uploader({
 </div>
 ```
 
-## HTML 结构
+## 使用
 
-你可以按自己需要定制自己的文件上传视图 UI，在文件上传视图中约定了一些特定的类来使得你的 UI 交互生效。通常情况下文件上传视图的 HTML 结构如下：
+### 引入资源
+
+文件上传为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
 
 ```html
-<div class="uploader">
-  <div class="uploader-message">
-    <div class="content"></div>
-    <button type="button" class="close">×</button>
-  </div>
-  <div class="uploader-files file-list" data-drag-placeholder="请拖拽文件到此处"></div>
-  <div class="uploader-actions">
-    <div class="uploader-status pull-right text-muted"></div>
-    <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
-    <button type="button" class="btn btn-link uploader-btn-start"><i class="icon icon-cloud-upload"></i> 开始上传</button>
-  </div>
+<link href="lib/uploader/uploader.min.css" rel="stylesheet">
+<script src="lib/uploader/uploader.min.js"></script>
+```
+
+### 初始化 uploader
+
+方式一，使用 `$().uploader()`：
+
+```html
+<div class="uploader" id="myUploader">
+  ...
 </div>
 ```
 
-约定的特殊类说明：
+```js
+var options = {
+    // 初始化选项
+};
+$('#myUploader').uploader(options);
+```
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th style="width: 160px">特殊类</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>`.uploader`</td>
-      <td>文件上传顶层容器，你可用在此元素上使用 `[data-*=*]` 来设置初始化选项，使用 `[data-ride="uploader"]` 来启用文件加载完成时自动进行初始化。</td>
-    </tr>
-    <tr>
-      <td>`.uploader-files`</td>
-      <td>
-        <p>文件列表，还可用同时使用如下外观类中的一个：</p>
-        <ul>
-          <li>`.file-list`：使用默认文件列表外观；</li>
-          <li>`.file-list.file-list-lg`：使用大号文件列表外观；</li>
-          <li>`.file-list.file-list-grid`：使用网格文件列表外观。</li>
-        </ul>
-        <p>使用 `[data-drag-placeholder=""]`，来设置文件上传列表的预设提示文本。</p>
-      </td>
-    </tr>
-    <tr>
-      <td>`.uploader-message`</td>
-      <td>
-        <p>用于在此元素中显示交互过程中的消息。在 `.uploader-message` 内你还可以放置一个 `.close` 来指定用于关闭此消息的按钮，使用 `.content` 来指定消息文本显示的元素。一个完整的示例如下：</p>
-        <pre><code>&lt;div class=&quot;uploader-message&quot;&gt;
-  &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
-  &lt;button type=&quot;button&quot; class=&quot;close&quot;&gt;&times;&lt;/button&gt;
-&lt;/div&gt;</code></pre>
-      </td>
-    </tr>
-    <tr>
-      <td>`.uploader-actions`</td>
-      <td>用于放置文件上传操作相关按钮。</td>
-    </tr>
-    <tr>
-      <td>`.uploader-btn-browse`</td>
-      <td>通常用于标记一个按钮，点击此按钮会打开文件对话框。</td>
-    </tr>
-    <tr>
-      <td>`.uploader-btn-start`</td>
-      <td>通常用于标记一个按钮，点击此按钮会开始（或恢复）上传文件队列中的文件到服务器。</td>
-    </tr>
-    <tr>
-      <td>`.uploader-btn-stop`</td>
-      <td>通常用于标记一个按钮，点击此按钮会暂停上传文件队列中的文件到服务器。</td>
-    </tr>
-    <tr>
-      <td>`.uploader-status`</td>
-      <td>用于在此元素中显示文件上传状态信息，包括文件上传进度、实时速度或文件数量等。</td>
-    </tr>
-  </tbody>
-</table>
+方式二，使用 `[data-ride="uploader"]`：
+
+```html
+<div class="uploader" data-ride="uploader" data-auto-upload="true">
+  ...
+</div>
+```
+
+### 获取 uploader 对象
+
+当初始化之后你可以通过 `$().uploader('zui.uploader')` 获取 `uploader` 对象：
+
+```js
+var uploader = $('#myUploader').uploader('zui.uploader');
+```
 
 ## 选项
 
@@ -210,11 +176,11 @@ $('#uploaderExample').uploader({
     <tr>
       <td>`browse_button`</td>
       <td>触发打开选择文件对话框按钮</td>
-      <td>默认 `>.uploader-btn-browse`</td>
+      <td>默认 `'hidden'`</td>
       <td>
         <p>所有可用的值如下：</p>
         <ul>
-          <li>`null` 或 `'hidden'`：不显示按钮；</li>
+          <li>`null` 或 `'hidden'`：不显示按钮，此时仍然可以使用 '.uploader-btn-browse' 类来标记上传按钮；</li>
           <li>`'>.uploader-btn-browse'`：在 `.uploader` 内查找包含类 `.uploader-btn-browse` 的元素；</li>
           <li>`'#uploaderBtn'`：在页面内查找 ID 为 `uploaderBtn` 的元素；</li>
         </ul>
@@ -604,6 +570,20 @@ $('#uploaderExample').uploader({
       <td>默认为 `lib/uploader/Moxie.xap`</td>
       <td>请确保在文件上传页面能够通过此地址访问到此文件。</td>
     </tr>
+    <tr>
+      <td>`lang`</td>
+      <td>界面语言</td>
+      <td>默认 `''`</td>
+      <td>
+        <p>默认情况下设置为空值，会从浏览器 `<html lang="">` 属性上获取语言设置，但有也可以手动指定为以下选项：</p>
+        <ul>
+          <li>`'zh_cn'`：简体中文；</li>
+          <li>`'zh_tw'`：繁体中文；</li>
+          <li>`'en'`'：英文；</li>
+          <li>`{...}`：使用一个对象来自定义语言，自定义语言对象应该包含的属性值参考内置语言对象 `$.zui.Uploader.LANG`。</li>
+        </ul>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -623,32 +603,32 @@ $('#uploaderExample').uploader({
   </thead>
   <tbody>
     <tr>
-      <td>`$.zui.Uploader.STATUS.STOPPED`</td>
+      <td>`STOPPED`</td>
       <td>`1`</td>
       <td>文件队列还没有开始上传，或者上传已暂停或已上传完成。</td>
     </tr>
     <tr>
-      <td>`$.zui.Uploader.STATUS.STARTED`</td>
+      <td>`STARTED`</td>
       <td>`2`</td>
       <td>文件队列正在上传中。</td>
     </tr>
     <tr>
-      <td>`$.zui.Uploader.STATUS.QUEUED`</td>
+      <td>`QUEUED`</td>
       <td>`1`</td>
       <td>文件已被添加到上传队列中等待上传。</td>
     </tr>
     <tr>
-      <td>`$.zui.Uploader.STATUS.UPLOADING`</td>
+      <td>`UPLOADING`</td>
       <td>`2`</td>
       <td>文件正在上传中。</td>
     </tr>
     <tr>
-      <td>`$.zui.Uploader.STATUS.FAILED`</td>
+      <td>`FAILED`</td>
       <td>`3`</td>
       <td>文件上传失败。</td>
     </tr>
     <tr>
-      <td>`$.zui.Uploader.STATUS.DONE`</td>
+      <td>`DONE`</td>
       <td>`4`</td>
       <td>文件已上传到服务器。</td>
     </tr>
@@ -663,7 +643,7 @@ $('#uploaderExample').uploader({
   <thead>
     <tr>
       <th>属性/方法</th>
-      <td>说明</td>
+      <th>说明</th>
     </tr>
   </thead>
   <tbody>
@@ -678,6 +658,18 @@ $('#uploaderExample').uploader({
     <tr>
       <td>`type`</td>
       <td>文件类型，例如 `'image/jpeg'`</td>
+    </tr>
+    <tr>
+      <td>`ext`</td>
+      <td>文件扩展名，例如 `'.gif'`</td>
+    </tr>
+    <tr>
+      <td>`isImage`</td>
+      <td>文件是否为图片</td>
+    </tr>
+    <tr>
+      <td>`previewImage`</td>
+      <td>图片文件的预览图地址</td>
     </tr>
     <tr>
       <td>`size`</td>
@@ -714,46 +706,819 @@ $('#uploaderExample').uploader({
   </tbody>
 </table>
 
-并不保证任何适合都包含以上全部属性。
+并不保证任何时候文件对象中都包含以上全部属性。
+
+### 文件上传队列进度信息
+
+文件上传队列进度信息为一个对象，包含如下属性：
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>属性</th>
+      <td>说明</td> 
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`size`</td>
+      <td>上传队列中所有文件的总大小，单位为字节（b）</td>
+    </tr>
+    <tr>
+      <td>`loaded`</td>
+      <td>上传队列中已上传文件的总大小，单位为字节（b）</td>
+    </tr>
+    <tr>
+      <td>`uploaded`</td>
+      <td>上传队列中已上传成功的文件数目</td>
+    </tr>
+    <tr>
+      <td>`failed`</td>
+      <td>上传队列上传失败的文件数目</td>
+    </tr>
+    <tr>
+      <td>`queued`</td>
+      <td>上传队列中等待上传或者正在上传的文件数目</td>
+    </tr>
+    <tr>
+      <td>`percent`</td>
+      <td>上传队列已完成上传占所有文件的百分比，为一个 `0~100` 数值，如果为 `50`，表示已上传了 `50%`</td>
+    </tr>
+    <tr>
+      <td>`bytesPerSec`</td>
+      <td>上传的速度，单位为字节/秒，即 `b/s`</td>
+    </tr>
+  </tbody>
+</table>
+
+### 错误代码属性
+
+这些属性在 `$.zui.Uploader.ERRORS` 对象上。
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>值</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`GENERIC_ERROR`</td>
+      <td>`-100`</td>
+      <td>通用错误</td>
+    </tr>
+    <tr>
+      <td>`HTTP_ERROR`</td>
+      <td>`-200`</td>
+      <td>HTTP 网络错误</td>
+    </tr>
+    <tr>
+      <td>`IO_ERROR`</td>
+      <td>`-300`</td>
+      <td>文件读写错误，例如无法读取所选择的文件</td>
+    </tr>
+    <tr>
+      <td>`SECURITY_ERROR`</td>
+      <td>`-400`</td>
+      <td>安全错误</td>
+    </tr>
+    <tr>
+      <td>`INIT_ERROR`</td>
+      <td>`-500`</td>
+      <td>初始化时发生错误</td>
+    </tr>
+    <tr>
+      <td>`FILE_SIZE_ERROR`</td>
+      <td>`-600`</td>
+      <td>文件大小不符合要求</td>
+    </tr>
+    <tr>
+      <td>`FILE_EXTENSION_ERROR`</td>
+      <td>`-601`</td>
+      <td>文件类型不符合要求</td>
+    </tr>
+    <tr>
+      <td>`FILE_DUPLICATE_ERROR`</td>
+      <td>`-602`</td>
+      <td>选择了重复的文件</td>
+    </tr>
+    <tr>
+      <td>`IMAGE_FORMAT_ERROR`</td>
+      <td>`-700`</td>
+      <td>图片格式错误</td>
+    </tr>
+    <tr>
+      <td>`IMAGE_MEMORY_ERROR`</td>
+      <td>`-701`</td>
+      <td>内存错误</td>
+    </tr>
+    <tr>
+      <td>`IMAGE_DIMENSIONS_ERROR`</td>
+      <td>`-702`</td>
+      <td>图片文件大小超出能处理的范围</td>
+    </tr>
+  </tbody>
+</table>
+
+## 方法
+
+upload 对象实例上有如下方法：
+
+### <span class="code text-danger">showMessage(message, type, time)</span>
+
+在上传文件界面区域上显示一个消息，该方法参数定义如下：
+
+* `message`：要显示的消息文本；
+* `type`：消息类型，可选值包括 `'danger'`（危险消息，默认）、`'warning'`（警告）、`'info'`（一般），`'success'`（成功消息）。
+
+### <span class="code text-danger">hideMessage()</span>
+
+隐藏界面上的消息。
+
+### <span class="code text-danger">start()</span>
+
+开始上传队列中的文件。
+
+### <span class="code text-danger">stop()</span>
+
+停止上传队列中的文件。
+
+### <span class="code text-danger">getState()</span>
+
+获取上传队列状态代码。状态代码为 `$.zui.Uploader.STATUS` 对象上的属性值，可能的值包括 `$.zui.Uploader.STATUS.STARTED` 和 `$.zui.Uploader.STATUS.STOPPED`。
+
+### <span class="code text-danger">isStarted()</span>
+
+检查是否正在上传队列中的文件。如果返回 `true` 则表示已开始上传，`false` 表示当前没有进行上传文件。
+
+### <span class="code text-danger">isStopped()</span>
+
+检查是否已停止上传队列中的文件。如果返回 `true` 则表示还没有开始上传，或者上传已暂停或已上传完成，`false` 表示正在进行上传文件。
+
+### <span class="code text-danger">getFiles()</span>
+
+获取上传队列中的文件，返回结果为文件对象数组。
+
+### <span class="code text-danger">getTotal()</span>
+
+获取文件上传队列进度信息。参见本页面 [对象及属性 → 文件上传队列进度信息]。
+
+### <span class="code text-danger">disableBrowse(disable)</span>
+
+设置上传按钮的禁用状态，参数定义如下：
+
+* `disable`：如果为 `true` 则将上传按钮设置为禁用，如果为 `false` 则取消上传按钮的禁用状态。
+
+### <span class="code text-danger">getFile(id)</span>
+
+通过文件 ID 获取文件对象，参数定义如下：
+
+* `id`：文件对象的唯一 ID 值。
+
+### <span class="code text-danger">removeFile(file)</span>
+
+将文件从文件队列中移除，参数定义如下：
+
+* `file`：要移除的文件对象。
+
+### <span class="code text-danger">destroy()</span>
+
+销毁 `uploader` 实例。
+
+### <span class="code text-danger">showStatus()</span>
+
+刷新上传进度状态信息。需要有 `.uploader-message` 元素。
+
+### 调用方法
+
+以调用开始上传方法 `start()` 为例：
+
+```js
+// 1. 获取 uploader 实例对象
+var uploader = $('#myUploader').data('zui.uploader');
+
+// 2. 调用 start 方法
+uploader.start();
+```
 
 ## 事件
 
-## 使用
+### <span class="code text-danger">onInit</span>
 
-### 初始化 uploader
+当初始化完成后触发，回调函数形式为：
 
-方式一：
+* `function()`
+
+### <span class="code text-danger">onFilesAdded</span>
+
+当文件被添加到上传队列时触发，回调函数形式为：
+
+* `function(files)`
+
+回调函数参数定义如下：
+
+* `files`：添加到上传队列的文件对象数组。
+
+### <span class="code text-danger">onUploadProgress</span>
+
+当文件上传进度发送变化时触发，此回调函数会在上传文件的过程中反复触发，回调函数形式为：
+
+* `function(file)`
+
+回调函数参数定义如下：
+
+* `file`：上传进度发生变化的文件对象。
+
+### <span class="code text-danger">onFileUploaded</span>
+
+当队列中的一个文件上传完成后触发，回调函数形式为：
+
+* `function(file, responseObject)`
+
+回调函数参数定义如下：
+
+* `file`：上传进度发生变化的文件对象；
+* `responseObject`：服务器返回的信息对象，包含如下属性：
+  - `response`：服务器返回的文本信息；
+  - `responseHeaders`：服务器返回的头部信息；
+  - `status`：HTTP 状态码，例如 `200`。
+
+### <span class="code text-danger">onUploadComplete</span>
+
+当队列中所有文件上传完成后触发，回调函数形式为：
+
+* `function(files)`
+
+回调函数参数定义如下：
+
+* `files`：上传完成的文件对象数组。
+
+### <span class="code text-danger">onFilesRemoved</span>
+
+当文件从上传队列移除后触发，回调函数形式为：
+
+* `function(files)`
+
+回调函数参数定义如下：
+
+* `files`：被移除的文件对象数组。
+
+### <span class="code text-danger">onChunkUploaded</span>
+
+当启用分片上传选项后，每个文件片段上传完成时触发，回调函数形式为：
+
+* `function(file, responseObject)`
+
+回调函数参数定义如下：
+
+* `file`：上传进度发生变化的文件对象；
+* `responseObject`：服务器返回的信息对象，包含如下属性：
+  - `offset`：当前上传的文件片段在文件总大小中的偏移；
+  - `response`：服务器返回的文本信息；
+  - `responseHeaders`：服务器返回的头部信息；
+  - `status`：HTTP 状态码，例如 `200`；
+  - `total`：当前文件的总大小，单位为字节（b）。
+
+### <span class="code text-danger">onUploadFile</span>
+
+当队列中的某个文件开始上传时触发，回调函数形式为：
+
+* `function(file)`
+
+回调函数参数定义如下：
+
+* `file`：开始上传的文件对象。
+
+### <span class="code text-danger">onBeforeUpload</span>
+
+当队列中的某个文件开始上传之前触发，回调函数形式为：
+
+* `function(file)`
+
+回调函数参数定义如下：
+
+* `file`：开始上传的文件对象。
+
+### <span class="code text-danger">onStateChanged</span>
+
+当文件队列状态发生改变时触发，回调函数形式为：
+
+* `function(state)`
+
+回调函数参数定义如下：
+
+* `state`：文件队列状态，可能的值包括 `$.zui.Uploader.STATUS.STARTED` 和 `$.zui.Uploader.STATUS.STOPPED`。
+
+### <span class="code text-danger">onQueueChanged</span>
+
+当文件上传队列发生变化时触发，回调函数形式为：
+
+* `function()`
+
+### <span class="code text-danger">onError</span>
+
+当发生错误时触发，回调函数形式为：
+
+* `function(error)`
+
+回调函数参数定义如下：
+
+* `error`：错误信息对象，包含如下属性：
+  - `code`：错误代码，参见错误代码属性说明；
+  - `message`：错误消息文本；
+  - `file`：发生错误相关的文件对象。
+
+### 绑定事件
+
+方式一，使用 jQuery `$().on(event, callback)` 方式：
+
+```js
+$('#myUploader').uploader().on('onUploadFile', function(file) {
+    console.log('上传成功', file);
+});
+```
+
+方式二，在初始化时作为选项绑定：
+
+```js
+$('#myUploader').uploader({
+    url: '...',
+    // ...,
+    onUploadFile: function(file) {
+       console.log('上传成功', file);
+    }
+});
+```
+
+### 在事件中访问 uploader 对象
+
+所有事件回调函数的 `this` 变量都为当前 `uploader` 实例对象。
+
+## 自定义 UI
+
+文件上传视图提供了最大限度的定制机制，你可以定制自己的文件上传 UI。
+
+### HTML 结构
+
+在文件上传视图中约定了一些特定的类来使得你的 UI 交互生效。通常情况下文件上传视图的 HTML 结构如下：
 
 ```html
-<div class="uploader" id="myUploader">
-  ...
+<div class="uploader">
+  <div class="uploader-message">
+    <div class="content"></div>
+    <button type="button" class="close">×</button>
+  </div>
+  <div class="uploader-files file-list" data-drag-placeholder="请拖拽文件到此处"></div>
+  <div class="uploader-actions">
+    <div class="uploader-status pull-right text-muted"></div>
+    <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
+    <button type="button" class="btn btn-link uploader-btn-start"><i class="icon icon-cloud-upload"></i> 开始上传</button>
+  </div>
+</div>
+```
+
+约定的特殊类说明：
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th style="width: 160px">特殊类</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`.uploader`</td>
+      <td>文件上传顶层容器，你可用在此元素上使用 `[data-*=*]` 来设置初始化选项，使用 `[data-ride="uploader"]` 来启用文件加载完成时自动进行初始化。</td>
+    </tr>
+    <tr>
+      <td>`.uploader-files`</td>
+      <td>
+        <p>文件列表，还可用同时使用如下外观类中的一个：</p>
+        <ul>
+          <li>`.file-list`：使用默认文件列表外观；</li>
+          <li>`.file-list.file-list-lg`：使用大号文件列表外观；</li>
+          <li>`.file-list.file-list-grid`：使用网格文件列表外观。</li>
+        </ul>
+        <p>使用 `[data-drag-placeholder=""]`，来设置文件上传列表的预设提示文本。</p>
+      </td>
+    </tr>
+    <tr>
+      <td>`.uploader-message`</td>
+      <td>
+        <p>用于在此元素中显示交互过程中的消息。在 `.uploader-message` 内你还可以放置一个 `.close` 来指定用于关闭此消息的按钮，使用 `.content` 来指定消息文本显示的元素。一个完整的示例如下：</p>
+        <pre><code>&lt;div class=&quot;uploader-message&quot;&gt;
+  &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+  &lt;button type=&quot;button&quot; class=&quot;close&quot;&gt;&times;&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+      </td>
+    </tr>
+    <tr>
+      <td>`.uploader-actions`</td>
+      <td>用于放置文件上传操作相关按钮。</td>
+    </tr>
+    <tr>
+      <td>`.uploader-btn-browse`</td>
+      <td>通常用于标记一个按钮，点击此按钮会打开文件对话框。</td>
+    </tr>
+    <tr>
+      <td>`.uploader-btn-start`</td>
+      <td>通常用于标记一个按钮，点击此按钮会开始（或恢复）上传文件队列中的文件到服务器。</td>
+    </tr>
+    <tr>
+      <td>`.uploader-btn-stop`</td>
+      <td>通常用于标记一个按钮，点击此按钮会暂停上传文件队列中的文件到服务器。</td>
+    </tr>
+    <tr>
+      <td>`.uploader-status`</td>
+      <td>用于在此元素中显示文件上传状态信息，包括文件上传进度、实时速度或文件数量等。</td>
+    </tr>
+  </tbody>
+</table>
+
+### 自定义文件元素模板
+
+文件元素模板决定如何在文件列表上显示一个文件条目。默认的模板为：
+
+```html
+<div class="file">
+  <div class="file-progress-bar"></div>
+  <div class="file-wrapper">
+    <div class="file-icon"><i class="icon icon-file-o"></i></div>
+    <div class="content">
+      <div class="file-name"></div>
+      <div class="file-size small text-muted">0KB</div>
+    </div>
+    <div class="actions">
+      <div class="file-status" data-toggle="tooltip"><i class="icon"></i> <span class="text"></span></div>
+      <a data-toggle="tooltip" class="btn btn-link btn-download-file" target="_blank"><i class="icon icon-download-alt"></i></a>
+      <button type="button" data-toggle="tooltip" class="btn btn-link btn-reset-file" title="Repeat"><i class="icon icon-repeat"></i></button>
+      <button type="button" data-toggle="tooltip" class="btn btn-link btn-rename-file" title="Rename"><i class="icon icon-pencil"></i></button>
+      <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-link btn-delete-file"><i class="icon icon-trash text-danger"></i></button>
+    </div>
+  </div>
+</div>
+```
+
+有两种方式来设置文件元素模板。方式一是通过初始化选项 `fileTemplate`：
+
+```js
+$('#myUploader').uploader({
+    url: '...',
+    // ...
+    fileTemplate: "..." // 设置文件模板字符串
+});
+```
+
+方式二是通过在 `.uploader-files` 元素内使用 `.template` 类来标记一个元素作为文件模板：
+
+```html
+<div id='uploaderExample2' class="uploader" data-ride="uploader" data-url="your/file/upload/url" data-auto-upload="true">
+  <div class="uploader-files file-list" data-drag-placeholder="请拖拽文件到此处">
+    <div class="file template">
+      <!-- 文件模板元素内部内容 -->
+    </div>
+  </div>
+</div>
+```
+
+文件元素模板中可以使用如下约定的特殊类：
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>类</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`.file`</td>
+      <td>文件元素容器类</td>
+    </tr>
+    <tr>
+      <td>`.file-progress-bar`</td>
+      <td>文件上传进度条</td>
+    </tr>
+    <tr>
+      <td>`.file-icon`</td>
+      <td>用于显示文件图标</td>
+    </tr>
+    <tr>
+      <td>`.file-name`</td>
+      <td>用于显示文件名</td>
+    </tr>
+    <tr>
+      <td>`.file-size`</td>
+      <td>用于显示文件大小</td>
+    </tr>
+    <tr>
+      <td>`.file-status`</td>
+      <td>用于显示文件状态信息</td>
+    </tr>
+    <tr>
+      <td>`.btn-download-file`</td>
+      <td>用户点击此元素触发文件下载操作</td>
+    </tr>
+    <tr>
+      <td>`.btn-reset-file`</td>
+      <td>用户点击此元素触发重新上传操作</td>
+    </tr>
+    <tr>
+      <td>`.btn-rename-file`</td>
+      <td>用户点击此元素触发文件重命名操作</td>
+    </tr>
+    <tr>
+      <td>`.btn-delete-file`</td>
+      <td>用户点击此元素触发移除文件操作</td>
+    </tr>
+  </tbody>
+</table>
+
+文件模板中也可以完全不用约定的特殊类（`.file` 类除外），通过初始化选项 `fileFormater` 指定一个回调函数来格式化文件元素，该回调函数定义为：
+
+* `function($file, file, status)`
+
+参数定义如下：
+
+* `$file`：要格式化的文件元素；
+* `file`：当前文件对象；
+* `status`：当前文件状态。
+
+回调函数中 `this` 变量为当前 `uploader` 实例。
+
+简单的回调函数例子：
+
+```js
+$('#myUploader').uploader({
+    url: '...',
+    // ...
+    fileFormater: function($file, file, status) {
+        $file.find('.file-name').text(file.name);
+        // ...
+    }
+});
+```
+
+### 自定义文件图标
+
+默认情况下会为不同的文件类型显示不同的文件图标，也可以通过初始化选项 `fileIconCreator` 制定一个回调函数来返回用于显示图标的 HTML 源码，该回调函数定义为：
+
+* `function(fileType, file, uploader)`
+
+回调函数参数定义如下：
+
+* `fileType`：文件类型，例如 `'image/jpeg'`；
+* `file`：文件对象；
+* `uploader`：uploader 实例对象。
+
+例子：
+
+```js
+$('#myUploader').uploader({
+    url: '...',
+    // ...
+    fileFormater: function(fileType, file, uploader) {
+        if(fileType.indexOf('image') === 0) {
+            // 如果文件是图片，返回图片图标
+            return '<i class="icon icon-file-image"></i>';
+        } else {
+            // 处理其他非图片文件情况
+        }
+    }
+})
+```
+
+### 定制示例
+
+下面给出一个用表格来显示文件列表的例子。
+
+<example>
+  <div id="tableUploader" class="uploader">
+    <div class="uploader-message text-center">
+      <div class="content"></div>
+      <button type="button" class="close">×</button>
+    </div>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="2">文件名</th>
+          <th style="width: 100px">大小</th>
+          <th style="width: 160px; text-align: center;">状态/操作</th>
+        </tr>
+      </thead>
+      <tbody class="uploader-files">
+        <tr class="file template">
+          <td style="width: 38px; padding: 3px"><div class="file-icon"></div></td>
+          <td style="padding: 0">
+            <div style="position: relative; padding: 8px;">
+              <strong class="file-name"></strong>
+              <div class="file-progress-bar"></div>
+            </div>
+          </td>
+          <td><span class="file-size text-muted"></span></td>
+          <td class="actions text-right" style="padding: 0 4px;">
+            <div class="file-status" data-toggle="tooltip" style="margin: 8px;"><i class="icon"></i> <span class="text"></span></div>
+            <a data-toggle="tooltip" class="btn btn-link btn-download-file" target="_blank"><i class="icon icon-download-alt"></i></a>
+            <button type="button" data-toggle="tooltip" class="btn btn-link btn-reset-file" title="Repeat"><i class="icon icon-repeat"></i></button>
+            <button type="button" data-toggle="tooltip" class="btn btn-link btn-rename-file" title="Rename"><i class="icon icon-pencil"></i></button>
+            <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-link btn-delete-file"><i class="icon icon-trash text-danger"></i></button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" style="padding: 4px 0">
+            <div style="position: relative;">
+              <div class="uploader-status pull-right text-muted" style="margin-top: 5px;"></div>
+              <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
+              <button type="button" class="btn btn-link uploader-btn-start"><i class="icon icon-cloud-upload"></i> 开始上传</button>
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</example>
+
+```html
+<div id="tableUploader" class="uploader">
+  <div class="uploader-message text-center">
+    <div class="content"></div>
+    <button type="button" class="close">×</button>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th colspan="2">文件名</th>
+        <th style="width: 100px">大小</th>
+        <th style="width: 160px; text-align: center;">状态/操作</th>
+      </tr>
+    </thead>
+    <tbody class="uploader-files">
+      <tr class="file template">
+        <td style="width: 38px; padding: 3px"><div class="file-icon"></div></td>
+        <td style="padding: 0">
+          <div style="position: relative; padding: 8px;">
+            <strong class="file-name"></strong>
+            <div class="file-progress-bar"></div>
+          </div>
+        </td>
+        <td><span class="file-size text-muted"></span></td>
+        <td class="actions text-right" style="padding: 0 4px;">
+          <div class="file-status" data-toggle="tooltip" style="margin: 8px;"><i class="icon"></i> <span class="text"></span></div>
+          <a data-toggle="tooltip" class="btn btn-link btn-download-file" target="_blank"><i class="icon icon-download-alt"></i></a>
+          <button type="button" data-toggle="tooltip" class="btn btn-link btn-reset-file" title="Repeat"><i class="icon icon-repeat"></i></button>
+          <button type="button" data-toggle="tooltip" class="btn btn-link btn-rename-file" title="Rename"><i class="icon icon-pencil"></i></button>
+          <button type="button" data-toggle="tooltip" title="Remove" class="btn btn-link btn-delete-file"><i class="icon icon-trash text-danger"></i></button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" style="padding: 4px 0">
+          <div style="position: relative;">
+            <div class="uploader-status pull-right text-muted" style="margin-top: 5px;"></div>
+            <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
+            <button type="button" class="btn btn-link uploader-btn-start"><i class="icon icon-cloud-upload"></i> 开始上传</button>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
 </div>
 ```
 
 ```js
-var options = {
-    // 初始化选项
-};
-$('#myUploader').uploader(options);
+$('#tableUploader').uploader({
+    url: 'url/for/upload/file'
+});
 ```
 
-方式二：
+## 处理服务器结果
 
-```html
-<div class="uploader" data-ride="uploader" data-auto-upload="true">
-  ...
-</div>
-```
+### 默认处理方式
 
-### 获取 uploader 对象
+通常当服务器对上传的文件的 HTTP 请求状态为 `200` 则视为文件上传成功，否则视为文件上传失败。如果需要返回更加详细的错误信息，可以返回 JSON 对象字符串。在 JSON 对象中设置 `result` 或 `status` 属性值为 `'ok'`、`'success'`、`200` 中的一个则视为文件上传失败，否则视为文件上传成功。
 
-当初始化之后你可以通过 `$().uploader('zui.uploader')` 获取 `uploader` 对象：
+当文件上传失败时，使用 `message` 属性返回一个错误消息在界面上显示来提示用户。下面为当文件上传失败时一个完整的 JSON 对象示例：
 
 ```js
-var uploader = $('#myUploader').uploader('zui.uploader');
+{
+    result: 'failed',               // 文件上传失败
+    message: '文件内容包含违规内容'    // 用于在界面上提示用户的消息
+}
 ```
 
-### 获取 plupload 对象
+当文件上传成功时，使用 `id` 属性来返回文件在服务器上的唯一标识，使用 `url` 属性返回文件的下载地址。当下载地址指定时会在文件列表上显示该文件的下载按钮。下面为当文件上传成功时的一个完整的 JSON 对象示例：
+
+```js
+{
+    result: 'ok',     // 文件上传成功
+    id: 10001,        // 文件在服务器上的唯一标识
+    url: 'http://example.com/file-10001.jpg'        // 文件的下载地址
+}
+```
+
+### 自定义处理方式
+
+除了直接通过返回约定格式的 JSON 对象来判断上传结果之外，还可以通过初始化选项 `responseHandler` 设置一个回调函数来自定义处理结果。
+
+该回调函数定义为：
+
+* `function(responseObject, file)`
+
+参数定义为：
+
+* `responseObject`：服务器返回的信息对象，包含如下属性：
+  - `response`：服务器返回的文本信息；
+  - `responseHeaders`：服务器返回的头部信息；
+  - `status`：HTTP 状态码，例如 `200`。
+* `file`：当前上传的文件对象。
+
+该回调函数的 `this` 变量指向 uploader 当前实例。在该回调函数中返回任何字符串都视为上传失败，并将返回的字符串作为错误消息显示在用户界面上。
+
+```js
+$('#myUploader').uploader({
+    url: 'url/for/upload/file',
+    // ...
+    responseHandler: function(responseObject, file) {
+        // 当服务器返回的文本内容包含 `'error'` 文本时视为上传失败
+        if(responseObject.response.indexOf('error')) {
+            return '上传失败。服务器返回了一个错误：' + responseObject.response;
+        }
+    }
+});
+```
+
+## 使用七牛 Javascript SDK
+
+文件上传支持配合七牛云存储使用，当检测到页面加载了 <a href="http://github.com/qiniu/js-sdk" target="_blank">七牛 JavaScript SDK</a> 后，只需要在初始化选项 `qiniu` 指定七牛 API 相关信息即可将文件上传到七牛。
+
+初始化选项 `qiniu` 为一个对象，应该包含如下属性：
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>`domain`</td>
+      <td>**必需**，bucket 域名，上传下载资源时用到，如：'http://xxx.bkt.clouddn.com/'</td>
+    </tr>
+    <tr>
+      <td>`uptoken`</td>
+      <td>是上传凭证，由其他程序生成</td>
+    </tr>
+    <tr>
+      <td>`uptoken_url`</td>
+      <td>Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）</td>
+    </tr>
+    <tr>
+      <td>`uptoken_func`</td>
+      <td>在需要获取 uptoken 时，该方法会被调用</td>
+    </tr>
+  </tbody>
+</table>
+
+属性 `uptoken`、`uptoken_url`、`uptoken_func` 至少且仅需指定一个。以下为一个完整的七牛配置对象：
+
+```js
+{
+    uptoken : 'u0nP4wf4t7V3-5gniRcZ3EdvScOLpZkokruvCB7V:apjkB76CaKkP2nNFwuoEvmxE9NU=:eyJzY29wZSI6ImNhdG91c2UiLCJkZWFkbGluZSI6MTQ4MTcyODAzMH0=',
+    domain: 'http://7xjyuk.com1.z0.glb.clouddn.com'
+}
+```
+
+更多内容请参考 <a href="https://developer.qiniu.com/kodo/sdk/javascript" target="_blank">七牛官方文档</a>。
+
+### 使用七牛上传的步骤
+
+第一步：在页面引入七牛 [js-sdk](https://github.com/qiniu/js-sdk)：
+
+```html
+<script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.min.js"></script>
+```
+
+第二步：在初始化选项中指定 `qiniu` 配置对象：
+
+```js
+$('#myUploader').uploader({
+    qiniu: {
+        uptoken : 'u0nP4wf4t7V3-5gniRcZ3EdvScOLpZkokruvCB7V:apjkB76CaKkP2nNFwuoEvmxE9NU=:eyJzY29wZSI6ImNhdG91c2UiLCJkZWFkbGluZSI6MTQ4MTcyODAzMH0=',
+        domain: 'http://7xjyuk.com1.z0.glb.clouddn.com'
+    }
+});
+```
+
+在选项中指定了 `qiniu` 配置对象之后，无需指定 `url` 选项。
+
+## 获取 plupload 对象
 
 文件上传视图基于 <a href="http://www.plupload.com/" target="_blank">plupload</a> 开发，你仍然可以从 `uploader` 对象上获取到原始的 `plupload` 对象。
 
@@ -770,22 +1535,41 @@ var plupload = uploader.plupload;
   <thead>
     <tr>
       <th>属性/方法</th>
-      <td>说明</td>
+      <th>说明</th>
     </tr>
   </thead>
+  <tbody>
+    <tr>
+      <td>`id`</td>
+      <td>plupload 的 ID，在页面上值唯一</td>
+    </tr>
+    <tr>
+      <td>`state`</td>
+      <td>当前的上传队列状态，可选值包括：`$.zui.Uploader.STATUS.STARTED` 和 `$.zui.Uploader.STATUS.STOPPED`</td>
+    </tr>
+    <tr>
+      <td>`runtime`</td>
+      <td>当前使用的上传方式</td>
+    </tr>
+    <tr>
+      <td>`files`</td>
+      <td>当前上传队列中的文件，值为一个包含所有文件对象的数组</td>
+    </tr>
+    <tr>
+      <td>`settings`</td>
+      <td>当前的配置选项对象</td>
+    </tr>
+    <tr>
+      <td>`total`</td>
+      <td>文件上传队列进度信息</td>
+    </tr>
+  </tbody>
 </table>
 
-## 自定义 UI
-
-### 自定义模板
-
-### 自定义文件图标
-
-## 处理服务器结果
-
-## 使用七牛 Javascript SDK
-
-
+<div class="alert alert-warning">
+  <h4>提示</h4>
+  <p>不推荐直接操作 `plupload` 对象，一般情况下 `uploader` 对象方法可以实现绝大部分功能。</p>
+</div>
 
 <script src="dist/lib/uploader/zui.uploader.js"></script>
 <link href="dist/lib/uploader/zui.uploader.css" rel="stylesheet">

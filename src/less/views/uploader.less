@@ -58,7 +58,7 @@
 
 // File list
 
-.file-list {
+.uploader-files, .file-list {
   min-height: 32px;
   position: relative;
   border: 1px solid @color-gray-light;
@@ -83,6 +83,135 @@
       color: @color-gray;
     }
   }
+
+  .file-icon {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    .opacity(.7);
+    transition: opacity @animation-speed-normal;
+  }
+
+  .file-icon-image {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background-color: @color-white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px solid @color-gray-light;
+  }
+
+  .file-name {
+    text-decoration: none;
+    transition: all @animation-speed-fast;
+
+    &[contenteditable] {
+      background-color: @color-white;
+      outline: 1px solid @color-primary;
+      padding: 0 5px;
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@color-primary, 20%);
+    }
+  }
+
+  .file-name,
+  .file-size {
+    .nobr();
+    text-overflow: ellipsis;
+  }
+
+  .file-renaming {
+    .file-name[contenteditable] {text-overflow: initial;}
+  }
+
+  .file:hover .file-name {color: @color-primary;}
+  .file:hover .file-icon {opacity: 1;}
+
+  .file-status {
+    display: inline-block;
+    text-align: right;
+    line-height: 20px;
+
+    &:hover {
+      background-color: rgba(0,0,0,.07);
+    }
+
+    > .icon {
+      vertical-align: middle;
+      line-height: 20px;
+      transition: all @animation-speed-slow;
+      transform: scale(1);
+      opacity: 1;
+
+      &:before {content: @icon-check-circle;}
+    }
+
+    > .text {
+      display: inline-block;
+      padding: 0 6px;
+      line-height: 20px;
+      font-size: 12px;
+
+      &:empty {display: none}
+    }
+  }
+
+  .file[data-status="uploading"] .file-status {
+    > .icon {
+      transform: scale(0);
+      .opacity(0);
+    }
+
+    > .text {
+      border-radius: 10px;
+      background-color: @color-primary;
+      color: #fff;
+    }
+  }
+
+  .file[data-status="queue"] .file-status {color: @color-warning;}
+  .file[data-status="queue"] .file-status > .icon:before {content: @icon-cloud-upload;}
+  .file[data-status="failed"] .file-status {color: @color-danger;}
+  .file[data-status="failed"] .file-status > .icon:before {content: @icon-warning-sign;}
+  .file[data-status="done"] .file-status {color: @color-success;}
+
+  .file .actions > .btn-reset-file,
+  .file .actions > .btn-download-file,
+  .file[data-status="failed"] .actions > .btn-rename-file,
+  .file[data-status="uploading"] .actions > .btn,
+  .file[data-status="done"] .actions > .btn {display: none}
+  .file[data-status="done"] .actions > .btn-download-file[href],
+  &.file-show-rename-action-on-done .file[data-status="done"] .actions > .btn-rename-file,
+  &.file-show-delete-action-on-done .file[data-status="done"] .actions > .btn-delete-file,
+  .file[data-status="failed"] .actions > .btn-reset-file {display: inline-block;}
+
+  &.file-rename-by-click [data-status="queue"] .file-name:hover {
+    background-color: rgba(255,255,255,.5);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@color-primary, 20%);
+  }
+
+  .file-progress-bar {
+    position: absolute;
+    z-index: 10;
+    background-color: fade(@color-primary, 10%);
+    left: 0;
+    top: 0;
+    bottom: 0;
+    .opacity(0);
+    box-shadow: inset 0 -2px @color-primary;
+    transition: width .6s ease, opacity @animation-speed-normal;
+    pointer-events: none;
+  }
+
+  .file[data-status="uploading"] .file-progress-bar {.opacity(1);}
+  .file[data-status="queue"] {background-color: @color-warning-pale;}
+  .file[data-status="failed"] {background-color: @color-danger-pale;}
+  .file[data-status="done"] {background-color: @color-white;}
 }
 
 
@@ -183,139 +312,17 @@
     }
   }
 
-  .file-icon {
-    position: relative;
-    width: 32px;
-    line-height: 32px;
-    text-align: center;
-    .opacity(.7);
-    transition: opacity @animation-speed-normal;
-  }
-
-  .file-icon-image {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    right: 5px;
-    bottom: 5px;
-    background-color: @color-white;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: 1px solid @color-gray-light;
-  }
-
   .file-name {
     display: block;
-    text-decoration: none;
-    transition: all @animation-speed-fast;
-
-    &[contenteditable] {
-      background-color: @color-white;
-      outline: 1px solid @color-primary;
-      padding: 0 5px;
-      box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@color-primary, 20%);
-    }
   }
-
-  .file-name,
-  .file-size {
-    .nobr();
-    text-overflow: ellipsis;
-  }
-
-  .file-renaming {
-    .file-name[contenteditable] {text-overflow: initial;}
-  }
-
-  .file:hover .file-name {color: @color-primary;}
-  .file:hover .file-icon {opacity: 1;}
 
   .file-wrapper > .content > .file-name {float: left;}
   .file-wrapper > .content > .file-size {float: right; margin-top: 2px;}
   .file-wrapper > .actions > .btn {border-radius: 0;}
 
   .file-status {
-    display: inline-block;
-    text-align: right;
-    line-height: 20px;
     padding: 5px;
-
-    &:hover {
-      background-color: rgba(0,0,0,.07);
-    }
-
-    > .icon {
-      vertical-align: middle;
-      line-height: 20px;
-      transition: all @animation-speed-slow;
-      transform: scale(1);
-      opacity: 1;
-
-      &:before {content: @icon-check-circle;}
-    }
-
-    > .text {
-      display: inline-block;
-      padding: 0 6px;
-      line-height: 20px;
-      font-size: 12px;
-
-      &:empty {display: none}
-    }
   }
-
-  .file[data-status="uploading"] .file-status {
-    > .icon {
-      transform: scale(0);
-      .opacity(0);
-    }
-
-    > .text {
-      border-radius: 10px;
-      background-color: @color-primary;
-      color: #fff;
-    }
-  }
-
-  .file[data-status="queue"] .file-status {color: @color-warning;}
-  .file[data-status="queue"] .file-status > .icon:before {content: @icon-cloud-upload;}
-  .file[data-status="failed"] .file-status {color: @color-danger;}
-  .file[data-status="failed"] .file-status > .icon:before {content: @icon-warning-sign;}
-  .file[data-status="done"] .file-status {color: @color-success;}
-
-  .file .actions > .btn-reset-file,
-  .file .actions > .btn-download-file,
-  .file[data-status="failed"] .actions > .btn-rename-file,
-  .file[data-status="uploading"] .actions > .btn,
-  .file[data-status="done"] .actions > .btn {display: none}
-  .file[data-status="done"] .actions > .btn-download-file[href],
-  &.file-show-rename-action-on-done .file[data-status="done"] .actions > .btn-rename-file,
-  &.file-show-delete-action-on-done .file[data-status="done"] .actions > .btn-delete-file,
-  .file[data-status="failed"] .actions > .btn-reset-file {display: inline-block;}
-
-  &.file-rename-by-click [data-status="queue"] .file-name:hover {
-    background-color: rgba(255,255,255,.5);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px lighten(@color-primary, 20%);
-  }
-
-  .file-progress-bar {
-    position: absolute;
-    z-index: 10;
-    background-color: fade(@color-primary, 10%);
-    left: 0;
-    top: 0;
-    bottom: 0;
-    .opacity(0);
-    box-shadow: inset 0 -2px @color-primary;
-    transition: width .6s ease, opacity @animation-speed-normal;
-    pointer-events: none;
-  }
-
-  .file[data-status="uploading"] .file-progress-bar {.opacity(1);}
-  .file[data-status="queue"] {background-color: @color-warning-pale;}
-  .file[data-status="failed"] {background-color: @color-danger-pale;}
-  .file[data-status="done"] {background-color: @color-white;}
 }
 
 
