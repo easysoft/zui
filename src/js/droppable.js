@@ -52,6 +52,7 @@
             flex           = setting.flex,
             container      = setting.container,
             $ele           = $root,
+            isMouseDown    = false,
             $container     = container ? $(setting.container).first() : (selector ? $root : $('body')),
             $targets,
             $target,
@@ -66,7 +67,9 @@
             mouseOffset,
             lastMouseOffset;
 
-        var mouseMove = function mouseMove(event) {
+        var mouseMove = function(event) {
+            if(!isMouseDown) return;
+
             mouseOffset = {left: event.pageX, top: event.pageY};
 
             // ignore small move
@@ -84,7 +87,7 @@
                     position:   'absolute',
                     width:      $ele.outerWidth(),
                     transition: 'none'
-                }).appendTo($container);
+                }).one(mouseDownEvent, mouseUp).appendTo($container);
                 $ele.addClass('dragging');
 
                 that.trigger('start', {
@@ -113,12 +116,12 @@
 
             var $newTarget = null;
             $targets.each(function() {
-                var t = $(this);
-                var tPos = t.offset();
-                var tW = t.outerWidth(),
-                    tH = t.outerHeight(),
-                    tX = tPos.left + setting.sensorOffsetX,
-                    tY = tPos.top + setting.sensorOffsetY;
+                var t    = $(this),
+                    tPos = t.offset(),
+                    tW   = t.outerWidth(),
+                    tH   = t.outerHeight(),
+                    tX   = tPos.left + setting.sensorOffsetX,
+                    tY   = tPos.top + setting.sensorOffsetY;
 
                 if(mouseOffset.left > tX && mouseOffset.top > tY && mouseOffset.left < (tX + tW) && mouseOffset.top < (tY + tH)) {
                     if($newTarget) $newTarget.removeClass('drop-to');
@@ -164,14 +167,18 @@
             event.preventDefault();
         };
 
-        var mouseUp = function mouseUp(event) {
+        var mouseUp = function(event) {
+            $(document).off(eventSuffix);
+            if(!isMouseDown) return;
+
+            isMouseDown = false;
+
             if(oldCssPosition) {
                 $container.css('position', oldCssPosition);
             }
 
             if($shadow === null) {
                 $ele.removeClass('drag-from');
-                $(document).off(eventSuffix);
                 that.trigger('always', {
                     event: event,
                     cancel: true
@@ -181,10 +188,10 @@
 
             if(!isIn) $target = null;
             var isSure = true;
-            mouseOffset = {
+            mouseOffset = event ? {
                 left: event.pageX,
                 top: event.pageY
-            };
+            } : lastMouseOffset;
             var offset = {
                 left: mouseOffset.left - clickOffset.left,
                 top: mouseOffset.top - clickOffset.top
@@ -218,15 +225,15 @@
                 that.trigger('drop', eventOptions);
             }
 
-            $(document).off(eventSuffix);
             $targets.removeClass('drop-to');
             $ele.removeClass('dragging').removeClass('drag-from');
             $shadow.remove();
+            $shadow = null;
 
             that.trigger('finish', eventOptions);
             that.trigger('always', eventOptions);
 
-            event.preventDefault();
+            if(event) event.preventDefault();
         };
 
         var mouseDown = function(event) {
@@ -242,6 +249,7 @@
                 }) === false) return;
             }
 
+            isMouseDown = true;
             $targets         = $.isFunction(setting.target) ? setting.target($root) : $container.find(setting.target),
             $target          = null,
             $shadow          = null,
@@ -258,7 +266,7 @@
             };
 
             $ele.addClass('drag-from');
-            $(document).on(mouseMoveEvent, mouseMove).on(mouseUpEvent, mouseUp);
+            $(document).on(mouseMoveEvent, mouseMove).one(mouseUpEvent, mouseUp);
             event.preventDefault();
         };
 
