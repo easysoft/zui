@@ -931,7 +931,7 @@
       "src": {
         "less": ["~/modules/kindeditor.less"],
         "js": ["assets/kindeditor/kindeditor-all.js"],
-        "resource": ["assets/kindeditor//themes/**/*", "assets/kindeditor//lang/**/*"]
+        "resource": ["assets/kindeditor//themes/**/*", "assets/kindeditor//lang/**/*", "assets/kindeditor//plugins.zip", "assets/kindeditor//README.md"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"],

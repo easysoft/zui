@@ -52,6 +52,11 @@ Kindeitor 是作为独立组件，你手动引入 JavaScript 文件到你的页�
 
 你不需要额外引入 CSS 文件，因为 Kindeitor 的主题样式文件是通过 JavaScript 加载的。
 
+<div class="alert alert-primary">
+  <h4>重要提示</h4>
+  <p>如果你需要使用 Kindeitor 的高级功能（例如表情、地图、图片上传等），你还需要将 `lib/kindeditor/plugins.zip` 文件在你的服务器上进行解压缩，确保 `kindeditor.min.js` 文件所在的目录下有 `plugins` 文件夹。</p>
+</div>
+
 ### 默认模式
 
 <example>
@@ -106,7 +111,7 @@ function afterPageLoad() {
         var K = window.KindEditor;
         if(K) {
             K.create('textarea.kindeditor', {
-                basePath: '/dist/lib/kindeditor/',
+                basePath: 'dist/lib/kindeditor/',
                 allowFileManager : true,
                 bodyClass : 'article-content'
             });
@@ -127,7 +132,7 @@ function afterPageLoad() {
         setTimeout($.doc.stopPageLoading, 500);
     };
 
-    $.getScript('/dist/lib/kindeditor/kindeditor.min.js', initKindeditor);
+    $.getScript('dist/lib/kindeditor/kindeditor.min.js', initKindeditor);
 
     $(document).on('click', '.ke-dialog-mask, .ke-dialog', function(e){
         e.stopPropagation();

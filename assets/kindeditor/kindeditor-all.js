@@ -5785,6 +5785,9 @@
         _loadScript(editor.langPath + editor.langType + '.js?ver=' + encodeURIComponent(K.DEBUG ? _TIME : _VERSION), function() {
             create(editor);
         });
+
+        // todo: Check plugins directory
+
         return editor;
     }
 
