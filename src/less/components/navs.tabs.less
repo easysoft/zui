@@ -60,6 +60,33 @@
 }
 
 
+// Stacked nav tabs
+
+.nav-tabs.nav-stacked {
+  border-right: 1px solid @nav-tabs-border-color;
+  border-bottom: none;
+
+  > li {
+    float: none;
+    margin-bottom: 0;
+    margin-right: -1px;
+
+    > a {
+      margin-right: 0;
+    }
+
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        border: 1px solid @nav-tabs-active-link-hover-border-color;
+        border-right-color: transparent;
+      }
+    }
+  }
+}
+
+
 // Justified nav tabs
 
 // Move borders to anchors instead of bottom of list

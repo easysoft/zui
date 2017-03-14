@@ -312,7 +312,7 @@ filter: daohang dh
 
 <div class="example">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <ul class="nav nav-primary nav-stacked">
         <li class="active">
           <a href="###">首页 </a>
@@ -342,7 +342,37 @@ filter: daohang dh
         </li>
       </ul>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+      <ul class="nav nav-stacked nav-tabs">
+        <li class="active">
+          <a href="###">首页 </a>
+        </li>
+        <li>
+          <a href="###">动态 <span class="label label-badge label-success pull-right">4</span></a>
+        </li>
+        <li>
+          <a href="###">项目 </a>
+        </li>
+        <li>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="">任务</a>
+            </li>
+            <li>
+              <a href="">Bug</a>
+            </li>
+            <li>
+              <a href="">需求</a>
+            </li>
+            <li>
+              <a href="">用例</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-3">
       <ul class="nav nav-secondary nav-stacked">
         <li class="active">
           <a href="###">首页 </a>
@@ -372,7 +402,7 @@ filter: daohang dh
         </li>
       </ul>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <ul class="nav nav-stacked nav-pills">
         <li class="active">
           <a href="###">首页 </a>
@@ -405,8 +435,32 @@ filter: daohang dh
   </div>
 </div>
 
-```
+```html
 <ul class="nav nav-primary nav-stacked">
+  <li class="active"><a href="your/noce/url">首页</a></li>
+  <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
+  ...
+</ul>
+```
+
+```html
+<ul class="nav nav-tabs nav-stacked">
+  <li class="active"><a href="your/noce/url">首页</a></li>
+  <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
+  ...
+</ul>
+```
+
+```html
+<ul class="nav nav-secondary nav-stacked">
+  <li class="active"><a href="your/noce/url">首页</a></li>
+  <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
+  ...
+</ul>
+```
+
+```html
+<ul class="nav nav-pills nav-stacked">
   <li class="active"><a href="your/noce/url">首页</a></li>
   <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
   ...
