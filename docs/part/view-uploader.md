@@ -1401,7 +1401,7 @@ $('#tableUploader').uploader({
 
 ### 默认处理方式
 
-通常当服务器对上传的文件的 HTTP 请求状态为 `200` 则视为文件上传成功，否则视为文件上传失败。如果需要返回更加详细的错误信息，可以返回 JSON 对象字符串。在 JSON 对象中设置 `result` 或 `status` 属性值为 `'ok'`、`'success'`、`200` 中的一个则视为文件上传失败，否则视为文件上传成功。
+通常当服务器对上传的文件的 HTTP 请求状态为 `200` 则视为文件上传成功，否则视为文件上传失败。如果需要返回更加详细的错误信息，可以返回 JSON 对象字符串。在 JSON 对象中设置 `result` 或 `status` 属性值为 `'ok'`、`'success'`、`200` 中的一个则视为文件上传成功，否则视为文件上传失败。
 
 当文件上传失败时，使用 `message` 属性返回一个错误消息在界面上显示来提示用户。下面为当文件上传失败时一个完整的 JSON 对象示例：
 
@@ -1502,6 +1502,7 @@ $('#myUploader').uploader({
 第一步：在页面引入七牛 [js-sdk](https://github.com/qiniu/js-sdk)：
 
 ```html
+<!-- 在 zui.js 和 uploader.js 加载之前引入七牛 js-sdk -->
 <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.min.js"></script>
 ```
 
