@@ -7,7 +7,7 @@
 
 (function($, window) {
     'use strict';
-    var name = 'zui.calendar';
+    var NAME = 'zui.calendar';
     var NUMBER_TYPE_NAME = 'number';
     var STRING_TYPE_NAME = 'string';
     var UNDEFINED_TYPE_NAME = 'undefined';
@@ -54,11 +54,11 @@
         };
 
     var Calendar = function(element, options) {
-        this.name = name;
+        this.name = NAME;
         this.$ = $(element);
-        this.id = this.$.attr('id') || (name + $.zui.uuid());
+        this.id = this.$.attr('id') || (NAME + $.zui.uuid());
         this.$.attr('id', this.id);
-        this.storeName = name + '.' + this.id;
+        this.storeName = NAME + '.' + this.id;
 
         this.getOptions(options);
         this.getLang();
@@ -154,8 +154,10 @@
         }
 
         events.sort(function(a, b) {
-            return a.start > b.start ? 1 : (a.start < b.start ? (-1) : 0);
+            return a.start < b.start ? 1 : (a.start > b.start ? (-1) : 0);
         });
+
+        this.events = events;
     };
 
     Calendar.prototype.bindEvents = function() {
@@ -430,13 +432,12 @@
         var that = this;
         date = date || that.date;
         var options = that.options,
-            self = that,
             lang = that.lang,
             i,
             $views = that.$views,
             $e = that.$;
 
-        var $view = self.$monthView;
+        var $view = that.$monthView;
         if(!$view.length) {
             $view = $('<div class="calendar-view month"><table class="table table-bordered"><thead><tr class="week-head"></tr></thead><tbody class="month-days"></tbody></table></div>');
 
@@ -457,7 +458,7 @@
             }
 
             $views.append($view);
-            self.$monthView = $view;
+            that.$monthView = $view;
         }
 
         var $weeks = $view.find('.week-days'),
@@ -562,13 +563,16 @@
         }
 
         if(options.dragThenDrop) {
-            if($.fn.droppable) {
-                $view.find('.event').droppable({
-                    target: $days,
-                    container: $view,
+            if(!$.fn.droppable) {
+                return console.error('Calendar dragThenDrop option requires droppable.js');
+            }
+            if(!$view.data('zui.droppable')) {
+                $view.droppable({
+                    target: '.day',
+                    selector: '.event',
                     flex: true,
                     start: function() {
-                        $e.addClass('event-dragging');
+                        that.$.addClass('event-dragging');
                     },
                     drop: function(e) {
                         var et = e.element.data('event'),
@@ -581,7 +585,7 @@
                             newDate.setMinutes(startDate.getMinutes());
                             newDate.setSeconds(startDate.getSeconds());
 
-                            if(self.callEvent('beforeChange', {
+                            if(that.callEvent('beforeChange', {
                                     event: et,
                                     change: 'start',
                                     to: newDate
@@ -593,8 +597,8 @@
 
                                 that.display();
 
-                                self.callEvent('change', {
-                                    data: self.data,
+                                that.callEvent('change', {
+                                    data: that.data,
                                     changes: [{
                                         event: et,
                                         changes: [{
@@ -612,11 +616,9 @@
                         }
                     },
                     finish: function() {
-                        $e.removeClass('event-dragging');
+                        that.$.removeClass('event-dragging');
                     }
                 });
-            } else {
-                console.error('Calendar dragThenDrop option requires droppable.js');
             }
         }
     };
@@ -667,17 +669,17 @@
     };
 
     Calendar.prototype.callEvent = function(name, params) {
-        var result = this.$.callEvent(name + '.' + this.name, params, this);
+        var result = this.$.callEvent(name + '.' + NAME, params, this);
         return !(result.result !== undefined && (!result.result));
     };
 
     $.fn.calendar = function(option) {
         return this.each(function() {
             var $this = $(this);
-            var data = $this.data(name);
+            var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data(name, (data = new Calendar(this, options)));
+            if(!data) $this.data(NAME, (data = new Calendar(this, options)));
 
             if(typeof option == STRING_TYPE_NAME) data[option]();
         });
