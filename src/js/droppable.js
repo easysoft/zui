@@ -65,7 +65,8 @@
             containerOffset,
             clickOffset,
             mouseOffset,
-            lastMouseOffset;
+            lastMouseOffset,
+            mouseDownBackEventCall;
 
         var mouseMove = function(event) {
             if(!isMouseDown) return;
@@ -87,7 +88,7 @@
                     position:   'absolute',
                     width:      $ele.outerWidth(),
                     transition: 'none'
-                }).one(mouseDownEvent, mouseUp).appendTo($container);
+                }).appendTo($container);
                 $ele.addClass('dragging');
 
                 that.trigger('start', {
@@ -169,6 +170,7 @@
 
         var mouseUp = function(event) {
             $(document).off(eventSuffix);
+            clearTimeout(mouseDownBackEventCall);
             if(!isMouseDown) return;
 
             isMouseDown = false;
@@ -242,6 +244,10 @@
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
             }
 
+            if($ele.hasClass('drag-shadow')) {
+                return;
+            }
+
             if(setting['before']) {
                 if(setting['before']({
                     event: event,
@@ -266,7 +272,10 @@
             };
 
             $ele.addClass('drag-from');
-            $(document).on(mouseMoveEvent, mouseMove).one(mouseUpEvent, mouseUp);
+            $(document).on(mouseMoveEvent, mouseMove).on(mouseUpEvent, mouseUp);
+            mouseDownBackEventCall = setTimeout(function() {
+                $(document).on(mouseDownEvent, mouseUp);
+            }, 10);
             event.preventDefault();
         };
 
