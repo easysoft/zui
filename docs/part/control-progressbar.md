@@ -182,6 +182,11 @@ filter: jindutiao jdt
 </div>
 ```
 
+<div class="alert">
+  <h4>提示</h4>
+  <p>本页面内的鼠标悬停在进度条上导致进度随机变化的动态效果仅仅作为演示，实际使用时你需要自己来设定或在适当实际更改要显示的进度。</p>
+</div>
+
 <script>
 function afterPageLoad() {
     var changeProgressBar = function() {
