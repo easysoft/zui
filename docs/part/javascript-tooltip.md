@@ -21,7 +21,7 @@ filter: tishixiaoxi tsxx
 <a href="#" data-toggle="tooltip" title="英语：Cascading Style Sheets，简写CSS">层叠样式表</a>
 ```
 
-```javascript
+```js
 // 你需要手动初始化工具提示
 $('[data-toggle="tooltip"]').tooltip();
 ```
@@ -34,13 +34,78 @@ $('[data-toggle="tooltip"]').tooltip();
 </div>
 
 
-## 不同方向的提示
-
-<div class="example tooltip-demo">
-  <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="左侧提示内容">左侧提示</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="上方提示内容">上方提示</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="下方提示内容">下方提示</button> <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="" data-original-title="右侧提示内容">右侧提示</button>
-</div>
+## 弹出方向
 
 使用 `placement` 选项来指定工具提示相对于元素显示的位置。
+
+<div class="example tooltip-demo">
+  <button type="button" class="btn" data-toggle="tooltip" data-placement="left" title="左侧提示内容">左侧提示</button>
+  <button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="上方提示内容">上方提示</button>
+  <button type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="下方提示内容">下方提示</button>
+  <button type="button" class="btn" data-toggle="tooltip" data-placement="right" title="右侧提示内容">右侧提示</button>
+</div>
+
+```html
+<button type="button" class="btn" data-toggle="tooltip" data-placement="left" title="左侧提示内容">左侧提示</button>
+```
+
+```html
+<button type="button" class="btn" data-toggle="tooltip" data-placement="top" title="上方提示内容">上方提示</button>
+```
+
+```html
+<button type="button" class="btn" data-toggle="tooltip" data-placement="bottom" title="下方提示内容">下方提示</button>
+```
+
+```html
+<button type="button" class="btn" data-toggle="tooltip" data-placement="right" title="右侧提示内容">右侧提示</button>
+```
+
+```js
+// 或者在初始化时指定
+$('[data-toggle="tooltip"]').tooltip({
+    placement: 'bottom'
+});
+```
+
+## 外观
+
+使用 `tipClass` 指定外观类名来更改颜色主题。
+
+<div class="example tooltip-demo">
+  <a class="text-primary" data-toggle="tooltip" data-tip-class="tooltip-primary" title="tooltip-primary">.tooltip-primary</a> &nbsp; 
+  <a class="text-success" data-toggle="tooltip" data-tip-class="tooltip-success" title="tooltip-success">.tooltip-success</a> &nbsp; 
+  <a class="text-info" data-toggle="tooltip" data-tip-class="tooltip-info" title="tooltip-info">.tooltip-info</a> &nbsp; 
+  <a class="text-warning" data-toggle="tooltip" data-tip-class="tooltip-warning" title="tooltip-warning">.tooltip-warning</a> &nbsp; 
+  <a class="text-danger" data-toggle="tooltip" data-tip-class="tooltip-danger" title="tooltip-danger">.tooltip-danger</a> &nbsp; 
+</div>
+
+```html
+<a data-toggle="tooltip" data-tip-class="tooltip-primary" title="tooltip-primary">.tooltip-primary</a>
+```
+
+```html
+<a data-toggle="tooltip" data-tip-class="tooltip-success" title="tooltip-success">.tooltip-success</a>
+```
+
+```html
+<a data-toggle="tooltip" data-tip-class="tooltip-info" title="tooltip-info">.tooltip-info</a>
+```
+
+```html
+<a data-toggle="tooltip" data-tip-class="tooltip-warning" title="tooltip-warning">.tooltip-warning</a>
+```
+
+```html
+<a data-toggle="tooltip" data-tip-class="tooltip-danger" title="" data-original-title="tooltip-danger">.tooltip-danger</a>
+```
+
+```js
+// 或者在初始化时指定
+$('[data-toggle="tooltip"]').tooltip({
+    tipClass: 'tooltip-success'
+});
+```
 
 ## 选项
 
@@ -115,6 +180,18 @@ $('[data-toggle="tooltip"]').tooltip();
       <td>`'hover focus'`</td>
       <td>指定哪些事件会触发显示提示消息，多个事件用空格隔开，可选值包括：`'click'`、`'hover'`、`'focus'`、`'manual'`。</td>
     </tr>
+    <tr>
+      <td>`tipId`</td>
+      <td>字符串</td>
+      <td>`''`</td>
+      <td>当工具提示显示时为动态创建的 `.tooltip` 元素指定一个 ID 属性。</td>
+    </tr>
+    <tr>
+      <td>`tipClass`</td>
+      <td>字符串</td>
+      <td>`''`</td>
+      <td>当工具提示显示时为动态创建的 `.tooltip` 元素指定一个 CLASS 属性，多个 CLASS 使用空格分隔。</td>
+    </tr>
   </tbody>
 </table>
 
@@ -130,6 +207,14 @@ $('[data-toggle="tooltip"]').tooltip();
 
 ```javascript
 $('#element').tooltip('show');
+```
+
+### <span class="code">.tooltip('show', content)</span>
+
+展示工具提示并指定要显示的文本内容。
+
+```javascript
+$('#element').tooltip('show', '这是新的工具提示内容');
 ```
 
 ### <span class="code">.tooltip('hide')</span>
@@ -195,6 +280,6 @@ $('[data-toggle="tooltip"]').on('show.zui.tooltip', function() {
 
 <script>
 function afterPageLoad() {
-    $('#pageContent [data-toggle="tooltip"]').tooltip();
+    $('#pageContent [data-toggle="tooltip"]').tooltip().tooltip('show');
 }
 </script>

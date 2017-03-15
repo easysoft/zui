@@ -128,10 +128,13 @@ filter: tanchumianban tcmb
 ```
 
 ```javascript
+// 你需要手动进行初始化
 $('[data-toggle="popover"]').popover();
 ```
 
-### 在不同方向弹出
+## 弹出方向
+
+使用 `placement` 选项来指定相对于元素显示的位置。
 
 <div class="example text-center">
   <button type="button" class="btn" data-toggle="popover" data-placement="left" data-content="千山鸟飞绝，万径人踪灭。" title="江雪">从左侧弹出</button>
@@ -156,8 +159,49 @@ $('[data-toggle="popover"]').popover();
 <button type="button" class="btn" data-toggle="popover" data-placement="right" data-content="千山鸟飞绝，万径人踪灭。" title="江雪">从右侧弹出</button>
 ```
 
-```javascript
-$('[data-toggle="popover"]').popover();
+```js
+// 或者在初始化时指定弹出方向
+$('[data-toggle="popover"]').popover({
+    placement: 'bottom'
+});
+```
+
+## 外观
+
+使用 `tipClass` 指定外观类名来更改颜色主题。
+
+<div class="example text-center">
+  <button type="button" class="btn btn-primary" data-toggle="popover" data-tip-class="popover-primary" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="left">.popover-primary</button>
+  <button type="button" class="btn btn-success" data-toggle="popover" data-tip-class="popover-success" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="top">.popover-success</button>
+  <button type="button" class="btn btn-info" data-toggle="popover" data-tip-class="popover-info" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="bottom">.popover-info</button>
+  <button type="button" class="btn btn-warning" data-toggle="popover" data-tip-class="popover-warning" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="top">.popover-warning</button>
+  <button type="button" class="btn btn-danger" data-toggle="popover" data-tip-class="popover-danger" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="right">.popover-danger</button>
+</div>
+
+```html
+<button type="button" class="btn btn-primary" data-toggle="popover" data-tip-class="popover-primary" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="left">.popover-primary</button>
+```
+
+```html
+<button type="button" class="btn btn-success" data-toggle="popover" data-tip-class="popover-success" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="top">.popover-success</button>
+```
+
+```html
+<button type="button" class="btn btn-info" data-toggle="popover" data-tip-class="popover-info" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="bottom">.popover-info</button>
+```
+
+```html
+<button type="button" class="btn btn-warning" data-toggle="popover" data-tip-class="popover-warning" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="top">.popover-warning</button>
+```
+
+```html
+<button type="button" class="btn btn-danger" data-toggle="popover" data-tip-class="popover-danger" data-content="千山鸟飞绝，万径人踪灭。" title="江雪" data-placement="right">.popover-danger</button>
+```
+```js
+// 或者在初始化时指定外观选项
+$('[data-toggle="popover"]').popover({
+    tipClass: 'danger'
+});
 ```
 
 ## 用法
@@ -255,7 +299,7 @@ $('[data-toggle="popover"]').popover();
       <td>`tipId`</td>
       <td>字符串</td>
       <td>`''`</td>
-      <td>为动态生成的 `.popover` 元素设置 `[id]` 属性。</td>
+      <td>为动态生成的 `.popover` 元素设置 ID 属性。</td>
     </tr>
   </tbody>
 </table>
