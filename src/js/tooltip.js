@@ -30,15 +30,15 @@
     // ===============================
 
     var Tooltip = function(element, options) {
-        this.type =
-            this.options =
-            this.enabled =
-            this.timeout =
-            this.hoverState =
-            this.$element = null
+        this.type = null
+        this.options = null
+        this.enabled = null
+        this.timeout = null
+        this.hoverState = null
+        this.$element = null
 
         this.init('tooltip', element, options)
-    }
+    } 
 
     Tooltip.DEFAULTS = {
         animation: true,
@@ -144,19 +144,20 @@
         var e = $.Event('show.zui.' + this.type)
 
         if((content || this.hasContent()) && this.enabled) {
-            this.$element.trigger(e)
+            var that = this
+            that.$element.trigger(e)
 
             if(e.isDefaultPrevented()) return
 
-            var $tip = this.tip()
+            var $tip = that.tip()
 
-            this.setContent(content)
+            that.setContent(content)
 
-            if(this.options.animation) $tip.addClass('fade')
+            if(that.options.animation) $tip.addClass('fade')
 
-            var placement = typeof this.options.placement == 'function' ?
-                this.options.placement.call(this, $tip[0], this.$element[0]) :
-                this.options.placement
+            var placement = typeof that.options.placement == 'function' ?
+                that.options.placement.call(that, $tip[0], that.$element[0]) :
+                that.options.placement
 
             var autoToken = /\s?auto?\s?/i
             var autoPlace = autoToken.test(placement)
@@ -171,20 +172,20 @@
                 })
                 .addClass(placement)
 
-            this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+            that.options.container ? $tip.appendTo(that.options.container) : $tip.insertAfter(that.$element)
 
-            var pos = this.getPosition()
+            var pos = that.getPosition()
             var actualWidth = $tip[0].offsetWidth
             var actualHeight = $tip[0].offsetHeight
 
             if(autoPlace) {
-                var $parent = this.$element.parent()
+                var $parent = that.$element.parent()
 
                 var orgPlacement = placement
                 var docScroll = document.documentElement.scrollTop || document.body.scrollTop
-                var parentWidth = this.options.container == 'body' ? window.innerWidth : $parent.outerWidth()
-                var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
-                var parentLeft = this.options.container == 'body' ? 0 : $parent.offset().left
+                var parentWidth = that.options.container == 'body' ? window.innerWidth : $parent.outerWidth()
+                var parentHeight = that.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
+                var parentLeft = that.options.container == 'body' ? 0 : $parent.offset().left
 
                 placement = placement == 'bottom' && pos.top + pos.height + actualHeight - docScroll > parentHeight ? 'top' :
                     placement == 'top' && pos.top - docScroll - actualHeight < 0 ? 'bottom' :
@@ -197,10 +198,22 @@
                     .addClass(placement)
             }
 
-            var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
+            var calculatedOffset = that.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
 
-            this.applyPlacement(calculatedOffset, placement)
-            this.$element.trigger('shown.zui.' + this.type)
+            that.applyPlacement(calculatedOffset, placement)
+            var complete = function () {
+                var prevHoverState = that.hoverState
+                that.$element.trigger('shown.bs.' + that.type)
+                that.hoverState = null
+
+                if (prevHoverState == 'out') that.leave(that)
+            }
+
+            $.support.transition && that.$tip.hasClass('fade') ?
+                $tip
+                  .one('bsTransitionEnd', complete)
+                  .emulateTransitionEnd(150) :
+                complete()
         }
     }
 
