@@ -105,11 +105,65 @@ filter: biaoqianye bqy
 </div>
 ```
 
+## 垂直标签页
+
+使用 `.nav-tabs.nav-stacked` 获得垂直排列的标签导航，使用 [栅格](#basic/grid) 来使得导航和标签页内容水平排列。
+
+<example class="example-tabs-with-nav">
+  <div class="row">
+    <div class="col-xs-3">
+      <ul class="nav nav-tabs nav-stacked">
+        <li class="active"><a href="###" data-target="#tab3Content1" data-toggle="tab">标签1</a></li>
+        <li><a href="###" data-target="#tab3Content2" data-toggle="tab">标签2</a></li>
+        <li><a href="###" data-target="#tab3Content3" data-toggle="tab">标签3</a></li>
+      </ul>
+    </div>
+    <div class="col-xs-9">
+      <div class="tab-content col-xs-9">
+        <div class="tab-pane fade active in" id="tab3Content1">
+          <p>我是标签1。</p>
+        </div>
+        <div class="tab-pane fade" id="tab3Content2">
+          <p>标签2的内容。</p>
+        </div>
+        <div class="tab-pane fade" id="tab3Content3">
+          <p>这是标签3的内容。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</example>
+
+```html
+<div class="row">
+  <div class="col-xs-3">
+    <ul class="nav nav-tabs nav-stacked">
+      <li class="active"><a href="###" data-target="#tab3Content1" data-toggle="tab">标签1</a></li>
+      <li><a href="###" data-target="#tab3Content2" data-toggle="tab">标签2</a></li>
+      <li><a href="###" data-target="#tab3Content3" data-toggle="tab">标签3</a></li>
+    </ul>
+  </div>
+  <div class="col-xs-9">
+    <div class="tab-content col-xs-9">
+      <div class="tab-pane fade active in" id="tab3Content1">
+        <p>我是标签1。</p>
+      </div>
+      <div class="tab-pane fade" id="tab3Content2">
+        <p>标签2的内容。</p>
+      </div>
+      <div class="tab-pane fade" id="tab3Content3">
+        <p>这是标签3的内容。</p>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
 ## 方法
 
 ### 显示标签页内容
 
- - $().tab('show')
+ - `$().tab('show')`
 
 用于手动显示当前元素指示的标签页内容。
 
