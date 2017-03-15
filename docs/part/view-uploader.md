@@ -108,8 +108,8 @@ $('#uploaderExample').uploader({
 文件上传为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
 
 ```html
-<link href="lib/uploader/uploader.min.css" rel="stylesheet">
-<script src="lib/uploader/uploader.min.js"></script>
+<link href="lib/uploader/zui.uploader.min.css" rel="stylesheet">
+<script src="lib/uploader/zui.uploader.min.js"></script>
 ```
 
 ### 初始化 uploader

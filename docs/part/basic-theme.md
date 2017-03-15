@@ -39,11 +39,11 @@ ZUI外观风格力求简洁悦目，不过你可能仍然需要进行个性化�
   </div>
 </div>
 
-## 重新编译ZUI
+## 重新编译 ZUI
 
 你可以通过重新编译ZUI来更改ZUI组件的外观。
 
-### ZUI外观配置文件
+### ZUI 配置文件
 
 外观配置文件存放在`src/less/basic/variables.less`。
 
@@ -55,7 +55,7 @@ ZUI外观风格力求简洁悦目，不过你可能仍然需要进行个性化�
 
 此文件中的配置会覆盖`src/less/basic/variables.less`中官方设置。
 
-### 编译Less
+### 编译 Less
 
 使用`gulp dist`命令来编译ZUI，编译后的CSS样式表存放在`dist/css/`目录下。
 

@@ -19,6 +19,17 @@ filter: shujubiaoge sjbg
 
 ## 简单应用
 
+### 引入资源
+
+数据表格为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/datatable/zui.datatable.min.css" rel="stylesheet">
+<script src="lib/datatable/zui.datatable.min.js"></script>
+```
+
+### 例子
+
 在下面的例子中，表格左侧5列和右侧两列分别固定在两侧，其宽度不受外部容器宽度影响，中间位置的列则在宽度不够时会隐藏超出的部分，隐藏的列可以通过拖拽表头移动到可视区域，也可以使用下方的滚动条来调整隐藏的列显示区域。当向下滚动页面时，如果表头一旦处于不可见的位置时，则表头会调整样式而固定在页面顶端保持一直可见。
 
 <div class="example">
@@ -135,7 +146,7 @@ $('table.datatable').datatable({checkable: true, sortable: true});
       <td>`fixedHeader`</td>
       <td>*   `false` (默认)
 *   `true`</td>
-      <td>是否固定表格头部，如果启用当页面滚动到下方导致表头不可见时重新定位表头到页面顶部保持可见</td>
+      <td>是否固定表格头部，如果启用当页面滚动到下方导致表头不可见时重新定位表头到页面顶部保持可见。<span class="text-warning">固定头部是相对页面 `<body>` 元素，如果数据表格已经在一个已被固定的元素中，此功能可能无法生效。</span></td>
     </tr>
     <tr>
       <td>`fixedHeaderOffset`</td>
