@@ -584,6 +584,22 @@
                 }],
                 "filter": "duoxuanhedanxuankuang dxhdx radio"
             }, {
+                "desc": "使用复选框实现的开关控件",
+                "icon": "icon-toggle-on",
+                "id": "switch",
+                "name": "开关",
+                "version": "1.6.0",
+                "topics": [{
+                    "name": "普通示例"
+                }, {
+                    "name": "对齐"
+                }, {
+                    "name": "内联样式"
+                }, {
+                    "name": "禁用"
+                }],
+                "filter": "kaiguan kg checkbox toggle"
+            }, {
                 "desc": "面包屑导航",
                 "icon": "icon-map-marker",
                 "id": "breadcrumb",

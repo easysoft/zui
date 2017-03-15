@@ -547,6 +547,14 @@
       "name": "表单",
       "dpds": ["forms.basic", "forms.condensed"]
     },
+    "switch": {
+      "name": "开关",
+      "ver": "1.6.0",
+      "src": {
+        "less": ["~/controls/switch.less"]
+      },
+      "dpds": ["basic"]
+    },
     "code": {
       "name": "代码",
       "src": {
@@ -1248,7 +1256,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "forms", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "article", "comment", "list", "card", "color", "tree"]
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "forms", "switch", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "article", "comment", "list", "card", "color", "tree"]
     },
     "lite": {
       "title": "Lite edition",
@@ -1287,7 +1295,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree", "chosenicons", "colorpicker", "selectable"]
+      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "switch", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree", "chosenicons", "colorpicker", "selectable"]
     },
     "doc": {
       "title": "Document",
