@@ -294,7 +294,7 @@ $('#myCollapseContent').collapse('show')
   </tbody>
 </table>
 
-```
+```js
 $('#myCollapseContent').on('hidden.zui.collapse', function () {
     console.log('折叠内容已隐藏。');
 })

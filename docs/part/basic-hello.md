@@ -11,7 +11,7 @@ filter: helloworld helloworld
 
 下面给出一个非常简单的Hello world页面。
 
-```
+```html
 <!DOCTYPE html>
 <html lang="zh-cn">
   <head>

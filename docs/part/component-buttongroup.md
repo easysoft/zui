@@ -21,7 +21,7 @@ filter: anniuzu anz
   </div>
 </div>
 
-```
+```html
 <div class="btn-group">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
@@ -270,7 +270,7 @@ filter: anniuzu anz
   </div>
 </div>
 
-```
+```html
 <div class="btn-group">
   <button type="button" class="btn">Normal</button>
   <button type="button" class="btn btn-primary">.btn-primary</button>

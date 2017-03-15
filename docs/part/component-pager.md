@@ -52,7 +52,7 @@ filter: fenyetiao fyt
   </ul>
 </div>
 
-```
+```html
 <ul class="pager">
   <li class="previous"><a href="your/nice/url">«</a></li>
   <li><a href="your/nice/url">1</a></li>
@@ -98,7 +98,7 @@ filter: fenyetiao fyt
   <br>
 </div>
 
-```
+```html
 <ul class="pager">
   <li class="previous disabled">
     <a href="your/nice/url">«</a>
@@ -145,7 +145,7 @@ filter: fenyetiao fyt
   <br>
 </div>
 
-```
+```html
 <ul class="pager pager-pills">
   ...
 </ul>
@@ -214,7 +214,7 @@ filter: fenyetiao fyt
   </ul>
 </div>
 
-```
+```html
 <ul class="pager pager-loose">
   ...
 </ul>
@@ -243,7 +243,7 @@ filter: fenyetiao fyt
   </ul>
 </div>
 
-```
+```html
 <ul class="pager pager-justify">
   ...
 </ul>

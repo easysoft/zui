@@ -113,7 +113,7 @@ ZUI提供`$.zui.browser.tip()`方法在页面顶部显示一条友好的信息�
   <button type="button" class="btn show-low-version-tip" data-content="哇~~~你的浏览器版本太低了，快快升级吧！">自定义的提示信息</button>
 </div>
 
-```
+```js
 // 显示低版本提示信息
 $.zui.browser.tip();
 

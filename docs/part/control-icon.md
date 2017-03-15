@@ -61,7 +61,7 @@ ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入�
 
 使用一个单独的`<span>`标签或者`<i>`并增加对应的CSS类名即可，用来作为图标的标签不需要包含任何文本也不应该如此。
 
-```
+```html
 <i class="icon icon-star"></i>
 ```
 
@@ -105,7 +105,7 @@ ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入�
   </div>
 </example>
 
-```
+```html
 <ul>
   <li><i class="icon-flag"></i> 普通图标</li>
   <li><i class="icon-heart"></i> icon-heart</li>
@@ -203,27 +203,27 @@ ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入�
   <i class="icon icon-spin icon-spinner"></i>
 </div>
 
-```
+```html
 <i class="icon icon-spin icon-spinner-snake"></i>
 ```
 
-```
+```html
 <i class="icon icon-spin icon-spinner-indicator"></i>
 ```
 
-```
+```html
 <i class="icon icon-spin icon-circle-o-notch"></i>
 ```
 
-```
+```html
 <i class="icon icon-spin icon-cog"></i>
 ```
 
-```
+```html
 <i class="icon icon-spin icon-refresh"></i>
 ```
 
-```
+```html
 <i class="icon icon-spin icon-spinner"></i>
 ```
 

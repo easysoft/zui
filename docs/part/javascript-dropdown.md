@@ -69,7 +69,7 @@ filter: xialacaidan xlcd
   </div>
 </example>
 
-```
+```html
 <!-- 按钮组 -->
 <div class="btn-group">
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">

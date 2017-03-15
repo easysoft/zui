@@ -182,7 +182,7 @@ filter: biaodan bd
   </form>
 </example>
 
-```
+```html
 <form class="form-inline">
   <div class="form-group">
     <label for="exampleInputEmail3">邮箱</label>
@@ -247,7 +247,7 @@ filter: biaodan bd
   </form>
 </example>
 
-```
+```html
 <form>
   ...
   <div class="checkbox">

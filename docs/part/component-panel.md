@@ -15,7 +15,7 @@ filter: mianban mb
   </div>
 </div>
 
-```
+```html
 <div class="panel">
   <div class="panel-body">
     ...
@@ -32,7 +32,7 @@ filter: mianban mb
   </div>
 </div>
 
-```
+```html
 <div class="panel">
   <div class="panel-heading">
     ...
@@ -52,7 +52,7 @@ filter: mianban mb
   </div>
 </div>
 
-```
+```html
 <div class="panel">
   <div class="panel-body">
     ...
@@ -88,31 +88,31 @@ filter: mianban mb
   </div>
 </div>
 
-```
+```html
 <div class="panel panel-primary">
   ...
 </div>
 ```
 
-```
+```html
 <div class="panel panel-success">
   ...
 </div>
 ```
 
-```
+```html
 <div class="panel panel-warning">
   ...
 </div>
 ```
 
-```
+```html
 <div class="panel panel-danger">
   ...
 </div>
 ```
 
-```
+```html
 <div class="panel panel-info">
   ...
 </div>
@@ -156,7 +156,7 @@ filter: mianban mb
   </div>
 </div>
 
-```
+```html
 <div class="panel">
   <div class="panel-heading">
     ...
@@ -182,7 +182,7 @@ filter: mianban mb
   </div>
 </div>
 
-```
+```html
 <div class="panel">
   <div class="panel-heading">
     ...
@@ -215,7 +215,7 @@ filter: mianban mb
   </div>
 </div>
 
-```
+```html
 <div class="panel-group">
   <div class="panel">
     ...

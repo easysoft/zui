@@ -52,7 +52,7 @@ filter: daohangtiao dht
   </nav>
 </example>
 
-```
+```html
 <nav class="navbar" role="navigation">
   <div class="container-fluid">
     <!-- 导航头部 -->
@@ -180,7 +180,7 @@ filter: daohangtiao dht
   </nav>
 </example>
 
-```
+```html
 <nav class="navbar navbar-inverse" role="navigation">
   ...
 </nav>

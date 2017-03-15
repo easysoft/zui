@@ -95,7 +95,7 @@ filter: shuxingcaidan sxcd shuxcd
   </ul>
 </div>
 
-```
+```html
 <ul class="tree" data-ride="tree">
   <li>
     <a href="#">水果</a>
@@ -179,7 +179,7 @@ filter: shuxingcaidan sxcd shuxcd
   </ul>
 </div>
 
-```
+```html
 <ul class="tree tree-lines" data-ride="tree">
   ...
 </ul>
@@ -248,7 +248,7 @@ filter: shuxingcaidan sxcd shuxcd
   </ul>
 </div>
 
-```
+```html
 <ul class="tree tree-lines" data-ride="tree">
   ...
 </ul>
@@ -256,8 +256,8 @@ filter: shuxingcaidan sxcd shuxcd
 
 #### 使用CSS来自定义图标
 
-```
-.tree-custom-icons > li > .list-toggle:before {content: '\e6dd'}
+```css
+tree-custom-icons > li > .list-toggle:before {content: '\e6dd'}
 .tree-custom-icons > li.open > .list-toggle:before {content: '\e6df'}
 ```
 
@@ -317,7 +317,7 @@ filter: shuxingcaidan sxcd shuxcd
   </ul>
 </div>
 
-```
+```html
 <ul class="tree tree-lines" data-animate="true" data-ride="tree">
   ...
 </ul>
@@ -332,7 +332,7 @@ filter: shuxingcaidan sxcd shuxcd
 *   为`ul.tree`结构添加`data-ride="tree"`属性，则会在文档加载完毕之后自动初始化树形菜单;
 *   使用jQuery方法手动初始化树形菜单。
 
-```
+```js
 $('#tree').tree(options);
 ```
 
@@ -406,7 +406,7 @@ $('#tree').tree(options);
 *   `params`：一个jQuery`<li>`对象，指定需要展开的节点，当不使用此参数时则展开所有节点；
 *   `disabledAnimate`：是否禁用动画，默认 `false`；
 
-```
+```js
 // 使用 tree 实例
 var myTree = $('#tree').data('zui.tree');
 myTree.expand(params);
@@ -428,7 +428,7 @@ $('#tree').tree('expand', params);
 *   `params`：一个jQuery`<li>`对象，指定需要折叠的节点，当不使用此参数时则折叠所有节点；
 *   `disabledAnimate`：是否禁用动画，默认 `false`；
 
-```
+```js
 // 使用 tree 实例
 var myTree = $('#tree').data('zui.tree');
 myTree.collapse(params);
@@ -452,7 +452,7 @@ $('#tree').tree('collapse', params);
 *   `params`：一个jQuery`<li>`对象，指定需要切换的节点，当不使用此参数时则切换所有节点；
 *   `disabledAnimate`：是否禁用动画，默认 `false`；
 
-```
+```js
 // 使用 tree 实例
 var myTree = $('#tree').data('zui.tree');
 myTree.toggle(params);
@@ -476,7 +476,7 @@ $('#tree').tree('toggle', params);
 *   `params`：一个jQuery`<li>`对象，指定需要展示的节点，当不使用此参数时则展示所有节点；
 *   `disabledAnimate`：是否禁用动画，默认 `false`；
 
-```
+```js
 // 使用 tree 实例
 var myTree = $('#tree').data('zui.tree');
 myTree.show(params);
@@ -500,7 +500,7 @@ $('#tree').tree('show', params);
 *   `expand`，插入后是否立即展开；
 *   `disabledAnimate`：插入后如果需要立即展开是否禁用动画效果。
 
-```
+```js
 // 获取 tree 实例
 var myTree = $('#myTree').data('zui.tree');
 
@@ -525,7 +525,7 @@ myTree.add('#myTree', newItems);
 *   **$ul**：指定树种需要导出数据的 `<ul>` 节点。默认为树的根节点，及导出整个树的所有节点数据。
 *   **filter**：指定一个回调函数用于转换数据为合适的格式。该回调函数包括两个参数：`item`，正在导出的节点数据；`$li`，正在导出的 `<li>` 节点对象；必须在此回调函数中返回一个 JavaScript 对象。
 
-```
+```js
 // 获取 tree 实例
 var myTree = $('#myTree').data('zui.tree');
 
@@ -564,7 +564,7 @@ var myTreeData = myTree.toData(function(item, $li) {
 
 #### 监听事件
 
-```
+```js
 // 通过jQuery方法绑定事件
 $('#tree').on('expand.zui.tree', function(){...});
 
@@ -648,12 +648,12 @@ function afterPageLoad() {
 
 以下代码演示了使用数据来初始化一个空的 `<ul class="tree">`：
 
-```
+```html
 <!-- 创建一个空的树，需要包含 .tree CLASS -->
 <ul class="tree" id="myTree"></ul>
 ```
 
-```
+```js
 var myTreeData = [{
     title: '水果',
     url: 'http://zui.sexy',
@@ -685,7 +685,7 @@ $('#myTree').tree({data: myTreeData});
 
 当树初始化之后，仍然可以使用 `reload(data)` 方法来动态更新数据。
 
-```
+```js
 // 获取 tree 实例
 var myTree = $('#myTree').data('zui.tree');
 
@@ -709,7 +709,7 @@ myTree.reload(myNewTreeData);
 
 通过在节点构造器回调函数中直接操作节点实例来构造节点：
 
-```
+```js
 // 初始化选项中定义构造器回调函数
 $('#myTree').tree({
     data: [...],
@@ -725,7 +725,7 @@ $('#myTree').tree({
 
 直接使用 jQuery 选择需要移除的节点，调用 jQuery 实例上的 `remove()` 或 `empty()` 方法。
 
-```
+```js
 // 移除其中一个节点
 $('#myTree li[data-id="myTreeNodeId"]').remove();
 

@@ -209,7 +209,7 @@ filter: wenbenkuang wbk input file textarea wj wenjian
   </div>
 </div>
 
-```
+```html
 <div class="row">
   <div class="col-xs-3">
     <input type="text" class="form-control" placeholder=".col-xs-2">

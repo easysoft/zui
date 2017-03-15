@@ -74,6 +74,8 @@ filter: tuofang tf
 }
 </style>
 
+<template class="pre-scrollable"/>
+
 ```html
 <div class="row" id="droppableContainer">
   <div class="col-sm-3">

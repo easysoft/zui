@@ -33,7 +33,7 @@ filter: dhk mtk duihuakuang motaikuang
   </div>
 </div>
 
-```
+```html
 <div class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -61,7 +61,7 @@ filter: dhk mtk duihuakuang motaikuang
   <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal">启动对话框</button>
 </div>
 
-```
+```html
 <!-- 对话框触发按钮 -->
 <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal">启动对话框</button>
 
@@ -86,7 +86,7 @@ filter: dhk mtk duihuakuang motaikuang
   <button type="button" class="btn btn-primary" data-position="100px" data-toggle="modal" data-target="#myModal">距离上方100px</button>
 </div>
 
-```
+```html
 <button type="button" class="btn" data-position="fit" data-toggle="modal" data-target="#myModal">默认位置</button>
 <button type="button" class="btn" data-position="center" data-toggle="modal" data-target="#myModal">窗口中间</button>
 <button type="button" class="btn" data-position="0" data-toggle="modal" data-target="#myModal">靠近上方</button>
@@ -107,7 +107,7 @@ filter: dhk mtk duihuakuang motaikuang
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myFullscreenModal">全屏对话框</button>
 </div>
 
-```
+```html
 <!-- 大对话框 -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myLgModal">大对话框</button>
 
@@ -141,7 +141,7 @@ filter: dhk mtk duihuakuang motaikuang
   <button type="button" class="btn btn-primary" data-moveable="true" data-remember-pos="false" data-toggle="modal" data-target="#moveableModal" data-position="center"><i class="icon icon-move"></i> 打开我 拖动我</button>
 </div>
 
-```
+```html
 <button type="button" class="btn" data-moveable="true" data-toggle="modal" data-target="#myModal">默认位置</button>
 ```
 
@@ -163,19 +163,18 @@ filter: dhk mtk duihuakuang motaikuang
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fastModal">立即展现</button>
 </div>
 
-```
+```html
 <!-- 禁用动画效果的对话框 -->
 <div class="modal">
 ...
 </div>
-
 ```
 
 ## 关闭对话框
 
 在静态对话框HTML中增加一个按钮并添加data属性`data-dismiss="modal"`，这样当点击该按钮时会关闭此对话框。你可以将该属性添加至对话框内的任何元素。
 
-```
+```html
 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
 ```
 
@@ -191,7 +190,7 @@ filter: dhk mtk duihuakuang motaikuang
 
 使用data属性也可以来为对话框提供其他参数。
 
-```
+```html
 <!-- 使用按钮 -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">启动对话框</button>
 
@@ -203,7 +202,7 @@ filter: dhk mtk duihuakuang motaikuang
 
 不使用按钮或链接来触发对话框也可以使用Javascript来手动触发。
 
-```
+```js
 $('#myModal').modal(options)
 ```
 
@@ -285,7 +284,7 @@ $('#myModal').modal(options)
 
 使用参数对象来初始化对话框。
 
-```
+```js
 $('#myModal').modal({
     keyboard : false,
     show     : true
@@ -296,7 +295,7 @@ $('#myModal').modal({
 
 手动显示或隐藏对话框。`position`参数为可选的，用来指定显示的位置。
 
-```
+```js
 $('#myModal').modal('toggle', 'center')
 ```
 
@@ -304,7 +303,7 @@ $('#myModal').modal('toggle', 'center')
 
 手动显示对话框。`position`参数为可选的，用来指定显示的位置。
 
-```
+```js
 $('#myModal').modal('show', 'fit')
 ```
 
@@ -312,7 +311,7 @@ $('#myModal').modal('show', 'fit')
 
 手动隐藏对话框。`position`参数为可选的，用来指定显示的位置。
 
-```
+```js
 $('#myModal').modal('hide', 'fit')
 ```
 
@@ -320,7 +319,7 @@ $('#myModal').modal('hide', 'fit')
 
 手动重新调整对话框显示位置。`position`参数为可选的，用来指定显示的位置。
 
-```
+```js
 $('#myModal').modal('ajustPosition', 'fit')
 ```
 
@@ -361,7 +360,7 @@ $('#myModal').modal('ajustPosition', 'fit')
 
 监听事件使用jQuery的on方法：
 
-```
+```js
 $('#myModal').on('shown.zui.modal', function() {
   alert('对话框已显示。');
 })

@@ -225,7 +225,7 @@ filter: fuzhulei fzl
 
 隐藏文本能够使得标签内的文本不显示，通常用于图片代替文本。
 
-```
+```html
 <h1 class="text-hide">此处文本不会显示</h1>
 ```
 

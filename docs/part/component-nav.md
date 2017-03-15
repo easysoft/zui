@@ -28,7 +28,7 @@ filter: daohang dh
   </ul>
 </div>
 
-```
+```html
 <ul class="nav nav-primary">
   <li class="active"><a href="your/nice/url">首页</a></li>
   <li><a href="your/nice/url">动态 <span class="label label-badge label-success">4</span></a></li>
@@ -125,7 +125,7 @@ filter: daohang dh
   </ul>
 </div>
 
-```
+```html
 <ul class="nav nav-tabs">
   <li class="active"><a href="your/noce/url">首页</a></li>
   <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
@@ -168,7 +168,7 @@ filter: daohang dh
   </ul>
 </div>
 
-```
+```html
 <ul class="nav nav-pills">
   <li class="active"><a href="your/noce/url">首页</a></li>
   <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
@@ -298,7 +298,7 @@ filter: daohang dh
   </ul>
 </div>
 
-```
+```html
 <ul class="nav nav-primary">
   <li class="disabled"><a disabled href="your/noce/url">首页</a></li>
   <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
@@ -591,7 +591,7 @@ filter: daohang dh
   </ul>
 </div>
 
-```
+```html
 <ul class="nav nav-primary nav-justified">
   <li class="active"><a href="your/noce/url">首页</a></li>
   <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
@@ -789,7 +789,7 @@ filter: daohang dh
   </div>
 </div>
 
-```
+```html
 <ul class="nav nav-stacked">
   <li class="nav-heading">这是标题</li>
   <li class="active"><a href="your/nice/url">首页</a></li>

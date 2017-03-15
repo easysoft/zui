@@ -24,7 +24,7 @@ filter: mianbaoxie mbx
   </ol>
 </div>
 
-```
+```html
 <ol class="breadcrumb">
   <li><a href="your/url/">Home</a></li>
   <li><a href="your/url/">Library</a></li>

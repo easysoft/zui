@@ -47,7 +47,7 @@ filter: jianrongieliulanqi jriellq
 
 因为IE8及早期版本不支持HTML5标签，所以针对IE8浏览器，我们引入html5shiv来使得HTML5标签在IE8中也能使用。在HTML文档的script区域加入以下代码：
 
-```
+```html
 <!--[if lt IE 9]>
   <script src="dist/lib/ieonly/html5shiv.js"></script>
 <![endif]-->
@@ -55,7 +55,7 @@ filter: jianrongieliulanqi jriellq
 
 因为IE8及早期版本同样不支持media query来实现响应式布局，我们同样可以通过条件注释引入respond.js来帮助ie实现该功能。
 
-```
+```html
 <!--[if lt IE 9]>
   <script src="dist/lib/ieonly/respond.js"></script>
 <![endif]-->
@@ -63,7 +63,7 @@ filter: jianrongieliulanqi jriellq
 
 因为IE8及早期版本不支持Canvas，如果你的产品用到ZUI中的 [图表](#view/chart) 视图，则需要引入 [ExplorerCanvas](https://code.google.com/p/explorercanvas/) 来支持绘图功能。
 
-```
+```html
 <!--[if lt IE 9]>
   <script src="dist/lib/ieonly/excanvas.js"></script>
 <![endif]-->

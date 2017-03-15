@@ -310,7 +310,7 @@ $('[data-toggle="popover"]').popover({
 
 显示弹出框。
 
-```
+```js
 $('#myPopover').popover('show');
 ```
 
@@ -318,7 +318,7 @@ $('#myPopover').popover('show');
 
 隐藏弹出框。
 
-```
+```js
 $('#myPopover').popover('hide');
 ```
 
@@ -326,7 +326,7 @@ $('#myPopover').popover('hide');
 
 展示或隐藏弹出框。
 
-```
+```js
 $('#myPopover').popover('toggle');
 ```
 
@@ -334,7 +334,7 @@ $('#myPopover').popover('toggle');
 
 隐藏并销毁弹出框。
 
-```
+```js
 $('#myPopover').popover('destroy');
 ```
 

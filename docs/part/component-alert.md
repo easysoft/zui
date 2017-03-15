@@ -41,7 +41,7 @@ filter: xiaoxikuang xxk
   </div>
 </div>
 
-```
+```html
 <div class="alert">...</div>
 <div class="alert alert-primary">...</div>
 <div class="alert alert-danger">...</div>

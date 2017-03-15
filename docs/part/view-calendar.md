@@ -27,13 +27,14 @@ filter: rili rl
   <div class="calendar" id="calendarExample"></div>
 </div>
 
-```
+```html
 <!-- HTML 代码 -->
 <div id="calendar" class="calendar"></div>
+```
 
+```js
 /* JS 代码 */
 $('#calendar').calendar();
-
 ```
 
 ## 使用方法
@@ -107,23 +108,21 @@ $('#calendar').calendar();
 
 要使用日历对象方法，需要首先获取日历对象实例。每一个日历对象示例的引用都存储在对应的jQuery对象的data中，名称为`zui.calendar`。
 
-```
+```js
 /* 获取日历对象实例 */
 var calendar = $('#calendar').data('zui.calendar');
-
 ```
 
 #### 切换或刷新视图
 
 要切换不同的视图或所显示的日期范围，请使用日历对象的`display(view, date)`方法。
 
-```
+```js
 /* 切换视图或刷新视图 */
 var calendar = $('#calendar').data('zui.calendar');
 calendar.display('month', '2014-8-14');   // 切换视图为月份视图，并将日期范围限定为2014年8月
 calendar.display('month');                // 切换视图为月份视图，使用当前日期范围
 calendar.display();                       // 重新刷新当前视图
-
 ```
 
 #### 增加事件
@@ -132,19 +131,18 @@ calendar.display();                       // 重新刷新当前视图
 
 将一个新的事件对象作为参数来调用`addEvents`方法。
 
-```
+```js
 /* 增加一个事件 */
 var calendar = $('#calendar').data('zui.calendar');
 var newEvent = {title: '吃饭了', desc: '要吃更多', start: '2014-8-14 12:00', end: '2014-8-14 13:00'};
 calendar.addEvents(newEvent);
-
 ```
 
 ##### 增加多个事件
 
 将包含一组事件的数组作为参数调用`addEvents`方法则可以一次性添加多个事件。
 
-```
+```js
 /* 增加多个事件 */
 var calendar = $('#calendar').data('zui.calendar');
 var newEvents =
@@ -153,7 +151,6 @@ var newEvents =
   {title: '学习了', desc: '要学更多', start: '2014-8-14 13:00', end: '2014-8-14 17:00'}
 ];
 calendar.addEvents(newEvents);
-
 ```
 
 ##### 事件对象
@@ -214,12 +211,11 @@ calendar.addEvents(newEvents);
 
 指定需要移除的事件的`id`属性，或者同时指定多个`id`并放在一个数组中作为参数来调用`removeEvents`方法。
 
-```
+```js
 /* 移除事件 */
 var calendar = $('#calendar').data('zui.calendar');
 calendar.removeEvents('4343');                   // 移除id为4343的事件
 calendar.removeEvents(['4343', '4344', '4345']); // 一次性移除多个事件
-
 ```
 
 #### 更新事件
@@ -228,7 +224,7 @@ calendar.removeEvents(['4343', '4344', '4345']); // 一次性移除多个事件
 
 将更新对象或者由包含更新对象的数组作为参数来调用方法`updateEvents`。
 
-```
+```js
 /* 移除事件 */
 var calendar = $('#calendar').data('zui.calendar');
 calendar.updateEvents({    // 更新一个事件
@@ -259,7 +255,6 @@ calendar.updateEvents([    // 一次性更新多个事件
         ]
     },
 ]);
-
 ```
 
 #### 增加日历
@@ -268,7 +263,7 @@ calendar.updateEvents([    // 一次性更新多个事件
 
 将一个新的日历对象作为参数来调用`addCalendars`方法。
 
-```
+```js
 /* 增加一个日历 */
 var calendar = $('#calendar').data('zui.calendar');
 var newCalendar = {name: 'work', title: '工作', desc: '这是一个工作日历', color: '#ff0000'};
@@ -279,7 +274,7 @@ calendar.addCalendars(newCalendar);
 
 将包含一组日历的数组作为参数调用`addCalendars`方法则可以一次性添加多个日历。
 
-```
+```js
 /* 增加多个日历 */
 var calendar = $('#calendar').data('zui.calendar');
 var newCalendars =
@@ -332,7 +327,7 @@ calendar.addCalendars(newCalendars);
 
 你随时可以获取当前所有日历或事件的数据。
 
-```
+```js
 /* 获取日历数据 */
 var calendar  = $('#calendar').data('zui.calendar');
 var calendars = calendar.calendars; // 获取所有日历对象实例
@@ -471,7 +466,7 @@ var events    = calendar.events;    // 获取所有事件对象实例
 
 #### 使用启动参数处理事件
 
-```
+```js
 $('calendar').calendar({
     clickEvent: function(event) {
         console.log(event);
@@ -484,7 +479,7 @@ $('calendar').calendar({
 
 #### 使用jQuery方法绑定事件处理函数
 
-```
+```js
 $('calendar').calendar().on("clickEvent.zui.calendar", function(event) {
     console.log(event);
     // console.log("你点击了一个事件");

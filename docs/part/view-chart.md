@@ -23,7 +23,7 @@ ZUI中的图表视图使用 [Chart.js](http://www.chartjs.org/) 实现。
 
 为了创建图表，首先需要在HTML中置入一个`<canvas>`标签。
 
-```
+```html
 <canvas id="myChart" width="400" height="400"></canvas>
 ```
 
@@ -33,7 +33,7 @@ ZUI中的图表视图使用 [Chart.js](http://www.chartjs.org/) 实现。
 
 创建实例需要首先得到`<canvas>`的用于绘图的`2d context`，然后调用`$.zui.Chart`构造函数。
 
-```
+```js
 // 使用jquery方法获取 2d context 对象
 var ctx = $("#myChart").get(0).getContext("2d");
 // 或者使用 document.getElementById 获取 2d context 对象
@@ -47,14 +47,14 @@ var myNewChart = new $.zui.Chart(ctx);
 
 ZUI扩展了jQuery的功能函数，可以使用jQuery选择canvas节点对象来创建Chart实例。
 
-```
+```js
 // 创建指定Canvas的Chart实例
 var myChart = $("#myChart").chart();
 ```
 
 如果jQuery实例包含多个canvas，则会以数组的形式返回所有Chart实例。
 
-```
+```js
 // 以数组的形式返回所有canvas的Chart实例
 var allMyCharts = $("canvas").chart();
 ```
@@ -69,7 +69,7 @@ var allMyCharts = $("canvas").chart();
   <div class="chart-canvas"><canvas id="myLineChart" width="100" height="36"></canvas></div>
 </div>
 
-```
+```js
 var data = {
     // labels 数据包含依次在X轴上显示的文本标签
     labels: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
@@ -106,7 +106,7 @@ var myLineChart = $("#myLineChart").lineChart(data, options);
 
 以下列出可配置的选项及其默认值：
 
-```
+```js
 {
     ///Boolean - 是否在图表上显示网格
     scaleShowGridLines : true,
@@ -163,7 +163,7 @@ var myLineChart = $("#myLineChart").lineChart(data, options);
 
 传入一个jQuery点击事件参数，则返回鼠标在图表上点击所在的水平方向刻度对应的点集合。
 
-```
+```js
 $("#myLineChart").on("click", function(evt){
     var activePoints = myLineChart.getPointsAtEvent(evt);
     // activePoints 为一个数组，如果当前点击所在的位置没有对应的数据，则为空
@@ -174,7 +174,7 @@ $("#myLineChart").on("click", function(evt){
 
 更新数据集，并重新绘制图表。
 
-```
+```js
 // 更新第一个数据集的第三个数据值为50
 myLineChart.datasets[0].points[2].value = 50;
 
@@ -186,7 +186,7 @@ myLineChart.update();
 
 向图表数据集增加一组新的数据，并立即重回图表。
 
-```
+```js
 // 向数据集添加一组新的数据
 myLineChart.addData([40, 60], "十三月");
 ```
@@ -195,7 +195,7 @@ myLineChart.addData([40, 60], "十三月");
 
 移除数据集中的第一组数据，并重绘图表，会应用动画效果。
 
-```
+```js
 myLineChart.removeData();
 ```
 
@@ -212,7 +212,7 @@ myLineChart.removeData();
   </div>
 </div>
 
-```
+```js
 var data = [{
     value: 150,
     color: "blue", // 使用颜色名称
@@ -249,7 +249,7 @@ var myDoughnutChart = $("#myDoughnutChart").doughnutChart(data, {segmentShowStro
 
 以下列出所有可以配置的选项及其默认值：
 
-```
+```js
 {
     //Boolean - 是否显示描边
     segmentShowStroke : true,
@@ -298,7 +298,7 @@ var myDoughnutChart = $("#myDoughnutChart").doughnutChart(data, {segmentShowStro
 
 传入一个鼠标点击事件参数，以数组的形式返回当前点击的扇形区域对应的数据。
 
-```
+```js
 $("#myPieChart").on("click", function(evt){
     var activePoints = myPieChart.getSegmentsAtEvent(evt);
     // activePoints 为一个数组，如果当前点击所在的位置没有对应的数据，则为空
@@ -309,7 +309,7 @@ $("#myPieChart").on("click", function(evt){
 
 更新数据集，并重新绘制图表。
 
-```
+```js
 // 更新第一个数据集（默认只有一个数据集）的第二个数据值为50
 myPieChart.segments[1].value = 10;
 
@@ -321,7 +321,7 @@ myPieChart.update();
 
 向图表数据集增加一组新的数据，并立即重回图表。
 
-```
+```js
 myPieChart.addData({
     value: 130,
     color: "purple",
@@ -333,7 +333,7 @@ myPieChart.addData({
 
 移除指定索引位置的数据，如果不指定索引，则默认移除最后一个数据。
 
-```
+```js
 myPieChart.removeData();
 ```
 
@@ -385,7 +385,7 @@ myPieChart.removeData();
 
 <div class="example"><div class="chart-canvas"><canvas id="myBarChart" width="500" height="200"></canvas></div></div>
 
-```
+```js
 var data = {
     labels: ["一月", "二月", "三月", "四月", "五月", "六月", "七月"],
     datasets: [
@@ -409,7 +409,7 @@ var myBarChart = $('#myBarChart').barChart(data, options);
 
 以下列出所有可用的选项及其默认值
 
-```
+```js
 {
     //Boolean - 垂直刻度是否从0开始，如果为false，则从最小值开始
     scaleBeginAtZero: true,
@@ -460,11 +460,10 @@ var myBarChart = $('#myBarChart').barChart(data, options);
 
 因为IE8及早期版本不支持Canvas，所以需要引入 [ExplorerCanvas](https://code.google.com/p/explorercanvas/) 来支持绘图功能。
 
-```
+```html
 <!--[if lt IE 9]>
   <script src="dist/lib/ieonly/excanvas.js"></script>
 <![endif]-->
-
 ```
 
 <script>

@@ -17,7 +17,7 @@ filter: piaofuxiaoxi pfxx
   <button class="btn btn-primary show-messager" type="button" data-content="这是一个浮动消息。" data-icon="bell" data-time="100000">显示漂浮消息</button>
 </div>
 
-```
+```js
 // 点击按钮时显示漂浮消息
 $('.btn').on('click', function() {
     new $.zui.Messager('这是一个浮动消息。', {
@@ -40,7 +40,7 @@ $('.btn').on('click', function() {
   <button class="btn show-messager" type="button" data-content="Hello!" data-icon="heart" data-placement="center">中间</button>
 </div>
 
-```
+```js
 new $.zui.Messager('这是一个浮动消息。', {
     icon: 'heart',
     placement: 'center' // 定义显示位置
@@ -63,7 +63,7 @@ new $.zui.Messager('这是一个浮动消息。', {
   <div class="messager messager-example messager-special" data-type="special"><div class="messager-content">提示消息：特别</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
 </div>
 
-```
+```js
 new $.zui.Messager('提示消息：成功', {
     type: 'success' // 定义颜色主题
 }).show();
@@ -77,7 +77,7 @@ new $.zui.Messager('提示消息：成功', {
   <button class="btn btn-primary show-messager" type="button" data-fade="false" data-scale="false" data-content="此消息无法关闭，5秒后自动关闭" data-time="5000" data-close="false">禁用关闭按钮</button>
 </div>
 
-```
+```js
 new $.zui.Messager('此消息无法关闭，5秒后自动关闭', {
     close: false // 禁用关闭按钮
 }).show();
@@ -89,7 +89,7 @@ new $.zui.Messager('此消息无法关闭，5秒后自动关闭', {
   <div class="messager messager-example messager-success" data-type="success" data-actions="{&quot;cancel&quot;: {&quot;icon&quot;: &quot;undo&quot;, &quot;text&quot;: &quot;撤销&quot;}}"><div class="messager-content"><i class="icon-ok-sign"></i> 你的邮件已成功发送。</div><div class="messager-actions"><button type="button" class="action action-cancel"><i class="icon-undo"></i> 撤销</button><button type="button" class="close action">×</button></div></div>
 </div>
 
-```
+```js
 new $.zui.Messager('你的邮件已成功发送。', {
     type: 'success',
     close: true,
@@ -147,7 +147,7 @@ new $.zui.Messager('你的邮件已成功发送。', {
 
 在操作定义对象的操作回调函数 `action` 中返回 `false` 来取消点击操作后的隐藏操作。
 
-```
+```js
 new $.zui.Messager('你的邮件已成功发送。', {
     type: 'success',
     close: true,
@@ -164,7 +164,7 @@ new $.zui.Messager('你的邮件已成功发送。', {
 
 如果在 `actions` 内已经定义 `name` 为 `'close'` 的操作，则 `close` 选项会被忽略。
 
-```
+```js
 new $.zui.Messager('你的邮件已成功发送。', {
     type: 'success',
     close: true, // 此选项会被忽略，因为已经在 actions 选项中指定了 name 值为 close 的操作
@@ -203,7 +203,7 @@ new $.zui.Messager('你的邮件已成功发送。', {
   <button class="btn btn-primary show-messager" type="button" data-fade="false" data-scale="false" data-content="此消息没有动画效果。" data-icon="bell">禁用动画效果</button>
 </div>
 
-```
+```js
 new $.zui.Messager('此消息没有动画效果。', {
     fade:  false,  // 禁用渐隐效果
     scale: false   // 禁用缩放动画
@@ -324,7 +324,7 @@ setTimeout(function() {
   </tbody>
 </table>
 
-```
+```js
 // 使用jQuery对象
 var msg = new $.zui.Messager('消息内容', {placement: 'bottom'});
 
@@ -333,12 +333,11 @@ msg.show();
 
 // 隐藏消息
 msg.hide();
-
 ```
 
 如果确定消息实例不再使用，可以调用 `destroy()` 方法来销毁消息。
 
-```
+```js
 // 销毁消息
 myMsg.destroy();
 ```
@@ -351,7 +350,7 @@ myMsg.destroy();
 
 `show()`方法提供两个参数，定义于`Messager`构造函数参数定义相同。
 
-```
+```js
 // 使用jQuery对象
 var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
 // 或使用 window 对象
@@ -359,7 +358,6 @@ var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
 
 // 隐藏消息
 // msg.hide();
-
 ```
 
 ### 选项

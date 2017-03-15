@@ -25,7 +25,7 @@ filter: shujubiaoge sjbg
   <div class="datatable"></div>
 </div>
 
-```
+```html
 <!-- HTML 代码 -->
 <table class="table datatable">
   <thead>
@@ -52,7 +52,7 @@ filter: shujubiaoge sjbg
 </table>
 ```
 
-```
+```js
 /* 初始化数据表格 */
 $('table.datatable').datatable();
 ```
@@ -65,10 +65,8 @@ $('table.datatable').datatable();
   <div class="datatable" data-sortable="true"></div>
 </div>
 
-```
-/* JS 代码 */
+```js
 $('table.datatable').datatable({sortable: true});
-
 ```
 
 ## 高亮选中行
@@ -77,10 +75,8 @@ $('table.datatable').datatable({sortable: true});
   <div class="datatable" data-checkable="true"></div>
 </div>
 
-```
-/* JS 代码 */
+```js
 $('table.datatable').datatable({checkable: true});
-
 ```
 
 ## 综合示例
@@ -91,10 +87,8 @@ $('table.datatable').datatable({checkable: true});
   <div class="datatable" data-checkable="true" data-sortable="true"></div>
 </div>
 
-```
-/* JS 代码 */
+```js
 $('table.datatable').datatable({checkable: true, sortable: true});
-
 ```
 
 ## 选项
@@ -222,8 +216,7 @@ $('table.datatable').datatable({checkable: true, sortable: true});
   </tbody>
 </table>
 
-```
-/* JS 代码 */
+```js
 $('table.datatable').datatable({
     checkable: true,
     sortable: true,
@@ -231,7 +224,6 @@ $('table.datatable').datatable({
     minFixedLeftWidth: 300
     // 更多参数...
 });
-
 ```
 
 选项也可以直接使用`data-*`属性写在要增强的HTML标签上。
@@ -290,7 +282,7 @@ Datatable中的事件既可以使用jQuery原生方法来绑定，也可以写�
 
 #### 使用选项处理事件
 
-```
+```js
 $('table.datatable').datatable({
     sort: function(event) {
         console.log(event);
@@ -303,7 +295,7 @@ $('table.datatable').datatable({
 
 #### 使用jQuery方法绑定事件处理函数
 
-```
+```js
 $('table.datatable').datatable().on("sort.zui.datatable", function(event) {
     console.log(event);
     // console.log("表格已重新排序！");
@@ -335,7 +327,7 @@ var checksStatus = myDatatable.checks;
 
 直接对一个包含完整头部和数据的普通表格进行增强。DataTable或自动获取所有表头和行上的数据，并配置相关选项。
 
-```
+```html
 <!-- 使用Datatable来增强下面的原生表格 -->
 <table class="table datatable">
   <!-- 定义表头 -->
@@ -356,7 +348,7 @@ var checksStatus = myDatatable.checks;
 </table>
 ```
 
-```
+```js
 /* 初始化数据表格 */
 $('table.datatable').datatable(options);
 ```
@@ -369,12 +361,12 @@ $('table.datatable').datatable(options);
 
 通过设置启动选项的`data`属性来初始化数据。
 
-```
+```html
 <!-- 使用一个div来显示数据表格 -->
 <div class="datatable" data-checkable="true" data-sortable="true"></div></code>
 ```
 
-```
+```js
 /* 使用选项选项来初始化数据 */
 $('table.datatable').datatable({
     data: {
@@ -397,7 +389,7 @@ $('table.datatable').datatable({
 
 一个完整的数据包含列定义和行数据。类定义在javascript代码中为一个数组，在DOM中为`thead`中的`tr`标签。行数据在javascript中为一个数组，在DOM中为`tbody`中的`td`标签。
 
-```
+```js
 {
     // 列定义
     cols: [
@@ -521,7 +513,7 @@ $('table.datatable').datatable({
   <button class="btn btn-primary" type="button" id="datatableChangeBtn">更新评分</button>
 </div>
 
-```
+```js
 // 更改原始表格数据内容
 $('table.datatable-origin').find('td.data-for-change').text('更新此单元格');
 
@@ -529,7 +521,7 @@ $('table.datatable-origin').find('td.data-for-change').text('更新此单元格'
 $('table.datatable').datatable('load');
 ```
 
-```
+```js
 // 使用data参数更新数据：
 $('table.datatable').datatable('load', {
     cols: [
@@ -545,7 +537,7 @@ $('table.datatable').datatable('load', {
 });
 ```
 
-```
+```js
 // 使用data参数可以使用一个回调函数来修改之前的数据：
 $('table.datatable').datatable('load', function(data) {
     // 修改第1行的第3列数据值为'新的名称示例1'
@@ -553,8 +545,6 @@ $('table.datatable').datatable('load', function(data) {
     // 更多的修改...
 });
 ```
-
-
 
 <script>
 function onPageLoad() {

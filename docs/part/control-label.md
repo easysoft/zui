@@ -14,7 +14,7 @@ filter: biaoqian bq
   <span class="label label-primary">Tag</span>
 </div>
 
-```
+```html
 <span class="label">标签</span>
 ```
 
@@ -29,27 +29,27 @@ filter: biaoqian bq
   <span class="label label-danger">Danger</span>
 </div>
 
-```
+```html
 <span class="label">Default</span>
 ```
 
-```
+```html
 <span class="label label-primary">Primary</span>
 ```
 
-```
+```html
 <span class="label label-success">Success</span>
 ```
 
-```
+```html
 <span class="label label-info">Info</span>
 ```
 
-```
+```html
 <span class="label label-warning">Warning</span>
 ```
 
-```
+```html
 <span class="label label-danger">Danger</span>
 ```
 
@@ -61,27 +61,27 @@ filter: biaoqian bq
   <span class="label label-badge">12</span> <span class="label label-badge label-primary">Primary</span> <span class="label label-badge label-success">Success</span> <span class="label label-badge label-info">Info</span> <span class="label label-badge label-warning">Warning</span> <span class="label label-badge label-danger">Danger</span>
 </div>
 
-```
+```html
 <span class="label label-badge">Default</span>
 ```
 
-```
+```html
 <span class="label label-badge label-primary">Primary</span>
 ```
 
-```
+```html
 <span class="label label-badge label-success">Success</span>
 ```
 
-```
+```html
 <span class="label label-badge label-info">Info</span>
 ```
 
-```
+```html
 <span class="label label-badge label-warning">Warning</span>
 ```
 
-```
+```html
 <span class="label label-badge label-danger">Danger</span>
 ```
 
@@ -91,27 +91,27 @@ filter: biaoqian bq
     <span class="label label-dot">12</span> <span class="label label-dot label-info">Primary</span> <span class="label label-dot label-info">Success</span> <span class="label label-dot label-info">Info</span> <span class="label label-dot label-warning">Warning</span> <span class="label label-dot label-danger">Danger</span>
   </div>
 
-```
+```html
 <span class="label label-dot">Default</span>
 ```
 
-```
+```html
 <span class="label label-dot label-primary">Primary</span>
 ```
 
-```
+```html
 <span class="label label-dot label-success">Success</span>
 ```
 
-```
+```html
 <span class="label label-dot label-info">Info</span>
 ```
 
-```
+```html
 <span class="label label-dot label-warning">Warning</span>
 ```
 
-```
+```html
 <span class="label label-dot label-danger">Danger</span>
 ```
 
@@ -145,7 +145,7 @@ filter: biaoqian bq
   <span class="label label-dot">12</span></button>
 </div>
 
-```
+```html
 <button class="btn">列表 <span class="label label-badge">12</span></button>
 ```
 
@@ -162,7 +162,7 @@ filter: biaoqian bq
   </div>
 </div>
 
-```
+```html
 <div class="list-group">
   <a href="#" class="list-group-item">Project <span class="label label-success">New</span></a>
   ...

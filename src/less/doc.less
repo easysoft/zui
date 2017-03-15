@@ -284,6 +284,31 @@ pre {
       background-color: @color-danger-pale;
     }
   }
+
+  > code:before {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 0 4px;
+    display: inline-block;
+    transition: opacity .2s;
+    color: #fff;
+    border-radius: 2px;
+    background-color: #bbb;
+    background-color: rgba(0,0,0,.15);
+    pointer-events: none;
+  }
+
+  &:hover > code:before {
+    opacity: 0;
+  }
+
+  > code.lang-javascript:before,
+  > code.lang-js:before {content: 'javascript';}
+  > code.lang-html:before {content: 'html';}
+  > code.lang-css:before {content: 'css';}
 }
 
 pre.linenums { padding: 10px; }

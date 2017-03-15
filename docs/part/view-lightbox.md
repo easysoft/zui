@@ -28,12 +28,12 @@ filter: tupianliulan tpll dxs tp dengxiangshi tupian tpyl
   </div>
 </div>
 
-```
+```html
 <!-- 使用按钮 -->
 <a href="image.jpg" data-toggle="lightbox" class="btn btn-primary">浏览图片</a>
 ```
 
-```
+```html
 <!-- 使用图片 -->
 <img data-toggle="lightbox" src="small-image.jpg" data-image="large-image.jpg" data-caption="小图看大图" class="img-thumbnail" alt="" width="200">
 ```
@@ -51,7 +51,7 @@ filter: tupianliulan tpll dxs tp dengxiangshi tupian tpyl
   </div>
 </div>
 
-```
+```html
 <!-- 分组图片浏览 -->
 <a href="image-1.jpg" data-toggle="lightbox" data-group="image-group-1"><img src="small-image-1.jpg" class="img-rounded" alt=""></a>
 <a href="image-2.jpg" data-toggle="lightbox" data-group="image-group-1"><img src="small-image-2.jpg" class="img-rounded" alt=""></a>
@@ -63,7 +63,7 @@ filter: tupianliulan tpll dxs tp dengxiangshi tupian tpyl
 
 为链接增加`data-toggle="lightbox"`属性会自动初始化灯箱式式浏览效果。也可以手动为链接和图片进行初始化。
 
-```
+```js
 $('a.lightbox-toggle').lightbox();
 ```
 

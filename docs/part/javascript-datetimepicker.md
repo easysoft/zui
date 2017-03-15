@@ -75,7 +75,7 @@ filter: riqixuanze rqxz
 
 ## 用法
 
-```
+```js
 // 选择时间和日期
 $(".form-datetime").datetimepicker(
 {

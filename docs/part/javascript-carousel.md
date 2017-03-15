@@ -52,7 +52,7 @@ filter: lunbo lb
   </div>
 </div>
 
-```
+```html
 <div id="myNiceCarousel" class="carousel slide" data-ride="carousel">
   <!-- 圆点指示器 -->
   <ol class="carousel-indicators">

@@ -42,7 +42,7 @@ filter: biaoge bg table-bordered table-borderless table-auto table-striped table
   </table>
 </div>
 
-```
+```html
 <table class="table">
   <thead>
     <tr>
@@ -112,7 +112,7 @@ filter: biaoge bg table-bordered table-borderless table-auto table-striped table
   </table>
 </div>
 
-```
+```html
 <table class="table table-striped">
   ...
 </table>
@@ -161,7 +161,7 @@ filter: biaoge bg table-bordered table-borderless table-auto table-striped table
   </table>
 </div>
 
-```
+```html
 <table class="table table-hover">
   ...
 </table>
@@ -298,7 +298,7 @@ filter: biaoge bg table-bordered table-borderless table-auto table-striped table
   </table>
 </div>
 
-```
+```html
 <table class="table table-auto">
   ...
 </table>
@@ -341,7 +341,7 @@ filter: biaoge bg table-bordered table-borderless table-auto table-striped table
   </table>
 </div>
 
-```
+```html
 <table class="table table-condensed">
   ...
 </table>
@@ -388,7 +388,7 @@ filter: biaoge bg table-bordered table-borderless table-auto table-striped table
   </table>
 </div>
 
-```
+```html
 <table class="table table-fixed">
   ...
 </table>
@@ -437,7 +437,7 @@ filter: biaoge bg table-bordered table-borderless table-auto table-striped table
   </table>
 </div>
 
-```
+```html
 <table class="table">
   <tbody>
     <tr class="success">
@@ -460,7 +460,7 @@ filter: biaoge bg table-bordered table-borderless table-auto table-striped table
 
 将 `.table` 包裹在 `.table-responsive` 容器元素内即可实现响应式表格。当设备屏幕宽度小于 `768px` 时，表格内容会禁用换行，当宽度不够时，允许在水平方向上进行滚动以浏览所有列。
 
-```
+```html
 <div class="table-responsive">
   <table class="table">
     ...
