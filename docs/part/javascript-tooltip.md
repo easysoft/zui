@@ -205,7 +205,7 @@ $('[data-toggle="tooltip"]').tooltip({
 
 展示工具提示。
 
-```javascript
+```js
 $('#element').tooltip('show');
 ```
 
@@ -213,7 +213,7 @@ $('#element').tooltip('show');
 
 展示工具提示并指定要显示的文本内容。
 
-```javascript
+```js
 $('#element').tooltip('show', '这是新的工具提示内容');
 ```
 
@@ -221,7 +221,7 @@ $('#element').tooltip('show', '这是新的工具提示内容');
 
 隐藏工具提示。
 
-```javascript
+```js
 $('#element').tooltip('hide');
 ```
 
@@ -229,7 +229,7 @@ $('#element').tooltip('hide');
 
 展示或隐藏工具提示。
 
-```javascript
+```js
 $('#element').tooltip('toggle');
 ```
 
@@ -237,7 +237,7 @@ $('#element').tooltip('toggle');
 
 隐藏并销毁工具提示。
 
-```javascript
+```js
 $('#element').tooltip('destroy');
 ```
 
@@ -272,7 +272,7 @@ $('#element').tooltip('destroy');
 
 使用 jQuery `on()` 方法来绑定事件。
 
-```javascript
+```js
 $('[data-toggle="tooltip"]').on('show.zui.tooltip', function() {
     // 处理工具提示显示时的事件
 });

@@ -242,7 +242,7 @@ Gulp 构建在nodejs 之上。在安装 Gulp 之前需要首先[下载并安装 
 
 你可以在ZUI源码根目录新建一个`gulpfile.custom.js`文件，然后在此文件中自定义更多的gulp任务。
 
-```javascript
+```js
 // 文件：gulpfile.custom.js
 // 必须导出一个函数 function(gulp, $)
 module.exports = function(gulp, $) {

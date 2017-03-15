@@ -125,7 +125,7 @@ function afterPageLoad() {
 .board-item.drag-shadow {z-index: 9999}
 ```
 
-```javascript
+```js
 $('#myBoards').boards({
     drop: function(e){
         $.zui.messager.show(e.element.text() + " 拖放到 " + e.target.closest('.board').find('.panel-heading').text());
@@ -231,7 +231,7 @@ $('#myBoards').boards({
 
 使用选项：
 
-```javascript
+```js
 // 定义选项对象
 var options = {
     drop: function(e) {
@@ -257,7 +257,7 @@ $('#myBoards').boards(options)
 
 在该回调函数中返回 `false` 会取消这次拖动操作，后续相关事件也不会发生。
 
-```javascript
+```js
 $('#dragBtn').draggable({
     before: function(e) {
         console.log('现在不是拖动的好时机，取消这次拖动操作。');

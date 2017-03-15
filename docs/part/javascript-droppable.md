@@ -119,7 +119,7 @@ filter: tuofang tf
 #droppableBtn { cursor: move; }
 ```
 
-```javascript
+```js
 $('#droppableBtn').droppable({
     target: '.droppable-target',
     start: function() {
@@ -378,7 +378,7 @@ $('#multiDroppableContainer').droppable({
 
 使用选项：
 
-```javascript
+```js
 // 定义选项对象
 var options = {
     target: '.droppable-target',
@@ -415,7 +415,7 @@ $('#droppableBtn').droppable(options)
 
 在该回调函数中返回 `false` 会取消这次拖动操作，后续相关事件也不会发生。
 
-```javascript
+```js
 $('#dragBtn').draggable({
     before: function(e) {
         console.log('现在不是拖动的好时机，取消这次拖动操作。');

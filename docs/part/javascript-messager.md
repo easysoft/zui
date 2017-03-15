@@ -228,7 +228,7 @@ new $.zui.Messager('此消息没有动画效果。', {
  - `message`：用于设定要进行显示的消息内容；
  - `options`：初始化选项；
 
-```javascript
+```js
 var myMessager = new $.zui.Messager('Hello, messager!', {
     type: 'success'
 });
@@ -248,7 +248,7 @@ var myMessager = new $.zui.Messager('Hello, messager!', {
  - `message`：用于设定要进行显示的消息内容；
  - `callback`：消息显示之后的回调函数；
 
-```javascript
+```js
 // 创建 Messager 实例
 var myMessager = new $.zui.Messager({type: 'success'});
 
@@ -261,7 +261,7 @@ myMessager.show('Hello, messager');
 
 如果你要同时显示多条消息，只需要使用不同的 Messager 实例，然后调用各自的 `show()` 方法即可。
 
-```javascript
+```js
 // 创建 Messager 实例
 var myMessager1 = new $.zui.Messager('消息一');
 var myMessager2 = new $.zui.Messager('消息二');
@@ -284,7 +284,7 @@ myMessager2.show();
 
  - `callback`：消息隐藏之后的回调函数；
 
-```javascript
+```js
 // 创建 Messger 实例
 var myMessager = new $.zui.Messager('Hello, messager!', {
     type: 'success',

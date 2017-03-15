@@ -256,7 +256,7 @@ filter: yibiaopan ybp panel mianban mb
 </div>
 ```
 
-```javascript
+```js
 $('#dashboard').dashboard({draggable: true});
 ```
 
@@ -351,7 +351,7 @@ $('#dashboard').dashboard({draggable: true});
 
 使用选项：
 
-```javascript
+```js
 // 定义选项对象
 var options = {
     height: 400,
@@ -430,7 +430,7 @@ $('#dashboard').dashboard(options)
 <div class="dashboard" id="myDashboard"></div>
 ```
 
-```javascript
+```js
 // 定义所有面板的配置对象数组
 var data = [{
     id: 'panel1',   // 面板编号
@@ -591,7 +591,7 @@ $('#myDashboard').dashboard{
 
 其中 `panel` 参数使用 CSS 选择器指定为需要进行更新的面板（`.panel`）对象；`onlyRefreshBody` 参数为布尔值，指定是否仅仅使用远程内容来更新 `.panel-body` 元素。
 
-```javascript
+```js
 // 获取仪表盘实例
 var myDashboard = $('#myDashboard').data('zui.dashboard');
 

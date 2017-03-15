@@ -316,7 +316,7 @@ $('table.datatable').datatable().on("sort.zui.datatable", function(event) {
 
 当 `checkable` 选项被启用时可以使用数据表格实例上的 `checks` 属性来获取当前已选择行的状态。
 
-```javascript
+```js
 // 获取数据表格实例对象
 var myDatatable = $('table.datatable').data('zui.datatable');
 

@@ -67,7 +67,7 @@ Kindeitor 是作为独立组件，你手动引入 JavaScript 文件到你的页�
 <textarea id="content" name="content" class="form-control kindeditor" style="height:150px;">Hello, world!</textarea>
 ```
 
-```javascript
+```js
 KindEditor.create('textarea.kindeditor', {
     basePath: '/dist/lib/kindeditor/',
     allowFileManager : true,
@@ -87,7 +87,7 @@ KindEditor.create('textarea.kindeditor', {
 <textarea id="contentSimple" name="content" class="form-control kindeditorSimple" style="height:150px;">Hello, world!</textarea>
 ```
 
-```javascript
+```js
 KindEditor.create('textarea.kindeditor', {
     basePath: '/dist/lib/kindeditor/',
     bodyClass : 'article-content',

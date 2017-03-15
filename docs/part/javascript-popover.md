@@ -127,7 +127,7 @@ filter: tanchumianban tcmb
 <button class="btn btn-danger" data-toggle="popover" title="江雪" data-content="千山鸟飞绝，万径人踪灭。">显示/隐藏弹出面板</button>
 ```
 
-```javascript
+```js
 // 你需要手动进行初始化
 $('[data-toggle="popover"]').popover();
 ```

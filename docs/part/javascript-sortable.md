@@ -65,7 +65,7 @@ $(function() {
 }
 ```
 
-```javascript
+```js
 $('#sortableList').sortable();
 ```
 
@@ -136,7 +136,7 @@ $('#sortableList').sortable();
 
 使用选项：
 
-```javascript
+```js
 // 定义选项对象
 var options = {
     selector: '.sortable-item',

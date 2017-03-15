@@ -53,7 +53,7 @@
 <input type="hidden" class="form-control" id="myColor4" name="myColor4" data-provide="colorpicker" value="#3280fC" data-colors="#fff,#000,#3280fC,red">
 ```
 
-```javascript
+```js
 // 手动初始化时，也可以使用数组来定于预设颜色
 $('.input-group #myColor').colorpicker({
     colors: ['#fff', '#000', '#3280fC', 'red']
@@ -108,7 +108,7 @@ $('.input-group #myColor').colorpicker({
 
 使用 JavaScript 代码手动初始化，允许在调用初始化函数的同时传入初始化选项。
 
-```javascript
+```js
 $('.input-group #myColor').colorpicker({
     wrapper: '.input-group-btn'
 });
@@ -231,7 +231,7 @@ $(function() {
 
 为 `<input>` 绑定 `change` 事件即可。
 
-```javascript
+```js
 $('#myColor').on('change', function() {
     console.log('新设置的颜色值是 ', $(this).val());
 });
@@ -270,7 +270,7 @@ $('#myColor').on('change', function() {
 
 调用方法：
 
-```javascript
+```js
 // 获取 colorpicker 实例
 var colorPicker = $('#myColor').data('zui.colorPicker');
 

@@ -204,7 +204,7 @@ filter: zhedie zd
   </tbody>
 </table>
 
-```javascript
+```js
 $('#myCollapseContent').collapse({
    toggle: false
 });
@@ -226,7 +226,7 @@ $('#myCollapseContent').collapse({
 
 #### 调用方法
 
-```javascript
+```js
 // 显示折叠内容
 $('#myCollapseContent').collapse('show')
 ```

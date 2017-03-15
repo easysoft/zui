@@ -57,7 +57,7 @@
 }
 ```
 
-```javascript
+```js
 $('#selectableExample1').selectable({
     selector: '.tile',
     select: function(e) {
@@ -116,7 +116,7 @@ $('#selectableExample1').selectable({
   </table>
 </example>
 
-```javascript
+```js
 $('#selectableExample2').selectable({
     selector: 'tr',
     select: function(e) {
@@ -137,7 +137,7 @@ $('#selectableExample2').selectable({
   <div class="shape" id="shape-circle4" data-id="circle4">圆形4</div>
 </example>
 
-```javascript
+```js
 $('#selectableExample3').selectable({
     selector: '.shape',
     selectClass: 'selected',
@@ -280,7 +280,7 @@ $('#selectableExample3').selectable({
 
 #### 初始化和获取选中的元素
 
-```javascript
+```js
 var options = {
     selector: 'div', // #selectable 内的所有 div 都可以进行选中
     rangeStyle: {
@@ -344,7 +344,7 @@ $('#selectable').selectable(options);
 
 #### 调用方法
 
-```javascript
+```js
 // 初始化
 $('#selectable').selectable();
 

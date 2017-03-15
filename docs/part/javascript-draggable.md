@@ -82,7 +82,7 @@ $(function() {
 }
 ```
 
-```javascript
+```js
 var count = 0; // 用于标记日志输出顺序
 var $dragLog = $('#dragLog');
 var $btnPosition = $('#printPosition');
@@ -264,7 +264,7 @@ $('#draggableBox2').draggable({
 
 使用选项：
 
-```javascript
+```js
 // 定义选项对象
 var options = {
     container: 'body',
@@ -291,7 +291,7 @@ $('#dragBtn').draggable(options)
 
 在该回调函数中返回 `false` 会取消这次拖动操作，后续相关事件也不会发生。
 
-```javascript
+```js
 $('#dragBtn').draggable({
     before: function(e) {
         console.log('现在不是拖动的好时机，取消这次拖动操作。');

@@ -32,7 +32,7 @@ filter: secai sc
  - `hslaColor`，一个对象来使用 HSL 颜色模型设定颜色，例如 `{h: 350, s: 0.5, l: 0.9, a: 1}`，其中 `h` 取值范围为 `0 ~ 359`，`s` 和 `l` 取值范围为 `0 ~ 1`，其中 `a` 代表透明度，可以省略，默认为 `1`；
  - `name`，颜色英文名称，所有在 `$.zui.Color.names` 定义的命名颜色都支持，例如 `'red'`；
 
-```javascript
+```js
 var myColor = new $.zui.Color('#095823');
 ```
 
@@ -42,7 +42,7 @@ var myColor = new $.zui.Color('#095823');
 
  - `$.zui.Color.isColor(str)`
 
-```javascript
+```js
 var isColor = $.zui.Color.isColor('#2343x'); // '#2343x' 不是有效的颜色值
 ```
 
@@ -145,7 +145,7 @@ percent 参数为整数，表示百分比，取值范围 `0 ~ 100`。
 
 ### 调用实例方法
 
-```javascript
+```js
 // 创建颜色实例
 var myColor = new $.zui.Color('#095823');
 
@@ -197,7 +197,7 @@ $(function() {
 
 根据配色名称获取类型为 `$.zui.Color` 的实例。
 
-```javascript
+```js
 var zuiPrimaryColor = $.zui.colorset.get('primary');
 console.log('ZUI primary color is', zuiPrimaryColor.toCssStr());
 ```

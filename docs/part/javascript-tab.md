@@ -113,7 +113,7 @@ filter: biaoqianye bqy
 
 用于手动显示当前元素指示的标签页内容。
 
-```javascript
+```js
 $('#myTabLink').tab('show');
 ```
 
@@ -124,7 +124,7 @@ $('#myTabLink').tab('show');
  - `show.zui.tab`：当前标签页在显示时触发；
  - `shown.zui.tab`：当前标签页在显示后（动画执行完毕）触发。
 
-```javascript
+```js
 $('[data-tab]').on('shown.zui.tab', function(e) {
     console.log('当前被激活的标签页', e.target);
     console.log('上一个标签页', e.relatedTarget);

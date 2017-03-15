@@ -208,7 +208,7 @@ $("#imgCutter").imgCutter({
 
 调用方法需要先获取插件实例。
 
-```javascript
+```js
 // 获取 imgCutter 实例
 var myImgCutter = $('#imgCutter').data('zui.imgCutter');
 

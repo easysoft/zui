@@ -115,7 +115,7 @@ test();</code></pre>
 </pre>
 ```
 
-```javascript
+```js
 // 页面导入 prettify.js 后调用 window.prettyPrint 方法来初始化代码高亮效果
 window.prettyPrint();
 ```
