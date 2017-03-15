@@ -80,6 +80,38 @@ filter: zhedie zd
   </div>
 </example>
 
+```html
+<div id="accordion">
+  <p>
+    <a href="#collapseExample1" data-toggle="collapse" data-parent="#accordion" class="btn btn-link">折叠 1</a>
+  </p>
+  <div class="collapse in" id="collapseExample1">
+    <div class="bg-primary with-padding">
+      <p>被折叠元素内容。</p>
+      <p>多个触发元素可以指向同一个折叠内容。</p>
+    </div>
+  </div>
+  <p>
+    <a href="#collapseExample2" data-toggle="collapse" data-parent="#accordion" class="btn btn-link collapsed">折叠 2</a>
+  </p>
+  <div class="collapse" id="collapseExample2">
+    <div class="bg-success with-padding">
+      <p>被折叠元素内容。</p>
+      <p>多个触发元素可以指向同一个折叠内容。</p>
+    </div>
+  </div>
+  <p>
+    <a href="#collapseExample3" data-toggle="collapse" data-parent="#accordion" class="btn btn-link collapsed">折叠 3</a>
+  </p>
+  <div class="collapse" id="collapseExample3">
+    <div class="bg-danger with-padding">
+      <p>被折叠元素内容。</p>
+      <p>多个触发元素可以指向同一个折叠内容。</p>
+    </div>
+  </div>
+</div>
+```
+
 <style>
 #accordion > div + p {padding-top: 10px;}
 </style>
