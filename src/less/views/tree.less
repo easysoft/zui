@@ -186,3 +186,94 @@
 
   ul > li.has-list:after {width: 15px}
 }
+
+
+// Tree menu
+
+.tree-menu {
+  border: 1px solid @nav-primary-border-color;
+  border-radius: @border-radius-base;
+  overflow: hidden;
+
+  li {
+    padding: 0;
+
+    &:before {display: none;}
+
+    > a {
+      margin-bottom: -1px;
+      color: @color-fore;
+      padding: 8px;
+      display: block;
+      > .icon {
+        color: inherit;
+        opacity: .6;
+        display: inline-block;
+        width: 20px;
+        text-align: left;
+      }
+
+      &:hover,
+      &:active,
+      &:focus {
+        > .icon {
+          opacity: .9;
+        }
+        text-decoration: none;
+        background-color: rgba(0,0,0,.04);
+        color: @link-hover-color;
+      }
+    }
+
+    .list-toggle {
+      left: auto;
+      right: 4px;
+      top: 6px;
+      width: 24px;
+      height: 24px;
+      transition: all 0.3s;
+      .opacity(0.45);
+
+      &:before {
+        content: @icon-chevron-right;
+      }
+    }
+
+    &.open > .list-toggle {
+      transform: rotate(90deg);
+      .opacity(0.75);
+      &:before {
+        content: @icon-chevron-right;
+      }
+    }
+
+    > ul {
+      background-color: rgba(0,0,0,.04);
+    }
+
+    li a {
+      padding-left: 28px;
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+    }
+    li li a {padding-left: 48px;}
+    li li li a {padding-left: 68px;}
+
+    &.active > a {
+      background-color: @component-active-bg;
+      border-color: @component-active-bg;
+      color: @component-active-color;
+    }
+    &.active .list-toggle {
+      color: @component-active-color;
+    }
+  }
+
+  > li > a {
+    border: 1px solid transparent;
+    border-bottom-color: @nav-primary-border-color;
+  }
+  > li.open + li > a {
+    border-top-color: @nav-primary-border-color;
+  }
+}

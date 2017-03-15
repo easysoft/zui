@@ -116,6 +116,93 @@ filter: shuxingcaidan sxcd shuxcd
 </ul>
 ```
 
+## 树形导航菜单
+
+为 `.tree` 元素增加 `.tree-menu` 类可以获得树形导航外观。
+
+<example>
+  <nav class="menu" data-ride="menu" style="width: 200px">
+    <ul id="treeMenu" class="tree tree-menu" data-ride="tree">
+      <li><a href="#"><i class="icon icon-th"></i>首页</a></li>
+      <li><a href="#"><i class="icon icon-user"></i>个人资料</a></li>
+      <li>
+        <a href="#"><i class="icon icon-time"></i>更新时间</a>
+        <ul>
+          <li><a href="#">今天</a></li>
+          <li><a href="#">明天</a></li>
+          <li><a href="#">昨天</a></li>
+          <li><a href="#">本周</a></li>
+        </ul>
+      </li>
+      <li><a href="#"><i class="icon icon-trash"></i>垃圾篓</a></li>
+      <li><a href="#"><i class="icon icon-list-ul"></i>全部</a></li>
+      <li class="open">
+        <a href="#"><i class="icon icon-tasks"></i>状态</a>
+        <ul>
+          <li>
+            <a href="#"><i class="icon icon-circle-blank"></i>已就绪</a>
+            <ul>
+              <li><a href="#">已取消</a></li>
+              <li><a href="#">已关闭</a></li>
+            </ul>
+          </li>
+          <li class="active"><a href="#"><i class="icon icon-play-sign"></i>进行中</a></li>
+          <li><a href="#"><i class="icon icon-ok-sign"></i>已完成</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</example>
+
+```html
+<nav class="menu" data-ride="menu" style="width: 200px">
+  <ul id="treeMenu" class="tree tree-menu" data-ride="tree">
+    <li><a href="#"><i class="icon icon-th"></i>首页</a></li>
+    <li><a href="#"><i class="icon icon-user"></i>个人资料</a></li>
+    <li>
+      <a href="#"><i class="icon icon-time"></i>更新时间</a>
+      <ul>
+        <li><a href="#">今天</a></li>
+        <li><a href="#">明天</a></li>
+        <li><a href="#">昨天</a></li>
+        <li><a href="#">本周</a></li>
+      </ul>
+    </li>
+    <li><a href="#"><i class="icon icon-trash"></i>垃圾篓</a></li>
+    <li><a href="#"><i class="icon icon-list-ul"></i>全部</a></li>
+    <li class="open">
+      <a href="#"><i class="icon icon-tasks"></i>状态</a>
+      <ul>
+        <li>
+          <a href="#"><i class="icon icon-circle-blank"></i>已就绪</a>
+          <ul>
+            <li><a href="#">已取消</a></li>
+            <li><a href="#">已关闭</a></li>
+          </ul>
+        </li>
+        <li class="active"><a href="#"><i class="icon icon-play-sign"></i>进行中</a></li>
+        <li><a href="#"><i class="icon icon-ok-sign"></i>已完成</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+```
+
+```js
+// 手动通过点击模拟高亮菜单项
+$('#treeMenu').on('click', 'a', function() {
+    $('#treeMenu li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+});
+```
+
+<script>
+$('#treeMenu').on('click', 'a', function() {
+    $('#treeMenu li.active').removeClass('active');
+    $(this).closest('li').addClass('active');
+});
+</script>
+
 ## 外观选项
 
 ### 在层级菜单之间显示连接线
@@ -188,7 +275,6 @@ filter: shuxingcaidan sxcd shuxcd
 ### 使用不同的图标
 
 #### 内置图标类型
-
 
 <div class="example">
   <ul class="nav nav-tabs" id="treeIconsExampleNav" style="margin: -21px -21px 10px -21px; background-color: #fafafa">

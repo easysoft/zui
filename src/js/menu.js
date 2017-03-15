@@ -27,10 +27,11 @@
     };
 
     Menu.prototype.init = function() {
-        var children = this.$.children('.nav');
-        children.find('.nav').closest('li').addClass('nav-parent');
-        children.find('.nav > li.active').closest('li').addClass('active');
-        children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
+        var $children = this.$.children('.nav');
+        $children.find('.nav').closest('li').addClass('nav-parent');
+        $children.find('.nav > li.active').parent().closest('li').addClass('active');
+        $children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
+        $children.find('.nav-parent.show').find('.nav-parent-fold-icon').addClass('icon-rotate-90');
 
         this.handleFold();
     };
@@ -79,7 +80,7 @@
     $.fn.menu.Constructor = Menu;
 
     $(function() {
-        $('[data-toggle="menu"]').menu();
+        $('[data-toggle="menu"],[data-ride="menu"]').menu();
     });
 }(jQuery));
 
