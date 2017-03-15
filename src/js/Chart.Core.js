@@ -187,7 +187,7 @@
             tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
 
             // String - Template string for single tooltips
-            multiTooltipTemplate: "<%= value %>",
+            multiTooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>",
 
             // String - Colour behind the legend colour block
             multiTooltipKeyBackground: '#fff',
