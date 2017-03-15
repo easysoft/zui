@@ -124,7 +124,7 @@
                 }, 100);
             }
 
-            $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
+            $(document).on('mousemove', mouseMove).on('mouseup', mouseUp);
             event.preventDefault();
 
             function mouseMove(event) {
@@ -225,7 +225,7 @@
                 dashboard.find('.panel-dragging').removeClass('panel-dragging');
                 row.find('.dragging-in').removeClass('dragging-in');
                 dashboard.removeClass('dashboard-dragging');
-                $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+                $(document).off('mousemove', mouseMove).off('mouseup', mouseUp);
                 event.preventDefault();
             }
         });

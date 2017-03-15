@@ -67,14 +67,12 @@
     Boards.prototype.bind = function(items) {
         var $boards = this.$,
             setting = this.options;
-        if(typeof(items) == 'undefined') {
-            items = $boards.find('.board-item:not(".disable-drop, .board-item-shadow")');
-        }
 
-        items.droppable($.extend({
+        $boards.droppable($.extend({
             before: setting.before,
             target: '.board-item:not(".disable-drop, .board-item-shadow")',
             flex: true,
+            selector: '.board-item:not(".disable-drop, .board-item-shadow")',
             start: function(e) {
                 $boards.addClass('dragging').find('.board-item-shadow').height(e.element.outerHeight());
             },
