@@ -115,6 +115,14 @@
       background-color: #ccc;
     }
   }
+
+  input:focus + label {
+    color: @color-primary;
+
+    &:before {
+      border-color: @color-primary;
+    }
+  }
 }
 
 
