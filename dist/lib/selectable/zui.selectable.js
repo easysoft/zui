@@ -1,5 +1,5 @@
 /*!
- * ZUI: 拖拽选择 - v1.5.0 - 2017-03-14
+ * ZUI: 拖拽选择 - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -122,6 +122,9 @@
         var startX, startY, $range, range, x, y, checkRangeCall;
         var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
         var rangeFunc = $.isFunction(options.rangeFunc) ? options.rangeFunc : null;
+        var isMouseDown    = false;
+        var mouseDownBackEventCall = null;
+        var mouseDownEventName = 'mousedown' + eventNamespace;
 
         var checkRange = function() {
             if(!range) return;
@@ -154,6 +157,7 @@
         };
 
         var mousemove = function(e) {
+            if(!isMouseDown) return;
             x = e.pageX;
             y = e.pageY;
             range = {
@@ -186,6 +190,9 @@
 
         var mouseup = function(e) {
             $(document).off(eventNamespace);
+            clearTimeout(mouseDownBackEventCall);
+            if(!isMouseDown) return;
+            isMouseDown = false;
             if($range) $range.remove();
             if(!isIgnoreMove)
             {
@@ -200,6 +207,9 @@
         };
 
         var mousedown = function(e) {
+            if(isMouseDown) {
+                return mouseup(e);
+            }
             if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }
@@ -229,16 +239,20 @@
 
             $range = null;
             isIgnoreMove = true;
+            isMouseDown = true;
 
             $(document).on('mousemove' + eventNamespace, mousemove).on('mouseup' + eventNamespace, mouseup);
+            mouseDownBackEventCall = setTimeout(function() {
+                $(document).on(mouseDownEventName, mouseup);
+            }, 10);
             e.preventDefault();
         };
 
         var $container = options.container && options.container !== 'default' ? $(options.container) : this.$;
         if(options.trigger) {
-            $container.on('mousedown' + eventNamespace, options.trigger, mousedown);
+            $container.on(mouseDownEventName, options.trigger, mousedown);
         } else {
-            $container.on('mousedown' + eventNamespace, mousedown);
+            $container.on(mouseDownEventName, mousedown);
         }
 
         $(document).on('keydown', function(e) {

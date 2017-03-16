@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.5.0 - 2017-03-14
+ * ZUI: Standard edition - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -90,6 +90,31 @@
         return e;
     };
 }(jQuery, window));
+
+
+/* ========================================================================
+ * ZUI: typography.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
+(function($) {
+    'use strict';
+
+    $.fn.fixOlPd = function(pd) {
+        pd = pd || 10;
+        return this.each(function() {
+            var $ol = $(this);
+            $ol.css('paddingLeft', Math.ceil(Math.log10($ol.children().length)) * pd + 10);
+        });
+    };
+
+    $(function() {
+        $('.ol-pd-fix,.article ol').fixOlPd();
+    });
+}(jQuery));
 
 
 /* ========================================================================
@@ -2008,6 +2033,7 @@
             flex           = setting.flex,
             container      = setting.container,
             $ele           = $root,
+            isMouseDown    = false,
             $container     = container ? $(setting.container).first() : (selector ? $root : $('body')),
             $targets,
             $target,
@@ -2020,9 +2046,12 @@
             containerOffset,
             clickOffset,
             mouseOffset,
-            lastMouseOffset;
+            lastMouseOffset,
+            mouseDownBackEventCall;
 
-        var mouseMove = function mouseMove(event) {
+        var mouseMove = function(event) {
+            if(!isMouseDown) return;
+
             mouseOffset = {left: event.pageX, top: event.pageY};
 
             // ignore small move
@@ -2069,12 +2098,12 @@
 
             var $newTarget = null;
             $targets.each(function() {
-                var t = $(this);
-                var tPos = t.offset();
-                var tW = t.outerWidth(),
-                    tH = t.outerHeight(),
-                    tX = tPos.left + setting.sensorOffsetX,
-                    tY = tPos.top + setting.sensorOffsetY;
+                var t    = $(this),
+                    tPos = t.offset(),
+                    tW   = t.outerWidth(),
+                    tH   = t.outerHeight(),
+                    tX   = tPos.left + setting.sensorOffsetX,
+                    tY   = tPos.top + setting.sensorOffsetY;
 
                 if(mouseOffset.left > tX && mouseOffset.top > tY && mouseOffset.left < (tX + tW) && mouseOffset.top < (tY + tH)) {
                     if($newTarget) $newTarget.removeClass('drop-to');
@@ -2120,14 +2149,19 @@
             event.preventDefault();
         };
 
-        var mouseUp = function mouseUp(event) {
+        var mouseUp = function(event) {
+            $(document).off(eventSuffix);
+            clearTimeout(mouseDownBackEventCall);
+            if(!isMouseDown) return;
+
+            isMouseDown = false;
+
             if(oldCssPosition) {
                 $container.css('position', oldCssPosition);
             }
 
             if($shadow === null) {
                 $ele.removeClass('drag-from');
-                $(document).off(eventSuffix);
                 that.trigger('always', {
                     event: event,
                     cancel: true
@@ -2137,10 +2171,10 @@
 
             if(!isIn) $target = null;
             var isSure = true;
-            mouseOffset = {
+            mouseOffset = event ? {
                 left: event.pageX,
                 top: event.pageY
-            };
+            } : lastMouseOffset;
             var offset = {
                 left: mouseOffset.left - clickOffset.left,
                 top: mouseOffset.top - clickOffset.top
@@ -2174,21 +2208,25 @@
                 that.trigger('drop', eventOptions);
             }
 
-            $(document).off(eventSuffix);
             $targets.removeClass('drop-to');
             $ele.removeClass('dragging').removeClass('drag-from');
             $shadow.remove();
+            $shadow = null;
 
             that.trigger('finish', eventOptions);
             that.trigger('always', eventOptions);
 
-            event.preventDefault();
+            if(event) event.preventDefault();
         };
 
         var mouseDown = function(event) {
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
+            }
+
+            if($ele.hasClass('drag-shadow')) {
+                return;
             }
 
             if(setting['before']) {
@@ -2198,6 +2236,7 @@
                 }) === false) return;
             }
 
+            isMouseDown = true;
             $targets         = $.isFunction(setting.target) ? setting.target($root) : $container.find(setting.target),
             $target          = null,
             $shadow          = null,
@@ -2215,6 +2254,9 @@
 
             $ele.addClass('drag-from');
             $(document).on(mouseMoveEvent, mouseMove).on(mouseUpEvent, mouseUp);
+            mouseDownBackEventCall = setTimeout(function() {
+                $(document).on(mouseDownEvent, mouseUp);
+            }, 10);
             event.preventDefault();
         };
 
@@ -3072,15 +3114,15 @@
     // ===============================
 
     var Tooltip = function(element, options) {
-        this.type =
-            this.options =
-            this.enabled =
-            this.timeout =
-            this.hoverState =
-            this.$element = null
+        this.type = null
+        this.options = null
+        this.enabled = null
+        this.timeout = null
+        this.hoverState = null
+        this.$element = null
 
         this.init('tooltip', element, options)
-    }
+    } 
 
     Tooltip.DEFAULTS = {
         animation: true,
@@ -3186,19 +3228,20 @@
         var e = $.Event('show.zui.' + this.type)
 
         if((content || this.hasContent()) && this.enabled) {
-            this.$element.trigger(e)
+            var that = this
+            that.$element.trigger(e)
 
             if(e.isDefaultPrevented()) return
 
-            var $tip = this.tip()
+            var $tip = that.tip()
 
-            this.setContent(content)
+            that.setContent(content)
 
-            if(this.options.animation) $tip.addClass('fade')
+            if(that.options.animation) $tip.addClass('fade')
 
-            var placement = typeof this.options.placement == 'function' ?
-                this.options.placement.call(this, $tip[0], this.$element[0]) :
-                this.options.placement
+            var placement = typeof that.options.placement == 'function' ?
+                that.options.placement.call(that, $tip[0], that.$element[0]) :
+                that.options.placement
 
             var autoToken = /\s?auto?\s?/i
             var autoPlace = autoToken.test(placement)
@@ -3213,20 +3256,20 @@
                 })
                 .addClass(placement)
 
-            this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+            that.options.container ? $tip.appendTo(that.options.container) : $tip.insertAfter(that.$element)
 
-            var pos = this.getPosition()
+            var pos = that.getPosition()
             var actualWidth = $tip[0].offsetWidth
             var actualHeight = $tip[0].offsetHeight
 
             if(autoPlace) {
-                var $parent = this.$element.parent()
+                var $parent = that.$element.parent()
 
                 var orgPlacement = placement
                 var docScroll = document.documentElement.scrollTop || document.body.scrollTop
-                var parentWidth = this.options.container == 'body' ? window.innerWidth : $parent.outerWidth()
-                var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
-                var parentLeft = this.options.container == 'body' ? 0 : $parent.offset().left
+                var parentWidth = that.options.container == 'body' ? window.innerWidth : $parent.outerWidth()
+                var parentHeight = that.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
+                var parentLeft = that.options.container == 'body' ? 0 : $parent.offset().left
 
                 placement = placement == 'bottom' && pos.top + pos.height + actualHeight - docScroll > parentHeight ? 'top' :
                     placement == 'top' && pos.top - docScroll - actualHeight < 0 ? 'bottom' :
@@ -3239,10 +3282,22 @@
                     .addClass(placement)
             }
 
-            var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
+            var calculatedOffset = that.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
 
-            this.applyPlacement(calculatedOffset, placement)
-            this.$element.trigger('shown.zui.' + this.type)
+            that.applyPlacement(calculatedOffset, placement)
+            var complete = function () {
+                var prevHoverState = that.hoverState
+                that.$element.trigger('shown.bs.' + that.type)
+                that.hoverState = null
+
+                if (prevHoverState == 'out') that.leave(that)
+            }
+
+            $.support.transition && that.$tip.hasClass('fade') ?
+                $tip
+                  .one('bsTransitionEnd', complete)
+                  .emulateTransitionEnd(150) :
+                complete()
         }
     }
 
@@ -4591,10 +4646,11 @@
     };
 
     Menu.prototype.init = function() {
-        var children = this.$.children('.nav');
-        children.find('.nav').closest('li').addClass('nav-parent');
-        children.find('.nav > li.active').closest('li').addClass('active');
-        children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
+        var $children = this.$.children('.nav');
+        $children.find('.nav').closest('li').addClass('nav-parent');
+        $children.find('.nav > li.active').parent().closest('li').addClass('active');
+        $children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
+        $children.find('.nav-parent.show').find('.nav-parent-fold-icon').addClass('icon-rotate-90');
 
         this.handleFold();
     };
@@ -4643,7 +4699,7 @@
     $.fn.menu.Constructor = Menu;
 
     $(function() {
-        $('[data-toggle="menu"]').menu();
+        $('[data-toggle="menu"],[data-ride="menu"]').menu();
     });
 }(jQuery));
 

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 看板 - v1.5.0 - 2017-03-14
+ * ZUI: 看板 - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -74,14 +74,12 @@
     Boards.prototype.bind = function(items) {
         var $boards = this.$,
             setting = this.options;
-        if(typeof(items) == 'undefined') {
-            items = $boards.find('.board-item:not(".disable-drop, .board-item-shadow")');
-        }
 
-        items.droppable($.extend({
+        $boards.droppable($.extend({
             before: setting.before,
             target: '.board-item:not(".disable-drop, .board-item-shadow")',
             flex: true,
+            selector: '.board-item:not(".disable-drop, .board-item-shadow")',
             start: function(e) {
                 $boards.addClass('dragging').find('.board-item-shadow').height(e.element.outerHeight());
             },

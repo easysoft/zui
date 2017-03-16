@@ -1,5 +1,5 @@
 /*!
- * ZUI: 仪表盘 - v1.5.0 - 2017-03-14
+ * ZUI: 仪表盘 - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -131,7 +131,7 @@
                 }, 100);
             }
 
-            $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
+            $(document).on('mousemove', mouseMove).on('mouseup', mouseUp);
             event.preventDefault();
 
             function mouseMove(event) {
@@ -232,7 +232,7 @@
                 dashboard.find('.panel-dragging').removeClass('panel-dragging');
                 row.find('.dragging-in').removeClass('dragging-in');
                 dashboard.removeClass('dashboard-dragging');
-                $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+                $(document).off('mousemove', mouseMove).off('mouseup', mouseUp);
                 event.preventDefault();
             }
         });

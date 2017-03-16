@@ -1,5 +1,5 @@
 /*!
- * ZUI: 颜色选择器 - v1.5.0 - 2017-03-14
+ * ZUI: 颜色选择器 - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -29,7 +29,7 @@
   text-align: center;
   text-transform: none;
   border: 1px solid transparent;
-  border-radius: 0;
+  border-radius: 4px;
 
   speak: none;
   -webkit-font-smoothing: antialiased;

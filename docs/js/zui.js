@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.5.0 - 2017-03-14
+ * ZUI: ZUI for official website - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -328,6 +328,31 @@
         };
     }
 }());
+
+/* ========================================================================
+ * ZUI: typography.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
+(function($) {
+    'use strict';
+
+    $.fn.fixOlPd = function(pd) {
+        pd = pd || 10;
+        return this.each(function() {
+            var $ol = $(this);
+            $ol.css('paddingLeft', Math.ceil(Math.log10($ol.children().length)) * pd + 10);
+        });
+    };
+
+    $(function() {
+        $('.ol-pd-fix,.article ol').fixOlPd();
+    });
+}(jQuery));
+
 
 /* ========================================================================
  * Bootstrap: button.js v3.0.3
@@ -2245,6 +2270,7 @@
             flex           = setting.flex,
             container      = setting.container,
             $ele           = $root,
+            isMouseDown    = false,
             $container     = container ? $(setting.container).first() : (selector ? $root : $('body')),
             $targets,
             $target,
@@ -2257,9 +2283,12 @@
             containerOffset,
             clickOffset,
             mouseOffset,
-            lastMouseOffset;
+            lastMouseOffset,
+            mouseDownBackEventCall;
 
-        var mouseMove = function mouseMove(event) {
+        var mouseMove = function(event) {
+            if(!isMouseDown) return;
+
             mouseOffset = {left: event.pageX, top: event.pageY};
 
             // ignore small move
@@ -2306,12 +2335,12 @@
 
             var $newTarget = null;
             $targets.each(function() {
-                var t = $(this);
-                var tPos = t.offset();
-                var tW = t.outerWidth(),
-                    tH = t.outerHeight(),
-                    tX = tPos.left + setting.sensorOffsetX,
-                    tY = tPos.top + setting.sensorOffsetY;
+                var t    = $(this),
+                    tPos = t.offset(),
+                    tW   = t.outerWidth(),
+                    tH   = t.outerHeight(),
+                    tX   = tPos.left + setting.sensorOffsetX,
+                    tY   = tPos.top + setting.sensorOffsetY;
 
                 if(mouseOffset.left > tX && mouseOffset.top > tY && mouseOffset.left < (tX + tW) && mouseOffset.top < (tY + tH)) {
                     if($newTarget) $newTarget.removeClass('drop-to');
@@ -2357,14 +2386,19 @@
             event.preventDefault();
         };
 
-        var mouseUp = function mouseUp(event) {
+        var mouseUp = function(event) {
+            $(document).off(eventSuffix);
+            clearTimeout(mouseDownBackEventCall);
+            if(!isMouseDown) return;
+
+            isMouseDown = false;
+
             if(oldCssPosition) {
                 $container.css('position', oldCssPosition);
             }
 
             if($shadow === null) {
                 $ele.removeClass('drag-from');
-                $(document).off(eventSuffix);
                 that.trigger('always', {
                     event: event,
                     cancel: true
@@ -2374,10 +2408,10 @@
 
             if(!isIn) $target = null;
             var isSure = true;
-            mouseOffset = {
+            mouseOffset = event ? {
                 left: event.pageX,
                 top: event.pageY
-            };
+            } : lastMouseOffset;
             var offset = {
                 left: mouseOffset.left - clickOffset.left,
                 top: mouseOffset.top - clickOffset.top
@@ -2411,21 +2445,25 @@
                 that.trigger('drop', eventOptions);
             }
 
-            $(document).off(eventSuffix);
             $targets.removeClass('drop-to');
             $ele.removeClass('dragging').removeClass('drag-from');
             $shadow.remove();
+            $shadow = null;
 
             that.trigger('finish', eventOptions);
             that.trigger('always', eventOptions);
 
-            event.preventDefault();
+            if(event) event.preventDefault();
         };
 
         var mouseDown = function(event) {
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
+            }
+
+            if($ele.hasClass('drag-shadow')) {
+                return;
             }
 
             if(setting['before']) {
@@ -2435,6 +2473,7 @@
                 }) === false) return;
             }
 
+            isMouseDown = true;
             $targets         = $.isFunction(setting.target) ? setting.target($root) : $container.find(setting.target),
             $target          = null,
             $shadow          = null,
@@ -2452,6 +2491,9 @@
 
             $ele.addClass('drag-from');
             $(document).on(mouseMoveEvent, mouseMove).on(mouseUpEvent, mouseUp);
+            mouseDownBackEventCall = setTimeout(function() {
+                $(document).on(mouseDownEvent, mouseUp);
+            }, 10);
             event.preventDefault();
         };
 
@@ -3466,15 +3508,15 @@
     // ===============================
 
     var Tooltip = function(element, options) {
-        this.type =
-            this.options =
-            this.enabled =
-            this.timeout =
-            this.hoverState =
-            this.$element = null
+        this.type = null
+        this.options = null
+        this.enabled = null
+        this.timeout = null
+        this.hoverState = null
+        this.$element = null
 
         this.init('tooltip', element, options)
-    }
+    } 
 
     Tooltip.DEFAULTS = {
         animation: true,
@@ -3580,19 +3622,20 @@
         var e = $.Event('show.zui.' + this.type)
 
         if((content || this.hasContent()) && this.enabled) {
-            this.$element.trigger(e)
+            var that = this
+            that.$element.trigger(e)
 
             if(e.isDefaultPrevented()) return
 
-            var $tip = this.tip()
+            var $tip = that.tip()
 
-            this.setContent(content)
+            that.setContent(content)
 
-            if(this.options.animation) $tip.addClass('fade')
+            if(that.options.animation) $tip.addClass('fade')
 
-            var placement = typeof this.options.placement == 'function' ?
-                this.options.placement.call(this, $tip[0], this.$element[0]) :
-                this.options.placement
+            var placement = typeof that.options.placement == 'function' ?
+                that.options.placement.call(that, $tip[0], that.$element[0]) :
+                that.options.placement
 
             var autoToken = /\s?auto?\s?/i
             var autoPlace = autoToken.test(placement)
@@ -3607,20 +3650,20 @@
                 })
                 .addClass(placement)
 
-            this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
+            that.options.container ? $tip.appendTo(that.options.container) : $tip.insertAfter(that.$element)
 
-            var pos = this.getPosition()
+            var pos = that.getPosition()
             var actualWidth = $tip[0].offsetWidth
             var actualHeight = $tip[0].offsetHeight
 
             if(autoPlace) {
-                var $parent = this.$element.parent()
+                var $parent = that.$element.parent()
 
                 var orgPlacement = placement
                 var docScroll = document.documentElement.scrollTop || document.body.scrollTop
-                var parentWidth = this.options.container == 'body' ? window.innerWidth : $parent.outerWidth()
-                var parentHeight = this.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
-                var parentLeft = this.options.container == 'body' ? 0 : $parent.offset().left
+                var parentWidth = that.options.container == 'body' ? window.innerWidth : $parent.outerWidth()
+                var parentHeight = that.options.container == 'body' ? window.innerHeight : $parent.outerHeight()
+                var parentLeft = that.options.container == 'body' ? 0 : $parent.offset().left
 
                 placement = placement == 'bottom' && pos.top + pos.height + actualHeight - docScroll > parentHeight ? 'top' :
                     placement == 'top' && pos.top - docScroll - actualHeight < 0 ? 'bottom' :
@@ -3633,10 +3676,22 @@
                     .addClass(placement)
             }
 
-            var calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
+            var calculatedOffset = that.getCalculatedOffset(placement, pos, actualWidth, actualHeight)
 
-            this.applyPlacement(calculatedOffset, placement)
-            this.$element.trigger('shown.zui.' + this.type)
+            that.applyPlacement(calculatedOffset, placement)
+            var complete = function () {
+                var prevHoverState = that.hoverState
+                that.$element.trigger('shown.bs.' + that.type)
+                that.hoverState = null
+
+                if (prevHoverState == 'out') that.leave(that)
+            }
+
+            $.support.transition && that.$tip.hasClass('fade') ?
+                $tip
+                  .one('bsTransitionEnd', complete)
+                  .emulateTransitionEnd(150) :
+                complete()
         }
     }
 
@@ -4985,10 +5040,11 @@
     };
 
     Menu.prototype.init = function() {
-        var children = this.$.children('.nav');
-        children.find('.nav').closest('li').addClass('nav-parent');
-        children.find('.nav > li.active').closest('li').addClass('active');
-        children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
+        var $children = this.$.children('.nav');
+        $children.find('.nav').closest('li').addClass('nav-parent');
+        $children.find('.nav > li.active').parent().closest('li').addClass('active');
+        $children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
+        $children.find('.nav-parent.show').find('.nav-parent-fold-icon').addClass('icon-rotate-90');
 
         this.handleFold();
     };
@@ -5037,7 +5093,7 @@
     $.fn.menu.Constructor = Menu;
 
     $(function() {
-        $('[data-toggle="menu"]').menu();
+        $('[data-toggle="menu"],[data-ride="menu"]').menu();
     });
 }(jQuery));
 
@@ -6016,7 +6072,7 @@
                 }, 100);
             }
 
-            $(document).bind('mousemove', mouseMove).bind('mouseup', mouseUp);
+            $(document).on('mousemove', mouseMove).on('mouseup', mouseUp);
             event.preventDefault();
 
             function mouseMove(event) {
@@ -6117,7 +6173,7 @@
                 dashboard.find('.panel-dragging').removeClass('panel-dragging');
                 row.find('.dragging-in').removeClass('dragging-in');
                 dashboard.removeClass('dashboard-dragging');
-                $(document).unbind('mousemove', mouseMove).unbind('mouseup', mouseUp);
+                $(document).off('mousemove', mouseMove).off('mouseup', mouseUp);
                 event.preventDefault();
             }
         });
@@ -6480,14 +6536,12 @@
     Boards.prototype.bind = function(items) {
         var $boards = this.$,
             setting = this.options;
-        if(typeof(items) == 'undefined') {
-            items = $boards.find('.board-item:not(".disable-drop, .board-item-shadow")');
-        }
 
-        items.droppable($.extend({
+        $boards.droppable($.extend({
             before: setting.before,
             target: '.board-item:not(".disable-drop, .board-item-shadow")',
             flex: true,
+            selector: '.board-item:not(".disable-drop, .board-item-shadow")',
             start: function(e) {
                 $boards.addClass('dragging').find('.board-item-shadow').height(e.element.outerHeight());
             },
@@ -7978,7 +8032,7 @@
 
 (function($, window) {
     'use strict';
-    var name = 'zui.calendar';
+    var NAME = 'zui.calendar';
     var NUMBER_TYPE_NAME = 'number';
     var STRING_TYPE_NAME = 'string';
     var UNDEFINED_TYPE_NAME = 'undefined';
@@ -8025,11 +8079,11 @@
         };
 
     var Calendar = function(element, options) {
-        this.name = name;
+        this.name = NAME;
         this.$ = $(element);
-        this.id = this.$.attr('id') || (name + $.zui.uuid());
+        this.id = this.$.attr('id') || (NAME + $.zui.uuid());
         this.$.attr('id', this.id);
-        this.storeName = name + '.' + this.id;
+        this.storeName = NAME + '.' + this.id;
 
         this.getOptions(options);
         this.getLang();
@@ -8125,8 +8179,10 @@
         }
 
         events.sort(function(a, b) {
-            return a.start > b.start ? 1 : (a.start < b.start ? (-1) : 0);
+            return a.start < b.start ? 1 : (a.start > b.start ? (-1) : 0);
         });
+
+        this.events = events;
     };
 
     Calendar.prototype.bindEvents = function() {
@@ -8401,13 +8457,12 @@
         var that = this;
         date = date || that.date;
         var options = that.options,
-            self = that,
             lang = that.lang,
             i,
             $views = that.$views,
             $e = that.$;
 
-        var $view = self.$monthView;
+        var $view = that.$monthView;
         if(!$view.length) {
             $view = $('<div class="calendar-view month"><table class="table table-bordered"><thead><tr class="week-head"></tr></thead><tbody class="month-days"></tbody></table></div>');
 
@@ -8428,7 +8483,7 @@
             }
 
             $views.append($view);
-            self.$monthView = $view;
+            that.$monthView = $view;
         }
 
         var $weeks = $view.find('.week-days'),
@@ -8533,13 +8588,16 @@
         }
 
         if(options.dragThenDrop) {
-            if($.fn.droppable) {
-                $view.find('.event').droppable({
-                    target: $days,
-                    container: $view,
+            if(!$.fn.droppable) {
+                return console.error('Calendar dragThenDrop option requires droppable.js');
+            }
+            if(!$view.data('zui.droppable')) {
+                $view.droppable({
+                    target: '.day',
+                    selector: '.event',
                     flex: true,
                     start: function() {
-                        $e.addClass('event-dragging');
+                        that.$.addClass('event-dragging');
                     },
                     drop: function(e) {
                         var et = e.element.data('event'),
@@ -8552,7 +8610,7 @@
                             newDate.setMinutes(startDate.getMinutes());
                             newDate.setSeconds(startDate.getSeconds());
 
-                            if(self.callEvent('beforeChange', {
+                            if(that.callEvent('beforeChange', {
                                     event: et,
                                     change: 'start',
                                     to: newDate
@@ -8564,8 +8622,8 @@
 
                                 that.display();
 
-                                self.callEvent('change', {
-                                    data: self.data,
+                                that.callEvent('change', {
+                                    data: that.data,
                                     changes: [{
                                         event: et,
                                         changes: [{
@@ -8583,11 +8641,9 @@
                         }
                     },
                     finish: function() {
-                        $e.removeClass('event-dragging');
+                        that.$.removeClass('event-dragging');
                     }
                 });
-            } else {
-                console.error('Calendar dragThenDrop option requires droppable.js');
             }
         }
     };
@@ -8638,17 +8694,17 @@
     };
 
     Calendar.prototype.callEvent = function(name, params) {
-        var result = this.$.callEvent(name + '.' + this.name, params, this);
+        var result = this.$.callEvent(name + '.' + NAME, params, this);
         return !(result.result !== undefined && (!result.result));
     };
 
     $.fn.calendar = function(option) {
         return this.each(function() {
             var $this = $(this);
-            var data = $this.data(name);
+            var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data(name, (data = new Calendar(this, options)));
+            if(!data) $this.data(NAME, (data = new Calendar(this, options)));
 
             if(typeof option == STRING_TYPE_NAME) data[option]();
         });
@@ -10299,7 +10355,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.5.0 - 2017-03-14
+ * ZUI: Generated from less code - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -10446,6 +10502,14 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             animationSteps: 60,
 
             // String - Animation easing effect
+            // Possible effects are:
+            // [easeInOutQuart, linear, easeOutBounce, easeInBack, easeInOutQuad,
+            //  easeOutQuart, easeOutQuad, easeInOutBounce, easeOutSine, easeInOutCubic,
+            //  easeInExpo, easeInOutBack, easeInCirc, easeInOutElastic, easeOutBack,
+            //  easeInQuad, easeInOutExpo, easeInQuart, easeOutQuint, easeInOutCirc,
+            //  easeInSine, easeOutExpo, easeOutCirc, easeOutCubic, easeInQuint,
+            //  easeInElastic, easeInOutSine, easeInOutQuint, easeInBounce,
+            //  easeOutElastic, easeInCubic]
             animationEasing: "easeOutQuart",
 
             // Boolean - If we should show the scale at all
@@ -10553,7 +10617,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
 
             // String - Template string for single tooltips
-            multiTooltipTemplate: "<%= value %>",
+            multiTooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>",
 
             // String - Colour behind the legend colour block
             multiTooltipKeyBackground: '#fff',
@@ -14126,6 +14190,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
     };
 
     ColorPicker.prototype.addColor = function(color) {
+        if(!(color instanceof $.zui.Color)) {
+            color = new $.zui.Color(color);
+        }
         var hex = color.toCssStr(),
             options = this.options;
 
@@ -14362,6 +14429,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         var startX, startY, $range, range, x, y, checkRangeCall;
         var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
         var rangeFunc = $.isFunction(options.rangeFunc) ? options.rangeFunc : null;
+        var isMouseDown    = false;
+        var mouseDownBackEventCall = null;
+        var mouseDownEventName = 'mousedown' + eventNamespace;
 
         var checkRange = function() {
             if(!range) return;
@@ -14394,6 +14464,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         };
 
         var mousemove = function(e) {
+            if(!isMouseDown) return;
             x = e.pageX;
             y = e.pageY;
             range = {
@@ -14426,6 +14497,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
         var mouseup = function(e) {
             $(document).off(eventNamespace);
+            clearTimeout(mouseDownBackEventCall);
+            if(!isMouseDown) return;
+            isMouseDown = false;
             if($range) $range.remove();
             if(!isIgnoreMove)
             {
@@ -14440,6 +14514,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         };
 
         var mousedown = function(e) {
+            if(isMouseDown) {
+                return mouseup(e);
+            }
             if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }
@@ -14469,16 +14546,20 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
             $range = null;
             isIgnoreMove = true;
+            isMouseDown = true;
 
             $(document).on('mousemove' + eventNamespace, mousemove).on('mouseup' + eventNamespace, mouseup);
+            mouseDownBackEventCall = setTimeout(function() {
+                $(document).on(mouseDownEventName, mouseup);
+            }, 10);
             e.preventDefault();
         };
 
         var $container = options.container && options.container !== 'default' ? $(options.container) : this.$;
         if(options.trigger) {
-            $container.on('mousedown' + eventNamespace, options.trigger, mousedown);
+            $container.on(mouseDownEventName, options.trigger, mousedown);
         } else {
-            $container.on('mousedown' + eventNamespace, mousedown);
+            $container.on(mouseDownEventName, mousedown);
         }
 
         $(document).on('keydown', function(e) {

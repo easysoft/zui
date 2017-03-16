@@ -1,5 +1,5 @@
 /*!
- * ZUI: Chart.js - v1.5.0 - 2017-03-14
+ * ZUI: Chart.js - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -87,6 +87,14 @@
             animationSteps: 60,
 
             // String - Animation easing effect
+            // Possible effects are:
+            // [easeInOutQuart, linear, easeOutBounce, easeInBack, easeInOutQuad,
+            //  easeOutQuart, easeOutQuad, easeInOutBounce, easeOutSine, easeInOutCubic,
+            //  easeInExpo, easeInOutBack, easeInCirc, easeInOutElastic, easeOutBack,
+            //  easeInQuad, easeInOutExpo, easeInQuart, easeOutQuint, easeInOutCirc,
+            //  easeInSine, easeOutExpo, easeOutCirc, easeOutCubic, easeInQuint,
+            //  easeInElastic, easeInOutSine, easeInOutQuint, easeInBounce,
+            //  easeOutElastic, easeInCubic]
             animationEasing: "easeOutQuart",
 
             // Boolean - If we should show the scale at all
@@ -194,7 +202,7 @@
             tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
 
             // String - Template string for single tooltips
-            multiTooltipTemplate: "<%= value %>",
+            multiTooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>",
 
             // String - Colour behind the legend colour block
             multiTooltipKeyBackground: '#fff',

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 仪表盘 - v1.5.0 - 2017-03-14
+ * ZUI: 仪表盘 - v1.6.0 - 2017-03-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -146,7 +146,7 @@
   width: 12px;
   cursor: e-resize;
   filter: alpha(opacity=0);
-  border-radius: 0;
+  border-radius: 4px;
   opacity: 0;
   -webkit-transition: opacity .4s cubic-bezier(.175, .885, .32, 1);
        -o-transition: opacity .4s cubic-bezier(.175, .885, .32, 1);
