@@ -185,7 +185,8 @@
     "typography.basic": {
       "name": "基本排版",
       "src": {
-        "less": ["~/controls/type.less"]
+        "less": ["~/controls/type.less"],
+        "js": ["~/typography.js"]
       },
       "ver": "1.0.0",
       "source": "Bootstrap",

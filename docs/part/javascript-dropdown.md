@@ -39,6 +39,32 @@ filter: xialacaidan xlcd
 </div>
 ```
 
+### 自动展开
+
+默认情况下当点击触发按钮时会展开下拉菜单，如果需要自动（在鼠标悬停时展开），只需要为 `.dropdown` 增加 `.dropdown-hover` 类。
+
+<example style="height: 164px">
+  <div class="dropdown dropdown-hover">
+    <button class="btn" type="button">鼠标悬停展开菜单按钮 <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="###">操作</a></li>
+      <li><a href="###">另一个操作</a></li>
+      <li><a href="###">更多操作</a></li>
+    </ul>
+  </div>
+</example>
+
+```html
+<div class="dropdown dropdown-hover">
+  <button class="btn" type="button" data-toggle="dropdown">鼠标悬停展开菜单按钮 <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="###">操作</a></li>
+    <li><a href="###">另一个操作</a></li>
+    <li><a href="###">更多操作</a></li>
+  </ul>
+</div>
+```
+
 ## 使用按钮组
 
 在[按钮组](#component/buttongroup) `.btn-group` 元素可以直接作为下拉菜单父级容器，从而不需要额外的 `.dropdown` 元素。
