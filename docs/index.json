@@ -930,7 +930,7 @@
                 "icon": "icon-align-justify",
                 "desc": "浮动在页面之上的垂直菜单",
                 "name": "下拉菜单",
-                "update": "1.5.0",
+                "update": "1.6.0",
                 "topics": [{
                     "name": "结构"
                 }, {
@@ -974,7 +974,7 @@
                 "icon": "icon-comment-alt",
                 "desc": "漂浮在页面之上的无打断消息",
                 "name": "漂浮消息",
-                "update": "1.5.0",
+                "update": "1.6.0",
                 "topics": [{
                     "name": "示例"
                 }, {
@@ -992,7 +992,7 @@
             }, {
                 "id": "tooltip",
                 "icon": "icon-chat",
-                "desc": "为元素额外提供消息文本",
+                "desc": "为元素额外提供消息文本（工具提示）",
                 "name": "提示消息",
                 "update": "1.6.0",
                 "topics": [{
@@ -1008,11 +1008,11 @@
                 }, {
                     "name": "事件"
                 }],
-                "filter": "tishixiaoxi tsxx"
+                "filter": "tishixiaoxi tsxx gjts gongjutishi"
             }, {
                 "id": "popover",
                 "icon": "icon-comment-line",
-                "desc": "弹出交互式面板",
+                "desc": "弹出交互式面板（提示面板）",
                 "name": "弹出面板",
                 "update": "1.6.0",
                 "topics": [{
@@ -1026,7 +1026,7 @@
                 }, {
                     "name": "用法"
                 }],
-                "filter": "tanchumianban tcmb"
+                "filter": "tanchumianban tcmb tishimianban tsmb"
             }, {
                 "id": "collapse",
                 "icon": "icon-collapse",
@@ -1059,6 +1059,7 @@
                 "icon": "icon-calendar",
                 "desc": "为文本框提供方便的日期时间选择功能",
                 "name": "日期选择",
+                "update": "1.6.0",
                 "topics": [{
                     "name": "日期选择"
                 }, {
@@ -1072,12 +1073,13 @@
                 }, {
                     "name": "用法"
                 }],
-                "filter": "riqixuanze rqxz"
+                "filter": "riqixuanze rqxz time shijian sj"
             }, {
                 "id": "chosen",
                 "icon": "icon-search",
                 "desc": "提供数据选择和筛选功能",
                 "name": "Chosen",
+                "update": "1.6.0",
                 "topics": [{
                     "name": "示例"
                 }, {
@@ -1085,7 +1087,7 @@
                 }, {
                     "name": "图标选择插件"
                 }],
-                "filter": ""
+                "filter": "select xialaxuanze xlxz option choose"
             }, {
                 "id": "htmleditor",
                 "icon": "icon-edit",
@@ -1445,7 +1447,7 @@
                 "icon": "icon-th-large",
                 "desc": "支持拖放调整位置的面板网格",
                 "name": "仪表盘",
-                "update": "1.5.0",
+                "update": "1.6.0",
                 "topics": [{
                     "name": "使用示例"
                 }, {
