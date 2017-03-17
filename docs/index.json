@@ -145,6 +145,15 @@
                 "topics": [],
                 "filter": "mzui yidongqianduankuangjia flex"
             }, {
+                "id": "xuanxuan",
+                "name": "喧喧：开源免费IM通讯方案",
+                "desc": "开源、免费、安全、跨平台的即时通讯方案",
+                "icon": "喧",
+                "url": "http://xuanxuan.chat",
+                "version": "1.6.0",
+                "topics": [],
+                "filter": "xuanxuan im"
+            }, {
                 "id": "zentaopms",
                 "name": "禅道项目管理",
                 "desc": "以开源的方式做最专业的研发项目管理软件！",
