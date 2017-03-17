@@ -9,7 +9,7 @@
 
 从官方网站了解更多： http://zui.sexy/ 。
 
-💎 &nbsp;为移动端设计，基于 Flex 的 UI 框架： [![MZUI](https://img.shields.io/badge/%E6%8E%A8%E8%8D%90-MZUI-3280fc.svg?style=flat-square)](http://zui.sexy/m/)。
+💎 &nbsp;为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://zui.sexy/m/)。
 
 ## 特色
 
