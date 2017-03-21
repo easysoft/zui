@@ -250,7 +250,6 @@
         });
         if(options.rename) {
             $list.toggleClass('file-rename-by-click', !!options.renameByClick)
-                 .toggleClass('file-show-delete-action-on-done', !!options.deleteActionOnDone)
                  .toggleClass('file-show-rename-action-on-done', !!options.renameActionOnDone);
             $list.on('click.' + NAME, '.btn-rename-file' + (options.renameByClick ? ',.file-name' : ''), function() {
                 var $file = $(this).closest('.file');
@@ -296,6 +295,8 @@
                 }
             });
         }
+
+        $list.toggleClass('file-show-delete-action-on-done', !!options.deleteActionOnDone);
 
         // Init static files
         if(options.staticFiles) {
