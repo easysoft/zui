@@ -877,6 +877,12 @@ upload 对象实例上有如下方法：
 
 * `id`：文件对象的唯一 ID 值。
 
+### <span class="code text-danger">showFile(file)</span>
+
+在文件列表上显示文件（根据文件对象 ID 属性来判断，如果文件列表上有相同 ID 的文件，则更新，否则在文件列表上新增一项），参数定义如下：
+
+* `file`：要显示的文件对象，或者为多个要显示的文件对象数组。
+
 ### <span class="code text-danger">removeFile(file)</span>
 
 将文件从文件队列中移除，参数定义如下：
