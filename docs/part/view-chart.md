@@ -24,7 +24,12 @@ ZUI中的图表视图使用 [Chart.js](http://www.chartjs.org/) 实现。
 图表视图为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
 
 ```html
+<<<<<<< HEAD
 <script src="lib/chat/zui.chat.min.js"></script>
+=======
+<link href="lib/chart/zui.chart.min.css" rel="stylesheet">
+<script src="lib/chart/zui.chart.min.js"></script>
+>>>>>>> 2bd973ba09b4e3bb76927823db95a54301dd921d
 ```
 
 为了创建图表，首先需要在HTML中置入一个`<canvas>`标签。
