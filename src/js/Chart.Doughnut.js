@@ -242,7 +242,7 @@
                     x = Math.min(chartWidthHalf - segment.outerRadius - 10, x - 30 + chartWidthHalf);
                 }
 
-                var textHeight = options.scaleFontSize;
+                var textHeight = options.scaleFontSize * (options.scaleLineHeight || 1);
                 var labelPos = Math.round((y * 0.8 + chartHeightHalf) / textHeight) + 1;
                 var maxPos = Math.floor(this.chart.width / textHeight) + 1;
                 var labelPosDirection = isRight ? 1 : (-1);

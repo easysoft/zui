@@ -427,6 +427,9 @@ var myDoughnutChart = $("#myDoughnutChart").doughnutChart(data, {segmentShowStro
     // 'auto' - 自动决定显示位置
     scaleLabelPlacement: "auto",
 
+    // Number - 标签行高
+    scaleLineHeight: 1,
+
     //Number - 动画执行总步数
     animationSteps : 60,
 
