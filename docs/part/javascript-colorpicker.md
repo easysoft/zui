@@ -281,5 +281,5 @@ colorPicker.updateColors(['#FFF', 'red', '#F8E800']);
 colorPicker.addColor('#808080');
 
 // 设置当前颜色
-colorPicker.setColor('#FFF');
+colorPicker.setValue('#FFF');
 ```
