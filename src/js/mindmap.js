@@ -826,7 +826,7 @@
         if($node.data('type') != 'root') {
             $node.droppable({
                 container: that.$,
-                target: '#' + that.id + ' .mindmap-node:not([data-id="' + $node.data('id') + '"]',
+                target: '#' + that.id + ' .mindmap-node:not([data-id="' + $node.data('id') + '"])',
                 before: function(e) {
                     if(!that.callEvent('beforeDrag', {
                             node: $node
