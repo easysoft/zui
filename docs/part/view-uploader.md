@@ -488,7 +488,7 @@ var uploader = $('#myUploader').uploader('zui.uploader');
     <tr>
       <td>`multipart_params`</td>
       <td>multipart 附加参数</td>
-      <td>默认 `{}`</td>
+      <td>函数或对象，默认 `{}`</td>
       <td>
         <p>当提交表单时附加到请求中的参数，如果是 php 服务器端可用使用 `$_POST` 获取到这些参数。例如：</p>
         <pre><code>{
@@ -497,6 +497,10 @@ var uploader = $('#myUploader').uploader('zui.uploader');
     test: {
         attr1: 'attr1 value'
     }
+}</code></pre>
+        <p>当设置为回调函数时会在提交文件之前调用，使用返回值作为附加参数提交到服务器，该回调函数包含一个参数为当前提交的文件对象。</p>
+        <pre><code>function(file) {
+    return {filename: file.name, extension: file.ext};
 }</code></pre>
       </td>
     </tr>

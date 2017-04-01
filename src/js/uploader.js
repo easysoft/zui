@@ -738,7 +738,7 @@
                 var params = {};
                 if(options.sendFileName) params[options.sendFileName === true ? 'name' : options.sendFileName] = file.name;
                 if(options.sendFileId) params[options.sendFileId === true ? 'uuid' : options.sendFileId] = file.id;
-                params = $.extend(params, oldParams, $.isFunction(multipartParamsOption) ? multipartParamsOption() : multipartParamsOption);
+                params = $.extend(params, oldParams, $.isFunction(multipartParamsOption) ? multipartParamsOption(file) : multipartParamsOption);
                 uploader.setOption('multipart_params', params);
 
                 that.callEvent('onBeforeUpload', file);
