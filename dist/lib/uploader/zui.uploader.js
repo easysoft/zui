@@ -1,5 +1,5 @@
 /*!
- * ZUI: 文件上传 - v1.6.0 - 2017-03-16
+ * ZUI: 文件上传 - v1.6.0 - 2017-04-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -287,7 +287,6 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
         });
         if(options.rename) {
             $list.toggleClass('file-rename-by-click', !!options.renameByClick)
-                 .toggleClass('file-show-delete-action-on-done', !!options.deleteActionOnDone)
                  .toggleClass('file-show-rename-action-on-done', !!options.renameActionOnDone);
             $list.on('click.' + NAME, '.btn-rename-file' + (options.renameByClick ? ',.file-name' : ''), function() {
                 var $file = $(this).closest('.file');
@@ -333,6 +332,8 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
                 }
             });
         }
+
+        $list.toggleClass('file-show-delete-action-on-done', !!options.deleteActionOnDone);
 
         // Init static files
         if(options.staticFiles) {
@@ -769,14 +770,12 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
                 that.callEvent('onUploadFile', file);
             },
             BeforeUpload: function(uploader, file) {
-                var oldParams = uploader.getOption('multipart_params');
                 var multipartParamsOption = options.multipart_params;
                 var params = {};
                 if(options.sendFileName) params[options.sendFileName === true ? 'name' : options.sendFileName] = file.name;
                 if(options.sendFileId) params[options.sendFileId === true ? 'uuid' : options.sendFileId] = file.id;
-                params = $.extend(params, oldParams, $.isFunction(multipartParamsOption) ? multipartParamsOption() : multipartParamsOption);
+                params = $.extend(params, $.isFunction(multipartParamsOption) ? multipartParamsOption(file) : multipartParamsOption);
                 uploader.setOption('multipart_params', params);
-
                 that.callEvent('onBeforeUpload', file);
             },
             Refresh: function(uploader) {
