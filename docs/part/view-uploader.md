@@ -251,10 +251,9 @@ var uploader = $('#myUploader').uploader('zui.uploader');
       <td>文件显示元素格式化函数</td>
       <td>函数，可选</td>
       <td>
-        <p>`function(uploader, $file, file, status){}`</p>
+        <p>`function($file, file, status){}`</p>
         <p>其中各参数含义如下：</p>
         <ul>
-          <li>`uploader`：当前 uploader 对象；</li>
           <li>`$file`：当前用于显示文件内容的元素（jQuery 对象）；</li>
           <li>`file`：当前用于显示的文件对象；</li>
           <li>`status`：当前文件状态；</li>
