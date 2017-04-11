@@ -466,7 +466,7 @@
                 $file.find('.btn-rename-file').attr('title', that.lang.rename);
                 $file.find('.btn-delete-file').attr('title', that.lang.remove);
                 $file.find('.btn-reset-file').attr('title', that.lang.repeat);
-                $file.find('.btn-download-file').attr('title', that.lang.download);
+                $file.find('.btn-download-file').attr('title', that.lang.download).attr('download', file.name);
             }
             $file.data('id', file.id)
                  .toggleClass('file-static', !!file.static)
