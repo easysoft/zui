@@ -499,9 +499,14 @@ var uploader = $('#myUploader').uploader('zui.uploader');
     }
 }</code></pre>
         <p>当设置为回调函数时会在提交文件之前调用，使用返回值作为附加参数提交到服务器，该回调函数包含一个参数为当前提交的文件对象。</p>
-        <pre><code>function(file) {
+        <pre><code>function(file, params) {
     return {filename: file.name, extension: file.ext};
 }</code></pre>
+        <p>回调函数参数定义如下：</p>
+        <ul>
+          <li><code>file</code>：当前准备上传的文件对象；</li>
+          <li><code>params</code>：当前默认的参数对象，你可以修改这个对象并返回作为新的参数对象。</li>
+        </ul>
       </td>
     </tr>
     <tr>
