@@ -280,6 +280,8 @@ $('[data-toggle="tooltip"]').on('show.zui.tooltip', function() {
 
 <script>
 function afterPageLoad() {
-    $('#pageContent [data-toggle="tooltip"]').tooltip().tooltip('show');
+    setTimeout(function() {
+        $('#pageContent [data-toggle="tooltip"]').tooltip().tooltip('show');
+    }, 1000);
 }
 </script>

@@ -377,6 +377,8 @@ $('#myPopover').popover('destroy');
 
 <script>
 function afterPageLoad() {
-    $('#pageContent [data-toggle="popover"]').popover();
+    setTimeout(function() {
+        $('#pageContent [data-toggle="popover"]').popover();
+    }, 1000);
 }
 </script>
