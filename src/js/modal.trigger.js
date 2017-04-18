@@ -278,10 +278,11 @@
         }
 
         $modal.modal({
-            show: 'show',
-            backdrop: options.backdrop,
-            moveable: options.moveable,
-            keyboard: options.keyboard
+            show       : 'show',
+            backdrop   : options.backdrop,
+            moveable   : options.moveable,
+            rememberPos: options.rememberPos,
+            keyboard   : options.keyboard
         });
     };
 

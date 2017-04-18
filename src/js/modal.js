@@ -74,11 +74,12 @@
         var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
-            if(this.options.rememberPos) {
-                if(this.options.rememberPos === true) {
+            var rememberPos = this.options.rememberPos;
+            if(rememberPos) {
+                if(rememberPos === true) {
                     pos = this.$element.data('modal-pos');
                 } else if($.zui.store) {
-                    pos = $.zui.store.pageGet(zuiname + '.rememberPos');
+                    pos = $.zui.store.pageGet(zuiname + '.rememberPos.' + rememberPos);
                 }
             }
             if(!pos) {
@@ -108,10 +109,11 @@
                     $dialog.css('margin-top', '').addClass('modal-dragged');
                 },
                 finish: function(e) {
-                    if(options.rememberPos) {
+                    var rememberPos = options.rememberPos;
+                    if(rememberPos) {
                         that.$element.data('modal-pos', e.pos);
-                        if($.zui.store && options.rememberPos !== true) {
-                            $.zui.store.pageSet(zuiname + '.rememberPos', e.pos);
+                        if($.zui.store && rememberPos !== true) {
+                            $.zui.store.pageSet(zuiname + '.rememberPos.' + rememberPos, e.pos);
                         }
                     }
                 }
