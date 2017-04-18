@@ -402,6 +402,10 @@
     Color.isColor = isColor;
     Color.names = namedColors;
 
+    Color.get = function(colorName) {
+        return new Color(colorName);
+    };
+
     /* helpers */
     function hexToRgb(hex) {
         hex = hex.toLowerCase();
