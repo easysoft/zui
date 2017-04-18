@@ -284,6 +284,18 @@ myModalTrigger.show();
   </thead>
   <tbody>
     <tr>
+      <td>`name`</td>
+      <td>对话框元素名称</td>
+      <td>可选，默认为 `'triggerModal'`</td>
+      <td>该名称会作为内部表示此触发器实例使用，并且会作为最终生成的 `.modal` 元素的 ID 属性</td>
+    </tr>
+    <tr>
+      <td>`className`</td>
+      <td>对话框元素类名</td>
+      <td>可选，默认为 `''`</td>
+      <td>添加到最终生成的 `.modal` 元素的 CLASS 属性上</td>
+    </tr>
+    <tr>
       <td>`type`</td>
       <td>对话框类型</td>
       <td>*   `'custom'`（默认），自定义类型
