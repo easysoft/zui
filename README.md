@@ -36,8 +36,6 @@ npm install zui
 bower install zui
 ```
 
-```
-
 
 ### 文档
 
