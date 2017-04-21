@@ -1,9 +1,10 @@
-# ![ZUI](https://raw.githubusercontent.com/easysoft/zui/master/docs/img/zui-logo-48.png)
+## 声明
+
+该项目是建立在ZUI1.6.0的基础上，进行二次开发，以便于适应本公司快速开发项目，我们会在此基础上创建更多适用于华扬的组件及交互。
 
 [![npm version](https://badge.fury.io/js/zui.svg)](https://badge.fury.io/js/zui)
 [![Bower version](https://badge.fury.io/bo/zui.svg)](https://badge.fury.io/bo/zui)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/easysoft/zui/blob/master/LICENSE)
-[![官方QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-384135104-03b8cf.svg)](http://shang.qq.com/wpa/qunwpa?idkey=7ae4c241aab7cca58f55ac03b2b5fb48b71242475a9f1be06b5af053008d6bfc)
 
 一个基于 Bootstrap 深度定制开源前端实践方案，帮助你快速构建现代跨屏应用。
 
@@ -35,28 +36,8 @@ npm install zui
 bower install zui
 ```
 
-### CDN
-
-由 <a href="https://cdnjs.com/libraries/zui" target="_blank">cdnjs</a> 提供：
-
-```html
-<!-- ZUI 标准版压缩后的 CSS 文件 -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/1.6.0/css/zui.min.css">
-
-<!-- ZUI Javascript 依赖 jQuery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.6.0/lib/jquery/jquery.js"></script>
-<!-- ZUI 标准版压缩后的 JavaScript 文件 -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.6.0/js/zui.min.js"></script>
 ```
 
-其他 CDN:
-
- - 由国内 <a href="http://www.bootcdn.cn/" target="_blank">BootCDN</a> 提供
-
-### 下载
-
- - [v 1.6.0 生产包](https://github.com/easysoft/zui/releases/download/v1.6.0/zui-1.6.0-dist.zip)
- - [v 1.6.0 源码](https://github.com/easysoft/zui/archive/v1.6.0.zip)
 
 ### 文档
 
@@ -73,8 +54,6 @@ bower install zui
 3. 执行 `npm start`；
 4. 在浏览器中访问 `http://127.0.0.1:8088`。
 
-## 使用 ZUI 开发的项目
+## 使用 hy-zui 开发的项目
 
-- [禅道](http://zentao.net)
-- [蝉知](http://chanzhi.org)
-- [然之](http://ranzhi.org)
+- 华扬DSP
