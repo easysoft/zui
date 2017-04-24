@@ -139,10 +139,10 @@ $('#myUploader').uploader(options);
 
 ### 获取 uploader 对象
 
-当初始化之后你可以通过 `$().uploader('zui.uploader')` 获取 `uploader` 对象：
+当初始化之后你可以通过 `$().data('zui.uploader')` 获取 `uploader` 对象：
 
 ```js
-var uploader = $('#myUploader').uploader('zui.uploader');
+var uploader = $('#myUploader').data('zui.uploader');
 ```
 
 ## 选项
@@ -1539,7 +1539,7 @@ $('#myUploader').uploader({
 
 ```js
 // 获取 uploader 对象
-var uploader = $('#myUploader').uploader('zui.uploader');
+var uploader = $('#myUploader').data('zui.uploader');
 // 获取 plupload 对象
 var plupload = uploader.plupload;
 ```
