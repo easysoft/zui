@@ -105,7 +105,7 @@ filter: anniu an
       "button">块状按钮</button> <button class=
       "btn btn-large btn-block btn-default" type="button">块状按钮</button></td>
       <td>
-        <pre><code>&lt;button class=&quot;btn btn-block &quot; type=&quot;button&quot;&gt;迷你按钮&lt;/button&gt;</code></pre>
+        <pre><code>&lt;button class=&quot;btn btn-block &quot; type=&quot;button&quot;&gt;块状按钮&lt;/button&gt;</code></pre>
         <p>块状按钮会占据整个水平宽度，适合较窄面板中的重要操作。</p>
       </td>
     </tr>
