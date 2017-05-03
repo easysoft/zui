@@ -353,8 +353,6 @@ myMsg.destroy();
 ```js
 // 使用jQuery对象
 var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
-// 或使用 window 对象
-// var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
 
 // 隐藏消息
 // msg.hide();
