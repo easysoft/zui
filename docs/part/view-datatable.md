@@ -380,7 +380,7 @@ $('table.datatable').datatable(options);
 
 ```html
 <!-- 使用一个div来显示数据表格 -->
-<div class="datatable" data-checkable="true" data-sortable="true"></div></code>
+<div class="datatable" data-checkable="true" data-sortable="true"></div>
 ```
 
 ```js
