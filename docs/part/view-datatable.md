@@ -140,7 +140,7 @@ $('table.datatable').datatable({checkable: true, sortable: true});
       <td>`storage`</td>
       <td>*   `false`
 *   `true` (默认)</td>
-      <td>是否启用本地存储来增强用户体验。启用该选项之后，表格排序状态及选中的行在用户刷新页面之后仍然会还原为之前的扎状态。</td>
+      <td>是否启用本地存储来增强用户体验。启用该选项之后，表格排序状态及选中的行在用户刷新页面之后仍然会还原为之前的状态。</td>
     </tr>
     <tr>
       <td>`sortable`</td>
