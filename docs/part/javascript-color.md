@@ -162,6 +162,12 @@ ZUI 配色辅助工具允许你使用 JS 代码来获取 ZUI CSS 中定义的颜
   <p>ZUI 配色源码由 <a class="alert-link" href="https://github.com/easysoft/zui/blob/master/src/js/color.js" target="_blank">colorset.js</a> 提供，不包含在标准版或简洁版中，你需要引用独立组件文件 <a class="alert-link" href="https://github.com/easysoft/zui/blob/master/dist/lib/colorset.js/zui.colorset.js" target="_blank">lib/zui.colorset.js</a>。</p>
 </div>
 
+ZUI 配色插件为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<script src="lib/colorset/zui.colorset.min.js"></script>
+```
+
 ### 获取所有配色
 
  - `$.zui.colorset`

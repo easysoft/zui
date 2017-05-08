@@ -1070,17 +1070,11 @@
                 "name": "日期选择",
                 "update": "1.6.0",
                 "topics": [{
-                    "name": "日期选择"
-                }, {
-                    "name": "时间选择"
-                }, {
-                    "name": "日期+时间选择"
+                    "name": "用法和示例"
                 }, {
                     "name": "禁用输入"
                 }, {
                     "name": "使用输入框"
-                }, {
-                    "name": "用法"
                 }],
                 "filter": "riqixuanze rqxz time shijian sj"
             }, {

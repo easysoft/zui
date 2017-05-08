@@ -98,6 +98,15 @@ $('.input-group #myColor').colorpicker({
 
 ## 使用方法
 
+### 引入资源
+
+颜色选择器为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/colorpicker/zui.colorpicker.min.css" rel="stylesheet">
+<script src="lib/colorpicker/zui.colorpicker.min.js"></script>
+```
+
 ### 初始化
 
 使用 `[data-provide="colorpicker"]` 属性初始化，通过 `[data-*]` 来指定初始化选项。

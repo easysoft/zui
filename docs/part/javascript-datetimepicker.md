@@ -11,35 +11,117 @@ filter: riqixuanze rqxz
 
 在ZUI中包含的日期选择控件基于开源项目 [DateTime Picker](http://www.malot.fr/bootstrap-datetimepicker/) 定制开发。
 
-## 日期选择
+## 用法和示例
+
+日期选择插件为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="lib/datetimepicker/datetimepicker.min.js"></script>
+```
+
+你需要手动在 `<input>` 元素上调用初始化函数，并通过配置来定制日期选择范围和格式。所有可用的配置你可以访问 [DateTime Picker](http://www.malot.fr/bootstrap-datetimepicker/) 官网获得帮助。
+
+### 日期选择
 
 <div class="example">
   <input type="text" class="form-control form-date" placeholder="选择或者输入一个日期：yyyy-MM-dd">
 </div>
 
-## 时间选择
+```html
+<input type="text" class="form-control form-date" placeholder="选择或者输入一个日期：yyyy-MM-dd">
+```
+
+```js
+// 仅选择日期
+$(".form-date").datetimepicker(
+{
+    language:  "zh-CN",
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0,
+    format: "yyyy-mm-dd"
+});
+```
+
+### 时间选择
 
 <div class="example">
   <input type="text" class="form-control form-time" placeholder="选择或者输入一个时间：hh:mm">
 </div>
 
-## 日期+时间选择
+```html
+<input type="text" class="form-control form-time" placeholder="选择或者输入一个时间：hh:mm">
+```
+
+```js
+// 选择时间
+$(".form-time").datetimepicker({
+    language:  "zh-CN",
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 1,
+    minView: 0,
+    maxView: 1,
+    forceParse: 0,
+    format: 'hh:ii'
+});
+```
+
+### 日期+时间选择
 
 <div class="example">
   <input type="text" class="form-control form-datetime" placeholder="选择或者输入一个日期+时间：yyyy-MM-dd hh:mm">
 </div>
 
+```html
+<input type="text" class="form-control form-datetime" placeholder="选择或者输入一个日期+时间：yyyy-MM-dd hh:mm">
+```
+
+```js
+// 选择时间和日期
+$(".form-datetime").datetimepicker(
+{
+    weekStart: 1,
+    todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1,
+    format: "yyyy-mm-dd hh:ii"
+});
+```
+
 ## 禁用输入
 
-只允许用户选择一个日期或时间，而不允许自行编辑日期，只需要给`input`加上`readonly`属性。
+只允许用户选择一个日期或时间，而不允许自行编辑日期，只需要给 `input` 加上 `readonly` 属性。
 
 <div class="example">
   <div class="row">
-    <div class="col-md-4"><input type="text" class="form-control form-date" placeholder="选择或者输入一个日期：yyyy-MM-dd" readonly=""></div>
-    <div class="col-md-4"><input type="text" class="form-control form-time" placeholder="选择或者输入一个时间：hh:mm" readonly=""></div>
-    <div class="col-md-4"><input type="text" class="form-control form-datetime" placeholder="选择或者输入一个日期+时间：yyyy-MM-dd hh:mm" readonly=""></div>
+    <div class="col-md-4"><input type="text" class="form-control form-date" placeholder="选择或者输入一个日期：yyyy-MM-dd" readonly="readonly"></div>
+    <div class="col-md-4"><input type="text" class="form-control form-time" placeholder="选择或者输入一个时间：hh:mm" readonly="readonly"></div>
+    <div class="col-md-4"><input type="text" class="form-control form-datetime" placeholder="选择或者输入一个日期+时间：yyyy-MM-dd hh:mm" readonly="readonly"></div>
   </div>
 </div>
+
+```html
+<input type="text" class="form-control form-date" placeholder="选择或者输入一个日期：yyyy-MM-dd" readonly="readonly">
+```
+
+```html
+<input type="text" class="form-control form-time" placeholder="选择或者输入一个时间：hh:mm" readonly="readonly">
+```
+
+```html
+<input type="text" class="form-control form-datetime" placeholder="选择或者输入一个日期+时间：yyyy-MM-dd hh:mm" readonly="readonly">
+```
 
 ## 使用输入框组
 
@@ -73,7 +155,13 @@ filter: riqixuanze rqxz
   </div>
 </div>
 
-## 用法
+```html
+<div class="input-group date form-datetime" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+  <input class="form-control" size="16" type="text" value="" readonly="">
+  <span class="input-group-addon"><span class="icon-remove"></span></span>
+  <span class="input-group-addon"><span class="icon-th"></span></span>
+</div>
+```
 
 ```js
 // 选择时间和日期
@@ -88,7 +176,17 @@ $(".form-datetime").datetimepicker(
     showMeridian: 1,
     format: "yyyy-mm-dd hh:ii"
 });
+```
 
+```html
+<div class="input-group date form-date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+  <input class="form-control" size="16" type="text" value="" readonly="">
+  <span class="input-group-addon"><span class="icon-remove"></span></span>
+  <span class="input-group-addon"><span class="icon-calendar"></span></span>
+</div>
+```
+
+```js
 // 仅选择日期
 $(".form-date").datetimepicker(
 {
@@ -102,7 +200,17 @@ $(".form-date").datetimepicker(
     forceParse: 0,
     format: "yyyy-mm-dd"
 });
+```
 
+```html
+<div class="input-group date form-time" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+  <input class="form-control" size="16" type="text" value="" readonly="">
+  <span class="input-group-addon"><span class="icon-remove"></span></span>
+  <span class="input-group-addon"><span class="icon-time"></span></span>
+</div>
+```
+
+```js
 // 选择时间
 $(".form-time").datetimepicker({
     language:  "zh-CN",

@@ -30,6 +30,17 @@ filter: tupianjianqie tpjq cj caijian
 
 ## 综合示例
 
+### 引入资源
+
+图片剪切为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/imgcutter/zui.imgcutter.min.css" rel="stylesheet">
+<script src="lib/imgcutter/zui.imgcutter.min.js"></script>
+```
+
+### 示例
+
 <div class="example">
   <div class="img-cutter" id="imgCutter">
     <div class="canvas"><img src="docs/img/slide1.jpg" alt=""></div>

@@ -11,6 +11,16 @@
 
 ## 综合示例
 
+### 引入资源
+
+拖放排序为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<script src="lib/sortable/zui.sortable.min.js"></script>
+```
+
+### 示例
+
 下面的例子中可以通过拖放来重新排序列表组中的项目。
 
 <example>

@@ -18,6 +18,17 @@ filter: kanban kb
 
 ## 综合示例
 
+### 引入资源
+
+看板为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/board/zui.board.min.css" rel="stylesheet">
+<script src="lib/board/zui.board.min.js"></script>
+```
+
+### 示例
+
 使用鼠标来拖拽项目。
 
 <example class="margin-zero">

@@ -149,6 +149,14 @@ $('#selectableExample3').selectable({
 
 ## 如何使用
 
+### 引入资源
+
+拖拽选取为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<script src="lib/selectable/zui.selectable.min.js"></script>
+```
+
 ### 设置目标元素 ID
 
 ```html

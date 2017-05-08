@@ -16,6 +16,17 @@ filter: yibiaopan ybp panel mianban mb
 
 ## 使用示例
 
+### 引入资源
+
+仪表盘为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/dashboard/zui.dashboard.min.css" rel="stylesheet">
+<script src="lib/dashboard/zui.dashboard.min.js"></script>
+```
+
+### 综合示例
+
 <example style="padding-bottom: 0">
   <div id="dashboard" class="dashboard dashboard-draggable" data-height="300">
     <section class="row">

@@ -75,6 +75,15 @@ $('select.chosen-select').chosen({
 
 ## 用法
 
+### 引入资源
+
+Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/chosen/chosen.min.css" rel="stylesheet">
+<script src="lib/chosen/chosen.min.js"></script>
+```
+
 ### 选项
 
 <table class="table table-bordered">
@@ -308,12 +317,19 @@ $('select.chosen-select').trigger('chosen:updated');
 $('select.chosen-icons').chosenIcons(options);
 ```
 
-<div class="alert alert-primary-inverse">
-  <h5>提示</h5>
-  <p>图标选择插件依赖chosen插件，且是单独提供的。也就是说如果你没有使用自定制版，不仅仅需要在HTML文件中加载chosen插件，还需要额外加载 [zui/lib/chosen/chosen.icons*.js, zui/lib/chosen/chosen.icons*.css] 文件。</p>
-</div>
-
 ### 用法
+
+图标选择插件独立组件，并且依赖 Chosen 插件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<!-- 引入 Chosen 相关资源 -->
+<link href="lib/chosen/chosen.min.css" rel="stylesheet">
+<script src="lib/chosen/chosen.min.js"></script>
+
+<!-- 引入图标选择插件相关资源 -->
+<link href="lib/chosenicons/zui.chosenicons.min.css" rel="stylesheet">
+<script src="lib/chosenicons/zui.chosenicons.min.js"></script>
+```
 
 图标选择插件可以使用chosen的所有选项和方法。
 

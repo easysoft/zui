@@ -411,6 +411,15 @@ tree-custom-icons > li > .list-toggle:before {content: '\e6dd'}
 
 ## 用法
 
+### 引入资源
+
+树形菜单为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/tree/zui.tree.min.css" rel="stylesheet">
+<script src="lib/tree/zui.tree.min.js"></script>
+```
+
 ### 调用方式
 
 提供两种方式来使用树形菜单。

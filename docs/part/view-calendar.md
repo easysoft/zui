@@ -39,6 +39,15 @@ $('#calendar').calendar();
 
 ## 使用方法
 
+### 引入资源
+
+日历为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/calendar/zui.calendar.min.css" rel="stylesheet">
+<script src="lib/calendar/zui.calendar.min.js"></script>
+```
+
 ### 启动参数
 
 <table class="table table-bordered">
