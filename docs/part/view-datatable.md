@@ -206,6 +206,11 @@ $('table.datatable').datatable({checkable: true, sortable: true});
       <td>是否能够通过拖拽表头边缘来更改列宽</td>
     </tr> -->
     <tr>
+      <td>`fixCellHeight`</td>
+      <td>`true`（默认），`false`</td>
+      <td>是否在渲染之后自动调整单元格行高，因为数据表格将列分成多个部分，可能存在同一行上的行高不一致，开启该选项可以自动进行调整，关闭此选项可以提高表格渲染效率（关闭后仍然可以使用 CSS 来限制行高）。</td>
+    </tr>
+    <tr>
       <td>`minColWidth`</td>
       <td>数字，默认为`20`</td>
       <td>列的最小宽度</td>
