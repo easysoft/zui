@@ -260,6 +260,7 @@
                 if(renameActionAble || file.status === Plupload.QUEUED) {
                     var $filename = $file.find('.file-name').first();
                     $file.addClass('file-renaming');
+                    that.showFile(file);
                     if(!options.renameExtension && file.ext) {
                         $filename.text(file.name.substr(0, file.name.length - file.ext.length - 1));
                     }
@@ -293,7 +294,6 @@
                             e.preventDefault();
                         }
                     }).focus();
-                    that.showFile(file);
                 }
             });
         }
