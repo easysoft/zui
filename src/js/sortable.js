@@ -32,7 +32,7 @@
     Sortable.DEFAULTS = DEFAULTS;
     Sortable.NAME     = NAME;
 
-    Sortable.prototype.init = function($list) {
+    Sortable.prototype.init = function() {
         var that         = this,
             $root        = that.$,
             options      = that.options,
@@ -117,7 +117,12 @@
     };
 
     Sortable.prototype.destroy = function() {
-        that.$.droppable('destroy');
+        this.$.droppable('destroy');
+    };
+
+    Sortable.prototype.reset = function() {
+        this.destroy();
+        this.init();
     };
 
     Sortable.prototype.getItems = function(onlyElements) {
