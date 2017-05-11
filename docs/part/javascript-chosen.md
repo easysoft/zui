@@ -43,6 +43,28 @@ Chosen是用来增强单选列表和多选列表的更佳选择。
   </div>
 </div>
 
+```html
+<select data-placeholder="选择一个宠物..." class="chosen-select form-control" tabindex="2">
+  <option value=""></option>
+  <option value="cat">小猫</option>
+  <option value="fish">金鱼</option>
+  <option value="dragon">龙</option>
+  <option value="mammoth">猛犸</option>
+  <option value="gollum">咕噜</option>
+</select>
+```
+
+```html
+<select data-placeholder="选择一些爱吃的水果..." class="chosen-select form-control" tabindex="2" multiple="">
+  <option value="strawberries">草莓</option>
+  <option value="apple">苹果</option>
+  <option value="orange">橙子</option>
+  <option value="cherry">樱桃</option>
+  <option value="banana">香蕉</option>
+  <option value="figs">无花果</option>
+</select>
+```
+
 ```js
 $('select.chosen-select').chosen({
     no_results_text: '没有找到',    // 当检索时没有找到匹配项时显示的提示文本
@@ -67,6 +89,25 @@ $('select.chosen-select').chosen({
     <option value="gollum" data-keys="gulu gl 神话">咕噜</option>
   </select>
 </div>
+
+```html
+<select data-placeholder="使用拼音检索，试试“m”或“xm”" class="chosen-select form-control" tabindex="2">
+  <option value=""></option>
+  <option value="cat" data-keys="xiaomao xm 猫科动物">小猫</option>
+  <option value="fish" data-keys="jinyu jy">金鱼</option>
+  <option value="dragon" data-keys="long">龙</option>
+  <option value="mammoth" data-keys="mengma mm">猛犸</option>
+  <option value="gollum" data-keys="gulu gl 神话">咕噜</option>
+</select>
+```
+
+```js
+$('select.chosen-select').chosen({
+    no_results_text: '没有找到',    // 当检索时没有找到匹配项时显示的提示文本
+    disable_search_threshold: 10, // 10 个以下的选择项则不显示检索框
+    search_contains: true         // 从任意位置开始检索
+});
+```
 
 <div class="alert alert-primary-inverse">
   <h4>提示</h4>
@@ -312,6 +353,10 @@ $('select.chosen-select').trigger('chosen:updated');
     <select class="chosen-icons form-control" name="chosenIcons" id="chosenIcons" data-value="icon-star"></select>
   </form>
 </div>
+
+```html
+<select class="chosen-icons form-control" name="chosenIcons" id="chosenIcons" data-value="icon-star"></select>
+```
 
 ```js
 $('select.chosen-icons').chosenIcons(options);
