@@ -40,7 +40,7 @@
         this.init();
 
         if(!this.options.hotkeyEnable) {
-            $.messager.show(this.lang.hotkeyDisabled);
+            $.zui.messager.show(this.lang.hotkeyDisabled);
         }
     };
 
@@ -1320,4 +1320,3 @@
 
     $.fn.mindmap.Constructor = Mindmap;
 }(jQuery, window, document, Math));
-
