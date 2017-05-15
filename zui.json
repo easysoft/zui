@@ -1137,6 +1137,15 @@
       "dpds": ["basic", "jqueryex", "resize", "string", "date", "droppable"],
       "hidden": true
     },
+    "treemap": {
+      "name": "树形图",
+      "src": {
+        "less": ["~/views/treemap.less"],
+        "js": ["~/treemap.js"]
+      },
+      "ver": "1.7.0",
+      "dpds": ["basic", "jqueryex", "resize", "string", "date", "droppable"]
+    },
     "theme": {
       "name": "主题示例",
       "src": {
@@ -1284,7 +1293,7 @@
     },
     "seperate": {
       "title": "Seperate bundles",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap"]
     },
     "dist": {
       "title": "Dist bundles",
