@@ -73,13 +73,14 @@
         markOrders();
 
         $root.droppable({
-            handle   : options.trigger,
-            target   : selector,
-            selector : selector,
-            container: $root,
-            always   : options.always,
-            flex     : true,
-            before   : options.before,
+            handle      : options.trigger,
+            target      : selector,
+            selector    : selector,
+            container   : $root,
+            always      : options.always,
+            flex        : true,
+            before      : options.before,
+            mouseButton : options.mouseButton,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
                 that.trigger('start');

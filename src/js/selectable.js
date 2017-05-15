@@ -47,6 +47,7 @@
         },
         clickBehavior: 'toggle',
         ignoreVal: 3
+        // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
 
     // Get and init options
@@ -203,6 +204,12 @@
             if(isMouseDown) {
                 return mouseup(e);
             }
+
+            var mouseButton = $.zui.getMouseButtonCode(options.mouseButton);
+            if(mouseButton > -1 && e.button !== mouseButton) {
+                return;
+            }
+
             if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }

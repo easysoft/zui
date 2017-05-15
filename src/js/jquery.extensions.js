@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     /* Check jquery */
@@ -17,6 +17,13 @@
         if($.isPlainObject(obj)) {
             $.extend($.zui, obj);
         }
+    };
+
+    var MOUSE_BUTTON_CODES = {
+        all: -1,
+        left: 0,
+        middle: 1,
+        right: 2
     };
 
     var lastUuidAmend = 0;
@@ -58,6 +65,14 @@
                 }
             }
             return code;
+        },
+
+        getMouseButtonCode: function(mouseButton) {
+            if(typeof mouseButton !== 'number') {
+                mouseButton = MOUSE_BUTTON_CODES[mouseButton];
+            }
+            if(mouseButton === undefined || mouseButton === null) mouseButton = -1;
+            return mouseButton;
         }
     });
 
@@ -80,5 +95,5 @@
         $this.trigger(e);
         return e;
     };
-}(jQuery, window));
+}(jQuery, window, undefined));
 

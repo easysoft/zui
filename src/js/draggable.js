@@ -14,6 +14,7 @@
         // selector: '',
         container: 'body',
         move: true
+        // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
     var idIncrementer = 0;
 
@@ -120,6 +121,11 @@
         };
 
         var mouseDown = function(event) {
+            var mouseButton = $.zui.getMouseButtonCode(setting.mouseButton);
+            if(mouseButton > -1 && event.button !== mouseButton) {
+                return;
+            }
+            
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;

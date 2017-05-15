@@ -310,6 +310,20 @@ $('#multiDroppableContainer').droppable({
       <td>值类型为 jQuery 实例或有效的 jQuery 选择器字符串，也可以设置为一个回调函数来返回可放置元素。</td>
     </tr>
     <tr>
+      <td>`mouseButton`</td>
+      <td>响应的鼠标按钮</td>
+      <td>默认为 `'all'`</td>
+      <td>
+        <p>所有可响应的鼠标按钮参考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/MouseEvent/button" target="_blank"><code>MouseEvent.button</code></a>：</p>
+        <ul>
+          <li>`'all'` 或 `-1`：响应所有鼠标按键；</li>
+          <li>`'left'` 或 `0`：响应鼠标左键；</li>
+          <li>`'middle'` 或 `1`：响应鼠标滚轮（中键）；</li>
+          <li>`'right'` 或 `2`：响应鼠标右键。</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>`flex`</td>
       <td>`true`、`false`（默认）</td>
       <td>是否执行宽松判断</td>
