@@ -7,3 +7,4 @@ ISSUES.md
 /*.zip
 *custom.*
 *test.*
+dist/lib/kindeditor/plugins
