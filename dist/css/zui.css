@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.6.0 - 2017-03-16
+ * ZUI: Standard edition - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -4409,8 +4409,43 @@ textarea.form-condensed .form-control {
 .form-condensed .input-group > .input-group-btn > .btn {
   padding: 2px 8px;
   font-size: 12px;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
+  border-radius: 3px;
+  }
+.form-condensed .input-group .form-control:first-child,
+.form-condensed .input-group-addon:first-child,
+.form-condensed .input-group-btn:first-child > .btn,
+.form-condensed .input-group-btn:first-child > .btn-group > .btn,
+.form-condensed .input-group-btn:first-child > .dropdown-toggle,
+.form-condensed .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.form-condensed .input-group-btn:last-child > .btn-group:not(:last-child) > .btn,
+.form-condensed .input-group-btn:first-child > .btn-group-vertical > .btn,
+.form-condensed .input-group-btn:last-child > .btn-group-vertical:not(:last-child) > .btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  }
+.form-condensed .input-group .form-control:last-child,
+.form-condensed .input-group-addon:last-child,
+.form-condensed .input-group-btn:last-child > .btn,
+.form-condensed .input-group-btn:last-child > .btn-group > .btn,
+.form-condensed .input-group-btn:last-child > .dropdown-toggle,
+.form-condensed .input-group-btn:first-child > .btn:not(:first-child),
+.form-condensed .input-group-btn:first-child > .btn-group:not(:first-child) > .btn,
+.form-condensed .input-group-btn:last-child > .btn-group-vertical > .btn,
+.form-condensed .input-group-btn:first-child > .btn-group-vertical:not(:first-child) > .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  }
+.form-condensed .input-group-addon:first-child {
+  border-right: 0;
+  }
+.form-condensed .input-group-addon:last-child {
+  border-left: 0;
+  }
+.form-condensed .input-group-addon.fix-border,
+.form-condensed .input-group-btn.fix-border > .btn {
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
   }
 .form-condensed.form-horizontal .form-group > label,
 .form-condensed.form-horizontal .radio,
@@ -5344,9 +5379,6 @@ a.list-group-item:focus {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   }
-.input-group-addon:first-child {
-  border-right: 0;
-  }
 .input-group .form-control:last-child,
 .input-group-addon:last-child,
 .input-group-btn:last-child > .btn,
@@ -5358,6 +5390,9 @@ a.list-group-item:focus {
 .input-group-btn:first-child > .btn-group-vertical:not(:first-child) > .btn {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  }
+.input-group-addon:first-child {
+  border-right: 0;
   }
 .input-group-addon:last-child {
   border-left: 0;
@@ -6509,7 +6544,7 @@ tbody.collapse.in {
   }
 .modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform .3s ease-out;
-       -o-transition:         transform .3s ease-out, -o-transform .3s ease-out;
+       -o-transition:      -o-transform .3s ease-out;
           transition: -webkit-transform .3s ease-out;
           transition:         transform .3s ease-out;
           transition:         transform .3s ease-out, -webkit-transform .3s ease-out, -o-transform .3s ease-out;
@@ -8423,7 +8458,7 @@ body.article-content {
 .tree-animate ul {
   opacity: 0;
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), transform .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);

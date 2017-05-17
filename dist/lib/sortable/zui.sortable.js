@@ -1,5 +1,5 @@
 /*!
- * ZUI: 排序 - v1.6.0 - 2017-03-16
+ * ZUI: 排序 - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -39,7 +39,7 @@
     Sortable.DEFAULTS = DEFAULTS;
     Sortable.NAME     = NAME;
 
-    Sortable.prototype.init = function($list) {
+    Sortable.prototype.init = function() {
         var that         = this,
             $root        = that.$,
             options      = that.options,
@@ -80,13 +80,14 @@
         markOrders();
 
         $root.droppable({
-            handle   : options.trigger,
-            target   : selector,
-            selector : selector,
-            container: $root,
-            always   : options.always,
-            flex     : true,
-            before   : options.before,
+            handle      : options.trigger,
+            target      : selector,
+            selector    : selector,
+            container   : $root,
+            always      : options.always,
+            flex        : true,
+            before      : options.before,
+            mouseButton : options.mouseButton,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
                 that.trigger('start');
@@ -124,7 +125,12 @@
     };
 
     Sortable.prototype.destroy = function() {
-        that.$.droppable('destroy');
+        this.$.droppable('destroy');
+    };
+
+    Sortable.prototype.reset = function() {
+        this.destroy();
+        this.init();
     };
 
     Sortable.prototype.getItems = function(onlyElements) {

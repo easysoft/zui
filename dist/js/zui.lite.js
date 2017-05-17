@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.6.0 - 2017-03-16
+ * ZUI: Lite edition - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -15,7 +15,7 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     /* Check jquery */
@@ -26,6 +26,13 @@
         if($.isPlainObject(obj)) {
             $.extend($.zui, obj);
         }
+    };
+
+    var MOUSE_BUTTON_CODES = {
+        all: -1,
+        left: 0,
+        middle: 1,
+        right: 2
     };
 
     var lastUuidAmend = 0;
@@ -67,6 +74,14 @@
                 }
             }
             return code;
+        },
+
+        getMouseButtonCode: function(mouseButton) {
+            if(typeof mouseButton !== 'number') {
+                mouseButton = MOUSE_BUTTON_CODES[mouseButton];
+            }
+            if(mouseButton === undefined || mouseButton === null) mouseButton = -1;
+            return mouseButton;
         }
     });
 
@@ -89,7 +104,7 @@
         $this.trigger(e);
         return e;
     };
-}(jQuery, window));
+}(jQuery, window, undefined));
 
 
 /* ========================================================================
@@ -1594,11 +1609,12 @@
         var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
-            if(this.options.rememberPos) {
-                if(this.options.rememberPos === true) {
+            var rememberPos = this.options.rememberPos;
+            if(rememberPos) {
+                if(rememberPos === true) {
                     pos = this.$element.data('modal-pos');
                 } else if($.zui.store) {
-                    pos = $.zui.store.pageGet(zuiname + '.rememberPos');
+                    pos = $.zui.store.pageGet(zuiname + '.rememberPos.' + rememberPos);
                 }
             }
             if(!pos) {
@@ -1628,10 +1644,11 @@
                     $dialog.css('margin-top', '').addClass('modal-dragged');
                 },
                 finish: function(e) {
-                    if(options.rememberPos) {
+                    var rememberPos = options.rememberPos;
+                    if(rememberPos) {
                         that.$element.data('modal-pos', e.pos);
-                        if($.zui.store && options.rememberPos !== true) {
-                            $.zui.store.pageSet(zuiname + '.rememberPos', e.pos);
+                        if($.zui.store && rememberPos !== true) {
+                            $.zui.store.pageSet(zuiname + '.rememberPos.' + rememberPos, e.pos);
                         }
                     }
                 }
@@ -1935,6 +1952,7 @@
         height: 'auto',
         // icon: null,
         name: 'triggerModal',
+        // className: '',
         fade: true,
         position: 'fit',
         showHeader: true,
@@ -1983,7 +2001,7 @@
             if(!that.isShown) $modal.off(ZUI_MODAL);
             $modal.remove();
         }
-        $modal = $('<div id="' + options.name + '" class="modal modal-trigger">' + (typeof options.loadingIcon === 'string' && options.loadingIcon.indexOf('icon-') === 0 ? ('<div class="icon icon-spin loader ' + options.loadingIcon + '"></div>') : options.loadingIcon) + '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
+        $modal = $('<div id="' + options.name + '" class="modal modal-trigger ' + (options.className || '') + '">' + (typeof options.loadingIcon === 'string' && options.loadingIcon.indexOf('icon-') === 0 ? ('<div class="icon icon-spin loader ' + options.loadingIcon + '"></div>') : options.loadingIcon) + '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
 
         var bindEvent = function(optonName, eventName) {
             var handleFunc = options[optonName];
@@ -2177,10 +2195,11 @@
         }
 
         $modal.modal({
-            show: 'show',
-            backdrop: options.backdrop,
-            moveable: options.moveable,
-            keyboard: options.keyboard
+            show       : 'show',
+            backdrop   : options.backdrop,
+            moveable   : options.moveable,
+            rememberPos: options.rememberPos,
+            keyboard   : options.keyboard
         });
     };
 

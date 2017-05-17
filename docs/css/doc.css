@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.6.0 - 2017-03-16
+ * ZUI: Document - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -649,7 +649,7 @@ body {
   background-color: rgba(255, 255, 255, .2);
   opacity: 1;
   -webkit-transition: opacity .3s, -webkit-transform .3s;
-       -o-transition: transform .3s, opacity .3s, -o-transform .3s;
+       -o-transition: opacity .3s, -o-transform .3s;
           transition: opacity .3s, -webkit-transform .3s;
           transition: transform .3s, opacity .3s;
           transition: transform .3s, opacity .3s, -webkit-transform .3s, -o-transform .3s;
@@ -744,7 +744,7 @@ body {
   -webkit-box-shadow: none;
           box-shadow: none;
   -webkit-transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1), -webkit-transform .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), transform .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1), -o-transform .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1), -o-transform .1s cubic-bezier(.175, .885, .32, 1);
           transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1), -webkit-transform .1s cubic-bezier(.175, .885, .32, 1);
           transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), transform .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1);
           transition: border .1s cubic-bezier(.175, .885, .32, 1), height .1s cubic-bezier(.175, .885, .32, 1), transform .1s cubic-bezier(.175, .885, .32, 1), top .1s cubic-bezier(.175, .885, .32, 1), left .1s cubic-bezier(.175, .885, .32, 1), opcity .1s cubic-bezier(.175, .885, .32, 1), -webkit-transform .1s cubic-bezier(.175, .885, .32, 1), -o-transform .1s cubic-bezier(.175, .885, .32, 1);
@@ -960,7 +960,7 @@ body {
   background-color: #e5e5e5;
   border-radius: 4px;
   -webkit-transition: background-color .1s cubic-bezier(.175, .885, .32, 1), -webkit-transform .1s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1), -o-transform .1s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: background-color .1s cubic-bezier(.175, .885, .32, 1), -o-transform .1s cubic-bezier(.175, .885, .32, 1);
           transition: background-color .1s cubic-bezier(.175, .885, .32, 1), -webkit-transform .1s cubic-bezier(.175, .885, .32, 1);
           transition: transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1);
           transition: transform .1s cubic-bezier(.175, .885, .32, 1), background-color .1s cubic-bezier(.175, .885, .32, 1), -webkit-transform .1s cubic-bezier(.175, .885, .32, 1), -o-transform .1s cubic-bezier(.175, .885, .32, 1);
@@ -1185,7 +1185,7 @@ body {
   filter: alpha(opacity=0);
   opacity: 0;
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
@@ -1298,7 +1298,7 @@ body {
   filter: alpha(opacity=0);
   opacity: 0;
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
@@ -1411,7 +1411,7 @@ body {
   filter: alpha(opacity=0);
   opacity: 0;
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
@@ -1524,7 +1524,7 @@ body {
   filter: alpha(opacity=0);
   opacity: 0;
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
@@ -1637,7 +1637,7 @@ body {
   filter: alpha(opacity=0);
   opacity: 0;
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
@@ -1750,7 +1750,7 @@ body {
   filter: alpha(opacity=0);
   opacity: 0;
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
@@ -1863,7 +1863,7 @@ body {
   filter: alpha(opacity=0);
   opacity: 0;
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1);
           transition: transform .2s cubic-bezier(.175, .885, .32, 1), opacity .2s cubic-bezier(.175, .885, .32, 1), left .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
@@ -2520,7 +2520,7 @@ body.page-show #page {
 body.page-show #grid,
 body.page-show #page {
   -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), top .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), transform .2s cubic-bezier(.175, .885, .32, 1), top .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1), top .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), top .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), transform .2s cubic-bezier(.175, .885, .32, 1), top .2s cubic-bezier(.175, .885, .32, 1);
           transition: opacity .2s cubic-bezier(.175, .885, .32, 1), transform .2s cubic-bezier(.175, .885, .32, 1), top .2s cubic-bezier(.175, .885, .32, 1), -webkit-transform .2s cubic-bezier(.175, .885, .32, 1), -o-transform .2s cubic-bezier(.175, .885, .32, 1);

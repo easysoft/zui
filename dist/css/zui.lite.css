@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.6.0 - 2017-03-16
+ * ZUI: Lite edition - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -4413,9 +4413,6 @@ a.list-group-item:focus {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   }
-.input-group-addon:first-child {
-  border-right: 0;
-  }
 .input-group .form-control:last-child,
 .input-group-addon:last-child,
 .input-group-btn:last-child > .btn,
@@ -4425,6 +4422,9 @@ a.list-group-item:focus {
 .input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  }
+.input-group-addon:first-child {
+  border-right: 0;
   }
 .input-group-addon:last-child {
   border-left: 0;
@@ -5334,7 +5334,7 @@ tbody.collapse.in {
   }
 .modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform .3s ease-out;
-       -o-transition:         transform .3s ease-out, -o-transform .3s ease-out;
+       -o-transition:      -o-transform .3s ease-out;
           transition: -webkit-transform .3s ease-out;
           transition:         transform .3s ease-out;
           transition:         transform .3s ease-out, -webkit-transform .3s ease-out, -o-transform .3s ease-out;

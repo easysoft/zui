@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.6.0 - 2017-03-16
+ * ZUI: ZUI for official website - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -15,7 +15,7 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     /* Check jquery */
@@ -26,6 +26,13 @@
         if($.isPlainObject(obj)) {
             $.extend($.zui, obj);
         }
+    };
+
+    var MOUSE_BUTTON_CODES = {
+        all: -1,
+        left: 0,
+        middle: 1,
+        right: 2
     };
 
     var lastUuidAmend = 0;
@@ -67,6 +74,14 @@
                 }
             }
             return code;
+        },
+
+        getMouseButtonCode: function(mouseButton) {
+            if(typeof mouseButton !== 'number') {
+                mouseButton = MOUSE_BUTTON_CODES[mouseButton];
+            }
+            if(mouseButton === undefined || mouseButton === null) mouseButton = -1;
+            return mouseButton;
         }
     });
 
@@ -89,7 +104,7 @@
         $this.trigger(e);
         return e;
     };
-}(jQuery, window));
+}(jQuery, window, undefined));
 
 
 /* ========================================================================
@@ -2042,6 +2057,7 @@
         // selector: '',
         container: 'body',
         move: true
+        // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
     var idIncrementer = 0;
 
@@ -2148,6 +2164,11 @@
         };
 
         var mouseDown = function(event) {
+            var mouseButton = $.zui.getMouseButtonCode(setting.mouseButton);
+            if(mouseButton > -1 && event.button !== mouseButton) {
+                return;
+            }
+            
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
@@ -2238,6 +2259,7 @@
         deviation: 5,
         sensorOffsetX: 0,
         sensorOffsetY: 0
+        // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
     var idIncrementer = 0;
 
@@ -2457,6 +2479,11 @@
         };
 
         var mouseDown = function(event) {
+            var mouseButton = $.zui.getMouseButtonCode(setting.mouseButton);
+            if(mouseButton > -1 && event.button !== mouseButton) {
+                return;
+            }
+            
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
@@ -2568,7 +2595,7 @@
     Sortable.DEFAULTS = DEFAULTS;
     Sortable.NAME     = NAME;
 
-    Sortable.prototype.init = function($list) {
+    Sortable.prototype.init = function() {
         var that         = this,
             $root        = that.$,
             options      = that.options,
@@ -2609,13 +2636,14 @@
         markOrders();
 
         $root.droppable({
-            handle   : options.trigger,
-            target   : selector,
-            selector : selector,
-            container: $root,
-            always   : options.always,
-            flex     : true,
-            before   : options.before,
+            handle      : options.trigger,
+            target      : selector,
+            selector    : selector,
+            container   : $root,
+            always      : options.always,
+            flex        : true,
+            before      : options.before,
+            mouseButton : options.mouseButton,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
                 that.trigger('start');
@@ -2653,7 +2681,12 @@
     };
 
     Sortable.prototype.destroy = function() {
-        that.$.droppable('destroy');
+        this.$.droppable('destroy');
+    };
+
+    Sortable.prototype.reset = function() {
+        this.destroy();
+        this.init();
     };
 
     Sortable.prototype.getItems = function(onlyElements) {
@@ -2767,11 +2800,12 @@
         var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
-            if(this.options.rememberPos) {
-                if(this.options.rememberPos === true) {
+            var rememberPos = this.options.rememberPos;
+            if(rememberPos) {
+                if(rememberPos === true) {
                     pos = this.$element.data('modal-pos');
                 } else if($.zui.store) {
-                    pos = $.zui.store.pageGet(zuiname + '.rememberPos');
+                    pos = $.zui.store.pageGet(zuiname + '.rememberPos.' + rememberPos);
                 }
             }
             if(!pos) {
@@ -2801,10 +2835,11 @@
                     $dialog.css('margin-top', '').addClass('modal-dragged');
                 },
                 finish: function(e) {
-                    if(options.rememberPos) {
+                    var rememberPos = options.rememberPos;
+                    if(rememberPos) {
                         that.$element.data('modal-pos', e.pos);
-                        if($.zui.store && options.rememberPos !== true) {
-                            $.zui.store.pageSet(zuiname + '.rememberPos', e.pos);
+                        if($.zui.store && rememberPos !== true) {
+                            $.zui.store.pageSet(zuiname + '.rememberPos.' + rememberPos, e.pos);
                         }
                     }
                 }
@@ -3108,6 +3143,7 @@
         height: 'auto',
         // icon: null,
         name: 'triggerModal',
+        // className: '',
         fade: true,
         position: 'fit',
         showHeader: true,
@@ -3156,7 +3192,7 @@
             if(!that.isShown) $modal.off(ZUI_MODAL);
             $modal.remove();
         }
-        $modal = $('<div id="' + options.name + '" class="modal modal-trigger">' + (typeof options.loadingIcon === 'string' && options.loadingIcon.indexOf('icon-') === 0 ? ('<div class="icon icon-spin loader ' + options.loadingIcon + '"></div>') : options.loadingIcon) + '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
+        $modal = $('<div id="' + options.name + '" class="modal modal-trigger ' + (options.className || '') + '">' + (typeof options.loadingIcon === 'string' && options.loadingIcon.indexOf('icon-') === 0 ? ('<div class="icon icon-spin loader ' + options.loadingIcon + '"></div>') : options.loadingIcon) + '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
 
         var bindEvent = function(optonName, eventName) {
             var handleFunc = options[optonName];
@@ -3350,10 +3386,11 @@
         }
 
         $modal.modal({
-            show: 'show',
-            backdrop: options.backdrop,
-            moveable: options.moveable,
-            keyboard: options.keyboard
+            show       : 'show',
+            backdrop   : options.backdrop,
+            moveable   : options.moveable,
+            rememberPos: options.rememberPos,
+            keyboard   : options.keyboard
         });
     };
 
@@ -6595,8 +6632,6 @@
  * ========================================================================
  * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
-
-
 (function($) {
     'use strict';
 
@@ -6660,6 +6695,10 @@
         colHover: true, // apply hover effection to head
         hoverClass: 'hover',
         colHoverClass: 'col-hover',
+
+
+        // Fix cell height
+        fixCellHeight: true,
 
         // Merge rows
         mergeRows: false, // Merge rows
@@ -6876,7 +6915,7 @@
                     'data-index': i,
                     'data-type': col.type,
                     style: col.css
-                });
+                }).css('width', col.width);
             $tr.append($th);
         }
 
@@ -6992,7 +7031,7 @@
                         'data-type': cols[i].type,
                         style: rowCol.css,
                         title: rowCol.title || ''
-                    });
+                    }).css('width', cols[i].width);
 
 
                 $tr.append($td);
@@ -7002,6 +7041,7 @@
             $flex.append($flexRow);
             $right.append($rightRow);
         }
+
 
         var $rowSpan;
         if(data.fixedLeft) {
@@ -7052,7 +7092,6 @@
 
         that.bindEvents();
         that.refreshSize();
-
         that.callEvent('render');
     };
 
@@ -7470,7 +7509,8 @@
         $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
         $datatable.find('.datatable-span.fixed-right').css('width', options.fixedRightWidth);
 
-        var findMaxHeight = function($cells) {
+        if(options.fixCellHeight) {
+            var findMaxHeight = function($cells) {
                 var mx = 0,
                     $cell, rowSpan;
                 $cells.css('height', 'auto');
@@ -7480,26 +7520,22 @@
                     if(!rowSpan || rowSpan == 1) mx = Math.max(mx, $cell.outerHeight());
                 });
                 return mx;
-            },
-            $dataCells = this.$dataCells,
-            $cells = this.$cells,
-            $headCells = this.$headCells;
+            };
+            var $dataCells = this.$dataCells,
+                $cells = this.$cells,
+                $headCells = this.$headCells;
 
-        // set width of data cells
-        for(i = 0; i < cols.length; ++i) {
-            $cells.filter('[data-index="' + i + '"]').css('width', cols[i].width);
-        }
+            // set height of head cells
+            var headMaxHeight = findMaxHeight($headCells);
+            $headCells.css('min-height', headMaxHeight).css('height', headMaxHeight);
 
-        // set height of head cells
-        var headMaxHeight = findMaxHeight($headCells);
-        $headCells.css('min-height', headMaxHeight).css('height', headMaxHeight);
-
-        // set height of data cells
-        var $rowCells;
-        for(i = 0; i < rows.length; ++i) {
-            $rowCells = $dataCells.filter('[data-row="' + i + '"]');
-            var rowMaxHeight = findMaxHeight($rowCells);
-            $rowCells.css('min-height', rowMaxHeight).css('height', rowMaxHeight);
+            // set height of data cells
+            var $rowCells;
+            for(i = 0; i < rows.length; ++i) {
+                $rowCells = $dataCells.filter('[data-row="' + i + '"]');
+                var rowMaxHeight = findMaxHeight($rowCells);
+                $rowCells.css('min-height', rowMaxHeight).css('height', rowMaxHeight);
+            }
         }
     };
 
@@ -7526,7 +7562,6 @@
 
     $.fn.datatable.Constructor = DataTable;
 }(jQuery));
-
 
 /* ========================================================================
  * ZUI: color.js
@@ -7931,6 +7966,10 @@
 
     Color.isColor = isColor;
     Color.names = namedColors;
+
+    Color.get = function(colorName) {
+        return new Color(colorName);
+    };
 
     /* helpers */
     function hexToRgb(hex) {
@@ -10355,7 +10394,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.6.0 - 2017-03-16
+ * ZUI: Generated from less code - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -13179,7 +13218,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     x = Math.min(chartWidthHalf - segment.outerRadius - 10, x - 30 + chartWidthHalf);
                 }
 
-                var textHeight = options.scaleFontSize;
+                var textHeight = options.scaleFontSize * (options.scaleLineHeight || 1);
                 var labelPos = Math.round((y * 0.8 + chartHeightHalf) / textHeight) + 1;
                 var maxPos = Math.floor(this.chart.width / textHeight) + 1;
                 var labelPosDirection = isRight ? 1 : (-1);
@@ -14361,6 +14400,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         },
         clickBehavior: 'toggle',
         ignoreVal: 3
+        // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
 
     // Get and init options
@@ -14517,6 +14557,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(isMouseDown) {
                 return mouseup(e);
             }
+
+            var mouseButton = $.zui.getMouseButtonCode(options.mouseButton);
+            if(mouseButton > -1 && e.button !== mouseButton) {
+                return;
+            }
+
             if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }

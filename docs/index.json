@@ -1430,6 +1430,15 @@
                 }],
                 "filter": "tubiao tb quxiantu qxt bingtu bt"
             }, {
+                "id": "treemap",
+                "icon": "icon-sitemap",
+                "name": "树状图",
+                "version": "1.7.0",
+                "topics": [{
+
+                }],
+                "filter": "shuzhuangtu szt shuzt"
+            }, {
                 "id": "board",
                 "icon": "icon-columns",
                 "desc": "在多个列进行拖放内容",

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 拖拽选择 - v1.6.0 - 2017-03-16
+ * ZUI: 拖拽选择 - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -54,6 +54,7 @@
         },
         clickBehavior: 'toggle',
         ignoreVal: 3
+        // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
 
     // Get and init options
@@ -210,6 +211,12 @@
             if(isMouseDown) {
                 return mouseup(e);
             }
+
+            var mouseButton = $.zui.getMouseButtonCode(options.mouseButton);
+            if(mouseButton > -1 && e.button !== mouseButton) {
+                return;
+            }
+
             if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }

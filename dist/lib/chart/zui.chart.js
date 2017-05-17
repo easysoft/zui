@@ -1,5 +1,5 @@
 /*!
- * ZUI: Chart.js - v1.6.0 - 2017-03-16
+ * ZUI: Chart.js - v1.6.0 - 2017-05-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -2764,7 +2764,7 @@
                     x = Math.min(chartWidthHalf - segment.outerRadius - 10, x - 30 + chartWidthHalf);
                 }
 
-                var textHeight = options.scaleFontSize;
+                var textHeight = options.scaleFontSize * (options.scaleLineHeight || 1);
                 var labelPos = Math.round((y * 0.8 + chartHeightHalf) / textHeight) + 1;
                 var maxPos = Math.floor(this.chart.width / textHeight) + 1;
                 var labelPosDirection = isRight ? 1 : (-1);
