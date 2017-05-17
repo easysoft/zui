@@ -431,14 +431,14 @@ tree-custom-icons > li > .list-toggle:before {content: '\e6dd'}
 $('#tree').tree(options);
 ```
 
-### 参数
+### 选项
 
-可用参数如下：
+可用选项如下：
 
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>参数</th>
+      <th>选项</th>
       <th style="width: 80px">名称</th>
       <th style="width: 300px">可选值</th>
       <th>说明</th>
