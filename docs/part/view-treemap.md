@@ -418,34 +418,36 @@ $('#myTreemap').treemap('drawLines');
 
 <script>
 function afterPageLoad() {
-    $('#treemapExample1').treemap({
-        data: {
-            text: '蔬菜',
-            children: [{
-                html: '<i class="icon icon-heart text-danger"></i> 我的菜',
-                children: [{
-                    textColor: 'green',
-                    text: '青菜'
-                }, {
-                    html: '<span class="text-info">菠菜</span>'
-                }]
-            }, {
-                text: '你的瓜',
-                style: {border: '1px solid green'},
-                collapsed: true,
-                tooltip: '点击展开或折叠',
-                children: ['南瓜', '西瓜', '丝瓜', '苦瓜']
-            }, {
-                text: '甘蓝',
-                children: ['大甘蓝']
-            }, {
-                color: 'orange',
-                textColor: 'white',
-                text: '土豆'
-            }]
-        }
-    });
-    $('#treemapExample2').treemap();
+    setTimeout(function() {
+      $('#treemapExample1').treemap({
+          data: {
+              text: '蔬菜',
+              children: [{
+                  html: '<i class="icon icon-heart text-danger"></i> 我的菜',
+                  children: [{
+                      textColor: 'green',
+                      text: '青菜'
+                  }, {
+                      html: '<span class="text-info">菠菜</span>'
+                  }]
+              }, {
+                  text: '你的瓜',
+                  style: {border: '1px solid green'},
+                  collapsed: true,
+                  tooltip: '点击展开或折叠',
+                  children: ['南瓜', '西瓜', '丝瓜', '苦瓜']
+              }, {
+                  text: '甘蓝',
+                  children: ['大甘蓝']
+              }, {
+                  color: 'orange',
+                  textColor: 'white',
+                  text: '土豆'
+              }]
+          }
+      });
+      $('#treemapExample2').treemap();
+    }, 500);
 }
 </script>
 
