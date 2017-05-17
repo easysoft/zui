@@ -81,7 +81,7 @@
 }
 
 .treemap-node-fold-icon {
-  transition: opacity .2s;
+  transition: opacity .2s, transform .1s;
   opacity: 0;
   background-color: @color-back;
   border-radius: 5px;
@@ -102,19 +102,28 @@
 .treemap-node-wrapper:hover .treemap-node-fold-icon {
   opacity: 1;
 }
-.treemap-node.collapsed {
-  > .treemap-line,
-  .treemap-line-bottom {border-color: transparent!important;}
-  > .treemap-node-children {display: none}
+.treemap-node {
+  &.collapsed {
+    > .treemap-line,
+    .treemap-line-bottom {border-color: transparent!important;}
+    > .treemap-node-children {display: none}
 
-  .treemap-node-fold-icon {
-    opacity: 1;
-    color: @color-gray;
-    transform: none!important;
-    top: -6px;
+    .treemap-node-fold-icon {
+      opacity: 1;
+      color: @color-gray;
+      transform: none!important;
+      top: -6px;
 
-    &:before {
-      content: @icon-expand-alt;
+      &:before {
+        content: @icon-expand-alt;
+      }
+    }
+  }
+
+  &.tree-node-collapsing {
+    > .treemap-line,
+    > .treemap-node-children {
+      visibility: hidden;
     }
   }
 }

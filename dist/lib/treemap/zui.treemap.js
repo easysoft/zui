@@ -123,13 +123,17 @@
         });
         if(options.foldable) {
             $nodes.on('click', options.clickNodeToFold ? '.treemap-node-wrapper' : '.treemap-node-fold-icon', function() {
-                $(this).closest('.treemap-node').toggleClass('collapsed');
+                var $node = $(this).closest('.treemap-node').addClass('tree-node-collapsing');
+                $node.toggleClass('collapsed').find('[data-toggle="tooltip"]').tooltip('hide');
                 that.drawLines();
+                setTimeout(function() {
+                    $node.removeClass('tree-node-collapsing');
+                }, 200);
             });
         }
 
         $nodes.on('click', '.treemap-node-wrapper', function() {
-            var $node = $(this).closet('.treemap-node');
+            var $node = $(this).closest('.treemap-node');
             that.callEvent('onNodeClick', $node.data('node'));
         });
     };
