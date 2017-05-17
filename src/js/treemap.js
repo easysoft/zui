@@ -26,19 +26,16 @@
     var NAME = 'zui.treemap',
         DEFAULTS = {
             data: [],
-            moveable: true,
-            direction: 'bottom', // or 'top', 'left', 'right'
+            // direction: 'bottom', // or 'top', 'left', 'right'
             cableWidth: 1,
             cableColor: '#808080',
             cableStyle: 'solid',
-            height: 'auto',
-            scale: 1,
-            position: 'center',
             rowSpace: 30,
             nodeSpace: 20,
             listenNodeResize: true,
             nodeTemplate: '<div class="treemap-node"><a class="treemap-node-wrapper"></a></div>',
             foldable: true,
+            clickNodeToFold: true,
             // sort: false, // Boolean or function
             // tooltip: null,
             // nodeStyle: null,
@@ -51,9 +48,7 @@
             // textColor: '',        // text color
             // color: '',            // background color
             // border: '',           // border style,
-            // cableWidth: 2,        // cabel width, use options
-            // cableColor: '#808080' // cable color, use options
-            // caption: ''           // node caption
+            // tooltip: ''           // node caption
             // attrs: null           // attrs
             // title: ''             // node title
             // tooltip: ''           // node tooltip
@@ -73,11 +68,13 @@
             }
             if(!item.text && !item.html) {
                 var $content = $item.children(':not(ul,.treemap-data-list)');
+                var $itemClone = $item.clone();
+                $itemClone.find('ul,.treemap-data-list').remove();
                 if(!$content.length) {
-                    var $itemClone = $item.clone();
-                    $itemClone.find('ul,.treemap-data-list').remove();
                     item.text = $itemClone.text();
-                } else item.html = $content.html();
+                } else {
+                    item.html = $itemClone.html();
+                }
             }
             if(!item.id) item.id = $.zui.uuid();
             return item;
@@ -104,7 +101,7 @@
         var that     = this;
         that.$       = $element;
         that.$nodes  = $nodes;
-        that.data    = data;
+        that.data    = $.isArray(data) ? data : [data];
         that.options = options;
         that.offsetX = 0;
         that.offsetY = 0;
@@ -114,19 +111,30 @@
         
         that.render();
 
-        that.$nodes.on('resize', '.treemap-node-wrapper', function() {
+        $nodes.on('resize', '.treemap-node-wrapper', function() {
             that.delayDrawLines();
-        }).on('click', '.treemap-node-fold-icon', function() {
-            $(this).closest('.treemap-node').toggleClass('collapsed');
-            that.drawLines();
+        });
+        if(options.foldable) {
+            $nodes.on('click', options.clickNodeToFold ? '.treemap-node-wrapper' : '.treemap-node-fold-icon', function() {
+                $(this).closest('.treemap-node').toggleClass('collapsed');
+                that.drawLines();
+            });
+        }
+
+        $nodes.on('click', '.treemap-node-wrapper', function() {
+            var $node = $(this).closet('.treemap-node');
+            that.callEvent('onNodeClick', $node.data('node'));
         });
     };
 
     Treemap.prototype.render = function(data) {
         var that       = this;
+        that.data = data || that.data;
 
-        that.createNodes();
-        that.drawLines();
+        if(that.data) {
+            that.createNodes();
+            that.drawLines();
+        }
 
         that.callEvent('afterRender');
     };
@@ -146,7 +154,13 @@
             });
         }
         var lastNode = null;
+        nodes = nodes || that.data;
         $.each(nodes || that.data, function(idx, node) {
+            if(typeof node === 'string') {
+                node = {html: node};
+                nodes[idx] = node;
+            }
+
             // Create node element
             var $node = $.isFunction(options.nodeTemplate) ? options.nodeTemplate(node, that) : $(options.nodeTemplate);
 
@@ -162,14 +176,14 @@
 
             // Set node data attributes
             node.idx    = idx;
+            var row = parent ? (parent.row + 1) : 0;
             $node.toggleClass('treemap-node-has-child', !!hasChild)
                  .toggleClass('treemap-node-has-parent', !!parent)
                  .toggleClass('treemap-node-one-child', hasChild === 1)
-                 .toggleClass('collapsed', !!node.collapsed)
+                 .toggleClass('collapsed', !!node.collapsed && node.collapsed !== 'false')
+                 .toggleClass('treemap-node-root', !row)
                  .attr('data-id', node.id).data('node', node);
-            var row = parent ? (parent.row + 1) : 0;
             node.row = row;
-            $node.toggleClass('treemap-node-root', !row);
 
             // Set node element attributes and sytle
             var style = $.extend({}, options.nodeStyle, node.style);
@@ -177,7 +191,7 @@
             if(node.color) style.backgroundColor = node.color;
             if(node.border) style.border = node.border;
             var attrs = $.extend({}, node.attrs, {
-                title: node.title
+                title: node.caption
             });
             if(node.tooltip) {
                 attrs['data-toggle'] = 'tooltip';
@@ -279,7 +293,7 @@
                 if(!$bottomLine.length) {
                     $bottomLine = $('<div class="treemap-line-bottom"/>').appendTo($wrapper);
                     if(options.foldable) {
-                        $bottomLine.append('<i class="treemap-node-fold-icon icon icon-minus-sign" style="transform: translate(-' + Math.round(nodeCableStyle.borderWidth/2) + 'px, ' + rowSpaceHalf + 'px)"/>');
+                        $bottomLine.append('<i class="treemap-node-fold-icon icon" style="transform: translate(-' + Math.floor(nodeCableStyle.borderWidth/2) + 'px, ' + rowSpaceHalf + 'px)"/>');
                     }
                 }
                 $bottomLine.css(nodeCableStyle);

@@ -5,10 +5,6 @@
 /// Copyright 2017 cnezsoft.com; Licensed MIT
 /// ========================================================================
 
-.treemap {
-  text-align: center;
-}
-
 .treemap-data {
   text-align: left;
 }
@@ -17,12 +13,16 @@
   -moz-user-select: none;
   -webkit-user-select: none;
   padding: 10px;
-  display: inline-block;
+  display: table;
   position: relative;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .treemap-node {
-  display: inline-block;
+  display: table-cell;
+  vertical-align: top;
 }
 
 .treemap-node-wrapper {
@@ -55,11 +55,6 @@
 .treemap-node-children {
   display: table;
   margin-top: 20px auto 0;
-
-  > .treemap-node {
-    display: table-cell;
-    vertical-align: top;
-  }
 }
 
 .treemap-line-top,
@@ -89,15 +84,20 @@
   transition: opacity .2s;
   opacity: 0;
   background-color: @color-back;
-  border-radius: 7px;
+  border-radius: 5px;
   display: block!important;
-  width: 14px;
-  height: 14px;
-  line-height: 14px;
+  width: 10px;
+  height: 10px;
+  line-height: 10px;
   position: absolute;
-  left: -6px;
-  top: -8px;
+  left: -5px;
+  top: -6px;
   z-index: 10;
+
+  &:before {
+    content: @icon-collapse-alt;
+    min-width: 10px;
+  }
 }
 .treemap-node-wrapper:hover .treemap-node-fold-icon {
   opacity: 1;
@@ -111,10 +111,10 @@
     opacity: 1;
     color: @color-gray;
     transform: none!important;
-    top: -1px;
+    top: -6px;
 
     &:before {
-      content: @icon-plus-sign;
+      content: @icon-expand-alt;
     }
   }
 }
