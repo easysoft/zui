@@ -21,7 +21,7 @@ filter: tubiao tb
 }
 #iconsExample li a {color: #333}
 #iconsExample li a:hover {text-decoration: none}
-#iconsExample li a > i {display: inline-block; width: 20px}
+#iconsExample li a > i {display: inline-block; min-width: 20px}
 #iconsExample li:hover {background-color: #d5f1d7; transform: scale(1.2);}
 
 .table-icons-example td {vertical-align: middle;}
