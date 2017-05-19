@@ -1,5 +1,5 @@
 /*!
- * ZUI: ZUI for official website - v1.6.0 - 2017-05-17
+ * ZUI: ZUI for official website - v1.6.0 - 2017-05-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -10394,7 +10394,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
 
 /*!
- * ZUI: Generated from less code - v1.6.0 - 2017-05-17
+ * ZUI: Generated from less code - v1.6.0 - 2017-05-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT

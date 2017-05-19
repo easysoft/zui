@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.6.0 - 2017-05-17
+ * ZUI: Standard edition - v1.6.0 - 2017-05-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -3077,6 +3077,18 @@ a .icon-spin {
 .icon-circle-o-notch:before {
   content: '\f1ce';
   }
+.icon-chanzhi:before {
+  content: '\e906';
+  }
+.icon-chanzhi-pro:before {
+  content: '\e905';
+  }
+.icon-zsite:before {
+  content: '\e904';
+  }
+.icon-zsite-pro:before {
+  content: '\e903';
+  }
 .icon-qq:before {
   content: '\f600';
   }
@@ -3875,8 +3887,14 @@ a .icon-spin {
 .icon-minus-sign-alt:before {
   content: '\e71c';
   }
+.icon-plus-sign-alt:before {
+  content: '\f0fe';
+  }
 .icon-check-minus:before {
   content: '\e71d';
+  }
+.icon-check-plus:before {
+  content: '\f196';
   }
 .icon-level-up:before {
   content: '\e71e';

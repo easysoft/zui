@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.6.0 - 2017-05-17
+ * ZUI: Document - v1.6.0 - 2017-05-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -656,6 +656,7 @@
         if(oldIcon) $preview.find('.icon').removeClass('icon-' + oldIcon);
         var icon = $icon.data('icon');
         $search.data('preview', icon.id);
+        $preview.toggleClass('show-shaped-icon', !!icon.shaped);
         var id = 'icon-' + icon.id;
         var isSpinner = (icon.id.startsWith('spin') || (icon.categories && icon.categories.indexOf('Spinner Icons') > -1)) === true;
         $preview.find('.icon').addClass(id).toggleClass('icon-spin', isSpinner);
@@ -689,7 +690,7 @@
                 $.each(data, function(iconName, icon) {
                     var $li = $('<li id="control-icon-' + iconName + '" data-id="' + iconName + '"><a href="#control/icons/' + iconName + '"><i class="icon icon-' + iconName + '"></i> icon-' + iconName + '</a></li>');
                     icon.id = iconName;
-                    $li.data('icon', icon);
+                    $li.data('icon', icon).toggleClass('control-icon-shaped', !!icon.shaped);
                     $list.append($li);
                 });
                 $search.children('.loader').replaceWith($list);
