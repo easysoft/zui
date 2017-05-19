@@ -1199,12 +1199,16 @@ body {
               display: block;
               position: absolute;
               text-indent: 0;
-              width: 30px;
+              width: 100%;
               height: 30px;
               line-height: 30px;
               top: 0;
               left: 0;
             }
+          }
+
+          &.control-icon-shaped > a {
+            width: 60px;
           }
         }
       }
@@ -1239,6 +1243,7 @@ body {
     height: 0;
     padding: 0;
     &.icon-preview {
+      > .icons {min-height: 140px;}
       > .icons > .icon {
         display: inline-block;
         margin: 0 15px;
@@ -1251,7 +1256,14 @@ body {
         max-width: 400px;
       }
     }
+
+    &.show-shaped-icon {
+      .icon-10x {font-size: 56px;}
+      .icon-5x {font-size: 42px;}
+      .icon-2x {font-size: 28px;}
+    }
   }
+
   .card.open {
     .card-heading {
       > .icon:after {
