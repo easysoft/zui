@@ -185,7 +185,7 @@ filter: lunbo lb
       <td>此事件在 `slide` 方法被调用之后立即出发。</td>
     </tr>
     <tr>
-      <td>slide.zui.carousel</td>
+      <td>slid.zui.carousel</td>
       <td>当所有幻灯片播放完之后被触发。</td>
     </tr>
     <tr>
