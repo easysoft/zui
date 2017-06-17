@@ -1,5 +1,5 @@
 /*!
- * ZUI: 树形图 - v1.6.0 - 2017-05-18
+ * ZUI: 树形图 - v1.7.0 - 2017-06-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -90,6 +90,9 @@
 
     var Treemap = function(element, options) {
         var $element = $(element);
+        if($.isArray(options)) {
+            options = {data: options};
+        }
         options = $.extend({}, DEFAULTS, $element.data(), options);
         
         var data = options.data || [];
@@ -194,6 +197,9 @@
                  .toggleClass('collapsed', !!node.collapsed && node.collapsed !== 'false')
                  .toggleClass('treemap-node-root', !row)
                  .attr('data-id', node.id).data('node', node);
+            if(node.className) {
+                $node.addClass(node.className);
+            }
             node.row = row;
 
             // Set node element attributes and sytle

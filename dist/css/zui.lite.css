@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.6.0 - 2017-05-18
+ * ZUI: Lite edition - v1.7.0 - 2017-06-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -1593,57 +1593,46 @@ small,
 cite {
   font-style: normal;
   }
+.text-gray,
 .text-muted {
   color: #808080;
   }
+.text-gray a,
 .text-muted a {
   color: #737373;
   }
+.text-gray a:hover,
 .text-muted a:hover,
+.text-gray a:active,
 .text-muted a:active {
   color: #145ccd;
   }
 .text-primary {
   color: #3280fc;
   }
-.text-primary:hover {
-  color: #0462f7;
-  }
+.text-yellow,
 .text-warning {
   color: #f1a325;
   }
-.text-warning:hover {
-  color: #d5890e;
-  }
+.text-red,
 .text-danger {
   color: #ea644a;
   }
-.text-danger:hover {
-  color: #e53d1c;
-  }
+.text-green,
 .text-success {
   color: #38b03f;
   }
-.text-success:hover {
-  color: #2c8931;
-  }
+.text-blue,
 .text-info {
   color: #03b8cf;
   }
-.text-info:hover {
-  color: #028b9d;
-  }
+.text-brown,
 .text-important {
   color: #bd7b46;
   }
-.text-important:hover {
-  color: #996337;
-  }
+.text-purple,
 .text-special {
   color: #8666b8;
-  }
-.text-special:hover {
-  color: #6c4aa1;
   }
 .text-link {
   color: #353535;
@@ -6335,109 +6324,75 @@ tbody.collapse.in {
   margin: 0;
   background-color: #fff;
   }
+.bg-black,
 .bg-default {
   color: #fff;
   background-color: #353535;
-  }
-a.bg-default:hover {
-  background-color: #1c1c1c;
   }
 .bg-primary {
   color: #fff;
   background-color: #3280fc;
   }
-a.bg-primary:hover {
-  background-color: #0462f7;
-  }
+.bg-green,
 .bg-success {
   color: #fff;
   background-color: #38b03f;
   }
-a.bg-success:hover {
-  background-color: #2c8931;
-  }
+.bg-blue,
 .bg-info {
   color: #fff;
   background-color: #03b8cf;
   }
-a.bg-info:hover {
-  background-color: #028b9d;
-  }
+.bg-yellow,
 .bg-warning {
   color: #fff;
   background-color: #f1a325;
   }
-a.bg-warning:hover {
-  background-color: #d5890e;
-  }
+.bg-red,
 .bg-danger {
   color: #fff;
   background-color: #ea644a;
   }
-a.bg-danger:hover {
-  background-color: #e53d1c;
-  }
+.bg-brown,
 .bg-important {
   color: #fff;
   background-color: #bd7b46;
   }
-a.bg-important:hover {
-  background-color: #996337;
-  }
+.bg-purple,
 .bg-special {
   color: #fff;
   background-color: #8666b8;
   }
-a.bg-special:hover {
-  background-color: #6c4aa1;
-  }
+.hl-gray,
 .hl-default {
   background-color: #f1f1f1;
-  }
-a.hl-default:hover {
-  background-color: #d7d7d7;
   }
 .hl-primary {
   background-color: #ebf2f9;
   }
-a.hl-primary:hover {
-  background-color: #c4d8ed;
-  }
+.hl-green,
 .hl-success {
   background-color: #ddf4df;
   }
-a.hl-success:hover {
-  background-color: #b6e8bb;
-  }
+.hl-blue,
 .hl-info {
   background-color: #ddf3f5;
   }
-a.hl-info:hover {
-  background-color: #b6e5e9;
-  }
+.hl-yellow,
 .hl-warning {
   background-color: #fff0d5;
   }
-a.hl-warning:hover {
-  background-color: #ffdea2;
-  }
+.hl-red,
 .hl-danger {
   background-color: #ffe5e0;
   }
-a.hl-danger:hover {
-  background-color: #ffbaad;
-  }
+.hl-brown,
 .hl-important {
   background-color: #f7ebe1;
   }
-a.hl-important:hover {
-  background-color: #ecd0b9;
-  }
+.hl-purple,
 .hl-special {
   background-color: #f5eeff;
-  }
-a.hl-special:hover {
-  background-color: #d7bbff;
   }
 .article {
   padding: 20px;

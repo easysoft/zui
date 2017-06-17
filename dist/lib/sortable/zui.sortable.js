@@ -1,5 +1,5 @@
 /*!
- * ZUI: 排序 - v1.6.0 - 2017-05-18
+ * ZUI: 排序 - v1.7.0 - 2017-06-17
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
