@@ -1172,7 +1172,7 @@
       },
       "desc": "ZUI文档依赖样式和工具",
       "ver": "1.3.0",
-      "dpds": ["setting", "icons.json"],
+      "dpds": ["setting", "array", "icons.json", "colorset.test", "hotkey", "clipboard", "marked", "less"],
       "hidden": true
     },
     "tree": {
@@ -1187,7 +1187,7 @@
     "clipboard": {
       "name": "clipboard",
       "src": {
-        "resource": ["assets/clipboard//clipboard.min.js", "assets/clipboard//clipboard.js"]
+        "js": ["assets/clipboard/clipboard.js"]
       },
       "ver": "1.4.0",
       "pver": "1.5.5",
@@ -1195,6 +1195,30 @@
       "source": "Zeno Rocha",
       "license": "MIT",
       "website": "https://clipboardjs.com/"
+    },
+    "marked": {
+      "name": "marked",
+      "src": {
+        "js": ["assets/marked/marked.js"]
+      },
+      "ver": "1.7.0",
+      "pver": "0.3.6",
+      "desc": "a markdown parser.",
+      "source": "Christopher Jeffrey",
+      "license": "MIT",
+      "website": "https://github.com/chjj/marked"
+    },
+    "less": {
+      "name": "Less",
+      "src": {
+        "js": ["assets/marked/marked.js"]
+      },
+      "ver": "1.7.0",
+      "pver": "2.5.3",
+      "desc": "Leaner CSS.",
+      "source": "Alexis Sellier",
+      "license": "Apache License 2.0",
+      "website": "http://lesscss.org"
     },
     "colorset.less2js": {
       "name": "JS配色表",
@@ -1299,21 +1323,12 @@
       "title": "Dist bundles",
       "bundles": ["standard", "lite", "theme", "seperate"]
     },
-    "doczui": {
-      "title": "ZUI for official website",
-      "dest": "docs/",
-      "filename": "zui",
-      "subdirectories": true,
-      "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "array", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "forms", "switch", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "sortable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "bootbox", "article", "comment", "list", "card", "dashboard", "board", "datatable", "calendar", "colorset.test", "hotkey", "chosenicons", "colorset.js", "colorset.less2js", "chart", "tree", "chosenicons", "colorpicker", "selectable"]
-    },
     "doc": {
       "title": "Document",
       "dest": "docs/",
       "filename": "doc",
       "subdirectories": true,
-      "includes": ["doc"],
-      "bundles": ["doczui"]
+      "includes": ["doc"]
     }
   }
 }
