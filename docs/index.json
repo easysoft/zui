@@ -1,5 +1,5 @@
 {
-    "version": "1.6.0.2",
+    "version": "1.7.0.1",
     "updateTime": "2016-09-09 09:26:10",
     "chapters": {
         "contribution": {
@@ -437,6 +437,7 @@
                 "desc": "一些使用的工具类",
                 "icon": "icon-wrench",
                 "id": "utilities",
+                "update": "1.7.0",
                 "name": "辅助类",
                 "topics": [{
                     "name": "小字号文本"
@@ -507,7 +508,7 @@
                 "icon": "icon-star",
                 "id": "icon",
                 "name": "图标",
-                "update": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "搜索图标",
                     "url": "#search/icon:"
@@ -712,6 +713,7 @@
                 "icon": "icon-layout",
                 "desc": "多个输入单元格",
                 "name": "输入组",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "基本类型"
                 }, {
@@ -918,6 +920,7 @@
                 "icon": "icon-signout",
                 "desc": "动态展示对话框",
                 "name": "对话框触发器",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "加载远程内容"
                 }, {
@@ -1110,6 +1113,7 @@
                 "desc": "色彩工具",
                 "name": "Color",
                 "version": "1.5.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "类型"
                 }, {
@@ -1122,7 +1126,7 @@
                 "desc": "拖动目标元素",
                 "name": "拖动",
                 "version": "1.5.0",
-                "update": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "综合示例"
                 }, {
@@ -1136,7 +1140,7 @@
                 "icon": "icon-external-link",
                 "desc": "拖动并放置在目标位置",
                 "name": "拖放",
-                "update": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "综合示例"
                 }, {
@@ -1151,7 +1155,7 @@
                 "desc": "拖动元素来排列顺序",
                 "name": "拖放排序",
                 "version": "1.5.0",
-                "update": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "综合示例"
                 }, {
@@ -1166,7 +1170,7 @@
                 "desc": "通过拖拽来选择元素",
                 "name": "拖拽选取",
                 "version": "1.5.0",
-                "update": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "综合示例"
                 }, {
@@ -1259,7 +1263,7 @@
                 "icon": "icon-table",
                 "desc": "可以固定列和表头的增强表格",
                 "name": "数据表格",
-                "update": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "简单应用"
                 }, {
@@ -1284,6 +1288,7 @@
                 "name": "文件上传",
                 "desc": "提供文件管理和大文件批量上传功能。",
                 "version": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "综合示例"
                 }, {
@@ -1416,7 +1421,7 @@
                 "icon": "icon-bar-chart",
                 "desc": "展示曲线图和饼图",
                 "name": "图表",
-                "update": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "创建图表"
                 }, {
@@ -1435,9 +1440,21 @@
                 "name": "组织结构图",
                 "version": "1.7.0",
                 "topics": [{
-
+                    "name": "综合示例"
+                }, {
+                    "name": "使用"
+                }, {
+                    "name": "节点对象"
+                }, {
+                    "name": "选项"
+                }, {
+                    "name": "方法"
+                }, {
+                    "name": "事件"
+                }, {
+                    "name": "其他问题"
                 }],
-                "filter": "shuzhuangtu szt shuzt"
+                "filter": "shuzhuangtu szt shuzt zuzhijiegoutu zzjgt organization"
             }, {
                 "id": "board",
                 "icon": "icon-columns",
@@ -1459,7 +1476,7 @@
                 "icon": "icon-th-large",
                 "desc": "支持拖放调整位置的面板网格",
                 "name": "仪表盘",
-                "update": "1.6.0",
+                "update": "1.7.0",
                 "topics": [{
                     "name": "使用示例"
                 }, {
