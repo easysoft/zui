@@ -468,8 +468,10 @@
         if(options.data) {
             var $row = $('<div class="row"/>');
             $.each(options.data, function(idx, config) {
-                var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>', config.colAttrs);
-                var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>', config.panelAttrs);
+                var $col = $('<div class="col-sm-' + (config.colWidth || 4) + '"/>');
+                if(config.colAttrs) $col.attr(config.colAttrs);
+                var $panel = $('<div class="panel" data-id="' + (config.id || $.zui.uuid()) + '"/>');
+                if(config.panelAttrs) $panel.attr(config.panelAttrs);
                 if(config.height !== undefined) $panel.data('height', config.height);
                 if(config.content !== undefined) {
                     if($.isFunction(config.content)) {
