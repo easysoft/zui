@@ -40,13 +40,34 @@ filter: fuzhulei fzl
 
 ```html
 <p class="text-muted">...</p>
+<p class="text-gray">...</p>
+```
+```html
 <p class="text-primary">...</p>
+```
+```html
 <p class="text-danger">...</p>
+<p class="text-red">...</p>
+```
+```html
 <p class="text-success">...</p>
+<p class="text-green">...</p>
+```
+```html
 <p class="text-warning">...</p>
+<p class="text-yellow">...</p>
+```
+```html
 <p class="text-info">...</p>
+<p class="text-blue">...</p>
+```
+```html
 <p class="text-important">...</p>
+<p class="text-brown">...</p>
+```
+```html
 <p class="text-special">...</p>
+<p class="text-purple">...</p>
 ```
 
 ## 文本背景高亮
@@ -68,13 +89,34 @@ filter: fuzhulei fzl
 
 ```html
 <p class="hl-default">...</p>
+<p class="hl-gray">...</p>
+```
+```html
 <p class="hl-primary">...</p>
+```
+```html
 <p class="hl-danger">...</p>
+<p class="hl-red">...</p>
+```
+```html
 <p class="hl-success">...</p>
+<p class="hl-green">...</p>
+```
+```html
 <p class="hl-warning">...</p>
+<p class="hl-yellow">...</p>
+```
+```html
 <p class="hl-info">...</p>
+<p class="hl-blue">...</p>
+```
+```html
 <p class="hl-important">...</p>
+<p class="hl-brown">...</p>
+```
+```html
 <p class="hl-special">...</p>
+<p class="hl-purple">...</p>
 ```
 
 ## 文本背景色
@@ -92,13 +134,34 @@ filter: fuzhulei fzl
 
 ```html
 <p class="bg-default">...</p>
+<p class="bg-black">...</p>
+```
+```html
 <p class="bg-primary">...</p>
+```
+```html
 <p class="bg-danger">...</p>
+<p class="bg-red">...</p>
+```
+```html
 <p class="bg-success">...</p>
+<p class="bg-green">...</p>
+```
+```html
 <p class="bg-warning">...</p>
+<p class="bg-yellow">...</p>
+```
+```html
 <p class="bg-info">...</p>
+<p class="bg-blue">...</p>
+```
+```html
 <p class="bg-important">...</p>
+<p class="bg-brown">...</p>
+```
+```html
 <p class="bg-special">...</p>
+<p class="bg-purple">...</p>
 ```
 
 ## 禁用文本换行
