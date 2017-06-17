@@ -1432,7 +1432,7 @@
             }, {
                 "id": "treemap",
                 "icon": "icon-sitemap",
-                "name": "树状图",
+                "name": "组织结构图",
                 "version": "1.7.0",
                 "topics": [{
 
