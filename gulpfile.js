@@ -252,7 +252,7 @@ function buildBundle(name, callback, type) {
 
         gulp.task('build:' + name + ':bundles', function(cb) {
             runSequence(bundlesTaskList, function() {
-                console.log(('         √ Build BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.join(', ') + '] success! ').green);
+                console.log(('         √ Build BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.map(function(x){return x.bold;}).join(', ') + '] success! ').green);
                 cb();
             });
         });
