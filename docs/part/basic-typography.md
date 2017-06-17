@@ -15,7 +15,7 @@ filter: paiban pb
   <tbody>
     <tr>
       <th>无衬线字体</th>
-      <td>`"Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif`</td>
+      <td>`"Helvetica Neue", Helvetica, Tahoma, Arial, 'Microsoft Yahei', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif`</td>
     </tr>
     <tr>
       <th>衬线字体</th>
