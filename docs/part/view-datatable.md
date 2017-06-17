@@ -568,6 +568,8 @@ $('table.datatable').datatable('load', function(data) {
 });
 ```
 
+<script src="dist/lib/datatable/zui.datatable.js"></script>
+<link href="dist/lib/datatable/zui.datatable.css" rel="stylesheet">
 <script>
 function onPageLoad() {
     return false;

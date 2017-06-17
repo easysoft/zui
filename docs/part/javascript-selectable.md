@@ -442,6 +442,8 @@ $('#selectableDatableExample').datatable({
 });
 ```
 
+<link href="lib/selectable/zui.selectable.min.css" rel="stylesheet">
+<script src="lib/selectable/zui.selectable.min.js"></script>
 <script>
 $(function() {
     var onTileSelect = function(e, that, a) {

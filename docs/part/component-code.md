@@ -115,6 +115,11 @@ test();</code></pre>
 </pre>
 ```
 
+```html
+<!-- 引入 prettyprint 相关资源 -->
+<script async src="lib/prettify/prettify.js"></script>
+```
+
 ```js
 // 页面导入 prettify.js 后调用 window.prettyPrint 方法来初始化代码高亮效果
 window.prettyPrint();

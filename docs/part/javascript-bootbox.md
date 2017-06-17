@@ -18,3 +18,5 @@ Bootbox 独立组件，你需要从本地或 CDN 单独引入 lib 目录下的�
 
 具体用法请参考[官方网站](http://bootboxjs.com/#)。
 
+<link href="dist/lib/bootbox/bootbox.min.css" rel="stylesheet">
+<script src="dist/lib/bootbox/bootbox.min.js"></script>

@@ -378,6 +378,10 @@ $('select.chosen-icons').chosenIcons(options);
 
 图标选择插件可以使用chosen的所有选项和方法。
 
+<link href="dist/lib/chosen/chosen.min.css" rel="stylesheet">
+<script src="dist/lib/chosen/chosen.min.js"></script>
+<link href="dist/lib/chosenicons/zui.chosenicons.min.css" rel="stylesheet">
+<script src="dist/lib/chosenicons/zui.chosenicons.min.js"></script>
 <script>
 function onPageLoad() {return false;}
 function afterPageLoad() {

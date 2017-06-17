@@ -621,6 +621,7 @@ var myBarChart = $('#myBarChart').barChart(data, options);
 <![endif]-->
 ```
 
+<script src="dist/lib/chart/zui.chart.min.js"></script>
 <script>
 function afterPageLoad() {
     var data = {

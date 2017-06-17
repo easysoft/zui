@@ -183,6 +183,7 @@ ZUI 中所有已定义的配色有：
 #zuiColors .color-tile {height: auto; width: 125px; padding: 0 5px; margin: 0; border: none;}
 </style>
 
+<script src="dist/lib/colorset/zui.colorset.min.js"></script>
 <script>
 $(function() {
     var $colors = $('<div class="clearfix"/>');
