@@ -2284,6 +2284,17 @@
         // init theme
         initTheme();
 
+        // init random ad
+        var $ads = $('#ad > a').on('mouseenter', function() {
+            $body.addClass('ad-hover');
+        }).on('mouseleave', function() {
+            $body.removeClass('ad-hover');
+        });
+        var $selectAd = $ads.eq(Math.floor(Math.random() * ($ads.length)));
+        $selectAd.removeClass('hidden');
+        $ads.not($selectAd).addClass('hidden');
+        $body.addClass('ad-' + $selectAd.attr('id'));
+
         if(!isTouchScreen) {
             // init tooltip
             $('[data-toggle="tooltip"]').tooltip({
