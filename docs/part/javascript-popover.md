@@ -374,11 +374,3 @@ $('#myPopover').popover('destroy');
 *   弹出框依赖 [工具提示插件](#javascript/tooltips) ，因此需要先加载工具提示插件。
 *   弹出框在按钮组和输入框组中使用时，需要额外的设置：当提示框与 `.btn-group` 或 `.input-group` 联合使用时，你需要指定 `container: 'body'`选项（见下面的文档）以避免不需要的副作用（例如，当弹出框显示之后，与其合作的页面元素可能变得更宽或是去圆角）。
 *   在禁止使用的页面元素上使用弹出框时需要额外增加一个元素将其包裹起来：为了给 `disabled` 或 `.disabled` 元素添加弹出框时，将需要增加弹出框的页面元素包裹在一个 `<div>` 中，然后对这个 `<div>` 元素应用弹出框。
-
-<script>
-function afterPageLoad() {
-    setTimeout(function() {
-        $('#pageContent [data-toggle="popover"]').popover();
-    }, 1000);
-}
-</script>
