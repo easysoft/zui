@@ -1651,9 +1651,35 @@
         }, null, true);
     };
 
+    var formatPkg = function(pkg) {
+        pkg = pkg || zuiPkg;
+        if(pkg) {
+            $('.format-pkg').each(function() {
+                var $e = $(this);
+                var eData = $e.data();
+                if(eData.fmtHref) {
+                    $e.attr('href', eData.fmtHref.format(pkg));
+                }
+                if(eData.fmtText) {
+                    $e.text(eData.fmtText.format(pkg));
+                }
+                if(eData.fmtHtml) {
+                    $e.html(eData.fmtHtml.format(pkg));
+                }
+                if(eData.fmt) {
+                    $.each(eData.fmt.split('|'), function(idx, fmt) {
+                        var fmtAttr = fmt.substr(0, fmt.indexOf(':'));
+                        var fmtValue = fmt.substr(fmtAttr.length + 1);
+                        $e.attr(fmtAttr, fmtValue.format(pkg));
+                    });
+                }
+            });
+        }
+    };
+
     var initPackage = function() {
         loadPackage(function(pkg) {
-            $('.zui-version').text(pkg.version);
+            formatPkg(pkg);
             pkgLibs.standard = getBuildList(pkg, pkg.builds.standard, pkg.lib);
             pkgLibs.lite = getBuildList(pkg, pkg.builds.lite, pkg.lib);
             pkgLibs.seperate = getBuildList(pkg, pkg.builds.seperate, pkg.lib);
