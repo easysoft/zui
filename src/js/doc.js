@@ -1844,10 +1844,12 @@
             });
             $table.find('tbody').remove();
             $table.append($tbody);
-            $table.datatable({
-                rowHover: false,
-                fixedHeaderOffset: 200
-            });
+            if($.fn.datatable) {
+                $table.datatable({
+                    rowHover: false,
+                    fixedHeaderOffset: 200
+                });
+            }
             $('.components-count').text(totalCount);
         });
     };
