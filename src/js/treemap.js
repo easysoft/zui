@@ -190,6 +190,9 @@
                  .toggleClass('collapsed', !!node.collapsed && node.collapsed !== 'false')
                  .toggleClass('treemap-node-root', !row)
                  .attr('data-id', node.id).data('node', node);
+            if(node.className) {
+                $node.addClass(node.className);
+            }
             node.row = row;
 
             // Set node element attributes and sytle
