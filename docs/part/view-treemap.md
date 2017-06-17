@@ -163,9 +163,19 @@ $('#treemapExample2').treemap();
 ```
 
 ```js
+// 从 data 选项创建
 $('#myTreemap').treemap({
-    // 初始化选项
+    data: [节点数据],
+    // 其他初始化选项
 });
+
+// 如果没有其他选项，可以直接将节点数据数组作为方法参数
+$('#myTreemap').treemap([节点数据]);
+```
+
+```js
+// 从 <ul class="treemap-data"> 元素创建
+$('#myTreemap').treemap();
 ```
 
 ### 节点对象
@@ -247,6 +257,12 @@ $('#myTreemap').treemap({
       <td>工具提示</td>
       <td>字符串，默认 `''`</td>
       <td>当鼠标悬浮在节点上时显示的工具提示内容</td>
+    </tr>
+    <tr>
+      <td>`className`</td>
+      <td>节点元素的 CLASS 属性</td>
+      <td>对象，默认 ``</td>
+      <td></td>
     </tr>
     <tr>
       <td>`attrs`</td>
@@ -385,33 +401,258 @@ $('#myTreemap').treemap({
 
 ### 方法
 
+#### <span class="code text-danger">$().treemap('render')</span>
+
+重新渲染组织图，通常情况下，你无需手动调用此方法，在初始化之后会自动进行一次渲染，如果发现图渲染不正确，或者发生错位，则可以调用此方法来修正实际效果。
+
 ```js
-// 重新渲染组织结构图
+// 简单调用
 $('#myTreemap').treemap('render');
+```
 
-// 使用新的数据渲染组织结构图
-$('#myTreemap').treemap('render', data);
+```js
+// 你还可以这样调用
+// 获取组织图实例
+var myTreemap = $('#myTreemap').data('zui.treemap');
+// 调用实例方法
+myTreemap.render();
+```
 
-// 重新计算并绘制连接线
+#### <span class="code text-danger">$().treemap('render', data)</span>
+
+使用新的数据渲染组织图。调用此方法可以立即更新组织图。
+
+```js
+// 简单调用
+var myTreemapData = [...];
+$('#myTreemap').treemap('render', myTreemapData);
+```
+
+```js
+// 你还可以这样调用
+// 获取组织图实例
+var myTreemap = $('#myTreemap').data('zui.treemap');
+// 调用实例方法
+var myTreemapData = [...];
+myTreemap.render(myTreemapData);
+```
+
+#### <span class="code text-danger">$().treemap('drawLines')</span>
+
+重新计算并绘制连接线，通常无序手动调用此方法。当发现组织图节点连接性发生错位时，调用此方法可以立即重新计算并重新绘制。
+
+```js
+// 简单调用
 $('#myTreemap').treemap('drawLines');
 ```
 
+```js
+// 你还可以这样调用
+// 获取组织图实例
+var myTreemap = $('#myTreemap').data('zui.treemap');
+// 调用实例方法
+myTreemap.drawLines();
+```
 
+#### <span class="code text-danger">$().treemap('toggle', $node, toggle)</span>
+
+折叠或展开指定的节点。此方法还有如下形式。
+
+* `toggle()`：折叠或展开第一个根节点；
+* `toggle($node)`：折叠或展开指定的节点，`$node` 参数为指定的节点元素 `.treemap-node`；
+* `toggle(toggle)`：折叠或展开第一个根节点，`toggle` 如果为 `true`，则为展开节点，`false` 为折叠节点；
+* `toggle($node, toggle)`：折叠或展开指定的节点，`$node` 参数为指定的节点元素 `.treemap-node`，`toggle` 如果为 `true`，则为展开节点，`false` 为折叠节点；
+
+```js
+// 切换折叠或展开根节点
+$('#myTreemap').treemap('toggle');
+
+// 切换折叠或展开指定的节点
+var $node = $('.treemap-node[data="1497683935614002"]');
+$('#myTreemap').treemap('toggle', $node);
+
+// 切换展开根节点
+$('#myTreemap').treemap('toggle', true);
+
+// 切换折叠指定的节点
+var $node = $('.treemap-node[data="1497683935614002"]');
+$('#myTreemap').treemap('toggle', $node, false);
+```
+
+```js
+// 你还可以这样调用
+
+// 获取组织图实例
+var myTreemap = $('#myTreemap').data('zui.treemap');
+
+// 调用实例方法
+
+// 切换折叠或展开根节点
+myTreemap.toggle();
+
+// 切换折叠或展开指定的节点
+var $node = $('.treemap-node[data="1497683935614002"]');
+myTreemap.toggle($node);
+
+// 切换展开根节点
+myTreemap.toggle(true);
+
+// 切换折叠指定的节点
+var $node = $('.treemap-node[data="1497683935614002"]');
+myTreemap.toggle($node, false);
+```
 
 ### 事件
+
+#### 事件 <span class="code text-danger">afterRender</span>
+
+该事件在渲染完毕时触发。
+
+```js
+// 使用 jQuery.on() 方法绑定事件
+$('#myTreemap').on('afterRender', function() {
+    console.log('组织结构图渲染完毕。');
+});
+```
+
+```
+// 在初始化时通过选项监听事件
+$('#myTreemap').treemap({
+    // ...
+    'afterRender': function() {
+        console.log('组织结构图渲染完毕。');
+    }
+});
+```
+
+#### 事件 <span class="code text-danger">afterDrawLines</span>
+
+该事件在重新绘制连接性后触发。
+
+```js
+// 使用 jQuery.on() 方法绑定事件
+$('#myTreemap').on('afterDrawLines', function() {
+    console.log('已重新绘制连接线。');
+});
+```
+
+```
+// 在初始化时通过选项监听事件
+$('#myTreemap').treemap({
+    // ...
+    'afterDrawLines': function() {
+        console.log('已重新绘制连接线。');
+    }
+});
+```
+
+#### 事件 <span class="code text-danger">onNodeClick</span>
+
+该事件在用户点击节点元素时触发。该事件回调函数包含一个参数为被点击的节点对象。
+
+```js
+// 使用 jQuery.on() 方法绑定事件
+$('#myTreemap').on('onNodeClick', function(node) {
+    console.log('被点击的节点为', node);
+});
+```
+
+```
+// 在初始化时通过选项监听事件
+$('#myTreemap').treemap({
+    // ...
+    'onNodeClick': function(node) {
+        console.log('被点击的节点为', node);
+    }
+});
+```
 
 ### 其他问题
 
 #### 重新绘制图
 
+如果你主动更改了节点元素的内容，此时节点元素尺寸发生了变化，导致连接线错位，此时你可以调用 `drawLines` 方法来重新绘制连接线。
+
+```js
+// 简单调用
+$('#myTreemap').treemap('drawLines');
+```
+
+```js
+// 你还可以这样调用
+// 获取组织图实例
+var myTreemap = $('#myTreemap').data('zui.treemap');
+// 调用实例方法
+myTreemap.drawLines();
+```
+
 #### 自定义节点模板
 
-#### 展开和折叠节点
+通常节点元素会自动根据节点对象生成，但也可以通过选项 `nodeTemplate` 来指定一个回调函数来创建节点元素。
 
-#### 监听节点点击事件
+下面的例子为每个节点元素根据节点对象中的 `icon` 属性在名称前添加一个图标：
+
+<example>
+  <div id="treemapExample3" class="treemap"></div>
+</example>
+
+```html
+<div id="treemapExample3" class="treemap"></div>
+```
+
+```js
+$('#treemapExample3').treemap({
+    data: {
+        text: '星星',
+        icon: 'star',
+        children: [
+            {text: '心', icon: 'heart'},
+            {text: '眼睛', icon: 'eye-open'},
+            {text: '礼物', icon: 'gift'}
+        ]
+    },
+    nodeTemplate: function(node, tree) {
+        var $node = $('<div class="treemap-node"></div>');
+        $node.append('<a class="treemap-node-wrapper">' + node.text + '</a>');
+        $node.find('.treemap-node-wrapper').prepend('<i class="icon icon-' + node.icon + '"></i> ');
+        return $node;
+    }
+});
+```
 
 #### 多个根节点
 
+在同一个组织结构图内可以存在多个根节点，这样可以一次性绘制多个组织结构图。只需要在初始化时使用数组传入多个根据点数据即可。
+
+<example>
+  <div id="treemapExample4" class="treemap"></div>
+</example>
+
+```html
+<div id="treemapExample4" class="treemap"></div>
+```
+
+```js
+$('#treemapExample4').treemap({
+    data: [
+        {
+            text: '图一',
+            children: [
+                {text: '心'},
+                {text: '眼睛'},
+                {text: '礼物'}
+            ]
+        }, {
+            text: '图二',
+            children: [
+                {text: '太阳'},
+                {text: '月亮'},
+                {text: '地球'}
+            ]
+        }
+    ]
+});
+```
 
 <script src="dist/lib/treemap/zui.treemap.js"></script>
 <link href="dist/lib/treemap/zui.treemap.css" rel="stylesheet">
@@ -447,7 +688,43 @@ function afterPageLoad() {
           }
       });
       $('#treemapExample2').treemap();
-    }, 500);
+      $('#treemapExample3').treemap({
+          data: {
+              text: '星星',
+              icon: 'star',
+              children: [
+                  {text: '心', icon: 'heart'},
+                  {text: '眼睛', icon: 'eye-open'},
+                  {text: '礼物', icon: 'gift'}
+              ]
+          },
+          nodeTemplate: function(node, tree) {
+              var $node = $('<div class="treemap-node"></div>');
+              $node.append('<a class="treemap-node-wrapper">' + node.text + '</a>');
+              $node.find('.treemap-node-wrapper').prepend('<i class="icon icon-' + node.icon + '"></i> ');
+              return $node;
+          }
+      });
+      $('#treemapExample4').treemap({
+          data: [
+              {
+                  text: '图一',
+                  children: [
+                      {text: '心'},
+                      {text: '眼睛'},
+                      {text: '礼物'}
+                  ]
+              }, {
+                  text: '图二',
+                  children: [
+                      {text: '太阳'},
+                      {text: '月亮'},
+                      {text: '地球'}
+                  ]
+              }
+          ]
+      });
+    }, 1000);
 }
 </script>
 

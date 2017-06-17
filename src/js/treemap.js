@@ -76,7 +76,6 @@
                     item.html = $itemClone.html();
                 }
             }
-            if(!item.id) item.id = $.zui.uuid();
             return item;
         }).get();
     };
@@ -119,12 +118,7 @@
         });
         if(options.foldable) {
             $nodes.on('click', options.clickNodeToFold ? '.treemap-node-wrapper' : '.treemap-node-fold-icon', function() {
-                var $node = $(this).closest('.treemap-node').addClass('tree-node-collapsing');
-                $node.toggleClass('collapsed').find('[data-toggle="tooltip"]').tooltip('hide');
-                that.drawLines();
-                setTimeout(function() {
-                    $node.removeClass('tree-node-collapsing');
-                }, 200);
+                that.toggle($(this).closest('.treemap-node'));
             });
         }
 
@@ -132,6 +126,27 @@
             var $node = $(this).closest('.treemap-node');
             that.callEvent('onNodeClick', $node.data('node'));
         });
+    };
+
+    Treemap.prototype.toggle = function($node, toggle) {
+        var that = this;
+        if(typeof $node === 'boolean') {
+            toggle = $node;
+            $node = null;
+        }
+        if(!$node) {
+            $node = that.$nodes.children('.treemap-node').first();
+        }
+        if(toggle === undefined) {
+            toggle = !$node.hasClass('collapsed');
+        }
+        $node.addClass('tree-node-collapsing').toggleClass('collapsed', toggle).find('[data-toggle="tooltip"]').tooltip('hide');
+        that.$nodes.find('.tooltip').remove();
+        that.drawLines();
+        clearTimeout(that.toggleTimeTask);
+        that.toggleTimeTask = setTimeout(function() {
+            $node.removeClass('tree-node-collapsing');
+        }, 200);
     };
 
     Treemap.prototype.render = function(data) {
@@ -168,8 +183,11 @@
                 nodes[idx] = node;
             }
 
+            if(!node.id) node.id = $.zui.uuid();
+
             // Create node element
-            var $node = $.isFunction(options.nodeTemplate) ? options.nodeTemplate(node, that) : $(options.nodeTemplate);
+            var isCustomNodeTemplate = $.isFunction(options.nodeTemplate);
+            var $node = isCustomNodeTemplate ? options.nodeTemplate(node, that) : $(options.nodeTemplate);
 
             // Create node wrapper element
             var $wrapper = $node.find('.treemap-node-wrapper');
@@ -211,9 +229,10 @@
             if(lastNode) {
                 $node.css('padding-left', options.nodeSpace);
             }
-            if(node.html) $wrapper.append(node.html);
-            else if(node.text) $wrapper.text(node.text);
-            
+            if(!isCustomNodeTemplate) {
+                if(node.html) $wrapper.append(node.html);
+                else if(node.text) $wrapper.text(node.text);
+            }
 
             // append node element to ducument
             $node.appendTo(parent ? parent.$children : $nodes);
@@ -344,7 +363,7 @@
     Treemap.DEFAULTS = DEFAULTS;
     Treemap.NAME     = NAME;
 
-    $.fn.treemap = function(option, params) {
+    $.fn.treemap = function(option, param1, parma2) {
         return this.each(function() {
             var $this = $(this);
             var data = $this.data(NAME);
@@ -352,7 +371,7 @@
 
             if(!data) $this.data(NAME, (data = new Treemap(this, options)));
 
-            if(typeof option == 'string') data[option](params);
+            if(typeof option == 'string') data[option](param1, parma2);
         });
     };
 
