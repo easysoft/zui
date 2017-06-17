@@ -83,6 +83,9 @@
 
     var Treemap = function(element, options) {
         var $element = $(element);
+        if($.isArray(options)) {
+            options = {data: options};
+        }
         options = $.extend({}, DEFAULTS, $element.data(), options);
         
         var data = options.data || [];
