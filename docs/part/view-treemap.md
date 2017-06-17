@@ -178,7 +178,7 @@ $('#myTreemap').treemap([节点数据]);
 $('#myTreemap').treemap();
 ```
 
-### 节点对象
+## 节点对象
 
 组织结构图中的每一个节点使用一个 JS 对象来存储，在组织结构图插件中使用到的属性有：
 
@@ -304,7 +304,7 @@ $('#myTreemap').treemap();
 }
 ```
 
-### 选项
+## 选项
 
 在初始化时可用传入一个对象来设定选项，或者为 `.treemap` 添加 `[data-*=]` 属性来指定选项， 可用选项如下：
 
@@ -399,9 +399,9 @@ $('#myTreemap').treemap();
   </tbody>
 </table>
 
-### 方法
+## 方法
 
-#### <span class="code text-danger">$().treemap('render')</span>
+### <span class="code text-danger">$().treemap('render')</span>
 
 重新渲染组织图，通常情况下，你无需手动调用此方法，在初始化之后会自动进行一次渲染，如果发现图渲染不正确，或者发生错位，则可以调用此方法来修正实际效果。
 
@@ -418,7 +418,7 @@ var myTreemap = $('#myTreemap').data('zui.treemap');
 myTreemap.render();
 ```
 
-#### <span class="code text-danger">$().treemap('render', data)</span>
+### <span class="code text-danger">$().treemap('render', data)</span>
 
 使用新的数据渲染组织图。调用此方法可以立即更新组织图。
 
@@ -437,7 +437,7 @@ var myTreemapData = [...];
 myTreemap.render(myTreemapData);
 ```
 
-#### <span class="code text-danger">$().treemap('drawLines')</span>
+### <span class="code text-danger">$().treemap('drawLines')</span>
 
 重新计算并绘制连接线，通常无序手动调用此方法。当发现组织图节点连接性发生错位时，调用此方法可以立即重新计算并重新绘制。
 
@@ -454,7 +454,7 @@ var myTreemap = $('#myTreemap').data('zui.treemap');
 myTreemap.drawLines();
 ```
 
-#### <span class="code text-danger">$().treemap('toggle', $node, toggle)</span>
+### <span class="code text-danger">$().treemap('toggle', $node, toggle)</span>
 
 折叠或展开指定的节点。此方法还有如下形式。
 
@@ -502,9 +502,9 @@ var $node = $('.treemap-node[data="1497683935614002"]');
 myTreemap.toggle($node, false);
 ```
 
-### 事件
+## 事件
 
-#### 事件 <span class="code text-danger">afterRender</span>
+### 事件 <span class="code text-danger">afterRender</span>
 
 该事件在渲染完毕时触发。
 
@@ -525,7 +525,7 @@ $('#myTreemap').treemap({
 });
 ```
 
-#### 事件 <span class="code text-danger">afterDrawLines</span>
+### 事件 <span class="code text-danger">afterDrawLines</span>
 
 该事件在重新绘制连接性后触发。
 
@@ -546,7 +546,7 @@ $('#myTreemap').treemap({
 });
 ```
 
-#### 事件 <span class="code text-danger">onNodeClick</span>
+### 事件 <span class="code text-danger">onNodeClick</span>
 
 该事件在用户点击节点元素时触发。该事件回调函数包含一个参数为被点击的节点对象。
 
@@ -567,9 +567,9 @@ $('#myTreemap').treemap({
 });
 ```
 
-### 其他问题
+## 其他问题
 
-#### 重新绘制图
+### 重新绘制图
 
 如果你主动更改了节点元素的内容，此时节点元素尺寸发生了变化，导致连接线错位，此时你可以调用 `drawLines` 方法来重新绘制连接线。
 
@@ -586,7 +586,7 @@ var myTreemap = $('#myTreemap').data('zui.treemap');
 myTreemap.drawLines();
 ```
 
-#### 自定义节点模板
+### 自定义节点模板
 
 通常节点元素会自动根据节点对象生成，但也可以通过选项 `nodeTemplate` 来指定一个回调函数来创建节点元素。
 
@@ -620,7 +620,7 @@ $('#treemapExample3').treemap({
 });
 ```
 
-#### 多个根节点
+### 多个根节点
 
 在同一个组织结构图内可以存在多个根节点，这样可以一次性绘制多个组织结构图。只需要在初始化时使用数组传入多个根据点数据即可。
 
