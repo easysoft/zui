@@ -149,7 +149,7 @@ $('#treemapExample2').treemap();
 
 ### 引入资源
 
-文件上传为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+组织结构图为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
 
 ```html
 <link href="lib/treemap/zui.treemap.min.css" rel="stylesheet">
