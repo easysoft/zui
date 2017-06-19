@@ -1211,7 +1211,7 @@
     "less": {
       "name": "Less",
       "src": {
-        "js": ["assets/marked/marked.js"]
+        "js": ["assets/less/less.js"]
       },
       "ver": "1.7.0",
       "pver": "2.5.3",
