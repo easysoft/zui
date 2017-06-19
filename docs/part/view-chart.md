@@ -546,7 +546,7 @@ var data = {
     datasets: [
         {
             label: "蓝队",
-            color: 'primary',
+            color: 'blue',
             data: [65, 59, 80, 81, 56, 55, 40]
         }, {
             label: "绿队",
@@ -731,7 +731,7 @@ function afterPageLoad() {
         [        
             {
                 label: "蓝队",
-                color: 'primary',
+                color: 'blue',
                 data: [65, 59, 80, 81, 56, 55, 40]
             }, {
                 label: "绿队",
