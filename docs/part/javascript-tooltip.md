@@ -277,3 +277,9 @@ $('[data-toggle="tooltip"]').on('show.zui.tooltip', function() {
     // 处理工具提示显示时的事件
 });
 ```
+
+<script>
+function afterPageLoad() {
+    $('#pageBody [data-toggle="tooltip"]').tooltip();
+};
+</script>
