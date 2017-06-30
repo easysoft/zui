@@ -120,7 +120,7 @@
             $content = $dialog.find('.modal-content');
 
         $modal.toggleClass('fade', options.fade)
-            .addClass(options.cssClass)
+            .addClass(options.className)
             .toggleClass('modal-loading', !this.isShown);
 
         $dialog.toggleClass('modal-md', options.size === 'md')
