@@ -156,6 +156,7 @@
         if(that.data) {
             that.createNodes();
             that.drawLines();
+            that.delayDrawLines(500);
         }
 
         that.callEvent('afterRender');
@@ -238,10 +239,10 @@
             $node.appendTo(parent ? parent.$children : $nodes);
 
             // Save sizes
-            node.bounds = {
-                width  : $wrapper.outerWidth(),
-                height : $wrapper.outerHeight()
-            };
+            // node.bounds = {
+            //     width  : $wrapper.outerWidth(),
+            //     height : $wrapper.outerHeight()
+            // };
 
             if(lastNode) {
                 lastNode.next = node;
@@ -264,8 +265,8 @@
 
             if(options.listenNodeResize) {
                 $wrapper.on('resize.' + NAME, function() {
-                    node.bounds.width = $wrapper.outerWidth();
-                    node.bounds.height = $wrapper.outerHeight();
+                    // node.bounds.width = $wrapper.outerWidth();
+                    // node.bounds.height = $wrapper.outerHeight();
                     that.delayDrawLines();
                 });
             }
@@ -280,12 +281,12 @@
         }
     };
 
-    Treemap.prototype.delayDrawLines = function() {
+    Treemap.prototype.delayDrawLines = function(delay) {
         var that = this;
         clearTimeout(that.delayDrawLinesTask);
         that.delayDrawLinesTask = setTimeout(function() {
             that.drawLines();
-        }, 10);
+        }, delay || 10);
     };
 
     Treemap.prototype.drawLines = function(nodes, parent) {
@@ -304,7 +305,8 @@
             var nodeCableStyle = $.extend({
                 height: rowSpaceHalf,
                 top: -rowSpaceHalf - 1,
-                left: Math.round(($wrapper.outerWidth() - cableStyle.borderWidth)/2)
+                left: Math.round(($wrapper.outerWidth() - cableStyle.borderWidth)/2),
+                color: cableStyle.borderColor
             }, cableStyle);
             if(parent && !parent.isOnlyOneChild) {
                 var $topLine = $wrapper.find('.treemap-line-top');
@@ -335,11 +337,11 @@
                     if(!$centerLine.length) {
                         $centerLine = $('<div class="treemap-line"/>').insertAfter($wrapper);
                     }
-                    var lineLeft = Math.round(firstChild.$wrapper.offset().left - nodesOffsetLeft + firstChild.bounds.width/2);
+                    var lineLeft = Math.round(firstChild.$wrapper.offset().left - nodesOffsetLeft + firstChild.$wrapper.outerWidth()/2);
                     $centerLine.css($.extend({
                         marginTop: rowSpaceHalf,
                         left: lineLeft,
-                        width: lastChild.$wrapper.offset().left - nodesOffsetLeft -lineLeft + lastChild.bounds.width/2
+                        width: lastChild.$wrapper.offset().left - nodesOffsetLeft -lineLeft + lastChild.$wrapper.outerWidth()/2
                     }, cableStyle));
                 }
             }
