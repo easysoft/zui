@@ -83,7 +83,7 @@
             mouseButton : options.mouseButton,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
-                that.trigger('start');
+                that.trigger('start', e);
             },
             drag: function(e) {
                 $root.addClass(sortingClass);
