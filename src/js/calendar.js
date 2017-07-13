@@ -568,7 +568,7 @@
             }
             if(!$view.data('zui.droppable')) {
                 $view.droppable({
-                    target: '.day',
+                    target: '.cell-day',
                     selector: '.event',
                     flex: true,
                     start: function() {
@@ -576,7 +576,8 @@
                     },
                     drop: function(e) {
                         var et = e.element.data('event'),
-                            newDate = e.target.attr('data-date');
+                            newDate = e.target.children('.day').attr('data-date');
+                        console.log(e, et, newDate);
                         if(!et || !newDate) return;
                         var startDate = et.start.clone();
                         if(startDate.toDateString() != newDate) {
