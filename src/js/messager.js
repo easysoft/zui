@@ -100,7 +100,7 @@
         });
 
         var $content = that.$.find('.messager-content').html(that.message);
-        if(options.contentClass) $content.addClass(options.cssClass);
+        if(options.contentClass) $content.addClass(options.contentClass);
 
         that.$.data('zui.messager', that);
 
