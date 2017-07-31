@@ -152,7 +152,7 @@ filter: jindutiao jdt
 ```html
 <!-- 条纹效果 -->
 <div class="progress progress-striped">
-  <div class="progress-bar" role="progressbar progress-bar-success" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
     <span class="sr-only">40% Complete (success)</span>
   </div>
 </div>
@@ -161,7 +161,7 @@ filter: jindutiao jdt
 ```html
 <!-- 动画效果 -->
 <div class="progress progress-striped active">
-  <div class="progress-bar" role="progressbar progress-bar-success" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
     <span class="sr-only">40% Complete (success)</span>
   </div>
 </div>
