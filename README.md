@@ -3,13 +3,14 @@
 [![npm version](https://badge.fury.io/js/zui.svg)](https://badge.fury.io/js/zui)
 [![Bower version](https://badge.fury.io/bo/zui.svg)](https://badge.fury.io/bo/zui)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/easysoft/zui/blob/master/LICENSE)
-[![官方QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-384135104-03b8cf.svg)](http://shang.qq.com/wpa/qunwpa?idkey=7ae4c241aab7cca58f55ac03b2b5fb48b71242475a9f1be06b5af053008d6bfc)
 
 一个基于 Bootstrap 深度定制开源前端实践方案，帮助你快速构建现代跨屏应用。
 
 从官方网站了解更多： http://zui.sexy/ 。
 
 💎 &nbsp;为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://zui.sexy/m/)。
+
+官方 QQ 群：**654683502**，**384135104**（已满）
 
 ## 特色
 
