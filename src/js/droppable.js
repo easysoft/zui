@@ -19,8 +19,8 @@
         target: '.droppable-target',
         deviation: 5,
         sensorOffsetX: 0,
-        sensorOffsetY: 0
-        // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
+        sensorOffsetY: 0,
+         // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
     var idIncrementer = 0;
 
@@ -52,6 +52,7 @@
             handle         = setting.handle,
             flex           = setting.flex,
             container      = setting.container,
+            canMoveHere    = setting.canMoveHere,
             $ele           = $root,
             isMouseDown    = false,
             $container     = container ? $(setting.container).first() : (selector ? $root : $('body')),
@@ -144,6 +145,7 @@
                 $target.addClass('drop-to');
             }
 
+
             if(!flex) {
                 $ele.toggleClass('drop-in', isIn);
                 $shadow.toggleClass('drop-in', isIn);
@@ -151,21 +153,24 @@
                 isIn = true;
             }
 
-            that.trigger('drag', {
-                event: event,
-                isIn: isIn,
-                target: $target,
-                element: $ele,
-                isNew: isNew,
-                selfTarget: isSelf,
-                clickOffset: clickOffset,
-                offset: offset,
-                position: {
-                    left: offset.left - containerOffset.left,
-                    top: offset.top - containerOffset.top
-                },
-                mouseOffset: mouseOffset
-            });
+            if(!canMoveHere || canMoveHere($ele, $target) !== false) {
+                that.trigger('drag', {
+                    event: event,
+                    isIn: isIn,
+                    target: $target,
+                    element: $ele,
+                    isNew: isNew,
+                    selfTarget: isSelf,
+                    clickOffset: clickOffset,
+                    offset: offset,
+                    position: {
+                        left: offset.left - containerOffset.left,
+                        top: offset.top - containerOffset.top
+                    },
+                    mouseOffset: mouseOffset
+                });
+            }
+
             event.preventDefault();
         };
 
