@@ -137,21 +137,27 @@
         if(!$node) {
             $node = that.$nodes.children('.treemap-node').first();
         }
-        if(toggle === undefined) {
-            toggle = !$node.hasClass('collapsed');
+        if($node)
+        {
+            if($node.data('node').foldable === false) {
+                return;
+            }
+            if(toggle === undefined) {
+                toggle = !$node.hasClass('collapsed');
+            }
+            $node.addClass('tree-node-collapsing').toggleClass('collapsed', toggle).find('[data-toggle="tooltip"]').tooltip('hide');
+            that.$nodes.find('.tooltip').remove();
+            that.drawLines();
+            clearTimeout(that.toggleTimeTask);
+            that.toggleTimeTask = setTimeout(function() {
+                $node.removeClass('tree-node-collapsing');
+            }, 200);
         }
-        $node.addClass('tree-node-collapsing').toggleClass('collapsed', toggle).find('[data-toggle="tooltip"]').tooltip('hide');
-        that.$nodes.find('.tooltip').remove();
-        that.drawLines();
-        clearTimeout(that.toggleTimeTask);
-        that.toggleTimeTask = setTimeout(function() {
-            $node.removeClass('tree-node-collapsing');
-        }, 200);
     };
 
     Treemap.prototype.render = function(data) {
-        var that       = this;
-        that.data = data || that.data;
+        var that = this;
+        that.data = data ? ($.isArray(data) ? data : [data]) : that.data;
 
         if(that.data) {
             that.createNodes();
