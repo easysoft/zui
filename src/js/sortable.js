@@ -122,6 +122,7 @@
 
     Sortable.prototype.destroy = function() {
         this.$.droppable('destroy');
+        this.$.data(NAME, null);
     };
 
     Sortable.prototype.reset = function() {
