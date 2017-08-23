@@ -52,9 +52,9 @@ filter: shujubiaoge sjbg
       <th>时间</th>
 
       <!-- 以下三列中间可滚动 -->
-      <th class="flex-col">事件类型</th> 
-      <th class="flex-col">描述</th>
-      <th class="flex-col">相关人物</th>
+      <th class="flex-col" data-width="100">事件类型</th> 
+      <th class="flex-col" data-width="200">描述</th>
+      <th class="flex-col" data-width="300">相关人物</th>
 
       <!-- 以下列右侧固定 -->
       <th>评分</th>
@@ -457,7 +457,7 @@ $('table.datatable').datatable({
     <tr>
       <td>`flex`</td>
       <td>`true` | `false`(默认)</td>
-      <td>定义此列在数据表格中显示在为水平可滚动的区域，在此列之前的没有定义`flex=true`的列则固定在左侧，在此列之后的没有定义`flex=true`的列会固定在右侧。必须为连续的多列的`flex`属性定义为`true`。在DOM中可以为`th`标签增加CLASS`col-flex`实现，等同于`flex=true`。</td>
+      <td>定义此列在数据表格中显示在为水平可滚动的区域，在此列之前的没有定义`flex=true`的列则固定在左侧，在此列之后的没有定义`flex=true`的列会固定在右侧。必须为连续的多列的`flex`属性定义为`true`。在DOM中可以为`th`标签增加CLASS `flex-col` 实现，等同于`flex=true`。</td>
     </tr>
     <tr>
       <td>`cssClass`</td>
