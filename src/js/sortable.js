@@ -79,6 +79,9 @@
             container   : $root,
             always      : options.always,
             flex        : true,
+            lazy        : options.lazy,
+            canMoveHere : options.canMoveHere,
+            nested      : options.nested,
             before      : options.before,
             mouseButton : options.mouseButton,
             start: function(e) {
