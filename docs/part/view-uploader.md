@@ -1278,7 +1278,7 @@ $('#myUploader').uploader({
 
 ### 自定义文件图标
 
-默认情况下会为不同的文件类型显示不同的文件图标，也可以通过初始化选项 `fileIconCreator` 制定一个回调函数来返回用于显示图标的 HTML 源码，该回调函数定义为：
+默认情况下会为不同的文件类型显示不同的文件图标，也可以通过初始化选项 `fileIconCreator` 指定一个回调函数来返回用于显示图标的 HTML 源码，该回调函数定义为：
 
 * `function(fileType, file, uploader)`
 
@@ -1294,7 +1294,7 @@ $('#myUploader').uploader({
 $('#myUploader').uploader({
     url: '...',
     // ...
-    fileFormater: function(fileType, file, uploader) {
+    fileIconCreator: function(fileType, file, uploader) {
         if(fileType.indexOf('image') === 0) {
             // 如果文件是图片，返回图片图标
             return '<i class="icon icon-file-image"></i>';

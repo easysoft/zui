@@ -397,7 +397,7 @@ var msg = $.zui.messager.show('消息内容', {placement: 'bottom'});
     <tr>
       <td>`icon`</td>
       <td>`null`</td>
-      <td>可以额外制定一个图标在消息文本之前显示，图标定义参见“控件&gt;图标”章节。</td>
+      <td>可以额外指定一个图标在消息文本之前显示，图标定义参见“控件&gt;图标”章节。</td>
     </tr>
     <tr>
       <td>`close`</td>
