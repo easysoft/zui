@@ -663,11 +663,12 @@
                             }
                             if(json.id !== undefined) file.remoteId = json.id;
                             if(json.url !== undefined) file.url = json.url;
+                            if(json.name !== undefined) file.name = json.name;
                         }
                     }
                     if(error) {
                         error = $.isPlainObject(error) ? error : {message: error};
-                            file.status = Plupload.FAILED;
+                        file.status = Plupload.FAILED;
                         if(error.code === undefined) error.code = Plupload.GENERIC_ERROR;
                         error.file = file;
                         error.responseObject = responseObject;
