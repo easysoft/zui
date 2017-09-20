@@ -988,7 +988,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(target.length) {
                 this.result_highlight = target;
                 this.result_select(evt);
-                return this.search_field.focus();
+                // return this.search_field.focus(); // ZUI: bug: when user select a item by click, container scroll to left automaticly.
             }
         };
 
