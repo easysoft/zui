@@ -203,7 +203,7 @@
             that.applyPlacement(calculatedOffset, placement)
             var complete = function () {
                 var prevHoverState = that.hoverState
-                that.$element.trigger('shown.bs.' + that.type)
+                that.$element.trigger('shown.zui.' + that.type)
                 that.hoverState = null
 
                 if (prevHoverState == 'out') that.leave(that)
