@@ -209,7 +209,7 @@ var uploader = $('#myUploader').data('zui.uploader');
         <ul>
           <li>`mime_types`：用来设定允许上传的文件类型，该值为一个对象数组，每个对象包含 `title` 和 `extensions` 属性；</li>
           <li>`max_file_size`：最大允许上传的文件大小，例如 `1024`，单位为字节（b），也可用为一个字符串，包含数值或单位，例如 `128kb`；</li>
-          <li>`prevent_duplicates`：是否允许选取重复的文件，默认为 `false` 不允许，如果两个文件名和大小都相同则被认为是重复的文件；</li>
+          <li>`prevent_duplicates`：是否允许选取重复的文件，默认为 `true` 不允许，如果两个文件名和大小都相同则被认为是重复的文件；</li>
         </ul>
         <p>此选项的一个完整示例如下：</p>
         <pre><code>{
