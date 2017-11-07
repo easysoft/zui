@@ -143,7 +143,7 @@
         limitEventTitle: true,
         storage: true,
         withHeader: true,
-        dragThenDrop: true // drag an event and drop at another day
+        dragThenDrop: true, // drag an event and drop at another day,
     };
 
     // Sort events by start datetime
@@ -567,7 +567,7 @@
                 return console.error('Calendar dragThenDrop option requires droppable.js');
             }
             if(!$view.data('zui.droppable')) {
-                $view.droppable({
+                $view.droppable($.extend({
                     target: '.cell-day',
                     selector: '.event',
                     flex: true,
@@ -577,7 +577,6 @@
                     drop: function(e) {
                         var et = e.element.data('event'),
                             newDate = e.target.children('.day').attr('data-date');
-                        console.log(e, et, newDate);
                         if(!et || !newDate) return;
                         var startDate = et.start.clone();
                         if(startDate.toDateString() != newDate) {
@@ -619,7 +618,7 @@
                     finish: function() {
                         that.$.removeClass('event-dragging');
                     }
-                });
+                }, ($.isPlainObject(options.dragThenDrop)) ? options.dragThenDrop : null));
             }
         }
     };
