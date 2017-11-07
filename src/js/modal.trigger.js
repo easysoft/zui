@@ -130,7 +130,7 @@
 
         $header.toggle(options.showHeader);
         $header.find('.modal-icon').attr('class', 'modal-icon icon-' + options.icon);
-        $header.find('.modal-title-name').html(options.title || '');
+        $header.find('.modal-title-name').text(options.title || '');
         if(options.size && options.size === 'fullscreen') {
             options.width = '';
             options.height = '';
