@@ -91,29 +91,29 @@ a .icon-spin {
 // 3D transform
 
 // Icon rotations and mirroring
-.icon-rotate-90:before {
+.icon-rotate-90 {
   transform: rotate(90deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 }
-.icon-rotate-180:before {
+.icon-rotate-180 {
   transform: rotate(180deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 }
-.icon-rotate-270:before {
+.icon-rotate-270 {
   transform: rotate(270deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
-.icon-flip-horizontal:before {
+.icon-flip-horizontal {
   transform: scale(-1, 1);
 }
-.icon-flip-vertical:before {
+.icon-flip-vertical {
   transform: scale(1, -1);
 }
 
-.icon-rotate-90,
-.icon-rotate-180,
-.icon-rotate-270,
-.icon-flip-horizontal,
-.icon-flip-vertical {
-  &:before { display: inline-block; }
+.icon.icon-rotate-90,
+.icon.icon-rotate-180,
+.icon.icon-rotate-270,
+.icon.icon-flip-horizontal,
+.icon.icon-flip-vertical {
+  display: inline-block;
 }
