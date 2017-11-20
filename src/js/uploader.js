@@ -279,7 +279,7 @@
                         if(renameActionAble) {
                             var result = renameActionOnDoneOption.call(that, file, filename, renameFile);
                             if(result === true) {
-                                doRemoveFile();
+                                renameFile();
                             } else if(result === false) {
                                 that.showFile(file);
                             }
