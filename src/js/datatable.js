@@ -548,7 +548,10 @@
             var resizeScrollbar = function() {
                 flexWidth = $flexArea.width();
                 $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
-                tableWidth = $flexTable.width();
+                tableWidth = 0;
+                $flexTable.find('tr:first').children('td, th').each(function() {
+                    tableWidth += $(this).width();
+                });
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
                 $bar.css('width', scrollWidth);
                 $flexTable.css('min-width', flexWidth);
