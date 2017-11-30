@@ -65,7 +65,9 @@
                 orders.reverse();
             }
 
+            that.maxOrder = 0;
             $items.each(function(idx) {
+                that.maxOrder = Math.max(that.maxOrder, orders[idx]);
                 $(this).data(STR_ORDER, orders[idx]).attr('data-' + STR_ORDER, orders[idx]);
             });
         };
@@ -95,6 +97,16 @@
                         $target     = e.target,
                         eleOrder    = $ele.data(STR_ORDER),
                         targetOrder = $target.data(STR_ORDER);
+                    if (!eleOrder && eleOrder !== 0) {
+                        that.maxOrder++;
+                        eleOrder = that.maxOrder;
+                        $ele.attr('data-' + STR_ORDER, eleOrder);
+                    }
+                    if (!targetOrder && targetOrder !== 0) {
+                        that.maxOrder++;
+                        targetOrder = that.maxOrder;
+                        $target.attr('data-' + STR_ORDER, targetOrder);
+                    }
                     if(eleOrder == targetOrder) return;
                     else if(eleOrder > targetOrder) {
                         $target[isReverse ? 'after' : 'before']($ele);
