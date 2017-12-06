@@ -89,11 +89,25 @@
         if(model && model.options) {
             var func = model.options[shortName];
             if($.isFunction(func)) {
-                $.zui.callEvent(func, e, model);
+                e.result = $.zui.callEvent(func, e, model);
             }
         }
         $this.trigger(e);
         return e;
+    };
+
+    $.fn.callComEvent = function(component, eventName, params) {
+        if (params !== undefined && !$.isArray[params]) {
+            params = [params];
+        }
+        var $this = this;
+        var result = $this.triggerHandler(eventName, params);
+
+        const eventCallback = component.options[eventName];
+        if (eventCallback) {
+            result = eventCallback.apply(component, params);
+        }
+        return result;
     };
 }(jQuery, window, undefined));
 
