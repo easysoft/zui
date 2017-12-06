@@ -24,8 +24,6 @@
         this.$trigger = $trigger;
         this.options = options;
         this.id = $.zui.uuid();
-
-        // todo: handle when: options.show = true
     };
 
     ModalTrigger.DEFAULTS = {
@@ -91,7 +89,7 @@
             if($.isFunction(handleFunc)) $modal.on(eventName + ZUI_MODAL, handleFunc);
         };
         bindEvent('onShow', 'show');
-        bindEvent('shown', 'shown');
+        bindEvent('shown',  'shown');
         bindEvent('onHide', 'hide');
         bindEvent('hidden', 'hidden');
         bindEvent('loaded', 'loaded');
@@ -186,9 +184,10 @@
             }
         } else if(options.url) {
             var onLoadBroken = function() {
-                var brokenContent = $modal.callEvent('broken' + ZUI_MODAL, that, that);
+                var brokenContent = $modal.callComEvent(that, 'broken');
                 if(brokenContent) {
                     $body.html(brokenContent);
+                    readyToShow();
                 }
             };
 
@@ -236,10 +235,10 @@
                                 readyToShow();
                             };
 
-                            $modal.callEvent('loaded' + ZUI_MODAL, {
+                            $modal.callComEvent(that, 'loaded', {
                                 modalType: 'iframe',
                                 jQuery: frame$
-                            }, null);
+                            });
 
                             setTimeout(ajustFrameSize, 100);
 
@@ -256,24 +255,28 @@
                     }
                 };
             } else {
-                $.get(options.url, function(data) {
-                    try {
-                        var $data = $(data);
-                        if($data.hasClass('modal-dialog')) {
-                            $dialog.replaceWith($data);
-                        } else if($data.hasClass('modal-content')) {
-                            $dialog.find('.modal-content').replaceWith($data);
-                        } else {
-                            $body.wrapInner($data);
+                $.ajax($.extend({
+                    url: options.url,
+                    success: function(data) {
+                        try {
+                            var $data = $(data);
+                            if($data.hasClass('modal-dialog')) {
+                                $dialog.replaceWith($data);
+                            } else if($data.hasClass('modal-content')) {
+                                $dialog.find('.modal-content').replaceWith($data);
+                            } else {
+                                $body.wrapInner($data);
+                            }
+                        } catch(e) {
+                            $modal.html(data);
                         }
-                    } catch(e) {
-                        $modal.html(data);
-                    }
-                    $modal.callEvent('loaded' + ZUI_MODAL, {
-                        modalType: STR_AJAX
-                    }, that);
-                    readyToShow();
-                }).error(onLoadBroken);
+                        $modal.callComEvent(that, 'loaded', {
+                            modalType: STR_AJAX
+                        });
+                        readyToShow();
+                    },
+                    error: onLoadBroken
+                }, options.ajaxOptions));
             }
         }
 
