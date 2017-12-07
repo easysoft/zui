@@ -505,6 +505,14 @@
       "name": "消息框",
       "dpds": ["alerts.style", "alerts.basic", "alerts.inverse"]
     },
+    "inputcontrol": {
+      "name": "输入控件",
+      "ver": "1.7.0",
+      "src": {
+        "less": ["~/components/input-control.less"]
+      },
+      "dpds": ["basic", "forms.basic"]
+    },
     "inputgroups.basic": {
       "name": "基本输入框组",
       "src": {
@@ -1290,7 +1298,7 @@
       "filename": "zui",
       "subdirectories": true,
       "bootstrapStatement": true,
-      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "forms", "switch", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputgroups", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "article", "comment", "list", "card", "color", "tree"]
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "forms", "switch", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputcontrol", "inputgroups", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "draggable", "droppable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "lightbox", "messager", "menu", "article", "comment", "list", "card", "color", "tree"]
     },
     "lite": {
       "title": "Lite edition",

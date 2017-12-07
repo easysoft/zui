@@ -709,6 +709,20 @@
                 }],
                 "filter": "daima dm"
             }, {
+                "desc": "带图标或标签的输入框",
+                "icon": "icon-pencil",
+                "id": "input-control",
+                "name": "输入框",
+                "version": "1.8.0",
+                "topics": [{
+                    "name": "带图标"
+                }, {
+                    "name": "带标签"
+                }, {
+                    "name": "禁用"
+                }],
+                "filter": "shurukuang srk shrk"
+            }, {
                 "id": "inputgroup",
                 "icon": "icon-layout",
                 "desc": "多个输入单元格",

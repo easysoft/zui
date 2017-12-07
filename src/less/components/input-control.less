@@ -1,0 +1,85 @@
+@input-control-icon-size: 30px;
+@input-control-normal-opacity: .5;
+@input-control-label-width: 70px;
+@input-control-label-width-sm: 55px;
+@input-control-label-width-lg: 95px;
+
+
+.input-control-icon-left,
+.input-control-icon-right,
+.input-control-label-left,
+.input-control-label-right {
+  position: absolute;
+  top: 1px;
+  height: @input-control-icon-size;
+  line-height: @input-control-icon-size;
+  opacity: @input-control-normal-opacity;
+}
+.input-control-icon-left,
+.input-control-icon-right {
+  width: @input-control-icon-size;
+  text-align: center;
+}
+.input-control-label-left,
+.input-control-icon-left {left: 0;}
+.input-control-label-right,
+.input-control-icon-right {right: 0;}
+
+.input-control-label-left,
+.input-control-label-right {
+  width: @input-control-label-width;
+  padding: 0 @padding-small-horizontal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .has-label-left-sm > & {
+    width: @input-control-label-width-sm;
+  }
+
+  .has-label-left-lg > & {
+    width: @input-control-label-width-lg;
+  }
+}
+
+.input-control {
+  position: relative;
+
+  &.has-icon-left > .form-control {
+    padding-left: @input-control-icon-size;
+  }
+  &.has-icon-right > .form-control {
+    padding-right: @input-control-icon-size;
+  }
+
+  &.has-label-left > .form-control {
+    padding-left: @input-control-label-width;
+  }
+  &.has-label-right > .form-control {
+    padding-right: @input-control-label-width;
+  }
+
+  &.has-label-left-sm > .form-control {
+    padding-left: @input-control-label-width-sm;
+  }
+  &.has-label-right-sm > .form-control {
+    padding-right: @input-control-label-width-sm;
+  }
+
+  &.has-label-left-lg > .form-control {
+    padding-left: @input-control-label-width-lg;
+  }
+  &.has-label-right-lg > .form-control {
+    padding-right: @input-control-label-width-lg;
+  }
+}
+
+.form-control:focus {
+  + [class^="input-control-"],
+  + [class^="input-control-"] + [class^="input-control-"] {
+    opacity: 1;
+  }
+
+  + .input-control-label-left {
+    color: @color-secondary;
+  }
+}
