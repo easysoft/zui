@@ -239,6 +239,49 @@
 </div>
 ```
 
+## 搜索框
+
+为 `.input-control` 添加 `.search-box` 类并使用如下的 HTML 结构即可创建一个搜索框组件。
+同时使用 `.search-box-circle` 能使得搜索框获得圆角边框外观。
+
+如果要使用搜索框的 JavaScript 增强功能，请参考 [JavaScript -> 搜索框](#javascript/searchbox)。
+
+<div class="example">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="input-control search-box has-icon-left has-icon-right" id="searchboxExample">
+        <input id="inputSearchExample1" type="search" class="form-control search-input" placeholder="搜索">
+        <label for="inputSearchExample1" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
+        <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="input-control search-box search-box-circle has-icon-left has-icon-right" id="searchboxExample">
+        <input id="inputSearchExample2" type="search" class="form-control search-input" placeholder="搜索">
+        <label for="inputSearchExample2" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
+        <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+```html
+<div class="input-control search-box has-icon-left has-icon-right" id="searchboxExample">
+  <input type="search" class="form-control search-input" placeholder="搜索">
+  <label for="inputSearchExample1" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
+  <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
+</div>
+```
+
+
+```html
+<div class="input-control search-box search-box-circle has-icon-left has-icon-right" id="searchboxExample">
+  <input id="inputSearchExample1" type="search" class="form-control search-input" placeholder="搜索">
+  <label for="inputSearchExample1" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
+  <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
+</div>
+```
+
 ## 禁用
 
 为 `.form-control` 添加 `disabled` 属性。

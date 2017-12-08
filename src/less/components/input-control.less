@@ -1,9 +1,21 @@
+/// ========================================================================
+/// ZUI: input-control.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2016-2017 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Variables
+
 @input-control-icon-size: 30px;
 @input-control-normal-opacity: .5;
 @input-control-label-width: 70px;
 @input-control-label-width-sm: 55px;
 @input-control-label-width-lg: 95px;
 
+
+// Basic style
 
 .input-control-icon-left,
 .input-control-icon-right,
@@ -14,6 +26,7 @@
   height: @input-control-icon-size;
   line-height: @input-control-icon-size;
   opacity: @input-control-normal-opacity;
+  z-index: 5;
 }
 .input-control-icon-left,
 .input-control-icon-right {
@@ -21,9 +34,9 @@
   text-align: center;
 }
 .input-control-label-left,
-.input-control-icon-left {left: 0;}
+.input-control-icon-left {left: 1px;}
 .input-control-label-right,
-.input-control-icon-right {right: 0;}
+.input-control-icon-right {right: 1px;}
 
 .input-control-label-left,
 .input-control-label-right {
@@ -71,6 +84,11 @@
   &.has-label-right-lg > .form-control {
     padding-right: @input-control-label-width-lg;
   }
+
+  > a:hover {
+    background-color: @color-gray-pale;
+    opacity: 1;
+  }
 }
 
 .form-control:focus {
@@ -81,5 +99,28 @@
 
   + .input-control-label-left {
     color: @color-secondary;
+  }
+}
+
+
+// Search box
+
+input:placeholder-shown,
+.empty {
+  + .search-clear-btn,
+  + .search-icon + .search-clear-btn {
+    opacity: 0 !important;
+  }
+}
+
+.search-box-circle {
+  .input-control-icon-left,
+  .input-control-icon-right,
+  > .form-control {
+    border-radius: 16px;
+  }
+
+  + .input-group-btn > .btn {
+    border-radius: 0 16px 16px 0;
   }
 }
