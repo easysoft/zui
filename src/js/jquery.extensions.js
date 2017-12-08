@@ -97,7 +97,7 @@
     };
 
     $.fn.callComEvent = function(component, eventName, params) {
-        if (params !== undefined && !$.isArray[params]) {
+        if (params !== undefined && !$.isArray(params)) {
             params = [params];
         }
         var $this = this;
