@@ -719,6 +719,8 @@
                 }, {
                     "name": "带标签"
                 }, {
+                    "name": "搜索框"
+                }, {
                     "name": "禁用"
                 }],
                 "filter": "shurukuang srk shrk"
@@ -908,6 +910,21 @@
                     "name": "本地页面存储"
                 }],
                 "filter": "bendicunchu bdcc"
+            },{
+              "id": "searchbox",
+              "icon": "icon-search",
+              "desc": "创建丰富交互操作的搜索框",
+              "name": "搜索框",
+              "topics": [{
+                  "name": "实例"
+              }, {
+                  "name": "选项"
+              }, {
+                  "name": "方法"
+              }, {
+                  "name": "事件"
+              }],
+              "filter": "sousuokuang ssk inputcontrol shurukuang shrk srk"
             }, {
                 "id": "modal",
                 "icon": "icon-check-empty",
