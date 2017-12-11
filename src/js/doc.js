@@ -706,7 +706,10 @@
                 iconId = iconId.toLowerCase();
                 $.each(keys, function(keyIndex, key) {
                     var choosedThis = false;
-                    if(iconId.includes(key)) {
+                    if (iconId === key) {
+                        choosedThis = true;
+                        weight += 150;
+                    } else if(iconId.includes(key)) {
                         choosedThis = true;
                         weight += iconId.startsWith(key) ? 120 : 110;
                     } else if(icon.name && icon.name.toLowerCase().includes(key)) {
@@ -1704,7 +1707,7 @@
                     lib.dpds.forEach(function(dpdsName) {
                         if(dpdsName.startsWith(libName) && pkg.lib[dpdsName] && !pkg.lib[dpdsName].thirdpart) {
                             getLibSource(pkg.lib[dpdsName], src, libName);
-                        } 
+                        }
                     });
                 }
             };
@@ -1772,7 +1775,7 @@
                 section.lib = lib;
                 section.isNew = section.version === pkg.version;
                 section.isUpdate = section.update === pkg.version;
-                
+
                 if(isNewRelease) {
                     $('#section-' + section.chapter + '-' + section.id).toggleClass('section-update', section.isUpdate).toggleClass('section-new', section.isNew);
                 }
@@ -1922,7 +1925,7 @@
                 "src/less/doc.less"];
         }
         var lessCode = $.isArray(theme.imports) ? theme.imports.map(function(i) {
-            return '@import "' + i + '";'; 
+            return '@import "' + i + '";';
         }).join('\n') : theme.imports;
         lessCode += theme.variablesLess + (theme.lessCode || '');
         window.less.render(lessCode, $.extend({
@@ -1956,7 +1959,7 @@
             return;
         }
         if(typeof theme === 'string') theme = docThemes[theme];
-        
+
         if($body.hasClass('theme-changing')) return false;
         $body.addClass('theme-changing');
 
