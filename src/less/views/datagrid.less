@@ -1,0 +1,145 @@
+/// ========================================================================
+/// ZUI: datagrid.less
+/// http://zui.sexy
+/// ========================================================================
+/// Copyright 2017-2018 cnezsoft.com; Licensed MIT
+/// ========================================================================
+
+
+// Variables
+@hover-cell-zIndex: 30;
+@hover-row-zIndex: 20;
+@scrollbar-zIndex: 50;
+
+
+// Basic style
+
+.datagrid-container {
+  position: relative;
+  overflow: hidden;
+  background-color: @color-gray-pale;
+  border: 1px solid @color-gray-light;
+}
+.datagrid-cells {
+  overflow: visible;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: @animation-speed-fast @animation-type;
+  transition-property: left, top;
+}
+.datagrid-cell {
+  overflow: hidden;
+  position: absolute;
+  padding: 5px;
+  border: 1px solid @color-gray-light;
+  transition: @animation-speed-normal @animation-type;
+  transition-property: background, outline;
+
+  &.datagrid-cell-index {
+    background-color: @color-gray-pale;
+    color: @color-gray;
+    text-align: right;
+    font-family: @font-family-monospace;
+  }
+}
+
+.datagrid-row {
+  width: 100%;
+  position: absolute;
+  background-color: #fff;
+  transition: @animation-speed-normal @animation-type;
+  transition-property: background, outline;
+}
+.datagrid-row-head {
+  font-weight: bold;
+  background-color: @color-gray-pale;
+  color: @color-gray;
+}
+
+.datagrid-hover-row {
+  .datagrid-row-cell:hover {
+    background-color: @color-pale;
+    z-index: @hover-row-zIndex;
+
+    > .datagrid-cell-index {
+      background-color: @color-gray-light;
+    }
+  }
+
+  &.datagrid-hover-shadow .datagrid-row-cell:hover {
+    box-shadow: 0 1px 3px 2px rgba(0,0,0,.05), 0 0px 2px 1px rgba(0,0,0,.075);
+  }
+}
+.datagrid-hover-cell {
+  .datagrid-row-cell .datagrid-cell-cell:hover {
+    outline: 1px solid @color-gray;
+    outline-offset: -1px;
+    z-index: @hover-cell-zIndex;
+    background-color: @color-white;
+  }
+
+  &.datagrid-hover-shadow .datagrid-row-cell .datagrid-cell:hover {
+    box-shadow: 0 1px 3px 3px rgba(0,0,0,.075), 0 0px 2px rgba(0,0,0,.1);
+  }
+}
+.datagrid-hover-col {
+  .datagrid-cell.hover {
+    background-color: @color-pale;
+  }
+
+  .datagrid-cell-head.hover,
+  .datagrid-cell-index.hover {
+    background-color: @color-gray-light;
+  }
+}
+
+.datagrid-scrollbar {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  transition: 1s @animation-type;
+  transition-property: background, opacity;
+  z-index: @scrollbar-zIndex;
+
+  &.scrolling,
+  .datagrid-container:hover & {
+    opacity: 1;
+  }
+
+  > .bar {
+    background-color: @color-gray-light;
+    background-color: rgba(0,0,0,.25);
+    position: absolute;
+    min-width: 10px;
+    min-height: 10px;
+  }
+
+  &.scrolling,
+  &:hover {
+    background-color: rgba(0,0,0,.075);
+    > .bar {
+      background-color: @color-gray;
+      background-color: rgba(0,0,0,.5);
+      position: absolute;
+    }
+  }
+}
+.datagrid-scrollbar-h {
+  left: 0;
+  height: 10px;
+
+  > .bar {
+    top: 0!important;
+    bottom: 0!important;
+  }
+}
+.datagrid-scrollbar-v {
+  top: 0;
+  width: 10px;
+  > .bar {
+    left: 0!important;
+    right: 0!important;
+  }
+}
