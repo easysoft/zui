@@ -90,6 +90,9 @@ function getItemList(list, items, ignoreDpds, ignoreBasic) {
             if(!ignoreDpds && item.dpds) {
                 getItemList(item.dpds, items, ignoreDpds, ignoreBasic);
             }
+            if (item.libDpds) {
+                getItemList(item.libDpds, items, ignoreDpds, ignoreBasic);
+            }
             if(item.src) items.push(list);
         }
     }
