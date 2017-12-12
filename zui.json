@@ -782,6 +782,14 @@
       "ver": "1.2.0",
       "require": ["jquery"]
     },
+    "searchbox": {
+      "name": "搜索框",
+      "src": {
+        "js": ["src/js/searchbox.js"]
+      },
+      "ver": "1.8.0",
+      "require": ["jquery"]
+    },
     "draggable": {
       "name": "拖拽",
       "src": {
