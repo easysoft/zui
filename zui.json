@@ -81,6 +81,18 @@
       "source": "Moxie",
       "website": "http://www.plupload.com/"
     },
+    "mousewheel": {
+      "name": "jQuery Mousewheel",
+      "pver": "3.1.13",
+      "ver": "1.8.0",
+      "src": {
+        "js": ["assets/mousewheel/jquery.mousewheel.js"]
+      },
+      "license": "MIT",
+      "licenseFile": "https://github.com/jquery/jquery-mousewheel/blob/master/LICENSE.txt",
+      "source": "jQuery",
+      "website": "https://github.com/jquery/jquery-mousewheel"
+    },
     "jqueryex": {
       "name": "jQuery扩展",
       "ver": "1.0.0",
