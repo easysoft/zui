@@ -17,7 +17,7 @@
         that.name = name;
         that.$ = $(element);
 
-        options = that.getOptions(options);
+        that.options = options = $.extend({}, SearchBox.DEFAULTS, that.$.data(), options);
 
         // Initialize here
         var $input = that.$.is(options.inputSelector) ? that.$ : that.$.find(options.inputSelector);
@@ -97,12 +97,6 @@
         // onSearchChange: null,
         // onPressEnter: null,
         // escToClear: true
-    };
-
-    // Get and init options
-    SearchBox.prototype.getOptions = function(options) {
-        this.options = options = $.extend({}, SearchBox.DEFAULTS, this.$.data(), options);
-        return options;
     };
 
     // Get current search string
