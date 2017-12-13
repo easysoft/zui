@@ -213,5 +213,35 @@
             return this.getFullYear() === date.getFullYear();
         };
     }
+
+    /**
+     * Create an date instance with string, timestamp or date instance
+     * @param  {Date|String|Number}  date
+     * @return {Date}
+     */
+    if (!Date.create) {
+        Date.create = function(date) {
+            if (!(date instanceof Date)) {
+                if (typeof date === 'number' && date < 10000000000) {
+                    date *= 1000;
+                }
+                date = new Date(date);
+            }
+            return date;
+        };
+    }
+
+    if (!Date.timestamp) {
+        Date.timestamp = function(date) {
+            if (typeof date === 'number') {
+                if (date < 10000000000) {
+                    date *= 1000;
+                }
+            } else {
+                date = Date.create(date).getTime();
+            }
+            return date;
+        };
+    }
 }());
 
