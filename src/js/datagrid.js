@@ -44,13 +44,25 @@
         }
     };
 
+    var DEFAULT_CONFIGS = {
+    };
+
+    var DEFAULT_STATES = {
+        // Fixed columns and rows config
+        fixedLeftUntil: 0,
+        // fixedRightFrom: 5,
+        fixedTopUntil: 0,
+        // fixedBottomFrom: 5,
+    };
+
     // The datagrid modal class
     var DataGrid = function(element, options) {
         var that     = this;
         var $element = that.$ = $(element);
-        that.name    = NAME;
-        that.id      = NAME + '.' + $.zui.uuid();
-        options      = $.extend({}, DataGrid.DEFAULTS, that.$.data(), options);
+        that.name      = NAME;
+        that.uuid      = $.zui.uuid();
+        that.id        = 'zui-datagrid-' + that.uuid;
+        options        = $.extend({}, DataGrid.DEFAULTS, that.$.data(), options);
 
         options.valueOperator    = $.extend({}, DEFAULT_VALUE_OPERATOR, options.valueOperator);
         options.rowDefaultHeight = options.rowDefaultHeight || 30;
@@ -78,7 +90,7 @@
             }
             var isMouseDown = false;
             var lastPos = null;
-            var eventSuffix = '.scrollbar' + direction + '.' + that.id;
+            var eventSuffix = '.scrollbar' + direction + '.' + NAME + '.' + that.uuid;
             var startPagePos, startPageOffset, isClickBar, startScrollOffset;
             var handleMousePosition = function(e) {
                 if (!isMouseDown) return;
@@ -102,6 +114,7 @@
                 }
             };
             $scrollbar.on('mousedown', function(e) {
+                e.preventDefault();
                 isMouseDown = true;
                 var scroll = that.layout[direction + 'Scroll'];
                 var degree = direction === 'h' ? 'X' : 'Y';
@@ -143,14 +156,14 @@
         that.$cells = $cells;
 
         // configs is an object
-        that.configs = $.extend({}, options.configs);
+        that.configs = $.extend({}, DEFAULT_CONFIGS, options.configs);
 
         that.layout       = {scrollLeft: 0, scrollTop: 0};
         that.configsCache = {};
         that.userConfigs  = {};
 
         // states is 2D arrays
-        that.states = [];
+        that.states = $.extend({}, DEFAULT_STATES, options.states);
         that.cells  = [];
 
         that.resetData(options.data, options.cols);
@@ -167,10 +180,10 @@
             $cells.on('mouseenter', '.datagrid-cell-head', function() {
                 var $headCol = $(this);
                 var colIndex = $headCol.data('col');
-                $('.datagrid-cell.hover').removeClass('hover');
-                $('.datagrid-cell[data-col="' + colIndex + '"]').addClass('hover');
+                that.$cells.find('.datagrid-cell.hover').removeClass('hover');
+                that.$cells.find('.datagrid-cell[data-col="' + colIndex + '"]').addClass('hover');
             }).on('mouseleave', '.datagrid-cell-head.hover', function() {
-                $('.datagrid-cell.hover').removeClass('hover');
+                that.$cells.find('.datagrid-cell.hover').removeClass('hover');
             });
         }
     };
@@ -237,7 +250,7 @@
             var rowIndexWidth       = options.rowIndexWidth;
             var colsLayout          = [{
                 left: 0,
-                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + '').length * 14 + 10) : rowIndexWidth) : 0,
+                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + '').length * 12 + 10) : rowIndexWidth) : 0,
             }];
             var cellsTotalWidth     = 0;
             var fixedWidth          = colsLayout[0].width;
@@ -357,17 +370,17 @@
         return cell;
     };
 
-    DataGrid.prototype.getCellBounds = function(rowIndex, colIndex) {
-        var layout = this.layout;
-        var colLayout = layout.cols[colIndex];
-        var rowLayout = this.getRowLayout(rowIndex);
-        return {
-            left: colLayout.left,
-            width: colLayout.width,
-            top: rowLayout.top,
-            height: rowLayout.height
-        };
-    };
+    // DataGrid.prototype.getCellBounds = function(rowIndex, colIndex) {
+    //     var layout = this.layout;
+    //     var colLayout = layout.cols[colIndex];
+    //     var rowLayout = this.getRowLayout(rowIndex);
+    //     return {
+    //         left: colLayout.left,
+    //         width: colLayout.width,
+    //         top: rowLayout.top,
+    //         height: rowLayout.height
+    //     };
+    // };
 
     DataGrid.prototype.getRowConfig = function(rowIndex) {
         var that = this;
@@ -376,6 +389,7 @@
         if (!config) {
             config = $.extend({
                 // height: 'auto'
+                // fixed: false
             }, that.configs[rowId], that.userConfigs[rowId]);
             that.configsCache[rowId] = config;
         }
@@ -389,6 +403,7 @@
         if (!config) {
             config = $.extend(
                 {
+                    // Fixed: false,
                     // html: false,
                     // style: null,
                     // className: '',
@@ -425,10 +440,10 @@
         var that      = this;
         var options   = that.options;
         var cell      = that.getCell(rowIndex, colIndex);
-        var elementId = ['cell', rowIndex, colIndex].join('-');
+        var elementId = [that.id, 'cell', rowIndex, colIndex].join('-');
         var $cell     = $('#' + elementId);
         if (!$cell.length) {
-            $row = $row || $('#row-' + rowIndex);
+            $row = $row || $('#' + that.id + '-row-' + rowIndex);
             $cell = (options.cellCreator ? options.cellCreator(cell, that) : $('<div class="datagrid-cell" />')).appendTo($row);
             $cell.attr({
                 id: elementId,
@@ -469,7 +484,7 @@
         var options    = that.options;
         var rowLayout  = that.getRowLayout(rowIndex);
         var colsLength = that.layout.colsLength;
-        var elementId  = 'row-' + rowIndex;
+        var elementId  = that.id + '-row-' + rowIndex;
         var $row       = $('#' + elementId);
         if (!$row.length) {
             $row = (options.rowCreator ? options.rowCreator(rowIndex, that) : $('<div class="datagrid-row" />')).appendTo(that.$cells);
@@ -514,7 +529,7 @@
         that.renderData();
 
         // Render scrollbars
-        that.renderScrollbars();
+        that.renderScrolls();
     };
 
     DataGrid.prototype.setScrollbarOffset = function(offsetX, offsetY) {
@@ -537,7 +552,7 @@
         that.scroll(scrollLeft, scrollTop);
     };
 
-    DataGrid.prototype.renderScrollbars = function() {
+    DataGrid.prototype.renderScrolls = function() {
         var that = this;
         var layout = that.layout;
         var vSize = layout.height - layout.containerHeight;
@@ -586,6 +601,7 @@
             };
             $bar.css(barStyle);
         }
+        that.renderFixeds();
         that.$cells.css({
             top: -layout.scrollTop,
             left: -layout.scrollLeft
@@ -594,7 +610,7 @@
 
     DataGrid.prototype.scroll = function(scrollLeft, scrollTop) {
         if (this.scrollLeft(scrollLeft, true) || this.scrollTop(scrollTop, true)) {
-            this.renderScrollbars();
+            this.renderScrolls();
         }
     };
 
@@ -604,7 +620,7 @@
         var needRender = scrollLeft !== layout.scrollLeft;
         if (needRender) {
             layout.scrollLeft = scrollLeft;
-            if (!notRender) this.renderScrollbars();
+            if (!notRender) this.renderScrolls();
         }
         return needRender;
     };
@@ -615,9 +631,86 @@
         var needRender = scrollTop !== layout.scrollTop;
         if (needRender) {
             layout.scrollTop = scrollTop;
-            if (!notRender) this.renderScrollbars();
+            if (!notRender) this.renderScrolls();
         }
         return needRender;
+    };
+
+    DataGrid.prototype.isRowVisible = function(rowIndex) {
+    };
+
+    DataGrid.prototype.renderFixeds = function() {
+        var that = this;
+        var states = that.states;
+        var layout = that.layout;
+
+        that.$cells.find('.datagrid-fixed').removeClass('datagrid-fixed');
+        that.$cells.find('.datagrid-fixed-edge-top').removeClass('datagrid-fixed-edge-top');
+        that.$cells.find('.datagrid-fixed-edge-bottom').removeClass('datagrid-fixed-edge-bottom');
+        that.$cells.find('.datagrid-fixed-edge-left').removeClass('datagrid-fixed-edge-left');
+        that.$cells.find('.datagrid-fixed-edge-right').removeClass('datagrid-fixed-edge-right');
+
+        var vScroll = layout.vScroll;
+        var fixedTopUntil = states.fixedTopUntil;
+        if (typeof fixedTopUntil === 'number' && fixedTopUntil > -1) {
+            fixedTopUntil = Math.min(fixedTopUntil, layout.rowsLength);
+            for (var i = 0; i <= fixedTopUntil; ++i) {
+                var rowLayout = that.getRowLayout(i);
+                var $row = $('#' + that.id + '-row-' + i);
+                var fixedTop = rowLayout.top + layout.scrollTop;
+                $row.addClass('datagrid-fixed').css('top', fixedTop);
+                if (i === fixedTopUntil && layout.scrollTop) {
+                    $row.addClass('datagrid-fixed-edge-top');
+                }
+            }
+        } else {
+            fixedTopUntil = -1;
+        }
+        var fixedBottomFrom = states.fixedBottomFrom;
+        if (typeof fixedBottomFrom === 'number' && fixedBottomFrom > -1) {
+            fixedBottomFrom = Math.max(fixedTopUntil > -1 ? (fixedTopUntil + 1) : 1, Math.min(fixedBottomFrom, layout.rowsLength));
+            for (var i = fixedBottomFrom; i < layout.rowsLength; ++i) {
+                var rowLayout = that.getRowLayout(i);
+                var $row = $('#' + that.id + '-row-' + i);
+                var fixedTop = rowLayout.top - vScroll.size + layout.scrollTop;
+                $row.addClass('datagrid-fixed').css('top', fixedTop);
+                if (i === fixedBottomFrom && layout.scrollTop < vScroll.size) {
+                    $row.addClass('datagrid-fixed-edge-bottom');
+                }
+            }
+        }
+
+        var hScroll = layout.hScroll;
+        var fixedLeftUntil = states.fixedLeftUntil;
+        if (typeof fixedLeftUntil === 'number' && fixedLeftUntil > -1) {
+            fixedLeftUntil = Math.min(fixedLeftUntil, layout.colsLength);
+            for (var i = 0; i <= fixedLeftUntil; ++i) {
+                var colLayout = layout.cols[i];
+                var $cols = that.$cells.find('.datagrid-cell[data-col="' + i + '"]');
+                var fixedLeft = colLayout.left + layout.scrollLeft - layout.borderWidth;
+                $cols.addClass('datagrid-fixed').css('left', fixedLeft);
+                if (i === fixedLeftUntil && layout.scrollLeft) {
+                    $cols.addClass('datagrid-fixed-edge-left');
+                }
+            }
+        } else {
+            fixedLeftUntil = -1;
+        }
+        var fixedRightFrom = states.fixedRightFrom;
+        if (typeof fixedRightFrom === 'number' && fixedRightFrom > -1) {
+            fixedRightFrom = Math.max(fixedLeftUntil > -1 ? (fixedLeftUntil + 1) : 1, Math.min(fixedRightFrom, layout.colsLength));
+            console.log('fixedRightFrom', fixedRightFrom);
+            for (var i = fixedRightFrom; i < layout.colsLength; ++i) {
+                var colLayout = layout.cols[i];
+                console.log('colLayout', colLayout, i);
+                var $cols = that.$cells.find('.datagrid-cell[data-col="' + i + '"]');
+                var fixedLeft = colLayout.left - hScroll.size + layout.scrollLeft;
+                $cols.addClass('datagrid-fixed').css('left', fixedLeft);
+                if (i === fixedRightFrom && layout.scrollLeft < hScroll.size) {
+                    $cols.addClass('datagrid-fixed-edge-right');
+                }
+            }
+        }
     };
 
     // default options
@@ -635,10 +728,10 @@
         data: [],
 
         // The cells configurations
-        configs: {},
+        configs: null,
 
         // The cells default states
-        states: {},
+        states: null,
 
         // Cell default height
         rowDefaultHeight: 30,
@@ -689,7 +782,7 @@
         responsive: true,
 
         // Value operator
-        valueOperator: {},
+        valueOperator: null,
 
         // Default date formater
         defaultDateFormater: 'yyyy-MM-dd hh:mm'

@@ -7,8 +7,12 @@
 
 
 // Variables
-@hover-cell-zIndex: 30;
 @hover-row-zIndex: 20;
+@fixed-cell-zIndex: 30;
+@fixed-row-zIndex: 35;
+@fixed-hover-row-zIndex: 38;
+@hover-cell-zIndex: 40;
+@fixed-row-hover-cell-zIndex: 42;
 @scrollbar-zIndex: 50;
 
 
@@ -25,8 +29,8 @@
   position: absolute;
   left: 0;
   top: 0;
-  transition: @animation-speed-fast @animation-type;
-  transition-property: left, top;
+  // transition: @animation-speed-fast @animation-type;
+  // transition-property: left, top;
 }
 .datagrid-cell {
   overflow: hidden;
@@ -35,12 +39,17 @@
   border: 1px solid @color-gray-light;
   transition: @animation-speed-normal @animation-type;
   transition-property: background, outline;
+  background-color: @color-white;
 
   &.datagrid-cell-index {
     background-color: @color-gray-pale;
     color: @color-gray;
     text-align: right;
     font-family: @font-family-monospace;
+  }
+
+  &.datagrid-cell-head {
+    background-color: @color-gray-pale;
   }
 }
 
@@ -57,10 +66,38 @@
   color: @color-gray;
 }
 
+.datagrid-fixed {
+  &.datagrid-row {
+    z-index: @fixed-row-zIndex;
+  }
+  &.datagrid-cell {
+    z-index: @fixed-cell-zIndex;
+  }
+}
+.datagrid-fixed-edge-top {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.125), 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+.datagrid-fixed-edge-bottom {
+  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.125), 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.datagrid-fixed-edge-left {
+  box-shadow: -1px 0 0 rgba(0, 0, 0, 0.25) inset;
+}
+.datagrid-fixed-edge-right {
+  box-shadow: 1px 0 0 rgba(0, 0, 0, 0.25) inset;
+}
+
 .datagrid-hover-row {
   .datagrid-row-cell:hover {
-    background-color: @color-pale;
     z-index: @hover-row-zIndex;
+
+    .datagrid-cell {
+      background-color: @color-pale;
+    }
+
+    &.datagrid-fixed {
+      z-index: @fixed-hover-row-zIndex;
+    }
 
     > .datagrid-cell-index {
       background-color: @color-gray-light;
@@ -77,6 +114,11 @@
     outline-offset: -1px;
     z-index: @hover-cell-zIndex;
     background-color: @color-white;
+  }
+
+  .datagrid-row-cell .datagrid-cell-cell.datagrid-fixed:hover,
+  .datagrid-row-cell.datagrid-fixed .datagrid-cell-cell:hover {
+    z-index: @fixed-row-hover-cell-zIndex;
   }
 
   &.datagrid-hover-shadow .datagrid-row-cell .datagrid-cell:hover {
@@ -99,7 +141,7 @@
   bottom: 0;
   right: 0;
   opacity: 0;
-  transition: 1s @animation-type;
+  transition: 2.5s @animation-type;
   transition-property: background, opacity;
   z-index: @scrollbar-zIndex;
 
