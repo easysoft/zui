@@ -167,7 +167,7 @@
         that.cells  = [];
 
         that.resetData(options.data, options.cols);
-        that.render();
+        that.render(true);
 
         if (options.responsive) {
             $container.on('resize', function() {
@@ -188,15 +188,46 @@
         }
     };
 
+    DataGrid.prototype.getDataLength = function() {
+        var length = this.dataInfo.length;
+        if (typeof length === 'function') {
+            return length();
+        }
+        return length;
+    };
+
+    DataGrid.prototype.getDataItem = function(index) {
+        var dataInfo = this.dataInfo;
+        if (dataInfo.getByIndex) {
+            return dataInfo.getByIndex(index);
+        }
+        if (dataInfo.array) {
+            return dataInfo.array[index];
+        }
+    };
+
     DataGrid.prototype.resetData = function(data, cols) {
+        var that = this;
+
         if (cols) {
-            this.layout.cols = null;
+            that.layout.cols = null;
         }
 
-        cols = cols || this.cols || [];
+        var dataInfo = {length: 0};
+        if ($.isArray(data)) {
+            dataInfo.array = data;
+            dataInfo.length = data.length;
+        } else  if ($.isPlainObject(data)) {
+            dataInfo = $.extend(dataInfo, data);
+        } else if (typeof data === 'string') {
+            dataInfo.remote = data;
+        }
+        that.dataInfo = dataInfo;
+
+        cols = cols || that.cols || [];
         if (!cols.length) {
-            if (data && data.length) {
-                $.each(data[0], function(name) {
+            if (that.getDataLength()) {
+                $.each(that.getDataItem(0), function(name) {
                     cols.push({
                         name: name
                     });
@@ -211,8 +242,7 @@
             }
         }
 
-        this.cols = cols;
-        this.data = data || [];
+        that.cols = cols;
     };
 
     DataGrid.prototype.getRowLayout = function(rowIndex) {
@@ -235,7 +265,7 @@
         var options         = that.options;
         var layout          = that.layout;
         var data            = that.data;
-        var dataLength      = data.length;
+        var dataLength      = that.getDataLength();
         var $container      = that.$container;
         var containerWidth  = $container.width();
         var containerHeight = $container.height();
@@ -250,7 +280,7 @@
             var rowIndexWidth       = options.rowIndexWidth;
             var colsLayout          = [{
                 left: 0,
-                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + '').length * 12 + 10) : rowIndexWidth) : 0,
+                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + '').length * 8 + 10) : rowIndexWidth) : 0,
             }];
             var cellsTotalWidth     = 0;
             var fixedWidth          = colsLayout[0].width;
@@ -327,6 +357,12 @@
         layout.height          = layout.headerHeight + dataLength * (layout.rowHeight + layout.borderWidth);
 
         that.layout = layout;
+
+        var partialRendering = options.partialRendering;
+        if (partialRendering === 'auto') {
+            partialRendering = layout.height > (2 * layout.containerHeight);
+        }
+        layout.partialRendering = partialRendering;
         return layout;
     };
 
@@ -348,7 +384,7 @@
             value = (colLabel !== undefined && colLabel !== null) ? colLabel : ((col && col.name) || colIndex);
         } else {
             type = 'cell';
-            value = that.data[rowIndex - 1][col.name];
+            value = that.getDataItem(rowIndex - 1)[col.name];
         }
         if (rowIndex > 0 && config.valueType) {
             var valueOperator = config.valueOperator || that.options.valueOperator;
@@ -504,14 +540,61 @@
     };
 
     DataGrid.prototype.renderData = function() {
-        for (var i = 1; i < this.layout.rowsLength; ++i) {
+        var layout = this.layout;
+        var startRenderRow = 1;
+        var endRenderRow = layout.rowsLength - 1;
+        if (layout.partialRendering) {
+            var rowHeight = layout.rowHeight + layout.borderWidth;
+            startRenderRow = Math.min(endRenderRow, Math.max(1, Math.floor((layout.scrollTop - layout.headerHeight)/rowHeight)));
+            endRenderRow = Math.min(endRenderRow, Math.max(1, Math.ceil((layout.scrollTop + layout.containerHeight - layout.headerHeight)/rowHeight)));
+            this.$cells.find('.datagrid-row').each(function() {
+                var $row = $(this);
+                var rowIndex = $row.data('row');
+                if (rowIndex > 0 && !$row.hasClass('datagrid-fixed') && (rowIndex < startRenderRow || rowIndex > endRenderRow)) {
+                    $row.remove();
+                }
+            });
+        }
+
+        for (var i = startRenderRow; i <= endRenderRow; ++i) {
             this.renderRow(i);
+        }
+
+        if (layout.vScrollSpare) {
+            var states = this.states;
+            var fixedTopUntil = states.fixedTopUntil;
+            var fixedBottomFrom = states.fixedBottomFrom;
+            if (typeof fixedTopUntil === 'number' && fixedTopUntil > 0 && fixedTopUntil < startRenderRow) {
+                for (var i = 1; i <= fixedTopUntil; ++i) {
+                    this.renderRow(i);
+                }
+            }
+            if (typeof fixedBottomFrom === 'number' && fixedBottomFrom > 0 && fixedBottomFrom > endRenderRow) {
+                for (var i = fixedBottomFrom; i <= (layout.rowsLength - 1); ++i) {
+                    this.renderRow(i);
+                }
+            }
         }
     };
 
-    DataGrid.prototype.render = function() {
+    DataGrid.prototype.render = function(ignoreDelay) {
         var that = this;
         var options = that.options;
+
+        if (!ignoreDelay && options.renderDelay) {
+            if (that.renderDelayTimer) {
+                clearTimeout(that.renderDelayTimer);
+            }
+            that.renderDelayTimer = setTimeout(function() {
+                that.render(true);
+            }, options.renderDelay);
+            return;
+        }
+
+        if (that.renderDelayTimer) {
+            clearTimeout(that.renderDelayTimer);
+            that.renderDelayTimer = null;
+        }
 
         that.updateLayout();
 
@@ -519,6 +602,9 @@
             width: that.layout.width,
             height: that.layout.height
         });
+
+        // Render scrollbars
+        that.renderScrolls();
 
         // Render header
         if (options.showHeader) {
@@ -528,8 +614,7 @@
         // Render rows
         that.renderData();
 
-        // Render scrollbars
-        that.renderScrolls();
+        that.renderFixeds();
     };
 
     DataGrid.prototype.setScrollbarOffset = function(offsetX, offsetY) {
@@ -540,13 +625,13 @@
         if (typeof offsetX === 'number') {
             var hScroll = layout.hScroll;
             if (hScroll.offset !== offsetX) {
-                scrollLeft = Math.round(offsetX * hScroll.size / hScroll.space);
+                scrollLeft = Math.round(offsetX * layout.hScrollSpare / hScroll.space);
             }
         }
         if (typeof offsetY === 'number') {
             var vScroll = layout.vScroll;
             if (vScroll.offset !== offsetY) {
-                scrollTop = Math.round(offsetY * vScroll.size / vScroll.space);
+                scrollTop = Math.round(offsetY * layout.vScrollSpare / vScroll.space);
             }
         }
         that.scroll(scrollLeft, scrollTop);
@@ -563,6 +648,8 @@
         that.$hScroll.toggle(showHBar);
         layout.scrollLeft = showHBar ? Math.max(0, Math.min(hSize, layout.scrollLeft)) : 0;
         layout.scrollTop = showVBar ? Math.max(0, Math.min(vSize, layout.scrollTop)) : 0;
+        layout.vScrollSpare = vSize;
+        layout.hScrollSpare = hSize;
         if (showVBar) {
             var $bar = that.$vScrollbar;
             var scale = layout.containerHeight / layout.height;
@@ -601,36 +688,57 @@
             };
             $bar.css(barStyle);
         }
-        that.renderFixeds();
         that.$cells.css({
             top: -layout.scrollTop,
             left: -layout.scrollLeft
         });
     };
 
-    DataGrid.prototype.scroll = function(scrollLeft, scrollTop) {
-        var layout = this.layout;
+    DataGrid.prototype.scroll = function(scrollLeft, scrollTop, ignoreDelay) {
+        var that = this;
+        var now = new Date();
+        var scrollDelay = that.options.scrollDelay;
+        if (scrollDelay) {
+            if (!ignoreDelay && that.lastScrollTime && (now - that.lastScrollTime) < scrollDelay) {
+                if (that.scrollDelayTimer) {
+                    clearTimeout(that.scrollDelayTimer);
+                }
+                that.scrollDelayTimer = setTimeout(function() {
+                    that.scroll(scrollLeft, scrollTop);
+                }, (scrollDelay - ((now - that.lastScrollTime))));
+
+                return;
+            }
+            if (that.scrollDelayTimer) {
+                clearTimeout(that.scrollDelayTimer);
+                that.scrollDelayTimer = null;
+            }
+            that.lastScrollTime = now;
+        }
+        var layout = that.layout;
         var hScrolled = false, vScrolled = false;
-        if (typeof scrollLeft === 'number' && scrollLeft > -1) {
+        if (typeof scrollLeft === 'number') {
             scrollLeft = Math.max(0, Math.min(scrollLeft, layout.width - layout.containerWidth));
             if (scrollLeft !== layout.scrollLeft) {
                 hScrolled = true;
                 layout.scrollLeft = scrollLeft;
             }
         }
-        if (typeof scrollTop === 'number' && scrollTop > -1) {
+        if (typeof scrollTop === 'number') {
             scrollTop = Math.max(0, Math.min(scrollTop, layout.height - layout.containerHeight));
             if (scrollTop !== layout.scrollTop) {
                 vScrolled = true;
                 layout.scrollTop = scrollTop;
             }
         }
-        if (hScrolled || vScrolled) {
-            this.renderScrolls();
+
+        if (vScrolled && layout.partialRendering) {
+            that.renderData();
         }
 
-        if (layout.partialRendering) {
-            this.renderData();
+        if (hScrolled || vScrolled) {
+            that.renderScrolls();
+            that.renderFixeds();
         }
     };
 
@@ -648,62 +756,64 @@
         that.$cells.find('.datagrid-fixed-edge-left').removeClass('datagrid-fixed-edge-left');
         that.$cells.find('.datagrid-fixed-edge-right').removeClass('datagrid-fixed-edge-right');
 
-        var vScroll = layout.vScroll;
-        var fixedTopUntil = states.fixedTopUntil;
-        if (typeof fixedTopUntil === 'number' && fixedTopUntil > -1) {
-            fixedTopUntil = Math.min(fixedTopUntil, layout.rowsLength);
-            for (var i = 0; i <= fixedTopUntil; ++i) {
-                var rowLayout = that.getRowLayout(i);
-                var $row = $('#' + that.id + '-row-' + i);
-                var fixedTop = rowLayout.top + layout.scrollTop;
-                $row.addClass('datagrid-fixed').css('top', fixedTop);
-                if (i === fixedTopUntil && layout.scrollTop) {
-                    $row.addClass('datagrid-fixed-edge-top');
+        if (layout.vScrollSpare) {
+            var fixedTopUntil = states.fixedTopUntil;
+            if (typeof fixedTopUntil === 'number' && fixedTopUntil > -1) {
+                fixedTopUntil = Math.min(fixedTopUntil, layout.rowsLength);
+                for (var i = 0; i <= fixedTopUntil; ++i) {
+                    var rowLayout = that.getRowLayout(i);
+                    var $row = $('#' + that.id + '-row-' + i);
+                    var fixedTop = rowLayout.top + layout.scrollTop;
+                    $row.addClass('datagrid-fixed').css('top', fixedTop);
+                    if (i === fixedTopUntil && layout.scrollTop) {
+                        $row.addClass('datagrid-fixed-edge-top');
+                    }
                 }
+            } else {
+                fixedTopUntil = -1;
             }
-        } else {
-            fixedTopUntil = -1;
-        }
-        var fixedBottomFrom = states.fixedBottomFrom;
-        if (typeof fixedBottomFrom === 'number' && fixedBottomFrom > -1) {
-            fixedBottomFrom = Math.max(fixedTopUntil > -1 ? (fixedTopUntil + 1) : 1, Math.min(fixedBottomFrom, layout.rowsLength));
-            for (var i = fixedBottomFrom; i < layout.rowsLength; ++i) {
-                var rowLayout = that.getRowLayout(i);
-                var $row = $('#' + that.id + '-row-' + i);
-                var fixedTop = rowLayout.top - vScroll.size + layout.scrollTop;
-                $row.addClass('datagrid-fixed').css('top', fixedTop);
-                if (i === fixedBottomFrom && layout.scrollTop < vScroll.size) {
-                    $row.addClass('datagrid-fixed-edge-bottom');
+            var fixedBottomFrom = states.fixedBottomFrom;
+            if (typeof fixedBottomFrom === 'number' && fixedBottomFrom > -1) {
+                fixedBottomFrom = Math.max(fixedTopUntil > -1 ? (fixedTopUntil + 1) : 1, Math.min(fixedBottomFrom, layout.rowsLength));
+                for (var i = fixedBottomFrom; i < layout.rowsLength; ++i) {
+                    var rowLayout = that.getRowLayout(i);
+                    var $row = $('#' + that.id + '-row-' + i);
+                    var fixedTop = rowLayout.top - layout.vScrollSpare + layout.scrollTop;
+                    $row.addClass('datagrid-fixed').css('top', fixedTop);
+                    if (i === fixedBottomFrom && layout.scrollTop < layout.vScrollSpare) {
+                        $row.addClass('datagrid-fixed-edge-bottom');
+                    }
                 }
             }
         }
 
-        var hScroll = layout.hScroll;
-        var fixedLeftUntil = states.fixedLeftUntil;
-        if (typeof fixedLeftUntil === 'number' && fixedLeftUntil > -1) {
-            fixedLeftUntil = Math.min(fixedLeftUntil, layout.colsLength);
-            for (var i = 0; i <= fixedLeftUntil; ++i) {
-                var colLayout = layout.cols[i];
-                var $cols = that.$cells.find('.datagrid-cell[data-col="' + i + '"]');
-                var fixedLeft = colLayout.left + layout.scrollLeft - layout.borderWidth;
-                $cols.addClass('datagrid-fixed').css('left', fixedLeft);
-                if (i === fixedLeftUntil && layout.scrollLeft) {
-                    $cols.addClass('datagrid-fixed-edge-left');
+        if (layout.hScrollSpare) {
+            var fixedLeftUntil = states.fixedLeftUntil;
+            if (typeof fixedLeftUntil === 'number' && fixedLeftUntil > -1) {
+                fixedLeftUntil = Math.min(fixedLeftUntil, layout.colsLength);
+                for (var i = 0; i <= fixedLeftUntil; ++i) {
+                    var colLayout = layout.cols[i];
+                    var $cols = that.$cells.find('.datagrid-cell[data-col="' + i + '"]');
+                    var fixedLeft = colLayout.left + layout.scrollLeft - layout.borderWidth;
+                    $cols.addClass('datagrid-fixed').css('left', fixedLeft);
+                    if (i === fixedLeftUntil && layout.scrollLeft) {
+                        $cols.addClass('datagrid-fixed-edge-left');
+                    }
                 }
+            } else {
+                fixedLeftUntil = -1;
             }
-        } else {
-            fixedLeftUntil = -1;
-        }
-        var fixedRightFrom = states.fixedRightFrom;
-        if (typeof fixedRightFrom === 'number' && fixedRightFrom > -1) {
-            fixedRightFrom = Math.max(fixedLeftUntil > -1 ? (fixedLeftUntil + 1) : 1, Math.min(fixedRightFrom, layout.colsLength));
-            for (var i = fixedRightFrom; i < layout.colsLength; ++i) {
-                var colLayout = layout.cols[i];
-                var $cols = that.$cells.find('.datagrid-cell[data-col="' + i + '"]');
-                var fixedLeft = colLayout.left - hScroll.size + layout.scrollLeft;
-                $cols.addClass('datagrid-fixed').css('left', fixedLeft);
-                if (i === fixedRightFrom && layout.scrollLeft < hScroll.size) {
-                    $cols.addClass('datagrid-fixed-edge-right');
+            var fixedRightFrom = states.fixedRightFrom;
+            if (typeof fixedRightFrom === 'number' && fixedRightFrom > -1) {
+                fixedRightFrom = Math.max(fixedLeftUntil > -1 ? (fixedLeftUntil + 1) : 1, Math.min(fixedRightFrom, layout.colsLength));
+                for (var i = fixedRightFrom; i < layout.colsLength; ++i) {
+                    var colLayout = layout.cols[i];
+                    var $cols = that.$cells.find('.datagrid-cell[data-col="' + i + '"]');
+                    var fixedLeft = colLayout.left - layout.hScrollSpare + layout.scrollLeft;
+                    $cols.addClass('datagrid-fixed').css('left', fixedLeft);
+                    if (i === fixedRightFrom && layout.scrollLeft < layout.hScrollSpare) {
+                        $cols.addClass('datagrid-fixed-edge-right');
+                    }
                 }
             }
         }
@@ -779,6 +889,15 @@
 
         // Default date formater
         defaultDateFormater: 'yyyy-MM-dd hh:mm',
+
+        // Partial rendering can show large amount data in high efficiency
+        partialRendering: 'auto',
+
+        // Scroll event trigger delay time
+        scrollDelay: 0,
+
+        // Delay render time
+        renderDelay: 100,
     };
 
     // Extense jquery element
