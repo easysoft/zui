@@ -609,31 +609,29 @@
     };
 
     DataGrid.prototype.scroll = function(scrollLeft, scrollTop) {
-        if (this.scrollLeft(scrollLeft, true) || this.scrollTop(scrollTop, true)) {
+        var layout = this.layout;
+        var hScrolled = false, vScrolled = false;
+        if (typeof scrollLeft === 'number' && scrollLeft > -1) {
+            scrollLeft = Math.max(0, Math.min(scrollLeft, layout.width - layout.containerWidth));
+            if (scrollLeft !== layout.scrollLeft) {
+                hScrolled = true;
+                layout.scrollLeft = scrollLeft;
+            }
+        }
+        if (typeof scrollTop === 'number' && scrollTop > -1) {
+            scrollTop = Math.max(0, Math.min(scrollTop, layout.height - layout.containerHeight));
+            if (scrollTop !== layout.scrollTop) {
+                vScrolled = true;
+                layout.scrollTop = scrollTop;
+            }
+        }
+        if (hScrolled || vScrolled) {
             this.renderScrolls();
         }
-    };
 
-    DataGrid.prototype.scrollLeft = function(scrollLeft, notRender) {
-        var layout = this.layout;
-        scrollLeft = Math.max(0, Math.min(scrollLeft, layout.width - layout.containerWidth));
-        var needRender = scrollLeft !== layout.scrollLeft;
-        if (needRender) {
-            layout.scrollLeft = scrollLeft;
-            if (!notRender) this.renderScrolls();
+        if (layout.partialRendering) {
+            this.renderData();
         }
-        return needRender;
-    };
-
-    DataGrid.prototype.scrollTop = function(scrollTop, notRender) {
-        var layout = this.layout;
-        scrollTop = Math.max(0, Math.min(scrollTop, layout.height - layout.containerHeight));
-        var needRender = scrollTop !== layout.scrollTop;
-        if (needRender) {
-            layout.scrollTop = scrollTop;
-            if (!notRender) this.renderScrolls();
-        }
-        return needRender;
     };
 
     DataGrid.prototype.isRowVisible = function(rowIndex) {
@@ -699,10 +697,8 @@
         var fixedRightFrom = states.fixedRightFrom;
         if (typeof fixedRightFrom === 'number' && fixedRightFrom > -1) {
             fixedRightFrom = Math.max(fixedLeftUntil > -1 ? (fixedLeftUntil + 1) : 1, Math.min(fixedRightFrom, layout.colsLength));
-            console.log('fixedRightFrom', fixedRightFrom);
             for (var i = fixedRightFrom; i < layout.colsLength; ++i) {
                 var colLayout = layout.cols[i];
-                console.log('colLayout', colLayout, i);
                 var $cols = that.$cells.find('.datagrid-cell[data-col="' + i + '"]');
                 var fixedLeft = colLayout.left - hScroll.size + layout.scrollLeft;
                 $cols.addClass('datagrid-fixed').css('left', fixedLeft);
@@ -746,7 +742,7 @@
         showHeader: true,
 
         // Cells header height
-        // headerHeight: 30,
+        headerHeight: 30,
 
         // Show row index number
         showRowIndex: true,
@@ -775,9 +771,6 @@
         // Use cell hover effection
         hoverCell: true,
 
-        // Show shadow when hover
-        hoverShadow: true,
-
         // Relayout on container resize
         responsive: true,
 
@@ -785,7 +778,7 @@
         valueOperator: null,
 
         // Default date formater
-        defaultDateFormater: 'yyyy-MM-dd hh:mm'
+        defaultDateFormater: 'yyyy-MM-dd hh:mm',
     };
 
     // Extense jquery element
