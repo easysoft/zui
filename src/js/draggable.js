@@ -43,6 +43,7 @@
             selector       = setting.selector,
             handle         = setting.handle,
             $ele           = $root,
+            isMoveFunc     = $.isFunction(setting.move),
             startPos,
             cPos,
             startOffset,
@@ -60,7 +61,11 @@
 
             $ele.removeClass('drag-ready').addClass('dragging');
             if(setting.move) {
-                $ele.css(dragPos);
+                if (isMoveFunc) {
+                    setting.move(dragPos, $ele);
+                } else {
+                    $ele.css(dragPos);
+                }
             }
 
             setting[DRAG] && setting[DRAG]({
@@ -97,7 +102,11 @@
             };
             $ele.removeClass('drag-ready dragging');
             if(setting.move) {
-                $ele.css(endPos);
+                if (isMoveFunc) {
+                    setting.move(endPos, $ele);
+                } else {
+                    $ele.css(endPos);
+                }
             }
 
             setting[FINISH] && setting[FINISH]({
@@ -125,7 +134,7 @@
             if(mouseButton > -1 && event.button !== mouseButton) {
                 return;
             }
-            
+
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
