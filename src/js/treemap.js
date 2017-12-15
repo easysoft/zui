@@ -86,7 +86,7 @@
             options = {data: options};
         }
         options = $.extend({}, DEFAULTS, $element.data(), options);
-        
+
         var data = options.data || [];
         if(!data.length) {
             var $dataList = $element.children('.treemap-data');
@@ -110,7 +110,7 @@
         that.scale   = options.scale || 1;
 
         // Bind events
-        
+
         that.render();
 
         $nodes.on('resize', '.treemap-node-wrapper', function() {
@@ -128,7 +128,7 @@
         });
     };
 
-    Treemap.prototype.toggle = function($node, toggle) {
+    Treemap.prototype.toggle = function($node, toggle, ignoreAnimation) {
         var that = this;
         if(typeof $node === 'boolean') {
             toggle = $node;
@@ -143,16 +143,31 @@
                 return;
             }
             if(toggle === undefined) {
-                toggle = !$node.hasClass('collapsed');
+                toggle = $node.hasClass('collapsed');
             }
-            $node.addClass('tree-node-collapsing').toggleClass('collapsed', toggle).find('[data-toggle="tooltip"]').tooltip('hide');
+            $node.toggleClass('collapsed', !toggle).find('[data-toggle="tooltip"]').tooltip('hide');
+            if (!ignoreAnimation) {
+                $node.addClass('tree-node-collapsing')
+            }
             that.$nodes.find('.tooltip').remove();
             that.drawLines();
-            clearTimeout(that.toggleTimeTask);
-            that.toggleTimeTask = setTimeout(function() {
+            if (!ignoreAnimation) {
                 $node.removeClass('tree-node-collapsing');
-            }, 200);
+            } else {
+                clearTimeout(that.toggleTimeTask);
+                that.toggleTimeTask = setTimeout(function() {
+                    $node.removeClass('tree-node-collapsing');
+                }, 200);
+            }
         }
+    };
+
+    Treemap.prototype.showLevel = function(level) {
+        var that = this;
+        that.$nodes.find('.treemap-node').each(function() {
+            var $node = $(this);
+            that.toggle($node, $node.data('level') < level, true);
+        });
     };
 
     Treemap.prototype.render = function(data) {
@@ -184,13 +199,18 @@
         }
         var lastNode = null;
         nodes = nodes || that.data;
-        $.each(nodes || that.data, function(idx, node) {
+        if (!parent) {
+            that.maxLevel = 1;
+        }
+        $.each(nodes, function(idx, node) {
             if(typeof node === 'string') {
                 node = {html: node};
                 nodes[idx] = node;
             }
 
             if(!node.id) node.id = $.zui.uuid();
+            node.level = parent ? (parent.level + 1) : 1;
+            that.maxLevel = Math.max(that.maxLevel, node.level);
 
             // Create node element
             var isCustomNodeTemplate = $.isFunction(options.nodeTemplate);
@@ -214,7 +234,7 @@
                  .toggleClass('treemap-node-one-child', hasChild === 1)
                  .toggleClass('collapsed', !!node.collapsed && node.collapsed !== 'false')
                  .toggleClass('treemap-node-root', !row)
-                 .attr('data-id', node.id).data('node', node);
+                 .attr({'data-id': node.id, 'data-level': node.level}).data('node', node);
             if(node.className) {
                 $node.addClass(node.className);
             }
