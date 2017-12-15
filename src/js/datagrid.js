@@ -56,7 +56,7 @@
     };
 
     var DEFAULT_PAGER = {
-        page: 1,        // current page index
+        page: 0,        // current page index
         recTotal: 0,    // records total count
         recPerPage: 10, // records count per page
     };
@@ -64,6 +64,7 @@
     var DEFAULT_SEARCH_FUNC = function(item, searchKeyArr) {
         var score = 0;
         var searchKeyLength = searchKeyArr.length;
+        var matchKeysCount = 0, matchKeys = {};
         $.each(item, function(key, value) {
             var valueType = typeof value;
             if (valueType === 'number' || valueType === 'number') {
@@ -80,13 +81,15 @@
                     } else {
                         keyScore = 20;
                     }
-                } else {
-                    keyScore = 0;
-                    break;
+                    if (!matchKeys[search]) {
+                        matchKeys[search] = 1;
+                        matchKeysCount++;
+                    }
                 }
             }
             score += keyScore;
         });
+        score = matchKeysCount === searchKeyLength ? score : 0;
         return score;
     };
 
@@ -115,7 +118,7 @@
         that.id        = 'zui-datagrid-' + that.uuid;
         options        = $.extend({}, DataGrid.DEFAULTS, that.$.data(), options);
 
-        var lang   = options.lang;
+        var lang   = options.lang || 'zh_cn';
         that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG[lang.lang || $.zui.clientLang()], lang)) : LANG[lang];
 
         options.valueOperator    = $.extend({}, DEFAULT_VALUE_OPERATOR, options.valueOperator);
@@ -248,31 +251,18 @@
         that.$.callComEvent(that, 'onReady', [that]);
     };
 
-    DataGrid.prototype.getDataLength = function() {
-        var that = this;
-        var length = that.dataSource.length;
-        if (typeof length === 'function') {
-            length = length(that.search, that);
-            if (length) {
-                that.pager.recPerPage = length;
-            }
-        } else if (length === undefined || length === null) {
-            return that.pager.pageRecCount;
-        }
-        return length;
-    };
-
     DataGrid.prototype.setPager = function(page, recTotal, recPerPage) {
         var that = this;
-        if (typeof recTotal === 'object') {
-            page = recTotal.page;
-            recPerPage = recTotal.recPerPage;
-            recTotal = recTotal.recTotal;
+        if (typeof page === 'object') {
+            recPerPage = page.recPerPage;
+            recTotal = page.recTotal;
+            page = page.page;
         }
         var pager = that.pager;
         if (!pager) {
             pager = $.extend({}, DEFAULT_PAGER);
         }
+        var oldPage = pager.page;
         if (typeof recPerPage === 'number' && recPerPage > 0) {
             pager.recPerPage = recPerPage;
         }
@@ -282,30 +272,58 @@
         if (typeof page === 'number' && page >= 0) {
             pager.page = page;
         }
-        pager.totalPage = (pager.recTotal && recPerPage) ? (Math.ceil(pager.recTotal / pager.recPerPage)) : 1;
+        pager.totalPage = (pager.recTotal && pager.recPerPage) ? (Math.ceil(pager.recTotal / pager.recPerPage)) : 1;
         pager.page = Math.max(0, Math.min(pager.page, pager.totalPage));
         // pagerRecCount is items count in current page
-        pager.pageRecCount = that.totalPage > 1 ? (pager.recTotal - pager.recPerPage * pager.page) : pager.recTotal;
+        pager.pageRecCount = pager.recTotal;
+        if (pager.page && pager.recTotal) {
+            if (pager.page < pager.totalPage) {
+                pager.pageRecCount = pager.recPerPage;
+            } else if (pager.page > 1) {
+                pager.pageRecCount = pager.recTotal - (pager.recPerPage * (pager.page - 1));
+            }
+        }
+        pager.skip = pager.page > 1 ? ((pager.page - 1) * pager.recPerPage) : 0;
+        pager.end = pager.skip + pager.pageRecCount;
         that.pager = pager;
+        if (oldPage !== pager.page) {
+            that.layout.cols = null;
+        }
         return that;
+    };
+
+    DataGrid.prototype.goToPage = function(page) {
+        return this.setPager(page).render();
     };
 
     DataGrid.prototype.setSearch = function(searchStr) {
         if (searchStr === undefined || searchStr === null) {
             searchStr = '';
         }
-        this.search = $.trim(searchStr);
+        this.states.search = $.trim(searchStr);
         return this;
+    };
+
+    DataGrid.prototype.search = function(searchStr) {
+        var that = this;
+        if (searchStr !== that.states.search && that.pager.page) {
+            that.setPager(1);
+        }
+        return that.setSearch(searchStr).render();
     };
 
     DataGrid.prototype.setSorter = function(sortBy, order) {
         var that = this;
         if (order === undefined) {
-            order = that.order === 'desc' ? 'asc' : 'desc';
+            order = that.states.order === 'desc' ? 'asc' : 'desc';
         }
-        that.order = order.toLowerCase();
-        that.sortBy = sortBy;
+        that.states.order = order.toLowerCase();
+        that.states.sortBy = sortBy;
         return that;
+    };
+
+    DataGrid.prototype.sortBy = function(sortBy, order) {
+        return this.setSorter(sortBy, order).render();
     };
 
     DataGrid.prototype.setDataSource = function(data, cols) {
@@ -327,6 +345,12 @@
         } else if (typeof dataSource.cache === 'number') {
             dataSource.cacheSize = dataSource.cache;
             dataSource.cache = [];
+        }
+        if ($.isArray(dataSource.data)) {
+            dataSource.array = dataSource.data;
+            dataSource.length = dataSource.array.length;
+            that.pager.recTotal = dataSource.length;
+            delete dataSource.data;
         }
         that.dataSource = dataSource;
 
@@ -355,7 +379,7 @@
             var searchFunc = that.options.searchFunc || DEFAULT_SEARCH_FUNC;
             for (var i = 0; i < arr.length; ++i) {
                 var item = arr[i];
-                var score = searchFunc(item, i, filter, that);
+                var score = searchFunc(item, searchKeyArr, i, filter, that);
                 if (score) {
                     if (hasSearchScore === null) {
                         hasSearchScore = typeof score === 'number';
@@ -367,38 +391,44 @@
                 }
             }
         }
-        var sortBy = filter.sortBy || (hasSearchScore ? '_SCORE' : false);
-        if (sortBy) {
-            var colConfig = that.getColConfigByName(sortBy);
-            var isDESC = filter.order === 'desc';
-            var sortFunc = (colConfig && colConfig.sortFunc) || options.sortFunc || DEFAULT_SEARCH_FUNC;
-            result.sort(function(item1, item2) {
-                var sortResult = sortFunc(item1[sortBy], item2[sortBy], item1, item2, sortBy, that);
-                return isDESC ? ((-1) * sortResult) : sortResult;
-            });
+
+        if (result.length) {
+            var sortBy = filter.sortBy || (hasSearchScore ? '_SCORE' : false);
+            if (sortBy) {
+                var order = sortBy === '_SCORE' ? 'DESC' : filter.order;
+                var colConfig = that.getColConfigByName(sortBy);
+                var isDESC = order === 'desc';
+                var sortFunc = (colConfig && colConfig.sortFunc) || that.options.sortFunc || DEFAULT_SORT_FUNC;
+                result.sort(function(item1, item2) {
+                    var sortResult = sortFunc(item1[sortBy], item2[sortBy], item1, item2, sortBy, that);
+                    return isDESC ? ((-1) * sortResult) : sortResult;
+                });
+            }
+
+            that.setPager(-1, result.length);
+            var pager = that.pager;
+            if (pager.page) {
+                var start = pager.page > 1 ? (pager.page * pager.recPerPage) : 0;
+                result = result.slice(pager.skip, pager.end);
+            }
         }
 
-        if (filter.page) {
-            that.setPager(filter.page, arr.length);
-            var pager = that.pager;
-            var start = pager.page > 1 ? (pager.page * pager.recPerPage) : 0;
-            result = result.slice(start, start + pager.pageRecCount);
-        }
         return result;
     };
 
     DataGrid.prototype.getFilterParams = function() {
         var that = this;
+        var states = that.states;
         return {
             page: that.pager.page,
             recPerPage: that.pager.recPerPage,
-            search: that.search,
-            sortBy: that.sortBy,
-            order: that.order
+            search: states.search,
+            sortBy: states.sortBy,
+            order: states.order
         };
     };
 
-    DataGrid.prototype.loadingData = function(callback) {
+    DataGrid.prototype.loadData = function(callback) {
         var that = this;
         that.loadingId = $.zui.uuid();
 
@@ -408,10 +438,9 @@
         if (data) {
             return callback && callback(data);
         }
-
         var dataSource = that.dataSource;
         if (dataSource.array) {
-            data = that.filterData(dataSource.array, filter);
+            data = that.filterData(dataSource.array, params);
             that.resetData(dataId, data);
             return callback && callback(data);
         } else if (dataSource.getByIndex) {
@@ -419,7 +448,7 @@
             that.resetData(dataId, data);
             return callback && callback(data);
         } else {
-            var loadData = dataSource.loadData;
+            var loadData = dataSource.loader;
             var remote = dataSource.remote;
             if (!loadData && remote) {
                 loadData = function(params, onFinish) {
@@ -535,6 +564,7 @@
 
     DataGrid.prototype.getData = function(dataId) {
         var dataSource = this.dataSource;
+        var data = null;
         if (dataId && dataId !== dataSource.dataId) {
             if (dataSource.cache && dataSource.cache.length) {
                 for (var i = dataSource.cache.length - 1; i > 0; --i) {
@@ -542,14 +572,15 @@
                     if (dataCache.id === dataId) {
                         dataSource.dataId = dataId;
                         dataSource.data = dataCache.data;
+                        data = dataCache.data;
                         break;
                     }
                 }
-            } else {
-                return null;
             }
+        } else {
+            data = dataSource.data;
         }
-        return dataSource.data;
+        return data;
     };
 
     DataGrid.prototype.resetData = function(dataId, data, pager) {
@@ -597,12 +628,13 @@
         var options         = that.options;
         var layout          = that.layout;
         var data            = that.data;
-        var dataLength      = that.getDataLength();
+        var pager           = that.pager;
+        var dataLength      = pager.pageRecCount;
         var $container      = that.$container;
         var containerWidth  = $container.width();
         var dataSource      = that.dataSource;
 
-        if (!dataSource.cols.length && that.getDataLength()) {
+        if (!dataSource.cols.length && dataLength) {
             $.each(that.getDataItem(0), function(name) {
                 dataSource.cols.push({
                     name: name
@@ -620,7 +652,7 @@
             var rowIndexWidth       = options.rowIndexWidth;
             var colsLayout          = [{
                 left: 0,
-                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + '').length * 8 + 10) : rowIndexWidth) : 0
+                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 10) : rowIndexWidth) : 0
             }];
             var cellsTotalWidth     = 0;
             var fixedWidth          = colsLayout[0].width;
@@ -697,7 +729,7 @@
 
         var containerHeight = options.height;
         if (containerHeight === 'page') {
-            containerHeight = layout.headerHeight + that.pager.recPerPage * layout.rowHeight;
+            containerHeight = layout.headerHeight + that.pager.recPerPage * (layout.rowHeight + layout.borderWidth);
         }
         $container.css('height', containerHeight);
         layout.containerHeight = containerHeight;
@@ -707,7 +739,7 @@
 
         that.layout = layout;
 
-        var partialRendering = options.partialRendering;
+        var partialRendering = pager.page ? true : options.partialRendering;
         if (partialRendering === 'auto') {
             partialRendering = layout.height > (2 * layout.containerHeight);
         }
@@ -717,16 +749,13 @@
 
     DataGrid.prototype.getCell = function(rowIndex, colIndex) {
         var that = this;
-        var cell = get2DArrValue(that.cells, rowIndex, colIndex);
-        if (cell) {
-            return cell;
-        }
         var config = that.getCellConfig(rowIndex, colIndex);
         var col = colIndex > 0 ? that.dataSource.cols[colIndex - 1] : null;
         var type, value;
         if (colIndex === 0) {
             type = 'index';
-            value = config.label !== undefined ? config.label : (rowIndex || '');
+            var colLabel = rowIndex > 0 ? (that.pager.skip + rowIndex) : '';
+            value = config.label !== undefined ? config.label : colLabel;
         } else if (rowIndex === 0) {
             type = 'head';
             value = config.label !== undefined ? config.label : (config.name !== undefined ? config.name : colIndex);
@@ -743,14 +772,13 @@
                 }
             }
         }
-        cell = {
+        var cell = {
             type: type,
             value: value,
             rowIndex: rowIndex,
             colIndex: colIndex,
             config: config
         };
-        set2DArrValue(that.cells, rowIndex, colIndex, cell);
         return cell;
     };
 
@@ -907,9 +935,6 @@
                 var rowIndex = $row.data('row');
                 if (rowIndex > 0 && !$row.hasClass('datagrid-fixed') && (rowIndex < startRenderRow || rowIndex > endRenderRow)) {
                     $row.remove();
-                    if (that.dataCache[rowIndex]) {
-                        delete that.dataCache[rowIndex];
-                    }
                 }
             });
         }
@@ -951,7 +976,7 @@
             that.renderDelayTimer = setTimeout(function() {
                 that.render(true);
             }, options.renderDelay);
-            return;
+            return that;
         }
 
         if (that.renderDelayTimer) {
@@ -959,9 +984,7 @@
             that.renderDelayTimer = null;
         }
 
-        that.loadingData(function() {
-            that.dataCache = {};
-
+        that.loadData(function() {
             var layout = that.updateLayout();
 
             that.$cells.css({
@@ -979,6 +1002,8 @@
 
             that.$.callComEvent(that, 'onRender');
         });
+
+        return that;
     };
 
     DataGrid.prototype.setScrollbarOffset = function(offsetX, offsetY) {
@@ -1192,7 +1217,7 @@
         height: 400,
 
         // The data columns definitions, require an object array
-        cols: [],
+        cols: null,
 
         // The init data, require an object array
         data: [],
