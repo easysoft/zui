@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-(function($) {
+(function($, undefined) {
     'use strict';
 
     var get2DArrValue = function(arr, rowIndex, colIndex) {
@@ -498,14 +498,21 @@
             autoCloseTime = 5000;
         }
         if (!$messager.length) {
-            $messager = $('<div class="datagrid-messager" style="display: none"></div>').appendTo(that.$container);
+            $messager = $('<div class="datagrid-messager" style="display: none"><div class="content"></div><button type="button" class="close">×</button></div>').appendTo(that.$container).on('click', '.close', function() {
+                $messager.slideUp();
+                if (that.msgerAutoCloseTimer) {
+                    clearTimeout(that.msgerAutoCloseTimer);
+                    that.msgerAutoCloseTimer = null;
+                }
+            });
         }
-        $messager.attr('class', 'datagrid-messager bg-' + type).text(message).slideDown();
+        $messager.attr('class', 'datagrid-messager bg-' + type).find('.content').text(message);
+        $messager.slideDown();
         if (autoCloseTime) {
             that.msgerAutoCloseTimer = setTimeout(function() {
                 $messager.slideUp();
                 that.msgerAutoCloseTimer = null;
-            });
+            }, autoCloseTime);
         }
     };
 
@@ -517,7 +524,7 @@
         var $loading = that.$container.find('.datagrid-loading');
         if (loading) {
             if (!$loading.length) {
-                $loading = $('<div class="datagrid-loading" style="display: none"><i class="icon icon-spin icon-spinner"></i><div className="datagrid-loading-message"></div></div>').appendTo(that.$container);
+                $loading = $('<div class="datagrid-loading" style="display: none"><div class="content"><i class="icon icon-spin icon-spinner icon-2x"></i><div className="datagrid-loading-message"></div></div></div>').appendTo(that.$container);
             }
             $loading.find('.datagrid-loading-message').text((typeof loading === 'string') ? loading : '');
             $loading.fadeIn();
@@ -746,18 +753,6 @@
         set2DArrValue(that.cells, rowIndex, colIndex, cell);
         return cell;
     };
-
-    // DataGrid.prototype.getCellBounds = function(rowIndex, colIndex) {
-    //     var layout = this.layout;
-    //     var colLayout = layout.cols[colIndex];
-    //     var rowLayout = this.getRowLayout(rowIndex);
-    //     return {
-    //         left: colLayout.left,
-    //         width: colLayout.width,
-    //         top: rowLayout.top,
-    //         height: rowLayout.height
-    //     };
-    // };
 
     DataGrid.prototype.getRowConfig = function(rowIndex) {
         var that = this;
@@ -1311,5 +1306,5 @@
     $(function() {
         $('[data-ride="datagrid"]').datagrid();
     });
-}(jQuery));
+}(jQuery, undefined));
 

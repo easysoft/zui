@@ -14,6 +14,8 @@
 @hover-cell-zIndex: 40;
 @fixed-row-hover-cell-zIndex: 42;
 @scrollbar-zIndex: 50;
+@dagagrid-messager-zIndex: 60;
+@dagagrid-loading-zIndex: 61;
 
 
 // Basic style
@@ -184,5 +186,54 @@
     left: 0!important;
     right: 0!important;
     min-height: 20px;
+  }
+}
+
+.datagrid-messager {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: @dagagrid-messager-zIndex;
+  padding: 5px 10px;
+  text-align: center;
+
+  > .close {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 20px;
+    padding-bottom: 5px;
+
+    &:hover {
+      background-color: rgba(0,0,0,.1);
+    }
+  }
+}
+
+.datagrid-loading {
+  position: absolute;
+  z-index: @dagagrid-loading-zIndex;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255,255,255,.6);
+
+  > .content {
+    display: block;
+    height: 50px;
+    text-align: center;
+    position: relative;
+    top: 50%;
+    margin-top: -25px;
+
+    > .icon {
+      color: @color-primary;
+    }
   }
 }
