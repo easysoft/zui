@@ -237,3 +237,26 @@
     }
   }
 }
+
+.datagrid-col-sortable {
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.datagrid-sorter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  text-align: center;
+  bottom: 0;
+  line-height: 30px;
+}
+.datagrid-sort-down > .icon-sort:before {
+  content: @icon-caret-down;
+  color: @color-primary;
+}
+.datagrid-sort-up > .icon-sort:before {
+  content: @icon-caret-up;
+  color: @color-primary;
+}

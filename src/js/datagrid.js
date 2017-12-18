@@ -40,11 +40,19 @@
                     }
                 }
                 return Date.timestamp(inputValue);
-            }
+            },
+            // sort: function(val1, val2) {
+            // }
         }
     };
 
     var DEFAULT_CONFIGS = {
+    };
+
+    var DEFAULT_PAGER = {
+        page: 0,        // current page index
+        recTotal: 0,    // records total count
+        recPerPage: 10, // records count per page
     };
 
     var DEFAULT_STATES = {
@@ -53,12 +61,12 @@
         // fixedRightFrom: 5,
         fixedTopUntil: 0,
         // fixedBottomFrom: 5,
-    };
 
-    var DEFAULT_PAGER = {
-        page: 0,        // current page index
-        recTotal: 0,    // records total count
-        recPerPage: 10, // records count per page
+        order: 'asc', // desc
+
+        sortBy: null,
+
+        pager: DEFAULT_PAGER
     };
 
     var DEFAULT_SEARCH_FUNC = function(item, searchKeyArr) {
@@ -218,15 +226,13 @@
         that.layout       = {scrollLeft: 0, scrollTop: 0};
         that.configsCache = {};
         that.userConfigs  = {};
-        that.setPager(options.pager);
 
         // states is 2D arrays
-        that.states    = $.extend({}, DEFAULT_STATES, options.states);
+        that.states    = $.extend(true, {}, DEFAULT_STATES, options.states);
         that.cells     = [];
+        that.setPager(that.states.pager);
 
         that.setDataSource(options.data, options.cols);
-
-        window.datagrid = that;
 
         that.render(true);
 
@@ -245,6 +251,24 @@
                 that.$cells.find('.datagrid-cell[data-col="' + colIndex + '"]').addClass('hover');
             }).on('mouseleave', '.datagrid-cell-head.hover', function() {
                 that.$cells.find('.datagrid-cell.hover').removeClass('hover');
+            });
+        }
+
+        if (options.sortable) {
+            $cells.on('click', '.datagrid-col-sortable', function() {
+                var colIndex = $(this).data('col');
+                var col = that.getColConfig(colIndex);
+                var sortBy = that.states.sortBy;
+                var order = that.states.order;
+                if (sortBy !== col.name) {
+                    sortBy = col.name;
+                    order = 'desc';
+                } else if (order === 'desc') {
+                    order = 'asc';
+                } else if (order === 'asc') {
+                    sortBy = '';
+                }
+                that.sortBy(sortBy, order);
             });
         }
 
@@ -892,6 +916,21 @@
                 $cell.addClass(cell.config.className);
             }
         }
+
+        if (colIndex > 0 && rowIndex === 0 && options.sortable && cell.config.sort !== false) {
+            var sorted = false;
+            if (cell.config.name === that.states.sortBy) {
+                sorted = that.states.order === 'desc' ? 'down' : 'up';
+            }
+            var $sorter = $cell.find('.datagrid-sorter');
+            if (!$sorter.length) {
+                $sorter = $('<div class="datagrid-sorter"><i class="icon icon-sort"></i></div>').appendTo($cell);
+                $cell.addClass('datagrid-col-sortable');
+            }
+            $sorter.toggleClass('datagrid-sort-up', sorted === 'up')
+                   .toggleClass('datagrid-sort-down', sorted === 'down');
+        }
+        return $cell;
     };
 
     DataGrid.prototype.renderRow = function(rowIndex) {
@@ -1308,6 +1347,9 @@
 
         // Sort function
         sortFunc: null,
+
+        // Sort by click column headers
+        sortable: true
     };
 
     // Extense jquery element
