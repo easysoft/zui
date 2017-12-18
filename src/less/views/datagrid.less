@@ -42,6 +42,8 @@
   transition: @animation-speed-normal @animation-type;
   transition-property: background, outline;
   background-color: @color-white;
+  .nobr();
+  text-overflow: ellipsis;
 
   &.datagrid-cell-index {
     background-color: @color-gray-pale;
@@ -89,6 +91,16 @@
   box-shadow: 1px 0 0 rgba(0, 0, 0, 0.25) inset;
 }
 
+.datagrid-row-cell.active {
+  .datagrid-cell {
+    background-color: @color-yellow-pale;
+
+    &.datagrid-cell-index {
+      background-color: darken(@color-yellow-pale, 5%);
+    }
+  }
+}
+
 .datagrid-hover-row {
   .datagrid-row-cell:hover {
     z-index: @hover-row-zIndex;
@@ -103,6 +115,16 @@
 
     > .datagrid-cell-index {
       background-color: @color-gray-light;
+    }
+
+    &.active {
+      .datagrid-cell {
+        background-color: darken(@color-yellow-pale, 8%);
+      }
+
+      .datagrid-cell-index {
+        background-color: darken(@color-yellow-pale, 12%);
+      }
     }
   }
 
@@ -135,6 +157,12 @@
   .datagrid-cell-head.hover,
   .datagrid-cell-index.hover {
     background-color: @color-gray-light;
+  }
+
+  .datagrid-row-cell.active {
+    .datagrid-cell.hover {
+      background-color: darken(@color-pale, 5%);
+    }
   }
 }
 

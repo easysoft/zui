@@ -66,7 +66,9 @@
 
         sortBy: null,
 
-        pager: DEFAULT_PAGER
+        pager: DEFAULT_PAGER,
+
+        selections: {}
     };
 
     var DEFAULT_SEARCH_FUNC = function(item, searchKeyArr) {
@@ -270,6 +272,31 @@
                 }
                 that.sortBy(sortBy, order);
             });
+        }
+
+        if (options.checkable) {
+            if (options.selectable && $.fn.selectable) {
+                that.selectable = $cells.selectable($.extend({
+                    selector: '.datagrid-row-cell',
+                    // selectClass: false,
+                    clickBehavior: 'multi',
+                    select: function(data) {
+                        that.checkRow(data.id, true);
+                    },
+                    unselect: function(data) {
+                        that.checkRow(data.id, false);
+                    }
+                }, $.isPlainObject(options.selectable) ? options.selectable : null)).data('zui.selectable');
+                $cells.on('click', '.datagrid-cell-head.datagrid-has-checkbox', function() {
+                    that.checkRow($(this).data('row'));
+                    that.selectable.syncSelectionsFromClass();
+                });
+            } else {
+                $cells.on('click', options.checkByClickRow ? '.datagrid-row' : '.datagrid-has-checkbox', function(e) {
+                    that.checkRow($(this).data('row'));
+                });
+            }
+
         }
 
         that.$.callComEvent(that, 'onReady', [that]);
@@ -683,6 +710,7 @@
             var lastGrowColIndex    = false;
             var lastMaxGrow         = 0;
             var colLayout, colWidth;
+            var checkBoxColIndex    = 0;
 
             for (var i = 0; i < cols.length; ++i) {
                 var col = cols[i];
@@ -691,7 +719,7 @@
                     colWidth = 0.1;
                 }
                 colLayout = {left: 0};
-                if (colWidth >= 1) {
+            if (colWidth >= 1) {
                     if (col.minWidth !== undefined) {
                         colWidth = Math.max(colWidth, col.minWidth);
                     }
@@ -710,7 +738,17 @@
                     }
                 }
                 colLayout.minWidth = col.minWidth;
+                if (!checkBoxColIndex && col.checkbox) {
+                    checkBoxColIndex = i + 1;
+                    colLayout.checkbox = true;
+                }
                 colsLayout.push(colLayout);
+            }
+            if (options.checkable && !checkBoxColIndex) {
+                colsLayout[0].checkbox = true;
+                if (rowIndexWidth === 'auto') {
+                    colsLayout[0].width += 30;
+                }
             }
             var flexWidth = containerWidth - fixedWidth;
             var autoOverflow = flexWidth < minGrowWidth;
@@ -785,7 +823,7 @@
             value = config.label !== undefined ? config.label : (config.name !== undefined ? config.name : colIndex);
         } else {
             type = 'cell';
-            value = that.getDataItem(rowIndex - 1)[that.options.dataItemIsArray ? colIndex : col.name];
+            value = config.data && config.data[that.options.dataItemIsArray ? colIndex : col.name];
         }
         if (rowIndex > 0 && config.valueType) {
             var valueOperator = config.valueOperator || that.options.valueOperator;
@@ -801,7 +839,8 @@
             value: value,
             rowIndex: rowIndex,
             colIndex: colIndex,
-            config: config
+            config: config,
+            checked: that.isRowChecked(config.rowId)
         };
         return cell;
     };
@@ -811,10 +850,15 @@
         var rowId = 'R' + rowIndex;
         var config = that.configsCache[rowId];
         if (!config) {
+            var dataItem = rowIndex > 0 ? that.getDataItem(rowIndex - 1) : null;
             config = $.extend({
                 // height: 'auto'
                 // fixed: false
+                data: dataItem
             }, that.isFuncConfigs ? that.configs(rowId) : that.configs[rowId], that.userConfigs[rowId]);
+            if (config.rowId === undefined) {
+                config.rowId = dataItem ? (dataItem.rowId || dataItem.id) : (rowIndex === 0 ? '#header' : rowIndex);
+            }
             that.configsCache[rowId] = config;
         }
         return config;
@@ -846,6 +890,7 @@
                     valueType: 'string'
                 },
                 colIndex > 0 ? that.dataSource.cols[colIndex - 1] : null,
+                that.layout.cols[colIndex],
                 that.isFuncConfigs ? that.configs(colId) : that.configs[colId],
                 that.userConfigs[colId]
             );
@@ -871,12 +916,46 @@
         return config;
     };
 
+    DataGrid.prototype.isRowChecked = function(rowId) {
+        return !!this.states.selections[rowId];
+    };
+
+    DataGrid.prototype.checkRow = function(rowIndex, checked) {
+        var that = this;
+        var selections = that.states.selections;
+        var rowConfig = that.getRowConfig(rowIndex);
+        var rowId = rowConfig.rowId;
+        if (checked === undefined) {
+            checked = !selections[rowId];
+        }
+        if (selections[rowId] === checked) {
+            return;
+        }
+        if (checked) {
+            selections[rowId] = rowConfig;
+        } else {
+            delete selections[rowId];
+            if (rowIndex > 0 && selections['#header']) {
+                delete selections['#header'];
+                that.renderRow(0);
+            }
+        }
+        that.renderRow(rowIndex);
+        if (rowIndex === 0) {
+            for (var i = 1; i < that.layout.rowsLength; ++i) {
+                that.checkRow(i, checked);
+            }
+        }
+        return checked;
+    };
+
     DataGrid.prototype.renderCell = function(rowIndex, colIndex, $row) {
-        var that      = this;
-        var options   = that.options;
-        var cell      = that.getCell(rowIndex, colIndex);
-        var elementId = [that.id, 'cell', rowIndex, colIndex].join('-');
-        var $cell     = $('#' + elementId);
+        var that       = this;
+        var options    = that.options;
+        var cell       = that.getCell(rowIndex, colIndex);
+        var isCheckbox = cell.config.checkbox;
+        var elementId  = [that.id, 'cell', rowIndex, colIndex].join('-');
+        var $cell      = $('#' + elementId);
         if (!$cell.length) {
             $row = $row || $('#' + that.id + '-row-' + rowIndex);
             $cell = (options.cellCreator ? options.cellCreator(cell, that) : $('<div class="datagrid-cell" />')).appendTo($row);
@@ -888,17 +967,24 @@
             }).toggleClass('datagrid-cell-head', rowIndex === 0)
               .toggleClass('datagrid-cell-cell', cell.type === 'cell')
               .toggleClass('datagrid-cell-index', colIndex === 0);
+
+            if (isCheckbox) {
+                var $checkbox = $cell.find('.datagrid-checkbox');
+                if (!$checkbox.length) {
+                    $checkbox = $('<div class="checkbox-primary datagrid-checkbox"><label></label></div>').prependTo($cell.addClass('datagrid-has-checkbox'));
+                }
+                $cell.append('<span class="content"></span>');
+            }
         }
 
         // Caculate cell style
         var borderWidth = options.borderWidth;
-        var colLayout = that.layout.cols[colIndex];
         var colsLength = that.layout.colsLength;
         var cellBoundsStyle = {
             top: borderWidth ? -borderWidth : 0,
             bottom: borderWidth ? -borderWidth : 0,
-            left: borderWidth ? (colLayout.left - borderWidth) : colLayout.left,
-            width: borderWidth ? (colLayout.width + ((colsLength - 1) === colIndex ? 2 : 1) * borderWidth) : colLayout.width,
+            left: borderWidth ? (cell.config.left - borderWidth) : cell.config.left,
+            width: borderWidth ? (cell.config.width + ((colsLength - 1) === colIndex ? 2 : 1) * borderWidth) : cell.config.width,
             borderWidth: borderWidth
         };
         var configStyle = cell.config.style;
@@ -911,7 +997,8 @@
         if (options.cellFormator) {
             options.cellFormator($cell, cell);
         } else {
-            $cell[cell.html ? 'html' : 'text'](cell.value);
+            var $content = isCheckbox ? $cell.find('.content') : $cell;
+            $content[cell.html ? 'html' : 'text'](cell.value);
             if (cell.config.className) {
                 $cell.addClass(cell.config.className);
             }
@@ -930,6 +1017,11 @@
             $sorter.toggleClass('datagrid-sort-up', sorted === 'up')
                    .toggleClass('datagrid-sort-down', sorted === 'down');
         }
+
+        if (isCheckbox) {
+            $cell.find('.datagrid-checkbox').toggleClass('checked', cell.checked);
+            $row.toggleClass('active', cell.checked);
+        }
         return $cell;
     };
 
@@ -945,7 +1037,8 @@
             $row = (options.rowCreator ? options.rowCreator(rowIndex, that) : $('<div class="datagrid-row" />')).appendTo(that.$cells);
             $row.attr({
                 id: elementId,
-                'data-row': rowIndex
+                'data-row': rowIndex,
+                'data-id': rowIndex
             }).css({
                 top: layout.partialRendering ? (rowLayout.top - layout.scrollTop) : rowLayout.top,
                 height: rowLayout.height
@@ -1349,7 +1442,16 @@
         sortFunc: null,
 
         // Sort by click column headers
-        sortable: true
+        sortable: true,
+
+        // Show checkboxes and let user select a row
+        checkable: true,
+
+        // Let user check by click row
+        checkByClickRow: true,
+
+        // Let user check rows by drag
+        selectable: true
     };
 
     // Extense jquery element
