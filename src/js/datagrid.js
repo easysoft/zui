@@ -850,17 +850,15 @@
         var rowId = 'R' + rowIndex;
         var config = that.configsCache[rowId];
         if (!config) {
-            var dataItem = rowIndex > 0 ? that.getDataItem(rowIndex - 1) : null;
             config = $.extend({
                 // height: 'auto'
                 // fixed: false
-                data: dataItem
             }, that.isFuncConfigs ? that.configs(rowId) : that.configs[rowId], that.userConfigs[rowId]);
-            if (config.rowId === undefined) {
-                config.rowId = dataItem ? (dataItem.rowId || dataItem.id) : (rowIndex === 0 ? '#header' : rowIndex);
-            }
             that.configsCache[rowId] = config;
         }
+        var dataItem = rowIndex > 0 ? that.getDataItem(rowIndex - 1) : null;
+        config.data = dataItem;
+        config.rowId = dataItem ? (dataItem.rowId || dataItem.id) : (rowIndex === 0 ? '#header' : rowIndex);
         return config;
     };
 
@@ -902,7 +900,8 @@
     DataGrid.prototype.getCellConfig = function(rowIndex, colIndex) {
         var that = this;
         var cellId = 'R' + rowIndex + 'C' + colIndex;
-        var config = that.configsCache[cellId];
+        // var config = that.configsCache[cellId];
+        var config = null;
         if (!config) {
             config = $.extend(
                 {},
