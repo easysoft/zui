@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ZUI，一个简单灵活的前端框架。">
+<meta name="author" content="Zentao">
+<title>ZUI - 数据表格例子</title>
+<link href="../../dist/css/zui.css" rel="stylesheet">
+<link href="../../dist/lib/datagrid/zui.datagrid.css" rel="stylesheet">
+</head>
+
+<body style="padding: 20px">
+  <div id="dataGrid" class="datagrid">
+    <header>
+      <h1>数据表格海量数据测试</h1>
+      <p class="small">全新的数据表格视图组件可以流畅显示上亿的动态数据，完整功能包括自动分页、搜索、远程数据加载、行选择、跨行跨列、行列固定、排序等。此组件将于ZUI 1.8中发布。</p>
+    </header>
+  </div>
+  <div id="dataGrid2" class="datagrid">
+    <header>
+      <h1>其他功能测试</h1>
+    </header>
+  </div>
+
+<script src="../../assets/jquery.js"></script>
+<script src="../../dist/js/zui.js"></script>
+<script src="../../dist/lib/selectable/zui.selectable.js"></script>
+<script src="../../dist/lib/datagrid/zui.datagrid.js"></script>
+<script>
+$(function() {
+    // Returns a random integer between min (included) and max (included)
+    var getRandomInt = function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+    var getRandomData = function(arr, start, end) {
+        if (start === undefined) {
+            start = 0;
+        }
+        if (end === undefined) {
+            end = arr.length;
+        }
+        return arr[getRandomInt(start, end - 1)];
+    };
+    var createDataSample = function(size) {
+        size = size || 100;
+        var heros = ['力丸', '幻影刺客', '祈求者', '斧王', '巫医', '天辉防御塔', 'Roshan', '嗜血狂魔', '宙斯', '影魔', '米波', '树精卫士'];
+        var actions = ['击杀', '拾取', '购买', '治疗'];
+        var items = ['圣剑', '虚灵之刃', '真视宝石', '恐鳌之心', '远行鞋', '治疗指环', '黑皇杖', '刷新球', '金箍棒', '蝴蝶', '诡计之雾', '显影之尘', '侦查守卫', '岗哨守卫', '漩涡', '天堂之戟', '刃甲', '希瓦的守护', '强袭胸甲', '阿托斯之棍', '银月之晶', '斯嘉蒂之眼', '玲珑心', '撒旦之邪力', '否决挂饰', '隐刀', '血棘', '邪恶镰刀', '白银之锋', '辉耀', '代达罗斯之殇', '幻影斧', '林肯法球', '阿哈利姆神杖', '死灵书'];
+        var runes = ['赏金神符', '双倍神符', '魔法神符', '极速神符', '不朽之守护', '奶酪'];
+        var cols = [
+            {label: '时间', name: 'time', width: 110, valueType: 'gametime', sort: true},
+            {label: '英雄', name: 'hero', width: 80},
+            {label: '动作', name: 'action', width: 80},
+            {label: '队友', name: 'teammate', width: 80},
+            {label: '敌人', name: 'enemy', width: 80},
+            {label: '物品/神符', name: 'item', width: 80},
+            {label: '获得经验', name: 'gotexps', width: 80, valueType: 'number'},
+            {label: '获得金钱', name: 'gotgolds', width: 80, valueType: 'number'},
+            {label: '累计经验', name: 'exps', width: 80, valueType: 'number'},
+            {label: '剩余金钱', name: 'golds', width: 80, valueType: 'number'},
+            {label: '描述', name: 'desc', width: 'auto', minWidth: 200},
+            {label: '累计人头', name: 'kills', width: 100, valueType: 'number'},
+        ];
+
+        var createDataItem = function(index) {
+            var time = 600 + 5*index + getRandomInt(0, 5);
+            var action = getRandomData(actions);
+            var heroIndex = getRandomInt(0, action === '击杀' ? 6 : 4);
+            var hero = heros[heroIndex];
+            var teammate, enemy, item;
+            var heroData = {
+                golds: heroIndex*500*heroIndex + 71*index + getRandomInt(0, 71),
+                exps: heroIndex*300*heroIndex + 43*index + getRandomInt(0, 43),
+                kills: heroIndex + Math.floor(index/10)
+            };
+            var gotExps = 0;
+            var gotGolds = 0;
+            switch (action) {
+                case '击杀':
+                    enemy = getRandomData(heros, 6, 9);
+                    gotExps += getRandomInt(0, 1000 + index * 10);
+                    gotGolds += getRandomInt(0, 200 + index * 8);
+                    if (hero === '力丸') {
+                        action = '偷摸';
+                    } else if (hero === '斧王') {
+                        action = '斩杀';
+                    }
+                    break;
+                case '购买':
+                    item = getRandomData(items);
+                    break;
+                case '拾取':
+                    item = getRandomData(runes);
+                    if (item === '赏金神符') {
+                        gotExps += getRandomInt(0, 50 + index);
+                        gotGolds += getRandomInt(0, 50 + index * 2);
+                    }
+                    break;
+                case '治疗':
+                    teammate = getRandomData(heros, 0, 4);
+                    if (hero === '巫医') {
+                        action = '奶';
+                    }
+                    break;
+            }
+            heroData.golds += gotGolds;
+            heroData.exps += gotExps;
+            var desc = hero + action + '了“' + (item || teammate || enemy) + '”';
+            if (gotGolds) {
+                desc += '，获得了金钱 ' + gotGolds;
+            }
+            if (gotExps) {
+                desc += '，' + (gotGolds ? '并' : '') + '获得了经验 ' + gotExps;
+            }
+            desc += '。';
+            var dataItem = {
+                id: time,
+                time: time,
+                hero: hero,
+                action: action,
+                teammate: teammate || '',
+                enemy: enemy || '',
+                item: item || '',
+                gotgolds: gotGolds || '',
+                gotexps: gotExps || '',
+                exps: heroData.exps,
+                golds: heroData.golds,
+                kills: heroData.kills,
+                desc: desc
+            };
+            return dataItem;
+        };
+
+        return {
+            dataSource: {
+                cols: cols,
+                length: size,
+                getByIndex: createDataItem
+            },
+            valueOperator: {
+                gametime: {
+                    getter: function(time) {
+                        var hours = Math.floor(time/3600);
+                        if (hours < 10) {
+                            hours = '0' + hours;
+                        }
+                        var mins = Math.floor(time/60)%60;
+                        if (mins < 10) {
+                            mins = '0' + mins;
+                        }
+                        var secs = time%60;
+                        if (secs < 10) {
+                            secs = '0' + secs;
+                        }
+                        return hours + ':' + mins + ':' + secs;
+                    }
+                }
+            },
+            generate: function (size) {
+                var result = [];
+                for(var i = 0; i < size; ++i) {
+                    result.push(createDataItem(i));
+                }
+                return result;
+            }
+        };
+    };
+    var sampleSize = 10000000000000;
+    // var sampleSize = 1000;
+    var sampleData = createDataSample(sampleSize);
+
+    var options1 = $.extend(sampleData, {
+        borderWidth: 1,
+        height: 500,
+        defaultDateFormater: 'hh:mm:ss',
+        states: {
+            fixedTopUntil: 0,
+            fixedBottomFrom: sampleSize,
+            fixedRightFrom: 12,
+            pager: {page: 0}
+        },
+        configs: {
+            'C1': {
+              style: {textAlign: 'right'}
+            },
+            'C2': {
+              style: {fontWeight: 'bold'}
+            }
+        },
+        renderDelay: 200,
+        checkable: false,
+        // rowDefaultHeight: 50,
+    });
+    var options2 = {
+        configs: {
+            'R0C0': {
+              label: '#'
+            },
+            'C1': {
+              style: {textAlign: 'right'}
+            },
+            'C2': {
+              style: {fontWeight: 'bold'}
+            }
+        },
+        dataSource: {
+            cols: sampleData.dataSource.cols,
+            data: sampleData.generate(2000),
+            cache: true,
+        },
+        valueOperator: sampleData.valueOperator,
+        states: {
+            pager: {page: 1, recPerPage: 12},
+        },
+        height: 300,
+        renderDelay: 200,
+    }
+    var datagrid = $('#dataGrid').datagrid(options1).data('zui.datagrid');
+    console.log('datagrid', datagrid);
+
+    $('#dataGrid2').datagrid(options2)
+});
+</script>
+</body>
+</html>
