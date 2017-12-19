@@ -207,6 +207,7 @@
         createScrollbar('v');
         $container.on('mousewheel', function(e) {
             that.scroll(that.layout.scrollLeft + Math.round(event.deltaX), that.layout.scrollTop + Math.round(event.deltaY));
+            e.preventDefault();
         });
 
         that.$container = $container;
@@ -234,7 +235,7 @@
         that.cells     = [];
         that.setPager(that.states.pager);
 
-        that.setDataSource(options.data, options.cols);
+        that.setDataSource(options.dataSource);
 
         that.render(true);
 
@@ -384,7 +385,7 @@
         if ($.isArray(data)) {
             dataSource.array = data;
             dataSource.length = data.length;
-            that.pager.recTotal = dataSource.length;
+            that.setPager('', data.length);
         } else  if ($.isPlainObject(data)) {
             dataSource = $.extend(dataSource, data);
         } else if (typeof data === 'string') {
@@ -400,10 +401,13 @@
         if ($.isArray(dataSource.data)) {
             dataSource.array = dataSource.data;
             dataSource.length = dataSource.array.length;
-            that.pager.recTotal = dataSource.length;
+            that.setPager('', dataSource.length);
             delete dataSource.data;
+        } else if (!dataSource.data && $.isFunction(dataSource.getByIndex)) {
+            that.setPager('', dataSource.length);
         }
         that.dataSource = dataSource;
+        console.log(!dataSource.data && $.isFunction(dataSource.getByIndex), dataSource.getByIndex, that.pager, that.dataSource);
 
         cols = cols || dataSource.cols || oldcols || [];
         if (cols.length) {
@@ -1347,11 +1351,8 @@
         // The data grid height, if set 'page', then use the page height
         height: 400,
 
-        // The data columns definitions, require an object array
-        cols: null,
-
         // The init data, require an object array
-        data: [],
+        dataSource: [],
 
         // The cells configurations
         configs: null,
