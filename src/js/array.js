@@ -157,7 +157,7 @@
      * @param  {array} result
      * @return {array}
      */
-    if(!Array.prototype.mawherep) {
+    if(!Array.prototype.where) {
         Array.prototype.where = function(conditions, result) {
             result = result || [];
             var cdt, ok, objVal;
