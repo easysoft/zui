@@ -2,7 +2,7 @@
 /// Bootstrap: pager.less
 /// https://github.com/twbs/bootstrap/blob/master/less/pager.less
 /// https://github.com/twbs/bootstrap/blob/master/less/pagination.less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// Bootsrap version in the future.
 /// http://zui.sexy
@@ -20,7 +20,7 @@
   list-style: none;
 
   > li {
-    display: inline; // Remove list-style and block-level defaults
+    display: inline-block; // Remove list-style and block-level defaults
     > a,
     > span {
       position: relative;
@@ -107,4 +107,40 @@
       border-radius: @border-radius-base;
     }
   }
+}
+
+
+// Pager.js
+
+.pager-goto {
+  width: 100px;
+  text-align: center;
+}
+.pager > li {
+  > div {
+    float: left;
+  }
+
+  .pager-goto,
+  .pager-size-menu,
+  &.space {
+    margin: 0 5px;
+  }
+}
+
+.pager-label {
+  position: relative;
+  float: left; // Collapse white-space
+  padding: @padding-base-vertical (@padding-small-horizontal)/2;
+  line-height: @line-height-base;
+  text-decoration: none;
+  border: 1px solid transparent;
+  margin-left: -1px;
+}
+
+.pager-item-left > a {
+  .border-left-radius(@border-radius-base);
+}
+.pager-item-right > a {
+  .border-right-radius(@border-radius-base);
 }

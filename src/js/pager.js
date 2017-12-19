@@ -21,6 +21,8 @@
         zh_cn: {
             prev: '上一页',
             next: '下一页',
+            first: '第一页',
+            last: '最后一页',
             goto: '跳转',
             pageOf: '第 <strong>{page}</strong> 页',
             totalPage: '共 <strong>{totalPage}</strong> 页',
@@ -45,11 +47,29 @@
         that.state = {};
 
         that.set(options.page, options.recTotal, options.recPerPage);
+
+        that.$.on('click', '.pager-goto-btn', function() {
+            var $goto = $(this).closest('.pager-goto');
+            var page = parseInt($goto.find('.pager-goto-input').val());
+            if (page !== NaN) {
+                that.set(page);
+            }
+        }).on('click', '.pager-item', function() {
+            var page = $(this).data('page');
+            if (typeof page === 'number' && page > 0) {
+                that.set(page);
+            }
+        }).on('click', '.pager-size-menu [data-size]', function() {
+            var size = $(this).data('size');
+            if (typeof size === 'number' && size > 0) {
+                that.set(-1, -1, size);
+            }
+        });
     };
 
     Pager.prototype.set = function(page, recTotal, recPerPage) {
         var that = this;
-        if (typeof page === 'object') {
+        if (typeof page === 'object' && page !== null) {
             recPerPage = page.recPerPage;
             recTotal = page.recTotal;
             page = page.page;
@@ -87,12 +107,16 @@
         return that.render();
     };
 
-    Pager.prototype.createLinkItem = function(page, text) {
+    Pager.prototype.createLinkItem = function(page, text, asAElement) {
         var that = this;
         if (text === undefined) {
             text = page;
         }
-        return $('<a/>').attr('href', page ? that.createLink(page, that.state) : '###').html(text).toggleClass('disabled', !page).toggleClass('active', page === that.state.page);
+        var $ele = $('<a class="pager-item" data-page="' + page + '"/>').attr('href', page ? that.createLink(page, that.state) : '###').html(text);
+        if (!asAElement) {
+            $ele = $('<li />').append($ele).toggleClass('active', page === that.state.page).toggleClass('disabled', !page);
+        }
+        return $ele;
     };
 
     Pager.prototype.createNavItems = function(maxCount) {
@@ -103,12 +127,12 @@
         var page = pager.page;
         var appendItem = function(p, to) {
             if(p === false) {
-                $nav.append($('<li />').append(that.createLinkItem(0, to || '<i class="icon icon-ellipsis-h"></i>')));
+                $nav.append(that.createLinkItem(0, to || '<i class="icon icon-ellipsis-h"></i>'));
                 return;
             }
             if(to === undefined) to = p;
             for(var i = p; i <= to; ++i) {
-                $nav.append($('<li />').append(that.createLinkItem(i)));
+                $nav.append(that.createLinkItem(i));
             }
         };
         if (maxCount === undefined) {
@@ -138,7 +162,23 @@
     };
 
     Pager.prototype.createGoto = function() {
+        var that = this;
+        var pager = this.state;
+        var $goto = $('<div class="input-group pager-goto"><input value="' + pager.page + '" type="number" placeholder="' + pager.page + '" class="form-control pager-goto-input"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
+        return $goto;
+    };
 
+    Pager.prototype.createSizeMenu = function() {
+        var that = this;
+        var pager = this.state;
+        var $menu = $('<ul class="dropdown-menu"></ul>');
+        var options = that.options.pageSizeOptions;
+        for (var i = 0; i < options.length; ++i) {
+            var size = options[i];
+            var $li = $('<li><a href="###" data-size="' + size + '">' + size + '</a></li>').toggleClass('active', size === pager.recPerPage);
+            $menu.append($li);
+        }
+        return $('<div class="btn-group pager-size-menu"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' + that.lang.pageSize.format(pager) + ' <span class="caret"></span></button></div>').append($menu);
     };
 
     Pager.prototype.createElement = function(element, $pager, pager) {
@@ -154,6 +194,14 @@
                 return createLinkItem(pager.next, lang.next);
             case 'next_icon':
                 return createLinkItem(pager.next, '<i class="icon ' + that.options.nextIcon + '"></i>');
+            case 'first':
+                return createLinkItem(1, lang.first, true);
+            case 'first_icon':
+                return createLinkItem(1, '<i class="icon ' + that.options.firstIcon + '"></i>', true);
+            case 'last':
+                return createLinkItem(pager.totalPage, lang.last, true);
+            case 'last_icon':
+                return createLinkItem(pager.totalPage, '<i class="icon ' + that.options.lastIcon + '"></i>', true);
             case 'space':
             case '|':
                 return $('<li class="space" />');
@@ -162,19 +210,21 @@
                 that.createNavItems();
                 return;
             case 'total_text':
-                return $(('<div>' + lang.totalCount + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.totalCount + '</div>').format(pager));
             case 'page_text':
-                return $(('<div>' + lang.pageOf + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.pageOf + '</div>').format(pager));
             case 'total_page_text':
-                return $(('<div>' + lang.totalPage + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.totalPage + '</div>').format(pager));
             case 'page_of_total_text':
-                return $(('<div>' + lang.pageOfTotal + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.pageOfTotal + '</div>').format(pager));
             case 'page_size_text':
-                return $(('<div>' + lang.pageSize + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.pageSize + '</div>').format(pager));
             case 'items_range_text':
-                return $(('<div>' + lang.itemsRange + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.itemsRange + '</div>').format(pager));
             case 'goto':
                 return that.createGoto();
+            case 'size_menu':
+                return that.createSizeMenu();
             default:
                 return $('<li/>').html(element);
         }
@@ -215,15 +265,35 @@
                 that.$.append($element);
             }
         }
+
+        // Fix page item border
+        var $lastItem = null;
+        that.$.children('li').each(function() {
+            var $li = $(this);
+            var isItem = !!$li.children('.pager-item').length;
+            console.log(isItem, $li, $lastItem);
+            if ($lastItem) {
+                $lastItem.toggleClass('pager-item-right', !isItem);
+            } else {
+                if (isItem) {
+                    $li.addClass('pager-item-left');
+                }
+            }
+            $lastItem = isItem ? $li : null;
+        });
         return that;
     };
 
     // default options
     Pager.DEFAULTS = $.extend({
-        elements: ['prev_icon', 'pages', 'next', 'goto', '|', 'total_text', 'page_text', 'total_page_text', 'page_of_total_text', 'page_size_text', 'items_range_text'],
+        elements: ['first', '|', 'prev_icon', 'pages', 'next', 'last_icon', 'goto', 'size_menu', '|', 'total_text', 'page_text', 'total_page_text', 'page_of_total_text', 'page_size_text', 'items_range_text'],
         prevIcon: 'icon-double-angle-left',
         nextIcon: 'icon-double-angle-right',
-        maxNavCount: 10
+        firstIcon: 'icon-step-backward',
+        lastIcon: 'icon-step-forward',
+        maxNavCount: 10,
+        menuDirection: 'dropdown', // or dropup
+        pageSizeOptions: [10, 20, 30, 50, 100]
     }, DEFAULT_PAGER);
 
     // Extense jquery element
