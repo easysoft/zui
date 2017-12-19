@@ -924,6 +924,7 @@
               }, {
                   "name": "事件"
               }],
+              "version": "1.8.0",
               "filter": "sousuokuang ssk inputcontrol shurukuang shrk srk"
             }, {
                 "id": "modal",
@@ -1313,6 +1314,13 @@
                     "name": "数据配置"
                 }],
                 "filter": "shujubiaoge sjbg"
+            }, {
+                "id": "datagrid",
+                "icon": "icon-th",
+                "desc": "功能强大的数据网格视图",
+                "name": "数据网格",
+                "version": "1.8.0",
+                "filter": "shujuwangge sjwg shjwg"
             }, {
                 "id": "uploader",
                 "icon": "icon-cloud-upload",
