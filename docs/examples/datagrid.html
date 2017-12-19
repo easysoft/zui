@@ -43,6 +43,18 @@ $(function() {
         }
         return arr[getRandomInt(start, end - 1)];
     };
+    var getLuckInt = window.getLuckInt = function(min, max, luck) {
+        return (luck % (max - min) + min);
+    };
+    var getLuckData = window.getLuckData = function(arr, start, end, luck) {
+        if (start === undefined || start === null) {
+            start = 0;
+        }
+        if (end === undefined || end === null) {
+            end = arr.length;
+        }
+        return arr[getLuckInt(start, end - 1, luck)];
+    };
     var createDataSample = function(size) {
         size = size || 100;
         var heros = ['力丸', '幻影刺客', '祈求者', '斧王', '巫医', '天辉防御塔', 'Roshan', '嗜血狂魔', '宙斯', '影魔', '米波', '树精卫士'];
@@ -50,7 +62,7 @@ $(function() {
         var items = ['圣剑', '虚灵之刃', '真视宝石', '恐鳌之心', '远行鞋', '治疗指环', '黑皇杖', '刷新球', '金箍棒', '蝴蝶', '诡计之雾', '显影之尘', '侦查守卫', '岗哨守卫', '漩涡', '天堂之戟', '刃甲', '希瓦的守护', '强袭胸甲', '阿托斯之棍', '银月之晶', '斯嘉蒂之眼', '玲珑心', '撒旦之邪力', '否决挂饰', '隐刀', '血棘', '邪恶镰刀', '白银之锋', '辉耀', '代达罗斯之殇', '幻影斧', '林肯法球', '阿哈利姆神杖', '死灵书'];
         var runes = ['赏金神符', '双倍神符', '魔法神符', '极速神符', '不朽之守护', '奶酪'];
         var cols = [
-            {label: '时间', name: 'time', width: 110, valueType: 'gametime', sort: true},
+            {label: '时间', name: 'time', width: 130, valueType: 'gametime', sort: true},
             {label: '英雄', name: 'hero', width: 80},
             {label: '动作', name: 'action', width: 80},
             {label: '队友', name: 'teammate', width: 80},
@@ -61,27 +73,28 @@ $(function() {
             {label: '累计经验', name: 'exps', width: 80, valueType: 'number'},
             {label: '剩余金钱', name: 'golds', width: 80, valueType: 'number'},
             {label: '描述', name: 'desc', width: 'auto', minWidth: 200},
-            {label: '累计人头', name: 'kills', width: 100, valueType: 'number'},
+            {label: '累计人头', name: 'kills', width: 110, valueType: 'number'},
         ];
 
         var createDataItem = function(index) {
-            var time = 600 + 5*index + getRandomInt(0, 5);
-            var action = getRandomData(actions);
-            var heroIndex = getRandomInt(0, action === '击杀' ? 6 : 4);
+            var luckNumber = Number.parseInt((Math.sin(index + 1) + '').substr(3));
+            var time = 600 + 5*index + getLuckInt(0, 5, luckNumber);
+            var action = getLuckData(actions, null, null, luckNumber);
+            var heroIndex = getLuckInt(0, action === '击杀' ? 6 : 4, luckNumber);
             var hero = heros[heroIndex];
             var teammate, enemy, item;
             var heroData = {
-                golds: heroIndex*500*heroIndex + 71*index + getRandomInt(0, 71),
-                exps: heroIndex*300*heroIndex + 43*index + getRandomInt(0, 43),
+                golds: heroIndex*500*heroIndex + 71*index + getLuckInt(0, 71, luckNumber),
+                exps: heroIndex*300*heroIndex + 43*index + getLuckInt(0, 43, luckNumber),
                 kills: heroIndex + Math.floor(index/10)
             };
             var gotExps = 0;
             var gotGolds = 0;
             switch (action) {
                 case '击杀':
-                    enemy = getRandomData(heros, 6, 9);
-                    gotExps += getRandomInt(0, 1000 + index * 10);
-                    gotGolds += getRandomInt(0, 200 + index * 8);
+                    enemy = getLuckData(heros, 6, 9, luckNumber);
+                    gotExps += getLuckInt(0, 1000 + index * 10, luckNumber);
+                    gotGolds += getLuckInt(0, 200 + index * 8, luckNumber);
                     if (hero === '力丸') {
                         action = '偷摸';
                     } else if (hero === '斧王') {
@@ -89,17 +102,17 @@ $(function() {
                     }
                     break;
                 case '购买':
-                    item = getRandomData(items);
+                    item = getLuckData(items, null, null, luckNumber);
                     break;
                 case '拾取':
-                    item = getRandomData(runes);
+                    item = getLuckData(runes, null, null, luckNumber);
                     if (item === '赏金神符') {
-                        gotExps += getRandomInt(0, 50 + index);
-                        gotGolds += getRandomInt(0, 50 + index * 2);
+                        gotExps += getLuckInt(0, 50 + index, luckNumber);
+                        gotGolds += getLuckInt(0, 50 + index * 2, luckNumber);
                     }
                     break;
                 case '治疗':
-                    teammate = getRandomData(heros, 0, 4);
+                    teammate = getLuckData(heros, 0, 4, luckNumber);
                     if (hero === '巫医') {
                         action = '奶';
                     }
