@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.7.0 - 2017-06-19
+ * ZUI: Document - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -164,7 +164,7 @@
      * @param  {array} result
      * @return {array}
      */
-    if(!Array.prototype.mawherep) {
+    if(!Array.prototype.where) {
         Array.prototype.where = function(conditions, result) {
             result = result || [];
             var cdt, ok, objVal;
@@ -12731,32 +12731,6 @@ require('./polyfill-done.js');
         $.zui.messager.danger('你正在使用 IE 较低版本访问，无法获得 ZUI 文档网站的完整体验，建议你更换浏览器再访问。', {time: 20000});
     }
 
-    // Polyfill
-    if(!String.prototype.endsWith) {
-        String.prototype.endsWith = function(searchString, position) {
-            var subjectString = this.toString();
-            if(position === undefined || position > subjectString.length) {
-                position = subjectString.length;
-            }
-            position -= searchString.length;
-            var lastIndex = subjectString.indexOf(searchString, position);
-            return lastIndex !== -1 && lastIndex === position;
-        };
-    }
-
-    if(!String.prototype.startsWith) {
-        String.prototype.startsWith = function(searchString, position) {
-            position = position || 0;
-            return this.lastIndexOf(searchString, position) === position;
-        };
-    }
-
-    if(!String.prototype.includes) {
-        String.prototype.includes = function() {
-            return String.prototype.indexOf.apply(this, arguments) !== -1;
-        };
-    }
-
     $.fn.allAttrs = function() {
         var attrs = {};
         $.each($(this)[0].attributes, function(index, attribute) {
@@ -13417,7 +13391,10 @@ require('./polyfill-done.js');
                 iconId = iconId.toLowerCase();
                 $.each(keys, function(keyIndex, key) {
                     var choosedThis = false;
-                    if(iconId.includes(key)) {
+                    if (iconId === key) {
+                        choosedThis = true;
+                        weight += 150;
+                    } else if(iconId.includes(key)) {
                         choosedThis = true;
                         weight += iconId.startsWith(key) ? 120 : 110;
                     } else if(icon.name && icon.name.toLowerCase().includes(key)) {
@@ -14415,7 +14392,7 @@ require('./polyfill-done.js');
                     lib.dpds.forEach(function(dpdsName) {
                         if(dpdsName.startsWith(libName) && pkg.lib[dpdsName] && !pkg.lib[dpdsName].thirdpart) {
                             getLibSource(pkg.lib[dpdsName], src, libName);
-                        } 
+                        }
                     });
                 }
             };
@@ -14483,7 +14460,7 @@ require('./polyfill-done.js');
                 section.lib = lib;
                 section.isNew = section.version === pkg.version;
                 section.isUpdate = section.update === pkg.version;
-                
+
                 if(isNewRelease) {
                     $('#section-' + section.chapter + '-' + section.id).toggleClass('section-update', section.isUpdate).toggleClass('section-new', section.isNew);
                 }
@@ -14633,7 +14610,7 @@ require('./polyfill-done.js');
                 "src/less/doc.less"];
         }
         var lessCode = $.isArray(theme.imports) ? theme.imports.map(function(i) {
-            return '@import "' + i + '";'; 
+            return '@import "' + i + '";';
         }).join('\n') : theme.imports;
         lessCode += theme.variablesLess + (theme.lessCode || '');
         window.less.render(lessCode, $.extend({
@@ -14667,7 +14644,7 @@ require('./polyfill-done.js');
             return;
         }
         if(typeof theme === 'string') theme = docThemes[theme];
-        
+
         if($body.hasClass('theme-changing')) return false;
         $body.addClass('theme-changing');
 

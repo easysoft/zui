@@ -1,5 +1,5 @@
 /*!
- * ZUI: Theme - v1.7.0 - 2017-06-17
+ * ZUI: Theme - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -636,7 +636,8 @@ a.hl-primary:hover {
 .form-control {
   border-radius: 0;
   }
-.form-control:focus {
+.form-control:focus,
+.form-control.focus {
   border-color: #3949ab;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(57, 73, 171, .6);

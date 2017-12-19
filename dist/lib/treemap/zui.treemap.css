@@ -1,5 +1,5 @@
 /*!
- * ZUI: 树形图 - v1.7.0 - 2017-06-17
+ * ZUI: 树形图 - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -78,6 +78,7 @@ a.treemap-node-wrapper:hover {
   width: 10px;
   height: 10px;
   line-height: 10px;
+  color: #808080;
   background-color: #fff;
   border-radius: 5px;
   opacity: 0;

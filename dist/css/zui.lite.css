@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.7.0 - 2017-06-17
+ * ZUI: Lite edition - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -2457,44 +2457,44 @@ a .icon-spin {
             transform: rotate(359deg);
     }
   }
-.icon-rotate-90:before {
+.icon-rotate-90 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   -webkit-transform: rotate(90deg);
       -ms-transform: rotate(90deg);
        -o-transform: rotate(90deg);
           transform: rotate(90deg);
   }
-.icon-rotate-180:before {
+.icon-rotate-180 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   -webkit-transform: rotate(180deg);
       -ms-transform: rotate(180deg);
        -o-transform: rotate(180deg);
           transform: rotate(180deg);
   }
-.icon-rotate-270:before {
+.icon-rotate-270 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   -webkit-transform: rotate(270deg);
       -ms-transform: rotate(270deg);
        -o-transform: rotate(270deg);
           transform: rotate(270deg);
   }
-.icon-flip-horizontal:before {
+.icon-flip-horizontal {
   -webkit-transform: scale(-1, 1);
       -ms-transform: scale(-1, 1);
        -o-transform: scale(-1, 1);
           transform: scale(-1, 1);
   }
-.icon-flip-vertical:before {
+.icon-flip-vertical {
   -webkit-transform: scale(1, -1);
       -ms-transform: scale(1, -1);
        -o-transform: scale(1, -1);
           transform: scale(1, -1);
   }
-.icon-rotate-90:before,
-.icon-rotate-180:before,
-.icon-rotate-270:before,
-.icon-flip-horizontal:before,
-.icon-flip-vertical:before {
+.icon.icon-rotate-90,
+.icon.icon-rotate-180,
+.icon.icon-rotate-270,
+.icon.icon-flip-horizontal,
+.icon.icon-flip-vertical {
   display: inline-block;
   }
 .icon-resize:before {
@@ -3683,7 +3683,8 @@ input[type="number"]::-webkit-inner-spin-button {
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   }
-.form-control:focus {
+.form-control:focus,
+.form-control.focus {
   border-color: #145ccd;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);

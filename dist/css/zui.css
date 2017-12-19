@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.7.0 - 2017-06-17
+ * ZUI: Standard edition - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -2887,44 +2887,44 @@ a .icon-spin {
             transform: rotate(359deg);
     }
   }
-.icon-rotate-90:before {
+.icon-rotate-90 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   -webkit-transform: rotate(90deg);
       -ms-transform: rotate(90deg);
        -o-transform: rotate(90deg);
           transform: rotate(90deg);
   }
-.icon-rotate-180:before {
+.icon-rotate-180 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   -webkit-transform: rotate(180deg);
       -ms-transform: rotate(180deg);
        -o-transform: rotate(180deg);
           transform: rotate(180deg);
   }
-.icon-rotate-270:before {
+.icon-rotate-270 {
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   -webkit-transform: rotate(270deg);
       -ms-transform: rotate(270deg);
        -o-transform: rotate(270deg);
           transform: rotate(270deg);
   }
-.icon-flip-horizontal:before {
+.icon-flip-horizontal {
   -webkit-transform: scale(-1, 1);
       -ms-transform: scale(-1, 1);
        -o-transform: scale(-1, 1);
           transform: scale(-1, 1);
   }
-.icon-flip-vertical:before {
+.icon-flip-vertical {
   -webkit-transform: scale(1, -1);
       -ms-transform: scale(1, -1);
        -o-transform: scale(1, -1);
           transform: scale(1, -1);
   }
-.icon-rotate-90:before,
-.icon-rotate-180:before,
-.icon-rotate-270:before,
-.icon-flip-horizontal:before,
-.icon-flip-vertical:before {
+.icon.icon-rotate-90,
+.icon.icon-rotate-180,
+.icon.icon-rotate-270,
+.icon.icon-flip-horizontal,
+.icon.icon-flip-vertical {
   display: inline-block;
   }
 .icon-resize:before {
@@ -4113,7 +4113,8 @@ input[type="number"]::-webkit-inner-spin-button {
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
           transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   }
-.form-control:focus {
+.form-control:focus,
+.form-control.focus {
   border-color: #145ccd;
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
@@ -4525,6 +4526,80 @@ textarea.form-condensed .form-control {
   }
 .switch-inline {
   display: inline-block;
+  }
+.checkbox-primary {
+  position: relative;
+  display: inline-block;
+  }
+.checkbox-primary > label {
+  padding-left: 25px;
+  cursor: pointer;
+  }
+.checkbox-primary > label:before,
+.checkbox-primary > label:after {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  left: 0;
+  display: block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+  content: ' ';
+  border-radius: 2px;
+  }
+.checkbox-primary > label:after {
+  z-index: 1;
+  border: 1px solid #808080;
+  -webkit-transition: .4s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: .4s cubic-bezier(.175, .885, .32, 1);
+          transition: .4s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition-property: border, background-color;
+       -o-transition-property: border, background-color;
+          transition-property: border, background-color;
+  }
+.checkbox-primary > label:before {
+  top: 3px;
+  z-index: 2;
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  content: '\e60d';
+  opacity: 0;
+  -webkit-transition: .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: .2s cubic-bezier(.175, .885, .32, 1);
+          transition: .2s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition-property: opacity, -webkit-transform;
+       -o-transition-property: opacity, -o-transform;
+          transition-property: opacity, -webkit-transform;
+          transition-property: opacity, transform;
+          transition-property: opacity, transform, -webkit-transform, -o-transform;
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+       -o-transform: scale(0);
+          transform: scale(0);
+
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  }
+.checkbox-primary.checked > label:after {
+  background-color: #3280fc;
+  border-color: #3280fc;
+  border-width: 4px;
+  }
+.checkbox-primary.checked > label:before {
+  color: white;
+  opacity: 1;
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+       -o-transform: scale(1);
+          transform: scale(1);
   }
 .close {
   float: right;
@@ -5277,6 +5352,97 @@ a.list-group-item:focus {
   }
 .alert-danger-inverse .alert-link {
   color: rgba(255, 255, 255, .8);
+  }
+.input-control-icon-left,
+.input-control-icon-right,
+.input-control-label-left,
+.input-control-label-right {
+  position: absolute;
+  top: 1px;
+  z-index: 5;
+  height: 30px;
+  line-height: 30px;
+  opacity: .5;
+  }
+.input-control-icon-left,
+.input-control-icon-right {
+  width: 30px;
+  text-align: center;
+  }
+.input-control-label-left,
+.input-control-icon-left {
+  left: 1px;
+  }
+.input-control-label-right,
+.input-control-icon-right {
+  right: 1px;
+  }
+.input-control-label-left,
+.input-control-label-right {
+  width: 70px;
+  padding: 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
+.has-label-left-sm > .input-control-label-left,
+.has-label-left-sm > .input-control-label-right {
+  width: 55px;
+  }
+.has-label-left-lg > .input-control-label-left,
+.has-label-left-lg > .input-control-label-right {
+  width: 95px;
+  }
+.input-control {
+  position: relative;
+  }
+.input-control.has-icon-left > .form-control {
+  padding-left: 30px;
+  }
+.input-control.has-icon-right > .form-control {
+  padding-right: 30px;
+  }
+.input-control.has-label-left > .form-control {
+  padding-left: 70px;
+  }
+.input-control.has-label-right > .form-control {
+  padding-right: 70px;
+  }
+.input-control.has-label-left-sm > .form-control {
+  padding-left: 55px;
+  }
+.input-control.has-label-right-sm > .form-control {
+  padding-right: 55px;
+  }
+.input-control.has-label-left-lg > .form-control {
+  padding-left: 95px;
+  }
+.input-control.has-label-right-lg > .form-control {
+  padding-right: 95px;
+  }
+.input-control > a:hover {
+  background-color: #f1f1f1;
+  opacity: 1;
+  }
+.form-control:focus + [class^="input-control-"],
+.form-control:focus + [class^="input-control-"] + [class^="input-control-"] {
+  opacity: 1;
+  }
+.form-control:focus + .input-control-label-left {
+  color: #145ccd;
+  }
+input:placeholder-shown + .search-clear-btn,
+.empty + .search-clear-btn,
+input:placeholder-shown + .search-icon + .search-clear-btn,
+.empty + .search-icon + .search-clear-btn {
+  opacity: 0 !important;
+  }
+.search-box-circle .input-control-icon-left,
+.search-box-circle .input-control-icon-right,
+.search-box-circle > .form-control {
+  border-radius: 16px;
+  }
+.search-box-circle + .input-group-btn > .btn {
+  border-radius: 0 16px 16px 0;
   }
 .input-group {
   position: relative;

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.7.0 - 2017-06-17
+ * ZUI: Standard edition - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -98,11 +98,25 @@
         if(model && model.options) {
             var func = model.options[shortName];
             if($.isFunction(func)) {
-                $.zui.callEvent(func, e, model);
+                e.result = $.zui.callEvent(func, e, model);
             }
         }
         $this.trigger(e);
         return e;
+    };
+
+    $.fn.callComEvent = function(component, eventName, params) {
+        if (params !== undefined && !$.isArray(params)) {
+            params = [params];
+        }
+        var $this = this;
+        var result = $this.triggerHandler(eventName, params);
+
+        const eventCallback = component.options[eventName];
+        if (eventCallback) {
+            result = eventCallback.apply(component, params);
+        }
+        return result;
     };
 }(jQuery, window, undefined));
 
@@ -350,6 +364,258 @@
     $(document).on('click.' + zuiname + '.data-api', dismiss, Alert.prototype.close)
 
 }(window.jQuery);
+
+/* ========================================================================
+ * ZUI: pager.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2017-2018 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
+(function($) {
+    'use strict';
+
+    var NAME = 'zui.pager'; // model name
+
+    var DEFAULT_PAGER = {
+        page: 0,        // current page index
+        recTotal: 0,    // records total count
+        recPerPage: 10, // records count per page
+    };
+
+    var LANG = {
+        zh_cn: {
+            prev: '上一页',
+            next: '下一页',
+            goto: '跳转',
+            pageOf: '第 <strong>{page}</strong> 页',
+            totalPage: '共 <strong>{totalPage}</strong> 页',
+            totalCount: '共 <strong>{recTotal}</strong> 项',
+            pageSize: '每页 <strong>{recPerPage}</strong> 项',
+            itemsRange: '第 <strong>{start}</strong> ~ <strong>{end}</strong> 项',
+            pageOfTotal: '第 <strong>{page}</strong>/<strong>{totalPage}</strong> 页'
+        }
+    };
+
+    // The pager model class
+    var Pager = function(element, options) {
+        var that = this;
+        that.name = NAME;
+        that.$ = $(element);
+
+        options = that.options = $.extend({}, Pager.DEFAULTS, this.$.data(), options);
+
+        var lang   = options.lang || 'zh_cn';
+        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG[lang.lang || $.zui.clientLang()], lang)) : LANG[lang];
+
+        that.state = {};
+
+        that.set(options.page, options.recTotal, options.recPerPage);
+    };
+
+    Pager.prototype.set = function(page, recTotal, recPerPage) {
+        var that = this;
+        if (typeof page === 'object') {
+            recPerPage = page.recPerPage;
+            recTotal = page.recTotal;
+            page = page.page;
+        }
+        var state = that.state;
+        if (!state) {
+            state = $.extend({}, DEFAULT_PAGER);
+        }
+        if (typeof recPerPage === 'number' && recPerPage > 0) {
+            state.recPerPage = recPerPage;
+        }
+        if (typeof recTotal === 'number' && recTotal >= 0) {
+            state.recTotal = recTotal;
+        }
+        if (typeof page === 'number' && page >= 0) {
+            state.page = page;
+        }
+        state.totalPage = (state.recTotal && state.recPerPage) ? (Math.ceil(state.recTotal / state.recPerPage)) : 1;
+        state.page = Math.max(0, Math.min(state.page, state.totalPage));
+        // stateRecCount is items count in current page
+        state.pageRecCount = state.recTotal;
+        if (state.page && state.recTotal) {
+            if (state.page < state.totalPage) {
+                state.pageRecCount = state.recPerPage;
+            } else if (state.page > 1) {
+                state.pageRecCount = state.recTotal - (state.recPerPage * (state.page - 1));
+            }
+        }
+        state.skip  = state.page > 1 ? ((state.page - 1) * state.recPerPage) : 0;
+        state.start = state.skip + 1;
+        state.end   = state.skip + state.pageRecCount;
+        state.prev  = state.page > 1 ? (state.page - 1) : 0;
+        state.next  = state.page < state.totalPage ? (state.page + 1) : 0;
+        that.state  = state;
+        return that.render();
+    };
+
+    Pager.prototype.createLinkItem = function(page, text) {
+        var that = this;
+        if (text === undefined) {
+            text = page;
+        }
+        return $('<a/>').attr('href', page ? that.createLink(page, that.state) : '###').html(text).toggleClass('disabled', !page).toggleClass('active', page === that.state.page);
+    };
+
+    Pager.prototype.createNavItems = function(maxCount) {
+        var that = this;
+        var $nav = that.$;
+        var pager = that.state;
+        var totalPage = pager.totalPage;
+        var page = pager.page;
+        var appendItem = function(p, to) {
+            if(p === false) {
+                $nav.append($('<li />').append(that.createLinkItem(0, to || '<i class="icon icon-ellipsis-h"></i>')));
+                return;
+            }
+            if(to === undefined) to = p;
+            for(var i = p; i <= to; ++i) {
+                $nav.append($('<li />').append(that.createLinkItem(i)));
+            }
+        };
+        if (maxCount === undefined) {
+            maxCount = that.options.maxNavCount || 10;
+        }
+        appendItem(1);
+        if(totalPage > 1) {
+            if(totalPage <= maxCount) {
+                appendItem(2, totalPage);
+            }
+            else if(page < (maxCount - 2)) {
+                appendItem(2, maxCount - 2);
+                appendItem(false);
+                appendItem(totalPage);
+            }
+            else if(page > (totalPage - maxCount + 2)) {
+                appendItem(false);
+                appendItem((totalPage - maxCount + 2), totalPage);
+            }
+            else {
+                appendItem(false);
+                appendItem(page - Math.ceil((maxCount-4)/2), page + Math.floor((maxCount-4)/2));
+                appendItem(false);
+                appendItem(totalPage);
+            }
+        }
+    };
+
+    Pager.prototype.createGoto = function() {
+
+    };
+
+    Pager.prototype.createElement = function(element, $pager, pager) {
+        var that = this;
+        var createLinkItem= that.createLinkItem.bind(that);
+        var lang = that.lang;
+        switch (element) {
+            case 'prev':
+                return createLinkItem(pager.prev, lang.prev);
+            case 'prev_icon':
+                return createLinkItem(pager.prev, '<i class="icon ' + that.options.prevIcon + '"></i>');
+            case 'next':
+                return createLinkItem(pager.next, lang.next);
+            case 'next_icon':
+                return createLinkItem(pager.next, '<i class="icon ' + that.options.nextIcon + '"></i>');
+            case 'space':
+            case '|':
+                return $('<li class="space" />');
+            case 'nav':
+            case 'pages':
+                that.createNavItems();
+                return;
+            case 'total_text':
+                return $(('<div>' + lang.totalCount + '</div>').format(pager));
+            case 'page_text':
+                return $(('<div>' + lang.pageOf + '</div>').format(pager));
+            case 'total_page_text':
+                return $(('<div>' + lang.totalPage + '</div>').format(pager));
+            case 'page_of_total_text':
+                return $(('<div>' + lang.pageOfTotal + '</div>').format(pager));
+            case 'page_size_text':
+                return $(('<div>' + lang.pageSize + '</div>').format(pager));
+            case 'items_range_text':
+                return $(('<div>' + lang.itemsRange + '</div>').format(pager));
+            case 'goto':
+                return that.createGoto();
+            default:
+                return $('<li/>').html(element);
+        }
+    };
+
+    Pager.prototype.createLink = function(page, pager) {
+        var linkCreator = this.options.linkCreator;
+        if (typeof linkCreator === 'string') {
+            return linkCreator.format($.extend({}, pager, {page: page}));
+        } else if ($.isFunction(linkCreator)) {
+            return linkCreator(page, pager);
+        }
+        return '#page=' + page;
+    };
+
+    Pager.prototype.render = function(elements) {
+        var that = this;
+        var state = that.state;
+        var createElement = that.options.elementCreator || that.createElement;
+        var isMapperCreator = $.isPlainObject(createElement);
+
+        elements = elements || that.elements || that.options.elements;
+        if (typeof elements == 'string') {
+            elements = elements.split(',');
+        }
+        that.elements = elements;
+
+        that.$.empty();
+
+        for(var i = 0; i < elements.length; ++i) {
+            var element  = $.trim(elements[i]);
+            var creator = isMapperCreator ? (createElement[element] || createElement) : createElement;
+            var $element = creator.call(that, element, that.$, state);
+            if ($element instanceof $) {
+                if ($element[0].tagName !== 'LI') {
+                    $element = $('<li/>').append($element);
+                }
+                that.$.append($element);
+            }
+        }
+        return that;
+    };
+
+    // default options
+    Pager.DEFAULTS = $.extend({
+        elements: ['prev_icon', 'pages', 'next', 'goto', '|', 'total_text', 'page_text', 'total_page_text', 'page_of_total_text', 'page_size_text', 'items_range_text'],
+        prevIcon: 'icon-double-angle-left',
+        nextIcon: 'icon-double-angle-right',
+        maxNavCount: 10
+    }, DEFAULT_PAGER);
+
+    // Extense jquery element
+    $.fn.pager = function(option) {
+        return this.each(function() {
+            var $this = $(this);
+            var data = $this.data(NAME);
+            var options = typeof option == 'object' && option;
+
+            if(!data) $this.data(NAME, (data = new Pager(this, options)));
+
+            if(typeof option == 'string') data[option]();
+        });
+    };
+
+    Pager.NAME = NAME;
+
+    $.fn.pager.Constructor = Pager;
+
+    // Auto call pager after document load complete
+    $(function() {
+        $('[data-ride="pager"]').pager();
+    });
+}(jQuery));
+
 
 /* ========================================================================
  * Bootstrap: tab.js v3.0.0
@@ -1089,6 +1355,36 @@
             return this.getFullYear() === date.getFullYear();
         };
     }
+
+    /**
+     * Create an date instance with string, timestamp or date instance
+     * @param  {Date|String|Number}  date
+     * @return {Date}
+     */
+    if (!Date.create) {
+        Date.create = function(date) {
+            if (!(date instanceof Date)) {
+                if (typeof date === 'number' && date < 10000000000) {
+                    date *= 1000;
+                }
+                date = new Date(date);
+            }
+            return date;
+        };
+    }
+
+    if (!Date.timestamp) {
+        Date.timestamp = function(date) {
+            if (typeof date === 'number') {
+                if (date < 10000000000) {
+                    date *= 1000;
+                }
+            } else {
+                date = Date.create(date).getTime();
+            }
+            return date;
+        };
+    }
 }());
 
 
@@ -1149,6 +1445,31 @@
                 return(r == s) ? true : false;
             }
             return false;
+        };
+    }
+
+    if(!String.prototype.endsWith) {
+        String.prototype.endsWith = function(searchString, position) {
+            var subjectString = this.toString();
+            if(position === undefined || position > subjectString.length) {
+                position = subjectString.length;
+            }
+            position -= searchString.length;
+            var lastIndex = subjectString.indexOf(searchString, position);
+            return lastIndex !== -1 && lastIndex === position;
+        };
+    }
+
+    if(!String.prototype.startsWith) {
+        String.prototype.startsWith = function(searchString, position) {
+            position = position || 0;
+            return this.lastIndexOf(searchString, position) === position;
+        };
+    }
+
+    if(!String.prototype.includes) {
+        String.prototype.includes = function() {
+            return String.prototype.indexOf.apply(this, arguments) !== -1;
         };
     }
 
@@ -1805,6 +2126,147 @@
 
 
 /* ========================================================================
+ * ZUI: searchbox.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
+(function($) {
+    'use strict';
+
+    var NAME = 'zui.searchBox'; // modal name
+
+    // The searchbox modal class
+    var SearchBox = function(element, options) {
+        var that = this;
+        that.name = name;
+        that.$ = $(element);
+
+        that.options = options = $.extend({}, SearchBox.DEFAULTS, that.$.data(), options);
+
+        // Initialize here
+        var $input = that.$.is(options.inputSelector) ? that.$ : that.$.find(options.inputSelector);
+        if ($input.length) {
+            var clearChangeTimer = function() {
+                if (that.changeTimer) {
+                    clearTimeout(that.changeTimer);
+                    that.changeTimer = null;
+                }
+            };
+
+            var handleChange = function() {
+                clearChangeTimer();
+                var value = that.getSearch();
+                if (value !== that.lastValue) {
+                    var isEmpty = value === '';
+                    $input.toggleClass('empty', isEmpty);
+                    that.$.callComEvent(that, 'onSearchChange', [value, isEmpty]);
+                    that.lastValue = value;
+                }
+            };
+
+            that.$input = $input = $input.first();
+            that.lastValue = that.getSearch();
+
+            $input.on(options.listenEvent, function(params) {
+                that.changeTimer = setTimeout(function() {
+                    handleChange();
+                }, options.changeDelay);
+            }).on('focus', function(e) {
+                $input.addClass('focus');
+                that.$.callComEvent(that, 'onFocus', [e]);
+            }).on('blur', function(e) {
+                $input.removeClass('focus');
+                that.$.callComEvent(that, 'onBlur', [e]);
+            }).on('keydown', function(e) {
+                var handled = 0;
+                var keyCode = e.witch;
+                if (keyCode === 27 && options.escToClear) { // esc
+                    this.setSearch('', true);
+                    handleChange();
+                    handled = 1;
+                } else if (keyCode === 13 && options.onPressEnter) {
+                    handleChange();
+                    that.$.callComEvent(that, 'onPressEnter', [e]);
+                }
+                var onKeyDownResult = that.$.callComEvent(that, 'onKeyDown', [e]);
+                if (onKeyDownResult === false) {
+                    handled = 1;
+                }
+                if (handled) {
+                    e.preventDefault();
+                }
+            });
+
+            that.$.on('click', '.search-clear-btn', function(e) {
+                that.setSearch('', true);
+                handleChange();
+                e.preventDefault();
+            });
+
+            handleChange();
+        } else {
+            console.error('ZUI: search box init error, cannot find search box input element.');
+        }
+    };
+
+    // default options
+    SearchBox.DEFAULTS = {
+        inputSelector: 'input[type="search"],input[type="text"]',
+        listenEvent: 'change input paste',
+        changeDelay: 500,
+
+        // onKeyDown: null,
+        // onFocus: null,
+        // onBlur: null,
+        // onSearchChange: null,
+        // onPressEnter: null,
+        // escToClear: true
+    };
+
+    // Get current search string
+    SearchBox.prototype.getSearch = function() {
+        return this.$input && $.trim(this.$input.val());
+    };
+
+    // Set current search string
+    SearchBox.prototype.setSearch = function(value, notTriggerChange) {
+        var $input = this.$input;
+        if ($input) {
+            $input.val(value);
+            if (!notTriggerChange) {
+                $input.trigger('change');
+            }
+        }
+    };
+
+    // Focus input element
+    SearchBox.prototype.focus = function() {
+        this.$input && this.$input.focus();
+    };
+
+    // Extense jquery element
+    $.fn.searchBox = function(option) {
+        return this.each(function() {
+            var $this = $(this);
+            var data = $this.data(NAME);
+            var options = typeof option == 'object' && option;
+
+            if(!data) $this.data(NAME, (data = new SearchBox(this, options)));
+
+            if(typeof option == 'string') data[option]();
+        });
+    };
+
+    SearchBox.NAME = NAME;
+
+    $.fn.searchBox.Constructor = SearchBox;
+}(jQuery));
+
+
+/* ========================================================================
  * ZUI: draggable.js
  * http://zui.sexy
  * ========================================================================
@@ -1849,6 +2311,7 @@
             selector       = setting.selector,
             handle         = setting.handle,
             $ele           = $root,
+            isMoveFunc     = $.isFunction(setting.move),
             startPos,
             cPos,
             startOffset,
@@ -1866,7 +2329,11 @@
 
             $ele.removeClass('drag-ready').addClass('dragging');
             if(setting.move) {
-                $ele.css(dragPos);
+                if (isMoveFunc) {
+                    setting.move(dragPos, $ele);
+                } else {
+                    $ele.css(dragPos);
+                }
             }
 
             setting[DRAG] && setting[DRAG]({
@@ -1903,7 +2370,11 @@
             };
             $ele.removeClass('drag-ready dragging');
             if(setting.move) {
-                $ele.css(endPos);
+                if (isMoveFunc) {
+                    setting.move(endPos, $ele);
+                } else {
+                    $ele.css(endPos);
+                }
             }
 
             setting[FINISH] && setting[FINISH]({
@@ -1931,7 +2402,7 @@
             if(mouseButton > -1 && event.button !== mouseButton) {
                 return;
             }
-            
+
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
@@ -2021,8 +2492,8 @@
         target: '.droppable-target',
         deviation: 5,
         sensorOffsetX: 0,
-        sensorOffsetY: 0
-        // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
+        sensorOffsetY: 0,
+         // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
     var idIncrementer = 0;
 
@@ -2054,6 +2525,7 @@
             handle         = setting.handle,
             flex           = setting.flex,
             container      = setting.container,
+            canMoveHere    = setting.canMoveHere,
             $ele           = $root,
             isMouseDown    = false,
             $container     = container ? $(setting.container).first() : (selector ? $root : $('body')),
@@ -2146,6 +2618,7 @@
                 $target.addClass('drop-to');
             }
 
+
             if(!flex) {
                 $ele.toggleClass('drop-in', isIn);
                 $shadow.toggleClass('drop-in', isIn);
@@ -2153,21 +2626,24 @@
                 isIn = true;
             }
 
-            that.trigger('drag', {
-                event: event,
-                isIn: isIn,
-                target: $target,
-                element: $ele,
-                isNew: isNew,
-                selfTarget: isSelf,
-                clickOffset: clickOffset,
-                offset: offset,
-                position: {
-                    left: offset.left - containerOffset.left,
-                    top: offset.top - containerOffset.top
-                },
-                mouseOffset: mouseOffset
-            });
+            if(!canMoveHere || canMoveHere($ele, $target) !== false) {
+                that.trigger('drag', {
+                    event: event,
+                    isIn: isIn,
+                    target: $target,
+                    element: $ele,
+                    isNew: isNew,
+                    selfTarget: isSelf,
+                    clickOffset: clickOffset,
+                    offset: offset,
+                    position: {
+                        left: offset.left - containerOffset.left,
+                        top: offset.top - containerOffset.top
+                    },
+                    mouseOffset: mouseOffset
+                });
+            }
+
             event.preventDefault();
         };
 
@@ -2732,8 +3208,6 @@
         this.$trigger = $trigger;
         this.options = options;
         this.id = $.zui.uuid();
-
-        // todo: handle when: options.show = true
     };
 
     ModalTrigger.DEFAULTS = {
@@ -2799,7 +3273,7 @@
             if($.isFunction(handleFunc)) $modal.on(eventName + ZUI_MODAL, handleFunc);
         };
         bindEvent('onShow', 'show');
-        bindEvent('shown', 'shown');
+        bindEvent('shown',  'shown');
         bindEvent('onHide', 'hide');
         bindEvent('hidden', 'hidden');
         bindEvent('loaded', 'loaded');
@@ -2828,7 +3302,7 @@
             $content = $dialog.find('.modal-content');
 
         $modal.toggleClass('fade', options.fade)
-            .addClass(options.cssClass)
+            .addClass(options.className)
             .toggleClass('modal-loading', !this.isShown);
 
         $dialog.toggleClass('modal-md', options.size === 'md')
@@ -2838,7 +3312,7 @@
 
         $header.toggle(options.showHeader);
         $header.find('.modal-icon').attr('class', 'modal-icon icon-' + options.icon);
-        $header.find('.modal-title-name').html(options.title || '');
+        $header.find('.modal-title-name').text(options.title || '');
         if(options.size && options.size === 'fullscreen') {
             options.width = '';
             options.height = '';
@@ -2894,9 +3368,10 @@
             }
         } else if(options.url) {
             var onLoadBroken = function() {
-                var brokenContent = $modal.callEvent('broken' + ZUI_MODAL, that, that);
+                var brokenContent = $modal.callComEvent(that, 'broken');
                 if(brokenContent) {
                     $body.html(brokenContent);
+                    readyToShow();
                 }
             };
 
@@ -2944,10 +3419,10 @@
                                 readyToShow();
                             };
 
-                            $modal.callEvent('loaded' + ZUI_MODAL, {
+                            $modal.callComEvent(that, 'loaded', {
                                 modalType: 'iframe',
                                 jQuery: frame$
-                            }, null);
+                            });
 
                             setTimeout(ajustFrameSize, 100);
 
@@ -2964,24 +3439,28 @@
                     }
                 };
             } else {
-                $.get(options.url, function(data) {
-                    try {
-                        var $data = $(data);
-                        if($data.hasClass('modal-dialog')) {
-                            $dialog.replaceWith($data);
-                        } else if($data.hasClass('modal-content')) {
-                            $dialog.find('.modal-content').replaceWith($data);
-                        } else {
-                            $body.wrapInner($data);
+                $.ajax($.extend({
+                    url: options.url,
+                    success: function(data) {
+                        try {
+                            var $data = $(data);
+                            if($data.hasClass('modal-dialog')) {
+                                $dialog.replaceWith($data);
+                            } else if($data.hasClass('modal-content')) {
+                                $dialog.find('.modal-content').replaceWith($data);
+                            } else {
+                                $body.wrapInner($data);
+                            }
+                        } catch(e) {
+                            $modal.html(data);
                         }
-                    } catch(e) {
-                        $modal.html(data);
-                    }
-                    $modal.callEvent('loaded' + ZUI_MODAL, {
-                        modalType: STR_AJAX
-                    }, that);
-                    readyToShow();
-                }).error(onLoadBroken);
+                        $modal.callComEvent(that, 'loaded', {
+                            modalType: STR_AJAX
+                        });
+                        readyToShow();
+                    },
+                    error: onLoadBroken
+                }, options.ajaxOptions));
             }
         }
 
@@ -3318,7 +3797,7 @@
             that.applyPlacement(calculatedOffset, placement)
             var complete = function () {
                 var prevHoverState = that.hoverState
-                that.$element.trigger('shown.bs.' + that.type)
+                that.$element.trigger('shown.zui.' + that.type)
                 that.hoverState = null
 
                 if (prevHoverState == 'out') that.leave(that)
@@ -4483,7 +4962,7 @@
         });
 
         var $content = that.$.find('.messager-content').html(that.message);
-        if(options.contentClass) $content.addClass(options.cssClass);
+        if(options.contentClass) $content.addClass(options.contentClass);
 
         that.$.data('zui.messager', that);
 

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 树形图 - v1.7.0 - 2017-06-17
+ * ZUI: 树形图 - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -93,7 +93,7 @@
             options = {data: options};
         }
         options = $.extend({}, DEFAULTS, $element.data(), options);
-        
+
         var data = options.data || [];
         if(!data.length) {
             var $dataList = $element.children('.treemap-data');
@@ -117,7 +117,7 @@
         that.scale   = options.scale || 1;
 
         // Bind events
-        
+
         that.render();
 
         $nodes.on('resize', '.treemap-node-wrapper', function() {
@@ -135,7 +135,7 @@
         });
     };
 
-    Treemap.prototype.toggle = function($node, toggle) {
+    Treemap.prototype.toggle = function($node, toggle, ignoreAnimation) {
         var that = this;
         if(typeof $node === 'boolean') {
             toggle = $node;
@@ -144,25 +144,47 @@
         if(!$node) {
             $node = that.$nodes.children('.treemap-node').first();
         }
-        if(toggle === undefined) {
-            toggle = !$node.hasClass('collapsed');
+        if($node)
+        {
+            if($node.data('node').foldable === false) {
+                return;
+            }
+            if(toggle === undefined) {
+                toggle = $node.hasClass('collapsed');
+            }
+            $node.toggleClass('collapsed', !toggle).find('[data-toggle="tooltip"]').tooltip('hide');
+            if (!ignoreAnimation) {
+                $node.addClass('tree-node-collapsing')
+            }
+            that.$nodes.find('.tooltip').remove();
+            that.drawLines();
+            if (!ignoreAnimation) {
+                $node.removeClass('tree-node-collapsing');
+            } else {
+                clearTimeout(that.toggleTimeTask);
+                that.toggleTimeTask = setTimeout(function() {
+                    $node.removeClass('tree-node-collapsing');
+                }, 200);
+            }
         }
-        $node.addClass('tree-node-collapsing').toggleClass('collapsed', toggle).find('[data-toggle="tooltip"]').tooltip('hide');
-        that.$nodes.find('.tooltip').remove();
-        that.drawLines();
-        clearTimeout(that.toggleTimeTask);
-        that.toggleTimeTask = setTimeout(function() {
-            $node.removeClass('tree-node-collapsing');
-        }, 200);
+    };
+
+    Treemap.prototype.showLevel = function(level) {
+        var that = this;
+        that.$nodes.find('.treemap-node').each(function() {
+            var $node = $(this);
+            that.toggle($node, $node.data('level') < level, true);
+        });
     };
 
     Treemap.prototype.render = function(data) {
-        var that       = this;
-        that.data = data || that.data;
+        var that = this;
+        that.data = data ? ($.isArray(data) ? data : [data]) : that.data;
 
         if(that.data) {
             that.createNodes();
             that.drawLines();
+            that.delayDrawLines(500);
         }
 
         that.callEvent('afterRender');
@@ -184,13 +206,18 @@
         }
         var lastNode = null;
         nodes = nodes || that.data;
-        $.each(nodes || that.data, function(idx, node) {
+        if (!parent) {
+            that.maxLevel = 1;
+        }
+        $.each(nodes, function(idx, node) {
             if(typeof node === 'string') {
                 node = {html: node};
                 nodes[idx] = node;
             }
 
             if(!node.id) node.id = $.zui.uuid();
+            node.level = parent ? (parent.level + 1) : 1;
+            that.maxLevel = Math.max(that.maxLevel, node.level);
 
             // Create node element
             var isCustomNodeTemplate = $.isFunction(options.nodeTemplate);
@@ -214,7 +241,7 @@
                  .toggleClass('treemap-node-one-child', hasChild === 1)
                  .toggleClass('collapsed', !!node.collapsed && node.collapsed !== 'false')
                  .toggleClass('treemap-node-root', !row)
-                 .attr('data-id', node.id).data('node', node);
+                 .attr({'data-id': node.id, 'data-level': node.level}).data('node', node);
             if(node.className) {
                 $node.addClass(node.className);
             }
@@ -245,10 +272,10 @@
             $node.appendTo(parent ? parent.$children : $nodes);
 
             // Save sizes
-            node.bounds = {
-                width  : $wrapper.outerWidth(),
-                height : $wrapper.outerHeight()
-            };
+            // node.bounds = {
+            //     width  : $wrapper.outerWidth(),
+            //     height : $wrapper.outerHeight()
+            // };
 
             if(lastNode) {
                 lastNode.next = node;
@@ -271,8 +298,8 @@
 
             if(options.listenNodeResize) {
                 $wrapper.on('resize.' + NAME, function() {
-                    node.bounds.width = $wrapper.outerWidth();
-                    node.bounds.height = $wrapper.outerHeight();
+                    // node.bounds.width = $wrapper.outerWidth();
+                    // node.bounds.height = $wrapper.outerHeight();
                     that.delayDrawLines();
                 });
             }
@@ -287,12 +314,12 @@
         }
     };
 
-    Treemap.prototype.delayDrawLines = function() {
+    Treemap.prototype.delayDrawLines = function(delay) {
         var that = this;
         clearTimeout(that.delayDrawLinesTask);
         that.delayDrawLinesTask = setTimeout(function() {
             that.drawLines();
-        }, 10);
+        }, delay || 10);
     };
 
     Treemap.prototype.drawLines = function(nodes, parent) {
@@ -311,7 +338,8 @@
             var nodeCableStyle = $.extend({
                 height: rowSpaceHalf,
                 top: -rowSpaceHalf - 1,
-                left: Math.round(($wrapper.outerWidth() - cableStyle.borderWidth)/2)
+                left: Math.round(($wrapper.outerWidth() - cableStyle.borderWidth)/2),
+                color: cableStyle.borderColor
             }, cableStyle);
             if(parent && !parent.isOnlyOneChild) {
                 var $topLine = $wrapper.find('.treemap-line-top');
@@ -342,11 +370,11 @@
                     if(!$centerLine.length) {
                         $centerLine = $('<div class="treemap-line"/>').insertAfter($wrapper);
                     }
-                    var lineLeft = Math.round(firstChild.$wrapper.offset().left - nodesOffsetLeft + firstChild.bounds.width/2);
+                    var lineLeft = Math.round(firstChild.$wrapper.offset().left - nodesOffsetLeft + firstChild.$wrapper.outerWidth()/2);
                     $centerLine.css($.extend({
                         marginTop: rowSpaceHalf,
                         left: lineLeft,
-                        width: lastChild.$wrapper.offset().left - nodesOffsetLeft -lineLeft + lastChild.bounds.width/2
+                        width: lastChild.$wrapper.offset().left - nodesOffsetLeft -lineLeft + lastChild.$wrapper.outerWidth()/2
                     }, cableStyle));
                 }
             }

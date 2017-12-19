@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格 - v1.7.0 - 2017-06-17
+ * ZUI: 数据表格 - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -11,6 +11,10 @@
  * ========================================================================
  * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
+
+
+// TODO：刷新页面后排序状态会自动更改
+
 (function($) {
     'use strict';
 
@@ -146,7 +150,7 @@
                     $th, $tr, $td, row, $t = this.$table,
                     colSpan;
 
-                $t.find('thead > tr:first').children('th').each(function() {
+                $t.children('thead').children('tr:first').children('th').each(function() {
                     $th = $(this);
                     cols.push($.extend({
                         text: $th.html(),
@@ -161,7 +165,7 @@
                     }, $th.data()));
                 });
 
-                $t.find('tbody > tr').each(function() {
+                $t.children('tbody').children('tr').each(function() {
                     $tr = $(this);
                     row = $.extend({
                         data: [],
@@ -194,7 +198,7 @@
                     rows.push(row);
                 });
 
-                var $tfoot = $t.find('tfoot');
+                var $tfoot = $t.children('tfoot');
                 if($tfoot.length) {
                     data.footer = $('<table class="table' + options.tableClass + '"></table>').append($tfoot);
                 }
@@ -269,9 +273,9 @@
             $tr,
             $th,
             col;
-        $left = $('<tr/>');
-        $right = $('<tr/>');
-        $flex = $('<tr/>');
+        $left = $('<tr class="datatable-row datatable-row-left"/>');
+        $right = $('<tr class="datatable-row datatable-row-right"/>');
+        $flex = $('<tr class="datatable-row datatable-row-flex"/>');
         for(i = 0; i < cols.length; i++) {
             col = cols[i];
             $tr = i < data.flexStart ? $left : ((i >= data.flexStart && i <= data.flexEnd) ? $flex : $right);
@@ -280,7 +284,7 @@
             }
             if(col.ignore) continue;
 
-            $th = $('<th/>');
+            $th = $('<th class="datatable-head-cell"/>');
 
             // set sort class
             $th.toggleClass('sort-down', col.sort === 'down')
@@ -397,7 +401,7 @@
                 }
                 row.data[i] = rowCol;
 
-                $td = $('<td/>');
+                $td = $('<td class="datatable-cell"/>');
 
                 $td.html(rowCol.text)
                     .addClass(rowCol.cssClass)
@@ -484,20 +488,20 @@
         var $dataSpans = that.$dataSpans = $datatable.children('.datatable-head, .datatable-rows').find('.datatable-span');
         var $rowsSpans = that.$rowsSpans = $datatable.children('.datatable-rows').children('.datatable-rows-span');
         var $headSpans = that.$headSpans = $datatable.children('.datatable-head').children('.datatable-head-span');
-        var $cells = that.$cells = $dataSpans.find('td, th');
-        var $dataCells = that.$dataCells = $cells.filter('td');
-        that.$headCells = $cells.filter('th');
-        var $rows = that.$rows = that.$rowsSpans.find('.table > tbody > tr');
+        var $cells = that.$cells = $dataSpans.find('.datatable-head-cell,.datatable-cell');
+        var $dataCells = that.$dataCells = $cells.filter('.datatable-cell');
+        that.$headCells = $cells.filter('.datatable-head-cell');
+        var $rows = that.$rows = that.$rowsSpans.find('.datatable-row');
 
         // handle row hover events
         if(options.rowHover) {
             var hoverClass = options.hoverClass;
-            $rowsSpans.on('mouseenter', 'td', function() {
+            $rowsSpans.on('mouseenter', '.datatable-cell', function() {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
                 $rows.filter('.' + hoverClass).removeClass(hoverClass);
 
                 $rows.filter('[data-index="' + $(this).addClass(hoverClass).closest('tr').data('index') + '"]').addClass(hoverClass);
-            }).on('mouseleave', 'td', function() {
+            }).on('mouseleave', '.datatable-cell', function() {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
                 $rows.filter('.' + hoverClass).removeClass(hoverClass);
             });
@@ -506,10 +510,10 @@
         // handle col hover events
         if(options.colHover) {
             var colHoverClass = options.colHoverClass;
-            $headSpans.on('mouseenter', 'th', function() {
+            $headSpans.on('mouseenter', '.datatable-head-cell', function() {
                 $cells.filter('.' + colHoverClass).removeClass(colHoverClass);
                 $cells.filter('[data-index="' + $(this).data('index') + '"]').addClass(colHoverClass);
-            }).on('mouseleave', 'th', function() {
+            }).on('mouseleave', '.datatable-head-cell', function() {
                 $cells.filter('.' + colHoverClass).removeClass(colHoverClass);
             });
         }
@@ -521,7 +525,7 @@
                 $flexArea = $datatable.find('.datatable-span.flexarea'),
                 $fixedLeft = $datatable.find('.datatable-span.fixed-left'),
                 // $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
-                $flexTable = $datatable.find('.datatable-span.flexarea .table');
+                $flexTable = $datatable.find('.datatable-span.flexarea .table-datatable');
             var $bar = $scrollbar.children('.bar'),
                 flexWidth,
                 scrollWidth,
@@ -555,7 +559,10 @@
             var resizeScrollbar = function() {
                 flexWidth = $flexArea.width();
                 $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
-                tableWidth = $flexTable.width();
+                tableWidth = 0;
+                $flexTable.find('tr:first').children('td, th').each(function() {
+                    tableWidth += $(this).width();
+                });
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
                 $bar.css('width', scrollWidth);
                 $flexTable.css('min-width', flexWidth);
@@ -606,7 +613,7 @@
                 checkedClass = options.checkedClass,
                 rowId;
             var syncChecks = function() {
-                var $checkRows = $rowsSpans.first().find('.table > tbody > tr');
+                var $checkRows = $rowsSpans.first().find('.datatable-row');
                 var $checkedRows = $checkRows.filter('.' + checkedClass);
                 if(options.checkboxName) $checkRows.find('.check-row input:checkbox').prop('checked', false);
                 var checkedStatus = {
@@ -641,7 +648,7 @@
             var checkEventPrefix = 'click.zui.datatable.check';
             if(options.selectable) {
                 var selectableOptions = {
-                    selector: '.datatable-rows tr',
+                    selector: '.datatable-rows .datatable-row',
                     trigger: '.datatable-rows',
                     start: function(e) {
                         var $checkRow = $(e.target).closest('.check-row, .check-btn');
@@ -747,7 +754,7 @@
     };
 
     DataTable.prototype.mergeRows = function() {
-        var $cells = this.$rowsSpans.find('.table > tbody > tr > td');
+        var $cells = this.$rowsSpans.find('.datatable-cell');
         var cols = this.data.cols;
         for(var i = 0; i < cols.length; i++) {
             var col = cols[i];

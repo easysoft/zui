@@ -1,5 +1,5 @@
 /*!
- * ZUI: 排序 - v1.7.0 - 2017-06-17
+ * ZUI: 排序 - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -72,7 +72,9 @@
                 orders.reverse();
             }
 
+            that.maxOrder = 0;
             $items.each(function(idx) {
+                that.maxOrder = Math.max(that.maxOrder, orders[idx]);
                 $(this).data(STR_ORDER, orders[idx]).attr('data-' + STR_ORDER, orders[idx]);
             });
         };
@@ -86,11 +88,14 @@
             container   : $root,
             always      : options.always,
             flex        : true,
+            lazy        : options.lazy,
+            canMoveHere : options.canMoveHere,
+            nested      : options.nested,
             before      : options.before,
             mouseButton : options.mouseButton,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
-                that.trigger('start');
+                that.trigger('start', e);
             },
             drag: function(e) {
                 $root.addClass(sortingClass);
@@ -99,6 +104,16 @@
                         $target     = e.target,
                         eleOrder    = $ele.data(STR_ORDER),
                         targetOrder = $target.data(STR_ORDER);
+                    if (!eleOrder && eleOrder !== 0) {
+                        that.maxOrder++;
+                        eleOrder = that.maxOrder;
+                        $ele.attr('data-' + STR_ORDER, eleOrder);
+                    }
+                    if (!targetOrder && targetOrder !== 0) {
+                        that.maxOrder++;
+                        targetOrder = that.maxOrder;
+                        $target.attr('data-' + STR_ORDER, targetOrder);
+                    }
                     if(eleOrder == targetOrder) return;
                     else if(eleOrder > targetOrder) {
                         $target[isReverse ? 'after' : 'before']($ele);
@@ -126,6 +141,7 @@
 
     Sortable.prototype.destroy = function() {
         this.$.droppable('destroy');
+        this.$.data(NAME, null);
     };
 
     Sortable.prototype.reset = function() {

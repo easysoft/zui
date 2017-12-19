@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.7.0 - 2017-06-17
+ * ZUI: Lite edition - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -98,11 +98,25 @@
         if(model && model.options) {
             var func = model.options[shortName];
             if($.isFunction(func)) {
-                $.zui.callEvent(func, e, model);
+                e.result = $.zui.callEvent(func, e, model);
             }
         }
         $this.trigger(e);
         return e;
+    };
+
+    $.fn.callComEvent = function(component, eventName, params) {
+        if (params !== undefined && !$.isArray(params)) {
+            params = [params];
+        }
+        var $this = this;
+        var result = $this.triggerHandler(eventName, params);
+
+        const eventCallback = component.options[eventName];
+        if (eventCallback) {
+            result = eventCallback.apply(component, params);
+        }
+        return result;
     };
 }(jQuery, window, undefined));
 
@@ -835,6 +849,36 @@
             return this.getFullYear() === date.getFullYear();
         };
     }
+
+    /**
+     * Create an date instance with string, timestamp or date instance
+     * @param  {Date|String|Number}  date
+     * @return {Date}
+     */
+    if (!Date.create) {
+        Date.create = function(date) {
+            if (!(date instanceof Date)) {
+                if (typeof date === 'number' && date < 10000000000) {
+                    date *= 1000;
+                }
+                date = new Date(date);
+            }
+            return date;
+        };
+    }
+
+    if (!Date.timestamp) {
+        Date.timestamp = function(date) {
+            if (typeof date === 'number') {
+                if (date < 10000000000) {
+                    date *= 1000;
+                }
+            } else {
+                date = Date.create(date).getTime();
+            }
+            return date;
+        };
+    }
 }());
 
 
@@ -895,6 +939,31 @@
                 return(r == s) ? true : false;
             }
             return false;
+        };
+    }
+
+    if(!String.prototype.endsWith) {
+        String.prototype.endsWith = function(searchString, position) {
+            var subjectString = this.toString();
+            if(position === undefined || position > subjectString.length) {
+                position = subjectString.length;
+            }
+            position -= searchString.length;
+            var lastIndex = subjectString.indexOf(searchString, position);
+            return lastIndex !== -1 && lastIndex === position;
+        };
+    }
+
+    if(!String.prototype.startsWith) {
+        String.prototype.startsWith = function(searchString, position) {
+            position = position || 0;
+            return this.lastIndexOf(searchString, position) === position;
+        };
+    }
+
+    if(!String.prototype.includes) {
+        String.prototype.includes = function() {
+            return String.prototype.indexOf.apply(this, arguments) !== -1;
         };
     }
 
@@ -1941,8 +2010,6 @@
         this.$trigger = $trigger;
         this.options = options;
         this.id = $.zui.uuid();
-
-        // todo: handle when: options.show = true
     };
 
     ModalTrigger.DEFAULTS = {
@@ -2008,7 +2075,7 @@
             if($.isFunction(handleFunc)) $modal.on(eventName + ZUI_MODAL, handleFunc);
         };
         bindEvent('onShow', 'show');
-        bindEvent('shown', 'shown');
+        bindEvent('shown',  'shown');
         bindEvent('onHide', 'hide');
         bindEvent('hidden', 'hidden');
         bindEvent('loaded', 'loaded');
@@ -2037,7 +2104,7 @@
             $content = $dialog.find('.modal-content');
 
         $modal.toggleClass('fade', options.fade)
-            .addClass(options.cssClass)
+            .addClass(options.className)
             .toggleClass('modal-loading', !this.isShown);
 
         $dialog.toggleClass('modal-md', options.size === 'md')
@@ -2047,7 +2114,7 @@
 
         $header.toggle(options.showHeader);
         $header.find('.modal-icon').attr('class', 'modal-icon icon-' + options.icon);
-        $header.find('.modal-title-name').html(options.title || '');
+        $header.find('.modal-title-name').text(options.title || '');
         if(options.size && options.size === 'fullscreen') {
             options.width = '';
             options.height = '';
@@ -2103,9 +2170,10 @@
             }
         } else if(options.url) {
             var onLoadBroken = function() {
-                var brokenContent = $modal.callEvent('broken' + ZUI_MODAL, that, that);
+                var brokenContent = $modal.callComEvent(that, 'broken');
                 if(brokenContent) {
                     $body.html(brokenContent);
+                    readyToShow();
                 }
             };
 
@@ -2153,10 +2221,10 @@
                                 readyToShow();
                             };
 
-                            $modal.callEvent('loaded' + ZUI_MODAL, {
+                            $modal.callComEvent(that, 'loaded', {
                                 modalType: 'iframe',
                                 jQuery: frame$
-                            }, null);
+                            });
 
                             setTimeout(ajustFrameSize, 100);
 
@@ -2173,24 +2241,28 @@
                     }
                 };
             } else {
-                $.get(options.url, function(data) {
-                    try {
-                        var $data = $(data);
-                        if($data.hasClass('modal-dialog')) {
-                            $dialog.replaceWith($data);
-                        } else if($data.hasClass('modal-content')) {
-                            $dialog.find('.modal-content').replaceWith($data);
-                        } else {
-                            $body.wrapInner($data);
+                $.ajax($.extend({
+                    url: options.url,
+                    success: function(data) {
+                        try {
+                            var $data = $(data);
+                            if($data.hasClass('modal-dialog')) {
+                                $dialog.replaceWith($data);
+                            } else if($data.hasClass('modal-content')) {
+                                $dialog.find('.modal-content').replaceWith($data);
+                            } else {
+                                $body.wrapInner($data);
+                            }
+                        } catch(e) {
+                            $modal.html(data);
                         }
-                    } catch(e) {
-                        $modal.html(data);
-                    }
-                    $modal.callEvent('loaded' + ZUI_MODAL, {
-                        modalType: STR_AJAX
-                    }, that);
-                    readyToShow();
-                }).error(onLoadBroken);
+                        $modal.callComEvent(that, 'loaded', {
+                            modalType: STR_AJAX
+                        });
+                        readyToShow();
+                    },
+                    error: onLoadBroken
+                }, options.ajaxOptions));
             }
         }
 
@@ -2527,7 +2599,7 @@
             that.applyPlacement(calculatedOffset, placement)
             var complete = function () {
                 var prevHoverState = that.hoverState
-                that.$element.trigger('shown.bs.' + that.type)
+                that.$element.trigger('shown.zui.' + that.type)
                 that.hoverState = null
 
                 if (prevHoverState == 'out') that.leave(that)

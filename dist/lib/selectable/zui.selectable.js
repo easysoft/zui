@@ -1,5 +1,5 @@
 /*!
- * ZUI: 拖拽选择 - v1.7.0 - 2017-06-17
+ * ZUI: 拖拽选择 - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -102,17 +102,28 @@
                     that.callEvent(isSelect ? 'select' : 'unselect', {id: id, selections: that.selections, target: $element, selected: that.getSelectedArray()}, that);
                 }
             }
-            $element.toggleClass(that.options.selectClass, isSelect);
+            if (that.options.selectClass) {
+                $element.toggleClass(that.options.selectClass, isSelect);
+            }
         }
     };
 
-    Selectable.prototype.getSelectedArray = function()
-    {
+    Selectable.prototype.getSelectedArray = function() {
         var selected = [];
         $.each(this.selections, function(thisId, thisIsSelected) {
             if(thisIsSelected) selected.push(thisId);
         });
         return selected;
+    };
+
+    Selectable.prototype.syncSelectionsFromClass = function() {
+        var that = this;
+        var $children = that.$children = that.$.find(that.options.selector);
+        that.selections = {};
+        that.$children.each(function() {
+            var $item = $(this);
+            that.selections[$item.data('id')] = $item.hasClass(that.options.selectClass);
+        });
     };
 
     Selectable.prototype._init = function() {
@@ -137,8 +148,8 @@
                 var isIntersect = rangeFunc ? rangeFunc.call(this, range, offset) : isIntersectArea(range, offset);
                 if(checkFunc) {
                     var result = checkFunc.call(that, {
-                        intersect: isIntersect, 
-                        target: $item, 
+                        intersect: isIntersect,
+                        target: $item,
                         range: range,
                         targetRange: offset
                     });
@@ -167,7 +178,7 @@
                 left: x > startX ? startX : x,
                 top: y > startY ? startY : y
             };
-            
+
             if(isIgnoreMove && range.width < ignoreVal && range.height < ignoreVal) return;
             if(!$range) {
                 $range = $('.selectable-range[data-id="' + that.id + '"]');

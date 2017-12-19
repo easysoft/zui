@@ -1,5 +1,5 @@
 /*!
- * ZUI: 文件上传 - v1.7.0 - 2017-06-17
+ * ZUI: 文件上传 - v1.7.0 - 2017-12-19
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -316,7 +316,7 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
                         if(renameActionAble) {
                             var result = renameActionOnDoneOption.call(that, file, filename, renameFile);
                             if(result === true) {
-                                doRemoveFile();
+                                renameFile();
                             } else if(result === false) {
                                 that.showFile(file);
                             }
@@ -700,11 +700,12 @@ else if(r instanceof a){if(r.hasBlob())if(r.getBlob().isDetached())r=d.call(s,r)
                             }
                             if(json.id !== undefined) file.remoteId = json.id;
                             if(json.url !== undefined) file.url = json.url;
+                            if(json.name !== undefined) file.name = json.name;
                         }
                     }
                     if(error) {
                         error = $.isPlainObject(error) ? error : {message: error};
-                            file.status = Plupload.FAILED;
+                        file.status = Plupload.FAILED;
                         if(error.code === undefined) error.code = Plupload.GENERIC_ERROR;
                         error.file = file;
                         error.responseObject = responseObject;
