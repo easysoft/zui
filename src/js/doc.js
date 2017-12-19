@@ -20,32 +20,6 @@
         $.zui.messager.danger('你正在使用 IE 较低版本访问，无法获得 ZUI 文档网站的完整体验，建议你更换浏览器再访问。', {time: 20000});
     }
 
-    // Polyfill
-    if(!String.prototype.endsWith) {
-        String.prototype.endsWith = function(searchString, position) {
-            var subjectString = this.toString();
-            if(position === undefined || position > subjectString.length) {
-                position = subjectString.length;
-            }
-            position -= searchString.length;
-            var lastIndex = subjectString.indexOf(searchString, position);
-            return lastIndex !== -1 && lastIndex === position;
-        };
-    }
-
-    if(!String.prototype.startsWith) {
-        String.prototype.startsWith = function(searchString, position) {
-            position = position || 0;
-            return this.lastIndexOf(searchString, position) === position;
-        };
-    }
-
-    if(!String.prototype.includes) {
-        String.prototype.includes = function() {
-            return String.prototype.indexOf.apply(this, arguments) !== -1;
-        };
-    }
-
     $.fn.allAttrs = function() {
         var attrs = {};
         $.each($(this)[0].attributes, function(index, attribute) {
