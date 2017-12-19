@@ -2,7 +2,7 @@
  * ZUI: $componentName$.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017-2018 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -17,7 +17,6 @@
         that.name = NAME;
         that.$ = $(element);
 
-        that.getOptions(options);
         options = that.options = $.extend({}, $ComponentName$.DEFAULTS, this.$.data(), options);
 
         // Initialize here
