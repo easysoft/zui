@@ -78,6 +78,7 @@
         if (!state) {
             state = $.extend({}, DEFAULT_PAGER);
         }
+        var oldState = $.extend({}, state);
         if (typeof recPerPage === 'number' && recPerPage > 0) {
             state.recPerPage = recPerPage;
         }
@@ -104,6 +105,9 @@
         state.prev  = state.page > 1 ? (state.page - 1) : 0;
         state.next  = state.page < state.totalPage ? (state.page + 1) : 0;
         that.state  = state;
+        if (oldState.page !== state.page || oldState.recTotal !== state.recTotal || oldState.recPerPage !== state.recPerPage) {
+            that.$.callComEvent(that, 'onPageChange', [state, oldState]);
+        }
         return that.render();
     };
 
@@ -178,7 +182,7 @@
             var $li = $('<li><a href="###" data-size="' + size + '">' + size + '</a></li>').toggleClass('active', size === pager.recPerPage);
             $menu.append($li);
         }
-        return $('<div class="btn-group pager-size-menu"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' + that.lang.pageSize.format(pager) + ' <span class="caret"></span></button></div>').append($menu);
+        return $('<div class="btn-group pager-size-menu"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' + that.lang.pageSize.format(pager) + ' <span class="caret"></span></button></div>').addClass(that.options.menuDirection).append($menu);
     };
 
     Pager.prototype.createElement = function(element, $pager, pager) {
@@ -271,7 +275,6 @@
         that.$.children('li').each(function() {
             var $li = $(this);
             var isItem = !!$li.children('.pager-item').length;
-            console.log(isItem, $li, $lastItem);
             if ($lastItem) {
                 $lastItem.toggleClass('pager-item-right', !isItem);
             } else {
@@ -281,6 +284,8 @@
             }
             $lastItem = isItem ? $li : null;
         });
+
+        that.$.callComEvent(that, 'onRender', [state, oldState]);
         return that;
     };
 
@@ -293,7 +298,8 @@
         lastIcon: 'icon-step-forward',
         maxNavCount: 10,
         menuDirection: 'dropdown', // or dropup
-        pageSizeOptions: [10, 20, 30, 50, 100]
+        pageSizeOptions: [10, 20, 30, 50, 100],
+        onPageChange: null
     }, DEFAULT_PAGER);
 
     // Extense jquery element
