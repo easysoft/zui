@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.7.0 - 2017-12-19
+ * ZUI: Standard edition - v1.7.0 - 2017-12-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -388,6 +388,8 @@
         zh_cn: {
             prev: '上一页',
             next: '下一页',
+            first: '第一页',
+            last: '最后一页',
             goto: '跳转',
             pageOf: '第 <strong>{page}</strong> 页',
             totalPage: '共 <strong>{totalPage}</strong> 页',
@@ -412,11 +414,29 @@
         that.state = {};
 
         that.set(options.page, options.recTotal, options.recPerPage);
+
+        that.$.on('click', '.pager-goto-btn', function() {
+            var $goto = $(this).closest('.pager-goto');
+            var page = parseInt($goto.find('.pager-goto-input').val());
+            if (page !== NaN) {
+                that.set(page);
+            }
+        }).on('click', '.pager-item', function() {
+            var page = $(this).data('page');
+            if (typeof page === 'number' && page > 0) {
+                that.set(page);
+            }
+        }).on('click', '.pager-size-menu [data-size]', function() {
+            var size = $(this).data('size');
+            if (typeof size === 'number' && size > 0) {
+                that.set(-1, -1, size);
+            }
+        });
     };
 
     Pager.prototype.set = function(page, recTotal, recPerPage) {
         var that = this;
-        if (typeof page === 'object') {
+        if (typeof page === 'object' && page !== null) {
             recPerPage = page.recPerPage;
             recTotal = page.recTotal;
             page = page.page;
@@ -425,6 +445,7 @@
         if (!state) {
             state = $.extend({}, DEFAULT_PAGER);
         }
+        var oldState = $.extend({}, state);
         if (typeof recPerPage === 'number' && recPerPage > 0) {
             state.recPerPage = recPerPage;
         }
@@ -451,15 +472,22 @@
         state.prev  = state.page > 1 ? (state.page - 1) : 0;
         state.next  = state.page < state.totalPage ? (state.page + 1) : 0;
         that.state  = state;
+        if (oldState.page !== state.page || oldState.recTotal !== state.recTotal || oldState.recPerPage !== state.recPerPage) {
+            that.$.callComEvent(that, 'onPageChange', [state, oldState]);
+        }
         return that.render();
     };
 
-    Pager.prototype.createLinkItem = function(page, text) {
+    Pager.prototype.createLinkItem = function(page, text, asAElement) {
         var that = this;
         if (text === undefined) {
             text = page;
         }
-        return $('<a/>').attr('href', page ? that.createLink(page, that.state) : '###').html(text).toggleClass('disabled', !page).toggleClass('active', page === that.state.page);
+        var $ele = $('<a class="pager-item" data-page="' + page + '"/>').attr('href', page ? that.createLink(page, that.state) : '###').html(text);
+        if (!asAElement) {
+            $ele = $('<li />').append($ele).toggleClass('active', page === that.state.page).toggleClass('disabled', !page);
+        }
+        return $ele;
     };
 
     Pager.prototype.createNavItems = function(maxCount) {
@@ -470,12 +498,12 @@
         var page = pager.page;
         var appendItem = function(p, to) {
             if(p === false) {
-                $nav.append($('<li />').append(that.createLinkItem(0, to || '<i class="icon icon-ellipsis-h"></i>')));
+                $nav.append(that.createLinkItem(0, to || '<i class="icon icon-ellipsis-h"></i>'));
                 return;
             }
             if(to === undefined) to = p;
             for(var i = p; i <= to; ++i) {
-                $nav.append($('<li />').append(that.createLinkItem(i)));
+                $nav.append(that.createLinkItem(i));
             }
         };
         if (maxCount === undefined) {
@@ -505,7 +533,23 @@
     };
 
     Pager.prototype.createGoto = function() {
+        var that = this;
+        var pager = this.state;
+        var $goto = $('<div class="input-group pager-goto"><input value="' + pager.page + '" type="number" placeholder="' + pager.page + '" class="form-control pager-goto-input"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
+        return $goto;
+    };
 
+    Pager.prototype.createSizeMenu = function() {
+        var that = this;
+        var pager = this.state;
+        var $menu = $('<ul class="dropdown-menu"></ul>');
+        var options = that.options.pageSizeOptions;
+        for (var i = 0; i < options.length; ++i) {
+            var size = options[i];
+            var $li = $('<li><a href="###" data-size="' + size + '">' + size + '</a></li>').toggleClass('active', size === pager.recPerPage);
+            $menu.append($li);
+        }
+        return $('<div class="btn-group pager-size-menu"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' + that.lang.pageSize.format(pager) + ' <span class="caret"></span></button></div>').addClass(that.options.menuDirection).append($menu);
     };
 
     Pager.prototype.createElement = function(element, $pager, pager) {
@@ -521,6 +565,14 @@
                 return createLinkItem(pager.next, lang.next);
             case 'next_icon':
                 return createLinkItem(pager.next, '<i class="icon ' + that.options.nextIcon + '"></i>');
+            case 'first':
+                return createLinkItem(1, lang.first, true);
+            case 'first_icon':
+                return createLinkItem(1, '<i class="icon ' + that.options.firstIcon + '"></i>', true);
+            case 'last':
+                return createLinkItem(pager.totalPage, lang.last, true);
+            case 'last_icon':
+                return createLinkItem(pager.totalPage, '<i class="icon ' + that.options.lastIcon + '"></i>', true);
             case 'space':
             case '|':
                 return $('<li class="space" />');
@@ -529,19 +581,21 @@
                 that.createNavItems();
                 return;
             case 'total_text':
-                return $(('<div>' + lang.totalCount + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.totalCount + '</div>').format(pager));
             case 'page_text':
-                return $(('<div>' + lang.pageOf + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.pageOf + '</div>').format(pager));
             case 'total_page_text':
-                return $(('<div>' + lang.totalPage + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.totalPage + '</div>').format(pager));
             case 'page_of_total_text':
-                return $(('<div>' + lang.pageOfTotal + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.pageOfTotal + '</div>').format(pager));
             case 'page_size_text':
-                return $(('<div>' + lang.pageSize + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.pageSize + '</div>').format(pager));
             case 'items_range_text':
-                return $(('<div>' + lang.itemsRange + '</div>').format(pager));
+                return $(('<div class="pager-label">' + lang.itemsRange + '</div>').format(pager));
             case 'goto':
                 return that.createGoto();
+            case 'size_menu':
+                return that.createSizeMenu();
             default:
                 return $('<li/>').html(element);
         }
@@ -582,15 +636,37 @@
                 that.$.append($element);
             }
         }
+
+        // Fix page item border
+        var $lastItem = null;
+        that.$.children('li').each(function() {
+            var $li = $(this);
+            var isItem = !!$li.children('.pager-item').length;
+            if ($lastItem) {
+                $lastItem.toggleClass('pager-item-right', !isItem);
+            } else {
+                if (isItem) {
+                    $li.addClass('pager-item-left');
+                }
+            }
+            $lastItem = isItem ? $li : null;
+        });
+
+        that.$.callComEvent(that, 'onRender', [state, oldState]);
         return that;
     };
 
     // default options
     Pager.DEFAULTS = $.extend({
-        elements: ['prev_icon', 'pages', 'next', 'goto', '|', 'total_text', 'page_text', 'total_page_text', 'page_of_total_text', 'page_size_text', 'items_range_text'],
+        elements: ['first', '|', 'prev_icon', 'pages', 'next', 'last_icon', 'goto', 'size_menu', '|', 'total_text', 'page_text', 'total_page_text', 'page_of_total_text', 'page_size_text', 'items_range_text'],
         prevIcon: 'icon-double-angle-left',
         nextIcon: 'icon-double-angle-right',
-        maxNavCount: 10
+        firstIcon: 'icon-step-backward',
+        lastIcon: 'icon-step-forward',
+        maxNavCount: 10,
+        menuDirection: 'dropdown', // or dropup
+        pageSizeOptions: [10, 20, 30, 50, 100],
+        onPageChange: null
     }, DEFAULT_PAGER);
 
     // Extense jquery element
@@ -4329,6 +4405,244 @@
         .on('keydown.' + apiName, toggle + ', [role=menu]', Dropdown.prototype.keydown)
 
 }(window.jQuery);
+
+
+/* ========================================================================
+ * ZUI: contextmenu.js
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2017-2018 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+
+(function($, undefined) {
+    'use strict';
+
+    var NAME = 'zui.contextmenu'; // model name
+
+    var DEFAULTS = {
+        // onShow: null,
+        // onShown: null,
+        // onHide: null,
+        // onHidden: null,
+        // itemCreator: null,
+        // x: 0,
+        // y: 0,
+        // onClickItem: null,
+        duration: 400,
+    };
+
+    var ContextMenu = {};
+    var targetId = 'zui-contextmenu-' + $.zui.uuid();
+    var mouseX = 0, mouseY = 0;
+    var listenMouseMove = function() {
+        $(document).off('mousemove.' + NAME).on('mousemove.' + NAME, function(e) {
+            mouseX = e.pageX;
+            mouseY = e.pageY;
+        });
+        return ContextMenu;
+    };
+    var createMenuItem = function(item, index) {
+        if (typeof item === 'string') {
+            if (item === 'seperator' || item === 'divider' || item === '-' || item === '|') {
+                item = {type: 'seperator'};
+            } else {
+                item = {label: item, id: index};
+            }
+        }
+        if (item.type === 'seperator' || item.type === 'divider') {
+            return $('<li class="divider"></li>');
+        }
+        var $a = $('<a/>').attr({
+            href: item.url,
+            'class': item.className,
+            style: item.style
+        }).data('item', item);
+        if (item.html) {
+            $a.html(item.html);
+        } else {
+            $a.text(item.label || item.text);
+        }
+        if (item.onClick) {
+            $a.on('click', item.onClick);
+        }
+        return $('<li />').append($a);
+    };
+
+    var animationTimer = null;
+    var hideContextMenu = function(id, callback) {
+        if (animationTimer) {
+            clearTimeout(animationTimer);
+            animationTimer = null;
+        }
+
+        var $target = $('#' + targetId);
+        if ($target.length) {
+            var options = $target.data('options');
+            if (!id || options.id === id) {
+                var afterHide = function() {
+                    $target.hide();
+                    options.onHidden && options.onHidden();
+                    callback && callback();
+                };
+                options.onHide && options.onHide();
+                var animation = options.animation;
+                $target.removeClass('in');
+                if (animation) {
+                    animationTimer = setTimeout(afterHide, options.duration);
+                } else {
+                    afterHide();
+                }
+            }
+        }
+        return ContextMenu;
+    };
+
+    var showContextMenu = function(items, options, callback) {
+        if (typeof items === 'object') {
+            callback = options;
+            options = items;
+            items = options.items;
+        }
+
+        hideContextMenu();
+
+        options = $.extend({}, DEFAULTS, options);
+        var x = options.x;
+        var y = options.y;
+        if (x === undefined) x = options.pageX;
+        if (x === undefined) x = mouseX;
+        if (y === undefined) y = options.pageY;
+        if (y === undefined) y = mouseY;
+
+        var $target = $('#' + targetId);
+        if (!$target.length) {
+            $target = $('<div style="display: none; position: fixed; z-index: 2000;" class="contextmenu" id="' + targetId + '"><ul class="dropdown-menu contextmenu-menu"></ul></div>').appendTo('body');
+        }
+        var $menu = $target.find('.contextmenu-menu').off('click.' + NAME).on('click.' + NAME, 'a', function(e) {
+            var $item = $(this);
+            var clickResult = options.onClickItem && options.onClickItem($item.data('item'), $item, e);
+            if (clickResult !== false) {
+                hideContextMenu();
+            }
+        }).empty();;
+        $target.hide().attr('class', 'contextmenu');
+        var itemCreator = options.itemCreator || createMenuItem;
+        if (typeof items === 'string') {
+            items = items.split(',');
+        }
+        $.each(items, function(index, item) {
+            $menu.append(itemCreator(item, index));
+        });
+
+        // Show menu
+        var animation = options.animation;
+        var duration = options.duration;
+        if (animation === true) options.animation = animation = 'fade';
+        if (animationTimer) {
+            clearTimeout(animationTimer);
+            animationTimer = null;
+        }
+        var afterShow = function() {
+            $target.addClass('in');
+            options.onShown && options.onShown();
+            callback && callback();
+        };
+        options.onShow && options.onShow();
+        $target.show().addClass('open').data('options', {
+            animation: animation,
+            onHide: options.onHide,
+            onHidden: options.onHidden,
+            id: options.id,
+            duration: duration
+        });
+
+        var $w = $(window);
+        x = Math.max(0, Math.min(x, $w.width() - $menu.outerWidth()));
+        y = Math.max(0, Math.min(y, $w.height() - $menu.outerHeight()));
+        $target.css({
+            left: x,
+            top: y
+        });
+
+        if (animation) {
+            $target.addClass(animation);
+            animationTimer = setTimeout(afterShow, options.duration);
+        } else {
+            afterShow();
+        }
+        return ContextMenu;
+    };
+
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.contextmenu').length) {
+            hideContextMenu();
+        }
+    });
+
+    $.extend(ContextMenu, {
+        NAME: NAME,
+        DEFAULTS: DEFAULTS,
+        show: showContextMenu,
+        hide: hideContextMenu,
+        listenMouse: listenMouseMove
+    });
+    $.zui({ContextMenu: ContextMenu});
+
+
+    // The contextmenu model class
+    var ContextListener = function(element, options) {
+        var that = this;
+        that.name = NAME;
+        that.$ = $(element);
+
+        options = that.options = $.extend({trigger: 'contextmenu'}, ContextMenu.DEFAULTS, this.$.data(), options);
+
+        var trigger = options.trigger;
+        var isIE = $.zui.browser && $.zui.browser.ie && $.zui.browser.ie < 11;
+        if (isIE && trigger === 'contextmenu') trigger = 'mousedown';
+
+        that.id = $.zui.uuid();
+        that.$.on(trigger + '.' + NAME, function(e) {
+            if (isIE && e.button !== 2) {
+                return;
+            }
+            that.show({
+                x: e.clientX,
+                y: e.clientY,
+                event: e
+            });
+            e.preventDefault();
+            return false;
+        });
+    };
+
+    ContextListener.prototype.destory = function () {
+        that.$.off('.' + NAME);
+    };
+
+    ContextListener.prototype.hide = function (callback) {
+        ContextMenu.hide(this.id, callback);
+    };
+
+    ContextListener.prototype.show = function (options, callback) {
+        ContextMenu.show($.extend({}, this.options, options), callback);
+    };
+
+    // Extense jquery element
+    $.fn.contextmenu = function(option) {
+        return this.each(function() {
+            var $this = $(this);
+            var data = $this.data(NAME);
+            var options = typeof option == 'object' && option;
+
+            if(!data) $this.data(NAME, (data = new ContextListener(this, options)));
+
+            if(typeof option == 'string') data[option]();
+        });
+    };
+    $.fn.contextmenu.Constructor = ContextListener;
+}(jQuery, undefined));
 
 
 /* ========================================================================

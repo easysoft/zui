@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格 - v1.7.0 - 2017-12-19
+ * ZUI: 数据表格 - v1.7.0 - 2017-12-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -11,10 +11,6 @@
  * ========================================================================
  * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
-
-
-// TODO：刷新页面后排序状态会自动更改
-
 (function($) {
     'use strict';
 

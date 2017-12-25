@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.7.0 - 2017-12-19
+ * ZUI: Standard edition - v1.7.0 - 2017-12-25
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -5710,7 +5710,7 @@ pre code {
   list-style: none;
   }
 .pager > li {
-  display: inline;
+  display: inline-block;
   }
 .pager > li > a,
 .pager > li > span {
@@ -5775,6 +5775,35 @@ pre code {
 .pager-justify .previous > span {
   float: left;
   border-radius: 4px;
+  }
+.pager-goto {
+  width: 100px;
+  text-align: center;
+  }
+.pager > li > div {
+  float: left;
+  }
+.pager > li .pager-goto,
+.pager > li .pager-size-menu,
+.pager > li.space {
+  margin: 0 5px;
+  }
+.pager-label {
+  position: relative;
+  float: left;
+  padding: 5px 4px;
+  margin-left: -1px;
+  line-height: 1.53846154;
+  text-decoration: none;
+  border: 1px solid transparent;
+  }
+.pager-item-left > a {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  }
+.pager-item-right > a {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   }
 .pager-lg > li > a,
 .pager-lg > li > span {
