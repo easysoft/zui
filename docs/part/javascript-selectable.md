@@ -6,7 +6,7 @@
 </div>
 
 ## 综合示例
-
+ 
 拖拽选取允许通过按住鼠标左键不放并拖动来选取范围内的元素。
 
 在目标元素上单击鼠标左键来选取或者取消选取元素
@@ -195,6 +195,12 @@ $('#selectableExample3').selectable({
       <td>如果设置为null，则整个父级容器都可以触发拖选事件。</td>
     </tr>
     <tr>
+      <td>`selectClass`</td>
+      <td>被选中项的 CLASS</td>
+      <td>默认值为 `active`</td>
+      <td>如果设置为 `''`，则不会为选中项添加 CLASS</td>
+    </tr>
+    <tr>
       <td>`rangeStyle`</td>
       <td>拖选时的矩形指示样式表</td>
       <td>默认为: <br> <pre style="padding: 5px; margin: 0">{
@@ -360,6 +366,11 @@ $('#selectable').selectable(options);
       <td>`unselect(elementOrId)`</td>
       <td>`elementOrId`：要取消选中的目标元素或其 id。</td>
       <td>取消选中指定目标元素。</td>
+    </tr>
+    <tr>
+      <td>`syncSelectionsFromClass()`</td>
+      <td></td>
+      <td>从元素的 class 同步选中和非选中状态。</td>
     </tr>
   </tbody>
 </table>
