@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ZUI，一个简单灵活的前端框架。">
+<meta name="author" content="Zentao">
+<title>ZUI - 右键菜单例子</title>
+<link href="../../dist/css/zui.css" rel="stylesheet">
+</head>
+
+<body style="padding: 20px">
+  <div class="has-padding" id="contextmenuExample">
+    在此点击右键弹出右键菜单。
+    <br>
+    在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>在此点击右键弹出右键菜单。
+    <br>
+  </div>
+
+<script src="../../assets/jquery.js"></script>
+<script src="../../dist/js/zui.js"></script>
+<script>
+$(function() {
+    $('#contextmenuExample').contextmenu({
+        items: [
+            '测试',
+            '-',
+            '哈哈'
+        ],
+        onClickItem: function(item) {
+            console.log('you click', item);
+        }
+    });
+});
+</script>
+</body>
+</html>
