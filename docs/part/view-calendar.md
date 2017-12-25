@@ -96,6 +96,12 @@ $('#calendar').calendar();
       <td>是否启用事件拖放功能，如果为`true`则能够拖拽一个事件到另一个日期方框内来更改事件日程</td>
     </tr>
     <tr>
+      <td>`hideEmptyWeekends`</td>
+      <td>*   `true` (默认)
+*   `false`</td>
+      <td>当周末没有事件时是否自动缩小周末所在对列已节省空间。</td>
+    </tr>
+    <tr>
       <td>`lang`</td>
       <td>*   `null` (默认)
 *   `"zh-cn"`</td>
@@ -539,7 +545,6 @@ function afterPageLoad() {
               ],
               rows: []
           };
-
           for (var i = 0; i < rowsCount; i++) {
               var row = {checked: Math.random() > 0.9, data: [
                   start + i + 101000,
@@ -557,7 +562,6 @@ function afterPageLoad() {
               data.rows.push(row);
               now = new Date(now.getTime() - (Math.random()*1000*60*60));
           };
-
           return data;
       },
       calDataGenerater = function(count) {
@@ -576,13 +580,12 @@ function afterPageLoad() {
           for (var i = count - 1; i >= 0; i--) {
               data.events.push(calEventGenerater());
           }
-
           return data;
       };
   $(function() {
       $('#pageContent .calendar').each(function() {
           var $this = $(this);
-          var data = calDataGenerater($this.data('exampleCount') || 100);
+          var data = calDataGenerater($this.data('exampleCount') || 10);
           $this.calendar({data: data, clickEvent: function(e) {
               console.log(e);
               $.zui.messager.show('您点击了 <strong>' + e.event.title + '</strong>');

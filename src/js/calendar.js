@@ -144,6 +144,7 @@
         storage: true,
         withHeader: true,
         dragThenDrop: true, // drag an event and drop at another day,
+        hideEmptyWeekends: true // Auto hide empty weekends
     };
 
     // Sort events by start datetime
@@ -446,13 +447,13 @@
                 $tr;
 
             for(i = 0; i < 7; i++) {
-                $weekHead.append('<th>' + lang.weekNames[i] + '</th>');
+                $('<th>' + lang.weekNames[i] + '</th>').toggleClass('weekend-head', i >= 5).appendTo($weekHead);
             }
 
             for(i = 0; i < 6; i++) {
                 $tr = $('<tr class="week-days"></tr>');
                 for(var j = 0; j < 7; j++) {
-                    $tr.append('<td class="cell-day"><div class="day"><div class="heading"><span class="month"></span> <span class="number"></span></div><div class="content"><div class="events"></div></div></div></td>');
+                    $('<td class="cell-day"><div class="day"><div class="heading"><span class="month"></span> <span class="number"></span></div><div class="content"><div class="events"></div></div></div></td>').toggleClass('weekend-day', j >= 5).appendTo($tr);
                 }
                 $monthDays.append($tr);
             }
@@ -484,6 +485,7 @@
             calendars = that.calendars,
             printDateId, isFirstDayOfWeek, $event, cal, $dayEvents;
 
+        var isEmptyWeekends = true;
         $weeks.each(function(weekIdx) {
             $week = $(this);
             $week.find('.day').each(function(dayIndex) {
@@ -516,6 +518,9 @@
                         if(!e || (e.placeholder && !isFirstDayOfWeek)) {
                             stripCount++;
                             continue;
+                        }
+                        if (isEmptyWeekends && dayIndex >= 5) {
+                            isEmptyWeekends = false;
                         }
                         $event = $('<div data-id="' + e.id + '" class="event" title="' + e.desc + '"><span class="time">' + e.start.format('hh:mm') + '</span> <span class="title">' + e.title + '</span></div>');
                         $event.find('.time').toggle(!e.allDay);
@@ -556,6 +561,9 @@
                 printDate.addDays(1);
             });
         });
+        if (options.hideEmptyWeekends) {
+            $view.toggleClass('weekends-empty', isEmptyWeekends);
+        }
 
         if(options.withHeader) {
             that.$caption.text(lang.yearMonth.format(thisYear, thisMonth + 1, lang.monthNames[thisMonth]));
