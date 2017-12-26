@@ -285,7 +285,7 @@
             $lastItem = isItem ? $li : null;
         });
 
-        that.$.callComEvent(that, 'onRender', [state, oldState]);
+        that.$.callComEvent(that, 'onRender', [state]);
         return that;
     };
 
