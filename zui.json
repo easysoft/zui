@@ -1159,6 +1159,16 @@
       "dpds": ["jqueryex", "panels", "droppable"],
       "require": ["jquery"]
     },
+    "tabs": {
+      "name": "标签页管理器",
+      "src": {
+        "less": ["~/views/tabs.less"],
+        "js": ["src/js/tabs.js"]
+      },
+      "ver": "1.8.0",
+      "dpds": ["jqueryex", "resize", "string", "sortable"],
+      "require": ["jquery"]
+    },
     "datatable": {
       "name": "数据表格",
       "src": {
@@ -1170,7 +1180,7 @@
       "require": ["jquery"]
     },
     "datagrid": {
-      "name": "数据网格",
+      "name": "数据表格②",
       "src": {
         "less": ["~/views/datagrid.less"],
         "js": ["src/js/datagrid.js"]
@@ -1379,7 +1389,7 @@
     },
     "seperate": {
       "title": "Seperate bundles",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap"]
     },
     "dist": {
       "title": "Dist bundles",
