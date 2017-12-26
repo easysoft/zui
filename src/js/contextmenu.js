@@ -48,7 +48,7 @@
             href: item.url,
             'class': item.className,
             style: item.style
-        }).data('item', item);
+        }).toggleClass('disabled', item.disabled === true).data('item', item);
         if (item.html) {
             $a.html(item.html);
         } else {
