@@ -20,7 +20,16 @@
 <script src="../../dist/lib/tabs/zui.tabs.js"></script>
 <script>
 $(function() {
-    $('#tabs').tabs();
+    $('#tabs').tabs({
+        tabs: [
+          {url: "datagrid.html", forbidClose: true},
+          {title: "ZUI", url: "http://zui.sexy"},
+          {url: "pager.html", defaultTitle: '分页器'},
+          {url: "../partial/remote-panel.html", type: 'ajax', defaultTitle: 'ajax 测试'},
+          {type: "custom", content: "haha", defaultTitle: '点击加载'},
+          {url: "pager2.html", defaultTitle: '错误页面测试'},
+        ]
+    });
 });
 </script>
 </body>

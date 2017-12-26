@@ -1,8 +1,153 @@
 .tabs {
-  min-height: 200px;
-  background-color: @color-gray-lighter;
+  min-height: 400px;
   position: relative;
 }
 
 .tabs-navbar {
+  padding: 4px 4px 0 4px;
+}
+.tabs-nav {
+  border-bottom: none;
+  user-select: none;
+  border-bottom: 1px solid #ddd;
+  height: 30px;
+}
+.tab-nav-item {
+  margin-bottom: 0;
+  border: none;
+  width: 160px;
+  padding-right: 2px;
+  max-width: 160px;
+  min-width: 0;
+
+  &:hover {
+    min-width: 95px;
+  }
+}
+.tab-nav-link {
+  margin: 0;
+  height: 30px;
+  border-bottom: none;
+  position: relative;
+  background-color: rgba(255,255,255,.65);
+  border-radius: 2px 2px 0 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+  border-color: #ddd;
+
+  > .title {
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 30px;
+    right: 5px;
+    line-height: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 14px;
+    text-overflow: ellipsis;
+  }
+
+  > .icon {
+    display: block;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    opacity: .8;
+
+    .tab-nav-item.loading &:before {
+      content: @icon-spinner-snake;
+      animation: spin 2s infinite linear;
+    }
+  }
+
+  > .close {
+    transition: all .2s;
+    opacity: 0;
+    position: absolute;
+    width: 20px;
+    font-weight: 200;
+    height: 20px;
+    text-align: center;
+    line-height: 16px;
+    top: 5px;
+    right: 5px;
+    visibility: hidden;
+    border-radius: @border-radius-base;
+    text-shadow: none;
+
+    &:hover {
+      background-color: @color-danger;
+      color: #fff;
+    }
+  }
+
+  &:hover {
+    > .title {
+      right: 25px;
+    }
+    > .close {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &.not-closable {
+    > .close {
+      display: none;
+    }
+  }
+}
+.nav-tabs.tabs-nav > li > a,
+.nav-tabs.tabs-nav > li > a:hover,
+.nav-tabs.tabs-nav > li > a:focus {
+  border-color: #ddd #ddd transparent #ddd;
+}
+.tab-nav-condensed {
+  .tab-nav-link {
+    > .title {
+      left: 5px;
+      text-overflow: initial;
+    }
+
+    > .icon {
+      display: none;
+    }
+  }
+}
+.tabs-container {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  > .tab-pane {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    &.active {
+      display: block;
+    }
+  }
+}
+.tab-iframe-cover {
+  display: none;
+
+  .tabs-show-contextmenu & {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
 }
