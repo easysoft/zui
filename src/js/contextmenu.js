@@ -119,8 +119,11 @@
         }).empty();;
         $target.hide().attr('class', 'contextmenu');
         var itemCreator = options.itemCreator || createMenuItem;
-        if (typeof items === 'string') {
+        var itemsType = typeof items;
+        if (itemsType === 'string') {
             items = items.split(',');
+        } else if (itemsType === 'function') {
+            items = items(options);
         }
         $.each(items, function(index, item) {
             $menu.append(itemCreator(item, index));
@@ -194,18 +197,28 @@
         if (isIE && trigger === 'contextmenu') trigger = 'mousedown';
 
         that.id = $.zui.uuid();
-        that.$.on(trigger + '.' + NAME, function(e) {
+        var eventHandler = function(e) {
             if (isIE && e.button !== 2) {
                 return;
             }
-            that.show({
+            var config = {
                 x: e.clientX,
                 y: e.clientY,
                 event: e
-            });
+            };
+            if (options.itemsCreator) {
+                config.items = options.itemsCreator.call(this, e);
+            }
+            that.show(config);
             e.preventDefault();
             return false;
-        });
+        };
+        var eventName = trigger + '.' + NAME;
+        if (options.selector) {
+            that.$.on(eventName, options.selector, eventHandler);
+        } else {
+            that.$.on(eventName, eventHandler);
+        }
     };
 
     ContextListener.prototype.destory = function () {
@@ -217,7 +230,8 @@
     };
 
     ContextListener.prototype.show = function (options, callback) {
-        ContextMenu.show($.extend({}, this.options, options), callback);
+        options = $.extend({}, this.options, options);
+        ContextMenu.show(options, callback);
     };
 
     // Extense jquery element
