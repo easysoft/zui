@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.7.0 - 2017-12-25
+ * ZUI: Standard edition - v1.7.0 - 2017-12-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -652,7 +652,7 @@
             $lastItem = isItem ? $li : null;
         });
 
-        that.$.callComEvent(that, 'onRender', [state, oldState]);
+        that.$.callComEvent(that, 'onRender', [state]);
         return that;
     };
 
@@ -4457,7 +4457,7 @@
             href: item.url,
             'class': item.className,
             style: item.style
-        }).data('item', item);
+        }).toggleClass('disabled', item.disabled === true).data('item', item);
         if (item.html) {
             $a.html(item.html);
         } else {

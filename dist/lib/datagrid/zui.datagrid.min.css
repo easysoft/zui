@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据网格 - v1.7.0 - 2017-12-25
+ * ZUI: 数据表格② - v1.7.0 - 2017-12-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
