@@ -254,6 +254,18 @@ Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的
       </td>
       <td>在自动决定情况下默认向下弹出，如果下方空间不够会自动改为向上弹出，搜索过程中不会改变弹出位置。</td>
     </tr>
+    <tr>
+      <td>`middle_highlight`</td>
+      <td>高亮的选项居中</td>
+      <td>
+        <ul>
+          <li><code>false</code>（默认) 不改变高亮选项位置</li>
+          <li><code>true</code>，当展开弹出菜单时滚动列表使得高亮的选项在弹出菜单的中间位置</li>
+          <li><code>"always"</code>，当展开弹出菜单时以及切换选择高亮的选项时滚动列表使得高亮的选项在弹出菜单的中间位置</li>
+        </ul>
+      </td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 
