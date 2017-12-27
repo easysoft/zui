@@ -247,12 +247,12 @@ Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的
       <td>选项列表弹出方向</td>
       <td>
         <ul>
-          <li><code>"auto"</code>（默认) 自动决定</li>
+          <li><code>"auto"</code>（默认) 根据弹出时根据弹出菜单高度和所在位置自动决定</li>
           <li><code>"down"</code></li>
           <li><code>"up"</code></li>
         </ul>
       </td>
-      <td>在自动决定情况下默认向下弹出，如果下方空间不够会自动改为向上弹出</td>
+      <td>在自动决定情况下默认向下弹出，如果下方空间不够会自动改为向上弹出，搜索过程中不会改变弹出位置。</td>
     </tr>
   </tbody>
 </table>

@@ -918,10 +918,15 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
             var dropDirection = this.drop_direction;
             if(dropDirection === 'auto') {
-                var $drop = this.container.find('.chosen-drop');
-                var offset = this.container.offset();
-                if(offset.top + $drop.outerHeight() + 30 > $(window).height() + $(window).scrollTop()) {
-                    dropDirection = 'up';
+                if (!this.drop_directionFixed) {
+                    var $drop = this.container.find('.chosen-drop');
+                    var offset = this.container.offset();
+                    if(offset.top + $drop.outerHeight() + 30 > $(window).height() + $(window).scrollTop()) {
+                        dropDirection = 'up';
+                    }
+                    this.drop_directionFixed = dropDirection;
+                } else {
+                    dropDirection = this.drop_directionFixed;
                 }
             }
             this.container.toggleClass('chosen-up', dropDirection === 'up');
@@ -942,6 +947,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 this.form_field_jq.trigger("chosen:hiding_dropdown", {
                     chosen: this
                 });
+                this.drop_directionFixed = 0;
             }
             return this.results_showing = false;
         };
