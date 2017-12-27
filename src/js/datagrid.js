@@ -297,7 +297,30 @@
                     that.checkRow($(this).data('row'));
                 });
             }
+        }
 
+        // Init pager
+        if ($.fn.pager) {
+            var $pager = that.$.find('.pager');
+            if ($pager.length) {
+                that.pagerObj = $pager.pager($.extend({}, that.pager, {
+                    onPageChange: function(pageInfo) {
+                        that.setPager(pageInfo).render();
+                    }
+                })).data('zui.pager');
+            }
+        }
+
+        // Init searchbox
+        if ($.fn.searchBox) {
+            var $searchBox = that.$.find('.search-box');
+            if($searchBox)  {
+                that.searchbox = $searchBox.searchBox({
+                    onSearchChange: function (searchString) {
+                        that.search(searchString);
+                    }
+                });
+            }
         }
 
         that.$.callComEvent(that, 'onReady', [that]);
@@ -311,10 +334,10 @@
             page = page.page;
         }
         var pager = that.pager;
+        var oldPager = $.extend({}, pager);
         if (!pager) {
             pager = $.extend({}, DEFAULT_PAGER);
         }
-        var oldPage = pager.page;
         if (typeof recPerPage === 'number' && recPerPage > 0) {
             pager.recPerPage = recPerPage;
         }
@@ -338,8 +361,13 @@
         pager.skip = pager.page > 1 ? ((pager.page - 1) * pager.recPerPage) : 0;
         pager.end = pager.skip + pager.pageRecCount;
         that.pager = pager;
-        if (oldPage !== pager.page) {
+
+        if (oldPager.page !== pager.page || oldPager.recTotal !== pager.recTotal || oldPager.recPerPage !== pager.recPerPage) {
             that.layout.cols = null;
+            if (that.pagerObj) {
+                that.pagerObj.set(pager);
+            }
+            that.scroll(0, 0);
         }
         return that;
     };
@@ -407,7 +435,6 @@
             that.setPager('', dataSource.length);
         }
         that.dataSource = dataSource;
-        console.log(!dataSource.data && $.isFunction(dataSource.getByIndex), dataSource.getByIndex, that.pager, that.dataSource);
 
         cols = cols || dataSource.cols || oldcols || [];
         if (cols.length) {
@@ -783,6 +810,8 @@
             }
             layout.width = cellsTotalWidth;
             layout.cols = colsLayout;
+
+            console.log('Layout cols update', layout);
         }
 
         layout.containerWidth  = containerWidth;
@@ -944,7 +973,7 @@
             }
         }
         that.renderRow(rowIndex);
-        if (rowIndex === 0) {
+        if (rowIndex === 0 && that.layout.rowsLength < 500) {
             for (var i = 1; i < that.layout.rowsLength; ++i) {
                 that.checkRow(i, checked);
             }
