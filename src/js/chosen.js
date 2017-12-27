@@ -16,6 +16,8 @@
  * 1. New option 'drop_direction': 'auto' | 'top' | 'bottom';
  * 2. Enhance the search experience, support search items by custom data
  *    with 'data-keys=*' attribute in option;
+ * 3. ‘middle_highlight’ option can make hightlight item in the middle of
+ *    the dropdown menu
  * ======================================================================== */
 
 
