@@ -1,7 +1,7 @@
 /* ========================================================================
  * Chosen: chosen.js [version 1.1.0]
  * https://github.com/harvesthq/chosen
- * 
+ *
  * Chosen, a Select Box Enhancer for jQuery and Prototype
  * by Patrick Filler for Harvest, http://getharvest.com
  *
@@ -14,7 +14,7 @@
  * ========================================================================
  * Improvement in ZUI:
  * 1. New option 'drop_direction': 'auto' | 'top' | 'bottom';
- * 2. Enhance the search experience, support search items by custom data 
+ * 2. Enhance the search experience, support search items by custom data
  *    with 'data-keys=*' attribute in option;
  * ======================================================================== */
 
@@ -113,7 +113,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                         group_array_index: group_position,
                         classes: option.className,
                         style: option.style.cssText,
-                        search_keys: ($.trim(option.getAttribute('data-keys') || '')).replace(/,/, ' ')
+                        search_keys: ($.trim(option.getAttribute('data-keys') || '') + option.value).replace(/,/, ' ')
                     });
                 } else {
                     this.parsed.push({
