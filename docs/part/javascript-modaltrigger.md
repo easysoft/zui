@@ -220,7 +220,7 @@ $('#triggerButton').modalTrigger({icon: 'heart'});
 
 ## 可拖动的对话框
 
-开启此选项可以允许用户在对话框显示之后通过拖拽头部移动对话框。
+开启此选项可以允许用户在对话框显示之后通过拖拽头部移动对话框。完整例子参见 [JS 插件 -> 对话框](#javascript/modaltrigger/5)。
 
 <div class="example">
   <button type="button" class="btn btn-primary" data-icon="move" data-moveable="true" data-toggle="modal" data-custom="<div><p>拖动我的头部来移动此对话框。</p><h1>:)</h1></div>" id="modalTriggerMoveable"><i class="icon icon-move"></i> 打开我 拖动我</button>
@@ -398,8 +398,13 @@ myModalTrigger.show();
     <tr>
       <td>`moveable`</td>
       <td>可移动的</td>
-      <td>*   `false`（默认），不启用；
-*   `true`，启用；</td>
+      <td>
+        <ul>
+          <li><code>false</code>：不启用（默认）；</li>
+          <li><code>true</code>：启用；</li>
+          <li><code>'inside'</code>：启用并限制对话框只能移动到窗口内部。</li>
+        </ul>
+      </td>
       <td>是否启用对话框拖拽移动功能</td>
     </tr>
     <tr>

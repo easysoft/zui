@@ -142,7 +142,7 @@ filter: dhk mtk duihuakuang motaikuang
 </div>
 
 ```html
-<button type="button" class="btn" data-moveable="true" data-toggle="modal" data-target="#myModal">默认位置</button>
+<button type="button" class="btn" data-moveable="true" data-toggle="modal" data-target="#myModal">打开我 拖动我</button>
 ```
 
 通过设置`rememberPos`为`true`来记住对话框移动之后的位置。`rememberPos`可取的值如下：
@@ -153,6 +153,12 @@ filter: dhk mtk duihuakuang motaikuang
 
 <div class="example">
   <button type="button" class="btn btn-primary" data-moveable="true" data-remember-pos="rememberMoveableModal" data-toggle="modal" data-target="#rememberMoveableModal"><i class="icon icon-move"></i> 打开我 拖动我</button>
+</div>
+
+通过将 `moveable` 设置为 `inside` 来启用拖放移动，但禁止移动对话框到窗口可视区域之外。
+
+<div class="example">
+  <button type="button" class="btn btn-primary" data-moveable="inside" data-remember-pos="false" data-toggle="modal" data-target="#moveableModal" data-position="center"><i class="icon icon-move"></i> 打开我 拖动我</button>
 </div>
 
 ## 禁用动画效果
@@ -253,18 +259,27 @@ $('#myModal').modal(options)
     <tr>
       <td>`position`</td>
       <td>显示位置</td>
-      <td>*   `'fit'`（默认），最佳位置；
-*   `'center'`，显示在窗口中间；
-*   `''`，显示在最顶部；
-*   `200`，数字用来指定距离顶部的像素；
-*   CSS支持的所有表示位置的值，用来指定距离顶部的偏移；</td>
+      <td>
+        <ul>
+          <li><code>'fit'</code>：最佳位置（默认）；</li>
+          <li><code>'center'</code>：显示在窗口中间；</li>
+          <li><code>'0'</code>：显示在最顶部；</li>
+          <li><code>'200'</code>：数字用来指定距离顶部的像素；</li>
+          <li>CSS支持的所有表示位置的值，用来指定距离顶部的偏移。</li>
+        </ul>
+      </td>
       <td>默认位置是在窗口中部稍偏上的地方。</td>
     </tr>
     <tr>
       <td>`moveable`</td>
       <td>可移动的</td>
-      <td>*   `false`（默认），不启用；
-*   `true`，启用；</td>
+      <td>
+        <ul>
+          <li><code>false</code>：不启用（默认）；</li>
+          <li><code>true</code>：启用；</li>
+          <li><code>'inside'</code>：启用并限制对话框只能移动到窗口内部。</li>
+        </ul>
+      </td>
       <td>是否启用对话框拖拽移动功能</td>
     </tr>
     <tr>
