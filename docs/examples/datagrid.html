@@ -12,15 +12,22 @@
 </head>
 
 <body style="padding: 20px">
+  <div id="dataGrid2" class="datagrid">
+    <header>
+      <div class="input-control search-box search-box-circle has-icon-left has-icon-right pull-right" id="searchboxExample">
+        <input id="inputSearchExample1" type="search" class="form-control search-input" placeholder="搜索">
+        <label for="inputSearchExample1" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label>
+        <a href="#" class="input-control-icon-right search-clear-btn"><i class="icon icon-remove"></i></a>
+      </div>
+      <h1>数据表格功能综合演示</h1>
+    </header>
+    <div class="datagrid-container"></div>
+    <div class="pager"></div>
+  </div>
   <div id="dataGrid" class="datagrid">
     <header>
       <h1>数据表格海量数据测试</h1>
       <p class="small">全新的数据表格视图组件可以流畅显示上亿的动态数据，完整功能包括自动分页、搜索、远程数据加载、行选择、跨行跨列、行列固定、排序等。此组件将于ZUI 1.8中发布。</p>
-    </header>
-  </div>
-  <div id="dataGrid2" class="datagrid">
-    <header>
-      <h1>其他功能测试</h1>
     </header>
   </div>
 
@@ -221,7 +228,7 @@ $(function() {
         },
         dataSource: {
             cols: sampleData.dataSource.cols,
-            data: sampleData.generate(2000),
+            data: sampleData.generate(20000),
             cache: true,
         },
         valueOperator: sampleData.valueOperator,
@@ -232,9 +239,10 @@ $(function() {
         renderDelay: 200,
     }
     var datagrid = $('#dataGrid').datagrid(options1).data('zui.datagrid');
-    console.log('datagrid', datagrid);
+    console.log('datagrid1', datagrid);
 
-    $('#dataGrid2').datagrid(options2)
+    var datagrid2 = $('#dataGrid2').datagrid(options2).data('zui.datagrid');
+    console.log('datagrid2', datagrid2);
 });
 </script>
 </body>
