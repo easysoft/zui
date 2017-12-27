@@ -168,7 +168,7 @@
     Pager.prototype.createGoto = function() {
         var that = this;
         var pager = this.state;
-        var $goto = $('<div class="input-group pager-goto"><input value="' + pager.page + '" type="number" min="1" max="' + pager.totalPage + '" placeholder="' + pager.page + '" class="form-control pager-goto-input"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
+        var $goto = $('<div class="input-group pager-goto"><input value="' + pager.page + '" type="number" min="1" max="' + pager.totalPage + '" placeholder="' + pager.page + '" class="form-control pager-goto-input" style="width: ' + (35 + (pager.page + '').length * 9) + 'px"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
         return $goto;
     };
 
@@ -291,7 +291,7 @@
 
     // default options
     Pager.DEFAULTS = $.extend({
-        elements: ['first', '|', 'prev_icon', 'pages', 'next', 'last_icon', 'goto', 'size_menu', '|', 'total_text', 'page_text', 'total_page_text', 'page_of_total_text', 'page_size_text', 'items_range_text'],
+        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'goto', 'size_menu', '|', 'items_range_text', 'total_text', 'page_of_total_text'],
         prevIcon: 'icon-double-angle-left',
         nextIcon: 'icon-double-angle-right',
         firstIcon: 'icon-step-backward',
