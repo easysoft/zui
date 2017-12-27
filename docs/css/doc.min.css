@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.7.0 - 2017-12-25
+ * ZUI: Document - v1.7.0 - 2017-12-27
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT

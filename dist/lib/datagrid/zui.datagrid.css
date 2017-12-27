@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.7.0 - 2017-12-26
+ * ZUI: 数据表格② - v1.7.0 - 2017-12-27
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -40,6 +40,9 @@
   }
 .datagrid-cell.datagrid-cell-head {
   background-color: #f1f1f1;
+  }
+.datagrid-cell-span {
+  z-index: 10;
   }
 .datagrid-row {
   position: absolute;

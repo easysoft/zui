@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.7.0 - 2017-12-26
+ * ZUI: 数据表格② - v1.7.0 - 2017-12-27
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -526,7 +526,30 @@
                     that.checkRow($(this).data('row'));
                 });
             }
+        }
 
+        // Init pager
+        if ($.fn.pager) {
+            var $pager = that.$.find('.pager');
+            if ($pager.length) {
+                that.pagerObj = $pager.pager($.extend({}, that.pager, {
+                    onPageChange: function(pageInfo) {
+                        that.setPager(pageInfo).render();
+                    }
+                })).data('zui.pager');
+            }
+        }
+
+        // Init searchbox
+        if ($.fn.searchBox) {
+            var $searchBox = that.$.find('.search-box');
+            if($searchBox)  {
+                that.searchbox = $searchBox.searchBox({
+                    onSearchChange: function (searchString) {
+                        that.search(searchString);
+                    }
+                });
+            }
         }
 
         that.$.callComEvent(that, 'onReady', [that]);
@@ -540,10 +563,10 @@
             page = page.page;
         }
         var pager = that.pager;
+        var oldPager = $.extend({}, pager);
         if (!pager) {
             pager = $.extend({}, DEFAULT_PAGER);
         }
-        var oldPage = pager.page;
         if (typeof recPerPage === 'number' && recPerPage > 0) {
             pager.recPerPage = recPerPage;
         }
@@ -567,8 +590,13 @@
         pager.skip = pager.page > 1 ? ((pager.page - 1) * pager.recPerPage) : 0;
         pager.end = pager.skip + pager.pageRecCount;
         that.pager = pager;
-        if (oldPage !== pager.page) {
+
+        if (oldPager.page !== pager.page || oldPager.recTotal !== pager.recTotal || oldPager.recPerPage !== pager.recPerPage) {
             that.layout.cols = null;
+            if (that.pagerObj) {
+                that.pagerObj.set(pager);
+            }
+            that.scroll(0, 0);
         }
         return that;
     };
@@ -636,7 +664,6 @@
             that.setPager('', dataSource.length);
         }
         that.dataSource = dataSource;
-        console.log(!dataSource.data && $.isFunction(dataSource.getByIndex), dataSource.getByIndex, that.pager, that.dataSource);
 
         cols = cols || dataSource.cols || oldcols || [];
         if (cols.length) {
@@ -1012,6 +1039,8 @@
             }
             layout.width = cellsTotalWidth;
             layout.cols = colsLayout;
+
+            console.log('Layout cols update', layout);
         }
 
         layout.containerWidth  = containerWidth;
@@ -1021,6 +1050,7 @@
         layout.rowsLength      = dataLength + 1;
         layout.colsLength      = layout.cols.length;
         layout.height          = layout.headerHeight + dataLength * (layout.rowHeight + layout.borderWidth);
+        layout.spanMap         = {};
 
         var containerHeight = options.height;
         if (containerHeight === 'page') {
@@ -1075,6 +1105,21 @@
             config: config,
             checked: that.isRowChecked(config.rowId)
         };
+        var spanMap = that.layout.spanMap;
+        if (spanMap[config.id] || config.hidden) {
+            cell.hidden = true;
+        } else if ((config.colspan && config.colspan > 1) || (config.rowspan && config.rowspan > 1)) {
+            var rowSpanEnd = rowIndex + (config.rowspan || 1);
+            var colSpanEnd = colIndex + (config.colspan || 1);
+            for (var r = rowIndex; r < rowSpanEnd; ++r) {
+                for (var c = colIndex; c < colSpanEnd; ++c) {
+                    if (r !== rowIndex || c !== colIndex) {
+                        spanMap['R' + r + 'C' + c] = config.id;
+                    }
+                }
+            }
+            config.span = true;
+        }
         return cell;
     };
 
@@ -1108,7 +1153,8 @@
     DataGrid.prototype.getColConfig = function(colIndex) {
         var that = this;
         var colId = 'C' + colIndex;
-        var config = that.configsCache[colId];
+        // var config = that.configsCache[colId];
+        var config = null;
         if (!config) {
             config = $.extend(
                 {
@@ -1125,7 +1171,7 @@
                 that.isFuncConfigs ? that.configs(colId) : that.configs[colId],
                 that.userConfigs[colId]
             );
-            that.configsCache[colId] = config;
+            // that.configsCache[colId] = config;
         }
         return config;
     };
@@ -1137,13 +1183,13 @@
         var config = null;
         if (!config) {
             config = $.extend(
-                {},
+                {id: cellId},
                 that.getColConfig(colIndex),
                 that.getRowConfig(rowIndex),
                 that.isFuncConfigs ? that.configs(cellId) : that.configs[cellId],
                 that.userConfigs[cellId]
             );
-            that.configsCache[cellId] = config;
+            // that.configsCache[cellId] = config;
         }
         return config;
     };
@@ -1173,7 +1219,7 @@
             }
         }
         that.renderRow(rowIndex);
-        if (rowIndex === 0) {
+        if (rowIndex === 0 && that.layout.rowsLength < 500) {
             for (var i = 1; i < that.layout.rowsLength; ++i) {
                 that.checkRow(i, checked);
             }
@@ -1185,7 +1231,13 @@
         var that       = this;
         var options    = that.options;
         var cell       = that.getCell(rowIndex, colIndex);
-        var isCheckbox = cell.config.checkbox;
+        var config     = cell.config;
+
+        if (cell.hidden) {
+            return;
+        }
+
+        var isCheckbox = config.checkbox;
         var elementId  = [that.id, 'cell', rowIndex, colIndex].join('-');
         var $cell      = $('#' + elementId);
         if (!$cell.length) {
@@ -1211,34 +1263,47 @@
 
         // Caculate cell style
         var borderWidth = options.borderWidth;
-        var colsLength = that.layout.colsLength;
+        var layout = that.layout;
+        var colsLength = layout.colsLength;
         var cellBoundsStyle = {
             top: borderWidth ? -borderWidth : 0,
             bottom: borderWidth ? -borderWidth : 0,
-            left: borderWidth ? (cell.config.left - borderWidth) : cell.config.left,
-            width: borderWidth ? (cell.config.width + ((colsLength - 1) === colIndex ? 2 : 1) * borderWidth) : cell.config.width,
+            left: borderWidth ? (config.left - borderWidth) : config.left,
+            width: borderWidth ? (config.width + ((colsLength - 1) === colIndex ? 2 : 1) * borderWidth) : config.width,
             borderWidth: borderWidth
         };
-        var configStyle = cell.config.style;
+        if (config.span) {
+            if (config.rowspan && config.rowspan > 1) {
+                cellBoundsStyle.bottom -= (config.rowspan - 1) * (layout.rowHeight + borderWidth);
+            }
+            if (config.colspan && config.colspan > 1) {
+                var colspanEnd = colIndex + config.colspan;
+                for (var i = colIndex + 1; i < colspanEnd; ++i) {
+                    var theSpanCell = that.getCell(rowIndex, i);
+                    cellBoundsStyle.width += theSpanCell.config.width;
+                }
+            }
+        }
+        var configStyle = config.style;
         if ($.isFunction(configStyle)) {
             configStyle = configStyle(cell, cellBoundsStyle, that);
         }
         var style = $.extend({}, configStyle, cellBoundsStyle);
-        $cell.css(style);
+        $cell.css(style).toggleClass('datagrid-cell-span', !!config.span);
 
         if (options.cellFormator) {
             options.cellFormator($cell, cell);
         } else {
             var $content = isCheckbox ? $cell.find('.content') : $cell;
             $content[cell.html ? 'html' : 'text'](cell.value);
-            if (cell.config.className) {
-                $cell.addClass(cell.config.className);
+            if (config.className) {
+                $cell.addClass(config.className);
             }
         }
 
-        if (colIndex > 0 && rowIndex === 0 && options.sortable && cell.config.sort !== false) {
+        if (colIndex > 0 && rowIndex === 0 && options.sortable && config.sort !== false) {
             var sorted = false;
-            if (cell.config.name === that.states.sortBy) {
+            if (config.name === that.states.sortBy) {
                 sorted = that.states.order === 'desc' ? 'down' : 'up';
             }
             var $sorter = $cell.find('.datagrid-sorter');
@@ -1350,6 +1415,8 @@
 
         that.loadData(function() {
             var layout = that.updateLayout();
+
+            console.log('layout', layout.spanMap);
 
             that.$cells.css({
                 width: layout.width,

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.7.0 - 2017-12-26
+ * ZUI: Lite edition - v1.7.0 - 2017-12-27
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -516,29 +516,39 @@
     'use strict';
     var desktopLg = 1200,
         desktop = 992,
-        tablet = 768,
-        cssNames = {
-            desktop: 'screen-desktop',
-            desktopLg: 'screen-desktop-wide',
-            tablet: 'screen-tablet',
-            phone: 'screen-phone',
-            isMobile: 'device-mobile',
-            isDesktop: 'device-desktop',
-            touch: 'is-touchable'
-        };
+        tablet = 768;
 
     var $window = $(window);
 
     var resetCssClass = function() {
         var width = $window.width();
-        $('html').toggleClass(cssNames.desktop, width >= desktop && width < desktopLg)
-            .toggleClass(cssNames.desktopLg, width >= desktopLg)
-            .toggleClass(cssNames.tablet, width >= tablet && width < desktop)
-            .toggleClass(cssNames.phone, width < tablet)
-            .toggleClass(cssNames.isMobile, width < desktop)
-            .toggleClass(cssNames.touch, 'ontouchstart' in document.documentElement)
-            .toggleClass(cssNames.isDesktop, width >= desktop);
+        $('html').toggleClass('screen-desktop', width >= desktop && width < desktopLg)
+            .toggleClass('screen-desktop-wide', width >= desktopLg)
+            .toggleClass('screen-tablet', width >= tablet && width < desktop)
+            .toggleClass('screen-phone', width < tablet)
+            .toggleClass('device-mobile', width < desktop)
+            .toggleClass('device-desktop', width >= desktop);
     };
+
+    var classNames = '';
+    var userAgent = navigator.userAgent;
+    if (userAgent.match(/(iPad|iPhone|iPod)/i)) {
+        classNames += ' os-ios';
+    } else if (userAgent.match(/android/i)) {
+        classNames += ' os-android';
+    } else if (userAgent.match(/Win/i)) {
+        classNames += ' os-windows';
+    } else if (userAgent.match(/Mac/i)) {
+        classNames += ' os-mac';
+    } else if (userAgent.match(/Linux/i)) {
+        classNames += ' os-linux';
+    } else if (userAgent.match(/X11/i)) {
+        classNames += ' os-unix';
+    }
+    if ('ontouchstart' in document.documentElement) {
+        classNames += ' is-touchable';
+    }
+    $('html').addClass(classNames);
 
     $window.resize(resetCssClass);
     resetCssClass();
@@ -1630,23 +1640,24 @@
 
     var zuiname = 'zui.modal'
     var Modal = function(element, options) {
-        this.options = options
-        this.$body = $(document.body)
-        this.$element = $(element)
-        this.$backdrop =
-            this.isShown = null
-        this.scrollbarWidth = 0
+        var that = this;
+        that.options = options
+        that.$body = $(document.body)
+        that.$element = $(element)
+        that.$backdrop =
+            that.isShown = null
+        that.scrollbarWidth = 0
 
-        if(typeof this.options.moveable === 'undefined') {
-            this.options.moveable = this.$element.hasClass('modal-moveable');
+        if(options.moveable === undefined) {
+            that.options.moveable = that.$element.hasClass('modal-moveable');
         }
 
-        if(this.options.remote) {
-            this.$element
+        if(options.remote) {
+            that.$element
                 .find('.modal-content')
-                .load(this.options.remote, $.proxy(function() {
-                    this.$element.trigger('loaded.' + zuiname)
-                }, this))
+                .load(options.remote, function() {
+                    that.$element.trigger('loaded.' + zuiname)
+                })
         }
     }
 
@@ -1662,26 +1673,35 @@
         // rememberPos: false,
         // moveable: false,
         position: 'fit' // 'center' or '40px' or '10%'
-    }
+    };
+
+    var setDialogPos = function($dialog, pos) {
+        var $window = $(window);
+        pos.left = Math.max(0, Math.min(pos.left, $window.width() - $dialog.outerWidth()));
+        pos.top = Math.max(0, Math.min(pos.top, $window.height() - $dialog.outerHeight()));
+        $dialog.css(pos);
+    };
 
     Modal.prototype.toggle = function(_relatedTarget, position) {
         return this.isShown ? this.hide() : this.show(_relatedTarget, position)
     }
 
     Modal.prototype.ajustPosition = function(position) {
-        if(typeof position === 'undefined') position = this.options.position;
+        var that = this;
+        var options = that.options;
+        if(typeof position === 'undefined') position = options.position;
         if(typeof position === 'undefined') return;
-        var $dialog = this.$element.find('.modal-dialog');
+        var $dialog = that.$element.find('.modal-dialog');
         // if($dialog.hasClass('modal-dragged')) return;
 
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
         var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
-            var rememberPos = this.options.rememberPos;
+            var rememberPos = options.rememberPos;
             if(rememberPos) {
                 if(rememberPos === true) {
-                    pos = this.$element.data('modal-pos');
+                    pos = that.$element.data('modal-pos');
                 } else if($.zui.store) {
                     pos = $.zui.store.pageGet(zuiname + '.rememberPos.' + rememberPos);
                 }
@@ -1692,7 +1712,11 @@
                     top: topPos
                 };
             }
-            $dialog.css(pos);
+            if (options.moveable === 'inside') {
+                setDialogPos($dialog, pos);
+            } else {
+                $dialog.css(pos);
+            }
         } else {
             $dialog.css('margin-top', topPos);
         }
@@ -1703,7 +1727,7 @@
         var that = this;
         var options = that.options;
         var $dialog = that.$element.find('.modal-dialog').removeClass('modal-dragged');
-        $dialog.toggleClass('modal-moveable', options.moveable);
+        $dialog.toggleClass('modal-moveable', !!options.moveable);
 
         if(!that.$element.data('modal-moveable-setup')) {
             $dialog.draggable({
@@ -1720,7 +1744,10 @@
                             $.zui.store.pageSet(zuiname + '.rememberPos.' + rememberPos, e.pos);
                         }
                     }
-                }
+                },
+                move: options.moveable === 'inside' ? function (dragPos) {
+                    setDialogPos($dialog, dragPos);
+                } : true
             });
         }
     }

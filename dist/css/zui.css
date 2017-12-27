@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.7.0 - 2017-12-26
+ * ZUI: Standard edition - v1.7.0 - 2017-12-27
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -4158,6 +4158,12 @@ textarea.form-control {
   margin-top: 3px;
   margin-top: 4px \9;
   margin-left: -20px;
+  }
+.os-android .radio input[type="radio"],
+.os-android .radio-inline input[type="radio"],
+.os-android .checkbox input[type="checkbox"],
+.os-android .checkbox-inline input[type="checkbox"] {
+  margin-top: 0;
   }
 .radio + .radio,
 .checkbox + .checkbox {
