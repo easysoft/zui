@@ -908,7 +908,8 @@
     DataGrid.prototype.getColConfig = function(colIndex) {
         var that = this;
         var colId = 'C' + colIndex;
-        var config = that.configsCache[colId];
+        // var config = that.configsCache[colId];
+        var config = null;
         if (!config) {
             config = $.extend(
                 {
@@ -925,7 +926,7 @@
                 that.isFuncConfigs ? that.configs(colId) : that.configs[colId],
                 that.userConfigs[colId]
             );
-            that.configsCache[colId] = config;
+            // that.configsCache[colId] = config;
         }
         return config;
     };
@@ -943,7 +944,7 @@
                 that.isFuncConfigs ? that.configs(cellId) : that.configs[cellId],
                 that.userConfigs[cellId]
             );
-            that.configsCache[cellId] = config;
+            // that.configsCache[cellId] = config;
         }
         return config;
     };
