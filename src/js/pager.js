@@ -168,7 +168,7 @@
     Pager.prototype.createGoto = function() {
         var that = this;
         var pager = this.state;
-        var $goto = $('<div class="input-group pager-goto"><input value="' + pager.page + '" type="number" placeholder="' + pager.page + '" class="form-control pager-goto-input"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
+        var $goto = $('<div class="input-group pager-goto"><input value="' + pager.page + '" type="number" min="1" max="' + pager.totalPage + '" placeholder="' + pager.page + '" class="form-control pager-goto-input"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
         return $goto;
     };
 
