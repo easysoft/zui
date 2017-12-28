@@ -103,7 +103,7 @@
         var $this = this;
         var result = $this.triggerHandler(eventName, params);
 
-        const eventCallback = component.options[eventName];
+        var eventCallback = component.options[eventName];
         if (eventCallback) {
             result = eventCallback.apply(component, params);
         }
