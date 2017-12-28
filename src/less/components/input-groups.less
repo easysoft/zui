@@ -1,7 +1,7 @@
 /// ========================================================================
 /// Bootstrap: input-group.less
 /// https://github.com/twbs/bootstrap/blob/master/less/input-group.less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// Bootsrap version in the future.
 /// http://zui.sexy
@@ -85,7 +85,11 @@
     border-right: 0;
   }
 
-  &:empty,
+  &:empty {
+    padding: 0;
+    width: 1px;
+  }
+
   &.fix-padding {
     padding: 0;
     width: 1px;
