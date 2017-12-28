@@ -193,12 +193,10 @@
         options = that.options = $.extend({trigger: 'contextmenu'}, ContextMenu.DEFAULTS, this.$.data(), options);
 
         var trigger = options.trigger;
-        var isIE = $.zui.browser && $.zui.browser.ie && $.zui.browser.ie < 11;
-        if (isIE && trigger === 'contextmenu') trigger = 'mousedown';
 
         that.id = $.zui.uuid();
         var eventHandler = function(e) {
-            if (isIE && e.button !== 2) {
+            if (e.type === 'mousedown' && e.button !== 2) {
                 return;
             }
             var config = {
@@ -211,6 +209,7 @@
             }
             that.show(config);
             e.preventDefault();
+            e.returnValue = false; // 解决IE8右键弹出
             return false;
         };
         var eventName = trigger + '.' + NAME;
