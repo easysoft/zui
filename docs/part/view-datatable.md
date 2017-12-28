@@ -7,6 +7,11 @@ filter: shujubiaoge sjbg
 
 # 数据表格
 
+<div class="alert alert-info">
+  <h4>数据表格即将淘汰</h4>
+  <p>数据表格即将淘汰，请使用全新的数据表格2，更多功能，<a class="alert-link" href="#view/datagrid">立即使用</a>。</p>
+</div>
+
 数据表格插件是一个展示大量数据的强力工具。
 
 <div class="alert alert-warning">

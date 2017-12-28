@@ -2,6 +2,11 @@
 
 文件上传视图提供文件列表管理和文件批量上传功能，允许拖拽（需要 HTML5 支持）来添加上传文件，支持大文件分片上传，优先使用 HTML5 文件上传功能，旧的浏览器自动使用 Flash 和 Silverlight 的方式兼容，还可用轻松搭配七牛云存储 Javascript SDK 使用。该插件基于 <a href="http://www.plupload.com/" target="_blank">plupload</a> 开发。
 
+<div class="alert alert-warning">
+  <h4>兼容性提示</h4>
+  <p>文件上传视图不支持 IE9 以下的浏览器。</p>
+</div>
+
 ## 综合示例
 
 在下面的例子中点击 “选择文件” 按钮或者拖拽文件到页面指示区域来选择文件，点击 “开始上传” 按钮来批量上传文件到服务器。
