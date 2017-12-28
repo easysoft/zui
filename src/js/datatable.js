@@ -12,7 +12,7 @@
 
     /**
      * Datatable class
-     * 
+     *
      * @param object element           DOM element or jquery element
      * @param object options           Datatable options
      */
@@ -549,9 +549,7 @@
                 flexWidth = $flexArea.width();
                 $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
                 tableWidth = 0;
-                $flexTable.find('tr:first').children('td, th').each(function() {
-                    tableWidth += $(this).width();
-                });
+                tableWidth = $flexTable.width();
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
                 $bar.css('width', scrollWidth);
                 $flexTable.css('min-width', flexWidth);
