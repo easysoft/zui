@@ -46,7 +46,7 @@
       cursor: pointer;
       z-index: 10;
 
-      &:before { content: '\e6f1'; }
+      &:before { content: @icon-check-plus; }
 
       &:hover,
       &:active {
@@ -57,7 +57,7 @@
     &.open {
       > ul { display: block; }
 
-      > .list-toggle:before { content: '\e6f2'; }
+      > .list-toggle:before { content: @icon-check-minus; }
     }
   }
 }
@@ -135,7 +135,7 @@
       border: none;
       border-left: 1px dotted #999;
       top: -12px;
-      bottom: 13px;
+      bottom: 12px;
       left: -11px;
     }
 
@@ -145,7 +145,7 @@
     }
 
     &:first-child:before {
-      top: -7px;
+      top: -5px;
     }
 
     &.tree-single-item:before {
