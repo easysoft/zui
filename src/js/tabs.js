@@ -73,6 +73,22 @@
             closeRight: '关闭右侧标签页',
             reopenLast: '恢复上次关闭的标签页',
             errorCannotFetchFromRemote: '无法从远程服务器（{0}）获取内容。'
+        },
+        zh_cn: {
+            reload: '重新加載',
+            close: '關閉',
+            closeOthers: '關閉其他標籤頁',
+            closeRight: '關閉右側標籤頁',
+            reopenLast: '恢復上次關閉的標籤頁',
+            errorCannotFetchFromRemote: '無法從遠程服務器（{0}）獲取內容。'
+        },
+        en: {
+            reload: 'Reload',
+            close: 'Close',
+            closeOthers: 'Close others',
+            closeRight: 'Close right',
+            reopenLast: 'Reopen last',
+            errorCannotFetchFromRemote: 'Cannot fetch data from remote server {0}.'
         }
     };
 

@@ -30,6 +30,32 @@
             pageSize: '每页 <strong>{recPerPage}</strong> 项',
             itemsRange: '第 <strong>{start}</strong> ~ <strong>{end}</strong> 项',
             pageOfTotal: '第 <strong>{page}</strong>/<strong>{totalPage}</strong> 页'
+        },
+        zh_tw: {
+            prev: '上一頁',
+            next: '下一頁',
+            first: '第一頁',
+            last: '最後一頁',
+            goto: '跳轉',
+            pageOf: '第 <strong>{page}</strong> 頁',
+            totalPage: '共 <strong>{totalPage}</strong> 頁',
+            totalCount: '共 <strong>{recTotal}</strong> 項',
+            pageSize: '每頁 <strong>{recPerPage}</strong> 項',
+            itemsRange: '第 <strong>{start}</strong> ~ <strong>{end}</strong> 項',
+            pageOfTotal: '第 <strong>{page}</strong>/<strong>{totalPage}</strong> 頁'
+        },
+        en: {
+            prev: 'Prev',
+            next: 'Next',
+            first: 'First',
+            last: 'Last',
+            goto: 'Goto',
+            pageOf: 'Page <strong>{page}</strong>',
+            totalPage: '<strong>{totalPage}</strong> pages',
+            totalCount: '<strong>{recTotal}</strong> items',
+            pageSize: '<strong>{recPerPage}</strong> items per page',
+            itemsRange: 'From <strong>{start}</strong> to <strong>{end}</strong>',
+            pageOfTotal: 'Page <strong>{page}</strong> of <strong>{totalPage}</strong>'
         }
     };
 

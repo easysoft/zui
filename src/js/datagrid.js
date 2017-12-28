@@ -116,6 +116,14 @@
         zh_cn: {
             'errorCannotGetDataFromRemote': '无法从远程服务器（{0}）获取数据。',
             'errorCannotHandleRemoteData': '无法处理远程服务器返回的数据。'
+        },
+        zh_tw: {
+            'errorCannotGetDataFromRemote': '無法從遠程服務器（{0}）獲取數據。',
+            'errorCannotHandleRemoteData': '無法處理遠程服務器返回的數據。'
+        },
+        en: {
+            'errorCannotGetDataFromRemote': 'Cannot fetch data from remote server {0}.',
+            'errorCannotHandleRemoteData': 'Cannot handle the remote data.'
         }
     };
 
