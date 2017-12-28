@@ -1086,6 +1086,39 @@ $('#myUploader').uploader({
 
 所有事件回调函数的 `this` 变量都为当前 `uploader` 实例对象。
 
+## 静态文件
+
+在初始化对时候使用 `staticFiles` 选项指定一个文件对象数组，可以实现在文件列表显示服务器中已存在对文件。
+
+<div class="example">
+  <div id="uploaderStaticFilesExample" class="uploader file-drag-area uploader-rename uploader-custom" data-drop-placeholder="将文件拖放至在此处。">
+    <div class="uploader-message text-center">
+      <div class="content"></div>
+      <button type="button" class="close">×</button>
+    </div>
+    <div class="uploader-files file-list file-list-lg file-rename-by-click" data-drag-placeholder="请拖拽文件到此处"></div>
+    <div class="uploader-actions">
+      <div class="uploader-status pull-right text-muted"></div>
+      <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
+      <button type="button" class="btn btn-link uploader-btn-start"><i class="icon icon-cloud-upload"></i> 开始上传</button>
+    </div>
+  <div class="uploader-btn-browse uploader-btn-hidden" style="z-index: 1;"></div><div id="html5_1c2e40kps1grtfnu12e91e0r1nb77_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: -1px; left: -1px; width: 1px; height: 1px; overflow: hidden; z-index: 0;"><input id="html5_1c2e40kps1grtfnu12e91e0r1nb77" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;" multiple="" accept=""></div></div>
+</div>
+
+```js
+$('#uploaderStaticFilesExample').uploader({
+      chunk_size: '50kb',
+      url: 'http://your/post/url',
+      deleteActionOnDone: function(file, doRemoveFile) {
+          doRemoveFile();
+      },
+      staticFiles: [
+          {name: 'zui.js', size: 216159, url: 'http://zui.sexy'},
+          {name: 'zui.css', size: 106091}
+      ]
+  });
+```
+
 ## 自定义 UI
 
 文件上传视图提供了最大限度的定制机制，你可以定制自己的文件上传 UI。
@@ -1607,9 +1640,21 @@ var plupload = uploader.plupload;
 
 <script>
 function afterPageLoad() {
-    $('.uploader').uploader({
+    $('.uploader:not(.uploader-custom)').uploader({
         chunk_size: '50kb',
         url: window.location.protocol + '//httpbin.org/post'
+    });
+
+    $('#uploaderStaticFilesExample').uploader({
+        chunk_size: '50kb',
+        url: window.location.protocol + '//httpbin.org/post',
+        deleteActionOnDone: function(file, doRemoveFile) {
+            doRemoveFile();
+        },
+        staticFiles: [
+            {name: 'zui.js', size: 216159, url: 'http://zui.sexy'},
+            {name: 'zui.css', size: 106091}
+        ]
     });
 }
 </script>
