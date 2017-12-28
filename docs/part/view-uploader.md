@@ -846,6 +846,17 @@ upload 对象实例上有如下方法：
 * `message`：要显示的消息文本；
 * `type`：消息类型，可选值包括 `'danger'`（危险消息，默认）、`'warning'`（警告）、`'info'`（一般），`'success'`（成功消息）。
 
+要启用显示消息功能，你必须在 `.upload` 元素内部提供 `.uploader-message` 元素。
+
+```html
+<div class="uploader">
+  <div class="uploader-message text-center">
+    <div class="content"></div>
+    <button type="button" class="close">×</button>
+  </div>
+</div>
+```
+
 ### <span class="code text-danger">hideMessage()</span>
 
 隐藏界面上的消息。
