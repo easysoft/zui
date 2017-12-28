@@ -349,15 +349,16 @@
             }
             row.index = r;
 
-            $leftRow = $('<tr/>');
+            $leftRow = $('<tr class="datatable-row"/>');
             $leftRow.addClass(row.cssClass)
                 .toggleClass(options.checkedClass, !!row.checked)
                 .attr({
                     'data-index': r,
                     'data-id': row.id
                 });
-            $flexRow = $leftRow.clone();
-            $rightRow = $leftRow.clone();
+            $flexRow = $leftRow.clone().addClass('datatable-row-flex');
+            $rightRow = $leftRow.clone().addClass('datatable-row-right');
+            $leftRow.addClass('datatable-row-left');
 
             rowColLen = row.data.length;
             for(i = 0; i < rowColLen; ++i) {
@@ -489,7 +490,7 @@
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
                 $rows.filter('.' + hoverClass).removeClass(hoverClass);
 
-                $rows.filter('[data-index="' + $(this).addClass(hoverClass).closest('tr').data('index') + '"]').addClass(hoverClass);
+                $rows.filter('[data-index="' + $(this).addClass(hoverClass).data('row') + '"]').addClass(hoverClass);
             }).on('mouseleave', '.datatable-cell', function() {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
                 $rows.filter('.' + hoverClass).removeClass(hoverClass);
