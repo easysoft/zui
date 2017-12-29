@@ -617,7 +617,7 @@
       "ver": "1.0.0",
       "dpds": ["pager.basic"]
     },
-    "pager.js": {
+    "pagerjs": {
       "name": "分页器",
       "src": {
         "js": ["~/pager.js"]
@@ -627,7 +627,7 @@
     },
     "pager": {
       "name": "表单",
-      "dpds": ["pager.basic", "pager.size", "pager.types", "pager.js"]
+      "dpds": ["pager.basic", "pager.size", "pager.types", "pagerjs"]
     },
     "navs.basic": {
       "name": "基本导航",
