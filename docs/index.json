@@ -892,6 +892,28 @@
       "accent": "red",
       "sections": [
         {
+          "desc": "带图标或标签的输入框",
+          "icon": "icon-pencil",
+          "id": "input-control",
+          "name": "输入框",
+          "version": "1.8.0",
+          "topics": [
+            {
+              "name": "带图标"
+            },
+            {
+              "name": "带标签"
+            },
+            {
+              "name": "搜索框"
+            },
+            {
+              "name": "禁用"
+            }
+          ],
+          "filter": "shurukuang srk shrk"
+        },
+        {
           "id": "alert",
           "icon": "icon-warning-sign",
           "desc": "使用消息框引起用户注意",
@@ -939,28 +961,6 @@
             }
           ],
           "filter": "daima dm"
-        },
-        {
-          "desc": "带图标或标签的输入框",
-          "icon": "icon-pencil",
-          "id": "input-control",
-          "name": "输入框",
-          "version": "1.8.0",
-          "topics": [
-            {
-              "name": "带图标"
-            },
-            {
-              "name": "带标签"
-            },
-            {
-              "name": "搜索框"
-            },
-            {
-              "name": "禁用"
-            }
-          ],
-          "filter": "shurukuang srk shrk"
         },
         {
           "id": "inputgroup",
@@ -1232,6 +1232,11 @@
           "desc": "在鼠标位置弹出菜单（右键菜单）",
           "name": "上下文菜单",
           "topics": [
+              {"name": "被动式"},
+              {"name": "主动式"},
+              {"name": "选项"},
+              {"name": "菜单条目对象属性"},
+              {"name": "方法"}
           ],
           "version": "1.8.0",
           "filter": "youjiancaidan yjcd "
@@ -1242,6 +1247,13 @@
           "desc": "自动创建的分页组件",
           "name": "分页器",
           "topics": [
+              {"name": "综合示例"},
+              {"name": "界面元素"},
+              {"name": "选项"},
+              {"name": "获取页码状态信息"},
+              {"name": "监听页码变更"},
+              {"name": "自定义"},
+              {"name": "动态更新"}
           ],
           "version": "1.8.0",
           "filter": "fenyeqi fyq "
