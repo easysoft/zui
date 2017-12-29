@@ -196,6 +196,10 @@
 
         $('body').on('dragleave.' + NAME + ' drop.' + NAME, function(e) {
             $this.removeClass('file-dragable');
+
+            // Below two lines for firefox, open a new tab after drop file
+            e.preventDefault();
+            e.stopPropagation();
         }).on('dragover.' + NAME + ' dragenter.' + NAME, function(e) {
             $this.addClass('file-dragable');
         });
@@ -404,7 +408,7 @@
             var preloader = new Moxie.image.Image();
             preloader.onload = function() {
                 // compressImage
-                preloader.downsize(size.width, size.height); 
+                preloader.downsize(size.width, size.height);
                 var imgsrc = preloader.type == 'image/jpeg' ? preloader.getAsDataURL('image/jpeg', 80) : preloader.getAsDataURL(); // return base64 data
                 callback(imgsrc);
                 preloader.destroy();
@@ -412,7 +416,7 @@
             };
             preloader.load(file.getSource());
         }
-    };  
+    };
 
     Uploader.prototype.createFileIcon = function(file) {
         var fileType = file.type;
@@ -673,6 +677,7 @@
                         error.file = file;
                         error.responseObject = responseObject;
                         uploader.trigger('Error', error);
+                        file.errorMessage = error.message;
                         return;
                     }
                 }
@@ -702,20 +707,27 @@
                 if(uploadedMessage) {
                     var uploadedCount = that.lastUploadedCount;
                     var failedCount = 0;
+                    var failMessages = [];
                     $.each(files, function(idx, file) {
-                        if(file.status === Plupload.FAILED) failedCount++;
+                        if(file.status === Plupload.FAILED) {
+                            failedCount++;
+                            if (file.errorMessage) {
+                                failMessages.push(file.errorMessage);
+                                delete file.errorMessage;
+                            }
+                        }
                     });
-                    var msg = '',
+                    var msg = failMessages && failMessages.length ? ('<p>' + failMessages.join(',') + '</p>') : '',
                         msgData = {
                             uploaded: uploadedCount,
                             failed: failedCount
                         };
                     if(typeof uploadedMessage === 'string') {
-                        msg = uploadedMessage.format(msgData);
+                        msg += uploadedMessage.format(msgData);
                     } else if($.isFunction(uploadedMessage)) {
-                        msg = uploadedMessage(msgData);
+                        msg += uploadedMessage(msgData);
                     } else {
-                        msg = that.lang[failedCount > 0 ? 'uploadHasFailedMessage' : (uploadedCount > 0 ? 'uploadSuccessMessage' : 'uploadEmptyMessage')].format(msgData);
+                        msg += that.lang[failedCount > 0 ? 'uploadHasFailedMessage' : (uploadedCount > 0 ? 'uploadSuccessMessage' : 'uploadEmptyMessage')].format(msgData);
                     }
                     that.showMessage(msg, failedCount > 0 ? 'danger' : (uploadedCount > 0 ? 'success' : 'warning'), 3);
                 }
