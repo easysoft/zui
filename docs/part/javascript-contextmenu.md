@@ -421,8 +421,7 @@ function afterPageLoad() {
         }, {
             label: '粘贴',
         }], {
-            event: e,
-            animation: 'fade'
+            event: e
         }, function() {
             console.log('上下文菜单已显示。');
         });
