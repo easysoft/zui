@@ -1,7 +1,7 @@
 /* ========================================================================
  * Chart.js: Chart.line.js [Version: 1.0.2]
  * http://chartjs.org/
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
  * http://zui.sexy
@@ -22,7 +22,7 @@
 
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
-    /// 
+    ///
     ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
@@ -47,7 +47,7 @@
         //Boolean - Whether to show beyond lines
         scaleShowBeyondLine: true,
         /// ZUI change end
-        /// 
+        ///
         //Boolean - Whether to show vertical lines (except Y axis)
         scaleShowVerticalLines: true,
 
@@ -269,23 +269,24 @@
             this.scale = new Chart.Scale(scaleOptions);
         },
         addData: function(valuesArray, label) {
-            //Map the values array for each of the datasets
+			//Map the values array for each of the datasets
 
-            helpers.each(valuesArray, function(value, datasetIndex) {
-                //Add a new point for each piece of data, passing any required data to draw.
-                this.datasets[datasetIndex].points.push(new this.PointClass({
-                    value: value,
-                    label: label,
-                    x: this.scale.calculateX(this.scale.valuesCount + 1),
-                    y: this.scale.endPoint,
-                    strokeColor: this.datasets[datasetIndex].pointStrokeColor,
-                    fillColor: this.datasets[datasetIndex].pointColor
-                }));
-            }, this);
+			helpers.each(valuesArray,function(value,datasetIndex){
+				//Add a new point for each piece of data, passing any required data to draw.
+				this.datasets[datasetIndex].points.push(new this.PointClass({
+					value : value,
+					label : label,
+					datasetLabel: this.datasets[datasetIndex].label,
+					x: this.scale.calculateX(this.scale.valuesCount+1),
+					y: this.scale.endPoint,
+					strokeColor : this.datasets[datasetIndex].pointStrokeColor,
+					fillColor : this.datasets[datasetIndex].pointColor
+				}));
+			},this);
 
-            this.scale.addXLabel(label);
-            //Then re-render the chart.
-            this.update();
+			this.scale.addXLabel(label);
+			//Then re-render the chart.
+			this.update();
         },
         removeData: function() {
             this.scale.removeXLabel();
