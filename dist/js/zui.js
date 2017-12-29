@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.7.0 - 2017-12-27
+ * ZUI: Standard edition - v1.8.0 - 2017-12-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -112,7 +112,7 @@
         var $this = this;
         var result = $this.triggerHandler(eventName, params);
 
-        const eventCallback = component.options[eventName];
+        var eventCallback = component.options[eventName];
         if (eventCallback) {
             result = eventCallback.apply(component, params);
         }
@@ -397,6 +397,32 @@
             pageSize: '每页 <strong>{recPerPage}</strong> 项',
             itemsRange: '第 <strong>{start}</strong> ~ <strong>{end}</strong> 项',
             pageOfTotal: '第 <strong>{page}</strong>/<strong>{totalPage}</strong> 页'
+        },
+        zh_tw: {
+            prev: '上一頁',
+            next: '下一頁',
+            first: '第一頁',
+            last: '最後一頁',
+            goto: '跳轉',
+            pageOf: '第 <strong>{page}</strong> 頁',
+            totalPage: '共 <strong>{totalPage}</strong> 頁',
+            totalCount: '共 <strong>{recTotal}</strong> 項',
+            pageSize: '每頁 <strong>{recPerPage}</strong> 項',
+            itemsRange: '第 <strong>{start}</strong> ~ <strong>{end}</strong> 項',
+            pageOfTotal: '第 <strong>{page}</strong>/<strong>{totalPage}</strong> 頁'
+        },
+        en: {
+            prev: 'Prev',
+            next: 'Next',
+            first: 'First',
+            last: 'Last',
+            goto: 'Goto',
+            pageOf: 'Page <strong>{page}</strong>',
+            totalPage: '<strong>{totalPage}</strong> pages',
+            totalCount: '<strong>{recTotal}</strong> items',
+            pageSize: '<strong>{recPerPage}</strong> items per page',
+            itemsRange: 'From <strong>{start}</strong> to <strong>{end}</strong>',
+            pageOfTotal: 'Page <strong>{page}</strong> of <strong>{totalPage}</strong>'
         }
     };
 
@@ -535,7 +561,7 @@
     Pager.prototype.createGoto = function() {
         var that = this;
         var pager = this.state;
-        var $goto = $('<div class="input-group pager-goto"><input value="' + pager.page + '" type="number" min="1" max="' + pager.totalPage + '" placeholder="' + pager.page + '" class="form-control pager-goto-input" style="width: ' + (35 + (pager.page + '').length * 9) + 'px"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
+        var $goto = $('<div class="input-group pager-goto" style="width: ' + (35 + (pager.page + '').length * 9 + 25 + that.lang.goto.length*12) + 'px"><input value="' + pager.page + '" type="number" min="1" max="' + pager.totalPage + '" placeholder="' + pager.page + '" class="form-control pager-goto-input"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
         return $goto;
     };
 
@@ -544,8 +570,14 @@
         var pager = this.state;
         var $menu = $('<ul class="dropdown-menu"></ul>');
         var options = that.options.pageSizeOptions;
+        if (typeof options === 'string') {
+            options = options.split(',');
+        }
         for (var i = 0; i < options.length; ++i) {
             var size = options[i];
+            if (typeof size === 'string') {
+                size = parseInt(size);
+            }
             var $li = $('<li><a href="###" data-size="' + size + '">' + size + '</a></li>').toggleClass('active', size === pager.recPerPage);
             $menu.append($li);
         }
@@ -629,6 +661,9 @@
             var element  = $.trim(elements[i]);
             var creator = isMapperCreator ? (createElement[element] || createElement) : createElement;
             var $element = creator.call(that, element, that.$, state);
+            if ($element === false) {
+                $element = that.createElement(element, that.$, state);
+            }
             if ($element instanceof $) {
                 if ($element[0].tagName !== 'LI') {
                     $element = $('<li/>').append($element);
@@ -658,7 +693,7 @@
 
     // default options
     Pager.DEFAULTS = $.extend({
-        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'goto', 'size_menu', '|', 'items_range_text', 'total_text', 'page_of_total_text'],
+        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'goto', 'size_menu', '|', 'page_of_total_text', 'items_range_text', 'total_text'],
         prevIcon: 'icon-double-angle-left',
         nextIcon: 'icon-double-angle-right',
         firstIcon: 'icon-step-backward',
@@ -666,7 +701,7 @@
         maxNavCount: 10,
         menuDirection: 'dropdown', // or dropup
         pageSizeOptions: [10, 20, 30, 50, 100],
-        onPageChange: null
+        // onPageChange: null
     }, DEFAULT_PAGER);
 
     // Extense jquery element
@@ -4456,17 +4491,22 @@
         // x: 0,
         // y: 0,
         // onClickItem: null,
-        duration: 400,
+        duration: 200,
     };
 
+    var isShowingMenu = false;
     var ContextMenu = {};
     var targetId = 'zui-contextmenu-' + $.zui.uuid();
     var mouseX = 0, mouseY = 0;
     var listenMouseMove = function() {
         $(document).off('mousemove.' + NAME).on('mousemove.' + NAME, function(e) {
-            mouseX = e.pageX;
-            mouseY = e.pageY;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
+        return ContextMenu;
+    };
+    var stopListenMouse = function() {
+        $(document).off('mousemove.' + NAME);
         return ContextMenu;
     };
     var createMenuItem = function(item, index) {
@@ -4481,7 +4521,7 @@
             return $('<li class="divider"></li>');
         }
         var $a = $('<a/>').attr({
-            href: item.url,
+            href: item.url || '###',
             'class': item.className,
             style: item.style
         }).toggleClass('disabled', item.disabled === true).data('item', item);
@@ -4498,6 +4538,11 @@
 
     var animationTimer = null;
     var hideContextMenu = function(id, callback) {
+        if (typeof id === 'function') {
+            callback = id;
+            id = null;
+        }
+
         if (animationTimer) {
             clearTimeout(animationTimer);
             animationTimer = null;
@@ -4526,20 +4571,21 @@
     };
 
     var showContextMenu = function(items, options, callback) {
-        if (typeof items === 'object') {
+        if ($.isPlainObject(items)) {
             callback = options;
             options = items;
             items = options.items;
         }
 
-        hideContextMenu();
+        isShowingMenu = true;
+        // hideContextMenu();
 
         options = $.extend({}, DEFAULTS, options);
         var x = options.x;
         var y = options.y;
-        if (x === undefined) x = options.pageX;
+        if (x === undefined) x = (options.event || options).clientX;
         if (x === undefined) x = mouseX;
-        if (y === undefined) y = options.pageY;
+        if (y === undefined) y = (options.event || options).clientY;
         if (y === undefined) y = mouseY;
 
         var $target = $('#' + targetId);
@@ -4562,7 +4608,7 @@
             items = items(options);
         }
         $.each(items, function(index, item) {
-            $menu.append(itemCreator(item, index));
+            $menu.append(itemCreator(item, index, options));
         });
 
         // Show menu
@@ -4579,7 +4625,7 @@
             callback && callback();
         };
         options.onShow && options.onShow();
-        $target.show().addClass('open').data('options', {
+        $target.data('options', {
             animation: animation,
             onHide: options.onHide,
             onHidden: options.onHidden,
@@ -4596,16 +4642,23 @@
         });
 
         if (animation) {
-            $target.addClass(animation);
-            animationTimer = setTimeout(afterShow, options.duration);
+            $target.addClass('open').addClass(animation).show();
+            animationTimer = setTimeout(function() {
+                afterShow();
+                isShowingMenu = false;
+            }, options.duration);
         } else {
+            $target.addClass('open').show();
             afterShow();
+            animationTimer = setTimeout(function() {
+                isShowingMenu = false;
+            }, 200);
         }
         return ContextMenu;
     };
 
     $(document).on('click', function(e) {
-        if (!$(e.target).closest('.contextmenu').length) {
+        if (!isShowingMenu && !$(e.target).closest('.contextmenu').length) {
             hideContextMenu();
         }
     });
@@ -4629,12 +4682,10 @@
         options = that.options = $.extend({trigger: 'contextmenu'}, ContextMenu.DEFAULTS, this.$.data(), options);
 
         var trigger = options.trigger;
-        var isIE = $.zui.browser && $.zui.browser.ie && $.zui.browser.ie < 11;
-        if (isIE && trigger === 'contextmenu') trigger = 'mousedown';
 
         that.id = $.zui.uuid();
         var eventHandler = function(e) {
-            if (isIE && e.button !== 2) {
+            if (e.type === 'mousedown' && e.button !== 2) {
                 return;
             }
             var config = {
@@ -4647,6 +4698,7 @@
             }
             that.show(config);
             e.preventDefault();
+            e.returnValue = false; // 解决IE8右键弹出
             return false;
         };
         var eventName = trigger + '.' + NAME;

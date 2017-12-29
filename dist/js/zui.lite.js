@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.7.0 - 2017-12-27
+ * ZUI: Lite edition - v1.8.0 - 2017-12-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -112,7 +112,7 @@
         var $this = this;
         var result = $this.triggerHandler(eventName, params);
 
-        const eventCallback = component.options[eventName];
+        var eventCallback = component.options[eventName];
         if (eventCallback) {
             result = eventCallback.apply(component, params);
         }

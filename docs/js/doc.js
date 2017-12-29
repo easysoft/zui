@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.7.0 - 2017-12-27
+ * ZUI: Document - v1.8.0 - 2017-12-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -12772,7 +12772,7 @@ require('./polyfill-done.js');
         ZUI_JSON = debug ? 'zui.json' : 'docs/zui.min.json',
         ZUI_CUSTOM_JSON = 'zui.custom.json',
         UNDEFINED = undefined,
-        isNewRelease = (new Date().getTime()) < 1504195200000, // 2017/8/1
+        isNewRelease = (new Date().getTime()) < 1541001600000, // 2018/10/1
         dataVersion,
         storageEnable,
         docIndex, iconsIndex, currentSection,

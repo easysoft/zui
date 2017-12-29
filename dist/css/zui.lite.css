@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.7.0 - 2017-12-27
+ * ZUI: Lite edition - v1.8.0 - 2017-12-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -4407,7 +4407,10 @@ a.list-group-item:focus {
   border-right: 0;
   border-left: 0;
   }
-.input-group-addon:empty,
+.input-group-addon:empty {
+  width: 1px;
+  padding: 0;
+  }
 .input-group-addon.fix-padding {
   width: 1px;
   padding: 0;
@@ -4615,7 +4618,7 @@ pre code {
   list-style: none;
   }
 .pager > li {
-  display: inline-block;
+  display: inline;
   }
 .pager > li > a,
 .pager > li > span {

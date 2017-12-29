@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格 - v1.7.0 - 2017-12-27
+ * ZUI: 数据表格 - v1.8.0 - 2017-12-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -19,7 +19,7 @@
 
     /**
      * Datatable class
-     * 
+     *
      * @param object element           DOM element or jquery element
      * @param object options           Datatable options
      */
@@ -356,15 +356,16 @@
             }
             row.index = r;
 
-            $leftRow = $('<tr/>');
+            $leftRow = $('<tr class="datatable-row"/>');
             $leftRow.addClass(row.cssClass)
                 .toggleClass(options.checkedClass, !!row.checked)
                 .attr({
                     'data-index': r,
                     'data-id': row.id
                 });
-            $flexRow = $leftRow.clone();
-            $rightRow = $leftRow.clone();
+            $flexRow = $leftRow.clone().addClass('datatable-row-flex');
+            $rightRow = $leftRow.clone().addClass('datatable-row-right');
+            $leftRow.addClass('datatable-row-left');
 
             rowColLen = row.data.length;
             for(i = 0; i < rowColLen; ++i) {
@@ -496,7 +497,7 @@
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
                 $rows.filter('.' + hoverClass).removeClass(hoverClass);
 
-                $rows.filter('[data-index="' + $(this).addClass(hoverClass).closest('tr').data('index') + '"]').addClass(hoverClass);
+                $rows.filter('[data-index="' + $(this).addClass(hoverClass).data('row') + '"]').addClass(hoverClass);
             }).on('mouseleave', '.datatable-cell', function() {
                 $dataCells.filter('.' + hoverClass).removeClass(hoverClass);
                 $rows.filter('.' + hoverClass).removeClass(hoverClass);
@@ -556,9 +557,7 @@
                 flexWidth = $flexArea.width();
                 $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
                 tableWidth = 0;
-                $flexTable.find('tr:first').children('td, th').each(function() {
-                    tableWidth += $(this).width();
-                });
+                tableWidth = $flexTable.width();
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
                 $bar.css('width', scrollWidth);
                 $flexTable.css('min-width', flexWidth);

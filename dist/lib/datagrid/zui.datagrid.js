@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.7.0 - 2017-12-27
+ * ZUI: 数据表格② - v1.8.0 - 2017-12-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -345,6 +345,14 @@
         zh_cn: {
             'errorCannotGetDataFromRemote': '无法从远程服务器（{0}）获取数据。',
             'errorCannotHandleRemoteData': '无法处理远程服务器返回的数据。'
+        },
+        zh_tw: {
+            'errorCannotGetDataFromRemote': '無法從遠程服務器（{0}）獲取數據。',
+            'errorCannotHandleRemoteData': '無法處理遠程服務器返回的數據。'
+        },
+        en: {
+            'errorCannotGetDataFromRemote': 'Cannot fetch data from remote server {0}.',
+            'errorCannotHandleRemoteData': 'Cannot handle the remote data.'
         }
     };
 

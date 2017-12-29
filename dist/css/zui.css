@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.7.0 - 2017-12-27
+ * ZUI: Standard edition - v1.8.0 - 2017-12-29
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2017 cnezsoft.com; Licensed MIT
@@ -5502,7 +5502,10 @@ input:placeholder-shown + .search-icon + .search-clear-btn,
   border-right: 0;
   border-left: 0;
   }
-.input-group-addon:empty,
+.input-group-addon:empty {
+  width: 1px;
+  padding: 0;
+  }
 .input-group-addon.fix-padding {
   width: 1px;
   padding: 0;
@@ -5716,7 +5719,7 @@ pre code {
   list-style: none;
   }
 .pager > li {
-  display: inline-block;
+  display: inline;
   }
 .pager > li > a,
 .pager > li > span {
@@ -8589,7 +8592,7 @@ body.article-content {
   cursor: pointer;
   }
 .tree li > .list-toggle:before {
-  content: '\e6f1';
+  content: '\f196';
   }
 .tree li > .list-toggle:hover,
 .tree li > .list-toggle:active {
@@ -8599,7 +8602,7 @@ body.article-content {
   display: block;
   }
 .tree li.open > .list-toggle:before {
-  content: '\e6f2';
+  content: '\e71d';
   }
 .tree-actions {
   display: inline-block;
@@ -8667,7 +8670,7 @@ body.article-content {
 .tree-lines ul > li.has-list:before {
   position: absolute;
   top: -12px;
-  bottom: 13px;
+  bottom: 12px;
   left: -11px;
   display: block;
   width: auto;
@@ -8682,7 +8685,7 @@ body.article-content {
   height: 23px;
   }
 .tree-lines ul > li:first-child:before {
-  top: -7px;
+  top: -5px;
   }
 .tree-lines ul > li.tree-single-item:before {
   height: 19px;
