@@ -194,7 +194,7 @@
     Pager.prototype.createGoto = function() {
         var that = this;
         var pager = this.state;
-        var $goto = $('<div class="input-group pager-goto"><input value="' + pager.page + '" type="number" min="1" max="' + pager.totalPage + '" placeholder="' + pager.page + '" class="form-control pager-goto-input" style="width: ' + (35 + (pager.page + '').length * 9) + 'px"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
+        var $goto = $('<div class="input-group pager-goto" style="width: ' + (35 + (pager.page + '').length * 9 + 25 + that.lang.goto.length*12) + 'px"><input value="' + pager.page + '" type="number" min="1" max="' + pager.totalPage + '" placeholder="' + pager.page + '" class="form-control pager-goto-input"><span class="input-group-btn"><button class="btn pager-goto-btn" type="button">' + that.lang.goto + '</button></span></div>');
         return $goto;
     };
 
@@ -203,8 +203,14 @@
         var pager = this.state;
         var $menu = $('<ul class="dropdown-menu"></ul>');
         var options = that.options.pageSizeOptions;
+        if (typeof options === 'string') {
+            options = options.split(',');
+        }
         for (var i = 0; i < options.length; ++i) {
             var size = options[i];
+            if (typeof size === 'string') {
+                size = parseInt(size);
+            }
             var $li = $('<li><a href="###" data-size="' + size + '">' + size + '</a></li>').toggleClass('active', size === pager.recPerPage);
             $menu.append($li);
         }
@@ -288,6 +294,9 @@
             var element  = $.trim(elements[i]);
             var creator = isMapperCreator ? (createElement[element] || createElement) : createElement;
             var $element = creator.call(that, element, that.$, state);
+            if ($element === false) {
+                $element = that.createElement(element, that.$, state);
+            }
             if ($element instanceof $) {
                 if ($element[0].tagName !== 'LI') {
                     $element = $('<li/>').append($element);
@@ -317,7 +326,7 @@
 
     // default options
     Pager.DEFAULTS = $.extend({
-        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'goto', 'size_menu', '|', 'items_range_text', 'total_text', 'page_of_total_text'],
+        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'goto', 'size_menu', '|', 'page_of_total_text', 'items_range_text', 'total_text'],
         prevIcon: 'icon-double-angle-left',
         nextIcon: 'icon-double-angle-right',
         firstIcon: 'icon-step-backward',
@@ -325,7 +334,7 @@
         maxNavCount: 10,
         menuDirection: 'dropdown', // or dropup
         pageSizeOptions: [10, 20, 30, 50, 100],
-        onPageChange: null
+        // onPageChange: null
     }, DEFAULT_PAGER);
 
     // Extense jquery element
