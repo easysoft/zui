@@ -20,17 +20,22 @@
         // x: 0,
         // y: 0,
         // onClickItem: null,
-        duration: 400,
+        duration: 200,
     };
 
+    var isShowingMenu = false;
     var ContextMenu = {};
     var targetId = 'zui-contextmenu-' + $.zui.uuid();
     var mouseX = 0, mouseY = 0;
     var listenMouseMove = function() {
         $(document).off('mousemove.' + NAME).on('mousemove.' + NAME, function(e) {
-            mouseX = e.pageX;
-            mouseY = e.pageY;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
+        return ContextMenu;
+    };
+    var stopListenMouse = function() {
+        $(document).off('mousemove.' + NAME);
         return ContextMenu;
     };
     var createMenuItem = function(item, index) {
@@ -45,7 +50,7 @@
             return $('<li class="divider"></li>');
         }
         var $a = $('<a/>').attr({
-            href: item.url,
+            href: item.url || '###',
             'class': item.className,
             style: item.style
         }).toggleClass('disabled', item.disabled === true).data('item', item);
@@ -62,6 +67,11 @@
 
     var animationTimer = null;
     var hideContextMenu = function(id, callback) {
+        if (typeof id === 'function') {
+            callback = id;
+            id = null;
+        }
+
         if (animationTimer) {
             clearTimeout(animationTimer);
             animationTimer = null;
@@ -90,20 +100,21 @@
     };
 
     var showContextMenu = function(items, options, callback) {
-        if (typeof items === 'object') {
+        if ($.isPlainObject(items)) {
             callback = options;
             options = items;
             items = options.items;
         }
 
-        hideContextMenu();
+        isShowingMenu = true;
+        // hideContextMenu();
 
         options = $.extend({}, DEFAULTS, options);
         var x = options.x;
         var y = options.y;
-        if (x === undefined) x = options.pageX;
+        if (x === undefined) x = (options.event || options).clientX;
         if (x === undefined) x = mouseX;
-        if (y === undefined) y = options.pageY;
+        if (y === undefined) y = (options.event || options).clientY;
         if (y === undefined) y = mouseY;
 
         var $target = $('#' + targetId);
@@ -126,7 +137,7 @@
             items = items(options);
         }
         $.each(items, function(index, item) {
-            $menu.append(itemCreator(item, index));
+            $menu.append(itemCreator(item, index, options));
         });
 
         // Show menu
@@ -143,7 +154,7 @@
             callback && callback();
         };
         options.onShow && options.onShow();
-        $target.show().addClass('open').data('options', {
+        $target.data('options', {
             animation: animation,
             onHide: options.onHide,
             onHidden: options.onHidden,
@@ -160,16 +171,23 @@
         });
 
         if (animation) {
-            $target.addClass(animation);
-            animationTimer = setTimeout(afterShow, options.duration);
+            $target.addClass('open').addClass(animation).show();
+            animationTimer = setTimeout(function() {
+                afterShow();
+                isShowingMenu = false;
+            }, options.duration);
         } else {
+            $target.addClass('open').show();
             afterShow();
+            animationTimer = setTimeout(function() {
+                isShowingMenu = false;
+            }, 200);
         }
         return ContextMenu;
     };
 
     $(document).on('click', function(e) {
-        if (!$(e.target).closest('.contextmenu').length) {
+        if (!isShowingMenu && !$(e.target).closest('.contextmenu').length) {
             hideContextMenu();
         }
     });
