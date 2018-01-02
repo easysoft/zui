@@ -184,3 +184,8 @@ $('[data-tab]').on('shown.zui.tab', function(e) {
     console.log('上一个标签页', e.relatedTarget);
 });
 ```
+
+<div class="alert alert-primary">
+  <h4>需要动态标签页？</h4>
+  <p>[标签页管理器](#view/tabs) 提供远程或自定义标签的打开关闭功能。</p>
+</div>
