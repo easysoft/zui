@@ -53,7 +53,7 @@
             href: item.url || '###',
             'class': item.className,
             style: item.style
-        }).toggleClass('disabled', item.disabled === true).data('item', item);
+        }).data('item', item);
         if (item.html) {
             $a.html(item.html);
         } else {
@@ -62,7 +62,7 @@
         if (item.onClick) {
             $a.on('click', item.onClick);
         }
-        return $('<li />').append($a);
+        return $('<li />').toggleClass('disabled', item.disabled === true).append($a);
     };
 
     var animationTimer = null;
