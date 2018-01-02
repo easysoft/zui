@@ -207,7 +207,7 @@ $('#searchBox').searchBox({
     onSearchChange: function(searchBox, isEmpty) {
         // 处理搜索框文本变更
     }
-})
+});
 ```
 
 ```js
