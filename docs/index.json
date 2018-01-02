@@ -1749,7 +1749,7 @@
       "sections": [
         {
           "id": "datagrid",
-          "icon": "icon-th",
+          "icon": "icon-table",
           "desc": "功能强大的数据网格视图",
           "name": "数据表格②",
           "version": "1.8.0",
@@ -1761,7 +1761,15 @@
           "desc": "灵活的标签页管理视图",
           "name": "标签页管理器",
           "version": "1.8.0",
-          "filter": "biaoqianyeguanliqi bqyglq"
+          "filter": "biaoqianyeguanliqi bqyglq",
+          "topics": [
+            {"name": "综合示例"},
+            {"name": "选项"},
+            {"name": "标签页对象"},
+            {"name": "方法"},
+            {"name": "事件"},
+            {"name": "自定义"}
+          ]
         },
         {
           "id": "tree",
