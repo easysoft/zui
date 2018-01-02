@@ -9,6 +9,10 @@
 (function($) {
     'use strict';
 
+    /**
+     * Tab object
+     * @param {Object | String} tab
+     */
     var Tab = function(tab) {
         var that = this;
         if(typeof tab === 'string') {
@@ -22,14 +26,14 @@
         if(!that.type) {
             if(that.iframe) {
                 that.type = 'iframe';
-                that.url = that.iframe;
+                that.url = that.url || that.iframe;
             } else if(that.ajax) {
                 that.type = 'ajax';
-                that.url = $.isPlainObject(that.ajax) ? that.ajax.url : that.ajax;
-            } else if(that.custom) {
-                that.type = 'custom';
+                that.url = that.url || ($.isPlainObject(that.ajax) ? that.ajax.url : that.ajax);
+            } else if(that.url) {
+                that.type = tab.ajax ? 'ajax' : 'iframe';
             } else {
-                that.type = 'iframe';
+                that.type = 'custom';
             }
         }
         that.createTime = new Date().getTime();
@@ -61,8 +65,11 @@
         tabs: [],
         defaultTabIcon: 'icon-window',
         contextMenu: true,
-        errorTemplate: '<div class="alert alert-block alert-danger with-icon"><i class="icon-warning-sign"></i><div class="content">{0}</div></div>'
+        errorTemplate: '<div class="alert alert-block alert-danger with-icon"><i class="icon-warning-sign"></i><div class="content">{0}</div></div>',
         // messagerOptions: null,
+        showMessage: true,
+        navTemplate: '<nav class="tabs-navbar"></nav>',
+        containerTemplate: '<div class="tabs-container"></div>'
     };
 
     var LANG = {
@@ -74,7 +81,7 @@
             reopenLast: '恢复上次关闭的标签页',
             errorCannotFetchFromRemote: '无法从远程服务器（{0}）获取内容。'
         },
-        zh_cn: {
+        zh_tw: {
             reload: '重新加載',
             close: '關閉',
             closeOthers: '關閉其他標籤頁',
@@ -105,7 +112,7 @@
         // Initialize here
         var $navbar = that.$.find('.tabs-navbar');
         if (!$navbar.length) {
-            $navbar = $('<nav class="tabs-navbar"></nav>').appendTo(that.$);
+            $navbar = $(options.navTemplate).appendTo(that.$);
         }
         that.$navbar = $navbar;
 
@@ -117,7 +124,7 @@
 
         var $tabs = that.$.find('.tabs-container');
         if (!$tabs.length) {
-            $tabs = $('<div class="tabs-container"></div>').appendTo(that.$);
+            $tabs = $(options.containerTemplate).appendTo(that.$);
         }
         that.$tabs = $tabs;
 
@@ -179,17 +186,19 @@
             }
         }, {
             label: lang.closeOthers,
+            disabled: that.$nav.find('.tab-nav-item:not(.hidden)').length <= 1,
             onClick: function () {
                 that.closeOthers(tab.id);
             }
         }, {
             label: lang.closeRight,
+            disabled: !$('#tab-nav-item-' + tab.id).next('.tab-nav-item:not(.hidden)').length,
             onClick: function () {
                 that.closeRight(tab.id);
             }
         }, '-', {
             label: lang.reopenLast,
-            disabled: that.closedTabs.length,
+            disabled: !that.closedTabs.length,
             onClick: function () {
                 that.reopen();
             }
@@ -262,10 +271,10 @@
         return that.tabs[tabId];
     };
 
-    Tabs.prototype.close = function(tabId) {
+    Tabs.prototype.close = function(tabId, forceClose) {
         var that = this;
         var tab = that.getTab(tabId);
-        if (tab && !tab.forbidClose) {
+        if (tab && (forceClose || !tab.forbidClose)) {
             $('#tab-nav-item-' + tab.id).remove();
             $('#tab-' + tab.id).remove();
             tab.close();
@@ -315,13 +324,23 @@
     Tabs.prototype.showMessage = function (message, type) {
         $.zui.messager.show(message, $.extend({
             placement: 'center'
-        }, that.options.messagerOptions, {
+        }, this.options.messagerOptions, {
             type: type
         }));
     };
 
     Tabs.prototype.reload = function(tab) {
         var that = this;
+
+        if (typeof tab === 'string') {
+            tab = that.getTab(tab);
+        } else if (!tab) {
+            tab = that.getActiveTab();
+        }
+
+        if (!tab) {
+            return;
+        }
 
         if (!tab.openTime) {
             return that.open(tab);
@@ -335,9 +354,12 @@
             }
             $tabNav.removeClass('loading');
             $tabPane.removeClass('loading');
-            that.$.callComEvent(that, 'onRefresh', tab);
-            if(typeof content === 'string') {
-                $tabPane.html(content);
+            that.$.callComEvent(that, 'onLoad', tab);
+            if(typeof content === 'string' || content instanceof $) {
+                if (tab.contentConverter) {
+                    content = tab.contentConverter(content, tab);
+                }
+                $tabPane.empty().append(content);
                 if (!tab.title) {
                     content = $tabPane.text().replace(/\n/g, '');
                     tab.title = content.length > 10 ? content.substr(0, 10) : content;
@@ -347,7 +369,13 @@
             if (error) {
                 $tabNav.addClass('has-error');
                 $tabPane.addClass('has-error');
-                that.showMessage(error, 'danger');
+                var showMessage = that.options.showMessage;
+                if (showMessage) {
+                    if ($.isFunction(showMessage)) {
+                        error = showMessage(error);
+                    }
+                    that.showMessage(error, 'danger');
+                }
                 if (!content) {
                     $tabPane.html(that.options.errorTemplate.format(error));
                 }
@@ -379,9 +407,9 @@
                 frame.onload = frame.onreadystatechange = function() {
                     if(this.readyState && this.readyState != 'complete') return;
                     afterRefresh();
-                    var title = frame.contentDocument.title;
-                    if (!tab.title && title) {
-                        tab.title = title;
+                    var contentDocument = frame.contentDocument;
+                    if (contentDocument && !tab.title) {
+                        tab.title = contentDocument.title;
                         that.renderTab(tab);
                     }
                 };
