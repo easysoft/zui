@@ -396,9 +396,6 @@
 
         if (oldPager.page !== pager.page || oldPager.recTotal !== pager.recTotal || oldPager.recPerPage !== pager.recPerPage) {
             that.layout.cols = null;
-            if (that.pagerObj) {
-                that.pagerObj.set(pager);
-            }
             that.scroll(0, 0);
         }
         return that;
@@ -506,6 +503,8 @@
             }
         }
 
+        that.setPager(-1, result.length);
+
         if (result.length) {
             var sortBy = filter.sortBy || (hasSearchScore ? '_SCORE' : false);
             if (sortBy) {
@@ -519,7 +518,6 @@
                 });
             }
 
-            that.setPager(-1, result.length);
             var pager = that.pager;
             if (pager.page) {
                 var start = pager.page > 1 ? (pager.page * pager.recPerPage) : 0;
@@ -555,7 +553,7 @@
         var dataSource = that.dataSource;
         if (dataSource.array) {
             data = that.filterData(dataSource.array, params);
-            that.resetData(dataId, data);
+            that.resetData(dataId, data, that.pager);
             return callback && callback(data);
         } else if (dataSource.getByIndex) {
             data = dataSource.getByIndex;
@@ -689,6 +687,7 @@
                     if (dataCache.id === dataId) {
                         dataSource.dataId = dataId;
                         dataSource.data = dataCache.data;
+                        this.setPager(dataCache.pager);
                         data = dataCache.data;
                         break;
                     }
@@ -714,7 +713,8 @@
             }
             dataSource.cache.push({
                 id: dataId,
-                data: data
+                data: data,
+                pager: $.extend({}, pager)
             });
             while (dataSource.cache.length > dataSource.cacheSize) {
                 dataSource.cache.shift();
@@ -769,7 +769,7 @@
             var rowIndexWidth       = options.rowIndexWidth;
             var colsLayout          = [{
                 left: 0,
-                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 10) : rowIndexWidth) : 0
+                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 12) : rowIndexWidth) : 0
             }];
             var cellsTotalWidth     = 0;
             var fixedWidth          = colsLayout[0].width;
@@ -1201,6 +1201,10 @@
                 }
             }
         }
+
+        if (that.pagerObj) {
+            that.pagerObj.set(that.pager);
+        }
     };
 
     DataGrid.prototype.render = function(ignoreDelay) {
@@ -1542,10 +1546,10 @@
         // sortFunc: null,
 
         // Sort by click column headers
-        sortable: true,
+        // sortable: false,
 
         // Show checkboxes and let user select a row
-        checkable: true,
+        // checkable: false,
 
         // Let user check by click row
         checkByClickRow: true,
