@@ -399,7 +399,7 @@
               "name": "通过 Bower 安装"
             }
           ],
-          "filter": "xiazai xz shiyong sy npm bower cdn"
+          "filter": "xiazai xz shiyong sy npm bower cdn usage"
         },
         {
           "icon": "icon-smile",
@@ -446,7 +446,7 @@
               "name": "使用 Gulp 定制"
             }
           ],
-          "filter": "xuanzebanben xzbb"
+          "filter": "xuanzebanben xzbb version"
         },
         {
           "id": "browser",
@@ -461,7 +461,7 @@
               "name": "浏览器检测"
             }
           ],
-          "filter": "shouzhichidipingtai szcdpt"
+          "filter": "shouzhichidipingtai szcdpt ie"
         },
         {
           "desc": "normalize.css",
@@ -491,7 +491,7 @@
               "name": "提示 IE7 及更早版本的用户"
             }
           ],
-          "filter": "jianrongieliulanqi jriellq"
+          "filter": "jianrongieliulanqi jriellq ie8"
         },
         {
           "desc": "",
@@ -1753,7 +1753,7 @@
           "desc": "功能强大的数据网格视图",
           "name": "数据表格②",
           "version": "1.8.0",
-          "filter": "shujuwangge sjwg shjwg"
+          "filter": "shujuwangge sjwg shjwg shujubiaoge datatable sjbg"
         },
         {
           "id": "tabs",
@@ -1838,7 +1838,7 @@
               "name": "获取 plupload 对象"
             }
           ],
-          "filter": "wenjiangshangchuan wjsc file"
+          "filter": "wenjiangshangchuan wjsc file select from-control"
         },
         {
           "id": "calendar",

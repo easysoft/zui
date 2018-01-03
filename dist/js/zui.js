@@ -1,8 +1,8 @@
 /*!
- * ZUI: Standard edition - v1.8.0 - 2017-12-29
+ * ZUI: Standard edition - v1.8.0 - 2018-01-03
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2017 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2018 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -693,7 +693,7 @@
 
     // default options
     Pager.DEFAULTS = $.extend({
-        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'goto', 'size_menu', '|', 'page_of_total_text', 'items_range_text', 'total_text'],
+        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'page_of_total_text', 'items_range_text', 'total_text'],
         prevIcon: 'icon-double-angle-left',
         nextIcon: 'icon-double-angle-right',
         firstIcon: 'icon-step-backward',
@@ -4524,7 +4524,7 @@
             href: item.url || '###',
             'class': item.className,
             style: item.style
-        }).toggleClass('disabled', item.disabled === true).data('item', item);
+        }).data('item', item);
         if (item.html) {
             $a.html(item.html);
         } else {
@@ -4533,7 +4533,7 @@
         if (item.onClick) {
             $a.on('click', item.onClick);
         }
-        return $('<li />').append($a);
+        return $('<li />').toggleClass('disabled', item.disabled === true).append($a);
     };
 
     var animationTimer = null;
