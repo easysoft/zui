@@ -902,12 +902,12 @@
             }
         }
         var cell = {
-            type: type,
-            value: value,
+            type:     type,
+            value:    value,
             rowIndex: rowIndex,
             colIndex: colIndex,
-            config: config,
-            checked: that.isRowChecked(config.rowId)
+            config:   config,
+            checked:  that.isRowChecked(config.rowId)
         };
         var spanMap = that.layout.spanMap;
         if (spanMap[config.id] || config.hidden) {
@@ -1002,10 +1002,10 @@
     };
 
     DataGrid.prototype.checkRow = function(rowIndex, checked) {
-        var that = this;
+        var that       = this;
         var selections = that.states.selections;
-        var rowConfig = that.getRowConfig(rowIndex);
-        var rowId = rowConfig.rowId;
+        var rowConfig  = that.getRowConfig(rowIndex);
+        var rowId      = rowConfig.rowId;
         if (checked === undefined) {
             checked = !selections[rowId];
         }
@@ -1066,9 +1066,9 @@
         }
 
         // Caculate cell style
-        var borderWidth = options.borderWidth;
-        var layout = that.layout;
-        var colsLength = layout.colsLength;
+        var borderWidth     = options.borderWidth;
+        var layout          = that.layout;
+        var colsLength      = layout.colsLength;
         var cellBoundsStyle = {
             top: borderWidth ? -borderWidth : 0,
             bottom: borderWidth ? -borderWidth : 0,
@@ -1534,9 +1534,6 @@
 
         // On render datagrid
         // onRender: null,
-
-        // Pager options
-        // pager: null,
 
         // Search filter function
         // searchFunc: null,
