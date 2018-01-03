@@ -326,7 +326,7 @@
 
     // default options
     Pager.DEFAULTS = $.extend({
-        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'goto', 'size_menu', '|', 'page_of_total_text', 'items_range_text', 'total_text'],
+        elements: ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'page_of_total_text', 'items_range_text', 'total_text'],
         prevIcon: 'icon-double-angle-left',
         nextIcon: 'icon-double-angle-right',
         firstIcon: 'icon-step-backward',
