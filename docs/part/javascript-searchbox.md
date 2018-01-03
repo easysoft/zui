@@ -11,13 +11,13 @@
 <div class="example">
   <div class="row">
     <div class="col-md-6">
-      <input id="searchInputExample" type="search" class="form-control search-input search-example" placeholder="搜索">
+      <input id="searchInputExample" autofocus="autofocus" type="search" class="form-control search-input search-example" placeholder="搜索">
     </div>
   </div>
 </div>
 
 ```html
-<input id="searchInputExample" type="search" class="form-control search-input" placeholder="搜索">
+<input id="searchInputExample" autofocus="autofocus" type="search" class="form-control search-input" placeholder="搜索">
 ```
 
 ```js

@@ -23,6 +23,7 @@ var tabs = [{
     type: 'ajax'
 }, {
     title: '自定义例子',
+    icon: 'icon-star',
     type: 'custom',
     content: function() {
         return '<div class="alert alert-block alert-success"><p>这里的内容是通过函数动态生成的，每次刷新下面的时间都会更新。</p><p>' + (new Date().format('yyyy-MM-dd hh:mm:ss')) +   '</p></div>';
@@ -31,6 +32,9 @@ var tabs = [{
     title: 'MZUI',
     url: 'http://zui.sexy/m',
     type: 'iframe'
+}, {
+    defaultTitle: '无法加载的标签页',
+    url: 'http://zui1.sexy'
 }];
 
 // 初始化标签页管理器
@@ -465,14 +469,18 @@ function afterPageLoad() {
             type: 'ajax'
         }, {
             title: '自定义例子',
+            icon: 'icon-star',
             type: 'custom',
             content: function() {
-                return $('<div class="alert alert-block alert-success"><p>这里的内容是通过函数动态生成的，每次刷新下面的时间都会更新。</p><p>' + (new Date().format('yyyy-MM-dd hh:mm:ss')) +   '</p></div>');
+                return '<div class="alert alert-block alert-success"><p>这里的内容是通过函数动态生成的，每次刷新下面的时间都会更新。</p><p>' + (new Date().format('yyyy-MM-dd hh:mm:ss')) +   '</p></div>';
             }
         }, {
             title: 'MZUI',
             url: 'http://zui.sexy/m',
             type: 'iframe'
+        }, {
+            defaultTitle: '无法加载的标签页',
+            url: 'http://zui1.sexy'
         }]
     });
 }
