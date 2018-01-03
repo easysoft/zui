@@ -1,0 +1,13 @@
+{
+  "result": "success",
+  "data": [
+      {"time": "00:15:32", "hero":"幻影刺客", "action": "击杀", "target": "斧王", "desc": "幻影刺客击杀了斧王。"},
+      {"time": "00:16:21", "hero":"幻影刺客", "action": "购买了", "target": "隐刀", "desc": "幻影刺客购买了隐刀。"}
+  ],
+  "message": "",
+  "pager": {
+      "page": 2,
+      "recTotal": 7,
+      "recPerPage": 5
+  }
+}

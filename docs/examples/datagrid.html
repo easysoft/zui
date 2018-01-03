@@ -30,6 +30,7 @@
       <p class="small">全新的数据表格视图组件可以流畅显示上亿的动态数据，完整功能包括自动分页、搜索、远程数据加载、行选择、跨行跨列、行列固定、排序等。此组件将于ZUI 1.8中发布。</p>
     </header>
   </div>
+  <div id="remoteDataGridExample" class="datagrid"></div>
 
 <script src="../../assets/jquery.js"></script>
 <script src="../../dist/js/zui.js"></script>
@@ -188,7 +189,6 @@ $(function() {
         };
     };
     var sampleSize = 10000000000000;
-    // var sampleSize = 1000;
     var sampleData = createDataSample(sampleSize);
 
     var options1 = $.extend(sampleData, {
@@ -243,6 +243,33 @@ $(function() {
 
     var datagrid2 = $('#dataGrid2').datagrid(options2).data('zui.datagrid');
     console.log('datagrid2', datagrid2);
+
+    var datagrid3 = $('#remoteDataGridExample').datagrid({
+        states: {
+            pager: {page: 1, recPerPage: 5},
+        },
+        dataSource: {
+            cols:[
+                {name: 'time', label: '时间', width: 132},
+                {name: 'hera', label: '英雄', width: 134},
+                {name: 'action', label: '动作', width: 109},
+                {name: 'target', label: '目标', width: 109},
+                {name: 'desc', label: '描述', width: 287}
+            ],
+            remote: function(params) {
+                return {
+                    // 原创请求地址
+                    url: '../partial/remote-data-' + params.page + '.json',
+                    // 请求类型
+                    type: 'GET',
+                    // 数据类型
+                    dataType: 'json'
+                };
+            }
+        }
+    }).data('zui.datagrid');
+
+    console.log('datagrid3', datagrid3);
 });
 </script>
 </body>

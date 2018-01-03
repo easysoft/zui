@@ -1,0 +1,16 @@
+{
+    "result": "success",
+    "data": [
+        {"time": "00:11:12", "hero":"幻影刺客", "action": "击杀", "target": "斧王", "desc": "幻影刺客击杀了斧王。"},
+        {"time": "00:13:22", "hero":"幻影刺客", "action": "购买了", "target": "隐刀", "desc": "幻影刺客购买了隐刀。"},
+        {"time": "00:19:36", "hero":"斧王", "action": "购买了", "target": "黑皇杖", "desc": "斧王购买了黑皇杖。"},
+        {"time": "00:21:43", "hero":"力丸", "action": "购买了", "target": "隐刀", "desc": "力丸购买了隐刀。"},
+        {"time": "00:22:03", "hero":"力丸", "action": "购买了", "target": "隐刀", "desc": "力丸购买了跳刀。"}
+    ],
+    "message": "",
+    "pager": {
+        "page": 1,
+        "recTotal": 7,
+        "recPerPage": 5
+    }
+}
