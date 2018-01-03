@@ -325,7 +325,10 @@
                 });
             } else {
                 $cells.on('click', options.checkByClickRow ? '.datagrid-row' : '.datagrid-has-checkbox', function(e) {
-                    that.checkRow($(this).data('row'));
+                    var rowIndex = $(this).data('row');
+                    if (rowIndex || $(e.target).closest('.datagrid-has-checkbox').length) {
+                        that.checkRow(rowIndex);
+                    }
                 });
             }
         }
@@ -599,6 +602,7 @@
                     if (loadingId !== that.loadingId) {
                         return;
                     }
+                    that.renderLoading(false);
                     if (error) {
                         that.showMessage(error, 'danger');
                         callback && callback(false);
@@ -606,7 +610,6 @@
                     }
                     that.resetData(dataId, resultData.data, resultData.pager);
                     callback && callback(resultData.data);
-                    that.renderLoading(false);
                 });
             } else {
                 return callback && callback(false);
@@ -952,7 +955,6 @@
     };
 
     DataGrid.prototype.getColConfig = function(colIndex) {
-        console.log('getColConfig', colIndex);
         var that = this;
         var colId = 'C' + colIndex;
         // var config = that.configsCache[colId];
@@ -968,7 +970,7 @@
                     valueType: 'string'
                 },
                 colIndex > 0 ? that.dataSource.cols[colIndex - 1] : null,
-                that.layout.cols[colIndex],
+                that.layout.cols ? that.layout.cols[colIndex] : null,
                 that.isFuncConfigs ? that.configs(colId) : that.configs[colId],
                 that.userConfigs[colId]
             );
