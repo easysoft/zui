@@ -544,21 +544,27 @@
         var that = this;
         that.loadingId = $.zui.uuid();
 
+        var afterLoad = function(result) {
+            that.$.callComEvent(that, 'onLoad', result);
+            return callback && callback(result);
+        };
+
         var params = that.getFilterParams();
         var dataId = [params.page, params.recPerPage, params.search, params.sortBy, params.order].join('&');
         var data = that.getData(dataId);
+
         if (data) {
-            return callback && callback(data);
+            return afterLoad(data);
         }
         var dataSource = that.dataSource;
         if (dataSource.array) {
             data = that.filterData(dataSource.array, params);
             that.resetData(dataId, data, that.pager);
-            return callback && callback(data);
+            return afterLoad(data);
         } else if (dataSource.getByIndex) {
             data = dataSource.getByIndex;
             that.resetData(dataId, data);
-            return callback && callback(data);
+            return afterLoad(data);
         } else {
             var loadData = dataSource.loader;
             var remote = dataSource.remote;
@@ -603,18 +609,17 @@
                     that.renderLoading(false);
                     if (error) {
                         that.showMessage(error, 'danger');
-                        callback && callback(false);
+                        afterLoad(false);
                         return;
                     }
                     that.resetData(dataId, resultData.data, resultData.pager);
-                    callback && callback(resultData.data);
+                    afterLoad(resultData.data);
                 });
             } else {
-                return callback && callback(false);
+                return afterLoad(false);
             }
         }
     };
-
 
     DataGrid.prototype.getDataItem = function(index, data, filterParams) {
         var that = this;
@@ -775,8 +780,8 @@
             var fixedWidth          = colsLayout[0].width;
             var lastGrowColIndex    = false;
             var lastMaxGrow         = 0;
-            var colLayout, colWidth;
             var checkBoxColIndex    = 0;
+            var colLayout, colWidth;
 
             for (var i = 0; i < cols.length; ++i) {
                 var col = cols[i];
@@ -1031,6 +1036,15 @@
         return checked;
     };
 
+    DataGrid.prototype.getCheckItems = function() {
+        var selections = this.states.selections;
+        var items = [];
+        selections && $.each(selections, function(rowId) {
+            items.push(selections[rowId].data);
+        });
+        return items;
+    };
+
     DataGrid.prototype.renderCell = function(rowIndex, colIndex, $row) {
         var that       = this;
         var options    = that.options;
@@ -1096,7 +1110,7 @@
         $cell.css(style).toggleClass('datagrid-cell-span', !!config.span);
 
         if (options.cellFormator) {
-            options.cellFormator($cell, cell);
+            options.cellFormator($cell, cell, that);
         } else {
             var $content = isCheckbox ? $cell.find('.content') : $cell;
             $content[cell.html ? 'html' : 'text'](cell.value);
@@ -1373,9 +1387,6 @@
         that.$.callComEvent(that, 'onScroll', [scrollLeft, scrollTop, {vScrolled: vScrolled, hScrolled: hScrolled}]);
     };
 
-    DataGrid.prototype.isRowVisible = function(rowIndex) {
-    };
-
     DataGrid.prototype.renderFixeds = function() {
         var that   = this;
         var states = that.states;
@@ -1507,7 +1518,7 @@
         hoverCol: true,
 
         // Use cell hover effection
-        hoverCell: true,
+        hoverCell: false,
 
         // Relayout on container resize
         responsive: true,
@@ -1526,12 +1537,6 @@
 
         // Delay render time
         renderDelay: 100,
-
-        // Data items return a array
-        // dataItemIsArray: false,
-
-        // On datagrid ready
-        // onReady: null,
 
         // On user scroll list
         // onScroll: null,
