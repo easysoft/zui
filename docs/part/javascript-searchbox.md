@@ -311,25 +311,21 @@ $('#searchBox').on('onBlur', function(e, event) {
 function afterPageLoad(){
     $('.search-example').searchBox({
         escToClear: true,
-        onSearchChange: (searchKey, isEmpty) => {
+        onSearchChange: function(searchKey, isEmpty) {
             console.log('Search box example: SearchKey', searchKey, isEmpty ? 'empty' : 'notEmpty');
         },
-        onPressEnter: e => {
+        onPressEnter: function() {
             console.log('ZUI - Searchbox: You press enter.');
         },
-        onKeyDown: e => {
+        onKeyDown: function() {
             console.log('ZUI - Searchbox: You press any key down.');
         },
-        onFocus: e => {
+        onFocus: function() {
             console.log('ZUI - Searchbox: Search box focus.');
         },
-        onBlur: e => {
+        onBlur: function() {
             console.log('ZUI - Searchbox: Search box blur.');
         }
-    });
-
-    $('.search-example').on('onSearchChange', function(e, searchBox, isEmpty) {
-        console.info('>', {e, searchBox, isEmpty});
     });
 }
 </script>

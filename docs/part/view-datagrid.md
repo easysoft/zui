@@ -1415,7 +1415,7 @@ function afterPageLoad() {
                 {label: '累计人头', name: 'kills', width: 110, valueType: 'number'},
             ];
             var createDataItem = function(index) {
-                var luckNumber = Number.parseInt((Math.sin(index + 1) + '').substr(3));
+                var luckNumber = parseInt((Math.sin(index + 1) + '').substr(3));
                 var time = 600 + 5*index + getLuckInt(0, 5, luckNumber);
                 var action = getLuckData(actions, null, null, luckNumber);
                 var heroIndex = getLuckInt(0, action === '击杀' ? 6 : 4, luckNumber);
