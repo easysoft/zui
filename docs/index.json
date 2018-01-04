@@ -1,6 +1,6 @@
 {
-  "version": "1.7.0.3",
-  "updateTime": "2017-06-23 09:07",
+  "version": "1.8.0.1",
+  "updateTime": "2018-01-04 09:24",
   "chapters": {
     "contribution": {
       "name": "贡献",
@@ -1753,7 +1753,24 @@
           "desc": "功能强大的数据网格视图",
           "name": "数据表格②",
           "version": "1.8.0",
-          "filter": "shujuwangge sjwg shjwg shujubiaoge datatable sjbg"
+          "filter": "shujuwangge sjwg shjwg shujubiaoge datatable sjbg",
+          "topics": [
+            {"name": "综合示例"},
+            {"name": "数据源"},
+            {"name": "固定行和列"},
+            {"name": "排序"},
+            {"name": "分页"},
+            {"name": "搜索"},
+            {"name": "行选择"},
+            {"name": "跨行跨列的单元格"},
+            {"name": "值转换器"},
+            {"name": "自适应列宽"},
+            {"name": "个性化配置"},
+            {"name": "自定义模板"},
+            {"name": "选项"},
+            {"name": "属性和方法"},
+            {"name": "事件"}
+          ]
         },
         {
           "id": "tabs",
