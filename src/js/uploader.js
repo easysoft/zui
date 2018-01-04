@@ -311,12 +311,18 @@
         $list.toggleClass('file-show-delete-action-on-done', !!options.deleteActionOnDone);
 
         // Init static files
+        that.staticFilesSize = 0;
+        that.staticFilesCount = 0;
         if(options.staticFiles) {
             $.each(options.staticFiles, function(idx, file) {
                 file = $.extend({status: Plupload.DONE}, file);
                 file.static = true;
                 if(!file.id) file.id = $.zui.uuid();
                 that.showFile(file);
+                if (file.size) {
+                    that.staticFilesSize += file.size;
+                    that.staticFilesCount++;
+                }
             });
         }
 
@@ -549,14 +555,17 @@
         var that = this;
         var plupload = that.plupload;
         var $status = that.$status;
-        var state = plupload.state, total = plupload.total, statusText = '', totalCount = plupload.files.length;
+        var state = plupload.state,
+            total = plupload.total,
+            statusText = '',
+            totalCount = plupload.files.length;
         if(that.options.statusCreator) {
             statusText = that.options.statusCreator(total, state, that);
         } else {
             var stateObj = {
                 uploading: Math.max(0, Math.min(totalCount, total.uploaded + 1)),
-                total: that.$list.children('.file-static').length + totalCount,
-                size: Plupload.formatSize(total.size).toUpperCase(),
+                total: that.staticFilesCount + totalCount,
+                size: Plupload.formatSize(total.size + that.staticFilesSize).toUpperCase(),
                 queue: total.queued,
                 failed: total.failed,
                 uploaded: total.uploaded,
