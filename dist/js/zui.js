@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.8.0 - 2018-01-03
+ * ZUI: Standard edition - v1.8.0 - 2018-01-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -586,7 +586,7 @@
 
     Pager.prototype.createElement = function(element, $pager, pager) {
         var that = this;
-        var createLinkItem= that.createLinkItem.bind(that);
+        var createLinkItem= $.proxy(that.createLinkItem, that);
         var lang = that.lang;
         switch (element) {
             case 'prev':

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.8.0 - 2018-01-03
+ * ZUI: 数据表格② - v1.8.0 - 2018-01-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -279,8 +279,8 @@
             },
             setter: function(inputValue, cell, dataGrid) {
                 if (typeof inputValue === 'string') {
-                    var intValue = Number.parseInt(inputValue, 10);
-                    if (!Number.isNaN(intValue)) {
+                    var intValue = parseInt(inputValue, 10);
+                    if (!isNaN(intValue)) {
                         inputValue = intValue;
                     }
                 }
@@ -464,9 +464,9 @@
         };
         createScrollbar('h');
         createScrollbar('v');
-        $container.on('mousewheel', function(e) {
+        $container.on('mousewheel', function(event) {
             that.scroll(that.layout.scrollLeft + Math.round(event.deltaX), that.layout.scrollTop + Math.round(event.deltaY));
-            e.preventDefault();
+            event.preventDefault();
         });
 
         that.$container = $container;
@@ -625,9 +625,6 @@
 
         if (oldPager.page !== pager.page || oldPager.recTotal !== pager.recTotal || oldPager.recPerPage !== pager.recPerPage) {
             that.layout.cols = null;
-            if (that.pagerObj) {
-                that.pagerObj.set(pager);
-            }
             that.scroll(0, 0);
         }
         return that;
@@ -735,6 +732,8 @@
             }
         }
 
+        that.setPager(-1, result.length);
+
         if (result.length) {
             var sortBy = filter.sortBy || (hasSearchScore ? '_SCORE' : false);
             if (sortBy) {
@@ -748,7 +747,6 @@
                 });
             }
 
-            that.setPager(-1, result.length);
             var pager = that.pager;
             if (pager.page) {
                 var start = pager.page > 1 ? (pager.page * pager.recPerPage) : 0;
@@ -775,21 +773,27 @@
         var that = this;
         that.loadingId = $.zui.uuid();
 
+        var afterLoad = function(result) {
+            that.$.callComEvent(that, 'onLoad', result);
+            return callback && callback(result);
+        };
+
         var params = that.getFilterParams();
         var dataId = [params.page, params.recPerPage, params.search, params.sortBy, params.order].join('&');
         var data = that.getData(dataId);
+
         if (data) {
-            return callback && callback(data);
+            return afterLoad(data);
         }
         var dataSource = that.dataSource;
         if (dataSource.array) {
             data = that.filterData(dataSource.array, params);
-            that.resetData(dataId, data);
-            return callback && callback(data);
+            that.resetData(dataId, data, that.pager);
+            return afterLoad(data);
         } else if (dataSource.getByIndex) {
             data = dataSource.getByIndex;
             that.resetData(dataId, data);
-            return callback && callback(data);
+            return afterLoad(data);
         } else {
             var loadData = dataSource.loader;
             var remote = dataSource.remote;
@@ -834,18 +838,17 @@
                     that.renderLoading(false);
                     if (error) {
                         that.showMessage(error, 'danger');
-                        callback && callback(false);
+                        afterLoad(false);
                         return;
                     }
                     that.resetData(dataId, resultData.data, resultData.pager);
-                    callback && callback(resultData.data);
+                    afterLoad(resultData.data);
                 });
             } else {
-                return callback && callback(false);
+                return afterLoad(false);
             }
         }
     };
-
 
     DataGrid.prototype.getDataItem = function(index, data, filterParams) {
         var that = this;
@@ -918,6 +921,7 @@
                     if (dataCache.id === dataId) {
                         dataSource.dataId = dataId;
                         dataSource.data = dataCache.data;
+                        this.setPager(dataCache.pager);
                         data = dataCache.data;
                         break;
                     }
@@ -943,7 +947,8 @@
             }
             dataSource.cache.push({
                 id: dataId,
-                data: data
+                data: data,
+                pager: $.extend({}, pager)
             });
             while (dataSource.cache.length > dataSource.cacheSize) {
                 dataSource.cache.shift();
@@ -998,17 +1003,18 @@
             var rowIndexWidth       = options.rowIndexWidth;
             var colsLayout          = [{
                 left: 0,
-                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 10) : rowIndexWidth) : 0
+                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 12) : rowIndexWidth) : 0
             }];
             var cellsTotalWidth     = 0;
             var fixedWidth          = colsLayout[0].width;
             var lastGrowColIndex    = false;
             var lastMaxGrow         = 0;
-            var colLayout, colWidth;
             var checkBoxColIndex    = 0;
+            var colLayout, colWidth;
 
             for (var i = 0; i < cols.length; ++i) {
                 var col = cols[i];
+                if (!col) continue;
                 colWidth = col.width;
                 if (!colWidth || colWidth === 'auto') {
                     colWidth = 0.1;
@@ -1260,6 +1266,15 @@
         return checked;
     };
 
+    DataGrid.prototype.getCheckItems = function() {
+        var selections = this.states.selections;
+        var items = [];
+        selections && $.each(selections, function(rowId) {
+            items.push(selections[rowId].data);
+        });
+        return items;
+    };
+
     DataGrid.prototype.renderCell = function(rowIndex, colIndex, $row) {
         var that       = this;
         var options    = that.options;
@@ -1325,7 +1340,7 @@
         $cell.css(style).toggleClass('datagrid-cell-span', !!config.span);
 
         if (options.cellFormator) {
-            options.cellFormator($cell, cell);
+            options.cellFormator($cell, cell, that);
         } else {
             var $content = isCheckbox ? $cell.find('.content') : $cell;
             $content[cell.html ? 'html' : 'text'](cell.value);
@@ -1429,6 +1444,10 @@
                     that.renderRow(i);
                 }
             }
+        }
+
+        if (that.pagerObj) {
+            that.pagerObj.set(that.pager);
         }
     };
 
@@ -1598,9 +1617,6 @@
         that.$.callComEvent(that, 'onScroll', [scrollLeft, scrollTop, {vScrolled: vScrolled, hScrolled: hScrolled}]);
     };
 
-    DataGrid.prototype.isRowVisible = function(rowIndex) {
-    };
-
     DataGrid.prototype.renderFixeds = function() {
         var that   = this;
         var states = that.states;
@@ -1732,7 +1748,7 @@
         hoverCol: true,
 
         // Use cell hover effection
-        hoverCell: true,
+        hoverCell: false,
 
         // Relayout on container resize
         responsive: true,
@@ -1752,12 +1768,6 @@
         // Delay render time
         renderDelay: 100,
 
-        // Data items return a array
-        // dataItemIsArray: false,
-
-        // On datagrid ready
-        // onReady: null,
-
         // On user scroll list
         // onScroll: null,
 
@@ -1771,10 +1781,10 @@
         // sortFunc: null,
 
         // Sort by click column headers
-        sortable: true,
+        // sortable: false,
 
         // Show checkboxes and let user select a row
-        checkable: true,
+        // checkable: false,
 
         // Let user check by click row
         checkByClickRow: true,

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.8.0 - 2018-01-03
+ * ZUI: Document - v1.8.0 - 2018-01-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -12976,8 +12976,8 @@ require('./polyfill-done.js');
             }
         }
 
-        var dataType = url.endsWith('.json') ? 'json' : 'html';
         var loadFromRemote = function() {
+            var dataType = url.endsWith('.json') ? 'json' : (url.endsWith('.md') ? 'text' : 'html');
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -14648,7 +14648,7 @@ require('./polyfill-done.js');
         if($body.hasClass('theme-changing')) return false;
         $body.addClass('theme-changing');
 
-        if(theme.css) {
+        if(!debug && theme.css) {
             readyChangeTheme(theme.css);
         } else {
             setTimeout(function() {
@@ -14906,7 +14906,7 @@ require('./polyfill-done.js');
             }
         });
 
-        // $pageBody.on('scroll', function(e) {
+        // $pageBod y.on('scroll', function(e) {
         //     $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
         // });
 

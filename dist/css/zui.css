@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.8.0 - 2018-01-03
+ * ZUI: Standard edition - v1.8.0 - 2018-01-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -934,7 +934,6 @@ a[disabled]:focus {
 audio,
 canvas,
 img,
-svg,
 video {
   max-width: 100%;
   vertical-align: middle;
@@ -5436,10 +5435,12 @@ a.list-group-item:focus {
 .form-control:focus + .input-control-label-left {
   color: #145ccd;
   }
-input:placeholder-shown + .search-clear-btn,
 .empty + .search-clear-btn,
-input:placeholder-shown + .search-icon + .search-clear-btn,
 .empty + .search-icon + .search-clear-btn {
+  opacity: 0 !important;
+  }
+input:placeholder-shown + .search-clear-btn,
+input:placeholder-shown + .search-icon + .search-clear-btn {
   opacity: 0 !important;
   }
 .search-box-circle .input-control-icon-left,

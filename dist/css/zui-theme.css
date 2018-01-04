@@ -1,5 +1,5 @@
 /*!
- * ZUI: Theme - v1.8.0 - 2018-01-03
+ * ZUI: Theme - v1.8.0 - 2018-01-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -66,6 +66,15 @@ fieldset[disabled] .btn.active {
   border-color: #adadad;
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
           box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
+  }
+.btn:active,
+.btn.active,
+.open .dropdown-toggle.btn {
+  background-color: #d9d9d9;
+  background-image: none;
+  border-color: #b3b3b3;
+  -webkit-box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+          box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn.disabled,
 .btn[disabled],
@@ -139,6 +148,15 @@ fieldset[disabled] .btn-primary.active {
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
           box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
   }
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  background-color: #2b387c;
+  background-image: none;
+  border-color: #313e8b;
+  -webkit-box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+          box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+  }
 .btn-primary.disabled,
 .btn-primary[disabled],
 fieldset[disabled] .btn-primary,
@@ -210,6 +228,15 @@ fieldset[disabled] .btn-warning.active {
   border-color: #e89014;
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
           box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
+  }
+.btn-warning:active,
+.btn-warning.active,
+.open .dropdown-toggle.btn-warning {
+  background-color: #df8a13;
+  background-image: none;
+  border-color: #ec951a;
+  -webkit-box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+          box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-warning.disabled,
 .btn-warning[disabled],
@@ -283,6 +310,15 @@ fieldset[disabled] .btn-danger.active {
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
           box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
   }
+.btn-danger:active,
+.btn-danger.active,
+.open .dropdown-toggle.btn-danger {
+  background-color: #b52b27;
+  background-image: none;
+  border-color: #c52f2b;
+  -webkit-box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+          box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+  }
 .btn-danger.disabled,
 .btn-danger[disabled],
 fieldset[disabled] .btn-danger,
@@ -355,6 +391,15 @@ fieldset[disabled] .btn-success.active {
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
           box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
   }
+.btn-success:active,
+.btn-success.active,
+.open .dropdown-toggle.btn-success {
+  background-color: #357a38;
+  background-image: none;
+  border-color: #3b883e;
+  -webkit-box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+          box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+  }
 .btn-success.disabled,
 .btn-success[disabled],
 fieldset[disabled] .btn-success,
@@ -426,6 +471,15 @@ fieldset[disabled] .btn-info.active {
   border-color: #026fa4;
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
           box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
+  }
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+  background-color: #026899;
+  background-image: none;
+  border-color: #0276ae;
+  -webkit-box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
+          box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
 .btn-info.disabled,
 .btn-info[disabled],
@@ -651,6 +705,19 @@ a.hl-primary:hover {
 .form-condensed .form-control,
 .form-condensed .btn {
   border-radius: 0;
+  }
+.switch > input:checked + label:before {
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+  }
+.switch input:focus + label {
+  color: #3f51b5;
+  }
+.switch input:focus + label:before {
+  border-color: #3f51b5;
+  }
+.form-control:focus + .input-control-label-left {
+  color: #3949ab;
   }
 .btn-group-vertical > .btn:not(:first-child):not(:last-child) {
   border-radius: 0;
@@ -1256,4 +1323,25 @@ table.tablesorter thead tr .headerSortDown:after {
   }
 pre {
   border-radius: 0;
+  }
+.datagrid .datagrid-hover-row .datagrid-row-cell:hover .datagrid-cell,
+.datagrid .datagrid-hover-col .datagrid-cell.hover,
+.datagrid .datagrid-hover-col .datagrid-row-cell.active .datagrid-cell.hover {
+  background-color: #eceff1;
+  }
+.datagrid .datagrid-loading > .content > .icon,
+.datagrid .datagrid-sort-up > .icon-sort:before,
+.datagrid .datagrid-sort-down > .icon-sort:before {
+  color: #3f51b5;
+  }
+.tree-drag-holder {
+  background-color: #eceff1;
+  }
+.tree-menu li.active > a {
+  color: #fff;
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+  }
+.tree-menu li.active > .list-toggle {
+  color: #fff;
   }

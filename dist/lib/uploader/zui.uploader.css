@@ -1,5 +1,5 @@
 /*!
- * ZUI: 文件上传 - v1.8.0 - 2018-01-03
+ * ZUI: 文件上传 - v1.8.0 - 2018-01-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -56,6 +56,9 @@
   -ms-flex-pack: center;
           justify-content: center;
   }
+.ie [data-drop-placeholder]:before {
+  display: none !important;
+  }
 .file-dragable[data-drop-placeholder]:before {
   filter: alpha(opacity=100);
   opacity: 1;
@@ -86,6 +89,7 @@
   line-height: 32px;
   color: #ddd;
   text-align: center;
+  pointer-events: none;
   content: attr(data-drag-placeholder);
   -webkit-transition: all .4s;
        -o-transition: all .4s;
