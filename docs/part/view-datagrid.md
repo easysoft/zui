@@ -5,7 +5,7 @@
 ## 综合示例
 
 <div class="example">
-  <div id="datagridExample" class="datagrid">
+  <div id="datagridExample" class="datagrid datagrid-borderless">
     <header class="clearfix">
       <div class="input-control search-box search-box-circle has-icon-left has-icon-right pull-right" id="searchboxExample1">
         <input id="inputSearchExample1" type="search" class="form-control search-input" placeholder="搜索">
@@ -829,6 +829,30 @@ $('#myDataGrid').datagrid({
 </div>
 ```
 
+## 外观选项
+
+### 移除垂直边框
+
+使用 `.datagrid-borderless` 来移除垂直边框。
+
+<div class="example">
+  <div id="datagridBorderlessExample" class="datagrid datagrid-borderless"></div>
+</div>
+
+```html
+<div id="datagridBorderlessExample" class="datagrid datagrid-borderless"></div>
+```
+
+### 隔行变色
+
+<div class="example">
+  <div id="datagridStripedExample" class="datagrid datagrid-striped"></div>
+</div>
+
+```html
+<div id="datagridStripedExample" class="datagrid datagrid-striped"></div>
+```
+
 ## 选项
 
 所有可用的选项包括：
@@ -895,7 +919,7 @@ $('#myDataGrid').datagrid({
     <tr>
       <td><code>rowDefaultHeight</code></td>
       <td>行高</td>
-      <td>默认为 `30`</td>
+      <td>默认为 `36`</td>
       <td></td>
     </tr>
     <tr>
@@ -919,7 +943,7 @@ $('#myDataGrid').datagrid({
     <tr>
       <td><code>showMessage</code></td>
       <td>标题行高度</td>
-      <td>默认为 `30`</td>
+      <td>默认为 `36`</td>
       <td></td>
     </tr>
     <tr>
@@ -1521,7 +1545,7 @@ function afterPageLoad() {
         return createDataSample(sampleSize);
     };
     var sampleData = getSampleData();
-    $('#datagridExample').datagrid({
+    $('#datagridExample,#datagridBorderlessExample,#datagridStripedExample').datagrid({
         configs: {
             'R0C0': {
               label: '#'

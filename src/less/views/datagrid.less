@@ -38,7 +38,7 @@
 .datagrid-cell {
   overflow: hidden;
   position: absolute;
-  padding: 5px;
+  padding: 8px;
   border: 1px solid @color-gray-light;
   transition: @animation-speed-normal @animation-type;
   transition-property: background, outline;
@@ -277,7 +277,7 @@
 
 .datagrid-sorter {
   position: absolute;
-  top: 0;
+  top: 3px;
   right: 0;
   width: 20px;
   text-align: center;
@@ -291,4 +291,25 @@
 .datagrid-sort-up > .icon-sort:before {
   content: @icon-caret-up;
   color: @color-primary;
+}
+
+.datagrid-borderless {
+  .datagrid-container {border-color: transparent}
+  .datagrid-cell {
+    border-left-color: transparent;
+    border-right-color: transparent;
+  }
+  .datagrid-fixed-edge-left {
+    box-shadow: -1px 0 0 rgba(0, 0, 0, 0.1) inset;
+  }
+  .datagrid-fixed-edge-right {
+    box-shadow: 1px 0 0 rgba(0, 0, 0, 0.1) inset;
+  }
+  .datagrid-row-cell .datagrid-cell.datagrid-cell-index {
+    background-color: @color-white;
+  }
+}
+
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) .datagrid-cell-cell {
+    background-color: @table-bg-accent;
 }
