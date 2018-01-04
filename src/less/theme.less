@@ -243,6 +243,31 @@ a {
   }
 }
 
+// Switch
+.switch {
+  > input:checked + label {
+    &:before {
+      background-color: @color-primary;
+      border-color: @color-primary;
+    }
+  }
+
+  input:focus + label {
+    color: @color-primary;
+
+    &:before {
+      border-color: @color-primary;
+    }
+  }
+}
+
+// Input control
+.form-control:focus {
+  + .input-control-label-left {
+    color: @color-secondary;
+  }
+}
+
 // Button group
 .btn-group-vertical > .btn {
   &:not(:first-child):not(:last-child) {
@@ -800,10 +825,10 @@ table.tablesorter thead tr .headerSortDown:after{color:@link-color!important;}
           }
         }
 
-        
+
         &:last-child {
           > a {
-            .border-bottom-radius(0); 
+            .border-bottom-radius(0);
           }
 
           > .nav > li:last-child > a {
@@ -956,3 +981,32 @@ table.tablesorter thead tr .headerSortDown:after{color:@link-color!important;}
 
 // Code
 pre {border-radius: @border-radius-base}
+
+// Datagrid
+.datagrid .datagrid-hover-row .datagrid-row-cell:hover .datagrid-cell,
+.datagrid .datagrid-hover-col .datagrid-cell.hover,
+.datagrid .datagrid-hover-col .datagrid-row-cell.active .datagrid-cell.hover  {
+  background-color: @color-pale;
+}
+.datagrid .datagrid-loading > .content > .icon,
+.datagrid .datagrid-sort-up > .icon-sort:before,
+.datagrid .datagrid-sort-down > .icon-sort:before {
+  color: @color-primary;
+}
+
+// Tree and tree menu
+.tree-drag-holder {
+  background-color: @color-pale;
+}
+.tree-menu {
+  li {
+    &.active > a {
+      background-color: @component-active-bg;
+      border-color: @component-active-bg;
+      color: @component-active-color;
+    }
+    &.active > .list-toggle {
+      color: @component-active-color;
+    }
+  }
+}
