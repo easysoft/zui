@@ -105,7 +105,12 @@
 
 // Search box
 
-.empty,
+.empty {
+  + .search-clear-btn,
+  + .search-icon + .search-clear-btn {
+    opacity: 0 !important;
+  }
+}
 input:placeholder-shown {
   + .search-clear-btn,
   + .search-icon + .search-clear-btn {
