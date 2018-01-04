@@ -219,7 +219,7 @@
 
     Pager.prototype.createElement = function(element, $pager, pager) {
         var that = this;
-        var createLinkItem= that.createLinkItem.bind(that);
+        var createLinkItem= $.proxy(that.createLinkItem, that);
         var lang = that.lang;
         switch (element) {
             case 'prev':
