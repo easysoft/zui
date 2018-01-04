@@ -2,7 +2,7 @@
 
 ## v 1.8.0
 
-1.8 版本带来了多个新的 JS 组件，包括全新的数据表格2、标签页管理器、上下文菜单、搜索框、输入框和分页器。
+1.8 版本带来了多个新的 JS 组件，包括全新的<a href="http://zui.sexy#view/datagrid" target="_blank">数据表格2</a>、<a href="http://zui.sexy#view/tabs" target="_blank">标签页管理器</a>、<a href="http://zui.sexy#javascript/contextmenu" target="_blank">上下文菜单</a>、<a href="http://zui.sexy#javascript/searchbox" target="_blank">搜索框</a>、<a href="http://zui.sexy#component/input-control" target="_blank">输入框</a>和<a href="http://zui.sexy#javascript/pagerjs" target="_blank">分页器</a>。
 
 ### 新功能预览
 
@@ -14,11 +14,12 @@
 
 ### 更新明细
 
-+ 新增数据表格2；
-+ 新增上下文菜单；
-+ 新增分页器；
-+ 新增搜索框；
-+ 新增输入框；
++ 新增 <a href="http://zui.sexy#view/datagrid" target="_blank">数据表格2</a>；
++ 新增 <a href="http://zui.sexy#view/tabs" target="_blank">标签页管理器</a>；
++ 新增 <a href="http://zui.sexy#javascript/contextmenu" target="_blank">上下文菜单</a>；
++ 新增 <a href="http://zui.sexy#javascript/pagerjs" target="_blank">分页器</a>；
++ 新增 <a href="http://zui.sexy#javascript/searchbox" target="_blank">搜索框</a>；
++ 新增 <a href="http://zui.sexy#component/input-control" target="_blank">输入框</a>；
 + 工具提示：
   * 修复 触发的事件名称；
 + 图标：
