@@ -265,8 +265,8 @@
             }
         }
 
-        var dataType = url.endsWith('.json') ? 'json' : 'html';
         var loadFromRemote = function() {
+            var dataType = url.endsWith('.json') ? 'json' : (url.endsWith('.md') ? 'text' : 'html');
             $.ajax({
                 url: url,
                 type: 'GET',
@@ -1937,7 +1937,7 @@
         if($body.hasClass('theme-changing')) return false;
         $body.addClass('theme-changing');
 
-        if(theme.css) {
+        if(!debug && theme.css) {
             readyChangeTheme(theme.css);
         } else {
             setTimeout(function() {
@@ -2195,7 +2195,7 @@
             }
         });
 
-        // $pageBody.on('scroll', function(e) {
+        // $pageBod y.on('scroll', function(e) {
         //     $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
         // });
 
