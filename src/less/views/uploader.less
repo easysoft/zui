@@ -45,6 +45,9 @@
   pointer-events: none;
   .opacity(0);
   transform: scale(.95);
+  pointer-events: none;
+
+  .ie & {display: none!important}
 }
 .file-dragable[data-drop-placeholder]:before {
   .opacity(1);
@@ -77,6 +80,7 @@
       top: 50%;
       margin-top: -15px;
       transition: all @animation-speed-normal;
+      pointer-events: none;
     }
 
     &:hover:before {

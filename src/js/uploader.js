@@ -21,6 +21,8 @@
         };
     }
 
+    var notSupportDnd = ($.zui.browser && $.zui.browser.ie && $.zui.browser.ie < 11);
+
     var NAME = 'zui.uploader', // modal name
         FILE_TEMPLATE = '<div class="file"><div class="file-progress-bar"></div><div class="file-wrapper"><div class="file-icon"><i class="icon icon-file-o"></i></div><div class="content"><div class="file-name"></div><div class="file-size small text-muted">0KB</div></div><div class="actions"><div class="file-status" data-toggle="tooltip"><i class="icon"></i> <span class="text"></span></div><a data-toggle="tooltip" class="btn btn-link btn-download-file" target="_blank"><i class="icon icon-download-alt"></i></a><button type="button" data-toggle="tooltip" class="btn btn-link btn-reset-file" title="Repeat"><i class="icon icon-repeat"></i></button><button type="button" data-toggle="tooltip" class="btn btn-link btn-rename-file" title="Rename"><i class="icon icon-pencil"></i></button><button type="button" data-toggle="tooltip" title="Remove" class="btn btn-link btn-delete-file"><i class="icon icon-trash text-danger"></i></button></div></div></div>',
         DEFAULTS = {
@@ -167,9 +169,13 @@
         // Init drop element
         var dropElement = options.drop_element;
         var $dropElement = (dropElement == 'fileList' ? that.$list : (dropElement == 'self' ? that.$ : $(dropElement))).first().addClass('file-drag-area');
-        var dropPlaceholder = options.dropPlaceholder;
-        if(dropPlaceholder === true) dropPlaceholder = lang.dropPlaceholder;
-        if(dropPlaceholder) $dropElement.attr('data-drop-placeholder', dropPlaceholder);
+        if (!notSupportDnd) {
+            var dropPlaceholder = options.dropPlaceholder;
+            if(dropPlaceholder === true) dropPlaceholder = lang.dropPlaceholder;
+            if(dropPlaceholder) $dropElement.attr('data-drop-placeholder', dropPlaceholder);
+        } else {
+            $dropElement.attr('data-drop-placeholder', '');
+        }
         that.$dropElement = $dropElement;
 
         // Init message
@@ -751,10 +757,10 @@
                 var oldParams = uploader.getOption('multipart_params');
                 var multipartParamsOption = options.multipart_params;
                 var params = {};
-                if (oldParams.key) {
+                if (oldParams && oldParams.key) {
                     params.key = oldParams.key;
                 }
-                if (oldParams.token) {
+                if (oldParams && oldParams.token) {
                     params.token = oldParams.token;
                 }
                 if(options.sendFileName) params[options.sendFileName === true ? 'name' : options.sendFileName] = file.name;
