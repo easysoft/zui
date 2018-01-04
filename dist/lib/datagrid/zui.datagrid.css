@@ -19,7 +19,7 @@
   }
 .datagrid-cell {
   position: absolute;
-  padding: 5px;
+  padding: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -234,7 +234,7 @@
   }
 .datagrid-sorter {
   position: absolute;
-  top: 0;
+  top: 3px;
   right: 0;
   bottom: 0;
   width: 20px;
@@ -248,4 +248,25 @@
 .datagrid-sort-up > .icon-sort:before {
   color: #3280fc;
   content: '\e6b9';
+  }
+.datagrid-borderless .datagrid-container {
+  border-color: transparent;
+  }
+.datagrid-borderless .datagrid-cell {
+  border-right-color: transparent;
+  border-left-color: transparent;
+  }
+.datagrid-borderless .datagrid-fixed-edge-left {
+  -webkit-box-shadow: -1px 0 0 rgba(0, 0, 0, .1) inset;
+          box-shadow: -1px 0 0 rgba(0, 0, 0, .1) inset;
+  }
+.datagrid-borderless .datagrid-fixed-edge-right {
+  -webkit-box-shadow: 1px 0 0 rgba(0, 0, 0, .1) inset;
+          box-shadow: 1px 0 0 rgba(0, 0, 0, .1) inset;
+  }
+.datagrid-borderless .datagrid-row-cell .datagrid-cell.datagrid-cell-index {
+  background-color: #fff;
+  }
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) .datagrid-cell-cell {
+  background-color: #f9f9f9;
   }

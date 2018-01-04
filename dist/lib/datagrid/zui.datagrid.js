@@ -1003,7 +1003,7 @@
             var rowIndexWidth       = options.rowIndexWidth;
             var colsLayout          = [{
                 left: 0,
-                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 12) : rowIndexWidth) : 0
+                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 16) : rowIndexWidth) : 0
             }];
             var cellsTotalWidth     = 0;
             var fixedWidth          = colsLayout[0].width;
@@ -1709,7 +1709,7 @@
         // states: null,
 
         // Cell default height
-        rowDefaultHeight: 30,
+        rowDefaultHeight: 36,
 
         // Column default width
         colAutoDefaultWidth: 80,
@@ -1721,7 +1721,7 @@
         showHeader: true,
 
         // Cells header height
-        headerHeight: 30,
+        headerHeight: 36,
 
         // Show row index number
         showRowIndex: true,

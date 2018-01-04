@@ -25,7 +25,7 @@
         },
         {
           "id": "learn",
-          "name": "站在巨人的肩膀上",
+          "name": "感谢名单和许可证",
           "desc": "ZUI 构建于众多优秀的开源项目之上",
           "icon": "icon-certificate",
           "topics": [
@@ -518,7 +518,7 @@
           "icon": "icon-tablet",
           "id": "responsive",
           "name": "响应式设计 ",
-          "update": "1.5.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "屏幕尺寸响应"
@@ -665,7 +665,7 @@
           "icon": "icon-star",
           "id": "icon",
           "name": "图标",
-          "update": "1.7.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "搜索图标",
@@ -1281,6 +1281,7 @@
           "icon": "icon-check-empty",
           "desc": "浮动在页面之上的对话框",
           "name": "对话框",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "实例"
@@ -1311,7 +1312,7 @@
           "icon": "icon-signout",
           "desc": "动态展示对话框",
           "name": "对话框触发器",
-          "update": "1.7.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "加载远程内容"
@@ -1541,7 +1542,7 @@
           "icon": "icon-search",
           "desc": "提供数据选择和筛选功能",
           "name": "Chosen",
-          "update": "1.6.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "示例"
@@ -1614,7 +1615,7 @@
           "icon": "icon-external-link",
           "desc": "拖动并放置在目标位置",
           "name": "拖放",
-          "update": "1.7.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "综合示例"
@@ -1634,7 +1635,7 @@
           "desc": "拖动元素来排列顺序",
           "name": "拖放排序",
           "version": "1.5.0",
-          "update": "1.7.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "综合示例"
@@ -1794,7 +1795,7 @@
           "icon": "icon-th-list",
           "desc": "体现层级关系的树形菜单",
           "name": "树形菜单",
-          "update": "1.6.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "综合示例"
@@ -1820,7 +1821,7 @@
           "name": "文件上传",
           "desc": "提供文件管理和大文件批量上传功能。",
           "version": "1.6.0",
-          "update": "1.7.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "综合示例"
@@ -1863,6 +1864,7 @@
           "icon": "icon-calendar",
           "desc": "在日历上展示有时间限定的内容",
           "name": "日历",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "实例"
@@ -2034,6 +2036,7 @@
           "icon": "icon-sitemap",
           "name": "组织结构图",
           "version": "1.7.0",
+          "update": "1.8.0",
           "topics": [
             {
               "name": "综合示例"

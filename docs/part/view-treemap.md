@@ -270,6 +270,12 @@ $('#myTreemap').treemap();
       <td>对象，默认 `{}`</td>
       <td>会作为 `$().attr(attrs)` 的参数使用</td>
     </tr>
+    <tr>
+      <td>`foldable`</td>
+      <td>是否可以折叠子节点</td>
+      <td>默认 `true`</td>
+      <td>如果设置为 `false`，则不会在节点下方显示折叠和展开的图标，`clickNodeToFold` 选项也不会生效</td>
+    </tr>
   </tbody>
 </table>
 
@@ -500,6 +506,20 @@ myTreemap.toggle(true);
 // 切换折叠指定的节点
 var $node = $('.treemap-node[data="1497683935614002"]');
 myTreemap.toggle($node, false);
+```
+
+### <span class="code text-danger">showLevel(level)</span>
+
+按层级展开节点，`level` 参数为需要展开的节点层级，`0` 为根节点。
+
+```js
+// 获取组织图实例
+var myTreemap = $('#myTreemap').data('zui.treemap');
+
+// 调用实例方法
+
+// 展开所有二级节点
+myTreemap.showLevel(2);
 ```
 
 ## 事件
