@@ -149,7 +149,7 @@ calendar.display();                       // 重新刷新当前视图
 ```js
 /* 增加一个事件 */
 var calendar = $('#calendar').data('zui.calendar');
-var newEvent = {title: '吃饭了', desc: '要吃更多', start: '2014-8-14 12:00', end: '2014-8-14 13:00'};
+var newEvent = {title: '吃饭了', desc: '要吃更多', start: new Date(2018,1,4,12,10,0), end: new Date(2018,1,3,13,10,0)};
 calendar.addEvents(newEvent);
 ```
 
@@ -162,8 +162,8 @@ calendar.addEvents(newEvent);
 var calendar = $('#calendar').data('zui.calendar');
 var newEvents =
 [
-  {title: '吃饭了', desc: '要吃更多', start: '2014-8-14 12:00', end: '2014-8-14 13:00'},
-  {title: '学习了', desc: '要学更多', start: '2014-8-14 13:00', end: '2014-8-14 17:00'}
+  {title: '吃饭了', desc: '要吃更多', start: new Date(2018,1,4,12,10,0), end: new Date(2018,1,3,13,10,0)},
+  {title: '学习了', desc: '要学更多', start: new Date(2018,1,3,13,10,0), end: new Date(2018,1,4,10,0,0)}
 ];
 calendar.addEvents(newEvents);
 ```
@@ -249,7 +249,7 @@ calendar.updateEvents({    // 更新一个事件
           to:     '一个新的事件标题'   // 更改后的值
        }, {                         // 同时更改另一个属性
           change: 'start',          // 要更改的属性名称,
-          to:     '2014-8-15 9:00'  // 更改后的值
+          to:     new Date(2018,1,4,0,0,0)  // 更改后的值
        }
     ]
 });
@@ -261,7 +261,7 @@ calendar.updateEvents([    // 一次性更新多个事件
               to:     '一个新的事件标题'  // 更改后的值
          }, {                            // 同时更改另一个属性
             change: 'start',          // 要更改的属性名称,
-            to:     '2014-8-15 9:00'  // 更改后的值
+            to:     new Date(2018,1,4,0,0,0)  // 更改后的值
          }]
     }, {
         event: '344', // 更新另一个事件
@@ -585,7 +585,7 @@ function afterPageLoad() {
   $(function() {
       $('#pageContent .calendar').each(function() {
           var $this = $(this);
-          var data = calDataGenerater($this.data('exampleCount') || 10);
+          var data = calDataGenerater($this.data('exampleCount') || 100);
           $this.calendar({data: data, clickEvent: function(e) {
               console.log(e);
               $.zui.messager.show('您点击了 <strong>' + e.event.title + '</strong>');
