@@ -1574,13 +1574,27 @@ $('#myUploader').uploader({
 ```js
 $('#myUploader').uploader({
     qiniu: {
-        uptoken : 'u0nP4wf4t7V3-5gniRcZ3EdvScOLpZkokruvCB7V:apjkB76CaKkP2nNFwuoEvmxE9NU=:eyJzY29wZSI6ImNhdG91c2UiLCJkZWFkbGluZSI6MTQ4MTcyODAzMH0=',
+        uptoken : '',
         domain: 'http://7xjyuk.com1.z0.glb.clouddn.com'
     }
 });
 ```
 
 在选项中指定了 `qiniu` 配置对象之后，无需指定 `url` 选项。
+
+<div class="example">
+  <div class="input-group" style="margin-bottom: 10px; max-width: 400px">
+    <span class="input-group-addon">七牛 SDK token</span>
+    <input id="qiniuToken" type="text" class="form-control" placeholder="输入token 在下面测试" value="">
+  </div>
+  <div id="qiniuUploaderExample" class="uploader uploader-custom">
+    <div class="uploader-files file-list" data-drag-placeholder="请拖拽文件到此处，文件将上传到七牛"></div>
+    <button type="button" class="btn btn-primary uploader-btn-browse"><i class="icon icon-cloud-upload"></i> 选择文件</button>
+    <button type="button" class="btn btn-primary uploader-btn-start"><i class="icon icon-cloud-upload"></i> 开始上传文件到七牛</button>
+  </div>
+</div>
+
+如果仅仅需要测试七牛文件上传功能，可以使用 <a target="_blank" href="http://jsfiddle.net/gh/get/extjs/4.2/icattlecoder/jsfiddle/tree/master/uptoken">上传凭证在线生成工具</a>。
 
 ## 获取 plupload 对象
 
@@ -1635,6 +1649,8 @@ var plupload = uploader.plupload;
   <p>不推荐直接操作 `plupload` 对象，一般情况下 `uploader` 对象方法可以实现绝大部分功能。</p>
 </div>
 
+<!-- 在 zui.js 和 uploader.js 加载之前引入七牛 js-sdk -->
+<script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.min.js"></script>
 <script src="dist/lib/uploader/zui.uploader.js"></script>
 <link href="dist/lib/uploader/zui.uploader.css" rel="stylesheet">
 
@@ -1656,6 +1672,18 @@ function afterPageLoad() {
             {name: 'zui.css', size: 106091}
         ]
     });
+
+    $('#qiniuUploaderExample').uploader({
+        qiniu: {
+            uptoken : 'fake-qiniu-token',
+            domain: 'http://7xjyuk.com1.z0.glb.clouddn.com'
+        },
+        multipart_params: function(file) {
+            return {
+                token: $('#qiniuToken').val()
+            };
+        }
+    })
 }
 </script>
 
