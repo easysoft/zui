@@ -235,9 +235,9 @@
         };
         createScrollbar('h');
         createScrollbar('v');
-        $container.on('mousewheel', function(e) {
+        $container.on('mousewheel', function(event) {
             that.scroll(that.layout.scrollLeft + Math.round(event.deltaX), that.layout.scrollTop + Math.round(event.deltaY));
-            e.preventDefault();
+            event.preventDefault();
         });
 
         that.$container = $container;
@@ -785,6 +785,7 @@
 
             for (var i = 0; i < cols.length; ++i) {
                 var col = cols[i];
+                if (!col) continue;
                 colWidth = col.width;
                 if (!colWidth || colWidth === 'auto') {
                     colWidth = 0.1;
