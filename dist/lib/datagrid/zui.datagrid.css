@@ -264,7 +264,7 @@
   -webkit-box-shadow: 1px 0 0 rgba(0, 0, 0, .1) inset;
           box-shadow: 1px 0 0 rgba(0, 0, 0, .1) inset;
   }
-.datagrid-borderless .datagrid-row-cell .datagrid-cell.datagrid-cell-index {
+.datagrid-borderless .datagrid-row-cell:not(:hover) .datagrid-cell.datagrid-cell-index {
   background-color: #fff;
   }
 .datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) .datagrid-cell-cell {
