@@ -10,7 +10,7 @@ filter: daima dm
 ## 内联代码
 
 <div class="example" contenteditable="true">
-  <p>通过<code>&lt;code&gt;</code>标签内嵌一小段代码。</p>
+  <p>通过 <code>&lt;code&gt;</code> 标签内嵌一小段代码。</p>
 </div>
 
 ```html
