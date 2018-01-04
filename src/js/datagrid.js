@@ -50,8 +50,8 @@
             },
             setter: function(inputValue, cell, dataGrid) {
                 if (typeof inputValue === 'string') {
-                    var intValue = Number.parseInt(inputValue, 10);
-                    if (!Number.isNaN(intValue)) {
+                    var intValue = parseInt(inputValue, 10);
+                    if (!isNaN(intValue)) {
                         inputValue = intValue;
                     }
                 }
