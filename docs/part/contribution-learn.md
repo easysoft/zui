@@ -17,20 +17,29 @@ filter: zhanzaijurendijianbangshang zzjrdjbs
 非常感谢这些项目！
 
 <div class="list-group">
-  <a target="_blank" href="http://gulpjs.com/" class="list-group-item"><strong class="card-heading">Gulp</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="http://lesscss.org/" class="list-group-item"><strong class="card-heading">Less</strong><span class="label label-badge">Apache License 2.0</span></a>
-  <a target="_blank" href="http://necolas.github.io/normalize.css/" class="list-group-item"><strong class="card-heading">normalize</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="http://jquery.com/" class="list-group-item"><strong class="card-heading">jQuery</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="http://getbootstrap.com/" class="list-group-item"><strong class="card-heading">Bootstrap</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="http://kindeditor.net/" class="list-group-item"><strong class="card-heading">kindeditor</strong><span class="label label-badge">GNU</span></a>
-  <a target="_blank" href="http://harvesthq.github.io/chosen/" class="list-group-item"><strong class="card-heading">Chosen</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="http://www.malot.fr/bootstrap-datetimepicker" class="list-group-item"><strong class="card-heading">Datetime picker</strong><span class="label label-badge">Apache 2.0</span></a>
-  <a target="_blank" href="http://fortawesome.github.io/Font-Awesome/" class="list-group-item"><strong class="card-heading">FontAwesome</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="https://code.google.com/p/google-code-prettify/" class="list-group-item"><strong class="card-heading">google code prettify</strong><span class="label label-badge">Apache 2.0</span></a>
-  <a target="_blank" href="http://github.com/tzuryby/hotkeys" class="list-group-item"><strong class="card-heading">jQuery hotkey</strong><span class="label label-badge">MIT or GPL 2</span></a>
-  <a target="_blank" href="http://bootboxjs.com/" class="list-group-item"><strong class="card-heading">Bootbox</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="https://code.google.com/p/explorercanvas/" class="list-group-item"><strong class="card-heading">Explorer canvas</strong><span class="label label-badge">Apache 2.0</span></a>
-  <a target="_blank" href="http://www.chartjs.org/" class="list-group-item"><strong class="card-heading">Chart.js</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="https://clipboardjs.com/" class="list-group-item"><strong class="card-heading">clipboard.js</strong><span class="label label-badge">MIT</span></a>
-  <a target="_blank" href="http://icomoon.io" class="list-group-item"><strong class="card-heading">icomoon</strong><span class="label label-badge">No License</span></a>
+  <a target="_blank" href="http://getbootstrap.com/" class="list-group-item"><strong>Bootstrap</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="http://gulpjs.com/" class="list-group-item"><strong>Gulp</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="http://lesscss.org/" class="list-group-item"><strong>Less</strong><span class="label label-badge">Apache License 2.0</span></a>
+  <a target="_blank" href="http://necolas.github.io/normalize.css/" class="list-group-item"><strong>normalize</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="http://jquery.com/" class="list-group-item"><strong>jQuery</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="http://kindeditor.net/" class="list-group-item"><strong>kindeditor</strong><span class="label label-badge">GNU</span></a>
+  <a target="_blank" href="http://ueditor.baidu.com/" class="list-group-item"><strong>UEditor</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="http://harvesthq.github.io/chosen/" class="list-group-item"><strong>Chosen</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="http://www.malot.fr/bootstrap-datetimepicker" class="list-group-item"><strong>Datetime picker</strong><span class="label label-badge">Apache 2.0</span></a>
+  <a target="_blank" href="http://fortawesome.github.io/Font-Awesome/" class="list-group-item"><strong>FontAwesome</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="http://www.plupload.com/" class="list-group-item"><strong>Plupload</strong><span class="label label-badge">GPL-2.0</span></a>
+  <a target="_blank" href="https://code.google.com/p/google-code-prettify/" class="list-group-item"><strong>google code prettify</strong><span class="label label-badge">Apache 2.0</span></a>
+  <a target="_blank" href="http://github.com/tzuryby/hotkeys" class="list-group-item"><strong>jQuery hotkey</strong><span class="label label-badge">MIT or GPL 2</span></a>
+  <a target="_blank" href="http://bootboxjs.com/" class="list-group-item"><strong>Bootbox</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="https://code.google.com/p/explorercanvas/" class="list-group-item"><strong>Explorer canvas</strong><span class="label label-badge">Apache 2.0</span></a>
+  <a target="_blank" href="http://www.chartjs.org/" class="list-group-item"><strong>Chart.js</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="https://clipboardjs.com/" class="list-group-item"><strong>clipboard.js</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="https://github.com/jquery/jquery-mousewheel" class="list-group-item"><strong>jQuery Mousewheel</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="https://github.com/cowboy/jquery-resize" class="list-group-item"><strong>jQuery Resize</strong><span class="label label-badge">MIT & GPL</span></a>
+  <a target="_blank" href="https://github.com/chjj/marked" class="list-group-item"><strong>marked</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="https://github.com/tzuryby/jquery.hotkeys" class="list-group-item"><strong>hotkey</strong><span class="label label-badge">MIT or GPL 2</span></a>
+  <a target="_blank" href="https://github.com/scottjehl/Respond" class="list-group-item"><strong>respond</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="https://github.com/afarkas/html5shiv" class="list-group-item"><strong>html5shiv</strong><span class="label label-badge">MIT & GPL2</span></a>
+  <a target="_blank" href="https://github.com/arv/explorercanvas" class="list-group-item"><strong>excanvas</strong><span class="label label-badge">Apache 2.0</span></a>
+  <a target="_blank" href="http://icomoon.io" class="list-group-item"><strong>icomoon</strong><span class="label label-badge">No License</span></a>
 </div>
