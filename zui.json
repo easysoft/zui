@@ -46,7 +46,7 @@
         "resource": ["assets/respond.js"]
       },
       "desc": "min/max-width media query polyfill",
-      "souce": "Scott Jehl",
+      "source": "Scott Jehl",
       "license": "MIT",
       "licenseFile": "https://github.com/scottjehl/Respond/blob/master/LICENSE-MIT",
       "website": "https://github.com/scottjehl/Respond"
