@@ -1050,7 +1050,7 @@ $('#myDataGrid').datagrid({
     </tr>
     <tr>
       <td><code>cellCreator</code></td>
-      <td>单元格生存器</td>
+      <td>单元格生成器</td>
       <td>默认为 `null`</td>
       <td>
         <p>可以设置一个回调函数用于创建单元格元素，回调函数参数包括：</p>
@@ -1075,7 +1075,7 @@ $('#myDataGrid').datagrid({
     </tr>
     <tr>
       <td><code>rowCreator</code></td>
-      <td>行生存器</td>
+      <td>行生成器</td>
       <td>默认为 `null`</td>
       <td>
         <p>可以设置一个回调函数用于创建行元素，回调函数参数包括：</p>
