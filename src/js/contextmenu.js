@@ -55,7 +55,7 @@
             style: item.style
         }).data('item', item);
         if (item.html) {
-            $a.html(item.html);
+            $a.html(item.html === true ? (item.label || item.text) : item.html);
         } else {
             $a.text(item.label || item.text);
         }

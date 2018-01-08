@@ -251,7 +251,7 @@ $('#contextMenuExample2').on('click', function(e) {
       <td><code>html</code></td>
       <td>是否使用将条目内容作为 html 显示</td>
       <td>`false`(默认)</td>
-      <td>如果使用 `true` 则会使用 jQuery 的 `$().html()` 方法来插入内容到界面上，要启用此选项确保要插入的内容是安全的。</td>
+      <td>如果使用 `true` 则会使用 jQuery 的 `$().html()` 方法来插入内容到界面上，要启用此选项确保要插入的内容是安全的；如果此选项为一个字符串，则支持使用此字符串作为 html 内容显示。</td>
     </tr>
     <tr>
       <td><code>url</code></td>
