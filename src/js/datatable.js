@@ -781,9 +781,12 @@
         var sorterStoreName = this.id + '_datatableSorter';
         var sorter = options.storage ? store.pageGet(sorterStoreName) : null;
 
+        // sort-down: desc
+        // sort-up: asc
+
         if(!$th) {
             if(sorter) {
-                $th = this.$headCells.filter('[data-index="' + sorter.index + '"]').addClass('sort-' + sorter.type);
+                $th = this.$headCells.filter('[data-index="' + sorter.index + '"]').addClass('sort-' + (sorter.type === 'up' ? 'down' : 'up'));
             } else {
                 $th = this.$headCells.filter('.sort-up, .sort-down').first();
             }
@@ -835,7 +838,7 @@
                 valA = valA.toLowerCase();
                 valB = valB.toLowerCase();
             }
-            result = valA > valB ? 1 : (valA < valB ? -1 : 0);
+            result = valA < valB ? 1 : (valA > valB ? -1 : 0);
             if(sortUp) {
                 result = result * (-1);
             }
