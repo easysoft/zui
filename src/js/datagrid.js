@@ -311,6 +311,7 @@
                 that.selectable = $cells.selectable($.extend({
                     selector: '.datagrid-row-cell',
                     // selectClass: false,
+                    trigger: options.checkByClickRow ? null : '.datagrid-row-cell .datagrid-has-checkbox',
                     clickBehavior: 'multi',
                     select: function(data) {
                         that.checkRow(data.id, true);
