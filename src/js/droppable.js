@@ -249,7 +249,7 @@
             if(mouseButton > -1 && event.button !== mouseButton) {
                 return;
             }
-            
+
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
@@ -325,4 +325,3 @@
 
     $.fn.droppable.Constructor = Droppable;
 }(jQuery, document, Math));
-
