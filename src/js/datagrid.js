@@ -235,8 +235,11 @@
         };
         createScrollbar('h');
         createScrollbar('v');
+        var mouseWheelFactor = options.mouseWheelFactor;
+        var isWindows = window.navigator.userAgent.match(/Win/i);
+        if (isWindows) mouseWheelFactor *= 20;
         $container.on('mousewheel', function(event) {
-            that.scroll(that.layout.scrollLeft + Math.round(event.deltaX), that.layout.scrollTop + Math.round(event.deltaY));
+            that.scroll(that.layout.scrollLeft - Math.round(event.deltaX * mouseWheelFactor), that.layout.scrollTop - Math.round(event.deltaY * mouseWheelFactor));
             event.preventDefault();
         });
 
@@ -1563,7 +1566,9 @@
         checkByClickRow: true,
 
         // Let user check rows by drag
-        selectable: true
+        selectable: true,
+
+        mouseWheelFactor: 1,
     };
 
     // Extense jquery element

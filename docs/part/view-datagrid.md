@@ -1091,6 +1091,12 @@ $('#myDataGrid').datagrid({
       <td>默认为 `true`</td>
       <td>该选项还可以设置为一个对象，用于指定漂浮消息初始化选项。</td>
     </tr>
+    <tr>
+      <td><code>mouseWheelFactor</code></td>
+      <td>出现错误时是否显示消息</td>
+      <td>默认为 `1`</td>
+      <td>该选项还可以设置为一个对象，用于指定漂浮消息初始化选项。</td>
+    </tr>
   </tbody>
 </table>
 

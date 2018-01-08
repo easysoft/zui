@@ -464,8 +464,12 @@
         };
         createScrollbar('h');
         createScrollbar('v');
+        var mouseWheelFactor = options.mouseWheelFactor;
+        var isWindows = window.navigator.userAgent.match(/Win/i);
+        if (isWindows) mouseWheelFactor *= 20;
         $container.on('mousewheel', function(event) {
-            that.scroll(that.layout.scrollLeft + Math.round(event.deltaX), that.layout.scrollTop + Math.round(event.deltaY));
+            console.log('event.deltaX', event.deltaX, 'event.deltaY', event.deltaY);
+            that.scroll(that.layout.scrollLeft - Math.round(event.deltaX * mouseWheelFactor), that.layout.scrollTop - Math.round(event.deltaY * mouseWheelFactor));
             event.preventDefault();
         });
 
@@ -540,6 +544,7 @@
                 that.selectable = $cells.selectable($.extend({
                     selector: '.datagrid-row-cell',
                     // selectClass: false,
+                    trigger: options.checkByClickRow ? null : '.datagrid-row-cell .datagrid-has-checkbox',
                     clickBehavior: 'multi',
                     select: function(data) {
                         that.checkRow(data.id, true);
@@ -1791,7 +1796,9 @@
         checkByClickRow: true,
 
         // Let user check rows by drag
-        selectable: true
+        selectable: true,
+
+        mouseWheelFactor: 1,
     };
 
     // Extense jquery element
