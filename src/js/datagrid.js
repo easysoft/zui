@@ -46,7 +46,7 @@
         date: {
             getter: function(dataValue, cell, dataGrid) {
                 var formater = dataGrid.options.defaultDateFormater;
-                return dataValue + ',' + Date.create(dataValue).format(formater);
+                return Date.create(dataValue).format(formater);
             },
             setter: function(inputValue, cell, dataGrid) {
                 if (typeof inputValue === 'string') {

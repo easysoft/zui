@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.8.0 - 2018-01-04
+ * ZUI: 数据表格② - v1.8.0 - 2018-01-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -275,7 +275,7 @@
         date: {
             getter: function(dataValue, cell, dataGrid) {
                 var formater = dataGrid.options.defaultDateFormater;
-                return dataValue + ',' + Date.create(dataValue).format(formater);
+                return Date.create(dataValue).format(formater);
             },
             setter: function(inputValue, cell, dataGrid) {
                 if (typeof inputValue === 'string') {
@@ -1049,6 +1049,7 @@
                 colsLayout[0].checkbox = true;
                 if (rowIndexWidth === 'auto') {
                     colsLayout[0].width += 30;
+                    fixedWidth += 30;
                 }
             }
             var flexWidth    = containerWidth - fixedWidth;
