@@ -820,6 +820,7 @@
                 colsLayout[0].checkbox = true;
                 if (rowIndexWidth === 'auto') {
                     colsLayout[0].width += 30;
+                    fixedWidth += 30;
                 }
             }
             var flexWidth    = containerWidth - fixedWidth;
