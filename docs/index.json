@@ -1,6 +1,6 @@
 {
-  "version": "1.8.0.1",
-  "updateTime": "2018-01-04 09:24",
+  "version": "1.8.0.2",
+  "updateTime": "2018-01-10 13:48",
   "chapters": {
     "contribution": {
       "name": "贡献",
@@ -266,20 +266,54 @@
               "name": "新版本更新明细"
             },
             {
-              "name": "[1.5] 布局",
-              "url": "#basic/layout"
+              "name": "[1.8] 输入框",
+              "url": "#component/input-control"
             },
             {
-              "name": "[1.5] 拖拽选取",
-              "url": "#javascript/selectable"
+              "name": "[1.8] 搜索框",
+              "url": "#javascript/searchbox"
             },
             {
-              "name": "[1.5] 颜色选择器",
-              "url": "#javascript/colrpicker"
+              "name": "[1.8] 数据表格2",
+              "url": "#view/datagrid"
             },
             {
-              "name": "[1.5] 树形菜单：数据加载与更新",
-              "url": "#view/tree/3"
+              "name": "[1.8] 上下文菜单",
+              "url": "#javascript/contextmenu"
+            },
+            {
+              "name": "[1.8] 分页器",
+              "url": "#javascript/contextmenu"
+            },
+            {
+              "name": "[1.8] 标签管理器",
+              "url": "#view/tabs"
+            }
+          ]
+        },
+        {
+          "id": "project",
+          "name": "项目和计划",
+          "desc": "了解项目和开发计划",
+          "icon": "icon-lightbulb",
+          "url": "http://zui.5upm.com/product-browse-2.html",
+          "filter": "zentao xiangmuhejihua xmhjh",
+          "topics": [
+            {
+              "name": "需求",
+              "url": "http://zui.5upm.com/product-browse-2.html"
+            },
+            {
+              "name": "计划",
+              "url": "http://zui.5upm.com/productplan-browse-2.html"
+            },
+            {
+              "name": "路线图",
+              "url": "http://zui.5upm.com/product-roadmap-2.html"
+            },
+            {
+              "name": "路线图",
+              "url": "http://zui.5upm.com/product-roadmap-2.html"
             }
           ]
         },
