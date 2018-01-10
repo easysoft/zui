@@ -903,13 +903,12 @@
             type = 'cell';
             value = config.data && config.data[that.options.dataItemIsArray ? colIndex : col.name];
         }
-        if (rowIndex > 0 && config.valueType) {
-            var valueOperator = config.valueOperator || that.options.valueOperator;
-            if (valueOperator) {
-                var typeOperator = valueOperator[config.valueType];
-                if (typeOperator && typeOperator.getter) {
-                    value = typeOperator.getter(value, cell, that);
-                }
+        if (rowIndex > 0) {
+            var optionsValueOperator = that.options.valueOperator;
+            var valueType = config.valueType;
+            var valueOperator = config.valueOperator || (optionsValueOperator && valueType ? optionsValueOperator[valueType] : null);
+            if (valueOperator && valueOperator.getter) {
+                value = valueOperator.getter(value, cell, that);
             }
         }
         var cell = {
