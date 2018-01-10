@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格 - v1.8.0 - 2018-01-04
+ * ZUI: 数据表格 - v1.8.0 - 2018-01-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -788,9 +788,12 @@
         var sorterStoreName = this.id + '_datatableSorter';
         var sorter = options.storage ? store.pageGet(sorterStoreName) : null;
 
+        // sort-down: desc
+        // sort-up: asc
+
         if(!$th) {
             if(sorter) {
-                $th = this.$headCells.filter('[data-index="' + sorter.index + '"]').addClass('sort-' + sorter.type);
+                $th = this.$headCells.filter('[data-index="' + sorter.index + '"]').addClass('sort-' + (sorter.type === 'up' ? 'down' : 'up'));
             } else {
                 $th = this.$headCells.filter('.sort-up, .sort-down').first();
             }
@@ -842,7 +845,7 @@
                 valA = valA.toLowerCase();
                 valB = valB.toLowerCase();
             }
-            result = valA > valB ? 1 : (valA < valB ? -1 : 0);
+            result = valA < valB ? 1 : (valA > valB ? -1 : 0);
             if(sortUp) {
                 result = result * (-1);
             }

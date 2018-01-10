@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.8.0 - 2018-01-04
+ * ZUI: Standard edition - v1.8.0 - 2018-01-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -2843,7 +2843,7 @@
             if(mouseButton > -1 && event.button !== mouseButton) {
                 return;
             }
-            
+
             var $mouseDownEle = $(this);
             if(selector) {
                 $ele = handle ? $mouseDownEle.closest(selector) : $mouseDownEle;
@@ -2919,7 +2919,6 @@
 
     $.fn.droppable.Constructor = Droppable;
 }(jQuery, document, Math));
-
 
 /* ========================================================================
  * Bootstrap: modal.js v3.2.0
@@ -4526,7 +4525,7 @@
             style: item.style
         }).data('item', item);
         if (item.html) {
-            $a.html(item.html);
+            $a.html(item.html === true ? (item.label || item.text) : item.html);
         } else {
             $a.text(item.label || item.text);
         }
@@ -5532,93 +5531,6 @@
         messager: zuiMessager
     });
 }(jQuery, window, undefined));
-
-
-/* ========================================================================
- * ZUI: menu.js
- * http://zui.sexy
- * ========================================================================
- * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
- * ======================================================================== */
-
-
-(function($) {
-    'use strict';
-
-    var Menu = function(element, options) {
-        this.$ = $(element);
-        this.options = this.getOptions(options);
-
-        this.init();
-    };
-
-    Menu.DEFAULTS = {
-        auto: false,
-        foldicon: 'icon-chevron-right'
-    };
-
-    Menu.prototype.getOptions = function(options) {
-        options = $.extend({}, Menu.DEFAULTS, this.$.data(), options);
-        return options;
-    };
-
-    Menu.prototype.init = function() {
-        var $children = this.$.children('.nav');
-        $children.find('.nav').closest('li').addClass('nav-parent');
-        $children.find('.nav > li.active').parent().closest('li').addClass('active');
-        $children.find('.nav-parent > a').append('<i class="' + this.options.foldicon + ' nav-parent-fold-icon"></i>');
-        $children.find('.nav-parent.show').find('.nav-parent-fold-icon').addClass('icon-rotate-90');
-
-        this.handleFold();
-    };
-
-    Menu.prototype.handleFold = function() {
-        var auto = this.options.auto;
-        var $menu = this.$;
-        this.$.on('click', '.nav-parent > a', function(event) {
-            if(auto) {
-                $menu.find('.nav-parent.show').find('.nav').slideUp(function() {
-                    $(this).closest('.nav-parent').removeClass('show');
-                });
-                $menu.find('.icon-rotate-90').removeClass('icon-rotate-90');
-            }
-
-            var li = $(this).closest('.nav-parent');
-            if(li.hasClass('show')) {
-                li.find('.icon-rotate-90').removeClass('icon-rotate-90');
-                li.find('.nav').slideUp(function() {
-                    $(this).closest('.nav-parent').removeClass('show');
-                });
-            } else {
-                li.find('.nav-parent-fold-icon').addClass('icon-rotate-90');
-                li.find('.nav').slideDown(function() {
-                    $(this).closest('.nav-parent').addClass('show');
-                });
-            }
-
-            event.preventDefault();
-            return false;
-        });
-    };
-
-    $.fn.menu = function(option) {
-        return this.each(function() {
-            var $this = $(this);
-            var data = $this.data('zui.menu');
-            var options = typeof option == 'object' && option;
-
-            if(!data) $this.data('zui.menu', (data = new Menu(this, options)));
-
-            if(typeof option == 'string') data[option]();
-        });
-    };
-
-    $.fn.menu.Constructor = Menu;
-
-    $(function() {
-        $('[data-toggle="menu"],[data-ride="menu"]').menu();
-    });
-}(jQuery));
 
 
 /* ========================================================================

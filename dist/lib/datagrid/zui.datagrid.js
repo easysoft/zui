@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.8.0 - 2018-01-08
+ * ZUI: 数据表格② - v1.8.0 - 2018-01-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -468,7 +468,6 @@
         var isWindows = window.navigator.userAgent.match(/Win/i);
         if (isWindows) mouseWheelFactor *= 20;
         $container.on('mousewheel', function(event) {
-            console.log('event.deltaX', event.deltaX, 'event.deltaY', event.deltaY);
             that.scroll(that.layout.scrollLeft - Math.round(event.deltaX * mouseWheelFactor), that.layout.scrollTop - Math.round(event.deltaY * mouseWheelFactor));
             event.preventDefault();
         });
@@ -1349,7 +1348,7 @@
             options.cellFormator($cell, cell, that);
         } else {
             var $content = isCheckbox ? $cell.find('.content') : $cell;
-            $content[cell.html ? 'html' : 'text'](cell.value);
+            $content[cell.config.html ? 'html' : 'text'](cell.value);
             if (config.className) {
                 $cell.addClass(config.className);
             }

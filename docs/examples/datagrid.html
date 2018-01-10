@@ -63,6 +63,7 @@ $(function() {
         }
         return arr[getLuckInt(start, end - 1, luck)];
     };
+    var nowTime = new Date().getTime();
     var createDataSample = function(size) {
         size = size || 100;
         var heros = ['力丸', '幻影刺客', '祈求者', '斧王', '巫医', '天辉防御塔', 'Roshan', '嗜血狂魔', '宙斯', '影魔', '米波', '树精卫士'];
@@ -72,9 +73,10 @@ $(function() {
         var cols = [
             {label: '时间', name: 'time', width: 130, valueType: 'gametime', sort: true},
             {label: '英雄', name: 'hero', width: 80},
-            {label: '动作', name: 'action', width: 80},
+            {label: '动作', name: 'action', width: 60},
             {label: '队友', name: 'teammate', width: 80},
             {label: '敌人', name: 'enemy', width: 80},
+            {label: 'date', name: 'date', width: 100, valueType: 'date'},
             {label: '物品/神符', name: 'item', width: 80},
             {label: '获得经验', name: 'gotexps', width: 80, valueType: 'number'},
             {label: '获得金钱', name: 'gotgolds', width: 80, valueType: 'number'},
@@ -149,7 +151,8 @@ $(function() {
                 exps: heroData.exps,
                 golds: heroData.golds,
                 kills: heroData.kills,
-                desc: desc
+                desc: desc,
+                date: nowTime + time*1000
             };
             return dataItem;
         };
@@ -210,7 +213,7 @@ $(function() {
             }
         },
         renderDelay: 200,
-        checkable: false,
+        // checkable: true,
         sortable: false,
         // rowDefaultHeight: 50,
     });
@@ -237,39 +240,40 @@ $(function() {
         },
         height: 300,
         renderDelay: 200,
+        checkable: true,
+        checkByClickRow: false
     }
-    var datagrid = $('#dataGrid').datagrid(options1).data('zui.datagrid');
-    console.log('datagrid1', datagrid);
+    // var datagrid = $('#dataGrid').datagrid(options1).data('zui.datagrid');
+    // console.log('datagrid1', datagrid);
 
     var datagrid2 = $('#dataGrid2').datagrid(options2).data('zui.datagrid');
     console.log('datagrid2', datagrid2);
 
-    var datagrid3 = $('#remoteDataGridExample').datagrid({
-        states: {
-            pager: {page: 1, recPerPage: 5},
-        },
-        dataSource: {
-            cols:[
-                {name: 'time', label: '时间', width: 132},
-                {name: 'hera', label: '英雄', width: 134},
-                {name: 'action', label: '动作', width: 109},
-                {name: 'target', label: '目标', width: 109},
-                {name: 'desc', label: '描述', width: 287}
-            ],
-            remote: function(params) {
-                return {
-                    // 原创请求地址
-                    url: '../partial/remote-data-' + params.page + '.json',
-                    // 请求类型
-                    type: 'GET',
-                    // 数据类型
-                    dataType: 'json'
-                };
-            }
-        }
-    }).data('zui.datagrid');
-
-    console.log('datagrid3', datagrid3);
+    // var datagrid3 = $('#remoteDataGridExample').datagrid({
+    //     states: {
+    //         pager: {page: 1, recPerPage: 5},
+    //     },
+    //     dataSource: {
+    //         cols:[
+    //             {name: 'time', label: '时间', width: 132},
+    //             {name: 'hera', label: '英雄', width: 134},
+    //             {name: 'action', label: '动作', width: 109},
+    //             {name: 'target', label: '目标', width: 109},
+    //             {name: 'desc', label: '描述', width: 287}
+    //         ],
+    //         remote: function(params) {
+    //             return {
+    //                 // 原创请求地址
+    //                 url: '../partial/remote-data-' + params.page + '.json',
+    //                 // 请求类型
+    //                 type: 'GET',
+    //                 // 数据类型
+    //                 dataType: 'json'
+    //             };
+    //         }
+    //     }
+    // }).data('zui.datagrid');
+    // console.log('datagrid3', datagrid3);
 });
 </script>
 </body>

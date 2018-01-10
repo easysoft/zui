@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.8.0 - 2018-01-04
+ * ZUI: Lite edition - v1.8.0 - 2018-01-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -4530,8 +4530,8 @@ kbd,
 code {
   padding: 2px 4px;
   font-size: 90%;
-  color: #ea644a;
-  background-color: #f9f2f4;
+  color: #37474f;
+  background-color: #f3f5f7;
   border-radius: 4px;
   }
 kbd {
