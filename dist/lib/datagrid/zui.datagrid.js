@@ -1349,7 +1349,7 @@
             options.cellFormator($cell, cell, that);
         } else {
             var $content = isCheckbox ? $cell.find('.content') : $cell;
-            $content[cell.html ? 'html' : 'text'](cell.value);
+            $content[cell.config.html ? 'html' : 'text'](cell.value);
             if (config.className) {
                 $cell.addClass(config.className);
             }
