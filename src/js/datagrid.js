@@ -892,6 +892,12 @@
         var config = that.getCellConfig(rowIndex, colIndex);
         var col = colIndex > 0 ? that.dataSource.cols[colIndex - 1] : null;
         var type, value;
+        var cell = {
+            rowIndex: rowIndex,
+            colIndex: colIndex,
+            config:   config,
+            checked:  that.isRowChecked(config.rowId)
+        };
         if (colIndex === 0) {
             type = 'index';
             var colLabel = rowIndex > 0 ? (that.pager.skip + rowIndex) : '';
@@ -911,14 +917,8 @@
                 value = valueOperator.getter(value, cell, that);
             }
         }
-        var cell = {
-            type:     type,
-            value:    value,
-            rowIndex: rowIndex,
-            colIndex: colIndex,
-            config:   config,
-            checked:  that.isRowChecked(config.rowId)
-        };
+        cell.value = value;
+        cell.type = type;
         var spanMap = that.layout.spanMap;
         if (spanMap[config.id] || config.hidden) {
             cell.hidden = true;

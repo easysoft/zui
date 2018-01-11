@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.8.0 - 2018-01-10
+ * ZUI: 数据表格② - v1.8.0 - 2018-01-11
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -1121,6 +1121,12 @@
         var config = that.getCellConfig(rowIndex, colIndex);
         var col = colIndex > 0 ? that.dataSource.cols[colIndex - 1] : null;
         var type, value;
+        var cell = {
+            rowIndex: rowIndex,
+            colIndex: colIndex,
+            config:   config,
+            checked:  that.isRowChecked(config.rowId)
+        };
         if (colIndex === 0) {
             type = 'index';
             var colLabel = rowIndex > 0 ? (that.pager.skip + rowIndex) : '';
@@ -1132,23 +1138,16 @@
             type = 'cell';
             value = config.data && config.data[that.options.dataItemIsArray ? colIndex : col.name];
         }
-        if (rowIndex > 0 && config.valueType) {
-            var valueOperator = config.valueOperator || that.options.valueOperator;
-            if (valueOperator) {
-                var typeOperator = valueOperator[config.valueType];
-                if (typeOperator && typeOperator.getter) {
-                    value = typeOperator.getter(value, cell, that);
-                }
+        if (rowIndex > 0) {
+            var optionsValueOperator = that.options.valueOperator;
+            var valueType = config.valueType;
+            var valueOperator = config.valueOperator || (optionsValueOperator && valueType ? optionsValueOperator[valueType] : null);
+            if (valueOperator && valueOperator.getter) {
+                value = valueOperator.getter(value, cell, that);
             }
         }
-        var cell = {
-            type:     type,
-            value:    value,
-            rowIndex: rowIndex,
-            colIndex: colIndex,
-            config:   config,
-            checked:  that.isRowChecked(config.rowId)
-        };
+        cell.value = value;
+        cell.type = type;
         var spanMap = that.layout.spanMap;
         if (spanMap[config.id] || config.hidden) {
             cell.hidden = true;
