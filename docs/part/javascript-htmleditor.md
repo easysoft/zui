@@ -88,7 +88,7 @@ KindEditor.create('textarea.kindeditor', {
 ```
 
 ```js
-KindEditor.create('textarea.kindeditor', {
+KindEditor.create('textarea.kindeditorSimple', {
     basePath: '/dist/lib/kindeditor/',
     bodyClass : 'article-content',
     resizeType : 1,
