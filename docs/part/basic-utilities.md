@@ -218,6 +218,12 @@ filter: fuzhulei fzl
 <p class="with-padding bg-special">...</p>
 ```
 
+移除元素内的所有边距使用 `.no-padding`。
+
+```css
+.no-padding {padding: 0!important;}
+```
+
 ## 关闭按钮
 
 通常用来关闭消息框或者模态框。
