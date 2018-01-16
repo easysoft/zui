@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.8.0 - 2018-01-11
+ * ZUI: 数据表格② - v1.8.0 - 2018-01-16
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -1179,7 +1179,8 @@
         }
         var dataItem = rowIndex > 0 ? that.getDataItem(rowIndex - 1) : null;
         config.data = dataItem;
-        config.rowId = rowIndex === 0 ? '#header' : rowIndex;
+        var rowId = dataItem && (dataItem.rowId || dataItem.id);
+        config.rowId = rowId !== undefined ? rowId : (rowIndex === 0 ? '#header' : rowIndex);
         return config;
     };
 
