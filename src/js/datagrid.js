@@ -950,7 +950,8 @@
         }
         var dataItem = rowIndex > 0 ? that.getDataItem(rowIndex - 1) : null;
         config.data = dataItem;
-        config.rowId = dataItem ? (dataItem.rowId || dataItem.id) : (rowIndex === 0 ? '#header' : rowIndex);
+        var rowId = dataItem && (dataItem.rowId || dataItem.id);
+        config.rowId = rowId !== undefined ? rowId : (rowIndex === 0 ? '#header' : rowIndex);
         return config;
     };
 
