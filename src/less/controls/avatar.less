@@ -11,10 +11,11 @@
   width: @avatar-size;
   height: @avatar-size;
   line-height: @avatar-size;
-  vertical-align: middle;
   text-align: center;
   background-position: center;
   background-size: cover;
+  border-radius: @border-radius-base;
+  position: relative;
 
   img {
     display: block;
@@ -50,4 +51,8 @@
   font-size: (@avatar-size-xl/2);
 
   > .icon {font-size: (@avatar-size-xl/2)}
+}
+
+.avatar-circle {
+  border-radius: 50%;
 }
