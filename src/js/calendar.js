@@ -144,7 +144,7 @@
         storage: true,
         withHeader: true,
         dragThenDrop: true, // drag an event and drop at another day,
-        hideEmptyWeekends: true // Auto hide empty weekends
+        // hideEmptyWeekends: false // Auto hide empty weekends
     };
 
     // Sort events by start datetime
