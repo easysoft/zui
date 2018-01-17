@@ -27,11 +27,13 @@ var extend = require('extend'),
 // Disable the 'possible EventEmitter memory leak detected' warning.
 gulp.setMaxListeners(0);
 
+extend(true, zui, require('./zui.templates.json'));
+
 // try load zui.custom.json and merge into zui.
 try {
     var zuicustom = require('./zui.custom.json');
-    if(zuicustom) extend(true, zui, zuicustom);
-} catch(e) {}
+    if (zuicustom) extend(true, zui, zuicustom);
+} catch (e) { }
 
 var today = moment();
 var typeSet = ['less', 'js', 'resource'],
@@ -56,7 +58,7 @@ var typeSet = ['less', 'js', 'resource'],
     BOOTSTRAP_STATEMENT = '/*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/\n\n';
 
 function formatBanner(options) {
-    if(options && options.title) {
+    if (options && options.title) {
         options.title = BANNER_OPTONS.title + ': ' + options.title;
     }
     options = Object.assign({}, BANNER_OPTONS, options);
@@ -66,7 +68,7 @@ function formatBanner(options) {
 function tryStatSync(path) {
     try {
         return fs.statSync(path);
-    } catch(e) {
+    } catch (e) {
         return false;
     }
 }
@@ -79,21 +81,21 @@ function isFileExist(path) {
 function getItemList(list, items, ignoreDpds, ignoreBasic) {
     items = items || [];
 
-    if(Array.isArray(list)) {
-        list.forEach(function(name) {
-            if(name === 'basic' && ignoreBasic) return;
+    if (Array.isArray(list)) {
+        list.forEach(function (name) {
+            if (name === 'basic' && ignoreBasic) return;
             getItemList(name, items, ignoreDpds, ignoreBasic);
         });
-    } else if(!(list === 'basic' && ignoreBasic)) {
+    } else if (!(list === 'basic' && ignoreBasic)) {
         var item = lib[list];
-        if(item && items.indexOf(list) < 0) {
-            if(!ignoreDpds && item.dpds) {
+        if (item && items.indexOf(list) < 0) {
+            if (!ignoreDpds && item.dpds) {
                 getItemList(item.dpds, items, ignoreDpds, ignoreBasic);
             }
             if (item.libDpds) {
                 getItemList(item.libDpds, items, ignoreDpds, ignoreBasic);
             }
-            if(item.src) items.push(list);
+            if (item.src) items.push(list);
         }
     }
 
@@ -109,18 +111,18 @@ function getBuildSource(build) {
         resource: []
     };
 
-    if(!Array.isArray(list)) list = [list];
+    if (!Array.isArray(list)) list = [list];
 
-    if(build.settingDpds) list = getItemList(build.settingDpds, list);
+    if (build.settingDpds) list = getItemList(build.settingDpds, list);
     list = getItemList(build.includes, list, build.ignoreDpds, build.ignoreBasic);
 
-    list.forEach(function(item) {
+    list.forEach(function (item) {
         var libItem = lib[item];
-        if(libItem && libItem.src) {
-            typeSet.forEach(function(type) {
-                if(libItem.src[type]) {
-                    libItem.src[type].forEach(function(file) {
-                        if(sources[type].indexOf(file) < 0) {
+        if (libItem && libItem.src) {
+            typeSet.forEach(function (type) {
+                if (libItem.src[type]) {
+                    libItem.src[type].forEach(function (file) {
+                        if (sources[type].indexOf(file) < 0) {
                             sources[type].push(file);
                         }
                     });
@@ -134,7 +136,7 @@ function getBuildSource(build) {
 
 function getSourceConfig(src) {
     var idx = src.lastIndexOf('//');
-    if(idx > 0) {
+    if (idx > 0) {
         return {
             base: src.substr(0, idx + 1),
             src: src.replace(/\/\//g, '/'),
@@ -151,10 +153,10 @@ function getSourceConfig(src) {
 
 function getBuildPath(build, type) {
     var path = build.dest;
-    if(build.subdirectories) {
+    if (build.subdirectories) {
         path += '/' + type + '/';
     }
-    if(path.indexOf('.') !== 0) {
+    if (path.indexOf('.') !== 0) {
         path = './' + path;
     }
     return path.replace(/\/\//g, '/').replace(/\/\//g, '/');
@@ -174,7 +176,7 @@ function gulpBuildColorsetJS(build, lessSrc, bannerContent) {
         .pipe(rename({
             extname: '.js'
         }))
-        .pipe(change(function(css, done) {
+        .pipe(change(function (css, done) {
             css = css.replace(/\/\*\*/g, '').replace(/\*\*\//g, '');
             css = css.replace(/\.color-(\w+) \{\n  color: (#?\w+);\n\}/g, "        $1: '$2',");
             css = css.replace(',\n    };', '\n    };');
@@ -183,7 +185,7 @@ function gulpBuildColorsetJS(build, lessSrc, bannerContent) {
         }))
         .pipe(header(bannerContent))
         .pipe(gulp.dest(destPath))
-        .on('end', function() {
+        .on('end', function () {
             console.log('     js > '.yellow.bold + (destPath + build.filename + '.js').italic.underline);
         });
 }
@@ -195,9 +197,9 @@ function buildBundle(name, callback, type) {
         depTaskList = [];
 
     // clean files
-    if(!type && name === 'dist') {
+    if (!type && name === 'dist') {
         del.sync('./dist/**/*');
-    } else if(!type && name === 'doc') {
+    } else if (!type && name === 'doc') {
         del.sync([
             './docs/js/**/*',
             './docs/css/**/*',
@@ -205,28 +207,28 @@ function buildBundle(name, callback, type) {
         ]);
     }
 
-    if(!build) {
-        if(name === 'all') {
+    if (!build) {
+        if (name === 'all') {
             console.log('           ========== BUILD ALL =========='.blue.bold);
             var buildList = Object.keys(builds);
-            buildList.forEach(function(nm) {
+            buildList.forEach(function (nm) {
                 build = builds[nm];
-                if(build && !build.bundles) {
+                if (build && !build.bundles) {
                     var taskName = 'build:' + nm;
-                    gulp.task(taskName, function(cb) {
+                    gulp.task(taskName, function (cb) {
                         buildBundle(nm, cb, type)
                     });
                     taskList.push(taskName);
                 }
             });
-            if(taskList.length) runSequence(taskList, function() {
+            if (taskList.length) runSequence(taskList, function () {
                 console.log(('        √  Build ' + 'ALL'.bold + ' success! ').green);
                 callback && callback();
             });
             return;
         } else {
             var buildLib = lib[name];
-            if(buildLib) {
+            if (buildLib) {
                 build = {
                     title: buildLib.name,
                     dest: 'dist/lib/' + name + '/',
@@ -242,20 +244,20 @@ function buildBundle(name, callback, type) {
                 return false;
             }
         }
-    } else if(build.bundles) {
+    } else if (build.bundles) {
         console.log(('           === BUILD BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.join(', ') + '] ===').blue.bold);
         var bundlesTaskList = [];
-        build.bundles.forEach(function(bundleName) {
-            gulp.task('build:' + bundleName, function(cb) {
+        build.bundles.forEach(function (bundleName) {
+            gulp.task('build:' + bundleName, function (cb) {
                 buildBundle(bundleName, cb, type);
             });
 
             bundlesTaskList.push('build:' + bundleName);
         });
 
-        gulp.task('build:' + name + ':bundles', function(cb) {
-            runSequence(bundlesTaskList, function() {
-                console.log(('         √ Build BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.map(function(x){return x.bold;}).join(', ') + '] success! ').green);
+        gulp.task('build:' + name + ':bundles', function (cb) {
+            runSequence(bundlesTaskList, function () {
+                console.log(('         √ Build BUNDLES ' + name.toUpperCase() + ' [' + build.bundles.map(function (x) { return x.bold; }).join(', ') + '] success! ').green);
                 cb();
             });
         });
@@ -263,8 +265,17 @@ function buildBundle(name, callback, type) {
         depTaskList.push('build:' + name + ':bundles');
     }
 
-    if(build.includes && build.includes.indexOf('colorset.js') > -1) {
-        gulp.task('build:colorset.less2js', function(cb) {
+    if (build.preBuilds) {
+        build.preBuilds.forEach(function (pBuildName) {
+            var pBuild = builds[pBuildName];
+            if (pBuild && pBuild.includes) {
+                build.includes = pBuild.includes.concat(build.includes);
+            }
+        });
+    }
+
+    if (build.includes && build.includes.indexOf('colorset.js') > -1) {
+        gulp.task('build:colorset.less2js', function (cb) {
             buildBundle('colorset.less2js', cb, 'less');
         });
 
@@ -273,75 +284,75 @@ function buildBundle(name, callback, type) {
 
     console.log(('           --- build ' + name + ' ---').cyan.bold);
 
-    var banner = formatBanner({title: build.title || name});
+    var banner = formatBanner({ title: build.title || name });
     var source = getBuildSource(build),
         bannerContent = (build.source && build.source !== 'Bootstrap') ?
-        '' : banner + (build.bootstrapStatement ? BOOTSTRAP_STATEMENT : '');
+            '' : banner + (build.bootstrapStatement ? BOOTSTRAP_STATEMENT : '');
 
-    if(source.js && source.js.length && (!type || type === 'js')) {
+    if (source.js && source.js.length && (!type || type === 'js')) {
         console.log(('         + Ready to process ' + source.js.length + ' javascript files.').bold);
-        source.js.forEach(function(f, idx) {
-            if(f.indexOf('~/') === 0) {
+        source.js.forEach(function (f, idx) {
+            if (f.indexOf('~/') === 0) {
                 source.js[idx] = f = 'src/js/' + f.substr(2);
             }
-            if(showFileDetail) console.log(('         | ' + f).italic);
+            if (showFileDetail) console.log(('         | ' + f).italic);
         });
 
         //ar taskName = 'build:' + name + ':js';
-        gulp.task('build:' + name + ':js', function() {
+        gulp.task('build:' + name + ':js', function () {
             var destPath = getBuildPath(build, 'js');
             return gulp.src(source.js)
                 .pipe(concat(build.filename + '.js'))
                 .pipe(header(bannerContent))
                 .pipe(chmod(644))
                 .pipe(gulp.dest(destPath))
-                .on('end', function() {
+                .on('end', function () {
                     console.log('      js > '.yellow.bold + (destPath + build.filename + '.js').italic.underline);
                 })
                 //.pipe(sourcemaps.init())
-                .pipe(uglify({preserveComments: 'some'}))
+                .pipe(uglify({ preserveComments: 'some' }))
                 .pipe(rename({
                     suffix: '.min'
                 }))
                 //.pipe(sourcemaps.write())
                 .pipe(chmod(644))
                 .pipe(gulp.dest(destPath))
-                .on('end', function() {
+                .on('end', function () {
                     console.log('      js > '.yellow.bold + (destPath + build.filename + '.min.js').italic.underline);
                 });
         });
         taskList.push('build:' + name + ':js');
     }
 
-    if(source.less && source.less.length && (!type || type === 'less')) {
+    if (source.less && source.less.length && (!type || type === 'less')) {
         var lessFileContent = '// \n// ' + build.title + '\n// Build config: ' + name + '\n//\n// This file generated by ZUI builder automatically at ' + today.toString() + '.\n//\n\n';
         console.log(('         + Ready to process ' + source.less.length + ' less files.').bold);
-        source.less.forEach(function(f, idx) {
-            if(f.indexOf('~/') === 0) {
+        source.less.forEach(function (f, idx) {
+            if (f.indexOf('~/') === 0) {
                 source.less[idx] = f = 'src/less/' + f.substr(2);
             }
 
-            if(isFileExist(f)) {
+            if (isFileExist(f)) {
                 lessFileContent += '@import "';
                 lessFileContent += '../../' + f;
                 lessFileContent += '";\n';
-                if(showFileDetail) console.log(('         | ' + f).italic);
+                if (showFileDetail) console.log(('         | ' + f).italic);
             } else {
                 lessFileContent += '// @import "';
                 lessFileContent += '../../' + f;
                 lessFileContent += '" // FILE NOT FOUND;\n';
-                if(showFileDetail) console.log(('         - ' + f + ' [NOT FOUND]').red.italic);
+                if (showFileDetail) console.log(('         - ' + f + ' [NOT FOUND]').red.italic);
             }
         });
 
-        gulp.task('build:' + name + ':less', function() {
+        gulp.task('build:' + name + ':less', function () {
             var buildSourceFilePath = './build/less/' + build.filename + '.less';
             var destPath = getBuildPath(build, 'css');
 
             mkdirp.sync('./build/less/');
             fs.writeFileSync(buildSourceFilePath, lessFileContent);
 
-            if(name === 'colorset.less2js') {
+            if (name === 'colorset.less2js') {
                 return gulpBuildColorsetJS(build, buildSourceFilePath, bannerContent);
             }
 
@@ -362,7 +373,7 @@ function buildBundle(name, callback, type) {
                 .pipe(header(bannerContent))
                 .pipe(chmod(644))
                 .pipe(gulp.dest(destPath))
-                .on('end', function() {
+                .on('end', function () {
                     console.log('     css > '.yellow.bold + (destPath + build.filename + '.css').italic.underline);
                 })
                 //.pipe(sourcemaps.init())
@@ -379,29 +390,29 @@ function buildBundle(name, callback, type) {
                 //.pipe(sourcemaps.write())
                 .pipe(chmod(644))
                 .pipe(gulp.dest(destPath))
-                .on('end', function() {
+                .on('end', function () {
                     console.log('     css > '.yellow.bold + (destPath + build.filename + '.min.css').italic.underline);
                 });
         });
         taskList.push('build:' + name + ':less');
     }
 
-    if(source.resource && source.resource.length && (!type || type === 'resource')) {
+    if (source.resource && source.resource.length && (!type || type === 'resource')) {
         console.log(('         + Ready to process ' + source.resource.length + ' resource files.').bold);
         var destPath = getBuildPath(build, '');
-        source.resource.forEach(function(f, idx) {
-            if(f.indexOf('~/') === 0) {
+        source.resource.forEach(function (f, idx) {
+            if (f.indexOf('~/') === 0) {
                 source.resource[idx] = f = 'src//' + f.substr(2);
             }
-            if(showFileDetail) console.log(('         | [' + idx + '] ' + f).italic);
-            gulp.task('build:' + name + ':resource:' + idx, function() {
+            if (showFileDetail) console.log(('         | [' + idx + '] ' + f).italic);
+            gulp.task('build:' + name + ':resource:' + idx, function () {
                 var sourceConfig = getSourceConfig(f);
                 return gulp.src(sourceConfig.src, {
-                        base: sourceConfig.base
-                    })
+                    base: sourceConfig.base
+                })
                     .pipe(chmod(644))
                     .pipe(gulp.dest(destPath))
-                    .on('end', function() {
+                    .on('end', function () {
                         console.log('resource > '.yellow.bold + (destPath + sourceConfig.file).italic.underline);
                     });
             });
@@ -409,14 +420,14 @@ function buildBundle(name, callback, type) {
         });
     }
 
-    if(taskList.length || depTaskList.length) {
-        var completeCallback = function() {
+    if (taskList.length || depTaskList.length) {
+        var completeCallback = function () {
             console.log(('         √ Build ' + name.bold + ' success! ').green);
             callback && callback();
         };
 
-        if(taskList.length) {
-            if(depTaskList.length) {
+        if (taskList.length) {
+            if (depTaskList.length) {
                 runSequence(depTaskList, taskList, completeCallback);
             } else {
                 runSequence(taskList, completeCallback);
@@ -431,74 +442,76 @@ function buildBundle(name, callback, type) {
     }
 }
 
-gulp.task('build', function(callback) {
+gulp.task('build', function (callback) {
     var name = process.argv[3] || 'dist';
-    if(name && name[0] === '-') name = name.substr(1);
-    if(name === 'lib') name = 'seperate';
+    if (name && name[0] === '-') name = name.substr(1);
+    if (name === 'lib') name = 'seperate';
     var type = process.argv.length > 4 ? process.argv[4] : false;
-    if(type && type[0] === '-') type = type.substr(1);
+    if (type && type[0] === '-') type = type.substr(1);
     console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
-    buildBundle(name, function() {
+    buildBundle(name, function () {
         console.log('    END >> ' + (' Build ' + name.bold + ' completed :)').green.inverse);
     }, type);
 });
 
 function startWatchSrc(name) {
-    if(name === 'lib') name = 'seperate';
-    gulp.watch(["./src/less/**/*"], function(event) {
-        buildBundle(name, function() {
+    if (name === 'lib') name = 'seperate';
+    var build = builds[name];
+    var srcDir = build && build.srcDir || './src';
+    gulp.watch([srcDir + "/less/**/*"], function (event) {
+        buildBundle(name, function () {
             console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
         }, 'less');
     });
 
-    gulp.watch(["./src/js/**/*"], function(event) {
-        if(event.path && (event.path.lastIndexOf('src/js/colorset.js') > -1) || event.path.lastIndexOf('src\\js\\colorset.js') > -1) return;
-        buildBundle(name, function() {
+    gulp.watch([srcDir + "/js/**/*"], function (event) {
+        if (event.path && (event.path.lastIndexOf('src/js/colorset.js') > -1) || event.path.lastIndexOf('src\\js\\colorset.js') > -1) return;
+        buildBundle(name, function () {
             console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
         }, 'js');
     });
 
-    gulp.watch(["./src/fonts/**/*"], function(event) {
-        buildBundle(name, function() {
+    gulp.watch([srcDir + "/fonts/**/*"], function (event) {
+        buildBundle(name, function () {
             console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
         }, 'resource');
     });
 }
 
-gulp.task('watch', function(callback) {
+gulp.task('watch', function (callback) {
     var name = process.argv[3] || 'dist';
-    if(name && name[0] === '-') name = name.substr(1);
+    if (name && name[0] === '-') name = name.substr(1);
     startWatchSrc(name);
 });
 
-['dist', 'doc', 'theme', 'lib'].forEach(function(name) {
+['dist', 'doc', 'theme', 'lib'].forEach(function (name) {
     var depsTasks = (name == 'dist' || name == 'doc') ? ['minJSON'] : [];
-    gulp.task(name, depsTasks, function(callback) {
+    gulp.task(name, depsTasks, function (callback) {
         console.log('  BEGIN >> ' + (' Build ' + name.bold + ' ').inverse);
-        buildBundle(name == 'lib' ? 'seperate' : name, function() {
+        buildBundle(name == 'lib' ? 'seperate' : name, function () {
             console.log('    END >> ' + (' Build ' + name.bold + ' completed. ').green.inverse);
             callback();
         });
     });
 
-    gulp.task('watch:' + name, function() {
+    gulp.task('watch:' + name, function () {
         startWatchSrc(name);
     });
 });
 
-gulp.task('minJSON', function(cb) {
+gulp.task('minJSON', function (cb) {
     gulp.src(['./docs/index.json', './docs/icons.json'])
         .pipe(jsonminify())
-        .pipe(rename({suffix: '.min'}))
+        .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('./docs/'));
     gulp.src(['zui.json'])
         .pipe(jsonminify())
-        .pipe(rename({suffix: '.min'}))
+        .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest('./docs/'));
     cb();
 });
 
-gulp.task('prettify:js', function() {
+gulp.task('prettify:js', function () {
     return gulp.src('./src/js/**/*')
         .pipe(prettify({
             logSuccess: true,
@@ -510,12 +523,12 @@ gulp.task('prettify:js', function() {
 
 gulp.task('prettify', ['prettify:js']);
 
-gulp.task('default', function() {
+gulp.task('default', function () {
     buildBundle('all');
 });
 
 // Init custom gulp tasks
-if(isFileExist("gulpfile.custom.js")) {
+if (isFileExist("gulpfile.custom.js")) {
     require("./gulpfile.custom.js")(gulp, {
         chmod: chmod,
         less: less,
