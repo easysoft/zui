@@ -380,6 +380,11 @@ $('#datagridFixedExample').datagrid({
 
 如果仅仅需要为单独的列应用自定义排序函数，则可以在列定义中使用 `sortFunc` 属性设置该列的排序函数，列排序函数参数定义及返回值约定与选项 `sortFunc` 一致。
 
+<div class="alert alert-warning">
+  <h4>排序的限制</h4>
+  <p>内置的完整排序功能仅支持本地静态数据源的排序，如果是远程数据源，会将排序参数发送给远端服务器，需要在服务器进行排序返回排序后的数据；动态数据源的排序也需要自己进行处理，可以根据回调函数参数应用排序规则。</p>
+</div>
+
 <div class="example">
   <div id="datagridSortExample" class="datagrid">
     <header class="clearfix">
@@ -1583,7 +1588,7 @@ function afterPageLoad() {
           data: sampleData.generate(50),
       };
     $('#tableDataGridExample').datagrid({
-        height: 180
+        height: 184
     });
     $('#remoteDataGridExample').datagrid({
         height: 'page',
