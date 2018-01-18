@@ -1,5 +1,39 @@
 # 更新记录
 
+## v 1.8.1
+
+解决了近两周社区反馈的问题。
+
+### 更新明细
+
++ 数据表格2:
+  * 修复了 `responsive` 选项和 `checkbox` 选项同时启用冲突的问题[@YNZZZ](http://forum.zui.sexy/thread/417.html)）；
+  * 修复了 `configs` 中的 `html` 属性和列配置的 `html` 属性设置为 `true` 时没有生效的问题（[@YNZZ](http://forum.zui.sexy/thread/422.html)）；
+  * 修复了 列配置中 `valueOperator` 没有按照预期工作的问题，同时修复了值转换期函数中参数不完整的问题（[@zz](http://forum.zui.sexy/thread/419.html)）；
+  * 修复了 默认的日期值转换期没有按照预期工作的问题（[@YNZZZ](http://forum.zui.sexy/thread/417.html)）；
+  * 修复了 `checkByClickRow` 和 `selectable` 选项冲突的问题，当 `checkByClickRow` 被禁用时，如果开启拖拽选择，则仅可以在勾选框所在列进行拖选操作（[@YNZZZ](http://forum.zui.sexy/thread/416.html)）；
+  * 修复了 Windows 上滚轮方向相反，滚动距离过小的问题，并且新增了 `mouseWheelFactor` 参数用于控制滚轮滚动速度和方向；
+  * 修复了 当数据没有定义 `id` 或 `rowId` 属性时获取选中行编号为 `undefined` 的问题；
+  * 修复了 `showRowIndex` 设置为 `false` 列宽混乱的问题；
+  * 优化了 缓存机制，现在默认缓存大小为 `1`；
+  * 优化了 行号列列宽自动计算方法，避免有时出现省略号的问题（[@徐业龙](http://forum.zui.sexy/thread/424.html)）
++ 数据表格1:
+  * 修复了 启用本地存储后，排序操作方向没有安装预期顺序显示的问题，参见 issue #79；
++ 上下文菜单：
+  * 修复了 `html` 选项设置为 `true` 时没有按照预期工作的问题；
++ 按钮组：
+  * 修复了 垂直的按钮组右上角圆角为直角的问题；
++ 辅助类：
+  * 增加了 `.no-padding` 类用于移除元素所有内边距；
++ 日期选择器：
+  * 优化了 内部 `input-group-addon` 左侧边框有双倍宽度的问题；
++ 日历：
+  * 将 `hideEmptyWeekends` 默认值设置为 `false`；
++ 图片浏览：
+  * 增加 `setImage(image, caption)` 和 `show()` 方法用于手动控制显示和更新内容（QQ 群 @深圳市雷诺表业-it）；
+
+感谢 [@neo20](https://github.com/easysoft/zui/pull/94)、[zora-han](https://github.com/easysoft/zui/pull/93) 提交了 Pull Request。欢迎大家反馈建议，最好是在[论坛发帖](http://forum.zui.sexy/forum/)或者[在 Github 上提交 issue](https://github.com/easysoft/zui/issues)，更欢迎有能力的同学[提交 Pull Request](https://github.com/easysoft/zui/pulls)。
+
 ## v 1.8.0
 
 1.8 版本带来了多个新的 JS 组件，包括全新的<a href="http://zui.sexy#view/datagrid" target="_blank">数据表格2</a>、<a href="http://zui.sexy#view/tabs" target="_blank">标签页管理器</a>、<a href="http://zui.sexy#javascript/contextmenu" target="_blank">上下文菜单</a>、<a href="http://zui.sexy#javascript/searchbox" target="_blank">搜索框</a>、<a href="http://zui.sexy#component/input-control" target="_blank">输入框</a>和<a href="http://zui.sexy#javascript/pagerjs" target="_blank">分页器</a>。
