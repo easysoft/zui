@@ -4,6 +4,15 @@
 
 ## 综合示例
 
+### 引入资源
+
+数据表格2为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的资源：
+
+```html
+<link href="lib/datagrid/zui.datagrid.min.css" rel="stylesheet">
+<script src="lib/datagrid/zui.datagrid.min.js"></script>
+```
+
 <div class="example">
   <div id="datagridExample" class="datagrid datagrid-borderless">
     <header class="clearfix">
