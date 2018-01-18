@@ -795,7 +795,7 @@
                     colWidth = 0.1;
                 }
                 colLayout = {left: 0};
-            if (colWidth >= 1) {
+                if (colWidth >= 1) {
                     if (col.minWidth !== undefined) {
                         colWidth = Math.max(colWidth, col.minWidth);
                     }
@@ -823,8 +823,8 @@
             if (options.checkable && !checkBoxColIndex) {
                 colsLayout[0].checkbox = true;
                 if (rowIndexWidth === 'auto') {
-                    colsLayout[0].width += 30;
-                    fixedWidth += 30;
+                    colsLayout[0].width += 32;
+                    fixedWidth += 32;
                 }
             }
             var flexWidth    = containerWidth - fixedWidth;
@@ -833,7 +833,7 @@
             for (var j = 0; j < colsLenght; ++j) {
                 colLayout = colsLayout[j];
                 colWidth = colLayout.width;
-                if (!colWidth) {
+                if (!colWidth && colWidth !== 0) {
                     if (autoOverflow) {
                         colWidth = colAutoDefaultWidth * colLayout.grow * 10;
                     } else {
