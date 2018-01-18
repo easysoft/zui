@@ -46,7 +46,7 @@ cdnjs 支持使用 `https:` 或 `http:` 协议访问 ZUI `dist` 目录下的所�
 //cdnjs.cloudflare.com/ajax/libs/zui/版本号/dist目录下的文件路径及名称
 ```
 
-所有可用文件请参考 <a href="https://cdnjs.com/libraries/zui" target="_blank">ZUI 在 cndjs 上的页面</a>。
+所有可用文件请参考 <a href="https://cdnjs.com/libraries/zui" target="_blank">ZUI 在 cdnjs 上的页面</a>。
 
 ### 由国内 <a href="http://www.bootcdn.cn/" target="_blank">BootCDN</a> 提供：
 

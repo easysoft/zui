@@ -254,6 +254,12 @@ $('#myPager').pager({
       <td>可以设置一个函数或者一个对象，具体用法参见下文“自定义”内容。</td>
     </tr>
     <tr>
+      <td><code>linkCreator</code></td>
+      <td>导航链接生成器</td>
+      <td>默认为 `'#page={page}'`</td>
+      <td>可以设置一个字符串作为链接模板，例如默认值 `'#page={page}'`（当页码为 `1` 时生成的链接为 `'#page=1'`）；或者使用一个回调函数 `function(page, pager)` 来动态返回链接地址，参数 `page` 为当前页码，参数 `pager` 为其他页码信息。</td>
+    </tr>
+    <tr>
       <td><code>maxNavCount</code></td>
       <td>页码导航最大条目数目</td>
       <td>默认为 `10`</td>
@@ -402,6 +408,22 @@ $('#myPager').on('onPageChange', function(e, state, oldState) {
 ```
 
 ## 自定义
+
+通过 `linkCreator` 选项指定一个字符串模板或者回调函数来生成页码上的链接。
+
+```html
+<!-- 如果总条目数目为 10，第一页的链接将为 mypage.html?page=1&totalCount=10 -->
+<ul data-ride="pager" class="pager" data-page="2" data-rec-total="89" data-link-creator="mypage.html?page={page}&totalCount={recTotal}"></ul>
+```
+
+```js
+// 或者使用函数来动态返回链接
+$('#myPagerExample').pager({
+    linkCreator: function(page, pager) {
+        return 'mypage.html?page=' + page + '&totalCount=' + pager.recTotal;
+    }
+});
+```
 
 通过使用 `elementCreator` 选项指定一个元素构造器用于创建自定义分页器界面组件元素。
 

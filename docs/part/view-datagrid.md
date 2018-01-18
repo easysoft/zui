@@ -1624,7 +1624,6 @@ function afterPageLoad() {
                 };
             }
         },
-        showRowIndex: false
     });
     $('#dynamicDataGridExample').datagrid($.extend({
         defaultDateFormater: 'hh:mm:ss',
