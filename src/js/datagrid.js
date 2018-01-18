@@ -454,7 +454,7 @@
         }
         if (dataSource.cache === true || dataSource.cache === undefined) {
             dataSource.cache = [];
-            dataSource.cacheSize = 10;
+            dataSource.cacheSize = 1;
         } else if (typeof dataSource.cache === 'number') {
             dataSource.cacheSize = dataSource.cache;
             dataSource.cache = [];

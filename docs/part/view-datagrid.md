@@ -46,7 +46,7 @@ $('#datagridExample').datagrid({
 * `remoteConverter`：可选，当从远程加载数据时，使用此属性来转换远程内容，确保远程数据符合数据表格所要求的格式，如果远程数据已经通过 JSON 返回了符合要求的数据，则无需使用此属性进行转换操作；
 * `getByIndex`：可选，当使用动态数据时，使用此属性指定一个函数用于动态返回数据项目；
 * `cache`: 如果设置为 `true`，则启用数据查询缓存，如果设置为 `false`，则不启用数据查询缓存，默认为 `true`；
-* `cacheSize`: 设置启用数据查询缓存时最大缓存数量，默认为 `10`。
+* `cacheSize`: 设置启用数据查询缓存时最大缓存数量，默认为 `1`。
 
 ### 数据项定义
 
@@ -1591,6 +1591,7 @@ function afterPageLoad() {
             pager: {page: 1, recPerPage: 5},
         },
         dataSource: {
+            cache: false,
             cols:[
                 {name: 'time', label: '时间', width: 132},
                 {name: 'hera', label: '英雄', width: 134},
@@ -1608,7 +1609,8 @@ function afterPageLoad() {
                     dataType: 'json'
                 };
             }
-        }
+        },
+        showRowIndex: false
     });
     $('#dynamicDataGridExample').datagrid($.extend({
         defaultDateFormater: 'hh:mm:ss',
