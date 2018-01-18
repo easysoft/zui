@@ -986,6 +986,9 @@
                 that.userConfigs[colId]
             );
             // that.configsCache[colId] = config;
+            if (colIndex === 0 && !that.options.showRowIndex) {
+                config.hidden = true;
+            }
         }
         return config;
     };
