@@ -64,7 +64,35 @@ filter: tupianliulan tpll dxs tp dengxiangshi tupian tpyl
 为链接增加`data-toggle="lightbox"`属性会自动初始化灯箱式式浏览效果。也可以手动为链接和图片进行初始化。
 
 ```js
-$('a.lightbox-toggle').lightbox();
+$('a.lightbox-toggle').lightbox({
+    image: 'http://your/image/url.jpg',
+    caption: '图片说明'
+});
+```
+
+如果要手动动态设置显示的图片描述文本，则可以在初始化之后调用实例对象上的 `setImage(image, caption)` 方法：
+
+```js
+// 获取实例对象
+var myLightBox = $('#lightBoxToggle').data('zui.lightbox');
+
+// 更新图片和说明
+myLightBox.setImage('http://new/image/url.jpg', '新的图片');
+
+// 这样在用户下次点击触发元素时就会弹出显示新的图片.
+```
+
+如果要手动显示图片，则可以在初始化之后调用实例对象上的 `show()` 方法，该实例方法还可以接收两个参数 `image` 和 `caption` 在显示之前自动调用 `setImage` 方法更新图片和说明文本。
+
+```js
+// 获取实例对象
+var myLightBox = $('#lightBoxToggle').data('zui.lightbox');
+
+// 立即显示
+myLightBox.show();
+
+// 更新图片和描述文本并立即显示
+myLightBox.show('http://new/image/url.jpg', '新的图片');
 ```
 
 <script>

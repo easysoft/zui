@@ -50,6 +50,16 @@
         this.groupIndex = parseInt(this.$.data('group-index'));
     };
 
+    Lightbox.prototype.setImage = function(image, caption) {
+        if(image !== undefined) this.options.image = image;
+        if(caption !== undefined) this.options.caption = caption;
+    };
+
+    Lightbox.prototype.show = function(image, caption) {
+        this.setImage(image, caption);
+        this.$.triggerHandler('click');
+    };
+
     Lightbox.prototype.bindEvents = function() {
         var $e = this.$,
             that = this;
