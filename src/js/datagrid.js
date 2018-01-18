@@ -778,7 +778,7 @@
             var rowIndexWidth       = options.rowIndexWidth;
             var colsLayout          = [{
                 left: 0,
-                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 16) : rowIndexWidth) : 0
+                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 18) : rowIndexWidth) : 0
             }];
             var cellsTotalWidth     = 0;
             var fixedWidth          = colsLayout[0].width;
@@ -823,8 +823,8 @@
             if (options.checkable && !checkBoxColIndex) {
                 colsLayout[0].checkbox = true;
                 if (rowIndexWidth === 'auto') {
-                    colsLayout[0].width += 32;
-                    fixedWidth += 32;
+                    colsLayout[0].width += 30;
+                    fixedWidth += 30;
                 }
             }
             var flexWidth    = containerWidth - fixedWidth;
