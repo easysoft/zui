@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.8.0 - 2018-01-10
+ * ZUI: Standard edition - v1.8.0 - 2018-01-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -5171,6 +5171,16 @@
         }
         this.groups = groups;
         this.groupIndex = parseInt(this.$.data('group-index'));
+    };
+
+    Lightbox.prototype.setImage = function(image, caption) {
+        if(image !== undefined) this.options.image = image;
+        if(caption !== undefined) this.options.caption = caption;
+    };
+
+    Lightbox.prototype.show = function(image, caption) {
+        this.setImage(image, caption);
+        this.$.triggerHandler('click');
     };
 
     Lightbox.prototype.bindEvents = function() {

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 日历 - v1.8.0 - 2018-01-10
+ * ZUI: 日历 - v1.8.0 - 2018-01-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -151,7 +151,7 @@
         storage: true,
         withHeader: true,
         dragThenDrop: true, // drag an event and drop at another day,
-        hideEmptyWeekends: true // Auto hide empty weekends
+        // hideEmptyWeekends: false // Auto hide empty weekends
     };
 
     // Sort events by start datetime

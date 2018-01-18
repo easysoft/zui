@@ -227,6 +227,9 @@
 .datetimepicker tfoot tr:first-child th:hover {
   background: #eee;
   }
+.input-group.date > .input-group-addon {
+  border-left: none;
+  }
 .input-append.date .add-on i,
 .input-prepend.date .add-on i,
 .input-group.date .input-group-addon span {

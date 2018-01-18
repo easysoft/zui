@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.8.0 - 2018-01-16
+ * ZUI: 数据表格② - v1.8.0 - 2018-01-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -683,7 +683,7 @@
         }
         if (dataSource.cache === true || dataSource.cache === undefined) {
             dataSource.cache = [];
-            dataSource.cacheSize = 10;
+            dataSource.cacheSize = 1;
         } else if (typeof dataSource.cache === 'number') {
             dataSource.cacheSize = dataSource.cache;
             dataSource.cache = [];
@@ -1007,7 +1007,7 @@
             var rowIndexWidth       = options.rowIndexWidth;
             var colsLayout          = [{
                 left: 0,
-                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 16) : rowIndexWidth) : 0
+                width: options.showRowIndex ? (rowIndexWidth === 'auto' ? ((dataLength + that.pager.skip + '').length * 8 + 18) : rowIndexWidth) : 0
             }];
             var cellsTotalWidth     = 0;
             var fixedWidth          = colsLayout[0].width;
@@ -1024,7 +1024,7 @@
                     colWidth = 0.1;
                 }
                 colLayout = {left: 0};
-            if (colWidth >= 1) {
+                if (colWidth >= 1) {
                     if (col.minWidth !== undefined) {
                         colWidth = Math.max(colWidth, col.minWidth);
                     }
@@ -1062,7 +1062,7 @@
             for (var j = 0; j < colsLenght; ++j) {
                 colLayout = colsLayout[j];
                 colWidth = colLayout.width;
-                if (!colWidth) {
+                if (!colWidth && colWidth !== 0) {
                     if (autoOverflow) {
                         colWidth = colAutoDefaultWidth * colLayout.grow * 10;
                     } else {

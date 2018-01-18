@@ -1,5 +1,5 @@
 /*!
- * ZUI: 图标选择器 - v1.8.0 - 2018-01-10
+ * ZUI: 图标选择器 - v1.8.0 - 2018-01-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT

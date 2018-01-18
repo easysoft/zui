@@ -83,7 +83,9 @@ $(function() {
             {label: '累计经验', name: 'exps', width: 80, valueType: 'number'},
             {label: '剩余金钱', name: 'golds', width: 80, valueType: 'number'},
             {label: '描述', name: 'desc', width: 'auto', minWidth: 200},
-            {label: '累计人头', name: 'kills', width: 110, valueType: 'number'},
+            {label: '累计人头', name: 'kills', width: 110, valueType: 'number', valueOperator: {getter: function(value, cell, dg) {
+                return '[' + value + ']';
+            }}},
         ];
 
         var createDataItem = function(index) {
@@ -241,7 +243,7 @@ $(function() {
         height: 300,
         renderDelay: 200,
         checkable: true,
-        checkByClickRow: false
+        checkByClickRow: false,
     }
     // var datagrid = $('#dataGrid').datagrid(options1).data('zui.datagrid');
     // console.log('datagrid1', datagrid);

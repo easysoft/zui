@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.8.0 - 2018-01-10
+ * ZUI: Lite edition - v1.8.0 - 2018-01-18
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -283,6 +283,9 @@ table {
   }
 .with-padding {
   padding: 5px 12px;
+  }
+.no-padding {
+  padding: 0!important;
   }
 .visible-xs,
 .inline.visible-xs,
