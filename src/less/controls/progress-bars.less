@@ -1,7 +1,7 @@
 /// ========================================================================
 /// Bootstrap: progress-bars.less
 /// https://github.com/twbs/bootstrap/blob/master/less/progress-bars.less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// Bootsrap version in the future.
 /// http://zui.sexy
@@ -23,10 +23,10 @@
 // Outer container
 .progress  {
   overflow: hidden;
-  height: @line-height-computed;
+  height: @progress-bar-height;
   margin-bottom: @line-height-computed;
   background-color: @progress-bg;
-  border-radius: @border-radius-base;
+  border-radius: @progress-bar-radius;
 }
 
 // Bar of progress
@@ -38,6 +38,7 @@
   color: @progress-bar-color;
   text-align: center;
   background-color: @progress-bar-bg;
+  border-radius: @progress-bar-radius;
   .transition(width .6s ease);
 }
 
