@@ -28,8 +28,9 @@
 
     var lastUuidAmend = 0;
     $.zui({
-        uuid: function() {
-            return(new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
+        uuid: function(asNumber) {
+            var uuidNumber = (new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
+            return asNumber ? uuidNumber : uuidNumber.toString(36);
         },
 
         callEvent: function(func, event, proxy) {
