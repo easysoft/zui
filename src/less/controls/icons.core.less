@@ -1,7 +1,7 @@
 /// ========================================================================
 /// Font Awesome: icons.core.less
 /// https://github.com/FortAwesome/Font-Awesome/tree/master/less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// FontAwesome version in the future.
 /// http://zui.sexy
@@ -40,7 +40,7 @@
 
 .icon:before {
   display: inline-block;
-  min-width: 14px;
+  min-width: @icon-font-size;
   text-align: center;
 }
 
@@ -63,10 +63,10 @@ a {
   vertical-align: -10%;
   font-size: 4/3em;
 }
-.icon-2x { font-size: 28px; }
-.icon-3x { font-size: 42px; }
-.icon-4x { font-size: 56px; }
-.icon-5x { font-size: 70px; }
+.icon-2x { font-size: @icon-font-size*2; }
+.icon-3x { font-size: @icon-font-size*3; }
+.icon-4x { font-size: @icon-font-size*4; }
+.icon-5x { font-size: @icon-font-size*5; }
 
 
 // Animated rotating icon
