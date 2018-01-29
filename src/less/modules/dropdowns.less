@@ -1,7 +1,7 @@
 /// ========================================================================
 /// Bootstrap: dropdowns.less
 /// https://github.com/twbs/bootstrap/blob/master/less/dropdowns.less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// Bootsrap version in the future.
 /// http://zui.sexy
@@ -35,7 +35,7 @@
   z-index: @zindex-dropdown;
   display: none; // none by default, but block on "open" of the menu
   float: left;
-  min-width: 160px;
+  min-width: @dropdown-min-width;
   padding: 5px 0;
   margin: 2px 0 0; // override default ul
   list-style: none;
@@ -59,7 +59,7 @@
   // Links within the dropdown menu
   > li > a {
     display: block;
-    padding: 3px 20px;
+    padding: @dropdown-item-padding;
     clear: both;
     font-weight: normal;
     line-height: @line-height-base;
@@ -133,7 +133,7 @@
 
   // Remove the outline when :focus is triggered
   > a { outline: 0; }
-} 
+}
 
 
 // Dropdown section headers
