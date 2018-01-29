@@ -52,7 +52,9 @@ textarea {
 a {
   color: @link-color;
   text-decoration: none;
-  .transition(all, @animation-speed-normal, @animation-type);
+  cursor: pointer;
+  transition: @animation-speed-normal @animation-type;
+  transition-property: color, background, transform, opacity, left, top, right, bottom;
 
   &:hover,
   &:focus {
