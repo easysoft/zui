@@ -1,7 +1,7 @@
 /// ========================================================================
 /// Bootstrap: navs.less
 /// https://github.com/twbs/bootstrap/blob/master/less/navs.less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// Bootsrap version in the future.
 /// http://zui.sexy
@@ -71,6 +71,19 @@
   //
   // See https://github.com/h5bp/html5-boilerplate/issues/984#issuecomment-3985989
   > li > a > img { max-width: none; }
+}
+
+
+// Default simple nav
+
+.nav-default {
+  > li {
+    float: left;
+
+    > a {
+      border-radius: @border-radius-base;
+    }
+  }
 }
 
 
