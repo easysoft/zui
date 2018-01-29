@@ -1,7 +1,7 @@
 /// ========================================================================
 /// Bootstrap: tables.less
 /// https://github.com/twbs/bootstrap/blob/master/less/tables.less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// Bootsrap version in the future.
 /// http://zui.sexy
@@ -17,8 +17,7 @@ table {
   background-color: @table-bg;
 }
 caption {
-  padding-top: @table-cell-padding;
-  padding-bottom: @table-cell-padding;
+  padding: @table-cell-padding;
   color: @text-muted;
   text-align: left;
 }
@@ -49,6 +48,8 @@ th {
     vertical-align: bottom;
     border-bottom: 1px solid @table-border-color;
     background-color: @table-head-bg;
+    color: @table-head-color;
+    font-weight: @table-head-font-weight;
   }
   // Account for multiple tbody instances
   > tbody + tbody {
