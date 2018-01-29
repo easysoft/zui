@@ -13,7 +13,7 @@
 // Colorset contains many color tiles
 
 .colorset {
-  .clearfix();
+  .clearfix-mixin();
   padding-bottom: 10px;
   padding-top: 20px;
   border-bottom: 1px dashed darken(@color-back, 10%);
@@ -58,7 +58,7 @@
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
   }
-  
+
   &:hover {
     &:after,
     &:before {

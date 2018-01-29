@@ -18,7 +18,7 @@
  * Chosen, a Select Box Enhancer for jQuery and Prototype
  * by Patrick Filler for Harvest, http://getharvest.com
  *
- * Copyright (c) 2011-2016 Harvest http://getharvest.com 
+ * Copyright (c) 2011-2016 Harvest http://getharvest.com
  * MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 */
 
@@ -253,7 +253,7 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 
     .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
-    .clearfix();
+    .clearfix-mixin();
   }
   .chosen-choices li {
     display: block;
@@ -401,7 +401,7 @@
     @color-rgba: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
     border-color: @input-border-focus;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @color-rgba;
-    
+
     li.search-field input[type="text"] {
       color: #111 !important;
     }
