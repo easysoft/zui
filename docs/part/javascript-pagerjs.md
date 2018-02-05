@@ -244,7 +244,7 @@ $('#myPager').pager({
     <tr>
       <td><code>elements</code></td>
       <td>界面元素排列定义</td>
-      <td>默认为 ` ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'goto', 'size_menu', '|', 'items_range_text', 'total_text', 'page_of_total_text']`</td>
+      <td>默认为 ` ['first_icon', 'prev_icon', 'pages', 'next_icon', 'last_icon', 'page_of_total_text', 'items_range_text', 'total_text']`</td>
       <td>允许使用字符串数组或者逗号分割的字符串来指定元素名称排列定义，元素名称及对应外观参见上文“界面元素”内容。</td>
     </tr>
     <tr>
