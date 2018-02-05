@@ -270,8 +270,6 @@
 
         that.setDataSource(options.dataSource);
 
-        that.render(true);
-
         if (options.responsive) {
             var lastContainerWidth = $container.width();
             $container.on('resize', function() {
@@ -360,6 +358,8 @@
                 });
             }
         }
+
+        that.render();
     };
 
     DataGrid.prototype.setPager = function(page, recTotal, recPerPage) {

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.8.1 - 2018-01-18
+ * ZUI: 数据表格② - v1.8.1 - 2018-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -499,8 +499,6 @@
 
         that.setDataSource(options.dataSource);
 
-        that.render(true);
-
         if (options.responsive) {
             var lastContainerWidth = $container.width();
             $container.on('resize', function() {
@@ -589,6 +587,8 @@
                 });
             }
         }
+
+        that.render();
     };
 
     DataGrid.prototype.setPager = function(page, recTotal, recPerPage) {
@@ -1215,6 +1215,9 @@
                 that.userConfigs[colId]
             );
             // that.configsCache[colId] = config;
+            if (colIndex === 0 && !that.options.showRowIndex) {
+                config.hidden = true;
+            }
         }
         return config;
     };
