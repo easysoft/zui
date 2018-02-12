@@ -458,7 +458,7 @@
     Tabs.prototype.reopen = function() {
         var that = this;
         if(that.closedTabs.length) {
-            that.open(that.closedTabs.pop());
+            that.open(that.closedTabs.pop(), true);
         }
     };
 
