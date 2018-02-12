@@ -1361,6 +1361,14 @@
       "dpds": ["plupload"],
       "ver": "1.6.0",
       "ignoreDpds": false
+    },
+    "ajaxFake": {
+      "name": "Ajax 响应模拟工具",
+      "src": {
+        "js": ["src/js/ajax.fake.js"]
+      },
+      "ver": "1.8.1",
+      "ignoreDpds": false
     }
   },
   "builds": {
@@ -1397,7 +1405,7 @@
     },
     "seperate": {
       "title": "Seperate bundles",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap", "ajaxFake"]
     },
     "dist": {
       "title": "Dist bundles",
