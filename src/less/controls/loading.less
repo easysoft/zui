@@ -1,0 +1,49 @@
+.load-indicator {
+  position: relative;
+  &:before,&:after {
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    color: @color-gray;
+    transition: .2s @animation-type;
+    transition-property: visibility, opacity;
+  }
+  &:before {
+    content: attr(data-loading);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+    font-size: 12px;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255,255,255,.65);
+    z-index: 10;
+
+  }
+  &:after {
+    .icon-zenicon();
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    content: @icon-refresh;
+    animation: spin 2s infinite linear;
+    font-size: 24px;
+    left: 50%;
+    top: 50%;
+    margin-top: -15px;
+    margin-left: -15px;
+    z-index: 11;
+  }
+
+  &.loading {
+    &:before,&:after {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
