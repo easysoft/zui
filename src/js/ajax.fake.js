@@ -47,6 +47,9 @@
                 if (options.success) {
                     options.success(data, textStatus);
                 }
+                if (options.complete) {
+                    options.complete(null, textStatus);
+                }
             };
             var onError = function(textStatus, errorThrown) {
                 if (options.error) {
@@ -68,6 +71,10 @@
                         onSuccess(result);
                     }
                 }
+                console.groupCollapsed('FakeAjax: ' + url + ' %c' + (result === false ? 'Error' : 'Success'), (result === false) ? 'color: red' : 'color: green');
+                console.log('response', result);
+                console.log('ajax options', options);
+                console.groupEnd();
                 return result;
             }
             if (router.delay) {
@@ -80,7 +87,7 @@
         return ajax.apply(null, arguments);
     };
 
-    var fakeServer = function(urlMatch, route) {
+    var fakeServer = function(urlMatch, route, options) {
         if (!$.ajax_origin) {
             $.ajax_origin = ajax;
             $.ajax = ajaxFake;
@@ -91,6 +98,9 @@
         } else {
             router.urlMatch = urlMatch;
             router.route = route;
+            if ($.isPlainObject(options)) {
+                $.extend(router, options);
+            }
         }
         routers.push(router);
     };
