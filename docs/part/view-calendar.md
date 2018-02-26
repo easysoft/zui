@@ -103,14 +103,18 @@ $('#calendar').calendar();
     </tr>
     <tr>
       <td>`lang`</td>
-      <td>*   `null` (默认)
-*   `"zh-cn"`</td>
-      <td>当前界面所使用的语言，如果留空则会从`html`标签上读取lang属性</td>
+      <td>`"zh_cn"`、`"zh_tw"`、`"en"`</td>
+      <td>当前界面所使用的语言，如果留空则会从`html`标签上读取lang属性，否则设置为 `"zh_cn"`</td>
     </tr>
     <tr>
       <td>`data`</td>
       <td>`{calendars: {}, events: []}`</td>
       <td>初始加载的日历数据</td>
+    </tr>
+    <tr>
+      <td>`eventSorter`</td>
+      <td>`null`</td>
+      <td>指定一个函数用于对事件进行排序时比较两个事件对象大小。提供两个参数  `event1`, `event2` 分别为要比较的两个事件对象，当返回大于 0 的数时 `event2` 会排在 `event1` 之前，如果小于 0 则反之，等于 0 时位置不变。如果不指定该选项，则默认按照事件的日期先后排序。</td>
     </tr>
   </tbody>
 </table>
@@ -587,7 +591,6 @@ function afterPageLoad() {
           var $this = $(this);
           var data = calDataGenerater($this.data('exampleCount') || 100);
           $this.calendar({data: data, clickEvent: function(e) {
-              console.log(e);
               $.zui.messager.show('您点击了 <strong>' + e.event.title + '</strong>');
           }, beforeChange: function(e) {
               if(e.change === 'start')

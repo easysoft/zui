@@ -159,56 +159,61 @@
 
     // Sort events by start datetime
     Calendar.prototype.sortEvents = function() {
-        var events = this.events;
+        var that = this;
+        var events = that.events;
         if(!$.isArray(events)) {
             events = [];
         }
 
-        events.sort(function(a, b) {
+        events.sort(that.options.eventSorter || function(a, b) {
             if (a.allDay) {
                 return 1;
             } else if (b.allDay) {
                 return -1;
             }
-            return a.start > b.start ? 1 : (a.start < b.start ? (-1) : 0);
+            var result = a.start > b.start ? 1 : (a.start < b.start ? (-1) : 0);
+            if (result === 0) {
+                result = a.id < b.id ? (-1) : 1;
+            }
+            return result;
         });
 
-        this.events = events;
+        that.events = events;
     };
 
     Calendar.prototype.bindEvents = function() {
         var $e = this.$,
-            self = this;
+            that = this;
 
         $e.on('click', '.btn-today', function() {
-            self.date = new Date();
-            self.display();
-            $e.callComEvent(this, 'clickTodayBtn');
+            that.date = new Date();
+            that.display();
+            $e.callComEvent(that, 'clickTodayBtn');
         }).on('click', '.btn-next', function() {
-            if(self.view === 'month') {
-                self.date.addMonths(1);
+            if(that.view === 'month') {
+                that.date.addMonths(1);
             }
-            self.display();
-            $e.callComEvent(this, 'clickNextBtn');
+            that.display();
+            $e.callComEvent(that, 'clickNextBtn');
         }).on('click', '.btn-prev', function() {
-            if(self.view === 'month') {
-                self.date.addMonths(-1);
+            if(that.view === 'month') {
+                that.date.addMonths(-1);
             }
-            self.display();
-            $e.callComEvent(this, 'clickPrevBtn');
+            that.display();
+            $e.callComEvent(that, 'clickPrevBtn');
         }).on('click', '.event', function(event) {
-            $e.callComEvent(this, 'clickEvent', {
+            $e.callComEvent(that, 'clickEvent', {
                 element: this,
                 event: $(this).data('event'),
-                events: self.events
+                events: that.events
             });
             event.stopPropagation();
         }).on('click', '.cell-day', function() {
-            $e.callComEvent(this, 'clickCell', {
+            $e.callComEvent(that, 'clickCell', {
                 element: this,
-                view: self.view,
+                view: that.view,
                 date: new Date($(this).children('.day').attr('data-date')),
-                events: self.events
+                events: that.events
             });
         });
     };
@@ -334,11 +339,11 @@
                 }
                 $.each(changes, function(idx, chge) {
                     if(false !== that.$.callComEvent(that, 'beforeChange', {
-                            event: event,
-                            change: chge.change,
-                            to: chge.to,
-                            from: event[chge.change]
-                        })) {
+                        event: event,
+                        change: chge.change,
+                        to: chge.to,
+                        from: event[chge.change]
+                    })) {
                         eventParam.changes.push($.extend(true, {}, chge, {
                             from: event[chge.change]
                         }));
@@ -395,7 +400,7 @@
     };
 
     Calendar.prototype.getLang = function() {
-        this.lang = this.options.langs[this.options.lang || ($.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh-cn')];
+        this.lang = this.options.langs[(this.options.lang || ($.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh_cn')).replace('-', '_')];
     };
 
     Calendar.prototype.display = function(view, date) {
@@ -463,7 +468,7 @@
             $e = that.$;
 
         var $view = that.$monthView;
-        if(!$view.length) {
+        if(!$view || !$view.length) {
             $view = $('<div class="calendar-view month"><table class="table table-bordered"><thead><tr class="week-head"></tr></thead><tbody class="month-days"></tbody></table></div>');
 
             var $weekHead = $view.find('.week-head'),
@@ -520,7 +525,7 @@
                 day = printDate.getDate();
                 month = printDate.getMonth();
                 printDateId = printDate.toDateString();
-                $day.attr('data-date', printDateId).data('date', printDate);
+                $day.attr('data-date', printDateId).data('date', printDate.clone());
                 $day.find('.heading > .number').text(day);
 
                 $day.find('.heading > .month')
@@ -554,7 +559,7 @@
                             $event.data('event', e);
                             $event.attr('data-days', e.days);
                         }
-                        $event.toggleClass('event-all-day', !!event.allDay).data('event', e).attr('data-days', e.days);
+                        $event.toggleClass('event-all-day', !!e.allDay).data('event', e).attr('data-days', e.days);
 
                         if(e.calendar) {
                             cal = calendars[e.calendar];
