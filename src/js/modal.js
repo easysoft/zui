@@ -156,9 +156,11 @@
         if(that.options.moveable) that.setMoveale();
 
         that.checkScrollbar()
-        that.$body.addClass('modal-open')
+        if (that.options.backdrop !== false) {
+            that.$body.addClass('modal-open')
+            that.setScrollbar()
+        }
 
-        that.setScrollbar()
         that.escape()
 
         that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]', $.proxy(that.hide, that))
@@ -203,31 +205,35 @@
     Modal.prototype.hide = function(e) {
         if(e) e.preventDefault()
 
+        var that = this;
+
         e = $.Event('hide.' + zuiname)
 
-        this.$element.trigger(e)
+        that.$element.trigger(e)
 
-        if(!this.isShown || e.isDefaultPrevented()) return
+        if(!that.isShown || e.isDefaultPrevented()) return
 
-        this.isShown = false
+        that.isShown = false
 
-        this.$body.removeClass('modal-open')
+        if (that.options.backdrop !== false) {
+            that.$body.removeClass('modal-open')
+            that.resetScrollbar()
+        }
 
-        this.resetScrollbar()
-        this.escape()
+        that.escape()
 
         $(document).off('focusin.' + zuiname)
 
-        this.$element
+        that.$element
             .removeClass('in')
             .attr('aria-hidden', true)
             .off('click.dismiss.' + zuiname)
 
-        $.support.transition && this.$element.hasClass('fade') ?
-            this.$element
-            .one('bsTransitionEnd', $.proxy(this.hideModal, this))
+        $.support.transition && that.$element.hasClass('fade') ?
+            that.$element
+            .one('bsTransitionEnd', $.proxy(that.hideModal, that))
             .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-            this.hideModal()
+            that.hideModal()
     }
 
     Modal.prototype.enforceFocus = function() {
