@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     if(!$.fn.modal) throw new Error('Modal trigger requires modal.js');
@@ -260,14 +260,17 @@
                     success: function(data) {
                         try {
                             var $data = $(data);
-                            if($data.hasClass('modal-dialog')) {
+                            if($data.filter('.modal-dialog').length) {
                                 $dialog.replaceWith($data);
-                            } else if($data.hasClass('modal-content')) {
+                            } else if($data.filter('.modal-content').length) {
                                 $dialog.find('.modal-content').replaceWith($data);
                             } else {
                                 $body.wrapInner($data);
                             }
                         } catch(e) {
+                            if (window.console && window.console.warn) {
+                                console.warn('ZUI: Cannot recogernize remote content.', {error: e, data: data});
+                            }
                             $modal.html(data);
                         }
                         $modal.callComEvent(that, 'loaded', {
@@ -409,5 +412,5 @@
             e.preventDefault();
         }
     });
-}(window.jQuery, window));
+}(window.jQuery, window, undefined));
 
