@@ -1,7 +1,7 @@
 /// ========================================================================
 /// Bootstrap: popovers.less
 /// https://github.com/twbs/bootstrap/blob/master/less/popovers.less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// Bootsrap version in the future.
 /// http://zui.sexy
@@ -42,6 +42,11 @@
     &.bottom  { margin-top: 0 }
     &.left    { margin-left: 0 }
   }
+}
+
+.popover-in-modal,
+.modal .popover {
+  z-index: @zindex-modal;
 }
 
 .popover-title {
