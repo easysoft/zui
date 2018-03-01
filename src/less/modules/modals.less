@@ -1,7 +1,7 @@
 /// ========================================================================
 /// Bootstrap: modals.less
 /// https://github.com/twbs/bootstrap/blob/master/less/modals.less
-/// 
+///
 /// ZUI: The file has been changed in ZUI. It will not keep update with the
 /// Bootsrap version in the future.
 /// http://zui.sexy
@@ -32,6 +32,7 @@
   left: 0;
   z-index: @zindex-modal;
   -webkit-overflow-scrolling: touch;
+  pointer-events: none;
 
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
@@ -83,6 +84,7 @@
   border: 1px solid @modal-content-border-color;
   border-radius: @border-radius-large;
   box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  pointer-events: initial;
 
   background-clip: padding-box;
   // Remove focus outline from opened modal
@@ -91,7 +93,7 @@
   &.modal-moveable {
     position: absolute;
     margin: 0;
-    
+
     .modal-header { cursor: move; }
   }
 }
