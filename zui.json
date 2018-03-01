@@ -68,6 +68,18 @@
       "license": "Apache 2.0",
       "website": "https://github.com/google/code-prettify"
     },
+    "jquery.form": {
+      "name": "jQuery Form",
+      "pver": "1.8.0",
+      "ver": "4.2.2",
+      "src": {
+        "js": ["assets/form/jquery.form.min.js"]
+      },
+      "desc": "jQuery Form Plugin",
+      "source": "jquery-form",
+      "license": "MIT",
+      "website": "https://jquery-form.github.io/form/"
+    },
     "plupload": {
       "name": "Plupload",
       "pver": "2.2.1",
