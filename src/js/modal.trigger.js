@@ -137,7 +137,7 @@
         var resizeDialog = function() {
             clearTimeout(this.resizeTask);
             this.resizeTask = setTimeout(function() {
-                that.ajustPosition();
+                that.ajustPosition(options.position);
             }, 100);
         };
 
@@ -309,7 +309,11 @@
     };
 
     ModalTrigger.prototype.ajustPosition = function(position) {
-        this.$modal.modal('ajustPosition', position || this.options.position);
+        position = position === undefined ? this.options.position : position;
+        if ($.isFunction(position)) {
+            position = position(this);
+        }
+        this.$modal.modal('ajustPosition', position);
     };
 
     $.zui({

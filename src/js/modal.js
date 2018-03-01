@@ -18,7 +18,7 @@
  * 5. add setMoveable method to make modal dialog moveable
  * ======================================================================== */
 
-+ function($) {
++ function($, undefined) {
     'use strict';
 
     // MODAL CLASS DEFINITION
@@ -58,7 +58,7 @@
         show: true,
         // rememberPos: false,
         // moveable: false,
-        position: 'fit' // 'center' or '40px' or '10%'
+        position: 'fit' // 'center' or '40px' or '10%',
     };
 
     var setDialogPos = function($dialog, pos) {
@@ -75,13 +75,21 @@
     Modal.prototype.ajustPosition = function(position) {
         var that = this;
         var options = that.options;
-        if(typeof position === 'undefined') position = options.position;
-        if(typeof position === 'undefined') return;
+        if(position === undefined) position = options.position;
+        if(position === undefined) return;
+        if ($.isFunction(position)) {
+            position = position(that);
+        }
         var $dialog = that.$element.find('.modal-dialog');
-        // if($dialog.hasClass('modal-dragged')) return;
 
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
-        var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
+        if (position === 'fit') {
+            position = {marginTop: half * 2 / 3};
+        } else if (position === 'center') {
+            position = {marginTop: half};
+        } else if (!$.isPlainObject(position)) {
+            position = {marginTop: position};
+        }
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
             var rememberPos = options.rememberPos;
@@ -92,19 +100,14 @@
                     pos = $.zui.store.pageGet(zuiname + '.rememberPos.' + rememberPos);
                 }
             }
-            if(!pos) {
-                pos = {
-                    left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2),
-                    top: topPos
-                };
-            }
+            position = $.extend(position, {left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2)}, pos);
             if (options.moveable === 'inside') {
-                setDialogPos($dialog, pos);
+                setDialogPos($dialog, position);
             } else {
-                $dialog.css(pos);
+                $dialog.css(position);
             }
         } else {
-            $dialog.css('margin-top', topPos);
+            $dialog.css(position);
         }
     }
 
@@ -394,5 +397,5 @@
         Plugin.call($target, option, this, $this.data('position'))
     })
 
-}(jQuery);
+}(jQuery, undefined);
 
