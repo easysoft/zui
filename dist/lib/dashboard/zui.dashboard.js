@@ -1,5 +1,5 @@
 /*!
- * ZUI: 仪表盘 - v1.8.1 - 2018-01-18
+ * ZUI: 仪表盘 - v1.8.1 - 2018-03-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -90,18 +90,18 @@
             var dPanel = panel.clone().addClass('panel-dragging-shadow');
             var pos = panel.offset();
             var dPos = dashboard.offset();
-            var dColShadow = row.find('.dragging-col-holder');
+            var $dColShadow = row.find('.dragging-col-holder');
             var sWidth = panel.width(),
                 sHeight = panel.height(),
                 sX1, sY1, sX2, sY2, moveFn, dropCol, dropBefore, nextDropCol;
-            if(!dColShadow.length) {
-                dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').removeClass('dragging-col').appendTo(row);
+            if(!$dColShadow.length) {
+                $dColShadow = $('<div class="dragging-col-holder"><div class="panel"></div></div>').removeClass('dragging-col').appendTo(row);
             }
 
-            if(pColClass) dColShadow.removeClass(pColClass);
-            dColShadow.addClass(pColClass = pCol.attr('class'));
+            if(pColClass) $dColShadow.removeClass(pColClass);
+            $dColShadow.addClass(pColClass = pCol.attr('class'));
 
-            dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
+            $dColShadow.insertBefore(pCol).find('.panel').replaceWith(panel.clone().addClass('panel-dragging panel-dragging-holder'));
 
             dashboard.addClass('dashboard-dragging');
             panel.addClass('panel-dragging').parent().addClass('dragging-col');
@@ -194,8 +194,8 @@
             function movePanel() {
                 if(nextDropCol) {
                     nextDropCol.addClass('dragging-in');
-                    if(dropBefore) dColShadow.insertAfter(nextDropCol);
-                    else dColShadow.insertBefore(nextDropCol);
+                    if(dropBefore) $dColShadow.insertAfter(nextDropCol);
+                    else $dColShadow.insertBefore(nextDropCol);
                     dashboard.addClass('dashboard-holding');
                     moveFn = null;
                     nextDropCol = null;
@@ -206,7 +206,7 @@
                 if(moveFn) clearTimeout(moveFn);
 
                 var oldOrder = panel.data('order');
-                panel.parent().insertAfter(dColShadow);
+                panel.parent().insertAfter($dColShadow);
                 var newOrder = 0;
                 var newOrders = {};
 
@@ -226,6 +226,7 @@
                 }
 
                 dPanel.remove();
+                $dColShadow.remove();
 
                 dashboard.removeClass('dashboard-holding');
                 dashboard.find('.dragging-col').removeClass('dragging-col');
