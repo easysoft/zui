@@ -38,7 +38,7 @@ var tabs = [{
 }];
 
 // 初始化标签页管理器
-$('#tabs').tabs({tabs: tabs});
+$('#tabsExample').tabs({tabs: tabs});
 ```
 
 ## 选项
