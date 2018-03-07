@@ -917,6 +917,7 @@
                 value = valueOperator.getter(value, cell, that);
             }
         }
+        if (value === undefined) value = '';
         cell.value = value;
         cell.type = type;
         var spanMap = that.layout.spanMap;
