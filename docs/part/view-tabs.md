@@ -393,7 +393,7 @@ $('#myTabs').tabs({
 
 ```js
 // 使用 jquery 的 $().on() 方法监听事件
-$('#myTabs').on('onOpen', function(tab) {
+$('#myTabs').on('onOpen', function(event, tab) {
     console.log('标签页 ' + tab.title + ' 被打开了。');
 });
 ```
@@ -415,7 +415,7 @@ $('#myTabs').tabs({
 
 ```js
 // 使用 jquery 的 $().on() 方法监听事件
-$('#myTabs').on('onLoad', function(tab) {
+$('#myTabs').on('onLoad', function(event, tab) {
     console.log('标签页 ' + tab.title + ' 加载完成了。');
 });
 ```
@@ -437,7 +437,7 @@ $('#myTabs').tabs({
 
 ```js
 // 使用 jquery 的 $().on() 方法监听事件
-$('#myTabs').on('onClose', function(tab) {
+$('#myTabs').on('onClose', function(event, tab) {
     console.log('标签页 ' + tab.title + ' 被关闭了。');
 });
 ```
