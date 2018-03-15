@@ -23,7 +23,8 @@
   white-space: nowrap;
   user-select: none;
   .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @border-radius-base);
-  .transition(all, @animation-speed-normal, @animation-type);
+  transition: @animation-speed-normal @animation-type;
+  transition-property: background, border, box-shadow, outline, opacity;
 
   &:focus {
     .tab-focus();
