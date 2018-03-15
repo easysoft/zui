@@ -1083,9 +1083,8 @@
             if (isCheckbox) {
                 var $checkbox = $cell.find('.datagrid-checkbox');
                 if (!$checkbox.length) {
-                    $checkbox = $('<div class="checkbox-primary datagrid-checkbox"><label></label></div>').prependTo($cell.addClass('datagrid-has-checkbox'));
+                    $checkbox = $('<div class="checkbox-primary datagrid-checkbox"><label class="content"></label></div>').prependTo($cell.addClass('datagrid-has-checkbox'));
                 }
-                $cell.append('<span class="content"></span>');
             }
         }
 
