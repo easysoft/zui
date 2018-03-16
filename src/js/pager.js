@@ -6,13 +6,13 @@
  * ======================================================================== */
 
 
-(function($) {
+(function($, undefined) {
     'use strict';
 
     var NAME = 'zui.pager'; // model name
 
     var DEFAULT_PAGER = {
-        page: 0,        // current page index
+        page: 1,        // current page index
         recTotal: 0,    // records total count
         recPerPage: 10, // records count per page
     };
@@ -72,7 +72,7 @@
 
         that.state = {};
 
-        that.set(options.page, options.recTotal, options.recPerPage);
+        that.set(options.page, options.recTotal, options.recPerPage, true);
 
         that.$.on('click', '.pager-goto-btn', function() {
             var $goto = $(this).closest('.pager-goto');
@@ -93,7 +93,7 @@
         });
     };
 
-    Pager.prototype.set = function(page, recTotal, recPerPage) {
+    Pager.prototype.set = function(page, recTotal, recPerPage, notTiggerChange) {
         var that = this;
         if (typeof page === 'object' && page !== null) {
             recPerPage = page.recPerPage;
@@ -131,7 +131,7 @@
         state.prev  = state.page > 1 ? (state.page - 1) : 0;
         state.next  = state.page < state.totalPage ? (state.page + 1) : 0;
         that.state  = state;
-        if (oldState.page !== state.page || oldState.recTotal !== state.recTotal || oldState.recPerPage !== state.recPerPage) {
+        if (!notTiggerChange && (oldState.page !== state.page || oldState.recTotal !== state.recTotal || oldState.recPerPage !== state.recPerPage)) {
             that.$.callComEvent(that, 'onPageChange', [state, oldState]);
         }
         return that.render();
@@ -157,7 +157,7 @@
         var page = pager.page;
         var appendItem = function(p, to) {
             if(p === false) {
-                $nav.append(that.createLinkItem(0, to || '<i class="icon icon-ellipsis-h"></i>'));
+                $nav.append(that.createLinkItem(0, to || that.options.navEllipsisItem));
                 return;
             }
             if(to === undefined) to = p;
@@ -214,7 +214,7 @@
             var $li = $('<li><a href="###" data-size="' + size + '">' + size + '</a></li>').toggleClass('active', size === pager.recPerPage);
             $menu.append($li);
         }
-        return $('<div class="btn-group pager-size-menu"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' + that.lang.pageSize.format(pager) + ' <span class="caret"></span></button></div>').addClass(that.options.menuDirection).append($menu);
+        return $('<div class="btn-group pager-size-menu"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown">' + that.lang.pageSize.format(pager) + ' <span class="caret"></span></button></div>').addClass(that.options.menuDirection).append($menu);
     };
 
     Pager.prototype.createElement = function(element, $pager, pager) {
@@ -267,6 +267,12 @@
     };
 
     Pager.prototype.createLink = function(page, pager) {
+        if (page === undefined) {
+            page = this.state.page;
+        }
+        if (pager === undefined) {
+            pager = this.state;
+        }
         var linkCreator = this.options.linkCreator;
         if (typeof linkCreator === 'string') {
             return linkCreator.format($.extend({}, pager, {page: page}));
@@ -319,6 +325,9 @@
             }
             $lastItem = isItem ? $li : null;
         });
+        if ($lastItem) {
+            $lastItem.addClass('pager-item-right');
+        }
 
         that.$.callComEvent(that, 'onRender', [state]);
         return that;
@@ -331,6 +340,7 @@
         nextIcon: 'icon-double-angle-right',
         firstIcon: 'icon-step-backward',
         lastIcon: 'icon-step-forward',
+        navEllipsisItem: '<i class="icon icon-ellipsis-h"></i>',
         maxNavCount: 10,
         menuDirection: 'dropdown', // or dropup
         pageSizeOptions: [10, 20, 30, 50, 100],
@@ -358,5 +368,5 @@
     $(function() {
         $('[data-ride="pager"]').pager();
     });
-}(jQuery));
+}(jQuery, undefined));
 

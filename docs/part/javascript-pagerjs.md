@@ -307,6 +307,12 @@ $('#myPager').pager({
       <td>使用一个整数数组来指定允许用户可以选择的每页数目。</td>
     </tr>
     <tr>
+      <td><code>navEllipsisItem</code></td>
+      <td>导航省略项内容</td>
+      <td>默认为 `'<i class="icon icon-ellipsis-h"></i>'`</td>
+      <td>可以使用 HTML 代码。</td>
+    </tr>
+    <tr>
       <td><code>lang</code></td>
       <td>当前界面语言</td>
       <td>默认为 `'zh_cn'`</td>
