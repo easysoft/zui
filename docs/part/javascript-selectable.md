@@ -248,6 +248,12 @@ $('#selectableExample3').selectable({
       <td>当鼠标一次拖选时移动的范围小于此值，则忽略此次拖选操作。</td>
     </tr>
     <tr>
+      <td>`listenClick`</td>
+      <td>是否监听鼠标单击事件</td>
+      <td>默认值为`true`</td>
+      <td>如果设置为 `false`，则用户点击元素但没有拖拽操作时不会选中任何内容。</td>
+    </tr>
+    <tr>
       <td>`start`</td>
       <td>拖选开始之前的回调事件</td>
       <td>
