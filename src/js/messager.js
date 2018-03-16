@@ -11,7 +11,7 @@
 
     var id = 0;
     var template = '<div class="messager messager-{type} {placement}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
-    var defaultOptions = {
+    var DEFAULTS = {
         type: 'default',
         placement: 'top',
         time: 4000,
@@ -35,8 +35,8 @@
         }
 
         var that = this;
-        options = that.options = $.extend({}, defaultOptions, options);
-        
+        options = that.options = $.extend({}, DEFAULTS, options);
+
         that.id = options.id || (id++);
         var oldMessager = all[that.id];
         if(oldMessager) oldMessager.destroy();
@@ -208,6 +208,7 @@
     };
 
     Messager.all = all;
+    Messager.DEFAULTS = DEFAULTS;
 
     var hideMessage = function() {
         $('.messager').each(function() {
