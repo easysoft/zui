@@ -17,6 +17,7 @@
   margin: 10px;
   pointer-events: auto;
   overflow: hidden;
+  transition-property: opacity, transform!important;
 }
 
 .messager-content {
@@ -66,11 +67,9 @@
   position: fixed;
   padding: 10px;
   pointer-events: none;
-  .transition-fast(top);
 
   &.top {
     top: 0;
-    
   }
 
   &.top-left {
