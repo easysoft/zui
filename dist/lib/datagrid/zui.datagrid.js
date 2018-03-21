@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.8.1 - 2018-02-05
+ * ZUI: 数据表格② - v1.8.1 - 2018-03-21
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -628,8 +628,8 @@
         that.pager = pager;
 
         if (oldPager.page !== pager.page || oldPager.recTotal !== pager.recTotal || oldPager.recPerPage !== pager.recPerPage) {
-            that.layout.cols = null;
             that.scroll(0, 0);
+            that.layout.cols = null;
         }
         return that;
     };
@@ -1146,6 +1146,7 @@
                 value = valueOperator.getter(value, cell, that);
             }
         }
+        if (value === undefined) value = '';
         cell.value = value;
         cell.type = type;
         var spanMap = that.layout.spanMap;
@@ -1311,9 +1312,8 @@
             if (isCheckbox) {
                 var $checkbox = $cell.find('.datagrid-checkbox');
                 if (!$checkbox.length) {
-                    $checkbox = $('<div class="checkbox-primary datagrid-checkbox"><label></label></div>').prependTo($cell.addClass('datagrid-has-checkbox'));
+                    $checkbox = $('<div class="checkbox-primary datagrid-checkbox"><label class="content"></label></div>').prependTo($cell.addClass('datagrid-has-checkbox'));
                 }
-                $cell.append('<span class="content"></span>');
             }
         }
 

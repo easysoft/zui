@@ -399,8 +399,8 @@
         that.pager = pager;
 
         if (oldPager.page !== pager.page || oldPager.recTotal !== pager.recTotal || oldPager.recPerPage !== pager.recPerPage) {
-            that.layout.cols = null;
             that.scroll(0, 0);
+            that.layout.cols = null;
         }
         return that;
     };
