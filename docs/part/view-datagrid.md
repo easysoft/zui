@@ -955,7 +955,7 @@ $('#myDataGrid').datagrid({
       <td>如果设置为 `false`，则不显示标题行，即行序号为 `0` 的行。</td>
     </tr>
     <tr>
-      <td><code>showMessage</code></td>
+      <td><code>headerHeight</code></td>
       <td>标题行高度</td>
       <td>默认为 `36`</td>
       <td></td>
