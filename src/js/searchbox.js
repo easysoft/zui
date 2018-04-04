@@ -55,7 +55,7 @@
                 that.$.callComEvent(that, 'onBlur', [e]);
             }).on('keydown', function(e) {
                 var handled = 0;
-                var keyCode = e.witch;
+                var keyCode = e.which;
                 if (keyCode === 27 && options.escToClear) { // esc
                     this.setSearch('', true);
                     handleChange();
