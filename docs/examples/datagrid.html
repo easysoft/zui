@@ -12,7 +12,7 @@
 </head>
 
 <body style="padding: 20px">
-  <div id="dataGrid2" class="datagrid">
+  <div id="dataGrid2" class="datagrid hidden">
     <header>
       <div class="input-control search-box search-box-circle has-icon-left has-icon-right pull-right" id="searchboxExample">
         <input id="inputSearchExample1" type="search" class="form-control search-input" placeholder="搜索">
@@ -196,58 +196,60 @@ $(function() {
     var sampleSize = 10000000000000;
     var sampleData = createDataSample(sampleSize);
 
-    var options1 = $.extend(sampleData, {
-        borderWidth: 1,
-        height: 500,
-        defaultDateFormater: 'hh:mm:ss',
-        states: {
-            fixedTopUntil: 0,
-            fixedBottomFrom: sampleSize,
-            fixedRightFrom: 12,
-            pager: {page: 0}
-        },
-        configs: {
-            'C1': {
-              style: {textAlign: 'right'}
-            },
-            'C2': {
-              style: {fontWeight: 'bold'}
-            }
-        },
-        renderDelay: 200,
-        // checkable: true,
-        sortable: false,
-        // rowDefaultHeight: 50,
-    });
-    var options2 = {
-        configs: {
-            'R0C0': {
-              label: '#'
-            },
-            'C1': {
-              style: {textAlign: 'right'}
-            },
-            'C2': {
-              style: {fontWeight: 'bold'}
-            },
-            C0: {label: ''}
-        },
-        dataSource: {
-            cols: sampleData.dataSource.cols,
-            data: sampleData.generate(20000),
-            cache: true,
-        },
-        valueOperator: sampleData.valueOperator,
-        states: {
-            pager: {page: 1, recPerPage: 12},
-        },
-        height: 300,
-        renderDelay: 200,
-        checkable: true,
-        checkByClickRow: false,
-    };
-    // var datagrid = $('#dataGrid').datagrid(options1).data('zui.datagrid');
-    // console.log('datagrid1', datagrid);
+    // var options1 = $.extend(sampleData, {
+    //     borderWidth: 1,
+    //     height: 500,
+    //     defaultDateFormater: 'hh:mm:ss',
+    //     states: {
+    //         fixedTopUntil: 0,
+    //         fixedBottomFrom: sampleSize,
+    //         fixedRightFrom: 12,
+    //         pager: {page: 0}
+    //     },
+    //     configs: {
+    //         'C1': {
+    //           style: {textAlign: 'right'}
+    //         },
+    //         'C2': {
+    //           style: {fontWeight: 'bold'}
+    //         }
+    //     },
+    //     renderDelay: 200,
+    //     // checkable: true,
+    //     sortable: false,
+    //     // rowDefaultHeight: 50,
+    // });
+    // var staticDataSource = {
+    //     cols: sampleData.dataSource.cols,
+    //     data: sampleData.generate(10),
+    //     cache: true,
+    // };
+    // var options2 = {
+    //     configs: {
+    //         'R0C0': {
+    //           label: '#'
+    //         },
+    //         'C1': {
+    //           style: {textAlign: 'right'}
+    //         },
+    //         'C2': {
+    //           style: {fontWeight: 'bold'}
+    //         },
+    //     },
+    //     dataSource: staticDataSource,
+    //     valueOperator: sampleData.valueOperator,
+    //     states: {
+    //         pager: {page: 1, recPerPage: 12},
+    //     },
+    //     height: 300,
+    //     renderDelay: 200,
+    //     checkable: true,
+    //     checkByClickRow: false,
+    // };
+    // var datagrid = $('#dataGrid2').datagrid(options2).data('zui.datagrid');
+    // console.log('datagrid2', datagrid);
+    // window.staticDataSource = staticDataSource;
+    // window.datagrid = datagrid;
 
     var options3 = {
       height: 'page',
@@ -276,34 +278,37 @@ $(function() {
         },
     };
 
-    var datagrid2 = $('#dataGrid2').datagrid(options3).data('zui.datagrid');
-    console.log('datagrid2', datagrid2);
+    // var datagrid2 = $('#dataGrid2').datagrid(options2).data('zui.datagrid');
+    // console.log('datagrid2', datagrid2);
 
-    // var datagrid3 = $('#remoteDataGridExample').datagrid({
-    //     states: {
-    //         pager: {page: 1, recPerPage: 5},
-    //     },
-    //     dataSource: {
-    //         cols:[
-    //             {name: 'time', label: '时间', width: 132},
-    //             {name: 'hera', label: '英雄', width: 134},
-    //             {name: 'action', label: '动作', width: 109},
-    //             {name: 'target', label: '目标', width: 109},
-    //             {name: 'desc', label: '描述', width: 287}
-    //         ],
-    //         remote: function(params) {
-    //             return {
-    //                 // 原创请求地址
-    //                 url: '../partial/remote-data-' + params.page + '.json',
-    //                 // 请求类型
-    //                 type: 'GET',
-    //                 // 数据类型
-    //                 dataType: 'json'
-    //             };
-    //         }
-    //     }
-    // }).data('zui.datagrid');
-    // console.log('datagrid3', datagrid3);
+    var datagrid3 = $('#remoteDataGridExample').datagrid({
+        states: {
+            pager: {page: 1, recPerPage: 5},
+        },
+        dataSource: {
+            cols:[
+                {name: 'time', label: '时间', width: 132},
+                {name: 'hera', label: '英雄', width: 134},
+                {name: 'action', label: '动作', width: 109},
+                {name: 'target', label: '目标', width: 109},
+                {name: 'desc', label: '描述', width: 287}
+            ],
+            remote: function(params) {
+                return {
+                    // 原创请求地址
+                    url: '../partial/remote-data-' + params.page + '.json',
+                    // 请求类型
+                    type: 'GET',
+                    // 数据类型
+                    dataType: 'json'
+                };
+            },
+            remoteConverter: function(data) {
+                return data;
+            }
+        }
+    }).data('zui.datagrid');
+    console.log('datagrid3', datagrid3);
 });
 </script>
 </body>
