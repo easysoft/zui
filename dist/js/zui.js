@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.8.1 - 2018-01-18
+ * ZUI: Standard edition - v1.8.1 - 2018-04-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -37,8 +37,9 @@
 
     var lastUuidAmend = 0;
     $.zui({
-        uuid: function() {
-            return(new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
+        uuid: function(asNumber) {
+            var uuidNumber = (new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
+            return asNumber ? uuidNumber : uuidNumber.toString(36);
         },
 
         callEvent: function(func, event, proxy) {
@@ -373,13 +374,13 @@
  * ======================================================================== */
 
 
-(function($) {
+(function($, undefined) {
     'use strict';
 
     var NAME = 'zui.pager'; // model name
 
     var DEFAULT_PAGER = {
-        page: 0,        // current page index
+        page: 1,        // current page index
         recTotal: 0,    // records total count
         recPerPage: 10, // records count per page
     };
@@ -439,7 +440,7 @@
 
         that.state = {};
 
-        that.set(options.page, options.recTotal, options.recPerPage);
+        that.set(options.page, options.recTotal, options.recPerPage, true);
 
         that.$.on('click', '.pager-goto-btn', function() {
             var $goto = $(this).closest('.pager-goto');
@@ -460,7 +461,7 @@
         });
     };
 
-    Pager.prototype.set = function(page, recTotal, recPerPage) {
+    Pager.prototype.set = function(page, recTotal, recPerPage, notTiggerChange) {
         var that = this;
         if (typeof page === 'object' && page !== null) {
             recPerPage = page.recPerPage;
@@ -498,7 +499,7 @@
         state.prev  = state.page > 1 ? (state.page - 1) : 0;
         state.next  = state.page < state.totalPage ? (state.page + 1) : 0;
         that.state  = state;
-        if (oldState.page !== state.page || oldState.recTotal !== state.recTotal || oldState.recPerPage !== state.recPerPage) {
+        if (!notTiggerChange && (oldState.page !== state.page || oldState.recTotal !== state.recTotal || oldState.recPerPage !== state.recPerPage)) {
             that.$.callComEvent(that, 'onPageChange', [state, oldState]);
         }
         return that.render();
@@ -524,7 +525,7 @@
         var page = pager.page;
         var appendItem = function(p, to) {
             if(p === false) {
-                $nav.append(that.createLinkItem(0, to || '<i class="icon icon-ellipsis-h"></i>'));
+                $nav.append(that.createLinkItem(0, to || that.options.navEllipsisItem));
                 return;
             }
             if(to === undefined) to = p;
@@ -581,7 +582,7 @@
             var $li = $('<li><a href="###" data-size="' + size + '">' + size + '</a></li>').toggleClass('active', size === pager.recPerPage);
             $menu.append($li);
         }
-        return $('<div class="btn-group pager-size-menu"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">' + that.lang.pageSize.format(pager) + ' <span class="caret"></span></button></div>').addClass(that.options.menuDirection).append($menu);
+        return $('<div class="btn-group pager-size-menu"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown">' + that.lang.pageSize.format(pager) + ' <span class="caret"></span></button></div>').addClass(that.options.menuDirection).append($menu);
     };
 
     Pager.prototype.createElement = function(element, $pager, pager) {
@@ -634,6 +635,12 @@
     };
 
     Pager.prototype.createLink = function(page, pager) {
+        if (page === undefined) {
+            page = this.state.page;
+        }
+        if (pager === undefined) {
+            pager = this.state;
+        }
         var linkCreator = this.options.linkCreator;
         if (typeof linkCreator === 'string') {
             return linkCreator.format($.extend({}, pager, {page: page}));
@@ -686,6 +693,9 @@
             }
             $lastItem = isItem ? $li : null;
         });
+        if ($lastItem) {
+            $lastItem.addClass('pager-item-right');
+        }
 
         that.$.callComEvent(that, 'onRender', [state]);
         return that;
@@ -698,6 +708,7 @@
         nextIcon: 'icon-double-angle-right',
         firstIcon: 'icon-step-backward',
         lastIcon: 'icon-step-forward',
+        navEllipsisItem: '<i class="icon icon-ellipsis-h"></i>',
         maxNavCount: 10,
         menuDirection: 'dropdown', // or dropup
         pageSizeOptions: [10, 20, 30, 50, 100],
@@ -725,7 +736,7 @@
     $(function() {
         $('[data-ride="pager"]').pager();
     });
-}(jQuery));
+}(jQuery, undefined));
 
 
 /* ========================================================================
@@ -2303,7 +2314,7 @@
                 that.$.callComEvent(that, 'onBlur', [e]);
             }).on('keydown', function(e) {
                 var handled = 0;
-                var keyCode = e.witch;
+                var keyCode = e.which;
                 if (keyCode === 27 && options.escToClear) { // esc
                     this.setSearch('', true);
                     handleChange();
@@ -2940,7 +2951,7 @@
  * 5. add setMoveable method to make modal dialog moveable
  * ======================================================================== */
 
-+ function($) {
++ function($, undefined) {
     'use strict';
 
     // MODAL CLASS DEFINITION
@@ -2980,7 +2991,7 @@
         show: true,
         // rememberPos: false,
         // moveable: false,
-        position: 'fit' // 'center' or '40px' or '10%'
+        position: 'fit' // 'center' or '40px' or '10%',
     };
 
     var setDialogPos = function($dialog, pos) {
@@ -2997,13 +3008,21 @@
     Modal.prototype.ajustPosition = function(position) {
         var that = this;
         var options = that.options;
-        if(typeof position === 'undefined') position = options.position;
-        if(typeof position === 'undefined') return;
+        if(position === undefined) position = options.position;
+        if(position === undefined) return;
+        if ($.isFunction(position)) {
+            position = position(that);
+        }
         var $dialog = that.$element.find('.modal-dialog');
-        // if($dialog.hasClass('modal-dragged')) return;
 
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
-        var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
+        if (position === 'fit') {
+            position = {marginTop: half * 2 / 3};
+        } else if (position === 'center') {
+            position = {marginTop: half};
+        } else if (!$.isPlainObject(position)) {
+            position = {marginTop: position};
+        }
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
             var rememberPos = options.rememberPos;
@@ -3014,19 +3033,14 @@
                     pos = $.zui.store.pageGet(zuiname + '.rememberPos.' + rememberPos);
                 }
             }
-            if(!pos) {
-                pos = {
-                    left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2),
-                    top: topPos
-                };
-            }
+            position = $.extend(position, {left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2)}, pos);
             if (options.moveable === 'inside') {
-                setDialogPos($dialog, pos);
+                setDialogPos($dialog, position);
             } else {
-                $dialog.css(pos);
+                $dialog.css(position);
             }
         } else {
-            $dialog.css('margin-top', topPos);
+            $dialog.css(position);
         }
     }
 
@@ -3075,9 +3089,11 @@
         if(that.options.moveable) that.setMoveale();
 
         that.checkScrollbar()
-        that.$body.addClass('modal-open')
+        if (that.options.backdrop !== false) {
+            that.$body.addClass('modal-open')
+            that.setScrollbar()
+        }
 
-        that.setScrollbar()
         that.escape()
 
         that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]', $.proxy(that.hide, that))
@@ -3122,31 +3138,35 @@
     Modal.prototype.hide = function(e) {
         if(e) e.preventDefault()
 
+        var that = this;
+
         e = $.Event('hide.' + zuiname)
 
-        this.$element.trigger(e)
+        that.$element.trigger(e)
 
-        if(!this.isShown || e.isDefaultPrevented()) return
+        if(!that.isShown || e.isDefaultPrevented()) return
 
-        this.isShown = false
+        that.isShown = false
 
-        this.$body.removeClass('modal-open')
+        if (that.options.backdrop !== false) {
+            that.$body.removeClass('modal-open')
+            that.resetScrollbar()
+        }
 
-        this.resetScrollbar()
-        this.escape()
+        that.escape()
 
         $(document).off('focusin.' + zuiname)
 
-        this.$element
+        that.$element
             .removeClass('in')
             .attr('aria-hidden', true)
             .off('click.dismiss.' + zuiname)
 
-        $.support.transition && this.$element.hasClass('fade') ?
-            this.$element
-            .one('bsTransitionEnd', $.proxy(this.hideModal, this))
+        $.support.transition && that.$element.hasClass('fade') ?
+            that.$element
+            .one('bsTransitionEnd', $.proxy(that.hideModal, that))
             .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-            this.hideModal()
+            that.hideModal()
     }
 
     Modal.prototype.enforceFocus = function() {
@@ -3316,7 +3336,7 @@
         Plugin.call($target, option, this, $this.data('position'))
     })
 
-}(jQuery);
+}(jQuery, undefined);
 
 
 /* ========================================================================
@@ -3327,7 +3347,7 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     if(!$.fn.modal) throw new Error('Modal trigger requires modal.js');
@@ -3458,7 +3478,7 @@
         var resizeDialog = function() {
             clearTimeout(this.resizeTask);
             this.resizeTask = setTimeout(function() {
-                that.ajustPosition();
+                that.ajustPosition(options.position);
             }, 100);
         };
 
@@ -3581,14 +3601,17 @@
                     success: function(data) {
                         try {
                             var $data = $(data);
-                            if($data.hasClass('modal-dialog')) {
+                            if($data.filter('.modal-dialog').length) {
                                 $dialog.replaceWith($data);
-                            } else if($data.hasClass('modal-content')) {
+                            } else if($data.filter('.modal-content').length) {
                                 $dialog.find('.modal-content').replaceWith($data);
                             } else {
                                 $body.wrapInner($data);
                             }
                         } catch(e) {
+                            if (window.console && window.console.warn) {
+                                console.warn('ZUI: Cannot recogernize remote content.', {error: e, data: data});
+                            }
                             $modal.html(data);
                         }
                         $modal.callComEvent(that, 'loaded', {
@@ -3630,7 +3653,11 @@
     };
 
     ModalTrigger.prototype.ajustPosition = function(position) {
-        this.$modal.modal('ajustPosition', position || this.options.position);
+        position = position === undefined ? this.options.position : position;
+        if ($.isFunction(position)) {
+            position = position(this);
+        }
+        this.$modal.modal('ajustPosition', position);
     };
 
     $.zui({
@@ -3726,7 +3753,7 @@
             e.preventDefault();
         }
     });
-}(window.jQuery, window));
+}(window.jQuery, window, undefined));
 
 
 /* ========================================================================
@@ -5289,7 +5316,7 @@
 
     var id = 0;
     var template = '<div class="messager messager-{type} {placement}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
-    var defaultOptions = {
+    var DEFAULTS = {
         type: 'default',
         placement: 'top',
         time: 4000,
@@ -5313,8 +5340,8 @@
         }
 
         var that = this;
-        options = that.options = $.extend({}, defaultOptions, options);
-        
+        options = that.options = $.extend({}, DEFAULTS, options);
+
         that.id = options.id || (id++);
         var oldMessager = all[that.id];
         if(oldMessager) oldMessager.destroy();
@@ -5486,6 +5513,7 @@
     };
 
     Messager.all = all;
+    Messager.DEFAULTS = DEFAULTS;
 
     var hideMessage = function() {
         $('.messager').each(function() {

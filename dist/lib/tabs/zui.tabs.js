@@ -1,5 +1,5 @@
 /*!
- * ZUI: 标签页管理器 - v1.8.1 - 2018-01-18
+ * ZUI: 标签页管理器 - v1.8.1 - 2018-04-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -465,7 +465,7 @@
     Tabs.prototype.reopen = function() {
         var that = this;
         if(that.closedTabs.length) {
-            that.open(that.closedTabs.pop());
+            that.open(that.closedTabs.pop(), true);
         }
     };
 

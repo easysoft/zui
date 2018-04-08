@@ -2,7 +2,7 @@
  * Chosen, a Select Box Enhancer for jQuery and Prototype
  * by Patrick Filler for Harvest, http://getharvest.com
  *
- * Copyright (c) 2011-2016 Harvest http://getharvest.com 
+ * Copyright (c) 2011-2016 Harvest http://getharvest.com
  * MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 */
 .chosen-container {
@@ -256,10 +256,8 @@
   }
 .chosen-container-multi .chosen-choices:before,
 .chosen-container-multi .chosen-choices:after {
-  /* 1 */
   display: table;
   content: " ";
-  /* 2 */
   }
 .chosen-container-multi .chosen-choices:after {
   clear: both;

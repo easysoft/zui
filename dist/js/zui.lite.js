@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.8.1 - 2018-01-18
+ * ZUI: Lite edition - v1.8.1 - 2018-04-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -37,8 +37,9 @@
 
     var lastUuidAmend = 0;
     $.zui({
-        uuid: function() {
-            return(new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
+        uuid: function(asNumber) {
+            var uuidNumber = (new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
+            return asNumber ? uuidNumber : uuidNumber.toString(36);
         },
 
         callEvent: function(func, event, proxy) {
@@ -1632,7 +1633,7 @@
  * 5. add setMoveable method to make modal dialog moveable
  * ======================================================================== */
 
-+ function($) {
++ function($, undefined) {
     'use strict';
 
     // MODAL CLASS DEFINITION
@@ -1672,7 +1673,7 @@
         show: true,
         // rememberPos: false,
         // moveable: false,
-        position: 'fit' // 'center' or '40px' or '10%'
+        position: 'fit' // 'center' or '40px' or '10%',
     };
 
     var setDialogPos = function($dialog, pos) {
@@ -1689,13 +1690,21 @@
     Modal.prototype.ajustPosition = function(position) {
         var that = this;
         var options = that.options;
-        if(typeof position === 'undefined') position = options.position;
-        if(typeof position === 'undefined') return;
+        if(position === undefined) position = options.position;
+        if(position === undefined) return;
+        if ($.isFunction(position)) {
+            position = position(that);
+        }
         var $dialog = that.$element.find('.modal-dialog');
-        // if($dialog.hasClass('modal-dragged')) return;
 
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
-        var topPos = position == 'fit' ? (half * 2 / 3) : (position == 'center' ? half : position);
+        if (position === 'fit') {
+            position = {marginTop: half * 2 / 3};
+        } else if (position === 'center') {
+            position = {marginTop: half};
+        } else if (!$.isPlainObject(position)) {
+            position = {marginTop: position};
+        }
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
             var rememberPos = options.rememberPos;
@@ -1706,19 +1715,14 @@
                     pos = $.zui.store.pageGet(zuiname + '.rememberPos.' + rememberPos);
                 }
             }
-            if(!pos) {
-                pos = {
-                    left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2),
-                    top: topPos
-                };
-            }
+            position = $.extend(position, {left: Math.max(0, ($(window).width() - $dialog.outerWidth()) / 2)}, pos);
             if (options.moveable === 'inside') {
-                setDialogPos($dialog, pos);
+                setDialogPos($dialog, position);
             } else {
-                $dialog.css(pos);
+                $dialog.css(position);
             }
         } else {
-            $dialog.css('margin-top', topPos);
+            $dialog.css(position);
         }
     }
 
@@ -1767,9 +1771,11 @@
         if(that.options.moveable) that.setMoveale();
 
         that.checkScrollbar()
-        that.$body.addClass('modal-open')
+        if (that.options.backdrop !== false) {
+            that.$body.addClass('modal-open')
+            that.setScrollbar()
+        }
 
-        that.setScrollbar()
         that.escape()
 
         that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]', $.proxy(that.hide, that))
@@ -1814,31 +1820,35 @@
     Modal.prototype.hide = function(e) {
         if(e) e.preventDefault()
 
+        var that = this;
+
         e = $.Event('hide.' + zuiname)
 
-        this.$element.trigger(e)
+        that.$element.trigger(e)
 
-        if(!this.isShown || e.isDefaultPrevented()) return
+        if(!that.isShown || e.isDefaultPrevented()) return
 
-        this.isShown = false
+        that.isShown = false
 
-        this.$body.removeClass('modal-open')
+        if (that.options.backdrop !== false) {
+            that.$body.removeClass('modal-open')
+            that.resetScrollbar()
+        }
 
-        this.resetScrollbar()
-        this.escape()
+        that.escape()
 
         $(document).off('focusin.' + zuiname)
 
-        this.$element
+        that.$element
             .removeClass('in')
             .attr('aria-hidden', true)
             .off('click.dismiss.' + zuiname)
 
-        $.support.transition && this.$element.hasClass('fade') ?
-            this.$element
-            .one('bsTransitionEnd', $.proxy(this.hideModal, this))
+        $.support.transition && that.$element.hasClass('fade') ?
+            that.$element
+            .one('bsTransitionEnd', $.proxy(that.hideModal, that))
             .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-            this.hideModal()
+            that.hideModal()
     }
 
     Modal.prototype.enforceFocus = function() {
@@ -2008,7 +2018,7 @@
         Plugin.call($target, option, this, $this.data('position'))
     })
 
-}(jQuery);
+}(jQuery, undefined);
 
 
 /* ========================================================================
@@ -2019,7 +2029,7 @@
  * ======================================================================== */
 
 
-(function($, window) {
+(function($, window, undefined) {
     'use strict';
 
     if(!$.fn.modal) throw new Error('Modal trigger requires modal.js');
@@ -2150,7 +2160,7 @@
         var resizeDialog = function() {
             clearTimeout(this.resizeTask);
             this.resizeTask = setTimeout(function() {
-                that.ajustPosition();
+                that.ajustPosition(options.position);
             }, 100);
         };
 
@@ -2273,14 +2283,17 @@
                     success: function(data) {
                         try {
                             var $data = $(data);
-                            if($data.hasClass('modal-dialog')) {
+                            if($data.filter('.modal-dialog').length) {
                                 $dialog.replaceWith($data);
-                            } else if($data.hasClass('modal-content')) {
+                            } else if($data.filter('.modal-content').length) {
                                 $dialog.find('.modal-content').replaceWith($data);
                             } else {
                                 $body.wrapInner($data);
                             }
                         } catch(e) {
+                            if (window.console && window.console.warn) {
+                                console.warn('ZUI: Cannot recogernize remote content.', {error: e, data: data});
+                            }
                             $modal.html(data);
                         }
                         $modal.callComEvent(that, 'loaded', {
@@ -2322,7 +2335,11 @@
     };
 
     ModalTrigger.prototype.ajustPosition = function(position) {
-        this.$modal.modal('ajustPosition', position || this.options.position);
+        position = position === undefined ? this.options.position : position;
+        if ($.isFunction(position)) {
+            position = position(this);
+        }
+        this.$modal.modal('ajustPosition', position);
     };
 
     $.zui({
@@ -2418,7 +2435,7 @@
             e.preventDefault();
         }
     });
-}(window.jQuery, window));
+}(window.jQuery, window, undefined));
 
 
 /* ========================================================================

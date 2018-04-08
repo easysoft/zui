@@ -1,5 +1,5 @@
 /*!
- * ZUI: 仪表盘 - v1.8.1 - 2018-03-05
+ * ZUI: 仪表盘 - v1.8.1 - 2018-04-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT

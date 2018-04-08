@@ -1,5 +1,5 @@
 /*!
- * ZUI: 拖拽选择 - v1.8.1 - 2018-01-18
+ * ZUI: 拖拽选择 - v1.8.1 - 2018-04-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -53,7 +53,8 @@
             backgroundColor: $.zui.colorset ? (new $.zui.Color($.zui.colorset.primary).fade(20).toCssStr()) : 'rgba(50, 128, 252, 0.2)'
         },
         clickBehavior: 'toggle',
-        ignoreVal: 3
+        ignoreVal: 3,
+        listenClick: true
         // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
 
@@ -236,15 +237,19 @@
             $children.addClass('slectable-item');
 
             var clickBehavior = that.multiKey ? 'multi' : options.clickBehavior;
-            if(clickBehavior === 'multi') {
-                that.toggle(e.target);
-            } else if(clickBehavior === 'single') {
+            if(clickBehavior === 'single') {
                 that.unselect();
-                that.select(e.target);
-            } else if(clickBehavior === 'toggle') {
-                that.toggle(e.target, null, function(isSelect) {
-                    that.unselect();
-                });
+            }
+            if (options.listenClick) {
+                if(clickBehavior === 'multi') {
+                    that.toggle(e.target);
+                } else if(clickBehavior === 'single') {
+                    that.select(e.target);
+                } else if(clickBehavior === 'toggle') {
+                    that.toggle(e.target, null, function(isSelect) {
+                        that.unselect();
+                    });
+                }
             }
 
             if(that.callEvent('startDrag', e) === false) {

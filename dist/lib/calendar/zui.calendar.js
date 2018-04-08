@@ -1,5 +1,5 @@
 /*!
- * ZUI: 日历 - v1.8.1 - 2018-01-18
+ * ZUI: 日历 - v1.8.1 - 2018-04-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -70,10 +70,7 @@
         this.getOptions(options);
         this.getLang();
 
-        this.data = this.options.data;
-        this.addCalendars(this.data.calendars);
-        this.addEvents(this.data.events);
-        this.sortEvents();
+        this.resetData(this.options.data);
 
         this.storeData = $.zui.store.pageGet(this.storeName, {
             date: 'today',
@@ -88,7 +85,7 @@
         if(this.options.withHeader) {
             var $header = this.$.children('.calender-header');
             if(!$header.length) {
-                $header = $('<header><div class="btn-toolbar"><div class="btn-group"><button type="button" class="btn btn-today">{today}</button></div><div class="btn-group"><button type="button" class="btn btn-prev"><i class="icon-chevron-left"></i></button><button type="button" class="btn btn-next"><i class="icon-chevron-right"></i></button></div><div class="btn-group"><span class="calendar-caption"></span></div></div></header>'.format(this.lang));
+                $header = $('<header class="calender-header"><div class="btn-toolbar"><div class="btn-group"><button type="button" class="btn btn-today">{today}</button></div><div class="btn-group"><button type="button" class="btn btn-prev"><i class="icon-chevron-left"></i></button><button type="button" class="btn btn-next"><i class="icon-chevron-right"></i></button></div><div class="btn-group"><span class="calendar-caption"></span></div></div></header>'.format(this.lang));
                 this.$.append($header);
             }
             this.$caption = $header.find('.calendar-caption');
@@ -102,7 +99,6 @@
             this.$.append($views);
         }
         this.$views = $views;
-        this.$monthView = $views.children('.calendar-view.month');
 
         this.display();
 
@@ -154,53 +150,77 @@
         // hideEmptyWeekends: false // Auto hide empty weekends
     };
 
+    Calendar.prototype.resetData = function(data) {
+        var that = this;
+        that.data = data = data || that.data;
+        if (data.calendars) {
+            this.calendars = {};
+            that.addCalendars(data.calendars, true);
+        }
+        if (data.events) {
+            this.events = [];
+            that.addEvents(data.events, true);
+        }
+        that.sortEvents();
+    };
+
     // Sort events by start datetime
     Calendar.prototype.sortEvents = function() {
-        var events = this.events;
+        var that = this;
+        var events = that.events;
         if(!$.isArray(events)) {
             events = [];
         }
 
-        events.sort(function(a, b) {
-            return a.start < b.start ? 1 : (a.start > b.start ? (-1) : 0);
+        events.sort(that.options.eventSorter || function(a, b) {
+            if (a.allDay) {
+                return 1;
+            } else if (b.allDay) {
+                return -1;
+            }
+            var result = a.start > b.start ? 1 : (a.start < b.start ? (-1) : 0);
+            if (result === 0) {
+                result = a.id < b.id ? (-1) : 1;
+            }
+            return result;
         });
 
-        this.events = events;
+        that.events = events;
     };
 
     Calendar.prototype.bindEvents = function() {
         var $e = this.$,
-            self = this;
+            that = this;
 
         $e.on('click', '.btn-today', function() {
-            self.date = new Date();
-            self.display();
-            self.callEvent('clickTodayBtn');
+            that.date = new Date();
+            that.display();
+            $e.callComEvent(that, 'clickTodayBtn');
         }).on('click', '.btn-next', function() {
-            if(self.view === 'month') {
-                self.date.addMonths(1);
+            if(that.view === 'month') {
+                that.date.addMonths(1);
             }
-            self.display();
-            self.callEvent('clickNextBtn');
+            that.display();
+            $e.callComEvent(that, 'clickNextBtn');
         }).on('click', '.btn-prev', function() {
-            if(self.view === 'month') {
-                self.date.addMonths(-1);
+            if(that.view === 'month') {
+                that.date.addMonths(-1);
             }
-            self.display();
-            self.callEvent('clickPrevBtn');
+            that.display();
+            $e.callComEvent(that, 'clickPrevBtn');
         }).on('click', '.event', function(event) {
-            self.callEvent('clickEvent', {
+            $e.callComEvent(that, 'clickEvent', {
                 element: this,
                 event: $(this).data('event'),
-                events: self.events
+                events: that.events
             });
             event.stopPropagation();
         }).on('click', '.cell-day', function() {
-            self.callEvent('clickCell', {
+            $e.callComEvent(that, 'clickCell', {
                 element: this,
-                view: self.view,
+                view: that.view,
                 date: new Date($(this).children('.day').attr('data-date')),
-                events: self.events
+                events: that.events
             });
         });
     };
@@ -213,7 +233,7 @@
             calendars = [calendars];
         }
         $.each(calendars, function(index, cal) {
-            if(!silence && !that.callEvent('beforeAddCalendars', {
+            if(!silence && false === that.$.callComEvent(this, 'beforeAddCalendars', {
                     newCalendar: cal,
                     data: that.data
                 })) {
@@ -232,7 +252,7 @@
 
         if(!silence) {
             that.display();
-            that.callEvent('addCalendars', {
+            that.$.callComEvent(that, 'addCalendars', {
                 newCalendars: calendars,
                 data: that.data
             });
@@ -247,7 +267,7 @@
             events = [events];
         }
         $.each(events, function(index, e) {
-            if(!silence && !that.callEvent('beforeAddEvent', {
+            if(!silence && false === that.$.callComEvent(that, 'beforeAddEvent', {
                     newEvent: e,
                     data: that.data
                 })) {
@@ -268,6 +288,9 @@
 
             if(e.allDay) {
                 e.start.clearTime();
+                if (!e.end) {
+                    e.end = e.start.clone();
+                }
                 e.end.clearTime().addDays(1).addMilliseconds(-1);
             }
 
@@ -279,7 +302,7 @@
         if(!silence) {
             that.sortEvents();
             that.display();
-            that.callEvent('addEvents', {
+            that.$.callComEvent(that, 'addEvents', {
                 newEvents: events,
                 data: that.data
             });
@@ -322,12 +345,12 @@
                     chgs = [chgs];
                 }
                 $.each(changes, function(idx, chge) {
-                    if(that.callEvent('beforeChange', {
-                            event: event,
-                            change: chge.change,
-                            to: chge.to,
-                            from: event[chge.change]
-                        })) {
+                    if(false !== that.$.callComEvent(that, 'beforeChange', {
+                        event: event,
+                        change: chge.change,
+                        to: chge.to,
+                        from: event[chge.change]
+                    })) {
                         eventParam.changes.push($.extend(true, {}, chge, {
                             from: event[chge.change]
                         }));
@@ -340,7 +363,7 @@
 
         that.sortEvents();
         that.display();
-        that.callEvent('change', eventsParams);
+        that.$.callComEvent(that, 'change', eventsParams);
     };
 
     Calendar.prototype.removeEvents = function(events) {
@@ -361,7 +384,7 @@
                 }
             }
 
-            if(idx >= 0 && that.callEvent('beforeRemoveEvent', {
+            if(idx >= 0 && fasle !== that.$.callComEvent(that, 'beforeRemoveEvent', {
                     event: event,
                     eventId: id,
                     data: that.data
@@ -373,18 +396,18 @@
 
         that.sortEvents();
         that.display();
-        that.callEvent('removeEvents', {
+        that.$.callComEvent(that, 'removeEvents', {
             removedEvents: removedEvents,
             data: that.data
         });
     };
 
     Calendar.prototype.getOptions = function(options) {
-        this.options = $.extend({}, Calendar.DEFAULTS, this.$.data(), options);
+        this.options = $.extend(true, {}, Calendar.DEFAULTS, this.$.data(), options, true);
     };
 
     Calendar.prototype.getLang = function() {
-        this.lang = this.options.langs[this.options.lang || ($.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh-cn')];
+        this.lang = this.options.langs[(this.options.lang || ($.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh_cn')).replace('-', '_')];
     };
 
     Calendar.prototype.display = function(view, date) {
@@ -425,14 +448,20 @@
             view: view,
             date: date
         };
-        if(that.callEvent('beforeDisplay', eventPramas)) {
+
+        var doDisplay = function() {
             switch(view) {
                 case 'month':
                     that.displayMonth(date);
                     break;
             }
 
-            that.callEvent('display', eventPramas);
+            that.$.callComEvent(that, 'display', eventPramas);
+        };
+
+        var beforeDisplayResult = that.$.callComEvent(that, 'beforeDisplay', [eventPramas, doDisplay]);
+        if (beforeDisplayResult !== false) {
+            doDisplay();
         }
     };
 
@@ -446,7 +475,7 @@
             $e = that.$;
 
         var $view = that.$monthView;
-        if(!$view.length) {
+        if(!$view || !$view.length) {
             $view = $('<div class="calendar-view month"><table class="table table-bordered"><thead><tr class="week-head"></tr></thead><tbody class="month-days"></tbody></table></div>');
 
             var $weekHead = $view.find('.week-head'),
@@ -503,7 +532,7 @@
                 day = printDate.getDate();
                 month = printDate.getMonth();
                 printDateId = printDate.toDateString();
-                $day.attr('data-date', printDateId);
+                $day.attr('data-date', printDateId).data('date', printDate.clone());
                 $day.find('.heading > .number').text(day);
 
                 $day.find('.heading > .month')
@@ -529,10 +558,15 @@
                         if (isEmptyWeekends && dayIndex >= 5) {
                             isEmptyWeekends = false;
                         }
-                        $event = $('<div data-id="' + e.id + '" class="event" title="' + e.desc + '"><span class="time">' + e.start.format('hh:mm') + '</span> <span class="title">' + e.title + '</span></div>');
-                        $event.find('.time').toggle(!e.allDay);
-                        $event.data('event', e);
-                        $event.attr('data-days', e.days);
+                        if (options.eventCreator) {
+                            $event = options.eventCreator(e, $cell, that);
+                        } else {
+                            $event = $('<div data-id="' + e.id + '" class="event" title="' + e.desc + '"><span class="time">' + e.start.format('hh:mm') + '</span> <span class="title">' + e.title + '</span></div>');
+                            $event.find('.time').toggle(!e.allDay);
+                            $event.data('event', e);
+                            $event.attr('data-days', e.days);
+                        }
+                        $event.toggleClass('event-all-day', !!e.allDay).data('event', e).attr('data-days', e.days);
 
                         if(e.calendar) {
                             cal = calendars[e.calendar];
@@ -563,6 +597,10 @@
 
                         $dayEvents.append($event);
                     }
+                }
+
+                if (options.dayFormater) {
+                    options.dayFormater($cell, printDate, dayEvents, that);
                 }
 
                 printDate.addDays(1);
@@ -600,7 +638,7 @@
                             newDate.setMinutes(startDate.getMinutes());
                             newDate.setSeconds(startDate.getSeconds());
 
-                            if(that.callEvent('beforeChange', {
+                            if(false !== that.$.callComEvent(that, 'beforeChange', {
                                     event: et,
                                     change: 'start',
                                     to: newDate
@@ -612,7 +650,7 @@
 
                                 that.display();
 
-                                that.callEvent('change', {
+                                that.$.callComEvent(that, 'change', {
                                     data: that.data,
                                     changes: [{
                                         event: et,
@@ -681,11 +719,6 @@
             }
         });
         return events;
-    };
-
-    Calendar.prototype.callEvent = function(name, params) {
-        var result = this.$.callEvent(name + '.' + NAME, params, this);
-        return !(result.result !== undefined && (!result.result));
     };
 
     $.fn.calendar = function(option) {

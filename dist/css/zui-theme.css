@@ -1,5 +1,5 @@
 /*!
- * ZUI: Theme - v1.8.1 - 2018-01-18
+ * ZUI: Theme - v1.8.1 - 2018-04-08
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2018 cnezsoft.com; Licensed MIT
@@ -544,7 +544,7 @@ fieldset[disabled] .btn-link:focus {
   color: #fff;
   background-color: #32408f;
   }
-.label-primary.label-circle {
+.label-primary.label-outline {
   color: #3f51b5;
   background: none;
   border: 1px solid #3f51b5;
@@ -561,7 +561,7 @@ fieldset[disabled] .btn-link:focus {
   color: #fff;
   background-color: #3d8b40;
   }
-.label-success.label-circle {
+.label-success.label-outline {
   color: #4caf50;
   background: none;
   border: 1px solid #4caf50;
@@ -578,7 +578,7 @@ fieldset[disabled] .btn-link:focus {
   color: #fff;
   background-color: #0279b3;
   }
-.label-info.label-circle {
+.label-info.label-outline {
   color: #039be5;
   background: none;
   border: 1px solid #039be5;
@@ -595,7 +595,7 @@ fieldset[disabled] .btn-link:focus {
   color: #fff;
   background-color: #ec971f;
   }
-.label-warning.label-circle {
+.label-warning.label-outline {
   color: #f0ad4e;
   background: none;
   border: 1px solid #f0ad4e;
@@ -612,7 +612,7 @@ fieldset[disabled] .btn-link:focus {
   color: #fff;
   background-color: #c9302c;
   }
-.label-danger.label-circle {
+.label-danger.label-outline {
   color: #d9534f;
   background: none;
   border: 1px solid #d9534f;
