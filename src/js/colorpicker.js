@@ -182,7 +182,7 @@
             $(options.updateBackground).css('background-color', hex);
         }
         if(options.updateColor) {
-            $(options.updateText).css('color', hex);
+            $(options.updateColor).css('color', hex);
         }
         if(options.updateText) {
             $(options.updateText).text(hex);
