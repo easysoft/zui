@@ -141,7 +141,10 @@ input[type="number"] {
   &[readonly] { cursor: default; }
 
   // Reset height for `textarea`s
-  textarea& { height: auto; }
+  textarea& {
+    height: auto;
+    min-height: @input-height-base;
+  }
 }
 
 
