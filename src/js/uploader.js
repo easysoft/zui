@@ -279,8 +279,14 @@
                         var renameFile = function() {
                             if(filename !== undefined && filename !== null && filename !== '') {
                                 var ext = file.ext;
-                                if(ext.length && !options.renameExtension && filename.lastIndexOf('.' + ext) !== (filename.length - ext.length - 1)) {
-                                    filename += '.' + ext;
+                                if(ext.length && !options.renameExtension) {
+                                    var index_ = filename.lastIndexOf('.');
+                                	if(index_ == -1){
+                                		filename += '.' + ext;
+                                	}else{
+                                		var ext_new = filename.substring(index_,filename.length);
+                                		if(ext_new != ext)filename = filename.substring(0,index_)+"."+ext;
+                                	} 
                                 }
                                 file.name = filename;
                             }
