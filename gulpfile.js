@@ -51,8 +51,10 @@ function fixPipe(stream) {
     };
     return stream;
 }
-
-extend(true, zui, require('./zui.templates.json'));
+// try load zui.templates.json and merge into zui.
+try {
+    extend(true, zui, require('./zui.templates.json'));
+} catch (e) { }
 
 // try load zui.custom.json and merge into zui.
 try {
