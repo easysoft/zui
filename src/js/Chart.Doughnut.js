@@ -1,7 +1,7 @@
 /* ========================================================================
  * Chart.js: Chart.Doughnut.js [Version: 1.0.2]
  * http://chartjs.org/
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
  * http://zui.sexy
@@ -21,7 +21,7 @@
 
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
-    /// 
+    ///
     ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
@@ -150,6 +150,7 @@
                 circumference: (this.options.animateRotate) ? 0 : this.calculateCircumference(segment.value),
                 /// ----- ZUI change begin -----
                 showLabel: segment.showLabel !== false,
+                circleBeginEnd: segment.circleBeginEnd,
                 /// ----- ZUI change end -----
                 label: segment.label
             }));
@@ -288,7 +289,15 @@
 
                 segment.endAngle = segment.startAngle + segment.circumference;
 
-                segment.draw();
+                // ZUI change begin
+                if (!this.options.reverseDrawOrder) {
+                    // ZUI change end
+                    // ZUI change begin
+                    segment.draw();
+                    // ZUI change end
+                }
+                // ZUI change end
+
                 if(index === 0) {
                     segment.startAngle = Math.PI * 1.5;
                 }
@@ -297,6 +306,14 @@
                     this.segments[index + 1].startAngle = segment.endAngle;
                 }
             }, this);
+
+            // ZUI change begin
+            if (this.options.reverseDrawOrder) {
+                helpers.each(this.segments.slice().reverse(), function(segment, index) {
+                    segment.draw();
+                }, this);
+            }
+            /// ZUI change end
 
             /// ZUI change begin
             if(this.options.scaleShowLabels) {

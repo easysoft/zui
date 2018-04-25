@@ -1,7 +1,7 @@
 /* ========================================================================
  * Chart.js: Chart.Core.js [Version: 1.0.2]
  * http://chartjs.org/
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
  * http://zui.sexy
@@ -12,7 +12,7 @@
 
 
 /*!
- * Chart.js 1.0.2 
+ * Chart.js 1.0.2
  * Copyright 2015 Nick Downie
  * Released under the MIT license
  * http://chartjs.org/
@@ -32,7 +32,7 @@
     //Declare root variable - window in the browser, global on the server
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
-    /// 
+    ///
     ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
@@ -1246,7 +1246,6 @@
             };
         },
         draw: function(animationPercent) {
-
             var easingDecimal = animationPercent || 1;
 
             var ctx = this.ctx;
@@ -1258,6 +1257,7 @@
             ctx.arc(this.x, this.y, this.innerRadius, this.endAngle, this.startAngle, true);
 
             ctx.closePath();
+
             ctx.strokeStyle = this.strokeColor;
             ctx.lineWidth = this.strokeWidth;
 
@@ -1269,6 +1269,25 @@
             if(this.showStroke) {
                 ctx.stroke();
             }
+
+            // ZUI change begin
+            if (this.circleBeginEnd) {
+                var pointCenterRadius = (this.outerRadius + this.innerRadius) / 2;
+                var circleRadius = (this.outerRadius - this.innerRadius) / 2;
+
+                ctx.beginPath();
+                ctx.arc(this.x + Math.cos(this.startAngle) * pointCenterRadius, this.y + Math.sin(this.startAngle) * pointCenterRadius, circleRadius, 0, Math.PI * 2);
+                ctx.closePath();
+
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(this.x + Math.cos(this.endAngle) * pointCenterRadius, this.y + Math.sin(this.endAngle) * pointCenterRadius, circleRadius, 0, Math.PI * 2);
+                ctx.closePath();
+
+                ctx.fill();
+            }
+            // ZUI change end
         }
     });
 
