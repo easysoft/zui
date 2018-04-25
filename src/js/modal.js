@@ -123,7 +123,10 @@
                 container: that.$element,
                 handle: '.modal-header',
                 before: function() {
-                    $dialog.css('margin-top', '').addClass('modal-dragged');
+                    var marginTop = $dialog.css('margin-top');
+                    if (marginTop && marginTop !== '0px') {
+                        $dialog.css('top', marginTop).css('margin-top', '').addClass('modal-dragged');
+                    }
                 },
                 finish: function(e) {
                     var rememberPos = options.rememberPos;
