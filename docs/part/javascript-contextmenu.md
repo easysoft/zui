@@ -260,6 +260,12 @@ $('#contextMenuExample2').on('click', function(e) {
       <td></td>
     </tr>
     <tr>
+      <td><code>disabled</code></td>
+      <td>是否禁用点击</td>
+      <td>默认 `false`</td>
+      <td>如果设置为 `true`，此条目会变灰显示，并且用户点击不会触发 `onClick` 事件。</td>
+    </tr>
+    <tr>
       <td><code>className</code></td>
       <td>条目元素上要添加的类</td>
       <td>默认 `''`</td>
