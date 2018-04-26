@@ -84,11 +84,11 @@
 
         var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
         if (position === 'fit') {
-            position = {marginTop: half * 2 / 3};
+            position = {top: Math.floor(half * 2 / 3)};
         } else if (position === 'center') {
-            position = {marginTop: half};
+            position = {top: half};
         } else if (!$.isPlainObject(position)) {
-            position = {marginTop: position};
+            position = {top: position};
         }
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
