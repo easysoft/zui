@@ -637,12 +637,12 @@ var uploader = $('#myUploader').data('zui.uploader');
     </tr>
     <tr>
       <td>`FAILED`</td>
-      <td>`3`</td>
+      <td>`4`</td>
       <td>文件上传失败。</td>
     </tr>
     <tr>
       <td>`DONE`</td>
-      <td>`4`</td>
+      <td>`5`</td>
       <td>文件已上传到服务器。</td>
     </tr>
   </tbody>
