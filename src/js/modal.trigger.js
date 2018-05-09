@@ -108,6 +108,7 @@
 
     ModalTrigger.prototype.show = function(option) {
         var options = $.extend({}, this.options, {url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url}, option);
+
         this.init(options);
         var that = this,
             $modal = this.$modal,
@@ -225,6 +226,7 @@
                             if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
                             var ajustFrameSize = function(check) {
                                 $modal.removeClass('fade');
+                                console.log('$framebody.outerHeight()', $framebody.outerHeight());
                                 var height = $framebody.outerHeight();
                                 if(check === true && options.onlyIncreaseHeight) {
                                     height = Math.max(height, $body.data('minModalHeight') || 0);
@@ -246,10 +248,6 @@
                         } else {
                             readyToShow();
                         }
-
-                        frame$.extend({
-                            closeModal: window.closeModal
-                        });
                     } catch(e) {
                         readyToShow();
                     }
@@ -366,6 +364,7 @@
 
     // callback, redirect, modal
     var closeModal = function(modal, callback, redirect) {
+        var originModal = modal;
         if($.isFunction(modal)) {
             var oldModal = redirect;
             redirect = callback;
@@ -377,6 +376,11 @@
             modal.each(function() {
                 $(this).data(NAME).close(callback, redirect);
             });
+        } else {
+            // check if current page is as modal iframe
+            if ($('body').hasClass('body-modal')) {
+                window.parent.$.zui.closeModal(originModal, callback, redirect);
+            }
         }
     };
 
@@ -411,6 +415,8 @@
         if($this.is('a')) {
             e.preventDefault();
         }
+    }).on('click.' + NAME + '.data-api', '[data-dismiss="modal"]', function() {
+        $.zui.closeModal();
     });
 }(window.jQuery, window, undefined));
 
