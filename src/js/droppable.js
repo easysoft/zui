@@ -95,7 +95,8 @@
 
                 that.trigger('start', {
                     event:   event,
-                    element: $ele
+                    element: $ele,
+                    targets: $targets
                 });
             }
 
@@ -267,7 +268,7 @@
             }
 
             isMouseDown = true;
-            $targets         = $.isFunction(setting.target) ? setting.target($root) : $container.find(setting.target),
+            $targets         = $.isFunction(setting.target) ? setting.target($ele, $root) : $container.find(setting.target),
             $target          = null,
             $shadow          = null,
             isIn             = false,
