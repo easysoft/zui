@@ -481,12 +481,13 @@ gulp.task('build', function (callback) {
     }, type);
 });
 
-function startWatchSrc(name) {
+function startWatchSrc(name, callback) {
     if (name === 'lib') name = 'seperate';
     var build = builds[name];
     var srcDir = build && build.srcDir || './src';
     gulp.watch([srcDir + "/less/**/*"], function (event) {
         buildBundle(name, function () {
+            callback && callback(event, 'less');
             console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
         }, 'less');
     });
@@ -494,12 +495,14 @@ function startWatchSrc(name) {
     gulp.watch([srcDir + "/js/**/*"], function (event) {
         if (event.path && (event.path.lastIndexOf('src/js/colorset.js') > -1) || event.path.lastIndexOf('src\\js\\colorset.js') > -1) return;
         buildBundle(name, function () {
+            callback && callback(event, 'js');
             console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
         }, 'js');
     });
 
     gulp.watch([srcDir + "/fonts/**/*"], function (event) {
         buildBundle(name, function () {
+            callback && callback(event, 'fonts');
             console.log('         √ '.green + (' WATCH ' + name.bold + ' COMPLETED. ').yellow.inverse);
         }, 'resource');
     });
@@ -574,6 +577,7 @@ if (isFileExist("gulpfile.custom.js")) {
         pkg: pkg,
         del: del,
         mkdirp: mkdirp,
-        runSequence: runSequence
+        runSequence: runSequence,
+        startWatchSrc: startWatchSrc
     });
 }
