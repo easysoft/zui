@@ -41,7 +41,6 @@
             };
 
             that.$input = $input = $input.first();
-            that.lastValue = that.getSearch();
 
             $input.on(options.listenEvent, function(params) {
                 that.changeTimer = setTimeout(function() {
@@ -76,6 +75,7 @@
             that.$.on('click', '.search-clear-btn', function(e) {
                 that.setSearch('', true);
                 handleChange();
+                that.focus();
                 e.preventDefault();
             });
 
