@@ -57,7 +57,8 @@
             // previewImageSize: {width: 200, height: 200},
             uploadedMessage: true,
             // deleteActionOnDone: false, // false, true or function
-            // renameActionOnDone: false,   // false, true or function
+            // renameActionOnDone: false,   // false, true or function,
+            // autoResetFails: false, // if true auto reupload failed files
 
             // plupload options
             drop_element: 'self', // 'self', 'fileList', String or jQuery object,
@@ -338,7 +339,7 @@
         if(!message) that.hideMessage();
         else clearTimeout(that.lastDismissMessage);
         type = type || 'danger';
-        if(time === undefined) time = type === 'danger' ? 8 : 5;
+        if(time === undefined) time = type === 'danger' ? 10 : 6;
         if(time < 20) time *= 1000;
         var $content = $msg.find('.content');
         if($content.length) $content.empty().append(message);
@@ -357,6 +358,13 @@
     };
 
     Uploader.prototype.start = function() {
+        if (this.options.autoResetFails) {
+            $.each(this.getFiles(), function(index, file) {
+                if(file.status === Plupload.FAILED) {
+                    file.status = Plupload.QUEUED;
+                }
+            });
+        }
         return this.plupload.start();
     };
 
@@ -545,10 +553,7 @@
             }
         }
 
-        $file.attr('data-status', status)
-             .data('file', file);
-
-        // console.log('FILE', file);
+        $file.attr('data-status', status).data('file', file);
     };
 
     Uploader.prototype.showStatus = function() {
@@ -677,12 +682,14 @@
                         var json = file.remoteData;
                         if($.isPlainObject(json)) {
                             var result = json.status || json.result;
-                            if(result !== undefined && result !== 'ok' && result !== 'success' && result !== 200) {
+                            result = result === 'ok' || result === 'success' || result === 200;
+                            if (result) {
+                                if(json.id !== undefined) file.remoteId = json.id;
+                                if(json.url !== undefined) file.url = json.url;
+                                if(json.name !== undefined) file.name = json.name;
+                            } else {
                                 error = {message: json.message, data: json};
                             }
-                            if(json.id !== undefined) file.remoteId = json.id;
-                            if(json.url !== undefined) file.url = json.url;
-                            if(json.name !== undefined) file.name = json.name;
                         }
                     }
                     if(error) {
@@ -691,7 +698,6 @@
                         if(error.code === undefined) error.code = Plupload.GENERIC_ERROR;
                         error.file = file;
                         error.responseObject = responseObject;
-                        uploader.trigger('Error', error);
                         file.errorMessage = error.message;
                         return;
                     }
