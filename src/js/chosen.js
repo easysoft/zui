@@ -914,7 +914,6 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 });
                 return false;
             }
-            this.container.addClass("chosen-with-drop");
             this.results_showing = true;
             this.search_field.focus();
             this.search_field.val(this.search_field.val());
@@ -933,7 +932,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     dropDirection = this.drop_directionFixed;
                 }
             }
-            this.container.toggleClass('chosen-up', dropDirection === 'up');
+            this.container.toggleClass('chosen-up', dropDirection === 'up').addClass("chosen-with-drop");
 
             return this.form_field_jq.trigger("chosen:showing_dropdown", {
                 chosen: this

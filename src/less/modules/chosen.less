@@ -35,7 +35,7 @@
   .chosen-drop {
     position: absolute;
     top: 100%;
-    left: -9999px;
+    display: none;
     z-index: 1010;
     width: 100%;
     border: 1px solid @dropdown-fallback-border; // IE8 fallback
@@ -49,7 +49,7 @@
     }
   }
   &.chosen-with-drop .chosen-drop {
-    left: 0;
+    display: block;
   }
   a {
     cursor: pointer;
