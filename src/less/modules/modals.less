@@ -32,7 +32,6 @@
   left: 0;
   z-index: @zindex-modal;
   -webkit-overflow-scrolling: touch;
-  pointer-events: none;
 
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
@@ -215,4 +214,12 @@
     right: 0;
     overflow-y: auto;
   }
+}
+
+
+.modal-scroll-inside {
+  .modal-dialog {margin: 0 auto;}
+}
+.body-modal-scroll-inside {
+  overflow: auto;
 }

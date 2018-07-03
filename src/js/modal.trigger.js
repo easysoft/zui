@@ -45,7 +45,8 @@
         backdrop: true,
         keyboard: true,
         waittime: 0,
-        loadingIcon: 'icon-spinner-indicator'
+        loadingIcon: 'icon-spinner-indicator',
+        scrollInside: false
     };
 
     ModalTrigger.prototype.init = function(options) {
@@ -107,7 +108,9 @@
     };
 
     ModalTrigger.prototype.show = function(option) {
-        var options = $.extend({}, this.options, {url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url}, option);
+        var options = $.extend({}, this.options, {
+            url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url
+        }, option);
 
         this.init(options);
         var that = this,
@@ -120,7 +123,8 @@
 
         $modal.toggleClass('fade', options.fade)
             .addClass(options.className)
-            .toggleClass('modal-loading', !this.isShown);
+            .toggleClass('modal-loading', !this.isShown)
+            .toggleClass('modal-scroll-inside', !!options.scrollInside);
 
         $dialog.toggleClass('modal-md', options.size === 'md')
             .toggleClass('modal-sm', options.size === 'sm')
@@ -209,6 +213,7 @@
 
                 var frame = document.getElementById(iframeName);
                 frame.onload = frame.onreadystatechange = function() {
+                    var scrollInside = !!options.scrollInside;
                     if(that.firstLoad) $modal.addClass('modal-loading');
                     if(this.readyState && this.readyState != 'complete') return;
                     that.firstLoad = false;
@@ -216,21 +221,25 @@
                     if(options.waittime > 0) {
                         clearTimeout(that.waitTimeout);
                     }
-
                     try {
                         $modal.attr('ref', frame.contentWindow.location.href);
                         var frame$ = window.frames[iframeName].$;
                         if(frame$ && options.height === 'auto' && options.size != 'fullscreen') {
                             // todo: update iframe url to ref attribute
-                            var $framebody = frame$('body').addClass('body-modal');
+
+                            var $framebody = frame$('body').addClass('body-modal').toggleClass('body-modal-scroll-inside', scrollInside);
                             if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
                             var ajustFrameSize = function(check) {
                                 $modal.removeClass('fade');
-                                console.log('$framebody.outerHeight()', $framebody.outerHeight());
                                 var height = $framebody.outerHeight();
                                 if(check === true && options.onlyIncreaseHeight) {
                                     height = Math.max(height, $body.data('minModalHeight') || 0);
                                     $body.data('minModalHeight', height);
+                                }
+                                if (scrollInside)
+                                {
+                                    var winHeight = $(window).height();
+                                    height = Math.min(height, winHeight - $header.height());
                                 }
                                 $body.css('height', height);
                                 if(options.fade) $modal.addClass('fade');
@@ -244,7 +253,10 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                            if (scrollInside) {
+                                $(window).off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                            }
                         } else {
                             readyToShow();
                         }
@@ -291,17 +303,18 @@
     };
 
     ModalTrigger.prototype.close = function(callback, redirect) {
+        var that = this;
         if(callback || redirect) {
-            this.$modal.on('hidden' + ZUI_MODAL, function() {
+            that.$modal.on('hidden' + ZUI_MODAL, function() {
                 if($.isFunction(callback)) callback();
 
-                if(typeof redirect === STR_STRING) {
+                if(typeof redirect === STR_STRING && redirect.length && !that.$modal.data('cancel-reload')) {
                     if(redirect === 'this') window.location.reload();
                     else window.location = redirect;
                 }
             });
         }
-        this.$modal.modal('hide');
+        that.$modal.modal('hide');
     };
 
     ModalTrigger.prototype.toggle = function(options) {
@@ -336,6 +349,9 @@
             else if(options.show) data.show(settings);
 
             $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e) {
+                options = $.extend(options, {
+                    url: $this.attr('href') || $this.attr('data-url') || $this.data('url') || options.url
+                });
                 data.toggle(options);
                 if($this.is('a')) e.preventDefault();
             });
@@ -352,10 +368,9 @@
     };
 
     var getModal = function(modal) {
-        var modalType = typeof(modal);
-        if(modalType === 'undefined') {
+        if (!modal) {
             modal = $('.modal.modal-trigger');
-        } else if(modalType === STR_STRING) {
+        } else {
             modal = $(modal);
         }
         if(modal && (modal instanceof $)) return modal;
@@ -376,7 +391,7 @@
             modal.each(function() {
                 $(this).data(NAME).close(callback, redirect);
             });
-        } else {
+        } else if(!$('body').hasClass('modal-open') && !$('.modal.in').length) {
             // check if current page is as modal iframe
             if ($('body').hasClass('body-modal')) {
                 window.parent.$.zui.closeModal(originModal, callback, redirect);
