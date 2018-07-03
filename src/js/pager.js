@@ -19,6 +19,7 @@
 
     var LANG = {
         zh_cn: {
+            pageOfText: '第 {0} 页',
             prev: '上一页',
             next: '下一页',
             first: '第一页',
@@ -32,6 +33,7 @@
             pageOfTotal: '第 <strong>{page}</strong>/<strong>{totalPage}</strong> 页'
         },
         zh_tw: {
+            pageOfText: '第 {0} 頁',
             prev: '上一頁',
             next: '下一頁',
             first: '第一頁',
@@ -45,6 +47,7 @@
             pageOfTotal: '第 <strong>{page}</strong>/<strong>{totalPage}</strong> 頁'
         },
         en: {
+            pageOfText: 'Page {0}',
             prev: 'Prev',
             next: 'Next',
             first: 'First',
@@ -142,9 +145,9 @@
         if (text === undefined) {
             text = page;
         }
-        var $ele = $('<a class="pager-item" data-page="' + page + '"/>').attr('href', page ? that.createLink(page, that.state) : '###').html(text);
+        var $ele = $('<a title="' + that.lang.pageOfText.format(page) + '" class="pager-item" data-page="' + page + '"/>').attr('href', page ? that.createLink(page, that.state) : '###').html(text);
         if (!asAElement) {
-            $ele = $('<li />').append($ele).toggleClass('active', page === that.state.page).toggleClass('disabled', !page);
+            $ele = $('<li />').append($ele).toggleClass('active', page === that.state.page).toggleClass('disabled', !page || page === that.state.page);
         }
         return $ele;
     };
@@ -231,13 +234,13 @@
             case 'next_icon':
                 return createLinkItem(pager.next, '<i class="icon ' + that.options.nextIcon + '"></i>');
             case 'first':
-                return createLinkItem(1, lang.first, true);
+                return createLinkItem(1, lang.first);
             case 'first_icon':
-                return createLinkItem(1, '<i class="icon ' + that.options.firstIcon + '"></i>', true);
+                return createLinkItem(1, '<i class="icon ' + that.options.firstIcon + '"></i>');
             case 'last':
-                return createLinkItem(pager.totalPage, lang.last, true);
+                return createLinkItem(pager.totalPage, lang.last);
             case 'last_icon':
-                return createLinkItem(pager.totalPage, '<i class="icon ' + that.options.lastIcon + '"></i>', true);
+                return createLinkItem(pager.totalPage, '<i class="icon ' + that.options.lastIcon + '"></i>');
             case 'space':
             case '|':
                 return $('<li class="space" />');
@@ -262,7 +265,7 @@
             case 'size_menu':
                 return that.createSizeMenu();
             default:
-                return $('<li/>').html(element);
+                return $('<li/>').html(element.format(pager));
         }
     };
 
