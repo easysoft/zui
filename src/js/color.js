@@ -193,6 +193,14 @@
                     that.a = 0;
                 } else if(namedColors[r]) {
                     this.rgb(hexToRgb(namedColors[r]));
+                } else if(r.indexOf('rgb') === 0) {
+                    var rgbsArr = r.substring(r.indexOf('(') + 1, r.lastIndexOf(')')).split(',', 4);
+                    that.rgb({
+                        r: rgbsArr[0],
+                        g: rgbsArr[1],
+                        b: rgbsArr[2],
+                        a: rgbsArr[3],
+                    });
                 } else {
                     that.rgb(hexToRgb(r));
                 }
@@ -362,7 +370,7 @@
             light = dark;
             dark = t;
         }
-        
+
         if(this.a < 0.5) return dark;
 
         if(isUndefined(threshold)) threshold = 0.43;
