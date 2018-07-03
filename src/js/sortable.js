@@ -37,46 +37,27 @@
             $root        = that.$,
             options      = that.options,
             selector     = options.selector,
+            containerSelector = options.containerSelector,
             sortingClass = options.sortingClass,
             dragCssClass = options.dragCssClass,
             isReverse    = options.reverse;
 
         var markOrders = function($items) {
             $items = $items || that.getItems(1);
-            var orders = [];
-
-            $items.each(function() {
-                var order = $(this).data(STR_ORDER);
-                if(typeof order === 'number') {
-                    orders.push(order);
-                }
-            });
-
-            orders.sort(function(a, b) {
-                return a - b;
-            });
-
             var itemsCount = $items.length;
-            while(orders.length < itemsCount) {
-                orders.push(orders.length ? (orders[orders.length - 1] + 1) : 0);
+            if (itemsCount) {
+                $items.each(function(itemIndex) {
+                    var itemOrder = isReverse ? itemsCount - itemIndex : itemIndex;
+                    $(this).attr('data-' + STR_ORDER, itemOrder).data(STR_ORDER, itemOrder);
+                });
             }
-
-            if(isReverse) {
-                orders.reverse();
-            }
-
-            that.maxOrder = 0;
-            $items.each(function(idx) {
-                that.maxOrder = Math.max(that.maxOrder, orders[idx]);
-                $(this).data(STR_ORDER, orders[idx]).attr('data-' + STR_ORDER, orders[idx]);
-            });
         };
 
         markOrders();
 
         $root.droppable({
             handle      : options.trigger,
-            target      : selector,
+            target      : containerSelector ? (selector + ',' + containerSelector) : selector,
             selector    : selector,
             container   : $root,
             always      : options.always,
@@ -85,6 +66,7 @@
             canMoveHere : options.canMoveHere,
             nested      : options.nested,
             before      : options.before,
+            nested      : !!containerSelector,
             mouseButton : options.mouseButton,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
@@ -95,7 +77,22 @@
                 if(e.isIn) {
                     var $ele        = e.element,
                         $target     = e.target,
-                        eleOrder    = $ele.data(STR_ORDER),
+                        isContainer = containerSelector && $target.is(containerSelector);
+
+                    if (isContainer) {
+                        if (!$target.children(selector).filter('.dragging').length) {
+                            $target.append($ele);
+                            var $items = that.getItems(1);
+                            markOrders($items);
+                            that.trigger(STR_ORDER, {
+                                list: $items,
+                                element: $ele
+                            });
+                        }
+                        return;
+                    }
+
+                    var eleOrder    = $ele.data(STR_ORDER),
                         targetOrder = $target.data(STR_ORDER);
                     if (!eleOrder && eleOrder !== 0) {
                         that.maxOrder++;
@@ -125,7 +122,7 @@
                 if(dragCssClass && e.element) e.element.removeClass(dragCssClass);
                 $root.removeClass(sortingClass);
                 that.trigger('finish', {
-                    list: that.getItems(1),
+                    list: that.getItems(),
                     element: e.element
                 });
             }
@@ -143,7 +140,7 @@
     };
 
     Sortable.prototype.getItems = function(onlyElements) {
-        var $items = this.$.children(this.options.selector).not('.drag-shadow');
+        var $items = this.$.find(this.options.selector).not('.drag-shadow');
         if(!onlyElements) {
             return $items.map(function() {
                 var $item = $(this);
