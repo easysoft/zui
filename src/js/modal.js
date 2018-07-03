@@ -166,7 +166,10 @@
 
         that.escape()
 
-        that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]', $.proxy(that.hide, that))
+        that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]',function(e) {
+            that.hide();
+            e.stopPropagation();
+        })
 
         that.backdrop(function() {
             var transition = $.support.transition && that.$element.hasClass('fade')
