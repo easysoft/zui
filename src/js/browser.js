@@ -6,7 +6,7 @@
  * ======================================================================== */
 
 
-(function($) {
+(function ($) {
     'use strict';
 
     var browseHappyTip = {
@@ -16,11 +16,11 @@
     };
 
     // The browser modal class
-    var Browser = function() {
+    var Browser = function () {
         var ie = this.isIE() || this.isIE10() || false;
-        if(ie) {
-            for(var i = 10; i > 5; i--) {
-                if(this.isIE(i)) {
+        if (ie) {
+            for (var i = 10; i > 5; i--) {
+                if (this.isIE(i)) {
                     ie = i;
                     break;
                 }
@@ -33,12 +33,12 @@
     };
 
     // Append CSS class to html tag
-    Browser.prototype.cssHelper = function() {
+    Browser.prototype.cssHelper = function () {
         var ie = this.ie,
             $html = $('html');
         $html.toggleClass('ie', ie)
             .removeClass('ie-6 ie-7 ie-8 ie-9 ie-10');
-        if(ie) {
+        if (ie) {
             $html.addClass('ie-' + ie)
                 .toggleClass('gt-ie-7 gte-ie-8 support-ie', ie >= 8)
                 .toggleClass('lte-ie-7 lt-ie-8 outdated-ie', ie < 8)
@@ -50,9 +50,9 @@
     };
 
     // Show browse happy tip
-    Browser.prototype.tip = function(showCoontent) {
+    Browser.prototype.tip = function (showCoontent) {
         var $browseHappy = $('#browseHappyTip');
-        if(!$browseHappy.length) {
+        if (!$browseHappy.length) {
             $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger-inverse alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
             $browseHappy.prependTo('body');
         }
@@ -61,15 +61,15 @@
     };
 
     // Detect it is IE, can given a version
-    Browser.prototype.isIE = function(version) {
-        if(version === 10) return this.isIE10();
+    Browser.prototype.isIE = function (version) {
+        if (version === 10) return this.isIE10();
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
         return b.getElementsByTagName('i').length === 1;
     };
 
     // Detect ie 10 with hack
-    Browser.prototype.isIE10 = function() {
+    Browser.prototype.isIE10 = function () {
         return (/*@cc_on!@*/false);
     };
 
@@ -77,9 +77,9 @@
         browser: new Browser()
     });
 
-    $(function() {
-        if(!$('body').hasClass('disabled-browser-tip')) {
-            if($.zui.browser.ie && $.zui.browser.ie < 8) {
+    $(function () {
+        if (!$('body').hasClass('disabled-browser-tip')) {
+            if ($.zui.browser.ie && $.zui.browser.ie < 8) {
                 $.zui.browser.tip();
             }
         }
