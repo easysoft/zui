@@ -64,7 +64,6 @@
             flex        : true,
             lazy        : options.lazy,
             canMoveHere : options.canMoveHere,
-            nested      : options.nested,
             before      : options.before,
             nested      : !!containerSelector,
             mouseButton : options.mouseButton,
