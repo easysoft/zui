@@ -9,6 +9,23 @@
 // The google style like scrollbar
 // Inspired by scrollbar style in gmail(https://google.com/google/)
 
+.scrollbar-hover {
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-button,
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-thumb {
+    visibility: hidden;
+  }
+  &:hover {
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-button,
+    &::-webkit-scrollbar-track,
+    &::-webkit-scrollbar-thumb {
+      visibility: visible;
+    }
+  }
+}
+
 @media (min-width: 768px) {
   // Google scrollbar
   ::-webkit-scrollbar {
@@ -82,22 +99,5 @@
   ::-webkit-scrollbar-track:active {
     -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px -1px 0 rgba(0, 0, 0, .07);
     background-color: rgba(0, 0, 0, .05)
-  }
-
-  .scrollbar-hover {
-    &::-webkit-scrollbar,
-    &::-webkit-scrollbar-button,
-    &::-webkit-scrollbar-track,
-    &::-webkit-scrollbar-thumb {
-      visibility: hidden;
-    }
-    &:hover {
-      &::-webkit-scrollbar,
-      &::-webkit-scrollbar-button,
-      &::-webkit-scrollbar-track,
-      &::-webkit-scrollbar-thumb {
-        visibility: visible;
-      }
-    }
   }
 }
