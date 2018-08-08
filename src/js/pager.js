@@ -55,8 +55,8 @@
             goto: 'Goto',
             pageOf: 'Page <strong>{page}</strong>',
             totalPage: '<strong>{totalPage}</strong> pages',
-            totalCount: '<strong>{recTotal}</strong> items',
-            pageSize: '<strong>{recPerPage}</strong> items per page',
+            totalCount: '<strong>{recTotal}</strong> in total',
+            pageSize: '<strong>{recPerPage}</strong> per page',
             itemsRange: 'From <strong>{start}</strong> to <strong>{end}</strong>',
             pageOfTotal: 'Page <strong>{page}</strong> of <strong>{totalPage}</strong>'
         }
@@ -70,7 +70,7 @@
 
         options = that.options = $.extend({}, Pager.DEFAULTS, this.$.data(), options);
 
-        var lang   = options.lang || 'zh_cn';
+        var lang   = options.lang || $.zui.clientLang();
         that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG[lang.lang || $.zui.clientLang()], lang)) : LANG[lang];
 
         that.state = {};
