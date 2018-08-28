@@ -60,7 +60,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         en: {
             no_results_text: "No results match"
         }
-    }
+    };
 
     SelectParser = (function() {
         function SelectParser() {
@@ -514,7 +514,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         AbstractChosen.prototype.container_width = function() {
             if (this.options.width != null) {
                 return this.options.width;
-            } else if (this.form_field.classList.contains('form-control')) {
+            } else if (this.form_field && this.form_field.classList && this.form_field.classList.contains('form-control')) {
                 return '100%';
             } else {
                 return "" + this.form_field.offsetWidth + "px";
