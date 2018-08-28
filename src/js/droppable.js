@@ -20,6 +20,7 @@
         deviation: 5,
         sensorOffsetX: 0,
         sensorOffsetY: 0,
+        dropToClass: 'drop-to',
          // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
     var idIncrementer = 0;
@@ -53,6 +54,7 @@
             flex           = setting.flex,
             container      = setting.container,
             canMoveHere    = setting.canMoveHere,
+            dropToClass    = setting.dropToClass,
             $ele           = $root,
             isMouseDown    = false,
             $container     = container ? $(setting.container).first() : (selector ? $root : $('body')),
@@ -115,7 +117,7 @@
                 isIn = false;
 
             if(!flex) {
-                $targets.removeClass('drop-to');
+                $targets.removeClass(dropToClass);
             }
 
             var $newTarget = null;
@@ -128,7 +130,7 @@
                     tY   = tPos.top + setting.sensorOffsetY;
 
                 if(mouseOffset.left > tX && mouseOffset.top > tY && mouseOffset.left < (tX + tW) && mouseOffset.top < (tY + tH)) {
-                    if($newTarget) $newTarget.removeClass('drop-to');
+                    if($newTarget) $newTarget.removeClass(dropToClass);
                     $newTarget = t;
                     if(!setting.nested) return false;
                 }
@@ -141,9 +143,9 @@
                 if($target === null || ($target.data('id') !== id && (!isSelf))) isNew = true;
                 $target = $newTarget;
                 if(flex) {
-                    $targets.removeClass('drop-to');
+                    $targets.removeClass(dropToClass);
                 }
-                $target.addClass('drop-to');
+                $target.addClass(dropToClass);
             }
 
 
@@ -234,7 +236,7 @@
                 that.trigger('drop', eventOptions);
             }
 
-            $targets.removeClass('drop-to');
+            $targets.removeClass(dropToClass);
             $ele.removeClass('dragging').removeClass('drag-from');
             $shadow.remove();
             $shadow = null;
@@ -276,6 +278,8 @@
             oldCssPosition   = null,
             startOffset      = $ele.offset(),
             containerOffset  = $container.offset();
+            containerOffset.top = containerOffset.top - $container.scrollTop();
+            containerOffset.left = containerOffset.left - $container.scrollLeft();
             startMouseOffset = {left: event.pageX, top: event.pageY};
             lastMouseOffset  = $.extend({}, startMouseOffset);
             clickOffset      = {
@@ -289,6 +293,9 @@
                 $(document).on(mouseDownEvent, mouseUp);
             }, 10);
             event.preventDefault();
+            if(setting.stopPropagation) {
+                event.stopPropagation();
+            }
         };
 
         if(handle) {
