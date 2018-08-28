@@ -204,8 +204,8 @@ filter: kapian kp
   <div class="card-heading"><strong>良辰美景</strong></div>
   <div class="card-content text-muted">良辰美景奈何天，赏心乐事谁家院。</div>
   <div class="card-actions">
-    <button type="button" class="btn btn-danger"><i class="icon-heart"></i> 喜欢</button>
-    <div class="pull-right text-danger"><i class="icon-heart-empty"></i> 520 人喜欢</div>
+    <span class="label label-warning">牡丹亭</span>
+    <div class="pull-right"><i class="icon-comments-alt"></i> 520</div>
   </div>
 </a>
 ```
