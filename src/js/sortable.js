@@ -40,7 +40,9 @@
             containerSelector = options.containerSelector,
             sortingClass = options.sortingClass,
             dragCssClass = options.dragCssClass,
-            isReverse    = options.reverse;
+            targetSelector = options.targetSelector,
+            isReverse    = options.reverse,
+            orderChanged;
 
         var markOrders = function($items) {
             $items = $items || that.getItems(1);
@@ -57,18 +59,21 @@
 
         $root.droppable({
             handle      : options.trigger,
-            target      : containerSelector ? (selector + ',' + containerSelector) : selector,
+            target      : targetSelector ? targetSelector : (containerSelector ? (selector + ',' + containerSelector) : selector),
             selector    : selector,
             container   : $root,
             always      : options.always,
             flex        : true,
             lazy        : options.lazy,
             canMoveHere : options.canMoveHere,
+            dropToClass : options.dropToClass,
             before      : options.before,
             nested      : !!containerSelector,
             mouseButton : options.mouseButton,
+            stopPropagation : options.stopPropagation,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
+                orderChanged = false;
                 that.trigger('start', e);
             },
             drag: function(e) {
@@ -93,22 +98,13 @@
 
                     var eleOrder    = $ele.data(STR_ORDER),
                         targetOrder = $target.data(STR_ORDER);
-                    if (!eleOrder && eleOrder !== 0) {
-                        that.maxOrder++;
-                        eleOrder = that.maxOrder;
-                        $ele.attr('data-' + STR_ORDER, eleOrder);
-                    }
-                    if (!targetOrder && targetOrder !== 0) {
-                        that.maxOrder++;
-                        targetOrder = that.maxOrder;
-                        $target.attr('data-' + STR_ORDER, targetOrder);
-                    }
-                    if(eleOrder == targetOrder) return;
+                    if(eleOrder === targetOrder) return markOrders($items);
                     else if(eleOrder > targetOrder) {
                         $target[isReverse ? 'after' : 'before']($ele);
                     } else {
                         $target[isReverse ? 'before' : 'after']($ele);
                     }
+                    orderChanged = true;
                     var $items = that.getItems(1);
                     markOrders($items);
                     that.trigger(STR_ORDER, {
@@ -122,7 +118,8 @@
                 $root.removeClass(sortingClass);
                 that.trigger('finish', {
                     list: that.getItems(),
-                    element: e.element
+                    element: e.element,
+                    changed: orderChanged
                 });
             }
         });
