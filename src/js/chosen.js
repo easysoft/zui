@@ -920,6 +920,10 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.winnow_results(1);
 
             var dropDirection = this.drop_direction;
+            if ($.isFunction(dropDirection))
+            {
+                dropDirection = dropDirection.call(this);
+            }
             if(dropDirection === 'auto') {
                 if (!this.drop_directionFixed) {
                     var $drop = this.container.find('.chosen-drop');
@@ -1311,4 +1315,3 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
     })(AbstractChosen);
 }).call(this);
-
