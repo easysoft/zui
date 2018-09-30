@@ -837,7 +837,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.container.addClass("chosen-container-active");
             this.active_field = true;
             this.search_field.val(this.search_field.val());
-            // return this.search_field.focus(); ZUI: bug: when user select a item by click, container scroll to left automaticly.
+            return this.search_field.focus();
         };
 
         Chosen.prototype.test_active_click = function(evt) {
@@ -1001,7 +1001,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(target.length) {
                 this.result_highlight = target;
                 this.result_select(evt);
-                // return this.search_field.focus(); // ZUI: bug: when user select a item by click, container scroll to left automaticly.
+                return this.search_field.focus();
             }
         };
 
