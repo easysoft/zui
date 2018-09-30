@@ -70,6 +70,7 @@
 
 // Tag <iframe> in modal
 
+.modal-iframe .modal-body {overflow: hidden!important;}
 .modal-iframe .modal-body > iframe {border-radius: 0 0 @border-radius-large @border-radius-large}
 
 
@@ -78,6 +79,8 @@
 .modal-dialog {
   position: relative;
   width: auto;
+  margin: 0 auto;
+
   background-color: @modal-content-bg;
   border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
   border: 1px solid @modal-content-border-color;
@@ -185,7 +188,6 @@
   // Automatically set modal's width for larger viewports
   .modal-dialog {
     width: @modal-md;
-    margin: 30px auto;
     box-shadow: 0 5px15px rgba(0,0,0,.5);
 
   }
@@ -216,10 +218,6 @@
   }
 }
 
-
-.modal-scroll-inside {
-  .modal-dialog {margin: 0 auto;}
-}
 .body-modal-scroll-inside {
   overflow: auto;
 }
