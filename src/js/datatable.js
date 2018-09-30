@@ -543,7 +543,7 @@
                 if(options.storage) store.pageSet(scrollOffsetStoreName, barLeft);
             };
             var resizeScrollbar = function() {
-                flexWidth = $flexArea.width();
+                flexWidth = $flexArea.width() - 2;
                 $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
                 tableWidth = 0;
                 $flexTable.first().find('tr:first').children('td,th').each(function() {
