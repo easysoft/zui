@@ -159,6 +159,7 @@
             idx = 0;
             $parentItem = null;
         }
+        $list.removeClass('has-active-item');
         var $children = $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
             that._initItem($(this), index + 1, $list);
         });
@@ -179,8 +180,8 @@
             }
             if(actions.sort) {
                 $list.sortable($.extend({
-                    dragCssClass: 'tree-drag-holder', 
-                    trigger: '.sort-handler', 
+                    dragCssClass: 'tree-drag-holder',
+                    trigger: '.sort-handler',
                     selector: 'li:not(.tree-action-item)',
                     finish: function(e) {
                         that.callEvent('action', {action: actions.sort, $list: $list, target: e.target, item: data});
@@ -206,6 +207,9 @@
                 id = $parentList.parent('li').data('id') + '-' + id;
             }
             $item.attr('data-id', id);
+        }
+        if ($item.hasClass('active')) {
+            $parentList.parent('li').addClass('has-active-item');
         }
         data = data || $item.data();
         var actions = formatActions(data.actions, this.actions);
