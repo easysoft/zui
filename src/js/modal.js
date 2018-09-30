@@ -58,7 +58,9 @@
         show: true,
         // rememberPos: false,
         // moveable: false,
-        position: 'fit' // 'center' or '40px' or '10%',
+        position: 'fit', // 'center' or '40px' or '10%',
+        // scrollInside: false,
+        // headerHeight: 'auto',
     };
 
     var setDialogPos = function($dialog, pos) {
@@ -76,20 +78,38 @@
         var that = this;
         var options = that.options;
         if(position === undefined) position = options.position;
-        if(position === undefined) return;
+        if(position === undefined || position === null) return;
         if ($.isFunction(position)) {
             position = position(that);
         }
         var $dialog = that.$element.find('.modal-dialog');
+        var winHeight = $(window).height();
 
-        var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
+        var bodyCss = {maxHeight: 'initial', overflow: 'visible'};
+        var $body = $dialog.find('.modal-body').css(bodyCss);
+        if (options.scrollInside) {
+            var headerHeight = options.headerHeight;
+            if (typeof headerHeight !== 'number') {
+                headerHeight = $dialog.find('.modal-header').height();
+            } else if ($.isFunction(headerHeight)) {
+                headerHeight = headerHeight($header);
+            }
+            bodyCss.maxHeight = winHeight - headerHeight;
+            if ($body.outerHeight() > bodyCss.maxHeight) {
+                bodyCss.overflow = 'auto';
+            }
+        }
+        $body.css(bodyCss);
+
+        var half = Math.max(0, (winHeight - $dialog.outerHeight()) / 2);
         if (position === 'fit') {
-            position = {top: Math.floor(half * 2 / 3)};
+            position = {top: half > 50 ? Math.floor(half * 2 / 3) : half};
         } else if (position === 'center') {
             position = {top: half};
         } else if (!$.isPlainObject(position)) {
             position = {top: position};
         }
+
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
             var rememberPos = options.rememberPos;
@@ -151,6 +171,8 @@
         })
 
         that.$element.trigger(e)
+
+        that.$element.toggleClass('modal-scroll-inside', !!that.options.scrollInside);
 
         if(that.isShown || e.isDefaultPrevented()) return
 

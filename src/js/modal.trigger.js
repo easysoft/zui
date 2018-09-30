@@ -46,7 +46,8 @@
         keyboard: true,
         waittime: 0,
         loadingIcon: 'icon-spinner-indicator',
-        scrollInside: false
+        scrollInside: false,
+        // headerHeight: 'auto',
     };
 
     ModalTrigger.prototype.init = function(options) {
@@ -238,8 +239,14 @@
                                 }
                                 if (scrollInside)
                                 {
+                                    var headerHeight = options.headerHeight;
+                                    if (typeof headerHeight !== 'number') {
+                                        headerHeight = $header.height();
+                                    } else if ($.isFunction(headerHeight)) {
+                                        headerHeight = headerHeight($header);
+                                    }
                                     var winHeight = $(window).height();
-                                    height = Math.min(height, winHeight - $header.height());
+                                    height = Math.min(height, winHeight - headerHeight);
                                 }
                                 $body.css('height', height);
                                 if(options.fade) $modal.addClass('fade');
@@ -294,11 +301,12 @@
         }
 
         $modal.modal({
-            show       : 'show',
-            backdrop   : options.backdrop,
-            moveable   : options.moveable,
-            rememberPos: options.rememberPos,
-            keyboard   : options.keyboard
+            show         : 'show',
+            backdrop     : options.backdrop,
+            moveable     : options.moveable,
+            rememberPos  : options.rememberPos,
+            keyboard     : options.keyboard,
+            scrollInside : options.scrollInside,
         });
     };
 
@@ -366,6 +374,7 @@
             else $this.modalTrigger(option, settings);
         });
     };
+    $.fn.modal.bs = old;
 
     var getModal = function(modal) {
         if (!modal) {
