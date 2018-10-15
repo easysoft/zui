@@ -9,12 +9,11 @@
 /// GNU LESSER GENERAL PUBLIC LICENSE
 /// https://github.com/kindsoft/kindeditor/blob/master/license.txt
 /// ========================================================================
-
+@border-radius-base: 0;
 
 // Kindeditor theme in ZUI style
 
 /*! KindEditor Copyright (C) kindsoft.net, Licence: http://kindeditor.net/license.php */
-
 /* common */
 .ke-inline-block {
   display: -moz-inline-stack;
@@ -233,38 +232,46 @@
 /* statusbar */
 .ke-statusbar {
   position: absolute;
-  width: 100%;
   bottom: 0;
+  right: 0;
   background-color: @input-bg;
+  border-left: 1px solid @input-border;
   border-top: 1px solid @input-border;
+  width: 14px;
   font-size: 0;
   line-height: 0;
-  *height: 12px;
+  height: 14px;
   overflow: hidden;
   text-align: center;
+  transition: opacity .2s;
   cursor: s-resize;
   .opacity(0);
 
-  .ke-statusbar-center-icon,
-  .ke-statusbar-right-icon {
-    height: 11px;
-    background-image: url(themes/default/default.png);
-  }
-  .ke-statusbar-center-icon {
-    background-position: -0px -754px;
-    width: 15px;
+  .ke-statusbar-resize-icon {
+    position: relative;
+
+    &:before,
+    &:after {
+      left: -4px;
+      content: ' ';
+      display: block;
+      position: absolute;
+      top: 2px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 4px 4px 4px;
+      border-color: transparent transparent @color-gray transparent;
+    }
+    &:after {
+      top: 7px;
+      border-width: 4px 4px 0 4px;
+      border-color: @color-gray transparent transparent transparent;
+    }
   }
 
-  .ke-statusbar-right-icon {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    cursor: se-resize;
-    background-position: -5px -741px;
-    width: 11px;
-  }
-
-  &:hover {
+  &.ke-dragging,
+  .ke-container:hover & {
     .opacity(1);
   }
 }
@@ -404,8 +411,6 @@
   width: 100%;
   height: 100%;
   background-color: @modal-content-bg;
-  border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
-  border: 1px solid @modal-content-border-color;
   border-radius: @border-radius-base;
   overflow: hidden;
 }
@@ -417,7 +422,7 @@
   width: 100%;
   height: 100%;
   box-shadow: 0 3px 9px rgba(0,0,0,.5);
-
+  border-radius: @border-radius-base;
   background-color: #F0F0EE;
 }
 .ke-dialog-header {
@@ -435,7 +440,7 @@
 }
 .ke-dialog-icon-close {
   display: block;
-  background: url(default.png) no-repeat scroll 0 -688px;
+  background: url(themes/default/default.png) no-repeat scroll 0 -688px;
   width: 16px;
   height: 16px;
   position: absolute;
@@ -588,6 +593,8 @@
 
   .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
   .form-control-focus();
+
+  &[disabled] {background: #eee}
 }
 .ke-input-number {
   width: 50px;
@@ -732,7 +739,7 @@
 }
 .ke-swfupload-body .ke-delete {
   display: block;
-  background: url(default.png) no-repeat scroll 0 -688px;
+  background: url(themes/default/default.png) no-repeat scroll 0 -688px;
   width: 16px;
   height: 16px;
   position: absolute;
