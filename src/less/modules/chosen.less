@@ -423,3 +423,20 @@
     cursor: default;
   }
 }
+
+
+// Compact search
+.chosen-container-single .chosen-single > .chosen-search {
+  display: none;
+  opacity: 0;
+  padding: 3px 4px;
+  left: 0;
+  > input {
+    height: 25px;
+    padding: 2px 26px 2px 4px;
+    font-size: inherit;
+  }
+
+  &:before {top: 9px;}
+}
+.chosen-with-search.chosen-with-drop .chosen-single > .chosen-search {display: block; opacity: 1;}

@@ -17,7 +17,8 @@
  * 2. Enhance the search experience, support search items by custom data
  *    with 'data-keys=*' attribute in option;
  * 3. ‘middle_highlight’ option can make hightlight item in the middle of
- *    the dropdown menu
+ *    the dropdown menu;
+ * 4. 'compact_search' option
  * ======================================================================== */
 
 
@@ -203,6 +204,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.max_selected_options = this.options.max_selected_options || Infinity;
             this.drop_direction = this.options.drop_direction || 'auto';
             this.middle_highlight = this.options.middle_highlight;
+            this.compact_search = this.options.compact_search || true;
             this.inherit_select_classes = this.options.inherit_select_classes || false;
             this.display_selected_options = this.options.display_selected_options != null ? this.options.display_selected_options : true;
             return this.display_disabled_options = this.options.display_disabled_options != null ? this.options.display_disabled_options : true;
@@ -646,7 +648,10 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(this.is_multiple) {
                 this.container.html('<ul class="chosen-choices"><li class="search-field"><input type="text" value="' + this.default_text + '" class="default" autocomplete="off" style="width:25px;" /></li></ul><div class="chosen-drop"><ul class="chosen-results"></ul></div>');
             } else {
-                this.container.html('<a class="chosen-single chosen-default" tabindex="-1"><span>' + this.default_text + '</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off" /></div><ul class="chosen-results"></ul></div>');
+                this.container.html('<a class="chosen-single chosen-default" tabindex="-1"><span>' + this.default_text + '</span><div><b></b></div><div class="chosen-search"><input type="text" autocomplete="off" /></div></a><div class="chosen-drop"><ul class="chosen-results"></ul></div>');
+                if (this.compact_search) {
+                    this.container.find('.chosen-search').appendTo(this.container.find('.chosen-single'));
+                }
             }
             this.form_field_jq.hide().after(this.container);
             this.dropdown = this.container.find('div.chosen-drop').first();
@@ -861,9 +866,11 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 if(this.disable_search || this.form_field.options.length <= this.disable_search_threshold) {
                     this.search_field[0].readOnly = true;
                     this.container.addClass("chosen-container-single-nosearch");
+                    this.container.removeClass('chosen-with-search');
                 } else {
                     this.search_field[0].readOnly = false;
                     this.container.removeClass("chosen-container-single-nosearch");
+                    this.container.addClass('chosen-with-search');
                 }
             }
             this.update_results_content(this.results_option_build({
@@ -1132,6 +1139,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             /// ZUI change begin
             /// Change title with text
             ///         return this.selected_item.find("span").text(text); // old code
+            if (this.compact_search) {
+                this.search_field.attr('placeholder', text);
+            }
             return this.selected_item.find("span").attr('title', text).text(text);
             /// ZUI change end
         };
