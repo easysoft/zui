@@ -150,7 +150,8 @@
                         type: 'string',
                         ignore: $th.hasClass('ignore'),
                         sort: !$th.hasClass('sort-disabled'),
-                        mergeRows: $th.attr('merge-rows')
+                        mergeRows: $th.attr('merge-rows'),
+                        title: $th.attr('title')
                     }, $th.data()));
                 });
 
@@ -286,7 +287,8 @@
                 .attr({
                     'data-index': i,
                     'data-type': col.type,
-                    style: col.css
+                    style: col.css,
+                    title: col.title,
                 }).css('width', col.width);
             $tr.append($th);
         }
