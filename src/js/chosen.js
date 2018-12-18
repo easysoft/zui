@@ -116,6 +116,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                         group_array_index: group_position,
                         classes: option.className,
                         style: option.style.cssText,
+                        data: option.getAttribute('data-data'),
                         search_keys: ($.trim(option.getAttribute('data-keys') || '') + option.value).replace(/,/, ' ')
                     });
                 } else {
@@ -305,6 +306,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             option_el.style.cssText = option.style;
             option_el.title = option.title;
             option_el.setAttribute("data-option-array-index", option.array_index);
+            option_el.setAttribute("data-data", option.data);
             option_el.innerHTML = option.search_text;
             return this.outerHTML(option_el);
         };
@@ -887,6 +889,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(el.length) {
                 this.result_clear_highlight();
                 this.result_highlight = el;
+
                 this.result_highlight.addClass("highlighted");
                 maxHeight = parseInt(this.search_results.css("maxHeight"), 10);
                 resultHeight = this.result_highlight.outerHeight();
@@ -894,6 +897,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 visible_bottom = maxHeight + visible_top;
                 high_top = this.result_highlight.position().top + this.search_results.scrollTop();
                 high_bottom = high_top + resultHeight;
+
                 if(this.middle_highlight && (canMiddleHighlight || this.middle_highlight === 'always' || high_bottom >= visible_bottom || high_top < visible_top)) {
                     scrollTop = Math.min(high_top - resultHeight, Math.max(0, high_top - (maxHeight - resultHeight)/2));
                 } else if(high_bottom >= visible_bottom) {
@@ -903,6 +907,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 }
                 if(scrollTop > -1) {
                     this.search_results.scrollTop(scrollTop);
+                } else if (this.result_highlight.scrollIntoView) {
+                    this.result_highlight.scrollIntoView();
                 }
             }
         };
@@ -924,7 +930,6 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.results_showing = true;
             this.search_field.focus();
             this.search_field.val(this.search_field.val());
-            this.winnow_results(1);
 
             var dropDirection = this.drop_direction;
             if ($.isFunction(dropDirection))
@@ -944,6 +949,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 }
             }
             this.container.toggleClass('chosen-up', dropDirection === 'up').addClass("chosen-with-drop");
+
+            this.winnow_results(1);
 
             return this.form_field_jq.trigger("chosen:showing_dropdown", {
                 chosen: this
