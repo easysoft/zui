@@ -230,6 +230,7 @@
 
                             var $framebody = frame$('body').addClass('body-modal').toggleClass('body-modal-scroll-inside', scrollInside);
                             if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
+                            var frameSizeRecords = [];
                             var ajustFrameSize = function(check) {
                                 $modal.removeClass('fade');
                                 var height = $framebody.outerHeight();
@@ -247,6 +248,14 @@
                                     }
                                     var winHeight = $(window).height();
                                     height = Math.min(height, winHeight - headerHeight);
+
+                                }
+                                if (frameSizeRecords.length > 1 && height === frameSizeRecords[0]) {
+                                    height = Math.max(height, frameSizeRecords[1]);
+                                }
+                                frameSizeRecords.push(height);
+                                while (frameSizeRecords.length > 2) {
+                                    frameSizeRecords.shift();
                                 }
                                 $body.css('height', height);
                                 if(options.fade) $modal.addClass('fade');
