@@ -158,7 +158,7 @@ $('#myDataGrid').datagrid({
     // 用户界面提示消息，当请求结果失败时，可以使用此属性返回文本显示在用户界面上
     "message": "",
 
-    // 远程数据的分页信息对象（必须），其中 
+    // 远程数据的分页信息对象（必须），其中
     "pager": {
         "page": 1,           // 当前数据对应的页码
         "recTotal": 1001,    // 总的数据数目
@@ -707,7 +707,7 @@ $('#myDataGrid').datagrid({
         cols: [
             {
                 name: 'time',
-                label: '时间', 
+                label: '时间',
                 // 值转换器仅仅影响当前列
                 valueOperator: {
                     getter: function(dataValue, cell, dataGrid) {
@@ -826,7 +826,7 @@ $('#myDataGrid').datagrid({
         if (selector === 'R1C1') {
             return {color: 'red'};
         }
-    } 
+    }
 });
 ```
 
@@ -1103,13 +1103,13 @@ $('#myDataGrid').datagrid({
       <td><code>showMessage</code></td>
       <td>出现错误时是否显示消息</td>
       <td>默认为 `true`</td>
-      <td>该选项还可以设置为一个对象，用于指定漂浮消息初始化选项。</td>
+      <td></td>
     </tr>
     <tr>
       <td><code>mouseWheelFactor</code></td>
-      <td>出现错误时是否显示消息</td>
+      <td>滚动鼠标滚轮时的滚动速度</td>
       <td>默认为 `1`</td>
-      <td>该选项还可以设置为一个对象，用于指定漂浮消息初始化选项。</td>
+      <td></td>
     </tr>
   </tbody>
 </table>
