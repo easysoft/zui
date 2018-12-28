@@ -20,6 +20,7 @@
     var _VERSION = '4.1.9 (2013-10-08)',
         _ua = navigator.userAgent.toLowerCase(),
         _IE = _ua.indexOf('msie') > -1 && _ua.indexOf('opera') == -1,
+        _NEWIE = _ua.indexOf('msie') == -1 && _ua.indexOf('trident') > -1,
         _GECKO = _ua.indexOf('gecko') > -1 && _ua.indexOf('khtml') == -1,
         _WEBKIT = _ua.indexOf('applewebkit') > -1,
         _OPERA = _ua.indexOf('opera') > -1,
@@ -1368,17 +1369,14 @@
     function _getScrollPos(doc) {
         doc = doc || document;
         var x, y;
-        if(_IE || _OPERA) {
+        if (_IE || _NEWIE || _OPERA) {
             x = _docElement(doc).scrollLeft;
             y = _docElement(doc).scrollTop;
         } else {
             x = _getWin(doc).scrollX;
             y = _getWin(doc).scrollY;
         }
-        return {
-            x: x,
-            y: y
-        };
+        return {x : x, y : y};
     }
 
     function KNode(node) {
@@ -3724,10 +3722,10 @@
         },
         autoPos: function(width, height) {
             var self = this,
-                w = _removeUnit(width) || 0,
-                h = _removeUnit(height) || 0,
-                scrollPos = _getScrollPos();
-            if(self._alignEl) {
+			w = _removeUnit(width) || 0,
+			h = _removeUnit(height) || 0,
+            scrollPos = _getScrollPos();
+            if (self._alignEl) {
                 var knode = K(self._alignEl),
                     pos = knode.pos(),
                     diffX = _round(knode[0].clientWidth / 2 - w / 2),
@@ -3739,7 +3737,7 @@
                 x = _round(scrollPos.x + (docEl.clientWidth - w) / 2);
                 y = _round(scrollPos.y + (docEl.clientHeight - h) / 2);
             }
-            if(!(_IE && _V < 7 || _QUIRKS)) {
+            if (!(_IE && _V < 7 || _QUIRKS)) {
                 x -= scrollPos.x;
                 y -= scrollPos.y;
             }
@@ -6215,6 +6213,8 @@
                 } else {
                     cmd.range.selectNodeContents(div[0]);
                     cmd.select();
+                    div[0].tabIndex = -1;
+				    div[0].focus();
                 }
                 setTimeout(function() {
                     movePastedData();
