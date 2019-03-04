@@ -898,7 +898,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 high_top = this.result_highlight.position().top + this.search_results.scrollTop();
                 high_bottom = high_top + resultHeight;
 
-                if(this.middle_highlight && (canMiddleHighlight || this.middle_highlight === 'always' || high_bottom >= visible_bottom || high_top < visible_top)) {
+                if(this.middle_highlight && (canMiddleHighlight || this.middle_highlight === 'always')) {
                     scrollTop = Math.min(high_top - resultHeight, Math.max(0, high_top - (maxHeight - resultHeight)/2));
                 } else if(high_bottom >= visible_bottom) {
                     scrollTop = (high_bottom - maxHeight) > 0 ? high_bottom - maxHeight : 0;
