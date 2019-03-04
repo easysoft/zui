@@ -708,7 +708,9 @@
 					} else {
 						$form.removeAttr('target');
 					}
-					$(extraInputs).remove();
+					$.each(extraInputs, function() {
+						this.remove();
+					});
 				}
 			}
 
