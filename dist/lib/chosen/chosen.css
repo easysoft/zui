@@ -432,21 +432,21 @@
 .chosen-disabled .chosen-choices .search-choice .search-choice-close {
   cursor: default;
   }
-.chosen-container-single .chosen-single > .chosen-search {
+.chosen-compact.chosen-container-single .chosen-single > .chosen-search {
   left: 0;
   display: none;
   padding: 3px 4px;
   opacity: 0;
   }
-.chosen-container-single .chosen-single > .chosen-search > input {
+.chosen-compact.chosen-container-single .chosen-single > .chosen-search > input {
   height: 25px;
   padding: 2px 26px 2px 4px;
   font-size: inherit;
   }
-.chosen-container-single .chosen-single > .chosen-search:before {
+.chosen-compact.chosen-container-single .chosen-single > .chosen-search:before {
   top: 9px;
   }
-.chosen-with-search.chosen-with-drop .chosen-single > .chosen-search {
+.chosen-compact.chosen-with-search.chosen-with-drop .chosen-single > .chosen-search {
   display: block;
   opacity: 1;
   }
