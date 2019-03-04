@@ -68,12 +68,24 @@
       "license": "Apache 2.0",
       "website": "https://github.com/google/code-prettify"
     },
+    "cookie": {
+      "name": "jQuery Cookie Plugin",
+      "pver": "1.4.1",
+      "ver": "1.8.0",
+      "src": {
+        "js": ["src/js/cookie.js"]
+      },
+      "desc": "A simple, lightweight jQuery plugin for reading, writing and deleting cookies.",
+      "source": "Klaus Hartl",
+      "license": "MIT",
+      "website": "https://github.com/carhartl/jquery-cookie"
+    },
     "jquery.form": {
       "name": "jQuery Form",
       "pver": "1.8.0",
       "ver": "4.2.2",
       "src": {
-        "js": ["assets/form/jquery.form.min.js"]
+        "js": ["assets/form/jquery.form.js"]
       },
       "desc": "jQuery Form Plugin",
       "source": "jquery-form",
@@ -1307,6 +1319,16 @@
       "license": "MIT",
       "website": "https://github.com/chjj/marked"
     },
+    "markdoc": {
+      "name": "Markdown 文档生成器",
+      "src": {
+        "js": ["src/js/markdoc.js"]
+      },
+      "filename": "zui.markdoc",
+      "ver": "1.9.0",
+      "dpds": ["marked"],
+      "ignoreDpds": false
+    },
     "less": {
       "name": "Less",
       "src": {
@@ -1424,7 +1446,7 @@
     },
     "seperate": {
       "title": "Seperate bundles",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap", "ajaxFake"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap", "ajaxFake", "markdoc"]
     },
     "dist": {
       "title": "Dist bundles",
