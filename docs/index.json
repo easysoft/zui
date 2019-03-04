@@ -267,7 +267,7 @@
             },
             {
               "name": "[1.8] 输入框",
-              "url": "#component/input-control"
+              "url": "#component/inputcontrol"
             },
             {
               "name": "[1.8] 搜索框",
@@ -928,7 +928,7 @@
         {
           "desc": "带图标或标签的输入框",
           "icon": "icon-pencil",
-          "id": "input-control",
+          "id": "inputcontrol",
           "name": "输入框",
           "version": "1.8.0",
           "topics": [
