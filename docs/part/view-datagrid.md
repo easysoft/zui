@@ -1407,6 +1407,32 @@ $('#dataGrid').on('onLoad', function(event, result) {
 });
 ```
 
+### `onSelectRow`
+
+当选中或取消选中表格行时触发，其中回调函数参数包括：
+
+* `rowId`：选中状态变更的行 ID；
+* `checked`：`true` 表示选中，`false` 表示取消选中；
+* `selections`：当前所有选中的行。
+
+```js
+// 在初始化的时候设置事件回调函数
+$('#dataGrid').datagrid({
+    onSelectRow: function(rowId, checked, selections) {
+        console.log('行', rowID, checked ? '选中了' : '取消选中了');
+    }
+});
+```
+
+```js
+// 使用 jquery 的 $().on() 方法监听事件
+$('#dataGrid').on('onLoad', function(event, result) {
+    if (result === false) {
+        console.log('数据加载失败。');
+    }
+});
+```
+
 <script src="dist/lib/selectable/zui.selectable.js"></script>
 <script src="dist/lib/datagrid/zui.datagrid.js"></script>
 <link href="dist/lib/datagrid/zui.datagrid.css" rel="stylesheet">
@@ -1590,7 +1616,10 @@ function afterPageLoad() {
         renderDelay: 200,
         checkable: true,
         sortable: true,
-        hoverCell: true
+        hoverCell: true,
+        onSelectRow: function(rowIndex, checked, selections) {
+          console.log('>', rowIndex, checked, selections);
+        }
     });
     var simpleDataSource = {
           cols: sampleData.dataSource.cols,

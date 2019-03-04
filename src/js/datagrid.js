@@ -1043,6 +1043,7 @@
             }
         }
         that.renderFixeds();
+        that.$.callComEvent(that, 'onSelectRow', [rowId, checked, selections]);
         return checked;
     };
 
