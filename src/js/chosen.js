@@ -205,7 +205,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.max_selected_options = this.options.max_selected_options || Infinity;
             this.drop_direction = this.options.drop_direction || 'auto';
             this.middle_highlight = this.options.middle_highlight;
-            this.compact_search = this.options.compact_search || true;
+            this.compact_search = this.options.compact_search || false;
             this.inherit_select_classes = this.options.inherit_select_classes || false;
             this.display_selected_options = this.options.display_selected_options != null ? this.options.display_selected_options : true;
             return this.display_disabled_options = this.options.display_disabled_options != null ? this.options.display_disabled_options : true;
@@ -652,7 +652,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             } else {
                 this.container.html('<a class="chosen-single chosen-default" tabindex="-1"><span>' + this.default_text + '</span><div><b></b></div><div class="chosen-search"><input type="text" autocomplete="off" /></div></a><div class="chosen-drop"><ul class="chosen-results"></ul></div>');
                 if (this.compact_search) {
-                    this.container.find('.chosen-search').appendTo(this.container.find('.chosen-single'));
+                    this.container.addClass('chosen-compact').find('.chosen-search').appendTo(this.container.find('.chosen-single'));
+                } else {
+                    this.container.find('.chosen-search').prependTo(this.container.find('.chosen-drop'));
                 }
             }
             this.form_field_jq.hide().after(this.container);
