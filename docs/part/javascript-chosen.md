@@ -2,7 +2,7 @@
 id: chosen
 description: 提供数据选择和筛选功能
 icon: icon-search
-filter: 
+filter:
 ---
 
 # Chosen
@@ -114,6 +114,38 @@ $('select.chosen-select').chosen({
   <p>扩展检索本身并不提供拼音检索功能，如果你需要支持使用拼音检索时，需要你自己在chosen初始化之前在<code>data-keys</code>属性中写入拼音字符串。</p>
 </div>
 
+### 紧凑的单项选择
+
+使用 `compact_search` 选项来应用更加紧凑的单选选择框，搜索框与选择框合并一起显示。
+
+<div class="example">
+  <select class="chosen-select form-control" data-compact_search="true">
+    <option value=""></option>
+    <option value="cat">小猫</option>
+    <option value="fish">金鱼</option>
+    <option value="dragon">龙</option>
+    <option value="mammoth">猛犸</option>
+    <option value="gollum">咕噜</option>
+  </select>
+</div>
+
+```html
+<select class="chosen-select form-control">
+  <option value=""></option>
+  <option value="cat">小猫</option>
+  <option value="fish">金鱼</option>
+  <option value="dragon">龙</option>
+  <option value="mammoth">猛犸</option>
+  <option value="gollum">咕噜</option>
+</select>
+```
+
+```js
+$('select.chosen-select').chosen({
+    compact_search: true           // 启用紧凑的单项选择
+});
+```
+
 ## 用法
 
 ### 引入资源
@@ -217,6 +249,12 @@ Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的
       <td>启用任意位置检索</td>
       <td>默认为`false`</td>
       <td>默认情况下，仅仅会从选项或检索关键字的开始进行匹配，例如`"he"`仅仅能匹配`"hello"`，不能匹配`"ahead"`，如果启用此选项，则可以从关键的任意位置进行匹配。</td>
+    </tr>
+    <tr>
+      <td>`compact_search`</td>
+      <td>是否启用紧凑的单选选择外观</td>
+      <td>默认为`false`</td>
+      <td>如果设置为 `true`，则搜索框与选择框合并一起显示。</td>
     </tr>
     <tr>
       <td>`single_backstroke_delete`</td>
@@ -397,11 +435,15 @@ $('select.chosen-icons').chosenIcons(options);
 <script>
 function onPageLoad() {return false;}
 function afterPageLoad() {
-    if($.fn.chosen) $('#pageBody .chosen-select').chosen({
-        allow_single_deselect: true,
-        search_contains: true,
-        width: '100%'
-    });
+    if($.fn.chosen) {
+        $('#pageBody .chosen-select').each(function() {
+            $(this).chosen($.extend({
+                allow_single_deselect: true,
+                search_contains: true,
+                width: '100%'
+            }, $(this).data()));
+        });
+    }
     if($.fn.chosenIcons) $('#chosenIcons').chosenIcons();
     setTimeout($.doc.stopPageLoading, 500);
 }

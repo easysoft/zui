@@ -431,6 +431,12 @@ myModalTrigger.show();
 *   自定义加载动画所使用的html</td>
       <td>`icon-*`定义的图标名称请参考[图标](#search/icon:spin)。</td>
     </tr>
+    <tr>
+      <td>`scrollInside`</td>
+      <td>是否在对话框内部显示滚动条</td>
+      <td>默认为 `false`，即在对话框所属的页面上显示滚动条</td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 

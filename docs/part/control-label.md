@@ -88,8 +88,8 @@ filter: biaoqian bq
 ### 小圆点徽标
 
 <div class="example">
-    <span class="label label-dot">12</span> <span class="label label-dot label-info">Primary</span> <span class="label label-dot label-info">Success</span> <span class="label label-dot label-info">Info</span> <span class="label label-dot label-warning">Warning</span> <span class="label label-dot label-danger">Danger</span>
-  </div>
+  <span class="label label-dot">12</span> <span class="label label-dot label-info">Primary</span> <span class="label label-dot label-info">Success</span> <span class="label label-dot label-info">Info</span> <span class="label label-dot label-warning">Warning</span> <span class="label label-dot label-danger">Danger</span>
+</div>
 
 ```html
 <span class="label label-dot">Default</span>
@@ -113,6 +113,49 @@ filter: biaoqian bq
 
 ```html
 <span class="label label-dot label-danger">Danger</span>
+```
+
+### 轮廓外观
+
+使用 `.label-outline` 来为标签应用轮廓外观。
+
+<div class="example">
+  <span class="label label-outline">Default</span>
+  <span class="label label-primary label-outline">Primary</span>
+  <span class="label label-success label-outline">Success</span>
+  <span class="label label-info label-outline">Info</span>
+  <span class="label label-warning label-outline">Warning</span>
+  <span class="label label-danger label-outline">Danger</span>
+</div>
+
+```html
+<span class="label label-primary label-outline">Primary</span>
+```
+
+<div class="example">
+  <span class="label label-badge label-outline">Default</span>
+  <span class="label label-badge label-primary label-outline">Primary</span>
+  <span class="label label-badge label-success label-outline">Success</span>
+  <span class="label label-badge label-info label-outline">Info</span>
+  <span class="label label-badge label-warning label-outline">Warning</span>
+  <span class="label label-badge label-danger label-outline">Danger</span>
+</div>
+
+```html
+<span class="label label-badge label-primary label-outline">Primary</span>
+```
+
+<div class="example">
+  <span class="label label-dot label-outline">Default</span>
+  <span class="label label-dot label-primary label-outline">Primary</span>
+  <span class="label label-dot label-success label-outline">Success</span>
+  <span class="label label-dot label-info label-outline">Info</span>
+  <span class="label label-dot label-warning label-outline">Warning</span>
+  <span class="label label-dot label-danger label-outline">Danger</span>
+</div>
+
+```html
+<span class="label label-dot label-primary label-outline">Primary</span>
 ```
 
 ### 按钮中的徽标

@@ -399,6 +399,18 @@ var uploader = $('#myUploader').data('zui.uploader');
       </td>
     </tr>
     <tr>
+      <td>`autoResetFails`</td>
+      <td>是否自动重置上传失败的文件</td>
+      <td>`false`（默认）</td>
+      <td>
+        <p>可选值如下：</p>
+        <ul>
+          <li>`false`，不自动重置上传失败的文件；</li>
+          <li>`true`，自动重置上传失败的文件；</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td>`removeUploaded`</td>
       <td>移除已上传文件</td>
       <td>`false`（默认）或 `true`</td>
@@ -729,7 +741,7 @@ var uploader = $('#myUploader').data('zui.uploader');
   <thead>
     <tr>
       <th>属性</th>
-      <td>说明</td> 
+      <td>说明</td>
     </tr>
   </thead>
   <tbody>

@@ -126,6 +126,18 @@ $('#sortableList').sortable();
       <td>当有元素被拖动时添加到父级元素上的类。</td>
     </tr>
     <tr>
+      <td>`dropToClass`</td>
+      <td>拖动时添加到拖动元素上的类</td>
+      <td>默认 `'drop-to'`</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>`stopPropagation`</td>
+      <td>是否阻止元素上的事件冒泡</td>
+      <td>默认 `false`</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>`mouseButton`</td>
       <td>响应的鼠标按钮</td>
       <td>默认为 `'all'`</td>

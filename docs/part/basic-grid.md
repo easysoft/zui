@@ -70,3 +70,7 @@ filter: zhagexitong zgxt
     </tr>
   </tbody>
 </table>
+
+## 非响应式栅格
+
+ZUI 中还包含了一些辅助类用与快捷应用栅格宽度，但不受响应式规则的影响。这些辅助类为 `.col-1`、`.col-2` ~ `.col-12`。
