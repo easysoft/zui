@@ -760,6 +760,30 @@
           "filter": "jindutiao jdt"
         },
         {
+          "desc": "用于在已有控件上提供正在加载中的样式。",
+          "icon": "icon-spinner",
+          "id": "loading",
+          "name": "加载指示器",
+          "topics": [
+            {
+              "name": "基本类型"
+            },
+            {
+              "name": "包含提示文本示例"
+            },
+            {
+              "name": "使用 JS 控制"
+            },
+            {
+              "name": "修改图标"
+            },
+            {
+              "name": "与其他组件一起使用"
+            }
+          ],
+          "filter": "jiazaizhishiqi jzzsq jzzhshq load indicator spin"
+        },
+        {
           "desc": "使用标签",
           "icon": "icon-tags",
           "id": "label",
