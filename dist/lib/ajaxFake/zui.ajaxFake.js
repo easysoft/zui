@@ -1,8 +1,8 @@
 /*!
- * ZUI: Ajax 响应模拟工具 - v1.8.1 - 2018-04-08
+ * ZUI: Ajax 响应模拟工具 - v1.9.0 - 2019-03-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================

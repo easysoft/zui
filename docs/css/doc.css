@@ -1,8 +1,8 @@
 /*!
- * ZUI: Document - v1.8.1 - 2018-01-18
+ * ZUI: Document - v1.9.0 - 2019-03-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019 cnezsoft.com; Licensed MIT
  */
 
 .colorset {
@@ -12,10 +12,8 @@
   }
 .colorset:before,
 .colorset:after {
-  /* 1 */
   display: table;
   content: " ";
-  /* 2 */
   }
 .colorset:after {
   clear: both;
@@ -2593,9 +2591,6 @@ body {
 #searchInput::-moz-placeholder {
   color: #e5e5e5;
   }
-#searchInput:-ms-input-placeholder {
-  color: #e5e5e5;
-  }
 #searchInput::placeholder {
   color: #e5e5e5;
   }
@@ -2603,9 +2598,6 @@ body {
   color: rgba(255, 255, 255, .5);
   }
 #searchInput::-moz-placeholder {
-  color: rgba(255, 255, 255, .5);
-  }
-#searchInput:-ms-input-placeholder {
   color: rgba(255, 255, 255, .5);
   }
 #searchInput::placeholder {
@@ -3039,10 +3031,8 @@ body.ad-hover.ad-xuanxuan #download .btn-white {
   }
 #grid .card-content > ul[data-view="icons"]:before,
 #grid .card-content > ul[data-view="icons"]:after {
-  /* 1 */
   display: table;
   content: " ";
-  /* 2 */
   }
 #grid .card-content > ul[data-view="icons"]:after {
   clear: both;
@@ -4883,9 +4873,6 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
   body.compact-mode #searchInput::-moz-placeholder {
     color: transparent;
     }
-  body.compact-mode #searchInput:-ms-input-placeholder {
-    color: transparent;
-    }
   body.compact-mode #searchInput::placeholder {
     color: transparent;
     }
@@ -4902,9 +4889,6 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
   body.input-query-focus.compact-mode #searchInput::-moz-placeholder {
     color: #e5e5e5;
     }
-  body.input-query-focus.compact-mode #searchInput:-ms-input-placeholder {
-    color: #e5e5e5;
-    }
   body.input-query-focus.compact-mode #searchInput::placeholder {
     color: #e5e5e5;
     }
@@ -4912,9 +4896,6 @@ body.page-show[data-page-accent="purple"] #pageTogger:hover:after {
     color: rgba(255, 255, 255, .5);
     }
   body.input-query-focus.compact-mode #searchInput::-moz-placeholder {
-    color: rgba(255, 255, 255, .5);
-    }
-  body.input-query-focus.compact-mode #searchInput:-ms-input-placeholder {
     color: rgba(255, 255, 255, .5);
     }
   body.input-query-focus.compact-mode #searchInput::placeholder {
@@ -5050,12 +5031,6 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
          -o-transition: color .2s;
             transition: color .2s;
     }
-  body.view-double.compact-mode-in.page-open #searchInput:-ms-input-placeholder {
-    color: transparent;
-    -webkit-transition: color .2s;
-         -o-transition: color .2s;
-            transition: color .2s;
-    }
   body.view-double.compact-mode-in.page-open #searchInput::placeholder {
     color: transparent;
     -webkit-transition: color .2s;
@@ -5072,9 +5047,6 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
     color: rgba(255, 255, 255, .5);
     }
   body.view-double.compact-mode-in.page-open.input-query-focus #searchInput::-moz-placeholder {
-    color: rgba(255, 255, 255, .5);
-    }
-  body.view-double.compact-mode-in.page-open.input-query-focus #searchInput:-ms-input-placeholder {
     color: rgba(255, 255, 255, .5);
     }
   body.view-double.compact-mode-in.page-open.input-query-focus #searchInput::placeholder {

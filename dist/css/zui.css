@@ -1,8 +1,8 @@
 /*!
- * ZUI: Standard edition - v1.8.1 - 2018-04-08
+ * ZUI: Standard edition - v1.9.0 - 2019-03-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -4165,9 +4165,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .form-control::-moz-placeholder {
   color: #808080;
   }
-.form-control:-ms-input-placeholder {
-  color: #808080;
-  }
 .form-control::placeholder {
   color: #808080;
   }
@@ -4209,6 +4206,7 @@ fieldset[disabled] .form-control {
   }
 textarea.form-control {
   height: auto;
+  min-height: 32px;
   }
 .form-group {
   margin-bottom: 15px;
@@ -4786,6 +4784,18 @@ button.close {
   background: transparent;
   border: 0;
   }
+.scrollbar-hover::-webkit-scrollbar,
+.scrollbar-hover::-webkit-scrollbar-button,
+.scrollbar-hover::-webkit-scrollbar-track,
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  visibility: hidden;
+  }
+.scrollbar-hover:hover::-webkit-scrollbar,
+.scrollbar-hover:hover::-webkit-scrollbar-button,
+.scrollbar-hover:hover::-webkit-scrollbar-track,
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
+  }
 @media (min-width: 768px) {
   ::-webkit-scrollbar {
     width: 10px;
@@ -4821,7 +4831,6 @@ button.close {
     }
   ::-webkit-scrollbar-thumb {
     min-height: 28px;
-    padding-top: 100;
     background-color: rgba(0, 0, 0, .2);
     -webkit-background-clip: padding-box;
             background-clip: padding-box;
@@ -4849,18 +4858,6 @@ button.close {
   ::-webkit-scrollbar-track:active {
     background-color: rgba(0, 0, 0, .05);
     -webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .14), inset -1px -1px 0 rgba(0, 0, 0, .07);
-    }
-  .scrollbar-hover::-webkit-scrollbar,
-  .scrollbar-hover::-webkit-scrollbar-button,
-  .scrollbar-hover::-webkit-scrollbar-track,
-  .scrollbar-hover::-webkit-scrollbar-thumb {
-    visibility: hidden;
-    }
-  .scrollbar-hover:hover::-webkit-scrollbar,
-  .scrollbar-hover:hover::-webkit-scrollbar-button,
-  .scrollbar-hover:hover::-webkit-scrollbar-track,
-  .scrollbar-hover:hover::-webkit-scrollbar-thumb {
-    visibility: visible;
     }
   }
 table {
@@ -6884,7 +6881,6 @@ tbody.collapse.in {
   display: none;
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
-  pointer-events: none;
   outline: 0;
   }
 .modal.fade .modal-dialog {
@@ -6925,12 +6921,16 @@ tbody.collapse.in {
   overflow-x: hidden;
   overflow-y: auto;
   }
+.modal-iframe .modal-body {
+  overflow: hidden!important;
+  }
 .modal-iframe .modal-body > iframe {
   border-radius: 0 0 6px 6px;
   }
 .modal-dialog {
   position: relative;
   width: auto;
+  margin: 0 auto;
   pointer-events: initial;
   background-color: #fff;
   -webkit-background-clip: padding-box;
@@ -7008,7 +7008,6 @@ tbody.collapse.in {
 @media (min-width: 768px) {
   .modal-dialog {
     width: 600px;
-    margin: 30px auto;
     -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
             box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
     }
@@ -7036,6 +7035,9 @@ tbody.collapse.in {
   bottom: 0;
   left: 0;
   overflow-y: auto;
+  }
+.body-modal-scroll-inside {
+  overflow: auto;
   }
 .tooltip {
   position: absolute;
@@ -7682,6 +7684,7 @@ tbody.collapse.in {
   }
 .dropdown-submenu > .dropdown-menu.pull-left {
   right: 100%;
+  left: auto;
   }
 .dropdown-submenu:hover > a,
 .dropdown-submenu:focus > a {
@@ -8199,9 +8202,9 @@ tbody.collapse.in {
 .article-content img {
   margin: 10px 0;
   }
-.article > .content p > img,
-.article-content p > img {
-  margin-right: 10px;
+.article > .content p > img + img,
+.article-content p > img + img {
+  margin-left: 10px;
   }
 .article > .content p > img[align='right'],
 .article-content p > img[align='right'] {

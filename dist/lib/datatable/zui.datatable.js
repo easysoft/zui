@@ -1,8 +1,8 @@
 /*!
- * ZUI: 数据表格 - v1.8.1 - 2018-04-08
+ * ZUI: 数据表格 - v1.9.0 - 2019-03-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -157,7 +157,8 @@
                         type: 'string',
                         ignore: $th.hasClass('ignore'),
                         sort: !$th.hasClass('sort-disabled'),
-                        mergeRows: $th.attr('merge-rows')
+                        mergeRows: $th.attr('merge-rows'),
+                        title: $th.attr('title')
                     }, $th.data()));
                 });
 
@@ -293,7 +294,8 @@
                 .attr({
                     'data-index': i,
                     'data-type': col.type,
-                    style: col.css
+                    style: col.css,
+                    title: col.title,
                 }).css('width', col.width);
             $tr.append($th);
         }
@@ -518,16 +520,13 @@
         // handle srcoll for flex area
         if(data.flexArea) {
             var $scrollbar = $datatable.find('.scroll-slide'),
-                // $flexArea = $datatable.find('.datatable-span.flexarea .table'),
                 $flexArea = $datatable.find('.datatable-span.flexarea'),
                 $fixedLeft = $datatable.find('.datatable-span.fixed-left'),
-                // $flexTable = $datatable.find('.datatable-rows-span.flexarea .table');
                 $flexTable = $datatable.find('.datatable-span.flexarea .table-datatable');
             var $bar = $scrollbar.children('.bar'),
                 flexWidth,
                 scrollWidth,
                 tableWidth,
-                lastBarLeft,
                 barLeft,
                 scrollOffsetStoreName = that.id + '_' + 'scrollOffset',
                 firtScroll,
@@ -546,7 +545,6 @@
                 $bar.css('left', barLeft);
                 left = 0 - Math.floor((tableWidth - flexWidth) * barLeft / (flexWidth - scrollWidth));
                 $flexTable.css('left', left);
-                lastBarLeft = barLeft;
 
                 $datatable.toggleClass('scrolled-in', barLeft > 2)
                     .toggleClass('scrolled-out', barLeft < flexWidth - scrollWidth - 2);
@@ -554,13 +552,15 @@
                 if(options.storage) store.pageSet(scrollOffsetStoreName, barLeft);
             };
             var resizeScrollbar = function() {
-                flexWidth = $flexArea.width();
+                flexWidth = $flexArea.width() - 2;
                 $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
                 tableWidth = 0;
-                tableWidth = $flexTable.width();
+                $flexTable.first().find('tr:first').children('td,th').each(function() {
+                    tableWidth += $(this).outerWidth();
+                });
                 scrollWidth = Math.floor((flexWidth * flexWidth) / tableWidth);
                 $bar.css('width', scrollWidth);
-                $flexTable.css('min-width', flexWidth);
+                $flexTable.css('min-width', Math.max(flexWidth, tableWidth));
                 $datatable.toggleClass('show-scroll-slide', tableWidth > flexWidth);
 
                 if(!firtScroll && flexWidth !== scrollWidth) {
@@ -572,7 +572,6 @@
                     srollTable(barLeft, true);
                 }
             };
-            // $scrollbar.resize(resizeScrollbar); // todo: unuseful?
             $flexArea.resize(resizeScrollbar);
             if(options.storage) resizeScrollbar();
 

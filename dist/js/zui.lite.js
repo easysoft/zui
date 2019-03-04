@@ -1,8 +1,8 @@
 /*!
- * ZUI: Lite edition - v1.8.1 - 2018-04-08
+ * ZUI: Lite edition - v1.9.0 - 2019-03-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -564,7 +564,7 @@
  * ======================================================================== */
 
 
-(function($) {
+(function ($) {
     'use strict';
 
     var browseHappyTip = {
@@ -574,11 +574,11 @@
     };
 
     // The browser modal class
-    var Browser = function() {
+    var Browser = function () {
         var ie = this.isIE() || this.isIE10() || false;
-        if(ie) {
-            for(var i = 10; i > 5; i--) {
-                if(this.isIE(i)) {
+        if (ie) {
+            for (var i = 10; i > 5; i--) {
+                if (this.isIE(i)) {
                     ie = i;
                     break;
                 }
@@ -591,12 +591,12 @@
     };
 
     // Append CSS class to html tag
-    Browser.prototype.cssHelper = function() {
+    Browser.prototype.cssHelper = function () {
         var ie = this.ie,
             $html = $('html');
         $html.toggleClass('ie', ie)
             .removeClass('ie-6 ie-7 ie-8 ie-9 ie-10');
-        if(ie) {
+        if (ie) {
             $html.addClass('ie-' + ie)
                 .toggleClass('gt-ie-7 gte-ie-8 support-ie', ie >= 8)
                 .toggleClass('lte-ie-7 lt-ie-8 outdated-ie', ie < 8)
@@ -608,9 +608,9 @@
     };
 
     // Show browse happy tip
-    Browser.prototype.tip = function(showCoontent) {
+    Browser.prototype.tip = function (showCoontent) {
         var $browseHappy = $('#browseHappyTip');
-        if(!$browseHappy.length) {
+        if (!$browseHappy.length) {
             $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger-inverse alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
             $browseHappy.prependTo('body');
         }
@@ -619,15 +619,15 @@
     };
 
     // Detect it is IE, can given a version
-    Browser.prototype.isIE = function(version) {
-        if(version === 10) return this.isIE10();
+    Browser.prototype.isIE = function (version) {
+        if (version === 10) return this.isIE10();
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
         return b.getElementsByTagName('i').length === 1;
     };
 
     // Detect ie 10 with hack
-    Browser.prototype.isIE10 = function() {
+    Browser.prototype.isIE10 = function () {
         return (/*@cc_on!@*/false);
     };
 
@@ -635,9 +635,9 @@
         browser: new Browser()
     });
 
-    $(function() {
-        if(!$('body').hasClass('disabled-browser-tip')) {
-            if($.zui.browser.ie && $.zui.browser.ie < 8) {
+    $(function () {
+        if (!$('body').hasClass('disabled-browser-tip')) {
+            if ($.zui.browser.ie && $.zui.browser.ie < 8) {
                 $.zui.browser.tip();
             }
         }
@@ -1673,7 +1673,9 @@
         show: true,
         // rememberPos: false,
         // moveable: false,
-        position: 'fit' // 'center' or '40px' or '10%',
+        position: 'fit', // 'center' or '40px' or '10%',
+        // scrollInside: false,
+        // headerHeight: 'auto',
     };
 
     var setDialogPos = function($dialog, pos) {
@@ -1691,20 +1693,38 @@
         var that = this;
         var options = that.options;
         if(position === undefined) position = options.position;
-        if(position === undefined) return;
+        if(position === undefined || position === null) return;
         if ($.isFunction(position)) {
             position = position(that);
         }
         var $dialog = that.$element.find('.modal-dialog');
+        var winHeight = $(window).height();
 
-        var half = Math.max(0, ($(window).height() - $dialog.outerHeight()) / 2);
-        if (position === 'fit') {
-            position = {marginTop: half * 2 / 3};
-        } else if (position === 'center') {
-            position = {marginTop: half};
-        } else if (!$.isPlainObject(position)) {
-            position = {marginTop: position};
+        var bodyCss = {maxHeight: 'initial', overflow: 'visible'};
+        var $body = $dialog.find('.modal-body').css(bodyCss);
+        if (options.scrollInside) {
+            var headerHeight = options.headerHeight;
+            if (typeof headerHeight !== 'number') {
+                headerHeight = $dialog.find('.modal-header').height();
+            } else if ($.isFunction(headerHeight)) {
+                headerHeight = headerHeight($header);
+            }
+            bodyCss.maxHeight = winHeight - headerHeight;
+            if ($body.outerHeight() > bodyCss.maxHeight) {
+                bodyCss.overflow = 'auto';
+            }
         }
+        $body.css(bodyCss);
+
+        var half = Math.max(0, (winHeight - $dialog.outerHeight()) / 2);
+        if (position === 'fit') {
+            position = {top: half > 50 ? Math.floor(half * 2 / 3) : half};
+        } else if (position === 'center') {
+            position = {top: half};
+        } else if (!$.isPlainObject(position)) {
+            position = {top: position};
+        }
+
         if($dialog.hasClass('modal-moveable')) {
             var pos = null;
             var rememberPos = options.rememberPos;
@@ -1738,7 +1758,10 @@
                 container: that.$element,
                 handle: '.modal-header',
                 before: function() {
-                    $dialog.css('margin-top', '').addClass('modal-dragged');
+                    var marginTop = $dialog.css('margin-top');
+                    if (marginTop && marginTop !== '0px') {
+                        $dialog.css('top', marginTop).css('margin-top', '').addClass('modal-dragged');
+                    }
                 },
                 finish: function(e) {
                     var rememberPos = options.rememberPos;
@@ -1764,6 +1787,8 @@
 
         that.$element.trigger(e)
 
+        that.$element.toggleClass('modal-scroll-inside', !!that.options.scrollInside);
+
         if(that.isShown || e.isDefaultPrevented()) return
 
         that.isShown = true
@@ -1778,7 +1803,10 @@
 
         that.escape()
 
-        that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]', $.proxy(that.hide, that))
+        that.$element.on('click.dismiss.' + zuiname, '[data-dismiss="modal"]',function(e) {
+            that.hide();
+            e.stopPropagation();
+        })
 
         that.backdrop(function() {
             var transition = $.support.transition && that.$element.hasClass('fade')
@@ -2068,7 +2096,9 @@
         backdrop: true,
         keyboard: true,
         waittime: 0,
-        loadingIcon: 'icon-spinner-indicator'
+        loadingIcon: 'icon-spinner-indicator',
+        scrollInside: false,
+        // headerHeight: 'auto',
     };
 
     ModalTrigger.prototype.init = function(options) {
@@ -2130,7 +2160,10 @@
     };
 
     ModalTrigger.prototype.show = function(option) {
-        var options = $.extend({}, this.options, {url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url}, option);
+        var options = $.extend({}, this.options, {
+            url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url
+        }, option);
+
         this.init(options);
         var that = this,
             $modal = this.$modal,
@@ -2142,7 +2175,8 @@
 
         $modal.toggleClass('fade', options.fade)
             .addClass(options.className)
-            .toggleClass('modal-loading', !this.isShown);
+            .toggleClass('modal-loading', !this.isShown)
+            .toggleClass('modal-scroll-inside', !!options.scrollInside);
 
         $dialog.toggleClass('modal-md', options.size === 'md')
             .toggleClass('modal-sm', options.size === 'sm')
@@ -2231,6 +2265,7 @@
 
                 var frame = document.getElementById(iframeName);
                 frame.onload = frame.onreadystatechange = function() {
+                    var scrollInside = !!options.scrollInside;
                     if(that.firstLoad) $modal.addClass('modal-loading');
                     if(this.readyState && this.readyState != 'complete') return;
                     that.firstLoad = false;
@@ -2238,20 +2273,40 @@
                     if(options.waittime > 0) {
                         clearTimeout(that.waitTimeout);
                     }
-
                     try {
                         $modal.attr('ref', frame.contentWindow.location.href);
                         var frame$ = window.frames[iframeName].$;
                         if(frame$ && options.height === 'auto' && options.size != 'fullscreen') {
                             // todo: update iframe url to ref attribute
-                            var $framebody = frame$('body').addClass('body-modal');
+
+                            var $framebody = frame$('body').addClass('body-modal').toggleClass('body-modal-scroll-inside', scrollInside);
                             if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
+                            var frameSizeRecords = [];
                             var ajustFrameSize = function(check) {
                                 $modal.removeClass('fade');
                                 var height = $framebody.outerHeight();
                                 if(check === true && options.onlyIncreaseHeight) {
                                     height = Math.max(height, $body.data('minModalHeight') || 0);
                                     $body.data('minModalHeight', height);
+                                }
+                                if (scrollInside)
+                                {
+                                    var headerHeight = options.headerHeight;
+                                    if (typeof headerHeight !== 'number') {
+                                        headerHeight = $header.height();
+                                    } else if ($.isFunction(headerHeight)) {
+                                        headerHeight = headerHeight($header);
+                                    }
+                                    var winHeight = $(window).height();
+                                    height = Math.min(height, winHeight - headerHeight);
+
+                                }
+                                if (frameSizeRecords.length > 1 && height === frameSizeRecords[0]) {
+                                    height = Math.max(height, frameSizeRecords[1]);
+                                }
+                                frameSizeRecords.push(height);
+                                while (frameSizeRecords.length > 2) {
+                                    frameSizeRecords.shift();
                                 }
                                 $body.css('height', height);
                                 if(options.fade) $modal.addClass('fade');
@@ -2265,14 +2320,13 @@
 
                             setTimeout(ajustFrameSize, 100);
 
-                            $framebody.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                            $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                            if (scrollInside) {
+                                $(window).off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                            }
                         } else {
                             readyToShow();
                         }
-
-                        frame$.extend({
-                            closeModal: window.closeModal
-                        });
                     } catch(e) {
                         readyToShow();
                     }
@@ -2307,26 +2361,28 @@
         }
 
         $modal.modal({
-            show       : 'show',
-            backdrop   : options.backdrop,
-            moveable   : options.moveable,
-            rememberPos: options.rememberPos,
-            keyboard   : options.keyboard
+            show         : 'show',
+            backdrop     : options.backdrop,
+            moveable     : options.moveable,
+            rememberPos  : options.rememberPos,
+            keyboard     : options.keyboard,
+            scrollInside : options.scrollInside,
         });
     };
 
     ModalTrigger.prototype.close = function(callback, redirect) {
+        var that = this;
         if(callback || redirect) {
-            this.$modal.on('hidden' + ZUI_MODAL, function() {
+            that.$modal.on('hidden' + ZUI_MODAL, function() {
                 if($.isFunction(callback)) callback();
 
-                if(typeof redirect === STR_STRING) {
+                if(typeof redirect === STR_STRING && redirect.length && !that.$modal.data('cancel-reload')) {
                     if(redirect === 'this') window.location.reload();
                     else window.location = redirect;
                 }
             });
         }
-        this.$modal.modal('hide');
+        that.$modal.modal('hide');
     };
 
     ModalTrigger.prototype.toggle = function(options) {
@@ -2361,6 +2417,9 @@
             else if(options.show) data.show(settings);
 
             $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e) {
+                options = $.extend(options, {
+                    url: $this.attr('href') || $this.attr('data-url') || $this.data('url') || options.url
+                });
                 data.toggle(options);
                 if($this.is('a')) e.preventDefault();
             });
@@ -2375,12 +2434,12 @@
             else $this.modalTrigger(option, settings);
         });
     };
+    $.fn.modal.bs = old;
 
     var getModal = function(modal) {
-        var modalType = typeof(modal);
-        if(modalType === 'undefined') {
+        if (!modal) {
             modal = $('.modal.modal-trigger');
-        } else if(modalType === STR_STRING) {
+        } else {
             modal = $(modal);
         }
         if(modal && (modal instanceof $)) return modal;
@@ -2389,6 +2448,7 @@
 
     // callback, redirect, modal
     var closeModal = function(modal, callback, redirect) {
+        var originModal = modal;
         if($.isFunction(modal)) {
             var oldModal = redirect;
             redirect = callback;
@@ -2400,6 +2460,11 @@
             modal.each(function() {
                 $(this).data(NAME).close(callback, redirect);
             });
+        } else if(!$('body').hasClass('modal-open') && !$('.modal.in').length) {
+            // check if current page is as modal iframe
+            if ($('body').hasClass('body-modal')) {
+                window.parent.$.zui.closeModal(originModal, callback, redirect);
+            }
         }
     };
 
@@ -2434,6 +2499,8 @@
         if($this.is('a')) {
             e.preventDefault();
         }
+    }).on('click.' + NAME + '.data-api', '[data-dismiss="modal"]', function() {
+        $.zui.closeModal();
     });
 }(window.jQuery, window, undefined));
 

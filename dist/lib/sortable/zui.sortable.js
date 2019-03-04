@@ -1,8 +1,8 @@
 /*!
- * ZUI: 排序 - v1.8.1 - 2018-04-08
+ * ZUI: 排序 - v1.9.0 - 2019-03-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -44,57 +44,43 @@
             $root        = that.$,
             options      = that.options,
             selector     = options.selector,
+            containerSelector = options.containerSelector,
             sortingClass = options.sortingClass,
             dragCssClass = options.dragCssClass,
-            isReverse    = options.reverse;
+            targetSelector = options.targetSelector,
+            isReverse    = options.reverse,
+            orderChanged;
 
         var markOrders = function($items) {
             $items = $items || that.getItems(1);
-            var orders = [];
-
-            $items.each(function() {
-                var order = $(this).data(STR_ORDER);
-                if(typeof order === 'number') {
-                    orders.push(order);
-                }
-            });
-
-            orders.sort(function(a, b) {
-                return a - b;
-            });
-
             var itemsCount = $items.length;
-            while(orders.length < itemsCount) {
-                orders.push(orders.length ? (orders[orders.length - 1] + 1) : 0);
+            if (itemsCount) {
+                $items.each(function(itemIndex) {
+                    var itemOrder = isReverse ? itemsCount - itemIndex : itemIndex;
+                    $(this).attr('data-' + STR_ORDER, itemOrder).data(STR_ORDER, itemOrder);
+                });
             }
-
-            if(isReverse) {
-                orders.reverse();
-            }
-
-            that.maxOrder = 0;
-            $items.each(function(idx) {
-                that.maxOrder = Math.max(that.maxOrder, orders[idx]);
-                $(this).data(STR_ORDER, orders[idx]).attr('data-' + STR_ORDER, orders[idx]);
-            });
         };
 
         markOrders();
 
         $root.droppable({
             handle      : options.trigger,
-            target      : selector,
+            target      : targetSelector ? targetSelector : (containerSelector ? (selector + ',' + containerSelector) : selector),
             selector    : selector,
             container   : $root,
             always      : options.always,
             flex        : true,
             lazy        : options.lazy,
             canMoveHere : options.canMoveHere,
-            nested      : options.nested,
+            dropToClass : options.dropToClass,
             before      : options.before,
+            nested      : !!containerSelector,
             mouseButton : options.mouseButton,
+            stopPropagation : options.stopPropagation,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
+                orderChanged = false;
                 that.trigger('start', e);
             },
             drag: function(e) {
@@ -102,24 +88,30 @@
                 if(e.isIn) {
                     var $ele        = e.element,
                         $target     = e.target,
-                        eleOrder    = $ele.data(STR_ORDER),
+                        isContainer = containerSelector && $target.is(containerSelector);
+
+                    if (isContainer) {
+                        if (!$target.children(selector).filter('.dragging').length) {
+                            $target.append($ele);
+                            var $items = that.getItems(1);
+                            markOrders($items);
+                            that.trigger(STR_ORDER, {
+                                list: $items,
+                                element: $ele
+                            });
+                        }
+                        return;
+                    }
+
+                    var eleOrder    = $ele.data(STR_ORDER),
                         targetOrder = $target.data(STR_ORDER);
-                    if (!eleOrder && eleOrder !== 0) {
-                        that.maxOrder++;
-                        eleOrder = that.maxOrder;
-                        $ele.attr('data-' + STR_ORDER, eleOrder);
-                    }
-                    if (!targetOrder && targetOrder !== 0) {
-                        that.maxOrder++;
-                        targetOrder = that.maxOrder;
-                        $target.attr('data-' + STR_ORDER, targetOrder);
-                    }
-                    if(eleOrder == targetOrder) return;
+                    if(eleOrder === targetOrder) return markOrders($items);
                     else if(eleOrder > targetOrder) {
                         $target[isReverse ? 'after' : 'before']($ele);
                     } else {
                         $target[isReverse ? 'before' : 'after']($ele);
                     }
+                    orderChanged = true;
                     var $items = that.getItems(1);
                     markOrders($items);
                     that.trigger(STR_ORDER, {
@@ -132,8 +124,9 @@
                 if(dragCssClass && e.element) e.element.removeClass(dragCssClass);
                 $root.removeClass(sortingClass);
                 that.trigger('finish', {
-                    list: that.getItems(1),
-                    element: e.element
+                    list: that.getItems(),
+                    element: e.element,
+                    changed: orderChanged
                 });
             }
         });
@@ -150,7 +143,7 @@
     };
 
     Sortable.prototype.getItems = function(onlyElements) {
-        var $items = this.$.children(this.options.selector).not('.drag-shadow');
+        var $items = this.$.find(this.options.selector).not('.drag-shadow');
         if(!onlyElements) {
             return $items.map(function() {
                 var $item = $(this);

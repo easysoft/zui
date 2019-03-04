@@ -21,8 +21,8 @@
 .chosen-container .chosen-drop {
   position: absolute;
   top: 100%;
-  left: -9999px;
   z-index: 1010;
+  display: none;
   width: 100%;
   background: #fff;
   border: 1px solid #cbcbcb;
@@ -35,7 +35,7 @@
   border-top: 1px solid rgba(0, 0, 0, .15);
   }
 .chosen-container.chosen-with-drop .chosen-drop {
-  left: 0;
+  display: block;
   }
 .chosen-container a {
   cursor: pointer;
@@ -431,4 +431,22 @@
   }
 .chosen-disabled .chosen-choices .search-choice .search-choice-close {
   cursor: default;
+  }
+.chosen-container-single .chosen-single > .chosen-search {
+  left: 0;
+  display: none;
+  padding: 3px 4px;
+  opacity: 0;
+  }
+.chosen-container-single .chosen-single > .chosen-search > input {
+  height: 25px;
+  padding: 2px 26px 2px 4px;
+  font-size: inherit;
+  }
+.chosen-container-single .chosen-single > .chosen-search:before {
+  top: 9px;
+  }
+.chosen-with-search.chosen-with-drop .chosen-single > .chosen-search {
+  display: block;
+  opacity: 1;
   }

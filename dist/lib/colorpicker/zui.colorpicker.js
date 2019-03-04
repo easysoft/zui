@@ -1,8 +1,8 @@
 /*!
- * ZUI: 颜色选择器 - v1.8.1 - 2018-04-08
+ * ZUI: 颜色选择器 - v1.9.0 - 2019-03-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -49,38 +49,48 @@
         optional: true,
         tooltip: 'top',
         icon: 'caret-down',
+        updateBtn: 'auto'
         // btnTip: 'Tool tip in button'
     };
 
     ColorPicker.prototype.init = function() {
-        var options = this.options,
-            that = this;
-        
-        this.$picker = $(TEAMPLATE).addClass(options.wrapper);
-        this.$picker.find('.cp-title').toggle(options.title !== undefined).text(options.title);
-        this.$menu = this.$picker.find('.dropdown-menu').toggleClass('pull-right', options.pullMenuRight);
-        this.$btn = this.$picker.find('.btn.dropdown-toggle');
-        this.$btn.find('.ic').addClass('icon-' + options.icon);
-        if(options.btnTip) {
-            this.$picker.attr('data-toggle', 'tooltip').tooltip({title: options.btnTip, placement: options.tooltip, container: 'body'});
+        var that = this;
+        var options = that.options;
+        var $input = that.$;
+        var $parent = $input.parent();
+        var createdPicker = false;
+        if ($parent.hasClass('colorpicker')) {
+            that.$picker = $parent;
+        } else {
+            that.$picker = $(options.template || TEAMPLATE);
+            createdPicker = true;
         }
-        this.$.attr('data-provide', null).after(this.$picker);
+        that.$picker.addClass(options.wrapper).find('.cp-title').toggle(options.title !== undefined).text(options.title);
+        that.$menu = that.$picker.find('.dropdown-menu').toggleClass('pull-right', options.pullMenuRight);
+        that.$btn = that.$picker.find('.btn.dropdown-toggle');
+        that.$btn.find('.ic').addClass('icon-' + options.icon);
+        if(options.btnTip) {
+            that.$picker.attr('data-toggle', 'tooltip').tooltip({title: options.btnTip, placement: options.tooltip, container: 'body'});
+        }
+        $input.attr('data-provide', null);
+        if (createdPicker) {
+            $input.after(that.$picker);
+        }
 
         // init colors
-        this.colors = {};
-        $.each(this.options.colors, function(idx, rawColor) {
+        that.colors = {};
+        $.each(options.colors, function(idx, rawColor) {
             if($.zui.Color.isColor(rawColor)) {
                 var color = new $.zui.Color(rawColor);
                 that.colors[color.toCssStr()] = color;
             }
         });
 
-        this.updateColors();
-        var that = this;
-        this.$picker.on('click', '.cp-tile', function() {
+        that.updateColors();
+        that.$picker.on('click', '.cp-tile', function() {
             that.setValue($(this).data('color'));
         });
-        var $input = this.$;
+
         var setInputColor = function() {
             var val = $input.val();
             var isColor = $.zui.Color.isColor(val);
@@ -101,7 +111,7 @@
             }
             $input.on('keyup paste input change', setInputColor);
         } else {
-            $input.appendTo(this.$picker);
+            $input.appendTo(that.$picker);
         }
         setInputColor();
     };
@@ -131,8 +141,8 @@
     };
 
     ColorPicker.prototype.updateColors = function(colors) {
-        var $picker = this.$picker, 
-            $menu = this.$menu.empty(), 
+        var $picker = this.$picker,
+            $menu = this.$menu.children('li:not(.heading)').remove(),
             options = this.options,
             colors = colors || this.colors,
             that = this;
@@ -150,36 +160,57 @@
     };
 
     ColorPicker.prototype.setValue = function(color, notSetInput) {
-        var options = this.options;
-        this.$menu.find('.cp-tile.active').removeClass('active');
+        var that = this;
+        var options = that.options;
+        var $btn = that.$btn;
+        that.$menu.find('.cp-tile.active').removeClass('active');
         var hex = '';
+        var updateBtn = options.updateBtn;
+        if (updateBtn === 'auto') {
+            var $btnBar = $btn.find('.color-bar');
+            updateBtn = $btnBar.length ? function(hexColor) {
+                $btnBar.css('background', hexColor || '');
+            } : true;
+        }
         if(color) {
             var c = new $.zui.Color(color);
             hex = c.toCssStr().toLowerCase();
-            this.$btn.css({
-                background: hex,
-                color: c.contrast().toCssStr(),
-                borderColor: c.luma() > 0.43 ? '#ccc' : hex
-            });
-            if(!this.colors[hex]) {
-                this.addColor(c);
+            if (updateBtn) {
+                if ($.isFunction(updateBtn)) {
+                    updateBtn(hex, $btn, that);
+                } else {
+                    $btn.css({
+                        background: hex,
+                        color: c.contrast().toCssStr(),
+                        borderColor: c.luma() > 0.43 ? '#ccc' : hex
+                    });
+                }
             }
-            if(!notSetInput && this.$.val().toLowerCase() !== hex) {
-                this.$.val(hex).trigger('change');
+            if(!that.colors[hex]) {
+                that.addColor(c);
             }
-            this.$menu.find('.cp-tile[data-color="' + hex + '"]').addClass('active');
-            this.$.tooltip('hide');
-            this.$.trigger('colorchange', c);
+            if(!notSetInput && that.$.val().toLowerCase() !== hex) {
+                that.$.val(hex).trigger('change');
+            }
+            that.$menu.find('.cp-tile[data-color="' + hex + '"]').addClass('active');
+            that.$.tooltip('hide');
+            that.$.trigger('colorchange', c);
         } else {
-            this.$btn.attr('style', null);
-            if(!notSetInput && this.$.val() !== '') {
-                this.$.val(hex).trigger('change');
+            if (updateBtn) {
+                if ($.isFunction(updateBtn)) {
+                    updateBtn(null, $btn, that);
+                } else {
+                    $btn.attr('style', null);
+                }
+            }
+            if(!notSetInput && that.$.val() !== '') {
+                that.$.val(hex).trigger('change');
             }
             if(options.optional) {
-                this.$.tooltip('hide');
+                that.$.tooltip('hide');
             }
-            this.$menu.find('.cp-tile.empty').addClass('active');
-            this.$.trigger('colorchange', null);
+            that.$menu.find('.cp-tile.empty').addClass('active');
+            that.$.trigger('colorchange', null);
         }
 
         if(options.updateBorder) {
@@ -189,7 +220,7 @@
             $(options.updateBackground).css('background-color', hex);
         }
         if(options.updateColor) {
-            $(options.updateText).css('color', hex);
+            $(options.updateColor).css('color', hex);
         }
         if(options.updateText) {
             $(options.updateText).text(hex);

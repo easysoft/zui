@@ -1,14 +1,14 @@
 /*!
- * ZUI: Chart.js - v1.8.1 - 2018-04-08
+ * ZUI: Chart.js - v1.9.0 - 2019-03-04
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
  * Chart.js: Chart.Core.js [Version: 1.0.2]
  * http://chartjs.org/
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
  * http://zui.sexy
@@ -19,7 +19,7 @@
 
 
 /*!
- * Chart.js 1.0.2 
+ * Chart.js 1.0.2
  * Copyright 2015 Nick Downie
  * Released under the MIT license
  * http://chartjs.org/
@@ -39,7 +39,7 @@
     //Declare root variable - window in the browser, global on the server
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
-    /// 
+    ///
     ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
@@ -203,6 +203,9 @@
 
             // String - Template string for single tooltips
             multiTooltipTemplate: "<%if (datasetLabel){%><%=datasetLabel%>: <%}%><%= value %>",
+
+            // String - Template string for multiple tooltip title
+            multiTooltipTitleTemplate: '<%= label %>',
 
             // String - Colour behind the legend colour block
             multiTooltipKeyBackground: '#fff',
@@ -1053,7 +1056,7 @@
                         labels: tooltipLabels,
                         legendColors: tooltipColors,
                         legendColorBackground: this.options.multiTooltipKeyBackground,
-                        title: ChartElements[0].label,
+                        title: template(this.options.multiTooltipTitleTemplate, ChartElements[0]),
                         chart: this.chart,
                         ctx: this.chart.ctx,
                         custom: this.options.customTooltips
@@ -1253,7 +1256,6 @@
             };
         },
         draw: function(animationPercent) {
-
             var easingDecimal = animationPercent || 1;
 
             var ctx = this.ctx;
@@ -1265,6 +1267,7 @@
             ctx.arc(this.x, this.y, this.innerRadius, this.endAngle, this.startAngle, true);
 
             ctx.closePath();
+
             ctx.strokeStyle = this.strokeColor;
             ctx.lineWidth = this.strokeWidth;
 
@@ -1276,6 +1279,25 @@
             if(this.showStroke) {
                 ctx.stroke();
             }
+
+            // ZUI change begin
+            if (this.circleBeginEnd) {
+                var pointCenterRadius = (this.outerRadius + this.innerRadius) / 2;
+                var circleRadius = (this.outerRadius - this.innerRadius) / 2;
+
+                ctx.beginPath();
+                ctx.arc(this.x + Math.cos(this.startAngle) * pointCenterRadius, this.y + Math.sin(this.startAngle) * pointCenterRadius, circleRadius, 0, Math.PI * 2);
+                ctx.closePath();
+
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(this.x + Math.cos(this.endAngle) * pointCenterRadius, this.y + Math.sin(this.endAngle) * pointCenterRadius, circleRadius, 0, Math.PI * 2);
+                ctx.closePath();
+
+                ctx.fill();
+            }
+            // ZUI change end
         }
     });
 
@@ -2524,7 +2546,7 @@
 /* ========================================================================
  * Chart.js: Chart.Doughnut.js [Version: 1.0.2]
  * http://chartjs.org/
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
  * http://zui.sexy
@@ -2544,7 +2566,7 @@
 
     /// ----- ZUI change begin -----
     /// Change root to zui shared object
-    /// 
+    ///
     ///   var root = this, // old code
     var root = $ && $.zui ? $.zui : this,
         /// ----- ZUI change end -----
@@ -2673,6 +2695,7 @@
                 circumference: (this.options.animateRotate) ? 0 : this.calculateCircumference(segment.value),
                 /// ----- ZUI change begin -----
                 showLabel: segment.showLabel !== false,
+                circleBeginEnd: segment.circleBeginEnd,
                 /// ----- ZUI change end -----
                 label: segment.label
             }));
@@ -2811,7 +2834,15 @@
 
                 segment.endAngle = segment.startAngle + segment.circumference;
 
-                segment.draw();
+                // ZUI change begin
+                if (!this.options.reverseDrawOrder) {
+                    // ZUI change end
+                    // ZUI change begin
+                    segment.draw();
+                    // ZUI change end
+                }
+                // ZUI change end
+
                 if(index === 0) {
                     segment.startAngle = Math.PI * 1.5;
                 }
@@ -2820,6 +2851,14 @@
                     this.segments[index + 1].startAngle = segment.endAngle;
                 }
             }, this);
+
+            // ZUI change begin
+            if (this.options.reverseDrawOrder) {
+                helpers.each(this.segments.slice().reverse(), function(segment, index) {
+                    segment.draw();
+                }, this);
+            }
+            /// ZUI change end
 
             /// ZUI change begin
             if(this.options.scaleShowLabels) {

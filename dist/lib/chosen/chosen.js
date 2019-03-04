@@ -17,7 +17,8 @@
  * 2. Enhance the search experience, support search items by custom data
  *    with 'data-keys=*' attribute in option;
  * 3. ‘middle_highlight’ option can make hightlight item in the middle of
- *    the dropdown menu
+ *    the dropdown menu;
+ * 4. 'compact_search' option
  * ======================================================================== */
 
 
@@ -60,7 +61,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         en: {
             no_results_text: "No results match"
         }
-    }
+    };
 
     SelectParser = (function() {
         function SelectParser() {
@@ -115,6 +116,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                         group_array_index: group_position,
                         classes: option.className,
                         style: option.style.cssText,
+                        data: option.getAttribute('data-data'),
                         search_keys: ($.trim(option.getAttribute('data-keys') || '') + option.value).replace(/,/, ' ')
                     });
                 } else {
@@ -203,6 +205,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.max_selected_options = this.options.max_selected_options || Infinity;
             this.drop_direction = this.options.drop_direction || 'auto';
             this.middle_highlight = this.options.middle_highlight;
+            this.compact_search = this.options.compact_search || true;
             this.inherit_select_classes = this.options.inherit_select_classes || false;
             this.display_selected_options = this.options.display_selected_options != null ? this.options.display_selected_options : true;
             return this.display_disabled_options = this.options.display_disabled_options != null ? this.options.display_disabled_options : true;
@@ -303,6 +306,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             option_el.style.cssText = option.style;
             option_el.title = option.title;
             option_el.setAttribute("data-option-array-index", option.array_index);
+            option_el.setAttribute("data-data", option.data);
             option_el.innerHTML = option.search_text;
             return this.outerHTML(option_el);
         };
@@ -514,7 +518,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         AbstractChosen.prototype.container_width = function() {
             if (this.options.width != null) {
                 return this.options.width;
-            } else if (this.form_field.classList.contains('form-control')) {
+            } else if (this.form_field && this.form_field.classList && this.form_field.classList.contains('form-control')) {
                 return '100%';
             } else {
                 return "" + this.form_field.offsetWidth + "px";
@@ -646,7 +650,10 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(this.is_multiple) {
                 this.container.html('<ul class="chosen-choices"><li class="search-field"><input type="text" value="' + this.default_text + '" class="default" autocomplete="off" style="width:25px;" /></li></ul><div class="chosen-drop"><ul class="chosen-results"></ul></div>');
             } else {
-                this.container.html('<a class="chosen-single chosen-default" tabindex="-1"><span>' + this.default_text + '</span><div><b></b></div></a><div class="chosen-drop"><div class="chosen-search"><input type="text" autocomplete="off" /></div><ul class="chosen-results"></ul></div>');
+                this.container.html('<a class="chosen-single chosen-default" tabindex="-1"><span>' + this.default_text + '</span><div><b></b></div><div class="chosen-search"><input type="text" autocomplete="off" /></div></a><div class="chosen-drop"><ul class="chosen-results"></ul></div>');
+                if (this.compact_search) {
+                    this.container.find('.chosen-search').appendTo(this.container.find('.chosen-single'));
+                }
             }
             this.form_field_jq.hide().after(this.container);
             this.dropdown = this.container.find('div.chosen-drop').first();
@@ -837,7 +844,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.container.addClass("chosen-container-active");
             this.active_field = true;
             this.search_field.val(this.search_field.val());
-            // return this.search_field.focus(); ZUI: bug: when user select a item by click, container scroll to left automaticly.
+            return this.search_field.focus();
         };
 
         Chosen.prototype.test_active_click = function(evt) {
@@ -861,9 +868,11 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 if(this.disable_search || this.form_field.options.length <= this.disable_search_threshold) {
                     this.search_field[0].readOnly = true;
                     this.container.addClass("chosen-container-single-nosearch");
+                    this.container.removeClass('chosen-with-search');
                 } else {
                     this.search_field[0].readOnly = false;
                     this.container.removeClass("chosen-container-single-nosearch");
+                    this.container.addClass('chosen-with-search');
                 }
             }
             this.update_results_content(this.results_option_build({
@@ -880,6 +889,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(el.length) {
                 this.result_clear_highlight();
                 this.result_highlight = el;
+
                 this.result_highlight.addClass("highlighted");
                 maxHeight = parseInt(this.search_results.css("maxHeight"), 10);
                 resultHeight = this.result_highlight.outerHeight();
@@ -887,7 +897,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 visible_bottom = maxHeight + visible_top;
                 high_top = this.result_highlight.position().top + this.search_results.scrollTop();
                 high_bottom = high_top + resultHeight;
-                if(this.middle_highlight && (canMiddleHighlight || this.middle_highlight === 'always' || high_bottom >= visible_bottom || high_top < visible_top)) {
+
+                if(this.middle_highlight && (canMiddleHighlight || this.middle_highlight === 'always')) {
                     scrollTop = Math.min(high_top - resultHeight, Math.max(0, high_top - (maxHeight - resultHeight)/2));
                 } else if(high_bottom >= visible_bottom) {
                     scrollTop = (high_bottom - maxHeight) > 0 ? high_bottom - maxHeight : 0;
@@ -896,6 +907,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 }
                 if(scrollTop > -1) {
                     this.search_results.scrollTop(scrollTop);
+                } else if (this.result_highlight.scrollIntoView) {
+                    this.result_highlight.scrollIntoView();
                 }
             }
         };
@@ -914,13 +927,15 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 });
                 return false;
             }
-            this.container.addClass("chosen-with-drop");
             this.results_showing = true;
             this.search_field.focus();
             this.search_field.val(this.search_field.val());
-            this.winnow_results(1);
 
             var dropDirection = this.drop_direction;
+            if ($.isFunction(dropDirection))
+            {
+                dropDirection = dropDirection.call(this);
+            }
             if(dropDirection === 'auto') {
                 if (!this.drop_directionFixed) {
                     var $drop = this.container.find('.chosen-drop');
@@ -933,7 +948,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     dropDirection = this.drop_directionFixed;
                 }
             }
-            this.container.toggleClass('chosen-up', dropDirection === 'up');
+            this.container.toggleClass('chosen-up', dropDirection === 'up').addClass("chosen-with-drop");
+
+            this.winnow_results(1);
 
             return this.form_field_jq.trigger("chosen:showing_dropdown", {
                 chosen: this
@@ -998,7 +1015,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(target.length) {
                 this.result_highlight = target;
                 this.result_select(evt);
-                // return this.search_field.focus(); // ZUI: bug: when user select a item by click, container scroll to left automaticly.
+                return this.search_field.focus();
             }
         };
 
@@ -1129,6 +1146,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             /// ZUI change begin
             /// Change title with text
             ///         return this.selected_item.find("span").text(text); // old code
+            if (this.compact_search) {
+                this.search_field.attr('placeholder', text);
+            }
             return this.selected_item.find("span").attr('title', text).text(text);
             /// ZUI change end
         };
@@ -1312,4 +1332,3 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
     })(AbstractChosen);
 }).call(this);
-
