@@ -1016,7 +1016,7 @@
         return !!this.states.selections[rowId];
     };
 
-    DataGrid.prototype.checkRow = function(rowIndex, checked) {
+    DataGrid.prototype.checkRow = function(rowIndex, checked, holdEvents) {
         var that       = this;
         var selections = that.states.selections;
         var rowConfig  = that.getRowConfig(rowIndex);
@@ -1039,11 +1039,13 @@
         that.renderRow(rowIndex);
         if (rowIndex === 0 && that.layout.rowsLength < 500) {
             for (var i = 1; i < that.layout.rowsLength; ++i) {
-                that.checkRow(i, checked);
+                that.checkRow(i, checked, true);
             }
         }
         that.renderFixeds();
-        that.$.callComEvent(that, 'onSelectRow', [rowId, checked, selections]);
+        if (!holdEvents) {
+            that.$.callComEvent(that, 'onSelectRow', [rowId || 'all', checked, selections]);
+        }
         return checked;
     };
 
