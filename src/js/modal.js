@@ -231,7 +231,7 @@
     }
 
     Modal.prototype.hide = function(e) {
-        if(e) e.preventDefault()
+        if(e && e.preventDefault) e.preventDefault()
 
         var that = this;
 
