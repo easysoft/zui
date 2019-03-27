@@ -1,5 +1,5 @@
 /*!
- * ZUI: 颜色选择器 - v1.9.0 - 2019-03-19
+ * ZUI: 颜色选择器 - v1.9.0 - 2019-03-27
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2019 cnezsoft.com; Licensed MIT
