@@ -903,9 +903,9 @@ upload 对象实例上有如下方法：
 
 ### <span class="code text-danger">disableBrowse(disable)</span>
 
-设置上传按钮的禁用状态，参数定义如下：
+设置选择文件按钮的禁用状态，参数定义如下：
 
-* `disable`：如果为 `true` 则将上传按钮设置为禁用，如果为 `false` 则取消上传按钮的禁用状态。
+* `disable`：如果为 `true` 则将选择文件按钮设置为禁用，如果为 `false` 则取消选择文件按钮的禁用状态。
 
 ### <span class="code text-danger">getFile(id)</span>
 
