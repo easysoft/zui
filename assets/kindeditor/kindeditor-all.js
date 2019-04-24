@@ -6537,6 +6537,8 @@ KindEditor.lang({
         'FangSong_GB2312': '仿宋_GB2312',
         'KaiTi_GB2312': '楷体_GB2312',
         'SimHei': '黑体',
+        'Source Han Sans': '思源黑体',
+        'Source Han Serif': '思源宋体',
         'Microsoft YaHei': '微软雅黑',
         'Arial': 'Arial',
         'Arial Black': 'Arial Black',
