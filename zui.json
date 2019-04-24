@@ -439,7 +439,7 @@
       "src": {
         "less": ["~/controls/loading.less"]
       },
-      "ver": "1.8.1"
+      "ver": "1.9.0"
     },
     "table.basic": {
       "name": "基本表格",
