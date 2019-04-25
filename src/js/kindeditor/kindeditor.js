@@ -9952,11 +9952,18 @@ KindEditor.plugin('table', function (K) {
     }
 
     function updateTable(setting, $table, onUpdateSetting) {
+        console.log('updateTable', setting, $table, onUpdateSetting);
         if (!$table) {
             var table = self.plugin.getSelectedTable();
             $table = $(table[0]);
         }
         if (!$table || !$table.length) return;
+        if (!setting) {
+            setting = $.extend({
+                borderColor: '#ddd'
+            }, self.tableSetting, setting);
+        }
+        self.tableSetting = setting;
         if (setting.header !== undefined) {
             if ($table.is('.ke-plugin-table-example')) {
                 $table.find('thead').toggleClass('hidden', !setting.header);
@@ -9986,7 +9993,10 @@ KindEditor.plugin('table', function (K) {
             onUpdateSetting && onUpdateSetting('header', setting.header);
         }
         if (setting.stripedRows !== undefined) {
-            $table.toggleClass('table-striped', !!setting.stripedRows);
+            var $rows = $table.find('tbody>tr');
+            $rows.each(function(index) {
+                $(this).children('td,th').css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : 'none');
+            });
             onUpdateSetting && onUpdateSetting('stripedRows', setting.stripedRows);
         }
         // if (setting.hoverRows !== undefined) {
@@ -9994,7 +10004,12 @@ KindEditor.plugin('table', function (K) {
         //     onUpdateSetting && onUpdateSetting('hoverRows', setting.hoverRows);
         // }
         if (setting.autoWidth !== undefined) {
-            $table.toggleClass('table-auto', !!setting.autoWidth);
+            $table.css(setting.autoWidth ? {
+                width: 'auto',
+                maxWidth: '100%'
+            } : {
+                width: '100%',
+            });
             onUpdateSetting && onUpdateSetting('autoWidth', setting.autoWidth);
         }
         if (setting.borderColor !== undefined) {
@@ -10012,7 +10027,7 @@ KindEditor.plugin('table', function (K) {
         for (var r = 0; r < row; r++) {
             var $row = $('<tr></tr>');
             for (var c = 0; c < col; c++) {
-                var $cell = $('<td>' + (K.IE ? '&nbsp;' : '<br />') + '</td>');
+                var $cell = $('<td style="border-color: #ddd">' + (K.IE ? '&nbsp;' : '<br />') + '</td>');
                 $row.append($cell);
             }
             $body.append($row);
@@ -10112,13 +10127,7 @@ KindEditor.plugin('table', function (K) {
             updateTable({borderColor: color}, $exampleTable);
         });
 
-        updateTable({
-            borderColor: $table.find('td,th').first().css('borderColor'),
-            header: $table.find('thead').length,
-            stripedRows: $table.hasClass('table-striped'),
-            hoverRows: $table.hasClass('table-hover'),
-            autoWidth: $table.hasClass('table-auto'),
-        }, $exampleTable, function(name, value) {
+        updateTable(self.tableSetting, $exampleTable, function(name, value) {
             switch (name) {
             case 'borderColor':
                 _setColor(colorBox, value || '#dddddd');

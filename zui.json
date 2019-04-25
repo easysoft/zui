@@ -1029,7 +1029,7 @@
       "name": "Kindeditor",
       "src": {
         "less": ["~/modules/kindeditor.less"],
-        "js": ["assets/kindeditor/kindeditor-all.js"],
+        "js": ["~/kindeditor/kindeditor.js"],
         "resource": ["assets/kindeditor//themes/**/*", "assets/kindeditor//lang/**/*", "assets/kindeditor//plugins.zip", "assets/kindeditor//README.md"]
       },
       "ver": "1.0.0",

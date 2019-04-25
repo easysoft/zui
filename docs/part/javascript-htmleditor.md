@@ -90,7 +90,8 @@ KindEditor.create('textarea.kindeditor', {
 ```js
 KindEditor.create('textarea.kindeditorSimple', {
     basePath: '/dist/lib/kindeditor/',
-    bodyClass : 'article-content',
+    bodyClass : 'article-content',     // 确保编辑器内的内容也应用 ZUI 排版样式
+    cssPath: '/dist/css/zui.css', // 确保编辑器内的内容也应用 ZUI 排版样式
     resizeType : 1,
     allowPreviewEmoticons : false,
     allowImageUpload : false,
@@ -113,12 +114,14 @@ function afterPageLoad() {
             K.create('textarea.kindeditor', {
                 basePath: 'dist/lib/kindeditor/',
                 allowFileManager : true,
-                bodyClass : 'article-content'
+                bodyClass : 'article-content',
+                cssPath: '/dist/css/zui.css'
             });
 
             K.create('textarea.kindeditorSimple', {
                 basePath: '/dist/lib/kindeditor/',
                 bodyClass : 'article-content',
+                cssPath: '/dist/css/zui.css',
                 resizeType : 1,
                 allowPreviewEmoticons : false,
                 allowImageUpload : false,
