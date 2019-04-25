@@ -20,7 +20,7 @@ Chosen是用来增强单选列表和多选列表的更佳选择。
 
 <div class="example">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-3">
       <select data-placeholder="选择一个宠物..." class="chosen-select form-control" tabindex="2">
         <option value=""></option>
         <option value="cat">小猫</option>
@@ -30,7 +30,7 @@ Chosen是用来增强单选列表和多选列表的更佳选择。
         <option value="gollum">咕噜</option>
       </select>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
       <select data-placeholder="选择一些爱吃的水果..." class="chosen-select form-control" tabindex="2" multiple="">
         <option value="strawberries">草莓</option>
         <option value="apple">苹果</option>
@@ -114,6 +114,68 @@ $('select.chosen-select').chosen({
   <p>扩展检索本身并不提供拼音检索功能，如果你需要支持使用拼音检索时，需要你自己在chosen初始化之前在<code>data-keys</code>属性中写入拼音字符串。</p>
 </div>
 
+### 调整弹出菜单宽度
+
+#### 固定宽度
+
+通常弹出菜单的宽度与下拉按钮的宽度一致，但仍然可以使用 `drop_width` 来更改弹出菜单宽度。下面的例子中弹出菜单宽度固定为 `200px`：
+
+<div class="example">
+  <select class="chosen-select form-control" data-drop_width="200px">
+    <option value=""></option>
+    <option value="cat">小猫</option>
+    <option value="fish">金鱼</option>
+    <option value="dragon">龙</option>
+    <option value="mammoth">猛犸</option>
+    <option value="gollum">咕噜</option>
+  </select>
+</div>
+
+```html
+<select class="chosen-select form-control" data-drop_width="200px">
+  <option value=""></option>
+  <option value="cat">小猫</option>
+  <option value="fish">金鱼</option>
+  <option value="dragon">龙</option>
+  <option value="mammoth">猛犸</option>
+  <option value="gollum">咕噜</option>
+</select>
+```
+
+#### 自动宽度
+
+有时需要根据弹出菜单内的条目文字长度自动设置弹出面板宽度，尽量减少弹出菜单条目换行，此时可以使用 `drop_max_width` 来设置一个最大宽度。下面的例子中弹出菜单宽度最大不超过 `300px`，在最大值返回内尽量减少换行情况：
+
+<div class="example">
+  <div class="row">
+    <div class="col" style="width: 120px">
+      <select class="chosen-select form-control" data-max_drop_width="200" style="width: 100px">
+        <option value=""></option>
+        <option value="cat">小猫</option>
+        <option value="fish">金鱼的尾巴好长好长好长好长好长好长好长好长啊</option>
+        <option value="dragon">龙</option>
+        <option value="mammoth">猛犸</option>
+        <option value="gollum">咕噜</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+```html
+<div class="row">
+  <div class="col" style="width: 120px">
+    <select class="chosen-select form-control" data-max_drop_width="200" style="width: 100px">
+      <option value=""></option>
+      <option value="cat">小猫</option>
+      <option value="fish">金鱼的尾巴好长好长好长好长好长好长好长好长啊</option>
+      <option value="dragon">龙</option>
+      <option value="mammoth">猛犸</option>
+      <option value="gollum">咕噜</option>
+    </select>
+  </div>
+</div>
+```
+
 ### 紧凑的单项选择
 
 使用 `compact_search` 选项来应用更加紧凑的单选选择框，搜索框与选择框合并一起显示。
@@ -130,7 +192,7 @@ $('select.chosen-select').chosen({
 </div>
 
 ```html
-<select class="chosen-select form-control">
+<select class="chosen-select form-control" data-compact_search="true">
   <option value=""></option>
   <option value="cat">小猫</option>
   <option value="fish">金鱼</option>
@@ -272,17 +334,17 @@ Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的
       <td>`display_disabled_options`</td>
       <td>显示不可选的选项</td>
       <td>默认为`true`</td>
-      <td>默认情况下会在选项列表中显示不可选的选项，禁用此选项来隐藏不可选的选项。</td>
+      <td>默认情况下会在选项列表菜单中显示不可选的选项，禁用此选项来隐藏不可选的选项。</td>
     </tr>
     <tr>
       <td>`display_selected_options`</td>
       <td>显示已选择的选项</td>
       <td>默认为`true`</td>
-      <td>仅多选生效；禁用此选项则在选项列表中隐藏已选择的选项。</td>
+      <td>仅多选生效；禁用此选项则在选项列表菜单中隐藏已选择的选项。</td>
     </tr>
     <tr>
       <td>`drop_direction`</td>
-      <td>选项列表弹出方向</td>
+      <td>选项列表菜单弹出方向</td>
       <td>
         <ul>
           <li><code>"auto"</code>（默认) 根据弹出时根据弹出菜单高度和所在位置自动决定</li>
@@ -291,6 +353,24 @@ Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的
         </ul>
       </td>
       <td>在自动决定情况下默认向下弹出，如果下方空间不够会自动改为向上弹出，搜索过程中不会改变弹出位置。</td>
+    </tr>
+    <tr>
+      <td>`drop_width`</td>
+      <td>选项列表菜单宽度</td>
+      <td>例如 `200px`</td>
+      <td>如果不指定此选项则与选择按钮宽度一致。</td>
+    </tr>
+    <tr>
+      <td>`max_drop_width`</td>
+      <td>选项列表菜单最大宽度</td>
+      <td>此选项的值只能是数值，以 `px` 为单位表示最大宽度。</td>
+      <td>使用此选项后会自动根据选项列表条目上的文字长度来调整选项列表宽度。</td>
+    </tr>
+    <tr>
+      <td>`highlight_selected`</td>
+      <td>是否一直高亮选中项</td>
+      <td>默认为 `true`</td>
+      <td></td>
     </tr>
     <tr>
       <td>`middle_highlight`</td>
@@ -333,11 +413,11 @@ Chosen的事件绑定在原始`<select>`上，使用jQuery方法来监听事件�
     </tr>
     <tr>
       <td>`chosen:showing_dropdown`</td>
-      <td>当弹出显示选项列表时发生。</td>
+      <td>当弹出显示选项列表菜单时发生。</td>
     </tr>
     <tr>
       <td>`chosen:hiding_dropdown`</td>
-      <td>当隐藏选项列表时发生。</td>
+      <td>当隐藏选项列表菜单时发生。</td>
     </tr>
     <tr>
       <td>`chosen:no_results`</td>
@@ -357,7 +437,7 @@ $('select.chosen-select').on('change', function(){
 可以通过触发事件来调用chosen的方法。
 
 ```js
-// 当原始select中的选项发生变化时通知chosen更新选项列表
+// 当原始select中的选项发生变化时通知chosen更新选项列表菜单
 $('select.chosen-select').trigger('chosen:updated');
 ```
 
@@ -373,7 +453,7 @@ $('select.chosen-select').trigger('chosen:updated');
   <tbody>
     <tr>
       <td>`chosen:updated`</td>
-      <td>通知chosen重新从原始select中更新选项列表。</td>
+      <td>通知chosen重新从原始select中更新选项列表菜单。</td>
     </tr>
     <tr>
       <td>`chosen:activate`</td>
@@ -381,11 +461,11 @@ $('select.chosen-select').trigger('chosen:updated');
     </tr>
     <tr>
       <td>`chosen:open`</td>
-      <td>打开（弹出）选项列表面板。</td>
+      <td>打开（弹出）选项列表菜单面板。</td>
     </tr>
     <tr>
       <td>`chosen:close`</td>
-      <td>隐藏选项列表面板。</td>
+      <td>隐藏选项列表菜单面板。</td>
     </tr>
   </tbody>
 </table>

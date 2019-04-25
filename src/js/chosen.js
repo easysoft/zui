@@ -21,6 +21,7 @@
  * 4. 'compact_search' option
  * 5. 'drop_width' option
  * 6. 'max_drop_width' option
+ * 7. 'highlight_selected' option
  * ======================================================================== */
 
 
@@ -662,6 +663,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     this.container.addClass('chosen-compact').find('.chosen-search').appendTo(this.container.find('.chosen-single'));
                 } else {
                     this.container.find('.chosen-search').prependTo(this.container.find('.chosen-drop'));
+                }
+                if (this.options.highlight_selected !== false) {
+                    this.container.addClass('chosen-highlight-selected');
                 }
             }
             this.form_field_jq.hide().after(this.container);

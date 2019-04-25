@@ -82,6 +82,13 @@
       margin-bottom: -1px;
     }
   }
+
+  &.chosen-highlight-selected {
+    .result-selected {
+      background: @color-pale;
+      color: @color-primary;
+    }
+  }
 }
 
 // @end
@@ -145,7 +152,7 @@
       .opacity(.5);
     }
   }
-  &.chosen-disabled .chosen-single abbr:hover {}
+  // &.chosen-disabled .chosen-single abbr:hover {}
   .chosen-single div {
     position: absolute;
     top: 0;

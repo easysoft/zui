@@ -65,6 +65,10 @@
   -webkit-box-shadow: 0 -3px 5px rgba(0, 0, 0, .175);
           box-shadow: 0 -3px 5px rgba(0, 0, 0, .175);
   }
+.chosen-container.chosen-highlight-selected .result-selected {
+  color: #3280fc;
+  background: #ebf2f9;
+  }
 .chosen-container-single .chosen-single {
   display: block;
   width: 100%;
