@@ -19,6 +19,8 @@
  * 3. ‘middle_highlight’ option can make hightlight item in the middle of
  *    the dropdown menu;
  * 4. 'compact_search' option
+ * 5. 'drop_width' option
+ * 6. 'max_drop_width' option
  * ======================================================================== */
 
 
@@ -208,6 +210,11 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.compact_search = this.options.compact_search || false;
             this.inherit_select_classes = this.options.inherit_select_classes || false;
             this.display_selected_options = this.options.display_selected_options != null ? this.options.display_selected_options : true;
+            var max_drop_width = this.options.max_drop_width;
+            if (typeof max_drop_width === 'string' && max_drop_width.indexOf('px') === (max_drop_width.length - 2)) {
+                max_drop_width = parseInt(max_drop_width.substring(0, max_drop_width.length - 2));
+            }
+            this.max_drop_width = max_drop_width;
             return this.display_disabled_options = this.options.display_disabled_options != null ? this.options.display_disabled_options : true;
         };
 
@@ -673,6 +680,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(this.options.drop_width) {
                 this.dropdown.css('width', this.options.drop_width).addClass('chosen-drop-size-limited');
             }
+            if (this.max_drop_width) {
+                this.dropdown.addClass('chosen-auto-max-width');
+            }
             this.results_build();
             this.set_tab_index();
             this.set_label_behavior();
@@ -923,39 +933,53 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         };
 
         Chosen.prototype.results_show = function() {
-            if(this.is_multiple && this.max_selected_options <= this.choices_count()) {
-                this.form_field_jq.trigger("chosen:maxselected", {
+            var that = this;
+            if(that.is_multiple && that.max_selected_options <= that.choices_count()) {
+                that.form_field_jq.trigger("chosen:maxselected", {
                     chosen: this
                 });
                 return false;
             }
-            this.results_showing = true;
-            this.search_field.focus();
-            this.search_field.val(this.search_field.val());
+            that.results_showing = true;
+            that.search_field.focus();
+            that.search_field.val(that.search_field.val());
 
-            var dropDirection = this.drop_direction;
-            if ($.isFunction(dropDirection))
-            {
+            var dropDirection = that.drop_direction;
+            if ($.isFunction(dropDirection)) {
                 dropDirection = dropDirection.call(this);
             }
             if(dropDirection === 'auto') {
-                if (!this.drop_directionFixed) {
-                    var $drop = this.container.find('.chosen-drop');
-                    var offset = this.container.offset();
+                if (!that.drop_directionFixed) {
+                    var $drop = that.container.find('.chosen-drop');
+                    var offset = that.container.offset();
                     if(offset.top + $drop.outerHeight() + 30 > $(window).height() + $(window).scrollTop()) {
                         dropDirection = 'up';
                     }
-                    this.drop_directionFixed = dropDirection;
+                    that.drop_directionFixed = dropDirection;
                 } else {
-                    dropDirection = this.drop_directionFixed;
+                    dropDirection = that.drop_directionFixed;
                 }
             }
-            this.container.toggleClass('chosen-up', dropDirection === 'up').addClass("chosen-with-drop");
+            that.container.toggleClass('chosen-up', dropDirection === 'up').addClass("chosen-with-drop");
 
-            this.winnow_results(1);
+            that.winnow_results(1);
 
-            return this.form_field_jq.trigger("chosen:showing_dropdown", {
-                chosen: this
+            var maxDropWidth = that.max_drop_width;
+            if (maxDropWidth) {
+                var $drop = that.container.find('.chosen-drop').removeClass('in');
+                var maxWidth = 0;
+                $drop.find('.chosen-results>li').each(function() {
+                    maxWidth = Math.max(maxWidth, $(this).outerWidth());
+                });
+                $drop.css('width', Math.min(maxWidth + 2, maxDropWidth));
+                that.fixDropWidthTimer = setTimeout(function() {
+                    that.fixDropWidthTimer = null;
+                    $drop.addClass('in');
+                }, 50);
+            }
+
+            return that.form_field_jq.trigger("chosen:showing_dropdown", {
+                chosen: that
             });
         };
 
@@ -964,15 +988,20 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         };
 
         Chosen.prototype.results_hide = function() {
-            if(this.results_showing) {
-                this.result_clear_highlight();
-                this.container.removeClass("chosen-with-drop");
-                this.form_field_jq.trigger("chosen:hiding_dropdown", {
-                    chosen: this
-                });
-                this.drop_directionFixed = 0;
+            var that = this;
+            if (that.fixDropWidthTimer) {
+                clearTimeout(that.fixDropWidthTimer);
+                that.fixDropWidthTimer = null;
             }
-            return this.results_showing = false;
+            if(that.results_showing) {
+                that.result_clear_highlight();
+                that.container.removeClass("chosen-with-drop");
+                that.form_field_jq.trigger("chosen:hiding_dropdown", {
+                    chosen: that
+                });
+                that.drop_directionFixed = 0;
+            }
+            return that.results_showing = false;
         };
 
         Chosen.prototype.set_tab_index = function(el) {

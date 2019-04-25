@@ -34,6 +34,22 @@
 .chosen-container .chosen-drop.chosen-drop-size-limited {
   border-top: 1px solid rgba(0, 0, 0, .15);
   }
+.chosen-container .chosen-drop.chosen-auto-max-width {
+  min-width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, .15);
+  opacity: .5;
+  }
+.chosen-container .chosen-drop.chosen-auto-max-width > .chosen-results > li {
+  display: inline-block;
+  white-space: nowrap;
+  }
+.chosen-container .chosen-drop.chosen-auto-max-width.in {
+  opacity: 1;
+  }
+.chosen-container .chosen-drop.chosen-auto-max-width.in > .chosen-results > li {
+  display: block;
+  white-space: normal;
+  }
 .chosen-container.chosen-with-drop .chosen-drop {
   display: block;
   }

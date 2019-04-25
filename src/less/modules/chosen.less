@@ -47,6 +47,24 @@
     &.chosen-drop-size-limited {
       border-top: 1px solid @dropdown-border;
     }
+
+    &.chosen-auto-max-width {
+      border-top: 1px solid @dropdown-border;
+      opacity: 0.5;
+      min-width: 100%;
+      > .chosen-results > li {
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      &.in {
+        opacity: 1;
+        > .chosen-results > li {
+          display: block;
+          white-space: normal;
+        }
+      }
+    }
   }
   &.chosen-with-drop .chosen-drop {
     display: block;
