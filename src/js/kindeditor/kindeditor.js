@@ -9952,7 +9952,6 @@ KindEditor.plugin('table', function (K) {
     }
 
     function updateTable(setting, $table, onUpdateSetting) {
-        console.log('updateTable', setting, $table, onUpdateSetting);
         if (!$table) {
             var table = self.plugin.getSelectedTable();
             $table = $(table[0]);
@@ -9962,6 +9961,16 @@ KindEditor.plugin('table', function (K) {
             setting = $.extend({
                 borderColor: '#ddd'
             }, self.tableSetting, setting);
+            if (setting.autoWidth === undefined) {
+                setting.autoWidth = $table[0].style.width === 'auto';
+            }
+            if (setting.stripedRows === undefined) {
+                var $rows = $table.find('tbody>tr');
+                var coloredRowsLength = $rows.filter(function() {
+                    return !!this.style.backgroundColor;
+                }).length;
+                setting.stripedRows = coloredRowsLength >= Math.floor($rows/2);
+            }
         }
         self.tableSetting = setting;
         if (setting.header !== undefined) {
@@ -9995,7 +10004,7 @@ KindEditor.plugin('table', function (K) {
         if (setting.stripedRows !== undefined) {
             var $rows = $table.find('tbody>tr');
             $rows.each(function(index) {
-                $(this).children('td,th').css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : 'none');
+                $(this).css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : 'none');
             });
             onUpdateSetting && onUpdateSetting('stripedRows', setting.stripedRows);
         }
