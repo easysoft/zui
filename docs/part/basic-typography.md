@@ -15,7 +15,7 @@ filter: paiban pb
   <tbody>
     <tr>
       <th>无衬线字体</th>
-      <td>`@font-family-sans-serif:  "Helvetica Neue", Helvetica, Tahoma, Arial, 'PingFang SC', 'Source Han Sans CN', 'Source Han Sans', 'Source Han Serif', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;`</td>
+      <td>`@font-family-sans-serif:  "Helvetica Neue", Helvetica, Tahoma, Arial, 'PingFang SC', 'Source Han Sans CN', 'Source Han Sans', 'Source Han Serif', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft YaHei', sans-serif;`</td>
     </tr>
     <tr>
       <th>衬线字体</th>

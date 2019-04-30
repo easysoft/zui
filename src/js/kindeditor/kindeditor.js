@@ -6537,6 +6537,7 @@ KindEditor.lang({
         'SimHei': '黑体',
         'Source Han Sans': '思源黑体',
         'Source Han Serif': '思源宋体',
+        'Microsoft YaHei': '微软雅黑',
         'Arial': 'Arial',
         'Arial Black': 'Arial Black',
         'Times New Roman': 'Times New Roman',

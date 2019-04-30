@@ -6539,6 +6539,7 @@ KindEditor.lang({
         'SimHei': '黑体',
         'Source Han Sans': '思源黑体',
         'Source Han Serif': '思源宋体',
+        'Microsoft YaHei' : '微软雅黑',
         'Arial': 'Arial',
         'Arial Black': 'Arial Black',
         'Times New Roman': 'Times New Roman',
@@ -9997,7 +9998,7 @@ KindEditor.plugin('table', function (K) {
             $table.toggleClass('table-auto', !!setting.autoWidth);
             onUpdateSetting && onUpdateSetting('autoWidth', setting.autoWidth);
         }
-        if (setting.borderColor !== undefined) {
+        if  (setting.borderColor !== undefined) {
             $table.find('td,th').css('border', '1px solid ' + setting.borderColor);
             onUpdateSetting && onUpdateSetting('borderColor', setting.borderColor);
         }
