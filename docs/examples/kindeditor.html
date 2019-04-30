@@ -23,27 +23,17 @@
 $(function() {
     var K = window.KindEditor;
     if(K) {
-        K.create('textarea.kindeditor', {
+        window.$editor = K.create('textarea.kindeditor', {
             basePath: '../../dist/lib/kindeditor/',
             allowFileManager : true,
             bodyClass : 'article-content',
             cssPath: '../../dist/css/zui.css',
-        });
-
-        K.create('textarea.kindeditorSimple', {
-            basePath: '../../dist/lib/kindeditor/',
-            bodyClass : 'article-content',
-            cssPath: '../../dist/css/zui.css',
-            resizeType : 1,
-            allowPreviewEmoticons : false,
-            allowImageUpload : false,
-            items : [
-                'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
-                'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-                'insertunorderedlist', '|', 'emoticons', 'image', 'link'
-            ]
+            placeholder: '请输入文章内容\n32434'
         });
     }
+    setTimeout(() => {
+        window.$editor.cmd.select();
+    }, 5000);
 });
 </script>
 </body>
