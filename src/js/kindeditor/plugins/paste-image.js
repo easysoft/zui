@@ -97,7 +97,7 @@ KindEditor.plugin('pasteimage', function(K) {
         };
 
         var pasteUrl = options.postUrl;
-        $(doc.body).on('paste', function(ev) {
+        $(doc.body).on('paste.ke' + uuid, function(ev) {
             if (K.WEBKIT) {
                 /* Paste in chrome.*/
                 /* Code reference from http://www.foliotek.com/devblog/copy-images-from-clipboard-in-javascript/. */
