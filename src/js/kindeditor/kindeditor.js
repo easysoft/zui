@@ -5011,8 +5011,9 @@
             if(e.which == 9) {
                 e.preventDefault();
                 if(self.afterTab) {
-                    self.afterTab.call(self, e);
-                    return;
+                    var tabResult = self.afterTab.call(self, e);
+                    // 如果 afterTab 回调函数返回值为 false，则继续执行原始 tab 操作，否则视为已经处理 tab 键操作
+                    if (tabResult !== false) return;
                 }
                 var cmd = self.cmd,
                     range = cmd.range;

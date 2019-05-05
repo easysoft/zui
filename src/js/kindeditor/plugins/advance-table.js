@@ -755,6 +755,39 @@ KindEditor.plugin('table', function (K) {
         $wrapperDiv.append($grid);
         menu.div.append($wrapperDiv[0]);
     });
+
+    // https://zui.5upm.com/task-view-2.html
+    self.afterTab(function() {
+        var range = self.cmd.range;
+        if (range && range.endContainer) {
+            var selectNextCell = function($currentCell) {
+                if ($currentCell.length) {
+                    var $nextCell = $currentCell.next();
+                    if (!$nextCell.is('td,th')) {
+                        $nextCell = $currentCell.parent().next('tr').children('th,td').first();
+                    }
+                    if (!$nextCell.is('td,th')) {
+                        $nextCell = $currentCell.closest('tbody,tfoot,thead').next().children('tr').first().children('th,td').first();
+                    }
+                    if ($nextCell.length) {
+                        self.cmd.range.selectNode($nextCell[0]);
+                        self.cmd.select();
+                        return true;
+                    }
+                }
+                return false;
+            };
+            var $endContainer = $(range.endContainer).closest('td,th');
+            if ($endContainer.length) {
+                if (!selectNextCell($endContainer)) {
+                    self.plugin.table.rowinsertbelow();
+                    selectNextCell($endContainer);
+                }
+                return true;
+            }
+        }
+        return false;
+    });
 });
 
 KindEditor.lang({
