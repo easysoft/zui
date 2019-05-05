@@ -788,6 +788,175 @@ KindEditor.plugin('table', function (K) {
         }
         return false;
     });
+
+    var selectRow = function($table, rowIndex) {
+        $table.children('thead,tbody,tfoot').children('tr').each(function() {
+            if(this.rowIndex === rowIndex) {
+                $(this).children('td,th').addClass('ke-select-cell');
+            }
+        });
+    };
+
+    var selectCol = function($table, cellIndex) {
+        $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function() {
+            if(this.cellIndex === cellIndex) {
+                $(this).addClass('ke-select-cell');
+            }
+        });
+    };
+
+    var selectCellsRange = function($table, startRow, startCol, endRow, endCol) {
+        if (startRow > endRow) {
+            var tmp = startRow;
+            startRow = endRow;
+            endRow = tmp;
+        }
+        if (startCol > endCol) {
+            var tmp = startCol;
+            startCol = endCol;
+            endCol = tmp;
+        }
+        $table.children('thead,tbody,tfoot').children('tr').each(function() {
+            var rowIndex = this.rowIndex;
+            if (rowIndex >= startRow && rowIndex <= endRow) {
+                $(this).children('td,th').each(function() {
+                    var colIndex = this.cellIndex;
+                    if (colIndex >= startCol && colIndex <= endCol) {
+                        $(this).addClass('ke-select-cell');
+                    }
+                });
+            }
+        });
+    };
+
+    self.afterCreate(function() {
+        var isMouseDown = false;
+        var $mouseDownTable = null;
+        var $mouseMoveTable = null;
+        var mouseMoveRowIndex = null;
+        var mouseMoveCellIndex = null;
+        var mouseDownRowIndex = null;
+        var mouseDownCellIndex = null;
+
+        var handleMouseUp = function() {
+            isMouseDown = false;
+            $mouseDownTable = null;
+        };
+
+        $(self.edit.doc.body).on('mousedown.ke' + self.uuid, 'table', function(e) {
+            var $table = $(e.currentTarget);
+            if (!$table.length) return;
+            var $cell = $(e.target).closest('td,th');
+            if (!$cell.length) return;
+            $mouseDownTable = $table;
+            isMouseDown = true;
+            mouseDownRowIndex = $cell.closest('tr')[0].rowIndex;
+            mouseDownCellIndex = $cell[0].cellIndex;
+            $(self.edit.doc).find('.ke-select-cell').removeClass('ke-select-cell');
+        }).on('mousemove.ke' + self.uuid, 'table', function(e) {
+            var $table = $(e.currentTarget);
+            if (!$table.length) return;
+            var $cell = $(e.target).closest('td,th');
+            $table.removeClass('ke-select-row ke-select-col');
+            if (!$cell.length) return;
+            mouseMoveRowIndex = null;
+            mouseMoveCellIndex = null;
+            if (isMouseDown) {
+                e.preventDefault();
+                if ($table[0] !== $mouseDownTable[0]) return;
+                $(self.edit.doc).find('table').find('.ke-select-cell').removeClass('ke-select-cell');
+                selectCellsRange($table, mouseDownRowIndex, mouseDownCellIndex, $cell.closest('tr')[0].rowIndex, $cell[0].cellIndex);
+            } else {
+                $mouseMoveTable = $table;
+                var tableOffset = $table.offset();
+                var pageX = e.pageX;
+                var pageY = e.pageY;
+                var moveX = pageX - tableOffset.left;
+                var moveY = pageY - tableOffset.top;
+                if (moveX < 8) {
+                    $table.addClass('ke-select-row');
+                    mouseMoveRowIndex = $cell.closest('tr')[0].rowIndex;
+                    e.preventDefault();
+                    e.stopPropagation();
+                } else if (moveY < 8) {
+                    $table.addClass('ke-select-col');
+                    mouseMoveCellIndex = $cell[0].cellIndex;
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }
+        }).on('mouseup.ke' + self.uuid, function(e) {
+            var $target = $(e.target);
+            var $cell = $target.closest('td,th');
+            if (!$cell.length) return;
+            if (typeof mouseMoveRowIndex === 'number') {
+                selectRow($mouseMoveTable, mouseMoveRowIndex);
+                e.stopPropagation();
+            } else if (typeof mouseMoveCellIndex === 'number') {
+                selectCol($mouseMoveTable, mouseMoveCellIndex);
+                e.stopPropagation();
+            }
+            handleMouseUp();
+        }).on('paste.ke' + self.uuid + ' keydown.ke' + self.uuid, function() {
+            $(self.edit.doc).find('table').removeClass('ke-select-row ke-select-col').find('.ke-select-cell').removeClass('ke-select-cell');
+        });
+        $(document).on('mouseup.ke' + self.uuid, function() {
+            handleMouseUp();
+        });
+
+        $(self.edit.doc.head).append([
+            '<style>',
+            '.ke-select-row {cursor: e-resize; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMAqiTk590pHjjw0cZyAjPTb5hoAAAARUlEQVQI12MgCnAowJmdbjAW7/rPcOHS/3Bh9vgvCSCaR1BQcP9/IxCT8T8IAIVhTKBGuAK4NrhppUBBTCteGqE6hzAAAHccHSlSjBVHAAAAAElFTkSuQmCC) 10 10, auto}',
+            '.ke-select-col {cursor: s-resize; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAJ1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADdEvm1AAAADHRSTlMAqiPfH+Q58dPHcgLUxK6wAAAAUklEQVQI12MgCiyUgjNlDuJlcoOYG8DMDAWZgyxtIBZbjYnMQefjCUAmU8zhOSdtjiqAhJ3PAEEQWC2LzZkzIEGwMFgQKgwShApDBUGGKBDlagAGvBgJQ+z5fwAAAABJRU5ErkJggg==) 10 10, auto}',
+            '.ke-select-cell {outline: #b3d4fc 2px solid; outline-offset: -1px;}',
+            '</style>',
+        ].join(''));
+
+        var cmdToggleBack = self.cmd.toggle;
+        var cmdToggle = function(wrapper, map, flag) {
+            var self = this;
+            if (flag === undefined || flag === null) {
+                flag = self.commonNode(map);
+            }
+            if(flag) {
+                self.remove(map);
+            } else {
+                self.wrap(wrapper);
+            }
+            return self.select();
+        };
+        self.cmd.toggle = function(wrapper, map) {
+            var range = self.cmd.range;
+            if (range && range.endContainer) {
+                var $cell = $(range.endContainer).closest('th,td');
+                if (!$cell.length) return;
+                var $table = $cell.closest('table');
+                if (!$table.length) return;
+                var $selectCells = $table.children('thead,tbody,tfoot').children('tr').children('.ke-select-cell');
+                if ($selectCells.length) {
+                    var bookmark = range.createBookmark(true);
+                    range.selectNodeContents($cell[0]);
+                    self.cmd.select();
+                    var flag = !!self.cmd.commonNode(map);
+                    $selectCells.each(function() {
+                        range.selectNodeContents(this);
+                        self.cmd.select();
+                        cmdToggle.call(self.cmd, wrapper, map, flag);
+                    });
+                    range.moveToBookmark(bookmark);
+                    range.selectNodeContents($cell[0]);
+                    self.cmd.select();
+                    return;
+                }
+            }
+            return cmdToggleBack.call(self.cmd, wrapper, map);
+        };
+    });
+
+    self.beforeRemove(function() {
+        $(self.edit.doc.body).off('.ke' + self.uuid);
+        $(document).off('.ke' + self.uuid);
+    });
 });
 
 KindEditor.lang({
