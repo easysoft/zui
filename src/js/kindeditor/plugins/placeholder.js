@@ -48,6 +48,5 @@ KindEditor.plugin('placeholder', function(K) {
         } else if (options.placeholder) {
             self.setPlaceholder(options.placeholder);
         }
-        console.log('afterSetHtml');
     });
 });
