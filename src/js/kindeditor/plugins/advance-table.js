@@ -284,7 +284,7 @@ KindEditor.plugin('table', function (K) {
         });
 
         var dialog = self.createDialog({
-            name: name + 'test',
+            name: name + 'Dialog',
             width: 550,
             title: self.lang(name),
             body: $dialog[0],
@@ -806,6 +806,9 @@ KindEditor.plugin('table', function (K) {
     };
 
     var selectCellsRange = function($table, startRow, startCol, endRow, endCol) {
+        if (startRow === endRow && startCol === endCol) {
+            return false;
+        }
         if (startRow > endRow) {
             var tmp = startRow;
             startRow = endRow;
@@ -827,6 +830,7 @@ KindEditor.plugin('table', function (K) {
                 });
             }
         });
+        return true;
     };
 
     self.afterCreate(function() {
@@ -853,19 +857,20 @@ KindEditor.plugin('table', function (K) {
             mouseDownRowIndex = $cell.closest('tr')[0].rowIndex;
             mouseDownCellIndex = $cell[0].cellIndex;
             $(self.edit.doc).find('.ke-select-cell').removeClass('ke-select-cell');
-        }).on('mousemove.ke' + self.uuid, 'table', function(e) {
-            var $table = $(e.currentTarget);
-            if (!$table.length) return;
+        }).on('mousemove.ke' + self.uuid, function(e) {
             var $cell = $(e.target).closest('td,th');
+            if (!$cell.length) return isMouseDown && e.preventDefault();
+            var $table = $cell.closest('table');
+            if (!$table.length) return isMouseDown && e.preventDefault();
             $table.removeClass('ke-select-row ke-select-col');
-            if (!$cell.length) return;
             mouseMoveRowIndex = null;
             mouseMoveCellIndex = null;
             if (isMouseDown) {
-                e.preventDefault();
                 if ($table[0] !== $mouseDownTable[0]) return;
                 $(self.edit.doc).find('table').find('.ke-select-cell').removeClass('ke-select-cell');
-                selectCellsRange($table, mouseDownRowIndex, mouseDownCellIndex, $cell.closest('tr')[0].rowIndex, $cell[0].cellIndex);
+                if (selectCellsRange($table, mouseDownRowIndex, mouseDownCellIndex, $cell.closest('tr')[0].rowIndex, $cell[0].cellIndex)) {
+                    e.preventDefault();
+                }
             } else {
                 $mouseMoveTable = $table;
                 var tableOffset = $table.offset();
@@ -925,7 +930,8 @@ KindEditor.plugin('table', function (K) {
             }
             return self.select();
         };
-        self.cmd.toggle = function(wrapper, map) {
+
+        var eachSelectCells = function(eachCallback, beforeCallback, afterCallback) {
             var range = self.cmd.range;
             if (range && range.endContainer) {
                 var $cell = $(range.endContainer).closest('th,td');
@@ -934,23 +940,49 @@ KindEditor.plugin('table', function (K) {
                 if (!$table.length) return;
                 var $selectCells = $table.children('thead,tbody,tfoot').children('tr').children('.ke-select-cell');
                 if ($selectCells.length) {
-                    var bookmark = range.createBookmark(true);
+                    if (beforeCallback) beforeCallback($cell, $table);
+                    $selectCells.each(eachCallback);
+                    if (afterCallback) afterCallback($cell, $table);
+
                     range.selectNodeContents($cell[0]);
+                    // range.collapse();
                     self.cmd.select();
-                    var flag = !!self.cmd.commonNode(map);
-                    $selectCells.each(function() {
-                        range.selectNodeContents(this);
-                        self.cmd.select();
-                        cmdToggle.call(self.cmd, wrapper, map, flag);
-                    });
-                    range.moveToBookmark(bookmark);
-                    range.selectNodeContents($cell[0]);
-                    self.cmd.select();
-                    return;
+                    self.focus();
+                    return true;
                 }
+            }
+        };
+
+        self.cmd.toggle = function(wrapper, map) {
+            var flag;
+            if (eachSelectCells(function() {
+                self.cmd.range.selectNodeContents(this);
+                self.cmd.select();
+                cmdToggle.call(self.cmd, wrapper, map, flag);
+            }, function ($cell) {
+                self.cmd.range.selectNodeContents($cell[0]);
+                self.cmd.select();
+                flag = !!self.cmd.commonNode(map);
+            })) {
+                return;
             }
             return cmdToggleBack.call(self.cmd, wrapper, map);
         };
+
+        var commands = ',justifyleft,justifycenter,justifyright,justifyfull,insertorderedlist,insertunorderedlist,';
+        var clickToolbarBack = self.clickToolbar;
+        self.clickToolbar = function(name, fn) {
+            if (fn === undefined && commands.indexOf(',' + name + ',') > -1) {
+                if (eachSelectCells(function() {
+                    self.cmd.range.selectNodeContents(this);
+                    self.cmd.select();
+                    clickToolbarBack.call(self, name, fn);
+                })) {
+                    return;
+                }
+            }
+            return clickToolbarBack.call(self, name, fn);
+        }
     });
 
     self.beforeRemove(function() {
