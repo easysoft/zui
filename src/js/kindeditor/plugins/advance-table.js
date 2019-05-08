@@ -1,3 +1,53 @@
+/*  cellPos jQuery plugin
+    ---------------------
+    Get visual position of cell in HTML table (or its block like thead).
+    Return value is object with "top" and "left" properties set to row and column index of top-left cell corner.
+    Example of use:
+        $("#myTable tbody td").each(function(){
+            $(this).text( $(this).cellPos().top +", "+ $(this).cellPos().left );
+        });
+*/
+(function ($) {
+    /* scan individual table and set "cellPos" data in the form { left: x-coord, top: y-coord } */
+    function scanTable($table) {
+        var m = [];
+        $table.children('tr').each(function (y, row) {
+            $(row).children('td,th').each(function (x, cell) {
+                var $cell = $(cell),
+                    cspan = $cell.attr('colspan') | 0,
+                    rspan = $cell.attr('rowspan') | 0,
+                    tx, ty;
+                cspan = cspan ? cspan : 1;
+                rspan = rspan ? rspan : 1;
+                for (; m[y] && m[y][x]; ++x);  //skip already occupied cells in current row
+                for (tx = x; tx < x + cspan; ++tx) {  //mark matrix elements occupied by current cell with true
+                    for (ty = y; ty < y + rspan; ++ty) {
+                        if (!m[ty]) {  //fill missing rows
+                            m[ty] = [];
+                        }
+                        m[ty][tx] = true;
+                    }
+                }
+                var pos = {top: y, left: x, bottom: y + rspan - 1, right: x + cspan - 1};
+                $cell.data('cellPos', pos);
+                $cell.text(x + ', ' + y + ' | ' + pos.right + ',' + pos.bottom);
+            });
+        });
+    };
+
+    /* plugin */
+    $.fn.cellPos = function (rescan) {
+        var $cell = this.first(),
+            pos = $cell.data('cellPos');
+        if (!pos || rescan) {
+            var $table = $cell.closest('table,thead,tbody,tfoot');
+            scanTable($table);
+        }
+        pos = $cell.data('cellPos');
+        return pos;
+    }
+})(jQuery);
+
 /*******************************************************************************
 * KindEditor - WYSIWYG HTML Editor for Internet
 * Copyright (C) 2006-2011 kindsoft.net
@@ -26,13 +76,13 @@ KindEditor.plugin('table', function (K) {
             tableBorder: '表格边框',
             tableHead: '标题',
             tableContent: '内容',
-            mergeSelectedCells: '合并所选单元格',
+            mergeCells: '合并所选单元格',
         },
         zh_tw: {
-            name: '表格',
-            xRxC:'{0}行×{1}列',
-            headerRow:'標題行',
-            headerCol:'標題列',
+            name: '表格',
+            xRxC: '{0}行×{1}列',
+            headerRow: '標題行',
+            headerCol: '標題列',
             tableStyle: '表格樣式',
             addHeaderRow: '添加表格標題行',
             stripedRows: '隔行變色效果',
@@ -43,7 +93,7 @@ KindEditor.plugin('table', function (K) {
             tableBorder: '表格邊框',
             tableHead: '標題',
             tableContent: '內容',
-            mergeSelectedCells: '合併所選單元格',
+            mergeCells: '合併所選單元格',
         },
         en: {
             name: 'Table',
@@ -60,7 +110,7 @@ KindEditor.plugin('table', function (K) {
             tableBorder: 'Table border',
             tableHead: 'Title',
             tableContent: 'Text',
-            mergeSelectedCells: 'Merge Selected Cells',
+            mergeCells: 'Merge Selected Cells',
         }
     };
     var $elements = [];
@@ -145,10 +195,10 @@ KindEditor.plugin('table', function (K) {
             }
             if (setting.stripedRows === undefined) {
                 var $rows = $table.find('tbody>tr');
-                var coloredRowsLength = $rows.filter(function() {
+                var coloredRowsLength = $rows.filter(function () {
                     return !!this.style.backgroundColor;
                 }).length;
-                setting.stripedRows = coloredRowsLength >= Math.floor($rows/2);
+                setting.stripedRows = coloredRowsLength >= Math.floor($rows / 2);
             }
         }
         self.tableSetting = setting;
@@ -162,13 +212,13 @@ KindEditor.plugin('table', function (K) {
                         var theadHtml = ['<thead><tr>'];
                         var $firstRow = $table.find('tbody>tr:first').children();
                         var colsCount = 0;
-                        $firstRow.each(function() {
+                        $firstRow.each(function () {
                             var $cell = $(this);
                             var cellSpan = $cell.attr('colspan');
                             colsCount += cellSpan ? parseInt(cellSpan) : 1;
                         });
-                        for(var i = 0; i < colsCount; ++i) {
-                            theadHtml.push('<th>' + (K.IE ? '&nbsp;' : '<br />') +  '</th>');
+                        for (var i = 0; i < colsCount; ++i) {
+                            theadHtml.push('<th>' + (K.IE ? '&nbsp;' : '<br />') + '</th>');
                         }
                         theadHtml.push('</tr></thead>');
                         $thead = $(theadHtml.join(''));
@@ -182,7 +232,7 @@ KindEditor.plugin('table', function (K) {
         }
         if (setting.stripedRows !== undefined) {
             var $rows = $table.find('tbody>tr');
-            $rows.each(function(index) {
+            $rows.each(function (index) {
                 $(this).css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : 'none');
             });
             onUpdateSetting && onUpdateSetting('stripedRows', setting.stripedRows);
@@ -196,8 +246,8 @@ KindEditor.plugin('table', function (K) {
                 width: 'auto',
                 maxWidth: '100%'
             } : {
-                width: '100%',
-            });
+                    width: '100%',
+                });
             onUpdateSetting && onUpdateSetting('autoWidth', setting.autoWidth);
         }
         if (setting.borderColor !== undefined) {
@@ -233,10 +283,10 @@ KindEditor.plugin('table', function (K) {
         var $table = $(table[0]);
         var theadHtml = ['<thead><tr>'];
         var tbodyHtml = ['<tbody>'];
-        for(var i = 0; i < 6; ++i) {
+        for (var i = 0; i < 6; ++i) {
             theadHtml.push('<th style="padding:4px">{tableHead}</th>');
             tbodyHtml.push('<tr>');
-            for(var j = 0; j < 6; ++j) {
+            for (var j = 0; j < 6; ++j) {
                 tbodyHtml.push('<td style="padding:4px">{tableContent}</td>');
             }
             tbodyHtml.push('</tr>');
@@ -245,34 +295,34 @@ KindEditor.plugin('table', function (K) {
         tbodyHtml.push('</tbody>');
         var dialogHtml = [
             '<div class="container" style="padding: 15px">',
-                '<div class="row">',
-                    '<div class="col-xs-5 col-left">',
-                        '<div class="form-group">',
-                            '<label>{tableStyle}</label>',
-                            '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="header"> {addHeaderRow}</label></div>',
-                            '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="stripedRows"> {stripedRows}</label></div>',
-                            // '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="hoverRows"> {hoverRows}</label></div>',
-                        '</div>',
-                        '<div class="form-group">',
-                            '<label>{autoChangeTableWidth}</label>',
-                            '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value="auto"> {tableWidthFixed}</label></div>',
-                            '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value=""> {tableWidthFull}</label></div>',
-                        '</div>',
-                        '<div class="form-group" style="margin: 0">',
-                            '<label>{tableBorder}</label>',
-                            '<div class="input-group" style="width: 180px">',
-                                '<span class="input-group-addon">{borderColor}</span>',
-                                '<input class="form-control ke-plugin-table-input-color" readonly style="background: #dddddd; color: #333; font-size: 12px" value="#dddddd" name="borderColor" />',
-                            '</div>',
-                        '</div>',
-                    '</div>',
-                    '<div class="col-xs-7 col-right">',
-                        '<table class="table table-bordered table-kindeditor ke-plugin-table-example">',
-                            theadHtml.join(''),
-                            tbodyHtml.join(''),
-                        '<table>',
-                    '</div>',
-                '</div>',
+            '<div class="row">',
+            '<div class="col-xs-5 col-left">',
+            '<div class="form-group">',
+            '<label>{tableStyle}</label>',
+            '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="header"> {addHeaderRow}</label></div>',
+            '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="stripedRows"> {stripedRows}</label></div>',
+            // '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="hoverRows"> {hoverRows}</label></div>',
+            '</div>',
+            '<div class="form-group">',
+            '<label>{autoChangeTableWidth}</label>',
+            '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value="auto"> {tableWidthFixed}</label></div>',
+            '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value=""> {tableWidthFull}</label></div>',
+            '</div>',
+            '<div class="form-group" style="margin: 0">',
+            '<label>{tableBorder}</label>',
+            '<div class="input-group" style="width: 180px">',
+            '<span class="input-group-addon">{borderColor}</span>',
+            '<input class="form-control ke-plugin-table-input-color" readonly style="background: #dddddd; color: #333; font-size: 12px" value="#dddddd" name="borderColor" />',
+            '</div>',
+            '</div>',
+            '</div>',
+            '<div class="col-xs-7 col-right">',
+            '<table class="table table-bordered table-kindeditor ke-plugin-table-example">',
+            theadHtml.join(''),
+            tbodyHtml.join(''),
+            '<table>',
+            '</div>',
+            '</div>',
             '</div>'
         ].join('').format(lang);
         var $dialog = $(dialogHtml);
@@ -280,7 +330,7 @@ KindEditor.plugin('table', function (K) {
         var bookmark = self.cmd.range.createBookmark();
         var $colorBox = $dialog.find('.ke-plugin-table-input-color');
         var colorBox = K($colorBox[0]);
-        $dialog.on('change.kTable', 'input[name]', function() {
+        $dialog.on('change.kTable', 'input[name]', function () {
             var $input = $(this);
             var updateSetting = {};
             updateSetting[$input.attr('name')] = $input.is('[type="checkbox"]') ? $input.is(':checked') : $input.val();
@@ -312,27 +362,27 @@ KindEditor.plugin('table', function (K) {
                 }
             }
         });
-        _initColorPicker(dialog.div, colorBox, function(color) {
-            updateTable({borderColor: color}, $exampleTable);
+        _initColorPicker(dialog.div, colorBox, function (color) {
+            updateTable({ borderColor: color }, $exampleTable);
         });
 
-        updateTable(self.tableSetting, $exampleTable, function(name, value) {
+        updateTable(self.tableSetting, $exampleTable, function (name, value) {
             switch (name) {
-            case 'borderColor':
-                _setColor(colorBox, value || '#dddddd');
-                break;
-            case 'header':
-                $dialog.find('[name="header"]').prop('checked', !!value);
-                break;
-            case 'stripedRows':
-                $dialog.find('[name="stripedRows"]').prop('checked', !!value);
-                break;
-            case 'hoverRows':
-                $dialog.find('[name="hoverRows"]').prop('checked', !!value);
-                break;
-            case 'autoWidth':
-                $dialog.find('[name="autoWidth"][value="' + (value ? 'auto' : '') + '"]').prop('checked', true);
-                break;
+                case 'borderColor':
+                    _setColor(colorBox, value || '#dddddd');
+                    break;
+                case 'header':
+                    $dialog.find('[name="header"]').prop('checked', !!value);
+                    break;
+                case 'stripedRows':
+                    $dialog.find('[name="stripedRows"]').prop('checked', !!value);
+                    break;
+                case 'hoverRows':
+                    $dialog.find('[name="hoverRows"]').prop('checked', !!value);
+                    break;
+                case 'autoWidth':
+                    $dialog.find('[name="autoWidth"][value="' + (value ? 'auto' : '') + '"]').prop('checked', true);
+                    break;
             }
         });
     }
@@ -350,47 +400,47 @@ KindEditor.plugin('table', function (K) {
             cellprop: function () {
                 var html = [
                     '<div style="padding:20px;">',
-                        //width, height
-                        '<div class="ke-dialog-row">',
-                            '<label for="keWidth" style="width:90px;">' + lang.size + '</label>',
-                            lang.width + ' <input type="text" id="keWidth" class="ke-input-text ke-input-number" name="width" value="" maxlength="4" /> &nbsp; ',
-                            '<select name="widthType">',
-                            '<option value="%">' + lang.percent + '</option>',
-                            '<option value="px">' + lang.px + '</option>',
-                            '</select> &nbsp; ',
-                            lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" /> &nbsp; ',
-                            '<select name="heightType">',
-                            '<option value="%">' + lang.percent + '</option>',
-                            '<option value="px">' + lang.px + '</option>',
-                            '</select>',
-                        '</div>',
-                        //align
-                        '<div class="ke-dialog-row">',
-                        '<label for="keAlign" style="width:90px;">' + lang.align + '</label>',
-                        lang.textAlign + ' <select id="keAlign" name="textAlign">',
-                        '<option value="">' + lang.alignDefault + '</option>',
-                        '<option value="left">' + lang.alignLeft + '</option>',
-                        '<option value="center">' + lang.alignCenter + '</option>',
-                        '<option value="right">' + lang.alignRight + '</option>',
-                        '</select> ',
-                        lang.verticalAlign + ' <select name="verticalAlign">',
-                        '<option value="">' + lang.alignDefault + '</option>',
-                        '<option value="top">' + lang.alignTop + '</option>',
-                        '<option value="middle">' + lang.alignMiddle + '</option>',
-                        '<option value="bottom">' + lang.alignBottom + '</option>',
-                        '<option value="baseline">' + lang.alignBaseline + '</option>',
-                        '</select>',
-                        '</div>',
-                        //border
-                        '<div class="ke-dialog-row">',
-                        '<label for="keBorder" style="width:90px;">' + lang.border + '</label>',
-                        lang.borderColor + ' <span class="ke-inline-block ke-input-color"></span>',
-                        '</div>',
-                        //background color
-                        '<div class="ke-dialog-row">',
-                        '<label for="keBgColor" style="width:90px;">' + lang.backgroundColor + '</label>',
-                        '<span class="ke-inline-block ke-input-color"></span>',
-                        '</div>',
+                    //width, height
+                    '<div class="ke-dialog-row">',
+                    '<label for="keWidth" style="width:90px;">' + lang.size + '</label>',
+                    lang.width + ' <input type="text" id="keWidth" class="ke-input-text ke-input-number" name="width" value="" maxlength="4" /> &nbsp; ',
+                    '<select name="widthType">',
+                    '<option value="%">' + lang.percent + '</option>',
+                    '<option value="px">' + lang.px + '</option>',
+                    '</select> &nbsp; ',
+                    lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" /> &nbsp; ',
+                    '<select name="heightType">',
+                    '<option value="%">' + lang.percent + '</option>',
+                    '<option value="px">' + lang.px + '</option>',
+                    '</select>',
+                    '</div>',
+                    //align
+                    '<div class="ke-dialog-row">',
+                    '<label for="keAlign" style="width:90px;">' + lang.align + '</label>',
+                    lang.textAlign + ' <select id="keAlign" name="textAlign">',
+                    '<option value="">' + lang.alignDefault + '</option>',
+                    '<option value="left">' + lang.alignLeft + '</option>',
+                    '<option value="center">' + lang.alignCenter + '</option>',
+                    '<option value="right">' + lang.alignRight + '</option>',
+                    '</select> ',
+                    lang.verticalAlign + ' <select name="verticalAlign">',
+                    '<option value="">' + lang.alignDefault + '</option>',
+                    '<option value="top">' + lang.alignTop + '</option>',
+                    '<option value="middle">' + lang.alignMiddle + '</option>',
+                    '<option value="bottom">' + lang.alignBottom + '</option>',
+                    '<option value="baseline">' + lang.alignBaseline + '</option>',
+                    '</select>',
+                    '</div>',
+                    //border
+                    '<div class="ke-dialog-row">',
+                    '<label for="keBorder" style="width:90px;">' + lang.border + '</label>',
+                    lang.borderColor + ' <span class="ke-inline-block ke-input-color"></span>',
+                    '</div>',
+                    //background color
+                    '<div class="ke-dialog-row">',
+                    '<label for="keBgColor" style="width:90px;">' + lang.backgroundColor + '</label>',
+                    '<span class="ke-inline-block ke-input-color"></span>',
+                    '</div>',
                     '</div>',
                 ].join('');
                 var bookmark = self.cmd.range.createBookmark();
@@ -610,8 +660,37 @@ KindEditor.plugin('table', function (K) {
                 self.cmd.select();
                 self.addBookmark();
             },
-            mergeSelectedCells: function() {
-                console.log('mergeSelectedCells');
+            mergeCells: function () {
+                var tableSelectionRange = self.tableSelectionRange;
+                if (!tableSelectionRange) return;
+                var table = self.plugin.getSelectedTable()[0];
+                var $table = $(table);
+                var top = tableSelectionRange.top;
+                var left = tableSelectionRange.left;
+                var right = tableSelectionRange.right;
+                var bottom = tableSelectionRange.bottom;
+                var $firstCell;
+                $table.children('thead,tbody,tfoot').children('tr').each(function () {
+                    $(this).children('td,th').each(function () {
+                        var $cell = $(this);
+                        var pos = $cell.cellPos();
+                        if (pos.left === left && pos.top === top) {
+                            $firstCell = $cell;
+                        } else if (pos.right >= left && pos.left <= right && pos.bottom >= top && pos.top <= bottom) {
+                            $cell.addClass('ke-cell-removed');
+                        }
+                    });
+                });
+                if ($firstCell) {
+                    $firstCell.attr({
+                        rowspan: bottom - top + 1,
+                        colspan: right - left + 1,
+                    });
+                    $table.find('.ke-cell-removed').remove();
+                    self.cmd.range.selectNodeContents($firstCell[0]).collapse(true);
+                    self.cmd.select();
+                    self.addBookmark();
+                }
             },
             rowsplit: function () {
                 var table = self.plugin.getSelectedTable()[0],
@@ -720,34 +799,34 @@ KindEditor.plugin('table', function (K) {
             }
         };
 
-        self.plugin.getSelectedTable = function() {
+        self.plugin.getSelectedTable = function () {
             return K($(self.cmd.range.startContainer).closest('table')[0]);
         };
         // 获取选中的行
-        self.plugin.getSelectedRow = function() {
+        self.plugin.getSelectedRow = function () {
             return K($(self.cmd.range.startContainer).closest('tr')[0]);
         };
         // 获取光标所在的单元格
-        self.plugin.getSelectedCell = function() {
+        self.plugin.getSelectedCell = function () {
             return K($(self.cmd.range.startContainer).closest('td,th')[0]);
         };
         // 获取用户拖选的单元格
-        self.plugin.getSelectedCells = function() {
+        self.plugin.getSelectedCells = function () {
             var table = self.plugin.getSelectedTable();
             if (table.length) {
                 return K('.ke-select-cell', table.get(0));
             }
         };
-        // 当用户没有拖选时，获取光标所在的单元格
-        self.plugin.getSingleSelectedCell = function() {
+        // 当用户没有拖选多个单元格时，获取光标所在的单元格
+        self.plugin.getSingleSelectedCell = function () {
             var selectedCells = self.plugin.getSelectedCells();
-            if (selectedCells.length) {
+            if (selectedCells.length > 1) {
                 return;
             }
             return self.plugin.getSelectedCell();
         };
         // 获取用户拖选或光标所在位置的单元格
-        self.plugin.getAllSelectedCells = function() {
+        self.plugin.getAllSelectedCells = function () {
             var selectedCells = self.plugin.getSelectedCells();
             if (selectedCells.length) {
                 return selectedCells;
@@ -756,23 +835,37 @@ KindEditor.plugin('table', function (K) {
         };
 
         var contextMenuIconClass = {
-            mergeSelectedCells: 'ke-icon-tablecolmerge'
+            mergeCells: 'ke-icon-tablecolmerge'
         };
-        K.each(('prop,cellprop,colinsertleft,colinsertright,rowinsertabove,rowinsertbelow,mergeSelectedCells,rowmerge,colmerge,rowsplit,colsplit,coldelete,rowdelete,delete').split(','), function(i, val) {
+        K.each(('prop,cellprop,colinsertleft,colinsertright,rowinsertabove,rowinsertbelow,mergeCells,rowmerge,colmerge,rowsplit,colsplit,coldelete,rowdelete,delete').split(','), function (i, val) {
             var cond;
             if (val === 'prop' || val === 'delete') {
                 cond = self.plugin.getSelectedTable;
-            } else if (val === 'mergeSelectedCells') {
+            } else if (val === 'mergeCells') {
                 cond = self.plugin.getSelectedCells;
-            } else if (K.inArray(val, ['colinsertleft', 'colinsertright', 'rowinsertabove', 'rowinsertbelow', 'rowmerge', 'colmerge', 'rowsplit', 'colsplit']) > -1) {
+            } else if (K.inArray(val, ['colinsertleft', 'colinsertright', 'rowinsertabove', 'rowinsertbelow', 'rowmerge', 'colmerge']) > -1) {
                 cond = self.plugin.getSingleSelectedCell;
+            } else if (val === 'rowsplit') {
+                cond = function() {
+                    var cell = self.plugin.getSingleSelectedCell();
+                    if (cell && cell.get(0).rowSpan > 1) {
+                        return cell;
+                    }
+                };
+            } else if (val === 'colsplit') {
+                cond = function() {
+                    var cell = self.plugin.getSingleSelectedCell();
+                    if (cell && cell.get(0).colSpan > 1) {
+                        return cell;
+                    }
+                };
             } else {
                 cond = self.plugin.getSelectedCell;
             }
             self.addContextmenu({
                 title: lang[val] || self.lang('table' + val),
-                click: function() {
-                    self.loadPlugin('table', function() {
+                click: function () {
+                    self.loadPlugin('table', function () {
                         self.plugin.table[val]();
                         self.hideMenu();
                     });
@@ -840,10 +933,10 @@ KindEditor.plugin('table', function (K) {
     });
 
     // https://zui.5upm.com/task-view-2.html
-    self.afterTab(function() {
+    self.afterTab(function () {
         var range = self.cmd.range;
         if (range && range.endContainer) {
-            var selectNextCell = function($currentCell) {
+            var selectNextCell = function ($currentCell) {
                 if ($currentCell.length) {
                     var $nextCell = $currentCell.next();
                     if (!$nextCell.is('td,th')) {
@@ -872,88 +965,123 @@ KindEditor.plugin('table', function (K) {
         return false;
     });
 
-    var selectRow = function($table, rowIndex) {
-        $table.children('thead,tbody,tfoot').children('tr').each(function() {
-            if(this.rowIndex === rowIndex) {
-                $(this).children('td,th').addClass('ke-select-cell');
+    var selectRow = function ($table, rowIndex) {
+        var maxColIndex = 0;
+        $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function () {
+            var $cell = $(this);
+            var cellPos = $cell.cellPos();
+            if (cellPos.top === rowIndex) {
+                $cell.addClass('ke-select-cell');
+                maxColIndex = Math.max(maxColIndex, cellPos.right);
             }
         });
+        self.tableSelectionRange = {
+            top: rowIndex,
+            left: 0,
+            bottom: rowIndex,
+            right: maxColIndex,
+        };
     };
 
-    var selectCol = function($table, cellIndex) {
-        $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function() {
-            if(this.cellIndex === cellIndex) {
-                $(this).addClass('ke-select-cell');
+    var selectCol = function ($table, cellIndex) {
+        var maxRowIndex = 0;
+        $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function () {
+            var $cell = $(this);
+            var cellPos = $cell.cellPos();
+            if (cellPos.left === cellIndex) {
+                $cell.addClass('ke-select-cell');
+                maxRowIndex = Math.max(maxRowIndex, cellPos.bottom);
             }
         });
+        self.tableSelectionRange = {
+            top: 0,
+            left: cellIndex,
+            bottom: maxRowIndex,
+            right: cellIndex,
+        };
     };
 
-    var selectCellsRange = function($table, startRow, startCol, endRow, endCol) {
-        if (startRow === endRow && startCol === endCol) {
+    var selectCellsRange = function ($table, startPos, endPos) {
+        var top = Math.min(startPos.top, endPos.top);
+        var left = Math.min(startPos.left, endPos.left);
+        var bottom = Math.max(startPos.bottom, endPos.bottom);
+        var right = Math.max(startPos.right, endPos.right);
+        if (top === bottom && left === right) {
             return false;
         }
-        if (startRow > endRow) {
-            var tmp = startRow;
-            startRow = endRow;
-            endRow = tmp;
-        }
-        if (startCol > endCol) {
-            var tmp = startCol;
-            startCol = endCol;
-            endCol = tmp;
-        }
-        $table.children('thead,tbody,tfoot').children('tr').each(function() {
-            var rowIndex = this.rowIndex;
-            if (rowIndex >= startRow && rowIndex <= endRow) {
-                $(this).children('td,th').each(function() {
-                    var colIndex = this.cellIndex;
-                    if (colIndex >= startCol && colIndex <= endCol) {
-                        $(this).addClass('ke-select-cell');
+        var hasCellSelected = false;
+        var $rows = $table.children('thead,tbody,tfoot').children('tr').each(function () {
+            $(this).children('td,th').each(function () {
+                var $cell = $(this);
+                var pos = $cell.cellPos();
+                if (pos.right >= left && pos.left <= right && pos.bottom >= top && pos.top <= bottom) {
+                    top = Math.min(top, pos.top);
+                    left = Math.min(left, pos.left);
+                    bottom = Math.max(bottom, pos.bottom);
+                    right = Math.max(right, pos.right);
+                    $cell.addClass('ke-select-cell');
+                    hasCellSelected = true;
+                }
+            });
+        });
+        if (hasCellSelected) {
+            $rows.each(function () {
+                $(this).children('td,th').each(function () {
+                    var $cell = $(this);
+                    if ($cell.hasClass('ke-select-cell')) return;
+                    var pos = $cell.cellPos();
+                    if (pos.right >= left && pos.left <= right && pos.bottom >= top && pos.top <= bottom) {
+                        $cell.addClass('ke-select-cell');
                     }
                 });
-            }
-        });
-        return true;
+            });
+            self.tableSelectionRange = {
+                top: top,
+                left: left,
+                bottom: bottom,
+                right: right,
+            };
+        } else {
+            self.tableSelectionRange = null;
+        }
+        return hasCellSelected;
     };
 
-    self.afterCreate(function() {
+    self.afterCreate(function () {
         var isMouseDown = false;
         var $mouseDownTable = null;
         var $mouseMoveTable = null;
-        var mouseMoveRowIndex = null;
-        var mouseMoveCellIndex = null;
-        var mouseDownRowIndex = null;
-        var mouseDownCellIndex = null;
+        var mouseDownCellPos = null;
+        var mouseMoveCellPos = null;
 
-        var handleMouseUp = function() {
+        var handleMouseUp = function () {
             isMouseDown = false;
             $mouseDownTable = null;
         };
 
-        $(self.edit.doc.body).on('mousedown.ke' + self.uuid, 'table', function(e) {
+        $(self.edit.doc.body).on('mousedown.ke' + self.uuid, 'table', function (e) {
             var $table = $(e.currentTarget);
             if (!$table.length) return;
             var $cell = $(e.target).closest('td,th');
             if (!$cell.length) return;
             $mouseDownTable = $table;
             isMouseDown = true;
-            mouseDownRowIndex = $cell.closest('tr')[0].rowIndex;
-            mouseDownCellIndex = $cell[0].cellIndex;
+            mouseDownCellPos = $cell.cellPos(true);
             if (e.which !== 3) {
                 $(self.edit.doc).find('.ke-select-cell').removeClass('ke-select-cell');
+                self.tableSelectionRange = null;
             }
-        }).on('mousemove.ke' + self.uuid, function(e) {
+        }).on('mousemove.ke' + self.uuid, function (e) {
             var $cell = $(e.target).closest('td,th');
             if (!$cell.length) return isMouseDown ? e.preventDefault() : null;
             var $table = $cell.closest('table');
             if (!$table.length) return isMouseDown ? e.preventDefault() : null;
             $table.removeClass('ke-select-row ke-select-col');
-            mouseMoveRowIndex = null;
-            mouseMoveCellIndex = null;
+            mouseMoveCellPos = $cell.cellPos();
             if (isMouseDown) {
                 if ($table[0] !== $mouseDownTable[0]) return;
                 $(self.edit.doc).find('table').find('.ke-select-cell').removeClass('ke-select-cell');
-                if (selectCellsRange($table, mouseDownRowIndex, mouseDownCellIndex, $cell.closest('tr')[0].rowIndex, $cell[0].cellIndex)) {
+                if (selectCellsRange($table, mouseDownCellPos, mouseMoveCellPos)) {
                     e.preventDefault();
                 }
             } else {
@@ -965,32 +1093,32 @@ KindEditor.plugin('table', function (K) {
                 var moveY = pageY - tableOffset.top;
                 if (moveX < 8) {
                     $table.addClass('ke-select-row');
-                    mouseMoveRowIndex = $cell.closest('tr')[0].rowIndex;
+                    mouseMoveCellPos.selectRow = mouseMoveCellPos.top;
                     e.preventDefault();
                     e.stopPropagation();
                 } else if (moveY < 8) {
                     $table.addClass('ke-select-col');
-                    mouseMoveCellIndex = $cell[0].cellIndex;
+                    mouseMoveCellPos.selectCol = mouseMoveCellPos.left;
                     e.preventDefault();
                     e.stopPropagation();
                 }
             }
-        }).on('mouseup.ke' + self.uuid, function(e) {
+        }).on('mouseup.ke' + self.uuid, function (e) {
             var $target = $(e.target);
             var $cell = $target.closest('td,th');
             if (!$cell.length) return;
-            if (typeof mouseMoveRowIndex === 'number') {
-                selectRow($mouseMoveTable, mouseMoveRowIndex);
+            if (mouseMoveCellPos && mouseMoveCellPos.selectRow !== undefined) {
+                selectRow($mouseMoveTable, mouseMoveCellPos.selectRow);
                 e.stopPropagation();
-            } else if (typeof mouseMoveCellIndex === 'number') {
-                selectCol($mouseMoveTable, mouseMoveCellIndex);
+            } else if (mouseMoveCellPos && mouseMoveCellPos.selectCol !== undefined) {
+                selectCol($mouseMoveTable, mouseMoveCellPos.selectCol);
                 e.stopPropagation();
             }
             handleMouseUp();
-        }).on('paste.ke' + self.uuid + ' keydown.ke' + self.uuid, function() {
+        }).on('paste.ke' + self.uuid + ' keydown.ke' + self.uuid, function () {
             $(self.edit.doc).find('table').removeClass('ke-select-row ke-select-col').find('.ke-select-cell').removeClass('ke-select-cell');
         });
-        $(document).on('mouseup.ke' + self.uuid, function() {
+        $(document).on('mouseup.ke' + self.uuid, function () {
             handleMouseUp();
         });
 
@@ -1003,12 +1131,12 @@ KindEditor.plugin('table', function (K) {
         ].join(''));
 
         var cmdToggleBack = self.cmd.toggle;
-        var cmdToggle = function(wrapper, map, flag) {
+        var cmdToggle = function (wrapper, map, flag) {
             var self = this;
             if (flag === undefined || flag === null) {
                 flag = self.commonNode(map);
             }
-            if(flag) {
+            if (flag) {
                 self.remove(map);
             } else {
                 self.wrap(wrapper);
@@ -1016,7 +1144,7 @@ KindEditor.plugin('table', function (K) {
             return self.select();
         };
 
-        var eachSelectCells = function(eachCallback, beforeCallback, afterCallback) {
+        var eachSelectCells = function (eachCallback, beforeCallback, afterCallback) {
             var range = self.cmd.range;
             if (range && range.endContainer) {
                 var $cell = $(range.endContainer).closest('th,td');
@@ -1038,9 +1166,9 @@ KindEditor.plugin('table', function (K) {
             }
         };
 
-        self.cmd.toggle = function(wrapper, map) {
+        self.cmd.toggle = function (wrapper, map) {
             var flag;
-            if (eachSelectCells(function() {
+            if (eachSelectCells(function () {
                 self.cmd.range.selectNodeContents(this);
                 self.cmd.select();
                 cmdToggle.call(self.cmd, wrapper, map, flag);
@@ -1056,9 +1184,9 @@ KindEditor.plugin('table', function (K) {
 
         var commands = ',justifyleft,justifycenter,justifyright,justifyfull,insertorderedlist,insertunorderedlist,';
         var clickToolbarBack = self.clickToolbar;
-        self.clickToolbar = function(name, fn) {
+        self.clickToolbar = function (name, fn) {
             if (fn === undefined && commands.indexOf(',' + name + ',') > -1) {
-                if (eachSelectCells(function() {
+                if (eachSelectCells(function () {
                     self.cmd.range.selectNode(this);
                     self.cmd.select();
                     clickToolbarBack.call(self, name, fn);
@@ -1070,7 +1198,7 @@ KindEditor.plugin('table', function (K) {
         }
     });
 
-    self.beforeRemove(function() {
+    self.beforeRemove(function () {
         $(self.edit.doc.body).off('.ke' + self.uuid);
         $(document).off('.ke' + self.uuid);
     });
