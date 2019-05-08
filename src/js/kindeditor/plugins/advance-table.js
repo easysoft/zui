@@ -888,13 +888,16 @@ KindEditor.plugin('table', function (K) {
         self.plugin.getSelectedCells = function () {
             var table = self.plugin.getSelectedTable();
             if (table.length) {
-                return K('.ke-select-cell', table.get(0));
+                var cells = K('.ke-select-cell', table.get(0));
+                if (cells && cells.length > 1) {
+                    return cells;
+                }
             }
         };
         // 当用户没有拖选多个单元格时，获取光标所在的单元格
         self.plugin.getSingleSelectedCell = function () {
             var selectedCells = self.plugin.getSelectedCells();
-            if (selectedCells.length > 1) {
+            if (selectedCells && selectedCells.length > 1) {
                 return;
             }
             return self.plugin.getSelectedCell();
@@ -917,8 +920,24 @@ KindEditor.plugin('table', function (K) {
                 cond = self.plugin.getSelectedTable;
             } else if (val === 'mergeCells') {
                 cond = self.plugin.getSelectedCells;
-            } else if (K.inArray(val, ['colinsertleft', 'colinsertright', 'rowinsertabove', 'rowinsertbelow', 'rowmerge', 'colmerge']) > -1) {
-                cond = self.plugin.getSingleSelectedCell;
+            }else if (val === 'rowmerge') {
+                cond = function() {
+                    var cell = self.plugin.getSingleSelectedCell();
+                    if (cell && cell.length) {
+                        if($(cell.get(0)).parent().next('tr').length) {
+                            return cell;
+                        }
+                    }
+                };
+            } else if (val === 'colmerge') {
+                cond = function() {
+                    var cell = self.plugin.getSingleSelectedCell();
+                    if (cell && cell.length) {
+                        if($(cell.get(0)).next('th,td').length) {
+                            return cell;
+                        }
+                    }
+                };
             } else if (val === 'rowsplit') {
                 cond = function() {
                     var cell = self.plugin.getSingleSelectedCell();
@@ -933,7 +952,9 @@ KindEditor.plugin('table', function (K) {
                         return cell;
                     }
                 };
-            } else {
+            } else if (K.inArray(val, ['colinsertleft', 'colinsertright', 'rowinsertabove', 'rowinsertbelow']) > -1) {
+                cond = self.plugin.getSingleSelectedCell;
+            }  else {
                 cond = self.plugin.getSelectedCell;
             }
             self.addContextmenu({
