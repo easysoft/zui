@@ -25,7 +25,8 @@ KindEditor.plugin('table', function (K) {
             tableWidthFull: '按页面宽度自适应',
             tableBorder: '表格边框',
             tableHead: '标题',
-            tableContent: '内容'
+            tableContent: '内容',
+            mergeSelectedCells: '合并所选单元格',
         },
         zh_tw: {
             name: '表格',
@@ -41,7 +42,8 @@ KindEditor.plugin('table', function (K) {
             tableWidthFull: '按頁面寬度自適應',
             tableBorder: '表格邊框',
             tableHead: '標題',
-            tableContent: '內容'
+            tableContent: '內容',
+            mergeSelectedCells: '合併所選單元格',
         },
         en: {
             name: 'Table',
@@ -57,7 +59,8 @@ KindEditor.plugin('table', function (K) {
             tableWidthFull: 'Page width adaptive',
             tableBorder: 'Table border',
             tableHead: 'Title',
-            tableContent: 'Text'
+            tableContent: 'Text',
+            mergeSelectedCells: 'Merge Selected Cells',
         }
     };
     var $elements = [];
@@ -607,6 +610,9 @@ KindEditor.plugin('table', function (K) {
                 self.cmd.select();
                 self.addBookmark();
             },
+            mergeSelectedCells: function() {
+                console.log('mergeSelectedCells');
+            },
             rowsplit: function () {
                 var table = self.plugin.getSelectedTable()[0],
                     row = self.plugin.getSelectedRow()[0],
@@ -654,43 +660,54 @@ KindEditor.plugin('table', function (K) {
                 self.addBookmark();
             },
             coldelete: function () {
-                var table = self.plugin.getSelectedTable()[0],
-                    row = self.plugin.getSelectedRow()[0],
-                    cell = self.plugin.getSelectedCell()[0],
-                    index = cell.cellIndex;
-                for (var i = 0, len = table.rows.length; i < len; i++) {
-                    var newRow = table.rows[i],
-                        newCell = newRow.cells[index];
-                    if (newCell.colSpan > 1) {
-                        newCell.colSpan -= 1;
-                        if (newCell.colSpan === 1) {
-                            K(newCell).removeAttr('colSpan');
+                var table = self.plugin.getSelectedTable()[0];
+                var cells = self.plugin.getAllSelectedCells();
+                if (!cells.length) return;
+                for (var j = 0; j < cells.length; ++j) {
+                    var cell = cells.get(j);
+                    var row = cell.parentNode;
+                    if (!row || !row.parentNode) continue;
+                    var index = cell.cellIndex;
+                    for (var i = 0, len = table.rows.length; i < len; i++) {
+                        var newRow = table.rows[i],
+                            newCell = newRow.cells[index];
+                        if (newCell.colSpan > 1) {
+                            newCell.colSpan -= 1;
+                            if (newCell.colSpan === 1) {
+                                K(newCell).removeAttr('colSpan');
+                            }
+                        } else {
+                            newRow.deleteCell(index);
                         }
-                    } else {
-                        newRow.deleteCell(index);
+                        // 跳过不需要删除的行
+                        if (newCell.rowSpan > 1) {
+                            i += newCell.rowSpan - 1;
+                        }
                     }
-                    // 跳过不需要删除的行
-                    if (newCell.rowSpan > 1) {
-                        i += newCell.rowSpan - 1;
+                    if (row.cells.length === 0) {
+                        self.cmd.range.setStartBefore(table).collapse(true);
+                        self.cmd.select();
+                        K(table).remove();
+                        break;
                     }
                 }
-                if (row.cells.length === 0) {
-                    self.cmd.range.setStartBefore(table).collapse(true);
-                    self.cmd.select();
-                    K(table).remove();
-                } else {
+                if (table.parentNode) {
                     self.cmd.selection(true);
                 }
                 self.addBookmark();
             },
             rowdelete: function () {
-                var table = self.plugin.getSelectedTable()[0],
-                    row = self.plugin.getSelectedRow()[0],
-                    cell = self.plugin.getSelectedCell()[0],
-                    rowIndex = row.rowIndex;
-                // 从下到上删除
-                for (var i = cell.rowSpan - 1; i >= 0; i--) {
-                    table.deleteRow(rowIndex + i);
+                var table = self.plugin.getSelectedTable()[0];
+                var cells = self.plugin.getAllSelectedCells();
+                if (!cells.length) return;
+                for (var j = 0; j < cells.length; ++j) {
+                    var cell = cells.get(j);
+                    var row = cell.parentNode;
+                    if (!row || !row.parentNode) continue;
+                    // 从下到上删除
+                    for (var i = cell.rowSpan - 1; i >= 0; i--) {
+                        table.deleteRow(row.rowIndex + i);
+                    }
                 }
                 if (table.rows.length === 0) {
                     self.cmd.range.setStartBefore(table).collapse(true);
@@ -706,18 +723,54 @@ KindEditor.plugin('table', function (K) {
         self.plugin.getSelectedTable = function() {
             return K($(self.cmd.range.startContainer).closest('table')[0]);
         };
+        // 获取选中的行
         self.plugin.getSelectedRow = function() {
             return K($(self.cmd.range.startContainer).closest('tr')[0]);
         };
+        // 获取光标所在的单元格
         self.plugin.getSelectedCell = function() {
             return K($(self.cmd.range.startContainer).closest('td,th')[0]);
         };
+        // 获取用户拖选的单元格
+        self.plugin.getSelectedCells = function() {
+            var table = self.plugin.getSelectedTable();
+            if (table.length) {
+                return K('.ke-select-cell', table.get(0));
+            }
+        };
+        // 当用户没有拖选时，获取光标所在的单元格
+        self.plugin.getSingleSelectedCell = function() {
+            var selectedCells = self.plugin.getSelectedCells();
+            if (selectedCells.length) {
+                return;
+            }
+            return self.plugin.getSelectedCell();
+        };
+        // 获取用户拖选或光标所在位置的单元格
+        self.plugin.getAllSelectedCells = function() {
+            var selectedCells = self.plugin.getSelectedCells();
+            if (selectedCells.length) {
+                return selectedCells;
+            }
+            return self.plugin.getSelectedCell();
+        };
 
-        K.each(('prop,cellprop,colinsertleft,colinsertright,rowinsertabove,rowinsertbelow,rowmerge,colmerge,' +
-            'rowsplit,colsplit,coldelete,rowdelete,delete').split(','), function(i, val) {
-            var cond = K.inArray(val, ['prop', 'delete']) < 0 ? self.plugin.getSelectedCell : self.plugin.getSelectedTable;
+        var contextMenuIconClass = {
+            mergeSelectedCells: 'ke-icon-tablecolmerge'
+        };
+        K.each(('prop,cellprop,colinsertleft,colinsertright,rowinsertabove,rowinsertbelow,mergeSelectedCells,rowmerge,colmerge,rowsplit,colsplit,coldelete,rowdelete,delete').split(','), function(i, val) {
+            var cond;
+            if (val === 'prop' || val === 'delete') {
+                cond = self.plugin.getSelectedTable;
+            } else if (val === 'mergeSelectedCells') {
+                cond = self.plugin.getSelectedCells;
+            } else if (K.inArray(val, ['colinsertleft', 'colinsertright', 'rowinsertabove', 'rowinsertbelow', 'rowmerge', 'colmerge', 'rowsplit', 'colsplit']) > -1) {
+                cond = self.plugin.getSingleSelectedCell;
+            } else {
+                cond = self.plugin.getSelectedCell;
+            }
             self.addContextmenu({
-                title: self.lang('table' + val),
+                title: lang[val] || self.lang('table' + val),
                 click: function() {
                     self.loadPlugin('table', function() {
                         self.plugin.table[val]();
@@ -726,7 +779,7 @@ KindEditor.plugin('table', function (K) {
                 },
                 cond: cond,
                 width: 170,
-                iconClass: 'ke-icon-table' + val
+                iconClass: contextMenuIconClass[val] || ('ke-icon-table' + val)
             });
         });
     }
@@ -886,7 +939,9 @@ KindEditor.plugin('table', function (K) {
             isMouseDown = true;
             mouseDownRowIndex = $cell.closest('tr')[0].rowIndex;
             mouseDownCellIndex = $cell[0].cellIndex;
-            $(self.edit.doc).find('.ke-select-cell').removeClass('ke-select-cell');
+            if (e.which !== 3) {
+                $(self.edit.doc).find('.ke-select-cell').removeClass('ke-select-cell');
+            }
         }).on('mousemove.ke' + self.uuid, function(e) {
             var $cell = $(e.target).closest('td,th');
             if (!$cell.length) return isMouseDown ? e.preventDefault() : null;
