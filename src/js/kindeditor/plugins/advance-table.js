@@ -552,15 +552,6 @@ KindEditor.plugin('table', function (K) {
                             };
                             for(var i = 0; i < cells.length; ++i) {
                                 cells.eq(i).css(style);
-                                // $cell.prev().css({borderRightColor: style['border-color']});
-                                // var $row = $cell.closest('tr');
-                                // var $prevRow = $row.prev();
-                                // if (!$prevRow.length) {
-                                //     $prevRow = $row.closest('thead,tbody,tfoot').prev('thead,tbody,tfoot').children('tr').last();
-                                // }
-                                // if ($prevRow.length) {
-
-                                // }
                             }
                             self.hideDialog().focus();
                             self.cmd.range.moveToBookmark(bookmark);
@@ -1057,6 +1048,7 @@ KindEditor.plugin('table', function (K) {
             return false;
         }
         var hasCellSelected = false;
+        var hasNewCellSelect = false;
         var $rows = $table.children('thead,tbody,tfoot').children('tr').each(function () {
             $(this).children('td,th').each(function () {
                 var $cell = $(this);
@@ -1068,20 +1060,29 @@ KindEditor.plugin('table', function (K) {
                     right = Math.max(right, pos.right);
                     $cell.addClass('ke-select-cell');
                     hasCellSelected = true;
+                    hasNewCellSelect = true;
                 }
             });
         });
-        if (hasCellSelected) {
+        while(hasNewCellSelect) {
+            hasNewCellSelect = false;
             $rows.each(function () {
                 $(this).children('td,th').each(function () {
                     var $cell = $(this);
                     if ($cell.hasClass('ke-select-cell')) return;
                     var pos = $cell.cellPos();
                     if (pos.right >= left && pos.left <= right && pos.bottom >= top && pos.top <= bottom) {
+                        top = Math.min(top, pos.top);
+                        left = Math.min(left, pos.left);
+                        bottom = Math.max(bottom, pos.bottom);
+                        right = Math.max(right, pos.right);
                         $cell.addClass('ke-select-cell');
+                        hasNewCellSelect = true;
                     }
                 });
             });
+        }
+        if (hasCellSelected) {
             self.tableSelectionRange = {
                 top: top,
                 left: left,
@@ -1101,21 +1102,6 @@ KindEditor.plugin('table', function (K) {
             top: rowIndex,
             bottom: rowIndex,
         });
-        // var maxColIndex = 0;
-        // $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function () {
-        //     var $cell = $(this);
-        //     var cellPos = $cell.cellPos();
-        //     if (cellPos.top === rowIndex) {
-        //         $cell.addClass('ke-select-cell');
-        //         maxColIndex = Math.max(maxColIndex, cellPos.right);
-        //     }
-        // });
-        // self.tableSelectionRange = {
-        //     top: rowIndex,
-        //     left: 0,
-        //     bottom: rowIndex,
-        //     right: maxColIndex,
-        // };
     };
 
     var selectCol = function ($table, cellIndex) {
@@ -1125,21 +1111,6 @@ KindEditor.plugin('table', function (K) {
             top: 0,
             bottom: $table.data('tableSize').height - 1,
         });
-        // var maxRowIndex = 0;
-        // $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function () {
-        //     var $cell = $(this);
-        //     var cellPos = $cell.cellPos();
-        //     if (cellPos.left === cellIndex) {
-        //         $cell.addClass('ke-select-cell');
-        //         maxRowIndex = Math.max(maxRowIndex, cellPos.bottom);
-        //     }
-        // });
-        // self.tableSelectionRange = {
-        //     top: 0,
-        //     left: cellIndex,
-        //     bottom: maxRowIndex,
-        //     right: cellIndex,
-        // };
     };
 
     self.afterCreate(function () {
@@ -1152,17 +1123,21 @@ KindEditor.plugin('table', function (K) {
         var handleMouseUp = function () {
             isMouseDown = false;
             $mouseDownTable = null;
+            mouseMoveCellPos = null;
         };
 
-        $(self.edit.doc.body).on('mousedown.ke' + self.uuid, 'table', function (e) {
-            var $table = $(e.currentTarget);
-            if (!$table.length) return;
+        $(self.edit.doc.body).on('mousedown.ke' + self.uuid, function (e) {
             var $cell = $(e.target).closest('td,th');
-            if (!$cell.length) return;
-            $mouseDownTable = $table;
-            isMouseDown = true;
-            mouseDownCellPos = $cell.cellPos(true);
-            if (e.which !== 3) {
+            var $table = $cell.closest('table');
+            var rightClickOnTable = false;
+            if ($cell.length && $table.length) {
+                $mouseDownTable = $table;
+                isMouseDown = true;
+                mouseDownCellPos = $cell.cellPos(true);
+                rightClickOnTable = e.which === 3;
+                $table.removeClass('ke-select-cells');
+            }
+            if (!rightClickOnTable) {
                 $(self.edit.doc).find('.ke-select-cell').removeClass('ke-select-cell');
                 self.tableSelectionRange = null;
             }
@@ -1171,12 +1146,13 @@ KindEditor.plugin('table', function (K) {
             if (!$cell.length) return isMouseDown ? e.preventDefault() : null;
             var $table = $cell.closest('table');
             if (!$table.length) return isMouseDown ? e.preventDefault() : null;
-            $table.removeClass('ke-select-row ke-select-col');
+            $table.removeClass('ke-select-row ke-select-col ke-select-cells');
             mouseMoveCellPos = $cell.cellPos();
             if (isMouseDown) {
                 if ($table[0] !== $mouseDownTable[0]) return;
                 $(self.edit.doc).find('table').find('.ke-select-cell').removeClass('ke-select-cell');
                 if (selectCellsRange($table, mouseDownCellPos, mouseMoveCellPos)) {
+                    $table.addClass('ke-select-cells');
                     e.preventDefault();
                 }
             } else {
@@ -1201,13 +1177,14 @@ KindEditor.plugin('table', function (K) {
         }).on('mouseup.ke' + self.uuid, function (e) {
             var $target = $(e.target);
             var $cell = $target.closest('td,th');
-            if (!$cell.length) return;
-            if (mouseMoveCellPos && mouseMoveCellPos.selectRow !== undefined) {
-                selectRow($mouseMoveTable, mouseMoveCellPos.selectRow);
-                e.stopPropagation();
-            } else if (mouseMoveCellPos && mouseMoveCellPos.selectCol !== undefined) {
-                selectCol($mouseMoveTable, mouseMoveCellPos.selectCol);
-                e.stopPropagation();
+            if ($cell.length) {
+                if (mouseMoveCellPos && mouseMoveCellPos.selectRow !== undefined) {
+                    selectRow($mouseMoveTable, mouseMoveCellPos.selectRow);
+                    e.stopPropagation();
+                } else if (mouseMoveCellPos && mouseMoveCellPos.selectCol !== undefined) {
+                    selectCol($mouseMoveTable, mouseMoveCellPos.selectCol);
+                    e.stopPropagation();
+                }
             }
             handleMouseUp();
         }).on('paste.ke' + self.uuid + ' keydown.ke' + self.uuid, function () {
@@ -1219,9 +1196,10 @@ KindEditor.plugin('table', function (K) {
 
         $(self.edit.doc.head).append([
             '<style>',
+            '.ke-select-cells {cursor: cell}',
             '.ke-select-row {cursor: e-resize; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMAqiTk590pHjjw0cZyAjPTb5hoAAAARUlEQVQI12MgCnAowJmdbjAW7/rPcOHS/3Bh9vgvCSCaR1BQcP9/IxCT8T8IAIVhTKBGuAK4NrhppUBBTCteGqE6hzAAAHccHSlSjBVHAAAAAElFTkSuQmCC) 10 10, auto}',
             '.ke-select-col {cursor: s-resize; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAJ1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADdEvm1AAAADHRSTlMAqiPfH+Q58dPHcgLUxK6wAAAAUklEQVQI12MgCiyUgjNlDuJlcoOYG8DMDAWZgyxtIBZbjYnMQefjCUAmU8zhOSdtjiqAhJ3PAEEQWC2LzZkzIEGwMFgQKgwShApDBUGGKBDlagAGvBgJQ+z5fwAAAABJRU5ErkJggg==) 10 10, auto}',
-            '.ke-select-cell {outline: #b3d4fc 2px solid; outline-offset: -1px; position: relative}',
+            '.ke-select-cell {outline: #b3d4fc 2px solid; outline-color: rgba(100, 150, 255, 0.7); outline-offset: -1px; position: relative}',
             '.ke-select-cell:before {content: " "; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0, 50, 255, 0.08)}',
             '</style>',
         ].join(''));
