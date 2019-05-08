@@ -160,9 +160,9 @@ KindEditor.plugin('table', function (K) {
                         var $firstRow = $table.find('tbody>tr:first').children();
                         var colsCount = 0;
                         $firstRow.each(function() {
-                           var $cell = $(this);
-                           var cellSpan = $cell.attr('colspan');
-                           colsCount += cellSpan ? parseInt(cellSpan) : 1;
+                            var $cell = $(this);
+                            var cellSpan = $cell.attr('colspan');
+                            colsCount += cellSpan ? parseInt(cellSpan) : 1;
                         });
                         for(var i = 0; i < colsCount; ++i) {
                             theadHtml.push('<th>' + (K.IE ? '&nbsp;' : '<br />') +  '</th>');
@@ -241,36 +241,37 @@ KindEditor.plugin('table', function (K) {
         theadHtml.push('</tr></thead>');
         tbodyHtml.push('</tbody>');
         var dialogHtml = [
-'<div class="container" style="padding: 15px">',
-    '<div class="row">',
-        '<div class="col-xs-5 col-left">',
-            '<div class="form-group">',
-                '<label>{tableStyle}</label>',
-                '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="header"> {addHeaderRow}</label></div>',
-                '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="stripedRows"> {stripedRows}</label></div>',
-                // '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="hoverRows"> {hoverRows}</label></div>',
-            '</div>',
-            '<div class="form-group">',
-                '<label>{autoChangeTableWidth}</label>',
-                '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value="auto"> {tableWidthFixed}</label></div>',
-                '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value=""> {tableWidthFull}</label></div>',
-            '</div>',
-            '<div class="form-group" style="margin: 0">',
-                '<label>{tableBorder}</label>',
-                '<div class="input-group" style="width: 180px">',
-                    '<span class="input-group-addon">{borderColor}</span>',
-                    '<input class="form-control ke-plugin-table-input-color" readonly style="background: #dddddd; color: #333; font-size: 12px" value="#dddddd" name="borderColor" />',
+            '<div class="container" style="padding: 15px">',
+                '<div class="row">',
+                    '<div class="col-xs-5 col-left">',
+                        '<div class="form-group">',
+                            '<label>{tableStyle}</label>',
+                            '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="header"> {addHeaderRow}</label></div>',
+                            '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="stripedRows"> {stripedRows}</label></div>',
+                            // '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="hoverRows"> {hoverRows}</label></div>',
+                        '</div>',
+                        '<div class="form-group">',
+                            '<label>{autoChangeTableWidth}</label>',
+                            '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value="auto"> {tableWidthFixed}</label></div>',
+                            '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value=""> {tableWidthFull}</label></div>',
+                        '</div>',
+                        '<div class="form-group" style="margin: 0">',
+                            '<label>{tableBorder}</label>',
+                            '<div class="input-group" style="width: 180px">',
+                                '<span class="input-group-addon">{borderColor}</span>',
+                                '<input class="form-control ke-plugin-table-input-color" readonly style="background: #dddddd; color: #333; font-size: 12px" value="#dddddd" name="borderColor" />',
+                            '</div>',
+                        '</div>',
+                    '</div>',
+                    '<div class="col-xs-7 col-right">',
+                        '<table class="table table-bordered table-kindeditor ke-plugin-table-example">',
+                            theadHtml.join(''),
+                            tbodyHtml.join(''),
+                        '<table>',
+                    '</div>',
                 '</div>',
-            '</div>',
-        '</div>',
-        '<div class="col-xs-7 col-right">',
-            '<table class="table table-bordered table-kindeditor ke-plugin-table-example">',
-                theadHtml.join(''),
-                tbodyHtml.join(''),
-            '<table>',
-        '</div>',
-    '</div>',
-'</div>'].join('').format(lang);
+            '</div>'
+        ].join('').format(lang);
         var $dialog = $(dialogHtml);
         var $exampleTable = $dialog.find('.ke-plugin-table-example');
         var bookmark = self.cmd.range.createBookmark();
@@ -333,373 +334,402 @@ KindEditor.plugin('table', function (K) {
         });
     }
 
-    self.plugin.table = {
-        // modify table
-        prop: function () {
-            var table = self.plugin.getSelectedTable();
-            if (table && table.length) {
-                modifyTable(table);
-            }
-        },
-        //modify cell
-        cellprop: function () {
-            var html = [
-                '<div style="padding:20px;">',
-                //width, height
-                '<div class="ke-dialog-row">',
-                '<label for="keWidth" style="width:90px;">' + lang.size + '</label>',
-                lang.width + ' <input type="text" id="keWidth" class="ke-input-text ke-input-number" name="width" value="" maxlength="4" /> &nbsp; ',
-                '<select name="widthType">',
-                '<option value="%">' + lang.percent + '</option>',
-                '<option value="px">' + lang.px + '</option>',
-                '</select> &nbsp; ',
-                lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" /> &nbsp; ',
-                '<select name="heightType">',
-                '<option value="%">' + lang.percent + '</option>',
-                '<option value="px">' + lang.px + '</option>',
-                '</select>',
-                '</div>',
-                //align
-                '<div class="ke-dialog-row">',
-                '<label for="keAlign" style="width:90px;">' + lang.align + '</label>',
-                lang.textAlign + ' <select id="keAlign" name="textAlign">',
-                '<option value="">' + lang.alignDefault + '</option>',
-                '<option value="left">' + lang.alignLeft + '</option>',
-                '<option value="center">' + lang.alignCenter + '</option>',
-                '<option value="right">' + lang.alignRight + '</option>',
-                '</select> ',
-                lang.verticalAlign + ' <select name="verticalAlign">',
-                '<option value="">' + lang.alignDefault + '</option>',
-                '<option value="top">' + lang.alignTop + '</option>',
-                '<option value="middle">' + lang.alignMiddle + '</option>',
-                '<option value="bottom">' + lang.alignBottom + '</option>',
-                '<option value="baseline">' + lang.alignBaseline + '</option>',
-                '</select>',
-                '</div>',
-                //border
-                '<div class="ke-dialog-row">',
-                '<label for="keBorder" style="width:90px;">' + lang.border + '</label>',
-                lang.borderColor + ' <span class="ke-inline-block ke-input-color"></span>',
-                '</div>',
-                //background color
-                '<div class="ke-dialog-row">',
-                '<label for="keBgColor" style="width:90px;">' + lang.backgroundColor + '</label>',
-                '<span class="ke-inline-block ke-input-color"></span>',
-                '</div>',
-                '</div>'
-            ].join('');
-            var bookmark = self.cmd.range.createBookmark();
-            var dialog = self.createDialog({
-                name: name,
-                width: 500,
-                title: self.lang('tablecell'),
-                body: html,
-                beforeRemove: function () {
-                    colorBox.unbind();
-                },
-                yesBtn: {
-                    name: self.lang('yes'),
-                    click: function (e) {
-                        var width = widthBox.val(),
-                            height = heightBox.val(),
-                            widthType = widthTypeBox.val(),
-                            heightType = heightTypeBox.val(),
-                            padding = paddingBox.val(),
-                            spacing = spacingBox.val(),
-                            textAlign = textAlignBox.val(),
-                            verticalAlign = verticalAlignBox.val(),
-                            borderColor = K(colorBox[0]).html() || '',
-                            bgColor = K(colorBox[1]).html() || '';
-                        if (!/^\d*$/.test(width)) {
-                            alert(self.lang('invalidWidth'));
-                            widthBox[0].focus();
-                            return;
-                        }
-                        if (!/^\d*$/.test(height)) {
-                            alert(self.lang('invalidHeight'));
-                            heightBox[0].focus();
-                            return;
-                        }
-                        cell.css({
-                            width: width !== '' ? (width + widthType) : '',
-                            height: height !== '' ? (height + heightType) : '',
-                            'background-color': bgColor,
-                            'text-align': textAlign,
-                            'vertical-align': verticalAlign,
-                            'border-style': 'solid',
-                            'border-color': borderColor
-                        });
-                        self.hideDialog().focus();
-                        self.cmd.range.moveToBookmark(bookmark);
-                        self.cmd.select();
-                        self.addBookmark();
-                    }
+    if (!self.plugin.table) {
+        self.plugin.table = {
+            // modify table
+            prop: function () {
+                var table = self.plugin.getSelectedTable();
+                if (table && table.length) {
+                    modifyTable(table);
                 }
-            }),
-                div = dialog.div,
-                widthBox = K('[name="width"]', div).val(100),
-                heightBox = K('[name="height"]', div),
-                widthTypeBox = K('[name="widthType"]', div),
-                heightTypeBox = K('[name="heightType"]', div),
-                paddingBox = K('[name="padding"]', div).val(2),
-                spacingBox = K('[name="spacing"]', div).val(0),
-                textAlignBox = K('[name="textAlign"]', div),
-                verticalAlignBox = K('[name="verticalAlign"]', div),
-                colorBox = K('.ke-input-color', div);
-            _initColorPicker(div, colorBox.eq(0));
-            _initColorPicker(div, colorBox.eq(1));
-            _setColor(colorBox.eq(0), '#000000');
-            _setColor(colorBox.eq(1), '');
-            // foucs and select
-            widthBox[0].focus();
-            widthBox[0].select();
-            // get selected cell
-            var cell = self.plugin.getSelectedCell();
-            var match,
-                cellWidth = cell[0].style.width || cell[0].width || '',
-                cellHeight = cell[0].style.height || cell[0].height || '';
-            if ((match = /^(\d+)((?:px|%)*)$/.exec(cellWidth))) {
-                widthBox.val(match[1]);
-                widthTypeBox.val(match[2]);
-            } else {
-                widthBox.val('');
-            }
-            if ((match = /^(\d+)((?:px|%)*)$/.exec(cellHeight))) {
-                heightBox.val(match[1]);
-                heightTypeBox.val(match[2]);
-            }
-            textAlignBox.val(cell[0].style.textAlign || '');
-            verticalAlignBox.val(cell[0].style.verticalAlign || '');
-            _setColor(colorBox.eq(0), K.toHex(cell[0].style.borderColor || ''));
-            _setColor(colorBox.eq(1), K.toHex(cell[0].style.backgroundColor || ''));
-            widthBox[0].focus();
-            widthBox[0].select();
-        },
-        insert: function () {
-            console.warn('Table insert not available.');
-        },
-        'delete': function () {
-            var table = self.plugin.getSelectedTable();
-            self.cmd.range.setStartBefore(table[0]).collapse(true);
-            self.cmd.select();
-            table.remove();
-            self.addBookmark();
-        },
-        colinsert: function (offset) {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                index = cell.cellIndex + offset;
-            // 取得第一行的index
-            index += table.rows[0].cells.length - row.cells.length;
-
-            for (var i = 0, len = table.rows.length; i < len; i++) {
-                var newRow = table.rows[i],
-                    newCell = newRow.insertCell(index);
-                if (newRow.parentNode.tagName === 'THEAD') {
-                    newCell.outerHTML = '<th></th>';
-                }
-                newCell.innerHTML = K.IE ? '' : '<br />';
-                // 调整下一行的单元格index
-                index = _getCellIndex(table, newRow, newCell);
-            }
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        colinsertleft: function () {
-            this.colinsert(0);
-        },
-        colinsertright: function () {
-            this.colinsert(1);
-        },
-        rowinsert: function (offset) {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0];
-            var rowIndex = row.rowIndex;
-            if (offset === 1) {
-                rowIndex = row.rowIndex + (cell.rowSpan - 1) + offset;
-            }
-            var newRow = table.insertRow(rowIndex);
-
-            for (var i = 0, len = row.cells.length; i < len; i++) {
-                // 调整cell个数
-                if (row.cells[i].rowSpan > 1) {
-                    len -= row.cells[i].rowSpan - 1;
-                }
-                var newCell = newRow.insertCell(i);
-                // copy colspan
-                if (offset === 1 && row.cells[i].colSpan > 1) {
-                    newCell.colSpan = row.cells[i].colSpan;
-                }
-                newCell.innerHTML = K.IE ? '' : '<br />';
-            }
-            // 调整rowspan
-            for (var j = rowIndex; j >= 0; j--) {
-                var cells = table.rows[j].cells;
-                if (cells.length > i) {
-                    for (var k = cell.cellIndex; k >= 0; k--) {
-                        if (cells[k].rowSpan > 1) {
-                            cells[k].rowSpan += 1;
+            },
+            //modify cell
+            cellprop: function () {
+                var html = [
+                    '<div style="padding:20px;">',
+                        //width, height
+                        '<div class="ke-dialog-row">',
+                            '<label for="keWidth" style="width:90px;">' + lang.size + '</label>',
+                            lang.width + ' <input type="text" id="keWidth" class="ke-input-text ke-input-number" name="width" value="" maxlength="4" /> &nbsp; ',
+                            '<select name="widthType">',
+                            '<option value="%">' + lang.percent + '</option>',
+                            '<option value="px">' + lang.px + '</option>',
+                            '</select> &nbsp; ',
+                            lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" /> &nbsp; ',
+                            '<select name="heightType">',
+                            '<option value="%">' + lang.percent + '</option>',
+                            '<option value="px">' + lang.px + '</option>',
+                            '</select>',
+                        '</div>',
+                        //align
+                        '<div class="ke-dialog-row">',
+                        '<label for="keAlign" style="width:90px;">' + lang.align + '</label>',
+                        lang.textAlign + ' <select id="keAlign" name="textAlign">',
+                        '<option value="">' + lang.alignDefault + '</option>',
+                        '<option value="left">' + lang.alignLeft + '</option>',
+                        '<option value="center">' + lang.alignCenter + '</option>',
+                        '<option value="right">' + lang.alignRight + '</option>',
+                        '</select> ',
+                        lang.verticalAlign + ' <select name="verticalAlign">',
+                        '<option value="">' + lang.alignDefault + '</option>',
+                        '<option value="top">' + lang.alignTop + '</option>',
+                        '<option value="middle">' + lang.alignMiddle + '</option>',
+                        '<option value="bottom">' + lang.alignBottom + '</option>',
+                        '<option value="baseline">' + lang.alignBaseline + '</option>',
+                        '</select>',
+                        '</div>',
+                        //border
+                        '<div class="ke-dialog-row">',
+                        '<label for="keBorder" style="width:90px;">' + lang.border + '</label>',
+                        lang.borderColor + ' <span class="ke-inline-block ke-input-color"></span>',
+                        '</div>',
+                        //background color
+                        '<div class="ke-dialog-row">',
+                        '<label for="keBgColor" style="width:90px;">' + lang.backgroundColor + '</label>',
+                        '<span class="ke-inline-block ke-input-color"></span>',
+                        '</div>',
+                    '</div>',
+                ].join('');
+                var bookmark = self.cmd.range.createBookmark();
+                var dialog = self.createDialog({
+                    name: name,
+                    width: 500,
+                    title: self.lang('tablecell'),
+                    body: html,
+                    beforeRemove: function () {
+                        colorBox.unbind();
+                    },
+                    yesBtn: {
+                        name: self.lang('yes'),
+                        click: function (e) {
+                            var width = widthBox.val(),
+                                height = heightBox.val(),
+                                widthType = widthTypeBox.val(),
+                                heightType = heightTypeBox.val(),
+                                padding = paddingBox.val(),
+                                spacing = spacingBox.val(),
+                                textAlign = textAlignBox.val(),
+                                verticalAlign = verticalAlignBox.val(),
+                                borderColor = K(colorBox[0]).html() || '',
+                                bgColor = K(colorBox[1]).html() || '';
+                            if (!/^\d*$/.test(width)) {
+                                alert(self.lang('invalidWidth'));
+                                widthBox[0].focus();
+                                return;
+                            }
+                            if (!/^\d*$/.test(height)) {
+                                alert(self.lang('invalidHeight'));
+                                heightBox[0].focus();
+                                return;
+                            }
+                            cell.css({
+                                width: width !== '' ? (width + widthType) : '',
+                                height: height !== '' ? (height + heightType) : '',
+                                'background-color': bgColor,
+                                'text-align': textAlign,
+                                'vertical-align': verticalAlign,
+                                'border-style': 'solid',
+                                'border-color': borderColor
+                            });
+                            self.hideDialog().focus();
+                            self.cmd.range.moveToBookmark(bookmark);
+                            self.cmd.select();
+                            self.addBookmark();
                         }
                     }
-                    break;
-                }
-            }
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        rowinsertabove: function () {
-            this.rowinsert(0);
-        },
-        rowinsertbelow: function () {
-            this.rowinsert(1);
-        },
-        rowmerge: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                rowIndex = row.rowIndex, // 当前行的index
-                nextRowIndex = rowIndex + cell.rowSpan, // 下一行的index
-                nextRow = table.rows[nextRowIndex]; // 下一行
-            // 最后一行不能合并
-            if (table.rows.length <= nextRowIndex) {
-                return;
-            }
-            var cellIndex = cell.cellIndex; // 下一行单元格的index
-            if (nextRow.cells.length <= cellIndex) {
-                return;
-            }
-            var nextCell = nextRow.cells[cellIndex]; // 下一行单元格
-            // 上下行的colspan不一致时不能合并
-            if (cell.colSpan !== nextCell.colSpan) {
-                return;
-            }
-            cell.rowSpan += nextCell.rowSpan;
-            nextRow.deleteCell(cellIndex);
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        colmerge: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                rowIndex = row.rowIndex, // 当前行的index
-                cellIndex = cell.cellIndex,
-                nextCellIndex = cellIndex + 1;
-            // 最后一列不能合并
-            if (row.cells.length <= nextCellIndex) {
-                return;
-            }
-            var nextCell = row.cells[nextCellIndex];
-            // 左右列的rowspan不一致时不能合并
-            if (cell.rowSpan !== nextCell.rowSpan) {
-                return;
-            }
-            cell.colSpan += nextCell.colSpan;
-            row.deleteCell(nextCellIndex);
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        rowsplit: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                rowIndex = row.rowIndex;
-            // 不是可分割单元格
-            if (cell.rowSpan === 1) {
-                return;
-            }
-            var cellIndex = _getCellIndex(table, row, cell);
-            for (var i = 1, len = cell.rowSpan; i < len; i++) {
-                var newRow = table.rows[rowIndex + i],
-                    newCell = newRow.insertCell(cellIndex);
-                if (cell.colSpan > 1) {
-                    newCell.colSpan = cell.colSpan;
-                }
-                newCell.innerHTML = K.IE ? '' : '<br />';
-                // 调整下一行的单元格index
-                cellIndex = _getCellIndex(table, newRow, newCell);
-            }
-            K(cell).removeAttr('rowSpan');
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        colsplit: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                cellIndex = cell.cellIndex;
-            // 不是可分割单元格
-            if (cell.colSpan === 1) {
-                return;
-            }
-            for (var i = 1, len = cell.colSpan; i < len; i++) {
-                var newCell = row.insertCell(cellIndex + i);
-                if (cell.rowSpan > 1) {
-                    newCell.rowSpan = cell.rowSpan;
-                }
-                newCell.innerHTML = K.IE ? '' : '<br />';
-            }
-            K(cell).removeAttr('colSpan');
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        coldelete: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                index = cell.cellIndex;
-            for (var i = 0, len = table.rows.length; i < len; i++) {
-                var newRow = table.rows[i],
-                    newCell = newRow.cells[index];
-                if (newCell.colSpan > 1) {
-                    newCell.colSpan -= 1;
-                    if (newCell.colSpan === 1) {
-                        K(newCell).removeAttr('colSpan');
-                    }
+                }),
+                    div = dialog.div,
+                    widthBox = K('[name="width"]', div).val(100),
+                    heightBox = K('[name="height"]', div),
+                    widthTypeBox = K('[name="widthType"]', div),
+                    heightTypeBox = K('[name="heightType"]', div),
+                    paddingBox = K('[name="padding"]', div).val(2),
+                    spacingBox = K('[name="spacing"]', div).val(0),
+                    textAlignBox = K('[name="textAlign"]', div),
+                    verticalAlignBox = K('[name="verticalAlign"]', div),
+                    colorBox = K('.ke-input-color', div);
+                _initColorPicker(div, colorBox.eq(0));
+                _initColorPicker(div, colorBox.eq(1));
+                _setColor(colorBox.eq(0), '#000000');
+                _setColor(colorBox.eq(1), '');
+                // foucs and select
+                widthBox[0].focus();
+                widthBox[0].select();
+                // get selected cell
+                var cell = self.plugin.getSelectedCell();
+                var match,
+                    cellWidth = cell[0].style.width || cell[0].width || '',
+                    cellHeight = cell[0].style.height || cell[0].height || '';
+                if ((match = /^(\d+)((?:px|%)*)$/.exec(cellWidth))) {
+                    widthBox.val(match[1]);
+                    widthTypeBox.val(match[2]);
                 } else {
-                    newRow.deleteCell(index);
+                    widthBox.val('');
                 }
-                // 跳过不需要删除的行
-                if (newCell.rowSpan > 1) {
-                    i += newCell.rowSpan - 1;
+                if ((match = /^(\d+)((?:px|%)*)$/.exec(cellHeight))) {
+                    heightBox.val(match[1]);
+                    heightTypeBox.val(match[2]);
                 }
-            }
-            if (row.cells.length === 0) {
-                self.cmd.range.setStartBefore(table).collapse(true);
+                textAlignBox.val(cell[0].style.textAlign || '');
+                verticalAlignBox.val(cell[0].style.verticalAlign || '');
+                _setColor(colorBox.eq(0), K.toHex(cell[0].style.borderColor || ''));
+                _setColor(colorBox.eq(1), K.toHex(cell[0].style.backgroundColor || ''));
+                widthBox[0].focus();
+                widthBox[0].select();
+            },
+            insert: function () {
+                console.warn('Table insert not available.');
+            },
+            'delete': function () {
+                var table = self.plugin.getSelectedTable();
+                self.cmd.range.setStartBefore(table[0]).collapse(true);
                 self.cmd.select();
-                K(table).remove();
-            } else {
-                self.cmd.selection(true);
-            }
-            self.addBookmark();
-        },
-        rowdelete: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                rowIndex = row.rowIndex;
-            // 从下到上删除
-            for (var i = cell.rowSpan - 1; i >= 0; i--) {
-                table.deleteRow(rowIndex + i);
-            }
-            if (table.rows.length === 0) {
-                self.cmd.range.setStartBefore(table).collapse(true);
+                table.remove();
+                self.addBookmark();
+            },
+            colinsert: function (offset) {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    index = cell.cellIndex + offset;
+                // 取得第一行的index
+                index += table.rows[0].cells.length - row.cells.length;
+
+                for (var i = 0, len = table.rows.length; i < len; i++) {
+                    var newRow = table.rows[i],
+                        newCell = newRow.insertCell(index);
+                    if (newRow.parentNode.tagName === 'THEAD') {
+                        newCell.outerHTML = '<th></th>';
+                    }
+                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                    // 调整下一行的单元格index
+                    index = _getCellIndex(table, newRow, newCell);
+                }
+                self.cmd.range.selectNodeContents(cell).collapse(true);
                 self.cmd.select();
-                K(table).remove();
-            } else {
-                self.cmd.selection(true);
+                self.addBookmark();
+            },
+            colinsertleft: function () {
+                this.colinsert(0);
+            },
+            colinsertright: function () {
+                this.colinsert(1);
+            },
+            rowinsert: function (offset) {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0];
+                var rowIndex = row.rowIndex;
+                if (offset === 1) {
+                    rowIndex = row.rowIndex + (cell.rowSpan - 1) + offset;
+                }
+                var newRow = table.insertRow(rowIndex);
+
+                for (var i = 0, len = row.cells.length; i < len; i++) {
+                    // 调整cell个数
+                    if (row.cells[i].rowSpan > 1) {
+                        len -= row.cells[i].rowSpan - 1;
+                    }
+                    var newCell = newRow.insertCell(i);
+                    // copy colspan
+                    if (offset === 1 && row.cells[i].colSpan > 1) {
+                        newCell.colSpan = row.cells[i].colSpan;
+                    }
+                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                }
+                // 调整rowspan
+                for (var j = rowIndex; j >= 0; j--) {
+                    var cells = table.rows[j].cells;
+                    if (cells.length > i) {
+                        for (var k = cell.cellIndex; k >= 0; k--) {
+                            if (cells[k].rowSpan > 1) {
+                                cells[k].rowSpan += 1;
+                            }
+                        }
+                        break;
+                    }
+                }
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            rowinsertabove: function () {
+                this.rowinsert(0);
+            },
+            rowinsertbelow: function () {
+                this.rowinsert(1);
+            },
+            rowmerge: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    rowIndex = row.rowIndex, // 当前行的index
+                    nextRowIndex = rowIndex + cell.rowSpan, // 下一行的index
+                    nextRow = table.rows[nextRowIndex]; // 下一行
+                // 最后一行不能合并
+                if (table.rows.length <= nextRowIndex) {
+                    return;
+                }
+                var cellIndex = cell.cellIndex; // 下一行单元格的index
+                if (nextRow.cells.length <= cellIndex) {
+                    return;
+                }
+                var nextCell = nextRow.cells[cellIndex]; // 下一行单元格
+                // 上下行的colspan不一致时不能合并
+                if (cell.colSpan !== nextCell.colSpan) {
+                    return;
+                }
+                cell.rowSpan += nextCell.rowSpan;
+                nextRow.deleteCell(cellIndex);
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            colmerge: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    rowIndex = row.rowIndex, // 当前行的index
+                    cellIndex = cell.cellIndex,
+                    nextCellIndex = cellIndex + 1;
+                // 最后一列不能合并
+                if (row.cells.length <= nextCellIndex) {
+                    return;
+                }
+                var nextCell = row.cells[nextCellIndex];
+                // 左右列的rowspan不一致时不能合并
+                if (cell.rowSpan !== nextCell.rowSpan) {
+                    return;
+                }
+                cell.colSpan += nextCell.colSpan;
+                row.deleteCell(nextCellIndex);
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            rowsplit: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    rowIndex = row.rowIndex;
+                // 不是可分割单元格
+                if (cell.rowSpan === 1) {
+                    return;
+                }
+                var cellIndex = _getCellIndex(table, row, cell);
+                for (var i = 1, len = cell.rowSpan; i < len; i++) {
+                    var newRow = table.rows[rowIndex + i],
+                        newCell = newRow.insertCell(cellIndex);
+                    if (cell.colSpan > 1) {
+                        newCell.colSpan = cell.colSpan;
+                    }
+                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                    // 调整下一行的单元格index
+                    cellIndex = _getCellIndex(table, newRow, newCell);
+                }
+                K(cell).removeAttr('rowSpan');
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            colsplit: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    cellIndex = cell.cellIndex;
+                // 不是可分割单元格
+                if (cell.colSpan === 1) {
+                    return;
+                }
+                for (var i = 1, len = cell.colSpan; i < len; i++) {
+                    var newCell = row.insertCell(cellIndex + i);
+                    if (cell.rowSpan > 1) {
+                        newCell.rowSpan = cell.rowSpan;
+                    }
+                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                }
+                K(cell).removeAttr('colSpan');
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            coldelete: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    index = cell.cellIndex;
+                for (var i = 0, len = table.rows.length; i < len; i++) {
+                    var newRow = table.rows[i],
+                        newCell = newRow.cells[index];
+                    if (newCell.colSpan > 1) {
+                        newCell.colSpan -= 1;
+                        if (newCell.colSpan === 1) {
+                            K(newCell).removeAttr('colSpan');
+                        }
+                    } else {
+                        newRow.deleteCell(index);
+                    }
+                    // 跳过不需要删除的行
+                    if (newCell.rowSpan > 1) {
+                        i += newCell.rowSpan - 1;
+                    }
+                }
+                if (row.cells.length === 0) {
+                    self.cmd.range.setStartBefore(table).collapse(true);
+                    self.cmd.select();
+                    K(table).remove();
+                } else {
+                    self.cmd.selection(true);
+                }
+                self.addBookmark();
+            },
+            rowdelete: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    rowIndex = row.rowIndex;
+                // 从下到上删除
+                for (var i = cell.rowSpan - 1; i >= 0; i--) {
+                    table.deleteRow(rowIndex + i);
+                }
+                if (table.rows.length === 0) {
+                    self.cmd.range.setStartBefore(table).collapse(true);
+                    self.cmd.select();
+                    K(table).remove();
+                } else {
+                    self.cmd.selection(true);
+                }
+                self.addBookmark();
             }
-            self.addBookmark();
-        }
-    };
+        };
+
+        self.plugin.getSelectedTable = function() {
+            return K($(self.cmd.range.startContainer).closest('table')[0]);
+        };
+        self.plugin.getSelectedRow = function() {
+            return K($(self.cmd.range.startContainer).closest('tr')[0]);
+        };
+        self.plugin.getSelectedCell = function() {
+            return K($(self.cmd.range.startContainer).closest('td,th')[0]);
+        };
+
+        K.each(('prop,cellprop,colinsertleft,colinsertright,rowinsertabove,rowinsertbelow,rowmerge,colmerge,' +
+            'rowsplit,colsplit,coldelete,rowdelete,delete').split(','), function(i, val) {
+            var cond = K.inArray(val, ['prop', 'delete']) < 0 ? self.plugin.getSelectedCell : self.plugin.getSelectedTable;
+            self.addContextmenu({
+                title: self.lang('table' + val),
+                click: function() {
+                    self.loadPlugin('table', function() {
+                        self.plugin.table[val]();
+                        self.hideMenu();
+                    });
+                },
+                cond: cond,
+                width: 170,
+                iconClass: 'ke-icon-table' + val
+            });
+        });
+    }
 
     self.clickToolbar(name, function () {
         if (self.menu) return;
@@ -859,9 +889,9 @@ KindEditor.plugin('table', function (K) {
             $(self.edit.doc).find('.ke-select-cell').removeClass('ke-select-cell');
         }).on('mousemove.ke' + self.uuid, function(e) {
             var $cell = $(e.target).closest('td,th');
-            if (!$cell.length) return isMouseDown && e.preventDefault();
+            if (!$cell.length) return isMouseDown ? e.preventDefault() : null;
             var $table = $cell.closest('table');
-            if (!$table.length) return isMouseDown && e.preventDefault();
+            if (!$table.length) return isMouseDown ? e.preventDefault() : null;
             $table.removeClass('ke-select-row ke-select-col');
             mouseMoveRowIndex = null;
             mouseMoveCellIndex = null;
@@ -974,7 +1004,7 @@ KindEditor.plugin('table', function (K) {
         self.clickToolbar = function(name, fn) {
             if (fn === undefined && commands.indexOf(',' + name + ',') > -1) {
                 if (eachSelectCells(function() {
-                    self.cmd.range.selectNodeContents(this);
+                    self.cmd.range.selectNode(this);
                     self.cmd.select();
                     clickToolbarBack.call(self, name, fn);
                 })) {

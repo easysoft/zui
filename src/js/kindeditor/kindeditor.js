@@ -6082,31 +6082,7 @@
                 title: '-'
             });
         });
-        self.plugin.getSelectedTable = function() {
-            return self.cmd.commonAncestor('table');
-        };
-        self.plugin.getSelectedRow = function() {
-            return self.cmd.commonAncestor('tr');
-        };
-        self.plugin.getSelectedCell = function() {
-            return self.cmd.commonAncestor('td') || self.cmd.commonAncestor('th');
-        };
-        _each(('prop,cellprop,colinsertleft,colinsertright,rowinsertabove,rowinsertbelow,rowmerge,colmerge,' +
-            'rowsplit,colsplit,coldelete,rowdelete,delete').split(','), function(i, val) {
-            var cond = _inArray(val, ['prop', 'delete']) < 0 ? self.plugin.getSelectedCell : self.plugin.getSelectedTable;
-            self.addContextmenu({
-                title: self.lang('table' + val),
-                click: function() {
-                    self.loadPlugin('table', function() {
-                        self.plugin.table[val]();
-                        self.hideMenu();
-                    });
-                },
-                cond: cond,
-                width: 170,
-                iconClass: 'ke-icon-table' + val
-            });
-        });
+
         self.addContextmenu({
             title: '-'
         });
