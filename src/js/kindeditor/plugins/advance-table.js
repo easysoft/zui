@@ -11,7 +11,9 @@
     /* scan individual table and set "cellPos" data in the form { left: x-coord, top: y-coord } */
     function scanTable($table) {
         var m = [];
-        $table.children('tr').each(function (y, row) {
+        var tableWidth = 0;
+        var tableHeight = 0;
+        $table.children('thead,tbody,tfoot').children('tr').each(function (y, row) {
             $(row).children('td,th').each(function (x, cell) {
                 var $cell = $(cell),
                     cspan = $cell.attr('colspan') | 0,
@@ -30,9 +32,12 @@
                 }
                 var pos = {top: y, left: x, bottom: y + rspan - 1, right: x + cspan - 1};
                 $cell.data('cellPos', pos);
-                $cell.text(x + ', ' + y + ' | ' + pos.right + ',' + pos.bottom);
+                tableWidth = Math.max(tableWidth, pos.right);
+                tableHeight = Math.max(tableHeight, pos.bottom);
+                // $cell.text(x + ', ' + y + ' | ' + pos.right + ',' + pos.bottom);
             });
         });
+        $table.data('tableSize', {width: tableWidth + 1, height: tableHeight + 1});
     };
 
     /* plugin */
@@ -40,7 +45,7 @@
         var $cell = this.first(),
             pos = $cell.data('cellPos');
         if (!pos || rescan) {
-            var $table = $cell.closest('table,thead,tbody,tfoot');
+            var $table = $cell.closest('table');
             scanTable($table);
         }
         pos = $cell.data('cellPos');
@@ -77,6 +82,10 @@ KindEditor.plugin('table', function (K) {
             tableHead: '标题',
             tableContent: '内容',
             mergeCells: '合并所选单元格',
+            defaultColor: '默认颜色',
+            color: '颜色',
+            forecolor: '文字颜色',
+            backcolor: '背景颜色'
         },
         zh_tw: {
             name: '表格',
@@ -94,6 +103,10 @@ KindEditor.plugin('table', function (K) {
             tableHead: '標題',
             tableContent: '內容',
             mergeCells: '合併所選單元格',
+            defaultColor: '默認顏色',
+            color: '顏色',
+            forecolor: '文字顏色',
+            backcolor: '背景顏色'
         },
         en: {
             name: 'Table',
@@ -111,10 +124,15 @@ KindEditor.plugin('table', function (K) {
             tableHead: 'Title',
             tableContent: 'Text',
             mergeCells: 'Merge Selected Cells',
+            defaultColor: 'Default color',
+            color: 'Color',
+            forecolor: 'Text Color',
+            backcolor: 'Back Color'
         }
     };
     var $elements = [];
     var lang = $.extend({}, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
+    var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
 
     // 设置颜色
     function _setColor(box, color) {
@@ -147,9 +165,9 @@ KindEditor.plugin('table', function (K) {
                 x: pos.x,
                 y: pos.y + box.height(),
                 z: 811214,
-                selectedColor: K(this).html(),
+                selectedColor: K(this).val(),
                 colors: self.colorTable,
-                noColor: self.lang('table.defaultBorderColor'),
+                noColor: lang['defaultColor'],
                 shadowMode: self.shadowMode,
                 click: function (color) {
                     _setColor(box, color);
@@ -188,7 +206,7 @@ KindEditor.plugin('table', function (K) {
         if (!$table || !$table.length) return;
         if (!setting) {
             setting = $.extend({
-                borderColor: '#ddd'
+                borderColor: defaultTableBorderColor
             }, self.tableSetting, setting);
             if (setting.autoWidth === undefined) {
                 setting.autoWidth = $table[0].style.width === 'auto';
@@ -218,7 +236,7 @@ KindEditor.plugin('table', function (K) {
                             colsCount += cellSpan ? parseInt(cellSpan) : 1;
                         });
                         for (var i = 0; i < colsCount; ++i) {
-                            theadHtml.push('<th>' + (K.IE ? '&nbsp;' : '<br />') + '</th>');
+                            theadHtml.push('<th style="border: 1px solid ' + (setting.borderColor || defaultTableBorderColor)  + '">' + (K.IE ? '&nbsp;' : '<br />') + '</th>');
                         }
                         theadHtml.push('</tr></thead>');
                         $thead = $(theadHtml.join(''));
@@ -251,7 +269,7 @@ KindEditor.plugin('table', function (K) {
             onUpdateSetting && onUpdateSetting('autoWidth', setting.autoWidth);
         }
         if (setting.borderColor !== undefined) {
-            $table.find('td,th').css('border', '1px solid ' + setting.borderColor);
+            $table.find('td,th').css('border-color', setting.borderColor);
             onUpdateSetting && onUpdateSetting('borderColor', setting.borderColor);
         }
     }
@@ -260,12 +278,12 @@ KindEditor.plugin('table', function (K) {
         if (!(row * col)) {
             return;
         }
-        var $table = $('<table class="table table-kindeditor table-bordered "></table>');
+        var $table = $('<table class="table table-kindeditor"></table>');
         var $body = $('<tbody></tbody>');
         for (var r = 0; r < row; r++) {
             var $row = $('<tr></tr>');
             for (var c = 0; c < col; c++) {
-                var $cell = $('<td style="border-color: #ddd">' + (K.IE ? '&nbsp;' : '<br />') + '</td>');
+                var $cell = $('<td style="border: 1px solid ' + defaultTableBorderColor + '">' + (K.IE ? '&nbsp;' : '<br />') + '</td>');
                 $row.append($cell);
             }
             $body.append($row);
@@ -312,7 +330,7 @@ KindEditor.plugin('table', function (K) {
             '<label>{tableBorder}</label>',
             '<div class="input-group" style="width: 180px">',
             '<span class="input-group-addon">{borderColor}</span>',
-            '<input class="form-control ke-plugin-table-input-color" readonly style="background: #dddddd; color: #333; font-size: 12px" value="#dddddd" name="borderColor" />',
+            '<input class="form-control ke-plugin-table-input-color" readonly style="background: ' + defaultTableBorderColor + '; color: #333; font-size: 12px" value="' + defaultTableBorderColor + '" name="borderColor" />',
             '</div>',
             '</div>',
             '</div>',
@@ -369,7 +387,7 @@ KindEditor.plugin('table', function (K) {
         updateTable(self.tableSetting, $exampleTable, function (name, value) {
             switch (name) {
                 case 'borderColor':
-                    _setColor(colorBox, value || '#dddddd');
+                    _setColor(colorBox, value || defaultTableBorderColor);
                     break;
                 case 'header':
                     $dialog.find('[name="header"]').prop('checked', !!value);
@@ -399,51 +417,97 @@ KindEditor.plugin('table', function (K) {
             //modify cell
             cellprop: function () {
                 var html = [
-                    '<div style="padding:20px;">',
-                    //width, height
-                    '<div class="ke-dialog-row">',
-                    '<label for="keWidth" style="width:90px;">' + lang.size + '</label>',
-                    lang.width + ' <input type="text" id="keWidth" class="ke-input-text ke-input-number" name="width" value="" maxlength="4" /> &nbsp; ',
-                    '<select name="widthType">',
-                    '<option value="%">' + lang.percent + '</option>',
-                    '<option value="px">' + lang.px + '</option>',
-                    '</select> &nbsp; ',
-                    lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" /> &nbsp; ',
-                    '<select name="heightType">',
-                    '<option value="%">' + lang.percent + '</option>',
-                    '<option value="px">' + lang.px + '</option>',
-                    '</select>',
-                    '</div>',
-                    //align
-                    '<div class="ke-dialog-row">',
-                    '<label for="keAlign" style="width:90px;">' + lang.align + '</label>',
-                    lang.textAlign + ' <select id="keAlign" name="textAlign">',
-                    '<option value="">' + lang.alignDefault + '</option>',
-                    '<option value="left">' + lang.alignLeft + '</option>',
-                    '<option value="center">' + lang.alignCenter + '</option>',
-                    '<option value="right">' + lang.alignRight + '</option>',
-                    '</select> ',
-                    lang.verticalAlign + ' <select name="verticalAlign">',
-                    '<option value="">' + lang.alignDefault + '</option>',
-                    '<option value="top">' + lang.alignTop + '</option>',
-                    '<option value="middle">' + lang.alignMiddle + '</option>',
-                    '<option value="bottom">' + lang.alignBottom + '</option>',
-                    '<option value="baseline">' + lang.alignBaseline + '</option>',
-                    '</select>',
-                    '</div>',
-                    //border
-                    '<div class="ke-dialog-row">',
-                    '<label for="keBorder" style="width:90px;">' + lang.border + '</label>',
-                    lang.borderColor + ' <span class="ke-inline-block ke-input-color"></span>',
-                    '</div>',
-                    //background color
-                    '<div class="ke-dialog-row">',
-                    '<label for="keBgColor" style="width:90px;">' + lang.backgroundColor + '</label>',
-                    '<span class="ke-inline-block ke-input-color"></span>',
-                    '</div>',
+                    '<div class="form-horizontal" style="padding: 20px;">',
+                        //width, height
+                        '<div class="form-group">',
+                            '<label class="col-xs-2" style="margin: 0;">' + lang.size + '</label>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.width + '</span>',
+                                    '<input type="number" class="form-control" id="keWidth" name="width" value="" maxlength="4" />',
+                                    '<span class="input-group-addon fix-border fix-padding"></span>',
+                                    '<select name="widthType" class="form-control" style="width: 45px">',
+                                        '<option value="%">' + lang.percent + '</option>',
+                                        '<option value="px">' + lang.px + '</option>',
+                                    '</select>',
+                                '</div>',
+                            '</div>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.height + '</span>',
+                                    '<input type="number" class="form-control" id="keWidth" name="height" value="" maxlength="4" />',
+                                    '<span class="input-group-addon fix-border fix-padding"></span>',
+                                    '<select name="heightType" class="form-control" style="width: 45px">',
+                                        '<option value="%">' + lang.percent + '</option>',
+                                        '<option value="px">' + lang.px + '</option>',
+                                    '</select>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                        //align
+                        '<div class="form-group">',
+                            '<label class="col-xs-2" style="margin: 0;">' + lang.align + '</label>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.textAlign + '</span>',
+                                    '<select id="keAlign" name="textAlign" class="form-control">',
+                                        '<option value="">' + lang.alignDefault + '</option>',
+                                        '<option value="left">' + lang.alignLeft + '</option>',
+                                        '<option value="center">' + lang.alignCenter + '</option>',
+                                        '<option value="right">' + lang.alignRight + '</option>',
+                                    '</select>',
+                                '</div>',
+                            '</div>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.verticalAlign + '</span>',
+                                    '<select name="verticalAlign" class="form-control">',
+                                        '<option value="">' + lang.alignDefault + '</option>',
+                                        '<option value="top">' + lang.alignTop + '</option>',
+                                        '<option value="middle">' + lang.alignMiddle + '</option>',
+                                        '<option value="bottom">' + lang.alignBottom + '</option>',
+                                        '<option value="baseline">' + lang.alignBaseline + '</option>',
+                                    '</select>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                        //border
+                        '<div class="form-group">',
+                            '<label class="col-xs-2" style="margin: 0;">' + lang.border + '</label>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.borderColor + '</span>',
+                                    '<input class="form-control ke-plugin-table-input-color" readonly style="background: ' + defaultTableBorderColor + '; color: #333; font-size: 12px" value="' + defaultTableBorderColor + '" name="borderColor" />',
+                                '</div>',
+                            '</div>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.size + '</span>',
+                                    '<input type="number" class="form-control" name="borderWidth" value="1" min="0" step="1" />',
+                                    '<span class="input-group-addon">px</span>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                        //background color
+                        '<div class="form-group">',
+                            '<label class="col-xs-2" style="margin: 0;">' + lang.color + '</label>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.forecolor + '</span>',
+                                    '<input class="form-control ke-plugin-table-input-color" readonly style="background: #333; color: #fff; font-size: 12px" value="#333" name="forecolor" />',
+                                '</div>',
+                            '</div>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.backcolor + '</span>',
+                                    '<input class="form-control ke-plugin-table-input-color" readonly style="background: #fff; color: #333; font-size: 12px" value="#333" name="backgroundColor" />',
+                                '</div>',
+                            '</div>',
+                        '</div>',
                     '</div>',
                 ].join('');
                 var bookmark = self.cmd.range.createBookmark();
+                var div, widthBox, heightBox, widthTypeBox, widthTypeBox, textAlignBox, verticalAlignBox, colorBox, borderWidthBox;
                 var dialog = self.createDialog({
                     name: name,
                     width: 500,
@@ -459,12 +523,12 @@ KindEditor.plugin('table', function (K) {
                                 height = heightBox.val(),
                                 widthType = widthTypeBox.val(),
                                 heightType = heightTypeBox.val(),
-                                padding = paddingBox.val(),
-                                spacing = spacingBox.val(),
                                 textAlign = textAlignBox.val(),
                                 verticalAlign = verticalAlignBox.val(),
-                                borderColor = K(colorBox[0]).html() || '',
-                                bgColor = K(colorBox[1]).html() || '';
+                                borderWidth = borderWidthBox.val() + 'px',
+                                borderColor = K(colorBox[0]).val() || '',
+                                textColor = K(colorBox[1]).val() || '',
+                                bgColor = K(colorBox[2]).val() || '';
                             if (!/^\d*$/.test(width)) {
                                 alert(self.lang('invalidWidth'));
                                 widthBox[0].focus();
@@ -475,36 +539,51 @@ KindEditor.plugin('table', function (K) {
                                 heightBox[0].focus();
                                 return;
                             }
-                            cell.css({
+                            var cells = self.plugin.getAllSelectedCells();
+                            var style = {
                                 width: width !== '' ? (width + widthType) : '',
                                 height: height !== '' ? (height + heightType) : '',
                                 'background-color': bgColor,
                                 'text-align': textAlign,
+                                'border-width': borderWidth,
                                 'vertical-align': verticalAlign,
-                                'border-style': 'solid',
-                                'border-color': borderColor
-                            });
+                                'border-color': borderColor,
+                                color: textColor
+                            };
+                            for(var i = 0; i < cells.length; ++i) {
+                                cells.eq(i).css(style);
+                                // $cell.prev().css({borderRightColor: style['border-color']});
+                                // var $row = $cell.closest('tr');
+                                // var $prevRow = $row.prev();
+                                // if (!$prevRow.length) {
+                                //     $prevRow = $row.closest('thead,tbody,tfoot').prev('thead,tbody,tfoot').children('tr').last();
+                                // }
+                                // if ($prevRow.length) {
+
+                                // }
+                            }
                             self.hideDialog().focus();
                             self.cmd.range.moveToBookmark(bookmark);
                             self.cmd.select();
                             self.addBookmark();
                         }
                     }
-                }),
-                    div = dialog.div,
-                    widthBox = K('[name="width"]', div).val(100),
-                    heightBox = K('[name="height"]', div),
-                    widthTypeBox = K('[name="widthType"]', div),
-                    heightTypeBox = K('[name="heightType"]', div),
-                    paddingBox = K('[name="padding"]', div).val(2),
-                    spacingBox = K('[name="spacing"]', div).val(0),
-                    textAlignBox = K('[name="textAlign"]', div),
-                    verticalAlignBox = K('[name="verticalAlign"]', div),
-                    colorBox = K('.ke-input-color', div);
+                });
+                div = dialog.div,
+                widthBox = K('[name="width"]', div).val(100),
+                heightBox = K('[name="height"]', div),
+                widthTypeBox = K('[name="widthType"]', div),
+                heightTypeBox = K('[name="heightType"]', div),
+                textAlignBox = K('[name="textAlign"]', div),
+                verticalAlignBox = K('[name="verticalAlign"]', div),
+                borderWidthBox = K('[name="borderWidth"]', div),
+                colorBox = K('.ke-plugin-table-input-color', div);
                 _initColorPicker(div, colorBox.eq(0));
                 _initColorPicker(div, colorBox.eq(1));
+                _initColorPicker(div, colorBox.eq(2));
                 _setColor(colorBox.eq(0), '#000000');
                 _setColor(colorBox.eq(1), '');
+                _setColor(colorBox.eq(2), '');
                 // foucs and select
                 widthBox[0].focus();
                 widthBox[0].select();
@@ -523,10 +602,15 @@ KindEditor.plugin('table', function (K) {
                     heightBox.val(match[1]);
                     heightTypeBox.val(match[2]);
                 }
+                var borderWidth = cell[0].style.borderWidth || '';
+                if ((match = /^(\d+)((?:px)*)$/.exec(borderWidth))) {
+                    borderWidthBox.val(match[1]);
+                }
                 textAlignBox.val(cell[0].style.textAlign || '');
                 verticalAlignBox.val(cell[0].style.verticalAlign || '');
                 _setColor(colorBox.eq(0), K.toHex(cell[0].style.borderColor || ''));
-                _setColor(colorBox.eq(1), K.toHex(cell[0].style.backgroundColor || ''));
+                _setColor(colorBox.eq(1), K.toHex(cell[0].style.color || ''));
+                _setColor(colorBox.eq(2), K.toHex(cell[0].style.backgroundColor || ''));
                 widthBox[0].focus();
                 widthBox[0].select();
             },
@@ -550,11 +634,9 @@ KindEditor.plugin('table', function (K) {
 
                 for (var i = 0, len = table.rows.length; i < len; i++) {
                     var newRow = table.rows[i],
-                        newCell = newRow.insertCell(index);
-                    if (newRow.parentNode.tagName === 'THEAD') {
-                        newCell.outerHTML = '<th></th>';
-                    }
-                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                        newCell = newRow.insertCell(index),
+                        isThead = newRow.parentNode.tagName === 'THEAD';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     // 调整下一行的单元格index
                     index = _getCellIndex(table, newRow, newCell);
                 }
@@ -577,6 +659,7 @@ KindEditor.plugin('table', function (K) {
                     rowIndex = row.rowIndex + (cell.rowSpan - 1) + offset;
                 }
                 var newRow = table.insertRow(rowIndex);
+                var isThead = newRow.parentNode.tagName === 'THEAD';
 
                 for (var i = 0, len = row.cells.length; i < len; i++) {
                     // 调整cell个数
@@ -588,7 +671,7 @@ KindEditor.plugin('table', function (K) {
                     if (offset === 1 && row.cells[i].colSpan > 1) {
                         newCell.colSpan = row.cells[i].colSpan;
                     }
-                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                 }
                 // 调整rowspan
                 for (var j = rowIndex; j >= 0; j--) {
@@ -965,47 +1048,11 @@ KindEditor.plugin('table', function (K) {
         return false;
     });
 
-    var selectRow = function ($table, rowIndex) {
-        var maxColIndex = 0;
-        $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function () {
-            var $cell = $(this);
-            var cellPos = $cell.cellPos();
-            if (cellPos.top === rowIndex) {
-                $cell.addClass('ke-select-cell');
-                maxColIndex = Math.max(maxColIndex, cellPos.right);
-            }
-        });
-        self.tableSelectionRange = {
-            top: rowIndex,
-            left: 0,
-            bottom: rowIndex,
-            right: maxColIndex,
-        };
-    };
-
-    var selectCol = function ($table, cellIndex) {
-        var maxRowIndex = 0;
-        $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function () {
-            var $cell = $(this);
-            var cellPos = $cell.cellPos();
-            if (cellPos.left === cellIndex) {
-                $cell.addClass('ke-select-cell');
-                maxRowIndex = Math.max(maxRowIndex, cellPos.bottom);
-            }
-        });
-        self.tableSelectionRange = {
-            top: 0,
-            left: cellIndex,
-            bottom: maxRowIndex,
-            right: cellIndex,
-        };
-    };
-
     var selectCellsRange = function ($table, startPos, endPos) {
-        var top = Math.min(startPos.top, endPos.top);
-        var left = Math.min(startPos.left, endPos.left);
-        var bottom = Math.max(startPos.bottom, endPos.bottom);
-        var right = Math.max(startPos.right, endPos.right);
+        var top = endPos ? Math.min(startPos.top, endPos.top) : startPos.top;
+        var left = endPos ? Math.min(startPos.left, endPos.left) : startPos.left;
+        var bottom = endPos ? Math.max(startPos.bottom, endPos.bottom) : startPos.bottom;
+        var right = endPos ? Math.max(startPos.right, endPos.right) : startPos.right;
         if (top === bottom && left === right) {
             return false;
         }
@@ -1045,6 +1092,54 @@ KindEditor.plugin('table', function (K) {
             self.tableSelectionRange = null;
         }
         return hasCellSelected;
+    };
+
+    var selectRow = function ($table, rowIndex) {
+        return selectCellsRange($table, {
+            left: 0,
+            right: $table.data('tableSize').width - 1,
+            top: rowIndex,
+            bottom: rowIndex,
+        });
+        // var maxColIndex = 0;
+        // $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function () {
+        //     var $cell = $(this);
+        //     var cellPos = $cell.cellPos();
+        //     if (cellPos.top === rowIndex) {
+        //         $cell.addClass('ke-select-cell');
+        //         maxColIndex = Math.max(maxColIndex, cellPos.right);
+        //     }
+        // });
+        // self.tableSelectionRange = {
+        //     top: rowIndex,
+        //     left: 0,
+        //     bottom: rowIndex,
+        //     right: maxColIndex,
+        // };
+    };
+
+    var selectCol = function ($table, cellIndex) {
+        return selectCellsRange($table, {
+            left: cellIndex,
+            right: cellIndex,
+            top: 0,
+            bottom: $table.data('tableSize').height - 1,
+        });
+        // var maxRowIndex = 0;
+        // $table.children('thead,tbody,tfoot').children('tr').children('td,th').each(function () {
+        //     var $cell = $(this);
+        //     var cellPos = $cell.cellPos();
+        //     if (cellPos.left === cellIndex) {
+        //         $cell.addClass('ke-select-cell');
+        //         maxRowIndex = Math.max(maxRowIndex, cellPos.bottom);
+        //     }
+        // });
+        // self.tableSelectionRange = {
+        //     top: 0,
+        //     left: cellIndex,
+        //     bottom: maxRowIndex,
+        //     right: cellIndex,
+        // };
     };
 
     self.afterCreate(function () {
@@ -1126,7 +1221,8 @@ KindEditor.plugin('table', function (K) {
             '<style>',
             '.ke-select-row {cursor: e-resize; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMAqiTk590pHjjw0cZyAjPTb5hoAAAARUlEQVQI12MgCnAowJmdbjAW7/rPcOHS/3Bh9vgvCSCaR1BQcP9/IxCT8T8IAIVhTKBGuAK4NrhppUBBTCteGqE6hzAAAHccHSlSjBVHAAAAAElFTkSuQmCC) 10 10, auto}',
             '.ke-select-col {cursor: s-resize; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAJ1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADdEvm1AAAADHRSTlMAqiPfH+Q58dPHcgLUxK6wAAAAUklEQVQI12MgCiyUgjNlDuJlcoOYG8DMDAWZgyxtIBZbjYnMQefjCUAmU8zhOSdtjiqAhJ3PAEEQWC2LzZkzIEGwMFgQKgwShApDBUGGKBDlagAGvBgJQ+z5fwAAAABJRU5ErkJggg==) 10 10, auto}',
-            '.ke-select-cell {outline: #b3d4fc 2px solid; outline-offset: -1px;}',
+            '.ke-select-cell {outline: #b3d4fc 2px solid; outline-offset: -1px; position: relative}',
+            '.ke-select-cell:before {content: " "; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0, 50, 255, 0.08)}',
             '</style>',
         ].join(''));
 
