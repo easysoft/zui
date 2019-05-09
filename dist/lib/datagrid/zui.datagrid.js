@@ -468,8 +468,16 @@
         var isWindows = window.navigator.userAgent.match(/Win/i);
         if (isWindows) mouseWheelFactor *= 20;
         $container.on('mousewheel', function(event) {
-            that.scroll(that.layout.scrollLeft - Math.round(event.deltaX * mouseWheelFactor), that.layout.scrollTop - Math.round(event.deltaY * mouseWheelFactor));
-            event.preventDefault();
+            // check whether need scroll
+            var layout = that.layout;
+            var scrollLeft = layout.scrollLeft - Math.round(event.deltaX * mouseWheelFactor);
+            var scrollTop = layout.scrollTop - Math.round(event.deltaY * mouseWheelFactor);
+            scrollLeft = Math.max(0, Math.min(scrollLeft, layout.width - layout.containerWidth));
+            scrollTop = Math.max(0, Math.min(scrollTop, layout.height - layout.containerHeight));
+            if (scrollLeft !== layout.scrollLeft || scrollTop !== layout.scrollTop) {
+                that.scroll(scrollLeft, scrollTop);
+                event.preventDefault();
+            }
         });
 
         that.$container = $container;
