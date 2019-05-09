@@ -891,7 +891,7 @@ KindEditor.plugin('table', function (K) {
         // 获取用户拖选的单元格
         self.plugin.getSelectedCells = function () {
             var table = self.plugin.getSelectedTable();
-            if (table.length) {
+            if (table && table.length) {
                 var cells = K('.ke-select-cell', table.get(0));
                 if (cells && cells.length > 1) {
                     return cells;

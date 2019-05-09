@@ -58,6 +58,7 @@ KindEditor.plugin('pasteimage', function(K) {
                 var oldPlaceholder = self.getPlaceholder();
                 if (!oldPlaceholder) oldPlaceholder = placeholder;
                 else if (oldPlaceholder.indexOf(placeholder) < 0) placeholder = oldPlaceholder + '\n' + placeholder;
+                self.setPlaceholder(placeholder);
             }
         }
 
