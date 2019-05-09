@@ -37,7 +37,7 @@ KindEditor.plugin('pasteimage', function(K) {
             return;
         }
         if (typeof options === 'string') {
-            options = {url: options};
+            options = {postUrl: options};
         }
         $.extend({
             placeholder: placeholder
@@ -127,7 +127,7 @@ KindEditor.plugin('pasteimage', function(K) {
                     // var data   = arr[1]; // raw base64
                     // var contentType = arr[0].split(";")[0].split(":")[1];
 
-                    html = '<img src="' + result + '" alt="" />';
+                    var html = '<img src="' + result + '" alt="" />';
                     $.post(pasteUrl, {editor: html}, function(data)
                     {
                         if (data) {

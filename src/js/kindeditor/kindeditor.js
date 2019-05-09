@@ -326,7 +326,7 @@
             'br,tbody,tr,strong,b,sub,sup,em,i,u,strike,s,del': ['id', 'class'],
             iframe: ['id', 'class', 'src', 'frameborder', 'width', 'height', '.width', '.height']
         },
-        layout: '<div class="container"><div class="toolbar"></div><div class="edit"></div><div class="statusbar"></div></div>'
+        layout: '<div class="container ke-loading"><div class="toolbar"></div><div class="edit"></div><div class="statusbar"></div></div>'
     };
     var _useCapture = false;
     var _INPUT_KEY_MAP = _toMap('8,9,13,32,46,48..57,59,61,65..90,106,109..111,188,190..192,219..222');
@@ -5381,6 +5381,8 @@
                     if(self.options.afterCreate) {
                         self.options.afterCreate.call(self);
                     }
+
+                    self.container.removeClass('ke-loading');
                 }
             });
             // statusbar.removeClass('statusbar').addClass('ke-statusbar')

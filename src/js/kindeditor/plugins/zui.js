@@ -16,11 +16,6 @@ KindEditor.plugin('zui', function(K) {
     var options = self.options;
     self.uuid = $.zui.uuid();
 
-    var spellcheck = options.spellcheck;
-    if (spellcheck !== undefined) {
-        self.edit.doc.documentElement.setAttribute('spellcheck', spellcheck);
-    }
-
     self.afterBlur(function() {
         if (options.syncAfterBlur) {
             self.sync();
@@ -38,6 +33,11 @@ KindEditor.plugin('zui', function(K) {
 
     self.afterCreate(function() {
         $(self.edit.srcElement[0]).data('keditor', self);
+
+        var spellcheck = options.spellcheck;
+        if (spellcheck !== undefined) {
+            self.edit.doc.documentElement.setAttribute('spellcheck', spellcheck);
+        }
     });
 
     var nextFormControl = 'input:not([type="hidden"]), textarea:not(.ke-edit-textarea), button[type="submit"], select';

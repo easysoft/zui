@@ -18,7 +18,7 @@ KindEditor.EditorClass.prototype.setPlaceholder = function(placeholder, asHtml) 
         }
         $doc.find('body').after($placeholder);
     }
-    if ($.trim(self.html()) !== '') {
+    if (self.plugin.hasContent()) {
         $placeholder.hide();
     }
     $placeholder[asHtml ? 'html' : 'text'](placeholder);
@@ -31,8 +31,12 @@ KindEditor.EditorClass.prototype.getPlaceholder = function(asHtml) {
 KindEditor.plugin('placeholder', function(K) {
     var self = this;
 
+    self.plugin.hasContent = function() {
+        return self.html().replace(/\s|\n|\r|\t/g, '').replace(/<br\/>/g, '').replace(/<p><\/p>/g, '') !== '';
+    };
+
     self.afterBlur(function() {
-        if ($.trim(self.html()) === '') {
+        if (!self.plugin.hasContent()) {
             $(self.edit.doc).find('.kindeditor-ph').show();
         }
     });

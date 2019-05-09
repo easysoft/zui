@@ -326,7 +326,7 @@
             'br,tbody,tr,strong,b,sub,sup,em,i,u,strike,s,del': ['id', 'class'],
             iframe: ['id', 'class', 'src', 'frameborder', 'width', 'height', '.width', '.height']
         },
-        layout: '<div class="container"><div class="toolbar"></div><div class="edit"></div><div class="statusbar"></div></div>'
+        layout: '<div class="container ke-loading"><div class="toolbar"></div><div class="edit"></div><div class="statusbar"></div></div>'
     };
     var _useCapture = false;
     var _INPUT_KEY_MAP = _toMap('8,9,13,32,46,48..57,59,61,65..90,106,109..111,188,190..192,219..222');
@@ -5012,6 +5012,7 @@
                 e.preventDefault();
                 if(self.afterTab) {
                     var tabResult = self.afterTab.call(self, e);
+                    console.log('tabResult', tabResult);
                     // 如果 afterTab 回调函数返回值为 false，则继续执行原始 tab 操作，否则视为已经处理 tab 键操作
                     if (tabResult !== false) return;
                 }
@@ -5380,6 +5381,8 @@
                     if(self.options.afterCreate) {
                         self.options.afterCreate.call(self);
                     }
+
+                    self.container.removeClass('ke-loading');
                 }
             });
             // statusbar.removeClass('statusbar').addClass('ke-statusbar')
@@ -9948,11 +9951,6 @@ KindEditor.plugin('zui', function(K) {
     var options = self.options;
     self.uuid = $.zui.uuid();
 
-    var spellcheck = options.spellcheck;
-    if (spellcheck !== undefined) {
-        self.edit.doc.documentElement.setAttribute('spellcheck', spellcheck);
-    }
-
     self.afterBlur(function() {
         if (options.syncAfterBlur) {
             self.sync();
@@ -9970,6 +9968,11 @@ KindEditor.plugin('zui', function(K) {
 
     self.afterCreate(function() {
         $(self.edit.srcElement[0]).data('keditor', self);
+
+        var spellcheck = options.spellcheck;
+        if (spellcheck !== undefined) {
+            self.edit.doc.documentElement.setAttribute('spellcheck', spellcheck);
+        }
     });
 
     var nextFormControl = 'input:not([type="hidden"]), textarea:not(.ke-edit-textarea), button[type="submit"], select';
@@ -10003,7 +10006,7 @@ KindEditor.EditorClass.prototype.setPlaceholder = function(placeholder, asHtml) 
         }
         $doc.find('body').after($placeholder);
     }
-    if ($.trim(self.html()) !== '') {
+    if (self.plugin.hasContent()) {
         $placeholder.hide();
     }
     $placeholder[asHtml ? 'html' : 'text'](placeholder);
@@ -10016,8 +10019,12 @@ KindEditor.EditorClass.prototype.getPlaceholder = function(asHtml) {
 KindEditor.plugin('placeholder', function(K) {
     var self = this;
 
+    self.plugin.hasContent = function() {
+        return self.html().replace(/\s|\n|\r|\t/g, '').replace(/<br\/>/g, '').replace(/<p><\/p>/g, '') !== '';
+    };
+
     self.afterBlur(function() {
-        if ($.trim(self.html()) === '') {
+        if (!self.plugin.hasContent()) {
             $(self.edit.doc).find('.kindeditor-ph').show();
         }
     });
@@ -10074,7 +10081,7 @@ KindEditor.plugin('pasteimage', function(K) {
             return;
         }
         if (typeof options === 'string') {
-            options = {url: options};
+            options = {postUrl: options};
         }
         $.extend({
             placeholder: placeholder
@@ -10164,7 +10171,7 @@ KindEditor.plugin('pasteimage', function(K) {
                     // var data   = arr[1]; // raw base64
                     // var contentType = arr[0].split(";")[0].split(":")[1];
 
-                    html = '<img src="' + result + '" alt="" />';
+                    var html = '<img src="' + result + '" alt="" />';
                     $.post(pasteUrl, {editor: html}, function(data)
                     {
                         if (data) {
