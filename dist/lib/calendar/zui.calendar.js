@@ -1,5 +1,5 @@
 /*!
- * ZUI: 日历 - v1.9.0 - 2019-03-27
+ * ZUI: 日历 - v1.9.0 - 2019-05-09
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2019 cnezsoft.com; Licensed MIT

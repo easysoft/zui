@@ -1,5 +1,5 @@
 /*!
- * ZUI: Theme - v1.9.0 - 2019-03-27
+ * ZUI: Theme - v1.9.0 - 2019-05-09
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2019 cnezsoft.com; Licensed MIT
@@ -1112,6 +1112,10 @@ table.tablesorter thead tr .headerSortDown:after {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: #3949ab !important;
   border-bottom-left-radius: #3949ab !important;
+  }
+.chosen-container.chosen-highlight-selected .result-selected {
+  color: #3f51b5;
+  background: #eceff1;
   }
 .menu > .nav > li > .nav {
   background-color: #f6f6f6;

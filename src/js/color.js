@@ -192,7 +192,7 @@
                 if(r === 'transparent') {
                     that.a = 0;
                 } else if(namedColors[r]) {
-                    this.rgb(hexToRgb(namedColors[r]));
+                    that.rgb(hexToRgb(namedColors[r]));
                 } else if(r.indexOf('rgb') === 0) {
                     var rgbsArr = r.substring(r.indexOf('(') + 1, r.lastIndexOf(')')).split(',', 4);
                     that.rgb({

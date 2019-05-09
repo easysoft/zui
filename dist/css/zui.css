@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.0 - 2019-03-27
+ * ZUI: Standard edition - v1.9.0 - 2019-05-09
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2019 cnezsoft.com; Licensed MIT
@@ -897,7 +897,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 body {
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'PingFang SC', 'Source Han Sans CN', 'Source Han Sans', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'PingFang SC', 'Source Han Sans CN', 'Source Han Sans', 'Source Han Serif', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft YaHei', sans-serif;
   font-size: 13px;
   line-height: 1.53846154;
   color: #353535;
@@ -1882,7 +1882,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'PingFang SC', 'Source Han Sans CN', 'Source Han Sans', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'PingFang SC', 'Source Han Sans CN', 'Source Han Sans', 'Source Han Serif', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft YaHei', sans-serif;
   font-weight: bold;
   line-height: 1.1;
   color: inherit;
@@ -4148,6 +4148,21 @@ select optgroup {
   font-size: inherit;
   font-style: inherit;
   }
+.os-mac select.form-control {
+  -webkit-appearance: none;
+  background-image: url('data:image/gif;base64,R0lGODlhCQAFAIAAAMvQ2////yH5BAEAAAEALAAAAAAJAAUAAAIKhH+BGYoNGWxgFgA7');
+  background-image: url('data:image/gif;base64,R0lGODlhBwAEAIAAAMvQ2////yH5BAEAAAEALAAAAAAHAAQAAAIIhA+BGWoNWSgAOw==');
+  background-repeat: no-repeat;
+  background-position: right 5px top 14px;
+
+     -moz-appearance: none;
+  }
+.input-sm .os-mac select.form-control {
+  background-position: right 5px top 9px;
+  }
+.input-lg .os-mac select.form-control {
+  background-position: right 5px top 19px;
+  }
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
@@ -4862,6 +4877,7 @@ button.close {
   }
 table {
   max-width: 100%;
+  font-size: inherit;
   background-color: transparent;
   }
 caption {

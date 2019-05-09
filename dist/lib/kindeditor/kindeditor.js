@@ -5011,8 +5011,9 @@
             if(e.which == 9) {
                 e.preventDefault();
                 if(self.afterTab) {
-                    self.afterTab.call(self, e);
-                    return;
+                    var tabResult = self.afterTab.call(self, e);
+                    // 如果 afterTab 回调函数返回值为 false，则继续执行原始 tab 操作，否则视为已经处理 tab 键操作
+                    if (tabResult !== false) return;
                 }
                 var cmd = self.cmd,
                     range = cmd.range;
@@ -5032,12 +5033,10 @@
             if(self.afterFocus) {
                 self.afterFocus.call(self, e);
             }
-            self.container.addClass('focus');
         }).blur(function(e) {
             if(self.afterBlur) {
                 self.afterBlur.call(self, e);
             }
-            self.container.removeClass('focus');
         });
     }
 
@@ -6083,31 +6082,7 @@
                 title: '-'
             });
         });
-        self.plugin.getSelectedTable = function() {
-            return self.cmd.commonAncestor('table');
-        };
-        self.plugin.getSelectedRow = function() {
-            return self.cmd.commonAncestor('tr');
-        };
-        self.plugin.getSelectedCell = function() {
-            return self.cmd.commonAncestor('td') || self.cmd.commonAncestor('th');
-        };
-        _each(('prop,cellprop,colinsertleft,colinsertright,rowinsertabove,rowinsertbelow,rowmerge,colmerge,' +
-            'rowsplit,colsplit,coldelete,rowdelete,delete').split(','), function(i, val) {
-            var cond = _inArray(val, ['prop', 'delete']) < 0 ? self.plugin.getSelectedCell : self.plugin.getSelectedTable;
-            self.addContextmenu({
-                title: self.lang('table' + val),
-                click: function() {
-                    self.loadPlugin('table', function() {
-                        self.plugin.table[val]();
-                        self.hideMenu();
-                    });
-                },
-                cond: cond,
-                width: 170,
-                iconClass: 'ke-icon-table' + val
-            });
-        });
+
         self.addContextmenu({
             title: '-'
         });
@@ -6324,6 +6299,7 @@
         });
     });
 })(window);
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -6537,6 +6513,8 @@ KindEditor.lang({
         'FangSong_GB2312': '仿宋_GB2312',
         'KaiTi_GB2312': '楷体_GB2312',
         'SimHei': '黑体',
+        'Source Han Sans': '思源黑体',
+        'Source Han Serif': '思源宋体',
         'Microsoft YaHei': '微软雅黑',
         'Arial': 'Arial',
         'Arial Black': 'Arial Black',
@@ -6564,6 +6542,7 @@ KindEditor.lang({
         '3.html': '项目编号'
     }
 }, 'zh_CN');
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -6613,6 +6592,7 @@ KindEditor.plugin('anchor', function(K) {
     };
     self.clickToolbar(name, self.plugin.anchor.edit);
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -6657,6 +6637,7 @@ KindEditor.plugin('autoheight', function(K) {
         self.afterCreate(resetHeight);
     }
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -6755,6 +6736,7 @@ KindEditor.plugin('baidumap', function(K) {
         });
     });
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -6988,6 +6970,7 @@ KindEditor.plugin('emoticons', function(K) {
         createPageTable(currentPageNum);
     });
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -7187,6 +7170,7 @@ KindEditor.plugin('filemanager', function(K) {
     }
 
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -7350,6 +7334,7 @@ KindEditor.plugin('flash', function(K) {
     };
     self.clickToolbar(name, self.plugin.flash.edit);
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -7681,6 +7666,7 @@ KindEditor.plugin('image', function(K) {
     };
     self.clickToolbar(name, self.plugin.image.edit);
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -7820,6 +7806,7 @@ KindEditor.plugin('insertfile', function(K) {
         });
     });
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -7863,6 +7850,7 @@ KindEditor.plugin('lineheight', function(K) {
         });
     });
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -7930,6 +7918,7 @@ KindEditor.plugin('link', function(K) {
     };
     self.clickToolbar(name, self.plugin.link.edit);
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -8244,14 +8233,15 @@ KindEditor.plugin('media', function(K) {
     };
     self.clickToolbar(name, self.plugin.media.edit);
 });
+
 /*******************************************************************************
- * KindEditor - WYSIWYG HTML Editor for Internet
- * Copyright (C) 2006-2011 kindsoft.net
- *
- * @author Roddy <luolonghao@gmail.com>
- * @site http://www.kindsoft.net/
- * @licence http://www.kindsoft.net/license.php
- *******************************************************************************/
+* KindEditor - WYSIWYG HTML Editor for Internet
+* Copyright (C) 2006-2011 kindsoft.net
+*
+* @author Roddy <luolonghao@gmail.com>
+* @site http://www.kindsoft.net/
+* @licence http://www.kindsoft.net/license.php
+*******************************************************************************/
 
 
 (function(K) {
@@ -8260,7 +8250,7 @@ KindEditor.plugin('media', function(K) {
         this.init(options);
     }
     K.extend(KSWFUpload, {
-        init: function(options) {
+        init : function(options) {
             var self = this;
             options.afterError = options.afterError || function(str) {
                 alert(str);
@@ -8290,27 +8280,27 @@ KindEditor.plugin('media', function(K) {
             }
 
             var settings = {
-                debug: false,
-                upload_url: options.uploadUrl,
-                flash_url: options.flashUrl,
-                file_post_name: options.filePostName,
-                button_placeholder: K('.ke-swfupload-button > input', self.div)[0],
+                debug : false,
+                upload_url : options.uploadUrl,
+                flash_url : options.flashUrl,
+                file_post_name : options.filePostName,
+                button_placeholder : K('.ke-swfupload-button > input', self.div)[0],
                 button_image_url: options.buttonImageUrl,
                 button_width: options.buttonWidth,
                 button_height: options.buttonHeight,
-                button_cursor: SWFUpload.CURSOR.HAND,
-                file_types: options.fileTypes,
-                file_types_description: options.fileTypesDesc,
-                file_upload_limit: options.fileUploadLimit,
-                file_size_limit: options.fileSizeLimit,
-                post_params: options.postParams,
-                file_queued_handler: function(file) {
+                button_cursor : SWFUpload.CURSOR.HAND,
+                file_types : options.fileTypes,
+                file_types_description : options.fileTypesDesc,
+                file_upload_limit : options.fileUploadLimit,
+                file_size_limit : options.fileSizeLimit,
+                post_params : options.postParams,
+                file_queued_handler : function(file) {
                     file.url = self.options.fileIconUrl;
                     self.appendFile(file);
                 },
-                file_queue_error_handler: function(file, errorCode, message) {
+                file_queue_error_handler : function(file, errorCode, message) {
                     var errorName = '';
-                    switch(errorCode) {
+                    switch (errorCode) {
                         case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED:
                             errorName = options.queueLimitExceeded;
                             break;
@@ -8329,33 +8319,33 @@ KindEditor.plugin('media', function(K) {
                     }
                     K.DEBUG && alert(errorName);
                 },
-                upload_start_handler: function(file) {
+                upload_start_handler : function(file) {
                     var self = this;
                     var itemDiv = K('div[data-id="' + file.id + '"]', self.bodyDiv);
                     K('.ke-status > div', itemDiv).hide();
                     K('.ke-progressbar', itemDiv).show();
                 },
-                upload_progress_handler: function(file, bytesLoaded, bytesTotal) {
+                upload_progress_handler : function(file, bytesLoaded, bytesTotal) {
                     var percent = Math.round(bytesLoaded * 100 / bytesTotal);
                     var progressbar = self.progressbars[file.id];
                     progressbar.bar.css('width', Math.round(percent * 80 / 100) + 'px');
                     progressbar.percent.html(percent + '%');
                 },
-                upload_error_handler: function(file, errorCode, message) {
-                    if(file && file.filestatus == SWFUpload.FILE_STATUS.ERROR) {
+                upload_error_handler : function(file, errorCode, message) {
+                    if (file && file.filestatus == SWFUpload.FILE_STATUS.ERROR) {
                         var itemDiv = K('div[data-id="' + file.id + '"]', self.bodyDiv).eq(0);
                         showError(itemDiv, self.options.errorMessage);
                     }
                 },
-                upload_success_handler: function(file, serverData) {
+                upload_success_handler : function(file, serverData) {
                     var itemDiv = K('div[data-id="' + file.id + '"]', self.bodyDiv).eq(0);
                     var data = {};
                     try {
                         data = K.json(serverData);
-                    } catch(e) {
+                    } catch (e) {
                         self.options.afterError.call(this, '<!doctype html><html>' + serverData + '</html>');
                     }
-                    if(data.error !== 0) {
+                    if (data.error !== 0) {
                         showError(itemDiv, K.DEBUG ? data.message : self.options.errorMessage);
                         return;
                     }
@@ -8370,18 +8360,18 @@ KindEditor.plugin('media', function(K) {
                 self.swfu.startUpload();
             });
         },
-        getUrlList: function() {
+        getUrlList : function() {
             var list = [];
             K('.ke-img', self.bodyDiv).each(function() {
                 var img = K(this);
                 var status = img.attr('data-status');
-                if(status == SWFUpload.FILE_STATUS.COMPLETE) {
+                if (status == SWFUpload.FILE_STATUS.COMPLETE) {
                     list.push(img.data('data'));
                 }
             });
             return list;
         },
-        removeFile: function(fileId) {
+        removeFile : function(fileId) {
             var self = this;
             self.swfu.cancelUpload(fileId);
             var itemDiv = K('div[data-id="' + fileId + '"]', self.bodyDiv);
@@ -8389,13 +8379,13 @@ KindEditor.plugin('media', function(K) {
             K('.ke-delete', itemDiv).unbind();
             itemDiv.remove();
         },
-        removeFiles: function() {
+        removeFiles : function() {
             var self = this;
             K('.ke-item', self.bodyDiv).each(function() {
                 self.removeFile(K(this).attr('data-id'));
             });
         },
-        appendFile: function(file) {
+        appendFile : function(file) {
             var self = this;
             var itemDiv = K('<div class="ke-inline-block ke-item" data-id="' + file.id + '"></div>');
             self.bodyDiv.append(itemDiv);
@@ -8417,19 +8407,18 @@ KindEditor.plugin('media', function(K) {
             // progressbar
             K(['<div class="ke-progressbar">',
                 '<div class="ke-progressbar-bar"><div class="ke-progressbar-bar-inner"></div></div>',
-                '<div class="ke-progressbar-percent">0%</div></div>'
-            ].join('')).hide().appendTo(statusDiv);
+                '<div class="ke-progressbar-percent">0%</div></div>'].join('')).hide().appendTo(statusDiv);
             // message
             K('<div class="ke-message">' + self.options.pendingMessage + '</div>').appendTo(statusDiv);
 
             itemDiv.append('<div class="ke-name">' + file.name + '</div>');
 
             self.progressbars[file.id] = {
-                bar: K('.ke-progressbar-bar-inner', photoDiv),
-                percent: K('.ke-progressbar-percent', photoDiv)
+                bar : K('.ke-progressbar-bar-inner', photoDiv),
+                percent : K('.ke-progressbar-percent', photoDiv)
             };
         },
-        remove: function() {
+        remove : function() {
             this.removeFiles();
             this.swfu.destroy();
             this.div.html('');
@@ -8440,138 +8429,134 @@ KindEditor.plugin('media', function(K) {
         return new KSWFUpload(element, options);
     };
 
-})(KindEditor);
+    })(KindEditor);
 
-KindEditor.plugin('multiimage', function(K) {
-    var self = this,
-        name = 'multiimage',
-        formatUploadUrl = K.undef(self.formatUploadUrl, true),
-        uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
-        imgPath = self.pluginsPath + 'multiimage/images/',
-        imageSizeLimit = K.undef(self.imageSizeLimit, '1MB'),
-        imageFileTypes = K.undef(self.imageFileTypes, '*.jpg;*.gif;*.png'),
-        imageUploadLimit = K.undef(self.imageUploadLimit, 20),
-        filePostName = K.undef(self.filePostName, 'imgFile'),
-        lang = self.lang(name + '.');
+    KindEditor.plugin('multiimage', function(K) {
+        var self = this, name = 'multiimage',
+            formatUploadUrl = K.undef(self.formatUploadUrl, true),
+            uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
+            imgPath = self.pluginsPath + 'multiimage/images/',
+            imageSizeLimit = K.undef(self.imageSizeLimit, '1MB'),
+            imageFileTypes = K.undef(self.imageFileTypes, '*.jpg;*.gif;*.png'),
+            imageUploadLimit = K.undef(self.imageUploadLimit, 20),
+            filePostName = K.undef(self.filePostName, 'imgFile'),
+            lang = self.lang(name + '.');
 
-    self.plugin.multiImageDialog = function(options) {
-        var clickFn = options.clickFn,
-            uploadDesc = K.tmpl(lang.uploadDesc, {
-                uploadLimit: imageUploadLimit,
-                sizeLimit: imageSizeLimit
-            });
-        var html = [
-            '<div style="padding:20px;">',
-            '<div class="swfupload">',
-            '</div>',
-            '</div>'
-        ].join('');
-        var dialog = self.createDialog({
-                name: name,
-                width: 650,
-                height: 510,
-                title: self.lang(name),
-                body: html,
-                previewBtn: {
-                    name: lang.insertAll,
-                    click: function(e) {
+        self.plugin.multiImageDialog = function(options) {
+            var clickFn = options.clickFn,
+                uploadDesc = K.tmpl(lang.uploadDesc, {uploadLimit : imageUploadLimit, sizeLimit : imageSizeLimit});
+            var html = [
+                '<div style="padding:20px;">',
+                '<div class="swfupload">',
+                '</div>',
+                '</div>'
+            ].join('');
+            var dialog = self.createDialog({
+                name : name,
+                width : 650,
+                height : 510,
+                title : self.lang(name),
+                body : html,
+                previewBtn : {
+                    name : lang.insertAll,
+                    click : function(e) {
                         clickFn.call(self, swfupload.getUrlList());
                     }
                 },
-                yesBtn: {
-                    name: lang.clearAll,
-                    click: function(e) {
+                yesBtn : {
+                    name : lang.clearAll,
+                    click : function(e) {
                         swfupload.removeFiles();
                     }
                 },
-                beforeRemove: function() {
+                beforeRemove : function() {
                     // IE9 bugfix: https://github.com/kindsoft/kindeditor/issues/72
-                    if(!K.IE || K.V <= 8) {
+                    if (!K.IE || K.V <= 8) {
                         swfupload.remove();
                     }
                 }
             }),
             div = dialog.div;
 
-        var swfupload = K.swfupload({
-            container: K('.swfupload', div),
-            buttonImageUrl: imgPath + (self.langType == 'zh_CN' ? 'select-files-zh_CN.png' : 'select-files-en.png'),
-            buttonWidth: self.langType == 'zh_CN' ? 72 : 88,
-            buttonHeight: 23,
-            fileIconUrl: imgPath + 'image.png',
-            uploadDesc: uploadDesc,
-            startButtonValue: lang.startUpload,
-            uploadUrl: K.addParam(uploadJson, 'dir=image'),
-            flashUrl: imgPath + 'swfupload.swf',
-            filePostName: filePostName,
-            fileTypes: '*.jpg;*.jpeg;*.gif;*.png;*.bmp',
-            fileTypesDesc: 'Image Files',
-            fileUploadLimit: imageUploadLimit,
-            fileSizeLimit: imageSizeLimit,
-            postParams: K.undef(self.extraFileUploadParams, {}),
-            queueLimitExceeded: lang.queueLimitExceeded,
-            fileExceedsSizeLimit: lang.fileExceedsSizeLimit,
-            zeroByteFile: lang.zeroByteFile,
-            invalidFiletype: lang.invalidFiletype,
-            unknownError: lang.unknownError,
-            pendingMessage: lang.pending,
-            errorMessage: lang.uploadError,
-            afterError: function(html) {
-                self.errorDialog(html);
-            }
-        });
-
-        return dialog;
-    };
-    self.clickToolbar(name, function() {
-        self.plugin.multiImageDialog({
-            clickFn: function(urlList) {
-                if(urlList.length === 0) {
-                    return;
+            var swfupload = K.swfupload({
+                container : K('.swfupload', div),
+                buttonImageUrl : imgPath + (self.langType == 'zh-CN' ? 'select-files-zh-CN.png' : 'select-files-en.png'),
+                buttonWidth : self.langType == 'zh-CN' ? 72 : 88,
+                buttonHeight : 23,
+                fileIconUrl : imgPath + 'image.png',
+                uploadDesc : uploadDesc,
+                startButtonValue : lang.startUpload,
+                uploadUrl : K.addParam(uploadJson, 'dir=image'),
+                flashUrl : imgPath + 'swfupload.swf',
+                filePostName : filePostName,
+                fileTypes : '*.jpg;*.jpeg;*.gif;*.png;*.bmp',
+                fileTypesDesc : 'Image Files',
+                fileUploadLimit : imageUploadLimit,
+                fileSizeLimit : imageSizeLimit,
+                postParams :  K.undef(self.extraFileUploadParams, {}),
+                queueLimitExceeded : lang.queueLimitExceeded,
+                fileExceedsSizeLimit : lang.fileExceedsSizeLimit,
+                zeroByteFile : lang.zeroByteFile,
+                invalidFiletype : lang.invalidFiletype,
+                unknownError : lang.unknownError,
+                pendingMessage : lang.pending,
+                errorMessage : lang.uploadError,
+                afterError : function(html) {
+                    self.errorDialog(html);
                 }
-                K.each(urlList, function(i, data) {
-                    if(self.afterUpload) {
-                        self.afterUpload.call(self, data.url, data, 'multiimage');
+            });
+
+            return dialog;
+        };
+        self.clickToolbar(name, function() {
+            self.plugin.multiImageDialog({
+                clickFn : function (urlList) {
+                    if (urlList.length === 0) {
+                        return;
                     }
-                    self.exec('insertimage', data.url, data.title, data.width, data.height, data.border, data.align);
-                });
-                // Bugfix: [Firefox] 上传图片后，总是出现正在加载的样式，需要延迟执行hideDialog
-                setTimeout(function() {
-                    self.hideDialog().focus();
-                }, 0);
-            }
+                    K.each(urlList, function(i, data) {
+                        if (self.afterUpload) {
+                            self.afterUpload.call(self, data.url, data, 'multiimage');
+                        }
+                        self.exec('insertimage', data.url, data.title, data.width, data.height, data.border, data.align);
+                    });
+                    // Bugfix: [Firefox] 上传图片后，总是出现正在加载的样式，需要延迟执行hideDialog
+                    setTimeout(function() {
+                        self.hideDialog().focus();
+                    }, 0);
+                }
+            });
         });
     });
-});
 
 
-/**
- * SWFUpload: http://www.swfupload.org, http://swfupload.googlecode.com
- *
- * mmSWFUpload 1.0: Flash upload dialog - http://profandesign.se/swfupload/,  http://www.vinterwebb.se/
- *
- * SWFUpload is (c) 2006-2007 Lars Huring, Olov Nilz閚 and Mammon Media and is released under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
- *
- * SWFUpload 2 is (c) 2007-2008 Jake Roberts and is released under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
- *
- */
+    /**
+     * SWFUpload: http://www.swfupload.org, http://swfupload.googlecode.com
+     *
+     * mmSWFUpload 1.0: Flash upload dialog - http://profandesign.se/swfupload/,  http://www.vinterwebb.se/
+     *
+     * SWFUpload is (c) 2006-2007 Lars Huring, Olov Nilz閚 and Mammon Media and is released under the MIT License:
+     * http://www.opensource.org/licenses/mit-license.php
+     *
+     * SWFUpload 2 is (c) 2007-2008 Jake Roberts and is released under the MIT License:
+     * http://www.opensource.org/licenses/mit-license.php
+     *
+     */
 
 
-/* ******************* */
-/* Constructor & Init  */
-/* ******************* */
+    /* ******************* */
+    /* Constructor & Init  */
+    /* ******************* */
 
-(function() {
+    (function() {
 
-    window.SWFUpload = function(settings) {
+    window.SWFUpload = function (settings) {
         this.initSWFUpload(settings);
     };
 
-    SWFUpload.prototype.initSWFUpload = function(settings) {
+    SWFUpload.prototype.initSWFUpload = function (settings) {
         try {
-            this.customSettings = {}; // A container where developers can place their own settings associated with this instance.
+            this.customSettings = {};	// A container where developers can place their own settings associated with this instance.
             this.settings = settings;
             this.eventQueue = [];
             this.movieName = "KindEditor_SWFUpload_" + SWFUpload.movieCount++;
@@ -8585,7 +8570,7 @@ KindEditor.plugin('multiimage', function(K) {
             this.initSettings();
             this.loadFlash();
             this.displayDebugInfo();
-        } catch(ex) {
+        } catch (ex) {
             delete SWFUpload.instances[this.movieName];
             throw ex;
         }
@@ -8598,56 +8583,56 @@ KindEditor.plugin('multiimage', function(K) {
     SWFUpload.movieCount = 0;
     SWFUpload.version = "2.2.0 2009-03-25";
     SWFUpload.QUEUE_ERROR = {
-        QUEUE_LIMIT_EXCEEDED: -100,
-        FILE_EXCEEDS_SIZE_LIMIT: -110,
-        ZERO_BYTE_FILE: -120,
-        INVALID_FILETYPE: -130
+        QUEUE_LIMIT_EXCEEDED	  		: -100,
+        FILE_EXCEEDS_SIZE_LIMIT  		: -110,
+        ZERO_BYTE_FILE			  		: -120,
+        INVALID_FILETYPE		  		: -130
     };
     SWFUpload.UPLOAD_ERROR = {
-        HTTP_ERROR: -200,
-        MISSING_UPLOAD_URL: -210,
-        IO_ERROR: -220,
-        SECURITY_ERROR: -230,
-        UPLOAD_LIMIT_EXCEEDED: -240,
-        UPLOAD_FAILED: -250,
-        SPECIFIED_FILE_ID_NOT_FOUND: -260,
-        FILE_VALIDATION_FAILED: -270,
-        FILE_CANCELLED: -280,
-        UPLOAD_STOPPED: -290
+        HTTP_ERROR				  		: -200,
+        MISSING_UPLOAD_URL	      		: -210,
+        IO_ERROR				  		: -220,
+        SECURITY_ERROR			  		: -230,
+        UPLOAD_LIMIT_EXCEEDED	  		: -240,
+        UPLOAD_FAILED			  		: -250,
+        SPECIFIED_FILE_ID_NOT_FOUND		: -260,
+        FILE_VALIDATION_FAILED	  		: -270,
+        FILE_CANCELLED			  		: -280,
+        UPLOAD_STOPPED					: -290
     };
     SWFUpload.FILE_STATUS = {
-        QUEUED: -1,
-        IN_PROGRESS: -2,
-        ERROR: -3,
-        COMPLETE: -4,
-        CANCELLED: -5
+        QUEUED		 : -1,
+        IN_PROGRESS	 : -2,
+        ERROR		 : -3,
+        COMPLETE	 : -4,
+        CANCELLED	 : -5
     };
     SWFUpload.BUTTON_ACTION = {
-        SELECT_FILE: -100,
-        SELECT_FILES: -110,
-        START_UPLOAD: -120
+        SELECT_FILE  : -100,
+        SELECT_FILES : -110,
+        START_UPLOAD : -120
     };
     SWFUpload.CURSOR = {
-        ARROW: -1,
-        HAND: -2
+        ARROW : -1,
+        HAND : -2
     };
     SWFUpload.WINDOW_MODE = {
-        WINDOW: "window",
-        TRANSPARENT: "transparent",
-        OPAQUE: "opaque"
+        WINDOW : "window",
+        TRANSPARENT : "transparent",
+        OPAQUE : "opaque"
     };
 
     // Private: takes a URL, determines if it is relative and converts to an absolute URL
     // using the current site. Only processes the URL if it can, otherwise returns the URL untouched
     SWFUpload.completeURL = function(url) {
-        if(typeof(url) !== "string" || url.match(/^https?:\/\//i) || url.match(/^\//)) {
+        if (typeof(url) !== "string" || url.match(/^https?:\/\//i) || url.match(/^\//)) {
             return url;
         }
 
         var currentURL = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ":" + window.location.port : "");
 
         var indexSlash = window.location.pathname.lastIndexOf("/");
-        if(indexSlash <= 0) {
+        if (indexSlash <= 0) {
             path = "/";
         } else {
             path = window.location.pathname.substr(0, indexSlash) + "/";
@@ -8664,8 +8649,8 @@ KindEditor.plugin('multiimage', function(K) {
 
     // Private: initSettings ensures that all the
     // settings are set, getting a default value if one was not assigned.
-    SWFUpload.prototype.initSettings = function() {
-        this.ensureDefault = function(settingName, defaultValue) {
+    SWFUpload.prototype.initSettings = function () {
+        this.ensureDefault = function (settingName, defaultValue) {
             this.settings[settingName] = (this.settings[settingName] == undefined) ? defaultValue : this.settings[settingName];
         };
 
@@ -8682,7 +8667,7 @@ KindEditor.plugin('multiimage', function(K) {
         // File Settings
         this.ensureDefault("file_types", "*.*");
         this.ensureDefault("file_types_description", "All Files");
-        this.ensureDefault("file_size_limit", 0); // Default zero means "unlimited"
+        this.ensureDefault("file_size_limit", 0);	// Default zero means "unlimited"
         this.ensureDefault("file_upload_limit", 0);
         this.ensureDefault("file_queue_limit", 0);
 
@@ -8707,7 +8692,7 @@ KindEditor.plugin('multiimage', function(K) {
 
         // Debug Settings
         this.ensureDefault("debug", false);
-        this.settings.debug_enabled = this.settings.debug; // Here to maintain v2 API
+        this.settings.debug_enabled = this.settings.debug;	// Here to maintain v2 API
 
         // Event Handlers
         this.settings.return_upload_start_handler = this.returnUploadStart;
@@ -8731,12 +8716,12 @@ KindEditor.plugin('multiimage', function(K) {
         this.customSettings = this.settings.custom_settings;
 
         // Update the flash url if needed
-        if(!!this.settings.prevent_swf_caching) {
+        if (!!this.settings.prevent_swf_caching) {
             this.settings.flash_url = this.settings.flash_url + (this.settings.flash_url.indexOf("?") < 0 ? "?" : "&") + "preventswfcaching=" + new Date().getTime();
         }
 
-        if(!this.settings.preserve_relative_urls) {
-            //this.settings.flash_url = SWFUpload.completeURL(this.settings.flash_url); // Don't need to do this one since flash doesn't look at it
+        if (!this.settings.preserve_relative_urls) {
+            //this.settings.flash_url = SWFUpload.completeURL(this.settings.flash_url);	// Don't need to do this one since flash doesn't look at it
             this.settings.upload_url = SWFUpload.completeURL(this.settings.upload_url);
             this.settings.button_image_url = SWFUpload.completeURL(this.settings.button_image_url);
         }
@@ -8745,96 +8730,95 @@ KindEditor.plugin('multiimage', function(K) {
     };
 
     // Private: loadFlash replaces the button_placeholder element with the flash movie.
-    SWFUpload.prototype.loadFlash = function() {
+    SWFUpload.prototype.loadFlash = function () {
         var targetElement, tempParent;
 
         // Make sure an element with the ID we are going to use doesn't already exist
-        if(document.getElementById(this.movieName) !== null) {
+        if (document.getElementById(this.movieName) !== null) {
             throw "ID " + this.movieName + " is already in use. The Flash Object could not be added";
         }
 
         // Get the element where we will be placing the flash movie
         targetElement = document.getElementById(this.settings.button_placeholder_id) || this.settings.button_placeholder;
 
-        if(targetElement == undefined) {
+        if (targetElement == undefined) {
             throw "Could not find the placeholder element: " + this.settings.button_placeholder_id;
         }
 
         // Append the container and load the flash
         tempParent = document.createElement("div");
-        tempParent.innerHTML = this.getFlashHTML(); // Using innerHTML is non-standard but the only sensible way to dynamically add Flash in IE (and maybe other browsers)
+        tempParent.innerHTML = this.getFlashHTML();	// Using innerHTML is non-standard but the only sensible way to dynamically add Flash in IE (and maybe other browsers)
         targetElement.parentNode.replaceChild(tempParent.firstChild, targetElement);
 
         // Fix IE Flash/Form bug
-        if(window[this.movieName] == undefined) {
+        if (window[this.movieName] == undefined) {
             window[this.movieName] = this.getMovieElement();
         }
 
     };
 
     // Private: getFlashHTML generates the object tag needed to embed the flash in to the document
-    SWFUpload.prototype.getFlashHTML = function() {
+    SWFUpload.prototype.getFlashHTML = function () {
         // Flash Satay object syntax: http://www.alistapart.com/articles/flashsatay
         // Fix bug for IE9
         // http://www.kindsoft.net/view.php?bbsid=7&postid=5825&pagenum=1
         var classid = '';
-        if(KindEditor.IE && KindEditor.V > 8) {
+        if (KindEditor.IE && KindEditor.V > 8) {
             classid = ' classid = "clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"';
         }
         return ['<object id="', this.movieName, '"' + classid + ' type="application/x-shockwave-flash" data="', this.settings.flash_url, '" width="', this.settings.button_width, '" height="', this.settings.button_height, '" class="swfupload">',
-            '<param name="wmode" value="', this.settings.button_window_mode, '" />',
-            '<param name="movie" value="', this.settings.flash_url, '" />',
-            '<param name="quality" value="high" />',
-            '<param name="menu" value="false" />',
-            '<param name="allowScriptAccess" value="always" />',
-            '<param name="flashvars" value="' + this.getFlashVars() + '" />',
-            '</object>'
-        ].join("");
+                    '<param name="wmode" value="', this.settings.button_window_mode, '" />',
+                    '<param name="movie" value="', this.settings.flash_url, '" />',
+                    '<param name="quality" value="high" />',
+                    '<param name="menu" value="false" />',
+                    '<param name="allowScriptAccess" value="always" />',
+                    '<param name="flashvars" value="' + this.getFlashVars() + '" />',
+                    '</object>'].join("");
     };
 
     // Private: getFlashVars builds the parameter string that will be passed
     // to flash in the flashvars param.
-    SWFUpload.prototype.getFlashVars = function() {
+    SWFUpload.prototype.getFlashVars = function () {
         // Build a string from the post param object
         var paramString = this.buildParamString();
         var httpSuccessString = this.settings.http_success.join(",");
 
         // Build the parameter string
         return ["movieName=", encodeURIComponent(this.movieName),
-            "&amp;uploadURL=", encodeURIComponent(this.settings.upload_url),
-            "&amp;useQueryString=", encodeURIComponent(this.settings.use_query_string),
-            "&amp;requeueOnError=", encodeURIComponent(this.settings.requeue_on_error),
-            "&amp;httpSuccess=", encodeURIComponent(httpSuccessString),
-            "&amp;assumeSuccessTimeout=", encodeURIComponent(this.settings.assume_success_timeout),
-            "&amp;params=", encodeURIComponent(paramString),
-            "&amp;filePostName=", encodeURIComponent(this.settings.file_post_name),
-            "&amp;fileTypes=", encodeURIComponent(this.settings.file_types),
-            "&amp;fileTypesDescription=", encodeURIComponent(this.settings.file_types_description),
-            "&amp;fileSizeLimit=", encodeURIComponent(this.settings.file_size_limit),
-            "&amp;fileUploadLimit=", encodeURIComponent(this.settings.file_upload_limit),
-            "&amp;fileQueueLimit=", encodeURIComponent(this.settings.file_queue_limit),
-            "&amp;debugEnabled=", encodeURIComponent(this.settings.debug_enabled),
-            "&amp;buttonImageURL=", encodeURIComponent(this.settings.button_image_url),
-            "&amp;buttonWidth=", encodeURIComponent(this.settings.button_width),
-            "&amp;buttonHeight=", encodeURIComponent(this.settings.button_height),
-            "&amp;buttonText=", encodeURIComponent(this.settings.button_text),
-            "&amp;buttonTextTopPadding=", encodeURIComponent(this.settings.button_text_top_padding),
-            "&amp;buttonTextLeftPadding=", encodeURIComponent(this.settings.button_text_left_padding),
-            "&amp;buttonTextStyle=", encodeURIComponent(this.settings.button_text_style),
-            "&amp;buttonAction=", encodeURIComponent(this.settings.button_action),
-            "&amp;buttonDisabled=", encodeURIComponent(this.settings.button_disabled),
-            "&amp;buttonCursor=", encodeURIComponent(this.settings.button_cursor)
-        ].join("");
+                "&amp;uploadURL=", encodeURIComponent(this.settings.upload_url),
+                "&amp;useQueryString=", encodeURIComponent(this.settings.use_query_string),
+                "&amp;requeueOnError=", encodeURIComponent(this.settings.requeue_on_error),
+                "&amp;httpSuccess=", encodeURIComponent(httpSuccessString),
+                "&amp;assumeSuccessTimeout=", encodeURIComponent(this.settings.assume_success_timeout),
+                "&amp;params=", encodeURIComponent(paramString),
+                "&amp;filePostName=", encodeURIComponent(this.settings.file_post_name),
+                "&amp;fileTypes=", encodeURIComponent(this.settings.file_types),
+                "&amp;fileTypesDescription=", encodeURIComponent(this.settings.file_types_description),
+                "&amp;fileSizeLimit=", encodeURIComponent(this.settings.file_size_limit),
+                "&amp;fileUploadLimit=", encodeURIComponent(this.settings.file_upload_limit),
+                "&amp;fileQueueLimit=", encodeURIComponent(this.settings.file_queue_limit),
+                "&amp;debugEnabled=", encodeURIComponent(this.settings.debug_enabled),
+                "&amp;buttonImageURL=", encodeURIComponent(this.settings.button_image_url),
+                "&amp;buttonWidth=", encodeURIComponent(this.settings.button_width),
+                "&amp;buttonHeight=", encodeURIComponent(this.settings.button_height),
+                "&amp;buttonText=", encodeURIComponent(this.settings.button_text),
+                "&amp;buttonTextTopPadding=", encodeURIComponent(this.settings.button_text_top_padding),
+                "&amp;buttonTextLeftPadding=", encodeURIComponent(this.settings.button_text_left_padding),
+                "&amp;buttonTextStyle=", encodeURIComponent(this.settings.button_text_style),
+                "&amp;buttonAction=", encodeURIComponent(this.settings.button_action),
+                "&amp;buttonDisabled=", encodeURIComponent(this.settings.button_disabled),
+                "&amp;buttonCursor=", encodeURIComponent(this.settings.button_cursor)
+            ].join("");
     };
 
     // Public: getMovieElement retrieves the DOM reference to the Flash element added by SWFUpload
     // The element is cached after the first lookup
-    SWFUpload.prototype.getMovieElement = function() {
-        if(this.movieElement == undefined) {
+    SWFUpload.prototype.getMovieElement = function () {
+        if (this.movieElement == undefined) {
             this.movieElement = document.getElementById(this.movieName);
         }
 
-        if(this.movieElement === null) {
+        if (this.movieElement === null) {
             throw "Could not find Flash element";
         }
 
@@ -8843,13 +8827,13 @@ KindEditor.plugin('multiimage', function(K) {
 
     // Private: buildParamString takes the name/value pairs in the post_params setting object
     // and joins them up in to a string formatted "name=value&amp;name=value"
-    SWFUpload.prototype.buildParamString = function() {
+    SWFUpload.prototype.buildParamString = function () {
         var postParams = this.settings.post_params;
         var paramStringPairs = [];
 
-        if(typeof(postParams) === "object") {
-            for(var name in postParams) {
-                if(postParams.hasOwnProperty(name)) {
+        if (typeof(postParams) === "object") {
+            for (var name in postParams) {
+                if (postParams.hasOwnProperty(name)) {
                     paramStringPairs.push(encodeURIComponent(name.toString()) + "=" + encodeURIComponent(postParams[name].toString()));
                 }
             }
@@ -8862,7 +8846,7 @@ KindEditor.plugin('multiimage', function(K) {
     // all references to the SWF, and other objects so memory is properly freed.
     // Returns true if everything was destroyed. Returns a false if a failure occurs leaving SWFUpload in an inconsistant state.
     // Credits: Major improvements provided by steffen
-    SWFUpload.prototype.destroy = function() {
+    SWFUpload.prototype.destroy = function () {
         try {
             // Make sure Flash is done before we try to remove it
             this.cancelUpload(null, false);
@@ -8872,20 +8856,20 @@ KindEditor.plugin('multiimage', function(K) {
             var movieElement = null;
             movieElement = this.getMovieElement();
 
-            if(movieElement && typeof(movieElement.CallFunction) === "unknown") { // We only want to do this in IE
+            if (movieElement && typeof(movieElement.CallFunction) === "unknown") { // We only want to do this in IE
                 // Loop through all the movie's properties and remove all function references (DOM/JS IE 6/7 memory leak workaround)
-                for(var i in movieElement) {
+                for (var i in movieElement) {
                     try {
-                        if(typeof(movieElement[i]) === "function") {
+                        if (typeof(movieElement[i]) === "function") {
                             movieElement[i] = null;
                         }
-                    } catch(ex1) {}
+                    } catch (ex1) {}
                 }
 
                 // Remove the Movie Element from the page
                 try {
                     movieElement.parentNode.removeChild(movieElement);
-                } catch(ex) {}
+                } catch (ex) {}
             }
 
             // Remove IE form fix reference
@@ -8903,7 +8887,7 @@ KindEditor.plugin('multiimage', function(K) {
 
 
             return true;
-        } catch(ex2) {
+        } catch (ex2) {
             return false;
         }
     };
@@ -8913,7 +8897,7 @@ KindEditor.plugin('multiimage', function(K) {
     // information about this SWFUpload instance.
     // This function (and any references to it) can be deleted when placing
     // SWFUpload in production.
-    SWFUpload.prototype.displayDebugInfo = function() {
+    SWFUpload.prototype.displayDebugInfo = function () {
         this.debug(
             [
                 "---SWFUpload Instance Info---\n",
@@ -8966,20 +8950,20 @@ KindEditor.plugin('multiimage', function(K) {
     };
 
     /* Note: addSetting and getSetting are no longer used by SWFUpload but are included
-      the maintain v2 API compatibility
+        the maintain v2 API compatibility
     */
     // Public: (Deprecated) addSetting adds a setting value. If the value given is undefined or null then the default_value is used.
-    SWFUpload.prototype.addSetting = function(name, value, default_value) {
-        if(value == undefined) {
-            return(this.settings[name] = default_value);
+    SWFUpload.prototype.addSetting = function (name, value, default_value) {
+        if (value == undefined) {
+            return (this.settings[name] = default_value);
         } else {
-            return(this.settings[name] = value);
+            return (this.settings[name] = value);
         }
     };
 
     // Public: (Deprecated) getSetting gets a setting. Returns an empty string if the setting was not found.
-    SWFUpload.prototype.getSetting = function(name) {
-        if(this.settings[name] != undefined) {
+    SWFUpload.prototype.getSetting = function (name) {
+        if (this.settings[name] != undefined) {
             return this.settings[name];
         }
 
@@ -8991,7 +8975,7 @@ KindEditor.plugin('multiimage', function(K) {
     // Private: callFlash handles function calls made to the Flash element.
     // Calls are made with a setTimeout for some functions to work around
     // bugs in the ExternalInterface library.
-    SWFUpload.prototype.callFlash = function(functionName, argumentArray) {
+    SWFUpload.prototype.callFlash = function (functionName, argumentArray) {
         argumentArray = argumentArray || [];
 
         var movieElement = this.getMovieElement();
@@ -9001,12 +8985,12 @@ KindEditor.plugin('multiimage', function(K) {
         try {
             returnString = movieElement.CallFunction('<invoke name="' + functionName + '" returntype="javascript">' + __flash__argumentsToXML(argumentArray, 0) + '</invoke>');
             returnValue = eval(returnString);
-        } catch(ex) {
+        } catch (ex) {
             throw "Call to " + functionName + " failed";
         }
 
         // Unescape file post param values
-        if(returnValue != undefined && typeof returnValue.post === "object") {
+        if (returnValue != undefined && typeof returnValue.post === "object") {
             returnValue = this.unescapeFilePostParams(returnValue);
         }
 
@@ -9014,15 +8998,15 @@ KindEditor.plugin('multiimage', function(K) {
     };
 
     /* *****************************
-      -- Flash control methods --
-      Your UI should use these
-      to operate SWFUpload
+        -- Flash control methods --
+        Your UI should use these
+        to operate SWFUpload
        ***************************** */
 
     // WARNING: this function does not work in Flash Player 10
     // Public: selectFile causes a File Selection Dialog window to appear.  This
     // dialog only allows 1 file to be selected.
-    SWFUpload.prototype.selectFile = function() {
+    SWFUpload.prototype.selectFile = function () {
         this.callFlash("SelectFile");
     };
 
@@ -9032,22 +9016,22 @@ KindEditor.plugin('multiimage', function(K) {
     // Flash Bug Warning: Flash limits the number of selectable files based on the combined length of the file names.
     // If the selection name length is too long the dialog will fail in an unpredictable manner.  There is no work-around
     // for this bug.
-    SWFUpload.prototype.selectFiles = function() {
+    SWFUpload.prototype.selectFiles = function () {
         this.callFlash("SelectFiles");
     };
 
 
     // Public: startUpload starts uploading the first file in the queue unless
     // the optional parameter 'fileID' specifies the ID
-    SWFUpload.prototype.startUpload = function(fileID) {
+    SWFUpload.prototype.startUpload = function (fileID) {
         this.callFlash("StartUpload", [fileID]);
     };
 
     // Public: cancelUpload cancels any queued file.  The fileID parameter may be the file ID or index.
     // If you do not specify a fileID the current uploading file or first file in the queue is cancelled.
     // If you do not want the uploadError event to trigger you can specify false for the triggerErrorEvent parameter.
-    SWFUpload.prototype.cancelUpload = function(fileID, triggerErrorEvent) {
-        if(triggerErrorEvent !== false) {
+    SWFUpload.prototype.cancelUpload = function (fileID, triggerErrorEvent) {
+        if (triggerErrorEvent !== false) {
             triggerErrorEvent = true;
         }
         this.callFlash("CancelUpload", [fileID, triggerErrorEvent]);
@@ -9055,7 +9039,7 @@ KindEditor.plugin('multiimage', function(K) {
 
     // Public: stopUpload stops the current upload and requeues the file at the beginning of the queue.
     // If nothing is currently uploading then nothing happens.
-    SWFUpload.prototype.stopUpload = function() {
+    SWFUpload.prototype.stopUpload = function () {
         this.callFlash("StopUpload");
     };
 
@@ -9068,7 +9052,7 @@ KindEditor.plugin('multiimage', function(K) {
      * *********************** */
 
     // Public: getStats gets the file statistics object.
-    SWFUpload.prototype.getStats = function() {
+    SWFUpload.prototype.getStats = function () {
         return this.callFlash("GetStats");
     };
 
@@ -9076,14 +9060,14 @@ KindEditor.plugin('multiimage', function(K) {
     // change the statistics but you can.  Changing the statistics does not
     // affect SWFUpload accept for the successful_uploads count which is used
     // by the upload_limit setting to determine how many files the user may upload.
-    SWFUpload.prototype.setStats = function(statsObject) {
+    SWFUpload.prototype.setStats = function (statsObject) {
         this.callFlash("SetStats", [statsObject]);
     };
 
     // Public: getFile retrieves a File object by ID or Index.  If the file is
     // not found then 'null' is returned.
-    SWFUpload.prototype.getFile = function(fileID) {
-        if(typeof(fileID) === "number") {
+    SWFUpload.prototype.getFile = function (fileID) {
+        if (typeof(fileID) === "number") {
             return this.callFlash("GetFileByIndex", [fileID]);
         } else {
             return this.callFlash("GetFile", [fileID]);
@@ -9093,86 +9077,86 @@ KindEditor.plugin('multiimage', function(K) {
     // Public: addFileParam sets a name/value pair that will be posted with the
     // file specified by the Files ID.  If the name already exists then the
     // exiting value will be overwritten.
-    SWFUpload.prototype.addFileParam = function(fileID, name, value) {
+    SWFUpload.prototype.addFileParam = function (fileID, name, value) {
         return this.callFlash("AddFileParam", [fileID, name, value]);
     };
 
     // Public: removeFileParam removes a previously set (by addFileParam) name/value
     // pair from the specified file.
-    SWFUpload.prototype.removeFileParam = function(fileID, name) {
+    SWFUpload.prototype.removeFileParam = function (fileID, name) {
         this.callFlash("RemoveFileParam", [fileID, name]);
     };
 
     // Public: setUploadUrl changes the upload_url setting.
-    SWFUpload.prototype.setUploadURL = function(url) {
+    SWFUpload.prototype.setUploadURL = function (url) {
         this.settings.upload_url = url.toString();
         this.callFlash("SetUploadURL", [url]);
     };
 
     // Public: setPostParams changes the post_params setting
-    SWFUpload.prototype.setPostParams = function(paramsObject) {
+    SWFUpload.prototype.setPostParams = function (paramsObject) {
         this.settings.post_params = paramsObject;
         this.callFlash("SetPostParams", [paramsObject]);
     };
 
     // Public: addPostParam adds post name/value pair.  Each name can have only one value.
-    SWFUpload.prototype.addPostParam = function(name, value) {
+    SWFUpload.prototype.addPostParam = function (name, value) {
         this.settings.post_params[name] = value;
         this.callFlash("SetPostParams", [this.settings.post_params]);
     };
 
     // Public: removePostParam deletes post name/value pair.
-    SWFUpload.prototype.removePostParam = function(name) {
+    SWFUpload.prototype.removePostParam = function (name) {
         delete this.settings.post_params[name];
         this.callFlash("SetPostParams", [this.settings.post_params]);
     };
 
     // Public: setFileTypes changes the file_types setting and the file_types_description setting
-    SWFUpload.prototype.setFileTypes = function(types, description) {
+    SWFUpload.prototype.setFileTypes = function (types, description) {
         this.settings.file_types = types;
         this.settings.file_types_description = description;
         this.callFlash("SetFileTypes", [types, description]);
     };
 
     // Public: setFileSizeLimit changes the file_size_limit setting
-    SWFUpload.prototype.setFileSizeLimit = function(fileSizeLimit) {
+    SWFUpload.prototype.setFileSizeLimit = function (fileSizeLimit) {
         this.settings.file_size_limit = fileSizeLimit;
         this.callFlash("SetFileSizeLimit", [fileSizeLimit]);
     };
 
     // Public: setFileUploadLimit changes the file_upload_limit setting
-    SWFUpload.prototype.setFileUploadLimit = function(fileUploadLimit) {
+    SWFUpload.prototype.setFileUploadLimit = function (fileUploadLimit) {
         this.settings.file_upload_limit = fileUploadLimit;
         this.callFlash("SetFileUploadLimit", [fileUploadLimit]);
     };
 
     // Public: setFileQueueLimit changes the file_queue_limit setting
-    SWFUpload.prototype.setFileQueueLimit = function(fileQueueLimit) {
+    SWFUpload.prototype.setFileQueueLimit = function (fileQueueLimit) {
         this.settings.file_queue_limit = fileQueueLimit;
         this.callFlash("SetFileQueueLimit", [fileQueueLimit]);
     };
 
     // Public: setFilePostName changes the file_post_name setting
-    SWFUpload.prototype.setFilePostName = function(filePostName) {
+    SWFUpload.prototype.setFilePostName = function (filePostName) {
         this.settings.file_post_name = filePostName;
         this.callFlash("SetFilePostName", [filePostName]);
     };
 
     // Public: setUseQueryString changes the use_query_string setting
-    SWFUpload.prototype.setUseQueryString = function(useQueryString) {
+    SWFUpload.prototype.setUseQueryString = function (useQueryString) {
         this.settings.use_query_string = useQueryString;
         this.callFlash("SetUseQueryString", [useQueryString]);
     };
 
     // Public: setRequeueOnError changes the requeue_on_error setting
-    SWFUpload.prototype.setRequeueOnError = function(requeueOnError) {
+    SWFUpload.prototype.setRequeueOnError = function (requeueOnError) {
         this.settings.requeue_on_error = requeueOnError;
         this.callFlash("SetRequeueOnError", [requeueOnError]);
     };
 
     // Public: setHTTPSuccess changes the http_success setting
-    SWFUpload.prototype.setHTTPSuccess = function(http_status_codes) {
-        if(typeof http_status_codes === "string") {
+    SWFUpload.prototype.setHTTPSuccess = function (http_status_codes) {
+        if (typeof http_status_codes === "string") {
             http_status_codes = http_status_codes.replace(" ", "").split(",");
         }
 
@@ -9181,20 +9165,20 @@ KindEditor.plugin('multiimage', function(K) {
     };
 
     // Public: setHTTPSuccess changes the http_success setting
-    SWFUpload.prototype.setAssumeSuccessTimeout = function(timeout_seconds) {
+    SWFUpload.prototype.setAssumeSuccessTimeout = function (timeout_seconds) {
         this.settings.assume_success_timeout = timeout_seconds;
         this.callFlash("SetAssumeSuccessTimeout", [timeout_seconds]);
     };
 
     // Public: setDebugEnabled changes the debug_enabled setting
-    SWFUpload.prototype.setDebugEnabled = function(debugEnabled) {
+    SWFUpload.prototype.setDebugEnabled = function (debugEnabled) {
         this.settings.debug_enabled = debugEnabled;
         this.callFlash("SetDebugEnabled", [debugEnabled]);
     };
 
     // Public: setButtonImageURL loads a button image sprite
-    SWFUpload.prototype.setButtonImageURL = function(buttonImageURL) {
-        if(buttonImageURL == undefined) {
+    SWFUpload.prototype.setButtonImageURL = function (buttonImageURL) {
+        if (buttonImageURL == undefined) {
             buttonImageURL = "";
         }
 
@@ -9203,12 +9187,12 @@ KindEditor.plugin('multiimage', function(K) {
     };
 
     // Public: setButtonDimensions resizes the Flash Movie and button
-    SWFUpload.prototype.setButtonDimensions = function(width, height) {
+    SWFUpload.prototype.setButtonDimensions = function (width, height) {
         this.settings.button_width = width;
         this.settings.button_height = height;
 
         var movie = this.getMovieElement();
-        if(movie != undefined) {
+        if (movie != undefined) {
             movie.style.width = width + "px";
             movie.style.height = height + "px";
         }
@@ -9216,85 +9200,85 @@ KindEditor.plugin('multiimage', function(K) {
         this.callFlash("SetButtonDimensions", [width, height]);
     };
     // Public: setButtonText Changes the text overlaid on the button
-    SWFUpload.prototype.setButtonText = function(html) {
+    SWFUpload.prototype.setButtonText = function (html) {
         this.settings.button_text = html;
         this.callFlash("SetButtonText", [html]);
     };
     // Public: setButtonTextPadding changes the top and left padding of the text overlay
-    SWFUpload.prototype.setButtonTextPadding = function(left, top) {
+    SWFUpload.prototype.setButtonTextPadding = function (left, top) {
         this.settings.button_text_top_padding = top;
         this.settings.button_text_left_padding = left;
         this.callFlash("SetButtonTextPadding", [left, top]);
     };
 
     // Public: setButtonTextStyle changes the CSS used to style the HTML/Text overlaid on the button
-    SWFUpload.prototype.setButtonTextStyle = function(css) {
+    SWFUpload.prototype.setButtonTextStyle = function (css) {
         this.settings.button_text_style = css;
         this.callFlash("SetButtonTextStyle", [css]);
     };
     // Public: setButtonDisabled disables/enables the button
-    SWFUpload.prototype.setButtonDisabled = function(isDisabled) {
+    SWFUpload.prototype.setButtonDisabled = function (isDisabled) {
         this.settings.button_disabled = isDisabled;
         this.callFlash("SetButtonDisabled", [isDisabled]);
     };
     // Public: setButtonAction sets the action that occurs when the button is clicked
-    SWFUpload.prototype.setButtonAction = function(buttonAction) {
+    SWFUpload.prototype.setButtonAction = function (buttonAction) {
         this.settings.button_action = buttonAction;
         this.callFlash("SetButtonAction", [buttonAction]);
     };
 
     // Public: setButtonCursor changes the mouse cursor displayed when hovering over the button
-    SWFUpload.prototype.setButtonCursor = function(cursor) {
+    SWFUpload.prototype.setButtonCursor = function (cursor) {
         this.settings.button_cursor = cursor;
         this.callFlash("SetButtonCursor", [cursor]);
     };
 
     /* *******************************
-      Flash Event Interfaces
-      These functions are used by Flash to trigger the various
-      events.
+        Flash Event Interfaces
+        These functions are used by Flash to trigger the various
+        events.
 
-      All these functions a Private.
+        All these functions a Private.
 
-      Because the ExternalInterface library is buggy the event calls
-      are added to a queue and the queue then executed by a setTimeout.
-      This ensures that events are executed in a determinate order and that
-      the ExternalInterface bugs are avoided.
+        Because the ExternalInterface library is buggy the event calls
+        are added to a queue and the queue then executed by a setTimeout.
+        This ensures that events are executed in a determinate order and that
+        the ExternalInterface bugs are avoided.
     ******************************* */
 
-    SWFUpload.prototype.queueEvent = function(handlerName, argumentArray) {
+    SWFUpload.prototype.queueEvent = function (handlerName, argumentArray) {
         // Warning: Don't call this.debug inside here or you'll create an infinite loop
 
-        if(argumentArray == undefined) {
+        if (argumentArray == undefined) {
             argumentArray = [];
-        } else if(!(argumentArray instanceof Array)) {
+        } else if (!(argumentArray instanceof Array)) {
             argumentArray = [argumentArray];
         }
 
         var self = this;
-        if(typeof this.settings[handlerName] === "function") {
+        if (typeof this.settings[handlerName] === "function") {
             // Queue the event
-            this.eventQueue.push(function() {
+            this.eventQueue.push(function () {
                 this.settings[handlerName].apply(this, argumentArray);
             });
 
             // Execute the next queued event
-            setTimeout(function() {
+            setTimeout(function () {
                 self.executeNextEvent();
             }, 0);
 
-        } else if(this.settings[handlerName] !== null) {
+        } else if (this.settings[handlerName] !== null) {
             throw "Event handler " + handlerName + " is unknown or is not a function";
         }
     };
 
     // Private: Causes the next event in the queue to be executed.  Since events are queued using a setTimeout
     // we must queue them in order to garentee that they are executed in order.
-    SWFUpload.prototype.executeNextEvent = function() {
+    SWFUpload.prototype.executeNextEvent = function () {
         // Warning: Don't call this.debug inside here or you'll create an infinite loop
 
-        var f = this.eventQueue ? this.eventQueue.shift() : null;
-        if(typeof(f) === "function") {
+        var  f = this.eventQueue ? this.eventQueue.shift() : null;
+        if (typeof(f) === "function") {
             f.apply(this);
         }
     };
@@ -9302,17 +9286,17 @@ KindEditor.plugin('multiimage', function(K) {
     // Private: unescapeFileParams is part of a workaround for a flash bug where objects passed through ExternalInterface cannot have
     // properties that contain characters that are not valid for JavaScript identifiers. To work around this
     // the Flash Component escapes the parameter names and we must unescape again before passing them along.
-    SWFUpload.prototype.unescapeFilePostParams = function(file) {
+    SWFUpload.prototype.unescapeFilePostParams = function (file) {
         var reg = /[$]([0-9a-f]{4})/i;
         var unescapedPost = {};
         var uk;
 
-        if(file != undefined) {
-            for(var k in file.post) {
-                if(file.post.hasOwnProperty(k)) {
+        if (file != undefined) {
+            for (var k in file.post) {
+                if (file.post.hasOwnProperty(k)) {
                     uk = k;
                     var match;
-                    while((match = reg.exec(uk)) !== null) {
+                    while ((match = reg.exec(uk)) !== null) {
                         uk = uk.replace(match[0], String.fromCharCode(parseInt("0x" + match[1], 16)));
                     }
                     unescapedPost[uk] = file.post[k];
@@ -9326,21 +9310,21 @@ KindEditor.plugin('multiimage', function(K) {
     };
 
     // Private: Called by Flash to see if JS can call in to Flash (test if External Interface is working)
-    SWFUpload.prototype.testExternalInterface = function() {
+    SWFUpload.prototype.testExternalInterface = function () {
         try {
             return this.callFlash("TestExternalInterface");
-        } catch(ex) {
+        } catch (ex) {
             return false;
         }
     };
 
     // Private: This event is called by Flash when it has finished loading. Don't modify this.
     // Use the swfupload_loaded_handler event setting to execute custom code when SWFUpload has loaded.
-    SWFUpload.prototype.flashReady = function() {
+    SWFUpload.prototype.flashReady = function () {
         // Check that the movie element is loaded correctly with its ExternalInterface methods defined
         var movieElement = this.getMovieElement();
 
-        if(!movieElement) {
+        if (!movieElement) {
             this.debug("Flash called back ready but the flash movie can't be found.");
             return;
         }
@@ -9352,31 +9336,32 @@ KindEditor.plugin('multiimage', function(K) {
 
     // Private: removes Flash added fuctions to the DOM node to prevent memory leaks in IE.
     // This function is called by Flash each time the ExternalInterface functions are created.
-    SWFUpload.prototype.cleanUp = function(movieElement) {
+    SWFUpload.prototype.cleanUp = function (movieElement) {
         // Pro-actively unhook all the Flash functions
         try {
-            if(this.movieElement && typeof(movieElement.CallFunction) === "unknown") { // We only want to do this in IE
+            if (this.movieElement && typeof(movieElement.CallFunction) === "unknown") { // We only want to do this in IE
                 this.debug("Removing Flash functions hooks (this should only run in IE and should prevent memory leaks)");
-                for(var key in movieElement) {
+                for (var key in movieElement) {
                     try {
-                        if(typeof(movieElement[key]) === "function") {
+                        if (typeof(movieElement[key]) === "function") {
                             movieElement[key] = null;
                         }
-                    } catch(ex) {}
+                    } catch (ex) {
+                    }
                 }
             }
-        } catch(ex1) {
+        } catch (ex1) {
 
         }
 
         // Fix Flashes own cleanup code so if the SWFMovie was removed from the page
         // it doesn't display errors.
-        window["__flash__removeCallback"] = function(instance, name) {
+        window["__flash__removeCallback"] = function (instance, name) {
             try {
-                if(instance) {
+                if (instance) {
                     instance[name] = null;
                 }
-            } catch(flashEx) {
+            } catch (flashEx) {
 
             }
         };
@@ -9385,47 +9370,47 @@ KindEditor.plugin('multiimage', function(K) {
 
 
     /* This is a chance to do something before the browse window opens */
-    SWFUpload.prototype.fileDialogStart = function() {
+    SWFUpload.prototype.fileDialogStart = function () {
         this.queueEvent("file_dialog_start_handler");
     };
 
 
     /* Called when a file is successfully added to the queue. */
-    SWFUpload.prototype.fileQueued = function(file) {
+    SWFUpload.prototype.fileQueued = function (file) {
         file = this.unescapeFilePostParams(file);
         this.queueEvent("file_queued_handler", file);
     };
 
 
     /* Handle errors that occur when an attempt to queue a file fails. */
-    SWFUpload.prototype.fileQueueError = function(file, errorCode, message) {
+    SWFUpload.prototype.fileQueueError = function (file, errorCode, message) {
         file = this.unescapeFilePostParams(file);
         this.queueEvent("file_queue_error_handler", [file, errorCode, message]);
     };
 
     /* Called after the file dialog has closed and the selected files have been queued.
-      You could call startUpload here if you want the queued files to begin uploading immediately. */
-    SWFUpload.prototype.fileDialogComplete = function(numFilesSelected, numFilesQueued, numFilesInQueue) {
+        You could call startUpload here if you want the queued files to begin uploading immediately. */
+    SWFUpload.prototype.fileDialogComplete = function (numFilesSelected, numFilesQueued, numFilesInQueue) {
         this.queueEvent("file_dialog_complete_handler", [numFilesSelected, numFilesQueued, numFilesInQueue]);
     };
 
-    SWFUpload.prototype.uploadStart = function(file) {
+    SWFUpload.prototype.uploadStart = function (file) {
         file = this.unescapeFilePostParams(file);
         this.queueEvent("return_upload_start_handler", file);
     };
 
-    SWFUpload.prototype.returnUploadStart = function(file) {
+    SWFUpload.prototype.returnUploadStart = function (file) {
         var returnValue;
-        if(typeof this.settings.upload_start_handler === "function") {
+        if (typeof this.settings.upload_start_handler === "function") {
             file = this.unescapeFilePostParams(file);
             returnValue = this.settings.upload_start_handler.call(this, file);
-        } else if(this.settings.upload_start_handler != undefined) {
+        } else if (this.settings.upload_start_handler != undefined) {
             throw "upload_start_handler must be a function";
         }
 
         // Convert undefined to true so if nothing is returned from the upload_start_handler it is
         // interpretted as 'true'.
-        if(returnValue === undefined) {
+        if (returnValue === undefined) {
             returnValue = true;
         }
 
@@ -9436,57 +9421,57 @@ KindEditor.plugin('multiimage', function(K) {
 
 
 
-    SWFUpload.prototype.uploadProgress = function(file, bytesComplete, bytesTotal) {
+    SWFUpload.prototype.uploadProgress = function (file, bytesComplete, bytesTotal) {
         file = this.unescapeFilePostParams(file);
         this.queueEvent("upload_progress_handler", [file, bytesComplete, bytesTotal]);
     };
 
-    SWFUpload.prototype.uploadError = function(file, errorCode, message) {
+    SWFUpload.prototype.uploadError = function (file, errorCode, message) {
         file = this.unescapeFilePostParams(file);
         this.queueEvent("upload_error_handler", [file, errorCode, message]);
     };
 
-    SWFUpload.prototype.uploadSuccess = function(file, serverData, responseReceived) {
+    SWFUpload.prototype.uploadSuccess = function (file, serverData, responseReceived) {
         file = this.unescapeFilePostParams(file);
         this.queueEvent("upload_success_handler", [file, serverData, responseReceived]);
     };
 
-    SWFUpload.prototype.uploadComplete = function(file) {
+    SWFUpload.prototype.uploadComplete = function (file) {
         file = this.unescapeFilePostParams(file);
         this.queueEvent("upload_complete_handler", file);
     };
 
     /* Called by SWFUpload JavaScript and Flash functions when debug is enabled. By default it writes messages to the
        internal debug console.  You can override this event and have messages written where you want. */
-    SWFUpload.prototype.debug = function(message) {
+    SWFUpload.prototype.debug = function (message) {
         this.queueEvent("debug_handler", message);
     };
 
 
     /* **********************************
-      Debug Console
-      The debug console is a self contained, in page location
-      for debug message to be sent.  The Debug Console adds
-      itself to the body if necessary.
+        Debug Console
+        The debug console is a self contained, in page location
+        for debug message to be sent.  The Debug Console adds
+        itself to the body if necessary.
 
-      The console is automatically scrolled as messages appear.
+        The console is automatically scrolled as messages appear.
 
-      If you are using your own debug handler or when you deploy to production and
-      have debug disabled you can remove these functions to reduce the file size
-      and complexity.
+        If you are using your own debug handler or when you deploy to production and
+        have debug disabled you can remove these functions to reduce the file size
+        and complexity.
     ********************************** */
 
     // Private: debugMessage is the default debug_handler.  If you want to print debug messages
     // call the debug() function.  When overriding the function your own function should
     // check to see if the debug setting is true before outputting debug information.
-    SWFUpload.prototype.debugMessage = function(message) {
-        if(this.settings.debug) {
+    SWFUpload.prototype.debugMessage = function (message) {
+        if (this.settings.debug) {
             var exceptionMessage, exceptionValues = [];
 
             // Check for an exception object and print it nicely
-            if(typeof message === "object" && typeof message.name === "string" && typeof message.message === "string") {
-                for(var key in message) {
-                    if(message.hasOwnProperty(key)) {
+            if (typeof message === "object" && typeof message.name === "string" && typeof message.message === "string") {
+                for (var key in message) {
+                    if (message.hasOwnProperty(key)) {
                         exceptionValues.push(key + ": " + message[key]);
                     }
                 }
@@ -9501,13 +9486,13 @@ KindEditor.plugin('multiimage', function(K) {
     };
 
     SWFUpload.Console = {};
-    SWFUpload.Console.writeLine = function(message) {
+    SWFUpload.Console.writeLine = function (message) {
         var console, documentForm;
 
         try {
             console = document.getElementById("SWFUpload_Console");
 
-            if(!console) {
+            if (!console) {
                 documentForm = document.createElement("form");
                 document.getElementsByTagName("body")[0].appendChild(documentForm);
 
@@ -9526,33 +9511,33 @@ KindEditor.plugin('multiimage', function(K) {
             console.value += message + "\n";
 
             console.scrollTop = console.scrollHeight - console.clientHeight;
-        } catch(ex) {
+        } catch (ex) {
             alert("Exception: " + ex.name + " Message: " + ex.message);
         }
     };
 
-})();
+    })();
 
-(function() {
+    (function() {
     /*
-      Queue Plug-in
+        Queue Plug-in
 
-      Features:
-        *Adds a cancelQueue() method for cancelling the entire queue.
-        *All queued files are uploaded when startUpload() is called.
-        *If false is returned from uploadComplete then the queue upload is stopped.
-         If false is not returned (strict comparison) then the queue upload is continued.
-        *Adds a QueueComplete event that is fired when all the queued files have finished uploading.
-         Set the event handler with the queue_complete_handler setting.
+        Features:
+            *Adds a cancelQueue() method for cancelling the entire queue.
+            *All queued files are uploaded when startUpload() is called.
+            *If false is returned from uploadComplete then the queue upload is stopped.
+             If false is not returned (strict comparison) then the queue upload is continued.
+            *Adds a QueueComplete event that is fired when all the queued files have finished uploading.
+             Set the event handler with the queue_complete_handler setting.
 
-      */
+        */
 
-    if(typeof(SWFUpload) === "function") {
+    if (typeof(SWFUpload) === "function") {
         SWFUpload.queue = {};
 
-        SWFUpload.prototype.initSettings = (function(oldInitSettings) {
-            return function() {
-                if(typeof(oldInitSettings) === "function") {
+        SWFUpload.prototype.initSettings = (function (oldInitSettings) {
+            return function () {
+                if (typeof(oldInitSettings) === "function") {
                     oldInitSettings.call(this);
                 }
 
@@ -9570,25 +9555,25 @@ KindEditor.plugin('multiimage', function(K) {
             };
         })(SWFUpload.prototype.initSettings);
 
-        SWFUpload.prototype.startUpload = function(fileID) {
+        SWFUpload.prototype.startUpload = function (fileID) {
             this.queueSettings.queue_cancelled_flag = false;
             this.callFlash("StartUpload", [fileID]);
         };
 
-        SWFUpload.prototype.cancelQueue = function() {
+        SWFUpload.prototype.cancelQueue = function () {
             this.queueSettings.queue_cancelled_flag = true;
             this.stopUpload();
 
             var stats = this.getStats();
-            while(stats.files_queued > 0) {
+            while (stats.files_queued > 0) {
                 this.cancelUpload();
                 stats = this.getStats();
             }
         };
 
-        SWFUpload.queue.uploadStartHandler = function(file) {
+        SWFUpload.queue.uploadStartHandler = function (file) {
             var returnValue;
-            if(typeof(this.queueSettings.user_upload_start_handler) === "function") {
+            if (typeof(this.queueSettings.user_upload_start_handler) === "function") {
                 returnValue = this.queueSettings.user_upload_start_handler.call(this, file);
             }
 
@@ -9600,28 +9585,28 @@ KindEditor.plugin('multiimage', function(K) {
             return returnValue;
         };
 
-        SWFUpload.queue.uploadCompleteHandler = function(file) {
+        SWFUpload.queue.uploadCompleteHandler = function (file) {
             var user_upload_complete_handler = this.queueSettings.user_upload_complete_handler;
             var continueUpload;
 
-            if(file.filestatus === SWFUpload.FILE_STATUS.COMPLETE) {
+            if (file.filestatus === SWFUpload.FILE_STATUS.COMPLETE) {
                 this.queueSettings.queue_upload_count++;
             }
 
-            if(typeof(user_upload_complete_handler) === "function") {
+            if (typeof(user_upload_complete_handler) === "function") {
                 continueUpload = (user_upload_complete_handler.call(this, file) === false) ? false : true;
-            } else if(file.filestatus === SWFUpload.FILE_STATUS.QUEUED) {
+            } else if (file.filestatus === SWFUpload.FILE_STATUS.QUEUED) {
                 // If the file was stopped and re-queued don't restart the upload
                 continueUpload = false;
             } else {
                 continueUpload = true;
             }
 
-            if(continueUpload) {
+            if (continueUpload) {
                 var stats = this.getStats();
-                if(stats.files_queued > 0 && this.queueSettings.queue_cancelled_flag === false) {
+                if (stats.files_queued > 0 && this.queueSettings.queue_cancelled_flag === false) {
                     this.startUpload();
-                } else if(this.queueSettings.queue_cancelled_flag === false) {
+                } else if (this.queueSettings.queue_cancelled_flag === false) {
                     this.queueEvent("queue_complete_handler", [this.queueSettings.queue_upload_count]);
                     this.queueSettings.queue_upload_count = 0;
                 } else {
@@ -9632,7 +9617,8 @@ KindEditor.plugin('multiimage', function(K) {
         };
     }
 
-})();
+    })();
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -9703,6 +9689,7 @@ KindEditor.plugin('plainpaste', function(K) {
         textarea[0].focus();
     });
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -9736,6 +9723,7 @@ KindEditor.plugin('preview', function(K) {
         iframe[0].contentWindow.focus();
     });
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -9822,750 +9810,6 @@ to
 --------------------------
 */
 /*******************************************************************************
-* KindEditor - WYSIWYG HTML Editor for Internet
-* Copyright (C) 2006-2011 kindsoft.net
-*
-* @author Roddy <luolonghao@gmail.com>
-* @site http://www.kindsoft.net/
-* @licence http://www.kindsoft.net/license.php
-*******************************************************************************/
-
-KindEditor.plugin('table', function (K) {
-    var self = this;
-    var name = 'table';
-    var allLangs = {
-        zh_cn: {
-            name: '表格',
-            xRxC: '{0}行 × {1}列',
-            headerRow: '标题行',
-            headerCol: '标题列',
-            tableStyle: '表格样式',
-            addHeaderRow: '添加表格标题行',
-            stripedRows: '隔行变色效果',
-            hoverRows: '鼠标悬停效果',
-            autoChangeTableWidth: '自动调整表格尺寸',
-            tableWidthFixed: '按表格文字自适应',
-            tableWidthFull: '按页面宽度自适应',
-            tableBorder: '表格边框',
-            tableHead: '标题',
-            tableContent: '内容'
-        },
-        zh_tw: {
-            name: '表格',
-            xRxC:'{0}行×{1}列',
-            headerRow:'標題行',
-            headerCol:'標題列',
-            tableStyle: '表格樣式',
-            addHeaderRow: '添加表格標題行',
-            stripedRows: '隔行變色效果',
-            hoverRows: '鼠標懸停效果',
-            autoChangeTableWidth: '自動調整表格尺寸',
-            tableWidthFixed: '按表格文字自適應',
-            tableWidthFull: '按頁面寬度自適應',
-            tableBorder: '表格邊框',
-            tableHead: '標題',
-            tableContent: '內容'
-        },
-        en: {
-            name: 'Table',
-            xRxC: '{0} Rows × {1} Columns',
-            headerRow: 'Header Row',
-            headerCol: 'Header Column',
-            tableStyle: 'Table style',
-            addHeaderRow: 'Add header row',
-            stripedRows: 'Striped effection',
-            hoverRows: 'Mouse hover effection',
-            autoChangeTableWidth: 'Automatically adjust table size',
-            tableWidthFixed: 'Adaptive by form text',
-            tableWidthFull: 'Page width adaptive',
-            tableBorder: 'Table border',
-            tableHead: 'Title',
-            tableContent: 'Text'
-        }
-    };
-    var $elements = [];
-    var lang = $.extend({}, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
-
-    // 设置颜色
-    function _setColor(box, color) {
-        color = color.toLowerCase();
-        box.css('background-color', color);
-        if (color) {
-            box.css('color', color === '#000000' ? '#FFFFFF' : '#000000');
-        }
-        box.name === 'input' ? box.val(color) : box.html(color);
-    }
-    // 初始化取色器
-    var pickerList = [];
-    function _initColorPicker(dialogDiv, colorBox, onSetColor) {
-        colorBox.bind('click,mousedown', function (e) {
-            e.stopPropagation();
-        });
-        function removePicker() {
-            K.each(pickerList, function () {
-                this.remove();
-            });
-            pickerList = [];
-            K(document).unbind('click,mousedown', removePicker);
-            dialogDiv.unbind('click,mousedown', removePicker);
-        }
-        colorBox.click(function (e) {
-            removePicker();
-            var box = K(this),
-                pos = box.pos();
-            var picker = K.colorpicker({
-                x: pos.x,
-                y: pos.y + box.height(),
-                z: 811214,
-                selectedColor: K(this).html(),
-                colors: self.colorTable,
-                noColor: self.lang('table.defaultBorderColor'),
-                shadowMode: self.shadowMode,
-                click: function (color) {
-                    _setColor(box, color);
-                    removePicker();
-                    onSetColor && onSetColor(color);
-                }
-            });
-            pickerList.push(picker);
-            K(document).bind('click,mousedown', removePicker);
-            dialogDiv.bind('click,mousedown', removePicker);
-        });
-    }
-    // 取得下一行cell的index
-    function _getCellIndex(table, row, cell) {
-        var rowSpanCount = 0;
-        for (var i = 0, len = row.cells.length; i < len; i++) {
-            if (row.cells[i] == cell) {
-                break;
-            }
-            rowSpanCount += row.cells[i].rowSpan - 1;
-        }
-        return cell.cellIndex - rowSpanCount;
-    }
-
-    function removeEvent() {
-        K.each($elements, function () {
-            this.off('.kTable');
-        });
-    }
-
-    function updateTable(setting, $table, onUpdateSetting) {
-        if (!$table) {
-            var table = self.plugin.getSelectedTable();
-            $table = $(table[0]);
-        }
-        if (!$table || !$table.length) return;
-        if (setting.header !== undefined) {
-            if ($table.is('.ke-plugin-table-example')) {
-                $table.find('thead').toggleClass('hidden', !setting.header);
-            } else {
-                var $thead = $table.find('thead');
-                if (setting.header) {
-                    if (!$thead.length) {
-                        var theadHtml = ['<thead><tr>'];
-                        var $firstRow = $table.find('tbody>tr:first').children();
-                        var colsCount = 0;
-                        $firstRow.each(function() {
-                           var $cell = $(this);
-                           var cellSpan = $cell.attr('colspan');
-                           colsCount += cellSpan ? parseInt(cellSpan) : 1;
-                        });
-                        for(var i = 0; i < colsCount; ++i) {
-                            theadHtml.push('<th>' + (K.IE ? '&nbsp;' : '<br />') +  '</th>');
-                        }
-                        theadHtml.push('</tr></thead>');
-                        $thead = $(theadHtml.join(''));
-                        $table.prepend($thead);
-                    }
-                } else {
-                    $thead.remove();
-                }
-            }
-            onUpdateSetting && onUpdateSetting('header', setting.header);
-        }
-        if (setting.stripedRows !== undefined) {
-            $table.toggleClass('table-striped', !!setting.stripedRows);
-            onUpdateSetting && onUpdateSetting('stripedRows', setting.stripedRows);
-        }
-        if (setting.hoverRows !== undefined) {
-            $table.toggleClass('table-hover', !!setting.hoverRows);
-            onUpdateSetting && onUpdateSetting('hoverRows', setting.hoverRows);
-        }
-        if (setting.autoWidth !== undefined) {
-            $table.toggleClass('table-auto', !!setting.autoWidth);
-            onUpdateSetting && onUpdateSetting('autoWidth', setting.autoWidth);
-        }
-        if (setting.borderColor !== undefined) {
-            $table.find('td,th').css('border', '1px solid ' + setting.borderColor);
-            onUpdateSetting && onUpdateSetting('borderColor', setting.borderColor);
-        }
-    }
-
-    function insertTable(row, col, headerRow, headerCol) {
-        if (!(row * col)) {
-            return;
-        }
-        var $table = $('<table class="table table-kindeditor table-bordered "></table>');
-        var $body = $('<tbody></tbody>');
-        for (var r = 0; r < row; r++) {
-            var $row = $('<tr></tr>');
-            for (var c = 0; c < col; c++) {
-                var $cell = $('<td>' + (K.IE ? '&nbsp;' : '<br />') + '</td>');
-                $row.append($cell);
-            }
-            $body.append($row);
-        }
-        $table.append($body);
-        var html = $('<div>').append($table).html();
-        if (!K.IE) {
-            html += '<br />';
-        }
-        self.insertHtml(html);
-        return $table;
-    }
-
-    function modifyTable(table) {
-        var $table = $(table[0]);
-        var theadHtml = ['<thead><tr>'];
-        var tbodyHtml = ['<tbody>'];
-        for(var i = 0; i < 6; ++i) {
-            theadHtml.push('<th style="padding:4px">{tableHead}</th>');
-            tbodyHtml.push('<tr>');
-            for(var j = 0; j < 6; ++j) {
-                tbodyHtml.push('<td style="padding:4px">{tableContent}</td>');
-            }
-            tbodyHtml.push('</tr>');
-        }
-        theadHtml.push('</tr></thead>');
-        tbodyHtml.push('</tbody>');
-        var dialogHtml = [
-'<div class="container" style="padding: 15px">',
-    '<div class="row">',
-        '<div class="col-xs-5 col-left">',
-            '<div class="form-group">',
-                '<label>{tableStyle}</label>',
-                '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="header"> {addHeaderRow}</label></div>',
-                '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="stripedRows"> {stripedRows}</label></div>',
-                '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="hoverRows"> {hoverRows}</label></div>',
-            '</div>',
-            '<div class="form-group">',
-                '<label>{autoChangeTableWidth}</label>',
-                '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value="auto"> {tableWidthFixed}</label></div>',
-                '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value=""> {tableWidthFull}</label></div>',
-            '</div>',
-            '<div class="form-group" style="margin: 0">',
-                '<label>{tableBorder}</label>',
-                '<div class="input-group" style="width: 180px">',
-                    '<span class="input-group-addon">{borderColor}</span>',
-                    '<input class="form-control ke-plugin-table-input-color" readonly style="background: #dddddd; color: #333; font-size: 12px" value="#dddddd" name="borderColor" />',
-                '</div>',
-            '</div>',
-        '</div>',
-        '<div class="col-xs-7 col-right">',
-            '<table class="table table-bordered table-kindeditor ke-plugin-table-example">',
-                theadHtml.join(''),
-                tbodyHtml.join(''),
-            '<table>',
-        '</div>',
-    '</div>',
-'</div>'].join('').format(lang);
-        var $dialog = $(dialogHtml);
-        var $exampleTable = $dialog.find('.ke-plugin-table-example');
-        var bookmark = self.cmd.range.createBookmark();
-        var $colorBox = $dialog.find('.ke-plugin-table-input-color');
-        var colorBox = K($colorBox[0]);
-        $dialog.on('change.kTable', 'input[name]', function() {
-            var $input = $(this);
-            var updateSetting = {};
-            updateSetting[$input.attr('name')] = $input.is('[type="checkbox"]') ? $input.is(':checked') : $input.val();
-            updateTable(updateSetting, $exampleTable);
-        });
-
-        var dialog = self.createDialog({
-            name: name + 'test',
-            width: 550,
-            title: self.lang(name),
-            body: $dialog[0],
-            beforeRemove: function () {
-                $dialog.off('.kTable');
-            },
-            yesBtn: {
-                name: self.lang('yes'),
-                click: function (e) {
-                    updateTable({
-                        borderColor: $dialog.find('[name="borderColor"]').val(),
-                        header: $dialog.find('[name="header"]').is(':checked'),
-                        stripedRows: $dialog.find('[name="stripedRows"]').is(':checked'),
-                        hoverRows: $dialog.find('[name="hoverRows"]').is(':checked'),
-                        autoWidth: $dialog.find('[name="autoWidth"]:checked').val(),
-                    }, $table);
-                    self.hideDialog().focus();
-                    self.cmd.range.moveToBookmark(bookmark);
-                    self.cmd.select();
-                    self.addBookmark();
-                }
-            }
-        });
-        _initColorPicker(dialog.div, colorBox, function(color) {
-            updateTable({borderColor: color}, $exampleTable);
-        });
-
-        updateTable({
-            borderColor: $table.find('td,th').first().css('borderColor'),
-            header: $table.find('thead').length,
-            stripedRows: $table.hasClass('table-striped'),
-            hoverRows: $table.hasClass('table-hover'),
-            autoWidth: $table.hasClass('table-auto'),
-        }, $exampleTable, function(name, value) {
-            switch (name) {
-            case 'borderColor':
-                _setColor(colorBox, value || '#dddddd');
-                break;
-            case 'header':
-                $dialog.find('[name="header"]').prop('checked', !!value);
-                break;
-            case 'stripedRows':
-                $dialog.find('[name="stripedRows"]').prop('checked', !!value);
-                break;
-            case 'hoverRows':
-                $dialog.find('[name="hoverRows"]').prop('checked', !!value);
-                break;
-            case 'autoWidth':
-                $dialog.find('[name="autoWidth"][value="' + (value ? 'auto' : '') + '"]').prop('checked', true);
-                break;
-            }
-        });
-    }
-
-    self.plugin.table = {
-        // modify table
-        prop: function () {
-            var table = self.plugin.getSelectedTable();
-            if (table && table.length) {
-                modifyTable(table);
-            }
-        },
-        //modify cell
-        cellprop: function () {
-            var html = [
-                '<div style="padding:20px;">',
-                //width, height
-                '<div class="ke-dialog-row">',
-                '<label for="keWidth" style="width:90px;">' + lang.size + '</label>',
-                lang.width + ' <input type="text" id="keWidth" class="ke-input-text ke-input-number" name="width" value="" maxlength="4" /> &nbsp; ',
-                '<select name="widthType">',
-                '<option value="%">' + lang.percent + '</option>',
-                '<option value="px">' + lang.px + '</option>',
-                '</select> &nbsp; ',
-                lang.height + ' <input type="text" class="ke-input-text ke-input-number" name="height" value="" maxlength="4" /> &nbsp; ',
-                '<select name="heightType">',
-                '<option value="%">' + lang.percent + '</option>',
-                '<option value="px">' + lang.px + '</option>',
-                '</select>',
-                '</div>',
-                //align
-                '<div class="ke-dialog-row">',
-                '<label for="keAlign" style="width:90px;">' + lang.align + '</label>',
-                lang.textAlign + ' <select id="keAlign" name="textAlign">',
-                '<option value="">' + lang.alignDefault + '</option>',
-                '<option value="left">' + lang.alignLeft + '</option>',
-                '<option value="center">' + lang.alignCenter + '</option>',
-                '<option value="right">' + lang.alignRight + '</option>',
-                '</select> ',
-                lang.verticalAlign + ' <select name="verticalAlign">',
-                '<option value="">' + lang.alignDefault + '</option>',
-                '<option value="top">' + lang.alignTop + '</option>',
-                '<option value="middle">' + lang.alignMiddle + '</option>',
-                '<option value="bottom">' + lang.alignBottom + '</option>',
-                '<option value="baseline">' + lang.alignBaseline + '</option>',
-                '</select>',
-                '</div>',
-                //border
-                '<div class="ke-dialog-row">',
-                '<label for="keBorder" style="width:90px;">' + lang.border + '</label>',
-                lang.borderColor + ' <span class="ke-inline-block ke-input-color"></span>',
-                '</div>',
-                //background color
-                '<div class="ke-dialog-row">',
-                '<label for="keBgColor" style="width:90px;">' + lang.backgroundColor + '</label>',
-                '<span class="ke-inline-block ke-input-color"></span>',
-                '</div>',
-                '</div>'
-            ].join('');
-            var bookmark = self.cmd.range.createBookmark();
-            var dialog = self.createDialog({
-                name: name,
-                width: 500,
-                title: self.lang('tablecell'),
-                body: html,
-                beforeRemove: function () {
-                    colorBox.unbind();
-                },
-                yesBtn: {
-                    name: self.lang('yes'),
-                    click: function (e) {
-                        var width = widthBox.val(),
-                            height = heightBox.val(),
-                            widthType = widthTypeBox.val(),
-                            heightType = heightTypeBox.val(),
-                            padding = paddingBox.val(),
-                            spacing = spacingBox.val(),
-                            textAlign = textAlignBox.val(),
-                            verticalAlign = verticalAlignBox.val(),
-                            borderColor = K(colorBox[0]).html() || '',
-                            bgColor = K(colorBox[1]).html() || '';
-                        if (!/^\d*$/.test(width)) {
-                            alert(self.lang('invalidWidth'));
-                            widthBox[0].focus();
-                            return;
-                        }
-                        if (!/^\d*$/.test(height)) {
-                            alert(self.lang('invalidHeight'));
-                            heightBox[0].focus();
-                            return;
-                        }
-                        cell.css({
-                            width: width !== '' ? (width + widthType) : '',
-                            height: height !== '' ? (height + heightType) : '',
-                            'background-color': bgColor,
-                            'text-align': textAlign,
-                            'vertical-align': verticalAlign,
-                            'border-style': 'solid',
-                            'border-color': borderColor
-                        });
-                        self.hideDialog().focus();
-                        self.cmd.range.moveToBookmark(bookmark);
-                        self.cmd.select();
-                        self.addBookmark();
-                    }
-                }
-            }),
-                div = dialog.div,
-                widthBox = K('[name="width"]', div).val(100),
-                heightBox = K('[name="height"]', div),
-                widthTypeBox = K('[name="widthType"]', div),
-                heightTypeBox = K('[name="heightType"]', div),
-                paddingBox = K('[name="padding"]', div).val(2),
-                spacingBox = K('[name="spacing"]', div).val(0),
-                textAlignBox = K('[name="textAlign"]', div),
-                verticalAlignBox = K('[name="verticalAlign"]', div),
-                colorBox = K('.ke-input-color', div);
-            _initColorPicker(div, colorBox.eq(0));
-            _initColorPicker(div, colorBox.eq(1));
-            _setColor(colorBox.eq(0), '#000000');
-            _setColor(colorBox.eq(1), '');
-            // foucs and select
-            widthBox[0].focus();
-            widthBox[0].select();
-            // get selected cell
-            var cell = self.plugin.getSelectedCell();
-            var match,
-                cellWidth = cell[0].style.width || cell[0].width || '',
-                cellHeight = cell[0].style.height || cell[0].height || '';
-            if ((match = /^(\d+)((?:px|%)*)$/.exec(cellWidth))) {
-                widthBox.val(match[1]);
-                widthTypeBox.val(match[2]);
-            } else {
-                widthBox.val('');
-            }
-            if ((match = /^(\d+)((?:px|%)*)$/.exec(cellHeight))) {
-                heightBox.val(match[1]);
-                heightTypeBox.val(match[2]);
-            }
-            textAlignBox.val(cell[0].style.textAlign || '');
-            verticalAlignBox.val(cell[0].style.verticalAlign || '');
-            _setColor(colorBox.eq(0), K.toHex(cell[0].style.borderColor || ''));
-            _setColor(colorBox.eq(1), K.toHex(cell[0].style.backgroundColor || ''));
-            widthBox[0].focus();
-            widthBox[0].select();
-        },
-        insert: function () {
-            console.warn('Table insert not available.');
-        },
-        'delete': function () {
-            var table = self.plugin.getSelectedTable();
-            self.cmd.range.setStartBefore(table[0]).collapse(true);
-            self.cmd.select();
-            table.remove();
-            self.addBookmark();
-        },
-        colinsert: function (offset) {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                index = cell.cellIndex + offset;
-            // 取得第一行的index
-            index += table.rows[0].cells.length - row.cells.length;
-
-            for (var i = 0, len = table.rows.length; i < len; i++) {
-                var newRow = table.rows[i],
-                    newCell = newRow.insertCell(index);
-                if (newRow.parentNode.tagName === 'THEAD') {
-                    newCell.outerHTML = '<th></th>';
-                }
-                newCell.innerHTML = K.IE ? '' : '<br />';
-                // 调整下一行的单元格index
-                index = _getCellIndex(table, newRow, newCell);
-            }
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        colinsertleft: function () {
-            this.colinsert(0);
-        },
-        colinsertright: function () {
-            this.colinsert(1);
-        },
-        rowinsert: function (offset) {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0];
-            var rowIndex = row.rowIndex;
-            if (offset === 1) {
-                rowIndex = row.rowIndex + (cell.rowSpan - 1) + offset;
-            }
-            var newRow = table.insertRow(rowIndex);
-
-            for (var i = 0, len = row.cells.length; i < len; i++) {
-                // 调整cell个数
-                if (row.cells[i].rowSpan > 1) {
-                    len -= row.cells[i].rowSpan - 1;
-                }
-                var newCell = newRow.insertCell(i);
-                // copy colspan
-                if (offset === 1 && row.cells[i].colSpan > 1) {
-                    newCell.colSpan = row.cells[i].colSpan;
-                }
-                newCell.innerHTML = K.IE ? '' : '<br />';
-            }
-            // 调整rowspan
-            for (var j = rowIndex; j >= 0; j--) {
-                var cells = table.rows[j].cells;
-                if (cells.length > i) {
-                    for (var k = cell.cellIndex; k >= 0; k--) {
-                        if (cells[k].rowSpan > 1) {
-                            cells[k].rowSpan += 1;
-                        }
-                    }
-                    break;
-                }
-            }
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        rowinsertabove: function () {
-            this.rowinsert(0);
-        },
-        rowinsertbelow: function () {
-            this.rowinsert(1);
-        },
-        rowmerge: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                rowIndex = row.rowIndex, // 当前行的index
-                nextRowIndex = rowIndex + cell.rowSpan, // 下一行的index
-                nextRow = table.rows[nextRowIndex]; // 下一行
-            // 最后一行不能合并
-            if (table.rows.length <= nextRowIndex) {
-                return;
-            }
-            var cellIndex = cell.cellIndex; // 下一行单元格的index
-            if (nextRow.cells.length <= cellIndex) {
-                return;
-            }
-            var nextCell = nextRow.cells[cellIndex]; // 下一行单元格
-            // 上下行的colspan不一致时不能合并
-            if (cell.colSpan !== nextCell.colSpan) {
-                return;
-            }
-            cell.rowSpan += nextCell.rowSpan;
-            nextRow.deleteCell(cellIndex);
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        colmerge: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                rowIndex = row.rowIndex, // 当前行的index
-                cellIndex = cell.cellIndex,
-                nextCellIndex = cellIndex + 1;
-            // 最后一列不能合并
-            if (row.cells.length <= nextCellIndex) {
-                return;
-            }
-            var nextCell = row.cells[nextCellIndex];
-            // 左右列的rowspan不一致时不能合并
-            if (cell.rowSpan !== nextCell.rowSpan) {
-                return;
-            }
-            cell.colSpan += nextCell.colSpan;
-            row.deleteCell(nextCellIndex);
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        rowsplit: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                rowIndex = row.rowIndex;
-            // 不是可分割单元格
-            if (cell.rowSpan === 1) {
-                return;
-            }
-            var cellIndex = _getCellIndex(table, row, cell);
-            for (var i = 1, len = cell.rowSpan; i < len; i++) {
-                var newRow = table.rows[rowIndex + i],
-                    newCell = newRow.insertCell(cellIndex);
-                if (cell.colSpan > 1) {
-                    newCell.colSpan = cell.colSpan;
-                }
-                newCell.innerHTML = K.IE ? '' : '<br />';
-                // 调整下一行的单元格index
-                cellIndex = _getCellIndex(table, newRow, newCell);
-            }
-            K(cell).removeAttr('rowSpan');
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        colsplit: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                cellIndex = cell.cellIndex;
-            // 不是可分割单元格
-            if (cell.colSpan === 1) {
-                return;
-            }
-            for (var i = 1, len = cell.colSpan; i < len; i++) {
-                var newCell = row.insertCell(cellIndex + i);
-                if (cell.rowSpan > 1) {
-                    newCell.rowSpan = cell.rowSpan;
-                }
-                newCell.innerHTML = K.IE ? '' : '<br />';
-            }
-            K(cell).removeAttr('colSpan');
-            self.cmd.range.selectNodeContents(cell).collapse(true);
-            self.cmd.select();
-            self.addBookmark();
-        },
-        coldelete: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                index = cell.cellIndex;
-            for (var i = 0, len = table.rows.length; i < len; i++) {
-                var newRow = table.rows[i],
-                    newCell = newRow.cells[index];
-                if (newCell.colSpan > 1) {
-                    newCell.colSpan -= 1;
-                    if (newCell.colSpan === 1) {
-                        K(newCell).removeAttr('colSpan');
-                    }
-                } else {
-                    newRow.deleteCell(index);
-                }
-                // 跳过不需要删除的行
-                if (newCell.rowSpan > 1) {
-                    i += newCell.rowSpan - 1;
-                }
-            }
-            if (row.cells.length === 0) {
-                self.cmd.range.setStartBefore(table).collapse(true);
-                self.cmd.select();
-                K(table).remove();
-            } else {
-                self.cmd.selection(true);
-            }
-            self.addBookmark();
-        },
-        rowdelete: function () {
-            var table = self.plugin.getSelectedTable()[0],
-                row = self.plugin.getSelectedRow()[0],
-                cell = self.plugin.getSelectedCell()[0],
-                rowIndex = row.rowIndex;
-            // 从下到上删除
-            for (var i = cell.rowSpan - 1; i >= 0; i--) {
-                table.deleteRow(rowIndex + i);
-            }
-            if (table.rows.length === 0) {
-                self.cmd.range.setStartBefore(table).collapse(true);
-                self.cmd.select();
-                K(table).remove();
-            } else {
-                self.cmd.selection(true);
-            }
-            self.addBookmark();
-        }
-    };
-
-    self.clickToolbar(name, function () {
-        if (self.menu) return;
-
-        var menu = self.createMenu({
-            name: name,
-            beforeRemove: function () {
-                removeEvent();
-            }
-        });
-
-        var $wrapperDiv = $('<div class="ke-plugin-table"></div>');
-        var $header = $('<div class="ke-plugin-table-header" style="padding: 0 5px;">' + lang.xRxC.format(0, 0) + '</div>');
-        $wrapperDiv.append($header);
-        var $grid = $('<div class="ke-plugin-table-grid clearfix" style="width: 230px; padding: 5px 5px 0 5px"></div>');
-        $grid.on('mouseenter.kTable', '.ke-plugin-table-grid-cell', function () {
-            var $cell = $(this);
-            var row = $cell.data('row');
-            var col = $cell.data('col');
-            $header.text(lang.xRxC.format(row, col));
-            var $cells = $grid.find('.ke-plugin-table-grid-cell');
-            $cells.each(function () {
-                var $c = $(this);
-                var r = $c.data('row');
-                var c = $c.data('col');
-                if (r <= row && c <= col) {
-                    $c.css({
-                        border: '1px solid #2286d2',
-                        background: '#eff7ff'
-                    });
-                } else {
-                    $c.css({
-                        border: '1px solid #ddd',
-                        background: '#f1f1f1'
-                    });
-                }
-            });
-        }).on('click.kTable', '.ke-plugin-table-grid-cell', function (e) {
-            var $cell = $(this);
-            var row = $cell.data('row');
-            var col = $cell.data('col');
-            insertTable(row, col);
-            self.hideMenu().focus();
-            self.addBookmark();
-            e.stopPropagation();
-        });
-        for (var r = 1; r < 11; r++) {
-            for (var c = 1; c < 11; c++) {
-                $grid.append('<div class="ke-plugin-table-grid-cell" style="float: left; width: 20px; height: 20px;  margin: 1px; border: 1px solid #ddd; background: #f1f1f1;" data-row="' + r + '" data-col="' + c + '"></div>');
-            }
-        }
-        $elements.push($grid);
-        $wrapperDiv.append($grid);
-        menu.div.append($wrapperDiv[0]);
-    });
-});
-
-KindEditor.lang({
-    table: KindEditor.lang('table')
-});
-/*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
  *
@@ -10628,6 +9872,7 @@ KindEditor.plugin('template', function(K) {
         });
     });
 });
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -10681,3 +9926,1585 @@ KindEditor.plugin('wordpaste', function(K) {
     });
 });
 
+
+/* ========================================================================
+ * ZUI: Kindeditor plugin - zui
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2019-2019 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+ $.each(['afterBlur', 'afterFocus', 'afterChange', 'afterTab'], function(_index, name) {
+    KindEditor.EditorClass.prototype[name] = function(fn) {
+        return this.handler(name, fn);
+    };
+});
+
+KindEditor.plugin('zui', function(K) {
+    var self = this;
+    var options = self.options;
+    self.uuid = $.zui.uuid();
+
+    var spellcheck = options.spellcheck;
+    if (spellcheck !== undefined) {
+        self.edit.doc.documentElement.setAttribute('spellcheck', spellcheck);
+    }
+
+    self.afterBlur(function() {
+        if (options.syncAfterBlur) {
+            self.sync();
+        }
+        self.container.removeClass('focus');
+    });
+
+    self.afterFocus(function() {
+        self.container.addClass('focus');
+    });
+
+    self.afterChange(function() {
+        self.edit.srcElement.change().hide();
+    });
+
+    self.afterCreate(function() {
+        $(self.edit.srcElement[0]).data('keditor', self);
+    });
+
+    var nextFormControl = 'input:not([type="hidden"]), textarea:not(.ke-edit-textarea), button[type="submit"], select';
+    self.afterTab(function() {
+        var $editor = $(self.edit.srcElement[0]);
+        var $next = $editor.next(nextFormControl);
+        if(!$next.length) $next = $editor.parent().next().find(nextFormControl);
+        if(!$next.length) $next = $editor.parent().parent().next().find(nextFormControl);
+        $next = $next.first();
+        var keditor = $next.data('keditor');
+        if(keditor) keditor.focus(); else $next.focus();
+    });
+});
+/* ========================================================================
+ * ZUI: Kindeditor plugin - placeholder
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2019-2019 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+KindEditor.EditorClass.prototype.setPlaceholder = function(placeholder, asHtml) {
+    var self = this;
+    var options = self.options;
+    var edit = self.edit;
+    var $doc = $(edit.doc);
+    var $placeholder = $doc.find('.kindeditor-ph');
+    if (!$placeholder.length) {
+        $placeholder = $('<div class="kindeditor-ph" style="width:100%; color:#888; padding: 8px; background:none; position:absolute;z-index:10;top:0;border:0;overflow:auto;resize:none; pointer-events:none; white-space: pre-wrap;"></div>');
+        if (options.placeholderStyle) {
+            $placeholder.css(options.placeholderStyle);
+        }
+        $doc.find('body').after($placeholder);
+    }
+    if ($.trim(self.html()) !== '') {
+        $placeholder.hide();
+    }
+    $placeholder[asHtml ? 'html' : 'text'](placeholder);
+};
+
+KindEditor.EditorClass.prototype.getPlaceholder = function(asHtml) {
+    return $(this.edit.doc).find('.kindeditor-ph')[asHtml ? 'html' : 'text']();
+};
+
+KindEditor.plugin('placeholder', function(K) {
+    var self = this;
+
+    self.afterBlur(function() {
+        if ($.trim(self.html()) === '') {
+            $(self.edit.doc).find('.kindeditor-ph').show();
+        }
+    });
+
+    self.afterFocus(function() {
+        $(self.edit.doc).find('.kindeditor-ph').hide();
+    });
+
+    self.afterCreate(function() {
+        var options = self.options;
+        if (options.placeholderHtml) {
+            self.setPlaceholder(options.placeholderHtml, true);
+        } else if (options.placeholder) {
+            self.setPlaceholder(options.placeholder);
+        }
+    });
+});
+/* ========================================================================
+ * ZUI: Kindeditor plugin - paste-image
+ * http://zui.sexy
+ * ========================================================================
+ * Copyright (c) 2019-2019 cnezsoft.com; Licensed MIT
+ * ======================================================================== */
+
+KindEditor.plugin('pasteimage', function(K) {
+    var self = this;
+    var allLangs = {
+        zh_cn: {
+            notSupportMsg: '您的浏览器不支持粘贴图片！',
+            placeholder: '可以在编辑器直接贴图。',
+            failMsg: '贴图失败，请稍后重试。',
+            uploadingHint: '正在上传图片，请稍后...',
+        },
+        zh_tw: {
+            notSupportMsg: '您的瀏覽器不支持粘貼圖片！',
+            placeholder: '可以在編輯器直接貼圖。',
+            failMsg: '貼圖失敗，請稍後重試。',
+            uploadingHint: '正在上傳圖片，請稍後...',
+        },
+        en: {
+            notSupportMsg: 'Image is not allowed to paste in your browser!',
+            placeholder: 'Paste images here.',
+            failMsg: 'Pasting image failed. Try again later.',
+            uploadingHint: 'Uploading...',
+        }
+    };
+    var lang = $.extend({}, allLangs[($.clientLang || $.zui.clientLang)()]);
+    self.afterCreate(function() {
+        var edit    = self.edit;
+        var doc     = edit.doc;
+        var uuid    = self.uuid;
+        var options = self.options.pasteImage;
+        if (!options) {
+            return;
+        }
+        if (typeof options === 'string') {
+            options = {url: options};
+        }
+        $.extend({
+            placeholder: placeholder
+        }, options);
+        if(!K.WEBKIT && !K.GECKO)
+        {
+            $(doc.body).on('keyup.ke' + uuid, function(ev)
+            {
+                if(ev.keyCode == 86 && ev.ctrlKey) alert(lang.notSupportMsg);
+            });
+        }
+
+        if(self.setPlaceholder)
+        {
+            var placeholder = options.placeholder;
+            if (placeholder === true) placeholder = lang.placeholder;
+            if (placeholder) {
+                var oldPlaceholder = self.getPlaceholder();
+                if (!oldPlaceholder) oldPlaceholder = placeholder;
+                else if (oldPlaceholder.indexOf(placeholder) < 0) placeholder = oldPlaceholder + '\n' + placeholder;
+            }
+        }
+
+        var pasteBegin = function() {
+            // if ($.enableForm) {
+            //     $.enableForm(false, 0, 1);
+            //     $('body').one('click.ke' + uuid, function(){$.enableForm(true);});
+            // }
+            if (options.beforePaste) {
+                options.beforePaste();
+            }
+            var imageLoadingEle = '<div class="image-loading-ele small" style="padding: 5px; background: #FFF3E0; width: 300px; border-radius: 2px; border: 1px solid #FF9800; color: #ff5d5d; margin: 10px 0;"><i class="icon icon-spin icon-spinner-indicator muted"></i> ' + lang.uploadingHint + '</div>';
+            edit.cmd.inserthtml(imageLoadingEle);
+            self.readonly(true);
+        };
+
+        var pasteEnd = function(error) {
+            if(error) {
+                if (options.onError) {
+                    options.onError(error);
+                } else {
+                    if(error === true) error = lang.failMsg;
+                    if ($.zui && $.zui.messager) {
+                        $.zui.messager.danger(error, {placement: 'center'});
+                    }
+                }
+            }
+            // if ($.enableForm) {
+            //     $.enableForm(true, 0, 1);
+            // }
+            // $('body').off('.ke' + uuid);
+            if (options.afterPaste) {
+                options.afterPaste();
+            }
+            $(doc.body).find('.image-loading-ele').remove();
+            self.readonly(false);
+        };
+
+        var pasteUrl = options.postUrl;
+        $(doc.body).on('paste.ke' + uuid, function(ev) {
+            if (K.WEBKIT) {
+                /* Paste in chrome.*/
+                /* Code reference from http://www.foliotek.com/devblog/copy-images-from-clipboard-in-javascript/. */
+                var original = ev.originalEvent;
+                var clipboardItems = original.clipboardData && original.clipboardData.items;
+                var clipboardItem = null;
+                if(clipboardItems) {
+                    var IMAGE_MIME_REGEX = /^image\/(p?jpeg|gif|png)$/i;
+                    for (var i = 0; i < clipboardItems.length; i++)
+                    {
+                        if (IMAGE_MIME_REGEX.test(clipboardItems[i].type))
+                        {
+                            clipboardItem = clipboardItems[i];
+                            break;
+                        }
+                    }
+                }
+                var file = clipboardItem && clipboardItem.getAsFile();
+                if (!file) return;
+                original.preventDefault();
+                pasteBegin();
+
+                var reader = new FileReader();
+                reader.onload = function(evt) {
+                    var result = evt.target.result;
+                    // var arr    = result.split(",");
+                    // var data   = arr[1]; // raw base64
+                    // var contentType = arr[0].split(";")[0].split(":")[1];
+
+                    html = '<img src="' + result + '" alt="" />';
+                    $.post(pasteUrl, {editor: html}, function(data)
+                    {
+                        if (data) {
+                            edit.cmd.inserthtml(data);
+                        } else {
+                            edit.cmd.inserthtml(html);
+                        }
+                        pasteEnd();
+                    }).error(function()
+                    {
+                        pasteEnd(true);
+                    });
+                };
+                reader.readAsDataURL(file);
+            } else {
+                /* Paste in firefox and other browsers. */
+                setTimeout(function() {
+                    var html = K(doc.body).html();
+                    if(html.search(/<img src="data:.+;base64,/) > -1) {
+                        pasteBegin();
+                        $.post(pasteUrl, {editor: html}, function(data) {
+                            if(data.indexOf('<img') === 0) data = '<p>' + data + '</p>';
+                            edit.html(data);
+                            pasteEnd();
+                        }).error(function()
+                        {
+                            pasteEnd(true);
+                        });
+                    }
+                }, 80);
+            }
+        });
+
+        self.beforeRemove(function() {
+            $(doc.body).off('.ke' + uuid);
+        });
+    });
+});
+/*  cellPos jQuery plugin
+    ---------------------
+    Get visual position of cell in HTML table (or its block like thead).
+    Return value is object with "top" and "left" properties set to row and column index of top-left cell corner.
+    Example of use:
+        $("#myTable tbody td").each(function(){
+            $(this).text( $(this).cellPos().top +", "+ $(this).cellPos().left );
+        });
+*/
+(function ($) {
+    /* scan individual table and set "cellPos" data in the form { left: x-coord, top: y-coord } */
+    function scanTable($table) {
+        var m = [];
+        var tableWidth = 0;
+        var tableHeight = 0;
+        $table.children('thead,tbody,tfoot').children('tr').each(function (y, row) {
+            $(row).children('td,th').each(function (x, cell) {
+                var $cell = $(cell),
+                    cspan = $cell.attr('colspan') | 0,
+                    rspan = $cell.attr('rowspan') | 0,
+                    tx, ty;
+                cspan = cspan ? cspan : 1;
+                rspan = rspan ? rspan : 1;
+                for (; m[y] && m[y][x]; ++x);  //skip already occupied cells in current row
+                for (tx = x; tx < x + cspan; ++tx) {  //mark matrix elements occupied by current cell with true
+                    for (ty = y; ty < y + rspan; ++ty) {
+                        if (!m[ty]) {  //fill missing rows
+                            m[ty] = [];
+                        }
+                        m[ty][tx] = true;
+                    }
+                }
+                var pos = {top: y, left: x, bottom: y + rspan - 1, right: x + cspan - 1};
+                $cell.data('cellPos', pos);
+                tableWidth = Math.max(tableWidth, pos.right);
+                tableHeight = Math.max(tableHeight, pos.bottom);
+                // $cell.text(x + ', ' + y + ' | ' + pos.right + ',' + pos.bottom);
+            });
+        });
+        $table.data('tableSize', {width: tableWidth + 1, height: tableHeight + 1});
+    };
+
+    /* plugin */
+    $.fn.cellPos = function (rescan) {
+        var $cell = this.first(),
+            pos = $cell.data('cellPos');
+        if (!pos || rescan) {
+            var $table = $cell.closest('table');
+            scanTable($table);
+        }
+        pos = $cell.data('cellPos');
+        return pos;
+    }
+})(jQuery);
+
+/*******************************************************************************
+* KindEditor - WYSIWYG HTML Editor for Internet
+* Copyright (C) 2006-2011 kindsoft.net
+*
+* @author Roddy <luolonghao@gmail.com>
+* @site http://www.kindsoft.net/
+* @licence http://www.kindsoft.net/license.php
+*******************************************************************************/
+
+KindEditor.plugin('table', function (K) {
+    var self = this;
+    var name = 'table';
+    var allLangs = {
+        zh_cn: {
+            name: '表格',
+            xRxC: '{0}行 × {1}列',
+            headerRow: '标题行',
+            headerCol: '标题列',
+            tableStyle: '表格样式',
+            addHeaderRow: '添加表格标题行',
+            stripedRows: '隔行变色效果',
+            hoverRows: '鼠标悬停效果',
+            autoChangeTableWidth: '自动调整表格尺寸',
+            tableWidthFixed: '按表格文字自适应',
+            tableWidthFull: '按页面宽度自适应',
+            tableBorder: '表格边框',
+            tableHead: '标题',
+            tableContent: '内容',
+            mergeCells: '合并单元格',
+            defaultColor: '默认颜色',
+            color: '颜色',
+            forecolor: '文字颜色',
+            backcolor: '背景颜色'
+        },
+        zh_tw: {
+            name: '表格',
+            xRxC: '{0}行×{1}列',
+            headerRow: '標題行',
+            headerCol: '標題列',
+            tableStyle: '表格樣式',
+            addHeaderRow: '添加表格標題行',
+            stripedRows: '隔行變色效果',
+            hoverRows: '鼠標懸停效果',
+            autoChangeTableWidth: '自動調整表格尺寸',
+            tableWidthFixed: '按表格文字自適應',
+            tableWidthFull: '按頁面寬度自適應',
+            tableBorder: '表格邊框',
+            tableHead: '標題',
+            tableContent: '內容',
+            mergeCells: '合併單元格',
+            defaultColor: '默認顏色',
+            color: '顏色',
+            forecolor: '文字顏色',
+            backcolor: '背景顏色'
+        },
+        en: {
+            name: 'Table',
+            xRxC: '{0} Rows × {1} Columns',
+            headerRow: 'Header Row',
+            headerCol: 'Header Column',
+            tableStyle: 'Table style',
+            addHeaderRow: 'Add header row',
+            stripedRows: 'Striped effection',
+            hoverRows: 'Mouse hover effection',
+            autoChangeTableWidth: 'Automatically adjust table size',
+            tableWidthFixed: 'Adaptive by form text',
+            tableWidthFull: 'Page width adaptive',
+            tableBorder: 'Table border',
+            tableHead: 'Title',
+            tableContent: 'Text',
+            mergeCells: 'Merge Cells',
+            defaultColor: 'Default color',
+            color: 'Color',
+            forecolor: 'Text Color',
+            backcolor: 'Back Color'
+        }
+    };
+    var $elements = [];
+    var lang = $.extend({}, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
+    var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
+
+    // 设置颜色
+    function _setColor(box, color) {
+        color = color.toUpperCase();
+        box.css('background-color', color);
+        if (color) {
+            if ($ && $.zui && $.zui.Color) {
+                box.css('color', new $.zui.Color(color).contrast().toCssStr());
+            } else {
+                box.css('color', (color === '#FFF' || color === '#FFFFFF') ? '#000' : '#FFF');
+            }
+        }
+        box.name === 'input' ? box.val(color) : box.html(color);
+    }
+    // 初始化取色器
+    var pickerList = [];
+    function _initColorPicker(dialogDiv, colorBox, onSetColor) {
+        colorBox.bind('click,mousedown', function (e) {
+            e.stopPropagation();
+        });
+        function removePicker() {
+            K.each(pickerList, function () {
+                this.remove();
+            });
+            pickerList = [];
+            K(document).unbind('click,mousedown', removePicker);
+            dialogDiv.unbind('click,mousedown', removePicker);
+        }
+        colorBox.click(function (e) {
+            removePicker();
+            var box = K(this),
+                pos = box.pos();
+            var picker = K.colorpicker({
+                x: pos.x,
+                y: pos.y + box.height(),
+                z: 811214,
+                selectedColor: K(this).val(),
+                colors: self.colorTable,
+                noColor: lang['defaultColor'],
+                shadowMode: self.shadowMode,
+                click: function (color) {
+                    _setColor(box, color);
+                    removePicker();
+                    onSetColor && onSetColor(color);
+                }
+            });
+            pickerList.push(picker);
+            K(document).bind('click,mousedown', removePicker);
+            dialogDiv.bind('click,mousedown', removePicker);
+        });
+    }
+    // 取得下一行cell的index
+    function _getCellIndex(table, row, cell) {
+        var rowSpanCount = 0;
+        for (var i = 0, len = row.cells.length; i < len; i++) {
+            if (row.cells[i] == cell) {
+                break;
+            }
+            rowSpanCount += row.cells[i].rowSpan - 1;
+        }
+        return cell.cellIndex - rowSpanCount;
+    }
+
+    function removeEvent() {
+        K.each($elements, function () {
+            this.off('.kTable');
+        });
+    }
+
+    function updateTable(setting, $table, onUpdateSetting) {
+        if (!$table) {
+            var table = self.plugin.getSelectedTable();
+            $table = $(table[0]);
+        }
+        if (!$table || !$table.length) return;
+        if (!setting) {
+            setting = $.extend({
+                borderColor: defaultTableBorderColor
+            }, self.tableSetting, setting);
+            if (setting.autoWidth === undefined) {
+                setting.autoWidth = $table[0].style.width === 'auto';
+            }
+            if (setting.stripedRows === undefined) {
+                var $rows = $table.find('tbody>tr');
+                var coloredRowsLength = $rows.filter(function () {
+                    return !!this.style.backgroundColor;
+                }).length;
+                setting.stripedRows = coloredRowsLength >= Math.floor($rows / 2);
+            }
+        }
+        self.tableSetting = setting;
+        if (setting.header !== undefined) {
+            if ($table.is('.ke-plugin-table-example')) {
+                $table.find('thead').toggleClass('hidden', !setting.header);
+            } else {
+                var $thead = $table.find('thead');
+                if (setting.header) {
+                    if (!$thead.length) {
+                        var theadHtml = ['<thead><tr>'];
+                        var $firstRow = $table.find('tbody>tr:first').children();
+                        var colsCount = 0;
+                        $firstRow.each(function () {
+                            var $cell = $(this);
+                            var cellSpan = $cell.attr('colspan');
+                            colsCount += cellSpan ? parseInt(cellSpan) : 1;
+                        });
+                        for (var i = 0; i < colsCount; ++i) {
+                            theadHtml.push('<th style="border: 1px solid ' + (setting.borderColor || defaultTableBorderColor)  + '">' + (K.IE ? '&nbsp;' : '<br />') + '</th>');
+                        }
+                        theadHtml.push('</tr></thead>');
+                        $thead = $(theadHtml.join(''));
+                        $table.prepend($thead);
+                    }
+                } else {
+                    $thead.remove();
+                }
+            }
+            onUpdateSetting && onUpdateSetting('header', setting.header);
+        }
+        if (setting.stripedRows !== undefined) {
+            var $rows = $table.find('tbody>tr');
+            $rows.each(function (index) {
+                $(this).css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : 'none');
+            });
+            onUpdateSetting && onUpdateSetting('stripedRows', setting.stripedRows);
+        }
+        // if (setting.hoverRows !== undefined) {
+        //     $table.toggleClass('table-hover', !!setting.hoverRows);
+        //     onUpdateSetting && onUpdateSetting('hoverRows', setting.hoverRows);
+        // }
+        if (setting.autoWidth !== undefined) {
+            $table.css(setting.autoWidth ? {
+                width: 'auto',
+                maxWidth: '100%'
+            } : {
+                width: '100%',
+            });
+            onUpdateSetting && onUpdateSetting('autoWidth', setting.autoWidth);
+        }
+        if (setting.borderColor !== undefined) {
+            $table.find('td,th').css('border-color', setting.borderColor);
+            onUpdateSetting && onUpdateSetting('borderColor', setting.borderColor);
+        }
+    }
+
+    function insertTable(row, col, headerRow, headerCol) {
+        if (!(row * col)) {
+            return;
+        }
+        var $table = $('<table class="table table-kindeditor"></table>');
+        var $body = $('<tbody></tbody>');
+        for (var r = 0; r < row; r++) {
+            var $row = $('<tr></tr>');
+            for (var c = 0; c < col; c++) {
+                var $cell = $('<td style="border: 1px solid ' + defaultTableBorderColor + '">' + (K.IE ? '&nbsp;' : '<br />') + '</td>');
+                $row.append($cell);
+            }
+            $body.append($row);
+        }
+        $table.append($body);
+        var html = $('<div>').append($table).html();
+        if (!K.IE) {
+            html += '<br />';
+        }
+        self.insertHtml(html);
+        return $table;
+    }
+
+    function modifyTable(table) {
+        var $table = $(table[0]);
+        var theadHtml = ['<thead><tr>'];
+        var tbodyHtml = ['<tbody>'];
+        for (var i = 0; i < 6; ++i) {
+            theadHtml.push('<th style="padding:4px">{tableHead}</th>');
+            tbodyHtml.push('<tr>');
+            for (var j = 0; j < 6; ++j) {
+                tbodyHtml.push('<td style="padding:4px">{tableContent}</td>');
+            }
+            tbodyHtml.push('</tr>');
+        }
+        theadHtml.push('</tr></thead>');
+        tbodyHtml.push('</tbody>');
+        var dialogHtml = [
+            '<div class="container" style="padding: 15px">',
+            '<div class="row">',
+            '<div class="col-xs-5 col-left">',
+            '<div class="form-group">',
+            '<label>{tableStyle}</label>',
+            '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="header"> {addHeaderRow}</label></div>',
+            '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="stripedRows"> {stripedRows}</label></div>',
+            // '<div class="checkbox" style="margin: 0 0 5px"><label><input type="checkbox" name="hoverRows"> {hoverRows}</label></div>',
+            '</div>',
+            '<div class="form-group">',
+            '<label>{autoChangeTableWidth}</label>',
+            '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value="auto"> {tableWidthFixed}</label></div>',
+            '<div class="radio" style="margin: 0 0 5px"><label><input type="radio" name="autoWidth" value=""> {tableWidthFull}</label></div>',
+            '</div>',
+            '<div class="form-group" style="margin: 0">',
+            '<label>{tableBorder}</label>',
+            '<div class="input-group" style="width: 180px">',
+            '<span class="input-group-addon">{borderColor}</span>',
+            '<input class="form-control ke-plugin-table-input-color" readonly style="background: ' + defaultTableBorderColor + '; color: #333; font-size: 12px" value="' + defaultTableBorderColor + '" name="borderColor" />',
+            '</div>',
+            '</div>',
+            '</div>',
+            '<div class="col-xs-7 col-right">',
+            '<table class="table table-bordered table-kindeditor ke-plugin-table-example">',
+            theadHtml.join(''),
+            tbodyHtml.join(''),
+            '<table>',
+            '</div>',
+            '</div>',
+            '</div>'
+        ].join('').format(lang);
+        var $dialog = $(dialogHtml);
+        var $exampleTable = $dialog.find('.ke-plugin-table-example');
+        var bookmark = self.cmd.range.createBookmark();
+        var $colorBox = $dialog.find('.ke-plugin-table-input-color');
+        var colorBox = K($colorBox[0]);
+        $dialog.on('change.kTable', 'input[name]', function () {
+            var $input = $(this);
+            var updateSetting = {};
+            updateSetting[$input.attr('name')] = $input.is('[type="checkbox"]') ? $input.is(':checked') : $input.val();
+            updateTable(updateSetting, $exampleTable);
+        });
+
+        var dialog = self.createDialog({
+            name: name + 'Dialog',
+            width: 550,
+            title: self.lang(name),
+            body: $dialog[0],
+            beforeRemove: function () {
+                $dialog.off('.kTable');
+            },
+            yesBtn: {
+                name: self.lang('yes'),
+                click: function (e) {
+                    updateTable({
+                        borderColor: $dialog.find('[name="borderColor"]').val(),
+                        header: $dialog.find('[name="header"]').is(':checked'),
+                        stripedRows: $dialog.find('[name="stripedRows"]').is(':checked'),
+                        hoverRows: $dialog.find('[name="hoverRows"]').is(':checked'),
+                        autoWidth: $dialog.find('[name="autoWidth"]:checked').val(),
+                    }, $table);
+                    self.hideDialog().focus();
+                    self.cmd.range.moveToBookmark(bookmark);
+                    self.cmd.select();
+                    self.addBookmark();
+                }
+            }
+        });
+        _initColorPicker(dialog.div, colorBox, function (color) {
+            updateTable({ borderColor: color }, $exampleTable);
+        });
+
+        updateTable(self.tableSetting, $exampleTable, function (name, value) {
+            switch (name) {
+                case 'borderColor':
+                    _setColor(colorBox, value || defaultTableBorderColor);
+                    break;
+                case 'header':
+                    $dialog.find('[name="header"]').prop('checked', !!value);
+                    break;
+                case 'stripedRows':
+                    $dialog.find('[name="stripedRows"]').prop('checked', !!value);
+                    break;
+                case 'hoverRows':
+                    $dialog.find('[name="hoverRows"]').prop('checked', !!value);
+                    break;
+                case 'autoWidth':
+                    $dialog.find('[name="autoWidth"][value="' + (value ? 'auto' : '') + '"]').prop('checked', true);
+                    break;
+            }
+        });
+    }
+
+    if (!self.plugin.table) {
+        self.plugin.table = {
+            // modify table
+            prop: function () {
+                var table = self.plugin.getSelectedTable();
+                if (table && table.length) {
+                    modifyTable(table);
+                }
+            },
+            //modify cell
+            cellprop: function () {
+                var html = [
+                    '<div class="form-horizontal" style="padding: 20px;">',
+                        //width, height
+                        '<div class="form-group">',
+                            '<label class="col-xs-2" style="margin: 0;">' + lang.size + '</label>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.width + '</span>',
+                                    '<input type="number" class="form-control" id="keWidth" name="width" value="" maxlength="4" />',
+                                    '<span class="input-group-addon fix-border fix-padding"></span>',
+                                    '<select name="widthType" class="form-control" style="width: 45px">',
+                                        '<option value="%">' + lang.percent + '</option>',
+                                        '<option value="px">' + lang.px + '</option>',
+                                    '</select>',
+                                '</div>',
+                            '</div>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.height + '</span>',
+                                    '<input type="number" class="form-control" id="keWidth" name="height" value="" maxlength="4" />',
+                                    '<span class="input-group-addon fix-border fix-padding"></span>',
+                                    '<select name="heightType" class="form-control" style="width: 45px">',
+                                        '<option value="%">' + lang.percent + '</option>',
+                                        '<option value="px">' + lang.px + '</option>',
+                                    '</select>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                        //align
+                        '<div class="form-group">',
+                            '<label class="col-xs-2" style="margin: 0;">' + lang.align + '</label>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.textAlign + '</span>',
+                                    '<select id="keAlign" name="textAlign" class="form-control">',
+                                        '<option value="">' + lang.alignDefault + '</option>',
+                                        '<option value="left">' + lang.alignLeft + '</option>',
+                                        '<option value="center">' + lang.alignCenter + '</option>',
+                                        '<option value="right">' + lang.alignRight + '</option>',
+                                    '</select>',
+                                '</div>',
+                            '</div>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.verticalAlign + '</span>',
+                                    '<select name="verticalAlign" class="form-control">',
+                                        '<option value="">' + lang.alignDefault + '</option>',
+                                        '<option value="top">' + lang.alignTop + '</option>',
+                                        '<option value="middle">' + lang.alignMiddle + '</option>',
+                                        '<option value="bottom">' + lang.alignBottom + '</option>',
+                                        '<option value="baseline">' + lang.alignBaseline + '</option>',
+                                    '</select>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                        //border
+                        '<div class="form-group">',
+                            '<label class="col-xs-2" style="margin: 0;">' + lang.border + '</label>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.borderColor + '</span>',
+                                    '<input class="form-control ke-plugin-table-input-color" readonly style="background: ' + defaultTableBorderColor + '; color: #333; font-size: 12px" value="' + defaultTableBorderColor + '" name="borderColor" />',
+                                '</div>',
+                            '</div>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.size + '</span>',
+                                    '<input type="number" class="form-control" name="borderWidth" value="1" min="0" step="1" />',
+                                    '<span class="input-group-addon">px</span>',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                        //background color
+                        '<div class="form-group">',
+                            '<label class="col-xs-2" style="margin: 0;">' + lang.color + '</label>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.forecolor + '</span>',
+                                    '<input class="form-control ke-plugin-table-input-color" readonly style="background: #333; color: #fff; font-size: 12px" value="#333" name="forecolor" />',
+                                '</div>',
+                            '</div>',
+                            '<div class="col-xs-5">',
+                                '<div class="input-group">',
+                                    '<span class="input-group-addon">' + lang.backcolor + '</span>',
+                                    '<input class="form-control ke-plugin-table-input-color" readonly style="background: #fff; color: #333; font-size: 12px" value="#333" name="backgroundColor" />',
+                                '</div>',
+                            '</div>',
+                        '</div>',
+                    '</div>',
+                ].join('');
+                var bookmark = self.cmd.range.createBookmark();
+                var div, widthBox, heightBox, widthTypeBox, widthTypeBox, textAlignBox, verticalAlignBox, colorBox, borderWidthBox;
+                var dialog = self.createDialog({
+                    name: name,
+                    width: 500,
+                    title: self.lang('tablecell'),
+                    body: html,
+                    beforeRemove: function () {
+                        colorBox.unbind();
+                    },
+                    yesBtn: {
+                        name: self.lang('yes'),
+                        click: function (e) {
+                            var width = widthBox.val(),
+                                height = heightBox.val(),
+                                widthType = widthTypeBox.val(),
+                                heightType = heightTypeBox.val(),
+                                textAlign = textAlignBox.val(),
+                                verticalAlign = verticalAlignBox.val(),
+                                borderWidth = borderWidthBox.val() + 'px',
+                                borderColor = K(colorBox[0]).val() || '',
+                                textColor = K(colorBox[1]).val() || '',
+                                bgColor = K(colorBox[2]).val() || '';
+                            if (!/^\d*$/.test(width)) {
+                                alert(self.lang('invalidWidth'));
+                                widthBox[0].focus();
+                                return;
+                            }
+                            if (!/^\d*$/.test(height)) {
+                                alert(self.lang('invalidHeight'));
+                                heightBox[0].focus();
+                                return;
+                            }
+                            var cells = self.plugin.getAllSelectedCells();
+                            var style = {
+                                width: width !== '' ? (width + widthType) : '',
+                                height: height !== '' ? (height + heightType) : '',
+                                'background-color': bgColor,
+                                'text-align': textAlign,
+                                'border-width': borderWidth,
+                                'vertical-align': verticalAlign,
+                                'border-color': borderColor,
+                                color: textColor
+                            };
+                            for(var i = 0; i < cells.length; ++i) {
+                                cells.eq(i).css(style);
+                            }
+                            self.hideDialog().focus();
+                            self.cmd.range.moveToBookmark(bookmark);
+                            self.cmd.select();
+                            self.addBookmark();
+                        }
+                    }
+                });
+                div = dialog.div,
+                widthBox = K('[name="width"]', div).val(100),
+                heightBox = K('[name="height"]', div),
+                widthTypeBox = K('[name="widthType"]', div),
+                heightTypeBox = K('[name="heightType"]', div),
+                textAlignBox = K('[name="textAlign"]', div),
+                verticalAlignBox = K('[name="verticalAlign"]', div),
+                borderWidthBox = K('[name="borderWidth"]', div),
+                colorBox = K('.ke-plugin-table-input-color', div);
+                _initColorPicker(div, colorBox.eq(0));
+                _initColorPicker(div, colorBox.eq(1));
+                _initColorPicker(div, colorBox.eq(2));
+                _setColor(colorBox.eq(0), '#000000');
+                _setColor(colorBox.eq(1), '');
+                _setColor(colorBox.eq(2), '');
+                // foucs and select
+                widthBox[0].focus();
+                widthBox[0].select();
+                // get selected cell
+                var cell = self.plugin.getSelectedCell();
+                var match,
+                    cellWidth = cell[0].style.width || cell[0].width || '',
+                    cellHeight = cell[0].style.height || cell[0].height || '';
+                if ((match = /^(\d+)((?:px|%)*)$/.exec(cellWidth))) {
+                    widthBox.val(match[1]);
+                    widthTypeBox.val(match[2]);
+                } else {
+                    widthBox.val('');
+                }
+                if ((match = /^(\d+)((?:px|%)*)$/.exec(cellHeight))) {
+                    heightBox.val(match[1]);
+                    heightTypeBox.val(match[2]);
+                }
+                var borderWidth = cell[0].style.borderWidth || '';
+                if ((match = /^(\d+)((?:px)*)$/.exec(borderWidth))) {
+                    borderWidthBox.val(match[1]);
+                }
+                textAlignBox.val(cell[0].style.textAlign || '');
+                verticalAlignBox.val(cell[0].style.verticalAlign || '');
+                _setColor(colorBox.eq(0), K.toHex(cell[0].style.borderColor || ''));
+                _setColor(colorBox.eq(1), K.toHex(cell[0].style.color || ''));
+                _setColor(colorBox.eq(2), K.toHex(cell[0].style.backgroundColor || ''));
+                widthBox[0].focus();
+                widthBox[0].select();
+            },
+            insert: function () {
+                console.warn('Table insert not available.');
+            },
+            'delete': function () {
+                var table = self.plugin.getSelectedTable();
+                self.cmd.range.setStartBefore(table[0]).collapse(true);
+                self.cmd.select();
+                table.remove();
+                self.addBookmark();
+            },
+            colinsert: function (offset) {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    index = cell.cellIndex + offset;
+                // 取得第一行的index
+                index += table.rows[0].cells.length - row.cells.length;
+
+                for (var i = 0, len = table.rows.length; i < len; i++) {
+                    var newRow = table.rows[i],
+                        newCell = newRow.insertCell(index),
+                        isThead = newRow.parentNode.tagName === 'THEAD';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    // 调整下一行的单元格index
+                    index = _getCellIndex(table, newRow, newCell);
+                }
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            colinsertleft: function () {
+                this.colinsert(0);
+            },
+            colinsertright: function () {
+                this.colinsert(1);
+            },
+            rowinsert: function (offset) {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0];
+                var rowIndex = row.rowIndex;
+                if (offset === 1) {
+                    rowIndex = row.rowIndex + (cell.rowSpan - 1) + offset;
+                }
+                var newRow = table.insertRow(rowIndex);
+                var isThead = newRow.parentNode.tagName === 'THEAD';
+
+                for (var i = 0, len = row.cells.length; i < len; i++) {
+                    // 调整cell个数
+                    if (row.cells[i].rowSpan > 1) {
+                        len -= row.cells[i].rowSpan - 1;
+                    }
+                    var newCell = newRow.insertCell(i);
+                    // copy colspan
+                    if (offset === 1 && row.cells[i].colSpan > 1) {
+                        newCell.colSpan = row.cells[i].colSpan;
+                    }
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                }
+                // 调整rowspan
+                for (var j = rowIndex; j >= 0; j--) {
+                    var cells = table.rows[j].cells;
+                    if (cells.length > i) {
+                        for (var k = cell.cellIndex; k >= 0; k--) {
+                            if (cells[k].rowSpan > 1) {
+                                cells[k].rowSpan += 1;
+                            }
+                        }
+                        break;
+                    }
+                }
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            rowinsertabove: function () {
+                this.rowinsert(0);
+            },
+            rowinsertbelow: function () {
+                this.rowinsert(1);
+            },
+            rowmerge: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    rowIndex = row.rowIndex, // 当前行的index
+                    nextRowIndex = rowIndex + cell.rowSpan, // 下一行的index
+                    nextRow = table.rows[nextRowIndex]; // 下一行
+                // 最后一行不能合并
+                if (table.rows.length <= nextRowIndex) {
+                    return;
+                }
+                var cellIndex = cell.cellIndex; // 下一行单元格的index
+                if (nextRow.cells.length <= cellIndex) {
+                    return;
+                }
+                var nextCell = nextRow.cells[cellIndex]; // 下一行单元格
+                // 上下行的colspan不一致时不能合并
+                if (cell.colSpan !== nextCell.colSpan) {
+                    return;
+                }
+                cell.rowSpan += nextCell.rowSpan;
+                nextRow.deleteCell(cellIndex);
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            colmerge: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    rowIndex = row.rowIndex, // 当前行的index
+                    cellIndex = cell.cellIndex,
+                    nextCellIndex = cellIndex + 1;
+                // 最后一列不能合并
+                if (row.cells.length <= nextCellIndex) {
+                    return;
+                }
+                var nextCell = row.cells[nextCellIndex];
+                // 左右列的rowspan不一致时不能合并
+                if (cell.rowSpan !== nextCell.rowSpan) {
+                    return;
+                }
+                cell.colSpan += nextCell.colSpan;
+                row.deleteCell(nextCellIndex);
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            mergeCells: function () {
+                var tableSelectionRange = self.tableSelectionRange;
+                if (!tableSelectionRange) return;
+                var table = self.plugin.getSelectedTable()[0];
+                var $table = $(table);
+                var top = tableSelectionRange.top;
+                var left = tableSelectionRange.left;
+                var right = tableSelectionRange.right;
+                var bottom = tableSelectionRange.bottom;
+                var $firstCell;
+                $table.children('thead,tbody,tfoot').children('tr').each(function () {
+                    $(this).children('td,th').each(function () {
+                        var $cell = $(this);
+                        var pos = $cell.cellPos();
+                        if (pos.left === left && pos.top === top) {
+                            $firstCell = $cell;
+                        } else if (pos.right >= left && pos.left <= right && pos.bottom >= top && pos.top <= bottom) {
+                            $cell.addClass('ke-cell-removed');
+                        }
+                    });
+                });
+                if ($firstCell) {
+                    $firstCell.attr({
+                        rowspan: bottom - top + 1,
+                        colspan: right - left + 1,
+                    });
+                    $table.find('.ke-cell-removed').remove();
+                    self.cmd.range.selectNodeContents($firstCell[0]).collapse(true);
+                    self.cmd.select();
+                    self.addBookmark();
+                }
+            },
+            rowsplit: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    rowIndex = row.rowIndex;
+                // 不是可分割单元格
+                if (cell.rowSpan === 1) {
+                    return;
+                }
+                var cellIndex = _getCellIndex(table, row, cell);
+                for (var i = 1, len = cell.rowSpan; i < len; i++) {
+                    var newRow = table.rows[rowIndex + i],
+                        newCell = newRow.insertCell(cellIndex);
+                    if (cell.colSpan > 1) {
+                        newCell.colSpan = cell.colSpan;
+                    }
+                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                    // 调整下一行的单元格index
+                    cellIndex = _getCellIndex(table, newRow, newCell);
+                }
+                K(cell).removeAttr('rowSpan');
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            colsplit: function () {
+                var table = self.plugin.getSelectedTable()[0],
+                    row = self.plugin.getSelectedRow()[0],
+                    cell = self.plugin.getSelectedCell()[0],
+                    cellIndex = cell.cellIndex;
+                // 不是可分割单元格
+                if (cell.colSpan === 1) {
+                    return;
+                }
+                for (var i = 1, len = cell.colSpan; i < len; i++) {
+                    var newCell = row.insertCell(cellIndex + i);
+                    if (cell.rowSpan > 1) {
+                        newCell.rowSpan = cell.rowSpan;
+                    }
+                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                }
+                K(cell).removeAttr('colSpan');
+                self.cmd.range.selectNodeContents(cell).collapse(true);
+                self.cmd.select();
+                self.addBookmark();
+            },
+            coldelete: function () {
+                var table = self.plugin.getSelectedTable()[0];
+                var cells = self.plugin.getAllSelectedCells();
+                if (!cells.length) return;
+                for (var j = 0; j < cells.length; ++j) {
+                    var cell = cells.get(j);
+                    var row = cell.parentNode;
+                    if (!row || !row.parentNode) continue;
+                    var index = cell.cellIndex;
+                    for (var i = 0, len = table.rows.length; i < len; i++) {
+                        var newRow = table.rows[i],
+                            newCell = newRow.cells[index];
+                        if (newCell.colSpan > 1) {
+                            newCell.colSpan -= 1;
+                            if (newCell.colSpan === 1) {
+                                K(newCell).removeAttr('colSpan');
+                            }
+                        } else {
+                            newRow.deleteCell(index);
+                        }
+                        // 跳过不需要删除的行
+                        if (newCell.rowSpan > 1) {
+                            i += newCell.rowSpan - 1;
+                        }
+                    }
+                    if (row.cells.length === 0) {
+                        self.cmd.range.setStartBefore(table).collapse(true);
+                        self.cmd.select();
+                        K(table).remove();
+                        break;
+                    }
+                }
+                if (table.parentNode) {
+                    self.cmd.selection(true);
+                }
+                self.addBookmark();
+            },
+            rowdelete: function () {
+                var table = self.plugin.getSelectedTable()[0];
+                var cells = self.plugin.getAllSelectedCells();
+                if (!cells.length) return;
+                for (var j = 0; j < cells.length; ++j) {
+                    var cell = cells.get(j);
+                    var row = cell.parentNode;
+                    if (!row || !row.parentNode) continue;
+                    // 从下到上删除
+                    for (var i = cell.rowSpan - 1; i >= 0; i--) {
+                        table.deleteRow(row.rowIndex + i);
+                    }
+                }
+                if (table.rows.length === 0) {
+                    self.cmd.range.setStartBefore(table).collapse(true);
+                    self.cmd.select();
+                    K(table).remove();
+                } else {
+                    self.cmd.selection(true);
+                }
+                self.addBookmark();
+            }
+        };
+
+        self.plugin.getSelectedTable = function () {
+            return K($(self.cmd.range.startContainer).closest('table')[0]);
+        };
+        // 获取选中的行
+        self.plugin.getSelectedRow = function () {
+            return K($(self.cmd.range.startContainer).closest('tr')[0]);
+        };
+        // 获取光标所在的单元格
+        self.plugin.getSelectedCell = function () {
+            return K($(self.cmd.range.startContainer).closest('td,th')[0]);
+        };
+        // 获取用户拖选的单元格
+        self.plugin.getSelectedCells = function () {
+            var table = self.plugin.getSelectedTable();
+            if (table.length) {
+                var cells = K('.ke-select-cell', table.get(0));
+                if (cells && cells.length > 1) {
+                    return cells;
+                }
+            }
+        };
+        // 当用户没有拖选多个单元格时，获取光标所在的单元格
+        self.plugin.getSingleSelectedCell = function () {
+            var selectedCells = self.plugin.getSelectedCells();
+            if (selectedCells && selectedCells.length > 1) {
+                return;
+            }
+            return self.plugin.getSelectedCell();
+        };
+        // 获取用户拖选或光标所在位置的单元格
+        self.plugin.getAllSelectedCells = function () {
+            var selectedCells = self.plugin.getSelectedCells();
+            if (selectedCells && selectedCells.length) {
+                return selectedCells;
+            }
+            return self.plugin.getSelectedCell();
+        };
+
+        var contextMenuIconClass = {
+            mergeCells: 'ke-icon-tablecolmerge'
+        };
+        K.each(('prop,cellprop,colinsertleft,colinsertright,rowinsertabove,rowinsertbelow,mergeCells,rowmerge,colmerge,rowsplit,colsplit,coldelete,rowdelete,delete').split(','), function (i, val) {
+            var cond;
+            if (val === 'prop' || val === 'delete') {
+                cond = self.plugin.getSelectedTable;
+            } else if (val === 'mergeCells') {
+                cond = self.plugin.getSelectedCells;
+            }else if (val === 'rowmerge') {
+                cond = function() {
+                    var cell = self.plugin.getSingleSelectedCell();
+                    if (cell && cell.length) {
+                        if($(cell.get(0)).parent().next('tr').length) {
+                            return cell;
+                        }
+                    }
+                };
+            } else if (val === 'colmerge') {
+                cond = function() {
+                    var cell = self.plugin.getSingleSelectedCell();
+                    if (cell && cell.length) {
+                        if($(cell.get(0)).next('th,td').length) {
+                            return cell;
+                        }
+                    }
+                };
+            } else if (val === 'rowsplit') {
+                cond = function() {
+                    var cell = self.plugin.getSingleSelectedCell();
+                    if (cell && cell.get(0).rowSpan > 1) {
+                        return cell;
+                    }
+                };
+            } else if (val === 'colsplit') {
+                cond = function() {
+                    var cell = self.plugin.getSingleSelectedCell();
+                    if (cell && cell.get(0).colSpan > 1) {
+                        return cell;
+                    }
+                };
+            } else if (K.inArray(val, ['colinsertleft', 'colinsertright', 'rowinsertabove', 'rowinsertbelow']) > -1) {
+                cond = self.plugin.getSingleSelectedCell;
+            }  else {
+                cond = self.plugin.getSelectedCell;
+            }
+            self.addContextmenu({
+                title: lang[val] || self.lang('table' + val),
+                click: function () {
+                    self.loadPlugin('table', function () {
+                        self.plugin.table[val]();
+                        self.hideMenu();
+                    });
+                },
+                cond: cond,
+                width: 170,
+                iconClass: contextMenuIconClass[val] || ('ke-icon-table' + val)
+            });
+        });
+    }
+
+    self.clickToolbar(name, function () {
+        if (self.menu) return;
+
+        var menu = self.createMenu({
+            name: name,
+            beforeRemove: function () {
+                removeEvent();
+            }
+        });
+
+        var $wrapperDiv = $('<div class="ke-plugin-table"></div>');
+        var $header = $('<div class="ke-plugin-table-header" style="padding: 0 5px;">' + lang.xRxC.format(0, 0) + '</div>');
+        $wrapperDiv.append($header);
+        var $grid = $('<div class="ke-plugin-table-grid clearfix" style="width: 230px; padding: 5px 5px 0 5px"></div>');
+        $grid.on('mouseenter.kTable', '.ke-plugin-table-grid-cell', function () {
+            var $cell = $(this);
+            var row = $cell.data('row');
+            var col = $cell.data('col');
+            $header.text(lang.xRxC.format(row, col));
+            var $cells = $grid.find('.ke-plugin-table-grid-cell');
+            $cells.each(function () {
+                var $c = $(this);
+                var r = $c.data('row');
+                var c = $c.data('col');
+                if (r <= row && c <= col) {
+                    $c.css({
+                        border: '1px solid #2286d2',
+                        background: '#eff7ff'
+                    });
+                } else {
+                    $c.css({
+                        border: '1px solid #ddd',
+                        background: '#f1f1f1'
+                    });
+                }
+            });
+        }).on('click.kTable', '.ke-plugin-table-grid-cell', function (e) {
+            var $cell = $(this);
+            var row = $cell.data('row');
+            var col = $cell.data('col');
+            insertTable(row, col);
+            self.hideMenu().focus();
+            self.addBookmark();
+            e.stopPropagation();
+        });
+        for (var r = 1; r < 11; r++) {
+            for (var c = 1; c < 11; c++) {
+                $grid.append('<div class="ke-plugin-table-grid-cell" style="float: left; width: 20px; height: 20px;  margin: 1px; border: 1px solid #ddd; background: #f1f1f1;" data-row="' + r + '" data-col="' + c + '"></div>');
+            }
+        }
+        $elements.push($grid);
+        $wrapperDiv.append($grid);
+        menu.div.append($wrapperDiv[0]);
+    });
+
+    // https://zui.5upm.com/task-view-2.html
+    self.afterTab(function () {
+        var range = self.cmd.range;
+        if (range && range.endContainer) {
+            var selectNextCell = function ($currentCell) {
+                if ($currentCell.length) {
+                    var $nextCell = $currentCell.next();
+                    if (!$nextCell.is('td,th')) {
+                        $nextCell = $currentCell.parent().next('tr').children('th,td').first();
+                    }
+                    if (!$nextCell.is('td,th')) {
+                        $nextCell = $currentCell.closest('tbody,tfoot,thead').next().children('tr').first().children('th,td').first();
+                    }
+                    if ($nextCell.length) {
+                        self.cmd.range.selectNode($nextCell[0]);
+                        self.cmd.select();
+                        return true;
+                    }
+                }
+                return false;
+            };
+            var $endContainer = $(range.endContainer).closest('td,th');
+            if ($endContainer.length) {
+                if (!selectNextCell($endContainer)) {
+                    self.plugin.table.rowinsertbelow();
+                    selectNextCell($endContainer);
+                }
+                return true;
+            }
+        }
+        return false;
+    });
+
+    var selectCellsRange = function ($table, startPos, endPos) {
+        var top = endPos ? Math.min(startPos.top, endPos.top) : startPos.top;
+        var left = endPos ? Math.min(startPos.left, endPos.left) : startPos.left;
+        var bottom = endPos ? Math.max(startPos.bottom, endPos.bottom) : startPos.bottom;
+        var right = endPos ? Math.max(startPos.right, endPos.right) : startPos.right;
+        if (top === bottom && left === right) {
+            return false;
+        }
+        var hasCellSelected = false;
+        var hasNewCellSelect = false;
+        var $rows = $table.children('thead,tbody,tfoot').children('tr').each(function () {
+            $(this).children('td,th').each(function () {
+                var $cell = $(this);
+                var pos = $cell.cellPos();
+                if (pos.right >= left && pos.left <= right && pos.bottom >= top && pos.top <= bottom) {
+                    top = Math.min(top, pos.top);
+                    left = Math.min(left, pos.left);
+                    bottom = Math.max(bottom, pos.bottom);
+                    right = Math.max(right, pos.right);
+                    $cell.addClass('ke-select-cell');
+                    hasCellSelected = true;
+                    hasNewCellSelect = true;
+                }
+            });
+        });
+        while(hasNewCellSelect) {
+            hasNewCellSelect = false;
+            $rows.each(function () {
+                $(this).children('td,th').each(function () {
+                    var $cell = $(this);
+                    if ($cell.hasClass('ke-select-cell')) return;
+                    var pos = $cell.cellPos();
+                    if (pos.right >= left && pos.left <= right && pos.bottom >= top && pos.top <= bottom) {
+                        top = Math.min(top, pos.top);
+                        left = Math.min(left, pos.left);
+                        bottom = Math.max(bottom, pos.bottom);
+                        right = Math.max(right, pos.right);
+                        $cell.addClass('ke-select-cell');
+                        hasNewCellSelect = true;
+                    }
+                });
+            });
+        }
+        if (hasCellSelected) {
+            self.tableSelectionRange = {
+                top: top,
+                left: left,
+                bottom: bottom,
+                right: right,
+            };
+        } else {
+            self.tableSelectionRange = null;
+        }
+        return hasCellSelected;
+    };
+
+    var selectRow = function ($table, rowIndex) {
+        return selectCellsRange($table, {
+            left: 0,
+            right: $table.data('tableSize').width - 1,
+            top: rowIndex,
+            bottom: rowIndex,
+        });
+    };
+
+    var selectCol = function ($table, cellIndex) {
+        return selectCellsRange($table, {
+            left: cellIndex,
+            right: cellIndex,
+            top: 0,
+            bottom: $table.data('tableSize').height - 1,
+        });
+    };
+
+    self.afterCreate(function () {
+        var isMouseDown = false;
+        var $mouseDownTable = null;
+        var $mouseMoveTable = null;
+        var mouseDownCellPos = null;
+        var mouseMoveCellPos = null;
+
+        var handleMouseUp = function () {
+            isMouseDown = false;
+            $mouseDownTable = null;
+            mouseMoveCellPos = null;
+        };
+
+        $(self.edit.doc.body).on('mousedown.ke' + self.uuid, function (e) {
+            var $cell = $(e.target).closest('td,th');
+            var $table = $cell.closest('table');
+            var rightClickOnTable = false;
+            if ($cell.length && $table.length) {
+                $mouseDownTable = $table;
+                isMouseDown = true;
+                mouseDownCellPos = $cell.cellPos(true);
+                rightClickOnTable = e.which === 3;
+                $table.removeClass('ke-select-cells');
+            }
+            if (!rightClickOnTable) {
+                $(self.edit.doc).find('.ke-select-cell').removeClass('ke-select-cell');
+                self.tableSelectionRange = null;
+            }
+        }).on('mousemove.ke' + self.uuid, function (e) {
+            var $cell = $(e.target).closest('td,th');
+            if (!$cell.length) return isMouseDown ? e.preventDefault() : null;
+            var $table = $cell.closest('table');
+            if (!$table.length) return isMouseDown ? e.preventDefault() : null;
+            $table.removeClass('ke-select-row ke-select-col ke-select-cells');
+            mouseMoveCellPos = $cell.cellPos();
+            if (isMouseDown) {
+                if ($table[0] !== $mouseDownTable[0]) return;
+                $(self.edit.doc).find('table').find('.ke-select-cell').removeClass('ke-select-cell');
+                if (selectCellsRange($table, mouseDownCellPos, mouseMoveCellPos)) {
+                    $table.addClass('ke-select-cells');
+                    e.preventDefault();
+                }
+            } else {
+                $mouseMoveTable = $table;
+                var tableOffset = $table.offset();
+                var pageX = e.pageX;
+                var pageY = e.pageY;
+                var moveX = pageX - tableOffset.left;
+                var moveY = pageY - tableOffset.top;
+                if (moveX < 8) {
+                    $table.addClass('ke-select-row');
+                    mouseMoveCellPos.selectRow = mouseMoveCellPos.top;
+                    e.preventDefault();
+                    e.stopPropagation();
+                } else if (moveY < 8) {
+                    $table.addClass('ke-select-col');
+                    mouseMoveCellPos.selectCol = mouseMoveCellPos.left;
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }
+        }).on('mouseup.ke' + self.uuid, function (e) {
+            var $target = $(e.target);
+            var $cell = $target.closest('td,th');
+            if ($cell.length) {
+                if (mouseMoveCellPos && mouseMoveCellPos.selectRow !== undefined) {
+                    selectRow($mouseMoveTable, mouseMoveCellPos.selectRow);
+                    e.stopPropagation();
+                } else if (mouseMoveCellPos && mouseMoveCellPos.selectCol !== undefined) {
+                    selectCol($mouseMoveTable, mouseMoveCellPos.selectCol);
+                    e.stopPropagation();
+                }
+            }
+            handleMouseUp();
+        }).on('paste.ke' + self.uuid + ' keydown.ke' + self.uuid, function () {
+            $(self.edit.doc).find('table').removeClass('ke-select-row ke-select-col').find('.ke-select-cell').removeClass('ke-select-cell');
+        });
+        $(document).on('mouseup.ke' + self.uuid, function () {
+            handleMouseUp();
+        });
+
+        $(self.edit.doc.head).append([
+            '<style>',
+            '.ke-select-cells {cursor: cell}',
+            '.ke-select-row {cursor: e-resize; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABaPxwLAAAAD3RSTlMAqiTk590pHjjw0cZyAjPTb5hoAAAARUlEQVQI12MgCnAowJmdbjAW7/rPcOHS/3Bh9vgvCSCaR1BQcP9/IxCT8T8IAIVhTKBGuAK4NrhppUBBTCteGqE6hzAAAHccHSlSjBVHAAAAAElFTkSuQmCC) 10 10, auto}',
+            '.ke-select-col {cursor: s-resize; cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAJ1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADdEvm1AAAADHRSTlMAqiPfH+Q58dPHcgLUxK6wAAAAUklEQVQI12MgCiyUgjNlDuJlcoOYG8DMDAWZgyxtIBZbjYnMQefjCUAmU8zhOSdtjiqAhJ3PAEEQWC2LzZkzIEGwMFgQKgwShApDBUGGKBDlagAGvBgJQ+z5fwAAAABJRU5ErkJggg==) 10 10, auto}',
+            '.ke-select-cell {outline: #b3d4fc 2px solid; outline-color: rgba(100, 150, 255, 0.7); outline-offset: -1px; position: relative}',
+            '.ke-select-cell:before {content: " "; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0, 50, 255, 0.08)}',
+            '</style>',
+        ].join(''));
+
+        var cmdToggleBack = self.cmd.toggle;
+        var cmdToggle = function (wrapper, map, flag) {
+            var self = this;
+            if (flag === undefined || flag === null) {
+                flag = self.commonNode(map);
+            }
+            if (flag) {
+                self.remove(map);
+            } else {
+                self.wrap(wrapper);
+            }
+            return self.select();
+        };
+
+        var eachSelectCells = function (eachCallback, beforeCallback, afterCallback) {
+            var range = self.cmd.range;
+            if (range && range.endContainer) {
+                var $cell = $(range.endContainer).closest('th,td');
+                if (!$cell.length) return;
+                var $table = $cell.closest('table');
+                if (!$table.length) return;
+                var $selectCells = $table.children('thead,tbody,tfoot').children('tr').children('.ke-select-cell');
+                if ($selectCells.length) {
+                    if (beforeCallback) beforeCallback($cell, $table);
+                    $selectCells.each(eachCallback);
+                    if (afterCallback) afterCallback($cell, $table);
+
+                    range.selectNodeContents($cell[0]);
+                    // range.collapse();
+                    self.cmd.select();
+                    self.focus();
+                    return true;
+                }
+            }
+        };
+
+        self.cmd.toggle = function (wrapper, map) {
+            var flag;
+            if (eachSelectCells(function () {
+                self.cmd.range.selectNodeContents(this);
+                self.cmd.select();
+                cmdToggle.call(self.cmd, wrapper, map, flag);
+            }, function ($cell) {
+                self.cmd.range.selectNodeContents($cell[0]);
+                self.cmd.select();
+                flag = !!self.cmd.commonNode(map);
+            })) {
+                return;
+            }
+            return cmdToggleBack.call(self.cmd, wrapper, map);
+        };
+
+        var commands = ',justifyleft,justifycenter,justifyright,justifyfull,insertorderedlist,insertunorderedlist,';
+        var clickToolbarBack = self.clickToolbar;
+        self.clickToolbar = function (name, fn) {
+            if (fn === undefined && commands.indexOf(',' + name + ',') > -1) {
+                if (eachSelectCells(function () {
+                    self.cmd.range.selectNode(this);
+                    self.cmd.select();
+                    clickToolbarBack.call(self, name, fn);
+                })) {
+                    return;
+                }
+            }
+            return clickToolbarBack.call(self, name, fn);
+        }
+    });
+
+    self.beforeRemove(function () {
+        $(self.edit.doc.body).off('.ke' + self.uuid);
+        $(document).off('.ke' + self.uuid);
+    });
+});
+
+KindEditor.lang({
+    table: KindEditor.lang('table')
+});
