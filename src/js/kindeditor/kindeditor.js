@@ -5012,6 +5012,7 @@
                 e.preventDefault();
                 if(self.afterTab) {
                     var tabResult = self.afterTab.call(self, e);
+                    console.log('tabResult', tabResult);
                     // 如果 afterTab 回调函数返回值为 false，则继续执行原始 tab 操作，否则视为已经处理 tab 键操作
                     if (tabResult !== false) return;
                 }

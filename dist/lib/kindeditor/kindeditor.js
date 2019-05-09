@@ -11238,8 +11238,8 @@ KindEditor.plugin('table', function (K) {
 
     // https://zui.5upm.com/task-view-2.html
     self.afterTab(function () {
-        var range = self.cmd.range;
-        if (range && range.endContainer) {
+        var selectedCell = self.plugin.getSelectedCell();
+        if (selectedCell && selectedCell.length) {
             var selectNextCell = function ($currentCell) {
                 if ($currentCell.length) {
                     var $nextCell = $currentCell.next();
@@ -11257,11 +11257,11 @@ KindEditor.plugin('table', function (K) {
                 }
                 return false;
             };
-            var $endContainer = $(range.endContainer).closest('td,th');
-            if ($endContainer.length) {
-                if (!selectNextCell($endContainer)) {
+            var $selectedCell = $(selectedCell.get(0));
+            if ($selectedCell.length) {
+                if (!selectNextCell($selectedCell)) {
                     self.plugin.table.rowinsertbelow();
-                    selectNextCell($endContainer);
+                    selectNextCell($selectedCell);
                 }
                 return true;
             }
