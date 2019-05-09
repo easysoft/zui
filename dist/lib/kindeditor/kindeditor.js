@@ -10462,7 +10462,7 @@ KindEditor.plugin('table', function (K) {
                             colsCount += cellSpan ? parseInt(cellSpan) : 1;
                         });
                         for (var i = 0; i < colsCount; ++i) {
-                            theadHtml.push('<th style="border: 1px solid ' + (setting.borderColor || defaultTableBorderColor)  + '">' + (K.IE ? '&nbsp;' : '<br />') + '</th>');
+                            theadHtml.push('<th style="background-color: #f1f1f1; border: 1px solid ' + (setting.borderColor || defaultTableBorderColor)  + '">' + (K.IE ? '&nbsp;' : '<br />') + '</th>');
                         }
                         theadHtml.push('</tr></thead>');
                         $thead = $(theadHtml.join(''));
@@ -10853,7 +10853,7 @@ KindEditor.plugin('table', function (K) {
                     var newRow = table.rows[i],
                         newCell = newRow.insertCell(index),
                         isThead = newRow.parentNode.tagName === 'THEAD';
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     // 调整下一行的单元格index
                     index = _getCellIndex(table, newRow, newCell);
                 }
@@ -10888,7 +10888,7 @@ KindEditor.plugin('table', function (K) {
                     if (offset === 1 && row.cells[i].colSpan > 1) {
                         newCell.colSpan = row.cells[i].colSpan;
                     }
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                 }
                 // 调整rowspan
                 for (var j = rowIndex; j >= 0; j--) {
