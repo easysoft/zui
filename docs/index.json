@@ -643,7 +643,7 @@
               "name": "显示或隐藏元素"
             }
           ],
-          "filter": "fuzhulei fzl"
+          "filter": "fuzhulei fzl hidden float visible show hide shown text background color small wrap"
         },
         {
           "desc": "默认配色方案",
@@ -667,7 +667,7 @@
               "name": "配色设计要点"
             }
           ],
-          "filter": "peise ps"
+          "filter": "peise ps theme"
         },
         {
           "desc": "自定义主题风格",
@@ -688,7 +688,7 @@
           "filter": "zhuti zt"
         }
       ],
-      "filter": "jichu jc"
+      "filter": "jichu jc css style"
     },
     "control": {
       "name": "控件",
@@ -718,7 +718,7 @@
               "name": "如何使用图标？"
             }
           ],
-          "filter": "tubiao tb"
+          "filter": "tubiao tb zenicon"
         },
         {
           "desc": "按钮和按钮组",
@@ -739,7 +739,7 @@
               "name": "按钮的颜色"
             }
           ],
-          "filter": "anniu an"
+          "filter": "anniu an btn"
         },
         {
           "desc": "使用进度条",
@@ -799,7 +799,7 @@
               "name": "作为徽标"
             }
           ],
-          "filter": "biaoqian bq"
+          "filter": "biaoqian bq badge dot outline"
         },
         {
           "desc": "包括输入框和下拉列表",
@@ -822,7 +822,7 @@
               "name": "使用栅格"
             }
           ],
-          "filter": "wenbenkuang wbk input file textarea wj wenjian"
+          "filter": "wenbenkuang wbk input file textarea wj wenjian select textarea grid file datetime number email"
         },
         {
           "desc": "内联或块级的多选和单选框",
@@ -839,7 +839,7 @@
               "name": "内联形式"
             }
           ],
-          "filter": "duoxuanhedanxuankuang dxhdx radio"
+          "filter": "duoxuanhedanxuankuang dxhdx radio input"
         },
         {
           "desc": "使用复选框实现的开关控件",
@@ -873,7 +873,7 @@
               "name": "示例"
             }
           ],
-          "filter": "mianbaoxie mbx"
+          "filter": "mianbaoxie mbx nav"
         },
         {
           "desc": "为图片应用样式",
@@ -894,7 +894,7 @@
               "name": "响应式图片"
             }
           ],
-          "filter": "tupian tp"
+          "filter": "tupian tp picture thumbnail responsive"
         },
         {
           "desc": "标题",
@@ -912,7 +912,7 @@
               "name": "带底部水平分隔线的标题"
             }
           ],
-          "filter": "duojibiaoti djbt"
+          "filter": "duojibiaoti djbt title page-header"
         },
         {
           "desc": "水平分隔线",
@@ -924,7 +924,7 @@
               "name": "水平分隔线"
             }
           ],
-          "filter": "fengexian fgx"
+          "filter": "fengexian fgx hr"
         },
         {
           "desc": "美化浏览器滚动条",
@@ -1018,7 +1018,7 @@
               "name": "代码高亮"
             }
           ],
-          "filter": "daima dm"
+          "filter": "daima dm pre"
         },
         {
           "id": "inputgroup",
@@ -1049,7 +1049,7 @@
               "name": "分段按钮"
             }
           ],
-          "filter": "shuruzu srz"
+          "filter": "shuruzu srz addon"
         },
         {
           "id": "listgroup",
@@ -1067,7 +1067,7 @@
               "name": "定制列表内容"
             }
           ],
-          "filter": "liebiaozu lbz"
+          "filter": "liebiaozu lbz nav vertical"
         },
         {
           "id": "nav",
@@ -1101,7 +1101,7 @@
               "name": "带标题的导航"
             }
           ],
-          "filter": "daohang dh"
+          "filter": "daohang dh list"
         },
         {
           "id": "navbar",
@@ -1128,7 +1128,7 @@
               "name": "自适应宽度"
             }
           ],
-          "filter": "daohangtiao dht"
+          "filter": "daohangtiao dht list"
         },
         {
           "id": "menu",
@@ -1144,7 +1144,7 @@
               "name": "激活选中项"
             }
           ],
-          "filter": "chuizhicaidan czcd"
+          "filter": "chuizhicaidan czcd list nav vertical"
         },
         {
           "id": "pager",
@@ -1168,7 +1168,7 @@
               "name": "两端对齐"
             }
           ],
-          "filter": "fenyetiao fyt"
+          "filter": "fenyetiao fyt yema ym"
         },
         {
           "id": "panel",
@@ -1253,7 +1253,7 @@
               "name": "变化"
             }
           ],
-          "filter": "anniuzu anz"
+          "filter": "anniuzu anz btn"
         }
       ],
       "filter": "zujian zj"
@@ -1307,7 +1307,7 @@
             }
           ],
           "version": "1.8.0",
-          "filter": "youjiancaidan yjcd "
+          "filter": "youjiancaidan yjcd mouse menu nav"
         },
         {
           "id": "pagerjs",
@@ -1356,7 +1356,7 @@
               "name": "本地页面存储"
             }
           ],
-          "filter": "bendicunchu bdcc"
+          "filter": "bendicunchu bdcc storage local-storage database"
         },
         {
           "id": "modal",
@@ -1387,7 +1387,7 @@
               "name": "如何使用"
             }
           ],
-          "filter": "dhk mtk duihuakuang motaikuang"
+          "filter": "dhk mtk duihuakuang motaikuang dialog alert confirm"
         },
         {
           "id": "modaltrigger",
@@ -1418,7 +1418,7 @@
               "name": "如何使用"
             }
           ],
-          "filter": "duihuakuangchufaqi dhkcfq motaikuang mtk"
+          "filter": "duihuakuangchufaqi dhkcfq motaikuang mtk dialog alert confirm"
         },
         {
           "id": "dropdown",
@@ -1455,7 +1455,7 @@
               "name": "在导航和导航条中使用"
             }
           ],
-          "filter": "xialacaidan xlcd"
+          "filter": "xialacaidan xlcd menu"
         },
         {
           "id": "tab",
@@ -1480,7 +1480,7 @@
               "name": "事件"
             }
           ],
-          "filter": "biaoqianye bqy"
+          "filter": "biaoqianye bqy nav tabs"
         },
         {
           "id": "messager",
@@ -1508,7 +1508,7 @@
               "name": "如何使用"
             }
           ],
-          "filter": "piaofuxiaoxi pfxx toast"
+          "filter": "piaofuxiaoxi pfxx toast info"
         },
         {
           "id": "tooltip",
@@ -1536,7 +1536,7 @@
               "name": "事件"
             }
           ],
-          "filter": "tishixiaoxi tsxx gjts gongjutishi"
+          "filter": "tishixiaoxi tsxx gjts gongjutishi hint ballon"
         },
         {
           "id": "popover",
@@ -1561,7 +1561,7 @@
               "name": "用法"
             }
           ],
-          "filter": "tanchumianban tcmb tishimianban tsmb"
+          "filter": "tanchumianban tcmb tishimianban tsmb hint panel"
         },
         {
           "id": "collapse",
@@ -1598,7 +1598,7 @@
               "name": "方法和事件"
             }
           ],
-          "filter": "lunbo lb"
+          "filter": "lunbo lb slide image picture"
         },
         {
           "id": "datetimepicker",
@@ -1617,7 +1617,7 @@
               "name": "使用输入框"
             }
           ],
-          "filter": "riqixuanze rqxz time shijian sj"
+          "filter": "riqixuanze rqxz time shijian sj input form"
         },
         {
           "id": "chosen",
@@ -1636,7 +1636,7 @@
               "name": "图标选择插件"
             }
           ],
-          "filter": "select xialaxuanze xlxz option choose"
+          "filter": "select xialaxuanze xlxz option choose form input"
         },
         {
           "id": "htmleditor",
@@ -1647,10 +1647,10 @@
           "dpds": "kindeditor",
           "topics": [
             {
-              "name": "UEditor"
+              "name": "Kindeitor"
             },
             {
-              "name": "Kindeitor"
+              "name": "UEditor"
             }
           ],
           "filter": "fuwenbenbianjiqi fwbbjq rich text"
@@ -1670,7 +1670,7 @@
               "name": "变化"
             }
           ],
-          "filter": "secai sc"
+          "filter": "secai sc yanse ys"
         },
         {
           "id": "draggable",
@@ -1690,7 +1690,7 @@
               "name": "处理拖动过程"
             }
           ],
-          "filter": "tuodong td"
+          "filter": "tuodong td drop dnd"
         },
         {
           "id": "droppable",
@@ -1709,7 +1709,7 @@
               "name": "处理拖放过程"
             }
           ],
-          "filter": "tuofang tf"
+          "filter": "tuofang tf dnd drag"
         },
         {
           "id": "sortable",
@@ -1729,7 +1729,7 @@
               "name": "处理拖放排序过程"
             }
           ],
-          "filter": "tuofangpaixu tfpx"
+          "filter": "tuofangpaixu tfpx dnd drag drop"
         },
         {
           "id": "selectable",
@@ -1753,7 +1753,7 @@
             }
           ],
           "url": ".md",
-          "filter": "tuozhuai tz"
+          "filter": "tuozhuai tz dnd drop drag"
         },
         {
           "id": "colorpicker",
@@ -1783,7 +1783,7 @@
             }
           ],
           "url": ".md",
-          "filter": "tuozhuai tz"
+          "filter": "tuozhuai tz yanse secai ys sc form input"
         },
         {
           "id": "bootbox",
@@ -1791,7 +1791,7 @@
           "desc": "警告、确认和内容编辑模态框（使用 Bootbox）",
           "name": "模态对话框",
           "topics": [],
-          "filter": "motaiduihuakuang mtdhk"
+          "filter": "motaiduihuakuang mtdhk alert confirm dialog modal"
         },
         {
           "id": "imgcutter",
@@ -1836,7 +1836,7 @@
           "desc": "功能强大的数据网格视图",
           "name": "数据表格②",
           "version": "1.8.0",
-          "filter": "shujuwangge sjwg shjwg shujubiaoge datatable sjbg",
+          "filter": "shujuwangge sjwg shjwg shujubiaoge datatable sjbg database",
           "topics": [
             {
               "name": "综合示例"
@@ -1894,7 +1894,7 @@
           "desc": "灵活的标签页管理视图",
           "name": "标签页管理器",
           "version": "1.8.0",
-          "filter": "biaoqianyeguanliqi bqyglq",
+          "filter": "biaoqianyeguanliqi bqyglq nav",
           "topics": [
             {
               "name": "综合示例"
@@ -1939,7 +1939,7 @@
               "name": "数据加载与更新"
             }
           ],
-          "filter": "shuxingcaidan sxcd shuxcd"
+          "filter": "shuxingcaidan sxcd shuxcd menu nav vertical"
         },
         {
           "id": "uploader",
@@ -1999,7 +1999,7 @@
               "name": "使用方法"
             }
           ],
-          "filter": "rili rl"
+          "filter": "rili rl date time"
         },
         {
           "id": "form",
@@ -2042,7 +2042,7 @@
               "name": "更为紧凑的表单"
             }
           ],
-          "filter": "biaodan bd"
+          "filter": "biaodan bd input control"
         },
         {
           "id": "article",
@@ -2086,7 +2086,7 @@
               "name": "紧凑视图"
             }
           ],
-          "filter": "kapian kp"
+          "filter": "kapian kp grid"
         },
         {
           "id": "list",
@@ -2130,7 +2130,7 @@
               "name": "综合示例"
             }
           ],
-          "filter": "pinglun pl"
+          "filter": "pinglun pl list"
         },
         {
           "id": "chart",
@@ -2158,7 +2158,7 @@
               "name": "兼容IE浏览器"
             }
           ],
-          "filter": "tubiao tb quxiantu qxt bingtu bt"
+          "filter": "tubiao tb quxiantu qxt bingtu bt line bar"
         },
         {
           "id": "treemap",
@@ -2189,7 +2189,7 @@
               "name": "其他问题"
             }
           ],
-          "filter": "shuzhuangtu szt shuzt zuzhijiegoutu zzjgt organization"
+          "filter": "shuzhuangtu szt shuzt zuzhijiegoutu zzjgt organization menu"
         },
         {
           "id": "board",
@@ -2211,7 +2211,7 @@
               "name": "处理看板交互过程"
             }
           ],
-          "filter": "kanban kb"
+          "filter": "kanban kb dnd drag drop panel"
         },
         {
           "id": "dashboard",
@@ -2239,7 +2239,7 @@
               "name": "从远程加载"
             }
           ],
-          "filter": "yibiaopan ybp panel mianban mb"
+          "filter": "yibiaopan ybp panel mianban mb dnd drag drop sort"
         },
         {
           "id": "lightbox",
@@ -2254,7 +2254,7 @@
               "name": "用法"
             }
           ],
-          "filter": "tupianliulan tpll dxs tp dengxiangshi tupian tpyl"
+          "filter": "tupianliulan tpll dxs tp dengxiangshi tupian tpyl image picture layer"
         },
         {
           "id": "datatable",
@@ -2288,7 +2288,7 @@
               "name": "数据配置"
             }
           ],
-          "filter": "shujubiaoge sjbg"
+          "filter": "shujubiaoge sjbg database scroll list"
         }
       ],
       "filter": "shitu st"
