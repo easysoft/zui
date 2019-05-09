@@ -81,7 +81,7 @@ KindEditor.plugin('table', function (K) {
             tableBorder: '表格边框',
             tableHead: '标题',
             tableContent: '内容',
-            mergeCells: '合并所选单元格',
+            mergeCells: '合并单元格',
             defaultColor: '默认颜色',
             color: '颜色',
             forecolor: '文字颜色',
@@ -102,7 +102,7 @@ KindEditor.plugin('table', function (K) {
             tableBorder: '表格邊框',
             tableHead: '標題',
             tableContent: '內容',
-            mergeCells: '合併所選單元格',
+            mergeCells: '合併單元格',
             defaultColor: '默認顏色',
             color: '顏色',
             forecolor: '文字顏色',
@@ -123,7 +123,7 @@ KindEditor.plugin('table', function (K) {
             tableBorder: 'Table border',
             tableHead: 'Title',
             tableContent: 'Text',
-            mergeCells: 'Merge Selected Cells',
+            mergeCells: 'Merge Cells',
             defaultColor: 'Default color',
             color: 'Color',
             forecolor: 'Text Color',
@@ -136,10 +136,14 @@ KindEditor.plugin('table', function (K) {
 
     // 设置颜色
     function _setColor(box, color) {
-        color = color.toLowerCase();
+        color = color.toUpperCase();
         box.css('background-color', color);
         if (color) {
-            box.css('color', color === '#000000' ? '#FFFFFF' : '#000000');
+            if ($ && $.zui && $.zui.Color) {
+                box.css('color', new $.zui.Color(color).contrast().toCssStr());
+            } else {
+                box.css('color', (color === '#FFF' || color === '#FFFFFF') ? '#000' : '#FFF');
+            }
         }
         box.name === 'input' ? box.val(color) : box.html(color);
     }
@@ -264,8 +268,8 @@ KindEditor.plugin('table', function (K) {
                 width: 'auto',
                 maxWidth: '100%'
             } : {
-                    width: '100%',
-                });
+                width: '100%',
+            });
             onUpdateSetting && onUpdateSetting('autoWidth', setting.autoWidth);
         }
         if (setting.borderColor !== undefined) {
@@ -905,7 +909,7 @@ KindEditor.plugin('table', function (K) {
         // 获取用户拖选或光标所在位置的单元格
         self.plugin.getAllSelectedCells = function () {
             var selectedCells = self.plugin.getSelectedCells();
-            if (selectedCells.length) {
+            if (selectedCells && selectedCells.length) {
                 return selectedCells;
             }
             return self.plugin.getSelectedCell();
