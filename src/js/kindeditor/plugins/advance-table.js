@@ -1107,6 +1107,11 @@ KindEditor.plugin('table', function (K) {
                 });
             });
         }
+        var $selectedCells = $table.find('.ke-select-cell');
+        if ($selectedCells.length === 1) {
+            $selectedCells.removeClass('ke-select-cell');
+            hasCellSelected = false;
+        }
         if (hasCellSelected) {
             self.tableSelectionRange = {
                 top: top,
@@ -1174,7 +1179,7 @@ KindEditor.plugin('table', function (K) {
             $table.removeClass('ke-select-row ke-select-col ke-select-cells');
             mouseMoveCellPos = $cell.cellPos();
             if (isMouseDown) {
-                if ($table[0] !== $mouseDownTable[0]) return;
+                if ($table[0] !== $mouseDownTable[0]) return e.preventDefault();
                 $(self.edit.doc).find('table').find('.ke-select-cell').removeClass('ke-select-cell');
                 if (selectCellsRange($table, mouseDownCellPos, mouseMoveCellPos)) {
                     $table.addClass('ke-select-cells');
