@@ -1032,7 +1032,7 @@ KindEditor.plugin('table', function (K) {
     });
 
     // https://zui.5upm.com/task-view-2.html
-    self.afterTab(function () {
+    self.afterTab(function (result) {
         var selectedCell = self.plugin.getSelectedCell();
         if (selectedCell && selectedCell.length) {
             var selectNextCell = function ($currentCell) {
@@ -1061,7 +1061,7 @@ KindEditor.plugin('table', function (K) {
                 return true;
             }
         }
-        return false;
+        return result;
     });
 
     var selectCellsRange = function ($table, startPos, endPos) {

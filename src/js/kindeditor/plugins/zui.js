@@ -40,14 +40,24 @@ KindEditor.plugin('zui', function(K) {
         }
     });
 
-    var nextFormControl = 'input:not([type="hidden"]), textarea:not(.ke-edit-textarea), button[type="submit"], select';
-    self.afterTab(function() {
-        var $editor = $(self.edit.srcElement[0]);
-        var $next = $editor.next(nextFormControl);
-        if(!$next.length) $next = $editor.parent().next().find(nextFormControl);
-        if(!$next.length) $next = $editor.parent().parent().next().find(nextFormControl);
-        $next = $next.first();
-        var keditor = $next.data('keditor');
-        if(keditor) keditor.focus(); else $next.focus();
-    });
+    if (options.transferTab !== false) {
+        var nextFormControl = 'input:not([type="hidden"]), textarea:not(.ke-edit-textarea), button[type="submit"], select';
+        self.afterTab(function() {
+            var $editor = $(self.edit.srcElement[0]);
+            var $next = $editor.next(nextFormControl);
+            if(!$next.length) $next = $editor.parent().next().find(nextFormControl);
+            if(!$next.length) $next = $editor.parent().parent().next().find(nextFormControl);
+            $next = $next.first();
+            if ($next.length) {
+                var keditor = $next.data('keditor');
+                if(keditor) {
+                    keditor.focus();
+                } else {
+                    $next.focus();
+                }
+                return true;
+            }
+            return true;
+        });
+    }
 });

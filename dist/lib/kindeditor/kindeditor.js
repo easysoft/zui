@@ -5012,9 +5012,8 @@
                 e.preventDefault();
                 if(self.afterTab) {
                     var tabResult = self.afterTab.call(self, e);
-                    console.log('tabResult', tabResult);
-                    // 如果 afterTab 回调函数返回值为 false，则继续执行原始 tab 操作，否则视为已经处理 tab 键操作
-                    if (tabResult !== false) return;
+                    // 如果 afterTab 回调函数返回值为 true，则视为已经处理 tab 键操作，否则继续执行原始 tab 操作
+                    if (tabResult === true) return;
                 }
                 var cmd = self.cmd,
                     range = cmd.range;
@@ -9975,16 +9974,26 @@ KindEditor.plugin('zui', function(K) {
         }
     });
 
-    var nextFormControl = 'input:not([type="hidden"]), textarea:not(.ke-edit-textarea), button[type="submit"], select';
-    self.afterTab(function() {
-        var $editor = $(self.edit.srcElement[0]);
-        var $next = $editor.next(nextFormControl);
-        if(!$next.length) $next = $editor.parent().next().find(nextFormControl);
-        if(!$next.length) $next = $editor.parent().parent().next().find(nextFormControl);
-        $next = $next.first();
-        var keditor = $next.data('keditor');
-        if(keditor) keditor.focus(); else $next.focus();
-    });
+    if (options.transferTab !== false) {
+        var nextFormControl = 'input:not([type="hidden"]), textarea:not(.ke-edit-textarea), button[type="submit"], select';
+        self.afterTab(function() {
+            var $editor = $(self.edit.srcElement[0]);
+            var $next = $editor.next(nextFormControl);
+            if(!$next.length) $next = $editor.parent().next().find(nextFormControl);
+            if(!$next.length) $next = $editor.parent().parent().next().find(nextFormControl);
+            $next = $next.first();
+            if ($next.length) {
+                var keditor = $next.data('keditor');
+                if(keditor) {
+                    keditor.focus();
+                } else {
+                    $next.focus();
+                }
+                return true;
+            }
+            return true;
+        });
+    }
 });
 /* ========================================================================
  * ZUI: Kindeditor plugin - placeholder
@@ -11245,7 +11254,7 @@ KindEditor.plugin('table', function (K) {
     });
 
     // https://zui.5upm.com/task-view-2.html
-    self.afterTab(function () {
+    self.afterTab(function (result) {
         var selectedCell = self.plugin.getSelectedCell();
         if (selectedCell && selectedCell.length) {
             var selectNextCell = function ($currentCell) {
@@ -11274,7 +11283,7 @@ KindEditor.plugin('table', function (K) {
                 return true;
             }
         }
-        return false;
+        return result;
     });
 
     var selectCellsRange = function ($table, startPos, endPos) {
