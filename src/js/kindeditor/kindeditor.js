@@ -5753,10 +5753,13 @@
         options.themesPath = _undef(options.themesPath, options.basePath + 'themes/');
         options.langPath = _undef(options.langPath, options.basePath + 'lang/');
         options.pluginsPath = _undef(options.pluginsPath, options.basePath + 'plugins/');
+
         if(_undef(options.loadStyleMode, K.options.loadStyleMode)) {
+            _loadStyle(_undef(options.styleCssPath, options.basePath + '/kindeditor.min.css'));
             var themeType = _undef(options.themeType, K.options.themeType);
-            _loadStyle(options.basePath + '/kindeditor.min.css');
-            // _loadStyle(options.themesPath + themeType + '/' + themeType + '.css');
+            if (themeType && themeType !== 'default') {
+                _loadStyle(options.themesPath + themeType + '/' + themeType + '.css');
+            }
         }
 
         function create(editor) {
