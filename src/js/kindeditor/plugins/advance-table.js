@@ -282,7 +282,7 @@ KindEditor.plugin('table', function (K) {
         if (!(row * col)) {
             return;
         }
-        var $table = $('<table class="table table-kindeditor"></table>');
+        var $table = $('<table class="table table-kindeditor" style="width: 100%"></table>');
         var $body = $('<tbody></tbody>');
         for (var r = 0; r < row; r++) {
             var $row = $('<tr></tr>');
