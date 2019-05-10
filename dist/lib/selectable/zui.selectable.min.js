@@ -1,5 +1,5 @@
 /*!
- * ZUI: 拖拽选择 - v1.9.1 - 2019-05-09
+ * ZUI: 拖拽选择 - v1.9.1 - 2019-05-10
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2019 cnezsoft.com; Licensed MIT
