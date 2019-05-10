@@ -1104,3 +1104,11 @@ ke-dialog-content select {
   width: 30%;
   text-align: center;
   }
+.ke-dialog input[type=number]::-webkit-outer-spin-button,
+.ke-dialog input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  }
+.ke-dialog input[type=number] {
+  -moz-appearance: textfield;
+  }

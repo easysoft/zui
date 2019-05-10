@@ -273,7 +273,7 @@
         minWidth: 650,
         minHeight: 100,
         minChangeSize: 50,
-        simpleWrap: false,
+        simpleWrap: true,
         zIndex: 811213,
         items: [
             'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
@@ -796,7 +796,7 @@
         }
         var re = /(\s*)<(\/)?([\w\-:]+)((?:\s+|(?:\s+[\w\-:]+)|(?:\s+[\w\-:]+=[^\s"'<>]+)|(?:\s+[\w\-:"]+="[^"]*")|(?:\s+[\w\-:"]+='[^']*'))*)(\/)?>(\s*)/g;
         var tagStack = [];
-        var testData = [];
+        var prevTagIsBlockEnd = null;
         html = html.replace(re, function($0, $1, $2, $3, $4, $5, $6) {
             var full = $0,
                 startNewline = $1 || '',
@@ -805,17 +805,6 @@
                 attr = $4 || '',
                 endSlash = $5 ? ' ' + $5 : '',
                 endNewline = $6 || '';
-                testData.push({
-                    tagName: tagName,
-                    startSlash: startSlash,
-                    endSlash: endSlash,
-                    startNewline: startNewline,
-                    startLength: startNewline.length,
-                    endNewline: endNewline,
-                    endLength: endNewline.length,
-                    attr: attr,
-                    full: full
-                });
             if(htmlTags && !htmlTagMap[tagName]) {
                 return '';
             }
@@ -837,12 +826,12 @@
                     startNewline = '\n';
                 }
             }
-            if(wellFormatted && tagName == 'br' && !simpleWrap) {
+            if(wellFormatted && (tagName == 'br' || tagName === 'hr') && (!simpleWrap || prevTagIsBlockEnd === true)) {
                 endNewline = '\n';
             }
             if(_BLOCK_TAG_MAP[tagName] && !_PRE_TAG_MAP[tagName]) {
                 if(wellFormatted) {
-                    var isEndTag = startSlash && tagStack.length > 0 && tagStack[tagStack.length - 1] === tagName;
+                    var isEndTag = !!(startSlash && tagStack.length > 0 && tagStack[tagStack.length - 1] === tagName);
                     if(isEndTag) {
                         tagStack.pop();
                         if (simpleWrap) {
@@ -860,20 +849,26 @@
                         startNewline = '\n';
                         endNewline = '\n';
                     }
-                    for(var i = 0, len = startSlash ? tagStack.length : tagStack.length - 1; i < len; i++) {
-                        startNewline += indentChar;
-                        if(!startSlash && !simpleWrap) {
-                            endNewline += indentChar;
+                    if (!simpleWrap || (prevTagIsBlockEnd === false && !isEndTag) || (prevTagIsBlockEnd === true)) {
+                        for(var i = 0, len = startSlash ? tagStack.length : tagStack.length - 1; i < len; i++) {
+                            startNewline += indentChar;
+                            if(!startSlash && !simpleWrap) {
+                                endNewline += indentChar;
+                            }
                         }
                     }
+                    prevTagIsBlockEnd = isEndTag;
                     if(endSlash) {
                         tagStack.pop();
                     } else if(!startSlash && !simpleWrap) {
                         endNewline += indentChar;
                     }
                 } else {
+                    prevTagIsBlockEnd = null;
                     startNewline = endNewline = '';
                 }
+            } else {
+                prevTagIsBlockEnd = null;
             }
             if(attr !== '') {
                 var attrMap = _getAttrList(full);

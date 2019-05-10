@@ -80,6 +80,7 @@
                         <li>
                             <p>新增 通过 <code>syncAfterBlur</code> 选项实现自动在编辑器失去焦点时执行同步（<code>sync()</code>）操作；</p>
                         </li>
+                        <li>新增 通过 <code>simpleWrap</code> 选项来优化源码格式化功能，当该选项为 <code>true</code> 时，源码中当块级元素内容不会显示为新的行；</li>
                         <li>优化 表格缩进样式，现在默认缩进 2 个空格，而不是 Tab；</li>
                         <li>优化 预览界面样式；</li>
                         <li>
@@ -101,6 +102,7 @@
             if (K) {
                 window.$editor = K.create('textarea.kindeditor', {
                     wellFormatMode: true,
+                    simpleWrap: true,
                     indentChar: '  ',
                     width: '100%',
                     basePath: '../../dist/lib/kindeditor/',

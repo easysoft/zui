@@ -267,12 +267,13 @@
         useContextmenu: true,
         fullscreenShortcut: false,
         bodyClass: 'ke-content',
-        indentChar: '\t',
+        indentChar: '  ',
         cssPath: '',
         cssData: '',
         minWidth: 650,
         minHeight: 100,
         minChangeSize: 50,
+        simpleWrap: true,
         zIndex: 811213,
         items: [
             'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
@@ -760,7 +761,7 @@
         return url;
     }
 
-    function _formatHtml(html, htmlTags, urlType, wellFormatted, indentChar) {
+    function _formatHtml(html, htmlTags, urlType, wellFormatted, indentChar, simpleWrap) {
         if(html == null) {
             html = '';
         }
@@ -795,6 +796,7 @@
         }
         var re = /(\s*)<(\/)?([\w\-:]+)((?:\s+|(?:\s+[\w\-:]+)|(?:\s+[\w\-:]+=[^\s"'<>]+)|(?:\s+[\w\-:"]+="[^"]*")|(?:\s+[\w\-:"]+='[^']*'))*)(\/)?>(\s*)/g;
         var tagStack = [];
+        var prevTagIsBlockEnd = null;
         html = html.replace(re, function($0, $1, $2, $3, $4, $5, $6) {
             var full = $0,
                 startNewline = $1 || '',
@@ -824,32 +826,49 @@
                     startNewline = '\n';
                 }
             }
-            if(wellFormatted && tagName == 'br') {
+            if(wellFormatted && (tagName == 'br' || tagName === 'hr') && (!simpleWrap || prevTagIsBlockEnd === true)) {
                 endNewline = '\n';
             }
             if(_BLOCK_TAG_MAP[tagName] && !_PRE_TAG_MAP[tagName]) {
                 if(wellFormatted) {
-                    if(startSlash && tagStack.length > 0 && tagStack[tagStack.length - 1] === tagName) {
+                    var isEndTag = !!(startSlash && tagStack.length > 0 && tagStack[tagStack.length - 1] === tagName);
+                    if(isEndTag) {
                         tagStack.pop();
+                        if (simpleWrap) {
+                            startNewline = '';
+                            endNewline = '\n';
+                        }
                     } else {
                         tagStack.push(tagName);
-                    }
-                    startNewline = '\n';
-                    endNewline = '\n';
-                    for(var i = 0, len = startSlash ? tagStack.length : tagStack.length - 1; i < len; i++) {
-                        startNewline += indentChar;
-                        if(!startSlash) {
-                            endNewline += indentChar;
+                        if (simpleWrap) {
+                            startNewline = '\n';
+                            endNewline = '';
                         }
                     }
+                    if (!simpleWrap) {
+                        startNewline = '\n';
+                        endNewline = '\n';
+                    }
+                    if (!simpleWrap || (prevTagIsBlockEnd === false && !isEndTag) || (prevTagIsBlockEnd === true)) {
+                        for(var i = 0, len = startSlash ? tagStack.length : tagStack.length - 1; i < len; i++) {
+                            startNewline += indentChar;
+                            if(!startSlash && !simpleWrap) {
+                                endNewline += indentChar;
+                            }
+                        }
+                    }
+                    prevTagIsBlockEnd = isEndTag;
                     if(endSlash) {
                         tagStack.pop();
-                    } else if(!startSlash) {
+                    } else if(!startSlash && !simpleWrap) {
                         endNewline += indentChar;
                     }
                 } else {
+                    prevTagIsBlockEnd = null;
                     startNewline = endNewline = '';
                 }
+            } else {
+                prevTagIsBlockEnd = null;
             }
             if(attr !== '') {
                 var attrMap = _getAttrList(full);
@@ -4987,20 +5006,22 @@
             if(!pSkipTagMap[tagName]) {
                 _nativeCommand(doc, 'formatblock', '<p>');
             }
-            var div = self.cmd.commonAncestor('div');
-            if(div) {
-                var p = K('<p></p>'),
-                    child = div[0].firstChild;
-                while(child) {
-                    var next = child.nextSibling;
-                    p.append(child);
-                    child = next;
-                }
-                div.before(p);
-                div.remove();
-                self.cmd.range.selectNodeContents(p[0]);
-                self.cmd.select();
-            }
+
+            // see fix: [Chrome] 在 Chrome 上添加标题之后换行 JS 报错 https://github.com/kindsoft/kindeditor/commit/6e2d34e740e76c597cc56f99706d5dc706ed6e6a
+            // var div = self.cmd.commonAncestor('div');
+            // if(div) {
+            //     var p = K('<p></p>'),
+            //         child = div[0].firstChild;
+            //     while(child) {
+            //         var next = child.nextSibling;
+            //         p.append(child);
+            //         child = next;
+            //     }
+            //     div.before(p);
+            //     div.remove();
+            //     self.cmd.range.selectNodeContents(p[0]);
+            //     self.cmd.select();
+            // }
         });
     }
 
@@ -5321,7 +5342,7 @@
                 beforeGetHtml: function(html) {
                     html = self.beforeGetHtml(html);
                     html = _removeBookmarkTag(_removeTempTag(html));
-                    return _formatHtml(html, self.filterMode ? self.htmlTags : null, self.urlType, self.wellFormatMode, self.indentChar);
+                    return _formatHtml(html, self.filterMode ? self.htmlTags : null, self.urlType, self.wellFormatMode, self.indentChar, self.simpleWrap);
                 },
                 beforeSetHtml: function(html) {
                     html = _formatHtml(html, self.filterMode ? self.htmlTags : null, '', false);
@@ -9706,8 +9727,7 @@ KindEditor.plugin('plainpaste', function(K) {
 
 KindEditor.plugin('preview', function(K) {
     var self = this,
-        name = 'preview',
-        undefined;
+        name = 'preview';
     self.clickToolbar(name, function() {
         var lang = self.lang(name + '.'),
             html = '<div style="padding:10px 20px;">' +
@@ -9723,8 +9743,26 @@ KindEditor.plugin('preview', function(K) {
             doc = K.iframeDoc(iframe);
         doc.open();
         doc.write(self.fullHtml());
+        doc.write('<style>.kindeditor-ph{display:none!important;}</style>');
+        var cssData = self.options.cssData;
+        var cssPath = self.options.cssPath;
+        var bodyClass = self.options.bodyClass;
+        if(!K.isArray(cssPath)) {
+            cssPath = [cssPath];
+        }
+        K.each(cssPath, function(i, path) {
+            if(path) {
+                doc.write('<link href="' + path + '" rel="stylesheet" />');
+            }
+        });
+        if(cssData) {
+            doc.write('<style>' + cssData + '</style>');
+        }
         doc.close();
-        K(doc.body).css('background-color', '#FFF');
+        var body = K(doc.body).css('background-color', '#FFF');
+        if (bodyClass) {
+            body.addClass(bodyClass);
+        }
         iframe[0].contentWindow.focus();
     });
 });
@@ -10307,7 +10345,8 @@ KindEditor.plugin('table', function (K) {
             defaultColor: '默认颜色',
             color: '颜色',
             forecolor: '文字颜色',
-            backcolor: '背景颜色'
+            backcolor: '背景颜色',
+            invalidBoderWidth: '邊框大小必須為數字。'
         },
         zh_tw: {
             name: '表格',
@@ -10328,7 +10367,8 @@ KindEditor.plugin('table', function (K) {
             defaultColor: '默認顏色',
             color: '顏色',
             forecolor: '文字顏色',
-            backcolor: '背景顏色'
+            backcolor: '背景顏色',
+            invalidBoderWidth: '边框大小必须为数字。'
         },
         en: {
             name: 'Table',
@@ -10349,12 +10389,15 @@ KindEditor.plugin('table', function (K) {
             defaultColor: 'Default color',
             color: 'Color',
             forecolor: 'Text Color',
-            backcolor: 'Back Color'
+            backcolor: 'Back Color',
+            invalidBoderWidth: 'Border width value must be number'
         }
     };
     var $elements = [];
     var lang = $.extend({}, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
     var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
+
+    self.tableIdIndex = 0;
 
     // 设置颜色
     function _setColor(box, color) {
@@ -10504,7 +10547,8 @@ KindEditor.plugin('table', function (K) {
         if (!(row * col)) {
             return;
         }
-        var $table = $('<table class="table table-kindeditor"></table>');
+        var tableID = 'ke-table-' + (self.tableIdIndex++);
+        var $table = $('<table id="' + tableID + '" class="table table-kindeditor" style="width: 100%"></table>');
         var $body = $('<tbody></tbody>');
         for (var r = 0; r < row; r++) {
             var $row = $('<tr></tr>');
@@ -10520,6 +10564,11 @@ KindEditor.plugin('table', function (K) {
             html += '<br />';
         }
         self.insertHtml(html);
+        var $table = $(self.edit.doc).find('#' + tableID);
+        $table.attr('id', null);
+        self.cmd.range.selectNodeContents($table.find('th,td').first()[0]).collapse(true);
+        self.cmd.select();
+        self.addBookmark();
         return $table;
     }
 
@@ -10765,6 +10814,11 @@ KindEditor.plugin('table', function (K) {
                                 heightBox[0].focus();
                                 return;
                             }
+                            if (!/^\d*$/.test(borderWidth)) {
+                                alert(lang.invalidBoderWidth);
+                                borderWidthBox[0].focus();
+                                return;
+                            }
                             var cells = self.plugin.getAllSelectedCells();
                             var style = {
                                 width: width !== '' ? (width + widthType) : '',
@@ -10853,7 +10907,7 @@ KindEditor.plugin('table', function (K) {
                     var newRow = table.rows[i],
                         newCell = newRow.insertCell(index),
                         isThead = newRow.parentNode.tagName === 'THEAD';
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     // 调整下一行的单元格index
                     index = _getCellIndex(table, newRow, newCell);
                 }
@@ -10888,7 +10942,8 @@ KindEditor.plugin('table', function (K) {
                     if (offset === 1 && row.cells[i].colSpan > 1) {
                         newCell.colSpan = row.cells[i].colSpan;
                     }
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+
                 }
                 // 调整rowspan
                 for (var j = rowIndex; j >= 0; j--) {
@@ -11005,10 +11060,12 @@ KindEditor.plugin('table', function (K) {
                 for (var i = 1, len = cell.rowSpan; i < len; i++) {
                     var newRow = table.rows[rowIndex + i],
                         newCell = newRow.insertCell(cellIndex);
+                    var isThead = newRow.parentNode.tagName === 'THEAD';
+                    var colSpan = cell.colSpan > 1 ? cell.colSpan : newCell.colSpan;
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     if (cell.colSpan > 1) {
                         newCell.colSpan = cell.colSpan;
                     }
-                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
                     // 调整下一行的单元格index
                     cellIndex = _getCellIndex(table, newRow, newCell);
                 }
@@ -11026,12 +11083,12 @@ KindEditor.plugin('table', function (K) {
                 if (cell.colSpan === 1) {
                     return;
                 }
+                var isThead = row.parentNode.tagName === 'THEAD';
                 for (var i = 1, len = cell.colSpan; i < len; i++) {
                     var newCell = row.insertCell(cellIndex + i);
-                    if (cell.rowSpan > 1) {
-                        newCell.rowSpan = cell.rowSpan;
-                    }
-                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                    var rowSpan = cell.rowSpan > 1 ? cell.rowSpan : newCell.rowSpan;
+                    var colSpan = newCell.colSpan;
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (rowSpan > 1 ? ' rowspan="' + rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                 }
                 K(cell).removeAttr('colSpan');
                 self.cmd.range.selectNodeContents(cell).collapse(true);
@@ -11267,7 +11324,7 @@ KindEditor.plugin('table', function (K) {
                         $nextCell = $currentCell.closest('tbody,tfoot,thead').next().children('tr').first().children('th,td').first();
                     }
                     if ($nextCell.length) {
-                        self.cmd.range.selectNode($nextCell[0]);
+                        self.cmd.range.selectNodeContents($nextCell[0]).collapse(true);
                         self.cmd.select();
                         return true;
                     }
@@ -11417,11 +11474,13 @@ KindEditor.plugin('table', function (K) {
                 if (moveX < 8) {
                     $table.addClass('ke-select-row');
                     mouseMoveCellPos.selectRow = mouseMoveCellPos.top;
+                    delete mouseMoveCellPos.selectCol;
                     e.preventDefault();
                     e.stopPropagation();
                 } else if (moveY < 8) {
                     $table.addClass('ke-select-col');
                     mouseMoveCellPos.selectCol = mouseMoveCellPos.left;
+                    delete mouseMoveCellPos.selectRow;
                     e.preventDefault();
                     e.stopPropagation();
                 }
