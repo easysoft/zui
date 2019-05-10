@@ -85,7 +85,8 @@ KindEditor.plugin('table', function (K) {
             defaultColor: '默认颜色',
             color: '颜色',
             forecolor: '文字颜色',
-            backcolor: '背景颜色'
+            backcolor: '背景颜色',
+            invalidBoderWidth: '邊框大小必須為數字。'
         },
         zh_tw: {
             name: '表格',
@@ -106,7 +107,8 @@ KindEditor.plugin('table', function (K) {
             defaultColor: '默認顏色',
             color: '顏色',
             forecolor: '文字顏色',
-            backcolor: '背景顏色'
+            backcolor: '背景顏色',
+            invalidBoderWidth: '边框大小必须为数字。'
         },
         en: {
             name: 'Table',
@@ -127,7 +129,8 @@ KindEditor.plugin('table', function (K) {
             defaultColor: 'Default color',
             color: 'Color',
             forecolor: 'Text Color',
-            backcolor: 'Back Color'
+            backcolor: 'Back Color',
+            invalidBoderWidth: 'Border width value must be number'
         }
     };
     var $elements = [];
@@ -549,6 +552,11 @@ KindEditor.plugin('table', function (K) {
                             if (!/^\d*$/.test(height)) {
                                 alert(self.lang('invalidHeight'));
                                 heightBox[0].focus();
+                                return;
+                            }
+                            if (!/^\d*$/.test(borderWidth)) {
+                                alert(lang.invalidBoderWidth);
+                                borderWidthBox[0].focus();
                                 return;
                             }
                             var cells = self.plugin.getAllSelectedCells();
@@ -1217,7 +1225,6 @@ KindEditor.plugin('table', function (K) {
                     e.stopPropagation();
                 }
             }
-            console.log('mouseMoveCellPos', mouseMoveCellPos);
         }).on('mouseup.ke' + self.uuid, function (e) {
             var $target = $(e.target);
             var $cell = $target.closest('td,th');
