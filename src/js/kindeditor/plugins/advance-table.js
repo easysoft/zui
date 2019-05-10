@@ -134,6 +134,8 @@ KindEditor.plugin('table', function (K) {
     var lang = $.extend({}, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
     var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
 
+    self.tableIdIndex = 0;
+
     // 设置颜色
     function _setColor(box, color) {
         color = color.toUpperCase();
@@ -282,7 +284,8 @@ KindEditor.plugin('table', function (K) {
         if (!(row * col)) {
             return;
         }
-        var $table = $('<table class="table table-kindeditor" style="width: 100%"></table>');
+        var tableID = 'ke-table-' + (self.tableIdIndex++);
+        var $table = $('<table id="' + tableID + '" class="table table-kindeditor" style="width: 100%"></table>');
         var $body = $('<tbody></tbody>');
         for (var r = 0; r < row; r++) {
             var $row = $('<tr></tr>');
@@ -298,6 +301,11 @@ KindEditor.plugin('table', function (K) {
             html += '<br />';
         }
         self.insertHtml(html);
+        var $table = $(self.edit.doc).find('#' + tableID);
+        $table.attr('id', null);
+        self.cmd.range.selectNodeContents($table.find('th,td').first()[0]).collapse(true);
+        self.cmd.select();
+        self.addBookmark();
         return $table;
     }
 
