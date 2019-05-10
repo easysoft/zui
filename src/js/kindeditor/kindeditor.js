@@ -273,6 +273,7 @@
         minWidth: 650,
         minHeight: 100,
         minChangeSize: 50,
+        simpleWrap: false,
         zIndex: 811213,
         items: [
             'source', '|', 'undo', 'redo', '|', 'preview', 'print', 'template', 'code', 'cut', 'copy', 'paste',
@@ -760,7 +761,7 @@
         return url;
     }
 
-    function _formatHtml(html, htmlTags, urlType, wellFormatted, indentChar) {
+    function _formatHtml(html, htmlTags, urlType, wellFormatted, indentChar, simpleWrap) {
         if(html == null) {
             html = '';
         }
@@ -795,6 +796,7 @@
         }
         var re = /(\s*)<(\/)?([\w\-:]+)((?:\s+|(?:\s+[\w\-:]+)|(?:\s+[\w\-:]+=[^\s"'<>]+)|(?:\s+[\w\-:"]+="[^"]*")|(?:\s+[\w\-:"]+='[^']*'))*)(\/)?>(\s*)/g;
         var tagStack = [];
+        var testData = [];
         html = html.replace(re, function($0, $1, $2, $3, $4, $5, $6) {
             var full = $0,
                 startNewline = $1 || '',
@@ -803,6 +805,17 @@
                 attr = $4 || '',
                 endSlash = $5 ? ' ' + $5 : '',
                 endNewline = $6 || '';
+                testData.push({
+                    tagName: tagName,
+                    startSlash: startSlash,
+                    endSlash: endSlash,
+                    startNewline: startNewline,
+                    startLength: startNewline.length,
+                    endNewline: endNewline,
+                    endLength: endNewline.length,
+                    attr: attr,
+                    full: full
+                });
             if(htmlTags && !htmlTagMap[tagName]) {
                 return '';
             }
@@ -824,27 +837,38 @@
                     startNewline = '\n';
                 }
             }
-            if(wellFormatted && tagName == 'br') {
+            if(wellFormatted && tagName == 'br' && !simpleWrap) {
                 endNewline = '\n';
             }
             if(_BLOCK_TAG_MAP[tagName] && !_PRE_TAG_MAP[tagName]) {
                 if(wellFormatted) {
-                    if(startSlash && tagStack.length > 0 && tagStack[tagStack.length - 1] === tagName) {
+                    var isEndTag = startSlash && tagStack.length > 0 && tagStack[tagStack.length - 1] === tagName;
+                    if(isEndTag) {
                         tagStack.pop();
+                        if (simpleWrap) {
+                            startNewline = '';
+                            endNewline = '\n';
+                        }
                     } else {
                         tagStack.push(tagName);
+                        if (simpleWrap) {
+                            startNewline = '\n';
+                            endNewline = '';
+                        }
                     }
-                    startNewline = '\n';
-                    endNewline = '\n';
+                    if (!simpleWrap) {
+                        startNewline = '\n';
+                        endNewline = '\n';
+                    }
                     for(var i = 0, len = startSlash ? tagStack.length : tagStack.length - 1; i < len; i++) {
                         startNewline += indentChar;
-                        if(!startSlash) {
+                        if(!startSlash && !simpleWrap) {
                             endNewline += indentChar;
                         }
                     }
                     if(endSlash) {
                         tagStack.pop();
-                    } else if(!startSlash) {
+                    } else if(!startSlash && !simpleWrap) {
                         endNewline += indentChar;
                     }
                 } else {
@@ -5323,7 +5347,7 @@
                 beforeGetHtml: function(html) {
                     html = self.beforeGetHtml(html);
                     html = _removeBookmarkTag(_removeTempTag(html));
-                    return _formatHtml(html, self.filterMode ? self.htmlTags : null, self.urlType, self.wellFormatMode, self.indentChar);
+                    return _formatHtml(html, self.filterMode ? self.htmlTags : null, self.urlType, self.wellFormatMode, self.indentChar, self.simpleWrap);
                 },
                 beforeSetHtml: function(html) {
                     html = _formatHtml(html, self.filterMode ? self.htmlTags : null, '', false);
