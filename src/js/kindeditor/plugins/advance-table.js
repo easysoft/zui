@@ -1056,7 +1056,7 @@ KindEditor.plugin('table', function (K) {
                         $nextCell = $currentCell.closest('tbody,tfoot,thead').next().children('tr').first().children('th,td').first();
                     }
                     if ($nextCell.length) {
-                        self.cmd.range.selectNode($nextCell[0]);
+                        self.cmd.range.selectNodeContents($nextCell[0]).collapse(true);
                         self.cmd.select();
                         return true;
                     }
