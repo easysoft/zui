@@ -631,7 +631,7 @@ KindEditor.plugin('table', function (K) {
                     var newRow = table.rows[i],
                         newCell = newRow.insertCell(index),
                         isThead = newRow.parentNode.tagName === 'THEAD';
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     // 调整下一行的单元格index
                     index = _getCellIndex(table, newRow, newCell);
                 }
@@ -666,7 +666,8 @@ KindEditor.plugin('table', function (K) {
                     if (offset === 1 && row.cells[i].colSpan > 1) {
                         newCell.colSpan = row.cells[i].colSpan;
                     }
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+
                 }
                 // 调整rowspan
                 for (var j = rowIndex; j >= 0; j--) {
@@ -783,10 +784,12 @@ KindEditor.plugin('table', function (K) {
                 for (var i = 1, len = cell.rowSpan; i < len; i++) {
                     var newRow = table.rows[rowIndex + i],
                         newCell = newRow.insertCell(cellIndex);
+                    var isThead = newRow.parentNode.tagName === 'THEAD';
+                    var colSpan = cell.colSpan > 1 ? cell.colSpan : newCell.colSpan;
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     if (cell.colSpan > 1) {
                         newCell.colSpan = cell.colSpan;
                     }
-                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
                     // 调整下一行的单元格index
                     cellIndex = _getCellIndex(table, newRow, newCell);
                 }
@@ -804,12 +807,12 @@ KindEditor.plugin('table', function (K) {
                 if (cell.colSpan === 1) {
                     return;
                 }
+                var isThead = row.parentNode.tagName === 'THEAD';
                 for (var i = 1, len = cell.colSpan; i < len; i++) {
                     var newCell = row.insertCell(cellIndex + i);
-                    if (cell.rowSpan > 1) {
-                        newCell.rowSpan = cell.rowSpan;
-                    }
-                    newCell.innerHTML = K.IE ? '&nbsp;' : '<br />';
+                    var rowSpan = cell.rowSpan > 1 ? cell.rowSpan : newCell.rowSpan;
+                    var colSpan = newCell.colSpan;
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (rowSpan > 1 ? ' rowspan="' + rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                 }
                 K(cell).removeAttr('colSpan');
                 self.cmd.range.selectNodeContents(cell).collapse(true);
