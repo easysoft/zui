@@ -1206,15 +1206,18 @@ KindEditor.plugin('table', function (K) {
                 if (moveX < 8) {
                     $table.addClass('ke-select-row');
                     mouseMoveCellPos.selectRow = mouseMoveCellPos.top;
+                    delete mouseMoveCellPos.selectCol;
                     e.preventDefault();
                     e.stopPropagation();
                 } else if (moveY < 8) {
                     $table.addClass('ke-select-col');
                     mouseMoveCellPos.selectCol = mouseMoveCellPos.left;
+                    delete mouseMoveCellPos.selectRow;
                     e.preventDefault();
                     e.stopPropagation();
                 }
             }
+            console.log('mouseMoveCellPos', mouseMoveCellPos);
         }).on('mouseup.ke' + self.uuid, function (e) {
             var $target = $(e.target);
             var $cell = $target.closest('td,th');
