@@ -4987,20 +4987,22 @@
             if(!pSkipTagMap[tagName]) {
                 _nativeCommand(doc, 'formatblock', '<p>');
             }
-            var div = self.cmd.commonAncestor('div');
-            if(div) {
-                var p = K('<p></p>'),
-                    child = div[0].firstChild;
-                while(child) {
-                    var next = child.nextSibling;
-                    p.append(child);
-                    child = next;
-                }
-                div.before(p);
-                div.remove();
-                self.cmd.range.selectNodeContents(p[0]);
-                self.cmd.select();
-            }
+
+            // see fix: [Chrome] 在 Chrome 上添加标题之后换行 JS 报错 https://github.com/kindsoft/kindeditor/commit/6e2d34e740e76c597cc56f99706d5dc706ed6e6a
+            // var div = self.cmd.commonAncestor('div');
+            // if(div) {
+            //     var p = K('<p></p>'),
+            //         child = div[0].firstChild;
+            //     while(child) {
+            //         var next = child.nextSibling;
+            //         p.append(child);
+            //         child = next;
+            //     }
+            //     div.before(p);
+            //     div.remove();
+            //     self.cmd.range.selectNodeContents(p[0]);
+            //     self.cmd.select();
+            // }
         });
     }
 
