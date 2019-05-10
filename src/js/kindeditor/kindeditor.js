@@ -267,7 +267,7 @@
         useContextmenu: true,
         fullscreenShortcut: false,
         bodyClass: 'ke-content',
-        indentChar: '\t',
+        indentChar: '  ',
         cssPath: '',
         cssData: '',
         minWidth: 650,
