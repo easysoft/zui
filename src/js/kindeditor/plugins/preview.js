@@ -9,8 +9,7 @@
 
 KindEditor.plugin('preview', function(K) {
     var self = this,
-        name = 'preview',
-        undefined;
+        name = 'preview';
     self.clickToolbar(name, function() {
         var lang = self.lang(name + '.'),
             html = '<div style="padding:10px 20px;">' +
@@ -26,8 +25,26 @@ KindEditor.plugin('preview', function(K) {
             doc = K.iframeDoc(iframe);
         doc.open();
         doc.write(self.fullHtml());
+        doc.write('<style>.kindeditor-ph{display:none!important;}</style>');
+        var cssData = self.options.cssData;
+        var cssPath = self.options.cssPath;
+        var bodyClass = self.options.bodyClass;
+        if(!K.isArray(cssPath)) {
+            cssPath = [cssPath];
+        }
+        K.each(cssPath, function(i, path) {
+            if(path) {
+                doc.write('<link href="' + path + '" rel="stylesheet" />');
+            }
+        });
+        if(cssData) {
+            doc.write('<style>' + cssData + '</style>');
+        }
         doc.close();
-        K(doc.body).css('background-color', '#FFF');
+        var body = K(doc.body).css('background-color', '#FFF');
+        if (bodyClass) {
+            body.addClass(bodyClass);
+        }
         iframe[0].contentWindow.focus();
     });
 });
