@@ -86,7 +86,8 @@ KindEditor.plugin('table', function (K) {
             color: '颜色',
             forecolor: '文字颜色',
             backcolor: '背景颜色',
-            invalidBoderWidth: '邊框大小必須為數字。'
+            invalidBoderWidth: '边框大小必须为数字。'
+
         },
         zh_tw: {
             name: '表格',
@@ -108,7 +109,7 @@ KindEditor.plugin('table', function (K) {
             color: '顏色',
             forecolor: '文字顏色',
             backcolor: '背景顏色',
-            invalidBoderWidth: '边框大小必须为数字。'
+            invalidBoderWidth: '邊框大小必須為數字。'
         },
         en: {
             name: 'Table',
@@ -540,7 +541,7 @@ KindEditor.plugin('table', function (K) {
                                 heightType = heightTypeBox.val(),
                                 textAlign = textAlignBox.val(),
                                 verticalAlign = verticalAlignBox.val(),
-                                borderWidth = borderWidthBox.val() + 'px',
+                                borderWidth = borderWidthBox.val(),
                                 borderColor = K(colorBox[0]).val() || '',
                                 textColor = K(colorBox[1]).val() || '',
                                 bgColor = K(colorBox[2]).val() || '';
@@ -565,7 +566,7 @@ KindEditor.plugin('table', function (K) {
                                 height: height !== '' ? (height + heightType) : '',
                                 'background-color': bgColor,
                                 'text-align': textAlign,
-                                'border-width': borderWidth,
+                                'border-width': borderWidth + 'px',
                                 'vertical-align': verticalAlign,
                                 'border-color': borderColor,
                                 color: textColor
