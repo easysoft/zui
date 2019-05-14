@@ -984,10 +984,8 @@ KindEditor.plugin('table', function (K) {
             self.addContextmenu({
                 title: lang[val] || self.lang('table' + val),
                 click: function () {
-                    self.loadPlugin('table', function () {
-                        self.plugin.table[val]();
-                        self.hideMenu();
-                    });
+                    self.plugin.table[val]();
+                    self.hideMenu();
                 },
                 cond: cond,
                 width: 170,

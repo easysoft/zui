@@ -272,15 +272,15 @@
   padding: 0;
   margin: 0;
   overflow: hidden;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: #fafafa;
+  border: 1px solid #cecece;
+  border-radius: 0;
   }
 .ke-container.focus {
-  border-color: #145ccd;
+  border-color: #7580ff;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(117, 128, 255, .6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(117, 128, 255, .6);
   }
 .ke-container.ke-loading > .ke-toolbar,
 .ke-container.ke-loading > .ke-edit,
@@ -294,8 +294,8 @@
   overflow: hidden;
   text-align: left;
   zoom: 1;
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
+  background-color: #fafafa;
+  border-bottom: 1px solid #cecece;
   }
 .ke-toolbar-icon {
   display: block;
@@ -320,8 +320,8 @@
   line-height: 0;
   cursor: pointer;
   filter: alpha(opacity=80);
-  border: 1px solid #fff;
-  border-radius: 4px;
+  border: 1px solid #fafafa;
+  border-radius: 0;
   opacity: .8;
   }
 .ke-toolbar .ke-on,
@@ -331,7 +331,7 @@
   opacity: 1;
   }
 .ke-toolbar .ke-selected {
-  background-color: #f1f1f1;
+  background-color: #f5f5f5;
   }
 .ke-toolbar .ke-disabled {
   cursor: default;
@@ -369,7 +369,7 @@
   overflow: auto;
   font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
   font-size: 12px;
-  color: #353535;
+  color: #333;
   resize: none;
   background-color: #fff;
   }
@@ -388,10 +388,10 @@
   line-height: 0;
   text-align: center;
   cursor: s-resize;
-  background-color: #fff;
+  background-color: #fafafa;
   filter: alpha(opacity=0);
-  border-top: 1px solid #ccc;
-  border-left: 1px solid #ccc;
+  border-top: 1px solid #cecece;
+  border-left: 1px solid #cecece;
   opacity: 0;
   -webkit-transition: opacity .2s;
        -o-transition: opacity .2s;
@@ -409,13 +409,13 @@
   width: 0;
   height: 0;
   content: ' ';
-  border-color: transparent transparent #808080 transparent;
+  border-color: transparent transparent #999 transparent;
   border-style: solid;
   border-width: 0 4px 4px 4px;
   }
 .ke-statusbar .ke-statusbar-resize-icon:after {
   top: 7px;
-  border-color: #808080 transparent transparent transparent;
+  border-color: #999 transparent transparent transparent;
   border-width: 4px 4px 0 4px;
   }
 .ke-statusbar.ke-dragging,
@@ -443,7 +443,7 @@
 .ke-menu-item-on {
   color: #fff;
   text-decoration: none;
-  background-color: #3280fc;
+  background-color: #7580ff;
   outline: 0;
   }
 .ke-menu-item-left {
@@ -516,13 +516,13 @@
   }
 .ke-colorpicker-cell-on {
   color: #fff;
-  background-color: #3280fc;
+  background-color: #7580ff;
   }
 .ke-colorpicker-cell-on .ke-colorpicker-cell-color {
-  border: 2px solid #353535;
+  border: 2px solid #333;
   }
 .ke-colorpicker-cell-selected .ke-colorpicker-cell-color {
-  border: 2px solid #353535;
+  border: 2px solid #333;
   }
 /* dialog */
 .ke-dialog {
@@ -567,17 +567,17 @@
           box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
   }
 .ke-dialog-header {
-  min-height: 16.53846154px;
+  min-height: 16.42857143px;
   padding: 7.5px 15px;
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, 'PingFang SC', 'Source Han Sans CN', 'Source Han Sans', 'Source Han Serif', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', 'Microsoft YaHei', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   text-align: left;
   cursor: move;
-  background: #f1f1f1;
+  background: #f5f5f5;
   border: 0;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #cecece;
   }
 .ke-dialog-icon-close {
   position: absolute;
@@ -644,9 +644,9 @@
   display: block;
   width: 408px;
   height: 260px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: #fafafa;
+  border: 1px solid #cecece;
+  border-radius: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
@@ -682,7 +682,7 @@
   width: 100%;
   padding: 5px;
   text-align: right;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #cecece;
   }
 .ke-dialog-preview,
 .ke-dialog-yes {
@@ -692,7 +692,7 @@
   margin: 5px 10px 5px 5px;
   }
 .ke-dialog-mask {
-  background-color: #000;
+  background-color: #333;
   filter: alpha(opacity=50);
   opacity: .5;
   }
@@ -719,11 +719,11 @@
   padding: 0 12px;
   margin: 0;
   font-size: 12px;
-  color: #353535;
+  color: #333;
   text-decoration: none;
-  background-color: #f2f2f2;
-  border: 1px solid #bfbfbf;
-  border-color: #bfbfbf;
+  background-color: #fff;
+  border: 1px solid #cecece;
+  border-color: #cecece;
   border-radius: 4px;
   }
 .ke-button:hover,
@@ -731,18 +731,18 @@
 .ke-button:active,
 .ke-button.active,
 .open .dropdown-toggle.ke-button {
-  color: #353535;
-  background-color: #dedede;
-  border-color: #a1a1a1;
+  color: #333;
+  background-color: #ebebeb;
+  border-color: #afafaf;
   -webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
           box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
   }
 .ke-button:active,
 .ke-button.active,
 .open .dropdown-toggle.ke-button {
-  background-color: #ccc;
+  background-color: #d9d9d9;
   background-image: none;
-  border-color: #a6a6a6;
+  border-color: #b5b5b5;
   -webkit-box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
           box-shadow: inset 0 4px 6px rgba(0, 0, 0, .15);
   }
@@ -761,8 +761,8 @@ fieldset[disabled] .ke-button:active,
 .ke-button.disabled.active,
 .ke-button[disabled].active,
 fieldset[disabled] .ke-button.active {
-  background-color: #f2f2f2;
-  border-color: #bfbfbf;
+  background-color: #fff;
+  border-color: #cecece;
   }
 /* inputbox */
 .ke-input-text {
@@ -775,9 +775,9 @@ fieldset[disabled] .ke-button.active {
   line-height: 20px;
   vertical-align: middle;
   zoom: 1;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: #fafafa;
+  border: 1px solid #cecece;
+  border-radius: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
   -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
@@ -790,10 +790,10 @@ fieldset[disabled] .ke-button.active {
   }
 .ke-input-text:focus,
 .ke-input-text.focus {
-  border-color: #145ccd;
+  border-color: #7580ff;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(117, 128, 255, .6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(117, 128, 255, .6);
   }
 .ke-input-text[disabled] {
   background: #eee;
@@ -815,7 +815,7 @@ ke-dialog-content select {
   cursor: pointer;
   zoom: 1;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #cecece;
 
   *display: inline;
   }
@@ -930,7 +930,7 @@ ke-dialog-content select {
   padding: 5px;
   overflow: scroll;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #cecece;
   }
 .ke-swfupload-body .ke-item {
   width: 100px;
@@ -1040,7 +1040,7 @@ ke-dialog-content select {
   height: 260px;
   font-family: "sans serif", tahoma, verdana, helvetica;
   font-size: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid #cecece;
   }
 /* filemanager */
 .ke-plugin-filemanager-header {
@@ -1059,7 +1059,7 @@ ke-dialog-content select {
   padding: 5px;
   overflow: scroll;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #cecece;
   }
 .ke-plugin-filemanager-body .ke-item {
   width: 100px;
