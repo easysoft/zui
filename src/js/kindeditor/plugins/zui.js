@@ -45,6 +45,7 @@ KindEditor.plugin('zui', function(K) {
         self.afterTab(function() {
             var $editor = $(self.edit.srcElement[0]);
             var $next = $editor.next(nextFormControl);
+            if(!$next.length) $next = $editor.next().next(nextFormControl);
             if(!$next.length) $next = $editor.parent().next().find(nextFormControl);
             if(!$next.length) $next = $editor.parent().parent().next().find(nextFormControl);
             $next = $next.first();

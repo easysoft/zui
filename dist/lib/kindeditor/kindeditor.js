@@ -1,4 +1,4 @@
-/*******************************************************************************
+/******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2013 kindsoft.net
  *
@@ -7,6 +7,9 @@
  * @licence http://www.kindsoft.net/license.php
  * @version 4.1.9 (2013-10-08)
  *******************************************************************************/
+
+/*! KindEditor Copyright (C) kindsoft.net, Licence: http://kindeditor.net/license.php */
+
 (function(window, undefined) {
     if(window.KindEditor) {
         return;
@@ -10017,6 +10020,7 @@ KindEditor.plugin('zui', function(K) {
         self.afterTab(function() {
             var $editor = $(self.edit.srcElement[0]);
             var $next = $editor.next(nextFormControl);
+            if(!$next.length) $next = $editor.next().next(nextFormControl);
             if(!$next.length) $next = $editor.parent().next().find(nextFormControl);
             if(!$next.length) $next = $editor.parent().parent().next().find(nextFormControl);
             $next = $next.first();
@@ -11332,6 +11336,7 @@ KindEditor.plugin('table', function (K) {
             };
             var $selectedCell = $(selectedCell.get(0));
             if ($selectedCell.length) {
+                self.focus();
                 if (!selectNextCell($selectedCell)) {
                     self.plugin.table.rowinsertbelow();
                     selectNextCell($selectedCell);

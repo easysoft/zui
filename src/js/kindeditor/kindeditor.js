@@ -1,4 +1,4 @@
-/*******************************************************************************
+/******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2013 kindsoft.net
  *
@@ -7,6 +7,9 @@
  * @licence http://www.kindsoft.net/license.php
  * @version 4.1.9 (2013-10-08)
  *******************************************************************************/
+
+/*! KindEditor Copyright (C) kindsoft.net, Licence: http://kindeditor.net/license.php */
+
 (function(window, undefined) {
     if(window.KindEditor) {
         return;

@@ -1072,6 +1072,7 @@ KindEditor.plugin('table', function (K) {
             };
             var $selectedCell = $(selectedCell.get(0));
             if ($selectedCell.length) {
+                self.focus();
                 if (!selectNextCell($selectedCell)) {
                     self.plugin.table.rowinsertbelow();
                     selectNextCell($selectedCell);
