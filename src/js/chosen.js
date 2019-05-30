@@ -1113,12 +1113,18 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         };
 
         Chosen.prototype.results_reset = function() {
+            var oldValue = this.form_field_jq.val();
             this.reset_single_select_options();
             this.form_field.options[0].selected = true;
             this.single_set_selected_text();
             this.show_search_field_default();
             this.results_reset_cleanup();
-            this.form_field_jq.trigger("change");
+            var newValue = this.form_field_jq.val();
+            var changeData = {selected: newValue};
+            if (oldValue !== newValue && !newValue.length) {
+                changeData.deselected = oldValue;
+            }
+            this.form_field_jq.trigger("change", changeData);
             if(this.active_field) {
                 return this.results_hide();
             }
