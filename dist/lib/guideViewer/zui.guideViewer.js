@@ -62,7 +62,7 @@
         }).carousel($.extend({
             wrap: false,
             interval: false,
-        }, options.carousel));
+        }, typeof options.carousel === 'string' ? $.parseJSON(options.carousel) : options.carousel));
 
         var isFixedHeight = typeof options.height === 'number';
         var isLightboxEnable = options.lightbox && $.fn.lightbox;
@@ -92,7 +92,7 @@
                         lineHeight: options.height + 'px',
                         textAlign: 'center'
                     });
-                    $elementCopy.css('display', 'inline-block');
+                    $elementCopy.css({display: 'inline-block', width: 'auto', minWidth: 0});
                 }
                 if (isLightboxEnable) {
                     $elementCopy.attr({
