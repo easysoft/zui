@@ -2,7 +2,7 @@
  * ZUI: guide-viewer.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2017-2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017-2019 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -28,11 +28,16 @@
 
         // Init guide viewer elements
         var id = that.id = (options.id || $.zui.uuid());
-        var $viewer = $(options.template || '<div class="guide-viewer panel"><div class="carousel"><div class="carousel-inner"></div></div><div class="guide-viewer-navs panel-footer" style="display: table; width: 100%; padding: 3px;"><a class="guide-viewer-nav prev disabled" data-slide="prev" style="width: 80px"><i class="icon icon-chevron-left" style="opacity: .5"></i> ' + lang.prevStep + '</a><div class="guide-viewer-title text-center"><div class="text"></div></div><a class="guide-viewer-nav next text-right" data-slide="next" style="width: 80px">' + lang.nextStep + ' <i class="icon icon-chevron-right" style="opacity: .5"></i></a></div></div>');
+        var $viewer = $(options.template || '<div class="guide-viewer panel"><div class="carousel"><div class="carousel-inner"></div></div><div class="guide-viewer-navs panel-footer" style="display: table; width: 100%; padding: 3px;"><a class="guide-viewer-nav prev disabled" data-slide="prev" style="width: 80px">' + (options.prevStepIcon ? ('<i class="icon ' + options.prevStepIcon + '" style="opacity: .5"></i> ') : '') + lang.prevStep + '</a><div class="guide-viewer-title text-center"><div class="text"></div></div><a class="guide-viewer-nav next text-right" data-slide="next" style="width: 80px">' + lang.nextStep + (options.nextStepIcon ? ('<i class="icon ' + options.nextStepIcon + '" style="opacity: .5"></i> ') : '') + '</a></div></div>');
         var $carousel = $viewer.find('.carousel').attr('id', 'carousel-' + id).toggleClass('slide', !!options.slide).css({margin: 0});
         var $carouselInner = $viewer.find('.carousel-inner');
         $viewer.find('.guide-viewer-nav').attr('href', '#carousel-' + id);
-        var $navItems = $viewer.find('.guide-viewer-navs').children().css({
+        var $nav = $viewer.find('.guide-viewer-navs');
+
+        if (options.navPos === 'top') {
+            $nav.insertBefore($carousel).removeClass('panel-footer').addClass('panel-heading');
+        }
+        var $navItems = $nav.children().css({
             display: 'table-cell',
             padding: '3px 8px',
             verticalAlign: 'middle',
@@ -109,6 +114,9 @@
         // defaultPos: 0,
         lang: $.zui.clientLang(),
         lightbox: false,
+        prevStepIcon: 'icon-chevron-left',
+        nextStepIcon: 'icon-chevron-right',
+        navPos: 'bottom',
         height: 'auto', // full, max, 500
         langs: {
             'zh_cn': {
