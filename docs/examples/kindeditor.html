@@ -103,16 +103,17 @@
             var K = window.KindEditor;
             if (K) {
                 window.$editor = K.create('textarea.kindeditor', {
-                    wellFormatMode: true,
-                    simpleWrap: true,
-                    indentChar: '  ',
-                    width: '100%',
-                    basePath: '../../dist/lib/kindeditor/',
-                    allowFileManager: true,
-                    bodyClass: 'article-content',
-                    cssPath: '../../dist/css/zui.css',
-                    placeholder: '请输入文章内容\nGood Luck!',
-                    transferTab: true,
+                    // wellFormatMode: true,
+                    // simpleWrap: true,
+                    // indentChar: '  ',
+                    // width: '100%',
+                    // basePath: '../../dist/lib/kindeditor/',
+                    // allowFileManager: true,
+                    // bodyClass: 'article-content',
+                    // cssPath: '../../dist/css/zui.css',
+                    // placeholder: '请输入文章内容\nGood Luck!',
+                    // transferTab: true,
+                    "width":"100%","items":["formatblock","fontsize","lineheight","|","forecolor","hilitecolor","|","bold","italic","underline","strikethrough","|","justifyleft","justifycenter","justifyright","|","emoticons","image","|","link","unlink","anchor","flash","media","baidumap","/","undo","redo","|","cut","copy","|","plainpaste","wordpaste","|","removeformat","clearhtml","quickformat","|","indent","outdent","subscript","superscript","insertorderedlist","insertunorderedlist","|","table","code","hr","|","fullscreen","source","about"],"cssPath":["/zui/css/admin.min.css"],"cssData":"html,body {background: none}.article-content, .article-content table td, .article-content table th {line-height: 1.3846153846; font-size: 13px;} .article-content table.table-kindeditor th, .article-content table.table-kindeditor td {padding: 5px 8px;} .article-content table.ke-zeroborder.table-kindeditor td {border: 1px dotted #AAA;} .article-content .table-auto {width: auto!important; max-width: 100%;}","bodyClass":"article-content","urlType":"absolute","uploadJson":"/admin.php?m=file&f=ajaxUpload&uid=5cf4d4f4894a1&t=html","fileManagerJson":"/admin.php?m=file&f=fileManager&t=html","imageTabIndex":1,"filterMode":true,"allowFileManager":true,"langType":"zh_CN","htmlTags":{"p,span,h1,h2,h3,h4,h5,em,u,strong,br,ol,ul,li,img,a,b,font,hr,pre,embed,video,audio,dd,dt,dl,div,table,td,th,tr,tbody,iframe,style,header,nav,meta,video,":["class","id","style"],"video":["id","class","width","height","src","controls"],"object":["type","data","width","height"],"param":["name","value"],"audio":["src","controls","id","class","width","height"],"font":["id","class","color","size","face",".background-color"],"span":["id","class",".color",".background-color",".font-size",".font-family",".background",".font-weight",".font-style",".text-decoration",".vertical-align",".line-height"],"div":["id","class","align",".border",".margin",".padding",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".background",".font-style",".text-decoration",".vertical-align",".margin-left"],"table":["id","class","border","cellspacing","cellpadding","width","height","align","bordercolor",".padding",".margin",".border","bgcolor",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".font-style",".text-decoration",".background",".width",".height",".border-collapse"],"td,th":["id","class","align","valign","width","height","colspan","rowspan","bgcolor",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".font-style",".text-decoration",".vertical-align",".background",".border"],"a":["id","class","href","target","name"],"embed":["id","class","src","width","height","type","loop","autostart","quality",".width",".height","align","allowscriptaccess","allowfullscreen"],"img":["id","class","src","width","height","border","alt","title","align",".width",".height",".border"],"p,ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6":["id","class","align",".text-align",".color",".background-color",".font-size",".font-family",".background",".font-weight",".font-style",".text-decoration",".vertical-align",".text-indent",".margin-left"],"pre":["id","class"],"hr":["id","class",".page-break-after"],"br,tbody,thead,tr,strong,b,sub,sup,em,i,u,strike,s,del":["id","class"],"iframe":["id","class","src","frameborder","width","height",".width",".height"],"style":[]},"syncAfterBlur":true,"spellcheck":false,"placeholderStyle":{"fontSize":"14px","color":"#999"},"pasteImage":{"postUrl":"/admin.php?m=file&f=ajaxPasteImage&uid=5cf4d4f4894a1&t=html","placeholder":true}
                 });
             }
         });

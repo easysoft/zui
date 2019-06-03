@@ -4906,12 +4906,14 @@
                 items.pop();
             }
             var prevItem = null;
+            var filterItems = [];
             _each(items, function(i) {
-                if(this.title == '-' && prevItem.title == '-') {
-                    delete items[i];
+                if (!prevItem || !(prevItem.title === '-' && this.title === '-')) {
+                    filterItems.push(this);
+                    prevItem = this;
                 }
-                prevItem = this;
             });
+            items = filterItems;
             if(items.length > 0) {
                 e.preventDefault();
                 var pos = K(self.edit.iframe).pos(),
