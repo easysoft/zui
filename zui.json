@@ -998,7 +998,7 @@
         "js": ["src/js/menu.js"]
       },
       "ver": "1.0.0",
-      "dpds": ["basic", "navs", "button"],
+      "dpds": ["basic", "navs"],
       "require": ["jquery"]
     },
     "imgcutter": {
@@ -1213,7 +1213,7 @@
         "js": ["src/js/dashboard.js"]
       },
       "ver": "1.0.0",
-      "dpds": ["panels", "grid", "icons"],
+      "dpds": ["grid", "icons"],
       "require": ["jquery"]
     },
     "board": {
@@ -1223,7 +1223,7 @@
         "js": ["src/js/boards.js"]
       },
       "ver": "1.0.0",
-      "dpds": ["jqueryex", "panels", "droppable"],
+      "dpds": ["jqueryex", "droppable"],
       "require": ["jquery"]
     },
     "tabs": {
