@@ -1,5 +1,12 @@
 # 标签管理器
 
+<div class="alert alert-warning">
+  <h4>兼容性提示</h4>
+  <ul>
+    <li>在移动设备上的浏览器上可能存在兼容性问题。</li>
+  </ul>
+</div>
+
 ## 综合示例
 
 <div class="example">
