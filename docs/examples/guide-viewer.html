@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZUI，一个简单灵活的前端框架。">
+    <meta name="author" content="Zentao">
+    <title>ZUI - 步骤查看器例子</title>
+    <link href="../../dist/css/zui.css" rel="stylesheet">
+    <style>
+    [data-guide-viewer]{display: none}
+    .modal-lightbox .modal-dialog {min-width: 300px; min-height: 105px}
+    </style>
+</head>
+
+<body style="padding: 20px">
+    <div class="conatiner" id="guideViewerExample">
+        <h1>步骤查看器示例（guideViewer）</h1>
+        <h2>固定高度：固定为指定的值（示例中为 500px）</h2>
+        <img data-guide-viewer="2" data-height="500" src="../img/img1.jpg" alt="第一步：这是第一步图片的说明">
+        <img data-guide-viewer="2" src="../img/img2.jpg" alt="第二步：这是第二步图片的说明">
+        <img data-guide-viewer="2" src="../img/chanzhi_icon.png" alt="第三步：这是第三步图片的说明">
+        <img data-guide-viewer="2" src="../img/slide1.jpg" alt="第四步：这是第四步图片的说明">
+        <img data-guide-viewer="2" src="../img/img3.jpg" alt="第五步：这是第五步图片的说明">
+        <div data-guide-viewer="2" title="自定义内容测试">
+            <div class="container">
+                <h1>哈哈哈</h1>
+                <p>自定义内容测试:)</p>
+            </div>
+        </div>
+
+        <h2>动态高度：根据图片或内容自动应用高度</h2>
+        <img data-guide-viewer="1" data-lightbox="true" src="../img/img1.jpg" alt="第一步：这是第一步图片的说明">
+        <img data-guide-viewer="1" src="../img/img2.jpg" alt="第二步：这是第二步图片的说明">
+        <img data-guide-viewer="1" src="../img/slide1.jpg" alt="第四步：这是第四步图片的说明">
+        <img data-guide-viewer="1" src="../img/img3.jpg" alt="第五步：这是第五步图片的说明">
+        <div data-guide-viewer="1" title="自定义内容测试">
+            <div class="container">
+                <h1>哈哈哈</h1>
+                <p>自定义内容测试:)</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/jquery.js"></script>
+    <script src="../../dist/js/zui.js"></script>
+    <script src="../../dist/lib/guideViewer/zui.guideViewer.js"></script>
+</body>
+
+</html>

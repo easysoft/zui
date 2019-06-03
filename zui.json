@@ -1438,6 +1438,14 @@
       },
       "ver": "1.8.1",
       "ignoreDpds": false
+    },
+    "guideViewer": {
+      "name": "步骤查看组件",
+      "src": {
+        "js": ["src/js/guide.viewer.js"]
+      },
+      "ver": "1.9.2",
+      "ignoreDpds": false
     }
   },
   "builds": {
