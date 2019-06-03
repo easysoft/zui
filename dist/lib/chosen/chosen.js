@@ -22,6 +22,7 @@
  * 5. 'drop_width' option
  * 6. 'max_drop_width' option
  * 7. 'highlight_selected' option
+ * 8. 'no_wrap' option
  * ======================================================================== */
 
 
@@ -687,6 +688,9 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if (this.max_drop_width) {
                 this.dropdown.addClass('chosen-auto-max-width');
             }
+            if (this.options.no_wrap) {
+                this.dropdown.addClass('chosen-no-wrap');
+            }
             this.results_build();
             this.set_tab_index();
             this.set_label_behavior();
@@ -972,10 +976,15 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if (maxDropWidth) {
                 var $drop = that.container.find('.chosen-drop').removeClass('in');
                 var maxWidth = 0;
-                $drop.find('.chosen-results>li').each(function() {
+                var $dropResults = $drop.find('.chosen-results');
+                var $dropItems = $dropResults.children('li');
+                var paddingLeft = parseFloat($dropResults.css('padding-left').replace('px', ''));
+                var paddingRight = parseFloat($dropResults.css('padding-right').replace('px', ''));
+                var padding = (isNaN(paddingLeft) ? 0 : paddingLeft) + (isNaN(paddingRight) ? 0 : paddingRight);
+                $dropItems.each(function() {
                     maxWidth = Math.max(maxWidth, $(this).outerWidth());
                 });
-                $drop.css('width', Math.min(maxWidth + 2, maxDropWidth));
+                $drop.css('width', Math.min(maxWidth + padding + 4, maxDropWidth));
                 that.fixDropWidthTimer = setTimeout(function() {
                     that.fixDropWidthTimer = null;
                     $drop.addClass('in');
@@ -1113,12 +1122,18 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         };
 
         Chosen.prototype.results_reset = function() {
+            var oldValue = this.form_field_jq.val();
             this.reset_single_select_options();
             this.form_field.options[0].selected = true;
             this.single_set_selected_text();
             this.show_search_field_default();
             this.results_reset_cleanup();
-            this.form_field_jq.trigger("change");
+            var newValue = this.form_field_jq.val();
+            var changeData = {selected: newValue};
+            if (oldValue !== newValue && !newValue.length) {
+                changeData.deselected = oldValue;
+            }
+            this.form_field_jq.trigger("change", changeData);
             if(this.active_field) {
                 return this.results_hide();
             }

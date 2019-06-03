@@ -1,5 +1,5 @@
 /*!
- * ZUI: 日历 - v1.9.1 - 2019-05-10
+ * ZUI: 日历 - v1.9.1 - 2019-06-03
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2019 cnezsoft.com; Licensed MIT
@@ -23,7 +23,7 @@
   }
 .calendar .table > thead > tr > th,
 .calendar .table > tbody > tr > td {
-  width: 14.28571428571429%;
+  width: 14.28571429%;
   padding: 0;
   }
 .calendar .table > thead > tr > th {

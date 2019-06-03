@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.1 - 2019-05-10
+ * ZUI: Standard edition - v1.9.1 - 2019-06-03
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2019 cnezsoft.com; Licensed MIT
@@ -4150,7 +4150,7 @@ select optgroup {
   }
 .os-mac select.form-control {
   -webkit-appearance: none;
-  background-image: url('data:image/gif;base64,R0lGODlhCQAFAIAAAMvQ2////yH5BAEAAAEALAAAAAAJAAUAAAIKhH+BGYoNGWxgFgA7');
+  padding-right: 18px;
   background-image: url('data:image/gif;base64,R0lGODlhBwAEAIAAAMvQ2////yH5BAEAAAEALAAAAAAHAAQAAAIIhA+BGWoNWSgAOw==');
   background-repeat: no-repeat;
   background-position: right 5px top 14px;
@@ -4178,6 +4178,9 @@ input[type="number"]::-webkit-inner-spin-button {
   color: #808080;
   }
 .form-control::-moz-placeholder {
+  color: #808080;
+  }
+.form-control:-ms-input-placeholder {
   color: #808080;
   }
 .form-control::placeholder {
@@ -7534,6 +7537,7 @@ tbody.collapse.in {
   border-top: 4px solid \9;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
+  opacity: .5;
   }
 .dropup,
 .dropdown {

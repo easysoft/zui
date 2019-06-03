@@ -10051,7 +10051,7 @@ KindEditor.EditorClass.prototype.setPlaceholder = function(placeholder, asHtml) 
     var $doc = $(edit.doc);
     var $placeholder = $doc.find('.kindeditor-ph');
     if (!$placeholder.length) {
-        $placeholder = $('<div class="kindeditor-ph" style="width:100%; color:#888; padding: 8px; background:none; position:absolute;z-index:10;top:0;border:0;overflow:auto;resize:none; pointer-events:none; white-space: pre-wrap;"></div>');
+        $placeholder = $('<div class="kindeditor-ph" style="width:100%; color:#888; padding: 8px; background:none; position:absolute;z-index:10;top:0;border:0;overflow:auto;resize:none; pointer-events:none; white-space: pre-wrap; font-size: 13px"></div>');
         if (options.placeholderStyle) {
             $placeholder.css(options.placeholderStyle);
         }
