@@ -65,6 +65,14 @@
         }
       }
     }
+
+    &.chosen-no-wrap {
+      > .chosen-results > li {
+        white-space: nowrap!important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
   }
   &.chosen-with-drop .chosen-drop {
     display: block;
@@ -76,7 +84,7 @@
     .chosen-drop {
       bottom: 100%;
       top: inherit;
-      border-radius: 2px 2px 0 0;
+      border-radius: @input-border-radius @input-border-radius 0 0;
       box-shadow: 0 -3px 5px rgba(0, 0, 0, .175);
       margin-top: auto;
       margin-bottom: -1px;
@@ -105,7 +113,6 @@
     border-radius: @input-border-radius;
     background-color: @input-bg;
     background-clip: padding-box;
-    vertical-align: middle;
     color: @input-color;
     text-decoration: none;
     white-space: nowrap;
@@ -129,7 +136,7 @@
   }
   .chosen-single abbr {
     position: absolute;
-    top: 7px;
+    top: (@input-height-base - 20px)/2;
     right: 24px;
     display: block;
     width: 20px;
@@ -285,10 +292,9 @@
     float: left;
     list-style: none;
     padding: 0 6px;
-    margin: 5px 0 0 6px;
+    margin: (@input-height-base - 22px)/2 4px;
     &.search-field {
       padding: 0;
-      margin-bottom: 4px;
       white-space: nowrap;
       input[type="text"] {
         height: 20px;
@@ -397,8 +403,8 @@
     .chosen-single {
       border: 1px solid @dropdown-fallback-border; // IE8 fallback
       border: 1px solid @dropdown-border;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0!important;
+      border-bottom-left-radius: 0!important;
       // @include background-image(linear-gradient(#eee 20%, #fff 80%));
       box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 

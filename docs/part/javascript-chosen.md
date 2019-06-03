@@ -384,6 +384,17 @@ Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的
       </td>
       <td></td>
     </tr>
+    <tr>
+      <td>`no_wrap`</td>
+      <td>是否禁用选项文本换行</td>
+      <td>
+        <ul>
+          <li><code>false</code>（默认) 不禁用换行，允许换行</li>
+          <li><code>true</code>，禁用换行</li>
+        </ul>
+      </td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 
