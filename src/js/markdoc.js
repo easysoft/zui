@@ -2,7 +2,7 @@
  * ZUI: markdoc.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2017-2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017-2019 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
