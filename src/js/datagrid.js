@@ -417,6 +417,10 @@
         return this.setPager(page).render();
     };
 
+    DataGrid.prototype.gotoPage = function(page) {
+        return this.page(page);
+    };
+
     DataGrid.prototype.setSearch = function(searchStr) {
         if (searchStr === undefined || searchStr === null) {
             searchStr = '';
