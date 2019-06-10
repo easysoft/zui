@@ -85,7 +85,7 @@
   border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
   border: 1px solid @modal-content-border-color;
   border-radius: @border-radius-large;
-  box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  box-shadow: @modal-shadow;
   pointer-events: initial;
 
   background-clip: padding-box;
@@ -188,7 +188,7 @@
   // Automatically set modal's width for larger viewports
   .modal-dialog {
     width: @modal-md;
-    box-shadow: 0 5px15px rgba(0,0,0,.5);
+    box-shadow: @modal-screen-shadow;
 
   }
 
