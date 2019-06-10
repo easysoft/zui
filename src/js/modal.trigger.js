@@ -50,8 +50,7 @@
         // headerHeight: 'auto',
     };
 
-    ModalTrigger.prototype.init = function(options) {
-        var that = this;
+    ModalTrigger.prototype.initOptions = function(options) {
         if(options.url) {
             if(!options.type || (options.type != STR_AJAX && options.type != 'iframe')) {
                 options.type = STR_AJAX;
@@ -78,7 +77,11 @@
                 }
             }
         }
+        return options;
+    };
 
+    ModalTrigger.prototype.init = function(options) {
+        var that = this;
         var $modal = $('#' + options.name);
         if($modal.length) {
             if(!that.isShown) $modal.off(ZUI_MODAL);
@@ -109,22 +112,27 @@
     };
 
     ModalTrigger.prototype.show = function(option) {
-        var options = $.extend({}, this.options, {
-            url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url
+        var that = this;
+        var options = $.extend({}, that.options, {
+            url: that.$trigger ? (that.$trigger.attr('href') || that.$trigger.attr('data-url') || that.$trigger.data('url')) : that.options.url
         }, option);
+        var isShown = that.isShown;
 
-        this.init(options);
-        var that = this,
-            $modal = this.$modal,
-            $dialog = this.$dialog,
-            custom = options.custom;
-        var $body = $dialog.find('.modal-body').css('padding', ''),
+        options = that.initOptions(options);
+        if (!isShown) {
+            that.init(options);
+        }
+
+        var $modal = that.$modal;
+        var $dialog = $modal.find('.modal-dialog');
+        var custom = options.custom;
+        var $body = $dialog.find('.modal-body').css('padding', '').toggleClass('load-indicator loading', !!isShown),
             $header = $dialog.find('.modal-header'),
             $content = $dialog.find('.modal-content');
 
         $modal.toggleClass('fade', options.fade)
             .addClass(options.className)
-            .toggleClass('modal-loading', !this.isShown)
+            .toggleClass('modal-loading', !isShown)
             .toggleClass('modal-scroll-inside', !!options.scrollInside);
 
         $dialog.toggleClass('modal-md', options.size === 'md')
@@ -160,6 +168,9 @@
                 }
                 that.ajustPosition(options.position);
                 $modal.removeClass('modal-loading');
+                if(isShown) {
+                    $body.removeClass('loading');
+                }
 
                 if(options.type != 'iframe') {
                     $dialog.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
@@ -309,14 +320,16 @@
             }
         }
 
-        $modal.modal({
-            show         : 'show',
-            backdrop     : options.backdrop,
-            moveable     : options.moveable,
-            rememberPos  : options.rememberPos,
-            keyboard     : options.keyboard,
-            scrollInside : options.scrollInside,
-        });
+        if (!isShown) {
+            $modal.modal({
+                show         : 'show',
+                backdrop     : options.backdrop,
+                moveable     : options.moveable,
+                rememberPos  : options.rememberPos,
+                keyboard     : options.keyboard,
+                scrollInside : options.scrollInside,
+            });
+        }
     };
 
     ModalTrigger.prototype.close = function(callback, redirect) {
@@ -424,7 +437,20 @@
         }
     };
 
+    var reloadModal = function(options, modal) {
+        if (typeof options === 'string') {
+            options = {url: options};
+        }
+        var $modal = getModal(modal);
+        if($modal && $modal.length) {
+            $modal.each(function() {
+                $(this).data(NAME).show(options);
+            });
+        }
+    };
+
     $.zui({
+        reloadModal: reloadModal,
         closeModal: closeModal,
         ajustModalPosition: ajustModalPosition
     });
@@ -452,4 +478,3 @@
         $.zui.closeModal();
     });
 }(window.jQuery, window, undefined));
-
