@@ -55,7 +55,7 @@
             goto: 'Goto',
             pageOf: 'Page <strong>{page}</strong>',
             totalPage: '<strong>{totalPage}</strong> pages',
-            totalCount: '<strong>{recTotal}</strong> in total',
+            totalCount: 'Total: <strong>{recTotal}</strong> items',
             pageSize: '<strong>{recPerPage}</strong> per page',
             itemsRange: 'From <strong>{start}</strong> to <strong>{end}</strong>',
             pageOfTotal: 'Page <strong>{page}</strong> of <strong>{totalPage}</strong>'
@@ -372,4 +372,3 @@
         $('[data-ride="pager"]').pager();
     });
 }(jQuery, undefined));
-
