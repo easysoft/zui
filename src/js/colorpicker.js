@@ -32,20 +32,6 @@
         this.init();
     };
 
-    // default options
-    ColorPicker.DEFAULTS = {
-        colors: ['#00BCD4', '#388E3C', '#3280fc', '#3F51B5', '#9C27B0', '#795548', '#F57C00', '#F44336', '#E91E63'],
-        pullMenuRight: true,
-        wrapper: 'btn-wrapper',
-        tileSize: 30,
-        lineCount: 5,
-        optional: true,
-        tooltip: 'top',
-        icon: 'caret-down',
-        updateBtn: 'auto'
-        // btnTip: 'Tool tip in button'
-    };
-
     ColorPicker.prototype.init = function() {
         var that = this;
         var options = that.options;
@@ -225,12 +211,29 @@
         var thisOptions = $.extend({}, ColorPicker.DEFAULTS, this.$.data(), options);
         if(typeof thisOptions.colors === 'string') thisOptions.colors = thisOptions.colors.split(',');
         var lang = (thisOptions.lang || $.zui.clientLang()).toLowerCase();
+        lang = LANG[lang] || LANG.en;
         if(!thisOptions.errorTip) {
-            thisOptions.errorTip = LANG[lang].errorTip;
+            thisOptions.errorTip = lang.errorTip;
         }
         if(!$.fn.tooltip) thisOptions.btnTip = false;
         this.options = thisOptions;
     };
+
+    // default options
+    ColorPicker.DEFAULTS = {
+        colors: ['#00BCD4', '#388E3C', '#3280fc', '#3F51B5', '#9C27B0', '#795548', '#F57C00', '#F44336', '#E91E63'],
+        pullMenuRight: true,
+        wrapper: 'btn-wrapper',
+        tileSize: 30,
+        lineCount: 5,
+        optional: true,
+        tooltip: 'top',
+        icon: 'caret-down',
+        updateBtn: 'auto'
+        // btnTip: 'Tool tip in button'
+    };
+
+    ColorPicker.LANG = LANG;
 
     // Extense jquery element
     $.fn.colorPicker = function(option) {

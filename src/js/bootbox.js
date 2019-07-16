@@ -66,7 +66,7 @@
 
     var defaults = {
         // default language
-        locale: $.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh_cn',
+        locale: $.zui && $.zui.clientLang ? $.zui.clientLang() : 'en',
         // show backdrop or not. Default to static so user has to interact with dialog
         backdrop: "static",
         // animate the modal in/out

@@ -12,7 +12,7 @@
     var ChosenIcons = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
-        this.lang = ChosenIcons.LANGS[this.options.lang];
+        this.lang = ChosenIcons.LANGS[this.options.lang] || ChosenIcons.LANGS.en;
         this.id = 'chosen-icons-' + parseInt(Math.random() * 10000000000 + 1);
 
         this.init();
@@ -150,4 +150,3 @@
 
     $.fn.chosenIcons.Constructor = ChosenIcons;
 }(jQuery);
-

@@ -20,7 +20,7 @@
     };
 
     Boards.DEFAULTS = {
-        // lang: null,
+        lang: 'en',
         langs: {
             'zh_cn': {
                 append2end: '移动到末尾'

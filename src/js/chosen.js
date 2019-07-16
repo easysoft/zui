@@ -55,17 +55,22 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             return child;
         };
 
-    var LANGUAGE = {
+    var LANGUAGES = {
         zh_cn: {
-            no_results_text: "没有找到"
+            no_results_text: '没有找到'
         },
         zh_tw: {
-            no_results_text: "沒有找到"
+            no_results_text: '沒有找到'
         },
         en: {
-            no_results_text: "No results match"
+            no_results_text: 'No results match'
+        },
+        de: {
+            no_results_text: 'Nicht gefunden'
         }
     };
+
+    var DEFAULTS = {};
 
     SelectParser = (function() {
         function SelectParser() {
@@ -173,12 +178,18 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
     AbstractChosen = (function() {
         function AbstractChosen(form_field, options) {
             this.form_field = form_field;
-            this.options = options != null ? options : {};
+            this.options = $.extend(DEFAULTS, options != null ? options : {});
             if(!AbstractChosen.browser_is_supported()) {
                 return;
             }
 
-            this.lang = LANGUAGE[this.options.lang || ($.zui.clientLang ? $.zui.clientLang() : 'zh_cn')];
+            var lang = this.options.lang;
+            var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'zh_cn';
+            if ($.isPlainObject(lang)) {
+                this.lang = $.extend(lang, LANGUAGES.en, LANGUAGES[defaultLang]);
+            } else {
+                this.lang = LANGUAGES[lang || defaultLang] || LANGUAGES.en;
+            }
             this.is_multiple = this.form_field.multiple;
             this.set_default_text();
             this.set_default_values();
@@ -1381,4 +1392,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         return Chosen;
 
     })(AbstractChosen);
+
+    Chosen.DEFAULTS = DEFAULTS;
+    Chosen.LANGUAGES = LANGUAGES;
+    $.fn.chosen.Constructor = Chosen;
 }).call(this);

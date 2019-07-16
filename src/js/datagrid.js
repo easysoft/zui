@@ -153,7 +153,7 @@
         options        = $.extend({}, DataGrid.DEFAULTS, that.$.data(), options);
 
         var lang   = options.lang || 'zh_cn';
-        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG[lang.lang || $.zui.clientLang()], lang)) : LANG[lang];
+        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG.en, LANG[lang.lang || $.zui.clientLang()], lang)) : (LANG[lang] || LANG.en);
 
         options.valueOperator    = $.extend({}, DEFAULT_VALUE_OPERATOR, options.valueOperator);
         options.rowDefaultHeight = options.rowDefaultHeight || 30;
@@ -1611,4 +1611,3 @@
         $('[data-ride="datagrid"]').datagrid();
     });
 }(jQuery, undefined));
-

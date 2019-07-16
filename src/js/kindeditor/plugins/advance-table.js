@@ -135,7 +135,7 @@ KindEditor.plugin('table', function (K) {
         }
     };
     var $elements = [];
-    var lang = $.extend({}, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
+    var lang = $.extend({}, allLangs.en, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
     var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
 
     self.tableIdIndex = 0;

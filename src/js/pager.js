@@ -71,7 +71,7 @@
         options = that.options = $.extend({}, Pager.DEFAULTS, this.$.data(), options);
 
         var lang   = options.lang || $.zui.clientLang();
-        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG[lang.lang || $.zui.clientLang()], lang)) : LANG[lang];
+        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG.en, LANG[lang.lang || $.zui.clientLang()], lang)) : (LANG[lang] || LANG.en);
 
         that.state = {};
 
@@ -364,6 +364,7 @@
     };
 
     Pager.NAME = NAME;
+    Pager.LANG = LANG;
 
     $.fn.pager.Constructor = Pager;
 

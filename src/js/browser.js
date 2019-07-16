@@ -57,7 +57,7 @@
             $browseHappy.prependTo('body');
         }
 
-        $browseHappy.find('.content').html(showCoontent || this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
+        $browseHappy.find('.content').html(showCoontent || this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'en'] || browseHappyTip.en);
     };
 
     // Detect it is IE, can given a version
@@ -85,4 +85,3 @@
         }
     });
 }(jQuery));
-
