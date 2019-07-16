@@ -354,7 +354,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.result_clear_highlight();
             this.results_build();
             if(this.results_showing) {
-                return this.winnow_results();
+                this.winnow_results();
+                this.autoResizeDrop();
             }
         };
 
@@ -983,9 +984,19 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
             that.winnow_results(1);
 
+            that.autoResizeDrop();
+
+            return that.form_field_jq.trigger("chosen:showing_dropdown", {
+                chosen: that
+            });
+        };
+
+        Chosen.prototype.autoResizeDrop = function() {
+            var that = this;
             var maxDropWidth = that.max_drop_width;
             if (maxDropWidth) {
-                var $drop = that.container.find('.chosen-drop').removeClass('in');
+                var $drop = that.container.find('.chosen-drop');
+                $drop.removeClass('in');
                 var maxWidth = 0;
                 var $dropResults = $drop.find('.chosen-results');
                 var $dropItems = $dropResults.children('li');
@@ -995,16 +1006,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 $dropItems.each(function() {
                     maxWidth = Math.max(maxWidth, $(this).outerWidth());
                 });
-                $drop.css('width', Math.min(maxWidth + padding + 4, maxDropWidth));
+                $drop.css('width', Math.min(maxWidth + padding + 14, maxDropWidth));
                 that.fixDropWidthTimer = setTimeout(function() {
                     that.fixDropWidthTimer = null;
                     $drop.addClass('in');
                 }, 50);
             }
-
-            return that.form_field_jq.trigger("chosen:showing_dropdown", {
-                chosen: that
-            });
         };
 
         Chosen.prototype.update_results_content = function(content) {
