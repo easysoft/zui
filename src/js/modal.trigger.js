@@ -298,7 +298,7 @@
                         try {
                             var $data = $(data);
                             if($data.filter('.modal-dialog').length) {
-                                $dialog.replaceWith($data);
+                                $dialog.parent().empty().append($data);
                             } else if($data.filter('.modal-content').length) {
                                 $dialog.find('.modal-content').replaceWith($data);
                             } else {
