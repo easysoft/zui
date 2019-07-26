@@ -12,6 +12,10 @@
 </head>
 
 <body style="padding: 20px">
+    <div style="margin-bottom: 20px">
+        <button type="button" class="btn" id="resetLayoutBtn">重置布局</button>
+        <button type="button" class="btn btn-danger" id="resetDataBtn">重置数据</button>
+    </div>
     <div id="flowchart"></div>
 
     <script src="../../assets/jquery.js"></script>
@@ -99,7 +103,14 @@
                 adsorptionGrid: 10,
                 data: data,
             });
-            console.log($('#flowchart').data('zui.flowChart'));
+            var flowchart = $('#flowchart').data('zui.flowChart');
+            $('#resetLayoutBtn').on('click', function() {
+                flowchart.resetPosition();
+            });
+            $('#resetDataBtn').on('click', function() {
+                flowchart.resetData();
+            });
+            console.log(flowchart);
         });
     </script>
 </body>

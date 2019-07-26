@@ -750,8 +750,8 @@
         }
     };
 
-    // Reset
-    FlowChart.prototype.reset = function(data) {
+    // Reset data
+    FlowChart.prototype.resetData = function(data) {
         if (!data) {
             data = [{
                 id: 'start',
