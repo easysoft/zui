@@ -1323,6 +1323,14 @@
       "ver": "1.4.0",
       "require": ["icons"]
     },
+    "flowchart": {
+      "name": "流程图",
+      "src": {
+        "js": ["~/flowchart.js"]
+      },
+      "ver": "1.9.2",
+      "hidden": true
+    },
     "clipboard": {
       "name": "clipboard",
       "src": {
