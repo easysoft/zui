@@ -39,12 +39,13 @@
     var FlowChart = function(element, options) {
         var that = this;
         that.name = NAME;
-        that.id = 'flowchart_' + $.zui.uuid();
         that.idSeed = 0;
 
         // Get container
         var $container = that.$container = $(element).addClass('scrollbar-hover')
             .css('overflow', 'auto');
+
+        that.id = $container.attr('id') || 'flowchart_' + $.zui.uuid();
 
         // Get options
         options = that.options = $.extend(
