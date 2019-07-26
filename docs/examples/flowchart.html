@@ -14,6 +14,7 @@
 <body style="padding: 20px">
     <div style="margin-bottom: 20px">
         <button type="button" class="btn btn-primary" id="exportDataBtn">导出数据</button>
+        <button type="button" class="btn btn-primary" id="showExampleBtn">重置为示例数据</button>
         <button type="button" class="btn btn-danger" id="resetDataBtn">重置数据</button>
         <button type="button" class="btn" id="resetLayoutBtn">重置布局</button>
     </div>
@@ -103,7 +104,7 @@
             $('#flowchart').flowChart({
                 showRelationTextOnSide: false,
                 adsorptionGrid: 10,
-                data: data,
+                // data: data,
             });
             var flowchart = $('#flowchart').data('zui.flowChart');
             $('#resetLayoutBtn').on('click', function() {
@@ -117,6 +118,9 @@
                     title: '流程图数据导出',
                     message: '<pre><code>' + JSON.stringify(flowchart.exportData(), null, 4) + '</code></pre>'
                 });
+            });
+            $('#showExampleBtn').on('click', function() {
+                flowchart.resetData(data);
             });
             console.log(flowchart);
         });
