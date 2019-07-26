@@ -216,7 +216,7 @@
             }, {
                 label: that.lang.delete,
                 onClick: function() {
-                    if (!options.deleteConfirm || confirm(that.lang.confirmToDelete.format(ele.text || ele.id))) {
+                    if (!that.options.deleteConfirm || confirm(that.lang.confirmToDelete.format(ele.text || ele.id))) {
                         that.delete(ele.id);
                     }
                 }
@@ -305,7 +305,7 @@
                     position.left = Math.floor(fromBounds.centerLeft - (size.width / 2));
                     position.top = fromBounds.bottom + options.vertSpace;
                 } else if (direction === 'right') {
-                    position.left = fromBounds.left + options.horzSpace + size.width;
+                    position.left = fromBounds.right + options.horzSpace;
                     position.top = Math.floor(fromBounds.centerTop - (size.height / 2));
                 }
             } else if (parents.length) {

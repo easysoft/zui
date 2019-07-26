@@ -1,5 +1,5 @@
 /*!
- * ZUI: 流程图 - v1.9.1 - 2019-07-25
+ * ZUI: 流程图 - v1.9.1 - 2019-07-26
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2019 cnezsoft.com; Licensed MIT
@@ -223,7 +223,7 @@
             }, {
                 label: that.lang.delete,
                 onClick: function() {
-                    if (!options.deleteConfirm || confirm(that.lang.confirmToDelete.format(ele.text || ele.id))) {
+                    if (!that.options.deleteConfirm || confirm(that.lang.confirmToDelete.format(ele.text || ele.id))) {
                         that.delete(ele.id);
                     }
                 }
@@ -312,7 +312,7 @@
                     position.left = Math.floor(fromBounds.centerLeft - (size.width / 2));
                     position.top = fromBounds.bottom + options.vertSpace;
                 } else if (direction === 'right') {
-                    position.left = fromBounds.left + options.horzSpace + size.width;
+                    position.left = fromBounds.right + options.horzSpace;
                     position.top = Math.floor(fromBounds.centerTop - (size.height / 2));
                 }
             } else if (parents.length) {
