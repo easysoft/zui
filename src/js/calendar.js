@@ -401,7 +401,7 @@
     };
 
     Calendar.prototype.getLang = function() {
-        this.lang = this.options.langs[(this.options.lang || ($.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh_cn')).replace('-', '_')] || this.options.langs.en;
+        this.lang = this.options.langs[(this.options.lang || ($.zui && $.zui.clientLang ? $.zui.clientLang() : 'en')).replace('-', '_')] || this.options.langs.en;
     };
 
     Calendar.prototype.display = function(view, date) {

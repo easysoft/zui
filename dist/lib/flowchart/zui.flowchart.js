@@ -311,7 +311,7 @@
                     position.left = Math.floor(fromBounds.centerLeft - (size.width / 2));
                     position.top = fromBounds.bottom + options.vertSpace;
                 } else if (direction === 'right') {
-                    position.left = fromBounds.left + options.horzSpace;
+                    position.left = fromBounds.left + options.horzSpace + size.width;
                     position.top = Math.floor(fromBounds.centerTop - (size.height / 2));
                 }
             } else if (parents.length) {
@@ -748,6 +748,26 @@
         if (!skipRender) {
             this.render(node);
         }
+    };
+
+    // Reset
+    FlowChart.prototype.reset = function(data) {
+        if (!data) {
+            data = [{
+                id: 'start',
+                type: 'start',
+                text: 'Start',
+                // className: 'text-red',
+                // style: {color: 'red'}
+            }];
+        }
+        var that = this;
+        var oldElements = [];
+        $.each(that.elements, function(_, ele) {
+            oldElements.push(ele);
+        });
+        that.delete(oldElements, true);
+        that.update(data);
     };
 
     // Update elements data
