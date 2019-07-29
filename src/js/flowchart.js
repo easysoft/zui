@@ -5,6 +5,249 @@
  * Copyright (c) 2017-2019 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
+// https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
+if (!Array.prototype.findIndex) {
+    Object.defineProperty(Array.prototype, 'findIndex', {
+        value: function (predicate) {
+            // 1. Let O be ? ToObject(this value).
+            if (this == null) {
+                throw new TypeError('"this" is null or not defined');
+            }
+
+            var o = Object(this);
+
+            // 2. Let len be ? ToLength(? Get(O, "length")).
+            var len = o.length >>> 0;
+
+            // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+            if (typeof predicate !== 'function') {
+                throw new TypeError('predicate must be a function');
+            }
+
+            // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+            var thisArg = arguments[1];
+
+            // 5. Let k be 0.
+            var k = 0;
+
+            // 6. Repeat, while k < len
+            while (k < len) {
+                // a. Let Pk be ! ToString(k).
+                // b. Let kValue be ? Get(O, Pk).
+                // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+                // d. If testResult is true, return k.
+                var kValue = o[k];
+                if (predicate.call(thisArg, kValue, k, o)) {
+                    return k;
+                }
+                // e. Increase k by 1.
+                k++;
+            }
+
+            // 7. Return -1.
+            return -1;
+        }
+    });
+}
+
+// https://tc39.github.io/ecma262/#sec-array.prototype.find
+if (!Array.prototype.find) {
+    Object.defineProperty(Array.prototype, 'find', {
+        value: function (predicate) {
+            // 1. Let O be ? ToObject(this value).
+            if (this == null) {
+                throw new TypeError('"this" is null or not defined');
+            }
+
+            var o = Object(this);
+
+            // 2. Let len be ? ToLength(? Get(O, "length")).
+            var len = o.length >>> 0;
+
+            // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+            if (typeof predicate !== 'function') {
+                throw new TypeError('predicate must be a function');
+            }
+
+            // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+            var thisArg = arguments[1];
+
+            // 5. Let k be 0.
+            var k = 0;
+
+            // 6. Repeat, while k < len
+            while (k < len) {
+                // a. Let Pk be ! ToString(k).
+                // b. Let kValue be ? Get(O, Pk).
+                // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+                // d. If testResult is true, return kValue.
+                var kValue = o[k];
+                if (predicate.call(thisArg, kValue, k, o)) {
+                    return kValue;
+                }
+                // e. Increase k by 1.
+                k++;
+            }
+
+            // 7. Return undefined.
+            return undefined;
+        }
+    });
+}
+
+// Production steps of ECMA-262, Edition 5, 15.4.4.18
+// Reference: http://es5.github.io/#x15.4.4.18
+if (!Array.prototype.forEach) {
+
+    Array.prototype.forEach = function (callback, thisArg) {
+
+        var T, k;
+
+        if (this == null) {
+            throw new TypeError(' this is null or not defined');
+        }
+
+        // 1. Let O be the result of calling toObject() passing the
+        // |this| value as the argument.
+        var O = Object(this);
+
+        // 2. Let lenValue be the result of calling the Get() internal
+        // method of O with the argument "length".
+        // 3. Let len be toUint32(lenValue).
+        var len = O.length >>> 0;
+
+        // 4. If isCallable(callback) is false, throw a TypeError exception.
+        // See: http://es5.github.com/#x9.11
+        if (typeof callback !== "function") {
+            throw new TypeError(callback + ' is not a function');
+        }
+
+        // 5. If thisArg was supplied, let T be thisArg; else let
+        // T be undefined.
+        if (arguments.length > 1) {
+            T = thisArg;
+        }
+
+        // 6. Let k be 0
+        k = 0;
+
+        // 7. Repeat, while k < len
+        while (k < len) {
+
+            var kValue;
+
+            // a. Let Pk be ToString(k).
+            //    This is implicit for LHS operands of the in operator
+            // b. Let kPresent be the result of calling the HasProperty
+            //    internal method of O with argument Pk.
+            //    This step can be combined with c
+            // c. If kPresent is true, then
+            if (k in O) {
+
+                // i. Let kValue be the result of calling the Get internal
+                // method of O with argument Pk.
+                kValue = O[k];
+
+                // ii. Call the Call internal method of callback with T as
+                // the this value and argument list containing kValue, k, and O.
+                callback.call(T, kValue, k, O);
+            }
+            // d. Increase k by 1.
+            k++;
+        }
+        // 8. return undefined
+    };
+}
+
+// Production steps of ECMA-262, Edition 5, 15.4.4.19
+// Reference: http://es5.github.io/#x15.4.4.19
+if (!Array.prototype.map) {
+
+    Array.prototype.map = function (callback/*, thisArg*/) {
+
+        var T, A, k;
+
+        if (this == null) {
+            throw new TypeError('this is null or not defined');
+        }
+
+        // 1. Let O be the result of calling ToObject passing the |this|
+        //    value as the argument.
+        var O = Object(this);
+
+        // 2. Let lenValue be the result of calling the Get internal
+        //    method of O with the argument "length".
+        // 3. Let len be ToUint32(lenValue).
+        var len = O.length >>> 0;
+
+        // 4. If IsCallable(callback) is false, throw a TypeError exception.
+        // See: http://es5.github.com/#x9.11
+        if (typeof callback !== 'function') {
+            throw new TypeError(callback + ' is not a function');
+        }
+
+        // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        if (arguments.length > 1) {
+            T = arguments[1];
+        }
+
+        // 6. Let A be a new array created as if by the expression new Array(len)
+        //    where Array is the standard built-in constructor with that name and
+        //    len is the value of len.
+        A = new Array(len);
+
+        // 7. Let k be 0
+        k = 0;
+
+        // 8. Repeat, while k < len
+        while (k < len) {
+
+            var kValue, mappedValue;
+
+            // a. Let Pk be ToString(k).
+            //   This is implicit for LHS operands of the in operator
+            // b. Let kPresent be the result of calling the HasProperty internal
+            //    method of O with argument Pk.
+            //   This step can be combined with c
+            // c. If kPresent is true, then
+            if (k in O) {
+
+                // i. Let kValue be the result of calling the Get internal
+                //    method of O with argument Pk.
+                kValue = O[k];
+
+                // ii. Let mappedValue be the result of calling the Call internal
+                //     method of callback with T as the this value and argument
+                //     list containing kValue, k, and O.
+                mappedValue = callback.call(T, kValue, k, O);
+
+                // iii. Call the DefineOwnProperty internal method of A with arguments
+                // Pk, Property Descriptor
+                // { Value: mappedValue,
+                //   Writable: true,
+                //   Enumerable: true,
+                //   Configurable: true },
+                // and false.
+
+                // In browsers that support Object.defineProperty, use the following:
+                // Object.defineProperty(A, k, {
+                //   value: mappedValue,
+                //   writable: true,
+                //   enumerable: true,
+                //   configurable: true
+                // });
+
+                // For best browser support, use the following:
+                A[k] = mappedValue;
+            }
+            // d. Increase k by 1.
+            k++;
+        }
+
+        // 9. return A
+        return A;
+    };
+}
 
 (function($) {
     'use strict';
@@ -27,6 +270,48 @@
     };
 
     var NAME = 'zui.flowChart'; // model name
+
+    // var supportElementTypes = {
+    //     relation: 'relation',
+    //     action: 'action',
+    //     start: 'start',
+    //     end: 'end',
+    // };
+
+    // var idSeed = 1;
+
+    // var FlowChartElement = function(props) {
+    //     props = $.extend({}, props);
+    //     var that = this;
+    //     that.type = supportElementTypes[props.type] || supportElementTypes.action;
+    //     that.isRelation = that.type === 'relation';
+    //     that.isNode = !that.isRelation;
+    //     that.text = props.text;
+    //     that.order = props.order || idSeed++;
+    //     var id = props.id;
+    //     if (that.isRelation) {
+    //         that.from = props.from;
+    //         that.to = props.to;
+    //         that.id = id || (that.from + '-' + that.to);
+    //     } else {
+    //         that.id = id || $.zui.uuid();
+    //     }
+    //     if (props.position && typeof props.position.left === 'number' && typeof props.position.top === 'number') {
+    //         that.position = {
+    //             left: props.position.left,
+    //             top: props.position.top,
+    //         };
+    //         that.customPos = true;
+    //     }
+    // };
+
+    // FlowChartElement.create = function() {
+
+    // };
+
+    var FlowChartNode = function() {
+
+    };
 
     // The flowChart model class
     var FlowChart = function(element, options) {
@@ -261,29 +546,37 @@
         });
         $node.css(style);
 
-        node.size = {
+        var size = {
             width:  $node.outerWidth(),
             height: $node.outerHeight(),
         };
-
-        if (!skipLayout) {
-            this._layoutNode(node);
-        }
-    };
-
-    // Caculate node position and change layout of it.
-    FlowChart.prototype._layoutNode = function(node) {
-        var that     = this;
-        var $node    = node.$ele;
-        var bounds   = that.bounds;
-        var size     = node.size;
-        var position = node.position;
 
         var adsorptionGrid = that.options.adsorptionGrid;
         if (adsorptionGrid === true) {
             adsorptionGrid = 5;
         }
         size.width = Math.ceil(size.width / (adsorptionGrid * 2)) * adsorptionGrid * 2;
+        node.size = size;
+
+        if (!skipLayout) {
+            this._layoutNode(node);
+        }
+
+        if (!options.mergeSideLines) {
+            node.sideRels = {
+                top:    [],
+                right:  [],
+                bottom: [],
+                left:   [],
+            };
+        }
+    };
+
+    // Caculate node position and change layout of it.
+    FlowChart.prototype._layoutNode = function(node, skipPosition) {
+        var that     = this;
+        var size     = node.size;
+        var position = node.position;
 
         if (!position || !node.customPos) {
             var options = that.options;
@@ -291,7 +584,7 @@
             var direction = node.direction;
             var directionFrom = node.directionFrom;
 
-            position = node.position = {};
+            position = {};
             var supportDirections = {top: 1, left: 1, bottom: 1, right: 1};
             if (direction && supportDirections[direction] && directionFrom) {
                 var fromBounds = directionFrom.bounds;
@@ -308,21 +601,31 @@
                     position.left = fromBounds.right + options.horzSpace;
                     position.top = Math.floor(fromBounds.centerTop - (size.height / 2));
                 }
+                if (node.direction) delete node.direction;
+                if (node.directionFrom) delete node.directionFrom;
             } else if (parents.length) {
-                var parentsBounds = {left: options.padding, top: options.padding, right: options.padding, bottom: options.padding};
+                var parentsBounds;
                 var siblingsIndex = 0;
                 $.each(parents, function(idx, parentNode) {
                     if (!parentNode.position) {
-                        that._layoutNode(parentNode);
+                        return;
                     }
-                    if (idx === 0) {
-                        var parentPosition = parentNode.position;
-                        var parentSize = parentNode.size;
-                        parentsBounds.left  = Math.min(parentsBounds.left, parentPosition.left);
-                        parentsBounds.top   = Math.min(parentsBounds.top, parentPosition.top);
-                        parentsBounds.right = Math.max(parentsBounds.right, parentSize.width + parentPosition.left);
+                    var parentPosition = parentNode.position;
+                    var parentSize = parentNode.size;
+                    if (parentsBounds) {
+                        parentsBounds.left   = Math.min(parentsBounds.left, parentPosition.left);
+                        parentsBounds.top    = Math.min(parentsBounds.top, parentPosition.top);
+                        parentsBounds.right  = Math.max(parentsBounds.right, parentSize.width + parentPosition.left);
                         parentsBounds.bottom = Math.max(parentsBounds.bottom, parentSize.height + parentPosition.top);
+                    } else {
+                        parentsBounds = {
+                            left:   parentPosition.left,
+                            top:    parentPosition.top,
+                            right:  parentSize.width + parentPosition.left,
+                            bottom: parentSize.height + parentPosition.top
+                        };
                     }
+
                     if (node.siblingsIndex === undefined) {
                         var parentChildren = parentNode.children;
                         if (parentChildren.length) {
@@ -334,39 +637,50 @@
                         }
                     }
                 });
+                node.parentsBounds = parentsBounds;
                 position.left = parentsBounds.right + options.horzSpace;
                 position.top  = parentsBounds.top + node.siblingsIndex * (options.nodeHeight + options.vertSpace);
             } else {
-                position.left = bounds.left + bounds.width + (bounds.left <= options.padding ? 0 : options.horzSpace);
-                position.top  = bounds.top + bounds.height + (bounds.top <= options.padding ? 0 : options.vertSpace);
+                var bounds   = that.bounds;
+                position.left = bounds.left;
+                position.top  = bounds.top + bounds.height + (bounds.height <= options.padding ? 0: (options.vertSpace - options.padding));
             }
+            node.position = position;
             if (options.disableAutoPosition) {
                 node.customPos = true;
             }
         }
-        if (node.direction) delete node.direction;
-        if (node.directionFrom) delete node.directionFrom;
 
-        if (adsorptionGrid) {
-            position.left = Math.round(position.left / adsorptionGrid) * adsorptionGrid;
-            position.top  = Math.round(position.top / adsorptionGrid) * adsorptionGrid;
+        if (!skipPosition) {
+            var adsorptionGrid = that.options.adsorptionGrid;
+            if (adsorptionGrid) {
+                position.left = Math.round(position.left / adsorptionGrid) * adsorptionGrid;
+                position.top  = Math.round(position.top / adsorptionGrid) * adsorptionGrid;
+            }
+            node.$ele.css({
+                visibility: 'visible',
+                left: position.left,
+                top: position.top,
+                minWidth: size.width,
+            });
         }
 
-        $node.css({
-            visibility: 'visible',
-            left: position.left,
-            top: position.top,
-            minWidth: size.width,
-        });
+        that.calcNodeBounds(node);
+    };
+
+    FlowChart.prototype.calcNodeBounds = function(node) {
+        var bounds         = this.bounds;
+        var position       = node.position;
+        var size           = node.size;
+        var centerLeft     = position.left + size.width / 2;
+        var centerTop      = position.top + size.height / 2;
+        var centerDistance = Math.sqrt(centerLeft * centerLeft + centerTop * centerTop);
 
         bounds.left   = Math.min(bounds.left, position.left);
         bounds.top    = Math.min(bounds.top, position.top);
         bounds.width  = Math.max(bounds.width, position.left + size.width);
         bounds.height = Math.max(bounds.height, position.top + size.height);
 
-        var centerLeft     = position.left + size.width / 2;
-        var centerTop      = position.top + size.height / 2;
-        var centerDistance = Math.sqrt(centerLeft * centerLeft + centerTop * centerTop);
         node.bounds = {
             left: position.left,
             top: position.top,
@@ -378,6 +692,7 @@
             centerTop: centerTop,
             centerDistance: centerDistance,
         };
+        return node.bounds;
     };
 
     // Render relation
@@ -403,17 +718,94 @@
         var toNodeBounds   = toNode.bounds;
 
         // Calculate vert space
-        var vertDistance = Math.abs(fromNodeBounds.centerTop - toNodeBounds.centerTop) - (fromNodeBounds.height + toNodeBounds.height) / 2;
-        var horzDistance = Math.abs(fromNodeBounds.centerLeft - toNodeBounds.centerLeft) - (fromNodeBounds.width + toNodeBounds.width) / 2;
-        var direction   = (vertDistance > 0 && vertDistance > horzDistance) ? 'vert' : 'horz';
-        var isReverse   = direction === 'horz' ? (toNodeBounds.centerLeft < fromNodeBounds.centerLeft) : (toNodeBounds.centerTop < fromNodeBounds.centerTop);
-        var beginNode   = isReverse ? toNode : fromNode;
-        var endNode     = isReverse ? fromNode : toNode;
-        var beginBounds = beginNode.bounds;
-        var endBounds   = endNode.bounds;
+        var vertCenterDistance = fromNodeBounds.centerTop - toNodeBounds.centerTop;
+        var horzCenterDistance = fromNodeBounds.centerLeft - toNodeBounds.centerLeft;
+        var vertDistance = Math.abs(vertCenterDistance) - (fromNodeBounds.height + toNodeBounds.height) / 2;
+        var horzDistance = Math.abs(horzCenterDistance) - (fromNodeBounds.width + toNodeBounds.width) / 2;
+        var direction, isReverse, fromSide, toSide;
+        if (vertDistance >= 0) {
+            if (horzDistance >= 0) { // Four corners
+                if (vertCenterDistance > 0) { // Top
+                    if (horzCenterDistance > 0) { // Left
+                        direction = 'top-left';
+                        isReverse = true;
+                        fromSide  = 'left';
+                        toSide    = 'bottom';
+                    } else { // Right
+                        direction = 'top-right';
+                        isReverse = false;
+                        fromSide  = 'right';
+                        toSide    = 'top';
+                    }
+                } else { // Bottom
+                    if (horzCenterDistance > 0) { // Left
+                        direction = 'bottom-left';
+                        isReverse = true;
+                        fromSide  = 'bottom';
+                        toSide    = 'right';
+                    } else { // Right
+                        direction = 'bottom-right';
+                        isReverse = false;
+                        fromSide  = 'bottom';
+                        toSide    = 'left';
+                    }
+                }
+            } else {
+                isReverse = vertCenterDistance > 0;
+                direction = isReverse ? 'top' : 'bottom';
+                fromSide  = direction;
+                toSide    = isReverse ? 'bottom' : 'top';
+            }
+        } else {
+            isReverse = horzCenterDistance > 0;
+            direction = isReverse ? 'left' : 'right';
+            fromSide  = direction;
+            toSide    = isReverse ? 'right' : 'left';
+        }
+        relation.direction = direction;
+        relation.isReverse = isReverse;
+        relation.fromSide  = fromSide;
+        relation.toSide    = toSide;
 
-        // var fromSide = direction === 'vert' ? (isReverse ? 'top' : 'bottom') : (isReverse ? 'right' : 'left');
-        // var toSide = direction === 'vert' ? (isReverse ? 'bottom' : 'top') : (isReverse ? 'left' : 'right');
+        var beginNode     = isReverse ? toNode : fromNode;
+        var endNode       = isReverse ? fromNode : toNode;
+        var beginBounds   = beginNode.bounds;
+        var endBounds     = endNode.bounds;
+        var beginSide     = isReverse ? toSide : fromSide;
+        var endSide       = isReverse ? fromSide : toSide;
+        var betterLines   = !options.mergeSideLines;
+        var beginSideRels = betterLines && beginNode.sideRels[beginSide];
+        var endSideRels   = betterLines && endNode.sideRels[endSide];
+
+        if (betterLines) {
+            var findRelById   = function(rel) {
+                return rel.id === relation.id;
+            };
+            if (!beginSideRels.length || !beginSideRels.find(findRelById)) {
+                beginSideRels.push(relation);
+                if (beginSideRels.length > 1) {
+                    beginSideRels.forEach(function(rel) {
+                        if (rel.id !== relation.id) {
+                            that.renderRelation(rel);
+                        }
+                    });
+                }
+            }
+            if (!endSideRels.length || !endSideRels.find(findRelById)) {
+                endSideRels.push(relation);
+                if (endSideRels.length > 1) {
+                    endSideRels.forEach(function(rel) {
+                        if (rel.id !== relation.id) {
+                            that.renderRelation(rel);
+                        }
+                    });
+                }
+            }
+        }
+        var beginSideRelIndex  = betterLines && beginSideRels.findIndex(findRelById);
+        var endSideRelIndex    = betterLines && endSideRels.findIndex(findRelById);
+        var beginSideRelsCount = betterLines ? beginSideRels.length : 0;
+        var endSideRelsCount   = betterLines ? endSideRels.length : 0;
 
         var bounds            = {};
         var beginLineStyle    = {};
@@ -443,20 +835,103 @@
             background: lineColor,
             position: 'absolute',
         };
-        if (direction === 'horz') {
+        if (direction === 'bottom-left' || direction === 'top-right') {
+            // Relation link as ┘
+            bounds.left   = beginBounds.right;
+            bounds.top    = endBounds.bottom;
+            bounds.width  = endBounds.right - bounds.left;
+            bounds.height = beginBounds.bottom - bounds.top;
+
+            beginLineStyle.left   = isReverse ? arrowSize : 0;
+            beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2);
+            beginLineStyle.width  = Math.floor(bounds.width - lineSize - endBounds.width / 2) - beginLineStyle.left;
+            beginLineStyle.height = lineSize;
+
+            endLineStyle.left   = beginLineStyle.width + beginLineStyle.left;
+            endLineStyle.top    = isReverse ? 0 : arrowSize;
+            endLineStyle.width  = lineSize;
+            endLineStyle.height = beginLineStyle.top - endLineStyle.top;
+
+            centerLineStyle.left   = endLineStyle.left;
+            centerLineStyle.top    = beginLineStyle.top;
+            centerLineStyle.height = lineSize;
+            centerLineStyle.width  = lineSize;
+
+            if (options.showRelationTextOnSide) {
+                centerLineStyle.justifyContent = 'flex-start';
+                centerLineStyle.textIndent     = '4px';
+            }
+
+            if (isReverse) {
+                // render left arrow
+                arrowStyle.borderRightWidth = arrowSize;
+                arrowStyle.borderLeftWidth  = 0;
+                arrowStyle.borderRightColor = lineColor;
+                arrowStyle.left = 0;
+                arrowStyle.top  = Math.floor(beginLineStyle.top + lineSize / 2 - arrowSize / 2);
+            } else {
+                // render top arrow
+                arrowStyle.borderBottomWidth = arrowSize;
+                arrowStyle.borderTopWidth    = 0;
+                arrowStyle.borderBottomColor = lineColor;
+                arrowStyle.top  = 0;
+                arrowStyle.left = Math.floor(endLineStyle.left + lineSize / 2 - arrowSize / 2);
+            }
+        } else if (direction === 'top-left' || direction === 'bottom-right') {
+            // Relation link as └
+            bounds.left   = beginBounds.left;
+            bounds.top    = beginBounds.bottom;
+            bounds.width  = endBounds.left - bounds.left;
+            bounds.height = beginBounds.bottom - bounds.top;
+
+            beginLineStyle.left   = Math.floor(beginBounds.width / 2 - lineSize);
+            beginLineStyle.top    = isReverse ? arrowSize : 0;
+            beginLineStyle.width  = lineSize;
+            beginLineStyle.height = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2) - beginLineStyle.top;
+
+            endLineStyle.left   = beginLineStyle.left + lineSize;
+            endLineStyle.top    = beginLineStyle.top + beginLineStyle.height;
+            endLineStyle.width  = Math.floor(bounds.width - lineSize - beginLineStyle.left) - (isReverse ? 0 : arrowSize);
+            endLineStyle.height = lineSize;
+
+            centerLineStyle.top    = endLineStyle.top;
+            centerLineStyle.left   = beginLineStyle.left;
+            centerLineStyle.height = lineSize;
+            centerLineStyle.width  = lineSize;
+
+            if (options.showRelationTextOnSide) {
+                centerLineStyle.justifyContent = 'flex-end';
+            }
+
+            if (isReverse) {
+                // render top arrow
+                arrowStyle.borderBottomWidth = arrowSize;
+                arrowStyle.borderTopWidth    = 0;
+                arrowStyle.borderBottomColor = lineColor;
+                arrowStyle.top  = 0;
+                arrowStyle.left = Math.floor(beginLineStyle.left + lineSize / 2 - arrowSize / 2);
+            } else {
+                // render right arrow
+                arrowStyle.borderLeftWidth  = arrowSize;
+                arrowStyle.borderRightWidth = 0;
+                arrowStyle.borderLeftColor  = lineColor;
+                arrowStyle.left = endLineStyle.left + endLineStyle.width;
+                arrowStyle.top  = Math.floor(endLineStyle.top + lineSize / 2 - arrowSize / 2);
+            }
+        } else if (direction === 'left' || direction === 'right') {
             bounds.left   = beginBounds.right;
             bounds.top    = Math.min(beginBounds.top, endBounds.top);
             bounds.width  = endBounds.left - bounds.left;
             bounds.height = Math.max(beginBounds.bottom, endBounds.bottom) - bounds.top;
 
-            beginLineStyle.left = isReverse ? arrowSize : 0;
-            beginLineStyle.top = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2);
-            beginLineStyle.width = bounds.width / 2 - beginLineStyle.left;
+            beginLineStyle.left   = isReverse ? arrowSize : 0;
+            beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2);
+            beginLineStyle.width  = bounds.width / 2 - beginLineStyle.left;
             beginLineStyle.height = lineSize;
 
-            endLineStyle.left = bounds.width / 2;
-            endLineStyle.top = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2);
-            endLineStyle.width = bounds.width / 2 - (isReverse ? 0 : arrowSize);
+            endLineStyle.left   = bounds.width / 2;
+            endLineStyle.top    = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2);
+            endLineStyle.width  = bounds.width / 2 - (isReverse ? 0 : arrowSize);
             endLineStyle.height = lineSize;
 
             centerLineStyle.left = Math.floor(bounds.width / 2 - lineSize / 2);
@@ -488,25 +963,25 @@
                 arrowStyle.left = endLineStyle.left + endLineStyle.width;
                 arrowStyle.top = Math.floor(endLineStyle.top + lineSize / 2 - arrowSize / 2);
             }
-        } else {
+        } else if (direction === 'top' || direction === 'bottom') {
             bounds.left   = Math.min(beginBounds.left, endBounds.left);
             bounds.top    = beginBounds.bottom;
             bounds.width  = Math.max(beginBounds.right, endBounds.right) - bounds.left;
             bounds.height = endBounds.top - bounds.top;
 
-            beginLineStyle.top = isReverse ? arrowSize : 0;
-            beginLineStyle.left = Math.floor(beginBounds.centerLeft - bounds.left - lineSize / 2);
+            beginLineStyle.top    = isReverse ? arrowSize : 0;
+            beginLineStyle.left   = Math.floor(beginBounds.centerLeft - bounds.left - lineSize / 2);
             beginLineStyle.height = bounds.height / 2 - beginLineStyle.top;
-            beginLineStyle.width = lineSize;
+            beginLineStyle.width  = lineSize;
 
-            endLineStyle.top = bounds.height / 2;
-            endLineStyle.left = Math.floor(endBounds.centerLeft - bounds.left - lineSize / 2);
+            endLineStyle.top    = bounds.height / 2;
+            endLineStyle.left   = Math.floor(endBounds.centerLeft - bounds.left - lineSize / 2);
             endLineStyle.height = bounds.height / 2 - (isReverse ? 0 : arrowSize);
-            endLineStyle.width = lineSize;
+            endLineStyle.width  = lineSize;
 
-            centerLineStyle.top = Math.floor(bounds.height / 2 - lineSize / 2);
-            centerLineStyle.left = Math.floor(Math.min(endBounds.centerLeft, beginBounds.centerLeft) - bounds.left - lineSize / 2);
-            centerLineStyle.width = Math.floor(Math.abs(endBounds.centerLeft - beginBounds.centerLeft) + lineSize);
+            centerLineStyle.top    = Math.floor(bounds.height / 2 - lineSize / 2);
+            centerLineStyle.left   = Math.floor(Math.min(endBounds.centerLeft, beginBounds.centerLeft) - bounds.left - lineSize / 2);
+            centerLineStyle.width  = Math.floor(Math.abs(endBounds.centerLeft - beginBounds.centerLeft) + lineSize);
             centerLineStyle.height = lineSize;
 
             if (options.showRelationTextOnSide) {
@@ -519,25 +994,25 @@
             }
 
             if (isReverse) {
-                // render left arrow
+                // render top arrow
                 arrowStyle.borderBottomWidth = arrowSize;
-                arrowStyle.borderTopWidth = 0;
+                arrowStyle.borderTopWidth    = 0;
                 arrowStyle.borderBottomColor = lineColor;
-                arrowStyle.top = 0;
+                arrowStyle.top  = 0;
                 arrowStyle.left = Math.floor(beginLineStyle.left + lineSize / 2 - arrowSize / 2);
             } else {
-                // render right arrow
-                arrowStyle.borderTopWidth = arrowSize;
+                // render bottom arrow
+                arrowStyle.borderTopWidth    = arrowSize;
                 arrowStyle.borderBottomWidth = 0;
-                arrowStyle.borderTopColor = lineColor;
-                arrowStyle.top = endLineStyle.top + endLineStyle.height;
+                arrowStyle.borderTopColor    = lineColor;
+                arrowStyle.top  = endLineStyle.top + endLineStyle.height;
                 arrowStyle.left = Math.floor(endLineStyle.left + lineSize / 2 - arrowSize / 2);
             }
         }
         $relation.find('.flowchart-rel-arrow').css(arrowStyle);
         $relation.find('.flowchart-rel-begin-line').css($.extend(beginLineStyle, baseLineStyle));
-        $relation.find('.flowchart-rel-end-line').css($.extend(endLineStyle, baseLineStyle));
-        var $centerLine = $relation.find('.flowchart-rel-center-line').css($.extend(centerLineStyle, baseLineStyle));
+        $relation.find('.flowchart-rel-end-line').css($.extend(endLineStyle, baseLineStyle));``
+        var $centerLine  = $relation.find('.flowchart-rel-center-line').css($.extend(centerLineStyle, baseLineStyle));
         var relationText = (relation.text === undefined || relation.text === null) ? '' : relation.text;
         if (options.showRelationTextOnSide) {
             $centerLine.text(relationText);
@@ -546,6 +1021,16 @@
         }
 
         $relation.css($.extend({position: 'absolute'}, bounds));
+    };
+
+    FlowChart.prototype._isNodeIntersect = function(node1, node2)
+    {
+        var node1Bounds = node1.bounds;
+        var node2Bounds = node2.bounds;
+        return !((node2Bounds.right < node1Bounds.left)
+            || (node2Bounds.left > node1Bounds.right)
+            || (node2Bounds.bottom < node1Bounds.top)
+            || (node2Bounds.top > node1Bounds.bottom));
     };
 
     // Render elements and relations
@@ -632,8 +1117,37 @@
             if (partialsMap && !partialsMap[node.id]) {
                 return;
             }
-            that._layoutNode(node);
+            that._layoutNode(node, !partials);
         });
+
+        // Handle overlay
+        if (!partials) {
+            var needCheckOverlay = true;
+            while(needCheckOverlay) {
+                needCheckOverlay = false;
+                for (var i = nodeList.length - 1; i >= 0; --i) {
+                    var nodeA = nodeList[i];
+                    for (var j = nodeList.length - 1; j >= 0; --j) {
+                        if (i === j) {
+                            continue;
+                        }
+                        var nodeB = nodeList[j];
+                        if (that._isNodeIntersect(nodeA, nodeB)) {
+                            needCheckOverlay = true;
+                            nodeA.position.top += options.vertSpace + nodeA.size.height;
+                            that.calcNodeBounds(nodeA);
+                        }
+                    }
+                }
+            };
+            nodeList.forEach(function(node) {
+                if (partialsMap && !partialsMap[node.id]) {
+                    return;
+                }
+                that._layoutNode(node);
+            });
+        }
+
         $.each(relationList, function(_, relation) {
             if (partialsMap && !partialsMap[relation.id]) {
                 return;
@@ -930,6 +1444,7 @@
 
     // default options
     FlowChart.DEFAULTS = {
+        mergeSideLines: false,
         adsorptionGrid: 5,
         doubleClickToEdit: true,
         showContextMenu: true,

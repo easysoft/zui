@@ -16,7 +16,7 @@
         <button type="button" class="btn btn-primary" id="exportDataBtn">导出数据</button>
         <button type="button" class="btn btn-primary" id="showExampleBtn">重置为示例数据</button>
         <button type="button" class="btn btn-danger" id="resetDataBtn">重置数据</button>
-        <button type="button" class="btn" id="resetLayoutBtn">重置布局</button>
+        <button type="button" class="btn" id="resetLayoutBtn">自动布局</button>
     </div>
     <div id="flowchart" class="panel"></div>
 
@@ -28,7 +28,7 @@
     <script>
         $(function () {
             var data = [{"id":"start","type":"start","position":{"left":20,"top":20},"text":"开始"},{"id":"createBug","type":"action","position":{"left":180,"top":20},"text":"新建缺陷"},{"id":"submitBug","type":"action","position":{"left":310,"top":20},"text":"提交确认"},{"id":"confirmBug","type":"action","position":{"left":450,"top":20},"text":"确认缺陷"},{"id":"submitArbitration","type":"action","position":{"left":620,"top":20},"text":"提交仲裁"},{"id":"arbitration","type":"action","position":{"left":820,"top":20},"text":"仲裁"},{"id":"requestHang","type":"action","position":{"left":320,"top":250},"text":"申请挂起"},{"id":"hangApproval","type":"action","position":{"left":540,"top":250},"text":"挂起审批"},{"id":"startRepair","type":"action","position":{"left":540,"top":170},"text":"启动修复"},{"id":"restartRepair","type":"action","position":{"left":770,"top":250},"text":"重启修复"},{"id":"submitVerify","type":"action","position":{"left":770,"top":170},"text":"提交验证"},{"id":"startVerify","type":"action","position":{"left":910,"top":170},"text":"启动验证"},{"id":"verify","type":"action","position":{"left":1080,"top":250},"text":"验证"},{"id":"close","type":"stop","position":{"left":1080,"top":20},"text":"关闭"},{"id":"tip1","type":"action","position":{"left":0,"top":130},"text":"★ 双击节点或关系名称编辑", className: "text-green"},{"id":"tip2","type":"action","position":{"left":20,"top":200},"text":"★ 拖动节点移动位置", className: "text-green"},{"id":"tip3","type":"action","position":{"left":10,"top":270},"text":"★ 使用右键访问更多操作", className: "text-green"},{"id":"start-createBug","type":"relation","from":"start","to":"createBug"},{"id":"createBug-submitBug","type":"relation","from":"createBug","to":"submitBug"},{"id":"submitBug-confirmBug","type":"relation","from":"submitBug","to":"confirmBug"},{"id":"confirmBug-submitArbitration","type":"relation","from":"confirmBug","to":"submitArbitration","text":"否"},{"id":"submitArbitration-arbitration","type":"relation","from":"submitArbitration","to":"arbitration"},{"id":"confirmBug-requestHang","type":"relation","from":"confirmBug","to":"requestHang","text":"是缺陷"},{"id":"requestHang-hangApproval","type":"relation","from":"requestHang","to":"hangApproval","text":"同意"},{"id":"confirmBug-startRepair","type":"relation","from":"confirmBug","to":"startRepair","text":"是缺陷"},{"id":"requestHang-startRepair","type":"relation","from":"requestHang","to":"startRepair","text":"拒绝"},{"id":"arbitration-startRepair","type":"relation","from":"arbitration","to":"startRepair","text":"是缺陷"},{"id":"hangApproval-startRepair","type":"relation","from":"hangApproval","to":"startRepair","text":"拒绝"},{"id":"hangApproval-restartRepair","type":"relation","from":"hangApproval","to":"restartRepair","text":"同意"},{"id":"verify-restartRepair","type":"relation","from":"verify","to":"restartRepair","text":"不通过"},{"id":"restartRepair-submitVerify","type":"relation","from":"restartRepair","to":"submitVerify"},{"id":"startRepair-submitVerify","type":"relation","from":"startRepair","to":"submitVerify"},{"id":"submitVerify-startVerify","type":"relation","from":"submitVerify","to":"startVerify"},{"id":"startVerify-verify","type":"relation","from":"startVerify","to":"verify"},{"id":"verify-close","type":"relation","from":"verify","to":"close","text":"通过"},{"id":"arbitration-close","type":"relation","from":"arbitration","to":"close","text":"不是缺陷"},{"id":"start-tip1","type":"relation","from":"start","to":"tip1"},{"id":"tip1-tip2","type":"relation","from":"tip1","to":"tip2"},{"id":"tip2-tip3","type":"relation","from":"tip2","to":"tip3"}];
-            var orginData = [{
+            var originData = [{
                 id: 'start',
                 type: 'start',
                 text: '开始',
@@ -104,7 +104,7 @@
             $('#flowchart').flowChart({
                 showRelationTextOnSide: false,
                 adsorptionGrid: 10,
-                // data: data,
+                data: originData,
             });
             var flowchart = $('#flowchart').data('zui.flowChart');
             $('#resetLayoutBtn').on('click', function() {
