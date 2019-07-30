@@ -9,6 +9,9 @@
     <meta name="author" content="Zentao">
     <title>ZUI - 流程图例子</title>
     <link href="../../dist/css/zui.css" rel="stylesheet">
+    <style>
+    .flowchart-rel-line:before {content: ' '; display: block; position: absolute; left: -5px; top: -5px; right: -5px; bottom: -5px}
+    </style>
 </head>
 
 <body style="padding: 20px">
@@ -105,6 +108,10 @@
                 showRelationTextOnSide: false,
                 adsorptionGrid: 10,
                 data: originData,
+                // relationLineWidth: 2,
+                // nodeStyle: {
+                //     border: '2px solid #333',
+                // },
             });
             var flowchart = $('#flowchart').data('zui.flowChart');
             $('#resetLayoutBtn').on('click', function() {

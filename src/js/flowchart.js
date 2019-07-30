@@ -271,46 +271,99 @@ if (!Array.prototype.map) {
 
     var NAME = 'zui.flowChart'; // model name
 
-    // var supportElementTypes = {
-    //     relation: 'relation',
-    //     action: 'action',
-    //     start: 'start',
-    //     end: 'end',
+    var supportElementTypes = {
+        relation: 'relation',
+        action: 'action',
+        start: 'start',
+        end: 'end',
+        result: 'result',
+    };
+
+    // var supportElementProps = {
+    //     id: 'string',
+    //     type: 'string',
+    //     text: 'string',
+    //     end: 'string',
+    //     order: 'number',
+    //     from: 'string',
+    //     to: 'string',
+    //     position: 'object',
+    //     style: 'object',
+    //     className: 'string',
     // };
 
-    // var idSeed = 1;
+    var idSeed = 1;
 
-    // var FlowChartElement = function(props) {
-    //     props = $.extend({}, props);
-    //     var that = this;
-    //     that.type = supportElementTypes[props.type] || supportElementTypes.action;
-    //     that.isRelation = that.type === 'relation';
-    //     that.isNode = !that.isRelation;
-    //     that.text = props.text;
-    //     that.order = props.order || idSeed++;
-    //     var id = props.id;
-    //     if (that.isRelation) {
-    //         that.from = props.from;
-    //         that.to = props.to;
-    //         that.id = id || (that.from + '-' + that.to);
-    //     } else {
-    //         that.id = id || $.zui.uuid();
-    //     }
-    //     if (props.position && typeof props.position.left === 'number' && typeof props.position.top === 'number') {
-    //         that.position = {
-    //             left: props.position.left,
-    //             top: props.position.top,
-    //         };
-    //         that.customPos = true;
-    //     }
-    // };
+    var FlowChartElement = function(props) {
+        props = $.extend({}, props);
+        var that = this;
+        that.type = supportElementTypes[props.type] || supportElementTypes.action;
+        that.isRelation = that.type === 'relation';
+        that.isNode = !that.isRelation;
+        that.text = props.text;
+        that.order = props.order || idSeed++;
+        var id = props.id;
+        if (that.isRelation) {
+            that.from = props.from;
+            that.to = props.to;
+            that.id = id || (that.from + '-' + that.to);
+        } else {
+            that.id = id || $.zui.uuid();
+        }
+        if (props.position && typeof props.position.left === 'number' && typeof props.position.top === 'number') {
+            that.position = {
+                left: props.position.left,
+                top: props.position.top,
+            };
+            that.customPos = true;
+        }
+        that.order = that.idSeed++;
+        if (that.isRelation) {
+            that.order += 1000000;
+        }
+        if (props.style !== undefined) {
+            that.style = props.style;
+        }
+        if (props.className !== undefined) {
+            that.className = props.className;
+        }
+    };
 
-    // FlowChartElement.create = function() {
-
-    // };
-
-    var FlowChartNode = function() {
-
+    FlowChartElement.create = function(props) {
+        if (props instanceof FlowChartElement) {
+            return [props];
+        }
+        var element = new FlowChartElement(props);
+        var elements = [element];
+        if (element.isNode) {
+            if (props.from) {
+                var froms = $.isArray(props.from) ? props.from : [props.from];
+                froms.forEach(function(from) {
+                    var fromInfo = from.split(':');
+                    elements.push(new FlowChartElement({
+                        type: 'relation',
+                        from: fromInfo[0],
+                        to: element.id,
+                        text: fromInfo[1],
+                        id: fromInfo[0] + '-' + element.id
+                    }));
+                });
+            }
+            if (props.to) {
+                var tos = $.isArray(props.to) ? props.to : [props.to];
+                $.each(tos, function(_, to) {
+                    var toInfo = to.split(':');
+                    elements.push({
+                        type: 'relation',
+                        to: toInfo[0],
+                        text: toInfo[1],
+                        from: element.id,
+                        id: element.id + '-' + toInfo[0]
+                    });
+                });
+            }
+        }
+        return elements;
     };
 
     // The flowChart model class
@@ -376,7 +429,7 @@ if (!Array.prototype.map) {
 
         // Init edit event
         if (options.doubleClickToEdit) {
-            $canvas.on('dblclick', '.flowchart-node,.flowchart-relation-text', function(e) {
+            $canvas.on('dblclick', '.flowchart-node,.flowchart-relation', function(e) {
                 var $node = $(this).closest('.flowchart-node,.flowchart-relation');
                 that.enterEditMode($node.data('id'));
                 e.preventDefault();
@@ -489,23 +542,41 @@ if (!Array.prototype.map) {
             return;
         }
 
-        var items = null;
-        if (typeof that.options.showContextMenu === 'function') {
-            items = that.options.showContextMenu(ele, event);
-        } else {
-            items = [{
-                label: that.lang.edit,
-                onClick: function() {
-                    that.enterEditMode(ele);
-                },
-            }, {
-                label: that.lang.delete,
-                onClick: function() {
-                    if (!that.options.deleteConfirm || confirm(that.lang.confirmToDelete.format(ele.text || ele.id))) {
-                        that.delete(ele.id);
-                    }
+        var items = [{
+            id: 'type',
+            html: [
+                '<div style="padding: 3px 20px; white-space: nowrap;">',
+                    '<span class="btn btn-mini disabled" style="background: none; border: none;padding: 0">' + that.lang.type + '</span>',
+                    ['action', 'result', 'start', 'stop'].map(function(nodeType) {
+                        return '<a class="btn btn-mini' + (ele.type === nodeType ? ' btn-success' : '') + '" data-type="'+ nodeType + '" style="margin-left: 5px">' + that.lang['type.' + nodeType] + '</a>';
+                    }).join(''),
+                '</div>'
+            ].join(''),
+            onClick: function(e) {
+                var $btn = $(e.target).closest('.btn');
+                var type = $btn.data('type');
+                if (type !== ele.type) {
+                    ele.type = type;
+                    that.render(ele);
                 }
-            }]
+            }
+        }, {
+            id: 'edit',
+            label: that.lang.edit,
+            onClick: function() {
+                that.enterEditMode(ele);
+            },
+        }, {
+            id: 'delete',
+            label: that.lang.delete,
+            onClick: function() {
+                if (!that.options.deleteConfirm || confirm(that.lang.confirmToDelete.format(ele.text || ele.id))) {
+                    that.delete(ele.id);
+                }
+            }
+        }];
+        if (typeof that.options.showContextMenu === 'function') {
+            items = that.options.showContextMenu(ele, items, event);
         }
         if (items && items.length) {
             $.zui.ContextMenu.show(items, {event: event});
@@ -527,7 +598,11 @@ if (!Array.prototype.map) {
         }
         $node.addClass(node.className);
         var $text = $node.find('.text');
-        $text.css(options.nodeTextStyle).text((node.text === undefined || node.text === null) ? '' : node.text);
+        $text.css($.extend({
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+        }, options.nodeTextStyle)).text((node.text === undefined || node.text === null) ? '' : node.text);
         node.$ele = $node;
 
         if (node.position && !node.customPos) {
@@ -539,7 +614,11 @@ if (!Array.prototype.map) {
             justifyContent: 'center',
             alignItems: 'center',
             maxHeight: options.nodeHeight,
-            minWidth: 0,
+            border: '1px solid #333',
+            maxWidth: 200,
+            minWidth: 70,
+            background: 'white',
+            padding: "9px 10px",
         }, options.nodeStyle, options[node.type + 'NodeStyle'], node.style, node.position, {
             position: 'absolute',
             visibility: node.position ? 'visible' : 'hidden',
@@ -556,6 +635,7 @@ if (!Array.prototype.map) {
             adsorptionGrid = 5;
         }
         size.width = Math.ceil(size.width / (adsorptionGrid * 2)) * adsorptionGrid * 2;
+        // size.height = Math.ceil(size.height / (adsorptionGrid)) * adsorptionGrid;
         node.size = size;
 
         if (!skipLayout) {
@@ -603,6 +683,7 @@ if (!Array.prototype.map) {
                 }
                 if (node.direction) delete node.direction;
                 if (node.directionFrom) delete node.directionFrom;
+                node.customPos = true;
             } else if (parents.length) {
                 var parentsBounds;
                 var siblingsIndex = 0;
@@ -816,8 +897,10 @@ if (!Array.prototype.map) {
         var endLineStyle      = {};
         var lineColor         = options.relationLineColor;
         var lineSize          = options.relationLineWidth;
-        var arrowSize         = options.relatinArrowSize;
-        var arrowStyle        = {
+        var hideArrow         = options.hideArrowToResult && endNode.type === 'result';
+        var arrowSize         = hideArrow ? 0 : options.relationArrowSize;
+        var arrowStyle        = hideArrow ? {display: 'none'} : {
+            display: 'block',
             position: 'absolute',
             width: 0,
             height: 0,
@@ -862,20 +945,22 @@ if (!Array.prototype.map) {
                 centerLineStyle.textIndent     = '4px';
             }
 
-            if (isReverse) {
-                // render left arrow
-                arrowStyle.borderRightWidth = arrowSize;
-                arrowStyle.borderLeftWidth  = 0;
-                arrowStyle.borderRightColor = lineColor;
-                arrowStyle.left = 0;
-                arrowStyle.top  = Math.floor(beginLineStyle.top + lineSize / 2 - arrowSize / 2);
-            } else {
-                // render top arrow
-                arrowStyle.borderBottomWidth = arrowSize;
-                arrowStyle.borderTopWidth    = 0;
-                arrowStyle.borderBottomColor = lineColor;
-                arrowStyle.top  = 0;
-                arrowStyle.left = Math.floor(endLineStyle.left + lineSize / 2 - arrowSize / 2);
+            if (!hideArrow) {
+                if (isReverse) {
+                    // render left arrow
+                    arrowStyle.borderRightWidth = arrowSize;
+                    arrowStyle.borderLeftWidth  = 0;
+                    arrowStyle.borderRightColor = lineColor;
+                    arrowStyle.left = 0;
+                    arrowStyle.top  = Math.floor(beginLineStyle.top + lineSize / 2 - arrowSize / 2);
+                } else {
+                    // render top arrow
+                    arrowStyle.borderBottomWidth = arrowSize;
+                    arrowStyle.borderTopWidth    = 0;
+                    arrowStyle.borderBottomColor = lineColor;
+                    arrowStyle.top  = 0;
+                    arrowStyle.left = Math.floor(endLineStyle.left + lineSize / 2 - arrowSize / 2);
+                }
             }
         } else if (direction === 'top-left' || direction === 'bottom-right') {
             // Relation link as └
@@ -903,20 +988,22 @@ if (!Array.prototype.map) {
                 centerLineStyle.justifyContent = 'flex-end';
             }
 
-            if (isReverse) {
-                // render top arrow
-                arrowStyle.borderBottomWidth = arrowSize;
-                arrowStyle.borderTopWidth    = 0;
-                arrowStyle.borderBottomColor = lineColor;
-                arrowStyle.top  = 0;
-                arrowStyle.left = Math.floor(beginLineStyle.left + lineSize / 2 - arrowSize / 2);
-            } else {
-                // render right arrow
-                arrowStyle.borderLeftWidth  = arrowSize;
-                arrowStyle.borderRightWidth = 0;
-                arrowStyle.borderLeftColor  = lineColor;
-                arrowStyle.left = endLineStyle.left + endLineStyle.width;
-                arrowStyle.top  = Math.floor(endLineStyle.top + lineSize / 2 - arrowSize / 2);
+            if (!hideArrow) {
+                if (isReverse) {
+                    // render top arrow
+                    arrowStyle.borderBottomWidth = arrowSize;
+                    arrowStyle.borderTopWidth    = 0;
+                    arrowStyle.borderBottomColor = lineColor;
+                    arrowStyle.top  = 0;
+                    arrowStyle.left = Math.floor(beginLineStyle.left + lineSize / 2 - arrowSize / 2);
+                } else {
+                    // render right arrow
+                    arrowStyle.borderLeftWidth  = arrowSize;
+                    arrowStyle.borderRightWidth = 0;
+                    arrowStyle.borderLeftColor  = lineColor;
+                    arrowStyle.left = endLineStyle.left + endLineStyle.width;
+                    arrowStyle.top  = Math.floor(endLineStyle.top + lineSize / 2 - arrowSize / 2);
+                }
             }
         } else if (direction === 'left' || direction === 'right') {
             bounds.left   = beginBounds.right;
@@ -948,20 +1035,22 @@ if (!Array.prototype.map) {
                 }
             }
 
-            if (isReverse) {
-                // render left arrow
-                arrowStyle.borderRightWidth = arrowSize;
-                arrowStyle.borderLeftWidth = 0;
-                arrowStyle.borderRightColor = lineColor;
-                arrowStyle.left = 0;
-                arrowStyle.top = Math.floor(beginLineStyle.top + lineSize / 2 - arrowSize / 2);
-            } else {
-                // render right arrow
-                arrowStyle.borderLeftWidth = arrowSize;
-                arrowStyle.borderRightWidth = 0;
-                arrowStyle.borderLeftColor = lineColor;
-                arrowStyle.left = endLineStyle.left + endLineStyle.width;
-                arrowStyle.top = Math.floor(endLineStyle.top + lineSize / 2 - arrowSize / 2);
+            if (!hideArrow) {
+                if (isReverse) {
+                    // render left arrow
+                    arrowStyle.borderRightWidth = arrowSize;
+                    arrowStyle.borderLeftWidth = 0;
+                    arrowStyle.borderRightColor = lineColor;
+                    arrowStyle.left = 0;
+                    arrowStyle.top = Math.floor(beginLineStyle.top + lineSize / 2 - arrowSize / 2);
+                } else {
+                    // render right arrow
+                    arrowStyle.borderLeftWidth = arrowSize;
+                    arrowStyle.borderRightWidth = 0;
+                    arrowStyle.borderLeftColor = lineColor;
+                    arrowStyle.left = endLineStyle.left + endLineStyle.width;
+                    arrowStyle.top = Math.floor(endLineStyle.top + lineSize / 2 - arrowSize / 2);
+                }
             }
         } else if (direction === 'top' || direction === 'bottom') {
             bounds.left   = Math.min(beginBounds.left, endBounds.left);
@@ -993,25 +1082,27 @@ if (!Array.prototype.map) {
                 }
             }
 
-            if (isReverse) {
+            if (!hideArrow) {
+                if (isReverse) {
                 // render top arrow
                 arrowStyle.borderBottomWidth = arrowSize;
                 arrowStyle.borderTopWidth    = 0;
                 arrowStyle.borderBottomColor = lineColor;
                 arrowStyle.top  = 0;
                 arrowStyle.left = Math.floor(beginLineStyle.left + lineSize / 2 - arrowSize / 2);
-            } else {
-                // render bottom arrow
-                arrowStyle.borderTopWidth    = arrowSize;
-                arrowStyle.borderBottomWidth = 0;
-                arrowStyle.borderTopColor    = lineColor;
-                arrowStyle.top  = endLineStyle.top + endLineStyle.height;
-                arrowStyle.left = Math.floor(endLineStyle.left + lineSize / 2 - arrowSize / 2);
+                } else {
+                    // render bottom arrow
+                    arrowStyle.borderTopWidth    = arrowSize;
+                    arrowStyle.borderBottomWidth = 0;
+                    arrowStyle.borderTopColor    = lineColor;
+                    arrowStyle.top  = endLineStyle.top + endLineStyle.height;
+                    arrowStyle.left = Math.floor(endLineStyle.left + lineSize / 2 - arrowSize / 2);
+                }
             }
         }
         $relation.find('.flowchart-rel-arrow').css(arrowStyle);
         $relation.find('.flowchart-rel-begin-line').css($.extend(beginLineStyle, baseLineStyle));
-        $relation.find('.flowchart-rel-end-line').css($.extend(endLineStyle, baseLineStyle));``
+        $relation.find('.flowchart-rel-end-line').css($.extend(endLineStyle, baseLineStyle));
         var $centerLine  = $relation.find('.flowchart-rel-center-line').css($.extend(centerLineStyle, baseLineStyle));
         var relationText = (relation.text === undefined || relation.text === null) ? '' : relation.text;
         if (options.showRelationTextOnSide) {
@@ -1164,15 +1255,16 @@ if (!Array.prototype.map) {
     // Set node position
     FlowChart.prototype.setNodePosition = function(nodeID, position) {
         var that = this;
-        var node = that.elements[nodeID];
-        if (node) {
-            node.position = {
-                left: typeof position.left === 'number' ? position.left : node.position.left,
-                top: typeof position.top === 'number' ? position.top : node.position.top,
-            };
-            node.customPos = true;
-            that.render(node);
+        var node = that.getElement(nodeID);
+        if (!node) {
+            return;
         }
+        node.position = {
+            left: typeof position.left === 'number' ? position.left : node.position.left,
+            top: typeof position.top === 'number' ? position.top : node.position.top,
+        };
+        node.customPos = true;
+        that.render(node);
     };
 
     // Reset all custom positions
@@ -1185,13 +1277,21 @@ if (!Array.prototype.map) {
         this.render();
     };
 
+    // Get element by id
+    FlowChart.prototype.getElement = function(elementID) {
+        if (!elementID) {
+            return null;
+        }
+        if (typeof elementID !== 'string') {
+            elementID = elementID.id;
+        }
+        return this.elements[elementID];
+    };
+
     // Enter edit mode
     FlowChart.prototype.enterEditMode = function(ele) {
         var that = this;
-
-        if (typeof ele === 'string') {
-            ele = that.elements[ele];
-        }
+        ele = that.getElement(ele);
         if (!ele) {
             return;
         }
@@ -1288,71 +1388,35 @@ if (!Array.prototype.map) {
         var that = this;
         var elements = that.elements;
         $.each(elementsData, function(_, element) {
-            var elementID = element.id;
-            element.isRelation = element.type === 'relation';
-            element.isNode = !element.isRelation;
-            if (elementID === undefined) {
-                elementID = element.isRelation ? (element.from + '-' + element.to) : $.zui.uuid();
-                element.id = elementID;
-            }
-            if (!element.type) {
-                element.type = 'action';
-            }
-            if (element.position) {
-                element.customPos = true;
-            }
-            if (element.isNode) {
-                var relations = [];
-                if (element.from) {
-                    var froms = $.isArray(element.from) ? element.from : [element.from];
-                    $.each(froms, function(_, from) {
-                        var fromInfo = from.split(':');
-                        relations.push({
-                            type: 'relation',
-                            from: fromInfo[0],
-                            to: elementID,
-                            text: fromInfo[1],
-                            id: fromInfo[0] + '-' + elementID
-                        });
-                    });
-                    delete element.from;
+            var newElements = FlowChartElement.create(element);
+            newElements.forEach(function(newElement) {
+                var oldElement = elements[newElement.id];
+                if (oldElement) {
+                    newElement.order = oldElement.order;
+                    if (!newElement.position) {
+                        newElement.position = oldElement.position;
+                    }
                 }
-                if (element.to) {
-                    var tos = $.isArray(element.to) ? element.to : [element.to];
-                    $.each(tos, function(_, to) {
-                        var toInfo = to.split(':');
-                        relations.push({
-                            type: 'relation',
-                            to: toInfo[0],
-                            text: toInfo[1],
-                            from: elementID,
-                            id: elementID + '-' + toInfo[0]
-                        });
-                    });
-                    delete element.to;
-                }
-                if (relations.length) {
-                    that.update(relations, true);
-                }
-            }
-            var oldElement = elements[elementID];
-            if (oldElement) {
-                element.order = oldElement.order;
-                if (!element.position) {
-                    element.position = oldElement.position;
-                }
-            } else {
-                element.order = that.idSeed++;
-                if (element.isRelation) {
-                    element.order += 1000000;
-                }
-            }
-            elements[elementID] = element;
+                elements[newElement.id] = newElement;
+            });
         });
 
         if (!skipRender) {
             that.render();
         }
+    };
+
+    // Replace element with a new one
+    FlowChart.prototype.replace = function(oldElementID, newElement, skipRender) {
+        if (typeof oldElementID !== 'string') {
+            oldElementID = oldElementID.id;
+        }
+        var that = this;
+        var oldElement = that.getElement(oldElementID);
+        if (oldElement) {
+            that.delete(oldElementID, true);
+        }
+
     };
 
     // Get dom id of given element
@@ -1429,62 +1493,134 @@ if (!Array.prototype.map) {
             confirmToDelete: "确定删除【{0}】？",
             edit: '编辑',
             'delete': '删除',
+            'type': '类型',
+            'type.action': '动作',
+            'type.start': '开始',
+            'type.stop': '结束',
+            'type.result': '结果',
+            'type.relation': '关系',
         },
         'zh-tw': {
             confirmToDelete: "確定刪除【{0}】？",
             edit: '編輯',
             'delete': '刪除',
+            'type': '類型',
+            'type.action': '動作',
+            'type.start': '開始',
+            'type.stop': '結束',
+            'type.result': '結果',
+            'type.relation': '關係',
         },
         en: {
             confirmToDelete: "Confirm to delete \"{0}\"?",
             edit: 'Edit',
             'delete': 'Delete',
+            'type': 'Type',
+            'type.action': 'Action',
+            'type.start': 'Start',
+            'type.stop': 'Stop',
+            'type.result': 'Result',
+            'type.relation': 'Relation',
         },
     },
 
     // default options
     FlowChart.DEFAULTS = {
+        // 是否合并同一方向上的连接线，如果设置为 true，则连接线会尽量保持不重合
+        // 值为 `true` 的功能暂未实现
         mergeSideLines: false,
+
+        // 是否移动时自动吸附网格
+        // 如果设置为 true，则设置网格为 5，如果为数值则为指定的网格大小
         adsorptionGrid: 5,
+
+        // 是否启用双击编辑功能
         doubleClickToEdit: true,
+
+        // 是否显示节点上下文菜单（右键菜单）
+        // 此选项可以设置为一个函数动态返回自定义菜单项
         showContextMenu: true,
+
+        // 是否禁用自动位置排列
         disableAutoPosition: true,
+
+        // 是否启用快速添加功能，显示浮动的按钮快捷的向四个方向添加新的节点
         quickAdd: true,
+
+        // 删除节点前是否确认
         deleteConfirm: true,
 
+        // 是否启用拖放移动功能
+        draggable: true,
+
+        // 画布宽度，如果设置为 `auto` 则宽度与外部容器元素宽度一致
         width: 'auto',
+
+        // 画布高度
         height: 500,
+
+        // 画布内边距
         padding: 20,
+
+        // 动作节点高度
         nodeHeight: 40,
+
+        // 节点间的水平距离
         horzSpace: 80,
+
+        // 节点间的垂直距离
         vertSpace: 60,
-        relatinArrowSize: 8,
+
+        // 连接线箭头大小
+        relationArrowSize: 8,
+
+        // 连接线宽度
         relationLineWidth: 1,
+
+        // 连接线颜色
         relationLineColor: '#333',
+
+        // 隐藏指向结果节点的关系箭头
+        hideArrowToResult: true,
+
+        // 节点基本样式
         nodeStyle: {
-            border: '1px solid #333',
-            maxWidth: 200,
-            minWidth: 70,
-            background: 'white',
-            padding: "9px 10px",
         },
+
+        // 动作节点样式
         actionNodeStyle: {
             borderRadius: '2px',
         },
+
+        // 结果节点样式
+        resultNodeStyle: {
+            borderColor: 'transparent',
+            padding: '0 3px',
+            minWidth: 40,
+        },
+
+        // 开始节点样式
         startNodeStyle: {
             borderRadius: '20px',
         },
+
+        // 停止节点样式
         stopNodeStyle: {
             borderRadius: '20px',
         },
+
+        // 节点上的文本样式
         nodeTextStyle: {
-            whiteSpace: 'nowrap',
-            textOverflow: 'ellipsis',
-            overflow: 'hidden',
         },
+
+        // 关系连接线文本样式
         relationTextStyle: {
         },
+
+        // 是否将关系上的文本显示在连接线旁边而不是覆盖在连接线上
         showRelationTextOnSide: false,
+
+        // 初始数据
         data: [{
             id: 'start',
             type: 'start',
@@ -1543,7 +1679,6 @@ if (!Array.prototype.map) {
             to: 'action-example-3',
             text: 'test2'
         }*/],
-        draggable: true,
     };
 
     // Extense jquery element
