@@ -55,7 +55,11 @@
             style: item.style
         }).data('item', item);
         if (item.html) {
-            $a.html(item.html === true ? (item.label || item.text) : item.html);
+            if (item.html === true) {
+                $a.html(item.label || item.text);
+            } else {
+                $a = $(item.html);
+            }
         } else {
             $a.text(item.label || item.text);
         }
@@ -265,4 +269,3 @@
     };
     $.fn.contextmenu.Constructor = ContextListener;
 }(jQuery, undefined));
-
