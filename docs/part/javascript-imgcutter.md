@@ -90,7 +90,7 @@ $('#imgCutter').imgCutter(options);
       <td>`coverOpacity`</td>
       <td>遮罩层透明度</td>
       <td>小于1的数字，默认为`0.6`</td>
-      <td></td> 
+      <td></td>
     </tr>
     <tr>
       <td>`defaultWidth`</td>
@@ -274,15 +274,17 @@ var myImgCutterData = myImgCutter.getData();
   </tbody>
 </table>
 
-<script src="dist/lib/imgcutter/zui.imgcutter.js"></script>
+<link href="dist/lib/bootbox/bootbox.min.css" rel="stylesheet">
 <link rel="stylesheet" href="dist/lib/imgcutter/zui.imgcutter.css">
+<script src="dist/lib/imgcutter/zui.imgcutter.js"></script>
+<script src="dist/lib/bootbox/bootbox.min.js"></script>
 <script>
 function afterPageLoad() {
     var $imgCutterInfo = $('.img-cutter-info');
     $("#imgCutter").imgCutter({
-        fixedRatio: true, 
+        fixedRatio: true,
         before: function(e) {
-            window.bootbox.alert('<h3>准备提交的数据</h3><table class="table table-bordered table-condensed"><thead><th>属性</th><th>实际值</th><th>说明</th></thead><tbody><tr><th>originWidth</th><td>{originWidth}</td><td>原始图片宽度</td></tr><tr><th>originHeight</th><td>{originHeight}</td><td>原始图片高度</td></tr><tr><th>scaled</th><td>{scaled}</td><td>裁剪之前是否对原始图片进行了缩放</td></tr><tr><th>scaleHeight</th><td>{scaleHeight}</td><td>原始图片缩放后的高度</td></tr><tr><th>scaleWidth</th><td>{scaleWidth}</td><td>原始图片缩放后的宽度</td></tr><tr><th>width</th><td>{width}</td><td>裁剪后的宽度</td></tr><tr><th>height</th><td>{height}</td><td>裁剪后的高度</td></tr><tr><th>left</th><td>{left}</td><td>裁剪位置距离左侧的距离</td></tr><tr><th>right</th><td>{right}</td><td>裁剪位置距离右侧的距离</td></tr><tr><th>top</th><td>{top}</td><td>裁剪位置距离上边的距离</td></tr><tr><th>bottom</th><td>{bottom}</td><td>裁剪位置距离下边的距离</td></tr></tbody></table>'.format(e));
+            (window.bootbox || window).alert('<h3>准备提交的数据</h3><table class="table table-bordered table-condensed"><thead><th>属性</th><th>实际值</th><th>说明</th></thead><tbody><tr><th>originWidth</th><td>{originWidth}</td><td>原始图片宽度</td></tr><tr><th>originHeight</th><td>{originHeight}</td><td>原始图片高度</td></tr><tr><th>scaled</th><td>{scaled}</td><td>裁剪之前是否对原始图片进行了缩放</td></tr><tr><th>scaleHeight</th><td>{scaleHeight}</td><td>原始图片缩放后的高度</td></tr><tr><th>scaleWidth</th><td>{scaleWidth}</td><td>原始图片缩放后的宽度</td></tr><tr><th>width</th><td>{width}</td><td>裁剪后的宽度</td></tr><tr><th>height</th><td>{height}</td><td>裁剪后的高度</td></tr><tr><th>left</th><td>{left}</td><td>裁剪位置距离左侧的距离</td></tr><tr><th>right</th><td>{right}</td><td>裁剪位置距离右侧的距离</td></tr><tr><th>top</th><td>{top}</td><td>裁剪位置距离上边的距离</td></tr><tr><th>bottom</th><td>{bottom}</td><td>裁剪位置距离下边的距离</td></tr></tbody></table>'.format(e));
         },
         change: function(e) {
             $imgCutterInfo.text("宽度：{width}px，高度：{height}px，上边：{top}px，下边：{bottom}px，左边：{left}px，右边：{right}px".format(e));
