@@ -35,6 +35,7 @@
                 id: 'start',
                 type: 'start',
                 text: '开始',
+                actionID: 'test'
             }, {
                 id: 'createBug',
                 text: '新建缺陷',
@@ -108,6 +109,36 @@
                 showRelationTextOnSide: false,
                 adsorptionGrid: 10,
                 data: originData,
+                showContextMenu: function(element, items, event) {
+                    console.log('当前右键菜单的元素', element);
+                    console.log('系统生成的右键菜单列表', items);
+
+                    // 修改系统生成的第二个右键菜单项
+                    items[1].label = '修改';
+
+                    // 在末尾增加新的右键菜单
+                    items.push({
+                        label: '打开百度',
+                        url: 'http://baidu.com'
+                    }, {
+                        label: '获取 actionID',
+                        onClick: function() {
+                            // 多种方式获取自定义属性
+
+                            // 方法一：通过 Element 对象上的 data 属性访问 actionID 字段
+                            alert('actionID: ' + element.data.actionID);
+
+                            // 方法二：通过 jquery.data() 方法
+                            alert('actionID: ' + $(event.target).closest('.flowchart-node').data('actionID'));
+
+                            // 方法三，通过 flowchart 对象示例获取 element 对象
+                            var myFlowChart = $('#flowchart').data('zui.flowChart');
+                            var myElement = myFlowChart.getElement('start');
+                            alert('actionID: ' + myElement.data.actionID);
+                        }
+                    });
+                    return items;
+                },
                 // relationLineWidth: 2,
                 // nodeStyle: {
                 //     border: '2px solid #333',

@@ -272,32 +272,38 @@ if (!Array.prototype.map) {
     var NAME = 'zui.flowChart'; // model name
 
     var supportElementTypes = {
-        relation: 'relation',
-        action: 'action',
-        start: 'start',
-        end: 'end',
-        result: 'result',
+        relation: {},
+        action: {},
+        start: {},
+        stop: {},
+        judge: {},
+        result: {},
     };
 
-    // var supportElementProps = {
-    //     id: 'string',
-    //     type: 'string',
-    //     text: 'string',
-    //     end: 'string',
-    //     order: 'number',
-    //     from: 'string',
-    //     to: 'string',
-    //     position: 'object',
-    //     style: 'object',
-    //     className: 'string',
-    // };
+    var supportElementProps = {
+        id: 'string',
+        type: 'string',
+        text: 'string',
+        end: 'string',
+        order: 'number',
+        from: 'string',
+        to: 'string',
+        position: 'object',
+        style: 'object',
+        shape: 'shape',
+        shapeStyle: 'object',
+        className: 'string',
+        data: 'object',
+        direction: 'string',
+        directionFrom: 'object',
+    };
 
     var idSeed = 1;
 
     var FlowChartElement = function(props) {
         props = $.extend({}, props);
         var that = this;
-        that.type = supportElementTypes[props.type] || supportElementTypes.action;
+        that.type = supportElementTypes[props.type] ? props.type : 'action';
         that.isRelation = that.type === 'relation';
         that.isNode = !that.isRelation;
         that.text = props.text;
@@ -309,6 +315,13 @@ if (!Array.prototype.map) {
             that.id = id || (that.from + '-' + that.to);
         } else {
             that.id = id || $.zui.uuid();
+            if (props.direction !== undefined && props.directionFrom !== undefined) {
+                that.direction = props.direction;
+                that.directionFrom = props.directionFrom;
+            }
+            if (props.customPos !== undefined) {
+                that.customPos = props.customPos;
+            }
         }
         if (props.position && typeof props.position.left === 'number' && typeof props.position.top === 'number') {
             that.position = {
@@ -317,7 +330,7 @@ if (!Array.prototype.map) {
             };
             that.customPos = true;
         }
-        that.order = that.idSeed++;
+        that.order = idSeed++;
         if (that.isRelation) {
             that.order += 1000000;
         }
@@ -327,6 +340,12 @@ if (!Array.prototype.map) {
         if (props.className !== undefined) {
             that.className = props.className;
         }
+        that.data = $.extend({}, props.data);
+        $.each(props, function(propName, propVal) {
+            if (!supportElementProps[propName]) {
+                that.data[propName] = propVal;
+            }
+        });
     };
 
     FlowChartElement.create = function(props) {
@@ -370,7 +389,6 @@ if (!Array.prototype.map) {
     var FlowChart = function(element, options) {
         var that = this;
         that.name = NAME;
-        that.idSeed = 0;
 
         // Get container
         var $container = that.$container = $(element).addClass('scrollbar-hover')
@@ -407,6 +425,108 @@ if (!Array.prototype.map) {
             $container.css('height', options.height);
         }
 
+        // Init quick add
+        if (options.quickAdd) {
+            $canvas.on('mouseenter', '.flowchart-node', function() {
+                that.showQuickAdd($(this).data('id'));
+            }).on('mouseleave', '.flowchart-node', function() {
+                if (!that.isPreventDragNode) {
+                    that.hideQuickAdd();
+                }
+            }).on('click', '.flowchart-quick-mark', function () {
+                var $mark = $(this);
+                that.quickAddNode($mark.closest('.flowchart-node').data('id'), $mark.data('direction'));
+            });
+
+            $canvas.droppable({
+                container: '#' + canvasID,
+                target: '.flowchart-node',
+                selector: '.flowchart-quick-link-mark',
+                mouseButton: 'left',
+                before: function() {
+                    that.isPreventDragNode = true;
+                },
+                start: function(e) {
+                    var $node = $(e.element).closest('.flowchart-node');
+                    that.dragSourceNode = $node.data('id');
+                    that.focusElement(that.dragSourceNode);
+                    $(e.shadowElement).css('zIndex', 20);
+                    that.showQuickAdd(that.dragSourceNode, true);
+                },
+                drag: function(e) {
+                    var newDragNode = e.isIn && e.target && $(e.target).data('id');
+                    var lastDragNode = that.lastDragNode;
+                    if (lastDragNode && (!newDragNode || newDragNode !== lastDragNode)) {
+                        that.blurElement(lastDragNode);
+                        that.lastDragNode = null;
+                    }
+                    if (newDragNode && newDragNode !== lastDragNode) {
+                        that.lastDragNode = newDragNode;
+                        that.focusElement(newDragNode);
+                    }
+                    var $line = $canvas.find('.flowchart-link-line');
+                    var sourceNode = that.getElement(that.dragSourceNode);
+                    if (!$line.length) {
+                        $line = $('<svg class="flowchart-link-line" style="position: absolute; z-index: 30; top: 0; left: 0; right: 0; bottom: 0"><line x1="50" y1="50" x2="350" y2="350" stroke="' + options.activeColor + '" stroke-width="2" /></svg>').appendTo($canvas);
+                    }
+                    var sourcePoint = {
+                        left: sourceNode.bounds.right,
+                        top: sourceNode.bounds.bottom,
+                    };
+                    var targetPoint = {
+                        left: e.position.left + 8,
+                        top: e.position.top + 8,
+                    };
+
+                    $line.show().attr({
+                        width: $canvas.width(),
+                        height: $canvas.height(),
+                    }).find('line').attr({
+                        x1: sourcePoint.left,
+                        y1: sourcePoint.top,
+                        x2: targetPoint.left,
+                        y2: targetPoint.top,
+                    });
+                },
+                drop: function(e) {
+                    var toNode = e.isIn && e.target && $(e.target).data('id');
+                    that.addRelation(that.dragSourceNode, toNode);
+                },
+                always: function(e) {
+                    that.isPreventDragNode = false;
+                    if (that.dragSourceNode) {
+                        that.blurElement(that.dragSourceNode);
+                        that.dragSourceNode = null;
+                    }
+
+                    if (that.lastDragNode) {
+                        that.blurElement(that.lastDragNode);
+                        that.lastDragNode = null;
+                    }
+                    $canvas.find('.flowchart-link-line').hide();
+                    that.hideQuickAdd();
+                }
+            })
+            // var mouseDownOnLinkMark;
+            // $canvas.on('mousedown', '.flowchart-quick-link-mark', function(e) {
+            //     var $mark = $(this);
+            //     mouseDownOnLinkMark = $mark.closest('.flowchart-node').data('id');
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //     return false;
+            // });
+            // $(document).on('mmousemove', function(e) {
+            //     if (mouseDownOnLinkMark) {
+            //         var fromNode = that.getElement(mouseDownOnLinkMark);
+            //         var fromPoint = {
+            //             left: fromNode.bounds.right,
+            //             top: fromNode.bounds.bottom,
+            //         };
+            //         var endPoint =
+            //     }
+            // });
+        }
+
         // Init draggable event
         that.draggableEnable = options.draggable && $.fn.draggable;
         if (that.draggableEnable) {
@@ -420,6 +540,9 @@ if (!Array.prototype.map) {
                 drag: handleDrag,
                 finish: handleDrag,
                 mouseButton: 'left',
+                before: function() {
+                    return !that.isPreventDragNode;
+                }
             });
         }
 
@@ -451,22 +574,19 @@ if (!Array.prototype.map) {
                 return false;
             });
         }
+    };
 
-        // Init quick add
-        if (options.quickAdd) {
-            $canvas.on('mouseenter', '.flowchart-node', function() {
-                that.showQuickAdd($(this).data('id'));
-            }).on('mouseleave', '.flowchart-node', function() {
-                that.hideQuickAdd();
-            }).on('click', '.flowchart-quick-mark', function () {
-                var $mark = $(this);
-                that.quickAddNode($mark.closest('.flowchart-node').data('id'), $mark.data('direction'));
-            });
+    FlowChart.addNodeType = function(nodeType, displayName, defaultNodeStyle) {
+        supportElementTypes[nodeType] = {
+            name: displayName
+        };
+        if (defaultNodeStyle) {
+            FlowChart.DEFAULTS[nodeType + 'NodeStyle'] = defaultNodeStyle;
         }
     };
 
     // Show quick add marks
-    FlowChart.prototype.showQuickAdd = function(node) {
+    FlowChart.prototype.showQuickAdd = function(node, onlyLinkMark) {
         var that = this;
 
         if (typeof node === 'string') {
@@ -478,16 +598,21 @@ if (!Array.prototype.map) {
 
         var $marks = node.$ele.find('.flowchart-quick-marks');
         if (!$marks.length) {
+            var activeColor = that.options.activeColor;
             $marks = $([
-                '<div class="flowchart-quick-marks" style="position: absolute; left: -15px; top: -15px; right: -15px; bottom: -15px; pointer-events: none; z-index: 10">',
-                    '<div class="flowchart-quick-mark" data-direction="top" style="position: absolute; pointer-events: auto; width: 20px; height: 20px; top: 0; left: 50%; margin-left: -10px; line-height: 20px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9)"><i class="icon icon-circle-arrow-up text-primary"></i></div>',
-                    '<div class="flowchart-quick-mark" data-direction="right" style="position: absolute; pointer-events: auto; width: 20px; height: 20px; right: 0; top: 50%; margin-top: -10px; line-height: 20px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9)"><i class="icon icon-circle-arrow-right text-primary"></i></div>',
-                    '<div class="flowchart-quick-mark" data-direction="bottom" style="position: absolute; pointer-events: auto; width: 20px; height: 20px; bottom: 0; left: 50%; margin-left: -10px; line-height: 20px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9)"><i class="icon icon-circle-arrow-down text-primary"></i></div>',
-                    '<div class="flowchart-quick-mark" data-direction="left" style="position: absolute; pointer-events: auto; width: 20px; height: 20px; left: 0; top: 50%; margin-top: -10px; line-height: 20px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9)"><i class="icon icon-circle-arrow-left text-primary"></i></div>',
+                '<div class="flowchart-quick-marks" style="position: absolute; left: -8px; top: -8px; right: -8px; bottom: -8px; pointer-events: none; z-index: 10">',
+                    '<div class="flowchart-quick-mark" data-direction="top" style="position: absolute; pointer-events: auto; width: 16px; height: 16px; top: 0; left: 50%; margin-left: -8px; line-height: 17px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9);color: ' + activeColor + '"><i class="icon icon-circle-arrow-up"></i></div>',
+                    '<div class="flowchart-quick-mark" data-direction="right" style="position: absolute; pointer-events: auto; width: 16px; height: 16px; right: 0; top: 50%; margin-top: -8px; line-height: 17px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9);color: ' + activeColor + '"><i class="icon icon-circle-arrow-right"></i></div>',
+                    '<div class="flowchart-quick-mark" data-direction="bottom" style="position: absolute; pointer-events: auto; width: 16px; height: 16px; bottom: 0; left: 50%; margin-left: -8px; line-height: 17px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9);color: ' + activeColor + '"><i class="icon icon-circle-arrow-down"></i></div>',
+                    '<div class="flowchart-quick-mark" data-direction="left" style="position: absolute; pointer-events: auto; width: 16px; height: 16px; left: 0; top: 50%; margin-top: -8px; line-height: 17px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9);color: ' + activeColor + '"><i class="icon icon-circle-arrow-left"></i></div>',
+                    '<div class="flowchart-quick-link-mark" style="position: absolute; pointer-events: auto; width: 16px; height: 16px; right: 0; bottom: 0; line-height: 17px; text-align: center; cursor: pointer; border-radius: 50%; background: #fff; background: rgba(255,255,255,.9);color: ' + activeColor + '; border-radius: 50%; cursor: move"><i class="icon icon-dot-circle"></i></div>',
                 '</div>'
             ].join('')).appendTo(node.$ele);
         }
-        $marks.show().children().show();
+        var $children = $marks.show().children().show();
+        if (onlyLinkMark) {
+            $children.not('.flowchart-quick-link-mark').hide();
+        }
         var options = that.options;
         if (node.bounds.left < (options.padding + 80 + options.horzSpace)) {
             $marks.find('[data-direction="left"]').hide();
@@ -541,26 +666,33 @@ if (!Array.prototype.map) {
         if (!ele) {
             return;
         }
-
-        var items = [{
-            id: 'type',
-            html: [
-                '<div style="padding: 3px 20px; white-space: nowrap;">',
-                    '<span class="btn btn-mini disabled" style="background: none; border: none;padding: 0">' + that.lang.type + '</span>',
-                    ['action', 'result', 'start', 'stop'].map(function(nodeType) {
-                        return '<a class="btn btn-mini' + (ele.type === nodeType ? ' btn-success' : '') + '" data-type="'+ nodeType + '" style="margin-left: 5px">' + that.lang['type.' + nodeType] + '</a>';
-                    }).join(''),
-                '</div>'
-            ].join(''),
-            onClick: function(e) {
-                var $btn = $(e.target).closest('.btn');
-                var type = $btn.data('type');
-                if (type !== ele.type) {
-                    ele.type = type;
-                    that.render(ele);
+        var items = [];
+        if (ele.isNode) {
+            var typeButtonsHTML = [];
+            $.each(supportElementTypes, function(nodeType, nodeInfo) {
+                if (nodeType !== 'relation') {
+                    typeButtonsHTML.push('<a class="btn btn-mini' + (ele.type === nodeType ? ' btn-success' : '') + '" data-type="'+ nodeType + '" style="margin-left: 5px">' + (that.lang['type.' + nodeType] || nodeInfo.name) + '</a>');
                 }
-            }
-        }, {
+            });
+            items.push({
+                id: 'type',
+                html: [
+                    '<div style="padding: 3px 20px; white-space: nowrap;">',
+                        '<span class="btn btn-mini disabled" style="background: none; border: none;padding: 0">' + that.lang.type + '</span>',
+                        typeButtonsHTML.join(''),
+                    '</div>'
+                ].join(''),
+                onClick: function(e) {
+                    var $btn = $(e.target).closest('.btn');
+                    var type = $btn.data('type');
+                    if (type !== ele.type) {
+                        ele.type = type;
+                        that.render(ele);
+                    }
+                }
+            }, '-');
+        }
+        items.push({
             id: 'edit',
             label: that.lang.edit,
             onClick: function() {
@@ -574,7 +706,7 @@ if (!Array.prototype.map) {
                     that.delete(ele.id);
                 }
             }
-        }];
+        });
         if (typeof that.options.showContextMenu === 'function') {
             items = that.options.showContextMenu(ele, items, event);
         }
@@ -591,12 +723,15 @@ if (!Array.prototype.map) {
 
         var $node = $(that._getDomID(node));
         if (!$node.length) {
-            $node = $('<div id="' + that._getDomID(node, 1) + '" style="z-index: 1" class="flowchart-node" data-id="' + node.id + '" data-type="' + node.type + '"><div class="text" style="outline: none; min-width: 10px; min-height: 20px;"></div></div>').appendTo(that.$canvas);
+            $node = $('<div id="' + that._getDomID(node, 1) + '" style="z-index: 1" class="flowchart-node" data-id="' + node.id + '" data-type="' + node.type + '"><div class="text" style="position: relative; z-index: 5; outline: none; min-width: 10px; min-height: 20px;"></div></div>').appendTo(that.$canvas);
             if (that.draggableEnable) {
                 $node.css('cursor', 'move');
             }
         }
-        $node.addClass(node.className);
+        $.each(node.data, function(name, val) {
+            $node.data(name, val);
+        });
+        $node.attr('data-type', node.type).addClass(node.className);
         var $text = $node.find('.text');
         $text.css($.extend({
             whiteSpace: 'nowrap',
@@ -609,20 +744,34 @@ if (!Array.prototype.map) {
             node.position = null;
         }
 
-        var style = $.extend({
+        var typedNodeStyle = options[node.type + 'NodeStyle'];
+        var style = {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             maxHeight: options.nodeHeight,
-            border: '1px solid #333',
             maxWidth: 200,
             minWidth: 70,
-            background: 'white',
-            padding: "9px 10px",
-        }, options.nodeStyle, options[node.type + 'NodeStyle'], node.style, node.position, {
+        };
+        if (!typedNodeStyle || !typedNodeStyle.shape) {
+            $.extend(style, {
+                border: '1px solid #333',
+                background: 'white',
+                padding: "9px 10px",
+            });
+        } else {
+            $.extend(style, {
+                border: 'none',
+                background: 'none',
+                padding: "9px 20px",
+            });
+        }
+        $.extend(style, options.nodeStyle, typedNodeStyle, node.style, node.position, {
             position: 'absolute',
             visibility: node.position ? 'visible' : 'hidden',
         });
+        if(style.shape) delete style.shape;
+        if(style.shapeStyle) delete style.shapeStyle;
         $node.css(style);
 
         var size = {
@@ -637,6 +786,40 @@ if (!Array.prototype.map) {
         size.width = Math.ceil(size.width / (adsorptionGrid * 2)) * adsorptionGrid * 2;
         // size.height = Math.ceil(size.height / (adsorptionGrid)) * adsorptionGrid;
         node.size = size;
+        var shape = node.shape || (typedNodeStyle && typedNodeStyle.shape);
+
+        if (shape) {
+            var $shape = $node.children('.flowchart-shape');
+            if (!$shape.length) {
+                $shape = $('<svg class="flowchart-shape" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"><polygon /></svg>').appendTo($node);
+            }
+            var $polygon = $shape.children('polygon');
+            $polygon.css($.extend({
+                fill: 'white',
+                stroke: '#333',
+                strokeWidth: 1,
+            }, options.nodeShapeStyle, typedNodeStyle && typedNodeStyle.shapeStyle, node.shapeStyle));
+            var points = null;
+            if ($.isArray(shape)) {
+                points = shape;
+            } else if (typeof shape === 'function') {
+                points = shape($shape, size, node, $node);
+            } else if (shape === 'diamond') {
+                points = [[0, size.height / 2], [size.width / 2, 0], [size.width, size.height / 2], [size.width / 2, size.height]];
+            } else {
+                points = [[0, 0], [size.width, 0], [size.width, size.height], [0, size.height]];
+            }
+            if (points) {
+                var pointsStr = [];
+                points.forEach(function(point) {
+                    pointsStr.push($.isArray(point) ? point.join(',') : point);
+                });
+                $polygon.attr('points', pointsStr.join(' '));
+                $shape.css(size).show();
+            }
+        } else {
+            $node.children('.flowchart-shape').hide();
+        }
 
         if (!skipLayout) {
             this._layoutNode(node);
@@ -746,10 +929,11 @@ if (!Array.prototype.map) {
             });
         }
 
-        that.calcNodeBounds(node);
+        that._calcNodeBounds(node);
     };
 
-    FlowChart.prototype.calcNodeBounds = function(node) {
+    // Calculate node bounds
+    FlowChart.prototype._calcNodeBounds = function(node) {
         var bounds         = this.bounds;
         var position       = node.position;
         var size           = node.size;
@@ -789,6 +973,9 @@ if (!Array.prototype.map) {
             $relation.remove();
             return;
         }
+        $.each(relation.data, function(name, val) {
+            $relation.data(name, val);
+        });
         $relation.addClass(relation.className);
         relation.$ele = $relation;
 
@@ -1114,6 +1301,7 @@ if (!Array.prototype.map) {
         $relation.css($.extend({position: 'absolute'}, bounds));
     };
 
+    // Check two nodes wether is intersect
     FlowChart.prototype._isNodeIntersect = function(node1, node2)
     {
         var node1Bounds = node1.bounds;
@@ -1226,7 +1414,7 @@ if (!Array.prototype.map) {
                         if (that._isNodeIntersect(nodeA, nodeB)) {
                             needCheckOverlay = true;
                             nodeA.position.top += options.vertSpace + nodeA.size.height;
-                            that.calcNodeBounds(nodeA);
+                            that._calcNodeBounds(nodeA);
                         }
                     }
                 }
@@ -1247,8 +1435,8 @@ if (!Array.prototype.map) {
         });
 
         that.$canvas.css({
-            minWidth: that.bounds.width + options.padding,
-            minHeight: that.bounds.height + options.padding,
+            minWidth: Math.max(that.$container.width(), that.bounds.width + options.padding),
+            minHeight: Math.max(that.$container.height(), that.bounds.height + options.padding),
         });
     };
 
@@ -1265,6 +1453,30 @@ if (!Array.prototype.map) {
         };
         node.customPos = true;
         that.render(node);
+    };
+
+    // Add relation between two nodes
+    FlowChart.prototype.addRelation = function(fromNode, toNode, text) {
+        var that = this;
+
+        if (typeof fromNode === 'string') {
+            fromNode = that.elements[fromNode];
+        }
+        if (typeof toNode === 'string') {
+            toNode = that.elements[toNode];
+        }
+        if (!fromNode || !toNode) {
+            return;
+        }
+
+        var relation = new FlowChartElement({
+            type: 'relation',
+            text: text,
+            from: fromNode.id,
+            to: toNode.id,
+        });
+        that.update(relation);
+        that.enterEditMode(relation.id);
     };
 
     // Reset all custom positions
@@ -1288,6 +1500,37 @@ if (!Array.prototype.map) {
         return this.elements[elementID];
     };
 
+    // Focus element
+    FlowChart.prototype.focusElement = function(elementID) {
+        var ele = this.getElement(elementID);
+        if (ele.isNode) {
+            var $ele = ele.$ele;
+            ele.styleBeforeFocus = {
+                zIndex: $ele.css('zIndex'),
+                borderColor: $ele.css('borderColor'),
+                boxShadow: $ele.css('boxShadow'),
+            };
+            var activeColor = this.options.activeColor;
+            $ele.css({
+                zIndex: 10,
+                borderColor: activeColor,
+                boxShadow: '0 0 0 2px ' + activeColor,
+            });
+        }
+    };
+
+    // Blur element
+    FlowChart.prototype.blurElement = function(elementID) {
+        var ele = this.getElement(elementID);
+        if (ele.isNode) {
+            var $ele = ele.$ele;
+            if (ele.styleBeforeFocus) {
+                $ele.css(ele.styleBeforeFocus);
+                delete ele.styleBeforeFocus;
+            }
+        }
+    };
+
     // Enter edit mode
     FlowChart.prototype.enterEditMode = function(ele) {
         var that = this;
@@ -1307,10 +1550,11 @@ if (!Array.prototype.map) {
             paddingLeft: $inputBox.css('paddingLeft'),
             paddingRight: $inputBox.css('paddingRight'),
         };
+        var activeColor = that.options.activeColor;
         $inputBox.css({
             zIndex: 10,
-            borderColor: '#3280fc',
-            boxShadow: '0 0 2px #3280fc, 0 0 0 2px rgba(50,128,252,.2)',
+            borderColor: activeColor,
+            boxShadow: '0 0 0 2px ' + activeColor,
             paddingLeft: 4,
             paddingRight: 4,
         });
@@ -1412,11 +1656,25 @@ if (!Array.prototype.map) {
             oldElementID = oldElementID.id;
         }
         var that = this;
+
+        var newElements = FlowChartElement.create(newElement);
+        newElement = newElements[0];
         var oldElement = that.getElement(oldElementID);
         if (oldElement) {
             that.delete(oldElementID, true);
         }
-
+        $.each(that.elements, function(_, element) {
+            if (element.isRelation) {
+                if (element.from === oldElementID) {
+                    element.from = newElement.id;
+                } else if (element.to === oldElementID) {
+                    element.to = newElement.id;
+                }
+            }
+        });
+        if (!skipRender) {
+            that.render();
+        }
     };
 
     // Get dom id of given element
@@ -1469,6 +1727,7 @@ if (!Array.prototype.map) {
             if (element.style !== undefined) {
                 dataItem.style = element.style;
             }
+            $.extend(dataItem, element.data);
             data.push(dataItem);
         });
         data.sort(function(e1, e2) {
@@ -1499,6 +1758,7 @@ if (!Array.prototype.map) {
             'type.stop': '结束',
             'type.result': '结果',
             'type.relation': '关系',
+            'type.judge': '判断',
         },
         'zh-tw': {
             confirmToDelete: "確定刪除【{0}】？",
@@ -1510,6 +1770,7 @@ if (!Array.prototype.map) {
             'type.stop': '結束',
             'type.result': '結果',
             'type.relation': '關係',
+            'type.judge': '判斷',
         },
         en: {
             confirmToDelete: "Confirm to delete \"{0}\"?",
@@ -1521,11 +1782,21 @@ if (!Array.prototype.map) {
             'type.stop': 'Stop',
             'type.result': 'Result',
             'type.relation': 'Relation',
+            'type.judge': 'Judge',
         },
     },
 
     // default options
     FlowChart.DEFAULTS = {
+        // 当前语言，如果指定为 `null`，则自动设置语言
+        lang: null,
+
+        // 添加新的语言选项
+        langs: null,
+
+        // 激活状态颜色
+        activeColor: '#3280fc',
+
         // 是否合并同一方向上的连接线，如果设置为 true，则连接线会尽量保持不重合
         // 值为 `true` 的功能暂未实现
         mergeSideLines: false,
@@ -1594,9 +1865,7 @@ if (!Array.prototype.map) {
 
         // 结果节点样式
         resultNodeStyle: {
-            borderColor: 'transparent',
-            padding: '0 3px',
-            minWidth: 40,
+            borderRadius: '100%',
         },
 
         // 开始节点样式
@@ -1607,6 +1876,12 @@ if (!Array.prototype.map) {
         // 停止节点样式
         stopNodeStyle: {
             borderRadius: '20px',
+        },
+
+        // 判断节点样式
+        judgeNodeStyle: {
+            shape: 'diamond',
+            shapeStyle: null
         },
 
         // 节点上的文本样式
@@ -1695,8 +1970,14 @@ if (!Array.prototype.map) {
     };
 
     FlowChart.NAME = NAME;
+    FlowChart.supportElementTypes = supportElementTypes;
 
     $.fn.flowChart.Constructor = FlowChart;
+
+    $.zui({
+        FlowChart: FlowChart,
+        FlowChartElement, FlowChartElement
+    });
 
     // Auto call flowChart after document load complete
     $(function() {
