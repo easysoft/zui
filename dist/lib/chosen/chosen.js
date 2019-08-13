@@ -23,6 +23,8 @@
  * 6. 'max_drop_width' option
  * 7. 'highlight_selected' option
  * 8. 'no_wrap' option
+ * 9. 'sort_field' option
+ * 10.'sort_value_spliter' option
  * ======================================================================== */
 
 
@@ -55,17 +57,22 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             return child;
         };
 
-    var LANGUAGE = {
+    var LANGUAGES = {
         zh_cn: {
-            no_results_text: "没有找到"
+            no_results_text: '没有找到'
         },
         zh_tw: {
-            no_results_text: "沒有找到"
+            no_results_text: '沒有找到'
         },
         en: {
-            no_results_text: "No results match"
+            no_results_text: 'No results match'
+        },
+        de: {
+            no_results_text: 'Nicht gefunden'
         }
     };
+
+    var DEFAULTS = {};
 
     SelectParser = (function() {
         function SelectParser() {
@@ -173,12 +180,18 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
     AbstractChosen = (function() {
         function AbstractChosen(form_field, options) {
             this.form_field = form_field;
-            this.options = options != null ? options : {};
+            this.options = $.extend(DEFAULTS, options != null ? options : {});
             if(!AbstractChosen.browser_is_supported()) {
                 return;
             }
 
-            this.lang = LANGUAGE[this.options.lang || ($.zui.clientLang ? $.zui.clientLang() : 'zh_cn')];
+            var lang = this.options.lang;
+            var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'zh_cn';
+            if ($.isPlainObject(lang)) {
+                this.lang = $.extend(lang, LANGUAGES.en, LANGUAGES[defaultLang]);
+            } else {
+                this.lang = LANGUAGES[lang || defaultLang] || LANGUAGES.en;
+            }
             this.is_multiple = this.form_field.multiple;
             this.set_default_text();
             this.set_default_values();
@@ -189,35 +202,38 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
         AbstractChosen.prototype.set_default_values = function() {
             var _this = this;
-            this.click_test_action = function(evt) {
+            var _options = _this.options;
+            _this.click_test_action = function(evt) {
                 return _this.test_active_click(evt);
             };
-            this.activate_action = function(evt) {
+            _this.activate_action = function(evt) {
                 return _this.activate_field(evt);
             };
-            this.active_field = false;
-            this.mouse_on_container = false;
-            this.results_showing = false;
-            this.result_highlighted = null;
-            this.allow_single_deselect = (this.options.allow_single_deselect != null) && (this.form_field.options[0] != null) && this.form_field.options[0].text === "" ? this.options.allow_single_deselect : false;
-            this.disable_search_threshold = this.options.disable_search_threshold || 0;
-            this.disable_search = this.options.disable_search || false;
-            this.enable_split_word_search = this.options.enable_split_word_search != null ? this.options.enable_split_word_search : true;
-            this.group_search = this.options.group_search != null ? this.options.group_search : true;
-            this.search_contains = this.options.search_contains || false;
-            this.single_backstroke_delete = this.options.single_backstroke_delete != null ? this.options.single_backstroke_delete : true;
-            this.max_selected_options = this.options.max_selected_options || Infinity;
-            this.drop_direction = this.options.drop_direction || 'auto';
-            this.middle_highlight = this.options.middle_highlight;
-            this.compact_search = this.options.compact_search || false;
-            this.inherit_select_classes = this.options.inherit_select_classes || false;
-            this.display_selected_options = this.options.display_selected_options != null ? this.options.display_selected_options : true;
-            var max_drop_width = this.options.max_drop_width;
+            _this.active_field = false;
+            _this.mouse_on_container = false;
+            _this.results_showing = false;
+            _this.result_highlighted = null;
+            _this.allow_single_deselect = (_options.allow_single_deselect != null) && (this.form_field.options[0] != null) && _this.form_field.options[0].text === "" ? _options.allow_single_deselect : false;
+            _this.disable_search_threshold = _options.disable_search_threshold || 0;
+            _this.disable_search = _options.disable_search || false;
+            _this.enable_split_word_search = _options.enable_split_word_search != null ? _options.enable_split_word_search : true;
+            _this.group_search = _options.group_search != null ? _options.group_search : true;
+            _this.search_contains = _options.search_contains || false;
+            _this.single_backstroke_delete = _options.single_backstroke_delete != null ? _options.single_backstroke_delete : true;
+            _this.max_selected_options = _options.max_selected_options || Infinity;
+            _this.drop_direction = _options.drop_direction || 'auto';
+            _this.middle_highlight = _options.middle_highlight;
+            _this.compact_search = _options.compact_search || false;
+            _this.inherit_select_classes = _options.inherit_select_classes || false;
+            _this.display_selected_options = _options.display_selected_options != null ? _options.display_selected_options : true;
+            _this.sort_value_spliter = _options.sort_value_spliter || ',';
+            _this.sort_field = _options.sort_field;
+            var max_drop_width = _options.max_drop_width;
             if (typeof max_drop_width === 'string' && max_drop_width.indexOf('px') === (max_drop_width.length - 2)) {
                 max_drop_width = parseInt(max_drop_width.substring(0, max_drop_width.length - 2));
             }
-            this.max_drop_width = max_drop_width;
-            return this.display_disabled_options = this.options.display_disabled_options != null ? this.options.display_disabled_options : true;
+            _this.max_drop_width = max_drop_width;
+            return _this.display_disabled_options = _options.display_disabled_options != null ? _options.display_disabled_options : true;
         };
 
         AbstractChosen.prototype.set_default_text = function() {
@@ -268,6 +284,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             var content, data, _i, _len, _ref;
             content = '';
             _ref = this.results_data;
+            var _firstSelections = (options && options.first) ? [] : null;
             for(_i = 0, _len = _ref.length; _i < _len; _i++) {
                 data = _ref[_i];
                 if(data.group) {
@@ -275,12 +292,43 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 } else {
                     content += this.result_add_option(data);
                 }
-                if(options != null ? options.first : void 0) {
-                    if(data.selected && this.is_multiple) {
+                if(_firstSelections && data.selected) {
+                    _firstSelections.push(data);
+
+                }
+            }
+            if (_firstSelections) {
+                var $selectField;
+                var sortValues;
+                if(this.sort_field && this.is_multiple) {
+                    $selectField = $(this.sort_field);
+                    sortValues = $selectField.val().split(this.sort_value_spliter);
+                    if(sortValues.length) {
+                        var sortValuesMap = {};
+                        for(_i = 0; _i < sortValues.length; ++_i) {
+                            sortValuesMap[sortValues[_i]] = _i;
+                        }
+                        _firstSelections.sort(function(data1, data2) {
+                            var data1Value = sortValuesMap[data1.value];
+                            var data2Value = sortValuesMap[data2.value];
+                            if(data1Value === undefined) data1Value = 0;
+                            if(data2Value === undefined) data2Value = 0;
+                            return data1Value - data2Value;
+                        });
+                    }
+                }
+                sortValues = [];
+                for(_i = 0; _i < _firstSelections.length; ++_i) {
+                    data = _firstSelections[_i];
+                    if(this.is_multiple) {
                         this.choice_build(data);
-                    } else if(data.selected && !this.is_multiple) {
+                        sortValues.push(data.value);
+                    } else {
                         this.single_set_selected_text(data.text);
                     }
+                }
+                if($selectField && $selectField.length) {
+                    $selectField.val(sortValues.join(this.sort_value_spliter));
                 }
             }
             return content;
@@ -343,7 +391,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             this.result_clear_highlight();
             this.results_build();
             if(this.results_showing) {
-                return this.winnow_results();
+                this.winnow_results();
+                this.autoResizeDrop();
             }
         };
 
@@ -972,9 +1021,19 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
 
             that.winnow_results(1);
 
+            that.autoResizeDrop();
+
+            return that.form_field_jq.trigger("chosen:showing_dropdown", {
+                chosen: that
+            });
+        };
+
+        Chosen.prototype.autoResizeDrop = function() {
+            var that = this;
             var maxDropWidth = that.max_drop_width;
             if (maxDropWidth) {
-                var $drop = that.container.find('.chosen-drop').removeClass('in');
+                var $drop = that.container.find('.chosen-drop');
+                $drop.removeClass('in');
                 var maxWidth = 0;
                 var $dropResults = $drop.find('.chosen-results');
                 var $dropItems = $dropResults.children('li');
@@ -984,16 +1043,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 $dropItems.each(function() {
                     maxWidth = Math.max(maxWidth, $(this).outerWidth());
                 });
-                $drop.css('width', Math.min(maxWidth + padding + 4, maxDropWidth));
+                $drop.css('width', Math.min(maxWidth + padding + 20, maxDropWidth));
                 that.fixDropWidthTimer = setTimeout(function() {
                     that.fixDropWidthTimer = null;
                     $drop.addClass('in');
                 }, 50);
             }
-
-            return that.form_field_jq.trigger("chosen:showing_dropdown", {
-                chosen: that
-            });
         };
 
         Chosen.prototype.update_results_content = function(content) {
@@ -1134,6 +1189,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 changeData.deselected = oldValue;
             }
             this.form_field_jq.trigger("change", changeData);
+            this.sync_sort_field();
             if(this.active_field) {
                 return this.results_hide();
             }
@@ -1177,6 +1233,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     this.form_field_jq.trigger("change", {
                         'selected': this.form_field.options[item.options_index].value
                     });
+                    this.sync_sort_field();
                 }
                 this.current_selectedIndex = this.form_field.selectedIndex;
                 return this.search_field_scale();
@@ -1203,6 +1260,24 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             /// ZUI change end
         };
 
+        Chosen.prototype.sync_sort_field = function() {
+            var that = this;
+            if (that.is_multiple && that.sort_field) {
+                var $sortField = $(that.sort_field);
+                if (!$sortField.length) return;
+                var sortedValues = [];
+                that.search_choices.find('li.search-choice').each(function() {
+                    var $choice = $(this);
+                    var optionIndex = $choice.children('.search-choice-close').first().data('optionArrayIndex');
+                    var optionData = that.results_data[optionIndex];
+                    if (optionData && optionData.selected) {
+                        sortedValues.push(optionData.value);
+                    }
+                });
+                $sortField.val(sortedValues.join(that.sort_value_spliter)).trigger('change');
+            }
+        };
+
         Chosen.prototype.result_deselect = function(pos) {
             var result_data;
             result_data = this.results_data[pos];
@@ -1217,6 +1292,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 this.form_field_jq.trigger("change", {
                     deselected: this.form_field.options[result_data.options_index].value
                 });
+                this.sync_sort_field();
                 this.search_field_scale();
                 return true;
             } else {
@@ -1381,4 +1457,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         return Chosen;
 
     })(AbstractChosen);
+
+    Chosen.DEFAULTS = DEFAULTS;
+    Chosen.LANGUAGES = LANGUAGES;
+    $.fn.chosen.Constructor = Chosen;
 }).call(this);
