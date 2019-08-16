@@ -47,6 +47,8 @@
         waittime: 0,
         loadingIcon: 'icon-spinner-indicator',
         scrollInside: false,
+        // handleLinkInIframe: false,
+        // iframeStyle: ''
         // headerHeight: 'auto',
     };
 
@@ -167,7 +169,7 @@
                     if(options.type === 'iframe') $body.css('height', $dialog.height() - $header.outerHeight());
                 }
                 that.ajustPosition(options.position);
-                $modal.removeClass('modal-loading');
+                $modal.removeClass('modal-loading').removeClass('modal-updating');
                 if(isShown) {
                     $body.removeClass('loading');
                 }
@@ -224,7 +226,7 @@
                 }
 
                 var frame = document.getElementById(iframeName);
-                frame.onload = frame.onreadystatechange = function() {
+                frame.onload = frame.onreadystatechange = function(e) {
                     var scrollInside = !!options.scrollInside;
                     if(that.firstLoad) $modal.addClass('modal-loading');
                     if(this.readyState && this.readyState != 'complete') return;
@@ -286,6 +288,18 @@
                             }
                         } else {
                             readyToShow();
+                        }
+
+                        var handleLinkInIframe = options.handleLinkInIframe;
+                        if (handleLinkInIframe) {
+                            frame$('body').on('click', handleLinkInIframe === 'string' ? handleLinkInIframe : 'a[href]', function() {
+                                if ($(this).is('[data-toggle="modal"]')) return;
+                                $modal.addClass('modal-updating');
+                            });
+                        }
+
+                        if (options.iframeStyle) {
+                            frame$('head').append('<style>' + options.iframeStyle + '</style>');
                         }
                     } catch(e) {
                         readyToShow();
@@ -401,6 +415,9 @@
     var getModal = function(modal) {
         if (!modal) {
             modal = $('.modal.modal-trigger');
+            if (!modal.length) {
+
+            }
         } else {
             modal = $(modal);
         }

@@ -46,9 +46,9 @@
 
   > .loader { display: none; }
 
-  &.modal-loading
+  &.modal-loading,
+  &.modal-updating
   {
-    .modal-dialog { opacity: 0; }
     .loader {
       position: absolute;
       display: block;
@@ -59,6 +59,19 @@
       width: 80px;
       left: 50%;
       margin-left: -40px;
+    }
+  }
+  &.modal-loading {
+    .modal-dialog {opacity: 0;}
+  }
+  &.modal-updating {
+    .modal-dialog {
+      opacity: 1;
+    }
+    .modal-body {opacity: 0;}
+    .loader {
+      color: #eee;
+      z-index: 1;
     }
   }
 }
