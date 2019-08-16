@@ -302,7 +302,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 var sortValues;
                 if(this.sort_field && this.is_multiple) {
                     $selectField = $(this.sort_field);
-                    sortValues = $selectField.val().split(this.sort_value_spliter);
+                    var sortFieldValue = $selectField.val();
+                    sortValues = (typeof sortFieldValue === 'string' && sortFieldValue.length) ? sortFieldValue.split(this.sort_value_spliter) : [];
                     if(sortValues.length) {
                         var sortValuesMap = {};
                         for(_i = 0; _i < sortValues.length; ++_i) {
