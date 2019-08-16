@@ -79,8 +79,9 @@
     // default options
     Tree.DEFAULTS = {
         animate: null,
-        initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse',
+        initialState: 'normal', // 'normal' | 'preserve' | 'expand' | 'collapse', 'active',
         toggleTemplate: '<i class="list-toggle icon"></i>',
+
         // sortable: false, //
     };
 
@@ -257,6 +258,8 @@
             this.expand();
         } else if(initialState === 'collapse') {
             this.collapse();
+        } else if (initialState === 'active') {
+            this.expandSelect('.active');
         }
 
         // Bind event
@@ -294,6 +297,10 @@
         }
     };
 
+    Tree.prototype.expandSelect = function(selector) {
+        this.show(selector, true);
+    };
+
     Tree.prototype.expand = function($li, disabledAnimate, notStore) {
         if($li) {
             $li.addClass('open');
@@ -313,6 +320,9 @@
 
     Tree.prototype.show = function($lis, disabledAnimate, notStore) {
         var that = this;
+        if (!($lis instanceof $)) {
+            $lis = that.$.find('li').filter($lis);
+        }
         $lis.each(function() {
             var $li = $(this);
             that.expand($li, disabledAnimate, notStore);
@@ -408,4 +418,3 @@
         $('[data-ride="tree"]').tree();
     });
 }(jQuery));
-
