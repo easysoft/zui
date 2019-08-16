@@ -8,24 +8,25 @@
 KindEditor.EditorClass.prototype.setPlaceholder = function(placeholder, asHtml) {
     var self = this;
     var options = self.options;
-    var edit = self.edit;
-    var $doc = $(edit.doc);
-    var $placeholder = $doc.find('.kindeditor-ph');
+    var $editDiv = $(self.edit.div[0]);
+    var $placeholder = $editDiv.find('.kindeditor-ph');
     if (!$placeholder.length) {
+        $editDiv.css('position', 'relative');
         $placeholder = $('<div class="kindeditor-ph" style="width:100%; color:#888; padding: 8px; background:none; position:absolute;z-index:10;top:0;border:0;overflow:auto;resize:none; pointer-events:none; white-space: pre-wrap; font-size: 13px"></div>');
         if (options.placeholderStyle) {
             $placeholder.css(options.placeholderStyle);
         }
-        $doc.find('body').after($placeholder);
+        $editDiv.append($placeholder);
     }
     if (self.plugin.hasContent()) {
         $placeholder.hide();
     }
     $placeholder[asHtml ? 'html' : 'text'](placeholder);
+    self.$placeholder = $placeholder;
 };
 
 KindEditor.EditorClass.prototype.getPlaceholder = function(asHtml) {
-    return $(this.edit.doc).find('.kindeditor-ph')[asHtml ? 'html' : 'text']();
+    return self.$placeholder && self.$placeholder[asHtml ? 'html' : 'text']();
 };
 
 KindEditor.plugin('placeholder', function(K) {
@@ -37,12 +38,12 @@ KindEditor.plugin('placeholder', function(K) {
 
     self.afterBlur(function() {
         if (!self.plugin.hasContent()) {
-            $(self.edit.doc).find('.kindeditor-ph').show();
+            self.$placeholder && self.$placeholder.show();
         }
     });
 
     self.afterFocus(function() {
-        $(self.edit.doc).find('.kindeditor-ph').hide();
+        self.$placeholder && self.$placeholder.hide();
     });
 
     self.afterCreate(function() {
