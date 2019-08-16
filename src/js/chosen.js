@@ -180,7 +180,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
     AbstractChosen = (function() {
         function AbstractChosen(form_field, options) {
             this.form_field = form_field;
-            this.options = $.extend(DEFAULTS, options != null ? options : {});
+            this.options = $.extend({}, DEFAULTS, options != null ? options : {});
             if(!AbstractChosen.browser_is_supported()) {
                 return;
             }
