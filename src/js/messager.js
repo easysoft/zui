@@ -12,6 +12,7 @@
     var id = 0;
     var template = '<div class="messager messager-{type} {placement}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
     var DEFAULTS = {
+        icons: '',
         type: 'default',
         placement: 'top',
         time: 4000,
@@ -253,7 +254,7 @@
         zuiMessager[name] = function(message, options) {
             return showMessage(message, $.extend({
                 type: name,
-                icon: icon || null
+                icon: Messager.DEFAULTS.icons[name] || icon || null
             }, getOptions(options)));
         };
     });
@@ -264,4 +265,3 @@
         messager: zuiMessager
     });
 }(jQuery, window, undefined));
-
