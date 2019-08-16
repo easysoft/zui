@@ -17,13 +17,11 @@
 
     // The browser modal class
     var Browser = function () {
-        var ie = this.isIE() || this.isIE10() || false;
-        if (ie) {
-            for (var i = 10; i > 5; i--) {
-                if (this.isIE(i)) {
-                    ie = i;
-                    break;
-                }
+        var ie = false;
+        for (var i = 11; i > 5; i--) {
+            if (this.isIE(i)) {
+                ie = i;
+                break;
             }
         }
 
@@ -62,7 +60,9 @@
 
     // Detect it is IE, can given a version
     Browser.prototype.isIE = function (version) {
+        if (version === 11) return this.isIE11();
         if (version === 10) return this.isIE10();
+        if (!version && (this.isIE11() || this.isIE10())) return true;
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
         return b.getElementsByTagName('i').length === 1;
@@ -70,7 +70,13 @@
 
     // Detect ie 10 with hack
     Browser.prototype.isIE10 = function () {
-        return (/*@cc_on!@*/false);
+        return navigator.appVersion.indexOf("MSIE 10") !== -1;
+    };
+
+    // Detect ie 10 with hack
+    Browser.prototype.isIE11 = function () {
+        var userAgentStr = navigator.userAgent;
+        return userAgentStr.indexOf("Trident") !== -1 && userAgentStr.indexOf("rv:11") !== -1;
     };
 
     $.zui({
