@@ -1490,7 +1490,7 @@
     },
     "seperate": {
       "title": "Seperate bundles",
-      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap", "ajaxFake", "markdoc"]
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap", "ajaxFake", "markdoc", "contextmenu", "flowchart"]
     },
     "dist": {
       "title": "Dist bundles",
