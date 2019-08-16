@@ -98,6 +98,7 @@
                 that.trigger('start', {
                     event:   event,
                     element: $ele,
+                    shadowElement: $shadow,
                     targets: $targets
                 });
             }
