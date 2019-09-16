@@ -115,7 +115,7 @@
 
     ModalTrigger.prototype.show = function(option) {
         var that = this;
-        var options = $.extend({}, that.options, {
+        var options = $.extend({}, ModalTrigger.DEFAULTS, that.options, {
             url: that.$trigger ? (that.$trigger.attr('href') || that.$trigger.attr('data-url') || that.$trigger.data('url')) : that.options.url
         }, option);
         var isShown = that.isShown;
