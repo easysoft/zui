@@ -43,7 +43,9 @@
                 .toggleClass('gt-ie-8 gte-ie-9', ie >= 9)
                 .toggleClass('lte-ie-8 lt-ie-9', ie < 9)
                 .toggleClass('gt-ie-9 gte-ie-10', ie >= 10)
-                .toggleClass('lte-ie-9 lt-ie-10', ie < 10);
+                .toggleClass('lte-ie-9 lt-ie-10', ie < 10)
+                .toggleClass('gt-ie-10 gte-ie-11', ie >= 11)
+                .toggleClass('lte-ie-10 lt-ie-11', ie < 11);
         }
     };
 
