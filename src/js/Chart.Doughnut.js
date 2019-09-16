@@ -208,10 +208,8 @@
             var middleAngle = (segment.endAngle + segment.startAngle) / 2;
             var placement = options.scaleLabelPlacement;
             if(placement !== 'inside' && placement !== 'outside') {
-                if((this.chart.width - this.chart.height) > 50) {
-                    if(segment.circumference < (Math.PI / 18)) {
-                        placement = 'outside';
-                    }
+                if((this.chart.width - this.chart.height) > 50 && segment.circumference < (Math.PI / 18)) {
+                    placement = 'outside';
                 }
             }
 
@@ -363,4 +361,3 @@
 }).call(this, jQuery);
 
 /// ----- ZUI change end -----
-
