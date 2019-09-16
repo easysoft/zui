@@ -211,9 +211,15 @@
             $this.addClass('file-dragable');
         });
         $dropElement.on('dragleave.' + NAME + ' drop.' + NAME, function(e) {
-            $this.removeClass('file-drag-enter');
+            $this.removeClass('file-drag-enter').removeClass('file-dragable');
+            e.preventDefault();
+            e.stopPropagation();
         }).on('dragover.' + NAME + ' dragenter.' + NAME, function(e) {
             $this.addClass('file-drag-enter');
+        }).on('dragdrop.' + NAME + ' dragenter.' + NAME, function(e) {
+            $this.removeClass('file-drag-enter').removeClass('file-dragable');
+            e.preventDefault();
+            e.stopPropagation();
         });
 
         $list.on('click.' + NAME, '.btn-delete-file', function() {
@@ -900,4 +906,3 @@
         $('[data-ride="uploader"]').uploader();
     });
 }(jQuery, window, plupload, moxie, undefined));
-
