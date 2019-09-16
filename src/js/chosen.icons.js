@@ -13,7 +13,7 @@
         this.$ = $(element);
         this.options = this.getOptions(options);
         this.lang = ChosenIcons.LANGS[this.options.lang] || ChosenIcons.LANGS.en;
-        this.id = 'chosen-icons-' + parseInt(Math.random() * 10000000000 + 1);
+        this.id = 'chosen-icons-' + $.zui.uuid();
 
         this.init();
     };
