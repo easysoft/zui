@@ -103,7 +103,7 @@ $('#myDataGrid').datagrid({
     dataSource: {
         cols:[
             {name: 'time', label: '时间', width: 132},
-            {name: 'hera', label: '英雄', width: 134},
+            {name: 'hero', label: '英雄', width: 134},
             {name: 'action', label: '动作', width: 109},
             {name: 'target', label: '目标', width: 109},
             {name: 'desc', label: '描述', width: 287}
@@ -187,7 +187,7 @@ $('#remoteDataGridExample').datagrid({
     dataSource: {
         cols:[
             {name: 'time', label: '时间', width: 132},
-            {name: 'hera', label: '英雄', width: 134},
+            {name: 'hero', label: '英雄', width: 134},
             {name: 'action', label: '动作', width: 109},
             {name: 'target', label: '目标', width: 109},
             {name: 'desc', label: '描述', width: 287}
@@ -756,7 +756,7 @@ $('#myDataGrid').datagrid({
     dataSource: {
         cols:[
             {name: 'time', label: '时间', width: 132},
-            {name: 'hera', label: '英雄', width: 134},
+            {name: 'hero', label: '英雄', width: 134},
             {name: 'action', label: '动作', width: 109},
 
             // target 列自适应，占据剩余列宽的 1/4
@@ -1637,7 +1637,7 @@ function afterPageLoad() {
             cache: false,
             cols:[
                 {name: 'time', label: '时间', width: 132},
-                {name: 'hera', label: '英雄', width: 134},
+                {name: 'hero', label: '英雄', width: 134},
                 {name: 'action', label: '动作', width: 109},
                 {name: 'target', label: '目标', width: 109},
                 {name: 'desc', label: '描述', width: 287}
