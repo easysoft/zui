@@ -233,6 +233,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 max_drop_width = parseInt(max_drop_width.substring(0, max_drop_width.length - 2));
             }
             _this.max_drop_width = max_drop_width;
+
             return _this.display_disabled_options = _options.display_disabled_options != null ? _options.display_disabled_options : true;
         };
 
@@ -656,13 +657,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 return this;
             }
             return this.each(function(input_field) {
-                var $this, chosen;
-                $this = $(this);
-                chosen = $this.data('chosen');
+                var $this = $(this);
+                var chosen = $this.data('chosen');
                 if(options === 'destroy' && chosen) {
                     chosen.destroy();
                 } else if(!chosen) {
-                    $this.data('chosen', new Chosen(this, options));
+                    $this.data('chosen', new Chosen(this, $.extend({}, $this.data(), options)));
                 }
             });
         }
@@ -955,8 +955,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         };
 
         Chosen.prototype.result_do_highlight = function(el, canMiddleHighlight) {
-            var high_bottom, high_top, maxHeight, visible_bottom, visible_top, resultHeight, scrollTop = -1;
             if(el.length) {
+                var high_bottom, high_top, maxHeight, visible_bottom, visible_top, resultHeight, scrollTop = -1;
                 this.result_clear_highlight();
                 this.result_highlight = el;
 
@@ -1048,6 +1048,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 that.fixDropWidthTimer = setTimeout(function() {
                     that.fixDropWidthTimer = null;
                     $drop.addClass('in');
+                    that.winnow_results_set_highlight(1);
                 }, 50);
             }
         };
