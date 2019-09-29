@@ -2,7 +2,7 @@
   "lib": {
     "jquery": {
       "name": "jQuery",
-      "pver": "1.10.2",
+      "pver": "1.12.4",
       "ver": "1.0.0",
       "src": {
         "resource": ["assets/jquery.js"]
