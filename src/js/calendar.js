@@ -140,7 +140,8 @@
         storage: true,
         withHeader: true,
         dragThenDrop: true, // drag an event and drop at another day,
-        // hideEmptyWeekends: false // Auto hide empty weekends
+        // hideEmptyWeekends: false // Auto hide empty weekends,
+        // hideFirstDayNumber: false // Hide first day number in every month
     };
 
     Calendar.prototype.resetData = function(data) {
@@ -527,14 +528,14 @@
                 month = printDate.getMonth();
                 printDateId = printDate.toDateString();
                 $day.attr('data-date', printDateId).data('date', printDate.clone());
-                $day.find('.heading > .number').text(day);
-
+                $day.find('.heading > .number').text(day).toggle(!options.hideFirstDayNumber || day !== 1);
                 $day.find('.heading > .month')
                     .toggle((weekIdx === 0 && dayIndex === 0) || day === 1)
                     .text(((month === 0 && day === 1) ? (lang.year.format(year) + ' ') : '') + lang.monthNames[month]);
                 $cell.toggleClass('current-month', month === thisMonth);
                 $cell.toggleClass('current', (day === todayDate && month === todayMonth && year === todayYear));
                 $cell.toggleClass('past', printDate < today);
+                $cell.toggleClass('first-day', day === 1);
                 $cell.toggleClass('future', printDate > today);
                 $dayEvents = $day.find('.events').empty();
 
