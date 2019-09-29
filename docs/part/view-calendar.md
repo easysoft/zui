@@ -116,6 +116,16 @@ $('#calendar').calendar();
       <td>`null`</td>
       <td>指定一个函数用于对事件进行排序时比较两个事件对象大小。提供两个参数  `event1`, `event2` 分别为要比较的两个事件对象，当返回大于 0 的数时 `event2` 会排在 `event1` 之前，如果小于 0 则反之，等于 0 时位置不变。如果不指定该选项，则默认按照事件的日期先后排序。</td>
     </tr>
+    <tr>
+      <td>`eventCreator`</td>
+      <td>`null`</td>
+      <td>指定一个函数用于创建事件在页面上对应的 DOM 元素。提供3个参数：`event` 为事件对象，`$event` 为自动生成的 DOM 元素，`cal` 为当前日历实例对象。</td>
+    </tr>
+    <tr>
+      <td>`dayFormater`</td>
+      <td>`null`</td>
+      <td>指定一个函数用于进一步处理页面上每个日期对应的 DOM 元素。提供4个参数：`$cell` 为日期对应的 DOM 元素，`date` 为对应的日期，`events` 为日期内的事件列表，`cal` 为当前日历实例对象。</td>
+    </tr>
   </tbody>
 </table>
 
