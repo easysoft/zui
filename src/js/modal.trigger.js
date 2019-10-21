@@ -175,7 +175,8 @@
                 }
 
                 if(options.type != 'iframe') {
-                    $dialog.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                    $body = $dialog.off('resize.' + NAME).find('.modal-body').off('resize.' + NAME);
+                    ($body.length ? $body : $dialog).on('resize.' + NAME, resizeDialog);
                 }
 
                 callback && callback();
@@ -251,8 +252,7 @@
                                     height = Math.max(height, $body.data('minModalHeight') || 0);
                                     $body.data('minModalHeight', height);
                                 }
-                                if (scrollInside)
-                                {
+                                if (scrollInside) {
                                     var headerHeight = options.headerHeight;
                                     if (typeof headerHeight !== 'number') {
                                         headerHeight = $header.height();
