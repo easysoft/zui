@@ -414,11 +414,11 @@
     };
 
     DataGrid.prototype.goToPage = function(page) {
-        return this.setPager(page).render();
+        return this.goToPage(page);
     };
 
     DataGrid.prototype.gotoPage = function(page) {
-        return this.page(page);
+        return this.setPager(page).render();
     };
 
     DataGrid.prototype.setSearch = function(searchStr) {
