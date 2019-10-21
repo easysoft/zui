@@ -22,4 +22,4 @@ ZUI使用 [normalize](http://necolas.github.io/normalize.css/) 来重置样式�
 
 ## 基础排版和链接
 
-基础排版样式和链接样式能在 `src/less/basic/scraffolding.less` 文件中找到对应源码。
+基础排版样式和链接样式能在 `src/less/basic/scaffolding.less` 文件中找到对应源码。
