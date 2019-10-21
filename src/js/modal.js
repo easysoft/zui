@@ -16,6 +16,7 @@
  *    key down
  * 4. get moveable options value from '.modal-moveable' on '.modal-dialog'
  * 5. add setMoveable method to make modal dialog moveable
+ * 6. add options.onSetScrollbar
  * ======================================================================== */
 
 + function($, undefined) {
@@ -95,9 +96,7 @@
                 headerHeight = headerHeight($header);
             }
             bodyCss.maxHeight = winHeight - headerHeight;
-            if ($body.outerHeight() > bodyCss.maxHeight) {
-                bodyCss.overflow = 'auto';
-            }
+            bodyCss.overflow = $body.outerHeight() > bodyCss.maxHeight ? 'auto' : 'visible';
         }
         $body.css(bodyCss);
 
@@ -354,11 +353,20 @@
 
     Modal.prototype.setScrollbar = function() {
         var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-        if(this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+        if(this.scrollbarWidth) {
+            var paddingRight = bodyPad + this.scrollbarWidth;
+            this.$body.css('padding-right', paddingRight)
+            if (this.options.onSetScrollbar) {
+                this.options.onSetScrollbar(paddingRight)
+            }
+        }
     }
 
     Modal.prototype.resetScrollbar = function() {
         this.$body.css('padding-right', '')
+        if (this.options.onSetScrollbar) {
+            this.options.onSetScrollbar('')
+        }
     }
 
     Modal.prototype.measureScrollbar = function() { // thx walsh
@@ -432,4 +440,3 @@
     })
 
 }(jQuery, undefined);
-
