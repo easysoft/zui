@@ -200,7 +200,7 @@ filter: anniu an
 var $btn = $(this);
 $btn.button('loading');
 
-// 此处使用 setTimeout 来模拟你的复杂功能逻辑
+// 此处使用 setTimeout 来模拟复杂功能逻辑
 setTimeout(function() {
     $btn.button('reset');
 }, 2000);

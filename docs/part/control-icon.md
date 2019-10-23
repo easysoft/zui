@@ -82,7 +82,7 @@ ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入�
 
 通常情况下 `.icon-*` 不需要和 `.icon` 类一起使用，但由于不同的图标外形不同，其在文字行中所占据的宽度也不同，如果需要使图标的宽度一致，则需要为 `.icon-*` 添加 `.icon` 类，这样就得到等宽图标。
 
-等宽图标对于在一个列表中用于垂直对其图标非常有必要。
+等宽图标对于在一个列表中用于垂直对齐图标非常有必要。
 
 <example>
   <div class="row">
@@ -195,11 +195,11 @@ ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入�
 使用旋转动画方便制作用于加载指示的动画效果。
 
 <div class="example">
-  <i class="icon icon-spin icon-spinner-snake"></i> &nbsp; 
-  <i class="icon icon-spin icon-spinner-indicator"></i> &nbsp; 
-  <i class="icon icon-spin icon-circle-o-notch"></i> &nbsp; 
-  <i class="icon icon-spin icon-cog"></i> &nbsp; 
-  <i class="icon icon-spin icon-refresh"></i> &nbsp; 
+  <i class="icon icon-spin icon-spinner-snake"></i> &nbsp;
+  <i class="icon icon-spin icon-spinner-indicator"></i> &nbsp;
+  <i class="icon icon-spin icon-circle-o-notch"></i> &nbsp;
+  <i class="icon icon-spin icon-cog"></i> &nbsp;
+  <i class="icon icon-spin icon-refresh"></i> &nbsp;
   <i class="icon icon-spin icon-spinner"></i>
 </div>
 
