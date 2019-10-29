@@ -13,7 +13,7 @@
       </div>
       <br />
       <div class="input-control has-icon-left has-icon-right">
-        <input id="inputEmailExample1" type="email" class="form-control" placeholder="密码">
+        <input id="inputEmailExample1" type="email" class="form-control" placeholder="Email">
         <label for="inputEmailExample1" class="input-control-icon-left"><i class="icon icon-envelope "></i></label>
         <label for="inputEmailExample1" class="input-control-icon-right"><i class="icon icon-check"></i></label>
       </div>
@@ -34,17 +34,17 @@
 ```
 
 ```html
-<div class="input-control has-icon-right">
-  <input id="inputPasswordExample1" type="password" class="form-control" placeholder="密码">
-  <label for="inputPasswordExample1" class="input-control-icon-right"><i class="icon icon-key"></i></label>
+<div class="input-control has-icon-left has-icon-right">
+  <input id="inputEmailExample1" type="email" class="form-control" placeholder="Email">
+  <label for="inputEmailExample1" class="input-control-icon-left"><i class="icon icon-envelope "></i></label>
+  <label for="inputEmailExample1" class="input-control-icon-right"><i class="icon icon-check"></i></label>
 </div>
 ```
 
 ```html
-<div class="input-control has-icon-left has-icon-right">
-  <input id="inputEmailExample1" type="email" class="form-control" placeholder="密码">
-  <label for="inputEmailExample1" class="input-control-icon-left"><i class="icon icon-envelope "></i></label>
-  <label for="inputEmailExample1" class="input-control-icon-right"><i class="icon icon-check"></i></label>
+<div class="input-control has-icon-right">
+  <input id="inputPasswordExample1" type="password" class="form-control" placeholder="密码">
+  <label for="inputPasswordExample1" class="input-control-icon-right"><i class="icon icon-key"></i></label>
 </div>
 ```
 
