@@ -574,6 +574,13 @@ if (!Array.prototype.map) {
                 return false;
             });
         }
+
+        if (options.onClickNode) {
+            $canvas.on('click', '.flowchart-node,.flowchart-relation', function(e) {
+                var $node = $(this).closest('.flowchart-node,.flowchart-relation');
+                options.onClickNode(that.getElement($node.data('id')), $node);
+            });
+        }
     };
 
     FlowChart.addNodeType = function(nodeType, displayName, defaultNodeStyle) {
@@ -825,7 +832,7 @@ if (!Array.prototype.map) {
             this._layoutNode(node);
         }
 
-        if (!options.mergeSideLines) {
+        if (options.relationLineGap) {
             node.sideRels = {
                 top:    [],
                 right:  [],
@@ -866,7 +873,7 @@ if (!Array.prototype.map) {
                 }
                 if (node.direction) delete node.direction;
                 if (node.directionFrom) delete node.directionFrom;
-                node.customPos = true;
+                node.customPos = 'auto';
             } else if (parents.length) {
                 var parentsBounds;
                 var siblingsIndex = 0;
@@ -1041,12 +1048,12 @@ if (!Array.prototype.map) {
         var endBounds     = endNode.bounds;
         var beginSide     = isReverse ? toSide : fromSide;
         var endSide       = isReverse ? fromSide : toSide;
-        var betterLines   = !options.mergeSideLines;
+        var betterLines   = options.relationLineGap;
         var beginSideRels = betterLines && beginNode.sideRels[beginSide];
         var endSideRels   = betterLines && endNode.sideRels[endSide];
 
         if (betterLines) {
-            var findRelById   = function(rel) {
+            var findRelById = function(rel) {
                 return rel.id === relation.id;
             };
             if (!beginSideRels.length || !beginSideRels.find(findRelById)) {
@@ -1069,23 +1076,51 @@ if (!Array.prototype.map) {
                     });
                 }
             }
+
+            var sortRels;
+            if (direction.startsWith('bottom') || direction.startsWith('top')) {
+                sortRels = function(rel1, rel2) {
+                    var centerLeft1 = (rel1 && rel1.toNode && rel1.toNode.bounds) ? rel1.toNode.bounds.centerLeft : -1;
+                    var centerLeft2 = (rel2 && rel2.toNode && rel2.toNode.bounds) ? rel2.toNode.bounds.centerLeft : -1;
+                    return centerLeft1 - centerLeft2;
+                };
+            } else {
+                sortRels = function(rel1, rel2) {
+                    var centerTop1 = (rel1 && rel1.toNode && rel1.toNode.bounds) ? rel1.toNode.bounds.centerTop : -1;
+                    var centerTop2 = (rel2 && rel2.toNode && rel2.toNode.bounds) ? rel2.toNode.bounds.centerTop : -1;
+                    return centerTop1 - centerTop2;
+                };
+            }
+            if (beginSideRels && beginSideRels.length) {
+                beginSideRels.sort(sortRels);
+            }
+            if (endSideRels && endSideRels.length) {
+                endSideRels.sort(sortRels);
+            }
         }
         var beginSideRelIndex  = betterLines && beginSideRels.findIndex(findRelById);
         var endSideRelIndex    = betterLines && endSideRels.findIndex(findRelById);
         var beginSideRelsCount = betterLines ? beginSideRels.length : 0;
         var endSideRelsCount   = betterLines ? endSideRels.length : 0;
 
+        relation.beginSideRels = beginSideRels;
+        relation.endSideRels = endSideRels;
+        relation.beginSideRelIndex = beginSideRelIndex;
+        relation.endSideRelIndex = endSideRelIndex;
+        relation.beginSideRelsCount = beginSideRelsCount;
+        relation.endSideRelsCount = endSideRelsCount;
+
         var bounds            = {};
-        var beginLineStyle    = {};
-        var centerLineStyle   = {
-            alignItems: 'center',
-            justifyContent: 'center',
-        };
-        var endLineStyle      = {};
         var lineColor         = options.relationLineColor;
         var lineSize          = options.relationLineWidth;
         var hideArrow         = options.hideArrowToResult && endNode.type === 'result';
         var arrowSize         = hideArrow ? 0 : options.relationArrowSize;
+        var beginLineStyle    = {};
+        var endLineStyle      = {};
+        var centerLineStyle   = {
+            alignItems: 'center',
+            justifyContent: 'center',
+        };
         var arrowStyle        = hideArrow ? {display: 'none'} : {
             display: 'block',
             position: 'absolute',
@@ -1105,6 +1140,8 @@ if (!Array.prototype.map) {
             background: lineColor,
             position: 'absolute',
         };
+        var beginLineOffset = betterLines ? (1 - beginSideRelsCount + 2 * beginSideRelIndex) * 2 : 0;
+        var endLineOffset = betterLines ? (1 - endSideRelsCount + 2 * endSideRelIndex) * 2 : 0;
         if (direction === 'bottom-left' || direction === 'top-right') {
             // Relation link as ┘
             bounds.left   = beginBounds.right;
@@ -1113,11 +1150,11 @@ if (!Array.prototype.map) {
             bounds.height = beginBounds.bottom - bounds.top;
 
             beginLineStyle.left   = isReverse ? arrowSize : 0;
-            beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2);
+            beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2) + beginLineOffset;
             beginLineStyle.width  = Math.floor(bounds.width - lineSize - endBounds.width / 2) - beginLineStyle.left;
             beginLineStyle.height = lineSize;
 
-            endLineStyle.left   = beginLineStyle.width + beginLineStyle.left;
+            endLineStyle.left   = beginLineStyle.width + beginLineStyle.left + endLineOffset;
             endLineStyle.top    = isReverse ? 0 : arrowSize;
             endLineStyle.width  = lineSize;
             endLineStyle.height = beginLineStyle.top - endLineStyle.top;
@@ -1156,13 +1193,13 @@ if (!Array.prototype.map) {
             bounds.width  = endBounds.left - bounds.left;
             bounds.height = beginBounds.bottom - bounds.top;
 
-            beginLineStyle.left   = Math.floor(beginBounds.width / 2 - lineSize);
+            beginLineStyle.left   = Math.floor(beginBounds.width / 2 - lineSize) + beginLineOffset;
             beginLineStyle.top    = isReverse ? arrowSize : 0;
             beginLineStyle.width  = lineSize;
             beginLineStyle.height = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2) - beginLineStyle.top;
 
             endLineStyle.left   = beginLineStyle.left + lineSize;
-            endLineStyle.top    = beginLineStyle.top + beginLineStyle.height;
+            endLineStyle.top    = beginLineStyle.top + beginLineStyle.height + endLineOffset;
             endLineStyle.width  = Math.floor(bounds.width - lineSize - beginLineStyle.left) - (isReverse ? 0 : arrowSize);
             endLineStyle.height = lineSize;
 
@@ -1199,18 +1236,18 @@ if (!Array.prototype.map) {
             bounds.height = Math.max(beginBounds.bottom, endBounds.bottom) - bounds.top;
 
             beginLineStyle.left   = isReverse ? arrowSize : 0;
-            beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2);
+            beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2) + beginLineOffset;
             beginLineStyle.width  = bounds.width / 2 - beginLineStyle.left;
             beginLineStyle.height = lineSize;
 
-            endLineStyle.left   = bounds.width / 2;
-            endLineStyle.top    = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2);
+            endLineStyle.left   = beginLineStyle.left + beginLineStyle.width;
+            endLineStyle.top    = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2) + endLineOffset;
             endLineStyle.width  = bounds.width / 2 - (isReverse ? 0 : arrowSize);
             endLineStyle.height = lineSize;
 
             centerLineStyle.left = Math.floor(bounds.width / 2 - lineSize / 2);
-            centerLineStyle.top = Math.floor(Math.min(endBounds.centerTop, beginBounds.centerTop) - bounds.top - lineSize / 2);
-            centerLineStyle.height = Math.floor(Math.abs(endBounds.centerTop - beginBounds.centerTop) + lineSize);
+            centerLineStyle.top = Math.floor(Math.min(beginLineStyle.top, endLineStyle.top));
+            centerLineStyle.height = Math.floor(Math.abs(beginLineStyle.top - endLineStyle.top) + lineSize);
             centerLineStyle.width = lineSize;
 
             if (options.showRelationTextOnSide) {
@@ -1246,18 +1283,18 @@ if (!Array.prototype.map) {
             bounds.height = endBounds.top - bounds.top;
 
             beginLineStyle.top    = isReverse ? arrowSize : 0;
-            beginLineStyle.left   = Math.floor(beginBounds.centerLeft - bounds.left - lineSize / 2);
+            beginLineStyle.left   = Math.floor(beginBounds.centerLeft - bounds.left - lineSize / 2) + beginLineOffset;
             beginLineStyle.height = bounds.height / 2 - beginLineStyle.top;
             beginLineStyle.width  = lineSize;
 
             endLineStyle.top    = bounds.height / 2;
-            endLineStyle.left   = Math.floor(endBounds.centerLeft - bounds.left - lineSize / 2);
+            endLineStyle.left   = Math.floor(endBounds.centerLeft - bounds.left - lineSize / 2) + endLineOffset;
             endLineStyle.height = bounds.height / 2 - (isReverse ? 0 : arrowSize);
             endLineStyle.width  = lineSize;
 
             centerLineStyle.top    = Math.floor(bounds.height / 2 - lineSize / 2);
-            centerLineStyle.left   = Math.floor(Math.min(endBounds.centerLeft, beginBounds.centerLeft) - bounds.left - lineSize / 2);
-            centerLineStyle.width  = Math.floor(Math.abs(endBounds.centerLeft - beginBounds.centerLeft) + lineSize);
+            centerLineStyle.left   = Math.floor(Math.min(beginLineStyle.left, endLineStyle.left));
+            centerLineStyle.width  = Math.floor(Math.abs(beginLineStyle.left - endLineStyle.left) + lineSize);
             centerLineStyle.height = lineSize;
 
             if (options.showRelationTextOnSide) {
@@ -1368,15 +1405,26 @@ if (!Array.prototype.map) {
                 if (element) {
                     partialsMap[elementId] = element;
                     if (element.type !== 'relation') {
+                        var betterLines = options.relationLineGap;
+                        var addRelToPartialMap = function(rel) {
+                            partialsMap[rel.id] = rel;
+                        };
+                        var addRel = function(rel) {
+                            addRelToPartialMap(rel);
+                            if (betterLines) {
+                                if (rel.beginSideRels) {
+                                    rel.beginSideRels.forEach(addRelToPartialMap);
+                                }
+                                if (rel.endSideRels) {
+                                    rel.endSideRels.forEach(addRelToPartialMap);
+                                }
+                            }
+                        };
                         if (element.fromRels.length) {
-                            $.each(element.fromRels, function(_1, rel) {
-                                partialsMap[rel.id] = rel;
-                            });
+                            element.fromRels.forEach(addRel);
                         }
                         if (element.toRels.length) {
-                            $.each(element.toRels, function(_1, rel) {
-                                partialsMap[rel.id] = rel;
-                            });
+                            element.toRels.forEach(addRel);
                         }
                     }
                 }
@@ -1406,6 +1454,9 @@ if (!Array.prototype.map) {
                 needCheckOverlay = false;
                 for (var i = nodeList.length - 1; i >= 0; --i) {
                     var nodeA = nodeList[i];
+                    if (nodeA.customPos !== true) {
+                        continue;
+                    }
                     for (var j = nodeList.length - 1; j >= 0; --j) {
                         if (i === j) {
                             continue;
@@ -1814,10 +1865,6 @@ if (!Array.prototype.map) {
         // 激活状态颜色
         activeColor: '#3280fc',
 
-        // 是否合并同一方向上的连接线，如果设置为 true，则连接线会尽量保持不重合
-        // 值为 `true` 的功能暂未实现
-        mergeSideLines: false,
-
         // 是否移动时自动吸附网格
         // 如果设置为 true，则设置网格为 5，如果为数值则为指定的网格大小
         adsorptionGrid: 5,
@@ -1868,6 +1915,9 @@ if (!Array.prototype.map) {
         // 连接线颜色
         relationLineColor: '#333',
 
+        // 连接线间距，如果设置为 0 则会合并同一方向上的连接线，否则会使用给定的值作为间距
+        relationLineGap: 2,
+
         // 隐藏指向结果节点的关系箭头
         hideArrowToResult: true,
 
@@ -1911,6 +1961,9 @@ if (!Array.prototype.map) {
 
         // 是否将关系上的文本显示在连接线旁边而不是覆盖在连接线上
         showRelationTextOnSide: false,
+
+        // 当点击节点时的回调函数 function(node, $element)
+        onClickNode: null,
 
         // 初始数据
         data: [{
