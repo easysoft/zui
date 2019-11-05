@@ -1042,17 +1042,17 @@ if (!Array.prototype.map) {
         relation.fromSide  = fromSide;
         relation.toSide    = toSide;
 
-        var beginNode     = isReverse ? toNode : fromNode;
-        var endNode       = isReverse ? fromNode : toNode;
-        var beginBounds   = beginNode.bounds;
-        var endBounds     = endNode.bounds;
-        var beginSide     = isReverse ? toSide : fromSide;
-        var endSide       = isReverse ? fromSide : toSide;
-        var betterLines   = options.relationLineGap;
-        var beginSideRels = betterLines && beginNode.sideRels[beginSide];
-        var endSideRels   = betterLines && endNode.sideRels[endSide];
+        var beginNode       = isReverse ? toNode : fromNode;
+        var endNode         = isReverse ? fromNode : toNode;
+        var beginBounds     = beginNode.bounds;
+        var endBounds       = endNode.bounds;
+        var beginSide       = isReverse ? toSide : fromSide;
+        var endSide         = isReverse ? fromSide : toSide;
+        var relationLineGap = options.relationLineGap;
+        var beginSideRels   = relationLineGap && beginNode.sideRels[beginSide];
+        var endSideRels     = relationLineGap && endNode.sideRels[endSide];
 
-        if (betterLines) {
+        if (relationLineGap) {
             var findRelById = function(rel) {
                 return rel.id === relation.id;
             };
@@ -1098,10 +1098,10 @@ if (!Array.prototype.map) {
                 endSideRels.sort(sortRels);
             }
         }
-        var beginSideRelIndex  = betterLines && beginSideRels.findIndex(findRelById);
-        var endSideRelIndex    = betterLines && endSideRels.findIndex(findRelById);
-        var beginSideRelsCount = betterLines ? beginSideRels.length : 0;
-        var endSideRelsCount   = betterLines ? endSideRels.length : 0;
+        var beginSideRelIndex  = relationLineGap && beginSideRels.findIndex(findRelById);
+        var endSideRelIndex    = relationLineGap && endSideRels.findIndex(findRelById);
+        var beginSideRelsCount = relationLineGap ? beginSideRels.length : 0;
+        var endSideRelsCount   = relationLineGap ? endSideRels.length : 0;
 
         relation.beginSideRels = beginSideRels;
         relation.endSideRels = endSideRels;
@@ -1140,8 +1140,11 @@ if (!Array.prototype.map) {
             background: lineColor,
             position: 'absolute',
         };
-        var beginLineOffset = betterLines ? (1 - beginSideRelsCount + 2 * beginSideRelIndex) * 2 : 0;
-        var endLineOffset = betterLines ? (1 - endSideRelsCount + 2 * endSideRelIndex) * 2 : 0;
+        var beginLineOffset = relationLineGap ? (1 - beginSideRelsCount + 2 * beginSideRelIndex) * relationLineGap : 0;
+        var endLineOffset = relationLineGap ? (1 - endSideRelsCount + 2 * endSideRelIndex) * relationLineGap : 0;
+        relation.beginLineOffset = beginLineOffset;
+        relation.endLineOffset = endLineOffset;
+
         if (direction === 'bottom-left' || direction === 'top-right') {
             // Relation link as ┘
             bounds.left   = beginBounds.right;
@@ -1151,10 +1154,10 @@ if (!Array.prototype.map) {
 
             beginLineStyle.left   = isReverse ? arrowSize : 0;
             beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2) + beginLineOffset;
-            beginLineStyle.width  = Math.floor(bounds.width - lineSize - endBounds.width / 2) - beginLineStyle.left;
+            beginLineStyle.width  = Math.floor(bounds.width - lineSize - endBounds.width / 2) - beginLineStyle.left + endLineOffset;
             beginLineStyle.height = lineSize;
 
-            endLineStyle.left   = beginLineStyle.width + beginLineStyle.left + endLineOffset;
+            endLineStyle.left   = beginLineStyle.width + beginLineStyle.left;
             endLineStyle.top    = isReverse ? 0 : arrowSize;
             endLineStyle.width  = lineSize;
             endLineStyle.height = beginLineStyle.top - endLineStyle.top;
@@ -1196,10 +1199,10 @@ if (!Array.prototype.map) {
             beginLineStyle.left   = Math.floor(beginBounds.width / 2 - lineSize) + beginLineOffset;
             beginLineStyle.top    = isReverse ? arrowSize : 0;
             beginLineStyle.width  = lineSize;
-            beginLineStyle.height = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2) - beginLineStyle.top;
+            beginLineStyle.height = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2) - beginLineStyle.top + endLineOffset;
 
             endLineStyle.left   = beginLineStyle.left + lineSize;
-            endLineStyle.top    = beginLineStyle.top + beginLineStyle.height + endLineOffset;
+            endLineStyle.top    = beginLineStyle.top + beginLineStyle.height;
             endLineStyle.width  = Math.floor(bounds.width - lineSize - beginLineStyle.left) - (isReverse ? 0 : arrowSize);
             endLineStyle.height = lineSize;
 
@@ -1405,13 +1408,13 @@ if (!Array.prototype.map) {
                 if (element) {
                     partialsMap[elementId] = element;
                     if (element.type !== 'relation') {
-                        var betterLines = options.relationLineGap;
+                        var relationLineGap = options.relationLineGap;
                         var addRelToPartialMap = function(rel) {
                             partialsMap[rel.id] = rel;
                         };
                         var addRel = function(rel) {
                             addRelToPartialMap(rel);
-                            if (betterLines) {
+                            if (relationLineGap) {
                                 if (rel.beginSideRels) {
                                     rel.beginSideRels.forEach(addRelToPartialMap);
                                 }
