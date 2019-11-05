@@ -25,6 +25,12 @@ KindEditor.plugin('pasteimage', function(K) {
             placeholder: 'You can paste images in the editor.',
             failMsg: 'Pasting image failed. Try again later.',
             uploadingHint: 'Uploading...',
+        },
+        ja: {
+            notSupportMsg: '使用されているブラウザは画像の貼り付けがサポートされていません！',
+            placeholder: 'エディターを使用して画像を貼り付けます。',
+            failMsg: '画像を貼り付けませんでした、後でやり直してください。',
+            uploadingHint: '画像をアップロード中、しばらくお待ちください...',
         }
     };
 

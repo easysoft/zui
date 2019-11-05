@@ -87,7 +87,6 @@ KindEditor.plugin('table', function (K) {
             forecolor: '文字颜色',
             backcolor: '背景颜色',
             invalidBoderWidth: '边框大小必须为数字。'
-
         },
         zh_tw: {
             name: '表格',
@@ -132,6 +131,28 @@ KindEditor.plugin('table', function (K) {
             forecolor: 'Text Color',
             backcolor: 'Back Color',
             invalidBoderWidth: 'Border width value must be number'
+        },
+        ja: {
+            name: 'テーブル',
+            xRxC: '{0}行 × {1}列',
+            headerRow: '見出し行',
+            headerCol: '見出し列',
+            tableStyle: 'テーブルスタイル',
+            addHeaderRow: '見出し行を追加',
+            stripedRows: 'ストライブ 行',
+            hoverRows: 'ホバー行',
+            autoChangeTableWidth: '自動変更幅',
+            tableWidthFixed: 'テーブル文字に適応',
+            tableWidthFull: 'ページ幅で適応',
+            tableBorder: 'テーブル枠線',
+            tableHead: '見出し',
+            tableContent: 'コンテンツ',
+            mergeCells: 'セルを結合',
+            defaultColor: 'デフォルト色',
+            color: '色',
+            forecolor: 'フォントの色',
+            backcolor: '塗りつぶしの色',
+            invalidBoderWidth: '外枠のサイズは必ず数値です。'
         }
     };
     var $elements = [];

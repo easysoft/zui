@@ -1058,7 +1058,7 @@
           "~/kindeditor/plugins/paste-image.js",
           "~/kindeditor/plugins/advance-table.js"
         ],
-        "resource": ["assets/kindeditor//themes/**/*", "assets/kindeditor//lang/**/*", "assets/kindeditor//plugins.zip", "assets/kindeditor//README.md"]
+        "resource": ["assets/kindeditor//themes/**/*", "assets/kindeditor//lang/**/*", "assets/kindeditor//plugins.zip", "src/js/kindeditor//lang/**/*", "assets/kindeditor//README.md"]
       },
       "ver": "1.0.0",
       "dpds": ["basic"],
