@@ -55,7 +55,7 @@
 
 ```js
 // 手动初始化时，也可以使用数组来定于预设颜色
-$('.input-group #myColor').colorpicker({
+$('.input-group #myColor').colorPicker({
     colors: ['#fff', '#000', '#3280fC', 'red']
 });
 ```
@@ -118,7 +118,7 @@ $('.input-group #myColor').colorpicker({
 使用 JavaScript 代码手动初始化，允许在调用初始化函数的同时传入初始化选项。
 
 ```js
-$('.input-group #myColor').colorpicker({
+$('.input-group #myColor').colorPicker({
     wrapper: '.input-group-btn'
 });
 ```
