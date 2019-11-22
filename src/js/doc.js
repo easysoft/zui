@@ -389,7 +389,7 @@
                     section.target = '';
                 }
 
-                if(section.hidden) return;
+                if(section.hidden || (section.beta && !debug)) return;
 
                 var id = chapterName + '-' + section.id;
                 var $tpl = $sectionTemplate.clone().data('section', section);
