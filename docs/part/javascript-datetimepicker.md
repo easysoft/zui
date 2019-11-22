@@ -36,7 +36,6 @@ filter: riqixuanze rqxz
 // 仅选择日期
 $(".form-date").datetimepicker(
 {
-    language:  "zh-CN",
     weekStart: 1,
     todayBtn:  1,
     autoclose: 1,
@@ -61,7 +60,6 @@ $(".form-date").datetimepicker(
 ```js
 // 选择时间
 $(".form-time").datetimepicker({
-    language:  "zh-CN",
     weekStart: 1,
     todayBtn:  1,
     autoclose: 1,
@@ -190,7 +188,6 @@ $(".form-datetime").datetimepicker(
 // 仅选择日期
 $(".form-date").datetimepicker(
 {
-    language:  "zh-CN",
     weekStart: 1,
     todayBtn:  1,
     autoclose: 1,
@@ -213,7 +210,6 @@ $(".form-date").datetimepicker(
 ```js
 // 选择时间
 $(".form-time").datetimepicker({
-    language:  "zh-CN",
     weekStart: 1,
     todayBtn:  1,
     autoclose: 1,
@@ -248,7 +244,6 @@ function afterPageLoad() {
                 format: 'yyyy-mm-dd hh:ii'
             });
             $('#pageBody .form-date').datetimepicker({
-                language:  'zh-CN',
                 weekStart: 1,
                 todayBtn:  1,
                 autoclose: 1,
@@ -259,7 +254,6 @@ function afterPageLoad() {
                 format: 'yyyy-mm-dd'
             });
             $('#pageBody .form-time').datetimepicker({
-                language:  'zh-CN',
                 weekStart: 1,
                 todayBtn:  1,
                 autoclose: 1,
