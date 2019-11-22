@@ -131,7 +131,8 @@
             if (clickResult !== false) {
                 hideContextMenu();
             }
-        }).empty();;
+        }).empty();
+        $menu.attr('class', 'dropdown-menu contextmenu-menu' + (options.className ? (' ' + options.className) : ''))
         $target.hide().attr('class', 'contextmenu');
         var itemCreator = options.itemCreator || createMenuItem;
         var itemsType = typeof items;
