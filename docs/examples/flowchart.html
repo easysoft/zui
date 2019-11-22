@@ -10,22 +10,50 @@
     <title>ZUI - 流程图例子</title>
     <link href="../../dist/css/zui.css" rel="stylesheet">
     <style>
-    .flowchart-rel-line:before {content: ' '; display: block; position: absolute; left: -5px; top: -5px; right: -5px; bottom: -5px}
+    #toolbar {padding: 7px}
+    #toolbar .btn {margin: 3px; cursor: move;}
     </style>
 </head>
 
 <body style="padding: 20px">
-    <div style="margin-bottom: 20px">
-        <button type="button" class="btn btn-primary" id="exportDataBtn">导出数据</button>
-        <button type="button" class="btn btn-primary" id="showExampleBtn">重置为示例数据</button>
-        <button type="button" class="btn btn-danger" id="resetDataBtn">重置数据</button>
-        <button type="button" class="btn" id="resetLayoutBtn">自动布局</button>
+    <svg class="hidden" width="100px" height="100px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 50 Q 20 0, 50 50 T 100 50" stroke="black" fill="transparent"/>
+    </svg>
+    <div class="clearfix">
+        <div class="btn-group pull-left" style="margin-bottom: 10px; margin-right: 10px;">
+            <button type="button" class="btn btn-success" id="showFsmExampleBtn">FSM 例子</button>
+            <button type="button" class="btn btn-success" id="showFbdExampleBtn">FBD 例子</button>
+            <button type="button" class="btn btn-success" id="showExampleBtn">默认示例</button>
+        </div>
+        <div class="pull-left margin-bottom: 10px">
+            <button type="button" class="btn btn-danger" id="resetDataBtn">清空</button>
+            <button type="button" class="btn btn-primary" id="exportDataBtn">导出</button>
+        </div>
     </div>
-    <div id="flowchart" class="panel"></div>
-
-    <script src="../../assets/jquery.js"></script>
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="panel">
+                <div class="panel-heading">可用组件<small class="text-muted">(可拖放)</small></div>
+                <div class="panel-body" id="toolbar">
+                    <button type="button" class="btn" data-type="start" draggable="true">开始</button>
+                    <button type="button" class="btn" data-type="action" draggable="true">动作</button>
+                    <button type="button" class="btn" data-type="connection" draggable="true">连接</button>
+                    <button type="button" class="btn" data-type="judge" draggable="true">判断</button>
+                    <button type="button" class="btn" data-type="result" draggable="true">结果</button>
+                    <button type="button" class="btn" data-type="point" draggable="true">节点</button>
+                    <button type="button" class="btn" data-type="stop" draggable="true">结束</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-10">
+            <div id="flowchart" class="panel"></div>
+        </div>
+    </div>
+    <script src="../../assets/jquery-3.4.1.min.js"></script>
     <script src="../../dist/js/zui.js"></script>
-    <script src="../../dist/lib/flowchart/zui.flowchart.js"></script>
+    <script src="../../src/js/flowchart.js"></script>
+    <script src="./flowchart.fbd.js"></script>
+    <script src="./flowchart.fsm.js"></script>
     <link href="../../dist/lib/bootbox/bootbox.min.css" rel="stylesheet">
     <script src="../../dist/lib/bootbox/bootbox.min.js"></script>
     <script>
@@ -43,10 +71,12 @@
             }, {
                 id: 'submitBug',
                 text: '提交确认',
+                type: 'connection',
                 from: 'createBug'
             }, {
                 id: 'confirmBug',
                 text: '确认缺陷',
+                type: 'judge',
                 from: 'submitBug'
             }, {
                 id: 'submitArbitration',
@@ -55,6 +85,7 @@
             }, {
                 id: 'arbitration',
                 text: '仲裁',
+                type: 'point',
                 from: 'submitArbitration'
             }, {
                 id: 'requestHang',
@@ -105,40 +136,57 @@
                 className: 'text-green',
                 from: 'tip2'
             }];
+            var simpleData = [{
+                id: 'start',
+                type: 'start',
+                text: '开始',
+            }, {
+                id: 'createBug',
+                text: '新建缺陷',
+                from: 'start',
+            },/* {
+                id: 'submitBug',
+                text: '提交确认',
+                type: 'connection',
+                from: 'createBug'
+            }, {
+                id: 'confirmBug',
+                text: '确认缺陷',
+                type: 'judge',
+                from: ['submitBug', 'createBug']
+            }*/];
             $('#flowchart').flowChart({
+                plugins: 'fsm,fbd',
+                readonly: false,
                 showRelationTextOnSide: false,
                 adsorptionGrid: 10,
                 data: originData,
+                relationLineGap: 3,
+                portLineLength: 1,
+                addFromDrop: '#toolbar',
                 showContextMenu: function(element, items, event) {
                     console.log('当前右键菜单的元素', element);
                     console.log('系统生成的右键菜单列表', items);
 
                     // 修改系统生成的第二个右键菜单项
-                    items[1].label = '修改';
+                    items[1].label = '移除';
 
                     // 在末尾增加新的右键菜单
                     items.push({
                         label: '打开百度',
                         url: 'http://baidu.com'
                     }, {
-                        label: '获取 actionID',
+                        label: '获取 ID',
                         onClick: function() {
-                            // 多种方式获取自定义属性
-
-                            // 方法一：通过 Element 对象上的 data 属性访问 actionID 字段
-                            alert('actionID: ' + element.data.actionID);
-
-                            // 方法二：通过 jquery.data() 方法
-                            alert('actionID: ' + $(event.target).closest('.flowchart-node').data('actionID'));
-
-                            // 方法三，通过 flowchart 对象示例获取 element 对象
-                            var myFlowChart = $('#flowchart').data('zui.flowChart');
-                            var myElement = myFlowChart.getElement('start');
-                            alert('actionID: ' + myElement.data.actionID);
+                            alert('ID: ' + element.id);
                         }
                     });
+
                     return items;
                 },
+                onClickElement: function(node) {
+                    console.log('>', node);
+                }
                 // relationLineWidth: 2,
                 // nodeStyle: {
                 //     border: '2px solid #333',
@@ -160,6 +208,22 @@
             $('#showExampleBtn').on('click', function() {
                 flowchart.resetData(data);
             });
+            var fsmData = [{"position":{"left":20,"top":50},"id":"start","type":"fsm_start","text":"开始"},{"position":{"left":130,"top":50},"id":"state1","type":"fsm_simpleState","text":"简单状态"},{"position":{"left":290,"top":50},"id":"state2","type":"fsm_virtualState","text":"虚拟状态"},{"position":{"left":270,"top":200},"id":"state3","type":"fsm_actualState","text":"实际状态"},{"position":{"left":430,"top":200},"id":"state4","type":"fsm_selectState","text":"选择状态"},{"position":{"left":890,"top":120},"id":"stop","type":"fsm_stop","text":"结束"},{"position":{"left":460,"top":40},"id":"fhznztkw9a","type":"fsm_fork","text":"分叉"},{"position":{"left":560,"top":10},"id":"fhzo014wp4","type":"fsm_simpleState","text":"简单状态"},{"position":{"left":560,"top":90},"id":"fhzo02dejt","type":"fsm_simpleState","text":"简单状态"},{"position":{"left":740,"top":40},"id":"fhzo0gw250","type":"fsm_merge","text":"合并"},{"hideArrow":true,"from":"start","to":"state1","id":"fhznzi9quh","type":"fsm_actionConvert","text":"动作转换"},{"hideArrow":true,"from":"state1","to":"state2","id":"fhznzi9qui","type":"fsm_virtualActionConvert","text":"虚拟转换"},{"hideArrow":true,"from":"state1","to":"state3","id":"fhznzi9quj","type":"fsm_actionConvert","text":""},{"hideArrow":true,"from":"state3","to":"state4","id":"fhznzi9rmc","type":"fsm_actionConvert","text":""},{"hideArrow":true,"from":"state4","to":"stop","id":"fhznzi9rmd","type":"fsm_actionConvert","text":""},{"hideArrow":true,"from":"state2","to":"fhznztkw9a","fromPort":"right1","toPort":"in","id":"fhznzvsmmn","type":"relation","text":""},{"hideArrow":true,"from":"fhznztkw9a","to":"fhzo014wp4","fromPort":"out1","toPort":"left1","id":"fhzo0cii2i","type":"relation","text":""},{"hideArrow":true,"from":"fhznztkw9a","to":"fhzo02dejt","fromPort":"out2","toPort":"left1","id":"fhzo0dtwuz","type":"relation","text":""},{"hideArrow":true,"from":"fhzo014wp4","to":"fhzo0gw250","fromPort":"right1","toPort":"in1","id":"fhzo0i57wt","type":"relation","text":""},{"hideArrow":true,"from":"fhzo02dejt","to":"fhzo0gw250","fromPort":"right1","toPort":"in2","id":"fhzo0j7092","type":"relation","text":""},{"hideArrow":true,"from":"fhzo0gw250","to":"stop","fromPort":"out","toPort":"left1","id":"fhzo0kfv7z","type":"relation","text":""}];
+            $('#showFsmExampleBtn').on('click', function() {
+                flowchart.resetData(fsmData);
+            });
+            var fbdData = [{"position":{"left":40,"top":60},"id":"fhzelyvq88","type":"fbd_in","text":"DATA_IN1"},{"position":{"left":40,"top":110},"id":"fhzem0258h","type":"fbd_in","text":"DATA_IN2"},{"position":{"left":40,"top":160},"id":"fhzem0sm62","type":"fbd_in","text":"DATA_IN3"},{"position":{"left":260,"top":60},"id":"fhzem7c1h7","type":"fbd_add","text":"ADD1"},{"position":{"left":260,"top":160},"id":"fhzemixzrz","type":"fbd_ftrig","text":"F_TRIG1"},{"position":{"left":460,"top":100},"id":"fhzemr4jy2","type":"fbd_mul","text":"MUL1"},{"position":{"left":40,"top":210},"id":"fhzen7iupy","type":"fbd_in","text":"DATA_IN4"},{"position":{"left":40,"top":320},"id":"fhzen973pb","type":"fbd_in","text":"DATA_IN5"},{"position":{"left":40,"top":370},"id":"fhzenaevbk","type":"fbd_in","text":"DATA_IN6"},{"position":{"left":-10,"top":510},"id":"fhzencfdnt","type":"fbd_ctd","text":"CTD1"},{"position":{"left":260,"top":260},"id":"fhzend4wn6","type":"fbd_ctd","text":"CTD2"},{"position":{"left":460,"top":260},"id":"fhzenjwmke","type":"fbd_mod","text":"MOD1"},{"position":{"left":650,"top":120},"id":"fhzenpheyp","type":"fbd_out","text":"DATA_OUT2"},{"position":{"left":650,"top":280},"id":"fhzenssv4b","type":"fbd_out","text":"DATA_OUT3"},{"position":{"left":830,"top":160},"id":"fhzeojqg7q","type":"fbd_ctud","text":"CTUD1"},{"hideArrow":true,"from":"fhzelyvq88","to":"fhzem7c1h7","fromPort":"in","toPort":"I1","id":"fhzem8rhbw","type":"relation","text":""},{"hideArrow":true,"from":"fhzem0258h","to":"fhzem7c1h7","fromPort":"in","toPort":"I2","id":"fhzem9zc19","type":"relation","text":""},{"hideArrow":true,"from":"fhzem0sm62","to":"fhzemixzrz","fromPort":"in","toPort":"CLK","id":"fhzemlpc60","type":"relation","text":""},{"hideArrow":true,"from":"fhzem7c1h7","to":"fhzemr4jy2","fromPort":"Q","toPort":"I1","id":"fhzemsq25v","type":"relation","text":""},{"hideArrow":true,"from":"fhzemixzrz","to":"fhzemr4jy2","fromPort":"Q","toPort":"I2","id":"fhzemtqvs4","type":"relation","text":""},{"hideArrow":true,"from":"fhzen7iupy","to":"fhzend4wn6","fromPort":"in","toPort":"CU","id":"fhzenf6j3v","type":"relation","text":""},{"hideArrow":true,"from":"fhzen973pb","to":"fhzend4wn6","fromPort":"in","toPort":"RESET","id":"fhzengjpxw","type":"relation","text":""},{"hideArrow":true,"from":"fhzenaevbk","to":"fhzend4wn6","fromPort":"in","toPort":"PV","id":"fhzenhtv7h","type":"relation","text":""},{"hideArrow":true,"from":"fhzend4wn6","to":"fhzenjwmke","fromPort":"Q","toPort":"I1","id":"fhzenllovb","type":"relation","text":""},{"hideArrow":true,"from":"fhzend4wn6","to":"fhzenjwmke","fromPort":"CV","toPort":"I2","id":"fhzenme05s","type":"relation","text":""},{"hideArrow":true,"from":"fhzemr4jy2","to":"fhzenpheyp","fromPort":"Q","toPort":"out","id":"fhzenqkykq","type":"relation","text":""},{"hideArrow":true,"from":"fhzenjwmke","to":"fhzenssv4b","fromPort":"Q","toPort":"out","id":"fhzenuqmp0","type":"relation","text":""}];
+            $('#showFbdExampleBtn').on('click', function() {
+                flowchart.resetData(fbdData);
+            }).click();
+
+            var $toolbar = $('#toolbar').empty();
+            $.each(flowchart.types, function(name, typeInfo) {
+                if (typeInfo.isNode && !typeInfo.internal) {
+                    $toolbar.append('<button type="button" class="btn btn-sm" data-type="' + name + '" draggable="true">' + (typeInfo.displayName || typeInfo.name) + '</button>')
+                }
+            });
+            window.flowchart = flowchart;
             console.log(flowchart);
         });
     </script>
