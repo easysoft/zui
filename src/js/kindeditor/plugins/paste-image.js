@@ -77,6 +77,9 @@ KindEditor.plugin('pasteimage', function(K) {
             }
             var imageLoadingEle = '<div class="image-loading-ele small" style="padding: 5px; background: #FFF3E0; width: 300px; border-radius: 2px; border: 1px solid #FF9800; color: #ff5d5d; margin: 10px 0;"><i class="icon icon-spin icon-spinner-indicator muted"></i> ' + lang.uploadingHint + '</div>';
             self.readonly(true);
+            if ($.fn.enableForm) {
+                $(self.edit.div[0]).closest('form').enableForm(false);
+            }
             self.cmd.inserthtml(imageLoadingEle);
         };
 
@@ -103,6 +106,9 @@ KindEditor.plugin('pasteimage', function(K) {
             // $(doc.body).find('.image-loading-ele').remove();
 
             self.readonly(false);
+            if ($.fn.enableForm) {
+                $(self.edit.div[0]).closest('form').enableForm(true);
+            }
         };
 
         var pasteUrl = options.postUrl;
