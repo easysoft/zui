@@ -292,7 +292,7 @@
 
                         var handleLinkInIframe = options.handleLinkInIframe;
                         if (handleLinkInIframe) {
-                            frame$('body').on('click', handleLinkInIframe === 'string' ? handleLinkInIframe : 'a[href]', function() {
+                            frame$('body').on('click', typeof handleLinkInIframe === 'string' ? handleLinkInIframe : 'a[href]', function() {
                                 if ($(this).is('[data-toggle="modal"]')) return;
                                 $modal.addClass('modal-updating');
                             });
