@@ -692,6 +692,9 @@
     }
 
     function _formatUrl(url, mode, host, pathname) {
+        if (url[0] === '#') {
+            return url;
+        }
         mode = _undef(mode, '').toLowerCase();
         if(url.substr(0, 5) != 'data:') {
             url = url.replace(/([^:])\/\//g, '$1/');
