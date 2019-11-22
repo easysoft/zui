@@ -26,11 +26,9 @@
 // @group Base //
 .chosen-container {
   position: relative;
-  display: inline-block;
-  vertical-align: middle;
+  display: block;
   font-size: @font-size-base;
   zoom: 1;
-  *display: inline;
   user-select: none;
   .chosen-drop {
     position: absolute;
@@ -476,4 +474,11 @@
     display: block;
     opacity: 1;
   }
+}
+
+// Fix multiple select height change during chosen load
+select.chosen[multiple] {
+  height: @input-height-base;
+  overflow: hidden;
+  option {visibility: hidden;}
 }
