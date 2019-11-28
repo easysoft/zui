@@ -96,7 +96,7 @@
                 headerHeight = headerHeight($header);
             }
             bodyCss.maxHeight = winHeight - headerHeight;
-            bodyCss.overflow = $body.outerHeight() > bodyCss.maxHeight ? 'auto' : 'visible';
+            bodyCss.overflow = $body[0].scrollHeight > bodyCss.maxHeight ? 'auto' : 'visible';
         }
         $body.css(bodyCss);
 
