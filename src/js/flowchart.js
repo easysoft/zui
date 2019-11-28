@@ -374,13 +374,13 @@ if (!Array.prototype.map) {
     var SIDES = {top: 'top', right: 'right', bottom: 'bottom', left: 'left'};
 
     var basicElementProps = {
-        id: function(value, elementType, elementData) {
+        id: function(value) {
             if (value !== undefined) {
                 if (value.indexOf(':') > -1) {
-                    throw new Error('Do not allow ":" in element id "' + value + '".');
+                    throw new Error('FlowChart: Do not allow ":" in element id "' + value + '".');
                 }
                 if (value.indexOf('.') > -1) {
-                    throw new Error('Do not allow "." in element id "' + value + '".');
+                    throw new Error('FlowChart: Do not allow "." in element id "' + value + '".');
                 }
                 return value;
             }
@@ -671,7 +671,7 @@ if (!Array.prototype.map) {
         if (!initData) {
             return null;
         }
-        var map = {$all: {}, $free: []};
+        var map = {$all: {}, $free: [], $list: []};
         var hasPort;
         $.each(SIDES, function(side) {
             var portsData = initData[side];
@@ -691,6 +691,7 @@ if (!Array.prototype.map) {
                     var port = new FlowChartElementPort(portData, side, index);
                     if (!port.empty) {
                         map.$all[port.name] = port;
+                        map.$list.push(port);
                         if (port.free) {
                             map.$free.push(port);
                         }
@@ -1155,6 +1156,16 @@ if (!Array.prototype.map) {
         return that._relationPortsInfo;
     };
 
+    FlowChartElement.prototype.getFromPort = function() {
+        var portsInfo = this.getPortsInfoOfRelation();
+        return portsInfo && portsInfo.fromPort;
+    };
+
+    FlowChartElement.prototype.getToPort = function() {
+        var portsInfo = this.getPortsInfoOfRelation();
+        return portsInfo && portsInfo.toPort;
+    };
+
     /**
      * Init relation nodes before render
      */
@@ -1197,11 +1208,14 @@ if (!Array.prototype.map) {
         return selector ? $element.find(selector) : $element;
     };
 
-    FlowChartElement.prototype.active = function() {
+    FlowChartElement.prototype.active = function(zIndex) {
         if (this.isRelation) {
             this.renderRelation();
         } else {
             this.$ele.addClass('flowchart-active');
+            if (zIndex) {
+                this.$ele.css('zIndex', zIndex);
+            }
         }
     };
 
@@ -1226,7 +1240,31 @@ if (!Array.prototype.map) {
     };
 
     FlowChartElement.prototype.setText = function(text) {
-        this.text = text;
+        if (text !== this.text) {
+            this.text = text;
+            return true;
+        }
+    };
+
+    /**
+     *
+     * @param {string} [side]
+     */
+    FlowChartElement.prototype.getPorts = function(side) {
+        if (this.isRelation) {
+            return null;
+        }
+        if (side) {
+            return this.elementType.ports[side];
+        }
+        return this.elementType.ports.$list;
+    };
+
+    FlowChartElement.prototype.getPortByName = function(name) {
+        if (this.isRelation) {
+            return null;
+        }
+        return this.elementType.ports.$all[name];
     };
 
     FlowChartElement.prototype.isActive = function() {
@@ -1374,355 +1412,13 @@ if (!Array.prototype.map) {
             width: lineSize,
             color: lineColor,
             shape: lineShape,
+            activeColor: options.activeColor,
+            className: 'flowchart-relation-line',
         }, $lines, $text);
 
         $relation.css(bounds);
         that.setBounds(bounds);
         return;
-
-        // Calculate vert space
-        var vertCenterDistance = fromNodeBounds.centerTop - toNodeBounds.centerTop;
-        var horzCenterDistance = fromNodeBounds.centerLeft - toNodeBounds.centerLeft;
-        var vertDistance = Math.abs(vertCenterDistance) - (fromNodeBounds.height + toNodeBounds.height) / 2;
-        var horzDistance = Math.abs(horzCenterDistance) - (fromNodeBounds.width + toNodeBounds.width) / 2;
-        var direction, isReverse, fromSide, toSide;
-        if (vertDistance >= 0) {
-            if (horzDistance >= 0) { // Four corners
-                if (vertCenterDistance > 0) { // Top
-                    if (horzCenterDistance > 0) { // Left
-                        direction = 'top-left';
-                        isReverse = true;
-                        fromSide  = 'left';
-                        toSide    = 'bottom';
-                    } else { // Right
-                        direction = 'top-right';
-                        isReverse = false;
-                        fromSide  = 'right';
-                        toSide    = 'top';
-                    }
-                } else { // Bottom
-                    if (horzCenterDistance > 0) { // Left
-                        direction = 'bottom-left';
-                        isReverse = true;
-                        fromSide  = 'bottom';
-                        toSide    = 'right';
-                    } else { // Right
-                        direction = 'bottom-right';
-                        isReverse = false;
-                        fromSide  = 'bottom';
-                        toSide    = 'left';
-                    }
-                }
-            } else {
-                isReverse = vertCenterDistance > 0;
-                direction = isReverse ? 'top' : 'bottom';
-                fromSide  = direction;
-                toSide    = isReverse ? 'bottom' : 'top';
-            }
-        } else {
-            isReverse = horzCenterDistance > 0;
-            direction = isReverse ? 'left' : 'right';
-            fromSide  = direction;
-            toSide    = isReverse ? 'right' : 'left';
-        }
-        that.direction = direction;
-        that.isReverse = isReverse;
-        that.fromSide  = fromSide;
-        that.toSide    = toSide;
-
-        var beginNode       = isReverse ? toNode : fromNode;
-        var endNode         = isReverse ? fromNode : toNode;
-        var beginBounds     = beginNode.getBounds();
-        var endBounds       = endNode.getBounds();
-        var beginSide       = isReverse ? toSide : fromSide;
-        var endSide         = isReverse ? fromSide : toSide;
-        var relationLineGap = options.relationLineGap;
-        var beginSideRels   = relationLineGap && beginNode.sideRels[beginSide];
-        var endSideRels     = relationLineGap && endNode.sideRels[endSide];
-
-        if (relationLineGap) {
-            var findRelById = function(rel) {
-                return rel.id === that.id;
-            };
-            if (!beginSideRels.length || !beginSideRels.find(findRelById)) {
-                beginSideRels.push(that);
-                if (beginSideRels.length > 1) {
-                    beginSideRels.forEach(function(rel) {
-                        if (rel.id !== that.id) {
-                            rel.renderRelation();
-                        }
-                    });
-                }
-            }
-            if (!endSideRels.length || !endSideRels.find(findRelById)) {
-                endSideRels.push(that);
-                if (endSideRels.length > 1) {
-                    endSideRels.forEach(function(rel) {
-                        if (rel.id !== that.id) {
-                            rel.renderRelation();
-                        }
-                    });
-                }
-            }
-
-            var sortRels;
-            if (direction.startsWith('bottom') || direction.startsWith('top')) {
-                sortRels = function(rel1, rel2) {
-                    var centerLeft1 = (rel1 && rel1.toNode && rel1.toNode.bounds) ? rel1.toNode.bounds.centerLeft : -1;
-                    var centerLeft2 = (rel2 && rel2.toNode && rel2.toNode.bounds) ? rel2.toNode.bounds.centerLeft : -1;
-                    return centerLeft1 - centerLeft2;
-                };
-            } else {
-                sortRels = function(rel1, rel2) {
-                    var centerTop1 = (rel1 && rel1.toNode && rel1.toNode.bounds) ? rel1.toNode.bounds.centerTop : -1;
-                    var centerTop2 = (rel2 && rel2.toNode && rel2.toNode.bounds) ? rel2.toNode.bounds.centerTop : -1;
-                    return centerTop1 - centerTop2;
-                };
-            }
-            if (beginSideRels && beginSideRels.length) {
-                beginSideRels.sort(sortRels);
-            }
-            if (endSideRels && endSideRels.length) {
-                endSideRels.sort(sortRels);
-            }
-        }
-        var beginSideRelIndex  = relationLineGap && beginSideRels.findIndex(findRelById);
-        var endSideRelIndex    = relationLineGap && endSideRels.findIndex(findRelById);
-        var beginSideRelsCount = relationLineGap ? beginSideRels.length : 0;
-        var endSideRelsCount   = relationLineGap ? endSideRels.length : 0;
-
-        that.beginSideRels = beginSideRels;
-        that.endSideRels = endSideRels;
-        that.beginSideRelIndex = beginSideRelIndex;
-        that.endSideRelIndex = endSideRelIndex;
-        that.beginSideRelsCount = beginSideRelsCount;
-        that.endSideRelsCount = endSideRelsCount;
-
-
-        var beginLineStyle    = {};
-        var endLineStyle      = {};
-        var centerLineStyle   = {
-            alignItems: 'center',
-            justifyContent: 'center',
-        };
-        var arrowStyle        = !showArrow ? {display: 'none'} : {
-            display: 'block',
-            position: 'absolute',
-            width: 0,
-            height: 0,
-            borderTopWidth: arrowSize / 2,
-            borderRightWidth: arrowSize / 2,
-            borderBottomWidth: arrowSize / 2,
-            borderLeftWidth: arrowSize / 2,
-            borderTopColor: 'transparent',
-            borderRightColor: 'transparent',
-            borderBottomColor: 'transparent',
-            borderLeftColor: 'transparent',
-            borderStyle: 'solid',
-        };
-        var baseLineStyle = {
-            background: lineColor,
-            position: 'absolute',
-        };
-        var beginLineOffset = relationLineGap ? (1 - beginSideRelsCount + 2 * beginSideRelIndex) * relationLineGap : 0;
-        var endLineOffset = relationLineGap ? (1 - endSideRelsCount + 2 * endSideRelIndex) * relationLineGap : 0;
-        that.beginLineOffset = beginLineOffset;
-        that.endLineOffset = endLineOffset;
-
-        var bounds = {};
-        if (direction === 'bottom-left' || direction === 'top-right') {
-            // Relation link as ┘
-            bounds.left   = beginBounds.right;
-            bounds.top    = endBounds.bottom;
-            bounds.width  = endBounds.right - bounds.left;
-            bounds.height = beginBounds.bottom - bounds.top;
-
-            beginLineStyle.left   = isReverse ? arrowSize : 0;
-            beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2) + beginLineOffset;
-            beginLineStyle.width  = Math.floor(bounds.width - lineSize - endBounds.width / 2) - beginLineStyle.left + endLineOffset;
-            beginLineStyle.height = lineSize;
-
-            endLineStyle.left   = beginLineStyle.width + beginLineStyle.left;
-            endLineStyle.top    = isReverse ? 0 : arrowSize;
-            endLineStyle.width  = lineSize;
-            endLineStyle.height = beginLineStyle.top - endLineStyle.top;
-
-            centerLineStyle.left   = endLineStyle.left;
-            centerLineStyle.top    = beginLineStyle.top;
-            centerLineStyle.height = lineSize;
-            centerLineStyle.width  = lineSize;
-
-            if (options.showRelationTextOnSide) {
-                centerLineStyle.justifyContent = 'flex-start';
-                centerLineStyle.textIndent     = '4px';
-            }
-
-            if (showArrow) {
-                if (isReverse) {
-                    // render left arrow
-                    arrowStyle.borderRightWidth = arrowSize;
-                    arrowStyle.borderLeftWidth  = 0;
-                    arrowStyle.borderRightColor = lineColor;
-                    arrowStyle.left = 0;
-                    arrowStyle.top  = Math.floor(beginLineStyle.top + lineSize / 2 - arrowSize / 2);
-                } else {
-                    // render top arrow
-                    arrowStyle.borderBottomWidth = arrowSize;
-                    arrowStyle.borderTopWidth    = 0;
-                    arrowStyle.borderBottomColor = lineColor;
-                    arrowStyle.top  = 0;
-                    arrowStyle.left = Math.floor(endLineStyle.left + lineSize / 2 - arrowSize / 2);
-                }
-            }
-        } else if (direction === 'top-left' || direction === 'bottom-right') {
-            // Relation link as └
-            bounds.left   = beginBounds.left;
-            bounds.top    = beginBounds.bottom;
-            bounds.width  = endBounds.left - bounds.left;
-            bounds.height = beginBounds.bottom - bounds.top;
-
-            beginLineStyle.left   = Math.floor(beginBounds.width / 2 - lineSize) + beginLineOffset;
-            beginLineStyle.top    = isReverse ? arrowSize : 0;
-            beginLineStyle.width  = lineSize;
-            beginLineStyle.height = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2) - beginLineStyle.top + endLineOffset;
-
-            endLineStyle.left   = beginLineStyle.left + lineSize;
-            endLineStyle.top    = beginLineStyle.top + beginLineStyle.height;
-            endLineStyle.width  = Math.floor(bounds.width - lineSize - beginLineStyle.left) - (isReverse ? 0 : arrowSize);
-            endLineStyle.height = lineSize;
-
-            centerLineStyle.top    = endLineStyle.top;
-            centerLineStyle.left   = beginLineStyle.left;
-            centerLineStyle.height = lineSize;
-            centerLineStyle.width  = lineSize;
-
-            if (options.showRelationTextOnSide) {
-                centerLineStyle.justifyContent = 'flex-end';
-            }
-
-            if (showArrow) {
-                if (isReverse) {
-                    // render top arrow
-                    arrowStyle.borderBottomWidth = arrowSize;
-                    arrowStyle.borderTopWidth    = 0;
-                    arrowStyle.borderBottomColor = lineColor;
-                    arrowStyle.top  = 0;
-                    arrowStyle.left = Math.floor(beginLineStyle.left + lineSize / 2 - arrowSize / 2);
-                } else {
-                    // render right arrow
-                    arrowStyle.borderLeftWidth  = arrowSize;
-                    arrowStyle.borderRightWidth = 0;
-                    arrowStyle.borderLeftColor  = lineColor;
-                    arrowStyle.left = endLineStyle.left + endLineStyle.width;
-                    arrowStyle.top  = Math.floor(endLineStyle.top + lineSize / 2 - arrowSize / 2);
-                }
-            }
-        } else if (direction === 'left' || direction === 'right') {
-            bounds.left   = beginBounds.right;
-            bounds.top    = Math.min(beginBounds.top, endBounds.top);
-            bounds.width  = endBounds.left - bounds.left;
-            bounds.height = Math.max(beginBounds.bottom, endBounds.bottom) - bounds.top;
-
-            beginLineStyle.left   = isReverse ? arrowSize : 0;
-            beginLineStyle.top    = Math.floor(beginBounds.centerTop - bounds.top - lineSize / 2) + beginLineOffset;
-            beginLineStyle.width  = bounds.width / 2 - beginLineStyle.left;
-            beginLineStyle.height = lineSize;
-
-            endLineStyle.left   = beginLineStyle.left + beginLineStyle.width;
-            endLineStyle.top    = Math.floor(endBounds.centerTop - bounds.top - lineSize / 2) + endLineOffset;
-            endLineStyle.width  = bounds.width / 2 - (isReverse ? 0 : arrowSize);
-            endLineStyle.height = lineSize;
-
-            centerLineStyle.left = Math.floor(bounds.width / 2 - lineSize / 2);
-            centerLineStyle.top = Math.floor(Math.min(beginLineStyle.top, endLineStyle.top));
-            centerLineStyle.height = Math.floor(Math.abs(beginLineStyle.top - endLineStyle.top) + lineSize);
-            centerLineStyle.width = lineSize;
-
-            if (options.showRelationTextOnSide) {
-                if (centerLineStyle.height <= 10) {
-                    centerLineStyle.alignItems = 'flex-end';
-                } else {
-                    centerLineStyle.justifyContent = 'flex-start';
-                    centerLineStyle.textIndent = '4px';
-                }
-            }
-
-            if (showArrow) {
-                if (isReverse) {
-                    // render left arrow
-                    arrowStyle.borderRightWidth = arrowSize;
-                    arrowStyle.borderLeftWidth = 0;
-                    arrowStyle.borderRightColor = lineColor;
-                    arrowStyle.left = 0;
-                    arrowStyle.top = Math.floor(beginLineStyle.top + lineSize / 2 - arrowSize / 2);
-                } else {
-                    // render right arrow
-                    arrowStyle.borderLeftWidth = arrowSize;
-                    arrowStyle.borderRightWidth = 0;
-                    arrowStyle.borderLeftColor = lineColor;
-                    arrowStyle.left = endLineStyle.left + endLineStyle.width;
-                    arrowStyle.top = Math.floor(endLineStyle.top + lineSize / 2 - arrowSize / 2);
-                }
-            }
-        } else if (direction === 'top' || direction === 'bottom') {
-            bounds.left   = Math.min(beginBounds.left, endBounds.left);
-            bounds.top    = beginBounds.bottom;
-            bounds.width  = Math.max(beginBounds.right, endBounds.right) - bounds.left;
-            bounds.height = endBounds.top - bounds.top;
-
-            beginLineStyle.top    = isReverse ? arrowSize : 0;
-            beginLineStyle.left   = Math.floor(beginBounds.centerLeft - bounds.left - lineSize / 2) + beginLineOffset;
-            beginLineStyle.height = bounds.height / 2 - beginLineStyle.top;
-            beginLineStyle.width  = lineSize;
-
-            endLineStyle.top    = bounds.height / 2;
-            endLineStyle.left   = Math.floor(endBounds.centerLeft - bounds.left - lineSize / 2) + endLineOffset;
-            endLineStyle.height = bounds.height / 2 - (isReverse ? 0 : arrowSize);
-            endLineStyle.width  = lineSize;
-
-            centerLineStyle.top    = Math.floor(bounds.height / 2 - lineSize / 2);
-            centerLineStyle.left   = Math.floor(Math.min(beginLineStyle.left, endLineStyle.left));
-            centerLineStyle.width  = Math.floor(Math.abs(beginLineStyle.left - endLineStyle.left) + lineSize);
-            centerLineStyle.height = lineSize;
-
-            if (options.showRelationTextOnSide) {
-                if (centerLineStyle.width <= 10) {
-                    centerLineStyle.justifyContent = 'flex-start';
-                    centerLineStyle.textIndent = '4px';
-                } else {
-                    centerLineStyle.alignItems = 'flex-end';
-                }
-            }
-
-            if (showArrow) {
-                if (isReverse) {
-                // render top arrow
-                arrowStyle.borderBottomWidth = arrowSize;
-                arrowStyle.borderTopWidth    = 0;
-                arrowStyle.borderBottomColor = lineColor;
-                arrowStyle.top  = 0;
-                arrowStyle.left = Math.floor(beginLineStyle.left + lineSize / 2 - arrowSize / 2);
-                } else {
-                    // render bottom arrow
-                    arrowStyle.borderTopWidth    = arrowSize;
-                    arrowStyle.borderBottomWidth = 0;
-                    arrowStyle.borderTopColor    = lineColor;
-                    arrowStyle.top  = endLineStyle.top + endLineStyle.height;
-                    arrowStyle.left = Math.floor(endLineStyle.left + lineSize / 2 - arrowSize / 2);
-                }
-            }
-        }
-        $relation.find('.flowchart-rel-arrow').css(arrowStyle);
-        $relation.find('.flowchart-rel-begin-line').css($.extend(beginLineStyle, baseLineStyle));
-        $relation.find('.flowchart-rel-end-line').css($.extend(endLineStyle, baseLineStyle));
-        var $centerLine  = $relation.find('.flowchart-rel-center-line').css($.extend(centerLineStyle, baseLineStyle));
-        var showTextOnSide = ifUndefinedThen(that.showtextOnSide, options.showRelationTextOnSide);
-        if (showTextOnSide) {
-            $text.appendTo($centerLine);
-        }
-
-        that.setBounds(bounds);
-        $relation.css(bounds);
     };
 
     /**
@@ -1865,7 +1561,8 @@ if (!Array.prototype.map) {
             } else {
                 template = template.format($.extend({
                     domID: that.getDomID(true),
-                    cursor: (flowChart.draggableEnable && options.draggable && options.readonly !== true) ? 'move' : 'default'
+                    cursor: (flowChart.draggableEnable && options.draggable && options.readonly !== true) ? 'move' : 'default',
+                    zIndex: that.nodeZIndex++
                 }, that));
             }
 
@@ -2093,7 +1790,7 @@ if (!Array.prototype.map) {
                 }
             }
             that.setBounds(newPosition);
-            if (options.disableAutoPosition) {
+            if (position.custom === undefined) {
                 position.custom = true;
             }
         }
@@ -2101,6 +1798,7 @@ if (!Array.prototype.map) {
         if (!skipPosition) {
             var adsorptionGrid = options.adsorptionGrid;
             if (adsorptionGrid) {
+                bounds = that.getBounds();
                 that.setBounds({
                     left: Math.round(bounds.left / adsorptionGrid) * adsorptionGrid,
                     top: Math.round(bounds.top / adsorptionGrid) * adsorptionGrid
@@ -2118,6 +1816,37 @@ if (!Array.prototype.map) {
         if (this.isNode) {
             this.layoutNode(skipPosition);
         }
+    };
+
+    /**
+     * Get element's data
+     * @param {string} [name]
+     */
+    FlowChartElement.prototype.getData = function(name) {
+        if (name === undefined) {
+            return $.extend({}, this.data);
+        }
+        return this.data[name];
+    };
+
+    /**
+     * Set element's data
+     * @param {string|Record<string,any>} name
+     * @param {any} [value]
+     */
+    FlowChartElement.prototype.setData = function(name, value) {
+        var newData;
+        if (typeof name === 'object' && name !== null) {
+            newData = value;
+        } else {
+            newData = {};
+            newData[name] = value;
+        }
+        if (this.flowChart.callCallback('beforeSetData', [newData, this]) === false) {
+            return;
+        }
+        $.extend(this.data, newData);
+        this.flowChart.callCallback('afterSetData', [newData, this]);
     };
 
     var FlowChartElementType = function(elementTypes) {
@@ -2467,7 +2196,6 @@ if (!Array.prototype.map) {
                         that.isPreventDragNode = true;
                     },
                     start: function(e) {
-                        console.log('start', e);
                         $port = $(e.element).closest('.flowchart-port').addClass('flowchart-drag-active');
                         $node = $port.closest('.flowchart-node').addClass('flowchart-drag-active');
                         sourcePoint = addTwoPoints(that.getPositionOf($port), $port.data('centerOffset'));
@@ -2550,11 +2278,9 @@ if (!Array.prototype.map) {
             if (typeof options.addFromDrop === 'string') {
                 var $dragElements = $(options.addFromDrop);
                 var handDragStart = function(e) {
-                    var type = $(e.target).data('type');
-                    if (type) {
-                        e.originalEvent.dataTransfer.setData('newElement', JSON.stringify({
-                            type: type,
-                        }));
+                    var elementData = $(e.target).data();
+                    if (elementData.type) {
+                        e.originalEvent.dataTransfer.setData('newElement', JSON.stringify(elementData));
                         $container.addClass('flowchart-drag-start');
                     }
                 };
@@ -2568,25 +2294,43 @@ if (!Array.prototype.map) {
                 }
             }
             var handDragOver = function(e) {
+                if (options.onDragOver && options.onDragOver.call(that, e) === false) {
+                    return;
+                }
                 $container.toggleClass('flowchart-drag-over', !!$(e.target).closest('.flowchart-canvas').length);
                 e.originalEvent.dataTransfer.effectAllowed = 'copy';
                 e.preventDefault();
             };
             $canvas.on('dragenter', handDragOver).on('dragover', handDragOver).on('dragleave', function(e) {
+                if (options.onDragLeave && options.onDragLeave.call(that, e) === false) {
+                    return;
+                }
                 $container.toggleClass('flowchart-drag-over', !$(e.target).closest('.flowchart-canvas').length);
             }).on('drop', function(e) {
-                var newElementData = $.parseJSON(e.originalEvent.dataTransfer.getData('newElement'));
-                if (newElementData) {
-                    var canvasOffset = $canvas.offset();
-                    that.addElement($.extend({
-                        position: {
-                            centerLeft: e.clientX - canvasOffset.left,
-                            centerTop: e.clientY - canvasOffset.top,
-                        },
-                        text: null,
-                    }, newElementData));
+                if (options.onDrop && options.onDrop.call(that, e) === false) {
+                    return;
                 }
                 e.preventDefault();
+                var newElementData = e.originalEvent.dataTransfer.getData('newElement');
+                if (newElementData) {
+                    try {
+                        newElementData = $.parseJSON(newElementData);
+                    } catch (e) {
+                        console.error('FlowChart: Cannot get correct "newElement" data from drop event\'s dataTransfer.', newElementData, e);
+                    }
+                    if (newElementData && typeof newElementData === 'object' && newElementData.type) {
+                        var canvasOffset = $canvas.offset();
+                        that.addElement($.extend({
+                            position: {
+                                centerLeft: e.clientX - canvasOffset.left,
+                                centerTop: e.clientY - canvasOffset.top,
+                            },
+                            text: null,
+                        }, newElementData));
+                    } else {
+                        console.warn('FlowChart: Data format error in  "newElement" data from drop event\'s dataTransfer.', newElementData);
+                    }
+                }
             });
         }
 
@@ -2600,10 +2344,26 @@ if (!Array.prototype.map) {
                 });
             }
 
+            var delaySetTextTimer = null;
             $canvas.on('input', '.flowchart-text[contenteditable=true]', function(e) {
                 var $text = $(this);
+                if (delaySetTextTimer) {
+                    clearTimeout(delaySetTextTimer);
+                    delaySetTextTimer = null;
+                }
+                var text = $text.text();
+                delaySetTextTimer = setTimeout(function() {
+                    var $ele = $text.closest('.flowchart-element');
+                    that.setElementText($ele.data('id'), text, true);
+                }, 1000);
+            }).on('blur', '.flowchart-text', function(e) {
+                if (delaySetTextTimer) {
+                    clearTimeout(delaySetTextTimer);
+                    delaySetTextTimer = null;
+                }
+                var $text = $(this);
                 var $ele = $text.closest('.flowchart-element');
-                that.setElementText($ele.data('id'), $text.text(), true);
+                that.setElementText($ele.data('id'), $text.text());
             });
         }
 
@@ -2626,7 +2386,6 @@ if (!Array.prototype.map) {
         if (options.onClickElement || options.activeOnClick) {
             $canvas.on('click', function(e) {
                 var $element = $(e.target).closest('.flowchart-element');
-                console.log('click', $element);
                 if ($element.length) {
                     if ($element.hasClass('flowchart-dragged')) {
                         $element.removeClass('flowchart-dragged');
@@ -2661,6 +2420,11 @@ if (!Array.prototype.map) {
         that.$svg = $svg;
         that.$svgMarkers = $svg.find('defs');
 
+        // Node z-index counter
+        that.nodeZIndex = 5;
+
+        that.callCallback('onCreate');
+
         // Update and render init elements
         that.update(options.data, false, true);
 
@@ -2669,17 +2433,19 @@ if (!Array.prototype.map) {
 
     FlowChart.prototype.callCallback = function(callbackName, params) {
         var that = this;
+        var result;
         if (that.plugins) {
             that.plugins.forEach(function(pluginName) {
                 var plugin = FlowChart.plugins[pluginName];
                 if (plugin && plugin[callbackName]) {
-                    plugin[callbackName].apply(that, params);
+                    result = plugin[callbackName].apply(that, params);
                 }
             });
         }
         if (that.options[callbackName]) {
-            that.options[callbackName].apply(that, params);
+            result = that.options[callbackName].apply(that, params);
         }
+        return result;
     };
 
     /**
@@ -2720,6 +2486,10 @@ if (!Array.prototype.map) {
             '#{id} .flowchart-element.flowchart-drop-active .flowchart-drop-active > .flowchart-port-dot {background: {activeColor}}',
             '#{id} .flowchart-element .flowchart-port-dot:hover, #{id} .flowchart-element .flowchart-drag-active > .flowchart-port-dot, #{id} .flowchart-element .flowchart-drop-active > .flowchart-port-dot {opacity: 1; transform: scale(2)}',
             '#{id} .flowchart-node.flowchart-active, #{id} .flowchart-node.flowchart-drag-active, #{id} .flowchart-node.flowchart-drop-active {border-color: {activeColor}!important; box-shadow: 0 0 0 2px {activeColor}!important}',
+            '#{id} .flowchart-relation:before {content: " "; display: block; top: -4px; right: -4px; bottom: -4px; left: -4px; position: absolute; border-radius: 50%;}',
+            '#{id} .flowchart-relation-text {min-height: 14px;}',
+            '#{id} .flowchart-element-focused .flowchart-relation-text {min-width: 30px; border: 1px solid {activeColor}}',
+            '#{id} .flowchart-svg-canvas .flowchart-relation-line:hover {stroke: {activeColor}!important}',
         ];
 
         if (that.plugins) {
@@ -2813,11 +2583,12 @@ if (!Array.prototype.map) {
             element = that.getElement(element);
         }
         if (!multiple) {
-            that.unactiveElements();
+            that.unactiveElements([element.id]);
         }
-        if (element) {
-            element.active()
+        if (element && !that.isElementActive(element.id)) {
             that.activedElements[element.id] = element;
+            element.active(that.nodeZIndex++)
+            that.callCallback('onActiveElement', [element]);
         }
     };
 
@@ -2831,21 +2602,48 @@ if (!Array.prototype.map) {
             element = that.getElement(element);
         }
         if (element) {
-            element.unactive();
             delete this.activedElements[element.id];
+            element.unactive();
+            that.callCallback('onUnactiveElement', [element]);
         }
     };
 
     /**
      * Unactive elements
      */
-    FlowChart.prototype.unactiveElements = function() {
+    FlowChart.prototype.unactiveElements = function(excludeList) {
         var that = this;
-        console.log('unactiveElements', that._focusedElement, that.activedElements);
-        $.each(that.activedElements, function(_, element) {
+        var excludeMap;
+        if (excludeList) {
+            if (typeof excludeList === 'string') {
+                excludeList = excludeList.split(',');
+            }
+            excludeMap = {};
+            excludeList.forEach(function(item) {
+                if (typeof item === 'object') {
+                    excludeMap[item.id] = 1;
+                } else {
+                    excludeMap[item] = 1;
+                }
+            });
+        }
+        $.each(that.activedElements, function(elementID, element) {
+            if (excludeMap && excludeMap[elementID]) {
+                return;
+            }
             that.unactiveElement(element);
         });
         that.blurElementText();
+    };
+
+    /**
+     * Check whether the given element is actived
+     */
+    FlowChart.prototype.isElementActive = function(elementID) {
+        if (typeof elementID === 'object') {
+            elementID = elementID.id;
+        }
+        return !!this.activedElements[elementID];
     };
 
     FlowChart.prototype.blurElementText = function() {
@@ -2872,16 +2670,6 @@ if (!Array.prototype.map) {
         that.activeElement(element);
         element.focusText();
         that._focusedElement = element.id;
-    };
-
-    /**
-     * Check whether the given element is actived
-     */
-    FlowChart.prototype.isElementActive = function(elementID) {
-        if (typeof elementID === 'object') {
-            elementID = elementID.id;
-        }
-        return !!this.activedElements[elementID];
     };
 
     // Show quick add marks
@@ -3054,6 +2842,7 @@ if (!Array.prototype.map) {
             });
         }
         return {
+            map: map,
             /**
              * @type {boolean}
              */
@@ -3132,6 +2921,7 @@ if (!Array.prototype.map) {
             relation.initRelationBeforeRender();
         });
 
+
         var partialRenderMap = that._getPartialRenderMap(partialIDList);
         if (!partialRenderMap.enabled) {
             that.bounds = {left: options.padding, top: options.padding, width: 0, height: 0};
@@ -3208,7 +2998,6 @@ if (!Array.prototype.map) {
      */
     FlowChart.prototype.drawRelationLine = function(lineID, beginPoint, endPoint, style, $ele, $text) {
         var that = this;
-        // console.log('drawRelationLine', {$ele, beginPoint, endPoint, style, $text});
         if (style.shape === 'polyline') {
 
         } else if (style.shape === 'straight') {
@@ -3243,6 +3032,7 @@ if (!Array.prototype.map) {
                 strokeDasharray = '';
             }
             var lineAttrs = {
+                'class': style.className,
                 id: lineID,
                 x1: beginPoint.left,
                 y1: beginPoint.top,
@@ -3266,10 +3056,21 @@ if (!Array.prototype.map) {
             var $line = that.$svg.find('#' + lineID);
             if ($line.length) {
                 updateSVGElement($line[0], lineAttrs);
+                // updateSVGElement($line.children('set')[0], {
+                //     to: style.activeColor,
+                // });
             } else {
                 var line = createSVGElement('line', lineAttrs);
+                // var lineSet = createSVGElement('set', {
+                //     attributeName: 'stroke',
+                //     to: style.activeColor,
+                //     begin: 'mouseover',
+                //     end: 'mouseout',
+                // });
+                // line.appendChild(lineSet);
                 that.$svg.append(line);
             }
+
 
             if ($text) {
                 var centerLeft = (beginPoint.offsetLeft + endPoint.offsetLeft) / 2;
@@ -3387,9 +3188,8 @@ if (!Array.prototype.map) {
             return;
         }
 
-        element.setText(text);
-        if (!skipRender) {
-            this.render(node);
+        if (element.setText(text)) {
+            this.update(element, skipRender);
         }
     };
 
@@ -3405,8 +3205,9 @@ if (!Array.prototype.map) {
         $.each(that.elements, function(_, ele) {
             oldElements.push(ele);
         });
-        that.delete(oldElements, true);
+        that.delete(oldElements, true, true);
         that.update(data, false, true);
+        that.callCallback('onResetData', [data]);
     };
 
     // Update elements data
@@ -3422,13 +3223,13 @@ if (!Array.prototype.map) {
                 var newElements = that.createElements(element);
                 newElements.forEach(function(newElement) {
                     var oldElement = elements[newElement.id];
-                    if (oldElement) {
+                    if (!oldElement) {
+                        newElement.isNew = true;
+                    } else if (oldElement !== newElement) {
                         newElement.order = oldElement.order;
                         if (!newElement.hasPosition()) {
                             newElement.setPosition(oldElement.getPosition());
                         }
-                    } else {
-                        newElement.isNew = true;
                     }
                     elementsToUpdate.push(newElement);
                 });
@@ -3436,7 +3237,7 @@ if (!Array.prototype.map) {
 
             var onUpdateElement = that.options.onUpdateElement;
             if (onUpdateElement && !silence) {
-                var result = onUpdateElement(elementsToUpdate);
+                var result = onUpdateElement.call(that, elementsToUpdate);
                 if (result === false) {
                     return;
                 }
@@ -3451,7 +3252,7 @@ if (!Array.prototype.map) {
         }
 
         if (!skipRender) {
-            that.render();
+            that.render(silence ? null : elementsToUpdate);
         }
 
         return elementsToUpdate;
@@ -3507,30 +3308,28 @@ if (!Array.prototype.map) {
     };
 
     // Delete elements and relations
-    FlowChart.prototype.delete = function(idList, skipRender) {
+    FlowChart.prototype.delete = function(idList, skipRender, skipTriggerEvent) {
         var that = this;
         if (!$.isArray(idList)) {
             idList = [idList];
         }
 
+        var deletedElements = [];
         $.each(idList, function(idx, id) {
             if (typeof id === 'object') {
                 id = id.id;
             }
-            var $element = that.$findElement(id);
-            if ($element) {
-                $element.remove();
-            }
+            that.$findElement(id).remove();
             var element = that.getElement(id);
             if (element) {
+                deletedElements.push(element);
                 if (element.isNode) {
                     // Delete relations
-                    element.fromRels && element.fromRels.forEach(function(relation) {
-                        that.delete(relation.id, true);
-                    });
-                    element.toRels && element.toRels.forEach(function(relation) {
-                        that.delete(relation.id, true);
-                    });
+                    var deleteRelation = function(relation) {
+                        that.delete(relation.id, true, true);
+                    };
+                    element.fromRels && element.fromRels.forEach(deleteRelation);
+                    element.toRels && element.toRels.forEach(deleteRelation);
                 } else {
                     if (element.relationLineID) {
                         $('#' + element.relationLineID).remove();
@@ -3546,8 +3345,13 @@ if (!Array.prototype.map) {
             }
         });
 
-        if (!skipRender) {
-            that.render();
+        if (deletedElements.length) {
+            if (!skipRender) {
+                that.render();
+            }
+            if (!skipTriggerEvent) {
+                that.callCallback('onDeleteElement', [deletedElements]);
+            }
         }
     };
 
@@ -3590,11 +3394,11 @@ if (!Array.prototype.map) {
      */
     FlowChart.addPlugin = function(pluginName, pluginConfig) {
         if (FlowChart.plugins[pluginName]) {
-            throw new Error('Add flowchart plugin failed, because there is already a plugin named "' + pluginName + '".');
+            throw new Error('FlowChart: Add flowchart plugin failed, because there is already a plugin named "' + pluginName + '".');
         }
         pluginConfig = $.extend(true, {}, pluginConfig);
         if (pluginConfig.plugins && typeof pluginConfig.plugins === 'string') {
-            pluginConfig.plugins = pluginConfig.plugins.splite(',');
+            pluginConfig.plugins = pluginConfig.plugins.split(',');
         }
         FlowChart.plugins[pluginName] = pluginConfig;
     };
@@ -3686,9 +3490,6 @@ if (!Array.prototype.map) {
         // 是否显示节点上下文菜单（右键菜单）
         // 此选项可以设置为一个函数动态返回自定义菜单项
         showContextMenu: true,
-
-        // 是否禁用自动位置排列
-        disableAutoPosition: true,
 
         // 通过拖放添加节点
         addFromDrop: true,
@@ -3795,7 +3596,7 @@ if (!Array.prototype.map) {
         // 当点击元素时的回调函数 function(element, $element)
         onClickElement: null,
 
-        nodeTemplate: '<div id="{domID}" data-basic-type="{basicType}" data-type="{type}" style="position: absolute; z-index: 1; display: flex; justify-content: center; align-items: center; cursor: {cursor}" class="flowchart-element flowchart-element-{type} flowchart-node" data-id="{id}"><div class="flowchart-text flowchart-node-text" style="position: relative; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; z-index: 5; outline: none; min-width: 10px; min-height: 20px; text-align: center"></div></div>',
+        nodeTemplate: '<div id="{domID}" data-basic-type="{basicType}" data-type="{type}" style="position: absolute; z-index: {zIndex}; display: flex; justify-content: center; align-items: center; cursor: {cursor}" class="flowchart-element flowchart-element-{type} flowchart-node" data-id="{id}"><div class="flowchart-text flowchart-node-text" style="position: relative; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; z-index: 5; outline: none; min-width: 10px; min-height: 20px; text-align: center"></div></div>',
 
         relationTemplate: '<div id="{domID}" data-basic-type="{basicType}" data-type="{type}" class="flowchart-element flowchart-element-{type} flowchart-relation" data-id="{id}" data-type="relation" style="position: absolute; z-index: 0;"><div class="flowchart-relation-lines" style="position:absolute;top:0;right:0;bottom:0;left:0;"></div><div class="flowchart-text flowchart-relation-text" style="background: rgba(255,255,255,.95); position: absolute; z-index: 5; line-height: 1; outline: none; pointer-events: auto; white-space:nowrap; text-align: center"></div></div>',
 
@@ -3881,7 +3682,6 @@ if (!Array.prototype.map) {
     FlowChart.convertCssToSvgStyle = convertCssToSvgStyle;
     FlowChart.createSVGElement = createSVGElement;
     FlowChart.addTwoPoints = addTwoPoints;
-
 
     $.fn.flowChart.Constructor = FlowChart;
 

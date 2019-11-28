@@ -401,14 +401,8 @@ $('#flowchart').flowChart({
       <td>是否在元素上显示上下文菜单（右键菜单），如果设置为 <code>false</code> 则不显示菜单，如果设置为一个回调函数则可以自定义上下文菜单的内容，详细用法参见 <strong>自定义上下文菜单</strong> 章节。</td>
     </tr>
     <tr>
-      <td><code>disableAutoPosition</code></td>
-      <td><code>boolean</code></td>
-      <td>默认值为 <code>true</code></td>
-      <td>是否禁用自动位置功能。</td>
-    </tr>
-    <tr>
       <td><code>addFromDrop</code></td>
-      <td><code>boolean</code></td>
+      <td><code>boolean</code> | <code>string</code></td>
       <td>默认值为 <code>true</code></td>
       <td>是否启用拖放来添加节点功能，详细用法参见 <strong>拖放添加节点</strong> 章节。</td>
     </tr>
@@ -607,12 +601,6 @@ $('#flowchart').flowChart({
       <td>是否在点击节点时激活节点元素。</td>
     </tr>
     <tr>
-      <td><code>onClickElement</code></td>
-      <td><code>function</code></td>
-      <td>默认值为 <code>null</code></td>
-      <td>当用户点击元素时的回调函数。</td>
-    </tr>
-    <tr>
       <td><code>nodeTemplate</code></td>
       <td><code>string</code></td>
       <td>默认值为 <code>null</code></td>
@@ -631,6 +619,12 @@ $('#flowchart').flowChart({
       <td>自定义的元素类型，此选项用法参见 <strong>自定义元素</strong> 章节。</td>
     </tr>
     <tr>
+      <td><code>onClickElement</code></td>
+      <td><code>function</code></td>
+      <td>默认值为 <code>null</code></td>
+      <td>当用户点击元素时的回调函数。</td>
+    </tr>
+    <tr>
       <td><code>onUpdateElement</code></td>
       <td><code>function</code></td>
       <td>默认值为 <code>null</code></td>
@@ -643,16 +637,40 @@ $('#flowchart').flowChart({
       <td>指定一个回调函数监听元素添加操作，此选项用法参见 <strong>监听元素变更</strong> 章节。</td>
     </tr>
     <tr>
+      <td><code>onActiveElement</code></td>
+      <td><code>function</code></td>
+      <td>默认值为 <code>null</code></td>
+      <td>指定一个回调函数监听元素被激活时的操作。</td>
+    </tr>
+    <tr>
+      <td><code>onUnactiveElement</code></td>
+      <td><code>function</code></td>
+      <td>默认值为 <code>null</code></td>
+      <td>指定一个回调函数监听元素被取消激活状态时的操作。</td>
+    </tr>
+    <tr>
       <td><code>onRenderNode</code></td>
       <td><code>function</code></td>
       <td>默认值为 <code>null</code></td>
       <td>指定一个回调函数在渲染节点时进行调用。</td>
     </tr>
     <tr>
+      <td><code>onResetData</code></td>
+      <td><code>function</code></td>
+      <td>默认值为 <code>null</code></td>
+      <td>指定一个回调函数监在重置关系图数据后调用。</td>
+    </tr>
+    <tr>
       <td><code>afterCreate</code></td>
       <td><code>function</code></td>
       <td>默认值为 <code>null</code></td>
       <td>指定一个回调函数监在关系图创建完成后调用（初始化完成之后）。</td>
+    </tr>
+    <tr>
+      <td><code>beforeCreate</code></td>
+      <td><code>function</code></td>
+      <td>默认值为 <code>null</code></td>
+      <td>指定一个回调函数监在关系图创建之前调用（初始化完成但没有绘制）。</td>
     </tr>
   </tbody>
 </table>
