@@ -211,19 +211,22 @@
             that.display();
             $e.callComEvent(that, 'clickPrevBtn');
         }).on('click', '.event', function(event) {
+            event.stopPropagation();
+            if ($(event.target).closest('.event-btn').length) {
+                return;
+            }
             $e.callComEvent(that, 'clickEvent', {
                 element: this,
                 event: $(this).data('event'),
                 events: that.events
-            });
-            event.stopPropagation();
-        }).on('click', '.cell-day', function() {
+            }, event);
+        }).on('click', '.cell-day', function(e) {
             $e.callComEvent(that, 'clickCell', {
                 element: this,
                 view: that.view,
                 date: new Date($(this).children('.day').attr('data-date')),
                 events: that.events
-            });
+            }, e);
         });
     };
 
