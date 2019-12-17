@@ -88,7 +88,7 @@
 
         var bodyCss = {maxHeight: 'initial', overflow: 'visible'};
         var $body = $dialog.find('.modal-body').css(bodyCss);
-        if (options.scrollInside) {
+        if (options.scrollInside && $body.length) {
             var headerHeight = options.headerHeight;
             if (typeof headerHeight !== 'number') {
                 headerHeight = $dialog.find('.modal-header').height();
@@ -97,8 +97,8 @@
             }
             bodyCss.maxHeight = winHeight - headerHeight;
             bodyCss.overflow = $body[0].scrollHeight > bodyCss.maxHeight ? 'auto' : 'visible';
+            $body.css(bodyCss);
         }
-        $body.css(bodyCss);
 
         var half = Math.max(0, (winHeight - $dialog.outerHeight()) / 2);
         if (position === 'fit') {
