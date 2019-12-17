@@ -71,8 +71,5 @@
     "README.md",
     "zui.json",
     "LICENSE"
-  ],
-  "dependencies": {
-    "natives": "^1.1.6"
-  }
+  ]
 }
