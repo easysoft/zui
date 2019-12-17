@@ -232,7 +232,8 @@
             params = [params];
         }
         var $this = this;
-        var result = $this.trigger(eventName, params);
+        var result;
+        $this.trigger(eventName, params);
 
         var eventCallback = component.options[eventName];
         if (eventCallback) {
