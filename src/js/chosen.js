@@ -219,6 +219,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             _this.single_backstroke_delete = _options.single_backstroke_delete != null ? _options.single_backstroke_delete : true;
             _this.max_selected_options = _options.max_selected_options || Infinity;
             _this.drop_direction = _options.drop_direction || 'auto';
+            _this.drop_item_height = _options.drop_item_height !== undefined ? _options.drop_item_height : 25;
             _this.middle_highlight = _options.middle_highlight;
             _this.compact_search = _options.compact_search || false;
             _this.inherit_select_classes = _options.inherit_select_classes || false;
@@ -999,6 +1000,10 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             that.search_field.focus();
             that.search_field.val(that.search_field.val());
 
+            that.container.addClass("chosen-with-drop");
+
+            that.winnow_results(1);
+
             var dropDirection = that.drop_direction;
             if ($.isFunction(dropDirection)) {
                 dropDirection = dropDirection.call(this);
@@ -1006,8 +1011,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(dropDirection === 'auto') {
                 if (!that.drop_directionFixed) {
                     var $drop = that.container.find('.chosen-drop');
+                    var dropHeight = $drop.outerHeight();
+                    if (that.drop_item_height && dropHeight < that.drop_item_height * 3) {
+                        dropHeight = dropHeight + $drop.find('.chosen-results>.active-result').length * that.drop_item_height;
+                    }
                     var offset = that.container.offset();
-                    if(offset.top + $drop.outerHeight() + 30 > $(window).height() + $(window).scrollTop()) {
+                    if(offset.top + dropHeight + 30 > $(window).height() + $(window).scrollTop()) {
                         dropDirection = 'up';
                     }
                     that.drop_directionFixed = dropDirection;
@@ -1015,9 +1024,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     dropDirection = that.drop_directionFixed;
                 }
             }
-            that.container.toggleClass('chosen-up', dropDirection === 'up').addClass("chosen-with-drop");
-
-            that.winnow_results(1);
+            that.container.toggleClass('chosen-up', dropDirection === 'up');
 
             that.autoResizeDrop();
 
