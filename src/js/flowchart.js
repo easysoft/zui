@@ -1417,6 +1417,9 @@ if (!Array.prototype.map) {
         }, $lines, $text);
 
         $relation.css(bounds);
+
+        flowChart.callCallback('onRenderRelation', [$relation, that]);
+
         that.setBounds(bounds);
         return;
     };
@@ -2013,9 +2016,16 @@ if (!Array.prototype.map) {
             var plugins = [];
             var addPlugin = function(pluginName) {
                 var plugin = FlowChart.plugins[pluginName];
+                if (!plugin) {
+                    return false;
+                }
                 if (!pluginsMap[pluginName] && plugin) {
                     if (plugin.plugins) {
-                        plugin.plugins.forEach(addPlugin);
+                        plugin.plugins.forEach(function(pluginRequiredPluginName) {
+                            if (addPlugin(pluginRequiredPluginName) === false) {
+                                throw new Error('FlowChart: Plugin "' + pluginRequiredPluginName + '" not found, it required by plugin "' + pluginName + '".');
+                            }
+                        });
                     }
                     pluginsMap[pluginName] = 1;
                     plugins.push(pluginName);
@@ -2024,7 +2034,11 @@ if (!Array.prototype.map) {
                     }
                 }
             };
-            options.plugins.forEach(addPlugin);
+            options.plugins.forEach(function(pluginName) {
+                if (addPlugin(pluginName) === false) {
+                    throw new Error('FlowChart: Plugin "' + pluginName + '" not found on init from options("' + options.plugins.join(',') + '").');
+                }
+            });
             $.extend(true, options, $container.data(), initOptions);
             that.plugins = plugins;
         }
@@ -2733,33 +2747,31 @@ if (!Array.prototype.map) {
         }
         var items = [];
         if (!that.options.readonly) {
-            if (ele.isNode) {
-                var typeButtonsHTML = [];
-                $.each(that.types, function(name, typeInfo) {
-                    if (typeInfo.isNode && !typeInfo.internal) {
-                        typeButtonsHTML.push('<div class="col-xs-4" style="padding: 2px"><a class="btn btn-mini' + (ele.type === name ? ' btn-success' : '') + '" data-type="'+ name + '" style="display: block;">' + (typeInfo.displayName || typeInfo.name) + '</a></div>');
+            var typeButtonsHTML = [];
+            $.each(that.types, function(name, typeInfo) {
+                if ((typeInfo.isNode === ele.isNode) && !typeInfo.internal) {
+                    typeButtonsHTML.push('<div class="col-xs-4" style="padding: 2px"><a class="btn btn-mini' + (ele.type === name ? ' btn-success' : '') + '" data-type="'+ name + '" style="display: block;">' + (typeInfo.displayName || typeInfo.name) + '</a></div>');
+                }
+            });
+            items.push({
+                id: 'type',
+                html: [
+                    '<div style="padding: 3px 20px; white-space: nowrap;">',
+                        '<span class="btn btn-mini disabled" style="background: none; border: none;padding: 0">' + that.lang.type + '</span>',
+                        '<div class="row">',
+                        typeButtonsHTML.join(''),
+                        '</div>',
+                    '</div>'
+                ].join(''),
+                onClick: function(e) {
+                    var $btn = $(e.target).closest('.btn');
+                    var type = $btn.data('type');
+                    if (type !== ele.type) {
+                        ele.changeType(type);
+                        that.render(ele);
                     }
-                });
-                items.push({
-                    id: 'type',
-                    html: [
-                        '<div style="padding: 3px 20px; white-space: nowrap;">',
-                            '<span class="btn btn-mini disabled" style="background: none; border: none;padding: 0">' + that.lang.type + '</span>',
-                            '<div class="row">',
-                            typeButtonsHTML.join(''),
-                            '</div>',
-                        '</div>'
-                    ].join(''),
-                    onClick: function(e) {
-                        var $btn = $(e.target).closest('.btn');
-                        var type = $btn.data('type');
-                        if (type !== ele.type) {
-                            ele.changeType(type);
-                            that.render(ele);
-                        }
-                    }
-                }, '-');
-            }
+                }
+            }, '-');
             items.push({
                 id: 'edit',
                 label: that.lang.edit,
