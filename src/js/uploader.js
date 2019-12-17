@@ -121,7 +121,7 @@
             that.lang = $.extend(true, {}, $.zui.getLangData ? $.zui.getLangData(NAME, defaultLang, Uploader.LANG) : Uploader.LANG[defaultLang], lang);
         } else {
             lang = lang || defaultLang;
-            that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, Uploader.LANG) : (Uploader.LANG[lang] || Uploader.LANG[defaultLang]);
+            that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, Uploader.LANG) : (Uploader.LANG[lang] || Uploader.LANG.en);
         }
 
         // Init file list element
