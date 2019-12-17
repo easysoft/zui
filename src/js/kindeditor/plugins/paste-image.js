@@ -148,9 +148,10 @@ KindEditor.plugin('pasteimage', function(K) {
                         self.undo();
                         self._redoStack.pop();
                         if (data) {
-                            edit.cmd.inserthtml(data);
+                            var $img = $(data);
+                            edit.cmd.insertimage($img.attr('src'), $img.attr('title'), $img.attr('width'), $img.attr('height'));
                         } else {
-                            edit.cmd.inserthtml(html);
+                            edit.cmd.insertimage(result);
                         }
                         pasteEnd();
                     }).error(function()
