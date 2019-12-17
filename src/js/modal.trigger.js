@@ -205,10 +205,10 @@
         } else if(options.url) {
             var onLoadBroken = function() {
                 var brokenContent = $modal.callComEvent(that, 'broken');
-                if(brokenContent) {
+                if(typeof brokenContent === 'string') {
                     $body.html(brokenContent);
-                    readyToShow();
                 }
+                readyToShow();
             };
 
             $modal.attr('ref', options.url);
