@@ -66,9 +66,6 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         },
         en: {
             no_results_text: 'No results match'
-        },
-        de: {
-            no_results_text: 'Nicht gefunden'
         }
     };
 
@@ -185,12 +182,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 return;
             }
 
-            var lang = this.options.lang;
-            var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'zh_cn';
+            var lang = this.options.lang || $.zui.clientLang ? $.zui.clientLang() : 'en';
+            var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
             if ($.isPlainObject(lang)) {
-                this.lang = $.extend(lang, LANGUAGES.en, LANGUAGES[defaultLang]);
+                this.lang = $.zui.getLangData ? $.zui.getLangData('chosen', defaultLang, LANGUAGES) : $.extend(lang, LANGUAGES.en, LANGUAGES[defaultLang]);
             } else {
-                this.lang = LANGUAGES[lang || defaultLang] || LANGUAGES.en;
+                this.lang = $.zui.getLangData ? $.zui.getLangData('chosen', lang, LANGUAGES) : (LANGUAGES[lang || defaultLang] || LANGUAGES.en);
             }
             this.is_multiple = this.form_field.multiple;
             this.set_default_text();

@@ -124,14 +124,6 @@
                 year: '{0}',
                 month: '{0}',
                 yearMonth: '{2}, {0}'
-            },
-            ja: {
-                weekNames: ['月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日', '日曜日'],
-                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-                today: '今日',
-                year: '{0}年',
-                month: '{0}月',
-                yearMonth: '{0}年{1}月'
             }
         },
         data: {
@@ -413,7 +405,8 @@
     };
 
     Calendar.prototype.getLang = function() {
-        this.lang = this.options.langs[(this.options.lang || ($.zui && $.zui.clientLang ? $.zui.clientLang() : 'en')).replace('-', '_')] || this.options.langs.en;
+        this.langName = this.options.lang || $.zui.clientLang();
+        this.lang = $.zui.getLangData(NAME, this.langName, this.options.langs);
     };
 
     Calendar.prototype.display = function(view, date) {

@@ -236,3 +236,36 @@ KindEditor.lang({
 		'3.html' : '段落番号'
 	}
 }, 'ja');
+
+if (window.$ && $.zui && $.zui.lang) {
+	$.zui.lang('ja', {
+		'kindeditor.advanceTable': {
+			name: 'テーブル',
+			xRxC: '{0}行 × {1}列',
+			headerRow: '見出し行',
+			headerCol: '見出し列',
+			tableStyle: 'テーブルスタイル',
+			addHeaderRow: '見出し行を追加',
+			stripedRows: 'ストライブ 行',
+			hoverRows: 'ホバー行',
+			autoChangeTableWidth: '自動変更幅',
+			tableWidthFixed: 'テーブル文字に適応',
+			tableWidthFull: 'ページ幅で適応',
+			tableBorder: 'テーブル枠線',
+			tableHead: '見出し',
+			tableContent: 'コンテンツ',
+			mergeCells: 'セルを結合',
+			defaultColor: 'デフォルト色',
+			color: '色',
+			forecolor: 'フォントの色',
+			backcolor: '塗りつぶしの色',
+			invalidBoderWidth: '外枠のサイズは必ず数値です。'
+		},
+		'kindeditor.pasteimage': {
+			notSupportMsg: '使用されているブラウザは画像の貼り付けがサポートされていません！',
+            placeholder: 'エディターを使用して画像を貼り付けます。',
+            failMsg: '画像を貼り付けませんでした、後でやり直してください。',
+            uploadingHint: '画像をアップロード中、しばらくお待ちください...',
+		}
+	});
+}

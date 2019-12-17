@@ -70,8 +70,8 @@
 
         options = that.options = $.extend({}, Pager.DEFAULTS, this.$.data(), options);
 
-        var lang   = options.lang || $.zui.clientLang();
-        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG.en, LANG[lang.lang || $.zui.clientLang()], lang)) : (LANG[lang] || LANG.en);
+        that.langName = options.lang || $.zui.clientLang();
+        that.lang     = $.zui.getLangData(NAME, that.langName, LANG);
 
         that.state = {};
 

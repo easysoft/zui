@@ -115,8 +115,14 @@
         options = that.getOptions(options);
 
         // Init lang
-        var lang = $.isPlainObject(options.lang) ? ($.extend(true, {}, Uploader.LANG[lang.lang || $.zui.clientLang()], options.lang)) : Uploader.LANG[options.lang];
-        that.lang = lang;
+        var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
+        var lang        = options.lang;
+        if ($.isPlainObject(lang)) {
+            that.lang = $.extend(true, {}, $.zui.getLangData ? $.zui.getLangData(NAME, defaultLang, Uploader.LANG) : Uploader.LANG[defaultLang], lang);
+        } else {
+            lang = lang || defaultLang;
+            that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, Uploader.LANG) : (Uploader.LANG[lang] || Uploader.LANG[defaultLang]);
+        }
 
         // Init file list element
         var $this = that.$;

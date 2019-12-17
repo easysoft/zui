@@ -88,7 +88,7 @@
      * @private
      */
     function _t(key) {
-        var locale = locales[defaults.locale];
+        var locale = ($.zui && $.zui.getLangData) ? $.zui.getLangData('bootbox', defaults.locale, locales) : locales[defaults.locale];
         return locale ? locale[key] : locales.en[key];
     }
 
@@ -799,7 +799,7 @@
         en: {
             OK: "OK",
             CANCEL: "Cancel",
-            CONFIRM: "OK"
+            CONFIRM: "Confirm"
         },
         zh_cn: {
             OK: "确认",

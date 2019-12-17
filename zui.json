@@ -1454,6 +1454,30 @@
       },
       "ver": "1.9.2",
       "ignoreDpds": false
+    },
+    "lang.ja": {
+      "name": "日语插件",
+      "src": {
+        "js": ["src/js/lang/ja.js"]
+      },
+      "ver": "1.9.3",
+      "ignoreDpds": false
+    },
+    "lang.fr": {
+      "name": "法语插件",
+      "src": {
+        "js": ["src/js/lang/fr.js"]
+      },
+      "ver": "1.9.3",
+      "ignoreDpds": false
+    },
+    "lang.de": {
+      "name": "德语插件",
+      "src": {
+        "js": ["src/js/lang/de.js"]
+      },
+      "ver": "1.9.3",
+      "ignoreDpds": false
     }
   },
   "builds": {
@@ -1488,13 +1512,35 @@
       "subdirectories": false,
       "includes": ["colorset.less2js"]
     },
+    "lang.fr": {
+      "title": "Lang.fr",
+      "dest": "dist/js/langs",
+      "filename": "zui.lang.fr",
+      "includes": ["lang.fr"]
+    },
+    "lang.ja": {
+      "title": "Lang.ja",
+      "dest": "dist/js/langs",
+      "filename": "zui.lang.ja",
+      "includes": ["lang.ja"]
+    },
+    "lang.de": {
+      "title": "Lang.de",
+      "dest": "dist/js/langs",
+      "filename": "zui.lang.de",
+      "includes": ["lang.de"]
+    },
+    "langs": {
+      "title": "Lang data files",
+      "bundles": ["lang.fr", "lang.ja", "lang.de"]
+    },
     "seperate": {
       "title": "Seperate bundles",
       "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap", "ajaxFake", "markdoc", "contextmenu", "flowchart"]
     },
     "dist": {
       "title": "Dist bundles",
-      "bundles": ["standard", "lite", "theme", "seperate"]
+      "bundles": ["standard", "lite", "theme", "seperate", "langs"]
     },
     "doc": {
       "title": "Document",

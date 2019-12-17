@@ -11,6 +11,8 @@
 
     if(!$.fn.droppable) throw new Error('Droppable requires for boards');
 
+    var NAME = 'zui.boards';
+
     var Boards = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
@@ -35,13 +37,14 @@
     }; // default options
 
     Boards.prototype.getOptions = function(options) {
-        options = $.extend({lang: $.zui.clientLang()}, Boards.DEFAULTS, this.$.data(), options);
+        options = $.extend({}, Boards.DEFAULTS, this.$.data(), options);
         return options;
     };
 
     Boards.prototype.getLang = function() {
         var options = this.options;
-        this.lang = options.langs[options.lang] || options.langs[Boards.DEFAULTS.lang];
+        this.langName = options.lang || $.zui.clientLang();
+        this.lang = $.zui.getLangData(NAME, this.langName, options.langs);
     };
 
     Boards.prototype.init = function() {
@@ -108,10 +111,10 @@
     $.fn.boards = function(option) {
         return this.each(function() {
             var $this = $(this);
-            var data = $this.data('zui.boards');
+            var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data('zui.boards', (data = new Boards(this, options)));
+            if(!data) $this.data(NAME, (data = new Boards(this, options)));
 
             if(typeof option == 'string') data[option]();
         });

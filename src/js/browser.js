@@ -10,9 +10,9 @@
     'use strict';
 
     var browseHappyTip = {
-        'zh_cn': '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
-        'zh_tw': '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
-        'en': 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="http://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
+        'zh_cn': '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="https://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'zh_tw': '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="https://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'en': 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="https://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
     };
 
     // The browser modal class
@@ -50,14 +50,19 @@
     };
 
     // Show browse happy tip
-    Browser.prototype.tip = function (showCoontent) {
+    Browser.prototype.tip = function (showContent) {
         var $browseHappy = $('#browseHappyTip');
         if (!$browseHappy.length) {
             $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger-inverse alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
             $browseHappy.prependTo('body');
         }
-
-        $browseHappy.find('.content').html(showCoontent || this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'en'] || browseHappyTip.en);
+        if (!showContent) {
+            showContent = $.zui.getLangData('zui.browser', $.zui.clientLang(), browseHappyTip);
+            if (typeof showContent === 'object') {
+                showContent = showContent.tip;
+            }
+        }
+        $browseHappy.find('.content').html(showContent);
     };
 
     // Detect it is IE, can given a version

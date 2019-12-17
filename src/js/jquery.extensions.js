@@ -45,19 +45,6 @@
             return 1;
         },
 
-        clientLang: function() {
-            var lang;
-            var config = window.config;
-            if(typeof(config) != 'undefined' && config.clientLang) {
-                lang = config.clientLang;
-            }
-            if(!lang) {
-                var hl = $('html').attr('lang');
-                lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || 'zh_cn');
-            }
-            return lang.replace('-', '_').toLowerCase();
-        },
-
         strCode: function(str) {
             var code = 0;
             if(str && str.length) {
@@ -74,7 +61,150 @@
             }
             if(mouseButton === undefined || mouseButton === null) mouseButton = -1;
             return mouseButton;
-        }
+        },
+
+        /**
+         * default language name
+         * @type {string}
+         */
+        defaultLang: 'en',
+
+        /**
+         * Get client language name
+         * @return {string}
+         */
+        clientLang: function() {
+            var lang;
+            var config = window.config;
+            if(typeof(config) != 'undefined' && config.clientLang) {
+                lang = config.clientLang;
+            }
+            if(!lang) {
+                var hl = $('html').attr('lang');
+                lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || $.zui.defaultLang);
+            }
+            return lang.replace('-', '_').toLowerCase();
+        },
+
+        /**
+         * @type {object}
+         * @example
+         * {
+         *      'zui.pager': {
+         *          'zh-cn': {
+         *              prev: '上一页',
+         *          }
+         *      }
+         * }
+         */
+        langDataMap: {},
+
+        /**
+         * Add lang data for components
+         * @param {string} [langName]
+         * @param {string} [componentName]
+         * @param {object} data
+         * @example
+         * // Add lang data to specify language and specify component
+         * $.zui.addLangData('zh-cn', 'zui.pager', {
+         *      prev: '上一页',
+         *      next: '下一页',
+         * });
+         *
+         * // Add lang data to specify language and multiple components
+         * $.zui.addLangData('zh-cn', {
+         *      'zui.pager': {
+         *          prev: '上一页',
+         *          next: '下一页',
+         *      },
+         *      'chosen': {
+         *      }
+         * });
+         *
+         * // Add lang data to multiple languages and multiple components
+         * $.zui.addLangData({
+         *      'zh-cn': {
+         *          'zui.pager': {
+         *              prev: '上一页',
+         *              next: '下一页',
+         *          },
+         *          'chosen': {
+         *          }
+         *      },
+         *      'zh-tw': {
+         *          'zui.pager': {
+         *              prev: '上一页',
+         *              next: '下一页',
+         *          }
+         *      }
+         * });
+         */
+        addLangData: function(langName, componentName, data) {
+            var langData = {};
+            if (data && componentName && langName) {
+                langData[componentName] = {};
+                langData[componentName][langName] = data;
+            } else if (langName && componentName && !data) {
+                data = componentName;
+                $.each(data, function(comName) {
+                    langData[comName] = {};
+                    langData[comName][langName] = data[comName];
+                });
+            } else if (langName && !componentName && !data) {
+                $.each(data, function(theLangName) {
+                    var comsData = data[theLangName];
+                    $.each(comsData, function(comName) {
+                        if (!langData[comName]) {
+                            langData[comName] = {};
+                        }
+                        langData[comName][theLangName] = comsData[comName];
+                    });
+                });
+            }
+            $.extend(true, $.zui.langDataMap, langData);
+        },
+
+        /**
+         * Get lang data
+         * @example
+         * $.zui.getLangData('zui.pager');
+         *
+         * $.zui.getLangData('zui.pager', 'zh-cn');
+         *
+         * $.zui.getLangData('zui.pager', 'zh-cn', {
+         *      prev: '上一页',
+         *      next: '下一页',
+         * });
+         */
+        getLangData: function(componentName, langName, initialData) {
+            if (!arguments.length) {
+                return $.extend({}, $.zui.langDataMap);
+            }
+            if (arguments.length === 1) {
+                return $.extend({}, $.zui.langDataMap[componentName]);
+            }
+            if (arguments.length === 2) {
+                var comData = $.zui.langDataMap[componentName];
+                if (comData) {
+                    return langName ? comData[langName] : comData;
+                }
+                return {};
+            }
+            if (arguments.length === 3) {
+                langName = langName || $.zui.clientLang();
+                var comData = $.zui.langDataMap[componentName];
+                var langData = comData ? comData[langName] : {};
+                return $.extend(true, {}, initialData[langName] || initialData.en || initialData.zh_cn, langData);
+            }
+            return null;
+        },
+
+        lang: function() {
+            if (arguments.length && $.isPlainObject(arguments[arguments.length - 1])) {
+                return $.zui.addLangData.apply(null, arguments);
+            }
+            return $.zui.getLangData.apply(null, arguments);
+        },
     });
 
     $.fn.callEvent = function(name, event, model) {

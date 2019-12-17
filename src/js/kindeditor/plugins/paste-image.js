@@ -25,12 +25,6 @@ KindEditor.plugin('pasteimage', function(K) {
             placeholder: 'You can paste images in the editor.',
             failMsg: 'Pasting image failed. Try again later.',
             uploadingHint: 'Uploading...',
-        },
-        ja: {
-            notSupportMsg: '使用されているブラウザは画像の貼り付けがサポートされていません！',
-            placeholder: 'エディターを使用して画像を貼り付けます。',
-            failMsg: '画像を貼り付けませんでした、後でやり直してください。',
-            uploadingHint: '画像をアップロード中、しばらくお待ちください...',
         }
     };
 
@@ -45,7 +39,8 @@ KindEditor.plugin('pasteimage', function(K) {
         if (typeof options === 'string') {
             options = {postUrl: options};
         }
-        var lang = $.extend({}, allLangs.en, allLangs[($.clientLang || $.zui.clientLang)()], options.lang);
+        var langName = $.clientLang ? $.clientLang() : ($.zui && $.zui.clientLang) ? $.zui.clientLang() : 'en';
+        var lang = $.extend({}, ($.zui && $.zui.getLangData) ? $.zui.getLangData('kindeditor.advanceTable', langName, allLangs) : $.extend({}, allLangs.en, self.lang('table.'), allLangs[langName]), options.lang);
 
         if(!K.WEBKIT && !K.GECKO)
         {

@@ -18,7 +18,7 @@
         that.$ = $(element);
 
         options = that.options = $.extend({}, GuideViewer.DEFAULTS, this.$.data(), options);
-        var lang = this.lang = options.langs[options.lang] || options.langs[Boards.DEFAULTS.lang] || options.langs.en;
+        var lang = this.lang = $.zui.getLangData ? $.zui.getLangData(NAME, options.lang, options.langs) : (options.langs[options.lang] || options.langs[GuideViewer.DEFAULTS.lang] || options.langs.en);
 
         var groupName = that.groupName = options.name || options.guideViewer;
         var $elements = $('[data-guide-viewer="' + groupName + '"],[data-guide-viewer][data-name="' + groupName + '"]').not('.guide-viewer-inited');

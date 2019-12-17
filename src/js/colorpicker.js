@@ -9,7 +9,7 @@
 (function($) {
     'use strict';
 
-    var name = 'zui.colorPicker'; // modal name
+    var NAME = 'zui.colorPicker'; // modal name
     var TEAMPLATE = '<div class="colorpicker"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="cp-title"></span><i class="ic"></i></button><ul class="dropdown-menu clearfix"></ul></div>';
     var LANG = {
         zh_cn: {
@@ -25,7 +25,7 @@
 
     // The ColorPicker modal class
     var ColorPicker = function(element, options) {
-        this.name = name;
+        this.name = NAME;
         this.$ = $(element);
 
         this.getOptions(options);
@@ -210,8 +210,8 @@
     ColorPicker.prototype.getOptions = function(options) {
         var thisOptions = $.extend({}, ColorPicker.DEFAULTS, this.$.data(), options);
         if(typeof thisOptions.colors === 'string') thisOptions.colors = thisOptions.colors.split(',');
-        var lang = (thisOptions.lang || $.zui.clientLang()).toLowerCase();
-        lang = LANG[lang] || LANG.en;
+        var langName = thisOptions.lang || $.zui.clientLang();
+        var lang = this.lang = $.zui.getLangData ? $.zui.getLangData(NAME, langName, LANG) : (LANG[langName] || LANG.en);
         if(!thisOptions.errorTip) {
             thisOptions.errorTip = lang.errorTip;
         }

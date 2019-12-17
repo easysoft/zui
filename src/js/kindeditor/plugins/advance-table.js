@@ -131,32 +131,11 @@ KindEditor.plugin('table', function (K) {
             forecolor: 'Text Color',
             backcolor: 'Back Color',
             invalidBoderWidth: 'Border width value must be number'
-        },
-        ja: {
-            name: 'テーブル',
-            xRxC: '{0}行 × {1}列',
-            headerRow: '見出し行',
-            headerCol: '見出し列',
-            tableStyle: 'テーブルスタイル',
-            addHeaderRow: '見出し行を追加',
-            stripedRows: 'ストライブ 行',
-            hoverRows: 'ホバー行',
-            autoChangeTableWidth: '自動変更幅',
-            tableWidthFixed: 'テーブル文字に適応',
-            tableWidthFull: 'ページ幅で適応',
-            tableBorder: 'テーブル枠線',
-            tableHead: '見出し',
-            tableContent: 'コンテンツ',
-            mergeCells: 'セルを結合',
-            defaultColor: 'デフォルト色',
-            color: '色',
-            forecolor: 'フォントの色',
-            backcolor: '塗りつぶしの色',
-            invalidBoderWidth: '外枠のサイズは必ず数値です。'
         }
     };
     var $elements = [];
-    var lang = $.extend({}, allLangs.en, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
+    var langName = $.clientLang ? $.clientLang() : ($.zui && $.zui.clientLang) ? $.zui.clientLang() : 'en';
+    var lang = ($.zui && $.zui.getLangData) ? $.zui.getLangData('kindeditor.advanceTable', langName, allLangs) : $.extend({}, allLangs.en, self.lang('table.'), allLangs[langName]);
     var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
 
     self.tableIdIndex = 0;

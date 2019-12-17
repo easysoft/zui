@@ -152,8 +152,14 @@
         that.id        = 'zui-datagrid-' + that.uuid;
         options        = $.extend({}, DataGrid.DEFAULTS, that.$.data(), options);
 
-        var lang   = options.lang || 'zh_cn';
-        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG.en, LANG[lang.lang || $.zui.clientLang()], lang)) : (LANG[lang] || LANG.en);
+        var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
+        var lang        = options.lang;
+        if ($.isPlainObject(lang)) {
+            that.lang = $.extend(true, {}, $.zui.getLangData ? $.zui.getLangData(NAME, defaultLang, LANG) : LANG[defaultLang], lang);
+        } else {
+            lang = lang || defaultLang;
+            that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, LANG) : (LANG[lang] || LANG[defaultLang]);
+        }
 
         options.valueOperator    = $.extend({}, DEFAULT_VALUE_OPERATOR, options.valueOperator);
         options.rowDefaultHeight = options.rowDefaultHeight || 30;

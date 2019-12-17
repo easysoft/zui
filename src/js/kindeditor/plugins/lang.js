@@ -240,3 +240,15 @@ KindEditor.lang({
         '3.html': '项目编号'
     }
 }, 'zh_CN');
+
+if (window.$ && $.zui && $.zui.getLangData) {
+    var langData = $.zui.getLangData('kindeditor');
+    if (langData) {
+        $.each(langData, function(langName) {
+            var data = langData[langName];
+            if (langName === 'zh_cn') langName = 'zh_CN';
+            else if (langName === 'zh_tw') langName = 'zh_TW';
+            KindEditor.lang(data, langName);
+        });
+    }
+}
