@@ -20,15 +20,23 @@
   transition-property: opacity, transform!important;
 }
 
+.messager-icon {
+  display: table-cell;
+  padding: 10px 0 10px 15px;
+  vertical-align: top;
+  line-height: 20px;
+  text-align: center;
+}
+
 .messager-content {
   padding: 10px 15px;
   display: table-cell;
   vertical-align: top;
+}
 
-  > [class^='icon-'] {
-     display: inline-block;
-     margin-right: 8px;
-  }
+.messager-title {
+  font-weight: bold;
+  font-size: @font-size-large;
 }
 
 .messager-actions {
@@ -115,6 +123,20 @@
   }
 }
 
+.messager-notification {
+  border-radius: @messager-notification-radius;
+  min-width: @messager-notification-min-width;
+  max-width: @messager-notification-max-width;
+
+  .messager-icon {
+    vertical-align: middle;
+    width: 42px;
+  }
+  .messager-content {
+    vertical-align: middle;
+  }
+}
+
 .messager-primary {
   background-color: @state-primary-inverse-bg;
 }
@@ -142,4 +164,3 @@
 .messager-special {
   background-color: @state-special-inverse-bg;
 }
-

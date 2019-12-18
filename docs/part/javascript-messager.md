@@ -56,7 +56,7 @@ new $.zui.Messager('这是一个浮动消息。', {
   <div class="messager messager-example messager-default"><div class="messager-content">普通提示消息</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
   <div class="messager messager-example messager-primary" data-type="info"><div class="messager-content">提示消息：主要</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
   <div class="messager messager-example messager-info" data-type="info"><div class="messager-content"><i class="icon-info-sign"></i> 提示消息：信息</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
-  <div class="messager messager-example messager-danger" data-type="danger"><div class="messager-content"><i class="icon-exclamation-sign"></i>提示消息：危险</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
+  <div class="messager messager-example messager-danger" data-type="danger"><div class="messager-content"><i class="icon-exclamation-sign"></i> 提示消息：危险</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
   <div class="messager messager-example messager-success" data-type="success"><div class="messager-content"><i class="icon-ok-sign"></i> 提示消息：成功</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
   <div class="messager messager-example messager-warning" data-type="warning"><div class="messager-content"><i class="icon-warning-sign"></i> 提示消息：警告</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
   <div class="messager messager-example messager-important" data-type="important"><div class="messager-content">提示消息：重要</div><div class="messager-actions"><button type="button" class="close action">×</button></div></div>
@@ -465,7 +465,8 @@ function afterPageLoad() {
         var $this = $(this);
         options = $this.data();
         if(typeof options.actions === 'string') options.actions = $.parseJSON(options.actions);
-        new $.zui.Messager($this.find('.messager-content').html(), options).show();
+        var messager = new $.zui.Messager($this.find('.messager-content').html(), $.extend({html: true, time: 30000}, options)).show();
+        console.log('messager', messager);
     });
 }
 </script>

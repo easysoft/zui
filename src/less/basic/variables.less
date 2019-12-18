@@ -126,7 +126,7 @@
 
 // Font size.
 @font-size-base:          13px;
-@font-size-large:         ceil((@font-size-base * 1.25));  //  17px
+@font-size-large:         floor((@font-size-base * 1.25)); //  16px
 @font-size-small:         ceil((@font-size-base * 0.85));  //  12px
 
 @font-size-h1:            floor((@font-size-base * 2.00)); //  26px
@@ -736,6 +736,9 @@
 // MESSAGER
 
 @messager-radius: 20px;
+@messager-notification-radius: @border-radius-base;
+@messager-notification-min-width: 300px;
+@messager-notification-max-width: 400px;
 
 
 // AVATAR
