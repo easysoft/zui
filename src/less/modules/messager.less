@@ -32,6 +32,9 @@
   padding: 10px 15px;
   display: table-cell;
   vertical-align: top;
+  a {
+    color: inherit; font-weight: bold;
+  }
 }
 
 .messager-title {
@@ -39,7 +42,7 @@
   font-size: @font-size-large;
 
   + .messager-text {
-    margin-top: 5px;
+    margin-top: 10px;
   }
 }
 
@@ -141,12 +144,16 @@
   }
 }
 
+.messager-text {
+  > p:last-child {margin: 0;}
+}
+
 .messager-primary {
   background-color: @state-primary-inverse-bg;
 }
 
 .messager-success {
-  background-color: @state-success-inverse-bg;
+background-color: @state-success-inverse-bg;
 }
 
 .messager-info {

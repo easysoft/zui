@@ -163,6 +163,10 @@
             $icon.remove();
         }
         that.$.toggleClass('messager-has-icon', !!icon);
+        if (!that.updateTime) {
+            options.onUpdate && options.onUpdate.call(that, options);
+        }
+        that.updateTime = Date.now();
     };
 
     Messager.prototype.show = function(message, callback) {
@@ -213,6 +217,7 @@
 
         that.isShow = true;
         callback && callback();
+        options.onShow && options.onShow.call(that, options);
         return that;
     };
 
@@ -222,6 +227,7 @@
             callback = null;
         }
         var that = this;
+        var options = that.options;
         if(that.$.hasClass('in')) {
             that.$.removeClass('in');
             var removeMessager = function() {
@@ -229,11 +235,13 @@
                 that.$.detach();
                 if(!$parent.children().length) $parent.remove();
                 callback && callback(true);
+                options.onHide && options.onHide.call(that, immediately);
             };
             if(immediately) removeMessager();
             else setTimeout(removeMessager, 200);
         } else {
             callback && callback(false);
+            options.onHide && options.onHide.call(that, immediately);
         }
 
         that.isShow = false;
@@ -257,7 +265,7 @@
             });
         } else {
             var msg = $('#messager-' + id).data('zui.messager');
-            if(msg && msg.hide) msg.hide(true);
+            if(msg && msg.hide) msg.hide();
         }
     };
 
