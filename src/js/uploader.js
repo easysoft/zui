@@ -118,10 +118,10 @@
         var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
         var lang        = options.lang;
         if ($.isPlainObject(lang)) {
-            that.lang = $.extend(true, {}, $.zui.getLangData ? $.zui.getLangData(NAME, defaultLang, Uploader.LANG) : Uploader.LANG[defaultLang], lang);
+            lang = that.lang = $.extend(true, {}, $.zui.getLangData ? $.zui.getLangData(NAME, defaultLang, Uploader.LANG) : Uploader.LANG[defaultLang], lang);
         } else {
             lang = lang || defaultLang;
-            that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, Uploader.LANG) : (Uploader.LANG[lang] || Uploader.LANG.en);
+            lang = that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, Uploader.LANG) : (Uploader.LANG[lang] || Uploader.LANG.en);
         }
 
         // Init file list element
