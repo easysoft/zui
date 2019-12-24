@@ -1,4 +1,10 @@
 if ($.zui.FlowChart) {
+    var textGenerator = function(elementType) {
+        if (!elementType.newElementsCounter) {
+            elementType.newElementsCounter = 1;
+        }
+        return elementType.name.substring(4) + '_' + (elementType.newElementsCounter++);
+    };
     var renderInOut = function($node, elementType, options) {
         var that = this;
         if (elementType.hasPorts()) {
@@ -47,6 +53,7 @@ if ($.zui.FlowChart) {
                 }
                 return {
                     name: name,
+                    rest: name.indexOf('*') > -1,
                     maxLinkCount: 1,
                     direction: 'in',
                     free: false
@@ -61,6 +68,7 @@ if ($.zui.FlowChart) {
                 }
                 return {
                     name: name,
+                    rest: name.indexOf('*') > -1,
                     maxLinkCount: 1,
                     direction: 'out',
                     free: false
@@ -77,54 +85,50 @@ if ($.zui.FlowChart) {
             portLineLength: 8,
             style: {borderRadius: 0},
             textStyle: {padding: 0, minWidth: 120},
-            text: function(elementType) {
-                if (!newElementsCounter[elementType.name]) {
-                    newElementsCounter[elementType.name] = 1;
-                }
-                return elementType.displayName.toUpperCase() + (newElementsCounter[elementType.name]++);
-            },
+            text: textGenerator,
             fbdModel: true
         };
     };
     var types = {
-        fbd_and: createModelType('AND', 'I1,I2', 'Q'),
-        fbd_or: createModelType('OR', 'I1,I2', 'Q'),
-        fbd_not: createModelType('NOT', 'I', 'Q'),
-        fbd_xor: createModelType('XOR', 'I1,I2', 'Q'),
-        fbd_xnor: createModelType('XNOR', 'I1,I2', 'Q'),
-        fbd_eq: createModelType('EQ', 'I1,I2', 'Q'),
-        fbd_ne: createModelType('NE', 'I1,I2', 'Q'),
-        fbd_gt: createModelType('GT', 'I1,I2', 'Q'),
-        fbd_ge: createModelType('GE', 'I1,I2', 'Q'),
-        fbd_lt: createModelType('LT', 'I1,I2', 'Q'),
-        fbd_le: createModelType('LE', 'I1,I2', 'Q'),
-        fbd_add: createModelType('ADD', 'I1,I2', 'Q'),
-        fbd_sub: createModelType('SUB', 'I1,I2', 'Q'),
-        fbd_mul: createModelType('MUL', 'I1,I2', 'Q'),
-        fbd_div: createModelType('DIV', 'I1,I2', 'Q'),
-        fbd_mod: createModelType('MOD', 'I1,I2', 'Q'),
-        fbd_abs: createModelType('ABS', 'I', 'Q'),
-        fbd_exp: createModelType('EXP', 'I', 'Q'),
-        fbd_expt: createModelType('EXPT', 'I', 'Q'),
-        fbd_sqrt: createModelType('SQRT', 'I1,I2', 'Q'),
-        fbd_ln: createModelType('LN', 'I', 'Q'),
-        fbd_log: createModelType('LOG', 'I', 'Q'),
-        fbd_max: createModelType('MAX', 'I1,I2', 'Q'),
-        fbd_min: createModelType('MIN', 'I1,I2', 'Q'),
-        fbd_limin: createModelType('LIMIN', 'MI,IN,MX', 'Q'),
-        fbd_sel: createModelType('SEL', 'G,IN0,IN1', 'Q'),
-        fbd_ton: createModelType('TON', 'IN,PT', 'Q,ET'),
-        fbd_tof: createModelType('TOF', 'IN,PT', 'Q,ET'),
-        fbd_tp: createModelType('TP', 'IN,PT', 'Q,ET'),
-        fbd_rs: createModelType('RS', 'SET,RESET', 'Q'),
-        fbd_sr: createModelType('SR', 'SET,RESET', 'Q'),
-        fbd_rtrig: createModelType('R_TRIG', 'CLK', 'Q'),
-        fbd_ftrig: createModelType('F_TRIG', 'CLK', 'Q'),
-        fbd_ctu: createModelType('CTU', 'CU,RESET,PV', 'Q,CV'),
-        fbd_ctd: createModelType('CTD', 'CU,RESET,PV', 'Q,CV'),
-        fbd_ctud: createModelType('CTUD', 'CU,CD,RESET,LOAD,PV', 'QU,QD,CV'),
-        fbd_in: {
-            displayName: 'DATA_IN',
+        FBD_AND: createModelType('与', 'I*', 'Q'),
+        FBD_OR: createModelType('或', 'I*', 'Q'),
+        FBD_NOT: createModelType('非', 'I', 'Q'),
+        FBD_SET: createModelType('设置', 'I1,I2', 'Q'),
+        FBD_XOR: createModelType('异或', 'I1,I2', 'Q'),
+        FBD_XNOR: createModelType('同或', 'I1,I2', 'Q'),
+        FBD_EQ: createModelType('等于', 'I1,I2', 'Q'),
+        FBD_NE: createModelType('不等于', 'I1,I2', 'Q'),
+        FBD_GT: createModelType('大于', 'I1,I2', 'Q'),
+        FBD_GE: createModelType('大于等于', 'I1,I2', 'Q'),
+        FBD_LT: createModelType('小于', 'I1,I2', 'Q'),
+        FBD_LE: createModelType('小于等于', 'I1,I2', 'Q'),
+        FBD_ADD: createModelType('加', 'I*', 'Q'),
+        FBD_SUB: createModelType('减', 'I1,I2', 'Q'),
+        FBD_MUL: createModelType('乘', 'I*', 'Q'),
+        FBD_DIV: createModelType('除', 'I1,I2', 'Q'),
+        FBD_MOD: createModelType('求余', 'I1,I2', 'Q'),
+        FBD_ABS: createModelType('绝对值', 'I', 'Q'),
+        FBD_EXP: createModelType('平方', 'I', 'Q'),
+        FBD_EXPT: createModelType('N次方', 'I', 'Q'),
+        FBD_SQRT: createModelType('根号', 'I1,I2', 'Q'),
+        FBD_LN: createModelType('自然对数', 'I', 'Q'),
+        FBD_LOG: createModelType('10对数', 'I', 'Q'),
+        FBD_MAX: createModelType('最大值', 'I*', 'Q'),
+        FBD_MIN: createModelType('最小值', 'I*', 'Q'),
+        FBD_LIMIN: createModelType('限制', 'MI,IN,MX', 'Q'),
+        FBD_SEL: createModelType('选择', 'G,IN0,IN1', 'Q'),
+        FBD_TON: createModelType('上升沿延时', 'IN,PT', 'Q,ET'),
+        FBD_TOF: createModelType('下降沿延时', 'IN,PT', 'Q,ET'),
+        FBD_TP: createModelType('脉冲', 'IN,PT', 'Q,ET'),
+        FBD_RS: createModelType('锁存器RS', 'SET,RESET', 'Q'),
+        FBD_SR: createModelType('锁存器SR', 'SET,RESET', 'Q'),
+        FBD_RTRIG: createModelType('上升沿', 'CLK', 'Q'),
+        FBD_FTRIG: createModelType('下降沿', 'CLK', 'Q'),
+        FBD_CTU: createModelType('上升沿计数', 'CU,RESET,PV', 'Q,CV'),
+        FBD_CTD: createModelType('下降沿计数', 'CU,RESET,PV', 'Q,CV'),
+        FBD_CTUD: createModelType('递增递减计数器', 'CU,CD,RESET,LOAD,PV', 'QU,QD,CV'),
+        FBD_INPUT: {
+            displayName: '输入模块',
             ports: {
                 left: null,
                 top: null,
@@ -148,8 +152,8 @@ if ($.zui.FlowChart) {
                 return elementType.displayName.toUpperCase() + (newElementsCounter[elementType.name]++);
             },
         },
-        fbd_out: {
-            displayName: 'DATA_OUT',
+        FBD_OUTPUT: {
+            displayName: '输出模块',
             ports: {
                 right: null,
                 top: null,
@@ -194,6 +198,7 @@ if ($.zui.FlowChart) {
             '#{id} .flowchart-fbd-model .flowchart-text {top: -20px}',
             '#{id} .flowchart-fbd-model .flowchart-port-left:before {content: attr(data-name); position: absolute; display: block; left: 100%; padding-left: 5px}',
             '#{id} .flowchart-fbd-model .flowchart-port-right:before {content: attr(data-name); position: absolute; display: block; right: 100%; padding-right: 5px}',
+            '#{id} .flowchart-fbd-model .flowchart-port-resthoder.flowchart-port-left:before, #{id} .flowchart-fbd-model .flowchart-port-resthoder.flowchart-port-right:before {opacity: .5}',
         ].join('\n')
     });
 }

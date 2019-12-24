@@ -40,24 +40,51 @@ if ($.zui.FlowChart) {
         if (this.flowChart.callCallback('beforeSetVariable', [newVars, this]) === false) {
             return;
         }
-        this.setData('vars', $.extend(vars, newVars));
+        this.setData('vars', $.extend(true, vars, newVars));
         this.flowChart.callCallback('afterSetVariable', [newVars, this]);
     };
 
+    $.zui.FlowChartElement.prototype.setVariableObject = function(varName, varObject) {
+        if (typeof varObject !== 'object') {
+            throw new Error('FlowChart: The param "varObject" must be an object like "{value: 123}".');
+        }
+        var varData = {};
+        varData[varName] = varObject;
+        this.setVariable(varData, true);
+    };
+
+    $.zui.FlowChartElement.prototype.removeVariable = function(varName) {
+        var vars = this.getData('vars');
+        if (vars) {
+            delete vars[varName];
+        }
+    };
+
+    $.zui.FlowChart.prototype.checkTypeCanAddVariable = function(typeName, varName, varData) {
+        if (this.typesCanAddVariablesFunc) {
+            return this.typesCanAddVariablesFunc(typeName, varName, varData);
+        } else if (this.typesCanAddVariablesMap) {
+            return this.typesCanAddVariablesMap[typeName];
+        }
+        return false;
+    };
+
     $.zui.FlowChart.addPlugin('var', {
-        plugins: 'fsm',
         defaultOptions: {
             addVariablesFromDrop: true,
-            typesCanAddVariables: 'fsm_simpleState,fsm_virtualState,fsm_actualState,fsm_selectState',
+            typesCanAddVariables: function(type) {
+                var typeLowerCase = type.toLowerCase();
+                return typeLowerCase.indexOf('fsm_') === 0 || typeLowerCase.indexOf('fbd_') === 0;
+            },
             onDrop: function(e) {
                 var that = this;
                 var newVarData = e.originalEvent.dataTransfer.getData('newVar');
                 if (newVarData) {
                     e.preventDefault();
-                    var $target = $(e.target).closest('.flowchart-node');
+                    var $target = $(e.target).closest('.flowchart-element');
                     if ($target.length) {
                         var element = that.getElement($target.data('id'));
-                        if (element && that.typesCanAddVariablesMap[element.type]) {
+                        if (element) {
                             try {
                                 newVarData = $.parseJSON(newVarData);
                             } catch (e) {
@@ -66,14 +93,16 @@ if ($.zui.FlowChart) {
                             if (newVarData && typeof newVarData === 'object' && newVarData.var) {
                                 var varName = newVarData.var;
                                 delete newVarData.var;
-                                var varData = {};
-                                varData[varName] = newVarData;
-                                element.setVariable(varData, true);
+                                if (that.checkTypeCanAddVariable(element.type, varName, newVarData)) {
+                                    element.setVariableObject(varName, newVarData);
+                                } else {
+                                    console.warn('FlowChart: Cannot add variable to the target element.', element);
+                                }
                             } else {
                                 console.warn('FlowChart: Data format error in  "newVarData" data from drop event\'s dataTransfer.', newVarData);
                             }
                         } else {
-                            console.warn('FlowChart: Cannot add variable to the target element.', element);
+                            console.warn('FlowChart: Cannot add variable to the target element not in flowchart.', element);
                         }
                     }
                     return false;
@@ -81,23 +110,30 @@ if ($.zui.FlowChart) {
             }
         },
         style: [
-            '#{id}.flowchart-drag-var-start.flowchart-drag-over .flowchart-can-add-var {box-shadow: 0 0 4px 1px {activeColor}!important}'
+            '#{id}.flowchart-drag-var-start.flowchart-drag-over .flowchart-can-add-var.flowchart-node {box-shadow: 0 0 4px 1px {activeColor}!important}'
         ].join('\n'),
         onRenderNode: function($node, node) {
-            $node.toggleClass('flowchart-can-add-var', !!this.typesCanAddVariablesMap[node.type]);
+            $node.toggleClass('flowchart-can-add-var', !!this.checkTypeCanAddVariable(node.type));
+        },
+        onRenderRelation: function($relation, relation) {
+            $relation.toggleClass('flowchart-can-add-var', !!this.checkTypeCanAddVariable(relation.type));
         },
         onCreate: function() {
             var that = this;
             var options = that.options;
-            var typesCanAddVariablesMap = {};
             var typesCanAddVariables = options.typesCanAddVariables;
             if (typeof typesCanAddVariables === 'string') {
                 typesCanAddVariables = typesCanAddVariables.split(',');
             }
-            typesCanAddVariables.forEach(function(type) {
-                typesCanAddVariablesMap[$.trim(type)] = 1;
-            });
-            that.typesCanAddVariablesMap = typesCanAddVariablesMap;
+            if ($.isArray(typesCanAddVariables)) {
+                var typesCanAddVariablesMap = {};
+                typesCanAddVariables.forEach(function(type) {
+                    typesCanAddVariablesMap[$.trim(type)] = 1;
+                });
+                that.typesCanAddVariablesMap = typesCanAddVariablesMap;
+            } else if (typeof typesCanAddVariables === 'function') {
+                that.typesCanAddVariablesFunc = typesCanAddVariables;
+            }
 
             if (options.addVariablesFromDrop) {
                 if (typeof options.addVariablesFromDrop === 'string') {

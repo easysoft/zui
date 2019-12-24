@@ -560,13 +560,13 @@ if (!Array.prototype.map) {
     };
 
     var supportElementTypes = {
-        relation: true,
+        relation: {type: 'relation'},
         action: {type: 'rectangle'},
         start: {type: 'box'},
         stop: {type: 'box'},
         judge: {type: 'diamond'},
         result: {type: 'circle'},
-        connection: true,
+        connection: {type: 'connection'},
         point: {type: 'dot'},
     };
 
@@ -578,7 +578,7 @@ if (!Array.prototype.map) {
      */
     var FlowChartElementPort = function(portData, side, index) {
         if (typeof portData === 'number') {
-            portData = {name: '', space: portData};
+            portData = {space: portData};
         } else if (typeof portData === 'string') {
             portData = {name: portData};
         }
@@ -614,6 +614,9 @@ if (!Array.prototype.map) {
          */
         this.direction = portData.direction === 'out' ? 'out' : portData.direction === 'in' ? 'in' : 'in-out';
 
+        /**
+         * @type {number}
+         */
         this.space = this.space === undefined ? 1 : this.space;
 
         /**
@@ -652,14 +655,88 @@ if (!Array.prototype.map) {
         this.index = index;
 
         /**
-         * @type {boolean}
+         * @type {boolean|number}
          */
-        this.free = this.free !== false;
+        this.rest;
 
         /**
          * @type {number}
          */
-        this.maxLinkCount = this.maxLinkCount ? Math.max(1, this.maxLinkCount) : 1;
+        this.maxLinkCount = this.rest ? 1 : this.maxLinkCount ? Math.max(1, this.maxLinkCount) : 1;
+
+        /**
+         * @type {boolean}
+         */
+        this.free = !this.rest && this.free !== false;
+
+        /**
+         * @type {number}
+         */
+        this.restMinIndex = this.restMinIndex === undefined ? 1 : this.restMinIndex;
+    };
+
+    FlowChartElementPort.prototype.getMaxRestCount = function() {
+        if (this.rest === true) {
+            return Number.MAX_SAFE_INTEGER;
+        }
+        if (this.rest && typeof this.rest === 'number') {
+            return this.rest;
+        }
+        return 0;
+    };
+
+    FlowChartElementPort.prototype.isMatchRestName = function(name) {
+        if (this.rest) {
+            if (!this._restNameRegex) {
+                this._restNameRegex = new RegExp('^' + this.name.replace('*', '(\\d+)') + '$');
+            }
+            return this._restNameRegex.test(name);
+        }
+        return false;
+    };
+
+    FlowChartElementPort.prototype.getRestPortAt = function(index, restMinIndex) {
+        if (this.rest) {
+            if (restMinIndex === undefined) {
+                restMinIndex = this.restMinIndex;
+            }
+            var portName = this.name.replace('*', index + restMinIndex);
+            return this.getRestPortByName(portName);
+        }
+        return null;
+    };
+
+    FlowChartElementPort.prototype.getRestPortByName = function(portName) {
+        if (this.isMatchRestName(portName)) {
+            if (!this._restPorts) {
+                this._restPorts = {};
+            }
+            var port = this._restPorts[portName];
+            if (port) {
+                return port;
+            }
+
+            var portData = this.exportPort();
+            portData.name = portName;
+            portData.rest = false;
+            portData._restPort = true;
+            portData.maxLinkCount = 1;
+            port = new FlowChartElementPort(portData);
+            this._restPorts[portName] = port;
+            return port;
+        }
+        return null;
+    };
+
+    FlowChartElementPort.prototype.exportPort = function() {
+        var port = {};
+        var that = this;
+        $.each(that, function(propName) {
+            if (propName[0] !== '_') {
+                port[propName] = that[propName];
+            }
+        });
+        return port;
     };
 
     /**
@@ -671,7 +748,7 @@ if (!Array.prototype.map) {
         if (!initData) {
             return null;
         }
-        var map = {$all: {}, $free: [], $list: []};
+        var map = {$all: {}, $free: [], $list: [], $rest: []};
         var hasPort;
         $.each(SIDES, function(side) {
             var portsData = initData[side];
@@ -694,6 +771,9 @@ if (!Array.prototype.map) {
                         map.$list.push(port);
                         if (port.free) {
                             map.$free.push(port);
+                        }
+                        if (port.rest) {
+                            map.$rest.push(port);
                         }
                     }
                     return port;
@@ -998,11 +1078,13 @@ if (!Array.prototype.map) {
         if (typeof newType === 'string') {
             newType = that.flowChart.types[newType];
         }
-        that.type = newType.name;
-        that.basicType = newType.type;
-        that.isRelation = newType.isRelation;
-        that.isNode = newType.isNode;
-        that.elementType = newType;
+        if (newType) {
+            that.type = newType.name;
+            that.basicType = newType.type;
+            that.isRelation = newType.isRelation;
+            that.isNode = newType.isNode;
+            that.elementType = newType;
+        }
     };
 
     /**
@@ -1106,12 +1188,12 @@ if (!Array.prototype.map) {
             } else {
                 var fromPort, toPort;
                 if (that.fromPort) {
-                    fromPort = fromNode.elementType.getPortByName(that.fromPort);
+                    fromPort = fromNode.getPortByName(that.fromPort);
                 }
                 if (that.toPort) {
-                    toPort = toNode.elementType.getPortByName(that.toPort);
+                    toPort = toNode.getPortByName(that.toPort);
                 }
-                if (!that.fromPort || !that.toPort) {
+                if (that.flowChart.options.allowFreePorts && !that.fromPort || !that.toPort) {
                     var fromBounds = fromNode.getBounds();
                     var toBounds = toNode.getBounds();
                     var centerPoint = {
@@ -1137,7 +1219,7 @@ if (!Array.prototype.map) {
                         }
 
                         if (minPortName) {
-                            return node.elementType.getPortByName(minPortName);
+                            return node.getPortByName(minPortName);
                         }
                     };
 
@@ -1247,7 +1329,7 @@ if (!Array.prototype.map) {
     };
 
     /**
-     *
+     * Get actual ports, if side set then return port at given side
      * @param {string} [side]
      */
     FlowChartElement.prototype.getPorts = function(side) {
@@ -1260,11 +1342,16 @@ if (!Array.prototype.map) {
         return this.elementType.ports.$list;
     };
 
+    /**
+     * Get actual port by port name
+     * @return {FlowChartElementPort}
+     */
     FlowChartElement.prototype.getPortByName = function(name) {
         if (this.isRelation) {
             return null;
         }
-        return this.elementType.ports.$all[name];
+        return this.elementType.getPortByName(name, true);
+
     };
 
     FlowChartElement.prototype.isActive = function() {
@@ -1370,6 +1457,7 @@ if (!Array.prototype.map) {
         var portsInfo        = that.getPortsInfoOfRelation();
         var $fromPort        = fromNode.$get('.flowchart-port[data-name="' + portsInfo.fromPort.name + '"]');
         var $toPort          = toNode.$get('.flowchart-port[data-name="' + portsInfo.toPort.name + '"]');
+
         var fromPortPos      = flowChart.getPositionOf($fromPort);
         var toPortPos        = flowChart.getPositionOf($toPort);
         var fromCenterOffset = $fromPort.data('centerOffset');
@@ -1437,6 +1525,51 @@ if (!Array.prototype.map) {
     };
 
     /**
+     * Get rest ports
+     */
+    FlowChartElement.prototype.getRestPorts = function(originPort, appendEmptyPort) {
+        if (originPort.rest) {
+            if (appendEmptyPort === undefined) {
+                appendEmptyPort = true;
+            }
+            var ports = this.getRelationOfRestPort(originPort);
+            if (appendEmptyPort) {
+                var port = originPort.getRestPortAt(ports.length);
+                port._restHolder = true;
+                ports.push(port);
+            }
+            return ports;
+        }
+        return [];
+    };
+
+    FlowChartElement.prototype.getRelationOfRestPort = function(originPort) {
+        var that = this;
+        var ports = [];
+        if (that.fromRels && that.fromRels.length) {
+            that.fromRels.forEach(function(rel) {
+                if (rel.fromPort && originPort.isMatchRestName(rel.fromPort)) {
+                    var port = originPort.getRestPortAt(ports.length);
+                    port._restHolder = false;
+                    rel.fromPort = port.name;
+                    ports.push(port);
+                }
+            });
+        }
+        if (that.toRels && that.toRels.length) {
+            that.toRels.forEach(function(rel) {
+                if (rel.toPort && originPort.isMatchRestName(rel.toPort)) {
+                    var port = originPort.getRestPortAt(ports.length);
+                    port._restHolder = false;
+                    rel.toPort = port.name;
+                    ports.push(port);
+                }
+            });
+        }
+        return ports;
+    };
+
+    /**
      * Render ports
      */
     FlowChartElement.prototype.renderPorts = function() {
@@ -1462,6 +1595,72 @@ if (!Array.prototype.map) {
         that.$ports = $ports;
         var sideSizes = {left: 0, right: 0, top: 0, bottom: 0};
         var portSize = options.portSpaceSize || 20;
+        var renderSidePort = function($side, side, port) {
+            var spaceSize = Math.floor(port.space * portSize);
+            var spaceBegin = Math.floor(port.spaceBegin * portSize);
+            var spaceEnd = Math.floor(port.spaceEnd * portSize);
+            var sideOffset = sideSizes[side];
+            sideSizes[side] += spaceBegin + spaceSize + spaceEnd;
+            if (port.empty) {
+                return;
+            }
+
+            var lineLength = ifUndefinedThen(port.lineLength, elementType.portLineLength, options.portLineLength);
+            var lineWidth = Math.max(1, ifUndefinedThen(port.lineWidth, elementType.portLineWidth, options.portLineWidth));
+            var lineStyle = ifUndefinedThen(port.lineStyle, elementType.portLineStyle, options.portLineStyle);
+            var lineColor = ifUndefinedThen(port.lineColor, elementType.portLineColor, options.portLineColor);
+            var portStyle = {};
+            var portLineStyle = lineLength && {};
+            var portDotStyle = {
+                width: lineWidth + 8,
+                height: lineWidth + 8,
+            };
+            var portCenterOffset = {};
+            if (side === 'left' || side === 'right') {
+                portStyle.top = sideOffset + spaceBegin;
+                portStyle.width = lineLength + 2 * portDotStyle.width;
+                portStyle.left = side === 'left' ? (0 - portStyle.width) : 0;
+                portStyle.height = spaceSize;
+                if (lineLength) {
+                    portLineStyle.top = Math.floor((spaceSize - lineWidth) / 2);
+                    portLineStyle[side === 'left' ? 'right' : 'left'] = 0;
+                    portLineStyle.width = lineLength;
+                    portLineStyle.borderBottomStyle = lineStyle;
+                    portLineStyle.borderBottomWidth = lineWidth;
+                    portLineStyle.borderBottomColor = lineColor;
+                }
+                portDotStyle.top = Math.floor((spaceSize - portDotStyle.height) / 2);
+                portDotStyle[side] = portStyle.width - lineLength - portDotStyle.width;
+
+                portCenterOffset.top = spaceSize / 2;
+                portCenterOffset.left = side === 'left' ? (portStyle.width - portLineStyle.width) : portLineStyle.width;
+            } else {
+                portStyle.left = sideOffset + spaceBegin;
+                portStyle.height = lineLength + 2 * portDotStyle.width;
+                portStyle.top = side === 'top' ? (0 - portStyle.height) : 0;
+                portStyle.width = spaceSize;
+                if (lineLength) {
+                    portLineStyle.left = Math.floor((spaceSize - lineWidth) / 2);
+                    portLineStyle[side === 'top' ? 'bottom' : 'top'] = 0;
+                    portLineStyle.height = lineLength;
+                    portLineStyle.borderRightStyle = lineStyle;
+                    portLineStyle.borderRightWidth = lineWidth;
+                    portLineStyle.borderRightColor = lineColor;
+                }
+                portDotStyle.left = Math.floor((spaceSize - portDotStyle.width) / 2);
+                portDotStyle[side] = portStyle.height - lineLength - portDotStyle.height;
+
+                portCenterOffset.top = side === 'top' ? (portStyle.height - portLineStyle.height) : portLineStyle.height;
+                portCenterOffset.left = spaceSize / 2;
+            }
+            var $port = $('<div class="flowchart-port" data-id="' + that.id + '-' + port.name + '" data-side="' + port.side + '" data-name="' + port.name + '" style="position:absolute;z-index:2"></div>').css(portStyle);
+            if (lineLength) {
+                $('<div class="flowchart-port-line" style="position:absolute"></div>').css(portLineStyle).appendTo($port);
+            }
+            $port.addClass('flowchart-port-' + side).data('centerOffset', portCenterOffset).toggleClass('flowchart-port-free', port.free).append($('<div class="flowchart-port-dot" style="position:absolute"></div>').css(portDotStyle));
+            $port.toggleClass('flowchart-port-resthoder', !!port._restHolder);
+            $side.append($port);
+        };
         $.each(sideSizes, function(side) {
             var $side = $ports.find('.flowchart-ports-' + side).empty();
             var sidePorts = ports[side];
@@ -1469,69 +1668,10 @@ if (!Array.prototype.map) {
                 return;
             }
             sidePorts.forEach(function(port) {
-                var spaceSize = Math.floor(port.space * portSize);
-                var spaceBegin = Math.floor(port.spaceBegin * portSize);
-                var spaceEnd = Math.floor(port.spaceEnd * portSize);
-                var sideOffset = sideSizes[side];
-                sideSizes[side] += spaceBegin + spaceSize + spaceEnd;
-                if (port.empty) {
-                    return;
+                if (port.rest) {
+                    return that.getRestPorts(port).forEach(renderSidePort.bind(null, $side, side));
                 }
-
-                var lineLength = ifUndefinedThen(port.lineLength, elementType.portLineLength, options.portLineLength);
-                var lineWidth = Math.max(1, ifUndefinedThen(port.lineWidth, elementType.portLineWidth, options.portLineWidth));
-                var lineStyle = ifUndefinedThen(port.lineStyle, elementType.portLineStyle, options.portLineStyle);
-                var lineColor = ifUndefinedThen(port.lineColor, elementType.portLineColor, options.portLineColor);
-                var portStyle = {};
-                var portLineStyle = lineLength && {};
-                var portDotStyle = {
-                    width: lineWidth + 8,
-                    height: lineWidth + 8,
-                };
-                var portCenterOffset = {};
-                if (side === 'left' || side === 'right') {
-                    portStyle.top = sideOffset + spaceBegin;
-                    portStyle.width = lineLength + 2 * portDotStyle.width;
-                    portStyle.left = side === 'left' ? (0 - portStyle.width) : 0;
-                    portStyle.height = spaceSize;
-                    if (lineLength) {
-                        portLineStyle.top = Math.floor((spaceSize - lineWidth) / 2);
-                        portLineStyle[side === 'left' ? 'right' : 'left'] = 0;
-                        portLineStyle.width = lineLength;
-                        portLineStyle.borderBottomStyle = lineStyle;
-                        portLineStyle.borderBottomWidth = lineWidth;
-                        portLineStyle.borderBottomColor = lineColor;
-                    }
-                    portDotStyle.top = Math.floor((spaceSize - portDotStyle.height) / 2);
-                    portDotStyle[side] = portStyle.width - lineLength - portDotStyle.width;
-
-                    portCenterOffset.top = spaceSize / 2;
-                    portCenterOffset.left = side === 'left' ? (portStyle.width - portLineStyle.width) : portLineStyle.width;
-                } else {
-                    portStyle.left = sideOffset + spaceBegin;
-                    portStyle.height = lineLength + 2 * portDotStyle.width;
-                    portStyle.top = side === 'top' ? (0 - portStyle.height) : 0;
-                    portStyle.width = spaceSize;
-                    if (lineLength) {
-                        portLineStyle.left = Math.floor((spaceSize - lineWidth) / 2);
-                        portLineStyle[side === 'top' ? 'bottom' : 'top'] = 0;
-                        portLineStyle.height = lineLength;
-                        portLineStyle.borderRightStyle = lineStyle;
-                        portLineStyle.borderRightWidth = lineWidth;
-                        portLineStyle.borderRightColor = lineColor;
-                    }
-                    portDotStyle.left = Math.floor((spaceSize - portDotStyle.width) / 2);
-                    portDotStyle[side] = portStyle.height - lineLength - portDotStyle.height;
-
-                    portCenterOffset.top = side === 'top' ? (portStyle.height - portLineStyle.height) : portLineStyle.height;
-                    portCenterOffset.left = spaceSize / 2;
-                }
-                var $port = $('<div class="flowchart-port" data-id="' + that.id + '-' + port.name + '" data-side="' + port.side + '" data-name="' + port.name + '" style="position:absolute;z-index:2"></div>').css(portStyle);
-                if (lineLength) {
-                    $('<div class="flowchart-port-line" style="position:absolute"></div>').css(portLineStyle).appendTo($port);
-                }
-                $port.addClass('flowchart-port-' + side).data('centerOffset', portCenterOffset).toggleClass('flowchart-port-free', port.free).append($('<div class="flowchart-port-dot" style="position:absolute"></div>').css(portDotStyle));
-                $side.append($port);
+                renderSidePort($side, side, port);
             });
             $side.css(side === 'left' || side === 'right' ? 'margin-top' : 'margin-left', 0 - Math.floor(sideSizes[side] / 2));
         });
@@ -1666,15 +1806,6 @@ if (!Array.prototype.map) {
         // TODO: Check order
         if (!skipLayout) {
             that.layoutNode();
-        }
-
-        if (options.relationLineGap) {
-            that.sideRels = {
-                top:    [],
-                right:  [],
-                bottom: [],
-                left:   [],
-            };
         }
     };
 
@@ -1936,9 +2067,9 @@ if (!Array.prototype.map) {
         this.edit;
 
         /**
-         * @type {boolean}
+         * @type {string}
          */
-        this.quickAdd;
+        this.desc;
 
         /**
          * @type {{left: FlowChartElementPort[], right: FlowChartElementPort[], top: FlowChartElementPort[], bottom: FlowChartElementPort[]}}
@@ -1946,11 +2077,22 @@ if (!Array.prototype.map) {
         this.ports = FlowChartElementPort.createPortsMap(this.ports);
     };
 
-    FlowChartElementType.prototype.getPortByName = function(name) {
+    FlowChartElementType.prototype.getPortByName = function(name, tryReturnRestPort) {
         var that = this;
         var ports = that.ports;
         if (ports) {
-            return ports.$all[name];
+            var port = ports.$all[name];
+            if (port) {
+                return port;
+            }
+            if (ports.$rest.length) {
+                for (var i = 0; i < ports.$rest.length; ++i) {
+                    var port = ports.$rest[i];
+                    if (port.isMatchRestName(name)) {
+                        return tryReturnRestPort ? port.getRestPortByName(name) : port;
+                    }
+                }
+            }
         }
         return null;
     };
@@ -1979,6 +2121,46 @@ if (!Array.prototype.map) {
         var element = new FlowChartElement(initData, this);
         element.flowChart = flowChart;
         return element;
+    };
+
+    FlowChartElementType.prototype.exportType = function(includeEmptyPorts) {
+        var that = this;
+        var type = {
+            name: that.name,
+            shape: that.shape,
+            isRelation: that.isRelation,
+            isNode: that.isNode,
+            displayName: that.displayName,
+            internal: that.internal,
+            type: that.type,
+        };
+        var ports = that.ports;
+        if (ports) {
+            var portsToExport = {};
+            ['left', 'top', 'right', 'bottom'].forEach(function(side) {
+                var sidePorts = ports[side];
+                if (sidePorts && sidePorts.length) {
+                    var sidePOrtsToExport = [];
+                    sidePorts.forEach(function(port) {
+                        if (!port.empty || includeEmptyPorts) {
+                            var portToExport = port.exportPort();
+                            delete portToExport.empty;
+                            delete portToExport.side;
+                            delete portToExport.space;
+                            delete portToExport.spaceBegin;
+                            delete portToExport.spaceEnd;
+                            delete portToExport.index;
+                            sidePOrtsToExport.push(portToExport);
+                        }
+                    });
+                    if (sidePOrtsToExport.length) {
+                        portsToExport[side] = sidePOrtsToExport;
+                    }
+                }
+            });
+            type.ports = portsToExport;
+        }
+        return type;
     };
 
     /**
@@ -2051,9 +2233,15 @@ if (!Array.prototype.map) {
         // Init element types 初始化元素类型定义
         var types = {};
         $.each(basicElementTypes, function(name, typeData) {
-            types[name] = new FlowChartElementType([{type: name, internal: name !== 'relation', name: name, displayName: that.lang['type.' + name]}, typeData]);
+            types[name] = new FlowChartElementType([{type: name, internal: true, name: name, displayName: that.lang['type.' + name]}, typeData]);
         });
-        $.each($.extend(true, {}, supportElementTypes, options.elementTypes), function(name, typeData) {
+        var initialTypes = {};
+        $.each(supportElementTypes, function(name, typeData) {
+            initialTypes[name] = $.extend(true, {}, typeData, {
+                internal: !options.initialTypes
+            });
+        });
+        $.each($.extend(true, {}, initialTypes, options.elementTypes), function(name, typeData) {
             if (name === 'relation') return;
             if (types[name]) {
                 var basicType = types[name];
@@ -2086,90 +2274,6 @@ if (!Array.prototype.map) {
         if (options.height !== undefined) {
             $container.css('height', options.height);
         }
-
-        // Init quick add
-        // if (!options.readonly && options.quickAdd) {
-        //     $canvas.on('mouseenter', '.flowchart-node:not(.flowchart-has-ports)', function() {
-        //         that.showQuickAdd($(this).data('id'));
-        //     }).on('mouseleave', '.flowchart-node', function() {
-        //         if (!that.isPreventDragNode) {
-        //             that.hideQuickAdd();
-        //         }
-        //     }).on('click', '.flowchart-quick-mark', function () {
-        //         var $mark = $(this);
-        //         that.quickAddNode($mark.closest('.flowchart-node').data('id'), $mark.data('direction'));
-        //     });
-
-        //     $canvas.droppable({
-        //         container: '#' + canvasID,
-        //         target: '.flowchart-node',
-        //         selector: '.flowchart-quick-link-mark',
-        //         mouseButton: 'left',
-        //         before: function() {
-        //             that.isPreventDragNode = true;
-        //         },
-        //         start: function(e) {
-        //             var $node = $(e.element).closest('.flowchart-node');
-        //             that.dragSourceNode = $node.data('id');
-        //             that.focusElement(that.dragSourceNode);
-        //             $(e.shadowElement).css('zIndex', 20);
-        //             that.showQuickAdd(that.dragSourceNode, true);
-        //         },
-        //         drag: function(e) {
-        //             var newDragNode = e.isIn && e.target && $(e.target).data('id');
-        //             var lastDragNode = that.lastDragNode;
-        //             if (lastDragNode && (!newDragNode || newDragNode !== lastDragNode)) {
-        //                 that.blurElement(lastDragNode);
-        //                 that.lastDragNode = null;
-        //             }
-        //             if (newDragNode && newDragNode !== lastDragNode) {
-        //                 that.lastDragNode = newDragNode;
-        //                 that.focusElement(newDragNode);
-        //             }
-        //             var $line = $canvas.find('.flowchart-link-line');
-        //             var sourceNode = that.getElement(that.dragSourceNode);
-        //             if (!$line.length) {
-        //                 $line = $('<svg class="flowchart-link-line" style="position: absolute; z-index: 30; top: 0; left: 0; right: 0; bottom: 0"><line x1="50" y1="50" x2="350" y2="350" stroke="' + options.activeColor + '" stroke-width="2" /></svg>').appendTo($canvas);
-        //             }
-        //             var sourcePoint = {
-        //                 left: sourceNode.bounds.right,
-        //                 top: sourceNode.bounds.bottom,
-        //             };
-        //             var targetPoint = {
-        //                 left: e.position.left + 8,
-        //                 top: e.position.top + 8,
-        //             };
-
-        //             $line.show().attr({
-        //                 width: $canvas.width(),
-        //                 height: $canvas.height(),
-        //             }).find('line').attr({
-        //                 x1: sourcePoint.left,
-        //                 y1: sourcePoint.top,
-        //                 x2: targetPoint.left,
-        //                 y2: targetPoint.top,
-        //             });
-        //         },
-        //         drop: function(e) {
-        //             var toNode = e.isIn && e.target && $(e.target).data('id');
-        //             that.addRelation(that.dragSourceNode, toNode);
-        //         },
-        //         always: function(e) {
-        //             that.isPreventDragNode = false;
-        //             if (that.dragSourceNode) {
-        //                 that.blurElement(that.dragSourceNode);
-        //                 that.dragSourceNode = null;
-        //             }
-
-        //             if (that.lastDragNode) {
-        //                 that.blurElement(that.lastDragNode);
-        //                 that.lastDragNode = null;
-        //             }
-        //             $canvas.find('.flowchart-link-line').hide();
-        //             that.hideQuickAdd();
-        //         }
-        //     });
-        // }
 
         // Init draggable event
         that.draggableEnable = !!$.fn.draggable;
@@ -2273,7 +2377,7 @@ if (!Array.prototype.map) {
                         $targetPort && $targetPort.removeClass('flowchart-drop-active');
                         $targetNode && $targetNode.removeClass('flowchart-drop-active');
                         $line && $line.hide();
-                        if (!hasDropped && (e.cancel || distanceOfTwoPoints(e.position, sourcePoint) < 20)) {
+                        if (options.quickAdd && !hasDropped && (e.cancel || distanceOfTwoPoints(e.position, sourcePoint) < 20)) {
                             var $target = $(e.event.target);
                             var $thisPort = $target.closest('.flowchart-port');
                             var $thisNode = ($thisPort.length ? $thisPort : $target).closest('.flowchart-node');
@@ -2336,8 +2440,8 @@ if (!Array.prototype.map) {
                         var canvasOffset = $canvas.offset();
                         that.addElement($.extend({
                             position: {
-                                centerLeft: e.clientX - canvasOffset.left,
-                                centerTop: e.clientY - canvasOffset.top,
+                                centerLeft: e.clientX - canvasOffset.left + $(window).scrollLeft(),
+                                centerTop: e.clientY - canvasOffset.top + $(window).scrollTop(),
                             },
                             text: null,
                         }, newElementData));
@@ -2686,56 +2790,6 @@ if (!Array.prototype.map) {
         that._focusedElement = element.id;
     };
 
-    // Show quick add marks
-    // FlowChart.prototype.showQuickAdd = function(node, onlyLinkMark) {
-    //     var that = this;
-
-    //     if (typeof node === 'string') {
-    //         node = that.getElement(node);
-    //     }
-    //     if (!node || node.elementType.quickAdd === false) {
-    //         return;
-    //     }
-
-    //     var $marks = node.$ele.find('.flowchart-quick-marks');
-    //     if (!$marks.length) {
-    //         var activeColor = that.options.activeColor;
-    //         $marks = $([
-    //             '<div class="flowchart-quick-marks" style="position:absolute;left:-16px;top:-16px;right:-16px;bottom:-16px;z-index:10">',
-    //                 '<div class="flowchart-quick-mark" data-direction="top" style="position:absolute;pointer-events:auto;width:16px;height:16px;top:0;left:50%;margin-left:-8px;line-height:17px;text-align:center;cursor:pointer;border-radius:50%;background:#fff;background:rgba(255,255,255,.9);color:' + activeColor + '"><i class="icon icon-circle-arrow-up"></i></div>',
-    //                 '<div class="flowchart-quick-mark" data-direction="right" style="position:absolute;pointer-events:auto;width:16px;height:16px;right:0;top:50%;margin-top:-8px;line-height:17px;text-align:center;cursor:pointer;border-radius:50%;background:#fff;background:rgba(255,255,255,.9);color:' + activeColor + '"><i class="icon icon-circle-arrow-right"></i></div>',
-    //                 '<div class="flowchart-quick-mark" data-direction="bottom" style="position:absolute;pointer-events:auto;width:16px;height:16px;bottom:0;left:50%;margin-left:-8px;line-height:17px;text-align:center;cursor:pointer;border-radius:50%;background:#fff;background:rgba(255,255,255,.9);color:' + activeColor + '"><i class="icon icon-circle-arrow-down"></i></div>',
-    //                 '<div class="flowchart-quick-mark" data-direction="left" style="position:absolute;pointer-events:auto;width:16px;height:16px;left:0;top:50%;margin-top:-8px;line-height:17px;text-align:center;cursor:pointer;border-radius:50%;background:#fff;background:rgba(255,255,255,.9);color:' + activeColor + '"><i class="icon icon-circle-arrow-left"></i></div>',
-    //                 '<div class="flowchart-quick-link-mark" style="position:absolute;pointer-events:auto;width:16px;height:16px;right:1px;bottom:1px;line-height:17px;text-align:center;cursor:pointer;border-radius:50%;background:#fff;background:rgba(255,255,255,.9);color:' + activeColor + ';border-radius:50%;cursor:move"><i class="icon icon-dot-circle"></i></div>',
-    //             '</div>'
-    //         ].join('')).appendTo(node.$ele);
-    //     }
-    //     var $children = $marks.show().children().show();
-    //     if (onlyLinkMark) {
-    //         $children.not('.flowchart-quick-link-mark').hide();
-    //     }
-    //     var options = that.options;
-    //     if (node.bounds.left < (options.padding + 80 + options.horzSpace)) {
-    //         $marks.find('[data-direction="left"]').hide();
-    //     }
-    //     if (node.bounds.top < (options.padding + options.nodeHeight + options.vertSpace)) {
-    //         $marks.find('[data-direction="top"]').hide();
-    //     }
-
-    //     that._currentQuickAddNode = node;
-    // };
-
-    // Hide quick add marks
-    // FlowChart.prototype.hideQuickAdd = function() {
-    //     var that = this;
-    //     var node  = that._currentQuickAddNode;
-    //     if (!node) {
-    //         return;
-    //     }
-    //     node.$ele.find('.flowchart-quick-marks').hide();
-    //     that._currentQuickAddNode = null;
-    // };
-
     // Show contextmenu
     FlowChart.prototype.showContextMenu = function(ele, event) {
         var that = this;
@@ -2834,20 +2888,19 @@ if (!Array.prototype.map) {
                         };
                         var addRel = function(rel) {
                             addRelToPartialMap(rel);
-                            if (that.options.relationLineGap) {
-                                if (rel.beginSideRels) {
-                                    rel.beginSideRels.forEach(addRelToPartialMap);
-                                }
-                                if (rel.endSideRels) {
-                                    rel.endSideRels.forEach(addRelToPartialMap);
-                                }
-                            }
                         };
                         if (element.fromRels.length) {
                             element.fromRels.forEach(addRel);
                         }
                         if (element.toRels.length) {
                             element.toRels.forEach(addRel);
+                        }
+                    }  else {
+                        if (element.fromNode) {
+                            map[element.fromNode.id] = element.fromNode;
+                        }
+                        if (element.toNode) {
+                            map[element.toNode.id] = element.toNode;
                         }
                     }
                 }
@@ -2926,13 +2979,12 @@ if (!Array.prototype.map) {
             (element.isRelation ? relationList : nodeList).push(element);
         });
 
-        this.nodeList = FlowChartElement.sort(nodeList);
-        this.relationList = FlowChartElement.sort(relationList);
+        that.nodeList = FlowChartElement.sort(nodeList);
+        that.relationList = FlowChartElement.sort(relationList);
 
         relationList.forEach(function(relation) {
             relation.initRelationBeforeRender();
         });
-
 
         var partialRenderMap = that._getPartialRenderMap(partialIDList);
         if (!partialRenderMap.enabled) {
@@ -3160,6 +3212,10 @@ if (!Array.prototype.map) {
             return;
         }
 
+        if (!that.options.allowFreePorts && (!fromPort && !toPort)) {
+            return;
+        }
+
         return that.addElement({
             type: 'relation',
             text: text === undefined ? null : text,
@@ -3346,6 +3402,20 @@ if (!Array.prototype.map) {
                     if (element.relationLineID) {
                         $('#' + element.relationLineID).remove();
                     }
+                    var fromNode = element.fromNode;
+                    if (fromNode && fromNode.fromRels && fromNode.fromRels.length) {
+                        var relIndex = fromNode.fromRels.findIndex(x => x.id === element.id);
+                        if (relIndex > -1) {
+                            fromNode.fromRels.splice(relIndex, 1);
+                        }
+                    }
+                    var toNode = element.toNode;
+                    if (toNode && toNode.toRels && toNode.toRels.length) {
+                        var relIndex = toNode.toRels.findIndex(x => x.id === element.id);
+                        if (relIndex > -1) {
+                            toNode.toRels.splice(relIndex, 1);
+                        }
+                    }
                 }
                 delete that.elements[id];
                 if (that._focusedElement === id) {
@@ -3387,6 +3457,17 @@ if (!Array.prototype.map) {
             delete dataItem.order;
         });
         return dataList;
+    };
+
+    FlowChart.prototype.exportTypes = function(includeInternalTypes) {
+        var that = this;
+        var typesList = [];
+        $.each(that.types, function(_, elementType) {
+            if (!elementType.internal || includeInternalTypes) {
+                typesList.push(elementType.exportType());
+            }
+        });
+        return typesList;
     };
 
     // Change options
@@ -3489,6 +3570,9 @@ if (!Array.prototype.map) {
         // 激活状态颜色
         activeColor: '#3280fc',
 
+        // 允许自由端口
+        allowFreePorts: false,
+
         // 是否移动时自动吸附网格
         // 如果设置为 true，则设置网格为 5，如果为数值则为指定的网格大小
         adsorptionGrid: 5,
@@ -3582,9 +3666,6 @@ if (!Array.prototype.map) {
         // 端口线颜色
         portLineColor: '#333',
 
-        // 连接线间距，如果设置为 0 则会合并同一方向上的连接线，否则会使用给定的值作为间距
-        // relationLineGap: 2,
-
         // 关系连接线文本样式
         relationTextStyle: {
         },
@@ -3614,6 +3695,9 @@ if (!Array.prototype.map) {
 
         // 自定义元素类型
         elementTypes: {},
+
+        // 是否包含默认节点类型
+        initialTypes: true,
 
         // 初始数据
         data: [{

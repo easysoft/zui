@@ -1,66 +1,93 @@
 if ($.zui.FlowChart) {
+    var textGenerator = function(elementType) {
+        if (!elementType.newElementsCounter) {
+            elementType.newElementsCounter = 1;
+        }
+        return elementType.name.substring(4) + '_' + (elementType.newElementsCounter++);
+    };
     var types = {
-        fsm_start: {
+        FSM_InitState: {
             width: 32,
             height: 32,
             type: 'dot',
-            displayName: 'FSM 开始',
-            text: '开始',
+            displayName: 'FSM初始状态',
+            text: textGenerator,
             portLineLength: 1,
             shapeStyle: {background: '#888'}
         },
-        fsm_stop: {
+        FSM_EndState: {
             width: 32,
             height: 32,
             type: 'dot',
             shapeStyle: {background: '#888', boxShadow: 'inset 0 0 0 2px #fff'},
-            text: '结束',
+            text: textGenerator,
             portLineLength: 1,
-            text: '结束',
-            displayName: 'FSM 结束',
+            displayName: 'FSM结束状态',
         },
-        fsm_actionConvert: {
-            type: 'relation',
-            lineStyle: 'solid',
-            text: '动作转换',
-            displayName: 'FSM动作转换'
-        },
-        fsm_virtualActionConvert: {
-            type: 'relation',
-            lineStyle: 'dashed',
-            text: '虚拟转换',
-            displayName: 'FSM虚拟转换',
-        },
-        fsm_simpleState: {
+        FSM_State: {
             type: 'box',
             portLineLength: 1,
-            text: '简单状态',
+            text: textGenerator,
             displayName: 'FSM简单状态'
         },
-        fsm_virtualState: {
+        FSM_VirState: {
             type: 'box',
             portLineLength: 1,
             shapeStyle: {borderStyle: 'dashed'},
-            text: '虚拟状态',
+            text: textGenerator,
             displayName: 'FSM虚拟状态',
         },
-        fsm_actualState: {
+        // FSM_ConStates: {
+        //     type: 'box',
+        //     portLineLength: 1,
+        //     shapeStyle: {borderStyle: 'dotted'},
+        //     text: textGenerator,
+        //     displayName: 'FSM并发组合状态',
+        // },
+        // FSM_SerStates: {
+        //     type: 'box',
+        //     portLineLength: 1,
+        //     shapeStyle: {borderStyle: 'dotted'},
+        //     text: textGenerator,
+        //     displayName: 'FSM顺序组合状态',
+        // },
+        FSM_Action: {
+            type: 'relation',
+            lineStyle: 'solid',
+            text: textGenerator,
+            displayName: 'FSM动作转换1'
+        },
+        FSM_Action1: {
+            type: 'relation',
+            lineStyle: 'solid',
+            text: textGenerator,
+            displayName: 'FSM动作转换2'
+        },
+        FSM_VirAction: {
+            type: 'relation',
+            lineStyle: 'dashed',
+            text: textGenerator,
+            displayName: 'FSM虚拟转换',
+        },
+        FSM_SelectState: {
+            type: 'diamond',
+            portLineLength: 1,
+            text: textGenerator,
+            displayName: 'FSM选择状态',
+        },
+        FSM_ActState: {
             type: 'box',
             portLineLength: 1,
             shapeStyle: {paddingLeft: 30},
-            text: '实际状态',
+            text: textGenerator,
             displayName: 'FSM实际状态',
         },
-        fsm_selectState: {
-            type: 'diamond',
-            portLineLength: 1,
-            text: '选择状态',
-            displayName: 'FSM选择状态',
-        },
-        fsm_fork: {
+
+        FSM_ActionBran: {
             type: 'rectangle',
             portLineLength: 6,
             displayName: 'FSM分叉',
+            text: textGenerator,
             ports: {
                 top: null,
                 left: [{
@@ -126,10 +153,11 @@ if ($.zui.FlowChart) {
                 });
             }
         },
-        fsm_merge: {
+        FSM_ActionComb: {
             type: 'rectangle',
             portLineLength: 6,
             displayName: 'FSM合并',
+            text: textGenerator,
             ports: {
                 top: null,
                 left: [{
@@ -201,7 +229,9 @@ if ($.zui.FlowChart) {
     };
     var defaultOptions = {
         elementTypes: types,
-        quickAddActionType: 'fsm_simpleState'
+        defaultRelationType: 'FSM_Action',
+        defaultActionType: 'FSM_State',
+        quickAddActionType: 'FSM_State'
     };
     $.zui.FlowChart.addPlugin('fsm', {
         defaultOptions: defaultOptions,
@@ -209,7 +239,7 @@ if ($.zui.FlowChart) {
             '.flowchart-contextmenu {min-width: 360px}',
             '.flowchart-contextmenu .col-xs-4 {width: 25%}',
             '#{id} .flowchart-element-fsm_fork, #{id} .flowchart-element-fsm_merge {align-items: flex-start!important;}',
-            '#{id} .flowchart-element-fsm_actualState:before {content: " "; position: absolute; width: 30px; height: 30px; top: 4px; left: 4px; background: #888; border-radius: 50%; border: 1px solid #333}'
+            '#{id} .flowchart-element-FSM_ActState:before {content: " "; position: absolute; width: 30px; height: 30px; top: 4px; left: 4px; background: #888; border-radius: 50%; border: 1px solid #333}'
         ].join('\n')
     });
 }
