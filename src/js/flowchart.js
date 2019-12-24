@@ -471,8 +471,18 @@ if (!Array.prototype.map) {
         borderColor: 'string',
         shapeStyle: 'object',
         position: function(value) {
-            if (typeof value === 'object' && ((typeof value.left === 'number' && typeof value.top === 'number') || (typeof value.centerLeft === 'number' && typeof value.centerTop === 'number') || (SIDES[value.direction] && typeof value.from === 'string'))) {
-                return $.extend({custom: true}, value)
+            if (typeof value === 'object') {
+                ['left', 'top', 'centerLeft', 'centerTop'].forEach(function(name) {
+                    if (typeof value[name] === 'string') {
+                        var val = Number.parseInt(value[name]);
+                        if (!Number.isNaN(val)) {
+                            value[name] = val;
+                        }
+                    }
+                });
+                if ((typeof value.left === 'number' && typeof value.top === 'number') || (typeof value.centerLeft === 'number' && typeof value.centerTop === 'number') || (SIDES[value.direction] && typeof value.from === 'string')) {
+                    return $.extend({custom: true}, value)
+                }
             }
             return {};
         },
@@ -3404,14 +3414,14 @@ if (!Array.prototype.map) {
                     }
                     var fromNode = element.fromNode;
                     if (fromNode && fromNode.fromRels && fromNode.fromRels.length) {
-                        var relIndex = fromNode.fromRels.findIndex(x => x.id === element.id);
+                        var relIndex = fromNode.fromRels.findIndex(function(x) {return x.id === element.id});
                         if (relIndex > -1) {
                             fromNode.fromRels.splice(relIndex, 1);
                         }
                     }
                     var toNode = element.toNode;
                     if (toNode && toNode.toRels && toNode.toRels.length) {
-                        var relIndex = toNode.toRels.findIndex(x => x.id === element.id);
+                        var relIndex = toNode.toRels.findIndex(function(x) {return x.id === element.id});
                         if (relIndex > -1) {
                             toNode.toRels.splice(relIndex, 1);
                         }
