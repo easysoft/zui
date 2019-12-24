@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ZUI，一个简单灵活的前端框架。">
+<meta name="author" content="Zentao">
+
+<title>ZUI - 开源HTML5跨屏框架</title>
+
+<link href="../../dist/css/zui.min.css" rel="stylesheet">
+<link href="../../dist/lib/mindmap/zui.mindmap.min.css" rel="stylesheet">
+<style>
+#mindmap {
+    background: #fafafa;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+#exportBtn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+</style>
+</head>
+<body>
+<div id="mindmap" class="mindmap"></div>
+<button type="button" class="btn btn-primary" id='exportBtn'>导出数据</button>
+
+<script src="../../assets/jquery-3.4.1.min.js"></script>
+<script src="../../dist/js/zui.js"></script>
+<script src="../../dist/lib/hotkey/hotkey.min.js"></script>
+<script src="../../dist/lib/mindmap/zui.mindmap.js"></script>
+<script>
+$(function() {
+    window.mindmap = $('#mindmap').mindmap({
+        showToggleButton: true,
+        afterLoad: function(data) {
+            console.log('Mindmap > load', data);
+        },
+        data: {"text":"灵光闪现","type":"root","collapesed":false,"theme":"default","caption":"","id":"fj28altkg2","data":{},"readonly":false,"parent":"","count":4,"children":[{"collapesed":false,"id":"fj28an4nnv","parent":"fj28altkg2","type":"sub","text":"头脑风暴","index":0,"changed":"add","data":{},"readonly":false,"subSide":"right","color":'red',"count":0,"order":0},{"collapesed":false,"id":"fj28aovex8","parent":"fj28altkg2","type":"sub","text":"哈哈哈","index":1,"changed":"add","data":{},"readonly":false,"subSide":"left","color":{"h":43,"s":0.9,"l":0.4,"a":1},"count":3,"order":1,"children":[{"collapesed":false,"id":"fj28aqhiqt","parent":"fj28aovex8","type":"node","text":"哈哈2","index":0,"changed":"add","color":{"h":43,"s":0.9,"l":0.4,"a":1},"data":{},"readonly":false,"subSide":"left","count":0,"order":0},{"collapesed":false,"id":"fj28arvf1i","parent":"fj28aovex8","type":"node","text":"","index":1,"changed":"add","color":{"h":43,"s":0.9,"l":0.4,"a":1},"data":{},"readonly":false,"subSide":"left","count":0,"order":1},{"collapesed":false,"id":"fj28avi85b","parent":"fj28aovex8","type":"node","text":"哈哈3","index":2,"changed":"add","color":{"h":43,"s":0.9,"l":0.4,"a":1},"data":{},"readonly":false,"subSide":"left","count":0,"order":2}]},{"collapesed":true,"id":"fj28az329k","parent":"fj28altkg2","type":"sub","text":"折叠和展开","index":2,"changed":"add","data":{},"readonly":false,"subSide":"right","color":{"h":86,"s":0.9,"l":0.4,"a":1},"count":0,"order":2,"children":[{"collapesed":false,"id":"fj28b2y24i","parent":"fj28az329k","type":"node","text":"test1","index":0,"changed":"add","color":{"h":86,"s":0.9,"l":0.4,"a":1},"data":{},"readonly":false,"subSide":"right","count":0,"order":0},{"collapesed":false,"id":"fj28b5eijf","parent":"fj28az329k","type":"node","text":"自定义颜色","index":1,"changed":"add","color":'yellow',"data":{},"readonly":false,"subSide":"right","count":0,"order":1}]},{"collapesed":false,"id":"fj28b0ecfd","parent":"fj28altkg2","type":"sub","text":"","index":3,"changed":"add","data":{},"readonly":false,"subSide":"left","color":{"h":129,"s":0.9,"l":0.4,"a":1},"count":0,"order":3}]}
+    }).data('zui.mindmap');
+    console.log('Mindmap > ', window.mindmap);
+    $('#exportBtn').on('click', function() {
+        var data = window.mindmap.exportData();
+        console.log('Mindmap > export', data);
+        console.log('数据导出', JSON.stringify(data));
+        alert('数据已经导出到浏览器控制台');
+    });
+});
+</script>
+</body>
+</html>

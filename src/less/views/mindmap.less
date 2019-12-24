@@ -23,6 +23,7 @@
   height: 100%;
   background: #fff;
   border: 1px solid #e5e5e5;
+
   &.dragging {
     cursor: pointer;
   }
@@ -51,23 +52,32 @@
 .mindmap-node {
   position: absolute;
   border-radius: 24px;
-  > .wrapper {
+
+  >.wrapper {
     border-radius: 22px;
     background: @color-pale;
     border: 4px solid #aaa;
     min-height: 28px;
     .transition-fast();
 
-    > .text {
+    >.text {
       font-weight: bold;
       padding: 8px 12px;
       font-size: 14px;
       cursor: default;
 
-      *       { display: inline; }
-      br      { display: none; }
-      &:focus { outline: none; }
-      
+      * {
+        display: inline;
+      }
+
+      br {
+        display: none;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
       &:empty:not(:focus) {
         min-height: 10px;
         min-width: 10px;
@@ -78,21 +88,27 @@
       }
     }
 
-    > .caption { display: none; }
+    >.caption {
+      display: none;
+    }
   }
 
   &:hover {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 
-    > .wrapper { border-color: #999; }
+    >.wrapper {
+      border-color: #999;
+    }
   }
 
   &[data-type="root"] {
-    > .wrapper {
+    >.wrapper {
       min-height: 45px;
       min-width: 45px;
-      > .text {
+
+      >.text {
         text-align: center;
+
         &:empty:not(:focus) {
           min-height: 37px;
           min-width: 37px;
@@ -106,14 +122,17 @@
 
   &[data-type="sub"] {
     border-radius: 6px;
-    > .wrapper {
+
+    >.wrapper {
       background: @color-back;
       border-radius: 5px;
       border-width: 2px;
-      > .text {
+
+      >.text {
         font-size: 13px;
         padding: 3px 5px;
         font-weight: normal;
+
         &:empty:not(:focus) {
           background: none;
         }
@@ -123,11 +142,13 @@
 
   &[data-type="node"] {
     border-radius: 4px;
-    > .wrapper {
+
+    >.wrapper {
       background: transparent;
       border-radius: 3px;
       border: 2px solid transparent;
-      > .text {
+
+      >.text {
         font-size: 13px;
         padding: 3px 3px;
         font-weight: normal;
@@ -135,7 +156,7 @@
     }
 
     &:hover {
-      > .wrapper {
+      >.wrapper {
         color: @color-fore;
         border-color: #999;
         background: @color-back;
@@ -149,28 +170,82 @@
     z-index: 900;
     box-shadow: none;
 
-    > .wrapper {
+    >.wrapper {
       border-color: lighten(@input-border-focus, 10%);
       color: @color-back;
       background: lighten(@input-border-focus, 18%)
     }
   }
-  
+
   &.focus,
   &.focus:hover,
-  &.drop-to,
-  {
+  &.drop-to {
     @color-rgba: rgba(red(@input-border-focus), green(@input-border-focus), blue(@input-border-focus), .6);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @color-rgba;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px @color-rgba;
 
-    > .wrapper {
+    >.wrapper {
       border-color: @input-border-focus;
       background: @color-back;
       color: @color-fore;
-      > .text {
+
+      >.text {
         cursor: text;
       }
     }
+  }
+
+  .btn-toggle {
+    position: absolute;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    background: @color-gray;
+    right: -14px;
+    top: 50%;
+    margin-top: -9px;
+    border: 1px solid transparent;
+    line-height: 12px;
+    text-align: center;
+    font-size: 16px;
+    color: #fff;
+    display: none;
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    transition-duration: .2s;
+    transition-property: visibility, opacity, border-color, box-shadow;
+    &:hover {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+      border-color: rgba(0,0,0,.1);
+      background: @color-primary;
+    }
+    &:before {
+      content: '-';
+    }
+  }
+  &.mindmap-side-left .btn-toggle {
+    right: auto;
+    left: -14px;
+  }
+  &.mindmap-collapesed .btn-toggle {
+    &:before {content: '+'}
+  }
+  &[data-type="root"] .btn-toggle {
+    display: none!important;
+  }
+}
+
+.mindmap-show-toggle-btn {
+  .mindmap-has-child .btn-toggle {
+    display: block;
+  }
+  .mindmap-node.focus .btn-toggle {
+    display: none;
+  }
+  .mindmap-node.mindmap-collapesed .btn-toggle,
+  .mindmap-node:hover .btn-toggle {
+    opacity: 1;
+    visibility: visible;
   }
 }
 
@@ -180,25 +255,39 @@
   height: 100%;
   z-index: 1000;
   .transition();
+
   &.shadow-left,
   &.shadow-right {
     width: 20px;
     top: 0;
   }
-  &.shadow-left  { left: -20px; }
-  &.shadow-right { right: -20px; }
+
+  &.shadow-left {
+    left: -20px;
+  }
+
+  &.shadow-right {
+    right: -20px;
+  }
+
   &.shadow-top,
   &.shadow-bottom {
     height: 20px;
     left: 0;
   }
-  &.shadow-top    { top: -20px; }
-  &.shadow-bottom { bottom: -20px; }
+
+  &.shadow-top {
+    top: -20px;
+  }
+
+  &.shadow-bottom {
+    bottom: -20px;
+  }
 }
 
-.shadow-left > .shadow-left,
-.shadow-right > .shadow-right,
-.shadow-top > .shadow-top,
-.shadow-bottom > .shadow-bottom {
+.shadow-left>.shadow-left,
+.shadow-right>.shadow-right,
+.shadow-top>.shadow-top,
+.shadow-bottom>.shadow-bottom {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
