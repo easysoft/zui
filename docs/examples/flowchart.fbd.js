@@ -54,6 +54,7 @@ if ($.zui.FlowChart) {
                 return {
                     name: name,
                     rest: name.indexOf('*') > -1,
+                    restInitialCount: 2,
                     maxLinkCount: 1,
                     direction: 'in',
                     free: false
@@ -69,6 +70,7 @@ if ($.zui.FlowChart) {
                 return {
                     name: name,
                     rest: name.indexOf('*') > -1,
+                    restInitialCount: 2,
                     maxLinkCount: 1,
                     direction: 'out',
                     free: false
@@ -198,7 +200,12 @@ if ($.zui.FlowChart) {
             '#{id} .flowchart-fbd-model .flowchart-text {top: -20px}',
             '#{id} .flowchart-fbd-model .flowchart-port-left:before {content: attr(data-name); position: absolute; display: block; left: 100%; padding-left: 5px}',
             '#{id} .flowchart-fbd-model .flowchart-port-right:before {content: attr(data-name); position: absolute; display: block; right: 100%; padding-right: 5px}',
-            '#{id} .flowchart-fbd-model .flowchart-port-resthoder.flowchart-port-left:before, #{id} .flowchart-fbd-model .flowchart-port-resthoder.flowchart-port-right:before {opacity: .5}',
+            '#{id} .flowchart-fbd-model .flowchart-port-rest-holder.flowchart-port-left:before, #{id} .flowchart-fbd-model .flowchart-port-rest-holder.flowchart-port-right:before {opacity: .5; content: "+"; font-size: 18px; font-weight: bold; line-height: 20px; font-family: monospace;}',
+            '#{id} .flowchart-fbd-model .flowchart-port-rest-holder:hover {color: {activeColor}; cursor: pointer}',
+            '#{id} .flowchart-fbd-model .flowchart-port-rest-holder.flowchart-port-left:hover:before, #{id} .flowchart-fbd-model .flowchart-port-rest-holder.flowchart-port-right:hover:before {opacity: 1}',
+            '#{id} .flowchart-fbd-model .flowchart-port-rest-holder.flowchart-port-left {width: 0!important; left: 0!important}',
+            '#{id} .flowchart-fbd-model .flowchart-port-rest-holder.flowchart-port-right {width: 0!important; right: 0!important}',
+            '#{id} .flowchart-fbd-model .flowchart-port-rest-holder .flowchart-port-line, #{id} .flowchart-fbd-model .flowchart-port-rest-holder .flowchart-port-dot {display: none}'
         ].join('\n')
     });
 }

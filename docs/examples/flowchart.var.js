@@ -64,7 +64,7 @@ if ($.zui.FlowChart) {
         if (this.typesCanAddVariablesFunc) {
             return this.typesCanAddVariablesFunc(typeName, varName, varData);
         } else if (this.typesCanAddVariablesMap) {
-            return this.typesCanAddVariablesMap[typeName];
+            return this.typesCanAddVariablesMap[typeName.toLowerCase()];
         }
         return false;
     };
@@ -128,7 +128,7 @@ if ($.zui.FlowChart) {
             if ($.isArray(typesCanAddVariables)) {
                 var typesCanAddVariablesMap = {};
                 typesCanAddVariables.forEach(function(type) {
-                    typesCanAddVariablesMap[$.trim(type)] = 1;
+                    typesCanAddVariablesMap[$.trim(type).toLowerCase()] = 1;
                 });
                 that.typesCanAddVariablesMap = typesCanAddVariablesMap;
             } else if (typeof typesCanAddVariables === 'function') {

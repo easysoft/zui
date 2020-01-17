@@ -54,18 +54,21 @@ if ($.zui.FlowChart) {
         FSM_Action: {
             type: 'relation',
             lineStyle: 'solid',
+            lineShape: 'bessel',
             text: textGenerator,
             displayName: 'FSM动作转换1'
         },
         FSM_Action1: {
             type: 'relation',
             lineStyle: 'solid',
+            lineShape: 'bessel',
             text: textGenerator,
             displayName: 'FSM动作转换2'
         },
         FSM_VirAction: {
             type: 'relation',
             lineStyle: 'dashed',
+            lineShape: 'bessel',
             text: textGenerator,
             displayName: 'FSM虚拟转换',
         },

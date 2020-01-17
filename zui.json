@@ -1329,7 +1329,10 @@
         "js": ["~/flowchart.js"]
       },
       "ver": "1.9.2",
-      "hidden": true
+      "dpds": ["array"],
+      "hidden": true,
+      "babel": true,
+      "ignoreDpds": false
     },
     "clipboard": {
       "name": "clipboard",

@@ -4,251 +4,7 @@
  * ========================================================================
  * Copyright (c) 2017-2019 cnezsoft.com; Licensed MIT
  * ======================================================================== */
-
-// https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
-if (!Array.prototype.findIndex) {
-    Object.defineProperty(Array.prototype, 'findIndex', {
-        value: function (predicate) {
-            // 1. Let O be ? ToObject(this value).
-            if (this == null) {
-                throw new TypeError('"this" is null or not defined');
-            }
-
-            var o = Object(this);
-
-            // 2. Let len be ? ToLength(? Get(O, "length")).
-            var len = o.length >>> 0;
-
-            // 3. If IsCallable(predicate) is false, throw a TypeError exception.
-            if (typeof predicate !== 'function') {
-                throw new TypeError('predicate must be a function');
-            }
-
-            // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
-            var thisArg = arguments[1];
-
-            // 5. Let k be 0.
-            var k = 0;
-
-            // 6. Repeat, while k < len
-            while (k < len) {
-                // a. Let Pk be ! ToString(k).
-                // b. Let kValue be ? Get(O, Pk).
-                // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
-                // d. If testResult is true, return k.
-                var kValue = o[k];
-                if (predicate.call(thisArg, kValue, k, o)) {
-                    return k;
-                }
-                // e. Increase k by 1.
-                k++;
-            }
-
-            // 7. Return -1.
-            return -1;
-        }
-    });
-}
-
-// https://tc39.github.io/ecma262/#sec-array.prototype.find
-if (!Array.prototype.find) {
-    Object.defineProperty(Array.prototype, 'find', {
-        value: function (predicate) {
-            // 1. Let O be ? ToObject(this value).
-            if (this == null) {
-                throw new TypeError('"this" is null or not defined');
-            }
-
-            var o = Object(this);
-
-            // 2. Let len be ? ToLength(? Get(O, "length")).
-            var len = o.length >>> 0;
-
-            // 3. If IsCallable(predicate) is false, throw a TypeError exception.
-            if (typeof predicate !== 'function') {
-                throw new TypeError('predicate must be a function');
-            }
-
-            // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
-            var thisArg = arguments[1];
-
-            // 5. Let k be 0.
-            var k = 0;
-
-            // 6. Repeat, while k < len
-            while (k < len) {
-                // a. Let Pk be ! ToString(k).
-                // b. Let kValue be ? Get(O, Pk).
-                // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
-                // d. If testResult is true, return kValue.
-                var kValue = o[k];
-                if (predicate.call(thisArg, kValue, k, o)) {
-                    return kValue;
-                }
-                // e. Increase k by 1.
-                k++;
-            }
-
-            // 7. Return undefined.
-            return undefined;
-        }
-    });
-}
-
-// Production steps of ECMA-262, Edition 5, 15.4.4.18
-// Reference: http://es5.github.io/#x15.4.4.18
-if (!Array.prototype.forEach) {
-
-    Array.prototype.forEach = function (callback, thisArg) {
-
-        var T, k;
-
-        if (this == null) {
-            throw new TypeError(' this is null or not defined');
-        }
-
-        // 1. Let O be the result of calling toObject() passing the
-        // |this| value as the argument.
-        var O = Object(this);
-
-        // 2. Let lenValue be the result of calling the Get() internal
-        // method of O with the argument "length".
-        // 3. Let len be toUint32(lenValue).
-        var len = O.length >>> 0;
-
-        // 4. If isCallable(callback) is false, throw a TypeError exception.
-        // See: http://es5.github.com/#x9.11
-        if (typeof callback !== "function") {
-            throw new TypeError(callback + ' is not a function');
-        }
-
-        // 5. If thisArg was supplied, let T be thisArg; else let
-        // T be undefined.
-        if (arguments.length > 1) {
-            T = thisArg;
-        }
-
-        // 6. Let k be 0
-        k = 0;
-
-        // 7. Repeat, while k < len
-        while (k < len) {
-
-            var kValue;
-
-            // a. Let Pk be ToString(k).
-            //    This is implicit for LHS operands of the in operator
-            // b. Let kPresent be the result of calling the HasProperty
-            //    internal method of O with argument Pk.
-            //    This step can be combined with c
-            // c. If kPresent is true, then
-            if (k in O) {
-
-                // i. Let kValue be the result of calling the Get internal
-                // method of O with argument Pk.
-                kValue = O[k];
-
-                // ii. Call the Call internal method of callback with T as
-                // the this value and argument list containing kValue, k, and O.
-                callback.call(T, kValue, k, O);
-            }
-            // d. Increase k by 1.
-            k++;
-        }
-        // 8. return undefined
-    };
-}
-
-// Production steps of ECMA-262, Edition 5, 15.4.4.19
-// Reference: http://es5.github.io/#x15.4.4.19
-if (!Array.prototype.map) {
-    Array.prototype.map = function (callback/*, thisArg*/) {
-
-        var T, A, k;
-
-        if (this == null) {
-            throw new TypeError('this is null or not defined');
-        }
-
-        // 1. Let O be the result of calling ToObject passing the |this|
-        //    value as the argument.
-        var O = Object(this);
-
-        // 2. Let lenValue be the result of calling the Get internal
-        //    method of O with the argument "length".
-        // 3. Let len be ToUint32(lenValue).
-        var len = O.length >>> 0;
-
-        // 4. If IsCallable(callback) is false, throw a TypeError exception.
-        // See: http://es5.github.com/#x9.11
-        if (typeof callback !== 'function') {
-            throw new TypeError(callback + ' is not a function');
-        }
-
-        // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-        if (arguments.length > 1) {
-            T = arguments[1];
-        }
-
-        // 6. Let A be a new array created as if by the expression new Array(len)
-        //    where Array is the standard built-in constructor with that name and
-        //    len is the value of len.
-        A = new Array(len);
-
-        // 7. Let k be 0
-        k = 0;
-
-        // 8. Repeat, while k < len
-        while (k < len) {
-
-            var kValue, mappedValue;
-
-            // a. Let Pk be ToString(k).
-            //   This is implicit for LHS operands of the in operator
-            // b. Let kPresent be the result of calling the HasProperty internal
-            //    method of O with argument Pk.
-            //   This step can be combined with c
-            // c. If kPresent is true, then
-            if (k in O) {
-
-                // i. Let kValue be the result of calling the Get internal
-                //    method of O with argument Pk.
-                kValue = O[k];
-
-                // ii. Let mappedValue be the result of calling the Call internal
-                //     method of callback with T as the this value and argument
-                //     list containing kValue, k, and O.
-                mappedValue = callback.call(T, kValue, k, O);
-
-                // iii. Call the DefineOwnProperty internal method of A with arguments
-                // Pk, Property Descriptor
-                // { Value: mappedValue,
-                //   Writable: true,
-                //   Enumerable: true,
-                //   Configurable: true },
-                // and false.
-
-                // In browsers that support Object.defineProperty, use the following:
-                // Object.defineProperty(A, k, {
-                //   value: mappedValue,
-                //   writable: true,
-                //   enumerable: true,
-                //   configurable: true
-                // });
-
-                // For best browser support, use the following:
-                A[k] = mappedValue;
-            }
-            // d. Increase k by 1.
-            k++;
-        }
-
-        // 9. return A
-        return A;
-    };
-}
-
-(function($) {
+(function($, undefined, window, document) {
     'use strict';
 
     var selectText = function($e) {
@@ -428,6 +184,14 @@ if (!Array.prototype.map) {
         lineColor: 'string',
         lineShape: 'string',
         arrowSize: 'int',
+        position: function(value) {
+            if (value && typeof value === 'object') {
+                if (value.shape && typeof value.shape === 'object') {
+                    return $.extend({custom: true}, value)
+                }
+            }
+            return {};
+        },
         hideArrow: function(value, _, elementData) {
             if (value === undefined) {
                 value = !elementData.arrowSize;
@@ -683,6 +447,11 @@ if (!Array.prototype.map) {
          * @type {number}
          */
         this.restMinIndex = this.restMinIndex === undefined ? 1 : this.restMinIndex;
+
+        /**
+         * @type {number}
+         */
+        this.restInitialCount = this.restInitialCount === undefined ? 1 : this.restInitialCount;
     };
 
     FlowChartElementPort.prototype.getMaxRestCount = function() {
@@ -695,23 +464,43 @@ if (!Array.prototype.map) {
         return 0;
     };
 
-    FlowChartElementPort.prototype.isMatchRestName = function(name) {
+    /**
+     * @return {RegExp}
+     */
+    FlowChartElementPort.prototype.getRestNameRegex = function() {
         if (this.rest) {
             if (!this._restNameRegex) {
                 this._restNameRegex = new RegExp('^' + this.name.replace('*', '(\\d+)') + '$');
             }
-            return this._restNameRegex.test(name);
+            return this._restNameRegex;
+        }
+    };
+
+    FlowChartElementPort.prototype.getRestPortIndex = function(name) {
+        var regex = this.getRestNameRegex();
+        if (regex) {
+            var index = name.match(regex)[1];
+            if (typeof index === 'string' && index.length) {
+                index = Number.parseInt(index);
+                return Number.isNaN(index) ? null : Math.max(0, index - this.restMinIndex);
+            }
+        }
+    };
+
+    FlowChartElementPort.prototype.isMatchRestName = function(name) {
+        if (this.rest) {
+            return this.getRestNameRegex().test(name);
         }
         return false;
     };
 
-    FlowChartElementPort.prototype.getRestPortAt = function(index, restMinIndex) {
+    FlowChartElementPort.prototype.getRestPortNameByIndex = function(index) {
+        return this.name.replace('*', index + this.restMinIndex);
+    };
+
+    FlowChartElementPort.prototype.getRestPortAt = function(index) {
         if (this.rest) {
-            if (restMinIndex === undefined) {
-                restMinIndex = this.restMinIndex;
-            }
-            var portName = this.name.replace('*', index + restMinIndex);
-            return this.getRestPortByName(portName);
+            return this.getRestPortByName(this.getRestPortNameByIndex(index));
         }
         return null;
     };
@@ -1052,7 +841,10 @@ if (!Array.prototype.map) {
                         data[propName] = that.getPosition();
                     }
                 } else {
-                    data[propName] = that[propName];
+                    var value = that[propName];
+                    if (value !== undefined) {
+                        data[propName] = value;
+                    }
                 }
             }
         });
@@ -1105,6 +897,7 @@ if (!Array.prototype.map) {
         var that = this;
         var hasSetPosition = 0;
         var hasSetSize = 0;
+        var hasSetShape = 0;
         var bounds = that.bounds;
         if (typeof newBounds.top === 'number') {
             bounds.top = newBounds.top;
@@ -1132,13 +925,26 @@ if (!Array.prototype.map) {
             flowChartBounds.width  = Math.max(flowChartBounds.width, bounds.left + bounds.width);
             flowChartBounds.height = Math.max(flowChartBounds.height, bounds.top + bounds.height);
         }
-        if (hasSetPosition || hasSetSize) {
+        if (this.isRelation) {
+            if (newBounds.shape && typeof newBounds.shape === 'object') {
+                bounds.shape = $.extend({}, bounds.shape, newBounds.shape);
+                $.each(bounds.shape, function(shapeKey) {
+                    if (bounds.shape[shapeKey]) {
+                        hasSetShape++;
+                    }
+                });
+                if (hasSetShape) {
+                    that.position = that.position ? $.extend(that.position, {custom: true}) : {custom: true};
+                }
+            }
+        }
+        if (hasSetPosition || hasSetSize || hasSetShape) {
             that._boundsCache = null;
         }
     };
 
     /**
-     * Check current node is intersect with ohter one
+     * Check current node is intersect with other one
      * @return {FlowChartElement} otherNode
      * @return {boolean}
      */
@@ -1300,24 +1106,25 @@ if (!Array.prototype.map) {
         return selector ? $element.find(selector) : $element;
     };
 
-    FlowChartElement.prototype.active = function(zIndex) {
-        if (this.isRelation) {
-            this.renderRelation();
-        } else {
-            this.$ele.addClass('flowchart-active');
-            if (zIndex) {
-                this.$ele.css('zIndex', zIndex);
-            }
+    FlowChartElement.prototype.moveToTop = function(zIndex) {
+        if (zIndex === undefined) {
+            zIndex = this.flowChart.nodeZIndex++;
         }
+        this.$ele.css('zIndex', zIndex);
+    };
+
+    FlowChartElement.prototype.active = function(moveToTop) {
+        this.$ele.addClass('flowchart-active');
+        if (moveToTop) {
+            this.moveToTop();
+        }
+        this.render(true);
     };
 
     FlowChartElement.prototype.unactive = function() {
         this.blurText();
-        if (this.isRelation) {
-            this.renderRelation();
-        } else {
-            this.$ele.removeClass('flowchart-active');
-        }
+        this.$ele.removeClass('flowchart-active');
+        this.render(true);
     };
 
     FlowChartElement.prototype.focusText = function() {
@@ -1373,9 +1180,13 @@ if (!Array.prototype.map) {
      */
     FlowChartElement.prototype.isVisible = function() {
         var that = this;
-        var fromNode = that.fromNode;
-        var toNode = that.toNode;
-        return !!(fromNode && toNode && that.getPortsInfoOfRelation());
+        if (that._hide) {
+            return false;
+        }
+        if (that.isRelation) {
+            return !!(that.fromNode && that.toNode && that.getPortsInfoOfRelation());
+        }
+        return true;
     };
 
     /**
@@ -1406,7 +1217,7 @@ if (!Array.prototype.map) {
                     domID: that.getDomID(true),
                 }, that));
             }
-            $relation = $(template).appendTo(flowChart.$canvas);
+            $relation = $(template).addClass(that.className).appendTo(flowChart.$canvas);
         }
         if ($relation && !visible) {
             $relation.remove();
@@ -1421,12 +1232,13 @@ if (!Array.prototype.map) {
         $relation.data(that.data);
 
         // Update attributes on dom element
-        $relation.addClass(that.className).toggleClass('flowchart-active', that.isActive());
+        $relation.toggleClass('flowchart-active', that.isActive());
 
         // Update text
         var textStyle = $.extend({}, options.relationTextStyle, that.elementType.textStyle, that.textStyle);
         var $text = $relation.find('.flowchart-text');
-        $text.css(textStyle).text(that.getText());
+        var text = that.getText();
+        $text.css(textStyle).text(text).toggleClass('flowchart-has-text', typeof text === 'string' && text.length > 0);
         that.$text = $text;
 
         var fromNode          = that.getFromNodeOfRelation();
@@ -1448,6 +1260,8 @@ if (!Array.prototype.map) {
         var beginArrow    = (showArrow === 'begin' || showArrow === 'both') ? arrowSize : 0;
         var endArrow      = (showArrow === true || showArrow === 'end' || showArrow === 'both') ? arrowSize : 0;
 
+        $relation.attr('data-shape', lineShape);
+
         if (that.elementType.render) {
             var shapeStyle = $.extend({}, that.elementType.shapeStyle, that.shapeStyle);
             var style = $.extend({}, options.relationStyle, that.elementType.style, that.style);
@@ -1457,10 +1271,12 @@ if (!Array.prototype.map) {
                 portsInfo: that.getPortsInfoOfRelation(),
                 textStyle: textStyle,
                 lineStyle: lineStyle,
+                isActive: isActive,
                 lineSize: lineSize,
                 lineColor: lineColor,
                 beginArrow: beginArrow,
-                endArrow: endArrow
+                endArrow: endArrow,
+                relation: that,
             });
         }
 
@@ -1480,12 +1296,13 @@ if (!Array.prototype.map) {
         toPortPos.top = Math.floor(toPortPos.top);
         toPortPos.left = Math.floor(toPortPos.left);
 
-        var bounds = {
+        that.setBounds({
             left: Math.min(fromPortPos.left, toPortPos.left),
             top: Math.min(fromPortPos.top, toPortPos.top),
             width: Math.max(lineSize, Math.abs(fromPortPos.left - toPortPos.left)),
             height: Math.max(lineSize, Math.abs(fromPortPos.top - toPortPos.top)),
-        };
+        });
+        var bounds = that.getBounds();
         var fromPoint = {
             left: fromPortPos.left,
             top: fromPortPos.top,
@@ -1510,15 +1327,21 @@ if (!Array.prototype.map) {
             width: lineSize,
             color: lineColor,
             shape: lineShape,
+            isActive: isActive,
             activeColor: options.activeColor,
-            className: 'flowchart-relation-line',
+            relation: that,
+            className: 'flowchart-relation-line' + (isActive ? ' flowchart-relation-line-active' : ''),
+            bounds: bounds
         }, $lines, $text);
 
-        $relation.css(bounds);
+        $relation.css({
+            top: bounds.top,
+            left: bounds.left,
+            width: bounds.width,
+            height: bounds.height,
+        });
 
         flowChart.callCallback('onRenderRelation', [$relation, that]);
-
-        that.setBounds(bounds);
         return;
     };
 
@@ -1534,16 +1357,90 @@ if (!Array.prototype.map) {
         return (text === undefined || text === null) ? '' : String(text);
     };
 
+    FlowChartElement.prototype.appendRestPortHolder = function(name) {
+        var port = this.elementType.getPortByName(name);
+        if (port && this._restPortsCounter) {
+            this._restPortsCounter[port.name]++;
+            this.freshRender();
+        }
+    };
+
+    FlowChartElement.prototype.getRelationsByPort = function(portName) {
+        var that = this;
+        var relations = [];
+        if (that.fromRels && that.fromRels.length) {
+            that.fromRels.forEach(function(rel) {
+                if (rel.fromPort && rel.fromPort === portName) {
+                    relations.push(rel);
+                }
+            });
+        }
+        if (that.toRels && that.toRels.length) {
+            that.toRels.forEach(function(rel) {
+                if (rel.toPort && rel.toPort === portName) {
+                    relations.push(rel);
+                }
+            });
+        }
+        return relations;
+    };
+
     /**
      * Get rest ports
      */
-    FlowChartElement.prototype.getRestPorts = function(originPort, appendEmptyPort) {
+    FlowChartElement.prototype.getRestPorts = function(originPort, appendEmptyPort = true) {
         if (originPort.rest) {
             if (appendEmptyPort === undefined) {
                 appendEmptyPort = true;
             }
-            var ports = this.getRelationOfRestPort(originPort);
-            if (appendEmptyPort) {
+
+            // 跟踪可变端口上的最多端口计数
+            var that = this;
+            if (!that._restPortsCounter) {
+                that._restPortsCounter = {};
+            }
+            if (!that._restPortsCounter[originPort.name]) {
+                that._restPortsCounter[originPort.name] = originPort.restInitialCount - 1;
+            }
+
+            // 根据可变端口上已有关系，更新最多端口计数
+            var restPortsIndexMap = {};
+            var maxRestPortIndex = that._restPortsCounter[originPort.name];
+            if (that.fromRels && that.fromRels.length) {
+                that.fromRels.forEach(function(rel) {
+                    if (rel.fromPort && originPort.isMatchRestName(rel.fromPort)) {
+                        var relPortIndex = originPort.getRestPortIndex(rel.fromPort);
+                        while (restPortsIndexMap[relPortIndex]) {
+                            relPortIndex++;
+                        }
+                        restPortsIndexMap[relPortIndex] = 1;
+                        maxRestPortIndex = Math.max(relPortIndex, maxRestPortIndex);
+                        rel.fromPort = originPort.getRestPortNameByIndex(relPortIndex);
+                    }
+                });
+            }
+            if (that.toRels && that.toRels.length) {
+                that.toRels.forEach(function(rel) {
+                    if (rel.toPort && originPort.isMatchRestName(rel.toPort)) {
+                        var relPortIndex = originPort.getRestPortIndex(rel.toPort);
+                        while (restPortsIndexMap[relPortIndex]) {
+                            relPortIndex++;
+                        }
+                        restPortsIndexMap[relPortIndex] = 1;
+                        maxRestPortIndex = Math.max(relPortIndex, maxRestPortIndex);
+                        rel.toPort = originPort.getRestPortNameByIndex(relPortIndex);
+                    }
+                });
+            }
+            that._restPortsCounter[originPort.name] = maxRestPortIndex;
+
+            var ports = [];
+            for (var i = 0; i <= maxRestPortIndex; ++i) {
+                var port = originPort.getRestPortAt(ports.length);
+                port._restHolder = false;
+                ports.push(port);
+            }
+            if (appendEmptyPort && maxRestPortIndex < originPort.getMaxRestCount()) {
                 var port = originPort.getRestPortAt(ports.length);
                 port._restHolder = true;
                 ports.push(port);
@@ -1551,32 +1448,6 @@ if (!Array.prototype.map) {
             return ports;
         }
         return [];
-    };
-
-    FlowChartElement.prototype.getRelationOfRestPort = function(originPort) {
-        var that = this;
-        var ports = [];
-        if (that.fromRels && that.fromRels.length) {
-            that.fromRels.forEach(function(rel) {
-                if (rel.fromPort && originPort.isMatchRestName(rel.fromPort)) {
-                    var port = originPort.getRestPortAt(ports.length);
-                    port._restHolder = false;
-                    rel.fromPort = port.name;
-                    ports.push(port);
-                }
-            });
-        }
-        if (that.toRels && that.toRels.length) {
-            that.toRels.forEach(function(rel) {
-                if (rel.toPort && originPort.isMatchRestName(rel.toPort)) {
-                    var port = originPort.getRestPortAt(ports.length);
-                    port._restHolder = false;
-                    rel.toPort = port.name;
-                    ports.push(port);
-                }
-            });
-        }
-        return ports;
     };
 
     /**
@@ -1663,20 +1534,27 @@ if (!Array.prototype.map) {
                 portCenterOffset.top = side === 'top' ? (portStyle.height - portLineStyle.height) : portLineStyle.height;
                 portCenterOffset.left = spaceSize / 2;
             }
-            var $port = $('<div class="flowchart-port" data-id="' + that.id + '-' + port.name + '" data-side="' + port.side + '" data-name="' + port.name + '" style="position:absolute;z-index:2"></div>').css(portStyle);
+            var $port = $side.find('.flowchart-port[data-id="' + that.id + '"]');
+            if (!$port.length) {
+                $port = $('<div class="flowchart-port flowchart-port-' + side + '" id="flowchart-port-' + that.id + '-' + port.name + '" data-id="' + that.id + '-' + port.name + '" data-side="' + port.side + '" data-name="' + port.name + '" style="position:absolute;z-index:2"></div>').css(portStyle);
+                $port.appendTo($side);
+            } else {
+                $port.attr({'data-name': port.name}).removeClass('flowchart-port-expired');
+            }
             if (lineLength) {
                 $('<div class="flowchart-port-line" style="position:absolute"></div>').css(portLineStyle).appendTo($port);
             }
-            $port.addClass('flowchart-port-' + side).data('centerOffset', portCenterOffset).toggleClass('flowchart-port-free', port.free).append($('<div class="flowchart-port-dot" style="position:absolute"></div>').css(portDotStyle));
-            $port.toggleClass('flowchart-port-resthoder', !!port._restHolder);
-            $side.append($port);
+            $port.data('centerOffset', portCenterOffset).toggleClass('flowchart-port-free', port.free).append($('<div class="flowchart-port-dot" style="position:absolute"></div>').css(portDotStyle));
+            $port.toggleClass('flowchart-port-rest-holder', !!port._restHolder);
         };
         $.each(sideSizes, function(side) {
-            var $side = $ports.find('.flowchart-ports-' + side).empty();
+            var $side = $ports.find('.flowchart-ports-' + side);
             var sidePorts = ports[side];
             if (!sidePorts || !sidePorts.length) {
+                $side.empty();
                 return;
             }
+            $side.find('.flowchart-port').addClass('flowchart-port-expired');
             sidePorts.forEach(function(port) {
                 if (port.rest) {
                     return that.getRestPorts(port).forEach(renderSidePort.bind(null, $side, side));
@@ -1685,6 +1563,7 @@ if (!Array.prototype.map) {
             });
             $side.css(side === 'left' || side === 'right' ? 'margin-top' : 'margin-left', 0 - Math.floor(sideSizes[side] / 2));
         });
+        $ports.find('.flowchart-port-expired').remove();
         $node.css({
             minWidth: Math.max(sideSizes.top, sideSizes.bottom),
             minHeight: Math.max(sideSizes.left, sideSizes.right),
@@ -1700,6 +1579,7 @@ if (!Array.prototype.map) {
         var flowChart = that.flowChart;
         var options = flowChart.options;
         var elementType = that.elementType;
+        var isActive = that.isActive();
 
         // Get or create node dom element
         var $node = that.$get();
@@ -1719,7 +1599,7 @@ if (!Array.prototype.map) {
                 }, that));
             }
 
-            $node = $(template).appendTo(flowChart.$canvas);
+            $node = $(template).addClass(that.className).appendTo(flowChart.$canvas);
         }
         that.$ele = $node;
 
@@ -1727,15 +1607,15 @@ if (!Array.prototype.map) {
         $node.data(that.data);
 
         // Update attributes on dom element
-        $node.addClass(that.className)
-            .toggleClass('flowchart-has-ports', elementType.hasPorts())
-            .toggleClass('flowchart-active', that.isActive());
+        $node.toggleClass('flowchart-has-ports', elementType.hasPorts())
+            .toggleClass('flowchart-active', isActive);
 
         // Update text
         var textStyle = $.extend({}, options.nodeTextStyle, elementType.textStyle, that.textStyle);
         var $text = $node.find('.flowchart-text');
         var nodeText = that.getText();
-        $text.css(textStyle).text(nodeText || ' ');
+        var hasText = typeof nodeText === 'string' && nodeText.length > 0;
+        $text.css(textStyle).text(hasText ? nodeText : ' ').toggleClass('flowchart-has-text', hasText);
         that.$text = $text;
 
         // Update basic style
@@ -1754,7 +1634,7 @@ if (!Array.prototype.map) {
         }, elementType.shapeStyle, that.shapeStyle, {
             borderStyle: that.borderStyle,
             borderWidth: that.borderWidth,
-            borderColor: that.borderColor,
+            borderColor: isActive ? options.activeColor : that.borderColor,
         });
 
         // Render content
@@ -1775,6 +1655,9 @@ if (!Array.prototype.map) {
                     $shape = $('<svg class="flowchart-shape" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0"><polygon /></svg>').appendTo($node);
                 }
                 var $polygon = $shape.children('polygon');
+                if (isActive) {
+                    shapeStyle.borderWidth = 2;
+                }
                 $polygon.css(convertCssToSvgStyle(shapeStyle));
                 var points = [[0, size.height / 2], [size.width / 2, 0], [size.width, size.height / 2], [size.width / 2, size.height]];
                 var pointsStr = [];
@@ -1835,7 +1718,9 @@ if (!Array.prototype.map) {
      * @return {{top: number, left: number}}
      */
     FlowChartElement.prototype.getPosition = function() {
-        return {
+        return this.isRelation ? {
+            shape: this.bounds.shape
+        } : {
             left: this.bounds.left,
             top: this.bounds.top,
         };
@@ -1850,7 +1735,7 @@ if (!Array.prototype.map) {
     };
 
     /**
-     * Caculate node position and change layout of it
+     * Calculate node position and change layout of it
      * @param {boolean} [skipPosition]
      */
     FlowChartElement.prototype.layoutNode = function(skipPosition) {
@@ -1952,6 +1837,10 @@ if (!Array.prototype.map) {
         }
     };
 
+    FlowChartElement.prototype.freshRender = function() {
+        return this.flowChart.render(this.id);
+    };
+
     FlowChartElement.prototype.render = function(skipLayout) {
         return this.isRelation ? this.renderRelation() : this.renderNode(skipLayout);
     };
@@ -1959,6 +1848,28 @@ if (!Array.prototype.map) {
     FlowChartElement.prototype.layout = function(skipPosition) {
         if (this.isNode) {
             this.layoutNode(skipPosition);
+        }
+    };
+
+    FlowChartElement.prototype.isHidden = function() {
+        return !this.isVisible();
+    };
+
+    FlowChartElement.prototype.hide = function(skipRender) {
+        if (!this._hide) {
+            this._hide = true;
+            if (!skipRender) {
+                this.freshRender();
+            }
+        }
+    };
+
+    FlowChartElement.prototype.show = function(skipRender) {
+        if (this._hide) {
+            this._hide = false;
+            if (!skipRender) {
+                this.freshRender();
+            }
         }
     };
 
@@ -2274,7 +2185,7 @@ if (!Array.prototype.map) {
                 .appendTo($container);
         }
         var canvasID = 'flowchart-canvas-' + that.id;
-        $canvas.attr('id', canvasID);
+        $canvas.attr('id', canvasID).toggleClass('flowchart-allow-free-ports', !!options.allowFreePorts);
         that.$canvas = $canvas;
 
         // Reset containers size
@@ -2289,16 +2200,79 @@ if (!Array.prototype.map) {
         that.draggableEnable = !!$.fn.draggable;
         if (that.draggableEnable) {
             if (options.draggable && options.readonly !== true) {
+                var handleDragCtrlPoint = function(e) {
+                    var newShape = {};
+                    var pointName = that._dragCtrlPoint.data('name');
+                    if (pointName === 'por') {
+                        newShape = $.extend({
+                            porX: 0, porY: 0
+                        }, that._dragElement.getBounds().shape);
+                        var porxSize = that._dragCtrlPoint.data('porx');
+                        var porySize = that._dragCtrlPoint.data('pory');
+                        if (porxSize) {
+                            newShape.porX += e.smallOffset.x / porxSize;
+                        }
+                        if (porySize) {
+                            newShape.porY += e.smallOffset.y / porySize;
+                        }
+                    } else {
+                        var boundsShape = $.extend({
+                            bboX: 0, bboY: 0, bcoX: 0, bcoY: 0, beoX: 0, beoY: 0
+                        }, that._dragElement.getBounds().shape);
+                        newShape['b' + pointName + 'oX'] = boundsShape['b' + pointName + 'oX'] + e.smallOffset.x;
+                        newShape['b' + pointName + 'oY'] = boundsShape['b' + pointName + 'oY'] + e.smallOffset.y;
+                    }
+                    that._dragElement.setBounds({shape: newShape});
+                    that._dragElement.render();
+                };
                 $canvas.draggable({
+                    move: false,
                     container: '#' + canvasID,
-                    selector: '.flowchart-node',
+                    selector: '.flowchart-node,.flowchart-relation-line-ctrl-point,.flowchart-relation-text',
                     stopPropagation: true,
                     drag: function(e) {
-                        that.setNodePosition($(e.element).data('id'), e.pos);
+                        if (!that._dragElement) {
+                            var $target = $(e.element);
+                            var dragElementID = $target.data('id');
+                            var dragCtrlPoint = null;
+                            if ($target.hasClass('flowchart-relation-text')) {
+                                dragElementID = $target.closest('.flowchart-relation').data('id');
+                                dragCtrlPoint = $('#flowchart-flowchart-line-' + dragElementID).find('.flowchart-relation-primary-ctrl-point');
+                                if (!dragCtrlPoint.length) {
+                                    dragCtrlPoint = null;
+                                }
+                            } else if ($target.hasClass('flowchart-relation-line-ctrl-point')) {
+                                dragCtrlPoint = $target;
+                            } else {
+                                dragCtrlPoint = null;
+                            }
+                            if (dragElementID === null) {
+                                return false;
+                            }
+                            var dragElement = that.getElement(dragElementID);
+                            if (dragElement.isNode) {
+                                dragElement.moveToTop();
+                            }
+                            that._dragCtrlPoint = dragCtrlPoint;
+                            that._dragElement = dragElement;
+                        }
+                        if (that._dragCtrlPoint) {
+                            handleDragCtrlPoint(e);
+                        } else {
+                            that.setElementBounds(that._dragElement.id, e.pos);
+                        }
                     },
                     finish: function(e) {
-                        $(e.element).addClass('flowchart-dragged');
-                        that.setNodePosition($(e.element).data('id'), e.pos);
+                        if (that._dragElement) {
+                            if (that._dragCtrlPoint) {
+                                handleDragCtrlPoint(e);
+                            } else {
+                                $(e.element).addClass('flowchart-dragged');
+                                that.setElementBounds(that._dragElement.id, e.pos);
+                            }
+                        }
+                        that._dragElement = null;
+                        that._dragCtrlPoint = null;
                     },
                     mouseButton: 'left',
                     before: function(e) {
@@ -2314,20 +2288,40 @@ if (!Array.prototype.map) {
             }
 
             if (!options.readonly) {
-                var nodeID = null, $port, $node, $targetPort, $targetNode, sourcePoint, $line, $svgLine, hasDropped;
+                var nodeID = null, $port, $node, $targetPort, $targetNode, sourcePoint, $line, $svgLine, hasDropped, editingRelation, portName, editingDirection;
                 $canvas.droppable({
                     container: '#' + canvasID,
-                    target: '.flowchart-node,.flowchart-port',
+                    target: '.flowchart-port,.flowchart-node',
                     selector: '.flowchart-port-dot',
                     mouseButton: 'left',
+                    nested: true,
                     before: function() {
                         that.isPreventDragNode = true;
                     },
                     start: function(e) {
-                        $port = $(e.element).closest('.flowchart-port').addClass('flowchart-drag-active');
-                        $node = $port.closest('.flowchart-node').addClass('flowchart-drag-active');
-                        sourcePoint = addTwoPoints(that.getPositionOf($port), $port.data('centerOffset'));
+                        $port = $(e.element).closest('.flowchart-port');
+                        $node = $port.closest('.flowchart-node');
                         nodeID = $node.data('id');
+                        portName = $port.data('name');
+
+                        var node = that.getElement(nodeID);
+                        editingRelation = node.getRelationsByPort(portName).filter(function(rel) {
+                            return that.isElementActive(rel.id);
+                        });
+
+                        if (editingRelation && editingRelation.length) {
+                            editingRelation = editingRelation[0];
+                            editingDirection = editingRelation.from === nodeID ? 'from' : 'to';
+                            nodeID = editingRelation[editingDirection === 'from' ? 'to' : 'from'];
+                            portName = editingRelation[(editingDirection === 'from' ? 'to' : 'from') + 'Port'];
+                            $node = that.$findElement(nodeID);
+                            $port = $node.find('.flowchart-port[data-name="' + portName + '"]');
+                        } else {
+                            editingRelation = null;
+                        }
+                        sourcePoint = addTwoPoints(that.getPositionOf($port), $port.data('centerOffset'));
+                        $port.addClass('flowchart-drag-active');
+                        $node.addClass('flowchart-drag-active');
 
                         $line = $canvas.find('.flowchart-link-line');
                         if (!$line.length) {
@@ -2337,6 +2331,10 @@ if (!Array.prototype.map) {
                             width: $canvas.width(),
                             height: $canvas.height(),
                         }).find('line');
+                        if (editingRelation) {
+                            editingRelation.hide(true);
+                            editingRelation.render();
+                        }
                         hasDropped = false;
                     },
                     drag: function(e) {
@@ -2344,11 +2342,11 @@ if (!Array.prototype.map) {
                         $targetNode && $targetNode.removeClass('flowchart-drop-active');
                         $targetNode = null;
                         $targetPort = null;
-                        if (e.isIn && e.target) {
+                        if (e.target) {
                             var $target = $(e.target);
                             var $thisPort = $target.closest('.flowchart-port');
                             var $thisNode = ($thisPort.length ? $thisPort : $target).closest('.flowchart-node');
-                            if ($thisNode.data('id') !== nodeID) {
+                            if ($thisNode.length && $thisNode.data('id') !== nodeID) {
                                 $targetNode = $thisNode.addClass('flowchart-drop-active');
                                 $targetPort = $thisPort.addClass('flowchart-drop-active');
                             }
@@ -2366,16 +2364,21 @@ if (!Array.prototype.map) {
                         });
                     },
                     drop: function(e) {
-                        // var toNode = e.isIn && e.target && $(e.target).data('id');
-                        // that.addRelation(that.dragSourceNode, toNode);
-                        if (e.isIn && e.target) {
+                        if (e.target) {
                             var $target = $(e.target);
                             var $thisPort = $target.closest('.flowchart-port');
                             var $thisNode = ($thisPort.length ? $thisPort : $target).closest('.flowchart-node');
                             if ($thisNode.length) {
                                 var toNode = $thisNode.data('id');
                                 var toPort = $thisPort.data('name');
-                                that.addRelation(nodeID, $port.data('name'), toNode, toPort);
+                                if (editingDirection) {
+                                    if (toNode && toPort) {
+                                        editingRelation[editingDirection] = toNode;
+                                        editingRelation[editingDirection + 'Port'] = toPort;
+                                    }
+                                } else {
+                                    that.addRelation(nodeID, portName, toNode, toPort);
+                                }
                                 hasDropped = true;
                             }
                         }
@@ -2393,9 +2396,15 @@ if (!Array.prototype.map) {
                             var $thisNode = ($thisPort.length ? $thisPort : $target).closest('.flowchart-node');
                             that.addNode(options.defaultNodeType || 'action', $thisNode.data('id'), $thisPort.data('name'), null, $thisPort.data('side'));
                         }
+                        if (editingRelation) {
+                            editingRelation.show();
+                        }
                         nodeID = null;
+                        portName = null;
                         $node = null;
                         $port = null;
+                        editingDirection = null;
+                        editingRelation = null;
                     }
                 });
             }
@@ -2465,7 +2474,7 @@ if (!Array.prototype.map) {
         // Init edit event
         if (!options.readonly) {
             if (options.doubleClickToEdit) {
-                $canvas.on('dblclick', '.flowchart-element', function(e) {
+                $canvas.on('dblclick', '.flowchart-element,.flowchart-relation-line', function(e) {
                     var $ele = $(this);
                     that.focusElementText($ele.data('id'));
                     e.preventDefault();
@@ -2484,6 +2493,12 @@ if (!Array.prototype.map) {
                     var $ele = $text.closest('.flowchart-element');
                     that.setElementText($ele.data('id'), text, true);
                 }, 1000);
+            }).on('keydown', function(e) {
+                if (e.keyCode === 13 && !e.shiftKey) {
+                    e.preventDefault();
+                    that.blurElementText();
+                    return false;
+                }
             }).on('blur', '.flowchart-text', function(e) {
                 if (delaySetTextTimer) {
                     clearTimeout(delaySetTextTimer);
@@ -2497,7 +2512,7 @@ if (!Array.prototype.map) {
 
         // Init contextmenu
         if (options.showContextMenu && $.zui.ContextMenu) {
-            $canvas.on('mousedown', '.flowchart-element', function(e) {
+            $canvas.on('mousedown', '.flowchart-element,.flowchart-relation-line', function(e) {
                 if (e.button === 2) {
                     if (that.showContextMenu($(this).data('id'), e)) {
                     }
@@ -2511,22 +2526,32 @@ if (!Array.prototype.map) {
             });
         }
 
-        if (options.onClickElement || options.activeOnClick) {
-            $canvas.on('click', function(e) {
-                var $element = $(e.target).closest('.flowchart-element');
-                if ($element.length) {
-                    if ($element.hasClass('flowchart-dragged')) {
-                        $element.removeClass('flowchart-dragged');
-                        return;
-                    }
-                    var element = that.getElement($element.data('id'));
-                    options.onClickElement && options.onClickElement(element, $element);
-                    options.activeOnClick && that.activeElement(element);
-                } else {
-                    that.unactiveElements();
+        $canvas.on('click', function(e) {
+            var $target = $(e.target);
+            var $element = $target.closest('.flowchart-element,.flowchart-relation-line');
+            if ($element.length) {
+                if ($element.hasClass('flowchart-dragged')) {
+                    $element.removeClass('flowchart-dragged');
+                    return;
                 }
-            });
-        }
+                var element = that.getElement($element.data('id'));
+                if (element) {
+                    var $restPortHolder = $target.closest('.flowchart-port-rest-holder');
+                    if ($restPortHolder.length && !options.readonly) {
+                        element.appendRestPortHolder($restPortHolder.data('name'));
+                    } else {
+                        if (options.onClickElement) {
+                            options.onClickElement(element, $element);
+                        }
+                        if (options.activeOnClick) {
+                            that.activeElement(element);
+                        }
+                    }
+                }
+            } else {
+                that.unactiveElements();
+            }
+        });
 
         that.updateStyle();
 
@@ -2548,7 +2573,7 @@ if (!Array.prototype.map) {
         that.$svg = $svg;
         that.$svgMarkers = $svg.find('defs');
 
-        // Node z-index counter
+        // Node z-index
         that.nodeZIndex = 5;
 
         that.callCallback('onCreate');
@@ -2613,11 +2638,33 @@ if (!Array.prototype.map) {
             '#{id} .flowchart-element.flowchart-drop-active .flowchart-port-dot {opacity: 0.5; transform: scale(2); background: #333}',
             '#{id} .flowchart-element.flowchart-drop-active .flowchart-drop-active > .flowchart-port-dot {background: {activeColor}}',
             '#{id} .flowchart-element .flowchart-port-dot:hover, #{id} .flowchart-element .flowchart-drag-active > .flowchart-port-dot, #{id} .flowchart-element .flowchart-drop-active > .flowchart-port-dot {opacity: 1; transform: scale(2)}',
-            '#{id} .flowchart-node.flowchart-active, #{id} .flowchart-node.flowchart-drag-active, #{id} .flowchart-node.flowchart-drop-active {border-color: {activeColor}!important; box-shadow: 0 0 0 2px {activeColor}!important}',
+
+            '#{id} .flowchart-node.flowchart-active,',
+            '#{id} .flowchart-node.flowchart-drag-active,',
+            '#{id} .flowchart-allow-free-ports .flowchart-node.flowchart-drop-active',
+            '{border-color: {activeColor}!important; box-shadow: 0 0 0 2px {activeColor}!important}',
+
+            '#{id} .flowchart-node.flowchart-active[data-basic-type="diamond"] {box-shadow: none!important}',
+
+            '#{id} .flowchart-relation {pointer-events: none}',
+            '#{id} .flowchart-relation.flowchart-element-focused {pointer-events: auto}',
+
             '#{id} .flowchart-relation:before {content: " "; display: block; top: -4px; right: -4px; bottom: -4px; left: -4px; position: absolute; border-radius: 50%;}',
-            '#{id} .flowchart-relation-text {min-height: 14px;}',
-            '#{id} .flowchart-element-focused .flowchart-relation-text {min-width: 30px; border: 1px solid {activeColor}}',
+
+            '#{id} .flowchart-relation-text {min-height: 14px; min-width: 12px; opacity: 0; pointer-events: auto}',
+            '#{id} .flowchart-relation-text.flowchart-has-text {opacity: 1;}',
+            '#{id} .flowchart-relation[data-shape="polyline"] .flowchart-relation-text,',
+            '#{id} .flowchart-relation[data-shape="bessel"] .flowchart-relation-text {cursor: move}',
+
+            '#{id} .flowchart-element-focused .flowchart-relation-text {pointer-events: auto; border: 1px solid {activeColor}}',
+
             '#{id} .flowchart-svg-canvas .flowchart-relation-line:hover {stroke: {activeColor}!important}',
+
+            '#{id} .flowchart-port-expired {display: none!important}',
+
+            '#{id} .flowchart-relation-line-ctrl-point {cursor: move; visibility: hidden}',
+            '#{id} .flowchart-relation-line:hover .flowchart-relation-line-ctrl-point,',
+            '#{id} .flowchart-relation-line-active .flowchart-relation-line-ctrl-point {visibility: visible; z-index: 10}'
         ];
 
         if (that.plugins) {
@@ -2634,13 +2681,13 @@ if (!Array.prototype.map) {
             activeColor: that.options.activeColor,
         });
 
-        var style = document.getElementById('flowchartstyle-' + id);
+        var style = document.getElementById('flowchartStyle-' + id);
         if (!style) {
             var head = document.head || document.getElementsByTagName('head')[0];
             var style = document.createElement('style');
             head.appendChild(style);
             style.type = 'text/css';
-            style.id = 'flowchartstyle-' + id;
+            style.id = 'flowchartStyle-' + id;
         }
         if (style.styleSheet){
             style.styleSheet.cssText = css;
@@ -2715,7 +2762,7 @@ if (!Array.prototype.map) {
         }
         if (element && !that.isElementActive(element.id)) {
             that.activedElements[element.id] = element;
-            element.active(that.nodeZIndex++)
+            element.active(element.isNode);
             that.callCallback('onActiveElement', [element]);
         }
     };
@@ -3033,7 +3080,7 @@ if (!Array.prototype.map) {
                             needCheckOverlay = true;
                             nodeA.setBounds({
                                 top: nodeA.getPosition().top + options.vertSpace + nodeA.getSize().height
-                            })
+                            });
                         }
                     }
                 }
@@ -3064,114 +3111,227 @@ if (!Array.prototype.map) {
 
     /**
      * Draw relation line between two points
-     * @param {JQuery} $ele
+     * @param {string} id
      * @param {{left: number, top: number, side: 'top'|'right'|'bottom'|'left', arrow: boolean}} beginPoint
      * @param {{left: number, top: number, side: 'top'|'right'|'bottom'|'left', arrow: boolean}} endPoint
-     * @param {{style: 'solid'|'dashed'|'dotted', width: number, color: string, shape: 'polyline'|'straight'|'curve'|'bessel', canvasWidth: number, cavasHeight: number}} style
+     * @param {{style: 'solid'|'dashed'|'dotted', width: number, color: string, shape: 'polyline'|'straight'|'curve'|'bessel', canvasWidth: number, canvasHeight: number, bounds: {left: number, top: number, width: number, height: number, shape: object}}} style
      * @param {JQuery} [$text]
      */
-    FlowChart.prototype.drawRelationLine = function(lineID, beginPoint, endPoint, style, $ele, $text) {
+    FlowChart.prototype.drawRelationLine = function(id, beginPoint, endPoint, style, $ele, $text) {
         var that = this;
-        if (style.shape === 'polyline') {
-
-        } else if (style.shape === 'straight') {
-            // if (beginPoint.top === endPoint.top) {
-            //     $('<div></div>').css({
-            //         position: 'absolute',
-            //         top: beginPoint.top - 1,
-            //         left: Math.min(beginPoint.left, endPoint.left),
-            //         width: Math.abs(beginPoint.left - endPoint.left),
-            //         borderTopStyle: style.style,
-            //         borderTopColor: style.color,
-            //         borderTopWidth: style.width,
-            //     }).appendTo($ele);
-            // } else if (beginPoint.left === endPoint.left) {
-            //     $('<div></div>').css({
-            //         position: 'absolute',
-            //         left: beginPoint.left - 1,
-            //         top: Math.min(beginPoint.top, endPoint.top),
-            //         height: Math.abs(beginPoint.top - endPoint.top),
-            //         borderLeftStyle: style.style,
-            //         borderLeftColor: style.color,
-            //         borderLeftWidth: style.width,
-            //     }).appendTo($ele);
-            // } else {
-            var lineWidth = style.width;
-            var strokeDasharray;
-            if (style.style === 'dashed') {
-                strokeDasharray = (lineWidth * 3) + ' ' + (lineWidth * 2);
-            } else if (style.style === 'dotted') {
-                strokeDasharray = lineWidth + ' ' + lineWidth;
-            } else {
-                strokeDasharray = '';
-            }
-            var lineAttrs = {
+        var centerLeft = Math.floor((beginPoint.left + endPoint.left) / 2);
+        var centerTop = Math.floor((beginPoint.top + endPoint.top) / 2);
+        var centerOffsetLeft = Math.floor((beginPoint.offsetLeft + endPoint.offsetLeft) / 2);
+        var centerOffsetTop = Math.floor((beginPoint.offsetTop + endPoint.offsetTop) / 2);
+        var lineWidth = style.width;
+        var strokeDasharray;
+        if (style.style === 'dashed') {
+            strokeDasharray = (lineWidth * 3) + ' ' + (lineWidth * 2);
+        } else if (style.style === 'dotted') {
+            strokeDasharray = lineWidth + ' ' + lineWidth;
+        } else {
+            strokeDasharray = '';
+        }
+        var pathD = [];
+        var pathAttrs = {
+            id: id + '-path',
+            'stroke-width': lineWidth,
+            stroke: style.color,
+            'stroke-dasharray': null,
+            'marker-start': null,
+            'marker-end': null,
+            fill: 'transparent'
+        };
+        if (strokeDasharray) {
+            pathAttrs['stroke-dasharray'] = strokeDasharray;
+        }
+        if (beginPoint.arrow) {
+            pathAttrs['marker-start'] = 'url(#' + that.initArrowMarker(beginPoint.arrow, style.color, true) + ')';
+        }
+        if (endPoint.arrow) {
+            pathAttrs['marker-end'] = 'url(#' + that.initArrowMarker(endPoint.arrow, style.color, false) + ')';
+        }
+        var $svg = that.$svg.find('#' + id);
+        if ($svg.length) {
+            updateSVGElement($svg[0], {
                 'class': style.className,
-                id: lineID,
-                x1: beginPoint.left,
-                y1: beginPoint.top,
-                x2: endPoint.left,
-                y2: endPoint.top,
-                'stroke-width': lineWidth,
-                stroke: style.color,
-                'stroke-dasharray': null,
-                'marker-start': null,
-                'marker-end': null,
+                'data-id': style.relation.id,
+                id: id,
+            });
+        } else {
+            var svg = createSVGElement('g', {
+                'class': style.className,
+                'data-id': style.relation.id,
+                id: id,
+            });
+            that.$svg.append(svg);
+            $svg = that.$svg.find('#' + id);
+        }
+        if (style.shape === 'polyline') {
+            var boundsWidth = Math.abs(beginPoint.left - endPoint.left);
+            var boundsHeight = Math.abs(beginPoint.top - endPoint.top);
+            // polyline offset ratio (-1 ~ 1)
+            var boundsShape = $.extend({porX: 0, porY: 0}, style.bounds ? style.bounds.shape : null);
+            var ctrlPoint = {
+                x: Math.floor(centerLeft + Math.min(1, Math.max(-1, boundsShape.porX)) * boundsWidth / 2),
+                y: Math.floor(centerTop + Math.min(1, Math.max(-1, boundsShape.porY)) * boundsHeight / 2),
             };
-            if (strokeDasharray) {
-                lineAttrs['stroke-dasharray'] = strokeDasharray;
-            }
-            if (beginPoint.arrow) {
-                lineAttrs['marker-start'] = 'url(#' + that.initArrowMarker(beginPoint.arrow, style.color, true) + ')';
-            }
-            if (endPoint.arrow) {
-                lineAttrs['marker-end'] = 'url(#' + that.initArrowMarker(endPoint.arrow, style.color, false) + ')';
-            }
-            var $line = that.$svg.find('#' + lineID);
-            if ($line.length) {
-                updateSVGElement($line[0], lineAttrs);
-                // updateSVGElement($line.children('set')[0], {
-                //     to: style.activeColor,
-                // });
-            } else {
-                var line = createSVGElement('line', lineAttrs);
-                // var lineSet = createSVGElement('set', {
-                //     attributeName: 'stroke',
-                //     to: style.activeColor,
-                //     begin: 'mouseover',
-                //     end: 'mouseout',
-                // });
-                // line.appendChild(lineSet);
-                that.$svg.append(line);
-            }
-
-
-            if ($text) {
-                var centerLeft = (beginPoint.offsetLeft + endPoint.offsetLeft) / 2;
-                var centerTop = (beginPoint.offsetTop + endPoint.offsetTop) / 2;
-                $text.css({
-                    left: Math.floor(centerLeft - $text.outerWidth() / 2),
-                    top: Math.floor(centerTop - $text.outerHeight() / 2),
+            if (boundsShape.porX || boundsShape.porY) {
+                style.relation.setBounds({
+                    shape: boundsShape
                 });
             }
+            pathD.push(
+                'M',
+                beginPoint.left,
+                beginPoint.top,
+                'L',
+                (beginPoint.side === 'left' || beginPoint.side === 'right') ? ctrlPoint.x : beginPoint.left,
+                (beginPoint.side === 'top' || beginPoint.side === 'bottom') ? ctrlPoint.y : beginPoint.top,
+                'L',
+                ctrlPoint.x,
+                ctrlPoint.y,
+                'L',
+                (endPoint.side === 'left' || endPoint.side === 'right') ? ctrlPoint.x : endPoint.left,
+                (endPoint.side === 'top' || endPoint.side === 'bottom') ? ctrlPoint.y : endPoint.top,
+                ',',
+                endPoint.left,
+                endPoint.top,
+            );
+            centerOffsetLeft += ctrlPoint.x - centerLeft;
+            centerOffsetTop += ctrlPoint.y - centerTop;
+            var pointID = id + '-point-por';
+            var $point = $svg.find('#' + pointID);
+            var pointAttrs = {
+                id: pointID,
+                'class': 'flowchart-relation-line-ctrl-point flowchart-relation-primary-ctrl-point',
+                'data-name': 'por',
+                'data-id': style.relation.id,
+                'data-porx': boundsWidth / 2,
+                'data-pory': boundsHeight / 2,
+                // 'data-x': point.x,
+                // 'data-y': point.y,
+                cx: ctrlPoint.x,
+                cy: ctrlPoint.y,
+                r: lineWidth * 3,
+                'stroke-width': lineWidth * 2,
+                stroke: style.activeColor,
+                fill: 'transparent'
+            };
+            if ($point.length) {
+                updateSVGElement($point[0], pointAttrs);
+            } else {
+                $point = createSVGElement('circle', pointAttrs);
+                $svg.append($point);
+            }
+        } else if (style.shape === 'straight') {
+            pathD.push(
+                'M',
+                beginPoint.left,
+                beginPoint.top,
+                'L',
+                endPoint.left,
+                endPoint.top,
+            );
         } else if (style.shape === 'bessel') {
             var besselCurvature = that.options.besselCurvature;
+            var boundWidth = Math.abs(beginPoint.left - endPoint.left);
+            var boundHeight = Math.abs(beginPoint.top - endPoint.top);
+            var bbX = Math.floor(beginPoint.side === 'right' ? (beginPoint.left + (boundWidth * besselCurvature / 2)) : (beginPoint.side === 'left' ? (beginPoint.left - (boundWidth * besselCurvature / 2)) : beginPoint.left));
+            var bbY = Math.floor(beginPoint.side === 'top' ? (beginPoint.top - (boundHeight * besselCurvature / 2)) : (beginPoint.side === 'bottom' ? (beginPoint.top + (boundHeight * besselCurvature / 2)) : beginPoint.top));
+            var bcX = centerLeft;
+            var bcY = centerTop;
+            var beX = Math.floor(endPoint.side === 'right' ? (endPoint.left + (boundWidth * besselCurvature / 2)) : (endPoint.side === 'left' ? (endPoint.left - (boundWidth * besselCurvature / 2)) : endPoint.left));
+            var beY = Math.floor(endPoint.side === 'top' ? (endPoint.top - (boundHeight * besselCurvature / 2)) : (endPoint.side === 'bottom' ? (endPoint.top + (boundHeight * besselCurvature / 2)) : endPoint.top));
+            var boundsShape = $.extend({
+                bboX: 0, bboY: 0, bcoX: 0, bcoY: 0, beoX: 0, beoY: 0
+            }, style.bounds ? style.bounds.shape : null);
+            var controlPoints = {
+                b: {x: bbX + boundsShape.bboX, y: bbY + boundsShape.bboY},
+                c: {x: bcX + boundsShape.bcoX, y: bcY + boundsShape.bcoY},
+                e: {x: beX + boundsShape.beoX, y: beY + boundsShape.beoY},
+            };
+            style.relation.setBounds({
+                shape: boundsShape
+            });
+            pathD.push(
+                'M',
+                beginPoint.left,
+                beginPoint.top,
+                'Q',
+                controlPoints.b.x,
+                controlPoints.b.y,
+                ',',
+                controlPoints.c.x,
+                controlPoints.c.y,
+                'Q',
+                controlPoints.e.x,
+                controlPoints.e.y,
+                ',',
+                endPoint.left,
+                endPoint.top,
+            );
+            centerOffsetLeft += controlPoints.c.x - bcX;
+            centerOffsetTop += controlPoints.c.y - bcY;
+            $.each(controlPoints, function(pointName) {
+                var point = controlPoints[pointName];
+                var pointID = id + '-point-' + pointName;
+                var $point = $svg.find('#' + pointID);
+                var pointAttrs = {
+                    id: pointID,
+                    'class': 'flowchart-relation-line-ctrl-point' + (pointName === 'c' ? ' flowchart-relation-primary-ctrl-point' : ''),
+                    'data-name': pointName,
+                    'data-id': style.relation.id,
+                    // 'data-x': point.x,
+                    // 'data-y': point.y,
+                    cx: point.x,
+                    cy: point.y,
+                    r: lineWidth * 3,
+                    'stroke-width': lineWidth * 2,
+                    stroke: style.activeColor,
+                    fill: 'transparent'
+                };
+                if ($point.length) {
+                    updateSVGElement($point[0], pointAttrs);
+                } else {
+                    $point = createSVGElement('circle', pointAttrs);
+                    $svg.append($point);
+                }
+            });
+        }
+        pathAttrs.d = pathD.join(' ');
+        var $line = $svg.find('#' + pathAttrs.id);
+        if ($line.length) {
+            updateSVGElement($line[0], pathAttrs);
+        } else {
+            var line = createSVGElement('path', pathAttrs);
+            $svg.append(line);
+        }
+        if ($text) {
+            $text.css({
+                left: Math.floor(centerOffsetLeft - $text.outerWidth() / 2),
+                top: Math.floor(centerOffsetTop - $text.outerHeight() / 2),
+            });
         }
     };
 
     /**
      * Set node position
-     * @param {string} nodeID
+     * @param {string} elementID
+     * @param {object} position
+     * @param {boolean} [skipRender]
      * @param {{left: number, top: number, custom?: boolean}} position
      */
-    FlowChart.prototype.setNodePosition = function(nodeID, position) {
+    FlowChart.prototype.setElementBounds = function(elementID, position, skipRender) {
         var that = this;
-        var node = that.getElement(nodeID);
-        if (!node) {
+        var element = that.getElement(elementID);
+        if (!element) {
             return;
         }
-        node.setBounds(position);
-        that.render(node);
+        element.setBounds(position);
+        if (!skipRender) {
+            that.render(element);
+        }
     };
 
     FlowChart.prototype.addElement = function(elementData) {
@@ -3218,22 +3378,21 @@ if (!Array.prototype.map) {
         if (typeof toNode === 'string') {
             toNode = that.getElement(toNode);
         }
-        if (!fromNode || !toNode) {
+        if (!fromNode || !toNode || fromNode === toNode) {
             return;
         }
 
-        if (!that.options.allowFreePorts && (!fromPort && !toPort)) {
+        if (!that.options.allowFreePorts && (!fromPort || !toPort)) {
             return;
         }
 
-        return that.addElement({
-            type: 'relation',
+        return that.addElement(that.createRelation({
             text: text === undefined ? null : text,
             from: fromNode.id,
             fromPort: fromPort,
             to: toNode.id,
             toPort: toPort,
-        });
+        }));
     };
 
     // Reset all custom positions
@@ -3309,18 +3468,48 @@ if (!Array.prototype.map) {
                             newElement.setPosition(oldElement.getPosition());
                         }
                     }
+
                     elementsToUpdate.push(newElement);
                 });
             });
 
-            var onUpdateElement = that.options.onUpdateElement;
-            if (onUpdateElement && !silence) {
-                var result = onUpdateElement.call(that, elementsToUpdate);
+            if (!silence) {
+                var result = that.callCallback('onUpdateElement', [elementsToUpdate]);
                 if (result === false) {
                     return;
                 }
                 if ($.isArray(result)) {
                     elementsToUpdate = result;
+                }
+
+                var elementsToAdd = [];
+                elementsToUpdate.forEach(function(newElement) {
+                    if (newElement.isNew) {
+                        elementsToAdd.push(newElement);
+                    }
+                });
+                if (elementsToAdd.length) {
+                    var addResult = that.callCallback('onAddElement', [elementsToAdd]);
+                    if (addResult === false) {
+                        return;
+                    }
+                    if ($.isArray(addResult)) {
+                        const elementsToAddMap = {};
+                        addResult.forEach(function(newElement) {
+                            elementsToAddMap[newElement.id] = newElement;
+                        });
+                        const newElements = [];
+                        elementsToUpdate.forEach(function(newElement) {
+                            if (newElement.isNew) {
+                                if (elementsToAddMap[newElement.id]) {
+                                    newElements.push(elementsToAddMap[newElement.id]);
+                                }
+                            } else {
+                                newElements.push(newElement);
+                            }
+                        });
+                        elementsToUpdate = newElements;
+                    }
                 }
             }
             elementsToUpdate.forEach(function(newElement) {
@@ -3580,7 +3769,7 @@ if (!Array.prototype.map) {
         // 激活状态颜色
         activeColor: '#3280fc',
 
-        // 允许自由端口
+        // 允许自由端口，是否支持添加关系连接线到节点自身而不指定端口
         allowFreePorts: false,
 
         // 是否移动时自动吸附网格
@@ -3599,6 +3788,9 @@ if (!Array.prototype.map) {
 
         // 通过拖放添加节点
         addFromDrop: true,
+
+        // 是否允许拖拽来修改关系指向
+        editRelationByDrag: true,
 
         // 是否启用快速添加功能，显示浮动的按钮快捷的向四个方向添加新的节点
         quickAdd: true,
@@ -3660,7 +3852,8 @@ if (!Array.prototype.map) {
         // 连接线形状
         relationLineShape: 'straight',
 
-        besselCurvature: 0.5,
+        // 贝塞尔曲线弯曲程度，0 ～ 1，值越大，弯曲度越大
+        besselCurvature: 0.8,
 
         portLineLength: 0,
 
@@ -3699,9 +3892,38 @@ if (!Array.prototype.map) {
         // 当点击元素时的回调函数 function(element, $element)
         onClickElement: null,
 
+        // 	指定一个回调函数监听元素被取消激活状态时的操作
+        onUnactiveElement: null,
+
+        // 指定一个回调函数监听元素被激活时的操作
+        onActiveElement: null,
+
+        // 指定一个回调函数监听元素添加操作
+        onDeleteElement: null,
+
+        // 指定一个回调函数监听元素添加和修改
+        onUpdateElement: null,
+
+        // 指定一个回调函数监听元素添加
+        onAddElement: null,
+
+        // 指定一个回调函数在渲染节点时进行调用
+        onRenderNode: null,
+
+        // 指定一个回调函数监在重置关系图数据后调用
+        onResetData: null,
+
+        // 指定一个回调函数监在关系图创建完成后调用（初始化完成之后）
+        afterCreate: null,
+
+        // 	指定一个回调函数监在关系图创建之前调用（初始化完成但没有绘制）
+        beforeCreate: null,
+
+        // 节点元素模板字符串
         nodeTemplate: '<div id="{domID}" data-basic-type="{basicType}" data-type="{type}" style="position: absolute; z-index: {zIndex}; display: flex; justify-content: center; align-items: center; cursor: {cursor}" class="flowchart-element flowchart-element-{type} flowchart-node" data-id="{id}"><div class="flowchart-text flowchart-node-text" style="position: relative; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; z-index: 5; outline: none; min-width: 10px; min-height: 20px; text-align: center"></div></div>',
 
-        relationTemplate: '<div id="{domID}" data-basic-type="{basicType}" data-type="{type}" class="flowchart-element flowchart-element-{type} flowchart-relation" data-id="{id}" data-type="relation" style="position: absolute; z-index: 0;"><div class="flowchart-relation-lines" style="position:absolute;top:0;right:0;bottom:0;left:0;"></div><div class="flowchart-text flowchart-relation-text" style="background: rgba(255,255,255,.95); position: absolute; z-index: 5; line-height: 1; outline: none; pointer-events: auto; white-space:nowrap; text-align: center"></div></div>',
+        // 关系元素模版字符串
+        relationTemplate: '<div id="{domID}" data-basic-type="{basicType}" data-type="{type}" class="flowchart-element flowchart-element-{type} flowchart-relation" data-id="{id}" data-type="relation" style="position: absolute; z-index: 0;"><div class="flowchart-relation-lines" style="position:absolute;top:0;right:0;bottom:0;left:0;"></div><div class="flowchart-text flowchart-relation-text" style="background: rgba(255,255,255,.95); position: absolute; z-index: 5; line-height: 1; outline: none; white-space:nowrap; text-align: center"></div></div>',
 
         // 自定义元素类型
         elementTypes: {},
@@ -3770,7 +3992,7 @@ if (!Array.prototype.map) {
         }*/],
     };
 
-    // Extense jquery element
+    // Extend jquery element
     $.fn.flowChart = function(option) {
         return this.each(function() {
             var $this = $(this);
@@ -3795,4 +4017,4 @@ if (!Array.prototype.map) {
         FlowChart: FlowChart,
         FlowChartElement: FlowChartElement
     });
-}(jQuery));
+}(jQuery, undefined, window, document));
