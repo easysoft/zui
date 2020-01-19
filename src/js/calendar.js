@@ -498,9 +498,7 @@
         }
 
         var $weeks = $view.find('.week-days'),
-            $days = $view.find('.day'),
             firstDayOfMonth = getFirstDayOfMonth(date),
-            // lastDayOfMonth = getLastDayOfMonth(date),
             $week,
             $day,
             $cell,
