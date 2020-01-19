@@ -22,6 +22,7 @@ var extend = require('extend'),
     jsonminify = require('gulp-jsonminify'),
     zui = require('./zui.json'),
     pkg = require('./package.json'),
+    babel = require('gulp-babel'),
     showFileDetail = true;
 
 // Disable the 'possible EventEmitter memory leak detected' warning.
@@ -58,8 +59,8 @@ try {
 
 // try load zui.custom.json and merge into zui.
 try {
-    var zuicustom = require('./zui.custom.json');
-    if (zuicustom) extend(true, zui, zuicustom);
+    var zuiCustom = require('./zui.custom.json');
+    if (zuiCustom) extend(true, zui, zuiCustom);
 } catch (e) { }
 
 var today = moment();
@@ -264,7 +265,8 @@ function buildBundle(name, callback, type) {
                     source: buildLib.source,
                     settingDpds: (buildLib.src && buildLib.src.less && buildLib.src.less.length) ? ['setting'] : null,
                     ignoreBasic: true,
-                    ignoreDpds: buildLib.ignoreDpds !== undefined ? buildLib.ignoreDpds : true
+                    ignoreDpds: buildLib.ignoreDpds !== undefined ? buildLib.ignoreDpds : true,
+                    babel: buildLib.babel
                 };
             } else {
                 console.log(('           Cannot found the build config: ' + name).red);
@@ -328,7 +330,13 @@ function buildBundle(name, callback, type) {
         //ar taskName = 'build:' + name + ':js';
         gulp.task('build:' + name + ':js', function () {
             var destPath = getBuildPath(build, 'js');
-            return gulp.src(source.js)
+            var gulpPipe = gulp.src(source.js);
+            if (build.babel) {
+                gulpPipe = gulpPipe.pipe(babel({
+                    presets: ['babel-preset-env']
+                }));
+            }
+            return gulpPipe
                 .pipe(concat(build.filename + '.js'))
                 .pipe(header(bannerContent))
                 .pipe(chmod(644))
