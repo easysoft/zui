@@ -1108,7 +1108,7 @@
 
     FlowChartElement.prototype.moveToTop = function(zIndex) {
         if (zIndex === undefined) {
-            zIndex = this.flowChart.nodeZIndex++;
+            zIndex = this.flowChart.newZIndex();
         }
         this.$ele.css('zIndex', zIndex);
     };
@@ -1595,7 +1595,7 @@
                 template = template.format($.extend({
                     domID: that.getDomID(true),
                     cursor: (flowChart.draggableEnable && options.draggable && options.readonly !== true) ? 'move' : 'default',
-                    zIndex: that.nodeZIndex++
+                    zIndex: that.flowChart.newZIndex()
                 }, that));
             }
 
@@ -1724,6 +1724,64 @@
             left: this.bounds.left,
             top: this.bounds.top,
         };
+    };
+
+    FlowChartElement.prototype.getSiblingIndex = function() {
+        if (this._siblingIndex === undefined) {
+            var parents = this.parents;
+            if (!this.elementType.beginType && parents && parents.length) {
+                var nodeID = this.id;
+                this._siblingIndex = parents[0].children.findIndex(function(node) {
+                    return nodeID === node.id;
+                });
+            } else {
+                this._siblingIndex = 0;
+            }
+        }
+        return this._siblingIndex;
+    };
+
+    FlowChartElement.prototype.getDepth = function() {
+        if (this._depth === undefined) {
+            var parents = this.parents;
+            if (!this.elementType.beginType && parents && parents.length) {
+                this._depth = Math.max(0, parents[0].getDepth()) + 1;
+            } else {
+                this._depth = 0;
+            }
+        }
+        return this._depth;
+    };
+
+    FlowChartElement.prototype.getDeptSize = function(isHorzLayout, spaceSize) {
+        if (this._depthSize !== undefined) {
+            return this._depthSize;
+        }
+        if (isHorzLayout === undefined) {
+            isHorzLayout = this.flowChart.options.autoLayoutDirection === 'horz';
+        }
+        if (spaceSize === undefined) {
+            spaceSize = this.flowChart.options[isHorzLayout ? 'vertSpace' : 'vertSpace'];
+        }
+        var children = this.children;
+        var nodeBounds = this.getBounds();
+        var childDepth = this.getDepth() + 1;
+        var depthSize = isHorzLayout ? nodeBounds.height : nodeBounds.width;
+        if (children && children.length) {
+            var childrenDepthSize = 0;
+            for (var i = 0; i < children.length; ++i) {
+                var child = children[i];
+                if (child.getDepth() === childDepth) {
+                    if (childrenDepthSize) {
+                        childrenDepthSize += spaceSize;
+                    }
+                    childrenDepthSize += child.getDeptSize(isHorzLayout, spaceSize);
+                }
+            }
+            depthSize = Math.max(depthSize, childrenDepthSize);
+        }
+        this._depthSize = depthSize;
+        return depthSize;
     };
 
     /**
@@ -2584,9 +2642,14 @@
         that.callCallback('onCreate');
 
         // Update and render init elements
-        that.update(options.data, false, true);
+        that.update(options.data, true, true);
+        that.render(null, true);
 
         that.callCallback('afterCreate');
+    };
+
+    FlowChart.prototype.newZIndex = function() {
+        return this.nodeZIndex++;
     };
 
     FlowChart.prototype.callCallback = function(callbackName, params) {
@@ -3018,14 +3081,7 @@
         return arrowID;
     };
 
-    /**
-     * Render elements and relations
-     * @param {string[]|string} [partialIDList]
-     */
-    FlowChart.prototype.render = function(partialIDList) {
-        var that         = this;
-        var options      = that.options;
-
+    FlowChart.prototype._initElementsRelation = function() {
         /**
          * @type {FlowChartElement[]}
          */
@@ -3036,54 +3092,145 @@
          */
         var relationList = [];
 
-        that._forEachElement(function(element) {
+        this._forEachElement(function(element) {
             element.initBeforeRender();
             (element.isRelation ? relationList : nodeList).push(element);
         });
 
-        that.nodeList = FlowChartElement.sort(nodeList);
-        that.relationList = FlowChartElement.sort(relationList);
+        /**
+         * @type {FlowChartElement[]}
+         */
+        this.nodeList = FlowChartElement.sort(nodeList);
+
+        /**
+         * @type {FlowChartElement[]}
+         */
+        this.relationList = FlowChartElement.sort(relationList);
 
         relationList.forEach(function(relation) {
             relation.initRelationBeforeRender();
         });
+    };
 
+    /**
+     * Render elements and relations
+     * @param {string[]|string} [partialIDList]
+     */
+    FlowChart.prototype.render = function(partialIDList) {
+        var that             = this;
+        var options          = that.options;
         var partialRenderMap = that._getPartialRenderMap(partialIDList);
+
         if (!partialRenderMap.enabled) {
+            that._initElementsRelation();
             that.bounds = {left: options.padding, top: options.padding, width: 0, height: 0};
         }
 
+        var nodeList           = that.nodeList;
+        var relationList       = that.relationList;
+        var autoLayoutNodeList = [];
+        var reLayoutNodeList   = [];
         nodeList.forEach(function(node) {
             if (partialRenderMap.canSkip(node.id)) {
                 return;
             }
             node.renderNode(true);
-        });
-        nodeList.forEach(function(node) {
-            if (partialRenderMap.canSkip(node.id)) {
-                return;
+            if (!node.getBounds().hasPosition || !node.position || !node.position.custom) {
+                delete node._depth;
+                delete node._depthSize;
+                delete node._siblingIndex;
+                autoLayoutNodeList.push(node);
             }
-            node.layoutNode(!partialRenderMap.enabled);
+            reLayoutNodeList.push(node);
         });
 
-        // Handle overlay
-        if (!partialRenderMap.enabled) {
+        // Auto layout
+        if (autoLayoutNodeList.length) {
+            var depthsMap = [];
+            var isHorzLayout = options.autoLayoutDirection === 'horz';
+            var spaceSize = options[isHorzLayout ? 'vertSpace' : 'vertSpace'];
+            var nodeSize = isHorzLayout ? (options.nodeMinWidth + options.nodeMaxWidth) / 2 : options.nodeHeight;
+            var maxDepthSize = 0;
+            var endDepthNodes = [];
+            for (var i = 0; i < autoLayoutNodeList.length; ++i) {
+                var node = autoLayoutNodeList[i];
+                if (node.elementType.endType) {
+                    endDepthNodes.push(node);
+                    continue;
+                }
+                var depth = node.getDepth();
+                var depthSize = node.getDeptSize(isHorzLayout, spaceSize);
+                var depthInfo = depthsMap[depth];
+                if (!depthInfo) {
+                    depthInfo = {
+                        list: [node],
+                        size: depthSize,
+                    };
+                    depthsMap[depth] = depthInfo;
+                } else {
+                    depthInfo.list.push(node);
+                    depthInfo.size += depthSize;
+                }
+                maxDepthSize = Math.max(maxDepthSize, depthSize);
+            }
+            for (var i = 0; i < endDepthNodes.length; ++i) {
+                var node = endDepthNodes[i];
+                var depth = depthsMap.length;
+                node._depth = depth;
+                var nodeBounds = node.getBounds();
+                var depthSize = isHorzLayout ? nodeBounds.height : nodeBounds.width;
+                var depthInfo = depthsMap[depth];
+                if (!depthInfo) {
+                    depthInfo = {
+                        list: [node],
+                        size: depthSize,
+                    };
+                    depthsMap[depth] = depthInfo;
+                } else {
+                    depthInfo.list.push(node);
+                    depthInfo.size += depthSize;
+                }
+                maxDepthSize = Math.max(maxDepthSize, depthSize);
+            }
+            for (var depth = 0; depth < depthsMap.length; ++depth) {
+                var depthInfo = depthsMap[depth];
+                var padding = (maxDepthSize - depthInfo.size) / 2;
+                var prevNodeSize = options.padding + padding;
+                for (var i = 0; i < depthInfo.list.length; ++i) {
+                    var node = depthInfo.list[i];
+                    var depthSize = node.getDeptSize(isHorzLayout);
+                    var nodeBounds = node.getBounds();
+                    var position;
+                    if (isHorzLayout) {
+                        position = {
+                            left: options.padding + depth * (spaceSize + nodeSize),
+                            top: prevNodeSize + (depthSize - nodeBounds.height) / 2,
+                        };
+                    } else {
+                        position = {
+                            top: options.padding + depth * (spaceSize + nodeSize),
+                            left: prevNodeSize + (depthSize - nodeBounds.width) / 2,
+                        };
+                    }
+                    prevNodeSize += depthSize + spaceSize;
+                    node.setBounds(position);
+                }
+            }
+
+            // Handle overlay
             var needCheckOverlay = true;
             while(needCheckOverlay) {
                 needCheckOverlay = false;
-                for (var i = nodeList.length - 1; i >= 0; --i) {
-                    var nodeA = nodeList[i];
-                    if (nodeA.position.custom !== true) {
-                        continue;
-                    }
-                    for (var j = nodeList.length - 1; j >= 0; --j) {
+                for (var i = autoLayoutNodeList.length - 1; i >= 0; --i) {
+                    var nodeA = autoLayoutNodeList[i];
+                    for (var j = autoLayoutNodeList.length - 1; j >= 0; --j) {
                         if (i <= j) {
                             continue;
                         }
-                        var nodeB = nodeList[j];
+                        var nodeB = autoLayoutNodeList[j];
                         if (nodeA.isIntersectWith(nodeB)) {
                             needCheckOverlay = true;
-                            nodeA.setBounds(options.autoLayoutDirection === 'horz' ? {
+                            nodeA.setBounds(isHorzLayout ? {
                                 top: nodeA.getPosition().top + options.vertSpace + nodeA.getSize().height
                             } : {
                                 left: nodeA.getPosition().left + options.horzSpace + nodeA.getSize().width
@@ -3092,10 +3239,10 @@
                     }
                 }
             };
-            nodeList.forEach(function(node) {
-                node.layoutNode();
-            });
         }
+        reLayoutNodeList.forEach(function(node) {
+            node.layoutNode();
+        });
 
         relationList.forEach(function(relation) {
             if (partialRenderMap.canSkip(relation.id)) {
@@ -3541,6 +3688,7 @@
             });
         }
 
+        that._initElementsRelation();
         if (!skipRender) {
             that.render(silence ? null : elementsToUpdate);
         }
@@ -3650,6 +3798,7 @@
         });
 
         if (deletedElements.length) {
+            that._initElementsRelation();
             if (!skipRender) {
                 that.render();
             }
