@@ -235,7 +235,7 @@
         borderColor: 'string',
         shapeStyle: 'object',
         position: function(value) {
-            if (typeof value === 'object') {
+            if (value && typeof value === 'object') {
                 ['left', 'top', 'centerLeft', 'centerTop'].forEach(function(name) {
                     if (typeof value[name] === 'string') {
                         var val = Number.parseInt(value[name]);
@@ -336,8 +336,8 @@
     var supportElementTypes = {
         relation: {type: 'relation'},
         action: {type: 'rectangle'},
-        start: {type: 'box'},
-        stop: {type: 'box'},
+        start: {type: 'box', beginType: true},
+        stop: {type: 'box', endType: true},
         judge: {type: 'diamond'},
         result: {type: 'circle'},
         connection: {type: 'connection'},
@@ -1810,8 +1810,13 @@
                             }
                         }
                     });
-                    newPosition.left = parentsBounds.right + options.horzSpace;
-                    newPosition.top  = parentsBounds.top + that.siblingsIndex * (options.nodeHeight + options.vertSpace);
+                    if (options.autoLayoutDirection === 'horz') {
+                        newPosition.left = parentsBounds.right + options.horzSpace;
+                        newPosition.top  = parentsBounds.top + that.siblingsIndex * (options.nodeHeight + options.vertSpace);
+                    } else {
+                        newPosition.top = parentsBounds.bottom + options.vertSpace;
+                        newPosition.left  = parentsBounds.left + that.siblingsIndex * (options.nodeMinWidth + options.horzSpace);
+                    }
                 } else {
                     var canvasBounds = flowChart.bounds;
                     newPosition.left = canvasBounds.left;
@@ -3078,8 +3083,10 @@
                         var nodeB = nodeList[j];
                         if (nodeA.isIntersectWith(nodeB)) {
                             needCheckOverlay = true;
-                            nodeA.setBounds({
+                            nodeA.setBounds(options.autoLayoutDirection === 'horz' ? {
                                 top: nodeA.getPosition().top + options.vertSpace + nodeA.getSize().height
+                            } : {
+                                left: nodeA.getPosition().left + options.horzSpace + nodeA.getSize().width
                             });
                         }
                     }
@@ -3846,6 +3853,9 @@
 
         // 最大宽度
         nodeMaxWidth: 200,
+
+        // 自动布局时的方向
+        autoLayoutDirection: 'vert',
 
         // 节点间的默认水平距离
         horzSpace: 80,

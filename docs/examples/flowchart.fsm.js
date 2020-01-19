@@ -7,15 +7,17 @@ if ($.zui.FlowChart) {
     };
     var types = {
         FSM_InitState: {
+            beginType: true,
             width: 32,
             height: 32,
             type: 'dot',
             displayName: 'FSM初始状态',
             text: textGenerator,
             portLineLength: 1,
-            shapeStyle: {background: '#888'}
+            shapeStyle: {background: '#888'},
         },
         FSM_EndState: {
+            endType: true,
             width: 32,
             height: 32,
             type: 'dot',

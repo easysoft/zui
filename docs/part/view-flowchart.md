@@ -631,6 +631,12 @@ $('#flowchart').flowChart({
       <td>指定一个回调函数监听元素添加和修改，此选项用法参见 <strong>监听元素变更</strong> 章节。</td>
     </tr>
     <tr>
+      <td><code>onAddElement</code></td>
+      <td><code>function</code></td>
+      <td>默认值为 <code>null</code></td>
+      <td>指定一个回调函数监听元素添加，此选项用法参见 <strong>监听元素变更</strong> 章节。</td>
+    </tr>
+    <tr>
       <td><code>onDeleteElement</code></td>
       <td><code>function</code></td>
       <td>默认值为 <code>null</code></td>
@@ -749,13 +755,13 @@ var myFlowChart = $('#flowchart').data('zui.flowChart');
 
 获取关系图的 ID。
 
-#### `.$c
+#### `.$container`
 
-ntainer`：获取关系图组件对应的 DOM 元素（JQuery 类型）。
+获取关系图组件对应的 DOM 元素（JQuery 类型）。
 
-#### `.$c
+#### `.$canvas`
 
-nvas`：获取关系图组件对应的绘图区域 DOM 元素（JQuery 类型）。
+获取关系图组件对应的绘图区域 DOM 元素（JQuery 类型）。
 
 #### `.activedElements`
 
@@ -776,10 +782,6 @@ nvas`：获取关系图组件对应的绘图区域 DOM 元素（JQuery 类型）
 #### `.nodeList`
 
 获取节点列表。
-
-#### `.relationList`
-
-获取关系列表。
 
 #### `.relationList`
 
@@ -886,6 +888,60 @@ nvas`：获取关系图组件对应的绘图区域 DOM 元素（JQuery 类型）
 ## 拖放添加节点
 
 ## 监听元素变更
+
+使用初始化选项 `onUpdateElement` 来指定一个回调函数监听元素变更，包括向关系图添加或修改元素。
+
+```js
+$('#myFlowChart').flowChart({
+    onUpdateElement: function(updatedElements) {
+      // updatedElements 为本次更新的元素数组
+      console.log('已更新的元素列表', updatedElements, this);
+
+        // this 为当前关系图实例对象
+        var flowChart = this;
+        updatedElements.forEach(function(element) {
+            if (element.isNew) {
+                console.log('新增加了元素', element);
+            } else {
+                console.log('修改了元素', element);
+            }
+        });
+
+        // // 如果要取消本次所有元素的变更，只需要返回 false
+        // return false;
+
+        // // 如果需要取消部分元素的变更，则需要返回一个新的元素数组
+        // updatedElements.pop(); // 忽略最后一个元素的变更
+        // updatedElements[0].text = 'test'; // 将第一个变更的元素 text 属性设置为 'test'
+        // return updatedElements;
+    }
+});
+```
+
+如果仅需要监听添加新元素事件，则使用初始化选项 `onAddElement` 指定一个回调函数来监听。
+
+```js
+$('#myFlowChart').flowChart({
+    onAddElement: function(newElements) {
+      // newElements 为本次更新的元素数组
+      console.log('新添加的元素列表', newElements, this);
+
+        // this 为当前关系图实例对象
+        var flowChart = this;
+        newElements.forEach(function(element) {
+            console.log('新增加了元素', element);
+        });
+
+        // // 如果要取消本次添加的所有新元素，只需要返回 false
+        // return false;
+
+        // // 如果需要取消或修改部分元素的添加，则需要返回一个新的元素数组
+        // newElements.pop(); // 忽略最后一个元素的添加
+        // newElements[0].text = 'test'; // 将第一个新添加的元素 text 属性设置为 'test'
+        // return newElements;
+    }
+});
+```
 
 ## 自定义元素
 
