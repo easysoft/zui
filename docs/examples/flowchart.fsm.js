@@ -61,7 +61,7 @@ if ($.zui.FlowChart) {
         FSM_Action1: {
             type: 'relation',
             lineStyle: 'solid',
-            lineShape: 'bessel',
+            lineShape: 'arc',
             text: textGenerator,
             displayName: 'FSM动作转换2'
         },

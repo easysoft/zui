@@ -3298,6 +3298,22 @@
                     $svg.append($point);
                 }
             });
+        } else if (style.shape === 'arc') {
+            var arcDiameter = distanceOfTwoPoints(beginPoint, endPoint);
+            var radius = Math.floor(arcDiameter / 2);
+            pathD.push(
+                'M',
+                beginPoint.left,
+                beginPoint.top,
+                'A',
+                radius,
+                radius,
+                0,
+                0,
+                1,
+                endPoint.left,
+                endPoint.top,
+            );
         }
         pathAttrs.d = pathD.join(' ');
         var $line = $svg.find('#' + pathAttrs.id);
