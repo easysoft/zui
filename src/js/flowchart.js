@@ -2724,7 +2724,7 @@
             '#{id} .flowchart-relation[data-shape="polyline"] .flowchart-relation-text,',
             '#{id} .flowchart-relation[data-shape="bessel"] .flowchart-relation-text {cursor: move}',
 
-            '#{id} .flowchart-element-focused .flowchart-relation-text {pointer-events: auto; border: 1px solid {activeColor}}',
+            '#{id} .flowchart-element-focused .flowchart-relation-text {opacity: 1; pointer-events: auto; border: 1px solid {activeColor}}',
 
             '#{id} .flowchart-svg-canvas .flowchart-relation-line:hover {stroke: {activeColor}!important}',
 
