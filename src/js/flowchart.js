@@ -2154,6 +2154,9 @@
      * @class
      */
     var FlowChart = function(element, initOptions) {
+        /**
+         * @type {FlowChart}
+         */
         var that = this;
         that.name = NAME;
 
@@ -2442,7 +2445,46 @@
                                         editingRelation[editingDirection + 'Port'] = toPort;
                                     }
                                 } else {
-                                    that.addRelation(nodeID, portName, toNode, toPort);
+                                    var confirmRelationType = options.confirmRelationType;
+                                    if (confirmRelationType && $.zui.ContextMenu) {
+                                        var menuItems = [{
+                                            label: that.lang.selectRelationType,
+                                            disabled: true,
+                                        }];
+                                        if (typeof confirmRelationType === 'string') {
+                                            confirmRelationType = confirmRelationType.split(',');
+                                        }
+                                        if ($.isArray(confirmRelationType)) {
+                                            confirmRelationType.forEach(function(name) {
+                                                var typeInfo = that.types[name];
+                                                if ((typeInfo.isRelation) && !typeInfo.internal) {
+                                                    menuItems.push({
+                                                        label: (typeInfo.displayName || name),
+                                                        relationType: name
+                                                    });
+                                                }
+                                            });
+                                        } else {
+                                            $.each(that.types, function(name, typeInfo) {
+                                                if ((typeInfo.isRelation) && !typeInfo.internal) {
+                                                    menuItems.push({
+                                                        label: (typeInfo.displayName || name),
+                                                        relationType: name
+                                                    });
+                                                }
+                                            });
+                                        }
+                                        var fromNode = nodeID;
+                                        var fromPort = portName;
+                                        $.zui.ContextMenu.show(menuItems, {
+                                            event: e.event,
+                                            onClickItem: function(item) {
+                                                that.addRelation(fromNode, fromPort, toNode, toPort, null, item.relationType);
+                                            }
+                                        });
+                                    } else {
+                                        that.addRelation(nodeID, portName, toNode, toPort);
+                                    }
                                 }
                                 hasDropped = true;
                             }
@@ -3541,7 +3583,7 @@
     };
 
     // Add relation between two nodes
-    FlowChart.prototype.addRelation = function(fromNode, fromPort, toNode, toPort, text) {
+    FlowChart.prototype.addRelation = function(fromNode, fromPort, toNode, toPort, text, type) {
         var that = this;
 
         if (typeof fromNode === 'string') {
@@ -3564,6 +3606,7 @@
             fromPort: fromPort,
             to: toNode.id,
             toPort: toPort,
+            type: type
         }));
     };
 
@@ -3876,6 +3919,7 @@
             edit: '编辑',
             'delete': '删除',
             'type': '类型',
+            'selectRelationType': '请选择关系类型',
             'type.rectangle': '矩形',
             'type.box': '方框',
             'type.circle': '圆形',
@@ -3896,6 +3940,7 @@
             edit: '編輯',
             'delete': '刪除',
             'type': '類型',
+            'selectRelationType': '請選擇關係類型',
             'type.rectangle': '矩形',
             'type.box': '方框',
             'type.circle': '圓形',
@@ -3916,6 +3961,7 @@
             edit: 'Edit',
             'delete': 'Delete',
             'type': 'Type',
+            'selectRelationType': 'Please select relation type',
             'type.rectangle': 'Rectangle',
             'type.box': 'Box',
             'type.circle': 'Circle',
@@ -3979,6 +4025,9 @@
         // 删除节点前是否确认
         deleteConfirm: true,
 
+        // 添加关系连接线时确认类型
+        confirmRelationType: true,
+
         // 是否启用拖放移动功能
         draggable: true,
 
@@ -4033,6 +4082,7 @@
         // 贝塞尔曲线弯曲程度，0 ～ 1，值越大，弯曲度越大
         besselCurvature: 0.8,
 
+        // 端口连接线长度
         portLineLength: 0,
 
         // 端口所占空间大小
