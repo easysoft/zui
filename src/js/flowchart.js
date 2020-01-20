@@ -3190,7 +3190,7 @@
                 return;
             }
             node.renderNode(true);
-            if (!node.getBounds().hasPosition || !node.position || !node.position.custom) {
+            if (!node.getBounds().hasPosition && (!node.position || !node.position.custom)) {
                 delete node._depth;
                 delete node._depthSize;
                 delete node._siblingIndex;
