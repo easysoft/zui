@@ -2275,14 +2275,19 @@
                         newShape = $.extend({
                             porX: 0, porY: 0
                         }, that._dragElement.getBounds().shape);
-                        var porxSize = that._dragCtrlPoint.data('porx');
-                        var porySize = that._dragCtrlPoint.data('pory');
+                        var porxSize = that._dragElement.position.porx;
+                        var porySize = that._dragElement.position.pory;
                         if (porxSize) {
                             newShape.porX += e.smallOffset.x / porxSize;
                         }
                         if (porySize) {
                             newShape.porY += e.smallOffset.y / porySize;
                         }
+                    } else if (pointName === 'arr') {
+                        newShape = $.extend({arrX: 0, arrY: 0}, that._dragElement.getBounds().shape);
+                        var arcd = that._dragElement.position.arcd;
+                        var acdd = that._dragElement.position.acdd;
+                        newShape[acdd === 'x' ? 'arrX' : 'arrY'] += e.smallOffset[acdd] / arcd;
                     } else {
                         var boundsShape = $.extend({
                             bboX: 0, bboY: 0, bcoX: 0, bcoY: 0, beoX: 0, beoY: 0
@@ -2779,7 +2784,8 @@
             '#{id} .flowchart-relation-text {min-height: 14px; min-width: 12px; opacity: 0; pointer-events: auto}',
             '#{id} .flowchart-relation-text.flowchart-has-text {opacity: 1;}',
             '#{id} .flowchart-relation[data-shape="polyline"] .flowchart-relation-text,',
-            '#{id} .flowchart-relation[data-shape="bessel"] .flowchart-relation-text {cursor: move}',
+            '#{id} .flowchart-relation[data-shape="bessel"] .flowchart-relation-text,',
+            '#{id} .flowchart-relation[data-shape="arc"] .flowchart-relation-text {cursor: move}',
 
             '#{id} .flowchart-element-focused .flowchart-relation-text {opacity: 1; pointer-events: auto; border: 1px solid {activeColor}}',
 
@@ -3405,15 +3411,13 @@
             centerOffsetTop += ctrlPoint.y - centerTop;
             var pointID = id + '-point-por';
             var $point = $svg.find('#' + pointID);
+            style.relation.position.porx = boundsWidth / 2;
+            style.relation.position.pory = boundsHeight / 2;
             var pointAttrs = {
                 id: pointID,
                 'class': 'flowchart-relation-line-ctrl-point flowchart-relation-primary-ctrl-point',
                 'data-name': 'por',
                 'data-id': style.relation.id,
-                'data-porx': boundsWidth / 2,
-                'data-pory': boundsHeight / 2,
-                // 'data-x': point.x,
-                // 'data-y': point.y,
                 cx: ctrlPoint.x,
                 cy: ctrlPoint.y,
                 r: lineWidth * 3,
@@ -3501,9 +3505,99 @@
                     $svg.append($point);
                 }
             });
+        } else if (style.shape === 'besselArc') {
+            var besselCurvature = ifUndefinedThen(style.shapeStyle.besselCurvature, that.options.besselCurvature);
+            var boundWidth = Math.abs(beginPoint.left - endPoint.left);
+            var boundHeight = Math.abs(beginPoint.top - endPoint.top);
+            var bbX = Math.floor(beginPoint.side === 'right' ? (beginPoint.left + (boundWidth * besselCurvature / 2)) : (beginPoint.side === 'left' ? (beginPoint.left - (boundWidth * besselCurvature / 2)) : beginPoint.left));
+            var bbY = Math.floor(beginPoint.side === 'top' ? (beginPoint.top - (boundHeight * besselCurvature / 2)) : (beginPoint.side === 'bottom' ? (beginPoint.top + (boundHeight * besselCurvature / 2)) : beginPoint.top));
+            var bcX = centerLeft;
+            var bcY = centerTop;
+            var beX = Math.floor(endPoint.side === 'right' ? (endPoint.left + (boundWidth * besselCurvature / 2)) : (endPoint.side === 'left' ? (endPoint.left - (boundWidth * besselCurvature / 2)) : endPoint.left));
+            var beY = Math.floor(endPoint.side === 'top' ? (endPoint.top - (boundHeight * besselCurvature / 2)) : (endPoint.side === 'bottom' ? (endPoint.top + (boundHeight * besselCurvature / 2)) : endPoint.top));
+            var boundsShape = $.extend({
+                bboX: 0, bboY: 0, bcoX: 0, bcoY: 0, beoX: 0, beoY: 0
+            }, style.bounds ? style.bounds.shape : null);
+            var controlPoints = {
+                b: {x: bbX + boundsShape.bboX, y: bbY + boundsShape.bboY},
+                c: {x: bcX + boundsShape.bcoX, y: bcY + boundsShape.bcoY},
+                e: {x: beX + boundsShape.beoX, y: beY + boundsShape.beoY},
+            };
+            style.relation.setBounds({
+                shape: boundsShape
+            });
+            pathD.push(
+                'M',
+                beginPoint.left,
+                beginPoint.top,
+                'Q',
+                controlPoints.b.x,
+                controlPoints.b.y,
+                ',',
+                controlPoints.c.x,
+                controlPoints.c.y,
+                'Q',
+                controlPoints.e.x,
+                controlPoints.e.y,
+                ',',
+                endPoint.left,
+                endPoint.top,
+            );
+            centerOffsetLeft += controlPoints.c.x - bcX;
+            centerOffsetTop += controlPoints.c.y - bcY;
+            $.each(controlPoints, function(pointName) {
+                var point = controlPoints[pointName];
+                var pointID = id + '-point-' + pointName;
+                var $point = $svg.find('#' + pointID);
+                var pointAttrs = {
+                    id: pointID,
+                    'class': 'flowchart-relation-line-ctrl-point' + (pointName === 'c' ? ' flowchart-relation-primary-ctrl-point' : ''),
+                    'data-name': pointName,
+                    'data-id': style.relation.id,
+                    // 'data-x': point.x,
+                    // 'data-y': point.y,
+                    cx: point.x,
+                    cy: point.y,
+                    r: lineWidth * 3,
+                    'stroke-width': lineWidth * 2,
+                    stroke: style.activeColor,
+                    fill: 'transparent'
+                };
+                if ($point.length) {
+                    updateSVGElement($point[0], pointAttrs);
+                } else {
+                    $point = createSVGElement('circle', pointAttrs);
+                    $svg.append($point);
+                }
+            });
         } else if (style.shape === 'arc') {
+            var boundsWidth = Math.abs(beginPoint.left - endPoint.left);
+            var boundsHeight = Math.abs(beginPoint.top - endPoint.top);
             var arcDiameter = distanceOfTwoPoints(beginPoint, endPoint);
             var radius = Math.floor(arcDiameter / 2);
+            var boundsShape = $.extend({arrX: 0, arrY: 0}, style.bounds ? style.bounds.shape : null);
+            var arcDirection = boundsWidth > boundsHeight ? 'y' : 'x';
+            var getTopOfMiddleLine = function(left) {
+                // 使用中垂线公式（y = (x (x1 - x2))/(y2 - y1) + ((x1 + x2) (x1 - x2))/(2 y2 - 2 y1) + (y1 + y2)/2）计算新的圆心坐标
+                return left * (beginPoint.left-endPoint.left)/(endPoint.top-beginPoint.top)+(endPoint.left-beginPoint.left)/(endPoint.top-beginPoint.top)*(beginPoint.left+endPoint.left)/2+(beginPoint.top+endPoint.top)/2;
+            };
+            var getLeftOfMiddleLine = function(top) {
+                return (top - (endPoint.left-beginPoint.left)/(endPoint.top-beginPoint.top)*(beginPoint.left+endPoint.left)/2 - (beginPoint.top+endPoint.top)/2) * (endPoint.top-beginPoint.top) / (beginPoint.left-endPoint.left);
+            };
+            var ctrlPoint = {
+                left: centerLeft,
+                top: centerTop
+            };
+            if (boundsShape.arrX || boundsShape.arrY) {
+                if (arcDirection === 'x') {
+                    ctrlPoint.left += boundsShape.arrX * arcDiameter;
+                    ctrlPoint.top = getTopOfMiddleLine(ctrlPoint.left);
+                } else {
+                    ctrlPoint.top += boundsShape.arrY * arcDiameter;
+                    ctrlPoint.left = getLeftOfMiddleLine(ctrlPoint.top);
+                }
+                radius = distanceOfTwoPoints(ctrlPoint, beginPoint);
+            }
             pathD.push(
                 'M',
                 beginPoint.left,
@@ -3513,10 +3607,34 @@
                 radius,
                 0,
                 1,
-                1,
+                boundsShape[arcDirection === 'x' ? 'arrX' : 'arrY'] * (arcDirection === 'y' ? (-1) : 1) >= 0 ? 1 : 0,
                 endPoint.left,
                 endPoint.top,
             );
+            centerOffsetLeft += ctrlPoint.left - centerLeft;
+            centerOffsetTop += ctrlPoint.top - centerTop;
+            var pointID = id + '-point-arr';
+            var $point = $svg.find('#' + pointID);
+            style.relation.position.arcd = arcDiameter;
+            style.relation.position.acdd = arcDirection;
+            var pointAttrs = {
+                id: pointID,
+                'class': 'flowchart-relation-line-ctrl-point flowchart-relation-primary-ctrl-point',
+                'data-name': 'arr',
+                'data-id': style.relation.id,
+                cx: ctrlPoint.left,
+                cy: ctrlPoint.top,
+                r: lineWidth * 3,
+                'stroke-width': lineWidth * 2,
+                stroke: style.activeColor,
+                fill: 'transparent'
+            };
+            if ($point.length) {
+                updateSVGElement($point[0], pointAttrs);
+            } else {
+                $point = createSVGElement('circle', pointAttrs);
+                $svg.append($point);
+            }
         }
         pathAttrs.d = pathD.join(' ');
         var $line = $svg.find('#' + pathAttrs.id);
