@@ -1259,11 +1259,11 @@
         var arrowSize     = ifUndefinedThen(that.arrowSize, that.elementType.arrowSize, options.relationArrowSize);
         var beginArrow    = (showArrow === 'begin' || showArrow === 'both') ? arrowSize : 0;
         var endArrow      = (showArrow === true || showArrow === 'end' || showArrow === 'both') ? arrowSize : 0;
+        var shapeStyle    = $.extend({}, that.elementType.shapeStyle, that.shapeStyle);
 
         $relation.attr('data-shape', lineShape);
 
         if (that.elementType.render) {
-            var shapeStyle = $.extend({}, that.elementType.shapeStyle, that.shapeStyle);
             var style = $.extend({}, options.relationStyle, that.elementType.style, that.style);
             return that.elementType.render.call(that, $relation, {
                 style: style,
@@ -1323,6 +1323,7 @@
         var $lines = that.$get('.flowchart-relation-lines').empty();
         that.relationLineID = 'flowchart-' + flowChart.id + '-line-' + that.id;
         flowChart.drawRelationLine(that.relationLineID, fromPoint, toPoint, {
+            shapeStyle: shapeStyle,
             style: lineStyle,
             width: lineSize,
             color: lineColor,
@@ -1901,6 +1902,7 @@
     };
 
     FlowChartElement.prototype.freshRender = function() {
+        this.flowChart._initElementsRelation();
         return this.flowChart.render(this.id);
     };
 
@@ -3280,7 +3282,7 @@
         var lineWidth = style.width;
         var strokeDasharray;
         if (style.style === 'dashed') {
-            strokeDasharray = (lineWidth * 3) + ' ' + (lineWidth * 2);
+            strokeDasharray = (lineWidth * 4) + ' ' + (lineWidth * 2);
         } else if (style.style === 'dotted') {
             strokeDasharray = lineWidth + ' ' + lineWidth;
         } else {
@@ -3388,7 +3390,7 @@
                 endPoint.top,
             );
         } else if (style.shape === 'bessel') {
-            var besselCurvature = that.options.besselCurvature;
+            var besselCurvature = ifUndefinedThen(style.shapeStyle.besselCurvature, that.options.besselCurvature);
             var boundWidth = Math.abs(beginPoint.left - endPoint.left);
             var boundHeight = Math.abs(beginPoint.top - endPoint.top);
             var bbX = Math.floor(beginPoint.side === 'right' ? (beginPoint.left + (boundWidth * besselCurvature / 2)) : (beginPoint.side === 'left' ? (beginPoint.left - (boundWidth * besselCurvature / 2)) : beginPoint.left));
@@ -3463,7 +3465,7 @@
                 radius,
                 radius,
                 0,
-                0,
+                1,
                 1,
                 endPoint.left,
                 endPoint.top,
@@ -3689,6 +3691,7 @@
         }
 
         that._initElementsRelation();
+
         if (!skipRender) {
             that.render(silence ? null : elementsToUpdate);
         }

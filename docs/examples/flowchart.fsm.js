@@ -64,6 +64,7 @@ if ($.zui.FlowChart) {
             type: 'relation',
             lineStyle: 'solid',
             lineShape: 'arc',
+            lineColor: '#1797cd',
             text: textGenerator,
             displayName: 'FSM动作转换2'
         },
