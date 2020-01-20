@@ -2438,52 +2438,54 @@
                             var $thisNode = ($thisPort.length ? $thisPort : $target).closest('.flowchart-node');
                             if ($thisNode.length) {
                                 var toNode = $thisNode.data('id');
-                                var toPort = $thisPort.data('name');
-                                if (editingDirection) {
-                                    if (toNode && toPort) {
-                                        editingRelation[editingDirection] = toNode;
-                                        editingRelation[editingDirection + 'Port'] = toPort;
-                                    }
-                                } else {
-                                    var confirmRelationType = options.confirmRelationType;
-                                    if (confirmRelationType && $.zui.ContextMenu) {
-                                        var menuItems = [{
-                                            label: that.lang.selectRelationType,
-                                            disabled: true,
-                                        }];
-                                        if (typeof confirmRelationType === 'string') {
-                                            confirmRelationType = confirmRelationType.split(',');
+                                if (toNode !== nodeID) {
+                                    var toPort = $thisPort.data('name');
+                                    if (editingDirection) {
+                                        if (toNode && toPort) {
+                                            editingRelation[editingDirection] = toNode;
+                                            editingRelation[editingDirection + 'Port'] = toPort;
                                         }
-                                        if ($.isArray(confirmRelationType)) {
-                                            confirmRelationType.forEach(function(name) {
-                                                var typeInfo = that.types[name];
-                                                if ((typeInfo.isRelation) && !typeInfo.internal) {
-                                                    menuItems.push({
-                                                        label: (typeInfo.displayName || name),
-                                                        relationType: name
-                                                    });
+                                    } else {
+                                        var confirmRelationType = options.confirmRelationType;
+                                        if (confirmRelationType && $.zui.ContextMenu) {
+                                            var menuItems = [{
+                                                label: that.lang.selectRelationType,
+                                                disabled: true,
+                                            }];
+                                            if (typeof confirmRelationType === 'string') {
+                                                confirmRelationType = confirmRelationType.split(',');
+                                            }
+                                            if ($.isArray(confirmRelationType)) {
+                                                confirmRelationType.forEach(function(name) {
+                                                    var typeInfo = that.types[name];
+                                                    if ((typeInfo.isRelation) && !typeInfo.internal) {
+                                                        menuItems.push({
+                                                            label: (typeInfo.displayName || name),
+                                                            relationType: name
+                                                        });
+                                                    }
+                                                });
+                                            } else {
+                                                $.each(that.types, function(name, typeInfo) {
+                                                    if ((typeInfo.isRelation) && !typeInfo.internal) {
+                                                        menuItems.push({
+                                                            label: (typeInfo.displayName || name),
+                                                            relationType: name
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                            var fromNode = nodeID;
+                                            var fromPort = portName;
+                                            $.zui.ContextMenu.show(menuItems, {
+                                                event: e.event,
+                                                onClickItem: function(item) {
+                                                    that.addRelation(fromNode, fromPort, toNode, toPort, null, item.relationType);
                                                 }
                                             });
                                         } else {
-                                            $.each(that.types, function(name, typeInfo) {
-                                                if ((typeInfo.isRelation) && !typeInfo.internal) {
-                                                    menuItems.push({
-                                                        label: (typeInfo.displayName || name),
-                                                        relationType: name
-                                                    });
-                                                }
-                                            });
+                                            that.addRelation(nodeID, portName, toNode, toPort);
                                         }
-                                        var fromNode = nodeID;
-                                        var fromPort = portName;
-                                        $.zui.ContextMenu.show(menuItems, {
-                                            event: e.event,
-                                            onClickItem: function(item) {
-                                                that.addRelation(fromNode, fromPort, toNode, toPort, null, item.relationType);
-                                            }
-                                        });
-                                    } else {
-                                        that.addRelation(nodeID, portName, toNode, toPort);
                                     }
                                 }
                                 hasDropped = true;
