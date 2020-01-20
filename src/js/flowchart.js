@@ -2631,6 +2631,17 @@
                 e.returnValue = false;
                 return false;
             });
+
+            $(document).on('change', '.flowchart-' + that.id + '-type-selector', function() {
+                var $select = $(this);
+                var nodeID = $select.data('id');
+                var node = that.getElement(nodeID);
+                if (node) {
+                    node.changeType($select.val());
+                    that.render(node);
+                }
+                $.zui.ContextMenu.hide();
+            });
         }
 
         $canvas.on('click', function(e) {
@@ -2970,30 +2981,22 @@
         }
         var items = [];
         if (!that.options.readonly) {
-            var typeButtonsHTML = [];
+            var typeOptions = [];
             $.each(that.types, function(name, typeInfo) {
                 if ((typeInfo.isNode === ele.isNode) && !typeInfo.internal) {
-                    typeButtonsHTML.push('<div class="col-xs-4" style="padding: 2px"><a class="btn btn-mini' + (ele.type === name ? ' btn-success' : '') + '" data-type="'+ name + '" style="display: block;">' + (typeInfo.displayName || typeInfo.name) + '</a></div>');
+                    typeOptions.push('<option' + (ele.type === name ? ' selected' : '') + ' value="' + name + '">' + (typeInfo.displayName || typeInfo.name) + '</option>');
                 }
             });
             items.push({
                 id: 'type',
                 html: [
-                    '<div style="padding: 3px 20px; white-space: nowrap;">',
-                        '<span class="btn btn-mini disabled" style="background: none; border: none;padding: 0">' + that.lang.type + '</span>',
-                        '<div class="row">',
-                        typeButtonsHTML.join(''),
+                    '<div class="input-group" style="margin: 5px 10px 0 10px; min-width: 170px">',
+                        '<span class="input-group-addon">' + that.lang.type + '</span>',
+                        '<select class="form-control flowchart-' + that.id + '-type-selector" data-id="' + ele.id + '">',
+                        typeOptions.join(''),
                         '</div>',
                     '</div>'
                 ].join(''),
-                onClick: function(e) {
-                    var $btn = $(e.target).closest('.btn');
-                    var type = $btn.data('type');
-                    if (type !== ele.type) {
-                        ele.changeType(type);
-                        that.render(ele);
-                    }
-                }
             }, '-');
             items.push({
                 id: 'edit',

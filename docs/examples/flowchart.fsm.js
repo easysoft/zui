@@ -242,7 +242,6 @@ if ($.zui.FlowChart) {
     $.zui.FlowChart.addPlugin('fsm', {
         defaultOptions: defaultOptions,
         style: [
-            '.flowchart-contextmenu {min-width: 360px}',
             '.flowchart-contextmenu .col-xs-4 {width: 25%}',
             '#{id} .flowchart-element-fsm_fork, #{id} .flowchart-element-fsm_merge {align-items: flex-start!important;}',
             '#{id} .flowchart-element-FSM_ActState:before {content: " "; position: absolute; width: 30px; height: 30px; top: 4px; left: 4px; background: #888; border-radius: 50%; border: 1px solid #333}'
