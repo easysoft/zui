@@ -57,7 +57,7 @@ filter: shujubiaoge sjbg
       <th>时间</th>
 
       <!-- 以下三列中间可滚动 -->
-      <th class="flex-col" data-width="100">事件类型</th> 
+      <th class="flex-col" data-width="100">事件类型</th>
       <th class="flex-col" data-width="200">描述</th>
       <th class="flex-col" data-width="300">相关人物</th>
 
@@ -180,7 +180,7 @@ $('table.datatable').datatable({checkable: true, sortable: true});
       <td>`flexHeadDrag`</td>
       <td>*   `false`
 *   `true` (默认)</td>
-      <td>是否能够通告拖拽可变区域的头部来调整可见区域</td>
+      <td>是否能够通过拖拽可变区域的头部来调整可见区域</td>
     </tr>
     <tr>
       <td>`scrollPos`</td>

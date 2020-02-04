@@ -106,7 +106,7 @@ $('#imgCutter').imgCutter(options);
       <td>`fixedRatio`</td>
       <td>启用固定尺寸比例</td>
       <td>`false`（默认）|`true`</td>
-      <td>如果启用固定尺寸比例，则用户在拖拽更改尺寸时会已初始比例进行同步缩放</td>
+      <td>如果启用固定尺寸比例，则用户在拖拽更改尺寸时会以初始比例进行同步缩放</td>
     </tr>
     <tr>
       <td>`minWidth`</td>

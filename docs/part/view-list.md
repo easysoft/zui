@@ -105,7 +105,7 @@ filter: liebiao lb
 
 在 `.item-content` 内使用 `.media` 包裹图片作为缩略图。
 
-在 `.media` 上使用 `.pull-left` 或 `.pull-right` 来让缩略图居左或居右放置。此时默认情况下缩略图最大宽度为 `150px`，如果要更改缩略图大学，你可以手动为缩略图应用样式。
+在 `.media` 上使用 `.pull-left` 或 `.pull-right` 来让缩略图居左或居右放置。此时默认情况下缩略图最大宽度为 `150px`，如果要更改缩略图大小，你可以手动为缩略图应用样式。
 
 <example>
   <div class="items">

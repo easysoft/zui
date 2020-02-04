@@ -615,7 +615,7 @@ myTree.add('#myTree', newItems);
 // 获取 tree 实例
 var myTree = $('#myTree').data('zui.tree');
 
-// 此处可以更新数结构
+// 此处可以更新树结构
 
 // 获取更新后的树数据
 var myTreeData = myTree.toData(function(item, $li) {

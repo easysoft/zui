@@ -209,7 +209,7 @@ $('#sortableList').sortable(options)
 
 ### <span class="code">$().sortable('destroy')</span>
 
-如果以确定不需要拖放排序操作，则可以调用 `$().sortable('destroy')` 来销毁拖放排序插件。销毁之后如果需要重新启用拖放排序则重新进行初始化即可。
+如果已确定不需要拖放排序操作，则可以调用 `$().sortable('destroy')` 来销毁拖放排序插件。销毁之后如果需要重新启用拖放排序则重新进行初始化即可。
 
 ```js
 $('#dragDropEles').sortable('destroy');

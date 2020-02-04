@@ -265,7 +265,7 @@ $('#draggableBox2').draggable({
       <td>`drag`</td>
       <td>移动时回调函数</td>
       <td>默认不设置</td>
-      <td>指定一个回调函数在移动目标元素时前（`mousemove` 事件发生时）调用。</td>
+      <td>指定一个回调函数在移动目标元素时（`mousemove` 事件发生时）调用。</td>
     </tr>
     <tr>
       <td>`finish`</td>
@@ -342,7 +342,7 @@ $('#dragBtn').draggable({
 
 ### <span class="code">$().draggable('destroy')</span>
 
-如果以确定不需要拖拽操作，则可以调用 `$().draggable('destroy')` 来销毁拖拽插件。销毁之后如果需要重新启用拖拽则重新进行初始化即可。
+如果已确定不需要拖拽操作，则可以调用 `$().draggable('destroy')` 来销毁拖拽插件。销毁之后如果需要重新启用拖拽则重新进行初始化即可。
 
 ```js
 $('#dragEles').draggable('destroy');

@@ -537,7 +537,7 @@ myModalTrigger.ajustPosition(options);
     <tr>
       <td>`broken`</td>
       <td>`broken.zui.modal`</td>
-      <td>当加载远程内容失败之后调用，在次回调方法中返回字符串会更新对话框现实的内容（例如在对话框中显示一个加载失败之后的帮助信息）。</td>
+      <td>当加载远程内容失败之后调用，在次回调方法中返回字符串会更新对话框显示的内容（例如在对话框中显示一个加载失败之后的帮助信息）。</td>
     </tr>
   </tbody>
 </table>

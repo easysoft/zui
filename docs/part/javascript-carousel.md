@@ -182,7 +182,7 @@ filter: lunbo lb
   <tbody>
     <tr>
       <td>slide.zui.carousel</td>
-      <td>此事件在 `slide` 方法被调用之后立即出发。</td>
+      <td>此事件在 `slide` 方法被调用之后立即触发。</td>
     </tr>
     <tr>
       <td>slid.zui.carousel</td>

@@ -290,7 +290,7 @@ Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的
           <li><code>'false'</code>（默认）：不禁用</li>
         </ul>
       </td>
-      <td>禁用检索功能，将不再现实搜索框来让用户检索选项。</td>
+      <td>禁用检索功能，将不再显示搜索框来让用户检索选项。</td>
     </tr>
     <tr>
       <td>`disable_search_threshold`</td>
@@ -430,7 +430,7 @@ Chosen 为独立组件，你需要从本地或 CDN 单独引入 lib 目录下的
       <td>表单域可以隐藏域或者文本框</td>
     </tr>
     <tr>
-      <td>`sort_value_spilter`</td>
+      <td>`sort_value_splitter`</td>
       <td>用于记录多选选项值顺序时用于拼接的字符</td>
       <td>默认为 `','`</td>
       <td></td>

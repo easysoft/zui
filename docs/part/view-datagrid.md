@@ -673,7 +673,7 @@ $('#datagridSpanExample').datagrid({
 
 值转换器可以通过如下途径进行设置，不同途径生效范围不同。
 
-通过 `valueOperator` 选项进行设置，会影响特定类型的数据，例如下例将所有事件戳类型转换为中文日期格式：
+通过 `valueOperator` 选项进行设置，会影响特定类型的数据，例如下例将所有时间戳类型转换为中文日期格式：
 
 ```js
 $('#myDataGrid').datagrid({
@@ -684,7 +684,7 @@ $('#myDataGrid').datagrid({
         ]
     },
     valueOperator: {
-        // date 值转换器会影响所以 valueType 为 `date` 的列
+        // date 值转换器会影响所有 valueType 为 `date` 的列
         date: {
             getter: function(dataValue, cell, dataGrid) {
                 return new Date(dataValue).toLocaleString();
@@ -721,7 +721,7 @@ $('#myDataGrid').datagrid({
 });
 ```
 
-值转换器还可以通过 `configs` 选项单独为某个单元格或某行进行设置。例如仅仅为第 2 行第 1 列应用日期值转换器“
+值转换器还可以通过 `configs` 选项单独为某个单元格或某行进行设置。例如仅仅为第 2 行第 1 列应用日期值转换器：
 
 ```js
 $('#myDataGrid').datagrid({

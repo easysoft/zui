@@ -486,7 +486,7 @@ $('#dragBtn').draggable({
 
 ### <span class="code">$().droppable('destroy')</span>
 
-如果以确定不需要拖放操作，则可以调用 `$().droppable('destroy')` 来销毁拖放插件。销毁之后如果需要重新启用拖放则重新进行初始化即可。
+如果已确定不需要拖放操作，则可以调用 `$().droppable('destroy')` 来销毁拖放插件。销毁之后如果需要重新启用拖放则重新进行初始化即可。
 
 ```js
 $('#dragDropEles').droppable('destroy');

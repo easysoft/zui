@@ -154,7 +154,7 @@ function afterPageLoad() {
 
 <div class="alert alert-info">
   <h4>注意</h4>
-  <p>ZUI 中的 KIndeditor 依赖 jQuery 以及 ZUI 基础样式和 JS 插件，所以无法在没有引入 jQuery 和 ZUI 的环境中使用。</p>
+  <p>ZUI 中的 Kindeditor 依赖 jQuery 以及 ZUI 基础样式和 JS 插件，所以无法在没有引入 jQuery 和 ZUI 的环境中使用。</p>
 </div>
 
 ## UEditor

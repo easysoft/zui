@@ -202,13 +202,13 @@ $('#myTreemap').treemap();
       <td>`text`</td>
       <td>节点上显示的文本</td>
       <td>字符串, 默认 `''`</td>
-      <td>如果 `text` 属性和 `html` 属性都没有指定，则节点元素上不回显示内容。</td>
+      <td>如果 `text` 属性和 `html` 属性都没有指定，则节点元素上不会显示内容。</td>
     </tr>
     <tr>
       <td>`html`</td>
       <td>节点上显示的HTML格式文本</td>
       <td>字符串, 默认 `''`</td>
-      <td>如果 `text` 属性和 `html` 属性都没有指定，则节点元素上不回显示内容。</td>
+      <td>如果 `text` 属性和 `html` 属性都没有指定，则节点元素上不会显示内容。</td>
     </tr>
     <tr>
       <td>`children`</td>
@@ -381,7 +381,7 @@ $('#myTreemap').treemap();
     <tr>
       <td>`listenNodeResize`</td>
       <td>监听节点尺寸变化</td>
-      <td>默认 `true`</td> 
+      <td>默认 `true`</td>
       <td>如果为 `true` 则当任何一个节点尺寸发生变化时重新绘制连接线，如果确认节点尺寸不会在组织结构图绘制完成后发生变化，则可以设置为 `false` 关闭此选项来避免额外的程序执行。</td>
     </tr>
     <tr>
@@ -445,7 +445,7 @@ myTreemap.render(myTreemapData);
 
 ### <span class="code text-danger">$().treemap('drawLines')</span>
 
-重新计算并绘制连接线，通常无序手动调用此方法。当发现组织图节点连接性发生错位时，调用此方法可以立即重新计算并重新绘制。
+重新计算并绘制连接线，通常无需手动调用此方法。当发现组织图节点连接线发生错位时，调用此方法可以立即重新计算并重新绘制。
 
 ```js
 // 简单调用
@@ -547,7 +547,7 @@ $('#myTreemap').treemap({
 
 ### 事件 <span class="code text-danger">afterDrawLines</span>
 
-该事件在重新绘制连接性后触发。
+该事件在重新绘制连接线后触发。
 
 ```js
 // 使用 jQuery.on() 方法绑定事件
@@ -747,4 +747,3 @@ function afterPageLoad() {
     }, 1000);
 }
 </script>
-

@@ -66,7 +66,7 @@ $('#calendar').calendar();
     </tr>
     <tr>
       <td>`startDate`</td>
-      <td>*   `"today"` (默认)，其实日期为当天
+      <td>*   `"today"` (默认)，起始日期为当天
 *   `"2014-8-14"`，表示日期的字符串
 *   一个`Date`实例</td>
       <td>起始视图所在的日期</td>

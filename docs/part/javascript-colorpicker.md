@@ -62,7 +62,7 @@ $('.input-group #myColor').colorPicker({
 
 ## 自定义按钮图标
 
-使用 `icon` 选项来自定义预设的颜色。可供使用的图标参见 [控件 - 图标](#control/icon) 章节。
+使用 `icon` 选项来自定义预设的图标。可供使用的图标参见 [控件 - 图标](#control/icon) 章节。
 
 <example>
   <div class="row">
@@ -161,7 +161,7 @@ $(function() {
       <td>`wrapper`</td>
       <td>下拉按钮父元素的 CSS CLASS</td>
       <td>默认为 `'btn-wrapper'`</td>
-      <td>当使用输入组形式时，应该讲此选项设置为 `'input-group-btn'`</td>
+      <td>当使用输入组形式时，应该将此选项设置为 `'input-group-btn'`</td>
     </tr>
     <tr>
       <td>`tileSize`</td>
