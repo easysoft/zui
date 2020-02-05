@@ -12,7 +12,7 @@
     var id = 0;
     var template = '<div class="messager messager-{type} {placement}" style="display: none"><div class="messager-content"></div><div class="messager-actions"></div></div>';
     var DEFAULTS = {
-        // icons: '',
+        icons: {},
         type: 'default',
         placement: 'top',
         time: 4000,
@@ -286,14 +286,14 @@
         return msg;
     };
 
-    var NOTIFICAION_DEFAULTS = {
+    var NOTIFICATION_DEFAULTS = {
         notification: true,
         placement: 'bottom-right',
         time: 0,
         icon: 'bell icon-2x',
     };
     var showNotification = function(title, message, options) {
-        var defaultOptions = $.extend({id: $.zui.uuid()}, NOTIFICAION_DEFAULTS);
+        var defaultOptions = $.extend({id: $.zui.uuid()}, NOTIFICATION_DEFAULTS);
         var isTitleString = typeof title === 'string';
         var isMessageString = typeof message === 'string'
         if (isTitleString && isMessageString) {
@@ -328,7 +328,7 @@
 
     Messager.all = all;
     Messager.DEFAULTS = DEFAULTS;
-    Messager.NOTIFICAION_DEFAULTS = NOTIFICAION_DEFAULTS;
+    Messager.NOTIFICATION_DEFAULTS = NOTIFICATION_DEFAULTS;
 
     $.each({
         primary  : 0,
