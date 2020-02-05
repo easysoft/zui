@@ -20,7 +20,7 @@
                 width: $th.outerWidth()
             }, $th.data()));
             if ($th.attr('colspan') && $th.attr('colspan') !== '1') {
-                throw new Erorr('Table th element with colspan attribute is not support.');
+                throw new Error('Table th element with colspan attribute is not support.');
             }
         });
         var data = [];
@@ -285,7 +285,6 @@
         that.setDataSource(options.dataSource);
 
         if (options.responsive) {
-            var lastContainerWidth = $container.width();
             $container.on('resize', function() {
                 that.layout.cols = null;
                 that.render();
@@ -969,7 +968,9 @@
         }
         var dataItem = rowIndex > 0 ? that.getDataItem(rowIndex - 1) : null;
         config.data = dataItem;
-        var rowId = dataItem && (dataItem.rowId || dataItem.id);
+        if (dataItem) {
+            rowId = dataItem.rowId || dataItem.id;
+        }
         config.rowId = rowId !== undefined ? rowId : (rowIndex === 0 ? '#header' : rowIndex);
         return config;
     };
@@ -1055,16 +1056,37 @@
             }
         }
         that.renderRow(rowIndex);
-        if (rowIndex === 0 && that.layout.rowsLength < 500) {
+        if (rowIndex === 0) {
+            that.toggleAnimation(false);
             for (var i = 1; i < that.layout.rowsLength; ++i) {
                 that.checkRow(i, checked, true);
             }
+            that.toggleAnimation(true);
         }
         that.renderFixeds();
         if (!holdEvents) {
-            that.$.callComEvent(that, 'onSelectRow', [rowId || 'all', checked, selections]);
+            that.$.callComEvent(that, 'onSelectRow', [rowId, checked, selections]);
         }
         return checked;
+    };
+
+    DataGrid.prototype.toggleAnimation = function(toggle) {
+        var that = this;
+        if (toggle === undefined) {
+            toggle = that.$.hasClass('no-animation');
+        }
+        if (that.toggleAnimationTimer) {
+            clearTimeout(that.toggleAnimationTimer);
+            that.toggleAnimationTimer = null;
+        }
+        if (!toggle) {
+            that.$.addClass('no-animation');
+        } else {
+            that.toggleAnimationTimer = setTimeout(function() {
+                that.toggleAnimationTimer = null;
+                that.$.removeClass('no-animation');
+            }, 500);
+        }
     };
 
     DataGrid.prototype.getCheckItems = function() {
