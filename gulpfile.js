@@ -65,7 +65,7 @@ try {
 
 // try load specific config from file by process argument
 const configFileArg = process.argv[4];
-if (configFileArg.startsWith('--config=')) {
+if (configFileArg && configFileArg.startsWith('--config=')) {
     let configFile = configFileArg.substring('--config='.length);
     if (configFile) {
         try {
