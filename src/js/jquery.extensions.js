@@ -29,7 +29,7 @@
     var lastUuidAmend = 0;
     $.zui({
         uuid: function(asNumber) {
-            var uuidNumber = (new Date()).getTime() * 1000 + (lastUuidAmend++) % 1000;
+            var uuidNumber = (Date.now() - 1580890015292) * 100000000 + Math.floor(Math.random() * 100000) * 1000 + (lastUuidAmend++) % 1000;
             return asNumber ? uuidNumber : uuidNumber.toString(36);
         },
 
