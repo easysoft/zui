@@ -307,6 +307,31 @@
   }
 }
 
-.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) .datagrid-cell-cell {
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) {
+  .datagrid-cell-cell {
     background-color: @table-bg-accent;
+  }
+  &.active {
+    .datagrid-cell {
+      background-color: @color-yellow-pale;
+
+      &.datagrid-cell-index {
+        background-color: darken(@color-yellow-pale, 5%);
+      }
+    }
+  }
+
+  .datagrid-cell-cell.hover {
+    background-color: @color-pale;
+  }
+  .datagrid-cell-head.hover,
+  .datagrid-cell-index.hover {
+    background-color: @color-gray-light;
+  }
+
+  &.active {
+    .datagrid-cell.hover {
+      background-color: darken(@color-pale, 5%);
+    }
+  }
 }
