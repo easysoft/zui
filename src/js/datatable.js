@@ -470,6 +470,25 @@
         that.callEvent('render');
     };
 
+    DataTable.prototype.toggleAnimation = function(toggle) {
+        var that = this;
+        if (toggle === undefined) {
+            toggle = that.$.hasClass('no-animation');
+        }
+        if (that.toggleAnimationTimer) {
+            clearTimeout(that.toggleAnimationTimer);
+            that.toggleAnimationTimer = null;
+        }
+        if (!toggle) {
+            that.$.addClass('no-animation');
+        } else {
+            that.toggleAnimationTimer = setTimeout(function() {
+                that.toggleAnimationTimer = null;
+                that.$.removeClass('no-animation');
+            }, 500);
+        }
+    };
+
     // Bind global events
     DataTable.prototype.bindEvents = function() {
         var that = this,
@@ -672,14 +691,20 @@
             }
 
             this.$datatable.off(checkEventPrefix).on('click.zui.datatable.check', '.check-all', function() {
+                that.toggleAnimation(false);
                 $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
+                that.toggleAnimation(true);
             }).on(checkEventPrefix + '.none', '.check-none', function() {
+                that.toggleAnimation(false);
                 $rows.toggleClass(checkedClass, false);
                 syncChecks();
+                that.toggleAnimation(true);
             }).on(checkEventPrefix + '.inverse', '.check-inverse', function() {
+                that.toggleAnimation(false);
                 $rows.toggleClass(checkedClass);
                 syncChecks();
+                that.toggleAnimation(true);
             });
 
             if(options.storage) {
