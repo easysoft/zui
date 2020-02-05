@@ -24,7 +24,7 @@
  * 7. 'highlight_selected' option
  * 8. 'no_wrap' option
  * 9. 'sort_field' option
- * 10.'sort_value_spliter' option
+ * 10.'sort_value_splitter' option
  * ======================================================================== */
 
 
@@ -224,7 +224,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             _this.compact_search = _options.compact_search || false;
             _this.inherit_select_classes = _options.inherit_select_classes || false;
             _this.display_selected_options = _options.display_selected_options != null ? _options.display_selected_options : true;
-            _this.sort_value_spliter = _options.sort_value_spliter || ',';
+            _this.sort_value_splitter = _options.sort_value_spliter || _options.sort_value_splitter || ',';
             _this.sort_field = _options.sort_field;
             var max_drop_width = _options.max_drop_width;
             if (typeof max_drop_width === 'string' && max_drop_width.indexOf('px') === (max_drop_width.length - 2)) {
@@ -302,7 +302,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 if(this.sort_field && this.is_multiple) {
                     $selectField = $(this.sort_field);
                     var sortFieldValue = $selectField.val();
-                    sortValues = (typeof sortFieldValue === 'string' && sortFieldValue.length) ? sortFieldValue.split(this.sort_value_spliter) : [];
+                    sortValues = (typeof sortFieldValue === 'string' && sortFieldValue.length) ? sortFieldValue.split(this.sort_value_splitter) : [];
                     if(sortValues.length) {
                         var sortValuesMap = {};
                         for(_i = 0; _i < sortValues.length; ++_i) {
@@ -328,7 +328,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     }
                 }
                 if($selectField && $selectField.length) {
-                    $selectField.val(sortValues.join(this.sort_value_spliter));
+                    $selectField.val(sortValues.join(this.sort_value_splitter));
                 }
             }
             return content;
@@ -1280,7 +1280,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                         sortedValues.push(optionData.value);
                     }
                 });
-                $sortField.val(sortedValues.join(that.sort_value_spliter)).trigger('change');
+                $sortField.val(sortedValues.join(that.sort_value_splitter)).trigger('change');
             }
         };
 
