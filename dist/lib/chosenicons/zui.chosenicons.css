@@ -1,8 +1,8 @@
 /*!
- * ZUI: 图标选择器 - v1.9.1 - 2019-06-03
+ * ZUI: 图标选择器 - v1.9.1 - 2020-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 .chosen-container.chosen-icons .chosen-results {
@@ -18,7 +18,7 @@
   border-radius: 0;
   }
 .chosen-container.chosen-icons .chosen-results li.group-option {
-  display: inline-block;
+  display: inline-block !important;
   width: 30px;
   padding: 8px;
   font-size: 14px;

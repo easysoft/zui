@@ -1,15 +1,15 @@
 /*!
- * ZUI: 标签页管理器 - v1.9.1 - 2019-06-03
+ * ZUI: 标签页管理器 - v1.9.1 - 2020-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
  * ZUI: tabs.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2017-2018 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2017-2019 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -113,8 +113,14 @@
         that.$ = $(element);
 
         options = that.options = $.extend({}, DEFAULTS, this.$.data(), options);
-        var lang   = options.lang || 'zh_cn';
-        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG[lang.lang || $.zui.clientLang()], lang)) : LANG[lang];
+        var defaultLang = $.zui.clientLang();
+        var lang   = options.lang;
+        if ($.isPlainObject(lang)) {
+            that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, defaultLang, LANG) : $.extend(true, {}, LANG[lang.lang || defaultLang], lang);
+        } else {
+            lang = lang || defaultLang;
+            that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, LANG) : (LANG[lang] || LANG.en);
+        }
 
         // Initialize here
         var $navbar = that.$.find('.tabs-navbar');
@@ -485,4 +491,3 @@
     Tabs.NAME = NAME;
     $.fn.tabs.Constructor = Tabs;
 }(jQuery));
-

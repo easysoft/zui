@@ -1,8 +1,8 @@
 /*!
- * ZUI: 文件上传 - v1.9.1 - 2019-06-03
+ * ZUI: 文件上传 - v1.9.1 - 2020-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /**
@@ -151,8 +151,14 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
         options = that.getOptions(options);
 
         // Init lang
-        var lang = $.isPlainObject(options.lang) ? ($.extend(true, {}, Uploader.LANG[lang.lang || $.zui.clientLang()], options.lang)) : Uploader.LANG[options.lang];
-        that.lang = lang;
+        var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
+        var lang        = options.lang;
+        if ($.isPlainObject(lang)) {
+            lang = that.lang = $.extend(true, {}, $.zui.getLangData ? $.zui.getLangData(NAME, defaultLang, Uploader.LANG) : Uploader.LANG[defaultLang], lang);
+        } else {
+            lang = lang || defaultLang;
+            lang = that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, Uploader.LANG) : (Uploader.LANG[lang] || Uploader.LANG.en);
+        }
 
         // Init file list element
         var $this = that.$;
@@ -247,9 +253,15 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
             $this.addClass('file-dragable');
         });
         $dropElement.on('dragleave.' + NAME + ' drop.' + NAME, function(e) {
-            $this.removeClass('file-drag-enter');
+            $this.removeClass('file-drag-enter').removeClass('file-dragable');
+            e.preventDefault();
+            e.stopPropagation();
         }).on('dragover.' + NAME + ' dragenter.' + NAME, function(e) {
             $this.addClass('file-drag-enter');
+        }).on('dragdrop.' + NAME + ' dragenter.' + NAME, function(e) {
+            $this.removeClass('file-drag-enter').removeClass('file-dragable');
+            e.preventDefault();
+            e.stopPropagation();
         });
 
         $list.on('click.' + NAME, '.btn-delete-file', function() {
@@ -936,4 +948,3 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
         $('[data-ride="uploader"]').uploader();
     });
 }(jQuery, window, plupload, moxie, undefined));
-

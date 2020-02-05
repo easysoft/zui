@@ -1,8 +1,8 @@
 /*!
- * ZUI: Standard edition - v1.9.1 - 2019-06-03
+ * ZUI: Standard edition - v1.9.1 - 2020-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -1694,6 +1694,10 @@ cite {
   overflow: hidden;
   white-space: nowrap;
   }
+.text-wrap {
+  overflow: visible;
+  white-space: normal;
+  }
 .text-ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2280,7 +2284,7 @@ fieldset[disabled] .btn-link:focus {
   }
 .btn-lg {
   padding: 10px 16px;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.25;
   border-radius: 4px;
   }
@@ -2419,7 +2423,7 @@ input[type="button"].btn-block {
   }
 .btn-group-lg > .btn {
   padding: 10px 16px;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.25;
   border-radius: 4px;
   }
@@ -4194,7 +4198,6 @@ input[type="number"]::-webkit-inner-spin-button {
   font-size: 13px;
   line-height: 1.53846154;
   color: #222;
-  vertical-align: middle;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -4313,15 +4316,15 @@ textarea.input-sm {
   height: auto;
   }
 .input-lg {
-  height: 43px;
+  height: 42px;
   padding: 10px 16px;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.25;
   border-radius: 6px;
   }
 select.input-lg {
-  height: 43px;
-  line-height: 43px;
+  height: 42px;
+  line-height: 42px;
   }
 textarea.input-lg {
   height: auto;
@@ -4444,7 +4447,7 @@ textarea.input-lg {
   top: 0;
   right: -10px;
   display: inline-block;
-  font-size: 17px;
+  font-size: 16px;
   color: #ea644a;
   content: '*';
   }
@@ -5718,6 +5721,9 @@ input:placeholder-shown + .search-icon + .search-clear-btn {
 .input-group-addon:last-child {
   border-left: 0;
   }
+.input-group-addon + .input-group-addon {
+  border-left: 1px solid #ccc;
+  }
 .input-group-btn {
   position: relative;
   font-size: 0;
@@ -5747,17 +5753,17 @@ input:placeholder-shown + .search-icon + .search-clear-btn {
 .input-group-lg > .form-control,
 .input-group-lg > .input-group-addon,
 .input-group-lg > .input-group-btn > .btn {
-  height: 43px;
+  height: 42px;
   padding: 10px 16px;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.25;
   border-radius: 6px;
   }
 select.input-group-lg > .form-control,
 select.input-group-lg > .input-group-addon,
 select.input-group-lg > .input-group-btn > .btn {
-  height: 43px;
-  line-height: 43px;
+  height: 42px;
+  line-height: 42px;
   }
 textarea.input-group-lg > .form-control,
 textarea.input-group-lg > .input-group-addon,
@@ -5791,7 +5797,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 .input-group-addon.input-lg {
   padding: 10px 16px;
-  font-size: 17px;
+  font-size: 16px;
   border-radius: 6px;
   }
 .code,
@@ -5990,7 +5996,7 @@ pre code {
 .pager-lg > li > a,
 .pager-lg > li > span {
   padding: 10px 16px;
-  font-size: 17px;
+  font-size: 16px;
   }
 .pager-lg > li:first-child > a,
 .pager-lg > li:first-child > span {
@@ -6476,7 +6482,7 @@ pre code {
   float: left;
   height: 40px;
   padding: 10px 15px;
-  font-size: 17px;
+  font-size: 16px;
   line-height: 20px;
   }
 .navbar-brand:hover,
@@ -6922,10 +6928,8 @@ tbody.collapse.in {
 .modal > .loader {
   display: none;
   }
-.modal.modal-loading .modal-dialog {
-  opacity: 0;
-  }
-.modal.modal-loading .loader {
+.modal.modal-loading .loader,
+.modal.modal-updating .loader {
   position: absolute;
   top: 35%;
   left: 50%;
@@ -6935,6 +6939,19 @@ tbody.collapse.in {
   font-size: 56px;
   color: #fff;
   text-align: center;
+  }
+.modal.modal-loading .modal-dialog {
+  opacity: 0;
+  }
+.modal.modal-updating .modal-dialog {
+  opacity: 1;
+  }
+.modal.modal-updating .modal-body {
+  opacity: 0;
+  }
+.modal.modal-updating .loader {
+  z-index: 1;
+  color: #eee;
   }
 .modal-open .modal {
   overflow-x: hidden;
@@ -7619,6 +7636,7 @@ tbody.collapse.in {
 .dropdown-hover:hover > .dropdown-menu,
 .open > .dropdown-menu {
   display: block;
+  opacity: 1;
   }
 .dropdown-hover:hover > a,
 .open > a {
@@ -8047,14 +8065,28 @@ tbody.collapse.in {
           transition-property: opacity, transform!important;
           transition-property: opacity, transform, -webkit-transform, -o-transform!important;
   }
+.messager-icon {
+  display: table-cell;
+  padding: 10px 0 10px 15px;
+  line-height: 20px;
+  text-align: center;
+  vertical-align: top;
+  }
 .messager-content {
   display: table-cell;
   padding: 10px 15px;
   vertical-align: top;
   }
-.messager-content > [class^='icon-'] {
-  display: inline-block;
-  margin-right: 8px;
+.messager-content a {
+  font-weight: bold;
+  color: inherit;
+  }
+.messager-title {
+  font-size: 16px;
+  font-weight: bold;
+  }
+.messager-title + .messager-text {
+  margin-top: 10px;
   }
 .messager-actions {
   display: table-cell;
@@ -8129,6 +8161,21 @@ tbody.collapse.in {
 .messagers-holder.bottom .messager,
 .messagers-holder.center .messager {
   margin: 10px auto;
+  }
+.messager-notification {
+  min-width: 250px;
+  max-width: 400px;
+  border-radius: 4px;
+  }
+.messager-notification .messager-icon {
+  width: 42px;
+  vertical-align: middle;
+  }
+.messager-notification .messager-content {
+  vertical-align: middle;
+  }
+.messager-text > p:last-child {
+  margin: 0;
   }
 .messager-primary {
   background-color: #3280fc;

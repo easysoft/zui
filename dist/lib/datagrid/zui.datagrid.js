@@ -1,8 +1,8 @@
 /*!
- * ZUI: 数据表格② - v1.9.1 - 2019-06-03
+ * ZUI: 数据表格② - v1.9.1 - 2020-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /*!
@@ -381,8 +381,14 @@
         that.id        = 'zui-datagrid-' + that.uuid;
         options        = $.extend({}, DataGrid.DEFAULTS, that.$.data(), options);
 
-        var lang   = options.lang || 'zh_cn';
-        that.lang  = $.isPlainObject(lang) ? ($.extend(true, {}, LANG[lang.lang || $.zui.clientLang()], lang)) : LANG[lang];
+        var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
+        var lang        = options.lang;
+        if ($.isPlainObject(lang)) {
+            that.lang = $.extend(true, {}, $.zui.getLangData ? $.zui.getLangData(NAME, defaultLang, LANG) : LANG[defaultLang], lang);
+        } else {
+            lang = lang || defaultLang;
+            that.lang = $.zui.getLangData ? $.zui.getLangData(NAME, lang, LANG) : (LANG[lang] || LANG[defaultLang]);
+        }
 
         options.valueOperator    = $.extend({}, DEFAULT_VALUE_OPERATOR, options.valueOperator);
         options.rowDefaultHeight = options.rowDefaultHeight || 30;
@@ -643,6 +649,10 @@
     };
 
     DataGrid.prototype.goToPage = function(page) {
+        return this.goToPage(page);
+    };
+
+    DataGrid.prototype.gotoPage = function(page) {
         return this.setPager(page).render();
     };
 
@@ -1836,4 +1846,3 @@
         $('[data-ride="datagrid"]').datagrid();
     });
 }(jQuery, undefined));
-

@@ -1,8 +1,8 @@
 /*!
- * ZUI: Chart.js - v1.9.1 - 2019-06-03
+ * ZUI: Chart.js - v1.9.1 - 2020-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -2753,10 +2753,8 @@
             var middleAngle = (segment.endAngle + segment.startAngle) / 2;
             var placement = options.scaleLabelPlacement;
             if(placement !== 'inside' && placement !== 'outside') {
-                if((this.chart.width - this.chart.height) > 50) {
-                    if(segment.circumference < (Math.PI / 18)) {
-                        placement = 'outside';
-                    }
+                if((this.chart.width - this.chart.height) > 50 && segment.circumference < (Math.PI / 18)) {
+                    placement = 'outside';
                 }
             }
 
@@ -2908,7 +2906,6 @@
 }).call(this, jQuery);
 
 /// ----- ZUI change end -----
-
 
 /* ========================================================================
  * Chart.js: Chart.Bar.js [Version: 1.0.2]

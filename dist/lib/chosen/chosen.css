@@ -7,7 +7,7 @@
 */
 .chosen-container {
   position: relative;
-  display: inline-block;
+  display: block;
   font-size: 13px;
   vertical-align: middle;
   zoom: 1;
@@ -15,8 +15,6 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-
-  *display: inline;
   }
 .chosen-container .chosen-drop {
   position: absolute;
@@ -112,14 +110,15 @@
   }
 .chosen-container-single .chosen-single abbr {
   position: absolute;
-  top: 6px;
+  top: 5px;
   right: 24px;
   display: block;
   width: 20px;
   height: 20px;
-  font-size: 19.5px;
+  font-family: sans-serif;
+  font-size: 18px;
   font-weight: bold;
-  line-height: 14px;
+  line-height: 18px;
   color: #000;
   text-align: center;
   text-shadow: 0 1px 0 #fff;
@@ -127,6 +126,7 @@
   opacity: .2;
   }
 .chosen-container-single .chosen-single abbr:before {
+  display: block;
   content: '×';
   }
 .chosen-container-single .chosen-single abbr:hover,
@@ -474,4 +474,11 @@
 .chosen-compact.chosen-with-search.chosen-with-drop .chosen-single > .chosen-search {
   display: block;
   opacity: 1;
+  }
+select.chosen[multiple] {
+  height: 32px;
+  overflow: hidden;
+  }
+select.chosen[multiple] option {
+  visibility: hidden;
   }

@@ -24,7 +24,7 @@
  * 7. 'highlight_selected' option
  * 8. 'no_wrap' option
  * 9. 'sort_field' option
- * 10.'sort_value_spliter' option
+ * 10.'sort_value_splitter' option
  * ======================================================================== */
 
 
@@ -66,9 +66,6 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         },
         en: {
             no_results_text: 'No results match'
-        },
-        de: {
-            no_results_text: 'Nicht gefunden'
         }
     };
 
@@ -180,17 +177,17 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
     AbstractChosen = (function() {
         function AbstractChosen(form_field, options) {
             this.form_field = form_field;
-            this.options = $.extend(DEFAULTS, options != null ? options : {});
+            this.options = $.extend({}, DEFAULTS, options != null ? options : {});
             if(!AbstractChosen.browser_is_supported()) {
                 return;
             }
 
-            var lang = this.options.lang;
-            var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'zh_cn';
+            var lang = this.options.lang || $.zui.clientLang ? $.zui.clientLang() : 'en';
+            var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
             if ($.isPlainObject(lang)) {
-                this.lang = $.extend(lang, LANGUAGES.en, LANGUAGES[defaultLang]);
+                this.lang = $.zui.getLangData ? $.zui.getLangData('chosen', defaultLang, LANGUAGES) : $.extend(lang, LANGUAGES.en, LANGUAGES[defaultLang]);
             } else {
-                this.lang = LANGUAGES[lang || defaultLang] || LANGUAGES.en;
+                this.lang = $.zui.getLangData ? $.zui.getLangData('chosen', lang, LANGUAGES) : (LANGUAGES[lang || defaultLang] || LANGUAGES.en);
             }
             this.is_multiple = this.form_field.multiple;
             this.set_default_text();
@@ -222,17 +219,19 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             _this.single_backstroke_delete = _options.single_backstroke_delete != null ? _options.single_backstroke_delete : true;
             _this.max_selected_options = _options.max_selected_options || Infinity;
             _this.drop_direction = _options.drop_direction || 'auto';
+            _this.drop_item_height = _options.drop_item_height !== undefined ? _options.drop_item_height : 25;
             _this.middle_highlight = _options.middle_highlight;
             _this.compact_search = _options.compact_search || false;
             _this.inherit_select_classes = _options.inherit_select_classes || false;
             _this.display_selected_options = _options.display_selected_options != null ? _options.display_selected_options : true;
-            _this.sort_value_spliter = _options.sort_value_spliter || ',';
+            _this.sort_value_splitter = _options.sort_value_spliter || _options.sort_value_splitter || ',';
             _this.sort_field = _options.sort_field;
             var max_drop_width = _options.max_drop_width;
             if (typeof max_drop_width === 'string' && max_drop_width.indexOf('px') === (max_drop_width.length - 2)) {
                 max_drop_width = parseInt(max_drop_width.substring(0, max_drop_width.length - 2));
             }
             _this.max_drop_width = max_drop_width;
+
             return _this.display_disabled_options = _options.display_disabled_options != null ? _options.display_disabled_options : true;
         };
 
@@ -302,7 +301,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 var sortValues;
                 if(this.sort_field && this.is_multiple) {
                     $selectField = $(this.sort_field);
-                    sortValues = $selectField.val().split(this.sort_value_spliter);
+                    var sortFieldValue = $selectField.val();
+                    sortValues = (typeof sortFieldValue === 'string' && sortFieldValue.length) ? sortFieldValue.split(this.sort_value_splitter) : [];
                     if(sortValues.length) {
                         var sortValuesMap = {};
                         for(_i = 0; _i < sortValues.length; ++_i) {
@@ -328,7 +328,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     }
                 }
                 if($selectField && $selectField.length) {
-                    $selectField.val(sortValues.join(this.sort_value_spliter));
+                    $selectField.val(sortValues.join(this.sort_value_splitter));
                 }
             }
             return content;
@@ -655,13 +655,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 return this;
             }
             return this.each(function(input_field) {
-                var $this, chosen;
-                $this = $(this);
-                chosen = $this.data('chosen');
+                var $this = $(this);
+                var chosen = $this.data('chosen');
                 if(options === 'destroy' && chosen) {
                     chosen.destroy();
                 } else if(!chosen) {
-                    $this.data('chosen', new Chosen(this, options));
+                    $this.data('chosen', new Chosen(this, $.extend({}, $this.data(), options)));
                 }
             });
         }
@@ -954,8 +953,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
         };
 
         Chosen.prototype.result_do_highlight = function(el, canMiddleHighlight) {
-            var high_bottom, high_top, maxHeight, visible_bottom, visible_top, resultHeight, scrollTop = -1;
             if(el.length) {
+                var high_bottom, high_top, maxHeight, visible_bottom, visible_top, resultHeight, scrollTop = -1;
                 this.result_clear_highlight();
                 this.result_highlight = el;
 
@@ -1001,6 +1000,10 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             that.search_field.focus();
             that.search_field.val(that.search_field.val());
 
+            that.container.addClass("chosen-with-drop");
+
+            that.winnow_results(1);
+
             var dropDirection = that.drop_direction;
             if ($.isFunction(dropDirection)) {
                 dropDirection = dropDirection.call(this);
@@ -1008,8 +1011,12 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(dropDirection === 'auto') {
                 if (!that.drop_directionFixed) {
                     var $drop = that.container.find('.chosen-drop');
+                    var dropHeight = $drop.outerHeight();
+                    if (that.drop_item_height && dropHeight < that.drop_item_height * 3) {
+                        dropHeight = dropHeight + $drop.find('.chosen-results>.active-result').length * that.drop_item_height;
+                    }
                     var offset = that.container.offset();
-                    if(offset.top + $drop.outerHeight() + 30 > $(window).height() + $(window).scrollTop()) {
+                    if(offset.top + dropHeight + 30 > $(window).height() + $(window).scrollTop()) {
                         dropDirection = 'up';
                     }
                     that.drop_directionFixed = dropDirection;
@@ -1017,9 +1024,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                     dropDirection = that.drop_directionFixed;
                 }
             }
-            that.container.toggleClass('chosen-up', dropDirection === 'up').addClass("chosen-with-drop");
-
-            that.winnow_results(1);
+            that.container.toggleClass('chosen-up', dropDirection === 'up');
 
             that.autoResizeDrop();
 
@@ -1047,6 +1052,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 that.fixDropWidthTimer = setTimeout(function() {
                     that.fixDropWidthTimer = null;
                     $drop.addClass('in');
+                    that.winnow_results_set_highlight(1);
                 }, 50);
             }
         };
@@ -1274,7 +1280,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                         sortedValues.push(optionData.value);
                     }
                 });
-                $sortField.val(sortedValues.join(that.sort_value_spliter)).trigger('change');
+                $sortField.val(sortedValues.join(that.sort_value_splitter)).trigger('change');
             }
         };
 

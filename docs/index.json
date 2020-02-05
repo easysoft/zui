@@ -2289,16 +2289,6 @@
             }
           ],
           "filter": "shujubiaoge sjbg database scroll list"
-        },
-        {
-          "id": "flowchart",
-          "icon": "icon-usecase",
-          "desc": "实现流程图、关系图等自定义图表",
-          "name": "关系图",
-          "beta": true,
-          "topics": [
-          ],
-          "filter": "guanxitu gxt liuchengtu lct"
         }
       ],
       "filter": "shitu st"

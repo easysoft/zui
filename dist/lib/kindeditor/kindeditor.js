@@ -692,6 +692,9 @@
     }
 
     function _formatUrl(url, mode, host, pathname) {
+        if (url[0] === '#') {
+            return url;
+        }
         mode = _undef(mode, '').toLowerCase();
         if(url.substr(0, 5) != 'data:') {
             url = url.replace(/([^:])\/\//g, '$1/');
@@ -6574,6 +6577,18 @@ KindEditor.lang({
     }
 }, 'zh_CN');
 
+if (window.$ && $.zui && $.zui.getLangData) {
+    var langData = $.zui.getLangData('kindeditor');
+    if (langData) {
+        $.each(langData, function(langName) {
+            var data = langData[langName];
+            if (langName === 'zh_cn') langName = 'zh_CN';
+            else if (langName === 'zh_tw') langName = 'zh_TW';
+            KindEditor.lang(data, langName);
+        });
+    }
+}
+
 /*******************************************************************************
  * KindEditor - WYSIWYG HTML Editor for Internet
  * Copyright (C) 2006-2011 kindsoft.net
@@ -10049,24 +10064,25 @@ KindEditor.plugin('zui', function(K) {
 KindEditor.EditorClass.prototype.setPlaceholder = function(placeholder, asHtml) {
     var self = this;
     var options = self.options;
-    var edit = self.edit;
-    var $doc = $(edit.doc);
-    var $placeholder = $doc.find('.kindeditor-ph');
+    var $editDiv = $(self.edit.div[0]);
+    var $placeholder = $editDiv.find('.kindeditor-ph');
     if (!$placeholder.length) {
+        $editDiv.css('position', 'relative');
         $placeholder = $('<div class="kindeditor-ph" style="width:100%; color:#888; padding: 8px; background:none; position:absolute;z-index:10;top:0;border:0;overflow:auto;resize:none; pointer-events:none; white-space: pre-wrap; font-size: 13px"></div>');
         if (options.placeholderStyle) {
             $placeholder.css(options.placeholderStyle);
         }
-        $doc.find('body').after($placeholder);
+        $editDiv.append($placeholder);
     }
     if (self.plugin.hasContent()) {
         $placeholder.hide();
     }
     $placeholder[asHtml ? 'html' : 'text'](placeholder);
+    self.$placeholder = $placeholder;
 };
 
 KindEditor.EditorClass.prototype.getPlaceholder = function(asHtml) {
-    return $(this.edit.doc).find('.kindeditor-ph')[asHtml ? 'html' : 'text']();
+    return self.$placeholder && self.$placeholder[asHtml ? 'html' : 'text']();
 };
 
 KindEditor.plugin('placeholder', function(K) {
@@ -10078,12 +10094,12 @@ KindEditor.plugin('placeholder', function(K) {
 
     self.afterBlur(function() {
         if (!self.plugin.hasContent()) {
-            $(self.edit.doc).find('.kindeditor-ph').show();
+            self.$placeholder && self.$placeholder.show();
         }
     });
 
     self.afterFocus(function() {
-        $(self.edit.doc).find('.kindeditor-ph').hide();
+        self.$placeholder && self.$placeholder.hide();
     });
 
     self.afterCreate(function() {
@@ -10095,6 +10111,7 @@ KindEditor.plugin('placeholder', function(K) {
         }
     });
 });
+
 /* ========================================================================
  * ZUI: Kindeditor plugin - paste-image
  * http://zui.sexy
@@ -10119,12 +10136,12 @@ KindEditor.plugin('pasteimage', function(K) {
         },
         en: {
             notSupportMsg: 'Image is not allowed to paste in your browser!',
-            placeholder: 'Paste images here.',
+            placeholder: 'You can paste images in the editor.',
             failMsg: 'Pasting image failed. Try again later.',
             uploadingHint: 'Uploading...',
         }
     };
-    var lang = $.extend({}, allLangs[($.clientLang || $.zui.clientLang)()]);
+
     self.afterCreate(function() {
         var edit    = self.edit;
         var doc     = edit.doc;
@@ -10136,9 +10153,9 @@ KindEditor.plugin('pasteimage', function(K) {
         if (typeof options === 'string') {
             options = {postUrl: options};
         }
-        $.extend({
-            placeholder: placeholder
-        }, options);
+        var langName = $.clientLang ? $.clientLang() : ($.zui && $.zui.clientLang) ? $.zui.clientLang() : 'en';
+        var lang = $.extend({}, ($.zui && $.zui.getLangData) ? $.zui.getLangData('kindeditor.advanceTable', langName, allLangs) : $.extend({}, allLangs.en, self.lang('table.'), allLangs[langName]), options.lang);
+
         if(!K.WEBKIT && !K.GECKO)
         {
             $(doc.body).on('keyup.ke' + uuid, function(ev)
@@ -10168,8 +10185,11 @@ KindEditor.plugin('pasteimage', function(K) {
                 options.beforePaste();
             }
             var imageLoadingEle = '<div class="image-loading-ele small" style="padding: 5px; background: #FFF3E0; width: 300px; border-radius: 2px; border: 1px solid #FF9800; color: #ff5d5d; margin: 10px 0;"><i class="icon icon-spin icon-spinner-indicator muted"></i> ' + lang.uploadingHint + '</div>';
-            edit.cmd.inserthtml(imageLoadingEle);
             self.readonly(true);
+            if ($.fn.enableForm) {
+                $(self.edit.div[0]).closest('form').enableForm(false);
+            }
+            self.cmd.inserthtml(imageLoadingEle);
         };
 
         var pasteEnd = function(error) {
@@ -10190,8 +10210,14 @@ KindEditor.plugin('pasteimage', function(K) {
             if (options.afterPaste) {
                 options.afterPaste();
             }
-            $(doc.body).find('.image-loading-ele').remove();
+
+            // Use self.undo to remove .image-loading-ele now
+            // $(doc.body).find('.image-loading-ele').remove();
+
             self.readonly(false);
+            if ($.fn.enableForm) {
+                $(self.edit.div[0]).closest('form').enableForm(true);
+            }
         };
 
         var pasteUrl = options.postUrl;
@@ -10228,10 +10254,13 @@ KindEditor.plugin('pasteimage', function(K) {
                     var html = '<img src="' + result + '" alt="" />';
                     $.post(pasteUrl, {editor: html}, function(data)
                     {
+                        self.undo();
+                        self._redoStack.pop();
                         if (data) {
-                            edit.cmd.inserthtml(data);
+                            var $img = $(data);
+                            edit.cmd.insertimage($img.attr('src'), $img.attr('title'), $img.attr('width'), $img.attr('height'));
                         } else {
-                            edit.cmd.inserthtml(html);
+                            edit.cmd.insertimage(result);
                         }
                         pasteEnd();
                     }).error(function()
@@ -10248,6 +10277,8 @@ KindEditor.plugin('pasteimage', function(K) {
                         pasteBegin();
                         $.post(pasteUrl, {editor: html}, function(data) {
                             if(data.indexOf('<img') === 0) data = '<p>' + data + '</p>';
+                            self.undo();
+                            self._redoStack.pop();
                             edit.html(data);
                             pasteEnd();
                         }).error(function()
@@ -10264,6 +10295,7 @@ KindEditor.plugin('pasteimage', function(K) {
         });
     });
 });
+
 /*  cellPos jQuery plugin
     ---------------------
     Get visual position of cell in HTML table (or its block like thead).
@@ -10353,7 +10385,6 @@ KindEditor.plugin('table', function (K) {
             forecolor: '文字颜色',
             backcolor: '背景颜色',
             invalidBoderWidth: '边框大小必须为数字。'
-
         },
         zh_tw: {
             name: '表格',
@@ -10401,7 +10432,8 @@ KindEditor.plugin('table', function (K) {
         }
     };
     var $elements = [];
-    var lang = $.extend({}, self.lang('table.'), allLangs[($.clientLang || $.zui.clientLang)()]);
+    var langName = $.clientLang ? $.clientLang() : ($.zui && $.zui.clientLang) ? $.zui.clientLang() : 'en';
+    var lang = ($.zui && $.zui.getLangData) ? $.zui.getLangData('kindeditor.advanceTable', langName, allLangs) : $.extend({}, allLangs.en, self.lang('table.'), allLangs[langName]);
     var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
 
     self.tableIdIndex = 0;

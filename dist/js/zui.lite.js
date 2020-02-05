@@ -1,8 +1,8 @@
 /*!
- * ZUI: Lite edition - v1.9.1 - 2019-06-03
+ * ZUI: Lite edition - v1.9.1 - 2020-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -54,19 +54,6 @@
             return 1;
         },
 
-        clientLang: function() {
-            var lang;
-            var config = window.config;
-            if(typeof(config) != 'undefined' && config.clientLang) {
-                lang = config.clientLang;
-            }
-            if(!lang) {
-                var hl = $('html').attr('lang');
-                lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || 'zh_cn');
-            }
-            return lang.replace('-', '_').toLowerCase();
-        },
-
         strCode: function(str) {
             var code = 0;
             if(str && str.length) {
@@ -83,7 +70,150 @@
             }
             if(mouseButton === undefined || mouseButton === null) mouseButton = -1;
             return mouseButton;
-        }
+        },
+
+        /**
+         * default language name
+         * @type {string}
+         */
+        defaultLang: 'en',
+
+        /**
+         * Get client language name
+         * @return {string}
+         */
+        clientLang: function() {
+            var lang;
+            var config = window.config;
+            if(typeof(config) != 'undefined' && config.clientLang) {
+                lang = config.clientLang;
+            }
+            if(!lang) {
+                var hl = $('html').attr('lang');
+                lang = hl ? hl : (navigator.userLanguage || navigator.userLanguage || $.zui.defaultLang);
+            }
+            return lang.replace('-', '_').toLowerCase();
+        },
+
+        /**
+         * @type {object}
+         * @example
+         * {
+         *      'zui.pager': {
+         *          'zh-cn': {
+         *              prev: '上一页',
+         *          }
+         *      }
+         * }
+         */
+        langDataMap: {},
+
+        /**
+         * Add lang data for components
+         * @param {string} [langName]
+         * @param {string} [componentName]
+         * @param {object} data
+         * @example
+         * // Add lang data to specify language and specify component
+         * $.zui.addLangData('zh-cn', 'zui.pager', {
+         *      prev: '上一页',
+         *      next: '下一页',
+         * });
+         *
+         * // Add lang data to specify language and multiple components
+         * $.zui.addLangData('zh-cn', {
+         *      'zui.pager': {
+         *          prev: '上一页',
+         *          next: '下一页',
+         *      },
+         *      'chosen': {
+         *      }
+         * });
+         *
+         * // Add lang data to multiple languages and multiple components
+         * $.zui.addLangData({
+         *      'zh-cn': {
+         *          'zui.pager': {
+         *              prev: '上一页',
+         *              next: '下一页',
+         *          },
+         *          'chosen': {
+         *          }
+         *      },
+         *      'zh-tw': {
+         *          'zui.pager': {
+         *              prev: '上一页',
+         *              next: '下一页',
+         *          }
+         *      }
+         * });
+         */
+        addLangData: function(langName, componentName, data) {
+            var langData = {};
+            if (data && componentName && langName) {
+                langData[componentName] = {};
+                langData[componentName][langName] = data;
+            } else if (langName && componentName && !data) {
+                data = componentName;
+                $.each(data, function(comName) {
+                    langData[comName] = {};
+                    langData[comName][langName] = data[comName];
+                });
+            } else if (langName && !componentName && !data) {
+                $.each(data, function(theLangName) {
+                    var comsData = data[theLangName];
+                    $.each(comsData, function(comName) {
+                        if (!langData[comName]) {
+                            langData[comName] = {};
+                        }
+                        langData[comName][theLangName] = comsData[comName];
+                    });
+                });
+            }
+            $.extend(true, $.zui.langDataMap, langData);
+        },
+
+        /**
+         * Get lang data
+         * @example
+         * $.zui.getLangData('zui.pager');
+         *
+         * $.zui.getLangData('zui.pager', 'zh-cn');
+         *
+         * $.zui.getLangData('zui.pager', 'zh-cn', {
+         *      prev: '上一页',
+         *      next: '下一页',
+         * });
+         */
+        getLangData: function(componentName, langName, initialData) {
+            if (!arguments.length) {
+                return $.extend({}, $.zui.langDataMap);
+            }
+            if (arguments.length === 1) {
+                return $.extend({}, $.zui.langDataMap[componentName]);
+            }
+            if (arguments.length === 2) {
+                var comData = $.zui.langDataMap[componentName];
+                if (comData) {
+                    return langName ? comData[langName] : comData;
+                }
+                return {};
+            }
+            if (arguments.length === 3) {
+                langName = langName || $.zui.clientLang();
+                var comData = $.zui.langDataMap[componentName];
+                var langData = comData ? comData[langName] : {};
+                return $.extend(true, {}, initialData[langName] || initialData.en || initialData.zh_cn, langData);
+            }
+            return null;
+        },
+
+        lang: function() {
+            if (arguments.length && $.isPlainObject(arguments[arguments.length - 1])) {
+                return $.zui.addLangData.apply(null, arguments);
+            }
+            return $.zui.getLangData.apply(null, arguments);
+        },
     });
 
     $.fn.callEvent = function(name, event, model) {
@@ -111,7 +241,8 @@
             params = [params];
         }
         var $this = this;
-        var result = $this.triggerHandler(eventName, params);
+        var result;
+        $this.trigger(eventName, params);
 
         var eventCallback = component.options[eventName];
         if (eventCallback) {
@@ -120,7 +251,6 @@
         return result;
     };
 }(jQuery, window, undefined));
-
 
 /* ========================================================================
  * ZUI: typography.js
@@ -327,7 +457,7 @@
 /* ========================================================================
  * Bootstrap: collapse.js v3.0.0
  * http://twbs.github.com/bootstrap/javascript.html#collapse
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * Bootsrap version in the future.
  * http://zui.sexy
@@ -504,7 +634,6 @@
 
 }(window.jQuery);
 
-
 /* ========================================================================
  * ZUI: device.js
  * http://zui.sexy
@@ -568,20 +697,18 @@
     'use strict';
 
     var browseHappyTip = {
-        'zh_cn': '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
-        'zh_tw': '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="http://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
-        'en': 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="http://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
+        'zh_cn': '您的浏览器版本过低，无法体验所有功能，建议升级或者更换浏览器。 <a href="https://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'zh_tw': '您的瀏覽器版本過低，無法體驗所有功能，建議升級或者更换瀏覽器。<a href="https://browsehappy.com/" target="_blank" class="alert-link">了解更多...</a>',
+        'en': 'Your browser is too old, it has been unable to experience the colorful internet. We strongly recommend that you upgrade a better one. <a href="https://browsehappy.com/" target="_blank" class="alert-link">Learn more...</a>'
     };
 
     // The browser modal class
     var Browser = function () {
-        var ie = this.isIE() || this.isIE10() || false;
-        if (ie) {
-            for (var i = 10; i > 5; i--) {
-                if (this.isIE(i)) {
-                    ie = i;
-                    break;
-                }
+        var ie = false;
+        for (var i = 11; i > 5; i--) {
+            if (this.isIE(i)) {
+                ie = i;
+                break;
             }
         }
 
@@ -603,24 +730,33 @@
                 .toggleClass('gt-ie-8 gte-ie-9', ie >= 9)
                 .toggleClass('lte-ie-8 lt-ie-9', ie < 9)
                 .toggleClass('gt-ie-9 gte-ie-10', ie >= 10)
-                .toggleClass('lte-ie-9 lt-ie-10', ie < 10);
+                .toggleClass('lte-ie-9 lt-ie-10', ie < 10)
+                .toggleClass('gt-ie-10 gte-ie-11', ie >= 11)
+                .toggleClass('lte-ie-10 lt-ie-11', ie < 11);
         }
     };
 
     // Show browse happy tip
-    Browser.prototype.tip = function (showCoontent) {
+    Browser.prototype.tip = function (showContent) {
         var $browseHappy = $('#browseHappyTip');
         if (!$browseHappy.length) {
             $browseHappy = $('<div id="browseHappyTip" class="alert alert-dismissable alert-danger-inverse alert-block" style="position: relative; z-index: 99999"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><div class="container"><div class="content text-center"></div></div></div>');
             $browseHappy.prependTo('body');
         }
-
-        $browseHappy.find('.content').html(showCoontent || this.browseHappyTip || browseHappyTip[$.zui.clientLang() || 'zh_cn']);
+        if (!showContent) {
+            showContent = $.zui.getLangData('zui.browser', $.zui.clientLang(), browseHappyTip);
+            if (typeof showContent === 'object') {
+                showContent = showContent.tip;
+            }
+        }
+        $browseHappy.find('.content').html(showContent);
     };
 
     // Detect it is IE, can given a version
     Browser.prototype.isIE = function (version) {
+        if (version === 11) return this.isIE11();
         if (version === 10) return this.isIE10();
+        if (!version && (this.isIE11() || this.isIE10())) return true;
         var b = document.createElement('b');
         b.innerHTML = '<!--[if IE ' + (version || '') + ']><i></i><![endif]-->';
         return b.getElementsByTagName('i').length === 1;
@@ -628,7 +764,13 @@
 
     // Detect ie 10 with hack
     Browser.prototype.isIE10 = function () {
-        return (/*@cc_on!@*/false);
+        return navigator.appVersion.indexOf("MSIE 10") !== -1;
+    };
+
+    // Detect ie 10 with hack
+    Browser.prototype.isIE11 = function () {
+        var userAgentStr = navigator.userAgent;
+        return userAgentStr.indexOf("Trident") !== -1 && userAgentStr.indexOf("rv:11") !== -1;
     };
 
     $.zui({
@@ -643,7 +785,6 @@
         }
     });
 }(jQuery));
-
 
 /* ========================================================================
  * ZUI: date.js
@@ -1631,6 +1772,7 @@
  *    key down
  * 4. get moveable options value from '.modal-moveable' on '.modal-dialog'
  * 5. add setMoveable method to make modal dialog moveable
+ * 6. add options.onSetScrollbar
  * ======================================================================== */
 
 + function($, undefined) {
@@ -1702,7 +1844,7 @@
 
         var bodyCss = {maxHeight: 'initial', overflow: 'visible'};
         var $body = $dialog.find('.modal-body').css(bodyCss);
-        if (options.scrollInside) {
+        if (options.scrollInside && $body.length) {
             var headerHeight = options.headerHeight;
             if (typeof headerHeight !== 'number') {
                 headerHeight = $dialog.find('.modal-header').height();
@@ -1710,11 +1852,9 @@
                 headerHeight = headerHeight($header);
             }
             bodyCss.maxHeight = winHeight - headerHeight;
-            if ($body.outerHeight() > bodyCss.maxHeight) {
-                bodyCss.overflow = 'auto';
-            }
+            bodyCss.overflow = $body[0].scrollHeight > bodyCss.maxHeight ? 'auto' : 'visible';
+            $body.css(bodyCss);
         }
-        $body.css(bodyCss);
 
         var half = Math.max(0, (winHeight - $dialog.outerHeight()) / 2);
         if (position === 'fit') {
@@ -1969,11 +2109,20 @@
 
     Modal.prototype.setScrollbar = function() {
         var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-        if(this.scrollbarWidth) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
+        if(this.scrollbarWidth) {
+            var paddingRight = bodyPad + this.scrollbarWidth;
+            this.$body.css('padding-right', paddingRight)
+            if (this.options.onSetScrollbar) {
+                this.options.onSetScrollbar(paddingRight)
+            }
+        }
     }
 
     Modal.prototype.resetScrollbar = function() {
         this.$body.css('padding-right', '')
+        if (this.options.onSetScrollbar) {
+            this.options.onSetScrollbar('')
+        }
     }
 
     Modal.prototype.measureScrollbar = function() { // thx walsh
@@ -2048,7 +2197,6 @@
 
 }(jQuery, undefined);
 
-
 /* ========================================================================
  * ZUI: modal.trigger.js [1.2.0+]
  * http://zui.sexy
@@ -2098,11 +2246,12 @@
         waittime: 0,
         loadingIcon: 'icon-spinner-indicator',
         scrollInside: false,
+        // handleLinkInIframe: false,
+        // iframeStyle: ''
         // headerHeight: 'auto',
     };
 
-    ModalTrigger.prototype.init = function(options) {
-        var that = this;
+    ModalTrigger.prototype.initOptions = function(options) {
         if(options.url) {
             if(!options.type || (options.type != STR_AJAX && options.type != 'iframe')) {
                 options.type = STR_AJAX;
@@ -2129,7 +2278,11 @@
                 }
             }
         }
+        return options;
+    };
 
+    ModalTrigger.prototype.init = function(options) {
+        var that = this;
         var $modal = $('#' + options.name);
         if($modal.length) {
             if(!that.isShown) $modal.off(ZUI_MODAL);
@@ -2160,22 +2313,27 @@
     };
 
     ModalTrigger.prototype.show = function(option) {
-        var options = $.extend({}, this.options, {
-            url: this.$trigger ? (this.$trigger.attr('href') || this.$trigger.attr('data-url') || this.$trigger.data('url')) : this.options.url
+        var that = this;
+        var options = $.extend({}, ModalTrigger.DEFAULTS, that.options, {
+            url: that.$trigger ? (that.$trigger.attr('href') || that.$trigger.attr('data-url') || that.$trigger.data('url')) : that.options.url
         }, option);
+        var isShown = that.isShown;
 
-        this.init(options);
-        var that = this,
-            $modal = this.$modal,
-            $dialog = this.$dialog,
-            custom = options.custom;
-        var $body = $dialog.find('.modal-body').css('padding', ''),
+        options = that.initOptions(options);
+        if (!isShown) {
+            that.init(options);
+        }
+
+        var $modal = that.$modal;
+        var $dialog = $modal.find('.modal-dialog');
+        var custom = options.custom;
+        var $body = $dialog.find('.modal-body').css('padding', '').toggleClass('load-indicator loading', !!isShown),
             $header = $dialog.find('.modal-header'),
             $content = $dialog.find('.modal-content');
 
         $modal.toggleClass('fade', options.fade)
             .addClass(options.className)
-            .toggleClass('modal-loading', !this.isShown)
+            .toggleClass('modal-loading', !isShown)
             .toggleClass('modal-scroll-inside', !!options.scrollInside);
 
         $dialog.toggleClass('modal-md', options.size === 'md')
@@ -2210,10 +2368,14 @@
                     if(options.type === 'iframe') $body.css('height', $dialog.height() - $header.outerHeight());
                 }
                 that.ajustPosition(options.position);
-                $modal.removeClass('modal-loading');
+                $modal.removeClass('modal-loading').removeClass('modal-updating');
+                if(isShown) {
+                    $body.removeClass('loading');
+                }
 
                 if(options.type != 'iframe') {
-                    $dialog.off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                    $body = $dialog.off('resize.' + NAME).find('.modal-body').off('resize.' + NAME);
+                    ($body.length ? $body : $dialog).on('resize.' + NAME, resizeDialog);
                 }
 
                 callback && callback();
@@ -2242,10 +2404,10 @@
         } else if(options.url) {
             var onLoadBroken = function() {
                 var brokenContent = $modal.callComEvent(that, 'broken');
-                if(brokenContent) {
+                if(typeof brokenContent === 'string') {
                     $body.html(brokenContent);
-                    readyToShow();
                 }
+                readyToShow();
             };
 
             $modal.attr('ref', options.url);
@@ -2264,7 +2426,7 @@
                 }
 
                 var frame = document.getElementById(iframeName);
-                frame.onload = frame.onreadystatechange = function() {
+                frame.onload = frame.onreadystatechange = function(e) {
                     var scrollInside = !!options.scrollInside;
                     if(that.firstLoad) $modal.addClass('modal-loading');
                     if(this.readyState && this.readyState != 'complete') return;
@@ -2289,8 +2451,7 @@
                                     height = Math.max(height, $body.data('minModalHeight') || 0);
                                     $body.data('minModalHeight', height);
                                 }
-                                if (scrollInside)
-                                {
+                                if (scrollInside) {
                                     var headerHeight = options.headerHeight;
                                     if (typeof headerHeight !== 'number') {
                                         headerHeight = $header.height();
@@ -2327,6 +2488,18 @@
                         } else {
                             readyToShow();
                         }
+
+                        var handleLinkInIframe = options.handleLinkInIframe;
+                        if (handleLinkInIframe) {
+                            frame$('body').on('click', typeof handleLinkInIframe === 'string' ? handleLinkInIframe : 'a[href]', function() {
+                                if ($(this).is('[data-toggle="modal"]')) return;
+                                $modal.addClass('modal-updating');
+                            });
+                        }
+
+                        if (options.iframeStyle) {
+                            frame$('head').append('<style>' + options.iframeStyle + '</style>');
+                        }
                     } catch(e) {
                         readyToShow();
                     }
@@ -2338,7 +2511,7 @@
                         try {
                             var $data = $(data);
                             if($data.filter('.modal-dialog').length) {
-                                $dialog.replaceWith($data);
+                                $dialog.parent().empty().append($data);
                             } else if($data.filter('.modal-content').length) {
                                 $dialog.find('.modal-content').replaceWith($data);
                             } else {
@@ -2360,14 +2533,16 @@
             }
         }
 
-        $modal.modal({
-            show         : 'show',
-            backdrop     : options.backdrop,
-            moveable     : options.moveable,
-            rememberPos  : options.rememberPos,
-            keyboard     : options.keyboard,
-            scrollInside : options.scrollInside,
-        });
+        if (!isShown) {
+            $modal.modal({
+                show         : 'show',
+                backdrop     : options.backdrop,
+                moveable     : options.moveable,
+                rememberPos  : options.rememberPos,
+                keyboard     : options.keyboard,
+                scrollInside : options.scrollInside,
+            });
+        }
     };
 
     ModalTrigger.prototype.close = function(callback, redirect) {
@@ -2439,6 +2614,9 @@
     var getModal = function(modal) {
         if (!modal) {
             modal = $('.modal.modal-trigger');
+            if (!modal.length) {
+
+            }
         } else {
             modal = $(modal);
         }
@@ -2475,7 +2653,20 @@
         }
     };
 
+    var reloadModal = function(options, modal) {
+        if (typeof options === 'string') {
+            options = {url: options};
+        }
+        var $modal = getModal(modal);
+        if($modal && $modal.length) {
+            $modal.each(function() {
+                $(this).data(NAME).show(options);
+            });
+        }
+    };
+
     $.zui({
+        reloadModal: reloadModal,
         closeModal: closeModal,
         ajustModalPosition: ajustModalPosition
     });
@@ -2503,7 +2694,6 @@
         $.zui.closeModal();
     });
 }(window.jQuery, window, undefined));
-
 
 /* ========================================================================
  * Bootstrap: tooltip.js v3.0.0

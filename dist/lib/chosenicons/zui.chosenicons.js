@@ -1,8 +1,8 @@
 /*!
- * ZUI: 图标选择器 - v1.9.1 - 2019-06-03
+ * ZUI: 图标选择器 - v1.9.1 - 2020-02-05
  * http://zui.sexy
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -16,11 +16,13 @@
 + function($) {
     'use strict';
 
+    var NAME = 'zui.chosenIcons';
+
     var ChosenIcons = function(element, options) {
         this.$ = $(element);
         this.options = this.getOptions(options);
-        this.lang = ChosenIcons.LANGS[this.options.lang];
-        this.id = 'chosen-icons-' + parseInt(Math.random() * 10000000000 + 1);
+        this.lang = ChosenIcons.LANGS[this.options.lang] || ChosenIcons.LANGS.en;
+        this.id = 'chosen-icons-' + $.zui.uuid();
 
         this.init();
     };
@@ -146,10 +148,10 @@
     $.fn.chosenIcons = function(option) {
         return this.each(function() {
             var $this = $(this);
-            var data = $this.data('zui.chosenIcons');
+            var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data('zui.chosenIcons', (data = new ChosenIcons(this, options)));
+            if(!data) $this.data(NAME, (data = new ChosenIcons(this, options)));
 
             if(typeof option == 'string') data[option]();
         })
@@ -157,4 +159,3 @@
 
     $.fn.chosenIcons.Constructor = ChosenIcons;
 }(jQuery);
-

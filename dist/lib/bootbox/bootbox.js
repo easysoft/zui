@@ -66,7 +66,7 @@
 
     var defaults = {
         // default language
-        locale: $.zui && $.zui.clientLang ? $.zui.clientLang() : 'zh_cn',
+        locale: $.zui && $.zui.clientLang ? $.zui.clientLang() : 'en',
         // show backdrop or not. Default to static so user has to interact with dialog
         backdrop: "static",
         // animate the modal in/out
@@ -88,7 +88,7 @@
      * @private
      */
     function _t(key) {
-        var locale = locales[defaults.locale];
+        var locale = ($.zui && $.zui.getLangData) ? $.zui.getLangData('bootbox', defaults.locale, locales) : locales[defaults.locale];
         return locale ? locale[key] : locales.en[key];
     }
 
@@ -799,7 +799,7 @@
         en: {
             OK: "OK",
             CANCEL: "Cancel",
-            CONFIRM: "OK"
+            CONFIRM: "Confirm"
         },
         zh_cn: {
             OK: "确认",
