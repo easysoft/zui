@@ -82,7 +82,7 @@ $('#datagridExample').datagrid({
 $('#myDataGrid').datagrid({
     dataSource: {
         cols:[
-            {name: 'time', label: '时间', width: 132},
+            {name: 'time', label: '对局时间', width: 132},
             {name: 'hero', label: '英雄', width: 134},
             {name: 'action', label: '动作', width: 109},
             {name: 'target', label: '目标', width: 109},
@@ -102,7 +102,7 @@ $('#myDataGrid').datagrid({
 $('#myDataGrid').datagrid({
     dataSource: {
         cols:[
-            {name: 'time', label: '时间', width: 132},
+            {name: 'time', label: '对局时间', width: 132},
             {name: 'hero', label: '英雄', width: 134},
             {name: 'action', label: '动作', width: 109},
             {name: 'target', label: '目标', width: 109},
@@ -186,7 +186,7 @@ $('#myDataGrid').datagrid({
 $('#remoteDataGridExample').datagrid({
     dataSource: {
         cols:[
-            {name: 'time', label: '时间', width: 132},
+            {name: 'time', label: '对局时间', width: 132},
             {name: 'hero', label: '英雄', width: 134},
             {name: 'action', label: '动作', width: 109},
             {name: 'target', label: '目标', width: 109},
@@ -679,7 +679,7 @@ $('#datagridSpanExample').datagrid({
 $('#myDataGrid').datagrid({
     dataSource: {
         cols: [
-            {name: 'time', valueType: 'date', label: '时间'},
+            {name: 'time', valueType: 'date', label: '对局时间'},
             // ... 其他列定义
         ]
     },
@@ -707,7 +707,7 @@ $('#myDataGrid').datagrid({
         cols: [
             {
                 name: 'time',
-                label: '时间',
+                label: '对局时间',
                 // 值转换器仅仅影响当前列
                 valueOperator: {
                     getter: function(dataValue, cell, dataGrid) {
@@ -727,7 +727,7 @@ $('#myDataGrid').datagrid({
 $('#myDataGrid').datagrid({
     dataSource: {
         cols: [
-            {name: 'time', valueType: 'date', label: '时间'},
+            {name: 'time', valueType: 'date', label: '对局时间'},
             // ... 其他列定义
         ]
     },
@@ -755,7 +755,7 @@ $('#myDataGrid').datagrid({
 $('#myDataGrid').datagrid({
     dataSource: {
         cols:[
-            {name: 'time', label: '时间', width: 132},
+            {name: 'time', label: '对局时间', width: 132},
             {name: 'hero', label: '英雄', width: 134},
             {name: 'action', label: '动作', width: 109},
 
@@ -1495,7 +1495,7 @@ function afterPageLoad() {
             var items = ['圣剑', '虚灵之刃', '真视宝石', '恐鳌之心', '远行鞋', '治疗指环', '黑皇杖', '刷新球', '金箍棒', '蝴蝶', '诡计之雾', '显影之尘', '侦查守卫', '岗哨守卫', '漩涡', '天堂之戟', '刃甲', '希瓦的守护', '强袭胸甲', '阿托斯之棍', '银月之晶', '斯嘉蒂之眼', '玲珑心', '撒旦之邪力', '否决挂饰', '隐刀', '血棘', '邪恶镰刀', '白银之锋', '辉耀', '代达罗斯之殇', '幻影斧', '林肯法球', '阿哈利姆神杖', '死灵书'];
             var runes = ['赏金神符', '双倍神符', '魔法神符', '极速神符', '不朽之守护', '奶酪'];
             var cols = [
-                {label: '时间', name: 'time', width: 130, valueType: 'gametime', sort: true},
+                {label: '对局时间', name: 'time', width: 130, valueType: 'gametime', sort: true},
                 {label: '英雄', name: 'hero', width: 80},
                 {label: '动作', name: 'action', width: 80},
                 {label: '队友', name: 'teammate', width: 80},
@@ -1663,7 +1663,7 @@ function afterPageLoad() {
         dataSource: {
             cache: false,
             cols:[
-                {name: 'time', label: '时间', width: 132},
+                {name: 'time', label: '对局时间', width: 132},
                 {name: 'hero', label: '英雄', width: 134},
                 {name: 'action', label: '动作', width: 109},
                 {name: 'target', label: '目标', width: 109},
