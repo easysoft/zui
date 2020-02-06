@@ -1352,7 +1352,7 @@ $('#dataGrid').datagrid({
 
 ```js
 // 使用 jquery 的 $().on() 方法监听事件
-$('#dataGrid').on('onRender', function(event) {
+$('#dataGrid').on('onRender', function() {
     // 表格已重新渲染
 });
 ```
@@ -1426,7 +1426,7 @@ $('#dataGrid').datagrid({
 
 ```js
 // 使用 jquery 的 $().on() 方法监听事件
-$('#dataGrid').on('onLoad', function(event, result) {
+$('#dataGrid').on('onSelectRow', function(event, result) {
     if (result === false) {
         console.log('数据加载失败。');
     }
@@ -1456,6 +1456,7 @@ $('#dataGrid').on('onClickCell', function(event, cell, $cell) {
     console.log('点击了单元格第', cell.rowIndex, '行', cell.colIndex, '列');
 });
 ```
+
 <script src="dist/lib/selectable/zui.selectable.js"></script>
 <script src="dist/lib/datagrid/zui.datagrid.js"></script>
 <link href="dist/lib/datagrid/zui.datagrid.css" rel="stylesheet">
@@ -1641,7 +1642,10 @@ function afterPageLoad() {
         sortable: true,
         hoverCell: true,
         onSelectRow: function(rowIndex, checked, selections) {
-          console.log('>', rowIndex, checked, selections);
+          console.log('DataGrid Demo: 行', rowIndex, checked ? '选中了' : '取消选中了', selections);
+        },
+        onClickCell: function(event, cell, $cell) {
+          console.log('DataGrid Demo: 点击了单元格第', cell.rowIndex, '行', cell.colIndex, '列', cell, event, $cell);
         }
     });
     var simpleDataSource = {
