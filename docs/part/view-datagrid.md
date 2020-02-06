@@ -696,7 +696,7 @@ $('#myDataGrid').datagrid({
 
 <div class="alert alert-primary">
   <h4>内置的日期值转换器</h4>
-  <p>数据表格已经内置了对日期类型（`valueType` 为 `date`）的转换支持，可以简单的通过 `defaultDateFormater` 来设置转换的日期格式。</p>
+  <p>数据表格已经内置了对日期类型（`valueType` 为 `date`）的转换支持，可以简单的通过 `defaultDateFormatter` 来设置转换的日期格式。</p>
 </div>
 
 值转换器还可以通过列定义参数进行设置。上例可以写为：
@@ -1003,7 +1003,7 @@ $('#myDataGrid').datagrid({
       <td>参见上文"值转换器"内容。</td>
     </tr>
     <tr>
-      <td><code>defaultDateFormater</code></td>
+      <td><code>defaultDateFormatter</code></td>
       <td>默认日期转换格式</td>
       <td>默认为 `yyyy-MM-dd hh:mm`</td>
       <td>参见上文"值转换器"内容。</td>
@@ -1075,7 +1075,7 @@ $('#myDataGrid').datagrid({
       </td>
     </tr>
     <tr>
-      <td><code>cellFormator</code></td>
+      <td><code>cellFormatter</code></td>
       <td>单元格格式化函数</td>
       <td>默认为 `null`</td>
       <td>
@@ -1655,7 +1655,7 @@ function afterPageLoad() {
         },
     });
     $('#dynamicDataGridExample').datagrid($.extend({
-        defaultDateFormater: 'hh:mm:ss',
+        defaultDateFormatter: 'hh:mm:ss',
         states: {
             fixedTopUntil: 0,
             fixedBottomFrom: sampleData.dataSource.length,
