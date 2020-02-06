@@ -38,8 +38,15 @@
   color: @progress-bar-color;
   text-align: center;
   background-color: @progress-bar-bg;
-  border-radius: @progress-bar-radius;
   .transition(width .6s ease);
+  .progress > &:first-child {
+    border-top-left-radius: @progress-bar-radius;
+    border-bottom-left-radius: @progress-bar-radius;
+  }
+  .progress > &:last-child {
+    border-top-right-radius: @progress-bar-radius;
+    border-bottom-right-radius: @progress-bar-radius;
+  }
 }
 
 // Striped bars
