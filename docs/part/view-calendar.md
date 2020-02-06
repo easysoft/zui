@@ -618,7 +618,7 @@ function afterPageLoad() {
           var $this = $(this);
           var data = calDataGenerater($this.data('exampleCount') || 100);
           $this.calendar({data: data, clickEvent: function(e) {
-              $.zui.messager.show('您点击了 <strong>' + e.event.title + '</strong>');
+              $.zui.messager.show('您点击了 <strong>' + e.event.title + '</strong>', {html: true});
           }, beforeChange: function(e) {
               if(e.change === 'start')
               {
