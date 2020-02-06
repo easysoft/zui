@@ -284,9 +284,82 @@ a {
 
     &:before {
       border-color: @color-primary;
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @color-primary;
     }
   }
 }
+
+// Checkbox
+.checkbox-primary,
+.radio-primary {
+  > label {
+    &:after {
+      border: 1px solid @color-gray;
+      background: #fff;
+    }
+  }
+
+  > input:checked + label,
+  &.checked > label {
+    &:after {
+      border-color: @color-primary;
+      background-color: @color-primary;
+    }
+
+    &:before {
+      color: white;
+    }
+  }
+
+  &.focus > label,
+  > input:focus + label {
+    &:after {
+      box-shadow: 0 0 8px @color-primary;
+      border-color: @color-primary;
+    }
+  }
+
+  &.disabled > label,
+  input:disabled + label {
+    &:after {
+      background-color: #e5e5e5;
+      border-color: #bbb;
+    }
+  }
+
+  &.checked.disabled > label,
+  input:disabled:checked + label {
+    &:after {
+      background-color: #bbb;
+    }
+  }
+}
+.radio-primary {
+  > input:checked + label,
+  &.checked > label {
+    &:after {
+      border-color: @color-primary;
+      background-color: #fff;
+    }
+
+    &:before {
+      background-color: @color-primary;
+    }
+  }
+
+  &.checked.disabled > label,
+  input:disabled:checked + label {
+    &:after {
+      background-color: #fff;
+      border-color: #bbb;
+    }
+
+    &:before {
+      background-color: #bbb;
+    }
+  }
+}
+
 
 // Input control
 .form-control:focus {
