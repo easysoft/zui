@@ -38,6 +38,7 @@
     &:after {
       border: 1px solid @color-gray;
       z-index: 1;
+      background: #fff;
       transition: @animation-speed-normal @animation-type;
       transition-property: border, background-color;
     }
@@ -115,7 +116,7 @@
     &:after {
       border-color: @color-primary;
       border-width: 2px;
-      background-color: transparent;
+      background-color: #fff;
     }
 
     &:before {
@@ -126,7 +127,7 @@
   &.checked.disabled > label,
   input:disabled:checked + label {
     &:after {
-      background-color: transparent;
+      background-color: #fff;
       border-color: #bbb;
     }
 
