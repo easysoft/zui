@@ -541,7 +541,7 @@
                 tableWidth,
                 barLeft,
                 scrollOffsetStoreName = that.id + '_' + 'scrollOffset',
-                firtScroll,
+                firstScroll,
                 left;
 
             that.width = $datatable.width();
@@ -549,7 +549,7 @@
                 that.width = $datatable.width();
             });
 
-            var srollTable = function(offset, silence) {
+            var scrollTable = function(offset, silence) {
                 barLeft = Math.max(0, Math.min(flexWidth - scrollWidth, offset));
                 if(!silence) {
                     $datatable.addClass('scrolling');
@@ -575,13 +575,13 @@
                 $flexTable.css('min-width', Math.max(flexWidth, tableWidth));
                 $datatable.toggleClass('show-scroll-slide', tableWidth > flexWidth);
 
-                if(!firtScroll && flexWidth !== scrollWidth) {
-                    firtScroll = true;
-                    srollTable(store.pageGet(scrollOffsetStoreName, 0), true); // todo: unused?
+                if(!firstScroll && flexWidth !== scrollWidth) {
+                    firstScroll = true;
+                    scrollTable(store.pageGet(scrollOffsetStoreName, 0), true); // todo: unused?
                 }
 
                 if($datatable.hasClass('size-changing')) {
-                    srollTable(barLeft, true);
+                    scrollTable(barLeft, true);
                 }
             };
             $flexArea.resize(resizeScrollbar);
@@ -591,7 +591,7 @@
                 move: false,
                 stopPropagation: true,
                 drag: function(e) {
-                    srollTable($bar.position().left + e.smallOffset.x * (e.element.hasClass('bar') ? 1 : -1));
+                    scrollTable($bar.position().left + e.smallOffset.x * (e.element.hasClass('bar') ? 1 : -1));
                 },
                 finish: function() {
                     $datatable.removeClass('scrolling');
@@ -609,7 +609,7 @@
 
             $scrollbar.mousedown(function(event) {
                 var x = event.pageX - $scrollbar.offset().left;
-                srollTable(x - (scrollWidth / 2));
+                scrollTable(x - (scrollWidth / 2));
             });
         }
 
