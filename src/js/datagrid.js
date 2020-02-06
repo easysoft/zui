@@ -318,6 +318,14 @@
             });
         }
 
+        if (options.onClickCell) {
+            $cells.on('click', '.datagrid-cell', function(e) {
+                var $cell = $(this);
+                var cell = that.getCell($cell.data('row'), $cell.data('col'));
+                that.$.callComEvent(that, 'onClickCell', [e, cell, $cell]);
+            });
+        }
+
         if (options.checkable) {
             if (options.selectable && $.fn.selectable) {
                 that.selectable = $cells.selectable($.extend({
@@ -1593,6 +1601,9 @@
 
         // On render datagrid
         // onRender: null,
+
+        // On click cell
+        // onClickCell: null,
 
         // Search filter function
         // searchFunc: null,

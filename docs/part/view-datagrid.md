@@ -1433,6 +1433,29 @@ $('#dataGrid').on('onLoad', function(event, result) {
 });
 ```
 
+### `onClickCell`
+
+当用户点击单元格时触发，其中回调函数参数包括：
+
+* `event`：鼠标点击事件对象；
+* `cell`：单元格数据对象；
+* `$cell`：单元格 DOM 元素。
+
+```js
+// 在初始化的时候设置事件回调函数
+$('#dataGrid').datagrid({
+    onClickCell: function(event, cell, $cell) {
+        console.log('点击了单元格第', cell.rowIndex, '行', cell.colIndex, '列');
+    }
+});
+```
+
+```js
+// 使用 jquery 的 $().on() 方法监听事件
+$('#dataGrid').on('onClickCell', function(event, cell, $cell) {
+    console.log('点击了单元格第', cell.rowIndex, '行', cell.colIndex, '列');
+});
+```
 <script src="dist/lib/selectable/zui.selectable.js"></script>
 <script src="dist/lib/datagrid/zui.datagrid.js"></script>
 <link href="dist/lib/datagrid/zui.datagrid.css" rel="stylesheet">
