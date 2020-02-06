@@ -985,12 +985,13 @@
                             if(this.viewSelect >= 2) {
                                 this._setDate(UTCDate(year, month, day, hours, minutes, seconds, 0));
                             }
-                        }
-                        var oldViewMode = this.viewMode;
-                        this.showMode(-1);
-                        this.fill();
-                        if(oldViewMode == this.viewMode && this.autoclose) {
-                            this.hide();
+
+                            var oldViewMode = this.viewMode;
+                            this.showMode(-1);
+                            this.fill();
+                            if(oldViewMode == this.viewMode && this.autoclose) {
+                                this.hide();
+                            }
                         }
                         break;
                 }
