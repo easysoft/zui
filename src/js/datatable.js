@@ -2,7 +2,7 @@
  * ZUI: datatable.js
  * http://zui.sexy
  * ========================================================================
- * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2020 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 (function($) {
     'use strict';
@@ -193,7 +193,7 @@
                     data.footer = $('<table class="table' + options.tableClass + '"></table>').append($tfoot);
                 }
             } else {
-                throw new Error('No data avaliable!');
+                throw new Error('No data available!');
             }
         }
 
@@ -311,7 +311,8 @@
                 .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
                 .find('table')
                 .addClass(options.tableClass)
-                .find('thead').append($flex);
+                .find('thead')
+                .append($flex);
             $head.append($headSpan);
         }
         if(data.fixedRight) {
@@ -321,7 +322,8 @@
                 // .append('<div class="size-handle size-handle-head size-handle-right"></div>')
                 .find('table')
                 .addClass(options.tableClass)
-                .find('thead').append($right);
+                .find('thead')
+                .append($right);
             $head.append($headSpan);
         }
         $datatable.append($head);
@@ -331,7 +333,6 @@
         var $leftRow,
             $flexRow,
             $rightRow,
-            // $tr,
             $td,
             $cTd,
             row,
@@ -407,7 +408,6 @@
                         style: rowCol.css,
                         title: rowCol.title || ''
                     }).css('width', cols[i].width);
-
 
                 $tr.append($td);
             }
@@ -529,7 +529,7 @@
             });
         }
 
-        // handle srcoll for flex area
+        // handle scroll for flex area
         if(data.flexArea) {
             var $scrollbar = $datatable.find('.scroll-slide'),
                 $flexArea = $datatable.find('.datatable-span.flexarea'),
@@ -564,8 +564,8 @@
                 if(options.storage) store.pageSet(scrollOffsetStoreName, barLeft);
             };
             var resizeScrollbar = function() {
-                flexWidth = $flexArea.width() - 2;
-                $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
+                flexWidth = $flexArea.width();
+                $scrollbar.css({width: flexWidth, left: $fixedLeft.width()});
                 tableWidth = 0;
                 $flexTable.first().find('tr:first').children('td,th').each(function() {
                     tableWidth += $(this).outerWidth();
@@ -904,7 +904,6 @@
         var $datatable = this.$datatable,
             options = this.options,
             rows = this.data.rows,
-            cols = this.data.cols,
             i;
 
         $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
@@ -923,7 +922,6 @@
                 return mx;
             };
             var $dataCells = this.$dataCells,
-                $cells = this.$cells,
                 $headCells = this.$headCells;
 
             // set height of head cells
