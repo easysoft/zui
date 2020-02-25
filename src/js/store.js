@@ -127,18 +127,18 @@
         return 0;
     };
 
-    /* Remove item with browser localstorage native method */
+    /* Remove item with browser localStorage native method */
     Store.prototype.removeItem = function(key) {
         storage.removeItem(key);
         return this;
     };
 
-    /* Remove item with browser localstorage native method, same as removeItem */
+    /* Remove item with browser localStorage native method, same as removeItem */
     Store.prototype.remove = function(key) {
         return this.removeItem(key);
     };
 
-    /* Get item value with browser localstorage native method, and without deserialize */
+    /* Get item value with browser localStorage native method, and without deserialize */
     Store.prototype.getItem = function(key) {
         return storage.getItem(key);
     };
@@ -159,7 +159,7 @@
         return storage.key(index);
     };
 
-    /* Set item value with browser localstorage native method, and without serialize filter */
+    /* Set item value with browser localStorage native method, and without serialize filter */
     Store.prototype.setItem = function(key, val) {
         storage.setItem(key, val);
         return this;
@@ -172,7 +172,7 @@
         return this;
     };
 
-    /* Clear all items with browser localstorage native method */
+    /* Clear all items with browser localStorage native method */
     Store.prototype.clear = function() {
         storage.clear();
         return this;
