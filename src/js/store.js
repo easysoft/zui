@@ -16,7 +16,7 @@
 
     /* The Store object */
     var Store = function() {
-        this.slience = true;
+        this.silence = true;
         try {
             if((lsName in window) && window[lsName] && window[lsName].setItem) {
                 this.enable = true;
@@ -114,7 +114,7 @@
     /* Check enable status */
     Store.prototype.check = function() {
         if(!this.enable) {
-            if(!this.slience) throw new Error('Browser not support localStorage or enable status been set true.');
+            if(!this.silence) throw new Error('Browser not support localStorage or enable status been set true.');
         }
         return this.enable;
     };
@@ -218,4 +218,3 @@
         store: new Store()
     });
 }(window, jQuery));
-
