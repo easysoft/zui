@@ -27,7 +27,8 @@
         defaultWidth: 128,
         defaultHeight: 128,
         minWidth: 48,
-        minHeight: 48
+        minHeight: 48,
+        // onSizeError: null
     }; // default options
 
     ImgCutter.prototype.callEvent = function(name, params) {
@@ -85,6 +86,14 @@
             $.zui.imgReady(that.options.img, function() {
                 that.imgWidth = this.width;
                 that.imgHeight = this.height;
+
+                if (this.width < that.options.minWidth || this.height < that.options.minHeight) {
+                    if (that.options.onSizeError) {
+                        that.options.onSizeError({width: this.width, height: this.height});
+                    }
+                    that.options.minWidth = Math.min(this.width, that.options.minWidth);
+                    that.options.minHeight = Math.min(this.height, that.options.minHeight);
+                }
                 that.callEvent('ready');
             });
         }
