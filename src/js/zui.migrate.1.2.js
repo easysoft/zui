@@ -5,7 +5,7 @@
  * If you are using 1.3+, then ignore this.
  * http://openzui.com
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright 2014-2020 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 

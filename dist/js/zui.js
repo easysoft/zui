@@ -1314,7 +1314,7 @@
  * ZUI: browser.js
  * http://openzui.com
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright 2014-2020 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
@@ -1416,7 +1416,7 @@
  * Date polyfills
  * http://openzui.com
  * ========================================================================
- * Copyright (c) 2014 cnezsoft.com; Licensed MIT
+ * Copyright 2014-2020 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 
