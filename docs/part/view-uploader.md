@@ -1125,7 +1125,7 @@ $('#uploaderStaticFilesExample').uploader({
           doRemoveFile();
       },
       staticFiles: [
-          {name: 'zui.js', size: 216159, url: 'http://zui.sexy'},
+          {name: 'zui.js', size: 216159, url: 'http://openzui.com'},
           {name: 'zui.css', size: 106091}
       ]
   });
@@ -1680,7 +1680,7 @@ function afterPageLoad() {
             doRemoveFile();
         },
         staticFiles: [
-            {name: 'zui.js', size: 216159, url: 'http://zui.sexy'},
+            {name: 'zui.js', size: 216159, url: 'http://openzui.com'},
             {name: 'zui.css', size: 106091}
         ]
     });
@@ -1698,4 +1698,3 @@ function afterPageLoad() {
     })
 }
 </script>
-

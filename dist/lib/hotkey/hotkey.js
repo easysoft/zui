@@ -2,10 +2,10 @@
  * jQuery Hotkeys Plugin
  * Based upon the plugin by Tzury Bar Yochay:
  * https://github.com/tzuryby/jquery.hotkeys
- *  
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright 2010, John Resig
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -176,4 +176,3 @@
     });
 
 })(jQuery);
-

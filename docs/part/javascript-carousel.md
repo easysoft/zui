@@ -64,21 +64,21 @@ filter: lunbo lb
   <!-- 轮播项目 -->
   <div class="carousel-inner">
     <div class="item active">
-      <img alt="First slide" src="http://zui.sexy/docs/img/slide1.jpg">
+      <img alt="First slide" src="http://openzui.com/docs/img/slide1.jpg">
       <div class="carousel-caption">
         <h3>我是第一张幻灯片</h3>
         <p>:)</p>
       </div>
     </div>
     <div class="item">
-      <img alt="Second slide" src="http://zui.sexy/docs/img/slide2.jpg">
+      <img alt="Second slide" src="http://openzui.com/docs/img/slide2.jpg">
       <div class="carousel-caption">
         <h3>我是第二张幻灯片</h3>
         <p>0.0</p>
       </div>
     </div>
     <div class="item">
-      <img alt="Third slide" src="http://zui.sexy/docs/img/slide3.jpg">
+      <img alt="Third slide" src="http://openzui.com/docs/img/slide3.jpg">
       <div class="carousel-caption">
         <h3>我是第三张幻灯片</h3>
         <p>最后一张咯~</p>

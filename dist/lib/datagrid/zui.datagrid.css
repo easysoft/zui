@@ -1,6 +1,6 @@
 /*!
- * ZUI: 数据表格② - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: 数据表格② - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
@@ -264,9 +264,22 @@
   -webkit-box-shadow: 1px 0 0 rgba(0, 0, 0, .1) inset;
           box-shadow: 1px 0 0 rgba(0, 0, 0, .1) inset;
   }
-.datagrid-borderless .datagrid-row-cell:not(:hover) .datagrid-cell.datagrid-cell-index {
-  background-color: #fff;
-  }
 .datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) .datagrid-cell-cell {
   background-color: #f9f9f9;
+  }
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd).active .datagrid-cell {
+  background-color: #fff0d5;
+  }
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd).active .datagrid-cell.datagrid-cell-index {
+  background-color: #ffe7bc;
+  }
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) .datagrid-cell-cell.hover {
+  background-color: #ebf2f9;
+  }
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) .datagrid-cell-head.hover,
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd) .datagrid-cell-index.hover {
+  background-color: #ddd;
+  }
+.datagrid-striped .datagrid-cells > .datagrid-row-cell:nth-child(odd).active .datagrid-cell.hover {
+  background-color: #d7e5f3;
   }

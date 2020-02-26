@@ -172,7 +172,7 @@
           "name": "MZUI：移动前端框架",
           "desc": "为移动端设计，基于 Flex 的 UI 框架。",
           "icon": "M",
-          "url": "http://zui.sexy/m/",
+          "url": "http://openzui.com/m/",
           "version": "1.5.0",
           "topics": [],
           "filter": "mzui yidongqianduankuangjia flex"
@@ -340,20 +340,20 @@
           "name": "论坛",
           "desc": "去发表帖子吧",
           "icon": "icon-comments-alt",
-          "url": "http://forum.zui.sexy/forum/",
+          "url": "http://forum.openzui.com/forum/",
           "filter": "luntan lt",
           "topics": [
             {
               "name": "问题反馈",
-              "url": "http://forum.zui.sexy/forum/c2.html"
+              "url": "http://forum.openzui.com/forum/c2.html"
             },
             {
               "name": "案例展示",
-              "url": "http://forum.zui.sexy/forum/c3.html"
+              "url": "http://forum.openzui.com/forum/c3.html"
             },
             {
               "name": "前端讨论",
-              "url": "http://forum.zui.sexy/forum/c4.html"
+              "url": "http://forum.openzui.com/forum/c4.html"
             }
           ]
         },

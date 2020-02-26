@@ -1,6 +1,6 @@
 /*!
- * ZUI: Theme - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: Theme - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
@@ -724,6 +724,65 @@ a.hl-primary:hover {
   }
 .switch input:focus + label:before {
   border-color: #3f51b5;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #3f51b5;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #3f51b5;
+  }
+.checkbox-primary > label:after,
+.radio-primary > label:after {
+  background: #fff;
+  border: 1px solid #808080;
+  }
+.checkbox-primary > input:checked + label:after,
+.radio-primary > input:checked + label:after,
+.checkbox-primary.checked > label:after,
+.radio-primary.checked > label:after {
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+  }
+.checkbox-primary > input:checked + label:before,
+.radio-primary > input:checked + label:before,
+.checkbox-primary.checked > label:before,
+.radio-primary.checked > label:before {
+  color: white;
+  }
+.checkbox-primary.focus > label:after,
+.radio-primary.focus > label:after,
+.checkbox-primary > input:focus + label:after,
+.radio-primary > input:focus + label:after {
+  border-color: #3f51b5;
+  -webkit-box-shadow: 0 0 8px #3f51b5;
+          box-shadow: 0 0 8px #3f51b5;
+  }
+.checkbox-primary.disabled > label:after,
+.radio-primary.disabled > label:after,
+.checkbox-primary input:disabled + label:after,
+.radio-primary input:disabled + label:after {
+  background-color: #e5e5e5;
+  border-color: #bbb;
+  }
+.checkbox-primary.checked.disabled > label:after,
+.radio-primary.checked.disabled > label:after,
+.checkbox-primary input:disabled:checked + label:after,
+.radio-primary input:disabled:checked + label:after {
+  background-color: #bbb;
+  }
+.radio-primary > input:checked + label:after,
+.radio-primary.checked > label:after {
+  background-color: #fff;
+  border-color: #3f51b5;
+  }
+.radio-primary > input:checked + label:before,
+.radio-primary.checked > label:before {
+  background-color: #3f51b5;
+  }
+.radio-primary.checked.disabled > label:after,
+.radio-primary input:disabled:checked + label:after {
+  background-color: #fff;
+  border-color: #bbb;
+  }
+.radio-primary.checked.disabled > label:before,
+.radio-primary input:disabled:checked + label:before {
+  background-color: #bbb;
   }
 .form-control:focus + .input-control-label-left {
   color: #3949ab;

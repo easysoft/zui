@@ -1,15 +1,15 @@
 /*!
- * ZUI: 数据表格 - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: 数据表格 - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
  * ZUI: datatable.js
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
- * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2014-2020 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 (function($) {
     'use strict';
@@ -200,7 +200,7 @@
                     data.footer = $('<table class="table' + options.tableClass + '"></table>').append($tfoot);
                 }
             } else {
-                throw new Error('No data avaliable!');
+                throw new Error('No data available!');
             }
         }
 
@@ -318,7 +318,8 @@
                 .append('<div class="scrolled-shadow scrolled-in-shadow"></div><div class="scrolled-shadow scrolled-out-shadow"></div>')
                 .find('table')
                 .addClass(options.tableClass)
-                .find('thead').append($flex);
+                .find('thead')
+                .append($flex);
             $head.append($headSpan);
         }
         if(data.fixedRight) {
@@ -328,7 +329,8 @@
                 // .append('<div class="size-handle size-handle-head size-handle-right"></div>')
                 .find('table')
                 .addClass(options.tableClass)
-                .find('thead').append($right);
+                .find('thead')
+                .append($right);
             $head.append($headSpan);
         }
         $datatable.append($head);
@@ -338,7 +340,6 @@
         var $leftRow,
             $flexRow,
             $rightRow,
-            // $tr,
             $td,
             $cTd,
             row,
@@ -415,7 +416,6 @@
                         title: rowCol.title || ''
                     }).css('width', cols[i].width);
 
-
                 $tr.append($td);
             }
 
@@ -477,6 +477,25 @@
         that.callEvent('render');
     };
 
+    DataTable.prototype.toggleAnimation = function(toggle) {
+        var that = this;
+        if (toggle === undefined) {
+            toggle = that.$.hasClass('no-animation');
+        }
+        if (that.toggleAnimationTimer) {
+            clearTimeout(that.toggleAnimationTimer);
+            that.toggleAnimationTimer = null;
+        }
+        if (!toggle) {
+            that.$.addClass('no-animation');
+        } else {
+            that.toggleAnimationTimer = setTimeout(function() {
+                that.toggleAnimationTimer = null;
+                that.$.removeClass('no-animation');
+            }, 500);
+        }
+    };
+
     // Bind global events
     DataTable.prototype.bindEvents = function() {
         var that = this,
@@ -517,7 +536,7 @@
             });
         }
 
-        // handle srcoll for flex area
+        // handle scroll for flex area
         if(data.flexArea) {
             var $scrollbar = $datatable.find('.scroll-slide'),
                 $flexArea = $datatable.find('.datatable-span.flexarea'),
@@ -529,7 +548,7 @@
                 tableWidth,
                 barLeft,
                 scrollOffsetStoreName = that.id + '_' + 'scrollOffset',
-                firtScroll,
+                firstScroll,
                 left;
 
             that.width = $datatable.width();
@@ -537,7 +556,7 @@
                 that.width = $datatable.width();
             });
 
-            var srollTable = function(offset, silence) {
+            var scrollTable = function(offset, silence) {
                 barLeft = Math.max(0, Math.min(flexWidth - scrollWidth, offset));
                 if(!silence) {
                     $datatable.addClass('scrolling');
@@ -552,8 +571,8 @@
                 if(options.storage) store.pageSet(scrollOffsetStoreName, barLeft);
             };
             var resizeScrollbar = function() {
-                flexWidth = $flexArea.width() - 2;
-                $scrollbar.width(flexWidth).css('left', $fixedLeft.width());
+                flexWidth = $flexArea.width();
+                $scrollbar.css({width: flexWidth, left: $fixedLeft.width()});
                 tableWidth = 0;
                 $flexTable.first().find('tr:first').children('td,th').each(function() {
                     tableWidth += $(this).outerWidth();
@@ -563,13 +582,13 @@
                 $flexTable.css('min-width', Math.max(flexWidth, tableWidth));
                 $datatable.toggleClass('show-scroll-slide', tableWidth > flexWidth);
 
-                if(!firtScroll && flexWidth !== scrollWidth) {
-                    firtScroll = true;
-                    srollTable(store.pageGet(scrollOffsetStoreName, 0), true); // todo: unused?
+                if(!firstScroll && flexWidth !== scrollWidth) {
+                    firstScroll = true;
+                    scrollTable(store.pageGet(scrollOffsetStoreName, 0), true); // todo: unused?
                 }
 
                 if($datatable.hasClass('size-changing')) {
-                    srollTable(barLeft, true);
+                    scrollTable(barLeft, true);
                 }
             };
             $flexArea.resize(resizeScrollbar);
@@ -579,7 +598,7 @@
                 move: false,
                 stopPropagation: true,
                 drag: function(e) {
-                    srollTable($bar.position().left + e.smallOffset.x * (e.element.hasClass('bar') ? 1 : -1));
+                    scrollTable($bar.position().left + e.smallOffset.x * (e.element.hasClass('bar') ? 1 : -1));
                 },
                 finish: function() {
                     $datatable.removeClass('scrolling');
@@ -597,7 +616,7 @@
 
             $scrollbar.mousedown(function(event) {
                 var x = event.pageX - $scrollbar.offset().left;
-                srollTable(x - (scrollWidth / 2));
+                scrollTable(x - (scrollWidth / 2));
             });
         }
 
@@ -679,14 +698,20 @@
             }
 
             this.$datatable.off(checkEventPrefix).on('click.zui.datatable.check', '.check-all', function() {
+                that.toggleAnimation(false);
                 $rows.toggleClass(checkedClass, $(this).toggleClass('checked').hasClass('checked'));
                 syncChecks();
+                that.toggleAnimation(true);
             }).on(checkEventPrefix + '.none', '.check-none', function() {
+                that.toggleAnimation(false);
                 $rows.toggleClass(checkedClass, false);
                 syncChecks();
+                that.toggleAnimation(true);
             }).on(checkEventPrefix + '.inverse', '.check-inverse', function() {
+                that.toggleAnimation(false);
                 $rows.toggleClass(checkedClass);
                 syncChecks();
+                that.toggleAnimation(true);
             });
 
             if(options.storage) {
@@ -886,7 +911,6 @@
         var $datatable = this.$datatable,
             options = this.options,
             rows = this.data.rows,
-            cols = this.data.cols,
             i;
 
         $datatable.find('.datatable-span.fixed-left').css('width', options.fixedLeftWidth);
@@ -905,7 +929,6 @@
                 return mx;
             };
             var $dataCells = this.$dataCells,
-                $cells = this.$cells,
                 $headCells = this.$headCells;
 
             // set height of head cells

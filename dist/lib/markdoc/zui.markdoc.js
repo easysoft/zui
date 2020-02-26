@@ -1,6 +1,6 @@
 /*!
- * ZUI: Markdown 文档生成器 - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: Markdown 文档生成器 - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
@@ -1294,7 +1294,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 
 /* ========================================================================
  * ZUI: markdoc.js
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright (c) 2017-2019 cnezsoft.com; Licensed MIT
  * ======================================================================== */
@@ -1424,4 +1424,3 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         }
     });
 }(jQuery));
-

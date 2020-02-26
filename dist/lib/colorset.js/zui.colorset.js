@@ -1,13 +1,13 @@
 /*!
- * ZUI: JS配色表 - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: JS配色表 - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /*!
- * ZUI: Generated from less code - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: Generated from less code - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
@@ -58,7 +58,7 @@
         importantPale: '#f7ebe1',
         specialPale: '#f5eeff'
     };
-    
+
     colorset.get = function(colorName) {
         if(typeof colorName === 'undefined' || colorName === 'random') {
             colorName = presetColors[(nextColorIndex++) % presetColors.length];

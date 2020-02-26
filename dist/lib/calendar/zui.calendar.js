@@ -1,13 +1,13 @@
 /*!
- * ZUI: 日历 - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: 日历 - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
  * ZUI: calendar.js
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
  * ======================================================================== */

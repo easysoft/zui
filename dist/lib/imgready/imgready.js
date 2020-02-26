@@ -4,7 +4,7 @@
  *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * original version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * @version 2011.05.27
  * @author  TangBin
@@ -102,4 +102,3 @@
         };
     })();
 }(jQuery));
-

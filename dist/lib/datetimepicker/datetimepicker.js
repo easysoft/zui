@@ -4,7 +4,7 @@
  *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright 2012 Stefan Petre
  * Improvements by Andrew Rowls
@@ -985,12 +985,13 @@
                             if(this.viewSelect >= 2) {
                                 this._setDate(UTCDate(year, month, day, hours, minutes, seconds, 0));
                             }
-                        }
-                        var oldViewMode = this.viewMode;
-                        this.showMode(-1);
-                        this.fill();
-                        if(oldViewMode == this.viewMode && this.autoclose) {
-                            this.hide();
+
+                            var oldViewMode = this.viewMode;
+                            this.showMode(-1);
+                            this.fill();
+                            if(oldViewMode == this.viewMode && this.autoclose) {
+                                this.hide();
+                            }
                         }
                         break;
                 }

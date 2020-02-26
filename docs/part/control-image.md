@@ -12,7 +12,7 @@ filter: tupian tp
 <div class="example"><img src="docs/img/img1.jpg" width="200px" height="200px" class="img-rounded" alt="圆角图片"></div>
 
 ```html
-<img src="http://zui.sexy/docs/img/img1.jpg" width="200px" height="200px" class="img-rounded" alt="圆角图片">
+<img src="http://openzui.com/docs/img/img1.jpg" width="200px" height="200px" class="img-rounded" alt="圆角图片">
 ```
 
 ## 圆形图片
@@ -20,7 +20,7 @@ filter: tupian tp
 <div class="example"><img src="docs/img/img2.jpg" width="200px" height="200px" class="img-circle" alt="圆形图片"></div>
 
 ```html
-<img src="http://zui.sexy/docs/img/img2.jpg" width="200px" height="200px" class="img-circle" alt="圆形图片">
+<img src="http://openzui.com/docs/img/img2.jpg" width="200px" height="200px" class="img-circle" alt="圆形图片">
 ```
 
 ## 缩略图
@@ -28,7 +28,7 @@ filter: tupian tp
 <div class="example"><img src="docs/img/img3.jpg" width="200px" height="200px" class="img-thumbnail" alt="缩略图"></div>
 
 ```html
-<img src="http://zui.sexy/docs/img/img3.jpg" width="200px" height="200px" class="img-thumbnail" alt="缩略图">
+<img src="http://openzui.com/docs/img/img3.jpg" width="200px" height="200px" class="img-thumbnail" alt="缩略图">
 ```
 
 ## 响应式图片
@@ -43,7 +43,7 @@ filter: tupian tp
 </div>
 
 ```html
-<img src="http://zui.sexy/docs/img/img4.jpg" width="200px" height="200px" class="img-responsive" alt="响应式图片测试">
+<img src="http://openzui.com/docs/img/img4.jpg" width="200px" height="200px" class="img-responsive" alt="响应式图片测试">
 ```
 
 <div class="alert with-icon">

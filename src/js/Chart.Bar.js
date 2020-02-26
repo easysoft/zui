@@ -1,10 +1,10 @@
 /* ========================================================================
  * Chart.js: Chart.Bar.js [Version: 1.0.2]
  * http://chartjs.org/
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright 2015 Nick Downie, Released under the MIT license
  * https://github.com/nnnick/Chart.js/blob/master/LICENSE.md
@@ -53,7 +53,7 @@
         //Boolean - Whether to show beyond lines
         scaleShowBeyondLine: true,
         /// ZUI change end
-        /// 
+        ///
         //Boolean - If there is a stroke on each bar
         barShowStroke: true,
 
@@ -391,4 +391,3 @@
 }).call(this, jQuery);
 
 /// ----- ZUI change end -----
-

@@ -1,6 +1,6 @@
 /*!
- * ZUI: Document - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: Document - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
@@ -8,7 +8,7 @@
 /* ========================================================================
  * ZUI: array.js
  * Array polyfills.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
@@ -336,10 +336,10 @@
  * jQuery Hotkeys Plugin
  * Based upon the plugin by Tzury Bar Yochay:
  * https://github.com/tzuryby/jquery.hotkeys
- *  
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright 2010, John Resig
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -510,7 +510,6 @@
     });
 
 })(jQuery);
-
 
 /*!
  * clipboard.js v1.5.5
@@ -12801,7 +12800,7 @@ require('./polyfill-done.js');
 });
 /* ========================================================================
 * For document UI
-* http://zui.sexy
+* http://openzui.com
 * ========================================================================
 * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
 * ZUI: doc.js

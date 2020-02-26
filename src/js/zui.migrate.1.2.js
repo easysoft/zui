@@ -3,7 +3,7 @@
  * This file inclues some helper methods to help upgrad version 1.2 or
  * lower to version 1.3
  * If you are using 1.3+, then ignore this.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
  * ======================================================================== */
@@ -34,4 +34,3 @@
         extendTo(['Color', 'imgReady', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store'], window);
     }
 }(jQuery, window));
-

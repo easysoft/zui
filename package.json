@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/easysoft/zui/issues"
   },
-  "homepage": "http://zui.sexy",
+  "homepage": "http://openzui.com",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",

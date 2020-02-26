@@ -1,10 +1,10 @@
 /* ========================================================================
  * Bootstrap: button.js v3.0.3
  * http://getbootstrap.com/javascript/#buttons
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * Bootsrap version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright 2011-2014 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -109,4 +109,3 @@
     })
 
 }(jQuery);
-

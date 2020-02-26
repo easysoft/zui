@@ -224,7 +224,7 @@ $("#imgCutter").imgCutter({
 var myImgCutter = $('#imgCutter').data('zui.imgCutter');
 
 // 调用 resetImg 方法
-myImgCutter.resetImage('http://zui.sexy/docs/img/img1.jpg');
+myImgCutter.resetImage('http://openzui.com/docs/img/img1.jpg');
 
 // 调用 getData 方法
 var myImgCutterData = myImgCutter.getData();

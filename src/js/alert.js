@@ -18,7 +18,7 @@
  *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * Bootsrap version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ======================================================================== */
 
 

@@ -4,7 +4,7 @@
  *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * http://bootboxjs.com/license.txt
  * Improvement in ZUI:

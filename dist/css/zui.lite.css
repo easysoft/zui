@@ -1,6 +1,6 @@
 /*!
- * ZUI: Lite edition - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: Lite edition - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
@@ -903,11 +903,11 @@ a {
   -webkit-transition: .4s cubic-bezier(.175, .885, .32, 1);
        -o-transition: .4s cubic-bezier(.175, .885, .32, 1);
           transition: .4s cubic-bezier(.175, .885, .32, 1);
-  -webkit-transition-property: color, background, opacity, left, top, right, bottom, -webkit-transform;
-       -o-transition-property: color, background, opacity, left, top, right, bottom, -o-transform;
-          transition-property: color, background, opacity, left, top, right, bottom, -webkit-transform;
-          transition-property: color, background, transform, opacity, left, top, right, bottom;
-          transition-property: color, background, transform, opacity, left, top, right, bottom, -webkit-transform, -o-transform;
+  -webkit-transition-property: color, background, opacity, -webkit-transform;
+       -o-transition-property: color, background, opacity, -o-transform;
+          transition-property: color, background, opacity, -webkit-transform;
+          transition-property: color, background, transform, opacity;
+          transition-property: color, background, transform, opacity, -webkit-transform, -o-transform;
   }
 a:hover,
 a:focus {
@@ -5353,6 +5353,16 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   }
 .navbar-inverse .navbar-link:hover {
   color: #fff;
+  }
+.no-animation,
+.no-animation:before,
+.no-animation:after,
+.no-animation *,
+.no-animation *:before,
+.no-animation *:after {
+  -webkit-transition: none!important;
+       -o-transition: none!important;
+          transition: none!important;
   }
 .fade {
   opacity: 0;

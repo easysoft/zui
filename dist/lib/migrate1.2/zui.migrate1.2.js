@@ -1,6 +1,6 @@
 /*!
- * ZUI: 1.2升级到1.3兼容插件 - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: 1.2升级到1.3兼容插件 - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
@@ -10,7 +10,7 @@
  * This file inclues some helper methods to help upgrad version 1.2 or
  * lower to version 1.3
  * If you are using 1.3+, then ignore this.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright (c) 2014 cnezsoft.com; Licensed MIT
  * ======================================================================== */
@@ -41,4 +41,3 @@
         extendTo(['Color', 'imgReady', 'messager', 'Messager', 'showMessager', 'closeModal', 'ajustModalPosition', 'ModalTrigger', 'modalTrigger', 'store'], window);
     }
 }(jQuery, window));
-

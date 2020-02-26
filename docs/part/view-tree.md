@@ -704,7 +704,7 @@ function afterPageLoad() {
     </tr>
     <tr>
       <td>`url`</td>
-      <td>`'http://zui.sexy'`</td>
+      <td>`'http://openzui.com'`</td>
       <td>可选，以链接的形式显示节点，指定链接地址。</td>
     </tr>
     <tr>
@@ -742,7 +742,7 @@ function afterPageLoad() {
 ```js
 var myTreeData = [{
     title: '水果',
-    url: 'http://zui.sexy',
+    url: 'http://openzui.com',
     open: true,
     children: [
         {title: '橘子'},

@@ -1,10 +1,10 @@
 /* ========================================================================
  * jQuery Cookie Plugin v1.4.1
  * https://github.com/carhartl/jquery-cookie
- * 
+ *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright 2013 Klaus Hartl
  * Released under the MIT license

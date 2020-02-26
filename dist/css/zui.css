@@ -1,6 +1,6 @@
 /*!
- * ZUI: Standard edition - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: Standard edition - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
@@ -918,11 +918,11 @@ a {
   -webkit-transition: .4s cubic-bezier(.175, .885, .32, 1);
        -o-transition: .4s cubic-bezier(.175, .885, .32, 1);
           transition: .4s cubic-bezier(.175, .885, .32, 1);
-  -webkit-transition-property: color, background, opacity, left, top, right, bottom, -webkit-transform;
-       -o-transition-property: color, background, opacity, left, top, right, bottom, -o-transform;
-          transition-property: color, background, opacity, left, top, right, bottom, -webkit-transform;
-          transition-property: color, background, transform, opacity, left, top, right, bottom;
-          transition-property: color, background, transform, opacity, left, top, right, bottom, -webkit-transform, -o-transform;
+  -webkit-transition-property: color, background, opacity, -webkit-transform;
+       -o-transition-property: color, background, opacity, -o-transform;
+          transition-property: color, background, opacity, -webkit-transform;
+          transition-property: color, background, transform, opacity;
+          transition-property: color, background, transform, opacity, -webkit-transform, -o-transform;
   }
 a:hover,
 a:focus {
@@ -2583,10 +2583,17 @@ input[type="button"].btn-block {
   color: #fff;
   text-align: center;
   background-color: #3280fc;
-  border-radius: 4px;
   -webkit-transition: width .6s ease;
        -o-transition: width .6s ease;
           transition: width .6s ease;
+  }
+.progress > .progress-bar:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  }
+.progress > .progress-bar:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   }
 .progress-striped .progress-bar {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
@@ -4561,6 +4568,7 @@ textarea.form-condensed .form-control {
   height: 20px;
   pointer-events: none;
   content: ' ';
+  background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
   -webkit-transition: all .4s cubic-bezier(.175, .885, .32, 1);
@@ -4571,7 +4579,6 @@ textarea.form-condensed .form-control {
   top: 6px;
   width: 18px;
   height: 18px;
-  background-color: #fff;
   border-color: #ccc;
   border-radius: 9px;
   -webkit-box-shadow: rgba(0, 0, 0, .05) 0 1px 4px, rgba(0, 0, 0, .12) 0 1px 2px;
@@ -4671,6 +4678,7 @@ textarea.form-condensed .form-control {
 .checkbox-primary > label:after,
 .radio-primary > label:after {
   z-index: 1;
+  background: #fff;
   border: 1px solid #808080;
   -webkit-transition: .4s cubic-bezier(.175, .885, .32, 1);
        -o-transition: .4s cubic-bezier(.175, .885, .32, 1);
@@ -4763,7 +4771,7 @@ textarea.form-condensed .form-control {
   }
 .radio-primary > input:checked + label:after,
 .radio-primary.checked > label:after {
-  background-color: transparent;
+  background-color: #fff;
   border-color: #3280fc;
   border-width: 2px;
   }
@@ -4773,7 +4781,7 @@ textarea.form-condensed .form-control {
   }
 .radio-primary.checked.disabled > label:after,
 .radio-primary input:disabled:checked + label:after {
-  background-color: transparent;
+  background-color: #fff;
   border-color: #bbb;
   }
 .radio-primary.checked.disabled > label:before,
@@ -6848,6 +6856,16 @@ fieldset[disabled] .navbar-default .btn-link:focus {
     -webkit-box-shadow: none;
             box-shadow: none;
     }
+  }
+.no-animation,
+.no-animation:before,
+.no-animation:after,
+.no-animation *,
+.no-animation *:before,
+.no-animation *:after {
+  -webkit-transition: none!important;
+       -o-transition: none!important;
+          transition: none!important;
   }
 .fade {
   opacity: 0;

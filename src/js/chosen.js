@@ -7,7 +7,7 @@
  *
  * ZUI: The file has been changed in ZUI. It will not keep update with the
  * official version in the future.
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright (c) 2011 Harvest http://getharvest.com
  * MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md

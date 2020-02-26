@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/easysoft/zui.git"
   },
-  "homepage": "http://zui.sexy",
+  "homepage": "http://openzui.com",
   "license": "MIT",
   "moduleType": [
     "globals"

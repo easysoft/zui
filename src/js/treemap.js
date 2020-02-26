@@ -1,6 +1,6 @@
 /* ========================================================================
  * ZUI: treemap.js
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
@@ -405,4 +405,3 @@
 
     $.fn.treemap.Constructor = Treemap;
 }(jQuery, window, document, Math, undefined));
-

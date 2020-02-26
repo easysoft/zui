@@ -1,13 +1,13 @@
 /*!
- * ZUI: Ajax 响应模拟工具 - v1.9.1 - 2020-02-05
- * http://zui.sexy
+ * ZUI: Ajax 响应模拟工具 - v1.9.1 - 2020-02-26
+ * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
  * ZUI: AjaxFake.js
- * http://zui.sexy
+ * http://openzui.com
  * ========================================================================
  * Copyright (c) 2017-2019 cnezsoft.com; Licensed MIT
  * ======================================================================== */
@@ -114,4 +114,3 @@
 
     $.fakeServer = fakeServer;
 }(jQuery));
-

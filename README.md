@@ -6,9 +6,9 @@
 
 一个基于 Bootstrap 深度定制开源前端实践方案，帮助你快速构建现代跨屏应用。
 
-从官方网站了解更多： http://zui.sexy/ 。
+从官方网站了解更多： http://openzui.com/ 。
 
-💎 &nbsp;为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://zui.sexy/m/)。
+💎 &nbsp;为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://openzui.com/m/)。
 
 官方 QQ 群：**2群：127535859**，1群：384135104（满员）
 项目和计划：http://zui.5upm.com/product-browse-2.html
@@ -23,7 +23,7 @@
 
 ## 快速使用
 
-详细使用说明访问 http://zui.sexy/#basic/download 。
+详细使用说明访问 http://openzui.com/#basic/download 。
 
 ### NPM
 
@@ -62,7 +62,7 @@ bower install zui
 
 ### 文档
 
-文档请直接访问官方网站 http://zui.sexy/ 。
+文档请直接访问官方网站 http://openzui.com/ 。
 
 开发中的文档请访问 https://easysoft.github.io/zui/ 。
 
