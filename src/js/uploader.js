@@ -507,9 +507,9 @@
                 $file.find('.btn-download-file').attr('title', that.lang.download).attr('download', file.name);
             }
             $file.data('id', file.id)
-                 .toggleClass('file-static', !!file.static)
-                 .attr('id', 'file-' + file.id)
-                 .appendTo(that.$list);
+                .toggleClass('file-static', !!file.static)
+                .attr('id', 'file-' + file.id)
+                .appendTo(that.$list);
             if($.fn.tooltip) $file.find('[data-toggle="tooltip"]').tooltip();
         }
         return $file;
