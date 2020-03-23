@@ -694,7 +694,7 @@
                         var json = file.remoteData;
                         if($.isPlainObject(json)) {
                             var result = json.status || json.result;
-                            result = result === 'ok' || result === 'success' || result === 200;
+                            result = result === undefined || result === 'ok' || result === 'success' || result === 200;
                             if (result) {
                                 if(json.id !== undefined) file.remoteId = json.id;
                                 if(json.url !== undefined) file.url = json.url;
