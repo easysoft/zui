@@ -328,6 +328,9 @@
                             modalType: STR_AJAX
                         });
                         readyToShow();
+                        if (options.scrollInside) {
+                            $(window).off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                        }
                     },
                     error: onLoadBroken
                 }, options.ajaxOptions));
