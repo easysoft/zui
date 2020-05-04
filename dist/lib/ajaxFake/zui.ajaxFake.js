@@ -94,9 +94,9 @@
                 var result = $.isFunction(router.route) ? router.route.call(router, options, onSuccess, onError) : router.route;
                 if (result !== true) {
                     if (result === false) {
-                        onError();
+                        onError(500);
                     } else {
-                        onSuccess(result);
+                        onSuccess(result, 200);
                     }
                 }
                 console.groupCollapsed('%cFakeAjax %c' + url + '%c ' + (result === false ? 'Error' : 'Success'), 'color: lightblue', 'text-decoration: underline', (result === false) ? 'color: red' : 'color: green');
