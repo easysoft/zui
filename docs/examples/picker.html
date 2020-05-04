@@ -280,8 +280,7 @@ label.code {font-size: 12px; color: #999;}
 var fakeServerRoute = function(options) {
     console.log('请求地址', this.url);
     var count = 0;
-    return false;
-    if(Math.random() < 0.2) {
+    if(Math.random() < 0.3) {
         return false;
     }
     if(Math.random() > 0.2) {

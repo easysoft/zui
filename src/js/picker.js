@@ -244,7 +244,7 @@
         });
 
         // Debug
-        console.log('Picker', that);
+        // console.log('Picker', that);
     };
 
     Picker.prototype.select = function(value) {
@@ -728,7 +728,7 @@
     };
 
     Picker.prototype.setValue = function(value) {
-        console.log('setValue', value);
+        // console.log('setValue', value);
         var that = this;
         var options = that.options;
 
