@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.1 - 2020-02-26
+ * ZUI: Standard edition - v1.9.1 - 2020-05-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -38,7 +38,7 @@
     var lastUuidAmend = 0;
     $.zui({
         uuid: function(asNumber) {
-            var uuidNumber = (Date.now() - 1580890015292) * 100000000 + Math.floor(Math.random() * 100000) * 1000 + (lastUuidAmend++) % 1000;
+            var uuidNumber = (Date.now() - 1580890015292) * 10e7 + Math.floor(Math.random() * 10e4) * 10e2 + (lastUuidAmend++) % 10e2;
             return asNumber ? uuidNumber : uuidNumber.toString(36);
         },
 
@@ -3845,6 +3845,9 @@
                             modalType: STR_AJAX
                         });
                         readyToShow();
+                        if (options.scrollInside) {
+                            $(window).off('resize.' + NAME).on('resize.' + NAME, resizeDialog);
+                        }
                     },
                     error: onLoadBroken
                 }, options.ajaxOptions));

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 文件上传 - v1.9.1 - 2020-02-26
+ * ZUI: 文件上传 - v1.9.1 - 2020-05-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -543,9 +543,9 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
                 $file.find('.btn-download-file').attr('title', that.lang.download).attr('download', file.name);
             }
             $file.data('id', file.id)
-                 .toggleClass('file-static', !!file.static)
-                 .attr('id', 'file-' + file.id)
-                 .appendTo(that.$list);
+                .toggleClass('file-static', !!file.static)
+                .attr('id', 'file-' + file.id)
+                .appendTo(that.$list);
             if($.fn.tooltip) $file.find('[data-toggle="tooltip"]').tooltip();
         }
         return $file;
@@ -730,7 +730,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
                         var json = file.remoteData;
                         if($.isPlainObject(json)) {
                             var result = json.status || json.result;
-                            result = result === 'ok' || result === 'success' || result === 200;
+                            result = result === undefined || result === 'ok' || result === 'success' || result === 200;
                             if (result) {
                                 if(json.id !== undefined) file.remoteId = json.id;
                                 if(json.url !== undefined) file.url = json.url;

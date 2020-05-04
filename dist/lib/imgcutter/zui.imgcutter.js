@@ -1,5 +1,5 @@
 /*!
- * ZUI: 图片裁剪工具 - v1.9.1 - 2020-02-26
+ * ZUI: 图片裁剪工具 - v1.9.1 - 2020-05-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -34,7 +34,8 @@
         defaultWidth: 128,
         defaultHeight: 128,
         minWidth: 48,
-        minHeight: 48
+        minHeight: 48,
+        // onSizeError: null
     }; // default options
 
     ImgCutter.prototype.callEvent = function(name, params) {
@@ -92,6 +93,14 @@
             $.zui.imgReady(that.options.img, function() {
                 that.imgWidth = this.width;
                 that.imgHeight = this.height;
+
+                if (this.width < that.options.minWidth || this.height < that.options.minHeight) {
+                    if (that.options.onSizeError) {
+                        that.options.onSizeError({width: this.width, height: this.height});
+                    }
+                    that.options.minWidth = Math.min(this.width, that.options.minWidth);
+                    that.options.minHeight = Math.min(this.height, that.options.minHeight);
+                }
                 that.callEvent('ready');
             });
         }

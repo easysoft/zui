@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.1 - 2020-02-26
+ * ZUI: Standard edition - v1.9.1 - 2020-05-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -3983,9 +3983,6 @@ a .icon-spin {
 .icon-weibo:before {
   content: '\e746';
   }
-.icon-renren:before {
-  content: '\e747';
-  }
 .icon-chrome:before {
   content: '\e76c';
   }
@@ -4064,10 +4061,9 @@ a .icon-spin {
   display: -webkit-flex;
   display: -ms-flexbox;
   display:         flex;
-  padding-top: 50px;
   font-size: 12px;
   content: attr(data-loading);
-  background-color: rgba(255, 255, 255, .65);
+  background-color: rgba(255, 255, 255, .8);
 
   -webkit-box-align: center;
   -webkit-align-items: center;
@@ -4077,6 +4073,9 @@ a .icon-spin {
   -webkit-justify-content: center;
   -ms-flex-pack: center;
           justify-content: center;
+  }
+.load-indicator[data-loading]:before {
+  padding-top: 50px;
   }
 .load-indicator:after {
   top: 50%;
@@ -7090,7 +7089,7 @@ tbody.collapse.in {
   left: 0;
   overflow-y: auto;
   }
-.body-modal-scroll-inside {
+.modal-scroll-inside {
   overflow: auto;
   }
 .tooltip {

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.9.1 - 2020-02-26
+ * ZUI: Lite edition - v1.9.1 - 2020-05-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -3544,9 +3544,6 @@ a .icon-spin {
 .icon-weibo:before {
   content: '\e746';
   }
-.icon-renren:before {
-  content: '\e747';
-  }
 .icon-chrome:before {
   content: '\e76c';
   }
@@ -5586,7 +5583,7 @@ tbody.collapse.in {
   left: 0;
   overflow-y: auto;
   }
-.body-modal-scroll-inside {
+.modal-scroll-inside {
   overflow: auto;
   }
 .tooltip {

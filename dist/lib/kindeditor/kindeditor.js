@@ -10083,7 +10083,7 @@ KindEditor.EditorClass.prototype.setPlaceholder = function(placeholder, asHtml) 
 };
 
 KindEditor.EditorClass.prototype.getPlaceholder = function(asHtml) {
-    return self.$placeholder && self.$placeholder[asHtml ? 'html' : 'text']();
+    return this.$placeholder ? this.$placeholder[asHtml ? 'html' : 'text']() : '';
 };
 
 KindEditor.plugin('placeholder', function(K) {

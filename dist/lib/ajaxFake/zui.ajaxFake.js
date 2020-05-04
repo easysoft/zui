@@ -1,5 +1,5 @@
 /*!
- * ZUI: Ajax 响应模拟工具 - v1.9.1 - 2020-02-26
+ * ZUI: Ajax 响应模拟工具 - v1.9.1 - 2020-05-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -24,14 +24,14 @@
             var router = routers[i];
             if (router.urlMatch instanceof RegExp) {
                 if (router.urlMatch.test(url)) {
-                    return router;
+                    return $.extend(true, {url: url}, router);
                 }
             } else if (typeof router.urlMatch === 'function') {
                 if (router.urlMatch(url)) {
-                    return router;
+                    return $.extend(true, {url: url}, router);
                 }
             } else if (url.indexOf(router.urlMatch) === 0) {
-                return router;
+                return $.extend(true, {url: url}, router);
             }
         }
     };
@@ -41,6 +41,9 @@
         var router = getMatchRouter(url);
         if (router) {
             var onSuccess = function(data, textStatus) {
+                if (router.aborted) {
+                    return;
+                }
                 var dataType = options.dataType;
                 if (dataType === 'json') {
                     if (typeof data === 'string') {
@@ -54,23 +57,41 @@
                 if (options.success) {
                     options.success(data, textStatus);
                 }
+                if (router.doneCallback) {
+                    router.doneCallback(data, textStatus);
+                }
                 if (options.complete) {
                     options.complete(null, textStatus);
+                }
+                if (router.alwaysCallback) {
+                    router.alwaysCallback(data, textStatus);
                 }
             };
             var onError = function(textStatus, errorThrown) {
+                if (router.aborted) {
+                    return;
+                }
                 if (options.error) {
                     options.error(null, textStatus, errorThrown);
                 }
+                if (router.failCallback) {
+                    router.failCallback(textStatus, errorThrown);
+                }
                 if (options.complete) {
                     options.complete(null, textStatus);
+                }
+                if (router.alwaysCallback) {
+                    router.alwaysCallback(textStatus, errorThrown);
                 }
             };
             if (options.beforeSend) {
                 options.beforeSend(null, options);
             }
             var processRouter = function() {
-                var result = $.isFunction(router.route) ? router.route(options, onSuccess, onError) : router.route;
+                if (router.aborted) {
+                    return;
+                }
+                var result = $.isFunction(router.route) ? router.route.call(router, options, onSuccess, onError) : router.route;
                 if (result !== true) {
                     if (result === false) {
                         onError();
@@ -78,17 +99,13 @@
                         onSuccess(result);
                     }
                 }
-                console.groupCollapsed('FakeAjax: ' + url + ' %c' + (result === false ? 'Error' : 'Success'), (result === false) ? 'color: red' : 'color: green');
+                console.groupCollapsed('%cFakeAjax %c' + url + '%c ' + (result === false ? 'Error' : 'Success'), 'color: lightblue', 'text-decoration: underline', (result === false) ? 'color: red' : 'color: green');
                 console.log('response', result);
                 console.log('ajax options', options);
                 console.groupEnd();
                 return result;
             }
-            if (router.delay) {
-                setTimeout(processRouter, router.delay);
-            } else {
-                processRouter();
-            }
+            setTimeout(processRouter, router.delay || 0);
             return router;
         }
         return ajax.apply(null, arguments);
@@ -99,7 +116,23 @@
             $.ajax_origin = ajax;
             $.ajax = ajaxFake;
         }
-        var router = {};
+        var router = {
+            done: function(doneCallback) {
+                this.doneCallback = doneCallback;
+                return this;
+            },
+            fail: function(failCallback) {
+                this.failCallback = failCallback;
+                return this;
+            },
+            always: function(alwaysCallback) {
+                this.alwaysCallback = alwaysCallback;
+                return this;
+            },
+            abort: function() {
+                this.aborted = true;
+            }
+        };
         if ($.isPlainObject(urlMatch)) {
             $.extend(router, urlMatch);
         } else {
@@ -107,6 +140,8 @@
             router.route = route;
             if ($.isPlainObject(options)) {
                 $.extend(router, options);
+            } else if (typeof options === 'number') {
+                router.delay = options;
             }
         }
         routers.push(router);

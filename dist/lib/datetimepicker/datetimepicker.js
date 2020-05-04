@@ -1315,6 +1315,17 @@
             meridiem: ["上午", "下午"]
         }
     };
+    var getDateLang = function(language) {
+        var data = dates[language];
+        if (!data) {
+            if ($.zui && $.zui.getLangData) {
+                data = dates[language] = $.zui.getLangData('datetimepicker', this.language, dates);
+            } else {
+                data = dates.en;
+            }
+        }
+        return data;
+    };
 
     var DPGlobal = {
         modes: [{
@@ -1485,24 +1496,24 @@
                     if(isNaN(val)) {
                         switch(part) {
                             case 'MM':
-                                filtered = $(dates[language].months).filter(function() {
+                                filtered = $(getDateLang(language).months).filter(function() {
                                     var m = this.slice(0, parts[i].length),
                                         p = parts[i].slice(0, m.length);
                                     return m == p;
                                 });
-                                val = $.inArray(filtered[0], dates[language].months) + 1;
+                                val = $.inArray(filtered[0], getDateLang(language).months) + 1;
                                 break;
                             case 'M':
-                                filtered = $(dates[language].monthsShort).filter(function() {
+                                filtered = $(getDateLang(language).monthsShort).filter(function() {
                                     var m = this.slice(0, parts[i].length),
                                         p = parts[i].slice(0, m.length);
                                     return m == p;
                                 });
-                                val = $.inArray(filtered[0], dates[language].monthsShort) + 1;
+                                val = $.inArray(filtered[0], getDateLang(language).monthsShort) + 1;
                                 break;
                             case 'p':
                             case 'P':
-                                val = $.inArray(parts[i].toLowerCase(), dates[language].meridiem);
+                                val = $.inArray(parts[i].toLowerCase(), getDateLang(language).meridiem);
                                 break;
                         }
                     }
@@ -1528,13 +1539,13 @@
                     yyyy: date.getUTCFullYear(),
                     // month
                     m: date.getUTCMonth() + 1,
-                    M: dates[language].monthsShort[date.getUTCMonth()],
-                    MM: dates[language].months[date.getUTCMonth()],
+                    M: getDateLang(language).monthsShort[date.getUTCMonth()],
+                    MM: getDateLang(language).months[date.getUTCMonth()],
                     // day
                     d: date.getUTCDate(),
-                    D: dates[language].daysShort[date.getUTCDay()],
-                    DD: dates[language].days[date.getUTCDay()],
-                    p: (dates[language].meridiem.length == 2 ? dates[language].meridiem[date.getUTCHours() < 12 ? 0 : 1] : ''),
+                    D: getDateLang(language).daysShort[date.getUTCDay()],
+                    DD: getDateLang(language).days[date.getUTCDay()],
+                    p: (getDateLang(language).meridiem.length == 2 ? getDateLang(language).meridiem[date.getUTCHours() < 12 ? 0 : 1] : ''),
                     // hour
                     h: date.getUTCHours(),
                     // minute
@@ -1543,7 +1554,7 @@
                     s: date.getUTCSeconds()
                 };
 
-                if(dates[language].meridiem.length == 2) {
+                if(getDateLang(language).meridiem.length == 2) {
                     val.H = (val.h % 12 == 0 ? 12 : val.h % 12);
                 } else {
                     val.H = val.h;
@@ -1562,19 +1573,19 @@
                     y: date.getUTCFullYear().toString().substring(2),
                     Y: date.getUTCFullYear(),
                     // month
-                    F: dates[language].months[date.getUTCMonth()],
-                    M: dates[language].monthsShort[date.getUTCMonth()],
+                    F: getDateLang(language).months[date.getUTCMonth()],
+                    M: getDateLang(language).monthsShort[date.getUTCMonth()],
                     n: date.getUTCMonth() + 1,
                     t: DPGlobal.getDaysInMonth(date.getUTCFullYear(), date.getUTCMonth()),
                     // day
                     j: date.getUTCDate(),
-                    l: dates[language].days[date.getUTCDay()],
-                    D: dates[language].daysShort[date.getUTCDay()],
+                    l: getDateLang(language).days[date.getUTCDay()],
+                    D: getDateLang(language).daysShort[date.getUTCDay()],
                     w: date.getUTCDay(), // 0 -> 6
                     N: (date.getUTCDay() == 0 ? 7 : date.getUTCDay()), // 1 -> 7
-                    S: (date.getUTCDate() % 10 <= dates[language].suffix.length ? dates[language].suffix[date.getUTCDate() % 10 - 1] : ''),
+                    S: (date.getUTCDate() % 10 <= getDateLang(language).suffix.length ? getDateLang(language).suffix[date.getUTCDate() % 10 - 1] : ''),
                     // hour
-                    a: (dates[language].meridiem.length == 2 ? dates[language].meridiem[date.getUTCHours() < 12 ? 0 : 1] : ''),
+                    a: (getDateLang(language).meridiem.length == 2 ? getDateLang(language).meridiem[date.getUTCHours() < 12 ? 0 : 1] : ''),
                     g: (date.getUTCHours() % 12 == 0 ? 12 : date.getUTCHours() % 12),
                     G: date.getUTCHours(),
                     // minute

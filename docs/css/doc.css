@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.9.1 - 2020-03-20
+ * ZUI: Document - v1.9.1 - 2020-05-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -4532,7 +4532,7 @@ body.compact-mode.compact-mode-in #navDownloadLink {
   opacity: 1;
   }
 body.compact-mode.compact-mode-in #compactTogger {
-  top: 0;
+  top: 1px;
   filter: alpha(opacity=100);
   opacity: 1;
   }
