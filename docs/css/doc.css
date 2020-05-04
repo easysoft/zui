@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.9.1 - 2020-02-26
+ * ZUI: Document - v1.9.1 - 2020-03-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -2617,12 +2617,12 @@ body {
   }
 #searchHelpBtn {
   position: absolute;
-  top: 4px;
+  top: 3px;
   right: 4px;
-  width: 35px;
-  height: 35px;
+  width: 36px;
+  height: 36px;
   padding: 0;
-  line-height: 39px;
+  line-height: 36px;
   color: #fff;
   text-align: center;
   filter: alpha(opacity=65);
@@ -2869,7 +2869,7 @@ body.ad-hover.ad-xuanxuan #download .btn-white {
   width: 30px;
   height: 30px;
   font-style: normal;
-  line-height: 30px;
+  line-height: 28px;
   text-align: center;
   background-position: center;
   -webkit-background-size: contain;
@@ -3108,6 +3108,8 @@ body.ad-hover.ad-xuanxuan #download .btn-white {
 #grid .section-preview.icon-preview > .icons > .icon {
   display: inline-block;
   margin: 0 15px;
+  line-height: 1;
+  text-align: center;
   }
 #grid .section-preview.icon-preview > h3 {
   padding: 0 10px;
@@ -4482,7 +4484,7 @@ body.compact-mode #searchHelpBtn {
   right: 3px;
   width: 30px;
   height: 30px;
-  line-height: 34px;
+  line-height: 30px;
   }
 body.compact-mode #header {
   position: fixed;
@@ -4530,7 +4532,7 @@ body.compact-mode.compact-mode-in #navDownloadLink {
   opacity: 1;
   }
 body.compact-mode.compact-mode-in #compactTogger {
-  top: 2px;
+  top: 0;
   filter: alpha(opacity=100);
   opacity: 1;
   }
