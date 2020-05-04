@@ -1447,6 +1447,15 @@
       "ver": "1.9.2",
       "ignoreDpds": false
     },
+    "picker": {
+      "name": "选择器",
+      "src": {
+        "js": ["src/js/picker.js"],
+        "less": ["src/less/components/picker.less"]
+      },
+      "ver": "1.9.3",
+      "ignoreDpds": false
+    },
     "lang.ja": {
       "name": "日语插件",
       "src": {

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ZUI，一个简单灵活的前端框架。">
+<meta name="author" content="Zentao">
+<title>ZUI - 选择器例子</title>
+<link href="../../dist/css/zui.css" rel="stylesheet">
+<link href="../../dist/lib/picker/zui.picker.css" rel="stylesheet">
+<style>
+body {background: #f5f5f5;}
+.picker-example {margin-bottom: 20px; padding: 20px; border: 1px solid #e5e5e5; background-color: #fff; border-radius: 5px;}
+label.code {font-size: 12px; color: #999;}
+</style>
+</head>
+
+<body style="padding: 20px">
+  <form action="" class="container">
+    <h2>构建方式演示</h2>
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker1">#1 .picker>input:hidden</label>
+          <div class="picker" data-allow-single-deselect="true">
+              <input type="hidden" id="picker1" name="picker1">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker2">#2 .picker>input:text</label>
+          <div class="picker">
+              <input type="text" id="picker2" name="picker2">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+        <label class="code" for="picker3">#3 input:hidden</label>
+        <input type="hidden" id="picker3" name="picker3" class="picker">
+      </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker4">#4 input:text</label>
+          <input type="text" id="picker4" name="picker4" class="picker">
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker5">#5 .picker[data-multi]>input:hidden</label>
+          <div class="picker" data-multi="true">
+              <input type="hidden" id="picker5" name="picker5">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker6">#6 .picker[data-multi]>input:text</label>
+          <div class="picker" data-multi="true">
+              <input type="text" id="picker6" name="picker6">
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker7">#7 input:hidden[data-multi]</label>
+          <input type="hidden" id="picker7" name="picker7" class="picker" data-multi="true">
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker8">#8 input:text[data-multi]</label>
+          <input type="text" id="picker8" name="picker8" class="picker" data-multi="true">
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker9">#9 select</label>
+          <select name="picker9" id="picker9" data-placeholder="选择一个宠物..." class="picker-select form-control" tabindex="2">
+            <option value=""></option>
+            <option value="cat" data-keys="xiaomao">小猫</option>
+            <option value="fish" data-keys="jinyu">金鱼</option>
+            <option value="dragon" data-keys="long">龙</option>
+            <option value="mammoth" data-keys="mengma">猛犸</option>
+            <option value="gollum" data-keys="gulu">咕噜</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker10">#10 select[multiple]</label>
+          <select name="picker10" id="picker10" data-placeholder="选择一些爱吃的水果..." class="picker-select form-control" tabindex="2" multiple>
+            <option value="strawberries" data-keys="caomei">草莓</option>
+            <option selected value="apple" data-keys="pingguo">苹果</option>
+            <option selected value="orange" data-keys="chengzi">橙子</option>
+            <option value="cherry" data-keys="yingtao">樱桃</option>
+            <option value="banana" data-keys="xiangjiao">香蕉</option>
+            <option value="figs" data-keys="wuhuaguo">无花果</option>
+            <option value="kiwi" data-keys="mihoutao">猕猴桃</option>
+            <option value="pineapple" data-keys="biluo">菠萝</option>
+            <option value="cantaloupe" data-keys="hamigua">哈密瓜</option>
+            <option value="watermelon" data-keys="xigua">西瓜</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <h2>自动宽度</h2>
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker11">#11 select</label>
+          <select name="picker11" id="picker11" data-placeholder="选择一个项目..." class="picker-select form-control" tabindex="2" data-drop-width="auto">
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+            <option value="zentao114">禅道第一百一十四期</option>
+            <option value="zentao115">禅道第一百一十五期</option>
+            <option value="zentao116">禅道第一百一十六期</option>
+            <option value="zentao117">禅道第一百一十七期</option>
+            <option value="zentao118">禅道第一百一十八期</option>
+            <option value="zentao119">禅道第一百一十九期</option>
+            <option value="gollum1234567890123456">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十六期</option>
+            <option value="gollum1234567890123457">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十七期</option>
+            <option value="gollum1234567890123458">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十八期</option>
+            <option value="gollum1234567890123459">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十九期</option>
+            <option value="gollum1234567890123460">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百六十期</option>
+            <option value="gollum1234567890123461">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百六十一期</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker12">#12 select</label>
+          <select name="picker12" id="picker12" data-placeholder="选择一些爱吃的水果..." class="picker-select form-control" tabindex="2" multiple data-drop-width="auto">
+            <option value="strawberries" data-keys="caomei">草莓</option>
+            <option selected value="apple" data-keys="pingguo">苹果</option>
+            <option selected value="orange" data-keys="chengzi">橙子</option>
+            <option value="cherry" data-keys="yingtao">樱桃</option>
+            <option value="banana" data-keys="xiangjiao">香蕉</option>
+            <option value="figs" data-keys="wuhuaguo">无花果</option>
+            <option value="kiwi" data-keys="mihoutao">猕猴桃</option>
+            <option value="pineapple" data-keys="biluo">菠萝</option>
+            <option value="cantaloupe" data-keys="hamigua">哈密瓜</option>
+            <option value="watermelon" data-keys="xigua">西瓜</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <h2>超长选项演示</h2>
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker13">#13 select</label>
+          <select name="picker13" id="picker13" data-placeholder="选择一个项目..." class="picker-select form-control" tabindex="2">
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+            <option value="zentao114">禅道第一百一十四期</option>
+            <option value="zentao115">禅道第一百一十五期</option>
+            <option value="zentao116">禅道第一百一十六期</option>
+            <option value="zentao117">禅道第一百一十七期</option>
+            <option value="zentao118">禅道第一百一十八期</option>
+            <option value="zentao119">禅道第一百一十九期</option>
+            <option value="gollum1234567890123456">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十六期</option>
+            <option value="gollum1234567890123457">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十七期</option>
+            <option value="gollum1234567890123458">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十八期</option>
+            <option value="gollum1234567890123459">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十九期</option>
+            <option value="gollum1234567890123460">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百六十期</option>
+            <option value="gollum1234567890123461">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百六十一期</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker14">#14 select[multiple]</label>
+          <select name="picker14" id="picker14" data-placeholder="选择一个项目..." class="picker-select form-control" tabindex="2" multiple>
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+            <option value="zentao114">禅道第一百一十四期</option>
+            <option value="zentao115">禅道第一百一十五期</option>
+            <option value="zentao116">禅道第一百一十六期</option>
+            <option value="zentao117">禅道第一百一十七期</option>
+            <option value="zentao118">禅道第一百一十八期</option>
+            <option value="zentao119">禅道第一百一十九期</option>
+            <option value="gollum1234567890123456">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十六期</option>
+            <option value="gollum1234567890123457">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十七期</option>
+            <option value="gollum1234567890123458">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十八期</option>
+            <option value="gollum1234567890123459">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百五十九期</option>
+            <option value="gollum1234567890123460">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百六十期</option>
+            <option value="gollum1234567890123461">咕噜第一千二百三十四兆五千六百七十八亿九千零一十二万三千四百六十一期</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <h2>远程检索</h2>
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker15">#15 select -remoteOnly</label>
+          <select name="picker15" id="picker15" data-placeholder="选择一个项目..." class="picker-remote form-control" tabindex="2" data-remote-only="true">
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker16">#16 select[multiple] -remoteOnly</label>
+          <select name="picker16" id="picker16" data-placeholder="选择一个项目..." class="picker-remote form-control" tabindex="2" multiple data-remote-only="true">
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker17">#17 select -remoteOnly -fast</label>
+          <select name="picker17" id="picker17" data-placeholder="选择一个项目..." class="picker-remote-fast form-control" tabindex="2" data-remote-only="true">
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker18">#18 select[multiple] -remoteOnly -fast</label>
+          <select name="picker18" id="picker18" data-placeholder="选择一个项目..." class="picker-remote-fast form-control" tabindex="2" multiple data-remote-only="true">
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker19">#19 select -mixLocal</label>
+          <select name="picker19" id="picker19" data-placeholder="选择一个项目..." class="picker-remote form-control" tabindex="2">
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker20">#20 select[multiple] -mixLocal</label>
+          <select name="picker20" id="picker20" data-placeholder="选择一个项目..." class="picker-remote form-control" tabindex="2" multiple>
+            <option value="zui001">ZUI 第一期</option>
+            <option value="zui002">ZUI 第二期</option>
+            <option value="zentao112">禅道第一百一十二期</option>
+            <option value="zentao113">禅道第一百一十三期</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+<script src="../../assets/jquery.js"></script>
+<script src="../../dist/js/zui.js"></script>
+<script src="../../dist/lib/picker/zui.picker.js"></script>
+<script src="../../dist/lib/ajaxFake/zui.ajaxFake.js"></script>
+<script>
+// 以下模拟服务器响应，动态返回搜索结果
+var fakeServerRoute = function(options) {
+    console.log('请求地址', this.url);
+    var count = 0;
+    return false;
+    if(Math.random() < 0.2) {
+        return false;
+    }
+    if(Math.random() > 0.2) {
+        count = Math.random() < 0.2 ? options.data.limit : Math.floor(options.data.limit * Math.random());
+    }
+    if(!count) {
+        return [];
+    }
+    var items = [];
+    var name = Math.random() > 0.5 ? '禅道' : 'ZUI';
+    for (var i = 0; i < count; ++i) {
+        items.push(name + (options.data.search ? ('之“' + options.data.search + '”') : '') + '第 ' + (i + 1) + ' 期');
+    }
+    return items;
+};
+$.fakeServer('/picker-select.json', fakeServerRoute, 2000);
+$.fakeServer('/picker-select-fast.json', fakeServerRoute, 100);
+
+$(function() {
+    // 普通用法
+    $('.picker').picker({
+        list: [
+          {text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods'}
+        ],
+        defaultValue: 'banana'
+    });
+
+    // 使用 select
+    $('.picker-select').picker();
+
+    // 远程形式
+    $('.picker-remote').picker({
+        dropWidth: '100%',
+        remote: '/picker-select.json?search={search}&limit={limit}',
+    });
+    $('.picker-remote-fast').picker({
+        dropWidth: 'auto',
+        remote: '/picker-select-fast.json?search={search}&limit={limit}',
+    });
+});
+</script>
+</body>
+</html>
