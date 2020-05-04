@@ -25,7 +25,7 @@
     // default options
     $ComponentName$.DEFAULTS = {};
 
-    // Extense jquery element
+    // Extends jquery element
     $.fn.$componentObject$ = function(option) {
         return this.each(function() {
             var $this = $(this);
