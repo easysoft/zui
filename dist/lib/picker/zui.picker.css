@@ -162,6 +162,7 @@
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 1;
   width: 100%;
   padding: 5px 8px;
   }
@@ -171,6 +172,22 @@
   min-width: 10px;
   max-width: 100%;
   padding: 0 2px;
+  margin: 2px 0;
+  }
+.picker-placeholder {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  left: 8px;
+  z-index: 0;
+  display: none;
+  overflow: hidden;
+  color: #808080;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  }
+.picker-no-value .picker-placeholder {
+  display: block;
   }
 .picker-drop-menu {
   position: fixed;
@@ -183,6 +200,9 @@
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
           box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
   opacity: 0;
+  -webkit-transition: opacity .1s linear;
+       -o-transition: opacity .1s linear;
+          transition: opacity .1s linear;
   }
 .picker-drop-menu.picker-drop-show {
   display: block;
@@ -215,17 +235,17 @@
   color: #3280fc;
   background: #ebf2f9;
   }
-.picker-option.picker-option-selected:hover,
-.picker-option.picker-option-selected:focus,
 .picker-option:hover,
 .picker-option:focus {
-  color: #fff;
   text-decoration: none;
+  }
+.picker-single .picker-option.picker-option-selected.picker-option-active,
+.picker-option.picker-option-active {
+  color: #fff;
   background-color: #3280fc;
   }
 .picker-multi .picker-option.picker-option-selected,
-.picker-multi .picker-option.picker-option-selected:hover,
-.picker-multi .picker-option.picker-option-selected:focus {
+.picker-multi .picker-option.picker-option-selected.picker-option-active {
   color: #ccc;
   cursor: not-allowed;
   background-color: #fff;

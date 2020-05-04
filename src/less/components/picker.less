@@ -129,13 +129,32 @@
         right: 0;
         bottom: 0;
         top: 0;
+        z-index: 1;
     }
     .picker-multi & {
         display: inline-block;
         width: 10px;
         padding: 0 2px;
+        margin: 2px 0;
         min-width: 10px;
         max-width: 100%;
+    }
+}
+
+.picker-placeholder {
+    color: @input-color-placeholder;
+    position: absolute;
+    top: 5px;
+    left: 8px;
+    right: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: none;
+    z-index: 0;
+
+    .picker-no-value & {
+        display: block;
     }
 }
 
@@ -149,6 +168,7 @@
     min-width: 100px;
     overflow-y: auto;
     opacity: 0;
+    transition: opacity .1s linear;
 
     &.picker-drop-show {
         display: block;
@@ -185,19 +205,20 @@
         color: @color-primary;
     }
 
-    &.picker-option-selected:hover,
-    &.picker-option-selected:focus,
     &:hover,
     &:focus {
         text-decoration: none;
+    }
+
+    .picker-single &.picker-option-selected.picker-option-active,
+    &.picker-option-active {
         color: @dropdown-link-hover-color;
         background-color: @dropdown-link-hover-bg;
     }
 
     .picker-multi &.picker-option-selected {
         &,
-        &:hover,
-        &:focus {
+        &.picker-option-active {
             color: #ccc;
             cursor: not-allowed;
             background-color: #fff;

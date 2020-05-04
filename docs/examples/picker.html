@@ -305,20 +305,33 @@ $(function() {
         list: [
           {text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods'}
         ],
-        defaultValue: 'banana'
+        defaultValue: 'banana',
+        onCreate: function(picker) {
+            console.log('>>', picker);
+        }
     });
 
     // 使用 select
-    $('.picker-select').picker();
+    $('.picker-select').picker({
+        onCreate: function(picker) {
+            console.log('>>', picker);
+        }
+    });
 
     // 远程形式
     $('.picker-remote').picker({
         dropWidth: '100%',
         remote: '/picker-select.json?search={search}&limit={limit}',
+        onCreate: function(picker) {
+            console.log('>>', picker);
+        }
     });
     $('.picker-remote-fast').picker({
         dropWidth: 'auto',
         remote: '/picker-select-fast.json?search={search}&limit={limit}',
+        onCreate: function(picker) {
+            console.log('>>', picker);
+        }
     });
 });
 </script>
