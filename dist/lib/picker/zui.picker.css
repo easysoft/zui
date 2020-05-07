@@ -1,12 +1,16 @@
 /*!
- * ZUI: 选择器 - v1.9.1 - 2020-05-04
+ * ZUI: 选择器 - v1.9.1 - 2020-05-07
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 .picker {
+  min-height: 32px;
   background-color: #eee;
+  }
+.picker:not(.picker-ready) > * {
+  display: none;
   }
 .picker-selections {
   position: relative;
@@ -194,34 +198,30 @@
   z-index: 1200;
   display: none;
   min-width: 100px;
-  overflow-y: auto;
   background-color: #fff;
   border-radius: 4px;
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
           box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
   opacity: 0;
-  -webkit-transition: opacity .1s linear;
-       -o-transition: opacity .1s linear;
-          transition: opacity .1s linear;
   }
 .picker-drop-menu.picker-drop-show {
   display: block;
   }
 .picker-drop-menu.picker-has-message {
   min-height: 22px;
+  padding-bottom: 22px;
   }
 .picker-option-list {
   padding: 5px 0;
   margin: 0;
+  overflow-y: auto;
   }
 .picker-no-options .picker-option-list {
   display: none;
   }
-.picker-has-message .picker-option-list {
-  padding-bottom: 22px;
-  }
 .picker-option {
   display: block;
+  min-height: 30px;
   padding: 5px 10px;
   overflow: hidden;
   clear: both;
@@ -230,6 +230,9 @@
   color: #353535;
   text-overflow: ellipsis;
   white-space: nowrap;
+  -webkit-transition: none;
+       -o-transition: none;
+          transition: none;
   }
 .picker-single .picker-option.picker-option-selected {
   color: #3280fc;

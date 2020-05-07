@@ -1,5 +1,9 @@
 .picker {
     background-color: #eeeeee;
+    min-height:  @input-height-base;
+    &:not(.picker-ready) > * {
+        display: none;
+    }
 }
 .picker-selections {
     min-height:  @input-height-base;
@@ -166,9 +170,8 @@
     border-radius: @border-radius-base;
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
     min-width: 100px;
-    overflow-y: auto;
     opacity: 0;
-    transition: opacity .1s linear;
+    // transition: opacity .1s linear;
 
     &.picker-drop-show {
         display: block;
@@ -176,17 +179,20 @@
 
     &.picker-has-message {
         min-height: 22px;
+        padding-bottom: 22px;
     }
 }
 .picker-option-list {
     margin: 0;
     padding: 5px 0;
+    overflow-y: auto;
+
     .picker-no-options & {
         display: none;
     }
 
     .picker-has-message & {
-        padding-bottom: 22px;
+
     }
 }
 .picker-option {
@@ -195,10 +201,12 @@
     clear: both;
     font-weight: normal;
     line-height: @line-height-base;
+    min-height: 30px;
     color: @dropdown-link-color;
     white-space: nowrap; // prevent links from randomly breaking onto new lines
     overflow: hidden;
     text-overflow: ellipsis;
+    transition: none;
 
     .picker-single &.picker-option-selected {
         background: @color-pale;

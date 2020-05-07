@@ -155,7 +155,7 @@ label.code {font-size: 12px; color: #999;}
       <div class="col-xs-4">
         <div class="picker-example">
           <label class="code" for="picker13">#13 select</label>
-          <select name="picker13" id="picker13" data-placeholder="选择一个项目..." class="picker-select form-control" tabindex="2">
+          <select name="picker13" id="picker13" data-placeholder="选择一个项目..." class="picker-select form-control" tabindex="2" data-max-list-count="10">
             <option value="zui001">ZUI 第一期</option>
             <option value="zui002">ZUI 第二期</option>
             <option value="zentao112">禅道第一百一十二期</option>
@@ -178,7 +178,7 @@ label.code {font-size: 12px; color: #999;}
       <div class="col-xs-4">
         <div class="picker-example">
           <label class="code" for="picker14">#14 select[multiple]</label>
-          <select name="picker14" id="picker14" data-placeholder="选择一个项目..." class="picker-select form-control" tabindex="2" multiple>
+          <select name="picker14" id="picker14" data-placeholder="选择一个项目..." class="picker-select form-control" tabindex="2" multiple data-max-list-count="10">
             <option value="zui001">ZUI 第一期</option>
             <option value="zui002">ZUI 第二期</option>
             <option value="zentao112">禅道第一百一十二期</option>
@@ -267,7 +267,35 @@ label.code {font-size: 12px; color: #999;}
           </select>
         </div>
       </div>
-
+    </div>
+    <h2>Chosen</h2>
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker21">#21 select chosen</label>
+          <select id="picker21" name="picker21" data-placeholder="选择一个宠物..." class="chosen-select form-control" tabindex="2">
+            <option value=""></option>
+            <option value="cat">小猫</option>
+            <option value="fish">金鱼</option>
+            <option value="dragon">龙</option>
+            <option value="mammoth">猛犸</option>
+            <option value="gollum">咕噜</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="picker-example">
+          <label class="code" for="picker22">#22 select[multiple] chosen</label>
+          <select id="picker22" name="picker22" data-placeholder="选择一些爱吃的水果..." class="chosen-select form-control" tabindex="2" multiple="">
+            <option value="strawberries">草莓</option>
+            <option value="apple">苹果</option>
+            <option value="orange">橙子</option>
+            <option value="cherry">樱桃</option>
+            <option value="banana">香蕉</option>
+            <option value="figs">无花果</option>
+          </select>
+        </div>
+      </div>
     </div>
   </form>
 
@@ -306,14 +334,14 @@ $(function() {
           {text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods'}
         ],
         defaultValue: 'banana',
-        onCreate: function(picker) {
+        onReady: function(picker) {
             console.log('>>', picker);
         }
     });
 
     // 使用 select
     $('.picker-select').picker({
-        onCreate: function(picker) {
+        onReady: function(picker) {
             console.log('>>', picker);
         }
     });
@@ -322,16 +350,34 @@ $(function() {
     $('.picker-remote').picker({
         dropWidth: '100%',
         remote: '/picker-select.json?search={search}&limit={limit}',
-        onCreate: function(picker) {
+        onReady: function(picker) {
             console.log('>>', picker);
         }
     });
     $('.picker-remote-fast').picker({
         dropWidth: 'auto',
         remote: '/picker-select-fast.json?search={search}&limit={limit}',
-        onCreate: function(picker) {
+        onReady: function(picker) {
             console.log('>>', picker);
         }
+    });
+
+    // Chosen
+    $.Picker.enableChosen();
+    $('select.chosen-select').chosen({
+        no_results_text: '没有找到啊',    // 当检索时没有找到匹配项时显示的提示文本
+        disable_search_threshold: 10, // 10 个以下的选择项则不显示检索框
+        search_contains: true         // 从任意位置开始检索
+    }).on('change', function(e, a) {
+        console.log('chosen.change', e, a);
+    }).on('chosen:ready', function(e, a) {
+        console.log('chosen.ready', e, a);
+    }).on('chosen:showing_dropdown', function(e, a) {
+        console.log('chosen.showing_dropdown', e, a);
+    }).on('chosen:hiding_dropdown', function(e, a) {
+        console.log('chosen.hiding_dropdown', e, a);
+    }).on('chosen:no_results', function(e, a) {
+        console.log('chosen:no_results', e, a);
     });
 });
 </script>

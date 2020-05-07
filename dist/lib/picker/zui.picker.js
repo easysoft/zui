@@ -1,5 +1,5 @@
 /*!
- * ZUI: 选择器 - v1.9.1 - 2020-05-04
+ * ZUI: 选择器 - v1.9.1 - 2020-05-07
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -14,9 +14,7 @@
 
 /**
  * TODO:
- *  * 实现快捷键选择
  *  * 实现兼容 Chosen 模式
- *  * 实现显示下拉菜单后自动滚动到选中项位置的功能
  *  * 允许对多选结果拖拽排序
  */
 
@@ -39,17 +37,20 @@
         formItem: 'auto',
         list: null, // [{text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods'}] or 'Apple,Banana' or [['Apple', 'apple', 'fruit foods'], ['Banana', 'banana', 'fruit foods']] or function({search, limit})
         allowSingleDeselect: null,
-        hideMultiSelectedOption: false,
+        showMultiSelectedOptions: false,
         autoSelectFirst: false,
         optionItemFormatter: null, // function($item, picker);
         maxSelectedCount: 0, // 0 = Infinity
         maxListCount: 50, // 0 = Infinity
+        hideEmptyTextOption: true,
         searchValueKey: true,
         emptyResultHint: null,
         hideOnWindowScroll: true,
+        inheritFormItemClasses: false,
         emptySearchResultHint: null,
         accurateSearchHint: null,
         remoteErrorHint: null,
+        deleteByBackspace: true,
         // placeholder: undefined,
         maxDropHeight: 250,
         dropDirection: 'auto',
@@ -60,7 +61,16 @@
         fixLabelFor: true,
         hotkey: true,
         // defaultValue: null,
-        onSelect: null, // function(selectedId, selectedItem)
+        onSelect: null, // function({value, picker}),
+        onDeselect: null, // function({value, picker}),
+        beforeChange: null, // function(newValue, oldValue),
+        onChange: null, // function(newValue, oldValue),
+        onReady: null, // function(picker),
+        onNoResults: null, // function(search),
+        onShowingDrop: null, // function
+        onHidingDrop: null, // function
+        onShowedDrop: null, // function
+        onHiddenDrop: null, // function
     };
 
     var LANG = {
@@ -124,6 +134,9 @@
         else {
             return console.error && console.error('Unknown form type for picker.');
         }
+        if (options.inheritFormItemClasses) {
+            $container.addClass($formItem.attr('class'));
+        }
         that.formType = formType;
         that.$formItem = $formItem.removeClass('picker').hide();
         that.selfFormItem = $formItem.is(that.$);
@@ -141,23 +154,7 @@
         if (list) {
             that.setList(typeof list === 'function' ? list({search: that.search, limit: options.maxListCount}) : list, true);
         } else if (formType === 'select') {
-            list = [];
-            $formItem.children('option').each(function() {
-                var $option = $(this);
-                var text = $option.text();
-                var val = $option.val();
-                if (text.length || val.length) {
-                    var item = {};
-                    item[options.valueKey] = val;
-                    item[options.textKey] = text;
-                    item[options.keysKey] = $option.data(options.keysKey);
-                    list.push(item);
-                }
-                if ((options.allowSingleDeselect === null || options.allowSingleDeselect === undefined) && !val.length) {
-                    options.allowSingleDeselect = true;
-                }
-            });
-            that.setList(list, true);
+            that.updateFromSelect();
         } else {
             that.setList([], true);
         }
@@ -212,7 +209,7 @@
 
         // Init values and sync default value
         var defaultValue = options.defaultValue !== undefined ? options.defaultValue : $formItem.val();
-        that.setValue(defaultValue);
+        that.setValue(defaultValue, true);
 
         // Bind events
         $search.on('focus', function() {
@@ -220,7 +217,6 @@
             that.showDropList();
         }).on('blur', function() {
             $container.removeClass('picker-focus');
-            // that.hideDropList();
         }).on('input change', function() {
             var searchValue = $search.val();
             if (multi) {
@@ -294,7 +290,7 @@
                 }
             }).on('mouseup', function(e) {
                 if (!$(e.target).closest('.picker-selection-remove').length && !that.dropListShowed) {
-                    $search.focus();
+                    that.focus();
                 }
             });
         }
@@ -308,14 +304,33 @@
             e.stopPropagation();
         });
 
-        if (options.onCreate) {
-            options.onCreate(that);
-        }
+        // Compatible with Chosen
+        $formItem.on('chosen:updated', function() {
+            that.updateFromSelect();
+            that.setValue($formItem.val());
+            that.updateList();
+        })
+            .on('chosen:activate', that.focus)
+            .on('chosen:open', that.showDropList)
+            .on('chosen:close', that.hideDropList);
+
+        $container.addClass('picker-ready');
+
+        setTimeout(function() {
+            that.triggerEvent('ready', {picker: that}, '', 'chosen:ready');
+        }, 0);
+    };
+
+    Picker.prototype.focus = function() {
+        this.$search.focus();
     };
 
     Picker.prototype.select = function(value) {
         var that = this;
         if (!that.isSelectedValue(value)) {
+            if (that.triggerEvent('select', {value: value, picker: that}) === false) {
+                return;
+            }
             if (that.multi) {
                 var values = that.value;
                 if (!values) {
@@ -334,6 +349,9 @@
         var that = this;
         if (that.multi) {
             if (!that.isSelectedValue(value)) {
+                return;
+            }
+            if (that.triggerEvent('deselect', {value: value, picker: that}) === false) {
                 return;
             }
             var values = that.value;
@@ -356,6 +374,7 @@
         var $message = that.$message;
         var hasMessage = typeof message === 'string' && message.length;
         message = hasMessage ? message : '';
+        that.hasMessage = hasMessage;
         $message.attr('title', message).text(message).attr('data-type', type);
         that.$dropMenu.toggleClass('picker-has-message', !!hasMessage);
         if (!skipLayout && that.dropDirection === 'top') {
@@ -433,7 +452,7 @@
         });
     };
 
-    Picker.prototype.layoutDropList = function(fast, resetDirection) {
+    Picker.prototype.layoutDropList = function(fast, resetDirection, callback) {
         var that = this;
         if (!that.$dropMenu) {
             return;
@@ -442,38 +461,48 @@
         var options = that.options;
         var maxDropHeight = options.maxDropHeight || Number.MAX_VALUE;
         var $dropMenu = that.$dropMenu;
+        var $optionsList = that.$optionsList;
         if (!fast) {
-            $dropMenu.css({opacity: 0, 'max-height': maxDropHeight, width: 'auto', 'max-width': 'none'});
+            $dropMenu.css({opacity: 0, width: 'auto', 'max-width': 'none'});
+            $optionsList.css({'max-height': maxDropHeight})
         }
         setTimeout(function() {
             var bounds = that.$selections[0].getBoundingClientRect();
             var dropDirection = resetDirection ? options.dropDirection : (that.dropDirection || options.dropDirection);
+            if (typeof dropDirection === 'function') {
+                dropDirection = dropDirection(bounds, that);
+            }
             var maxAutoDropWidth = options.maxAutoDropWidth;
             var $win = $(window);
             var winHeight = $win.height();
             var dropHeight = $dropMenu.height();
             var dropWidth = options.dropWidth || 'auto';
-            var position = {left: bounds.left, opacity: 1};
+            var dropStyle = {left: bounds.left, opacity: 1};
             if (dropDirection === 'auto') {
                 dropDirection = ((bounds.top + bounds.height + dropHeight) > winHeight && bounds.top > (winHeight - bounds.top - bounds.height)) ? 'top' : 'bottom';
             }
             that.dropDirection = dropDirection;
-            position.maxHeight = Math.min(maxDropHeight, dropDirection === 'bottom' ? (winHeight - bounds.top - bounds.height) : bounds.top);
-            dropHeight = Math.min(dropHeight, position.maxHeight);
-            position.top = dropDirection === 'bottom' ? (bounds.top + bounds.height) : (bounds.top - dropHeight);
+            var dropMaxHeight = Math.min(maxDropHeight, dropDirection === 'bottom' ? (winHeight - bounds.top - bounds.height) : bounds.top);
+            dropHeight = Math.min(dropHeight, dropMaxHeight);
+            dropStyle.top = dropDirection === 'bottom' ? (bounds.top + bounds.height) : (bounds.top - dropHeight);
             if (dropWidth === '100%') {
-                position.width = bounds.width;
+                dropStyle.width = bounds.width;
             } else if (dropWidth === 'auto') {
-                position.width = 'auto';
-                position.maxWidth = maxAutoDropWidth === 'auto' ? bounds.width : maxAutoDropWidth;
+                dropStyle.width = 'auto';
+                dropStyle.maxWidth = maxAutoDropWidth === 'auto' ? bounds.width : maxAutoDropWidth;
                 if (that.multi) {
                     var searchBounds = that.$search[0].getBoundingClientRect();
-                    position.left = searchBounds.left;
+                    dropStyle.left = searchBounds.left;
                 }
             } else {
-                position.width = dropWidth;
+                dropStyle.width = dropWidth;
             }
-            $dropMenu.css(position);
+            var messageHeight = that.hasMessage ? that.$message.outerHeight() : 0;
+            $optionsList.css('max-height', dropHeight - messageHeight);
+            $dropMenu.css(dropStyle);
+            if (callback) {
+                callback();
+            }
         }, 0);
     };
 
@@ -511,7 +540,7 @@
             var maxListCount = options.maxListCount;
             var valueKey = options.valueKey;
             var textKey = options.textKey;
-            var hideMultiSelectedOption = options.hideMultiSelectedOption;
+            var showMultiSelectedOptions = options.showMultiSelectedOptions;
             var maxLoopLength = Math.min(optionsList.length, maxListCount);
             var searchLowerCase = search.toLowerCase();
             var $options = $optionsList.children('.picker-option').addClass('picker-expired');
@@ -525,10 +554,14 @@
                 var item = optionsList[i];
                 var value = item[valueKey];
                 var selected = that.isSelectedValue(value);
-                if (hideMultiSelectedOption && selected && that.multi) {
+                if (!showMultiSelectedOptions && selected && that.multi) {
                     continue;
                 }
                 var text = item[textKey];
+                if (!value.length || (options.hideEmptyTextOption && !text.length)) {
+                    continue;
+                }
+
                 var optionID = that.getItemID(item, 'option');
                 var $option = $options.find('#' + optionID);
                 if (!$option.length) {
@@ -596,6 +629,9 @@
             $optionsList.empty();
             if (!skipShowMessage) {
                 message = hasSearch ? (options.emptySearchResultHint || that.lang.emptySearchResultHint).format(search) : (options.emptyResultHint || that.lang.emptyResultHint);
+                if (hasSearch) {
+                    that.triggerEvent('noResults', {search: search, picker: that}, '', 'chosen:no_results');
+                }
             }
         }
 
@@ -607,7 +643,7 @@
         that.listRendered = true;
     };
 
-    Picker.prototype.activeOption = function(activeValue) {
+    Picker.prototype.activeOption = function(activeValue, skipScroll) {
         var that = this;
         if (activeValue) {
             if (activeValue instanceof $) {
@@ -630,13 +666,15 @@
             $activeOption = that.$optionsList.find('[data-value="' + activeValue + '"]');
             if ($activeOption.length) {
                 $activeOption.addClass('picker-option-active');
-                var optionEle = $activeOption[0];
-                if (optionEle.scrollIntoViewIfNeeded) {
-                    optionEle.scrollIntoViewIfNeeded();
-                } else if (optionEle.scrollIntoView) {
-                    optionEle.scrollIntoView();
-                } else {
-                    // TODO: scroll to active item
+                if (!skipScroll) {
+                    var optionEle = $activeOption[0];
+                    if (optionEle.scrollIntoViewIfNeeded) {
+                        optionEle.scrollIntoViewIfNeeded();
+                    } else if (optionEle.scrollIntoView) {
+                        optionEle.scrollIntoView();
+                    } else {
+                        // TODO: scroll to active item
+                    }
                 }
                 that.$activeOption = $activeOption;
             } else {
@@ -645,7 +683,7 @@
         }
     };
 
-    Picker.prototype.updateList = function(search, skipRemote) {
+    Picker.prototype.updateList = function(search, skipRemote, callback) {
         var that = this;
 
         if (search !== undefined) {
@@ -722,23 +760,28 @@
                     });
                 }
             }
-            that.renderOptionsList(optionsList);
+            that.renderOptionsList(optionsList, false, callback);
         }
         if (!skipRemote) {
             that.getRemoteList(function(hasResult) {
                 if (remoteOnly) {
-                    that.renderOptionsList(that.list);
+                    that.renderOptionsList(that.list, false, callback);
                 } else {
                     that.updateList(search, true);
                 }
             }, remoteOnly ? function() {
-                that.renderOptionsList([], true);
+                that.renderOptionsList([], true, callback);
             } : null);
         }
     };
 
     Picker.prototype.showDropList = function() {
         var that = this;
+
+        if (that.triggerEvent('showingDrop', {picker: that}) === false) {
+            return;
+        }
+
         that.dropListShowed = true;
         that.dropDirection = null;
         that.listRendered = false;
@@ -753,10 +796,14 @@
                 .toggleClass('picker-single', !that.multi)
                 .appendTo('body');
 
+            if (that.options.chosenMode) {
+                $dropMenu.addClass('chosen-up');
+            }
+
             $optionsList.on('click', '.picker-option', function() {
                 that.select($(this).attr('data-value'));
             }).on('mouseenter', '.picker-option', function() {
-                that.activeOption($(this));
+                that.activeOption($(this), true);
             });
 
             var $message = $('<div class="picker-message"></div>').appendTo($dropMenu);
@@ -766,13 +813,20 @@
             that.$optionsList = $optionsList;
         }
 
-        that.updateList();
+        that.updateList(that.search, false, function() {
+            that.triggerEvent('showedDrop', {picker: that}, '', 'chosen:showing_dropdown')
+        });
 
         that.$dropMenu.addClass('picker-drop-show');
     };
 
     Picker.prototype.hideDropList = function() {
         var that = this;
+
+        if (that.triggerEvent('hidingDrop', {picker: that}) === false) {
+            return;
+        }
+
         that.dropListShowed = false;
         that.$search.val('');
         that.search = '';
@@ -781,6 +835,33 @@
         if (that.$dropMenu) {
             that.$dropMenu.removeClass('picker-drop-show');
         }
+
+        that.triggerEvent('hiddenDrop', {picker: that}, '', 'chosen:hiding_dropdown')
+    };
+
+    Picker.prototype.updateFromSelect = function(reset) {
+        var that = this;
+        var options = that.options;
+        var list = [];
+        if (reset === undefined) {
+            reset = true;
+        }
+        that.$formItem.children('option').each(function() {
+            var $option = $(this);
+            var text = $option.text();
+            var val = $option.val();
+            if (text.length || val.length) {
+                var item = {};
+                item[options.valueKey] = val;
+                item[options.textKey] = text;
+                item[options.keysKey] = $option.data(options.keysKey);
+                list.push(item);
+            }
+            if ((options.allowSingleDeselect === null || options.allowSingleDeselect === undefined) && !val.length) {
+                options.allowSingleDeselect = true;
+            }
+        });
+        that.setList(list, reset);
     };
 
     Picker.prototype.setList = function(newList, reset) {
@@ -867,8 +948,20 @@
         return this.listMap[value];
     };
 
-    Picker.prototype.setValue = function(value) {
-        // console.log('setValue', value);
+    Picker.prototype.triggerEvent = function(name, params, callbackName, chosenEventName) {
+        var that = this;
+        if(!$.isArray(params)) params = [params];
+        that.$.trigger(name, params);
+        if (that.options.chosenMode && chosenEventName) {
+            that.$.trigger(chosenEventName, params);
+        }
+        callbackName = callbackName === true ? name : (callbackName || ('on' + name[0].toUpperCase() + name.substr(1)));
+        if($.isFunction(that.options[callbackName])) {
+            return that.options[callbackName].apply(that, params);
+        }
+    };
+
+    Picker.prototype.setValue = function(value, silent) {
         var that = this;
         var options = that.options;
 
@@ -881,24 +974,50 @@
         } else if (!that.multi && typeof value !== 'string') {
             value = String(value);
         }
-        that.value = value;
+
+        if (that.value !== value) {
+            if (!silent) {
+                if (that.triggerEvent('beforeChange', {
+                    value: value,
+                    oldValue: that.value
+                }, true) === false) {
+                    return;
+                }
+            }
+            that.value = value;
+
+            if (options.onChange) {
+                options.onChange(value);
+            }
+            if (!silent) {
+                that.triggerEvent('change', {picker: that});
+            }
+        }
+
         if (that.multi) {
             that.valueSet = null;
         }
 
         // Update form item
+        var $formItem = that.$formItem;
         if (that.formType === 'select') {
-            that.$formItem.empty();
+            var chosenMode = options.chosenMode;
+            if (!chosenMode) {
+                $formItem.empty();
+            }
             if (that.multi) {
                 $.each(value, function(_index, val) {
-                    that.$formItem.append('<option value="' + val + '">');
+                    if (chosenMode && $formItem.find('option[value="' + val + '"]').length) {
+                        return;
+                    }
+                    $formItem.append('<option value="' + val + '">');
                 });
-            } else {
-                that.$formItem.append('<option value="' + value + '">');
+            } else if(!chosenMode || !$formItem.find('option[value="' + value + '"]').length) {
+                $formItem.append('<option value="' + value + '">');
             }
 
         }
-        that.$formItem.val(value);
+        $formItem.val(value);
 
         // Update container
         var hasValue = false;
@@ -952,7 +1071,7 @@
                 if (that.dropListShowed) {
                     that.layoutDropList(true, true);
                 }
-            }, 200);
+            }, 500);
         } else {
             that.layoutDropList(true, true);
         }
@@ -960,6 +1079,39 @@
 
     // default options
     Picker.DEFAULTS = DEFAULTS;
+    Picker.NAME = NAME;
+    Picker.SHOWS = SHOWS;
+
+    Picker.convertChosenOptions = function(options) {
+        var converted = false;
+        $.each({
+            allow_single_deselect: 'allowSingleDeselect',
+            inherit_select_classes: 'inheritFormItemClasses',
+            max_selected_options: 'maxSelectedCount',
+            no_results_text: 'emptySearchResultHint',
+            placeholder_text: 'placeholder',
+            placeholder_text_multiple: 'placeholder',
+            placeholder_text_single: 'placeholder',
+            single_backstroke_delete: 'deleteByBackspace',
+            display_selected_options: 'showMultiSelectedOptions',
+            drop_direction: 'dropDirection',
+            drop_width: 'dropWidth',
+            max_drop_width: 'maxAutoDropWidth',
+            highlight_selected: 'autoSelectFirst',
+            sort_value_splitter: 'multiValueSplitter',
+        }, function(chosenOptionName, pickerOptionName) {
+            var optionValue = options[chosenOptionName];
+            if (optionValue !== undefined) {
+                options[pickerOptionName] = optionValue;
+                delete options[chosenOptionName];
+                converted = true;
+            }
+        });
+        if (converted) {
+            options.chosenMode = true;
+        }
+        return options;
+    };
 
     // Extends jquery element
     $.fn.picker = function(option, params) {
@@ -968,16 +1120,44 @@
             var data = $this.data(NAME);
             var options = typeof option == 'object' && option;
 
-            if(!data) $this.data(NAME, (data = new Picker(this, options)));
-
-            if(typeof option == 'string') data[option](params);
+            if(!data) {
+                if (Picker.enabledChosenMode || (options && options.chosenMode)) {
+                    options = Picker.convertChosenOptions($.extend({}, $this.data(), options));
+                }
+                $this.data(NAME, (data = new Picker(this, options)));
+            } else {
+                if(typeof option == 'string') data[option](params);
+            }
         });
     };
 
-    Picker.NAME = NAME;
-    Picker.SHOWS = SHOWS;
-
     $.fn.picker.Constructor = Picker;
+    $.Picker = $.zui.Picker = Picker;
+
+    // Compatible with Chosen
+    Picker.enableChosen = function() {
+        if (Picker.enabledChosenMode) {
+            return;
+        }
+        $.fn.chosen = function(option, params) {
+            return this.each(function() {
+                var $this = $(this);
+                var data = $this.data(NAME);
+                if (!data) {
+                    var options = $.extend({}, $this.data(), typeof option === 'object' ? option : null);
+                    // convert chosen options to picker options
+
+                    data = new Picker(this, Picker.convertChosenOptions(options));
+                    $this.data(NAME, data);
+                    return;
+                } else if (typeof option === 'string') {
+                    data[option](params);
+                }
+            })
+        };
+        $.fn._chosen = $.fn.chosen;
+        Picker.enabledChosenMode = true;
+    };
 
     // Auto call picker after document load complete
     $(function() {
