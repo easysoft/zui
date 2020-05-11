@@ -7,7 +7,6 @@
 
 /**
  * TODO:
- *  * Option: deleteByBackspace
  *  * Option: sortMultiValuesByDnd
  *  * 优化展开时滚动到选中项体验
  */
@@ -274,6 +273,8 @@
                         that.activeOption($prevOption);
                     }
                     e.preventDefault();
+                } else if (options.deleteByBackspace && that.multi && (key === 'Backspace' || key === 8) && that.value && that.value.length) {
+                    that.deselect(that.value[that.value.length - 1]);
                 }
             });
         }
