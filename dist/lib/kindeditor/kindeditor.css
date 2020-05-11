@@ -21,8 +21,8 @@
   content: ".";
   }
 .ke-shadow {
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .12), 0 1px 3px rgba(0, 0, 0, .1);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .12), 0 1px 3px rgba(0, 0, 0, .1);
   }
 /* icons */
 [class^="ke-icon-"],

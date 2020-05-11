@@ -1,5 +1,5 @@
 /*!
- * ZUI: Generated from less code - v1.9.1 - 2020-05-04
+ * ZUI: Generated from less code - v1.9.1 - 2020-05-11
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT

@@ -836,8 +836,8 @@ div.edui-box {
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, .2);
   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .12), 0 1px 3px rgba(0, 0, 0, .1);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .12), 0 1px 3px rgba(0, 0, 0, .1);
 
   *border-right-width: 2px;
   *border-bottom-width: 2px;

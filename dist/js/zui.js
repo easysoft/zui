@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.1 - 2020-05-04
+ * ZUI: Standard edition - v1.9.1 - 2020-05-11
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -213,6 +213,32 @@
                 return $.zui.addLangData.apply(null, arguments);
             }
             return $.zui.getLangData.apply(null, arguments);
+        },
+
+        _scrollbarWidth: 0,
+        checkBodyScrollbar: function() {
+            if(document.body.clientWidth >= window.innerWidth) return 0;
+            if(!$.zui._scrollbarWidth) {
+                var scrollDiv = document.createElement('div');
+                scrollDiv.className = 'scrollbar-measure';
+                document.body.appendChild(scrollDiv);
+                $.zui._scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+                document.body.removeChild(scrollDiv);
+            }
+            return $.zui._scrollbarWidth;
+        },
+        fixBodyScrollbar: function() {
+            if($.zui.checkBodyScrollbar()) {
+                var $body = $('body');
+                var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
+                if($.zui._scrollbarWidth) {
+                    $body.css({paddingRight: bodyPad + $.zui._scrollbarWidth, overflowY: 'hidden'});
+                }
+                return true;
+            }
+        },
+        resetBodyScrollbar: function() {
+            $('body').css({paddingRight: '', overflowY: ''});
         },
     });
 
@@ -3149,7 +3175,7 @@
         return this.isShown ? this.hide() : this.show(_relatedTarget, position)
     }
 
-    Modal.prototype.ajustPosition = function(position) {
+    Modal.prototype.adjustPosition = function(position) {
         var that = this;
         var options = that.options;
         if(position === undefined) position = options.position;
@@ -3204,7 +3230,7 @@
         }
     }
 
-    Modal.prototype.setMoveale = function() {
+    Modal.prototype.setMoveable = function() {
         if(!$.fn.draggable) console.error('Moveable modal requires draggable.js.');
         var that = this;
         var options = that.options;
@@ -3251,12 +3277,11 @@
 
         that.isShown = true
 
-        if(that.options.moveable) that.setMoveale();
+        if(that.options.moveable) that.setMoveable();
 
-        that.checkScrollbar()
         if (that.options.backdrop !== false) {
             that.$body.addClass('modal-open')
-            that.setScrollbar()
+            that.setScrollbar();
         }
 
         that.escape()
@@ -3285,7 +3310,7 @@
                 .addClass('in')
                 .attr('aria-hidden', false)
 
-            that.ajustPosition(position);
+            that.adjustPosition(position);
 
             that.enforceFocus()
 
@@ -3420,26 +3445,18 @@
         }
     }
 
-    Modal.prototype.checkScrollbar = function() {
-        if(document.body.clientWidth >= window.innerWidth) return
-        this.scrollbarWidth = this.scrollbarWidth || this.measureScrollbar()
-    }
-
     Modal.prototype.setScrollbar = function() {
-        var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-        if(this.scrollbarWidth) {
-            var paddingRight = bodyPad + this.scrollbarWidth;
-            this.$body.css('padding-right', paddingRight)
+        if($.zui.fixBodyScrollbar()) {
             if (this.options.onSetScrollbar) {
-                this.options.onSetScrollbar(paddingRight)
+                this.options.onSetScrollbar(paddingRight);
             }
         }
     }
 
     Modal.prototype.resetScrollbar = function() {
-        this.$body.css('padding-right', '')
+        $.zui.resetBodyScrollbar();
         if (this.options.onSetScrollbar) {
-            this.options.onSetScrollbar('')
+            this.options.onSetScrollbar('');
         }
     }
 
@@ -3670,7 +3687,7 @@
         var resizeDialog = function() {
             clearTimeout(this.resizeTask);
             this.resizeTask = setTimeout(function() {
-                that.ajustPosition(options.position);
+                that.adjustPosition(options.position);
             }, 100);
         };
 
@@ -3685,7 +3702,7 @@
                     $dialog.css('height', options.height);
                     if(options.type === 'iframe') $body.css('height', $dialog.height() - $header.outerHeight());
                 }
-                that.ajustPosition(options.position);
+                that.adjustPosition(options.position);
                 $modal.removeClass('modal-loading').removeClass('modal-updating');
                 if(isShown) {
                     $body.removeClass('loading');
@@ -3886,12 +3903,12 @@
         else this.show(options);
     };
 
-    ModalTrigger.prototype.ajustPosition = function(position) {
+    ModalTrigger.prototype.adjustPosition = function(position) {
         position = position === undefined ? this.options.position : position;
         if ($.isFunction(position)) {
             position = position(this);
         }
-        this.$modal.modal('ajustPosition', position);
+        this.$modal.modal('adjustPosition', position);
     };
 
     $.zui({
@@ -3967,10 +3984,10 @@
         }
     };
 
-    var ajustModalPosition = function(position, modal) {
+    var adjustModalPosition = function(position, modal) {
         modal = getModal(modal);
         if(modal && modal.length) {
-            modal.modal('ajustPosition', position);
+            modal.modal('adjustPosition', position);
         }
     };
 
@@ -3989,7 +4006,8 @@
     $.zui({
         reloadModal: reloadModal,
         closeModal: closeModal,
-        ajustModalPosition: ajustModalPosition
+        ajustModalPosition: adjustModalPosition,
+        adjustModalPosition: adjustModalPosition,
     });
 
     $(document).on('click.' + NAME + '.data-api', '[data-toggle="modal"]', function(e) {

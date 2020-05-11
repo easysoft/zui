@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.1 - 2020-05-04
+ * ZUI: Standard edition - v1.9.1 - 2020-05-11
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -980,6 +980,13 @@ textarea {
 ol,
 ul {
   padding-left: 20px;
+  }
+.scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
   }
 .container,
 .container-fluid,
@@ -7051,13 +7058,6 @@ tbody.collapse.in {
 .modal-footer .btn-block + .btn-block {
   margin-left: 0;
   }
-.modal-scrollbar-measure {
-  position: absolute;
-  top: -9999px;
-  width: 50px;
-  height: 50px;
-  overflow: scroll;
-  }
 @media (min-width: 768px) {
   .modal-dialog {
     width: 600px;
@@ -7598,8 +7598,8 @@ tbody.collapse.in {
   border: 1px solid #cbcbcb;
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .12), 0 1px 3px rgba(0, 0, 0, .1);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .12), 0 1px 3px rgba(0, 0, 0, .1);
   }
 .dropdown-menu.pull-right {
   right: 0;

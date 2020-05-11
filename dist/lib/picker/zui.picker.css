@@ -1,5 +1,5 @@
 /*!
- * ZUI: 选择器 - v1.9.1 - 2020-05-07
+ * ZUI: 选择器 - v1.9.1 - 2020-05-11
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -190,6 +190,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   }
+.picker-no-value.picker-focus .picker-placeholder {
+  display: none;
+  }
+.picker-input-empty.picker-focus.picker-no-value .picker-placeholder,
 .picker-no-value .picker-placeholder {
   display: block;
   }
@@ -199,9 +203,10 @@
   display: none;
   min-width: 100px;
   background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .12), 0 1px 3px rgba(0, 0, 0, .1);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, .12), 0 1px 3px rgba(0, 0, 0, .1);
   opacity: 0;
   }
 .picker-drop-menu.picker-drop-show {
@@ -269,9 +274,11 @@
   border-radius: 2px;
   opacity: .5;
   }
+.picker-option-active .picker-option-text-matched,
 .picker-option:hover .picker-option-text-matched {
   color: #fff;
   }
+.picker-option-active .picker-option-text-matched:before,
 .picker-option:hover .picker-option-text-matched:before {
   background-color: #fff;
   }
