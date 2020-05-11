@@ -179,10 +179,9 @@
 
         if(that.options.moveable) that.setMoveable();
 
-        that.checkScrollbar()
         if (that.options.backdrop !== false) {
             that.$body.addClass('modal-open')
-            that.setScrollbar()
+            that.setScrollbar();
         }
 
         that.escape()
@@ -346,26 +345,18 @@
         }
     }
 
-    Modal.prototype.checkScrollbar = function() {
-        if(document.body.clientWidth >= window.innerWidth) return
-        this.scrollbarWidth = this.scrollbarWidth || this.measureScrollbar()
-    }
-
     Modal.prototype.setScrollbar = function() {
-        var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
-        if(this.scrollbarWidth) {
-            var paddingRight = bodyPad + this.scrollbarWidth;
-            this.$body.css('padding-right', paddingRight)
+        if($.zui.fixBodyScrollbar()) {
             if (this.options.onSetScrollbar) {
-                this.options.onSetScrollbar(paddingRight)
+                this.options.onSetScrollbar(paddingRight);
             }
         }
     }
 
     Modal.prototype.resetScrollbar = function() {
-        this.$body.css('padding-right', '')
+        $.zui.resetBodyScrollbar();
         if (this.options.onSetScrollbar) {
-            this.options.onSetScrollbar('')
+            this.options.onSetScrollbar('');
         }
     }
 
