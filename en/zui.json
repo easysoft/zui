@@ -1,0 +1,1507 @@
+{
+  "lib": {
+    "jquery": {
+      "name": "jQuery",
+      "pver": "1.12.4",
+      "ver": "1.0.0",
+      "src": {
+        "resource": ["assets/jquery.js"]
+      },
+      "desc": "ZUI JS components depend on jQuery",
+      "website": "http://jquery.com/",
+      "license": "MIT",
+      "licenseFile": "https://jquery.org/license/",
+      "source": "jQuery"
+    },
+    "excanvas": {
+      "name": "excanvas",
+      "pver": "3.0",
+      "ver": "1.0.0",
+      "src": {
+        "resource": ["assets/excanvas.js"]
+      },
+      "desc": "HTML5 Canvas for Internet Explorer",
+      "source": "Google",
+      "license": "Apache 2.0",
+      "website": "https://github.com/arv/explorercanvas"
+    },
+    "html5shiv": {
+      "name": "html5shiv",
+      "pver": "3.7.0",
+      "ver": "1.0.0",
+      "src": {
+        "resource": ["assets/html5shiv.js"]
+      },
+      "desc": "HTML5 IE enabling script",
+      "source": "aFarkas",
+      "license": "MIT & GPL2",
+      "licenseFile": "https://github.com/aFarkas/html5shiv/blob/master/MIT%20and%20GPL2%20licenses.md",
+      "website": "https://github.com/afarkas/html5shiv"
+    },
+    "respond": {
+      "name": "respond",
+      "pver": "1.4.2",
+      "ver": "1.0.0",
+      "src": {
+        "resource": ["assets/respond.js"]
+      },
+      "desc": "min/max-width media query polyfill",
+      "source": "Scott Jehl",
+      "license": "MIT",
+      "licenseFile": "https://github.com/scottjehl/Respond/blob/master/LICENSE-MIT",
+      "website": "https://github.com/scottjehl/Respond"
+    },
+    "ieonly": {
+      "name": "IE special settings",
+      "dpds": ["html5shiv", "respond", "excanvas"],
+      "ignoreDpds": false
+    },
+    "prettify": {
+      "name": "prettify",
+      "pver": "1.0.0",
+      "ver": "1.4.0",
+      "src": {
+        "resource": ["assets/prettify//**/*"]
+      },
+      "desc": "Automatically exported from code.google.com/p/google-code-prettify",
+      "source": "Google",
+      "license": "Apache 2.0",
+      "website": "https://github.com/google/code-prettify"
+    },
+    "cookie": {
+      "name": "jQuery Cookie Plugin",
+      "pver": "1.4.1",
+      "ver": "1.8.0",
+      "src": {
+        "js": ["src/js/cookie.js"]
+      },
+      "desc": "A simple, lightweight jQuery plugin for reading, writing and deleting cookies.",
+      "source": "Klaus Hartl",
+      "license": "MIT",
+      "website": "https://github.com/carhartl/jquery-cookie"
+    },
+    "jquery.form": {
+      "name": "jQuery Form",
+      "pver": "1.8.0",
+      "ver": "4.2.2",
+      "src": {
+        "js": ["assets/form/jquery.form.js"]
+      },
+      "desc": "jQuery Form Plugin",
+      "source": "jquery-form",
+      "license": "MIT",
+      "website": "https://jquery-form.github.io/form/"
+    },
+    "plupload": {
+      "name": "Plupload",
+      "pver": "2.2.1",
+      "ver": "1.6.0",
+      "src": {
+        "js": ["assets/plupload/plupload.full.min.js"],
+        "resource": ["assets/plupload/Moxie.swf", "assets/plupload/Moxie.xap"]
+      },
+      "license": "GPL-2.0",
+      "licenseFile": "https://github.com/moxiecode/plupload/blob/master/license.txt",
+      "source": "Moxie",
+      "website": "http://www.plupload.com/"
+    },
+    "mousewheel": {
+      "name": "jQuery Mousewheel",
+      "pver": "3.1.13",
+      "ver": "1.8.0",
+      "src": {
+        "js": ["assets/mousewheel/jquery.mousewheel.js"]
+      },
+      "license": "MIT",
+      "licenseFile": "https://github.com/jquery/jquery-mousewheel/blob/master/LICENSE.txt",
+      "source": "jQuery",
+      "website": "https://github.com/jquery/jquery-mousewheel"
+    },
+    "jqueryex": {
+      "name": "jQuery exensions",
+      "ver": "1.0.0",
+      "src": {
+        "js": ["src/js/jquery.extensions.js"]
+      },
+      "require": ["jquery"]
+    },
+    "colorset": {
+      "name": "Colorset",
+      "src": {
+        "less": ["~/basic/colorset.less"]
+      },
+      "desc": "ZUI colorset",
+      "ver": "1.0.0"
+    },
+    "variables": {
+      "name": "Configuration",
+      "src": {
+        "less": ["~/basic/variables.less", "~/basic/variables.custom.less"]
+      },
+      "dpds": ["colorset"],
+      "config": true,
+      "source": "Bootstrap",
+      "ver": "1.0.0"
+    },
+    "normalize": {
+      "name": "Global sheet",
+      "src": {
+        "less": ["~/basic/normalize.less"]
+      },
+      "ver": "1.0.0",
+      "pver": "3.0.3",
+      "source": "Nicolas Gallagher and Jonathan Neal",
+      "license": "MIT",
+      "website": "http://necolas.github.io/normalize.css/"
+    },
+    "mixins": {
+      "name": "Style fragment",
+      "desc": "Used to store reusableLessstyle",
+      "src": {
+        "less": ["~/basic/mixins.less"]
+      },
+      "ver": "1.0.0",
+      "config": true,
+      "source": "Bootstrap",
+      "dpds": ["variables"]
+    },
+    "setting": {
+      "name": "ZUIConfiguration",
+      "config": true,
+      "dpds": ["variables", "icons.variables", "mixins"]
+    },
+    "basic": {
+      "name": "Basic style",
+      "desc": "Contains configuration, global styles and some useful style snippets",
+      "dpds": ["setting", "normalize"]
+    },
+    "utilities.common": {
+      "name": "Common helper class",
+      "src": {
+        "less": ["~/basic/utilities.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "utilities.responsive": {
+      "name": "Multi-device response aid class",
+      "src": {
+        "less": ["~/basic/utilities.responsive.less"]
+      },
+      "desc": "Auxiliary class that supports multi-device response",
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "utilities": {
+      "name": "Auxiliary class",
+      "desc": "Contains helper classes that support multi-device responses",
+      "dpds": ["utilities.common", "utilities.responsive"]
+    },
+    "scaffolding": {
+      "name": "scaffold",
+      "src": {
+        "less": ["~/basic/scaffolding.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["mixins"]
+    },
+    "grid": {
+      "name": "Grid system",
+      "src": {
+        "less": ["~/basic/grid.less"]
+      },
+      "desc": "Use rasters to help layout",
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "typography.basic": {
+      "name": "Basic typesetting",
+      "src": {
+        "less": ["~/controls/type.less"],
+        "js": ["~/typography.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "typography.bg": {
+      "name": "Text background",
+      "src": {
+        "less": ["~/controls/type.bg.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"]
+    },
+    "typography.hightlight": {
+      "name": "Text highlighting",
+      "src": {
+        "less": ["~/controls/type.hightlight.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"]
+    },
+    "typography": {
+      "name": "typesetting",
+      "dpds": ["typography.basic", "typography.bg", "typography.hightlight"]
+    },
+    "header": {
+      "name": "title",
+      "src": {
+        "less": ["~/controls/headers.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "button.basic": {
+      "name": "Basic button",
+      "src": {
+        "less": ["~/controls/buttons.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "button.group": {
+      "name": "Button group",
+      "src": {
+        "less": ["~/controls/buttons.group.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["button.basic"]
+    },
+    "button.vertical": {
+      "name": "Vertical button set",
+      "src": {
+        "less": ["~/controls/buttons.vertical.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["button.basic"]
+    },
+    "button.js": {
+      "name": "Button state switching",
+      "src": {
+        "js": ["~/button.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["button.basic"]
+    },
+    "button": {
+      "name": "Button",
+      "dpds": ["button.basic", "button.group", "button.vertical", "button.js"]
+    },
+    "progressbar": {
+      "name": "progress bar",
+      "src": {
+        "less": ["~/controls/progress-bars.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "image": {
+      "name": "image",
+      "src": {
+        "less": ["~/controls/image.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "divider": {
+      "name": "Separate",
+      "src": {
+        "less": ["~/controls/divider.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"]
+    },
+    "labels.basic": {
+      "name": "Basic label",
+      "src": {
+        "less": ["~/controls/labels.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "labels.fix": {
+      "name": "Label adaptation style",
+      "src": {
+        "less": ["~/controls/labels.fix.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["labels.basic"]
+    },
+    "labels": {
+      "name": "label",
+      "dpds": ["labels.basic", "labels.fix"]
+    },
+    "breadcrumbs": {
+      "name": "Breadcrumbs",
+      "src": {
+        "less": ["~/controls/breadcrumbs.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "icons.core": {
+      "name": "Icon core style",
+      "src": {
+        "less": ["~/controls/icons.core.less"]
+      },
+      "ver": "1.0.0",
+      "source": "FontAwesome",
+      "website": "http://fontawesome.io",
+      "license": "MIT",
+      "licenseFile": "http://fontawesome.io/license/",
+      "dpds": ["basic"]
+    },
+    "icons.variables": {
+      "name": "Icon name configuration",
+      "src": {
+        "less": ["~/controls/icons.variables.less"]
+      },
+      "config": true,
+      "ver": "1.0.0"
+    },
+    "icons.set": {
+      "name": "Icon definition",
+      "src": {
+        "less": ["~/controls/icons.set.less"]
+      },
+      "ver": "1.0.0",
+      "config": true,
+      "source": "FontAwesome",
+      "website": "http://fontawesome.io",
+      "license": "MIT",
+      "licenseFile": "http://fontawesome.io/license/",
+      "dpds": ["icons.variables"]
+    },
+    "icons.font": {
+      "name": "Icon font",
+      "src": {
+        "resource": ["src//fonts/zenicon.eot", "src//fonts/zenicon.svg", "src//fonts/zenicon.ttf", "src//fonts/zenicon.woff"]
+      },
+      "source": "FontAwesome",
+      "website": "http://fontawesome.io",
+      "license": "SIL OFL 1.1",
+      "licenseFile": "http://fontawesome.io/license/",
+      "ver": "1.0.0"
+    },
+    "icons.json": {
+      "name": "Icon set data",
+      "src": {
+        "resource": ["src//fonts//icons.json"]
+      },
+      "config": true,
+      "ver": "1.3.0"
+    },
+    "icons": {
+      "name": "icon",
+      "dpds": ["icons.font", "icons.core", "icons.set"]
+    },
+    "avatar": {
+      "name": "Avatar",
+      "src": {
+        "less": ["~/controls/avatar.less"]
+      },
+      "dpds": ["basic"],
+      "ver": "1.9.0"
+    },
+    "close": {
+      "name": "Close button",
+      "src": {
+        "less": ["~/controls/close.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "scrollbars": {
+      "name": "scroll bar",
+      "src": {
+        "less": ["~/controls/scrollbar.less"]
+      },
+      "ver": "1.0.0"
+    },
+    "loading": {
+      "name": "Loading overlay interface",
+      "src": {
+        "less": ["~/controls/loading.less"]
+      },
+      "ver": "1.9.0"
+    },
+    "table.basic": {
+      "name": "Basic form",
+      "src": {
+        "less": ["~/components/tables.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "table.colors": {
+      "name": "Table color change",
+      "src": {
+        "less": ["~/components/tables.colors.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["table.basic"]
+    },
+    "table.responsive": {
+      "name": "Multi-device response form",
+      "src": {
+        "less": ["~/components/tables.responsive.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["table.basic"]
+    },
+    "table": {
+      "name": "form",
+      "dpds": ["table.basic", "table.colors", "table.responsive"]
+    },
+    "listgroup": {
+      "name": "List group",
+      "src": {
+        "less": ["~/components/list-group.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "panels.basic": {
+      "name": "Basic panel",
+      "src": {
+        "less": ["~/components/panels.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "panels.types": {
+      "name": "Panel type",
+      "src": {
+        "less": ["~/components/panels.types.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["panels.basic"]
+    },
+    "panels.group": {
+      "name": "Panel group",
+      "src": {
+        "less": ["~/components/panels.group.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["panels.basic"]
+    },
+    "panels.fix": {
+      "name": "Panel fit",
+      "src": {
+        "less": ["~/components/panels.fix.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["panels.basic"]
+    },
+    "panels": {
+      "name": "Panel type",
+      "dpds": ["panels.basic", "panels.types", "panels.group", "panels.fix"]
+    },
+    "alerts.style": {
+      "name": "Basic message box basic style",
+      "src": {
+        "less": ["~/components/alerts.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "alerts.dismiss": {
+      "name": "Closed message box",
+      "src": {
+        "js": ["src/js/alert.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "alerts.basic": {
+      "name": "Basic message box",
+      "ver": "1.0.0",
+      "dpds": ["alerts.style", "alerts.dismiss"]
+    },
+    "alerts.inverse": {
+      "name": "Message box enhancement style",
+      "src": {
+        "less": ["~/components/alerts.inverse.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["alerts.basic"]
+    },
+    "alerts": {
+      "name": "Message Box",
+      "dpds": ["alerts.style", "alerts.basic", "alerts.inverse"]
+    },
+    "inputcontrol": {
+      "name": "Input control",
+      "ver": "1.7.0",
+      "src": {
+        "less": ["~/components/input-control.less"]
+      },
+      "dpds": ["basic", "forms.basic"]
+    },
+    "inputgroups.basic": {
+      "name": "Basic input box group",
+      "src": {
+        "less": ["~/components/input-groups.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "inputgroups.size": {
+      "name": "Input box group size",
+      "src": {
+        "less": ["~/components/input-groups.size.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["inputgroups.basic"]
+    },
+    "inputgroups": {
+      "name": "Input box group",
+      "dpds": ["inputgroups.basic", "inputgroups.size"]
+    },
+    "forms.basic": {
+      "name": "Basic form",
+      "src": {
+        "less": ["~/components/forms.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "forms.condensed": {
+      "name": "Compact form",
+      "src": {
+        "less": ["~/components/forms.condensed.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["forms.basic"]
+    },
+    "forms": {
+      "name": "Form",
+      "dpds": ["forms.basic", "forms.condensed"]
+    },
+    "checkbox": {
+      "name": "Check box",
+      "src": {
+        "less": ["~/controls/checkbox.less"]
+      }
+    },
+    "switch": {
+      "name": "switch",
+      "ver": "1.6.0",
+      "src": {
+        "less": ["~/controls/switch.less"]
+      },
+      "dpds": ["basic"]
+    },
+    "code": {
+      "name": "Code",
+      "src": {
+        "less": ["~/components/code.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "pager.basic": {
+      "name": "Basic paging",
+      "src": {
+        "less": ["~/components/pager.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "pager.size": {
+      "name": "Page size",
+      "src": {
+        "less": ["~/components/pager.size.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["pager.basic"]
+    },
+    "pager.types": {
+      "name": "Paging type",
+      "src": {
+        "less": ["~/components/pager.types.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["pager.basic"]
+    },
+    "pagerjs": {
+      "name": "Pager",
+      "src": {
+        "js": ["~/pager.js"]
+      },
+      "ver": "1.8.0",
+      "dpds": ["pager.basic"]
+    },
+    "pager": {
+      "name": "Form",
+      "dpds": ["pager.basic", "pager.size", "pager.types", "pagerjs"]
+    },
+    "navs.basic": {
+      "name": "Basic navigation",
+      "src": {
+        "less": ["~/components/navs.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "navs.tabs": {
+      "name": "Tabbed navigation",
+      "src": {
+        "less": ["~/components/navs.tabs.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["tab", "navs.basic"]
+    },
+    "navs": {
+      "name": "navigation",
+      "dpds": ["navs.basic", "navs.tabs"]
+    },
+    "navbars.basic": {
+      "name": "Basic navigation bar",
+      "src": {
+        "less": ["~/components/navbars.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic"]
+    },
+    "navbars.form": {
+      "name": "Navigation bar form",
+      "src": {
+        "less": ["~/components/navbars.form.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["navbars.basic"]
+    },
+    "navbars": {
+      "name": "Navigation bar",
+      "dpds": ["navbars.basic", "navbars.form", "navbars.fixedleft"]
+    },
+    "animations.style": {
+      "name": "Transition animation",
+      "src": {
+        "less": ["~/modules/animations.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["mixins"],
+      "require": ["jquery"]
+    },
+    "animations": {
+      "name": "Transition animation",
+      "src": {
+        "js": ["src/js/transition.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["animations.style"],
+      "require": ["jquery"]
+    },
+    "collapse": {
+      "name": "fold",
+      "src": {
+        "js": ["src/js/collapse.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["animations"]
+    },
+    "device": {
+      "name": "Equipment auxiliary class",
+      "src": {
+        "js": ["src/js/device.js"]
+      },
+      "ver": "1.0.0",
+      "require": ["jquery"]
+    },
+    "browser": {
+      "name": "Browser compatible tool",
+      "src": {
+        "js": ["src/js/browser.js"]
+      },
+      "ver": "1.0.0",
+      "require": ["jquery"]
+    },
+    "color": {
+      "name": "Color aid class",
+      "src": {
+        "js": ["src/js/color.js"]
+      },
+      "ver": "1.2.0",
+      "require": ["jQuery"]
+    },
+    "imgready": {
+      "name": "Image loading",
+      "src": {
+        "js": ["src/js/image.ready.js"]
+      },
+      "ver": "1.2.0",
+      "source": "TangBin",
+      "website": "http://www.planeart.cn/?p=1121"
+    },
+    "hotkey": {
+      "name": "hot key",
+      "src": {
+        "js": ["src/js/hotkeys.js"]
+      },
+      "ver": "1.0.0",
+      "source": "John Resig",
+      "license": "MIT or GPL 2",
+      "website": "https://github.com/tzuryby/jquery.hotkeys",
+      "require": ["jquery"]
+    },
+    "date": {
+      "name": "Date extension method",
+      "src": {
+        "js": ["src/js/date.js"]
+      },
+      "ver": "1.0.0"
+    },
+    "array": {
+      "name": "Array assist method",
+      "src": {
+        "js": ["src/js/array.js"]
+      },
+      "ver": "1.2.0"
+    },
+    "string": {
+      "name": "String extension method",
+      "src": {
+        "js": ["src/js/string.js"]
+      },
+      "ver": "1.0.0"
+    },
+    "resize": {
+      "name": "Monitor size change",
+      "src": {
+        "js": ["src/js/resize.js"]
+      },
+      "ver": "1.0.0",
+      "pver": "1.1",
+      "license": "MIT & GPL",
+      "source": "Ben Alman",
+      "website": "https://github.com/cowboy/jquery-resize",
+      "require": ["jquery"]
+    },
+    "scrollspy": {
+      "name": "Rolling monitor",
+      "src": {
+        "js": ["src/js/scrollspy.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "require": ["jquery"]
+    },
+    "store": {
+      "name": "Local storage",
+      "src": {
+        "js": ["src/js/store.js"]
+      },
+      "ver": "1.2.0",
+      "require": ["jquery"]
+    },
+    "searchbox": {
+      "name": "search bar",
+      "src": {
+        "js": ["src/js/searchbox.js"]
+      },
+      "ver": "1.8.0",
+      "require": ["jquery"]
+    },
+    "draggable": {
+      "name": "Drag and drop",
+      "src": {
+        "js": ["src/js/draggable.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["jqueryex"],
+      "require": ["jquery"]
+    },
+    "droppable": {
+      "name": "Drag and drop",
+      "src": {
+        "js": ["src/js/droppable.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["jqueryex"],
+      "require": ["jquery"]
+    },
+    "sortable": {
+      "name": "Sort",
+      "src": {
+        "js": ["src/js/sortable.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["jqueryex", "droppable"],
+      "require": ["jquery"]
+    },
+    "dragDropSort": {
+      "name": "Drag, drop and sort",
+      "dpds": ["draggable", "droppable", "sortable"]
+    },
+    "tab": {
+      "name": "Bookmark page",
+      "src": {
+        "js": ["src/js/tab.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["animation"],
+      "require": ["jquery"]
+    },
+    "modals": {
+      "name": "Dialog",
+      "src": {
+        "less": ["~/modules/modals.less"],
+        "js": ["src/js/modal.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic", "animations"],
+      "require": ["jquery"]
+    },
+    "modaltrigger": {
+      "name": "Dialog trigger",
+      "src": {
+        "js": ["src/js/modal.trigger.js"]
+      },
+      "ver": "1.2.0",
+      "dpds": ["jqueryex", "resize", "modals"],
+      "require": ["jquery"]
+    },
+    "tooltip": {
+      "name": "tooltip",
+      "src": {
+        "less": ["~/modules/tooltip.less"],
+        "js": ["src/js/tooltip.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic", "animations"],
+      "require": ["jquery"]
+    },
+    "popovers": {
+      "name": "Pop-up panel",
+      "src": {
+        "less": ["~/modules/popovers.less"],
+        "js": ["src/js/popover.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["tooltip", "animations"],
+      "require": ["jquery"]
+    },
+    "dropdowns": {
+      "name": "Drop-down menu",
+      "src": {
+        "less": ["~/modules/dropdowns.less"],
+        "js": ["src/js/dropdown.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic", "animations"],
+      "require": ["jquery"]
+    },
+    "contextmenu": {
+      "name": "Right click menu",
+      "src": {
+        "js": ["src/js/contextmenu.js"]
+      },
+      "ver": "1.8.0",
+      "dpds": ["basic", "animations"],
+      "require": ["jquery"]
+    },
+    "carousel.basic": {
+      "name": "Basic carousel",
+      "src": {
+        "less": ["~/modules/carousel.less"],
+        "js": ["src/js/carousel.js"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["basic", "animations"],
+      "require": ["jquery"]
+    },
+    "carousel.indicators": {
+      "name": "Carousel indicator",
+      "src": {
+        "less": ["~/modules/carousel.indicators.less"]
+      },
+      "ver": "1.0.0",
+      "source": "Bootstrap",
+      "dpds": ["carousel.basic"]
+    },
+    "carousel": {
+      "name": "Carousel",
+      "ver": "1.0.0",
+      "dpds": ["carousel.basic", "carousel.indicators"]
+    },
+    "lightbox": {
+      "name": "Lightbox preview",
+      "src": {
+        "less": ["~/modules/lightbox.less"],
+        "js": ["src/js/lightbox.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic", "animations", "modaltrigger", "imgready"],
+      "require": ["jquery"]
+    },
+    "messager": {
+      "name": "Message",
+      "src": {
+        "less": ["~/modules/messager.less"],
+        "js": ["src/js/messager.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic", "animation"],
+      "require": ["jquery"]
+    },
+    "menu": {
+      "name": "Vertical menu",
+      "src": {
+        "less": ["~/modules/menu.less"],
+        "js": ["src/js/menu.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic", "navs"],
+      "require": ["jquery"]
+    },
+    "imgcutter": {
+      "name": "Picture cropping tool",
+      "src": {
+        "less": ["~/modules/img-cutter.less"],
+        "js": ["src/js/img-cutter.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic", "imgready", "draggable"],
+      "require": ["jquery"]
+    },
+    "datetimepicker": {
+      "name": "Date time selection",
+      "src": {
+        "less": ["~/modules/datetimepicker.less"],
+        "js": ["~/datetimepicker.js"]
+      },
+      "ver": "1.0.0",
+      "license": "Apache 2.0",
+      "source": "Stefan Petre",
+      "dpds": ["basic", "dropdowns"],
+      "website": "http://www.malot.fr/bootstrap-datetimepicker",
+      "custom": ["ui"],
+      "require": ["jquery"]
+    },
+    "kindeditor": {
+      "name": "Kindeditor",
+      "src": {
+        "less": ["~/modules/kindeditor.less"],
+        "js": [
+          "~/kindeditor/kindeditor.js",
+          "~/kindeditor/plugins/lang.js",
+          "~/kindeditor/plugins/anchor.js",
+          "~/kindeditor/plugins/autoheight.js",
+          "~/kindeditor/plugins/baidumap.js",
+          "~/kindeditor/plugins/clearhtml.js",
+          "~/kindeditor/plugins/code.js",
+          "~/kindeditor/plugins/emoticons.js",
+          "~/kindeditor/plugins/filemanager.js",
+          "~/kindeditor/plugins/flash.js",
+          "~/kindeditor/plugins/image.js",
+          "~/kindeditor/plugins/insertfile.js",
+          "~/kindeditor/plugins/lineheight.js",
+          "~/kindeditor/plugins/link.js",
+          "~/kindeditor/plugins/map.js",
+          "~/kindeditor/plugins/media.js",
+          "~/kindeditor/plugins/multiimage.js",
+          "~/kindeditor/plugins/pagebreak.js",
+          "~/kindeditor/plugins/plainpaste.js",
+          "~/kindeditor/plugins/preview.js",
+          "~/kindeditor/plugins/quickformat.js",
+          "~/kindeditor/plugins/template.js",
+          "~/kindeditor/plugins/wordpaste.js",
+          "~/kindeditor/plugins/zui.js",
+          "~/kindeditor/plugins/placeholder.js",
+          "~/kindeditor/plugins/paste-image.js",
+          "~/kindeditor/plugins/advance-table.js"
+        ],
+        "resource": ["assets/kindeditor//themes/**/*", "assets/kindeditor//lang/**/*", "assets/kindeditor//plugins.zip", "assets/kindeditor//README.md"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"],
+      "pver": "4.1.0",
+      "license": "GNU",
+      "source": "kindsoft",
+      "project": "https://github.com/kindsoft/kindeditor",
+      "website": "http://kindeditor.net/",
+      "custom": ["ui"]
+    },
+    "ueditor": {
+      "name": "UEditor",
+      "src": {
+        "less": ["~/modules/ueditor.less"]
+      },
+      "ver": "1.5.0",
+      "dpds": ["basic"],
+      "pver": "1.4.3",
+      "license": "MIT",
+      "source": "Baidu",
+      "project": "https://github.com/fex-team/ueditor",
+      "website": "http://ueditor.baidu.com/",
+      "custom": ["ui"]
+    },
+    "chosen": {
+      "name": "Selector",
+      "src": {
+        "less": ["~/modules/chosen.less"],
+        "js": ["~/chosen.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"],
+      "pver": "1.1.0",
+      "license": "MIT",
+      "source": "Patrick Filler",
+      "website": "https://github.com/harvesthq/chosen",
+      "custom": ["ui"],
+      "require": ["jquery"]
+    },
+    "bootbox": {
+      "name": "Modal dialog",
+      "src": {
+        "less": ["~/modules/modals.bootbox.less"],
+        "js": ["~/bootbox.js"]
+      },
+      "ver": "1.0.0",
+      "pver": "4.4.0",
+      "dpds": ["modals"],
+      "source": "Nick Payne",
+      "license": "MIT",
+      "website": "http://bootboxjs.com/",
+      "project": "https://github.com/makeusabrew/bootbox",
+      "custom": ["ui"],
+      "require": ["jquery"]
+    },
+    "chosenicons": {
+      "name": "Icon selector",
+      "src": {
+        "less": ["~/modules/chosen.icons.less"],
+        "js": ["src/js/chosen.icons.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic", "chosen"],
+      "require": ["jquery"]
+    },
+    "article.basic": {
+      "name": "Basic article view",
+      "src": {
+        "less": ["~/views/article.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic", "typography.basic"]
+    },
+    "article.condensed": {
+      "name": "Compact article view",
+      "src": {
+        "less": ["~/views/article.condensed.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["article.basic"]
+    },
+    "article": {
+      "name": "Article view",
+      "dpds": ["typography", "article.basic", "article.condensed"]
+    },
+    "comment": {
+      "name": "Comment view",
+      "src": {
+        "less": ["~/views/comment.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"]
+    },
+    "list": {
+      "name": "List view",
+      "src": {
+        "less": ["~/views/list.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"]
+    },
+    "cards.basic": {
+      "name": "Basic card view",
+      "src": {
+        "less": ["~/views/cards.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["basic"]
+    },
+    "cards.caption": {
+      "name": "Card view notes",
+      "src": {
+        "less": ["~/views/cards.caption.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["cards.basic"]
+    },
+    "cards.condensed": {
+      "name": "Compact card view",
+      "src": {
+        "less": ["~/views/cards.condensed.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["cards.basic"]
+    },
+    "cards.reveal": {
+      "name": "Card view flip",
+      "src": {
+        "less": ["~/views/cards.reveal.less"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["cards.basic"]
+    },
+    "card": {
+      "name": "Card view",
+      "dpds": ["cards.basic", "cards.caption", "cards.condensed", "cards.reveal"]
+    },
+    "chart": {
+      "name": "Chart.js",
+      "pver": "1.0.2",
+      "ver": "1.3.0",
+      "website": "http://www.chartjs.org/",
+      "src": {
+        "js": ["src/js/Chart.Core.js", "src/js/chart.line.js", "src/js/Chart.Doughnut.js", "src/js/Chart.Bar.js"],
+        "require": ["colorset.js", "jqueryex"]
+      }
+    },
+    "dashboard": {
+      "name": "dash board",
+      "src": {
+        "less": ["~/views/dashboard.less"],
+        "js": ["src/js/dashboard.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["grid", "icons"],
+      "require": ["jquery"]
+    },
+    "board": {
+      "name": "Kanban",
+      "src": {
+        "less": ["~/views/boards.less"],
+        "js": ["src/js/boards.js"]
+      },
+      "ver": "1.0.0",
+      "dpds": ["jqueryex", "droppable"],
+      "require": ["jquery"]
+    },
+    "tabs": {
+      "name": "Tab manager",
+      "src": {
+        "less": ["~/views/tabs.less"],
+        "js": ["src/js/tabs.js"]
+      },
+      "ver": "1.8.0",
+      "dpds": ["jqueryex", "resize", "string", "sortable"],
+      "require": ["jquery"]
+    },
+    "datatable": {
+      "name": "Data table",
+      "src": {
+        "less": ["~/views/datatable.less"],
+        "js": ["src/js/datatable.js"]
+      },
+      "ver": "1.2.0",
+      "dpds": ["jqueryex", "resize", "string", "table", "store", "draggable"],
+      "require": ["jquery"]
+    },
+    "datagrid": {
+      "name": "Data table②",
+      "src": {
+        "less": ["~/views/datagrid.less"],
+        "js": ["src/js/datagrid.js"]
+      },
+      "ver": "1.8.0",
+      "dpds": ["jqueryex", "mousewheel", "resize", "string", "store", "draggable"],
+      "libDpds": ["mousewheel"],
+      "require": ["jquery"]
+    },
+    "calendar": {
+      "name": "calendar",
+      "src": {
+        "less": ["~/views/calendar.less"],
+        "js": ["src/js/calendar.js"]
+      },
+      "ver": "1.2.0",
+      "dpds": ["basic", "jqueryex", "color", "resize", "string", "date", "table", "droppable"]
+    },
+    "mindmap": {
+      "name": "mind Mapping",
+      "src": {
+        "less": ["~/views/mindmap.less"],
+        "js": ["src/js/mindmap.js"]
+      },
+      "ver": "2.0.0",
+      "dpds": ["basic", "jqueryex", "resize", "string", "date", "droppable"],
+      "hidden": true
+    },
+    "treemap": {
+      "name": "Tree diagram",
+      "src": {
+        "less": ["~/views/treemap.less"],
+        "js": ["~/treemap.js"]
+      },
+      "ver": "1.7.0",
+      "dpds": ["basic", "jqueryex", "resize", "string", "date", "droppable"]
+    },
+    "theme": {
+      "name": "Topic example",
+      "src": {
+        "less": ["~/theme.less"]
+      },
+      "desc": "ZUIDefault theme example",
+      "dpds": ["themeConfig"],
+      "ver": "1.0.0"
+    },
+    "themeConfig": {
+      "name": "Theme options",
+      "src": {
+        "less": ["~/basic/variables.theme.less"]
+      },
+      "desc": "ZUIDefault theme configuration",
+      "ver": "1.4.0",
+      "dpds": ["setting"]
+    },
+    "doc": {
+      "name": "Document",
+      "src": {
+        "less": ["~/doc.less"],
+        "js": ["~/doc.js"]
+      },
+      "desc": "ZUIDocument dependent styles and tools",
+      "ver": "1.3.0",
+      "dpds": ["setting", "array", "icons.json", "colorset.test", "hotkey", "clipboard", "marked", "less"],
+      "hidden": true
+    },
+    "tree": {
+      "name": "Tree menu",
+      "src": {
+        "js": ["~/tree.js"],
+        "less": ["~/views/tree.less"]
+      },
+      "ver": "1.4.0",
+      "require": ["icons"]
+    },
+    "flowchart": {
+      "name": "flow chart",
+      "src": {
+        "js": ["~/flowchart.js"]
+      },
+      "ver": "1.9.2",
+      "hidden": true
+    },
+    "clipboard": {
+      "name": "clipboard",
+      "src": {
+        "js": ["assets/clipboard/clipboard.js"]
+      },
+      "ver": "1.4.0",
+      "pver": "1.5.5",
+      "desc": "Modern copy to clipboard. No Flash. Just 2kb.",
+      "source": "Zeno Rocha",
+      "license": "MIT",
+      "website": "https://clipboardjs.com/"
+    },
+    "marked": {
+      "name": "marked",
+      "src": {
+        "js": ["assets/marked/marked.js"]
+      },
+      "ver": "1.7.0",
+      "pver": "0.3.6",
+      "desc": "a markdown parser.",
+      "source": "Christopher Jeffrey",
+      "license": "MIT",
+      "website": "https://github.com/chjj/marked"
+    },
+    "markdoc": {
+      "name": "Markdown Document generator",
+      "src": {
+        "js": ["src/js/markdoc.js"]
+      },
+      "filename": "zui.markdoc",
+      "ver": "1.9.0",
+      "dpds": ["marked"],
+      "ignoreDpds": false
+    },
+    "less": {
+      "name": "Less",
+      "src": {
+        "js": ["assets/less/less.js"]
+      },
+      "ver": "1.7.0",
+      "pver": "2.5.3",
+      "desc": "Leaner CSS.",
+      "source": "Alexis Sellier",
+      "license": "Apache License 2.0",
+      "website": "http://lesscss.org"
+    },
+    "colorset.less2js": {
+      "name": "JSColor table",
+      "src": {
+        "less": ["~/basic/colorset.js.less"]
+      },
+      "ver": "1.3.0",
+      "dpds": ["colorset"],
+      "hidden": true
+    },
+    "colorset.js": {
+      "name": "JSColor table",
+      "src": {
+        "js": ["src/js/colorset.js"]
+      },
+      "filename": "zui.colorset",
+      "ver": "1.3.0",
+      "dpds": ["color"]
+    },
+    "migrate1.2": {
+      "name": "1.2upgrade to1.3Compatible plugin",
+      "src": {
+        "js": ["src/js/zui.migrate.1.2.js"]
+      },
+      "ver": "1.3.0",
+      "deprecated": "Use new version instead."
+    },
+    "colorset.test": {
+      "name": "Color matching test",
+      "src": {
+        "less": ["~/basic/colorset.test.less"]
+      },
+      "desc": "ZUIColor preview style",
+      "ver": "1.0.0",
+      "dpds": ["colorset", "mixins"],
+      "hidden": true
+    },
+    "colorpicker": {
+      "name": "Color selector",
+      "src": {
+        "js": ["src/js/colorpicker.js"],
+        "less": ["src/less/modules/colorpicker.less"]
+      },
+      "ver": "1.5.0",
+      "dpds": ["color"]
+    },
+    "selectable": {
+      "name": "Drag and drop selection",
+      "src": {
+        "js": ["src/js/selectable.js"]
+      },
+      "ver": "1.5.0"
+    },
+    "uploader": {
+      "name": "File Upload",
+      "src": {
+        "js": ["src/js/uploader.js"],
+        "less": ["src/less/views/uploader.less"]
+      },
+      "dpds": ["plupload"],
+      "ver": "1.6.0",
+      "ignoreDpds": false
+    },
+    "ajaxFake": {
+      "name": "Ajax Response simulation tool",
+      "src": {
+        "js": ["src/js/ajax.fake.js"]
+      },
+      "ver": "1.8.1",
+      "ignoreDpds": false
+    },
+    "guideViewer": {
+      "name": "Step view component",
+      "src": {
+        "js": ["src/js/guide.viewer.js"]
+      },
+      "ver": "1.9.2",
+      "ignoreDpds": false
+    }
+  },
+  "builds": {
+    "standard": {
+      "title": "Standard edition",
+      "dest": "dist/",
+      "filename": "zui",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography", "header", "button", "progressbar", "image", "divider", "labels", "breadcrumbs", "icons", "loading", "forms", "switch", "checkbox", "close", "scrollbars", "table", "listgroup", "panels", "alerts", "inputcontrol", "inputgroups", "code", "pager", "navs", "navbars", "animations", "collapse", "device", "browser", "date", "string", "resize", "scrollspy", "store", "searchbox", "draggable", "droppable", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "contextmenu", "carousel", "lightbox", "messager", "article", "comment", "list", "card", "color", "tree"]
+    },
+    "lite": {
+      "title": "Lite edition",
+      "dest": "dist/",
+      "filename": "zui.lite",
+      "subdirectories": true,
+      "bootstrapStatement": true,
+      "includes": ["jqueryex", "basic", "utilities", "scaffolding", "grid", "typography.basic", "header", "button.basic", "image.group", "divider", "labels.basic", "breadcrumbs", "icons", "forms.basic", "close", "table.basic", "table.colors", "listgroup", "panels.basic", "alerts.basic", "inputgroups",  "code", "pager.basic", "navs.basic", "navs.tab", "navbars.basic", "animations", "collapse", "device", "browser", "date", "string", "resize", "store", "tab", "modals", "modaltrigger", "tooltip", "popovers", "dropdowns", "carousel", "article", "comment", "list", "card.basic"]
+    },
+    "theme": {
+      "title": "Theme",
+      "filename": "zui-theme",
+      "dest": "dist/",
+      "subdirectories": true,
+      "settingDpds": ["setting", "themeConfig"],
+      "includes": ["theme"]
+    },
+    "colorset.less2js": {
+      "title": "Generated from less code",
+      "dest": "src/js/",
+      "filename": "colorset",
+      "subdirectories": false,
+      "includes": ["colorset.less2js"]
+    },
+    "seperate": {
+      "title": "Seperate bundles",
+      "bundles": ["jquery", "calendar", "kindeditor", "datetimepicker", "chosen", "chosenicons", "imgcutter", "datatable", "datagrid", "ieonly", "chart", "array", "hotkey", "board", "tabs", "migrate1.2", "clipboard", "prettify", "sortable", "selectable", "colorpicker", "colorset.js", "imgready", "dashboard", "bootbox", "ueditor", "uploader", "treemap", "ajaxFake", "markdoc", "contextmenu", "flowchart"]
+    },
+    "dist": {
+      "title": "Dist bundles",
+      "bundles": ["standard", "lite", "theme", "seperate"]
+    },
+    "doc": {
+      "title": "Document",
+      "dest": "docs/",
+      "filename": "doc",
+      "subdirectories": true,
+      "includes": ["doc"]
+    }
+  }
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZUI，A simple and flexible front-end framework。">
+    <meta name="author" content="Zentao">
+    <title>ZUI - Flowchart example</title>
+    <link href="../../dist/css/zui.css" rel="stylesheet">
+    <style>
+    .flowchart-rel-line:before {content: ' '; display: block; position: absolute; left: -5px; top: -5px; right: -5px; bottom: -5px}
+    </style>
+</head>
+
+<body style="padding: 20px">
+    <div style="margin-bottom: 20px">
+        <button type="button" class="btn btn-primary" id="exportDataBtn">export data</button>
+        <button type="button" class="btn btn-primary" id="showExampleBtn">Reset to sample data</button>
+        <button type="button" class="btn btn-danger" id="resetDataBtn">Reset data</button>
+        <button type="button" class="btn" id="resetLayoutBtn">Automatic layout</button>
+    </div>
+    <div id="flowchart" class="panel"></div>
+
+    <script src="../../assets/jquery.js"></script>
+    <script src="../../dist/js/zui.js"></script>
+    <script src="../../dist/lib/flowchart/zui.flowchart.js"></script>
+    <link href="../../dist/lib/bootbox/bootbox.min.css" rel="stylesheet">
+    <script src="../../dist/lib/bootbox/bootbox.min.js"></script>
+    <script>
+        $(function () {
+            var data = [{"id":"start","type":"start","position":{"left":20,"top":20},"text":"Start"},{"id":"createBug","type":"action","position":{"left":180,"top":20},"text":"New defect"},{"id":"submitBug","type":"action","position":{"left":310,"top":20},"text":"Submit confirmation"},{"id":"confirmBug","type":"action","position":{"left":450,"top":20},"text":"Confirm defect"},{"id":"submitArbitration","type":"action","position":{"left":620,"top":20},"text":"Submit arbitration"},{"id":"arbitration","type":"action","position":{"left":820,"top":20},"text":"arbitration"},{"id":"requestHang","type":"action","position":{"left":320,"top":250},"text":"Application pending"},{"id":"hangApproval","type":"action","position":{"left":540,"top":250},"text":"Suspend approval"},{"id":"startRepair","type":"action","position":{"left":540,"top":170},"text":"Start repair"},{"id":"restartRepair","type":"action","position":{"left":770,"top":250},"text":"Restart repair"},{"id":"submitVerify","type":"action","position":{"left":770,"top":170},"text":"Submit verification"},{"id":"startVerify","type":"action","position":{"left":910,"top":170},"text":"Start verification"},{"id":"verify","type":"action","position":{"left":1080,"top":250},"text":"verification"},{"id":"close","type":"stop","position":{"left":1080,"top":20},"text":"shut down"},{"id":"tip1","type":"action","position":{"left":0,"top":130},"text":"★ Double click on node or relationship name edit", className: "text-green"},{"id":"tip2","type":"action","position":{"left":20,"top":200},"text":"★ Drag node to move position", className: "text-green"},{"id":"tip3","type":"action","position":{"left":10,"top":270},"text":"★ Use the right button to access more operations", className: "text-green"},{"id":"start-createBug","type":"relation","from":"start","to":"createBug"},{"id":"createBug-submitBug","type":"relation","from":"createBug","to":"submitBug"},{"id":"submitBug-confirmBug","type":"relation","from":"submitBug","to":"confirmBug"},{"id":"confirmBug-submitArbitration","type":"relation","from":"confirmBug","to":"submitArbitration","text":"no"},{"id":"submitArbitration-arbitration","type":"relation","from":"submitArbitration","to":"arbitration"},{"id":"confirmBug-requestHang","type":"relation","from":"confirmBug","to":"requestHang","text":"Is a defect"},{"id":"requestHang-hangApproval","type":"relation","from":"requestHang","to":"hangApproval","text":"agree"},{"id":"confirmBug-startRepair","type":"relation","from":"confirmBug","to":"startRepair","text":"Is a defect"},{"id":"requestHang-startRepair","type":"relation","from":"requestHang","to":"startRepair","text":"Refuse"},{"id":"arbitration-startRepair","type":"relation","from":"arbitration","to":"startRepair","text":"Is a defect"},{"id":"hangApproval-startRepair","type":"relation","from":"hangApproval","to":"startRepair","text":"Refuse"},{"id":"hangApproval-restartRepair","type":"relation","from":"hangApproval","to":"restartRepair","text":"agree"},{"id":"verify-restartRepair","type":"relation","from":"verify","to":"restartRepair","text":"Fail"},{"id":"restartRepair-submitVerify","type":"relation","from":"restartRepair","to":"submitVerify"},{"id":"startRepair-submitVerify","type":"relation","from":"startRepair","to":"submitVerify"},{"id":"submitVerify-startVerify","type":"relation","from":"submitVerify","to":"startVerify"},{"id":"startVerify-verify","type":"relation","from":"startVerify","to":"verify"},{"id":"verify-close","type":"relation","from":"verify","to":"close","text":"by"},{"id":"arbitration-close","type":"relation","from":"arbitration","to":"close","text":"Not a defect"},{"id":"start-tip1","type":"relation","from":"start","to":"tip1"},{"id":"tip1-tip2","type":"relation","from":"tip1","to":"tip2"},{"id":"tip2-tip3","type":"relation","from":"tip2","to":"tip3"}];
+            var originData = [{
+                id: 'start',
+                type: 'start',
+                text: 'Start',
+                actionID: 'test'
+            }, {
+                id: 'createBug',
+                text: 'New defect',
+                from: 'start',
+            }, {
+                id: 'submitBug',
+                text: 'Submit confirmation',
+                from: 'createBug'
+            }, {
+                id: 'confirmBug',
+                text: 'Confirm defect',
+                from: 'submitBug'
+            }, {
+                id: 'submitArbitration',
+                text: 'Submit arbitration',
+                from: 'confirmBug:no'
+            }, {
+                id: 'arbitration',
+                text: 'arbitration',
+                from: 'submitArbitration'
+            }, {
+                id: 'requestHang',
+                text: 'Application pending',
+                from: 'confirmBug:Is a defect'
+            }, {
+                id: 'hangApproval',
+                text: 'Suspend approval',
+                from: 'requestHang:agree'
+            }, {
+                id: 'startRepair',
+                text: 'Start repair',
+                from: ['confirmBug:Is a defect', 'requestHang:Refuse', 'arbitration:Is a defect', 'hangApproval:Refuse']
+            }, {
+                id: 'restartRepair',
+                text: 'Restart repair',
+                from: ['hangApproval:agree', 'verify:Fail']
+            }, {
+                id: 'submitVerify',
+                text: 'Submit verification',
+                from: ['restartRepair', 'startRepair']
+            }, {
+                id: 'startVerify',
+                text: 'Start verification',
+                from: ['submitVerify']
+            }, {
+                id: 'verify',
+                text: 'verification',
+                from: ['startVerify']
+            }, {
+                id: 'close',
+                text: 'shut down',
+                type: 'stop',
+                from: ['verify:by', 'arbitration:Not a defect']
+            }, {
+                id: 'tip1',
+                text: '★ Double click on node or relationship name edit',
+                className: 'text-green',
+                from: 'start'
+            }, {
+                id: 'tip2',
+                text: '★ Drag node to move position',
+                className: 'text-green',
+                from: 'tip1'
+            }, {
+                id: 'tip3',
+                text: '★ Use the right button to access more operations',
+                className: 'text-green',
+                from: 'tip2'
+            }];
+            $('#flowchart').flowChart({
+                showRelationTextOnSide: false,
+                adsorptionGrid: 10,
+                data: originData,
+                showContextMenu: function(element, items, event) {
+                    console.log('The element of the current context menu', element);
+                    console.log('System generated right click menu list', items);
+
+                    // Modify the second right-click menu item generated by the system
+                    items[1].label = 'modify';
+
+                    // Add a new right-click menu at the end
+                    items.push({
+                        label: 'Open Baidu',
+                        url: 'http://baidu.com'
+                    }, {
+                        label: 'Obtain actionID',
+                        onClick: function() {
+                            // Multiple ways to get custom attributes
+
+                            // method one：by Element On the object data Property access actionID Field
+                            alert('actionID: ' + element.data.actionID);
+
+                            // Method Two：by jquery.data() method
+                            alert('actionID: ' + $(event.target).closest('.flowchart-node').data('actionID'));
+
+                            // Method three，by flowchart Object sample acquisition element Object
+                            var myFlowChart = $('#flowchart').data('zui.flowChart');
+                            var myElement = myFlowChart.getElement('start');
+                            alert('actionID: ' + myElement.data.actionID);
+                        }
+                    });
+                    return items;
+                },
+                // relationLineWidth: 2,
+                // nodeStyle: {
+                //     border: '2px solid #333',
+                // },
+            });
+            var flowchart = $('#flowchart').data('zui.flowChart');
+            $('#resetLayoutBtn').on('click', function() {
+                flowchart.resetPosition();
+            });
+            $('#resetDataBtn').on('click', function() {
+                flowchart.resetData();
+            });
+            $('#exportDataBtn').on('click', function() {
+                bootbox.dialog({
+                    title: 'Flow chart data export',
+                    message: '<pre><code>' + JSON.stringify(flowchart.exportData(), null, 4) + '</code></pre>'
+                });
+            });
+            $('#showExampleBtn').on('click', function() {
+                flowchart.resetData(data);
+            });
+            console.log(flowchart);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+{
+  "result": "success",
+  "data": [
+      {"time": "00:15:32", "hero":"Phantom Assassin", "action": "Kill", "target": "Axe king", "desc": "Phantom Assassin killed the Axe。"},
+      {"time": "00:16:21", "hero":"Phantom Assassin", "action": "Bought", "target": "Hidden knife", "desc": "Phantom Assassin bought a hidden knife。"}
+  ],
+  "message": "",
+  "pager": {
+      "page": 2,
+      "recTotal": 7,
+      "recPerPage": 5
+  }
+}

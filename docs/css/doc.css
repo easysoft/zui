@@ -2459,6 +2459,9 @@ body {
   background-color: rgba(0, 0, 0, .2);
   }
 #navbar .navbar-nav > li > a > .icon {
+  position: relative;
+  top: 2px;
+  display: inline-block;
   font-size: 18px;
   }
 #navbar .navbar-brand {
@@ -5374,6 +5377,9 @@ body[data-page="basic-theme"] .path-btn > .path-1:after {
   font-weight: normal;
   color: #3280fc;
   content: '(当前)';
+  }
+[lang="en"] #changeViewModal .view-option.active > .title:after {
+  content: '(Current)';
   }
 #changeViewModal .view-option.active .view-shape {
   border-color: #3280fc;

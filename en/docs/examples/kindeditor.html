@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZUI，A simple and flexible front-end framework。">
+    <meta name="author" content="Zentao">
+    <title>ZUI - KindEditor example</title>
+    <link href="../../dist/css/zui.css" rel="stylesheet">
+</head>
+
+<body style="padding: 20px">
+    <div class="conatiner" id="contextmenuExample">
+        <h1>KindEditor function test</h1>
+        <div class="row">
+            <div class="col-md-7">
+                <textarea id="content" name="content" class="form-control kindeditor" style="height:500px;">Hello, world!</textarea>
+                <br>
+                <textarea id="content2" name="content2" class="form-control" style="height:100px;">Hello, world!</textarea>
+                </div>
+            <div class="col-md-5">
+                <div class="article-content" style="padding: 0">
+                    <strong>KindEditor in ZUI 1.9.1 Update in</strong>
+                    <ul>
+                        <li>
+                            <p>Redo Table editing function，Contains the following key features：</p>
+                            <ul>
+                                <li>Redo Toolbar icon，Optimized insert table interaction experience，Now click on the table icon button，Pop up row and column selection panel，Quickly insert a table by sliding the mouse to select the number of table rows and columns to insert，After inserting the form，The cursor will automatically be placed in the first cell</li>
+                                <li>
+                                    <p>New by <kbd>Tab</kbd> Key to switch the function of the cursor in the cell，A new line is automatically created when the cursor is already in the last cell in the table，And move the cursor to the first cell of the new line；
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>New Select multiple cell features，Allow the following methods to perform multiple selection operations：</p>
+                                    <ul>
+                                        <li>Click on the left side of the first cell of each row to quickly select all cells on the entire row.；</li>
+                                        <li>Click on the top side of the first cell of each column to quickly select all cells on the entire column.；</li>
+                                        <li>Click and hold on one cell and drag to another cell，You can select all cells in the range of the drag and drop rectangle；</li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <p>New Ability to apply styles or actions to selected cells，Currently supports the following operations：</p>
+                                    <ul>
+                                        <li>Merge all selected cells；</li>
+                                        <li>Delete the row or column of all selected cells；</li>
+                                        <li>Operation on text base styles，Including bold、Underline、Strikethrough、Font、Text color, background color, etc.；</li>
+                                        <li>Operation on content alignment，Including left、Centered、Waiting right；</li>
+                                        <li>Change operation on content type，Including switch list type, etc.；</li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <p>Redo Table cell style settings dialog style，Added settings for cell border size and text color；</p>
+                                </li>
+                                <li>
+                                    <p>optimization Table style settings，Styles such as borders and interlaced colors are now applied directly to the cell.，Instead of passing CSS Class name，Avoid in ZUI Lost style if the base style is missing；</p>
+                                </li>
+                                <li>
+                                    <p>optimization The item on the right-click menu，Does not display when some items are not available in certain situations，For example, it does not appear when the cursor is on the last line.“Merge cells down”Menu Item；</p>
+                                </li>
+                                <li>optimization The interaction of inserting a table into a table，Support for editing nested tables；</li>
+                                <li>
+                                    <p>repair Sometimes right click on the cell，There is no problem with cell-related menu items on the pop-up context menu.；</p>
+                                </li>
+
+                            </ul>
+                        </li>
+                        <li>
+                            <p>New by <code>placeholder</code> Option for the editor to set and display placeholder text when there is no content；</p>
+                        </li>
+                        <li>
+                            <p>New by <code>pasteImage</code> Option to implement automatic map upload function；</p>
+                        </li>
+                        <li>
+                            <p>New by <code>spellcheck</code> Option to enable or disable spell checking；</p>
+                        </li>
+                        <li>
+                            <p>New by <code>transferTab</code> Option disables editor <kbd>Tab</kbd> Key insertion space function，Instead, implement the activation editor on the page one form control；</p>
+                        </li>
+                        <li>
+                            <p>New by <code>syncAfterBlur</code> Option implementation automatically performs synchronization when the editor loses focus（<code>sync()</code>）operating；</p>
+                        </li>
+                        <li>New by <code>simpleWrap</code> Options to optimize source formatting，When this option is <code>true</code> Time，Block-level element content in source code does not appear as a new line；</li>
+                        <li>optimization Form indentation style，Now indented by default 2 Space，Instead of Tab；</li>
+                        <li>optimization Preview interface style；</li>
+                        <li>
+                            <p>repair Can&#39;t pass <code>themeType</code> Option to specify a problem with the theme style sheet；</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/jquery.js"></script>
+    <script src="../../dist/js/zui.js"></script>
+    <script src="../../dist/lib/kindeditor/kindeditor.js"></script>
+    <script>
+        $(function () {
+            var K = window.KindEditor;
+            if (K) {
+                window.$editor = K.create('textarea.kindeditor', {
+                    // wellFormatMode: true,
+                    // simpleWrap: true,
+                    // indentChar: '  ',
+                    // width: '100%',
+                    // basePath: '../../dist/lib/kindeditor/',
+                    // allowFileManager: true,
+                    // bodyClass: 'article-content',
+                    // cssPath: '../../dist/css/zui.css',
+                    // placeholder: 'Please enter the content of the article\nGood Luck!',
+                    // transferTab: true,
+                    "width":"100%","items":["formatblock","fontsize","lineheight","|","forecolor","hilitecolor","|","bold","italic","underline","strikethrough","|","justifyleft","justifycenter","justifyright","|","emoticons","image","|","link","unlink","anchor","flash","media","baidumap","/","undo","redo","|","cut","copy","|","plainpaste","wordpaste","|","removeformat","clearhtml","quickformat","|","indent","outdent","subscript","superscript","insertorderedlist","insertunorderedlist","|","table","code","hr","|","fullscreen","source","about"],"cssPath":["/zui/css/admin.min.css"],"cssData":"html,body {background: none}.article-content, .article-content table td, .article-content table th {line-height: 1.3846153846; font-size: 13px;} .article-content table.table-kindeditor th, .article-content table.table-kindeditor td {padding: 5px 8px;} .article-content table.ke-zeroborder.table-kindeditor td {border: 1px dotted #AAA;} .article-content .table-auto {width: auto!important; max-width: 100%;}","bodyClass":"article-content","urlType":"absolute","uploadJson":"/admin.php?m=file&f=ajaxUpload&uid=5cf4d4f4894a1&t=html","fileManagerJson":"/admin.php?m=file&f=fileManager&t=html","imageTabIndex":1,"filterMode":true,"allowFileManager":true,"langType":"zh_CN","htmlTags":{"p,span,h1,h2,h3,h4,h5,em,u,strong,br,ol,ul,li,img,a,b,font,hr,pre,embed,video,audio,dd,dt,dl,div,table,td,th,tr,tbody,iframe,style,header,nav,meta,video,":["class","id","style"],"video":["id","class","width","height","src","controls"],"object":["type","data","width","height"],"param":["name","value"],"audio":["src","controls","id","class","width","height"],"font":["id","class","color","size","face",".background-color"],"span":["id","class",".color",".background-color",".font-size",".font-family",".background",".font-weight",".font-style",".text-decoration",".vertical-align",".line-height"],"div":["id","class","align",".border",".margin",".padding",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".background",".font-style",".text-decoration",".vertical-align",".margin-left"],"table":["id","class","border","cellspacing","cellpadding","width","height","align","bordercolor",".padding",".margin",".border","bgcolor",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".font-style",".text-decoration",".background",".width",".height",".border-collapse"],"td,th":["id","class","align","valign","width","height","colspan","rowspan","bgcolor",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".font-style",".text-decoration",".vertical-align",".background",".border"],"a":["id","class","href","target","name"],"embed":["id","class","src","width","height","type","loop","autostart","quality",".width",".height","align","allowscriptaccess","allowfullscreen"],"img":["id","class","src","width","height","border","alt","title","align",".width",".height",".border"],"p,ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6":["id","class","align",".text-align",".color",".background-color",".font-size",".font-family",".background",".font-weight",".font-style",".text-decoration",".vertical-align",".text-indent",".margin-left"],"pre":["id","class"],"hr":["id","class",".page-break-after"],"br,tbody,thead,tr,strong,b,sub,sup,em,i,u,strike,s,del":["id","class"],"iframe":["id","class","src","frameborder","width","height",".width",".height"],"style":[]},"syncAfterBlur":true,"spellcheck":false,"placeholderStyle":{"fontSize":"14px","color":"#999"},"pasteImage":{"postUrl":"/admin.php?m=file&f=ajaxPasteImage&uid=5cf4d4f4894a1&t=html","placeholder":true}
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

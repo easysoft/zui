@@ -684,6 +684,9 @@ body {
     border-radius: 4px;
     > .icon {
       font-size: 18px;
+      position: relative;
+      top: 2px;
+      display: inline-block;
     }
   }
   .navbar-brand {
@@ -2515,6 +2518,9 @@ body[data-page="basic-theme"] {
       background: @color-pale;
       > .title:after {
         content: '(当前)';
+        [lang="en"] & {
+          content: '(Current)';
+        }
         color: @color-primary;
         display: inline-block;
         margin-left: 5px;

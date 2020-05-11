@@ -12810,6 +12810,43 @@ require('./polyfill-done.js');
 +(function(window, $) {
     'use strict';
 
+    var LANG = {
+        zh_cn: {
+            browserTip: '你正在使用 IE 较低版本访问，无法获得 ZUI 文档网站的完整体验，建议你更换浏览器再访问。',
+            loadingTip: '正在拼命加载中...',
+            notFoundTip: '该链接所指示的文档尚未完成。你可以Fork项目来完善文档。',
+            source: '源码',
+            standard: '标准版',
+            lite: '简洁版',
+            package: '打包',
+            resource: '资源',
+            lib: '独立组件',
+            includes: '包含',
+            mergedComponents: '合并组件',
+            copied: '已复制',
+            copyDisabledTip: '你的浏览器不支持直接复制，请自行选择并复制。',
+            copyTip: '按 <strong>Ctrl+C</strong> 完成复制。',
+        },
+        en: {
+            browserTip: 'You are using a lower version of IE to access, and you cannot get the full experience of the ZUI document website. It is recommended that you change your browser and visit again.',
+            loadingTip: 'Loading...',
+            notFoundTip: 'The document indicated by the link is not yet complete. You can complete the documentation with the Fork project.',
+            source: 'Source',
+            standard: 'Standard',
+            lite: 'Lite',
+            package: 'Package',
+            resource: 'Resource',
+            lib: 'Lib',
+            includes: 'Includes',
+            mergedComponents: 'Merged Components',
+            copied: 'Copied',
+            copyDisabledTip: 'Your browser does not support direct copying, please select and copy by yourself.',
+            copyTip: 'Press <strong>Ctrl+C</strong> to copy.',
+        },
+    };
+
+    var lang = LANG[$.zui.clientLang()];
+
     if(window.location.protocol === 'file:') {
         $('#fileProtocolTip').removeClass('hidden');
         $('.loading.loader').removeClass('loading');
@@ -12817,7 +12854,7 @@ require('./polyfill-done.js');
     }
 
     if($.zui.browser.ie && $.zui.browser.ie < 11) {
-        $.zui.messager.danger('你正在使用 IE 较低版本访问，无法获得 ZUI 文档网站的完整体验，建议你更换浏览器再访问。', {time: 20000});
+        $.zui.messager.danger(lang.browserTip, {time: 20000});
     }
 
     $.fn.allAttrs = function() {
@@ -13445,7 +13482,7 @@ require('./polyfill-done.js');
         $body.attr('data-query', 'icons');
         var $search = $section.children('.section-search');
         if(!$search.length) {
-            $search = $('<div class="section-search card-content"><div class="loader loading"><i class="icon icon-spin icon-spinner"></i> 正在拼命加载中...</div></div>');
+            $search = $('<div class="section-search card-content"><div class="loader loading"><i class="icon icon-spin icon-spinner"></i> ' + lang.loadingTip + '</div></div>');
             $section.children('.card-heading').after($search);
             $search = $section.children('.section-search');
         }
@@ -14117,11 +14154,11 @@ require('./polyfill-done.js');
                     js: "Javascript",
                     css: "CSS",
                     less: "LESS",
-                    resource: "资源",
+                    resource: lang.resource,
                 };
                 var srcPrefix = 'https://github.com/easysoft/zui/blob/' + (zuiPkg.version ? ('v' + zuiPkg.version) : 'master') + '/';
                 if(lib.srcCount) {
-                    $dropdown.append('<li class="dropdown-header primary-header" data-type="source"><i class="icon icon-file-code"></i>  源码 ' + lib.srcCount + '</li>');
+                    $dropdown.append('<li class="dropdown-header primary-header" data-type="source"><i class="icon icon-file-code"></i>  ' + lang.source + ' ' + lib.srcCount + '</li>');
                     $.each(lib.src, function(srcName, files) {
                         $dropdown.append('<li class="dropdown-header">' + (srcTypes[srcName] || srcName) + '</li>');
                         files.forEach(function(f) {
@@ -14131,9 +14168,9 @@ require('./polyfill-done.js');
                     });
                 }
                 if(lib.bundlesCount) {
-                    $dropdown.append('<li class="dropdown-header primary-header" data-type="bundles"><i class="icon icon-cube"></i> 打包</li>');
+                    $dropdown.append('<li class="dropdown-header primary-header" data-type="bundles"><i class="icon icon-cube"></i> ' + lang.package + '</li>');
                     if(lib.bundles.standard) {
-                        $dropdown.append('<li class="dropdown-header">标准版</li>');
+                        $dropdown.append('<li class="dropdown-header">' + lang.standard + '</li>');
                         var files = [];
                         if(lib.src.js && lib.src.js.length) {
                             files.push('dist/js/zui.js');
@@ -14157,7 +14194,7 @@ require('./polyfill-done.js');
                         });
                     }
                     if(lib.bundles.lite) {
-                        $dropdown.append('<li class="dropdown-header">简洁版</li>');
+                        $dropdown.append('<li class="dropdown-header">' + lang.lite + '</li>');
                         var files = [];
                         if(lib.src.js && lib.src.js.length) {
                             files.push('dist/js/zui.lite.js');
@@ -14181,7 +14218,7 @@ require('./polyfill-done.js');
                         });
                     }
                     if(lib.bundles.seperate) {
-                        $dropdown.append('<li class="dropdown-header">独立组件</li>');
+                        $dropdown.append('<li class="dropdown-header">' + lang.lib + '</li>');
                         $dropdown.append('<li><a target="_blank" href="' + srcPrefix + 'dist/lib/' + section.id + '">dist/lib/' + section.id + '/**/*</a></li>');
                     }
                     if(lib.code === 'theme') {
@@ -14270,7 +14307,7 @@ require('./polyfill-done.js');
         }
 
         if(section.url === '') {
-            $.zui.messager.show('该链接所指示的文档尚未完成。你可以Fork项目来完善文档。');
+            $.zui.messager.show(lang.notFoundTip);
             return;
         }
 
@@ -14572,7 +14609,7 @@ require('./polyfill-done.js');
                 var childComps = '', isZUI = false;
                 if(!item.src && item.dpds) {
                     var childList = getItemList(data.lib, item.dpds, null, true, true);
-                    childComps = '包含：';
+                    childComps = lang.includes + '：';
                     childComps += $.map(childList, getChildCompsList).join('、');
                     item.merged = true;
                 } else {
@@ -14604,7 +14641,7 @@ require('./polyfill-done.js');
                     }).text(item.source);
                     $td.append($a);
                 } else if(item.merged) {
-                    $td.append('<span class="text-muted">(合并组件)</span>');
+                    $td.append('<span class="text-muted">(' + lang.mergedComponents + ')</span>');
                 } else {
                     isZUI = true;
                     $td.append('<span data-toggle="tooltip" title="License: MIT">ZUI</span>');
@@ -14637,13 +14674,13 @@ require('./polyfill-done.js');
             var clipboard = new window.Clipboard($copyCodeBtn.get(0));
             clipboard.on('success', function(e) {
                 $('#copyCodeTip').addClass('tooltip-success');
-                $copyCodeBtn.tooltip('show', '已复制 <i class="icon icon-ok"></i>');
+                $copyCodeBtn.tooltip('show', lang.copied + ' <i class="icon icon-ok"></i>');
                 e.clearSelection();
             });
 
             clipboard.on('error', function(e) {
                 $('#copyCodeTip').addClass('tooltip-warning');
-                $copyCodeBtn.tooltip('show', isTouchScreen ? '你的浏览器不支持直接复制，请自行选择并复制。' : '按 <strong>Ctrl+C</strong> 完成复制');
+                $copyCodeBtn.tooltip('show', isTouchScreen ? lang.copyDisabledTip : lang.copyTip);
             });
 
             $copyCodeBtn.on('hide.zui.tooltip', function() {
