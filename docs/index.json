@@ -1,6 +1,6 @@
 {
-  "version": "1.9.1.1",
-  "updateTime": "2019-03-12 13:42",
+  "version": "1.9.1.2",
+  "updateTime": "2020-05-11 13:42",
   "chapters": {
     "contribution": {
       "name": "贡献",
@@ -179,11 +179,11 @@
         },
         {
           "id": "xuanxuan",
-          "name": "喧喧：开源免费IM通讯方案",
-          "desc": "开源、免费、安全、跨平台的即时通讯方案",
-          "icon": "喧",
-          "url": "http://xuan.im",
-          "version": "1.6.0",
+          "name": "喧喧：专注于协同的聊天软件",
+          "desc": "免费、安全、跨平台的即时通讯方案",
+          "icon": "docs/img/xuan_icon.png",
+          "url": "http://xuanim.com",
+          "version": "3.2.2",
           "topics": [],
           "filter": "xuanxuan im"
         },
