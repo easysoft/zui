@@ -153,7 +153,7 @@
         var resizeDialog = function() {
             clearTimeout(this.resizeTask);
             this.resizeTask = setTimeout(function() {
-                that.ajustPosition(options.position);
+                that.adjustPosition(options.position);
             }, 100);
         };
 
@@ -168,7 +168,7 @@
                     $dialog.css('height', options.height);
                     if(options.type === 'iframe') $body.css('height', $dialog.height() - $header.outerHeight());
                 }
-                that.ajustPosition(options.position);
+                that.adjustPosition(options.position);
                 $modal.removeClass('modal-loading').removeClass('modal-updating');
                 if(isShown) {
                     $body.removeClass('loading');
@@ -369,12 +369,12 @@
         else this.show(options);
     };
 
-    ModalTrigger.prototype.ajustPosition = function(position) {
+    ModalTrigger.prototype.adjustPosition = function(position) {
         position = position === undefined ? this.options.position : position;
         if ($.isFunction(position)) {
             position = position(this);
         }
-        this.$modal.modal('ajustPosition', position);
+        this.$modal.modal('adjustPosition', position);
     };
 
     $.zui({
@@ -450,10 +450,10 @@
         }
     };
 
-    var ajustModalPosition = function(position, modal) {
+    var adjustModalPosition = function(position, modal) {
         modal = getModal(modal);
         if(modal && modal.length) {
-            modal.modal('ajustPosition', position);
+            modal.modal('adjustPosition', position);
         }
     };
 
@@ -472,7 +472,8 @@
     $.zui({
         reloadModal: reloadModal,
         closeModal: closeModal,
-        ajustModalPosition: ajustModalPosition
+        ajustModalPosition: adjustModalPosition,
+        adjustModalPosition: adjustModalPosition,
     });
 
     $(document).on('click.' + NAME + '.data-api', '[data-toggle="modal"]', function(e) {

@@ -331,12 +331,12 @@ $('#myModal').modal('show', 'fit')
 $('#myModal').modal('hide', 'fit')
 ```
 
-#### .modal('ajustPosition', position)
+#### .modal('adjustPosition', position)
 
 手动重新调整对话框显示位置。`position`参数为可选的，用来指定显示的位置。
 
 ```js
-$('#myModal').modal('ajustPosition', 'fit')
+$('#myModal').modal('adjustPosition', 'fit')
 ```
 
 ### 事件

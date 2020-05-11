@@ -493,7 +493,7 @@ myModalTrigger.toggle(options);
 使用新的位置参数来重新设置对话框的显示位置。
 
 ```js
-myModalTrigger.ajustPosition(options);
+myModalTrigger.adjustPosition(options);
 ```
 
 ### 事件

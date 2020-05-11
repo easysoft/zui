@@ -75,7 +75,7 @@
         return this.isShown ? this.hide() : this.show(_relatedTarget, position)
     }
 
-    Modal.prototype.ajustPosition = function(position) {
+    Modal.prototype.adjustPosition = function(position) {
         var that = this;
         var options = that.options;
         if(position === undefined) position = options.position;
@@ -130,7 +130,7 @@
         }
     }
 
-    Modal.prototype.setMoveale = function() {
+    Modal.prototype.setMoveable = function() {
         if(!$.fn.draggable) console.error('Moveable modal requires draggable.js.');
         var that = this;
         var options = that.options;
@@ -177,7 +177,7 @@
 
         that.isShown = true
 
-        if(that.options.moveable) that.setMoveale();
+        if(that.options.moveable) that.setMoveable();
 
         that.checkScrollbar()
         if (that.options.backdrop !== false) {
@@ -211,7 +211,7 @@
                 .addClass('in')
                 .attr('aria-hidden', false)
 
-            that.ajustPosition(position);
+            that.adjustPosition(position);
 
             that.enforceFocus()
 
