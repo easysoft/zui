@@ -7,8 +7,9 @@
 
 /**
  * TODO:
- *  * 实现兼容 Chosen 模式
- *  * 允许对多选结果拖拽排序
+ *  * Option: deleteByBackspace
+ *  * Option: sortMultiValuesByDnd
+ *  * 优化展开时滚动到选中项体验
  */
 
 (function($, window, document) {
@@ -44,6 +45,7 @@
         accurateSearchHint: null,
         remoteErrorHint: null,
         deleteByBackspace: true,
+        disableScrollOnShow: true,
         // placeholder: undefined,
         maxDropHeight: 250,
         dropDirection: 'auto',
@@ -53,6 +55,7 @@
         searchDelay: 200,
         fixLabelFor: true,
         hotkey: true,
+        // sortMultiValuesByDnd: false,
         // defaultValue: null,
         onSelect: null, // function({value, picker}),
         onDeselect: null, // function({value, picker}),
@@ -176,7 +179,7 @@
             $singleSelection.appendTo($selections);
             that.$singleSelection = $singleSelection;
         }
-        $container.append($selections);
+        $container.toggleClass('picker-input-empty', !$search.val().length).append($selections);
         that.$container = $container;
         that.$selections = $selections;
         that.$search = $search;
@@ -215,6 +218,7 @@
             if (multi) {
                 $search.width(searchValue.length * 14);
             }
+            $container.toggleClass('picker-input-empty', !searchValue.length);
             that.tryUpdateList(searchValue);
         });
 
@@ -381,10 +385,11 @@
         if (!remote) {
             return;
         }
+        var options = that.options;
         var remoteOptions;
         var remoteParams = {
             search: that.search,
-            limit: that.options.maxListCount
+            limit: options.maxListCount
         };
         if (typeof remote === 'string') {
             remoteOptions = {url: remote};
@@ -405,7 +410,7 @@
         }
         that.remoteXhr = $.ajax($.extend({
             dataType: 'json',
-            dataFilter: that.options.remoteConverter,
+            dataFilter: options.remoteConverter,
             data: remoteParams
         }, remoteOptions)).done(function(data, textStatus, jqXHR) {
             var hasResult = false;
@@ -413,13 +418,26 @@
                 if ($.isPlainObject(data)) {
                     if ((data.result === 'success' || data.result === 'ok') && $.isArray(data.data)) {
                         data = data.data;
-                    } else {
+                    } else if (data.result === 'fail') {
                         that.updateMessage(data.message || JSON.stringify(data), 'danger');
+                    } else {
+                        var dataList = [];
+                        $.each(data, function(value, text) {
+                            var item = {};
+                            item[options.valueKey] = value;
+                            if (typeof text === 'object') {
+                                $.extend(item, text);
+                            } else {
+                                item[options.textKey] = text;
+                            }
+                            dataList.push(item);
+                        });
+                        data = dataList;
                     }
                 }
                 if ($.isArray(data)) {
                     hasResult = data.length;
-                    that.setList(data, that.options.remoteOnly);
+                    that.setList(data, options.remoteOnly);
                 }
             }
             if (callback) {
@@ -427,13 +445,13 @@
             }
         }).fail(function(xhr, textStatus) {
             var errorMessage;
-            var onRemoteError = that.options.onRemoteError;
+            var onRemoteError = options.onRemoteError;
             if (typeof onRemoteError === 'function') {
                 errorMessage = onRemoteError(xhr, textStatus);
             } else if (typeof onRemoteError === 'string') {
                 errorMessage = onRemoteError;
             } else {
-                errorMessage = (that.options.remoteErrorHint || that.lang.remoteErrorHint).format(textStatus || '');
+                errorMessage = (options.remoteErrorHint || that.lang.remoteErrorHint).format(textStatus || '');
             }
             that.updateMessage(errorMessage, 'danger');
             if (failCallback) {
@@ -457,8 +475,8 @@
         var $optionsList = that.$optionsList;
         if (!fast) {
             $dropMenu.css({opacity: 0, width: 'auto', 'max-width': 'none'});
-            $optionsList.css({'max-height': maxDropHeight})
         }
+        $optionsList.css({'max-height': maxDropHeight});
         setTimeout(function() {
             var bounds = that.$selections[0].getBoundingClientRect();
             var dropDirection = resetDirection ? options.dropDirection : (that.dropDirection || options.dropDirection);
@@ -615,9 +633,9 @@
             }
 
             // Active item
-            if (!that.listRendered) {
+            // if (!that.listRendered) {
                 that.activeOption(activeOption || singleSelectedOption || firstOption);
-            }
+            // }
         } else {
             $optionsList.empty();
             if (!skipShowMessage) {
@@ -632,7 +650,7 @@
             that.updateMessage(message, 'info');
         }
         that.$dropMenu.toggleClass('picker-no-options', !optionsList.length);
-        that.layoutDropList();
+        that.layoutDropList(that.listRendered);
         that.listRendered = true;
     };
 
@@ -645,7 +663,7 @@
                 activeValue = activeValue[that.options.valueKey];
             }
         }
-        if (activeValue !== that.activeValue) {
+        // if (activeValue !== that.activeValue) {
             var item = that.getListItem(activeValue);
             if (item) {
                 that.activeValue = activeValue;
@@ -673,7 +691,7 @@
             } else {
                 that.$activeOption = null;
             }
-        }
+        // }
     };
 
     Picker.prototype.updateList = function(search, skipRemote, callback) {
@@ -781,6 +799,10 @@
         that.activeValue = null;
         SHOWS[that.id] = that;
 
+        if(that.options.disableScrollOnShow) {
+            $.zui.fixBodyScrollbar();
+        }
+
         if (!that.$dropMenu) {
             var $dropMenu = $('<div class="picker-drop-menu" id="pickerDropMenu-' + that.id + '"></div>');
             var $optionsList = $('<div class="picker-option-list"></div>').appendTo($dropMenu);
@@ -821,12 +843,18 @@
         }
 
         that.dropListShowed = false;
+        that.$activeOption = null;
+        that.activeValue = null;
         that.$search.val('');
         that.search = '';
         delete SHOWS[that.id];
 
         if (that.$dropMenu) {
             that.$dropMenu.removeClass('picker-drop-show');
+        }
+
+        if(that.options.disableScrollOnShow) {
+            $.zui.resetBodyScrollbar();
         }
 
         that.triggerEvent('hiddenDrop', {picker: that}, '', 'chosen:hiding_dropdown')
@@ -1054,6 +1082,7 @@
 
     Picker.prototype.handleWindowScroll = function() {
         var that = this;
+        if (that.options.disableScrollOnShow) return;
         if (that.options.hideOnWindowScroll) {
             if (that.scrollEventTimer) {
                 clearTimeout(that.scrollEventTimer);
@@ -1151,6 +1180,37 @@
         $.fn._chosen = $.fn.chosen;
         Picker.enabledChosenMode = true;
     };
+
+    // Fix $.zui.fixBodyScrollbar not work
+    if($.zui.fixBodyScrollbar) {
+        $.zui({
+            _scrollbarWidth: 0,
+            checkBodyScrollbar: function() {
+                if(document.body.clientWidth >= window.innerWidth) return 0;
+                if(!$.zui._scrollbarWidth) {
+                    var scrollDiv = document.createElement('div');
+                    scrollDiv.className = 'modal-scrollbar-measure scrollbar-measure';
+                    document.body.appendChild(scrollDiv);
+                    $.zui._scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+                    document.body.removeChild(scrollDiv);
+                }
+                return $.zui._scrollbarWidth;
+            },
+            fixBodyScrollbar: function() {
+                if($.zui.checkBodyScrollbar()) {
+                    var $body = $('body');
+                    var bodyPad = parseInt(($body.css('padding-right') || 0), 10);
+                    if($.zui._scrollbarWidth) {
+                        $body.css({paddingRight: bodyPad + $.zui._scrollbarWidth, overflowY: 'hidden'});
+                    }
+                    return true;
+                }
+            },
+            resetBodyScrollbar: function() {
+                $('body').css({paddingRight: '', overflowY: ''});
+            },
+        });
+    }
 
     // Auto call picker after document load complete
     $(function() {
