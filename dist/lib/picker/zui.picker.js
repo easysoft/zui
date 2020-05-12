@@ -1,5 +1,5 @@
 /*!
- * ZUI: 选择器 - v1.9.1 - 2020-05-11
+ * ZUI: 选择器 - v1.9.1 - 2020-05-12
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -14,7 +14,6 @@
 
 /**
  * TODO:
- *  * Option: sortMultiValuesByDnd
  *  * 优化展开时滚动到选中项体验
  */
 
@@ -61,7 +60,7 @@
         searchDelay: 200,
         fixLabelFor: true,
         hotkey: true,
-        // sortMultiValuesByDnd: false,
+        // sortValuesByDnd: false,
         // defaultValue: null,
         onSelect: null, // function({value, picker}),
         onDeselect: null, // function({value, picker}),
@@ -294,10 +293,33 @@
                     return;
                 }
             }).on('mouseup', function(e) {
-                if (!$(e.target).closest('.picker-selection-remove').length && !that.dropListShowed) {
+                if (!$selections.hasClass('sortable-sorting') && !$(e.target).closest('.picker-selection-remove').length && !that.dropListShowed) {
                     that.focus();
                 }
             });
+
+            var sortValuesByDnd = options.sortValuesByDnd;
+            if (sortValuesByDnd && $.fn.sortable) {
+                $container.addClass('picker-sortable');
+                var sortableOptions = {
+                    selector: '.picker-selection',
+                    stopPropagation: true,
+                    start: function() {
+                        that.hideDropList();
+                    },
+                    finish: function(e) {
+                        var values = [];
+                        $.each(e.list, function(_, ele) {
+                            values.push(ele.item.data('value'));
+                        });
+                        that.setValue(values, false, true);
+                    }
+                };
+                if (typeof sortValuesByDnd === 'object') {
+                    $.extend(sortableOptions, sortValuesByDnd);
+                }
+                $selections.sortable(sortableOptions);
+            }
         }
         $selections.on('click', '.picker-selection-remove', function(e) {
             if (that.multi) {
@@ -990,7 +1012,7 @@
         }
     };
 
-    Picker.prototype.setValue = function(value, silent) {
+    Picker.prototype.setValue = function(value, silent, skipRenderSelections) {
         var that = this;
         var options = that.options;
 
@@ -1048,40 +1070,42 @@
         }
         $formItem.val(value);
 
-        // Update container
-        var hasValue = false;
-        if (that.multi) {
-            var $selections = that.$selections;
-            var $selects = $selections.children('.picker-selection').addClass('picker-expired');
-            $.each(value, function(_index, val) {
-                if (val === undefined || val === null) {
-                    val = '';
-                } else if (typeof val !== 'string') {
-                    val = String(val);
-                }
-                var item = that.getListItem(val);
-                if (!item) {
-                    return;
-                }
-                hasValue = true;
-                var text = item[options.textKey];
-                var itemID = that.getItemID(item, 'selection');
-                var $select = $selects.find('#' + itemID);
-                if (!$select.length) {
-                    $select = $('<div class="picker-selection" id="' + itemID + '"><span class="picker-selection-text"></span><span class="picker-selection-remove"></span></div>').data('value', val);
-                } else {
-                    $select.removeClass('picker-expired');
-                }
-                $select.find('.picker-selection-text').text(text);
-                $select.attr('title', text).insertBefore(that.$search);
-            });
-            $selects.filter('.picker-expired').remove();
-        } else {
-            var item = that.getListItem(value);
-            hasValue = !!item;
-            that.$singleSelection.find('.picker-selection-text').text(hasValue ? item[options.textKey] : '');
+        // Update selections
+        if (!skipRenderSelections) {
+            var hasValue = false;
+            if (that.multi) {
+                var $selections = that.$selections;
+                var $selects = $selections.children('.picker-selection').addClass('picker-expired');
+                $.each(value, function(_index, val) {
+                    if (val === undefined || val === null) {
+                        val = '';
+                    } else if (typeof val !== 'string') {
+                        val = String(val);
+                    }
+                    var item = that.getListItem(val);
+                    if (!item) {
+                        return;
+                    }
+                    hasValue = true;
+                    var text = item[options.textKey];
+                    var itemID = that.getItemID(item, 'selection');
+                    var $select = $selects.find('#' + itemID);
+                    if (!$select.length) {
+                        $select = $('<div class="picker-selection" id="' + itemID + '"><span class="picker-selection-text"></span><span class="picker-selection-remove"></span></div>').data('value', val);
+                    } else {
+                        $select.removeClass('picker-expired');
+                    }
+                    $select.find('.picker-selection-text').text(text);
+                    $select.attr('title', text).insertBefore(that.$search);
+                });
+                $selects.filter('.picker-expired').remove();
+            } else {
+                var item = that.getListItem(value);
+                hasValue = !!item;
+                that.$singleSelection.find('.picker-selection-text').text(hasValue ? item[options.textKey] : '');
+            }
+            that.$container.toggleClass('picker-no-value', !hasValue).toggleClass('picker-has-value', hasValue);
         }
-        that.$container.toggleClass('picker-no-value', !hasValue).toggleClass('picker-has-value', hasValue);
 
         if (that.dropListShowed) {
             that.renderOptionsList();

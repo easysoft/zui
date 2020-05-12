@@ -1,5 +1,5 @@
 /*!
- * ZUI: 选择器 - v1.9.1 - 2020-05-11
+ * ZUI: 选择器 - v1.9.1 - 2020-05-12
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -150,6 +150,9 @@
 .picker-no-value .picker-selection-remove,
 .picker-single.picker-focus .picker-selection-remove {
   display: none;
+  }
+.picker-multi.picker-sortable .picker-selection-text {
+  cursor: move;
   }
 .picker-search {
   color: transparent;
