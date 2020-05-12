@@ -1914,7 +1914,7 @@ body.compact-mode {
     top: 12px;
     z-index: 1050;
     max-width: 500px;
-    right: 150px;
+    right: 220px;
   }
   #searchInput {
     border-width: 1px;
@@ -1984,6 +1984,25 @@ body.compact-mode {
     #compactTogger {
       .opacity(1);
       top: 1px;
+    }
+    @media (min-width: 768px) {
+      #langSwitcher > a {
+        padding: 10px 0!important;
+
+        [lang="zh-cn"] & {
+          width: 50px!important;
+        }
+
+        > .icon {display: none}
+        > span {
+          display: inline-block!important;
+          background: #fff;
+          color: @color-primary;
+          line-height: 20px;
+          padding: 0 3px;
+          border-radius: 5px;
+        }
+      }
     }
     #header {
       height: 60px;
@@ -2186,7 +2205,7 @@ body[data-page="basic-theme"] {
 
 #changeViewWrapper {display: none}
 
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   #changeViewWrapper {
     display: block;
     position: fixed;
