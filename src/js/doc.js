@@ -45,7 +45,8 @@
         },
     };
 
-    var lang = LANG[$.zui.clientLang()];
+    var langName = $.zui.clientLang();
+    var lang = LANG[langName];
 
     if(window.location.protocol === 'file:') {
         $('#fileProtocolTip').removeClass('hidden');
@@ -311,7 +312,7 @@
                 success: function(data) {
                     if(data !== null) {
                         if(isIndexJson) {
-                            dataVersion = data.version;
+                            dataVersion = data.version + (langName !== 'zh_cn' ? ('-' + langName) : '');
                             docIndex = data;
                         } else if(isIconsJson) {
                             iconsIndex = {

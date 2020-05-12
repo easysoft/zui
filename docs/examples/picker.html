@@ -297,10 +297,33 @@ label.code {font-size: 12px; color: #999;}
         </div>
       </div>
     </div>
+
+    <h2>多选拖放排序</h2>
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="picker-example">
+          <label class="code" for="picker23">#23 select[multiple] -sortValuesByDnd</label>
+          <select id="picker23" name="picker23" data-placeholder="选择并拖放进行排序..." class="picker-select form-control" tabindex="2" multiple="" data-sort-values-by-dnd="true">
+            <option value="strawberries" data-keys="caomei">草莓</option>
+            <option selected value="apple" data-keys="pingguo">苹果</option>
+            <option selected value="orange" data-keys="chengzi">橙子</option>
+            <option value="cherry" data-keys="yingtao">樱桃</option>
+            <option value="banana" data-keys="xiangjiao">香蕉</option>
+            <option value="figs" data-keys="wuhuaguo">无花果</option>
+            <option value="kiwi" data-keys="mihoutao">猕猴桃</option>
+            <option value="pineapple" data-keys="biluo">菠萝</option>
+            <option value="cantaloupe" data-keys="hamigua">哈密瓜</option>
+            <option value="watermelon" data-keys="xigua">西瓜</option>
+            <option value="plum" data-keys="lizi">李子</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </form>
 
 <script src="../../assets/jquery.js"></script>
 <script src="../../dist/js/zui.js"></script>
+<script src="../../dist/lib/sortable/zui.sortable.js"></script>
 <script src="../../dist/lib/picker/zui.picker.js"></script>
 <script src="../../dist/lib/ajaxFake/zui.ajaxFake.js"></script>
 <script>

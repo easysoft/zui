@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.9.1 - 2020-05-11
+ * ZUI: Document - v1.9.1 - 2020-05-12
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -12845,7 +12845,8 @@ require('./polyfill-done.js');
         },
     };
 
-    var lang = LANG[$.zui.clientLang()];
+    var langName = $.zui.clientLang();
+    var lang = LANG[langName];
 
     if(window.location.protocol === 'file:') {
         $('#fileProtocolTip').removeClass('hidden');
@@ -13111,7 +13112,7 @@ require('./polyfill-done.js');
                 success: function(data) {
                     if(data !== null) {
                         if(isIndexJson) {
-                            dataVersion = data.version;
+                            dataVersion = data.version + (langName !== 'zh_cn' ? ('-' + langName) : '');
                             docIndex = data;
                         } else if(isIconsJson) {
                             iconsIndex = {
