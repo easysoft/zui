@@ -135,7 +135,7 @@ KindEditor.plugin('table', function (K) {
     };
     var $elements = [];
     var langName = $.clientLang ? $.clientLang() : ($.zui && $.zui.clientLang) ? $.zui.clientLang() : 'en';
-    var lang = ($.zui && $.zui.getLangData) ? $.zui.getLangData('kindeditor.advanceTable', langName, allLangs) : $.extend({}, allLangs.en, self.lang('table.'), allLangs[langName]);
+    var lang = ($.zui && $.zui.getLangData) ? $.extend({}, self.lang('table.'), $.zui.getLangData('kindeditor.advanceTable', langName, allLangs)) : $.extend({}, allLangs.en, self.lang('table.'), allLangs[langName]);
     var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
 
     self.tableIdIndex = 0;
