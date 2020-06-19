@@ -75,7 +75,6 @@
         // 添加 Holder 插件
         KindEditor.plugin('holder', function(K) {
             var self = this;
-            console.log('hollder.self', self);
 
             if (!self.options.htmlTags) {
                 self.options.htmlTags = {};
@@ -92,20 +91,29 @@
             self.afterCreate(function() {
                 $(self.edit.doc.head).append([
                     '<style>',
-                    '.holder-value {display: none!important;}',
-                    '.holder-element {border: 1px solid #ea644a; background: #ffe5e0; border-radius: 4px; padding: 0 5px; cursor: pointer; color: #ea644a; position: relative}',
+                    '.holder-element {border: 1px solid #ea644a; background: #ffe5e0; border-radius: 4px; padding: 0 5px; cursor: pointer; color: #ea644a; position: relative; min-width: 50px; text-align: center}',
+                    '.holder-value {width: 20px; font-size: 0; position: absolute; top: 0; right: 0; bottom: 0;}',
                     '.holder-element:before {content: attr(data-holder)}',
                     '.holder-block {display: block; text-align: center}',
                     '.holder-span {display: inline-block; line-height: 1}',
-                    '.holder-element[data-holder-edit]:hover:after {content: attr(data-holder-edit); display: block; position: absolute; right: 0; top: 0; bottom: 0; left: 0; border-radius: 4px; background: #ffe5e0; text-align: center; font-size: 12px; display: flex; justify-content: center; align-items: center;}',
+                    '.holder-value:after {content: "𐄂"; display: block; position: absolute; right: 0; top: 0; bottom: 0; border-radius: 0 3px 3px 0; background: #ffe5e0; text-align: center; font-size: 14px; display: flex; justify-content: center; align-items: center; width: 20px; border-left: 1px solid #ea644a; opacity: 0}',
+                    '.holder-element:hover .holder-value:after {opacity: 1}',
+                    '.holder-value:hover:after {background: #ea644a; color: #fff}',
                     '</style>'
                 ].join('\n'));
+
+                $(self.edit.doc).find('.holder-element[contenteditable="true"]').attr('contenteditable', false);
 
                 if (self.options.holderEdit) {
                     $(self.edit.doc).on('click', '.holder-element', function(e) {
                         var $ele = $(this);
+                        if($(e.target).is('.holder-value')) {
+                            $ele.remove();
+                            self.cmd.select();
+                            return;
+                        }
                         showHolderEditModal($ele.attr('data-holder'), $ele.find('.holder-value').text(), $ele.hasClass('holder-block'), function(text, value, asBlock) {
-                            var $holderElement = $(asBlock ? '<div>' : '<span>').attr('data-holder', text).attr('contenteditable', true).addClass(asBlock ? 'holder-block' : 'holder-span').addClass('holder-element');
+                            var $holderElement = $(asBlock ? '<div>' : '<span>').attr('data-holder', text).attr('contenteditable', false).addClass(asBlock ? 'holder-block' : 'holder-span').addClass('holder-element');
                             $holderElement.append($(asBlock ? '<div>' : '<span>').addClass('holder-value').text(value));
                             if (self.options.holderEditText) {
                                 $holderElement.attr('data-holder-edit', self.options.holderEditText);
@@ -121,12 +129,12 @@
             // 点击图标时执行
             self.clickToolbar('holder', function() {
                 showHolderEditModal('', '', false, function(text, value, asBlock) {
-                    var $holderElement = $(asBlock ? '<div>' : '<span>').attr('data-holder', text).attr('contenteditable', true).addClass(asBlock ? 'holder-block' : 'holder-span').addClass('holder-element');
+                    var $holderElement = $(asBlock ? '<div>' : '<span>').attr('data-holder', text).attr('contenteditable', false).addClass(asBlock ? 'holder-block' : 'holder-span').addClass('holder-element');
                     $holderElement.append($(asBlock ? '<div>' : '<span>').addClass('holder-value').text(value));
                     if (self.options.holderEditText) {
                         $holderElement.attr('data-holder-edit', self.options.holderEditText);
                     }
-                    self.insertHtml($holderElement[0].outerHTML + '&nbsp;' + (asBlock ? '\n' : ''));
+                    self.insertHtml($holderElement[0].outerHTML + '&nbsp;' + (asBlock ? '<br>' : ''));
                 });
             });
         });
@@ -156,15 +164,15 @@
         $(function () {
             $('#content').val([
                 '<h1 style="text-align:center;">项目进度报告</h1>',
-                '<p>本文将介绍项目<span data-holder="$projectName" contenteditable="false" class="holder-span holder-element" data-holder-edit="编辑"><span class="holder-value">{{$projectName}}</span></span>&nbsp;的任务在本周&nbsp;<span data-holder="$weekTime" contenteditable="true" class="holder-span holder-element" data-holder-edit="编辑"><span class="holder-value">{{$weekTime}}</span></span>&nbsp; 进展情况。</p>',
+                '<p>本文将介绍项目<span data-holder="$projectName" contenteditable="true" class="holder-span holder-element" data-holder-edit="右键进行操作"><span class="holder-value">{{$projectName}}</span></span>&nbsp;的任务在本周&nbsp;<span data-holder="$weekTime" contenteditable="false" class="holder-span holder-element" data-holder-edit="右键进行操作"><span class="holder-value">{{$weekTime}}</span></span>&nbsp; 进展情况。</p>',
                 '<h2>已完成的任务</h2>',
-                '<div data-holder="$finishTaskList" contenteditable="true" class="holder-block holder-element" data-holder-edit="编辑">',
+                '<div data-holder="$finishTaskList" contenteditable="false" class="holder-block holder-element" data-holder-edit="右键进行操作">',
                 '<div class="holder-value">{{此处打印已完成的任务列表}}</div>',
                 '</div>',
                 '&nbsp;',
                 '<h2>未完成的任务</h2>',
                 '<p><br /></p>',
-                '<div data-holder="$waitTaskList" contenteditable="true" class="holder-block holder-element" data-holder-edit="编辑">',
+                '<div data-holder="$waitTaskList" contenteditable="false" class="holder-block holder-element" data-holder-edit="右键进行操作">',
                 '<div class="holder-value">{{$waitTaskList}}</div>',
                 '</div>',
                 '&nbsp;',
@@ -175,11 +183,11 @@
                 '    <tbody>',
                 '    <tr>',
                 '        <td style="border:1px solid #ddd;" class="">报告人<br /></td>',
-                '        <td style="border:1px solid #ddd;"><span data-holder="$userName" contenteditable="true" class="holder-span holder-element" data-holder-edit="编辑"><span class="holder-value">{{$userName}}</span></span>&nbsp;<br /></td>',
+                '        <td style="border:1px solid #ddd;"><span data-holder="$userName" contenteditable="false" class="holder-span holder-element" data-holder-edit="右键进行操作"><span class="holder-value">{{$userName}}</span></span>&nbsp;<br /></td>',
                 '    </tr>',
                 '    <tr>',
                 '        <td style="border:1px solid #ddd;" class="">报告时间</td>',
-                '        <td style="border:1px solid #ddd;"><span data-holder="$time" contenteditable="true" class="holder-span holder-element" data-holder-edit="编辑"><span class="holder-value">{{$time}}</span></span>&nbsp;<br /></td>',
+                '        <td style="border:1px solid #ddd;"><span data-holder="$time" contenteditable="false" class="holder-span holder-element" data-holder-edit="右键进行操作"><span class="holder-value">{{$time}}</span></span>&nbsp;<br /></td>',
                 '    </tr>',
                 '    </tbody>',
                 '</table>',
