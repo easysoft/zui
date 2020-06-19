@@ -437,6 +437,12 @@ myModalTrigger.show();
       <td>默认为 `false`，即在对话框所属的页面上显示滚动条</td>
       <td></td>
     </tr>
+    <tr>
+      <td>`iframeStyle`</td>
+      <td>当 iframe 类型的对话框内容加载时插入到 iframe 页面上的样式</td>
+      <td>CSS 样式字符串</td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 

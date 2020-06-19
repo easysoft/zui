@@ -298,7 +298,7 @@ Use parameters to customiize your dialog when initializing the dialog or display
     <tr>
       <td>`type`</td>
       <td>Dialog type</td>
-      <td>*   `'custom'`(default), 
+      <td>*   `'custom'`(default),
 *   `'iframe'`
 *   `'ajax'`</td>
       <td>Usually used with `url`use together. If specified `custom`, `remote`, and `iframe`, it can be ignored.</td>
@@ -324,7 +324,7 @@ Use parameters to customiize your dialog when initializing the dialog or display
     <tr>
       <td>`size`</td>
       <td>Dialog size</td>
-      <td>*   `''`(default), default size: 
+      <td>*   `''`(default), default size:
 *   `'lg'`, large;
 *   `'sm'`, small;
 *   `'fullscreen'`, full-screen display.</td>
@@ -437,6 +437,12 @@ Use parameters to customiize your dialog when initializing the dialog or display
       <td>The default is `false`, which means the scroll bar is displayed on the page the dialog belongs to.</td>
       <td></td>
     </tr>
+    <tr>
+      <td>`iframeStyle`</td>
+      <td>Style to inject to page on iframe modal load</td>
+      <td>CSS style string</td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 
@@ -452,7 +458,7 @@ To use the trigger method, get an example of the trigger object first.
 var modalTrigger = $('#triggerButton').data('zui.modaltrigger');
 ```
 
-##### Use bound trigger in preset $.zui object 
+##### Use bound trigger in preset $.zui object
 
 ```js
 var myTrigger = $.zui.modalTrigger;
