@@ -506,6 +506,7 @@ function startWatchSrc(name, callback) {
     if (name === 'lib') name = 'seperate';
     var build = builds[name];
     var srcDir = build && build.srcDir || './src';
+    console.log(`           Start watching ${srcDir.blue}`);
     gulp.watch([srcDir + "/less/**/*"], function (event) {
         buildBundle(name, function () {
             callback && callback(event, 'less');
