@@ -110,6 +110,7 @@
                         if($(e.target).is('.holder-value')) {
                             $ele.remove();
                             self.cmd.select();
+                            self.sync();
                             return;
                         }
                         showHolderEditModal($ele.attr('data-holder'), $ele.find('.holder-value').text(), $ele.hasClass('holder-block'), function(text, value, asBlock) {
