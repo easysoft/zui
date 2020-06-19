@@ -213,7 +213,7 @@ $('select.chosen-select').chosen({
 Use `[data-sort_field]` or initialization options `sort_field` to specify a form field(a text library or a hidden field) to store the order of the selected options.
 
 <div class="example">
-  <select data-placeholder="Choose some fruit that you love..." class="chosen-select form-control" tabindex="2" multiple="" data-sort_field="#chosenSortField" data-sort_value_spliter=",">
+  <select data-placeholder="Choose some fruit that you love..." class="chosen-select form-control" tabindex="2" multiple="" data-sort_field="#chosenSortField" data-sort_value_splitter=",">
     <option value="strawberries">Strawberry</option>
     <option value="apple">Apple</option>
     <option value="orange">Orange</option>
@@ -225,7 +225,7 @@ Use `[data-sort_field]` or initialization options `sort_field` to specify a form
 </div>
 
 ```html
-<select data-placeholder="Choose fruits that you love..." class="chosen-select form-control" tabindex="2" multiple="" data-sort_field="#chosenSortField" data-sort_value_spliter=",">
+<select data-placeholder="Choose fruits that you love..." class="chosen-select form-control" tabindex="2" multiple="" data-sort_field="#chosenSortField" data-sort_value_splitter=",">
   <option value="strawberries">Strawberry</option>
   <option value="apple">Apple</option>
   <option value="orange">Orange</option>

@@ -213,7 +213,7 @@ $('select.chosen-select').chosen({
 有时需要记录用户选择多选选项时的顺序，可以通过 `[data-sort_field]` 属性（或初始化选项 `sort_field`）指定一个表单域（可以为文本库或隐藏域）来存储选中项值的顺序。
 
 <div class="example">
-  <select data-placeholder="选择一些爱吃的水果..." class="chosen-select form-control" tabindex="2" multiple="" data-sort_field="#chosenSortField" data-sort_value_spliter=",">
+  <select data-placeholder="选择一些爱吃的水果..." class="chosen-select form-control" tabindex="2" multiple="" data-sort_field="#chosenSortField" data-sort_value_splitter=",">
     <option value="strawberries">草莓</option>
     <option value="apple">苹果</option>
     <option value="orange">橙子</option>
@@ -225,7 +225,7 @@ $('select.chosen-select').chosen({
 </div>
 
 ```html
-<select data-placeholder="选择一些爱吃的水果..." class="chosen-select form-control" tabindex="2" multiple="" data-sort_field="#chosenSortField" data-sort_value_spliter=",">
+<select data-placeholder="选择一些爱吃的水果..." class="chosen-select form-control" tabindex="2" multiple="" data-sort_field="#chosenSortField" data-sort_value_splitter=",">
   <option value="strawberries">草莓</option>
   <option value="apple">苹果</option>
   <option value="orange">橙子</option>
