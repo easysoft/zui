@@ -172,8 +172,21 @@ filter: dhk mtk duihuakuang motaikuang
 ```html
 <!-- 禁用动画效果的对话框 -->
 <div class="modal">
-...
+  ...
 </div>
+```
+
+## 内部滚动
+
+通常对话框显示时，如果内容较多允许用户滚动页面来查看其他部分，但可以使用 `scrollInside` 选项来限制对话框仅在 `.modal-body` 内部滚动，对话框的总体高度不会超过浏览器窗口高度。
+
+<div class="example">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-target="#scrollInsideModal">内部滚动</button>
+</div>
+
+```html
+<!-- 禁用动画效果的对话框 -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-target="#scrollInsideModal">内部滚动</button>
 ```
 
 ## 关闭对话框
@@ -290,6 +303,12 @@ $('#myModal').modal(options)
 *   `true`，记住位置；
 *   页面内值唯一的字符串，使用本地存储记住位置；</td>
       <td>启用该选项需要同时启用 `moveable` 选项，当该值为一个在页面范围内值唯一的字符串时，通过浏览器本地存储来存储数据，关闭页面或浏览器之后也不会忘记。</td>
+    </tr>
+    <tr>
+      <td>`scrollInside`</td>
+      <td>是否在对话框内部显示滚动条</td>
+      <td>默认为 `false`，即在对话框所属的页面上显示滚动条</td>
+      <td></td>
     </tr>
   </tbody>
 </table>
@@ -494,6 +513,35 @@ $('#myModal').on('shown.zui.modal', function() {
         <h4 class="modal-title">禁用动画效果演示</h4>
       </div>
       <div class="modal-body">...</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal-for-page" id="scrollInsideModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+        <h4 class="modal-title">内部滚动演示</h4>
+      </div>
+      <div class="modal-body">
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">确认</button>
+        <button type="button" class="btn">取消</button>
+      </div>
     </div>
   </div>
 </div>

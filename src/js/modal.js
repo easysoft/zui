@@ -46,6 +46,14 @@
                     that.$element.trigger('loaded.' + zuiname)
                 })
         }
+
+        if (options.scrollInside) {
+            $(window).on('resize.' + zuiname, function() {
+                if (that.isShown) {
+                    that.adjustPosition();
+                }
+            });
+        }
     }
 
     Modal.VERSION = '3.2.0'
@@ -90,12 +98,24 @@
         var $body = $dialog.find('.modal-body').css(bodyCss);
         if (options.scrollInside && $body.length) {
             var headerHeight = options.headerHeight;
-            if (typeof headerHeight !== 'number') {
-                headerHeight = $dialog.find('.modal-header').height();
+            var footerHeight = options.footerHeight;
+            var $header = $dialog.find('.modal-header');
+            var $footer = $dialog.find('.modal-footer');
+            if (typeof headerHeight !== 'number' && $header.length) {
+                headerHeight = $header.outerHeight();
             } else if ($.isFunction(headerHeight)) {
                 headerHeight = headerHeight($header);
+            } else {
+                headerHeight = 0;
             }
-            bodyCss.maxHeight = winHeight - headerHeight;
+            if (typeof footerHeight !== 'number' && $footer.length) {
+                footerHeight = $footer.outerHeight();
+            } else if ($.isFunction(footerHeight)) {
+                footerHeight = footerHeight($footer);
+            } else {
+                footerHeight = 0;
+            }
+            bodyCss.maxHeight = winHeight - headerHeight - footerHeight;
             bodyCss.overflow = $body[0].scrollHeight > bodyCss.maxHeight ? 'auto' : 'visible';
             $body.css(bodyCss);
         }

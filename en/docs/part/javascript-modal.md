@@ -291,6 +291,12 @@ The available parameters are：
 *   The only string of values on the page and is saved to local storage;</td>
       <td>Enable `moveable` to enable this option. When the value is the only string within the page range save data through browser local storage, so the data will not be removed after the page or browser is closed.</td>
     </tr>
+    <tr>
+      <td>`scrollInside`</td>
+      <td>Whether a scroll bar in a dialog is displayed</td>
+      <td>The default is `false`, which means the scroll bar is displayed on the page the dialog belongs to.</td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 

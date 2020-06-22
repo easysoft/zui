@@ -58,8 +58,8 @@ filter: duihuakuangchufaqi dhkcfq motaikuang mtk
 最简单的方法是为custom指定内容文本即可。同样可以使用`data-custom`属性。
 
 <div class="example">
-      <button type="button" class="btn btn-primary" data-custom="<h1>此内容是自定义的</h1><p>哈哈:)</p>" data-toggle="modal">指定内容文本</button>
-    </div>
+  <button type="button" class="btn btn-primary" data-custom="<h1>此内容是自定义的</h1><p>哈哈:)</p>" data-toggle="modal">指定内容文本</button>
+</div>
 
 ```html
 <!-- 使用data-custom 属性 -->
@@ -228,6 +228,30 @@ $('#triggerButton').modalTrigger({icon: 'heart'});
 
 ```html
 <button type="button" class="btn btn-primary" data-moveable="true" data-toggle="modal" data-custom="..."><i class="icon icon-move"></i> 打开我 拖动我</button>
+```
+
+## 内部滚动
+
+通常对话框显示时，如果内容较多允许用户滚动页面来查看其他部分，但可以使用 `scrollInside` 选项来限制对话框仅在 `.modal-body` 内部滚动，对话框的总体高度不会超过浏览器窗口高度。
+
+<div class="example">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-custom="<h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>">
+        在内部显示滚动条（自定义）
+  </button>
+  <button type="button" class="btn btn-primary" data-iframe="docs/partial/iframe-long-modal.html" data-toggle="modal" data-scroll-inside="true">在内部显示滚动条（iframe）</button>
+  <button type="button" class="btn btn-primary" data-remote="docs/partial/remote-long-modal.html" data-toggle="modal" data-scroll-inside="true">在内部显示滚动条（ajax）</button>
+</div>
+
+```html
+<button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-custom="...">在内部显示滚动条（自定义）</button>
+<button type="button" class="btn btn-primary" data-iframe="docs/partial/iframe-long-modal.html" data-toggle="modal" data-scroll-inside="true">在内部显示滚动条（iframe）</button>
+<button type="button" class="btn btn-primary" data-remote="docs/partial/remote-long-modal.html" data-toggle="modal" data-scroll-inside="true">在内部显示滚动条（ajax）</button>
 ```
 
 ## 如何使用
@@ -427,9 +451,13 @@ myModalTrigger.show();
     <tr>
       <td>`loadingIcon`</td>
       <td>加载时显示的动画所使用的图标</td>
-      <td>*   以`icon-*`形式定义的图标名称
-*   自定义加载动画所使用的html</td>
-      <td>`icon-*`定义的图标名称请参考[图标](#search/icon:spin)。</td>
+      <td>
+        <ul>
+          <li>以 `icon-` 形式定义的图标名称</li>
+          <li>自定义加载动画所使用的html</li>
+        </ul>
+      </td>
+      <td>`icon-` 定义的图标名称请参考[图标](#search/icon:spin)。</td>
     </tr>
     <tr>
       <td>`scrollInside`</td>

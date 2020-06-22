@@ -47,11 +47,10 @@ ZUI 官方网站为 https://www.openzui.com/ ，并提供了[英文文档(https:
   * 优化了菜单项对象上的 `html` 属性，如果指定 HTML 文本则会作为构建整个菜单项使用，而不仅仅是作为菜单项文本内容，这样方便用户构建任意交互形式的菜单项；
 * 对话框和对话框触发器：
   * 增加全局辅助方法 `$.zui.reloadModal(urlOrOptions, modalID)` 来方便用户重新载入指定远程对话框上的内容，当对话框内容重新载入时会显示加载中提示动画；
+  * 优化了 `scrollInside` 选项，现在同时支持对话框和对话框触发器，解决了在一些特殊情况下没有按预期工作的问题，并针对浏览器窗口发生变化情况进行了优化；
   * 修复了一些特殊情况下动态更新远程对话框内容后对话框上仍然可能保留更新前部分内容的问题；
   * 修复了调用 `$.fn.show()` 方法时没有使用全局选项 `$.zui.ModalTrigger.DEFAULTS` 的问题；
-  * 修复了 `scrollInside` 选项在一些特殊情况下没有按预期工作的问题，并针对浏览器窗口发生变化情况进行了优化；
   * 修复了加载 iframe 内容失败时并监听 `broken` 事件时没有返回有效的 HTML 字符串可能导致出错的问题；
-  * 修复了开启 `scrollInside` 选项时 `modal-scroll-inside` 辅助类名错误（[issue #168](https://github.com/easysoft/zui/issues/168)）；
 * 树形菜单：
   * 初始化选项 `initialState` 增加新的选项值 `'active'`，在初始化之后展开所有激活的节点以及对应的父节点（确保激活的节点可见）
   * 新增 `$.fn.expandSelect(selector)` 方法，用户展开指定的节点以及父节点；

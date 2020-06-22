@@ -255,7 +255,7 @@
                                 if (scrollInside) {
                                     var headerHeight = options.headerHeight;
                                     if (typeof headerHeight !== 'number') {
-                                        headerHeight = $header.height();
+                                        headerHeight = $header.outerHeight();
                                     } else if ($.isFunction(headerHeight)) {
                                         headerHeight = headerHeight($header);
                                     }
