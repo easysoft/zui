@@ -5,7 +5,7 @@
       "pver": "1.12.4",
       "ver": "1.0.0",
       "src": {
-        "resource": ["assets/jquery-3.4.1.min.js", "assets/jquery-migrate-3.1.0.js", "assets/jquery-migrate-3.1.0.min.js"]
+        "resource": ["assets/jquery.js", "assets/jquery-3.4.1.min.js", "assets/jquery-migrate-3.1.0.js", "assets/jquery-migrate-3.1.0.min.js"]
       },
       "desc": "ZUI的绝大部分JS组件都依赖于jQuery",
       "website": "http://jquery.com/",
