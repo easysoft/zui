@@ -388,7 +388,7 @@
                 }
             }
 
-            if(idx >= 0 && fasle !== that.$.callComEvent(that, 'beforeRemoveEvent', {
+            if(idx >= 0 && false !== that.$.callComEvent(that, 'beforeRemoveEvent', {
                     event: event,
                     eventId: id,
                     data: that.data
