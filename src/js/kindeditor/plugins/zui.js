@@ -2,7 +2,7 @@
  * ZUI: Kindeditor plugin - zui
  * http://openzui.com
  * ========================================================================
- * Copyright (c) 2019-2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019-2020 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
  $.each(['afterBlur', 'afterFocus', 'afterChange', 'afterTab'], function(_index, name) {
