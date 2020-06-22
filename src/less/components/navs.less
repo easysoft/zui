@@ -43,6 +43,16 @@
       }
     }
 
+    // Active state
+    &.active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @nav-active-link-color;
+        background-color: @nav-active-link-bg;
+      }
+    }
+
     // Disabled state sets text to gray and nukes hover/tab effects
     &.disabled > a {
       color: @nav-disabled-link-color;

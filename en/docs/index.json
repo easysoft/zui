@@ -1063,6 +1063,9 @@
             "update": "1.6.0",
             "topics": [
               {
+                "name": "Basic style"
+              },
+              {
                 "name": "Primary navigations"
               },
               {

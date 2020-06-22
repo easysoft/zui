@@ -7,6 +7,61 @@ filter: daohang dh
 
 # Navigations
 
+
+## 基础样式
+
+<div class="example">
+  <ul class="nav">
+        <li class="active"><a href="###">Home</a></li>
+    <li><a href="###">Dynamics <span class="label label-badge label-success">4</span></a></li>
+    <li><a href="###">Project </a></li>
+    <li>
+      <a class="dropdown-toggle" data-toggle="dropdown" href="###">More <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="###">Task</a></li>
+        <li><a href="###">Bug</a></li>
+        <li><a href="###">Story</a></li>
+        <li><a href="###">Example</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+```html
+<ul class="nav">
+  <li class="active"><a href="your/nice/url">Home</a></li>
+  <li><a href="your/nice/url">Dynamics <span class="label label-badge label-success">4</span></a></li>
+  ...
+</ul>
+```
+
+`.nav-default`
+
+<div class="example">
+  <ul class="nav nav-default">
+        <li class="active"><a href="###">Home</a></li>
+    <li><a href="###">Dynamics <span class="label label-badge label-success">4</span></a></li>
+    <li><a href="###">Project </a></li>
+    <li>
+      <a class="dropdown-toggle" data-toggle="dropdown" href="###">More <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="###">Task</a></li>
+        <li><a href="###">Bug</a></li>
+        <li><a href="###">Story</a></li>
+        <li><a href="###">Example</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+```html
+<ul class="nav nav-default">
+  <li class="active"><a href="your/nice/url">Home</a></li>
+  <li><a href="your/nice/url">Dynamics <span class="label label-badge label-success">4</span></a></li>
+  ...
+</ul>
+```
+
 ## Primary navigations
 
 `.nav-primary`

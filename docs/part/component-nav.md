@@ -7,6 +7,88 @@ filter: daohang dh
 
 # 导航
 
+## 基础样式
+
+<div class="example">
+  <ul class="nav">
+    <li class="active">
+      <a href="###">首页</a>
+    </li>
+    <li>
+      <a href="###">动态</a>
+    </li>
+    <li>
+      <a href="###">项目</a>
+    </li>
+    <li>
+      <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="">任务</a>
+        </li>
+        <li>
+          <a href="">Bug</a>
+        </li>
+        <li>
+          <a href="">需求</a>
+        </li>
+        <li>
+          <a href="">用例</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+```html
+<ul class="nav">
+  <li class="active"><a href="your/noce/url">首页</a></li>
+  <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
+  ...
+</ul>
+```
+
+`.nav-default`
+
+<div class="example">
+  <ul class="nav nav-default">
+    <li class="active">
+      <a href="###">首页</a>
+    </li>
+    <li>
+      <a href="###">动态</a>
+    </li>
+    <li>
+      <a href="###">项目</a>
+    </li>
+    <li>
+      <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="">任务</a>
+        </li>
+        <li>
+          <a href="">Bug</a>
+        </li>
+        <li>
+          <a href="">需求</a>
+        </li>
+        <li>
+          <a href="">用例</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+```html
+<ul class="nav nav-default">
+  <li class="active"><a href="your/noce/url">首页</a></li>
+  <li><a href="your/noce/url">动态 <span class="label label-badge label-success">4</span></a></li>
+  ...
+</ul>
+```
+
 ## 主要导航
 
 `.nav-primary`
