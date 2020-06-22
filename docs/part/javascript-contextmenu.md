@@ -158,6 +158,12 @@ $('#contextMenuExample2').on('click', function(e) {
       <td>单位为毫秒</td>
     </tr>
     <tr>
+      <td><code>className</code></td>
+      <td>添加到弹出菜单元素上的 CSS 类名</td>
+      <td>默认为 `''`</td>
+      <td>弹出菜单上已有类名 `'contextmenu-menu dropdown-menu'`</td>
+    </tr>
+    <tr>
       <td><code>itemCreator</code></td>
       <td>菜单条目元素生成器</td>
       <td>默认为 `null`，或 `function(item, index, options)`</td>

@@ -130,6 +130,12 @@ $('#imgCutter').imgCutter(options);
       <td>Default: `null`</td>
       <td>When the cropped area is done, its data is passed as GET Request to be submitted to this address.</td>
     </tr>
+    <tr>
+      <td>`onSizeError`</td>
+      <td>当尺寸不符合要求时的回调函数</td>
+      <td>默认为`null`</td>
+      <td>当原始图片尺寸不符合选项 `minWidth` 和 `minHeight` 要求时的回调函数，包含一个参数 `{width, height}` 用于返回当前图片宽和高，在此函数内可以提示用户更换图片</td>
+    </tr>
   </tbody>
 </table>
 

@@ -130,6 +130,12 @@ $('#imgCutter').imgCutter(options);
       <td>默认为`null`</td>
       <td>当用户确认裁剪尺寸区域后会将尺寸区域数据通过GET请求提交到此地址</td>
     </tr>
+    <tr>
+      <td>`onSizeError`</td>
+      <td>当尺寸不符合要求时的回调函数</td>
+      <td>默认为`null`</td>
+      <td>当原始图片尺寸不符合选项 `minWidth` 和 `minHeight` 要求时的回调函数，包含一个参数 `{width, height}` 用于返回当前图片宽和高，在此函数内可以提示用户更换图片</td>
+    </tr>
   </tbody>
 </table>
 

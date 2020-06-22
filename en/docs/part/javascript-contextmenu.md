@@ -157,6 +157,12 @@ Most of the options apply to both active and passive ways. Options that are only
       <td>The default is `200`</td>
       <td>Its unit is millisecond</td>
     </tr>
+      <tr>
+      <td><code>className</code></td>
+      <td>CSS class name to add to context menu element</td>
+      <td>default `''`</td>
+      <td>Already exists `'contextmenu-menu dropdown-menu'`</td>
+    </tr>
     <tr>
       <td><code>itemCreator</code></td>
       <td>Menu item element generator</td>
@@ -301,10 +307,10 @@ For example：
 The menu item group can also be shortened as follows：
 
 ```js
-// Short 
+// Short
 var items1 = ['New Project', '-', 'Copy', 'Paste'];
 
-// Complete 
+// Complete
 var items2 = [
     {label: 'New Project'},
     {type: 'divider'},
@@ -358,7 +364,7 @@ contextMenu.hide();
 
 ### `listenMouseMove()` (Active only)
 
-Listen the mouse movement. After calling this method, it will automatically listen and record the mouse position. You do not have to use `x`, `y`, and `event` to specify the position of the menu, if you call `show()`. 
+Listen the mouse movement. After calling this method, it will automatically listen and record the mouse position. You do not have to use `x`, `y`, and `event` to specify the position of the menu, if you call `show()`.
 
 How to use it：
 

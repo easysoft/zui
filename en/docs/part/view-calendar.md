@@ -96,9 +96,15 @@ Calendar is an independent component. You need to introduce resources from lib/ 
     </tr>
     <tr>
       <td>`hideEmptyWeekends`</td>
-      <td>*   `true` (default)
-*   `false`</td>
+      <td>*   `true`
+*   `false` (default)</td>
       <td>If there is no event on the weekend, reduce the space of the weekend to save space.</td>
+    </tr>
+    <tr>
+      <td>`hideFirstDayNumber`</td>
+      <td>*   `true`
+*   `false` (default)</td>
+      <td>Hide date at first day of months</td>
     </tr>
     <tr>
       <td>`lang`</td>

@@ -449,7 +449,8 @@ Available options are as follows:
       <td>*   `'normal'`(default): Dependent on dom structure
 *   `'expand'`: Expand all
 *   `'collapse'`: Collapse all
-*   `'preserve'`: Restore the status of last user action from local storage</td>
+*   `'preserve'`: Restore the status of last user action from local storage
+*   `'active'`: Expand active node and its parents nodes</td>
       <td>If `'normal'` and `<li>` contains `.open` with internal submenu, the submenu(submenu that does not include submenus) will expand after the initialization. Otherwise, it is collapsed.</li></td>
     </tr>
     <tr>

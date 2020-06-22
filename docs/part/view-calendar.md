@@ -97,9 +97,15 @@ $('#calendar').calendar();
     </tr>
     <tr>
       <td>`hideEmptyWeekends`</td>
-      <td>*   `true` (默认)
-*   `false`</td>
+      <td>*   `true`
+*   `false` (默认)</td>
       <td>当周末没有事件时是否自动缩小周末所在对列已节省空间。</td>
+    </tr>
+    <tr>
+      <td>`hideFirstDayNumber`</td>
+      <td>*   `true`
+*   `false` (默认)</td>
+      <td>隐藏月份第一天时的日期显示（会显示 “一月”，而不是 “一月1”）</td>
     </tr>
     <tr>
       <td>`lang`</td>
