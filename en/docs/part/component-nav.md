@@ -7,8 +7,7 @@ filter: daohang dh
 
 # Navigations
 
-
-## 基础样式
+## Basic style
 
 <div class="example">
   <ul class="nav">
