@@ -26,6 +26,8 @@ ZUI 官方网站为 https://www.openzui.com/ ，并提供了[英文文档(https:
   * 优化了开关、高级外观的复选框单选框背景色（[issue #156](https://github.com/easysoft/zui/issues/161)）
 * 输入组：
   * 优化连续使用 `.input-group-addon` 时的边框样式；
+* 导航：
+  * 新增对基础样式的支持，仅使用 `.nav` 或 `.nav.nav-default` 形式；
 * 图标：
   * 优化了字体图标基线高度，确保文字与图标混合显示时能够尽量垂直居中对齐；
   * 移除了 `icon-renren` 图标；
