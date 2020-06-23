@@ -6,81 +6,118 @@
  * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
-
 (function() {
     'use strict';
 
     /**
      * Format string with argument list or object
+     * @param  {String}             str
      * @param  {object | arguments} args
      * @return {String}
      */
-    if(!String.prototype.format) {
-        String.prototype.format = function(args) {
-            var result = this;
-            if(arguments.length > 0) {
-                var reg;
-                if(arguments.length <= 2 && typeof(args) == 'object') {
-                    for(var key in args) {
-                        if(args[key] !== undefined) {
-                            reg = new RegExp('(' + (arguments[1] ? arguments[1].replace('0', key) : '{' + key + '}') + ')', 'g');
-                            result = result.replace(reg, args[key]);
-                        }
+    const formatString = function(str, args) {
+        if(arguments.length > 1) {
+            var reg;
+            if(arguments.length == 2 && typeof(args) == "object") {
+                for(var key in args) {
+                    if(args[key] !== undefined) {
+                        reg = new RegExp("({" + key + "})", "g");
+                        str = str.replace(reg, args[key]);
                     }
-                } else {
-                    for(var i = 0; i < arguments.length; i++) {
-                        if(arguments[i] !== undefined) {
-                            reg = new RegExp('({[' + i + ']})', 'g');
-                            result = result.replace(reg, arguments[i]);
-                        }
+                }
+            } else {
+                for(var i = 1; i < arguments.length; i++) {
+                    if(arguments[i] !== undefined) {
+                        reg = new RegExp("({[" + (i - 1) + "]})", "g");
+                        str = str.replace(reg, arguments[i]);
                     }
                 }
             }
-            return result;
-        };
-    }
+        }
+        return str;
+    };
 
     /**
      * Judge the string is a integer number
      *
+     * @param {String} str
      * @access public
-     * @return bool
+     * @return {Boolean}
      */
-    if(!String.prototype.isNum) {
-        String.prototype.isNum = function(s) {
-            if(s !== null) {
-                var r, re;
-                re = /\d*/i;
-                r = s.match(re);
-                return(r == s) ? true : false;
-            }
-            return false;
-        };
+    const isNum = function(str) {
+        if(str !== null) {
+            var r, re;
+            re = /\d*/i;
+            r = str.match(re);
+            return(r == str) ? true : false;
+        }
+        return false;
+    };
+
+    const exports = {
+        formatString: formatString,
+        string: {
+            format: formatString,
+            isNum: isNum,
+        }
+    };
+
+    if (window.$ && window.$.zui) {
+        $.zui(exports);
+    } else {
+        window.stringHelper = exports.string;
     }
 
-    if(!String.prototype.endsWith) {
-        String.prototype.endsWith = function(searchString, position) {
-            var subjectString = this.toString();
-            if(position === undefined || position > subjectString.length) {
-                position = subjectString.length;
-            }
-            position -= searchString.length;
-            var lastIndex = subjectString.indexOf(searchString, position);
-            return lastIndex !== -1 && lastIndex === position;
-        };
-    }
+    if (!window.noStringPrototypeHelper) {
+        /**
+         * Format string with argument list or object
+         * @param  {object | arguments} args
+         * @return {String}
+         */
+        if(!String.prototype.format) {
+            String.prototype.format = function() {
+                var args = [].slice.call(arguments);
+                args.unshift(this);
+                return formatString.apply(this, args);
+            };
+        }
 
-    if(!String.prototype.startsWith) {
-        String.prototype.startsWith = function(searchString, position) {
-            position = position || 0;
-            return this.lastIndexOf(searchString, position) === position;
-        };
-    }
+        /**
+         * Judge the string is a integer number
+         *
+         * @access public
+         * @return bool
+         */
+        if(!String.prototype.isNum) {
+            String.prototype.isNum = function() {
+                return isNum(this);
+            };
+        }
 
-    if(!String.prototype.includes) {
-        String.prototype.includes = function() {
-            return String.prototype.indexOf.apply(this, arguments) !== -1;
-        };
-    }
+        // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+        if (!String.prototype.endsWith) {
+            String.prototype.endsWith = function(search, this_len) {
+                if (this_len === undefined || this_len > this.length) {
+                    this_len = this.length;
+                }
+                return this.substring(this_len - search.length, this_len) === search;
+            };
+        }
 
+        // https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+        if (!String.prototype.startsWith) {
+            Object.defineProperty(String.prototype, 'startsWith', {
+                value: function(search, pos) {
+                    pos = !pos || pos < 0 ? 0 : +pos;
+                    return this.substring(pos, pos + search.length) === search;
+                }
+            });
+        }
+
+        if(!String.prototype.includes) {
+            String.prototype.includes = function() {
+                return String.prototype.indexOf.apply(this, arguments) !== -1;
+            };
+        }
+    }
 })();
