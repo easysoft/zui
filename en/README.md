@@ -6,7 +6,7 @@
 
 An open source front-end customized solution based on Bootstrap and helps you quickly build modern multi-screen applications.
 
-Learn more from the official website  http://zui.sexy/ 
+Learn more from the official website  http://zui.sexy/
 
 💎 &nbsp;Designed for mobile and based on Flex UI framework: [MZUI](http://zui.sexy/m/)。
 
@@ -43,28 +43,28 @@ bower install zui
 
 ```html
 <!-- ZUI Standard version compressed CSS files -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.1/css/zui.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/css/zui.min.css">
 
 <!-- ZUI Javascript depends on jQuery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.1/lib/jquery/jquery.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/jquery/jquery.js"></script>
 <!-- ZUI Standard version compressed JavaScript file -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.1/js/zui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/js/zui.min.js"></script>
 ```
 
 Other CDN:
 
- - China <a href="http://www.bootcdn.cn/" target="_blank">BootCDN</a> 
+ - China <a href="http://www.bootcdn.cn/" target="_blank">BootCDN</a>
 
 ### Download
 
- - [v 1.9.1 Production package](https://github.com/easysoft/zui/releases/download/v1.9.1/zui-1.9.1-dist.zip)
- - [v 1.9.1 Source code](https://github.com/easysoft/zui/archive/v1.9.1.zip)
+ - [v 1.9.2 Production package](https://github.com/easysoft/zui/releases/download/v1.9.2/zui-1.9.2-dist.zip)
+ - [v 1.9.2 Source code](https://github.com/easysoft/zui/archive/v1.9.2.zip)
 
 ### Document
 
 Please visit the official website directly http://zui.sexy/ for the documentation.
 
-Please visit https://easysoft.github.io/zui/ for documentation in development. 
+Please visit https://easysoft.github.io/zui/ for documentation in development.
 
 You can also deploy the documentation website yourself. After downloading the source code, use `http:` or `https:` to the root directory of the source code `index.html`.
 
@@ -80,3 +80,4 @@ If you installed [Node.js](https://nodejs.org/), you can easily start the websit
 - [ZenTao ALM](https://www.zentao.pm)
 - [Zsite CMS](https://www.zsite.net)
 - [Zdoo](https://www.zdoo.org)
+- [Xuanxuan](https://xuanim.com)

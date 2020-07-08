@@ -7,7 +7,7 @@ filter: xiazaiyushiyong xzysy
 
 # Download and Install
 
-ZUI(v1.9.1) offer you both package and source code for a quick start.
+ZUI(v{$version}) offer you both package and source code for a quick start.
 
 ## Download
 
@@ -15,13 +15,13 @@ ZUI(v1.9.1) offer you both package and source code for a quick start.
   <div class="col-sm-6">
     <h2>ZUI Package</h2>
     <p>Ready to use complied and minified CSS, JavaScript and font files (in the dist directory of source code files). Document and source code are not included. </p>
-    <a href="docs/download/zui-{$version}-dist.zip" class="btn btn-lg btn-primary" target="_blank">Download ZUI</a> &nbsp; 
+    <a href="docs/download/zui-{$version}-dist.zip" class="btn btn-lg btn-primary" target="_blank">Download ZUI</a> &nbsp;
     <a href="https://github.com/easysoft/zui/releases/download/v{$version}/zui-{$version}-dist.zip" class="" target="_blank">Download from  Github</a>
   </div>
   <div class="col-sm-6">
     <h2>ZUI Source</h2>
       <p>Complete project code, including source code files of Less, JavaScript, font, etc. You can use Gulp to customize your own project and a complete document is provided.</p>
-      <a href="https://github.com/easysoft/zui/archive/v{$version}.zip" class="btn btn-lg" target="_blank">Download Source</a> &nbsp; 
+      <a href="https://github.com/easysoft/zui/archive/v{$version}.zip" class="btn btn-lg" target="_blank">Download Source</a> &nbsp;
     </div>
   </div>
 </div>
@@ -96,4 +96,3 @@ Install ZUI via Bower.
 ```html
 bower install zui
 ```
-

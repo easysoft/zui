@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.9.1 - 2020-05-11
+ * ZUI: Lite edition - v1.9.2 - 2020-07-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -4792,8 +4792,17 @@ pre code {
 .nav-default > li {
   float: left;
   }
-.nav-default > li > a {
+.nav-simple > li {
+  float: left;
+  }
+.nav-simple > li > a {
   border-radius: 4px;
+  }
+.nav-simple > li.active > a,
+.nav-simple > li.active > a:hover,
+.nav-simple > li.active > a:focus {
+  color: #3280fc;
+  background-color: #ebf2f9;
   }
 .nav-pills > li {
   float: left;
@@ -5584,6 +5593,9 @@ tbody.collapse.in {
   overflow-y: auto;
   }
 .modal-scroll-inside {
+  overflow: hidden!important;
+  }
+.body-modal-scroll-inside {
   overflow: auto;
   }
 .tooltip {

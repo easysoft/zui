@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "description": "One based on Bootstrap Deep customization of open source front-end practices，Help you quickly build modern multi-screen applications。",
   "main": "index.html",
   "directories": {

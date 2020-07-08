@@ -43,12 +43,12 @@ bower install zui
 
 ```html
 <!-- ZUI 标准版压缩后的 CSS 文件 -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.1/css/zui.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/css/zui.min.css">
 
 <!-- ZUI Javascript 依赖 jQuery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.1/lib/jquery/jquery.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/jquery/jquery.js"></script>
 <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.1/js/zui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/js/zui.min.js"></script>
 ```
 
 其他 CDN:
@@ -57,8 +57,8 @@ bower install zui
 
 ### 下载
 
- - [v 1.9.1 生产包](https://github.com/easysoft/zui/releases/download/v1.9.1/zui-1.9.1-dist.zip)
- - [v 1.9.1 源码](https://github.com/easysoft/zui/archive/v1.9.1.zip)
+ - [v 1.9.2 生产包](https://github.com/easysoft/zui/releases/download/v1.9.2/zui-1.9.2-dist.zip)
+ - [v 1.9.2 源码](https://github.com/easysoft/zui/archive/v1.9.2.zip)
 
 ### 文档
 
@@ -77,6 +77,7 @@ bower install zui
 
 ## 使用 ZUI 开发的项目
 
-- [禅道](http://zentao.net)
-- [蝉知](http://chanzhi.org)
-- [然之](http://ranzhi.org)
+- [禅道](https://zentao.net)
+- [ZSite](https://zsite.org)
+- [ZDOO](https://zdoo.com)
+- [喧喧](https://xuanim.com)

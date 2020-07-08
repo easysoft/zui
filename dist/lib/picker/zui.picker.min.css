@@ -1,5 +1,5 @@
 /*!
- * ZUI: 选择器 - v1.9.1 - 2020-05-12
+ * ZUI: 选择器 - v1.9.2 - 2020-07-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT

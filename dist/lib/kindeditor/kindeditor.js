@@ -9994,7 +9994,7 @@ KindEditor.plugin('wordpaste', function(K) {
  * ZUI: Kindeditor plugin - zui
  * http://openzui.com
  * ========================================================================
- * Copyright (c) 2019-2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019-2020 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
  $.each(['afterBlur', 'afterFocus', 'afterChange', 'afterTab'], function(_index, name) {
@@ -10059,7 +10059,7 @@ KindEditor.plugin('zui', function(K) {
  * ZUI: Kindeditor plugin - placeholder
  * http://openzui.com
  * ========================================================================
- * Copyright (c) 2019-2019 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2019-2020 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
 KindEditor.EditorClass.prototype.setPlaceholder = function(placeholder, asHtml) {
@@ -10434,7 +10434,7 @@ KindEditor.plugin('table', function (K) {
     };
     var $elements = [];
     var langName = $.clientLang ? $.clientLang() : ($.zui && $.zui.clientLang) ? $.zui.clientLang() : 'en';
-    var lang = ($.zui && $.zui.getLangData) ? $.zui.getLangData('kindeditor.advanceTable', langName, allLangs) : $.extend({}, allLangs.en, self.lang('table.'), allLangs[langName]);
+    var lang = ($.zui && $.zui.getLangData) ? $.extend({}, self.lang('table.'), $.zui.getLangData('kindeditor.advanceTable', langName, allLangs)) : $.extend({}, allLangs.en, self.lang('table.'), allLangs[langName]);
     var defaultTableBorderColor = self.options.tableBorderColor || '#ddd';
 
     self.tableIdIndex = 0;
