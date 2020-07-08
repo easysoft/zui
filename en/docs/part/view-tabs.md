@@ -460,8 +460,8 @@ Use `.tabs-navbar` element and `.tabs-container` element in tab initialization e
 </div>
 ```
 
-<script src="../dist/lib/tabs/zui.tabs.js"></script>
-<link href="../dist/lib/tabs/zui.tabs.css" rel="stylesheet">
+<script src="../../dist/lib/tabs/zui.tabs.js"></script>
+<link href="../../dist/lib/tabs/zui.tabs.css" rel="stylesheet">
 <script>
 function afterPageLoad() {
     $('#tabsExample').tabs({

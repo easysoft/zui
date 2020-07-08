@@ -9,7 +9,7 @@ filter: tupian tp
 
 ## Rounded Images
 
-<div class="example"><img src="docs/img/img1.jpg" width="200px" height="200px" class="img-rounded" alt="Rounded Images"></div>
+<div class="example"><img src="../docs/img/img1.jpg" width="200px" height="200px" class="img-rounded" alt="Rounded Images"></div>
 
 ```html
 <img src="http://openzui.com/docs/img/img1.jpg" width="200px" height="200px" class="img-rounded" alt="Rounded Images">
@@ -17,7 +17,7 @@ filter: tupian tp
 
 ## Circular Images
 
-<div class="example"><img src="docs/img/img2.jpg" width="200px" height="200px" class="img-circle" alt="Circular Images"></div>
+<div class="example"><img src="../docs/img/img2.jpg" width="200px" height="200px" class="img-circle" alt="Circular Images"></div>
 
 ```html
 <img src="http://openzui.com/docs/img/img2.jpg" width="200px" height="200px" class="img-circle" alt="Circular Images">
@@ -25,7 +25,7 @@ filter: tupian tp
 
 ## Thumbnail
 
-<div class="example"><img src="docs/img/img3.jpg" width="200px" height="200px" class="img-thumbnail" alt="Thumbnail"></div>
+<div class="example"><img src="../docs/img/img3.jpg" width="200px" height="200px" class="img-thumbnail" alt="Thumbnail"></div>
 
 ```html
 <img src="http://openzui.com/docs/img/img3.jpg" width="200px" height="200px" class="img-thumbnail" alt="Thumbnail">
@@ -38,7 +38,7 @@ The maximum width of a responsive image should not exceed its parent container.
 <div class="example">
   <div style="width: 250px;" class="panel">
     <div class="panel-heading">Max. Width: 250px</div>
-    <img src="docs/img/img4.jpg" class="img-responsive" alt="responsive image test">
+    <img src="../docs/img/img4.jpg" class="img-responsive" alt="responsive image test">
   </div>
 </div>
 

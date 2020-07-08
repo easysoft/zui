@@ -73,8 +73,8 @@ Use the mouse to drag and drop items.
   </div>
 </example>
 
-<script src="../dist/lib/board/zui.board.js"></script>
-<link href="../dist/lib/board/zui.board.css" rel="stylesheet">
+<script src="../../dist/lib/board/zui.board.js"></script>
+<link href="../../dist/lib/board/zui.board.css" rel="stylesheet">
 <script>
 function afterPageLoad() {
   if($.fn.boards) $('#pageContent .boards').boards({drop: function(e){

@@ -610,8 +610,8 @@ var myDashboard = $('#myDashboard').data('zui.dashboard');
 myDashboard.refresh('#myPanel1');
 ```
 
-<script src="../dist/lib/dashboard/zui.dashboard.js"></script>
-<link href="../dist/lib/dashboard/zui.dashboard.css" rel="stylesheet">
+<script src="../../dist/lib/dashboard/zui.dashboard.js"></script>
+<link href="../../dist/lib/dashboard/zui.dashboard.css" rel="stylesheet">
 <script>
 function onPageLoad() {
     if($.fn.dashboard) $('#dashboard').dashboard({

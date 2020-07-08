@@ -675,8 +675,8 @@ $('#treemapExample4').treemap({
 });
 ```
 
-<script src="../dist/lib/treemap/zui.treemap.js"></script>
-<link href="../dist/lib/treemap/zui.treemap.css" rel="stylesheet">
+<script src="../../dist/lib/treemap/zui.treemap.js"></script>
+<link href="../../dist/lib/treemap/zui.treemap.css" rel="stylesheet">
 
 <script>
 function afterPageLoad() {

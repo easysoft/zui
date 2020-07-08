@@ -176,6 +176,18 @@ Animation is enabled when a dialog box pops out or hides(fade in/out).If you do 
 </div>
 ```
 
+## Inside Scrolling
+
+When a modal is displayed, users can scroll the page to read the content. scrollInside is used to limit the scrolling inside of `.modal-body`. The height of the modal should not be over the height of the browser.
+
+<div class="example">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-target="#scrollInsideModal">Inside Scrolling</button>
+</div>
+
+```html
+<button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-target="#scrollInsideModal">Inside Scrolling</button>
+```
+
 ## Close
 
 Add a button and then add `data-dismiss="modal"` to static dialog box HTML. Then this dialog box is closed when the button is clicked. You can add it to any element in the dialog.
@@ -500,6 +512,36 @@ $('#myModal').on('shown.zui.modal', function() {
         <h4 class="modal-title">Disable animation effects demo</h4>
       </div>
       <div class="modal-body">...</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade modal-for-page" id="scrollInsideModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Inside Scrolling Demo</h4>
+      </div>
+      <div class="modal-body">
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">OK</button>
+        <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+      </div>
     </div>
   </div>
 </div>

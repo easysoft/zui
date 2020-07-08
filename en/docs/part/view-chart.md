@@ -620,7 +620,7 @@ IE 8 and earlier versions are not supported by Canvas, so you need to introduce 
 <![endif]-->
 ```
 
-<script src="../dist/lib/chart/zui.chart.min.js"></script>
+<script src="../../dist/lib/chart/zui.chart.min.js"></script>
 <script>
 function afterPageLoad() {
     var data = {

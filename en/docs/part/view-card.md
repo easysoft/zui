@@ -27,7 +27,7 @@ Card view HTML Structure is as follows:
 <div class="cards">
   <div class="col-md-4">
     <div class="card">
-      <img src="docs/img/img4.jpg" alt="">
+      <img src="../docs/img/img4.jpg" alt="">
     </div>
   </div>
   <!-- ... Use more .col-md-4 to embed cards -->
@@ -39,33 +39,33 @@ Card view HTML Structure is as follows:
   <p>To make it easy for users to create cards in various sizes, the height of the card is not limited. To ensure that the card view is aligned properly, each card should have the same height.</p>
 </div>
 
-## Simple examples 
+## Simple examples
 
 <example class="example-cards">
   <div class="cards">
     <div class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card"><img src="docs/img/img1.jpg" alt=""></div>
+      <div class="card"><img src="../docs/img/img1.jpg" alt=""></div>
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card"><img src="docs/img/img2.jpg" alt=""></div>
+      <div class="card"><img src="../docs/img/img2.jpg" alt=""></div>
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card"><img src="docs/img/img3.jpg" alt=""></div>
+      <div class="card"><img src="../docs/img/img3.jpg" alt=""></div>
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card"><img src="docs/img/img4.jpg" alt=""></div>
+      <div class="card"><img src="../docs/img/img4.jpg" alt=""></div>
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card"><img src="docs/img/img5.jpg" alt=""></div>
+      <div class="card"><img src="../docs/img/img5.jpg" alt=""></div>
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card"><img src="docs/img/img1.jpg" alt=""></div>
+      <div class="card"><img src="../docs/img/img1.jpg" alt=""></div>
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card"><img src="docs/img/img2.jpg" alt=""></div>
+      <div class="card"><img src="../docs/img/img2.jpg" alt=""></div>
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
-      <div class="card"><img src="docs/img/img3.jpg" alt=""></div>
+      <div class="card"><img src="../docs/img/img3.jpg" alt=""></div>
     </div>
   </div>
 </example>
@@ -73,28 +73,28 @@ Card view HTML Structure is as follows:
 ```html
 <div class="cards">
   <div class="col-md-4 col-sm-6 col-lg-3">
-    <div class="card"><img src="docs/img/img1.jpg" alt=""></div>
+    <div class="card"><img src="../docs/img/img1.jpg" alt=""></div>
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
-    <div class="card"><img src="docs/img/img2.jpg" alt=""></div>
+    <div class="card"><img src="../docs/img/img2.jpg" alt=""></div>
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
-    <div class="card"><img src="docs/img/img3.jpg" alt=""></div>
+    <div class="card"><img src="../docs/img/img3.jpg" alt=""></div>
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
-    <div class="card"><img src="docs/img/img4.jpg" alt=""></div>
+    <div class="card"><img src="../docs/img/img4.jpg" alt=""></div>
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
-    <div class="card"><img src="docs/img/img5.jpg" alt=""></div>
+    <div class="card"><img src="../docs/img/img5.jpg" alt=""></div>
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
-    <div class="card"><img src="docs/img/img1.jpg" alt=""></div>
+    <div class="card"><img src="../docs/img/img1.jpg" alt=""></div>
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
-    <div class="card"><img src="docs/img/img2.jpg" alt=""></div>
+    <div class="card"><img src="../docs/img/img2.jpg" alt=""></div>
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
-    <div class="card"><img src="docs/img/img3.jpg" alt=""></div>
+    <div class="card"><img src="../docs/img/img3.jpg" alt=""></div>
   </div>
 </div>
 ```
@@ -116,13 +116,13 @@ Add `.card` in `<a>` to get a clickable card.
 
 <example class="example-cards">
   <div class="card">
-    <img src="docs/img/img3.jpg" alt="">
+    <img src="../docs/img/img3.jpg" alt="">
   </div>
 </example>
 
 ```html
 <div class="card">
-  <img src="docs/img/img3.jpg" alt="">
+  <img src="../docs/img/img3.jpg" alt="">
 </div>
 ```
 
@@ -130,13 +130,13 @@ Add `.card` in `<a>` to get a clickable card.
 
 <example class="example-cards">
   <a class="card" href="###">
-    <img src="docs/img/img1.jpg" alt="">
+    <img src="../docs/img/img1.jpg" alt="">
   </a>
 </example>
 
 ```html
 <a class="card" href="path/to/card/detail/content">
-  <img src="docs/img/img1.jpg" alt="">
+  <img src="../docs/img/img1.jpg" alt="">
 </a>
 ```
 
@@ -144,7 +144,7 @@ Add `.card` in `<a>` to get a clickable card.
 
 <example class="example-cards">
   <a class="card" href="###">
-    <img src="docs/img/img2.jpg" alt="">
+    <img src="../docs/img/img2.jpg" alt="">
     <div class="card-heading"><strong>Good view</strong></div>
     <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
   </a>
@@ -152,7 +152,7 @@ Add `.card` in `<a>` to get a clickable card.
 
 ```html
 <a class="card" href="###">
-  <img src="docs/img/img2.jpg" alt="">
+  <img src="../docs/img/img2.jpg" alt="">
   <div class="card-heading"><strong>Good view</strong></div>
   <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
 </a>
@@ -162,7 +162,7 @@ Add `.card` in `<a>` to get a clickable card.
 
 <example class="example-cards">
   <a class="card" href="###">
-    <img src="docs/img/img2.jpg" alt="">
+    <img src="../docs/img/img2.jpg" alt="">
     <div class="card-heading"><strong>Good view</strong></div>
     <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
     <div class="card-actions">
@@ -174,7 +174,7 @@ Add `.card` in `<a>` to get a clickable card.
 
 ```html
 <a class="card" href="###">
-  <img src="docs/img/img2.jpg" alt="">
+  <img src="../docs/img/img2.jpg" alt="">
   <div class="card-heading"><strong>Good view</strong></div>
   <div class="card-content text-muted">Good day and beautiful scenery. Who is happy family?</div>
   <div class="card-actions">
@@ -188,7 +188,7 @@ Add `.card` in `<a>` to get a clickable card.
 
 <example class="example-cards">
   <a class="card" href="###">
-    <img src="docs/img/img2.jpg" alt="">
+    <img src="../docs/img/img2.jpg" alt="">
     <div class="card-heading"><strong>Good view</strong></div>
     <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
     <div class="card-actions">
@@ -200,7 +200,7 @@ Add `.card` in `<a>` to get a clickable card.
 
 ```html
 <a class="card" href="###">
-  <img src="docs/img/img2.jpg" alt="">
+  <img src="../docs/img/img2.jpg" alt="">
   <div class="card-heading"><strong>Good view</strong></div>
   <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
   <div class="card-actions">
@@ -216,7 +216,7 @@ Embed `.caption` in `.card` to display the caption text. Caption will show when 
 
 <example class="example-cards">
   <a class="card" href="###">
-    <img src="docs/img/img2.jpg" alt="">
+    <img src="../docs/img/img2.jpg" alt="">
     <div class="caption">“Good view” From《Peony Pavilion》</div>
     <div class="card-heading"><strong>Good view</strong></div>
     <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -225,7 +225,7 @@ Embed `.caption` in `.card` to display the caption text. Caption will show when 
 
 ```html
 <a class="card" href="###">
-  <img src="docs/img/img2.jpg" alt="">
+  <img src="../docs/img/img2.jpg" alt="">
   <div class="caption">“Good view” From《Peony Pavilion》</div>
   <div class="card-heading"><strong>Good view</strong></div>
   <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -239,7 +239,7 @@ Add .media-wrapper container to an image to fix size and to set special effects 
 <example class="example-cards">
   <a class="card" href="###">
     <div class="media-wrapper">
-      <img src="docs/img/img2.jpg" alt="">
+      <img src="../docs/img/img2.jpg" alt="">
     </div>
     <div class="caption">“Good view” From《Peony Pavilion》</div>
     <div class="card-heading"><strong>Good view</strong></div>
@@ -250,7 +250,7 @@ Add .media-wrapper container to an image to fix size and to set special effects 
 ```html
 <a class="card" href="###">
   <div class="media-wrapper">
-    <img src="docs/img/img2.jpg" alt="">
+    <img src="../docs/img/img2.jpg" alt="">
   </div>
   <div class="caption">“Good view” From《Peony Pavilion》</div>
   <div class="card-heading"><strong>Good view</strong></div>
@@ -266,7 +266,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
   <div class="cards cards-borderless">
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img2.jpg" alt="">
+        <img src="../docs/img/img2.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -274,7 +274,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img1.jpg" alt="">
+        <img src="../docs/img/img1.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -282,7 +282,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img5.jpg" alt="">
+        <img src="../docs/img/img5.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -290,7 +290,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img4.jpg" alt="">
+        <img src="../docs/img/img4.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -298,7 +298,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img3.jpg" alt="">
+        <img src="../docs/img/img3.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -306,7 +306,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img2.jpg" alt="">
+        <img src="../docs/img/img2.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -314,7 +314,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img1.jpg" alt="">
+        <img src="../docs/img/img1.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -322,7 +322,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img5.jpg" alt="">
+        <img src="../docs/img/img5.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -337,7 +337,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
 <div class="cards cards-borderless">
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img2.jpg" alt="">
+      <img src="../docs/img/img2.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -345,7 +345,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img1.jpg" alt="">
+      <img src="../docs/img/img1.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -353,7 +353,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img5.jpg" alt="">
+      <img src="../docs/img/img5.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -361,7 +361,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img4.jpg" alt="">
+      <img src="../docs/img/img4.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -369,7 +369,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img3.jpg" alt="">
+      <img src="../docs/img/img3.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -377,7 +377,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img2.jpg" alt="">
+      <img src="../docs/img/img2.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -385,7 +385,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img1.jpg" alt="">
+      <img src="../docs/img/img1.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -393,7 +393,7 @@ Add `.cards-borderless` class in `.cards` to remove the border of the card.
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img5.jpg" alt="">
+      <img src="../docs/img/img5.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -410,7 +410,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
   <div class="cards cards-condensed">
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img2.jpg" alt="">
+        <img src="../docs/img/img2.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -418,7 +418,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img1.jpg" alt="">
+        <img src="../docs/img/img1.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -426,7 +426,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img5.jpg" alt="">
+        <img src="../docs/img/img5.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -434,7 +434,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img4.jpg" alt="">
+        <img src="../docs/img/img4.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -442,7 +442,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img3.jpg" alt="">
+        <img src="../docs/img/img3.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -450,7 +450,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img2.jpg" alt="">
+        <img src="../docs/img/img2.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -458,7 +458,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img1.jpg" alt="">
+        <img src="../docs/img/img1.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -466,7 +466,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
     </div>
     <div class="col-md-4 col-sm-6 col-lg-3">
       <a class="card" href="###">
-        <img src="docs/img/img5.jpg" alt="">
+        <img src="../docs/img/img5.jpg" alt="">
         <div class="caption">“Good view” From《Peony Pavilion》</div>
         <div class="card-heading"><strong>Good view</strong></div>
         <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -481,7 +481,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
 <div class="cards cards-condensed">
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img2.jpg" alt="">
+      <img src="../docs/img/img2.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -489,7 +489,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img1.jpg" alt="">
+      <img src="../docs/img/img1.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -497,7 +497,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img5.jpg" alt="">
+      <img src="../docs/img/img5.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -505,7 +505,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img4.jpg" alt="">
+      <img src="../docs/img/img4.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -513,7 +513,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img3.jpg" alt="">
+      <img src="../docs/img/img3.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -521,7 +521,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img2.jpg" alt="">
+      <img src="../docs/img/img2.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -529,7 +529,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img1.jpg" alt="">
+      <img src="../docs/img/img1.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>
@@ -537,7 +537,7 @@ Add `.cards-condensed` in `.cards` to get a more condensed view. There will be n
   </div>
   <div class="col-md-4 col-sm-6 col-lg-3">
     <a class="card" href="###">
-      <img src="docs/img/img5.jpg" alt="">
+      <img src="../docs/img/img5.jpg" alt="">
       <div class="caption">“Good view” From《Peony Pavilion》</div>
       <div class="card-heading"><strong>Good view</strong></div>
       <div class="card-content text-muted">Good day and beautiful scenery. Who is happy?</div>

@@ -123,8 +123,8 @@ $('.input-group #myColor').colorpicker({
 });
 ```
 
-<link href="../dist/lib/colorpicker/zui.colorpicker.min.css" rel="stylesheet">
-<script src="../dist/lib/colorpicker/zui.colorpicker.min.js"></script>
+<link href="../../dist/lib/colorpicker/zui.colorpicker.min.css" rel="stylesheet">
+<script src="../../dist/lib/colorpicker/zui.colorpicker.min.js"></script>
 <script>
 $(function() {
     $('#pageContent [data-provide="colorpicker"]').colorPicker();

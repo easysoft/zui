@@ -183,7 +183,7 @@ All ZUI defined colors are:
 #zuiColors .color-tile {height: auto; width: 125px; padding: 0 5px; margin: 0; border: none;}
 </style>
 
-<script src="../dist/lib/colorset.js/zui.colorset.min.js"></script>
+<script src="../../dist/lib/colorset.js/zui.colorset.min.js"></script>
 <script>
 $(function() {
     var $colors = $('<div class="clearfix"/>');

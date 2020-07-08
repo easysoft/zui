@@ -115,7 +115,7 @@ Use `.pull-left` or `.pull-right` in `.media` to make the thumbnails align left 
         <h4><a href="###">HTML5 Development History</a></h4>
       </div>
       <div class="item-content">
-        <div class="media pull-left"><img src="docs/img/img2.jpg" alt=""></div>
+        <div class="media pull-left"><img src="../docs/img/img2.jpg" alt=""></div>
         <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update     and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
       </div>
       <div class="item-footer">
@@ -128,7 +128,7 @@ Use `.pull-left` or `.pull-right` in `.media` to make the thumbnails align left 
         <h4><a href="###">HTML5 Development History</a></h4>
       </div>
       <div class="item-content">
-        <div class="media pull-right"><img src="docs/img/img2.jpg" alt=""></div>
+        <div class="media pull-right"><img src="../docs/img/img2.jpg" alt=""></div>
         <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
       </div>
       <div class="item-footer">
@@ -141,7 +141,7 @@ Use `.pull-left` or `.pull-right` in `.media` to make the thumbnails align left 
         <h4><a href="###">HTML5 Development History</a></h4>
       </div>
       <div class="item-content">
-        <div class="media"><img src="docs/img/slide1.jpg" alt=""></div>
+        <div class="media"><img src="../docs/img/slide1.jpg" alt=""></div>
         <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
       </div>
       <div class="item-footer">
@@ -161,7 +161,7 @@ Use `.pull-left` or `.pull-right` in `.media` to make the thumbnails align left 
       <h4><a href="###">HTML5 Development History</a></h4>
     </div>
     <div class="item-content">
-      <div class="media pull-left"><img src="docs/img/img2.jpg" alt=""></div>
+      <div class="media pull-left"><img src="../docs/img/img2.jpg" alt=""></div>
       <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the latemultimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
     </div>
     <div class="item-footer">
@@ -174,7 +174,7 @@ Use `.pull-left` or `.pull-right` in `.media` to make the thumbnails align left 
       <h4><a href="###">HTML5 Development History</a></h4>
     </div>
     <div class="item-content">
-      <div class="media pull-right"><img src="docs/img/img2.jpg" alt=""></div>
+      <div class="media pull-right"><img src="../docs/img/img2.jpg" alt=""></div>
       <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
     </div>
     <div class="item-footer">
@@ -187,7 +187,7 @@ Use `.pull-left` or `.pull-right` in `.media` to make the thumbnails align left 
       <h4><a href="###">HTML5 Development History</a></h4>
     </div>
     <div class="item-content">
-      <div class="media"><img src="docs/img/slide1.jpg" alt=""></div>
+      <div class="media"><img src="../docs/img/slide1.jpg" alt=""></div>
       <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
     </div>
     <div class="item-footer">
@@ -209,7 +209,7 @@ Add `.items-hover` classes for `.items` to add mouse hovering effects to the lis
         <h4><a href="###">HTML5 Development History</a></h4>
       </div>
       <div class="item-content">
-        <div class="media pull-right"><img src="docs/img/img2.jpg" alt=""></div>
+        <div class="media pull-right"><img src="../docs/img/img2.jpg" alt=""></div>
         <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
       </div>
       <div class="item-footer">
@@ -227,7 +227,7 @@ Add `.items-hover` classes for `.items` to add mouse hovering effects to the lis
       <h4><a href="###">HTML5 Development History</a></h4>
     </div>
     <div class="item-content">
-      <div class="media pull-right"><img src="docs/img/img2.jpg" alt=""></div>
+      <div class="media pull-right"><img src="../docs/img/img2.jpg" alt=""></div>
       <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
     </div>
     <div class="item-footer">
@@ -272,7 +272,7 @@ Add `.items-hover` classes for `.items` to add mouse hovering effects to the lis
           <h4><a href="###">HTML5 Development History</a></h4>
         </div>
         <div class="item-content">
-          <div class="media pull-right"><img src="docs/img/img2.jpg" alt=""></div>
+          <div class="media pull-right"><img src="../docs/img/img2.jpg" alt=""></div>
           <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
         </div>
         <div class="item-footer">
@@ -344,7 +344,7 @@ Add `.items-hover` classes for `.items` to add mouse hovering effects to the lis
         <h4><a href="###">HTML5 Development History</a></h4>
       </div>
       <div class="item-content">
-        <div class="media pull-right"><img src="docs/img/img2.jpg" alt=""></div>
+        <div class="media pull-right"><img src="../docs/img/img2.jpg" alt=""></div>
         <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
       </div>
       <div class="item-footer">
@@ -418,7 +418,7 @@ Add `list-condensed` classes in `.list` to get a more condensed list view. It is
           <h4><a href="###">HTML5 Development History</a></h4>
         </div>
         <div class="item-content">
-          <div class="media pull-right"><img src="docs/img/img2.jpg" alt=""></div>
+          <div class="media pull-right"><img src="../docs/img/img2.jpg" alt=""></div>
           <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
         </div>
         <div class="item-footer">
@@ -490,7 +490,7 @@ Add `list-condensed` classes in `.list` to get a more condensed list view. It is
         <h4><a href="###">HTML5 Development History</a></h4>
       </div>
       <div class="item-content">
-        <div class="media pull-right"><img src="docs/img/img2.jpg" alt=""></div>
+        <div class="media pull-right"><img src="../docs/img/img2.jpg" alt=""></div>
         <div class="text">HTML5 was first released in public-facing form on 22 January 2008, with a major update and "W3C Recommendation" status in October 2014. Its goals were to improve the language with support for the late multimedia and other new features; to keep the language both easily readable by humans and consistently understood by computers and devices such as web browsers, parsers, etc., without XHTML's rigidity; and to remain backward-compatible with older software. HTML5 is intended to subsume not only HTML 4, but also XHTML 1 and DOM Level 2 HTML.</div>
       </div>
       <div class="item-footer">

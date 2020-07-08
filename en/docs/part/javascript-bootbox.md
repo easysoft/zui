@@ -18,5 +18,5 @@ Bootbox is an independent component, so you need to introduce assets in lib/ fro
 
 Please refer to [Official website](http://bootboxjs.com/#) for howto.
 
-<link href="../dist/lib/bootbox/bootbox.min.css" rel="stylesheet">
-<script src="../dist/lib/bootbox/bootbox.min.js"></script>
+<link href="../../dist/lib/bootbox/bootbox.min.css" rel="stylesheet">
+<script src="../../dist/lib/bootbox/bootbox.min.js"></script>

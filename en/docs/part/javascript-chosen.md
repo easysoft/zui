@@ -559,10 +559,10 @@ Icon plugin is an independent component, and denpends on chosen plugin. You have
 
 Icon plugin can use all options and methods of chosen.
 
-<link href="../dist/lib/chosen/chosen.min.css" rel="stylesheet">
-<script src="../dist/lib/chosen/chosen.min.js"></script>
-<link href="../dist/lib/chosenicons/zui.chosenicons.min.css" rel="stylesheet">
-<script src="../dist/lib/chosenicons/zui.chosenicons.min.js"></script>
+<link href="../../dist/lib/chosen/chosen.min.css" rel="stylesheet">
+<script src="../../dist/lib/chosen/chosen.min.js"></script>
+<link href="../../dist/lib/chosenicons/zui.chosenicons.min.css" rel="stylesheet">
+<script src="../../dist/lib/chosenicons/zui.chosenicons.min.js"></script>
 <script>
 function onPageLoad() {return false;}
 function afterPageLoad() {

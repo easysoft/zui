@@ -1432,9 +1432,33 @@ $('#dataGrid').on('onLoad', function(event, result) {
 });
 ```
 
-<script src="../dist/lib/selectable/zui.selectable.js"></script>
-<script src="../dist/lib/datagrid/zui.datagrid.js"></script>
-<link href="../dist/lib/datagrid/zui.datagrid.css" rel="stylesheet">
+### `onClickCell`
+
+When a user clicks a cell, this event it triggered. The callback function parameters include:
+
+* `event`: mouse click event object
+* `cell`: click cell
+* `$cell`: cell DOM element
+
+```js
+// Set the event callback function at the initialization
+$('#dataGrid').datagrid({
+    onClickCell: function(event, cell, $cell) {
+        console.log('点击了单元格第', cell.rowIndex, '行', cell.colIndex, '列');
+    }
+});
+```
+
+```js
+// use JQuery $().on() to listen the event
+$('#dataGrid').on('onClickCell', function(event, cell, $cell) {
+    console.log('点击了单元格第', cell.rowIndex, '行', cell.colIndex, '列');
+});
+```
+
+<script src="../../dist/lib/selectable/zui.selectable.js"></script>
+<script src="../../dist/lib/datagrid/zui.datagrid.js"></script>
+<link href="../../dist/lib/datagrid/zui.datagrid.css" rel="stylesheet">
 <script>
 function afterPageLoad() {
     // Get sample data

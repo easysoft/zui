@@ -44,10 +44,10 @@ Specify the same`data-group="*"` attributes for multiple `data-toggle="lightbox"
 
 <div class="example">
   <div class="row">
-    <div class="col-xs-6 col-sm-4 col-md-3"><a href="docs/img/img1.jpg" data-group="example-3" data-toggle="lightbox" data-caption="img1.jpg"><img src="docs/img/img1.jpg" class="img-rounded" alt=""></a></div>
-    <div class="col-xs-6 col-sm-4 col-md-3"><a href="docs/img/img2.jpg" data-group="example-3" data-toggle="lightbox" data-caption="img2.jpg"><img src="docs/img/img2.jpg" class="img-rounded" alt=""></a></div>
-    <div class="col-xs-6 col-sm-4 col-md-3"><a href="docs/img/img3.jpg" data-group="example-3" data-toggle="lightbox"><img src="docs/img/img3.jpg" class="img-rounded" alt=""></a></div>
-    <div class="col-xs-6 col-sm-4 col-md-3"><a href="docs/img/img4.jpg" data-group="example-3" data-toggle="lightbox" data-caption="last one"><img src="docs/img/img4.jpg" class="img-rounded" alt=""></a></div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><a href="docs/img/img1.jpg" data-group="example-3" data-toggle="lightbox" data-caption="img1.jpg"><img src="../docs/img/img1.jpg" class="img-rounded" alt=""></a></div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><a href="docs/img/img2.jpg" data-group="example-3" data-toggle="lightbox" data-caption="img2.jpg"><img src="../docs/img/img2.jpg" class="img-rounded" alt=""></a></div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><a href="docs/img/img3.jpg" data-group="example-3" data-toggle="lightbox"><img src="../docs/img/img3.jpg" class="img-rounded" alt=""></a></div>
+    <div class="col-xs-6 col-sm-4 col-md-3"><a href="docs/img/img4.jpg" data-group="example-3" data-toggle="lightbox" data-caption="last one"><img src="../docs/img/img4.jpg" class="img-rounded" alt=""></a></div>
   </div>
 </div>
 

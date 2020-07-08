@@ -1663,8 +1663,8 @@ var plupload = uploader.plupload;
 
 <!-- in zui.js with uploader.js Introducing seven cattle before loading js-sdk -->
 <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.min.js"></script>
-<script src="../dist/lib/uploader/zui.uploader.js"></script>
-<link href="../dist/lib/uploader/zui.uploader.css" rel="stylesheet">
+<script src="../../dist/lib/uploader/zui.uploader.js"></script>
+<link href="../../dist/lib/uploader/zui.uploader.css" rel="stylesheet">
 
 <script>
 function afterPageLoad() {

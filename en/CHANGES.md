@@ -1,4 +1,97 @@
-# update record
+# Releases
+
+## v 1.9.2
+
+[2020-07-09]
+
+This release is to fix bugs and to optimize features.
+
+ZUI official website is https://www.openzui.com/ and English version is available[English Manual(https://www.openzui.com/en/ )](https://www.openzui.com/en/ )。
+
+### Changelog
+
+* CSS basics and helper classes
+  * Optimized the style of dropdown triangles and reduced the opacity.
+  * Added `text-wrap` and `text-nowrap` to set the style of breaking lines.
+* Rich text editor(KindEditor)
+  * Optimized the style of the placeholder.
+  * Optimized the interaction of pasting images; it is forbidden to submit forms when uploading an image.
+  * Optimized code autoformat; an ankor in a link is not missed, e.g. `<a href="#heading1" />`.
+  * Fixed the invalid setting of box sizes of popout windows.
+  * Fixed the invalid selected cells by tab if cells are merged.
+  * Fixed the invalid switching to other cell elements by tab.
+  * Fixed the invalid canceling after pasting images.
+  * Fixed the incorrect display of the right-click menu of a cell.
+* Switch, checkbox and radio
+  * Optimized the background color of switches and advanced checkbox and radio([issue #156](https://github.com/easysoft/zui/issues/161))
+* Input-group
+  * Optimized the box style of using several `.input-group-addon`.
+* Nav
+  * Enhance basic style for navs, use `.nav`, `.nav.nav-default` or `.nav.nav-simple`.
+* Icon
+  * Optimized the baseline height of font icons to ensure the center-alignment of mixed fonts and icons.
+  * Removed `icon-renren` icon.
+* Dropdown
+  * Optimized the shadow of a dropdown.
+  * Fixed the invalid display of dropdowns unders some conditions.
+* Form
+  * Optimized the look of the dropdown triangle `<select>` in macOS.
+* Chosen
+  * Added `no_wrap` to forbid breaklines in dropdown texts and set is off by default.
+  * Added `sort_field` and `sort_value_splitter` to record the order of checkbox being selected.
+  * Added `drop_item_height` to set the height of dropdown options, the dropdown style, and the popout direction. This option is auto calculated, and the height has to be set if CSS is changed.
+  * Optimized `change` parameters. When a user does reverse select, the second parameter of `deselected` will be callback via the event.
+  * Optimized the style of the clear button, the dropdown and the interaction of the dropdown.
+  * Fixed the invalid global default setting option `$.fn.chosen.Constructor.DEFAULTS`.
+  * Fixed the invalid initial setting option `middle_highlight` when `max_drop_width` is on.
+* Context menu
+  * Added an intial option `className` to name elements of a popout menu.
+  * Optimized `html` for menu items. If specified, HTML text will be used to create menu items, rather than the text of menu items. It is convenient for users to create any interactive menu items.
+* Modal and modal trigger
+  * Added `$.zui.reloadModal(urlOrOptions, modalID)` to reload the content on the specified remote dialog. When the dialog content is reloaded, a loading prompt animation will be displayed.
+  * Fixed the issue that the content of the pre-update dialog may still be retained on the dialog after dynamically updating the content of the remote dialog.
+  * Fixed the issue that `$.fn.show()` and `$.zui.ModalTrigger.DEFAULTS` cannot be used at the same time.
+  * Fixed the issue that `scrollInside` is not working sometimes and optimized it for browse window changes.
+  * Fixed the issue that it fails to load iframe and no valid HTML string is called back when listening `broken`.
+  * Fixed the issue that `modal-scroll-inside` error when `scrollInside` is on([issue #168](https://github.com/easysoft/zui/issues/168)).
+* Tree
+  * Added `'active'` to `initialState` to activate all nodes and their parent nodes(make active nodes visible).
+  * Added `$.fn.expandSelect(selector)` to expand a node and its parent node.
+* Messager
+  * Optimized the look displayed with icons.
+  * Optimized global default options. `$.zui.Messager.DEFAULTS.icons` can be used to preset icons.
+* Image cutter
+  * Added `onSizeError`. If the image size is not consistent with `minWidth` and `minHeight`, `{width, height}` will be called back to remind the user to change it.
+* Progress bar
+  * Optimize the style. Internal color blocks now have rounded appearance.
+* Calendar
+  * Added `hideFirstDayNumber` to hide the first day of a month(January, not January 1).
+  * Fixed misspelling caused `$.fn.removeEvents()` issue ([@JIMhackKING](https://github.com/JIMhackKING) [issue #157](https://github.com/easysoft/zui/issues/157)).
+* Load indicator
+  * Optimized the style used with icons.
+  * Optimized the style of the overlay and reduced the opacity.
+* Uploader
+  * Optimized the fault tolerance of JSON content called back by a remote server. It is deemed as uploaded, if no specified `status` or `result` in JSON.
+  * Fixed the IE browser compatibility.
+* Datagrid 2
+  * Added `onClickCell` to listen clicking cells.
+  * Fixed description error in `gotoPage` document([issue #156](https://github.com/easysoft/zui/issues/156)).
+  * Fixed the conflict between mouse hovering and interlaced colors.
+* Datagrid
+  * Optimized updating large data performance and disabled the animation.
+  * Fixed the horizontal scroll bar in the flexible area is 1-pixel offset.
+* JavaScript helper methods
+  * Reconstruct `$.zui.uuid()`. The string length is 12 and was 10.
+  * Fixed the issue that `$.zui.browser` checks IE11.
+* jQuery
+  * Built-in jQuery `3.4.1`. `1.12.4` is still valid.
+* Globalization
+  * If no language is not specified in `lang` of `<html>`, English is set by default.
+* Theme
+  * Fixed the issue that the checkbox color is not applied in a theme selected.
+* Document
+  * Added English document https://www.openzui.com/en/
+  * Corrected misspelling in the document.
 
 ## v 1.9.1
 

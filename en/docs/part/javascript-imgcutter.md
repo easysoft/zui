@@ -43,7 +43,7 @@ Imagecutter is an independent components. so you need to introduce assets in lib
 
 <div class="example">
   <div class="img-cutter" id="imgCutter">
-    <div class="canvas"><img src="docs/img/slide1.jpg" alt=""></div>
+    <div class="canvas"><img src="../docs/img/slide1.jpg" alt=""></div>
     <div class="actions">
       <h5>Drag and drop to cut the picture</h5>
       <div class="img-cutter-info small"></div>
@@ -132,9 +132,9 @@ $('#imgCutter').imgCutter(options);
     </tr>
     <tr>
       <td>`onSizeError`</td>
-      <td>当尺寸不符合要求时的回调函数</td>
-      <td>默认为`null`</td>
-      <td>当原始图片尺寸不符合选项 `minWidth` 和 `minHeight` 要求时的回调函数，包含一个参数 `{width, height}` 用于返回当前图片宽和高，在此函数内可以提示用户更换图片</td>
+      <td>Function called when the image size does not fit</td>
+      <td>Default: `null`</td>
+      <td>Added `onSizeError`. If the image size is not consistent with `minWidth` and `minHeight`, `{width, height}` will be returned to remind the user to change it.</td>
     </tr>
   </tbody>
 </table>
@@ -280,10 +280,10 @@ var myImgCutterData = myImgCutter.getData();
   </tbody>
 </table>
 
-<link href="../dist/lib/bootbox/bootbox.min.css" rel="stylesheet">
-<link rel="stylesheet" href="dist/lib/imgcutter/zui.imgcutter.css">
-<script src="../dist/lib/imgcutter/zui.imgcutter.js"></script>
-<script src="../dist/lib/bootbox/bootbox.min.js"></script>
+<link href="../../dist/lib/bootbox/bootbox.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../../dist/lib/imgcutter/zui.imgcutter.css">
+<script src="../../dist/lib/imgcutter/zui.imgcutter.js"></script>
+<script src="../../dist/lib/bootbox/bootbox.min.js"></script>
 <script>
 function afterPageLoad() {
     var $imgCutterInfo = $('.img-cutter-info');

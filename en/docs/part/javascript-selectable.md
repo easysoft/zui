@@ -459,9 +459,9 @@ $('#selectableDatableExample').datatable({
 });
 ```
 
-<script src="../dist/lib/datatable/zui.datatable.min.js"></script>
-<link href="../dist/lib/datatable/zui.datatable.min.css" rel="stylesheet">
-<script src="../dist/lib/selectable/zui.selectable.min.js"></script>
+<script src="../../dist/lib/datatable/zui.datatable.min.js"></script>
+<link href="../../dist/lib/datatable/zui.datatable.min.css" rel="stylesheet">
+<script src="../../dist/lib/selectable/zui.selectable.min.js"></script>
 <script>
 $(function() {
     var onTileSelect = function(e, that, a) {

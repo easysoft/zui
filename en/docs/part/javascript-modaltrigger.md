@@ -230,6 +230,30 @@ Turning on this option allows the user to move the dialog by dragging its header
 <button type="button" class="btn btn-primary" data-moveable="true" data-toggle="modal" data-custom="..."><i class="icon icon-move"></i> Open and Drag me</button>
 ```
 
+## Inside scrolling
+
+When a modal is displayed, users can scroll the page to read the content. scrollInside is used to limit the scrolling inside of .modal-body. The height of the modal should not be over the height of the browser.
+
+<div class="example">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-custom="<h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br><h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>">
+        Display a scroll bar inside (custom)
+  </button>
+  <button type="button" class="btn btn-primary" data-iframe="docs/partial/iframe-long-modal.html" data-toggle="modal" data-scroll-inside="true">Display a scroll bar inside (iframe)</button>
+  <button type="button" class="btn btn-primary" data-remote="docs/partial/remote-long-modal.html" data-toggle="modal" data-scroll-inside="true">Display a scroll bar inside (ajax)</button>
+</div>
+
+```html
+<button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-custom="...">Display a scroll bar inside (custom)</button>
+<button type="button" class="btn btn-primary" data-iframe="docs/partial/iframe-long-modal.html" data-toggle="modal" data-scroll-inside="true">Display a scroll bar inside (iframe)</button>
+<button type="button" class="btn btn-primary" data-remote="docs/partial/remote-long-modal.html" data-toggle="modal" data-scroll-inside="true">Display a scroll bar inside (ajax)</button>
+```
+
 ## How to use it
 
 ### data property

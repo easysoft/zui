@@ -539,8 +539,8 @@ $('calendar').calendar().on("clickEvent.zui.calendar", function(event) {
 });
 ```
 
-<script src="../dist/lib/calendar/zui.calendar.js"></script>
-<link href="../dist/lib/calendar/zui.calendar.css" rel="stylesheet">
+<script src="../../dist/lib/calendar/zui.calendar.js"></script>
+<link href="../../dist/lib/calendar/zui.calendar.css" rel="stylesheet">
 <script>
 function afterPageLoad() {
   var now = new Date();
