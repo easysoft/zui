@@ -185,7 +185,6 @@ filter: dhk mtk duihuakuang motaikuang
 </div>
 
 ```html
-<!-- 禁用动画效果的对话框 -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-scroll-inside="true" data-target="#scrollInsideModal">内部滚动</button>
 ```
 
@@ -540,7 +539,7 @@ $('#myModal').on('shown.zui.modal', function() {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">确认</button>
-        <button type="button" class="btn">取消</button>
+        <button type="button" class="btn" data-dismiss="modal">取消</button>
       </div>
     </div>
   </div>
