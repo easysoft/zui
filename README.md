@@ -4,11 +4,13 @@
 [![Bower version](https://badge.fury.io/bo/zui.svg)](https://badge.fury.io/bo/zui)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/easysoft/zui/blob/master/LICENSE)
 
+文档语言：[中文](https://github.com/easysoft/zui/blob/master/README.md) ｜ [English](https://github.com/easysoft/zui/blob/master/en/README.md)
+
 一个基于 Bootstrap 深度定制开源前端实践方案，帮助你快速构建现代跨屏应用。
 
-从官方网站了解更多： http://openzui.com/ 。
+从官方网站了解更多： https://openzui.com/ 。
 
-💎 &nbsp;为移动端设计，基于 Flex 的 UI 框架： [MZUI](http://openzui.com/m/)。
+💎 &nbsp;为移动端设计，基于 Flex 的 UI 框架： [MZUI](https://openzui.com/m/)。
 
 官方 QQ 群：**2群：127535859**，1群：384135104（满员）
 项目和计划：http://zui.5upm.com/product-browse-2.html
@@ -23,7 +25,7 @@
 
 ## 快速使用
 
-详细使用说明访问 http://openzui.com/#basic/download 。
+详细使用说明访问 https://openzui.com/#basic/download 。
 
 ### NPM
 
@@ -62,7 +64,7 @@ bower install zui
 
 ### 文档
 
-文档请直接访问官方网站 http://openzui.com/ 。
+文档请直接访问官方网站 https://openzui.com/ 。
 
 开发中的文档请访问 https://easysoft.github.io/zui/ 。
 

@@ -4,11 +4,13 @@
 [![Bower version](https://badge.fury.io/bo/zui.svg)](https://badge.fury.io/bo/zui)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/easysoft/zui/blob/master/LICENSE)
 
+Language：[中文](https://github.com/easysoft/zui/blob/master/README.md) ｜ [English](https://github.com/easysoft/zui/blob/master/en/README.md)
+
 An open source front-end customized solution based on Bootstrap and helps you quickly build modern multi-screen applications.
 
-Learn more from the official website  http://zui.sexy/
+Learn more from the official website  https://openzui.com/en/
 
-💎 &nbsp;Designed for mobile and based on Flex UI framework: [MZUI](http://zui.sexy/m/)。
+💎 &nbsp;Designed for mobile and based on Flex UI framework: [MZUI](https://openzui.com/m/)。
 
 Official QQ group：**Group 2: 127535859**, Group 1: 384135104(Full)
 Projects and plans: http://zui.5upm.com/product-browse-2.html
@@ -23,7 +25,7 @@ Projects and plans: http://zui.5upm.com/product-browse-2.html
 
 ## Quick Start
 
-Detailed instructions can be found here http://zui.sexy/#basic/download.
+Detailed instructions can be found here https://openzui.com/en/#basic/download.
 
 ### NPM
 
@@ -62,7 +64,7 @@ Other CDN:
 
 ### Document
 
-Please visit the official website directly http://zui.sexy/ for the documentation.
+Please visit the official website directly https://openzui.com/en/ for the documentation.
 
 Please visit https://easysoft.github.io/zui/ for documentation in development.
 
