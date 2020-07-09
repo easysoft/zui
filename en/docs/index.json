@@ -1,6 +1,6 @@
 {
-    "version": "1.9.2.0",
-    "updateTime": "2020-06-19 13:40",
+  "version": "1.9.2.0",
+  "updateTime": "2020-07-09 13:57",
     "chapters": {
       "contribution": {
         "name": "contribution",
@@ -192,19 +192,23 @@
             "name": "ZenTao ALM",
             "desc": "The most professional application lifecycle management tool and open source!",
             "icon": "../docs/img/zentao_icon.png",
-            "url": "http://www.zentao.net/",
+            "url": "https://www.zentao.pm/",
             "topics": [
               {
                 "name": "ZenTao Cloud",
-                "url": "https://www.zentaopm.com/"
+                "url": "https://saas.zentao.pm/"
               },
               {
                 "name": "Open Source Demo",
-                "url": "http://demo.zentao.net/"
+                "url": "https://demo.zentao.pm/"
               },
               {
                 "name": "Professional Demo",
-                "url": "http://pro.demo.zentao.net/"
+                "url": "https://pro.demo.zentao.pm/"
+              },
+              {
+                "name": "Enterprise Demo",
+                "url": "https://biz.demo.zentao.pm/"
               }
             ],
             "filter": "chandaoxiangmuguanli cdxmgl"
@@ -215,20 +219,20 @@
             "desc": "Deeply customizable cloud-integrated collaboration platform",
             "version": "1.5.0",
             "icon": "../docs/img/zdoo_icon.png",
-            "url": "http://www.zdoo.com/",
+            "url": "http://www.zdoo.co/",
             "topics": [],
             "filter": "zdoo ezsoft cloud yunduan docker"
           },
           {
-            "id": "chanzhi",
-            "name": "Zsite",
-            "desc": "A CMS tool for the building your website!",
-            "icon": "../docs/img/chanzhi_icon.png",
-            "url": "http://www.chanzhi.org/",
+            "id": "zsite",
+            "name": "ZSITE",
+            "desc": "ZSITE is used for building professional enterprise marketing websites to popularize products and develop the business.",
+            "icon": "../docs/img/zsite_icon.png",
+            "url": "https://www.zsite.net/",
             "topics": [
               {
-                "name": "Zsite Cloud",
-                "url": "http://www.zsite.com"
+                "name": "building professional enterprise marketing websites",
+                "url": "https://www.zsite.net/"
               }
             ],
             "filter": "chanzhi cz"

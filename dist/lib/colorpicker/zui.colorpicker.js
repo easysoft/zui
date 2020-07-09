@@ -1,5 +1,5 @@
 /*!
- * ZUI: 颜色选择器 - v1.9.2 - 2020-07-08
+ * ZUI: 颜色选择器 - v1.9.2 - 2020-07-09
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -127,12 +127,12 @@
     };
 
     ColorPicker.prototype.updateColors = function(colors) {
-        var $picker = this.$picker,
-            $menu = this.$menu.children('li:not(.heading)').remove(),
+        var $menu   = this.$menu,
             options = this.options,
-            colors = colors || this.colors,
-            that = this;
+            colors  = colors || this.colors,
+            that    = this;
         var bestLineCount = 0;
+        $menu.children('li:not(.heading)').remove();
         $.each(colors, function(idx, color) {
             that.addColor(color);
             bestLineCount++;
@@ -146,11 +146,11 @@
     };
 
     ColorPicker.prototype.setValue = function(color, notSetInput) {
-        var that = this;
+        var that    = this;
         var options = that.options;
-        var $btn = that.$btn;
+        var $btn    = that.$btn;
+        var hex     = '';
         that.$menu.find('.cp-tile.active').removeClass('active');
-        var hex = '';
         var updateBtn = options.updateBtn;
         if (updateBtn === 'auto') {
             var $btnBar = $btn.find('.color-bar');

@@ -1,12 +1,12 @@
 /*!
- * ZUI: JS配色表 - v1.9.2 - 2020-07-08
+ * ZUI: JS配色表 - v1.9.2 - 2020-07-09
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
  */
 
 /*!
- * ZUI: Generated from less code - v1.9.2 - 2020-07-08
+ * ZUI: Generated from less code - v1.9.2 - 2020-07-09
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT

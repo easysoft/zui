@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.2 - 2020-07-08
+ * ZUI: Standard edition - v1.9.2 - 2020-07-09
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT

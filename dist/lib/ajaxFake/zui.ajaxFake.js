@@ -1,5 +1,5 @@
 /*!
- * ZUI: Ajax 响应模拟工具 - v1.9.2 - 2020-07-08
+ * ZUI: Ajax 响应模拟工具 - v1.9.2 - 2020-07-09
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT

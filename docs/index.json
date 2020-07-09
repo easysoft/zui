@@ -1,6 +1,6 @@
 {
-  "version": "1.9.1.3",
-  "updateTime": "2020-06-19 13:40",
+  "version": "1.9.2.0",
+  "updateTime": "2020-07-09 13:57",
   "chapters": {
     "contribution": {
       "name": "贡献",
@@ -220,15 +220,15 @@
           "filter": "zdoo ezsoft cloud yunduan docker"
         },
         {
-          "id": "chanzhi",
-          "name": "蝉知",
-          "desc": "为天下企业提供专业的营销工具！",
-          "icon": "docs/img/chanzhi_icon.png",
-          "url": "http://www.chanzhi.org/",
+          "id": "zsite",
+          "name": "ZSITE",
+          "desc": "为您构建全网营销平台",
+          "icon": "docs/img/zsite_icon.png",
+          "url": "https://www.zsite.com/",
           "topics": [
             {
-              "name": "臻网建站",
-              "url": "http://www.zsite.com"
+              "name": "构建全网营销平台",
+              "url": "https://www.zsite.com/"
             }
           ],
           "filter": "chanzhi cz"

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.9.2 - 2020-07-08
+ * ZUI: Document - v1.9.2 - 2020-07-09
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2020 cnezsoft.com; Licensed MIT
@@ -2886,6 +2886,9 @@ body.ad-hover.ad-xuanxuan #download .btn-white {
 #grid .card-heading > .icon.with-img {
   background-color: transparent!important;
   filter: alpha(opacity=80);
+  background-repeat: no-repeat;
+  -webkit-background-size: 75% 75%;
+          background-size: 75%;
   opacity: .8;
   }
 #grid .card-heading > .icon.with-img:hover {
