@@ -154,7 +154,7 @@ ZUI中提供了一系列方法用于读写本地存储数据。
 参数：
 
 *   `key`：条目名称。</td>
-      
+
     </tr>
     <tr>
       <td>`store.setItem(key, value)`</td>
@@ -266,7 +266,7 @@ function afterPageLoad(){
         var index = 0;
         $.zui.store.forEach(function(key,value) {
             if(key.indexOf('//') === 0) return;
-            $storeTable.append('<tr><td>{0}</td><td class="store-name">{1}</td><td><pre style="padding: 5px; margin: 0" class="prettyprint">{2}</pre></td><td><a href="javascript:;" class="text-danger store-delete"><i class="icon-trash"></i></a></td></tr>'.format(index++, key, typeof value === 'object' ? JSON.stringify(value, null, 2) : (typeof value === 'string' ? ('"' + value + '"') : value)));
+            $storeTable.append(('<tr><td>{' + '0' + '}</td><td class="store-name">' + '{' + '1' + '}</td><td><pre style="padding: 5px; margin: 0" class="prettyprint">{2}</pre></td><td><a href="javascript:;" class="text-danger store-delete"><i class="icon-trash"></i></a></td></tr>').format(String(index++), key, typeof value === 'object' ? JSON.stringify(value, null, 2) : (typeof value === 'string' ? ('"' + value + '"') : value)));
         });
         $storeTable.find('.store-delete').click(function() {
             $.zui.store.remove($(this).closest('tr').children('.store-name').text());
