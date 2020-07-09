@@ -120,12 +120,12 @@
     };
 
     ColorPicker.prototype.updateColors = function(colors) {
-        var $picker = this.$picker,
-            $menu = this.$menu.children('li:not(.heading)').remove(),
+        var $menu   = this.$menu,
             options = this.options,
-            colors = colors || this.colors,
-            that = this;
+            colors  = colors || this.colors,
+            that    = this;
         var bestLineCount = 0;
+        $menu.children('li:not(.heading)').remove();
         $.each(colors, function(idx, color) {
             that.addColor(color);
             bestLineCount++;
@@ -139,11 +139,11 @@
     };
 
     ColorPicker.prototype.setValue = function(color, notSetInput) {
-        var that = this;
+        var that    = this;
         var options = that.options;
-        var $btn = that.$btn;
+        var $btn    = that.$btn;
+        var hex     = '';
         that.$menu.find('.cp-tile.active').removeClass('active');
-        var hex = '';
         var updateBtn = options.updateBtn;
         if (updateBtn === 'auto') {
             var $btnBar = $btn.find('.color-bar');

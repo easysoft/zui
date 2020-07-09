@@ -70,6 +70,8 @@ ZUI official website is https://www.openzui.com/ and English version is availabl
 * Load indicator
   * Optimized the style used with icons.
   * Optimized the style of the overlay and reduced the opacity.
+* Color picker
+  * Fixed dropdown menu width.
 * Uploader
   * Optimized the fault tolerance of JSON content called back by a remote server. It is deemed as uploaded, if no specified `status` or `result` in JSON.
   * Fixed the IE browser compatibility.
