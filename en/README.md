@@ -80,6 +80,6 @@ If you installed [Node.js](https://nodejs.org/), you can easily start the websit
 ## Project developed in ZUI
 
 - [ZenTao ALM](https://www.zentao.pm)
-- [Zsite CMS](https://www.zsite.net)
-- [Zdoo](https://www.zdoo.org)
+- [ZSITE CMS](https://www.zsite.net)
+- [ZDOO](https://www.zdoo.org)
 - [Xuanxuan](https://xuanim.com)

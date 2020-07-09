@@ -80,6 +80,6 @@ bower install zui
 ## 使用 ZUI 开发的项目
 
 - [禅道](https://zentao.net)
-- [ZSite](https://zsite.org)
+- [ZSITE](https://zsite.org)
 - [ZDOO](https://zdoo.com)
 - [喧喧](https://xuanim.com)
