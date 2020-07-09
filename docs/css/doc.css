@@ -2902,7 +2902,7 @@ body.ad-hover.ad-xuanxuan #download .btn-white {
   padding: 5px 0;
   margin: 0;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: normal;
   line-height: 15px;
   -webkit-transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
        -o-transition: padding .1s cubic-bezier(.175, .885, .32, 1), color .1s cubic-bezier(.175, .885, .32, 1);
@@ -2929,6 +2929,10 @@ body.ad-hover.ad-xuanxuan #download .btn-white {
 #grid .card-heading.hover > .icon {
   color: #fff;
   background-color: #808080;
+  }
+#grid .card.choosed .card-heading > h5,
+#grid .card.open .card-heading > h5 {
+  font-weight: bold;
   }
 #grid .card-content {
   height: 0;
