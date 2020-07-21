@@ -121,6 +121,7 @@ KindEditor.lang({
 	'flash.upload' : '上傳',
 	'flash.viewServer' : '瀏覽',
 	'media.url' : 'URL',
+	'media.urlTip': '多個 URL 使用英文逗號分隔',
 	'media.width' : '寬度',
 	'media.height' : '高度',
 	'media.autostart' : '自動播放',

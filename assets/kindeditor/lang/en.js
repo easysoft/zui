@@ -120,6 +120,7 @@ KindEditor.lang({
 	'flash.upload' : 'Upload',
 	'flash.viewServer' : 'Browse',
 	'media.url' : 'URL',
+	'media.urlTip': 'Multiple URLs are separated by commas',
 	'media.width' : 'Width',
 	'media.height' : 'Height',
 	'media.autostart' : 'Auto start',
