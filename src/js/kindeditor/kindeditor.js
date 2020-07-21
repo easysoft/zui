@@ -659,13 +659,14 @@
         return list;
     }
 
-    function _getAttrList(tag) {
+    function _getAttrList(tag, emptyValue) {
         var list = {},
             reg = /\s+(?:([\w\-:]+)|(?:([\w\-:]+)=([^\s"'<>]+))|(?:([\w\-:"]+)="([^"]*)")|(?:([\w\-:"]+)='([^']*)'))(?=(?:\s|\/|>)+)/g,
             match;
+        if (emptyValue === undefined) emptyValue = '';
         while((match = reg.exec(tag))) {
             var key = (match[1] || match[2] || match[4] || match[6]).toLowerCase(),
-                val = (match[2] ? match[3] : (match[4] ? match[5] : match[7])) || '';
+                val = (match[2] ? match[3] : (match[4] ? match[5] : match[7])) || emptyValue;
             list[key] = val;
         }
         return list;
@@ -880,11 +881,12 @@
                 prevTagIsBlockEnd = null;
             }
             if(attr !== '') {
-                var attrMap = _getAttrList(full);
+                var attrMap = _getAttrList(full, true);
                 if(tagName === 'font') {
                     var fontStyleMap = {},
                         fontStyle = '';
                     _each(attrMap, function(key, val) {
+                        if(val === true) val = '';
                         if(key === 'color') {
                             fontStyleMap.color = val;
                             delete attrMap[key];
@@ -916,6 +918,7 @@
                     attrMap.style = fontStyle;
                 }
                 _each(attrMap, function(key, val) {
+                    if(val === true) val = '';
                     if(_FILL_ATTR_MAP[key]) {
                         attrMap[key] = key;
                     }
@@ -943,7 +946,11 @@
                 });
                 attr = '';
                 _each(attrMap, function(key, val) {
-                    if(key === 'style' && val === '') {
+                    if(val === false || (key === 'style' && val === '')) {
+                        return;
+                    }
+                    if (val === true) {
+                        attr += ' ' + key;
                         return;
                     }
                     val = val.replace(/"/g, '&quot;');
@@ -1024,7 +1031,10 @@
                 '<', mediaType, ' '
             ];
             _each(attrs, function(key, val) {
-                if (/^(controls|autoplay|loop|muted)$/i.test(key)) {
+                if (val === false) {
+                    return;
+                }
+                if (val === true || /^(controls|autoplay|loop|muted)$/i.test(key)) {
                     if (val !== 'false') {
                         htmls.push(key + ' ');
                     }

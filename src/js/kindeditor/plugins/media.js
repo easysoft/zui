@@ -84,8 +84,8 @@ KindEditor.plugin('media', function(K) {
                                 type: K.mediaType(url),
                                 width: width,
                                 height: height,
-                                autoplay: autostartBox[0].checked ? 'true' : 'false',
-                                controls: controlsBox[0].checked ? 'true' : 'false',
+                                autoplay: !!autostartBox[0].checked,
+                                controls: !!controlsBox[0].checked,
                             });
                             self.insertHtml(html).hideDialog().focus();
                         }
@@ -163,8 +163,8 @@ KindEditor.plugin('media', function(K) {
                 urlBox.val(attrs.src);
                 widthBox.val(K.removeUnit(img.css('width')) || attrs.width || 0);
                 heightBox.val(K.removeUnit(img.css('height')) || attrs.height || 0);
-                autostartBox[0].checked = (typeof attrs.autoplay === 'string' && attrs.autoplay !== 'false');
-                controlsBox[0].checked = (typeof attrs.controls === 'string' && attrs.controls !== 'false');
+                autostartBox[0].checked = (attrs.autoplay !== undefined && attrs.autoplay !== 'false');
+                controlsBox[0].checked = (attrs.controls !== undefined && attrs.controls !== 'false');
             }
             urlBox[0].focus();
             urlBox[0].select();
