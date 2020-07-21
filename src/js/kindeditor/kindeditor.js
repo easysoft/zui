@@ -87,12 +87,12 @@
 
     function _addUnit(val, unit) {
         unit = unit || 'px';
-        return val && /^\d+$/.test(val) ? val + unit : val;
+        return val && /^[\d\.]+$/.test(val) ? val + unit : val;
     }
 
     function _removeUnit(val) {
         var match;
-        return val && (match = /(\d+)/.exec(val)) ? parseInt(match[1], 10) : 0;
+        return val && (match = /([\d\.]+)/.exec(val)) ? parseInt(match[1], 10) : 0;
     }
 
     function _escape(val) {
@@ -3730,14 +3730,14 @@
             var self = this;
             updateProp = _undef(updateProp, true);
             if(x !== null) {
-                x = x < 0 ? 0 : _addUnit(x);
+                x = x < 0 ? 0 : _addUnit(Math.floor(x));
                 self.div.css('left', x);
                 if(updateProp) {
                     self.x = x;
                 }
             }
             if(y !== null) {
-                y = y < 0 ? 0 : _addUnit(y);
+                y = y < 0 ? 0 : _addUnit(Math.floor(y));
                 self.div.css('top', y);
                 if(updateProp) {
                     self.y = y;
