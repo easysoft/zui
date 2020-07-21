@@ -320,6 +320,9 @@
             ],
             a: ['id', 'class', 'href', 'target', 'name'],
             embed: ['id', 'class', 'src', 'width', 'height', 'type', 'loop', 'autostart', 'quality', '.width', '.height', 'align', 'allowscriptaccess'],
+            audio: ['id', 'class', 'width', 'src', 'height', 'loop', 'preload', 'autoplay', 'controls', 'crossorigin', 'currentTime', 'duration', 'muted'],
+            video: ['id', 'class', 'width', 'src', 'height', 'loop', 'preload', 'autoplay', 'controls', 'crossorigin', 'currentTime', 'duration', 'muted', 'buffered', 'playsinline', 'played', 'poster'],
+            source: ['src', 'type'],
             img: ['id', 'class', 'src', 'width', 'height', 'border', 'alt', 'title', 'align', '.width', '.height', '.border'],
             'p,ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6': [
                 'id', 'class', 'align', '.text-align', '.color', '.background-color', '.font-size', '.font-family', '.background',
@@ -975,21 +978,36 @@
     }
 
     function _mediaType(src) {
-        if(/\.(rm|rmvb)(\?|$)/i.test(src)) {
-            return 'audio/x-pn-realaudio-plugin';
+        if(/\.(mp4)(\?|$)/i.test(src)) {
+            return 'video/mp4';
         }
-        if(/\.(swf|flv)(\?|$)/i.test(src)) {
-            return 'application/x-shockwave-flash';
+        if(/\.(webm)(\?|$)/i.test(src)) {
+            return 'video/webm';
         }
-        return 'video/x-ms-asf-plugin';
+        if(/\.(ogg)(\?|$)/i.test(src)) {
+            return 'video/ogg';
+        }
+        if(/\.(mov)(\?|$)/i.test(src)) {
+            return 'video/quicktime';
+        }
+        if(/\.(mp3)(\?|$)/i.test(src)) {
+            return 'audio/mp3';
+        }
+        if(/\.(wav)(\?|$)/i.test(src)) {
+            return 'audio/wav';
+        }
+        if(/\.(flac)(\?|$)/i.test(src)) {
+            return 'audio/flac';
+        }
+        return 'video/application';
     }
 
     function _mediaClass(type) {
-        if(/realaudio/i.test(type)) {
-            return 'ke-rm';
+        if(/audio/i.test(type)) {
+            return 'ke-audio';
         }
-        if(/flash/i.test(type)) {
-            return 'ke-flash';
+        if(/video/i.test(type)) {
+            return 'ke-video';
         }
         return 'ke-media';
     }
@@ -998,20 +1016,38 @@
         return _getAttrList(unescape(srcTag));
     }
 
-    function _mediaEmbed(attrs) {
-        var html = '<embed ';
-        _each(attrs, function(key, val) {
-            html += key + '="' + val + '" ';
-        });
-        html += '/>';
-        return html;
+    function _mediaEmbed(attrs, mediaType) {
+        var htmls;
+        if(mediaType === 'media' || mediaType === 'video' || mediaType === 'audio') {
+            mediaType = mediaType === 'video' || (attrs.type && attrs.type.indexOf('video') === 0) ? 'video' : 'audio';
+            htmls = [
+                '<', mediaType, ' '
+            ];
+            _each(attrs, function(key, val) {
+                if (/^(controls|autoplay|loop|muted)$/i.test(key)) {
+                    if (val !== 'false') {
+                        htmls.push(key + ' ');
+                    }
+                } else {
+                    htmls.push(key, '="', val, '" ');
+                }
+            });
+            htmls.push('/>');
+        } else {
+            htmls = ['<embed '];
+            _each(attrs, function(key, val) {
+                htmls.push(key, '="', val, '" ');
+            });
+            htmls.push('/>');
+        }
+        return htmls.join('');
     }
 
     function _mediaImg(blankPath, attrs) {
         var width = attrs.width,
             height = attrs.height,
             type = attrs.type || _mediaType(attrs.src),
-            srcTag = _mediaEmbed(attrs),
+            srcTag = _mediaEmbed(attrs, type),
             style = '';
         if(/\D/.test(width)) {
             style += 'width:' + width + ';';
@@ -3834,30 +3870,17 @@
             'img {border:0;}',
             'noscript {display:none;}',
             'table.ke-zeroborder td {border:1px dotted #AAA;}',
-            'img.ke-flash {',
+            'img.ke-media, img.ke-audio, img.ke-video {',
             ' border:1px solid #AAA;',
-            ' background-image:url(' + themesPath + 'common/flash.gif);',
+            ' background-image:url(' + themesPath + 'common/media.png);',
             ' background-position:center center;',
             ' background-repeat:no-repeat;',
+            ' background-color:#f1f1f1;',
             ' width:100px;',
             ' height:100px;',
             '}',
-            'img.ke-rm {',
-            ' border:1px solid #AAA;',
-            ' background-image:url(' + themesPath + 'common/rm.gif);',
-            ' background-position:center center;',
-            ' background-repeat:no-repeat;',
-            ' width:100px;',
-            ' height:100px;',
-            '}',
-            'img.ke-media {',
-            ' border:1px solid #AAA;',
-            ' background-image:url(' + themesPath + 'common/media.gif);',
-            ' background-position:center center;',
-            ' background-repeat:no-repeat;',
-            ' width:100px;',
-            ' height:100px;',
-            '}',
+            'img.ke-audio {background-image:url(' + themesPath + 'common/audio.png); height: 54px!important}',
+            'img.ke-video {background-image:url(' + themesPath + 'common/video.png)}',
             'img.ke-anchor {',
             ' border:1px dashed #666;',
             ' width:16px;',
@@ -6088,7 +6111,7 @@
         };
         self.plugin.getSelectedMedia = function() {
             return _getImageFromRange(self.edit.cmd.range, function(img) {
-                return img[0].className == 'ke-media' || img[0].className == 'ke-rm';
+                return img[0].className == 'ke-media' || img[0].className == 'ke-video' || img[0].className == 'ke-audio';
             });
         };
         self.plugin.getSelectedAnchor = function() {
@@ -6246,7 +6269,7 @@
             return html.replace(/(<(?:noscript|noscript\s[^>]*)>)([\s\S]*?)(<\/noscript>)/ig, function($0, $1, $2, $3) {
                     return $1 + _unescape($2).replace(/\s+/g, ' ') + $3;
                 })
-                .replace(/<img[^>]*class="?ke-(flash|rm|media)"?[^>]*>/ig, function(full) {
+                .replace(/<img[^>]*class="?ke-(media|video|audio)"?[^>]*>/ig, function(full, $1) {
                     var imgAttrs = _getAttrList(full);
                     var styles = _getCssList(imgAttrs.style || '');
                     var attrs = _mediaAttrs(imgAttrs['data-ke-tag']);
@@ -6260,7 +6283,7 @@
                     }
                     attrs.width = _undef(imgAttrs.width, width);
                     attrs.height = _undef(imgAttrs.height, height);
-                    return _mediaEmbed(attrs);
+                    return _mediaEmbed(attrs, $1);
                 })
                 .replace(/<img[^>]*class="?ke-anchor"?[^>]*>/ig, function(full) {
                     var imgAttrs = _getAttrList(full);
@@ -6299,6 +6322,14 @@
                     attrs.src = _undef(attrs.src, '');
                     attrs.width = _undef(attrs.width, 0);
                     attrs.height = _undef(attrs.height, 0);
+                    return _mediaImg(self.themesPath + 'common/blank.gif', attrs);
+                })
+                .replace(/<(video|audio)[^>]*>(?:<\/(video|audio)>)?/ig, function(full, $1) {
+                    var attrs = _getAttrList(full);
+                    attrs.src = _undef(attrs.src, '');
+                    attrs.width = _undef(attrs.width, 0);
+                    attrs.height = _undef(attrs.height, 0);
+                    attrs.type = $1;
                     return _mediaImg(self.themesPath + 'common/blank.gif', attrs);
                 })
                 .replace(/<a[^>]*name="([^"]+)"[^>]*>(?:<\/a>)?/ig, function(full) {

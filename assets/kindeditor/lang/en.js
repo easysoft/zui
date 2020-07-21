@@ -125,6 +125,7 @@ KindEditor.lang({
 	'media.autostart' : 'Auto start',
 	'media.upload' : 'Upload',
 	'media.viewServer' : 'Browse',
+	'media.controls': 'Play controls',
 	'image.remoteImage' : 'Insert URL',
 	'image.localImage' : 'Upload',
 	'image.remoteUrl' : 'URL',

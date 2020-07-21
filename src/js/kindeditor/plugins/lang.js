@@ -127,6 +127,7 @@ KindEditor.lang({
     'media.autostart': '自动播放',
     'media.upload': '上传',
     'media.viewServer': '文件空间',
+    'media.controls': '播放控件',
     'image.remoteImage': '网络图片',
     'image.localImage': '本地上传',
     'image.remoteUrl': '图片地址',

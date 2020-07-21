@@ -126,6 +126,7 @@ KindEditor.lang({
 	'media.autostart' : '自動播放',
 	'media.upload' : '上傳',
 	'media.viewServer' : '瀏覽',
+	'media.controls': '播放控件',
 	'image.remoteImage' : '網絡影像',
 	'image.localImage' : '上傳影像',
 	'image.remoteUrl' : '影像URL',
