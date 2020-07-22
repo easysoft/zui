@@ -13,6 +13,8 @@ KindEditor.plugin('baidumap', function(K) {
     var self = this,
         name = 'baidumap',
         lang = self.lang(name + '.');
+    console.log('self', self);
+    var ak = self.options.baidumapAk || 'plddmxBud2dRsVAXHS7WLqqzQQTocDkO';
     var mapWidth = K.undef(self.mapWidth, 558);
     var mapHeight = K.undef(self.mapHeight, 360);
     self.clickToolbar(name, function() {
@@ -26,8 +28,8 @@ KindEditor.plugin('baidumap', function(K) {
             '</span>',
             '</div>',
             // right start
-            '<div class="ke-right">',
-            '<input type="checkbox" id="keInsertDynamicMap" name="insertDynamicMap" value="1" /> <label for="keInsertDynamicMap">' + lang.insertDynamicMap + '</label>',
+            '<div class="ke-right" style="margin-top: 2px">',
+            '<input type="checkbox" id="keInsertDynamicMap" name="insertDynamicMap" value="1" style="margin-top: 2px" /> <label for="keInsertDynamicMap">' + lang.insertDynamicMap + '</label>',
             '</div>',
             '<div class="ke-clearfix"></div>',
             '</div>',
@@ -46,8 +48,8 @@ KindEditor.plugin('baidumap', function(K) {
                     var centerObj = map.getCenter();
                     var center = centerObj.lng + ',' + centerObj.lat;
                     var zoom = map.getZoom();
-                    var url = [checkbox[0].checked ? self.pluginsPath + 'baidumap/index.html' : 'http://api.map.baidu.com/staticimage',
-                        '?center=' + encodeURIComponent(center),
+                    var url = [checkbox[0].checked ? self.pluginsPath + 'baidumap/index.html?ak=' + ak : 'http://api.map.baidu.com/staticimage/v2?ak=' + ak,
+                        '&center=' + encodeURIComponent(center),
                         '&zoom=' + encodeURIComponent(zoom),
                         '&width=' + mapWidth,
                         '&height=' + mapHeight,
@@ -75,7 +77,7 @@ KindEditor.plugin('baidumap', function(K) {
             searchBtn = K('[name="searchBtn"]', div),
             checkbox = K('[name="insertDynamicMap"]', dialog.div),
             win, doc;
-        var iframe = K('<iframe class="ke-textarea" frameborder="0" src="' + self.pluginsPath + 'baidumap/map.html" style="width:' + mapWidth + 'px;height:' + mapHeight + 'px;"></iframe>');
+        var iframe = K('<iframe class="ke-textarea" frameborder="0" src="' + self.pluginsPath + 'baidumap/map.html?ak=' + ak + '" style="width:' + mapWidth + 'px;height:' + mapHeight + 'px;"></iframe>');
 
         function ready() {
             win = iframe[0].contentWindow;
