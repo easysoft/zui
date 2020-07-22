@@ -656,6 +656,7 @@ KindEditor.plugin('table', function (K) {
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             colinsertleft: function () {
                 this.colinsert(0);
@@ -666,26 +667,27 @@ KindEditor.plugin('table', function (K) {
             rowinsert: function (offset) {
                 var table = self.plugin.getSelectedTable()[0],
                     row = self.plugin.getSelectedRow()[0],
-                    cell = self.plugin.getSelectedCell()[0];
+                    cell = self.plugin.getSelectedCell()[0],
+                    firstRow = table.rows[0];
                 var rowIndex = row.rowIndex;
                 if (offset === 1) {
                     rowIndex = row.rowIndex + (cell.rowSpan - 1) + offset;
                 }
                 var newRow = table.insertRow(rowIndex);
                 var isThead = newRow.parentNode.tagName === 'THEAD';
-
-                for (var i = 0, len = row.cells.length; i < len; i++) {
+                // debugger;
+                for (var i = 0, len = firstRow.cells.length; i < len; i++) {
                     // 调整cell个数
-                    if (row.cells[i].rowSpan > 1) {
-                        len -= row.cells[i].rowSpan - 1;
+                    var currentCell = firstRow.cells[i];
+                    if (currentCell && currentCell.rowSpan > 1) {
+                        len += currentCell.rowSpan - 1;
                     }
                     var newCell = newRow.insertCell(i);
                     // copy colspan
-                    if (offset === 1 && row.cells[i].colSpan > 1) {
-                        newCell.colSpan = row.cells[i].colSpan;
-                    }
+                    // if (offset === 1 && currentCell.colSpan > 1) {
+                    //     newCell.colSpan = currentCell.colSpan;
+                    // }
                     newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
-
                 }
                 // 调整rowspan
                 for (var j = rowIndex; j >= 0; j--) {
@@ -702,6 +704,7 @@ KindEditor.plugin('table', function (K) {
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             rowinsertabove: function () {
                 this.rowinsert(0);
@@ -734,6 +737,7 @@ KindEditor.plugin('table', function (K) {
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             colmerge: function () {
                 var table = self.plugin.getSelectedTable()[0],
@@ -756,6 +760,7 @@ KindEditor.plugin('table', function (K) {
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             mergeCells: function () {
                 var tableSelectionRange = self.tableSelectionRange;
@@ -787,6 +792,7 @@ KindEditor.plugin('table', function (K) {
                     self.cmd.range.selectNodeContents($firstCell[0]).collapse(true);
                     // self.cmd.select();
                     self.addBookmark();
+                    self.focus();
                 }
             },
             rowsplit: function () {
@@ -815,6 +821,7 @@ KindEditor.plugin('table', function (K) {
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             colsplit: function () {
                 var table = self.plugin.getSelectedTable()[0],
@@ -836,6 +843,7 @@ KindEditor.plugin('table', function (K) {
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             coldelete: function () {
                 var table = self.plugin.getSelectedTable()[0];
@@ -849,6 +857,7 @@ KindEditor.plugin('table', function (K) {
                     for (var i = 0, len = table.rows.length; i < len; i++) {
                         var newRow = table.rows[i],
                             newCell = newRow.cells[index];
+                        if (!newCell) continue;
                         if (newCell.colSpan > 1) {
                             newCell.colSpan -= 1;
                             if (newCell.colSpan === 1) {
@@ -873,6 +882,7 @@ KindEditor.plugin('table', function (K) {
                     self.cmd.selection(true);
                 }
                 self.addBookmark();
+                self.focus();
             },
             rowdelete: function () {
                 var table = self.plugin.getSelectedTable()[0];
@@ -895,6 +905,7 @@ KindEditor.plugin('table', function (K) {
                     self.cmd.selection(true);
                 }
                 self.addBookmark();
+                self.focus();
             }
         };
 
