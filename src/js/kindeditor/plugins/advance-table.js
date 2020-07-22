@@ -649,6 +649,7 @@ KindEditor.plugin('table', function (K) {
                         newCell = newRow.insertCell(index),
                         isThead = newRow.parentNode.tagName === 'THEAD';
                     newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell = newRow.cells[index];
                     // 调整下一行的单元格index
                     index = _getCellIndex(table, newRow, newCell);
                 }
