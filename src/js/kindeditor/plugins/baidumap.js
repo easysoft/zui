@@ -13,7 +13,6 @@ KindEditor.plugin('baidumap', function(K) {
     var self = this,
         name = 'baidumap',
         lang = self.lang(name + '.');
-    console.log('self', self);
     var ak = self.options.baidumapAk || 'plddmxBud2dRsVAXHS7WLqqzQQTocDkO';
     var mapWidth = K.undef(self.mapWidth, 558);
     var mapHeight = K.undef(self.mapHeight, 360);
