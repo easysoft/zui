@@ -654,7 +654,7 @@ KindEditor.plugin('table', function (K) {
                     index = _getCellIndex(table, newRow, newCell);
                 }
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
             },
             colinsertleft: function () {
@@ -700,7 +700,7 @@ KindEditor.plugin('table', function (K) {
                     }
                 }
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
             },
             rowinsertabove: function () {
@@ -732,7 +732,7 @@ KindEditor.plugin('table', function (K) {
                 cell.rowSpan += nextCell.rowSpan;
                 nextRow.deleteCell(cellIndex);
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
             },
             colmerge: function () {
@@ -754,7 +754,7 @@ KindEditor.plugin('table', function (K) {
                 cell.colSpan += nextCell.colSpan;
                 row.deleteCell(nextCellIndex);
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
             },
             mergeCells: function () {
@@ -785,7 +785,7 @@ KindEditor.plugin('table', function (K) {
                     });
                     $table.find('.ke-cell-removed').remove();
                     self.cmd.range.selectNodeContents($firstCell[0]).collapse(true);
-                    self.cmd.select();
+                    // self.cmd.select();
                     self.addBookmark();
                 }
             },
@@ -813,7 +813,7 @@ KindEditor.plugin('table', function (K) {
                 }
                 K(cell).removeAttr('rowSpan');
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
             },
             colsplit: function () {
@@ -834,7 +834,7 @@ KindEditor.plugin('table', function (K) {
                 }
                 K(cell).removeAttr('colSpan');
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
             },
             coldelete: function () {
@@ -864,7 +864,7 @@ KindEditor.plugin('table', function (K) {
                     }
                     if (row.cells.length === 0) {
                         self.cmd.range.setStartBefore(table).collapse(true);
-                        self.cmd.select();
+                        // self.cmd.select();
                         K(table).remove();
                         break;
                     }
@@ -889,7 +889,7 @@ KindEditor.plugin('table', function (K) {
                 }
                 if (table.rows.length === 0) {
                     self.cmd.range.setStartBefore(table).collapse(true);
-                    self.cmd.select();
+                    // self.cmd.select();
                     K(table).remove();
                 } else {
                     self.cmd.selection(true);
