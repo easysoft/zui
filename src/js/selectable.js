@@ -114,7 +114,7 @@
         var that = this;
         var $children = that.$children = that.$.find(that.options.selector);
         that.selections = {};
-        that.$children.each(function() {
+        $children.each(function() {
             var $item = $(this);
             that.selections[$item.data('id')] = $item.hasClass(that.options.selectClass);
         });
