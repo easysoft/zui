@@ -1042,6 +1042,8 @@
                 '<', mediaType, ' '
             ];
             var srcs = (attrs.src || '').split(',');
+            var autoPlayEnabled;
+            var mutedSetted;
             _each(attrs, function(key, val) {
                 if (key === 'src' || val === false) {
                     return;
@@ -1049,11 +1051,16 @@
                 if (val === true || /^(controls|autoplay|loop|muted)$/i.test(key)) {
                     if (val !== 'false') {
                         htmls.push(key + ' ');
+                        if (key === 'autoplay') autoPlayEnabled = true;
+                        else if (key === 'muted') mutedSetted = true;
                     }
                 } else {
                     htmls.push(key, '="', val, '" ');
                 }
             });
+            if (autoPlayEnabled && !mutedSetted) {
+                htmls.push('muted ');
+            }
             if (srcs.length > 1) {
                 htmls.push('>');
                 _each(srcs, function(_, val) {
@@ -1063,7 +1070,7 @@
                 htmls.push('</', mediaType, '>');
             } else {
                 if(srcs.length) htmls.push('src="', srcs[0], '" ');
-                htmls.push('/>');
+                htmls.push('></', mediaType, '>');
             }
         } else {
             htmls = ['<embed '];
