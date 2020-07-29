@@ -370,7 +370,7 @@
     Modal.prototype.setScrollbar = function() {
         if($.zui.fixBodyScrollbar()) {
             if (this.options.onSetScrollbar) {
-                this.options.onSetScrollbar(paddingRight);
+                this.options.onSetScrollbar();
             }
         }
     }
