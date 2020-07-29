@@ -41,7 +41,7 @@ KindEditor.plugin('media', function(K) {
                 '<input type="text" id="keHeight" class="ke-input-text ke-input-number" name="height" value="400" maxlength="4" />',
                 '</div>',
                 //controls
-                '<div class="ke-dialog-row">',
+                '<div class="ke-dialog-row hidden">',
                 '<label for="keControls">' + lang.controls + '</label>',
                 '<input type="checkbox" id="keControls" checked name="controls" value="true" /> ',
                 '</div>',
@@ -55,7 +55,7 @@ KindEditor.plugin('media', function(K) {
             var dialog = self.createDialog({
                     name: name,
                     width: 450,
-                    height: 270,
+                    height: 240,
                     title: self.lang(name),
                     body: html,
                     yesBtn: {
@@ -96,8 +96,8 @@ KindEditor.plugin('media', function(K) {
                 viewServerBtn = K('[name="viewServer"]', div),
                 widthBox = K('[name="width"]', div),
                 heightBox = K('[name="height"]', div),
+                controlsBox = K('[name="controls"]', div),
                 autostartBox = K('[name="autostart"]', div);
-                controlsBox = K('[name="controls"]', div);
             urlBox.val('http://');
 
             if(allowMediaUpload) {
