@@ -200,8 +200,8 @@
         if(that.options.moveable) that.setMoveable();
 
         if (that.options.backdrop !== false) {
-            that.$body.addClass('modal-open')
             that.setScrollbar();
+            that.$body.addClass('modal-open')
         }
 
         that.escape()
