@@ -101,12 +101,14 @@
             var footerHeight = options.footerHeight;
             var $header = $dialog.find('.modal-header');
             var $footer = $dialog.find('.modal-footer');
-            if (typeof headerHeight !== 'number' && $header.length) {
-                headerHeight = $header.outerHeight();
-            } else if ($.isFunction(headerHeight)) {
-                headerHeight = headerHeight($header);
-            } else {
-                headerHeight = 0;
+            if (typeof headerHeight !== 'number') {
+                if ($header.length) {
+                    headerHeight = $header.outerHeight();
+                } else if ($.isFunction(headerHeight)) {
+                    headerHeight = headerHeight($header);
+                } else {
+                    headerHeight = 0;
+                }
             }
             if (typeof footerHeight !== 'number' && $footer.length) {
                 footerHeight = $footer.outerHeight();
