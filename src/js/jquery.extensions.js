@@ -47,6 +47,7 @@
 
         strCode: function(str) {
             var code = 0;
+            if (typeof str !== 'string') str = String(str);
             if(str && str.length) {
                 for(var i = 0; i < str.length; ++i) {
                     code += i * str.charCodeAt(i);
