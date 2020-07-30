@@ -110,12 +110,14 @@
                     headerHeight = 0;
                 }
             }
-            if (typeof footerHeight !== 'number' && $footer.length) {
-                footerHeight = $footer.outerHeight();
-            } else if ($.isFunction(footerHeight)) {
-                footerHeight = footerHeight($footer);
-            } else {
-                footerHeight = 0;
+            if (typeof footerHeight !== 'number') {
+                if ($footer.length) {
+                    footerHeight = $footer.outerHeight();
+                } else if ($.isFunction(footerHeight)) {
+                    footerHeight = footerHeight($footer);
+                } else {
+                    footerHeight = 0;
+                }
             }
             bodyCss.maxHeight = winHeight - headerHeight - footerHeight;
             bodyCss.overflow = $body[0].scrollHeight > bodyCss.maxHeight ? 'auto' : 'visible';
