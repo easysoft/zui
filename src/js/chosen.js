@@ -220,6 +220,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             _this.max_selected_options = _options.max_selected_options || Infinity;
             _this.drop_direction = _options.drop_direction || 'auto';
             _this.drop_item_height = _options.drop_item_height !== undefined ? _options.drop_item_height : 25;
+            _this.max_drop_height = _options.max_drop_height !== undefined ? _options.max_drop_height : 240;
             _this.middle_highlight = _options.middle_highlight;
             _this.compact_search = _options.compact_search || false;
             _this.inherit_select_classes = _options.inherit_select_classes || false;
@@ -1012,8 +1013,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 if (!that.drop_directionFixed) {
                     var $drop = that.container.find('.chosen-drop');
                     var dropHeight = $drop.outerHeight();
-                    if (that.drop_item_height && dropHeight < that.drop_item_height * 3) {
-                        dropHeight = dropHeight + $drop.find('.chosen-results>.active-result').length * that.drop_item_height;
+                    if (that.drop_item_height && dropHeight < that.max_drop_height) {
+                        dropHeight = Math.min(that.max_drop_height, $drop.find('.chosen-results>.active-result').length * that.drop_item_height);
                     }
                     var offset = that.container.offset();
                     if(offset.top + dropHeight + 30 > $(window).height() + $(window).scrollTop()) {
