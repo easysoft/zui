@@ -343,21 +343,21 @@
       }
       .search-choice-close {
         position: absolute;
-        top: 0;
+        top: 1px;
         right: 0px;
         text-align: center;
         display: block;
         width: 20px;
-        height: 20px;
-        line-height: 14px;
+        height: 18px;
+        line-height: 18px;
         text-align: center;
-        font-size: (@font-size-base * 1.2);
-        font-weight: @close-font-weight;
         color: @close-color;
         text-shadow: @close-text-shadow;
         .opacity(.2);
         &:before {
-          content: '×';
+          content: @icon-remove;
+          .icon-zenicon();
+          text-shadow: @close-text-shadow;
         }
         &:hover,
         &:focus {
