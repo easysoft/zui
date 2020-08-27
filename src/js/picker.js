@@ -51,6 +51,7 @@
         maxAutoDropWidth: 450,
         multiValueSplitter: ',',
         searchDelay: 200,
+        autoClearDrop: 6e4, // 60 * 1000
         fixLabelFor: true,
         hotkey: true,
         // sortValuesByDnd: false,
@@ -92,8 +93,8 @@
     var Picker = function(element, options) {
         var that = this;
         that.name = NAME;
-        that.id = 'pk_' + $.zui.uuid();
         that.$ = $(element);
+        that.id = 'pk_' + (that.$.attr('id') || $.zui.uuid());
 
         // Options
         options = that.options = $.extend({}, Picker.DEFAULTS, this.$.data(), options);
@@ -341,6 +342,49 @@
         }, 0);
     };
 
+    Picker.prototype.destroy = function() {
+        var that = this;
+        var options = that.options;
+
+        that.hideDropList();
+
+        var $search = that.$search;
+        $search.off('focus blur input change');
+        if (options.hotkey) {
+            $search.off('keydown');
+        }
+        $search.remove();
+
+        var $selections = that.$selections;
+        $selections.off('click');
+        if (that.multi) {
+            $selections.off('mousedown mouseup');
+        }
+        $selections.remove();
+
+        var $formItem = that.$formItem;
+        if (that.selectOptionsBackup) {
+            $formItem.empty();
+            $.each(that.selectOptionsBackup, function(_, item) {
+                var attrs = {value: item[options.valueKey]};
+                var keys = item[options.keysKey];
+                if (keys !== undefined) {
+                    attrs['data-' + options.keysKey] = keys;
+                }
+                $formItem.append($('<optsr;ccion />').attr(attrs).text(item[options.textKey]));
+            });
+        }
+        $formItem.off('chosen:updated chosen:activate chosen:open chosen:close').val(that.value).show();
+
+        if(that.selfFormItem || !that.$.hasClass('picker')) {
+            that.$container.remove();
+        }
+
+        this.destroyDropList(0);
+
+        that.$.data(NAME, null);
+    };
+
     Picker.prototype.focus = function() {
         this.$search.focus();
     };
@@ -456,7 +500,7 @@
                             dataList.push(item);
                         });
                         data = dataList;
-                    }
+                    }1
                 }
                 if ($.isArray(data)) {
                     hasResult = data.length;
@@ -597,7 +641,7 @@
                 }
 
                 var optionID = that.getItemID(item, 'option');
-                var $option = $options.find('#' + optionID);
+                var $option = $(document.getElementById(optionID));
                 if (!$option.length) {
                     $option = $('<a class="picker-option" id="' + optionID + '" data-value="' + value + '"><span class="picker-option-text"></span><span class="picker-option-keys"></span></a>');
                 } else {
@@ -693,11 +737,8 @@
             } else {
                 activeValue = that.activeValue;
             }
-            var $activeOption = that.$activeOption;
-            if ($activeOption) {
-                $activeOption.removeClass('picker-option-active');
-            }
-            $activeOption = that.$optionsList.find('[data-value="' + activeValue + '"]');
+            that.$optionsList.find('.picker-option-active').removeClass('picker-option-active');
+            var $activeOption = that.$optionsList.find('[data-value="' + activeValue + '"]');
             if ($activeOption.length) {
                 $activeOption.addClass('picker-option-active');
                 if (!skipScroll) {
@@ -795,6 +836,8 @@
                 }
             }
             that.renderOptionsList(optionsList, false, callback);
+        } else {
+            that.layoutDropList(false, true);
         }
         if (!skipRemote) {
             that.getRemoteList(function(hasResult) {
@@ -809,11 +852,33 @@
         }
     };
 
+    Picker.prototype.destroyDropList = function(delay) {
+        var that = this;
+        if(that._clearTimer) {
+            clearTimeout(that._clearTimer);
+        }
+        if (that.$dropMenu) {
+            if(!delay) {
+                that.$optionsList.off('click mouseenter');
+                that.$optionsList = null;
+                that.$dropMenu.remove();
+                that.$dropMenu = null;
+                that.$message = null;
+            } else {
+                that._clearTimer = setTimeout(that.destroyDropList.bind(that, 0), delay);
+            }
+        }
+    };
+
     Picker.prototype.showDropList = function() {
         var that = this;
 
         if (that.triggerEvent('showingDrop', {picker: that}) === false) {
             return;
+        }
+
+        if(that._clearTimer) {
+            clearTimeout(that._clearTimer);
         }
 
         that.dropListShowed = true;
@@ -827,7 +892,7 @@
         }
 
         if (!that.$dropMenu) {
-            var $dropMenu = $('<div class="picker-drop-menu" id="pickerDropMenu-' + that.id + '"></div>');
+            var $dropMenu = $('<div class="picker-drop-menu" id="pickerDropMenu-' + that.id + '"></div>').attr('data-id', that.id);
             var $optionsList = $('<div class="picker-option-list"></div>').appendTo($dropMenu);
             $dropMenu.data(NAME, that)
                 .toggleClass('picker-multi', that.multi)
@@ -880,7 +945,12 @@
             $.zui.resetBodyScrollbar();
         }
 
-        that.triggerEvent('hiddenDrop', {picker: that}, '', 'chosen:hiding_dropdown')
+        that.triggerEvent('hiddenDrop', {picker: that}, '', 'chosen:hiding_dropdown');
+
+        var autoClearDrop = that.options.autoClearDrop;
+        if(autoClearDrop) {
+            that.destroyDropList(autoClearDrop);
+        }
     };
 
     Picker.prototype.updateFromSelect = function(reset) {
@@ -905,6 +975,7 @@
                 options.allowSingleDeselect = true;
             }
         });
+        that.selectOptionsBackup = list.slice();
         that.setList(list, reset);
     };
 
@@ -932,11 +1003,6 @@
                 item = temp;
             }
             var itemValue = item[options.valueKey];
-            // if (itemValue.indexOf('"') > -1) {
-            //     console.warn('Cannot use \'"\' as value of list item.');
-            //     itemValue = itemValue.replace(/"/g, '\'');
-            //     item[options.valueKey] = itemValue;
-            // }
             var oldItem = listMap[itemValue];
             if (oldItem) {
                 item.index = oldItem.$_index;
@@ -954,7 +1020,7 @@
     };
 
     Picker.prototype.getItemID = function(item, suffix) {
-        var id = this.id + '-item-' + item[this.options.valueKey];
+        var id = this.id + '-item-' + encodeURIComponent(item[this.options.valueKey]);
         if (suffix !== undefined) {
             return id + '-' + suffix;
         }
@@ -1008,6 +1074,7 @@
     Picker.prototype.setValue = function(value, silent, skipRenderSelections) {
         var that = this;
         var options = that.options;
+        var needTriggerChange;
 
         // Format value
         if (value === undefined) {
@@ -1029,13 +1096,7 @@
                 }
             }
             that.value = value;
-
-            if (options.onChange) {
-                options.onChange(value);
-            }
-            if (!silent) {
-                that.triggerEvent('change', {picker: that});
-            }
+            needTriggerChange = true;
         }
 
         if (that.multi) {
@@ -1062,6 +1123,17 @@
 
         }
         $formItem.val(value);
+        if (needTriggerChange) {
+            if (options.onChange) {
+                options.onChange(value);
+            }
+            if (!silent) {
+                that.triggerEvent('change', {value: value, picker: that});
+            }
+            if (that.$[0] !== $formItem[0]) {
+                $formItem.change();
+            }
+        }
 
         // Update selections
         if (!skipRenderSelections) {
@@ -1082,7 +1154,7 @@
                     hasValue = true;
                     var text = item[options.textKey];
                     var itemID = that.getItemID(item, 'selection');
-                    var $select = $selects.find('#' + itemID);
+                    var $select = $(document.getElementById(itemID));
                     if (!$select.length) {
                         $select = $('<div class="picker-selection" id="' + itemID + '"><span class="picker-selection-text"></span><span class="picker-selection-remove"></span></div>').data('value', val);
                     } else {
