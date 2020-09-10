@@ -50,7 +50,7 @@
         if (options.scrollInside) {
             $(window).on('resize.' + zuiname, function() {
                 if (that.isShown) {
-                    that.adjustPosition();
+                    that.adjustPosition(undefined, 100);
                 }
             });
         }
@@ -83,8 +83,14 @@
         return this.isShown ? this.hide() : this.show(_relatedTarget, position)
     }
 
-    Modal.prototype.adjustPosition = function(position) {
+    Modal.prototype.adjustPosition = function(position, delay) {
         var that = this;
+        clearTimeout(that.reposTask);
+        if (delay) {
+            that.reposTask = setTimeout(that.adjustPosition.bind(that, position, 0), delay);
+            return;
+        }
+
         var options = that.options;
         if(position === undefined) position = options.position;
         if(position === undefined || position === null) return;

@@ -176,6 +176,7 @@
 
                 if(options.type != 'iframe') {
                     $body = $dialog.off('resize.' + NAME).find('.modal-body').off('resize.' + NAME);
+                    if(options.scrollInside) $body = $body.children().off('resize.' + NAME);
                     ($body.length ? $body : $dialog).on('resize.' + NAME, resizeDialog);
                 }
 
