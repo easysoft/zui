@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仪表盘</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/css/zui.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/dashboard/zui.dashboard.min.css">
+</head>
+
+<body>
+  <div id="dashboard-container" class="example" style="overflow-x: hidden;">
+    <div id="dashboard" class="dashboard dashboard-draggable" data-height="300">
+      <section class="row">
+        <div class="col-md-4 col-sm-6">
+          <div class="panel" data-id="1" id="panel1" style="height: 300px;">
+            <div class="panel-heading">
+              <i class="icon icon-list"></i>
+              <span class="title">面板标题</span>
+            </div>
+            <div class="panel-body">
+              <p>面板内容。</p>
+            </div>
+          </div>
+          <div class="resize-handle resize-horizontal"><i class="icon icon-resize-h"></i></div>
+          <div class="resize-handle resize-vertical"><i class="icon icon-resize-v"></i></div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="panel" data-id="2" id="panel2" style="height: 300px;">
+            <div class="panel-heading">
+              <i class="icon icon-list"></i>
+              <span class="title">包含列表组</span>
+            </div>
+            <div class="panel-body no-padding">
+              <div class="list-group">
+                <a href="" class="list-group-item">列表组项目1</a>
+                <a href="" class="list-group-item">列表组项目2</a>
+                <a href="" class="list-group-item">列表组项目3</a>
+                <a href="" class="list-group-item">列表组项目4</a>
+              </div>
+            </div>
+          </div>
+          <div class="resize-handle resize-horizontal"><i class="icon icon-resize-h"></i></div>
+          <div class="resize-handle resize-vertical"><i class="icon icon-resize-v"></i></div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="panel" data-id="3" id="panel3" style="height: 300px;">
+            <div class="panel-heading">
+              <i class="icon icon-table"></i>
+              <span class="title">包含表格</span>
+            </div>
+            <div class="panel-body no-padding">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>积分</th>
+                    <th>排名</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1526</td>
+                    <td>小马虎</td>
+                    <td>1056</td>
+                    <td class="text-red"><i class="icon icon-double-angle-up"></i> 1 </td>
+                  </tr>
+                  <tr>
+                    <td>1001</td>
+                    <td>勇敢的小鸭</td>
+                    <td>999</td>
+                    <td class="text-red"><i class="icon icon-double-angle-up"></i> 12 </td>
+                  </tr>
+                  <tr>
+                    <td>1045</td>
+                    <td>鸡大爷</td>
+                    <td>998</td>
+                    <td class="text-green"><i class="icon icon-double-angle-up"></i> 23 </td>
+                  </tr>
+                  <tr>
+                    <td>1025</td>
+                    <td>猪无畏</td>
+                    <td>860</td>
+                    <td class="text-green"><i class="icon icon-double-angle-down"></i> 25 </td>
+                  </tr>
+                  <tr>
+                    <td>1102</td>
+                    <td>糊涂虫</td>
+                    <td>749</td>
+                    <td class="text-red"><i class="icon icon-double-angle-up"></i> 30 </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="resize-handle resize-horizontal"><i class="icon icon-resize-h"></i></div>
+          <div class="resize-handle resize-vertical"><i class="icon icon-resize-v"></i></div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel" data-id="4" id="panel4" style="height: 300px;">
+            <div class="panel-heading">
+              <i class="icon icon-bolt"></i>
+              <span class="title">包含操作按钮</span>
+              <div class="panel-actions">
+                <a href="###" data-toggle="tooltip" title="" data-original-title="编辑"><i class="icon-pencil"></i></a>
+                <button type="button" class="btn" data-toggle="tooltip" title="" data-original-title="收藏"><i
+                    class="icon-heart-empty"></i></button>
+                <div class="dropdown" data-toggle="tooltip" title="" data-original-title="更多操作">
+                  <button class="btn" data-toggle="dropdown" type="button"><i class="icon icon-ellipsis-v"></i></button>
+                  <ul class="dropdown-menu pull-right">
+                    <li><a href="###"><i class="icon icon-ok"></i> 确认</a></li>
+                    <li><a href="###"><i class="icon icon-thumbs-o-up"></i> 自定义操作</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <p>在面板头部（<code>.panel-heading</code>）包含链接和按钮来自定义操作。</p>
+            </div>
+          </div>
+          <div class="resize-handle resize-horizontal"><i class="icon icon-resize-h"></i></div>
+          <div class="resize-handle resize-vertical"><i class="icon icon-resize-v"></i></div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel" data-id="5" data-url="docs/partial/remote-panel.html" id="panel5" style="height: 300px;">
+            <div class="panel-heading">
+              <i class="icon icon-globe"></i>
+              <span class="title">加载远程内容</span>
+              <div class="panel-actions">
+                <button type="button" class="btn refresh-panel" data-toggle="tooltip" title=""
+                  data-original-title="重新从远程获取内容"><i class="icon-refresh"></i></button>
+              </div>
+            </div>
+            <div class="panel-body">
+              <p>这些内容是通过 Ajax 从远程加载的。</p>
+              <p>点击头部右侧刷新按钮 <i class="icon-refresh icon"></i> 可以重新从远程获取内容。</p>
+            </div>
+          </div>
+          <div class="resize-handle resize-horizontal"><i class="icon icon-resize-h"></i></div>
+          <div class="resize-handle resize-vertical"><i class="icon icon-resize-v"></i></div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <div class="panel" data-id="6" id="panel6" style="height: 300px;">
+            <div class="panel-heading">
+              <div class="title">可移除的面板</div>
+              <div class="panel-actions">
+                <button type="button" class="btn remove-panel" data-toggle="tooltip" title=""
+                  data-original-title="移除面板"><i class="icon-remove"></i></button>
+              </div>
+            </div>
+            <div class="panel-body">
+              <p>点击顶部右侧的 <i class="icon icon-remove"></i> 按钮来移除该面板。</p>
+            </div>
+          </div>
+          <div class="resize-handle resize-horizontal"><i class="icon icon-resize-h"></i></div>
+          <div class="resize-handle resize-vertical"><i class="icon icon-resize-v"></i></div>
+        </div>
+        <div class="col-md-8 col-sm-6">
+          <div class="panel panel-loading" data-id="7" id="panel7" style="height: 300px;">
+            <div class="panel-heading"><code>.panel-loading</code></div>
+            <div class="panel-body">
+              <p>为 <code>.panel</code> 添加 <code>.panel-loading</code> 类即可实现正在加载的外观。</p>
+            </div>
+          </div>
+          <div class="resize-handle resize-horizontal"><i class="icon icon-resize-h"></i></div>
+          <div class="resize-handle resize-vertical"><i class="icon icon-resize-v"></i></div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/jquery/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/js/zui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/dashboard/zui.dashboard.min.js"></script>
+</body>
+
+</html>

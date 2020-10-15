@@ -62,6 +62,10 @@ Other CDN:
  - [v 1.9.2 Production package](https://github.com/easysoft/zui/releases/download/v1.9.2/zui-1.9.2-dist.zip)
  - [v 1.9.2 Source code](https://github.com/easysoft/zui/archive/v1.9.2.zip)
 
+### Template
+
+The background management template is located under `template/`, please refer to `template/README.md` for details.
+
 ### Document
 
 Please visit the official website directly https://openzui.com/en/ for the documentation.

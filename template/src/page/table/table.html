@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表格</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/css/zui.min.css">
+</head>
+
+<body>
+  <div id="table-container">
+    <div class="panel-container col-lg-12 col-md-12 col-sm-12">
+      <div class="panel no-padding">
+        <div class="panel-heading">
+          基本类型
+        </div>
+        <div class="panel-body no-padding">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="col-md-2">名称</th>
+                <th>描述</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>表头 <code>&lt;thead&gt;</code></td>
+                <td>
+                  一般表格的第一行作为表头，用于描述表中每一列数据名称。为区别于表格其他行，表头具备不同的样式，例如字体加粗等。在垂直显示一组数据的表格中，表头也可能是垂直的第一列，而不是行。</td>
+              </tr>
+              <tr>
+                <td>内容 <code>&lt;tbody&gt;</code></td>
+                <td>
+                  一般内容会在单元格内靠左对齐，对于数字可能靠右对齐比较好。在一些表格中，内容可以按单元格选择或者按行选择，选中的部分会以不同的样式区分。为了使得行与行便于区分，通常也会使得行交替使用不同的背景色。图片或其他控件也可以应用单元格中。
+                </td>
+              </tr>
+              <tr>
+                <td>表尾 <code>&lt;tfoot&gt;</code></td>
+                <td>与表头作用相同，或者用来放置与表相关补充数据或操作。</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>名称</th>
+                <th>描述</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel-container col-lg-4 col-md-6 col-sm-12">
+      <div class="panel no-padding">
+        <div class="panel-heading">
+          响应鼠标悬停
+        </div>
+        <div class="panel-body no-padding">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sunshine</td>
+                <td>Sunday</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Sunday</td>
+                <td>Sunshine</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>catouse</td>
+                <td>azhi</td>
+                <td>zenUI</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>God</td>
+                <td>Lady Gaga</td>
+                <td>catouse</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel-container col-lg-4 col-md-6 col-sm-12">
+      <div class="panel no-padding">
+        <div class="panel-heading">
+          带所有边框的表格
+        </div>
+        <div class="panel-body no-padding">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sunshine</td>
+                <td>Sunday</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Sunday</td>
+                <td>Sunshine</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>catouse</td>
+                <td>azhi</td>
+                <td>zenUI</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>God</td>
+                <td>Lady Gaga</td>
+                <td>catouse</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel-container col-lg-4 col-md-6 col-sm-12">
+      <div class="panel no-padding">
+        <div class="panel-heading">
+          不带边框的表格
+        </div>
+        <div class="panel-body no-padding">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Sunshine</td>
+                <td>Sunday</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Sunday</td>
+                <td>Sunshine</td>
+                <td>catouse</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>catouse</td>
+                <td>azhi</td>
+                <td>zenUI</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>God</td>
+                <td>Lady Gaga</td>
+                <td>catouse</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel-container col-lg-6 col-md-6 col-sm-12">
+      <div class="panel no-padding">
+        <div class="panel-heading">
+          更为紧凑的表格
+        </div>
+        <div class="panel-body no-padding">
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>catouse</td>
+                <td>hello</td>
+                <td>world</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>jay</td>
+                <td>thks</td>
+                <td>jajaja</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>JK row</td>
+                <td>thks</td>
+                <td>Pa</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="panel-container col-lg-6 col-md-6 col-sm-12">
+      <div class="panel no-padding">
+        <div class="panel-heading">
+          色彩主题
+        </div>
+        <div class="panel-body no-padding">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>描述</th>
+                <th>Payment Taken</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="success">
+                <td>1</td>
+                <td>表示成功或积极的行为。</td>
+                <td>01/04/2012</td>
+                <td>Approved</td>
+              </tr>
+              <tr class="danger">
+                <td>2</td>
+                <td>表示一个危险或存有潜在危险的行为。</td>
+                <td>02/04/2012</td>
+                <td>Declined</td>
+              </tr>
+              <tr class="warning">
+                <td>3</td>
+                <td>表示警告，可能需要注意。</td>
+                <td>03/04/2012</td>
+                <td>Pending</td>
+              </tr>
+              <tr class="active">
+                <td>4</td>
+                <td>标记为激活行。</td>
+                <td>04/04/2012</td>
+                <td>Call in to confirm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/jquery/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/js/zui.min.js"></script>
+</body>
+
+</html>

@@ -62,6 +62,10 @@ bower install zui
  - [v 1.9.2 生产包](https://github.com/easysoft/zui/releases/download/v1.9.2/zui-1.9.2-dist.zip)
  - [v 1.9.2 源码](https://github.com/easysoft/zui/archive/v1.9.2.zip)
 
+### 模板
+
+后台管理模板位于`template/`下，详情请查看`template/README.md`。
+
 ### 文档
 
 文档请直接访问官方网站 https://openzui.com/ 。

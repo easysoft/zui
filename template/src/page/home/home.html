@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表格</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/css/zui.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/board/zui.board.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/datatable/zui.datatable.min.css">
+</head>
+
+<body>
+  <div id="home-container">
+    <div class="col-lg-9 col-md-9">
+      <div class="col-lg-4 col-md-4" style="padding-left: 0;">
+        <div class="panel item">
+          <div class="title"><span>访问量</span><span class="label label-primary">年</span></div>
+          <div class="content">
+            <p>2,199,999</p>
+            <p><span>总计访问量</span><span>120万<i class="icon icon-group"></i></span></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="panel item">
+          <div class="title"><span>下载量</span><span class="label label-info">月</span></div>
+          <div class="content">
+            <p>19,999</p>
+            <p><span>新下载</span><span>2,734<i class="icon icon-download"></i></span></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4" style="padding-right: 0;">
+        <div class="panel item">
+          <div class="title"><span>活跃用户</span><span class="label label-warning">日</span></div>
+          <div class="content">
+            <p>8,999</p>
+            <p><span>最近一个月</span><span>15%<i class="icon icon-level-up"></i></span></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12 no-padding">
+        <div class="panel" style="padding-left: 10px; padding-right: 10px;">
+          <h4>销量</h4>
+          <canvas id="bar-chart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3">
+      <div class="panel">
+        <h4 style="padding-left: 10px;">任务状态</h4>
+        <div class="boards" id="myBoards">
+          <!-- .board 为单个容器 -->
+          <div class="col-lg-12 col-md-12">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <strong>未完成</strong>
+              </div>
+              <div class="panel-body">
+                <div class="board-list">
+                  <!-- 使用 .board-item 来标识可以操作的条目 -->
+                  <div class="board-item">测试</div>
+                  <div class="board-item">发布</div>
+                  <!-- 为 .board-item 添加 .disabled-dorp 类来禁止移动此条目 -->
+                  <div class="disable-drop board-item">不可拖拽</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12">
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <strong>进行中</strong>
+              </div>
+              <div class="panel-body">
+                <div class="board-list">
+                  <div class="board-item">设计界面</div>
+                  <div class="board-item">撰写文档</div>
+                  <div class="board-item">紧急的任务</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12 col-md-12">
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <strong>已完成</strong>
+              </div>
+              <div class="panel-body">
+                <div class="board-list">
+                  <div class="board-item">初步设计</div>
+                  <div class="board-item">数据库设计</div>
+                  <div class="board-item">需求整理</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-9">
+      <div class="panel">
+        <div class="list">
+          <header>
+            <h3><i class="icon-list-ul"></i> 最新动态 <small>更新 4 条</small></h3>
+          </header>
+          <div class="items items-hover">
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><span class="text-muted">2020-09-28 19:06</span> &nbsp; <a href="#"
+                    class="text-muted"><i class="icon-comments"></i> 243</a></div>
+                <h4><a href="###">禅道企业版4.0.2版本发布</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="text">
+                  大家好，禅道项目管理软件企业版 4.0.2 版本发布，主要兼容开源版12.4.2。禅道企业版在禅道专业版功能的基础上，增加了运维管理、
+                  OA办公管理、反馈管理和文档的版本管理、在线预览等功能，可以为企业项目管理流程提供更全面的支撑。具体企业版功能请点击查看 ：
+                  http://www.zentao.net/book/zentaobizhelp/293.html
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <h4><a href="###">禅道专业版 8.9.2 版本发布</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="text">
+                  大家好，禅道项目管理软件专业版 8.9.2 发布，主要兼容
+                  开源版12.4.2。禅道专业版是在禅道开源版的基础上增加增强功能的版本，推出的初衷是为IT企业或部门提供更完善的服务，其增强功能更加适合企业内部的流程化管理。
+                </div>
+              </div>
+              <div class="item-footer">
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a> &nbsp; <span
+                  class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <h4><a href="###">禅道 12.4.2 版本发布</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="text">
+                  大家好，禅道项目管理软件开源版 12.4.2 发布，主要修复漏洞和Bug。
+                </div>
+              </div>
+              <div class="item-footer">
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a> &nbsp; <span
+                  class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="item-heading">
+                <div class="pull-right"><a href="###"><i class="icon-pencil"></i> 编辑</a> &nbsp;<a href="#"><i
+                      class="icon-remove"></i> 删除</a></div>
+                <h4><a href="###">通用测试数据生成工具 ZenData 1.2 版本发布</a></h4>
+              </div>
+              <div class="item-content">
+                <div class="text">ZenData是由 禅道项目管理软件团队推出的一款通用的测试数据生成工具。主要为了解决开发和测试过程中测试数据的生成、维护、解析问题。</div>
+              </div>
+              <div class="item-footer">
+                <a href="#" class="text-muted"><i class="icon-comments"></i> 243</a> &nbsp; <span
+                  class="text-muted">2013-11-11 16:14:37</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-lg-3 col-md-3">
+      <div class="panel">
+        <h4 style="padding-left: 10px;">任务详情</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>任务ID</th>
+              <th>任务名称</th>
+              <th>所需时间</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1526</td>
+              <td>需求调研</td>
+              <td>三天</td>
+            </tr>
+            <tr>
+              <td>1001</td>
+              <td>需求分析</td>
+              <td>七天</td>
+            </tr>
+            <tr>
+              <td>1045</td>
+              <td>项目开发</td>
+              <td>一月</td>
+            </tr>
+            <tr>
+              <td>1025</td>
+              <td>修小bug</td>
+              <td>三天</td>
+            </tr>
+            <tr>
+              <td>1102</td>
+              <td>修小bug</td>
+              <td>未开始</td>
+            </tr>
+            <tr>
+              <td>1526</td>
+              <td>需求调研</td>
+              <td>三天</td>
+            </tr>
+            <tr>
+              <td>1001</td>
+              <td>需求分析</td>
+              <td>七天</td>
+            </tr>
+            <tr>
+              <td>1045</td>
+              <td>项目开发</td>
+              <td>一月</td>
+            </tr>
+            <tr>
+              <td>1025</td>
+              <td>修小bug</td>
+              <td>三天</td>
+            </tr>
+            <tr>
+              <td>1102</td>
+              <td>修小bug</td>
+              <td>未开始</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12">
+      <div class="panel">
+        <h4 style="padding-left: 10px;">日志</h4>
+        <table class="table datatable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>时间</th>
+              <th>用户</th>
+              <th>事件</th>
+              <th>事件类型</th>
+              <th>描述</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>101006</td>
+              <td>2020-01-01 12:17:06</td>
+              <td>管理员</td>
+              <td>登录系统</td>
+              <td>登录</td>
+              <td>管理员登录系统</td>
+              <td>
+                <a href="###"><i class="icon-ok-sign"></i></a>
+                <a href="###" class="text-danger"><i class="icon-trash"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>101007</td>
+              <td>2020-01-02 11:17:06</td>
+              <td>管理员</td>
+              <td>登录系统</td>
+              <td>登录</td>
+              <td>管理员登录系统</td>
+              <td>
+                <a href="###"><i class="icon-ok-sign"></i></a>
+                <a href="###" class="text-danger"><i class="icon-trash"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>101008</td>
+              <td>2020-01-03 08:37:08</td>
+              <td>管理员</td>
+              <td>登录系统</td>
+              <td>登录</td>
+              <td>管理员登录系统</td>
+              <td>
+                <a href="###"><i class="icon-ok-sign"></i></a>
+                <a href="###" class="text-danger"><i class="icon-trash"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>101009</td>
+              <td>2020-01-05 05:23:12</td>
+              <td>管理员</td>
+              <td>登录系统</td>
+              <td>登录</td>
+              <td>管理员登录系统</td>
+              <td>
+                <a href="###"><i class="icon-ok-sign"></i></a>
+                <a href="###" class="text-danger"><i class="icon-trash"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>101010</td>
+              <td>2020-01-06 20:31:24</td>
+              <td>管理员</td>
+              <td>登录系统</td>
+              <td>登录</td>
+              <td>管理员登录系统</td>
+              <td>
+                <a href="###"><i class="icon-ok-sign"></i></a>
+                <a href="###" class="text-danger"><i class="icon-trash"></i></a>
+              </td>
+            </tr>
+            <tr>
+              <td>101011</td>
+              <td>2020-01-07 14:22:32</td>
+              <td>管理员</td>
+              <td>登录系统</td>
+              <td>登录</td>
+              <td>管理员登录系统</td>
+              <td>
+                <a href="###"><i class="icon-ok-sign"></i></a>
+                <a href="###" class="text-danger"><i class="icon-trash"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+          <ul class="pager" style="margin: 10px 0;">
+            <li class="previous"><a href="#">« 上一页</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">⋯</a></li>
+            <li><a href="#">6</a></li>
+            <li class="active"><a href="#">7</a></li>
+            <li><a href="#">8</a></li>
+            <li><a href="#">9</a></li>
+            <li><a href="#">⋯</a></li>
+            <li><a href="#">12</a></li>
+            <li class="next"><a href="#">下一页 »</a></li>
+          </ul>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/jquery/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/js/zui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/board/zui.board.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/chart/zui.chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/datatable/zui.datatable.min.js"></script>
+</body>
+
+</html>

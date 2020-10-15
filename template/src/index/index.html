@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zui-template</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/css/zui.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/tabs/zui.tabs.css">
+</head>
+
+<body>
+  <header id="header">
+    <div class="brand-container">
+      <a class="navbar-brand" href="index.html">
+        <i class="icon icon-yinyang"></i>
+        <strong class="title">Z-Master</strong>
+      </a>
+    </div>
+    <div class="navbar-container">
+      <div href="#mainMenu" id="mainMenuToggle" class="has-avatar">
+        <i class="icon icon-bars"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-right" role="navigation">
+        <li class="has-avatar"><a href="#">
+            <div class="avatar"><i class="icon icon-search"></i></div>
+          </a></li>
+        <li class="has-avatar has-badge">
+          <a href="#">
+            <div class="avatar"><i class="icon icon-bell-alt"></i></div>
+          </a>
+        </li>
+        <li class="has-avatar dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <div class="avatar"><i class="icon icon-user"></i></div>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="your/nice/url">个人资料</a></li>
+            <li><a href="your/nice/url">设置</a></li>
+            <li class="divider"></li>
+            <li><a href="your/nice/url">退出</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <aside id="side">
+    <nav class="menu" data-ride="menu">
+      <ul id="treeMenu" class="tree tree-menu" data-ride="tree">
+        <li class="active" data-id="home">
+          <a href="#"><i class="icon icon-th"></i>首页</a>
+        </li>
+        <li data-id="article">
+          <a href="#"><i class="icon icon-file-text-o"></i>文章</a>
+        </li>
+        <li>
+          <a href="#"><i class="icon icon-area-chart"></i>图表</a>
+          <ul>
+            <li data-id="bar"><a href="#"><i class="icon icon-bar-chart"></i>条形图</a></li>
+            <li data-id="line"><a href="#"><i class="icon icon-line-chart"></i>曲线图</a></li>
+          </ul>
+        </li>
+        <li data-id="dashboard"><a href="#"><i class="icon icon-th-large"></i>仪表盘</a></li>
+        <li class="open">
+          <a href="#"><i class="icon icon-table"></i>表格</a>
+          <ul>
+            <li data-id="table"><a href="#">普通表格</a></li>
+            <li>
+              <a href="#">数据表格</a>
+              <ul>
+                <li data-id="datatable"><a href="#">数据表格①</a></li>
+                <li data-id="datagrid"><a href="#">数据表格②</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <div id="main">
+    <div class="tabs" id="tabs-container"></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/jquery/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/js/zui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/tabs/zui.tabs.js"></script>
+</body>
+
+</html>

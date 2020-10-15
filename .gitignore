@@ -9,5 +9,6 @@ ISSUES.md
 *custom.*
 *test.*
 dist/lib/kindeditor/plugins
-templates
 zui.templates.json
+template/node_modules/
+template/dist/
