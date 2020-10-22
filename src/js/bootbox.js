@@ -101,7 +101,7 @@
 
         // so, if the callback can be invoked and it *explicitly returns false*
         // then we'll set a flag to keep the dialog active...
-        var preserveDialog = $.isFunction(callback) && callback.call(dialog, e) === false;
+        var preserveDialog = typeof callback === 'function' && callback.call(dialog, e) === false;
 
         // ... otherwise we'll bin it
         if(!preserveDialog) {
@@ -150,7 +150,7 @@
 
         each(buttons, function(key, button, index) {
 
-            if($.isFunction(button)) {
+            if(typeof button === 'function') {
                 // short form, assume value is our callback. Since button
                 // isn't an object it isn't a reference either so re-assign it
                 button = buttons[key] = {
@@ -294,7 +294,7 @@
 
         options = mergeDialogOptions("alert", ["ok"], ["message", "callback"], arguments);
 
-        if(options.callback && !$.isFunction(options.callback)) {
+        if(options.callback && !typeof options.callback === 'function') {
             throw new Error("alert requires callback property to be a function when provided");
         }
 
@@ -302,7 +302,7 @@
          * overrides
          */
         options.buttons.ok.callback = options.onEscape = function() {
-            if($.isFunction(options.callback)) {
+            if(typeof options.callback === 'function') {
                 return options.callback.call(this);
             }
             return true;
@@ -331,7 +331,7 @@
         };
 
         // confirm specific validation
-        if(!$.isFunction(options.callback)) {
+        if(!typeof options.callback === 'function') {
             throw new Error("confirm requires a callback");
         }
 
@@ -424,7 +424,7 @@
             throw new Error("prompt requires a title");
         }
 
-        if(!$.isFunction(options.callback)) {
+        if(!typeof options.callback === 'function') {
             throw new Error("prompt requires a callback");
         }
 
@@ -450,7 +450,7 @@
                 var groups = {};
                 inputOptions = options.inputOptions || [];
 
-                if(!$.isArray(inputOptions)) {
+                if(!Array.isArray(inputOptions)) {
                     throw new Error("Please pass an array of input options");
                 }
 
@@ -490,7 +490,7 @@
                 break;
 
             case "checkbox":
-                var values = $.isArray(options.value) ? options.value : [options.value];
+                var values = Array.isArray(options.value) ? options.value : [options.value];
                 inputOptions = options.inputOptions || [];
 
                 if(!inputOptions.length) {

@@ -40,7 +40,7 @@
         $el[val](data[state] || this.options[state])
 
         // push to event loop to allow forms to submit
-        setTimeout($.proxy(function() {
+        setTimeout((function() {
             if(state == 'loadingText') {
                 this.isLoading = true
                 $el.addClass(d).attr(d, d)
@@ -48,7 +48,7 @@
                 this.isLoading = false
                 $el.removeClass(d).removeAttr(d)
             }
-        }, this), 0)
+        }).bind(this), 0)
     }
 
     Button.prototype.toggle = function() {

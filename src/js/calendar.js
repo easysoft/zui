@@ -162,7 +162,7 @@
     Calendar.prototype.sortEvents = function() {
         var that = this;
         var events = that.events;
-        if(!$.isArray(events)) {
+        if(!Array.isArray(events)) {
             events = [];
         }
 
@@ -364,7 +364,7 @@
     };
 
     Calendar.prototype.removeEvents = function(events) {
-        if(!$.isArray(events)) {
+        if(!Array.isArray(events)) {
             events = [events];
         }
         var id, event, idx, evts = this.events,

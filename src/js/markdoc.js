@@ -59,7 +59,7 @@
         options = options || that.options;;
         var content = options.content;
         if (content) {
-            callback($.isFunction(content) ? content(that) : content);
+            callback(typeof content === 'function' ? content(that) : content);
         } else if (options.remote) {
             var ajaxOptions = $.isPlainObject(options.remote) ? options.remote : {url: options.remote};
             that.remoteRequest = $.ajax($.extend({}, ajaxOptions, {
@@ -74,7 +74,7 @@
                 }
             }));
         } else if (options.source) {
-            var $source = $.isFunction(options.source) ? options.source(that) : $(options.source);
+            var $source = typeof options.source === 'function' ? options.source(that) : $(options.source);
             if ($source.is('textarea,input')) {
                 callback($source.val());
             } else {

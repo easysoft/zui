@@ -93,7 +93,7 @@
                 result = options.onAction.call(this, action.name, action, that);
                 if(result === false) return;
             }
-            if($.isFunction(action.action)) {
+            if(typeof action.action === 'function') {
                 result = action.action.call(this, that);
                 if(result === false) return;
             }
@@ -173,7 +173,7 @@
         var that = this,
             options = this.options;
 
-        if($.isFunction(message)) {
+        if(typeof message === 'function') {
             var oldCallback = callback;
             callback = message;
             if(oldCallback !== undefined) {

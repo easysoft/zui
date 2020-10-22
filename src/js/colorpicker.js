@@ -155,7 +155,7 @@
             var c = new $.zui.Color(color);
             hex = c.toCssStr().toLowerCase();
             if (updateBtn) {
-                if ($.isFunction(updateBtn)) {
+                if (typeof updateBtn === 'function') {
                     updateBtn(hex, $btn, that);
                 } else {
                     $btn.css({
@@ -176,7 +176,7 @@
             that.$.trigger('colorchange', c);
         } else {
             if (updateBtn) {
-                if ($.isFunction(updateBtn)) {
+                if (typeof updateBtn === 'function') {
                     updateBtn(null, $btn, that);
                 } else {
                     $btn.attr('style', null);

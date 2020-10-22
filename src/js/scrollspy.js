@@ -21,7 +21,7 @@
 
     function ScrollSpy(element, options) {
         var href
-        var process = $.proxy(this.process, this)
+        var process = this.process.bind(this)
 
         this.$element = $(element).is('body') ? $(window) : $(element)
         this.$body = $('body')

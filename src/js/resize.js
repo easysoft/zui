@@ -224,7 +224,7 @@
 
             // This may seem a little complicated, but it normalizes the special event
             // .add method between jQuery 1.4/1.4.1 and 1.4.2+
-            if($.isFunction(handleObj)) {
+            if(typeof handleObj === 'function') {
                 // 1.4, 1.4.1
                 old_handler = handleObj;
                 return new_handler;

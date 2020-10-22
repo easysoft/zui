@@ -483,7 +483,7 @@
             var hasResult = false;
             if (data) {
                 if ($.isPlainObject(data)) {
-                    if ((data.result === 'success' || data.result === 'ok') && $.isArray(data.data)) {
+                    if ((data.result === 'success' || data.result === 'ok') && Array.isArray(data.data)) {
                         data = data.data;
                     } else if (data.result === 'fail') {
                         that.updateMessage(data.message || JSON.stringify(data), 'danger');
@@ -502,7 +502,7 @@
                         data = dataList;
                     }1
                 }
-                if ($.isArray(data)) {
+                if (Array.isArray(data)) {
                     hasResult = data.length;
                     that.setList(data, options.remoteOnly);
                 }
@@ -995,7 +995,7 @@
                 temp[options.textKey] = item;
                 temp[options.valueKey] = String(i);
                 item = temp;
-            } else if ($.isArray(item)) {
+            } else if (Array.isArray(item)) {
                 var temp = {};
                 temp[options.textKey] = item[0];
                 temp[options.valueKey] = item[1];
@@ -1060,13 +1060,13 @@
 
     Picker.prototype.triggerEvent = function(name, params, callbackName, chosenEventName) {
         var that = this;
-        if(!$.isArray(params)) params = [params];
+        if(!Array.isArray(params)) params = [params];
         that.$.trigger(name, params);
         if (that.options.chosenMode && chosenEventName) {
             that.$.trigger(chosenEventName, params);
         }
         callbackName = callbackName === true ? name : (callbackName || ('on' + name[0].toUpperCase() + name.substr(1)));
-        if($.isFunction(that.options[callbackName])) {
+        if(typeof that.options[callbackName] === 'function') {
             return that.options[callbackName].apply(that, params);
         }
     };

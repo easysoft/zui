@@ -43,7 +43,7 @@
             selector       = setting.selector,
             handle         = setting.handle,
             $ele           = $root,
-            isMoveFunc     = $.isFunction(setting.move),
+            isMoveFunc     = typeof setting.move === 'function',
             startPos,
             cPos,
             startOffset,

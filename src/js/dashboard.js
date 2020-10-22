@@ -45,7 +45,7 @@
 
             if(tip === undefined || tip === false || confirm(tip.format(name))) {
                 panel.parent().remove();
-                if(afterPanelRemoved && $.isFunction(afterPanelRemoved)) {
+                if(afterPanelRemoved && typeof afterPanelRemoved === 'function') {
                     afterPanelRemoved(index);
                 }
             }
@@ -213,7 +213,7 @@
                 if(oldOrder != newOrders[panel.data('id') || panel.attr('id')]) {
                     row.data('orders', newOrders);
 
-                    if(afterOrdered && $.isFunction(afterOrdered)) {
+                    if(afterOrdered && typeof afterOrdered === 'function') {
                         afterOrdered(newOrders);
                     }
                 }
@@ -349,7 +349,7 @@
                     var newHeight = Math.max(minHeight, startHeight + (event.pageY - startY));
                     if(newHeight !== startHeight)
                     {
-                        if($.isFunction(onResize))
+                        if(typeof onResize === 'function')
                         {
                             var revert = function() {
                                 $panel.css('height', startHeight).data('height', startHeight);
@@ -363,7 +363,7 @@
                 } else {
                     var lastGrid = $col.attr('data-grid');
                     if(oldGrid != lastGrid) {
-                        if($.isFunction(onResize)) {
+                        if(typeof onResize === 'function') {
                             var revert = function() {
                                 $col.attr('data-grid', oldGrid).css('width', null);
                                 that.updatePanelHeight();
@@ -416,7 +416,7 @@
             } else {
                 $panel.html(data);
             }
-            if($.isFunction(afterRefresh)) {
+            if(typeof afterRefresh === 'function') {
                 afterRefresh.call(this, {
                     result: true,
                     data: data,
@@ -425,7 +425,7 @@
             }
         }).fail(function() {
             $panel.addClass('panel-error');
-            if($.isFunction(afterRefresh)) {
+            if(typeof afterRefresh === 'function') {
                 afterRefresh.call(this, {
                     result: false,
                     $panel: $panel
@@ -468,7 +468,7 @@
                 if(config.panelAttrs) $panel.attr(config.panelAttrs);
                 if(config.height !== undefined) $panel.data('height', config.height);
                 if(config.content !== undefined) {
-                    if($.isFunction(config.content)) {
+                    if(typeof config.content === 'function') {
                         var content = config.content($panel);
                         if(content !== true) {
                             $panel.html(content);

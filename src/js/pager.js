@@ -222,7 +222,7 @@
 
     Pager.prototype.createElement = function(element, $pager, pager) {
         var that = this;
-        var createLinkItem= $.proxy(that.createLinkItem, that);
+        var createLinkItem= that.createLinkItem.bind(that);
         var lang = that.lang;
         switch (element) {
             case 'prev':
@@ -279,7 +279,7 @@
         var linkCreator = this.options.linkCreator;
         if (typeof linkCreator === 'string') {
             return linkCreator.format($.extend({}, pager, {page: page}));
-        } else if ($.isFunction(linkCreator)) {
+        } else if (typeof linkCreator === 'function') {
             return linkCreator(page, pager);
         }
         return '#page=' + page;

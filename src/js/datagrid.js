@@ -268,7 +268,7 @@
         that.$cells = $cells;
 
         // configs is an object
-        that.isFuncConfigs = $.isFunction(options.configs);
+        that.isFuncConfigs = typeof options.configs === 'function';
         that.configs = that.isFuncConfigs ? options.configs : $.extend({}, DEFAULT_CONFIGS, options.configs);
 
         that.layout       = {scrollLeft: 0, scrollTop: 0};
@@ -466,7 +466,7 @@
         var that = this;
         var dataSource = {};
         var oldCols = that.dataSource && that.dataSource.cols;
-        if ($.isArray(data)) {
+        if (Array.isArray(data)) {
             dataSource.array = data;
             dataSource.length = data.length;
             that.setPager('', data.length);
@@ -482,12 +482,12 @@
             dataSource.cacheSize = dataSource.cache;
             dataSource.cache = [];
         }
-        if ($.isArray(dataSource.data)) {
+        if (Array.isArray(dataSource.data)) {
             dataSource.array = dataSource.data;
             dataSource.length = dataSource.array.length;
             that.setPager('', dataSource.length);
             delete dataSource.data;
-        } else if (!dataSource.data && $.isFunction(dataSource.getByIndex)) {
+        } else if (!dataSource.data && typeof dataSource.getByIndex === 'function') {
             that.setPager('', dataSource.length);
         }
         that.dataSource = dataSource;
@@ -597,7 +597,7 @@
             var remote = dataSource.remote;
             if (!loadData && remote) {
                 loadData = function(params, onFinish) {
-                    var ajaxOptions = $.isFunction(remote) ? remote(params, that) : {url: remote};
+                    var ajaxOptions = typeof remote === 'function' ? remote(params, that) : {url: remote};
                     $.ajax($.extend({
                         type: 'GET',
                         data: params,
@@ -1160,7 +1160,7 @@
             }
         }
         var configStyle = config.style;
-        if ($.isFunction(configStyle)) {
+        if (typeof configStyle === 'function') {
             configStyle = configStyle(cell, cellBoundsStyle, that);
         }
         var style = $.extend({}, configStyle, cellBoundsStyle);

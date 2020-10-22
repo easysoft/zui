@@ -42,8 +42,8 @@
             this.$items = null
 
         this.options.pause == 'hover' && this.$element
-            .on('mouseenter', $.proxy(this.pause, this))
-            .on('mouseleave', $.proxy(this.cycle, this))
+            .on('mouseenter', this.pause.bind(this))
+            .on('mouseleave', this.cycle.bind(this))
     }
 
     Carousel.DEFAULTS = {
@@ -100,7 +100,7 @@
 
         this.interval && clearInterval(this.interval)
 
-        this.options.interval && !this.paused && (this.interval = setInterval($.proxy(this.next, this), this.options.interval))
+        this.options.interval && !this.paused && (this.interval = setInterval(this.next.bind(this), this.options.interval))
 
         return this
     }

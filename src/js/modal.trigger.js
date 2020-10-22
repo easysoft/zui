@@ -74,7 +74,7 @@
 
                 if($doms && $doms.length) {
                     options.custom = $doms;
-                } else if($.isFunction(window[options.custom])) {
+                } else if(typeof window[options.custom] === 'function') {
                     options.custom = window[options.custom];
                 }
             }
@@ -93,7 +93,7 @@
 
         var bindEvent = function(optonName, eventName) {
             var handleFunc = options[optonName];
-            if($.isFunction(handleFunc)) $modal.on(eventName + ZUI_MODAL, handleFunc);
+            if(typeof handleFunc === 'function') $modal.on(eventName + ZUI_MODAL, handleFunc);
         };
         bindEvent('onShow', 'show');
         bindEvent('shown',  'shown');
@@ -185,7 +185,7 @@
         };
 
         if(options.type === 'custom' && custom) {
-            if($.isFunction(custom)) {
+            if(typeof custom === 'function') {
                 var customContent = custom({
                     modal: $modal,
                     options: options,
@@ -257,7 +257,7 @@
                                     var headerHeight = options.headerHeight;
                                     if (typeof headerHeight !== 'number') {
                                         headerHeight = $header.outerHeight();
-                                    } else if ($.isFunction(headerHeight)) {
+                                    } else if (typeof headerHeight === 'function') {
                                         headerHeight = headerHeight($header);
                                     }
                                     var winHeight = $(window).height();
@@ -354,7 +354,7 @@
         var that = this;
         if(callback || redirect) {
             that.$modal.on('hidden' + ZUI_MODAL, function() {
-                if($.isFunction(callback)) callback();
+                if(typeof callback === 'function') callback();
 
                 if(typeof redirect === STR_STRING && redirect.length && !that.$modal.data('cancel-reload')) {
                     if(redirect === 'this') window.location.reload();
@@ -372,7 +372,7 @@
 
     ModalTrigger.prototype.adjustPosition = function(position) {
         position = position === undefined ? this.options.position : position;
-        if ($.isFunction(position)) {
+        if (typeof position === 'function') {
             position = position(this);
         }
         this.$modal.modal('adjustPosition', position);
@@ -432,7 +432,7 @@
     // callback, redirect, modal
     var closeModal = function(modal, callback, redirect) {
         var originModal = modal;
-        if($.isFunction(modal)) {
+        if(typeof modal === 'function') {
             var oldModal = redirect;
             redirect = callback;
             callback = modal;

@@ -205,7 +205,7 @@
 
         if(id == nodeData.id) {
             return nodeData;
-        } else if($.isArray(nodeData.children) && nodeData.children.length > 0) {
+        } else if(Array.isArray(nodeData.children) && nodeData.children.length > 0) {
             for(var i in nodeData.children) {
                 var node = this.getNodeData(id, nodeData.children[i]);
                 if(node) return node;
@@ -283,7 +283,7 @@
         if($.isPlainObject(changes)) {
             changes = [changes];
         }
-        if($.isArray(changes)) {
+        if(Array.isArray(changes)) {
             for(var i in changes) {
                 var change = changes[i];
                 var node = change.data;
@@ -300,7 +300,7 @@
                         this.clearNodeStatus();
 
                         if(node.changed !== 'add') {
-                            if(!$.isArray(parent.deletions)) {
+                            if(!Array.isArray(parent.deletions)) {
                                 parent.deletions = [node];
                             } else {
                                 parent.deletions.push(node);
@@ -314,7 +314,7 @@
                         changed = true;
                     }
                 } else if(action === 'add') {
-                    if(!$.isArray(node.children)) {
+                    if(!Array.isArray(node.children)) {
                         node.children = [change.newData];
                     } else {
                         node.children.push(change.newData);
@@ -346,7 +346,7 @@
 
                             parent.children.splice(node.index, 1);
                             parent.count -= 1;
-                            if(!$.isArray(newParent.children)) {
+                            if(!Array.isArray(newParent.children)) {
                                 newParent.children = [node];
                             } else {
                                 newParent.children.push(node);
@@ -1056,7 +1056,7 @@
         var $this = this.$,
             that = this;
 
-        $this.resize($.proxy(this.initSize, this)).click($.proxy(this.onDesktopClick, this));
+        $this.resize(this.initSize.bind(this)).click(this.onDesktopClick.bind(this));
 
         this.bindGlobalHotkeys();
         this.$container.draggable({

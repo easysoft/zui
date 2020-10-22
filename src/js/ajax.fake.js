@@ -84,7 +84,7 @@
                 if (router.aborted) {
                     return;
                 }
-                var result = $.isFunction(router.route) ? router.route.call(router, options, onSuccess, onError) : router.route;
+                var result = typeof router.route === 'function' ? router.route.call(router, options, onSuccess, onError) : router.route;
                 if (result !== true) {
                     if (result === false) {
                         onError(500);

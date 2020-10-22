@@ -94,7 +94,7 @@
         var options = that.options;
         if(position === undefined) position = options.position;
         if(position === undefined || position === null) return;
-        if ($.isFunction(position)) {
+        if (typeof position === 'function') {
             position = position(that);
         }
         var $dialog = that.$element.find('.modal-dialog');
@@ -110,7 +110,7 @@
             if (typeof headerHeight !== 'number') {
                 if ($header.length) {
                     headerHeight = $header.outerHeight();
-                } else if ($.isFunction(headerHeight)) {
+                } else if (typeof headerHeight === 'function') {
                     headerHeight = headerHeight($header);
                 } else {
                     headerHeight = 0;
@@ -119,7 +119,7 @@
             if (typeof footerHeight !== 'number') {
                 if ($footer.length) {
                     footerHeight = $footer.outerHeight();
-                } else if ($.isFunction(footerHeight)) {
+                } else if (typeof footerHeight === 'function') {
                     footerHeight = footerHeight($footer);
                 } else {
                     footerHeight = 0;
@@ -287,7 +287,7 @@
 
         $.support.transition && that.$element.hasClass('fade') ?
             that.$element
-            .one('bsTransitionEnd', $.proxy(that.hideModal, that))
+            .one('bsTransitionEnd', that.hideModal.bind(that))
             .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
             that.hideModal()
     }
@@ -295,23 +295,23 @@
     Modal.prototype.enforceFocus = function() {
         $(document)
             .off('focusin.' + zuiname) // guard against infinite focus loop
-            .on('focusin.' + zuiname, $.proxy(function(e) {
+            .on('focusin.' + zuiname, (function(e) {
                 if(this.$element[0] !== e.target && !this.$element.has(e.target).length) {
                     this.$element.trigger('focus')
                 }
-            }, this))
+            }).bind(this))
     }
 
     Modal.prototype.escape = function() {
         if(this.isShown && this.options.keyboard) {
-            $(document).on('keydown.dismiss.' + zuiname, $.proxy(function(e) {
+            $(document).on('keydown.dismiss.' + zuiname, (function(e) {
                 if(e.which == 27) {
                     var et = $.Event('escaping.' + zuiname)
                     var result = this.$element.triggerHandler(et, 'esc')
                     if(result != undefined && (!result)) return
                     this.hide()
                 }
-            }, this))
+            }).bind(this))
         } else if(!this.isShown) {
             $(document).off('keydown.dismiss.' + zuiname)
         }
@@ -340,10 +340,10 @@
             this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
                 .appendTo(this.$body)
 
-            this.$element.on('mousedown.dismiss.' + zuiname, $.proxy(function(e) {
+            this.$element.on('mousedown.dismiss.' + zuiname, (function(e) {
                 if(e.target !== e.currentTarget) return
                 this.options.backdrop == 'static' ? this.$element[0].focus.call(this.$element[0]) : this.hide.call(this)
-            }, this))
+            }).bind(this))
 
             if(doAnimate) this.$backdrop[0].offsetWidth // force reflow
 

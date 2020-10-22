@@ -85,7 +85,7 @@
         var scrollSize = $.camelCase(['scroll', dimension].join('-'))
 
         this.$element
-            .one($.support.transition.end, $.proxy(complete, this))
+            .one($.support.transition.end, complete.bind(this))
             .emulateTransitionEnd(350)[dimension](this.$element[0][scrollSize])
     }
 
@@ -118,7 +118,7 @@
         if(!$.support.transition) return complete.call(this)
 
         this.$element[dimension](0)
-            .one($.support.transition.end, $.proxy(complete, this))
+            .one($.support.transition.end, complete.bind(this))
             .emulateTransitionEnd(350)
     }
 

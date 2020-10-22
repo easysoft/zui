@@ -34,9 +34,9 @@
         },
 
         callEvent: function(func, event, proxy) {
-            if($.isFunction(func)) {
+            if(typeof func === 'function') {
                 if(proxy !== undefined) {
-                    func = $.proxy(func, proxy);
+                    func = func.bind(proxy);
                 }
                 var result = func(event);
                 if(event) event.result = result;
@@ -246,7 +246,7 @@
 
         if(model && model.options) {
             var func = model.options[shortName];
-            if($.isFunction(func)) {
+            if(typeof func === 'function') {
                 e.result = $.zui.callEvent(func, e, model);
             }
         }
@@ -255,7 +255,7 @@
     };
 
     $.fn.callComEvent = function(component, eventName, params) {
-        if (params !== undefined && !$.isArray(params)) {
+        if (params !== undefined && !Array.isArray(params)) {
             params = [params];
         }
         var $this = this;

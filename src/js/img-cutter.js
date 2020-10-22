@@ -179,7 +179,7 @@
     ImgCutter.prototype.bindEvents = function() {
         var that = this,
             options = this.options;
-        this.$.resize($.proxy(this.initSize, this));
+        this.$.resize(this.initSize.bind(this));
         this.$btn.hover(function() {
             that.$.toggleClass('hover');
         }).click(function() {

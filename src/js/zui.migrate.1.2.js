@@ -13,7 +13,7 @@
     var zui = $.zui;
     if(zui) {
         function extendTo(name, target) {
-            if($.isArray(name)) {
+            if(Array.isArray(name)) {
                 $.each(name, function(i, n) {
                     extendTo(n, target);
                 });

@@ -96,7 +96,7 @@
             drop: function(e) {
                 if(e.isNew) {
                     var result;
-                    if($.isFunction(setting['drop'])) {
+                    if(typeof setting['drop'] === 'function') {
                         result = setting['drop'](e);
                     }
                     if(result !== false) e.element.insertBefore(e.target);

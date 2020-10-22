@@ -1006,7 +1006,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             that.winnow_results(1);
 
             var dropDirection = that.drop_direction;
-            if ($.isFunction(dropDirection)) {
+            if (typeof dropDirection === 'function') {
                 dropDirection = dropDirection.call(this);
             }
             if(dropDirection === 'auto') {

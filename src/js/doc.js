@@ -675,7 +675,7 @@
     };
 
     var queryIcon = function(keys) {
-        if(!$.isArray(keys) && (keys || keys.length)) {
+        if(!Array.isArray(keys) && (keys || keys.length)) {
             keys = [keys];
         }
 
@@ -732,9 +732,9 @@
                         weight += 120;
                     } else {
                         var filters = [];
-                        if($.isArray(icon.filter) && icon.filter.length) filters = filters.concat(icon.filter);
-                        if($.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
-                        if($.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
+                        if(Array.isArray(icon.filter) && icon.filter.length) filters = filters.concat(icon.filter);
+                        if(Array.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
+                        if(Array.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
                         if(!filters.length) return;
                         $.each(filters, function(filterIndex, filter) {
                             filter = filter.toLowerCase();
@@ -787,7 +787,7 @@
         $body.addClass('query-enabled').attr('data-query', '');
 
         // Send ga data
-        if(window['ga'] && $.isFunction(ga)) {
+        if(window['ga'] && typeof ga === 'function') {
             if(queryGaCallback) clearTimeout(queryGaCallback);
             queryGaCallback = setTimeout(function() {
                 ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
@@ -942,7 +942,7 @@
                                     weight = 60;
                                     break;
                                 }
-                                if($.isArray(section.topics)) {
+                                if(Array.isArray(section.topics)) {
                                     var isBreak = false;
                                     $.each(section.topics, function(topicIndex, topic) {
                                         if(topic.name && topic.name.toLowerCase().includes(keyVal)) {
@@ -1106,7 +1106,7 @@
     var closePage = function(onlyEvent) {
         window['afterPageLoad'] = null;
         window['onPageLoad'] = null;
-        if($.isFunction(window['onPageClose'])) {
+        if(typeof window['onPageClose'] === 'function') {
             window['onPageClose']();
             window['onPageClose'] = null;
         }
@@ -1166,12 +1166,12 @@
 
     var handlePageLoad = function() {
         var delayMutedPageLoading = false;
-        if($.isFunction(window['onPageLoad'])) {
+        if(typeof window['onPageLoad'] === 'function') {
             delayMutedPageLoading = window['onPageLoad']() === false;
         }
 
         setTimeout(function() {
-            if($.isFunction(window['afterPageLoad'])) {
+            if(typeof window['afterPageLoad'] === 'function') {
                 if(window['afterPageLoad'](stopPageLoading) === true) {
                     handlePageLoad();
                 }
@@ -1322,7 +1322,7 @@
         if(topic) pageUrl += '/' + topic;
         window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
-        if(window['ga'] && $.isFunction(ga)) ga('send', 'pageview', window.location.pathname + pageUrl);
+        if(window['ga'] && typeof ga === 'function') ga('send', 'pageview', window.location.pathname + pageUrl);
 
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
@@ -1466,7 +1466,7 @@
         section = section || $choosedSection;
 
         var $section;
-        if($.isArray(section)) {
+        if(Array.isArray(section)) {
             if(typeof topic !== 'undefined') section = section.push(topic);
             if(!section[0]) {
                 if(debug) console.warn("Open section failed: can't find the section with id " + section.join('-'));
@@ -1599,7 +1599,7 @@
         if(!list) {
             list = [];
         }
-        if(!$.isArray(list)) {
+        if(!Array.isArray(list)) {
             list = [list];
         }
 
@@ -1634,7 +1634,7 @@
     var getItemList = function(lib, list, items, ignoreDpds, ignoreCombine) {
         items = items || [];
 
-        if($.isArray(list)) {
+        if(Array.isArray(list)) {
             $.each(list, function(idx, name) {
                 getItemList(lib, name, items, ignoreDpds);
             });
@@ -1936,7 +1936,7 @@
                 "src/less/controls/icons.variables.less",
                 "src/less/doc.less"];
         }
-        var lessCode = $.isArray(theme.imports) ? theme.imports.map(function(i) {
+        var lessCode = Array.isArray(theme.imports) ? theme.imports.map(function(i) {
             return '@import "' + i + '";';
         }).join('\n') : theme.imports;
         lessCode += theme.variablesLess + (theme.lessCode || '');

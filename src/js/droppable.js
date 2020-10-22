@@ -271,7 +271,7 @@
             }
 
             isMouseDown = true;
-            $targets         = $.isFunction(setting.target) ? setting.target($ele, $root) : $container.find(setting.target),
+            $targets         = typeof setting.target === 'function' ? setting.target($ele, $root) : $container.find(setting.target),
             $target          = null,
             $shadow          = null,
             isIn             = false,

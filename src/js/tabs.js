@@ -377,7 +377,7 @@
                 $tabPane.addClass('has-error');
                 var showMessage = that.options.showMessage;
                 if (showMessage) {
-                    if ($.isFunction(showMessage)) {
+                    if (typeof showMessage === 'function') {
                         error = showMessage(error);
                     }
                     that.showMessage(error, 'danger');

@@ -46,7 +46,7 @@
             actions = actions.split(',');
         }
         var _actions;
-        if($.isArray(actions)) {
+        if(Array.isArray(actions)) {
             _actions = {};
             $.each(actions, function(idx, action) {
                 if($.isPlainObject(action)) {
@@ -100,7 +100,7 @@
 
         if($ul) {
             var that = this;
-            if(!$.isArray(items)) {
+            if(!Array.isArray(items)) {
                 items = [items];
             }
             $.each(items, function(idx, item) {
@@ -109,7 +109,7 @@
                 var $wrapper = options.itemWrapper ? $(options.itemWrapper === true ? '<div class="tree-item-wrapper"/>' : options.itemWrapper).appendTo($li) : $li;
                 if(item.html) {
                     $wrapper.html(item.html)
-                } else if($.isFunction(that.options.itemCreator)) {
+                } else if(typeof that.options.itemCreator === 'function') {
                     var itemContent = that.options.itemCreator($li, item);
                     if(itemContent !== true && itemContent !== false) $wrapper.html(itemContent);
                 } else if(item.url) {
@@ -372,7 +372,7 @@
     };
 
     Tree.prototype.toData = function($ul, filter) {
-        if($.isFunction($ul)) {
+        if(typeof $ul === 'function') {
             filter = $ul;
             $ul = null;
         }
@@ -384,14 +384,14 @@
             delete data['zui.droppable'];
             var $children = $li.children('ul');
             if($children.length) data.children = that.toData($children);
-            return $.isFunction(filter) ? filter(data, $li) : data;
+            return typeof filter === 'function' ? filter(data, $li) : data;
         }).get();
     };
 
     // Call event helper
     Tree.prototype.callEvent = function(name, params) {
         var result;
-        if($.isFunction(this.options[name])) {
+        if(typeof this.options[name] === 'function') {
             result = this.options[name](params, this);
         }
         this.$.trigger($.Event(name + '.' + this.name, params));

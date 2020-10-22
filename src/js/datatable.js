@@ -110,7 +110,7 @@
         var options = this.options,
             cols;
 
-        if($.isFunction(data)) {
+        if(typeof data === 'function') {
             data = data(this.data, this);
             data.keepSort = true;
         } else if($.isPlainObject(data)) {
