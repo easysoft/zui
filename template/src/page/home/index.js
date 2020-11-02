@@ -3,7 +3,7 @@ import $ from 'jquery';
 
 $('#myBoards').boards({
   drop: function (e) {
-    $.zui.messager.show(e.element.text() + ' 拖放到 ' + e.target.closest('.board').find('.panel-heading').text());
+    $.zui.messager.show(e.element.text() + ' 拖放到 ' + e.target.closest('.panel').find('.panel-heading').text());
   }
 });
 

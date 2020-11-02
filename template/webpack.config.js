@@ -16,7 +16,15 @@ function getEntry() {
         new HtmlWebpackPlugin({
           filename: `./${name}/${name}.html`,
           template: `./src/page/${name}/${name}.html`,
-          chunks: [name]
+          chunks: [name],
+          minify: {
+            collapseWhitespace: false,
+            removeComments: false,
+            removeRedundantAttributes: false,
+            removeScriptTypeAttributes: false,
+            removeStyleLinkTypeAttributes: false,
+            useShortDoctype: false
+          }
         })
       );
     });
@@ -39,7 +47,15 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index/index.html',
-      chunks: ['index']
+      chunks: ['index'],
+      minify: {
+        collapseWhitespace: false,
+        removeComments: false,
+        removeRedundantAttributes: false,
+        removeScriptTypeAttributes: false,
+        removeStyleLinkTypeAttributes: false,
+        useShortDoctype: false
+      }
     }),
     ...htmlWebpackPlugins,
     new MiniCssExtractPlugin({

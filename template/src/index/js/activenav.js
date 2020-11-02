@@ -69,6 +69,7 @@ $('#tabs-container').on('onClose', function () {
 
 $('#mainMenuToggle').on('click', function () {
   $('body').toggleClass('hide-menu');
+  $(this).toggleClass('menu-open');
 });
 
 // navigation bar auto collapse

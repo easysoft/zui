@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
   <meta charset="UTF-8">
@@ -13,21 +13,29 @@
   <header id="header">
     <div class="brand-container">
       <a class="navbar-brand" href="index.html">
-        <i class="icon icon-yinyang"></i>
         <strong class="title">Z-Master</strong>
       </a>
     </div>
     <div class="navbar-container">
-      <div href="#mainMenu" id="mainMenuToggle" class="has-avatar">
+      <div href="#mainMenu" id="mainMenuToggle" class="has-avatar menu-open">
         <i class="icon icon-bars"></i>
+        <i class="icon icon-times"></i>
       </div>
       <ul class="nav navbar-nav navbar-right" role="navigation">
-        <li class="has-avatar"><a href="#">
-            <div class="avatar"><i class="icon icon-search"></i></div>
-          </a></li>
+        <li>
+          <div id="search">
+            <input type="text" class="form-control input" id="searchInput" placeholder="搜索">
+            <div class="icon-search-container">
+              <i class="icon icon-search"></i>
+            </div>
+          </div>
+        </li>
         <li class="has-avatar has-badge">
           <a href="#">
-            <div class="avatar"><i class="icon icon-bell-alt"></i></div>
+            <div class="avatar">
+              <i class="icon icon-bell-alt"></i>
+              <span class="label label-danger label-dot notice"></span>
+            </div>
           </a>
         </li>
         <li class="has-avatar dropdown">
@@ -45,8 +53,8 @@
     </div>
   </header>
   <aside id="side">
-    <nav class="menu" data-ride="menu">
-      <ul id="treeMenu" class="tree tree-menu" data-ride="tree">
+    <nav class="menu menu-main affix" data-ride="menu">
+      <ul id="treeMenu" class="tree tree-menu tree-menu-block" data-ride="tree">
         <li class="active" data-id="home">
           <a href="#"><i class="icon icon-th"></i>首页</a>
         </li>
