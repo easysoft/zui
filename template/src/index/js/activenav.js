@@ -72,6 +72,16 @@ $('#mainMenuToggle').on('click', function () {
   $(this).toggleClass('menu-open');
 });
 
+$('.settings-btn').on('click', () => {
+  $(`#treeMenu li[data-id=settings] a`).trigger('click');
+});
+
+$('.profile-btn').on('click', () => {
+  $(`#treeMenu li[data-id=profile] a`).trigger('click');
+});
+
+$('[data-toggle="tooltip"]').tooltip();
+
 // navigation bar auto collapse
 let lastWindowSize = $(window).width();
 $(window).on('resize', function() {

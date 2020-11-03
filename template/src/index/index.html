@@ -7,6 +7,7 @@
   <title>zui-template</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/css/zui.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/tabs/zui.tabs.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/uploader/zui.uploader.min.css">
 </head>
 
 <body>
@@ -30,28 +31,102 @@
             </div>
           </div>
         </li>
-        <li class="has-avatar has-badge">
-          <a href="#">
+        <li class="has-avatar has-badge dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <div class="avatar">
               <i class="icon icon-bell-alt"></i>
               <span class="label label-danger label-dot notice"></span>
             </div>
           </a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">最新动态<span class="label label-badge label-danger" style="float: right;">+9</span></a></li>
+            <li><a href="#">邮件通知<span class="label label-badge label-danger" style="float: right;">+12</span></a></li>
+          </ul>
         </li>
         <li class="has-avatar dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <div class="avatar"><i class="icon icon-user"></i></div>
+            <div class="avatar">
+              <img 
+                src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3457738675,1425977282&fm=26&gp=0.jpg" width="24" height="24"
+                style="display: inline-block; border-radius: 50%;"
+              >
+            </div>
           </a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="your/nice/url">个人资料</a></li>
-            <li><a href="your/nice/url">设置</a></li>
+            <li class="profile-btn"><a href="#" data-toggle="modal" data-target="#profile">个人资料</a></li>
+            <li class="settings-btn"><a href="#">设置</a></li>
             <li class="divider"></li>
-            <li><a href="your/nice/url">退出</a></li>
+            <li><a href="./login/login.html">退出</a></li>
           </ul>
         </li>
       </ul>
     </div>
   </header>
+  <div class="modal fade" id="profile">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+          <h4 class="modal-title">个人资料</h4>
+        </div>
+        <div class="modal-body">
+          <div class="basic">
+            <div class="avatar-container" id="avatar-uploader" data-ride="uploader" data-toggle="tooltip" data-placement="bottom" title="修改头像" style="cursor: pointer;">
+              <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3457738675,1425977282&fm=26&gp=0.jpg" class="uploader-btn-browse" width="150" height="150">
+            </div>
+            <p class="desc">上次登录时间：2020年10月1日</p>
+            <p class="desc">上次登录IP： 192.168.1.10</p>
+          </div>
+          <div class="detail">
+            <p>基本信息</p>
+            <div class="input-control has-label-left">
+              <input id="account" type="text" class="form-control" placeholder="" value="admin">
+              <label for="account" class="input-control-label-left text-right">用户名:</label>
+            </div>
+            <div class="input-control has-label-left">
+              <input id="phone" type="text" class="form-control" placeholder="" value="135XXXX7896">
+              <label for="phone" class="input-control-label-left text-right">手机:</label>
+            </div>
+            <div class="input-control has-label-left">
+              <input id="email" type="text" class="form-control" placeholder="" value="admin@zui.com">
+              <label for="email" class="input-control-label-left text-right">邮箱:</label>
+            </div>
+            <div class="input-control has-label-left">
+              <input id="QQ" type="text" class="form-control" placeholder="" value="187XXXX696">
+              <label for="QQ" class="input-control-label-left text-right">QQ:</label>
+            </div>
+            <div class="input-control has-label-left">
+              <input id="weixin" type="text" class="form-control" placeholder="" value="admin@2020">
+              <label for="weixin" class="input-control-label-left text-right">微信:</label>
+            </div>
+            <div class="input-control has-label-left">
+              <input id="address" type="text" class="form-control" placeholder="" value="山东省青岛市黄岛区">
+              <label for="address" class="input-control-label-left text-right">地址:</label>
+            </div>
+          </div>
+          <div class="password-edit">
+            <p>修改密码</p>
+            <div class="input-control has-label-left">
+              <input id="old-pwd" type="password" class="form-control" placeholder="">
+              <label for="old-pwd" class="input-control-label-left text-right">原密码:</label>
+            </div>
+            <div class="input-control has-label-left">
+              <input id="new-pwd" type="password" class="form-control" placeholder="">
+              <label for="new-pwd" class="input-control-label-left text-right">新密码:</label>
+            </div>
+            <div class="input-control has-label-left">
+              <input id="confirm-pwd" type="password" class="form-control" placeholder="">
+              <label for="confirm-pwd" class="input-control-label-left text-right">确认密码:</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <aside id="side">
     <nav class="menu menu-main affix" data-ride="menu">
       <ul id="treeMenu" class="tree tree-menu tree-menu-block" data-ride="tree">
@@ -82,6 +157,9 @@
             </li>
           </ul>
         </li>
+        <li data-id="settings">
+          <a href="#"><i class="icon icon-cogs"></i>设置</a>
+        </li>
       </ul>
     </nav>
   </aside>
@@ -91,6 +169,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/jquery/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/js/zui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/tabs/zui.tabs.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/uploader/zui.uploader.min.js"></script>
 </body>
 
 </html>

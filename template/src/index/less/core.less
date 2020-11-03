@@ -154,6 +154,57 @@ body {
 
 /* header end */
 
+.modal {
+  .modal-body {
+    display: flex;
+    justify-content: space-around;
+
+    .basic {
+      flex-basis: 20%;
+      padding-top: 30px;
+
+      img {
+        display: inline-block;
+        border-radius: 50%;
+      }
+
+      .uploader-files{
+        display: none;
+      }
+
+      .desc {
+        margin-bottom: 8px;
+        font-size: 12px;
+        text-align: left;
+      }
+    }
+
+    .detail {
+      flex-basis: 30%;
+
+      .has-label-left {
+        margin-bottom: 10px;
+      }
+    }
+
+    .password-edit {
+      flex-basis: 30%;
+
+      .has-label-left {
+        margin-bottom: 10px;
+
+        .input-control-label-left {
+          width: 80px;
+        }
+
+        .form-control {
+          padding-left: 80px;
+        }
+      }
+    }
+  }
+}
+
 /* side start */
 #side {
   position: fixed;
