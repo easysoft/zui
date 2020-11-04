@@ -1,0 +1,190 @@
+html, body {
+  height: 100%;
+  background-color: #fff;
+}
+
+#main {
+  padding: 0;
+  border: 1px solid #efefef;
+
+  .container {
+    padding: 0;
+
+    .main-content {
+      padding: 0;
+      box-shadow: none;
+
+      .center-block {
+        margin-left: 0;
+        max-width: 100%!important;
+        border: none;
+      }
+    }
+  }
+}
+
+#formSetting {
+  min-width: 300px;
+}
+
+#formSettingForm .checkboxes {
+  padding: 10px 3px;
+}
+
+#formSettingForm .checkbox-primary {
+  width: 50%;
+  float: left;
+  margin: 3px 0;
+}
+
+#formSetting .btn {
+  margin-right: 8px;
+}
+
+tbody.sortable>tr.drag-shadow {
+  display: none
+}
+
+tbody.sortable>tr>td.sort-handler {
+  cursor: move;
+  color: #999;
+}
+
+tbody.sortable>tr>td.sort-handler>i {
+  position: relative;
+  top: 2px
+}
+
+tbody.sortable-sorting>tr {
+  transition: all .2s;
+  position: relative;
+  z-index: 5;
+  opacity: .3;
+}
+
+tbody.sortable-sorting {
+  cursor: move;
+}
+
+tbody.sortable-sorting>tr.drag-row {
+  opacity: 1;
+  z-index: 10;
+  box-shadow: 0 2px 4px red
+}
+
+tbody.sortable-sorting>tr.drag-row+tr>td {
+  box-shadow: inset 0 4px 2px rgba(0, 0, 0, .2)
+}
+
+tbody.sortable-sorting>tr.drag-row>td {
+  background-color: #E9F2FB !important
+}
+
+tbody.sortable>tr.drop-success>td {
+  background-color: #cfe0ff;
+  transition: background-color 2s;
+}
+
+.title-group .has-icon-right {
+  min-width: 700px
+}
+
+#tplBoxWrapper {
+  position: relative;
+  z-index: 10;
+}
+
+#tplBoxWrapper>.btn-toolbar {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+}
+
+#tplBoxWrapper .btn {
+  padding: 4px 8px;
+  border-top: 0px;
+  border-bottom: 0px;
+}
+
+#tplBoxWrapper #applyTplBtn {
+  border-right: 0px;
+}
+
+#tplBox li {
+  position: relative;
+}
+
+#tplBox li .btn-delete {
+  position: absolute;
+  right: 0;
+  top: -5px;
+  display: block;
+  width: 40px;
+  text-align: center;
+}
+
+#tplBox li:hover .btn-delete {
+  color: #fff;
+}
+
+#tplBox li .tpl-name {
+  padding-right: 40px;
+}
+
+#copyButton {
+  width: 56px;
+  background-color: #f1f1f1;
+  opacity: 1;
+}
+
+/*Adjust for task #4151;*/
+
+.title-group.required:after {
+  display: none;
+}
+
+.title-group.required>.required:after {
+  display: block;
+  right: 29px;
+  top: 5px;
+}
+
+#copyStory-input:after {
+  display: block;
+  right: 85px;
+  top: 5px;
+}
+
+.pri-selector>.btn {
+  padding: 5px 8px !important;
+  width: 100%;
+}
+
+.pri-selector>.dropdown-menu {
+  padding: 10px;
+}
+
+#testStoryBox table tr td {
+  padding: 0px;
+}
+
+#testStoryBox table tr td input {
+  border: 0px;
+}
+
+#testStoryBox table tr td .input-group .input-group-addon {
+  border-left: 1px solid #dcdcdc;
+  border-right: 1px solid #dcdcdc;
+}
+
+#testStoryBox table button.btn {
+  border: 0px;
+}
+
+.file-input .file-editbox {
+  max-width: 40%;
+}
+
+.file-input-list .input-group-btn {
+  float: left
+}

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang='zh-cn'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <title>表单</title>
+  <link rel='stylesheet' href='https://cdn.zentaopm.com/12.4.2/theme/default/zh-cn.default.css?t=4?v=biz4.0.2' type='text/css' media='screen' />
+</head>
+
+<body style="padding: 10px;">
+  <main id='main'>
+    <div class='container'>
+      <div id='mainContent' class='main-content'>
+        <div class='center-block'>
+          <div class='main-header'>
+            <h2>建任务</h2>
+            <div class='btn-toolbar pull-right'>
+              <div class="dropdown">
+                <button type="button" title="自定义表单项" class="btn btn-link" data-toggle="dropdown"><i
+                    class="icon icon-cog"></i></button>
+                <div class="dropdown-menu pull-right" id="formSetting">
+                  <form class='with-padding load-indicator' id='formSettingForm' method='post' target='hiddenwin'
+                    action='/custom-ajaxSaveCustomFields-task-custom-createFields.html'>
+                    <div>自定义表单项</div>
+                    <div class="clearfix checkboxes">
+                      <div class='checkbox-primary'><input type='checkbox' name='fields[]' value='story'
+                          checked='checked' id='fieldsstory' /> <label for='fieldsstory'>相关需求</label></div>
+                      <div class='checkbox-primary'><input type='checkbox' name='fields[]' value='estStarted'
+                          checked='checked' id='fieldsestStarted' /> <label for='fieldsestStarted'>预计开始</label></div>
+                      <div class='checkbox-primary'><input type='checkbox' name='fields[]' value='deadline'
+                          checked='checked' id='fieldsdeadline' /> <label for='fieldsdeadline'>截止日期</label></div>
+                      <div class='checkbox-primary'><input type='checkbox' name='fields[]' value='mailto'
+                          checked='checked' id='fieldsmailto' /> <label for='fieldsmailto'>抄送给</label></div>
+                      <div class='checkbox-primary'><input type='checkbox' name='fields[]' value='pri' checked='checked'
+                          id='fieldspri' /> <label for='fieldspri'>优先级</label></div>
+                      <div class='checkbox-primary'><input type='checkbox' name='fields[]' value='estimate'
+                          checked='checked' id='fieldsestimate' /> <label for='fieldsestimate'>最初预计</label></div>
+                    </div>
+                    <div>
+                      <button type="submit" class="btn btn-primary" data-loading="稍候...">保存</button>
+                      <button type='button' class='btn close-dropdown'>取消</button> <a
+                        href='/custom-ajaxSaveCustomFields-task-custom-createFields.html' class='btn'
+                        target='hiddenwin'>恢复默认</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form class='main-form form-ajax' method='post' enctype='multipart/form-data' id='dataform'>
+            <table class='table table-form'>
+              <tr>
+                <th>所属项目</th>
+                <td><select name='project' id='project' class='form-control chosen' onchange='loadAll(this.value)'
+                    required>
+                    <option value='55' selected='selected' title='ZUI1.9.2' data-keys='ZUI 1.9.2'>ZUI 1.9.2</option>
+                    <option value='54' title='ZUI 1.9.0' data-keys='ZUI 1.9.0'>ZUI 1.9.0</option>
+                    <option value='53' title='ZUI 1.8.0' data-keys='ZUI 1.8.0'>ZUI 1.8.0</option>
+                    <option value='52' title='ZUI 1.7.0' data-keys='ZUI 1.7.0'>ZUI 1.7.0</option>
+                    <option value='51' title='ZUI 1.6.0' data-keys='ZUI 1.6.0'>ZUI 1.6.0</option>
+                    <option value='50' title='ZUI 1.5.0' data-keys='ZUI 1.5.0'>ZUI 1.5.0</option>
+                    <option value='49' title='ZUI 1.4.0' data-keys='ZUI 1.4.0'>ZUI 1.4.0</option>
+                    <option value='48' title='ZUI 1.3.0' data-keys='ZUI 1.3.0'>ZUI 1.3.0</option>
+                    <option value='47' title='ZUI 1.2.0' data-keys='ZUI 1.2.0'>ZUI 1.2.0</option>
+                    <option value='46' title='ZUI 1.1.0' data-keys='ZUI 1.1.0'>ZUI 1.1.0</option>
+                    <option value='45' title='ZUI 1.0.0' data-keys='ZUI 1.0.0'>ZUI 1.0.0</option>
+                    <option value='44' title='ZUI 0.9.0' data-keys='ZUI 0.9.0'>ZUI 0.9.0</option>
+                    <option value='43' title='ZUI 0.8.0' data-keys='ZUI 0.8.0'>ZUI 0.8.0</option>
+                    <option value='42' title='ZUI 0.7.0' data-keys='ZUI 0.7.0'>ZUI 0.7.0</option>
+                    <option value='41' title='ZUI 0.6.0' data-keys='ZUI 0.6.0'>ZUI 0.6.0</option>
+                    <option value='40' title='ZUI 0.5.0' data-keys='ZUI 0.5.0'>ZUI 0.5.0</option>
+                    <option value='39' title='ZUI 0.4.0' data-keys='ZUI 0.4.0'>ZUI 0.4.0</option>
+                    <option value='38' title='ZUI 0.3.0' data-keys='ZUI 0.3.0'>ZUI 0.3.0</option>
+                    <option value='37' title='ZUI 0.2.0' data-keys='ZUI 0.2.0'>ZUI 0.2.0</option>
+                    <option value='36' title='ZUI 0.1.0' data-keys='ZUI 0.1.0'>ZUI 0.1.0</option>
+                  </select>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>任务类型</th>
+                <td><select name='type' id='type' class='form-control chosen' onchange='setOwners(this.value)' required>
+                    <option value='' selected='selected' title='' data-keys=' '></option>
+                    <option value='design' title='设计' data-keys='sheji sj'>设计</option>
+                    <option value='devel' title='开发' data-keys='kaifa kf'>开发</option>
+                    <option value='test' title='测试' data-keys='ceshi cs'>测试</option>
+                    <option value='study' title='研究' data-keys='yanjiu yj'>研究</option>
+                    <option value='discuss' title='讨论' data-keys='taolun tl'>讨论</option>
+                    <option value='ui' title='界面' data-keys='jiemian jm'>界面</option>
+                    <option value='affair' title='事务' data-keys='shiwu sw'>事务</option>
+                    <option value='misc' title='其他' data-keys='qita qt'>其他</option>
+                  </select>
+                </td>
+                <td>
+                  <div class="checkbox-primary hidden" id='selectTestStoryBox'>
+                    <input type="checkbox" name='selectTestStory' id="selectTestStory" value='1'
+                      onchange='toggleSelectTestStory()' /><label for="selectTestStory" class="no-margin">选择测试需求</label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>所属模块</th>
+                <td id='moduleIdBox'><select name='module' id='module' class='form-control chosen'
+                    onchange='setStories(this.value, 55)'>
+                    <option value='0' selected='selected' title='/' data-keys='/'>/</option>
+                    <option value='47' title='/移动端' data-keys='/mobile'>/移动端</option>
+                    <option value='97' title='/桌面端' data-keys='/pc'>/桌面端</option>
+                    <option value='121' title='/移动端/开发工具' data-keys='/mobile/tools'>/移动端/开发工具</option>
+                    <option value='2' title='/桌面端/开发工具' data-keys='/pc/tools'>/桌面端/开发工具</option>
+                    <option value='30' title='/移动端/界面' data-keys='/mobile/ui'>/移动端/界面</option>
+                    <option value='39' title='/桌面端/界面' data-keys='/pc/ui'>/桌面端/界面</option>
+                  </select>
+                </td>
+                <td>
+                  <div class="checkbox-primary">
+                    <input type="checkbox" id="showAllModule"><label for="showAllModule" class="no-margin">所有模块</label>
+                  </div>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>指派给</th>
+                <td>
+                  <div class="input-group" id="dataPlanGroup">
+                    <select name='assignedTo[]' id='assignedTo' class='form-control chosen'>
+                      <option value='' selected='selected' title='' data-keys=' '></option>
+                      <option value='azalea' title='韩梅梅' data-keys='a:panxianzhi apxz'>韩梅梅</option>
+                      <option value='dingyongliang' title='张凯' data-keys='d:dingyongliang ddyl'>张凯</option>
+                      <option value='liwenrui' title='李雷' data-keys='l:liwenrui llwr'>李雷</option>
+                      <option value='sunhao' title='孙鑫' data-keys='s:sunhao ssh'>孙鑫</option>
+                    </select>
+                    <input type='text' name='teamMember' id='teamMember' value=''
+                      class='form-control team-group fix-border hidden' readonly='readonly' autocomplete="off" />
+                    <span class="input-group-btn team-group hidden"><a class="btn br-0" href="#modalTeam"
+                        data-toggle="modal">团队</a></span>
+                  </div>
+                </td>
+                <td>
+                  <div class="checkbox-primary affair">
+                    <input type="checkbox" name="multiple" value="1" id="multipleBox"><label for="multipleBox"
+                      class="no-margin">多人任务</label>
+                  </div>
+                  <button id='selectAllUser' type="button" class="btn btn-link hidden">全部</button>
+                </td>
+              </tr>
+              <tr class='hide'>
+                <th>任务状态</th>
+                <td><input type='hidden' name='status' id='status' value='wait' />
+                </td>
+              </tr>
+              <tr>
+                <th>相关需求</th>
+                <td colspan='3'>
+                  <div class='input-group'>
+                    <select name='story' id='story' class='form-control chosen' onchange='setStoryRelated();'>
+                      <option value='0' selected='selected' title='' data-keys=' '></option>
+                      <option value='1' title='系统升级'>系统升级</option>
+                      <option value='2' title='修复BUG'>修复BUG</option>
+                      <option value='3' title='功能测试'>功能测试</option>
+                    </select>
+                    <span class='input-group-btn'><a class='btn'>查看</a></span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>任务名称</th>
+                <td colspan='3'>
+                  <div class="input-group title-group">
+                    <div class="input-control has-icon-right">
+                      <div class="colorpicker">
+                        <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown"><span
+                            class="cp-title"></span><span class="color-bar"></span><i class="ic"></i></button>
+                        <ul class="dropdown-menu clearfix">
+                          <li class="heading">颜色标签<i class="icon icon-close"></i></li>
+                        </ul>
+                        <input type="hidden" class="colorpicker" id="color" name="color" value="" data-icon="color"
+                          data-wrapper="input-control-icon-right" data-update-color="#name" data-provide="colorpicker">
+                      </div>
+                      <input type='text' name='name' id='name' value='' class='form-control' required
+                        autocomplete="off" />
+                      <a href='javascript:copyStoryTitle();' id='copyButton' class='input-control-icon-right'>同需求</a>
+                      <input type='hidden' name='storyEstimate' id='storyEstimate' value='' />
+                      <input type='hidden' name='storyDesc' id='storyDesc' value='' />
+                      <input type='hidden' name='storyPri' id='storyPri' value='' />
+                    </div>
+                    <span class="input-group-addon fix-border br-0">优先级</span>
+                    <div class="input-group-btn pri-selector" data-type="pri">
+                      <button type="button" class="btn dropdown-toggle br-0" data-toggle="dropdown">
+                        <span class="pri-text"><span class="label-pri label-pri-3" title="3">3</span></span> &nbsp;<span
+                          class="caret"></span>
+                      </button>
+                      <div class='dropdown-menu pull-right'>
+                        <select name='pri' id='pri' class='form-control' data-provide='labelSelector'
+                          data-label-class='label-pri'>
+                          <option value='1' title='1' data-keys='1 1'>1</option>
+                          <option value='2' title='2' data-keys='2 2'>2</option>
+                          <option value='3' selected='selected' title='3' data-keys='3 3'>3</option>
+                          <option value='4' title='4' data-keys='4 4'>4</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class='table-col w-120px'>
+                      <div class="input-group">
+                        <span class="input-group-addon fix-border br-0">预计</span>
+                        <input type="text" name="estimate" id="estimate" value="" class="form-control"
+                          autocomplete="off">
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>任务描述</th>
+                <td colspan='3'>
+                  <div id='tplBoxWrapper'>
+                    <div class='btn-toolbar'>
+                      <div class='btn-group'>
+                        <button id='saveTplBtn' type='button' class='btn btn-mini'
+                          data-toggle='saveTplModal'>保存模板</button>
+                        <button id='applyTplBtn' type='button' class='btn btn-mini dropdown-toggle'
+                          data-toggle='dropdown'>应用模板 <span class='caret'></span></button>
+                        <ul id='tplBox' class='dropdown-menu pull-right'>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal fade" id="saveTplModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog w-600px">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal"><i
+                              class="icon icon-close"></i></button>
+                          <h4 class="modal-title">请输入模板标题</h4>
+                        </div>
+                        <div class="modal-body">
+                          <div class='input-group'>
+                            <input type="text" id="title" value="" class="form-control" autocomplete="off">
+                            <span class='input-group-btn'> <button type='button' class='btn btn-primary'
+                                id='templateSubmit'>保存</button></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <textarea name='desc' id='desc' rows='10' class='form-control'></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th>附件 </th>
+                <td colspan='3'>
+                  <div class="file-input-list" data-provide="fileInputList" data-each-file-max-size="50M"
+                    data-file-size-error=" 文件大小已经超过50M，可能不能成功上传！">
+                    <div class="file-input">
+                      <div class="file-input-empty">
+                        <button type="button" class="btn btn-link file-input-btn"><i class="icon icon-plus"></i>
+                          添加文件</button> <small class="muted">（不超过50M）</small>
+                      </div>
+                      <div class="file-input-edit input-group">
+                        <div class="input-group-cell"><i class="icon icon-paper-clip text-muted"></i></div>
+                        <input type="text" name="labels[]" class="form-control file-editbox" placeholder="标题">
+                        <div class="input-group-btn">
+                          <button type="button" class="btn btn-success file-name-confirm"><i
+                              class="icon icon-check"></i></button>
+                          <button type="button" class="btn btn-gray file-name-cancel"><i
+                              class="icon icon-close"></i></button>
+                        </div>
+                      </div>
+                      <div class="file-input-normal input-group">
+                        <div class="input-group-cell"><i class="icon icon-paper-clip text-muted"></i></div>
+                        <div class="input-group-cell">
+                          <span class="file-title"></span>
+                          <small class="file-size muted"></small>
+                        </div>
+                        <div class="input-group-btn">
+                          <button type="button" class="btn btn-link file-input-rename">重命名</button>
+                          <button type="button" class="btn btn-link file-input-delete">删除</button>
+                        </div>
+                      </div>
+                      <input type="file" name="files[]" onchange="checkDangerExtension(this)" />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>日程规划</th>
+                <td colspan='2'>
+                  <div class='input-group'>
+                    <input type='text' name='estStarted' id='estStarted' value='' class='form-control form-date'
+                      placeholder='预计开始' autocomplete="off" />
+                    <span class='input-group-addon fix-border'>~</span>
+                    <input type='text' name='deadline' id='deadline' value='' class='form-control form-date'
+                      placeholder='截止日期' autocomplete="off" />
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>抄送给</th>
+                <td colspan='3'>
+                  <div class="input-group">
+                    <select name='mailto[]' id='mailto' class='form-control chosen' data-placeholder='选择要发信通知的用户...'
+                      multiple>
+                      <option value='' selected='selected' title='' data-keys=' '></option>
+                      <option value='azalea' title='韩梅梅' data-keys='a:panxianzhi apxz'>韩梅梅</option>
+                      <option value='dingyongliang' title='张凯' data-keys='d:dingyongliang ddyl'>张凯</option>
+                      <option value='liwenrui' title='李雷' data-keys='l:liwenrui llwr'>李雷</option>
+                      <option value='sunhao' title='孙鑫' data-keys='s:sunhao ssh'>孙鑫</option>
+                    </select>
+                    <span class="input-group-btn"><a title="维护列表" data-icon='cog' data-title='维护列表' class='btn btn-icon iframe'>
+                      <i class='icon icon-cog'></i></a></span>
+                      <span class="input-group-btn">
+                        <button type="button" title="刷新" class="btn btn-icon">
+                          <i class="icon icon-refresh"></i>
+                        </button>
+                      </span>
+                  </div>
+                </td>
+              </tr>
+              <tr id='after-tr'>
+                <th>添加之后</th>
+                <td colspan='3'><label class='radio-inline'><input type='radio' name='after' value='continueAdding'
+                      checked='checked' id='aftercontinueAdding' /> 继续为该需求添加任务</label><label class='radio-inline'><input
+                      type='radio' name='after' value='toTaskList' id='aftertoTaskList' /> 返回任务列表</label>
+                    <label class='radio-inline'><input type='radio' name='after' value='toStoryList' id='aftertoStoryList' />
+                    返回需求列表</label></td>
+              </tr>
+              <tr>
+                <td colspan='4' class='text-center form-actions'>
+                  <a class='btn btn-wide btn-primary' data-loading='稍候...'>保存</a> 
+                  <a href='#' class='btn btn-back btn-wide'>返回</a>
+                </td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src='https://cdn.zentaopm.com/12.4.2/js/all.js?v=biz4.0.2'></script>
+  <script src='https://cdn.zentaopm.com/12.4.2/js/zui/picker/zui.picker.min.js?v=biz4.0.2'></script>
+  <script src='https://cdn.zentaopm.com/12.4.2/js/kindeditor/kindeditor.min.js?v=biz4.0.2'></script>
+  <script src='https://cdn.zentaopm.com/12.4.2/js/kindeditor/lang/zh_CN.js?v=biz4.0.2'></script>
+</body>
+
+</html>
