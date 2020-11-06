@@ -39,7 +39,6 @@ const editorToolsMap = {
 
 // Kindeditor default options
 const editorDefaults = {
-    cssPath: [config.themeRoot + 'zui/css/min.css'],
     width: '100%',
     height: '200px',
     filterMode: true,
