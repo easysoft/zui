@@ -318,6 +318,7 @@
                 '.text-align', '.color', '.background-color', '.font-size', '.font-family', '.font-weight',
                 '.font-style', '.text-decoration', '.vertical-align', '.background', '.border'
             ],
+            tr: ['id', 'class', '.background-color'],
             a: ['id', 'class', 'href', 'target', 'name'],
             embed: ['id', 'class', 'src', 'width', 'height', 'type', 'loop', 'autostart', 'quality', '.width', '.height', 'align', 'allowscriptaccess'],
             audio: ['id', 'class', 'width', 'src', 'height', 'loop', 'preload', 'autoplay', 'controls', 'crossorigin', 'currentTime', 'duration', 'muted'],
@@ -330,7 +331,7 @@
             ],
             pre: ['id', 'class'],
             hr: ['id', 'class', '.page-break-after'],
-            'br,tbody,tr,strong,b,sub,sup,em,i,u,strike,s,del': ['id', 'class'],
+            'br,tbody,strong,b,sub,sup,em,i,u,strike,s,del': ['id', 'class'],
             iframe: ['id', 'class', 'src', 'frameborder', 'width', 'height', '.width', '.height']
         },
         layout: '<div class="container ke-loading"><div class="toolbar"></div><div class="edit"></div><div class="statusbar"></div></div>'

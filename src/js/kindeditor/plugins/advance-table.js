@@ -208,28 +208,36 @@ KindEditor.plugin('table', function (K) {
         });
     }
 
+    function getTableSetting($table, setting)
+    {
+        if (!$table) {
+            var table = self.plugin.getSelectedTable();
+            $table = $(table[0]);
+        }
+        var setting = $.extend({
+            borderColor: defaultTableBorderColor
+        }, $table.data('tableSetting'), setting);
+        if (setting.autoWidth === undefined) {
+            setting.autoWidth = $table[0].style.width === 'auto';
+        }
+        if (setting.stripedRows === undefined) {
+            var $rows = $table.find('tbody>tr');
+            var coloredRowsLength = $rows.filter(function () {
+                return !!this.style.backgroundColor;
+            }).length;
+            setting.stripedRows = coloredRowsLength >= Math.floor($rows.length / 2);
+        }
+        return setting;
+    }
+
     function updateTable(setting, $table, onUpdateSetting) {
         if (!$table) {
             var table = self.plugin.getSelectedTable();
             $table = $(table[0]);
         }
         if (!$table || !$table.length) return;
-        if (!setting) {
-            setting = $.extend({
-                borderColor: defaultTableBorderColor
-            }, self.tableSetting, setting);
-            if (setting.autoWidth === undefined) {
-                setting.autoWidth = $table[0].style.width === 'auto';
-            }
-            if (setting.stripedRows === undefined) {
-                var $rows = $table.find('tbody>tr');
-                var coloredRowsLength = $rows.filter(function () {
-                    return !!this.style.backgroundColor;
-                }).length;
-                setting.stripedRows = coloredRowsLength >= Math.floor($rows / 2);
-            }
-        }
-        self.tableSetting = setting;
+        setting = getTableSetting($table, setting);
+        $table.data('tableSetting', setting);
         if (setting.header !== undefined) {
             if ($table.is('.ke-plugin-table-example')) {
                 $table.find('thead').toggleClass('hidden', !setting.header);
@@ -261,7 +269,7 @@ KindEditor.plugin('table', function (K) {
         if (setting.stripedRows !== undefined) {
             var $rows = $table.find('tbody>tr');
             $rows.each(function (index) {
-                $(this).css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : 'none');
+                $(this).css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : '');
             });
             onUpdateSetting && onUpdateSetting('stripedRows', setting.stripedRows);
         }
@@ -400,7 +408,7 @@ KindEditor.plugin('table', function (K) {
             updateTable({ borderColor: color }, $exampleTable);
         });
 
-        updateTable(self.tableSetting, $exampleTable, function (name, value) {
+        updateTable(getTableSetting($table), $exampleTable, function (name, value) {
             switch (name) {
                 case 'borderColor':
                     _setColor(colorBox, value || defaultTableBorderColor);
@@ -641,6 +649,7 @@ KindEditor.plugin('table', function (K) {
                     row = self.plugin.getSelectedRow()[0],
                     cell = self.plugin.getSelectedCell()[0],
                     index = cell.cellIndex + offset;
+                var tableSetting = getTableSetting($(table));
                 // 取得第一行的index
                 index += table.rows[0].cells.length - row.cells.length;
 
@@ -648,7 +657,7 @@ KindEditor.plugin('table', function (K) {
                     var newRow = table.rows[i],
                         newCell = newRow.insertCell(index),
                         isThead = newRow.parentNode.tagName === 'THEAD';
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((tableSetting && tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     newCell = newRow.cells[index];
                     // 调整下一行的单元格index
                     index = _getCellIndex(table, newRow, newCell);
@@ -669,6 +678,7 @@ KindEditor.plugin('table', function (K) {
                     row = self.plugin.getSelectedRow()[0],
                     cell = self.plugin.getSelectedCell()[0],
                     firstRow = table.rows[0];
+                var tableSetting = getTableSetting($(table));
                 var rowIndex = row.rowIndex;
                 if (offset === 1) {
                     rowIndex = row.rowIndex + (cell.rowSpan - 1) + offset;
@@ -687,7 +697,7 @@ KindEditor.plugin('table', function (K) {
                     // if (offset === 1 && currentCell.colSpan > 1) {
                     //     newCell.colSpan = currentCell.colSpan;
                     // }
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((tableSetting && tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                 }
                 // 调整rowspan
                 for (var j = rowIndex; j >= 0; j--) {
@@ -701,6 +711,7 @@ KindEditor.plugin('table', function (K) {
                         break;
                     }
                 }
+                updateTable(null, $(table));
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
@@ -757,6 +768,9 @@ KindEditor.plugin('table', function (K) {
                 }
                 cell.colSpan += nextCell.colSpan;
                 row.deleteCell(nextCellIndex);
+
+                updateTable(null, $(table));
+
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
@@ -789,6 +803,7 @@ KindEditor.plugin('table', function (K) {
                         colspan: right - left + 1,
                     });
                     $table.find('.ke-cell-removed').remove();
+                    updateTable(null, $table);
                     self.cmd.range.selectNodeContents($firstCell[0]).collapse(true);
                     // self.cmd.select();
                     self.addBookmark();
@@ -800,6 +815,7 @@ KindEditor.plugin('table', function (K) {
                     row = self.plugin.getSelectedRow()[0],
                     cell = self.plugin.getSelectedCell()[0],
                     rowIndex = row.rowIndex;
+                var tableSetting = getTableSetting($(table));
                 // 不是可分割单元格
                 if (cell.rowSpan === 1) {
                     return;
@@ -810,7 +826,7 @@ KindEditor.plugin('table', function (K) {
                         newCell = newRow.insertCell(cellIndex);
                     var isThead = newRow.parentNode.tagName === 'THEAD';
                     var colSpan = cell.colSpan > 1 ? cell.colSpan : newCell.colSpan;
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((tableSetting && tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     if (cell.colSpan > 1) {
                         newCell.colSpan = cell.colSpan;
                     }
@@ -818,6 +834,7 @@ KindEditor.plugin('table', function (K) {
                     cellIndex = _getCellIndex(table, newRow, newCell);
                 }
                 K(cell).removeAttr('rowSpan');
+                updateTable(null, $(table));
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
@@ -828,6 +845,7 @@ KindEditor.plugin('table', function (K) {
                     row = self.plugin.getSelectedRow()[0],
                     cell = self.plugin.getSelectedCell()[0],
                     cellIndex = cell.cellIndex;
+                var tableSetting = getTableSetting($(table));
                 // 不是可分割单元格
                 if (cell.colSpan === 1) {
                     return;
@@ -837,9 +855,10 @@ KindEditor.plugin('table', function (K) {
                     var newCell = row.insertCell(cellIndex + i);
                     var rowSpan = cell.rowSpan > 1 ? cell.rowSpan : newCell.rowSpan;
                     var colSpan = newCell.colSpan;
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (rowSpan > 1 ? ' rowspan="' + rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (rowSpan > 1 ? ' rowspan="' + rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((tableSetting && tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                 }
                 K(cell).removeAttr('colSpan');
+                updateTable(null, $(table));
                 self.cmd.range.selectNodeContents(cell).collapse(true);
                 // self.cmd.select();
                 self.addBookmark();
@@ -902,6 +921,7 @@ KindEditor.plugin('table', function (K) {
                     // self.cmd.select();
                     K(table).remove();
                 } else {
+                    updateTable(null, $(table));
                     self.cmd.selection(true);
                 }
                 self.addBookmark();
