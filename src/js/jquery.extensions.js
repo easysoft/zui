@@ -12,33 +12,6 @@
     /* Check jquery */
     if(typeof($) === 'undefined') throw new Error('ZUI requires jQuery');
 
-    /**
-     *  Array polyfill: Calls a function for each element in the array.
-     */
-    if(!Array.prototype.forEach) {
-        Array.prototype.forEach = function(fun /*, thisp*/ ) {
-            var len = this.length;
-            if(typeof fun != 'function')
-                throw new TypeError();
-
-            var thisp = arguments[1];
-            for(var i = 0; i < len; i++) {
-                if(i in this) {
-                    fun.call(thisp, this[i], i, this);
-                }
-            }
-        };
-    }
-
-    /**
-     * Array polyfill: Judge an object is an real array
-     */
-    if(!Array.isArray) {
-        Array.isArray = function(obj) {
-            return Object.toString.call(obj) === '[object Array]';
-        };
-    }
-
     /* ZUI shared object */
     if(!$.zui) $.zui = function(obj) {
         if($.isPlainObject(obj)) {
