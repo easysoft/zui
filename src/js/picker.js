@@ -8,6 +8,8 @@
 /**
  * TODO:
  *  * 优化展开时滚动到选中项体验
+ *  * 不要在 picker 兼容模式移除 option
+ *  * picker-search 和 input 都会触发 change 事件，希望搜索框作为辅助控件不要触发通用的 change 事件
  */
 
 (function($, window, document) {
@@ -22,6 +24,7 @@
         remoteConverter: null, // function(responseData, textStatus, jqXHR, picker)
         remoteOnly: false,
         onRemoteError: null, // function()
+        disableEmptySearch: false,
         textKey: 'text',
         valueKey: 'value',
         keysKey: 'keys',
@@ -66,6 +69,7 @@
         onHidingDrop: null, // function
         onShowedDrop: null, // function
         onHiddenDrop: null, // function
+        valueMustInList: true,
     };
 
     var LANG = {
@@ -231,8 +235,8 @@
                 var hasActiveValue = typeof activeValue === 'string';
                 if (key === 'Enter' || key === 13) {
                     if (hasActiveValue) {
-                        that.select(activeValue);
-                        if (!that.multi) {
+                        that.select(activeValue, multi);
+                        if (!multi) {
                             $search.blur();
                         }
                         e.preventDefault();
@@ -242,14 +246,14 @@
                     var $nextOption;
                     if ($activeOption) {
                         $nextOption = $activeOption.next('.picker-option');
-                        if (that.multi) {
+                        if (multi) {
                             while ($nextOption.length && $nextOption.hasClass('picker-option-selected')) {
                                 $nextOption = $nextOption.next('.picker-option');
                             }
                         }
                     }
                     if (!$nextOption || !$nextOption.length) {
-                        $nextOption = that.$optionsList.children(that.multi ? '.picker-option:not(.picker-option-selected)' : '.picker-option').first();
+                        $nextOption = that.$optionsList.children(multi ? '.picker-option:not(.picker-option-selected)' : '.picker-option').first();
                     }
                     if ($nextOption.length) {
                         that.activeOption($nextOption);
@@ -260,20 +264,20 @@
                     var $prevOption;
                     if ($activeOption) {
                         $prevOption = $activeOption.prev('.picker-option');
-                        if (that.multi) {
+                        if (multi) {
                             while ($prevOption.length && $prevOption.hasClass('picker-option-selected')) {
                                 $prevOption = $prevOption.prev('.picker-option');
                             }
                         }
                     }
                     if (!$prevOption || !$prevOption.length) {
-                        $prevOption = that.$optionsList.children(that.multi ? '.picker-option:not(.picker-option-selected)' : '.picker-option').last();
+                        $prevOption = that.$optionsList.children(multi ? '.picker-option:not(.picker-option-selected)' : '.picker-option').last();
                     }
                     if ($prevOption.length) {
                         that.activeOption($prevOption);
                     }
                     e.preventDefault();
-                } else if (options.deleteByBackspace && that.multi && (key === 'Backspace' || key === 8) && that.value && that.value.length) {
+                } else if (options.deleteByBackspace && multi && (key === 'Backspace' || key === 8) && that.value && that.value.length && !$search.val().length) {
                     that.deselect(that.value[that.value.length - 1]);
                 }
             });
@@ -306,7 +310,7 @@
                         $.each(e.list, function(_, ele) {
                             values.push(ele.item.data('value'));
                         });
-                        that.setValue(values, false, true);
+                        that.setValue(values.slice(), false, true);
                     }
                 };
                 if (typeof sortValuesByDnd === 'object') {
@@ -371,7 +375,7 @@
                 if (keys !== undefined) {
                     attrs['data-' + options.keysKey] = keys;
                 }
-                $formItem.append($('<optsr;ccion />').attr(attrs).text(item[options.textKey]));
+                $formItem.append($('<option />').attr(attrs).text(item[options.textKey]));
             });
         }
         $formItem.off('chosen:updated chosen:activate chosen:open chosen:close').val(that.value).show();
@@ -389,7 +393,7 @@
         this.$search.focus();
     };
 
-    Picker.prototype.select = function(value) {
+    Picker.prototype.select = function(value, notHideDropList) {
         var that = this;
         if (!that.isSelectedValue(value)) {
             if (that.triggerEvent('select', {value: value, picker: that}) === false) {
@@ -399,6 +403,8 @@
                 var values = that.value;
                 if (!values) {
                     values = [];
+                } else {
+                    values = values.slice();
                 }
                 values.push(value);
                 that.setValue(values);
@@ -406,7 +412,9 @@
                 that.setValue(value);
             }
         }
-        that.hideDropList();
+        if (!notHideDropList) {
+            that.hideDropList();
+        }
     };
 
     Picker.prototype.deselect = function(value) {
@@ -422,6 +430,7 @@
             if (values && values.length) {
                 for (var i = 0; i < values.length; ++i) {
                     if (values[i] === value) {
+                        values = values.slice();
                         values.splice(i, 1);
                         that.setValue(values);
                         break;
@@ -453,9 +462,17 @@
             return;
         }
         var options = that.options;
+        var search = that.search;
+
+        if (typeof search === 'string' && !search.length && options.disableEmptySearch) {
+            that.setList([]);
+            callback(false);
+            return;
+        }
+
         var remoteOptions;
         var remoteParams = {
-            search: that.search,
+            search: search,
             limit: options.maxListCount
         };
         if (typeof remote === 'string') {
@@ -469,7 +486,15 @@
             console.warn('Remote url must provide to get remote list in picker.')
             return;
         }
-        remoteOptions.url = remoteOptions.url.format(remoteParams);
+        var replacedUrl = false;
+        if (remoteOptions.url.indexOf('{search}') > -1) {
+            remoteOptions.url = remoteOptions.url.replace(/\{search\}/g, search);
+            replacedUrl = true;
+        }
+        if (remoteOptions.url.indexOf('{limit}') > -1) {
+            remoteOptions.url = remoteOptions.url.replace(/\{limit\}/g, limit);
+            replacedUrl = true;
+        }
         that.updateMessage('');
         that.$container.addClass('picker-loading');
         if (that.remoteXhr) {
@@ -478,7 +503,7 @@
         that.remoteXhr = $.ajax($.extend({
             dataType: 'json',
             dataFilter: options.remoteConverter,
-            data: remoteParams
+            data: replacedUrl ? null : remoteParams
         }, remoteOptions)).done(function(data, textStatus, jqXHR) {
             var hasResult = false;
             if (data) {
@@ -553,7 +578,8 @@
             var maxAutoDropWidth = options.maxAutoDropWidth;
             var $win = $(window);
             var winHeight = $win.height();
-            var dropHeight = $dropMenu.height();
+            var messageHeight = that.hasMessage ? that.$message.outerHeight() : 0;
+            var dropHeight = Math.max(messageHeight, $dropMenu.height());
             var dropWidth = options.dropWidth || 'auto';
             var dropStyle = {left: bounds.left, opacity: 1};
             if (dropDirection === 'auto') {
@@ -575,8 +601,9 @@
             } else {
                 dropStyle.width = dropWidth;
             }
-            var messageHeight = that.hasMessage ? that.$message.outerHeight() : 0;
-            $optionsList.css('max-height', dropHeight - messageHeight);
+            if (dropHeight > messageHeight) {
+                $optionsList.css('max-height', dropHeight - messageHeight);
+            }
             $dropMenu.css(dropStyle);
             if (callback) {
                 callback();
@@ -614,12 +641,13 @@
         var options = that.options;
         var search = that.search;
         var hasSearch = typeof search === 'string' && search.length;
+        var optionsCount = 0;
         if (optionsList.length) {
             var maxListCount = options.maxListCount;
             var valueKey = options.valueKey;
             var textKey = options.textKey;
             var showMultiSelectedOptions = options.showMultiSelectedOptions;
-            var maxLoopLength = Math.min(optionsList.length, maxListCount);
+            var maxLoopLength = maxListCount ? Math.min(optionsList.length, maxListCount) : optionsList.length;
             var searchLowerCase = search.toLowerCase();
             var $options = $optionsList.children('.picker-option').addClass('picker-expired');
             var singleSelectedOption;
@@ -640,6 +668,7 @@
                     continue;
                 }
 
+                optionsCount++;
                 var optionID = that.getItemID(item, 'option');
                 var $option = $(document.getElementById(optionID));
                 if (!$option.length) {
@@ -705,18 +734,18 @@
             // }
         } else {
             $optionsList.empty();
-            if (!skipShowMessage) {
-                message = hasSearch ? (options.emptySearchResultHint || that.lang.emptySearchResultHint).format(search) : (options.emptyResultHint || that.lang.emptyResultHint);
-                if (hasSearch) {
-                    that.triggerEvent('noResults', {search: search, picker: that}, '', 'chosen:no_results');
-                }
+        }
+        if (!optionsCount && !skipShowMessage) {
+            message = hasSearch ? (options.emptySearchResultHint || that.lang.emptySearchResultHint).format(search) : (options.emptyResultHint || that.lang.emptyResultHint);
+            if (hasSearch) {
+                that.triggerEvent('noResults', {search: search, picker: that}, '', 'chosen:no_results');
             }
         }
 
         if (!skipShowMessage) {
             that.updateMessage(message, 'info');
         }
-        that.$dropMenu.toggleClass('picker-no-options', !optionsList.length);
+        that.$dropMenu.toggleClass('picker-no-options', !optionsCount);
         that.layoutDropList(that.listRendered);
         that.listRendered = true;
     };
@@ -985,7 +1014,7 @@
         var list = reset ? [] : (that.list || []);
         var listMap = reset ? {} : (that.listMap || {});
         if (typeof newList === 'string') {
-            newList = newList.split(',');
+            newList = newList.split(options.multiValueSplitter);
         }
 
         for (var i = 0; i < newList.length; ++i) {
@@ -1003,6 +1032,10 @@
                 item = temp;
             }
             var itemValue = item[options.valueKey];
+            if (typeof itemValue !== 'string') {
+                itemValue = String(itemValue);
+                item[options.valueKey] = itemValue;
+            }
             var oldItem = listMap[itemValue];
             if (oldItem) {
                 item.index = oldItem.$_index;
@@ -1015,8 +1048,44 @@
             }
         }
 
-        this.list = list;
-        this.listMap = listMap;
+        that.list = list;
+        that.listMap = listMap;
+    };
+
+    Picker.prototype.removeFromList = function(removedList) {
+        var that = this;
+
+        var list = that.list || [];
+        if (!list.length) {
+            return;
+        }
+
+        var options = that.options;
+        if (typeof removedList === 'string') {
+            removedList = removedList.split(options.multiValueSplitter);
+        }
+
+        var removedMap = {};
+
+        for (var i = 0; i < removedList.length; ++i) {
+            var item = removedList[i];
+            removedMap[typeof item === 'object' ? item[options.valueKey] : item] = true;
+        }
+
+        var newList = [];
+        var listMap = {};
+        for (var i = 0; i < list.length; ++i) {
+            var item = list[i];
+            var itemValue = item[options.valueKey];
+            if (!removedMap[itemValue]) {
+                newList.push(item);
+                listMap[itemValue] = item;
+            }
+        }
+
+        that.list = newList;
+        that.listMap = listMap;
+        that.setValue(that.multi ? that.value.slice() : that.value);
     };
 
     Picker.prototype.getItemID = function(item, suffix) {
@@ -1058,6 +1127,10 @@
         return this.listMap[value];
     };
 
+    Picker.prototype.hasListItem = function(value) {
+        return this.listMap[value] !== undefined;
+    };
+
     Picker.prototype.triggerEvent = function(name, params, callbackName, chosenEventName) {
         var that = this;
         if(!Array.isArray(params)) params = [params];
@@ -1075,18 +1148,39 @@
         var that = this;
         var options = that.options;
         var needTriggerChange;
+        var isMulti = that.multi;
 
         // Format value
         if (value === undefined) {
             value = that.$formItem.val();
         }
-        if (that.multi && typeof value === 'string') {
+        if (value === null) {
+            value = '';
+        }
+        if (isMulti && typeof value === 'string') {
             value = value.split(options.multiValueSplitter);
-        } else if (!that.multi && typeof value !== 'string') {
+        } else if (!isMulti && typeof value !== 'string') {
             value = String(value);
         }
 
-        if (that.value !== value) {
+        if (options.valueMustInList) {
+            if (isMulti && value) {
+                var newValue = [];
+                for (var i = 0; i < value.length; ++i) {
+                    var val = value[i];
+                    if (that.hasListItem(val)) {
+                        newValue.push(val);
+                    }
+                }
+                if (newValue.length !== value.length) {
+                    value = newValue;
+                }
+            } else if (!isMulti && !that.hasListItem(value)) {
+                value = options.defaultValue !== undefined ? options.defaultValue : '';
+            }
+        }
+
+        if ((isMulti && that.value && value) ? that.value.join(options.multiValueSplitter) !== value.join(options.multiValueSplitter)  : that.value !== value) {
             if (!silent) {
                 if (that.triggerEvent('beforeChange', {
                     value: value,
@@ -1099,7 +1193,7 @@
             needTriggerChange = true;
         }
 
-        if (that.multi) {
+        if (isMulti) {
             that.valueSet = null;
         }
 
@@ -1110,7 +1204,7 @@
             if (!chosenMode) {
                 $formItem.empty();
             }
-            if (that.multi) {
+            if (isMulti) {
                 $.each(value, function(_index, val) {
                     if (chosenMode && $formItem.find('option[value="' + val + '"]').length) {
                         return;
@@ -1138,7 +1232,7 @@
         // Update selections
         if (!skipRenderSelections) {
             var hasValue = false;
-            if (that.multi) {
+            if (isMulti) {
                 var $selections = that.$selections;
                 var $selects = $selections.children('.picker-selection').addClass('picker-expired');
                 $.each(value, function(_index, val) {
