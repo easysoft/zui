@@ -14,33 +14,6 @@
     var STR_FUNCTION = 'function';
 
     /**
-     *  Calls a function for each element in the array.
-     */
-    if(!Array.prototype.forEach) {
-        Array.prototype.forEach = function(fun /*, thisp*/ ) {
-            var len = this.length;
-            if(typeof fun != STR_FUNCTION)
-                throw new TypeError();
-
-            var thisp = arguments[1];
-            for(var i = 0; i < len; i++) {
-                if(i in this) {
-                    fun.call(thisp, this[i], i, this);
-                }
-            }
-        };
-    }
-
-    /**
-     * Judge an object is an real array
-     */
-    if(!Array.isArray) {
-        Array.isArray = function(obj) {
-            return Object.toString.call(obj) === '[object Array]';
-        };
-    }
-
-    /**
      * Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.
      */
     if(!Array.prototype.lastIndexOf) {
