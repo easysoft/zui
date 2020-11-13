@@ -16,10 +16,12 @@
         <h1>KindEditor 功能测试</h1>
         <div class="row">
             <div class="col-md-7">
-                <textarea id="content" name="content" class="form-control kindeditor" style="height:500px;">Hello, world!</textarea>
+                <textarea id="content" name="content" class="form-control kindeditor"
+                    style="height:500px;">Hello, world!</textarea>
                 <br>
-                <textarea id="content2" name="content2" class="form-control" style="height:100px;">Hello, world!</textarea>
-                </div>
+                <textarea id="content2" name="content2" class="form-control"
+                    style="height:100px;">Hello, world!</textarea>
+            </div>
             <div class="col-md-5">
                 <div class="article-content" style="padding: 0">
                     <strong>KindEditor 在 ZUI 1.9.1 中的更新</strong>
@@ -27,9 +29,12 @@
                         <li>
                             <p>重做 了表格编辑功能，包含如下关键特性：</p>
                             <ul>
-                                <li>重做 了工具栏图标，优化了插入表格交互体验，现在点击表格图标按钮，弹出行列选择面板，滑动鼠标选择要插入的表格行数和列数即可实现表格快速插入，插入表格后，光标会自动置于第一个单元格内</li>
+                                <li>重做
+                                    了工具栏图标，优化了插入表格交互体验，现在点击表格图标按钮，弹出行列选择面板，滑动鼠标选择要插入的表格行数和列数即可实现表格快速插入，插入表格后，光标会自动置于第一个单元格内
+                                </li>
                                 <li>
-                                    <p>新增 通过 <kbd>Tab</kbd> 键来在单元格中切换光标的功能，当光标已经处于表格中的最后一个单元格时会自动创建一个新行，并将光标移到新行的第一个单元格中；
+                                    <p>新增 通过 <kbd>Tab</kbd>
+                                        键来在单元格中切换光标的功能，当光标已经处于表格中的最后一个单元格时会自动创建一个新行，并将光标移到新行的第一个单元格中；
                                     </p>
                                 </li>
                                 <li>
@@ -83,7 +88,8 @@
                         <li>
                             <p>新增 通过 <code>syncAfterBlur</code> 选项实现自动在编辑器失去焦点时执行同步（<code>sync()</code>）操作；</p>
                         </li>
-                        <li>新增 通过 <code>simpleWrap</code> 选项来优化源码格式化功能，当该选项为 <code>true</code> 时，源码中当块级元素内容不会显示为新的行；</li>
+                        <li>新增 通过 <code>simpleWrap</code> 选项来优化源码格式化功能，当该选项为 <code>true</code> 时，源码中当块级元素内容不会显示为新的行；
+                        </li>
                         <li>优化 表格缩进样式，现在默认缩进 2 个空格，而不是 Tab；</li>
                         <li>优化 预览界面样式；</li>
                         <li>
@@ -103,17 +109,16 @@
             var K = window.KindEditor;
             if (K) {
                 window.$editor = K.create('textarea.kindeditor', {
-                    // wellFormatMode: true,
-                    // simpleWrap: true,
-                    // indentChar: '  ',
-                    // width: '100%',
-                    // basePath: '../../dist/lib/kindeditor/',
-                    // allowFileManager: true,
-                    // bodyClass: 'article-content',
-                    // cssPath: '../../dist/css/zui.css',
-                    // placeholder: '请输入文章内容\nGood Luck!',
-                    // transferTab: true,
-                    "width":"100%","items":["formatblock","fontsize","lineheight","|","forecolor","hilitecolor","|","bold","italic","underline","strikethrough","|","justifyleft","justifycenter","justifyright","|","emoticons","image","|","link","unlink","anchor","flash","media","baidumap","/","undo","redo","|","cut","copy","|","plainpaste","wordpaste","|","removeformat","clearhtml","quickformat","|","indent","outdent","subscript","superscript","insertorderedlist","insertunorderedlist","|","table","code","hr","|","fullscreen","source","about"],"cssPath":["/zui/css/admin.min.css"],"cssData":"html,body {background: none}.article-content, .article-content table td, .article-content table th {line-height: 1.3846153846; font-size: 13px;} .article-content table.table-kindeditor th, .article-content table.table-kindeditor td {padding: 5px 8px;} .article-content table.ke-zeroborder.table-kindeditor td {border: 1px dotted #AAA;} .article-content .table-auto {width: auto!important; max-width: 100%;}","bodyClass":"article-content","urlType":"absolute","uploadJson":"/admin.php?m=file&f=ajaxUpload&uid=5cf4d4f4894a1&t=html","fileManagerJson":"/admin.php?m=file&f=fileManager&t=html","imageTabIndex":1,"filterMode":true,"allowFileManager":true,"langType":"zh_CN","htmlTags":{"p,span,h1,h2,h3,h4,h5,em,u,strong,br,ol,ul,li,img,a,b,font,hr,pre,embed,video,audio,dd,dt,dl,div,table,td,th,tr,tbody,iframe,style,header,nav,meta,video,":["class","id","style"],"video":["id","class","width","height","src","controls"],"object":["type","data","width","height"],"param":["name","value"],"audio":["src","controls","id","class","width","height"],"font":["id","class","color","size","face",".background-color"],"span":["id","class",".color",".background-color",".font-size",".font-family",".background",".font-weight",".font-style",".text-decoration",".vertical-align",".line-height"],"div":["id","class","align",".border",".margin",".padding",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".background",".font-style",".text-decoration",".vertical-align",".margin-left"],"table":["id","class","border","cellspacing","cellpadding","width","height","align","bordercolor",".padding",".margin",".border","bgcolor",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".font-style",".text-decoration",".background",".width",".height",".border-collapse"],"td,th":["id","class","align","valign","width","height","colspan","rowspan","bgcolor",".text-align",".color",".background-color",".font-size",".font-family",".font-weight",".font-style",".text-decoration",".vertical-align",".background",".border"],"a":["id","class","href","target","name"],"embed":["id","class","src","width","height","type","loop","autostart","quality",".width",".height","align","allowscriptaccess","allowfullscreen"],"img":["id","class","src","width","height","border","alt","title","align",".width",".height",".border"],"p,ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6":["id","class","align",".text-align",".color",".background-color",".font-size",".font-family",".background",".font-weight",".font-style",".text-decoration",".vertical-align",".text-indent",".margin-left"],"pre":["id","class"],"hr":["id","class",".page-break-after"],"br,tbody,thead,tr,strong,b,sub,sup,em,i,u,strike,s,del":["id","class"],"iframe":["id","class","src","frameborder","width","height",".width",".height"],"style":[]},"syncAfterBlur":true,"spellcheck":false,"placeholderStyle":{"fontSize":"14px","color":"#999"},"pasteImage":{"postUrl":"/admin.php?m=file&f=ajaxPasteImage&uid=5cf4d4f4894a1&t=html","placeholder":true}
+                    wellFormatMode: true,
+                    simpleWrap: true,
+                    indentChar: '  ',
+                    width: '100%',
+                    basePath: '../../dist/lib/kindeditor/',
+                    allowFileManager: true,
+                    bodyClass: 'article-content',
+                    cssPath: '../../dist/css/zui.css',
+                    placeholder: '请输入文章内容\nGood Luck!',
+                    transferTab: true,
                 });
             }
         });
