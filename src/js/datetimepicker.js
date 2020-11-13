@@ -155,8 +155,7 @@
         this.picker = $(DPGlobal.template)
             .appendTo(this.isInline ? this.element : 'body')
             .on({
-                click: this.click.bind(this),
-                mousedown: this.mousedown.bind(this)
+                click: this.click.bind(this)
             });
 
         if(this.wheelViewModeNavigation) {
