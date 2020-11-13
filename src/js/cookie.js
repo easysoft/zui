@@ -69,7 +69,7 @@
 
         // Write
 
-        if(value !== undefined && !typeof value === 'function') {
+        if(value !== undefined && typeof value !== 'function') {
             options = $.extend({}, config.defaults, options);
 
             if(typeof options.expires === 'number') {

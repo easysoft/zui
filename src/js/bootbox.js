@@ -294,7 +294,7 @@
 
         options = mergeDialogOptions("alert", ["ok"], ["message", "callback"], arguments);
 
-        if(options.callback && !typeof options.callback === 'function') {
+        if(options.callback && typeof options.callback !== 'function') {
             throw new Error("alert requires callback property to be a function when provided");
         }
 
@@ -331,7 +331,7 @@
         };
 
         // confirm specific validation
-        if(!typeof options.callback === 'function') {
+        if(typeof options.callback !== 'function') {
             throw new Error("confirm requires a callback");
         }
 
@@ -424,7 +424,7 @@
             throw new Error("prompt requires a title");
         }
 
-        if(!typeof options.callback === 'function') {
+        if(typeof options.callback !== 'function') {
             throw new Error("prompt requires a callback");
         }
 
