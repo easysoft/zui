@@ -205,7 +205,7 @@ body {
   position: fixed;
   z-index: 1;
   top: 50px;
-  bottom: 0;
+  bottom: 36px;
   left: 0;
   overflow: hidden;
   width: 230px;
@@ -258,7 +258,7 @@ body {
   right: 0;
   bottom: 0;
   left: 230px;
-  padding: 0 10px;
+  padding: 0 10px 40px 10px;
   transition: left .5s ease-in-out;
   background-color: @main-bgcolor;
 }
@@ -268,3 +268,24 @@ body {
 }
 
 /* main end */
+
+/* footer start */
+#footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: #fff;
+
+  .breadcrumb {
+    margin-bottom: 0;
+
+    li:not(:first-child) {
+      &::before {
+        content: '>';
+      }
+    }
+  }
+}
+/* footer end */
