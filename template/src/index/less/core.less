@@ -16,7 +16,6 @@ body {
 /* header start */
 #header {
   position: fixed;
-  z-index: 10;
   top: 0;
   display: flex;
   width: 100%;
@@ -265,6 +264,54 @@ body {
 
 #tabs-container {
   min-height: 100%;
+
+  .tabs-navbar {
+    position: absolute;
+    top: -40px;
+    left: 40px;
+    right: 350px;
+
+    .tabs-nav {
+      height: auto;
+      border-bottom: none;
+
+      .tab-nav-item {
+        .tab-nav-link {
+          display: flex;
+          border: none;
+          height: 36px;
+          padding: 8px;
+          align-items: center;
+          color: #777;
+          background-color: #e4e4e4;
+          > .icon {
+            position: static;
+          }
+
+          > .title {
+            max-width: 100px;
+            position: static;
+            padding-left: 4px;
+          }
+
+          > .close {
+            top: 8px;
+          }
+        }
+      }
+
+      .tab-nav-item.active {
+        .tab-nav-link {
+          color: #333;
+          background-color: #d0d0d0;
+        }
+      }
+    }
+  }
+
+  .tabs-container {
+    top: 10px;
+  }
 }
 
 /* main end */
