@@ -11,7 +11,7 @@ The context menu can be enabled in both passive and active ways.
 
 ## Passive
 
-`$().contextmenu(options)` is used to initialize a context menu. It automatically listens `contextmenu` mouse event (use `trigger` to change listened event) of the selected action，and pop out a context menu when the event is triggered.
+`$().contextmenu(options)` is used to initialize a context menu. It automatically listens `contextmenu` mouse event (use `trigger` to change listened event) of the selected action, and pop out a context menu when the event is triggered.
 
 <div class="example hl-primary" id="contextMenuExample1">
 Right click this area to display the context menu.
@@ -45,6 +45,55 @@ $('#contextMenuExample1').contextmenu({
         $('#contextMenuExample1 .text-info').text('You just clicked "' + item.label + '"');
     }
 });
+```
+
+### Enhance dropdown menu
+
+<div class="example clearfix">
+  <div class="dropdown pull-left">
+    <button class="btn" type="button" data-toggle="context-dropdown">Menu button <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="###">Action</a></li>
+      <li><a href="###">Another action</a></li>
+      <li><a href="###">More operations</a></li>
+    </ul>
+  </div>
+  <div class="btn-group pull-left" style="margin-left: 20px">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="context-dropdown">
+      Menu button <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="###">Action</a></li>
+      <li><a href="###">Delete</a></li>
+      <li class="divider"></li>
+      <li><a href="###">Cancel</a></li>
+    </ul>
+  </div>
+</div>
+
+```html
+<div class="dropdown">
+  <button class="btn" type="button">Menu button <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="###">Action</a></li>
+    <li><a href="###">Another action</a></li>
+    <li><a href="###">More operations</a></li>
+  </ul>
+</div>
+```
+
+```html
+<div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="context-dropdown">
+    Menu button <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="###">Action</a></li>
+    <li><a href="###">Delete</a></li>
+    <li class="divider"></li>
+    <li><a href="###">Cancel</a></li>
+  </ul>
+</div>
 ```
 
 ## Active
@@ -121,10 +170,31 @@ Most of the options apply to both active and passive ways. Options that are only
       <td>If it is obtained from the page mouse event, usually `event.clientY`.</td>
     </tr>
     <tr>
+      <td><code>position</code></td>
+      <td>Prepare the callback function `function(pos, options)` to calculate position of menu dynamically</td>
+      <td>The default is `null`</td>
+      <td>
+        <p>The callback should return a plain object, use attribute `x` and `y` to specify the horizontal and vertical distance from the upper left corner of the screen, like `{x: 100, y: 42}`, If a callback function is specified, the function return value will be used to override the `x` and `y` options: </p>
+        <ul>
+          <li>`pos`, The default position calculated by the program；</li>
+          <li>`options`, All options for the menu to be created；</li>
+          <li>`$menu`, Current menu object；</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>limitInsideWindow</code></td>
+      <td>Whether to limit the menu position always inside of the browser window</td>
+      <td>The default is `true`</td>
+      <td>
+        <p>If it is `true`, the menu will never extend beyond the browser window, otherwise it will strictly follow the set position。</p>
+      </td>
+    </tr>
+    <tr>
       <td><code>event</code>(Active only)</td>
       <td>Mouse event object when the menu pops up</td>
       <td>E.g., the callback function `event` returned when the button is clicked </td>
-      <td>If an object is specified，`x` with `y` do not have to be specified and they will be automatically calculated.</td>
+      <td>If an object is specified, `x` with `y` do not have to be specified and they will be automatically calculated.</td>
     </tr>
     <tr>
       <td><code>trigger</code>(Passive only)</td>
@@ -152,6 +222,25 @@ Most of the options apply to both active and passive ways. Options that are only
       </td>
     </tr>
     <tr>
+      <td><code>show</code></td>
+      <td>Whether to display immediately after initialization is complete</td>
+      <td>The default is  `false`</td>
+      <td>
+        <p>Available values include：</p>
+        <ul>
+          <li>`false`: Not displayed immediately after the initialization is completed, it needs to be triggered to display；</li>
+          <li>`true`: Display immediately after initialization is complete;</li>
+          <li>`{x, y}`: Use an object to specify the option displayed for the first time</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>toggleTrigger</code></td>
+      <td>Whether to click the trigger element to switch display and hide</td>
+      <td>The default is `false`</td>
+      <td>If it is `false`, click the trigger element to perform only display operations; if it is `true` click the trigger element to switch display and hide operations</td>
+    </tr>
+    <tr>
       <td><code>duration</code></td>
       <td>The time the animation is executed</td>
       <td>The default is `200`</td>
@@ -161,7 +250,7 @@ Most of the options apply to both active and passive ways. Options that are only
       <td><code>className</code></td>
       <td>CSS class name to add to context menu element</td>
       <td>default `''`</td>
-      <td>Already exists `'contextmenu-menu dropdown-menu'`</td>
+      <td>Already exists `'contextmenu-menu'`</td>
     </tr>
     <tr>
       <td><code>itemCreator</code></td>
@@ -173,6 +262,19 @@ Most of the options apply to both active and passive ways. Options that are only
           <li>`item`: Menu item object for the current operation；</li>
           <li>`index`: The index of the currently operating item in the menu(From 0 Start)；</li>
           <li>`options`: All options for the menu to be created；</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>menuCreator</code></td>
+      <td>Menu element generator, `function(items, options, $menu)`</td>
+      <td>The default is `null`</td>
+      <td>
+        <p>If the callback function is specified, when creating the menu item element, use this method to generate the $dom element of the entire menu item, and you need to return the html code or jQuery element object. The parameters of the callback function are defined as follows:</p>
+        <ul>
+          <li>`items`, A list of all menu item objects;</li>
+          <li>`options`, All options for the menu to be created；</li>
+          <li>`$menu`, Current menu object</li>
         </ul>
       </td>
     </tr>
@@ -199,7 +301,7 @@ Most of the options apply to both active and passive ways. Options that are only
     <tr>
       <td><code>onShown</code></td>
       <td>The callback function when the menu has been completed</td>
-      <td>The default is `null`，or `function()`</td>
+      <td>The default is `null`, or `function()`</td>
       <td>
       </td>
     </tr>
@@ -360,6 +462,30 @@ var contextMenu = $('#myContextMenu').data('zui.contextmenu');
 
 // Call the method
 contextMenu.hide();
+```
+
+### `isShow(id)`
+
+Check whether the specified menu is displayed. If the parameter `id` is omitted, any context menu display will return `true`.
+
+Active：
+
+```js
+// Is the menu display?
+$.zui.ContextMenu.isShow();
+
+// Is there a menu display with an ID of 'myMenu'
+$.zui.ContextMenu.isShow('myMenu');
+```
+
+Passive：
+
+```js
+// Get the object
+var contextMenu = $('#myContextMenu').data('zui.contextmenu');
+
+// Call the method
+contextMenu.isShow();
 ```
 
 ### `listenMouseMove()` (Active only)

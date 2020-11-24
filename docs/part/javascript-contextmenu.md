@@ -47,6 +47,55 @@ $('#contextMenuExample1').contextmenu({
 });
 ```
 
+### 增强下拉菜单
+
+<div class="example clearfix">
+  <div class="dropdown pull-left">
+    <button class="btn" type="button" data-toggle="context-dropdown">菜单按钮 <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="###">操作</a></li>
+      <li><a href="###">另一个操作</a></li>
+      <li><a href="###">更多操作</a></li>
+    </ul>
+  </div>
+  <div class="btn-group pull-left" style="margin-left: 20px">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="context-dropdown">
+      菜单按钮 <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="###">操作</a></li>
+      <li><a href="###">另一个操作</a></li>
+      <li class="divider"></li>
+      <li><a href="###">更多操作</a></li>
+    </ul>
+  </div>
+</div>
+
+```html
+<div class="dropdown">
+  <button class="btn" type="button" data-toggle="context-dropdown">菜单按钮 <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="###">操作</a></li>
+    <li><a href="###">另一个操作</a></li>
+    <li><a href="###">更多操作</a></li>
+  </ul>
+</div>
+```
+
+```html
+<div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="context-dropdown">
+    菜单按钮 <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="###">操作</a></li>
+    <li><a href="###">另一个操作</a></li>
+    <li class="divider"></li>
+    <li><a href="###">更多操作</a></li>
+  </ul>
+</div>
+```
+
 ## 主动式
 
 主动式使用 `$.zui.ContextMenu.show(items, options, callback)` 显示上下文菜单。此方式可以手动在合适的时机（如点击某个按钮时）主动弹出上下文菜单。
@@ -121,6 +170,27 @@ $('#contextMenuExample2').on('click', function(e) {
       <td>如果是从页面鼠标事件对象获取，通常是 `event.clientY` 属性。</td>
     </tr>
     <tr>
+      <td><code>position</code></td>
+      <td>指定一个函数 `function(pos, options)` 来动态返回菜单位置</td>
+      <td>默认为 `null`</td>
+      <td>
+        <p>函数返回值为一个对像，使用 `x` 和 `y` 属性来指定距离屏幕左上角水平和垂直距离，例如 `{x: 100, y: 42}`，如果指定了回调函数，则会使用函数返回值来覆盖 `x` 和 `y` 选项：</p>
+        <ul>
+          <li>`pos`，由程序计算的默认位置；</li>
+          <li>`options`，要创建的菜单所有配置选项；</li>
+          <li>`$menu`，当前操作的菜单元素对象；</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>limitInsideWindow</code></td>
+      <td>是否限制菜单位置在窗口内</td>
+      <td>默认为 `true`</td>
+      <td>
+        <p>如果为 `true`，菜单永远不会超出浏览器窗口，否则会严格遵从设定的位置。</p>
+      </td>
+    </tr>
+    <tr>
       <td><code>event</code>（仅主动式）</td>
       <td>菜单弹出触发时的鼠标事件对象</td>
       <td>例如点击按钮时回调函数的 `event` 对象</td>
@@ -152,6 +222,25 @@ $('#contextMenuExample2').on('click', function(e) {
       </td>
     </tr>
     <tr>
+      <td><code>show</code></td>
+      <td>是否在初始化完成之后立即显示</td>
+      <td>默认为 `false`</td>
+      <td>
+        <p>可用的选项：</p>
+        <ul>
+          <li>`false`：初始化完成之后不立即显示，需要触发才能显示；</li>
+          <li>`true`：初始化完成之后立即显示；</li>
+          <li>`{x, y}`：使用一个选项来指定初次显示的选项</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>toggleTrigger</code></td>
+      <td>是否点击触发元素切换显示和隐藏</td>
+      <td>默认为 `false`</td>
+      <td>如果为 `false` 点击触发元素仅仅进行显示操作；如果为 `true` 点击触发元素切换显示和隐藏操作</td>
+    </tr>
+    <tr>
       <td><code>duration</code></td>
       <td>动画效果执行的时间</td>
       <td>默认为 `200`</td>
@@ -161,7 +250,7 @@ $('#contextMenuExample2').on('click', function(e) {
       <td><code>className</code></td>
       <td>添加到弹出菜单元素上的 CSS 类名</td>
       <td>默认为 `''`</td>
-      <td>弹出菜单上已有类名 `'contextmenu-menu dropdown-menu'`</td>
+      <td>弹出菜单上已有类名 `'contextmenu-menu'`</td>
     </tr>
     <tr>
       <td><code>itemCreator</code></td>
@@ -173,6 +262,19 @@ $('#contextMenuExample2').on('click', function(e) {
           <li>`item`，当前操作的菜单项对象；</li>
           <li>`index`，当前操作的菜单项在菜单中的索引（从 0 开始）；</li>
           <li>`options`，要创建的菜单所有选项；</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><code>menuCreator</code></td>
+      <td>菜单元素生成器</td>
+      <td>默认为 `null`，或 `function(items, options, $menu)`</td>
+      <td>
+        <p>如果指定了回调函数，则在创建菜单条目元素时，使用此方法来生成整个菜单条目的 $dom 元素，需要返回 html 代码或者 jQuery 元素对象。回调函数各项参数定义如下：</p>
+        <ul>
+          <li>`items`，所有菜单项对象列表；</li>
+          <li>`options`，要创建的菜单所有选项；</li>
+          <li>`$menu`，当前操作的菜单元素对象；</li>
         </ul>
       </td>
     </tr>
@@ -360,6 +462,30 @@ var contextMenu = $('#myContextMenu').data('zui.contextmenu');
 
 // 调用实例方法
 contextMenu.hide();
+```
+
+### `isShow(id)`
+
+检查指定的菜单是否显示，参数 `id` 如果省略，则任意上下文菜单显示都会返回 `true`。
+
+主动式用法：
+
+```js
+// 是否有菜单显示
+$.zui.ContextMenu.isShow();
+
+// 是否有 ID 为 'myMenu' 的菜单显示
+$.zui.ContextMenu.isShow('myMenu');
+```
+
+被动式用法：
+
+```js
+// 获取实例对象
+var contextMenu = $('#myContextMenu').data('zui.contextmenu');
+
+// 调用实例方法
+contextMenu.isShow();
 ```
 
 ### `listenMouseMove()`（仅主动式）
