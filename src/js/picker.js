@@ -173,7 +173,7 @@
             $selections = $('<div class="picker-selections" />');
         }
         var searchID = that.id + '-search';
-        var $search = $('<input id="' + searchID + '" type="text" class="picker-search">').appendTo($selections);
+        var $search = $('<input autocomplete="off" id="' + searchID + '" type="text" class="picker-search">').appendTo($selections);
         if (!multi) {
             var $singleSelection = $('<div class="picker-selection picker-selection-single"><span class="picker-selection-text"></span></div>');
             if (options.allowSingleDeselect) {
