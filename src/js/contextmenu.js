@@ -318,6 +318,28 @@
                     selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
                 }
                 var $target = selector ? $(selector) : $toggle.next('.dropdown-menu');
+                var transferEvent = finalOptions.transferEvent;
+                if (transferEvent !== false) {
+                    var indexAttrName = 'data-contextmenu-index';
+                    $target.find('a,.contextmenu-item').each(function(index) {
+                        $(this).attr(indexAttrName, index);
+                    });
+                    var $clone = $target.clone();
+                    $clone.on(typeof transferEvent === 'string' ? transferEvent : 'click', 'a,.contextmenu-item', function(event) {
+                        var $item = $target.find('[' + indexAttrName + '="' + $(this).attr(indexAttrName) + '"]');
+                        var item = $item[0];
+                        if (!item) return;
+                        if (item[event.type]) {
+                            item[event.type]();
+                        } else {
+                            $item.trigger(event.type);
+                        }
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return false;
+                    });
+                    return $clone;
+                }
                 return $target.clone();
             },
             position: function(pos, finalOptions, $menu) {
