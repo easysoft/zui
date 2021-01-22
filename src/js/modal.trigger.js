@@ -24,6 +24,9 @@
         this.$trigger = $trigger;
         this.options = options;
         this.id = $.zui.uuid();
+        if (options.show) {
+            this.show();
+        }
     };
 
     ModalTrigger.DEFAULTS = {
@@ -393,8 +396,11 @@
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
             if(!data) $this.data(NAME, (data = new ModalTrigger(options, $this)));
-            if(typeof option == STR_STRING) data[option](settings);
-            else if(options.show) data.show(settings);
+            else {
+                if(typeof option == STR_STRING) data[option](settings);
+                else if(options.show) data.show(settings);
+                return;
+            }
 
             $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e) {
                 options = $.extend(options, {
