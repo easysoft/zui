@@ -38,6 +38,13 @@ KindEditor.plugin('zui', function(K) {
         if (spellcheck !== undefined) {
             self.edit.doc.documentElement.setAttribute('spellcheck', spellcheck);
         }
+
+        var transferEvents = options.transferEvents;
+        if (transferEvents !== false) {
+            $(self.edit.doc).on(typeof transferEvents === 'string' ? transferEvents : 'click mousedown', function(event) {
+                $(self.edit.srcElement[0]).trigger(event.type);
+            });
+        }
     });
 
     if (options.transferTab !== false) {
