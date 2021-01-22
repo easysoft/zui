@@ -919,6 +919,9 @@
                     attrMap.style = fontStyle;
                 }
                 _each(attrMap, function(key, val) {
+                    if (key.indexOf('data-ke-') === 0) {
+                        return;
+                    }
                     if(val === true) val = '';
                     if(_FILL_ATTR_MAP[key]) {
                         attrMap[key] = key;
