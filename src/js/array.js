@@ -265,35 +265,4 @@
             }
         });
     }
-
-    /**
-     * Returns true if at least one element in this array satisfies the provided testing conditions.
-     * @param  {function or plain object}  conditions
-     * @return {Boolean}
-     */
-    if(!Array.prototype.has) {
-        Array.prototype.has = function(conditions) {
-            var result = false,
-                cdt, ok, objVal;
-            this.forEach(function(val) {
-                ok = true;
-                for(var key in conditions) {
-                    cdt = conditions[key];
-                    if(typeof cdt === STR_FUNCTION) {
-                        ok = cdt(val);
-                    } else {
-                        objVal = val[key];
-                        ok = (objVal && objVal === cdt);
-                    }
-                    if(!ok) break;
-                }
-                if(ok) {
-                    result = true;
-                    return false;
-                }
-            });
-
-            return result;
-        };
-    }
 }());
