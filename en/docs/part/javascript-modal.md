@@ -339,12 +339,12 @@ Manually display a dialog box. `position` is optional and used to specify the po
 $('#myModal').modal('show', 'fit')
 ```
 
-#### .modal('hide', position)
+#### .modal('hide')
 
-Manually hide a dialog box. `position` is optional and used to specify the position to display.
+Manually hide a dialog box.
 
 ```js
-$('#myModal').modal('hide', 'fit')
+$('#myModal').modal('hide')
 ```
 
 #### .modal('ajustPosition', position)

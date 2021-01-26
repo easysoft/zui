@@ -339,12 +339,12 @@ $('#myModal').modal('toggle', 'center')
 $('#myModal').modal('show', 'fit')
 ```
 
-#### .modal('hide', position)
+#### .modal('hide')
 
-手动隐藏对话框。`position`参数为可选的，用来指定显示的位置。
+手动隐藏对话框。
 
 ```js
-$('#myModal').modal('hide', 'fit')
+$('#myModal').modal('hide')
 ```
 
 #### .modal('adjustPosition', position)
