@@ -18,7 +18,7 @@ ZUI 专为 Kindeitor 和 UEditor 定制了与 ZUI 风格一致的主题。
   <p>在触摸屏或小屏幕上无法获取最佳体验。</p>
 </div>
 
-详细用法请访问 Kindeitor 官方网站：<a target="_blank" href="http://kindeditor.org/">http://kindeditor.org/</a>，项目地址：<a target="_blank" href="https://github.com/kindsoft/kindeditor">https://github.com/kindsoft/kindeditor</a>。
+详细用法请访问 Kindeitor 官方网站：<a target="_blank" href="http://kindeditor.org/">http://kindeditor.net/</a>，项目地址：<a target="_blank" href="https://github.com/kindsoft/kindeditor">https://github.com/kindsoft/kindeditor</a>。
 
 ### 使用 Kindeitor
 
