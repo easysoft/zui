@@ -656,8 +656,7 @@ body {
 }
 
 #navDownloadLink {
-  .transition-fast(opacity);
-  .opacity(0);
+  visibility: hidden;
 }
 
 #navbar {
@@ -702,7 +701,7 @@ body {
     &.in,
     &.collapsing {
       #navDownloadLink {
-        .opacity(1);
+        visibility: visible;
       }
       background-color: #fff;
       margin-top: 10px;
@@ -1985,7 +1984,7 @@ body.compact-mode {
       }
     }
     #navDownloadLink {
-      .opacity(1);
+      visibility: visible;
     }
     #compactTogger {
       .opacity(1);

@@ -1,8 +1,8 @@
 /*!
- * ZUI: Document - v1.9.2 - 2020-07-09
+ * ZUI: Document - v1.9.2 - 2021-03-18
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 .colorset {
@@ -2426,11 +2426,7 @@ body {
   opacity: .65;
   }
 #navDownloadLink {
-  filter: alpha(opacity=0);
-  opacity: 0;
-  -webkit-transition: opacity .2s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: opacity .2s cubic-bezier(.175, .885, .32, 1);
-          transition: opacity .2s cubic-bezier(.175, .885, .32, 1);
+  visibility: hidden;
   }
 #navbar {
   padding: 20px 0;
@@ -2487,8 +2483,7 @@ body {
   }
 #navbar .navbar-collapse.in #navDownloadLink,
 #navbar .navbar-collapse.collapsing #navDownloadLink {
-  filter: alpha(opacity=100);
-  opacity: 1;
+  visibility: visible;
   }
 #navbar .navbar-collapse.in:before,
 #navbar .navbar-collapse.collapsing:before {
@@ -4538,8 +4533,7 @@ body.compact-mode.compact-mode-in #navbar .navbar-collapse.collapsing .navbar-na
   display: inline;
   }
 body.compact-mode.compact-mode-in #navDownloadLink {
-  filter: alpha(opacity=100);
-  opacity: 1;
+  visibility: visible;
   }
 body.compact-mode.compact-mode-in #compactTogger {
   top: 1px;
