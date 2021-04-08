@@ -155,14 +155,13 @@
         this.picker = $(DPGlobal.template)
             .appendTo(this.isInline ? this.element : 'body')
             .on({
-                click: $.proxy(this.click, this),
-                mousedown: $.proxy(this.mousedown, this)
+                click: this.click.bind(this)
             });
 
         if(this.wheelViewModeNavigation) {
             if($.fn.mousewheel) {
                 this.picker.on({
-                    mousewheel: $.proxy(this.mousewheel, this)
+                    mousewheel: this.mousewheel.bind(this)
                 });
             } else {
                 console.log("Mouse Wheel event is not supported. Please include the jQuery Mouse Wheel plugin before enabling this option");
@@ -231,27 +230,27 @@
             if(this.isInput) { // single input
                 this._events = [
                     [this.element, {
-                        focus: $.proxy(this.show, this),
-                        keyup: $.proxy(this.update, this),
-                        keydown: $.proxy(this.keydown, this)
+                        focus: this.show.bind(this),
+                        keyup: this.update.bind(this),
+                        keydown: this.keydown.bind(this)
                     }]
                 ];
             } else if(this.component && this.hasInput) { // component: input + button
                 this._events = [
                     // For components that are not readonly, allow keyboard nav
                     [this.element.find('input'), {
-                        focus: $.proxy(this.show, this),
-                        keyup: $.proxy(this.update, this),
-                        keydown: $.proxy(this.keydown, this)
+                        focus: this.show.bind(this),
+                        keyup: this.update.bind(this),
+                        keydown: this.keydown.bind(this)
                     }],
                     [this.component, {
-                        click: $.proxy(this.show, this)
+                        click: this.show.bind(this)
                     }]
                 ];
                 if(this.componentReset) {
                     this._events.push([
                         this.componentReset, {
-                            click: $.proxy(this.reset, this)
+                            click: this.reset.bind(this)
                         }
                     ]);
                 }
@@ -260,7 +259,7 @@
             } else {
                 this._events = [
                     [this.element, {
-                        click: $.proxy(this.show, this)
+                        click: this.show.bind(this)
                     }]
                 ];
             }
@@ -287,7 +286,7 @@
                 this.update();
             }
             this.place();
-            $(window).on('resize', $.proxy(this.place, this));
+            $(window).on('resize', this.place.bind(this));
             if(e) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -414,7 +413,7 @@
 
         setDaysOfWeekDisabled: function(daysOfWeekDisabled) {
             this.daysOfWeekDisabled = daysOfWeekDisabled || [];
-            if(!$.isArray(this.daysOfWeekDisabled)) {
+            if(!Array.isArray(this.daysOfWeekDisabled)) {
                 this.daysOfWeekDisabled = this.daysOfWeekDisabled.split(/,\s*/);
             }
             this.daysOfWeekDisabled = $.map(this.daysOfWeekDisabled, function(d) {
@@ -812,11 +811,11 @@
 
             this.showMode(mode);
 
-            setTimeout($.proxy(function() {
+            setTimeout((function() {
 
                 this.wheelPause = false
 
-            }, this), this.wheelViewModeNavigationDelay);
+            }).bind(this), this.wheelViewModeNavigationDelay);
 
         },
 

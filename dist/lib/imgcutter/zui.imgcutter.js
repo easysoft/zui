@@ -1,8 +1,8 @@
 /*!
- * ZUI: 图片裁剪工具 - v1.9.2 - 2020-07-09
+ * ZUI: 图片裁剪工具 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -186,7 +186,7 @@
     ImgCutter.prototype.bindEvents = function() {
         var that = this,
             options = this.options;
-        this.$.resize($.proxy(this.initSize, this));
+        this.$.resize(this.initSize.bind(this));
         this.$btn.hover(function() {
             that.$.toggleClass('hover');
         }).click(function() {

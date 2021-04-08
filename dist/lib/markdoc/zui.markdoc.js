@@ -1,8 +1,8 @@
 /*!
- * ZUI: Markdown 文档生成器 - v1.9.2 - 2020-07-09
+ * ZUI: Markdown 文档生成器 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /**
@@ -1353,7 +1353,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
         options = options || that.options;;
         var content = options.content;
         if (content) {
-            callback($.isFunction(content) ? content(that) : content);
+            callback(typeof content === 'function' ? content(that) : content);
         } else if (options.remote) {
             var ajaxOptions = $.isPlainObject(options.remote) ? options.remote : {url: options.remote};
             that.remoteRequest = $.ajax($.extend({}, ajaxOptions, {
@@ -1368,7 +1368,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
                 }
             }));
         } else if (options.source) {
-            var $source = $.isFunction(options.source) ? options.source(that) : $(options.source);
+            var $source = typeof options.source === 'function' ? options.source(that) : $(options.source);
             if ($source.is('textarea,input')) {
                 callback($source.val());
             } else {

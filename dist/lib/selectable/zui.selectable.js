@@ -1,8 +1,8 @@
 /*!
- * ZUI: 拖拽选择 - v1.9.2 - 2020-07-09
+ * ZUI: 拖拽选择 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -95,7 +95,7 @@
             }
             if(!!isSelect !== !!that.selections[id]) {
                 var handleResult;
-                if($.isFunction(handle)) {
+                if(typeof handle === 'function') {
                     handleResult = handle(isSelect);
                 }
                 if(handleResult !== true) {
@@ -121,7 +121,7 @@
         var that = this;
         var $children = that.$children = that.$.find(that.options.selector);
         that.selections = {};
-        that.$children.each(function() {
+        $children.each(function() {
             var $item = $(this);
             that.selections[$item.data('id')] = $item.hasClass(that.options.selectClass);
         });
@@ -133,8 +133,8 @@
         var isIgnoreMove = true;
         var eventNamespace = '.' + this.name + '.' + this.id;
         var startX, startY, $range, range, x, y, checkRangeCall;
-        var checkFunc = $.isFunction(options.checkFunc) ? options.checkFunc : null;
-        var rangeFunc = $.isFunction(options.rangeFunc) ? options.rangeFunc : null;
+        var checkFunc = typeof options.checkFunc === 'function' ? options.checkFunc : null;
+        var rangeFunc = typeof options.rangeFunc === 'function' ? options.rangeFunc : null;
         var isMouseDown    = false;
         var mouseDownBackEventCall = null;
         var mouseDownEventName = 'mousedown' + eventNamespace;
@@ -294,8 +294,8 @@
         this.$.trigger(event, params);
         var result = event.result;
         var callback = this.options[name];
-        if($.isFunction(callback)) {
-            result = callback.apply(this, $.isArray(params) ? params : [params]);
+        if(typeof callback === 'function') {
+            result = callback.apply(this, Array.isArray(params) ? params : [params]);
         }
         return result;
     };

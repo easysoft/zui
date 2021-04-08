@@ -1,8 +1,8 @@
 /*!
- * ZUI: 树形图 - v1.9.2 - 2020-07-09
+ * ZUI: 树形图 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -89,7 +89,7 @@
 
     var Treemap = function(element, options) {
         var $element = $(element);
-        if($.isArray(options)) {
+        if(Array.isArray(options)) {
             options = {data: options};
         }
         options = $.extend({}, DEFAULTS, $element.data(), options);
@@ -110,7 +110,7 @@
         var that     = this;
         that.$       = $element;
         that.$nodes  = $nodes;
-        that.data    = $.isArray(data) ? data : [data];
+        that.data    = Array.isArray(data) ? data : [data];
         that.options = options;
         that.offsetX = 0;
         that.offsetY = 0;
@@ -179,7 +179,7 @@
 
     Treemap.prototype.render = function(data) {
         var that = this;
-        that.data = data ? ($.isArray(data) ? data : [data]) : that.data;
+        that.data = data ? (Array.isArray(data) ? data : [data]) : that.data;
 
         if(that.data) {
             that.createNodes();
@@ -200,7 +200,7 @@
             $nodes.empty();
         }
         if(options.sort) {
-            nodes.sort($.isFunction(options.sort) ? options.sort : function(nodeX, nodeY) {
+            nodes.sort(typeof options.sort === 'function' ? options.sort : function(nodeX, nodeY) {
                 return (nodeX.order || 0) - (nodeY.order);
             });
         }
@@ -220,7 +220,7 @@
             that.maxLevel = Math.max(that.maxLevel, node.level);
 
             // Create node element
-            var isCustomNodeTemplate = $.isFunction(options.nodeTemplate);
+            var isCustomNodeTemplate = typeof options.nodeTemplate === 'function';
             var $node = isCustomNodeTemplate ? options.nodeTemplate(node, that) : $(options.nodeTemplate);
 
             // Create node wrapper element
@@ -388,9 +388,9 @@
     // Call event
     Treemap.prototype.callEvent = function(name, params) {
         var that = this;
-        if(!$.isArray(params)) params = [params];
+        if(!Array.isArray(params)) params = [params];
         that.$.trigger(name, params);
-        if($.isFunction(that.options[name])) {
+        if(typeof that.options[name] === 'function') {
             return that.options[name].apply(that, params);
         }
     };

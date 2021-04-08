@@ -1,8 +1,8 @@
 /*!
- * ZUI: 数据表格 - v1.9.2 - 2020-07-09
+ * ZUI: 数据表格 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -117,7 +117,7 @@
         var options = this.options,
             cols;
 
-        if($.isFunction(data)) {
+        if(typeof data === 'function') {
             data = data(this.data, this);
             data.keepSort = true;
         } else if($.isPlainObject(data)) {

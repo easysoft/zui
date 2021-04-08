@@ -1,8 +1,8 @@
 /*!
- * ZUI: Chart.js - v1.9.2 - 2020-07-09
+ * ZUI: Chart.js - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -2197,7 +2197,7 @@
                 strokeWidth: this.options.pointDotStrokeWidth,
                 radius: this.options.pointDotRadius,
                 display: this.options.pointDot,
-                hitDetectionRadius: this.options.pointHitDetectionRadius,
+                hitDetectionRadius: Math.min(this.options.pointHitDetectionRadius, Math.max(2, Math.floor(300 / (data.labels.length - 1) / 2))),
                 ctx: this.chart.ctx,
                 inRange: function(mouseX) {
                     return(Math.pow(mouseX - this.x, 2) < Math.pow(this.radius + this.hitDetectionRadius, 2));

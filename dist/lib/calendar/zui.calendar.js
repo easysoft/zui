@@ -1,8 +1,8 @@
 /*!
- * ZUI: 日历 - v1.9.2 - 2020-07-09
+ * ZUI: 日历 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -169,7 +169,7 @@
     Calendar.prototype.sortEvents = function() {
         var that = this;
         var events = that.events;
-        if(!$.isArray(events)) {
+        if(!Array.isArray(events)) {
             events = [];
         }
 
@@ -371,7 +371,7 @@
     };
 
     Calendar.prototype.removeEvents = function(events) {
-        if(!$.isArray(events)) {
+        if(!Array.isArray(events)) {
             events = [events];
         }
         var id, event, idx, evts = this.events,

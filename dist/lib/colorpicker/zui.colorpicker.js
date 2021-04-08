@@ -1,8 +1,8 @@
 /*!
- * ZUI: 颜色选择器 - v1.9.2 - 2020-07-09
+ * ZUI: 颜色选择器 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -162,7 +162,7 @@
             var c = new $.zui.Color(color);
             hex = c.toCssStr().toLowerCase();
             if (updateBtn) {
-                if ($.isFunction(updateBtn)) {
+                if (typeof updateBtn === 'function') {
                     updateBtn(hex, $btn, that);
                 } else {
                     $btn.css({
@@ -183,7 +183,7 @@
             that.$.trigger('colorchange', c);
         } else {
             if (updateBtn) {
-                if ($.isFunction(updateBtn)) {
+                if (typeof updateBtn === 'function') {
                     updateBtn(null, $btn, that);
                 } else {
                     $btn.attr('style', null);

@@ -1,8 +1,8 @@
 /*!
- * ZUI: 1.2升级到1.3兼容插件 - v1.9.2 - 2020-07-09
+ * ZUI: 1.2升级到1.3兼容插件 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -20,7 +20,7 @@
     var zui = $.zui;
     if(zui) {
         function extendTo(name, target) {
-            if($.isArray(name)) {
+            if(Array.isArray(name)) {
                 $.each(name, function(i, n) {
                     extendTo(n, target);
                 });

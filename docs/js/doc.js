@@ -1,8 +1,8 @@
 /*!
- * ZUI: Document - v1.9.2 - 2020-07-09
+ * ZUI: Document - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -19,33 +19,6 @@
     'use strict';
 
     var STR_FUNCTION = 'function';
-
-    /**
-     *  Calls a function for each element in the array.
-     */
-    if(!Array.prototype.forEach) {
-        Array.prototype.forEach = function(fun /*, thisp*/ ) {
-            var len = this.length;
-            if(typeof fun != STR_FUNCTION)
-                throw new TypeError();
-
-            var thisp = arguments[1];
-            for(var i = 0; i < len; i++) {
-                if(i in this) {
-                    fun.call(thisp, this[i], i, this);
-                }
-            }
-        };
-    }
-
-    /**
-     * Judge an object is an real array
-     */
-    if(!Array.isArray) {
-        Array.isArray = function(obj) {
-            return Object.toString.call(obj) === '[object Array]';
-        };
-    }
 
     /**
      * Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.
@@ -298,37 +271,6 @@
                 return -1;
             }
         });
-    }
-
-    /**
-     * Returns true if at least one element in this array satisfies the provided testing conditions.
-     * @param  {function or plain object}  conditions
-     * @return {Boolean}
-     */
-    if(!Array.prototype.has) {
-        Array.prototype.has = function(conditions) {
-            var result = false,
-                cdt, ok, objVal;
-            this.forEach(function(val) {
-                ok = true;
-                for(var key in conditions) {
-                    cdt = conditions[key];
-                    if(typeof cdt === STR_FUNCTION) {
-                        ok = cdt(val);
-                    } else {
-                        objVal = val[key];
-                        ok = (objVal && objVal === cdt);
-                    }
-                    if(!ok) break;
-                }
-                if(ok) {
-                    result = true;
-                    return false;
-                }
-            });
-
-            return result;
-        };
     }
 }());
 
@@ -13475,7 +13417,7 @@ require('./polyfill-done.js');
     };
 
     var queryIcon = function(keys) {
-        if(!$.isArray(keys) && (keys || keys.length)) {
+        if(!Array.isArray(keys) && (keys || keys.length)) {
             keys = [keys];
         }
 
@@ -13532,9 +13474,9 @@ require('./polyfill-done.js');
                         weight += 120;
                     } else {
                         var filters = [];
-                        if($.isArray(icon.filter) && icon.filter.length) filters = filters.concat(icon.filter);
-                        if($.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
-                        if($.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
+                        if(Array.isArray(icon.filter) && icon.filter.length) filters = filters.concat(icon.filter);
+                        if(Array.isArray(icon.categories) && icon.categories.length) filters = filters.concat(icon.categories);
+                        if(Array.isArray(icon.alias) && icon.alias.length) filters = filters.concat(icon.alias);
                         if(!filters.length) return;
                         $.each(filters, function(filterIndex, filter) {
                             filter = filter.toLowerCase();
@@ -13587,7 +13529,7 @@ require('./polyfill-done.js');
         $body.addClass('query-enabled').attr('data-query', '');
 
         // Send ga data
-        if(window['ga'] && $.isFunction(ga)) {
+        if(window['ga'] && typeof ga === 'function') {
             if(queryGaCallback) clearTimeout(queryGaCallback);
             queryGaCallback = setTimeout(function() {
                 ga('send', 'pageview', window.location.pathname + '#search/' + keyString);
@@ -13742,7 +13684,7 @@ require('./polyfill-done.js');
                                     weight = 60;
                                     break;
                                 }
-                                if($.isArray(section.topics)) {
+                                if(Array.isArray(section.topics)) {
                                     var isBreak = false;
                                     $.each(section.topics, function(topicIndex, topic) {
                                         if(topic.name && topic.name.toLowerCase().includes(keyVal)) {
@@ -13906,7 +13848,7 @@ require('./polyfill-done.js');
     var closePage = function(onlyEvent) {
         window['afterPageLoad'] = null;
         window['onPageLoad'] = null;
-        if($.isFunction(window['onPageClose'])) {
+        if(typeof window['onPageClose'] === 'function') {
             window['onPageClose']();
             window['onPageClose'] = null;
         }
@@ -13966,12 +13908,12 @@ require('./polyfill-done.js');
 
     var handlePageLoad = function() {
         var delayMutedPageLoading = false;
-        if($.isFunction(window['onPageLoad'])) {
+        if(typeof window['onPageLoad'] === 'function') {
             delayMutedPageLoading = window['onPageLoad']() === false;
         }
 
         setTimeout(function() {
-            if($.isFunction(window['afterPageLoad'])) {
+            if(typeof window['afterPageLoad'] === 'function') {
                 if(window['afterPageLoad'](stopPageLoading) === true) {
                     handlePageLoad();
                 }
@@ -14003,7 +13945,7 @@ require('./polyfill-done.js');
         var lastShowDataCall;
 
         loadData(section.url, function(data, dataType) {
-            if(zuiPkg) data = data.format(zuiPkg, '{\\$0}');
+            if(zuiPkg) data = $.zui.formatString(data, zuiPkg);
             var showData = function() {
                 if(data && window.marked && section.targetType === 'markdown') {
                     var $article = $();
@@ -14122,7 +14064,7 @@ require('./polyfill-done.js');
         if(topic) pageUrl += '/' + topic;
         window.document.title = section.chapterName + ' > ' + section.name + ' - ' + documentTitle;
         window.location.hash = pageUrl;
-        if(window['ga'] && $.isFunction(ga)) ga('send', 'pageview', window.location.pathname + pageUrl);
+        if(window['ga'] && typeof ga === 'function') ga('send', 'pageview', window.location.pathname + pageUrl);
 
         $body.attr('data-page-accent', $section.data('accent')).attr('data-page', pageId);
         displaySectionIcon($pageHeader.find('.icon'), section);
@@ -14266,7 +14208,7 @@ require('./polyfill-done.js');
         section = section || $choosedSection;
 
         var $section;
-        if($.isArray(section)) {
+        if(Array.isArray(section)) {
             if(typeof topic !== 'undefined') section = section.push(topic);
             if(!section[0]) {
                 if(debug) console.warn("Open section failed: can't find the section with id " + section.join('-'));
@@ -14399,7 +14341,7 @@ require('./polyfill-done.js');
         if(!list) {
             list = [];
         }
-        if(!$.isArray(list)) {
+        if(!Array.isArray(list)) {
             list = [list];
         }
 
@@ -14434,7 +14376,7 @@ require('./polyfill-done.js');
     var getItemList = function(lib, list, items, ignoreDpds, ignoreCombine) {
         items = items || [];
 
-        if($.isArray(list)) {
+        if(Array.isArray(list)) {
             $.each(list, function(idx, name) {
                 getItemList(lib, name, items, ignoreDpds);
             });
@@ -14473,19 +14415,19 @@ require('./polyfill-done.js');
                 var $e = $(this);
                 var eData = $e.data();
                 if(eData.fmtHref) {
-                    $e.attr('href', eData.fmtHref.format(pkg));
+                    $e.attr('href', $.zui.formatString(eData.fmtHref, pkg));
                 }
                 if(eData.fmtText) {
-                    $e.text(eData.fmtText.format(pkg));
+                    $e.text($.zui.formatString(eData.fmtText, pkg));
                 }
                 if(eData.fmtHtml) {
-                    $e.html(eData.fmtHtml.format(pkg));
+                    $e.html($.zui.formatString(eData.fmtHtml, pkg));
                 }
                 if(eData.fmt) {
                     $.each(eData.fmt.split('|'), function(idx, fmt) {
                         var fmtAttr = fmt.substr(0, fmt.indexOf(':'));
                         var fmtValue = fmt.substr(fmtAttr.length + 1);
-                        $e.attr(fmtAttr, fmtValue.format(pkg));
+                        $e.attr(fmtAttr, $.zui.formatString(fmtValue, pkg));
                     });
                 }
             });
@@ -14736,7 +14678,7 @@ require('./polyfill-done.js');
                 "src/less/controls/icons.variables.less",
                 "src/less/doc.less"];
         }
-        var lessCode = $.isArray(theme.imports) ? theme.imports.map(function(i) {
+        var lessCode = Array.isArray(theme.imports) ? theme.imports.map(function(i) {
             return '@import "' + i + '";';
         }).join('\n') : theme.imports;
         lessCode += theme.variablesLess + (theme.lessCode || '');

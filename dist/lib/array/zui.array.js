@@ -1,8 +1,8 @@
 /*!
- * ZUI: 数组辅助方法 - v1.9.2 - 2020-07-09
+ * ZUI: 数组辅助方法 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -19,33 +19,6 @@
     'use strict';
 
     var STR_FUNCTION = 'function';
-
-    /**
-     *  Calls a function for each element in the array.
-     */
-    if(!Array.prototype.forEach) {
-        Array.prototype.forEach = function(fun /*, thisp*/ ) {
-            var len = this.length;
-            if(typeof fun != STR_FUNCTION)
-                throw new TypeError();
-
-            var thisp = arguments[1];
-            for(var i = 0; i < len; i++) {
-                if(i in this) {
-                    fun.call(thisp, this[i], i, this);
-                }
-            }
-        };
-    }
-
-    /**
-     * Judge an object is an real array
-     */
-    if(!Array.isArray) {
-        Array.isArray = function(obj) {
-            return Object.toString.call(obj) === '[object Array]';
-        };
-    }
 
     /**
      * Returns the last (greatest) index of an element within the array equal to the specified value, or -1 if none is found.
@@ -298,36 +271,5 @@
                 return -1;
             }
         });
-    }
-
-    /**
-     * Returns true if at least one element in this array satisfies the provided testing conditions.
-     * @param  {function or plain object}  conditions
-     * @return {Boolean}
-     */
-    if(!Array.prototype.has) {
-        Array.prototype.has = function(conditions) {
-            var result = false,
-                cdt, ok, objVal;
-            this.forEach(function(val) {
-                ok = true;
-                for(var key in conditions) {
-                    cdt = conditions[key];
-                    if(typeof cdt === STR_FUNCTION) {
-                        ok = cdt(val);
-                    } else {
-                        objVal = val[key];
-                        ok = (objVal && objVal === cdt);
-                    }
-                    if(!ok) break;
-                }
-                if(ok) {
-                    result = true;
-                    return false;
-                }
-            });
-
-            return result;
-        };
     }
 }());

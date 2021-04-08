@@ -673,7 +673,7 @@
   font-weight: bold;
   line-height: 31px;
   color: #666;
-  background: url("../common/loading.gif") no-repeat;
+  background: url("../themes/common/loading.gif") no-repeat;
   }
 .ke-dialog-row {
   margin-bottom: 10px;
@@ -698,7 +698,7 @@
   }
 .ke-button-common {
   display: inline-block;
-  height: 23px;
+  height: 22px;
   overflow: visible;
   line-height: 21px;
   vertical-align: middle;
@@ -768,11 +768,11 @@ fieldset[disabled] .ke-button.active {
 .ke-input-text {
   display: -moz-inline-stack;
   display: inline-block;
-  height: 20px;
+  height: 22px;
   padding: 0 4px;
   font-family: "sans serif", tahoma, verdana, helvetica;
   font-size: 12px;
-  line-height: 20px;
+  line-height: 22px;
   vertical-align: middle;
   zoom: 1;
   background-color: #fff;

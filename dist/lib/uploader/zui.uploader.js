@@ -1,8 +1,8 @@
 /*!
- * ZUI: 文件上传 - v1.9.2 - 2020-07-09
+ * ZUI: 文件上传 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /**
@@ -268,7 +268,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
             var $file = $(this).closest('.file');
             var file = $file.data('file');
             var deleteActionOnDoneOption = options.deleteActionOnDone;
-            var doneActionAble = file.status === Plupload.DONE && $.isFunction(deleteActionOnDoneOption);
+            var doneActionAble = file.status === Plupload.DONE && typeof deleteActionOnDoneOption === 'function';
             if(file.status === Plupload.QUEUED || file.status === Plupload.FAILED || doneActionAble) {
                 var doRemoveFile = function() {
                     that.removeFile(file);
@@ -285,7 +285,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
                 };
                 var deleteConfirmOption = options.deleteConfirm;
                 if(deleteConfirmOption) {
-                    var confirmMessage = $.isFunction(deleteConfirmOption) ? deleteConfirmOption(file) : (deleteConfirmOption === true ? lang.deleteConfirm : deleteConfirmOption);
+                    var confirmMessage = typeof deleteConfirmOption === 'function' ? deleteConfirmOption(file) : (deleteConfirmOption === true ? lang.deleteConfirm : deleteConfirmOption);
                     confirmMessage = confirmMessage.format(file);
                     if(window.bootbox) {
                         window.bootbox.confirm(confirmMessage, function(result) {
@@ -315,7 +315,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
                 if($file.hasClass('file-renaming')) return;
                 var file = that.plupload.getFile($file.data('id')) || $file.data('file');
                 var renameActionOnDoneOption = options.renameActionOnDone;
-                var renameActionAble = file.status === Plupload.DONE && $.isFunction(renameActionOnDoneOption);
+                var renameActionAble = file.status === Plupload.DONE && typeof renameActionOnDoneOption === 'function';
                 if(renameActionAble || file.status === Plupload.QUEUED) {
                     var $filename = $file.find('.file-name').first();
                     $file.addClass('file-renaming');
@@ -533,7 +533,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
 
         var $file = $('#file-' + file.id);
         if(!$file.length) {
-            if($.isFunction(that.template)) {
+            if(typeof that.template === 'function') {
                 $file = $(that.template(file, that));
             } else {
                 $file = $(that.template).clone();
@@ -553,7 +553,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
 
     Uploader.prototype.showFile = function(file, responseObject) {
         var that = this;
-        if($.isArray(file)) {
+        if(Array.isArray(file)) {
             $.each(file, function(idx, f) {
                 that.showFile(f, responseObject);
             });
@@ -724,7 +724,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
                 var responseHandlerOption = options.responseHandler;
                 if(responseHandlerOption) {
                     var error = null;
-                    if($.isFunction(responseHandlerOption)) {
+                    if(typeof responseHandlerOption === 'function') {
                         error = responseHandlerOption.call(that, responseObject, file);
                     } else if(responseObject.response) {
                         var json = file.remoteData;
@@ -793,7 +793,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
                         };
                     if(typeof uploadedMessage === 'string') {
                         msg += uploadedMessage.format(msgData);
-                    } else if($.isFunction(uploadedMessage)) {
+                    } else if(typeof uploadedMessage === 'function') {
                         msg += uploadedMessage(msgData);
                     } else {
                         msg += that.lang[failedCount > 0 ? 'uploadHasFailedMessage' : (uploadedCount > 0 ? 'uploadSuccessMessage' : 'uploadEmptyMessage')].format(msgData);
@@ -828,7 +828,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
                 }
                 if(options.sendFileName) params[options.sendFileName === true ? 'name' : options.sendFileName] = file.name;
                 if(options.sendFileId) params[options.sendFileId === true ? 'uuid' : options.sendFileId] = file.id;
-                params = $.extend(params, $.isFunction(multipartParamsOption) ? multipartParamsOption(file, params) : multipartParamsOption);
+                params = $.extend(params, typeof multipartParamsOption === 'function' ? multipartParamsOption(file, params) : multipartParamsOption);
                 uploader.setOption('multipart_params', params);
                 that.callEvent('onBeforeUpload', file);
             },
@@ -866,7 +866,7 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
             delete plOptions.qiniu;
             if(qiniuKeyFunc) {
                 delete qiniuOptions.key;
-                if($.isFunction(qiniuKeyFunc)) {
+                if(typeof qiniuKeyFunc === 'function') {
                     eventHandlers.Key = qiniuKeyFunc;
                 }
             } else {
@@ -901,9 +901,9 @@ o.files=[],n.each(e,function(e){o.files.push(new t(a.uid,e))})},999),a.shimExec.
     // Call event helper
     Uploader.prototype.callEvent = function(name, params) {
         var that = this;
-        if(!$.isArray(params)) params = [params];
+        if(!Array.isArray(params)) params = [params];
         that.$.trigger(name, params);
-        if($.isFunction(that.options[name])) {
+        if(typeof that.options[name] === 'function') {
             return that.options[name].apply(that, params);
         }
     };

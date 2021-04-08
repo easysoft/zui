@@ -1,8 +1,8 @@
 /*!
- * ZUI: 选择器 - v1.9.2 - 2020-07-09
+ * ZUI: 选择器 - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 .picker {
@@ -146,6 +146,7 @@
 .picker-single .picker-selection-remove {
   top: 5px;
   right: 20px;
+  z-index: 1;
   }
 .picker-no-value .picker-selection-remove,
 .picker-single.picker-focus .picker-selection-remove {
@@ -271,7 +272,7 @@
   bottom: -4px;
   left: 0;
   display: block;
-  height: 3px;
+  height: 2px;
   content: ' ';
   background-color: #3280fc;
   border-radius: 2px;

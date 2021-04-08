@@ -1,8 +1,8 @@
 /*!
- * ZUI: Standard edition - v1.9.2 - 2020-07-09
+ * ZUI: Standard edition - v1.9.2 - 2021-04-08
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2020 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2021 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -21,7 +21,7 @@
     /* Check jquery */
     if(typeof($) === 'undefined') throw new Error('ZUI requires jQuery');
 
-    // ZUI shared object
+    /* ZUI shared object */
     if(!$.zui) $.zui = function(obj) {
         if($.isPlainObject(obj)) {
             $.extend($.zui, obj);
@@ -38,14 +38,14 @@
     var lastUuidAmend = 0;
     $.zui({
         uuid: function(asNumber) {
-            var uuidNumber = (Date.now() - 1580890015292) * 10e7 + Math.floor(Math.random() * 10e4) * 10e2 + (lastUuidAmend++) % 10e2;
+            var uuidNumber = (Date.now() - 1580890015292) * 10e4 + Math.floor(Math.random() * 10e3) * 10 + (lastUuidAmend++) % 10;
             return asNumber ? uuidNumber : uuidNumber.toString(36);
         },
 
         callEvent: function(func, event, proxy) {
-            if($.isFunction(func)) {
+            if(typeof func === 'function') {
                 if(proxy !== undefined) {
-                    func = $.proxy(func, proxy);
+                    func = func.bind(proxy);
                 }
                 var result = func(event);
                 if(event) event.result = result;
@@ -56,6 +56,7 @@
 
         strCode: function(str) {
             var code = 0;
+            if (typeof str !== 'string') str = String(str);
             if(str && str.length) {
                 for(var i = 0; i < str.length; ++i) {
                     code += i * str.charCodeAt(i);
@@ -254,7 +255,7 @@
 
         if(model && model.options) {
             var func = model.options[shortName];
-            if($.isFunction(func)) {
+            if(typeof func === 'function') {
                 e.result = $.zui.callEvent(func, e, model);
             }
         }
@@ -263,7 +264,7 @@
     };
 
     $.fn.callComEvent = function(component, eventName, params) {
-        if (params !== undefined && !$.isArray(params)) {
+        if (params !== undefined && !Array.isArray(params)) {
             params = [params];
         }
         var $this = this;
@@ -344,7 +345,7 @@
         $el[val](data[state] || this.options[state])
 
         // push to event loop to allow forms to submit
-        setTimeout($.proxy(function() {
+        setTimeout((function() {
             if(state == 'loadingText') {
                 this.isLoading = true
                 $el.addClass(d).attr(d, d)
@@ -352,7 +353,7 @@
                 this.isLoading = false
                 $el.removeClass(d).removeAttr(d)
             }
-        }, this), 0)
+        }).bind(this), 0)
     }
 
     Button.prototype.toggle = function() {
@@ -744,7 +745,7 @@
 
     Pager.prototype.createElement = function(element, $pager, pager) {
         var that = this;
-        var createLinkItem= $.proxy(that.createLinkItem, that);
+        var createLinkItem= that.createLinkItem.bind(that);
         var lang = that.lang;
         switch (element) {
             case 'prev':
@@ -801,7 +802,7 @@
         var linkCreator = this.options.linkCreator;
         if (typeof linkCreator === 'string') {
             return linkCreator.format($.extend({}, pager, {page: page}));
-        } else if ($.isFunction(linkCreator)) {
+        } else if (typeof linkCreator === 'function') {
             return linkCreator(page, pager);
         }
         return '#page=' + page;
@@ -1193,7 +1194,7 @@
         var scrollSize = $.camelCase(['scroll', dimension].join('-'))
 
         this.$element
-            .one($.support.transition.end, $.proxy(complete, this))
+            .one($.support.transition.end, complete.bind(this))
             .emulateTransitionEnd(350)[dimension](this.$element[0][scrollSize])
     }
 
@@ -1226,7 +1227,7 @@
         if(!$.support.transition) return complete.call(this)
 
         this.$element[dimension](0)
-            .one($.support.transition.end, $.proxy(complete, this))
+            .one($.support.transition.end, complete.bind(this))
             .emulateTransitionEnd(350)
     }
 
@@ -2203,7 +2204,7 @@
 
             // This may seem a little complicated, but it normalizes the special event
             // .add method between jQuery 1.4/1.4.1 and 1.4.2+
-            if($.isFunction(handleObj)) {
+            if(typeof handleObj === 'function') {
                 // 1.4, 1.4.1
                 old_handler = handleObj;
                 return new_handler;
@@ -2268,7 +2269,7 @@
 
     function ScrollSpy(element, options) {
         var href
-        var process = $.proxy(this.process, this)
+        var process = this.process.bind(this)
 
         this.$element = $(element).is('body') ? $(window) : $(element)
         this.$body = $('body')
@@ -2808,7 +2809,7 @@
             selector       = setting.selector,
             handle         = setting.handle,
             $ele           = $root,
-            isMoveFunc     = $.isFunction(setting.move),
+            isMoveFunc     = typeof setting.move === 'function',
             startPos,
             cPos,
             startOffset,
@@ -3240,7 +3241,7 @@
             }
 
             isMouseDown = true;
-            $targets         = $.isFunction(setting.target) ? setting.target($ele, $root) : $container.find(setting.target),
+            $targets         = typeof setting.target === 'function' ? setting.target($ele, $root) : $container.find(setting.target),
             $target          = null,
             $shadow          = null,
             isIn             = false,
@@ -3356,7 +3357,7 @@
         if (options.scrollInside) {
             $(window).on('resize.' + zuiname, function() {
                 if (that.isShown) {
-                    that.adjustPosition();
+                    that.adjustPosition(undefined, 100);
                 }
             });
         }
@@ -3389,12 +3390,18 @@
         return this.isShown ? this.hide() : this.show(_relatedTarget, position)
     }
 
-    Modal.prototype.adjustPosition = function(position) {
+    Modal.prototype.adjustPosition = function(position, delay) {
         var that = this;
+        clearTimeout(that.reposTask);
+        if (delay) {
+            that.reposTask = setTimeout(that.adjustPosition.bind(that, position, 0), delay);
+            return;
+        }
+
         var options = that.options;
         if(position === undefined) position = options.position;
         if(position === undefined || position === null) return;
-        if ($.isFunction(position)) {
+        if (typeof position === 'function') {
             position = position(that);
         }
         var $dialog = that.$element.find('.modal-dialog');
@@ -3407,19 +3414,23 @@
             var footerHeight = options.footerHeight;
             var $header = $dialog.find('.modal-header');
             var $footer = $dialog.find('.modal-footer');
-            if (typeof headerHeight !== 'number' && $header.length) {
-                headerHeight = $header.outerHeight();
-            } else if ($.isFunction(headerHeight)) {
-                headerHeight = headerHeight($header);
-            } else {
-                headerHeight = 0;
+            if (typeof headerHeight !== 'number') {
+                if ($header.length) {
+                    headerHeight = $header.outerHeight();
+                } else if (typeof headerHeight === 'function') {
+                    headerHeight = headerHeight($header);
+                } else {
+                    headerHeight = 0;
+                }
             }
-            if (typeof footerHeight !== 'number' && $footer.length) {
-                footerHeight = $footer.outerHeight();
-            } else if ($.isFunction(footerHeight)) {
-                footerHeight = footerHeight($footer);
-            } else {
-                footerHeight = 0;
+            if (typeof footerHeight !== 'number') {
+                if ($footer.length) {
+                    footerHeight = $footer.outerHeight();
+                } else if (typeof footerHeight === 'function') {
+                    footerHeight = footerHeight($footer);
+                } else {
+                    footerHeight = 0;
+                }
             }
             bodyCss.maxHeight = winHeight - headerHeight - footerHeight;
             bodyCss.overflow = $body[0].scrollHeight > bodyCss.maxHeight ? 'auto' : 'visible';
@@ -3506,8 +3517,8 @@
         if(that.options.moveable) that.setMoveable();
 
         if (that.options.backdrop !== false) {
-            that.$body.addClass('modal-open')
             that.setScrollbar();
+            that.$body.addClass('modal-open')
         }
 
         that.escape()
@@ -3583,7 +3594,7 @@
 
         $.support.transition && that.$element.hasClass('fade') ?
             that.$element
-            .one('bsTransitionEnd', $.proxy(that.hideModal, that))
+            .one('bsTransitionEnd', that.hideModal.bind(that))
             .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
             that.hideModal()
     }
@@ -3591,23 +3602,23 @@
     Modal.prototype.enforceFocus = function() {
         $(document)
             .off('focusin.' + zuiname) // guard against infinite focus loop
-            .on('focusin.' + zuiname, $.proxy(function(e) {
+            .on('focusin.' + zuiname, (function(e) {
                 if(this.$element[0] !== e.target && !this.$element.has(e.target).length) {
                     this.$element.trigger('focus')
                 }
-            }, this))
+            }).bind(this))
     }
 
     Modal.prototype.escape = function() {
         if(this.isShown && this.options.keyboard) {
-            $(document).on('keydown.dismiss.' + zuiname, $.proxy(function(e) {
+            $(document).on('keydown.dismiss.' + zuiname, (function(e) {
                 if(e.which == 27) {
                     var et = $.Event('escaping.' + zuiname)
                     var result = this.$element.triggerHandler(et, 'esc')
                     if(result != undefined && (!result)) return
                     this.hide()
                 }
-            }, this))
+            }).bind(this))
         } else if(!this.isShown) {
             $(document).off('keydown.dismiss.' + zuiname)
         }
@@ -3636,10 +3647,10 @@
             this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
                 .appendTo(this.$body)
 
-            this.$element.on('mousedown.dismiss.' + zuiname, $.proxy(function(e) {
+            this.$element.on('mousedown.dismiss.' + zuiname, (function(e) {
                 if(e.target !== e.currentTarget) return
                 this.options.backdrop == 'static' ? this.$element[0].focus.call(this.$element[0]) : this.hide.call(this)
-            }, this))
+            }).bind(this))
 
             if(doAnimate) this.$backdrop[0].offsetWidth // force reflow
 
@@ -3674,7 +3685,7 @@
     Modal.prototype.setScrollbar = function() {
         if($.zui.fixBodyScrollbar()) {
             if (this.options.onSetScrollbar) {
-                this.options.onSetScrollbar(paddingRight);
+                this.options.onSetScrollbar();
             }
         }
     }
@@ -3784,6 +3795,9 @@
         this.$trigger = $trigger;
         this.options = options;
         this.id = $.zui.uuid();
+        if (options.show) {
+            this.show();
+        }
     };
 
     ModalTrigger.DEFAULTS = {
@@ -3834,7 +3848,7 @@
 
                 if($doms && $doms.length) {
                     options.custom = $doms;
-                } else if($.isFunction(window[options.custom])) {
+                } else if(typeof window[options.custom] === 'function') {
                     options.custom = window[options.custom];
                 }
             }
@@ -3853,7 +3867,7 @@
 
         var bindEvent = function(optonName, eventName) {
             var handleFunc = options[optonName];
-            if($.isFunction(handleFunc)) $modal.on(eventName + ZUI_MODAL, handleFunc);
+            if(typeof handleFunc === 'function') $modal.on(eventName + ZUI_MODAL, handleFunc);
         };
         bindEvent('onShow', 'show');
         bindEvent('shown',  'shown');
@@ -3936,6 +3950,7 @@
 
                 if(options.type != 'iframe') {
                     $body = $dialog.off('resize.' + NAME).find('.modal-body').off('resize.' + NAME);
+                    if(options.scrollInside) $body = $body.children().off('resize.' + NAME);
                     ($body.length ? $body : $dialog).on('resize.' + NAME, resizeDialog);
                 }
 
@@ -3944,7 +3959,7 @@
         };
 
         if(options.type === 'custom' && custom) {
-            if($.isFunction(custom)) {
+            if(typeof custom === 'function') {
                 var customContent = custom({
                     modal: $modal,
                     options: options,
@@ -4016,7 +4031,7 @@
                                     var headerHeight = options.headerHeight;
                                     if (typeof headerHeight !== 'number') {
                                         headerHeight = $header.outerHeight();
-                                    } else if ($.isFunction(headerHeight)) {
+                                    } else if (typeof headerHeight === 'function') {
                                         headerHeight = headerHeight($header);
                                     }
                                     var winHeight = $(window).height();
@@ -4113,7 +4128,7 @@
         var that = this;
         if(callback || redirect) {
             that.$modal.on('hidden' + ZUI_MODAL, function() {
-                if($.isFunction(callback)) callback();
+                if(typeof callback === 'function') callback();
 
                 if(typeof redirect === STR_STRING && redirect.length && !that.$modal.data('cancel-reload')) {
                     if(redirect === 'this') window.location.reload();
@@ -4131,7 +4146,7 @@
 
     ModalTrigger.prototype.adjustPosition = function(position) {
         position = position === undefined ? this.options.position : position;
-        if ($.isFunction(position)) {
+        if (typeof position === 'function') {
             position = position(this);
         }
         this.$modal.modal('adjustPosition', position);
@@ -4152,8 +4167,11 @@
                     type: $this.hasClass('iframe') ? 'iframe' : ''
                 }, $this.data(), $.isPlainObject(option) && option);
             if(!data) $this.data(NAME, (data = new ModalTrigger(options, $this)));
-            if(typeof option == STR_STRING) data[option](settings);
-            else if(options.show) data.show(settings);
+            else {
+                if(typeof option == STR_STRING) data[option](settings);
+                else if(options.show) data.show(settings);
+                return;
+            }
 
             $this.on((options.trigger || 'click') + '.toggle.' + NAME, function(e) {
                 options = $.extend(options, {
@@ -4191,7 +4209,7 @@
     // callback, redirect, modal
     var closeModal = function(modal, callback, redirect) {
         var originModal = modal;
-        if($.isFunction(modal)) {
+        if(typeof modal === 'function') {
             var oldModal = redirect;
             redirect = callback;
             callback = modal;
@@ -4326,13 +4344,13 @@
             var trigger = triggers[i]
 
             if(trigger == 'click') {
-                this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
+                this.$element.on('click.' + this.type, this.options.selector, this.toggle.bind(this))
             } else if(trigger != 'manual') {
                 var eventIn = trigger == 'hover' ? 'mouseenter' : 'focus'
                 var eventOut = trigger == 'hover' ? 'mouseleave' : 'blur'
 
-                this.$element.on(eventIn + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
-                this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
+                this.$element.on(eventIn + '.' + this.type, this.options.selector, this.enter.bind(this))
+                this.$element.on(eventOut + '.' + this.type, this.options.selector, this.leave.bind(this))
             }
         }
 
@@ -5018,7 +5036,13 @@
         // x: 0,
         // y: 0,
         // onClickItem: null,
+        // menuCreator: null,
+        // position: null,
+        animation: 'fade',
+        menuTemplate: '<ul class="dropdown-menu"></ul>',
+        toggleTrigger: false,
         duration: 200,
+        limitInsideWindow: true
     };
 
     var isShowingMenu = false;
@@ -5030,10 +5054,6 @@
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
-        return ContextMenu;
-    };
-    var stopListenMouse = function() {
-        $(document).off('mousemove.' + NAME);
         return ContextMenu;
     };
     var createMenuItem = function(item, index) {
@@ -5067,6 +5087,11 @@
         return $('<li />').toggleClass('disabled', item.disabled === true).append($a);
     };
 
+    var isContextMenuShow = function(id) {
+        var $target = $('#' + targetId);
+        return $target.length && $target.hasClass('contextmenu-show') && (!id || ($target.data('options') || {}).id === id);
+    };
+
     var animationTimer = null;
     var hideContextMenu = function(id, callback) {
         if (typeof id === 'function') {
@@ -5081,16 +5106,16 @@
 
         var $target = $('#' + targetId);
         if ($target.length) {
-            var options = $target.data('options');
+            var options = $target.removeClass('contextmenu-show').data('options');
             if (!id || options.id === id) {
                 var afterHide = function() {
-                    $target.hide();
+                    $target.find('.contextmenu-menu').removeClass('open');
                     options.onHidden && options.onHidden();
                     callback && callback();
                 };
                 options.onHide && options.onHide();
                 var animation = options.animation;
-                $target.removeClass('in');
+                $target.find('.contextmenu-menu').removeClass('in');
                 if (animation) {
                     animationTimer = setTimeout(afterHide, options.duration);
                 } else {
@@ -5112,36 +5137,39 @@
         // hideContextMenu();
 
         options = $.extend({}, DEFAULTS, options);
-        var x = options.x;
-        var y = options.y;
-        if (x === undefined) x = (options.event || options).clientX;
-        if (x === undefined) x = mouseX;
-        if (y === undefined) y = (options.event || options).clientY;
-        if (y === undefined) y = mouseY;
 
         var $target = $('#' + targetId);
         if (!$target.length) {
-            $target = $('<div style="display: none; position: fixed; z-index: 2000;" class="contextmenu" id="' + targetId + '"><ul class="dropdown-menu contextmenu-menu"></ul></div>').appendTo('body');
+            $target = $('<div style="position: fixed; z-index: 2000;" class="contextmenu" id="' + targetId + '"><div class="contextmenu-menu"></div></div>').appendTo('body');
         }
-        var $menu = $target.find('.contextmenu-menu').off('click.' + NAME).on('click.' + NAME, 'a', function(e) {
+        var $menu = $target.find('.contextmenu-menu').off('click.' + NAME).on('click.' + NAME, 'a,.contextmenu-item', function(e) {
             var $item = $(this);
             var clickResult = options.onClickItem && options.onClickItem($item.data('item'), $item, e);
             if (clickResult !== false) {
                 hideContextMenu();
             }
         }).empty();
-        $menu.attr('class', 'dropdown-menu contextmenu-menu' + (options.className ? (' ' + options.className) : ''))
-        $target.hide().attr('class', 'contextmenu');
-        var itemCreator = options.itemCreator || createMenuItem;
-        var itemsType = typeof items;
-        if (itemsType === 'string') {
-            items = items.split(',');
-        } else if (itemsType === 'function') {
-            items = items(options);
+        $menu.attr('class', 'contextmenu-menu' + (options.className ? (' ' + options.className) : ''))
+        $target.attr('class', 'contextmenu contextmenu-show');
+
+        // Create menu items
+        var menuCreator = options.menuCreator;
+        if (menuCreator) {
+            $menu.append(menuCreator(items, options));
+        } else {
+            $menu.append(options.menuTemplate);
+            var $menuList = $menu.children().first();
+            var itemCreator = options.itemCreator || createMenuItem;
+            var itemsType = typeof items;
+            if (itemsType === 'string') {
+                items = items.split(',');
+            } else if (itemsType === 'function') {
+                items = items(options);
+            }
+            $.each(items, function(index, item) {
+                $menuList.append(itemCreator(item, index, options));
+            });
         }
-        $.each(items, function(index, item) {
-            $menu.append(itemCreator(item, index, options));
-        });
 
         // Show menu
         var animation = options.animation;
@@ -5152,11 +5180,12 @@
             animationTimer = null;
         }
         var afterShow = function() {
-            $target.addClass('in');
+            $menu.addClass('in');
             options.onShown && options.onShown();
             callback && callback();
         };
         options.onShow && options.onShow();
+
         $target.data('options', {
             animation: animation,
             onHide: options.onHide,
@@ -5165,42 +5194,56 @@
             duration: duration
         });
 
-        var $w = $(window);
-        x = Math.max(0, Math.min(x, $w.width() - $menu.outerWidth()));
-        y = Math.max(0, Math.min(y, $w.height() - $menu.outerHeight()));
+        var x = options.x;
+        var y = options.y;
+        if (x === undefined) x = (options.event || options).clientX;
+        if (x === undefined) x = mouseX;
+        if (y === undefined) y = (options.event || options).clientY;
+        if (y === undefined) y = mouseY;
+        var $menuList = $menu.children().first();
+        var menuWidth = $menuList.outerWidth();
+        var menuHeight = $menuList.outerHeight();
+        if (options.position) {
+            var newPos = options.position({x: x, y: y, width: menuWidth, height: menuHeight}, options, $menu);
+            if (newPos) {
+                x = newPos.x;
+                y = newPos.y;
+            }
+        }
+        if (options.limitInsideWindow) {
+            var $w = $(window);
+            x = Math.max(0, Math.min(x, $w.width() - menuWidth));
+            y = Math.max(0, Math.min(y, $w.height() - menuHeight));
+        }
+
         $target.css({
             left: x,
             top: y
-        });
+        }).show();
 
+        $menu.addClass('open');
         if (animation) {
-            $target.addClass('open').addClass(animation).show();
+            $menu.addClass(animation);
             animationTimer = setTimeout(function() {
+                // $menu.show();
                 afterShow();
                 isShowingMenu = false;
-            }, options.duration);
+            }, 10);
         } else {
-            $target.addClass('open').show();
+            // $menu.show();
             afterShow();
-            animationTimer = setTimeout(function() {
-                isShowingMenu = false;
-            }, 200);
+            isShowingMenu = false;
         }
         return ContextMenu;
     };
-
-    $(document).on('click', function(e) {
-        if (!isShowingMenu && !$(e.target).closest('.contextmenu').length) {
-            hideContextMenu();
-        }
-    });
 
     $.extend(ContextMenu, {
         NAME: NAME,
         DEFAULTS: DEFAULTS,
         show: showContextMenu,
         hide: hideContextMenu,
-        listenMouse: listenMouseMove
+        listenMouse: listenMouseMove,
+        isShow: isContextMenuShow
     });
     $.zui({ContextMenu: ContextMenu});
 
@@ -5210,34 +5253,39 @@
         var that = this;
         that.name = NAME;
         that.$ = $(element);
-
+        that.id = $.zui.uuid();
         options = that.options = $.extend({trigger: 'contextmenu'}, ContextMenu.DEFAULTS, this.$.data(), options);
 
-        var trigger = options.trigger;
-
-        that.id = $.zui.uuid();
         var eventHandler = function(e) {
             if (e.type === 'mousedown' && e.button !== 2) {
                 return;
             }
-            var config = {
-                x: e.clientX,
-                y: e.clientY,
-                event: e
-            };
-            if (options.itemsCreator) {
-                config.items = options.itemsCreator.call(this, e);
+
+            if (options.toggleTrigger && that.isShow()) {
+                that.hide();
+            } else {
+                var config = {
+                    x: e.clientX,
+                    y: e.clientY,
+                    event: e,
+                };
+                that.show(config);
             }
-            that.show(config);
             e.preventDefault();
             e.returnValue = false; // 解决IE8右键弹出
             return false;
         };
+
+        var trigger = options.trigger;
         var eventName = trigger + '.' + NAME;
         if (options.selector) {
             that.$.on(eventName, options.selector, eventHandler);
         } else {
             that.$.on(eventName, eventHandler);
+        }
+
+        if (options.show) {
+            that.show(typeof options.show === 'object' ? options.show : null);
         }
     };
 
@@ -5250,8 +5298,12 @@
     };
 
     ContextListener.prototype.show = function (options, callback) {
-        options = $.extend({}, this.options, options);
+        options = $.extend({id: this.id, $toggle: this.$}, this.options, options);
         ContextMenu.show(options, callback);
+    };
+
+    ContextListener.prototype.isShow = function () {
+        return isContextMenuShow(this.id);
     };
 
     // Extense jquery element
@@ -5267,6 +5319,84 @@
         });
     };
     $.fn.contextmenu.Constructor = ContextListener;
+
+    // Use dropdown menu as contextmenu
+    $.fn.contextDropdown = function(options) {
+        $(this).contextmenu($.extend({
+            trigger: 'click',
+            animation: 'fade',
+            toggleTrigger: true,
+            menuCreator: function(items, finalOptions) {
+                var $toggle = finalOptions.$toggle;
+                var selector = $toggle.attr('data-target')
+                if(!selector) {
+                    selector = $toggle.attr('href')
+                    selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
+                }
+                var $target = selector ? $(selector) : $toggle.next('.dropdown-menu');
+                var transferEvent = finalOptions.transferEvent;
+                if (transferEvent !== false) {
+                    var indexAttrName = 'data-contextmenu-index';
+                    $target.find('a,.contextmenu-item').each(function(index) {
+                        $(this).attr(indexAttrName, index);
+                    });
+                    var $clone = $target.clone();
+                    $clone.on(typeof transferEvent === 'string' ? transferEvent : 'click', 'a,.contextmenu-item', function(event) {
+                        var $item = $target.find('[' + indexAttrName + '="' + $(this).attr(indexAttrName) + '"]');
+                        var item = $item[0];
+                        if (!item) return;
+                        if (item[event.type]) {
+                            item[event.type]();
+                        } else {
+                            $item.trigger(event.type);
+                        }
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return false;
+                    });
+                    return $clone;
+                }
+                return $target.clone();
+            },
+            position: function(pos, finalOptions, $menu) {
+                var placement = finalOptions.placement;
+                var $toggle = finalOptions.$toggle;
+                if (!placement)
+                {
+                        var $dropmenu = $menu.find('.dropdown-menu');
+                        var pullRight = $dropmenu.hasClass('pull-right');
+                        var dropUp = $toggle.parent().hasClass('dropup');
+                        placement = pullRight ? (dropUp ? 'top-right' : 'bottom-right') : (dropUp ? 'top-left' : 'bottom-left');
+                        if (pullRight) $dropmenu.removeClass('pull-right');
+                }
+                var bounds = $toggle[0].getBoundingClientRect();
+                switch (placement) {
+                    case 'top-left':
+                        return {x: bounds.left, y: Math.floor(bounds.top - pos.height)};
+                    case 'top-right':
+                        return {x: Math.floor(bounds.right - pos.width), y: Math.floor(bounds.top - pos.height)};
+                    case 'bottom-left':
+                        return {x: bounds.left, y: bounds.bottom};
+                    case 'bottom-right':
+                        return {x: Math.floor(bounds.right - pos.width), y: bounds.bottom};
+                }
+                return pos;
+            }
+        }, options));
+    };
+
+    $(document).on('click', function(e) {
+        var $target = $(e.target);
+        var $toggle = $target.closest('[data-toggle="context-dropdown"]');
+        if ($toggle.length) {
+            var contextmenu = $toggle.data(NAME);
+            if (!contextmenu) {
+                $toggle.contextDropdown({show: true});
+            }
+        } else if (!isShowingMenu && !$target.closest('.contextmenu').length) {
+            hideContextMenu();
+        }
+    });
 }(jQuery, undefined));
 
 /* ========================================================================
@@ -5313,8 +5443,8 @@
             this.$items = null
 
         this.options.pause == 'hover' && this.$element
-            .on('mouseenter', $.proxy(this.pause, this))
-            .on('mouseleave', $.proxy(this.cycle, this))
+            .on('mouseenter', this.pause.bind(this))
+            .on('mouseleave', this.cycle.bind(this))
     }
 
     Carousel.DEFAULTS = {
@@ -5371,7 +5501,7 @@
 
         this.interval && clearInterval(this.interval)
 
-        this.options.interval && !this.paused && (this.interval = setInterval($.proxy(this.next, this), this.options.interval))
+        this.options.interval && !this.paused && (this.interval = setInterval(this.next.bind(this), this.options.interval))
 
         return this
     }
@@ -5900,7 +6030,7 @@
                 result = options.onAction.call(this, action.name, action, that);
                 if(result === false) return;
             }
-            if($.isFunction(action.action)) {
+            if(typeof action.action === 'function') {
                 result = action.action.call(this, that);
                 if(result === false) return;
             }
@@ -5980,7 +6110,7 @@
         var that = this,
             options = this.options;
 
-        if($.isFunction(message)) {
+        if(typeof message === 'function') {
             var oldCallback = callback;
             callback = message;
             if(oldCallback !== undefined) {
@@ -6717,7 +6847,7 @@
             actions = actions.split(',');
         }
         var _actions;
-        if($.isArray(actions)) {
+        if(Array.isArray(actions)) {
             _actions = {};
             $.each(actions, function(idx, action) {
                 if($.isPlainObject(action)) {
@@ -6771,7 +6901,7 @@
 
         if($ul) {
             var that = this;
-            if(!$.isArray(items)) {
+            if(!Array.isArray(items)) {
                 items = [items];
             }
             $.each(items, function(idx, item) {
@@ -6780,7 +6910,7 @@
                 var $wrapper = options.itemWrapper ? $(options.itemWrapper === true ? '<div class="tree-item-wrapper"/>' : options.itemWrapper).appendTo($li) : $li;
                 if(item.html) {
                     $wrapper.html(item.html)
-                } else if($.isFunction(that.options.itemCreator)) {
+                } else if(typeof that.options.itemCreator === 'function') {
                     var itemContent = that.options.itemCreator($li, item);
                     if(itemContent !== true && itemContent !== false) $wrapper.html(itemContent);
                 } else if(item.url) {
@@ -7043,7 +7173,7 @@
     };
 
     Tree.prototype.toData = function($ul, filter) {
-        if($.isFunction($ul)) {
+        if(typeof $ul === 'function') {
             filter = $ul;
             $ul = null;
         }
@@ -7055,14 +7185,14 @@
             delete data['zui.droppable'];
             var $children = $li.children('ul');
             if($children.length) data.children = that.toData($children);
-            return $.isFunction(filter) ? filter(data, $li) : data;
+            return typeof filter === 'function' ? filter(data, $li) : data;
         }).get();
     };
 
     // Call event helper
     Tree.prototype.callEvent = function(name, params) {
         var result;
-        if($.isFunction(this.options[name])) {
+        if(typeof this.options[name] === 'function') {
             result = this.options[name](params, this);
         }
         this.$.trigger($.Event(name + '.' + this.name, params));

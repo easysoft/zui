@@ -87,12 +87,12 @@
 
     function _addUnit(val, unit) {
         unit = unit || 'px';
-        return val && /^\d+$/.test(val) ? val + unit : val;
+        return val && /^[\d\.]+$/.test(val) ? val + unit : val;
     }
 
     function _removeUnit(val) {
         var match;
-        return val && (match = /(\d+)/.exec(val)) ? parseInt(match[1], 10) : 0;
+        return val && (match = /([\d\.]+)/.exec(val)) ? parseInt(match[1], 10) : 0;
     }
 
     function _escape(val) {
@@ -318,8 +318,12 @@
                 '.text-align', '.color', '.background-color', '.font-size', '.font-family', '.font-weight',
                 '.font-style', '.text-decoration', '.vertical-align', '.background', '.border'
             ],
+            tr: ['id', 'class', '.background-color'],
             a: ['id', 'class', 'href', 'target', 'name'],
             embed: ['id', 'class', 'src', 'width', 'height', 'type', 'loop', 'autostart', 'quality', '.width', '.height', 'align', 'allowscriptaccess'],
+            audio: ['id', 'class', 'width', 'src', 'height', 'loop', 'preload', 'autoplay', 'controls', 'crossorigin', 'currentTime', 'duration', 'muted'],
+            video: ['id', 'class', 'width', 'src', 'height', 'loop', 'preload', 'autoplay', 'controls', 'crossorigin', 'currentTime', 'duration', 'muted', 'buffered', 'playsinline', 'played', 'poster'],
+            source: ['src', 'type'],
             img: ['id', 'class', 'src', 'width', 'height', 'border', 'alt', 'title', 'align', '.width', '.height', '.border'],
             'p,ol,ul,li,blockquote,h1,h2,h3,h4,h5,h6': [
                 'id', 'class', 'align', '.text-align', '.color', '.background-color', '.font-size', '.font-family', '.background',
@@ -327,7 +331,7 @@
             ],
             pre: ['id', 'class'],
             hr: ['id', 'class', '.page-break-after'],
-            'br,tbody,tr,strong,b,sub,sup,em,i,u,strike,s,del': ['id', 'class'],
+            'br,tbody,strong,b,sub,sup,em,i,u,strike,s,del': ['id', 'class'],
             iframe: ['id', 'class', 'src', 'frameborder', 'width', 'height', '.width', '.height']
         },
         layout: '<div class="container ke-loading"><div class="toolbar"></div><div class="edit"></div><div class="statusbar"></div></div>'
@@ -656,13 +660,14 @@
         return list;
     }
 
-    function _getAttrList(tag) {
+    function _getAttrList(tag, emptyValue) {
         var list = {},
             reg = /\s+(?:([\w\-:]+)|(?:([\w\-:]+)=([^\s"'<>]+))|(?:([\w\-:"]+)="([^"]*)")|(?:([\w\-:"]+)='([^']*)'))(?=(?:\s|\/|>)+)/g,
             match;
+        if (emptyValue === undefined) emptyValue = '';
         while((match = reg.exec(tag))) {
             var key = (match[1] || match[2] || match[4] || match[6]).toLowerCase(),
-                val = (match[2] ? match[3] : (match[4] ? match[5] : match[7])) || '';
+                val = (match[2] ? match[3] : (match[4] ? match[5] : match[7])) || emptyValue;
             list[key] = val;
         }
         return list;
@@ -877,11 +882,12 @@
                 prevTagIsBlockEnd = null;
             }
             if(attr !== '') {
-                var attrMap = _getAttrList(full);
+                var attrMap = _getAttrList(full, true);
                 if(tagName === 'font') {
                     var fontStyleMap = {},
                         fontStyle = '';
                     _each(attrMap, function(key, val) {
+                        if(val === true) val = '';
                         if(key === 'color') {
                             fontStyleMap.color = val;
                             delete attrMap[key];
@@ -913,6 +919,10 @@
                     attrMap.style = fontStyle;
                 }
                 _each(attrMap, function(key, val) {
+                    if (key.indexOf('data-ke-') === 0) {
+                        return;
+                    }
+                    if(val === true) val = '';
                     if(_FILL_ATTR_MAP[key]) {
                         attrMap[key] = key;
                     }
@@ -940,7 +950,11 @@
                 });
                 attr = '';
                 _each(attrMap, function(key, val) {
-                    if(key === 'style' && val === '') {
+                    if(val === false || (key === 'style' && val === '')) {
+                        return;
+                    }
+                    if (val === true) {
+                        attr += ' ' + key;
                         return;
                     }
                     val = val.replace(/"/g, '&quot;');
@@ -975,43 +989,108 @@
     }
 
     function _mediaType(src) {
-        if(/\.(rm|rmvb)(\?|$)/i.test(src)) {
-            return 'audio/x-pn-realaudio-plugin';
+        if(/\.(mp4)(\?|$)/i.test(src)) {
+            return 'video/mp4';
         }
-        if(/\.(swf|flv)(\?|$)/i.test(src)) {
-            return 'application/x-shockwave-flash';
+        if(/\.(webm)(\?|$)/i.test(src)) {
+            return 'video/webm';
         }
-        return 'video/x-ms-asf-plugin';
+        if(/\.(ogg)(\?|$)/i.test(src)) {
+            return 'video/ogg';
+        }
+        if(/\.(mov)(\?|$)/i.test(src)) {
+            return 'video/quicktime';
+        }
+        if(/\.(mp3)(\?|$)/i.test(src)) {
+            return 'audio/mp3';
+        }
+        if(/\.(wav)(\?|$)/i.test(src)) {
+            return 'audio/wav';
+        }
+        if(/\.(flac)(\?|$)/i.test(src)) {
+            return 'audio/flac';
+        }
+        return 'video/application';
     }
 
     function _mediaClass(type) {
-        if(/realaudio/i.test(type)) {
-            return 'ke-rm';
+        if(/audio/i.test(type)) {
+            return 'ke-audio';
         }
-        if(/flash/i.test(type)) {
-            return 'ke-flash';
+        if(/video/i.test(type)) {
+            return 'ke-video';
         }
         return 'ke-media';
     }
 
     function _mediaAttrs(srcTag) {
-        return _getAttrList(unescape(srcTag));
+        var srcs = [];
+        srcTag = unescape(srcTag).replace(/<source [^>]*>/ig, function(sourceTag) {
+            var $source = $(sourceTag);
+            var src = $source.attr('src');
+            var type = $source.attr('type');
+            if(type) src += '#' + type;
+            srcs.push(src);
+            return '';
+        });
+        var attrs = _getAttrList(srcTag);
+        if(srcs.length) attrs.src = srcs.join(',');
+        return attrs;
     }
 
-    function _mediaEmbed(attrs) {
-        var html = '<embed ';
-        _each(attrs, function(key, val) {
-            html += key + '="' + val + '" ';
-        });
-        html += '/>';
-        return html;
+    function _mediaEmbed(attrs, mediaType) {
+        var htmls;
+        if(mediaType === 'media' || mediaType === 'video' || mediaType === 'audio') {
+            mediaType = mediaType === 'video' || (attrs.type && attrs.type.indexOf('video') === 0) ? 'video' : 'audio';
+            htmls = [
+                '<', mediaType, ' '
+            ];
+            var srcs = (attrs.src || '').split(',');
+            var autoPlayEnabled;
+            var mutedSetted;
+            _each(attrs, function(key, val) {
+                if (key === 'src' || val === false) {
+                    return;
+                }
+                if (val === true || /^(controls|autoplay|loop|muted)$/i.test(key)) {
+                    if (val !== 'false') {
+                        htmls.push(key + ' ');
+                        if (key === 'autoplay') autoPlayEnabled = true;
+                        else if (key === 'muted') mutedSetted = true;
+                    }
+                } else {
+                    htmls.push(key, '="', val, '" ');
+                }
+            });
+            if (autoPlayEnabled && !mutedSetted) {
+                htmls.push('muted ');
+            }
+            if (srcs.length > 1) {
+                htmls.push('>');
+                _each(srcs, function(_, val) {
+                    var srcType = val.split('#');
+                    htmls.push('<source src="', srcType[0], '"', srcType.length > 1 ? (' type="' + srcType[1] + '"') : '', ' />');
+                });
+                htmls.push('</', mediaType, '>');
+            } else {
+                if(srcs.length) htmls.push('src="', srcs[0], '" ');
+                htmls.push('></', mediaType, '>');
+            }
+        } else {
+            htmls = ['<embed '];
+            _each(attrs, function(key, val) {
+                htmls.push(key, '="', val, '" ');
+            });
+            htmls.push('/>');
+        }
+        return htmls.join('');
     }
 
     function _mediaImg(blankPath, attrs) {
         var width = attrs.width,
             height = attrs.height,
             type = attrs.type || _mediaType(attrs.src),
-            srcTag = _mediaEmbed(attrs),
+            srcTag = _mediaEmbed(attrs, type),
             style = '';
         if(/\D/.test(width)) {
             style += 'width:' + width + ';';
@@ -3730,14 +3809,14 @@
             var self = this;
             updateProp = _undef(updateProp, true);
             if(x !== null) {
-                x = x < 0 ? 0 : _addUnit(x);
+                x = x < 0 ? 0 : _addUnit(Math.floor(x));
                 self.div.css('left', x);
                 if(updateProp) {
                     self.x = x;
                 }
             }
             if(y !== null) {
-                y = y < 0 ? 0 : _addUnit(y);
+                y = y < 0 ? 0 : _addUnit(Math.floor(y));
                 self.div.css('top', y);
                 if(updateProp) {
                     self.y = y;
@@ -3834,30 +3913,17 @@
             'img {border:0;}',
             'noscript {display:none;}',
             'table.ke-zeroborder td {border:1px dotted #AAA;}',
-            'img.ke-flash {',
+            'img.ke-media, img.ke-audio, img.ke-video {',
             ' border:1px solid #AAA;',
-            ' background-image:url(' + themesPath + 'common/flash.gif);',
+            ' background-image:url(' + themesPath + 'common/media.png);',
             ' background-position:center center;',
             ' background-repeat:no-repeat;',
+            ' background-color:#f1f1f1;',
             ' width:100px;',
             ' height:100px;',
             '}',
-            'img.ke-rm {',
-            ' border:1px solid #AAA;',
-            ' background-image:url(' + themesPath + 'common/rm.gif);',
-            ' background-position:center center;',
-            ' background-repeat:no-repeat;',
-            ' width:100px;',
-            ' height:100px;',
-            '}',
-            'img.ke-media {',
-            ' border:1px solid #AAA;',
-            ' background-image:url(' + themesPath + 'common/media.gif);',
-            ' background-position:center center;',
-            ' background-repeat:no-repeat;',
-            ' width:100px;',
-            ' height:100px;',
-            '}',
+            'img.ke-audio {background-image:url(' + themesPath + 'common/audio.png); height: 54px!important}',
+            'img.ke-video {background-image:url(' + themesPath + 'common/video.png)}',
             'img.ke-anchor {',
             ' border:1px dashed #666;',
             ' width:16px;',
@@ -6088,7 +6154,7 @@
         };
         self.plugin.getSelectedMedia = function() {
             return _getImageFromRange(self.edit.cmd.range, function(img) {
-                return img[0].className == 'ke-media' || img[0].className == 'ke-rm';
+                return img[0].className == 'ke-media' || img[0].className == 'ke-video' || img[0].className == 'ke-audio';
             });
         };
         self.plugin.getSelectedAnchor = function() {
@@ -6246,7 +6312,7 @@
             return html.replace(/(<(?:noscript|noscript\s[^>]*)>)([\s\S]*?)(<\/noscript>)/ig, function($0, $1, $2, $3) {
                     return $1 + _unescape($2).replace(/\s+/g, ' ') + $3;
                 })
-                .replace(/<img[^>]*class="?ke-(flash|rm|media)"?[^>]*>/ig, function(full) {
+                .replace(/<img[^>]*class="?ke-(media|video|audio)"?[^>]*>/ig, function(full, $1) {
                     var imgAttrs = _getAttrList(full);
                     var styles = _getCssList(imgAttrs.style || '');
                     var attrs = _mediaAttrs(imgAttrs['data-ke-tag']);
@@ -6260,7 +6326,8 @@
                     }
                     attrs.width = _undef(imgAttrs.width, width);
                     attrs.height = _undef(imgAttrs.height, height);
-                    return _mediaEmbed(attrs);
+
+                    return _mediaEmbed(attrs, $1);
                 })
                 .replace(/<img[^>]*class="?ke-anchor"?[^>]*>/ig, function(full) {
                     var imgAttrs = _getAttrList(full);
@@ -6299,6 +6366,26 @@
                     attrs.src = _undef(attrs.src, '');
                     attrs.width = _undef(attrs.width, 0);
                     attrs.height = _undef(attrs.height, 0);
+                    return _mediaImg(self.themesPath + 'common/blank.gif', attrs);
+                })
+                .replace(/<(video|audio)[^>]*>((\s*<source [^>]*>\s*)*)(?:<\/(video|audio)>)?/ig, function(full, $1, $2) {
+                    var attrs = _getAttrList($2 ? full.replace($2, '') : full);
+                    if($2) {
+                        var srcs = [];
+                        $($2).filter('source').each(function() {
+                            var $source = $(this);
+                            var src = $source.attr('src');
+                            var type = $source.attr('type');
+                            if(type) src += '#' + type;
+                            srcs.push(src);
+                        });
+                        attrs.src = srcs.join(',');
+                    } else {
+                        attrs.src = _undef(attrs.src, '');
+                    }
+                    attrs.width = _undef(attrs.width, 0);
+                    attrs.height = _undef(attrs.height, 0);
+                    attrs.type = $1;
                     return _mediaImg(self.themesPath + 'common/blank.gif', attrs);
                 })
                 .replace(/<a[^>]*name="([^"]+)"[^>]*>(?:<\/a>)?/ig, function(full) {
@@ -6458,11 +6545,13 @@ KindEditor.lang({
     'flash.upload': '上传',
     'flash.viewServer': '文件空间',
     'media.url': 'URL',
+    'media.urlTip': '多个 URL 使用英文逗号分隔',
     'media.width': '宽度',
     'media.height': '高度',
     'media.autostart': '自动播放',
     'media.upload': '上传',
     'media.viewServer': '文件空间',
+    'media.controls': '播放控件',
     'image.remoteImage': '网络图片',
     'image.localImage': '本地上传',
     'image.remoteUrl': '图片地址',
@@ -6699,6 +6788,7 @@ KindEditor.plugin('baidumap', function(K) {
     var self = this,
         name = 'baidumap',
         lang = self.lang(name + '.');
+    var ak = self.options.baidumapAk || 'plddmxBud2dRsVAXHS7WLqqzQQTocDkO';
     var mapWidth = K.undef(self.mapWidth, 558);
     var mapHeight = K.undef(self.mapHeight, 360);
     self.clickToolbar(name, function() {
@@ -6712,8 +6802,8 @@ KindEditor.plugin('baidumap', function(K) {
             '</span>',
             '</div>',
             // right start
-            '<div class="ke-right">',
-            '<input type="checkbox" id="keInsertDynamicMap" name="insertDynamicMap" value="1" /> <label for="keInsertDynamicMap">' + lang.insertDynamicMap + '</label>',
+            '<div class="ke-right" style="margin-top: 2px">',
+            '<input type="checkbox" id="keInsertDynamicMap" name="insertDynamicMap" value="1" style="margin-top: 2px" /> <label for="keInsertDynamicMap">' + lang.insertDynamicMap + '</label>',
             '</div>',
             '<div class="ke-clearfix"></div>',
             '</div>',
@@ -6732,8 +6822,8 @@ KindEditor.plugin('baidumap', function(K) {
                     var centerObj = map.getCenter();
                     var center = centerObj.lng + ',' + centerObj.lat;
                     var zoom = map.getZoom();
-                    var url = [checkbox[0].checked ? self.pluginsPath + 'baidumap/index.html' : 'http://api.map.baidu.com/staticimage',
-                        '?center=' + encodeURIComponent(center),
+                    var url = [checkbox[0].checked ? self.pluginsPath + 'baidumap/index.html?ak=' + ak : 'http://api.map.baidu.com/staticimage/v2?ak=' + ak,
+                        '&center=' + encodeURIComponent(center),
                         '&zoom=' + encodeURIComponent(zoom),
                         '&width=' + mapWidth,
                         '&height=' + mapHeight,
@@ -6761,7 +6851,7 @@ KindEditor.plugin('baidumap', function(K) {
             searchBtn = K('[name="searchBtn"]', div),
             checkbox = K('[name="insertDynamicMap"]', dialog.div),
             win, doc;
-        var iframe = K('<iframe class="ke-textarea" frameborder="0" src="' + self.pluginsPath + 'baidumap/map.html" style="width:' + mapWidth + 'px;height:' + mapHeight + 'px;"></iframe>');
+        var iframe = K('<iframe class="ke-textarea" frameborder="0" src="' + self.pluginsPath + 'baidumap/map.html?ak=' + ak + '" style="width:' + mapWidth + 'px;height:' + mapHeight + 'px;"></iframe>');
 
         function ready() {
             win = iframe[0].contentWindow;
@@ -8133,7 +8223,7 @@ KindEditor.plugin('media', function(K) {
                 //url
                 '<div class="ke-dialog-row">',
                 '<label for="keUrl" style="width:60px;">' + lang.url + '</label>',
-                '<input class="ke-input-text" type="text" id="keUrl" name="url" value="" style="width:160px;" /> &nbsp;',
+                '<input class="ke-input-text" type="text" id="keUrl" name="url" value="" placeholder="' + lang.urlTip + '" style="width:160px;" /> &nbsp;',
                 '<input type="button" class="ke-upload-button" value="' + lang.upload + '" /> &nbsp;',
                 '<span class="ke-button-common ke-button-outer">',
                 '<input type="button" class="ke-button-common ke-button" name="viewServer" value="' + lang.viewServer + '" />',
@@ -8149,6 +8239,11 @@ KindEditor.plugin('media', function(K) {
                 '<label for="keHeight" style="width:60px;">' + lang.height + '</label>',
                 '<input type="text" id="keHeight" class="ke-input-text ke-input-number" name="height" value="400" maxlength="4" />',
                 '</div>',
+                //controls
+                '<div class="ke-dialog-row hidden">',
+                '<label for="keControls">' + lang.controls + '</label>',
+                '<input type="checkbox" id="keControls" checked name="controls" value="true" /> ',
+                '</div>',
                 //autostart
                 '<div class="ke-dialog-row">',
                 '<label for="keAutostart">' + lang.autostart + '</label>',
@@ -8159,7 +8254,7 @@ KindEditor.plugin('media', function(K) {
             var dialog = self.createDialog({
                     name: name,
                     width: 450,
-                    height: 230,
+                    height: 240,
                     title: self.lang(name),
                     body: html,
                     yesBtn: {
@@ -8188,8 +8283,8 @@ KindEditor.plugin('media', function(K) {
                                 type: K.mediaType(url),
                                 width: width,
                                 height: height,
-                                autostart: autostartBox[0].checked ? 'true' : 'false',
-                                loop: 'true'
+                                autoplay: !!autostartBox[0].checked,
+                                controls: !!controlsBox[0].checked,
                             });
                             self.insertHtml(html).hideDialog().focus();
                         }
@@ -8200,6 +8295,7 @@ KindEditor.plugin('media', function(K) {
                 viewServerBtn = K('[name="viewServer"]', div),
                 widthBox = K('[name="width"]', div),
                 heightBox = K('[name="height"]', div),
+                controlsBox = K('[name="controls"]', div),
                 autostartBox = K('[name="autostart"]', div);
             urlBox.val('http://');
 
@@ -8266,7 +8362,8 @@ KindEditor.plugin('media', function(K) {
                 urlBox.val(attrs.src);
                 widthBox.val(K.removeUnit(img.css('width')) || attrs.width || 0);
                 heightBox.val(K.removeUnit(img.css('height')) || attrs.height || 0);
-                autostartBox[0].checked = (attrs.autostart === 'true');
+                autostartBox[0].checked = (attrs.autoplay !== undefined && attrs.autoplay !== 'false');
+                controlsBox[0].checked = (attrs.controls !== undefined && attrs.controls !== 'false');
             }
             urlBox[0].focus();
             urlBox[0].select();
@@ -10030,6 +10127,13 @@ KindEditor.plugin('zui', function(K) {
         if (spellcheck !== undefined) {
             self.edit.doc.documentElement.setAttribute('spellcheck', spellcheck);
         }
+
+        var transferEvents = options.transferEvents;
+        if (transferEvents !== false) {
+            $(self.edit.doc).on(typeof transferEvents === 'string' ? transferEvents : 'click mousedown', function(event) {
+                $(self.edit.srcElement[0]).trigger(event.type);
+            });
+        }
     });
 
     if (options.transferTab !== false) {
@@ -10507,28 +10611,36 @@ KindEditor.plugin('table', function (K) {
         });
     }
 
+    function getTableSetting($table, setting)
+    {
+        if (!$table) {
+            var table = self.plugin.getSelectedTable();
+            $table = $(table[0]);
+        }
+        var setting = $.extend({
+            borderColor: defaultTableBorderColor
+        }, $table.data('tableSetting'), setting);
+        if (setting.autoWidth === undefined) {
+            setting.autoWidth = $table[0].style.width === 'auto';
+        }
+        if (setting.stripedRows === undefined) {
+            var $rows = $table.find('tbody>tr');
+            var coloredRowsLength = $rows.filter(function () {
+                return !!this.style.backgroundColor;
+            }).length;
+            setting.stripedRows = coloredRowsLength >= Math.floor($rows.length / 2);
+        }
+        return setting;
+    }
+
     function updateTable(setting, $table, onUpdateSetting) {
         if (!$table) {
             var table = self.plugin.getSelectedTable();
             $table = $(table[0]);
         }
         if (!$table || !$table.length) return;
-        if (!setting) {
-            setting = $.extend({
-                borderColor: defaultTableBorderColor
-            }, self.tableSetting, setting);
-            if (setting.autoWidth === undefined) {
-                setting.autoWidth = $table[0].style.width === 'auto';
-            }
-            if (setting.stripedRows === undefined) {
-                var $rows = $table.find('tbody>tr');
-                var coloredRowsLength = $rows.filter(function () {
-                    return !!this.style.backgroundColor;
-                }).length;
-                setting.stripedRows = coloredRowsLength >= Math.floor($rows / 2);
-            }
-        }
-        self.tableSetting = setting;
+        setting = getTableSetting($table, setting);
+        $table.data('tableSetting', setting);
         if (setting.header !== undefined) {
             if ($table.is('.ke-plugin-table-example')) {
                 $table.find('thead').toggleClass('hidden', !setting.header);
@@ -10560,7 +10672,7 @@ KindEditor.plugin('table', function (K) {
         if (setting.stripedRows !== undefined) {
             var $rows = $table.find('tbody>tr');
             $rows.each(function (index) {
-                $(this).css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : 'none');
+                $(this).css('background-color', (setting.stripedRows && (index % 2 === 0)) ? '#f9f9f9' : '');
             });
             onUpdateSetting && onUpdateSetting('stripedRows', setting.stripedRows);
         }
@@ -10699,7 +10811,7 @@ KindEditor.plugin('table', function (K) {
             updateTable({ borderColor: color }, $exampleTable);
         });
 
-        updateTable(self.tableSetting, $exampleTable, function (name, value) {
+        updateTable(getTableSetting($table), $exampleTable, function (name, value) {
             switch (name) {
                 case 'borderColor':
                     _setColor(colorBox, value || defaultTableBorderColor);
@@ -10940,6 +11052,7 @@ KindEditor.plugin('table', function (K) {
                     row = self.plugin.getSelectedRow()[0],
                     cell = self.plugin.getSelectedCell()[0],
                     index = cell.cellIndex + offset;
+                var tableSetting = getTableSetting($(table));
                 // 取得第一行的index
                 index += table.rows[0].cells.length - row.cells.length;
 
@@ -10947,13 +11060,15 @@ KindEditor.plugin('table', function (K) {
                     var newRow = table.rows[i],
                         newCell = newRow.insertCell(index),
                         isThead = newRow.parentNode.tagName === 'THEAD';
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((tableSetting && tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell = newRow.cells[index];
                     // 调整下一行的单元格index
                     index = _getCellIndex(table, newRow, newCell);
                 }
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             colinsertleft: function () {
                 this.colinsert(0);
@@ -10964,26 +11079,28 @@ KindEditor.plugin('table', function (K) {
             rowinsert: function (offset) {
                 var table = self.plugin.getSelectedTable()[0],
                     row = self.plugin.getSelectedRow()[0],
-                    cell = self.plugin.getSelectedCell()[0];
+                    cell = self.plugin.getSelectedCell()[0],
+                    firstRow = table.rows[0];
+                var tableSetting = getTableSetting($(table));
                 var rowIndex = row.rowIndex;
                 if (offset === 1) {
                     rowIndex = row.rowIndex + (cell.rowSpan - 1) + offset;
                 }
                 var newRow = table.insertRow(rowIndex);
                 var isThead = newRow.parentNode.tagName === 'THEAD';
-
-                for (var i = 0, len = row.cells.length; i < len; i++) {
+                // debugger;
+                for (var i = 0, len = firstRow.cells.length; i < len; i++) {
                     // 调整cell个数
-                    if (row.cells[i].rowSpan > 1) {
-                        len -= row.cells[i].rowSpan - 1;
+                    var currentCell = firstRow.cells[i];
+                    if (currentCell && currentCell.rowSpan > 1) {
+                        len += currentCell.rowSpan - 1;
                     }
                     var newCell = newRow.insertCell(i);
                     // copy colspan
-                    if (offset === 1 && row.cells[i].colSpan > 1) {
-                        newCell.colSpan = row.cells[i].colSpan;
-                    }
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
-
+                    // if (offset === 1 && currentCell.colSpan > 1) {
+                    //     newCell.colSpan = currentCell.colSpan;
+                    // }
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (newCell.colSpan > 1 ? ' colspan="' + newCell.colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((tableSetting && tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                 }
                 // 调整rowspan
                 for (var j = rowIndex; j >= 0; j--) {
@@ -10997,9 +11114,11 @@ KindEditor.plugin('table', function (K) {
                         break;
                     }
                 }
+                updateTable(null, $(table));
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             rowinsertabove: function () {
                 this.rowinsert(0);
@@ -11030,8 +11149,9 @@ KindEditor.plugin('table', function (K) {
                 cell.rowSpan += nextCell.rowSpan;
                 nextRow.deleteCell(cellIndex);
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             colmerge: function () {
                 var table = self.plugin.getSelectedTable()[0],
@@ -11051,9 +11171,13 @@ KindEditor.plugin('table', function (K) {
                 }
                 cell.colSpan += nextCell.colSpan;
                 row.deleteCell(nextCellIndex);
+
+                updateTable(null, $(table));
+
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             mergeCells: function () {
                 var tableSelectionRange = self.tableSelectionRange;
@@ -11082,9 +11206,11 @@ KindEditor.plugin('table', function (K) {
                         colspan: right - left + 1,
                     });
                     $table.find('.ke-cell-removed').remove();
+                    updateTable(null, $table);
                     self.cmd.range.selectNodeContents($firstCell[0]).collapse(true);
-                    self.cmd.select();
+                    // self.cmd.select();
                     self.addBookmark();
+                    self.focus();
                 }
             },
             rowsplit: function () {
@@ -11092,6 +11218,7 @@ KindEditor.plugin('table', function (K) {
                     row = self.plugin.getSelectedRow()[0],
                     cell = self.plugin.getSelectedCell()[0],
                     rowIndex = row.rowIndex;
+                var tableSetting = getTableSetting($(table));
                 // 不是可分割单元格
                 if (cell.rowSpan === 1) {
                     return;
@@ -11102,7 +11229,7 @@ KindEditor.plugin('table', function (K) {
                         newCell = newRow.insertCell(cellIndex);
                     var isThead = newRow.parentNode.tagName === 'THEAD';
                     var colSpan = cell.colSpan > 1 ? cell.colSpan : newCell.colSpan;
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (newCell.rowSpan > 1 ? ' rowspan="' + newCell.rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((tableSetting && tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                     if (cell.colSpan > 1) {
                         newCell.colSpan = cell.colSpan;
                     }
@@ -11110,15 +11237,18 @@ KindEditor.plugin('table', function (K) {
                     cellIndex = _getCellIndex(table, newRow, newCell);
                 }
                 K(cell).removeAttr('rowSpan');
+                updateTable(null, $(table));
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             colsplit: function () {
                 var table = self.plugin.getSelectedTable()[0],
                     row = self.plugin.getSelectedRow()[0],
                     cell = self.plugin.getSelectedCell()[0],
                     cellIndex = cell.cellIndex;
+                var tableSetting = getTableSetting($(table));
                 // 不是可分割单元格
                 if (cell.colSpan === 1) {
                     return;
@@ -11128,12 +11258,14 @@ KindEditor.plugin('table', function (K) {
                     var newCell = row.insertCell(cellIndex + i);
                     var rowSpan = cell.rowSpan > 1 ? cell.rowSpan : newCell.rowSpan;
                     var colSpan = newCell.colSpan;
-                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (rowSpan > 1 ? ' rowspan="' + rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((self.tableSetting && self.tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
+                    newCell.outerHTML = '<' + (isThead ? 'th' : 'td') + (rowSpan > 1 ? ' rowspan="' + rowSpan + '"' : '') + (colSpan > 1 ? ' colspan="' + colSpan + '"' : '') + ' style="' + (isThead ? 'background-color: #f1f1f1;' : '') + 'border: 1px solid ' + ((tableSetting && tableSetting.borderColor) || defaultTableBorderColor) + '">' + (K.IE ? '&nbsp;' : '<br />') + '</' + (isThead ? 'th' : 'td') + '>';
                 }
                 K(cell).removeAttr('colSpan');
+                updateTable(null, $(table));
                 self.cmd.range.selectNodeContents(cell).collapse(true);
-                self.cmd.select();
+                // self.cmd.select();
                 self.addBookmark();
+                self.focus();
             },
             coldelete: function () {
                 var table = self.plugin.getSelectedTable()[0];
@@ -11147,6 +11279,7 @@ KindEditor.plugin('table', function (K) {
                     for (var i = 0, len = table.rows.length; i < len; i++) {
                         var newRow = table.rows[i],
                             newCell = newRow.cells[index];
+                        if (!newCell) continue;
                         if (newCell.colSpan > 1) {
                             newCell.colSpan -= 1;
                             if (newCell.colSpan === 1) {
@@ -11162,7 +11295,7 @@ KindEditor.plugin('table', function (K) {
                     }
                     if (row.cells.length === 0) {
                         self.cmd.range.setStartBefore(table).collapse(true);
-                        self.cmd.select();
+                        // self.cmd.select();
                         K(table).remove();
                         break;
                     }
@@ -11171,6 +11304,7 @@ KindEditor.plugin('table', function (K) {
                     self.cmd.selection(true);
                 }
                 self.addBookmark();
+                self.focus();
             },
             rowdelete: function () {
                 var table = self.plugin.getSelectedTable()[0];
@@ -11187,12 +11321,14 @@ KindEditor.plugin('table', function (K) {
                 }
                 if (table.rows.length === 0) {
                     self.cmd.range.setStartBefore(table).collapse(true);
-                    self.cmd.select();
+                    // self.cmd.select();
                     K(table).remove();
                 } else {
+                    updateTable(null, $(table));
                     self.cmd.selection(true);
                 }
                 self.addBookmark();
+                self.focus();
             }
         };
 
