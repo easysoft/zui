@@ -7,7 +7,7 @@ filter: xiazaiyushiyong xzysy
 
 # 下载与使用
 
-ZUI（当前版本 v{$version}） 提供了多种方式让你快速上手。你可以根据自己的需要选择合适的使用方式。
+ZUI（当前版本 v{version}） 提供了多种方式让你快速上手。你可以根据自己的需要选择合适的使用方式。
 
 ## 下载
 
@@ -15,13 +15,13 @@ ZUI（当前版本 v{$version}） 提供了多种方式让你快速上手。你�
   <div class="col-sm-6">
     <h2>ZUI 生产包</h2>
     <p>包含编译及压缩后用于生产环境的 CSS、JavaScript 和字体文件（这些文件在源码包的 `dist` 目录下提供）。不包括文档和源码。</p>
-    <a href="docs/download/zui-{$version}-dist.zip" class="btn btn-lg btn-primary" target="_blank">下载 ZUI</a> &nbsp; 
-    <a href="https://github.com/easysoft/zui/releases/download/v{$version}/zui-{$version}-dist.zip" class="" target="_blank">从 Github 下载</a>
+    <a href="docs/download/zui-{version}-dist.zip" class="btn btn-lg btn-primary" target="_blank">下载 ZUI</a> &nbsp;
+    <a href="https://github.com/easysoft/zui/releases/download/v{version}/zui-{version}-dist.zip" class="" target="_blank">从 Github 下载</a>
   </div>
   <div class="col-sm-6">
     <h2>ZUI 源码</h2>
       <p>ZUI 的完整项目代码，包括 Less、JavaScript 和字体等源码文件，你还可以使用内置 gulp 任务来定制自己的版本，另外还有完整的文档。</p>
-      <a href="https://github.com/easysoft/zui/archive/v{$version}.zip" class="btn btn-lg" target="_blank">下载源码</a> &nbsp; 
+      <a href="https://github.com/easysoft/zui/archive/v{version}.zip" class="btn btn-lg" target="_blank">下载源码</a> &nbsp;
     </div>
   </div>
 </div>
@@ -32,12 +32,12 @@ ZUI（当前版本 v{$version}） 提供了多种方式让你快速上手。你�
 
 ```html
 <!-- ZUI 标准版压缩后的 CSS 文件 -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/{$version}/css/zui.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/{version}/css/zui.min.css">
 
 <!-- ZUI Javascript 依赖 jQuery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/{$version}/lib/jquery/jquery.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/{version}/lib/jquery/jquery.js"></script>
 <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/{$version}/js/zui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/{version}/js/zui.min.js"></script>
 ```
 
 cdnjs 支持使用 `https:` 或 `http:` 协议访问 ZUI `dist` 目录下的所有文件，并且支持 ZUI 最新版本及所有历史版本，你可以按照如下格式获得 cdn 访问地址：
@@ -52,12 +52,12 @@ cdnjs 支持使用 `https:` 或 `http:` 协议访问 ZUI `dist` 目录下的所�
 
 ```html
 <!-- ZUI 标准版压缩后的 CSS 文件 -->
-<link rel="stylesheet" href="//cdn.bootcss.com/zui/{$version}/css/zui.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/zui/{version}/css/zui.min.css">
 
 <!-- ZUI Javascript 依赖 jQuery -->
-<script src="//cdn.bootcss.com/zui/{$version}/lib/jquery/jquery.js"></script>
+<script src="//cdn.bootcss.com/zui/{version}/lib/jquery/jquery.js"></script>
 <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
-<script src="//cdn.bootcss.com/zui/{$version}/js/zui.min.js"></script>
+<script src="//cdn.bootcss.com/zui/{version}/js/zui.min.js"></script>
 ```
 
 BootCDN 支持使用 `https:` 或 `http:` 协议访问 ZUI `dist` 目录下的所有文件，并且支持 ZUI 最新版本及所有历史版本，你可以按照如下格式获得 cdn 访问地址：
@@ -95,4 +95,3 @@ npm install zui
 ```html
 bower install zui
 ```
-

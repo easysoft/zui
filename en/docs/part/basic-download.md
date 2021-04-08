@@ -7,7 +7,7 @@ filter: xiazaiyushiyong xzysy
 
 # Download and Install
 
-ZUI(v{$version}) offer you both package and source code for a quick start.
+ZUI(v{version}) offer you both package and source code for a quick start.
 
 ## Download
 
@@ -15,13 +15,13 @@ ZUI(v{$version}) offer you both package and source code for a quick start.
   <div class="col-sm-6">
     <h2>ZUI Package</h2>
     <p>Ready to use complied and minified CSS, JavaScript and font files (in the dist directory of source code files). Document and source code are not included. </p>
-    <a href="docs/download/zui-{$version}-dist.zip" class="btn btn-lg btn-primary" target="_blank">Download ZUI</a> &nbsp;
-    <a href="https://github.com/easysoft/zui/releases/download/v{$version}/zui-{$version}-dist.zip" class="" target="_blank">Download from  Github</a>
+    <a href="docs/download/zui-{version}-dist.zip" class="btn btn-lg btn-primary" target="_blank">Download ZUI</a> &nbsp;
+    <a href="https://github.com/easysoft/zui/releases/download/v{version}/zui-{version}-dist.zip" class="" target="_blank">Download from  Github</a>
   </div>
   <div class="col-sm-6">
     <h2>ZUI Source</h2>
       <p>Complete project code, including source code files of Less, JavaScript, font, etc. You can use Gulp to customize your own project and a complete document is provided.</p>
-      <a href="https://github.com/easysoft/zui/archive/v{$version}.zip" class="btn btn-lg" target="_blank">Download Source</a> &nbsp;
+      <a href="https://github.com/easysoft/zui/archive/v{version}.zip" class="btn btn-lg" target="_blank">Download Source</a> &nbsp;
     </div>
   </div>
 </div>
@@ -32,12 +32,12 @@ ZUI(v{$version}) offer you both package and source code for a quick start.
 
 ```html
 <!-- ZUI Standard zipped CSS files -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/{$version}/css/zui.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/{version}/css/zui.min.css">
 
 <!-- ZUI Javascript depends on jQuery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/{$version}/lib/jquery/jquery.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/{version}/lib/jquery/jquery.js"></script>
 <!-- ZUI Standard zipped JavaScript files -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/{$version}/js/zui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/{version}/js/zui.min.js"></script>
 ```
 
 cdnjs uses `https:` or `http:` to access files in ZUI `dist` and supports all versions of ZUI. You can get the address to visit CDN following the format below:
@@ -52,12 +52,12 @@ Refer to  <a href="https://cdnjs.com/libraries/zui" target="_blank">ZUI on cdnjs
 
 ```html
 <!-- ZUI Standard zipped CSS files -->
-<link rel="stylesheet" href="//cdn.bootcss.com/zui/{$version}/css/zui.min.css">
+<link rel="stylesheet" href="//cdn.bootcss.com/zui/{version}/css/zui.min.css">
 
 <!-- ZUI Javascript depends on jQuery -->
-<script src="//cdn.bootcss.com/zui/{$version}/lib/jquery/jquery.js"></script>
+<script src="//cdn.bootcss.com/zui/{version}/lib/jquery/jquery.js"></script>
 <!-- ZUI Standard zipped JavaScript files -->
-<script src="//cdn.bootcss.com/zui/{$version}/js/zui.min.js"></script>
+<script src="//cdn.bootcss.com/zui/{version}/js/zui.min.js"></script>
 ```
 
 BootCDN uses `https:` or `http:` to access all files in ZUI `dist` and supports all versions of ZUI. You can get the address to visit CDN following the format below:
