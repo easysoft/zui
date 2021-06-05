@@ -343,7 +343,7 @@ function buildBundle(name, callback, type) {
         gulp.task('build:' + name + ':js', function () {
             var destPath = getBuildPath(build, 'js');
             var gulpPipe = gulp.src(source.js);
-            if (build.babel) {
+            if (babel) {
                 gulpPipe = gulpPipe.pipe(babel({
                     presets: ['babel-preset-env']
                 }));
