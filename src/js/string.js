@@ -15,7 +15,7 @@
      * @param  {object | arguments} args
      * @return {String}
      */
-    const formatString = function(str, args) {
+    var formatString = function(str, args) {
         if(arguments.length > 1) {
             var reg;
             if(arguments.length == 2 && typeof(args) == "object") {
@@ -44,7 +44,7 @@
      * @access public
      * @return {Boolean}
      */
-    const isNum = function(str) {
+    var isNum = function(str) {
         if(str !== null) {
             var r, re;
             re = /\d*/i;
@@ -54,7 +54,7 @@
         return false;
     };
 
-    const exports = {
+    var exports = {
         formatString: formatString,
         string: {
             format: formatString,

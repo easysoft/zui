@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.9.2 - 2021-04-08
+ * ZUI: 数据表格② - v1.9.2 - 2021-06-16
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2021 cnezsoft.com; Licensed MIT

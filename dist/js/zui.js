@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.2 - 2021-04-08
+ * ZUI: Standard edition - v1.9.2 - 2021-06-16
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2021 cnezsoft.com; Licensed MIT
@@ -1452,14 +1452,14 @@
      * Ticks of a whole day
      * @type {number}
      */
-    const ONEDAY_TICKS = 24 * 3600 * 1000;
+    var ONEDAY_TICKS = 24 * 3600 * 1000;
 
     /**
      * Create a Date instance
      * @param {Date|String|Number} date Date expression
      * @return {Date}
      */
-    const createDate = function(date) {
+    var createDate = function(date) {
         if (!(date instanceof Date)) {
             if (typeof date === 'number' && date < 10000000000) {
                 date *= 1000;
@@ -1474,7 +1474,7 @@
      * @param {Date|String|Number} date Date expression
      * @return {number}
      */
-    const getTimestamp = function(date) {
+    var getTimestamp = function(date) {
         return createDate(date).getTime();
     };
 
@@ -1485,7 +1485,7 @@
      * @param  {string}             [format='yyyy-MM-dd hh:mm:ss'] Date format string
      * @return {string}
      */
-    const formatDate = function(date, format) {
+    var formatDate = function(date, format) {
         date = createDate(date);
         if (format === undefined) {
             format = 'yyyy-MM-dd hh:mm:ss';
@@ -1516,7 +1516,7 @@
      * @param {number} milliseconds milliseconds value
      * @return {Date}
      */
-    const addMilliseconds = function(date, milliseconds) {
+    var addMilliseconds = function(date, milliseconds) {
         date.setTime(date.getTime() + milliseconds);
         return date;
     };
@@ -1527,7 +1527,7 @@
      * @param {number} days days value
      * @return {Date}
      */
-    const addDays = function(date, days) {
+    var addDays = function(date, days) {
         return addMilliseconds(date, days * ONEDAY_TICKS);
     };
 
@@ -1535,7 +1535,7 @@
      * Clone date to a new instance
      * @param {Date|String|Number} date date expression
      */
-    const cloneDate = function(date) {
+    var cloneDate = function(date) {
         return new Date(createDate(date).getTime());
     };
 
@@ -1544,7 +1544,7 @@
      * @param {number} year
      * @return {boolean}
      */
-    const isLeapYear = function(year) {
+    var isLeapYear = function(year) {
         return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
     };
 
@@ -1554,7 +1554,7 @@
      * @param  {number} month
      * @return {number}
      */
-    const getDaysInMonth = function(year, month) {
+    var getDaysInMonth = function(year, month) {
         return [31, (isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
     };
 
@@ -1563,7 +1563,7 @@
      * @param {Date}   date date
      * @return {number}
      */
-    const getDaysOfThisMonth = function(date) {
+    var getDaysOfThisMonth = function(date) {
         return getDaysInMonth(date.getFullYear(), date.getMonth());
     };
 
@@ -1572,7 +1572,7 @@
      * @param {Date}   date date
      * @return {Date}
      */
-    const clearTime = function(date) {
+    var clearTime = function(date) {
         date.setHours(0);
         date.setMinutes(0);
         date.setSeconds(0);
@@ -1586,7 +1586,7 @@
      * @param {number} monthsCount
      * @return {Date}
      */
-    const addMonths = function(date, monthsCount) {
+    var addMonths = function(date, monthsCount) {
         var n = date.getDate();
         date.setDate(1);
         date.setMonth(date.getMonth() + monthsCount);
@@ -1600,7 +1600,7 @@
      * @param  {number} [day=1] 1 ~ 7
      * @return {Date}
      */
-    const getLastWeekday = function(date, day) {
+    var getLastWeekday = function(date, day) {
         day = day || 1;
 
         var d = new Date(date.getTime());
@@ -1616,7 +1616,7 @@
      * @param {Date} date2
      * @return {boolean}
      */
-    const isSameDay = function(date1, date2) {
+    var isSameDay = function(date1, date2) {
         return date1.toDateString() === date2.toDateString();
     };
 
@@ -1626,7 +1626,7 @@
      * @param {Date} date2
      * @return {boolean}
      */
-    const isSameWeek = function(date1, date2) {
+    var isSameWeek = function(date1, date2) {
         var weekStart = getLastWeekday(date1);
         var weekEnd = addDays(cloneDate(weekStart), 7);
         return date2 >= weekStart && date2 < weekEnd;
@@ -1638,11 +1638,11 @@
      * @param {Date} date2
      * @return {boolean}
      */
-    const isSameYear = function(date1, date2) {
+    var isSameYear = function(date1, date2) {
         return date1.getFullYear() === date2.getFullYear();
     };
 
-    const exports = {
+    var exports = {
         formatDate: formatDate,
         createDate: createDate,
         date: {
@@ -1871,7 +1871,7 @@
      * @param  {object | arguments} args
      * @return {String}
      */
-    const formatString = function(str, args) {
+    var formatString = function(str, args) {
         if(arguments.length > 1) {
             var reg;
             if(arguments.length == 2 && typeof(args) == "object") {
@@ -1900,7 +1900,7 @@
      * @access public
      * @return {Boolean}
      */
-    const isNum = function(str) {
+    var isNum = function(str) {
         if(str !== null) {
             var r, re;
             re = /\d*/i;
@@ -1910,7 +1910,7 @@
         return false;
     };
 
-    const exports = {
+    var exports = {
         formatString: formatString,
         string: {
             format: formatString,
@@ -3865,13 +3865,24 @@
         }
         $modal = $('<div id="' + options.name + '" class="modal modal-trigger ' + (options.className || '') + '">' + (typeof options.loadingIcon === 'string' && options.loadingIcon.indexOf('icon-') === 0 ? ('<div class="icon icon-spin loader ' + options.loadingIcon + '"></div>') : options.loadingIcon) + '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button class="close" data-dismiss="modal">×</button><h4 class="modal-title"><i class="modal-icon"></i> <span class="modal-title-name"></span></h4></div><div class="modal-body"></div></div></div></div>').appendTo('body').data(NAME, that);
 
-        var bindEvent = function(optonName, eventName) {
-            var handleFunc = options[optonName];
+        var bindEvent = function(optonName, eventName, handleFunc) {
+            handleFunc = handleFunc || options[optonName];
             if(typeof handleFunc === 'function') $modal.on(eventName + ZUI_MODAL, handleFunc);
         };
         bindEvent('onShow', 'show');
         bindEvent('shown',  'shown');
-        bindEvent('onHide', 'hide');
+        bindEvent('onHide', 'hide', function(e) {
+            if (options.type === 'iframe' && that.$iframeBody) {
+                var result = that.$iframeBody.triggerHandler('modalhide' + ZUI_MODAL, [that]);
+                if (result === false) {
+                    e.preventDefault();
+                }
+            }
+            var handleFunc = options.onHide;
+            if (handleFunc) {
+                return handleFunc(e);
+            }
+        });
         bindEvent('hidden', 'hidden');
         bindEvent('loaded', 'loaded');
 
@@ -4018,6 +4029,7 @@
                             // todo: update iframe url to ref attribute
 
                             var $framebody = frame$('body').addClass('body-modal').toggleClass('body-modal-scroll-inside', scrollInside);
+                            that.$iframeBody = $framebody;
                             if(options.iframeBodyClass) $framebody.addClass(options.iframeBodyClass);
                             var frameSizeRecords = [];
                             var ajustFrameSize = function(check) {
