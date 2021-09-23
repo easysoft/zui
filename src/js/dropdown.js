@@ -96,7 +96,7 @@
         $items.eq(index).focus()
     }
 
-    function clearMenus() {
+    function clearMenus(e) {
         $(backdrop).remove()
         $(toggle).each(function(e) {
             var $parent = getParent($(this))
@@ -155,7 +155,7 @@
     var apiName = zuiname + '.data-api'
     $(document)
         .on('click.' + apiName, clearMenus)
-        .on('click.' + apiName, '.dropdown form', function(e) {
+        .on('click.' + apiName, '.dropdown form,.not-clear-menu', function(e) {
             e.stopPropagation()
         })
         .on('click.' + apiName, toggle, Dropdown.prototype.toggle)
