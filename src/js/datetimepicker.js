@@ -79,6 +79,7 @@
         this.showMeridian = options.showMeridian || this.element.data('show-meridian') || false;
         this.initialDate = options.initialDate || new Date();
         this.pickerClass = options.eleClass;
+        this.onlyPickTime = options.maxView <= 1;
         this.pickerId = options.eleId;
 
         this._attachEvents();
@@ -462,6 +463,7 @@
             }).attr('class', 'datetimepicker dropdown-menu datetimepicker-dropdown-' + realPickerPosition);
             if(this.pickerClass) this.picker.addClass(this.pickerClass);
             if(this.pickerId) this.picker.attr('id', this.pickerId);
+            if(this.onlyPickTime) this.picker.addClass('datetimepicker-only-time')
         },
 
         update: function() {
