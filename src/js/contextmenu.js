@@ -51,11 +51,11 @@
         if (item.type === 'seperator' || item.type === 'divider') {
             return $('<li class="divider"></li>');
         }
-        var $a = $('<a/>').attr({
+        var $a = $('<a/>').attr($.extend({
             href: item.url || '###',
             'class': item.className,
             style: item.style
-        }).data('item', item);
+        }, item.attrs)).data('item', item);
         if (item.html) {
             if (item.html === true) {
                 $a.html(item.label || item.text);
@@ -64,6 +64,9 @@
             }
         } else {
             $a.text(item.label || item.text);
+        }
+        if(item.icon) {
+            $a.prepend('<i class="icon icon-' + item.icon + '"></i>');
         }
         if (item.onClick) {
             $a.on('click', item.onClick);
@@ -128,7 +131,7 @@
         }
         var $menu = $target.find('.contextmenu-menu').off('click.' + NAME).on('click.' + NAME, 'a,.contextmenu-item', function(e) {
             var $item = $(this);
-            var clickResult = options.onClickItem && options.onClickItem($item.data('item'), $item, e);
+            var clickResult = options.onClickItem && options.onClickItem($item.data('item'), $item, e, options);
             if (clickResult !== false) {
                 hideContextMenu();
             }
@@ -149,6 +152,9 @@
                 items = items.split(',');
             } else if (itemsType === 'function') {
                 items = items(options);
+            }
+            if (!items) {
+                return false;
             }
             $.each(items, function(index, item) {
                 $menuList.append(itemCreator(item, index, options));
@@ -253,7 +259,9 @@
                     y: e.clientY,
                     event: e,
                 };
-                that.show(config);
+                if (that.show(config) === false) {
+                    return;
+                }
             }
             e.preventDefault();
             e.returnValue = false; // 解决IE8右键弹出
@@ -278,12 +286,12 @@
     };
 
     ContextListener.prototype.hide = function (callback) {
-        ContextMenu.hide(this.id, callback);
+        return ContextMenu.hide(this.id, callback);
     };
 
     ContextListener.prototype.show = function (options, callback) {
         options = $.extend({id: this.id, $toggle: this.$}, this.options, options);
-        ContextMenu.show(options, callback);
+        return ContextMenu.show(options, callback);
     };
 
     ContextListener.prototype.isShow = function () {
