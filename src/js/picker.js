@@ -236,7 +236,10 @@
                 if (key === 'Enter' || key === 13) {
                     if (hasActiveValue) {
                         that.select(activeValue, multi);
-                        if (!multi) {
+                        if (multi) {
+                            that.$search.val('');
+                            that.tryUpdateList('');
+                        } else {
                             $search.blur();
                         }
                         e.preventDefault();
@@ -332,7 +335,7 @@
         // Compatible with Chosen
         $formItem.on('chosen:updated', function() {
             that.updateFromSelect();
-            that.setValue($formItem.val());
+            that.setValue($formItem.val(), true);
             that.updateList();
         })
             .on('chosen:activate', that.focus)
@@ -1217,17 +1220,6 @@
 
         }
         $formItem.val(value);
-        if (needTriggerChange) {
-            if (options.onChange) {
-                options.onChange(value);
-            }
-            if (!silent) {
-                that.triggerEvent('change', {value: value, picker: that});
-            }
-            if (that.$[0] !== $formItem[0]) {
-                $formItem.change();
-            }
-        }
 
         // Update selections
         if (!skipRenderSelections) {
@@ -1268,6 +1260,18 @@
 
         if (that.dropListShowed) {
             that.renderOptionsList();
+        }
+
+        if (needTriggerChange) {
+            if (options.onChange) {
+                options.onChange(value);
+            }
+            if (!silent) {
+                that.triggerEvent('change', {value: value, picker: that});
+            }
+            if (that.$[0] !== $formItem[0]) {
+                $formItem.change();
+            }
         }
     };
 
