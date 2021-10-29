@@ -386,6 +386,14 @@ $('#contextMenuExample2').on('click', function(e) {
       <td>例如 `{color: 'red'}`</td>
     </tr>
     <tr>
+      <td><code>attrs</code></td>
+      <td>条目元素上的其他属性</td>
+      <td>默认为 `null`</td>
+      <td>
+        <p>使用一个对象来定义条目元素上的其他属性</p>
+      </td>
+    </tr>
+    <tr>
       <td><code>onClick</code></td>
       <td>当点击此条目时的回调函数</td>
       <td>默认为 `null`, function(event)</td>

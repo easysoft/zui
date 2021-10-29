@@ -386,6 +386,14 @@ Each object in the item group corresponds to an entry on the menu list. The avai
       <td>E.g. `{color: 'red'}`</td>
     </tr>
     <tr>
+      <td><code>attrs</code></td>
+      <td>Custom attributes to the item element</td>
+      <td>default `null`</td>
+      <td>
+        <p>Use a plain object to set custom attributes to the item element</p>
+      </td>
+    </tr>
+    <tr>
       <td><code>onClick</code></td>
       <td>Callback function when clicking on this item</td>
       <td>The default is `null` or function(event)</td>
