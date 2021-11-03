@@ -34,7 +34,7 @@
         allowSingleDeselect: null,
         showMultiSelectedOptions: false,
         autoSelectFirst: false,
-        optionItemFormatter: null, // function($item, picker);
+        // optionItemFormatter: null, // function($item, picker); Not supported yet
         maxSelectedCount: 0, // 0 = Infinity
         maxListCount: 50, // 0 = Infinity
         hideEmptyTextOption: true,
@@ -61,7 +61,7 @@
         // defaultValue: null,
         onSelect: null, // function({value, picker}),
         onDeselect: null, // function({value, picker}),
-        beforeChange: null, // function(newValue, oldValue),
+        onBeforeChange: null, // function(newValue, oldValue),
         onChange: null, // function(newValue, oldValue),
         onReady: null, // function(picker),
         onNoResults: null, // function(search),
@@ -495,7 +495,7 @@
             replacedUrl = true;
         }
         if (remoteOptions.url.indexOf('{limit}') > -1) {
-            remoteOptions.url = remoteOptions.url.replace(/\{limit\}/g, limit);
+            remoteOptions.url = remoteOptions.url.replace(/\{limit\}/g, options.maxListCount);
             replacedUrl = true;
         }
         that.updateMessage('');
@@ -1003,7 +1003,8 @@
                 item[options.keysKey] = $option.data(options.keysKey);
                 list.push(item);
             }
-            if ((options.allowSingleDeselect === null || options.allowSingleDeselect === undefined) && !val.length) {
+            var allowSingleDeselect = options.allowSingleDeselect;
+            if ((allowSingleDeselect === 'auto' || allowSingleDeselect === null || allowSingleDeselect === undefined) && !val.length) {
                 options.allowSingleDeselect = true;
             }
         });
@@ -1126,6 +1127,10 @@
         return value === that.value;
     };
 
+    Picker.prototype.getValue = function() {
+        return that.value;
+    };
+
     Picker.prototype.getListItem = function(value) {
         return this.listMap[value];
     };
@@ -1166,7 +1171,7 @@
             value = String(value);
         }
 
-        if (options.valueMustInList) {
+        if (options.valueMustInList && !options.remoteOnly) {
             if (isMulti && value) {
                 var newValue = [];
                 for (var i = 0; i < value.length; ++i) {
