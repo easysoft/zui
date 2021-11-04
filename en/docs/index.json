@@ -1442,6 +1442,9 @@
                 "name": "Disabled item"
               },
               {
+                "name": "Disabled close by click"
+              },
+              {
                 "name": "Custom menus"
               },
               {
@@ -1636,13 +1639,22 @@
             "icon": "icon-search",
             "desc": "Provide data selection and filtering, support massive data",
             "name": "Picker",
-            "update": "1.8.0",
+            "update": "1.10.0",
             "topics": [
               {
-                "name": "Example"
+                "name": "Introduction"
               },
               {
                 "name": "Usage"
+              },
+              {
+                "name": "Options"
+              },
+              {
+                "name": "Methods"
+              },
+              {
+                "name": "Events"
               }
             ],
             "filter": "select xialaxuanze xlxz option choose form input picker xzq"

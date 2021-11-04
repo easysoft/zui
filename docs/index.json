@@ -1438,6 +1438,9 @@
               "name": "禁用的菜单项"
             },
             {
+              "name": "禁用菜单点击关闭"
+            },
+            {
               "name": "自定义菜单"
             },
             {
@@ -1635,10 +1638,19 @@
           "update": "1.10.0",
           "topics": [
             {
-              "name": "示例"
+              "name": "介绍"
             },
             {
               "name": "用法"
+            },
+            {
+              "name": "选项"
+            },
+            {
+              "name": "方法"
+            },
+            {
+              "name": "事件"
             }
           ],
           "filter": "select xialaxuanze xlxz option choose form input picker xzq"
