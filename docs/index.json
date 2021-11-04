@@ -793,7 +793,7 @@
           "id": "textbox",
           "name": "表单控件",
           "dpds": "forms",
-          "update": "1.5.0",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "基本类型"
@@ -1278,6 +1278,7 @@
           "icon": "icon-align-justify",
           "desc": "在鼠标位置弹出菜单（右键菜单）",
           "name": "上下文菜单",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "被动式"
@@ -1352,7 +1353,7 @@
           "icon": "icon-check-empty",
           "desc": "浮动在页面之上的对话框",
           "name": "对话框",
-          "update": "1.8.0",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "实例"
@@ -1383,7 +1384,7 @@
           "icon": "icon-signout",
           "desc": "动态展示对话框",
           "name": "对话框触发器",
-          "update": "1.8.0",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "加载远程内容"
@@ -1414,7 +1415,7 @@
           "icon": "icon-align-justify",
           "desc": "浮动在页面之上的垂直菜单",
           "name": "下拉菜单",
-          "update": "1.6.0",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "结构"
@@ -1597,7 +1598,7 @@
           "icon": "icon-calendar",
           "desc": "为文本框提供方便的日期时间选择功能",
           "name": "日期选择",
-          "update": "1.6.0",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "用法和示例"
@@ -1616,7 +1617,7 @@
           "icon": "icon-search",
           "desc": "提供数据选择和筛选功能",
           "name": "Chosen",
-          "update": "1.8.0",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "示例"
@@ -1635,7 +1636,7 @@
           "icon": "icon-search",
           "desc": "提供数据选择和筛选功能，支持海量数据和远程数据源",
           "name": "下拉选择器",
-          "update": "1.10.0",
+          "version": "1.10.0",
           "topics": [
             {
               "name": "介绍"
@@ -1660,7 +1661,7 @@
           "icon": "icon-edit",
           "desc": "使用 Kineditor 或 UEditor 来编辑富文本",
           "name": "富文本编辑器",
-          "update": "1.6.0",
+          "update": "1.10.0",
           "dpds": "kindeditor",
           "topics": [
             {
@@ -2007,7 +2008,7 @@
           "icon": "icon-calendar",
           "desc": "在日历上展示有时间限定的内容",
           "name": "日历",
-          "update": "1.8.0",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "实例"
@@ -2154,7 +2155,7 @@
           "icon": "icon-bar-chart",
           "desc": "展示曲线图和饼图",
           "name": "图表",
-          "update": "1.7.0",
+          "update": "1.10.0",
           "topics": [
             {
               "name": "创建图表"

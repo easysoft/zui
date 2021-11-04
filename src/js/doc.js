@@ -99,7 +99,7 @@
         ZUI_JSON = debug ? 'zui.json' : 'docs/zui.min.json',
         ZUI_CUSTOM_JSON = 'zui.custom.json',
         UNDEFINED = undefined,
-        isNewRelease = (new Date().getTime()) < 1541001600000, // 2018/10/1
+        isNewRelease = (new Date().getTime()) < 1638576000000, // 2021-12-04
         dataVersion,
         storageEnable,
         docIndex, iconsIndex, currentSection,
