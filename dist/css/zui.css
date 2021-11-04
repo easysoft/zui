@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.2 - 2021-06-16
+ * ZUI: Standard edition - v1.10.0 - 2021-11-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2021 cnezsoft.com; Licensed MIT
@@ -4187,6 +4187,13 @@ input[type="checkbox"]:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
   }
+@-moz-document url-prefix() {
+  input[type="radio"]:focus {
+    outline: 2px solid #3280fc;
+
+    -moz-outline-radius: 100%;
+    }
+  }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   height: auto;
@@ -8328,13 +8335,9 @@ tbody.collapse.in {
 .article-content table > thead > tr > th {
   vertical-align: bottom;
   background-color: #f1f1f1;
-  border-bottom: 1px solid #ddd;
   }
 .article-content p {
   margin-bottom: 0;
-  }
-.article-content table {
-  width: 100%;
   }
 .article > .content table th,
 .article > .content table td,

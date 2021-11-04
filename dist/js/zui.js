@@ -1,5 +1,5 @@
 /*!
- * ZUI: Standard edition - v1.9.2 - 2021-06-16
+ * ZUI: Standard edition - v1.10.0 - 2021-11-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2021 cnezsoft.com; Licensed MIT
@@ -59,7 +59,7 @@
             if (typeof str !== 'string') str = String(str);
             if(str && str.length) {
                 for(var i = 0; i < str.length; ++i) {
-                    code += i * str.charCodeAt(i);
+                    code += (i + 1) * str.charCodeAt(i);
                 }
             }
             return code;
@@ -4959,7 +4959,7 @@
         $items.eq(index).focus()
     }
 
-    function clearMenus() {
+    function clearMenus(e) {
         $(backdrop).remove()
         $(toggle).each(function(e) {
             var $parent = getParent($(this))
@@ -5018,7 +5018,7 @@
     var apiName = zuiname + '.data-api'
     $(document)
         .on('click.' + apiName, clearMenus)
-        .on('click.' + apiName, '.dropdown form', function(e) {
+        .on('click.' + apiName, '.dropdown form,.not-clear-menu', function(e) {
             e.stopPropagation()
         })
         .on('click.' + apiName, toggle, Dropdown.prototype.toggle)
@@ -5079,11 +5079,11 @@
         if (item.type === 'seperator' || item.type === 'divider') {
             return $('<li class="divider"></li>');
         }
-        var $a = $('<a/>').attr({
+        var $a = $('<a/>').attr($.extend({
             href: item.url || '###',
             'class': item.className,
             style: item.style
-        }).data('item', item);
+        }, item.attrs)).data('item', item);
         if (item.html) {
             if (item.html === true) {
                 $a.html(item.label || item.text);
@@ -5092,6 +5092,9 @@
             }
         } else {
             $a.text(item.label || item.text);
+        }
+        if(item.icon) {
+            $a.prepend('<i class="icon icon-' + item.icon + '"></i>');
         }
         if (item.onClick) {
             $a.on('click', item.onClick);
@@ -5156,7 +5159,7 @@
         }
         var $menu = $target.find('.contextmenu-menu').off('click.' + NAME).on('click.' + NAME, 'a,.contextmenu-item', function(e) {
             var $item = $(this);
-            var clickResult = options.onClickItem && options.onClickItem($item.data('item'), $item, e);
+            var clickResult = options.onClickItem && options.onClickItem($item.data('item'), $item, e, options);
             if (clickResult !== false) {
                 hideContextMenu();
             }
@@ -5177,6 +5180,9 @@
                 items = items.split(',');
             } else if (itemsType === 'function') {
                 items = items(options);
+            }
+            if (!items) {
+                return false;
             }
             $.each(items, function(index, item) {
                 $menuList.append(itemCreator(item, index, options));
@@ -5281,7 +5287,9 @@
                     y: e.clientY,
                     event: e,
                 };
-                that.show(config);
+                if (that.show(config) === false) {
+                    return;
+                }
             }
             e.preventDefault();
             e.returnValue = false; // 解决IE8右键弹出
@@ -5306,12 +5314,12 @@
     };
 
     ContextListener.prototype.hide = function (callback) {
-        ContextMenu.hide(this.id, callback);
+        return ContextMenu.hide(this.id, callback);
     };
 
     ContextListener.prototype.show = function (options, callback) {
         options = $.extend({id: this.id, $toggle: this.$}, this.options, options);
-        ContextMenu.show(options, callback);
+        return ContextMenu.show(options, callback);
     };
 
     ContextListener.prototype.isShow = function () {

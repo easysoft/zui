@@ -1,5 +1,5 @@
 /*!
- * ZUI: 选择器 - v1.9.2 - 2021-06-16
+ * ZUI: 选择器 - v1.10.0 - 2021-11-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2021 cnezsoft.com; Licensed MIT
@@ -41,7 +41,7 @@
         allowSingleDeselect: null,
         showMultiSelectedOptions: false,
         autoSelectFirst: false,
-        optionItemFormatter: null, // function($item, picker);
+        // optionItemFormatter: null, // function($item, picker); Not supported yet
         maxSelectedCount: 0, // 0 = Infinity
         maxListCount: 50, // 0 = Infinity
         hideEmptyTextOption: true,
@@ -68,7 +68,7 @@
         // defaultValue: null,
         onSelect: null, // function({value, picker}),
         onDeselect: null, // function({value, picker}),
-        beforeChange: null, // function(newValue, oldValue),
+        onBeforeChange: null, // function(newValue, oldValue),
         onChange: null, // function(newValue, oldValue),
         onReady: null, // function(picker),
         onNoResults: null, // function(search),
@@ -243,7 +243,10 @@
                 if (key === 'Enter' || key === 13) {
                     if (hasActiveValue) {
                         that.select(activeValue, multi);
-                        if (!multi) {
+                        if (multi) {
+                            that.$search.val('');
+                            that.tryUpdateList('');
+                        } else {
                             $search.blur();
                         }
                         e.preventDefault();
@@ -339,7 +342,7 @@
         // Compatible with Chosen
         $formItem.on('chosen:updated', function() {
             that.updateFromSelect();
-            that.setValue($formItem.val());
+            that.setValue($formItem.val(), true);
             that.updateList();
         })
             .on('chosen:activate', that.focus)
@@ -499,7 +502,7 @@
             replacedUrl = true;
         }
         if (remoteOptions.url.indexOf('{limit}') > -1) {
-            remoteOptions.url = remoteOptions.url.replace(/\{limit\}/g, limit);
+            remoteOptions.url = remoteOptions.url.replace(/\{limit\}/g, options.maxListCount);
             replacedUrl = true;
         }
         that.updateMessage('');
@@ -1007,7 +1010,8 @@
                 item[options.keysKey] = $option.data(options.keysKey);
                 list.push(item);
             }
-            if ((options.allowSingleDeselect === null || options.allowSingleDeselect === undefined) && !val.length) {
+            var allowSingleDeselect = options.allowSingleDeselect;
+            if ((allowSingleDeselect === 'auto' || allowSingleDeselect === null || allowSingleDeselect === undefined) && !val.length) {
                 options.allowSingleDeselect = true;
             }
         });
@@ -1130,6 +1134,10 @@
         return value === that.value;
     };
 
+    Picker.prototype.getValue = function() {
+        return that.value;
+    };
+
     Picker.prototype.getListItem = function(value) {
         return this.listMap[value];
     };
@@ -1170,7 +1178,7 @@
             value = String(value);
         }
 
-        if (options.valueMustInList) {
+        if (options.valueMustInList && !options.remoteOnly) {
             if (isMulti && value) {
                 var newValue = [];
                 for (var i = 0; i < value.length; ++i) {
@@ -1224,17 +1232,6 @@
 
         }
         $formItem.val(value);
-        if (needTriggerChange) {
-            if (options.onChange) {
-                options.onChange(value);
-            }
-            if (!silent) {
-                that.triggerEvent('change', {value: value, picker: that});
-            }
-            if (that.$[0] !== $formItem[0]) {
-                $formItem.change();
-            }
-        }
 
         // Update selections
         if (!skipRenderSelections) {
@@ -1275,6 +1272,18 @@
 
         if (that.dropListShowed) {
             that.renderOptionsList();
+        }
+
+        if (needTriggerChange) {
+            if (options.onChange) {
+                options.onChange(value);
+            }
+            if (!silent) {
+                that.triggerEvent('change', {value: value, picker: that});
+            }
+            if (that.$[0] !== $formItem[0]) {
+                $formItem.change();
+            }
         }
     };
 

@@ -1,5 +1,5 @@
 /*!
- * ZUI: Lite edition - v1.9.2 - 2021-06-16
+ * ZUI: Lite edition - v1.10.0 - 2021-11-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2021 cnezsoft.com; Licensed MIT
@@ -59,7 +59,7 @@
             if (typeof str !== 'string') str = String(str);
             if(str && str.length) {
                 for(var i = 0; i < str.length; ++i) {
-                    code += i * str.charCodeAt(i);
+                    code += (i + 1) * str.charCodeAt(i);
                 }
             }
             return code;
@@ -3633,7 +3633,7 @@
         $items.eq(index).focus()
     }
 
-    function clearMenus() {
+    function clearMenus(e) {
         $(backdrop).remove()
         $(toggle).each(function(e) {
             var $parent = getParent($(this))
@@ -3692,7 +3692,7 @@
     var apiName = zuiname + '.data-api'
     $(document)
         .on('click.' + apiName, clearMenus)
-        .on('click.' + apiName, '.dropdown form', function(e) {
+        .on('click.' + apiName, '.dropdown form,.not-clear-menu', function(e) {
             e.stopPropagation()
         })
         .on('click.' + apiName, toggle, Dropdown.prototype.toggle)

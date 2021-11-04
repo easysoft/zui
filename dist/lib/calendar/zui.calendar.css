@@ -1,5 +1,5 @@
 /*!
- * ZUI: 日历 - v1.9.2 - 2021-06-16
+ * ZUI: 日历 - v1.10.0 - 2021-11-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2021 cnezsoft.com; Licensed MIT
@@ -37,7 +37,7 @@
   }
 .calendar .weekends-empty .table > thead > tr > th.weekend-head,
 .calendar .weekends-empty .table > tbody > tr > td.weekend-day {
-  width: 40px;
+  width: 60px;
   min-width: 40px;
   }
 .calendar .day {
@@ -50,6 +50,7 @@
 .calendar .day > .heading > .month {
   padding: 1px 2px;
   color: #fff;
+  white-space: nowrap;
   background-color: #b3b3b3;
   border-radius: 3px;
   }

@@ -237,3 +237,10 @@
   height: 14px;
   cursor: pointer;
   }
+.datetimepicker-only-time table {
+  width: 190px;
+  }
+.datetimepicker-only-time thead,
+.datetimepicker-only-time tfoot {
+  display: none;
+  }
