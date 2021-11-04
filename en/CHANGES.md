@@ -10,7 +10,7 @@ New [Picker component](https://www.openzui.com/#javascript/picker), and solved t
 
 * Picker:
   * Added picker component, [see details](https://www.openzui.com/#javascript/picker);
-* CSS basic and helper classes:
+* Form:
   * Optimized radio control style in firefox, remove the dash border on activated state;
 * Dropdown:
   * Added support for helper class `.not-clear-menu`, it can be used in  `.dropdown-menu` element to skip close dropdown menu on user click it;
