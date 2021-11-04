@@ -1,5 +1,55 @@
 # Releases
 
+## 1.10.0
+
+[2021-11-04]
+
+New [Picker component](https://www.openzui.com/#javascript/picker), and solved the known problem。
+
+### Changelog
+
+* Picker:
+  * Added picker component, [see details](https://www.openzui.com/#javascript/picker);
+* CSS basic and helper classes:
+  * Optimized radio control style in firefox, remove the dash border on activated state;
+* Dropdown:
+  * Added support for helper class `.not-clear-menu`, it can be used in  `.dropdown-menu` element to skip close dropdown menu on user click it;
+* Modal and modal trigger:
+  * Fixed page shake when open modal;
+  * Fixed modal size calculation error when enabled option `scrollInside`;
+  * Fixed duplicated listen trigger event when call instance method by `$.fn.modalTrigger(methodName)`;
+* Contextmenu:
+  * Added dropdown-menu mode;
+  * Added some new options: 
+    * Added new option `limitInsideWindow` to limit the menu panel display in the window area;
+    * Added new option `show` to show menu immediately after initialized;
+    * Added new option `toggleTrigger` to enable show/hide menu on click;
+    * Added new option `menuCreator` to create custom menu elements;
+    * Added new option `position` to return position dynamically;
+  * Added new static method `ContextMenu.isShow` to check menu whether is showed by the given id;
+* Chosen:
+  * Optimized clear button style in different browsers;
+* Kindeditor:
+  * Added new option `transferEvents` to transfer events from iframe in editor to parent page;
+  * Optimized media insertion, now use HTML5 way instead of flash;
+  * Optimized image icons;
+  * Optimized advanced table, fix display errors;
+  * Fixed issue of lost anchor in the editor after enter fullscreen mode;
+  * Fixed table striped setting not work;
+  * Fixed baidu map not work;
+  * Fixed dialog not show as expected sometimes;
+  * Fixed loading icon not show sometimes;
+* Calendar:
+  * Optimized weekend header typograph to avoid line wrapping;
+* Datetime Picker:
+  * Optimized time only selection, does not show the footer in drop panel;
+* Charts:
+  * Fixed hit point check not work as expected in line chart;
+* JavaScript helpers:
+  * Added polyfills `Array.forEach` and `Array.isArray` for IE8;
+  * Fixed helper method `$.zui.uuid()` not work in IE8;
+  * Fixed js runtime error by wrongly using keywork 'const'.
+
 ## v 1.9.2
 
 [2020-07-09]
@@ -103,17 +153,17 @@ Greatly optimized Kindeditor Interactive experience，Redo Kindeditor Internal t
 
 ### Update details
 
-* CSS basis：
+* CSS basis:
   * improved Default font list，adjusted“Microsoft Yahei”Font weight，Place it at the end of the font list，increased “Siyuan Blackbody” with “Siyuan Song”；
-* Rich text editor（Kindeditor）：
-  * Redo Table editing function，Contains the following key features：
+* Rich text editor（Kindeditor）:
+  * Redo Table editing function，Contains the following key features:
     * Redo Toolbar icon，Optimized insert table interaction experience，Now click on the table icon button，Pop up row and column selection panel，Quickly insert a table by sliding the mouse to select the number of table rows and columns to insert，After inserting the form，The cursor will automatically be placed in the first cell；
     * New by <kbd>Tab</kbd> Key to switch the function of the cursor in the cell，A new line is automatically created when the cursor is already in the last cell in the table，And move the cursor to the first cell of the new line；
-    * New Select multiple cell features，Allow the following methods to perform multiple selection operations：
+    * New Select multiple cell features，Allow the following methods to perform multiple selection operations:
       * Click on the left side of the first cell of each row to quickly select all cells on the entire row.；
       * Click on the top side of the first cell of each column to quickly select all cells on the entire column.；
       * Click and hold on one cell and drag to another cell，You can select all cells in the range of the drag and drop rectangle；
-    * New Ability to apply styles or actions to selected cells，Currently supports the following operations：
+    * New Ability to apply styles or actions to selected cells，Currently supports the following operations:
       * Merge all selected cells；
       * Delete the row or column of all selected cells；
       * Operation on text base styles，Including bold、Underline、Strikethrough、Font、Text color, background color, etc.；
@@ -133,14 +183,14 @@ Greatly optimized Kindeditor Interactive experience，Redo Kindeditor Internal t
   * optimization Form indentation style，Now indented by default 2 Space，Instead of Tab；
   * optimization Preview interface style；
   * repair Can&#39;t pass `themeType` Option to specify a problem with the theme style sheet；
-* Chosen：
+* Chosen:
   * New `max_drop_width` Option，Used to enable automatic adjustment of the drop-down menu width based on the text length of the drop-down menu item（[STORY #220](https://zui.5upm.com/story-view-220.html)）；
   * New `highlight_selected` Option，Used to make the selected item on the drop-down menu always have a highlight effect，And distinguish it from the effect when hovering over the mouse（[STORY #217](https://zui.5upm.com/story-view-217.html)）；
-* Data table2：
+* Data table2:
   * repair in `height` Set as `page` The problem that the mouse cannot scroll（[BUG #28](https://zui.5upm.com/bug-view-28.html)）；
-* Form：
+* Form:
   * optimization Up `<select>` in macOS Forced to have a rounded appearance on the system；
-* Dialog（`modal`）：
+* Dialog（`modal`）:
   * repair In extreme cases, the browser console appears `e.preventDefault is undefined` error。
 
 ## v 1.9.0
@@ -152,50 +202,50 @@ New <a href="http://zui.sexy#control/loading" target="_blank">Load indicator</a>
 ### Update details
 
 * New <a href="http://zui.sexy#control/loading" target="_blank">Load indicator</a>；
-* CSS basis：
+* CSS basis:
   * repair Up `.clearfix` Declare duplicate questions（[issue #99](https://github.com/easysoft/zui/issues/99)）；
   * optimization Link `<a>` And default on button elements CSS Animation effect，Now only for the part CSS Attributes（E.g `color`、`background` Wait）Enable animation；
-* Auxiliary class：
+* Auxiliary class:
   * New `.no-margin` Auxiliary class is used to force the removal of the margin of the element；
-* Grid：
+* Grid:
   * New `.col-1`、`.col-2` ~ `.col-12` Auxiliary class，Used for quick width settings，But does not provide responsive effects；
-* Button：
+* Button:
   * optimization Button appearance，Text shadow style removed，Make it flatter；
-* switch：
+* switch:
   * optimization Style when activated；
 * Multiple selection and radio button；
   * New Advanced look and feel instead of native style on the browser；
-* Dialog and dialog triggers：
+* Dialog and dialog triggers:
   * New `scrollInside` The option is to set whether to display the scroll bar inside the dialog box when the height of the dialog box is not enough.；
   * optimization `position` Option，Support for using a function to dynamically return the position when the dialog was opened；
   * repair In rare cases, the contents of the remote dialog box are not displayed correctly.；
   * repair Automatically adjust the height of the dialog box to keep shaking in extreme cases；
-* navigation：
+* navigation:
   * New `.nav-default` Class to provide basic navigation styles，Easy to customize personalized navigation；
-* Drop-down menu：
+* Drop-down menu:
   * repair In some cases, when the submenu is displayed to the left, the position is incorrect.（[@Night wind](http://forum.zui.sexy/thread/453.html)）；
-* Color selector：
+* Color selector:
   * repair Up `updateColor` Option invalidation；
-* search bar：
+* search bar:
   * optimization Interface interaction，Now click the Clear button to automatically activate the input box.；
   * repair Up `onKeyDown` Event invalidation；
-* Chosen：
+* Chosen:
   * New `saerch_compact` Option for applying a more compact radio selection box appearance，The search box is merged with the selection box to display；
   * optimization style，Now if the original form element has `.form-control` class，Customize Chosen The width of the control is set to `100%`；
   * repair Very few cases，display Chosen There is no problem with the search box being activated after the drop-down panel；
   * repair In some cases, the radio button drop-down list keeps scrolling.；
-* Rich text editor：
+* Rich text editor:
   * optimization Kindeditor Interface style，Removed animation effects to improve performance；
   * repair Kindeditor Bottom horizontal scroll bar sometimes can&#39;t click；
   * repair Kindeditor in IE11 The problem of pasting content is always pasted to the end of the content；
-* File Upload：
+* File Upload:
   * New `autoResetFails` Option to automatically reset uploaded failed files；
   * `plupload` upgrade to `2.3.6`；
-* Tree menu：
+* Tree menu:
   * optimization DOM structure，When a node（`<li>`）When activated（have `.active` class），Automatically added on the active parent node `.has-active-item` class，Easy to customize advanced look；
-* Pager：
+* Pager:
   * repair Get the default language invalidation problem；
-* Data table：
+* Data table:
   * optimization Build a data table function from the original form，Will now keep the original table cells `title` Attributes；
   * repair In Safari The scrollable area on the browser shows an incorrect question；
   * repair The scrollable area horizontal scroll bar sometimes has 2 Pixel is not aligned；
@@ -205,21 +255,21 @@ New <a href="http://zui.sexy#control/loading" target="_blank">Load indicator</a>
   * repair When using a remote data source, sometimes the request for data twice to the server after initialization is complete；
   * repair On the cell data object `value` Attribute is `undefined` When displayed on the interface as `'undefined'` The problem，Now instead of showing anything；
   * repair The problem that the interface is garbled when the scroll bar is no longer re-rendered by default position；
-* Article view：
+* Article view:
   * optimization Multiple styles of horizontal display；
-* calendar：
+* calendar:
   * New `resetData(data)` Method to reset calendar data；
   * New `eventSorter` Option，Used to specify a callback function to compare two event objects，Sort events every time the calendar is rendered；
-* Tab manager：
+* Tab manager:
   * repair `reopen()` Method sometimes does not work；
-* Drag and drop sort：
+* Drag and drop sort:
   * New `dropToClass` with `stopPropagation` Option；
-* Drag and drop selection：
+* Drag and drop selection:
   * New `listenClick` Option，If set to false，Then the user clicks on the element but does not select anything when there is no drag operation.；
-* Auxiliary tool：
+* Auxiliary tool:
   * optimization `$.zui.uuid()` method，Now the method will useß 36 Binary string instead of number，Reduce the length of the result；
   * optimization `$.zui.Color` Construction method，stand by RGB Color string format，E.g `new $.zui.Color('rgba(255,0,0,0.5)')`；
-* theme：
+* theme:
   * repair The custom theme does not include the appearance of the scrollbar。
 
 ## v 1.8.1
@@ -243,17 +293,17 @@ Solved the problem of community feedback in the past two weeks。
   * improved Line number column width automatic calculation method，Avoid problems with ellipsis sometimes（[@Xu Yelong](http://forum.zui.sexy/thread/424.html)）
 + Data table1:
   * Fixed After enabling local storage，The sort operation direction is not displayed in the expected order，See issue #79；
-+ Context menu：
++ Context menu:
   * Fixed `html` The option is set to `true` Did not work as expected；
-+ Button group：
++ Button group:
   * Fixed Vertical button group in the upper right corner is rounded at right angles；
-+ Auxiliary class：
++ Auxiliary class:
   * increased `.no-padding` Class is used to remove all padding of elements；
-+ Date selector：
++ Date selector:
   * improved internal `input-group-addon` The left border has a double width problem；
-+ calendar：
++ calendar:
   * will `hideEmptyWeekends` The default value is set to `false`；
-+ Picture Viewer：
++ Picture Viewer:
   * increase `setImage(image, caption)` with `show()` Method for manual control of display and update content（QQ group @Shenzhen Renault Watch Industry-it）；
 
 thank [@neo20](https://github.com/easysoft/zui/pull/94)、[zora-han](https://github.com/easysoft/zui/pull/93) submitted Pull Request。Welcome feedback，Best is in[Forum post](http://forum.zui.sexy/forum/)or[in Github Submit on issue](https://github.com/easysoft/zui/issues)，More capable students are welcome[submit Pull Request](https://github.com/easysoft/zui/pulls)。
@@ -281,14 +331,14 @@ thank [@neo20](https://github.com/easysoft/zui/pull/94)、[zora-han](https://git
 + New <a href="http://zui.sexy#javascript/pagerjs" target="_blank">Pager</a>；
 + New <a href="http://zui.sexy#javascript/searchbox" target="_blank">search bar</a>；
 + New <a href="http://zui.sexy#component/input-control" target="_blank">Input box</a>；
-+ tooltip：
++ tooltip:
   * repair Triggered event name；
-+ icon：
++ icon:
   * optimization Up `icon-check-plus` with `icon-check-minus` icon，It looks bigger now；
   * repair Icon rotation auxiliary class in IE8 Problem implemented in；
-+ Input group：
++ Input group:
   * repair `.fix-padding` in IE8 Invalid problem；
-+ File Upload：
++ File Upload:
   * optimization Support for server return value，When the server returns a field that contains `name` The file name on the interface is automatically updated when the property is；
   * optimization Display the uploaded message，Multiple messages will now be merged；
   * optimization For static files（`staticFiles`）Support，Now the number and size of static files will be calculated in the prompt.；
@@ -296,45 +346,45 @@ thank [@neo20](https://github.com/easysoft/zui/pull/94)、[zora-han](https://git
   * repair The error message returned after the upload is completed does not show the problem；
   * repair Seven cattle upload can not be used；
   * repair File upload button at IE10 The following browsers are unable to click on the issue；
-+ chart：
++ chart:
   * repair Graph call `addData()` Method when displaying mouse hover tag error；
-+ Chosen：
++ Chosen:
   * optimization Search strategy，Search now `<option>` Up `value` Attributes；
   * optimization when `drop_direction` The option is set to `'auto'` Time，The pop-up direction will not change with the number of entries.；
   * repair When the user clicks on one allows the user to scroll inside the container chosen Automatically change the position of the parent element&#39;s scroll position；
-+ Modal box：
++ Modal box:
   * optimization `moveable` Option，When set to `'inside'` Does not allow the user to move the modal box outside the visible area of the window；
-+ Modal box trigger：
++ Modal box trigger:
   * repair `className` Option invalidation；
   * repair Sometimes when the user clicks on the link to trigger the execution in the text JavaScript Code problem；
   * repair `broken` The error text content returned in the event is not displayed.；
-+ Drag and drop：
++ Drag and drop:
   * optimization Support for drag and drop decisions，increase `canMoveHere` Option；
   * optimization `move` Option，Now you can use a callback function to perform the move operation；
-+ Drag and drop sort：
++ Drag and drop sort:
   * optimization Drag and drop initialization options，Increase the pair `lazy`、`canMoveHere`、`nested` Option pair support；
   * repair `start` Event parameters are not available in the event `event` The problem；
   * repair `destroy` Invalid question；
   * repair Newly added items cannot be sorted；
-+ Tree menu：
++ Tree menu:
   * optimization Icon，It looks like the icon is bigger now.；
-+ Organization Chart：
++ Organization Chart:
   * repair Sometimes the connection line is drawn incorrectly；
   * optimization The default color of the icon；
   * optimization Node object structure，stand by `foldable` Property to set whether the node can be collapsed；
-+ calendar：
++ calendar:
   * optimization The area where the interface responds to the drag and drop event when dragging and dropping to the date，Now drag and drop to any location on the date cell.；
   * optimization Correct `dragThenDrop` Option support，Now you can use an object to initialize the drag and drop plugin；
   * optimization Support for the interface last weekend，use `hideEmptyWeekends` Option to collapse the weekend column；
-+ Floating message：
++ Floating message:
   * repair Up `contentClass` Option invalidation；
-+ Form：
++ Form:
   * repair in Android Check box and radio box location issues；
-+ Equipment detection aid：
++ Equipment detection aid:
   * increase Detection function for the operating system，in `<html>` Will be added automatically `os-win` or `os-mac` Auxiliary classes are used to apply styles to different operating systems；
-+ theme：
++ theme:
   * increase Pair of switches、Support for components such as tree menus，Optimized the appearance of buttons in the theme when pressed；
-+ other：
++ other:
   * Removed `svg` label `max-width` Style setting，Avoid causing conflicts in some map controls。
 
 
@@ -342,40 +392,40 @@ thank [@neo20](https://github.com/easysoft/zui/pull/94)、[zora-han](https://git
 
 [2017-06-19]
 
-This update fixes key components such as file uploads. bug，Added a new view：Organization Chart，Easily draw multi-level tree organization chart，Support node dynamic update and hierarchical folding control。
+This update fixes key components such as file uploads. bug，Added a new view:Organization Chart，Easily draw multi-level tree organization chart，Support node dynamic update and hierarchical folding control。
 
 ### Update details
 
-* Organization Chart：
+* Organization Chart:
   - Increase the organization chart view，Easily draw multi-level tree organization chart，Support for update and fold control；
-* icon：
-  - Added some new icons：`.icon-plus-sign-alt`，`.icon-check-plus`，`.icon-chanzhi`，，`.icon-chanzhi-pro`，，`.icon-zsite`，，`.icon-zsite-pro`；
-* File Upload：
+* icon:
+  - Added some new icons:`.icon-plus-sign-alt`，`.icon-check-plus`，`.icon-chanzhi`，，`.icon-chanzhi-pro`，，`.icon-zsite`，，`.icon-zsite-pro`；
+* File Upload:
   - Fix when renaming is enabled，Do not display the delete button；
   - repair `multipart_params` Invalid option setting；
   - When option `multipart_params` For function time，The callback function will use the current file object as the first argument，Default value as the second parameter；
   - File download button will be used `download` Attribute specifies the file download file name；
   - When file extension renaming is disabled（`renameExtension` Set as `false`），Do not display extensions when renaming；
   - Fixed an issue where the file list was not updated after sometimes renaming；
-* Auxiliary class：
+* Auxiliary class:
   - You can now add text colors using color-named helper classes、Background style，include（`.text-red`，`.text-green`，`.bg-yellow`，`hl-blue` Wait）；
-* Dialog trigger：
+* Dialog trigger:
   - Support use `className` Option to specify additional dialogs for the generated dialog CLASS Attributes；
-* chart：
+* chart:
   - Pie chart supports setting the line height of external text labels（use `scaleLineHeight` Option）；
   - Fixed chart pair ZUI Independent component `colorset.js` Dependence，Now quickly specify the chart color matching does not need to be introduced separately `colorset.js` Plugin；
-* Data table：
+* Data table:
   - increase `fixCellHeight` Option to disable automatic line height adjustment（Line height can be used CSS set up，So avoiding the performance of each automatic calculation），The default is `true`（Enable automatic adjustment，Behaves consistently with previous versions）；
-* dash board：
+* dash board:
   - Repair panel configuration `panelAttrs` with `colAttrs` Invalid option；
-* Color processing：
+* Color processing:
   - `$.zui.Color` Class add class method `get(colorName)`，Used to quickly create a new color instance；
-* Drag and drop、Drag and drop、Drag and drop selection、Drag and drop sort：
+* Drag and drop、Drag and drop、Drag and drop selection、Drag and drop sort:
   - increase `mouseButton` The option is to specify which mouse button to click to start the drag and drop operation.；
   - Drag and drop sort repair call `destroy()` Method error；
-* Input group：
+* Input group:
   - Optimize the rounded border effect of the input group in a compact form；
-* Document：
+* Document:
   - Added documentation for all independent components `lib` Tips for resources under the directory；
   - Used by the documentation website ZUI No longer customized separately，Use now ZUI Standard edition。
 
@@ -385,8 +435,8 @@ This update fixes key components such as file uploads. bug，Added a new view：
 
 ### Update details
 
-* File Upload：
-  - Add file upload view，Support the following features：
+* File Upload:
+  - Add file upload view，Support the following features:
     + Provide a variety of preset file list interface，Including normal list、Large list and grid；
     + Support large file fragment upload；
     + Supports display of status information such as file upload progress and upload speed；
@@ -399,73 +449,73 @@ This update fixes key components such as file uploads. bug，Added a new view：
     + stand by HTML5、flash、serverlight Upload files in other forms；
     + Support for identifying server results，Includes upload results and automatically downloads the download address for the download button；
     + Support for displaying static files in file list；
-* icon：
+* icon:
   - Added some font icons，include `.icon-database`、`.icon-eraser`、`.icon-strikethrouth`、`.icon-underline`、`.icon-header`、`.icon-italic`；
   - Fixed icon rotation helper class in lower version IE Invalid question；
-* Switch control：
+* Switch control:
   - New switch control `.switch`，Detailed access http://zui.sexy/#control/switch ；
-* Document website：
+* Document website:
   - Fix when the page opens dialog box `ESC` The key causes the document page to close and the background layer of the dialog box still has problems causing the page to be unavailable.；
   - Fixed path to some resources on the document，The documentation now supports access to the secondary directory of the URL.；
   - The sample code on the documentation adds a language type hint；
-* Tab navigation：
+* Tab navigation:
   - Add vertical tabbed navigation，use `.nav.nav-tabs.nav-stacked` achieve；
-* Vertical menu：
+* Vertical menu:
   - Fix the problem that the collapsed indicator icon is incorrect when the vertical menu is initially initialized；
   - Vertical menu is deprecated，Tree menu is now available `.tree.tree-menu` To implement the function of the vertical menu，See the documentation for details. [view → Tree menu → Tree navigation menu](#view/tree/1)；
-* Tree menu：
+* Tree menu:
   - Add a tree navigation menu appearance，use `.tree.tree-menu` achieve；
   - Fixed `.tree-lines` In some cases the connection line is inconsistent or beyond；
-* chart：
+* chart:
   - Changed configuration item `multiTooltipTemplate` Default value，The data table name to which the data value belongs is now displayed by default；
   - Optimize the label display strategy on the pie chart，Now the label will automatically select the appropriate location to display，Will not overlap；
-* Drag and drop：
+* Drag and drop:
   - Redo drag and drop plugin，Support for initializing multiple dragged elements at once（Including dynamically added elements），Improved performance；
-* Drag and drop：
+* Drag and drop:
   - Redo drag and drop plugin，Support for a set of elements（Including dynamically added elements）Drag and drop operation，Improved performance；
-* Drag and drop sort：
+* Drag and drop sort:
   - Refactored drag and drop sorting plugin，Improved plug-in performance，Solved the problem of causing the card after multiple calls；
-* Drag and drop selection：
+* Drag and drop selection:
   - Fixed sometimes `finish` The event has not been triggered；
   - Fixed in extreme cases `mouseup` The event did not trigger the problem that caused the selection box to disappear.；
   - Improved performance during drag-and-drop interaction；
-* Kanban：
+* Kanban:
   - Improved performance，Fixed an issue where duplicate entries on the kanban were repeatedly bound while dragging；
-* calendar：
+* calendar:
   - Improved performance，Fixed an issue that caused a calendar event that could not be placed and dropped in some extreme cases；
-* dash board：
+* dash board:
   - The dashboard now supports adjusting the height of the panel by dragging the bottom edge of the panel，Panels on the same row automatically adjust height when one of the heights changes to be consistent；
   - Improved plug-in efficiency；
-* Prompt message：
+* Prompt message:
   - increased `tipClass` with `tipId` Option；
   - Add multiple color themes，able to pass `tipClass` To specify；
-* Pop-up panel：
+* Pop-up panel:
   - Added multiple color themes；
   - Fixed a call in manual `$().tooltip('hide')` after that，Did not remove dynamically generated from the page `.tooltip` Element problem；
-* Drop-down menu：
+* Drop-down menu:
   - increase `.dropdown-hover` Classes can be used to implement the drop-down menu panel without the need to click the trigger button.；
-* Typesetting：
+* Typesetting:
   - Ordered list increase `.ol-pd-2`、`.ol-pd-3`、`.ol-pd-4` Special class to fix left margin，And provided a JS method `$().fixOlPd()` Manually correct；
   - `<hr>` Element added `.divider` with `.divider-sm` Class obtains dividing lines with different margins；
   - for MacOS Increase the font of the apple；
-* Floating message：
+* Floating message:
   - Fixed when custom action buttons were specified and `onAction` Prompt when event callback function `result` Undefined big problem；
   - Fixed method name naming error，`destory` Corrected to `destroy`；
   - Fixed use `new` Method to report an error when creating an instance（issue #32）；
-* Rich text editor：
+* Rich text editor:
   - Refactoring the packaging task，Fixed in `dist` There is no problem with the plugin resource in the directory；
   - Fixed an issue where the buttons on the dialog box on some browsers were incomplete on the English interface.；
-* Date selector：
+* Date selector:
   - Fixed post after emptying button，The issue of the left and right switch date button on the date panel pops up again.；
   - New `eleClass` with `eleId` Option to specify for dynamically generated date selection panel elements CLASS with ID Attributes；
-* Color selector：
+* Color selector:
   - Fixed `updateColors()` with `addColor()` Method can&#39;t directly add color values in string form；
   - Fixed in jQuery 3.x+ Reporting the wrong question；
-* Chosen：
+* Chosen:
   - increase `middle_hightlight` Select to make the option selected when opening the drop-down panel as far as possible in the middle of the list；
-* theme：
+* theme:
   - Fixed an issue where setting the fillet values for panel groups and labels is invalid in the theme；
-* other：
+* other:
   - `.show` Auxiliary class will use `!important` Modification，Avoid failure in some cases；
   - Add an auxiliary method `$.zui.strCode(str)` To convert a string to a unique value，Any string corresponds to a unique integer；
 
@@ -477,10 +527,10 @@ This update fixes key components such as file uploads. bug，Added a new view：
 Add drag and drop selection and color picker plugin，A large number of components are optimized based on community feedback，Fixed a problem that has been discovered，Join Alipay and Taobao related font icons。
 Document website has been greatly improved，Added two-column browsing mode for widescreen users，Most component documentation is updated，More comprehensive description of more examples and code。
 
-### Update details：
+### Update details:
 
- * Document website：
-    - Add some basic content documents，Some missing documentation components are updated，include：Multiple selection and radio button、Color、drag、Drag and drop sorting, etc.，A lot of old documents get updated；
+ * Document website:
+    - Add some basic content documents，Some missing documentation components are updated，include:Multiple selection and radio button、Color、drag、Drag and drop sorting, etc.，A lot of old documents get updated；
     - Added two-column browsing mode，Enable simultaneous browsing of catalog and page content on widescreen devices，Requires browser window width not less than `1200px`；
     - All internal pages are converted to Markdown format，Easier to maintain；
     - Fixing the first access to the document sometimes fails to get the disease display successfully ZUI version number，And can&#39;t open automatically URL Specified subpage；
@@ -496,107 +546,107 @@ Document website has been greatly improved，Added two-column browsing mode for 
     - Optimize the problem of creating many useless elements on the main page after opening the date selection plugin page；
     - The document website is no longer IE8-10 Provide full support；
     - Optimize the experience of documents on mobile devices；
- * Color selector：
+ * Color selector:
     - Add color selection plugin，Convenient for the user to select a preset color or enter a color value，in `dist/colorpicker` Related files can be found under the directory；
- * Drag and drop selection：
+ * Drag and drop selection:
     - Add drag and drop selection plugin，It is convenient for the user to select the elements in the area by dragging the area，in `dist/selectable` Related files can be found under the directory；
- * icon：
+ * icon:
     - Add Alipay and Taobao icons；
     - use `.icon` Class implementation monospace icon；
- * Tree menu：
+ * Tree menu:
     - `initialState` Option added `preserve` value，Allow local storage to restore the state of the user since the last operation；
     - Added a new set of options to support dynamic builds and updates DOM node，Add export data function；
     - optimization `.tree-lines` Option，No extra cables will be displayed at any time；
- * Floating message：
+ * Floating message:
     - Multiple messages can now be displayed simultaneously on a page with multiple message examples；
     - Now you can customize the action button to the right of the message.，Can display multiple operation buttons simultaneously；
     - Classes that support dynamically created message elements by option；
     - New `destory` method，Remove dynamically created elements from the page；
- * Kindeitor：
+ * Kindeitor:
     - Unable to load on repair page `kindeditor.min.css` The problem；
     - Remove `dist/kindeditor` Some unused files in the directory；
     - Kindeitor Automatically adds to the editor container element when it gets focus `.hover` Class to achieve focus appearance，No longer need users to manually bind `afterFocus` with `afterBlur` Event to achieve；
- * UEditor：
+ * UEditor:
     - for UEditor Add theme style sheet，allowable `dist/ueditor/` Found under the directory；
- * jQuery：
+ * jQuery:
     - Repair and jQuery 2.* and 3.* An error occurred when the version was used together；
- * Drop-down menu：
+ * Drop-down menu:
     - Optimize drop-down menus with submenus，Can be submenu `.dropdown-menu` Add to `.pull-left` Class to change the submenu popup direction；
     - Optimize the triangle icon style in the drop-down menu button；
- * Bookmark page：
+ * Bookmark page:
     - Now you can add by adding a trigger element `[data-tab]` Attributes to quickly enable tabs；
- * fold：
+ * fold:
     - Optimize the implementation of folded grouping，More than just a panel，Any grouping of the same parent element can now be used to implement any grouping；
- * Grid and layout：
+ * Grid and layout:
     - increase `.container-fluid` with `.container-fixed-*`；
     - `.responsive-*` Can cooperate `.inline` with `.inline-block` use；
- * Typesetting：
+ * Typesetting:
     - increase `.dl-inline` Auxiliary class；
     - Optimize the appearance of the reference block；
- * Code：
+ * Code:
     - New pair `<kbd>` Appearance style；
     - New `.code` Class application monospace font style；
- * scroll bar：
+ * scroll bar:
     - Scrollbar appearance is only for mobile devices；
- * progress bar：
+ * progress bar:
     - Optimize the appearance of stripes；
- * Labels and logos：
+ * Labels and logos:
     - Optimize label and logo look，Optimize its style when navigating or working with other components；
- * form：
+ * form:
     - New `.table-auto` Class implementation automatic width table；
- * Form：
+ * Form:
     - Optimize form controls and views，Remove the pair in the form `.control-label` Dependence；
- * Navigation and navigation bar：
+ * Navigation and navigation bar:
     - restricted `.navbar-brand` Horizontal padding，Will not appear too small；
- * Local storage：
+ * Local storage:
     - Fixed an issue where local storage was unavailable and an error occurred；
     - Calling related methods now when local storage is not available will not cause an error，This data will be stored in memory；
- * tooltip：
+ * tooltip:
     - Repair use `show` Method update content invalidation problem；
- * Dialog、Dialog trigger：
+ * Dialog、Dialog trigger:
     - repair iframe Dialog settings `[data-height]` Problems that cannot be displayed after；
     - Fix dialog trigger `loaded` Event sometimes called twice；
     - Redesigned full screen dialog appearance，`.modal-body` Allow scrolling after the content is exceeded；
- * Modal dialog：
+ * Modal dialog:
     - Adjust button order，Now indicates that the active button will be displayed in front.；
- * Paging：
+ * Paging:
     - Fixing activated entries and disabled entry styles sometimes does not work；
     - Optimize the appearance of activated entries；
- * calendar：
+ * calendar:
     - repair“Nowadays”Buttons are also prohibited from clicking in different years.；
     - repair `startDate` Invalid option setting；
- * dash board：
+ * dash board:
     - New `data` Option，Allows dynamic creation of panel content via data；
     - Support for changing the grid size by dragging the edge of the panel；
     - Optimize strategies for updating panel content from a distance；
     - Optimize the appearance of the action buttons；
     - New `.panel-loading` Dynamic icon in app loading；
- * Picture Viewer：
+ * Picture Viewer:
     - Fix the problem of jitter when opening the image browsing page；
- * Color：
+ * Color:
     - `isColor` Now is the class method，No need to call on the instance；
     - Allowed to pass `Color.names` Access all named colors；
- * Data table：
+ * Data table:
     - When fixing the fixed head `z-index` Over the assembly to block the rest of the page；
     - Support drag and drop selection；
     - Fix click switch to select the line that sometimes fails；
     - Can now pass at any time `chekcs` Attribute to access row selection；
     - `fixedHeader` The option default is set to `false`，Avoid the problem of misplacement in some cases；
- * article：
+ * article:
     - New `.content` Class to replace `.article-content`，in `.content` Elements such as inner paragraphs apply bottom margins；
- * card：
+ * card:
     - Optimize the look of the card view；
- * chart：
+ * chart:
     - Fix the problem that the pie chart wraps around the text label and sometimes doesn&#39;t show；
- * Kanban：
+ * Kanban:
     - able to pass `.droppable` Options come from the line to handle the drag and drop process；
     - Remove pair `[data-toggle="boards"]` support；
- * Picture cut：
+ * Picture cut:
     - New `resetImage` Method to dynamically set the image to be cut；
- * theme：
+ * theme:
     - Fix an incorrect panel color theme in the theme；
     - Fixed an issue where the page break control activated entry in the theme did not apply the theme color match；
- * Developer support：
+ * Developer support:
     - Posted to npm；
     - Support use `npm start` Command to start local document web server（`http-server` achieve）；
     - optimization gulp task，Support more options，New `lib` with `minJSON` task；
@@ -619,51 +669,51 @@ Fixed forums andQQMost of the questions in the group。
 
 ### Update details
 
- * Improve and continually improve the documentation：
+ * Improve and continually improve the documentation:
      - Most component documentation is updated，Added more examples and sample code；
      - The topic chapters in the document support direct preview of the theme，And can customize the theme configuration and compile and download the theme（This feature is inIE8Not available on older browsers）；
      - Documentation supports viewing source code and packaging information for components；
      - Sample code in the documentation supports replication；
      - Correct multiple links and misspellings in the document；
      - Fix an issue where the scrollbar document could not be loaded and displayed；
- * Typographic style：
+ * Typographic style:
      - Change font settings；
      - simplifyCSS CLASSname，`hightlight-*`change name to`hl-*`；
- * Grid system：
+ * Grid system:
      - increase`.col`Auxiliary classes to facilitate custom raster sizes；
- * Prompt message and prompt panel：
+ * Prompt message and prompt panel:
      - Prompt message support`tipClass`with`tipId`Option；
      - Prompt message`show(content)`Method increasecontentParameters to dynamically change the content of reality；
- * icon：
+ * icon:
      - Icon name`icon-yingyang`Corrected to`icon-yinyang`，`icon-check2`Corrected to`icon-checked`；
      - Fix an issue where icon rotation doesn&#39;t work in non-block-level tags；
      - Update icon font，Changed the font`base height`，Now the icon and text are more natural when mixed；
- * Message Box：
+ * Message Box:
      - Removed the border of the message box，It looks flatter now；
      - increase`.alert-primary-inverse`Dark appearance of the main color matching message box；
- * Labels and logos：
+ * Labels and logos:
      - Change the padding and line height of labels and logos，Resolve size and alignment issues in some browsers；
- * Button and button set：
+ * Button and button set:
      - Change button style，More flattened；
      - The default background color of the link button is now`transparent`；
      - Change the appearance of the button when it is selected or activated，It now looks more obvious；
      - The rounded border of the button can be`variables.less`Separately defined；
      - Change button transition animation time from preset slower time to normal time，Preset time reference`variables.less`Definition in；
      - Fixing the top button on the vertical button group, the first button rounded border shows incorrect question；
- * scroll bar：
+ * scroll bar:
       - optimizationWebkitThe style of the scroll bar on the family browser；
- * Form control：
+ * Form control:
      - Optimize the style of the radio buttons and check boxes in the form，Now looks more centered vertically when mixed with text；
      - Change some of the disabled form item styles，Change the cursor when hovering；
- * navigation：
+ * navigation:
      - Fix the rounded style of vertical navigation；
- * progress bar：
+ * progress bar:
      - Adjust the appearance of the progress bar，Remove shadow effects，It looks flatter now；
- * Bread crumbs：
+ * Bread crumbs:
      - Change the color of the breadcrumb activation item，It now looks more obvious；
- * Tree menu：
+ * Tree menu:
      - Increase tree menu view；
- * Dialog and dialog triggers：
+ * Dialog and dialog triggers:
      - Modal box renamed“Dialog”；
      - Dialog box supports full screen dialog，by`.modal-fullscreen`achieve；
      - Fix the problem that the modal box size configuration in the dialog trigger is not applied correctly（[by @remind](https://github.com/easysoft/zui/issues/10)）；
@@ -677,9 +727,9 @@ Fixed forums andQQMost of the questions in the group。
      - Dialog trigger increases`waittime`Options to show when remote content is loaded，increase`broken`Event to listen for events when remote content fails to load；
      - Dialog trigger increases`loadingicon`Options from the icons that appear when you remotely load content；
      - The dialog trigger triggered by the button now re-reads the value of the remote address each time it is triggered，This means that different remote content can be dynamically loaded through the dialog by changing the address parameters each time the dialog pops up.；
- * Date selection：
+ * Date selection:
      - Date selection plugin added`pcikerPosition`Options to control the pop-up and display position of the pop-up panel，If this option is specified as`auto-*`，Automatically determine the most suitable location；
- * ChosenAnd icon selection plugin：
+ * ChosenAnd icon selection plugin:
      - forChosenincrease`dropDirection`Option to control the pop-up direction of the pop-up panel，If`auto`Automatically determine the most suitable location；
      - forChosenincrease`lang`Options to set the interface language；
      - optimizationChosenInterface style；
@@ -687,54 +737,54 @@ Fixed forums andQQMost of the questions in the group。
      - Icon selection plugin can choose more icons，includeWeChaticon；
      - Fix icon selection plugin can&#39;t read and apply language settings correctly；
      - DeepenedChosenPop-up panel shadow effect，Strengthen the distinction between other content；
- * Floating message：
+ * Floating message:
      - Floating messages add a global method to hide all displayed messages；
      - The rounded size of the floating message is`varuables.less`Configurable；
- * Rolling monitor（scrollspy）：
+ * Rolling monitor（scrollspy）:
      - Fix scroll listen event name error；
- * Drag and drop sort：
+ * Drag and drop sort:
      - Drag and drop sorting component increases`before`event；
      - repair`reset()`Method sometimes works incorrectly；
- * Form：
+ * Form:
      - Remove`<select>`Dotted border when popping up in Firefox；
- * Code and code block：
+ * Code and code block:
      - Adjust the row height in the code block，Will now show a more compact；
      - When using code blocksprettifyPlugin and enable display line number，Remove excess margins at the bottom；
- * Data table：
+ * Data table:
      - Support for inheriting table cells when a data table uses a native table as a data source`title`Attributes；
      - Change the horizontal scroll bar mouse cursor style in the data table；
      - Repair data table`load`Method passed`$().datatable('load', newData)`Form call cannot take effect；
      - Change the icon for the selected row in the data table；
      - Data table data increase`keepSort`Attributes to prevent sorting from resetting when updating data；
- * Kanban view：
+ * Kanban view:
      - Increase the pair`before`Event support；
- * chart：
+ * chart:
      - optimizationchartjs，Ring chart added`showLable`Option to show or hide tags；
      - Histogram increase`showLable`with`scaleValuePlacement`Option to display labels on the specified position on the column；
      - Histogram and bar chart increase`scaleShowBeyondLine`Options to control the axis style；
- * calendar：
+ * calendar:
      - Fix an issue where an error occurred while updating events in the calendar；
- * Bootbox：
+ * Bootbox:
      - changeBootboxEvent name in，versusZUIEvent names in other components are consistent。
      - Bootboxupgrade to4.4.0version；
- * Picture Viewer (Lightbox)：
+ * Picture Viewer (Lightbox):
      - Change the style of the image browsing plugin，It looks flatter now；
      - Fix the image description in the image browsing plugin. Sometimes the content is incorrect.；
- * Picture cropping：
+ * Picture cropping:
      - Change picture croppedAPI，Add more events，Submitting events contains more image information；
  * Kindeditor:
      - repairKindeditorAt MicrosoftEdgeBrowser andIE8Unusable problem；
- * theme：
+ * theme:
      - Greatly optimize the default theme style，Fixed an issue where some third-party components did not correctly apply the theme；
      - Theme adds support for fillet settings；
- * Packaging and compiling：
+ * Packaging and compiling:
      - useGulpReplaceGrunt，Remove item pairGruntjsDependence，Refactoring most of the compilation and packaging tasks；
      - Data table removed from the standard version，Has joined a separate component；
      - Icon selection plugin（chosenicons）、Code landscaping highlighting plugin（prettify）And drag and drop sorting plugins into separate component packaging；
      - optimization Code and compilation process，Reduce the standard versionCSSFile size（Decrease3%）；
      - stand by From`src/less/basic/setting.less`Read inLESSConfiguration；
      - Refactoring`package.json`middle`lib`with`builds`data，Use now`zui.json`To manage these data separately；
- * other：
+ * other:
      - ZUIMost of the components in the animation transition time from the original0.3sReduced to0.2s，Animation transitions will be faster；
      - browser.jsincrease`.tip(content)`Method allows the user to customize the browser low version prompt message；
      - Updateexcanvas.js；
@@ -759,7 +809,7 @@ This update optimizes the documentation site experience，Fixed somebug。
 
 [2015-05-15]
 
-A new document website is coming！Keyboard man new benefits：Use search to find content，And support shortcut operation。
+A new document website is coming！Keyboard man new benefits:Use search to find content，And support shortcut operation。
 Increase chart view component，Support for pie chart、Display of histograms and graphs。
 Also fine-tuned the default color，For multiple componentsUIDetails are optimized，Fixed a lot of problems。
 
