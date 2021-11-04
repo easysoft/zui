@@ -1448,12 +1448,12 @@
       "ignoreDpds": false
     },
     "picker": {
-      "name": "选择器",
+      "name": "下拉选择器",
       "src": {
         "js": ["src/js/picker.js"],
         "less": ["src/less/components/picker.less"]
       },
-      "ver": "1.9.3",
+      "ver": "1.10.0",
       "ignoreDpds": false
     },
     "lang.ja": {
@@ -1461,7 +1461,7 @@
       "src": {
         "js": ["src/js/lang/ja.js"]
       },
-      "ver": "1.9.3",
+      "ver": "1.10.0",
       "ignoreDpds": false
     },
     "lang.fr": {
@@ -1469,7 +1469,7 @@
       "src": {
         "js": ["src/js/lang/fr.js"]
       },
-      "ver": "1.9.3",
+      "ver": "1.10.0",
       "ignoreDpds": false
     },
     "lang.de": {
@@ -1477,7 +1477,7 @@
       "src": {
         "js": ["src/js/lang/de.js"]
       },
-      "ver": "1.9.3",
+      "ver": "1.10.0",
       "ignoreDpds": false
     }
   },
