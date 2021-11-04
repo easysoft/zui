@@ -1,6 +1,6 @@
 {
-  "version": "1.9.2.0",
-  "updateTime": "2020-07-09 13:57",
+  "version": "1.10.0.0",
+  "updateTime": "2021-11-04 10:00",
     "chapters": {
       "contribution": {
         "name": "contribution",
@@ -16,7 +16,7 @@
           },
           {
             "id": "plan",
-            "name": "ZUI plans",
+            "name": "ZUI plans",　
             "desc": "Follow ZUI development plans",
             "icon": "icon-flag-checkered",
             "url": ".md",

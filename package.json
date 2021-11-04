@@ -1,7 +1,7 @@
 {
   "name": "zui",
   "title": "ZUI",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "description": "一个基于 Bootstrap 深度定制开源前端实践方案，帮助你快速构建现代跨屏应用。",
   "main": "index.html",
   "directories": {
