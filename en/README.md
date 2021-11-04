@@ -45,12 +45,12 @@ bower install zui
 
 ```html
 <!-- ZUI Standard version compressed CSS files -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/css/zui.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/zui/1.10.0/css/zui.min.css">
 
 <!-- ZUI Javascript depends on jQuery -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/lib/jquery/jquery.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.10.0/lib/jquery/jquery.js"></script>
 <!-- ZUI Standard version compressed JavaScript file -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.9.2/js/zui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/zui/1.10.0/js/zui.min.js"></script>
 ```
 
 Other CDN:
@@ -59,8 +59,8 @@ Other CDN:
 
 ### Download
 
- - [v 1.9.2 Production package](https://github.com/easysoft/zui/releases/download/v1.9.2/zui-1.9.2-dist.zip)
- - [v 1.9.2 Source code](https://github.com/easysoft/zui/archive/v1.9.2.zip)
+ - [v 1.10.0 Production package](https://github.com/easysoft/zui/releases/download/v1.10.0/zui-1.10.0-dist.zip)
+ - [v 1.10.0 Source code](https://github.com/easysoft/zui/archive/v1.10.0.zip)
 
 ### Template
 
