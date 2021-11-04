@@ -1632,6 +1632,22 @@
             "filter": "select xialaxuanze xlxz option choose form input"
           },
           {
+            "id": "picker",
+            "icon": "icon-search",
+            "desc": "Provide data selection and filtering, support massive data",
+            "name": "Picker",
+            "update": "1.8.0",
+            "topics": [
+              {
+                "name": "Example"
+              },
+              {
+                "name": "Usage"
+              }
+            ],
+            "filter": "select xialaxuanze xlxz option choose form input picker xzq"
+          },
+          {
             "id": "htmleditor",
             "icon": "icon-edit",
             "desc": "use Kindeditor or UEditor to edit rich text",

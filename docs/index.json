@@ -1628,6 +1628,22 @@
           "filter": "select xialaxuanze xlxz option choose form input"
         },
         {
+          "id": "picker",
+          "icon": "icon-search",
+          "desc": "提供数据选择和筛选功能，支持海量数据和远程数据源",
+          "name": "下拉选择器",
+          "update": "1.10.0",
+          "topics": [
+            {
+              "name": "示例"
+            },
+            {
+              "name": "用法"
+            }
+          ],
+          "filter": "select xialaxuanze xlxz option choose form input picker xzq"
+        },
+        {
           "id": "htmleditor",
           "icon": "icon-edit",
           "desc": "使用 Kineditor 或 UEditor 来编辑富文本",
