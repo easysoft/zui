@@ -11,7 +11,7 @@ The dropdown is used to pop out a floating menu when the user clicks on an eleme
 
 ## Structure
 
-Dropdown is composed of a trigger element(e.g. buttons) and a floating(`.dropdown-menu`). You need to add `[data-toggle="dropdown"]` to the trigger element. 
+Dropdown is composed of a trigger element(e.g. buttons) and a floating(`.dropdown-menu`). You need to add `[data-toggle="dropdown"]` to the trigger element.
 
 Trigger element and floating menu `.dropdown-menu`  are usually placed in the container `.dropdown`. You can also use any elements of `position: relative` as a dropdown container.
 
@@ -408,6 +408,34 @@ Add `.disabled` to menu items `<li>` to  disable it.
   <ul class="dropdown-menu">
     <li><a href="###">Action</a></li>
     <li class="disabled"><a href="###">Disabled action</a></li>
+  </ul>
+</div>
+```
+
+## Disabled close by click
+
+You can use specific class `not-clear-menu` on elements to skip to close dropdown menu on click.
+
+<example style="height: 164px">
+  <div class="dropdown open">
+    <button class="btn" type="button" data-toggle="dropdown">Open dropdown-menu to test<span class="caret"></span></button>
+    <ul class="dropdown-menu" style="min-width: 200px">
+      <li class="not-clear-menu" style="padding: 5px 10px">
+        <input class="form-control" type="text" placeholder="Click here will not close the menu">
+      </li>
+      <li><a href="###">Action</a></li>
+    </ul>
+  </div>
+</example>
+
+```html
+<div class="dropdown open">
+  <button class="btn" type="button" data-toggle="dropdown">Open dropdown-menu to test <span class="caret"></span></button>
+  <ul class="dropdown-menu" style="min-width: 200px">
+    <li class="not-clear-menu" style="padding: 5px 10px">
+      <input class="form-control" type="text" placeholder="Click here will not close the menu">
+    </li>
+    <li><a href="###">Action</a></li>
   </ul>
 </div>
 ```

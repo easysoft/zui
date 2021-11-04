@@ -412,6 +412,34 @@ filter: xialacaidan xlcd
 </div>
 ```
 
+## 禁用菜单点击关闭
+
+有时需要在下拉菜单内添加一些特殊内容，并允许用户进行点击操作而不关闭下拉菜单，此时可以为这些元素添加特殊类 `not-clear-menu` 实现。
+
+<example style="height: 164px">
+  <div class="dropdown open">
+    <button class="btn" type="button" data-toggle="dropdown">打开菜单进行测试 <span class="caret"></span></button>
+    <ul class="dropdown-menu" style="min-width: 200px">
+      <li class="not-clear-menu" style="padding: 5px 10px">
+        <input class="form-control" type="text" placeholder="点击此输入框不会关闭下拉菜单">
+      </li>
+      <li><a href="###">操作</a></li>
+    </ul>
+  </div>
+</example>
+
+```html
+<div class="dropdown open">
+  <button class="btn" type="button" data-toggle="dropdown">打开菜单进行测试 <span class="caret"></span></button>
+  <ul class="dropdown-menu" style="min-width: 200px">
+    <li class="not-clear-menu" style="padding: 5px 10px">
+      <input class="form-control" type="text" placeholder="点击此输入框不会关闭下拉菜单">
+    </li>
+    <li><a href="###">操作</a></li>
+  </ul>
+</div>
+```
+
 ## 自定义菜单
 
 通常情况下下拉菜单列表使用 `<ul>` 元素，你也可以替换为其他元素或内容。
