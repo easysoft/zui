@@ -253,7 +253,14 @@
                     }
                     try {
                         $modal.attr('ref', frame.contentWindow.location.href);
-                        var frame$ = window.frames[iframeName].$;
+                        var frameWindow = window.frames[iframeName];
+
+                        // Support for reset modal width by var modalWidthReset in iframe page
+                        if(frameWindow.modalWidthReset) {
+                            options.width = frameWindow.modalWidthReset;
+                        }
+
+                        var frame$ = frameWindow.$;
                         if(frame$ && options.height === 'auto' && options.size != 'fullscreen') {
                             // todo: update iframe url to ref attribute
 
