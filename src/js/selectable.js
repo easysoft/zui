@@ -222,6 +222,10 @@
                 return;
             }
 
+            if ($(e.target).closest('input,select,textarea,label').length) {
+                return;
+            }
+
             if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }
