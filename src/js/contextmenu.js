@@ -26,7 +26,6 @@
         menuTemplate: '<ul class="dropdown-menu"></ul>',
         toggleTrigger: false,
         duration: 200,
-        limitInsideWindow: true
     };
 
     var isShowingMenu = false;
@@ -215,12 +214,10 @@
         if (animation) {
             $menu.addClass(animation);
             animationTimer = setTimeout(function() {
-                // $menu.show();
                 afterShow();
                 isShowingMenu = false;
             }, 10);
         } else {
-            // $menu.show();
             afterShow();
             isShowingMenu = false;
         }
