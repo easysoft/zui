@@ -55,7 +55,9 @@
             }
         };
 
-        markOrders();
+        if(!targetSelector) {
+            markOrders();
+        }
 
         $root.droppable({
             handle      : options.trigger,
@@ -74,6 +76,7 @@
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
                 orderChanged = false;
+                that.$element = e.element;
                 that.trigger('start', e);
             },
             drag: function(e) {
@@ -121,6 +124,7 @@
                     element: e.element,
                     changed: orderChanged
                 });
+                that.$element = null;
             }
         });
     };
@@ -136,7 +140,19 @@
     };
 
     Sortable.prototype.getItems = function(onlyElements) {
-        var $items = this.$.find(this.options.selector).not('.drag-shadow');
+        var that = this;
+        var $items;
+        var targetSelector = that.options.targetSelector;
+        if (targetSelector) {
+            if(typeof targetSelector === 'function') {
+                $items = targetSelector(that.$element, that.$);
+            } else {
+                $items = that.$.find(targetSelector);
+            }
+        } else {
+            $items = that.$.find(that.options.selector);
+        }
+        $items = $items.not('.drag-shadow');
         if(!onlyElements) {
             return $items.map(function() {
                 var $item = $(this);
