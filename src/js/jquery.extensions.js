@@ -212,16 +212,20 @@
         },
 
         _scrollbarWidth: 0,
-        checkBodyScrollbar: function() {
-            if(document.body.clientWidth >= window.innerWidth) return 0;
-            if(!$.zui._scrollbarWidth) {
+        getScrollbarSize: function() {
+            var scrollbarWidth = $.zui._scrollbarWidth;
+            if (!scrollbarWidth) {
                 var scrollDiv = document.createElement('div');
                 scrollDiv.className = 'scrollbar-measure';
                 document.body.appendChild(scrollDiv);
-                $.zui._scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+                $.zui._scrollbarWidth = scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
                 document.body.removeChild(scrollDiv);
             }
-            return $.zui._scrollbarWidth;
+            return scrollbarWidth;
+        },
+        checkBodyScrollbar: function() {
+            if(document.body.clientWidth >= window.innerWidth) return 0;
+            return $.zui.getScrollbarSize();
         },
         fixBodyScrollbar: function() {
             if($.zui.checkBodyScrollbar()) {
