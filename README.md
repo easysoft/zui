@@ -33,12 +33,6 @@
 npm install zui
 ```
 
-### Bower
-
-```
-bower install zui
-```
-
 ### CDN
 
 由 <a href="https://cdnjs.com/libraries/zui" target="_blank">cdnjs</a> 提供：
