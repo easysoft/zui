@@ -137,6 +137,63 @@ $('#contextMenuExample2').on('click', function(e) {
 });
 ```
 
+## 子菜单
+
+为菜单项添加额外的 `items` 属性来添加子菜单，子菜单支持无限层级的嵌套定义。
+
+<div class="example hl-primary" id="contextMenuExample3">
+  包含子菜单的上下文菜单
+  <div class="text-info"></div>
+</div>
+
+```html
+<div class="hl-primary" id="contextMenuExample3">
+  包含子菜单的上下文菜单
+  <div class="text-info"></div>
+</div>
+```
+
+```js
+$('#contextMenuExample3').on('click', function(e) {
+    $.zui.ContextMenu.show([{
+        label: '查看详情',
+        onClick: function() {
+            alert('你点击了查看详情');
+        }
+    }, {
+        type: 'divider'
+    }, {
+        label: '新建项目',
+        items: [
+            {label: '笔记'},
+            {label: '待办'},
+            {label: '提醒'},
+            {label: '文件夹', onClick: function() {alert('你点击了“文件夹”')}},
+            {type: 'divider'},
+            {
+                label: '其他',
+                items: [
+                    {label: '书签'},
+                    {label: '标签', onClick: function() {alert('你点击了“标签”')}},
+                ]
+            },
+        ]
+    }, {
+        type: 'divider'
+    }, {
+        label: '复制',
+    }, {
+        label: '剪切',
+    }, {
+        label: '粘贴',
+    }], {
+        event: e
+    }, function() {
+        console.log('上下文菜单已显示。');
+    });
+});
+```
+
 ## 选项
 
 大部分选项同时适用与主动式和被动式，一些特殊的选项只适用于单一方式会加以注明。
@@ -180,14 +237,6 @@ $('#contextMenuExample2').on('click', function(e) {
           <li>`options`，要创建的菜单所有配置选项；</li>
           <li>`$menu`，当前操作的菜单元素对象；</li>
         </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>limitInsideWindow</code></td>
-      <td>是否限制菜单位置在窗口内</td>
-      <td>默认为 `true`</td>
-      <td>
-        <p>如果为 `true`，菜单永远不会超出浏览器窗口，否则会严格遵从设定的位置。</p>
       </td>
     </tr>
     <tr>
@@ -366,6 +415,12 @@ $('#contextMenuExample2').on('click', function(e) {
       <td>条目作为链接时的链接地址</td>
       <td>默认 `'###'`</td>
       <td></td>
+    </tr>
+    <tr>
+      <td><code>items</code></td>
+      <td>子菜单列表</td>
+      <td>默认 `null`</td>
+      <td>使用一个菜单对象数组来指定该菜单拥有的子菜单，子菜单支持无限极嵌套定义。</td>
     </tr>
     <tr>
       <td><code>disabled</code></td>
@@ -571,6 +626,44 @@ function afterPageLoad() {
         }, function() {
             console.log('上下文菜单已显示。');
         });
+    });
+
+    $('#contextMenuExample3').contextmenu({
+        items: [{
+            label: '查看详情',
+            onClick: function() {
+                alert('你点击了查看详情');
+            }
+        }, {
+            type: 'divider'
+        }, {
+            label: '新建项目',
+            items: [
+                {label: '笔记'},
+                {label: '待办'},
+                {label: '提醒'},
+                {label: '文件夹', onClick: function() {alert('你点击了“文件夹”')}},
+                {type: 'divider'},
+                {
+                    label: '其他',
+                    items: [
+                        {label: '书签'},
+                        {label: '标签', onClick: function() {alert('你点击了“标签”')}},
+                    ]
+                },
+            ]
+        }, {
+            type: 'divider'
+        }, {
+            label: '复制',
+        }, {
+            label: '剪切',
+        }, {
+            label: '粘贴',
+        }],
+        onClickItem: function(item, e) {
+            $('#contextMenuExample3 .text-info').text('你刚刚点击了 "' + item.label + '"');
+        }
     });
 }
 </script>

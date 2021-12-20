@@ -137,6 +137,63 @@ $('#contextMenuExample2').on('click', function(e) {
 });
 ```
 
+## Submenu
+
+Add `items` property to menu item object to define sub menu. Submenus support nested definitions at an infinite level.
+
+<div class="example hl-primary" id="contextMenuExample3">
+  Contains context menu
+  <div class="text-info"></div>
+</div>
+
+```html
+<div class="hl-primary" id="contextMenuExample3">
+  Contains context menu
+  <div class="text-info"></div>
+</div>
+```
+
+```js
+$('#contextMenuExample3').on('click', function(e) {
+    $.zui.ContextMenu.show([{
+        label: 'Detail',
+        onClick: function() {
+            alert('You clicked "Detail".');
+        }
+    }, {
+        type: 'divider'
+    }, {
+        label: 'New item',
+        items: [
+            {label: 'Note'},
+            {label: 'Todo'},
+            {label: 'Remind'},
+            {label: 'Folder', onClick: function() {alert('You clicked "Folder"')}},
+            {type: 'divider'},
+            {
+                label: 'Other',
+                items: [
+                    {label: 'Bookmark'},
+                    {label: 'Tag', onClick: function() {alert('You clicked "Tag"')}},
+                ]
+            },
+        ]
+    }, {
+        type: 'divider'
+    }, {
+        label: 'Copy',
+    }, {
+        label: 'Cut',
+    }, {
+        label: 'Paste',
+    }], {
+        event: e
+    }, function() {
+        console.log('The context menu is displayed.');
+    });
+});
+```
+
 ## Options
 
 Most of the options apply to both active and passive ways. Options that are only available in one way will be noted.
@@ -180,14 +237,6 @@ Most of the options apply to both active and passive ways. Options that are only
           <li>`options`, All options for the menu to be created；</li>
           <li>`$menu`, Current menu object；</li>
         </ul>
-      </td>
-    </tr>
-    <tr>
-      <td><code>limitInsideWindow</code></td>
-      <td>Whether to limit the menu position always inside of the browser window</td>
-      <td>The default is `true`</td>
-      <td>
-        <p>If it is `true`, the menu will never extend beyond the browser window, otherwise it will strictly follow the set position。</p>
       </td>
     </tr>
     <tr>
@@ -322,7 +371,6 @@ Most of the options apply to both active and passive ways. Options that are only
   </tbody>
 </table>
 
-
 ## Item object properties
 
 Each object in the item group corresponds to an entry on the menu list. The available properties on each item object include：
@@ -366,6 +414,12 @@ Each object in the item group corresponds to an entry on the menu list. The avai
       <td>URl item as a link</td>
       <td>default `'###'`</td>
       <td></td>
+    </tr>
+    <tr>
+      <td><code>items</code></td>
+      <td>Submenu list</td>
+      <td>Default is `null`</td>
+      <td>Using a menu object array to defined the submenu, the submenu supports unlimited nested definition.</td>
     </tr>
     <tr>
       <td><code>disabled</code></td>
@@ -571,6 +625,44 @@ function afterPageLoad() {
         }, function() {
             console.log('Context menu is displayed.');
         });
+    });
+
+    $('#contextMenuExample3').contextmenu({
+        items: [{
+            label: 'Detail',
+            onClick: function() {
+                alert('You clicked "Detail".');
+            }
+        }, {
+            type: 'divider'
+        }, {
+            label: 'New item',
+            items: [
+                {label: 'Note'},
+                {label: 'Todo'},
+                {label: 'Remind'},
+                {label: 'Folder', onClick: function() {alert('You clicked "Folder"')}},
+                {type: 'divider'},
+                {
+                    label: 'Other',
+                    items: [
+                        {label: 'Bookmark'},
+                        {label: 'Tag', onClick: function() {alert('You clicked "Tag"')}},
+                    ]
+                },
+            ]
+        }, {
+            type: 'divider'
+        }, {
+            label: 'Copy',
+        }, {
+            label: 'Cut',
+        }, {
+            label: 'Paste',
+        }],
+        onClickItem: function(item, e) {
+            $('#contextMenuExample1 .text-info').text('You just clicked "' + item.label + '"');
+        }
     });
 }
 </script>
