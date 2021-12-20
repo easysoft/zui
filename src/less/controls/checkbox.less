@@ -70,6 +70,20 @@
     }
   }
 
+  &.indeterminate > label,
+  input:indeterminate + label {
+    &:after {
+      width: 8px;
+      height: 2px;
+      background-color: #A3A2BC;
+      opacity: 1;
+      transform: scale(1);
+      content: ' ';
+      top: 14px;
+      left: 3px;
+    }
+  }
+
   &.focus > label,
   > input:focus + label {
     &:after {
