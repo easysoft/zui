@@ -125,6 +125,13 @@
       },
       "require": ["jquery"]
     },
+    "asap": {
+      "name": "asap 辅助方法",
+      "ver": "1.10.0",
+      "src": {
+        "js": ["src/js/asap.js"]
+      }
+    },
     "colorset": {
       "name": "配色",
       "src": {
