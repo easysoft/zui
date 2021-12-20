@@ -21,6 +21,7 @@
         sensorOffsetX: 0,
         sensorOffsetY: 0,
         dropToClass: 'drop-to',
+        dropTargetClass: 'drop-target',
          // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
     var idIncrementer = 0;
@@ -94,6 +95,8 @@
                     transition: 'none'
                 }).appendTo($container);
                 $ele.addClass('dragging');
+
+                $targets.addClass(setting.dropTargetClass);
 
                 that.trigger('start', {
                     event:   event,
@@ -237,7 +240,7 @@
                 that.trigger('drop', eventOptions);
             }
 
-            $targets.removeClass(dropToClass);
+            $targets.removeClass(dropToClass).removeClass(setting.dropTargetClass);
             $ele.removeClass('dragging').removeClass('drag-from');
             $shadow.remove();
             $shadow = null;
