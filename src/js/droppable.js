@@ -73,6 +73,10 @@
             lastMouseOffset,
             mouseDownBackEventCall;
 
+        if (setting.dropOnMouseleave) {
+            mouseUpEvent += ' mouseleave' + eventSuffix;
+        }
+
         var mouseMove = function(event) {
             if(!isMouseDown) return;
 
