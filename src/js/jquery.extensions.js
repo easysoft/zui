@@ -12,6 +12,10 @@
     /* Check jquery */
     if(typeof($) === 'undefined') throw new Error('ZUI requires jQuery');
 
+    if(!Number.isNaN && typeof isNaN === 'function') Number.isNaN = isNaN;
+    if(!Number.parseInt && typeof parseInt === 'function') Number.parseInt = parseInt;
+    if(!Number.parseFloat && typeof parseFloat === 'function') Number.parseFloat = parseFloat;
+
     /* ZUI shared object */
     if(!$.zui) $.zui = function(obj) {
         if($.isPlainObject(obj)) {
