@@ -76,7 +76,7 @@
             id = $element.data('id');
         } else {
             id = elementOrid;
-            $element = that.$.find('.slectable-item[data-id="' + id + '"]');
+            $element = that.$.find('.selectable-item[data-id="' + id + '"]');
         }
         if($element && $element.length) {
             if(!id) {
@@ -227,7 +227,7 @@
             }
 
             var $children = that.$children = that.$.find(options.selector);
-            $children.addClass('slectable-item');
+            $children.addClass('selectable-item');
 
             var clickBehavior = that.multiKey ? 'multi' : options.clickBehavior;
             if(clickBehavior === 'single') {
