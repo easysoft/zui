@@ -108,6 +108,12 @@ $('#sortableList').sortable();
       <td>用于选择被拖动元素内部元素的选择器，如果指定该选项，则仅当鼠标在指定的子元素上点按鼠标会触发拖动事件。</td>
     </tr>
     <tr>
+      <td>`container`</td>
+      <td>位置计算容器</td>
+      <td>默认 `'body'`</td>
+      <td>使用 jQuery 选择器来指定用于计算位置的父级容器。用于父级容器的节点其 `position` 应该为 `'relative'`、`'absolute'`及`'fixed'` 中的一种；如果为 `'static'`，则会在拖动过程中被设置为 `'relative'`；此选项还可以指定为一个回调函数来在每次拖放开始前执行来返回实际的父级容器。</td>
+    </tr>
+    <tr>
       <td>`reverse`</td>
       <td>是否反向排序</td>
       <td>默认为 `false`</td>

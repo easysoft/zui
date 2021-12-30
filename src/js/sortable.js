@@ -63,7 +63,7 @@
             handle      : options.trigger,
             target      : targetSelector ? targetSelector : (containerSelector ? (selector + ',' + containerSelector) : selector),
             selector    : selector,
-            container   : $root,
+            container   : options.container || $root,
             always      : options.always,
             flex        : true,
             lazy        : options.lazy,

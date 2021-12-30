@@ -108,6 +108,12 @@ Allow incoming objects or use `[data-*]` parameters as initialization options. T
       <td>A selector for the internal elements of the dragged element. If specified, the drag event will be triggred by clicking the specified child element.</td>
     </tr>
     <tr>
+      <td>`container`</td>
+      <td>For position calculation</td>
+      <td>Default: `'body'`</td>
+      <td>Use jQuery a selector to specify the parent container which is used to calculate the position. The node used for the parent container `position` should be `'relative'`, `'absolute'`or `'fixed'`. If set as `'static'`, it will be set to `'relative'` when being dragged. This option can also be specified as a callback function to perform to return the actual parent container before each drag and drop start.</td>
+    </tr>
+    <tr>
       <td>`reverse`</td>
       <td>Whether to reverse sorting</td>
       <td>Default: `false`</td>
