@@ -667,10 +667,10 @@ $('#picker12').chosen({
       <td>如果设置为 `null`，则根据界面语言类型使用默认的提示文本，例如中文环境下是 `'没有可选项'`。</td>
     </tr>
     <tr>
-      <td>`hideOnWindowScroll`</td>
-      <td>滚动页面时隐藏下拉菜单</td>
-      <td>`boolean`，默认 `true`</td>
-      <td>如果设置为 `true` 滚动窗口或页面时隐藏下拉菜单</td>
+      <td>`hideOnScroll`</td>
+      <td>滚动时隐藏下拉菜单</td>
+      <td>`boolean` 或 `string`，默认 `true`</td>
+      <td>如果设置为 `true` 滚动页面时隐藏下拉菜单，可以设置为一个 JQuery 选择器字符串用于指定需要监听到滚动元素</td>
     </tr>
     <tr>
       <td>`inheritFormItemClasses`</td>
@@ -1132,24 +1132,29 @@ var localPickerOptions = [
   {text: 'Cafe', value: 'Cafe', keys: 'drink'},
 ];
 
-$('#picker1,#picker2,#picker5,#picker6,#picker7,#picker8').picker({list: localPickerOptions});
-$('#picker3,#picker4,#picker11').picker();
+$('#picker1,#picker2,#picker5,#picker6,#picker7,#picker8').picker({list: localPickerOptions, hideOnScroll: '#pageBody', disableScrollOnShow: false});
+$('#picker3,#picker4,#picker11').picker({hideOnScroll: '#pageBody', disableScrollOnShow: false});
 $('#picker9').picker({
     remote: '/picker-select-fast.json',
     dropWidth: 'auto',
-    remoteOnly: true
+    remoteOnly: true,
+    hideOnScroll: '#pageBody'
 });
 $('#picker10').picker({
     remote: '/picker-select.json',
     dropWidth: 'auto',
-    remoteOnly: true
+    remoteOnly: true,
+    hideOnScroll: '#pageBody',
+    disableScrollOnShow: false
 });
 
 $.Picker.enableChosen();
 $('#picker12,#picker13').chosen({
     no_results_text: '没有找到啊',    // 当检索时没有找到匹配项时显示的提示文本
     disable_search_threshold: 10, // 10 个以下的选择项则不显示检索框
-    search_contains: true         // 从任意位置开始检索
+    search_contains: true,         // 从任意位置开始检索
+    hideOnScroll: '#pageBody',
+    disableScrollOnShow: false
 }).on('change', function(e, a) {
     console.log('chosen.change', e, a);
 }).on('chosen:ready', function(e, a) {

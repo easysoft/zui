@@ -40,7 +40,7 @@
         hideEmptyTextOption: true,
         searchValueKey: true,
         emptyResultHint: null,
-        hideOnWindowScroll: true,
+        hideOnScroll: true,
         inheritFormItemClasses: false,
         emptySearchResultHint: null,
         accurateSearchHint: null,
@@ -80,16 +80,16 @@
             remoteErrorHint: '无法从服务器获取结果 - {0}',
         },
         zh_tw: {
-            emptyResultHint: '沒有可選項',
-            emptySearchResultHint: '沒有找到 “{0}”',
-            accurateSearchHint: '請提供更多關鍵詞縮小匹配範圍',
-            remoteErrorHint: '無法從服務器獲取結果 - {0}',
+            emptyResultHint: '沒有可選項',
+            emptySearchResultHint: '沒有找到 “{0}”',
+            accurateSearchHint: '請提供更多關鍵詞縮小匹配範圍',
+            remoteErrorHint: '無法從服務器獲取結果 - {0}',
         },
         en: {
-            emptyResultHint: 'No options',
-            emptySearchResultHint: 'Cannot found "{0}"',
-            accurateSearchHint: 'Suggest to provide more keywords',
-            remoteErrorHint: 'Unable to get result from server: {0}',
+            emptyResultHint: 'No options',
+            emptySearchResultHint: 'Cannot found "{0}"',
+            accurateSearchHint: 'Suggest to provide more keywords',
+            remoteErrorHint: 'Unable to get result from server: {0}',
         }
     };
 
@@ -102,6 +102,9 @@
 
         // Options
         options = that.options = $.extend({}, Picker.DEFAULTS, this.$.data(), options);
+        if (options.hideOnWindowScroll !== undefined) {
+            options.hideOnScroll = options.hideOnWindowScroll;
+        }
 
         // Lang
         var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
@@ -344,9 +347,16 @@
 
         $container.addClass('picker-ready');
 
-        setTimeout(function() {
+        $.zui.asap(function() {
             that.triggerEvent('ready', {picker: that}, '', 'chosen:ready');
-        }, 0);
+        });
+
+        if (!that.options.disableScrollOnShow) {
+            var hideOnScroll = options.hideOnScroll;
+            if (hideOnScroll && ![window, document, true].includes(hideOnScroll)) {
+                $(hideOnScroll).on('scroll', this.handleParentScroll.bind(this));
+            }
+        }
     };
 
     Picker.prototype.destroy = function() {
@@ -572,7 +582,7 @@
             $dropMenu.css({opacity: 0, width: 'auto', 'max-width': 'none'});
         }
         $optionsList.css({'max-height': maxDropHeight});
-        setTimeout(function() {
+        $.zui.asap(function() {
             var bounds = that.$selections[0].getBoundingClientRect();
             var dropDirection = resetDirection ? options.dropDirection : (that.dropDirection || options.dropDirection);
             if (typeof dropDirection === 'function') {
@@ -611,7 +621,7 @@
             if (callback) {
                 callback();
             }
-        }, 0);
+        });
     };
 
     Picker.prototype.tryUpdateList = function(search) {
@@ -1280,23 +1290,23 @@
         }
     };
 
-    Picker.prototype.handleWindowScroll = function() {
+    Picker.prototype.handleParentScroll = function(event, fromGlobal) {
         var that = this;
-        if (that.options.disableScrollOnShow) return;
-        if (that.options.hideOnWindowScroll) {
-            if (that.scrollEventTimer) {
-                clearTimeout(that.scrollEventTimer);
-            }
-            that.$dropMenu.css('opacity', 0);
-            that.scrollEventTimer = setTimeout(function() {
-                that.scrollEventTimer = null;
-                if (that.dropListShowed) {
-                    that.layoutDropList(true, true);
-                }
-            }, 500);
-        } else {
-            that.layoutDropList(true, true);
+        if (that.options.disableScrollOnShow || !that.dropListShowed) return;
+
+        var hideOnScroll = that.options.hideOnScroll && (!fromGlobal || event.target === document);
+        if (that.scrollEventTimer) {
+            $.zui.clearAsap(that.scrollEventTimer);
         }
+        if (hideOnScroll) {
+            that.$dropMenu.css('opacity', 0);
+        }
+        that.scrollEventTimer = $.zui.asap(function() {
+            that.scrollEventTimer = null;
+            if (that.dropListShowed) {
+                that.layoutDropList(true, true);
+            }
+        }, hideOnScroll ? 500 : 0);
     };
 
     // default options
@@ -1430,7 +1440,7 @@
         // Bind global event to handle window scroll event
         $(window).on('scroll', function(e) {
             $.each(SHOWS, function(id, picker) {
-                picker.handleWindowScroll(e);
+                picker.handleParentScroll(e, true);
             });
         });
     });

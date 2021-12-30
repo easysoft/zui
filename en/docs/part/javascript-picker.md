@@ -660,10 +660,10 @@ You can use an object as the initialization option in initialize method or set o
       <td>If set to `null`, the default prompt text is used depending on the interface language type, for example, in the English environment is `Cannot found "{0}"`.</td>
     </tr>
     <tr>
-      <td>`hideOnWindowScroll`</td>
+      <td>`hideOnScroll`</td>
       <td>Hide drop-list on scrolling</td>
-      <td>`boolean`, default is `true`</td>
-      <td>If set to `true` will hide drop-list when scrolling window or page</td>
+      <td>`boolean` or `string`, default is `true`</td>
+      <td>If set to `true` will hide drop-list when scrolling page. You can set it with a JQuery selector string to specify that you want to listen for scrolling element.</td>
     </tr>
     <tr>
       <td>`inheritFormItemClasses`</td>
@@ -1125,24 +1125,30 @@ var localPickerOptions = [
   {text: 'Cafe', value: 'Cafe', keys: 'drink'},
 ];
 
-$('#picker1,#picker2,#picker5,#picker6,#picker7,#picker8').picker({list: localPickerOptions});
-$('#picker3,#picker4,#picker11').picker();
+$('#picker1,#picker2,#picker5,#picker6,#picker7,#picker8').picker({list: localPickerOptions, hideOnScroll: '#pageBody', disableScrollOnShow: false});
+$('#picker3,#picker4,#picker11').picker({hideOnScroll: '#pageBody', disableScrollOnShow: false});
 $('#picker9').picker({
     remote: '/picker-select-fast.json',
     dropWidth: 'auto',
-    remoteOnly: true
+    remoteOnly: true,
+    hideOnScroll: '#pageBody',
+    disableScrollOnShow: false
 });
 $('#picker10').picker({
     remote: '/picker-select.json',
     dropWidth: 'auto',
-    remoteOnly: true
+    remoteOnly: true,
+    hideOnScroll: '#pageBody',
+    disableScrollOnShow: false
 });
 
 $.Picker.enableChosen();
 $('#picker12,#picker13').chosen({
     no_results_text: 'Not found',
     disable_search_threshold: 10,
-    search_contains: true
+    search_contains: true,
+    hideOnScroll: '#pageBody',
+    disableScrollOnShow: false
 }).on('change', function(e, a) {
     console.log('chosen.change', e, a);
 }).on('chosen:ready', function(e, a) {
