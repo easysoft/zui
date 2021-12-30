@@ -248,12 +248,12 @@
         // var maxMenuHeight = options.maxMenuHeight;
         // if (typeof maxMenuHeight !== 'number') maxMenuHeight = winHeight;
         // else winHeight = Math.min(winHeight, maxMenuHeight);
-        // var $menuList = $menu.children().first();
+        var $menuList = $menu.children().first();
         // $menuList.css({maxHeight: maxMenuHeight, overflowY: 'auto', margin: 0});
         var menuWidth = $menuList.outerWidth();
         var menuHeight = $menuList.outerHeight();
         if (options.position) {
-            var newPos = options.position({x: x, y: y, width: menuWidth, height: menuHeigh, winHeight: winHeight, winWidth: winWidth}, options, $menu);
+            var newPos = options.position({x: x, y: y, width: menuWidth, height: menuHeight, winHeight: winHeight, winWidth: winWidth}, options, $menu);
             if (newPos) {
                 x = newPos.x;
                 y = newPos.y;
