@@ -53,12 +53,11 @@
             selector       = setting.selector,
             handle         = setting.handle,
             flex           = setting.flex,
-            container      = setting.container,
             canMoveHere    = setting.canMoveHere,
             dropToClass    = setting.dropToClass,
             $ele           = $root,
             isMouseDown    = false,
-            $container     = container ? $(setting.container).first() : (selector ? $root : $('body')),
+            $container,
             $targets,
             $target,
             $shadow,
@@ -278,6 +277,7 @@
             }
 
             isMouseDown = true;
+            $container       =  setting.container ? (typeof setting.container === 'function' ? setting.container($ele, $root) : $(setting.container).first()) : (selector ? $root : $('body'))
             $targets         = typeof setting.target === 'function' ? setting.target($ele, $root) : $container.find(setting.target),
             $target          = null,
             $shadow          = null,

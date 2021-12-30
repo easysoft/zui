@@ -289,7 +289,7 @@ Introduce an object parameter as an initializating option at the initializzation
       <td>`container`</td>
       <td>For position calculation</td>
       <td>Default: `'body'`</td>
-      <td>Use jQuery a selector to specify the parent container which is used to calculate the position. The node used for the parent container `position` should be `'relative'`, `'absolute'`or `'fixed'`. If set as `'static'`, it will be set to `'relative'` when being dragged.</td>
+      <td>Use jQuery a selector to specify the parent container which is used to calculate the position. The node used for the parent container `position` should be `'relative'`, `'absolute'`or `'fixed'`. If set as `'static'`, it will be set to `'relative'` when being dragged. This option can also be specified as a callback function to perform to return the actual parent container before each drag and drop start.</td>
     </tr>
     <tr>
       <td>`selector`</td>
