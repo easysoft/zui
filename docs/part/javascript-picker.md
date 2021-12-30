@@ -782,6 +782,19 @@ $('#picker12').chosen({
       <td>`boolean`，默认 `true`</td>
       <td>如果设置为 `true`，则选中的值必须为选项列表中提供的选项的值，此选项要求选项 `remoteOnly` 设置为 `false`。</td>
     </tr>
+    <tr>
+      <td>`optionRender`</td>
+      <td>选项渲染回调函数</td>
+      <td>`function`，默认 `null`</td>
+      <td>
+        指定一个回调函数用于对渲染后的选项元素进行处理，该回调函数参数依次定义如下：
+        <ul>
+          <li>`$option`：渲染生成的选项元素；</li>
+          <li>`option`：选项对象；</li>
+          <li>`picker`：当前选择器实例。</li>
+        </ul>
+      </td>
+    </tr>
   </tbody>
 </table>
 

@@ -775,6 +775,19 @@ You can use an object as the initialization option in initialize method or set o
       <td>`boolean`, default is `true`</td>
       <td>If set to `true`, then the selected value must be the value of the options provided in the list of options, this option requires options `remoteOnly` Set to` false`.</td>
     </tr>
+    <tr>
+      <td>`optionRender`</td>
+      <td>The callback function for rendering option</td>
+      <td>`function`, default is `null`</td>
+      <td>
+        Specifies a callback function to process the rendered option element, which defines the following params:
+        <ul>
+          <li>`$option`: the generated option element</li>
+          <li>`option`: option object</li>
+          <li>`picker`: current picker instance</li>
+        </ul>
+      </td>
+    </tr>
   </tbody>
 </table>
 

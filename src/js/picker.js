@@ -720,6 +720,13 @@
                     $text.text(text);
                 }
 
+                if (options.optionRender) {
+                    var customRenderResult = options.optionRender($option, item, that);
+                    if (customRenderResult instanceof $) {
+                        $option = customRenderResult;
+                    }
+                }
+
                 $option.appendTo($optionsList);
 
                 if (that.multi) {
