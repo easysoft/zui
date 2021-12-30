@@ -1303,9 +1303,17 @@
         }
         that.scrollEventTimer = $.zui.asap(function() {
             that.scrollEventTimer = null;
-            if (that.dropListShowed) {
+            if (!that.dropListShowed) {
+                return;
+            }
+            var parentBounds = (event.target === document ? document.body : event.target).getBoundingClientRect();
+            var bounds = that.$selections[0].getBoundingClientRect();
+            if (bounds.bottom < parentBounds.top || bounds.top > parentBounds.bottom) {
+                that.hideDropList();
+            } else {
                 that.layoutDropList(true, true);
             }
+
         }, hideOnScroll ? 500 : 0);
     };
 
