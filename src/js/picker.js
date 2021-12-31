@@ -32,7 +32,7 @@
         formItem: 'auto',
         list: null, // [{text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods'}] or 'Apple,Banana' or [['Apple', 'apple', 'fruit foods'], ['Banana', 'banana', 'fruit foods']] or function({search, limit})
         allowSingleDeselect: null,
-        showMultiSelectedOptions: false,
+        // showMultiSelectedOptions: false,
         autoSelectFirst: false,
         // optionItemFormatter: null, // function($item, picker); Not supported yet
         maxSelectedCount: 0, // 0 = Infinity
