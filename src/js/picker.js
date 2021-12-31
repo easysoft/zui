@@ -53,6 +53,7 @@
         dropWidth: '100%', // 'auto', '100%', '500px',
         maxAutoDropWidth: 450,
         multiValueSplitter: ',',
+        multiSelectActions: 5,
         searchDelay: 200,
         autoClearDrop: 6e4, // 60 * 1000
         fixLabelFor: true,
@@ -78,18 +79,24 @@
             emptySearchResultHint: '没有找到 “{0}”',
             accurateSearchHint: '请提供更多关键词缩小匹配范围',
             remoteErrorHint: '无法从服务器获取结果 - {0}',
+            selectAll: '全选',
+            deselectAll: '取消选择',
         },
         zh_tw: {
             emptyResultHint: '沒有可選項',
             emptySearchResultHint: '沒有找到 “{0}”',
             accurateSearchHint: '請提供更多關鍵詞縮小匹配範圍',
             remoteErrorHint: '無法從服務器獲取結果 - {0}',
+            selectAll: '全選',
+            deselectAll: '取消選擇',
         },
         en: {
             emptyResultHint: 'No options',
             emptySearchResultHint: 'Cannot found "{0}"',
             accurateSearchHint: 'Suggest to provide more keywords',
             remoteErrorHint: 'Unable to get result from server: {0}',
+            selectAll: 'Select all',
+            deselectAll: 'Deselect all',
         }
     };
 
@@ -366,7 +373,7 @@
             that.triggerEvent('ready', {picker: that}, '', 'chosen:ready');
         });
 
-        if (!that.options.disableScrollOnShow) {
+        if (!options.disableScrollOnShow) {
             var hideOnScroll = options.hideOnScroll;
             if (hideOnScroll && ![window, document, true].includes(hideOnScroll)) {
                 $(hideOnScroll).on('scroll', this.handleParentScroll.bind(this));
@@ -469,6 +476,34 @@
             that.setValue('');
         }
     };
+
+    Picker.prototype.selectAll = function(notHideDropList) {
+        var that = this;
+        if (!that.multi || that.options.remote) {
+            return;
+        }
+        var values = [];
+        for (var i = 0; i < that.list.length; ++i) {
+            var item = that.list[i];
+            var itemValue = item[that.options.valueKey];
+            values.push(itemValue);
+        }
+        that.setValue(values);
+        if (!notHideDropList) {
+            that.hideDropList();
+        }
+    };
+
+    Picker.prototype.deselectAll = function(notHideDropList) {
+        var that = this;
+        if (!that.multi || that.options.remote) {
+            return;
+        }
+        that.setValue([]);
+        if (!notHideDropList) {
+            that.hideDropList();
+        }
+    }
 
     Picker.prototype.updateMessage = function(message, type, skipLayout) {
         var that = this;
@@ -607,7 +642,8 @@
             var $win = $(window);
             var winHeight = $win.height();
             var messageHeight = that.hasMessage ? that.$message.outerHeight() : 0;
-            var dropHeight = Math.max(messageHeight, $dropMenu.height());
+            var actionsHeight = that.showActions ? that.$actions.outerHeight() : 0;
+            var dropHeight = Math.max(actionsHeight, messageHeight, $dropMenu.height());
             var dropWidth = options.dropWidth || 'auto';
             var dropStyle = {left: bounds.left, opacity: 1};
             if (dropDirection === 'auto') {
@@ -629,9 +665,10 @@
             } else {
                 dropStyle.width = dropWidth;
             }
-            if (dropHeight > messageHeight) {
-                $optionsList.css('max-height', dropHeight - messageHeight);
-            }
+            var optionsListHeight = dropHeight - messageHeight - actionsHeight;
+            $optionsList.css('max-height', optionsListHeight);
+            // if (dropHeight < maxDropHeight) {
+            // }
             $dropMenu.css(dropStyle);
             if (callback) {
                 callback();
@@ -777,9 +814,27 @@
             }
         }
 
+        var showActions = false;
+        if (that.multi && !options.remote) {
+            var multiSelectActions = options.multiSelectActions;
+            if (multiSelectActions) {
+                if (typeof multiSelectActions !== 'number') {
+                    multiSelectActions = 1;
+                }
+                if (optionsList.length >= multiSelectActions) {
+                    showActions = true;
+                    that.$actions.find('[data-type="select-all"]').attr('disabled', !$optionsList.children('.picker-option').length ? 'disabled' : null);
+                    that.$actions.find('[data-type="deselect-all"]').attr('disabled', (that.value && that.value.length) ? null : 'disabled');
+                }
+            }
+        }
+        that.showActions = showActions;
+        that.$dropMenu.toggleClass('picker-no-actions', !showActions);
+
         if (!skipShowMessage) {
             that.updateMessage(message, 'info');
         }
+
         that.$dropMenu.toggleClass('picker-no-options', !optionsCount);
         that.layoutDropList(that.listRendered);
         that.listRendered = true;
@@ -973,10 +1028,26 @@
                 that.activeOption($(this), true);
             });
 
-            var $message = $('<div class="picker-message"></div>').appendTo($dropMenu);
+            if (that.multi && !that.options.remote) {
+                that.$actions = $([
+                    '<div class="picker-actions">',
+                        '<button type="button" class="btn btn-sm btn-link picker-action" data-type="select-all">' + that.lang.selectAll + '</button>',
+                        '<button type="button" class="btn btn-sm btn-link picker-action" data-type="deselect-all">' + that.lang.deselectAll + '</button>',
+                    '</div>'
+                ].join('')).appendTo($dropMenu);
+
+                that.$actions.on('click', '.picker-action', function(event) {
+                    var actionType = $(this).data('type');
+                    if (actionType === 'select-all') {
+                        that.selectAll();
+                    } else if (actionType === 'deselect-all') {
+                        that.deselectAll();
+                    }
+                });
+            }
+            that.$message = $('<div class="picker-message"></div>').appendTo($dropMenu);
 
             that.$dropMenu = $dropMenu;
-            that.$message = $message;
             that.$optionsList = $optionsList;
         }
 

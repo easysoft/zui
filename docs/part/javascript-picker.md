@@ -783,6 +783,12 @@ $('#picker12').chosen({
       <td>如果设置为 `true`，则选中的值必须为选项列表中提供的选项的值，此选项要求选项 `remoteOnly` 设置为 `false`。</td>
     </tr>
     <tr>
+      <td>`multiSelectActions`</td>
+      <td>是否显示多选快捷操作</td>
+      <td>`boolean` 或 `number`，默认 `5`</td>
+      <td>设置是否在多选下拉列表底部显示快捷操作按钮（包括“全选”和“取消选择”），如果设置为一个数值，则仅在可选性多于等于给定的数目时才显示操作按钮，如果设置为 `true`，则总是显示操作按钮。</td>
+    </tr>
+    <tr>
       <td>`optionRender`</td>
       <td>选项渲染回调函数</td>
       <td>`function`，默认 `null`</td>

@@ -91,12 +91,15 @@
 }
 .picker-selection-remove {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     text-align: center;
     opacity: .2;
     top: 0;
     right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     &:before {
         content: @icon-remove;
@@ -188,11 +191,6 @@
     &.picker-drop-show {
         display: block;
     }
-
-    &.picker-has-message {
-        min-height: 22px;
-        padding-bottom: 22px;
-    }
 }
 .picker-option-list {
     margin: 0;
@@ -275,11 +273,7 @@
     color: @color-gray;
     padding: 2px 5px;
     background-color: @color-gray-pale;
-    position: absolute;
     height: 22px;
-    bottom: 0;
-    left: 0;
-    right: 0;
     display: none;
     white-space: nowrap;
     overflow: hidden;
@@ -290,5 +284,26 @@
 
     &[data-type="danger"] {
         color: @color-danger;
+    }
+}
+
+.picker-actions {
+    padding: 5px;
+    border-top: 1px solid @dropdown-divider-bg;
+
+    .picker-no-actions & {
+        display: none;
+    }
+
+    .btn {
+        padding: 2px 4px;
+
+        &[disabled] {
+            filter: grayscale(1);
+            background-color: transparent;
+        }
+    }
+    .btn + .btn {
+        margin-left: 4px;
     }
 }

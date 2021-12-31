@@ -776,6 +776,12 @@ You can use an object as the initialization option in initialize method or set o
       <td>If set to `true`, then the selected value must be the value of the options provided in the list of options, this option requires options `remoteOnly` Set to` false`.</td>
     </tr>
     <tr>
+      <td>`multiSelectActions`</td>
+      <td>Whether to display multiple selection buttons</td>
+      <td>`boolean` or `number`, default is `5`</td>
+      <td>Sets whether the selections buttons (including select all and deselect) are displayed at the bottom of the multi-selection drop-down list. If set to a numeric value, the action button is displayed only when the options count is greater than or equal to the given number, and always when set to ‘true’.</td>
+    </tr>
+    <tr>
       <td>`optionRender`</td>
       <td>The callback function for rendering option</td>
       <td>`function`, default is `null`</td>
