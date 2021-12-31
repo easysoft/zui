@@ -214,11 +214,24 @@
         that.setValue(defaultValue, true);
 
         // Bind events
+
         $search.on('focus', function() {
+            if (that._blurTimer) {
+                clearTimeout(that._blurTimer);
+                that._blurTimer = 0;
+            }
             $container.addClass('picker-focus');
             that.showDropList();
         }).on('blur', function() {
-            $container.removeClass('picker-focus');
+            if (that._blurTimer) {
+                clearTimeout(that._blurTimer);
+            }
+            that._blurTimer = setTimeout(function() {
+                that._blurTimer = 0;
+                if (!$search.is(':focus')) {
+                    $container.removeClass('picker-focus');
+                }
+            }, 1000);
         }).on('input change', function() {
             var searchValue = $search.val();
             if (multi) {
@@ -1300,6 +1313,10 @@
             if (that.$[0] !== $formItem[0]) {
                 $formItem.change();
             }
+        }
+
+        if (!that.$search.is(':focus')) {
+            that.$container.removeClass('picker-focus');
         }
     };
 
