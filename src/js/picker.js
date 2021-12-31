@@ -283,6 +283,8 @@
                         that.activeOption($prevOption);
                     }
                     e.preventDefault();
+                } else if (key === 'Escape' || key === 27) {
+                    that.hideDropList(true);
                 } else if (options.deleteByBackspace && multi && (key === 'Backspace' || key === 8) && that.value && that.value.length && !$search.val().length) {
                     that.deselect(that.value[that.value.length - 1]);
                 }
