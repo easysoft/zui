@@ -311,7 +311,7 @@
                     selector: '.picker-selection',
                     stopPropagation: true,
                     start: function() {
-                        that.hideDropList();
+                        that.hideDropList(true);
                     },
                     finish: function(e) {
                         var values = [];
@@ -365,7 +365,7 @@
         var that = this;
         var options = that.options;
 
-        that.hideDropList();
+        that.hideDropList(true);
 
         var $search = that.$search;
         $search.off('focus blur input change');
@@ -974,7 +974,7 @@
         that.$dropMenu.addClass('picker-drop-show');
     };
 
-    Picker.prototype.hideDropList = function() {
+    Picker.prototype.hideDropList = function(blur) {
         var that = this;
 
         if (that.triggerEvent('hidingDrop', {picker: that}) === false) {
@@ -994,6 +994,10 @@
 
         if(that.options.disableScrollOnShow) {
             $.zui.resetBodyScrollbar();
+        }
+
+        if (blur) {
+            this.$search.blur();
         }
 
         that.triggerEvent('hiddenDrop', {picker: that}, '', 'chosen:hiding_dropdown');
@@ -1318,7 +1322,7 @@
             var parentBounds = (event.target === document ? document.body : event.target).getBoundingClientRect();
             var bounds = that.$selections[0].getBoundingClientRect();
             if (bounds.bottom < parentBounds.top || bounds.top > parentBounds.bottom) {
-                that.hideDropList();
+                that.hideDropList(true);
             } else {
                 that.layoutDropList(true, true);
             }
