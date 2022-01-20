@@ -238,7 +238,7 @@
                 if (!$search.is(':focus')) {
                     $container.removeClass('picker-focus');
                 }
-            }, 1000);
+            }, 100);
         }).on('input change', function() {
             var searchValue = $search.val();
             if (multi) {
