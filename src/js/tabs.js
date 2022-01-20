@@ -160,10 +160,10 @@
             that.adjustNavs();
         });
 
-        if (options.contextMenu) {
+        if (options.contextMenu && $.fn.contextmenu) {
             $nav.contextmenu({
                 selector: '.tab-nav-link',
-                itemsCreator: function (e) {
+                items: function (e) {
                     return that.createMenuItems(that.getTab($(this).data('id')));
                 },
                 onShow: function () {
