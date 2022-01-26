@@ -52,21 +52,21 @@ cdnjs 支持使用 `https:` 或 `http:` 协议访问 ZUI `dist` 目录下的所�
 
 ```html
 <!-- ZUI 标准版压缩后的 CSS 文件 -->
-<link rel="stylesheet" href="//cdn.bootcss.com/zui/{version}/css/zui.min.css">
+<link rel="stylesheet" href="//cdn.bootcdn.net/ajax/libs/zui/{version}/css/zui.min.css">
 
 <!-- ZUI Javascript 依赖 jQuery -->
-<script src="//cdn.bootcss.com/zui/{version}/lib/jquery/jquery.js"></script>
+<script src="//cdn.bootcdn.net/ajax/libs/zui/{version}/lib/jquery/jquery.js"></script>
 <!-- ZUI 标准版压缩后的 JavaScript 文件 -->
-<script src="//cdn.bootcss.com/zui/{version}/js/zui.min.js"></script>
+<script src="//cdn.bootcdn.net/ajax/libs/zui/{version}/js/zui.min.js"></script>
 ```
 
 BootCDN 支持使用 `https:` 或 `http:` 协议访问 ZUI `dist` 目录下的所有文件，并且支持 ZUI 最新版本及所有历史版本，你可以按照如下格式获得 cdn 访问地址：
 
 ```html
-//cdn.bootcss.com/zui/版本号/dist目录下的文件路径及名称
+//cdn.bootcdn.net/ajax/libs/zui/版本号/dist目录下的文件路径及名称
 ```
 
-所有可用文件请参考 <a href="http://www.bootcdn.cn/zui/" target="_blank">ZUI 在 BootCDN 上的页面</a>。
+所有可用文件请参考 <a href="https://www.bootcdn.cn/zui/" target="_blank">ZUI 在 BootCDN 上的页面</a>。
 
 ## 通过 npm 安装
 
