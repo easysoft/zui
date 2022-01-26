@@ -52,22 +52,22 @@ Refer to  <a href="https://cdnjs.com/libraries/zui" target="_blank">ZUI on cdnjs
 
 ```html
 <!-- ZUI Standard zipped CSS files -->
-<link rel="stylesheet" href="//cdn.bootcss.com/zui/{version}/css/zui.min.css">
+<link rel="stylesheet" href="//cdn.bootcdn.net/ajax/libs/zui/{version}/css/zui.min.css">
 
 <!-- ZUI Javascript depends on jQuery -->
-<script src="//cdn.bootcss.com/zui/{version}/lib/jquery/jquery.js"></script>
+<script src="//cdn.bootcdn.net/ajax/libs/zui/{version}/lib/jquery/jquery.js"></script>
 <!-- ZUI Standard zipped JavaScript files -->
-<script src="//cdn.bootcss.com/zui/{version}/js/zui.min.js"></script>
+<script src="//cdn.bootcdn.net/ajax/libs/zui/{version}/js/zui.min.js"></script>
 ```
 
 BootCDN uses `https:` or `http:` to access all files in ZUI `dist` and supports all versions of ZUI. You can get the address to visit CDN following the format below:
 
 ```html
-//cdn.bootcss.com/zui/version/distFilePathAndName
+//cdn.bootcdn.net/ajax/libs/zui/version/distFilePathAndName
 
 ```
 
-Refer to <a href="http://www.bootcdn.cn/zui/" target="_blank">ZUI on BootCDN pages</a> for all available files.
+Refer to <a href="https://www.bootcdn.cn/zui/" target="_blank">ZUI on BootCDN pages</a> for all available files.
 
 ## npm
 
