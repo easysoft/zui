@@ -43,7 +43,7 @@ Icons in an application should have a consistent look and user behavior response
 
 ## Icon Fonts
 
-Icons were usually displayed as images before icon fonts are univeral. Icon fonts are now a better way to display icons. Icon fonts can be used to set icons in CSS, such as defining the size, colors, and special effects. Icon fonts are used as an icon set in ZUI. Try [Font Awesome](http://fortawesome.github.io/Font-Awesome/),an open source web icon fonts.
+Icons were usually displayed as images before icon fonts are univeral. Icon fonts are now a better way to display icons. Icon fonts can be used to set icons in CSS, such as defining the size, colors, and special effects. Icon fonts are used as an icon set in ZUI. Try [Font Awesome](https://github.com/FortAwesome/Font-Awesome),an open source web icon fonts.
 
 Icon fonts of ZUI are based on FontAwesome 4.3. It has icons for Chinese scenarios and remove icons that are not often used.
 

@@ -26,7 +26,7 @@ Thank you very much for these great projects！
   <a target="_blank" href="http://ueditor.baidu.com/" class="list-group-item"><strong>UEditor</strong><span class="label label-badge">MIT</span></a>
   <a target="_blank" href="http://harvesthq.github.io/chosen/" class="list-group-item"><strong>Chosen</strong><span class="label label-badge">MIT</span></a>
   <a target="_blank" href="http://www.malot.fr/bootstrap-datetimepicker" class="list-group-item"><strong>Datetime picker</strong><span class="label label-badge">Apache 2.0</span></a>
-  <a target="_blank" href="http://fortawesome.github.io/Font-Awesome/" class="list-group-item"><strong>FontAwesome</strong><span class="label label-badge">MIT</span></a>
+  <a target="_blank" href="https://github.com/FortAwesome/Font-Awesome" class="list-group-item"><strong>FontAwesome</strong><span class="label label-badge">MIT</span></a>
   <a target="_blank" href="http://www.plupload.com/" class="list-group-item"><strong>Plupload</strong><span class="label label-badge">GPL-2.0</span></a>
   <a target="_blank" href="https://code.google.com/p/google-code-prettify/" class="list-group-item"><strong>google code prettify</strong><span class="label label-badge">Apache 2.0</span></a>
   <a target="_blank" href="http://github.com/tzuryby/hotkeys" class="list-group-item"><strong>jQuery hotkey</strong><span class="label label-badge">MIT or GPL 2</span></a>
