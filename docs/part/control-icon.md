@@ -43,7 +43,7 @@ filter: tubiao tb
 
 ## 使用图标字体
 
-在图标字体没有普及之前，图标通常是通过图片来展示，如今图标字体是展示图标的更好方式。使用图标字体能使用CSS对图标进行调整，例如定义大小、颜色及特殊效果。在ZUI中将使用图标字体作为系统图标集方案。采用开源web图标字体[Font Awesome](http://fortawesome.github.io/Font-Awesome/)是一个不错的选择。
+在图标字体没有普及之前，图标通常是通过图片来展示，如今图标字体是展示图标的更好方式。使用图标字体能使用CSS对图标进行调整，例如定义大小、颜色及特殊效果。在ZUI中将使用图标字体作为系统图标集方案。采用开源web图标字体[Font Awesome](https://github.com/FortAwesome/Font-Awesome)是一个不错的选择。
 
 ZUI基于FontAwesome 4.3定制，去除了一些不常用的图标，并加入了一些适合中国使用的图标。
 
