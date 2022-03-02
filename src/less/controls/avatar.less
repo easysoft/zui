@@ -16,6 +16,10 @@
   background-size: cover;
   border-radius: @border-radius-base;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: @avatar-size / 2;
 
   img {
     display: block;
@@ -28,6 +32,21 @@
     background-color: @color-secondary;
     color: #fff;
   }
+
+  span {
+    display: block;
+    text-align: center;
+    margin-left: -1em;
+    margin-right: -1em;
+  }
+
+  .text-len-2 {
+    transform: scale(.8);
+  }
+  .text-len-3,
+  .text-len-4 {
+    transform: scale(.6);
+  }
 }
 
 
@@ -37,14 +56,29 @@
   width: @avatar-size-sm;
   height: @avatar-size-sm;
   line-height: @avatar-size-sm;
-  font-size: @font-size-small;
+  font-size: @avatar-size-sm / 2;
+
+  .text-len-2 {
+    transform: scale(.7);
+  }
+  .text-len-3,
+  .text-len-4 {
+    transform: scale(.5);
+  }
+}
+
+.avatar-md {
+  width: @avatar-size-md;
+  height: @avatar-size-md;
+  line-height: @avatar-size-md;
+  font-size: @avatar-size-md / 2;
 }
 
 .avatar-lg {
   width: @avatar-size-lg;
   height: @avatar-size-lg;
   line-height: @avatar-size-lg;
-  font-size: (@avatar-size-lg/2);
+  font-size: @avatar-size-lg / 2;
 
   > .icon {font-size: (@avatar-size-lg/2)}
 }
@@ -53,7 +87,7 @@
   width: @avatar-size-xl;
   height: @avatar-size-xl;
   line-height: @avatar-size-xl;
-  font-size: (@avatar-size-xl/2);
+  font-size: @avatar-size-xl / 2;
 
   > .icon {font-size: (@avatar-size-xl/2)}
 }
