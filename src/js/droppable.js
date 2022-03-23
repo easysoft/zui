@@ -55,6 +55,7 @@
             flex           = setting.flex,
             canMoveHere    = setting.canMoveHere,
             dropToClass    = setting.dropToClass,
+            noShadow       = setting.noShadow,
             $ele           = $root,
             isMouseDown    = false,
             $container,
@@ -81,31 +82,36 @@
 
             mouseOffset = {left: event.pageX, top: event.pageY};
 
-            // ignore small move
-            if(Math.abs(mouseOffset.left - startMouseOffset.left) < deviation && Math.abs(mouseOffset.top - startMouseOffset.top) < deviation) return;
-
-            if($shadow === null) // create shadow
+            if(!$shadow) // create shadow
             {
+                // ignore small move
+                if(Math.abs(mouseOffset.left - startMouseOffset.left) < deviation && Math.abs(mouseOffset.top - startMouseOffset.top) < deviation) return;
+
                 var cssPosition = $container.css('position');
                 if(cssPosition != 'absolute' && cssPosition != 'relative' && cssPosition != 'fixed') {
                     oldCssPosition = cssPosition;
                     $container.css('position', 'relative');
                 }
 
-                $shadow = $ele.clone().removeClass('drag-from').addClass('drag-shadow').css({
-                    position:   'absolute',
-                    width:      $ele.outerWidth(),
-                    transition: 'none'
-                }).appendTo($container);
-                $ele.addClass('dragging');
+                if (noShadow) {
+                    $shadow = {};
+                } else {
+                    $shadow = $ele.clone().removeClass('drag-from').addClass('drag-shadow').css({
+                        position:   'absolute',
+                        width:      $ele.outerWidth(),
+                        transition: 'none'
+                    }).appendTo($container);
+                }
 
+                $ele.addClass('dragging');
                 $targets.addClass(setting.dropTargetClass);
 
                 that.trigger('start', {
                     event:   event,
                     element: $ele,
-                    shadowElement: $shadow,
-                    targets: $targets
+                    shadowElement: noShadow ? null : $shadow,
+                    targets: $targets,
+                    mouseOffset: mouseOffset
                 });
             }
 
@@ -117,8 +123,10 @@
                 left: offset.left - containerOffset.left,
                 top:  offset.top - containerOffset.top
             };
-            $shadow.css(position);
-            $.extend(lastMouseOffset, mouseOffset);
+
+            if (!noShadow) {
+                $shadow.css(position);
+            }
 
             var isNew = false;
                 isIn = false;
@@ -158,7 +166,9 @@
 
             if(!flex) {
                 $ele.toggleClass('drop-in', isIn);
-                $shadow.toggleClass('drop-in', isIn);
+                if (!noShadow) {
+                    $shadow.toggleClass('drop-in', isIn);
+                }
             } else if($target !== null && $target.length) {
                 isIn = true;
             }
@@ -173,14 +183,13 @@
                     selfTarget: isSelf,
                     clickOffset: clickOffset,
                     offset: offset,
-                    position: {
-                        left: offset.left - containerOffset.left,
-                        top: offset.top - containerOffset.top
-                    },
-                    mouseOffset: mouseOffset
+                    position: position,
+                    mouseOffset: mouseOffset,
+                    lastMouseOffset: lastMouseOffset,
                 });
             }
 
+            $.extend(lastMouseOffset, mouseOffset);
             event.preventDefault();
         };
 
@@ -256,7 +265,10 @@
 
             $targets.removeClass(dropToClass).removeClass(setting.dropTargetClass);
             $ele.removeClass('dragging').removeClass('drag-from');
-            $shadow.remove();
+
+            if (!noShadow) {
+                $shadow.remove();
+            }
             $shadow = null;
 
             that.trigger('finish', eventOptions);

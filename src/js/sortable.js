@@ -72,6 +72,7 @@
             before      : options.before,
             nested      : !!containerSelector,
             mouseButton : options.mouseButton,
+            noShadow    : options.noShadow,
             stopPropagation : options.stopPropagation,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
