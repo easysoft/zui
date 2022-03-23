@@ -43,7 +43,6 @@ In the following example, you can sort items in a list by drag-and-drop.
 </style>
 
 <script src="../../dist/lib/sortable/zui.sortable.js"></script>
-<link href="../../dist/lib/sortable/zui.sortable.css" rel="stylesheet">
 <script>
 $(function() {
     var $list = $('#sortableList').sortable({

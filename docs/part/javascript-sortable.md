@@ -43,7 +43,6 @@
 </style>
 
 <script src="dist/lib/sortable/zui.sortable.js"></script>
-<link href="dist/lib/sortable/zui.sortable.css" rel="stylesheet">
 <script>
 $(function() {
     var $list = $('#sortableList').sortable({
