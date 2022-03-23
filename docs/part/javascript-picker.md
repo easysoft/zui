@@ -1107,7 +1107,7 @@ $('#picker').on('hiddenDrop', function(event) {
 
 <script src="dist/lib/picker/zui.picker.js"></script>
 <script src="dist/lib/sortable/zui.sortable.js"></script>
-<script src="dist/lib/ajaxFake/zui.ajaxFake"></script>
+<script src="dist/lib/ajaxFake/zui.ajaxFake.js"></script>
 <link href="dist/lib/picker/zui.picker.css" rel="stylesheet">
 
 <script>
