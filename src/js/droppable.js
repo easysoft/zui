@@ -76,7 +76,7 @@
             mouseUpEvent += ' mouseleave' + eventSuffix;
         }
 
-        var mouseMove = function(event) {
+        var mouseMoveHandler = function(event) {
             if(!isMouseDown) return;
 
             mouseOffset = {left: event.pageX, top: event.pageY};
@@ -182,6 +182,17 @@
             }
 
             event.preventDefault();
+        };
+
+        var mouseMoveTimer = 0;
+        var mouseMove = function(event) {
+            if (mouseMoveTimer) {
+                ($.zui.clearAsap || clearTimeout)(mouseMoveTimer);
+            }
+            mouseMoveTimer = ($.zui.asap || setTimeout)(function() {
+                mouseMoveTimer = 0;
+                mouseMoveHandler(event);
+            }, 0);
         };
 
         var mouseUp = function(event) {
