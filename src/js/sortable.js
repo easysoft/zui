@@ -42,6 +42,7 @@
             dragCssClass = options.dragCssClass,
             targetSelector = options.targetSelector,
             isReverse    = options.reverse,
+            moveDirection = options.moveDirection,
             orderChanged;
 
         var markOrders = function($items) {
@@ -78,6 +79,14 @@
                 if(dragCssClass) e.element.addClass(dragCssClass);
                 orderChanged = false;
                 that.$element = e.element;
+
+                if(!moveDirection && e.targets.length > 1) {
+                    var offset1 = e.targets.eq(0).offset();
+                    var offset2 = e.targets.eq(1).offset();
+                    moveDirection = Math.abs(offset1.left - offset2.left) > Math.abs(offset1.top - offset2.top) ? 'h' : 'v';
+                }
+
+                markOrders();
                 that.trigger('start', e);
             },
             drag: function(e) {
@@ -90,7 +99,6 @@
                     if (isContainer) {
                         if (!$target.children(selector).filter('.dragging').length) {
                             $target.append($ele);
-                            var $items = that.getItems(1);
                             markOrders($items);
                             that.trigger(STR_ORDER, {
                                 list: $items,
@@ -102,13 +110,24 @@
 
                     var eleOrder    = $ele.data(STR_ORDER),
                         targetOrder = $target.data(STR_ORDER);
-                    if(eleOrder === targetOrder) return markOrders($items);
-                    else if(eleOrder > targetOrder) {
-                        $target[isReverse ? 'after' : 'before']($ele);
-                    } else {
-                        $target[isReverse ? 'before' : 'after']($ele);
+
+                    if(eleOrder === targetOrder) {
+                        return;
                     }
+                    var distanceDimension = moveDirection === 'h' ? 'left' : 'top';
+                    var deltaDistance = e.mouseOffset[distanceDimension] - e.lastMouseOffset[distanceDimension];
+                    if (deltaDistance === 0) {
+                        return;
+                    }
+
+                    var isInsertAfter = eleOrder > targetOrder ? isReverse : !isReverse;
+                    if ((deltaDistance < 0 && isInsertAfter) || (deltaDistance > 0 && !isInsertAfter)) {
+                        return;
+                    }
+
+                    $target[isInsertAfter ? 'after' : 'before']($ele);
                     orderChanged = true;
+
                     var $items = that.getItems(1);
                     markOrders($items);
                     that.trigger(STR_ORDER, {
