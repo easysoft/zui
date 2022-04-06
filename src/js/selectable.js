@@ -162,7 +162,7 @@
             });
         };
 
-        var mousemove = function(e) {
+        var mouseMoveHandler = function(e) {
             if(!isMouseDown) return;
             x = e.pageX;
             y = e.pageY;
@@ -192,6 +192,17 @@
             clearTimeout(checkRangeCall);
             checkRangeCall = setTimeout(checkRange, 10);
             isIgnoreMove = false;
+        };
+
+        var mouseMoveTimer = 0;
+        var mousemove = function(event) {
+            if (mouseMoveTimer) {
+                ($.zui.clearAsap || clearTimeout)(mouseMoveTimer);
+            }
+            mouseMoveTimer = ($.zui.asap || setTimeout)(function() {
+                mouseMoveTimer = 0;
+                mouseMoveHandler(event);
+            }, 0);
         };
 
         var mouseup = function(e) {
