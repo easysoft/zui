@@ -1,8 +1,8 @@
 /*!
- * ZUI: Lite edition - v1.10.0 - 2021-11-04
+ * ZUI: Lite edition - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -3675,9 +3675,7 @@ input[type="checkbox"]:focus {
   }
 @-moz-document url-prefix() {
   input[type="radio"]:focus {
-    outline: 2px solid #3280fc;
-
-    -moz-outline-radius: 100%;
+    outline: none;
     }
   }
 input[type="number"]::-webkit-outer-spin-button,

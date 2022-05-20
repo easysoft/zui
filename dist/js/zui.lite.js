@@ -1,8 +1,8 @@
 /*!
- * ZUI: Lite edition - v1.10.0 - 2021-11-04
+ * ZUI: Lite edition - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -20,6 +20,10 @@
 
     /* Check jquery */
     if(typeof($) === 'undefined') throw new Error('ZUI requires jQuery');
+
+    if(!Number.isNaN && typeof isNaN === 'function') Number.isNaN = isNaN;
+    if(!Number.parseInt && typeof parseInt === 'function') Number.parseInt = parseInt;
+    if(!Number.parseFloat && typeof parseFloat === 'function') Number.parseFloat = parseFloat;
 
     /* ZUI shared object */
     if(!$.zui) $.zui = function(obj) {
@@ -161,7 +165,7 @@
                     langData[comName][langName] = data[comName];
                 });
             } else if (langName && !componentName && !data) {
-                $.each(data, function(theLangName) {
+                $.each(langName, function(theLangName) {
                     var comsData = data[theLangName];
                     $.each(comsData, function(comName) {
                         if (!langData[comName]) {
@@ -217,16 +221,20 @@
         },
 
         _scrollbarWidth: 0,
-        checkBodyScrollbar: function() {
-            if(document.body.clientWidth >= window.innerWidth) return 0;
-            if(!$.zui._scrollbarWidth) {
+        getScrollbarSize: function() {
+            var scrollbarWidth = $.zui._scrollbarWidth;
+            if (!scrollbarWidth) {
                 var scrollDiv = document.createElement('div');
                 scrollDiv.className = 'scrollbar-measure';
                 document.body.appendChild(scrollDiv);
-                $.zui._scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+                $.zui._scrollbarWidth = scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
                 document.body.removeChild(scrollDiv);
             }
-            return $.zui._scrollbarWidth;
+            return scrollbarWidth;
+        },
+        checkBodyScrollbar: function() {
+            if(document.body.clientWidth >= window.innerWidth) return 0;
+            return $.zui.getScrollbarSize();
         },
         fixBodyScrollbar: function() {
             if($.zui.checkBodyScrollbar()) {
@@ -2698,7 +2706,14 @@
                     }
                     try {
                         $modal.attr('ref', frame.contentWindow.location.href);
-                        var frame$ = window.frames[iframeName].$;
+                        var frameWindow = window.frames[iframeName];
+
+                        // Support for reset modal width by var modalWidthReset in iframe page
+                        if(frameWindow.modalWidthReset) {
+                            options.width = frameWindow.modalWidthReset;
+                        }
+
+                        var frame$ = frameWindow.$;
                         if(frame$ && options.height === 'auto' && options.size != 'fullscreen') {
                             // todo: update iframe url to ref attribute
 
@@ -3698,6 +3713,23 @@
         .on('click.' + apiName, toggle, Dropdown.prototype.toggle)
         .on('keydown.' + apiName, toggle + ', [role=menu]', Dropdown.prototype.keydown)
 
+}(window.jQuery);
+
++function($) {
+    $(document).on('mouseenter.zui.dropdown', '.dropdown-submenu', function() {
+        var $menu = $(this).children('.dropdown-menu');
+        var isDropUp = $menu.closest('.dropup ').length;
+        $menu.css(isDropUp ? 'bottom' : 'top', 0);
+        ($.zui.asap || setTimout)(function() {
+            var bouding = $menu[0].getBoundingClientRect();
+            if(isDropUp) {
+                $menu.css('bottom', bouding.top < 0 ? bouding.top : 0);
+            } else {
+                var bottomSpace = $(window).height() - bouding.bottom;
+                $menu.css('top', bottomSpace < 0 ? bottomSpace : 0);
+            }
+        }, 0);
+    });
 }(window.jQuery);
 
 /* ========================================================================

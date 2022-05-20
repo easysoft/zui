@@ -1,8 +1,8 @@
 /*!
- * ZUI: Standard edition - v1.10.0 - 2021-11-04
+ * ZUI: Standard edition - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -4189,9 +4189,7 @@ input[type="checkbox"]:focus {
   }
 @-moz-document url-prefix() {
   input[type="radio"]:focus {
-    outline: 2px solid #3280fc;
-
-    -moz-outline-radius: 100%;
+    outline: none;
     }
   }
 input[type="number"]::-webkit-outer-spin-button,
@@ -4743,6 +4741,22 @@ textarea.form-condensed .form-control {
 .checkbox-primary.checked > label:before,
 .radio-primary.checked > label:before {
   color: white;
+  opacity: 1;
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+       -o-transform: scale(1);
+          transform: scale(1);
+  }
+.checkbox-primary.indeterminate > label:after,
+.radio-primary.indeterminate > label:after,
+.checkbox-primary input:indeterminate + label:after,
+.radio-primary input:indeterminate + label:after {
+  top: 14px;
+  left: 3px;
+  width: 8px;
+  height: 2px;
+  content: ' ';
+  background-color: #a3a2bc;
   opacity: 1;
   -webkit-transform: scale(1);
       -ms-transform: scale(1);

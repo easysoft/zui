@@ -218,6 +218,7 @@
             if($shadow === null) {
                 $ele.removeClass('drag-from');
                 that.trigger('always', {
+                    target: $target,
                     event: event,
                     cancel: true
                 });

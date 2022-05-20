@@ -1101,14 +1101,21 @@
         }
         that.$formItem.children('option').each(function() {
             var $option = $(this);
-            var text = $option.text();
             var val = $option.val();
-            if (text.length || val.length) {
-                var item = {};
-                item[options.valueKey] = val;
-                item[options.textKey] = text;
-                item[options.keysKey] = $option.data(options.keysKey);
-                list.push(item);
+            var text = $option.text();
+            if(options.onUpdateSelectOption) {
+                var item = options.onUpdateSelectOption($option, that);
+                if(item) {
+                    list.push(item);
+                }
+            } else {
+                if (text.length || val.length) {
+                    var item = {};
+                    item[options.valueKey] = val;
+                    item[options.textKey] = text;
+                    item[options.keysKey] = $option.data(options.keysKey);
+                    list.push(item);
+                }
             }
             var allowSingleDeselect = options.allowSingleDeselect;
             if ((allowSingleDeselect === 'auto' || allowSingleDeselect === null || allowSingleDeselect === undefined) && !val.length) {
@@ -1336,6 +1343,9 @@
         // Update selections
         if (!skipRenderSelections) {
             var hasValue = false;
+            var selectionTextRender = options.selectionTextRender || (function($selection, text, item) {
+                $selection.text(text);
+            });
             if (isMulti) {
                 var $selections = that.$selections;
                 var $selects = $selections.children('.picker-selection').addClass('picker-expired');
@@ -1358,14 +1368,14 @@
                     } else {
                         $select.removeClass('picker-expired');
                     }
-                    $select.find('.picker-selection-text').text(text);
+                    selectionTextRender($select.find('.picker-selection-text'), text, item);
                     $select.attr('title', text).insertBefore(that.$search);
                 });
                 $selects.filter('.picker-expired').remove();
             } else {
                 var item = that.getListItem(value);
                 hasValue = !!item;
-                that.$singleSelection.find('.picker-selection-text').text(hasValue ? item[options.textKey] : '');
+                selectionTextRender(that.$singleSelection.find('.picker-selection-text'), hasValue ? item[options.textKey] : '', item);
             }
             that.$container.toggleClass('picker-no-value', !hasValue).toggleClass('picker-has-value', hasValue);
         }

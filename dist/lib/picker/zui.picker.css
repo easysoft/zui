@@ -1,8 +1,8 @@
 /*!
- * ZUI: 下拉选择器 - v1.10.0 - 2021-11-04
+ * ZUI: 下拉选择器 - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 .picker {
@@ -119,11 +119,24 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 20px;
-  height: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  width: 18px;
+  height: 18px;
   text-align: center;
   cursor: pointer;
   opacity: .2;
+
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+          justify-content: center;
   }
 .picker-selection-remove:before {
   font-family: ZenIcon;
@@ -216,10 +229,6 @@
 .picker-drop-menu.picker-drop-show {
   display: block;
   }
-.picker-drop-menu.picker-has-message {
-  min-height: 22px;
-  padding-bottom: 22px;
-  }
 .picker-option-list {
   padding: 5px 0;
   margin: 0;
@@ -287,10 +296,6 @@
   background-color: #fff;
   }
 .picker-message {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
   display: none;
   height: 22px;
   padding: 2px 5px;
@@ -306,4 +311,23 @@
   }
 .picker-message[data-type="danger"] {
   color: #ea644a;
+  }
+.picker-actions {
+  padding: 5px;
+  border-top: 1px solid #e5e5e5;
+  }
+.picker-no-actions .picker-actions {
+  display: none;
+  }
+.picker-actions .btn {
+  padding: 2px 4px;
+  }
+.picker-actions .btn[disabled] {
+  background-color: transparent;
+          filter: grayscale(1);
+
+  -webkit-filter: grayscale(1);
+  }
+.picker-actions .btn + .btn {
+  margin-left: 4px;
   }

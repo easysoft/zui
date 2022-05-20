@@ -24,7 +24,7 @@ filter: rili rl
 按周或查看某一天的日程视图将在后续版本中到来。
 
 <div class="example">
-  <div class="calendar" id="calendarExample"></div>
+  <div class="calendar" id="calendarExample" data-hide-empty-weekends="true"></div>
 </div>
 
 ```html

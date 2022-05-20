@@ -1,8 +1,8 @@
 /*!
- * ZUI: Standard edition - v1.10.0 - 2021-11-04
+ * ZUI: Standard edition - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -20,6 +20,10 @@
 
     /* Check jquery */
     if(typeof($) === 'undefined') throw new Error('ZUI requires jQuery');
+
+    if(!Number.isNaN && typeof isNaN === 'function') Number.isNaN = isNaN;
+    if(!Number.parseInt && typeof parseInt === 'function') Number.parseInt = parseInt;
+    if(!Number.parseFloat && typeof parseFloat === 'function') Number.parseFloat = parseFloat;
 
     /* ZUI shared object */
     if(!$.zui) $.zui = function(obj) {
@@ -161,7 +165,7 @@
                     langData[comName][langName] = data[comName];
                 });
             } else if (langName && !componentName && !data) {
-                $.each(data, function(theLangName) {
+                $.each(langName, function(theLangName) {
                     var comsData = data[theLangName];
                     $.each(comsData, function(comName) {
                         if (!langData[comName]) {
@@ -217,16 +221,20 @@
         },
 
         _scrollbarWidth: 0,
-        checkBodyScrollbar: function() {
-            if(document.body.clientWidth >= window.innerWidth) return 0;
-            if(!$.zui._scrollbarWidth) {
+        getScrollbarSize: function() {
+            var scrollbarWidth = $.zui._scrollbarWidth;
+            if (!scrollbarWidth) {
                 var scrollDiv = document.createElement('div');
                 scrollDiv.className = 'scrollbar-measure';
                 document.body.appendChild(scrollDiv);
-                $.zui._scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+                $.zui._scrollbarWidth = scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
                 document.body.removeChild(scrollDiv);
             }
-            return $.zui._scrollbarWidth;
+            return scrollbarWidth;
+        },
+        checkBodyScrollbar: function() {
+            if(document.body.clientWidth >= window.innerWidth) return 0;
+            return $.zui.getScrollbarSize();
         },
         fixBodyScrollbar: function() {
             if($.zui.checkBodyScrollbar()) {
@@ -278,6 +286,27 @@
         return result;
     };
 }(jQuery, window, undefined));
+
+(function() {
+    'use strict';
+    var useRaf = typeof window.requestAnimationFrame === 'function';
+
+    function asap(callback, delayTime) {
+        if (useRaf && !delayTime) {
+            return requestAnimationFrame(callback);
+        }
+        return setTimeout(callback, delayTime || 0);
+    }
+
+    function clearAsap(id) {
+        if (useRaf) {
+            return cancelAnimationFrame(id);
+        }
+        clearTimeout(id);
+    }
+
+    $.zui({asap: asap, clearAsap: clearAsap});
+}());
 
 /* ========================================================================
  * ZUI: typography.js
@@ -2816,7 +2845,7 @@
             mousePos,
             moved;
 
-        var mouseMove = function(event) {
+        var mouseMoveHandler = function(event) {
             var mX      = event.pageX,
                 mY      = event.pageY;
                 moved   = true;
@@ -2854,6 +2883,17 @@
             if(setting.stopPropagation) {
                 event.stopPropagation();
             }
+        };
+
+        var mouseMoveTimer = 0;
+        var mouseMove = function(event) {
+            if (mouseMoveTimer) {
+                ($.zui.clearAsap || clearTimeout)(mouseMoveTimer);
+            }
+            mouseMoveTimer = ($.zui.asap || setTimeout)(function() {
+                mouseMoveTimer = 0;
+                mouseMoveHandler(event);
+            }, 0);
         };
 
         var mouseUp = function(event) {
@@ -2991,6 +3031,7 @@
         sensorOffsetX: 0,
         sensorOffsetY: 0,
         dropToClass: 'drop-to',
+        dropTargetClass: 'drop-target',
          // mouseButton: -1 // 0, 1, 2, -1, all, left,  right, middle
     };
     var idIncrementer = 0;
@@ -3022,12 +3063,12 @@
             selector       = setting.selector,
             handle         = setting.handle,
             flex           = setting.flex,
-            container      = setting.container,
             canMoveHere    = setting.canMoveHere,
             dropToClass    = setting.dropToClass,
+            noShadow       = setting.noShadow,
             $ele           = $root,
             isMouseDown    = false,
-            $container     = container ? $(setting.container).first() : (selector ? $root : $('body')),
+            $container,
             $targets,
             $target,
             $shadow,
@@ -3042,34 +3083,45 @@
             lastMouseOffset,
             mouseDownBackEventCall;
 
-        var mouseMove = function(event) {
+        if (setting.dropOnMouseleave) {
+            mouseUpEvent += ' mouseleave' + eventSuffix;
+        }
+
+        var mouseMoveHandler = function(event) {
             if(!isMouseDown) return;
 
             mouseOffset = {left: event.pageX, top: event.pageY};
 
-            // ignore small move
-            if(Math.abs(mouseOffset.left - startMouseOffset.left) < deviation && Math.abs(mouseOffset.top - startMouseOffset.top) < deviation) return;
-
-            if($shadow === null) // create shadow
+            if(!$shadow) // create shadow
             {
+                // ignore small move
+                if(Math.abs(mouseOffset.left - startMouseOffset.left) < deviation && Math.abs(mouseOffset.top - startMouseOffset.top) < deviation) return;
+
                 var cssPosition = $container.css('position');
                 if(cssPosition != 'absolute' && cssPosition != 'relative' && cssPosition != 'fixed') {
                     oldCssPosition = cssPosition;
                     $container.css('position', 'relative');
                 }
 
-                $shadow = $ele.clone().removeClass('drag-from').addClass('drag-shadow').css({
-                    position:   'absolute',
-                    width:      $ele.outerWidth(),
-                    transition: 'none'
-                }).appendTo($container);
+                if (noShadow) {
+                    $shadow = {};
+                } else {
+                    $shadow = $ele.clone().removeClass('drag-from').addClass('drag-shadow').css({
+                        position:   'absolute',
+                        width:      $ele.outerWidth(),
+                        transition: 'none'
+                    }).appendTo($container);
+                }
+
                 $ele.addClass('dragging');
+                $targets.addClass(setting.dropTargetClass);
 
                 that.trigger('start', {
                     event:   event,
                     element: $ele,
-                    shadowElement: $shadow,
-                    targets: $targets
+                    shadowElement: noShadow ? null : $shadow,
+                    targets: $targets,
+                    mouseOffset: mouseOffset
                 });
             }
 
@@ -3081,8 +3133,10 @@
                 left: offset.left - containerOffset.left,
                 top:  offset.top - containerOffset.top
             };
-            $shadow.css(position);
-            $.extend(lastMouseOffset, mouseOffset);
+
+            if (!noShadow) {
+                $shadow.css(position);
+            }
 
             var isNew = false;
                 isIn = false;
@@ -3122,7 +3176,9 @@
 
             if(!flex) {
                 $ele.toggleClass('drop-in', isIn);
-                $shadow.toggleClass('drop-in', isIn);
+                if (!noShadow) {
+                    $shadow.toggleClass('drop-in', isIn);
+                }
             } else if($target !== null && $target.length) {
                 isIn = true;
             }
@@ -3137,15 +3193,25 @@
                     selfTarget: isSelf,
                     clickOffset: clickOffset,
                     offset: offset,
-                    position: {
-                        left: offset.left - containerOffset.left,
-                        top: offset.top - containerOffset.top
-                    },
-                    mouseOffset: mouseOffset
+                    position: position,
+                    mouseOffset: mouseOffset,
+                    lastMouseOffset: lastMouseOffset,
                 });
             }
 
+            $.extend(lastMouseOffset, mouseOffset);
             event.preventDefault();
+        };
+
+        var mouseMoveTimer = 0;
+        var mouseMove = function(event) {
+            if (mouseMoveTimer) {
+                ($.zui.clearAsap || clearTimeout)(mouseMoveTimer);
+            }
+            mouseMoveTimer = ($.zui.asap || setTimeout)(function() {
+                mouseMoveTimer = 0;
+                mouseMoveHandler(event);
+            }, 0);
         };
 
         var mouseUp = function(event) {
@@ -3162,6 +3228,7 @@
             if($shadow === null) {
                 $ele.removeClass('drag-from');
                 that.trigger('always', {
+                    target: $target,
                     event: event,
                     cancel: true
                 });
@@ -3207,9 +3274,12 @@
                 that.trigger('drop', eventOptions);
             }
 
-            $targets.removeClass(dropToClass);
+            $targets.removeClass(dropToClass).removeClass(setting.dropTargetClass);
             $ele.removeClass('dragging').removeClass('drag-from');
-            $shadow.remove();
+
+            if (!noShadow) {
+                $shadow.remove();
+            }
             $shadow = null;
 
             that.trigger('finish', eventOptions);
@@ -3241,6 +3311,7 @@
             }
 
             isMouseDown = true;
+            $container       =  setting.container ? (typeof setting.container === 'function' ? setting.container($ele, $root) : $(setting.container).first()) : (selector ? $root : $('body'))
             $targets         = typeof setting.target === 'function' ? setting.target($ele, $root) : $container.find(setting.target),
             $target          = null,
             $shadow          = null,
@@ -4024,7 +4095,14 @@
                     }
                     try {
                         $modal.attr('ref', frame.contentWindow.location.href);
-                        var frame$ = window.frames[iframeName].$;
+                        var frameWindow = window.frames[iframeName];
+
+                        // Support for reset modal width by var modalWidthReset in iframe page
+                        if(frameWindow.modalWidthReset) {
+                            options.width = frameWindow.modalWidthReset;
+                        }
+
+                        var frame$ = frameWindow.$;
                         if(frame$ && options.height === 'auto' && options.size != 'fullscreen') {
                             // todo: update iframe url to ref attribute
 
@@ -5026,6 +5104,23 @@
 
 }(window.jQuery);
 
++function($) {
+    $(document).on('mouseenter.zui.dropdown', '.dropdown-submenu', function() {
+        var $menu = $(this).children('.dropdown-menu');
+        var isDropUp = $menu.closest('.dropup ').length;
+        $menu.css(isDropUp ? 'bottom' : 'top', 0);
+        ($.zui.asap || setTimout)(function() {
+            var bouding = $menu[0].getBoundingClientRect();
+            if(isDropUp) {
+                $menu.css('bottom', bouding.top < 0 ? bouding.top : 0);
+            } else {
+                var bottomSpace = $(window).height() - bouding.bottom;
+                $menu.css('top', bottomSpace < 0 ? bottomSpace : 0);
+            }
+        }, 0);
+    });
+}(window.jQuery);
+
 /* ========================================================================
  * ZUI: contextmenu.js
  * http://openzui.com
@@ -5054,7 +5149,7 @@
         menuTemplate: '<ul class="dropdown-menu"></ul>',
         toggleTrigger: false,
         duration: 200,
-        limitInsideWindow: true
+        // maxMenuHeight: null,
     };
 
     var isShowingMenu = false;
@@ -5068,7 +5163,8 @@
         });
         return ContextMenu;
     };
-    var createMenuItem = function(item, index) {
+
+    function createMenuItem(item, index) {
         if (typeof item === 'string') {
             if (item === 'seperator' || item === 'divider' || item === '-' || item === '|') {
                 item = {type: 'seperator'};
@@ -5099,8 +5195,39 @@
         if (item.onClick) {
             $a.on('click', item.onClick);
         }
-        return $('<li />').toggleClass('disabled', item.disabled === true).append($a);
-    };
+        var $item = $('<li />')
+            .toggleClass('disabled', item.disabled === true)
+            .append($a);
+        if (item.items) {
+            $item.data('item', item).addClass('dropdown-submenu');
+        }
+        return $item;
+    }
+
+    /**
+     * Create context menu item list
+     * @param {Object[]} items Context menu item
+     * @param {JQuery} $list Context menu item list element
+     * @param {{itemCreator: function(Object, number, Object)}} options Context menu options
+     * @returns {boolean} Return true if successfully
+     */
+    function createMenuItems(items, $list, options) {
+        var itemCreator = options.itemCreator || createMenuItem;
+        var itemsType = typeof items;
+
+        if (itemsType === 'string') {
+            items = items.split(',');
+        } else if (itemsType === 'function') {
+            items = items(options);
+        }
+        if (!items) {
+            return false;
+        }
+        $.each(items, function(index, item) {
+            $list.append(itemCreator(item, index, options));
+        });
+        return true;
+    }
 
     var isContextMenuShow = function(id) {
         var $target = $('#' + targetId);
@@ -5157,13 +5284,45 @@
         if (!$target.length) {
             $target = $('<div style="position: fixed; z-index: 2000;" class="contextmenu" id="' + targetId + '"><div class="contextmenu-menu"></div></div>').appendTo('body');
         }
-        var $menu = $target.find('.contextmenu-menu').off('click.' + NAME).on('click.' + NAME, 'a,.contextmenu-item', function(e) {
+        var $menu = $target.find('.contextmenu-menu').empty();
+        $menu.off('click.' + NAME).on('click.' + NAME, 'a,.contextmenu-item', function(e) {
             var $item = $(this);
             var clickResult = options.onClickItem && options.onClickItem($item.data('item'), $item, e, options);
             if (clickResult !== false) {
                 hideContextMenu();
             }
-        }).empty();
+        }).off('mouseenter.' + NAME).on('mouseenter.' + NAME, '.dropdown-submenu', function(e) {
+            var $item = $(this);
+            var item = $item.data('item');
+            var $subMenu = $item.children('.dropdown-menu');
+            if(item) {
+                if (item.items) {
+                    if(!$subMenu.length) {
+                        $subMenu = $(options.menuTemplate).appendTo($item);
+                    }
+                    createMenuItems(item.items, $subMenu, options);
+                }
+
+                $item.removeData('item');
+            }
+            if (!$subMenu.length) {
+                return;
+            }
+
+            // Adjust submenu position
+            $subMenu.removeClass('pull-left').css('top', 0);
+            var itemBounding = $item[0].getBoundingClientRect();
+            var menuBounding = $subMenu[0].getBoundingClientRect();
+            var winWidth = window.innerWidth;
+            var winHeight = window.innerHeight;
+            if (menuBounding.bottom > winHeight) {
+                var subMenuTop = Math.max(-menuBounding.top, winHeight - menuBounding.bottom);
+                $subMenu.css('top', subMenuTop);
+            }
+            if (menuBounding.right > winWidth) {
+                $subMenu.addClass('pull-left');
+            }
+        });
         $menu.attr('class', 'contextmenu-menu' + (options.className ? (' ' + options.className) : ''))
         $target.attr('class', 'contextmenu contextmenu-show');
 
@@ -5174,19 +5333,8 @@
         } else {
             $menu.append(options.menuTemplate);
             var $menuList = $menu.children().first();
-            var itemCreator = options.itemCreator || createMenuItem;
-            var itemsType = typeof items;
-            if (itemsType === 'string') {
-                items = items.split(',');
-            } else if (itemsType === 'function') {
-                items = items(options);
-            }
-            if (!items) {
-                return false;
-            }
-            $.each(items, function(index, item) {
-                $menuList.append(itemCreator(item, index, options));
-            });
+            var result = createMenuItems(items, $menuList, options);
+            if (result === false) return result;
         }
 
         // Show menu
@@ -5218,21 +5366,24 @@
         if (x === undefined) x = mouseX;
         if (y === undefined) y = (options.event || options).clientY;
         if (y === undefined) y = mouseY;
+        var winHeight = window.innerHeight;
+        var winWidth = window.innerWidth;
+        // var maxMenuHeight = options.maxMenuHeight;
+        // if (typeof maxMenuHeight !== 'number') maxMenuHeight = winHeight;
+        // else winHeight = Math.min(winHeight, maxMenuHeight);
         var $menuList = $menu.children().first();
+        // $menuList.css({maxHeight: maxMenuHeight, overflowY: 'auto', margin: 0});
         var menuWidth = $menuList.outerWidth();
         var menuHeight = $menuList.outerHeight();
         if (options.position) {
-            var newPos = options.position({x: x, y: y, width: menuWidth, height: menuHeight}, options, $menu);
+            var newPos = options.position({x: x, y: y, width: menuWidth, height: menuHeight, winHeight: winHeight, winWidth: winWidth}, options, $menu);
             if (newPos) {
                 x = newPos.x;
                 y = newPos.y;
             }
         }
-        if (options.limitInsideWindow) {
-            var $w = $(window);
-            x = Math.max(0, Math.min(x, $w.width() - menuWidth));
-            y = Math.max(0, Math.min(y, $w.height() - menuHeight));
-        }
+        x = Math.max(0, Math.min(x, winWidth - menuWidth));
+        y = Math.max(0, Math.min(y, winHeight - menuHeight));
 
         $target.css({
             left: x,
@@ -5243,12 +5394,10 @@
         if (animation) {
             $menu.addClass(animation);
             animationTimer = setTimeout(function() {
-                // $menu.show();
                 afterShow();
                 isShowingMenu = false;
             }, 10);
         } else {
-            // $menu.show();
             afterShow();
             isShowingMenu = false;
         }

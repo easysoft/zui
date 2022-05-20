@@ -10,6 +10,7 @@
 KindEditor.plugin('link', function(K) {
     var self = this,
         name = 'link';
+    if (self.plugin.link) return;
     self.plugin.link = {
         edit: function() {
             var lang = self.lang(name + '.'),

@@ -7999,6 +7999,7 @@ KindEditor.plugin('lineheight', function(K) {
 KindEditor.plugin('link', function(K) {
     var self = this,
         name = 'link';
+    if (self.plugin.link) return;
     self.plugin.link = {
         edit: function() {
             var lang = self.lang(name + '.'),
@@ -10326,6 +10327,24 @@ KindEditor.plugin('pasteimage', function(K) {
         };
 
         var pasteUrl = options.postUrl;
+        var findBase64OnPaste = function() {
+            setTimeout(function() {
+                var html = K(doc.body).html();
+                if(html.search(/<img src="data:.+;base64,/) > -1) {
+                    pasteBegin();
+                    $.post(pasteUrl, {editor: html}, function(data) {
+                        if(data.indexOf('<img') === 0) data = '<p>' + data + '</p>';
+                        self.undo();
+                        self._redoStack.pop();
+                        edit.html(data);
+                        pasteEnd();
+                    }).error(function()
+                    {
+                        pasteEnd(true);
+                    });
+                }
+            }, 80);
+        };
         $(doc.body).on('paste.ke' + uuid, function(ev) {
             if (K.WEBKIT) {
                 /* Paste in chrome.*/
@@ -10345,7 +10364,7 @@ KindEditor.plugin('pasteimage', function(K) {
                     }
                 }
                 var file = clipboardItem && clipboardItem.getAsFile();
-                if (!file) return;
+                if (!file) return findBase64OnPaste();
                 original.preventDefault();
                 pasteBegin();
 
@@ -10376,22 +10395,7 @@ KindEditor.plugin('pasteimage', function(K) {
                 reader.readAsDataURL(file);
             } else {
                 /* Paste in firefox and other browsers. */
-                setTimeout(function() {
-                    var html = K(doc.body).html();
-                    if(html.search(/<img src="data:.+;base64,/) > -1) {
-                        pasteBegin();
-                        $.post(pasteUrl, {editor: html}, function(data) {
-                            if(data.indexOf('<img') === 0) data = '<p>' + data + '</p>';
-                            self.undo();
-                            self._redoStack.pop();
-                            edit.html(data);
-                            pasteEnd();
-                        }).error(function()
-                        {
-                            pasteEnd(true);
-                        });
-                    }
-                }, 80);
+                findBase64OnPaste();
             }
         });
 

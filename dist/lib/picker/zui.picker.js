@@ -1,8 +1,8 @@
 /*!
- * ZUI: 下拉选择器 - v1.10.0 - 2021-11-04
+ * ZUI: 下拉选择器 - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -39,7 +39,7 @@
         formItem: 'auto',
         list: null, // [{text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods'}] or 'Apple,Banana' or [['Apple', 'apple', 'fruit foods'], ['Banana', 'banana', 'fruit foods']] or function({search, limit})
         allowSingleDeselect: null,
-        showMultiSelectedOptions: false,
+        // showMultiSelectedOptions: false,
         autoSelectFirst: false,
         // optionItemFormatter: null, // function($item, picker); Not supported yet
         maxSelectedCount: 0, // 0 = Infinity
@@ -47,7 +47,7 @@
         hideEmptyTextOption: true,
         searchValueKey: true,
         emptyResultHint: null,
-        hideOnWindowScroll: true,
+        hideOnScroll: true,
         inheritFormItemClasses: false,
         emptySearchResultHint: null,
         accurateSearchHint: null,
@@ -60,6 +60,7 @@
         dropWidth: '100%', // 'auto', '100%', '500px',
         maxAutoDropWidth: 450,
         multiValueSplitter: ',',
+        multiSelectActions: 5,
         searchDelay: 200,
         autoClearDrop: 6e4, // 60 * 1000
         fixLabelFor: true,
@@ -85,18 +86,24 @@
             emptySearchResultHint: '没有找到 “{0}”',
             accurateSearchHint: '请提供更多关键词缩小匹配范围',
             remoteErrorHint: '无法从服务器获取结果 - {0}',
+            selectAll: '全选',
+            deselectAll: '取消选择',
         },
         zh_tw: {
-            emptyResultHint: '沒有可選項',
-            emptySearchResultHint: '沒有找到 “{0}”',
-            accurateSearchHint: '請提供更多關鍵詞縮小匹配範圍',
-            remoteErrorHint: '無法從服務器獲取結果 - {0}',
+            emptyResultHint: '沒有可選項',
+            emptySearchResultHint: '沒有找到 “{0}”',
+            accurateSearchHint: '請提供更多關鍵詞縮小匹配範圍',
+            remoteErrorHint: '無法從服務器獲取結果 - {0}',
+            selectAll: '全選',
+            deselectAll: '取消選擇',
         },
         en: {
-            emptyResultHint: 'No options',
-            emptySearchResultHint: 'Cannot found "{0}"',
-            accurateSearchHint: 'Suggest to provide more keywords',
-            remoteErrorHint: 'Unable to get result from server: {0}',
+            emptyResultHint: 'No options',
+            emptySearchResultHint: 'Cannot found "{0}"',
+            accurateSearchHint: 'Suggest to provide more keywords',
+            remoteErrorHint: 'Unable to get result from server: {0}',
+            selectAll: 'Select all',
+            deselectAll: 'Deselect all',
         }
     };
 
@@ -109,6 +116,9 @@
 
         // Options
         options = that.options = $.extend({}, Picker.DEFAULTS, this.$.data(), options);
+        if (options.hideOnWindowScroll !== undefined) {
+            options.hideOnScroll = options.hideOnWindowScroll;
+        }
 
         // Lang
         var defaultLang = $.zui.clientLang ? $.zui.clientLang() : 'en';
@@ -218,11 +228,24 @@
         that.setValue(defaultValue, true);
 
         // Bind events
+
         $search.on('focus', function() {
+            if (that._blurTimer) {
+                clearTimeout(that._blurTimer);
+                that._blurTimer = 0;
+            }
             $container.addClass('picker-focus');
             that.showDropList();
         }).on('blur', function() {
-            $container.removeClass('picker-focus');
+            if (that._blurTimer) {
+                clearTimeout(that._blurTimer);
+            }
+            that._blurTimer = setTimeout(function() {
+                that._blurTimer = 0;
+                if (!$search.is(':focus')) {
+                    $container.removeClass('picker-focus');
+                }
+            }, 100);
         }).on('input change', function() {
             var searchValue = $search.val();
             if (multi) {
@@ -287,6 +310,8 @@
                         that.activeOption($prevOption);
                     }
                     e.preventDefault();
+                } else if (key === 'Escape' || key === 27) {
+                    that.hideDropList(true);
                 } else if (options.deleteByBackspace && multi && (key === 'Backspace' || key === 8) && that.value && that.value.length && !$search.val().length) {
                     that.deselect(that.value[that.value.length - 1]);
                 }
@@ -313,7 +338,7 @@
                     selector: '.picker-selection',
                     stopPropagation: true,
                     start: function() {
-                        that.hideDropList();
+                        that.hideDropList(true);
                     },
                     finish: function(e) {
                         var values = [];
@@ -351,16 +376,23 @@
 
         $container.addClass('picker-ready');
 
-        setTimeout(function() {
+        $.zui.asap(function() {
             that.triggerEvent('ready', {picker: that}, '', 'chosen:ready');
-        }, 0);
+        });
+
+        if (!options.disableScrollOnShow) {
+            var hideOnScroll = options.hideOnScroll;
+            if (hideOnScroll && ![window, document, true].includes(hideOnScroll)) {
+                $(hideOnScroll).on('scroll', this.handleParentScroll.bind(this));
+            }
+        }
     };
 
     Picker.prototype.destroy = function() {
         var that = this;
         var options = that.options;
 
-        that.hideDropList();
+        that.hideDropList(true);
 
         var $search = that.$search;
         $search.off('focus blur input change');
@@ -451,6 +483,34 @@
             that.setValue('');
         }
     };
+
+    Picker.prototype.selectAll = function(notHideDropList) {
+        var that = this;
+        if (!that.multi || that.options.remote) {
+            return;
+        }
+        var values = [];
+        for (var i = 0; i < that.list.length; ++i) {
+            var item = that.list[i];
+            var itemValue = item[that.options.valueKey];
+            values.push(itemValue);
+        }
+        that.setValue(values);
+        if (!notHideDropList) {
+            that.hideDropList();
+        }
+    };
+
+    Picker.prototype.deselectAll = function(notHideDropList) {
+        var that = this;
+        if (!that.multi || that.options.remote) {
+            return;
+        }
+        that.setValue([]);
+        if (!notHideDropList) {
+            that.hideDropList();
+        }
+    }
 
     Picker.prototype.updateMessage = function(message, type, skipLayout) {
         var that = this;
@@ -579,7 +639,7 @@
             $dropMenu.css({opacity: 0, width: 'auto', 'max-width': 'none'});
         }
         $optionsList.css({'max-height': maxDropHeight});
-        setTimeout(function() {
+        $.zui.asap(function() {
             var bounds = that.$selections[0].getBoundingClientRect();
             var dropDirection = resetDirection ? options.dropDirection : (that.dropDirection || options.dropDirection);
             if (typeof dropDirection === 'function') {
@@ -589,7 +649,8 @@
             var $win = $(window);
             var winHeight = $win.height();
             var messageHeight = that.hasMessage ? that.$message.outerHeight() : 0;
-            var dropHeight = Math.max(messageHeight, $dropMenu.height());
+            var actionsHeight = that.showActions ? that.$actions.outerHeight() : 0;
+            var dropHeight = Math.max(actionsHeight, messageHeight, $dropMenu.height());
             var dropWidth = options.dropWidth || 'auto';
             var dropStyle = {left: bounds.left, opacity: 1};
             if (dropDirection === 'auto') {
@@ -611,14 +672,15 @@
             } else {
                 dropStyle.width = dropWidth;
             }
-            if (dropHeight > messageHeight) {
-                $optionsList.css('max-height', dropHeight - messageHeight);
-            }
+            var optionsListHeight = dropHeight - messageHeight - actionsHeight;
+            $optionsList.css('max-height', optionsListHeight);
+            // if (dropHeight < maxDropHeight) {
+            // }
             $dropMenu.css(dropStyle);
             if (callback) {
                 callback();
             }
-        }, 0);
+        });
     };
 
     Picker.prototype.tryUpdateList = function(search) {
@@ -717,6 +779,13 @@
                     $text.text(text);
                 }
 
+                if (options.optionRender) {
+                    var customRenderResult = options.optionRender($option, item, that);
+                    if (customRenderResult instanceof $) {
+                        $option = customRenderResult;
+                    }
+                }
+
                 $option.appendTo($optionsList);
 
                 if (that.multi) {
@@ -752,9 +821,27 @@
             }
         }
 
+        var showActions = false;
+        if (that.multi && !options.remote) {
+            var multiSelectActions = options.multiSelectActions;
+            if (multiSelectActions) {
+                if (typeof multiSelectActions !== 'number') {
+                    multiSelectActions = 1;
+                }
+                if (optionsList.length >= multiSelectActions) {
+                    showActions = true;
+                    that.$actions.find('[data-type="select-all"]').attr('disabled', !$optionsList.children('.picker-option').length ? 'disabled' : null);
+                    that.$actions.find('[data-type="deselect-all"]').attr('disabled', (that.value && that.value.length) ? null : 'disabled');
+                }
+            }
+        }
+        that.showActions = showActions;
+        that.$dropMenu.toggleClass('picker-no-actions', !showActions);
+
         if (!skipShowMessage) {
             that.updateMessage(message, 'info');
         }
+
         that.$dropMenu.toggleClass('picker-no-options', !optionsCount);
         that.layoutDropList(that.listRendered);
         that.listRendered = true;
@@ -948,10 +1035,26 @@
                 that.activeOption($(this), true);
             });
 
-            var $message = $('<div class="picker-message"></div>').appendTo($dropMenu);
+            if (that.multi && !that.options.remote) {
+                that.$actions = $([
+                    '<div class="picker-actions">',
+                        '<button type="button" class="btn btn-sm btn-link picker-action" data-type="select-all">' + that.lang.selectAll + '</button>',
+                        '<button type="button" class="btn btn-sm btn-link picker-action" data-type="deselect-all">' + that.lang.deselectAll + '</button>',
+                    '</div>'
+                ].join('')).appendTo($dropMenu);
+
+                that.$actions.on('click', '.picker-action', function(event) {
+                    var actionType = $(this).data('type');
+                    if (actionType === 'select-all') {
+                        that.selectAll();
+                    } else if (actionType === 'deselect-all') {
+                        that.deselectAll();
+                    }
+                });
+            }
+            that.$message = $('<div class="picker-message"></div>').appendTo($dropMenu);
 
             that.$dropMenu = $dropMenu;
-            that.$message = $message;
             that.$optionsList = $optionsList;
         }
 
@@ -962,7 +1065,7 @@
         that.$dropMenu.addClass('picker-drop-show');
     };
 
-    Picker.prototype.hideDropList = function() {
+    Picker.prototype.hideDropList = function(blur) {
         var that = this;
 
         if (that.triggerEvent('hidingDrop', {picker: that}) === false) {
@@ -984,6 +1087,10 @@
             $.zui.resetBodyScrollbar();
         }
 
+        if (blur) {
+            this.$search.blur();
+        }
+
         that.triggerEvent('hiddenDrop', {picker: that}, '', 'chosen:hiding_dropdown');
 
         var autoClearDrop = that.options.autoClearDrop;
@@ -1001,14 +1108,21 @@
         }
         that.$formItem.children('option').each(function() {
             var $option = $(this);
-            var text = $option.text();
             var val = $option.val();
-            if (text.length || val.length) {
-                var item = {};
-                item[options.valueKey] = val;
-                item[options.textKey] = text;
-                item[options.keysKey] = $option.data(options.keysKey);
-                list.push(item);
+            var text = $option.text();
+            if(options.onUpdateSelectOption) {
+                var item = options.onUpdateSelectOption($option, that);
+                if(item) {
+                    list.push(item);
+                }
+            } else {
+                if (text.length || val.length) {
+                    var item = {};
+                    item[options.valueKey] = val;
+                    item[options.textKey] = text;
+                    item[options.keysKey] = $option.data(options.keysKey);
+                    list.push(item);
+                }
             }
             var allowSingleDeselect = options.allowSingleDeselect;
             if ((allowSingleDeselect === 'auto' || allowSingleDeselect === null || allowSingleDeselect === undefined) && !val.length) {
@@ -1236,6 +1350,9 @@
         // Update selections
         if (!skipRenderSelections) {
             var hasValue = false;
+            var selectionTextRender = options.selectionTextRender || (function($selection, text, item) {
+                $selection.text(text);
+            });
             if (isMulti) {
                 var $selections = that.$selections;
                 var $selects = $selections.children('.picker-selection').addClass('picker-expired');
@@ -1258,14 +1375,14 @@
                     } else {
                         $select.removeClass('picker-expired');
                     }
-                    $select.find('.picker-selection-text').text(text);
+                    selectionTextRender($select.find('.picker-selection-text'), text, item);
                     $select.attr('title', text).insertBefore(that.$search);
                 });
                 $selects.filter('.picker-expired').remove();
             } else {
                 var item = that.getListItem(value);
                 hasValue = !!item;
-                that.$singleSelection.find('.picker-selection-text').text(hasValue ? item[options.textKey] : '');
+                selectionTextRender(that.$singleSelection.find('.picker-selection-text'), hasValue ? item[options.textKey] : '', item);
             }
             that.$container.toggleClass('picker-no-value', !hasValue).toggleClass('picker-has-value', hasValue);
         }
@@ -1285,25 +1402,37 @@
                 $formItem.change();
             }
         }
+
+        if (!that.$search.is(':focus')) {
+            that.$container.removeClass('picker-focus');
+        }
     };
 
-    Picker.prototype.handleWindowScroll = function() {
+    Picker.prototype.handleParentScroll = function(event, fromGlobal) {
         var that = this;
-        if (that.options.disableScrollOnShow) return;
-        if (that.options.hideOnWindowScroll) {
-            if (that.scrollEventTimer) {
-                clearTimeout(that.scrollEventTimer);
-            }
-            that.$dropMenu.css('opacity', 0);
-            that.scrollEventTimer = setTimeout(function() {
-                that.scrollEventTimer = null;
-                if (that.dropListShowed) {
-                    that.layoutDropList(true, true);
-                }
-            }, 500);
-        } else {
-            that.layoutDropList(true, true);
+        if (that.options.disableScrollOnShow || !that.dropListShowed) return;
+
+        var hideOnScroll = that.options.hideOnScroll && (!fromGlobal || event.target === document);
+        if (that.scrollEventTimer) {
+            $.zui.clearAsap(that.scrollEventTimer);
         }
+        if (hideOnScroll) {
+            that.$dropMenu.css('opacity', 0);
+        }
+        that.scrollEventTimer = $.zui.asap(function() {
+            that.scrollEventTimer = null;
+            if (!that.dropListShowed) {
+                return;
+            }
+            var parentBounds = (event.target === document ? document.body : event.target).getBoundingClientRect();
+            var bounds = that.$selections[0].getBoundingClientRect();
+            if (bounds.bottom < parentBounds.top || bounds.top > parentBounds.bottom) {
+                that.hideDropList(true);
+            } else {
+                that.layoutDropList(true, true);
+            }
+
+        }, hideOnScroll ? 500 : 0);
     };
 
     // default options
@@ -1437,7 +1566,7 @@
         // Bind global event to handle window scroll event
         $(window).on('scroll', function(e) {
             $.each(SHOWS, function(id, picker) {
-                picker.handleWindowScroll(e);
+                picker.handleParentScroll(e, true);
             });
         });
     });

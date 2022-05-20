@@ -1,8 +1,8 @@
 /*!
- * ZUI: 数据表格② - v1.10.0 - 2021-11-04
+ * ZUI: 数据表格② - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /*!
@@ -442,6 +442,16 @@
                     that.setScrollbarOffset(null, offset);
                 }
             };
+            var mousePositionTimer = 0;
+            var mousePositionHandler = function(event) {
+                if (mousePositionTimer) {
+                    ($.zui.clearAsap || clearTimeout)(mousePositionTimer);
+                }
+                mousePositionTimer = ($.zui.asap || setTimeout)(function() {
+                    mousePositionTimer = 0;
+                    handleMousePosition(event);
+                }, 0);
+            };
             $scrollbar.on('mousedown', function(e) {
                 e.preventDefault();
                 isMouseDown = true;
@@ -454,14 +464,14 @@
                 if (isClickBar) {
                     startPageOffset += startScrollOffset;
                 }
-                handleMousePosition(e);
+                mousePositionHandler(e);
                 $scrollbar.addClass('scrolling');
                 $document.on('mouseup' + eventSuffix, function(e) {
                     isMouseDown = false;
-                    handleMousePosition(e);
+                    mousePositionHandler(e);
                     $document.off(eventSuffix);
                     $scrollbar.removeClass('scrolling');
-                }).on('mousemove' + eventSuffix, handleMousePosition);
+                }).on('mousemove' + eventSuffix, mousePositionHandler);
             });
             that['$' + direction + 'Scroll'] = $scrollbar;
             that['$' + direction + 'Scrollbar'] = $scrollbar.find('.bar');
@@ -470,12 +480,15 @@
         createScrollbar('v');
         var mouseWheelFactor = options.mouseWheelFactor;
         var isWindows = window.navigator.userAgent.match(/Win/i);
-        if (isWindows) mouseWheelFactor *= 20;
-        $container.on('mousewheel', function(event) {
-            // check whether need scroll
+        var supportWheelEvent = 'onwheel' in document.createElement('div');
+        if (isWindows && !supportWheelEvent) mouseWheelFactor *= 20;
+        if (supportWheelEvent) mouseWheelFactor *= -1;
+        $container.on(supportWheelEvent ? 'wheel' : 'mousewheel', function(event) {
+            var deltaX = supportWheelEvent ? event.originalEvent.deltaX : event.deltaX;
+            var deltaY = supportWheelEvent ? event.originalEvent.deltaY : event.deltaY;
             var layout = that.layout;
-            var scrollLeft = layout.scrollLeft - Math.round(event.deltaX * mouseWheelFactor);
-            var scrollTop = layout.scrollTop - Math.round(event.deltaY * mouseWheelFactor);
+            var scrollLeft = layout.scrollLeft - Math.round(deltaX * mouseWheelFactor);
+            var scrollTop = layout.scrollTop - Math.round(deltaY * mouseWheelFactor);
             scrollLeft = Math.max(0, Math.min(scrollLeft, layout.width - layout.containerWidth));
             scrollTop = Math.max(0, Math.min(scrollTop, layout.height - layout.containerHeight));
             if (scrollLeft !== layout.scrollLeft || scrollTop !== layout.scrollTop) {
@@ -763,20 +776,21 @@
 
         if (result.length) {
             var sortBy = filter.sortBy || (hasSearchScore ? '_SCORE' : false);
-            if (sortBy) {
-                var order = sortBy === '_SCORE' ? 'DESC' : filter.order;
-                var colConfig = that.getColConfigByName(sortBy);
-                var isDESC = order === 'desc';
-                var sortFunc = (colConfig && colConfig.sortFunc) || that.options.sortFunc || DEFAULT_SORT_FUNC;
-                result.sort(function(item1, item2) {
-                    var sortResult = sortFunc(item1[sortBy], item2[sortBy], item1, item2, sortBy, that);
-                    return isDESC ? ((-1) * sortResult) : sortResult;
-                });
+            var order = sortBy === '_SCORE' ? 'DESC' : filter.order;
+            if(!sortBy) {
+                sortBy = 'index';
+                order = 'ASC';
             }
+            var colConfig = that.getColConfigByName(sortBy);
+            var isDESC = order === 'desc';
+            var sortFunc = (colConfig && colConfig.sortFunc) || that.options.sortFunc || DEFAULT_SORT_FUNC;
+            result.sort(function(item1, item2) {
+                var sortResult = sortFunc(item1[sortBy], item2[sortBy], item1, item2, sortBy, that);
+                return isDESC ? ((-1) * sortResult) : sortResult;
+            });
 
             var pager = that.pager;
             if (pager.page) {
-                var start = pager.page > 1 ? (pager.page * pager.recPerPage) : 0;
                 result = result.slice(pager.skip, pager.end);
             }
         }
@@ -1140,6 +1154,7 @@
 
     DataGrid.prototype.getCell = function(rowIndex, colIndex) {
         var that = this;
+        var optioins = that.options;
         var config = that.getCellConfig(rowIndex, colIndex);
         var col = colIndex > 0 ? that.dataSource.cols[colIndex - 1] : null;
         var type, value;
@@ -1151,17 +1166,20 @@
         };
         if (colIndex === 0) {
             type = 'index';
-            var colLabel = rowIndex > 0 ? (that.pager.skip + rowIndex) : '';
-            value = config.label !== undefined ? config.label : colLabel;
+            if(!optioins.dataItemIsArray && config.data && config.data.index !== undefined) {
+                value = config.data.index;
+            } else {
+                value = config.label !== undefined ? config.label : (rowIndex > 0 ? (that.pager.skip + rowIndex) : '');
+            }
         } else if (rowIndex === 0) {
             type = 'head';
             value = config.label !== undefined ? config.label : (config.name !== undefined ? config.name : colIndex);
         } else {
             type = 'cell';
-            value = config.data && config.data[that.options.dataItemIsArray ? colIndex : col.name];
+            value = config.data && config.data[optioins.dataItemIsArray ? colIndex : col.name];
         }
         if (rowIndex > 0) {
-            var optionsValueOperator = that.options.valueOperator;
+            var optionsValueOperator = optioins.valueOperator;
             var valueType = config.valueType;
             var valueOperator = config.valueOperator || (optionsValueOperator && valueType ? optionsValueOperator[valueType] : null);
             if (valueOperator && valueOperator.getter) {
@@ -1234,7 +1252,7 @@
                     // sortFunc
                     valueType: 'string'
                 },
-                colIndex > 0 ? that.dataSource.cols[colIndex - 1] : null,
+                colIndex > 0 ? that.dataSource.cols[colIndex - 1] : {name: 'index'},
                 that.layout.cols ? that.layout.cols[colIndex] : null,
                 that.isFuncConfigs ? that.configs(colId) : that.configs[colId],
                 that.userConfigs[colId]
@@ -1406,7 +1424,7 @@
             }
         }
 
-        if (colIndex > 0 && rowIndex === 0 && options.sortable && config.sort !== false) {
+        if ((colIndex > 0 || !options.dataItemIsArray) && rowIndex === 0 && options.sortable && config.sort !== false) {
             var sorted = false;
             if (config.name === that.states.sortBy) {
                 sorted = that.states.order === 'desc' ? 'down' : 'up';

@@ -529,6 +529,7 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
             if(!(this.results_showing || this.is_disabled)) {
                 return this.results_show();
             }
+            this.search_field.focus();
         };
 
         AbstractChosen.prototype.keyup_checker = function(evt) {
@@ -998,8 +999,8 @@ MIT License, https://github.com/harvesthq/chosen/blob/master/LICENSE.md
                 return false;
             }
             that.results_showing = true;
-            that.search_field.focus();
             that.search_field.val(that.search_field.val());
+            that.search_field.focus();
 
             that.container.addClass("chosen-with-drop");
 

@@ -43,7 +43,8 @@
             targetSelector = options.targetSelector,
             isReverse    = options.reverse,
             moveDirection = options.moveDirection,
-            orderChanged;
+            orderChanged,
+            insertType;
 
         var markOrders = function($items) {
             $items = $items || that.getItems(1);
@@ -92,60 +93,71 @@
             },
             drag: function(e) {
                 $root.addClass(sortingClass);
-                if(e.isIn) {
-                    var $ele        = e.element,
-                        $target     = e.target,
-                        isContainer = containerSelector && $target.is(containerSelector);
-
-                    if (isContainer) {
-                        if (!$target.children(selector).filter('.dragging').length) {
-                            $target.append($ele);
-                            markOrders($items);
-                            that.trigger(STR_ORDER, {
-                                list: $items,
-                                element: $ele
-                            });
-                        }
-                        return;
-                    }
-
-                    var eleOrder    = $ele.data(STR_ORDER),
-                        targetOrder = $target.data(STR_ORDER);
-
-                    if(eleOrder === targetOrder) {
-                        return;
-                    }
-                    var distanceDimension = moveDirection === 'h' ? 'left' : 'top';
-                    var deltaDistance = e.mouseOffset[distanceDimension] - e.lastMouseOffset[distanceDimension];
-                    if (deltaDistance === 0) {
-                        return;
-                    }
-
-                    var isInsertAfter = eleOrder > targetOrder ? isReverse : !isReverse;
-                    if ((deltaDistance < 0 && isInsertAfter) || (deltaDistance > 0 && !isInsertAfter)) {
-                        return;
-                    }
-
-                    $target[isInsertAfter ? 'after' : 'before']($ele);
-                    orderChanged = true;
-
-                    var $items = that.getItems(1);
-                    markOrders($items);
-                    that.trigger(STR_ORDER, {
-                        list: $items,
-                        element: $ele
-                    });
+                if(!e.isIn) {
+                    return;
                 }
+
+                var $target     = e.target;
+                var $ele        = e.element;
+                var isContainer = containerSelector && $target.is(containerSelector);
+
+                if (isContainer) {
+                    if (!$target.children(selector).filter('.dragging').length) {
+                        $target.append($ele);
+                        markOrders($items);
+                        that.trigger(STR_ORDER, {
+                            list: $items,
+                            element: $ele
+                        });
+                    }
+                    return;
+                }
+
+                var eleOrder    = $ele.data(STR_ORDER),
+                    targetOrder = $target.data(STR_ORDER);
+
+                if(eleOrder === targetOrder) {
+                    return;
+                }
+                var distanceDimension = moveDirection === 'h' ? 'left' : 'top';
+                var deltaDistance = e.mouseOffset[distanceDimension] - e.lastMouseOffset[distanceDimension];
+                if (deltaDistance === 0) {
+                    return;
+                }
+
+                var isInsertAfter = eleOrder > targetOrder ? isReverse : !isReverse;
+                if ((deltaDistance < 0 && isInsertAfter) || (deltaDistance > 0 && !isInsertAfter)) {
+                    return;
+                }
+
+                insertType = isInsertAfter ? 'after' : 'before';
+                $target[insertType]($ele);
+                orderChanged = true;
+
+                that.$target = $target;
+                that.$element = $ele;
+
+                var $items = that.getItems(1);
+                markOrders($items);
+                that.trigger(STR_ORDER, {
+                    insert: insertType,
+                    target: $target,
+                    list: $items,
+                    element: $ele
+                });
             },
             finish: function(e) {
                 if(dragCssClass && e.element) e.element.removeClass(dragCssClass);
                 $root.removeClass(sortingClass);
                 that.trigger('finish', {
+                    insert: insertType,
+                    target: that.$target,
                     list: that.getItems(),
-                    element: e.element,
+                    element: that.$element,
                     changed: orderChanged
                 });
                 that.$element = null;
+                that.$target = null;
             }
         });
     };

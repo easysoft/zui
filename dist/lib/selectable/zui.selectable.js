@@ -1,8 +1,8 @@
 /*!
- * ZUI: 拖拽选择 - v1.10.0 - 2021-11-04
+ * ZUI: 拖拽选择 - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -83,7 +83,7 @@
             id = $element.data('id');
         } else {
             id = elementOrid;
-            $element = that.$.find('.slectable-item[data-id="' + id + '"]');
+            $element = that.$.find('.selectable-item[data-id="' + id + '"]');
         }
         if($element && $element.length) {
             if(!id) {
@@ -169,7 +169,7 @@
             });
         };
 
-        var mousemove = function(e) {
+        var mouseMoveHandler = function(e) {
             if(!isMouseDown) return;
             x = e.pageX;
             y = e.pageY;
@@ -201,6 +201,17 @@
             isIgnoreMove = false;
         };
 
+        var mouseMoveTimer = 0;
+        var mousemove = function(event) {
+            if (mouseMoveTimer) {
+                ($.zui.clearAsap || clearTimeout)(mouseMoveTimer);
+            }
+            mouseMoveTimer = ($.zui.asap || setTimeout)(function() {
+                mouseMoveTimer = 0;
+                mouseMoveHandler(event);
+            }, 0);
+        };
+
         var mouseup = function(e) {
             $(document).off(eventNamespace);
             clearTimeout(mouseDownBackEventCall);
@@ -229,12 +240,16 @@
                 return;
             }
 
+            if ($(e.target).closest('input,select,textarea,label').length) {
+                return;
+            }
+
             if(that.altKey || e.which === 3 || that.callEvent('start', e) === false) {
                 return;
             }
 
             var $children = that.$children = that.$.find(options.selector);
-            $children.addClass('slectable-item');
+            $children.addClass('selectable-item');
 
             var clickBehavior = that.multiKey ? 'multi' : options.clickBehavior;
             if(clickBehavior === 'single') {

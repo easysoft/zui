@@ -1,8 +1,8 @@
 /*!
- * ZUI: 排序 - v1.10.0 - 2021-11-04
+ * ZUI: 排序 - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -49,7 +49,9 @@
             dragCssClass = options.dragCssClass,
             targetSelector = options.targetSelector,
             isReverse    = options.reverse,
-            orderChanged;
+            moveDirection = options.moveDirection,
+            orderChanged,
+            insertType;
 
         var markOrders = function($items) {
             $items = $items || that.getItems(1);
@@ -62,13 +64,15 @@
             }
         };
 
-        markOrders();
+        if(!targetSelector) {
+            markOrders();
+        }
 
         $root.droppable({
             handle      : options.trigger,
             target      : targetSelector ? targetSelector : (containerSelector ? (selector + ',' + containerSelector) : selector),
             selector    : selector,
-            container   : $root,
+            container   : options.container || $root,
             always      : options.always,
             flex        : true,
             lazy        : options.lazy,
@@ -77,57 +81,90 @@
             before      : options.before,
             nested      : !!containerSelector,
             mouseButton : options.mouseButton,
+            noShadow    : options.noShadow,
+            dropOnMouseleave    : options.dropOnMouseleave,
             stopPropagation : options.stopPropagation,
             start: function(e) {
                 if(dragCssClass) e.element.addClass(dragCssClass);
                 orderChanged = false;
+                that.$element = e.element;
+
+                if(!moveDirection && e.targets.length > 1) {
+                    var offset1 = e.targets.eq(0).offset();
+                    var offset2 = e.targets.eq(1).offset();
+                    moveDirection = Math.abs(offset1.left - offset2.left) > Math.abs(offset1.top - offset2.top) ? 'h' : 'v';
+                }
+
+                markOrders();
                 that.trigger('start', e);
             },
             drag: function(e) {
                 $root.addClass(sortingClass);
-                if(e.isIn) {
-                    var $ele        = e.element,
-                        $target     = e.target,
-                        isContainer = containerSelector && $target.is(containerSelector);
-
-                    if (isContainer) {
-                        if (!$target.children(selector).filter('.dragging').length) {
-                            $target.append($ele);
-                            var $items = that.getItems(1);
-                            markOrders($items);
-                            that.trigger(STR_ORDER, {
-                                list: $items,
-                                element: $ele
-                            });
-                        }
-                        return;
-                    }
-
-                    var eleOrder    = $ele.data(STR_ORDER),
-                        targetOrder = $target.data(STR_ORDER);
-                    if(eleOrder === targetOrder) return markOrders($items);
-                    else if(eleOrder > targetOrder) {
-                        $target[isReverse ? 'after' : 'before']($ele);
-                    } else {
-                        $target[isReverse ? 'before' : 'after']($ele);
-                    }
-                    orderChanged = true;
-                    var $items = that.getItems(1);
-                    markOrders($items);
-                    that.trigger(STR_ORDER, {
-                        list: $items,
-                        element: $ele
-                    });
+                if(!e.isIn) {
+                    return;
                 }
+
+                var $target     = e.target;
+                var $ele        = e.element;
+                var isContainer = containerSelector && $target.is(containerSelector);
+
+                if (isContainer) {
+                    if (!$target.children(selector).filter('.dragging').length) {
+                        $target.append($ele);
+                        markOrders($items);
+                        that.trigger(STR_ORDER, {
+                            list: $items,
+                            element: $ele
+                        });
+                    }
+                    return;
+                }
+
+                var eleOrder    = $ele.data(STR_ORDER),
+                    targetOrder = $target.data(STR_ORDER);
+
+                if(eleOrder === targetOrder) {
+                    return;
+                }
+                var distanceDimension = moveDirection === 'h' ? 'left' : 'top';
+                var deltaDistance = e.mouseOffset[distanceDimension] - e.lastMouseOffset[distanceDimension];
+                if (deltaDistance === 0) {
+                    return;
+                }
+
+                var isInsertAfter = eleOrder > targetOrder ? isReverse : !isReverse;
+                if ((deltaDistance < 0 && isInsertAfter) || (deltaDistance > 0 && !isInsertAfter)) {
+                    return;
+                }
+
+                insertType = isInsertAfter ? 'after' : 'before';
+                $target[insertType]($ele);
+                orderChanged = true;
+
+                that.$target = $target;
+                that.$element = $ele;
+
+                var $items = that.getItems(1);
+                markOrders($items);
+                that.trigger(STR_ORDER, {
+                    insert: insertType,
+                    target: $target,
+                    list: $items,
+                    element: $ele
+                });
             },
             finish: function(e) {
                 if(dragCssClass && e.element) e.element.removeClass(dragCssClass);
                 $root.removeClass(sortingClass);
                 that.trigger('finish', {
+                    insert: insertType,
+                    target: that.$target,
                     list: that.getItems(),
-                    element: e.element,
+                    element: that.$element,
                     changed: orderChanged
                 });
+                that.$element = null;
+                that.$target = null;
             }
         });
     };
@@ -143,7 +180,19 @@
     };
 
     Sortable.prototype.getItems = function(onlyElements) {
-        var $items = this.$.find(this.options.selector).not('.drag-shadow');
+        var that = this;
+        var $items;
+        var targetSelector = that.options.targetSelector;
+        if (targetSelector) {
+            if(typeof targetSelector === 'function') {
+                $items = targetSelector(that.$element, that.$);
+            } else {
+                $items = that.$.find(targetSelector);
+            }
+        } else {
+            $items = that.$.find(that.options.selector);
+        }
+        $items = $items.not('.drag-shadow');
         if(!onlyElements) {
             return $items.map(function() {
                 var $item = $(this);

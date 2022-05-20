@@ -20,7 +20,7 @@ filter: duihuakuangchufaqi dhkcfq motaikuang mtk
 使用`data-remote="(ajax get url)"`属性来指定ajax片段获取地址。或者同时指定`data-type="ajax"`和`data-url="(ajax get url)"`属性。
 
 <div class="example">
-  <button type="button" class="btn btn-primary" data-remote="docs/partial/remote-modal.html" data-toggle="modal">Ajax对话框</button>
+  <button type="button" class="btn btn-primary" data-remote="docs/partial/remote-modal.html" data-toggle="modal" data-name="myajaxmodal">Ajax对话框</button>
 </div>
 
 ```html

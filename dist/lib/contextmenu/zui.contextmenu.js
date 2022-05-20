@@ -1,8 +1,8 @@
 /*!
- * ZUI: 右键菜单 - v1.10.0 - 2021-11-04
+ * ZUI: 右键菜单 - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -33,7 +33,7 @@
         menuTemplate: '<ul class="dropdown-menu"></ul>',
         toggleTrigger: false,
         duration: 200,
-        limitInsideWindow: true
+        // maxMenuHeight: null,
     };
 
     var isShowingMenu = false;
@@ -47,7 +47,8 @@
         });
         return ContextMenu;
     };
-    var createMenuItem = function(item, index) {
+
+    function createMenuItem(item, index) {
         if (typeof item === 'string') {
             if (item === 'seperator' || item === 'divider' || item === '-' || item === '|') {
                 item = {type: 'seperator'};
@@ -78,8 +79,39 @@
         if (item.onClick) {
             $a.on('click', item.onClick);
         }
-        return $('<li />').toggleClass('disabled', item.disabled === true).append($a);
-    };
+        var $item = $('<li />')
+            .toggleClass('disabled', item.disabled === true)
+            .append($a);
+        if (item.items) {
+            $item.data('item', item).addClass('dropdown-submenu');
+        }
+        return $item;
+    }
+
+    /**
+     * Create context menu item list
+     * @param {Object[]} items Context menu item
+     * @param {JQuery} $list Context menu item list element
+     * @param {{itemCreator: function(Object, number, Object)}} options Context menu options
+     * @returns {boolean} Return true if successfully
+     */
+    function createMenuItems(items, $list, options) {
+        var itemCreator = options.itemCreator || createMenuItem;
+        var itemsType = typeof items;
+
+        if (itemsType === 'string') {
+            items = items.split(',');
+        } else if (itemsType === 'function') {
+            items = items(options);
+        }
+        if (!items) {
+            return false;
+        }
+        $.each(items, function(index, item) {
+            $list.append(itemCreator(item, index, options));
+        });
+        return true;
+    }
 
     var isContextMenuShow = function(id) {
         var $target = $('#' + targetId);
@@ -136,13 +168,45 @@
         if (!$target.length) {
             $target = $('<div style="position: fixed; z-index: 2000;" class="contextmenu" id="' + targetId + '"><div class="contextmenu-menu"></div></div>').appendTo('body');
         }
-        var $menu = $target.find('.contextmenu-menu').off('click.' + NAME).on('click.' + NAME, 'a,.contextmenu-item', function(e) {
+        var $menu = $target.find('.contextmenu-menu').empty();
+        $menu.off('click.' + NAME).on('click.' + NAME, 'a,.contextmenu-item', function(e) {
             var $item = $(this);
             var clickResult = options.onClickItem && options.onClickItem($item.data('item'), $item, e, options);
             if (clickResult !== false) {
                 hideContextMenu();
             }
-        }).empty();
+        }).off('mouseenter.' + NAME).on('mouseenter.' + NAME, '.dropdown-submenu', function(e) {
+            var $item = $(this);
+            var item = $item.data('item');
+            var $subMenu = $item.children('.dropdown-menu');
+            if(item) {
+                if (item.items) {
+                    if(!$subMenu.length) {
+                        $subMenu = $(options.menuTemplate).appendTo($item);
+                    }
+                    createMenuItems(item.items, $subMenu, options);
+                }
+
+                $item.removeData('item');
+            }
+            if (!$subMenu.length) {
+                return;
+            }
+
+            // Adjust submenu position
+            $subMenu.removeClass('pull-left').css('top', 0);
+            var itemBounding = $item[0].getBoundingClientRect();
+            var menuBounding = $subMenu[0].getBoundingClientRect();
+            var winWidth = window.innerWidth;
+            var winHeight = window.innerHeight;
+            if (menuBounding.bottom > winHeight) {
+                var subMenuTop = Math.max(-menuBounding.top, winHeight - menuBounding.bottom);
+                $subMenu.css('top', subMenuTop);
+            }
+            if (menuBounding.right > winWidth) {
+                $subMenu.addClass('pull-left');
+            }
+        });
         $menu.attr('class', 'contextmenu-menu' + (options.className ? (' ' + options.className) : ''))
         $target.attr('class', 'contextmenu contextmenu-show');
 
@@ -153,19 +217,8 @@
         } else {
             $menu.append(options.menuTemplate);
             var $menuList = $menu.children().first();
-            var itemCreator = options.itemCreator || createMenuItem;
-            var itemsType = typeof items;
-            if (itemsType === 'string') {
-                items = items.split(',');
-            } else if (itemsType === 'function') {
-                items = items(options);
-            }
-            if (!items) {
-                return false;
-            }
-            $.each(items, function(index, item) {
-                $menuList.append(itemCreator(item, index, options));
-            });
+            var result = createMenuItems(items, $menuList, options);
+            if (result === false) return result;
         }
 
         // Show menu
@@ -197,21 +250,24 @@
         if (x === undefined) x = mouseX;
         if (y === undefined) y = (options.event || options).clientY;
         if (y === undefined) y = mouseY;
+        var winHeight = window.innerHeight;
+        var winWidth = window.innerWidth;
+        // var maxMenuHeight = options.maxMenuHeight;
+        // if (typeof maxMenuHeight !== 'number') maxMenuHeight = winHeight;
+        // else winHeight = Math.min(winHeight, maxMenuHeight);
         var $menuList = $menu.children().first();
+        // $menuList.css({maxHeight: maxMenuHeight, overflowY: 'auto', margin: 0});
         var menuWidth = $menuList.outerWidth();
         var menuHeight = $menuList.outerHeight();
         if (options.position) {
-            var newPos = options.position({x: x, y: y, width: menuWidth, height: menuHeight}, options, $menu);
+            var newPos = options.position({x: x, y: y, width: menuWidth, height: menuHeight, winHeight: winHeight, winWidth: winWidth}, options, $menu);
             if (newPos) {
                 x = newPos.x;
                 y = newPos.y;
             }
         }
-        if (options.limitInsideWindow) {
-            var $w = $(window);
-            x = Math.max(0, Math.min(x, $w.width() - menuWidth));
-            y = Math.max(0, Math.min(y, $w.height() - menuHeight));
-        }
+        x = Math.max(0, Math.min(x, winWidth - menuWidth));
+        y = Math.max(0, Math.min(y, winHeight - menuHeight));
 
         $target.css({
             left: x,
@@ -222,12 +278,10 @@
         if (animation) {
             $menu.addClass(animation);
             animationTimer = setTimeout(function() {
-                // $menu.show();
                 afterShow();
                 isShowingMenu = false;
             }, 10);
         } else {
-            // $menu.show();
             afterShow();
             isShowingMenu = false;
         }

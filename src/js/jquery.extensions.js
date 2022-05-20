@@ -156,7 +156,7 @@
                     langData[comName][langName] = data[comName];
                 });
             } else if (langName && !componentName && !data) {
-                $.each(data, function(theLangName) {
+                $.each(langName, function(theLangName) {
                     var comsData = data[theLangName];
                     $.each(comsData, function(comName) {
                         if (!langData[comName]) {

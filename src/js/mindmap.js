@@ -566,8 +566,12 @@
             nodeData.subSide = parent.subSide;
         }
 
-        $node.data('origin-text', nodeData.text);
-        $node.toggleClass('readonly', nodeData.readonly).toggleClass('mindmap-side-left', nodeData.subSide === 'left').toggleClass('mindmap-side-right', nodeData.subSide === 'right');
+        $node.data('origin-text', nodeData.text)
+            .data('node', nodeData)
+            .toggleClass('readonly', nodeData.readonly)
+            .toggleClass('mindmap-side-left', nodeData.subSide === 'left')
+            .toggleClass('mindmap-side-right', nodeData.subSide === 'right');
+        if(nodeData.className) $node.addClass(nodeData.className);
 
         /* load children nodes */
         var vSpan = 1
@@ -640,7 +644,8 @@
 
         if(nodeData.type === 'root') {
             this.callEvent('afterLoad', {
-                data: nodeData
+                data: nodeData,
+                $node: $node
             });
         }
     };
@@ -864,100 +869,103 @@
             .mousedown(function(event) {
                 event.stopPropagation();
             });
-        $node.find('.text')
-            .on('keyup paste blur', function(event) {
-                that.onNodeTextChanged(event, $node);
-            })
-            .on('keydown', function(event) {});
-        if($node.data('type') !== 'root') {
-            $node.droppable({
-                container: that.$,
-                target: '#' + that.id + ' .mindmap-node:not([data-id="' + $node.data('id') + '"])',
-                before: function(e) {
-                    if(!that.callEvent('beforeDrag', {
+
+        if (!that.options.readonly) {
+            $node.find('.text')
+                .on('keyup paste blur', function(event) {
+                    that.onNodeTextChanged(event, $node);
+                })
+                // .on('keydown', function(event) {});
+            if($node.data('type') !== 'root') {
+                $node.droppable({
+                    container: that.$,
+                    target: '#' + that.id + ' .mindmap-node:not([data-id="' + $node.data('id') + '"])',
+                    before: function(e) {
+                        if(!that.callEvent('beforeDrag', {
+                                node: $node
+                            })) return false;
+
+                        if(e.element.hasClass('focus')) {
+                            return false;
+                        }
+
+                        data = that.getNodeData(e.element.data('id'));
+                        if(!data) return false;
+                    },
+                    start: function(e) {
+                        that.callEvent('startDrag', {
                             node: $node
-                        })) return false;
+                        });
+                        if(!e.element.hasClass('active')) {
+                            that.clearNodeStatus();
+                            that.activeNode($node);
+                        }
+                    },
+                    drag: function(e) {
+                        e.position.left -= that.x;
+                        e.position.top -= that.y;
+                        data.ui.dragPos = that.computePosition(e.position, true);
+                        data.ui.canDrop = e.isIn;
+                        that.showNode();
+                    },
+                    beforeDrop: function(e) {
+                        if(e.isIn) {
+                            if(e.target.data('id') == data.parent) return false;
+                        } else {
+                            if(!that.callEvent('beforeSort', {
+                                    node: $node,
+                                    event: e
+                                })) return;
 
-                    if(e.element.hasClass('focus')) {
-                        return false;
-                    }
+                            var subSide = data.subSide;
+                            if(data.type === 'sub') {
+                                if(data.ui.left < -30) {
+                                    subSide = 'left';
+                                } else if(data.ui.left > 30) {
+                                    subSide = 'right';
+                                }
+                            }
+                            that.update([{
+                                action: 'sort',
+                                data: that.getNodeData(data.parent),
+                                func: function(a, b) {
+                                    return a.ui.top - b.ui.top;
+                                }
+                            }, {
+                                data: data,
+                                subSide: subSide
+                            }]);
 
-                    data = that.getNodeData(e.element.data('id'));
-                    if(!data) return false;
-                },
-                start: function(e) {
-                    that.callEvent('startDrag', {
-                        node: $node
-                    });
-                    if(!e.element.hasClass('active')) {
-                        that.clearNodeStatus();
-                        that.activeNode($node);
-                    }
-                },
-                drag: function(e) {
-                    e.position.left -= that.x;
-                    e.position.top -= that.y;
-                    data.ui.dragPos = that.computePosition(e.position, true);
-                    data.ui.canDrop = e.isIn;
-                    that.showNode();
-                },
-                beforeDrop: function(e) {
-                    if(e.isIn) {
-                        if(e.target.data('id') == data.parent) return false;
-                    } else {
-                        if(!that.callEvent('beforeSort', {
+                            that.callEvent('afterSort', {
                                 node: $node,
+                                event: e
+                            });
+                        }
+                    },
+                    drop: function(e) {
+                        if(!that.callEvent('beforeMove', {
+                                node: data,
                                 event: e
                             })) return;
 
-                        var subSide = data.subSide;
-                        if(data.type === 'sub') {
-                            if(data.ui.left < -30) {
-                                subSide = 'left';
-                            } else if(data.ui.left > 30) {
-                                subSide = 'right';
-                            }
-                        }
-                        that.update([{
-                            action: 'sort',
-                            data: that.getNodeData(data.parent),
-                            func: function(a, b) {
-                                return a.ui.top - b.ui.top;
-                            }
-                        }, {
+                        that.update({
+                            action: 'move',
                             data: data,
-                            subSide: subSide
-                        }]);
-
-                        that.callEvent('afterSort', {
-                            node: $node,
-                            event: e
+                            newParent: e.target.data('id')
                         });
-                    }
-                },
-                drop: function(e) {
-                    if(!that.callEvent('beforeMove', {
+
+                        that.callEvent('afterMove', {
                             node: data,
                             event: e
-                        })) return;
-
-                    that.update({
-                        action: 'move',
-                        data: data,
-                        newParent: e.target.data('id')
-                    });
-
-                    that.callEvent('afterMove', {
-                        node: data,
-                        event: e
-                    });
-                },
-                finish: function(e) {
-                    data.ui.dragPos = null;
-                    data.ui.canDrop = false;
-                    that.showNode();
-                }
-            });
+                        });
+                    },
+                    finish: function(e) {
+                        data.ui.dragPos = null;
+                        data.ui.canDrop = false;
+                        that.showNode();
+                    }
+                });
+            }
         }
 
         this.callEvent('onBindEvents', {
@@ -981,10 +989,11 @@
     };
 
     Mindmap.prototype.onNodeTextChanged = function(event, $node) {
-        var text = $node.find('.text').text();
+        var $text = $node.find('.text');
+        var text = $text.text();
         if(text !== $node.data('origin-text')) {
             if(text === '') {
-                $node.find('.text').text('');
+                $text.text('');
             }
             $node.data('origin-text', text);
             this.update({
@@ -996,6 +1005,9 @@
                 node: $node,
                 text: text
             });
+        }
+        if(event.type === 'blur') {
+            $text.text(text);
         }
     };
 
@@ -1019,8 +1031,9 @@
     };
 
     Mindmap.prototype.focusNode = function($node, selectAll) {
+        if(this.options.readonly) return;
         if($node.hasClass('readonly')) {
-            window.messager.show(this.lang.readonlyTip);
+            $.zui.messager.show(this.lang.readonlyTip);
             return;
         }
         if(!$node.hasClass('active')) return;
@@ -1102,48 +1115,12 @@
                     hotkey: hotkeys.selectRight
                 })) return;
             that.selectNode('right');
-        }).on('keydown', null, hotkeys.deleteNode, function() {
-            if(!that.callEvent('beforeHotkey', {
-                    event: event,
-                    hotkey: hotkeys.deleteNode
-                })) return;
-            that.deleteNode();
-            if(event.keyCode == 8 && !that.isFocus) {
-                event.preventDefault();
-            }
-        }).on('keydown', null, hotkeys.addBrother, function() {
-            if(!that.callEvent('beforeHotkey', {
-                    event: event,
-                    hotkey: hotkeys.addBrother
-                })) return;
-            that.addBrotherNode();
-        }).on('keydown', null, hotkeys.addChild, function(event) {
-            if(!that.callEvent('beforeHotkey', {
-                    event: event,
-                    hotkey: hotkeys.addChild
-                })) return;
-            that.addChildNode();
-            if(event.keyCode == 9) {
-                event.preventDefault();
-            }
         }).on('keydown', null, hotkeys.toggleNode, function(e) {
             if(!that.callEvent('beforeHotkey', {
                 event: event,
                 hotkey: hotkeys.toggleNode
             })) return;
             that.toggleNode('focused');
-        }).on('keydown', function() {
-            if(!that.callEvent('beforeHotkey', {
-                    event: event,
-                    type: 'keydown'
-                })) return;
-            if(event.keyCode >= 48 && event.keyCode <= 111 && that.isActive && (!that.isFocus)) {
-                var node = that.activedNode;
-                if(node) {
-                    node.find('.text').text('');
-                    that.focusNode(node);
-                }
-            }
         }).on('keydown', null, hotkeys.centerCanvas, function() {
             if(!that.callEvent('beforeHotkey', {
                     event: event,
@@ -1151,6 +1128,46 @@
                 })) return;
             that.display(0, 0);
         });
+
+        if(!that.options.readonly) {
+            $(document).on('keydown', null, hotkeys.deleteNode, function() {
+                if(!that.callEvent('beforeHotkey', {
+                        event: event,
+                        hotkey: hotkeys.deleteNode
+                    })) return;
+                that.deleteNode();
+                if(event.keyCode == 8 && !that.isFocus) {
+                    event.preventDefault();
+                }
+            }).on('keydown', null, hotkeys.addBrother, function() {
+                if(!that.callEvent('beforeHotkey', {
+                        event: event,
+                        hotkey: hotkeys.addBrother
+                    })) return;
+                that.addBrotherNode();
+            }).on('keydown', null, hotkeys.addChild, function(event) {
+                if(!that.callEvent('beforeHotkey', {
+                        event: event,
+                        hotkey: hotkeys.addChild
+                    })) return;
+                that.addChildNode();
+                if(event.keyCode == 9) {
+                    event.preventDefault();
+                }
+            }).on('keydown', function() {
+                if(!that.callEvent('beforeHotkey', {
+                        event: event,
+                        type: 'keydown'
+                    })) return;
+                if(event.keyCode >= 48 && event.keyCode <= 111 && that.isActive && (!that.isFocus)) {
+                    var node = that.activedNode;
+                    if(node) {
+                        node.find('.text').text('');
+                        that.focusNode(node);
+                    }
+                }
+            });
+        }
     };
 
     Mindmap.prototype.addBrotherNode = function() {

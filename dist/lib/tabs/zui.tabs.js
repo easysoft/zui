@@ -1,8 +1,8 @@
 /*!
- * ZUI: 标签页管理器 - v1.10.0 - 2021-11-04
+ * ZUI: 标签页管理器 - v1.10.0 - 2022-05-20
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2022 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -167,10 +167,10 @@
             that.adjustNavs();
         });
 
-        if (options.contextMenu) {
+        if (options.contextMenu && $.fn.contextmenu) {
             $nav.contextmenu({
                 selector: '.tab-nav-link',
-                itemsCreator: function (e) {
+                items: function (e) {
                     return that.createMenuItems(that.getTab($(this).data('id')));
                 },
                 onShow: function () {
