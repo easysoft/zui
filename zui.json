@@ -937,7 +937,7 @@
       "name": "下拉菜单",
       "src": {
         "less": ["~/modules/dropdowns.less"],
-        "js": ["src/js/dropdown.js"]
+        "js": ["src/js/dropdown.js", "src/js/dropdown.submenu.js"]
       },
       "ver": "1.0.0",
       "source": "Bootstrap",
