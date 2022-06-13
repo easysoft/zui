@@ -161,7 +161,7 @@
         });
 
         if (options.contextMenu && $.fn.contextmenu) {
-            $nav.contextmenu({
+            var contextMenuOptions = {
                 selector: '.tab-nav-link',
                 items: function (e) {
                     return that.createMenuItems(that.getTab($(this).data('id')));
@@ -172,7 +172,11 @@
                 onHide: function () {
                     that.$.removeClass('tabs-show-contextmenu');
                 }
-            });
+            };
+            if (typeof options.contextMenu === 'object') {
+                $.extend(contextMenuOptions, options.contextMenu);
+            }
+            $nav.contextmenu(contextMenuOptions);
         }
     };
 

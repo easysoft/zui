@@ -76,7 +76,7 @@ $('#tabsExample').tabs({tabs: tabs});
       <td><code>contextMenu</code></td>
       <td>是否启用上下文菜单</td>
       <td>默认为 `true`</td>
-      <td>如果设置为 `true` 则在导航上启用上下文菜单方便用户操作标签页，当使用鼠标操作时，通常是点击鼠标右键显示一个菜单。</td>
+      <td>如果设置为 `true` 则在导航上启用上下文菜单方便用户操作标签页，当使用鼠标操作时，通常是点击鼠标右键显示一个菜单；可以设置为一个对象，用于覆盖默认的[上下文菜单](#javascript/contextmenu)初始化选项。</td>
     </tr>
     <tr>
       <td><code>defaultTabIcon</code></td>

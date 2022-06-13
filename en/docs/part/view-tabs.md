@@ -76,7 +76,7 @@ $('#tabsExample').tabs({tabs: tabs});
       <td><code>contextMenu</code></td>
       <td>Whether to enable the context menu</td>
       <td>Default:`true`</td>
-      <td>If set as `true`, enable context menus on the navigation to facilitate user actions on tabs. When using a mouse, right click to display a menu.</td>
+      <td>If set as `true`, enable context menus on the navigation to facilitate user actions on tabs. When using a mouse, right click to display a menu. The option can be see to an object to override the default options of [contextmenu](#javascript/contextmenu).</td>
     </tr>
     <tr>
       <td><code>defaultTabIcon</code></td>
