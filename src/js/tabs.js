@@ -364,7 +364,6 @@
             }
             $tabNav.removeClass('loading');
             $tabPane.removeClass('loading');
-            that.$.callComEvent(that, 'onLoad', tab);
             if(typeof content === 'string' || content instanceof $) {
                 if (tab.contentConverter) {
                     content = tab.contentConverter(content, tab);
@@ -391,6 +390,7 @@
                 }
             }
             tab.loaded = new Date().getTime();
+            that.$.callComEvent(that, 'onLoad', tab);
         };
         if (tab.type === 'ajax') {
             var ajaxOption = {
