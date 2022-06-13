@@ -45,13 +45,13 @@ $('#picker').picker(options); // options 为初始化选项对象
     <div class="col-md-6">
       <label for="picker1">单选形式</label>
       <div class="picker" id="picker1" data-placeholder="选择一种食物">
-        <input type="text" name="picker1">
+        <input type="text" name="picker1" disabled>
       </div>
     </div>
     <div class="col-md-6">
       <label for="picker2">多选形式</label>
       <div class="picker" id="picker2" data-placeholder="选择几种食物" data-multi="true">
-        <input type="text" name="picker2">
+        <input type="text" name="picker2" disabled>
       </div>
     </div>
   </div>
@@ -645,7 +645,7 @@ $('#picker12').chosen({
     <tr>
       <td>`maxListCount`</td>
       <td>最多选项数目</td>
-      <td>`number`，默认 `0`</td>
+      <td>`number`，默认 `50`</td>
       <td>选项列表中最多显示的选项数目，如果为 `0` 则无限制。</td>
     </tr>
     <tr>
