@@ -212,6 +212,12 @@ $('#tabsExample').tabs({tabs: tabs});
       <td>此回调函数包含一个参数为标签页对象。</td>
     </tr>
     <tr>
+      <td><code>onRenderTab</code></td>
+      <td>当标签页导航条目渲染完成时的回调函数</td>
+      <td>默认为 `null`</td>
+      <td>此回调函数包含两个参数，分辨为为标签页对象和被渲染的导航条目元素。</td>
+    </tr>
+    <tr>
       <td><code>onClose</code></td>
       <td>当标签页关闭时的回调函数</td>
       <td>默认为 `null`</td>
@@ -424,6 +430,29 @@ $('#myTabs').tabs({
 // 使用 jquery 的 $().on() 方法监听事件
 $('#myTabs').on('onLoad', function(event, tab) {
     console.log('标签页 ' + tab.title + ' 加载完成了。');
+});
+```
+
+### `onRenderTab`
+
+当标签页导航条目被首次渲染时触发。事件回调函数 `this` 为当前标签页管理器实例，参数定义如下：
+
+* `tab`：当前加载完成的标签页对象；
+* `$item`：当前加载完成的标签页对象。
+
+```js
+// 在初始化的时候设置事件回调函数
+$('#myTabs').tabs({
+    onRenderTab: function(tab, $item) {
+        console.log('标签页 ' + tab.title + ' 导航条目渲染完成。');
+    }
+});
+```
+
+```js
+// 使用 jquery 的 $().on() 方法监听事件
+$('#myTabs').on('onRenderTab', function(event, tab, $item) {
+    console.log('标签页 ' + tab.title + ' 导航条目渲染完成。');
 });
 ```
 

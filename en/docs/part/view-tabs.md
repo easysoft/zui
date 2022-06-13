@@ -212,6 +212,12 @@ Each tab uses an object to store related information. Define the default label i
       <td>This callback function contains a parameter for the tab page object.</td>
     </tr>
     <tr>
+      <td><code>onRenderTab</code></td>
+      <td>Callback function when the tab navigator item rendered</td>
+      <td>Default: `null`</td>
+      <td>This callback function contains two parameters: the tab page object and the tab navigator element.</td>
+    </tr>
+    <tr>
       <td><code>onClose</code></td>
       <td>Callback function when the tab is closed</td>
       <td>Default: `null`</td>
@@ -427,6 +433,29 @@ $('#myTabs').on('onLoad', function(event, tab) {
 });
 ```
 
+### `onRenderTab`
+
+Triggered when the tab navigator item rendered. Event callback function `this` is the instance of the current tab manager. The parameters are defined as follows:
+
+* `tab`：Currently rendered tab object;
+* `$item`：The rendered tab item element.
+
+```js
+// Set the event callback function at the initialization
+$('#myTabs').tabs({
+    onRenderTab: function(tab, $item) {
+        console.log('Tab page ' + tab.title + ' navigator item rendered');
+    }
+});
+```
+
+```js
+// Use jQuery $().on() listen events
+$('#myTabs').on('onRenderTab', function(event, tab, $item) {
+    console.log('Tab page ' + tab.title + ' navigator item rendered');
+});
+```
+
 ### `onClose`
 
 Triggered when the tab is closed. Event callback function `this` is the instance of the current tab manager. The parameters are defined as follows:
@@ -437,7 +466,7 @@ Triggered when the tab is closed. Event callback function `this` is the instance
 // Set the event callback function at the initialization
 $('#myTabs').tabs({
     onClose: function(tab) {
-        console.log('Bookmark page ' + tab.title + ' is closed.');
+        console.log('Tab page ' + tab.title + ' is closed.');
     }
 });
 ```
@@ -445,7 +474,7 @@ $('#myTabs').tabs({
 ```js
 // Use jQuery $().on() listen events
 $('#myTabs').on('onClose', function(event, tab) {
-    console.log('Bookmark page ' + tab.title + ' is closed.');
+    console.log('Tab page ' + tab.title + ' is closed.');
 });
 ```
 

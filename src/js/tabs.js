@@ -243,11 +243,9 @@
 
     Tabs.prototype.renderTab = function(tab, beforeTabId) {
         var that = this;
-        var $nav = that.$nav;
         var $tabNav = $('#tab-nav-item-' + tab.id);
         if (!$tabNav.length) {
-            var $a = $('<a class="tab-nav-link"><i class="icon"></i><span class="title"></span><i class="close tab-nav-close" title="' + that.lang.close + '">&times;</i></a>').attr({
-                href: '#tabs-item-' + tab.id,
+            var $a = $('<a class="tab-nav-link" href="javascript:;"><i class="icon"></i><span class="title"></span><i class="close tab-nav-close" title="' + that.lang.close + '">&times;</i></a>').attr({
                 'data-id': tab.id
             });
             $tabNav = $('<li class="tab-nav-item" data-id="' + tab.id + '" id="tab-nav-item-' + tab.id + '" />').append($a).appendTo(that.$nav);
@@ -262,6 +260,7 @@
         var $a = $tabNav.find('a').attr('title', tab.desc).toggleClass('not-closable', !!tab.forbidClose);
         $a.find('.icon').attr('class', 'icon ' + (tab.icon || that.options.defaultTabIcon));
         $a.find('.title').text(tab.title || tab.defaultTitle || '');
+        that.$.callComEvent(that, 'onRenderTab', [tab, $a]);
         return $tabNav;
     };
 
