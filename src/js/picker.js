@@ -220,9 +220,14 @@
         var defaultValue = options.defaultValue !== undefined ? options.defaultValue : $formItem.val();
         that.setValue(defaultValue, true);
 
+        that.setDisabled();
+
         // Bind events
 
         $search.on('focus', function() {
+            if (that.disabled) {
+                return;
+            }
             if (that._blurTimer) {
                 clearTimeout(that._blurTimer);
                 that._blurTimer = 0;
@@ -230,6 +235,9 @@
             $container.addClass('picker-focus');
             that.showDropList();
         }).on('blur', function() {
+            if (that.disabled) {
+                return;
+            }
             if (that._blurTimer) {
                 clearTimeout(that._blurTimer);
             }
@@ -240,6 +248,9 @@
                 }
             }, 100);
         }).on('input change', function() {
+            if (that.disabled) {
+                return;
+            }
             var searchValue = $search.val();
             if (multi) {
                 $search.width(searchValue.length * 14);
@@ -250,6 +261,9 @@
 
         if (options.hotkey) {
             $search.on('keydown', function(e) {
+                if (that.disabled) {
+                    return;
+                }
                 var key = e.key || e.which;
                 if (!that.dropListShowed) {
                     return;
@@ -313,12 +327,18 @@
 
         if (multi) {
             $selections.on('mousedown', function(e) {
+                if (that.disabled) {
+                    return;
+                }
                 if (that.dropListShowed) {
                     e.preventDefault();
                     e.stopPropagation();
                     return;
                 }
             }).on('mouseup', function(e) {
+                if (that.disabled) {
+                    return;
+                }
                 if (!$selections.hasClass('sortable-sorting') && !$(e.target).closest('.picker-selection-remove').length && !that.dropListShowed) {
                     that.focus();
                 }
@@ -348,6 +368,9 @@
             }
         }
         $selections.on('click', '.picker-selection-remove', function(e) {
+            if (that.disabled) {
+                return;
+            }
             if (that.multi) {
                 var $selection = $(this).closest('.picker-selection');
                 that.deselect($selection.data('value'));
@@ -359,8 +382,9 @@
 
         // Compatible with Chosen
         $formItem.on('chosen:updated', function() {
-            that.updateFromSelect();
+            that.updateFromSelect(false);
             that.setValue($formItem.val(), true);
+            that.setDisabled();
             that.updateList();
         })
             .on('chosen:activate', that.focus)
@@ -991,7 +1015,6 @@
 
     Picker.prototype.showDropList = function() {
         var that = this;
-
         if (that.triggerEvent('showingDrop', {picker: that}) === false) {
             return;
         }
@@ -1099,7 +1122,12 @@
         if (reset === undefined) {
             reset = true;
         }
-        that.$formItem.children('option').each(function() {
+
+        var $options = that.$formItem.children('option');
+        if (!$options.length) {
+            return;
+        }
+        $options.each(function() {
             var $option = $(this);
             var val = $option.val();
             var text = $option.text();
@@ -1263,6 +1291,20 @@
         callbackName = callbackName === true ? name : (callbackName || ('on' + name[0].toUpperCase() + name.substr(1)));
         if(typeof that.options[callbackName] === 'function') {
             return that.options[callbackName].apply(that, params);
+        }
+    };
+
+    Picker.prototype.setDisabled = function(disabled) {
+        var that = this;
+        if (disabled === undefined) {
+            disabled = that.$formItem.attr('disabled') === 'disabled'
+        } else {
+            that.$formItem.attr('disabled', disabled ? 'disabled' : null);
+        }
+        that.disabled = disabled;
+        that.$.toggleClass('disabled', disabled);
+        if (!that.multi) {
+            that.$search.attr('disabled', disabled ? 'disabled' : null);
         }
     };
 
