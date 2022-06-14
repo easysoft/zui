@@ -1280,7 +1280,7 @@
     };
 
     Picker.prototype.getValue = function() {
-        return that.value;
+        return this.value;
     };
 
     Picker.prototype.getListItem = function(value) {
