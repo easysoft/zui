@@ -509,6 +509,7 @@
         var values = [];
         for (var i = 0; i < that.list.length; ++i) {
             var item = that.list[i];
+            if (item.disabled) continue;
             var itemValue = item[that.options.valueKey];
             values.push(itemValue);
         }
