@@ -1437,9 +1437,6 @@
         }
 
         if (needTriggerChange) {
-            if (options.onChange) {
-                options.onChange(value);
-            }
             if (!silent) {
                 that.triggerEvent('change', {value: value, picker: that});
             }
