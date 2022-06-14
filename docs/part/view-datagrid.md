@@ -684,7 +684,7 @@ var myDataGrid = $('#datagridFreeSelectExample').data('zui.datagrid');
 var isSelect = myDataGrid.selectCell(2, 1, true);
 ```
 
-可以通过选项 `states` 上的 `selections` 属性设置初始状态下行选中的状态。
+可以通过选项 `states` 上的 `selections` 属性设置初始状态下单元格选中的状态。
 
 ```js
 $('#myDataGrid').datagrid({

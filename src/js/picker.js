@@ -766,7 +766,10 @@
                     $option.removeClass('picker-expired');
                 }
 
-                $option.attr('title', text).removeClass('.picker-option-active').toggleClass('picker-option-selected', selected);
+                $option.attr('title', text)
+                    .removeClass('picker-option-active')
+                    .toggleClass('disabled', !!item.disabled)
+                    .toggleClass('picker-option-selected', selected);
 
                 var $text = $option.find('.picker-option-text');
                 if (hasSearch) {
@@ -873,32 +876,30 @@
                 activeValue = activeValue[that.options.valueKey];
             }
         }
-        // if (activeValue !== that.activeValue) {
-            var item = that.getListItem(activeValue);
-            if (item) {
-                that.activeValue = activeValue;
-            } else {
-                activeValue = that.activeValue;
-            }
-            that.$optionsList.find('.picker-option-active').removeClass('picker-option-active');
-            var $activeOption = that.$optionsList.find('[data-value="' + activeValue + '"]');
-            if ($activeOption.length) {
-                $activeOption.addClass('picker-option-active');
-                if (!skipScroll) {
-                    var optionEle = $activeOption[0];
-                    if (optionEle.scrollIntoViewIfNeeded) {
-                        optionEle.scrollIntoViewIfNeeded();
-                    } else if (optionEle.scrollIntoView) {
-                        optionEle.scrollIntoView();
-                    } else {
-                        // TODO: scroll to active item
-                    }
+        that.$optionsList.find('.picker-option-active').removeClass('picker-option-active');
+
+        var item = that.getListItem(activeValue);
+        if (item) {
+            if (item.disabled) return;
+            that.activeValue = activeValue;
+        } else {
+            activeValue = that.activeValue;
+        }
+        var $activeOption = that.$optionsList.find('[data-value="' + activeValue + '"]');
+        if ($activeOption.length) {
+            $activeOption.addClass('picker-option-active');
+            if (!skipScroll) {
+                var optionEle = $activeOption[0];
+                if (optionEle.scrollIntoViewIfNeeded) {
+                    optionEle.scrollIntoViewIfNeeded();
+                } else if (optionEle.scrollIntoView) {
+                    optionEle.scrollIntoView();
                 }
-                that.$activeOption = $activeOption;
-            } else {
-                that.$activeOption = null;
             }
-        // }
+            that.$activeOption = $activeOption;
+        } else {
+            that.$activeOption = null;
+        }
     };
 
     Picker.prototype.updateList = function(search, skipRemote, callback) {
@@ -1045,9 +1046,9 @@
                 $dropMenu.addClass('chosen-up');
             }
 
-            $optionsList.on('click', '.picker-option', function() {
+            $optionsList.on('click', '.picker-option:not(.disabled)', function() {
                 that.select($(this).attr('data-value'));
-            }).on('mouseenter', '.picker-option', function() {
+            }).on('mouseenter', '.picker-option:not(.disabled)', function() {
                 that.activeOption($(this), true);
             });
 
@@ -1142,6 +1143,7 @@
                     item[options.valueKey] = val;
                     item[options.textKey] = text;
                     item[options.keysKey] = $option.data(options.keysKey);
+                    item.disabled = $option.attr('disabled');
                     list.push(item);
                 }
             }
@@ -1196,6 +1198,14 @@
 
         that.list = list;
         that.listMap = listMap;
+    };
+
+    Picker.prototype.updateOptionList = function(options, reset) {
+        var that = this;
+        that.setList(options, reset);
+        if (that.dropListShowed) {
+            that.renderOptionsList();
+        }
     };
 
     Picker.prototype.removeFromList = function(removedList) {

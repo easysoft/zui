@@ -95,7 +95,7 @@ You can use `<select>` element to initialize picker, all existing `<option>` wil
         <option value="cat" data-keys="xiaomao">Cat</option>
         <option value="fish" data-keys="jinyu">Goldfish</option>
         <option value="dragon" data-keys="long">Dragons</option>
-        <option value="mammoth" data-keys="mengma">Mammoths</option>
+        <option disabled="disabled" value="mammoth" data-keys="mengma">Mammoths</option>
         <option value="gollum" data-keys="gulu">Gollum</option>
       </select>
     </div>
@@ -110,7 +110,7 @@ You can use `<select>` element to initialize picker, all existing `<option>` wil
         <option value="figs" data-keys="wuhuaguo">Figs</option>
         <option value="kiwi" data-keys="mihoutao">Kiwi</option>
         <option value="pineapple" data-keys="biluo">Pineapple</option>
-        <option value="cantaloupe" data-keys="hamigua">Cantaloupe</option>
+        <option disabled="disabled" value="cantaloupe" data-keys="hamigua">Cantaloupe</option>
         <option value="watermelon" data-keys="xigua">Watermelon</option>
       </select>
     </div>
@@ -521,7 +521,7 @@ You can use an object as the initialization option in initialize method or set o
       <td>`object[]` `function`, default is `null`</td>
       <td>
         <ul>
-          <li>Use an array to specify a list of local options, for example `[{text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods'}]`;</li>
+          <li>Use an array to specify a list of local options, for example `[{text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods', disabled: true}]`;</li>
           <li>Dynamically returned the list of options through a function, for example `function({search, limit}){}`.</li>
         </ul>
       </td>
@@ -821,6 +821,22 @@ var myPicker = $('#myPicker').data('zui.picker');
 
 // Get selected value.
 myPicker.setValue();
+```
+
+## `updateOptionList(optionList, reset)`
+
+Update options list, the parameter `optionList` is the new options array, the method will clear all existing options if the parameter `reset` is `true`.
+
+
+```js
+// Get instance object of picker
+var myPicker = $('#myPicker').data('zui.picker');
+
+// Update options list
+myPicker.updateOptionList([
+    {text: 'Apple',  value: 'apple',  keys: 'fruit foods'},
+    {text: 'Banana', value: 'banana', keys: 'fruit foods'}
+]);
 ```
 
 ### `focus()`

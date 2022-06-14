@@ -45,13 +45,13 @@ $('#picker').picker(options); // options 为初始化选项对象
     <div class="col-md-6">
       <label for="picker1">单选形式</label>
       <div class="picker" id="picker1" data-placeholder="选择一种食物">
-        <input type="text" name="picker1" disabled>
+        <input type="text" name="picker1">
       </div>
     </div>
     <div class="col-md-6">
       <label for="picker2">多选形式</label>
       <div class="picker" id="picker2" data-placeholder="选择几种食物" data-multi="true">
-        <input type="text" name="picker2" disabled>
+        <input type="text" name="picker2">
       </div>
     </div>
   </div>
@@ -102,7 +102,7 @@ $('#picker2').picker({list: optionList});
         <option value="cat" data-keys="xiaomao">小猫</option>
         <option value="fish" data-keys="jinyu">金鱼</option>
         <option value="dragon" data-keys="long">龙</option>
-        <option value="mammoth" data-keys="mengma">猛犸</option>
+        <option disabled="disabled" value="mammoth" data-keys="mengma">猛犸</option>
         <option value="gollum" data-keys="gulu">咕噜</option>
       </select>
     </div>
@@ -117,7 +117,7 @@ $('#picker2').picker({list: optionList});
         <option value="figs" data-keys="wuhuaguo">无花果</option>
         <option value="kiwi" data-keys="mihoutao">猕猴桃</option>
         <option value="pineapple" data-keys="biluo">菠萝</option>
-        <option value="cantaloupe" data-keys="hamigua">哈密瓜</option>
+        <option disabled="disabled" value="cantaloupe" data-keys="hamigua">哈密瓜</option>
         <option value="watermelon" data-keys="xigua">西瓜</option>
       </select>
     </div>
@@ -528,7 +528,7 @@ $('#picker12').chosen({
       <td>`object[]` `function`，默认 `null`</td>
       <td>
         <ul>
-          <li>使用数组指定本地选项列表，例如 `[{text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods'}]`；</li>
+          <li>使用数组指定本地选项列表，例如 `[{text: 'Apple', value: 'apple', keys: 'fruit foods'}, {text: 'Banana', value: 'banana', keys: 'fruit foods', disabled: true}]`；</li>
           <li>通过一个函数动态返回选项列表，例如 `function({search, limit}){}`。</li>
         </ul>
       </td>
@@ -828,6 +828,22 @@ var myPicker = $('#myPicker').data('zui.picker');
 
 // 获取选中的值。
 myPicker.setValue();
+```
+
+## `updateOptionList(optionList, reset)`
+
+重新设置选项列表，其中参数 `optionList` 为要设置的选项对象列表，`reset` 如果设置为 `true` 则清空之前的选项列表。
+
+
+```js
+// 获取选择器实例对象
+var myPicker = $('#myPicker').data('zui.picker');
+
+// 重新设置选项列表
+myPicker.updateOptionList([
+    {text: 'Apple',  value: 'apple',  keys: 'fruit foods'},
+    {text: 'Banana', value: 'banana', keys: 'fruit foods'}
+]);
 ```
 
 ### `focus()`
