@@ -623,6 +623,95 @@ $('#myDataGrid').datagrid({
 })
 ```
 
+## 单元格自由选择
+
+数据表格允许用户通过点击单元格或者在界面上拖拽来选定并标记单元格选中。要启用单元格自由选择功能，需要将 `freeSelect` 设置为 `true`。如果启用了改功能，并且页面已导入[拖拽选取插件](#javascript/selectable)，则允许用户在界面上进行拖拽框选范围内的多个单元格，禁用此功能，可以将 `selectable` 设置为 `false`。`selectable` 还可以接受一个对象作为拖拽选取插件初始化参数，用于自定义拖拽选取交互方式。
+
+当启用单元格自由选择功能，默认情况下，用户点击任何单元格会切选中，之前选中的单元格会取消选中。
+
+<div class="example">
+  <div id="datagridFreeSelectExample" class="datagrid">
+    <div class="datagrid-container"></div>
+  </div>
+</div>
+
+```html
+<div id="datagridFreeSelectExample" class="datagrid">
+  <div class="datagrid-container"></div>
+</div>
+```
+
+```js
+$('#datagridFreeSelectExample').datagrid({
+    dataSource: {...},
+    freeSelect: true,
+});
+```
+
+通过 `getSelectCells()` 获取已选中的单元格数据。已选中的单元格会通过数组返回，每个单元格使用 [行序号，列序号] 格式存储：
+
+```js
+// 获取数据表格实例
+var myDataGrid = $('#datagridFreeSelectExample').data('zui.datagrid');
+
+// 获取当前已选中的单元格数据
+var selectCells = myDataGrid.getSelectCells();
+// selectCells 可能返回 [[1, 2], [1, 3], [2, 2]]
+```
+
+通过 `isCellSelected(rowIndex, colIndex)` 检查指定的单元格是否已选中，其中 `rowIndex` 为要检查的单元格所在行编号，`colIndex` 为要检查的单元格所在列编号。
+
+```js
+// 获取数据表格实例
+var myDataGrid = $('#datagridFreeSelectExample').data('zui.datagrid');
+
+// 检测第 2 行第 1 列的单元格是否选中
+var isSelect = myDataGrid.isCellSelected(2, 1);
+```
+
+通过 `selectCell(rowIndex, colIndex, checked, reset)` 手动设置指定单元格选中状态，其中参数定义如下：
+
+* `rowIndex`：要设置单元格的行序号，或者使用一个数组指定多个需要选择的单元格坐标；
+* `colIndex`：要设置单元格的列序号；
+* `checked`：如果为 `true` 设置为选中，如果为 `false` 设置为非选中，否则根据之前第状态切换为另一个状态；
+* `reset`：如果为 `true` 则取消之前所有已选中的单元格。
+
+```js
+// 获取数据表格实例
+var myDataGrid = $('#datagridFreeSelectExample').data('zui.datagrid');
+
+// 将第 2 行第 1 列的单元格设置为选中
+var isSelect = myDataGrid.selectCell(2, 1, true);
+```
+
+可以通过选项 `states` 上的 `selections` 属性设置初始状态下行选中的状态。
+
+```js
+$('#myDataGrid').datagrid({
+    states: {
+        // 设置初始状态下第 1 行第 2 列和第 2 行第 2 列的单元格为选中状态
+        selections: {
+            'R1C2': true,
+            'R2C2': true,
+        }
+    }
+})
+```
+
+通过 `onSelectCell` 选项来监听单元格选中状态变更：
+
+```js
+$('#myDataGrid').datagrid({
+    onSelectCell: function (rowIndex, colIndex, checked, selections) {
+        console.log('选中操作了', [rowIndex, colIndex], '是否选中', checked, '最终状态', selections);
+
+        // 获取当前已选中的单元格索引位置
+        var selectCells = myDataGrid.getSelectCells();
+        console.log('当前已选中的单元格索引位置', selectCells);
+    }
+})
+```
+
 ## 跨行跨列的单元格
 
 数据表格支持跨行跨列的单元格，该功能通过 `configs` 选项进行设置。例如设置第 1 行第一个单元格在水平方向上跨越 2 个单元格，设置第 2 行第 3 个单元格在垂直方向上跨越 3 行，则 `configs` 选项设置如下：
@@ -779,9 +868,9 @@ $('#myDataGrid').datagrid({
 * `R0`：表示第 0 行，即标题行，相当于 `#header`；
 * `R1`：表示第 1 行；
 * `C0`：表示第 0 列，即序号列；
-* `C2`：表示第 2 行；
+* `C2`：表示第 2 列；
 * `R1C1`：表示第 1 行第 1 列的单元格；
-* `#11C2`：表示数据项 ID 属性为 `10` 的数据对应的行，第 2 列的单元格。
+* `#11C2`：表示数据项 ID 属性为 `11` 的数据对应的行，第 2 列的单元格。
 
 配置项支持如下属性：
 
@@ -1748,6 +1837,22 @@ function afterPageLoad() {
         valueOperator: sampleData.valueOperator,
         checkable: true,
         height: 300,
+    });
+    $('#datagridFreeSelectExample').datagrid({
+        dataSource: simpleDataSource,
+        states: {
+            pager: {page: 1, recPerPage: 20},
+        },
+        valueOperator: sampleData.valueOperator,
+        freeSelect: true,
+        selectable: false,
+        height: 300,
+        onSelectCell: function (rowIndex, colIndex, checked, selections) {
+            console.log('选中操作了', [rowIndex, colIndex], '是否选中', checked, '最终状态', selections);
+            // 获取当前已选中的单元格索引位置
+            var selectCells = this.getSelectCells();
+            console.log('当前已选中的单元格索引位置', selectCells);
+        }
     });
     $('#datagridSpanExample').datagrid({
         dataSource: simpleDataSource,

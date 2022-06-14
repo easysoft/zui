@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.10.0 - 2022-05-20
+ * ZUI: 数据表格② - v1.10.0 - 2022-06-14
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2022 cnezsoft.com; Licensed MIT
@@ -370,6 +370,28 @@
         }
     };
 
+    /**
+     * Parse cell id to cordinate
+     * @param {string} cellID Cell id string
+     * @returns Cordinate of cell
+     */
+    function parseCellID(cellID) {
+        cellID = cellID.toLowerCase();
+        var parts = cellID[0] === 'r' ? cellID.substring(1).split('c') : cellID.split('-');
+        return [parseInt(parts[0], 10), parseInt(parts[1], 10)];
+    }
+
+    /**
+     * Create cell id string from cordinate
+     * @param {number} rowIndex Row index
+     * @param {number} [colIndex] Column index
+     * @returns Cell id string
+     */
+    function createCellID(rowIndex, colIndex) {
+        if(colIndex === undefined) return 'R' + rowIndex;
+        return ['R', rowIndex, 'C', colIndex].join('');
+    }
+
     // The datagrid modal class
     var DataGrid = function(element, options) {
         var that       = this;
@@ -592,6 +614,32 @@
                     if (rowIndex || $(e.target).closest('.datagrid-has-checkbox').length) {
                         that.checkRow(rowIndex);
                     }
+                });
+            }
+        } else if (options.freeSelect) {
+            if (options.selectable && $.fn.selectable) {
+                // that.selectable = $cells.selectable($.extend({
+                //     selector: '.datagrid-row-cell',
+                //     // selectClass: false,
+                //     trigger: options.checkByClickRow ? null : '.datagrid-row-cell .datagrid-has-checkbox',
+                //     clickBehavior: 'multi',
+                //     select: function(data) {
+                //         that.checkRow(data.id, true);
+                //     },
+                //     unselect: function(data) {
+                //         that.checkRow(data.id, false);
+                //     }
+                // }, $.isPlainObject(options.selectable) ? options.selectable : null)).data('zui.selectable');
+                // $cells.on('click', '.datagrid-cell-head.datagrid-has-checkbox', function() {
+                //     that.checkRow($(this).data('row'));
+                //     that.selectable.syncSelectionsFromClass();
+                // });
+            } else {
+                $cells.on('click', '.datagrid-cell-cell', function(e) {
+                    var $cell = $(this);
+                    var rowIndex = $cell.data('row');
+                    var cellIndex = $cell.data('col');
+                    that.selectCell(rowIndex, cellIndex, true, true);
                 });
             }
         }
@@ -1162,7 +1210,8 @@
             rowIndex: rowIndex,
             colIndex: colIndex,
             config:   config,
-            checked:  that.isRowChecked(config.rowId)
+            checked:  that.isRowChecked(config.rowId),
+            selected: that.isCellSelected(config.id)
         };
         if (colIndex === 0) {
             type = 'index';
@@ -1198,7 +1247,7 @@
             for (var r = rowIndex; r < rowSpanEnd; ++r) {
                 for (var c = colIndex; c < colSpanEnd; ++c) {
                     if (r !== rowIndex || c !== colIndex) {
-                        spanMap['R' + r + 'C' + c] = config.id;
+                        spanMap[createCellID(r, c)] = config.id;
                     }
                 }
             }
@@ -1209,7 +1258,7 @@
 
     DataGrid.prototype.getRowConfig = function(rowIndex) {
         var that   = this;
-        var rowId  = 'R' + rowIndex;
+        var rowId  = createCellID(rowIndex);
         var config = that.configsCache[rowId];
         if (!config) {
             config = $.extend({
@@ -1267,7 +1316,7 @@
 
     DataGrid.prototype.getCellConfig = function(rowIndex, colIndex) {
         var that = this;
-        var cellId = 'R' + rowIndex + 'C' + colIndex;
+        var cellId = createCellID(rowIndex, colIndex);
         // var config = that.configsCache[cellId];
         var config = null;
         if (!config) {
@@ -1348,6 +1397,69 @@
             items.push(selections[rowId].data);
         });
         return items;
+    };
+
+    DataGrid.prototype.getCellElement = function(rowIndex, colIndex) {
+        if (typeof rowIndex === 'string') {
+            rowIndex = parseCellID(rowIndex);
+            colIndex = rowIndex[1];
+            rowIndex = rowIndex[0];
+        }
+        return $(['#' + this.id, 'cell', rowIndex, colIndex].join('-'));
+    };
+
+    DataGrid.prototype.selectCell = function(rowIndex, colIndex, checked, reset, holdEvents) {
+        var that = this;
+        var cellId = createCellID(rowIndex, colIndex);
+        var selections = that.states.selections;
+        if (reset) {
+            $.each(selections, function(id) {
+                if(cellId === id) return;
+                if (selections[id]) {
+                    delete selections[id];
+                    that.getCellElement(id).removeClass('selected');
+                }
+            });
+        }
+
+        if (checked === undefined) {
+            checked = !selections[cellId];
+        }
+        if (selections[cellId] === checked) {
+            return;
+        }
+        if (checked) {
+            selections[cellId] = true;
+        } else {
+            delete selections[cellId];
+        }
+        that.getCellElement(rowIndex, colIndex).toggleClass('selected', !!checked);
+        if (!holdEvents) {
+            that.$.callComEvent(that, 'onSelectCell', [rowIndex, colIndex, checked, selections]);
+        }
+        return checked;
+    };
+
+    DataGrid.prototype.getSelectCells = function() {
+        var selections = this.states.selections;
+        var cells = [];
+        if (selections) {
+            $.each(selections, function(cellID) {
+                if(selections[cellID]) {
+                    cells.push(parseCellID(cellID));
+                }
+            });
+        }
+        return cells;
+    };
+
+    DataGrid.prototype.isCellSelected = function(rowIndex, colIndex) {
+        var selections = this.states.selections;
+        var cellID = typeof rowIndex === 'string' ? rowIndex : createCellID(rowIndex, colIndex);
+        if (selections) {
+            return !!selections[cellID]
+        }
+        return false;
     };
 
     DataGrid.prototype.renderCell = function(rowIndex, colIndex, $row) {
@@ -1442,6 +1554,7 @@
             $cell.find('.datagrid-checkbox').toggleClass('checked', cell.checked);
             $row.toggleClass('active', cell.checked);
         }
+        $cell.toggleClass('selected', cell.selected);
         return $cell;
     };
 
@@ -1869,6 +1982,9 @@
 
         // Let user check rows by drag
         selectable: true,
+
+        // Select cells freely, only effective when option "checkable" is false
+        // freeSelect: false,
 
         mouseWheelFactor: 1,
     };

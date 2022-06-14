@@ -1,5 +1,5 @@
 /*!
- * ZUI: 数据表格② - v1.10.0 - 2022-05-20
+ * ZUI: 数据表格② - v1.10.0 - 2022-06-14
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2022 cnezsoft.com; Licensed MIT
@@ -25,9 +25,9 @@
   white-space: nowrap;
   background-color: #fff;
   border: 1px solid #ddd;
-  -webkit-transition: .4s cubic-bezier(.175, .885, .32, 1);
-       -o-transition: .4s cubic-bezier(.175, .885, .32, 1);
-          transition: .4s cubic-bezier(.175, .885, .32, 1);
+  -webkit-transition: .2s cubic-bezier(.175, .885, .32, 1);
+       -o-transition: .2s cubic-bezier(.175, .885, .32, 1);
+          transition: .2s cubic-bezier(.175, .885, .32, 1);
   -webkit-transition-property: background, outline;
        -o-transition-property: background, outline;
           transition-property: background, outline;
@@ -40,6 +40,13 @@
   }
 .datagrid-cell.datagrid-cell-head {
   background-color: #f1f1f1;
+  }
+.datagrid-cell.selected {
+  z-index: 25;
+  outline: 1px solid #145ccd;
+  outline-offset: -1px;
+  -webkit-box-shadow: inset 0 0 0 2px rgba(20, 92, 205, .3);
+          box-shadow: inset 0 0 0 2px rgba(20, 92, 205, .3);
   }
 .datagrid-cell-span {
   z-index: 10;
