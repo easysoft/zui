@@ -69,7 +69,9 @@
         // messagerOptions: null,
         showMessage: true,
         navTemplate: '<nav class="tabs-navbar"></nav>',
-        containerTemplate: '<div class="tabs-container"></div>'
+        containerTemplate: '<div class="tabs-container"></div>',
+        autoResizeNavs: true,
+        // maxNavsWidth: null,
     };
 
     var LANG = {
@@ -156,9 +158,19 @@
         }).on('click.' + NAME, '.tab-nav-close', function (e) {
             that.close($(this).closest('.tab-nav-link').data('id'));
             e.stopPropagation();
-        }).on('resize.' + NAME, function () {
-            that.adjustNavs();
         });
+        if (options.autoResizeNavs) {
+            var $resizeTrigger = $nav;
+            if (options.autoResizeNavs === 'navbar') {
+                $resizeTrigger = $navbar;
+            } else if (options.autoResizeNavs !== true) {
+                $resizeTrigger = $(options.autoResizeNavs);
+            }
+            that.$resizeTrigger = $resizeTrigger;
+            $resizeTrigger.on('resize.' + NAME, function () {
+                that.adjustNavs();
+            });
+        }
 
         if (options.contextMenu && $.fn.contextmenu) {
             var contextMenuOptions = {
@@ -219,11 +231,11 @@
         var that = this;
         if (!immediately) {
             if (that.adjustNavsTimer) {
-                clearTimeout(that.adjustNavsTimer);
+                $.zui.clearAsap(that.adjustNavsTimer);
             }
-            that.adjustNavsTimer = setTimeout(function() {
+            that.adjustNavsTimer = $.zui.asap(function() {
                 that.adjustNavs(true);
-            }, 50);
+            });
             return;
         }
         if (that.adjustNavsTimer) {
@@ -231,7 +243,15 @@
         }
         var $nav = that.$nav;
         var $navItems = $nav.find('.tab-nav-item:not(.hidden)');
-        var totalWidth = $nav.width();
+        var totalWidth;
+        var maxNavsWidth = that.options.maxNavsWidth;
+        if (typeof maxNavsWidth === 'function') {
+            totalWidth = maxNavsWidth($nav, that);
+        } else if (typeof maxNavsWidth === 'number') {
+            totalWidth = maxNavsWidth;
+        } else {
+            totalWidth = $nav.width();
+        }
         var totalCount = $navItems.length;
         var maxWidth = Math.floor(totalWidth/totalCount);
         if(maxWidth < 96) {
@@ -290,6 +310,7 @@
             delete that.tabs[tab.id];
             that.closedTabs.push(tab);
             that.$.callComEvent(that, 'onClose', tab);
+            that.adjustNavs();
 
             var lastTab;
             $.each(that.tabs, function (tabId, tab) {
