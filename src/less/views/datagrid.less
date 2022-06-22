@@ -59,10 +59,10 @@
   }
 
   &.selected {
-    outline: 1px solid @input-border-focus;
+    outline: 1px solid fade(@color-secondary, 70);
     outline-offset: -1px;
     z-index: @selected-cell-zIndex;
-    box-shadow: inset 0 0 0 2px fade(@input-border-focus, 30);
+    box-shadow: inset 0 0 0 2px fade(@color-secondary, 30);
   }
 }
 .datagrid-cell-span {
@@ -159,6 +159,11 @@
 
   &.datagrid-hover-shadow .datagrid-row-cell .datagrid-cell:hover {
     box-shadow: 0 1px 3px 3px rgba(0,0,0,.075), 0 0px 2px rgba(0,0,0,.1);
+  }
+
+  .datagrid-row-cell .datagrid-cell-cell.selected:hover {
+    outline: 1px solid @color-secondary;
+    box-shadow: inset 0 0 0 2px fade(@color-secondary, 30), 0 1px 3px 3px rgba(0,0,0,.075), 0 0px 2px rgba(0,0,0,.1);;
   }
 }
 .datagrid-hover-col {
