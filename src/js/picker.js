@@ -659,7 +659,10 @@
         var maxDropHeight = options.maxDropHeight || Number.MAX_VALUE;
         var $dropMenu = that.$dropMenu;
         var $optionsList = that.$optionsList;
-        if (!fast) {
+        var scrollTop;
+        if (fast) {
+            scrollTop = $optionsList.scrollTop();
+        } else {
             $dropMenu.css({opacity: 0, width: 'auto', 'max-width': 'none'});
         }
         $optionsList.css({'max-height': maxDropHeight});
@@ -701,9 +704,10 @@
             }
             var optionsListHeight = dropHeight - messageHeight - actionsHeight;
             $optionsList.css('max-height', optionsListHeight);
-            // if (dropHeight < maxDropHeight) {
-            // }
             $dropMenu.css(dropStyle);
+            if (scrollTop) {
+                $optionsList.scrollTop(scrollTop);
+            }
             if (callback) {
                 callback();
             }
@@ -754,7 +758,7 @@
             var activeOption;
             var activeValue = that.activeValue;
             var hasActiveValue = activeValue !== undefined && activeValue !== null;
-
+            var $prevOption;
             for (var i = 0; i < maxLoopLength; ++i) {
                 var item = optionsList[i];
                 var value = item[valueKey];
@@ -770,7 +774,8 @@
                 optionsCount++;
                 var optionID = that.getItemID(item, 'option');
                 var $option = $(document.getElementById(optionID));
-                if (!$option.length) {
+                var isNewOption = !$option.length;
+                if (isNewOption) {
                     $option = $('<a class="picker-option" id="' + optionID + '" data-value="' + value + '"><span class="picker-option-text"></span><span class="picker-option-keys"></span></a>');
 
                     if(options.checkable) $option.prepend('<div class="checkbox-primary"><label></label></div>');
@@ -822,7 +827,16 @@
                     }
                 }
 
-                $option.appendTo($optionsList);
+                if ($prevOption) {
+                    if (isNewOption || $option.prev('.picker-option')[0] !== $prevOption[0]) {
+                        $option.insertAfter($prevOption);
+                    }
+                } else {
+                    if (isNewOption) {
+                        $option.prependTo($optionsList);
+                    }
+                }
+                $prevOption = $option;
 
                 if (that.multi) {
                     if (!selected && !firstOption) {
