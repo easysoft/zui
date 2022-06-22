@@ -160,6 +160,10 @@
         multi = !!multi;
         that.multi = multi;
 
+        if(!multi) {
+            that.options.checkable = false;
+        }
+
         // Init list
         var list = options.list;
         if (list) {
