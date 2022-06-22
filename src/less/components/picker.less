@@ -320,3 +320,30 @@
         margin-left: 4px;
     }
 }
+
+.picker-checkable {
+    .picker-option {
+        padding-left: 32px;
+        position: relative;
+        color: inherit!important;
+        cursor: pointer!important;
+
+        > .checkbox-primary {
+            position: absolute;
+            left: 10px;
+            top: 4px;
+        }
+
+        &.picker-option-active {
+            background-color: rgba(0,0,0,.05)!important;
+        }
+
+        &:hover {
+            background-color: rgba(0,0,0,.075)!important;
+        }
+
+        &.picker-option-selected {
+            background-color: @color-pale!important;
+        }
+    }
+}

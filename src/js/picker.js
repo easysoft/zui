@@ -52,12 +52,14 @@
         dropDirection: 'auto',
         dropWidth: '100%', // 'auto', '100%', '500px',
         maxAutoDropWidth: 450,
+        minAutoDropWidth: 100,
         multiValueSplitter: ',',
         multiSelectActions: 5,
         searchDelay: 200,
         autoClearDrop: 6e4, // 60 * 1000
         fixLabelFor: true,
         hotkey: true,
+        // checkable: false,
         // sortValuesByDnd: false,
         // defaultValue: null,
         onSelect: null, // function({value, picker}),
@@ -663,14 +665,14 @@
             if (typeof dropDirection === 'function') {
                 dropDirection = dropDirection(bounds, that);
             }
-            var maxAutoDropWidth = options.maxAutoDropWidth;
+
             var $win = $(window);
             var winHeight = $win.height();
             var messageHeight = that.hasMessage ? that.$message.outerHeight() : 0;
             var actionsHeight = that.showActions ? that.$actions.outerHeight() : 0;
             var dropHeight = Math.max(actionsHeight, messageHeight, $dropMenu.height());
             var dropWidth = options.dropWidth || 'auto';
-            var dropStyle = {left: bounds.left, opacity: 1};
+            var dropStyle = {left: bounds.left, opacity: 1, maxWidth: 'initial', minWidth: 'initial'};
             if (dropDirection === 'auto') {
                 dropDirection = ((bounds.top + bounds.height + dropHeight) > winHeight && bounds.top > (winHeight - bounds.top - bounds.height)) ? 'top' : 'bottom';
             }
@@ -681,8 +683,11 @@
             if (dropWidth === '100%') {
                 dropStyle.width = bounds.width;
             } else if (dropWidth === 'auto') {
+                var maxAutoDropWidth = options.maxAutoDropWidth;
+                var minAutoDropWidth = options.minAutoDropWidth;
                 dropStyle.width = 'auto';
                 dropStyle.maxWidth = maxAutoDropWidth === 'auto' ? bounds.width : maxAutoDropWidth;
+                dropStyle.minWidth = minAutoDropWidth === '100%' ? bounds.width : minAutoDropWidth;
                 if (that.multi) {
                     var searchBounds = that.$search[0].getBoundingClientRect();
                     dropStyle.left = searchBounds.left;
@@ -736,7 +741,7 @@
             var maxListCount = options.maxListCount;
             var valueKey = options.valueKey;
             var textKey = options.textKey;
-            var showMultiSelectedOptions = options.showMultiSelectedOptions;
+            var showMultiSelectedOptions = options.checkable || options.showMultiSelectedOptions;
             var maxLoopLength = maxListCount ? Math.min(optionsList.length, maxListCount) : optionsList.length;
             var searchLowerCase = search.toLowerCase();
             var $options = $optionsList.children('.picker-option').addClass('picker-expired');
@@ -754,7 +759,7 @@
                     continue;
                 }
                 var text = item[textKey];
-                if (!value.length || (options.hideEmptyTextOption && !text.length)) {
+                if (!value.length || (options.hideEmptyTextOption && (!text || !text.length))) {
                     continue;
                 }
 
@@ -763,6 +768,8 @@
                 var $option = $(document.getElementById(optionID));
                 if (!$option.length) {
                     $option = $('<a class="picker-option" id="' + optionID + '" data-value="' + value + '"><span class="picker-option-text"></span><span class="picker-option-keys"></span></a>');
+
+                    if(options.checkable) $option.prepend('<div class="checkbox-primary"><label></label></div>');
                 } else {
                     $option.removeClass('picker-expired');
                 }
@@ -771,6 +778,10 @@
                     .removeClass('picker-option-active')
                     .toggleClass('disabled', !!item.disabled)
                     .toggleClass('picker-option-selected', selected);
+
+                if(options.checkable) {
+                    $option.find('.checkbox-primary').toggleClass('checked', selected);
+                }
 
                 var $text = $option.find('.picker-option-text');
                 if (hasSearch) {
@@ -829,9 +840,9 @@
             }
 
             // Active item
-            // if (!that.listRendered) {
+            if (!that.options.checkable) {
                 that.activeOption(activeOption || singleSelectedOption || firstOption);
-            // }
+            }
         } else {
             $optionsList.empty();
         }
@@ -1038,9 +1049,11 @@
         if (!that.$dropMenu) {
             var $dropMenu = $('<div class="picker-drop-menu" id="pickerDropMenu-' + that.id + '"></div>').attr('data-id', that.id);
             var $optionsList = $('<div class="picker-option-list"></div>').appendTo($dropMenu);
+            var checkable = that.options.checkable;
             $dropMenu.data(NAME, that)
                 .toggleClass('picker-multi', that.multi)
                 .toggleClass('picker-single', !that.multi)
+                .toggleClass('picker-checkable', !!checkable)
                 .appendTo('body');
 
             if (that.options.chosenMode) {
@@ -1048,9 +1061,18 @@
             }
 
             $optionsList.on('click', '.picker-option:not(.disabled)', function() {
-                that.select($(this).attr('data-value'));
+                var $option = $(this);
+                var isSelected = $option.hasClass('picker-option-selected');
+                if (isSelected && !checkable) {
+                    return;
+                }
+                var value = $option.attr('data-value');
+                if(isSelected) that.deselect(value);
+                else that.select(value, checkable);
             }).on('mouseenter', '.picker-option:not(.disabled)', function() {
-                that.activeOption($(this), true);
+                if (!checkable) {
+                    that.activeOption($(this), true);
+                }
             });
 
             if (that.multi && !that.options.remote) {
@@ -1064,9 +1086,9 @@
                 that.$actions.on('click', '.picker-action', function(event) {
                     var actionType = $(this).data('type');
                     if (actionType === 'select-all') {
-                        that.selectAll();
+                        that.selectAll(checkable);
                     } else if (actionType === 'deselect-all') {
-                        that.deselectAll();
+                        that.deselectAll(checkable);
                     }
                 });
             }
@@ -1355,11 +1377,13 @@
             }
         }
 
-        if ((isMulti && that.value && value) ? that.value.join(options.multiValueSplitter) !== value.join(options.multiValueSplitter)  : that.value !== value) {
+        var oldValue = that.value;
+        if ((isMulti && oldValue && value) ? oldValue.join(options.multiValueSplitter) !== value.join(options.multiValueSplitter)  : oldValue !== value) {
             if (!silent) {
                 if (that.triggerEvent('beforeChange', {
                     value: value,
-                    oldValue: that.value
+                    oldValue: oldValue,
+                    picker: that
                 }, true) === false) {
                     return;
                 }
@@ -1439,7 +1463,7 @@
 
         if (needTriggerChange) {
             if (!silent) {
-                that.triggerEvent('change', {value: value, picker: that});
+                that.triggerEvent('change', {value: value, oldValue: oldValue, picker: that});
             }
             if (that.$[0] !== $formItem[0]) {
                 $formItem.change();
