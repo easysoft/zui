@@ -338,6 +338,40 @@ $('#picker11').on('change', function(e, data) {
 });
 </script>
 
+### Checkable mode
+
+When the option `checkable` enabled, the checkable mode will be effective. In checkable mode, the checkbox shows the selected status before the option item in the drop-down menu. Clicking on the option will toggle the selected state and will not close the drop-down menu.
+
+
+<example>
+  <select id="pickerCheckable" name="pickerCheckable" data-placeholder="Select some fruits" class="form-control" multiple data-checkable="true">
+    <option value="strawberries" data-keys="caomei">Strawberries</option>
+    <option selected value="apple" data-keys="pingguo">Apple</option>
+    <option selected value="orange" data-keys="chengzi">Orange</option>
+    <option value="cherry" data-keys="yingtao">Cherry</option>
+    <option value="banana" data-keys="xiangjiao">Banana</option>
+    <option value="figs" data-keys="wuhuaguo">Figs</option>
+    <option value="kiwi" data-keys="mihoutao">Kiwi</option>
+    <option value="pineapple" data-keys="biluo">Pineapple</option>
+    <option value="cantaloupe" data-keys="hamigua">Cantaloupe</option>
+    <option value="watermelon" data-keys="xigua">Watermelon</option>
+    <option value="plum" data-keys="lizi">Plum</option>
+  </select>
+</example>
+
+```html
+ <select id="pickerCheckable" name="pickerCheckable" data-placeholder="Select some fruits" class="form-control" multiple data-checkable="true">
+  <option value="strawberries" data-keys="caomei">Strawberries</option>
+    <option selected value="apple" data-keys="pingguo">Apple</option>
+    <option selected value="orange" data-keys="chengzi">Orange</option>
+  <!-- ... -->
+</select>
+
+<script>
+$('#pickerCheckable').picker();
+</script>
+```
+
 ### Chosen compatibility mode
 
 To facilitate migration from [Chosen](#javascript/chosen), the picker component provides the Chosen compatibility mode. Once the Chosen compatibility mode is enabled, you can use the Chosen initialization method, options, and events without introducing Chosen JS and CSS resources.
@@ -715,7 +749,7 @@ You can use an object as the initialization option in initialize method or set o
         <p>Allows the following:</p>
         <ul>
           <li>`'bottom'`: below the control;</li>
-          <li>`'bottom'`: above the control;</li>
+          <li>`'top'`: above the control;</li>
           <li>`'auto'`: automatically;</li>
           <li>`function`: Dynamically returned to the direction of each pop-up through a function, the function needs to return `'top'` or `'bottom'`;</li>
         </ul>
@@ -823,7 +857,7 @@ var myPicker = $('#myPicker').data('zui.picker');
 myPicker.setValue();
 ```
 
-## `updateOptionList(optionList, reset)`
+### `updateOptionList(optionList, reset)`
 
 Update options list, the parameter `optionList` is the new options array, the method will clear all existing options if the parameter `reset` is `true`.
 
@@ -1161,7 +1195,7 @@ var localPickerOptions = [
 ];
 
 $('#picker1,#picker2,#picker5,#picker6,#picker7,#picker8').picker({list: localPickerOptions, hideOnScroll: '#pageBody', disableScrollOnShow: false});
-$('#picker3,#picker4,#picker11').picker({hideOnScroll: '#pageBody', disableScrollOnShow: false});
+$('#picker3,#picker4,#picker11,#pickerCheckable').picker({hideOnScroll: '#pageBody', disableScrollOnShow: false});
 $('#picker9').picker({
     remote: '/picker-select-fast.json',
     dropWidth: 'auto',

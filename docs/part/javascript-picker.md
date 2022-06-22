@@ -345,6 +345,79 @@ $('#picker11').on('change', function(e, data) {
 });
 </script>
 
+### 勾选模式
+
+通过选项 `checkable` 启用为多选启用勾选模式。在勾选模式下，下拉菜单中的菜单项前会显示复选框已展示选中状态，点击选项会取消和选中选项并且不会关闭下拉菜单。
+
+<example>
+  <select id="pickerCheckable" name="pickerCheckable" data-checkable="true" data-placeholder="选择几位英雄..." class="form-control" multiple>
+    <option value="amy" data-keys="delaiesi dles">德莱厄斯</option>
+    <option value="azalea" data-keys="gulajiasi gljs">古拉加斯</option>
+    <option value="bixiaomin" data-keys="kuiyin ky">奎因</option>
+    <option value="chenchulian" data-keys="leikedun lkd">雷克顿</option>
+    <option value="chenfei" data-keys="aixi ax">埃希</option>
+    <option value="chenyao" data-keys="sake sk">萨科</option>
+    <option value="chenzhixin" data-keys="lakesi lks">拉克丝</option>
+    <option value="chujilu" data-keys="kalimu klm">卡里姆</option>
+    <option value="chutingting" data-keys="naideli ndl">奈德丽</option>
+    <option value="ctt" data-keys="yizeruier yzre">伊泽瑞尔</option>
+    <option value="daitingting" data-keys="xiweier xwe">希维尔</option>
+    <option value="dongyanyan" data-keys="feizi fz">菲兹</option>
+    <option value="guanxiying" data-keys="yi y">易</option>
+    <option value="hejin" data-keys="mengduo md">蒙多</option>
+    <option value="heyoumin" data-keys="ruiwen rw">瑞雯</option>
+    <option value="hongqian" data-keys="feidetike fdtk">费德提克</option>
+    <option value="lifufu" data-keys="heimodingge hmdg">黑默丁格</option>
+    <option value="liqiaqia" data-keys="lakesi lks">拉克丝</option>
+    <option value="liugang" data-keys="tuqi tq">图奇</option>
+    <option value="liujun" data-keys="moteng mt">魔腾</option>
+    <option value="lixibi" data-keys="yuelike ylk">约里克</option>
+    <option value="liyanling" data-keys="aixi ax">埃希</option>
+    <option value="liyunling" data-keys="xiwana xwn">希瓦娜</option>
+    <option value="lvtao" data-keys="ruizi rz">瑞兹</option>
+    <option value="mianmian0723" data-keys="nuotileisi ntls">诺提勒斯</option>
+    <option value="pengjiangxiu" data-keys="delaiwen dlw">德莱文</option>
+    <option value="shiyangyang" data-keys="lakesi lks">拉克丝</option>
+    <option value="sunguangming" data-keys="ruizi rz">瑞兹</option>
+    <option value="sunhao" data-keys="kaier ke">凯尔</option>
+    <option value="sunjinliang" data-keys="taidamier tdme">泰达米尔</option>
+    <option value="sunningqin" data-keys="lefulan lfl">乐芙兰</option>
+    <option value="tengfei" data-keys="wolike wlk">沃里克</option>
+    <option value="testRight" data-keys="nunu nn">努努</option>
+    <option value="wanglin" data-keys="sake sk">萨科</option>
+    <option value="wangyidong" data-keys="airuiliya arly">艾瑞莉娅</option>
+    <option value="weizhongxian" data-keys="eyunxiaojie eyxj">厄运小姐</option>
+    <option value="wuliehao" data-keys="tuqi tq">图奇</option>
+    <option value="wumo" data-keys="xiwana xwn">希瓦娜</option>
+    <option value="wwccss" data-keys="bobi bb">波比</option>
+    <option value="xuecaijie" data-keys="xiweier xwe">希维尔</option>
+    <option value="xueyang" data-keys="suolaka slk">索拉卡</option>
+    <option value="yangmiao" data-keys="saien se">赛恩</option>
+    <option value="yangwei" data-keys="zhake zk">扎克</option>
+    <option value="yangwenbin" data-keys="jiawensishi jwss">嘉文四世</option>
+    <option value="yaozeyuan" data-keys="jiakesi jks">贾克斯</option>
+    <option value="zhangjiahui" data-keys="amumu amm">阿木木</option>
+    <option value="zhangliya" data-keys="yizeruier yzre">伊泽瑞尔</option>
+    <option value="zhengqiaoyin" data-keys="jigesi jgs">吉格斯</option>
+    <option value="zhubaoxin" data-keys="wei w">蔚</option>
+    <option value="zhujinyong" data-keys="kaersasi kess">卡尔萨斯</option>
+    <option value="ajax_search_more" data-keys="gengduo… gd">更多…</option>
+  </select>
+</example>
+
+```html
+<select name="pickerCheckable" id="pickerCheckable" data-checkable="true" data-placeholder="选择几位英雄..." class="form-control" multiple>
+  <option value="amy" data-keys="delaiesi dles">德莱厄斯</option>
+  <option value="azalea" data-keys="gulajiasi gljs">古拉加斯</option>
+  <option value="bixiaomin" data-keys="kuiyin ky">奎因</option>
+  <!-- ... -->
+</select>
+
+<script>
+$('#pickerCheckable').picker();
+</script>
+```
+
 ### Chosen 兼容模式
 
 为便于从 [Chosen](#javascript/chosen) 进行迁移，下拉选择器组件提供了 Chosen 兼容模式。启用 Chosen 兼容模式后，可以在无需引入 Chosen JS 和 CSS 资源的情况下使用 Chosen 初始化方法、选项和事件。
@@ -722,7 +795,7 @@ $('#picker12').chosen({
         <p>允许如下形式：</p>
         <ul>
           <li>`'bottom'`：显示在控件下方；</li>
-          <li>`'bottom'`：显示在控件上方；</li>
+          <li>`'top'`：显示在控件上方；</li>
           <li>`'auto'`：根据控件在页面上的位置，自动选择可用空间更大的方向弹出；</li>
           <li>`function`：通过一个函数动态返回每次弹出的方向，该函数需要返回 `'top'` 或 `'bottom'`；</li>
         </ul>
@@ -830,7 +903,7 @@ var myPicker = $('#myPicker').data('zui.picker');
 myPicker.setValue();
 ```
 
-## `updateOptionList(optionList, reset)`
+### `updateOptionList(optionList, reset)`
 
 重新设置选项列表，其中参数 `optionList` 为要设置的选项对象列表，`reset` 如果设置为 `true` 则清空之前的选项列表。
 
@@ -1168,7 +1241,7 @@ var localPickerOptions = [
 ];
 
 $('#picker1,#picker2,#picker5,#picker6,#picker7,#picker8').picker({list: localPickerOptions, hideOnScroll: '#pageBody', disableScrollOnShow: false});
-$('#picker3,#picker4,#picker11').picker({hideOnScroll: '#pageBody', disableScrollOnShow: false});
+$('#picker3,#picker4,#picker11,#pickerCheckable').picker({hideOnScroll: '#pageBody', disableScrollOnShow: false});
 $('#picker9').picker({
     remote: '/picker-select-fast.json',
     dropWidth: 'auto',
