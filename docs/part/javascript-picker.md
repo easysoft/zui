@@ -966,6 +966,19 @@ var myPicker = $('#myPicker').data('zui.picker');
 // 执行销毁
 myPicker.destroy();
 ```
+### `setDisabled(disabled)`
+
+禁用下拉菜单，该方法参数定义如下：
+
+* `disabled` 如果为 true 才会设置为禁用
+
+```js
+// 获取选择器实例对象
+var myPicker = $('#myPicker').data('zui.picker');
+
+// 禁用下拉菜单
+myPicker.setDisabled(true);
+```
 
 ## 事件
 

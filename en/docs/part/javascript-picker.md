@@ -921,6 +921,20 @@ var myPicker = $('#myPicker').data('zui.picker');
 myPicker.destroy();
 ```
 
+### `setDisabled(disabled)`
+
+Disable dropdown menu, the method parameters are defined as follows:
+
+* `disabled` If true it will be set to disabled.
+
+```js
+// Get instance object of picker
+var myPicker = $('#myPicker').data('zui.picker');
+
+// Disable dropdown menu
+myPicker.setDisabled(true);
+```
+
 ## Events
 
 ### `onSelect`
