@@ -224,6 +224,9 @@
 
         // Init values and sync default value
         var defaultValue = options.defaultValue !== undefined ? options.defaultValue : $formItem.val();
+        if (defaultValue === null) {
+            defaultValue = '';
+        }
         that.setValue(defaultValue, true);
 
         that.setDisabled();
