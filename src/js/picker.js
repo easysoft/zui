@@ -776,7 +776,7 @@
 
                 optionsCount++;
                 var optionID = that.getItemID(item, 'option');
-                var $option = $(document.getElementById(optionID));
+                var $option = $optionsList.children('#' + optionID);
                 var isNewOption = !$option.length;
                 if (isNewOption) {
                     $option = $('<a class="picker-option" id="' + optionID + '" data-value="' + value + '"><span class="picker-option-text"></span><span class="picker-option-keys"></span></a>');
@@ -1460,7 +1460,7 @@
                     hasValue = true;
                     var text = item[options.textKey];
                     var itemID = that.getItemID(item, 'selection');
-                    var $select = $(document.getElementById(itemID));
+                    var $select = $selects.filter('#' + itemID);
                     if (!$select.length) {
                         $select = $('<div class="picker-selection" id="' + itemID + '"><span class="picker-selection-text"></span><span class="picker-selection-remove"></span></div>').data('value', val);
                     } else {
