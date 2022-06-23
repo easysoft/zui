@@ -1169,34 +1169,33 @@
         }
 
         var $options = that.$formItem.children('option');
-        if (!$options.length) {
-            return;
+        if ($options.length) {
+            $options.each(function() {
+                var $option = $(this);
+                var val = $option.val();
+                var text = $option.text();
+                if(options.onUpdateSelectOption) {
+                    var item = options.onUpdateSelectOption($option, that);
+                    if(item) {
+                        list.push(item);
+                    }
+                } else {
+                    if (text.length || val.length) {
+                        var item = {};
+                        item[options.valueKey] = val;
+                        item[options.textKey] = text;
+                        item[options.keysKey] = $option.data(options.keysKey);
+                        item.disabled = $option.attr('disabled');
+                        list.push(item);
+                    }
+                }
+                var allowSingleDeselect = options.allowSingleDeselect;
+                if ((allowSingleDeselect === 'auto' || allowSingleDeselect === null || allowSingleDeselect === undefined) && !val.length) {
+                    options.allowSingleDeselect = true;
+                }
+            });
+            that.selectOptionsBackup = list.slice();
         }
-        $options.each(function() {
-            var $option = $(this);
-            var val = $option.val();
-            var text = $option.text();
-            if(options.onUpdateSelectOption) {
-                var item = options.onUpdateSelectOption($option, that);
-                if(item) {
-                    list.push(item);
-                }
-            } else {
-                if (text.length || val.length) {
-                    var item = {};
-                    item[options.valueKey] = val;
-                    item[options.textKey] = text;
-                    item[options.keysKey] = $option.data(options.keysKey);
-                    item.disabled = $option.attr('disabled');
-                    list.push(item);
-                }
-            }
-            var allowSingleDeselect = options.allowSingleDeselect;
-            if ((allowSingleDeselect === 'auto' || allowSingleDeselect === null || allowSingleDeselect === undefined) && !val.length) {
-                options.allowSingleDeselect = true;
-            }
-        });
-        that.selectOptionsBackup = list.slice();
         that.setList(list, reset);
     };
 
