@@ -718,7 +718,7 @@ $('#picker12').chosen({
     <tr>
       <td>`maxListCount`</td>
       <td>最多选项数目</td>
-      <td>`number`，默认 `50`</td>
+      <td>`number`，默认 `100`</td>
       <td>选项列表中最多显示的选项数目，如果为 `0` 则无限制。</td>
     </tr>
     <tr>

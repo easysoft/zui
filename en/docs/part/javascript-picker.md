@@ -672,7 +672,7 @@ You can use an object as the initialization option in initialize method or set o
     <tr>
       <td>`maxListCount`</td>
       <td>Max list count</td>
-      <td>`number`, default is `50`</td>
+      <td>`number`, default is `100`</td>
       <td>The maximum number of options displayed in the list of options, If it is `0`, there is no limit.</td>
     </tr>
     <tr>

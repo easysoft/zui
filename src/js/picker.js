@@ -36,7 +36,7 @@
         autoSelectFirst: false,
         // optionItemFormatter: null, // function($item, picker); Not supported yet
         maxSelectedCount: 0, // 0 = Infinity
-        maxListCount: 50, // 0 = Infinity
+        maxListCount: 100, // 0 = Infinity
         hideEmptyTextOption: true,
         searchValueKey: true,
         emptyResultHint: null,
