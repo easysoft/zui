@@ -1,1 +1,0 @@
-import './less/index.less';
