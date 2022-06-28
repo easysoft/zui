@@ -289,6 +289,7 @@
                             $search.blur();
                         }
                         e.preventDefault();
+                        e.stopPropagation();
                     }
                 } else if (key === 'ArrowDown' || key === 40) {
                     var $activeOption = that.$activeOption;
@@ -308,6 +309,7 @@
                         that.activeOption($nextOption);
                     }
                     e.preventDefault();
+                    e.stopPropagation();
                 } else if (key === 'ArrowUp' || key === 30) {
                     var $activeOption = that.$activeOption;
                     var $prevOption;
@@ -326,6 +328,7 @@
                         that.activeOption($prevOption);
                     }
                     e.preventDefault();
+                    e.stopPropagation();
                 } else if (key === 'Escape' || key === 27) {
                     that.hideDropList(true);
                 } else if (options.deleteByBackspace && multi && (key === 'Backspace' || key === 8) && that.value && that.value.length && !$search.val().length) {
