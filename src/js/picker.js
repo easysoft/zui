@@ -342,7 +342,7 @@
                 if (that.disabled) {
                     return;
                 }
-                if (that.dropListShowed) {
+                if (that.dropListShowed && !options.checkable) {
                     e.preventDefault();
                     e.stopPropagation();
                     return;
@@ -351,7 +351,7 @@
                 if (that.disabled) {
                     return;
                 }
-                if (!$selections.hasClass('sortable-sorting') && !$(e.target).closest('.picker-selection-remove').length && !that.dropListShowed) {
+                if (!$selections.hasClass('sortable-sorting') && !$(e.target).closest('.picker-selection-remove').length && (!that.dropListShowed || options.checkable)) {
                     that.focus();
                 }
             });
