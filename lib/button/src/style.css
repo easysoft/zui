@@ -4,7 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .btn {
     height: var(--btn-size-base);
 }
