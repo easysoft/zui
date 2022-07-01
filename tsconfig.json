@@ -14,12 +14,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "skipLibCheck": true,
-    "baseUrl": "./",
-    "paths": {
-      "@/lib/*": ["lib/*"],
-      "@/core/*": ["src/*"]
-    }
+    "skipLibCheck": true
   },
   "include": ["src"]
 }
