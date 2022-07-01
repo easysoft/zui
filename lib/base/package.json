@@ -1,0 +1,6 @@
+{
+    "name": "@zui/base",
+    "description": "ZUI basic settings",
+    "version": "0.0.1",
+    "main": "src/main.ts"
+}

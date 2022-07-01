@@ -1,24 +1,38 @@
 lockfileVersion: 5.4
 
-specifiers:
-  '@types/node': ^18.0.0
-  autoprefixer: ^10.4.7
-  minimist: ^1.2.6
-  postcss: ^8.4.14
-  tailwindcss: ^3.1.4
-  typescript: ^4.5.4
-  vite: ^2.9.9
-  vite-plugin-virtual-html: ^0.2.9
+importers:
 
-devDependencies:
-  '@types/node': registry.npmmirror.com/@types/node/18.0.0
-  autoprefixer: registry.npmmirror.com/autoprefixer/10.4.7_postcss@8.4.14
-  minimist: registry.npmmirror.com/minimist/1.2.6
-  postcss: registry.npmmirror.com/postcss/8.4.14
-  tailwindcss: registry.npmmirror.com/tailwindcss/3.1.4
-  typescript: registry.npmmirror.com/typescript/4.7.4
-  vite: registry.npmmirror.com/vite/2.9.13
-  vite-plugin-virtual-html: registry.npmmirror.com/vite-plugin-virtual-html/0.2.9
+  .:
+    specifiers:
+      '@types/node': ^18.0.0
+      '@zui/base': workspace:*
+      '@zui/button': workspace:*
+      autoprefixer: ^10.4.7
+      minimist: ^1.2.6
+      postcss: ^8.4.14
+      tailwindcss: ^3.1.4
+      typescript: ^4.5.4
+      vite: ^2.9.9
+    dependencies:
+      '@zui/base': link:lib/base
+      '@zui/button': link:lib/button
+    devDependencies:
+      '@types/node': registry.npmmirror.com/@types/node/18.0.0
+      autoprefixer: registry.npmmirror.com/autoprefixer/10.4.7_postcss@8.4.14
+      minimist: registry.npmmirror.com/minimist/1.2.6
+      postcss: registry.npmmirror.com/postcss/8.4.14
+      tailwindcss: registry.npmmirror.com/tailwindcss/3.1.4
+      typescript: registry.npmmirror.com/typescript/4.7.4
+      vite: registry.npmmirror.com/vite/2.9.13
+
+  lib/base:
+    specifiers: {}
+
+  lib/button:
+    specifiers:
+      '@zui/base': workspace:*
+    dependencies:
+      '@zui/base': link:../base
 
 packages:
 
@@ -927,14 +941,6 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/util-deprecate/-/util-deprecate-1.0.2.tgz}
     name: util-deprecate
     version: 1.0.2
-    dev: true
-
-  registry.npmmirror.com/vite-plugin-virtual-html/0.2.9:
-    resolution: {integrity: sha512-OtHrqkUoiluXLQaTO/MJQVNfUK7UwujeKDiBzh7BRQLvl3J1+RQ53FIDdN2a6qn3xmxXt8hAw8Y79tyqL+dl+g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-virtual-html/-/vite-plugin-virtual-html-0.2.9.tgz}
-    name: vite-plugin-virtual-html
-    version: 0.2.9
-    dependencies:
-      fast-glob: registry.npmmirror.com/fast-glob/3.2.11
     dev: true
 
   registry.npmmirror.com/vite/2.9.13:

@@ -1,5 +1,5 @@
-import './global.css';
-import './style.css';
+import '@zui/base';
+import '@zui/button';
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 

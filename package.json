@@ -9,7 +9,13 @@
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm"
   },
-  "workspaces": ["./lib"],
+  "workspaces": [
+    "./lib"
+  ],
+  "dependencies": {
+    "@zui/base": "workspace:*",
+    "@zui/button": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^18.0.0",
     "autoprefixer": "^10.4.7",

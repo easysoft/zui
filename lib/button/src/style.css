@@ -1,0 +1,14 @@
+@import url('./vars.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.btn {
+    height: var(--btn-size-base);
+}
+.btn-primary {
+    background-color: var(--color-primary-500);
+    @apply text-white;
+}

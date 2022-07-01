@@ -1,0 +1,23 @@
+:root {
+    /* 青春蓝 */
+    --color-young-100: #EFF5FF;
+    --color-young-200: #CADFFF;
+    --color-young-300: #6CA7FF;
+    --color-young-400: #438EFF;
+    --color-young-500: #2B80FF;
+    --color-young-600: #0066FA;
+    --color-young-700: #0C60E1;
+    --color-young-800: #0650C2;
+    --color-young-900: #053B8F;
+
+    /* 主要颜色 */
+    --color-primary-100: var(--color-young-100);  /* 可用于按钮、标签底色 */
+    --color-primary-200: var(--color-young-200);  /* 标识类标签边框 */
+    --color-primary-300: var(--color-young-300);
+    --color-primary-400: var(--color-young-400);  /* 用于次要信息 */
+    --color-primary-500: var(--color-young-500);  /* 主要色彩 */
+    --color-primary-600: var(--color-young-600);  /* 用于文字、线条等深一点的场景 */
+    --color-primary-700: var(--color-young-700);  /* 链接文字 */
+    --color-primary-800: var(--color-young-800);
+    --color-primary-900: var(--color-young-900);  /* 点击态、变体颜色 */
+}
