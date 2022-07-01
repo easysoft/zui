@@ -154,7 +154,7 @@
             if($newTarget) {
                 isIn = true;
                 var id = $newTarget.data('id');
-                if($ele.data('id') != id) isSelf = false;
+                if($ele.data('id') != id || $ele.closest('.kanban-lane').data('id') != $newTarget.closest('.kanban-lane').data('id')) isSelf = false;
                 if($target === null || ($target.data('id') !== id && (!isSelf))) isNew = true;
                 $target = $newTarget;
                 if(flex) {
