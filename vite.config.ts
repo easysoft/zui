@@ -1,9 +1,8 @@
-import { defineConfig } from 'vite';
-import minimist from 'minimist';
-
-const argv: {_: string[]} = minimist(process.argv.slice(2));
+import {defineConfig} from 'vite';
+import eslint from 'vite-plugin-eslint';
 
 export default defineConfig(() => {
     return {
+        plugins: [eslint()],
     };
 });
