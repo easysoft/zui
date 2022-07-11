@@ -1291,7 +1291,7 @@
     };
 
     Picker.prototype.getItemID = function(item, suffix) {
-        var id = this.id + '-item-' + encodeURIComponent(item[this.options.valueKey]);
+        var id = this.id + '-item-' + btoa(encodeURIComponent(item[this.options.valueKey])).replace(/\+/g, '_').replace(/=/g, '-');
         if (suffix !== undefined) {
             return id + '-' + suffix;
         }
