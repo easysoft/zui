@@ -142,6 +142,19 @@
     };
 
     /**
+     * Select element contents
+     * @param {JQuery|HTMLElement} el element
+     */
+    function selectElementContents(el) {
+        if(el instanceof $) el = el[0];
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
+    /**
      * Parse cell id to cordinate
      * @param {string} cellID Cell id string
      * @returns Cordinate of cell
@@ -162,6 +175,8 @@
         if(colIndex === undefined) return 'R' + rowIndex;
         return ['R', rowIndex, 'C', colIndex].join('');
     }
+
+    var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
     // The datagrid modal class
     var DataGrid = function(element, options) {
@@ -413,6 +428,25 @@
                     that.selectCell(rowIndex, cellIndex, true, true);
                 });
             }
+        }
+
+        if (options.editOnDbclick) {
+            $cells.on('dblclick', '.datagrid-cell-cell:not(.editing)', function(e) {
+                var $cell = $(this);
+                var rowIndex = $cell.data('row');
+                var cellIndex = $cell.data('col');
+                that.setCellEditable(rowIndex, cellIndex, true);
+                e.preventDefault();
+            });
+            $cells.on('blur', '.datagrid-cell-cell.editing', function(e) {
+                var $cell = $(this);
+                var rowIndex = $cell.data('row');
+                var cellIndex = $cell.data('col');
+                that.editCell(rowIndex, cellIndex, $cell.text().trim(), true);
+            }).on('paste', '.datagrid-cell-cell.editing', function(e) {
+                var $cell = $(this);
+                $cell.text($cell.text().trim());
+            });
         }
 
         // Init pager
@@ -973,7 +1007,7 @@
 
     DataGrid.prototype.getCell = function(rowIndex, colIndex) {
         var that = this;
-        var optioins = that.options;
+        var options = that.options;
         var config = that.getCellConfig(rowIndex, colIndex);
         var col = colIndex > 0 ? that.dataSource.cols[colIndex - 1] : null;
         var type, value;
@@ -986,7 +1020,7 @@
         };
         if (colIndex === 0) {
             type = 'index';
-            if(!optioins.dataItemIsArray && config.data && config.data.index !== undefined) {
+            if(!options.dataItemIsArray && config.data && config.data.index !== undefined) {
                 value = config.data.index;
             } else {
                 value = config.label !== undefined ? config.label : (rowIndex > 0 ? (that.pager.skip + rowIndex) : '');
@@ -996,10 +1030,10 @@
             value = config.label !== undefined ? config.label : (config.name !== undefined ? config.name : colIndex);
         } else {
             type = 'cell';
-            value = config.data && config.data[optioins.dataItemIsArray ? colIndex : col.name];
+            value = config.data && config.data[options.dataItemIsArray ? colIndex : col.name];
         }
         if (rowIndex > 0) {
-            var optionsValueOperator = optioins.valueOperator;
+            var optionsValueOperator = options.valueOperator;
             var valueType = config.valueType;
             var valueOperator = config.valueOperator || (optionsValueOperator && valueType ? optionsValueOperator[valueType] : null);
             if (valueOperator && valueOperator.getter) {
@@ -1233,6 +1267,53 @@
         return false;
     };
 
+    DataGrid.prototype.setCellEditable = function(rowIndex, colIndex) {
+        var that = this;
+        var cellId = createCellID(rowIndex, colIndex);
+        if(that.editingCellID) {
+            if(that.editingCellID === cellId) return;
+            that.cancelCellEditable();
+        }
+
+        that.editingCellID = cellId;
+        var $cell = that.renderCell(rowIndex, colIndex);
+        selectElementContents($cell.trigger('focus'));
+    };
+
+    DataGrid.prototype.editCell = function(rowIndex, colIndex, val, blur) {
+        var that = this;
+        var cell = that.getCell(rowIndex, colIndex);
+        if(cell.value === val) {
+            that.cancelCellEditable();
+            return;
+        }
+
+        var options = that.options;
+        if(cell.config.data) {
+            var col = that.dataSource.cols[colIndex - 1];
+            cell.config.data[options.dataItemIsArray ? colIndex : col.name] = val;
+        }
+        if (blur) {
+            that.editingCellID = null;
+        }
+        that.renderCell(rowIndex, colIndex);
+        that.$.callComEvent(that, 'onEditCell', [rowIndex, colIndex, val, cell]);
+    };
+
+    DataGrid.prototype.cancelCellEditable = function() {
+        var that = this;
+        if (that.editingCellID) {
+            var editingCellID = that.editingCellID;
+            that.editingCellID = null;
+            that.renderCellByID(editingCellID);
+        }
+    };
+
+    DataGrid.prototype.renderCellByID = function(cellID) {
+        var cellID = parseCellID(cellID);
+        return this.renderCell(cellID[0], cellID[1]);
+    };
+
     DataGrid.prototype.renderCell = function(rowIndex, colIndex, $row) {
         var that       = this;
         var options    = that.options;
@@ -1244,6 +1325,7 @@
         }
 
         var isCheckbox = config.checkbox;
+        var editing = !isCheckbox && !config.readonly && cell.type === 'cell' && cell.config.id === that.editingCellID;
         var elementId  = [that.id, 'cell', rowIndex, colIndex].join('-');
         var $cell      = $('#' + elementId);
         if (!$cell.length) {
@@ -1325,7 +1407,10 @@
             $cell.find('.datagrid-checkbox').toggleClass('checked', cell.checked);
             $row.toggleClass('active', cell.checked);
         }
-        $cell.toggleClass('selected', cell.selected);
+        $cell.toggleClass('selected', cell.selected)
+            .attr('contenteditable', editing ? (isFirefox ? 'true' : 'plaintext-only') : null)
+            .toggleClass('editing', editing);
+
         return $cell;
     };
 
@@ -1758,6 +1843,9 @@
         // freeSelect: false,
 
         mouseWheelFactor: 1,
+
+        // Enable cell edit on dbclick
+        // editOnDbclick: false,
     };
 
     // Extend jquery element
