@@ -1,4 +1,4 @@
 {
     "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
-    "ignoreFiles": ["dist"]
+    "ignoreFiles": ["dist/**/*", "build/**/*"]
 }
