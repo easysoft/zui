@@ -3,5 +3,8 @@
     "description": "ZUI Configurations",
     "version": "0.0.1",
     "type": "commonjs",
-    "main": "src/main.js"
+    "main": "src/main.js",
+    "dependencies": {
+        "@mertasan/tailwindcss-variables": "^2.3.0"
+    }
 }

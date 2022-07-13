@@ -20,7 +20,7 @@ module.exports = {
         '@typescript-eslint/object-curly-spacing': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         'react/jsx-filename-extension': 'off',
-        'import/no-extraneous-dependencies': ['error', {devDependencies: ['vite.config.ts', 'tailwind.config.ts', 'tools/*']}],
+        'import/no-extraneous-dependencies': ['error', {devDependencies: ['vite.config.ts', 'tailwind.config.cjs', 'tools/*']}],
     },
     overrides: [
         {

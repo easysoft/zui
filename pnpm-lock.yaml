@@ -68,7 +68,10 @@ importers:
       '@zui/button': link:../lib/button
 
   config:
-    specifiers: {}
+    specifiers:
+      '@mertasan/tailwindcss-variables': ^2.3.0
+    dependencies:
+      '@mertasan/tailwindcss-variables': registry.npmmirror.com/@mertasan/tailwindcss-variables/2.3.0
 
   lib/base:
     specifiers: {}
@@ -186,6 +189,18 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': registry.npmmirror.com/@jridgewell/resolve-uri/3.1.0
       '@jridgewell/sourcemap-codec': registry.npmmirror.com/@jridgewell/sourcemap-codec/1.4.14
+
+  registry.npmmirror.com/@mertasan/tailwindcss-variables/2.3.0:
+    resolution: {integrity: sha512-/IqcvNwxnWZo+dli+A0gMOTRcp0LaCKgbX+ciWkV4tZjQtf6VJ+SYpnH+9XckUn+EjFep29OMRWANSjIvVThRA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@mertasan/tailwindcss-variables/-/tailwindcss-variables-2.3.0.tgz}
+    name: '@mertasan/tailwindcss-variables'
+    version: 2.3.0
+    engines: {node: '>=12.13.0'}
+    peerDependencies:
+      autoprefixer: ^10.0.2
+      postcss: ^8.0.9
+    dependencies:
+      lodash: registry.npmmirror.com/lodash/4.17.21
+    dev: false
 
   registry.npmmirror.com/@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz}
@@ -2413,6 +2428,12 @@ packages:
     name: lodash.truncate
     version: 4.4.2
     dev: true
+
+  registry.npmmirror.com/lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash/-/lodash-4.17.21.tgz}
+    name: lodash
+    version: 4.17.21
+    dev: false
 
   registry.npmmirror.com/lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lru-cache/-/lru-cache-6.0.0.tgz}

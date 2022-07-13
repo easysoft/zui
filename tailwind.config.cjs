@@ -5,5 +5,4 @@ module.exports = {
     presets: [
         tailwind,
     ],
-    plugins: [],
 };

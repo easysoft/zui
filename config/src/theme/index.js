@@ -1,7 +1,9 @@
-const colors = require('./colors');
+const {useColorVars} = require('./use-color-vars');
 const fontSize = require('./font-size');
+const variables = require('./variables');
 
 module.exports = {
-    colors,
+    colors: useColorVars(),
     fontSize,
+    variables,
 };
