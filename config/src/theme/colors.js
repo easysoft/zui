@@ -13,7 +13,7 @@ const secondary = shades.blue;
 const success = shades.green;
 
 /** 关注：提示、重点 */
-const warning = shades.egg;
+const warning = shades.yellow;
 
 /** 警告：提示、异常、警醒 */
 const danger = shades.red;

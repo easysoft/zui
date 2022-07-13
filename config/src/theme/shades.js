@@ -46,8 +46,8 @@ const green = {
     900: '#10634a',
 };
 
-/** Egg - 蛋壳 */
-const egg = {
+/** Yellow - 蛋壳 */
+const yellow = {
     50:  '#fffcfa',
     100: '#fff4ea',
     200: '#ffe8d2',
@@ -134,7 +134,7 @@ module.exports = {
     young,
     blue,
     green,
-    egg,
+    yellow,
     red,
     magenta,
     purple,
