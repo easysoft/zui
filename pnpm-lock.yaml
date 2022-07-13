@@ -61,11 +61,9 @@ importers:
 
   build:
     specifiers:
-      '@zui/base': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
       '@zui/config': workspace:^0.0.1
     dependencies:
-      '@zui/base': link:../lib/base
       '@zui/button': link:../lib/button
       '@zui/config': link:../lib/config
 

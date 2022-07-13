@@ -1,14 +1,14 @@
 import {fs, path as Path} from 'zx';
 
 /**
- * Targets like string - 构建目标定义字符串
+ * Libs like string - 构建库（或组件）定义字符串
  * @example
- * - `jquery @zui/button` 使用空格拼接多个依赖来定义一个构建目标
- * - `:zui-button jquery button` 在依赖定义前使用 `:` 来指定构建名称
- * - `zui-basic config panel jquery@^3.0 !button` 使用空格连接多个构建目标
- * - `./my_path/custom_target_entry.js` 指定用于作为构建目标的入口文件路径
+ * - `button dropdown` 使用空格拼接多个依赖来定义一个构建库（或组件）
+ * - `:zui-button button dropdown` 在依赖定义前使用 `:` 来指定构建名称
+ * - `+clipboard +jquery@^3.0` 使用 + 来引用 npm 上的第三方包
+ * - `./my_path/custom_lib_entry.js` 指定用于作为构建库（或组件）的入口文件路径
  */
-export type TargetsLike = string;
+export type LibsLike = string;
 
 /**
  * Build config options - 构建配置选项
@@ -20,14 +20,14 @@ export interface BuildConfigOptions {
     /** Build version - 构建版本 */
     version?: string;
 
-    /** Extra config file path - 构建目标字符串或配置文件路径 */
-    targets?: TargetsLike;
+    /** Extra config file path - 构建库（或组件）字符串或配置文件路径 */
+    libs?: LibsLike;
 }
 
 /**
- * Build target dependency - 构建目标依赖定义
+ * Build lib dependency - 构建库（或组件）依赖定义
  */
-export type BuildTargetDependency = {
+export type BuildLibDependency = {
     /** Dependency name - 名称 */
     name: string;
 
@@ -49,31 +49,29 @@ export type BuildTargetDependency = {
 
 
 /**
- * Build target dependency like - 构建目标依赖定义字符串
+ * Build lib dependency like - 构建库（或组件）依赖定义字符串
  * @see https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies
  * @example
- *  - `jquery@3.0.0`
- *  - `jquery@^3.0` 依赖 jquery 3.0 兼容版本
- *  - `jquery` 依赖 jquery 最新版本，相当于 `jquery@latest`
- *  - `@zui/button` 依赖 "@zui/button" 最新版本，相当于 `@zui/button@latest`
- *  - `@zui/button@3.0.0` 依赖 "@zui/button" 3.0.0 版本
+ *  - `+jquery@3.0.0`
+ *  - `+jquery@^3.0` 依赖 jquery 3.0 兼容版本
+ *  - `+jquery` 依赖 jquery 最新版本，相当于 `+jquery@latest`
  *  - `button` 依赖 "@zui/button" 最新版本，相当于 `@zui/button@latest`
- *  - `!button` 依赖 npm 上名称为 "button" 最新版本，相当于 `@zui/button@latest`
+ *  - `button@3.0.0` 依赖 "@zui/button" 3.0.0 版本，相当于 `@zui/button@3.0.0`
  *  - `./my/custom_file.js` 依赖一个指定路径的文件
  */
-export type BuildTargetDependencyLike = string | BuildTargetDependency;
+export type BuildLibDependencyLike = string | BuildLibDependency;
 
 /**
- * Build target - 构建目标定义
+ * Build lib - 构建库（或组件）定义
  */
-export interface BuildTarget {
-    /** Build target name - 构建目标名称 */
+export interface BuildLib {
+    /** Build lib name - 构建库（或组件）名称 */
     name: string;
 
-    /** Build target dependencies - 构建目标依赖列表 */
-    dependencies: BuildTargetDependency[],
+    /** Build lib dependencies - 构建库（或组件）依赖列表 */
+    dependencies: BuildLibDependency[],
 
-    /** Build target entry file */
+    /** Build lib entry file */
     entryFile?: string;
 }
 
@@ -87,11 +85,8 @@ export interface BuildConfig {
     /** Build version - 构建版本 */
     version?: string;
 
-    /** Build target list - 构建目标清单 */
-    targets: BuildTarget[];
-
-    /** Build dist files path - 构建目标文件目标 */
-    dist: string;
+    /** Build lib list - 构建库（或组件）清单 */
+    libs: BuildLib[];
 }
 
 /**
@@ -116,28 +111,33 @@ function getAbsolutePath(path: string) {
 }
 
 /**
- * Parse a string to a build target dependency - 解析一个字符串为构建目标依赖定义
+ * Parse a string to a build lib dependency - 解析一个字符串为构建库（或组件）依赖定义
  * @param dependencyLike Dependency like string - 依赖定义字符串
  * @param buildInLibs Build in libs - 内置库
- * @returns Build target dependency - 构建目标依赖定义
+ * @returns Build lib dependency - 构建库（或组件）依赖定义
  */
-function parseBuildDependency(dependencyLike: BuildTargetDependencyLike, buildInLibs: Map<string, string>): BuildTargetDependency {
+function parseBuildDependency(dependencyLike: BuildLibDependencyLike, buildInLibs: Map<string, string>): BuildLibDependency {
     if (typeof dependencyLike !== 'string') {
         return dependencyLike;
     }
     if (isPathLike(dependencyLike)) {
         return {name: dependencyLike.split('/').pop() as string, type: 'file', path: dependencyLike};
     }
+    const isNpmLib = dependencyLike.startsWith('+');
+    dependencyLike = isNpmLib ? dependencyLike.substring(1) : dependencyLike;
     const startWithAt = dependencyLike.startsWith('@');
     const [namePart, versionOrPath] = (startWithAt ? dependencyLike.substring(1) : dependencyLike).split('@');
     let name = `${startWithAt ? '@' : ''}${namePart}`;
-    if (isPathLike(versionOrPath)) {
-        return {name, type: 'file', path: versionOrPath};
-    }
-    if (buildInLibs.has(`@zui/${name}`)) {
-        name = `@zui/${name}`;
-    } else if (name.startsWith('!')) {
-        name = name.substring(1);
+    if (!isNpmLib) {
+        if (isPathLike(versionOrPath)) {
+            return {name, type: 'file', path: versionOrPath};
+        }
+        if (!name.startsWith('@zui/')) {
+            name = `@zui/${name}`;
+        }
+        if (!buildInLibs.has(name)) {
+            throw new Error(`Build Error: ${name} is not a build in lib`);
+        }
     }
     let version = versionOrPath;
     if (!version) {
@@ -153,13 +153,13 @@ function parseBuildDependency(dependencyLike: BuildTargetDependencyLike, buildIn
 }
 
 /**
- * Parse a string to a BuildTarget - 解析一个字符串为构建目标
- * @param target Target - 目标
+ * Parse a string to a BuildLib - 解析一个字符串为构建库（或组件）
+ * @param lib Lib - 构建库（或组件）定义字符串
  * @param buildInLibs Build in libs - 内置库
- * @returns Build target - 构建目标
+ * @returns Build lib - 构建库（或组件）
  */
-function parseBuildTarget(target: string, buildInLibs: Map<string, string>): BuildTarget {
-    if (target === 'zui' || target === '@zui') {
+function parseBuildLib(lib: string, buildInLibs: Map<string, string>): BuildLib {
+    if (lib === 'zui' || lib === '@zui') {
         return {
             name: 'zui',
             dependencies: [...buildInLibs.entries()].map(([name, version]) => ({
@@ -170,32 +170,35 @@ function parseBuildTarget(target: string, buildInLibs: Map<string, string>): Bui
         };
     }
 
-    const dependency = parseBuildDependency(target, buildInLibs);
+    const dependency = parseBuildDependency(lib, buildInLibs);
     return {name: dependency.name, dependencies: [dependency]};
 }
 
 /**
- * Parse a string to a build targets - 解析一个字符串为构建目标列表
- * @param targetsLike Targets like string - 构建目标字符串
+ * Parse a string to a build libs - 解析一个字符串为构建库（或组件）列表
+ * @param libsLike Libs like string - 构建库（或组件）字符串
  * @param buildInLibs Build in libs - 内置库
- * @returns 构建目标列表和名称
+ * @returns 构建库（或组件）列表和名称
  */
-function parseBuildTargets(targetsLike: TargetsLike, buildInLibs: Map<string, string>): {name: string | null, targets: BuildTarget[]} {
-    const targets: BuildTarget[] = [];
+function parseBuildLibs(libsLike: LibsLike, buildInLibs: Map<string, string>): {name: string | null, libs: BuildLib[]} {
+    const libs: BuildLib[] = [];
     let name: string | null = null;
-    targetsLike.split(' ').forEach(targetLike => {
-        if (targetLike.startsWith(':')) {
-            name = targetLike.substring(1);
+    libsLike.split(/[ ,]/).forEach(libLike => {
+        if (!libLike.length) {
+            return;
+        }
+        if (libLike.startsWith(':')) {
+            name = libLike.substring(1);
         } else {
-            targets.push(parseBuildTarget(targetLike, buildInLibs));
+            libs.push(parseBuildLib(libLike, buildInLibs));
         }
     });
-    return {targets, name};
+    return {libs, name};
 }
 
 /**
- * Get build-in targets list - 获取内部构建目标，每个 ZUI 组件可以作为单独的目标进行打包
- * @returns Targets list - 构建目标列表
+ * Get build-in libs list - 获取内部构建库（或组件），每个 ZUI 组件可以作为单独的库进行打包
+ * @returns Libs list - 构建库（或组件）列表
  */
 export async function getBuildInLibs(): Promise<Map<string, string>> {
     const map = new Map<string, string>();
@@ -226,31 +229,31 @@ export async function getBuildInLibs(): Promise<Map<string, string>> {
  */
 export async function createBuildConfig(options: BuildConfigOptions): Promise<BuildConfig> {
     const {
-        targets: configFileOrTargets,
+        libs: configFileOrLibs,
         name = '',
         version,
     } = options;
 
-    const buildConfig: BuildConfig = {name, version, targets: [], dist: './dist'};
+    const buildConfig: BuildConfig = {name, version, libs: []};
 
-    if (configFileOrTargets && isPathLike(configFileOrTargets)) {
-        const configFromFile = await fs.readJSON(Path.isAbsolute(configFileOrTargets) ? configFileOrTargets : Path.resolve(process.cwd(), configFileOrTargets));
+    if (configFileOrLibs && isPathLike(configFileOrLibs)) {
+        const configFromFile = await fs.readJSON(Path.isAbsolute(configFileOrLibs) ? configFileOrLibs : Path.resolve(process.cwd(), configFileOrLibs));
         Object.assign(buildConfig, configFromFile);
     } else {
         const buildInLibs = await getBuildInLibs();
-        const results = parseBuildTargets(configFileOrTargets || 'zui', buildInLibs);
-        buildConfig.targets.push(...results.targets);
+        const results = parseBuildLibs(configFileOrLibs || 'zui', buildInLibs);
+        buildConfig.libs.push(...results.libs);
         if (!buildConfig.name.length) {
             if (typeof results.name === 'string' && results.name.length) {
                 buildConfig.name = results.name;
-            } else if (buildConfig.targets.length === 1) {
-                buildConfig.name = results.targets[0].name;
+            } else if (buildConfig.libs.length === 1) {
+                buildConfig.name = results.libs[0].name;
             }
         }
     }
 
-    if (!buildConfig.targets.length) {
-        throw new Error('Build Error: Cannot build without any specific target.');
+    if (!buildConfig.libs.length) {
+        throw new Error('Build Error: Cannot build without any specific lib.');
     }
 
     if (!buildConfig.version) {
@@ -273,8 +276,8 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
     const dependencies: Record<string, string> = {};
     const entryFileLines: string[] = [];
 
-    for (const target of config.targets) {
-        target.dependencies.reduce<string[]>((lines, dependency) => {
+    for (const lib of config.libs) {
+        lib.dependencies.reduce<string[]>((lines, dependency) => {
             if (dependency.type === 'file') {
                 lines.push(`import ${JSON.stringify(getAbsolutePath(dependency.path))};`);
             } else {
