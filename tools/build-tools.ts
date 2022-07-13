@@ -82,7 +82,7 @@ export interface BuildTarget {
  */
 export interface BuildConfig {
     /** Build name - 构建名称 */
-    name?: string;
+    name: string;
 
     /** Build version - 构建版本 */
     version?: string;
@@ -227,7 +227,7 @@ export async function getBuildInLibs(): Promise<Map<string, string>> {
 export async function createBuildConfig(options: BuildConfigOptions): Promise<BuildConfig> {
     const {
         targets: configFileOrTargets,
-        name,
+        name = '',
         version,
     } = options;
 
@@ -240,7 +240,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         const buildInLibs = await getBuildInLibs();
         const results = parseBuildTargets(configFileOrTargets || 'zui', buildInLibs);
         buildConfig.targets.push(...results.targets);
-        if (!buildConfig.name) {
+        if (!buildConfig.name.length) {
             if (typeof results.name === 'string' && results.name.length) {
                 buildConfig.name = results.name;
             } else if (buildConfig.targets.length === 1) {
@@ -258,10 +258,8 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         buildConfig.version = zuiPackageJson.version;
     }
 
-    if (!buildConfig.name) {
-        if (!buildConfig.name) {
-            throw new Error('Build Error: Build name must be provided.');
-        }
+    if (!buildConfig.name.length) {
+        buildConfig.name = 'zui-custom';
     }
 
     return buildConfig;
@@ -310,7 +308,7 @@ export function createViteConfig(config: BuildConfig, buildDir: string) {
             lib: {
                 entry: Path.join(buildDir, 'main.ts'),
                 name: config.name,
-                fileName: config.name !== 'zui' ? `zui.${config.name}` : 'zui',
+                fileName: config.name.includes('zui') ? `zui.${config.name}` : config.name,
             },
             outDir: `dist/${config.name}`,
         },
