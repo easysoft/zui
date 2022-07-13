@@ -30,7 +30,6 @@ component_name         # 组件目录
 │   └── test.ts        # 测试脚本
 ```
 
-
 ### package.json
 
 `package.json` 文件用于描述组件的元信息，格式兼容 [npm 包定义文件](https://docs.npmjs.com/cli/v7/configuring-npm/package-json/)，下面说明用于描述组件新的关键属性：
@@ -166,13 +165,64 @@ $ pnpm dev
 
 ### 打包
 
+**默认打包**
+
 执行：
 
-```
+```shell
 $ pnpm build
 ```
 
-## 目录结构
+**定制打包**
+
+打包脚本支持通过参数指定需要打包的组件（库），依次将需要打包的组件名称或第三方库名称追加到命令之后即可，例如以下命令将 ZUI 中的按钮、下拉菜单和面板打包为一个定制版本：
+
+```shell
+$ pnpm build -- buttton dropdown panel
+```
+
+一个更复杂的例子：
+
+```shell
+$ pnpm build -- --name=zentao-zui --version=1.0.0 buttton dropdown panel +jquery@^2.0
+```
+
+打包配置还可以通过一个外部的文件来指定：
+
+```shell
+$ pnpm build -- ./zentao-zui-build-config.json
+```
+
+其中 `./zentao-zui-build-config.json` 文件示例内容如下：
+
+```json
+{
+    "name": "zentao-zui",
+    "version": "1.0.0",
+    "libs": [
+        {"name": "@zui/button", "version": "workspace:latest"},
+      	{"name": "@zui/dropdown", "version": "workspace:latest"},
+      	{"name": "@zui/panel", "version": "workspace:latest"},
+      	{"name": "jquery", "version": "^2.0"},
+    ]
+}
+```
+
+**打包脚本命令完整参数**
+
+* `--lib, -l`  指定需要进行打包的组件或库
+  * 多个组件或库通过空格或逗号拼接，例如 `--lib="button dropdown panel"` 或 `--lib=button,dropdown,panel`
+  * 如果省略该参数，则默认打包 ZUI 内置的所有组件
+  * 当需要打包第三方库时，可以直接指定库在 npm 上的名称，但需要添加 `+` q 例如 `-l +jquery`
+* `--name, -n` 指定进行打包的名称
+  * 如果省略该参数，则默认名称为 `zui-custom`
+
+* `--version, -v` 指定此次打包的版本号
+  * 如果省略该参数，则使用 ZUI 当前版本号
+
+* `--config， -v` 指定打包配置文件
+
+## 目录结构　
 
 ```
 zui/                   # 项目根目录
@@ -180,9 +230,9 @@ zui/                   # 项目根目录
 ├── index.html         # 开发调试时的入口文件
 ├── README.md
 ├── lib/               # 组件库目录
-├── src/               # 基础源码目录
 ├── docs/              # 文档网站目录
 ├── test/              # 测试脚本目录
+├── tools/             # 工具类脚本目录
 ```
 
 ## 技术栈
