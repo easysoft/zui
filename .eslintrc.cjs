@@ -16,9 +16,20 @@ module.exports = {
     rules: {
         'indent': ['error', 4],
         'object-curly-spacing': ['error', 'never'],
-        '@typescript-eslint/indent': ['error', 4],
-        '@typescript-eslint/object-curly-spacing': ['error', 'never'],
+        '@typescript-eslint/indent': 'off',
+        '@typescript-eslint/object-curly-spacing': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
         'react/jsx-filename-extension': 'off',
-        'import/no-extraneous-dependencies': ['error', {devDependencies: ['vite.config.ts']}],
+        'import/no-extraneous-dependencies': ['error', {devDependencies: ['vite.config.ts', 'tailwind.config.ts', 'tools/*']}],
     },
+    overrides: [
+        {
+            files: ['**/*.{ts,tsx}'],
+            rules: {
+                '@typescript-eslint/no-var-requires': 'error',
+                '@typescript-eslint/indent': ['error', 4],
+                '@typescript-eslint/object-curly-spacing': ['error', 'never'],
+            },
+        },
+    ],
 };
