@@ -14,8 +14,10 @@
     "./lib"
   ],
   "dependencies": {
-    "@zui/base": "workspace:*",
-    "@zui/button": "workspace:*"
+    "@zui/base": "workspace:latest",
+    "@zui/button": "workspace:latest",
+    "@zui/config": "workspace:latest",
+    "tailwindcss": "^3.1.4"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
