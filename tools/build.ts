@@ -17,7 +17,7 @@ if (argv.viteFile) {
 }
 
 const buildConfig = await createBuildConfig({
-    targets: argv.lib ?? argv.l ?? argv.config ?? argv.c ?? argv._.join(' '),
+    libs: argv.lib ?? argv.l ?? argv.config ?? argv.c ?? argv._.join(' '),
     name: argv.name ?? argv.n,
     version: argv.version ?? argv.v,
 });
