@@ -1,0 +1,46 @@
+.-primary-pale {
+  @apply border-primary-100 bg-primary-100 text-primary-500;
+}
+.-secondary-pale {
+  @apply border-secondary-100 bg-secondary-100 text-secondary-500;
+}
+.-success-pale {
+  @apply border-success-100 bg-success-100 text-success-500;
+}
+.-warning-pale {
+  @apply border-warning-100 bg-warning-100 text-warning-500;
+}
+.-danger-pale {
+  @apply border-danger-100 bg-danger-100 text-danger-500;
+}
+.-important-pale {
+  @apply border-important-100 bg-important-100 text-important-500;
+}
+.-special-pale {
+  @apply border-special-100 bg-special-100 text-special-500;
+}
+
+.-gray-pale {
+  @apply border-gray-100 bg-gray-100 text-gray-600;
+}
+.-dark-pale {
+  @apply border-gray-300 bg-gray-300 text-gray-900;
+}
+.-blue-pale {
+  @apply border-blue-100 bg-blue-100 text-blue-500;
+}
+.-green-pale {
+  @apply border-green-100 bg-green-100 text-green-500;
+}
+.-yellow-pale {
+  @apply border-yellow-100 bg-yellow-100 text-yellow-500;
+}
+.-red-pale {
+  @apply border-red-100 bg-red-100 text-red-500;
+}
+.-magenta-pale {
+  @apply border-magenta-100 bg-magenta-100 text-magenta-500;
+}
+.-purple-pale {
+  @apply border-purple-100 bg-purple-100 text-purple-500;
+}

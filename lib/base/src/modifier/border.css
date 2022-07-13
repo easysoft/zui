@@ -1,0 +1,48 @@
+.-border-primary {
+  @apply border-primary-500;
+}
+.-border-secondary {
+  @apply border-secondary-500;
+}
+.-border-success {
+  @apply border-success-500;
+}
+.-border-warning {
+  @apply border-warning-500;
+}
+.-border-danger {
+  @apply border-danger-500;
+}
+.-border-important {
+  @apply border-important-500;
+}
+.-border-special {
+  @apply border-special-500;
+}
+.-border-light {
+  @apply border-gray-300;
+}
+.-border-gray {
+  @apply border-gray-600;
+}
+.-border-dark {
+  @apply border-gray-900;
+}
+.-border-blue {
+  @apply border-blue-500;
+}
+.-border-green {
+  @apply border-green-500;
+}
+.-border-yellow {
+  @apply border-yellow-500;
+}
+.-border-red {
+  @apply border-red-500;
+}
+.-border-magenta {
+  @apply border-magenta-500;
+}
+.-border-purple {
+  @apply border-purple-500;
+}

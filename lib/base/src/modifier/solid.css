@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.-primary {
+  @apply border-primary-500 bg-primary-500 text-white;
+}
+.-secondary {
+  @apply border-secondary-500 bg-secondary-500 text-white;
+}
+.-success {
+  @apply border-success-500 bg-success-500 text-white;
+}
+.-warning {
+  @apply border-warning-500 bg-warning-500 text-white;
+}
+.-danger {
+  @apply border-danger-500 bg-danger-500 text-white;
+}
+.-important {
+  @apply border-important-500 bg-important-500 text-white;
+}
+.-special {
+  @apply border-special-500 bg-special-500 text-white;
+}
+
+.-gray {
+  @apply border-gray-500 bg-gray-500 text-white;
+}
+.-dark {
+  @apply border-gray-900 bg-gray-900 text-white;
+}
+.-light {
+  @apply border-gray-100 bg-gray-100;
+}
+.-blue {
+  @apply border-blue-500 bg-blue-500 text-white;
+}
+.-green {
+  @apply border-green-500 bg-green-500 text-white;
+}
+.-yellow {
+  @apply border-yellow-500 bg-yellow-500 text-white;
+}
+.-red {
+  @apply border-red-500 bg-red-500 text-white;
+}
+.-magenta {
+  @apply border-magenta-500 bg-magenta-500 text-white;
+}
+.-purple {
+  @apply border-purple-500 bg-purple-500 text-white;
+}
