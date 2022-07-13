@@ -94,10 +94,20 @@ export interface BuildConfig {
     dist: string;
 }
 
+/**
+ * Check a string wheather is a valid path 检查一个字符串是否为路径
+ * @param pathLike Path like string - 路径字符串
+ * @returns If the string is a valid path then return true - 如果为路径返回 true
+ */
 function isPathLike(pathLike: string): boolean {
     return /^(\.?\.?|~)\//.test(pathLike);
 }
 
+/**
+ * Get absolute path - 从路径字符串获取绝对路径
+ * @param path Path string - 路径字符串
+ * @returns Path
+ */
 function getAbsolutePath(path: string) {
     if (Path.isAbsolute(path)) {
         return path;
@@ -105,6 +115,12 @@ function getAbsolutePath(path: string) {
     return Path.resolve(process.cwd(), path.startsWith('~/') ? path.replace('~', '.') : path);
 }
 
+/**
+ * Parse a string to a build target dependency - 解析一个字符串为构建目标依赖定义
+ * @param dependencyLike Dependency like string - 依赖定义字符串
+ * @param buildInLibs Build in libs - 内置库
+ * @returns Build target dependency - 构建目标依赖定义
+ */
 function parseBuildDependency(dependencyLike: BuildTargetDependencyLike, buildInLibs: Map<string, string>): BuildTargetDependency {
     if (typeof dependencyLike !== 'string') {
         return dependencyLike;
@@ -136,6 +152,12 @@ function parseBuildDependency(dependencyLike: BuildTargetDependencyLike, buildIn
     };
 }
 
+/**
+ * Parse a string to a BuildTarget - 解析一个字符串为构建目标
+ * @param target Target - 目标
+ * @param buildInLibs Build in libs - 内置库
+ * @returns Build target - 构建目标
+ */
 function parseBuildTarget(target: string, buildInLibs: Map<string, string>): BuildTarget {
     if (target === 'zui' || target === '@zui') {
         return {
@@ -152,6 +174,12 @@ function parseBuildTarget(target: string, buildInLibs: Map<string, string>): Bui
     return {name: dependency.name, dependencies: [dependency]};
 }
 
+/**
+ * Parse a string to a build targets - 解析一个字符串为构建目标列表
+ * @param targetsLike Targets like string - 构建目标字符串
+ * @param buildInLibs Build in libs - 内置库
+ * @returns 构建目标列表和名称
+ */
 function parseBuildTargets(targetsLike: TargetsLike, buildInLibs: Map<string, string>): {name: string | null, targets: BuildTarget[]} {
     const targets: BuildTarget[] = [];
     let name: string | null = null;
@@ -240,7 +268,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 }
 
 /**
- * 准备构建相关文件
+ * Prepare build files - 准备构建相关文件
  * @param config Build config
  */
 export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
@@ -272,9 +300,9 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
 }
 
 /**
- * Create vite config file
- * @param config Build config
- * @return Vite config file path
+ * Create vite config file - 创建 Vite 配置文件
+ * @param config Build config - 构建配置
+ * @return Vite config - Vite 配置
  */
 export function createViteConfig(config: BuildConfig, buildDir: string) {
     return {

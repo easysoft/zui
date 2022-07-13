@@ -5,8 +5,8 @@ import {mergeConfig} from 'vite';
 import {createBuildConfig, prepareBuildFiles, createViteConfig} from './build-tools.js';
 
 const argv = minimist(process.argv.slice(3));
-let viteConfig = {};
 
+let viteConfig = {};
 if (argv.viteFile) {
     try {
         const extraViteConfig = await import(argv.viteFile);
@@ -17,7 +17,7 @@ if (argv.viteFile) {
 }
 
 const buildConfig = await createBuildConfig({
-    targets: argv.config || argv._.join(' '),
+    targets: argv.lib || argv._.join(' '),
     name: argv.name,
     version: argv.version,
 });
