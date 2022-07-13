@@ -236,11 +236,11 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     const buildConfig: BuildConfig = {name, version, libs: []};
 
+    const buildInLibs = await getBuildInLibs();
     if (configFileOrLibs && isPathLike(configFileOrLibs)) {
         const configFromFile = await fs.readJSON(Path.isAbsolute(configFileOrLibs) ? configFileOrLibs : Path.resolve(process.cwd(), configFileOrLibs));
         Object.assign(buildConfig, configFromFile);
     } else {
-        const buildInLibs = await getBuildInLibs();
         const results = parseBuildLibs(configFileOrLibs || 'zui', buildInLibs);
         buildConfig.libs.push(...results.libs);
         if (!buildConfig.name.length) {
@@ -263,6 +263,8 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     if (!buildConfig.name.length) {
         buildConfig.name = 'zui-custom';
+    } else if (buildInLibs.has(buildConfig.name)) {
+        throw new Error('Build Error: Build name must be difference from build-in libs.');
     }
 
     return buildConfig;

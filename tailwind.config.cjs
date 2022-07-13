@@ -1,18 +1,9 @@
-const colors = require('tailwindcss/colors');
-const config = require('@zui/config');
+const {tailwind} = require('@zui/config');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [],
-    theme: {
-        colors: {
-            transparent: colors.transparent,
-            current: colors.current,
-            black: colors.black,
-            white: colors.white,
-            gray: colors.gray,
-            ...config.shades,
-        },
-    },
+    presets: [
+        tailwind,
+    ],
     plugins: [],
 };

@@ -74,7 +74,7 @@ const red = {
     900: '#a30606',
 };
 
-/** Magenta - 洋红色 */
+/** Magenta - 洋红色/粉 */
 const magenta = {
     50:  '#fffafc',
     100: '#feebf4',
@@ -88,7 +88,7 @@ const magenta = {
     900: '#a80c52',
 };
 
-/** Purple - 紫色 */
+/** Purple - 爱琴海/紫色 */
 const purple = {
     50: '#fcfaff',
     100: '#f1eafc',
@@ -102,6 +102,34 @@ const purple = {
     900: '#6231b0',
 };
 
+/** gray - 灰色 */
+const gray = {
+    50: '#fcfdfe',
+    100: '#f4f5f7',
+    200: '#edeef2',
+    300: '#e3e4e9',
+    400: '#e6eaf1',
+    500: '#9ea3b0',
+    600: '#838a9d',
+    700: '#5e626d',
+    800: '#3c4353',
+    900: '#1b1f28',
+};
+
+/** zinc - 锌灰色 */
+const zinc = {
+    50: '#fafafa',
+    100: '#f8f8f8',
+    200: '#eeeeee',
+    300: '#e2e5e8',
+    400: '#c4c4c4',
+    500: '#71717a',
+    600: '#52525b',
+    700: '#3f3f46',
+    800: '#27272a',
+    900: '#18181b',
+};
+
 module.exports = {
     young,
     blue,
@@ -110,4 +138,6 @@ module.exports = {
     red,
     magenta,
     purple,
+    gray,
+    zinc,
 };

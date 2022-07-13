@@ -33,7 +33,7 @@ importers:
     dependencies:
       '@zui/base': link:lib/base
       '@zui/button': link:lib/button
-      '@zui/config': link:lib/config
+      '@zui/config': link:config
       tailwindcss: registry.npmmirror.com/tailwindcss/3.1.4_ts-node@10.8.2
     devDependencies:
       '@types/fs-extra': registry.npmmirror.com/@types/fs-extra/9.0.13
@@ -61,11 +61,14 @@ importers:
 
   build:
     specifiers:
+      '@zui/base': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
-      '@zui/config': workspace:^0.0.1
     dependencies:
+      '@zui/base': link:../lib/base
       '@zui/button': link:../lib/button
-      '@zui/config': link:../lib/config
+
+  config:
+    specifiers: {}
 
   lib/base:
     specifiers: {}
@@ -75,9 +78,6 @@ importers:
       '@zui/base': workspace:*
     dependencies:
       '@zui/base': link:../base
-
-  lib/config:
-    specifiers: {}
 
 packages:
 

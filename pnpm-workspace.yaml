@@ -1,3 +1,4 @@
 packages:
+  - "config"
   - "lib/**"
   - "build"
