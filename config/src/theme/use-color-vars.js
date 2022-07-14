@@ -11,7 +11,7 @@ function convertColorToVariabels(colorObject, parentName = 'color', vars = {}) {
         if (typeof value === 'object') {
             vars[name] = convertColorToVariabels(value, `${parentName}-${varName}`);
         } else {
-            vars[name] = colorVariable(`--${parentName}-${varName}`);
+            vars[name] = value.startsWith('#') ? colorVariable(`--${parentName}-${varName}`) : `var(--${parentName}-${varName})`;
         }
     });
     return vars;
