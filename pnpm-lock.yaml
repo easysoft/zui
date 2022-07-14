@@ -20,6 +20,8 @@ importers:
       fs-extra: ^10.1.0
       minimist: ^1.2.6
       postcss: ^8.4.14
+      postcss-import: ^14.1.0
+      postcss-nesting: ^10.1.10
       stylelint: ^14.9.1
       stylelint-config-recess-order: ^3.0.0
       stylelint-config-standard: ^26.0.0
@@ -49,6 +51,8 @@ importers:
       fs-extra: registry.npmmirror.com/fs-extra/10.1.0
       minimist: registry.npmmirror.com/minimist/1.2.6
       postcss: registry.npmmirror.com/postcss/8.4.14
+      postcss-import: registry.npmmirror.com/postcss-import/14.1.0_postcss@8.4.14
+      postcss-nesting: registry.npmmirror.com/postcss-nesting/10.1.10_postcss@8.4.14
       stylelint: registry.npmmirror.com/stylelint/14.9.1
       stylelint-config-recess-order: registry.npmmirror.com/stylelint-config-recess-order/3.0.0_stylelint@14.9.1
       stylelint-config-standard: registry.npmmirror.com/stylelint-config-standard/26.0.0_stylelint@14.9.1
@@ -2837,7 +2841,6 @@ packages:
     name: pify
     version: 2.3.0
     engines: {node: '>=0.10.0'}
-    dev: false
 
   registry.npmmirror.com/postcss-import/14.1.0_postcss@8.4.14:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-import/-/postcss-import-14.1.0.tgz}
@@ -2852,7 +2855,6 @@ packages:
       postcss-value-parser: registry.npmmirror.com/postcss-value-parser/4.2.0
       read-cache: registry.npmmirror.com/read-cache/1.0.0
       resolve: registry.npmmirror.com/resolve/1.22.1
-    dev: false
 
   registry.npmmirror.com/postcss-js/4.0.0_postcss@8.4.14:
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-js/-/postcss-js-4.0.0.tgz}
@@ -2906,6 +2908,20 @@ packages:
       postcss: registry.npmmirror.com/postcss/8.4.14
       postcss-selector-parser: registry.npmmirror.com/postcss-selector-parser/6.0.10
     dev: false
+
+  registry.npmmirror.com/postcss-nesting/10.1.10_postcss@8.4.14:
+    resolution: {integrity: sha512-lqd7LXCq0gWc0wKXtoKDru5wEUNjm3OryLVNRZ8OnW8km6fSNUuFrjEhU3nklxXE2jvd4qrox566acgh+xQt8w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-nesting/-/postcss-nesting-10.1.10.tgz}
+    id: registry.npmmirror.com/postcss-nesting/10.1.10
+    name: postcss-nesting
+    version: 10.1.10
+    engines: {node: ^12 || ^14 || >=16}
+    peerDependencies:
+      postcss: ^8.2
+    dependencies:
+      '@csstools/selector-specificity': registry.npmmirror.com/@csstools/selector-specificity/2.0.1_444rcjjorr3kpoqtvoodsr46pu
+      postcss: registry.npmmirror.com/postcss/8.4.14
+      postcss-selector-parser: registry.npmmirror.com/postcss-selector-parser/6.0.10
+    dev: true
 
   registry.npmmirror.com/postcss-resolve-nested-selector/0.1.1:
     resolution: {integrity: sha512-HvExULSwLqHLgUy1rl3ANIqCsvMS0WHss2UOsXhXnQaZ9VCc2oBvIpXrl00IUFT5ZDITME0o6oiXeiHr2SAIfw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-resolve-nested-selector/-/postcss-resolve-nested-selector-0.1.1.tgz}
@@ -3009,7 +3025,6 @@ packages:
     version: 1.0.0
     dependencies:
       pify: registry.npmmirror.com/pify/2.3.0
-    dev: false
 
   registry.npmmirror.com/read-pkg-up/7.0.1:
     resolution: {integrity: sha512-zK0TB7Xd6JpCLmlLmufqykGE+/TlOePD6qKClNW7hHDKFh/J7/7gCWGR7joEQEW1bKq3a3yUZSObOoWLFQ4ohg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/read-pkg-up/-/read-pkg-up-7.0.1.tgz}
