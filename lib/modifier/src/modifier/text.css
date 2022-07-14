@@ -29,24 +29,6 @@
 .-text-dark {
   @apply text-black;
 }
-.-text-blue {
-  @apply text-blue-500;
-}
-.-text-green {
-  @apply text-green-500;
-}
-.-text-yellow {
-  @apply text-yellow-500;
-}
-.-text-red {
-  @apply text-red-500;
-}
-.-text-magenta {
-  @apply text-magenta-500;
-}
-.-text-purple {
-  @apply text-purple-500;
-}
 
 /** Special colors */
 .-text-fore {

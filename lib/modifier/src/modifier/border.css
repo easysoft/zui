@@ -20,25 +20,6 @@
   @apply border-special-500;
 }
 
-.-border-blue {
-  @apply border-blue-500;
-}
-.-border-green {
-  @apply border-green-500;
-}
-.-border-yellow {
-  @apply border-yellow-500;
-}
-.-border-red {
-  @apply border-red-500;
-}
-.-border-magenta {
-  @apply border-magenta-500;
-}
-.-border-purple {
-  @apply border-purple-500;
-}
-
 .-border-light {
   @apply border-zinc-200;
 }
@@ -66,40 +47,4 @@
 }
 .-border-0 {
   @apply border-0;
-}
-.-border-l {
-  @apply border-l;
-}
-.-border-l-2 {
-  @apply border-l-2;
-}
-.-border-l-0 {
-  @apply border-l-0;
-}
-.-border-r {
-  @apply border-r;
-}
-.-border-r-2 {
-  @apply border-r-2;
-}
-.-border-r-0 {
-  @apply border-r-0;
-}
-.-border-t {
-  @apply border-t;
-}
-.-border-t-2 {
-  @apply border-t-2;
-}
-.-border-t-0 {
-  @apply border-t-0;
-}
-.-border-b {
-  @apply border-b;
-}
-.-border-b-2 {
-  @apply border-b-2;
-}
-.-border-b-0 {
-  @apply border-b-0;
 }

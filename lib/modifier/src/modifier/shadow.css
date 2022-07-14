@@ -13,9 +13,6 @@
 .-shadow-xl {
   @apply shadow-xl;
 }
-.-shadow-2xl {
-  @apply shadow-2xl;
-}
 .-shadow-inner {
   @apply shadow-inner;
 }
@@ -48,25 +45,6 @@
 .-shadow-gray {
   @apply shadow-gray-500;
 }
-.-shadow-blue {
-  @apply shadow-blue-500;
-}
-.-shadow-green {
-  @apply shadow-green-500;
-}
-.-shadow-yellow {
-  @apply shadow-yellow-500;
-}
-.-shadow-red {
-  @apply shadow-red-500;
-}
-.-shadow-magenta {
-  @apply shadow-magenta-500;
-}
-.-shadow-purple {
-  @apply shadow-purple-500;
-}
-
 .-shadow-inherit {
   @apply shadow-inherit;
 }

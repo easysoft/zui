@@ -4,6 +4,7 @@
     "main": "src/main.ts",
     "browserslist": "",
     "dependencies": {
-        "@zui/base": "workspace:*"
+        "@zui/base": "workspace:*",
+        "@zui/modifier": "workspace:*"
     }
 }

@@ -2,9 +2,12 @@
     "name": "@zui/modifier",
     "description": "ZUI css modifier classes",
     "version": "0.0.1",
-    "keywords": ["css"],
+    "keywords": ["css", "tailwind-utilities"],
     "main": "src/main.ts",
     "dependencies": {
         "@zui/base": "workspace:*"
-    }
+    },
+    "files": [
+        "./src/**/*"
+    ]
 }

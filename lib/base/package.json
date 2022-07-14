@@ -3,5 +3,8 @@
     "description": "ZUI basic settings",
     "version": "0.0.1",
     "keywords": ["css"],
-    "main": "src/main.ts"
+    "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ]
 }

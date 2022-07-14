@@ -1,0 +1,35 @@
+@tailwind utilities;
+
+@layer utilities {
+    .state {
+        @apply relative cursor-pointer;
+    }
+    .state::before {
+        @apply block absolute inset-0 ease-in-out duration-200 opacity-0;
+        background: var(--state-color);
+        content: ' ';
+        border-radius: inherit;
+        transform: scale(var(--state-scale));
+        transition-property: opacity, transform;
+    }
+    .state:hover::before,
+    .state:active::before,
+    .state:focus-visible::before {
+        @apply opacity-100 scale-100;
+    }
+    .state:focus-visible {
+        @apply outline-none;
+    }
+    .state:focus-visible::before {
+        background: var(--state-focus-color);
+        @apply ring ring-focus ring-offset-1;
+    }
+    .state:active::before {
+        background: var(--state-active-color);
+    }
+}
+
+.btn,
+.-state {
+    @apply state;
+}

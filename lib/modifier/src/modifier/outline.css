@@ -21,30 +21,11 @@
 }
 
 .-gray-outline {
-  @apply border border-gray-500 text-gray-500;
+  @apply border border-gray-500;
 }
 .-dark-outline {
-  @apply border border-gray-900 text-gray-900;
+  @apply border border-gray-900;
 }
 .-light-outline {
-  @apply border border-gray-300 text-gray-500;
-}
-
-.-blue-outline {
-  @apply border border-blue-500 text-blue-500;
-}
-.-green-outline {
-  @apply border border-green-500 text-green-500;
-}
-.-yellow-outline {
-  @apply border border-yellow-500 text-yellow-500;
-}
-.-red-outline {
-  @apply border border-red-500 text-red-500;
-}
-.-magenta-outline {
-  @apply border border-magenta-500 text-magenta-500;
-}
-.-purple-outline {
-  @apply border border-purple-500 text-purple-500;
+  @apply border border-gray-300;
 }

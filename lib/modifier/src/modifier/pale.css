@@ -21,29 +21,11 @@
 }
 
 .-light-pale {
-  @apply border-gray-100 bg-gray-100 text-gray-500;
+  @apply border-gray-100 bg-gray-100;
 }
 .-gray-pale {
-  @apply border-gray-200 bg-gray-200 text-gray-600;
+  @apply border-gray-200 bg-gray-200;
 }
 .-dark-pale {
   @apply border-gray-300 bg-gray-300 text-gray-900;
-}
-.-blue-pale {
-  @apply border-blue-100 bg-blue-100 text-blue-500;
-}
-.-green-pale {
-  @apply border-green-100 bg-green-100 text-green-500;
-}
-.-yellow-pale {
-  @apply border-yellow-100 bg-yellow-100 text-yellow-500;
-}
-.-red-pale {
-  @apply border-red-100 bg-red-100 text-red-500;
-}
-.-magenta-pale {
-  @apply border-magenta-100 bg-magenta-100 text-magenta-500;
-}
-.-purple-pale {
-  @apply border-purple-100 bg-purple-100 text-purple-500;
 }

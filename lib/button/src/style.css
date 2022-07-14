@@ -1,13 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .btn {
+    @apply border border-gray-300 rounded px-3 py-1.5;
     height: var(--btn-size-base);
-}
-.btn-primary {
-    /* @apply text-white bg-primary-500; */
-}
-.btn-young {
-    @apply text-white bg-young-500;
 }

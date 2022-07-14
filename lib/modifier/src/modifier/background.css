@@ -58,15 +58,12 @@
 .-bg-inverse {
     @apply bg-fore;
 }
-.-bg-canvas {
-    @apply bg-canvas;
-}
 .-bg-current {
-    @apply bg-current;
+  background-color: currentColor;
 }
 .-bg-transparent {
-    @apply bg-transparent;
+    background-color: transparent;
 }
 .-bg-inherit {
-    @apply bg-inherit;
+  background-color: inherit;
 }

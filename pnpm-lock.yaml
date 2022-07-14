@@ -70,8 +70,14 @@ importers:
   build:
     specifiers:
       '@zui/base': workspace:^0.0.1
+      '@zui/button': workspace:^0.0.1
+      '@zui/modifier': workspace:^0.0.1
+      '@zui/store': workspace:^0.0.1
     dependencies:
       '@zui/base': link:../lib/base
+      '@zui/button': link:../lib/button
+      '@zui/modifier': link:../lib/modifier
+      '@zui/store': link:../lib/store
 
   config:
     specifiers:
@@ -85,14 +91,22 @@ importers:
   lib/button:
     specifiers:
       '@zui/base': workspace:*
+      '@zui/modifier': workspace:*
     dependencies:
       '@zui/base': link:../base
+      '@zui/modifier': link:../modifier
 
   lib/modifier:
     specifiers:
       '@zui/base': workspace:*
     dependencies:
       '@zui/base': link:../base
+
+  lib/store:
+    specifiers:
+      nanoid: ^4.0.0
+    dependencies:
+      nanoid: registry.npmmirror.com/nanoid/4.0.0
 
 packages:
 
@@ -2778,6 +2792,14 @@ packages:
     version: 3.3.4
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+
+  registry.npmmirror.com/nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/nanoid/-/nanoid-4.0.0.tgz}
+    name: nanoid
+    version: 4.0.0
+    engines: {node: ^14 || ^16 || >=18}
+    hasBin: true
+    dev: false
 
   registry.npmmirror.com/natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/natural-compare/-/natural-compare-1.4.0.tgz}
