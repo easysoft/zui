@@ -317,13 +317,9 @@ export function createViteConfig(config: BuildConfig, buildDir: string) {
             lib: {
                 entry: Path.join(buildDir, 'main.ts'),
                 name: config.name,
-                fileName: config.name.includes('zui') ? `zui.${config.name}` : config.name,
+                fileName: !config.name.includes('zui') ? `zui.${config.name}` : config.name,
             },
             outDir: `dist/${config.name}`,
-            sourcemap: true,
         },
-        // plugins: [
-        //     css({name: '[name].css'}),
-        // ],
     };
 }
