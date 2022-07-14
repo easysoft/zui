@@ -1,12 +1,12 @@
 import {fs, path as Path} from 'zx';
-import {defineConfig, mergeConfig} from 'vite';
+import {defineConfig, mergeConfig, UserConfig, PluginOption, LibraryOptions} from 'vite';
 import minimist from 'minimist';
 import eslint from 'vite-plugin-eslint';
+import css from 'rollup-plugin-css-only';
 
 export default defineConfig(async () => {
     const {config: configFile} = minimist(process.argv.slice(4));
-    let viteConfig: Record<string, unknown> = {
-        plugins: [eslint()],
+    let viteConfig: UserConfig = {
         build: {
             outDir: 'dist/dev',
         },
@@ -17,5 +17,10 @@ export default defineConfig(async () => {
         viteConfig = mergeConfig(viteConfig, extraBuildConfig);
     }
 
-    return viteConfig;
+    return mergeConfig(viteConfig, {
+        plugins: [
+            eslint(),
+            css({output: `${(viteConfig.build?.lib as LibraryOptions)?.fileName ?? 'style'}.css`}) as PluginOption,
+        ],
+    });
 });

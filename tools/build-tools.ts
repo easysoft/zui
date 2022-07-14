@@ -1,4 +1,5 @@
 import {fs, path as Path} from 'zx';
+// import css from 'rollup-plugin-css-only';
 
 /**
  * Libs like string - 构建库（或组件）定义字符串
@@ -248,6 +249,9 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
                 buildConfig.name = results.name;
             } else if (buildConfig.libs.length === 1) {
                 buildConfig.name = results.libs[0].name;
+                if (buildConfig.name.startsWith('@zui/')) {
+                    buildConfig.name = buildConfig.name.substring('@zui/'.length);
+                }
             }
         }
     }
@@ -264,7 +268,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
     if (!buildConfig.name.length) {
         buildConfig.name = 'zui-custom';
     } else if (buildInLibs.has(buildConfig.name)) {
-        throw new Error('Build Error: Build name must be difference from build-in libs.');
+        throw new Error(`Build Error: Build name "${buildConfig.name}" must be difference from build-in libs.`);
     }
 
     return buildConfig;
@@ -316,6 +320,10 @@ export function createViteConfig(config: BuildConfig, buildDir: string) {
                 fileName: config.name.includes('zui') ? `zui.${config.name}` : config.name,
             },
             outDir: `dist/${config.name}`,
+            sourcemap: true,
         },
+        // plugins: [
+        //     css({name: '[name].css'}),
+        // ],
     };
 }
