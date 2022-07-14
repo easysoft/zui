@@ -53,26 +53,8 @@ const canvas = white;
 /** 控件或页面背景 */
 const surface = shades.gray[100];
 
-/** 控件或页面背景（深色） */
-const surfaceDark = shades.gray[200];
-
-/** 控件或页面背景（加深） */
-const surfaceDarken = shades.gray[300];
-
-/** 边框 */
-const border = shades.zinc[200];
-
-/** 边框（加深） */
-const borderDark = shades.zinc[300];
-
-/** 文本（加深） */
-const textDark = shades.gray[900];
-
 /** 文本 */
-const text = shades.gray[800];
-
-/** 文本（浅色） */
-const textLight = shades.gray[700];
+const fore = shades.gray[800];
 
 module.exports = {
     ...shades,
@@ -93,11 +75,5 @@ module.exports = {
 
     canvas,
     surface,
-    surfaceDark,
-    surfaceDarken,
-    border,
-    borderDark,
-    textDark,
-    text,
-    textLight,
+    fore,
 };
