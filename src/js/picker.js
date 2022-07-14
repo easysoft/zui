@@ -466,6 +466,7 @@
 
     Picker.prototype.select = function(value, notHideDropList) {
         var that = this;
+        that.$search.val() && that.$search.val('');
         if (!that.isSelectedValue(value)) {
             if (that.triggerEvent('select', {value: value, picker: that}) === false) {
                 return;
