@@ -1,6 +1,3 @@
-.-rounded-none {
-  @apply rounded-none;
-}
 .-rounded-sm {
   @apply rounded-sm;
 }
@@ -18,4 +15,7 @@
 }
 .-rounded-full {
   @apply rounded-full;
+}
+.-rounded-none {
+  @apply rounded-none;
 }

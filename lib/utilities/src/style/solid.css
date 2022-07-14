@@ -20,20 +20,36 @@
   @apply border-special-500 bg-special-500 text-white;
 }
 
+.-white {
+  @apply border-white bg-white;
+}
+.-lighter {
+  @apply border-gray-100 bg-gray-100;
+}
 .-light {
-  @apply border-gray-100 bg-gray-100 text-fore;
+  @apply border-gray-300 bg-gray-300;
 }
 .-gray {
   @apply border-gray-500 bg-gray-500 text-white;
 }
 .-dark {
-  @apply border-gray-900 bg-gray-900 text-white;
+  @apply border-gray-700 bg-gray-700 text-white;
 }
-.-white {
-  @apply border-white bg-white text-fore;
+.-darker {
+  @apply border-gray-900 bg-gray-900 text-white;
 }
 .-black {
   @apply border-black bg-black text-white;
+}
+
+.-surface {
+  @apply border-surface bg-surface;
+}
+.-canvas {
+  @apply border-canvas bg-canvas;
+}
+.-inverse {
+  @apply border-fore bg-fore text-canvas;
 }
 .-ghost {
   background-color: transparent;

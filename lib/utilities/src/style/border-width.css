@@ -1,0 +1,12 @@
+.-border {
+  @apply border;
+}
+.-border-2 {
+  @apply border-2;
+}
+.-border-4 {
+  @apply border-4;
+}
+.-border-0 {
+  @apply border-0;
+}

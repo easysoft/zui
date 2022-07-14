@@ -1,0 +1,63 @@
+.-border-primary {
+  @apply border-primary-500;
+}
+.-border-secondary {
+  @apply border-secondary-500;
+}
+.-border-success {
+  @apply border-success-500;
+}
+.-border-warning {
+  @apply border-warning-500;
+}
+.-border-danger {
+  @apply border-danger-500;
+}
+.-border-important {
+  @apply border-important-500;
+}
+.-border-special {
+  @apply border-special-500;
+}
+
+.-border-white {
+  @apply border-white;
+}
+.-border-lighter {
+  @apply border-gray-100;
+}
+.-border-light {
+  @apply border-gray-300;
+}
+.-border-gray {
+  @apply border-gray-500;
+}
+.-border-dark {
+  @apply border-gray-700;
+}
+.-border-darker {
+  @apply border-gray-900;
+}
+.-border-black {
+  @apply border-black;
+}
+
+.-border-canvas {
+  @apply border-canvas;
+}
+.-border-surface {
+  @apply border-surface;
+}
+.-border-inverse {
+  @apply border-fore;
+}
+
+.-border-transparent {
+  border-color: transparent;
+}
+.-border-current {
+  border-color: currentColor;
+}
+.-border-inherit {
+  border-color: inherit;
+}

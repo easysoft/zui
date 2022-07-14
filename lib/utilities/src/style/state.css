@@ -27,9 +27,17 @@
     .state:active::before {
         background: var(--state-active-color);
     }
+    .state.-disabled::before {
+        display: none;
+    }
 }
 
 .btn,
 .-state {
     @apply state;
+}
+
+.-disabled {
+    @apply cursor-not-allowed grayscale;
+    opacity: var(--state-disabled-opacity);
 }

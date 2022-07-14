@@ -1,25 +1,3 @@
-.-shadow-sm {
-  @apply shadow-sm;
-}
-.-shadow {
-  @apply shadow;
-}
-.-shadow-md {
-  @apply shadow-md;
-}
-.-shadow-lg {
-  @apply shadow-lg;
-}
-.-shadow-xl {
-  @apply shadow-xl;
-}
-.-shadow-inner {
-  @apply shadow-inner;
-}
-.-shadow-none {
-  @apply shadow-none;
-}
-
 .-shadow-primary {
   @apply shadow-primary-500;
 }
@@ -42,21 +20,34 @@
   @apply shadow-special-500;
 }
 
+.-shadow-white {
+  @apply shadow-white;
+}
+.-shadow-lighter {
+  @apply shadow-gray-100;
+}
+.-shadow-light {
+  @apply shadow-gray-300;
+}
 .-shadow-gray {
   @apply shadow-gray-500;
 }
-.-shadow-inherit {
-  @apply shadow-inherit;
+.-shadow-dark {
+  @apply shadow-gray-700;
 }
-.-shadow-current {
-  @apply shadow-current;
-}
-.-shadow-transparent {
-  @apply shadow-transparent;
+.-shadow-darker {
+  @apply shadow-gray-900;
 }
 .-shadow-black {
   @apply shadow-black;
 }
-.-shadow-white {
-  @apply shadow-white;
+
+.-shadow-transparent {
+  @apply shadow-transparent;
+}
+.-shadow-current {
+  @apply shadow-current;
+}
+.-shadow-inherit {
+  @apply shadow-inherit;
 }

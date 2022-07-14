@@ -20,49 +20,44 @@
   @apply bg-special-500;
 }
 
-.-bg-light {
+.-bg-white {
+  @apply bg-white;
+}
+.-bg-lighter {
   @apply bg-gray-100
+}
+.-bg-light {
+  @apply bg-gray-300
 }
 .-bg-gray {
   @apply bg-gray-500;
 }
 .-bg-dark {
+  @apply bg-gray-700;
+}
+.-bg-darker {
   @apply bg-gray-900;
 }
-
-.-bg-blue {
-  @apply bg-blue-500;
-}
-.-bg-green {
-  @apply bg-green-500;
-}
-.-bg-yellow {
-  @apply bg-yellow-500;
-}
-.-bg-red {
-  @apply bg-red-500;
-}
-.-bg-magenta {
-  @apply bg-magenta-500;
-}
-.-bg-purple {
-  @apply bg-purple-500;
+.-bg-black {
+  @apply bg-black;
 }
 
 .-bg-canvas {
-    @apply bg-canvas;
+  @apply bg-canvas;
 }
 .-bg-surface {
-    @apply bg-surface;
+  @apply bg-surface;
 }
 .-bg-inverse {
-    @apply bg-fore;
+  @apply bg-fore;
 }
+
+
 .-bg-current {
   background-color: currentColor;
 }
 .-bg-transparent {
-    background-color: transparent;
+  background-color: transparent;
 }
 .-bg-inherit {
   background-color: inherit;

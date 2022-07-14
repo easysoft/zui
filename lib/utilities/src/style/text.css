@@ -20,29 +20,44 @@
   @apply text-special-500;
 }
 
-.-text-light {
+.-text-white {
+  @apply text-white;
+}
+.-text-lighter {
   @apply text-gray-300;
 }
+.-text-light {
+  @apply text-gray-400;
+}
 .-text-gray {
-  @apply text-gray-600;
+  @apply text-gray-500;
 }
 .-text-dark {
+  @apply text-gray-700;
+}
+.-text-darker {
+  @apply text-gray-900;
+}
+.-text-black {
   @apply text-black;
 }
 
-/** Special colors */
-.-text-fore {
-  @apply text-fore;
-}
-.-text-inverse {
+.-text-canvas {
   @apply text-canvas;
 }
-.-text-current {
-  @apply text-current;
+.-text-surface {
+  @apply text-surface;
 }
+.-text-inverse {
+  @apply text-fore;
+}
+
 .-text-transparent {
-  @apply text-transparent;
+  color: transparent;
+}
+.-text-current {
+  color: currentColor;
 }
 .-text-inherit {
-  @apply text-inherit;
+  color: inherit;
 }

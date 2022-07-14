@@ -1,0 +1,28 @@
+.btn {
+    @apply px-3;
+    height: var(--btn-base-size);
+    border: 1px solid var(--btn-border-color);
+    background: var(--btn-background);
+    border-radius: var(--btn-radius);
+}
+
+.btn.-xs {
+    @apply text-xs px-1;
+    height: var(--btn-xs-size);
+}
+.btn.-sm {
+    @apply text-sm px-2;
+    height: var(--btn-sm-size);
+}
+.btn.-lg {
+    @apply text-lg px-4;
+    height: var(--btn-lg-size);
+}
+.btn.-xl {
+    @apply text-xl px-5;
+    height: var(--btn-xl-size);
+}
+
+.btn.-square {
+    @apply px-0 aspect-square;
+}
