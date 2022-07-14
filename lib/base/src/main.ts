@@ -1,2 +1,2 @@
-import './tailwind-base.css';
+import './tailwind.css';
 import './global.css';
