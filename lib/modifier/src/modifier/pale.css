@@ -20,8 +20,11 @@
   @apply border-special-100 bg-special-100 text-special-500;
 }
 
+.-light-pale {
+  @apply border-gray-100 bg-gray-100 text-gray-500;
+}
 .-gray-pale {
-  @apply border-gray-100 bg-gray-100 text-gray-600;
+  @apply border-gray-200 bg-gray-200 text-gray-600;
 }
 .-dark-pale {
   @apply border-gray-300 bg-gray-300 text-gray-900;

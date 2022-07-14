@@ -1,0 +1,109 @@
+.-rounded-none {
+  @apply rounded-none;
+}
+.-rounded-sm {
+  @apply rounded-sm;
+}
+.-rounded {
+  @apply rounded;
+}
+.-rounded-md {
+  @apply rounded-md;
+}
+.-rounded-lg {
+  @apply rounded-lg;
+}
+.-rounded-xl {
+  @apply rounded-xl;
+}
+.-rounded-full {
+  @apply rounded-full;
+}
+
+.-rounded-tl-none {
+  @apply rounded-tl-none;
+}
+.-rounded-tl-sm {
+  @apply rounded-tl-sm;
+}
+.-rounded-tl {
+  @apply rounded-tl;
+}
+.-rounded-tl-md {
+  @apply rounded-tl-md;
+}
+.-rounded-tl-lg {
+  @apply rounded-tl-lg;
+}
+.-rounded-tl-xl {
+  @apply rounded-tl-xl;
+}
+.-rounded-tl-full {
+  @apply rounded-tl-full;
+}
+
+.-rounded-tr-none {
+  @apply rounded-tr-none;
+}
+.-rounded-tr-sm {
+  @apply rounded-tr-sm;
+}
+.-rounded-tr {
+  @apply rounded-tr;
+}
+.-rounded-tr-md {
+  @apply rounded-tr-md;
+}
+.-rounded-tr-lg {
+  @apply rounded-tr-lg;
+}
+.-rounded-tr-xl {
+  @apply rounded-tr-xl;
+}
+.-rounded-tr-full {
+  @apply rounded-tr-full;
+}
+
+.-rounded-bl-none {
+  @apply rounded-bl-none;
+}
+.-rounded-bl-sm {
+  @apply rounded-bl-sm;
+}
+.-rounded-bl {
+  @apply rounded-bl;
+}
+.-rounded-bl-md {
+  @apply rounded-bl-md;
+}
+.-rounded-bl-lg {
+  @apply rounded-bl-lg;
+}
+.-rounded-bl-xl {
+  @apply rounded-bl-xl;
+}
+.-rounded-bl-full {
+  @apply rounded-bl-full;
+}
+
+.-rounded-br-none {
+  @apply rounded-br-none;
+}
+.-rounded-br-sm {
+  @apply rounded-br-sm;
+}
+.-rounded-br {
+  @apply rounded-br;
+}
+.-rounded-br-md {
+  @apply rounded-br-md;
+}
+.-rounded-br-lg {
+  @apply rounded-br-lg;
+}
+.-rounded-br-xl {
+  @apply rounded-br-xl;
+}
+.-rounded-br-full {
+  @apply rounded-br-full;
+}

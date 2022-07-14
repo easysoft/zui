@@ -1,0 +1,72 @@
+.-bg-primary {
+  @apply bg-primary-500;
+}
+.-bg-secondary {
+  @apply bg-secondary-500;
+}
+.-bg-success {
+  @apply bg-success-500;
+}
+.-bg-warning {
+  @apply bg-warning-500;
+}
+.-bg-danger {
+  @apply bg-danger-500;
+}
+.-bg-important {
+  @apply bg-important-500;
+}
+.-bg-special {
+  @apply bg-special-500;
+}
+
+.-bg-light {
+  @apply bg-gray-100
+}
+.-bg-gray {
+  @apply bg-gray-500;
+}
+.-bg-dark {
+  @apply bg-gray-900;
+}
+
+.-bg-blue {
+  @apply bg-blue-500;
+}
+.-bg-green {
+  @apply bg-green-500;
+}
+.-bg-yellow {
+  @apply bg-yellow-500;
+}
+.-bg-red {
+  @apply bg-red-500;
+}
+.-bg-magenta {
+  @apply bg-magenta-500;
+}
+.-bg-purple {
+  @apply bg-purple-500;
+}
+
+.-bg-canvas {
+    @apply bg-canvas;
+}
+.-bg-surface {
+    @apply bg-surface;
+}
+.-bg-inverse {
+    @apply bg-fore;
+}
+.-bg-canvas {
+    @apply bg-canvas;
+}
+.-bg-current {
+    @apply bg-current;
+}
+.-bg-transparent {
+    @apply bg-transparent;
+}
+.-bg-inherit {
+    @apply bg-inherit;
+}

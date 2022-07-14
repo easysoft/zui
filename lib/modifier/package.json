@@ -1,0 +1,10 @@
+{
+    "name": "@zui/modifier",
+    "description": "ZUI css modifier classes",
+    "version": "0.0.1",
+    "keywords": ["css"],
+    "main": "src/main.ts",
+    "dependencies": {
+        "@zui/base": "workspace:*"
+    }
+}

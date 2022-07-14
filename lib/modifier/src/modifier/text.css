@@ -27,7 +27,7 @@
   @apply text-gray-600;
 }
 .-text-dark {
-  @apply text-gray-900;
+  @apply text-black;
 }
 .-text-blue {
   @apply text-blue-500;
@@ -46,4 +46,21 @@
 }
 .-text-purple {
   @apply text-purple-500;
+}
+
+/** Special colors */
+.-text-fore {
+  @apply text-fore;
+}
+.-text-inverse {
+  @apply text-canvas;
+}
+.-text-current {
+  @apply text-current;
+}
+.-text-transparent {
+  @apply text-transparent;
+}
+.-text-inherit {
+  @apply text-inherit;
 }

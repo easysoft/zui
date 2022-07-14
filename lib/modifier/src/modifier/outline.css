@@ -1,0 +1,50 @@
+.-primary-outline {
+  @apply border border-primary-500 text-primary-500;
+}
+.-secondary-outline {
+  @apply border border-secondary-500 text-secondary-500;
+}
+.-success-outline {
+  @apply border border-success-500 text-success-500;
+}
+.-warning-outline {
+  @apply border border-warning-500 text-warning-500;
+}
+.-danger-outline {
+  @apply border border-danger-500 text-danger-500;
+}
+.-important-outline {
+  @apply border border-important-500 text-important-500;
+}
+.-special-outline {
+  @apply border border-special-500 text-special-500;
+}
+
+.-gray-outline {
+  @apply border border-gray-500 text-gray-500;
+}
+.-dark-outline {
+  @apply border border-gray-900 text-gray-900;
+}
+.-light-outline {
+  @apply border border-gray-300 text-gray-500;
+}
+
+.-blue-outline {
+  @apply border border-blue-500 text-blue-500;
+}
+.-green-outline {
+  @apply border border-green-500 text-green-500;
+}
+.-yellow-outline {
+  @apply border border-yellow-500 text-yellow-500;
+}
+.-red-outline {
+  @apply border border-red-500 text-red-500;
+}
+.-magenta-outline {
+  @apply border border-magenta-500 text-magenta-500;
+}
+.-purple-outline {
+  @apply border border-purple-500 text-purple-500;
+}

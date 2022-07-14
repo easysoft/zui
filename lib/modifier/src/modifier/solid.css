@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .-primary {
   @apply border-primary-500 bg-primary-500 text-white;
 }
@@ -24,15 +20,22 @@
   @apply border-special-500 bg-special-500 text-white;
 }
 
+.-light {
+  @apply border-gray-100 bg-gray-100;
+}
 .-gray {
   @apply border-gray-500 bg-gray-500 text-white;
 }
 .-dark {
   @apply border-gray-900 bg-gray-900 text-white;
 }
-.-light {
-  @apply border-gray-100 bg-gray-100;
+.-white {
+  @apply border-white bg-white text-black;
 }
+.-black {
+  @apply border-black bg-black text-white;
+}
+
 .-blue {
   @apply border-blue-500 bg-blue-500 text-white;
 }

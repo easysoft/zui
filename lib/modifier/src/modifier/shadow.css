@@ -1,0 +1,84 @@
+.-shadow-sm {
+  @apply shadow-sm;
+}
+.-shadow {
+  @apply shadow;
+}
+.-shadow-md {
+  @apply shadow-md;
+}
+.-shadow-lg {
+  @apply shadow-lg;
+}
+.-shadow-xl {
+  @apply shadow-xl;
+}
+.-shadow-2xl {
+  @apply shadow-2xl;
+}
+.-shadow-inner {
+  @apply shadow-inner;
+}
+.-shadow-none {
+  @apply shadow-none;
+}
+
+.-shadow-primary {
+  @apply shadow-primary-500;
+}
+.-shadow-secondary {
+  @apply shadow-secondary-500;
+}
+.-shadow-success {
+  @apply shadow-success-500;
+}
+.-shadow-warning {
+  @apply shadow-warning-500;
+}
+.-shadow-danger {
+  @apply shadow-danger-500;
+}
+.-shadow-important {
+  @apply shadow-important-500;
+}
+.-shadow-special {
+  @apply shadow-special-500;
+}
+
+.-shadow-gray {
+  @apply shadow-gray-500;
+}
+.-shadow-blue {
+  @apply shadow-blue-500;
+}
+.-shadow-green {
+  @apply shadow-green-500;
+}
+.-shadow-yellow {
+  @apply shadow-yellow-500;
+}
+.-shadow-red {
+  @apply shadow-red-500;
+}
+.-shadow-magenta {
+  @apply shadow-magenta-500;
+}
+.-shadow-purple {
+  @apply shadow-purple-500;
+}
+
+.-shadow-inherit {
+  @apply shadow-inherit;
+}
+.-shadow-current {
+  @apply shadow-current;
+}
+.-shadow-transparent {
+  @apply shadow-transparent;
+}
+.-shadow-black {
+  @apply shadow-black;
+}
+.-shadow-white {
+  @apply shadow-white;
+}
