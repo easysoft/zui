@@ -56,6 +56,8 @@ const surface = shades.gray[100];
 /** 文本 */
 const fore = shades.gray[800];
 
+const focus = shades.young[300];
+
 module.exports = {
     ...shades,
 
@@ -76,4 +78,5 @@ module.exports = {
     canvas,
     surface,
     fore,
+    focus,
 };
