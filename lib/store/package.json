@@ -1,0 +1,15 @@
+{
+    "name": "@zui/store",
+    "description": "ZUI localstorage helper",
+    "version": "0.0.1",
+    "keywords": [
+        "js"
+    ],
+    "main": "src/main.ts",
+    "dependencies": {
+        "nanoid": "^4.0.0"
+    },
+    "files": [
+        "./src/**/*"
+    ]
+}
