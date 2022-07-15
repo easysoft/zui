@@ -10,7 +10,7 @@
         content: ' ';
         border-radius: inherit;
         transform: scale(var(--state-scale));
-        transition-property: opacity, transform;
+        transition-property: opacity, transform, box-shadow;
     }
     .state:hover::before,
     .state:active::before,
@@ -26,7 +26,9 @@
     }
     .state:active::before {
         background: var(--state-active-color);
+        @apply ring ring-current;
     }
+    .state[disabled]::before,
     .state.-disabled::before {
         display: none;
     }
@@ -37,6 +39,7 @@
     @apply state;
 }
 
+[disabled],
 .-disabled {
     @apply cursor-not-allowed grayscale;
     opacity: var(--state-disabled-opacity);
