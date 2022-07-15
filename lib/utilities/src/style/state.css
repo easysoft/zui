@@ -26,7 +26,7 @@
     }
     .state:active::before {
         background: var(--state-active-color);
-        @apply ring ring-current;
+        @apply ring ring-current duration-700;
     }
     .state[disabled]::before,
     .state.-disabled::before {
