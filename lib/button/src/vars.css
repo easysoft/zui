@@ -1,10 +1,4 @@
 :root {
-  --btn-xs-size: 20px;
-  --btn-sm-size: 24px;
-  --btn-base-size: 32px;
-  --btn-lg-size: 40px;
-  --btn-xl-size: 48px;
-
   --btn-radius: var(--radius);
   --btn-background: var(--color-gray-50);
   --btn-border-color: var(--color-gray-300);

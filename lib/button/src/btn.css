@@ -1,26 +1,21 @@
 .btn {
-    @apply px-3;
-    height: var(--btn-base-size);
+    @apply px-3 h-8;
     border: 1px solid var(--btn-border-color);
     background: var(--btn-background);
     border-radius: var(--btn-radius);
 }
 
 .btn.-xs {
-    @apply text-xs px-1;
-    height: var(--btn-xs-size);
+    @apply text-xs px-1 h-5;
 }
 .btn.-sm {
-    @apply text-sm px-2;
-    height: var(--btn-sm-size);
+    @apply text-sm px-2 h-6;
 }
 .btn.-lg {
-    @apply text-lg px-4;
-    height: var(--btn-lg-size);
+    @apply text-lg px-4 h-10;
 }
 .btn.-xl {
-    @apply text-xl px-5;
-    height: var(--btn-xl-size);
+    @apply text-xl px-5 h-12;
 }
 
 .btn.-square {
