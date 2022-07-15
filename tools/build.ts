@@ -7,12 +7,13 @@ import {createBuildConfig, prepareBuildFiles, createViteConfig} from './build-to
 const argv = minimist(process.argv.slice(3));
 
 let viteConfig = {};
-if (argv.viteFile) {
+const viteFile = argv.viteFile ?? argv.V;
+if (viteFile) {
     try {
-        const extraViteConfig = await import(argv.viteFile);
+        const extraViteConfig = await import(viteFile);
         viteConfig = mergeConfig(viteConfig, extraViteConfig);
     } catch (error) {
-        throw new Error(`ZUI build: Cannot load extra config file from "${argv.viteFile}".`);
+        throw new Error(`ZUI build: Cannot load extra config file from "${viteFile}".`);
     }
 }
 

@@ -1,5 +1,4 @@
 import {fs, path as Path} from 'zx';
-// import css from 'rollup-plugin-css-only';
 
 /**
  * Libs like string - 构建库（或组件）定义字符串
@@ -285,9 +284,9 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
     for (const lib of config.libs) {
         lib.dependencies.reduce<string[]>((lines, dependency) => {
             if (dependency.type === 'file') {
-                lines.push(`import ${JSON.stringify(getAbsolutePath(dependency.path))};`);
+                lines.push(`export * from ${JSON.stringify(getAbsolutePath(dependency.path))};`);
             } else {
-                lines.push(`import ${JSON.stringify(dependency.name)};`);
+                lines.push(`export * from ${JSON.stringify(dependency.name)};`);
                 dependencies[dependency.name] = dependency.version;
             }
             return lines;
@@ -316,8 +315,9 @@ export function createViteConfig(config: BuildConfig, buildDir: string) {
         build: {
             lib: {
                 entry: Path.join(buildDir, 'main.ts'),
-                name: config.name,
+                name: 'zui',
                 fileName: !config.name.includes('zui') ? `zui.${config.name}` : config.name,
+                formats: ['iife', 'cjs', 'esm', 'umd'],
             },
             outDir: `dist/${config.name}`,
         },
