@@ -7,8 +7,21 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
-    <h1 class="text-3xl font-bold underline text-red-500">Hello ZUI!2</h1>
+    <div class="flex flex-row items-stretch h-screen divide-x">
+      <aside class="w-48 bg-gray-100 dark:bg-gray-800">
+        <div class="overflow-y-auto py-4 px-3">
+          <a href="/" class="flex items-center pl-2.5 mb-5">
+            <img src="./favicon.svg" class="mr-3 h-6 sm:h-7" alt="ZUI Logo" />
+            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">ZUI</span>
+         </a>
+         <ul class="space-y-2" id="libNav">
+         </ul>
+        </div>
+      </aside>
+      <div class="flex-auto">
+        <iframe id="libPage" name="libPage" class="w-full h-full"></iframe>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

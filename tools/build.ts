@@ -32,4 +32,4 @@ const viteConfigFile = path.resolve(buildDir, 'vite.config.json');
 await fs.outputJSON(viteConfigFile, viteConfig, {spaces: 4});
 
 await $`pnpm i --filter ${buildConfig.name}`;
-await $`pnpm run build:vite -- --config ${viteConfigFile}`;
+await $`pnpm run build:vite -- --config=${viteConfigFile}`;

@@ -1,4 +1,4 @@
-const {tailwind: zuiTailwindConfig} = require('@zui/config');
+const {tailwind: zuiTailwindConfig} = require('zui-config');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

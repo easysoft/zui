@@ -1,11 +1,24 @@
-import '@zui/base';
-import '@zui/button';
+import pkg from '../package.json';
 
-const app = document.querySelector<HTMLDivElement>('#app');
+const libs = [...Object.keys(pkg.dependencies)].reduce<string[]>((list, name) => {
+    if (name.startsWith('@zui/')) {
+        list.push(name.substring('@zui/'.length));
+    }
+    return list;
+}, []);
 
-if (app) {
-    app.innerHTML = `
-    <h1 class="text-3xl font-bold underline text-blue-500">Hello ZUI!</h1>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-  `;
+
+const libNav = document.querySelector<HTMLDivElement>('#libNav');
+if (libNav) {
+    libNav.innerHTML = libs.map(name => [
+        '<li>',
+        `  <a href="./lib/${name}/" target="libPage" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">`,
+        `    <span class="ml-3">${name}</span>`,
+        '  </a>',
+        '</li>',
+    ].join('\n')).join('\n');
+}
+
+for (const libName of libs) {
+    await import(`../lib/${libName}/src/main.ts`);
 }

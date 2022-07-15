@@ -1,5 +1,5 @@
 {
-    "name": "@zui/config",
+    "name": "zui-config",
     "description": "ZUI Configurations",
     "version": "0.0.1",
     "type": "commonjs",

@@ -161,7 +161,7 @@ $ pnpm install
 $ pnpm dev
 ```
 
-开发时启动的 Web 服务地址通常为 http://localhost:3000/ ，要对特定组件进行调试开发，只需要添加路径 `lib/component_name` 即可，例如开发调试按钮页面地址为：http://localhost:3000/lib/button 。
+开发时启动的 Web 服务地址通常为 http://localhost:3000/ ，要对特定组件进行调试开发，只需要添加路径 `lib/component_name` 即可，例如开发调试按钮页面地址为：http://localhost:3000/lib/button/ 。
 
 ### 打包
 
@@ -240,4 +240,5 @@ zui/                   # 项目根目录
 * 包管理器：[pnpm](https://pnpm.io/zh/)
 * 构建工具：[vite](https://cn.vitejs.dev/)
 * CSS 工具库：[TailwindCSS](https://tailwindcss.com/)
+* 静态文档网站生成：[VuePress](https://v2.vuepress.vuejs.org/zh/)
 * TypeScript 4.5+

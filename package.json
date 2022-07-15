@@ -4,20 +4,26 @@
   "version": "3.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "pnpm run install:buildin-libs && pnpm run vite:dev",
+    "vite:dev": "vite --host",
     "build:vite": "tsc && vite build",
     "build": "node --loader ts-node/esm --no-warnings ./tools/build.ts",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "install:buildin-libs": "node --loader ts-node/esm --no-warnings ./tools/install-buildin-libs.ts"
   },
   "workspaces": [
     "./lib"
   ],
   "dependencies": {
-    "@zui/base": "workspace:latest",
-    "@zui/button": "workspace:latest",
-    "@zui/config": "workspace:latest",
+    "@zui/base": "workspace:^0.0.1",
+    "@zui/button": "workspace:^0.0.1",
+    "@zui/store": "workspace:^0.0.1",
+    "@zui/utilities": "workspace:^0.0.1",
+    "zui-config": "workspace:^0.0.1",
     "tailwindcss": "^3.1.4"
   },
   "devDependencies": {
@@ -26,6 +32,7 @@
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
+    "@vuepress/client": "^2.0.0-beta.42",
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.12",
     "eslint": "^8.18.0",
@@ -46,6 +53,8 @@
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
     "vite-plugin-eslint": "^1.6.1",
+    "vue": "^3.2.36",
+    "vuepress": "2.0.0-beta.49",
     "zx": "^7.0.7"
   }
 }
