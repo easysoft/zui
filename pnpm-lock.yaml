@@ -10,6 +10,9 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.30.0
       '@typescript-eslint/parser': ^5.30.0
       '@vuepress/client': ^2.0.0-beta.42
+      '@vuepress/core': 2.0.0-beta.49
+      '@vuepress/theme-default': 2.0.0-beta.49
+      '@vuepress/utils': 2.0.0-beta.49
       '@zui/base': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
@@ -53,6 +56,9 @@ importers:
       '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.30.0_5mtqsiui4sk53pmkx7i7ue45wm
       '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.30.0_b5e7v2qnwxfo6hmiq56u52mz3e
       '@vuepress/client': registry.npmmirror.com/@vuepress/client/2.0.0-beta.49
+      '@vuepress/core': registry.npmmirror.com/@vuepress/core/2.0.0-beta.49
+      '@vuepress/theme-default': registry.npmmirror.com/@vuepress/theme-default/2.0.0-beta.49
+      '@vuepress/utils': registry.npmmirror.com/@vuepress/utils/2.0.0-beta.49
       autoprefixer: registry.npmmirror.com/autoprefixer/10.4.7_postcss@8.4.14
       cssnano: registry.npmmirror.com/cssnano/5.1.12_postcss@8.4.14
       eslint: registry.npmmirror.com/eslint/8.18.0

@@ -7,6 +7,9 @@ module.exports = {
         './src/**/*.{vue,js,ts,jsx,tsx}',
         './lib/*/index.html',
         './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
+        './index.md',
+        './docs/**/*.{vue,js,ts,jsx,tsx,md}',
+        './lib/*/docs/**/*.{vue,js,ts,jsx,tsx,md}',
     ] : [{raw: ''}],
     presets: [
         zuiTailwindConfig,

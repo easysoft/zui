@@ -11,8 +11,8 @@
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
-    "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
+    "docs:dev": "vuepress dev .",
+    "docs:build": "vuepress build .",
     "install:buildin-libs": "node --loader ts-node/esm --no-warnings ./tools/install-buildin-libs.ts"
   },
   "workspaces": [
@@ -23,8 +23,8 @@
     "@zui/button": "workspace:^0.0.1",
     "@zui/store": "workspace:^0.0.1",
     "@zui/utilities": "workspace:^0.0.1",
-    "zui-config": "workspace:^0.0.1",
-    "tailwindcss": "^3.1.4"
+    "tailwindcss": "^3.1.4",
+    "zui-config": "workspace:^0.0.1"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
@@ -33,6 +33,9 @@
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
     "@vuepress/client": "^2.0.0-beta.42",
+    "@vuepress/core": "2.0.0-beta.49",
+    "@vuepress/theme-default": "2.0.0-beta.49",
+    "@vuepress/utils": "2.0.0-beta.49",
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.12",
     "eslint": "^8.18.0",
