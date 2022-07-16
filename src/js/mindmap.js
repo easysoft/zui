@@ -81,7 +81,7 @@
         removingNodeTip: null,
         lineCurvature: 60,
         subLineWidth: 4,
-        lineColor: 'rainbow',
+        lineColor: '',
         lineOpacity: 1,
         lineSaturation: 90,
         lineLightness: 40,
@@ -555,11 +555,11 @@
             nodeData.subSide = subSide;
 
             if(nodeData.color === undefined) {
-                nodeData.color = {
+                nodeData.color = options.lineColor || {
                     h: Math.floor(((newColorIndex++) * 43) % 360),
-                    s: this.options.lineSaturation / 100,
-                    l: this.options.lineLightness / 100,
-                    a: this.options.lineOpacity
+                    s: options.lineSaturation / 100,
+                    l: options.lineLightness / 100,
+                    a: options.lineOpacity
                 };
             }
         } else {
@@ -882,7 +882,7 @@
                     target: '#' + that.id + ' .mindmap-node:not([data-id="' + $node.data('id') + '"])',
                     before: function(e) {
                         if(!that.callEvent('beforeDrag', {
-                                node: $node
+                                $node: $node
                             })) return false;
 
                         if(e.element.hasClass('focus')) {
@@ -894,7 +894,7 @@
                     },
                     start: function(e) {
                         that.callEvent('startDrag', {
-                            node: $node
+                            $node: $node
                         });
                         if(!e.element.hasClass('active')) {
                             that.clearNodeStatus();
@@ -1074,7 +1074,7 @@
         this.bindGlobalHotkeys();
         this.$container.draggable({
             before: function(e) {
-                if(!that.callEvent('beforeMoveCanvas')) return false;
+                if(!that.callEvent('beforeMoveCanvas', {event: e})) return false;
             },
             finish: function(e) {
                 that.display(e.smallOffset.x, e.smallOffset.y, true);
