@@ -1,0 +1,12 @@
+{
+    "name": "@zui/helpers",
+    "description": "ZUI helpers",
+    "version": "0.0.1",
+    "keywords": [
+        "js"
+    ],
+    "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ]
+}
