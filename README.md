@@ -21,10 +21,9 @@ component_name         # 组件目录
 ├── README.md          # 组件开发和测试的说明文件
 ├── src/               # 源码目录
 │   ├── vars.css       # 组件用到的 CSS 变量定义
-│   ├── style.css      # 组件用到的 CSS 样式定义
 │   └── main.ts        # 组件 JS 模块入口文件，也是作为 rollup 打包时的入口文件
 ├── doc/               # 组件文档目录
-│   ├── index.md       # 组件文档主要页面
+│   ├── README.md      # 组件文档主要页面
 │   └── xxxxx.md       # 组件文档其他页面
 ├── test/              # 测试文件目录
 │   └── test.ts        # 测试脚本
@@ -64,7 +63,7 @@ component_name         # 组件目录
     <title>Button - ZUI</title>
   </head>
   <body>
-    <div id="app">
+    <div class="px-4">
       <button type="btn" class="btn">按钮</button>
     </div>
     <script type="module" src="/src/main.ts"></script>
@@ -91,11 +90,9 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 
 ```css
 :root {
-  --btn-size-base: 32px;
-  --btn-size-sm: 24px;
-  --btn-size-xs: 20px;
-  --btn-size-lg: 40px;
-  --btn-size-xl: 48px;
+  --btn-radius:       var(--radius);
+  --btn-background:   var(--color-gray-50);
+  --btn-border-color: var(--color-gray-300);
 }
 ```
 
@@ -107,7 +104,10 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 @import url('./vars.css');
 
 .btn {
-  color: var(--btn-size-base)
+  @apply px-3 h-8;
+  border: 1px solid var(--btn-border-color);
+  background: var(--btn-background);
+  border-radius: var(--btn-radius);
 }
 ```
 
@@ -125,9 +125,9 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 
 ```json
 {
-  "dependencies": {
-    "@zui/icon": "workspace:^1.0.0"
-  }
+    "dependencies": {
+        "@zui/icon": "workspace:^1.0.0"
+    }
 }
 ```
 
@@ -137,9 +137,9 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 
 ```json
 {
-  "dependencies": {
-    "jquery": "^3.6.0"
-  }
+    "dependencies": {
+        "jquery": "^3.6.0"
+    }
 }
 ```
 
@@ -227,7 +227,9 @@ $ pnpm build -- ./zentao-zui-build-config.json
 zui/                   # 项目根目录
 ├── package.json
 ├── index.html         # 开发调试时的入口文件
-├── README.md
+├── README.md          # 开发指南文档
+├── config/            # 打包配置管理，包括 Tailwind CSS 打包配置
+├── src/               # 调试模式 Web 服务源码
 ├── lib/               # 组件库目录
 ├── docs/              # 文档网站目录
 ├── test/              # 测试脚本目录
@@ -242,3 +244,4 @@ zui/                   # 项目根目录
 * CSS 工具库：[TailwindCSS](https://tailwindcss.com/)
 * 静态文档网站生成：[VuePress](https://v2.vuepress.vuejs.org/zh/)
 * TypeScript 4.5+
+* 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)
