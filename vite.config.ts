@@ -1,4 +1,5 @@
-import {fs, path as Path} from 'zx';
+import Path from 'path';
+import fs from 'fs-extra';
 import {defineConfig, mergeConfig, UserConfig, PluginOption, LibraryOptions} from 'vite';
 import minimist from 'minimist';
 import eslint from 'vite-plugin-eslint';

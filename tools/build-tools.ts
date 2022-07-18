@@ -1,4 +1,5 @@
-import {fs, path as Path} from 'zx';
+import Path from 'path';
+import fs from 'fs-extra';
 import {getBuildInLibs} from './buildin-libs.js';
 
 /**

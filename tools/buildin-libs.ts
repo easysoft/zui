@@ -1,5 +1,5 @@
-#!/usr/bin/env node
-import {fs, path as Path} from 'zx';
+import Path from 'path';
+import fs from 'fs-extra';
 
 /**
  * Get build-in libs list - 获取内部构建库（或组件），每个 ZUI 组件可以作为单独的库进行打包

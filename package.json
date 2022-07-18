@@ -58,7 +58,6 @@
     "vite": "^2.9.9",
     "vite-plugin-eslint": "^1.6.1",
     "vue": "^3.2.36",
-    "vuepress": "2.0.0-beta.49",
-    "zx": "^7.0.7"
+    "vuepress": "2.0.0-beta.49"
   }
 }
