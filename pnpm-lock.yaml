@@ -87,11 +87,13 @@ importers:
     specifiers:
       '@zui/base': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
+      '@zui/helpers': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
       '@zui/utilities': workspace:^0.0.1
     dependencies:
       '@zui/base': link:../lib/base
       '@zui/button': link:../lib/button
+      '@zui/helpers': link:../lib/helpers
       '@zui/store': link:../lib/store
       '@zui/utilities': link:../lib/utilities
 
