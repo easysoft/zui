@@ -8,14 +8,14 @@ ZUI 3 使用组件库来管理组件。库中的每个组件在独立的源码�
 
 ### 组件名称
 
-组件名称使用英文小写字母、数字和 `_` 下划线组成，但只能以小写字母开头，名称应该尽可能简短且贴合组件功能，例如 `button`，通常下划线用于连接多个有意义的单词，例如 `input_group`。
+组件名称使用英文小写字母、数字和 `-` 短横线组成，但只能以小写字母开头，名称应该尽可能简短且贴合组件功能，例如 `button`，通常短横线用于连接多个有意义的单词，例如 `input-group`。
 
 ### 组件目录结构
 
 每个组件根据其名称在工作空间根目录 `lib/` 下有一个以组件名称命名的目录来管理源码、文档和配置相关文件，通常目录结构如下：
 
 ```sh
-component_name         # 组件目录
+component-name         # 组件目录
 ├── package.json       # 组件元信息定义文件（兼容 npm 包定义）
 ├── index.html         # 组件开发和测试所使用的 HTML 文件
 ├── README.md          # 组件开发和测试的说明文件
@@ -41,7 +41,7 @@ component_name         # 组件目录
 | `keywords`     | 关键词，例如 `["button", "menu", "dropdown"]`                |
 | `main`         | 组件模块入口文件，默认为 `"src/main.ts"`                     |
 | `dependencies` | 该组件依赖的其他组件，例如 `{"@zui/icon": "workspace:^1.0.0"}` |
-| `browserslist` | 使用 [browserslist](https://github.com/browserslist/browserslist) 语法声明该组件支持的浏览器，例如 `["not ie < 11", ">0.2%"]` |
+| `browserslist` | 使用 [browserslist](https://github.com/browserslist/browserslist) 语法声明该组件支持的浏览器，例如 `["not ie < 11", "> 0.2%"]` |
 
 其他属性与 npm 中的定义一致，例如 `homepage`、`license`、`author`
 
@@ -80,6 +80,7 @@ component_name         # 组件目录
 该组件的模块入口文件，作为 rollup 打包时的入口。下面为一个示例：
 
 ```ts
+import './vars.css';     // 引入该组件用到的 CSS 变量定义文件
 import './style.css';    // 引入该组件用到的 CSS 文件
 import './dropdown.ts';  // 引入该组件的 JS 文件
 ```
@@ -143,6 +144,13 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 }
 ```
 
+### 组件开发原则
+
+* 每个组件功能尽可能单一，支持独立打包
+* 组件内的源码可以单独引用（使用 package.json 的 `files` 属性定义）
+* 组件的样式变量仅用于快速变更主题风格，包括（颜色、圆角等关键设置）
+* 为每个组件添加开发主页（`index.html`），全方位展示组件的用法（区别于文档，此页面面向测试人员和组件开发人员）
+
 ## 开发
 
 ### 项目安装
@@ -161,7 +169,7 @@ $ pnpm install
 $ pnpm dev
 ```
 
-开发时启动的 Web 服务地址通常为 http://localhost:3000/ ，要对特定组件进行调试开发，只需要添加路径 `lib/component_name` 即可，例如开发调试按钮页面地址为：http://localhost:3000/lib/button/ 。
+开发时启动的 Web 服务地址通常为 http://localhost:3000/ ，要对特定组件进行调试开发，只需要添加路径 `lib/component-name` 即可，例如开发调试按钮页面地址为：http://localhost:3000/lib/button/ 。
 
 ### 打包
 
@@ -178,13 +186,13 @@ $ pnpm build
 打包脚本支持通过参数指定需要打包的组件（库），依次将需要打包的组件名称或第三方库名称追加到命令之后即可，例如以下命令将 ZUI 中的按钮、下拉菜单和面板打包为一个定制版本：
 
 ```shell
-$ pnpm build -- buttton dropdown panel
+$ pnpm build -- buttton dropdown panel 
 ```
 
 一个更复杂的例子：
 
 ```shell
-$ pnpm build -- --name=zentao-zui --version=1.0.0 buttton dropdown panel +jquery@^2.0
+$ pnpm build -- --name=zentao-zui --version=1.0.0 button dropdown panel +jquery@^2.0
 ```
 
 打包配置还可以通过一个外部的文件来指定：
@@ -245,3 +253,4 @@ zui/                   # 项目根目录
 * 静态文档网站生成：[VuePress](https://v2.vuepress.vuejs.org/zh/)
 * TypeScript 4.5+
 * 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)
+
