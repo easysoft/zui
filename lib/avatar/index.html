@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Avatar - ZUI</title>
+  </head>
+  <body>
+    <div class="p-4">
+      <div class="mb-10">
+        <div class="col-span-full flex items-center font-bold text-lg mb-2">Avatar</div>
+        <div class="flex mb-3">
+	  <div class="avatar"><img src="./docs/img/avatar.png"></div>
+        </div>
+
+        <div class="col-span-full flex items-center font-bold text-lg mb-2">Avatar round</div>
+        <div class="flex gap-3 mb-3">
+            <div class="avatar -rounded-full"><img src="./docs/img/avatar.png"></div>
+        </div>
+
+        <div class="col-span-full flex items-center font-bold text-lg mb-2">Icon/Text Avatar</div>
+	<div class="flex gap-3 mb-3">
+	    <div class="avatar -primary">Icon</div>
+	    <div class="avatar -rounded-full -primary">Icon</div>
+	    <div class="avatar -primary"><span>王</span></div>
+	    <div class="avatar -rounded-full -primary"><span>王</span></div>
+	</div>
+
+        <div class="col-span-full flex items-center font-bold text-lg mb-2">Avatar Sizes</div>
+        <div class="flex gap-3 items-end mb-3">
+            <div class="avatar -xl"><img src="./docs/img/avatar.png"></div>
+            <div class="avatar -lg"><img src="./docs/img/avatar.png"></div>
+            <div class="avatar"><img src="./docs/img/avatar.png"></div>
+            <div class="avatar -sm"><img src="./docs/img/avatar.png"></div>
+            <div class="avatar -xs"><img src="./docs/img/avatar.png"></div>
+        </div>
+
+        <div class="flex gap-3 items-end mb-3">
+	    <div class="avatar -primary -xl"><span>王</span></div>
+	    <div class="avatar -primary -lg"><span>王</span></div>
+	    <div class="avatar -primary"><span>王</span></div>
+	    <div class="avatar -primary -sm"><span>王</span></div>
+	    <div class="avatar -primary -xs"><span>王</span></div>
+	</div>
+
+        <div class="col-span-full flex items-center font-bold text-lg mb-2">Avatar Styles</div>
+        <div class="flex gap-3 mb-3">
+	    <div class="avatar -primary">Icon</div>
+            <div class="avatar -secondary">Icon</div>
+	    <div class="avatar -success">Icon</div>
+	    <div class="avatar -warning">Icon</div>
+            <div class="avatar -danger">Icon</div>
+            <div class="avatar -lighter">Icon</div>
+            <div class="avatar -light">Icon</div>
+            <div class="avatar -gray">Icon</div>
+            <div class="avatar -dark">Icon</div>
+            <div class="avatar -darker">Icon</div>
+            <div class="avatar -black">Icon</div>
+            <div class="avatar -inverse">Icon</div>
+	    <div class="avatar -surface">Icon</div>
+	</div>
+
+        <div class="col-span-full flex items-center font-bold text-lg mb-2">Avatar Radius</div>
+        <div class="flex gap-3 mb-3">
+	    <div class="avatar -rounded-none"><img src="./docs/img/avatar.png"></div>
+	    <div class="avatar -rounded-xs"><img src="./docs/img/avatar.png"></div>
+	    <div class="avatar -rounded-sm"><img src="./docs/img/avatar.png"></div>
+	    <div class="avatar -rounded"><img src="./docs/img/avatar.png"></div>
+	    <div class="avatar -rounded-lg"><img src="./docs/img/avatar.png"></div>
+	    <div class="avatar -rounded-xl"><img src="./docs/img/avatar.png"></div>
+            <div class="avatar -rounded-full"><img src="./docs/img/avatar.png"></div>
+        </div>
+
+	<div class="col-span-full flex items-center font-bold text-lg mb-2">Avatar Group</div>
+	<div class="flex gap-3 items-end">
+            <div class="avatar-group -xs">
+                <div class="avatar -xs -rounded-full"><img src="./docs/img/avatar.png"></div>
+                <div class="avatar -xs -rounded-full -success">Icon</div>
+                <div class="avatar -xs -rounded-full -warning">+1</div>
+            </div>
+	    
+	    <div class="avatar-group -sm">
+                <div class="avatar -sm -rounded-full"><img src="./docs/img/avatar.png"></div> 
+		<div class="avatar -sm -rounded-full -success">Icon</div>
+		<div class="avatar -sm -rounded-full -warning">+1</div>
+	    </div>
+	    <div class="avatar-group">
+                <div class="avatar -rounded-full"><img src="./docs/img/avatar.png"></div>
+                <div class="avatar -rounded-full -success">Icon</div>
+                <div class="avatar -rounded-full -warning">+1</div>
+            </div>
+	    <div class="avatar-group -lg">
+                <div class="avatar -lg -rounded-full"><img src="./docs/img/avatar.png"></div>
+                <div class="avatar -lg -rounded-full -success">Icon</div>
+                <div class="avatar -lg -rounded-full -warning">+1</div>
+            </div>
+	    <div class="avatar-group -xl">
+                <div class="avatar -xl -rounded-full"><img src="./docs/img/avatar.png"></div>
+                <div class="avatar -xl -rounded-full -success">Icon</div>
+                <div class="avatar -xl -rounded-full -warning">+1</div>
+            </div>
+	</div>
+      </div>
+    </div>
+    <script type="module">
+    import '@zui/base';
+    import './src/main.ts';
+    import '@zui/utilities';
+    </script>
+  </body>
+</html>

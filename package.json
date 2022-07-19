@@ -24,6 +24,7 @@
     "@zui/helpers": "workspace:^0.0.1",
     "@zui/store": "workspace:^0.0.1",
     "@zui/utilities": "workspace:^0.0.1",
+    "@zui/avatar": "workspace:^0.0.1",
     "tailwindcss": "^3.1.4",
     "zui-config": "workspace:^0.0.1"
   },

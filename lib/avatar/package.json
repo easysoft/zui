@@ -1,0 +1,13 @@
+{
+    "name": "@zui/avatar",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "keywords": ["css", "components"],
+    "dependencies": {
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/utilities": "workspace:*"
+    }
+}
