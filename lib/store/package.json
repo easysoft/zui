@@ -5,7 +5,7 @@
     "keywords": [
         "js"
     ],
-    "main": "src/main.ts",
+    "browser": "src/main.ts",
     "dependencies": {
         "nanoid": "^4.0.0"
     },
