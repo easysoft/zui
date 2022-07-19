@@ -293,7 +293,6 @@ export function createViteConfig(config: BuildConfig, buildDir: string) {
                 entry: Path.join(buildDir, 'main.ts'),
                 name: 'zui',
                 fileName: !config.name.includes('zui') ? `zui.${config.name}` : config.name,
-                formats: ['iife', 'cjs', 'esm', 'umd'],
             },
             outDir: `dist/${config.name}`,
         },
