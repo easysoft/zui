@@ -1,1 +1,1 @@
-export * as dom from './dom-helper';
+export * from './date-helper';

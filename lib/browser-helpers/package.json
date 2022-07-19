@@ -1,11 +1,11 @@
 {
-    "name": "@zui/helpers",
+    "name": "@zui/browser-helpers",
     "description": "ZUI helpers",
     "version": "0.0.1",
     "keywords": [
         "js"
     ],
-    "module": "src/main.ts",
+    "browser": "src/main.ts",
     "files": [
         "./src/**/*"
     ]
