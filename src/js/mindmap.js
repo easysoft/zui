@@ -5,7 +5,6 @@
  * Copyright (c) 2014-2016 cnezsoft.com; Licensed MIT
  * ======================================================================== */
 
-
 (function($, window, document, Math, undefined) {
     'use strict';
 
@@ -29,17 +28,18 @@
     };
 
     var Mindmap = function(element, options) {
-        this.$ = $(element);
-        this.options = this.getOptions(options);
-        this.lang = this.getLang();
-        this.data = this.options.data;
-        this.dirtyData = true;
-        this.offsetX = 0;
-        this.offsetY = 0;
-        this.init();
+        var that = this;
+        that.$ = $(element);
+        that.options = that.getOptions(options);
+        that.lang = that.getLang();
+        that.data = that.options.data;
+        that.dirtyData = true;
+        that.offsetX = 0;
+        that.offsetY = 0;
+        that.init();
 
-        if(!this.options.hotkeyEnable) {
-            $.zui.messager.show(this.lang.hotkeyDisabled);
+        if(!that.options.hotkeyEnable) {
+            $.zui.messager.show(that.lang.hotkeyDisabled);
         }
     };
 
@@ -53,8 +53,11 @@
             deleteNode: 'del backspace',
             addBrother: 'return',
             addChild: 'tab insert',
-            centerCanvas: 'space',
-            toggleNode: '+ -'
+            centerCanvas: 'space ctrl+1',
+            toggleNode: '+ -',
+            zoomIn: 'ctrl+=',
+            zoomOut: 'ctrl+-',
+            zoomReset: 'ctrl+0',
         },
         lang: 'zh_cn',
         langs: {
@@ -88,6 +91,12 @@
         nodeLineWidth: 2,
         showToggleButton: false,
         readonly: false,
+        minimap: false,
+        toolbar: true,
+        zoom: 1,
+        zoomMax: 4,
+        zoomMin: 0.2,
+        minimapHeight: 100,
     }; // default options
 
     Mindmap.prototype.getOptions = function(options) {
@@ -123,40 +132,128 @@
         this.initDom();
         this.initSize();
         this.bindEvents();
-
         this.render();
+        this.setZoom(this.options.zoom || 1);
     };
 
     Mindmap.prototype.initDom = function() {
-        var $this = this.$;
+        var that = this;
+        var options = that.options;
+        var $this = that.$;
 
         if(!$this.attr('id')) {
             $this.attr('id', 'mindmap-' + $.zui.uuid());
         }
-        this.id = $this.attr('id');
+        that.id = $this.attr('id');
 
-        this.$container = $this.children('.mindmap-container');
-        if(!this.$container.length) {
+        that.$container = $this.children('.mindmap-container');
+        if(!that.$container.length) {
             $this.prepend("<div class='mindmap-container'></div>");
-            this.$container = $this.children('.mindmap-container');
+            that.$container = $this.children('.mindmap-container');
         }
 
-        this.$canvas = this.$container.children('canvas');
-        if(!this.$canvas.length) {
-            this.$container.prepend("<canvas class='mindmap-bg'></canvas>".format(this.options.canvasSize));
-            this.$canvas = this.$container.children('canvas');
+        that.$canvas = that.$container.children('canvas');
+        if(!that.$canvas.length) {
+            that.$container.prepend("<canvas class='mindmap-bg'></canvas>".format(options.canvasSize));
+            that.$canvas = that.$container.children('canvas');
         }
 
-        this.$desktop = this.$container.children('.mindmap-desktop');
-        if(!this.$desktop.length) {
-            this.$container.append("<div class='mindmap-desktop'></div>");
-            this.$desktop = this.$container.children('.mindmap-desktop');
+        that.$desktop = that.$container.children('.mindmap-desktop');
+        if(!that.$desktop.length) {
+            that.$container.append("<div class='mindmap-desktop'></div>");
+            that.$desktop = that.$container.children('.mindmap-desktop');
         }
-        this.$desktop.attr('unselectable', 'on').toggleClass('mindmap-show-toggle-btn', !!this.options.showToggleButton);
+        that.$desktop.attr('unselectable', 'on').toggleClass('mindmap-show-toggle-btn', !!options.showToggleButton);
         // var $shadows = $this.children('.shadow');
         // if(!$shadows.length) {
         //     $this.append("<div class='mindmap-shadow shadow-top'></div><div class='mindmap-shadow shadow-right'></div><div class='mindmap-shadow shadow-bottom'></div><div class='mindmap-shadow shadow-left'></div>");
         // }
+
+        if (options.toolbar) {
+            that.$toolbar = $this.children('.mindmap-toolbar');
+            if(!that.$toolbar.length) {
+                $this.append([
+                    '<div class="mindmap-toolbar">',
+                        '<a class="mindmap-action-btn" data-action="zoomIn"><i class="icon icon-' + (options.zoomInIcon || 'plus-sign') + '"></i></a>',
+                        '<div class="mindmap-zoom-bar"><a class="mindmap-zoom-bar-btn"></a></div>',
+                        '<a class="mindmap-action-btn" data-action="zoomOut"><i class="icon icon-' + (options.zoomOutIcon || 'minus-sign') + '"></i></a>',
+                        '<a class="mindmap-action-btn" data-action="zoomReset"><i class="icon icon-' + (options.zoomResetIcon || 'expand-full') + '"></i></a>',
+                        '<a class="mindmap-action-btn" data-action="moveCenter"><i class="icon icon-' + (options.centerIcon || 'dot-circle') + '"></i></a>',
+                    '</div>'
+                ].join(''));
+                that.$toolbar = $this.children('.mindmap-toolbar');
+            }
+            that.$toolbar.on('click', '.mindmap-action-btn', function() {
+                var action = $(this).data('action');
+                if (action === 'moveCenter') {
+                    that.display(0, 0);
+                } else if (action === 'zoomReset') {
+                    that.setZoom(1);
+                } else if (action === 'zoomIn') {
+                    that.zoomIn();
+                } else if (action === 'zoomOut') {
+                    that.zoomOut();
+                }
+            });
+            var $zoomBar = that.$toolbar.find('.mindmap-zoom-bar');
+            var zoomOnClickBar = function(event) {
+                var rect = $zoomBar[0].getBoundingClientRect();
+                var half = rect.height / 2;
+                var y = event.pageY - rect.top;
+                var zoom = that.zoom;
+                if (y >= half) {
+                    zoom = 1- (((y - half) / half) * (1 - options.zoomMin));
+                } else {
+                    zoom = 1 + (((half - y) / half) * (options.zoomMax - 1));
+                }
+                that.setZoom(Math.round(zoom * 10) / 10);
+            };
+            $zoomBar.on('click', zoomOnClickBar).find('.mindmap-zoom-bar-btn').draggable({
+                stopPropagation: true,
+                move: false,
+                finish: function(e) {
+                    zoomOnClickBar(e.event);
+                },
+                drag: function(e) {
+                    zoomOnClickBar(e.event);
+                }
+            });
+        }
+        if (options.minimap) {
+            that.$minimap = $this.children('.mindmap-minimap');
+            if(!that.$minimap.length) {
+                $this.append([
+                    '<div class="mindmap-minimap">',
+                        '<canvas class="mindmap-minimap-canvas" />',
+                        '<div class="mindmap-minimap-viewport"></div>',
+                    '</div>'
+                ].join(''));
+                that.$minimap = $this.children('.mindmap-minimap');
+            }
+            that.$minimap.height(options.minimapHeight || 100);
+            that.$minimapCanvas = that.$minimap.children('.mindmap-minimap-canvas');
+            that.$minimapView = that.$minimap.find('.mindmap-minimap-viewport').draggable({
+                container: that.$minimap,
+                stopPropagation: true,
+                move: function(dragPos, $ele) {
+                    var $minimap = that.$minimap;
+                    var width = $minimap.width();
+                    var height = $minimap.height();
+                    var minimapDragStart = that.minimapDragStart;
+                    var minimapRect = that.minimapRect;
+                    var newPosition = {left: Math.max(0, Math.min(width - minimapRect.width, dragPos.left)), top: Math.max(0, Math.min(height - minimapRect.height, dragPos.top))};
+                    $ele.css(newPosition);
+                    var displayX = minimapDragStart.x - (newPosition.left - minimapDragStart.pos.left) / that.minimapScale;
+                    var displayY = minimapDragStart.y - (newPosition.top - minimapDragStart.pos.top) / that.minimapScale;
+                    if (that.x !== displayX || that.y !== displayY) {
+                        that.display(displayX, displayY, 'absolute');
+                    }
+                },
+                before: function(e) {
+                    that.minimapDragStart = {x: that.x, y: that.y, pos: that.$minimapView.position()};
+                }
+            });
+        }
     };
 
     Mindmap.prototype.initSize = function() {
@@ -165,9 +262,6 @@
         this.winHeight = $this.height();
         this.centerX = Math.floor(this.winWidth / 2);
         this.centerY = Math.floor(this.winHeight / 2);
-
-        // $canvas.attr('width', this.width)
-        //        .attr('height', this.height);
 
         if(!this.dirtyData) this.display();
     };
@@ -272,6 +366,35 @@
                 deleteChildren(nodeData.children);
             }
             return collapesed;
+        }
+    };
+
+    Mindmap.prototype.zoomIn = function() {
+        this.setZoom(this.zoom + (this.zoom <= 1 ? 0.2 : 0.5));
+    };
+
+    Mindmap.prototype.zoomOut = function() {
+        this.setZoom(this.zoom - (this.zoom <= 1 ? 0.2 : 0.5));
+    };
+
+    Mindmap.prototype.setZoom = function(zoom) {
+        var that = this;
+        var options = that.options;
+        zoom = Math.min(Math.max(zoom, options.zoomMin), options.zoomMax);
+        if (zoom !== that.zoom) {
+            that.zoom = zoom;
+            that.$container.css('transform', 'scale(' + zoom + ')');
+            var $zoomBar = that.$toolbar.find('.mindmap-zoom-bar').attr('title', Math.round(zoom * 100) + '%');
+            var zoomBarHalfHeight = $zoomBar.height() / 2;
+            var zoomBarBtnTop = 0;
+            if (zoom >= 1) {
+                zoomBarBtnTop = (options.zoomMax - zoom) / (options.zoomMax - 1) * zoomBarHalfHeight;
+            } else {
+                zoomBarBtnTop = zoomBarHalfHeight + ((1 - zoom) / (1 - options.zoomMin) * zoomBarHalfHeight);
+            }
+            $zoomBar.find('.mindmap-zoom-bar-btn').css('top', zoomBarBtnTop);
+            that.draw();
+            that.updateMinimapViewport();
         }
     };
 
@@ -652,11 +775,12 @@
 
     /* show on desktop with right position */
     Mindmap.prototype.showNode = function(nodeData, parent, hide) {
+        var that = this;
         if(!nodeData) {
-            nodeData = this.data;
+            nodeData = that.data;
         }
 
-        var options = this.options,
+        var options = that.options,
             ui = nodeData.ui,
             node = nodeData.ui.element;
 
@@ -667,10 +791,10 @@
             ui.left = 0 - Math.floor(ui.width / 2);
             ui.top = 0 - Math.floor(ui.height / 2);
 
-            this.left = 0 - Math.floor(Math.max(ui.width + options.canvasPadding, this.winWidth) / 4);
-            this.right = 0 - this.left;
-            this.top = 0 - Math.floor(Math.max(ui.height + options.canvasPadding, this.winHeight) / 4);
-            this.bottom = 0 - this.top;
+            that.left = 0 - Math.floor(Math.max(ui.width + options.canvasPadding, that.winWidth) / 4);
+            that.right = 0 - that.left;
+            that.top = 0 - Math.floor(Math.max(ui.height + options.canvasPadding, that.winHeight) / 4);
+            that.bottom = 0 - that.top;
         } else if($.isPlainObject(ui.dragPos)) {
             ui.left = ui.dragPos.left;
             ui.top = ui.dragPos.top;
@@ -706,62 +830,70 @@
             }
 
             if(nodeData.subSide === 'left') {
-                this.left = Math.min(this.left, ui.left);
+                that.left = Math.min(that.left, ui.left);
             } else {
-                this.right = Math.max(this.right, ui.left + ui.width);
+                that.right = Math.max(that.right, ui.left + ui.width);
             }
-            this.top = Math.min(this.top, ui.top);
-            this.bottom = Math.max(this.bottom, ui.top + ui.height);
+            that.top = Math.min(that.top, ui.top);
+            that.bottom = Math.max(that.bottom, ui.top + ui.height);
         }
 
         /* load children nodes */
         if(!nodeData.collapesed && nodeData.children && nodeData.children.length > 0) {
             for(var i in nodeData.children) {
-                this.showNode(nodeData.children[i], nodeData, hide || nodeData.collapesed);
+                that.showNode(nodeData.children[i], nodeData, hide || nodeData.collapesed);
             }
         }
 
         if(nodeData.type === 'root') {
-            var pd = this.options.canvasPadding;
-            this.left -= pd;
-            this.top -= pd;
-            this.right += pd * 2;
-            this.bottom += pd;
-            this.width = this.right - this.left;
-            this.height = this.bottom - this.top;
+            var pd = that.options.canvasPadding;
+            that.left -= pd;
+            that.top -= pd;
+            that.right += pd * 2;
+            that.bottom += pd;
+            that.width = that.right - that.left;
+            that.height = that.bottom - that.top;
 
-            this.display();
-            this.draw();
+            that.display();
+            that.draw();
+            that.renderMinimap();
 
-            this.callEvent('afterShow', {
+            that.callEvent('afterShow', {
                 data: nodeData
-            })
+            });
         }
     };
 
     Mindmap.prototype.display = function(x, y, relative) {
+        var that = this;
+        var isAbsolute = relative === 'absolute';
         if(typeof x === 'number' && typeof y === 'number') {
-            if(relative) {
-                x += this.offsetX;
-                y += this.offsetY;
+            x = Math.round(x);
+            y = Math.round(y);
+            if(relative && !isAbsolute) {
+                x += that.offsetX;
+                y += that.offsetY;
             }
-            this.offsetX = x;
-            this.offsetY = y;
+            that.offsetX = x - (isAbsolute ? (that.left + that.centerX) : 0);
+            that.offsetY = y - (isAbsolute ? (that.top + that.centerY) : 0);
         }
-        this.x = this.centerX + this.left + this.offsetX;
-        this.y = this.centerY + this.top + this.offsetY;
-        this.$container.css({
-            width: this.width,
-            height: this.height,
-            top: this.y,
-            left: this.x
+        that.x = that.centerX + that.left + that.offsetX;
+        that.y = that.centerY + that.top + that.offsetY;
+        that.$container.css({
+            width: that.width,
+            height: that.height,
+            top: that.y,
+            left: that.x,
+            transformOrigin: ((that.width / 2) - that.offsetX) + 'px ' + ((that.height / 2) - that.offsetY) + 'px'
         });
 
-        var pd = this.options.canvasPadding;
-        this.$.toggleClass('shadow-left', this.x < 0 - pd)
-            .toggleClass('shadow-right', this.x + this.width > this.winWidth + pd)
-            .toggleClass('shadow-top', this.y < 0 - pd)
-            .toggleClass('shadow-bottom', this.y + this.height > this.winHeight + pd);
+        var pd = that.options.canvasPadding;
+        that.$.toggleClass('shadow-left', that.x < 0 - pd)
+            .toggleClass('shadow-right', that.x + that.width > that.winWidth + pd)
+            .toggleClass('shadow-top', that.y < 0 - pd)
+            .toggleClass('shadow-bottom', that.y + that.height > that.winHeight + pd);
+
+        that.updateMinimapViewport();
     };
 
     Mindmap.prototype.makeNodeVisble = function($node) {
@@ -789,53 +921,55 @@
         this.display();
     };
 
-    Mindmap.prototype.clearCanvasArea = function(nodeData, parent) {
-        this.$canvas[0].getContext("2d").clearRect(0, 0, this.width, this.height);
-    };
-
     Mindmap.prototype.draw = function(nodeData, parent, hide) {
+        var that = this;
         if(!nodeData) {
-            nodeData = this.data;
+            nodeData = that.data;
         }
 
+        that.canvasScale = (that.zoom || 1) * (window.devicePixelRatio || 1);
+        that.canvasWidth = that.width * that.canvasScale;
+        that.canvasHeight = that.height * that.canvasScale;
         if(nodeData.type === 'root') {
-            this.$canvas.attr({
-                width: this.width,
-                height: this.height
-            });
-            this.clearCanvasArea();
+            that.$canvas.attr({
+                width: that.canvasWidth,
+                height: that.canvasHeight
+            }).css({width: that.width, height: that.height});
+            var ctx = that.$canvas[0].getContext("2d");
+            ctx.scale(that.canvasScale, that.canvasScale);
+            ctx.clearRect(0, 0, that.width, that.height);
         }
 
         if(parent) {
             if (hide) {
                 return;
             }
-            var isLeft = (nodeData.subSide === 'left'),
-                options = this.options;
-            var ctx = this.$canvas[0].getContext("2d"),
-                start = {
-                    x: parent.ui.left + (parent.type === 'root' ? (Math.floor(parent.ui.width / 2)) : (isLeft ? 0 : parent.ui.width)),
-                    y: parent.ui.top + Math.floor(parent.ui.height / 2)
-                },
-                end = {
-                    x: nodeData.ui.left + (isLeft ? nodeData.ui.width : 0),
-                    y: nodeData.ui.top + Math.floor(nodeData.ui.height / 2)
-                };
+            var isLeft = (nodeData.subSide === 'left');
+            var options = that.options;
+            var ctx = that.$canvas[0].getContext("2d");
+            var start = {
+                x: parent.ui.left + (parent.type === 'root' ? (Math.floor(parent.ui.width / 2)) : (isLeft ? 0 : parent.ui.width)),
+                y: parent.ui.top + Math.floor(parent.ui.height / 2)
+            };
+            var end = {
+                x: nodeData.ui.left + (isLeft ? nodeData.ui.width : 0),
+                y: nodeData.ui.top + Math.floor(nodeData.ui.height / 2)
+            };
             var p1 = {
-                    x: start.x + (isLeft ? -1 : 1) * options.lineCurvature,
-                    y: start.y
-                },
-                p2 = {
-                    x: end.x + (isLeft ? 1 : -1) * options.lineCurvature,
-                    y: end.y
-                };
-            start = this.computePosition(start);
-            end = this.computePosition(end);
-            p1 = this.computePosition(p1);
-            p2 = this.computePosition(p2);
+                x: start.x + (isLeft ? -1 : 1) * options.lineCurvature,
+                y: start.y
+            };
+            var p2 = {
+                x: end.x + (isLeft ? 1 : -1) * options.lineCurvature,
+                y: end.y
+            };
+            start = that.computePosition(start);
+            end = that.computePosition(end);
+            p1 = that.computePosition(p1);
+            p2 = that.computePosition(p2);
 
             ctx.beginPath();
-            ctx.strokeStyle = this.computeColor(nodeData.color, nodeData.ui.canDrop ? 25 : 100);
+            ctx.strokeStyle = that.computeColor(nodeData.color, nodeData.ui.canDrop ? 25 : 100);
             ctx.lineCap = "round";
             ctx.lineWidth = (nodeData.type === 'sub') ? options.subLineWidth : options.nodeLineWidth;
 
@@ -844,16 +978,90 @@
             ctx.stroke();
         }
 
-        nodeData.ui.element.css(this.computePosition({
+        nodeData.ui.element.css(that.computePosition({
             left: nodeData.ui.left,
             top: nodeData.ui.top
         }));
 
         if(!nodeData.collapesed && nodeData.children && nodeData.children.length > 0) {
             for(var i in nodeData.children) {
-                this.draw(nodeData.children[i], nodeData, hide || nodeData.collapesed);
+                that.draw(nodeData.children[i], nodeData, hide || nodeData.collapesed);
             }
         }
+    };
+
+    Mindmap.prototype.renderMinimap = function(noDelay) {
+        var that = this;
+        if (!that.options.minimap) return;
+        if (!noDelay) {
+            if (that.minimapTimer) {
+                clearTimeout(that.minimapTimer);
+            }
+            that.minimapTimer = setTimeout(function() {
+                that.minimapTimer = null;
+                that.renderMinimap(true);
+            }, 110);
+            return;
+        }
+
+        var $minimap = that.$minimap;
+        var $canvas = that.$minimapCanvas;
+        var scale = window.devicePixelRatio || 1;
+        var height = $minimap.height();
+        var width = Math.round(that.width * height / that.height);
+        $minimap.width(width);
+        $canvas.attr({width: width * scale, height: height * scale}).css({width: width, height: height});
+        var zoom = width / that.width;
+        /** @type {CanvasRenderingContext2D} */
+        var ctx = $canvas[0].getContext('2d');
+        ctx.scale(scale, scale);
+        ctx.clearRect(0, 0, width, height);
+        ctx.drawImage(that.$canvas[0], 0, 0, width, height);
+        ctx.drawImage(that.$canvas[0], -0.5, 0.5, width, height);
+        ctx.drawImage(that.$canvas[0], 0.5, -0.5, width, height);
+        ctx.drawImage(that.$canvas[0], -0.5, -0.5, width, height);
+        ctx.drawImage(that.$canvas[0], 0.5, 0.5, width, height);
+        that.$desktop.children('.mindmap-node').each(function() {
+            var $node = $(this);
+            var nodeData = $node.data('node');
+            var position = $node.position();
+            ctx.fillStyle = (nodeData.type === 'root' || $node.hasClass('active')) ? '#508dee' : that.computeColor(nodeData.color, nodeData.ui.canDrop ? 25 : 80);
+            ctx.fillRect(position.left * zoom / that.zoom, position.top * zoom / that.zoom, $node.width() * zoom, $node.height() * zoom);
+        });
+        that.updateMinimapViewport(true);
+    };
+
+    Mindmap.prototype.updateMinimapViewport = function(noDelay) {
+        var that = this;
+        if (!that.options.minimap) return;
+        if (!noDelay) {
+            if (that.viewportTimer) {
+                clearTimeout(that.viewportTimer);
+            }
+            that.viewportTimer = setTimeout(function() {
+                that.viewportTimer = null;
+                that.renderMinimap(true);
+            }, 120);
+            return;
+        }
+
+        var $minimap = that.$minimap;
+        var minimapWidth = $minimap.width();
+        var bounding = that.$desktop[0].getBoundingClientRect();
+        var mindmapBounding = that.$[0].getBoundingClientRect();
+        var minimapScale = minimapWidth / bounding.width;
+        var left = bounding.left - mindmapBounding.left;
+        var top  = bounding.top - mindmapBounding.top;
+        var right = mindmapBounding.right - bounding.right;
+        var bottom = mindmapBounding.bottom - bounding.bottom;
+        that.minimapScale = minimapScale;
+        that.minimapRect = {
+            left: Math.max(0,  -left) * minimapScale,
+            top: Math.max(0,  -top) * minimapScale,
+            width: (bounding.width + Math.min(0, right) + Math.min(0, left)) * minimapScale,
+            height: (bounding.height + Math.min(0, bottom) + Math.min(0, top)) * minimapScale,
+        };
+        that.$minimap.find('.mindmap-minimap-viewport').css(that.minimapRect);
     };
 
     Mindmap.prototype.bindNodeEvents = function($node) {
@@ -878,8 +1086,9 @@
                 // .on('keydown', function(event) {});
             if($node.data('type') !== 'root') {
                 $node.droppable({
-                    container: that.$,
+                    container: that.$container,
                     target: '#' + that.id + ' .mindmap-node:not([data-id="' + $node.data('id') + '"])',
+                    noShadow: true,
                     before: function(e) {
                         if(!that.callEvent('beforeDrag', {
                                 $node: $node
@@ -902,9 +1111,11 @@
                         }
                     },
                     drag: function(e) {
-                        e.position.left -= that.x;
-                        e.position.top -= that.y;
-                        data.ui.dragPos = that.computePosition(e.position, true);
+                        var position = {
+                            left: e.position.left / that.zoom,
+                            top: e.position.top / that.zoom,
+                        };
+                        data.ui.dragPos = that.computePosition(position, true);
                         data.ui.canDrop = e.isIn;
                         that.showNode();
                     },
@@ -1077,10 +1288,10 @@
                 if(!that.callEvent('beforeMoveCanvas', {event: e})) return false;
             },
             finish: function(e) {
-                that.display(e.smallOffset.x, e.smallOffset.y, true);
+                that.display(e.smallOffset.x / that.zoom, e.smallOffset.y / that.zoom, true);
             },
             drag: function(e) {
-                that.display(e.smallOffset.x, e.smallOffset.y, true);
+                that.display(e.smallOffset.x / that.zoom, e.smallOffset.y / that.zoom, true);
             }
         });
     };
@@ -1091,42 +1302,60 @@
 
         var that = this,
             hotkeys = options.hotkeys;
-        $(document).on('keydown', null, hotkeys.selectPrev, function() {
+        $(document).on('keydown', null, hotkeys.selectPrev, function(event) {
             if(!that.callEvent('beforeHotkey', {
                     event: event,
                     hotkey: hotkeys.selectPrev
                 })) return;
             that.selectNode('prev');
-        }).on('keydown', null, hotkeys.selectNext, function() {
+        }).on('keydown', null, hotkeys.selectNext, function(event) {
             if(!that.callEvent('beforeHotkey', {
                     event: event,
                     hotkey: hotkeys.selectNext
                 })) return;
             that.selectNode('next');
-        }).on('keydown', null, hotkeys.selectLeft, function() {
+        }).on('keydown', null, hotkeys.selectLeft, function(event) {
             if(!that.callEvent('beforeHotkey', {
                     event: event,
                     hotkey: hotkeys.selectLeft
                 })) return;
             that.selectNode('left');
-        }).on('keydown', null, hotkeys.selectRight, function() {
+        }).on('keydown', null, hotkeys.selectRight, function(event) {
             if(!that.callEvent('beforeHotkey', {
                     event: event,
                     hotkey: hotkeys.selectRight
                 })) return;
             that.selectNode('right');
-        }).on('keydown', null, hotkeys.toggleNode, function(e) {
+        }).on('keydown', null, hotkeys.toggleNode, function(event) {
             if(!that.callEvent('beforeHotkey', {
                 event: event,
                 hotkey: hotkeys.toggleNode
             })) return;
             that.toggleNode('focused');
-        }).on('keydown', null, hotkeys.centerCanvas, function() {
+        }).on('keydown', null, hotkeys.centerCanvas, function(event) {
             if(!that.callEvent('beforeHotkey', {
                     event: event,
                     hotkey: hotkeys.centerCanvas
                 })) return;
             that.display(0, 0);
+        }).on('keydown', null, hotkeys.zoomIn, function(event) {
+            if(!that.callEvent('beforeHotkey', {
+                    event: event,
+                    hotkey: hotkeys.zoomIn
+                })) return;
+            that.zoomIn();
+        }).on('keydown', null, hotkeys.zoomOut, function(event) {
+            if(!that.callEvent('beforeHotkey', {
+                    event: event,
+                    hotkey: hotkeys.zoomOut
+                })) return;
+            that.zoomOut();
+        }).on('keydown', null, hotkeys.zoomReset, function(event) {
+            if(!that.callEvent('beforeHotkey', {
+                    event: event,
+                    hotkey: hotkeys.zoomReset
+                })) return;
+            that.setZoom(1);
         });
 
         if(!that.options.readonly) {

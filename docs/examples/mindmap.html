@@ -13,10 +13,11 @@
 <link href="../../dist/css/zui.min.css" rel="stylesheet">
 <link href="../../dist/lib/mindmap/zui.mindmap.min.css" rel="stylesheet">
 <style>
+body {background-color: #ddd;}
 #mindmap {
     background: #fafafa;
     position: fixed;
-    top: 0;
+    top: 50px;
     right: 0;
     bottom: 0;
     left: 0;
@@ -36,10 +37,13 @@
 <script src="../../dist/js/zui.js"></script>
 <script src="../../dist/lib/hotkey/hotkey.min.js"></script>
 <script src="../../dist/lib/mindmap/zui.mindmap.js"></script>
+<script src="https://livejs.com/live.js"></script>
 <script>
 $(function() {
     window.mindmap = $('#mindmap').mindmap({
         showToggleButton: true,
+        minimap: true,
+        toolbar: true,
         afterLoad: function(data) {
             console.log('Mindmap > load', data);
         },

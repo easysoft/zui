@@ -23,9 +23,10 @@
   height: 100%;
   background: #fff;
   border: 1px solid #e5e5e5;
+  transition: transform .1s;
 
   &.dragging {
-    cursor: pointer;
+    cursor: grabbing;
   }
 }
 
@@ -64,6 +65,7 @@
       font-weight: bold;
       padding: 8px 12px;
       font-size: 14px;
+      white-space: nowrap;
       cursor: default;
 
       * {
@@ -290,4 +292,90 @@
 .shadow-top>.shadow-top,
 .shadow-bottom>.shadow-bottom {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+.mindmap-toolbar {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  height: 200px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: @border-radius-base;
+  z-index: 15;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.075);
+}
+.mindmap-action-btn {
+  display: block;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  text-align: center;
+
+  &:hover {
+    background-color: rgba(0,0,0,.1);
+  }
+}
+.mindmap-zoom-bar {
+  height: 94px;
+  width: 4px;
+  margin-left: 11px;
+  background-color: @color-gray-light;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+
+  &:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    left: -4px;
+    background-color: @color-gray-light;
+    height: 1px;
+  }
+
+  &:hover {
+    background-color: @color-gray;
+  }
+}
+.mindmap-zoom-bar-btn {
+  width: 12px;
+  height: 12px;
+  background-color: @color-primary;
+  display: block;
+  border-radius: 99999px;
+  margin-left: -4px;
+  position: absolute;
+  margin-top: -6px;
+  top: 47px;
+  cursor: move;
+  cursor: grab;
+
+  &:hover {
+    background-color: @link-color;
+  }
+}
+
+.mindmap-minimap {
+  position: absolute;
+  left: 40px;
+  height: 100px;
+  bottom: 10px;
+  width: 200px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  z-index: 15;
+  border-radius: @border-radius-base;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.075);
+  overflow: hidden;
+}
+.mindmap-minimap-viewport {
+  position: absolute;
+  border: 2px solid @color-primary;
+  outline: 9999px solid fade(@color-primary, 10%);
+  cursor: move;
+  transition: .1s;
+  transition-property: left, top, width, height;
 }
