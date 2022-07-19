@@ -14,6 +14,7 @@ importers:
       '@vuepress/theme-default': 2.0.0-beta.49
       '@vuepress/utils': 2.0.0-beta.49
       '@zui/base': workspace:^0.0.1
+      '@zui/browser-helpers': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
       '@zui/helpers': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
@@ -44,6 +45,7 @@ importers:
       zui-config: workspace:^0.0.1
     dependencies:
       '@zui/base': link:lib/base
+      '@zui/browser-helpers': link:lib/browser-helpers
       '@zui/button': link:lib/button
       '@zui/helpers': link:lib/helpers
       '@zui/store': link:lib/store
@@ -86,12 +88,14 @@ importers:
   build:
     specifiers:
       '@zui/base': workspace:^0.0.1
+      '@zui/browser-helpers': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
       '@zui/helpers': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
       '@zui/utilities': workspace:^0.0.1
     dependencies:
       '@zui/base': link:../lib/base
+      '@zui/browser-helpers': link:../lib/browser-helpers
       '@zui/button': link:../lib/button
       '@zui/helpers': link:../lib/helpers
       '@zui/store': link:../lib/store
@@ -104,6 +108,9 @@ importers:
       '@mertasan/tailwindcss-variables': registry.npmmirror.com/@mertasan/tailwindcss-variables/2.3.0
 
   lib/base:
+    specifiers: {}
+
+  lib/browser-helpers:
     specifiers: {}
 
   lib/button:

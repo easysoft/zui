@@ -2,7 +2,7 @@
     "name": "@zui/base",
     "description": "ZUI basic settings",
     "version": "0.0.1",
-    "keywords": ["css"],
+    "keywords": ["css", "zui:css-base"],
     "main": "src/main.ts",
     "files": [
         "./src/**/*"

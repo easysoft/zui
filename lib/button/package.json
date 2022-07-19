@@ -4,7 +4,7 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
-    "keywords": ["css", "components"],
+    "keywords": ["css", "zui:control"],
     "dependencies": {
     },
     "devDependencies": {

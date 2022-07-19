@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "@zui/base": "workspace:^0.0.1",
+    "@zui/browser-helpers": "workspace:^0.0.1",
     "@zui/button": "workspace:^0.0.1",
     "@zui/helpers": "workspace:^0.0.1",
     "@zui/store": "workspace:^0.0.1",

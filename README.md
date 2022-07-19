@@ -38,16 +38,45 @@ component-name         # 组件目录
 | `name`         | 组件名称，根据工作空间约定，名称需要统一添加前缀 ` @zui`，例如 `'@zui/dropdown'` |
 | `description`  | 组件显示名称，例如 `"Dropdown Menu"`                         |
 | `version`      | 版本，例如 `"1.0.0"`                                         |
-| `keywords`     | 关键词，例如 `["button", "menu", "dropdown"]`                |
+| `keywords`     | 关键词，例如 `["button", "menu", "dropdown", "zui:component"]`，通过 `'zui:TYPE'` 的形式来定义组件类型 |
 | `main`         | 组件模块入口文件，默认为 `"src/main.ts"`                     |
 | `browser`      | 为浏览器环境提供的入口文件  |
 | `module`      | 为 NodeJS 环境提供的入口文件  |
+| `zui`      | ZUI 专属配置  |
 | `dependencies` | 该组件依赖的其他组件，例如 `{"@zui/icon": "workspace:^1.0.0"}` |
 | `browserslist` | 使用 [browserslist](https://github.com/browserslist/browserslist) 语法声明该组件支持的浏览器，例如 `["not ie < 11", "> 0.2%"]` |
 
 其他属性与 npm 中的定义一致，例如 `homepage`、`license`、`author`。
 
+### 
 
+### 组件类型
+
+| 类型            | 定义                 | 打包顺序 |
+| --------------- | -------------------- | -------- |
+| `css-base`      | CSS 基础样式         | 1        |
+| `css-utilities` | CSS 辅助类           | 5        |
+| `control`       | 基础控件，不包括 CSS | 2        |
+| `component`     | UI 组件              | 4        |
+| `js-helpers`    | JS 辅助方法          | 3        |
+| `js-lib`        | JS 库                | 6        |
+
+在 `package.json` 的 `keywords` 属性中来定义组件类型，定义方法为 `zui:组件类型`，当没有定义组件类型时，默认组件类型为 `component`。
+
+不同的组件类型打包引入顺序不一样，其中"CSS 基础样式"（`css-base`）永远被首先打包，"CSS 辅助类"（`css-utilities`）永远被首先打包。
+
+### 组件产物类型
+
+组件产物类型包括：
+
+| 类型    | 说明           |
+| ------- | -------------- |
+| `css`   | CSS            |
+| `js`    | JavaScript     |
+| `media` | 图片等媒体文件 |
+| `fonts` | 字体           |
+
+应该在 `package.json` 的 `keywords` 属性中来指定当前组件包含的产物类型，例如 `["css", "js"]`。
 
 ### index.html
 

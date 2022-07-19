@@ -2,9 +2,7 @@
     "name": "@zui/browser-helpers",
     "description": "ZUI helpers",
     "version": "0.0.1",
-    "keywords": [
-        "js"
-    ],
+    "keywords": ["js", "zui:js-helpers"],
     "browser": "src/main.ts",
     "files": [
         "./src/**/*"

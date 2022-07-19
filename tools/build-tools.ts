@@ -1,6 +1,6 @@
 import Path from 'path';
 import fs from 'fs-extra';
-import {getBuildInLibs} from './buildin-libs.js';
+import {getBuildInLibs, BuildInLibInfo} from './buildin-libs.js';
 
 /**
  * Libs like string - 构建库（或组件）定义字符串
@@ -34,19 +34,25 @@ export type BuildLibDependency = {
     name: string;
 
     /** Dependency type - 依赖类型 */
-    type: 'package',
+    type: 'package';
 
     /** Package version - 依赖的包版本 */
     version: string;
+
+    /** Order - 顺序 */
+    order: number;
 } | {
     /** Dependency name - 名称 */
     name: string;
 
     /** Dependency type - 依赖类型 */
-    type: 'file',
+    type: 'file';
 
     /** File path - 依赖的文件路径 */
     path: string;
+
+    /** Order - 顺序 */
+    order: number;
 };
 
 
@@ -112,18 +118,24 @@ function getAbsolutePath(path: string) {
     return Path.resolve(process.cwd(), path.startsWith('~/') ? path.replace('~', '.') : path);
 }
 
+/** External lib order - 外部文件加载顺序 */
+const EXTERNAL_FILE_ORDER = 99999;
+
+/** External lib order - 外部包加载顺序 */
+const EXTERNAL_LIB_ORDER = 99999;
+
 /**
  * Parse a string to a build lib dependency - 解析一个字符串为构建库（或组件）依赖定义
  * @param dependencyLike Dependency like string - 依赖定义字符串
  * @param buildInLibs Build in libs - 内置库
  * @returns Build lib dependency - 构建库（或组件）依赖定义
  */
-function parseBuildDependency(dependencyLike: BuildLibDependencyLike, buildInLibs: Map<string, string>): BuildLibDependency {
+function parseBuildDependency(dependencyLike: BuildLibDependencyLike, buildInLibs: Map<string, BuildInLibInfo>): BuildLibDependency {
     if (typeof dependencyLike !== 'string') {
         return dependencyLike;
     }
     if (isPathLike(dependencyLike)) {
-        return {name: dependencyLike.split('/').pop() as string, type: 'file', path: dependencyLike};
+        return {name: dependencyLike.split('/').pop() as string, type: 'file', path: dependencyLike, order: EXTERNAL_FILE_ORDER};
     }
     const isNpmLib = dependencyLike.startsWith('+');
     dependencyLike = isNpmLib ? dependencyLike.substring(1) : dependencyLike;
@@ -132,7 +144,7 @@ function parseBuildDependency(dependencyLike: BuildLibDependencyLike, buildInLib
     let name = `${startWithAt ? '@' : ''}${namePart}`;
     if (!isNpmLib) {
         if (isPathLike(versionOrPath)) {
-            return {name, type: 'file', path: versionOrPath};
+            return {name, type: 'file', path: versionOrPath, order: EXTERNAL_FILE_ORDER};
         }
         if (!name.startsWith('@zui/')) {
             name = `@zui/${name}`;
@@ -141,16 +153,20 @@ function parseBuildDependency(dependencyLike: BuildLibDependencyLike, buildInLib
             throw new Error(`Build Error: ${name} is not a build in lib`);
         }
     }
+    const buildInLib = !isNpmLib ? buildInLibs.get(name) : null;
     let version = versionOrPath;
+    const order = isNpmLib ? EXTERNAL_LIB_ORDER : buildInLib?.order;
     if (!version) {
-        if (buildInLibs.has(name)) {
-            version = buildInLibs.get(name) as string;
+        const workspaceVersion = buildInLibs.get(name)?.workspaceVersion;
+        if (workspaceVersion) {
+            version = workspaceVersion;
         }
     }
     return {
         name,
         type: 'package',
         version: version || 'latest',
+        order: order || EXTERNAL_LIB_ORDER,
     };
 }
 
@@ -160,15 +176,16 @@ function parseBuildDependency(dependencyLike: BuildLibDependencyLike, buildInLib
  * @param buildInLibs Build in libs - 内置库
  * @returns Build lib - 构建库（或组件）
  */
-function parseBuildLib(lib: string, buildInLibs: Map<string, string>): BuildLib {
+function parseBuildLib(lib: string, buildInLibs: Map<string, BuildInLibInfo>): BuildLib {
     if (lib === 'zui' || lib === '@zui') {
         return {
             name: 'zui',
-            dependencies: [...buildInLibs.entries()].map(([name, version]) => ({
+            dependencies: [...buildInLibs.values()].map(({name, workspaceVersion, order}) => ({
                 name,
                 type: 'package',
-                version,
-            })),
+                version: workspaceVersion,
+                order: order,
+            } as BuildLibDependency)).sort((x, y) => (x.order - y.order)),
         };
     }
 
@@ -182,7 +199,7 @@ function parseBuildLib(lib: string, buildInLibs: Map<string, string>): BuildLib 
  * @param buildInLibs Build in libs - 内置库
  * @returns 构建库（或组件）列表和名称
  */
-function parseBuildLibs(libsLike: LibsLike, buildInLibs: Map<string, string>): {name: string | null, libs: BuildLib[]} {
+function parseBuildLibs(libsLike: LibsLike, buildInLibs: Map<string, BuildInLibInfo>): {name: string | null, libs: BuildLib[]} {
     const libs: BuildLib[] = [];
     let name: string | null = null;
     libsLike.split(/[ ,]/).forEach(libLike => {

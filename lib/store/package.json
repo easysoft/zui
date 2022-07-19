@@ -2,9 +2,7 @@
     "name": "@zui/store",
     "description": "ZUI localstorage helper",
     "version": "0.0.1",
-    "keywords": [
-        "js"
-    ],
+    "keywords": ["js", "zui:js-lib"],
     "browser": "src/main.ts",
     "dependencies": {
         "nanoid": "^4.0.0"
