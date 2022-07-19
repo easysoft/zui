@@ -40,10 +40,14 @@ component-name         # 组件目录
 | `version`      | 版本，例如 `"1.0.0"`                                         |
 | `keywords`     | 关键词，例如 `["button", "menu", "dropdown"]`                |
 | `main`         | 组件模块入口文件，默认为 `"src/main.ts"`                     |
+| `browser`      | 为浏览器环境提供的入口文件  |
+| `module`      | 为 NodeJS 环境提供的入口文件  |
 | `dependencies` | 该组件依赖的其他组件，例如 `{"@zui/icon": "workspace:^1.0.0"}` |
 | `browserslist` | 使用 [browserslist](https://github.com/browserslist/browserslist) 语法声明该组件支持的浏览器，例如 `["not ie < 11", "> 0.2%"]` |
 
-其他属性与 npm 中的定义一致，例如 `homepage`、`license`、`author`
+其他属性与 npm 中的定义一致，例如 `homepage`、`license`、`author`。
+
+
 
 ### index.html
 
@@ -186,7 +190,7 @@ $ pnpm build
 打包脚本支持通过参数指定需要打包的组件（库），依次将需要打包的组件名称或第三方库名称追加到命令之后即可，例如以下命令将 ZUI 中的按钮、下拉菜单和面板打包为一个定制版本：
 
 ```shell
-$ pnpm build -- buttton dropdown panel 
+$ pnpm build -- buttton dropdown panel
 ```
 
 一个更复杂的例子：
@@ -253,4 +257,3 @@ zui/                   # 项目根目录
 * 静态文档网站生成：[VuePress](https://v2.vuepress.vuejs.org/zh/)
 * TypeScript 4.5+
 * 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)
-
