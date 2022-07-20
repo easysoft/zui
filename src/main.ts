@@ -16,6 +16,7 @@ async function loadLibPage(libName: string) {
     if (libPage) {
         libPage.innerHTML = content;
     }
+    document.title = `${libName.toUpperCase()} - ZUI3`;
 }
 
 const currentLibName = window.location.pathname.split('/')[1] ?? '';
