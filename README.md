@@ -48,7 +48,6 @@ component-name         # 组件目录
 
 其他属性与 npm 中的定义一致，例如 `homepage`、`license`、`author`。
 
-### 
 
 ### 组件类型
 
@@ -78,31 +77,37 @@ component-name         # 组件目录
 
 应该在 `package.json` 的 `keywords` 属性中来指定当前组件包含的产物类型，例如 `["css", "js"]`。
 
-### index.html
+### 组件开发页面
 
-每个组件都应该包含一个 `index.html` 文件，该文件引用当前组件的入口文件 `/src/main.ts`，并提供使用该组件的相关示例代码。在开发时会通过 vite 打开该文件进行开发调试。
+每个组件都应该包含一个 `README.md` 文件作为开发页面。该文件支持 Markdown 语法，在实际访问时会渲染为 HTML，自动引用当前组件的入口文件 `/src/main.ts`。应该在此文件中提供使用该组件的相关示例代码。
 
 该文件的另一个作用是进行自动化测试，当改组件包含 UI 呈现部分时，需要在该文件中定义完整使用示例，方便进行自动化测试。
 
-下面为一个 `index.html` 文件示例：
+下面为一个 `README.md` 文件示例：
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Button - ZUI</title>
-  </head>
-  <body>
-    <div class="px-4">
-      <button type="btn" class="btn">按钮</button>
-    </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
-</html>
+````md
+# 按钮
+
+## Button
+
+```html:example: flex gap-3
+<button type="button" class="btn">Button</button>
+<button type="button" class="btn">中文按钮</button>
+<button type="button" class="btn" disabled="disabled">禁用的按钮</button>
 ```
+
+## Button Square
+
+使用工具类 `.-square` 获得方形按钮外观。
+
+```html:example: flex gap-3
+<button type="button" class="btn -square">S</button>
+<button type="button" class="btn -square">中</button>
+<button type="button" class="btn -square" disabled="disabled">禁</button>
+```
+````
+
+其中代码块语言类型字符串中的 `:example` 用于指定此代码需要渲染为实际的 HTML，`:example: ` 之后可以添加渲染为 HTML 时的 `<div class="example">` 元素上需要添加的额外的 CSS 类名。
 
 ### 源码
 
@@ -202,7 +207,7 @@ $ pnpm install
 $ pnpm dev
 ```
 
-开发时启动的 Web 服务地址通常为 http://localhost:3000/ ，要对特定组件进行调试开发，只需要添加路径 `lib/component-name` 即可，例如开发调试按钮页面地址为：http://localhost:3000/lib/button/ 。
+开发时启动的 Web 服务地址通常为 http://localhost:5173/ ，要对特定组件进行调试开发，只需要添加路径 `/component-name/` 即可，例如开发调试按钮页面地址为：http://localhost:5173/button/ 。
 
 ### 打包
 
