@@ -2,8 +2,11 @@
 
 ## Button
 
+使用组件类 `.btn` 来获得按钮外观，通常搭配 `<button>` 或 `<a>` 元素使用。
+
 ```html:example: flex gap-3
 <button type="button" class="btn">Button</button>
+<a class="btn">A Link</a>
 <button type="button" class="btn">中文按钮</button>
 <button type="button" class="btn" disabled="disabled">禁用的按钮</button>
 ```
