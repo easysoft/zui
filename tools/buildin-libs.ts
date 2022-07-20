@@ -2,7 +2,7 @@ import Path from 'path';
 import fs from 'fs-extra';
 
 /** Lib type orders - 组件类型顺序 */
-const libTypeOrders = {
+export const libTypeOrders = {
     'css-base': 1,
     'control': 2,
     'js-helpers': 3,
@@ -31,8 +31,14 @@ export interface BuildInLibInfo {
     /** Type - 类型 */
     type: LibType;
 
-    /** 顺序 */
+    /** Order - 顺序 */
     order: number;
+
+    /** Development dependencies */
+    devDependencies?: Record<string, string>,
+
+    /** Dependencies */
+    dependencies?: Record<string, string>,
 }
 
 /**
@@ -67,13 +73,15 @@ export async function getBuildInLibs(): Promise<Map<string, BuildInLibInfo>> {
                 type = (typeKeyword as string).substring('zui:'.length);
             }
         }
-        const lib = {
+        const lib: BuildInLibInfo = {
             name: packageJson.name,
             shortName: packageJson.name.replace('@zui/', ''),
             version: packageJson.version,
             workspaceVersion: `workspace:^${packageJson.version}`,
             type: type as LibType,
             order: libTypeOrders[type as LibType],
+            dependencies: packageJson.dependencies,
+            devDependencies: packageJson.devDependencies,
         };
         map.set(packageJson.name, lib);
     }

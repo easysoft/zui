@@ -13,12 +13,12 @@ importers:
       '@vuepress/core': 2.0.0-beta.49
       '@vuepress/theme-default': 2.0.0-beta.49
       '@vuepress/utils': 2.0.0-beta.49
-      '@zui/base': workspace:^0.0.1
-      '@zui/browser-helpers': workspace:^0.0.1
-      '@zui/button': workspace:^0.0.1
-      '@zui/helpers': workspace:^0.0.1
-      '@zui/store': workspace:^0.0.1
-      '@zui/utilities': workspace:^0.0.1
+      '@zui/base': workspace:0.0.1
+      '@zui/browser-helpers': workspace:0.0.1
+      '@zui/button': workspace:0.0.1
+      '@zui/helpers': workspace:0.0.1
+      '@zui/store': workspace:0.0.1
+      '@zui/utilities': workspace:0.0.1
       autoprefixer: ^10.4.7
       cssnano: ^5.1.12
       eslint: ^8.18.0
@@ -26,6 +26,8 @@ importers:
       eslint-config-airbnb-typescript: ^17.0.0
       eslint-plugin-import: '>=2.25.3 <3.0.0'
       fs-extra: ^10.1.0
+      highlight.js: ^11.6.0
+      markdown-it: ^13.0.1
       minimist: ^1.2.6
       postcss: ^8.4.14
       postcss-import: ^14.1.0
@@ -69,6 +71,8 @@ importers:
       eslint-config-airbnb-typescript: registry.npmmirror.com/eslint-config-airbnb-typescript/17.0.0_4noxlgnutiwvpn5ctj3fwykqra
       eslint-plugin-import: registry.npmmirror.com/eslint-plugin-import/2.26.0_wno36sjfnklvt2ocf7qbhb2izy
       fs-extra: registry.npmmirror.com/fs-extra/10.1.0
+      highlight.js: registry.npmmirror.com/highlight.js/11.6.0
+      markdown-it: registry.npmmirror.com/markdown-it/13.0.1
       minimist: registry.npmmirror.com/minimist/1.2.6
       postcss: registry.npmmirror.com/postcss/8.4.14
       postcss-import: registry.npmmirror.com/postcss-import/14.1.0_postcss@8.4.14
@@ -2955,6 +2959,13 @@ packages:
     resolution: {integrity: sha512-WdZTbAByD+pHfl/g9QSsBIIwy8IT+EsPiKDs0KNX+zSHhdDLFKdZu0BQHljvO+0QI/BasbMSUa8wYNCZTvhslg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/hash-sum/-/hash-sum-2.0.0.tgz}
     name: hash-sum
     version: 2.0.0
+    dev: true
+
+  registry.npmmirror.com/highlight.js/11.6.0:
+    resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/highlight.js/-/highlight.js-11.6.0.tgz}
+    name: highlight.js
+    version: 11.6.0
+    engines: {node: '>=12.0.0'}
     dev: true
 
   registry.npmmirror.com/hosted-git-info/2.8.9:

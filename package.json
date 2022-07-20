@@ -19,12 +19,12 @@
     "./lib"
   ],
   "dependencies": {
-    "@zui/base": "workspace:^0.0.1",
-    "@zui/browser-helpers": "workspace:^0.0.1",
-    "@zui/button": "workspace:^0.0.1",
-    "@zui/helpers": "workspace:^0.0.1",
-    "@zui/store": "workspace:^0.0.1",
-    "@zui/utilities": "workspace:^0.0.1",
+    "@zui/base": "workspace:0.0.1",
+    "@zui/browser-helpers": "workspace:0.0.1",
+    "@zui/button": "workspace:0.0.1",
+    "@zui/helpers": "workspace:0.0.1",
+    "@zui/store": "workspace:0.0.1",
+    "@zui/utilities": "workspace:0.0.1",
     "tailwindcss": "^3.1.4",
     "zui-config": "workspace:^0.0.1"
   },
@@ -45,6 +45,8 @@
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": ">=2.25.3 <3.0.0",
     "fs-extra": "^10.1.0",
+    "highlight.js": "^11.6.0",
+    "markdown-it": "^13.0.1",
     "minimist": "^1.2.6",
     "postcss": "^8.4.14",
     "postcss-import": "^14.1.0",
