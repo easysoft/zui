@@ -5,6 +5,7 @@ importers:
   .:
     specifiers:
       '@types/fs-extra': ^9.0.13
+      '@types/markdown-it': ^12.2.3
       '@types/minimist': ^1.2.2
       '@types/node': ^18.0.0
       '@typescript-eslint/eslint-plugin': ^5.30.0
@@ -52,10 +53,12 @@ importers:
       '@zui/helpers': link:lib/helpers
       '@zui/store': link:lib/store
       '@zui/utilities': link:lib/utilities
+      highlight.js: registry.npmmirror.com/highlight.js/11.6.0
       tailwindcss: registry.npmmirror.com/tailwindcss/3.1.4_ts-node@10.8.2
       zui-config: link:config
     devDependencies:
       '@types/fs-extra': registry.npmmirror.com/@types/fs-extra/9.0.13
+      '@types/markdown-it': registry.npmmirror.com/@types/markdown-it/12.2.3
       '@types/minimist': registry.npmmirror.com/@types/minimist/1.2.2
       '@types/node': registry.npmmirror.com/@types/node/18.0.0
       '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.30.0_5mtqsiui4sk53pmkx7i7ue45wm
@@ -71,7 +74,6 @@ importers:
       eslint-config-airbnb-typescript: registry.npmmirror.com/eslint-config-airbnb-typescript/17.0.0_4noxlgnutiwvpn5ctj3fwykqra
       eslint-plugin-import: registry.npmmirror.com/eslint-plugin-import/2.26.0_wno36sjfnklvt2ocf7qbhb2izy
       fs-extra: registry.npmmirror.com/fs-extra/10.1.0
-      highlight.js: registry.npmmirror.com/highlight.js/11.6.0
       markdown-it: registry.npmmirror.com/markdown-it/13.0.1
       minimist: registry.npmmirror.com/minimist/1.2.6
       postcss: registry.npmmirror.com/postcss/8.4.14
@@ -2966,7 +2968,7 @@ packages:
     name: highlight.js
     version: 11.6.0
     engines: {node: '>=12.0.0'}
-    dev: true
+    dev: false
 
   registry.npmmirror.com/hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz}

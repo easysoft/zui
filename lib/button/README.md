@@ -2,33 +2,35 @@
 
 ## Button
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn">Button</button>
 <button type="button" class="btn">中文按钮</button>
 <button type="button" class="btn" disabled="disabled">禁用的按钮</button>
-</div>
+```
 
 ## Button Square
 
-<div class="flex gap-3 mb-3 p-4">
+使用工具类 `.-square` 获得方形按钮外观。
+
+```html:example: flex gap-3
 <button type="button" class="btn -square">S</button>
 <button type="button" class="btn -square">中</button>
 <button type="button" class="btn -square" disabled="disabled">禁</button>
-</div>
+```
 
 ## Button Sizes
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn -xl">Extra Large Button</button>
 <button type="button" class="btn -lg">Large Button</button>
 <button type="button" class="btn">Normal Button</button>
 <button type="button" class="btn -sm">Small Button</button>
 <button type="button" class="btn -xs">Extra Small Button</button>
-</div>
+```
 
 ## Button Styles
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn -primary">Primary</button>
 <button type="button" class="btn -secondary">secondary</button>
 <button type="button" class="btn -success">success</button>
@@ -47,9 +49,9 @@
 <button type="button" class="btn -surface">surface</button>
 <button type="button" class="btn -canvas">canvas</button>
 <button type="button" class="btn -ghost">ghost</button>
-</div>
+```
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn -primary-outline">Primary</button>
 <button type="button" class="btn -secondary-outline">secondary</button>
 <button type="button" class="btn -success-outline">success</button>
@@ -68,9 +70,9 @@
 <button type="button" class="btn -surface-outline">surface</button>
 <button type="button" class="btn -canvas-outline">canvas</button>
 <button type="button" class="btn -ghost-outline">ghost</button>
-</div>
+```
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn -primary-pale">Primary</button>
 <button type="button" class="btn -secondary-pale">secondary</button>
 <button type="button" class="btn -success-pale">success</button>
@@ -82,9 +84,9 @@
 <button type="button" class="btn -light-pale">light</button>
 <button type="button" class="btn -gray-pale">gray</button>
 <button type="button" class="btn -dark-pale">dark</button>
-</div>
+```
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn -primary-pale -border-primary">Primary</button>
 <button type="button" class="btn -secondary-pale -border-secondary">secondary</button>
 <button type="button" class="btn -success-pale -border-success">success</button>
@@ -99,9 +101,9 @@
 <button type="button" class="btn -dark-pale -border-dark">dark</button>
 <button type="button" class="btn -darker-pale -border-darker">darker</button>
 <button type="button" class="btn -black-pale -border-black">black</button>
-</div>
+```
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn -text-primary">Primary</button>
 <button type="button" class="btn -text-secondary">secondary</button>
 <button type="button" class="btn -text-success">success</button>
@@ -116,11 +118,11 @@
 <button type="button" class="btn -text-dark">dark</button>
 <button type="button" class="btn -text-darker">darker</button>
 <button type="button" class="btn -text-black">black</button>
-</div>
+```
 
 ## Radius
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn -primary -rounded-none">Button</button>
 <button type="button" class="btn -primary -rounded-sm">Button</button>
 <button type="button" class="btn -primary -rounded">Button</button>
@@ -128,15 +130,15 @@
 <button type="button" class="btn -primary -rounded-lg">Button</button>
 <button type="button" class="btn -primary -rounded-xl">Button</button>
 <button type="button" class="btn -primary -rounded-full">Button</button>
-</div>
+```
 
 ## Shadow
 
-<div class="flex gap-3 mb-3 p-4">
+```html:example: flex gap-3
 <button type="button" class="btn -shadow-none">Button</button>
 <button type="button" class="btn -shadow-sm">Button</button>
 <button type="button" class="btn -shadow">Button</button>
 <button type="button" class="btn -shadow-md">Button</button>
 <button type="button" class="btn -shadow-lg">Button</button>
 <button type="button" class="btn -shadow-xl">Button</button>
-</div>
+```

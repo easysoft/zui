@@ -1,3 +1,5 @@
+import './style.css';
+import 'highlight.js/styles/github.css';
 import pkg from '../package.json';
 
 const libs = [...Object.keys(pkg.dependencies)].reduce<string[]>((list, name) => {
@@ -16,13 +18,12 @@ async function loadLibPage(libName: string) {
     }
 }
 
-const currentLibName = window.location.pathname.split('/')[1];
+const currentLibName = window.location.pathname.split('/')[1] ?? '';
 const libNav = document.querySelector<HTMLDivElement>('#libNav');
 if (libNav) {
     libNav.innerHTML = libs.map(name => [
         '<li>',
-        `  <a href="/${name}/" class="flex items-center px-1 py-2 text-base font-normal rounded-lg dark:text-white ${name === currentLibName ? 'text-young-500 font-bold' : ''}
-        hover:bg-gray-300 dark:hover:bg-gray-700">`,
+        `  <a href="/${name}/" class="flex items-center px-1 py-2 text-base font-normal rounded ${name === currentLibName ? 'text-white font-bold bg-gray-700' : 'text-gray-200'}">`,
         `    <span class="ml-3">${name}</span>`,
         '  </a>',
         '</li>',
@@ -31,12 +32,15 @@ if (libNav) {
 
 if (import.meta.hot) {
     import.meta.hot.on('zui:lib-page-updated', (data) => {
-        const libPage = document.getElementById('libPage');
-        if (libPage) {
-            libPage.innerHTML = data.content;
+        if (data.libName === currentLibName) {
+            const libPage = document.getElementById('libPage');
+            if (libPage) {
+                libPage.innerHTML = data.content;
+            }
         }
-        console.log('zui:lib-page-updated', data); // hello
     });
 
-    loadLibPage(currentLibName);
+    if (currentLibName) {
+        loadLibPage(currentLibName);
+    }
 }

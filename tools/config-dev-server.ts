@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
-import {Plugin} from 'vite';
+import {HtmlTagDescriptor, Plugin} from 'vite';
 import {generateLibDoc} from './lib-doc-generator';
 
 function getLibNameFromUrl(url: string): string | null {
@@ -60,10 +60,25 @@ export default (options: {rootPath: string}): Plugin => ({
         }
         const libName = getLibNameFromUrl(ctx.originalUrl);
         if (libName) {
-            const libPath = path.resolve(options.rootPath, 'lib', libName);
-            const currentPath = path.join(options.rootPath, ctx.originalUrl);
-            const mainFilePath = path.relative(currentPath, path.resolve(libPath, 'src/main.ts'));
-            html = html.replace('<script type="module" src="/src/main.ts"></script>', `<script type="module" src="/src/main.ts"></script>\n<script type="module" src="${mainFilePath}"></script>`);
+            const descriptors: HtmlTagDescriptor[] = [{
+                tag: 'script',
+                attrs: {
+                    type: 'module',
+                    src: `/lib/${libName}/src/main.ts`,
+                },
+                injectTo: 'body',
+            }];
+            if (libName !== 'utilities') {
+                descriptors.push({
+                    tag: 'script',
+                    attrs: {
+                        type: 'module',
+                        src: '/lib/utilities/src/main.ts',
+                    },
+                    injectTo: 'body',
+                });
+            }
+            return descriptors;
         }
         return html;
     },
