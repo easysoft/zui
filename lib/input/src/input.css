@@ -1,0 +1,133 @@
+.input {
+    @apply box-border inline-block;
+    position: relative;
+    overflow: hidden;
+}
+.input input {
+    @apply px-3 h-8;
+    width: 200px;
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--input-radius);
+}
+.input input:hover {
+    @apply border-gray-500;
+}
+.input input:focus {
+    outline: none;
+    @apply border-primary-500;
+}
+.input.-shadow input:focus {
+   @apply shadow-primary-500; 
+}
+
+.input input[disabled],
+.input input[readonly] {
+    opacity: 1!important;
+    @apply bg-gray-100 border-gray-300;
+}
+.input.-xs input {
+    @apply px-1 h-5;
+}
+.input.-sm input {
+    @apply px-2 h-6;
+}
+.input.-lg input {
+    @apply px-4 h-10;
+}
+.input.-xl input {
+    @apply  px-5 h-12;
+}
+input::-webkit-input-placeholder,
+input::-moz-placeholder, 
+input:-ms-input-placeholder {
+    opacity: .54;
+    @apply text-gray-500;    
+}
+.input.-xs input::-webkit-input-placeholder,
+.input.-xs input::-moz-placeholder,
+.input.-xs input:-ms-input-placeholder {
+    @apply text-xs;
+} 
+.input.-sm input::-webkit-input-placeholder,
+.input.-sm input::-moz-placeholder,
+.input.-sm input:-ms-input-placeholder {
+    @apply text-sm;
+}
+.input.-lg input::-webkit-input-placeholder,
+.input.-lg input::-moz-placeholder,
+.input.-lg input:-ms-input-placeholder{
+    @apply text-lg;
+}
+.input.-xl input::-webkit-input-placeholder,
+.input.-xl input::-moz-placeholder,
+.input.-xl input:-ms-input-placeholder{
+    @apply text-xl;
+}
+.input.-prefix input {
+    padding-left: 1.75rem;
+}
+.input.-suffix input {
+    padding-right: 1.75rem;
+}
+.input_prefix, .input_suffix {
+    @apply inline-block text-gray-500;
+    width: 1.5rem;
+    height: 100%;
+    line-height: 1.875rem;
+    text-align: center;
+    user-select: none;
+    position: absolute;
+    top: 0;
+}
+.input_prefix {
+    left: 0.25rem;
+}
+.input_suffix {
+    right: 0.25rem;
+}
+.input.-clearable .input_suffix {
+    cursor: pointer;
+}
+.input.-rounded-sm input {
+    @apply rounded-sm;
+}
+.input.-rounded input {
+    @apply rounded;
+}
+.input.-rounded-md input {
+    @apply rounded-md;
+}
+.input.-rounded-lg input {
+    @apply rounded-lg;
+}
+.input.-rounded-xl input {
+    @apply rounded-xl;
+}
+.input.-rounded-full input {
+    @apply rounded-full;
+}
+.input.-rounded-none input {
+    @apply rounded-none;
+}
+.input.-prepend, .input.-append {
+    @apply flex items-center;
+}
+.input .prepend, .input .append {
+    @apply inline-block px-3 h-8;
+    line-height: 1.875rem;    
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--input-radius);
+}
+.input.-prepend input, .input.-append input {
+     border-radius: unset;
+}
+.input .prepend {
+    border-bottom-right-radius: unset;
+    border-top-right-radius: unset;
+    border-right: none;
+}
+.input .append {
+    border-bottom-left-radius: unset;
+    border-top-left-radius: unset;
+    border-left: none;
+}

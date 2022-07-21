@@ -1,0 +1,4 @@
+:root {
+  --input-radius: var(--radius);
+  --input-border-color: var(--color-gray-300);
+}

@@ -1,0 +1,13 @@
+{
+    "name": "@zui/input",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "keywords": ["css", "zui:control"],
+    "dependencies": {
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/utilities": "workspace:*"
+    }
+}

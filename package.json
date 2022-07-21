@@ -23,6 +23,7 @@
     "@zui/browser-helpers": "workspace:0.0.1",
     "@zui/button": "workspace:0.0.1",
     "@zui/helpers": "workspace:0.0.1",
+    "@zui/input": "workspace:0.0.1",
     "@zui/store": "workspace:0.0.1",
     "@zui/utilities": "workspace:0.0.1",
     "highlight.js": "^11.6.0",
