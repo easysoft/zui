@@ -22,6 +22,9 @@ export interface BuildInLibInfo {
     /** Short name - 简短名称 */
     shortName: string;
 
+    /** 显示名称 */
+    displayName: string;
+
     /** Version - 版本 */
     version: string;
 
@@ -45,7 +48,7 @@ export interface BuildInLibInfo {
  * Get build-in libs list - 获取内部构建库（或组件），每个 ZUI 组件可以作为单独的库进行打包
  * @returns Libs list - 构建库（或组件）列表
  */
-export async function getBuildInLibs(): Promise<Map<string, BuildInLibInfo>> {
+export async function getBuildInLibs(options?: {readNameFromDoc: boolean}): Promise<Map<string, BuildInLibInfo>> {
     const map = new Map<string, BuildInLibInfo>();
     const libPath = Path.resolve(process.cwd(), 'lib');
     const dirs = await fs.readdir(libPath);
@@ -82,7 +85,20 @@ export async function getBuildInLibs(): Promise<Map<string, BuildInLibInfo>> {
             order: libTypeOrders[type as LibType],
             dependencies: packageJson.dependencies,
             devDependencies: packageJson.devDependencies,
+            displayName: packageJson.name.toUpperCase(),
         };
+
+        if (options?.readNameFromDoc) {
+            const docFile = Path.resolve(libPath, dir, 'README.md');
+            const docFileExists = await fs.pathExists(docFile);
+            if (docFileExists) {
+                const doc = await fs.readFile(docFile, 'utf8');
+                const match = doc.match(/^#+\s+(.*)$/m);
+                if (match) {
+                    lib.displayName = match[1];
+                }
+            }
+        }
         map.set(packageJson.name, lib);
     }
     return map;

@@ -24,6 +24,9 @@ export interface BuildConfigOptions {
 
     /** Extra config file path - 构建库（或组件）字符串或配置文件路径 */
     libs?: LibsLike;
+
+    /** Output directory - 输出目录 */
+    outDir?: string;
 }
 
 /**
@@ -303,15 +306,15 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
  * @param config Build config - 构建配置
  * @return Vite config - Vite 配置
  */
-export function createViteConfig(config: BuildConfig, buildDir: string) {
+export function createViteConfig(config: BuildConfig, options: {buildDir: string, outDir?: string}) {
     return {
         build: {
             lib: {
-                entry: Path.join(buildDir, 'main.ts'),
+                entry: Path.join(options.buildDir, 'main.ts'),
                 name: 'zui',
                 fileName: !config.name.includes('zui') ? `zui.${config.name}` : config.name,
             },
-            outDir: `dist/${config.name}`,
+            outDir: options.outDir ?? `dist/${config.name}`,
         },
     };
 }
