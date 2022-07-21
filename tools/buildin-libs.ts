@@ -22,7 +22,7 @@ export interface BuildInLibInfo {
     /** Short name - 简短名称 */
     shortName: string;
 
-    /** 显示名称 */
+    /** Display name - 显示名称 */
     displayName: string;
 
     /** Version - 版本 */
@@ -42,6 +42,9 @@ export interface BuildInLibInfo {
 
     /** Dependencies */
     dependencies?: Record<string, string>,
+
+    /** Whethear the lib has user docs */
+    hasUserDocs?: boolean,
 }
 
 /**
@@ -76,6 +79,7 @@ export async function getBuildInLibs(options?: {readNameFromDoc: boolean}): Prom
                 type = (typeKeyword as string).substring('zui:'.length);
             }
         }
+
         const lib: BuildInLibInfo = {
             name: packageJson.name,
             shortName: packageJson.name.replace('@zui/', ''),
@@ -89,13 +93,23 @@ export async function getBuildInLibs(options?: {readNameFromDoc: boolean}): Prom
         };
 
         if (options?.readNameFromDoc) {
-            const docFile = Path.resolve(libPath, dir, 'README.md');
-            const docFileExists = await fs.pathExists(docFile);
-            if (docFileExists) {
-                const doc = await fs.readFile(docFile, 'utf8');
+            const userDocFile = Path.resolve(libPath, dir, 'docs/index.md');
+            lib.hasUserDocs = await fs.pathExists(userDocFile);
+            if (lib.hasUserDocs) {
+                const doc = await fs.readFile(userDocFile, 'utf8');
                 const match = doc.match(/^#+\s+(.*)$/m);
                 if (match) {
                     lib.displayName = match[1];
+                }
+            } else {
+                const devDocFile = Path.resolve(libPath, dir, 'README.md');
+                const devDocFileExists = await fs.pathExists(devDocFile);
+                if (devDocFileExists) {
+                    const doc = await fs.readFile(devDocFile, 'utf8');
+                    const match = doc.match(/^#+\s+(.*)$/m);
+                    if (match) {
+                        lib.displayName = match[1];
+                    }
                 }
             }
         }

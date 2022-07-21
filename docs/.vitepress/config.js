@@ -47,7 +47,7 @@ export default defineConfig({
             '/lib/': [
                 {
                     text: '组件',
-                    items: zuiLib.map(lib => ({text: lib.displayName, link: `/lib/${lib.shortName}/README.md`}))
+                    items: zuiLib.filter(lib => lib.hasUserDocs).map(lib => ({text: lib.displayName, link: `/lib/${lib.shortName}/index.md`}))
                 }
             ],
         }
