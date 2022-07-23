@@ -1,133 +1,89 @@
-.input {
-    @apply box-border inline-block;
-    position: relative;
-    overflow: hidden;
+.input-control {
+    @apply box-border inline-block relative overflow-hidden;
 }
-.input input {
-    @apply px-3 h-8;
-    width: 200px;
+.input-control .form-control {
+    @apply px-3 h-8 w-48;
     border: 1px solid var(--input-border-color);
     border-radius: var(--input-radius);
 }
-.input input:hover {
+.input-control .form-control:hover {
     @apply border-gray-500;
 }
-.input input:focus {
-    outline: none;
-    @apply border-primary-500;
+.input-control .form-control:focus {
+    @apply outline-none border-primary-500;
 }
-.input.-shadow input:focus {
+.input-control.-shadow .form-control:focus {
    @apply shadow-primary-500; 
 }
 
-.input input[disabled],
-.input input[readonly] {
-    opacity: 1!important;
-    @apply bg-gray-100 border-gray-300;
+.input-control .form-control[disabled],
+.input-control .form-control[readonly] {
+    @apply bg-gray-100 border-gray-300 opacity-100;
 }
-.input.-xs input {
+.input-control.-xs .form-control {
     @apply px-1 h-5;
 }
-.input.-sm input {
+.input-control.-sm .form-control {
     @apply px-2 h-6;
 }
-.input.-lg input {
+.input-control.-lg .form-control {
     @apply px-4 h-10;
 }
-.input.-xl input {
+.input-control.-xl .form-control {
     @apply  px-5 h-12;
 }
-input::-webkit-input-placeholder,
-input::-moz-placeholder, 
-input:-ms-input-placeholder {
-    opacity: .54;
-    @apply text-gray-500;    
+input::placeholder {
+    @apply text-gray-500 opacity-50;
 }
-.input.-xs input::-webkit-input-placeholder,
-.input.-xs input::-moz-placeholder,
-.input.-xs input:-ms-input-placeholder {
+.input-control.-xs .form-control::placeholder {
     @apply text-xs;
-} 
-.input.-sm input::-webkit-input-placeholder,
-.input.-sm input::-moz-placeholder,
-.input.-sm input:-ms-input-placeholder {
+}
+.input-control.-sm .form-control::placeholder {
     @apply text-sm;
 }
-.input.-lg input::-webkit-input-placeholder,
-.input.-lg input::-moz-placeholder,
-.input.-lg input:-ms-input-placeholder{
+.input-control.-lg .form-control::placeholder {
     @apply text-lg;
 }
-.input.-xl input::-webkit-input-placeholder,
-.input.-xl input::-moz-placeholder,
-.input.-xl input:-ms-input-placeholder{
+.input-control.-xl .form-control::placeholder {
     @apply text-xl;
 }
-.input.-prefix input {
+.input-control.-prefix .form-control {
     padding-left: 1.75rem;
 }
-.input.-suffix input {
+.input-control.-suffix .form-control {
     padding-right: 1.75rem;
 }
-.input_prefix, .input_suffix {
-    @apply inline-block text-gray-500;
+.input-control_prefix, .input-control_suffix {
+    @apply inline-block h-full text-gray-500 text-center select-none absolute;
     width: 1.5rem;
-    height: 100%;
     line-height: 1.875rem;
-    text-align: center;
-    user-select: none;
-    position: absolute;
     top: 0;
 }
-.input_prefix {
+.input-control_prefix {
     left: 0.25rem;
 }
-.input_suffix {
+.input-control_suffix {
     right: 0.25rem;
 }
-.input.-clearable .input_suffix {
-    cursor: pointer;
-}
-.input.-rounded-sm input {
+.input-control.-rounded-sm .form-control {
     @apply rounded-sm;
 }
-.input.-rounded input {
+.input-control.-rounded .form-control {
     @apply rounded;
 }
-.input.-rounded-md input {
+.input-control.-rounded-md .form-control {
     @apply rounded-md;
 }
-.input.-rounded-lg input {
+.input-control.-rounded-lg .form-control {
     @apply rounded-lg;
 }
-.input.-rounded-xl input {
+.input-control.-rounded-xl .form-control {
     @apply rounded-xl;
 }
-.input.-rounded-full input {
+.input-control.-rounded-full .form-control {
     @apply rounded-full;
 }
-.input.-rounded-none input {
+.input-control.-rounded-none .form-control {
     @apply rounded-none;
 }
-.input.-prepend, .input.-append {
-    @apply flex items-center;
-}
-.input .prepend, .input .append {
-    @apply inline-block px-3 h-8;
-    line-height: 1.875rem;    
-    border: 1px solid var(--input-border-color);
-    border-radius: var(--input-radius);
-}
-.input.-prepend input, .input.-append input {
-     border-radius: unset;
-}
-.input .prepend {
-    border-bottom-right-radius: unset;
-    border-top-right-radius: unset;
-    border-right: none;
-}
-.input .append {
-    border-bottom-left-radius: unset;
-    border-top-left-radius: unset;
-    border-left: none;
-}
+
