@@ -1,50 +1,21 @@
 .avatar {
-   @apply w-10 h-10;
-    border-radius: var(--avatar-radius);
-    display: inline-flex;
-    overflow: hidden;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    background-position: center;
-    background-size: cover;
+  @apply w-10 h-10 inline-flex overflow-hidden flex-col items-center justify-center align-middle bg-center bg-cover;
+  border-radius: var(--avatar-radius);
 }
 .avatar img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    margin: 0;
+  @apply block m-0;
+  width: 100%;
+  height: 100%;
 }
-.avatar.-xs,
-.avatar-group.-xs .avatar {
-    @apply w-6 h-6 text-xs;
+.avatar.-xs {
+  @apply w-6 h-6 text-xs;
 }
-.avatar.-sm,
-.avatar-group.-sm .avatar {
-    @apply w-8 h-8 text-sm;
+.avatar.-sm {
+  @apply w-8 h-8 text-sm;
 }
-.avatar.-lg,
-.avatar-group.-lg .avatar {
-    @apply w-12 h-12 text-lg;
+.avatar.-lg {
+  @apply w-12 h-12 text-lg;
 }
-.avatar.-xl,
-.avatar-group.-xl .avatar {
-    @apply w-14 h-14 text-xl;
-}
-.avatar-group .avatar:not(:first-child) {
-    margin-left: -0.75rem;
-    border: 0.0625rem solid #fff;
-}
-.avatar-group.-xs .avatar:not(:first-child) {
-    margin-left: -0.5rem;
-}
-.avatar-group.-sm .avatar:not(:first-child) {
-    margin-left: -0.625rem;
-}
-.avatar-group.-lg .avatar:not(:first-child) {
-    margin-left: -0.875rem;
-}
-.avatar-group.-xl .avatar:not(:first-child) {
-    margin-left: -1rem;
+.avatar.-xl {
+  @apply w-14 h-14 text-xl;
 }

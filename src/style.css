@@ -1,0 +1,37 @@
+#libPage {
+    @apply p-5 ;
+}
+h1 {
+    @apply text-2xl font-bold mb-5 mt-4;
+}
+h2 {
+    @apply text-xl font-bold mb-3 mt-4;
+}
+h3 {
+    @apply text-lg font-bold mb-2 mt-4;
+}
+h4, h4, h6 {
+    @apply text-base font-bold mb-2 mt-4;
+}
+p {
+    @apply mb-2;
+}
+pre {
+    @apply mb-2 p-2 border border-gray-200 overflow-y-auto max-h-96;
+}
+pre.hljs {
+    @apply bg-gray-100;
+}
+pre[data-lang] {
+    @apply relative;
+}
+pre[data-lang]::after {
+    content: attr(data-lang);
+    @apply absolute block top-0 right-0 bg-gray-300 px-1 text-sm text-gray-500;
+}
+.example {
+    @apply mb-2 p-4 border border-gray-200 overflow-x-auto;
+}
+.example + pre {
+    @apply mt-[-0.5rem] border-t-0;
+}

@@ -8,23 +8,22 @@ ZUI 3 使用组件库来管理组件。库中的每个组件在独立的源码�
 
 ### 组件名称
 
-组件名称使用英文小写字母、数字和 `_` 下划线组成，但只能以小写字母开头，名称应该尽可能简短且贴合组件功能，例如 `button`，通常下划线用于连接多个有意义的单词，例如 `input_group`。
+组件名称使用英文小写字母、数字和 `-` 短横线组成，但只能以小写字母开头，名称应该尽可能简短且贴合组件功能，例如 `button`，通常短横线用于连接多个有意义的单词，例如 `input-group`。
 
 ### 组件目录结构
 
 每个组件根据其名称在工作空间根目录 `lib/` 下有一个以组件名称命名的目录来管理源码、文档和配置相关文件，通常目录结构如下：
 
 ```sh
-component_name         # 组件目录
+component-name         # 组件目录
 ├── package.json       # 组件元信息定义文件（兼容 npm 包定义）
 ├── index.html         # 组件开发和测试所使用的 HTML 文件
 ├── README.md          # 组件开发和测试的说明文件
 ├── src/               # 源码目录
 │   ├── vars.css       # 组件用到的 CSS 变量定义
-│   ├── style.css      # 组件用到的 CSS 样式定义
 │   └── main.ts        # 组件 JS 模块入口文件，也是作为 rollup 打包时的入口文件
 ├── doc/               # 组件文档目录
-│   ├── index.md       # 组件文档主要页面
+│   ├── README.md      # 组件文档主要页面
 │   └── xxxxx.md       # 组件文档其他页面
 ├── test/              # 测试文件目录
 │   └── test.ts        # 测试脚本
@@ -39,38 +38,76 @@ component_name         # 组件目录
 | `name`         | 组件名称，根据工作空间约定，名称需要统一添加前缀 ` @zui`，例如 `'@zui/dropdown'` |
 | `description`  | 组件显示名称，例如 `"Dropdown Menu"`                         |
 | `version`      | 版本，例如 `"1.0.0"`                                         |
-| `keywords`     | 关键词，例如 `["button", "menu", "dropdown"]`                |
+| `keywords`     | 关键词，例如 `["button", "menu", "dropdown", "zui:component"]`，通过 `'zui:TYPE'` 的形式来定义组件类型 |
 | `main`         | 组件模块入口文件，默认为 `"src/main.ts"`                     |
+| `browser`      | 为浏览器环境提供的入口文件  |
+| `module`      | 为 NodeJS 环境提供的入口文件  |
+| `zui`      | ZUI 专属配置  |
 | `dependencies` | 该组件依赖的其他组件，例如 `{"@zui/icon": "workspace:^1.0.0"}` |
-| `browserslist` | 使用 [browserslist](https://github.com/browserslist/browserslist) 语法声明该组件支持的浏览器，例如 `["not ie < 11", ">0.2%"]` |
+| `browserslist` | 使用 [browserslist](https://github.com/browserslist/browserslist) 语法声明该组件支持的浏览器，例如 `["not ie < 11", "> 0.2%"]` |
 
-其他属性与 npm 中的定义一致，例如 `homepage`、`license`、`author`
+其他属性与 npm 中的定义一致，例如 `homepage`、`license`、`author`。
 
-### index.html
 
-每个组件都应该包含一个 `index.html` 文件，该文件引用当前组件的入口文件 `/src/main.ts`，并提供使用该组件的相关示例代码。在开发时会通过 vite 打开该文件进行开发调试。
+### 组件类型
+
+| 类型            | 定义                 | 打包顺序 |
+| --------------- | -------------------- | -------- |
+| `css-base`      | CSS 基础样式         | 1        |
+| `css-utilities` | CSS 辅助类           | 5        |
+| `control`       | 基础控件，不包括 CSS | 2        |
+| `component`     | UI 组件              | 4        |
+| `js-helpers`    | JS 辅助方法          | 3        |
+| `js-lib`        | JS 库                | 6        |
+
+在 `package.json` 的 `keywords` 属性中来定义组件类型，定义方法为 `zui:组件类型`，当没有定义组件类型时，默认组件类型为 `component`。
+
+不同的组件类型打包引入顺序不一样，其中"CSS 基础样式"（`css-base`）永远被首先打包，"CSS 辅助类"（`css-utilities`）永远被首先打包。
+
+### 组件产物类型
+
+组件产物类型包括：
+
+| 类型    | 说明           |
+| ------- | -------------- |
+| `css`   | CSS            |
+| `js`    | JavaScript     |
+| `media` | 图片等媒体文件 |
+| `fonts` | 字体           |
+
+应该在 `package.json` 的 `keywords` 属性中来指定当前组件包含的产物类型，例如 `["css", "js"]`。
+
+### 组件开发页面
+
+每个组件都应该包含一个 `README.md` 文件作为开发页面。该文件支持 Markdown 语法，在实际访问时会渲染为 HTML，自动引用当前组件的入口文件 `/src/main.ts`。应该在此文件中提供使用该组件的相关示例代码。
 
 该文件的另一个作用是进行自动化测试，当改组件包含 UI 呈现部分时，需要在该文件中定义完整使用示例，方便进行自动化测试。
 
-下面为一个 `index.html` 文件示例：
+下面为一个 `README.md` 文件示例：
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Button - ZUI</title>
-  </head>
-  <body>
-    <div id="app">
-      <button type="btn" class="btn">按钮</button>
-    </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
-</html>
+````md
+# 按钮
+
+## Button
+
+```html:example: flex gap-3
+<button type="button" class="btn">Button</button>
+<button type="button" class="btn">中文按钮</button>
+<button type="button" class="btn" disabled="disabled">禁用的按钮</button>
 ```
+
+## Button Square
+
+使用工具类 `.-square` 获得方形按钮外观。
+
+```html:example: flex gap-3
+<button type="button" class="btn -square">S</button>
+<button type="button" class="btn -square">中</button>
+<button type="button" class="btn -square" disabled="disabled">禁</button>
+```
+````
+
+其中代码块语言类型字符串中的 `:example` 用于指定此代码需要渲染为实际的 HTML，`:example: ` 之后可以添加渲染为 HTML 时的 `<div class="example">` 元素上需要添加的额外的 CSS 类名。
 
 ### 源码
 
@@ -81,6 +118,7 @@ component_name         # 组件目录
 该组件的模块入口文件，作为 rollup 打包时的入口。下面为一个示例：
 
 ```ts
+import './vars.css';     // 引入该组件用到的 CSS 变量定义文件
 import './style.css';    // 引入该组件用到的 CSS 文件
 import './dropdown.ts';  // 引入该组件的 JS 文件
 ```
@@ -91,11 +129,9 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 
 ```css
 :root {
-  --btn-size-base: 32px;
-  --btn-size-sm: 24px;
-  --btn-size-xs: 20px;
-  --btn-size-lg: 40px;
-  --btn-size-xl: 48px;
+  --btn-radius:       var(--radius);
+  --btn-background:   var(--color-gray-50);
+  --btn-border-color: var(--color-gray-300);
 }
 ```
 
@@ -107,7 +143,10 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 @import url('./vars.css');
 
 .btn {
-  color: var(--btn-size-base)
+  @apply px-3 h-8;
+  border: 1px solid var(--btn-border-color);
+  background: var(--btn-background);
+  border-radius: var(--btn-radius);
 }
 ```
 
@@ -125,9 +164,9 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 
 ```json
 {
-  "dependencies": {
-    "@zui/icon": "workspace:^1.0.0"
-  }
+    "dependencies": {
+        "@zui/icon": "workspace:^1.0.0"
+    }
 }
 ```
 
@@ -137,11 +176,18 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 
 ```json
 {
-  "dependencies": {
-    "jquery": "^3.6.0"
-  }
+    "dependencies": {
+        "jquery": "^3.6.0"
+    }
 }
 ```
+
+### 组件开发原则
+
+* 每个组件功能尽可能单一，支持独立打包
+* 组件内的源码可以单独引用（使用 package.json 的 `files` 属性定义）
+* 组件的样式变量仅用于快速变更主题风格，包括（颜色、圆角等关键设置）
+* 为每个组件添加开发主页（`index.html`），全方位展示组件的用法（区别于文档，此页面面向测试人员和组件开发人员）
 
 ## 开发
 
@@ -161,7 +207,7 @@ $ pnpm install
 $ pnpm dev
 ```
 
-开发时启动的 Web 服务地址通常为 http://localhost:3000/ ，要对特定组件进行调试开发，只需要添加路径 `lib/component_name` 即可，例如开发调试按钮页面地址为：http://localhost:3000/lib/button/ 。
+开发时启动的 Web 服务地址通常为 http://localhost:5173/ ，要对特定组件进行调试开发，只需要添加路径 `/component-name/` 即可，例如开发调试按钮页面地址为：http://localhost:5173/button/ 。
 
 ### 打包
 
@@ -184,7 +230,7 @@ $ pnpm build -- buttton dropdown panel
 一个更复杂的例子：
 
 ```shell
-$ pnpm build -- --name=zentao-zui --version=1.0.0 buttton dropdown panel +jquery@^2.0
+$ pnpm build -- --name=zentao-zui --version=1.0.0 button dropdown panel +jquery@^2.0
 ```
 
 打包配置还可以通过一个外部的文件来指定：
@@ -227,7 +273,9 @@ $ pnpm build -- ./zentao-zui-build-config.json
 zui/                   # 项目根目录
 ├── package.json
 ├── index.html         # 开发调试时的入口文件
-├── README.md
+├── README.md          # 开发指南文档
+├── config/            # 打包配置管理，包括 Tailwind CSS 打包配置
+├── src/               # 调试模式 Web 服务源码
 ├── lib/               # 组件库目录
 ├── docs/              # 文档网站目录
 ├── test/              # 测试脚本目录
@@ -242,3 +290,4 @@ zui/                   # 项目根目录
 * CSS 工具库：[TailwindCSS](https://tailwindcss.com/)
 * 静态文档网站生成：[VuePress](https://v2.vuepress.vuejs.org/zh/)
 * TypeScript 4.5+
+* 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)

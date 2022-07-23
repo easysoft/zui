@@ -14,7 +14,7 @@ module.exports = {
     },
     plugins: ['import', '@typescript-eslint'],
     rules: {
-        'indent': ['error', 4],
+        'indent': ['error', 4, {'SwitchCase': 1}],
         'object-curly-spacing': ['error', 'never'],
         '@typescript-eslint/indent': 'off',
         '@typescript-eslint/object-curly-spacing': 'off',
@@ -27,7 +27,7 @@ module.exports = {
             files: ['**/*.{ts,tsx}'],
             rules: {
                 '@typescript-eslint/no-var-requires': 'error',
-                '@typescript-eslint/indent': ['error', 4],
+                '@typescript-eslint/indent': ['error', 4, {'SwitchCase': 1}],
                 '@typescript-eslint/object-curly-spacing': ['error', 'never'],
             },
         },

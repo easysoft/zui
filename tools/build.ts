@@ -28,7 +28,7 @@ const buildDir = Path.resolve(process.cwd(), 'build');
 await fs.emptyDir(buildDir);
 await prepareBuildFiles(buildConfig, buildDir);
 
-viteConfig = mergeConfig(viteConfig, createViteConfig(buildConfig, buildDir));
+viteConfig = mergeConfig(viteConfig, createViteConfig(buildConfig, {buildDir, outDir: argv.outDir ?? argv.o}));
 const viteConfigFile = Path.resolve(buildDir, 'vite.config.json');
 await fs.outputJSON(viteConfigFile, viteConfig, {spaces: 4});
 

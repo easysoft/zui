@@ -1,5 +1,5 @@
 .btn {
-    @apply px-3 h-8;
+    @apply px-3 h-8 inline-flex items-center justify-center;
     border: 1px solid var(--btn-border-color);
     background: var(--btn-background);
     border-radius: var(--btn-radius);

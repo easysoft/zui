@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "main": "src/main.ts",
     "browserslist": "",
-    "keywords": ["css", "components"],
+    "keywords": ["css", "control"],
     "dependencies": {
     },
     "devDependencies": {

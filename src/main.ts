@@ -1,3 +1,5 @@
+import './style.css';
+import 'highlight.js/styles/github.css';
 import pkg from '../package.json';
 
 const libs = [...Object.keys(pkg.dependencies)].reduce<string[]>((list, name) => {
@@ -7,18 +9,39 @@ const libs = [...Object.keys(pkg.dependencies)].reduce<string[]>((list, name) =>
     return list;
 }, []);
 
+async function loadLibPage(libName: string) {
+    const response = await fetch(`/lib/${libName}/README.md`);
+    const content = await response.text();
+    const libPage = document.getElementById('libPage');
+    if (libPage) {
+        libPage.innerHTML = content;
+    }
+    document.title = `${libName.toUpperCase()} - ZUI3`;
+}
 
+const currentLibName = window.location.pathname.split('/')[1] ?? '';
 const libNav = document.querySelector<HTMLDivElement>('#libNav');
 if (libNav) {
     libNav.innerHTML = libs.map(name => [
         '<li>',
-        `  <a href="./lib/${name}/" target="libPage" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">`,
+        `  <a href="/${name}/" class="flex items-center px-1 py-2 text-base font-normal rounded ${name === currentLibName ? 'text-white font-bold bg-young-600' : 'text-gray-200'} hover:bg-young-700">`,
         `    <span class="ml-3">${name}</span>`,
         '  </a>',
         '</li>',
     ].join('\n')).join('\n');
 }
 
-for (const libName of libs) {
-    await import(`../lib/${libName}/src/main.ts`);
+if (import.meta.hot) {
+    import.meta.hot.on('zui:lib-page-updated', (data) => {
+        if (data.libName === currentLibName) {
+            const libPage = document.getElementById('libPage');
+            if (libPage) {
+                libPage.innerHTML = data.content;
+            }
+        }
+    });
+
+    if (currentLibName) {
+        loadLibPage(currentLibName);
+    }
 }
