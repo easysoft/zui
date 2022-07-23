@@ -1,0 +1,28 @@
+.avatar-group.-xs .avatar {
+  @apply w-6 h-6 text-xs;
+}
+.avatar-group.-sm .avatar {
+  @apply w-8 h-8 text-sm;
+}
+.avatar-group.-lg .avatar {
+  @apply w-12 h-12 text-lg;
+}
+.avatar-group.-xl .avatar {
+  @apply w-14 h-14 text-xl;
+}
+.avatar-group .avatar + .avatar {
+  margin-left: -0.75rem;
+  /* @apply border border-white; */
+}
+.avatar-group.-xs .avatar + .avatar {
+  margin-left: -0.5rem;
+}
+.avatar-group.-sm .avatar + .avatar {
+  margin-left: -0.625rem;
+}
+.avatar-group.-lg .avatar + .avatar {
+  margin-left: -0.875rem;
+}
+.avatar-group.-xl .avatar + .avatar {
+  margin-left: -1rem;
+}

@@ -12,6 +12,17 @@
 <div class="avatar -rounded-full"><img src="./docs/img/avatar.png"></div>
 ```
 
+## Outline
+
+```html:example: flex gap-3
+<div class="avatar -rounded-full -primary-outline">孙</div>
+<div class="avatar -rounded-full -secondary-outline">李</div>
+<div class="avatar -rounded-full -success-outline">周</div>
+<div class="avatar -rounded-full -danger-outline">吴</div>
+<div class="avatar -rounded-full -important-outline">郑</div>
+<div class="avatar -rounded-full -special-outline">王</div>
+```
+
 ## Icon/Text Avatar
 
 ```html:example: flex gap-3 items-end
