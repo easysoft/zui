@@ -1,8 +1,27 @@
-import './vars.css';
-import './btn.css';
+export interface AttrProps {
+    name: string;
+    value: string | number;
+}
+
+export const getAttributes = (element: {attributes: object}): object  => {
+    if (!element) return {};
+    const attrs = {};
+    const attrSource = Object.values(element.attributes);
+    if (attrSource && attrSource.length > 0) {
+        attrSource.forEach(AttrProps => {
+            const {name, value} = AttrProps;
+            attrs[name] = value;
+        });
+    }
+    return attrs;
+};
 
 export class ZuiButton extends HTMLElement {
-    $button: any;
+    $button: HTMLElement;
+
+    $icon: HTMLElement;
+
+    onClick: null;
 
     constructor() {
         super();
@@ -11,20 +30,53 @@ export class ZuiButton extends HTMLElement {
         const text:string = this.innerHTML;
         this.innerHTML = '';
         this.$button.innerHTML = text;
+        if (this.icon) {
+            this.$icon = document.createElement('i');
+            this.addClass(this.$icon, `icon ${this.icon}`);
+            this.$button.prepend(this.$icon);
+        }
         this.$button.classList.add('btn');
         this.append(this.$button);
-        this.$button.addEventListener('click', () => this.onClick());
+    }
+    
+    connectedCallback() {
+        this.initStyle();
+        this.initEventListen();
+        if (this.isDisabled) {
+            this.$button.setAttribute('disabled', 'disabled');
+        }
+        this.$button.addEventListener('keydown', (ev) => {
+            switch (ev.keyCode) {
+                case 13:
+                    ev.stopPropagation();
+                    break;
+                default:
+                    break;
+            }
+        });
+        
     }
 
-    connectedCallback() {
-        if (this.$button && this.type) {
-            this.$button.classList.add(`-${this.type}`);
+    initStyle() {
+        const attrs = getAttributes(this);
+        if (attrs) {
+            for (const key in attrs) {
+                if (['type', 'size', 'rounded', 'outline'].includes(key)) {
+                    this.addClass(this.$button, `-${attrs[key]}`);
+                }
+            }
         }
-        if (this.$button && this.size) {
-            this.$button.classList.add(`-${this.size}`);
+    }
+
+    initEventListen() {
+        if (this.isDisabled || this.loading) {
+            return false;
         }
-        if (this.$button && this.rounded) {
-            this.$button.classList.add(`-rounded-${this.rounded}`);
+    }
+
+    addClass(element: HTMLElement, name:string): void {
+        if (element) {
+            element.classList.add(name);
         }
     }
 
@@ -37,6 +89,7 @@ export class ZuiButton extends HTMLElement {
             this.removeAttribute('type');
         } else {
             this.setAttribute('type', value);
+            this.addClass(this.$button, `-${this.type}`);
         }
     }
 
@@ -49,6 +102,7 @@ export class ZuiButton extends HTMLElement {
             this.removeAttribute('size');
         } else {
             this.setAttribute('size', value || 'base');
+            this.addClass(this.$button, `-${value}`);
         }
     }
 
@@ -71,22 +125,30 @@ export class ZuiButton extends HTMLElement {
     set rounded(value) {
         if (this.getAttribute('rounded')) {
             this.setAttribute('rounded', value || '');
-            this.$button.setAttribute('class', `${this.class} -rounded-full`);
+            this.addClass(this.$button, `-${value}`);
         } else {
             this.removeAttribute('rounded');
         }
     }
 
-    get disabled() {
-        return this.getAttribute('disabled');
+    get isDisabled() {
+        return this.getAttribute('isDisabled') !== null;
     }
 
-    set disabled(value) {
-        if (this.getAttribute('disabled')) {
-            this.setAttribute('disabled', value || '');
+    set isDisabled(value:string | boolean) {
+        if (value === null || value === false) {
+            this.removeAttribute('isDisabled');
         } else {
-            this.removeAttribute('disabled');
+            this.setAttribute('isDisabled', '');
         }
+    }
+
+    get icon() {
+        return this.getAttribute('icon');
+    }
+
+    set icon(value) {
+        this.setAttribute('icon', value);
     }
 
     static get observedAttributes() {
@@ -97,16 +159,29 @@ export class ZuiButton extends HTMLElement {
         return this.$button.classList;
     }
 
-    attributeChangedCallback(name: string) {
-        this.render(name);
+    attributeChangedCallback(name: string, newValue: string) {
+        if (name === 'isDisabled' && this.$button) {
+            if (newValue !== null) {
+                this.$button.setAttribute('disabled', 'disabled');
+            } else {
+                this.$button.removeAttribute('disabled');
+            }
+        }
+        if (name === 'loading' && this.$button) {
+            if (newValue !== null) {
+                this.$button.setAttribute('disabled', 'disabled');
+            } else {
+                this.$button.removeAttribute('disabled');
+            }
+        }
+        if (name === 'icon' && this.$icon && newValue) {
+            this.addClass(this.$icon, `-${newValue}`);
+        }
+        this.render();
     }
 
-    onClick() {
-        console.log('click event');
-    }
+    render() {
 
-    render(name: string) {
-        console.log(name);
     }
 }
 
