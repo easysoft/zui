@@ -22,6 +22,7 @@ export default class Dropdown {
     }
 
     showMenu(nextEle): void {
+        this.clearMenu();
         nextEle.classList.add('block');
     }
 
