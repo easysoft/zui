@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Form - ZUI</title>
+    </head>
+    <body>
+        <p>"基本形式"</p>
+        <form>
+            <div class="form-group">
+                <label> 账号 </label>
+                <input type="number" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label> 密码 </label>
+                <input type="password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" /> 记住我
+                    </label>
+                </div>
+            </div>
+        </form>
+        <script type="module">
+             import '@zui/base';
+             import './src/main.ts';
+             import '@zui/utilities';
+        </script>
+        <style>
+            p {margin-bottom: 5rem;}
+        </style>
+    </body>
+</html>
+

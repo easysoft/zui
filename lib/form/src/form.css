@@ -1,0 +1,27 @@
+.form-group {
+    @apply mb-4;
+}
+
+.form-group label {
+    @apply inline-block font-bold mb-1
+}
+
+.form-horizontal .form-group {
+    @apply flex flex-row
+}
+
+
+.form-horizontal .form-group {
+    @apply -mx-3
+}
+
+.form-control {
+    @apply bg-white rounded border-solid border block h-8 text-xs py-1 px-2 w-full;
+    line-height: 1.53846154;
+    color: rgba(34, 34, 34, 1);
+    border-color: rgba(204, 204, 204, 1);
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s,
+    -webkit-box-shadow ease-in-out . 15s;
+}
+
