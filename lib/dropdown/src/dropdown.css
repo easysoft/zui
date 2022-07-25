@@ -1,0 +1,102 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-hover:hover>.dropdown-menu{
+  display: block;
+}
+
+.dropdown>.btn {
+  @apply px-3 h-8;
+  border: 1px solid var(--dropmenu-border-color);
+}
+
+.dropdown-menu {
+  display: none;
+  @apply py-2 w-40;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 10;
+  background-color: var(--dropmenu-background);
+  box-shadow: 0 0 5px var(--dropmenu-border-color);
+}
+
+.open>.dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu>li {
+  @apply px-4 py-2;
+}
+
+.dropdown-menu>li>a {
+  display: block;
+}
+
+.dropdown-menu>li:hover {
+  background-color: var(--dropmenu-active-background);
+}
+
+.dropdown-menu>li:hover>a {
+  color: var(--dropmenu-active-color);
+}
+
+.-up>.dropdown-menu {
+  top: auto;
+  bottom: 100%
+}
+
+.-right>.dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  display: none;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+  left: 100%;
+  top: 0;
+}
+
+.dropdown-submenu:hover>.-left {
+  left: auto;
+  right: 100%;
+}
+
+
+.dropdown-menu>.-disabled {
+  cursor: not-allowed;
+}
+
+.dropdown-menu>.-disabled:hover,
+.dropdown-menu .dropdown-header:hover {
+  background: transparent;
+}
+
+.dropdown-menu>.-disabled>a,
+.dropdown-menu>.-disabled>a:focus,
+.dropdown-menu>.-disabled>a:hover,
+.dropdown-menu>.-disabled:hover>a {
+  color: #ddd;
+  cursor: not-allowed;
+}
+
+.dropdown-menu>.dropdown-header {
+  font-weight: bold;
+  @apply py-1;
+}
+
+.dropdown-menu>.divider {
+  @apply my-2 p-0;
+  height: 1px;
+  background-color: var(--dropmenu-border-color);
+}
