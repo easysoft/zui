@@ -1,19 +1,12 @@
 .table {
     @apply w-full;
-    border-radius: 4px 4px 0 0;
+    @apply border-2;
+    border-radius: var(--table-radius);
 }
 
-.table th.
+.table th,
 .table td {
-    @apply px-4 ;
-}
-
-th {
-    @apply px-4 text-left;
-}
-
-td {
-    @apply px-4
+    @apply px-4 py-2 ;
 }
 
 .-striped tbody tr:nth-child(odd) {
@@ -23,16 +16,19 @@ td {
 .-hover  tbody  tr:hover  td,
 .-hover  tbody  tr:hover  th {
     @apply bg-gray-200;
+    background: var (--table-hover-color);
 }
 
 .-bordered {
-    @apply border-2;
 }
 .-bordered th,
 .-bordered td {
     @apply border-2;
 }
 
+.-borderless {
+    @apply border-0;
+}
 .-borderless thead  tr  th,
 .-borderless th,
 .-borderless td {
