@@ -62,4 +62,25 @@
   <div class="avatar -xl -rounded-full -warning">+1</div>
 </div>
 ```
+## Outline
 
+```html:example: flex gap-3
+<div class="avatar-group -outline -xs">
+  <div class="avatar -rounded-full -xs -primary-outline">孙</div>
+  <div class="avatar -rounded-full -xs -secondary-outline">李</div>
+  <div class="avatar -rounded-full -xs -success-outline">周</div>
+  <div class="avatar -rounded-full -xs -danger-outline">吴</div>
+</div>
+<div class="avatar-group -outline">
+  <div class="avatar -rounded-full -primary-outline">孙</div>
+  <div class="avatar -rounded-full -secondary-outline">李</div>
+  <div class="avatar -rounded-full -success-outline">周</div>
+</div>
+
+<div class="avatar-group -outline">
+  <div class="avatar -rounded-full -primary-outline">孙</div>
+  <div class="avatar -rounded-full -secondary-outline">李</div>
+  <div class="avatar -rounded-full -success-outline">周</div>
+  <div class="avatar -rounded-full -danger-outline">吴</div>
+</div>
+```

@@ -1,3 +1,6 @@
+.avatar-group.-outline .avatar {
+  @apply bg-white;
+}
 .avatar-group.-xs .avatar {
   @apply w-6 h-6 text-xs;
 }
@@ -12,7 +15,6 @@
 }
 .avatar-group .avatar + .avatar {
   margin-left: -0.75rem;
-  /* @apply border border-white; */
 }
 .avatar-group.-xs .avatar + .avatar {
   margin-left: -0.5rem;
