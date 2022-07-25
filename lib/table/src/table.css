@@ -1,0 +1,64 @@
+.table {
+    @apply w-full;
+    border-radius: 4px 4px 0 0;
+}
+
+.table th.
+.table td {
+    @apply px-4 ;
+}
+
+th {
+    @apply px-4 text-left;
+}
+
+td {
+    @apply px-4
+}
+
+.-striped tbody tr:nth-child(odd) {
+    @apply bg-gray-200;
+}
+
+.-hover  tbody  tr:hover  td,
+.-hover  tbody  tr:hover  th {
+    @apply bg-gray-200;
+}
+
+.-bordered {
+    @apply border-2;
+}
+.-bordered th,
+.-bordered td {
+    @apply border-2;
+}
+
+.-borderless thead  tr  th,
+.-borderless th,
+.-borderless td {
+    @apply border-0;
+}
+
+.-condensed td
+.-condensed th{
+    @apply px-1;
+}
+
+.-fixed {
+    table-layout: fixed;
+    /* table-fixed */
+}
+
+.-fixed th,
+.-fixed td {
+    @apply overflow-hidden;
+    white-space: nowrap;
+}
+
+.-fixed tfoot  tr  th,
+.-fixed tfoot  tr  td,
+.-fixed .nofixed,
+.-fixed .nofixed {
+    @apply overflow-visible;
+}
+

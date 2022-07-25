@@ -1,0 +1,13 @@
+{
+    "name": "@zui/table",
+    "description": "ZUI table",
+    "version": "0.0.1",
+    "keywords": ["css", "js", "components"],
+    "main": "src/main.ts"
+    "devDependencies": {
+        "@zui/base": "workspace:*"
+    },
+    "files": [
+         "./src/**/*"
+    ]
+}
