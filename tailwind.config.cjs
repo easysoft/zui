@@ -9,8 +9,10 @@ module.exports = {
         './lib/*/index.html',
         './lib/*/README.md',
         './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
-        './docs/**/*.{vue,js,ts,jsx,tsx,md}',
-        './lib/*/docs/**/*.{vue,js,ts,jsx,tsx,md}',
+        ...(process.argv.includes('docs') ? [
+            './docs/**/*.{vue,js,ts,jsx,tsx,md}',
+            './lib/*/docs/**/*.{vue,js,ts,jsx,tsx,md}',
+        ] : []),
     ] : [{raw: ''}],
     presets: [
         zuiTailwindConfig,
