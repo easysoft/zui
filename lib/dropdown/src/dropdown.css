@@ -1,10 +1,9 @@
 .dropdown {
-  position: relative;
-  display: inline-block;
+  @apply inline-block relative;
 }
 
-.dropdown-hover:hover>.dropdown-menu{
-  display: block;
+.dropdown-hover:hover>.dropdown-menu {
+  @apply block;
 }
 
 .dropdown>.btn {
@@ -12,10 +11,19 @@
   border: 1px solid var(--dropmenu-border-color);
 }
 
+.dropdown .caret {
+  @apply w-0 h-0;
+  display: inline-block;
+  margin-bottom: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  opacity: .5;
+}
+
 .dropdown-menu {
-  display: none;
-  @apply py-2 w-40;
-  position: absolute;
+  @apply py-2 w-40 hidden absolute;
   left: 0;
   top: 100%;
   z-index: 10;
@@ -24,7 +32,7 @@
 }
 
 .open>.dropdown-menu {
-  display: block;
+  @apply block;
 }
 
 .dropdown-menu>li {
@@ -32,7 +40,7 @@
 }
 
 .dropdown-menu>li>a {
-  display: block;
+  @apply block;
 }
 
 .dropdown-menu>li:hover {
@@ -48,23 +56,36 @@
   bottom: 100%
 }
 
+.-up>.btn>.caret {
+  border-top: 0 dotted;
+  border-bottom: 4px solid;
+}
+
 .-right>.dropdown-menu {
   left: auto;
   right: 0;
 }
 
 .dropdown-submenu {
-  position: relative;
+  @apply relative;
 }
 
 .dropdown-submenu>.dropdown-menu {
-  display: none;
+  @apply hidden;
 }
 
 .dropdown-submenu:hover>.dropdown-menu {
-  display: block;
+  @apply block;
   left: 100%;
   top: 0;
+}
+
+.dropdown-submenu>a:after {
+  @apply block w-0 h-0 border-solid border-transparent float-right mr-0;
+  margin-top: 5px;
+  content: " ";
+  border-width: 5px 0 5px 5px;
+  border-left-color: #ccc;
 }
 
 .dropdown-submenu:hover>.-left {
@@ -74,12 +95,12 @@
 
 
 .dropdown-menu>.-disabled {
-  cursor: not-allowed;
+  @apply cursor-not-allowed;
 }
 
 .dropdown-menu>.-disabled:hover,
 .dropdown-menu .dropdown-header:hover {
-  background: transparent;
+  @apply bg-transparent;
 }
 
 .dropdown-menu>.-disabled>a,
@@ -87,12 +108,11 @@
 .dropdown-menu>.-disabled>a:hover,
 .dropdown-menu>.-disabled:hover>a {
   color: #ddd;
-  cursor: not-allowed;
+  @apply cursor-not-allowed;
 }
 
 .dropdown-menu>.dropdown-header {
-  font-weight: bold;
-  @apply py-1;
+  @apply py-1 font-bold;
 }
 
 .dropdown-menu>.divider {

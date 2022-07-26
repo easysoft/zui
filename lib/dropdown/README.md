@@ -2,7 +2,7 @@
 
 ```html:example: flex gap-3 overflow-visible
 <div class="dropdown open">
-    <button class="btn" type="button" data-toggle="dropdown">菜单按钮</button>
+    <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a href="###">操作</a></li>
         <li><a href="###">另一个操作</a></li>
@@ -16,7 +16,7 @@
 添加类名`.dropdown-hover`实现鼠标悬停展开菜单
 ```html:example: flex gap-3
 <div class="dropdown dropdown-hover">
-    <button class="btn" type="button" data-toggle="dropdown">鼠标悬停展开菜单按钮</button>
+    <button class="btn" type="button" data-toggle="dropdown">鼠标悬停展开菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a href="###">操作</a></li>
         <li><a href="###">另一个操作</a></li>
@@ -30,7 +30,7 @@
 为 `.dorpdown-menu` 添加` .-right` 可以使得下拉菜单的右侧与触发元素的右侧对齐。
 ```html:example: flex gap-3
 <div class="dropdown -up">
-    <button class="btn" type="button" data-toggle="dropdown">上方左侧对齐</button>
+    <button class="btn" type="button" data-toggle="dropdown">上方左侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a href="###">操作</a></li>
         <li><a href="###">另一个操作</a></li>
@@ -40,7 +40,7 @@
 
 <div class="dropdown">
     <button class="btn" type="button"
-        data-toggle="dropdown">下方左侧对齐</button>
+        data-toggle="dropdown">下方左侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a href="###">操作</a></li>
         <li><a href="###">另一个操作</a></li>
@@ -50,7 +50,7 @@
 
 <div class="dropdown -up -right">
     <button class="btn" type="button"
-        data-toggle="dropdown">上方右侧对齐</button>
+        data-toggle="dropdown">上方右侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a href="###">操作</a></li>
         <li><a href="###">另一个操作</a></li>
@@ -60,7 +60,7 @@
 
 <div class="dropdown -right">
     <button class="btn" type="button"
-        data-toggle="dropdown">下方右侧对齐</button>
+        data-toggle="dropdown">下方右侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a href="###">操作</a></li>
         <li><a href="###">另一个操作</a></li>
@@ -74,7 +74,7 @@
 ```html:example: flex gap-3
 <div class="dropdown">
     <button class="btn" type="button"
-        data-toggle="dropdown">菜单按钮</button>
+        data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li class="dropdown-submenu">
             <a href="###">打开</a>
@@ -131,7 +131,7 @@
 ```html:example: flex gap-3
 <div class="dropdown">
     <button class="btn" type="button"
-        data-toggle="dropdown">自定义下拉菜单</button>
+        data-toggle="dropdown">自定义下拉菜单 <span class="caret"></span></button>
     <div class="dropdown-menu dropdown-menu-table">
         <p class="px-3">自定义内容</p>
     </div>
@@ -145,7 +145,7 @@
 ```html:example: flex gap-3
 <div class="dropdown">
     <button class="btn" type="button"
-        data-toggle="dropdown">菜单按钮</button>
+        data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a href="###">操作</a></li>
         <li class="-disabled"><a href="###">被禁用的操作</a></li>
