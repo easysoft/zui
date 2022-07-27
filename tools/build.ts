@@ -2,10 +2,10 @@ import Path from 'path';
 import fs from 'fs-extra';
 import minimist from 'minimist';
 import {mergeConfig} from 'vite';
-import {createBuildConfig, prepareBuildFiles, createViteConfig} from './build-tools.js';
-import {exec} from './exec.js';
+import {createBuildConfig, prepareBuildFiles, createViteConfig} from './build-tools';
+import {exec} from './exec';
 
-const argv = minimist(process.argv.slice(3));
+const argv = minimist(process.argv.slice(2));
 
 let viteConfig = {};
 const viteFile = argv.viteFile ?? argv.V;

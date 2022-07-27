@@ -1,10 +1,10 @@
 import path from 'path';
 import fs from 'fs-extra';
 import minimist from 'minimist';
-import {getBuildInLibs} from './buildin-libs.js';
-import {exec} from './exec.js';
+import {getBuildInLibs} from './buildin-libs';
+import {exec} from './exec';
 
-const argv = minimist(process.argv.slice(3));
+const argv = minimist(process.argv.slice(2));
 
 await fs.emptyDir(path.resolve(process.cwd(), './docs/assets'));
 
