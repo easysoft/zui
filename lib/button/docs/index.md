@@ -386,6 +386,26 @@
 <button type="button" class="btn -square -xl">XL</button>
 ```
 
+## 圆形按钮
+
+当与修饰类 `-rounded-full` 与 `-square` 一起使用时则获得圆形按钮。
+
+<Example class="flex gap-4 items-end">
+  <button type="button" class="btn -square -rounded-full -xs">XS</button>
+  <button type="button" class="btn -square -rounded-full -sm">S</button>
+  <button type="button" class="btn -square -rounded-full">正</button>
+  <button type="button" class="btn -square -rounded-full -lg">L</button>
+  <button type="button" class="btn -square -rounded-full -xl">XL</button>
+</Example>
+
+```html
+<button type="button" class="btn -square -rounded-full -xs">XS</button>
+<button type="button" class="btn -square -rounded-full -sm">S</button>
+<button type="button" class="btn -square -rounded-full">正</button>
+<button type="button" class="btn -square -rounded-full -lg">L</button>
+<button type="button" class="btn -square -rounded-full -xl">XL</button>
+```
+
 ## 禁用状态
 
 为按钮提供 `disabled="disabled"` 属性或 `-disabled` 修饰类来禁用按钮。被禁用的按钮将无法响应点击事件。
