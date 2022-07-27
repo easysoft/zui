@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme';
 import * as zui from '../../assets/zui/zui.js';
 import '../../assets/zui/zui.css';
 import './tailwind.css';
+import './vars.css';
 import './style.css';
 import Example from './components/example.vue';
 
