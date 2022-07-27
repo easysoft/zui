@@ -41,6 +41,36 @@
 </div>
 ```
 
+## 尺寸
+
+```html:example: flex gap-3
+<div class="input-group -xl">
+  <span class="input-group-addon">前</span>
+  <input type="text" class="form-control" placeholder="用户名">
+</div>
+
+<div class="input-group -lg">
+  <span class="input-group-addon">前</span>
+  <input type="text" class="form-control" placeholder="用户名">
+</div>
+
+<div class="input-group">
+  <span class="input-group-addon">前</span>
+  <input type="text" class="form-control" placeholder="用户名">
+</div>
+
+<div class="input-group -sm">
+  <span class="input-group-addon">前</span>
+  <input type="text" class="form-control" placeholder="用户名">
+</div>
+
+<div class="input-group -xs">
+  <span class="input-group-addon">前</span>
+  <input type="text" class="form-control" placeholder="用户名">
+</div>
+```
+
+
 ## 连续分段的文本框
 
 ```html:example: flex gap-3
