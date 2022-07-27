@@ -1,0 +1,88 @@
+.input-control {
+    @apply box-border inline-block relative overflow-hidden;
+}
+.input-control .form-control {
+    @apply px-3 h-8 w-48;
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--input-radius);
+}
+.input-control .form-control:hover {
+    @apply border-gray-500;
+}
+.input-control .form-control:focus {
+    @apply outline-none border-primary-500;
+}
+.input-control.-shadow .form-control:focus {
+   @apply shadow-primary-500; 
+}
+
+.input-control .form-control[disabled],
+.input-control .form-control[readonly] {
+    @apply bg-gray-100 border-gray-300 opacity-100;
+}
+.input-control.-xs .form-control {
+    @apply px-1 h-5;
+}
+.input-control.-sm .form-control {
+    @apply px-2 h-6;
+}
+.input-control.-lg .form-control {
+    @apply px-4 h-10;
+}
+.input-control.-xl .form-control {
+    @apply  px-5 h-12;
+}
+input::placeholder {
+    @apply text-gray-500 opacity-50;
+}
+.input-control.-xs .form-control::placeholder {
+    @apply text-xs;
+}
+.input-control.-sm .form-control::placeholder {
+    @apply text-sm;
+}
+.input-control.-lg .form-control::placeholder {
+    @apply text-lg;
+}
+.input-control.-xl .form-control::placeholder {
+    @apply text-xl;
+}
+.input-control.-prefix .form-control {
+    padding-left: 1.75rem;
+}
+.input-control.-suffix .form-control {
+    padding-right: 1.75rem;
+}
+.input-control_prefix, .input-control_suffix {
+    @apply inline-block h-full text-gray-500 text-center select-none absolute;
+    width: 1.5rem;
+    line-height: 1.875rem;
+    top: 0;
+}
+.input-control_prefix {
+    left: 0.25rem;
+}
+.input-control_suffix {
+    right: 0.25rem;
+}
+.input-control.-rounded-sm .form-control {
+    @apply rounded-sm;
+}
+.input-control.-rounded .form-control {
+    @apply rounded;
+}
+.input-control.-rounded-md .form-control {
+    @apply rounded-md;
+}
+.input-control.-rounded-lg .form-control {
+    @apply rounded-lg;
+}
+.input-control.-rounded-xl .form-control {
+    @apply rounded-xl;
+}
+.input-control.-rounded-full .form-control {
+    @apply rounded-full;
+}
+.input-control.-rounded-none .form-control {
+    @apply rounded-none;
+}
