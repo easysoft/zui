@@ -1,9 +1,11 @@
 .form-group {
-    @apply mb-4;
+    margin-bottom: var(--margin-bottom-group);
 }
 
 .form-group label {
-    @apply inline-block font-bold mb-1
+    @apply inline-block font-bold;
+    min-width: 3rem;
+    width: var(--label-width);
 }
 
 .form-horizontal .form-group {
