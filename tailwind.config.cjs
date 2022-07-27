@@ -11,7 +11,7 @@ module.exports = {
         './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
         ...(process.argv.includes('docs') ? [
             './docs/**/*.{vue,js,ts,jsx,tsx,md}',
-            './lib/*/docs/**/*.{vue,js,ts,jsx,tsx,md}',
+            './docs/.vitepress/**/*.{vue,js,ts,jsx,tsx,md}',
         ] : []),
     ] : [{raw: ''}],
     presets: [

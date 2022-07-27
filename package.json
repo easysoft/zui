@@ -53,7 +53,6 @@
     "postcss": "^8.4.14",
     "postcss-import": "^14.1.0",
     "postcss-nesting": "^10.1.10",
-    "rollup-plugin-css-only": "^3.1.0",
     "stylelint": "^14.9.1",
     "stylelint-config-recess-order": "^3.0.0",
     "stylelint-config-standard": "^26.0.0",
