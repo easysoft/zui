@@ -1,11 +1,11 @@
 .input-group{
     @apply flex items-center;
 }
-/* .input-group>input{
+.input-group>input{
     @apply px-3 h-8 w-48;
     border: 1px solid var(--input-border-color);
     border-radius: var(--radius);
-} */
+}
 .input-group>.input-group-addon{
     @apply px-3 h-8 leading-8 inline-block rounded;
     background-color: var(--addon-background);
