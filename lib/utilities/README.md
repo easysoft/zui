@@ -36,7 +36,6 @@
 <div class="h-10 w-full flex items-center justify-center -important-outline">important-outline</div>
 <div class="h-10 w-full flex items-center justify-center -special-outline">special-outline</div>
 
-<div class="h-10 w-full flex items-center justify-center -white-outline">white-outline</div>
 <div class="h-10 w-full flex items-center justify-center -lighter-outline">lighter-outline</div>
 <div class="h-10 w-full flex items-center justify-center -light-outline">light-outline</div>
 <div class="h-10 w-full flex items-center justify-center -gray-outline">gray-outline</div>

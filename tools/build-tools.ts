@@ -1,6 +1,6 @@
 import Path from 'path';
 import fs from 'fs-extra';
-import {getBuildInLibs, BuildInLibInfo} from './buildin-libs.js';
+import {getBuildInLibs, BuildInLibInfo} from './buildin-libs';
 
 /**
  * Libs like string - 构建库（或组件）定义字符串
@@ -8,7 +8,7 @@ import {getBuildInLibs, BuildInLibInfo} from './buildin-libs.js';
  * - `button dropdown` 使用空格拼接多个依赖来定义一个构建库（或组件）
  * - `:zui-button button dropdown` 在依赖定义前使用 `:` 来指定构建名称
  * - `+clipboard +jquery@^3.0` 使用 + 来引用 npm 上的第三方包
- * - `./my_path/custom_lib_entry.js` 指定用于作为构建库（或组件）的入口文件路径
+ * - `./my_path/custom_lib_entry` 指定用于作为构建库（或组件）的入口文件路径
  */
 export type LibsLike = string;
 
@@ -24,6 +24,9 @@ export interface BuildConfigOptions {
 
     /** Extra config file path - 构建库（或组件）字符串或配置文件路径 */
     libs?: LibsLike;
+
+    /** Output directory - 输出目录 */
+    outDir?: string;
 }
 
 /**
@@ -303,15 +306,15 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
  * @param config Build config - 构建配置
  * @return Vite config - Vite 配置
  */
-export function createViteConfig(config: BuildConfig, buildDir: string) {
+export function createViteConfig(config: BuildConfig, options: {buildDir: string, outDir?: string}) {
     return {
         build: {
             lib: {
-                entry: Path.join(buildDir, 'main.ts'),
+                entry: Path.join(options.buildDir, 'main.ts'),
                 name: 'zui',
                 fileName: !config.name.includes('zui') ? `zui.${config.name}` : config.name,
             },
-            outDir: `dist/${config.name}`,
+            outDir: options.outDir ?? `dist/${config.name}`,
         },
     };
 }

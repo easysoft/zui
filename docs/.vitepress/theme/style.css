@@ -1,0 +1,9 @@
+/**
+ * Custom style for zui
+ * -------------------------------------------------------------------------- */
+.vp-doc h3 {
+    @apply mb-2;
+}
+.vp-doc [class*='language-'] code {
+    @apply px-0
+}

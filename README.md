@@ -267,6 +267,14 @@ $ pnpm build -- ./zentao-zui-build-config.json
 * `--config， -c` 指定打包配置文件
 * `--viteFile -V` 指定打包使用的额外的 Vite 配置文件
 
+## 用户文档网站
+
+**开发**
+
+```sh
+$ pnpm docs:dev
+```
+
 ## 目录结构　
 
 ```
