@@ -27,6 +27,8 @@ importers:
       fs-extra: ^10.1.0
       highlight.js: ^11.6.0
       markdown-it: ^13.0.1
+      markdown-it-anchor: ^8.6.4
+      markdown-it-toc-done-right: ^4.2.0
       minimist: ^1.2.6
       postcss: ^8.4.14
       postcss-import: ^14.1.0
@@ -70,6 +72,8 @@ importers:
       eslint-plugin-import: registry.npmmirror.com/eslint-plugin-import/2.26.0_wno36sjfnklvt2ocf7qbhb2izy
       fs-extra: registry.npmmirror.com/fs-extra/10.1.0
       markdown-it: registry.npmmirror.com/markdown-it/13.0.1
+      markdown-it-anchor: registry.npmmirror.com/markdown-it-anchor/8.6.4_ea7kj7wzjkld5jo2noyjqxi764
+      markdown-it-toc-done-right: registry.npmmirror.com/markdown-it-toc-done-right/4.2.0
       minimist: registry.npmmirror.com/minimist/1.2.6
       postcss: registry.npmmirror.com/postcss/8.4.14
       postcss-import: registry.npmmirror.com/postcss-import/14.1.0_postcss@8.4.14
@@ -3030,6 +3034,25 @@ packages:
     name: map-obj
     version: 4.3.0
     engines: {node: '>=8'}
+    dev: true
+
+  registry.npmmirror.com/markdown-it-anchor/8.6.4_ea7kj7wzjkld5jo2noyjqxi764:
+    resolution: {integrity: sha512-Ul4YVYZNxMJYALpKtu+ZRdrryYt/GlQ5CK+4l1bp/gWXOG2QWElt6AqF3Mih/wfUKdZbNAZVXGR73/n6U/8img==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/markdown-it-anchor/-/markdown-it-anchor-8.6.4.tgz}
+    id: registry.npmmirror.com/markdown-it-anchor/8.6.4
+    name: markdown-it-anchor
+    version: 8.6.4
+    peerDependencies:
+      '@types/markdown-it': '*'
+      markdown-it: '*'
+    dependencies:
+      '@types/markdown-it': registry.npmmirror.com/@types/markdown-it/12.2.3
+      markdown-it: registry.npmmirror.com/markdown-it/13.0.1
+    dev: true
+
+  registry.npmmirror.com/markdown-it-toc-done-right/4.2.0:
+    resolution: {integrity: sha512-UB/IbzjWazwTlNAX0pvWNlJS8NKsOQ4syrXZQ/C72j+jirrsjVRT627lCaylrKJFBQWfRsPmIVQie8x38DEhAQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/markdown-it-toc-done-right/-/markdown-it-toc-done-right-4.2.0.tgz}
+    name: markdown-it-toc-done-right
+    version: 4.2.0
     dev: true
 
   registry.npmmirror.com/markdown-it/13.0.1:

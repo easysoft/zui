@@ -1,4 +1,6 @@
 import MarkdownIt from 'markdown-it';
+import markdownItAnchor from 'markdown-it-anchor';
+import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import Token from 'markdown-it/lib/token';
 import hljs from 'highlight.js';
 
@@ -18,10 +20,13 @@ const markdownIt: MarkdownIt = new MarkdownIt('default', {
             return `<pre class="hljs" data-lang="${langName}"><code>${markdownIt.utils?.escapeHtml(str)}</code></pre>`;
         }
     },
-});
+}).use(markdownItAnchor).use(markdownItTocDoneRight);
 
 export function generateLibDoc(content: string): string {
     if (markdownIt.renderer) {
+        if (!content.includes('[toc]\n')) {
+            content = `[toc]\n\n${content}`;
+        }
         const blocks = markdownIt.parse(content, {});
         const blockList = blocks.reduce<Token[]>((list, block) => {
             if (block.type === 'fence' && block.tag === 'code') {

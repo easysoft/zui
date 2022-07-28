@@ -50,6 +50,8 @@
     "eslint-plugin-import": ">=2.25.3 <3.0.0",
     "fs-extra": "^10.1.0",
     "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.4",
+    "markdown-it-toc-done-right": "^4.2.0",
     "minimist": "^1.2.6",
     "postcss": "^8.4.14",
     "postcss-import": "^14.1.0",
