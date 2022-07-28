@@ -9,6 +9,7 @@
 <a class="btn">A Link</a>
 <button type="button" class="btn">中文按钮</button>
 <button type="button" class="btn" disabled="disabled">禁用的按钮</button>
+<button type="button" class="btn -text-primary -canvas">Link</button>
 ```
 
 ## Button Square
@@ -23,7 +24,7 @@
 
 ## Button Sizes
 
-```html:example: flex gap-3
+```html:example: flex gap-3 items-end
 <button type="button" class="btn -xl">Extra Large Button</button>
 <button type="button" class="btn -lg">Large Button</button>
 <button type="button" class="btn">Normal Button</button>
@@ -33,7 +34,7 @@
 
 ## Button Styles
 
-```html:example: flex gap-3
+```html:example: flex gap-3 overflow-x-auto
 <button type="button" class="btn -primary">Primary</button>
 <button type="button" class="btn -secondary">secondary</button>
 <button type="button" class="btn -success">success</button>
@@ -54,7 +55,7 @@
 <button type="button" class="btn -ghost">ghost</button>
 ```
 
-```html:example: flex gap-3
+```html:example: flex gap-3  overflow-x-auto
 <button type="button" class="btn -primary-outline">Primary</button>
 <button type="button" class="btn -secondary-outline">secondary</button>
 <button type="button" class="btn -success-outline">success</button>
@@ -75,7 +76,7 @@
 <button type="button" class="btn -ghost-outline">ghost</button>
 ```
 
-```html:example: flex gap-3
+```html:example: flex gap-3  overflow-x-auto
 <button type="button" class="btn -primary-pale">Primary</button>
 <button type="button" class="btn -secondary-pale">secondary</button>
 <button type="button" class="btn -success-pale">success</button>
@@ -89,7 +90,7 @@
 <button type="button" class="btn -dark-pale">dark</button>
 ```
 
-```html:example: flex gap-3
+```html:example: flex gap-3  overflow-x-auto
 <button type="button" class="btn -primary-pale -border-primary">Primary</button>
 <button type="button" class="btn -secondary-pale -border-secondary">secondary</button>
 <button type="button" class="btn -success-pale -border-success">success</button>
@@ -106,7 +107,7 @@
 <button type="button" class="btn -black-pale -border-black">black</button>
 ```
 
-```html:example: flex gap-3
+```html:example: flex gap-3  overflow-x-auto
 <button type="button" class="btn -text-primary">Primary</button>
 <button type="button" class="btn -text-secondary">secondary</button>
 <button type="button" class="btn -text-success">success</button>

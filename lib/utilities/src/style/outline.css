@@ -20,9 +20,6 @@
   @apply border border-special-500 text-special-500;
 }
 
-.-white-outline {
-  @apply border border-white text-white;
-}
 .-lighter-outline {
   @apply border border-gray-100 text-gray-100;
 }
