@@ -1,6 +1,6 @@
 # 下拉菜单
 
-将动作或菜单折叠到下拉菜单中。1234dfd
+将动作或菜单折叠到下拉菜单中。
 
 ## 基本用法
 
@@ -42,6 +42,7 @@
     </ul>
   </div>
 </Example>
+
 ```html
 <div class="dropdown dropdown-hover">
     <button class="btn" type="button" data-toggle="dropdown">鼠标悬停展开菜单按钮 <span class="caret"></span></button>

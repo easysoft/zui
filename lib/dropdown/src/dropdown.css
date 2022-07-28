@@ -3,7 +3,7 @@
 }
 
 .dropdown-hover:hover>.dropdown-menu {
-  @apply block;
+  @apply block list-none px-0;
 }
 
 .dropdown>.btn {
