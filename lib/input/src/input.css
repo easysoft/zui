@@ -12,10 +12,15 @@
 .input-control .form-control:focus {
     @apply outline-none border-primary-500;
 }
-.input-control.-shadow .form-control:focus {
-   @apply shadow-primary-500; 
+.input-control.-border-danger .form-control:hover {
+    @apply border-danger-500;
 }
-
+.input-control.-border-danger .form-control:focus {
+    @apply border-danger-500;
+}
+.input-control.-shadow .form-control:focus {
+    @apply shadow-primary-500;
+}
 .input-control .form-control[disabled],
 .input-control .form-control[readonly] {
     @apply bg-gray-100 border-gray-300 opacity-100;
