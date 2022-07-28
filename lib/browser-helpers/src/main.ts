@@ -1,1 +1,1 @@
-export * from './dom-helper';
+export * from './select-text';
