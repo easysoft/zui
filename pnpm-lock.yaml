@@ -105,20 +105,34 @@ importers:
 
   build:
     specifiers:
+      '@zui/avatar': workspace:^0.0.1
+      '@zui/avatar-group': workspace:^0.0.1
       '@zui/base': workspace:^0.0.1
       '@zui/browser-helpers': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
       '@zui/datatable': workspace:^0.0.1
+      '@zui/dropdown': workspace:^0.0.1
+      '@zui/form': workspace:^0.0.1
       '@zui/helpers': workspace:^0.0.1
+      '@zui/input': workspace:^0.0.1
+      '@zui/input-group': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
+      '@zui/table': workspace:^0.0.1
       '@zui/utilities': workspace:^0.0.1
     dependencies:
+      '@zui/avatar': link:../lib/avatar
+      '@zui/avatar-group': link:../lib/avatar-group
       '@zui/base': link:../lib/base
       '@zui/browser-helpers': link:../lib/browser-helpers
       '@zui/button': link:../lib/button
       '@zui/datatable': link:../lib/datatable
+      '@zui/dropdown': link:../lib/dropdown
+      '@zui/form': link:../lib/form
       '@zui/helpers': link:../lib/helpers
+      '@zui/input': link:../lib/input
+      '@zui/input-group': link:../lib/input-group
       '@zui/store': link:../lib/store
+      '@zui/table': link:../lib/table
       '@zui/utilities': link:../lib/utilities
 
   config:
