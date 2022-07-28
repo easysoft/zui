@@ -10,7 +10,7 @@ import {browserHelpers} from 'zui';
 
 `browserHelpers` 对象上将拥有所有可用的浏览器工具方法。
 
-## `selectText` 🅵
+## `selectText` <span class="text-blue-500 text-sm font-mono bg-blue-100 p-1 rounded">func</span>
 
 选择界面上某个可编辑元素上的文本。可编辑元素包括输入框和 `contenteditable` 属性为 `true` 的 HTML 元素。
 
