@@ -3,7 +3,7 @@
 }
 
 .dropdown-hover:hover>.dropdown-menu {
-  @apply block list-none px-0;
+  @apply block;
 }
 
 .dropdown>.btn {
@@ -23,7 +23,7 @@
 }
 
 .dropdown-menu {
-  @apply py-2 w-40 hidden absolute;
+  @apply py-2 w-40 hidden absolute list-none px-0 m-0;
   left: 0;
   top: 100%;
   z-index: 10;
