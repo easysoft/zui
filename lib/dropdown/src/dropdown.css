@@ -1,0 +1,113 @@
+.dropdown {
+  @apply inline-block relative;
+}
+
+.dropdown-hover:hover>.dropdown-menu {
+  @apply block;
+}
+
+.dropdown>.btn {
+  @apply px-3 h-8;
+  border: 1px solid var(--dropmenu-border-color);
+}
+
+.dropdown .caret {
+  @apply w-0 h-0;
+  display: inline-block;
+  margin-bottom: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  opacity: .5;
+}
+
+.dropdown-menu {
+  @apply py-2 w-40 hidden absolute list-none px-0 m-0;
+  left: 0;
+  top: 100%;
+  z-index: 10;
+  background-color: var(--dropmenu-background);
+  box-shadow: 0 4px 8px var(--dropmenu-active-background);
+}
+
+.open>.dropdown-menu {
+  @apply block;
+}
+
+.dropdown-menu>li {
+  @apply px-2;
+}
+
+.dropdown-menu>li>a {
+  @apply block px-2 py-1.5 leading-3;
+}
+
+.dropdown-menu>li:hover>a {
+  @apply rounded-sm;
+  color: var(--dropmenu-active-color);
+  background-color: var(--dropmenu-active-background);
+}
+
+.-up>.dropdown-menu {
+  top: auto;
+  bottom: 100%
+}
+
+.-up>.btn>.caret {
+  border-top: 0 dotted;
+  border-bottom: 4px solid;
+}
+
+.-right>.dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.dropdown-submenu {
+  @apply relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  @apply hidden;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+  @apply block;
+  left: 100%;
+  top: 0;
+}
+
+.dropdown-submenu>a:after {
+  @apply block w-0 h-0 border-solid border-transparent float-right mr-0 mt-0.5;
+  content: " ";
+  border-width: 5px 0 5px 5px;
+  border-left-color: #ccc;
+}
+
+.dropdown-submenu:hover>.-left {
+  left: auto;
+  right: 100%;
+}
+
+.dropdown-menu>.-disabled:hover,
+.dropdown-menu .dropdown-header:hover {
+  @apply disabled:opacity-50;
+}
+
+.dropdown-menu>.-disabled>a,
+.dropdown-menu>.-disabled>a:focus,
+.dropdown-menu>.-disabled>a:hover,
+.dropdown-menu>.-disabled:hover>a {
+  @apply cursor-not-allowed bg-transparent;
+}
+
+.dropdown-menu>.dropdown-header {
+  @apply py-1 font-bold;
+}
+
+.dropdown-menu>.divider {
+  @apply my-2 p-0;
+  height: 1px;
+  background-color: var(--dropmenu-border-color);
+}
