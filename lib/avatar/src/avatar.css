@@ -1,0 +1,21 @@
+.avatar {
+  @apply w-10 h-10 inline-flex overflow-hidden flex-col items-center justify-center align-middle bg-gray-100 bg-center bg-cover ;
+  border-radius: var(--avatar-radius);
+}
+.avatar img {
+  @apply block m-0;
+  width: 100%;
+  height: 100%;
+}
+.avatar.-xs {
+  @apply w-6 h-6 text-xs;
+}
+.avatar.-sm {
+  @apply w-8 h-8 text-sm;
+}
+.avatar.-lg {
+  @apply w-12 h-12 text-lg;
+}
+.avatar.-xl {
+  @apply w-14 h-14 text-xl;
+}
