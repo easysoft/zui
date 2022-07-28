@@ -13,6 +13,7 @@ importers:
       '@zui/base': workspace:0.0.1
       '@zui/browser-helpers': workspace:0.0.1
       '@zui/button': workspace:0.0.1
+      '@zui/datatable': workspace:0.0.1
       '@zui/helpers': workspace:0.0.1
       '@zui/store': workspace:0.0.1
       '@zui/table': workspace:0.0.1
@@ -49,6 +50,7 @@ importers:
       '@zui/base': link:lib/base
       '@zui/browser-helpers': link:lib/browser-helpers
       '@zui/button': link:lib/button
+      '@zui/datatable': link:lib/datatable
       '@zui/helpers': link:lib/helpers
       '@zui/store': link:lib/store
       '@zui/table': link:lib/table
@@ -94,6 +96,7 @@ importers:
       '@zui/base': workspace:^0.0.1
       '@zui/browser-helpers': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
+      '@zui/datatable': workspace:^0.0.1
       '@zui/helpers': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
       '@zui/table': workspace:^0.0.1
@@ -102,6 +105,7 @@ importers:
       '@zui/base': link:../lib/base
       '@zui/browser-helpers': link:../lib/browser-helpers
       '@zui/button': link:../lib/button
+      '@zui/datatable': link:../lib/datatable
       '@zui/helpers': link:../lib/helpers
       '@zui/store': link:../lib/store
       '@zui/table': link:../lib/table
