@@ -30,6 +30,7 @@ export default defineConfig({
             copyright: 'Copyright (C) 2022 cnezsoft.com',
         },
         lastUpdatedText: '上次更新',
+        outlineTitle: '本页目录',
         docFooter: {
             prev: '上一篇',
             next: '下一篇'
