@@ -52,17 +52,17 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
 <div class="avatar-group -outline">
-  <div class="avatar -rounded-full -primary-outline">孙</div>
-  <div class="avatar -rounded-full -secondary-outline">李</div>
-  <div class="avatar -rounded-full -success-outline">周</div>
+  <div class="avatar -rounded-full -primary-outline">Z</div>
+  <div class="avatar -rounded-full -secondary-outline">Z</div>
+  <div class="avatar -rounded-full -success-outline">Z</div>
 </div>
 </Example>
 
 ```html
 <div class="avatar-group -outline">
-  <div class="avatar -rounded-full -primary-outline">孙</div>
-  <div class="avatar -rounded-full -secondary-outline">李</div>
-  <div class="avatar -rounded-full -success-outline">周</div>
+  <div class="avatar -rounded-full -primary-outline">Z</div>
+  <div class="avatar -rounded-full -secondary-outline">Z</div>
+  <div class="avatar -rounded-full -success-outline">Z</div>
 </div>
 ```
 
@@ -270,3 +270,15 @@
   <div class="avatar -xl -rounded-full -warning">Z</div>
 </div>
 ```
+
+## CSS 类
+
+头像组提供了如下 CSS 类：
+
+| 类        | 类型           | 作用  |
+| ------------- |:-------------:| ----- |
+| `avatar-group`      | 实体类 | 元素作为头像组组件 |
+| `-xs`      | 修饰类      |   头像组使用超小号尺寸 |
+| `-sm`      | 修饰类      |   头像组使用小号尺寸 |
+| `-lg`      | 修饰类      |   头像组使用大号尺寸 |
+| `-xl`      | 修饰类      |   头像组使用超大号尺寸 |

@@ -197,3 +197,15 @@
 <div class="avatar -rounded-xl"><img src="./img/avatar.png"></div>
 <div class="avatar -rounded-full"><img src="./img/avatar.png"></div>
 ```
+
+## CSS 类
+
+头像提供了如下 CSS 类：
+
+| 类        | 类型           | 作用  |
+| ------------- |:-------------:| ----- |
+| `avatar`      | 实体类 | 元素作为头像组件 |
+| `-xs`      | 修饰类      |   头像使用超小号尺寸 |
+| `-sm`      | 修饰类      |   头像使用小号尺寸 |
+| `-lg`      | 修饰类      |   头像使用大号尺寸 |
+| `-xl`      | 修饰类      |   头像使用超大号尺寸 |
