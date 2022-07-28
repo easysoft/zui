@@ -1,5 +1,5 @@
 .avatar {
-  @apply w-10 h-10 inline-flex overflow-hidden flex-col items-center justify-center align-middle bg-center bg-cover;
+  @apply w-10 h-10 inline-flex overflow-hidden flex-col items-center justify-center align-middle bg-gray-100 bg-center bg-cover ;
   border-radius: var(--avatar-radius);
 }
 .avatar img {

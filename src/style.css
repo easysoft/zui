@@ -30,7 +30,7 @@ pre[data-lang]::after {
     @apply absolute block top-0 right-0 bg-gray-300 px-1 text-sm text-gray-500;
 }
 .example {
-    @apply mb-2 p-4 border border-gray-200 overflow-x-auto;
+    @apply mb-2 p-4 border border-gray-200;
 }
 .example + pre {
     @apply mt-[-0.5rem] border-t-0;

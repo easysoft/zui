@@ -13,6 +13,27 @@
 .avatar-group.-xl .avatar {
   @apply w-14 h-14 text-xl;
 }
+.avatar-group.-show-rounded-sm .avatar {
+  @apply rounded-sm;
+}
+.avatar-group.-show-rounded .avatar {
+  @apply rounded;
+}
+.avatar-group.-show-rounded-md .avatar {
+  @apply rounded-md;
+}
+.avatar-group.-show-rounded-lg .avatar {
+  @apply rounded-lg;
+}
+.avatar-group.-show-rounded-xl .avatar {
+  @apply rounded-xl;
+}
+.avatar-group.-show-rounded-full .avatar {
+  @apply rounded-full;
+}
+.avatar-group.-show-rounded-none .avatar {
+  @apply rounded-none;
+}
 .avatar-group .avatar + .avatar {
   margin-left: -0.75rem;
 }

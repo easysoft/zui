@@ -7,22 +7,22 @@
     "dev": "pnpm run install:buildin-libs && pnpm run vite:dev",
     "vite:dev": "vite --host",
     "build:vite": "tsc && vite build",
-    "build": "node --loader ts-node/esm --no-warnings ./tools/build.ts",
+    "build": "tsx ./tools/build.ts",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
-    "docs:dev": "pnpm run docs:prepare && vitepress dev docs",
+    "docs:dev-fast": "vitepress dev docs",
+    "docs:dev": "pnpm run docs:prepare && vitepress dev docs & pnpm run docs:watch",
+    "docs:watch": "tsx ./tools/watch-docs.ts",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
-    "docs:prepare": "node --loader ts-node/esm --no-warnings ./tools/prepare-docs.ts",
-    "install:buildin-libs": "node --loader ts-node/esm --no-warnings ./tools/install-buildin-libs.ts"
+    "docs:prepare": "tsx ./tools/prepare-docs.ts",
+    "install:buildin-libs": "tsx ./tools/install-buildin-libs.ts"
   },
   "workspaces": [
     "./lib"
   ],
   "dependencies": {
-    "@zui/avatar": "workspace:0.0.1",
-    "@zui/avatar-group": "workspace:0.0.1",
     "@zui/base": "workspace:0.0.1",
     "@zui/browser-helpers": "workspace:0.0.1",
     "@zui/button": "workspace:0.0.1",
@@ -31,7 +31,9 @@
     "@zui/utilities": "workspace:0.0.1",
     "highlight.js": "^11.6.0",
     "tailwindcss": "^3.1.4",
-    "zui-config": "workspace:^0.0.1"
+    "zui-config": "workspace:^0.0.1",
+    "@zui/avatar": "workspace:0.0.1",
+    "@zui/avatar-group": "workspace:0.0.1"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
@@ -41,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
     "autoprefixer": "^10.4.7",
+    "chokidar": "^3.5.3",
     "cssnano": "^5.1.12",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -52,12 +55,11 @@
     "postcss": "^8.4.14",
     "postcss-import": "^14.1.0",
     "postcss-nesting": "^10.1.10",
-    "rollup-plugin-css-only": "^3.1.0",
     "stylelint": "^14.9.1",
     "stylelint-config-recess-order": "^3.0.0",
     "stylelint-config-standard": "^26.0.0",
     "stylelint-order": "^5.0.0",
-    "ts-node": "^10.8.2",
+    "tsx": "^3.8.0",
     "typescript": "^4.5.4",
     "vite": "^3.0.2",
     "vite-plugin-eslint": "^1.6.1",

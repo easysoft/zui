@@ -79,4 +79,3 @@
 <div class="avatar -rounded-xl"><img src="./docs/img/avatar.png"></div>
 <div class="avatar -rounded-full"><img src="./docs/img/avatar.png"></div>
 ```
-
