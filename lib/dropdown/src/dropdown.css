@@ -28,7 +28,7 @@
   top: 100%;
   z-index: 10;
   background-color: var(--dropmenu-background);
-  box-shadow: 0 0 5px var(--dropmenu-border-color);
+  box-shadow: 0 4px 8px var(--dropmenu-active-background);
 }
 
 .open>.dropdown-menu {
@@ -36,19 +36,17 @@
 }
 
 .dropdown-menu>li {
-  @apply px-4 py-2;
+  @apply px-2;
 }
 
 .dropdown-menu>li>a {
-  @apply block;
-}
-
-.dropdown-menu>li:hover {
-  background-color: var(--dropmenu-active-background);
+  @apply block px-2 py-1.5 leading-3;
 }
 
 .dropdown-menu>li:hover>a {
+  @apply rounded-sm;
   color: var(--dropmenu-active-color);
+  background-color: var(--dropmenu-active-background);
 }
 
 .-up>.dropdown-menu {
@@ -81,8 +79,7 @@
 }
 
 .dropdown-submenu>a:after {
-  @apply block w-0 h-0 border-solid border-transparent float-right mr-0;
-  margin-top: 5px;
+  @apply block w-0 h-0 border-solid border-transparent float-right mr-0 mt-0.5;
   content: " ";
   border-width: 5px 0 5px 5px;
   border-left-color: #ccc;
@@ -93,22 +90,16 @@
   right: 100%;
 }
 
-
-.dropdown-menu>.-disabled {
-  @apply cursor-not-allowed;
-}
-
 .dropdown-menu>.-disabled:hover,
 .dropdown-menu .dropdown-header:hover {
-  @apply bg-transparent;
+  @apply disabled:opacity-50;
 }
 
 .dropdown-menu>.-disabled>a,
 .dropdown-menu>.-disabled>a:focus,
 .dropdown-menu>.-disabled>a:hover,
 .dropdown-menu>.-disabled:hover>a {
-  color: #ddd;
-  @apply cursor-not-allowed;
+  @apply cursor-not-allowed bg-transparent;
 }
 
 .dropdown-menu>.dropdown-header {
