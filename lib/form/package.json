@@ -1,0 +1,16 @@
+{
+    "name": "@zui/form",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "keywords": ["css"],
+    "dependencies": {
+        "@zui/utilities": "workspace:*",
+        "@zui/base": "workspace:*"
+    },
+    "devDependencies": {
+         "@zui/base": "workspace:*",
+         "@zui/utilities": "workspace:*"
+    }
+}
