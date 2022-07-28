@@ -1,0 +1,6 @@
+:root {
+    --addon-background: var(--color-gray-400);
+    --addon-color: var(--color-fore);
+    --input-border-color: var(--color-gray-300);
+    --border-radius: var(--radius);
+  }
