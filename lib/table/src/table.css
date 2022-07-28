@@ -10,13 +10,12 @@
 }
 
 .-striped tbody tr:nth-child(odd) {
-    @apply bg-gray-200;
+    background: var(--table-striped-color);
 }
 
 .-hover  tbody  tr:hover  td,
 .-hover  tbody  tr:hover  th {
-    @apply bg-gray-200;
-    background: var (--table-hover-color);
+    background: var(--table-hover-color);
 }
 
 .-bordered {

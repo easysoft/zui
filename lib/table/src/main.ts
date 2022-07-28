@@ -1,2 +1,2 @@
-import './table.css';
 import './vars.css';
+import './table.css';

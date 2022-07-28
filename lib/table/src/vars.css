@@ -1,5 +1,6 @@
 :root {
     --table-radius: var(--table-radius);
+    --table-striped-color: var(--color-gray-100);
     --table-border-width: var(--talbe-border-width);
     --table-border-color: var(--table-border-color);
     --table-hover-color: var(--color-gray-300);
