@@ -1,7 +1,7 @@
 import {nanoid} from 'nanoid';
 
 /** Store type */
-type StoreType = 'local' | 'session';
+export type StoreType = 'local' | 'session';
 
 /**
  * Store for using localStorage and sessionStorage
@@ -56,7 +56,7 @@ export class Store {
      * @param defaultValue default value to return if key is not found
      * @returns Value of key or defaultValue if key is not found
      */
-    get(key: string, defaultValue: unknown): unknown {
+    get(key: string, defaultValue?: unknown): unknown {
         const value = this.#storage.getItem(this.#getActualKey(key));
         if (typeof value === 'string') {
             return JSON.parse(value);
@@ -112,5 +112,3 @@ export class Store {
         return result;
     }
 }
-
-export const store = new Store('DEFAULT');
