@@ -12,7 +12,7 @@
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
     "docs:dev-fast": "vitepress dev docs",
-    "docs:dev": "pnpm run docs:prepare && vitepress dev docs & pnpm run docs:watch",
+    "docs:dev": "pnpm run docs:prepare && vitepress dev docs --host & pnpm run docs:watch",
     "docs:watch": "tsx ./tools/watch-docs.ts",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
