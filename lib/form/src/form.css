@@ -4,7 +4,7 @@
 
 .form-group label {
   @apply inline-block font-bold;
-  width: var(--label-width);
+  min-width: var(--label-width);
 }
 
 .form-horizontal .form-group {
@@ -17,5 +17,39 @@
 
 .form-control {
   @apply bg-white rounded border-solid border block h-8 text-xs py-1 px-2 w-full;
+  outline:none;
 }
 
+.help-block {
+  @apply text-xs absolute
+}
+
+.has-success > .form-control {
+  border-color: var(--color-has-success);
+}
+.has-success label {
+  color: var(--color-has-success);
+}
+.has-success > .help-block {
+  color: var(--color-has-success);
+}
+
+.has-error > .form-control {
+  border-color: var(--color-has-error);
+}
+.has-error label {
+  color: var(--color-has-error);
+}
+.has-error > help-block {
+  color: var(--color-has-error);
+}
+
+.has-warning > .form-control {
+  border-color: var(--color-has-warning);
+}
+.has-warning label {
+  color: var(--color-has-warning);
+}
+.has-warning > .help-block {
+  color: var(--color-has-warning);
+}
