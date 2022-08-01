@@ -1,0 +1,20 @@
+.breadcrumb {
+  @apply py-2 px-4;
+  list-style: none;
+  border-radius: var(--breadcrumb-radius);
+}
+
+.breadcrumb >li {
+  @apply inline-block;
+}
+
+.breadcrumb > li+li :before {
+  @apply py-0 px-1;
+  content: "/\00a0"; 
+  color: var(--breadcrumb-color);
+}
+
+.breadcrumb >.active {
+  @apply py-0 px-1;
+  color: var(--breadcrumb-color-active);
+}
