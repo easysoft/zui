@@ -1,0 +1,14 @@
+{
+    "name": "@zui/nav",
+    "description": "ZUI nav",
+    "version": "0.0.1",
+    "keywords": ["css", "components"],
+    "main": "src/main.ts",
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/utilities": "workspace:*"
+    },
+    "files": [
+         "./src/**/*"
+    ]
+}

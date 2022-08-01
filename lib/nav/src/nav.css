@@ -1,0 +1,12 @@
+.nav {
+  display: flex;
+}
+
+.nav > li {
+  margin-left:2rem;
+}
+
+.-simple.active >a {
+  color:red;
+  background-color:red;
+}
