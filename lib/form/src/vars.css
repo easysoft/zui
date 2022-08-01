@@ -1,4 +1,4 @@
 :root {
-    --margin-bottom-group: var(--4rem);
-    --label-width: var(--5rem);
+    --margin-bottom-group: 2rem;
+    --label-width: 5rem;
 }
