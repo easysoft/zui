@@ -17,8 +17,10 @@ export default defineConfig({
         logo: '/assets/favicon.svg',
         nav: [
             {text: '指引', link: '/guide/quick-start.md'},
+            {text: '基础', link: '/basic/index.md'},
             {text: '组件', link: '/lib/index.md'},
             {text: '图标', link: '/icons/index.md'},
+            {text: 'JavaScript', link: '/lib/index.md'},
             {text: '主题', link: '/themes/index.md'},
             {text: '定制', link: '/customize/index.md'},
         ],
