@@ -1,11 +1,10 @@
 .table {
-    @apply w-full;
-    @apply border-2;
+    @apply w-full border-2;
 }
 
 .table th,
 .table td {
-    @apply px-4 py-2 ;
+    @apply px-4 py-2 text-left ;
 }
 
 .-striped tbody tr:nth-child(odd) {
@@ -37,12 +36,11 @@
 }
 
 .-fixed {
-  table-layout: fixed;
+  @apply table-fixed;
 }
 
 .-fixed th,
 .-fixed td {
-  @apply overflow-hidden;
-  white-space: nowrap;
+  @apply overflow-hidden whitespace-nowrap;
 }
 
