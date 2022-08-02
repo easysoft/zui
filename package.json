@@ -34,6 +34,7 @@
     "@zui/helpers": "workspace:0.0.1",
     "@zui/input": "workspace:0.0.1",
     "@zui/input-group": "workspace:0.0.1",
+    "@zui/nav": "workspace:0.0.1",
     "@zui/store": "workspace:0.0.1",
     "@zui/table": "workspace:0.0.1",
     "@zui/utilities": "workspace:0.0.1",

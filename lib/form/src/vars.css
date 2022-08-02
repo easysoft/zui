@@ -1,4 +1,7 @@
 :root {
-    --margin-bottom-group: var(--4rem);
-    --label-width: var(--5rem);
+    --margin-bottom-group: 2rem;
+    --label-width: 5rem;
+    --color-has-error: var(--color-red-500);
+    --color-has-warning: var(--color-warning-500);
+    --color-has-success: var(--color-green-500);
 }
