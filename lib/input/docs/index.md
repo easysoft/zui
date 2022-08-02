@@ -111,7 +111,7 @@
 配合使用[CSS 工具类](/lib/utilities/)来实现不同输入框的外观。下面展示各种工具类的外观效果。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <div class="input-control -rounded-full">
+  <div class="input-control -pill">
     <input type="text" class="form-control" placeholder="请填写" />
   </div>
   <div class="input-control -shadow">
@@ -120,7 +120,7 @@
 </Example>
 
 ```html
-<div class="input-control -rounded-full">
+<div class="input-control -pill">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -shadow">

@@ -51,7 +51,7 @@
   <div class="avatar -secondary -rounded">头像</div>
   <div class="avatar -secondary -rounded-lg">头像</div>
   <div class="avatar -secondary -rounded-xl">头像</div>
-  <div class="avatar -secondary -rounded-full">头像</div>
+  <div class="avatar -secondary -pill">头像</div>
 </Example>
 
 ```html
@@ -61,22 +61,22 @@
 <div class="avatar -secondary -rounded">头像</div>
 <div class="avatar -secondary -rounded-lg">头像</div>
 <div class="avatar -secondary -rounded-xl">头像</div>
-<div class="avatar -secondary -rounded-full">头像</div>
+<div class="avatar -secondary -pill">头像</div>
 ```
 ## 外观类型
 
 配合使用[CSS 工具类](/lib/utilities/)来实现不同头像的外观。下面展示各种工具类的外观效果。
 
 <Example class="flex gap-4 flex-wrap">
-  <div class="avatar -rounded-full"><img src="./assets/avatar.png"></div>
-  <div class="avatar -rounded-full -primary">Z</div>
-  <div class="avatar -rounded-full -primary-outline">Z</div>
+  <div class="avatar -pill"><img src="./assets/avatar.png"></div>
+  <div class="avatar -pill -primary">Z</div>
+  <div class="avatar -pill -primary-outline">Z</div>
 </Example>
 
 ```html
-<div class="avatar -rounded-full"><img src="./assets/avatar.png"></div>
-<div class="avatar -rounded-full -primary">Z</div>
-<div class="avatar -rounded-full -primary-outline">Z</div>
+<div class="avatar -pill"><img src="./assets/avatar.png"></div>
+<div class="avatar -pill -primary">Z</div>
+<div class="avatar -pill -primary-outline">Z</div>
 ```
 
 ## 尺寸

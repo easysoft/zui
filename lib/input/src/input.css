@@ -60,9 +60,9 @@ input::placeholder {
 .input-control_suffix {
     @apply text-right;
 }
-.-square-prefix .input-control_prefix, 
+.-square-prefix .input-control_prefix,
 .-square-prefix .input-control_suffix,
-.-square-suffix .input-control_prefix, 
+.-square-suffix .input-control_prefix,
 .-square-suffix .input-control_suffix {
     @apply text-center;
     width: var(--input-square-fix-width);
@@ -88,7 +88,7 @@ input::placeholder {
 .input-control.-rounded-xl .form-control {
     @apply rounded-xl;
 }
-.input-control.-rounded-full .form-control {
+.input-control.-pill .form-control {
     @apply rounded-full;
 }
 .input-control.-rounded-none .form-control {

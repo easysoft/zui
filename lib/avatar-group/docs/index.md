@@ -38,14 +38,14 @@
     <div class="avatar -warning -rounded-xl">Z</div>
   </div>
   <div class="avatar-group">
-    <div class="avatar -rounded-full"><img src="/favicon.svg"></div>
-    <div class="avatar -success -rounded-full">头像</div>
-    <div class="avatar -warning -rounded-full">Z</div>
+    <div class="avatar -pill"><img src="/favicon.svg"></div>
+    <div class="avatar -success -pill">头像</div>
+    <div class="avatar -warning -pill">Z</div>
   </div>
   <div class="avatar-group -outline">
-    <div class="avatar -rounded-full -primary-outline">Z</div>
-    <div class="avatar -rounded-full -secondary-outline">Z</div>
-    <div class="avatar -rounded-full -success-outline">Z</div>
+    <div class="avatar -pill -primary-outline">Z</div>
+    <div class="avatar -pill -secondary-outline">Z</div>
+    <div class="avatar -pill -success-outline">Z</div>
   </div>
 </Example>
 
@@ -81,14 +81,14 @@
   <div class="avatar -warning -rounded-xl">Z</div>
 </div>
 <div class="avatar-group">
-  <div class="avatar -rounded-full"><img src="/favicon.svg"></div>
-  <div class="avatar -success -rounded-full">头像</div>
-  <div class="avatar -warning -rounded-full">Z</div>
+  <div class="avatar -pill"><img src="/favicon.svg"></div>
+  <div class="avatar -success -pill">头像</div>
+  <div class="avatar -warning -pill">Z</div>
 </div>
 <div class="avatar-group -outline">
-  <div class="avatar -rounded-full -primary-outline">Z</div>
-  <div class="avatar -rounded-full -secondary-outline">Z</div>
-  <div class="avatar -rounded-full -success-outline">Z</div>
+  <div class="avatar -pill -primary-outline">Z</div>
+  <div class="avatar -pill -secondary-outline">Z</div>
+  <div class="avatar -pill -success-outline">Z</div>
 </div>
 ```
 
@@ -98,57 +98,57 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="avatar-group -overlap-xs">
-    <div class="avatar -xs -rounded-full"><img src="/favicon.svg"></div>
-    <div class="avatar -xs -rounded-full -success">头像</div>
-    <div class="avatar -xs -rounded-full -warning">Z</div>
+    <div class="avatar -xs -pill"><img src="/favicon.svg"></div>
+    <div class="avatar -xs -pill -success">头像</div>
+    <div class="avatar -xs -pill -warning">Z</div>
   </div>
   <div class="avatar-group -overlap-sm">
-    <div class="avatar -sm -rounded-full"><img src="/favicon.svg"></div> 
-    <div class="avatar -sm -rounded-full -success">头像</div>
-    <div class="avatar -sm -rounded-full -warning">Z</div>
+    <div class="avatar -sm -pill"><img src="/favicon.svg"></div>
+    <div class="avatar -sm -pill -success">头像</div>
+    <div class="avatar -sm -pill -warning">Z</div>
   </div>
   <div class="avatar-group">
-    <div class="avatar -sm -rounded-full"><img src="/favicon.svg"></div> 
-    <div class="avatar -sm -rounded-full -success">头像</div>
-    <div class="avatar -sm -rounded-full -warning">Z</div>
+    <div class="avatar -sm -pill"><img src="/favicon.svg"></div>
+    <div class="avatar -sm -pill -success">头像</div>
+    <div class="avatar -sm -pill -warning">Z</div>
   </div>
   <div class="avatar-group -overlap-lg">
-    <div class="avatar -lg -rounded-full"><img src="/favicon.svg"></div>
-    <div class="avatar -lg -rounded-full -success">头像</div>
-    <div class="avatar -lg -rounded-full -warning">Z</div>
+    <div class="avatar -lg -pill"><img src="/favicon.svg"></div>
+    <div class="avatar -lg -pill -success">头像</div>
+    <div class="avatar -lg -pill -warning">Z</div>
   </div>
   <div class="avatar-group -overlap-xl">
-    <div class="avatar -xl -rounded-full"><img src="/favicon.svg"></div>
-    <div class="avatar -xl -rounded-full -success">头像</div>
-    <div class="avatar -xl -rounded-full -warning">Z</div>
+    <div class="avatar -xl -pill"><img src="/favicon.svg"></div>
+    <div class="avatar -xl -pill -success">头像</div>
+    <div class="avatar -xl -pill -warning">Z</div>
   </div>
 </Example>
 
 ```html
 <div class="avatar-group -overlap-xs">
-  <div class="avatar -xs -rounded-full"><img src="/favicon.svg"></div>
-  <div class="avatar -xs -rounded-full -success">头像</div>
-  <div class="avatar -xs -rounded-full -warning">Z</div>
+  <div class="avatar -xs -pill"><img src="/favicon.svg"></div>
+  <div class="avatar -xs -pill -success">头像</div>
+  <div class="avatar -xs -pill -warning">Z</div>
 </div>
 <div class="avatar-group -overlap-sm">
-  <div class="avatar -sm -rounded-full"><img src="/favicon.svg"></div> 
-  <div class="avatar -sm -rounded-full -success">头像</div>
-  <div class="avatar -sm -rounded-full -warning">Z</div>
+  <div class="avatar -sm -pill"><img src="/favicon.svg"></div>
+  <div class="avatar -sm -pill -success">头像</div>
+  <div class="avatar -sm -pill -warning">Z</div>
 </div>
 <div class="avatar-group">
-  <div class="avatar -sm -rounded-full"><img src="/favicon.svg"></div> 
-  <div class="avatar -sm -rounded-full -success">头像</div>
-  <div class="avatar -sm -rounded-full -warning">Z</div>
+  <div class="avatar -sm -pill"><img src="/favicon.svg"></div>
+  <div class="avatar -sm -pill -success">头像</div>
+  <div class="avatar -sm -pill -warning">Z</div>
 </div>
 <div class="avatar-group -overlap-lg">
-  <div class="avatar -lg -rounded-full"><img src="/favicon.svg"></div>
-  <div class="avatar -lg -rounded-full -success">头像</div>
-  <div class="avatar -lg -rounded-full -warning">Z</div>
+  <div class="avatar -lg -pill"><img src="/favicon.svg"></div>
+  <div class="avatar -lg -pill -success">头像</div>
+  <div class="avatar -lg -pill -warning">Z</div>
 </div>
 <div class="avatar-group -overlap-xl">
-  <div class="avatar -xl -rounded-full"><img src="/favicon.svg"></div>
-  <div class="avatar -xl -rounded-full -success">头像</div>
-  <div class="avatar -xl -rounded-full -warning">Z</div>
+  <div class="avatar -xl -pill"><img src="/favicon.svg"></div>
+  <div class="avatar -xl -pill -success">头像</div>
+  <div class="avatar -xl -pill -warning">Z</div>
 </div>
 ```
 

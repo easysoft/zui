@@ -161,7 +161,7 @@
 <div class="h-10 w-full flex items-center justify-center -border -border-current -rounded-md">rounded-md</div>
 <div class="h-10 w-full flex items-center justify-center -border -border-current -rounded-lg">rounded-lg</div>
 <div class="h-10 w-full flex items-center justify-center -border -border-current -rounded-xl">rounded-xl</div>
-<div class="h-10 w-full flex items-center justify-center -border -border-current -rounded-full">rounded-full</div>
+<div class="h-10 w-full flex items-center justify-center -border -border-current -pill">rounded-full</div>
 ```
 
 ## Box Shadow
