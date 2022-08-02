@@ -1,8 +1,10 @@
 .avatar-group.-outline .avatar {
   @apply shadow-none bg-white;
 }
+.avatar-group .avatar {
+  box-shadow: var(--avatar-shadow);
+}
 .avatar-group .avatar + .avatar {
-  @apply shadow shadow-white;
   margin-left: var(--avatar-group-overlap);
 }
 .avatar-group.-overlap-xs .avatar + .avatar {
