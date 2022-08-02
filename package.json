@@ -25,6 +25,7 @@
     "@zui/avatar": "workspace:0.0.1",
     "@zui/avatar-group": "workspace:0.0.1",
     "@zui/base": "workspace:0.0.1",
+    "@zui/breadcrumb": "workspace:0.0.1",
     "@zui/browser-helpers": "workspace:0.0.1",
     "@zui/button": "workspace:0.0.1",
     "@zui/datatable": "workspace:0.0.1",
