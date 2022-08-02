@@ -1,12 +1,23 @@
 .nav {
-  display: flex;
+  @apply flex;
 }
 
 .nav > li {
-  margin-left:2rem;
+  @apply px-3 py-2;
 }
 
-.-simple.active >a {
-  color:red;
-  background-color:red;
+.nav > li:hover {
+  background-color: var(--color-hover-nav);
+}
+
+.nav > li:focus {
+  background-color: var(--color-hovar-nav);
+}
+.-default {
+  @apply contents;
+}
+
+.-simple > .active {
+  color: var(--color-primary-500);
+  background-color: var(--color-primary-200);
 }
