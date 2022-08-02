@@ -4,8 +4,7 @@
   "version": "3.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm run install:buildin-libs && pnpm run vite:dev",
-    "vite:dev": "vite --host",
+    "dev": "vite --host",
     "build:vite": "tsc && vite build",
     "build": "tsx ./tools/build.ts",
     "preview": "vite preview",
