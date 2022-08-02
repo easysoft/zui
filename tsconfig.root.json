@@ -3,6 +3,7 @@
   "include": [
     "./lib/*/src/",
     "./lib/*/dev.ts",
+    "./docs/.vitepress/theme/**/*",
     "tools",
     "src",
     "config",
