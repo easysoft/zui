@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "include": [
     "./lib/*/src/",
+    "./lib/*/dev.ts",
     "tools",
     "src",
     "config",

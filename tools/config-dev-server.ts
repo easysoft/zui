@@ -60,11 +60,13 @@ export default (options: {rootPath: string}): Plugin => ({
         }
         const libName = getLibNameFromUrl(ctx.originalUrl);
         if (libName) {
+            const devEntryFile = path.join(options.rootPath, 'lib', libName, 'dev.ts');
+            const hasDevEntry = fs.existsSync(devEntryFile);
             const descriptors: HtmlTagDescriptor[] = [{
                 tag: 'script',
                 attrs: {
                     type: 'module',
-                    src: `/lib/${libName}/src/main.ts`,
+                    src: `/lib/${libName}/${hasDevEntry ? 'dev.ts' : 'src/main.ts'}`,
                 },
                 injectTo: 'body',
             }];
