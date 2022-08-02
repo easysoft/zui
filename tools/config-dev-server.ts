@@ -17,7 +17,7 @@ export default (options: {rootPath: string}): Plugin => ({
             if (!req.url) {
                 return next();
             }
-            const libName = getLibNameFromUrl(req.url);
+            let libName = getLibNameFromUrl(req.url);
             if (libName) {
                 const libPath = path.resolve(options.rootPath, 'lib', libName);
                 const htmlFilePath = path.join(libPath, 'index.html');
@@ -26,10 +26,11 @@ export default (options: {rootPath: string}): Plugin => ({
                     return next();
                 }
             } else if (/^\/lib\/[\w-\d]+\/README.md$/.test(req.url)) {
+                libName = req.url.replace('/lib/', '/').slice(1).split('/')[0];
                 const markdownFile = path.join(options.rootPath, req.url);
                 if (fs.existsSync(markdownFile)) {
                     const content = await fs.readFile(markdownFile, 'utf-8');
-                    const html = generateLibDoc(content);
+                    const html = generateLibDoc(content, libName);
                     res.setHeader('Content-Type', 'text/html');
                     res.end(html);
                     return;
@@ -44,7 +45,7 @@ export default (options: {rootPath: string}): Plugin => ({
             const libName = file.substring(libPath.length + 1, file.length - '/README.md'.length);
             if (libName) {
                 const content = fs.readFileSync(file, 'utf-8');
-                const html = generateLibDoc(content);
+                const html = generateLibDoc(content, libName);
                 server.ws.send('zui:lib-page-updated', {
                     libName: libName,
                     path: path.relative(options.rootPath, file),

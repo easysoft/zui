@@ -22,7 +22,7 @@ const markdownIt: MarkdownIt = new MarkdownIt('default', {
     },
 }).use(markdownItAnchor).use(markdownItTocDoneRight);
 
-export function generateLibDoc(content: string): string {
+export function generateLibDoc(content: string, libName: string): string {
     if (markdownIt.renderer) {
         if (!content.includes('[toc]\n')) {
             content = `[toc]\n\n${content}`;
@@ -32,10 +32,11 @@ export function generateLibDoc(content: string): string {
             if (block.type === 'fence' && block.tag === 'code') {
                 const [, langType, className = ''] = block.info.split(':');
                 if (langType === 'example') {
+                    const html = block.content.replace(/(['"])@\//g, `$1/lib/${libName}/`);
                     list.push({
                         type: 'html_block',
                         tag: 'div',
-                        content: `<div class="example ${className}">${block.content}</div>`,
+                        content: `<div class="example ${className}">${html}</div>`,
                     } as Token);
                 }
             }
