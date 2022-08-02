@@ -6,6 +6,7 @@
     "browserslist": "",
     "keywords": ["css", "zui:control"],
     "dependencies": {
+        "@zui/avatar": "workspace:*"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",

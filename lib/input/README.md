@@ -4,53 +4,61 @@
 
 ```html:example: flex gap-3
 <div class="input-control">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
+<div class="input-control -square-prefix -square-suffix">
+  <input type="text" class="form-control" placeholder="请填写"/>
+  <span class="input-control_prefix">pr</span>
+  <span class="input-control_suffix">su</span>
+</div>
+<div class="input-control -prefix">
+  <span class="input-control_prefix">用户名</span>
+  <input type="text" class="form-control" placeholder="请填写"/>
+</div>
+<div class="input-control -prefix">
+  <span class="input-control_prefix">登录密码</span>
+  <input type="text" class="form-control" placeholder="请填写"/>
+</div>
+
 ```
 
 ## Disabled
 
 ```html:example: flex gap-3
 <div class="input-control">
-    <input type="text" class="form-control" placeholder="请填写" disabled="disabled" />
+  <input type="text" class="form-control" placeholder="请填写" disabled="disabled" />
 </div>
 ```
 
 ## Sizes
 
 ```html:example: flex gap-3 items-end
-<div class="input-control -xs">
-    <input type="text" class="form-control" placeholder="请填写" />
-</div>
-<div class="input-control -sm">
-    <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sm" placeholder="请填写" />
 </div>
 <div class="input-control">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
-<div class="input-control -lg">
-    <input type="text" class="form-control" placeholder="请填写" />
-</div>
-<div class="input-control -xl">
-    <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -lg" placeholder="请填写" />
 </div>
 ```
 
 ## Prefix/Suffix
 
 ```html:example: flex gap-3 flex-wrap
-<div class="input-control -prefix">
-    <input type="text" class="form-control" placeholder="请填写"/>
-    <span class="input-control_prefix">pr<slot name="prefix"></slot></span>
+<div class="input-control -square-prefix">
+  <input type="text" class="form-control" placeholder="请填写"/>
+  <span class="input-control_prefix">pr</span>
 </div>
-<div class="input-control -suffix">
-    <input type="text" class="form-control" placeholder="请填写"/>
-    <span class="input-control_suffix">su<slot name="suffix"></slot></span>
+<div class="input-control -square-suffix">
+  <input type="text" class="form-control" placeholder="请填写"/>
+  <span class="input-control_suffix">su</span>
 </div>
-<div class="input-control -prefix -suffix">
-    <input type="text" class="form-control" placeholder="请填写"/>
-    <span class="input-control_prefix">pr<slot name="prefix"></slot></span>
-    <span class="input-control_suffix">su<slot name="suffix"></slot></span>
+<div class="input-control -square-prefix -square-suffix">
+  <input type="text" class="form-control" placeholder="请填写"/>
+  <span class="input-control_prefix">pr</span>
+  <span class="input-control_suffix">su</span>
 </div>
 ```
 
@@ -58,25 +66,25 @@
 
 ```html:example: flex gap-3 flex-wrap
 <div class="input-control -rounded-none">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -rounded-sm">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -rounded">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -rounded-md">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -rounded-lg">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -rounded-xl">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -rounded-full">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 ```
 
@@ -84,21 +92,21 @@
 
 ```html:example: flex gap-3 flex-wrap
 <div class="input-control -shadow-none">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -shadow-xs">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -shadow-sm">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -shadow">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -shadow-lg">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -shadow-xl">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <input type="text" class="form-control" placeholder="请填写" />
 </div>
 ```

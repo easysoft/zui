@@ -3,13 +3,13 @@
 ## Avatar
 
 ```html:example: flex gap-3
-<div class="avatar"><img src="./docs/img/avatar.png"></div>
+<div class="avatar"><img src="/favicon.svg"></div>
 ```
 
 ## Rounded
 
 ```html:example: flex gap-3
-<div class="avatar -rounded-full"><img src="./docs/img/avatar.png"></div>
+<div class="avatar -rounded-full"><img src="/favicon.svg"></div>
 ```
 
 ## Outline
@@ -35,19 +35,11 @@
 ## Sizes
 
 ```html:example: flex gap-3
-<div class="avatar -xl"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -lg"><img src="./docs/img/avatar.png"></div>
-<div class="avatar"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -sm"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -xs"><img src="./docs/img/avatar.png"></div>
-```
-
-```html:example: flex gap-3
-<div class="avatar -primary -xl"><span>王</span></div>
-<div class="avatar -primary -lg"><span>王</span></div>
-<div class="avatar -primary"><span>王</span></div>
-<div class="avatar -primary -sm"><span>王</span></div>
-<div class="avatar -primary -xs"><span>王</span></div>
+<div class="avatar -xl"><img src="/favicon.svg"></div>
+<div class="avatar -lg"><img src="/favicon.svg"></div>
+<div class="avatar"><img src="/favicon.svg"></div>
+<div class="avatar -sm"><img src="/favicon.svg"></div>
+<div class="avatar -xs"><img src="/favicon.svg"></div>
 ```
 
 ## Styles
@@ -71,11 +63,11 @@
 ## Radius
 
 ```html:example: flex gap-3
-<div class="avatar -rounded-none"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -rounded-xs"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -rounded-sm"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -rounded"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -rounded-lg"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -rounded-xl"><img src="./docs/img/avatar.png"></div>
-<div class="avatar -rounded-full"><img src="./docs/img/avatar.png"></div>
+<div class="avatar -rounded-none"><img src="/favicon.svg"></div>
+<div class="avatar -rounded-xs"><img src="/favicon.svg"></div>
+<div class="avatar -rounded-sm"><img src="/favicon.svg"></div>
+<div class="avatar -rounded"><img src="/favicon.svg"></div>
+<div class="avatar -rounded-lg"><img src="/favicon.svg"></div>
+<div class="avatar -rounded-xl"><img src="/favicon.svg"></div>
+<div class="avatar -rounded-full"><img src="/favicon.svg"></div>
 ```

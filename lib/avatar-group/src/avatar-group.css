@@ -1,51 +1,19 @@
 .avatar-group.-outline .avatar {
-  @apply bg-white;
-}
-.avatar-group.-xs .avatar {
-  @apply w-6 h-6 text-xs;
-}
-.avatar-group.-sm .avatar {
-  @apply w-8 h-8 text-sm;
-}
-.avatar-group.-lg .avatar {
-  @apply w-12 h-12 text-lg;
-}
-.avatar-group.-xl .avatar {
-  @apply w-14 h-14 text-xl;
-}
-.avatar-group.-show-rounded-sm .avatar {
-  @apply rounded-sm;
-}
-.avatar-group.-show-rounded .avatar {
-  @apply rounded;
-}
-.avatar-group.-show-rounded-md .avatar {
-  @apply rounded-md;
-}
-.avatar-group.-show-rounded-lg .avatar {
-  @apply rounded-lg;
-}
-.avatar-group.-show-rounded-xl .avatar {
-  @apply rounded-xl;
-}
-.avatar-group.-show-rounded-full .avatar {
-  @apply rounded-full;
-}
-.avatar-group.-show-rounded-none .avatar {
-  @apply rounded-none;
+  @apply shadow-none bg-white;
 }
 .avatar-group .avatar + .avatar {
-  margin-left: -0.75rem;
+  @apply shadow shadow-white;
+  margin-left: var(--avatar-group-overlap);
 }
-.avatar-group.-xs .avatar + .avatar {
-  margin-left: -0.5rem;
+.avatar-group.-overlap-xs .avatar + .avatar {
+  margin-left: calc(var(--avatar-group-overlap) + 0.25rem);
 }
-.avatar-group.-sm .avatar + .avatar {
-  margin-left: -0.625rem;
+.avatar-group.-overlap-sm .avatar + .avatar {
+  margin-left: calc(var(--avatar-group-overlap) + 0.125rem);
 }
-.avatar-group.-lg .avatar + .avatar {
-  margin-left: -0.875rem;
+.avatar-group.-overlap-lg .avatar + .avatar {
+  margin-left: calc(var(--avatar-group-overlap) - 0.125rem);
 }
-.avatar-group.-xl .avatar + .avatar {
-  margin-left: -1rem;
+.avatar-group.-overlap-xl .avatar + .avatar {
+  margin-left: calc(var(--avatar-group-overlap) - 0.25rem);
 }

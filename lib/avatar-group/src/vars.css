@@ -1,3 +1,4 @@
 :root {
   --avatar-radius: var(--radius);
+  --avatar-group-overlap: -0.75rem;
 }
