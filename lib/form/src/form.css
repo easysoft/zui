@@ -17,12 +17,17 @@ form {
 }
 
 .form-horizontal > .form-group label {
-  @apply text-right py-2 ;
+  @apply py-2 ;
+  text-align: var(--label-text-align);
   min-width: var(--label-width);
 }
 
 .form-control {
   @apply bg-white rounded border-solid border block h-8 text-xs py-1 px-2 w-full outline-none;
+}
+
+.form-control::-webkit-input-placeholder {
+  color: var(--color-placeholder-control);
 }
 
 .help-tips {
@@ -76,6 +81,13 @@ legend {
   margin-bottom: var(--legend-space);
   font-size: var(--legend-font-size);
   color: var(--legend-color);
+}
+
+.radio, .checkbox {
+  @apply block my-2 relative;
+  label {
+    @apply cursor-pointer mb-0 pl-5
+  }
 }
 
 .required {
