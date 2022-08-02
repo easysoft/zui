@@ -30,7 +30,7 @@ form {
   color: var(--color-placeholder-control);
 }
 
-.help-tips {
+.form-tip {
   @apply text-xs
 }
 
@@ -40,7 +40,7 @@ form {
 .has-success label {
   color: var(--color-has-success);
 }
-.has-success > .help-tips {
+.has-success > .form-tip {
   color: var(--color-has-success);
 }
 
@@ -50,7 +50,7 @@ form {
 .has-error label {
   color: var(--color-has-error);
 }
-.has-error > help-tips {
+.has-error > form-tip {
   color: var(--color-has-error);
 }
 
@@ -60,11 +60,11 @@ form {
 .has-warning label {
   color: var(--color-has-warning);
 }
-.has-warning > .help-tips {
+.has-warning > .form-tip {
   color: var(--color-has-warning);
 }
 
-.-tips-fixed > .form-group > .help-tips {
+.-tips-fixed > .form-group > .form-tip {
   @apply absolute
 }
 
@@ -85,9 +85,10 @@ legend {
 
 .radio, .checkbox {
   @apply block my-2 relative;
-  label {
-    @apply cursor-pointer mb-0 pl-5
-  }
+}
+
+.radio, .checkbox > label {
+  @apply cursor-pointer mb-0 pl-5;
 }
 
 .required {

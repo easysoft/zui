@@ -35,28 +35,28 @@
 
 ## 帮助性文本 
 
-使用 <div class="help-tips"> 来显示帮助性的文本并添加到表单控件组中。
+使用 <div class="form-tip"> 来显示帮助性的文本并添加到表单控件组中。
 
 ```html:example: flex gap-3
 <div>
   <div class="form-group">
     <label for="exampleInputAccount2">账号</label>
     <input type="text" class="form-control" id="exampleInputAccount2" placeholder="输入用来注册的用户名">
-    <div class="help-tips">用户名可以包含特殊字符及汉字。</div>
+    <div class="form-tip">用户名可以包含特殊字符及汉字。</div>
   </div>
 </div>
 ```
 
 ## 校验状态
 
-通过为表单控件组添加 .has-warning、.has-error、.has-success类即可应用相应的效验状态样式。这些样式会影响到表单控件组内的 <label>、.form-control 和 .help-tips 元素。
+通过为表单控件组添加 .has-warning、.has-error、.has-success类即可应用相应的效验状态样式。这些样式会影响到表单控件组内的 <label>、.form-control 和 .form-tip 元素。
 
 ```html:example: flex
 <form>
   <div class="form-group has-success">
     <label for="inputSuccess1">输入框（success）</label>
     <input type="text" class="form-control" id="inputSuccess1">
-    <div class="help-tips">这是帮助性提示文本。</div>
+    <div class="form-tip">这是帮助性提示文本。</div>
   </div>
   <div class="form-group has-warning">
     <label for="inputWarning1">输入框（warning）</label>
@@ -78,7 +78,7 @@
    <div class="form-group has-success">
      <label for="inputSuccess1">输入框（success）</label>
      <input type="text" class="form-control" id="inputSuccess1">
-     <div class="help-tips">这是帮助性提示文本。</div>
+     <div class="form-tip">这是帮助性提示文本。</div>
    </div>
    <div class="form-group has-warning">
      <label for="inputWarning1">输入框（warning）</label>
