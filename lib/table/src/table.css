@@ -12,8 +12,8 @@
     background: var(--table-striped-color);
 }
 
-.-hover tbody tr:hover td,
-.-hover tbody tr:hover th {
+.-row-hover tbody tr:hover td,
+.-row-hover tbody tr:hover th {
   background: var(--table-hover-color);
 }
 
