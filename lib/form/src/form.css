@@ -1,27 +1,32 @@
+form {
+  height: var(--form-height);
+  width: var(--form-width);
+}
 .form-group {
-  margin-bottom: var(--margin-bottom-group);
+  @apply w-full;
+  margin-bottom: var(--form-group-space);
 }
 
 .form-group label {
-  @apply inline-block font-bold;
+  @apply inline-block font-bold text-xs pr-2 whitespace-nowrap;
+  font-family: 'Abel';
+}
+
+.form-horizontal > .form-group {
+  @apply flex
+}
+
+.form-horizontal > .form-group label {
+  @apply text-right py-2 ;
   min-width: var(--label-width);
 }
 
-.form-horizontal .form-group {
-  @apply flex flex-row
-}
-
-.form-horizontal .form-group {
-  @apply -mx-3
-}
-
 .form-control {
-  @apply bg-white rounded border-solid border block h-8 text-xs py-1 px-2 w-full;
-  outline:none;
+  @apply bg-white rounded border-solid border block h-8 text-xs py-1 px-2 w-full outline-none;
 }
 
-.help-block {
-  @apply text-xs absolute
+.help-tips {
+  @apply text-xs
 }
 
 .has-success > .form-control {
@@ -30,7 +35,7 @@
 .has-success label {
   color: var(--color-has-success);
 }
-.has-success > .help-block {
+.has-success > .help-tips {
   color: var(--color-has-success);
 }
 
@@ -40,7 +45,7 @@
 .has-error label {
   color: var(--color-has-error);
 }
-.has-error > help-block {
+.has-error > help-tips {
   color: var(--color-has-error);
 }
 
@@ -50,6 +55,35 @@
 .has-warning label {
   color: var(--color-has-warning);
 }
-.has-warning > .help-block {
+.has-warning > .help-tips {
   color: var(--color-has-warning);
+}
+
+.-tips-fixed > .form-group > .help-tips {
+  @apply absolute
+}
+
+.-tips-fixed > .form-group {
+  margin-bottom: var(--form-group-space-fixed)
+}
+
+fieldset {
+  @apply w-full my-0 mx-px px-2 pt-1 pb-3;
+}
+
+legend {
+  @apply font-bold w-full block leading-normal;
+  margin-bottom: var(--legend-space);
+  font-size: var(--legend-font-size);
+  color: var(--legend-color);
+}
+
+.required {
+  position: relative;
+}
+
+.required:after {
+  @apply inline-block absolute top-0;
+  content: '*';
+  color: var(--required-content-color);
 }

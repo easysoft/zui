@@ -1,7 +1,15 @@
 :root {
-    --margin-bottom-group: 2rem;
-    --label-width: 5rem;
-    --color-has-error: var(--color-red-500);
-    --color-has-warning: var(--color-warning-500);
-    --color-has-success: var(--color-green-500);
+  --form-height: 100%;
+  --form-width: 100%;
+  --form-group-space: 0.625rem;
+  --form-group-space-fixed: 1rem;
+  --label-width: 5rem;
+  --color-has-error: var(--color-red-500);
+  --color-has-warning: var(--color-warning-500);
+  --color-has-success: var(--color-green-500);
+  --legend-space: 2rem;
+  --legend-border-color: var(--color-primary-400);
+  --legend-color: var(--color-black-500);
+  --legend-font-size: 18px;
+  --required-content-color: var(--color-danger-500); 
 }
