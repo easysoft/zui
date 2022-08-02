@@ -13,7 +13,8 @@
 .-rounded-xl {
   @apply rounded-xl;
 }
-.-pill {
+.-circle,
+.-rounded-full {
   @apply rounded-full;
 }
 .-rounded-none {

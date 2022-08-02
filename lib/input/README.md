@@ -83,7 +83,7 @@
 <div class="input-control -rounded-xl">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
-<div class="input-control -pill">
+<div class="input-control -circle">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
 ```

@@ -20,8 +20,8 @@
   <button type="button" class="btn -primary">主要按钮</button>
   <button type="button" class="btn -black -rounded-none">黑色按钮</button>
   <button type="button" class="btn -secondary-outline -square">正</button>
-  <button type="button" class="btn -dark-outline -pill">描边</button>
-  <button type="button" class="btn -danger-pale -square -pill">❤️</button>
+  <button type="button" class="btn -dark-outline -circle">描边</button>
+  <button type="button" class="btn -danger-pale -square -circle">❤️</button>
   <button type="button" class="btn -text-primary -ghost">链接按钮</button>
 </Example>
 
@@ -29,8 +29,8 @@
 <button type="button" class="btn -primary">主要按钮</button>
 <button type="button" class="btn -black -rounded-none">黑色按钮</button>
 <button type="button" class="btn -secondary-outline -square">正</button>
-<button type="button" class="btn -dark-outline -pill">描边</button>
-<button type="button" class="btn -danger-pale -square -pill">❤️</button>
+<button type="button" class="btn -dark-outline -circle">描边</button>
+<button type="button" class="btn -danger-pale -square -circle">❤️</button>
 <button type="button" class="btn -text-primary -ghost">链接按钮</button>
 ```
 
@@ -309,7 +309,7 @@
   <button type="button" class="btn -rounded-md">中等圆角</button>
   <button type="button" class="btn -rounded-lg">大圆角</button>
   <button type="button" class="btn -rounded-xl">超大圆角</button>
-  <button type="button" class="btn -pill">完整圆角</button>
+  <button type="button" class="btn -circle">完整圆角</button>
 </Example>
 
 ```html
@@ -319,7 +319,7 @@
 <button type="button" class="btn -rounded-md">中等圆角</button>
 <button type="button" class="btn -rounded-lg">大圆角</button>
 <button type="button" class="btn -rounded-xl">超大圆角</button>
-<button type="button" class="btn -pill">完整圆角</button>
+<button type="button" class="btn -circle">完整圆角</button>
 ```
 
 ### 按钮阴影效果
@@ -388,22 +388,22 @@
 
 ## 圆形按钮
 
-当与修饰类 `-pill` 与 `-square` 一起使用时则获得圆形按钮。
+当与修饰类 `-circle` 与 `-square` 一起使用时则获得圆形按钮。
 
 <Example class="flex gap-4 items-end">
-  <button type="button" class="btn -square -pill -xs">XS</button>
-  <button type="button" class="btn -square -pill -sm">S</button>
-  <button type="button" class="btn -square -pill">正</button>
-  <button type="button" class="btn -square -pill -lg">L</button>
-  <button type="button" class="btn -square -pill -xl">XL</button>
+  <button type="button" class="btn -square -circle -xs">XS</button>
+  <button type="button" class="btn -square -circle -sm">S</button>
+  <button type="button" class="btn -square -circle">正</button>
+  <button type="button" class="btn -square -circle -lg">L</button>
+  <button type="button" class="btn -square -circle -xl">XL</button>
 </Example>
 
 ```html
-<button type="button" class="btn -square -pill -xs">XS</button>
-<button type="button" class="btn -square -pill -sm">S</button>
-<button type="button" class="btn -square -pill">正</button>
-<button type="button" class="btn -square -pill -lg">L</button>
-<button type="button" class="btn -square -pill -xl">XL</button>
+<button type="button" class="btn -square -circle -xs">XS</button>
+<button type="button" class="btn -square -circle -sm">S</button>
+<button type="button" class="btn -square -circle">正</button>
+<button type="button" class="btn -square -circle -lg">L</button>
+<button type="button" class="btn -square -circle -xl">XL</button>
 ```
 
 ## 禁用状态

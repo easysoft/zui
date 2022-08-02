@@ -133,7 +133,7 @@
 <button type="button" class="btn -primary -rounded-md">Button</button>
 <button type="button" class="btn -primary -rounded-lg">Button</button>
 <button type="button" class="btn -primary -rounded-xl">Button</button>
-<button type="button" class="btn -primary -pill">Button</button>
+<button type="button" class="btn -primary -circle">Button</button>
 ```
 
 ## Shadow

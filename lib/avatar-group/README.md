@@ -3,9 +3,9 @@
 ## Avatar-group
 ```html:example: flex gap-3
 <div class="avatar-group ">
-  <div class="avatar -pill"><img src="/favicon.svg"></div>
-  <div class="avatar -pill -success">Icon</div>
-  <div class="avatar -pill -warning">+1</div>
+  <div class="avatar -circle"><img src="/favicon.svg"></div>
+  <div class="avatar -circle -success">Icon</div>
+  <div class="avatar -circle -warning">+1</div>
 </div>
 ```
 
@@ -53,9 +53,9 @@
   <div class="avatar -warning -rounded-xl">Z</div>
 </div>
 <div class="avatar-group">
-  <div class="avatar -pill"><img src="/favicon.svg"></div>
-  <div class="avatar -success -pill">头像</div>
-  <div class="avatar -warning -pill">Z</div>
+  <div class="avatar -circle"><img src="/favicon.svg"></div>
+  <div class="avatar -success -circle">头像</div>
+  <div class="avatar -warning -circle">Z</div>
 </div>
 ```
 
@@ -64,38 +64,38 @@
 ```html:example: flex gap-3
 
 <div class="avatar-group -overlap-xs">
-  <div class="avatar -xs -pill"><img src="/favicon.svg"></div>
-  <div class="avatar -xs -pill -success">Icon</div>
-  <div class="avatar -xs -pill -warning">+1</div>
+  <div class="avatar -xs -circle"><img src="/favicon.svg"></div>
+  <div class="avatar -xs -circle -success">Icon</div>
+  <div class="avatar -xs -circle -warning">+1</div>
 </div>
 
 <div class="avatar-group -overlap-sm">
-  <div class="avatar -sm -pill"><img src="/favicon.svg"></div>
-  <div class="avatar -sm -pill -success">Icon</div>
-  <div class="avatar -sm -pill -warning">+1</div>
+  <div class="avatar -sm -circle"><img src="/favicon.svg"></div>
+  <div class="avatar -sm -circle -success">Icon</div>
+  <div class="avatar -sm -circle -warning">+1</div>
 </div>
 <div class="avatar-group">
-  <div class="avatar -pill"><img src="/favicon.svg"></div>
-  <div class="avatar -pill -success">Icon</div>
-  <div class="avatar -pill -warning">+1</div>
+  <div class="avatar -circle"><img src="/favicon.svg"></div>
+  <div class="avatar -circle -success">Icon</div>
+  <div class="avatar -circle -warning">+1</div>
 </div>
 <div class="avatar-group -overlap-lg">
-  <div class="avatar -lg -pill"><img src="/favicon.svg"></div>
-  <div class="avatar -lg -pill -success">Icon</div>
-  <div class="avatar -lg -pill -warning">+1</div>
+  <div class="avatar -lg -circle"><img src="/favicon.svg"></div>
+  <div class="avatar -lg -circle -success">Icon</div>
+  <div class="avatar -lg -circle -warning">+1</div>
 </div>
 <div class="avatar-group -overlap-xl">
-  <div class="avatar -xl -pill"><img src="/favicon.svg"></div>
-  <div class="avatar -xl -pill -success">Icon</div>
-  <div class="avatar -xl -pill -warning">+1</div>
+  <div class="avatar -xl -circle"><img src="/favicon.svg"></div>
+  <div class="avatar -xl -circle -success">Icon</div>
+  <div class="avatar -xl -circle -warning">+1</div>
 </div>
 ```
 ## Outline
 
 ```html:example: flex gap-3
 <div class="avatar-group -outline">
-  <div class="avatar -pill -primary-outline">孙</div>
-  <div class="avatar -pill -secondary-outline">李</div>
-  <div class="avatar -pill -success-outline">周</div>
+  <div class="avatar -circle -primary-outline">孙</div>
+  <div class="avatar -circle -secondary-outline">李</div>
+  <div class="avatar -circle -success-outline">周</div>
 </div>
 ```

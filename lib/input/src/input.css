@@ -88,7 +88,7 @@ input::placeholder {
 .input-control.-rounded-xl .form-control {
     @apply rounded-xl;
 }
-.input-control.-pill .form-control {
+.input-control.-circle .form-control {
     @apply rounded-full;
 }
 .input-control.-rounded-none .form-control {
