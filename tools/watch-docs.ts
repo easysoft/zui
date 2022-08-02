@@ -4,14 +4,14 @@ import chokidar from 'chokidar';
 
 const libPath = path.resolve(process.cwd(), './lib/');
 const docsPath = path.resolve(process.cwd(), './docs/lib/');
-const watchPath = `${libPath}/*/docs/**/*.md`;
+const watchPath = [`${libPath}/*/docs/**/*.md`, `${libPath}/*/assets/**/*`];
 const watcher = chokidar.watch(watchPath, {persistent: true, ignoreInitial: false});
 
 console.log(`> Watch docs... ${watchPath}`);
 
 function getDestFile(file: string) {
     const libName = file.replace(`${libPath}/`, '').split('/')[0];
-    return path.resolve(docsPath, libName, file.replace(`${libPath}/${libName}/docs/`, ''));
+    return path.resolve(docsPath, libName, file.replace(`${libPath}/${libName}/docs/`, '').replace(`${libPath}/${libName}/assets/`, 'assets/'));
 }
 watcher.on('add', (file) => {
     const destFile = getDestFile(file);
