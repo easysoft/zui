@@ -1,0 +1,13 @@
+.tag{
+  @apply h-5 px-1 leading-5 box-content;
+  background-color: var(--tag-background);
+  border-radius: var(--radius);
+  border: 1px solid var(--tag-border-color);
+  color: var(--tag-color);
+}
+.tag.-lg {
+    @apply text-lg px-2 h-6 leading-6;
+}
+.tag.-xl {
+    @apply text-xl px-3 h-7 leading-7;
+}

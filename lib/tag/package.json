@@ -1,0 +1,14 @@
+{
+    "name": "@zui/tag",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "keywords": ["css", "zui:control"],
+    "dependencies": {
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/utilities": "workspace:*"
+    }
+}
