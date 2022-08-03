@@ -44,11 +44,6 @@
 ## 尺寸
 
 ```html:example: flex gap-3
-<div class="input-group -xl">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-</div>
-
 <div class="input-group -lg">
   <span class="input-group-addon">前</span>
   <input type="text" class="form-control" placeholder="用户名">
@@ -60,11 +55,6 @@
 </div>
 
 <div class="input-group -sm">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-</div>
-
-<div class="input-group -xs">
   <span class="input-group-addon">前</span>
   <input type="text" class="form-control" placeholder="用户名">
 </div>
@@ -113,14 +103,14 @@
 ```html:example: flex gap-3
 <div class="input-group">
   <input type="text" class="form-control">
-  <div class="dropdown">
+  <div class="dropdown -align-right">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-    <ul class="dropdown-menu pull-right" role="menu">
-      <!-- <li><a href="#">选项</a></li>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="#">选项</a></li>
       <li><a href="#">另一个选项</a></li>
       <li><a href="#">更多选项</a></li>
       <li class="divider"></li>
-      <li><a href="#">特别内容</a></li> -->
+      <li><a href="#">特别内容</a></li>
     </ul>
   </div>
 </div>
@@ -133,16 +123,16 @@
   <input type="text" class="form-control">
   <div class="input-group-btn">
     <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
-    <div class="dropdown -right">
+    <div class="dropdown -align-right">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
-        选项
+        选项 <span class="caret"></span>
       </button>
-        <ul class="dropdown-menu -right" role="menu">
-        <!-- <li><a href="#">选项</a></li>
+        <ul class="dropdown-menu" role="menu">
+        <li><a href="#">选项</a></li>
         <li><a href="#">另一个选项</a></li>
         <li><a href="#">更多选项</a></li>
         <li class="divider"></li>
-        <li><a href="#">特别内容</a></li> -->
+        <li><a href="#">特别内容</a></li>
       </ul>
     </div>
   </div>
