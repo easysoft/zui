@@ -900,7 +900,7 @@ myPicker.setValue();
 var myPicker = $('#myPicker').data('zui.picker');
 
 // 获取选中的值。
-myPicker.setValue();
+myPicker.getValue();
 ```
 
 ### `updateOptionList(optionList, reset)`

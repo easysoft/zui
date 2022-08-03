@@ -854,7 +854,7 @@ Get selected value.
 var myPicker = $('#myPicker').data('zui.picker');
 
 // Get selected value.
-myPicker.setValue();
+myPicker.getValue();
 ```
 
 ### `updateOptionList(optionList, reset)`
