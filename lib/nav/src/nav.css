@@ -21,3 +21,53 @@
   color: var(--color-primary-500);
   background-color: var(--color-primary-200);
 }
+
+.-simple > .active li:hover {
+  /* 颜色变化问题  primary 下*/
+  background-color: var(--color-primary-500);
+}
+
+.-nav-primary > li {
+  @apply border-solid border-2;
+}
+
+.-nav-primary > li+li {
+  border-left: none;
+}
+
+.-nav-primary > .active {
+  background-color: var(--color-primary-500);
+  @apply text-white;
+}
+
+.-nav-secondary > li {
+  @apply border-b;
+  border-bottom: 2px solid;
+}
+
+.-nav-secondary > .active {
+  color: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+}
+
+.-nav-tabs {
+  border-bottom:1px solid;
+}
+
+.-nav-tabs > .active {
+  border:1px solid;
+  margin-bottom: -2px;
+}
+
+.-nav-stacked {
+  @apply contents;
+}
+
+.-nav-stacked > li {
+  @apply border;
+}
+
+.-nav-justified {
+  justify-content: space-around;
+}
+

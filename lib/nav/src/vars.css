@@ -1,3 +1,4 @@
 :root {
   --color-hover-nav: var(--color-gray-200);
+  --border-radius-nav: var(--radius);
 }
