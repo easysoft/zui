@@ -6,9 +6,9 @@
 
 ```html:example
 <ul class="nav">
-  <li class="active"><a href="">首页</a></li>
-  <li><a href="">动态 </a></li>
-  <li><a href="">项目 </a></li>
+  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###">动态 </a></li>
+  <li><a href="###">项目 </a></li>
 </ul>
 ```
 
@@ -16,9 +16,9 @@
 
 ```html:example
  <ul class="nav -default">
-   <li class="active"><a href="">首页</a></li>
+   <li class="active"><a href="###">首页</a></li>
    <li><a href="###">动态 </a></li>
-   <li><a href="">项目 </a></li>
+   <li><a href="###">项目 </a></li>
  </ul>
 ```
 
@@ -27,8 +27,70 @@
 
 ```html:example
 <ul class="nav -simple">
-  <li class="active"><a href="">首页</a></li>
-  <li><a href="">动态 </a></li>
-  <li><a href="">项目 </a></li>
+  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###">动态 </a></li>
+  <li><a href="###">项目 </a></li>
+</ul>
+```
+
+## 主要导航
+
+```html:example
+<ul class="nav -nav-primary">
+  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###">动态 </a></li>
+  <li><a href="###">项目 </a></li>
+</ul>
+```
+
+## 次要导航
+
+ ```html:example
+ <ul class="nav -nav-secondary">
+   <li class="active"><a href="###">首页</a></li>
+   <li><a href="###">动态 </a></li>
+   <li><a href="###">项目 </a></li>
+ </ul>
+ ```
+## 标签页导航
+
+ ```html:example
+ <ul class="nav -nav-tabs">
+   <li class="active"><a href="###">首页</a></li>
+   <li><a href="###">动态 </a></li>
+   <li><a href="###">项目 </a></li>
+ </ul>
+ ```
+
+## 丰富样式
+
+### 垂直排列
+
+```html:example
+<ul class="nav -nav-stacked">
+  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###">动态 </a></li>
+  <li><a href="###">项目 </a></li>
+</ul>
+```
+### 自适应宽度
+
+``` html:example
+
+<ul class="nav -nav-justified">
+  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###">动态 </a></li>
+  <li><a href="###">项目 </a></li>
+</ul> 
+```
+
+### 带标题的导航
+
+```html:example
+<ul class="nav">
+  <li class="title"><a href="###">标题</a></li>
+  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###">动态 </a></li>
+  <li><a href="###">项目 </a></li>
 </ul>
 ```
