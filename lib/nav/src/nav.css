@@ -96,7 +96,7 @@
 }
 
 .-nav-justified {
-  @apply justify-around;
+  @apply justify-around text-center;
 }
 
 .-nav-justified > li {
