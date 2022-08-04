@@ -8,14 +8,14 @@
   margin-left: var(--avatar-group-overlap);
 }
 .avatar-group.-overlap-xs .avatar + .avatar {
-  margin-left: calc(var(--avatar-group-overlap) + 0.25rem);
+  margin-left: calc(var(--avatar-group-overlap) + calc(2 * var(--avatar-overlap-scale)));
 }
 .avatar-group.-overlap-sm .avatar + .avatar {
-  margin-left: calc(var(--avatar-group-overlap) + 0.125rem);
+  margin-left: calc(var(--avatar-group-overlap) + var(--avatar-overlap-scale));
 }
 .avatar-group.-overlap-lg .avatar + .avatar {
-  margin-left: calc(var(--avatar-group-overlap) - 0.125rem);
+  margin-left: calc(var(--avatar-group-overlap) - var(--avatar-overlap-scale));
 }
 .avatar-group.-overlap-xl .avatar + .avatar {
-  margin-left: calc(var(--avatar-group-overlap) - 0.25rem);
+  margin-left: calc(var(--avatar-group-overlap) - calc(2 * var(--avatar-overlap-scale)));
 }
