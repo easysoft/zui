@@ -19,17 +19,13 @@
 <Example class="flex gap-4 flex-wrap" background="light-circle">
   <span class="tag -primary">主要标签</span>
   <span class="tag -black -rounded-none">黑色标签</span>
-  <span class="tag -secondary-outline -square">正</span>
   <span class="tag -dark-outline -circle">描边</span>
 </Example>
 
 ```html
 <span class="tag -primary">主要标签</span>
 <span class="tag -black -rounded-none">黑色标签</span>
-<span class="tag -secondary-outline -square">正</span>
 <span class="tag -dark-outline -circle">描边</span>
-<span class="tag -danger-pale -square -circle">❤️</span>
-<span class="tag -text-primary -ghost">链接标签</span>
 ```
 
 ## 外观类型
