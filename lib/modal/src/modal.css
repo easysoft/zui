@@ -1,0 +1,94 @@
+.modal {
+  @apply hidden overflow-hidden	fixed top-0 right-0 bottom-0 left-0;
+  background-color: var(--modal-bg-color);
+  outline: 0;
+  z-index: 99;
+}
+.modal-dialog {
+  @apply relative w-auto my-0 mx-auto bg-clip-padding w-3/12 bg-white -translate-x-0 -translate-y-1/4;
+  border-radius: var(--modal-radius);
+  pointer-events: initial;
+  outline: 0;
+}
+
+.modal > .modal-dialog {
+  transform: translate(0, 0%);
+  animation: dialog-fade-in .3s;
+}
+
+.modal-header {
+  padding: var(--modal-title-padding);
+  border-bottom: 1px solid var(--modal-border-color);
+}
+.modal-header > .close {
+  @apply absolute top-3 right-4 overflow-hidden text-xl;
+  color: var(--color-gray-500);
+}
+.modal-header > .modal-title {
+  @apply m-0 font-semibold;
+}
+
+.modal-body {
+  @apply relative;
+  padding: var(--modal-inner-padding);
+}
+
+.modal-footer {
+  @apply text-right;
+  border-top: 1px solid var(--modal-border-color);
+  padding: var(--modal-inner-padding);
+}
+
+.modal-footer > .btn {
+  @apply mx-2;
+}
+
+.modal-dialog.-fullscreen {
+  @apply relative m-0 rounded-none;
+  width: 100%!important;
+  height: 100%!important;
+}
+.modal-dialog.-fullscreen > .modal-body {
+  @apply absolute right-0 bottom-0 left-0 overflow-y-auto;
+}
+.-scroll-inside {
+  overflow: hidden!important;
+}
+.body-modal-scroll-inside {
+  @apply overflow-auto;
+}
+
+.modal-dialog.-sm {
+  width: var(--modal-sm);
+}
+.modal-dialog.-md {
+  width: var(--modal-md);
+}
+.modal-dialog.-lg {
+  width: var(--modal-lg);
+}
+.-border-none .modal-header,
+.-border-none .modal-footer {
+  @apply border-none;
+}
+@keyframes dialog-fade-in {
+  0% {
+    transform: translate3d(0, -1.25rem, 0);
+    @apply opacity-0;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    @apply opacity-100;
+  }
+}
+
+@keyframes dialog-fade-out {
+  0% {
+    transform: translate3d(0, 0, 0);
+    @apply opacity-100;
+  }
+  100% {
+    transform: translate3d(0, -1.25rem, 0);
+    @apply opacity-0;
+  }
+}
