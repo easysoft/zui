@@ -6,8 +6,11 @@
   color: var(--tag-color);
 }
 .tag.-lg {
-    @apply text-lg px-2 h-6 leading-6;
+  @apply text-lg px-2 h-6 leading-6;
 }
-.tag.-xl {
-    @apply text-xl px-3 h-7 leading-7;
+.tag.-sm {
+  @apply text-sm h-4 leading-4;
+}
+.tag.-dot {
+  @apply rounded-full w-3 h-3 px-0;
 }

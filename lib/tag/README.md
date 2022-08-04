@@ -9,9 +9,9 @@
 ## Tag Sizes
 
 ```html:example: flex gap-3 items-end
-<span class="tag -xl">Extra Large Tag</span>
 <span class="tag -lg">Large Tag</span>
 <span class="tag">Normal Tag</span>
+<span class="tag -sm">Small Tag</span>
 ```
 
 ## Tag Styles
@@ -70,6 +70,22 @@
 <span class="tag -gray-pale">gray</span>
 <span class="tag -dark-pale">dark</span>
 ```
+
+```html:example: flex gap-3
+<span class="tag -dot"></span>
+<span class="tag -dot -primary"></span>
+<span class="tag -dot -secondary"></span>
+<span class="tag -dot -success"></span>
+<span class="tag -dot -warning"></span>
+<span class="tag -dot -danger"></span>
+<span class="tag -dot -important"></span>
+<span class="tag -dot -special"></span>
+<span class="tag -dot -lighter"></span>
+<span class="tag -dot -light"></span>
+<span class="tag -dot -gray"></span>
+<span class="tag -dot -dark"></span>
+```
+
 ## Radius
 
 ```html:example: flex gap-3
@@ -78,4 +94,9 @@
 <span class="tag -primary -rounded">span</span>
 <span class="tag -primary -rounded-md">span</span>
 <span class="tag -primary -circle">span</span>
+```
+## Button Tag
+
+```html:example: flex gap-3
+<button class="btn" type="button">按钮 <span class="tag -sm -circle">12</span></button>
 ```

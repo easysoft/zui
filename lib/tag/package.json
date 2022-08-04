@@ -4,11 +4,13 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
-    "keywords": ["css", "zui:control"],
-    "dependencies": {
-    },
+    "keywords": [
+        "css",
+        "zui:control"
+    ],
     "devDependencies": {
         "@zui/base": "workspace:*",
+        "@zui/button": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*"
     }
 }
