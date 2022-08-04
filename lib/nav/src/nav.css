@@ -38,7 +38,7 @@
 }
 .-nav-primary > .active {
   background-color: var(--color-primary-500);
-  @apply text-white;
+  color: var(--color-font-nav)
 }
 
 .-nav-secondary > li {
@@ -60,12 +60,12 @@
 
 .-nav-circle > .active {
   background-color: var(--color-primary-500);
-  color: white;
+  color: var(--color-font-nav);
   border-radius: var(--radius-circle-nav);
 }
 
 .-nav-stacked {
-  display:block;
+  @apply block;
 }
 .-nav-stacked.-nav-primary > li+li {
   border: unset;
@@ -73,18 +73,15 @@
   border-color: var(--color-border-nav);
 }
 .-nav-stacked.-nav-tabs {
-  border-bottom: 0;
-  @apply border-r border-solid;
+  @apply border-b-0 border-r border-solid;
   border-color:var(--color-border-nav);
 }
 .-nav-stacked.-nav-tabs > .active {
-   border-right: 0;
    border-color: var(--color-border-nav);
-   @apply bg-white border-solid border-t border-b border-l -mr-px;
+   @apply bg-white border-solid border-r-0 border-t border-b border-l -mr-px;
 }
 .-nav-stacked.-nav-secondary > li {
-  border-bottom:0px;
-  @apply border-l border-solid;
+  @apply border-l border-solid border-b-0;
   border-color: var(--color-border-nav);
 }
 .-nav-stacked.-nav-secondary > .active {
