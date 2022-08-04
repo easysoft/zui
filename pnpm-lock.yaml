@@ -125,6 +125,7 @@ importers:
       '@zui/nav': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
       '@zui/table': workspace:^0.0.1
+      '@zui/tag': workspace:^0.0.1
       '@zui/utilities': workspace:^0.0.1
     dependencies:
       '@zui/avatar': link:../lib/avatar
@@ -143,6 +144,7 @@ importers:
       '@zui/nav': link:../lib/nav
       '@zui/store': link:../lib/store
       '@zui/table': link:../lib/table
+      '@zui/tag': link:../lib/tag
       '@zui/utilities': link:../lib/utilities
 
   config:

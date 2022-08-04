@@ -72,6 +72,54 @@
 ```
 
 ```html:example: flex gap-3
+<span class="tag -primary-pale -border-primary">Primary</span>
+<span class="tag -secondary-pale -border-secondary">Secondary</span>
+<span class="tag -success-pale -border-success">Success</span>
+<span class="tag -warning-pale -border-warning">Warning</span>
+<span class="tag -danger-pale -border-danger">Danger</span>
+<span class="tag -important-pale -border-important">Important</span>
+<span class="tag -special-pale -border-special">Special</span>
+<span class="tag -lighter-pale -border-lighter">Lighter</span>
+<span class="tag -light-pale -border-light">Light</span>
+<span class="tag -gray-pale -border-gray">Gray</span>
+<span class="tag -dark-pale -border-dark">Dark</span>
+
+```
+
+```html:example: flex gap-3
+<span class="tag -text-primary">Primary</span>
+<span class="tag -text-secondary">Secondary</span>
+<span class="tag -text-success">Success</span>
+<span class="tag -text-warning">Warning</span>
+<span class="tag -text-danger">Danger</span>
+<span class="tag -text-important">Important</span>
+<span class="tag -text-special">Special</span>
+<span class="tag -text-lighter">Lighter</span>
+<span class="tag -text-light">Light</span>
+<span class="tag -text-gray">Gray</span>
+<span class="tag -text-dark">Dark</span>
+<span class="tag -text-darker">Darker</span>
+<span class="tag -text-black">Black</span>
+
+```
+
+```html:example: flex gap-3
+<span class="tag -border-primary">Primary</span>
+<span class="tag -border-secondary">Secondary</span>
+<span class="tag -border-success">Success</span>
+<span class="tag -border-warning">Warning</span>
+<span class="tag -border-danger">Danger</span>
+<span class="tag -border-important">Important</span>
+<span class="tag -border-special">Special</span>
+<span class="tag -border-lighter">Lighter</span>
+<span class="tag -border-light">Light</span>
+<span class="tag -border-gray">Gray</span>
+<span class="tag -border-dark">Dark</span>
+<span class="tag -border-darker">Darker</span>
+<span class="tag -border-black">Black</span>
+```
+
+```html:example: flex gap-3
 <span class="tag -dot"></span>
 <span class="tag -dot -primary"></span>
 <span class="tag -dot -secondary"></span>
