@@ -25,6 +25,7 @@ importers:
       '@zui/nav': workspace:0.0.1
       '@zui/store': workspace:0.0.1
       '@zui/table': workspace:0.0.1
+      '@zui/tag': workspace:0.0.1
       '@zui/utilities': workspace:0.0.1
       autoprefixer: ^10.4.7
       chokidar: ^3.5.3

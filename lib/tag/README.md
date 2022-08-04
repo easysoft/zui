@@ -137,11 +137,11 @@
 ## Radius
 
 ```html:example: flex gap-3
-<span class="tag -primary -rounded-none">span</span>
-<span class="tag -primary -rounded-sm">span</span>
-<span class="tag -primary -rounded">span</span>
-<span class="tag -primary -rounded-md">span</span>
-<span class="tag -primary -circle">span</span>
+<span class="tag -rounded-none">span</span>
+<span class="tag -rounded-sm">span</span>
+<span class="tag -rounded">span</span>
+<span class="tag -rounded-md">span</span>
+<span class="tag -circle">span</span>
 ```
 ## Button Tag
 
