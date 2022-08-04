@@ -13,19 +13,19 @@ export default class Modal {
         };
         this.options = options;
         if (options.show) {
-            this.show(this.$modal);
+            this.onShow(this.$modal);
         } else {
-            this.hide(this.$modal);
+            this.onHide(this.$modal);
         }
-        if (options.show && options.position) this.adjustPosition(options.position);
-        this.$modal.onclick = (e) => {
-            if (e.target.dataset.dismiss && e.target.dataset.dismiss === 'modal' ||
-                e.target.parentElement.dataset.dismiss && e.target.parentElement.dataset.dismiss === 'modal'
-            ) {
-                this.hide(this.$modal);
-                e.stopPropagation();
-            }
-            
+        if (options.show && options.position) this.adjustPosition(options.position, null);
+        this.$modal.onclick = (e) => this.onClick(e);
+
+        window.onresize = () => {
+            if (options.show && options.position) this.adjustPosition(options.position, null);
+        };
+
+        window.onbeforeunload = () => {
+            this.onClear('destory');
         };
     }
 
@@ -33,26 +33,29 @@ export default class Modal {
         return this.$modal.dataset.modalClosable;
     }
 
-    toggle(ele): void {
-        ele.classList.add('block');
+    onClick(e): void {
+        if ( e.target.dataset?.dismiss === 'modal' || e.target.parentElement.dataset?.dismiss === 'modal') {
+            this.onHide(this.$modal);
+            e.stopPropagation();
+        }
     }
 
-    show(ele): void {
+    onShow(ele): void {
         document.body.style.overflow = 'hidden';
         ele.classList.add('block');
     }
 
-    hide(ele): void {
+    onHide(ele): void {
         if (ele && ele.classList) {
             document.body.style.overflow = 'auto';
             ele.classList.remove('block');
         }
     }
 
-    clear(): void {
+    onClear(type?: string): void {
         const modal: NodeListOf<HTMLElement> = document.querySelectorAll('.modal');
         modal.forEach(item => {
-            if (item.dataset.modalClosable !== 'false') {
+            if (item.dataset.modalClosable !== 'false' || type === 'destory') {
                 item.classList.remove('block');
             }
         });
@@ -66,9 +69,9 @@ export default class Modal {
         }
         if (position === undefined) position = this.options.position;
         if (position === undefined || position === null) return;
-        const $dialog = this.$modal.getElementsByClassName('modal-dialog');
+        const $dialog = this.$modal.getElementsByClassName('modal-dialog')[0];
         const winHeight = window.innerHeight;
-        const half = Math.max(0, (winHeight - $dialog[0].clientHeight) / 2);
+        const half = Math.max(0, (winHeight - $dialog.clientHeight) / 2);
         let top = null;
         if (position === 'fit') {
             top = `${half > 50 ? Math.floor(half * 2 / 3) : half}px`;
@@ -77,7 +80,20 @@ export default class Modal {
         } else if (!this.isPlainObject(position)) {
             top = position;
         }
-        $dialog[0].setAttribute('style', `top: ${top}`);
+        $dialog.setAttribute('style', `top: ${top}`);
+
+        if ($dialog.className.includes('-fullscreen')) {
+            const dialogChildren = $dialog.childNodes;
+            if (dialogChildren?.length) {
+                const headerHeight = dialogChildren[1]?.getElementsByClassName('modal-header')[0].clientHeight || 0;
+                const $dialogBody = dialogChildren[1].getElementsByClassName('modal-body')[0];
+                const footerHeight = dialogChildren[1]?.getElementsByClassName('modal-footer')[0].clientHeight || 0;
+                const bodyMaxHeight = winHeight - headerHeight - footerHeight;
+                const bodyOverflow = $dialogBody.scrollHeight > bodyMaxHeight ? 'auto' : 'visible';
+                $dialogBody.setAttribute('style', `max-height:${bodyMaxHeight}px;overflow:${bodyOverflow}`);
+            }
+        }
+       
     }
 
     isPlainObject(obj) : boolean {
@@ -86,7 +102,7 @@ export default class Modal {
 }
 document.onclick = function (e) {
     if (e !== null && e.target instanceof HTMLElement) {
-        if (e.target.dataset.toggle && e.target.dataset.toggle === 'modal') {
+        if (e.target.dataset?.toggle === 'modal') {
             let target =  e.target.dataset.target;
             let options = {
                 show: true,
@@ -97,16 +113,15 @@ document.onclick = function (e) {
             }
             if (!target.length) return;
             const element = document.querySelector(target);
-            if ( e.target.dataset.position) {
+            if (e.target.dataset.position) {
                 options = {
                     position: e.target.dataset.position,
                     ...options,
                 };
             }
             new Modal(element, options);
-        } else {
-            new Modal(e, {}).clear();
-            // console.log('点击其他');
+        } else if (!e.target.parentElement.className.includes('modal')) {
+            new Modal(e, {}).onClear();
         }
     }
 };
