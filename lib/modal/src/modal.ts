@@ -38,11 +38,13 @@ export default class Modal {
     }
 
     show(ele): void {
+        document.body.style.overflow = 'hidden';
         ele.classList.add('block');
     }
 
     hide(ele): void {
         if (ele && ele.classList) {
+            document.body.style.overflow = 'auto';
             ele.classList.remove('block');
         }
     }
