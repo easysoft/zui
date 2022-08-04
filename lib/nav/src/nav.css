@@ -1,18 +1,21 @@
 .nav {
-  @apply flex;
+  @apply flex w-full;
 }
 
 .nav > li {
   @apply px-3 py-2;
 }
 
+.nav > .active {
+  background-color: var(--color-hover-nav);
+}
 .nav > li:hover {
   background-color: var(--color-hover-nav);
 }
-
-.nav > li:focus {
-  background-color: var(--color-hovar-nav);
+.nav > .li-title:hover {
+  background-color: unset;
 }
+
 .-default {
   @apply contents;
 }
@@ -28,46 +31,82 @@
 }
 
 .-nav-primary > li {
-  @apply border-solid border-2;
+  @apply border-solid border;
 }
-
 .-nav-primary > li+li {
-  border-left: none;
+  @apply border-l-0;
 }
-
 .-nav-primary > .active {
   background-color: var(--color-primary-500);
   @apply text-white;
 }
 
 .-nav-secondary > li {
-  @apply border-b;
-  border-bottom: 2px solid;
+  @apply border-solid border-b;
+  border-color: var(--color-border-nav);
 }
-
 .-nav-secondary > .active {
   color: var(--color-primary-500);
   border-color: var(--color-primary-500);
 }
 
 .-nav-tabs {
-  border-bottom:1px solid;
+  @apply border-b border-solid;
+  border-color: var(--color-border-nav);
+}
+.-nav-tabs > .active {
+  @apply  bg-white border-solid border-t border-r border-l -mb-px; 
 }
 
-.-nav-tabs > .active {
-  border:1px solid;
-  margin-bottom: -2px;
+.-nav-circle > .active {
+  background-color: var(--color-primary-500);
+  color: white;
+  border-radius: var(--radius-circle-nav);
 }
 
 .-nav-stacked {
-  @apply contents;
+  display:block;
 }
-
-.-nav-stacked > li {
-  @apply border;
+.-nav-stacked.-nav-primary > li+li {
+  border: unset;
+  @apply border border-solid border-t-0;
+  border-color: var(--color-border-nav);
+}
+.-nav-stacked.-nav-tabs {
+  border-bottom: 0;
+  @apply border-r border-solid;
+  border-color:var(--color-border-nav);
+}
+.-nav-stacked.-nav-tabs > .active {
+   border-right: 0;
+   border-color: var(--color-border-nav);
+   @apply bg-white border-solid border-t border-b border-l -mr-px;
+}
+.-nav-stacked.-nav-secondary > li {
+  border-bottom:0px;
+  @apply border-l border-solid;
+  border-color: var(--color-border-nav);
+}
+.-nav-stacked.-nav-secondary > .active {
+  color: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+}
+.-nav-stacked.-nav-circle > .active{
+  border-radius:10%;
 }
 
 .-nav-justified {
-  justify-content: space-around;
+  @apply justify-around;
 }
 
+.-nav-justified > li {
+  @apply w-full;
+}
+
+.li-title {
+  @apply font-bold;
+  color:var(--color-title-nav);
+}
+.-nav-primary > .li-title {
+  background-color:var(--color-hover-nav);
+}

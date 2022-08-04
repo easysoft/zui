@@ -1,4 +1,6 @@
 :root {
   --color-hover-nav: var(--color-gray-200);
-  --border-radius-nav: var(--radius);
+  --color-border-nav: var(--color-gray-300);
+  --color-title-nav: var(--color-gray-700);
+  --radius-circle-nav: 35%;
 }

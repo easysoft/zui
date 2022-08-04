@@ -47,3 +47,16 @@
   </li>
 </ul>
 ```
+window.onload = function () {
+    const $nav = document.querySelectorAll('ul.nav');
+    console.log($nav);
+    document.onclick = function (e) {
+        if (e !== null && e.target instanceof HTMLElement && e.target.tagName == 'A') {
+            const element = e.target.parentNode.parentNode.querySelector('.active');
+            if (element) {
+                element.classList.remove('active');
+            }
+            e.target.parentNode.classList.add('active');
+        }
+    };
+};
