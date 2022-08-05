@@ -16,8 +16,8 @@ importers:
       '@zui/breadcrumb': workspace:0.0.1
       '@zui/browser-helpers': workspace:0.0.1
       '@zui/button': workspace:0.0.1
-      '@zui/datatable': workspace:0.0.1
       '@zui/dropdown': workspace:0.0.1
+      '@zui/dtable': workspace:0.0.1
       '@zui/form': workspace:0.0.1
       '@zui/helpers': workspace:0.0.1
       '@zui/input': workspace:0.0.1
@@ -62,8 +62,8 @@ importers:
       '@zui/breadcrumb': link:lib/breadcrumb
       '@zui/browser-helpers': link:lib/browser-helpers
       '@zui/button': link:lib/button
-      '@zui/datatable': link:lib/datatable
       '@zui/dropdown': link:lib/dropdown
+      '@zui/dtable': link:lib/dtable
       '@zui/form': link:lib/form
       '@zui/helpers': link:lib/helpers
       '@zui/input': link:lib/input
@@ -111,43 +111,9 @@ importers:
 
   build:
     specifiers:
-      '@zui/avatar': workspace:^0.0.1
-      '@zui/avatar-group': workspace:^0.0.1
-      '@zui/base': workspace:^0.0.1
-      '@zui/breadcrumb': workspace:^0.0.1
-      '@zui/browser-helpers': workspace:^0.0.1
-      '@zui/button': workspace:^0.0.1
-      '@zui/datatable': workspace:^0.0.1
-      '@zui/dropdown': workspace:^0.0.1
-      '@zui/form': workspace:^0.0.1
-      '@zui/helpers': workspace:^0.0.1
-      '@zui/input': workspace:^0.0.1
-      '@zui/input-group': workspace:^0.0.1
-      '@zui/modal': workspace:^0.0.1
-      '@zui/nav': workspace:^0.0.1
-      '@zui/store': workspace:^0.0.1
-      '@zui/table': workspace:^0.0.1
-      '@zui/tag': workspace:^0.0.1
-      '@zui/utilities': workspace:^0.0.1
+      '@zui/dtable': workspace:^0.0.1
     dependencies:
-      '@zui/avatar': link:../lib/avatar
-      '@zui/avatar-group': link:../lib/avatar-group
-      '@zui/base': link:../lib/base
-      '@zui/breadcrumb': link:../lib/breadcrumb
-      '@zui/browser-helpers': link:../lib/browser-helpers
-      '@zui/button': link:../lib/button
-      '@zui/datatable': link:../lib/datatable
-      '@zui/dropdown': link:../lib/dropdown
-      '@zui/form': link:../lib/form
-      '@zui/helpers': link:../lib/helpers
-      '@zui/input': link:../lib/input
-      '@zui/input-group': link:../lib/input-group
-      '@zui/modal': link:../lib/modal
-      '@zui/nav': link:../lib/nav
-      '@zui/store': link:../lib/store
-      '@zui/table': link:../lib/table
-      '@zui/tag': link:../lib/tag
-      '@zui/utilities': link:../lib/utilities
+      '@zui/dtable': link:../lib/dtable
 
   config:
     specifiers:
@@ -195,12 +161,6 @@ importers:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities
 
-  lib/datatable:
-    specifiers:
-      nanoid: ^4.0.0
-    dependencies:
-      nanoid: registry.npmmirror.com/nanoid/4.0.0
-
   lib/dropdown:
     specifiers:
       '@zui/base': workspace:*
@@ -210,6 +170,16 @@ importers:
       '@zui/base': link:../base
       '@zui/button': link:../button
       '@zui/utilities': link:../utilities
+
+  lib/dtable:
+    specifiers:
+      '@zui/browser-helpers': workspace:^0.0.1
+      nanoid: ^4.0.0
+      preact: ^10.10.0
+    dependencies:
+      '@zui/browser-helpers': link:../browser-helpers
+      nanoid: registry.npmmirror.com/nanoid/4.0.0
+      preact: registry.npmmirror.com/preact/10.10.0
 
   lib/form:
     specifiers:
@@ -4087,7 +4057,6 @@ packages:
     resolution: {integrity: sha512-fszkg1iJJjq68I4lI8ZsmBiaoQiQHbxf1lNq+72EmC/mZOsFF5zn3k1yv9QGoFgIXzgsdSKtYymLJsrJPoamjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.10.0.tgz}
     name: preact
     version: 10.10.0
-    dev: true
 
   registry.npmmirror.com/prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prelude-ls/-/prelude-ls-1.2.1.tgz}
