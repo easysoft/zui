@@ -12,17 +12,6 @@
 </ul>
 ```
 
-### -default
-
-```html:example
- <ul class="nav -default">
-   <li class="active"><a href="###">首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
-```
-
-
 ### -simple
 
 ```html:example
@@ -52,6 +41,7 @@
    <li><a href="###">项目 </a></li>
  </ul>
  ```
+
 ## 标签页导航
 
  ```html:example

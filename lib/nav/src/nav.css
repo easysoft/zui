@@ -16,10 +16,6 @@
   background-color: unset;
 }
 
-.-default {
-  @apply contents;
-}
-
 .-simple > .active {
   color: var(--color-primary-500);
   background-color: var(--color-primary-200);
@@ -39,6 +35,10 @@
 .-nav-primary > .active {
   background-color: var(--color-primary-500);
   color: var(--color-font-nav)
+}
+.-nav-primary > .active:hover {
+  color: unset;
+  background-color: var(--color-primary-500);
 }
 
 .-nav-secondary > li {
