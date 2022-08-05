@@ -291,6 +291,14 @@
 <span class="tag -dot -dark"></span>
 ```
 
+## 与按钮组合使用
+<Example class="flex gap-4 items-end">
+  <button class="btn" type="button">按钮 <span class="tag -sm -circle">12</span></button>
+</Example>
+
+```html
+<button class="btn" type="button">按钮 <span class="tag -sm -circle">12</span></button>
+```
 ## CSS 类
 
 标签提供了如下 CSS 类：
