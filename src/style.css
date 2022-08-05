@@ -50,6 +50,7 @@ pre[data-lang]::after {
 .table-of-contents > ol > li > a {
     @apply hidden;
 }
+.table-of-contents > ol > li > ol > li,
 .table-of-contents > ol > li > ol > li > a {
     @apply hover:text-young-500 text-ellipsis overflow-hidden whitespace-nowrap;
 }

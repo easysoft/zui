@@ -26,6 +26,7 @@ importers:
       '@zui/nav': workspace:0.0.1
       '@zui/store': workspace:0.0.1
       '@zui/table': workspace:0.0.1
+      '@zui/tag': workspace:0.0.1
       '@zui/utilities': workspace:0.0.1
       autoprefixer: ^10.4.7
       chokidar: ^3.5.3
@@ -72,6 +73,7 @@ importers:
       '@zui/nav': link:lib/nav
       '@zui/store': link:lib/store
       '@zui/table': link:lib/table
+      '@zui/tag': link:lib/tag
       '@zui/utilities': link:lib/utilities
       highlight.js: registry.npmmirror.com/highlight.js/11.6.0
       tailwindcss: registry.npmmirror.com/tailwindcss/3.1.4
@@ -111,9 +113,43 @@ importers:
 
   build:
     specifiers:
+      '@zui/avatar': workspace:^0.0.1
+      '@zui/avatar-group': workspace:^0.0.1
+      '@zui/base': workspace:^0.0.1
+      '@zui/breadcrumb': workspace:^0.0.1
+      '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/button': workspace:^0.0.1
+      '@zui/dropdown': workspace:^0.0.1
       '@zui/dtable': workspace:^0.0.1
+      '@zui/form': workspace:^0.0.1
+      '@zui/helpers': workspace:^0.0.1
+      '@zui/input': workspace:^0.0.1
+      '@zui/input-group': workspace:^0.0.1
+      '@zui/modal': workspace:^0.0.1
+      '@zui/nav': workspace:^0.0.1
+      '@zui/store': workspace:^0.0.1
+      '@zui/table': workspace:^0.0.1
+      '@zui/tag': workspace:^0.0.1
+      '@zui/utilities': workspace:^0.0.1
     dependencies:
+      '@zui/avatar': link:../lib/avatar
+      '@zui/avatar-group': link:../lib/avatar-group
+      '@zui/base': link:../lib/base
+      '@zui/breadcrumb': link:../lib/breadcrumb
+      '@zui/browser-helpers': link:../lib/browser-helpers
+      '@zui/button': link:../lib/button
+      '@zui/dropdown': link:../lib/dropdown
       '@zui/dtable': link:../lib/dtable
+      '@zui/form': link:../lib/form
+      '@zui/helpers': link:../lib/helpers
+      '@zui/input': link:../lib/input
+      '@zui/input-group': link:../lib/input-group
+      '@zui/modal': link:../lib/modal
+      '@zui/nav': link:../lib/nav
+      '@zui/store': link:../lib/store
+      '@zui/table': link:../lib/table
+      '@zui/tag': link:../lib/tag
+      '@zui/utilities': link:../lib/utilities
 
   config:
     specifiers:

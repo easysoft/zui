@@ -40,14 +40,28 @@ export default class Modal {
         }
     }
 
+    // lockScroll() {
+    //     let widthBar = 21;
+    //     const root = document.documentElement;
+    //     if (typeof window.innerWidth == 'number') {
+    //         widthBar = window.innerWidth - root.clientWidth;
+    //     }
+    //     root.style.overflow = 'hidden';
+    //     root.style.borderRight = widthBar + 'px solid transparent';
+    // }
+
+    // unlockScroll() {
+    //     const root = document.documentElement;
+    //     root.style.overflow = '';
+    //     root.style.borderRight = '';
+    // }
+
     onShow(ele): void {
-        document.body.style.overflow = 'hidden';
         ele.classList.add('block');
     }
 
     onHide(ele): void {
         if (ele && ele.classList) {
-            document.body.style.overflow = 'auto';
             ele.classList.remove('block');
         }
     }
