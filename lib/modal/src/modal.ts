@@ -86,11 +86,13 @@ export default class Modal {
             const dialogChildren = $dialog.childNodes;
             if (dialogChildren?.length) {
                 const headerHeight = dialogChildren[1]?.getElementsByClassName('modal-header')[0].clientHeight || 0;
-                const $dialogBody = dialogChildren[1].getElementsByClassName('modal-body')[0];
+                const $dialogBody = dialogChildren[1]?.getElementsByClassName('modal-body')[0];
                 const footerHeight = dialogChildren[1]?.getElementsByClassName('modal-footer')[0].clientHeight || 0;
                 const bodyMaxHeight = winHeight - headerHeight - footerHeight;
-                const bodyOverflow = $dialogBody.scrollHeight > bodyMaxHeight ? 'auto' : 'visible';
-                $dialogBody.setAttribute('style', `max-height:${bodyMaxHeight}px;overflow:${bodyOverflow}`);
+                const bodyOverflow = $dialogBody && ($dialogBody.scrollHeight > bodyMaxHeight) ? 'auto' : 'visible';
+                if ($dialogBody) {
+                    $dialogBody.setAttribute('style', `max-height:${bodyMaxHeight}px;overflow:${bodyOverflow}`);
+                }
             }
         }
        

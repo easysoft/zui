@@ -21,6 +21,11 @@ export default defineConfig(async ({command, mode, ssrBuild}) => {
                 },
             },
         },
+        esbuild: {
+            jsxFactory: 'h',
+            jsxFragment: 'Fragment',
+            jsxInject: 'import {h} from \'preact\'',
+        },
     };
 
     const {config: configFile} = minimist(process.argv.slice(4));

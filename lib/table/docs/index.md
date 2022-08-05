@@ -139,12 +139,12 @@
 </table>
 ```
 
-## -hover
+## -row-hover
 
- 使用组件类`.-hover`获得响应鼠标悬停行变色表格外观
+ 使用组件类`.-row-hover`获得响应鼠标悬停行变色表格外观
 
 <Example>
-  <table class="table -hover">
+  <table class="table -row-hover">
     <thead>
       <tr>
         <th>项目名称</th>

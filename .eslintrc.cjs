@@ -29,6 +29,7 @@ module.exports = {
                 '@typescript-eslint/no-var-requires': 'error',
                 '@typescript-eslint/indent': ['error', 4, {'SwitchCase': 1}],
                 '@typescript-eslint/object-curly-spacing': ['error', 'never'],
+                '@typescript-eslint/no-use-before-define': ['error', {functions: false}],
             },
         },
     ],

@@ -1,0 +1,21 @@
+{
+    "name": "@zui/dtable",
+    "description": "ZUI datatable",
+    "version": "0.0.1",
+    "keywords": [
+        "js",
+        "cs",
+        "zui:component"
+    ],
+    "browser": "src/main.ts",
+    "dependencies": {
+        "nanoid": "^4.0.0",
+        "preact": "^10.10.0",
+        "@zui/browser-helpers": "workspace:^0.0.1"
+    },
+    "files": [
+        "./src/**/*"
+    ],
+    "devDependencies": {
+    }
+}
