@@ -116,7 +116,7 @@
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul> 
-<ul class="nav -simple -nav-justified">
+<ul class="nav -nav-circle -nav-justified">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -164,7 +164,7 @@
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
-<ul class="nav -nav-stacked -nav-secondary">
+<ul class="nav -nav-stacked -nav-circle">
   <li class="li-title">这是标题</li>
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>

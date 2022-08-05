@@ -3,5 +3,5 @@
   --color-border-nav: var(--color-gray-300);
   --color-title-nav: var(--color-gray-700);
   --color-font-nav: white;
-  --radius-circle-nav: 35%;
+  --radius-circle-nav: 20px;
 }

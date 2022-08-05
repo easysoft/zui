@@ -88,9 +88,6 @@
   color: var(--color-primary-500);
   border-color: var(--color-primary-500);
 }
-.-nav-stacked.-nav-circle > .active{
-  border-radius:10%;
-}
 
 .-nav-justified {
   @apply justify-around text-center;
