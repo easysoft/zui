@@ -18,6 +18,7 @@ export default defineConfig({
         nav: [
             {text: '指引', link: '/guide/quick-start.md'},
             {text: '基础', link: '/basic/index.md'},
+            {text: 'CSS 工具类', link: '/utilities/'},
             {text: '组件', link: '/lib/index.md'},
             {text: '图标', link: '/icons/index.md'},
             {text: 'JavaScript', link: '/lib/index.md'},
@@ -44,6 +45,24 @@ export default defineConfig({
                     items: [
                         {text: '快速开始', link: '/guide/quick-start'},
                         {text: 'FAQ', link: '/guide/faq'},
+                    ]
+                }
+            ],
+            'utilities': [
+                {
+                    text: 'CSS 工具类',
+                    items: [
+                        {text: '索引', link: '/utilities/index'},
+                        {text: '样式', link: '/utilities/style'},
+                        {text: '背景', link: '/utilities/backgrounds'},
+                        {text: '边框', link: '/utilities/borders'},
+                        {text: '布局', link: '/utilities/layout'},
+                        {text: 'Flex', link: '/utilities/flex'},
+                        {text: '间距', link: '/utilities/spacing'},
+                        {text: '尺寸', link: '/utilities/sizing'},
+                        {text: '排版', link: '/utilities/typography'},
+                        {text: '效果', link: '/utilities/effects'},
+                        {text: '交互', link: '/utilities/interactivity'},
                     ]
                 }
             ],
