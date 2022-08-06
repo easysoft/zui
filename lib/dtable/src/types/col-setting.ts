@@ -8,7 +8,7 @@ export interface ColSetting {
     flex?: number, // default value = 1
     minWidth?: number,
     maxWidth?: number,
-    sortState?: 'up' | 'down' | 'none' | boolean,
+    sortType?: 'up' | 'down' | 'none' | boolean,
     align?: 'left' | 'center' | 'right',
     data?: Record<string, unknown>,
     style?: JSX.CSSProperties,

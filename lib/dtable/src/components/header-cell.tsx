@@ -1,9 +1,9 @@
 import {Cell, CellProps} from './cell';
 
 export function HeaderCell({className, style, col, height, children}: CellProps) {
-    let {sortState} = col;
-    if (sortState === true) {
-        sortState = 'none';
+    let {sortType} = col;
+    if (sortType === true) {
+        sortType = 'none';
     }
     return (
         <Cell
@@ -11,11 +11,11 @@ export function HeaderCell({className, style, col, height, children}: CellProps)
             height={height}
             style={style}
             col={col}
-            data-sort={sortState || null}
+            data-sort={sortType || null}
             data-type={col.type}
         >
             {col.title}
-            {sortState && <div className={`dtable-sort -sort-${sortState}`}></div>}
+            {sortType && <div className={`dtable-sort -sort-${sortType}`}></div>}
             {children}
         </Cell>
     );
