@@ -306,8 +306,10 @@ zui/                   # 项目根目录
 
 * Node.js 14+
 * 包管理器：[pnpm](https://pnpm.io/zh/)
-* 构建工具：[vite](https://cn.vitejs.dev/)
+* 构建工具：[Vite](https://cn.vitejs.dev/)
 * CSS 工具库：[TailwindCSS](https://tailwindcss.com/)
 * 静态文档网站生成：[VuePress](https://v2.vuepress.vuejs.org/zh/)
 * TypeScript 4.5+
 * 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)
+* 文档页面 [Vue.js](https://staging-cn.vuejs.org/)
+* JS 组件开发 [preact.js](https://preactjs.com/)
