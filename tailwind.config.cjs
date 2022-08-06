@@ -17,5 +17,7 @@ module.exports = {
     presets: [
         zuiTailwindConfig,
     ],
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/line-clamp'),
+    ],
 };

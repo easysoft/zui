@@ -1,0 +1,15 @@
+.-of-auto      {@apply overflow-auto;}
+.-of-hidden    {@apply overflow-hidden;}
+.-of-clip      {@apply overflow-clip;}
+.-of-visible   {@apply overflow-visible;}
+.-of-scroll    {@apply overflow-scroll;}
+.-of-x-auto    {@apply overflow-x-auto;}
+.-of-y-auto    {@apply overflow-y-auto;}
+.-of-x-hidden  {@apply overflow-x-hidden;}
+.-of-y-hidden  {@apply overflow-y-hidden;}
+.-of-x-clip    {@apply overflow-x-clip;}
+.-of-y-clip    {@apply overflow-y-clip;}
+.-of-x-visible {@apply overflow-x-visible;}
+.-of-y-visible {@apply overflow-y-visible;}
+.-of-x-scroll  {@apply overflow-x-scroll;}
+.-of-y-scroll  {@apply overflow-y-scroll;}

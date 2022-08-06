@@ -1,0 +1,6 @@
+/* https://tailwindcss.com/docs/align-items */
+.-items-start    {@apply items-start;}
+.-items-end      {@apply items-end;}
+.-items-center   {@apply items-center;}
+.-items-baseline {@apply items-baseline;}
+.-items-stretch  {@apply items-stretch;}

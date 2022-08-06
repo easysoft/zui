@@ -1,0 +1,12 @@
+.-trans           {@apply transition;}
+.-trans-all       {@apply transition-all;}
+.-trans-colors    {@apply transition-colors;}
+.-trans-opacity   {@apply transition-opacity;}
+.-trans-shadow    {@apply transition-shadow;}
+.-trans-transform {@apply transition-transform;}
+
+.-trans-75   {@apply duration-75;}
+.-trans-100  {@apply duration-100;}
+.-trans-300  {@apply duration-300;}
+.-trans-500  {@apply duration-500;}
+.-trans-1000 {@apply duration-1000;}

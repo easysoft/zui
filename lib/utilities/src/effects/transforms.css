@@ -1,0 +1,20 @@
+.-scale-0   {@apply scale-0;}
+.-scale-50  {@apply scale-50;}
+.-scale-100 {@apply scale-100;}
+.-scale-105 {@apply scale-105;}
+.-scale-110 {@apply scale-110;}
+.-scale-125 {@apply scale-125;}
+.-scale-150 {@apply scale-150;}
+
+.-flip-x    {@apply -scale-x-100;}
+.-flip-y    {@apply -scale-y-100;}
+
+.-rotate-0      {@apply rotate-0;}
+.-rotate-1      {@apply rotate-1;}
+.-rotate-2      {@apply rotate-2;}
+.-rotate-3      {@apply rotate-3;}
+.-rotate-6      {@apply rotate-6;}
+.-rotate-12     {@apply rotate-12;}
+.-rotate-45     {@apply rotate-45;}
+.-rotate-90     {@apply rotate-90;}
+.-rotate-180    {@apply rotate-180;}

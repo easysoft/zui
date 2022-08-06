@@ -1,0 +1,7 @@
+/* https://tailwindcss.com/docs/align-content */
+.-content-center  {@apply content-center;}
+.-content-start   {@apply content-start;}
+.-content-end     {@apply content-end;}
+.-content-between {@apply content-between;}
+.-content-around  {@apply content-around;}
+.-content-evenly  {@apply content-evenly;}

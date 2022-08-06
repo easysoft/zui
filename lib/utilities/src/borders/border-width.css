@@ -1,12 +1,12 @@
-.-border {
+.-bd {
   @apply border;
 }
-.-border-2 {
+.-bd-2 {
   @apply border-2;
 }
-.-border-4 {
+.-bd-4 {
   @apply border-4;
 }
-.-border-0 {
+.-bd-0 {
   @apply border-0;
 }

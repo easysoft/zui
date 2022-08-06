@@ -1,21 +1,24 @@
-.-shadow-sm {
+.-sd-sm {
   @apply shadow-sm;
 }
-.-shadow {
+.-sd {
   @apply shadow;
 }
-.-shadow-md {
+.-sd-md {
   @apply shadow-md;
 }
-.-shadow-lg {
+.-sd-lg {
   @apply shadow-lg;
 }
-.-shadow-xl {
+.-sd-xl {
   @apply shadow-xl;
 }
-.-shadow-inner {
+.-sd-2xl {
+  @apply shadow-2xl;
+}
+.-sd-inner {
   @apply shadow-inner;
 }
-.-shadow-none {
+.-sd-none {
   @apply shadow-none;
 }

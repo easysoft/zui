@@ -1,0 +1,166 @@
+.-m-0  {@apply m-0;}
+.-mx-0 {@apply mx-0;}
+.-my-0 {@apply my-0;}
+.-mt-0 {@apply mt-0;}
+.-mr-0 {@apply mr-0;}
+.-mb-0 {@apply mb-0;}
+.-ml-0 {@apply ml-0;}
+
+.-m-px  {@apply m-px;}
+.-mx-px {@apply mx-px;}
+.-my-px {@apply my-px;}
+.-mt-px {@apply mt-px;}
+.-mr-px {@apply mr-px;}
+.-mb-px {@apply mb-px;}
+.-ml-px {@apply ml-px;}
+
+.-m-0\.5  {@apply m-0.5;}
+.-mx-0\.5 {@apply mx-0.5;}
+.-my-0\.5 {@apply my-0.5;}
+.-mt-0\.5 {@apply mt-0.5;}
+.-mr-0\.5 {@apply mr-0.5;}
+.-mb-0\.5 {@apply mb-0.5;}
+.-ml-0\.5 {@apply ml-0.5;}
+
+.-m-1  {@apply m-1;}
+.-mx-1 {@apply mx-1;}
+.-my-1 {@apply my-1;}
+.-mt-1 {@apply mt-1;}
+.-mr-1 {@apply mr-1;}
+.-mb-1 {@apply mb-1;}
+.-ml-1 {@apply ml-1;}
+
+.-m-1\.5  {@apply m-1.5;}
+.-mx-1\.5 {@apply mx-1.5;}
+.-my-1\.5 {@apply my-1.5;}
+.-mt-1\.5 {@apply mt-1.5;}
+.-mr-1\.5 {@apply mr-1.5;}
+.-mb-1\.5 {@apply mb-1.5;}
+.-ml-1\.5 {@apply ml-1.5;}
+
+.-m-2  {@apply m-2;}
+.-mx-2 {@apply mx-2;}
+.-my-2 {@apply my-2;}
+.-mt-2 {@apply mt-2;}
+.-mr-2 {@apply mr-2;}
+.-mb-2 {@apply mb-2;}
+.-ml-2 {@apply ml-2;}
+
+.-m-2\.5  {@apply m-2.5;}
+.-mx-2\.5 {@apply mx-2.5;}
+.-my-2\.5 {@apply my-2.5;}
+.-mt-2\.5 {@apply mt-2.5;}
+.-mr-2\.5 {@apply mr-2.5;}
+.-mb-2\.5 {@apply mb-2.5;}
+.-ml-2\.5 {@apply ml-2.5;}
+
+.-m-3  {@apply m-3;}
+.-mx-3 {@apply mx-3;}
+.-my-3 {@apply my-3;}
+.-mt-3 {@apply mt-3;}
+.-mr-3 {@apply mr-3;}
+.-mb-3 {@apply mb-3;}
+.-ml-3 {@apply ml-3;}
+
+.-m-3\.5  {@apply m-3.5;}
+.-mx-3\.5 {@apply mx-3.5;}
+.-my-3\.5 {@apply my-3.5;}
+.-mt-3\.5 {@apply mt-3.5;}
+.-mr-3\.5 {@apply mr-3.5;}
+.-mb-3\.5 {@apply mb-3.5;}
+.-ml-3\.5 {@apply ml-3.5;}
+
+.-m-4  {@apply m-4;}
+.-mx-4 {@apply mx-4;}
+.-my-4 {@apply my-4;}
+.-mt-4 {@apply mt-4;}
+.-mr-4 {@apply mr-4;}
+.-mb-4 {@apply mb-4;}
+.-ml-4 {@apply ml-4;}
+
+.-m-5  {@apply m-5;}
+.-mx-5 {@apply mx-5;}
+.-my-5 {@apply my-5;}
+.-mt-5 {@apply mt-5;}
+.-mr-5 {@apply mr-5;}
+.-mb-5 {@apply mb-5;}
+.-ml-5 {@apply ml-5;}
+
+.-m-6  {@apply m-6;}
+.-mx-6 {@apply mx-6;}
+.-my-6 {@apply my-6;}
+.-mt-6 {@apply mt-6;}
+.-mr-6 {@apply mr-6;}
+.-mb-6 {@apply mb-6;}
+.-ml-6 {@apply ml-6;}
+
+.-m-7  {@apply m-7;}
+.-mx-7 {@apply mx-7;}
+.-my-7 {@apply my-7;}
+.-mt-7 {@apply mt-7;}
+.-mr-7 {@apply mr-7;}
+.-mb-7 {@apply mb-7;}
+.-ml-7 {@apply ml-7;}
+
+.-m-8  {@apply m-8;}
+.-mx-8 {@apply mx-8;}
+.-my-8 {@apply my-8;}
+.-mt-8 {@apply mt-8;}
+.-mr-8 {@apply mr-8;}
+.-mb-8 {@apply mb-8;}
+.-ml-8 {@apply ml-8;}
+/*
+.-m-9  {@apply m-9;}
+.-mx-9 {@apply mx-9;}
+.-my-9 {@apply my-9;}
+.-mt-9 {@apply mt-9;}
+.-mr-9 {@apply mr-9;}
+.-mb-9 {@apply mb-9;}
+.-ml-9 {@apply ml-9;}
+
+.-m-10  {@apply m-10;}
+.-mx-10 {@apply mx-10;}
+.-my-10 {@apply my-10;}
+.-mt-10 {@apply mt-10;}
+.-mr-10 {@apply mr-10;}
+.-mb-10 {@apply mb-10;}
+.-ml-10 {@apply ml-10;}
+
+.-m-11  {@apply m-11;}
+.-mb-11  {@apply mb-11;}
+.-m-12  {@apply m-12;}
+.-mb-12  {@apply mb-12;}
+.-m-14  {@apply m-14;}
+.-mb-14  {@apply mb-14;}
+.-m-16  {@apply m-16;}
+.-mb-16  {@apply mb-16;}
+.-m-20  {@apply m-20;}
+.-mb-20  {@apply mb-20;}
+.-m-24  {@apply m-24;}
+.-mb-24  {@apply mb-24;}
+.-m-28  {@apply m-28;}
+.-mb-28  {@apply mb-28;}
+.-m-32  {@apply m-32;}
+.-mb-32  {@apply mb-32;}
+.-m-36  {@apply m-36;}
+.-mb-36  {@apply mb-36;}
+.-m-40  {@apply m-40;}
+.-mb-40  {@apply mb-40;}
+.-m-44  {@apply m-44;}
+.-mb-44  {@apply mb-44;}
+.-m-48  {@apply m-48;}
+.-mb-48  {@apply mb-48;}
+.-m-52  {@apply m-52;}
+.-mb-52  {@apply mb-52;}
+.-m-56  {@apply m-56;}
+.-mb-56  {@apply mb-56;}
+.-m-60  {@apply m-60;}
+.-mb-60  {@apply mb-60;}
+.-m-64  {@apply m-64;}
+.-mb-64  {@apply mb-64;}
+.-m-72  {@apply m-72;}
+.-mb-72  {@apply mb-72;}
+.-m-80  {@apply m-80;}
+.-mb-80  {@apply mb-80;}
+.-m-96  {@apply m-96;}
+.-mb-96  {@apply mb-96;} */

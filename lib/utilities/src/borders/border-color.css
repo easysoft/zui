@@ -1,63 +1,63 @@
-.-border-primary {
+.-bd-primary {
   @apply border-primary-500;
 }
-.-border-secondary {
+.-bd-secondary {
   @apply border-secondary-500;
 }
-.-border-success {
+.-bd-success {
   @apply border-success-500;
 }
-.-border-warning {
+.-bd-warning {
   @apply border-warning-500;
 }
-.-border-danger {
+.-bd-danger {
   @apply border-danger-500;
 }
-.-border-important {
+.-bd-important {
   @apply border-important-500;
 }
-.-border-special {
+.-bd-special {
   @apply border-special-500;
 }
 
-.-border-white {
+.-bd-white {
   @apply border-white;
 }
-.-border-lighter {
+.-bd-lighter {
   @apply border-gray-100;
 }
-.-border-light {
+.-bd-light {
   @apply border-gray-300;
 }
-.-border-gray {
+.-bd-gray {
   @apply border-gray-500;
 }
-.-border-dark {
+.-bd-dark {
   @apply border-gray-700;
 }
-.-border-darker {
+.-bd-darker {
   @apply border-gray-900;
 }
-.-border-black {
+.-bd-black {
   @apply border-black;
 }
 
-.-border-canvas {
+.-bd-canvas {
   @apply border-canvas;
 }
-.-border-surface {
+.-bd-surface {
   @apply border-surface;
 }
-.-border-inverse {
+.-bd-inverse {
   @apply border-fore;
 }
 
-.-border-transparent {
+.-bd-transparent {
   border-color: transparent;
 }
-.-border-current {
+.-bd-current {
   border-color: currentColor;
 }
-.-border-inherit {
+.-bd-inherit {
   border-color: inherit;
 }

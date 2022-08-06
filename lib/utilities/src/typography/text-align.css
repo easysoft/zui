@@ -1,0 +1,10 @@
+.-text-left        {@apply text-left;}
+.-text-center      {@apply text-center;}
+.-text-right       {@apply text-right;}
+.-text-justify     {@apply text-justify;}
+
+.-align-middle {@apply align-middle;}
+.-align-top    {@apply align-top;}
+.-align-bottom {@apply align-bottom;}
+.-align-sub    {@apply align-sub;}
+.-align-super  {@apply align-super;}

@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '@tailwindcss/line-clamp': ^0.4.0
       '@types/fs-extra': ^9.0.13
       '@types/markdown-it': ^12.2.3
       '@types/minimist': ^1.2.2
@@ -79,6 +80,7 @@ importers:
       tailwindcss: registry.npmmirror.com/tailwindcss/3.1.4
       zui-config: link:config
     devDependencies:
+      '@tailwindcss/line-clamp': registry.npmmirror.com/@tailwindcss/line-clamp/0.4.0_tailwindcss@3.1.4
       '@types/fs-extra': registry.npmmirror.com/@types/fs-extra/9.0.13
       '@types/markdown-it': registry.npmmirror.com/@types/markdown-it/12.2.3
       '@types/minimist': registry.npmmirror.com/@types/minimist/1.2.2

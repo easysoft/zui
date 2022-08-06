@@ -1,53 +1,53 @@
-.-shadow-primary {
+.-sd-primary {
   @apply shadow-primary-500;
 }
-.-shadow-secondary {
+.-sd-secondary {
   @apply shadow-secondary-500;
 }
-.-shadow-success {
+.-sd-success {
   @apply shadow-success-500;
 }
-.-shadow-warning {
+.-sd-warning {
   @apply shadow-warning-500;
 }
-.-shadow-danger {
+.-sd-danger {
   @apply shadow-danger-500;
 }
-.-shadow-important {
+.-sd-important {
   @apply shadow-important-500;
 }
-.-shadow-special {
+.-sd-special {
   @apply shadow-special-500;
 }
 
-.-shadow-white {
+.-sd-white {
   @apply shadow-white;
 }
-.-shadow-lighter {
+.-sd-lighter {
   @apply shadow-gray-100;
 }
-.-shadow-light {
+.-sd-light {
   @apply shadow-gray-300;
 }
-.-shadow-gray {
+.-sd-gray {
   @apply shadow-gray-500;
 }
-.-shadow-dark {
+.-sd-dark {
   @apply shadow-gray-700;
 }
-.-shadow-darker {
+.-sd-darker {
   @apply shadow-gray-900;
 }
-.-shadow-black {
+.-sd-black {
   @apply shadow-black;
 }
 
-.-shadow-transparent {
+.-sd-transparent {
   @apply shadow-transparent;
 }
-.-shadow-current {
+.-sd-current {
   @apply shadow-current;
 }
-.-shadow-inherit {
+.-sd-inherit {
   @apply shadow-inherit;
 }

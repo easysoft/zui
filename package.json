@@ -45,6 +45,7 @@
     "zui-config": "workspace:^0.0.1"
   },
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.0",
     "@types/fs-extra": "^9.0.13",
     "@types/markdown-it": "^12.2.3",
     "@types/minimist": "^1.2.2",

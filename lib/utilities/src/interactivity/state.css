@@ -38,9 +38,3 @@
 .-state {
     @apply state;
 }
-
-[disabled],
-.-disabled {
-    @apply cursor-not-allowed grayscale;
-    opacity: var(--state-disabled-opacity);
-}
