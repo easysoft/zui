@@ -212,10 +212,12 @@ importers:
   lib/dtable:
     specifiers:
       '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/scrollbar': workspace:^0.0.1
       nanoid: ^4.0.0
       preact: ^10.10.0
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
+      '@zui/scrollbar': link:../scrollbar
       nanoid: registry.npmmirror.com/nanoid/4.0.0
       preact: registry.npmmirror.com/preact/10.10.0
 
@@ -265,6 +267,19 @@ importers:
     specifiers:
       '@zui/base': workspace:*
       '@zui/utilities': workspace:*
+    devDependencies:
+      '@zui/base': link:../base
+      '@zui/utilities': link:../utilities
+
+  lib/scrollbar:
+    specifiers:
+      '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/utilities': workspace:*
+      preact: ^10.10.0
+    dependencies:
+      '@zui/browser-helpers': link:../browser-helpers
+      preact: registry.npmmirror.com/preact/10.10.0
     devDependencies:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities

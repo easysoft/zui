@@ -1,0 +1,32 @@
+.scrollbar {
+    @apply absolute transition-opacity duration-700;
+    opacity: var(--scrollbar-opacity, 0.6);
+    background: var(--scrollbar-bg, rgba(0,0,0,.15));
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.05);
+}
+.-scrollbar-hover .scrollbar {
+    @apply opacity-0;
+}
+.-scrollbar-hover:hover .scrollbar {
+    opacity: var(--scrollbar-opacity, 0.6);
+}
+.scrollbar:hover,
+.scrollbar.-dragging {
+    opacity: 1!important;
+}
+.scrollbar-bar {
+    @apply absolute rounded-sm;
+    background: var(--scrollbar-bar-bg, rgba(0,0,0,.3));
+}
+.scrollbar-bar:hover {
+    background: var(--scrollbar-hover-bg, rgba(0,0,0,.4));
+}
+.-dragging > .scrollbar-bar {
+    background: var(--scrollbar-drag-bg, rgba(0,0,0,.5));
+}
+.-horz > .scrollbar-bar {
+    @apply h-full z-20;
+}
+.-vert> .scrollbar-bar {
+    @apply w-full z-20;
+}
