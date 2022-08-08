@@ -38,6 +38,7 @@
 }
 .-nav-primary > .active:hover {
   color: unset;
+  color: white;
   background-color: var(--color-primary-500);
 }
 

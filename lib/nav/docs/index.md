@@ -264,20 +264,23 @@
 
 
 <script>
-window.onload = function () {
-    const $nav = document.querySelectorAll('ul.nav');
-    $nav.forEach(ele=>{
-      console.log(ele);
-      ele.onclick = function (e) {
-          if (e !== null && e.target instanceof HTMLElement && e.target.tagName == 'A') {
-              const element = e.target.parentNode.parentNode.querySelector('.active');
-              if (element) {
-                  element.classList.remove('active');
+    window.onload = function () {
+        const $nav = document.querySelectorAll('ul.nav');
+        console.log($nav);
+        $nav.forEach(ele=>{
+          ele.onclick = function (e) {
+              if (e !== null && e.target instanceof HTMLElement && e.target.tagName == 'A') {
+                  console.log(e.target.parentNode.classList, 'pNode');
+                  if (e.target.parentNode.classList.contains('-disabled')) {
+                      return;
+                  }
+                  const element = e.target.parentNode.parentNode.querySelector('.active');
+                  if (element) {
+                      element.classList.remove('active');
+                  }
+                  e.target.parentNode.classList.add('active');
               }
-              e.target.parentNode.classList.add('active');
           }
-      }
-    });
-
-};
+        });
+    };
 </script>
