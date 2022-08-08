@@ -8,10 +8,11 @@ export interface CellProps {
     className?: ClassNameLike,
     height?: number,
     style?: JSX.CSSProperties,
+    html?: {__html: string},
     children?: ComponentChildren,
 }
 
-export function Cell({col, className, height, style, children, ...others}: CellProps) {
+export function Cell({col, className, height, style, children, html, ...others}: CellProps) {
     const finalStyle = {
         left: col.left,
         width: col.realWidth,
@@ -23,7 +24,13 @@ export function Cell({col, className, height, style, children, ...others}: CellP
         finalStyle.textAlign = col.align;
     }
     return (
-        <div className={classes('dtable-cell', col.className, className)} style={finalStyle} {...others}>
+        <div
+            className={classes('dtable-cell', col.className, className)}
+            style={finalStyle}
+            {...others}
+            data-col={col.name}
+            dangerouslySetInnerHTML={html}
+        >
             {children}
         </div>
     );

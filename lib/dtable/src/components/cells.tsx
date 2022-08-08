@@ -3,6 +3,8 @@ import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Cell, CellProps} from './cell';
 import {ColInfo} from '../types/col-info';
 import {RowData} from '../types/row-data';
+import {CellRenderCallback} from '../types/cell-render';
+import {parseRenderResult, CustomRenderResult} from '../types/custom-render-result';
 
 export interface CellsProps {
     rowID: string,
@@ -14,7 +16,7 @@ export interface CellsProps {
     height?: number,
     data?: RowData,
     CellComponent?: ComponentType<CellProps>,
-    onRenderCell?: (rowID: string, col: ColInfo, data?: RowData) => ComponentChildren,
+    onRenderCell?: CellRenderCallback
 }
 
 export function Cells({rowID, className, top = 0, left = 0, width, height, cols, data, CellComponent = Cell, onRenderCell}: CellsProps) {
@@ -25,13 +27,24 @@ export function Cells({rowID, className, top = 0, left = 0, width, height, cols,
                     if (!col.visible) {
                         return null;
                     }
-                    const value = onRenderCell ? onRenderCell(rowID, col, data) : (data ? data[col.name] : undefined);
+                    let value: CustomRenderResult = null;
+                    if (onRenderCell) {
+                        value = onRenderCell(rowID, col, data);
+                    } else if (col.onRenderCell) {
+                        value = col.onRenderCell(rowID, col, data);
+                    } else if (data) {
+                        value = data[col.name] as ComponentChildren;
+                    }
+                    const {children, html, className: cellClassName, style} = parseRenderResult(value);
                     return (
                         <CellComponent
                             key={col.name}
                             col={col}
+                            className={cellClassName}
+                            style={style}
+                            html={html}
                         >
-                            {value as ComponentChildren}
+                            {children}
                         </CellComponent>
                     );
                 })

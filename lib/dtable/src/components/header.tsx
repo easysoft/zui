@@ -1,3 +1,4 @@
+import {CellRenderCallback} from '../types/cell-render';
 import {ColInfo} from '../types/col-info';
 import {HeaderCell} from './header-cell';
 import {Row} from './row';
@@ -11,6 +12,8 @@ export interface HeaderProps {
     scrollWidth: number,
     flexRightWidth: number,
     scrollLeft: number,
+    scrollWidthTotal: number,
+    onRenderCell?: CellRenderCallback
 }
 
 export function Header({
@@ -21,7 +24,9 @@ export function Header({
     flexLeftWidth,
     scrollWidth,
     flexRightWidth,
+    scrollWidthTotal,
     scrollLeft,
+    onRenderCell,
 }: HeaderProps) {
     return (
         <div className='dtable-header' style={{height}}>
@@ -35,9 +40,11 @@ export function Header({
                 scrollCols={scrollCols}
                 flexLeftWidth={flexLeftWidth}
                 scrollWidth={scrollWidth}
+                scrollWidthTotal={scrollWidthTotal}
                 flexRightWidth={flexRightWidth}
                 scrollLeft={scrollLeft}
                 CellComponent={HeaderCell}
+                onRenderCell={onRenderCell}
             />
         </div>
     );

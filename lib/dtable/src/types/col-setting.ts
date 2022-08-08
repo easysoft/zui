@@ -1,6 +1,6 @@
 import {ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {JSX} from 'preact/jsx-runtime';
-
+import {CellRenderCallback} from './cell-render';
 export interface ColSetting {
     name: string;
     title?: string,
@@ -17,4 +17,5 @@ export interface ColSetting {
     type?: string,
     hidden?: boolean,
     fixed?: 'left' | 'right' | false,
+    onRenderCell?: CellRenderCallback,
 }

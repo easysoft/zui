@@ -1,9 +1,10 @@
-import {ComponentType, ComponentChildren} from 'preact';
+import {ComponentType} from 'preact';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Cell, CellProps} from './cell';
 import {Cells} from './cells';
 import {ColInfo} from '../types/col-info';
 import {RowData} from '../types/row-data';
+import {CellRenderCallback} from '../types/cell-render';
 
 export interface RowProps {
     rowID: string,
@@ -15,11 +16,12 @@ export interface RowProps {
     scrollCols?: ColInfo[],
     flexLeftWidth: number,
     scrollWidth: number,
+    scrollWidthTotal: number,
     flexRightWidth: number,
     scrollLeft: number,
     data?: RowData,
     CellComponent?: ComponentType<CellProps>,
-    onRenderCell?: (rowID: string, col: ColInfo, data?: RowData) => ComponentChildren,
+    onRenderCell?: CellRenderCallback
 }
 
 export function Row({
@@ -32,6 +34,7 @@ export function Row({
     scrollCols,
     flexLeftWidth,
     scrollWidth,
+    scrollWidthTotal,
     flexRightWidth,
     scrollLeft,
     CellComponent = Cell,
@@ -61,7 +64,7 @@ export function Row({
                 className="-flexable"
                 cols={scrollCols}
                 left={flexLeftWidth - scrollLeft}
-                width={scrollWidth}
+                width={scrollWidthTotal}
                 rowID={rowID}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
@@ -89,7 +92,11 @@ export function Row({
     const style = {top, height, lineHeight: `${height - 2}px`};
 
     return (
-        <div className={classes('dtable-row', className)} style={style}>
+        <div
+            className={classes('dtable-row', className)}
+            style={style}
+            data-id={rowID}
+        >
             {flexLeftView}
             {scrollableView}
             {flexRightView}

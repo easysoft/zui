@@ -1,6 +1,8 @@
 import {ComponentChildren} from 'preact';
 import {ColInfo} from './col-info';
+import {DTableOptions} from './options';
 import {RowInfo} from './row-info';
+import {DTableState} from './state';
 
 export interface DTableLayout {
     width: number;
@@ -10,8 +12,8 @@ export interface DTableLayout {
     rowsHeightTotal: number;
     rows: RowInfo[];
     visibleRows: RowInfo[];
-    header: ComponentChildren,
-    footer: ComponentChildren,
+    header: boolean | ComponentChildren | ((layout: DTableLayout, options: DTableOptions, state: DTableState) => (ComponentChildren | {__html: string}));
+    footer: boolean | ComponentChildren | ((layout: DTableLayout, options: DTableOptions, state: DTableState) => (ComponentChildren | {__html: string}));
     headerHeight: number,
     footerHeight: number,
     colsInfo: {
@@ -21,8 +23,8 @@ export interface DTableLayout {
         flexLeftWidth: number;
         scrollWidth: number;
         flexRightWidth: number;
+        scrollWidthTotal: number;
     };
-    scrollWidthTotal: number;
     scrollBottom: number;
     scrollTop: number;
     scrollLeft: number;

@@ -1,9 +1,6 @@
 .dtable {
     @apply relative;
 }
-.dtable-header {
-    background: var(--dtable-header-bg);
-}
 .dtable-rows {
     @apply absolute w-full overflow-hidden;
 }
@@ -16,9 +13,19 @@
 .dtable-cells {
     @apply absolute h-full z-0 bg-canvas;
 }
+.dtable-header .dtable-cells {
+    background: var(--dtable-header-bg);
+}
 .dtable-cells.-fixed-left,
 .dtable-cells.-fixed-right {
-    @apply z-10
+    @apply z-10;
+    border-color: var(--dtable-border-color);
+}
+.dtable-cells.-fixed-left {
+    @apply border-r;
+}
+.dtable-cells.-fixed-right {
+    @apply border-l;
 }
 .dtable-cell {
     @apply absolute h-full px-2 whitespace-nowrap overflow-hidden;

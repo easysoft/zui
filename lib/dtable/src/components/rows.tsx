@@ -3,6 +3,7 @@ import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Row} from './row';
 import {RowInfo} from '../types/row-info';
 import {ColInfo} from '../types/col-info';
+import {CellRenderCallback} from '../types/cell-render';
 
 export interface RowsProps {
     className?: ClassNameLike,
@@ -16,8 +17,10 @@ export interface RowsProps {
     scrollCols: ColInfo[],
     flexLeftWidth: number,
     scrollWidth: number,
+    scrollWidthTotal: number,
     flexRightWidth: number,
     scrollLeft: number,
+    onRenderCell?: CellRenderCallback
 }
 
 export function Rows({
@@ -32,8 +35,10 @@ export function Rows({
     scrollCols,
     flexLeftWidth,
     scrollWidth,
+    scrollWidthTotal,
     flexRightWidth,
     scrollLeft,
+    onRenderCell,
 }: RowsProps) {
     style = {...style, top, height};
     return (
@@ -49,9 +54,11 @@ export function Rows({
                         scrollCols={scrollCols}
                         flexLeftWidth={flexLeftWidth}
                         scrollWidth={scrollWidth}
+                        scrollWidthTotal={scrollWidthTotal}
                         flexRightWidth={flexRightWidth}
                         scrollLeft={scrollLeft}
                         data={row.data}
+                        onRenderCell={onRenderCell}
                     />
                 );
             })}

@@ -9,13 +9,12 @@
     ],
     "browser": "src/main.ts",
     "dependencies": {
+        "@zui/browser-helpers": "workspace:^0.0.1",
+        "@zui/scrollbar": "workspace:^0.0.1",
         "nanoid": "^4.0.0",
-        "preact": "^10.10.0",
-        "@zui/browser-helpers": "workspace:^0.0.1"
+        "preact": "^10.10.0"
     },
     "files": [
         "./src/**/*"
-    ],
-    "devDependencies": {
-    }
+    ]
 }
