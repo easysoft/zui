@@ -25,7 +25,7 @@
 ## 主要导航
 
 ```html:example
-<ul class="nav -nav-primary">
+<ul class="nav nav-primary">
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -35,7 +35,7 @@
 ## 次要导航
 
  ```html:example
- <ul class="nav -nav-secondary">
+ <ul class="nav nav-secondary">
    <li><a href="###" class="active">首页</a></li>
    <li><a href="###">动态 </a></li>
    <li><a href="###">项目 </a></li>
@@ -45,7 +45,7 @@
 ## 标签页导航
 
  ```html:example
- <ul class="nav -nav-tabs">
+ <ul class="nav nav-tabs">
    <li><a href="###">首页</a></li>
    <li><a class="active" href="###">动态 </a></li>
    <li><a href="###">项目 </a></li>
@@ -66,19 +66,19 @@
 ### 垂直排列
 
 ```html:example
-<ul class="nav -nav-primary -nav-stacked">
+<ul class="nav nav-primary nav-stacked">
   <li><a href="###" class="active">首页 </a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 
-<ul class="nav -nav-tabs -nav-stacked">
+<ul class="nav nav-tabs nav-stacked">
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 
-<ul class="nav -nav-secondary -nav-stacked">
+<ul class="nav nav-secondary nav-stacked">
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -91,22 +91,22 @@
 自适应宽度不能和垂直布局一起使用
 ``` html:example
 
-<ul class="nav -nav-primary -nav-justified">
+<ul class="nav nav-primary nav-justified">
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul> 
-<ul class="nav -nav-secondary -nav-justified">
+<ul class="nav nav-secondary nav-justified">
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul> 
-<ul class="nav -nav-tabs -nav-justified">
+<ul class="nav nav-tabs nav-justified">
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul> 
-<ul class="nav -nav-circle -nav-justified">
+<ul class="nav -nav-circle nav-justified">
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -117,7 +117,7 @@
 
 ```html:example:gap-3
 
-<ul class="nav -nav-tabs">
+<ul class="nav nav-tabs">
   <li class="li-title">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
@@ -135,26 +135,26 @@
   <li><a href="###" class="active">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
-<ul class="nav -nav-primary">
+<ul class="nav nav-primary">
   <li class="li-title">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 
-<ul class="nav -nav-secondary">
+<ul class="nav nav-secondary">
   <li class="li-title">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
-<ul class="nav -nav-primary -nav-stacked">
+<ul class="nav nav-primary nav-stacked">
   <li class="li-title">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
-<ul class="nav -nav-stacked -nav-circle">
+<ul class="nav nav-stacked -nav-circle">
   <li class="li-title">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>

@@ -56,10 +56,10 @@
 
 ### 一级导航
 
-使用.-nav-primary修饰类获得一级导航样式 
+使用.nav-primary修饰类获得一级导航样式 
 
 <Example>
-<ul class="nav -nav-primary">
+<ul class="nav nav-primary">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -71,7 +71,7 @@
 
 
 ```html
-<ul class="nav -nav-primary">
+<ul class="nav nav-primary">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -83,10 +83,10 @@
 
 ### 二级导航
 
-使用.-nav-secondary修饰类获取二级导航样式，通常搭配一级导航使用。
+使用.nav-secondary修饰类获取二级导航样式，通常搭配一级导航使用。
 
 <Example>
-<ul class="nav -nav-secondary">
+<ul class="nav nav-secondary">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -97,7 +97,7 @@
 </Example>
 
 ```html
-<ul class="nav -nav-secondary">
+<ul class="nav nav-secondary">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -109,10 +109,10 @@
 
 ## 标签风格的导航
 
-使用.-nav-tabs 修饰类获取标签页风格导航样式
+使用.nav-tabs 修饰类获取标签页风格导航样式
 
 <Example>
-<ul class="nav -nav-tabs">
+<ul class="nav nav-tabs">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -124,7 +124,7 @@
 
 
 ```html
-<ul class="nav -nav-tabs">
+<ul class="nav nav-tabs">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -137,7 +137,7 @@
 ## 垂直排列的导航
 
 <Example>
-<ul class="nav -nav-stacked">
+<ul class="nav nav-stacked">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -163,7 +163,7 @@
 自适应宽度修饰类不能和垂直排列修饰类混用
 
 <Example>
-<ul class="nav -nav-justified">
+<ul class="nav nav-justified">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -175,7 +175,7 @@
 
 
 ```html
-<ul class="nav -nav-justified">
+<ul class="nav nav-justified">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -200,7 +200,7 @@
 
 
 ```html
-<ul class="nav -nav-justified">
+<ul class="nav nav-justified">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -225,7 +225,7 @@
 
 
 ```html
-<ul class="nav -nav-justified">
+<ul class="nav nav-justified">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -251,7 +251,7 @@
 
 
 ```html
-<ul class="nav -nav-justified">
+<ul class="nav nav-justified">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>

@@ -32,37 +32,37 @@
   background-color: var(--color-primary-500);
 }
 
-.-nav-primary > li > a {
+.nav-primary > li > a {
   @apply border-solid border;
 }
-.-nav-primary > li > a+a {
+.nav-primary > li > a+a {
   @apply border-l-0;
 }
-.-nav-primary > li > .active {
+.nav-primary > li > .active {
   background-color: var(--color-primary-500);
   color: var(--color-font-nav)
 }
-.-nav-primary > li > .active:hover {
+.nav-primary > li > .active:hover {
   color: unset;
   color: white;
   background-color: var(--color-primary-500);
 }
 
-.-nav-secondary > li > a {
+.nav-secondary > li > a {
   @apply border-solid border-b;
   border-color: var(--color-border-nav);
 }
-.-nav-secondary > li > .active {
+.nav-secondary > li > .active {
   color: var(--color-primary-500);
   border-color: var(--color-primary-500);
 }
 
-.-nav-tabs {
+.nav-tabs {
   @apply border-b border-solid;
   border-color: var(--color-border-nav);
 }
 
-.-nav-tabs > li > .active {
+.nav-tabs > li > .active {
   @apply  bg-white border-solid border-t border-r border-l -mb-px; 
 }
 
@@ -72,36 +72,36 @@
   border-radius: var(--radius-circle-nav);
 }
 
-.-nav-stacked {
+.nav-stacked {
   @apply block;
 }
-.-nav-stacked.-nav-primary > li > a+a {
+.nav-stacked.nav-primary > li > a+a {
   border: unset;
   @apply border border-solid border-t-0;
   border-color: var(--color-border-nav);
 }
-.-nav-stacked.-nav-tabs {
+.nav-stacked.nav-tabs {
   @apply border-b-0 border-r border-solid;
   border-color:var(--color-border-nav);
 }
-.-nav-stacked.-nav-tabs > .active {
+.nav-stacked.nav-tabs > .active {
    border-color: var(--color-border-nav);
    @apply bg-white border-solid border-r-0 border-t border-b border-l -mr-px;
 }
-.-nav-stacked.-nav-secondary > li {
+.nav-stacked.nav-secondary > li {
   @apply border-l border-solid border-b-0;
   border-color: var(--color-border-nav);
 }
-.-nav-stacked.-nav-secondary > .active {
+.nav-stacked.nav-secondary > .active {
   color: var(--color-primary-500);
   /* border-color: var(--color-primary-500); */
 }
 
-.-nav-justified {
+.nav-justified {
   @apply justify-around text-center;
 }
 
-.-nav-justified > li {
+.nav-justified > li {
   @apply w-full;
 }
 
@@ -109,6 +109,6 @@
   @apply font-bold;
   color: var(--color-title-nav);
 }
-.-nav-primary > .li-title {
+.nav-primary > .li-title {
   background-color:var(--color-hover-nav);
 }
