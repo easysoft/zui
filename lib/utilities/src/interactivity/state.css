@@ -38,3 +38,7 @@
 .-state {
     @apply state;
 }
+
+.nav > li > a {
+    @apply state;
+} 

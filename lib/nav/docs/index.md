@@ -54,7 +54,7 @@
 
 ## 有等级区分的导航
 
-### 一级导航
+### 主要导航
 
 使用.nav-primary修饰类获得一级导航样式 
 
@@ -81,7 +81,7 @@
 </ul>
 ```
 
-### 二级导航
+### 次要导航
 
 使用.nav-secondary修饰类获取二级导航样式，通常搭配一级导航使用。
 
@@ -188,7 +188,7 @@
 ## 圆点导航
 
 <Example>
-<ul class="nav -nav-circle">
+<ul class="nav nav-circle">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>

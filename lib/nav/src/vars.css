@@ -1,7 +1,7 @@
 :root {
   --color-hover-nav: var(--color-gray-100);
   --color-border-nav: var(--color-gray-300);
-  --color-title-nav: var(--color-gray-700);
-  --color-font-nav: white;
+  --color-heading-nav: var(--color-gray-700);
+  --color-font-nav: canvas;
   --radius-circle-nav: 20px;
 }
