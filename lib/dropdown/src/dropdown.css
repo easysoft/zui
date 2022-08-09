@@ -15,7 +15,7 @@
 
 .dropdown-menu {
   @apply py-2 w-40 hidden absolute list-none px-0 m-0 shadow-lg left-0 top-full z-10;
-  background-color: var(--dropmenu-background);
+  background-color: var(--dropmenu-bg);
 }
 
 .open > .dropdown-menu {
@@ -33,20 +33,20 @@
 .dropdown-menu>li:hover>a {
   @apply rounded-sm;
   color: var(--dropmenu-active-color);
-  background-color: var(--dropmenu-active-background);
+  background-color: var(--dropmenu-active-bg);
 }
 
-.-dropup>.dropdown-menu {
+.dropup>.dropdown-menu {
   top: auto;
   bottom: 100%
 }
 
-.-dropup>.btn>.caret {
+.dropup>.btn>.caret {
   border-top: 0 dotted;
   border-bottom: 4px solid;
 }
 
-.-align-right>.dropdown-menu {
+.menu-align-right>.dropdown-menu {
   left: auto;
   right: 0;
 }
@@ -72,7 +72,7 @@
   border-left-color: #ccc;
 }
 
-.dropdown-submenu:hover>.-expand-left {
+.dropdown-submenu:hover>.expand-left {
   left: auto;
   right: 100%;
 }

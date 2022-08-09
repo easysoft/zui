@@ -1,8 +1,8 @@
 :root {
   --dropmenu-radius: var(--radius);
   --dropmenu-border-color: var(--color-gray-300);
-  --dropmenu-background: var(--color-white);
+  --dropmenu-bg: var(--color-white);
   --dropmenu-active-color: var(--color-gray-800);
-  --dropmenu-active-background: var(--color-primary-200);
+  --dropmenu-active-bg: var(--color-primary-200);
 }
-  
+
