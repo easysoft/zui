@@ -1,6 +1,6 @@
 # 导航
 
-## 基本用法
+## 基础导航
 
 使用组件类`.nav`来获得导航外观 通常搭配`<ul>`,`<li>` 标签来使用
 
@@ -12,7 +12,7 @@
 </ul>
 ```
 
-### 简单导航
+## 简单导航
 
 ```html:example
 <ul class="nav nav-simple">
@@ -63,6 +63,18 @@
   <li><a href="###">项目 </a></li>
 </ul>
 ```
+
+### 带分隔线的导航
+
+```html:example
+<ul class="nav">
+  <li><a href="###" class="active">首页</a></li>
+  <li class="nav-divider"></li>
+  <li><a href="###">动态 </a></li>
+  <li><a href="###">项目 </a></li>
+</ul>
+```
+
 ### 垂直排列
 
 ```html:example

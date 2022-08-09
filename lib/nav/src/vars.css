@@ -2,6 +2,7 @@
   --color-hover-nav: var(--color-gray-100);
   --color-border-nav: var(--color-gray-300);
   --color-heading-nav: var(--color-gray-700);
+  --color-nav-divider: var(--color-primary-400);
   --color-font-nav: canvas;
   --radius-circle-nav: 20px;
 }

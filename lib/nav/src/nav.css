@@ -39,6 +39,12 @@
   @apply border-solid  border-t border-r  border-l border-b-0 absolute inset-0;
 }
 
+.nav > .nav-divider {
+    width: 2px;
+    height: 20px;
+    align-self: center;
+    background: var(--color-nav-divider);
+}
 
 .nav-circle > li > .active {
   background-color: var(--color-primary-500);
