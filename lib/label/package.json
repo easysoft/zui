@@ -1,5 +1,5 @@
 {
-    "name": "@zui/tag",
+    "name": "@zui/label",
     "version": "0.0.1",
     "main": "src/main.ts",
     "browser": "src/main.ts",
