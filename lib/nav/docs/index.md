@@ -239,7 +239,7 @@
 
 <Example>
 <ul class="nav">
-  <li class="li-title">这是一个标题</li>
+  <li class="nav-heading">这是一个标题</li>
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>

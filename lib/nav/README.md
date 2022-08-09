@@ -118,44 +118,44 @@
 ```html:example:gap-3
 
 <ul class="nav nav-tabs">
-  <li class="li-title">这是标题</li>
+  <li class="nav-heading">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav">
-  <li class="li-title">这是标题</li>
+  <li class="nav-heading">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav -simple">
-  <li class="li-title">这是标题</li>
+  <li class="nav-heading">这是标题</li>
   <li><a href="###">首页</a></li>
   <li><a href="###" class="active">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav nav-primary">
-  <li class="li-title">这是标题</li>
+  <li class="nav-heading">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 
 <ul class="nav nav-secondary">
-  <li class="li-title">这是标题</li>
+  <li class="nav-heading">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav nav-primary nav-stacked">
-  <li class="li-title">这是标题</li>
+  <li class="nav-heading">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav nav-stacked -nav-circle">
-  <li class="li-title">这是标题</li>
+  <li class="nav-heading">这是标题</li>
   <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>

@@ -19,7 +19,7 @@
 .nav > li > a:hover {
   background-color: var(--color-hover-nav);
 }
-.nav > .li-title:hover {
+.nav > .nav-heading:hover {
   background-color: unset;
 }
 
@@ -105,10 +105,10 @@
   @apply w-full;
 }
 
-.li-title {
+.nav-heading {
   @apply font-bold;
   color: var(--color-title-nav);
 }
-.nav-primary > .li-title {
+.nav-primary > .nav-heading {
   background-color:var(--color-hover-nav);
 }
