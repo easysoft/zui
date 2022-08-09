@@ -5,6 +5,9 @@
 .nav > li {
   @apply py-2;
 }
+.nav > li > a {
+  @apply whitespace-nowrap;
+}
 
 .nav > li >a {
   @apply px-3 py-2;
