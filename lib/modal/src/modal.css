@@ -1,21 +1,12 @@
-html {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-}
-body {
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-}
 .modal {
   @apply hidden overflow-hidden	fixed top-0 right-0 bottom-0 left-0;
   background-color: var(--modal-bg-color);
   outline: 0;
-  z-index: 99;
+  z-index: var(--modal-z-index);
 }
 .modal-dialog {
-  @apply relative w-auto my-0 mx-auto bg-clip-padding w-3/12 bg-white -translate-x-0 -translate-y-1/4;
+  @apply relative my-0 mx-auto bg-clip-padding bg-white -translate-x-0 -translate-y-1/4;
+  width: var(--modal-base);
   border-radius: var(--modal-radius);
   pointer-events: initial;
   outline: 0;
@@ -25,9 +16,11 @@ body {
   transform: translate(0, 0%);
   animation: dialog-fade-in .3s;
 }
-
+.modal.block > .modal-dialog {
+  transform: translate(0,0);
+}
 .modal-header {
-  padding: var(--modal-title-padding);
+  padding: var(--modal-inner-padding);
   border-bottom: 1px solid var(--modal-border-color);
 }
 .modal-header > .close {
@@ -71,16 +64,14 @@ body {
 .modal-dialog.-sm {
   width: var(--modal-sm);
 }
-.modal-dialog.-md {
-  width: var(--modal-md);
-}
 .modal-dialog.-lg {
   width: var(--modal-lg);
 }
-.-border-none .modal-header,
-.-border-none .modal-footer {
+.-border-none > .modal-header,
+.-border-none > .modal-footer {
   @apply border-none;
 }
+
 @keyframes dialog-fade-in {
   0% {
     transform: translate3d(0, -1.25rem, 0);

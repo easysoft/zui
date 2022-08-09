@@ -1,3 +1,6 @@
+.avatar-group {
+  @apply flex;
+}
 .avatar-group > .avatar {
   box-shadow: 0 0 0 1px var(--color-canvas);
 }
@@ -5,14 +8,14 @@
   margin-left: var(--avatar-overlap);
 }
 .overlap-xs > .avatar + .avatar {
-  margin-left: calc(var(--avatar-overlap) + calc(2 * var(--avatar-overlap-scale)));
+  margin-left: calc(var(--avatar-overlap) + 0.125rem);
 }
 .overlap-sm > .avatar + .avatar {
-  margin-left: calc(var(--avatar-overlap) + var(--avatar-overlap-scale));
+  margin-left: calc(var(--avatar-overlap) + 0.125rem);
 }
 .overlap-lg > .avatar + .avatar {
-  margin-left: calc(var(--avatar-overlap) - var(--avatar-overlap-scale));
+  margin-left: calc(var(--avatar-overlap) - 0.125rem);
 }
 .overlap-xl > .avatar + .avatar {
-  margin-left: calc(var(--avatar-overlap) - calc(2 * var(--avatar-overlap-scale)));
+  margin-left: calc(var(--avatar-overlap) - 0.25rem);
 }

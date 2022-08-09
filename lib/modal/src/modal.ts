@@ -12,6 +12,7 @@ export default class Modal {
 
     constructor(element, options) {
         this.$modal = element;
+        if (!this.$modal) return;
         options = {
             position: 'fit',
             ...options,
@@ -24,14 +25,9 @@ export default class Modal {
         }
         if (options.show && options.position) this.adjustPosition(options.position, null);
         this.$modal.onclick = (e) => this.onClick(e);
-
-        window.onresize = () => {
+        window.addEventListener('resize', () => {
             if (options.show && options.position) this.adjustPosition(options.position, null);
-        };
-
-        window.onbeforeunload = () => {
-            this.onClear('destory');
-        };
+        });
     }
 
     get modalClosable() {
@@ -45,29 +41,16 @@ export default class Modal {
         }
     }
 
-    // lockScroll() {
-    //     let widthBar = 21;
-    //     const root = document.documentElement;
-    //     if (typeof window.innerWidth == 'number') {
-    //         widthBar = window.innerWidth - root.clientWidth;
-    //     }
-    //     root.style.overflow = 'hidden';
-    //     root.style.borderRight = widthBar + 'px solid transparent';
-    // }
-
-    // unlockScroll() {
-    //     const root = document.documentElement;
-    //     root.style.overflow = '';
-    //     root.style.borderRight = '';
-    // }
-
     onShow(ele): void {
+        if (this.show) return;
+        this.show = true;
         ele.classList.add('block');
     }
 
     onHide(ele): void {
         if (ele && ele.classList) {
             ele.classList.remove('block');
+            this.show = false;
         }
     }
 
@@ -76,6 +59,7 @@ export default class Modal {
         modal.forEach(item => {
             if (item.dataset.modalClosable !== 'false' || type === 'destory') {
                 item.classList.remove('block');
+                this.show = false;
             }
         });
     }
@@ -121,7 +105,7 @@ export default class Modal {
         return Object.prototype.toString.call(obj) === '[object Object]';
     }
 }
-document.onclick = function (e) {
+document.addEventListener('click', (e) => {
     if (e !== null && e.target instanceof HTMLElement) {
         if (e.target.dataset?.toggle === 'modal') {
             let target =  e.target.dataset.target;
@@ -145,4 +129,4 @@ document.onclick = function (e) {
             new Modal(e, {}).onClear();
         }
     }
-};
+});

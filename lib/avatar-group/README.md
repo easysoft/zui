@@ -61,7 +61,7 @@
 
 ## Size
 
-```html:example: flex gap-3
+```html:example: flex gap-3 items-end
 
 <div class="avatar-group -overlap-xs">
   <div class="avatar -xs -circle"><img src="/favicon.svg"></div>
@@ -88,14 +88,5 @@
   <div class="avatar -xl -circle"><img src="/favicon.svg"></div>
   <div class="avatar -xl -circle -success">Icon</div>
   <div class="avatar -xl -circle -warning">+1</div>
-</div>
-```
-## Outline
-
-```html:example: flex gap-3
-<div class="avatar-group -outline">
-  <div class="avatar -circle -primary-outline">孙</div>
-  <div class="avatar -circle -secondary-outline">李</div>
-  <div class="avatar -circle -success-outline">周</div>
 </div>
 ```

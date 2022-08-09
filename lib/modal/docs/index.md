@@ -134,7 +134,7 @@ data-target="#positionModal">距离上方100px</button>
   data-target="#smModal">小对话框</button>
 
   <button type="button" class="btn -primary" data-toggle="modal"
-  data-target="#baseModal">中对话框</button>
+  data-target="#baseModal">默认大小</button>
 
   <button type="button" class="btn -primary" data-toggle="modal"
   data-target="#lgModal">大对话框</button>
@@ -233,7 +233,7 @@ data-target="#positionModal">距离上方100px</button>
 data-target="#smModal">小对话框</button>
 
 <button type="button" class="btn -primary" data-toggle="modal"
-data-target="#baseModal">中对话框</button>
+data-target="#baseModal">默认大小</button>
 
 <button type="button" class="btn -primary" data-toggle="modal"
 data-target="#lgModal">大对话框</button>
@@ -327,60 +327,6 @@ data-target="#fullModal">全屏对话框</button>
 </div>
 ```
 
-
-## 居中布局
-
-<Example class="flex gap-4 flex-wrap">
-  <button type="button" class="btn -primary" data-toggle="modal"
-  data-target="#centerModal">居中对话框</button>
-
-  <div class="modal" id="centerModal">
-    <div class="modal-dialog -shadow">
-      <div class="modal-content">
-        <div class="modal-header text-center">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">×</span>
-          </button>
-          <div class="modal-title text-center">标题</div>
-        </div>
-        <div class="modal-body text-center">
-          这是一段内容
-          <p>其他的内容</p>
-        </div>
-        <div class="modal-footer text-center">
-          <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn -primary">保存</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</Example>
-
-```html
-<button type="button" class="btn -primary" data-toggle="modal"
-data-target="#centerModal">居中对话框</button>
-
-<div class="modal" id="centerModal">
-  <div class="modal-dialog -shadow">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
-        <div class="modal-title text-center">标题</div>
-      </div>
-      <div class="modal-body text-center">
-        这是一段内容
-        <p>其他的内容</p>
-      </div>
-      <div class="modal-footer text-center">
-        <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn -primary">保存</button>
-      </div>
-    </div>
-  </div>
-</div>
-```
 ## 信息提示
 
 展示各种类型的信息提示，只提供一个按钮用于关闭。
@@ -420,7 +366,8 @@ data-target="#customModal">点击打开</button>
   </div>
 </div>
 ```
-## 是否可以通过点击 modal 关闭对话框
+
+## 模态对话框
 
 通过 `data-modal-closable` 动态控制，默认 `true` 可以通过点击 modal 关闭对话框。
 

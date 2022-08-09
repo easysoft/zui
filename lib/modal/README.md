@@ -20,6 +20,29 @@
 </div>
 ```
 
+## 去掉 `.modal-content` 展示
+
+```html:example: flex gap-3
+<button type="button" class="btn -primary" data-toggle="modal" data-target="#noContentModal">点击打开对话框</button>
+
+<div class="modal" id="noContentModal">
+  <div class="modal-dialog -shadow">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+      <div class="modal-title">标题</div>
+    </div>
+    <div class="modal-body">
+      <p>这是内容</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn" data-dismiss="modal">关闭</button>
+      <button type="button" class="btn -primary">保存</button>
+    </div>
+    <div class="modal-content"></div>
+  </div>
+</div>
+```
+
 ## 动态展示
 
 ```html:example: flex gap-3
@@ -102,7 +125,7 @@
 ```html:example: flex gap-3
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#smModal">小</button>
 
-<button type="button" class="btn -primary" data-toggle="modal" data-target="#baseModal">中</button>
+<button type="button" class="btn -primary" data-toggle="modal" data-target="#baseModal">默认</button>
 
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#lgModal">大</button>
 

@@ -42,7 +42,7 @@
     <div class="avatar -success -circle">头像</div>
     <div class="avatar -warning -circle">Z</div>
   </div>
-  <div class="avatar-group -outline">
+  <div class="avatar-group">
     <div class="avatar -circle -primary-outline">Z</div>
     <div class="avatar -circle -secondary-outline">Z</div>
     <div class="avatar -circle -success-outline">Z</div>
@@ -85,7 +85,7 @@
   <div class="avatar -success -circle">头像</div>
   <div class="avatar -warning -circle">Z</div>
 </div>
-<div class="avatar-group -outline">
+<div class="avatar-group">
   <div class="avatar -circle -primary-outline">Z</div>
   <div class="avatar -circle -secondary-outline">Z</div>
   <div class="avatar -circle -success-outline">Z</div>

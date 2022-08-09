@@ -34,7 +34,7 @@
 
 ## Sizes
 
-```html:example: flex gap-3
+```html:example: flex gap-3 items-end
 <div class="avatar -xl"><img src="@/assets/avatar-1.png"></div>
 <div class="avatar -lg"><img src="@/assets/avatar-2.png"></div>
 <div class="avatar"><img src="@/assets/avatar-3.png"></div>
