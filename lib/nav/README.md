@@ -6,7 +6,7 @@
 
 ```html:example
 <ul class="nav">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
@@ -15,8 +15,8 @@
 ### -simple
 
 ```html:example
-<ul class="nav -simple">
-  <li class="active"><a href="###">首页</a></li>
+<ul class="nav nav-simple">
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
@@ -26,7 +26,7 @@
 
 ```html:example
 <ul class="nav -nav-primary">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
@@ -36,7 +36,7 @@
 
  ```html:example
  <ul class="nav -nav-secondary">
-   <li class="active"><a href="###">首页</a></li>
+   <li><a href="###" class="active">首页</a></li>
    <li><a href="###">动态 </a></li>
    <li><a href="###">项目 </a></li>
  </ul>
@@ -47,7 +47,7 @@
  ```html:example
  <ul class="nav -nav-tabs">
    <li><a href="###">首页</a></li>
-   <li class="active"><a class="active" href="###">动态 </a></li>
+   <li><a class="active" href="###">动态 </a></li>
    <li><a href="###">项目 </a></li>
  </ul>
  ```
@@ -58,7 +58,7 @@
 
 ```html:example
 <ul class="nav -nav-circle">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
@@ -67,19 +67,19 @@
 
 ```html:example
 <ul class="nav -nav-primary -nav-stacked">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页 </a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 
 <ul class="nav -nav-tabs -nav-stacked">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 
 <ul class="nav -nav-secondary -nav-stacked">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
@@ -92,22 +92,22 @@
 ``` html:example
 
 <ul class="nav -nav-primary -nav-justified">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul> 
 <ul class="nav -nav-secondary -nav-justified">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul> 
 <ul class="nav -nav-tabs -nav-justified">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul> 
 <ul class="nav -nav-circle -nav-justified">
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul> 
@@ -119,44 +119,44 @@
 
 <ul class="nav -nav-tabs">
   <li class="li-title">这是标题</li>
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav">
   <li class="li-title">这是标题</li>
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav -simple">
   <li class="li-title">这是标题</li>
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
+  <li><a href="###">首页</a></li>
+  <li><a href="###" class="active">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav -nav-primary">
   <li class="li-title">这是标题</li>
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 
 <ul class="nav -nav-secondary">
   <li class="li-title">这是标题</li>
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav -nav-primary -nav-stacked">
   <li class="li-title">这是标题</li>
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>
 <ul class="nav -nav-stacked -nav-circle">
   <li class="li-title">这是标题</li>
-  <li class="active"><a href="###">首页</a></li>
+  <li><a href="###" class="active">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
 </ul>

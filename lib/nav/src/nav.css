@@ -3,50 +3,50 @@
 }
 
 .nav > li {
+  @apply py-2;
+}
+
+.nav > li >a {
   @apply px-3 py-2;
 }
 
-.nav > .active {
-  background-color: var(--color-hover-nav);
-}
-.nav > li:hover {
+.nav > li > a:hover {
   background-color: var(--color-hover-nav);
 }
 .nav > .li-title:hover {
   background-color: unset;
 }
 
-.-simple > .active {
+.nav-simple > li > .active {
   color: var(--color-primary-500);
   background-color: var(--color-primary-200);
 }
 
 .-simple > .active li:hover {
-  /* 颜色变化问题  primary 下*/
   background-color: var(--color-primary-500);
 }
 
-.-nav-primary > li {
+.-nav-primary > li > a {
   @apply border-solid border;
 }
-.-nav-primary > li+li {
+.-nav-primary > li > a+a {
   @apply border-l-0;
 }
-.-nav-primary > .active {
+.-nav-primary > li > .active {
   background-color: var(--color-primary-500);
   color: var(--color-font-nav)
 }
-.-nav-primary > .active:hover {
+.-nav-primary > li > .active:hover {
   color: unset;
   color: white;
   background-color: var(--color-primary-500);
 }
 
-.-nav-secondary > li {
+.-nav-secondary > li > a {
   @apply border-solid border-b;
   border-color: var(--color-border-nav);
 }
-.-nav-secondary > .active {
+.-nav-secondary > li > .active {
   color: var(--color-primary-500);
   border-color: var(--color-primary-500);
 }
@@ -55,11 +55,11 @@
   @apply border-b border-solid;
   border-color: var(--color-border-nav);
 }
-.-nav-tabs > .active {
+.-nav-tabs > li > .active {
   @apply  bg-white border-solid border-t border-r border-l -mb-px; 
 }
 
-.-nav-circle > .active {
+.-nav-circle > li > .active {
   background-color: var(--color-primary-500);
   color: var(--color-font-nav);
   border-radius: var(--radius-circle-nav);
@@ -68,7 +68,7 @@
 .-nav-stacked {
   @apply block;
 }
-.-nav-stacked.-nav-primary > li+li {
+.-nav-stacked.-nav-primary > li > a+a {
   border: unset;
   @apply border border-solid border-t-0;
   border-color: var(--color-border-nav);
