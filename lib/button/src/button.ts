@@ -3,9 +3,11 @@ export interface AttrProps {
     value: string | number;
 }
 
-export const getAttributes = (element: {attributes: object}): object  => {
-    if (!element) return {};
-    const attrs = {};
+export const getAttributes = (element: HTMLElement)  => {
+    const attrs: Record<string, string> = {};
+    if (!element) {
+        return attrs;
+    }
     const attrSource = Object.values(element.attributes);
     if (attrSource && attrSource.length > 0) {
         attrSource.forEach(AttrProps => {
@@ -25,7 +27,7 @@ export class ZuiButton extends HTMLElement {
 
     constructor() {
         super();
-      
+
         this.$button = document.createElement('button');
         const text:string = this.innerHTML;
         this.innerHTML = '';
@@ -38,7 +40,7 @@ export class ZuiButton extends HTMLElement {
         this.$button.classList.add('btn');
         this.append(this.$button);
     }
-    
+
     connectedCallback() {
         this.initStyle();
         this.initEventListen();
@@ -54,7 +56,7 @@ export class ZuiButton extends HTMLElement {
                     break;
             }
         });
-        
+
     }
 
     initStyle() {

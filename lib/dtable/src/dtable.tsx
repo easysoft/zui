@@ -14,7 +14,7 @@ export type DTableProps = DTableOptions;
 export class DTable extends Component<DTableProps, DTableState> {
     state: DTableState  = {scrollTop: 0, scrollLeft: 0, hiddenRows: {}, hiddenCols: {}};
 
-    ref = createRef();
+    ref = createRef<HTMLDivElement>();
 
     private _needUpdateSize = false;
 
@@ -24,7 +24,7 @@ export class DTable extends Component<DTableProps, DTableState> {
         } else {
             this.props.afterRender?.(this.props, this.state);
         }
-        (this.ref.current as HTMLElement)?.addEventListener('click', this._handleClick);
+        this.ref.current?.addEventListener('click', this._handleClick);
     }
 
     componentDidUpdate() {
@@ -33,7 +33,7 @@ export class DTable extends Component<DTableProps, DTableState> {
     }
 
     componentWillUnmount() {
-        (this.ref.current as HTMLElement)?.removeEventListener('click', this._handleClick);
+        this.ref.current?.removeEventListener('click', this._handleClick);
     }
 
     scrollLeft(scrollLeft: number) {
