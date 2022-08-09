@@ -56,11 +56,11 @@
 
 ## 浮动方向
 
-为 `.dropdown` 类添加 `.-dropup` 类时下拉菜单在触发元素上方弹出。
-为 `.dorpdown-menu` 类添加 `.-align-right` 类可以使得下拉菜单的右侧与触发元素的右侧对齐。
+为 `.dropdown` 类添加 `.dropup` 类时下拉菜单在触发元素上方弹出。
+为 `.dorpdown-menu` 类添加 `.menu-align-right` 类可以使得下拉菜单的右侧与触发元素的右侧对齐。
 
 <Example class="flex gap-4">
-  <div class="dropdown -dropup">
+  <div class="dropdown dropup">
     <button class="btn" type="button" data-toggle="dropdown">上方左侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a>操作</a></li>
@@ -79,7 +79,7 @@
     </ul>
   </div>
 
-  <div class="dropdown -dropup -align-right">
+  <div class="dropdown dropup menu-align-right">
     <button class="btn" type="button"
         data-toggle="dropdown">上方右侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -89,7 +89,7 @@
     </ul>
   </div>
 
-  <div class="dropdown -align-right">
+  <div class="dropdown menu-align-right">
     <button class="btn" type="button"
         data-toggle="dropdown">下方右侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -101,7 +101,7 @@
 </Example>
 
 ```html
-<div class="dropdown -dropup">
+<div class="dropdown dropup">
     <button class="btn" type="button" data-toggle="dropdown">上方左侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a>操作</a></li>
@@ -120,7 +120,7 @@
     </ul>
 </div>
 
-<div class="dropdown -dropup -align-right">
+<div class="dropdown dropup menu-align-right">
     <button class="btn" type="button"
         data-toggle="dropdown">上方右侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -130,7 +130,7 @@
     </ul>
 </div>
 
-<div class="dropdown -align-right">
+<div class="dropdown menu-align-right">
     <button class="btn" type="button"
         data-toggle="dropdown">下方右侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -144,7 +144,7 @@
 ## 多级子菜单
 
 在 `.dropdown-menu` 内的 `<li>` 内包含另一个 `.dropdown-menu` 从而实现多级子菜单。包含子菜单的 `<li>` 需要添加额外的类 `.dropdown-submenu` 。
-一般情况下子菜单会在菜单项的右侧显示，但也可以为作为子菜单的 `.dropdown-menu` 类添加 `.-expand-left` 类来使得子菜单在左侧显示
+一般情况下子菜单会在菜单项的右侧显示，但也可以为作为子菜单的 `.dropdown-menu` 类添加 `.expand-left` 类来使得子菜单在左侧显示
 
 <Example class="flex gap-4">
   <div class="dropdown">
@@ -182,7 +182,7 @@
         </li>
         <li class="dropdown-submenu">
             <a>在左侧显示</a>
-            <ul class="dropdown-menu -expand-left">
+            <ul class="dropdown-menu expand-left">
                 <li><a>复制</a></li>
                 <li><a>粘贴</a></li>
                 <li><a>剪切</a></li>
@@ -236,7 +236,7 @@
         </li>
         <li class="dropdown-submenu">
             <a>在左侧显示</a>
-            <ul class="dropdown-menu -expand-left">
+            <ul class="dropdown-menu expand-left">
                 <li><a>复制</a></li>
                 <li><a>粘贴</a></li>
                 <li><a>剪切</a></li>
@@ -363,6 +363,6 @@
 | `dropdown-header`  | 实体类 | 元素作为下拉菜单中的标题 |
 | `dropdown-submenu` | 实体类 | 元素作为下拉菜单子菜单列表 |
 | `caret`            | 实体类 | 元素作为下拉菜单icon图标 |
-| `-dropup`          | 修饰类 | 下拉框浮动方向为上方 |
-| `-align-right`     | 修饰类 | 下拉框展开后右侧对齐 |
-| `-expand-left`     | 修饰类 |  子菜单左侧显示 |
+| `dropup`           | 修饰类 | 下拉框浮动方向为上方 |
+| `menu-align-right` | 修饰类 | 下拉框展开后右侧对齐 |
+| `expand-left`      | 修饰类 |  子菜单左侧显示 |

@@ -1,0 +1,6 @@
+:root {
+  --label-bg: var(--color-gray-50);
+  --label-border-color: var(--color-gray-500);
+  --label-color: var(--color-gray-500);
+  --label-radius: var(--radius);
+}

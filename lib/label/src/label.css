@@ -1,0 +1,17 @@
+
+.label{
+  @apply h-5 px-1 inline-flex items-center whitespace-pre-line text-sm;
+  background-color: var(--label-bg);
+  border-radius: var(--label-radius);
+  border: 1px solid var(--label-border-color);
+  color: var(--label-color);
+}
+.label.-lg {
+  @apply text-base px-2 h-6;
+}
+.label.-sm {
+  @apply h-4;
+}
+.label-dot {
+  @apply rounded-full h-2 px-0 aspect-square;
+}
