@@ -21,7 +21,7 @@ export interface DTableOptions {
     footer?: boolean | ComponentChildren | ((layout: DTableLayout, options: DTableOptions, state: DTableState) => (ComponentChildren | {__html: string}));
     headerHeight?: number;
     footerHeight?: number;
-    scrollbarWidth?: number;
+    scrollbarWidth?: number;  // todo
     rowHover?: boolean;
     colHover?: boolean;
     cellHover?: boolean;

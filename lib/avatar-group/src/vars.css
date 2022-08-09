@@ -1,6 +1,4 @@
 :root {
-  --avatar-radius: var(--radius);
-  --avatar-group-overlap: -0.75rem;
-  --avatar-shadow: 0 0 0 1px #fff;
+  --avatar-overlap: -0.75rem;
   --avatar-overlap-scale: 0.125rem;
 }

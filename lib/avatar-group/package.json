@@ -5,9 +5,11 @@
     "browser": "src/main.ts",
     "browserslist": "",
     "keywords": ["css", "zui:control"],
+    "dependencies": {
+        "@zui/avatar": "workspace:0.0.1"
+    },
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/avatar": "workspace:0.0.1",
         "@zui/utilities": "workspace:*"
     }
 }

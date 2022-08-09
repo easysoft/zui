@@ -167,37 +167,37 @@
 ## Box Shadow
 
 ```html:example: grid grid-cols-7 gap-4
-<div class="h-10 w-full flex items-center justify-center -canvas -shadow-inner">shadow-inner</div>
-<div class="h-10 w-full flex items-center justify-center -canvas -shadow-none">shadow-none</div>
-<div class="h-10 w-full flex items-center justify-center -canvas -shadow-sm">shadow-sm</div>
-<div class="h-10 w-full flex items-center justify-center -canvas -shadow">shadow</div>
-<div class="h-10 w-full flex items-center justify-center -canvas -shadow-md">shadow-md</div>
-<div class="h-10 w-full flex items-center justify-center -canvas -shadow-lg">shadow-lg</div>
-<div class="h-10 w-full flex items-center justify-center -canvas -shadow-xl">shadow-xl</div>
+<div class="h-10 w-full flex items-center justify-center -canvas -sd-inner">shadow-inner</div>
+<div class="h-10 w-full flex items-center justify-center -canvas -sd-none">shadow-none</div>
+<div class="h-10 w-full flex items-center justify-center -canvas -sd-sm">shadow-sm</div>
+<div class="h-10 w-full flex items-center justify-center -canvas -sd">shadow</div>
+<div class="h-10 w-full flex items-center justify-center -canvas -sd-md">shadow-md</div>
+<div class="h-10 w-full flex items-center justify-center -canvas -sd-lg">shadow-lg</div>
+<div class="h-10 w-full flex items-center justify-center -canvas -sd-xl">shadow-xl</div>
 ```
 
 ## Box Shadow Color
 
 ```html:example: grid grid-cols-7 gap-4
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-primary">shadow-primary</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-secondary">shadow-secondary</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-success">shadow-success</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-warning">shadow-warning</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-danger">shadow-danger</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-important">shadow-important</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-special">shadow-special</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-primary">shadow-primary</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-secondary">shadow-secondary</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-success">shadow-success</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-warning">shadow-warning</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-danger">shadow-danger</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-important">shadow-important</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-special">shadow-special</div>
 
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-white">shadow-white</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-lighter">shadow-lighter</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-light">shadow-light</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-gray">shadow-gray</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-dark">shadow-dark</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-darker">shadow-darker</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-black">shadow-black</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-white">shadow-white</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-lighter">shadow-lighter</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-light">shadow-light</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-gray">shadow-gray</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-dark">shadow-dark</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-darker">shadow-darker</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-black">shadow-black</div>
 
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-transparent">shadow-transparent</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-inherit">shadow-inherit</div>
-<div class="h-10 w-full flex items-center justify-center -bg-surface -shadow-md -shadow-current">shadow-current</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-transparent">shadow-transparent</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-inherit">shadow-inherit</div>
+<div class="h-10 w-full flex items-center justify-center -bg-surface -sd-md -sd-current">shadow-current</div>
 ```
 
 ## Opacity

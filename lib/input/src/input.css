@@ -1,7 +1,7 @@
 .input-control {
-    @apply box-border inline-block relative overflow-hidden;
+    @apply relative;
 }
-.input-control .form-control {
+.input-control > .form-control {
     @apply px-3 h-8 w-48;
     border: 1px solid var(--input-border-color);
     border-radius: var(--input-radius);

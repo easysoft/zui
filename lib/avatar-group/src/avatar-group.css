@@ -1,21 +1,18 @@
-.avatar-group.-outline .avatar {
-  @apply shadow-none bg-white;
+.avatar-group > .avatar {
+  box-shadow: 0 0 0 1px var(--color-canvas);
 }
-.avatar-group .avatar {
-  box-shadow: var(--avatar-shadow);
+.avatar-group > .avatar + .avatar {
+  margin-left: var(--avatar-overlap);
 }
-.avatar-group .avatar + .avatar {
-  margin-left: var(--avatar-group-overlap);
+.overlap-xs > .avatar + .avatar {
+  margin-left: calc(var(--avatar-overlap) + calc(2 * var(--avatar-overlap-scale)));
 }
-.avatar-group.-overlap-xs .avatar + .avatar {
-  margin-left: calc(var(--avatar-group-overlap) + calc(2 * var(--avatar-overlap-scale)));
+.overlap-sm > .avatar + .avatar {
+  margin-left: calc(var(--avatar-overlap) + var(--avatar-overlap-scale));
 }
-.avatar-group.-overlap-sm .avatar + .avatar {
-  margin-left: calc(var(--avatar-group-overlap) + var(--avatar-overlap-scale));
+.overlap-lg > .avatar + .avatar {
+  margin-left: calc(var(--avatar-overlap) - var(--avatar-overlap-scale));
 }
-.avatar-group.-overlap-lg .avatar + .avatar {
-  margin-left: calc(var(--avatar-group-overlap) - var(--avatar-overlap-scale));
-}
-.avatar-group.-overlap-xl .avatar + .avatar {
-  margin-left: calc(var(--avatar-group-overlap) - calc(2 * var(--avatar-overlap-scale)));
+.overlap-xl > .avatar + .avatar {
+  margin-left: calc(var(--avatar-overlap) - calc(2 * var(--avatar-overlap-scale)));
 }

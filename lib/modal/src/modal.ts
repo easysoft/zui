@@ -3,6 +3,11 @@ export default class Modal {
 
     options: {
         position: string | number;
+        show: boolean;
+    };
+
+    state: {
+        show: boolean;
     };
 
     constructor(element, options) {
@@ -109,7 +114,7 @@ export default class Modal {
                 }
             }
         }
-       
+
     }
 
     isPlainObject(obj) : boolean {

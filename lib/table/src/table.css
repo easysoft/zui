@@ -1,5 +1,5 @@
 .table {
-    @apply w-full border-2;
+    @apply w-full border;
 }
 
 .table th,
@@ -43,4 +43,3 @@
 .-fixed td {
   @apply overflow-hidden whitespace-nowrap;
 }
-

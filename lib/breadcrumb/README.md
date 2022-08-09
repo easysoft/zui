@@ -4,17 +4,10 @@
 
 使用组件类`.breadcrumb`来获得外观 通常搭配`<ol>`,`<li>`元素使用
 
-<Example>
-  <ol class="breadcrumb">
-    <li><a href="your/url/">Home</a></li>
-    <li><a href="your/url/">Library</a></li>
-    <li class="active">Data</li>
-  </ol>
-</Example>
 
-```html
+```html:example
    <ol class="breadcrumb">
-     <li><a href="your/url/">Home</a></li>
+     <li>Home</li>
      <li><a href="your/url/">Library</a></li>
      <li class="active">Data</li>
    </ol>

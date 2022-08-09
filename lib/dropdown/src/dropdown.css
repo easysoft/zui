@@ -2,7 +2,7 @@
   @apply inline-block relative;
 }
 
-.dropdown-hover:hover>.dropdown-menu {
+.dropdown-hover:hover > .dropdown-menu {
   @apply block;
 }
 
@@ -14,22 +14,19 @@
 }
 
 .dropdown-menu {
-  @apply py-2 w-40 hidden absolute list-none px-0 m-0 shadow-lg ;
-  left: 0;
-  top: 100%;
-  z-index: 10;
+  @apply py-2 w-40 hidden absolute list-none px-0 m-0 shadow-lg left-0 top-full z-10;
   background-color: var(--dropmenu-background);
 }
 
-.open>.dropdown-menu {
+.open > .dropdown-menu {
   @apply block;
 }
 
-.dropdown-menu>li {
+.dropdown-menu > li {
   @apply px-2 mb-1;
 }
 
-.dropdown-menu>li>a {
+.dropdown-menu > li > a {
   @apply block px-2 py-1.5 leading-3;
 }
 

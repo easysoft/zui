@@ -1,5 +1,5 @@
 [disabled],
 .-disabled {
-    @apply cursor-not-allowed grayscale;
-    opacity: var(--state-disabled-opacity);
+    @apply cursor-not-allowed grayscale pointer-events-none;
+    opacity: var(--disabled-opacity);
 }

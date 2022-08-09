@@ -3,27 +3,25 @@ form {
   width: var(--form-width);
 }
 .form-group {
-  @apply w-full;
   margin-bottom: var(--form-group-space);
 }
 
-.form-group label {
+.form-group > label {
   @apply inline-block font-bold text-xs pr-2 whitespace-nowrap;
-  font-family: 'Abel';
 }
 
 .form-horizontal > .form-group {
-  @apply flex
+  @apply flex;
 }
 
-.form-horizontal > .form-group label {
+.form-horizontal > .form-group > label {
   @apply py-2 ;
   text-align: var(--label-text-align);
   min-width: var(--label-width);
 }
 
 .form-control {
-  @apply bg-white rounded border-solid border block h-8 text-xs py-1 px-2 w-full outline-none;
+  @apply bg-canvas rounded border-solid border block h-8 text-xs py-1 px-2 w-full outline-none;
 }
 
 .form-control::-webkit-input-placeholder {

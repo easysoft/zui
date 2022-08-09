@@ -1,5 +1,4 @@
 :root {
-  --breadcrumb: var(--radius);
   /* --breadcrumb-color: var();*/
   --breadcrumb-color-active: var(--color-gray-500);
 }
