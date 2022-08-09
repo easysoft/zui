@@ -1,6 +1,6 @@
 /**
  * Select text in an element
- * @param element Element or element selector to select
+ * @param elementOrSelector Element or element selector to select
  */
 export function selectText(elementOrSelector: HTMLElement | string): boolean {
     const element = typeof elementOrSelector === 'string' ? document.querySelector(elementOrSelector) : elementOrSelector;

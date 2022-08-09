@@ -1,15 +1,15 @@
 .tag{
-  @apply h-5 px-1 leading-5 box-content;
-  background-color: var(--tag-background);
-  border-radius: var(--radius);
+  @apply h-5 px-1 inline-flex items-center whitespace-pre-line text-sm;
+  background-color: var(--tag-bg);
+  border-radius: var(--tag-radius);
   border: 1px solid var(--tag-border-color);
   color: var(--tag-color);
 }
 .tag.-lg {
-  @apply text-lg px-2 h-6 leading-6;
+  @apply text-base px-2 h-6;
 }
 .tag.-sm {
-  @apply text-sm h-4 leading-4;
+  @apply h-4;
 }
 .tag.-dot {
   @apply rounded-full w-3 h-3 px-0;

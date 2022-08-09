@@ -35,7 +35,7 @@ body {
   color: var(--color-gray-500);
 }
 .modal-header > .modal-title {
-  @apply m-0 font-semibold;
+  @apply m-0 font-bold;
 }
 
 .modal-body {

@@ -10,3 +10,15 @@
 .-bd-0 {
   @apply border-0;
 }
+.-bd-t-0 {
+  @apply border-t-0;
+}
+.-bd-r-0 {
+  @apply border-r-0;
+}
+.-bd-b-0 {
+  @apply border-b-0;
+}
+.-bd-l-0 {
+  @apply border-l-0;
+}

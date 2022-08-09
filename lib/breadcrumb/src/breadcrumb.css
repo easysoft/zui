@@ -1,6 +1,5 @@
 .breadcrumb {
   @apply py-2 px-4;
-  border-radius: var(--breadcrumb-radius);
 }
 
 .breadcrumb >li {
@@ -9,7 +8,7 @@
 
 .breadcrumb > li+li:before {
   @apply py-0 px-1;
-  content: "/\00a0"; 
+  content: "/\00a0";
   color: var(--breadcrumb-color);
 }
 

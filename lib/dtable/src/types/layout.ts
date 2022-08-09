@@ -28,6 +28,6 @@ export interface DTableLayout {
     scrollBottom: number;
     scrollTop: number;
     scrollLeft: number;
-    startRowIndex: number;
-    endRowIndex: number;
+    startRowIndex: number; // todo
+    endRowIndex: number; // todo
 }

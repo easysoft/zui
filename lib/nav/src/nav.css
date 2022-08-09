@@ -8,6 +8,9 @@
 .nav > li > a {
   @apply whitespace-nowrap;
 }
+.nav > li > a {
+  @apply whitespace-nowrap;
+}
 
 .nav > li >a {
   @apply px-3 py-2;
@@ -58,6 +61,7 @@
   @apply border-b border-solid;
   border-color: var(--color-border-nav);
 }
+
 .-nav-tabs > li > .active {
   @apply  bg-white border-solid border-t border-r border-l -mb-px; 
 }
@@ -90,7 +94,7 @@
 }
 .-nav-stacked.-nav-secondary > .active {
   color: var(--color-primary-500);
-  border-color: var(--color-primary-500);
+  /* border-color: var(--color-primary-500); */
 }
 
 .-nav-justified {
@@ -103,7 +107,7 @@
 
 .li-title {
   @apply font-bold;
-  color:var(--color-title-nav);
+  color: var(--color-title-nav);
 }
 .-nav-primary > .li-title {
   background-color:var(--color-hover-nav);
