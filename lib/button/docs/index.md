@@ -36,7 +36,7 @@
 
 ## 图标按钮
 
-按钮配合[图标组件](/lib/icon)一起使用时，自动呈现为图标按钮。
+按钮配合[图标组件](http://url.com/lib/icon)一起使用时，自动呈现为图标按钮。
 
 <Example class="flex gap-4 flex-wrap items-end">
   <button type="button" class="btn"><i class="icon -i-star"></i> 左侧图标</button>

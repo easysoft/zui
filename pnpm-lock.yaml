@@ -54,8 +54,6 @@ importers:
       typescript: ^4.5.4
       vite: ^3.0.2
       vite-plugin-eslint: ^1.6.1
-      vitepress: 1.0.0-alpha.4
-      vue: ^3.2.36
       zui-config: workspace:^0.0.1
     dependencies:
       '@zui/avatar': link:lib/avatar
@@ -110,8 +108,6 @@ importers:
       typescript: registry.npmmirror.com/typescript/4.7.4
       vite: registry.npmmirror.com/vite/3.0.2
       vite-plugin-eslint: registry.npmmirror.com/vite-plugin-eslint/1.6.1_eslint@8.18.0+vite@3.0.2
-      vitepress: registry.npmmirror.com/vitepress/1.0.0-alpha.4
-      vue: registry.npmmirror.com/vue/3.2.37
 
   build:
     specifiers:
@@ -120,6 +116,7 @@ importers:
       '@zui/base': workspace:^0.0.1
       '@zui/breadcrumb': workspace:^0.0.1
       '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/btn-group': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
       '@zui/dtable': workspace:^0.0.1
@@ -140,6 +137,7 @@ importers:
       '@zui/base': link:../lib/base
       '@zui/breadcrumb': link:../lib/breadcrumb
       '@zui/browser-helpers': link:../lib/browser-helpers
+      '@zui/btn-group': link:../lib/btn-group
       '@zui/button': link:../lib/button
       '@zui/dropdown': link:../lib/dropdown
       '@zui/dtable': link:../lib/dtable
@@ -161,6 +159,16 @@ importers:
     dependencies:
       '@mertasan/tailwindcss-variables': registry.npmmirror.com/@mertasan/tailwindcss-variables/2.3.0
 
+  docs:
+    specifiers:
+      vitepress: 1.0.0-alpha.4
+      vue: ^3.2.36
+      zui-config: workspace:^0.0.1
+    devDependencies:
+      vitepress: registry.npmmirror.com/vitepress/1.0.0-alpha.4
+      vue: registry.npmmirror.com/vue/3.2.37
+      zui-config: link:../config
+
   lib/avatar:
     specifiers:
       '@zui/base': workspace:*
@@ -174,8 +182,9 @@ importers:
       '@zui/avatar': workspace:0.0.1
       '@zui/base': workspace:*
       '@zui/utilities': workspace:*
-    devDependencies:
+    dependencies:
       '@zui/avatar': link:../avatar
+    devDependencies:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities
 

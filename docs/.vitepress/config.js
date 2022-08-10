@@ -6,7 +6,9 @@ export default defineConfig({
     title: 'ZUI 3',
     description: 'Composable UI framework',
     head: [
-        ['link', { rel: 'icon', type: 'image/svg+xml', href: '/assets/favicon.svg' }],
+        ['link', {rel: 'icon', type: 'image/svg+xml', href: '/assets/favicon.svg'}],
+        ['link', {rel: 'stylesheet', href: '/assets/zui/zui.css'}],
+        ['script', {src: '/assets/zui/zui.umd.cjs'}],
     ],
     lastUpdated: true,
     markdown: {
