@@ -40,9 +40,7 @@
 }
 
 .nav > .nav-divider {
-    width: 2px;
-    height: 20px;
-    align-self: center;
+    @apply self-center h-5 w-0.5;
     background: var(--color-nav-divider);
 }
 
