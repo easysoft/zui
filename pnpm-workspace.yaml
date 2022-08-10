@@ -2,3 +2,4 @@ packages:
   - "config"
   - "lib/**"
   - "build"
+  - "docs"

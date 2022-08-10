@@ -1,0 +1,15 @@
+{
+    "name": "zui-docs",
+    "description": "ZUI Document Website",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "vitepress dev . --host",
+        "build": "vitepress build .",
+        "serve": "vitepress serve ."
+    },
+    "devDependencies": {
+        "vitepress": "1.0.0-alpha.4",
+        "vue": "^3.2.36",
+        "zui-config": "workspace:^0.0.1"
+    }
+}
