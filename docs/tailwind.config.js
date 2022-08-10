@@ -6,7 +6,7 @@ module.exports = {
         './**/*.{vue,js,ts,jsx,tsx,md}',
         './.vitepress/**/*.{vue,js,ts,jsx,tsx,md}',
         '!node_modules',
-        '!assets',
+        '!public',
     ],
     presets: [
         zuiTailwindConfig,

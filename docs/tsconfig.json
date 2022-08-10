@@ -1,6 +1,8 @@
 {
     "extends": "../tsconfig.json",
     "include": [
-      "./.vitepress/theme/**/*"
+      "./.vitepress/theme/**/*",
+      "tailwind.config.js",
+      "postcss.config.js",
     ]
   }

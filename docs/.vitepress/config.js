@@ -16,7 +16,7 @@ export default defineConfig({
         lineNumbers: true,
     },
     themeConfig: {
-        logo: '/assets/favicon.svg',
+        logo: '/public/favicon.svg',
         nav: [
             {text: '指引', link: '/guide/quick-start.md'},
             {text: '基础', link: '/basic/index.md'},
