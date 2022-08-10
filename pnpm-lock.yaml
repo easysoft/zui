@@ -193,6 +193,19 @@ importers:
   lib/browser-helpers:
     specifiers: {}
 
+  lib/btn-group:
+    specifiers:
+      '@zui/base': workspace:*
+      '@zui/button': workspace:^0.0.1
+      '@zui/dropdown': workspace:^0.0.1
+      '@zui/utilities': workspace:*
+    dependencies:
+      '@zui/button': link:../button
+    devDependencies:
+      '@zui/base': link:../base
+      '@zui/dropdown': link:../dropdown
+      '@zui/utilities': link:../utilities
+
   lib/button:
     specifiers:
       '@zui/base': workspace:*

@@ -27,6 +27,7 @@
     "@zui/base": "workspace:0.0.1",
     "@zui/breadcrumb": "workspace:0.0.1",
     "@zui/browser-helpers": "workspace:0.0.1",
+    "@zui/btn-group": "workspace:0.0.1",
     "@zui/button": "workspace:0.0.1",
     "@zui/dropdown": "workspace:0.0.1",
     "@zui/dtable": "workspace:0.0.1",

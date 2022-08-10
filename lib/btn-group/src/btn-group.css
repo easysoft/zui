@@ -1,0 +1,78 @@
+.btn-group > .btn {
+  border-radius: var(--btn-group-radius);
+}
+
+.btn-group, .btn-toolbar {
+  @apply flex;
+}
+
+.btn-group > .btn:not(:last-child) {
+  @apply border-r-0;
+}
+
+.btn-toolbar {
+  @apply gap-x-4;
+}
+
+.btn-group.xs > .btn {
+  @apply text-xs px-1 h-5;
+}
+
+.btn-group.sm > .btn {
+  @apply text-sm px-2 h-6;
+}
+
+.btn-group.lg > .btn {
+  @apply text-lg px-4 h-10;
+}
+
+.btn-group.xl > .btn {
+  @apply text-xl px-5 h-12;
+}
+
+.btn-group.group-rounded-none > .btn {
+  @apply rounded-none;
+}
+
+.btn-group.group-rounded-sm > .btn {
+  @apply rounded-sm;
+}
+
+.btn-group.group-rounded > .btn {
+  @apply rounded;
+}
+
+.btn-group.group-rounded-md > .btn {
+  @apply rounded-md;
+}
+
+.btn-group.group-rounded-lg > .btn {
+  @apply rounded-lg;
+}
+
+.btn-group.group-rounded-xl > .btn {
+  @apply rounded-xl;
+}
+
+.btn-group.group-circle > .btn {
+  @apply rounded-full;
+}
+
+.btn-group > .btn:not(:first-child):not(:last-child) {
+  @apply rounded-none;
+}
+
+.btn-group > .btn:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.btn-group > .btn:last-child,
+.dropdown:last-child > .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-group > .btn:not(:last-child) {
+  @apply border-r-0;
+}
