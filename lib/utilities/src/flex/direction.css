@@ -1,5 +1,5 @@
-.-row {@apply flex flex-row;}
-.-col {@apply flex flex-col;}
+.row {@apply -flex -flex-row;}
+.col {@apply -flex -flex-col;}
 
-.-row-reverse {@apply flex flex-row-reverse;}
-.-col-reverse {@apply flex flex-col-reverse;}
+.row-reverse {@apply -flex -flex-row-reverse;}
+.col-reverse {@apply -flex -flex-col-reverse;}

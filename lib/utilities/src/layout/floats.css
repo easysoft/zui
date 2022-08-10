@@ -1,7 +1,7 @@
-.-pull-right {@apply float-right;}
-.-pull-left  {@apply float-left;}
+.pull-right {@apply -float-right;}
+.pull-left  {@apply -float-left;}
 
-.-clearfix::after {
+.clearfix::after {
     content: "";
-    @apply block clear-both;
+    @apply -block -clear-both;
 }

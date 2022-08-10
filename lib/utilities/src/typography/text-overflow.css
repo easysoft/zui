@@ -1,2 +1,2 @@
-.-ellipsis {@apply truncate;}
-.-clip     {@apply truncate text-clip;}
+.ellipsis {@apply -truncate;}
+.clip     {@apply -truncate -text-clip;}

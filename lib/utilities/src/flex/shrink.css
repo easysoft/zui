@@ -1,2 +1,2 @@
-.-shrink   {@apply shrink;}
-.-shrink-0 {@apply shrink-0;}
+.shrink   {@apply -shrink;}
+.shrink-0 {@apply -shrink-0;}

@@ -1,34 +1,12 @@
-.-primary-pale {
-  @apply border-primary-100 bg-primary-100 text-primary-500;
-}
-.-secondary-pale {
-  @apply border-secondary-100 bg-secondary-100 text-secondary-500;
-}
-.-success-pale {
-  @apply border-success-100 bg-success-100 text-success-500;
-}
-.-warning-pale {
-  @apply border-warning-100 bg-warning-100 text-warning-500;
-}
-.-danger-pale {
-  @apply border-danger-100 bg-danger-100 text-danger-500;
-}
-.-important-pale {
-  @apply border-important-100 bg-important-100 text-important-500;
-}
-.-special-pale {
-  @apply border-special-100 bg-special-100 text-special-500;
-}
+.primary-pale   {@apply -border-primary-100 -bg-primary-100 -text-primary-500;}
+.secondary-pale {@apply -border-secondary-100 -bg-secondary-100 -text-secondary-500;}
+.success-pale   {@apply -border-success-100 -bg-success-100 -text-success-500;}
+.warning-pale   {@apply -border-warning-100 -bg-warning-100 -text-warning-500;}
+.danger-pale    {@apply -border-danger-100 -bg-danger-100 -text-danger-500;}
+.important-pale {@apply -border-important-100 -bg-important-100 -text-important-500;}
+.special-pale   {@apply -border-special-100 -bg-special-100 -text-special-500;}
 
-.-lighter-pale {
-  @apply border-gray-100 bg-gray-100 text-gray-500;
-}
-.-light-pale {
-  @apply border-gray-200 bg-gray-200 text-gray-600;
-}
-.-gray-pale {
-  @apply border-gray-300 bg-gray-300 text-gray-700;
-}
-.-dark-pale {
-  @apply border-gray-400 bg-gray-400 text-gray-700;
-}
+.lighter-pale {@apply -border-gray-100 -bg-gray-100 -text-gray-500;}
+.light-pale   {@apply -border-gray-200 -bg-gray-200 -text-gray-600;}
+.gray-pale    {@apply -border-gray-300 -bg-gray-300 -text-gray-700;}
+.dark-pale    {@apply -border-gray-400 -bg-gray-400 -text-gray-700;}

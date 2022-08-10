@@ -1,56 +1,56 @@
 #libPage {
-    @apply p-5 pr-48;
+    @apply -p-5 -pr-48;
 }
 h1 {
-    @apply text-2xl font-bold mb-5 mt-5;
+    @apply -text-2xl -font-bold -mb-5 -mt-5;
 }
 h2 {
-    @apply text-xl font-bold mb-3 mt-5;
+    @apply -text-xl -font-bold -mb-3 -mt-5;
 }
 h3 {
-    @apply text-lg font-bold mb-2 mt-5;
+    @apply -text-lg -font-bold -mb-2 -mt-5;
 }
 h4, h4, h6 {
-    @apply text-base font-bold mb-2 mt-5;
+    @apply -text-base -font-bold -mb-2 -mt-5;
 }
 p {
-    @apply mb-2;
+    @apply -mb-2;
 }
 pre {
-    @apply mb-2 p-2 border border-gray-200 overflow-y-auto max-h-96;
+    @apply -mb-2 -p-2 -border -border-gray-200 -overflow-y-auto -max-h-96;
 }
 pre.hljs {
-    @apply bg-gray-100;
+    @apply -bg-gray-100;
 }
 pre[data-lang] {
-    @apply relative;
+    @apply -relative;
 }
 pre[data-lang]::after {
     content: attr(data-lang);
-    @apply absolute block top-0 right-0 bg-gray-300 px-1 text-sm text-gray-500;
+    @apply -absolute -block -top-0 -right-0 -bg-gray-300 -px-1 -text-sm -text-gray-500;
 }
 .example {
-    @apply mb-2 p-4 border border-gray-200;
+    @apply -mb-2 -p-4 -border -border-gray-200;
 }
 .example + pre {
-    @apply mt-[-0.5rem] border-t-0;
+    @apply -mt-[-0.5rem] -border-t-0;
 }
 
 .table-of-contents ul,
 .table-of-contents ol {
-    @apply list-disc pl-5;
+    @apply -list-disc -pl-5;
 }
 .table-of-contents {
-    @apply fixed right-4 top-10 w-36 border-l-4 border-l-young-200 px-5 leading-6;
+    @apply -fixed -right-4 -top-10 -w-36 -border-l-4 -border-l-young-200 -px-5 -leading-6;
 }
 .table-of-contents > ol,
 .table-of-contents > ol > li > ol {
-    @apply list-none pl-0;
+    @apply -list-none -pl-0;
 }
 .table-of-contents > ol > li > a {
-    @apply hidden;
+    @apply -hidden;
 }
 .table-of-contents > ol > li > ol > li,
 .table-of-contents > ol > li > ol > li > a {
-    @apply hover:text-young-500 text-ellipsis overflow-hidden whitespace-nowrap;
+    @apply hover:-text-young-500 -text-ellipsis -overflow-hidden -whitespace-nowrap;
 }

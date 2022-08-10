@@ -1,22 +1,9 @@
-.-rounded-sm {
-  @apply rounded-sm;
-}
-.-rounded {
-  @apply rounded;
-}
-.-rounded-md {
-  @apply rounded-md;
-}
-.-rounded-lg {
-  @apply rounded-lg;
-}
-.-rounded-xl {
-  @apply rounded-xl;
-}
-.-circle,
-.-rounded-full {
-  @apply rounded-full;
-}
-.-rounded-none {
-  @apply rounded-none;
-}
+.rounded-sm {@apply -rounded-sm;}
+.rounded    {@apply -rounded;}
+.rounded-md {@apply -rounded-md;}
+.rounded-lg {@apply -rounded-lg;}
+.rounded-xl {@apply -rounded-xl;}
+
+.circle,
+.rounded-full {@apply -rounded-full;}
+.rounded-none {@apply -rounded-none;}

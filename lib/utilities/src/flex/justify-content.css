@@ -1,6 +1,6 @@
-.-justify-start   {@apply justify-start;}
-.-justify-end     {@apply justify-end;}
-.-justify-center  {@apply justify-center;}
-.-justify-between {@apply justify-between;}
-.-justify-around  {@apply justify-around;}
-.-justify-evenly  {@apply justify-evenly;}
+.justify-start   {@apply -justify-start;}
+.justify-end     {@apply -justify-end;}
+.justify-center  {@apply -justify-center;}
+.justify-between {@apply -justify-between;}
+.justify-around  {@apply -justify-around;}
+.justify-evenly  {@apply -justify-evenly;}

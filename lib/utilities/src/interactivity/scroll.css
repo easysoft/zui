@@ -1,2 +1,2 @@
-.-scroll-auto   {@apply scroll-auto}
-.-scroll-smooth {@apply scroll-smooth}
+.scroll-auto   {@apply -scroll-auto}
+.scroll-smooth {@apply -scroll-smooth}

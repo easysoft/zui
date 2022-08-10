@@ -1,5 +1,5 @@
-.-font-thin   {@apply font-thin;}
-.-font-light  {@apply font-light;}
-.-font-medium {@apply font-medium;}
-.-font-bold   {@apply font-bold;}
-.-font-black  {@apply font-black;}
+.font-thin   {@apply -font-thin;}
+.font-light  {@apply -font-light;}
+.font-medium {@apply -font-medium;}
+.font-bold   {@apply -font-bold;}
+.font-black  {@apply -font-black;}

@@ -1,45 +1,15 @@
-.-fade-0 {
-  @apply opacity-0;
-}
-.-fade-5 {
-  @apply opacity-5;
-}
-.-fade-10 {
-  @apply opacity-10;
-}
-.-fade-20 {
-  @apply opacity-20;
-}
-.-fade-25 {
-  @apply opacity-25;
-}
-.-fade-30 {
-  @apply opacity-30;
-}
-.-fade-40 {
-  @apply opacity-40;
-}
-.-fade-50 {
-  @apply opacity-50;
-}
-.-fade-60 {
-  @apply opacity-60;
-}
-.-fade-70 {
-  @apply opacity-70;
-}
-.-fade-75 {
-  @apply opacity-75;
-}
-.-fade-80 {
-  @apply opacity-80;
-}
-.-fade-90 {
-  @apply opacity-90;
-}
-.-fade-95 {
-  @apply opacity-95;
-}
-.-fade-100 {
-  @apply opacity-100;
-}
+.fade-0   {@apply -opacity-0;}
+.fade-5   {@apply -opacity-5;}
+.fade-10  {@apply -opacity-10;}
+.fade-20  {@apply -opacity-20;}
+.fade-25  {@apply -opacity-25;}
+.fade-30  {@apply -opacity-30;}
+.fade-40  {@apply -opacity-40;}
+.fade-50  {@apply -opacity-50;}
+.fade-60  {@apply -opacity-60;}
+.fade-70  {@apply -opacity-70;}
+.fade-75  {@apply -opacity-75;}
+.fade-80  {@apply -opacity-80;}
+.fade-90  {@apply -opacity-90;}
+.fade-95  {@apply -opacity-95;}
+.fade-100 {@apply -opacity-100;}

@@ -1,64 +1,22 @@
-.-bg-primary {
-  @apply bg-primary-500;
-}
-.-bg-secondary {
-  @apply bg-secondary-500;
-}
-.-bg-success {
-  @apply bg-success-500;
-}
-.-bg-warning {
-  @apply bg-warning-500;
-}
-.-bg-danger {
-  @apply bg-danger-500;
-}
-.-bg-important {
-  @apply bg-important-500;
-}
-.-bg-special {
-  @apply bg-special-500;
-}
+.bg-primary   {@apply -bg-primary-500;}
+.bg-secondary {@apply -bg-secondary-500;}
+.bg-success   {@apply -bg-success-500;}
+.bg-warning   {@apply -bg-warning-500;}
+.bg-danger    {@apply -bg-danger-500;}
+.bg-important {@apply -bg-important-500;}
+.bg-special   {@apply -bg-special-500;}
 
-.-bg-white {
-  @apply bg-white;
-}
-.-bg-lighter {
-  @apply bg-gray-100
-}
-.-bg-light {
-  @apply bg-gray-300
-}
-.-bg-gray {
-  @apply bg-gray-500;
-}
-.-bg-dark {
-  @apply bg-gray-700;
-}
-.-bg-darker {
-  @apply bg-gray-900;
-}
-.-bg-black {
-  @apply bg-black;
-}
+.bg-white   {@apply -bg-white;}
+.bg-lighter {@apply -bg-gray-100}
+.bg-light   {@apply -bg-gray-300}
+.bg-gray    {@apply -bg-gray-500;}
+.bg-dark    {@apply -bg-gray-700;}
+.bg-darker  {@apply -bg-gray-900;}
+.bg-black   {@apply -bg-black;}
 
-.-bg-canvas {
-  @apply bg-canvas;
-}
-.-bg-surface {
-  @apply bg-surface;
-}
-.-bg-inverse {
-  @apply bg-fore;
-}
+.bg-canvas  {@apply -bg-canvas;}
+.bg-surface {@apply -bg-surface;}
+.bg-inverse {@apply -bg-fore;}
 
-
-.-bg-current {
-  background-color: currentColor;
-}
-.-bg-transparent {
-  background-color: transparent;
-}
-.-bg-inherit {
-  background-color: inherit;
-}
+.bg-transparent {background-color: transparent;}
+.bg-inherit     {background-color: inherit;}

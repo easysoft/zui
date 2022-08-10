@@ -24,7 +24,7 @@ const libNav = document.querySelector<HTMLDivElement>('#libNav');
 if (libNav) {
     libNav.innerHTML = libs.map(name => [
         '<li>',
-        `  <a href="/${name}/" class="flex items-center px-1 py-2 text-base font-normal rounded ${name === currentLibName ? 'text-white font-bold bg-young-600' : 'text-gray-200'} hover:bg-young-700">`,
+        `  <a href="/${name}/" class="flex -items-center -px-1 -py-2 -text-base -font-normal -rounded ${name === currentLibName ? '-text-white -font-bold -bg-young-600' : '-text-gray-200'} hover:-bg-young-700">`,
         `    <span class="ml-3">${name}</span>`,
         '  </a>',
         '</li>',

@@ -1,2 +1,2 @@
-.-events-none {@apply pointer-events-none;}
-.-events-auto {@apply pointer-events-auto;}
+.events-none {@apply -pointer-events-none;}
+.events-auto {@apply -pointer-events-auto;}
