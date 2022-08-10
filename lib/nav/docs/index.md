@@ -56,7 +56,7 @@
 
 ### 主要导航
 
-使用.nav-primary修饰类获得一级导航样式 
+使用.nav-primary修饰类获得一级导航样式
 
 <Example>
 <ul class="nav nav-primary">
@@ -262,8 +262,8 @@
 ```
 
 
-
 <script>
+if (typeof window !== 'undefined') {
     window.onload = function () {
         const $nav = document.querySelectorAll('ul.nav');
         console.log($nav);
@@ -283,4 +283,5 @@
           }
         });
     };
+}
 </script>
