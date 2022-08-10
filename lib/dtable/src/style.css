@@ -18,7 +18,7 @@
 }
 .dtable-cells.-fixed-left,
 .dtable-cells.-fixed-right {
-    @apply z-10;
+    @apply -z-10;
     border-color: var(--dtable-border-color);
 }
 .dtable-cells.-fixed-left {

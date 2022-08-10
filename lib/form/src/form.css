@@ -3,21 +3,21 @@
 }
 
 .form-group > label {
-  @apply inline-block text-xs pr-2 whitespace-nowrap;
+  @apply -inline-block -text-xs -pr-2 -whitespace-nowrap;
 }
 
 .form-horizontal > .form-group {
-  @apply flex;
+  @apply -flex;
 }
 
 .form-horizontal > .form-group > label {
-  @apply py-2 mr-4 ;
+  @apply -py-2 -mr-4 ;
   text-align: var(--label-text-align);
   width: var(--label-width);
 }
 
 .form-control {
-  @apply bg-canvas rounded border-solid border block h-8 text-xs py-1 px-2 w-full ; 
+  @apply -bg-canvas -rounded -border-solid -border -block -h-8 -text-xs -py-1 -px-2 -w-full;
   border-radius: var(--radius);
   border-color: var(--color-border-form-control)
 }
@@ -25,20 +25,20 @@
   color: var(--color-placeholder-control);
 }
 .-sm.form-control {
-  @apply text-sm
+  @apply -text-sm
 }
 
 .-lg.form-control {
-  @apply text-lg
+  @apply -text-lg
 }
 
 .form-control:focus{
-  @apply border outline-none;
+  @apply -border -outline-none;
   border-color: var(--color-border-control-focus);
 }
 
 .form-tip {
-  @apply text-xs;
+  @apply -text-xs;
 }
 
 .has-success > .form-control {
@@ -72,7 +72,7 @@
 }
 
 .tips-fixed > .form-group > .form-tip {
-  @apply absolute;
+  @apply -absolute;
 }
 
 .tips-fixed > .form-group {
@@ -81,24 +81,24 @@
 }
 
 fieldset {
-  @apply w-full my-0 mx-px px-2 pt-1 pb-3;
+  @apply -w-full -my-0 -mx-px -px-2 -pt-1 -pb-3;
 }
 
 legend {
-  @apply font-bold w-full block leading-normal;
+  @apply -font-bold -w-full -block -leading-normal;
   margin-bottom: var(--legend-space);
   font-size: var(--legend-font-size);
   color: var(--legend-color);
 }
 
 .radio, .checkbox {
-  @apply block my-2 relative;
+  @apply -block -my-2 -relative;
 }
 .radio, .checkbox > label {
-  @apply cursor-pointer mb-2 pl-5;
+  @apply -cursor-pointer -mb-2 -pl-5;
 }
 .radio > label > input {
-  @apply align-middle;
+  @apply -align-middle;
 }
 
 .required {
@@ -106,7 +106,7 @@ legend {
 }
 
 .required:after {
-  @apply inline-block absolute top-0;
+  @apply -inline-block -absolute -top-0;
   content: '*';
   color: var(--required-content-color);
 }

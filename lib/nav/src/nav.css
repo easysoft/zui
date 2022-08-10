@@ -1,12 +1,12 @@
 .nav {
-  @apply flex w-full;
+  @apply -flex -w-full;
 }
 
 .nav > li {
-  @apply inline;
+  @apply -inline;
 }
 .nav > li > a {
-  @apply block whitespace-nowrap px-3 py-2;
+  @apply -block -whitespace-nowrap -px-3 -py-2;
   border-radius: var(--radius);
 }
 .nav > li > .active {
@@ -25,22 +25,22 @@
 
 .nav-secondary > li > .active::after {
   content:"";
-  @apply border-solid border-b absolute inset-0;
+  @apply -border-solid -border-b -absolute -inset-0;
   border-color: var(--color-primary-500)
 }
 
 .nav-tabs > li > a::after {
   content:"";
-  @apply border-solid  border-b absolute inset-0;
+  @apply -border-solid -border-b -absolute -inset-0;
   border-color: var(--color-gray-300)
 }
 .nav-tabs > li > .active::after {
   content:"";
-  @apply border-solid  border-t border-r  border-l border-b-0 absolute inset-0;
+  @apply -border-solid -border-t -border-r -border-l -border-b-0 -absolute -inset-0;
 }
 
 .nav > .nav-divider {
-    @apply self-center h-5 w-0.5;
+    @apply -self-center -h-5 -w-0.5;
     background: var(--color-nav-divider);
 }
 
@@ -51,46 +51,46 @@
 }
 
 .nav-stacked {
-  @apply block;
+  @apply -block;
 }
 .nav-stacked > li {
   display: block;
 }
 .nav-stacked.nav-primary > li > a+a {
   border: unset;
-  @apply border border-solid border-t-0;
+  @apply -border -border-solid -border-t-0;
   border-color: var(--color-border-nav);
 }
 
 .nav-stacked.nav-secondary > li {
-  @apply border-l border-solid border-b-0;
+  @apply -border-l -border-solid -border-b-0;
   border-color: var(--color-border-nav);
 }
 .nav-stacked.nav-secondary > li > .active::after {
   content:"";
-  @apply border-solid border-l border-b-0 absolute inset-0;
+  @apply -border-solid -border-l -border-b-0 -absolute -inset-0;
   border-color: var(--color-primary-500)
 }
 
 .nav-stacked.nav-tabs > li > a::after {
   content:"";
-  @apply border-solid border-t-0 border-r-0 border-b-0 border-l absolute inset-0;
+  @apply -border-solid -border-t-0 -border-r-0 -border-b-0 -border-l -absolute -inset-0;
 }
 .nav-stacked.nav-tabs > li > .active::after {
   content:"";
-  @apply border-solid  border-t border-r  border-l-0 border-b absolute inset-0;
+  @apply -border-solid -border-t -border-r -border-l-0 -border-b -absolute -inset-0;
 }
 
 .nav-justified {
-  @apply justify-around text-center;
+  @apply -justify-around -text-center;
 }
 
 .nav-justified > li {
-  @apply w-full;
+  @apply -w-full;
 }
 
 .nav-heading {
-  @apply font-bold py-2 px-3;
+  @apply -font-bold -py-2 -px-3;
   color: var(--color-heading-nav);
 }
 .nav-primary > .nav-heading {

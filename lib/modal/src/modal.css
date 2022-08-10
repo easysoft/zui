@@ -1,11 +1,11 @@
 .modal {
-  @apply hidden overflow-hidden	fixed top-0 right-0 bottom-0 left-0;
+  @apply -hidden -overflow-hidden	-fixed -top-0 -right-0 -bottom-0 -left-0;
   background-color: var(--modal-bg-color);
   outline: 0;
   z-index: var(--modal-z-index);
 }
 .modal-dialog {
-  @apply relative my-0 mx-auto bg-clip-padding bg-white -translate-x-0 -translate-y-1/4;
+  @apply -relative -my-0 -mx-auto -bg-clip-padding -bg-white --translate-x-0 --translate-y-1/4;
   width: var(--modal-base);
   border-radius: var(--modal-radius);
   pointer-events: initial;
@@ -24,35 +24,35 @@
   border-bottom: 1px solid var(--modal-border-color);
 }
 .modal-header > .close {
-  @apply absolute top-3 right-4 overflow-hidden text-xl;
+  @apply -absolute -top-3 -right-4 -overflow-hidden -text-xl;
   color: var(--color-gray-500);
 }
 .modal-header > .modal-title {
-  @apply m-0 font-bold;
+  @apply -m-0 -font-bold;
 }
 
 .modal-body {
-  @apply relative;
+  @apply -relative;
   padding: var(--modal-inner-padding);
 }
 
 .modal-footer {
-  @apply text-right;
+  @apply -text-right;
   border-top: 1px solid var(--modal-border-color);
   padding: var(--modal-inner-padding);
 }
 
 .modal-footer > .btn {
-  @apply mx-2;
+  @apply -mx-2;
 }
 
 .modal-dialog.-fullscreen {
-  @apply relative m-0 rounded-none;
+  @apply -relative -m-0 -rounded-none;
   width: 100%!important;
   height: 100%!important;
 }
 .modal-dialog.-fullscreen > .modal-body {
-  @apply absolute right-0 bottom-0 left-0 overflow-y-auto;
+  @apply -absolute -right-0 -bottom-0 -left-0 -overflow-y-auto;
 }
 .-scroll-inside {
   overflow: hidden!important;
@@ -64,29 +64,29 @@
 .modal-dialog.-lg {
   width: var(--modal-lg);
 }
-.-border-none > .modal-header,
-.-border-none > .modal-footer {
-  @apply border-none;
+.border-none > .modal-header,
+.border-none > .modal-footer {
+  @apply -border-none;
 }
 
 @keyframes dialog-fade-in {
   0% {
     transform: translate3d(0, -1.25rem, 0);
-    @apply opacity-0;
+    @apply -opacity-0;
   }
   100% {
     transform: translate3d(0, 0, 0);
-    @apply opacity-100;
+    @apply -opacity-100;
   }
 }
 
 @keyframes dialog-fade-out {
   0% {
     transform: translate3d(0, 0, 0);
-    @apply opacity-100;
+    @apply -opacity-100;
   }
   100% {
     transform: translate3d(0, -1.25rem, 0);
-    @apply opacity-0;
+    @apply -opacity-0;
   }
 }

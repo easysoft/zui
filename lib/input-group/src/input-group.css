@@ -1,30 +1,30 @@
 .input-group{
-    @apply flex items-center;
+    @apply -flex -items-center;
 }
 .input-group>.form-control{
-    @apply px-3 h-8 w-48;
+    @apply -px-3 -h-8 -w-48;
     border: 1px solid var(--input-border-color);
     border-radius: var(--radius);
 }
 
 .input-group.-sm>.form-control, .input-group.-sm>.input-group-addon {
-    @apply px-2 h-6 leading-6 text-sm;
+    @apply -px-2 -h-6 -leading-6 -text-sm;
 }
 .input-group.-lg>.form-control, .input-group.-lg>.input-group-addon {
-    @apply px-4 h-10 leading-10 text-lg;
+    @apply -px-4 -h-10 -leading-10 -text-lg;
 }
 .input-group>.input-group-addon{
-    @apply px-3 h-8 leading-8 inline-block rounded;
+    @apply -px-3 -h-8 -leading-8 -inline-block -rounded;
     background-color: var(--addon-background);
     color: var(--addon-color);
 }
 .input-group-btn{
-    @apply flex;
+    @apply -flex;
 }
 .input-group .form-control:not(:first-child):not(:last-child),
 .input-group-addon:not(:first-child):not(:last-child),
 .input-group-btn:not(:first-child):not(:last-child) {
-    @apply rounded-none;
+    @apply -rounded-none;
 }
 .input-group>.input-group-addon:first-child,
 .input-group>.form-control:first-child,
@@ -42,5 +42,5 @@
 
 .input-group>.form-control:not(:last-child),
 .input-group>.input-group-btn>.btn:not(:last-child){
-  @apply border-r-0;
+  @apply -border-r-0;
 }

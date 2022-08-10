@@ -1,12 +1,12 @@
 .input-control {
-    @apply relative;
+    @apply -relative;
 }
 
 .input-control > .form-control.-sm {
-    @apply px-2 h-6;
+    @apply -px-2 -h-6;
 }
 .input-control > .form-control.-lg {
-    @apply px-4 h-10;
+    @apply -px-4 -h-10;
 }
 .-square-prefix > .form-control {
     padding-left: var(--input-square-fix-width);
@@ -25,22 +25,22 @@
     padding-right: var(--input-fix-width);
 }
 .input-control-prefix, .input-control-suffix {
-    @apply inline-block h-full text-gray-500 select-none absolute overflow-hidden leading-8 px-2 top-0;
+    @apply -inline-block -h-full -text-gray-500 -select-none -absolute -overflow-hidden -leading-8 -px-2 -top-0;
     width: var(--input-fix-width);
 }
 .input-control-suffix {
-    @apply text-right;
+    @apply -text-right;
 }
 .-square-prefix .input-control-prefix,
 .-square-prefix .input-control-suffix,
 .-square-suffix .input-control-prefix,
 .-square-suffix .input-control-suffix {
-    @apply text-center;
+    @apply -text-center;
     width: var(--input-square-fix-width);
 }
 .input-control-prefix {
-    @apply left-0.5;
+    @apply -left-0.5;
 }
 .input-control-suffix {
-    @apply right-0.5;
+    @apply -right-0.5;
 }

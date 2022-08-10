@@ -79,22 +79,22 @@
 
 .dropdown-menu>.-disabled:hover,
 .dropdown-menu .dropdown-header:hover {
-  @apply -disabled:opacity-50;
+  @apply disabled:-opacity-50;
 }
 
 .dropdown-menu>.-disabled>a,
 .dropdown-menu>.-disabled>a:focus,
 .dropdown-menu>.-disabled>a:hover,
 .dropdown-menu>.-disabled:hover>a {
-  @apply -cursor-not-allowed bg-transparent;
+  @apply -cursor-not-allowed -bg-transparent;
 }
 
 .dropdown-menu>.dropdown-header {
-  @apply -px-3 py-1 font-bold;
+  @apply -px-3 -py-1 -font-bold;
 }
 
 .dropdown-menu>.divider {
-  @apply -mx-4 my-1 p-0;
+  @apply -mx-4 -my-1 -p-0;
   height: 1px;
   background-color: var(--dropmenu-border-color);
 }

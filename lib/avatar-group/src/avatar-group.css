@@ -1,5 +1,5 @@
 .avatar-group {
-  @apply flex;
+  @apply -flex;
 }
 .avatar-group > .avatar {
   box-shadow: 0 0 0 1px var(--color-canvas);
