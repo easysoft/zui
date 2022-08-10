@@ -1,5 +1,5 @@
 <template>
-  <div class="example rounded border p-4" :style="style">
+  <div class="example -rounded -border -p-4" :style="style">
     <slot />
   </div>
 </template>
