@@ -1,8 +1,8 @@
 :root {
-  --form-group-space: 0.625rem;
-  --form-group-space-fixed: 1rem;
+  --form-group-space: 1rem;
+  --form-group-space-fixed: 1.25rem;
   --label-width: 5rem;
-  --color-placeholder-control: var(--color-gray-300);
+  --color-placeholder-control: var(--color-gray-500);
   --label-text-align: right;
   --color-border-form-control: var(--color-gray-500);
   --color-border-control-focus: var(--color-primary-500);

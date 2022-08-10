@@ -86,9 +86,11 @@ legend {
 .radio, .checkbox {
   @apply block my-2 relative;
 }
-
 .radio, .checkbox > label {
   @apply cursor-pointer mb-2 pl-5;
+}
+.radio > label > input {
+  @apply align-middle;
 }
 
 .required {
