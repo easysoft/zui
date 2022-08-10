@@ -47,7 +47,7 @@
 </div>
 ```
 
-## 校验状态
+## 色彩类
 
 通过为表单控件组添加 .has-warning、.has-error、.has-success类即可应用相应的效验状态样式。这些样式会影响到表单控件组内的 <label>、.form-control 和 .form-tip 元素。
 
@@ -71,10 +71,10 @@
 
 ## 校验状态出现不改变行高
 
-在使用插入文本时，会出现表单高度变化的情况，可以通过给form添加 '-tips-fixed'类增加表单行间距的同时改变tips的定位方式 来使tips的出现不影响表单整体高度
+在使用插入文本时，会出现表单高度变化的情况，可以通过给form添加 'tips-fixed'类增加表单行间距的同时改变tips的定位方式 来使tips的出现不影响表单整体高度
 
  ```html:example: flex
- <form class="-tips-fixed">
+ <form class="tips-fixed">
    <div class="form-group has-success">
      <label for="inputSuccess1">输入框（success）</label>
      <input type="text" class="form-control" id="inputSuccess1">

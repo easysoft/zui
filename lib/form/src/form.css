@@ -17,7 +17,7 @@
 }
 
 .form-control {
-  @apply bg-canvas rounded border-solid border block h-8 text-xs py-1 px-2 w-full outline-none;
+  @apply bg-canvas rounded border-solid border block h-8 text-xs py-1 px-2 w-full ; 
   border-radius: var(--radius);
   border-color: var(--color-border-form-control)
 }
@@ -25,7 +25,7 @@
   color: var(--color-placeholder-control);
 }
 .form-control:focus{
-  @apply border-2;
+  @apply border outline-none;
   border-color: var(--color-border-control-focus);
 }
 
@@ -63,12 +63,13 @@
   color: var(--color-has-warning);
 }
 
-.-tips-fixed > .form-group > .form-tip {
+.tips-fixed > .form-group > .form-tip {
   @apply absolute;
 }
 
-.-tips-fixed > .form-group {
-  margin-bottom: var(--form-group-space-fixed)
+.tips-fixed > .form-group {
+  margin-bottom: var(--form-group-space-fixed);
+  position: relative;
 }
 
 fieldset {
