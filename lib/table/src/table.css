@@ -1,45 +1,52 @@
 .table {
     @apply w-full border;
+    border-color: var(--color-border-table);
 }
 
-.table th,
-.table td {
+.table > thead > tr {
+  @apply bg-gray-400 border-b border-solid;
+}
+.table > tbody > tr {
+  @apply border-b border-solid; 
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > td {
     @apply px-4 py-2 text-left ;
 }
 
-.-striped tbody tr:nth-child(odd) {
+.-striped > tbody > tr:nth-child(odd) {
     background: var(--table-striped-color);
 }
 
-.-row-hover tbody tr:hover td,
-.-row-hover tbody tr:hover th {
+.-row-hover > tbody > tr:hover{
   background: var(--table-hover-color);
 }
 
-.-bordered th,
-.-bordered td {
+.-bordered > th,
+.-bordered > td {
   @apply border-2;
 }
 
 .-borderless {
   @apply border-0;
 }
-.-borderless thead tr th,
-.-borderless th,
-.-borderless td {
+.-borderless > thead tr th,
+.-borderless > th,
+.-borderless > td {
   @apply border-0;
 }
 
-.-condensed td,
-.-condensed th{
+.table-condensed > td,
+.table-condensed > th{
   @apply px-1;
 }
 
-.-fixed {
-  @apply table-fixed;
+.table-fixed {
+  table-layout: fixed;
 }
 
-.-fixed th,
-.-fixed td {
+.talbe-fixed > thead > tr > th,
+.table-fixed > tbody > tr > td {
   @apply overflow-hidden whitespace-nowrap;
 }

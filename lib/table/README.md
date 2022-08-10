@@ -182,12 +182,12 @@
    </tbody>
  </table>
  ```
-  ## -condensed
+  ## table-condensed
 
- 使用组件类`.-condensed`更为紧凑的表格外观
+ 使用组件类`.table-condensed`更为紧凑的表格外观
 
  ```html:example: flex gap-3
- <table class="table -condensed">
+ <table class="table table-condensed">
    <thead>
        <tr>
            <th>项目名称</th>
@@ -218,12 +218,12 @@
    </tbody>
  </table>
  ```
-## -fixed
+## table-fixed
 
- 使用组件类`.-fixed`固定布局的表格外观
+ 使用组件类`.table-fixed`固定布局的表格外观
 
- ```html:example: flex gap-3
- <table class="table -fixed">
+```html:example
+ <table class="table table-fixed">
    <thead>
        <tr>
            <th>项目名称</th>
@@ -253,7 +253,7 @@
        </tr>
    </tbody>
  </table>
- ```
+```
  ## -primary -warning -success
 
 使用色彩类`.-primary`等获得带有固定色彩行的表格外观
