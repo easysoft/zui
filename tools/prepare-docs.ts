@@ -6,16 +6,16 @@ import {exec} from './exec';
 
 const argv = minimist(process.argv.slice(2));
 
-await fs.emptyDir(path.resolve(process.cwd(), './docs/assets'));
+await fs.emptyDir(path.resolve(process.cwd(), './docs/public'));
 
-await exec('pnpm', ['build', '--', '--outDir=docs/assets/zui']);
+await exec('pnpm', ['build', '--', '--outDir=docs/public/zui']);
 
-await fs.copyFile(path.resolve(process.cwd(), './favicon.svg'), path.resolve(process.cwd(), './docs/assets/favicon.svg'));
+await fs.copyFile(path.resolve(process.cwd(), './favicon.svg'), path.resolve(process.cwd(), './docs/public/favicon.svg'));
 
 const buildInLibs = await getBuildInLibs({readNameFromDoc: true});
 
-await fs.outputJSON(path.resolve(process.cwd(), './docs/assets/zui-lib.json'), Array.from(buildInLibs.values()), {spaces: 4});
-await fs.outputFile(path.resolve(process.cwd(), './docs/assets/zui-lib.js'), `export default ${JSON.stringify(Array.from(buildInLibs.values()), null, 4)};`);
+await fs.outputJSON(path.resolve(process.cwd(), './docs/public/zui-lib.json'), Array.from(buildInLibs.values()), {spaces: 4});
+await fs.outputFile(path.resolve(process.cwd(), './docs/public/zui-lib.js'), `export default ${JSON.stringify(Array.from(buildInLibs.values()), null, 4)};`);
 
 if (argv.copy) {
     for (const lib of buildInLibs.values()) {

@@ -4,5 +4,3 @@ dist/
 build/
 .temp
 .cache
-docs/lib/*/**
-docs/assets
