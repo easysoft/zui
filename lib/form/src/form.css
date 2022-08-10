@@ -1,13 +1,9 @@
-form {
-  height: var(--form-height);
-  width: var(--form-width);
-}
 .form-group {
   margin-bottom: var(--form-group-space);
 }
 
 .form-group > label {
-  @apply inline-block font-bold text-xs pr-2 whitespace-nowrap;
+  @apply inline-block text-xs pr-2 whitespace-nowrap;
 }
 
 .form-horizontal > .form-group {
@@ -15,27 +11,32 @@ form {
 }
 
 .form-horizontal > .form-group > label {
-  @apply py-2 ;
+  @apply py-2 mr-4 ;
   text-align: var(--label-text-align);
-  min-width: var(--label-width);
+  width: var(--label-width);
 }
 
 .form-control {
   @apply bg-canvas rounded border-solid border block h-8 text-xs py-1 px-2 w-full outline-none;
+  border-radius: var(--radius);
+  border-color: var(--color-border-form-control)
 }
-
 .form-control::-webkit-input-placeholder {
   color: var(--color-placeholder-control);
 }
+.form-control:focus{
+  @apply border-2;
+  border-color: var(--color-border-control-focus);
+}
 
 .form-tip {
-  @apply text-xs
+  @apply text-xs;
 }
 
 .has-success > .form-control {
   border-color: var(--color-has-success);
 }
-.has-success label {
+.has-success > label {
   color: var(--color-has-success);
 }
 .has-success > .form-tip {
@@ -45,7 +46,7 @@ form {
 .has-error > .form-control {
   border-color: var(--color-has-error);
 }
-.has-error label {
+.has-error > label {
   color: var(--color-has-error);
 }
 .has-error > form-tip {
@@ -55,7 +56,7 @@ form {
 .has-warning > .form-control {
   border-color: var(--color-has-warning);
 }
-.has-warning label {
+.has-warning > label {
   color: var(--color-has-warning);
 }
 .has-warning > .form-tip {
@@ -63,7 +64,7 @@ form {
 }
 
 .-tips-fixed > .form-group > .form-tip {
-  @apply absolute
+  @apply absolute;
 }
 
 .-tips-fixed > .form-group {
@@ -86,7 +87,7 @@ legend {
 }
 
 .radio, .checkbox > label {
-  @apply cursor-pointer mb-0 pl-5;
+  @apply cursor-pointer mb-2 pl-5;
 }
 
 .required {
