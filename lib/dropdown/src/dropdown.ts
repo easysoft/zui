@@ -41,7 +41,7 @@ export default class Dropdown {
     }
 }
 
-document.onclick = function (e) {
+document.addEventListener('click', function (e) {
     if (e !== null && e.target instanceof HTMLElement) {
         if (e.target.dataset.toggle === 'dropdown') {
             new Dropdown(e.target);
@@ -49,5 +49,5 @@ document.onclick = function (e) {
             new Dropdown(e).clearMenu();
         }
     }
-};
+});
 
