@@ -24,6 +24,14 @@
 .form-control::-webkit-input-placeholder {
   color: var(--color-placeholder-control);
 }
+.-sm.form-control {
+  font-size:0.55rem;
+}
+
+.-lg.form-control {
+  font-size:1.2rem;
+}
+
 .form-control:focus{
   @apply border outline-none;
   border-color: var(--color-border-control-focus);
