@@ -6,9 +6,9 @@ export default defineConfig({
     title: 'ZUI 3',
     description: 'Composable UI framework',
     head: [
-        ['link', {rel: 'icon', type: 'image/svg+xml', href: '/public/favicon.svg'}],
-        ['link', {rel: 'stylesheet', href: '/public/zui/zui.css'}],
-        ['script', {src: '/public/zui/zui.umd.cjs'}],
+        ['link', {rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}],
+        ['link', {rel: 'stylesheet', href: '/zui/zui.css'}],
+        ['script', {src: '/zui/zui.umd.cjs'}],
     ],
     lastUpdated: true,
     markdown: {
@@ -16,7 +16,7 @@ export default defineConfig({
         lineNumbers: true,
     },
     themeConfig: {
-        logo: '/public/favicon.svg',
+        logo: '/favicon.svg',
         nav: [
             {text: '指引', link: '/guide/quick-start.md'},
             {text: '基础', link: '/basic/index.md'},
