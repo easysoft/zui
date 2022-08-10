@@ -1,6 +1,6 @@
 ## 下拉菜单
 
-```html:example: flex gap-3 overflow-visible
+```html:example: -flex -gap-3 overflow-visible
 <div class="dropdown open">
     <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -14,7 +14,7 @@
 ## 鼠标悬停展开菜单
 
 添加类名 `.dropdown-hover` 实现鼠标悬停展开菜单
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="dropdown dropdown-hover">
     <button class="btn" type="button" data-toggle="dropdown">鼠标悬停展开菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -28,7 +28,7 @@
 ## 浮动方向
 为父级元素添加 `.dropup` 类时下拉菜单在触发元素上方弹出。
 为 `.dorpdown-menu` 添加` .menu-align-right` 可以使得下拉菜单的右侧与触发元素的右侧对齐。
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="dropdown dropup">
     <button class="btn" type="button" data-toggle="dropdown">上方左侧对齐 <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -71,7 +71,7 @@
 ## 多级子菜单
 在 `.dropdown-menu` 内的 `<li> `内包含另一个 `.dropdown-menu` 从而实现多级子菜单。包含子菜单 `<li>` 需要添加额外的类 `.dropdown-submenu`。
 一般情况下子菜单会在菜单项的右侧显示，但也可以为作为子菜单的 `.dropdown-menu` 添加 `.expand-left` 类来使得子菜单在左侧显示
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="dropdown">
     <button class="btn" type="button"
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
@@ -128,7 +128,7 @@
 
 通常情况下下拉菜单列表使用 `<ul>` 元素，你也可以替换为其他元素或内容
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="dropdown">
     <button class="btn" type="button"
         data-toggle="dropdown">自定义下拉菜单 <span class="caret"></span></button>
@@ -142,7 +142,7 @@
 
 为菜单项` <li> `添加` .-disabled` 类即可获得禁用外观。
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="dropdown">
     <button class="btn" type="button"
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
@@ -157,7 +157,7 @@
 
 在 `.dropdown-menu` 内使用 `.dropdown-header `来显示标题，使用 `.divider` 来显示分割线。
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="dropdown">
     <button class="btn" type="button"
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>

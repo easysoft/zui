@@ -2,7 +2,7 @@
 
 ## 基本类型
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="input-group">
   <span class="input-group-addon">前</span>
   <input type="text" class="form-control" placeholder="用户名">
@@ -43,7 +43,7 @@
 
 ## 尺寸
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="input-group -lg">
   <span class="input-group-addon">前</span>
   <input type="text" class="form-control" placeholder="用户名">
@@ -63,7 +63,7 @@
 
 ## 连续分段的文本框
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="input-group">
   <span class="input-group-addon">姓名</span>
   <input type="text" class="form-control" placeholder="姓氏">
@@ -81,7 +81,7 @@
 
 ## 单选框和复选框
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <!-- 复选框 -->
 <div class="input-group">
   <span class="input-group-addon">
@@ -100,7 +100,7 @@
 
 ## 带下拉菜单的按钮
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="input-group">
   <input type="text" class="form-control">
   <div class="dropdown -align-right">
@@ -118,7 +118,7 @@
 
 ## 分段按钮
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="input-group">
   <input type="text" class="form-control">
   <div class="input-group-btn">

@@ -4,7 +4,7 @@
 
 使用组件类`.table`来获得外观 通常搭配`<table>`元素使用.
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
  <table class="table">
      <thead>
          <tr>
@@ -39,9 +39,9 @@
 
 ## -striped
 
-使用组件类`.-striped`获得斑马纹表格外观 
+使用组件类`.-striped`获得斑马纹表格外观
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <table class="table -striped">
   <thead>
       <tr>
@@ -78,7 +78,7 @@
 
  使用组件类`.-row-hover`获得响应鼠标悬停行变色表格外观
 
- ```html:example: flex gap-3
+ ```html:example: -flex -gap-3
  <table class="table -row-hover">
    <thead>
        <tr>
@@ -114,7 +114,7 @@
 
 使用组件类`.-bordered`获得带所有边框的表格外观
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
  <table class="table -bordered">
    <thead>
        <tr>
@@ -150,7 +150,7 @@
 
  使用组件类`.-borderless`获得不带所有边框的表格外观
 
- ```html:example: flex gap-3
+ ```html:example: -flex -gap-3
  <table class="table -borderless">
    <thead>
        <tr>
@@ -186,7 +186,7 @@
 
  使用组件类`.table-condensed`更为紧凑的表格外观
 
- ```html:example: flex gap-3
+ ```html:example: -flex -gap-3
  <table class="table table-condensed">
    <thead>
        <tr>
@@ -258,7 +258,7 @@
 
 使用色彩类`.-primary`等获得带有固定色彩行的表格外观
 
- ```html:example: flex gap-3
+ ```html:example: -flex -gap-3
 <table class="table">
     <thead>
         <tr>

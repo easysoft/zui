@@ -4,7 +4,7 @@
 
 使用组件类`.form-group`来获得表单外观，通常搭配`<form>`,`<label>`以及`<input>`等表单控件使用
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <form>
      <div class="form-group">
          <label> 账号 </label>
@@ -20,7 +20,7 @@
 
 使用组件类`.form-horizontal`来获得水平排列的表单外观
 
- ```html:example: flex gap-3
+ ```html:example: -flex -gap-3
  <form class="form-horizontal">
       <div class="form-group">
           <label> 账号 </label>
@@ -33,11 +33,11 @@
  </form>
  ```
 
-## 帮助性文本 
+## 帮助性文本
 
 使用 <div class="form-tip"> 来显示帮助性的文本并添加到表单控件组中。
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div>
   <div class="form-group">
     <label for="exampleInputAccount2">账号</label>
@@ -97,7 +97,7 @@
 使用fieldset 将多个表单控件放置在一起进行分组。
 在`<fieldset>` 内使用 `<legend>` 来定义分组标题。
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <form>
   <fieldset>
     <legend>账号信息</legend>
@@ -118,10 +118,10 @@
     </div>
     <div class="form-group">
       <label> 地址 </label>
-      <textarea type="text-area" class="form-control"> </textarea> 
+      <textarea type="text-area" class="form-control"> </textarea>
     </div>
   </fieldset>
-  <legend>额外内容</legend> 
+  <legend>额外内容</legend>
   <fieldset>
       <div class="radio">
     <label>

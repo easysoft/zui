@@ -2,7 +2,7 @@
 
 ## btn-group
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="btn-group">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
@@ -12,7 +12,7 @@
 
 ## multiple btn-group
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="btn-toolbar">
   <div class="btn-group">
     <button type="button" class="btn">剪切</button>
@@ -31,7 +31,7 @@
 ```
 
 ## btn-group sizes
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="btn-group xl">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
@@ -61,7 +61,7 @@
 
 ## btn-group styles
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="btn-group">
   <button type="button" class="btn">Normal</button>
   <button type="button" class="btn -primary">Primary</button>
@@ -73,7 +73,7 @@
 
 ## btn-group radius
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="btn-group group-rounded-none">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
@@ -112,7 +112,7 @@
 ```
 ## with dropdown
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="btn-group">
   <button type="button" class="btn">春天</button>
   <button type="button" class="btn">夏天</button>

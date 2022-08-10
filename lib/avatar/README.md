@@ -2,19 +2,19 @@
 
 ## Avatar
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="avatar"><img src="@/assets/avatar.png"></div>
 ```
 
 ## Rounded
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="avatar -circle"><img src="@/assets/avatar.png"></div>
 ```
 
 ## Outline
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="avatar -circle -primary-outline">孙</div>
 <div class="avatar -circle -secondary-outline">李</div>
 <div class="avatar -circle -success-outline">周</div>
@@ -25,7 +25,7 @@
 
 ## Icon/Text Avatar
 
-```html:example: flex gap-3 items-end
+```html:example: -flex -gap-3 -items-end
 <div class="avatar -primary">Icon</div>
 <div class="avatar -circle -primary">Icon</div>
 <div class="avatar -primary"><span>王</span></div>
@@ -34,7 +34,7 @@
 
 ## Sizes
 
-```html:example: flex gap-3 items-end
+```html:example: -flex -gap-3 -items-end
 <div class="avatar -xl"><img src="@/assets/avatar-1.png"></div>
 <div class="avatar -lg"><img src="@/assets/avatar-2.png"></div>
 <div class="avatar"><img src="@/assets/avatar-3.png"></div>
@@ -44,7 +44,7 @@
 
 ## Styles
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="avatar -primary">Icon</div>
 <div class="avatar -secondary">Icon</div>
 <div class="avatar -success">Icon</div>
@@ -62,7 +62,7 @@
 
 ## Radius
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="avatar -rounded-none"><img src="@/assets/avatar-11.png"></div>
 <div class="avatar -rounded-xs"><img src="@/assets/avatar-12.png"></div>
 <div class="avatar -rounded-sm"><img src="@/assets/avatar-13.png"></div>

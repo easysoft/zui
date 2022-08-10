@@ -2,7 +2,7 @@
 
 ## 静态展示
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="modal-dialog -sd" style="margin-top:50px;">
   <div class="modal-content">
     <div class="modal-header">
@@ -22,7 +22,7 @@
 
 ## 去掉 `.modal-content` 展示
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#noContentModal">点击打开对话框</button>
 
 <div class="modal" id="noContentModal">
@@ -45,7 +45,7 @@
 
 ## 动态展示
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#myModal">点击打开对话框</button>
 <a class="btn" data-toggle="modal" href="#myModal">点击打开</a>
 
@@ -70,7 +70,7 @@
 
 ## 居中布局
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#centerModal">居中对话框</button>
 
 <div class="modal" id="centerModal">
@@ -95,7 +95,7 @@
 
 ## 显示位置
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <button type="button" class="btn -primary" data-position="fit" data-toggle="modal" data-target="#positionModal">默认</button>
 <button type="button" class="btn -primary" data-position="center" data-toggle="modal" data-target="#positionModal">窗口中间</button>
 <button type="button" class="btn -primary" data-position="0" data-toggle="modal" data-target="#positionModal">靠近上方</button>
@@ -122,7 +122,7 @@
 
 ## 尺寸
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#smModal">小</button>
 
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#baseModal">默认</button>
@@ -212,7 +212,7 @@
 
 ## 自定义信息提示弹窗
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#customModal">点击打开</button>
 
 <div class="modal" id="customModal">
@@ -221,7 +221,7 @@
       <div class="modal-body">
         <p>这是提示内容</p>
       </div>
-      <div class="modal-footer"> 
+      <div class="modal-footer">
         <button type="button" class="btn -primary -sm" data-dismiss="modal">知道了</button>
       </div>
     </div>
@@ -231,7 +231,7 @@
 
 ## 模态对话框
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#autoCloseModal">点击打开对话框</button>
 
 <div class="modal" id="autoCloseModal" data-modal-closable="false">

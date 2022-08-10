@@ -5,19 +5,19 @@
     border-radius: var(--btn-radius);
 }
 
-.btn.-xs {
+.btn.size-xs {
     @apply -text-xs -px-1 -h-5;
 }
-.btn.-sm {
+.btn.size-sm {
     @apply -text-sm -px-2 -h-6;
 }
-.btn.-lg {
+.btn.size-lg {
     @apply -text-lg -px-4 -h-10;
 }
-.btn.-xl {
+.btn.size-xl {
     @apply -text-xl -px-5 -h-12;
 }
 
-.btn.-square {
+.btn.square {
     @apply -px-0 -aspect-square;
 }

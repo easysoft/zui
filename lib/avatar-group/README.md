@@ -1,7 +1,7 @@
 # Avatar-group 头像组
 
 ## Avatar-group
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="avatar-group ">
   <div class="avatar -circle"><img src="/favicon.svg"></div>
   <div class="avatar -circle -success">Icon</div>
@@ -11,7 +11,7 @@
 
 ## Square
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="avatar-group">
   <div class="avatar -square"><img src="/favicon.svg"></div>
   <div class="avatar  -success -square">Icon</div>
@@ -21,7 +21,7 @@
 
 ## Radius
 
-```html:example: flex gap-3
+```html:example: -flex -gap-3
 <div class="avatar-group">
   <div class="avatar -rounded-none"><img src="/favicon.svg"></div>
   <div class="avatar -success -rounded-none">头像</div>
@@ -61,7 +61,7 @@
 
 ## Size
 
-```html:example: flex gap-3 items-end
+```html:example: -flex -gap-3 -items-end
 
 <div class="avatar-group -overlap-xs">
   <div class="avatar -xs -circle"><img src="/favicon.svg"></div>
