@@ -36,11 +36,11 @@ export default class Modal {
     }
 
     lockScroll() {
-        let widthBar = 17;
-        if (typeof window.innerWidth == 'number') {
-            widthBar = window.innerWidth - document.body.clientWidth;
-        }
-        document.body.style.width = '100%';
+        // let widthBar = 17;
+        // if (typeof window.innerWidth == 'number') {
+        //    widthBar = window.innerWidth - document.body.clientWidth;
+        // }
+        // document.body.style.width = '100%';
         document.body.style.overflow = 'hidden';
         // document.body.style.paddingRight = `${(widthBar)}px`;
     }
