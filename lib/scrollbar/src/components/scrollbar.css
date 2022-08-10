@@ -15,7 +15,7 @@
     opacity: 1!important;
 }
 .scrollbar-bar {
-    @apply absolute rounded-sm;
+    @apply -absolute -rounded-sm;
     background: var(--scrollbar-bar-bg, rgba(0,0,0,.3));
 }
 .scrollbar-bar:hover {
