@@ -8,15 +8,15 @@
 </div>
 <div class="input-control -square-prefix -square-suffix">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control_prefix">pr</span>
-  <span class="input-control_suffix">su</span>
+  <span class="input-control-prefix">pr</span>
+  <span class="input-control-suffix">su</span>
 </div>
 <div class="input-control -prefix">
-  <span class="input-control_prefix">用户名</span>
+  <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
 <div class="input-control -prefix">
-  <span class="input-control_prefix">登录密码</span>
+  <span class="input-control-prefix">登录密码</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
 
@@ -49,64 +49,64 @@
 ```html:example: flex gap-3 flex-wrap
 <div class="input-control -square-prefix">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control_prefix">pr</span>
+  <span class="input-control-prefix">pr</span>
 </div>
 <div class="input-control -square-suffix">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control_suffix">su</span>
+  <span class="input-control-suffix">su</span>
 </div>
 <div class="input-control -square-prefix -square-suffix">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control_prefix">pr</span>
-  <span class="input-control_suffix">su</span>
+  <span class="input-control-prefix">pr</span>
+  <span class="input-control-suffix">su</span>
 </div>
 ```
 
 ## Radius
 
 ```html:example: flex gap-3 flex-wrap
-<div class="input-control -rounded-none">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -rounded-none" placeholder="请填写" />
 </div>
-<div class="input-control -rounded-sm">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -rounded-sm" placeholder="请填写" />
 </div>
-<div class="input-control -rounded">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -rounded" placeholder="请填写" />
 </div>
-<div class="input-control -rounded-md">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -rounded-md" placeholder="请填写" />
 </div>
-<div class="input-control -rounded-lg">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control  -rounded-lg" placeholder="请填写" />
 </div>
-<div class="input-control -rounded-xl">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -rounded-xl" placeholder="请填写" />
 </div>
-<div class="input-control -circle">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -circle" placeholder="请填写" />
 </div>
 ```
 
 ## Shadow
 
 ```html:example: flex gap-3 flex-wrap
-<div class="input-control -shadow-none">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sd-none" placeholder="请填写" />
 </div>
-<div class="input-control -shadow-xs">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sd-xs" placeholder="请填写" />
 </div>
-<div class="input-control -shadow-sm">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sd-sm" placeholder="请填写" />
 </div>
-<div class="input-control -shadow">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sd" placeholder="请填写" />
 </div>
-<div class="input-control -shadow-lg">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sd-lg" placeholder="请填写" />
 </div>
-<div class="input-control -shadow-xl">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sd-xl" placeholder="请填写" />
 </div>
 ```

@@ -11,7 +11,7 @@
     <input type="text" class="form-control" placeholder="请填写" />
   </div>
   <div class="input-control -prefix">
-    <span class="input-control_prefix">用户名</span>
+    <span class="input-control-prefix">用户名</span>
     <input type="text" class="form-control" placeholder="请填写"/>
   </div>
 </Example>
@@ -21,7 +21,7 @@
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control -prefix">
-  <span class="input-control_prefix">用户名</span>
+  <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
 ```
@@ -47,26 +47,26 @@
 除了默认大小，输入框还提供了额外的 2 种预设尺寸。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <div class="input-control -sm">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <div class="input-control">
+    <input type="text" class="form-control -sm" placeholder="请填写" />
   </div>
   <div class="input-control">
     <input type="text" class="form-control" placeholder="请填写" />
   </div>
-  <div class="input-control -lg">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <div class="input-control">
+    <input type="text" class="form-control -lg" placeholder="请填写" />
   </div>
 </Example>
 
 ```html
-<div class="input-control -sm">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sm" placeholder="请填写" />
 </div>
 <div class="input-control">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
-<div class="input-control -lg">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -lg" placeholder="请填写" />
 </div>
 ```
 
@@ -76,33 +76,33 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="input-control -prefix">
-    <span class="input-control_prefix">用户名</span>
+    <span class="input-control-prefix">用户名</span>
     <input type="text" class="form-control" placeholder="请填写"/>
   </div>
   <div class="input-control -square-prefix">
     <input type="text" class="form-control" placeholder="请填写"/>
-    <span class="input-control_prefix">pre</span>
+    <span class="input-control-prefix">pre</span>
   </div>
   <div class="input-control -square-prefix -square-suffix">
     <input type="text" class="form-control" placeholder="请填写"/>
-    <span class="input-control_prefix">pre</span>
-    <span class="input-control_suffix">suf</span>
+    <span class="input-control-prefix">pre</span>
+    <span class="input-control-suffix">suf</span>
   </div>
 </Example>
 
 ```html
 <div class="input-control -prefix">
-  <span class="input-control_prefix">用户名</span>
+  <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
 <div class="input-control -square-prefix">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control_prefix">pre</span>
+  <span class="input-control-prefix">pre</span>
 </div>
 <div class="input-control -square-prefix -square-suffix">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control_prefix">pre</span>
-  <span class="input-control_suffix">suf</span>
+  <span class="input-control-prefix">pre</span>
+  <span class="input-control-suffix">suf</span>
 </div>
 ```
 
@@ -111,20 +111,20 @@
 配合使用[CSS 工具类](/lib/utilities/)来实现不同输入框的外观。下面展示各种工具类的外观效果。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <div class="input-control -circle">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <div class="input-control">
+    <input type="text" class="form-control -circle" placeholder="请填写" />
   </div>
-  <div class="input-control -shadow">
-    <input type="text" class="form-control" placeholder="请填写" />
+  <div class="input-control">
+    <input type="text" class="form-control -sd" placeholder="请填写" />
   </div>
 </Example>
 
 ```html
-<div class="input-control -circle">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -circle" placeholder="请填写" />
 </div>
-<div class="input-control -shadow">
-  <input type="text" class="form-control" placeholder="请填写" />
+<div class="input-control">
+  <input type="text" class="form-control -sd" placeholder="请填写" />
 </div>
 ```
 

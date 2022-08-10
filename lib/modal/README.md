@@ -3,7 +3,7 @@
 ## 静态展示
 
 ```html:example: flex gap-3
-<div class="modal-dialog -shadow" style="margin-top:50px;">
+<div class="modal-dialog -sd" style="margin-top:50px;">
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -26,7 +26,7 @@
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#noContentModal">点击打开对话框</button>
 
 <div class="modal" id="noContentModal">
-  <div class="modal-dialog -shadow">
+  <div class="modal-dialog -sd">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       <div class="modal-title">标题</div>
@@ -50,7 +50,7 @@
 <a class="btn" data-toggle="modal" href="#myModal">点击打开</a>
 
 <div class="modal" id="myModal">
-  <div class="modal-dialog -shadow">
+  <div class="modal-dialog -sd">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -74,7 +74,7 @@
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#centerModal">居中对话框</button>
 
 <div class="modal" id="centerModal">
-  <div class="modal-dialog -shadow">
+  <div class="modal-dialog -sd">
     <div class="modal-content">
       <div class="modal-header text-center">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -102,7 +102,7 @@
 <button type="button" class="btn -primary" data-position="100px" data-toggle="modal" data-target="#positionModal">距离上方100px</button>
 
 <div class="modal" id="positionModal">
-  <div class="modal-dialog -shadow">
+  <div class="modal-dialog -sd">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -132,7 +132,7 @@
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#fullModal">全屏</button>
 
 <div class="modal" id="smModal">
-  <div class="modal-dialog -shadow -sm">
+  <div class="modal-dialog -sd -sm">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -150,7 +150,7 @@
 </div>
 
 <div class="modal" id="baseModal">
-  <div class="modal-dialog -shadow -md">
+  <div class="modal-dialog -sd -md">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -168,7 +168,7 @@
 </div>
 
 <div class="modal" id="lgModal">
-  <div class="modal-dialog -shadow -lg">
+  <div class="modal-dialog -sd -lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -186,7 +186,7 @@
 </div>
 
 <div class="modal -scroll-inside" id="fullModal">
-  <div class="modal-dialog -shadow -fullscreen">
+  <div class="modal-dialog -sd -fullscreen">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -216,7 +216,7 @@
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#customModal">点击打开</button>
 
 <div class="modal" id="customModal">
-  <div class="modal-dialog -shadow -sm -border-none">
+  <div class="modal-dialog -sd -sm -border-none">
     <div class="modal-content">
       <div class="modal-body">
         <p>这是提示内容</p>
@@ -229,13 +229,13 @@
 </div>
 ```
 
-## 是否可以通过点击 modal 关闭对话框
+## 模态对话框
 
 ```html:example: flex gap-3
 <button type="button" class="btn -primary" data-toggle="modal" data-target="#autoCloseModal">点击打开对话框</button>
 
 <div class="modal" id="autoCloseModal" data-modal-closable="false">
-  <div class="modal-dialog -shadow">
+  <div class="modal-dialog -sd">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>

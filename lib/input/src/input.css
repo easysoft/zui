@@ -1,96 +1,46 @@
 .input-control {
     @apply relative;
 }
-.input-control > .form-control {
-    @apply px-3 h-8 w-48;
-    border: 1px solid var(--input-border-color);
-    border-radius: var(--input-radius);
-}
-.input-control .form-control:hover {
-    @apply border-gray-500;
-}
-.input-control .form-control:focus {
-    @apply outline-none border-primary-500;
-}
 
-.input-control.-shadow .form-control:focus {
-    @apply shadow-primary-500;
-}
-.input-control .form-control[disabled],
-.input-control .form-control[readonly] {
-    @apply bg-gray-100 border-gray-300 opacity-100;
-}
-
-.input-control .form-control.-sm {
+.input-control > .form-control.-sm {
     @apply px-2 h-6;
 }
-.input-control .form-control.-lg {
+.input-control > .form-control.-lg {
     @apply px-4 h-10;
 }
-input::placeholder {
-    @apply text-gray-500 opacity-50;
-}
-.input-control .form-control.-sm::placeholder {
-    @apply text-sm;
-}
-.input-control .form-control.-lg::placeholder {
-    @apply text-lg;
-}
-
-.-square-prefix .form-control {
+.-square-prefix > .form-control {
     padding-left: var(--input-square-fix-width);
 }
-.-square-suffix .form-control {
+.-square-suffix > .form-control {
     padding-right: var(--input-square-fix-width);
 }
-.input-control.-bothfix .form-control {
+.input-control.-bothfix > .form-control {
     padding-left: var(--input-fix-width);
     padding-right: var(--input-fix-width);
 }
-.input-control.-prefix .form-control {
+.input-control.-prefix > .form-control {
     padding-left: var(--input-fix-width);
 }
-.input-control.-suffix .form-control {
+.input-control.-suffix > .form-control {
     padding-right: var(--input-fix-width);
 }
-.input-control_prefix, .input-control_suffix {
+.input-control-prefix, .input-control-suffix {
     @apply inline-block h-full text-gray-500 select-none absolute overflow-hidden leading-8 px-2 top-0;
     width: var(--input-fix-width);
 }
-.input-control_suffix {
+.input-control-suffix {
     @apply text-right;
 }
-.-square-prefix .input-control_prefix,
-.-square-prefix .input-control_suffix,
-.-square-suffix .input-control_prefix,
-.-square-suffix .input-control_suffix {
+.-square-prefix .input-control-prefix,
+.-square-prefix .input-control-suffix,
+.-square-suffix .input-control-prefix,
+.-square-suffix .input-control-suffix {
     @apply text-center;
     width: var(--input-square-fix-width);
 }
-.input-control_prefix {
+.input-control-prefix {
     @apply left-0.5;
 }
-.input-control_suffix {
+.input-control-suffix {
     @apply right-0.5;
-}
-.input-control.-rounded-sm .form-control {
-    @apply rounded-sm;
-}
-.input-control.-rounded .form-control {
-    @apply rounded;
-}
-.input-control.-rounded-md .form-control {
-    @apply rounded-md;
-}
-.input-control.-rounded-lg .form-control {
-    @apply rounded-lg;
-}
-.input-control.-rounded-xl .form-control {
-    @apply rounded-xl;
-}
-.input-control.-circle .form-control {
-    @apply rounded-full;
-}
-.input-control.-rounded-none .form-control {
-    @apply rounded-none;
 }

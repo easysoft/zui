@@ -57,9 +57,6 @@
 .-scroll-inside {
   overflow: hidden!important;
 }
-.body-modal-scroll-inside {
-  @apply overflow-auto;
-}
 
 .modal-dialog.-sm {
   width: var(--modal-sm);
