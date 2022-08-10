@@ -1,0 +1,4 @@
+a               {@apply -text-link;}
+a:hover         {@apply -text-link-hover;}
+a:active        {@apply -underline}
+a:focus-visible {@apply -outline-focus -outline-offset-2 -outline-2}

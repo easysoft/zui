@@ -47,10 +47,10 @@ const white = '#fff';
 // UI 调色板 - UI palettes
 // ======================
 
-/** 画布 */
+/** 画布（页面背景） */
 const canvas = white;
 
-/** 控件或页面背景 */
+/** 控件背景 */
 const surface = shades.gray[100];
 
 /** 文本 */
@@ -58,6 +58,12 @@ const fore = shades.gray[800];
 
 /** 焦点 */
 const focus = shades.young[300];
+
+/** 链接 */
+const link = shades.young[500];
+
+/** 链接（hover） */
+const linkHover = shades.young[600];
 
 module.exports = {
     ...shades,
@@ -80,4 +86,6 @@ module.exports = {
     surface,
     fore,
     focus,
+    link,
+    'link-hover': linkHover,
 };
