@@ -3,11 +3,9 @@
   "include": [
     "./lib/*/src/",
     "./lib/*/dev.ts",
-    "./docs/.vitepress/theme/**/*",
     "tools",
     "src",
     "config",
-    "docs",
     "vite.config.ts",
     "tailwind.config.cjs",
     "postcss.config.cjs",

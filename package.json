@@ -10,8 +10,8 @@
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
-    "docs:dev-fast": "vitepress dev docs",
-    "docs:dev": "pnpm run docs:prepare && vitepress dev docs --host & pnpm run docs:watch",
+    "docs:dev-fast": "cd docs && pnpm dev",
+    "docs:dev": "pnpm docs:prepare && pnpm docs:watch & pnpm docs:dev-fast",
     "docs:watch": "tsx ./tools/watch-docs.ts",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs",
@@ -75,8 +75,6 @@
     "tsx": "^3.8.0",
     "typescript": "^4.5.4",
     "vite": "^3.0.2",
-    "vite-plugin-eslint": "^1.6.1",
-    "vitepress": "1.0.0-alpha.4",
-    "vue": "^3.2.36"
+    "vite-plugin-eslint": "^1.6.1"
   }
 }
