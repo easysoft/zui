@@ -25,8 +25,7 @@
     <button type="button" class="btn">（*＾-＾*）</button>
   </div>
   <div class="btn-group">
-    <button type="button" class="btn">上一页</button>
-    <button type="button" class="btn">下一页</button>
+    <button type="button" class="btn">登录</button>
   </div>
 </div>
 ```

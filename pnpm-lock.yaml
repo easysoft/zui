@@ -120,6 +120,7 @@ importers:
       '@zui/base': workspace:^0.0.1
       '@zui/breadcrumb': workspace:^0.0.1
       '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/btn-group': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
       '@zui/dtable': workspace:^0.0.1
@@ -140,6 +141,7 @@ importers:
       '@zui/base': link:../lib/base
       '@zui/breadcrumb': link:../lib/breadcrumb
       '@zui/browser-helpers': link:../lib/browser-helpers
+      '@zui/btn-group': link:../lib/btn-group
       '@zui/button': link:../lib/button
       '@zui/dropdown': link:../lib/dropdown
       '@zui/dtable': link:../lib/dtable
