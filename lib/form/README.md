@@ -109,6 +109,17 @@
        <label> 密码 </label>
        <input type="password" class="form-control" />
     </div>
+    <div class="form-group">
+      <label> 地址 </label>
+      <select class="form-control">
+        <option> 北京 </option>
+        <option> 上海 </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label> 地址 </label>
+      <textarea type="text-area" class="form-control"> </textarea> 
+    </div>
   </fieldset>
   <legend>额外内容</legend> 
   <fieldset>
