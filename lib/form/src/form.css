@@ -25,11 +25,11 @@
   color: var(--color-placeholder-control);
 }
 .-sm.form-control {
-  font-size:0.55rem;
+  @apply text-sm
 }
 
 .-lg.form-control {
-  font-size:1.2rem;
+  @apply text-lg
 }
 
 .form-control:focus{
