@@ -11,6 +11,6 @@ Object.assign(window, {zui});
 export default {
     ...DefaultTheme,
     enhanceApp({ app }) {
-        app.component('Example', Example)
+        app.component('Example', Example);
     }
 }
