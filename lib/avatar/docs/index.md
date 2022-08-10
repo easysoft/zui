@@ -16,7 +16,7 @@
 
 ## 图标头像
 
-配合[图标组件](/lib/icon)一起使用时，自动呈现为图标头像。
+配合[图标组件](http://url.com/lib/icon)一起使用时，自动呈现为图标头像。
 
 <Example class="flex gap-4">
   <div class="avatar -primary">图标</div>
