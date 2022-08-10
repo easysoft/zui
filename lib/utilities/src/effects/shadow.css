@@ -1,8 +1,8 @@
-.sd-sm    {@apply -shadow-sm;}
-.sd       {@apply -shadow;}
-.sd-md    {@apply -shadow-md;}
-.sd-lg    {@apply -shadow-lg;}
-.sd-xl    {@apply -shadow-xl;}
-.sd-2xl   {@apply -shadow-2xl;}
-.sd-inner {@apply -shadow-inner;}
-.sd-none  {@apply -shadow-none;}
+.shadow-sm    {@apply -shadow-sm;}
+.shadow       {@apply -shadow;}
+.shadow-md    {@apply -shadow-md;}
+.shadow-lg    {@apply -shadow-lg;}
+.shadow-xl    {@apply -shadow-xl;}
+.shadow-2xl   {@apply -shadow-2xl;}
+.shadow-inner {@apply -shadow-inner;}
+.shadow-none  {@apply -shadow-none;}
