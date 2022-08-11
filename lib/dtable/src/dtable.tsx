@@ -409,7 +409,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                     '-hover-cell': cellHover,
                     '-bordered': bordered,
                     '-striped': striped,
-                    '-scrollbar-hover': scrollbarHover,
+                    'scrollbar-hover': scrollbarHover,
                 })}
                 style={style}
                 ref={this.ref}
