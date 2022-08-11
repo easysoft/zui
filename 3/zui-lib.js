@@ -185,6 +185,7 @@ export default [
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
+            "@zui/button": "workspace:^0.0.1",
             "@zui/dropdown": "workspace:^0.0.1",
             "@zui/utilities": "workspace:*"
         },
