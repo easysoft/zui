@@ -179,9 +179,9 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         return (
             <div
                 className={classes('scrollbar', className, {
-                    '-vert': type === 'vert',
-                    '-horz': type === 'horz',
-                    '-dragging': dragStart,
+                    'is-vert': type === 'vert',
+                    'is-horz': type === 'horz',
+                    'is-dragging': dragStart,
                 })}
                 style={rootStyle}
                 onMouseDown={this._handleClick}

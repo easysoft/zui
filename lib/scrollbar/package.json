@@ -9,6 +9,9 @@
         "js",
         "zui:component"
     ],
+    "files": [
+        "./src/**/*"
+    ],
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"

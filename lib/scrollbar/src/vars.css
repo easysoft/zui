@@ -1,8 +1,11 @@
 :root {
+    --scrollbar-size:      10px;
     --scrollbar-opacity:   .6;
     --scrollbar-bg:        rgba(var(--color-inverse-rgb), .15);
     --scrollbar-inset:     inset 0 0 0 1px rgba(var(--color-inverse-rgb), .05);
     --scrollbar-bar-bg:    rgba(var(--color-inverse-rgb), .3);
     --scrollbar-hover-bg:  rgba(var(--color-inverse-rgb), .4);
     --scrollbar-drag-bg:   rgba(var(--color-inverse-rgb), .5);
+    --scrollbar-radius:    var(--radius-sm);
+    --scroolbar-duration:  .7s;
 }

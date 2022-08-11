@@ -1,32 +1,34 @@
 .scrollbar {
-    @apply -absolute -transition-opacity -duration-700;
+    @apply -absolute -transition-opacity;
     opacity: var(--scrollbar-opacity);
     background: var(--scrollbar-bg);
     box-shadow: var(--scrollbar-inset);
+    transition-duration: var(--scroolbar-duration);
 }
-.-scrollbar-hover .scrollbar {
+.scrollbar-hover .scrollbar {
     @apply -opacity-0;
 }
-.-scrollbar-hover:hover .scrollbar {
+.scrollbar-hover:hover .scrollbar {
     opacity: var(--scrollbar-opacity);
 }
 .scrollbar:hover,
-.scrollbar.-dragging {
+.scrollbar.is-dragging {
     opacity: 1!important;
 }
 .scrollbar-bar {
-    @apply -absolute -rounded-sm;
+    @apply -absolute;
     background: var(--scrollbar-bar-bg);
+    border-radius: var(--scrollbar-radius);
 }
 .scrollbar-bar:hover {
     background: var(--scrollbar-hover-bg);
 }
-.-dragging > .scrollbar-bar {
+.is-dragging > .scrollbar-bar {
     background: var(--scrollbar-drag-bg);
 }
-.-horz > .scrollbar-bar {
+.is-horz > .scrollbar-bar {
     @apply -h-full -z-20;
 }
-.-vert> .scrollbar-bar {
+.is-vert> .scrollbar-bar {
     @apply -w-full -z-20;
 }

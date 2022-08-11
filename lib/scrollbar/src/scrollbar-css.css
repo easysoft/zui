@@ -1,0 +1,47 @@
+@import './vars.css';
+
+::-webkit-scrollbar {
+    height: var(--scrollbar-size);
+    width: var(--scrollbar-size);
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: var(--scrollbar-inset);
+    transition: background-color var(--scrollbar-duration);
+}
+:hover::-webkit-scrollbar-track,
+::-webkit-scrollbar-track:hover {
+    background: var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: var(--scrollbar-radius);
+    background: var(--scrollbar-bar-bg);
+    min-height: var(--scrollbar-size);
+    transition: var(--scrollbar-duration);
+    transition-property: background-color;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover-bg);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--scrollbar-drag-bg);
+}
+
+/**
+ * Scrollbar hover effection
+ */
+
+.scrollbar-hover::-webkit-scrollbar,
+.scrollbar-hover::-webkit-scrollbar-thumb,
+.scrollbar-hover::-webkit-scrollbar-track {
+    visibility: hidden;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar,
+.scrollbar-hover:hover::-webkit-scrollbar-thumb,
+.scrollbar-hover:hover::-webkit-scrollbar-track {
+    visibility: visible;
+}
