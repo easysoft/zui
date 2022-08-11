@@ -64,10 +64,10 @@
 ```html:example: -flex -gap-3
 <div class="btn-group">
   <button type="button" class="btn">Normal</button>
-  <button type="button" class="btn -primary">Primary</button>
-  <button type="button" class="btn -primary-outline">Primary</button>
-  <button type="button" class="btn -primary-pale">Primary</button>
-  <button type="button" class="btn -text-primary">Primary</button>
+  <button type="button" class="btn primary">Primary</button>
+  <button type="button" class="btn primary-outline">Primary</button>
+  <button type="button" class="btn primary-pale">Primary</button>
+  <button type="button" class="btn text-primary">Primary</button>
 </div>
 ```
 

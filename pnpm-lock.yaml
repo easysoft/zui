@@ -273,6 +273,7 @@ importers:
   lib/input-group:
     specifiers:
       '@zui/base': workspace:*
+      '@zui/button': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
       '@zui/input': workspace:^0.0.1
       '@zui/utilities': workspace:*
@@ -280,6 +281,7 @@ importers:
       '@zui/input': link:../input
     devDependencies:
       '@zui/base': link:../base
+      '@zui/button': link:../button
       '@zui/dropdown': link:../dropdown
       '@zui/utilities': link:../utilities
 

@@ -8,7 +8,7 @@
 
 .caret {
   @apply -w-0 -h-0 -inline-block -align-middle -opacity-50;
-  border-top: 4px dashed;
+  border-top: 4px solid;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
@@ -28,6 +28,7 @@
 
 .dropdown-menu > li > a {
   @apply -block -px-2 -py-1.5 -leading-3;
+  color: #3c4353;
 }
 
 .dropdown-menu>li:hover>a {

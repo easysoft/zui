@@ -6,10 +6,10 @@
   border: 1px solid var(--label-border-color);
   color: var(--label-color);
 }
-.label.-lg {
+.label.lg {
   @apply -text-base -px-2 -h-6;
 }
-.label.-sm {
+.label.sm {
   @apply -h-4;
 }
 .label-dot {

@@ -17,7 +17,7 @@
 
 可以使用`input-group-addon`类和`input`输入框组合，通过调换顺序实现不同种输入组外观显示
 
-<Example>
+<Example class="flex flex-wrap gap-4">
   <div class="input-group">
     <span class="input-group-addon">前</span>
     <input type="text" class="form-control" placeholder="用户名">
@@ -100,13 +100,8 @@
 
 除了默认大小，输入组还提供了额外的 4 种预设尺寸。
 
-<Example>
-  <div class="input-group -xl">
-    <span class="input-group-addon">前</span>
-    <input type="text" class="form-control" placeholder="用户名">
-  </div>
-
-  <div class="input-group -lg">
+<Example class="flex flex-wrap gap-4">
+  <div class="input-group lg">
     <span class="input-group-addon">前</span>
     <input type="text" class="form-control" placeholder="用户名">
   </div>
@@ -116,7 +111,7 @@
     <input type="text" class="form-control" placeholder="用户名">
   </div>
 
-  <div class="input-group -sm">
+  <div class="input-group sm">
     <span class="input-group-addon">前</span>
     <input type="text" class="form-control" placeholder="用户名">
   </div>
@@ -128,12 +123,7 @@
 </Example>
 
 ```html
-<div class="input-group -xl">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-</div>
-
-<div class="input-group -lg">
+<div class="input-group lg">
   <span class="input-group-addon">前</span>
   <input type="text" class="form-control" placeholder="用户名">
 </div>
@@ -143,22 +133,18 @@
   <input type="text" class="form-control" placeholder="用户名">
 </div>
 
-<div class="input-group -sm">
+<div class="input-group sm">
   <span class="input-group-addon">前</span>
   <input type="text" class="form-control" placeholder="用户名">
 </div>
 
-<div class="input-group -xs">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-</div>
 ```
 
 ## 连续分段的文本框
 
 连续多个`.form-control`组成连续分段的文本框，可省去不必要的label标签
 
-<Example>
+<Example class="flex flex-wrap gap-4">
   <div class="input-group">
     <span class="input-group-addon">姓名</span>
     <input type="text" class="form-control" placeholder="姓氏">
@@ -194,7 +180,7 @@
 
 `.input-group-addon`内部可包含单选框或复选框，增强输入框功能
 
-<Example>
+<Example class="flex gap-4">
   <!-- 复选框 -->
   <div class="input-group">
     <span class="input-group-addon">
@@ -237,7 +223,7 @@
     <input type="text" class="form-control">
     <div class="dropdown">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-      <ul class="dropdown-menu pull-right" role="menu">
+      <ul class="dropdown-menu menu-align-right" role="menu">
         <li><a href="#">选项</a></li>
         <li><a href="#">另一个选项</a></li>
         <li><a href="#">更多选项</a></li>
@@ -253,7 +239,7 @@
   <input type="text" class="form-control">
   <div class="dropdown">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-    <ul class="dropdown-menu pull-right" role="menu">
+    <ul class="dropdown-menu menu-align-right" role="menu">
       <li><a href="#">选项</a></li>
       <li><a href="#">另一个选项</a></li>
       <li><a href="#">更多选项</a></li>
@@ -273,11 +259,11 @@
     <input type="text" class="form-control">
     <div class="input-group-btn">
       <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
-      <div class="dropdown -right">
+      <div class="dropdown menu-align-right">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
           选项
         </button>
-          <ul class="dropdown-menu -right" role="menu">
+          <ul class="dropdown-menu" role="menu">
           <li><a href="#">选项</a></li>
           <li><a href="#">另一个选项</a></li>
           <li><a href="#">更多选项</a></li>
@@ -294,11 +280,11 @@
   <input type="text" class="form-control">
   <div class="input-group-btn">
     <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
-    <div class="dropdown -right">
+    <div class="dropdown menu-align-right">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
         选项
       </button>
-        <ul class="dropdown-menu -right" role="menu">
+        <ul class="dropdown-menu" role="menu">
         <li><a href="#">选项</a></li>
         <li><a href="#">另一个选项</a></li>
         <li><a href="#">更多选项</a></li>
@@ -318,7 +304,5 @@
 | ------------- |:-------------:| ----- |
 | `input-group`      | 实体类 | 元素作为输入组组件 |
 | `input-group-addon`      | 实体类 | 元素作为输入组内部额外元素 |
-| `-xs`      | 修饰类      |   输入组使用超小号尺寸 |
-| `-sm`      | 修饰类      |   输入组使用小号尺寸 |
-| `-lg`      | 修饰类      |   输入组使用大号尺寸 |
-| `-xl`      | 修饰类      |   输入组使用超大号尺寸 |
+| `sm`      | 修饰类      |   输入组使用小号尺寸 |
+| `lg`      | 修饰类      |   输入组使用大号尺寸 |

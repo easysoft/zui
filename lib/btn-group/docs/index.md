@@ -128,20 +128,20 @@
 <Example>
   <div class="btn-group">
     <button type="button" class="btn">Normal</button>
-    <button type="button" class="btn -primary">Primary</button>
-    <button type="button" class="btn -primary-outline">Primary</button>
-    <button type="button" class="btn -primary-pale">Primary</button>
-    <button type="button" class="btn -text-primary">Primary</button>
+    <button type="button" class="btn primary">Primary</button>
+    <button type="button" class="btn primary-outline">Primary</button>
+    <button type="button" class="btn primary-pale">Primary</button>
+    <button type="button" class="btn text-primary">Primary</button>
   </div>
 </Example>
 
 ```html
 <div class="btn-group">
   <button type="button" class="btn">Normal</button>
-  <button type="button" class="btn -primary">Primary</button>
-  <button type="button" class="btn -primary-outline">Primary</button>
-  <button type="button" class="btn -primary-pale">Primary</button>
-  <button type="button" class="btn -text-primary">Primary</button>
+  <button type="button" class="btn primary">Primary</button>
+  <button type="button" class="btn primary-outline">Primary</button>
+  <button type="button" class="btn primary-pale">Primary</button>
+  <button type="button" class="btn text-primary">Primary</button>
 </div>
 ```
 
@@ -149,7 +149,7 @@
 
 提供以下几种预设圆角尺寸供选择。
 
-<Example class="flex gap-4 overflow-x-auto">
+<Example class="flex gap-4 flex-wrap">
   <div class="btn-group group-rounded-none">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
@@ -281,4 +281,15 @@
   </div>
 </div>
 ```
+## CSS 类
 
+按钮提供了如下 CSS 类：
+
+| 类        | 类型           | 作用  |
+| ------------- |:-------------:| ----- |
+| `btn-group`      | 实体类 | 元素作为按钮组组件 |
+| `btn-toolbar`    | 实体类 | 元素包含多个按钮组 |
+| `xs`             | 修饰类 | 按钮组使用超小号尺寸 |
+| `sm`             | 修饰类 | 按钮组使用小号尺寸 |
+| `lg`             | 修饰类 | 按钮组使用大号尺寸 |
+| `xl`             | 修饰类 | 按钮组使用超大号尺寸 |
