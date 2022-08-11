@@ -13,3 +13,4 @@
 .of-y-visible {@apply -overflow-y-visible;}
 .of-x-scroll  {@apply -overflow-x-scroll;}
 .of-y-scroll  {@apply -overflow-y-scroll;}
+.of-overlay   {overflow: overlay;}
