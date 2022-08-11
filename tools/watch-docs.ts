@@ -11,7 +11,7 @@ console.log(`> Watch docs... ${watchPath}`);
 
 function getDestFile(file: string) {
     const libName = file.replace(`${libPath}/`, '').split('/')[0];
-    return path.resolve(docsPath, libName, file.replace(`${libPath}/${libName}/docs/`, '').replace(`${libPath}/${libName}/assets/`, 'assets/'));
+    return path.resolve(docsPath, libName, file.replace(`${libPath}/${libName}/docs/`, '').replace(`${libPath}/${libName}/assets/`, `../../public/assets/${libName}/`));
 }
 watcher.on('add', (file) => {
     const destFile = getDestFile(file);
