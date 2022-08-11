@@ -13,7 +13,7 @@
     "docs:dev-fast": "cd docs && pnpm dev",
     "docs:dev": "pnpm docs:prepare && pnpm docs:dev-fast & pnpm docs:watch",
     "docs:watch": "tsx ./tools/watch-docs.ts",
-    "docs:build": "cd docs && pnpm build",
+    "docs:build": "pnpm docs:prepare && cd docs && pnpm build",
     "docs:serve": "cd docs && pnpm serve",
     "docs:prepare": "tsx ./tools/prepare-docs.ts",
     "install:buildin-libs": "tsx ./tools/install-buildin-libs.ts"
