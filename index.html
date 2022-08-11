@@ -8,16 +8,21 @@
   </head>
   <body class="-pl-48">
     <aside class="-fixed -inset-y-0 -left-0 -w-48 -z-10 -bg-young-800">
-      <div class="-overflow-y-auto -py-4 -px-3">
-        <a href="/" class="-flex -items-center -pl-2.5 -mb-5">
+      <div class="-flex -flex-col -h-full">
+        <a href="/" class="-flex -items-center -p-4 -flex-none">
           <img src="./favicon.svg" class="-mr-3 -h-6 -sm:h-7" alt="ZUI Logo" />
           <span class="-self-center -text-xl -font-semibold -whitespace-nowrap -text-white">ZUI</span>
-       </a>
-       <ul class="-space-y-2 -text-lg" id="libNav"></ul>
+        </a>
+        <div class="-flex-auto -overflow-y-auto -min-h-0 scrollbar-hover p-3" style="overflow: overlay">
+          <ul class="-space-y-2 -text-lg" id="libNav"></ul>
+        </div>
       </div>
     </aside>
     <div id="libPage"></div>
-    <script type="module">import '@zui/base';</script>
+    <script type="module">
+    import '@zui/base';
+    import '@zui/scrollbar/src/scrollbar-css.css';
+    </script>
     <script type="module" id="mainModule" src="/src/main.ts"></script>
   </body>
 </html>
