@@ -50,6 +50,9 @@ const white = '#fff';
 /** 画布（页面背景） */
 const canvas = white;
 
+/** 画布反色 */
+const inverse = black;
+
 /** 控件背景 */
 const surface = shades.gray[100];
 
@@ -83,6 +86,7 @@ module.exports = {
     white,
 
     canvas,
+    inverse,
     surface,
     fore,
     focus,
