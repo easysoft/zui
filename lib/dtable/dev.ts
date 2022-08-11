@@ -1,11 +1,11 @@
 import 'preact/debug';
 import {domReady} from '@zui/browser-helpers/src/dom-ready';
-import {DTablePlugin} from './src/main';
+import {DTable} from './src/main';
 
 domReady(() => {
     const element = document.getElementById('datatableExample');
     if (element) {
-        const datatable = new DTablePlugin(element, {
+        const datatable = new DTable(element, {
             cols: [
                 {name: 'id', title: 'ID', width: 40, fixed: 'left', sortType: 'down'},
                 {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true},

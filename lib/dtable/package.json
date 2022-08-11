@@ -14,6 +14,11 @@
         "nanoid": "^4.0.0",
         "preact": "^10.10.0"
     },
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts",
+        "./plugins/": "./src/plugins/"
+    },
     "files": [
         "./src/**/*"
     ]
