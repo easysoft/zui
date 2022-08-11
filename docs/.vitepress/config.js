@@ -4,6 +4,7 @@ import zuiLib from '../public/zui-lib';
 export default defineConfig({
     lang: 'zh-CN',
     title: 'ZUI 3',
+    base: process.env.BASE_PATH ?? '/',
     description: 'Composable UI framework',
     head: [
         ['link', {rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}],
