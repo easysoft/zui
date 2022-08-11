@@ -109,17 +109,6 @@
        <label> 密码 </label>
        <input type="password" class="form-control" />
     </div>
-    <div class="form-group">
-      <label> 地址 </label>
-      <select class="form-control">
-        <option> 北京 </option>
-        <option> 上海 </option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label> 地址 </label>
-      <textarea type="text-area" class="form-control"> </textarea>
-    </div>
   </fieldset>
   <legend>额外内容</legend>
   <fieldset>
@@ -209,4 +198,68 @@
      <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
    </div>
  </form>
+```
+
+## 表单控件
+
+为`<input>`,`<textarea>`,`<select>` 添加.form-control 类即可得到统一的表单外观。所受支持的表单控件包括:
+
+`<select class="form-control">`
+
+`<textarea class="form-control" rows="3">`
+
+`<input type="text" class="form-control">`
+
+`<input type="password" class="form-control">`
+
+`<input type="datetime" class="form-control">`
+
+`<input type="datetime-local" class="form-control">`
+
+`<input type="date" class="form-control">`
+
+`<input type="month" class="form-control">`
+
+`<input type="time" class="form-control">`
+
+`<input type="week" class="form-control">`
+
+`<input type="number" class="form-control">`
+
+`<input type="email" class="form-control">`
+
+`<input type="url" class="form-control">`
+
+`<input type="search" class="form-control">`
+
+`<input type="tel" class="form-control">`
+
+`<input type="color" class="form-control">`
+
+
+```html:example
+<input type="text" class="form-control" placeholder="用户名"></input>
+```
+```html:example
+<textarea class="form-control" rows="3" placeholder="可以输入多行文本"></textarea>
+```
+```html:example
+<input type="file" class="form-control" value=""></input>
+```
+```html:example
+<select class="form-control">
+  <option value="">请选择一种水果</option>
+  <option value="apple">苹果</option>
+  <option value="banana">香蕉</option>
+  <option value="orange">桔子</option>
+</select>
+```
+```html:example
+<select class="form-control" multiple>
+  <option value="">请选择所有爱吃的水果</option>
+  <option value="apple">苹果</option>
+  <option value="banana">香蕉</option>
+  <option value="orange">桔子</option>
+  <option value="orange">西瓜</option>
+</select>
 ```

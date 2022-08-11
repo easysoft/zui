@@ -27,14 +27,16 @@
 .-sm.form-control {
   @apply -text-sm
 }
-
 .-lg.form-control {
   @apply -text-lg
 }
-
 .form-control:focus{
   @apply -border -outline-none;
   border-color: var(--color-border-control-focus);
+}
+textarea.form-control {
+  @apply -align-top -resize-y -h-auto;
+  min-height: 32px;
 }
 
 .form-tip {
