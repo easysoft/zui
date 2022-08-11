@@ -32,7 +32,7 @@ if (argv.copy) {
         if (!originLibAssetsDirExists) {
             continue;
         }
-        const libAssetsDir = path.resolve(process.cwd(), './docs/lib/assets', lib.shortName);
+        const libAssetsDir = path.resolve(process.cwd(), './docs/public/assets', lib.shortName);
         await fs.copy(originLibAssetsDir, libAssetsDir);
     }
 }

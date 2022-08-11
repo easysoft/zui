@@ -1,14 +1,17 @@
 import {defineConfig} from 'vitepress';
 import zuiLib from '../public/zui-lib';
 
+const base = process.env.BASE_PATH ?? '/';
+
 export default defineConfig({
     lang: 'zh-CN',
     title: 'ZUI 3',
+    base,
     description: 'Composable UI framework',
     head: [
-        ['link', {rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg'}],
-        ['link', {rel: 'stylesheet', href: '/zui/zui.css'}],
-        ['script', {src: '/zui/zui.umd.cjs'}],
+        ['link', {rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg`}],
+        ['link', {rel: 'stylesheet', href: `${base}/zui/zui.css`}],
+        ['script', {src: `${base}/zui/zui.umd.cjs`}],
     ],
     lastUpdated: true,
     markdown: {

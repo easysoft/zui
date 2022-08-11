@@ -17,10 +17,10 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Build
-        run: pnpm docs:build
+        run: BASE_PATH=/zui/3/ pnpm docs:build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/.vitepress/dist
-          destination_dir: zui3
+          destination_dir: 3
