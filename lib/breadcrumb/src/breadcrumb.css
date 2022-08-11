@@ -2,17 +2,23 @@
   @apply -py-2 -px-4;
 }
 
-.breadcrumb >li {
-  @apply -inline-block;
+.breadcrumb > li {
+  @apply -inline-block -pl-1;
 }
 
 .breadcrumb > li+li:before {
-  @apply -py-0 -px-1;
+  @apply -py-0 -pr-0.5;
   content: "/\00a0";
-  color: var(--breadcrumb-color);
+  color: var(--color-diagonal-breadcrumb);
 }
 
-.breadcrumb >.active {
-  @apply -py-0 -px-1;
+.breadcrumb > .active {
+  @apply -py-0 ; 
   color: var(--breadcrumb-color-active);
+}
+
+.breadcrumb > li+li.active:before {
+  @apply -py-0; 
+  content: "/\00a0";
+  color: var(--color-diagonal-breadcrumb-active); 
 }

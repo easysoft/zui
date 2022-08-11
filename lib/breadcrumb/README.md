@@ -7,8 +7,8 @@
 
 ```html:example
    <ol class="breadcrumb">
-     <li>Home</li>
-     <li><a href="your/url/">Library</a></li>
-     <li class="active">Data</li>
+     <li>主页</li>
+     <li><a href="your/url/">图书馆</a></li>
+     <li class="active">数据</li>
    </ol>
 ```
