@@ -10,8 +10,8 @@ export default defineConfig({
     description: 'Composable UI framework',
     head: [
         ['link', {rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg`}],
-        ['link', {rel: 'stylesheet', href: `${base}/zui/zui.css`}],
-        ['script', {src: `${base}/zui/zui.umd.cjs`}],
+        ['link', {rel: 'stylesheet', href: `${base}zui/zui.css`}],
+        ['script', {src: `${base}zui/zui.umd.cjs`}],
     ],
     lastUpdated: true,
     markdown: {
