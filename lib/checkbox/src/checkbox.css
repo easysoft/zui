@@ -1,0 +1,24 @@
+.checkbox {
+  @apply -py-2;
+}
+
+.radio {
+  @apply -py-2;
+  cursor: pointer;
+}
+
+.checkbox-inline + .checkbox-inline {
+  @apply -ml-4;
+}
+
+.radio-inline + .radio-inline {
+  @apply -ml-4;
+}
+
+.checkbox-primary + .checkbox-primary {
+  @apply -flex -mt-2 ; 
+}
+
+.checkbox-primary > label {
+  @apply -ml-2;
+}

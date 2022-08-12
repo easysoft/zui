@@ -1,0 +1,14 @@
+{
+    "name": "@zui/checkbox",
+    "description": "ZUI checkbox",
+    "version": "0.0.1",
+    "keywords": ["css", "components"],
+    "main": "src/main.ts",
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/utilities": "workspace:*",
+        "@zui/form": "workspace:*"
+    },
+    "files": [
+    ]
+}
