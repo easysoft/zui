@@ -12,6 +12,7 @@ export interface ScrollbarProps {
     clientSize: number;
     type?: 'vert' | 'horz';
     defaultScrollPos?: number;
+    scrollPos?: number;
     size?: number;
     className?: ClassNameLike,
     onScroll?: OnScrollListener;
@@ -39,6 +40,14 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
             scrollPos: this.props.defaultScrollPos ?? 0,
             dragStart: false,
         };
+    }
+
+    get scrollPos() {
+        return this.props.scrollPos ?? this.state.scrollPos;
+    }
+
+    get controlled() {
+        return this.props.scrollPos !== undefined;
     }
 
     get maxScrollPos(): number {
@@ -72,21 +81,27 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
     scroll(scrollPos: number) {
         scrollPos = Math.max(0, Math.min(Math.round(scrollPos), this.maxScrollPos));
-        if (scrollPos === this.state.scrollPos) {
+        if (scrollPos === this.scrollPos) {
             return;
         }
-        this.setState({
-            scrollPos,
-        }, () => {
-            const {onScroll} = this.props;
-            if (onScroll) {
-                onScroll(scrollPos, this.props.type ?? 'vert');
-            }
-        });
+        if (this.controlled) {
+            this._afterScroll(scrollPos);
+        } else {
+            this.setState({
+                scrollPos,
+            }, this._afterScroll.bind(this, scrollPos));
+        }
     }
 
     scrollOffset(offset: number) {
-        this.scroll(this.state.scrollPos + offset);
+        this.scroll(this.scrollPos + offset);
+    }
+
+    _afterScroll(scrollPos: number) {
+        const {onScroll} = this.props;
+        if (onScroll) {
+            onScroll(scrollPos, this.props.type ?? 'vert');
+        }
     }
 
     _handleWheel = (event: WheelEvent) => {
@@ -123,7 +138,7 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
     _handleMouseDown = (event: MouseEvent) => {
         if (!this.state.dragStart) {
-            this.setState({dragStart: {x: event.clientX, y: event.clientY, offset: this.state.scrollPos}});
+            this.setState({dragStart: {x: event.clientX, y: event.clientY, offset: this.scrollPos}});
         }
         event.stopPropagation();
     };
@@ -153,8 +168,8 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
             right,
         } = this.props;
 
-        const {maxScrollPos} = this;
-        const {dragStart, scrollPos} = this.state;
+        const {maxScrollPos, scrollPos} = this;
+        const {dragStart} = this.state;
 
         const rootStyle: JSX.CSSProperties = {
             left,
