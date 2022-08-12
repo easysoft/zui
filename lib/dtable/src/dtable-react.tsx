@@ -31,12 +31,18 @@ export class DTable extends Component<DTableProps, DTableState> {
 
     #plugins?: readonly DTablePlugin[];
 
+    #layout?: DTableLayout;
+
     get options() {
         return this.#options;
     }
 
     get plugins() {
         return this.#plugins;
+    }
+
+    get layout() {
+        return this.#layout;
     }
 
     componentDidMount() {
@@ -60,13 +66,13 @@ export class DTable extends Component<DTableProps, DTableState> {
 
     scrollLeft(scrollLeft: number) {
         this.setState({scrollLeft}, () => {
-            this.#options?.onScroll?.(scrollLeft, 'horz');
+            this.#options?.onScroll?.call(this, scrollLeft, 'horz');
         });
     }
 
     scrollTop(scrollTop: number) {
         this.setState({scrollTop}, () => {
-            this.#options?.onScroll?.(scrollTop, 'vert');
+            this.#options?.onScroll?.call(this, scrollTop, 'vert');
         });
     }
 
@@ -177,13 +183,21 @@ export class DTable extends Component<DTableProps, DTableState> {
 
         let rowsHeightTotal = 0;
         const hiddenProp = rowDataMap?.$hidden ?? '$hidden';
-        const rows = data.reduce<RowInfo[]>((list, item) => {
-            if (!item[hiddenProp] && !hiddenRows[item.id]) {
-                list.push({data: item, top: rowsHeightTotal});
+        const rows: RowInfo[] = [];
+        const addRowItem = (item: RowData) => {
+            if (item && !item[hiddenProp] && !hiddenRows[item.id]) {
+                rows.push({data: item, top: rowsHeightTotal});
                 rowsHeightTotal += rowHeight;
             }
-            return list;
-        }, []);
+        };
+        if (Array.isArray(data)) {
+            data.forEach(addRowItem);
+        } else if (data?.length) {
+            const length = typeof data.length === 'function' ? data.length() : data.length;
+            for (let i = 0; i < length; i++) {
+                addRowItem(data.getItem(i));
+            }
+        }
 
         let heightSetting = options.height;
         let height = 0;
@@ -243,14 +257,12 @@ export class DTable extends Component<DTableProps, DTableState> {
         const startRowIndex = Math.floor(scrollTop / rowHeight);
         const endRowIndex = Math.min(rows.length, Math.ceil(scrollBottom / rowHeight));
         for (let i = startRowIndex; i < endRowIndex; i++) {
-            const row = data[i];
-            const rowTop = i * rowHeight;
-            visibleRows.push({top: rowTop - scrollTop, data: row});
+            const row = rows[i];
+            row.top -= scrollTop;
+            visibleRows.push(row);
         }
 
         let layout: DTableLayout = {
-            options,
-            plugins,
             width,
             height,
             rows,
@@ -279,7 +291,7 @@ export class DTable extends Component<DTableProps, DTableState> {
         };
 
         if (options.onLayout) {
-            const newLayout = options.onLayout(layout, options, this.state);
+            const newLayout = options.onLayout.call(this, layout);
             if (newLayout) {
                 layout = newLayout;
             }
@@ -287,12 +299,14 @@ export class DTable extends Component<DTableProps, DTableState> {
 
         plugins.forEach(plugin => {
             if (plugin.onLayout) {
-                const newLayout = plugin.onLayout.call(this, layout, options, this.state);
+                const newLayout = plugin.onLayout.call(this, layout);
                 if (newLayout) {
                     layout = newLayout;
                 }
             }
         });
+
+        this.#layout = Object.freeze(layout);
 
         return layout;
     }
@@ -421,8 +435,8 @@ export class DTable extends Component<DTableProps, DTableState> {
 
     _afterRender() {
         this.#needUpdateSize = false;
-        this.#options?.afterRender?.call(this, this.#options, this.state);
-        this.#plugins?.forEach(plugin => plugin.afterRender?.call(this, this.#options as DTableOptions, this.state));
+        this.#options?.afterRender?.call(this);
+        this.#plugins?.forEach(plugin => plugin.afterRender?.call(this));
     }
 
     _handleRenderCell = (rowID: string, col: ColInfo, rowData?: RowData, previousResult?: CustomRenderResult) : CustomRenderResult => {
@@ -458,35 +472,35 @@ export class DTable extends Component<DTableProps, DTableState> {
         const rowElement = target.closest('.dtable-row');
         const colName = cellElement?.getAttribute('data-col') ?? '';
         const rowID = rowElement?.getAttribute('data-id') ?? '';
-        const rowData = this.#options?.data?.find(row => row.id === rowID);
+        const rowInfo = this.#layout?.visibleRows.find(row => row.data.id === rowID);
         if (cellElement) {
             if (rowID === 'HEADER') {
-                this.#options?.onHeaderCellClick?.(event, {colName});
+                this.#options?.onHeaderCellClick?.call(this, event, {colName});
                 this.#plugins?.forEach(plugin => {
                     plugin.onHeaderCellClick?.call(this, event, {colName});
                 });
             } else {
-                if (this.#options?.onCellClick?.call(this, event, {colName, rowID, rowData}) === true) {
+                if (this.#options?.onCellClick?.call(this, event, {colName, rowID, rowInfo}) === true) {
                     return;
                 }
                 if (this.#plugins?.length) {
                     for (const plugin of this.#plugins) {
-                        if (plugin.onCellClick?.call(this, event, {colName, rowID, rowData}) === true) {
+                        if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo}) === true) {
                             return;
                         }
                     }
                 }
             }
         }
-        this.#options?.onRowClick?.call(this, event, {rowID, rowData});
+        this.#options?.onRowClick?.call(this, event, {rowID, rowInfo});
         this.#plugins?.forEach(plugin => {
-            plugin.onRowClick?.call(this, event, {rowID, rowData});
+            plugin.onRowClick?.call(this, event, {rowID, rowInfo});
         });
     };
 
     render() {
         const layout = this.getLayout();
-        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover} = layout?.options ?? this.props;
+        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover} = this.#options ?? this.props;
         const style = {width: layout?.width, height: layout?.height};
         return (
             <div

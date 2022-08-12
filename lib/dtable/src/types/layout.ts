@@ -1,7 +1,5 @@
 import {ComponentChildren} from 'preact';
 import {ColInfo} from './col-info';
-import {DTableOptions} from './options';
-import {DTablePlugin} from './plugin';
 import {RowInfo} from './row-info';
 import {DTableState} from './state';
 
@@ -31,6 +29,4 @@ export interface DTableLayout {
     scrollLeft: number;
     startRowIndex: number; // todo
     endRowIndex: number; // todo
-    options: DTableOptions;
-    plugins: DTablePlugin[];
 }
