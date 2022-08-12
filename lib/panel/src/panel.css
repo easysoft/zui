@@ -1,0 +1,81 @@
+.panel {
+  @apply -w-full -shadow-sm -rounded -overflow-hidden;
+  border: 1px solid var(--panel-theme-color);
+}
+
+.panel >  .panel-heading {
+  @apply -px-4 -py-2;
+  background-color: var(--panel-theme-color);
+  color: var(--panel-heading-color);
+}
+
+.panel > .panel-body {
+  @apply -p-4;
+}
+
+.panel > .panel-footer {
+  @apply -px-4 -py-2;
+  background-color: var(--color-gray-300);
+}
+
+.panel-group {
+  @apply -w-full -gap-3;
+}
+
+.panel-group > .panel + .panel {
+  @apply -mt-4;
+}
+
+.panel-primary {
+  border-color: rgba(var(--color-primary-500-rgb), var(--tw-border-opacity));
+}
+
+.panel-primary > .panel-heading {
+  background-color: rgba(var(--color-primary-500-rgb), var(--tw-border-opacity));
+  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
+}
+
+.panel-secondary {
+  border-color: rgba(var(--color-secondary-500-rgb), var(--tw-border-opacity));
+}
+
+.panel-secondary > .panel-heading {
+  background-color: rgba(var(--color-secondary-500-rgb), var(--tw-border-opacity));
+  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
+}
+
+.panel-warning {
+  border-color: rgba(var(--color-warning-500-rgb), var(--tw-border-opacity));
+}
+
+.panel-warning > .panel-heading {
+  background-color: rgba(var(--color-warning-500-rgb), var(--tw-border-opacity));
+  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
+}
+
+.panel-danger {
+  border-color: rgba(var(--color-danger-500-rgb), var(--tw-border-opacity));
+}
+
+.panel-danger > .panel-heading {
+  background-color: rgba(var(--color-danger-500-rgb), var(--tw-border-opacity));
+  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
+}
+
+.panel-important {
+  border-color: rgba(var(--color-important-500-rgb), var(--tw-border-opacity));
+}
+
+.panel-important > .panel-heading {
+  background-color: rgba(var(--color-important-500-rgb), var(--tw-border-opacity));
+  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
+}
+
+.panel-special {
+  border-color: rgba(var(--color-special-500-rgb), var(--tw-border-opacity));
+}
+
+.panel-special > .panel-heading {
+  background-color: rgba(var(--color-special-500-rgb), var(--tw-border-opacity));
+  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
+}

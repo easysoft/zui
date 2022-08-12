@@ -1,0 +1,4 @@
+:root {
+  --panel-theme-color: var(--color-gray-300);
+  --panel-heading-color: var(--text-fore);
+}

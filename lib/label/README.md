@@ -72,17 +72,17 @@
 ```
 
 ```html:example: -flex -gap-3
-<span class="label primary-pale -border-primary">Primary</span>
-<span class="label secondary-pale -border-secondary">Secondary</span>
-<span class="label success-pale -border-success">Success</span>
-<span class="label warning-pale -border-warning">Warning</span>
-<span class="label danger-pale -border-danger">Danger</span>
-<span class="label important-pale -border-important">Important</span>
-<span class="label special-pale -border-special">Special</span>
-<span class="label lighter-pale -border-lighter">Lighter</span>
-<span class="label light-pale -border-light">Light</span>
-<span class="label gray-pale -border-gray">Gray</span>
-<span class="label dark-pale -border-dark">Dark</span>
+<span class="label primary-pale border-primary">Primary</span>
+<span class="label secondary-pale border-secondary">Secondary</span>
+<span class="label success-pale border-success">Success</span>
+<span class="label warning-pale border-warning">Warning</span>
+<span class="label danger-pale border-danger">Danger</span>
+<span class="label important-pale border-important">Important</span>
+<span class="label special-pale border-special">Special</span>
+<span class="label lighter-pale border-lighter">Lighter</span>
+<span class="label light-pale border-light">Light</span>
+<span class="label gray-pale border-gray">Gray</span>
+<span class="label dark-pale border-dark">Dark</span>
 
 ```
 

@@ -131,6 +131,7 @@ importers:
       '@zui/label': workspace:^0.0.1
       '@zui/modal': workspace:^0.0.1
       '@zui/nav': workspace:^0.0.1
+      '@zui/panel': workspace:^0.0.1
       '@zui/scrollbar': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
       '@zui/table': workspace:^0.0.1
@@ -152,6 +153,7 @@ importers:
       '@zui/label': link:../lib/label
       '@zui/modal': link:../lib/modal
       '@zui/nav': link:../lib/nav
+      '@zui/panel': link:../lib/panel
       '@zui/scrollbar': link:../lib/scrollbar
       '@zui/store': link:../lib/store
       '@zui/table': link:../lib/table
@@ -311,6 +313,16 @@ importers:
       '@zui/utilities': workspace:*
     devDependencies:
       '@zui/base': link:../base
+      '@zui/utilities': link:../utilities
+
+  lib/panel:
+    specifiers:
+      '@zui/base': workspace:*
+      '@zui/table': workspace:^0.0.1
+      '@zui/utilities': workspace:*
+    devDependencies:
+      '@zui/base': link:../base
+      '@zui/table': link:../table
       '@zui/utilities': link:../utilities
 
   lib/scrollbar:

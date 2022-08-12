@@ -38,6 +38,7 @@
     "@zui/label": "workspace:0.0.1",
     "@zui/modal": "workspace:0.0.1",
     "@zui/nav": "workspace:0.0.1",
+    "@zui/panel":"workspace:0.0.1",
     "@zui/scrollbar": "workspace:^0.0.1",
     "@zui/store": "workspace:0.0.1",
     "@zui/table": "workspace:0.0.1",
