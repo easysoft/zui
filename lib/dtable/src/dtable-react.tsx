@@ -29,20 +29,29 @@ export class DTable extends Component<DTableProps, DTableState> {
 
     #options?: DTableOptions;
 
-    #plugins?: DTablePlugin[];
+    #plugins?: readonly DTablePlugin[];
+
+    get options() {
+        return this.#options;
+    }
+
+    get plugins() {
+        return this.#plugins;
+    }
 
     componentDidMount() {
         if (this.#needUpdateSize) {
             this.forceUpdate();
         } else {
-            this.#options?.afterRender?.(this.#options, this.state);
+            this._afterRender();
         }
         this.ref.current?.addEventListener('click', this._handleClick);
     }
 
     componentDidUpdate() {
-        this.#needUpdateSize = false;
-        this.#options?.afterRender?.(this.#options, this.state);
+        if (this.#needUpdateSize) {
+            this._afterRender();
+        }
     }
 
     componentWillUnmount() {
@@ -52,18 +61,12 @@ export class DTable extends Component<DTableProps, DTableState> {
     scrollLeft(scrollLeft: number) {
         this.setState({scrollLeft}, () => {
             this.#options?.onScroll?.(scrollLeft, 'horz');
-            this.#plugins?.forEach(plugin => {
-                plugin.onScroll?.(scrollLeft, 'horz');
-            });
         });
     }
 
     scrollTop(scrollTop: number) {
         this.setState({scrollTop}, () => {
             this.#options?.onScroll?.(scrollTop, 'vert');
-            this.#plugins?.forEach(plugin => {
-                plugin.onScroll?.(scrollTop, 'vert');
-            });
         });
     }
 
@@ -72,8 +75,8 @@ export class DTable extends Component<DTableProps, DTableState> {
         const plugins = initPlugins(initOptions.plugins);
         const options = {...getDefaultOptions(), ...mergePluginOptions(plugins, initOptions)};
 
-        this.#plugins = plugins;
-        this.#options = options;
+        this.#plugins = Object.freeze(plugins);
+        this.#options = Object.freeze(options);
 
         const {
             data,
@@ -133,6 +136,17 @@ export class DTable extends Component<DTableProps, DTableState> {
             } else {
                 scrollCols.push(colInfo);
             }
+
+            plugins.forEach(plugin => {
+                const colTypeInfo = plugin.colTypes?.[colInfo.type ?? ''];
+                if (!colTypeInfo) {
+                    return;
+                }
+                const newColInfo = typeof colTypeInfo === 'function' ? colTypeInfo(colInfo) : colTypeInfo;
+                if (newColInfo) {
+                    Object.assign(colInfo, newColInfo);
+                }
+            });
         });
 
         let widthSetting = options.width;
@@ -273,7 +287,7 @@ export class DTable extends Component<DTableProps, DTableState> {
 
         plugins.forEach(plugin => {
             if (plugin.onLayout) {
-                const newLayout = plugin.onLayout(layout, options, this.state);
+                const newLayout = plugin.onLayout.call(this, layout, options, this.state);
                 if (newLayout) {
                     layout = newLayout;
                 }
@@ -375,7 +389,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                 <Scrollbar
                     key='horz'
                     type='horz'
-                    defaultScrollPos={scrollLeft}
+                    scrollPos={scrollLeft}
                     scrollSize={scrollWidthTotal}
                     clientSize={scrollWidth}
                     onScroll={this._handleScroll}
@@ -391,7 +405,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                 <Scrollbar
                     key='vert'
                     type='vert'
-                    defaultScrollPos={scrollTop}
+                    scrollPos={scrollTop}
                     scrollSize={rowsHeightTotal}
                     clientSize={rowsHeight}
                     onScroll={this._handleScroll}
@@ -405,13 +419,23 @@ export class DTable extends Component<DTableProps, DTableState> {
         return scrollbars.length ? scrollbars : null;
     }
 
+    _afterRender() {
+        this.#needUpdateSize = false;
+        this.#options?.afterRender?.call(this, this.#options, this.state);
+        this.#plugins?.forEach(plugin => plugin.afterRender?.call(this, this.#options as DTableOptions, this.state));
+    }
+
     _handleRenderCell = (rowID: string, col: ColInfo, rowData?: RowData, previousResult?: CustomRenderResult) : CustomRenderResult => {
         if (this.#options?.onRenderCell) {
-            previousResult = this.#options.onRenderCell(rowID, col, rowData, previousResult);
+            const result = this.#options.onRenderCell.call(this, rowID, col, rowData, previousResult);
+            if (result !== undefined) {
+                previousResult = result;
+            }
         }
         this.#plugins?.forEach(plugin => {
-            if (plugin.onRenderCell) {
-                previousResult = plugin.onRenderCell(rowID, col, rowData, previousResult);
+            const result = plugin.onRenderCell?.call(this, rowID, col, rowData, previousResult);
+            if (result !== undefined) {
+                previousResult = result;
             }
         });
         return previousResult;
@@ -439,24 +463,24 @@ export class DTable extends Component<DTableProps, DTableState> {
             if (rowID === 'HEADER') {
                 this.#options?.onHeaderCellClick?.(event, {colName});
                 this.#plugins?.forEach(plugin => {
-                    plugin.onHeaderCellClick?.(event, {colName});
+                    plugin.onHeaderCellClick?.call(this, event, {colName});
                 });
             } else {
-                if (this.#options?.onCellClick?.(event, {colName, rowID, rowData}) === true) {
+                if (this.#options?.onCellClick?.call(this, event, {colName, rowID, rowData}) === true) {
                     return;
                 }
                 if (this.#plugins?.length) {
                     for (const plugin of this.#plugins) {
-                        if (plugin.onCellClick?.(event, {colName, rowID, rowData}) === true) {
+                        if (plugin.onCellClick?.call(this, event, {colName, rowID, rowData}) === true) {
                             return;
                         }
                     }
                 }
             }
         }
-        this.#options?.onRowClick?.(event, {rowID, rowData});
+        this.#options?.onRowClick?.call(this, event, {rowID, rowData});
         this.#plugins?.forEach(plugin => {
-            plugin.onRowClick?.(event, {rowID, rowData});
+            plugin.onRowClick?.call(this, event, {rowID, rowData});
         });
     };
 
