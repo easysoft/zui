@@ -4,7 +4,7 @@
 
 ## 基本使用
 
-`.panel-heading` ， `.panel-body`， `.panel-footer` 三部分可以根据需求单独使用。
+`.panel-heading` ， `.panel-body` ， `.panel-footer` 三部分可以根据需求单独使用。
 <Example>
   <div class="panel">
     <div class="panel-heading">面板标题</div>
@@ -25,7 +25,7 @@
 
 除默认主体外，另外提供6种主体样式。
 
-<Example>
+<Example class="flex flex-wrap gap-4" >
   <div class="panel panel-primary">
     <div class="panel-heading">panel-primary</div>
     <div class="panel-body">面板内容</div>
@@ -197,3 +197,11 @@
   </table>
 </div>
 ```
+## CSS 类
+
+面板提供了如下 CSS 类：
+
+| 类        | 类型           | 作用  |
+| ------------- |:-------------:| ----- |
+| `panel`      | 实体类 | 元素作为面板组件 |
+| `panel-group`| 实体类 | 元素作为面板组容器 |

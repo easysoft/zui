@@ -27,55 +27,55 @@
 }
 
 .panel-primary {
-  border-color: rgba(var(--color-primary-500-rgb), var(--tw-border-opacity));
+  border-color: rgba(var(--color-primary-500-rgb), 1);
 }
 
 .panel-primary > .panel-heading {
-  background-color: rgba(var(--color-primary-500-rgb), var(--tw-border-opacity));
+  background-color: rgba(var(--color-primary-500-rgb), 1);
   color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
 }
 
 .panel-secondary {
-  border-color: rgba(var(--color-secondary-500-rgb), var(--tw-border-opacity));
+  border-color: rgba(var(--color-secondary-500-rgb), 1);
 }
 
 .panel-secondary > .panel-heading {
-  background-color: rgba(var(--color-secondary-500-rgb), var(--tw-border-opacity));
+  background-color: rgba(var(--color-secondary-500-rgb), 1);
   color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
 }
 
 .panel-warning {
-  border-color: rgba(var(--color-warning-500-rgb), var(--tw-border-opacity));
+  border-color: rgba(var(--color-warning-500-rgb), 1);
 }
 
 .panel-warning > .panel-heading {
-  background-color: rgba(var(--color-warning-500-rgb), var(--tw-border-opacity));
+  background-color: rgba(var(--color-warning-500-rgb), 1);
   color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
 }
 
 .panel-danger {
-  border-color: rgba(var(--color-danger-500-rgb), var(--tw-border-opacity));
+  border-color: rgba(var(--color-danger-500-rgb), 1);
 }
 
 .panel-danger > .panel-heading {
-  background-color: rgba(var(--color-danger-500-rgb), var(--tw-border-opacity));
+  background-color: rgba(var(--color-danger-500-rgb), 1);
   color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
 }
 
 .panel-important {
-  border-color: rgba(var(--color-important-500-rgb), var(--tw-border-opacity));
+  border-color: rgba(var(--color-important-500-rgb), 1);
 }
 
 .panel-important > .panel-heading {
-  background-color: rgba(var(--color-important-500-rgb), var(--tw-border-opacity));
+  background-color: rgba(var(--color-important-500-rgb), 1);
   color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
 }
 
 .panel-special {
-  border-color: rgba(var(--color-special-500-rgb), var(--tw-border-opacity));
+  border-color: rgba(var(--color-special-500-rgb), 1);
 }
 
 .panel-special > .panel-heading {
-  background-color: rgba(var(--color-special-500-rgb), var(--tw-border-opacity));
+  background-color: rgba(var(--color-special-500-rgb), 1);
   color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
 }
