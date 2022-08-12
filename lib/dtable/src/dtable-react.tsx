@@ -8,28 +8,41 @@ import {RowInfo} from './types/row-info';
 import {Header} from './components/header';
 import {Rows} from './components/rows';
 import {DTableState} from './types/state';
+import {mergePluginOptions, addPlugin, initPlugins, removePlugin} from './helpers/shared-plugins';
+import {getDefaultOptions} from './helpers/default-options';
+import {DTablePlugin} from './types/plugin';
+import {CustomRenderResult} from './types/custom-render-result';
+import {RowData} from './types/row-data';
 
 export type DTableProps = DTableOptions;
 
 export class DTable extends Component<DTableProps, DTableState> {
+    static addPlugin = addPlugin;
+
+    static removePlugin = removePlugin;
+
     state: DTableState  = {scrollTop: 0, scrollLeft: 0, hiddenRows: {}, hiddenCols: {}};
 
     ref = createRef<HTMLDivElement>();
 
-    private _needUpdateSize = false;
+    #needUpdateSize = false;
+
+    #options?: DTableOptions;
+
+    #plugins?: DTablePlugin[];
 
     componentDidMount() {
-        if (this._needUpdateSize) {
+        if (this.#needUpdateSize) {
             this.forceUpdate();
         } else {
-            this.props.afterRender?.(this.props, this.state);
+            this.#options?.afterRender?.(this.#options, this.state);
         }
         this.ref.current?.addEventListener('click', this._handleClick);
     }
 
     componentDidUpdate() {
-        this._needUpdateSize = false;
-        this.props.afterRender?.(this.props, this.state);
+        this.#needUpdateSize = false;
+        this.#options?.afterRender?.(this.#options, this.state);
     }
 
     componentWillUnmount() {
@@ -38,18 +51,30 @@ export class DTable extends Component<DTableProps, DTableState> {
 
     scrollLeft(scrollLeft: number) {
         this.setState({scrollLeft}, () => {
-            this.props.onScroll?.(this.state.scrollLeft, 'horz');
+            this.#options?.onScroll?.(scrollLeft, 'horz');
+            this.#plugins?.forEach(plugin => {
+                plugin.onScroll?.(scrollLeft, 'horz');
+            });
         });
     }
 
     scrollTop(scrollTop: number) {
         this.setState({scrollTop}, () => {
-            this.props.onScroll?.(this.state.scrollLeft, 'vert');
+            this.#options?.onScroll?.(scrollTop, 'vert');
+            this.#plugins?.forEach(plugin => {
+                plugin.onScroll?.(scrollTop, 'vert');
+            });
         });
     }
 
     getLayout(): DTableLayout | undefined {
-        const options = {...getDefaultOptions(), ...this.props};
+        const initOptions = {...this.props};
+        const plugins = initPlugins(initOptions.plugins);
+        const options = {...getDefaultOptions(), ...mergePluginOptions(plugins, initOptions)};
+
+        this.#plugins = plugins;
+        this.#options = options;
+
         const {
             data,
             header,
@@ -129,11 +154,11 @@ export class DTable extends Component<DTableProps, DTableState> {
                 width = parentElement.clientWidth;
             } else {
                 width = 0;
-                this._needUpdateSize = true;
+                this.#needUpdateSize = true;
                 return;
             }
         } else {
-            width = widthSetting;
+            width = widthSetting ?? 0;
         }
 
         let rowsHeightTotal = 0;
@@ -161,7 +186,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                 height = (parentElement as HTMLElement).clientHeight;
             } else {
                 height = 0;
-                this._needUpdateSize = true;
+                this.#needUpdateSize = true;
                 return;
             }
         } else {
@@ -210,6 +235,8 @@ export class DTable extends Component<DTableProps, DTableState> {
         }
 
         let layout: DTableLayout = {
+            options,
+            plugins,
             width,
             height,
             rows,
@@ -237,12 +264,21 @@ export class DTable extends Component<DTableProps, DTableState> {
             endRowIndex,
         };
 
-        if (this.props.onLayout) {
-            const newLayout = this.props.onLayout(layout, options, this.state);
+        if (options.onLayout) {
+            const newLayout = options.onLayout(layout, options, this.state);
             if (newLayout) {
                 layout = newLayout;
             }
         }
+
+        plugins.forEach(plugin => {
+            if (plugin.onLayout) {
+                const newLayout = plugin.onLayout(layout, options, this.state);
+                if (newLayout) {
+                    layout = newLayout;
+                }
+            }
+        });
 
         return layout;
     }
@@ -257,7 +293,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                 <Header
                     scrollLeft={this.state.scrollLeft}
                     height={headerHeight}
-                    onRenderCell={this.props.onRenderCell}
+                    onRenderCell={this._handleRenderCell}
                     {...colsInfo}
                 />
             );
@@ -265,7 +301,7 @@ export class DTable extends Component<DTableProps, DTableState> {
         let content: ComponentChildren;
         let html: {__html: string} | undefined;
         if (typeof header === 'function') {
-            const headerContent: ComponentChildren | {__html: string} = header(layout, this.props, this.state);
+            const headerContent: ComponentChildren | {__html: string} = header(layout, this.state);
             if (typeof headerContent === 'object' && headerContent && '__html' in headerContent) {
                 html = headerContent;
             } else {
@@ -295,7 +331,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                 rows={visibleRows}
                 rowHeight={rowHeight}
                 scrollLeft={this.state.scrollLeft}
-                onRenderCell={this.props.onRenderCell}
+                onRenderCell={this._handleRenderCell}
                 {...colsInfo}
             />
         );
@@ -309,7 +345,7 @@ export class DTable extends Component<DTableProps, DTableState> {
         let content: ComponentChildren;
         let html: {__html: string} | undefined;
         if (typeof footer === 'function') {
-            const footerContent: ComponentChildren | {__html: string} = footer(layout, this.props, this.state);
+            const footerContent: ComponentChildren | {__html: string} = footer(layout, this.state);
             if (typeof footerContent === 'object' && footerContent && '__html' in footerContent) {
                 html = footerContent;
             } else {
@@ -369,6 +405,18 @@ export class DTable extends Component<DTableProps, DTableState> {
         return scrollbars.length ? scrollbars : null;
     }
 
+    _handleRenderCell = (rowID: string, col: ColInfo, rowData?: RowData, previousResult?: CustomRenderResult) : CustomRenderResult => {
+        if (this.#options?.onRenderCell) {
+            previousResult = this.#options.onRenderCell(rowID, col, rowData, previousResult);
+        }
+        this.#plugins?.forEach(plugin => {
+            if (plugin.onRenderCell) {
+                previousResult = plugin.onRenderCell(rowID, col, rowData, previousResult);
+            }
+        });
+        return previousResult;
+    };
+
     _handleScroll = (scrollOffset: number, type: 'horz' | 'vert') => {
         if (type === 'horz') {
             this.scrollLeft(scrollOffset);
@@ -386,20 +434,35 @@ export class DTable extends Component<DTableProps, DTableState> {
         const rowElement = target.closest('.dtable-row');
         const colName = cellElement?.getAttribute('data-col') ?? '';
         const rowID = rowElement?.getAttribute('data-id') ?? '';
-        const rowData = this.props.data?.find(row => row.id === rowID);
+        const rowData = this.#options?.data?.find(row => row.id === rowID);
         if (cellElement) {
             if (rowID === 'HEADER') {
-                this.props.onHeaderCellClick?.(event, {colName});
-            } else if (this.props.onCellClick?.(event, {colName, rowID, rowData}) === true) {
-                return;
+                this.#options?.onHeaderCellClick?.(event, {colName});
+                this.#plugins?.forEach(plugin => {
+                    plugin.onHeaderCellClick?.(event, {colName});
+                });
+            } else {
+                if (this.#options?.onCellClick?.(event, {colName, rowID, rowData}) === true) {
+                    return;
+                }
+                if (this.#plugins?.length) {
+                    for (const plugin of this.#plugins) {
+                        if (plugin.onCellClick?.(event, {colName, rowID, rowData}) === true) {
+                            return;
+                        }
+                    }
+                }
             }
         }
-        this.props.onRowClick?.(event, {rowID, rowData});
+        this.#options?.onRowClick?.(event, {rowID, rowData});
+        this.#plugins?.forEach(plugin => {
+            plugin.onRowClick?.(event, {rowID, rowData});
+        });
     };
 
     render() {
         const layout = this.getLayout();
-        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover} = this.props;
+        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover} = layout?.options ?? this.props;
         const style = {width: layout?.width, height: layout?.height};
         return (
             <div
@@ -421,31 +484,4 @@ export class DTable extends Component<DTableProps, DTableState> {
             </div>
         );
     }
-}
-
-export function getDefaultOptions(): Required<Omit<DTableOptions, 'className' | 'rowDataMap' | 'onScroll' | 'onLayout' | 'onRenderCell' | 'afterRender' | 'onRowClick' | 'onCellClick' | 'onHeaderCellClick'>> {
-    return {
-        cols: [],
-        data: [],
-        width: '100%',
-        height: 'auto',
-        rowHeight: 35,
-        defaultColWidth: 80,
-        minColWidth: 20,
-        maxColWidth: 1000,
-        header: true,
-        footer: false,
-        headerHeight: 0,
-        footerHeight: 0,
-        scrollbarWidth: 10,
-        rowHover: true,
-        colHover: true,
-        cellHover: false,
-        bordered: false,
-        striped: true,
-        responsive: false,
-        scrollbarHover: true,
-        scrollbarSize: 10,
-        horzScrollbarPos: 'outside',
-    };
 }

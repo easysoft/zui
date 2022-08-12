@@ -1,6 +1,7 @@
 import {createRef, render} from 'preact';
 import {DTableOptions} from './types/options';
-import {DTable as DTableReact, getDefaultOptions} from './dtable-react';
+import {DTable as DTableReact} from './dtable-react';
+import {getDefaultOptions} from './helpers/default-options';
 
 export class DTable {
     element: HTMLElement;

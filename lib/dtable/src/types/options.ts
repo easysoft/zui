@@ -3,6 +3,7 @@ import {ComponentChildren} from 'preact';
 import {CellRenderCallback} from './cell-render';
 import {ColSetting} from './col-setting';
 import {DTableLayout} from './layout';
+import {DTablePlugin} from './plugin';
 import {RowData} from './row-data';
 import {DTableState} from './state';
 
@@ -38,4 +39,5 @@ export interface DTableOptions {
     onRowClick?: (event: MouseEvent, data: {rowID: string, rowData?: RowData}) => void;
     onCellClick?: (event: MouseEvent, data: {rowID: string, colName: string, rowData?: RowData}) => void | true;
     onHeaderCellClick?: (event: MouseEvent, data: {colName: string}) => void;
+    plugins?: DTablePlugin[]
 }
