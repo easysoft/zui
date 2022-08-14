@@ -31,7 +31,7 @@ export interface ScrollbarState {
 }
 
 export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
-    private _rafId = 0;
+    #rafId = 0;
 
     constructor(props: ScrollbarProps) {
         super(props);
@@ -116,13 +116,13 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
     _handleMouseMove = (event: MouseEvent) => {
         const {dragStart} = this.state;
         if (dragStart) {
-            if (this._rafId) {
-                cancelAnimationFrame(this._rafId);
+            if (this.#rafId) {
+                cancelAnimationFrame(this.#rafId);
             }
-            this._rafId = requestAnimationFrame(() => {
+            this.#rafId = requestAnimationFrame(() => {
                 const dragDelta = this.props.type === 'horz' ? (event.clientX - dragStart.x) : (event.clientY - dragStart.y);
                 this.scroll(dragStart.offset + dragDelta * this.props.scrollSize / this.props.clientSize);
-                this._rafId = 0;
+                this.#rafId = 0;
             });
             event.preventDefault();
         }
