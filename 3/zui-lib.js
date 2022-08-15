@@ -99,6 +99,21 @@ export default [
         "hasUserDocs": true
     },
     {
+        "name": "@zui/checkbox",
+        "shortName": "checkbox",
+        "version": "0.0.1",
+        "workspaceVersion": "workspace:^0.0.1",
+        "type": "component",
+        "order": 4,
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*",
+            "@zui/form": "workspace:*"
+        },
+        "displayName": "单选框和复选框",
+        "hasUserDocs": true
+    },
+    {
         "name": "@zui/dropdown",
         "shortName": "dropdown",
         "version": "0.0.1",
@@ -181,7 +196,7 @@ export default [
         "type": "control",
         "order": 2,
         "dependencies": {
-            "@zui/input": "workspace:^0.0.1"
+            "@zui/form": "workspace:^0.0.1"
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
@@ -234,6 +249,21 @@ export default [
             "@zui/utilities": "workspace:*"
         },
         "displayName": "导航",
+        "hasUserDocs": true
+    },
+    {
+        "name": "@zui/panel",
+        "shortName": "panel",
+        "version": "0.0.1",
+        "workspaceVersion": "workspace:^0.0.1",
+        "type": "control",
+        "order": 2,
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/table": "workspace:^0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
+        "displayName": "面板",
         "hasUserDocs": true
     },
     {
