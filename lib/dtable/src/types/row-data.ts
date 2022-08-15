@@ -1,4 +1,4 @@
 export interface RowData {
-    id: string,
+    id: string | number,
     [key: string]: unknown;
 }

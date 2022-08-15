@@ -2,34 +2,66 @@ import {ComponentChildren} from 'preact';
 import {JSX} from 'preact/jsx-runtime';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {ColInfo} from '../types/col-info';
+import {CellRenderCallback} from '../types/cell-render';
+import {RowData} from '../types/row-data';
+import {CustomRenderResult} from '../types/custom-render-result';
 
 export interface CellProps {
     col: ColInfo,
+    rowID: string | number,
+    rowData?: RowData,
     className?: ClassNameLike,
     height?: number,
     style?: JSX.CSSProperties,
-    html?: {__html: string},
     children?: ComponentChildren,
+    onRenderCell?: CellRenderCallback
 }
 
-export function Cell({col, className, height, style, children, html, ...others}: CellProps) {
-    const finalStyle = {
+export function Cell({col, className, height, rowID, rowData, onRenderCell, style: styleFromParent, children: childrenFromParent, ...others}: CellProps) {
+    const {cellStyle, align, className: settingClassName} = col.setting;
+    const style = {
         left: col.left,
         width: col.realWidth,
         height,
-        ...style,
-        ...col.cellStyle,
+        ...styleFromParent,
+        ...cellStyle,
     };
-    if (col.align) {
-        finalStyle.textAlign = col.align;
+    if (align) {
+        style.textAlign = align;
     }
+
+    let result: CustomRenderResult = [
+        childrenFromParent ?? rowData?.[col.name] as ComponentChildren,
+    ];
+    if (col.setting.onRenderCell) {
+        result = col.setting.onRenderCell(result, rowID, col, rowData);
+    }
+    if (onRenderCell) {
+        result = onRenderCell(result, rowID, col, rowData);
+    }
+    const cellClassName: ClassNameLike[] = [];
+    const children: ComponentChildren[] = [];
+    result?.forEach(item => {
+        if (typeof item === 'object' && item && ('style' in item || 'className' in item || 'style' in item)) {
+            if (item.html) {
+                children.push(<div className='dtable-cell-html' dangerouslySetInnerHTML={{__html: item.html}}></div>);
+            }
+            if (item.style) {
+                Object.assign(style, item.style);
+            }
+            if (item.className) {
+                cellClassName.push(item.className);
+            }
+        } else {
+            children.push(item);
+        }
+    });
     return (
         <div
-            className={classes('dtable-cell', col.className, className)}
-            style={finalStyle}
-            {...others}
+            className={classes('dtable-cell', className, settingClassName, cellClassName)}
+            style={style}
             data-col={col.name}
-            dangerouslySetInnerHTML={html}
+            {...others}
         >
             {children}
         </div>

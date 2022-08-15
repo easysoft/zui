@@ -1,21 +1,19 @@
 import {Cell, CellProps} from './cell';
 
-export function HeaderCell({className, style, col, height, children}: CellProps) {
-    let {sortType} = col;
+export function HeaderCell({col, children, ...props}: CellProps) {
+    let {sortType} = col.setting;
     if (sortType === true) {
         sortType = 'none';
     }
     return (
         <Cell
-            className={className}
-            height={height}
-            style={style}
             col={col}
             data-sort={sortType || null}
             data-type={col.type}
+            {...props}
         >
-            {col.title}
-            {sortType && <div className={`dtable-sort -sort-${sortType}`}></div>}
+            {col.setting.title}
+            {sortType && <div className={`dtable-sort dtable-sort-${sortType}`}></div>}
             {children}
         </Cell>
     );

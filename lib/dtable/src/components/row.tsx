@@ -1,28 +1,8 @@
-import {ComponentType} from 'preact';
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
-import {Cell, CellProps} from './cell';
+import {classes} from '@zui/browser-helpers/src/classes';
+import {RowProps} from '../types/row-props';
+import {Cell} from './cell';
 import {Cells} from './cells';
-import {ColInfo} from '../types/col-info';
-import {RowData} from '../types/row-data';
-import {CellRenderCallback} from '../types/cell-render';
 
-export interface RowProps {
-    rowID: string,
-    className?: ClassNameLike,
-    top: number,
-    height: number,
-    fixedLeftCols?: ColInfo[],
-    fixedRightCols?: ColInfo[],
-    scrollCols?: ColInfo[],
-    flexLeftWidth: number,
-    scrollWidth: number,
-    scrollWidthTotal: number,
-    flexRightWidth: number,
-    scrollLeft: number,
-    data?: RowData,
-    CellComponent?: ComponentType<CellProps>,
-    onRenderCell?: CellRenderCallback
-}
 
 export function Row({
     rowID,
@@ -41,12 +21,11 @@ export function Row({
     onRenderCell,
     data,
 }: RowProps) {
-
     let flexLeftView = null;
     if (fixedLeftCols?.length) {
         flexLeftView = (
             <Cells
-                className="-fixed-left"
+                className="dtable-fixed-left"
                 cols={fixedLeftCols}
                 width={flexLeftWidth}
                 rowID={rowID}
@@ -61,7 +40,7 @@ export function Row({
     if (scrollCols?.length) {
         scrollableView = (
             <Cells
-                className="-flexable"
+                className="dtable-flexable"
                 cols={scrollCols}
                 left={flexLeftWidth - scrollLeft}
                 width={scrollWidthTotal}
@@ -77,7 +56,7 @@ export function Row({
     if (fixedRightCols?.length) {
         flexRightView = (
             <Cells
-                className="-fixed-right"
+                className="dtable-fixed-right"
                 cols={fixedRightCols}
                 left={flexLeftWidth + scrollWidth}
                 width={flexRightWidth}

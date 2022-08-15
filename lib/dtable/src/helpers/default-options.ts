@@ -1,9 +1,5 @@
-import {DTableOptions} from '../types/options';
-
-export function getDefaultOptions(): Required<Omit<DTableOptions, 'className' | 'rowDataMap' | 'onScroll' | 'onLayout' | 'onRenderCell' | 'afterRender' | 'onRowClick' | 'onCellClick' | 'onHeaderCellClick' | 'plugins'>> {
+export function getDefaultOptions() {
     return {
-        cols: [],
-        data: [],
         width: '100%',
         height: 'auto',
         rowHeight: 35,

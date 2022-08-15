@@ -1,5 +1,6 @@
 import {CellRenderCallback} from '../types/cell-render';
 import {ColInfo} from '../types/col-info';
+import {RowProps} from '../types/row-props';
 import {HeaderCell} from './header-cell';
 import {Row} from './row';
 
@@ -13,39 +14,25 @@ export interface HeaderProps {
     flexRightWidth: number,
     scrollLeft: number,
     scrollWidthTotal: number,
-    onRenderCell?: CellRenderCallback
+    onRenderCell?: CellRenderCallback,
+    onRenderRow?: (rowProps: RowProps) => RowProps
 }
 
-export function Header({
-    height,
-    fixedLeftCols,
-    fixedRightCols,
-    scrollCols,
-    flexLeftWidth,
-    scrollWidth,
-    flexRightWidth,
-    scrollWidthTotal,
-    scrollLeft,
-    onRenderCell,
-}: HeaderProps) {
+export function Header({height, onRenderRow, ...otherProps}: HeaderProps) {
+    let rowProps: RowProps = {
+        height,
+        ...otherProps,
+        rowID: 'HEADER',
+        className: 'dtable-in-header',
+        top: 0,
+        CellComponent: HeaderCell,
+    };
+    if (onRenderRow) {
+        rowProps = onRenderRow(rowProps);
+    }
     return (
         <div className='dtable-header' style={{height}}>
-            <Row
-                rowID="HEADER"
-                className="-in-header"
-                top={0}
-                height={height}
-                fixedLeftCols={fixedLeftCols}
-                fixedRightCols={fixedRightCols}
-                scrollCols={scrollCols}
-                flexLeftWidth={flexLeftWidth}
-                scrollWidth={scrollWidth}
-                scrollWidthTotal={scrollWidthTotal}
-                flexRightWidth={flexRightWidth}
-                scrollLeft={scrollLeft}
-                CellComponent={HeaderCell}
-                onRenderCell={onRenderCell}
-            />
+            <Row {...rowProps} />
         </div>
     );
 }

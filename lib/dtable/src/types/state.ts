@@ -3,4 +3,5 @@ export interface DTableState {
     scrollLeft: number,
     hiddenRows: Record<string, boolean>,
     hiddenCols: Record<string, boolean>,
+    [props: string]: unknown;
 }

@@ -1,14 +1,12 @@
-import {ComponentChildren, ComponentType} from 'preact';
+import {ComponentType} from 'preact';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Cell, CellProps} from './cell';
 import {ColInfo} from '../types/col-info';
 import {RowData} from '../types/row-data';
 import {CellRenderCallback} from '../types/cell-render';
-import {CustomRenderResult} from '../types/custom-render-result';
-import {parseRenderResult} from '../helpers/parse-render-result';
 
 export interface CellsProps {
-    rowID: string,
+    rowID: string | number,
     className?: ClassNameLike,
     cols: ColInfo[],
     left?: number,
@@ -28,30 +26,14 @@ export function Cells({rowID, className, top = 0, left = 0, width, height, cols,
                     if (!col.visible) {
                         return null;
                     }
-                    let value: CustomRenderResult = data?.[col.name] as ComponentChildren;
-                    if (col.onRenderCell) {
-                        const newValue = col.onRenderCell(rowID, col, data, value);
-                        if (newValue !== undefined) {
-                            value = newValue;
-                        }
-                    }
-                    if (onRenderCell) {
-                        const newValue = onRenderCell(rowID, col, data, value);
-                        if (newValue !== undefined) {
-                            value = newValue;
-                        }
-                    }
-                    const {children, html, className: cellClassName, style} = parseRenderResult(value);
                     return (
                         <CellComponent
                             key={col.name}
                             col={col}
-                            className={cellClassName}
-                            style={style}
-                            html={html}
-                        >
-                            {children}
-                        </CellComponent>
+                            rowData={data}
+                            rowID={rowID}
+                            onRenderCell={onRenderCell}
+                        />
                     );
                 })
             }
