@@ -291,10 +291,10 @@ importers:
       '@zui/base': workspace:*
       '@zui/button': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
-      '@zui/input': workspace:^0.0.1
+      '@zui/form': workspace:^0.0.1
       '@zui/utilities': workspace:*
     dependencies:
-      '@zui/input': link:../input
+      '@zui/form': link:../form
     devDependencies:
       '@zui/base': link:../base
       '@zui/button': link:../button

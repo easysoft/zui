@@ -9,7 +9,7 @@
         "zui:control"
     ],
     "dependencies": {
-        "@zui/input": "workspace:^0.0.1"
+        "@zui/form": "workspace:^0.0.1"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
