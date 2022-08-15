@@ -4,7 +4,7 @@
 
 ## 基本使用
 
-`.panel-heading` ， `.panel-body` ， `.panel-footer` 三部分可以根据需求单独使用。
+`.panel-body` ，`.panel-heading, .panel-body` ， `.panel-body, .panel-footer`  三部分可以根据需求单独或组合使用。
 <Example>
   <div class="panel">
     <div class="panel-heading">面板标题</div>
