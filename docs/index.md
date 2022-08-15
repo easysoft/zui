@@ -25,10 +25,13 @@ features:
 ---
 
 <style>
-body {
+.VPContent.is-home {
   background: linear-gradient(125deg, var(--color-primary-50) 0%, var(--color-primary-50) 40%, var(--color-primary-100) calc(40% + 1px), var(--color-primary-100) 60%, var(--color-primary-200) calc(60% + 1px), var(--color-primary-200) 72%, var(--color-primary-500) calc(72% + 1px), var(--color-primary-500) 100%);
 }
 .VPFeature {
-  @apply -backdrop-blur-lg -bg-inverse/5 -border-canvas/10
+  @apply -backdrop-blur-lg -bg-inverse/5 -border-canvas/10 !important;
+}
+.VPFeature > .icon {
+  @apply -bg-inverse/5 !important;
 }
 </style>

@@ -12,7 +12,10 @@ export function addPlugin(plugin: DTablePlugin, override = false) {
 
 export function definePlugin<O = {}, S extends {} = {}, C extends {} = {}, T extends {} = {}>(plugin: DTablePlugin<O, S, C, T>, override = false): DTablePluginComsumer<O> {
     addPlugin(plugin as unknown as DTablePlugin, override);
-    const comsumer: DTablePluginComsumer<O> = (options: DTableOptions & O): DTablePlugin<O> => {
+    const comsumer: DTablePluginComsumer<O> = (options?: DTableOptions & O): DTablePlugin<O> => {
+        if (!options) {
+            return plugin as unknown as DTablePlugin<O>;
+        }
         const {defaultOptions, ...otherProps} = plugin;
         return {
             ...otherProps,
@@ -50,7 +53,7 @@ export function initPlugins(options?: DTableOptions): DTablePlugin[] {
         } else {
             console.warn('DTable: Invalid plugin', nameOrPlugin);
         }
-        if (plugin && (!plugin.when || plugin.when(options))) {
+        if (plugin) {
             list.push(plugin);
         }
         return list;
@@ -60,7 +63,7 @@ export function initPlugins(options?: DTableOptions): DTablePlugin[] {
 export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {
     return plugins.reduce((mergedOptions, plugin) => {
         const {options: optionsModifier, defaultOptions} = plugin;
-        Object.assign(mergedOptions, defaultOptions);
+        Object.assign(mergedOptions, defaultOptions, mergedOptions);
         if (options) {
             Object.assign(mergedOptions, typeof optionsModifier === 'function' ? optionsModifier(mergedOptions) : optionsModifier);
         }
