@@ -50,7 +50,7 @@ export function initPlugins(options?: DTableOptions): DTablePlugin[] {
         } else {
             console.warn('DTable: Invalid plugin', nameOrPlugin);
         }
-        if (plugin && (!plugin.when || plugin.when(options))) {
+        if (plugin) {
             list.push(plugin);
         }
         return list;
@@ -60,7 +60,7 @@ export function initPlugins(options?: DTableOptions): DTablePlugin[] {
 export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {
     return plugins.reduce((mergedOptions, plugin) => {
         const {options: optionsModifier, defaultOptions} = plugin;
-        Object.assign(mergedOptions, defaultOptions);
+        Object.assign(mergedOptions, defaultOptions, mergedOptions);
         if (options) {
             Object.assign(mergedOptions, typeof optionsModifier === 'function' ? optionsModifier(mergedOptions) : optionsModifier);
         }

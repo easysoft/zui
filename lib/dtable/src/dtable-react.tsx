@@ -107,10 +107,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     getLayout(): DTableLayout | undefined {
         const defaultOptions = getDefaultOptions();
-        const initOptions = {...defaultOptions, ...this.props} as DTableOptions;
-        const plugins = this.#allPlugins.filter(plugin => !plugin.when || plugin.when(initOptions));
-        const options = mergePluginOptions(plugins, initOptions);
-
+        const options = mergePluginOptions(this.#allPlugins, {...defaultOptions, ...this.props} as DTableOptions);
+        const plugins = this.#allPlugins.filter(plugin => !plugin.when || plugin.when(options));
         this.#plugins = Object.freeze(plugins);
 
         plugins.forEach(plugin => {
