@@ -4,7 +4,7 @@
 
 使用组件类`.form-group`来获得表单外观，通常搭配`<form>`,`<label>`以及`<input>`等表单控件使用
 
-```html:example: -flex -gap-3
+```html:example
 <form>
      <div class="form-group">
          <label> 账号 </label>

@@ -4,10 +4,10 @@
 }
 
 .table > thead > tr {
-  @apply -bg-gray-400 -border-b -border-solid;
+  @apply -bg-gray-400 -border-b;
 }
 .table > tbody > tr {
-  @apply -border-b -border-solid;
+  @apply -border-b;
 }
 
 .table > thead > tr > th,
@@ -47,6 +47,7 @@
 }
 
 .talbe-fixed > thead > tr > th,
-.table-fixed > tbody > tr > td {
+.table-fixed > tbody > tr > td,
+.table-fixed > tbody > tr > th {
   @apply -overflow-hidden -whitespace-nowrap;
 }

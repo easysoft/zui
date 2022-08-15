@@ -1,10 +1,11 @@
 :root {
   --form-group-space: 1rem;
   --form-group-space-fixed: 1.25rem;
+  --form-control-radius: var(--radius);
   --label-width: 5rem;
   --color-placeholder-control: var(--color-gray-500);
   --label-text-align: right;
-  --color-border-form-control: var(--color-gray-500);
+  --color-border-form-control: var(--color-gray-300);
   --color-border-control-focus: var(--color-primary-500);
   --color-has-error: var(--color-red-500);
   --color-has-warning: var(--color-warning-500);
@@ -13,5 +14,5 @@
   --legend-border-color: var(--color-primary-400);
   --legend-color: var(--color-black-500);
   --legend-font-size: 18px;
-  --required-content-color: var(--color-danger-500); 
+  --required-content-color: var(--color-danger-500);
 }

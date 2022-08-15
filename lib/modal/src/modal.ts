@@ -36,18 +36,18 @@ export default class Modal {
     }
 
     lockScroll() {
-        // let widthBar = 17;
-        // if (typeof window.innerWidth == 'number') {
-        //    widthBar = window.innerWidth - document.body.clientWidth;
-        // }
-        // document.body.style.width = '100%';
+        let widthBar = 17;
+        if (typeof window.innerWidth == 'number') {
+            widthBar = window.innerWidth - document.body.clientWidth;
+        }
+        document.body.style.width = '100%';
         document.body.style.overflow = 'hidden';
-        // document.body.style.paddingRight = `${(widthBar)}px`;
+        document.body.style.paddingRight = `${(widthBar)}px`;
     }
 
     unlockScroll() {
         document.body.style.overflow = '';
-        // document.body.style.paddingRight = '';
+        document.body.style.paddingRight = '';
     }
 
     onShow(ele: HTMLElement) {
@@ -122,7 +122,7 @@ document.addEventListener('click', (e) => {
     if (e !== null && e.target instanceof HTMLElement) {
         if (e.target.dataset?.toggle === 'modal') {
             let target =  e.target.dataset.target;
-            
+
             if (e.target.localName === 'a') {
                 const href = e.target?.href || '';
                 target = href && href.replace(/.*(?=#[^\s]+$)/, '');
