@@ -124,6 +124,7 @@ importers:
       '@zui/browser-helpers': workspace:^0.0.1
       '@zui/btn-group': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
+      '@zui/checkbox': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
       '@zui/dtable': workspace:^0.0.1
       '@zui/form': workspace:^0.0.1
@@ -133,6 +134,7 @@ importers:
       '@zui/label': workspace:^0.0.1
       '@zui/modal': workspace:^0.0.1
       '@zui/nav': workspace:^0.0.1
+      '@zui/panel': workspace:^0.0.1
       '@zui/scrollbar': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
       '@zui/table': workspace:^0.0.1
@@ -145,6 +147,7 @@ importers:
       '@zui/browser-helpers': link:../lib/browser-helpers
       '@zui/btn-group': link:../lib/btn-group
       '@zui/button': link:../lib/button
+      '@zui/checkbox': link:../lib/checkbox
       '@zui/dropdown': link:../lib/dropdown
       '@zui/dtable': link:../lib/dtable
       '@zui/form': link:../lib/form
@@ -154,6 +157,7 @@ importers:
       '@zui/label': link:../lib/label
       '@zui/modal': link:../lib/modal
       '@zui/nav': link:../lib/nav
+      '@zui/panel': link:../lib/panel
       '@zui/scrollbar': link:../lib/scrollbar
       '@zui/store': link:../lib/store
       '@zui/table': link:../lib/table
