@@ -12,7 +12,10 @@ export function addPlugin(plugin: DTablePlugin, override = false) {
 
 export function definePlugin<O = {}, S extends {} = {}, C extends {} = {}, T extends {} = {}>(plugin: DTablePlugin<O, S, C, T>, override = false): DTablePluginComsumer<O> {
     addPlugin(plugin as unknown as DTablePlugin, override);
-    const comsumer: DTablePluginComsumer<O> = (options: DTableOptions & O): DTablePlugin<O> => {
+    const comsumer: DTablePluginComsumer<O> = (options?: DTableOptions & O): DTablePlugin<O> => {
+        if (!options) {
+            return plugin as unknown as DTablePlugin<O>;
+        }
         const {defaultOptions, ...otherProps} = plugin;
         return {
             ...otherProps,
