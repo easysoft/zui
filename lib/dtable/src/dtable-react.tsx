@@ -13,25 +13,40 @@ import {getDefaultOptions} from './helpers/default-options';
 import {DTablePlugin} from './types/plugin';
 import {CustomRenderResult} from './types/custom-render-result';
 import {RowData} from './types/row-data';
+import {RowProps} from './types/row-props';
 
-export type DTableProps = DTableOptions;
-
-export class DTable extends Component<DTableProps, DTableState> {
+export class DTable extends Component<DTableOptions, DTableState> {
     static addPlugin = addPlugin;
 
     static removePlugin = removePlugin;
 
-    state: DTableState  = {scrollTop: 0, scrollLeft: 0, hiddenRows: {}, hiddenCols: {}};
-
     ref = createRef<HTMLDivElement>();
+
+    #rafId = 0;
 
     #needUpdateSize = false;
 
-    #options?: DTableOptions;
+    #options: DTableOptions;
 
-    #plugins?: readonly DTablePlugin[];
+    #allPlugins: readonly DTablePlugin[];
+
+    #plugins: readonly DTablePlugin[] = [];
 
     #layout?: DTableLayout;
+
+    constructor(props: DTableOptions) {
+        super(props);
+
+        this.state = {scrollTop: 0, scrollLeft: 0, hiddenRows: {}, hiddenCols: {}};
+
+        const initOptions = {...getDefaultOptions(), ...props} as DTableOptions;
+        this.#options = Object.freeze(initOptions);
+
+        this.#allPlugins = Object.freeze(initPlugins(initOptions));
+        this.#allPlugins.forEach(plugin => {
+            plugin.onCreate?.call(this, plugin);
+        });
+    }
 
     get options() {
         return this.#options;
@@ -52,6 +67,14 @@ export class DTable extends Component<DTableProps, DTableState> {
             this._afterRender();
         }
         this.ref.current?.addEventListener('click', this._handleClick);
+
+        if (this.#options.responsive) {
+            window.addEventListener('resize', this._handleResize);
+        }
+
+        this.#plugins.forEach(plugin => {
+            plugin.onMounted?.call(this);
+        });
     }
 
     componentDidUpdate() {
@@ -62,38 +85,53 @@ export class DTable extends Component<DTableProps, DTableState> {
 
     componentWillUnmount() {
         this.ref.current?.removeEventListener('click', this._handleClick);
+
+        window.removeEventListener('resize', this._handleResize);
+
+        this.#plugins.forEach(plugin => {
+            plugin.onUnmounted?.call(this);
+        });
     }
 
     scrollLeft(scrollLeft: number) {
         this.setState({scrollLeft}, () => {
-            this.#options?.onScroll?.call(this, scrollLeft, 'horz');
+            this.#options.onScroll?.call(this, scrollLeft, 'horz');
         });
     }
 
     scrollTop(scrollTop: number) {
         this.setState({scrollTop}, () => {
-            this.#options?.onScroll?.call(this, scrollTop, 'vert');
+            this.#options.onScroll?.call(this, scrollTop, 'vert');
         });
     }
 
     getLayout(): DTableLayout | undefined {
-        const initOptions = {...this.props};
-        const plugins = initPlugins(initOptions.plugins);
-        const options = {...getDefaultOptions(), ...mergePluginOptions(plugins, initOptions)};
+        const defaultOptions = getDefaultOptions();
+        const initOptions = {...defaultOptions, ...this.props} as DTableOptions;
+        const plugins = this.#allPlugins.filter(plugin => !plugin.when || plugin.when(initOptions));
+        const options = mergePluginOptions(plugins, initOptions);
 
         this.#plugins = Object.freeze(plugins);
+
+        plugins.forEach(plugin => {
+            const newOptions = plugin.beforeLayout?.call(this, options);
+            if (newOptions) {
+                Object.assign(options, newOptions);
+            }
+        });
+
         this.#options = Object.freeze(options);
 
         const {
             data,
             header,
             footer,
-            rowHeight,
-            defaultColWidth,
-            minColWidth,
-            maxColWidth,
-            rowDataMap,
+            rowHeight = defaultOptions.rowHeight,
+            defaultColWidth = defaultOptions.minColWidth,
+            minColWidth = defaultOptions.minColWidth,
+            maxColWidth = defaultOptions.maxColWidth,
         } = options;
+
         const {scrollTop = 0, scrollLeft = 0, hiddenRows = {}, hiddenCols = {}} = this.state;
         const headerHeight = header ? (options.headerHeight || rowHeight) : 0;
         const footerHeight = footer ? (options.footerHeight || rowHeight) : 0;
@@ -115,7 +153,7 @@ export class DTable extends Component<DTableProps, DTableState> {
         const scrollCols: ColInfo[] = [];
         let flexLeftWidth = 0;
         let flexRightWidth = 0;
-        options.cols.forEach((col) => {
+        options.cols?.forEach((col) => {
             if (col.hidden || hiddenCols[col.name]) {
                 return;
             }
@@ -124,18 +162,20 @@ export class DTable extends Component<DTableProps, DTableState> {
             const flex = col.flex ?? 1;
             const flexWidth = flex * limitSize(defaultColWidth, minWidth, maxWidth);
             const colInfo: ColInfo = {
-                ...col,
+                name: col.name,
+                type: col.type ?? '',
+                setting: col,
                 left: 0,
                 flex,
                 realWidth,
                 flexWidth,
                 visible: true,
             };
-            if (colInfo.fixed === 'left') {
+            if (col.fixed === 'left') {
                 colInfo.left = flexLeftWidth;
                 flexLeftWidth += realWidth;
                 fixedLeftCols.push(colInfo);
-            } else if (colInfo.fixed === 'right') {
+            } else if (col.fixed === 'right') {
                 colInfo.left = flexRightWidth;
                 flexRightWidth += realWidth;
                 fixedRightCols.push(colInfo);
@@ -144,13 +184,17 @@ export class DTable extends Component<DTableProps, DTableState> {
             }
 
             plugins.forEach(plugin => {
-                const colTypeInfo = plugin.colTypes?.[colInfo.type ?? ''];
+                const colTypeInfo = plugin.colTypes?.[col.type ?? ''];
                 if (!colTypeInfo) {
                     return;
                 }
                 const newColInfo = typeof colTypeInfo === 'function' ? colTypeInfo(colInfo) : colTypeInfo;
                 if (newColInfo) {
-                    Object.assign(colInfo, newColInfo);
+                    const {setting, ...rest} = newColInfo;
+                    Object.assign(colInfo, rest);
+                    if (setting) {
+                        Object.assign(colInfo.setting, setting);
+                    }
                 }
             });
         });
@@ -182,13 +226,15 @@ export class DTable extends Component<DTableProps, DTableState> {
         }
 
         let rowsHeightTotal = 0;
-        const hiddenProp = rowDataMap?.$hidden ?? '$hidden';
+        const allRows: RowInfo[] = [];
         const rows: RowInfo[] = [];
         const addRowItem = (item: RowData) => {
-            if (item && !item[hiddenProp] && !hiddenRows[item.id]) {
-                rows.push({data: item, top: rowsHeightTotal});
-                rowsHeightTotal += rowHeight;
+            const row = {data: item, top: rowsHeightTotal, id: item.id, index: rows.length};
+            allRows.push(row);
+            if (!hiddenRows[row.id]) {
+                rows.push(row);
             }
+            rowsHeightTotal += rowHeight;
         };
         if (Array.isArray(data)) {
             data.forEach(addRowItem);
@@ -218,7 +264,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                 return;
             }
         } else {
-            height = heightSetting;
+            height = heightSetting as number;
         }
 
         const rowsHeight = height - headerHeight - footerHeight;
@@ -240,7 +286,7 @@ export class DTable extends Component<DTableProps, DTableState> {
         if (flexCols.length) {
             const minFlexWidth = Math.max(0, scrollWidth - scrollWidthTotal);
             flexCols.forEach(col => {
-                const {minWidth = minColWidth, maxWidth = maxColWidth} = col;
+                const {minWidth = minColWidth, maxWidth = maxColWidth} = col.setting;
                 col.realWidth = Math.min(maxWidth, Math.max(minWidth, Math.ceil(minFlexWidth * (col.flex ?? 1) / flexSum)));
                 scrollWidthTotal += col.realWidth;
             });
@@ -263,6 +309,7 @@ export class DTable extends Component<DTableProps, DTableState> {
         }
 
         let layout: DTableLayout = {
+            allRows,
             width,
             height,
             rows,
@@ -322,6 +369,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                     scrollLeft={this.state.scrollLeft}
                     height={headerHeight}
                     onRenderCell={this._handleRenderCell}
+                    onRenderRow={this._handleRenderHeaderRow}
                     {...colsInfo}
                 />
             );
@@ -360,6 +408,7 @@ export class DTable extends Component<DTableProps, DTableState> {
                 rowHeight={rowHeight}
                 scrollLeft={this.state.scrollLeft}
                 onRenderCell={this._handleRenderCell}
+                onRenderRow={this._handleRenderRow}
                 {...colsInfo}
             />
         );
@@ -433,26 +482,58 @@ export class DTable extends Component<DTableProps, DTableState> {
         return scrollbars.length ? scrollbars : null;
     }
 
+    _handleResize = () => {
+        if (this.#rafId) {
+            cancelAnimationFrame(this.#rafId);
+        }
+        this.#rafId = requestAnimationFrame(() => {
+            this.forceUpdate();
+            this.#rafId = 0;
+        });
+    };
+
     _afterRender() {
         this.#needUpdateSize = false;
-        this.#options?.afterRender?.call(this);
-        this.#plugins?.forEach(plugin => plugin.afterRender?.call(this));
+        this.#options.afterRender?.call(this);
+        this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
     }
 
-    _handleRenderCell = (rowID: string, col: ColInfo, rowData?: RowData, previousResult?: CustomRenderResult) : CustomRenderResult => {
-        if (this.#options?.onRenderCell) {
-            const result = this.#options.onRenderCell.call(this, rowID, col, rowData, previousResult);
-            if (result !== undefined) {
-                previousResult = result;
-            }
+    _handleRenderRow = (rowProps: RowProps, rowInfo: RowInfo): RowProps => {
+        if (this.#options.onRenderRow) {
+            rowProps = this.#options.onRenderRow.call(this, rowProps, rowInfo);
         }
-        this.#plugins?.forEach(plugin => {
-            const result = plugin.onRenderCell?.call(this, rowID, col, rowData, previousResult);
-            if (result !== undefined) {
-                previousResult = result;
+
+        this.#plugins.forEach(plugin => {
+            if (plugin.onRenderRow) {
+                rowProps = plugin.onRenderRow.call(this, rowProps, rowInfo);
             }
         });
-        return previousResult;
+        return rowProps;
+    };
+
+    _handleRenderHeaderRow = (rowProps: RowProps): RowProps => {
+        if (this.#options.onRenderHeaderRow) {
+            rowProps = this.#options.onRenderHeaderRow.call(this, rowProps);
+        }
+
+        this.#plugins.forEach(plugin => {
+            if (plugin.onRenderHeaderRow) {
+                rowProps = plugin.onRenderHeaderRow.call(this, rowProps);
+            }
+        });
+        return rowProps;
+    };
+
+    _handleRenderCell = (result: CustomRenderResult, rowID: string | number, col: ColInfo, rowData?: RowData) : CustomRenderResult => {
+        if (this.#options.onRenderCell) {
+            result = this.#options.onRenderCell.call(this, result, rowID, col, rowData);
+        }
+        this.#plugins.forEach(plugin => {
+            if (plugin.onRenderCell) {
+                result = plugin.onRenderCell.call(this, result, rowID, col, rowData);
+            }
+        });
+        return result;
     };
 
     _handleScroll = (scrollOffset: number, type: 'horz' | 'vert') => {
@@ -468,34 +549,39 @@ export class DTable extends Component<DTableProps, DTableState> {
         if (!target) {
             return;
         }
-        const cellElement = target.closest('.dtable-cell');
-        const rowElement = target.closest('.dtable-row');
+        const rowElement = target.closest<HTMLElement>('.dtable-row');
+        if (!rowElement) {
+            return;
+        }
+        const cellElement = target.closest<HTMLElement>('.dtable-cell');
         const colName = cellElement?.getAttribute('data-col') ?? '';
-        const rowID = rowElement?.getAttribute('data-id') ?? '';
-        const rowInfo = this.#layout?.visibleRows.find(row => row.data.id === rowID);
-        if (cellElement) {
-            if (rowID === 'HEADER') {
-                this.#options?.onHeaderCellClick?.call(this, event, {colName});
-                this.#plugins?.forEach(plugin => {
-                    plugin.onHeaderCellClick?.call(this, event, {colName});
+        const rowID = rowElement.getAttribute('data-id') ?? '';
+        if (rowID === 'HEADER') {
+            if (cellElement) {
+                this.#options.onHeaderCellClick?.call(this, event, {colName, element: cellElement});
+                this.#plugins.forEach(plugin => {
+                    plugin.onHeaderCellClick?.call(this, event, {colName, element: cellElement});
                 });
-            } else {
-                if (this.#options?.onCellClick?.call(this, event, {colName, rowID, rowInfo}) === true) {
+            }
+        } else {
+            const rowInfo = this.#layout?.visibleRows.find(row => row.data.id === rowID);
+            if (cellElement) {
+                if (this.#options.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
                     return;
                 }
-                if (this.#plugins?.length) {
+                if (this.#plugins.length) {
                     for (const plugin of this.#plugins) {
-                        if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo}) === true) {
+                        if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
                             return;
                         }
                     }
                 }
             }
+            this.#options.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement});
+            this.#plugins.forEach(plugin => {
+                plugin.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement});
+            });
         }
-        this.#options?.onRowClick?.call(this, event, {rowID, rowInfo});
-        this.#plugins?.forEach(plugin => {
-            plugin.onRowClick?.call(this, event, {rowID, rowInfo});
-        });
     };
 
     render() {
@@ -505,11 +591,12 @@ export class DTable extends Component<DTableProps, DTableState> {
         return (
             <div
                 className={classes('dtable', className, {
-                    '-hover-row': rowHover,
-                    '-hover-col': colHover,
-                    '-hover-cell': cellHover,
-                    '-bordered': bordered,
-                    '-striped': striped,
+                    'dtable-hover-row': rowHover,
+                    'dtable-hover-col': colHover,
+                    'dtable-hover-cell': cellHover,
+                    'dtable-bordered': bordered,
+                    'dtable-striped': striped,
+                    'dtable-scrolled-down': (layout?.scrollTop ?? 0) > 0,
                     'scrollbar-hover': scrollbarHover,
                 })}
                 style={style}

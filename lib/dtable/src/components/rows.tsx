@@ -4,6 +4,7 @@ import {Row} from './row';
 import {RowInfo} from '../types/row-info';
 import {ColInfo} from '../types/col-info';
 import {CellRenderCallback} from '../types/cell-render';
+import {RowProps} from '../types/row-props';
 
 export interface RowsProps {
     className?: ClassNameLike,
@@ -20,7 +21,8 @@ export interface RowsProps {
     scrollWidthTotal: number,
     flexRightWidth: number,
     scrollLeft: number,
-    onRenderCell?: CellRenderCallback
+    onRenderCell?: CellRenderCallback,
+    onRenderRow?: (rowProps: RowProps, rowInfo: RowInfo) => RowProps,
 }
 
 export function Rows({
@@ -30,36 +32,26 @@ export function Rows({
     rows,
     height,
     rowHeight,
-    fixedLeftCols,
-    fixedRightCols,
-    scrollCols,
-    flexLeftWidth,
-    scrollWidth,
-    scrollWidthTotal,
-    flexRightWidth,
-    scrollLeft,
-    onRenderCell,
+    onRenderRow,
+    ...otherProps
 }: RowsProps) {
     style = {...style, top, height};
     return (
         <div className={classes('dtable-rows', className)} style={style}>
             {rows.map(row => {
+                let rowProps: RowProps = {
+                    className: `dtable-row-${row.index % 2 ? 'odd' : 'even'}`,
+                    rowID: row.data.id,
+                    data: row.data,
+                    top: row.top,
+                    height: rowHeight,
+                    ...otherProps,
+                };
+                if (onRenderRow) {
+                    rowProps = onRenderRow(rowProps, row);
+                }
                 return  (
-                    <Row
-                        rowID={row.data.id}
-                        top={row.top}
-                        height={rowHeight}
-                        fixedLeftCols={fixedLeftCols}
-                        fixedRightCols={fixedRightCols}
-                        scrollCols={scrollCols}
-                        flexLeftWidth={flexLeftWidth}
-                        scrollWidth={scrollWidth}
-                        scrollWidthTotal={scrollWidthTotal}
-                        flexRightWidth={flexRightWidth}
-                        scrollLeft={scrollLeft}
-                        data={row.data}
-                        onRenderCell={onRenderCell}
-                    />
+                    <Row {...rowProps} />
                 );
             })}
         </div>

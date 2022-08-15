@@ -1,5 +1,5 @@
 import {DTableOptions} from '../types/options';
-import {DTablePlugin} from '../types/plugin';
+import {DTablePlugin, DTablePluginComsumer} from '../types/plugin';
 
 const sharedPlugins = new Map<string, DTablePlugin>();
 
@@ -10,6 +10,19 @@ export function addPlugin(plugin: DTablePlugin, override = false) {
     sharedPlugins.set(plugin.name, plugin);
 }
 
+export function definePlugin<O = {}, S extends {} = {}, C extends {} = {}, T extends {} = {}>(plugin: DTablePlugin<O, S, C, T>, override = false): DTablePluginComsumer<O> {
+    addPlugin(plugin as unknown as DTablePlugin, override);
+    const comsumer: DTablePluginComsumer<O> = (options: DTableOptions & O): DTablePlugin<O> => {
+        const {defaultOptions, ...otherProps} = plugin;
+        return {
+            ...otherProps,
+            defaultOptions: {...defaultOptions, ...options},
+        } as unknown as DTablePlugin<O>;
+    };
+    comsumer.plugin = plugin as unknown as DTablePlugin<O>;
+    return comsumer;
+}
+
 export function getPlugin(name: string): DTablePlugin | undefined {
     return sharedPlugins.get(name);
 }
@@ -18,33 +31,38 @@ export function removePlugin(name: string): boolean {
     return sharedPlugins.delete(name);
 }
 
-export function initPlugins(nameOrPluginList?: (string | DTablePlugin)[]): DTablePlugin[] {
-    if (!nameOrPluginList?.length) {
+export function initPlugins(options?: DTableOptions): DTablePlugin[] {
+    if (!options?.plugins?.length) {
         return [];
     }
+    const {plugins: nameOrPluginList} = options;
     return nameOrPluginList.reduce<DTablePlugin[]>((list, nameOrPlugin) => {
+        let plugin: DTablePlugin | undefined;
         if (typeof nameOrPlugin === 'string') {
-            const plugin = getPlugin(nameOrPlugin);
-            if (plugin) {
-                list.push(plugin);
-            } else {
+            plugin = getPlugin(nameOrPlugin);
+            if (!plugin) {
                 console.warn(`DTable: Cannot found plugin "${nameOrPlugin}"`);
             }
+        } else if (typeof nameOrPlugin === 'function') {
+            plugin = nameOrPlugin.plugin;
         } else if (typeof nameOrPlugin === 'object') {
-            list.push(nameOrPlugin);
+            plugin = nameOrPlugin;
         } else {
             console.warn('DTable: Invalid plugin', nameOrPlugin);
+        }
+        if (plugin && (!plugin.when || plugin.when(options))) {
+            list.push(plugin);
         }
         return list;
     }, []);
 }
 
-export function mergePluginOptions(plugins: DTablePlugin[], options: DTableOptions): DTableOptions {
+export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {
     return plugins.reduce((mergedOptions, plugin) => {
-        if (typeof plugin.options === 'function') {
-            return {...mergedOptions, ...plugin.options(mergedOptions)};
-        } else if (plugin.options) {
-            return {...mergedOptions, ...plugin.options};
+        const {options: optionsModifier, defaultOptions} = plugin;
+        Object.assign(mergedOptions, defaultOptions);
+        if (options) {
+            Object.assign(mergedOptions, typeof optionsModifier === 'function' ? optionsModifier(mergedOptions) : optionsModifier);
         }
         return mergedOptions;
     }, options);

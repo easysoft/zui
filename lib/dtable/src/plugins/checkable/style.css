@@ -1,0 +1,7 @@
+:root {
+    --dtable-checked-bg: var(--color-yellow-200);
+}
+
+.dtable-rows > .dtable-row.is-checked > .dtable-cells {
+    background: var(--dtable-checked-bg);
+}

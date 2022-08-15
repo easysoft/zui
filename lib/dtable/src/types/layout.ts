@@ -9,6 +9,7 @@ export interface DTableLayout {
     rowHeight: number;
     rowsHeight: number;
     rowsHeightTotal: number;
+    allRows: RowInfo[];
     rows: RowInfo[];
     visibleRows: RowInfo[];
     header: boolean | ComponentChildren | ((layout: DTableLayout, state: DTableState) => (ComponentChildren | {__html: string}));

@@ -24,11 +24,11 @@
 .form-control::-webkit-input-placeholder {
   color: var(--color-placeholder-control);
 }
-.-sm.form-control {
-  @apply -text-sm
+.size-sm.form-control {
+  @apply -text-sm -h-6 -px-2;
 }
-.-lg.form-control {
-  @apply -text-lg
+.size-lg.form-control {
+  @apply -text-lg -h-10 -px-4;
 }
 .form-control:focus{
   @apply -border -outline-none;

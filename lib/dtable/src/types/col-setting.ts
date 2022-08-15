@@ -18,4 +18,5 @@ export interface ColSetting {
     hidden?: boolean,
     fixed?: 'left' | 'right' | false,
     onRenderCell?: CellRenderCallback,
+    [prop: string]: unknown;
 }
