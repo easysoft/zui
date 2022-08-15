@@ -6,15 +6,15 @@
 .avatar img {
   @apply -m-0 -w-full -h-full;
 }
-.avatar.-xs {
+.avatar.size-xs {
   @apply -w-6 -text-xs;
 }
-.avatar.-sm {
+.avatar.size-sm {
   @apply -w-8 -text-sm;
 }
-.avatar.-lg {
+.avatar.size-lg {
   @apply -w-12 -text-lg;
 }
-.avatar.-xl {
+.avatar.size-xl {
   @apply -w-14 -text-xl;
 }

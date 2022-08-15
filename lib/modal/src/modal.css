@@ -1,5 +1,5 @@
 .modal {
-  @apply -hidden -overflow-hidden	-fixed -top-0 -right-0 -bottom-0 -left-0;
+  @apply -hidden -overflow-hidden -fixed -top-0 -right-0 -bottom-0 -left-0;
   background-color: var(--modal-bg-color);
   outline: 0;
   z-index: var(--modal-z-index);
@@ -46,22 +46,22 @@
   @apply -mx-2;
 }
 
-.modal-dialog.-fullscreen {
+.modal-dialog.size-fullscreen {
   @apply -relative -m-0 -rounded-none;
   width: 100%!important;
   height: 100%!important;
 }
-.modal-dialog.-fullscreen > .modal-body {
+.modal-dialog.size-fullscreen > .modal-body {
   @apply -absolute -right-0 -bottom-0 -left-0 -overflow-y-auto;
 }
-.-scroll-inside {
+.scroll-inside {
   overflow: hidden!important;
 }
 
-.modal-dialog.-sm {
+.modal-dialog.size-sm {
   width: var(--modal-sm);
 }
-.modal-dialog.-lg {
+.modal-dialog.size-lg {
   width: var(--modal-lg);
 }
 .border-none > .modal-header,

@@ -12,7 +12,7 @@
   <a class="btn" data-toggle="modal" href="#myModal">点击 a 标签按钮打开</a>
 
   <div class="modal" id="myModal">
-    <div class="modal-dialog -sd">
+    <div class="modal-dialog shadow">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">
@@ -39,7 +39,7 @@
 <a class="btn" data-toggle="modal" href="#myModal">点击 a 标签按钮打开</a>
 
 <div class="modal" id="myModal">
-  <div class="modal-dialog -sd">
+  <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
@@ -74,7 +74,7 @@
   data-target="#positionModal">距离上方100px</button>
 
   <div class="modal" id="positionModal">
-    <div class="modal-dialog -sd">
+    <div class="modal-dialog shadow">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">
@@ -105,7 +105,7 @@ data-target="#positionModal">靠近上方</button>
 data-target="#positionModal">距离上方100px</button>
 
 <div class="modal" id="positionModal">
-  <div class="modal-dialog -sd">
+  <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
@@ -143,7 +143,7 @@ data-target="#positionModal">距离上方100px</button>
   data-target="#fullModal">全屏对话框</button>
 
   <div class="modal" id="smModal">
-    <div class="modal-dialog -sd -sm">
+    <div class="modal-dialog shadow size-sm">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">
@@ -163,7 +163,7 @@ data-target="#positionModal">距离上方100px</button>
   </div>
 
   <div class="modal" id="baseModal">
-    <div class="modal-dialog -sd -md">
+    <div class="modal-dialog shadow">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">
@@ -183,7 +183,7 @@ data-target="#positionModal">距离上方100px</button>
   </div>
 
   <div class="modal" id="lgModal">
-    <div class="modal-dialog -sd -lg">
+    <div class="modal-dialog shadow size-lg">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">
@@ -203,7 +203,7 @@ data-target="#positionModal">距离上方100px</button>
   </div>
 
   <div class="modal -scroll-inside" id="fullModal">
-    <div class="modal-dialog -sd -fullscreen">
+    <div class="modal-dialog shadow size-fullscreen">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">
@@ -242,7 +242,7 @@ data-target="#lgModal">大对话框</button>
 data-target="#fullModal">全屏对话框</button>
 
 <div class="modal" id="smModal">
-  <div class="modal-dialog -sd -sm">
+  <div class="modal-dialog shadow size-sm">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
@@ -262,7 +262,7 @@ data-target="#fullModal">全屏对话框</button>
 </div>
 
 <div class="modal" id="baseModal">
-  <div class="modal-dialog -sd -md">
+  <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
@@ -282,7 +282,7 @@ data-target="#fullModal">全屏对话框</button>
 </div>
 
 <div class="modal" id="lgModal">
-  <div class="modal-dialog -sd -lg">
+  <div class="modal-dialog shadow size-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
@@ -302,7 +302,7 @@ data-target="#fullModal">全屏对话框</button>
 </div>
 
 <div class="modal -scroll-inside" id="fullModal">
-  <div class="modal-dialog -sd -fullscreen">
+  <div class="modal-dialog shadow size-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
@@ -336,13 +336,13 @@ data-target="#fullModal">全屏对话框</button>
   data-target="#customModal">点击打开</button>
 
   <div class="modal" id="customModal">
-    <div class="modal-dialog -sd -sm -border-none">
+    <div class="modal-dialog shadow size-sm -border-none">
       <div class="modal-content">
         <div class="modal-body">
           <p>这是提示内容</p>
         </div>
         <div class="modal-footer"> 
-          <button type="button" class="btn -primary -sm" data-dismiss="modal">知道了</button>
+          <button type="button" class="btn -primary size-sm" data-dismiss="modal">知道了</button>
         </div>
       </div>
     </div>
@@ -354,13 +354,13 @@ data-target="#fullModal">全屏对话框</button>
 data-target="#customModal">点击打开</button>
 
 <div class="modal" id="customModal">
-  <div class="modal-dialog -sd -sm -border-none">
+  <div class="modal-dialog shadow size-sm -border-none">
     <div class="modal-content">
       <div class="modal-body">
         <p>这是提示内容</p>
       </div>
       <div class="modal-footer"> 
-        <button type="button" class="btn -primary -sm" data-dismiss="modal">知道了</button>
+        <button type="button" class="btn -primary size-sm" data-dismiss="modal">知道了</button>
       </div>
     </div>
   </div>
@@ -376,7 +376,7 @@ data-target="#customModal">点击打开</button>
   data-target="#autoCloseModal">点击打开对话框</button>
 
   <div class="modal" id="autoCloseModal" data-modal-closable="false">
-    <div class="modal-dialog -sd">
+    <div class="modal-dialog shadow">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">
@@ -401,7 +401,7 @@ data-target="#customModal">点击打开</button>
 data-target="#autoCloseModal">点击打开对话框</button>
 
 <div class="modal" id="autoCloseModal" data-modal-closable="false">
-  <div class="modal-dialog -sd">
+  <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
@@ -429,7 +429,7 @@ data-target="#autoCloseModal">点击打开对话框</button>
 | ------------- |:-------------:| ----- |
 | `modal`      | 实体类 | 元素作为对话框遮罩组件 |
 | `modal-dialog`      | 实体类 | 元素作为对话框组件 |
-| `-sm`      | 修饰类      |   对话框使用小号尺寸 |
-| `-lg`      | 修饰类      |   对话框使用大号尺寸 |
-| `-fullscreen`      | 修饰类      |   对话框使用全屏尺寸 |
+| `size-sm`      | 修饰类      |   对话框使用小号尺寸 |
+| `size-lg`      | 修饰类      |   对话框使用大号尺寸 |
+| `size-fullscreen`      | 修饰类      |   对话框使用全屏尺寸 |
 

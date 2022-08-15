@@ -10,7 +10,7 @@
   <div class="input-control">
     <input type="text" class="form-control" placeholder="请填写" />
   </div>
-  <div class="input-control -prefix">
+  <div class="input-control prefix">
     <span class="input-control-prefix">用户名</span>
     <input type="text" class="form-control" placeholder="请填写"/>
   </div>
@@ -20,7 +20,7 @@
 <div class="input-control">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
-<div class="input-control -prefix">
+<div class="input-control prefix">
   <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
@@ -48,25 +48,25 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="input-control">
-    <input type="text" class="form-control -sm" placeholder="请填写" />
+    <input type="text" class="form-control size-sm" placeholder="请填写" />
   </div>
   <div class="input-control">
     <input type="text" class="form-control" placeholder="请填写" />
   </div>
   <div class="input-control">
-    <input type="text" class="form-control -lg" placeholder="请填写" />
+    <input type="text" class="form-control size-lg" placeholder="请填写" />
   </div>
 </Example>
 
 ```html
 <div class="input-control">
-  <input type="text" class="form-control -sm" placeholder="请填写" />
+  <input type="text" class="form-control size-sm" placeholder="请填写" />
 </div>
 <div class="input-control">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
 <div class="input-control">
-  <input type="text" class="form-control -lg" placeholder="请填写" />
+  <input type="text" class="form-control size-lg" placeholder="请填写" />
 </div>
 ```
 
@@ -75,15 +75,15 @@
 通过结合类 `-prefix` `-suffix` 在输入框上添加前缀或后缀图标或字符。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <div class="input-control -prefix">
+  <div class="input-control prefix">
     <span class="input-control-prefix">用户名</span>
     <input type="text" class="form-control" placeholder="请填写"/>
   </div>
-  <div class="input-control -square-prefix">
+  <div class="input-control square-prefix">
     <input type="text" class="form-control" placeholder="请填写"/>
     <span class="input-control-prefix">pre</span>
   </div>
-  <div class="input-control -square-prefix -square-suffix">
+  <div class="input-control square-prefix square-suffix">
     <input type="text" class="form-control" placeholder="请填写"/>
     <span class="input-control-prefix">pre</span>
     <span class="input-control-suffix">suf</span>
@@ -91,15 +91,15 @@
 </Example>
 
 ```html
-<div class="input-control -prefix">
+<div class="input-control prefix">
   <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
-<div class="input-control -square-prefix">
+<div class="input-control square-prefix">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-prefix">pre</span>
 </div>
-<div class="input-control -square-prefix -square-suffix">
+<div class="input-control square-prefix square-suffix">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-prefix">pre</span>
   <span class="input-control-suffix">suf</span>
@@ -112,19 +112,19 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="input-control">
-    <input type="text" class="form-control -circle" placeholder="请填写" />
+    <input type="text" class="form-control circle" placeholder="请填写" />
   </div>
   <div class="input-control">
-    <input type="text" class="form-control -sd" placeholder="请填写" />
+    <input type="text" class="form-control shadow" placeholder="请填写" />
   </div>
 </Example>
 
 ```html
 <div class="input-control">
-  <input type="text" class="form-control -circle" placeholder="请填写" />
+  <input type="text" class="form-control circle" placeholder="请填写" />
 </div>
 <div class="input-control">
-  <input type="text" class="form-control -sd" placeholder="请填写" />
+  <input type="text" class="form-control shadow" placeholder="请填写" />
 </div>
 ```
 
@@ -135,7 +135,7 @@
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
 | `input-control`      | 实体类 | 元素作为输入框组件 |
-| `-prefix`      | 修饰类 | 输入框前缀元素样式 |
-| `-suffix`      | 修饰类 | 输入框后缀元素样式 |
-| `-sm`      | 修饰类      |   输入框使用小号尺寸 |
-| `-lg`      | 修饰类      |   输入框使用大号尺寸 |
+| `prefix`      | 修饰类 | 输入框前缀元素样式 |
+| `suffix`      | 修饰类 | 输入框后缀元素样式 |
+| `size-sm`      | 修饰类      |   输入框使用小号尺寸 |
+| `size-lg`      | 修饰类      |   输入框使用大号尺寸 |
