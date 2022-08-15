@@ -1,10 +1,9 @@
 .input-group{
     @apply -flex -items-center;
 }
-.input-group>.form-control{
-    @apply -px-3 -h-8 -w-48;
-    border: 1px solid var(--input-border-color);
-    border-radius: var(--radius);
+
+.input-group > .form-control {
+  width: auto;
 }
 
 .input-group.sm>.form-control, .input-group.sm>.input-group-addon {

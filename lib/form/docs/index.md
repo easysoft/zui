@@ -1,6 +1,6 @@
 # 表单
 
-## form
+## 基本样式表单 
 
 使用组件类`.form-group`来获得表单外观，通常搭配`<form>`,`<label>`以及`<input>`等表单控件使用
 
@@ -361,4 +361,92 @@
      <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
    </div>
  </form>
+```
+
+## 表单控件
+
+为`<input>`,`<textarea>`,`<select>` 添加.form-control 类即可得到统一的表单外观。所受支持的表单控件包括:
+
+ `<select class="form-control">`
+
+ `<textarea class="form-control" rows="3">`
+
+ `<input type="text" class="form-control">`
+
+ `<input type="password" class="form-control">`
+
+ `<input type="datetime" class="form-control">`
+
+ `<input type="datetime-local" class="form-control">`
+
+ `<input type="date" class="form-control">`
+
+ `<input type="month" class="form-control">`
+
+ `<input type="time" class="form-control">`
+
+ `<input type="week" class="form-control">`
+
+ `<input type="number" class="form-control">`
+
+ `<input type="email" class="form-control">`
+
+ `<input type="url" class="form-control">`
+
+ `<input type="search" class="form-control">`
+ 
+ `<input type="tel" class="form-control">`
+ 
+ `<input type="color" class="form-control">`
+
+<Example>
+ <input type="text" class="form-control" placeholder="请输入文本">
+</Example>
+
+```html
+ <input type="text" class="form-control" placeholder="请输入文本">
+```
+
+<Example>
+  <textarea class="form-control" rows="3" placeholder="可输入多行文本"></textarea>
+</Example>
+
+```
+  <textarea class="form-control" rows="3" placeholder="可输入多行文本"></textarea>
+```
+
+<Example>
+ <select class="form-control">
+   <option value="">请选择一种水果</option>
+   <option value="apple">苹果</option>
+   <option value="banana">香蕉</option>
+   <option value="orange">桔子</option>
+ </select>
+</Example>
+
+```html
+ <select class="form-control">
+   <option value="">请选择一种水果</option>
+   <option value="apple">苹果</option>
+   <option value="banana">香蕉</option>
+   <option value="orange">桔子</option>
+ </select>
+```
+
+<Example>
+ <select multiple class="form-control">
+   <option value="">请选择一种水果</option>
+   <option value="apple">苹果</option>
+   <option value="banana">香蕉</option>
+   <option value="orange">橘子</option>
+ </select>
+</Example>
+
+```html
+ <select class="form-control" multiple>
+   <option value="">请选择所有爱吃的水果</option>
+   <option value="apple">苹果</option>
+   <option value="banana">香蕉</option>
+   <option value="orange">橘子</option>
+ </select>
 ```

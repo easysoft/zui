@@ -313,3 +313,4 @@ zui/                   # 项目根目录
 * 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)
 * 文档页面 [Vue.js](https://staging-cn.vuejs.org/)
 * JS 组件开发 [preact.js](https://preactjs.com/)
+* WebComponent 框架 [Lit](https://lit.dev/docs/components/properties/)、[catalyst](https://github.github.io/catalyst/)

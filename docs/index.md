@@ -25,7 +25,13 @@ features:
 ---
 
 <style>
-body {
-  background-image: radial-gradient(circle at 13% 47%, rgba(140, 140, 140,0.03) 0%, rgba(140, 140, 140,0.03) 25%,transparent 25%, transparent 100%),radial-gradient(circle at 28% 63%, rgba(143, 143, 143,0.03) 0%, rgba(143, 143, 143,0.03) 16%,transparent 16%, transparent 100%),radial-gradient(circle at 81% 56%, rgba(65, 65, 65,0.03) 0%, rgba(65, 65, 65,0.03) 12%,transparent 12%, transparent 100%),radial-gradient(circle at 26% 48%, rgba(60, 60, 60,0.03) 0%, rgba(60, 60, 60,0.03) 6%,transparent 6%, transparent 100%),radial-gradient(circle at 97% 17%, rgba(150, 150, 150,0.03) 0%, rgba(150, 150, 150,0.03) 56%,transparent 56%, transparent 100%),radial-gradient(circle at 50% 100%, rgba(25, 25, 25,0.03) 0%, rgba(25, 25, 25,0.03) 36%,transparent 36%, transparent 100%),radial-gradient(circle at 55% 52%, rgba(69, 69, 69,0.03) 0%, rgba(69, 69, 69,0.03) 6%,transparent 6%, transparent 100%),linear-gradient(90deg, rgb(255,255,255),rgb(255,255,255));
+.VPContent.is-home {
+  background: linear-gradient(125deg, var(--color-primary-50) 0%, var(--color-primary-50) 40%, var(--color-primary-100) calc(40% + 1px), var(--color-primary-100) 60%, var(--color-primary-200) calc(60% + 1px), var(--color-primary-200) 72%, var(--color-primary-500) calc(72% + 1px), var(--color-primary-500) 100%);
+}
+.VPFeature {
+  @apply -backdrop-blur-lg -bg-inverse/5 -border-canvas/10 !important;
+}
+.VPFeature > .icon {
+  @apply -bg-inverse/5 !important;
 }
 </style>

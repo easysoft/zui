@@ -1,5 +1,5 @@
 :root {
-  --color-diagonal-breadcrumb: var(--color-gary-700);
-  --color-diagonal-breadcrumb-active: var(--color-gray-500);
+  --breadcrumb-divider: "/";
+  --breadcrumb-divider-color: var(--color-gray-500);
   --breadcrumb-color-active: var(--color-gray-500);
 }

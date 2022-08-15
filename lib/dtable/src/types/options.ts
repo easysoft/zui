@@ -40,7 +40,7 @@ export interface DTableOptions {
     onRenderRow?: (this: DTable, rowProps: RowProps, rowInfo: RowInfo) => RowProps;
     onRenderHeaderRow?: (this: DTable, rowProps: RowProps) => RowProps;
     afterRender?: (this: DTable) => void;
-    onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void;
+    onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     plugins?: (string | DTablePlugin | DTablePluginComsumer)[];

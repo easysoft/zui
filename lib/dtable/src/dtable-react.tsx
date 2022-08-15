@@ -107,10 +107,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     getLayout(): DTableLayout | undefined {
         const defaultOptions = getDefaultOptions();
-        const initOptions = {...defaultOptions, ...this.props} as DTableOptions;
-        const plugins = this.#allPlugins.filter(plugin => !plugin.when || plugin.when(initOptions));
-        const options = mergePluginOptions(plugins, initOptions);
-
+        const options = mergePluginOptions(this.#allPlugins, {...defaultOptions, ...this.props} as DTableOptions);
+        const plugins = this.#allPlugins.filter(plugin => !plugin.when || plugin.when(options));
         this.#plugins = Object.freeze(plugins);
 
         plugins.forEach(plugin => {
@@ -569,18 +567,21 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 if (this.#options.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
                     return;
                 }
-                if (this.#plugins.length) {
-                    for (const plugin of this.#plugins) {
-                        if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
-                            return;
-                        }
+                for (const plugin of this.#plugins) {
+                    if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
+                        return;
                     }
                 }
             }
-            this.#options.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement});
-            this.#plugins.forEach(plugin => {
-                plugin.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement});
-            });
+            if (this.#options.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement}) === true) {
+                return;
+            }
+
+            for (const plugin of this.#plugins) {
+                if (plugin.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement}) === true) {
+                    return;
+                }
+            }
         }
     };
 

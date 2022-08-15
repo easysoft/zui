@@ -15,7 +15,7 @@
 
 .panel > .panel-footer {
   @apply -px-4 -py-2;
-  background-color: var(--color-gray-300);
+  background-color: var(--panel-theme-color);
 }
 
 .panel-group {

@@ -19,6 +19,27 @@
   @apply -flex -mt-2 ; 
 }
 
-.checkbox-primary > label {
+.checkbox-primary > label,
+.radio-primary > label{
   @apply -ml-2;
+}
+
+.checkbox-primary > label:before {
+  @apply -border-black -border-solid -border -mt-2 -absolute -w-3;
+  aspect-ratio: 1 / 1;
+  content:"";
+  left:10px;
+}
+.radio-primary > label:before {
+  @apply -border-black -border-solid -border -mt-2 -absolute -w-3;
+  border-radius: 100%;
+  aspect-ratio: 1 / 1;
+  content:"";
+  left:10px;
+}
+
+.radio-primary.checked > label:before,
+.checkbox-primary.checked > label:before {
+  @apply -bg-primary-500;
+  border-color: var(--color-primary-500);
 }

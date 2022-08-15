@@ -2,7 +2,7 @@
 
 ## panel
 
-```html:example: flex gap-3
+```html:example
 <div class="panel">
   <div class="panel-body">
     默认的面板所做的只是提供基本的边界和内部，来包含内容。
@@ -12,7 +12,7 @@
 
 ## with panel-heading
 
-```html:example: flex gap-3
+```html:example
 <div class="panel">
   <div class="panel-heading">面板标题</div>
   <div class="panel-body">面板内容</div>
@@ -21,7 +21,7 @@
 
 ## width panel-footer
 
-```html:example: flex gap-3
+```html:example
 <div class="panel">
   <div class="panel-body">面板内容</div>
   <div class="panel-footer">面板脚注</div>
@@ -29,7 +29,12 @@
 ```
 ## theme
 
-```html:example: flex gap-3 flex-wrap
+```html:example: -flex -flex-col -gap-2
+<div class="panel primary">
+  <div class="panel-heading">panel-primary</div>
+  <div class="panel-body">面板内容</div>
+  <div class="panel-footer">面板内容</div>
+</div>
 <div class="panel panel-primary">
   <div class="panel-heading">panel-primary</div>
   <div class="panel-body">面板内容</div>
@@ -53,28 +58,6 @@
 <div class="panel panel-special">
   <div class="panel-heading">panel-special</div>
   <div class="panel-body">面板内容</div>
-</div>
-```
-
-## panel-group
-
-```html:example: flex gap-3 flex-wrap
-<div class="panel-group">
-  <div class="panel">
-    <div class="panel-heading">面板标题</div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板脚注</div>
-  </div>
-  <div class="panel">
-    <div class="panel-heading">面板标题</div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板脚注</div>
-  </div>
-  <div class="panel">
-    <div class="panel-heading">面板标题</div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板脚注</div>
-  </div>
 </div>
 ```
 

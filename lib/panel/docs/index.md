@@ -4,7 +4,8 @@
 
 ## 基本使用
 
-`.panel-heading` ， `.panel-body` ， `.panel-footer` 三部分可以根据需求单独使用。
+一个面板通常包含标题，内容，脚注三部分。标题，脚注可按需选择使用。
+
 <Example>
   <div class="panel">
     <div class="panel-heading">面板标题</div>
@@ -79,12 +80,81 @@
 </div>
 ```
 
-## 面板组
+## 圆角
 
-`.panel-group` 可包含多个面板组件。
+搭配CSS工具类 `rounded-*` 为面板应用不同的圆角样式。
 
 <Example>
-  <div class="panel-group">
+  <div class="panel rounded-none mb-2">
+    <div class="panel-heading">面板标题</div>
+    <div class="panel-body">面板内容</div>
+    <div class="panel-footer">面板脚注</div>
+  </div>
+  <div class="panel rounded-sm mb-2">
+    <div class="panel-heading">面板标题</div>
+    <div class="panel-body">面板内容</div>
+    <div class="panel-footer">面板脚注</div>
+  </div>
+  <div class="panel rounded mb-2">
+    <div class="panel-heading">面板标题</div>
+    <div class="panel-body">面板内容</div>
+    <div class="panel-footer">面板脚注</div>
+  </div>
+  <div class="panel rounded-md mb-2">
+    <div class="panel-heading">面板标题</div>
+    <div class="panel-body">面板内容</div>
+    <div class="panel-footer">面板脚注</div>
+  </div>
+  <div class="panel rounded-lg mb-2">
+    <div class="panel-heading">面板标题</div>
+    <div class="panel-body">面板内容</div>
+    <div class="panel-footer">面板脚注</div>
+  </div>
+  <div class="panel rounded-xl mb-2">
+    <div class="panel-heading">面板标题</div>
+    <div class="panel-body">面板内容</div>
+    <div class="panel-footer">面板脚注</div>
+  </div>
+</Example>
+
+```html
+<div class="panel rounded-none">
+  <div class="panel-heading">面板标题</div>
+  <div class="panel-body">面板内容</div>
+  <div class="panel-footer">面板脚注</div>
+</div>
+<div class="panel rounded-sm">
+  <div class="panel-heading">面板标题</div>
+  <div class="panel-body">面板内容</div>
+  <div class="panel-footer">面板脚注</div>
+</div>
+<div class="panel rounded">
+  <div class="panel-heading">面板标题</div>
+  <div class="panel-body">面板内容</div>
+  <div class="panel-footer">面板脚注</div>
+</div>
+<div class="panel rounded-md">
+  <div class="panel-heading">面板标题</div>
+  <div class="panel-body">面板内容</div>
+  <div class="panel-footer">面板脚注</div>
+</div>
+<div class="panel rounded-lg">
+  <div class="panel-heading">面板标题</div>
+  <div class="panel-body">面板内容</div>
+  <div class="panel-footer">面板脚注</div>
+</div>
+<div class="panel rounded-xl">
+  <div class="panel-heading">面板标题</div>
+  <div class="panel-body">面板内容</div>
+  <div class="panel-footer">面板脚注</div>
+</div>
+```
+## 面板组
+
+搭配CSS工具类 `space-*` 可实现面板组效果。
+
+<Example>
+  <div class="space-y-2">
     <div class="panel">
       <div class="panel-heading">面板标题</div>
       <div class="panel-body">面板内容</div>
@@ -104,7 +174,7 @@
 </Example>
 
 ```html
-<div class="panel-group">
+<div class="space-y-2">
   <div class="panel">
     <div class="panel-heading">面板标题</div>
     <div class="panel-body">面板内容</div>
@@ -196,6 +266,40 @@
     </tbody>
   </table>
 </div>
+```
+
+## 高级用法
+
+<Example>
+  <div class="panel mb-2">
+    <div class="panel-heading">
+      <strong>标题</strong>
+    </div>
+    <div class="panel-body">内容</div>
+  </div>
+  <div class="panel">
+    <div class="panel-heading flex justify-between items-center">
+      <div>标题</div>
+      <button type="button" class="btn">按钮</button>
+    </div>
+    <div class="panel-body">内容</div>
+  </div>
+</Example>
+
+```html
+<div class="panel">
+  <div class="panel-heading">
+    <strong>标题</strong>
+  </div>
+  <div class="panel-body">内容</div>
+</div>
+<div class="panel">
+    <div class="panel-heading flex justify-between items-center">
+      <label>标题</label>
+      <button type="button" class="btn">按钮</button>
+    </div>
+    <div class="panel-body">内容</div>
+  </div>
 ```
 ## CSS 类
 

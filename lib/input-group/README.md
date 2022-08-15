@@ -63,7 +63,7 @@
 
 ## 连续分段的文本框
 
-```html:example: -flex -gap-3
+```html:example: -flex -gap-3 -overflow-x-auto
 <div class="input-group">
   <span class="input-group-addon">姓名</span>
   <input type="text" class="form-control" placeholder="姓氏">

@@ -17,11 +17,11 @@
 }
 
 .form-control {
-  @apply -bg-canvas -rounded -border-solid -border -block -h-8 -text-xs -py-1 -px-2 -w-full;
-  border-radius: var(--radius);
-  border-color: var(--color-border-form-control)
+  @apply -bg-canvas -border -block -h-8 -py-1 -px-2 -w-full;
+  border-radius: var(--form-control-radius);
+  border-color: var(--color-border-form-control);
 }
-.form-control::-webkit-input-placeholder {
+.form-control::placeholder {
   color: var(--color-placeholder-control);
 }
 .size-sm.form-control {
@@ -35,8 +35,7 @@
   border-color: var(--color-border-control-focus);
 }
 textarea.form-control {
-  @apply -align-top -resize-y -h-auto;
-  min-height: 32px;
+  @apply -align-top -resize-y -h-auto -min-h-[32px];
 }
 
 .form-tip {

@@ -1,5 +1,5 @@
 .btn-group > .btn {
-  border-radius: var(--btn-group-radius);
+  border-radius: var(--btn-radius);
 }
 
 .btn-group, .btn-toolbar {
@@ -64,7 +64,7 @@
 }
 
 .btn-group > .btn:not(:first-child),
-.dropdown:last-child > .btn {
+.btn-group > .dropdown:last-child > .btn {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }

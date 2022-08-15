@@ -1,24 +1,16 @@
 .breadcrumb {
-  @apply -py-2 -px-4;
+  @apply -flex -gap-5;
 }
-
 .breadcrumb > li {
-  @apply -inline-block -pl-1;
+  @apply -relative;
 }
 
-.breadcrumb > li+li:before {
-  @apply -py-0 -pr-0.5;
-  content: "/\00a0";
-  color: var(--color-diagonal-breadcrumb);
+.breadcrumb > li + li::before {
+  @apply -absolute -block -w-5 -text-center --left-5;
+  content: var(--breadcrumb-divider);
+  color: var(--breadcrumb-divider-color);
 }
 
 .breadcrumb > .active {
-  @apply -py-0 ; 
   color: var(--breadcrumb-color-active);
-}
-
-.breadcrumb > li+li.active:before {
-  @apply -py-0; 
-  content: "/\00a0";
-  color: var(--color-diagonal-breadcrumb-active); 
 }

@@ -123,7 +123,7 @@ document.addEventListener('click', (e) => {
     if (e !== null && e.target instanceof HTMLElement) {
         if (e.target.dataset?.toggle === 'modal') {
             let target =  e.target.dataset.target;
-            
+
             if (e.target.localName === 'a') {
                 const href = e.target?.href || '';
                 target = href && href.replace(/.*(?=#[^\s]+$)/, '');

@@ -110,3 +110,10 @@
 <div class="radio-primary"><input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio3"><label for="primaryradio3">选项三</label></div>
 <div class="radio-primary"><input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio4"><label for="primaryradio4">禁用</label></div>
 ```
+
+```html
+   <div class="checkbox-primary"><label>未选中</label></div>
+   <div class="checkbox-primary checked"><label>选中</label></div>
+   <div class="radio-primary"><label>未选中</label></div>
+   <div class="radio-primary checked"><label>选中</label></div>
+```

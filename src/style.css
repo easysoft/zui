@@ -8,6 +8,10 @@ html {
 body {
   @apply -overflow-auto;
 }
+
+aside {
+    background: linear-gradient(125deg, var(--color-primary-900) 0%, var(--color-primary-900) 40%, var(--color-primary-800) calc(40% + 1px), var(--color-primary-800) 60%, var(--color-primary-700) calc(60% + 1px), var(--color-primary-700) 72%, var(--color-primary-500) calc(72% + 1px), var(--color-primary-500) 100%);
+}
 #libPage {
     @apply -p-5 -pr-48;
 }
