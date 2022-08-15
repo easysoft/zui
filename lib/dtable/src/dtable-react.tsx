@@ -569,18 +569,21 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 if (this.#options.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
                     return;
                 }
-                if (this.#plugins.length) {
-                    for (const plugin of this.#plugins) {
-                        if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
-                            return;
-                        }
+                for (const plugin of this.#plugins) {
+                    if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
+                        return;
                     }
                 }
             }
-            this.#options.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement});
-            this.#plugins.forEach(plugin => {
-                plugin.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement});
-            });
+            if (this.#options.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement}) === true) {
+                return;
+            }
+
+            for (const plugin of this.#plugins) {
+                if (plugin.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement}) === true) {
+                    return;
+                }
+            }
         }
     };
 

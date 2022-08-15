@@ -34,7 +34,7 @@ export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTab
     onRenderRow?: (this: PluginTable, rowProps: RowProps, rowInfo: RowInfo) => RowProps;
     onRenderHeaderRow?: (this: PluginTable, rowProps: RowProps) => RowProps;
     afterRender?: (this: PluginTable) => void;
-    onRowClick?: (this: PluginTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void;
+    onRowClick?: (this: PluginTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
 }
