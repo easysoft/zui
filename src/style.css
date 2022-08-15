@@ -1,3 +1,13 @@
+html,
+body {
+  @apply -w-full -h-full;
+}
+html {
+  @apply -overflow-hidden;
+}
+body {
+  @apply -overflow-auto;
+}
 #libPage {
     @apply -p-5 -pr-48;
 }

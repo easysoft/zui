@@ -68,31 +68,6 @@
 </div>
 ```
 
-## 居中布局
-
-```html:example: -flex -gap-3
-<button type="button" class="btn primary" data-toggle="modal" data-target="#centerModal">居中对话框</button>
-
-<div class="modal" id="centerModal">
-  <div class="modal-dialog shadow">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-        <div class="modal-title text-center">标题</div>
-      </div>
-      <div class="modal-body text-center">
-        这是一段内容
-        <p>其他的内容</p>
-      </div>
-      <div class="modal-footer text-center">
-        <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
-      </div>
-    </div>
-  </div>
-</div>
-```
-
 ## 显示位置
 
 ```html:example: -flex -gap-3
