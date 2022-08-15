@@ -56,28 +56,6 @@
 </div>
 ```
 
-## panel-group
-
-```html:example: flex gap-3 flex-wrap
-<div class="panel-group">
-  <div class="panel">
-    <div class="panel-heading">面板标题</div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板脚注</div>
-  </div>
-  <div class="panel">
-    <div class="panel-heading">面板标题</div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板脚注</div>
-  </div>
-  <div class="panel">
-    <div class="panel-heading">面板标题</div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板脚注</div>
-  </div>
-</div>
-```
-
 ## width table
 
 ```html:example: flex gap-3
