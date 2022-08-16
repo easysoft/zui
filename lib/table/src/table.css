@@ -1,13 +1,15 @@
 .table {
   @apply -w-full -border;
-  border-color: var(--color-border-table);
+  border-color: var(--table-border-color);
 }
 
 .table > thead > tr {
   @apply -bg-gray-400 -border-b;
+  background-color: var(--color-surface);
 }
 .table > tbody > tr {
   @apply -border-b;
+  border-color: var(--table-border-color);
 }
 
 .table > thead > tr > th,
@@ -15,31 +17,36 @@
   @apply -px-4 -py-2 -text-left ;
 }
 
-.-striped > tbody > tr:nth-child(odd) {
+.table-striped > tbody > tr:nth-child(even) {
   background: var(--table-striped-color);
 }
 
-.-row-hover > tbody > tr:hover{
+.table-row-hover > tbody > tr:hover > td {
+  @apply -bg-opacity-50;
   background: var(--table-hover-color);
 }
 
-.-bordered > th,
-.-bordered > td {
-  @apply -border-2;
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > td,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > th {
+  @apply -border;
+  border-color: var(--table-border-color);
 }
 
-.-borderless {
-  @apply -border-0;
-}
-.-borderless > thead tr th,
-.-borderless > th,
-.-borderless > td {
+.table-borderless > thead > tr > th,
+.table-borderless > tbody > tr > td,
+.table-borderless > thead > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > thead > tr,
+.table-borderless > tbody > tr,
+.table-borderless {
   @apply -border-0;
 }
 
-.table-condensed > td,
-.table-condensed > th{
-  @apply -px-1;
+.table-condensed > thead > tr > th ,
+.table-condensed > tbody > tr > td {
+  @apply -px-0;
 }
 
 .table-fixed {

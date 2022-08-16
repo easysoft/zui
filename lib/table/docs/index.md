@@ -69,12 +69,12 @@
  </tbody>
 </table>
 ```
-## -striped
+## 斑马纹表格
 
-使用组件类`.-striped`获得斑马纹表格外观 
+使用组件类`.table-striped`获得斑马纹表格外观 
 
 <Example class="flex grep-4">
- <table class="table -striped">
+ <table class="table table-striped">
   <thead>
     <tr>
       <th>项目名称</th>
@@ -107,7 +107,7 @@
 </Example>
 
 ```html
-<table class="table -striped">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>项目名称</th>
@@ -139,12 +139,12 @@
 </table>
 ```
 
-## -row-hover
+## 响应鼠标悬停行变色
 
- 使用组件类`.-row-hover`获得响应鼠标悬停行变色表格外观
+ 使用组件类`.table-row-hover`获得响应鼠标悬停行变色表格外观
 
 <Example>
-  <table class="table -row-hover">
+  <table class="table table-row-hover">
     <thead>
       <tr>
         <th>项目名称</th>
@@ -208,12 +208,12 @@
   </tbody>
 </table>
  ```
-## -bordered
+## 带所有边框的表格
 
-使用组件类`.-bordered`获得带所有边框的表格外观
+使用组件类`.table-bordered`获得带所有边框的表格外观
 
 <Example>
-  <table class="table -bordered">
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th>项目名称</th>
@@ -246,7 +246,7 @@
 </Example>
 
 ```html
-<table class="table -bordered">
+<table class="table table-bordered">
   <thead>
     <tr>
       <th>项目名称</th>
@@ -277,12 +277,12 @@
   </tbody>
 </table>
  ```
-## -borderless
+## 带所有边框的表格
 
- 使用组件类`.-borderless`获得不带所有边框的表格外观
+ 使用组件类`.table-borderless`获得不带所有边框的表格外观
 
 <Example>
-  <table class="table -borderless">
+  <table class="table table-borderless">
     <thead>
       <tr>
         <th>项目名称</th>
@@ -315,7 +315,7 @@
 </Example>
 
  ```html
-<table class="table -borderless">
+<table class="table table-borderless">
  <thead>
    <tr>
      <th>项目名称</th>
@@ -346,12 +346,12 @@
  </tbody>
 </table>
 ```
-  ## -condensed
+  ## 紧凑的表格外观
 
- 使用组件类`.-condensed`更为紧凑的表格外观
+ 使用组件类`.table-condensed`更为紧凑的表格外观
 
   <Example>
-   <table class="table -condensed">
+   <table class="table table-condensed">
      <thead>
        <tr>
          <th>项目名称</th>
@@ -384,7 +384,7 @@
  </Example>
 
  ```html
- <table class="table -condensed">
+ <table class="table table-condensed">
   <thead>
     <tr>
       <th>项目名称</th>
@@ -415,12 +415,12 @@
   </tbody>
 </table>
  ```
-## -fixed
+## 固定布局的表格外观
 
- 使用组件类`.-fixed`固定布局的表格外观
+ 使用组件类`.table-fixed`固定布局的表格外观
 
 <Example>
- <table class="table -fixed">
+ <table class="table table-fixed">
    <thead>
      <tr>
        <th>项目名称</th>
@@ -453,7 +453,7 @@
 </Example>
 
  ```html
-<table class="table -fixed">
+<table class="table table-fixed">
   <thead>
     <tr>
       <th>项目名称</th>
@@ -484,9 +484,9 @@
   </tbody>
 </table>
  ```
- ## -primary -warning -success
+ ## primary warning success
 
-使用色彩类`.-primary`等获得带有固定色彩行的表格外观
+使用色彩类`.primary`等获得带有固定色彩行的表格外观
 
  <Example>
   <table class="table">
@@ -499,7 +499,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="-primary">
+      <tr class="primary">
         <td>禅道开源版</td>
         <td>禅道研发</td>
         <td>今天</td>
@@ -511,7 +511,7 @@
         <td>明天</td>
         <td>明天</td>
       </tr>
-      <tr class="-success">
+      <tr class="success">
         <td>禅道开源版</td>
         <td>禅道研发</td>
         <td>后天</td>
@@ -532,7 +532,7 @@
    </tr>
  </thead>
  <tbody>
-   <tr class="-primary">
+   <tr class="primary">
      <td>禅道开源版</td>
      <td>禅道研发</td>
      <td>今天</td>
@@ -544,7 +544,7 @@
      <td>明天</td>
      <td>明天</td>
    </tr>
-   <tr class="-success">
+   <tr class="success">
      <td>禅道开源版</td>
      <td>禅道研发</td>
      <td>后天</td>

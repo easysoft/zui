@@ -4,7 +4,7 @@
 
 使用组件类`.table`来获得外观 通常搭配`<table>`元素使用.
 
-```html:example: -flex -gap-3
+```html:example:
  <table class="table">
      <thead>
          <tr>
@@ -37,12 +37,12 @@
  </table>
  ```
 
-## -striped
+## table-striped
 
-使用组件类`.-striped`获得斑马纹表格外观
+使用组件类`.table-striped`获得斑马纹表格外观
 
-```html:example: -flex -gap-3
-<table class="table -striped">
+```html:example:
+<table class="table table-striped table-row-hover">
   <thead>
       <tr>
           <th>项目名称</th>
@@ -74,12 +74,12 @@
 </table>
 ```
 
-## -row-hover
+## table-row-hover
 
- 使用组件类`.-row-hover`获得响应鼠标悬停行变色表格外观
+ 使用组件类`.table-row-hover`获得响应鼠标悬停行变色表格外观
 
- ```html:example: -flex -gap-3
- <table class="table -row-hover">
+ ```html:example:
+ <table class="table table-row-hover">
    <thead>
        <tr>
            <th>项目名称</th>
@@ -110,12 +110,12 @@
    </tbody>
  </table>
  ```
-## -bordered
+## table-bordered
 
-使用组件类`.-bordered`获得带所有边框的表格外观
+使用组件类`.table-bordered`获得带所有边框的表格外观
 
-```html:example: -flex -gap-3
- <table class="table -bordered">
+```html:example:
+ <table class="table table-bordered">
    <thead>
        <tr>
            <th>项目名称</th>
@@ -146,12 +146,12 @@
    </tbody>
  </table>
  ```
-  ## -borderless
+  ## table-borderless
 
- 使用组件类`.-borderless`获得不带所有边框的表格外观
+ 使用组件类`.table-borderless`获得不带所有边框的表格外观
 
- ```html:example: -flex -gap-3
- <table class="table -borderless">
+ ```html:example:
+ <table class="table table-borderless">
    <thead>
        <tr>
            <th>项目名称</th>
@@ -186,7 +186,7 @@
 
  使用组件类`.table-condensed`更为紧凑的表格外观
 
- ```html:example: -flex -gap-3
+ ```html:example:
  <table class="table table-condensed">
    <thead>
        <tr>
@@ -242,8 +242,8 @@
        <tr>
            <td>禅道旗舰版</td>
            <td>禅道研发</td>
-           <td>明天</td>
-           <td>明天</td>
+           <td>下下下下下下下周的周天</td>
+           <td>下下下下下下下下周的周一</td>
        </tr>
        <tr>
            <td>禅道开源版</td>
@@ -256,9 +256,9 @@
 ```
  ## -primary -warning -success
 
-使用色彩类`.-primary`等获得带有固定色彩行的表格外观
+使用色彩类`.primary`等获得带有固定色彩行的表格外观
 
- ```html:example: -flex -gap-3
+ ```html:example:
 <table class="table">
     <thead>
         <tr>
@@ -269,19 +269,19 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="-primary">
+        <tr class="primary">
             <td>禅道开源版</td>
             <td>禅道研发</td>
             <td>今天</td>
             <td>今天</td>
         </tr>
-        <tr class="-warning">
+        <tr class="warning">
             <td>禅道旗舰版</td>
             <td>禅道研发</td>
             <td>明天</td>
             <td>明天</td>
         </tr>
-        <tr class="-success">
+        <tr class="success">
             <td>禅道开源版</td>
             <td>禅道研发</td>
             <td>后天</td>
