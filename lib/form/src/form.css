@@ -17,7 +17,7 @@
 }
 
 .form-control {
-  @apply -bg-canvas -border -block -h-8 -py-1 -px-2 -w-full;
+  @apply -bg-canvas -border -border-solid -block -h-8 -py-1 -px-2 -w-full;
   border-radius: var(--form-control-radius);
   border-color: var(--color-border-form-control);
 }
