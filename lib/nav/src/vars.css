@@ -1,5 +1,5 @@
 :root {
-  --nav-border-radius: var(--radius);
+  --nav-radius: var(--radius);
   --nav-border-color: var(--color-gray-300);
   --nav-secon-border-color: var(--color-primary-500);
   --nav-heading-bg-color: var(--color-gray-100);

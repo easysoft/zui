@@ -1,11 +1,11 @@
 .nav {
-  @apply -flex -w-full;
+  @apply -flex;
 }
 
 .nav > li > a {
   /* a标签 display block 是为了让 li 的宽高根据a标签自适应 */
   @apply -block -whitespace-nowrap -px-3 -py-2 -text-fore;
-  border-radius: var(--nav-border-radius);
+  border-radius: var(--nav-radius);
 }
 .nav > .active > a {
   font-weight: 700;
@@ -64,7 +64,7 @@
 }
 
 .nav-stacked.nav-secondary > li > a::after {
-  @apply -border-l -border-solid;
+  @apply -border-l -border-b-0 -border-solid;
   border-color: var(--nav-border-color);
 }
 .nav-stacked.nav-secondary > .active > a::after {
@@ -87,7 +87,7 @@
 }
 
 .nav-justified > li {
-  @apply -w-full;
+  @apply -grow	;
 }
 
 .nav-heading {
@@ -95,5 +95,5 @@
   color: var(--nav-heading-color);
 }
 .nav-primary > .nav-heading {
-  background-color:var(--nav-heading-bg-color);
+  background-color: var(--nav-heading-bg-color);
 }
