@@ -9,14 +9,14 @@
 ## Label Sizes
 
 ```html:example: -flex -gap-3 -items-end
-<span class="label lg">Large Label</span>
+<span class="label size-lg">Large Label</span>
 <span class="label">Normal Label</span>
-<span class="label sm">Small Label</span>
+<span class="label size-sm">Small Label</span>
 ```
 
 ## Label Styles
 
-```html:example: -flex -gap-3 -overflow-x-auto
+```html:example: -flex -gap-3 -flex-wrap
 <span class="label primary">Primary</span>
 <span class="label secondary">secondary</span>
 <span class="label success">success</span>
@@ -36,7 +36,7 @@
 <span class="label canvas">canvas</span>
 <span class="label ghost">ghost</span>
 ```
-```html:example: -flex -gap-3  overflow-x-auto
+```html:example: -flex -gap-3 -flex-wrap
 <span class="label primary-outline">Primary</span>
 <span class="label secondary-outline">secondary</span>
 <span class="label success-outline">success</span>

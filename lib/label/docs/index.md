@@ -211,15 +211,15 @@
 除了默认大小，标签还提供了额外的 2 种预设尺寸。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <span class="label sm">小标签</span>
+  <span class="label size-sm">小标签</span>
   <span class="label">普通大小</span>
-  <span class="label lg">大标签</span>
+  <span class="label size-lg">大标签</span>
 </Example>
 
 ```html
-<span class="label sm">小标签</span>
+<span class="label size-sm">小标签</span>
 <span class="label">普通大小</span>
-<span class="label lg">大标签</span>
+<span class="label size-lg">大标签</span>
 ```
 ## 圆点标签
 
@@ -271,5 +271,16 @@
 | ------------- |:-------------:| ----- |
 | `label`      | 实体类 | 元素作为标签组件 |
 | `label-dot`      | 修饰类 | 标签使用圆形外观 |
-| `sm`      | 修饰类      |   标签使用小号尺寸 |
-| `lg`      | 修饰类      |   标签使用大号尺寸 |
+| `size-sm`      | 修饰类      |   标签使用小号尺寸 |
+| `size-lg`      | 修饰类      |   标签使用大号尺寸 |
+
+## CSS 变量
+
+| 变量名称 | 变量含义 |
+|----------|----------|
+| --label-bg           | 标签背景色 |
+| --label-color        | 标签文字颜色 |
+| --label-border-color | 标签边框颜色 |
+| --label-radius       | 标签圆角     |
+
+
