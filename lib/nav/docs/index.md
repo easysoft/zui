@@ -30,7 +30,7 @@
 
 ### 简单导航
 <Example>
-<ul class="nav -simple">
+<ul class="nav nav-simple">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -41,7 +41,7 @@
 </Example>
 
 ```html
-<ul class="nav -simple">
+<ul class="nav nav-simple">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -149,7 +149,7 @@
 
 
 ```html
-<ul class="nav -stacked">
+<ul class="nav nav-stacked">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -188,7 +188,7 @@
 ## 圆点导航
 
 <Example>
-<ul class="nav nav-circle">
+<ul class="nav nav-pills">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
@@ -200,7 +200,7 @@
 
 
 ```html
-<ul class="nav nav-justified">
+<ul class="nav nav-pills">
   <li class="active"><a href="###">首页</a></li>
   <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
   <li><a href="###">项目 </a></li>
@@ -225,9 +225,9 @@
 
 
 ```html
-<ul class="nav nav-justified">
+<ul class="nav">
   <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
+  <li class="-disabled"><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
   <li>
     <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
@@ -251,9 +251,10 @@
 
 
 ```html
-<ul class="nav nav-justified">
+<ul class="nav">
+  <li class="nav-heading">这是一个标题</li>
   <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
+  <li><a href="###">动态 </a></li>
   <li><a href="###">项目 </a></li>
   <li>
     <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>

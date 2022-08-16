@@ -8,21 +8,21 @@
   @apply -block -whitespace-nowrap -px-3 -py-2 -text-fore;
   border-radius: var(--radius);
 }
-.nav > li > .active {
+.nav > .active > a {
   font-weight: 700;
 }
 
-.nav-simple > li > .active {
+.nav-simple > .active > a {
   color: var(--color-primary-500);
   background-color: var(--color-primary-100);
 }
 
-.nav-primary > li > .active {
+.nav-primary > .active > a {
   background-color: var(--color-primary-500);
   color: var(--color-font-nav)
 }
 
-.nav-secondary > li > .active::after {
+.nav-secondary > .active > a::after {
   content:"";
   @apply -border-solid -border-b -absolute -inset-0;
   border-color: var(--color-primary-500)
@@ -33,7 +33,7 @@
   @apply -border-solid -border-b -absolute -inset-0;
   border-color: var(--color-gray-300)
 }
-.nav-tabs > li > .active::after {
+.nav-tabs > .active > a::after {
   content:"";
   @apply -border-solid -border-t -border-r -border-l -border-b-0 -absolute -inset-0;
 }
@@ -55,7 +55,7 @@
 .nav-stacked > li {
   display: block;
 }
-.nav-stacked.nav-primary > li > a + a {
+.nav-stacked.nav-primary > li + li > a {
   border: unset;
   @apply -border -border-solid -border-t-0;
   border-color: var(--color-border-nav);
