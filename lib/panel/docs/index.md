@@ -26,55 +26,55 @@
 
 除默认主体外，另外提供6种主体样式。
 
-<Example class="flex flex-wrap gap-4" >
-  <div class="panel panel-primary">
+<Example class="space-y-4" >
+  <div class="panel primary">
     <div class="panel-heading">panel-primary</div>
     <div class="panel-body">面板内容</div>
   </div>
-  <div class="panel panel-secondary">
+  <div class="panel secondary">
     <div class="panel-heading">panel-secondary</div>
     <div class="panel-body">面板内容</div>
   </div>
-  <div class="panel panel-warning">
+  <div class="panel warning">
     <div class="panel-heading">panel-warning</div>
     <div class="panel-body">面板内容</div>
   </div>
-  <div class="panel panel-danger">
+  <div class="panel danger">
     <div class="panel-heading">panel-danger</div>
     <div class="panel-body">面板内容</div>
   </div>
-  <div class="panel panel-important">
+  <div class="panel important">
     <div class="panel-heading">panel-important</div>
     <div class="panel-body">面板内容</div>
   </div>
-  <div class="panel panel-special">
+  <div class="panel special">
     <div class="panel-heading">panel-special</div>
     <div class="panel-body">面板内容</div>
   </div>
 </Example>
 
 ```html
-<div class="panel panel-primary">
+<div class="panel primary">
   <div class="panel-heading">panel-primary</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-secondary">
+<div class="panel secondary">
   <div class="panel-heading">panel-secondary</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-warning">
+<div class="panel warning">
   <div class="panel-heading">panel-warning</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-danger">
+<div class="panel danger">
   <div class="panel-heading">panel-danger</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-important">
+<div class="panel important">
   <div class="panel-heading">panel-important</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-special">
+<div class="panel special">
   <div class="panel-heading">panel-special</div>
   <div class="panel-body">面板内容</div>
 </div>
@@ -273,13 +273,13 @@
 <Example>
   <div class="panel mb-2">
     <div class="panel-heading">
-      <strong>标题</strong>
+      <strong>标题加粗</strong>
     </div>
     <div class="panel-body">内容</div>
   </div>
   <div class="panel">
     <div class="panel-heading flex justify-between items-center">
-      <div>标题</div>
+      <label>标题</label>
       <button type="button" class="btn">按钮</button>
     </div>
     <div class="panel-body">内容</div>
@@ -289,7 +289,7 @@
 ```html
 <div class="panel">
   <div class="panel-heading">
-    <strong>标题</strong>
+    <strong>标题加粗</strong>
   </div>
   <div class="panel-body">内容</div>
 </div>
@@ -308,4 +308,17 @@
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
 | `panel`      | 实体类 | 元素作为面板组件 |
-| `panel-group`| 实体类 | 元素作为面板组容器 |
+
+
+## CSS 变量
+
+面板提供了如下 CSS 变量：
+
+| 变量名称                | 变量含义     |
+| ------------------------|--------------|
+| `--panel-heading-bg`    | 标题背景色   |
+| `--panel-heading-color` | 标题文字颜色 |
+| `--panel-footer-bg`     | 脚注背景色   |
+| `--panel-border-color`  | 面板边框颜色 |
+
+

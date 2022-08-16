@@ -33,29 +33,24 @@
 <div class="panel primary">
   <div class="panel-heading">panel-primary</div>
   <div class="panel-body">面板内容</div>
-  <div class="panel-footer">面板内容</div>
 </div>
-<div class="panel panel-primary">
-  <div class="panel-heading">panel-primary</div>
-  <div class="panel-body">面板内容</div>
-</div>
-<div class="panel panel-secondary">
+<div class="panel secondary">
   <div class="panel-heading">panel-secondary</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-warning">
+<div class="panel warning">
   <div class="panel-heading">panel-warning</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-danger">
+<div class="panel danger">
   <div class="panel-heading">panel-danger</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-important">
+<div class="panel important">
   <div class="panel-heading">panel-important</div>
   <div class="panel-body">面板内容</div>
 </div>
-<div class="panel panel-special">
+<div class="panel special">
   <div class="panel-heading">panel-special</div>
   <div class="panel-body">面板内容</div>
 </div>

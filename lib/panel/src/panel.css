@@ -1,11 +1,11 @@
 .panel {
-  @apply -w-full -shadow-sm -rounded -overflow-hidden;
-  border: 1px solid var(--panel-theme-color);
+  @apply -shadow-sm -rounded -overflow-hidden;
+  border: 1px solid var(--panel-border-color);
 }
 
 .panel >  .panel-heading {
   @apply -px-4 -py-2;
-  background-color: var(--panel-theme-color);
+  background-color: var(--panel-heading-bg);
   color: var(--panel-heading-color);
 }
 
@@ -15,67 +15,7 @@
 
 .panel > .panel-footer {
   @apply -px-4 -py-2;
-  background-color: var(--panel-theme-color);
+  background-color: var(--panel-footer-bg);
 }
 
-.panel-group {
-  @apply -w-full -gap-3;
-}
 
-.panel-group > .panel + .panel {
-  @apply -mt-4;
-}
-
-.panel-primary {
-  border-color: rgba(var(--color-primary-500-rgb), 1);
-}
-
-.panel-primary > .panel-heading {
-  background-color: rgba(var(--color-primary-500-rgb), 1);
-  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
-}
-
-.panel-secondary {
-  border-color: rgba(var(--color-secondary-500-rgb), 1);
-}
-
-.panel-secondary > .panel-heading {
-  background-color: rgba(var(--color-secondary-500-rgb), 1);
-  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
-}
-
-.panel-warning {
-  border-color: rgba(var(--color-warning-500-rgb), 1);
-}
-
-.panel-warning > .panel-heading {
-  background-color: rgba(var(--color-warning-500-rgb), 1);
-  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
-}
-
-.panel-danger {
-  border-color: rgba(var(--color-danger-500-rgb), 1);
-}
-
-.panel-danger > .panel-heading {
-  background-color: rgba(var(--color-danger-500-rgb), 1);
-  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
-}
-
-.panel-important {
-  border-color: rgba(var(--color-important-500-rgb), 1);
-}
-
-.panel-important > .panel-heading {
-  background-color: rgba(var(--color-important-500-rgb), 1);
-  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
-}
-
-.panel-special {
-  border-color: rgba(var(--color-special-500-rgb), 1);
-}
-
-.panel-special > .panel-heading {
-  background-color: rgba(var(--color-special-500-rgb), 1);
-  color: rgba(var(--color-white-rgb), var(--tw-text-opacity));
-}

@@ -1,0 +1,18 @@
+.panel.primary > .panel-heading,
+.panel.secondary > .panel-heading,
+.panel.warning > .panel-heading,
+.panel.danger > .panel-heading,
+.panel.important > .panel-heading,
+.panel.special > .panel-heading {
+  background: inherit;
+  color: inherit;
+}
+.panel.primary > .panel-body,
+.panel.secondary > .panel-body,
+.panel.warning > .panel-body,
+.panel.danger > .panel-body,
+.panel.important > .panel-body,
+.panel.special > .panel-body {
+  background: var(--color-canvas);
+  color: var(--color-fore);
+}
