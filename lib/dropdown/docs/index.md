@@ -366,3 +366,14 @@
 | `dropup`           | 修饰类 | 下拉框浮动方向为上方 |
 | `menu-align-right` | 修饰类 | 下拉框展开后右侧对齐 |
 | `expand-left`      | 修饰类 |  子菜单左侧显示 |
+
+## CSS 变量
+
+| 变量名称 | 变量含义 |
+| -------- | ---------|
+| --dropmenu-radius       | 下拉菜单圆角 |
+| --dropmenu-border-color | 下拉菜单边框颜色 |
+| --dropmenu-bg           | 下拉菜单背景颜色 |
+| --dropmenu-active-color | 下拉菜单条目激活状态文字颜色 |
+| --dropmenu-active-bg    | 下拉菜单条目激活状态背景颜色 |
+
