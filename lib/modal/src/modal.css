@@ -90,3 +90,17 @@
     @apply -opacity-0;
   }
 }
+
+.modal-open .VPNav {
+    padding-right: 17px;
+}
+
+@media (min-width: 1440px) {
+    .modal-open .VPSidebar {
+        padding-left: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 - 9px);
+        width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 41px);
+    }
+    .modal-open .VPNavBar.has-sidebar .content {
+        margin-left: 17px;
+    }
+}

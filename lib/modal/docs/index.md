@@ -433,3 +433,17 @@ data-target="#autoCloseModal">点击打开对话框</button>
 | `size-lg`      | 修饰类      |   对话框使用大号尺寸 |
 | `size-fullscreen`      | 修饰类      |   对话框使用全屏尺寸 |
 
+## CSS 变量
+
+对话框提供了如下 CSS 变量，可进行全局修改。
+
+| CSS 变量名        | 作用           |
+| ------------- |:------------- |
+| `--modal-radius`      | 对话框默认圆角大小 |
+| `--modal-inner-padding`      | 对话框内边距 |
+| `--modal-bg-color`      | 对话框遮挡层颜色 |
+| `--modal-border-color`      | 对话框边框颜色 |
+| `--modal-sm`      | 对话框小号尺寸宽度 |
+| `--modal-base`      | 对话框默认宽度 |
+| `--modal-lg`      | 对话框大号尺寸宽度 |
+| `--modal-z-index`      | 对话框层级大小 |
