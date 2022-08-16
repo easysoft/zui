@@ -162,39 +162,39 @@
 <button type="button" class="btn dark-pale">Dark</button>
 ```
 
-搭配 CSS 工具类 `-border-*` 还可以为浅色按钮添加描边。
+搭配 CSS 工具类 `bd-*` 还可以为浅色按钮添加描边。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <button type="button" class="btn primary-pale -border-primary">Primary</button>
-  <button type="button" class="btn secondary-pale -border-secondary">Secondary</button>
-  <button type="button" class="btn success-pale -border-success">Success</button>
-  <button type="button" class="btn warning-pale -border-warning">Warning</button>
-  <button type="button" class="btn danger-pale -border-danger">Danger</button>
-  <button type="button" class="btn important-pale -border-important">Important</button>
-  <button type="button" class="btn special-pale -border-special">Special</button>
-  <button type="button" class="btn lighter-pale -border-lighter">Lighter</button>
-  <button type="button" class="btn light-pale -border-light">Light</button>
-  <button type="button" class="btn gray-pale -border-gray">Gray</button>
-  <button type="button" class="btn dark-pale -border-dark">Dark</button>
+  <button type="button" class="btn primary-pale bd-primary">Primary</button>
+  <button type="button" class="btn secondary-pale bd-secondary">Secondary</button>
+  <button type="button" class="btn success-pale bd-success">Success</button>
+  <button type="button" class="btn warning-pale bd-warning">Warning</button>
+  <button type="button" class="btn danger-pale bd-danger">Danger</button>
+  <button type="button" class="btn important-pale bd-important">Important</button>
+  <button type="button" class="btn special-pale bd-special">Special</button>
+  <button type="button" class="btn lighter-pale bd-lighter">Lighter</button>
+  <button type="button" class="btn light-pale bd-light">Light</button>
+  <button type="button" class="btn gray-pale bd-gray">Gray</button>
+  <button type="button" class="btn dark-pale bd-dark">Dark</button>
 </Example>
 
 ```html
-<button type="button" class="btn primary-pale -border-primary">Primary</button>
-<button type="button" class="btn secondary-pale -border-secondary">Secondary</button>
-<button type="button" class="btn success-pale -border-success">Success</button>
-<button type="button" class="btn warning-pale -border-warning">Warning</button>
-<button type="button" class="btn danger-pale -border-danger">Danger</button>
-<button type="button" class="btn important-pale -border-important">Important</button>
-<button type="button" class="btn special-pale -border-special">Special</button>
-<button type="button" class="btn lighter-pale -border-lighter">Lighter</button>
-<button type="button" class="btn light-pale -border-light">Light</button>
-<button type="button" class="btn gray-pale -border-gray">Gray</button>
-<button type="button" class="btn dark-pale -border-dark">Dark</button>
+<button type="button" class="btn primary-pale bd-primary">Primary</button>
+<button type="button" class="btn secondary-pale bd-secondary">Secondary</button>
+<button type="button" class="btn success-pale bd-success">Success</button>
+<button type="button" class="btn warning-pale bd-warning">Warning</button>
+<button type="button" class="btn danger-pale bd-danger">Danger</button>
+<button type="button" class="btn important-pale bd-important">Important</button>
+<button type="button" class="btn special-pale bd-special">Special</button>
+<button type="button" class="btn lighter-pale bd-lighter">Lighter</button>
+<button type="button" class="btn light-pale bd-light">Light</button>
+<button type="button" class="btn gray-pale bd-gray">Gray</button>
+<button type="button" class="btn dark-pale bd-dark">Dark</button>
 ```
 
 ### 按钮文本颜色
 
-搭配 CSS 工具类 `-text-*` 修改按钮文本颜色。
+搭配 CSS 工具类 `text-*` 修改按钮文本颜色。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
   <button type="button" class="btn text-primary">Primary</button>
@@ -264,43 +264,43 @@
 
 ### 按钮边框颜色
 
-搭配 CSS 工具类 `-border-*` 修改按钮文本颜色。
+搭配 CSS 工具类 `bd-*` 修改按钮文本颜色。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <button type="button" class="btn border-primary">Primary</button>
-  <button type="button" class="btn border-secondary">Secondary</button>
-  <button type="button" class="btn border-success">Success</button>
-  <button type="button" class="btn border-warning">Warning</button>
-  <button type="button" class="btn border-danger">Danger</button>
-  <button type="button" class="btn border-important">Important</button>
-  <button type="button" class="btn border-special">Special</button>
-  <button type="button" class="btn border-lighter">Lighter</button>
-  <button type="button" class="btn border-light">Light</button>
-  <button type="button" class="btn border-gray">Gray</button>
-  <button type="button" class="btn border-dark">Dark</button>
-  <button type="button" class="btn border-darker">Darker</button>
-  <button type="button" class="btn border-black">Black</button>
+  <button type="button" class="btn bd-primary">Primary</button>
+  <button type="button" class="btn bd-secondary">Secondary</button>
+  <button type="button" class="btn bd-success">Success</button>
+  <button type="button" class="btn bd-warning">Warning</button>
+  <button type="button" class="btn bd-danger">Danger</button>
+  <button type="button" class="btn bd-important">Important</button>
+  <button type="button" class="btn bd-special">Special</button>
+  <button type="button" class="btn bd-lighter">Lighter</button>
+  <button type="button" class="btn bd-light">Light</button>
+  <button type="button" class="btn bd-gray">Gray</button>
+  <button type="button" class="btn bd-dark">Dark</button>
+  <button type="button" class="btn bd-darker">Darker</button>
+  <button type="button" class="btn bd-black">Black</button>
 </Example>
 
 ```html
-<button type="button" class="btn border-primary">Primary</button>
-<button type="button" class="btn border-secondary">Secondary</button>
-<button type="button" class="btn border-success">Success</button>
-<button type="button" class="btn border-warning">Warning</button>
-<button type="button" class="btn border-danger">Danger</button>
-<button type="button" class="btn border-important">Important</button>
-<button type="button" class="btn border-special">Special</button>
-<button type="button" class="btn border-lighter">Lighter</button>
-<button type="button" class="btn border-light">Light</button>
-<button type="button" class="btn border-gray">Gray</button>
-<button type="button" class="btn border-dark">Dark</button>
-<button type="button" class="btn border-darker">Darker</button>
-<button type="button" class="btn border-black">Black</button>
+<button type="button" class="btn bd-primary">Primary</button>
+<button type="button" class="btn bd-secondary">Secondary</button>
+<button type="button" class="btn bd-success">Success</button>
+<button type="button" class="btn bd-warning">Warning</button>
+<button type="button" class="btn bd-danger">Danger</button>
+<button type="button" class="btn bd-important">Important</button>
+<button type="button" class="btn bd-special">Special</button>
+<button type="button" class="btn bd-lighter">Lighter</button>
+<button type="button" class="btn bd-light">Light</button>
+<button type="button" class="btn bd-gray">Gray</button>
+<button type="button" class="btn bd-dark">Dark</button>
+<button type="button" class="btn bd-darker">Darker</button>
+<button type="button" class="btn bd-black">Black</button>
 ```
 
 ### 按钮圆角
 
-搭配 CSS 工具类 `-rounded-*` 为按钮应用不同的圆角样式。
+搭配 CSS 工具类 `rounded-*` 为按钮应用不同的圆角样式。
 
 <Example class="flex gap-4 flex-wrap items-end">
   <button type="button" class="btn rounded-none">无圆角</button>
@@ -324,7 +324,7 @@
 
 ### 按钮阴影效果
 
-搭配 CSS 工具类 `-shadow-*` 为按钮应用不同的阴影样式。
+搭配 CSS 工具类 `shadow-*` 为按钮应用不同的阴影样式。
 
 <Example class="flex gap-4 flex-wrap items-end">
   <button type="button" class="btn shadow-inner">内阴影</button>
@@ -368,7 +368,7 @@
 
 ## 正方形按钮
 
-通过修饰类 `-square` 可以让按钮获得正方形外观，通常作为图标按钮使用。
+通过修饰类 `square` 可以让按钮获得正方形外观，通常作为图标按钮使用。
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn square size-xs">XS</button>
@@ -388,7 +388,7 @@
 
 ## 圆形按钮
 
-当与修饰类 `circle` 与 `-square` 一起使用时则获得圆形按钮。
+当与修饰类 `circle` 与 `square` 一起使用时则获得圆形按钮。
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn square circle size-xs">XS</button>
@@ -408,7 +408,7 @@
 
 ## 禁用状态
 
-为按钮提供 `disabled="disabled"` 属性或 `-disabled` 修饰类来禁用按钮。被禁用的按钮将无法响应点击事件。
+为按钮提供 `disabled="disabled"` 属性或 `disabled` 修饰类来禁用按钮。被禁用的按钮将无法响应点击事件。
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn" disabled="disabled">被禁用的按钮</button>
@@ -422,7 +422,7 @@
 
 ## 加载中状态
 
-为按钮提供 `-loading` 修饰类来启用加载中状态。
+为按钮提供 `loading` 修饰类来启用加载中状态。
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn loading">加载中...</button>
