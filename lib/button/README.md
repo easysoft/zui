@@ -91,20 +91,20 @@
 ```
 
 ```html:example: -flex -gap-3  overflow-x-auto
-<button type="button" class="btn primary-pale border-primary">Primary</button>
-<button type="button" class="btn secondary-pale border-secondary">secondary</button>
-<button type="button" class="btn success-pale border-success">success</button>
-<button type="button" class="btn warning-pale border-warning">warning</button>
-<button type="button" class="btn danger-pale border-danger">danger</button>
-<button type="button" class="btn important-pale border-important">important</button>
-<button type="button" class="btn special-pale border-special">special</button>
-<button type="button" class="btn white-pale border-gray">white</button>
-<button type="button" class="btn lighter-pale border-gray">lighter</button>
-<button type="button" class="btn light-pale border-gray">light</button>
-<button type="button" class="btn gray-pale border-gray">gray</button>
-<button type="button" class="btn dark-pale border-dark">dark</button>
-<button type="button" class="btn darker-pale border-darker">darker</button>
-<button type="button" class="btn black-pale border-black">black</button>
+<button type="button" class="btn primary-pale bd-primary">Primary</button>
+<button type="button" class="btn secondary-pale bd-secondary">secondary</button>
+<button type="button" class="btn success-pale bd-success">success</button>
+<button type="button" class="btn warning-pale bd-warning">warning</button>
+<button type="button" class="btn danger-pale bd-danger">danger</button>
+<button type="button" class="btn important-pale bd-important">important</button>
+<button type="button" class="btn special-pale bd-special">special</button>
+<button type="button" class="btn white-pale bd-gray">white</button>
+<button type="button" class="btn lighter-pale bd-gray">lighter</button>
+<button type="button" class="btn light-pale bd-gray">light</button>
+<button type="button" class="btn gray-pale bd-gray">gray</button>
+<button type="button" class="btn dark-pale bd-dark">dark</button>
+<button type="button" class="btn darker-pale bd-darker">darker</button>
+<button type="button" class="btn black-pale bd-black">black</button>
 ```
 
 ```html:example: -flex -gap-3  overflow-x-auto
