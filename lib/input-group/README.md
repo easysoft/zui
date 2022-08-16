@@ -44,7 +44,7 @@
 ## 尺寸
 
 ```html:example: -flex -gap-3
-<div class="input-group lg">
+<div class="input-group size-lg">
   <span class="input-group-addon">前</span>
   <input type="text" class="form-control" placeholder="用户名">
 </div>
@@ -54,7 +54,7 @@
   <input type="text" class="form-control" placeholder="用户名">
 </div>
 
-<div class="input-group sm">
+<div class="input-group size-sm">
   <span class="input-group-addon">前</span>
   <input type="text" class="form-control" placeholder="用户名">
 </div>

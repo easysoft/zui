@@ -1,45 +1,50 @@
-.input-group{
-    @apply -flex -items-center;
+.input-group {
+  @apply -flex -items-center;
 }
 
 .input-group > .form-control {
   width: auto;
 }
+.input-group > .form-control:focus-within {
+  z-index: 1;
+}
 
-.input-group.sm>.form-control, .input-group.sm>.input-group-addon {
-    @apply -px-2 -h-6 -leading-6 -text-sm;
+.input-group.size-sm > .form-control, .input-group.size-sm > .input-group-addon {
+  @apply -px-2 -h-6 -leading-6 -text-sm;
 }
-.input-group.lg>.form-control, .input-group.lg>.input-group-addon {
-    @apply -px-4 -h-10 -leading-10 -text-lg;
+.input-group.size-lg > .form-control, .input-group.size-lg > .input-group-addon {
+  @apply -px-4 -h-10 -leading-10 -text-lg;
 }
-.input-group>.input-group-addon{
-    @apply -px-3 -h-8 -leading-8 -inline-block -rounded;
-    background-color: var(--addon-background);
-    color: var(--addon-color);
+.input-group > .input-group-addon {
+  @apply -px-3 -h-8 -leading-8 -inline-block -rounded;
+  background-color: var(--input-group-addon-bg);
+  color: var(--input-group-addon-color);
 }
-.input-group-btn{
-    @apply -flex;
+.input-group-btn {
+  @apply -flex;
 }
 .input-group .form-control:not(:first-child):not(:last-child),
 .input-group-addon:not(:first-child):not(:last-child),
-.input-group-btn:not(:first-child):not(:last-child) {
-    @apply -rounded-none;
+.input-group-btn:not(:first-child):not(:last-child) .btn {
+  @apply -rounded-none;
 }
-.input-group>.input-group-addon:first-child,
-.input-group>.form-control:first-child,
-.input-group-btn:last-child>.btn:not(:last-child){
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+.input-group > .input-group-addon:not(:last-child),
+.input-group > .form-control:not(:last-child),
+.input-group > .dropdown:not(:last-child) > .btn,
+.input-group-btn:not(:last-child) .btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
-.input-group>.input-group-addon:last-child,
-.input-group>.form-control:last-child,
-.dropdown:last-child>.btn,
-.input-group-btn:last-child>.btn:not(:last-child){
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+.input-group > .input-group-addon:not(:first-child),
+.input-group > .form-control:not(:first-child),
+.input-group .dropdown:not(:first-child) > .btn,
+.input-group-btn:not(:first-child) .btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
-.input-group>.form-control:not(:last-child),
-.input-group>.input-group-btn>.btn:not(:last-child){
-  @apply -border-r-0;
+.input-group > .form-control:not(:last-child),
+.input-group > .input-group-btn .btn:not(:last-child),
+.input-group > .dropdown > .btn:not(:last-child) {
+  @apply --mr-1;
 }
