@@ -10,34 +10,14 @@
 </div>
 ```
 
-## multiple btn-group
-
-```html:example: -flex -gap-3
-<div class="btn-toolbar">
-  <div class="btn-group">
-    <button type="button" class="btn">剪切</button>
-    <button type="button" class="btn">复制</button>
-    <button type="button" class="btn">粘贴</button>
-  </div>
-  <div class="btn-group">
-    <button type="button" class="btn">( $ _ $ )</button>
-    <button type="button" class="btn">O(∩_∩)O</button>
-    <button type="button" class="btn">（*＾-＾*）</button>
-  </div>
-  <div class="btn-group">
-    <button type="button" class="btn">登录</button>
-  </div>
-</div>
-```
-
 ## btn-group sizes
 ```html:example: -flex -gap-3
-<div class="btn-group xl">
+<div class="btn-group size-xl">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group lg">
+<div class="btn-group size-lg">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
@@ -47,12 +27,12 @@
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group sm">
+<div class="btn-group size-sm">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group xs">
+<div class="btn-group size-xs">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
@@ -63,48 +43,71 @@
 
 ```html:example: -flex -gap-3
 <div class="btn-group">
-  <button type="button" class="btn">Normal</button>
   <button type="button" class="btn primary">Primary</button>
-  <button type="button" class="btn primary-outline">Primary</button>
-  <button type="button" class="btn primary-pale">Primary</button>
-  <button type="button" class="btn text-primary">Primary</button>
+  <button type="button" class="btn primary">左</button>
+  <button type="button" class="btn primary">中</button>
+  <button type="button" class="btn primary">右</button>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn primary-outline">Outline</button>
+  <button type="button" class="btn primary-outline">左</button>
+  <button type="button" class="btn primary-outline">中</button>
+  <button type="button" class="btn primary-outline">右</button>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn primary-pale">Pale</button>
+  <button type="button" class="btn primary-pale">左</button>
+  <button type="button" class="btn primary-pale">中</button>
+  <button type="button" class="btn primary-pale">右</button>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn text-primary">Text Primary</button>
+  <button type="button" class="btn text-primary">左</button>
+  <button type="button" class="btn text-primary">中</button>
+  <button type="button" class="btn text-primary">右</button>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn bd-primary">Border Primary</button>
+  <button type="button" class="btn bd-primary">左</button>
+  <button type="button" class="btn bd-primary">中</button>
+  <button type="button" class="btn bd-primary">右</button>
 </div>
 ```
 
 ## btn-group radius
 
 ```html:example: -flex -gap-3
-<div class="btn-group group-rounded-none">
+<div class="btn-group rounded-none">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded-sm">
+<div class="btn-group rounded-sm">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded">
+<div class="btn-group rounded">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded-md">
+<div class="btn-group rounded-md">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded-lg">
+<div class="btn-group rounded-lg">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded-xl">
+<div class="btn-group rounded-xl">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-circle">
+<div class="btn-group circle">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>

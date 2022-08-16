@@ -22,10 +22,10 @@
 
 ## 多组按钮
 
-使用 `.btn-toolbar` 容器包含多个按钮组。
+使用CSS工具类 `flex` 搭配  `.space-*` 实现多组按钮效果。
 
 <Example>
-  <div class="btn-toolbar">
+  <div class="flex space-x-2">
     <div class="btn-group ">
       <button type="button" class="btn">剪切</button>
       <button type="button" class="btn">复制</button>
@@ -43,7 +43,7 @@
 </Example>
 
 ```html
-<div class="btn-toolbar">
+<div class="flex space-x-2">
   <div class="btn-group">
     <button type="button" class="btn">剪切</button>
     <button type="button" class="btn">复制</button>
@@ -55,8 +55,7 @@
     <button type="button" class="btn">（*＾-＾*）</button>
   </div>
   <div class="btn-group">
-    <button type="button" class="btn">上一页</button>
-    <button type="button" class="btn">下一页</button>
+    <button type="button" class="btn">登录</button>
   </div>
 </div>
 ```
@@ -66,12 +65,12 @@
 除了默认大小，按钮组还提供了额外的4中预设尺寸。
 
 <Example class="flex gap-4">
-  <div class="btn-group xl">
+  <div class="btn-group size-xl">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group lg">
+  <div class="btn-group size-lg">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
@@ -81,12 +80,12 @@
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group sm">
+  <div class="btn-group size-sm">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group xs">
+  <div class="btn-group size-xs">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
@@ -94,12 +93,12 @@
 </Example>
 
 ```html
-<div class="btn-group xl">
+<div class="btn-group size-xl">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group lg">
+<div class="btn-group size-lg">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
@@ -109,12 +108,12 @@
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group sm">
+<div class="btn-group size-sm">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group xs">
+<div class="btn-group size-xs">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
@@ -125,23 +124,69 @@
 
 在按钮上加修饰类，以实现不同的按钮外观显示。
 
-<Example>
-  <div class="btn-group">
-    <button type="button" class="btn">Normal</button>
-    <button type="button" class="btn primary">Primary</button>
-    <button type="button" class="btn primary-outline">Primary</button>
-    <button type="button" class="btn primary-pale">Primary</button>
-    <button type="button" class="btn text-primary">Primary</button>
-  </div>
+<Example class="flex flex-wrap gap-4">
+    <div class="btn-group">
+      <button type="button" class="btn primary">Primary</button>
+      <button type="button" class="btn primary">左</button>
+      <button type="button" class="btn primary">中</button>
+      <button type="button" class="btn primary">右</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn primary-outline">Outline</button>
+      <button type="button" class="btn primary-outline">左</button>
+      <button type="button" class="btn primary-outline">中</button>
+      <button type="button" class="btn primary-outline">右</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn primary-pale">Pale</button>
+      <button type="button" class="btn primary-pale">左</button>
+      <button type="button" class="btn primary-pale">中</button>
+      <button type="button" class="btn primary-pale">右</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn text-primary">Text Primary</button>
+      <button type="button" class="btn text-primary">左</button>
+      <button type="button" class="btn text-primary">中</button>
+      <button type="button" class="btn text-primary">右</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn bd-primary">Border Primary</button>
+      <button type="button" class="btn bd-primary">左</button>
+      <button type="button" class="btn bd-primary">中</button>
+      <button type="button" class="btn bd-primary">右</button>
+    </div>
 </Example>
 
 ```html
 <div class="btn-group">
-  <button type="button" class="btn">Normal</button>
   <button type="button" class="btn primary">Primary</button>
-  <button type="button" class="btn primary-outline">Primary</button>
-  <button type="button" class="btn primary-pale">Primary</button>
-  <button type="button" class="btn text-primary">Primary</button>
+  <button type="button" class="btn primary">左</button>
+  <button type="button" class="btn primary">中</button>
+  <button type="button" class="btn primary">右</button>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn primary-outline">Outline</button>
+  <button type="button" class="btn primary-outline">左</button>
+  <button type="button" class="btn primary-outline">中</button>
+  <button type="button" class="btn primary-outline">右</button>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn primary-pale">Pale</button>
+  <button type="button" class="btn primary-pale">左</button>
+  <button type="button" class="btn primary-pale">中</button>
+  <button type="button" class="btn primary-pale">右</button>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn text-primary">Text Primary</button>
+  <button type="button" class="btn text-primary">左</button>
+  <button type="button" class="btn text-primary">中</button>
+  <button type="button" class="btn text-primary">右</button>
+</div>
+<div class="btn-group">
+  <button type="button" class="btn bd-primary">Border Primary</button>
+  <button type="button" class="btn bd-primary">左</button>
+  <button type="button" class="btn bd-primary">中</button>
+  <button type="button" class="btn bd-primary">右</button>
 </div>
 ```
 
@@ -150,37 +195,37 @@
 提供以下几种预设圆角尺寸供选择。
 
 <Example class="flex gap-4 flex-wrap">
-  <div class="btn-group group-rounded-none">
+  <div class="btn-group rounded-none">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group group-rounded-sm">
+  <div class="btn-group rounded-sm">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group group-rounded">
+  <div class="btn-group rounded">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group group-rounded-md">
+  <div class="btn-group rounded-md">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group group-rounded-lg">
+  <div class="btn-group rounded-lg">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group group-rounded-xl">
+  <div class="btn-group rounded-xl">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
   </div>
-  <div class="btn-group group-circle">
+  <div class="btn-group circle">
     <button type="button" class="btn">左</button>
     <button type="button" class="btn">中</button>
     <button type="button" class="btn">右</button>
@@ -188,37 +233,37 @@
 </Example>
 
 ```html
-<div class="btn-group group-rounded-none">
+<div class="btn-group rounded-none">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded-sm">
+<div class="btn-group rounded-sm">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded">
+<div class="btn-group rounded">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded-md">
+<div class="btn-group rounded-md">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded-lg">
+<div class="btn-group rounded-lg">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-rounded-xl">
+<div class="btn-group rounded-xl">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
 </div>
-<div class="btn-group group-circle">
+<div class="btn-group circle">
   <button type="button" class="btn">左</button>
   <button type="button" class="btn">中</button>
   <button type="button" class="btn">右</button>
@@ -288,8 +333,8 @@
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
 | `btn-group`      | 实体类 | 元素作为按钮组组件 |
-| `btn-toolbar`    | 实体类 | 元素包含多个按钮组 |
-| `xs`             | 修饰类 | 按钮组使用超小号尺寸 |
-| `sm`             | 修饰类 | 按钮组使用小号尺寸 |
-| `lg`             | 修饰类 | 按钮组使用大号尺寸 |
-| `xl`             | 修饰类 | 按钮组使用超大号尺寸 |
+| `size-xs`        | 修饰类 | 按钮组使用超小号尺寸 |
+| `size-sm`        | 修饰类 | 按钮组使用小号尺寸 |
+| `size-lg`        | 修饰类 | 按钮组使用大号尺寸 |
+| `size-xl`        | 修饰类 | 按钮组使用超大号尺寸 |
+
