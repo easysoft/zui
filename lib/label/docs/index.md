@@ -140,34 +140,34 @@
 <span class="label dark-pale">Dark</span>
 ```
 
-搭配 CSS 工具类 `border-*` 还可以为浅色标签添加描边。
+搭配 CSS 工具类 `bd-*` 还可以为浅色标签添加描边。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <span class="label primary-pale border-primary">Primary</span>
-  <span class="label secondary-pale border-secondary">Secondary</span>
-  <span class="label success-pale border-success">Success</span>
-  <span class="label warning-pale border-warning">Warning</span>
-  <span class="label danger-pale border-danger">Danger</span>
-  <span class="label important-pale border-important">Important</span>
-  <span class="label special-pale border-special">Special</span>
-  <span class="label lighter-pale border-lighter">Lighter</span>
-  <span class="label light-pale border-light">Light</span>
-  <span class="label gray-pale border-gray">Gray</span>
-  <span class="label dark-pale border-dark">Dark</span>
+  <span class="label primary-pale bd-primary">Primary</span>
+  <span class="label secondary-pale bd-secondary">Secondary</span>
+  <span class="label success-pale bd-success">Success</span>
+  <span class="label warning-pale bd-warning">Warning</span>
+  <span class="label danger-pale bd-danger">Danger</span>
+  <span class="label important-pale bd-important">Important</span>
+  <span class="label special-pale bd-special">Special</span>
+  <span class="label lighter-pale bd-lighter">Lighter</span>
+  <span class="label light-pale bd-light">Light</span>
+  <span class="label gray-pale bd-gray">Gray</span>
+  <span class="label dark-pale bd-dark">Dark</span>
 </Example>
 
 ```html
-<span class="label primary-pale border-primary">Primary</span>
-<span class="label secondary-pale border-secondary">Secondary</span>
-<span class="label success-pale border-success">Success</span>
-<span class="label warning-pale border-warning">Warning</span>
-<span class="label danger-pale border-danger">Danger</span>
-<span class="label important-pale border-important">Important</span>
-<span class="label special-pale border-special">Special</span>
-<span class="label lighter-pale border-lighter">Lighter</span>
-<span class="label light-pale border-light">Light</span>
-<span class="label gray-pale border-gray">Gray</span>
-<span class="label dark-pale border-dark">Dark</span>
+<span class="label primary-pale bd-primary">Primary</span>
+<span class="label secondary-pale bd-secondary">Secondary</span>
+<span class="label success-pale bd-success">Success</span>
+<span class="label warning-pale bd-warning">Warning</span>
+<span class="label danger-pale bd-danger">Danger</span>
+<span class="label important-pale bd-important">Important</span>
+<span class="label special-pale bd-special">Special</span>
+<span class="label lighter-pale bd-lighter">Lighter</span>
+<span class="label light-pale bd-light">Light</span>
+<span class="label gray-pale bd-gray">Gray</span>
+<span class="label dark-pale bd-dark">Dark</span>
 ```
 
 ### 标签文本颜色

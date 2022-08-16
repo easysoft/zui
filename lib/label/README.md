@@ -72,17 +72,17 @@
 ```
 
 ```html:example: -flex -gap-3
-<span class="label primary-pale border-primary">Primary</span>
-<span class="label secondary-pale border-secondary">Secondary</span>
-<span class="label success-pale border-success">Success</span>
-<span class="label warning-pale border-warning">Warning</span>
-<span class="label danger-pale border-danger">Danger</span>
-<span class="label important-pale border-important">Important</span>
-<span class="label special-pale border-special">Special</span>
-<span class="label lighter-pale border-lighter">Lighter</span>
-<span class="label light-pale border-light">Light</span>
-<span class="label gray-pale border-gray">Gray</span>
-<span class="label dark-pale border-dark">Dark</span>
+<span class="label primary-pale bd-primary">Primary</span>
+<span class="label secondary-pale bd-secondary">Secondary</span>
+<span class="label success-pale bd-success">Success</span>
+<span class="label warning-pale bd-warning">Warning</span>
+<span class="label danger-pale bd-danger">Danger</span>
+<span class="label important-pale bd-important">Important</span>
+<span class="label special-pale bd-special">Special</span>
+<span class="label lighter-pale bd-lighter">Lighter</span>
+<span class="label light-pale bd-light">Light</span>
+<span class="label gray-pale bd-gray">Gray</span>
+<span class="label dark-pale bd-dark">Dark</span>
 
 ```
 
@@ -104,19 +104,19 @@
 ```
 
 ```html:example: -flex -gap-3
-<span class="label border-primary">Primary</span>
-<span class="label border-secondary">Secondary</span>
-<span class="label border-success">Success</span>
-<span class="label border-warning">Warning</span>
-<span class="label border-danger">Danger</span>
-<span class="label border-important">Important</span>
-<span class="label border-special">Special</span>
-<span class="label border-lighter">Lighter</span>
-<span class="label border-light">Light</span>
-<span class="label border-gray">Gray</span>
-<span class="label border-dark">Dark</span>
-<span class="label border-darker">Darker</span>
-<span class="label border-black">Black</span>
+<span class="label bd-primary">Primary</span>
+<span class="label bd-secondary">Secondary</span>
+<span class="label bd-success">Success</span>
+<span class="label bd-warning">Warning</span>
+<span class="label bd-danger">Danger</span>
+<span class="label bd-important">Important</span>
+<span class="label bd-special">Special</span>
+<span class="label bd-lighter">Lighter</span>
+<span class="label bd-light">Light</span>
+<span class="label bd-gray">Gray</span>
+<span class="label bd-dark">Dark</span>
+<span class="label bd-darker">Darker</span>
+<span class="label bd-black">Black</span>
 ```
 
 ```html:example: -flex -gap-3
