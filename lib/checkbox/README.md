@@ -96,7 +96,7 @@
 </label>
 ```
 
-## 高级外观
+### 高级外观
 
 ```html:example
 <div class="checkbox-primary"><input type="checkbox" id="primaryCheckbox1"><label for="primaryCheckbox1">未选中</label></div>
@@ -111,7 +111,7 @@
 <div class="radio-primary"><input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio4"><label for="primaryradio4">禁用</label></div>
 ```
 
-```html
+```html:example
    <div class="checkbox-primary"><label>未选中</label></div>
    <div class="checkbox-primary checked"><label>选中</label></div>
    <div class="radio-primary"><label>未选中</label></div>

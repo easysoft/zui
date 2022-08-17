@@ -1,22 +1,29 @@
-.checkbox {
-  @apply -py-2;
+.checkbox > label ,
+.radio > label {
+  @apply -relative -cursor-pointer -pl-5 ;
+}
+.checkbox > label > input,
+.radio > label > input {
+  @apply -absolute -mt-1 --ml-5 ;
+
 }
 
-.radio {
-  @apply -py-2;
-  cursor: pointer;
+.checkbox-inline,
+.radio-inline {
+  @apply -relative;
+}
+.checkbox-inline > input[type=checkbox],
+.radio-inline > input[type=radio] {
+  @apply -absolute -mt-1 --ml-4 ;
 }
 
-.checkbox-inline + .checkbox-inline {
-  @apply -ml-4;
-}
-
+.checkbox-inline + .checkbox-inline,
 .radio-inline + .radio-inline {
   @apply -ml-4;
 }
 
 .checkbox-primary + .checkbox-primary {
-  @apply -flex -mt-2 ; 
+  @apply -flex ; 
 }
 
 .checkbox-primary > label,
@@ -25,17 +32,20 @@
 }
 
 .checkbox-primary > label:before {
-  @apply -border-black -border-solid -border -mt-2 -absolute -w-3;
+  @apply -border-solid -border -mt-2 -absolute -w-3;
   aspect-ratio: 1 / 1;
   content:"";
   left:10px;
+  border-color: var(--color-primary-500) ;
 }
+
 .radio-primary > label:before {
-  @apply -border-black -border-solid -border -mt-2 -absolute -w-3;
+  @apply -border-solid -border -mt-2 -absolute -w-3;
   border-radius: 100%;
   aspect-ratio: 1 / 1;
   content:"";
   left:10px;
+  border-color: var(--color-primary-500) ;
 }
 
 .radio-primary.checked > label:before,
