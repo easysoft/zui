@@ -1,0 +1,16 @@
+{
+    "name": "@zui/icons",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "keywords": [
+        "css",
+        "zui:control"
+    ],
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/browser-helpers": "workspace:^0.0.1",
+        "@zui/utilities": "workspace:*"
+    }
+}
