@@ -75,6 +75,7 @@ export interface DTableCheckableMethods {
 export const plugin: DTablePlugin<DTableCheckableOptions, DTableCheckableState, DTableCheckableColSetting, DTableCheckableMethods> = {
     name: 'checkable',
     defaultOptions: {checkable: true},
+    when: options => !!options.checkable,
     onCreate() {
         this.toggleCheckRows = toggleCheckRows.bind(this);
         this.isRowChecked = isRowChecked.bind(this);
