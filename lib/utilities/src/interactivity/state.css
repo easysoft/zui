@@ -22,7 +22,7 @@
     }
     .-state:focus-visible::before {
         background: var(--state-focus-color);
-        @apply -ring -ring-focus -ring-offset-1;
+        @apply -ring -ring-focus;
     }
     .-state:active::before {
         background: var(--state-active-color);
