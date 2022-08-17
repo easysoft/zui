@@ -33,9 +33,6 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
     let result: CustomRenderResult = [
         childrenFromParent ?? rowData?.[col.name] as ComponentChildren,
     ];
-    if (col.setting.onRenderCell) {
-        result = col.setting.onRenderCell(result, rowID, col, rowData);
-    }
     if (onRenderCell) {
         result = onRenderCell(result, rowID, col, rowData);
     }

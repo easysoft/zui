@@ -29,7 +29,8 @@ export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTab
     colTypes?: Record<string, ColTypeInfo<ColSetting & C> | ColTypeModifier<ColSetting & C>>;
     beforeLayout?: (this: PluginTable, options: Options) => (Options | undefined);
     onLayout?: (this: PluginTable, layout: DTableLayout) => (DTableLayout | undefined);
-    onRenderCell?: (this: PluginTable, result: CustomRenderResult, rowID: string | number, col: ColInfo<ColSetting & C>, rowData?: RowData) => CustomRenderResult;
+    onRenderHeaderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: ColInfo<ColSetting & C>) => CustomRenderResult;
+    onRenderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: ColInfo<ColSetting & C>, rowData?: RowData) => CustomRenderResult;
     onRenderRow?: (this: PluginTable, rowProps: RowProps, rowInfo: RowInfo) => RowProps;
     onRenderHeaderRow?: (this: PluginTable, rowProps: RowProps) => RowProps;
     afterRender?: (this: PluginTable) => void;

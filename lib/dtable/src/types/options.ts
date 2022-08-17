@@ -37,6 +37,7 @@ export interface DTableOptions {
     onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | undefined);
     onScroll?: (this: DTable, scrollPos: number, type: 'vert' | 'horz') => void;
     onRenderCell?: CellRenderCallback;
+    onRenderHeaderCell?: CellRenderCallback;
     onRenderRow?: (this: DTable, rowProps: RowProps, rowInfo: RowInfo) => RowProps;
     onRenderHeaderRow?: (this: DTable, rowProps: RowProps) => RowProps;
     afterRender?: (this: DTable) => void;

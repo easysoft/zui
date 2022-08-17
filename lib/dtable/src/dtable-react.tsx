@@ -522,13 +522,17 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return rowProps;
     };
 
-    _handleRenderCell = (result: CustomRenderResult, rowID: string | number, col: ColInfo, rowData?: RowData) : CustomRenderResult => {
-        if (this.#options.onRenderCell) {
-            result = this.#options.onRenderCell.call(this, result, rowID, col, rowData);
+    _handleRenderCell = (result: CustomRenderResult, rowID: RowID, col: ColInfo, rowData?: RowData) : CustomRenderResult => {
+        const renderCallbackName = rowID === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
+        if (col.setting[renderCallbackName]) {
+            result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, rowID, col, rowData);
+        }
+        if (this.#options[renderCallbackName]) {
+            result = (this.#options[renderCallbackName] as CellRenderCallback).call(this, result, rowID, col, rowData);
         }
         this.#plugins.forEach(plugin => {
-            if (plugin.onRenderCell) {
-                result = plugin.onRenderCell.call(this, result, rowID, col, rowData);
+            if (plugin[renderCallbackName]) {
+                result = (plugin[renderCallbackName] as CellRenderCallback).call(this, result, rowID, col, rowData);
             }
         });
         return result;

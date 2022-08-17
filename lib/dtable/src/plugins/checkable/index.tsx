@@ -82,8 +82,18 @@ export const plugin: DTablePlugin<DTableCheckableOptions, DTableCheckableState, 
     },
     onRenderCell(result: CustomRenderResult, rowID: RowID, col: ColInfo): CustomRenderResult {
         if (col.setting.checkbox) {
-            const isHeader = rowID === 'HEADER';
-            const checked = isHeader ? this.isAllRowChecked() : this.isRowChecked(rowID);
+            const checked = this.isRowChecked(rowID);
+            const checkbox = (
+                <input type="checkbox" checked={checked} />
+            );
+            result.unshift(checkbox);
+            result.push({className: 'has-checkbox'});
+        }
+        return result;
+    },
+    onRenderHeaderCell(result: CustomRenderResult, rowID: RowID, col: ColInfo) {
+        if (col.setting.checkbox) {
+            const checked = this.isAllRowChecked();
             const checkbox = (
                 <input type="checkbox" checked={checked} />
             );
