@@ -1,4 +1,4 @@
 :root {
-    --avatar-radius: var(--radius);
+    --avatar-radius: 12.5%;
     --avatar-bg:     var(--color-surface);
 }
