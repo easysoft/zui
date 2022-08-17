@@ -4,6 +4,12 @@
     border-color: var(--form-control-border-color);
 }
 
+.form-control:focus-within {
+    @apply -border -outline-none;
+    border-color: var(--form-control-focus-border-color);
+    z-index: 2;
+}
+
 .form-control::placeholder {
     color: var(--form-comtrol-placeholder-color);
 }
@@ -15,12 +21,16 @@
     @apply -text-lg -h-10 -px-4;
 }
 
-.form-control:focus{
-    @apply -border -outline-none;
-    border-color: var(--form-control-focus-border-color);
-}
 textarea.form-control {
     @apply -align-top -resize-y -h-auto -min-h-[32px];
+}
+
+select.form-control[multiple] {
+    @apply -h-auto;
+}
+select.form-control[multiple] > option:checked {
+    color: canvas;
+    background-color: var(--color-young-400);
 }
 
 .has-success > .form-control {
