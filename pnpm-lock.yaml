@@ -23,6 +23,7 @@ importers:
       '@zui/dtable': workspace:0.0.1
       '@zui/form': workspace:0.0.1
       '@zui/helpers': workspace:0.0.1
+      '@zui/icons': workspace:0.0.1
       '@zui/input': workspace:0.0.1
       '@zui/input-group': workspace:0.0.1
       '@zui/label': workspace:0.0.1
@@ -73,6 +74,7 @@ importers:
       '@zui/dtable': link:lib/dtable
       '@zui/form': link:lib/form
       '@zui/helpers': link:lib/helpers
+      '@zui/icons': link:lib/icons
       '@zui/input': link:lib/input
       '@zui/input-group': link:lib/input-group
       '@zui/label': link:lib/label
