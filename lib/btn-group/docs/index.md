@@ -187,6 +187,18 @@
 
 <Example class="flex gap-4">
   <div class="btn-group">
+    <button type="button" class="btn">创建</button>
+    <div class="dropdown">
+      <button type="button" class="btn" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href>快速创建</a></li>
+        <li><a href>批量创建</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="btn-group">
     <button type="button" class="btn">复制</button>
     <button type="button" class="btn">粘贴</button>
     <div class="dropdown">
@@ -202,6 +214,18 @@
 </Example>
 
 ```html
+<div class="btn-group">
+  <button type="button" class="btn">创建</button>
+  <div class="dropdown">
+    <button type="button" class="btn" data-toggle="dropdown">
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href>快速创建</a></li>
+      <li><a href>批量创建</a></li>
+    </ul>
+  </div>
+</div>
 <div class="btn-group">
   <button type="button" class="btn">复制</button>
   <button type="button" class="btn">粘贴</button>
