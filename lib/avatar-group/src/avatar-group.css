@@ -4,18 +4,18 @@
 .avatar-group > .avatar {
   box-shadow: 0 0 0 1px var(--color-canvas);
 }
-.avatar-group > .avatar  + .avatar  {
+.avatar-group > * + * {
   @apply --ml-4;
 }
-.avatar-group.size-xs > .avatar  + .avatar {
+.avatar-group.size-xs > * + * {
   @apply --ml-3;
 }
-.avatar-group.size-sm > .avatar  + .avatar {
+.avatar-group.size-sm > * + * {
   @apply --ml-3.5;
 }
-.avatar-group.size-lg > .avatar  + .avatar {
+.avatar-group.size-lg > * + * {
   @apply --ml-5;
 }
-.avatar-group.size-xl > .avatar  + .avatar {
+.avatar-group.size-xl > * + * {
   @apply --ml-6;
 }
