@@ -1,60 +1,43 @@
 .table {
-  @apply -w-full -border;
+  @apply -w-full;
   border-color: var(--table-border-color);
 }
 
-.table > thead > tr {
-  @apply -bg-gray-400 -border-b;
-  background-color: var(--color-surface);
+.table > thead {
+  background-color: var(--table-head-bg);
 }
-.table > tbody > tr {
+.table > * > tr {
   @apply -border-b;
-  border-color: var(--table-border-color);
 }
 
-.table > thead > tr > th,
-.table > tbody > tr > td {
-  @apply -px-4 -py-2 -text-left ;
+.table > * > tr > * {
+  @apply -px-4 -py-2 -text-left;
 }
 
 .table-striped > tbody > tr:nth-child(even) {
   background: var(--table-striped-color);
 }
 
-.table-row-hover > tbody > tr:hover > td {
-  @apply -bg-opacity-50;
+.table-hover > tbody > tr:hover > * {
   background: var(--table-hover-color);
 }
 
-.table-bordered > thead > tr > th,
-.table-bordered > tbody > tr > td,
-.table-bordered > thead > tr > td,
-.table-bordered > tbody > tr > th {
+.table.bordered > * > tr > *  {
   @apply -border;
-  border-color: var(--table-border-color);
 }
 
-.table-borderless > thead > tr > th,
-.table-borderless > tbody > tr > td,
-.table-borderless > thead > tr > td,
-.table-borderless > tbody > tr > th,
-.table-borderless > thead > tr,
-.table-borderless > tbody > tr,
-.table-borderless {
-  @apply -border-0;
+.table.borderless > * > tr,
+.table.borderless > * > tr > * {
+  @apply -border-none;
 }
 
-.table-condensed > thead > tr > th ,
-.table-condensed > tbody > tr > td {
-  @apply -px-0;
+.condensed > * > tr > * {
+  @apply -px-3 -py-1.5;
 }
 
 .table-fixed {
   table-layout: fixed;
 }
-
-.talbe-fixed > thead > tr > th,
-.table-fixed > tbody > tr > td,
-.table-fixed > tbody > tr > th {
+.table-fixed > * > tr > * {
   @apply -overflow-hidden -whitespace-nowrap;
 }

@@ -104,8 +104,8 @@ const purple = {
 
 /** gray - 灰色 */
 const gray = {
-    50: '#fcfdfe',
-    100: '#f4f5f7',
+    50: '#f9f9f9',
+    100: '#f5f5f5',
     200: '#edeef2',
     300: '#e3e4e9',
     400: '#e6eaf1',

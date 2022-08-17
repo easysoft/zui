@@ -68,6 +68,9 @@ const link = shades.young[500];
 /** 链接（hover） */
 const linkHover = shades.young[600];
 
+/** Border */
+const border = shades.zinc[300];
+
 module.exports = {
     ...shades,
 
@@ -92,4 +95,5 @@ module.exports = {
     focus,
     link,
     'link-hover': linkHover,
+    border,
 };

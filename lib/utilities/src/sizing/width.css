@@ -65,3 +65,5 @@
 .w-min    {@apply -w-min;}
 .w-max    {@apply -w-max;}
 .w-fit    {@apply -w-fit;}
+
+.max-w-full {@apply -max-w-full;}
