@@ -855,7 +855,7 @@ function Ie(s) {
 function Pe(s, e) {
   return s.reduce((t, n) => {
     const { options: i, defaultOptions: o } = n;
-    return Object.assign(t, o, t), e && Object.assign(t, typeof i == "function" ? i(t) : i), t;
+    return o && (t = { ...o, ...t }), i && Object.assign(t, typeof i == "function" ? i(t) : i), t;
   }, e);
 }
 function Ct() {
