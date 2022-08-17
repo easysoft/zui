@@ -30,7 +30,7 @@
     }
     .-state[disabled]::before,
     .-state.disabled::before {
-        display: none;
+        @apply -hidden;
     }
 }
 
