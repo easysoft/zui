@@ -28,8 +28,8 @@ export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTab
     defaultOptions?: Partial<Options>;
     options?: ((options: Options) => Partial<Options>);
     colTypes?: Record<string, ColTypeInfo<ColSetting & C> | ColTypeModifier<ColSetting & C>>;
-    beforeLayout?: (this: PluginTable, options: Options) => (Options | undefined);
-    onLayout?: (this: PluginTable, layout: DTableLayout) => (DTableLayout | undefined);
+    beforeLayout?: (this: PluginTable, options: Options) => (Options | void);
+    onLayout?: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
     onRenderHeaderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: ColInfo<ColSetting & C>) => CustomRenderResult;
     onRenderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: ColInfo<ColSetting & C>, rowData?: RowData) => CustomRenderResult;
     onRenderRow?: (this: PluginTable, rowProps: RowProps, rowInfo: RowInfo) => RowProps;
@@ -45,5 +45,5 @@ export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTab
 
 export interface DTablePluginComsumer<O = {}> {
     plugin: DTablePlugin<O>,
-    (options: DTableOptions & O): DTablePlugin<O>;
+    (options?: DTableOptions & O): DTablePlugin<O>;
 }
