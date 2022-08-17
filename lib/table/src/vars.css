@@ -1,5 +1,6 @@
 :root {
-    --table-striped-color: var(--color-gray-100);
-    --table-hover-color: var(--color-gray-300);
-    --table-border-color: var(--color-gray-400);
+    --table-head-bg:       var(--color-surface);
+    --table-striped-color: var(--color-gray-50);
+    --table-hover-color:   rgba(var(--color-primary-500-rgb), .05);
+    --table-border-color:  var(--color-border);
 }

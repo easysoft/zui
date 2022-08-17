@@ -74,12 +74,12 @@
 </table>
 ```
 
-## table-row-hover
+## table-hover
 
- 使用组件类`.table-row-hover`获得响应鼠标悬停行变色表格外观
+ 使用组件类`.table-hover`获得响应鼠标悬停行变色表格外观
 
  ```html:example:
- <table class="table table-row-hover">
+ <table class="table table-hover">
    <thead>
        <tr>
            <th>项目名称</th>
@@ -110,12 +110,12 @@
    </tbody>
  </table>
  ```
-## table-bordered
+## bordered
 
-使用组件类`.table-bordered`获得带所有边框的表格外观
+使用组件类`.bordered`获得带所有边框的表格外观
 
 ```html:example:
- <table class="table table-bordered">
+ <table class="table bordered">
    <thead>
        <tr>
            <th>项目名称</th>
@@ -146,12 +146,12 @@
    </tbody>
  </table>
  ```
-  ## table-borderless
+  ## borderless
 
- 使用组件类`.table-borderless`获得不带所有边框的表格外观
+ 使用组件类`.borderless`获得不带所有边框的表格外观
 
  ```html:example:
- <table class="table table-borderless">
+ <table class="table borderless">
    <thead>
        <tr>
            <th>项目名称</th>
@@ -182,12 +182,12 @@
    </tbody>
  </table>
  ```
-  ## table-condensed
+  ## condensed
 
- 使用组件类`.table-condensed`更为紧凑的表格外观
+ 使用组件类`.condensed`更为紧凑的表格外观
 
  ```html:example:
- <table class="table table-condensed">
+ <table class="table condensed">
    <thead>
        <tr>
            <th>项目名称</th>
