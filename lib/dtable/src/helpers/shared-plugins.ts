@@ -63,8 +63,10 @@ export function initPlugins(options?: DTableOptions): DTablePlugin[] {
 export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {
     return plugins.reduce((mergedOptions, plugin) => {
         const {options: optionsModifier, defaultOptions} = plugin;
-        Object.assign(mergedOptions, defaultOptions, mergedOptions);
-        if (options) {
+        if (defaultOptions) {
+            mergedOptions = {...defaultOptions, ...mergedOptions};
+        }
+        if (optionsModifier) {
             Object.assign(mergedOptions, typeof optionsModifier === 'function' ? optionsModifier(mergedOptions) : optionsModifier);
         }
         return mergedOptions;
