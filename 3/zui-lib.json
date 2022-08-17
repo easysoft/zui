@@ -173,6 +173,21 @@
         "hasUserDocs": true
     },
     {
+        "name": "@zui/icons",
+        "shortName": "icons",
+        "version": "0.0.1",
+        "workspaceVersion": "workspace:^0.0.1",
+        "type": "control",
+        "order": 2,
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/browser-helpers": "workspace:^0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
+        "displayName": "图标",
+        "hasUserDocs": false
+    },
+    {
         "name": "@zui/input",
         "shortName": "input",
         "version": "0.0.1",
