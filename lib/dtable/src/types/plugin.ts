@@ -38,6 +38,9 @@ export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTab
     onRowClick?: (this: PluginTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
+    onAddRow?: (this: PluginTable, row: RowInfo, index: number) => void | false;
+    rowSorter?: (this: PluginTable, a: RowInfo, b: RowInfo) => number;
+    rowFilter?: (this: PluginTable, row: RowInfo) => void | boolean;
 }
 
 export interface DTablePluginComsumer<O = {}> {

@@ -44,6 +44,9 @@ export interface DTableOptions {
     onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
+    onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
+    rowSorter?: (this: DTable, a: RowInfo, b: RowInfo) => number;
+    rowFilter?: (this: DTable, row: RowInfo) => void | boolean;
     plugins?: (string | DTablePlugin | DTablePluginComsumer)[];
     [prop: string]: unknown
 }

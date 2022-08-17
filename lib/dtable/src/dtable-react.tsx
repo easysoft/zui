@@ -14,6 +14,7 @@ import {DTablePlugin} from './types/plugin';
 import {CustomRenderResult} from './types/custom-render-result';
 import {RowData, RowID} from './types/row-data';
 import {RowProps} from './types/row-props';
+import {CellRenderCallback} from './types/cell-render';
 
 export class DTable extends Component<DTableOptions, DTableState> {
     static addPlugin = addPlugin;
@@ -37,7 +38,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     constructor(props: DTableOptions) {
         super(props);
 
-        this.state = {scrollTop: 0, scrollLeft: 0, hiddenRows: {}, hiddenCols: {}};
+        this.state = {scrollTop: 0, scrollLeft: 0, hiddenCols: {}};
 
         const initOptions = {...getDefaultOptions(), ...props} as DTableOptions;
         this.#options = Object.freeze(initOptions);
@@ -130,7 +131,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             maxColWidth = defaultOptions.maxColWidth,
         } = options;
 
-        const {scrollTop = 0, scrollLeft = 0, hiddenRows = {}, hiddenCols = {}} = this.state;
+        const {scrollTop = 0, scrollLeft = 0, hiddenCols = {}} = this.state;
         const headerHeight = header ? (options.headerHeight || rowHeight) : 0;
         const footerHeight = footer ? (options.footerHeight || rowHeight) : 0;
 
@@ -223,24 +224,65 @@ export class DTable extends Component<DTableOptions, DTableState> {
             width = widthSetting ?? 0;
         }
 
-        let rowsHeightTotal = 0;
         const allRows: RowInfo[] = [];
-        const rows: RowInfo[] = [];
-        const addRowItem = (item: RowData) => {
-            const row = {data: item, top: rowsHeightTotal, id: item.id, index: rows.length};
+        const addRowItem = (item: RowData, index: number) => {
+            const row: RowInfo = {data: item, top: 0, id: item.id, index: allRows.length};
             allRows.push(row);
-            if (!hiddenRows[row.id]) {
-                rows.push(row);
+
+            if (options.onAddRow?.call(this, row, index) === false) {
+                return;
             }
-            rowsHeightTotal += rowHeight;
+            for (const plugin of plugins) {
+                if (plugin.onAddRow?.call(this, row, index) === false) {
+                    return;
+                }
+            }
         };
         if (Array.isArray(data)) {
             data.forEach(addRowItem);
         } else if (data?.length) {
             const length = typeof data.length === 'function' ? data.length() : data.length;
             for (let i = 0; i < length; i++) {
-                addRowItem(data.getItem(i));
+                addRowItem(data.getItem(i), i);
             }
+        }
+
+        // Add rows
+        const rows: RowInfo[] = [];
+        let rowsHeightTotal = 0;
+        allRows.forEach(row => {
+            if (options.rowFilter?.call(this, row) === false) {
+                return;
+            }
+            for (const plugin of plugins) {
+                if (plugin.rowFilter?.call(this, row) === false) {
+                    return;
+                }
+            }
+            row.index = rows.length;
+            row.top = rowsHeightTotal;
+            rows.push(row);
+            rowsHeightTotal += rowHeight;
+        });
+
+        // Sort rows
+        let rowsSorted = false;
+        if (options.rowSorter) {
+            rows.sort(options.rowSorter.bind(this));
+            rowsSorted = true;
+        }
+        plugins.forEach(plugin => {
+            if (plugin.rowSorter) {
+                rows.sort(plugin.rowSorter.bind(this));
+                rowsSorted = true;
+            }
+        });
+        if (rowsSorted) {
+            rows.forEach((row, index) => {
+                row.index = index;
+                row.top = index * rowHeight;
+                rows.push(row);
+            });
         }
 
         let heightSetting = options.height;
