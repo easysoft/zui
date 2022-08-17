@@ -7,15 +7,15 @@
 <Example>
   <ol class="breadcrumb">
     <li><a href="your/url/">首页</a></li>
-    <li><a href="your/url/">Library</a></li>
-    <li class="active">Data</li>
+    <li><a href="your/url/">图书馆</a></li>
+    <li class="active">数据</li>
   </ol>
 </Example>
 
 ```html
 <ol class="breadcrumb">
   <li><a href="your/url/">首页</a></li>
-  <li><a href="your/url/">Library</a></li>
-  <li class="active">Data</li>
+  <li><a href="your/url/">图书馆</a></li>
+  <li class="active">数据</li>
 </ol>
 ```
