@@ -1,82 +1,66 @@
 # 头像
 
-头像是用图片、图标或者文字的形式展示用户及其他信息。
+头像是用图片、图标或者文字的形式展示用户及具有特殊标识的其他对象。
 
 ## 基本用法
 
-使用 `.avatar` 类获得头像的外观展示，通常用在元素 `<div>` 上。
+使用一个 `<div>` 元素并添加类 `.avatar`，然后将作为图像的图片、文字或图标放置在此元素内。
 
 <Example class="flex gap-4">
   <div class="avatar"><img src="/assets/avatar/avatar.png"></div>
+  <div class="avatar"><i class="icon icon-user"></i></div>
+  <div class="avatar">Z</div>
 </Example>
 
 ```html
 <div class="avatar"><img src="/assets/avatar/avatar.png"></div>
+<div class="avatar"><i class="icon icon-user"></i></div>
+<div class="avatar">Z</div>
 ```
 
-## 图标头像
-
-配合[图标组件](http://url.com/lib/icon)一起使用时，自动呈现为图标头像。
-
-<Example class="flex gap-4">
-  <div class="avatar primary">图标</div>
-</Example>
-
-```html
-<div class="avatar primary">图标</div>
-```
-
-## 文字头像
-
-配合文字一起使用时，呈现为文字头像。
-
-<Example class="flex gap-4 flex-wrap items-end">
-  <div class="avatar warning">头像</div>
-  <div class="avatar warning">Z</div>
-</Example>
-
-```html
-<div class="avatar warning">头像</div>
-<div class="avatar warning">Z</div>
-```
+::: tip 提示
+当使用文字作为头像时，建议文字数目不要超过 2 个，如果需要显示更多文字进行个性化排版，推荐使用 JavaScript 增强的头像插件。
+:::
 
 ## 头像形状
 
 搭配 CSS 工具类 `rounded-*` 为头像应用不同的圆角样式。
 
 <Example class="flex gap-4 flex-wrap">
-  <div class="avatar secondary rounded-none">头像</div>
-  <div class="avatar secondary rounded-xs">头像</div>
-  <div class="avatar secondary rounded-sm">头像</div>
-  <div class="avatar secondary rounded">头像</div>
-  <div class="avatar secondary rounded-lg">头像</div>
-  <div class="avatar secondary rounded-xl">头像</div>
-  <div class="avatar secondary circle">头像</div>
+  <div class="avatar rounded-none"><img src="/assets/avatar/avatar-1.png"></div>
+  <div class="avatar rounded-xs"><img src="/assets/avatar/avatar-2.png"></div>
+  <div class="avatar rounded-sm"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="avatar rounded"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar rounded-lg"><img src="/assets/avatar/avatar-5.png"></div>
+  <div class="avatar rounded-xl"><img src="/assets/avatar/avatar-6.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
 </Example>
 
 ```html
-<div class="avatar secondary rounded-none">头像</div>
-<div class="avatar secondary rounded-xs">头像</div>
-<div class="avatar secondary rounded-sm">头像</div>
-<div class="avatar secondary rounded">头像</div>
-<div class="avatar secondary rounded-lg">头像</div>
-<div class="avatar secondary rounded-xl">头像</div>
-<div class="avatar secondary circle">头像</div>
+<div class="avatar rounded-none"><img src="/assets/avatar/avatar-1.png"></div>
+<div class="avatar rounded-xs"><img src="/assets/avatar/avatar-2.png"></div>
+<div class="avatar rounded-sm"><img src="/assets/avatar/avatar-3.png"></div>
+<div class="avatar rounded"><img src="/assets/avatar/avatar-4.png"></div>
+<div class="avatar rounded-lg"><img src="/assets/avatar/avatar-5.png"></div>
+<div class="avatar rounded-xl"><img src="/assets/avatar/avatar-6.png"></div>
+<div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
 ```
 ## 外观类型
 
-配合使用[CSS 工具类](/lib/utilities/)来实现不同头像的外观。下面展示各种工具类的外观效果。
+当使用文字或图标作为头像时，配合使用[CSS 工具类](/lib/utilities/)来实现不同头像的外观。下面展示各种工具类的外观效果。
 
 <Example class="flex gap-4 flex-wrap">
-  <div class="avatar circle"><img src="/assets/avatar/avatar.png"></div>
-  <div class="avatar circle primary">Z</div>
-  <div class="avatar circle primary-outline">Z</div>
+  <div class="avatar primary">Z</div>
+  <div class="avatar primary-pale">Z</div>
+  <div class="avatar primary-outline">Z</div>
+  <div class="avatar black">Z</div>
 </Example>
 
 ```html
-<div class="avatar circle"><img src="/assets/avatar/avatar.png"></div>
-<div class="avatar circle primary">Z</div>
-<div class="avatar circle primary-outline">Z</div>
+<div class="avatar primary">Z</div>
+<div class="avatar primary-pale">Z</div>
+<div class="avatar primary-outline">Z</div>
+<div class="avatar black">Z</div>
 ```
 
 ## 尺寸
@@ -118,3 +102,4 @@
 | CSS 变量名        | 作用           |
 | ------------- |:------------- |
 | `--avatar-radius`      | 头像默认圆角大小 |
+| `--avatar-bg`      | 头像默认背景颜色 |

@@ -63,13 +63,13 @@
 ## Radius
 
 ```html:example: -flex -gap-3
-<div class="avatar rounded-none"><img src="@/assets/avatar-11.png"></div>
-<div class="avatar rounded-xs"><img src="@/assets/avatar-12.png"></div>
-<div class="avatar rounded-sm"><img src="@/assets/avatar-13.png"></div>
-<div class="avatar rounded"><img src="@/assets/avatar-14.png"></div>
-<div class="avatar rounded-lg"><img src="@/assets/avatar-15.png"></div>
-<div class="avatar rounded-xl"><img src="@/assets/avatar-16.png"></div>
-<div class="avatar circle"><img src="@/assets/avatar-17.png"></div>
+<div class="avatar rounded-none"><img src="@/assets/avatar-5.png"></div>
+<div class="avatar rounded-xs"><img src="@/assets/avatar-6.png"></div>
+<div class="avatar rounded-sm"><img src="@/assets/avatar-6.png"></div>
+<div class="avatar rounded"><img src="@/assets/avatar-8.png"></div>
+<div class="avatar rounded-lg"><img src="@/assets/avatar-9.png"></div>
+<div class="avatar rounded-xl"><img src="@/assets/avatar-10.png"></div>
+<div class="avatar circle"><img src="@/assets/avatar.png"></div>
 ```
 
 ## 其他说明
