@@ -13,12 +13,13 @@ export type ColTypeInfo<C extends ColSetting> = Omit<ColInfo<C>, 'name' | 'type'
 
 export type ColTypeModifier<C extends ColSetting> = (col: ColTypeInfo<C>) => void;
 
-export type DTableWithPlugin<O = {}, S = {}> = DTable & {
+export type DTableWithPlugin<O = {}, S = {}, C = {}> = DTable & {
     state: S & DTableState;
     options: O & DTableOptions;
+    getColInfo: (name: string) => ColInfo<ColSetting & C> | undefined;
 };
 
-export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTableWithPlugin<O, S> & T, Options = DTableOptions & O> {
+export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTableWithPlugin<O, S, C> & T, Options = DTableOptions & O> {
     name: string;
     when?: (options: Options) => boolean,
     onCreate?: (this: PluginTable, plugin: this) => void;

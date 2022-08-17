@@ -356,6 +356,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return layout;
     }
 
+    getColInfo(colName: string): ColInfo | undefined {
+        const {layout} = this;
+        if (!layout) {
+            return;
+        }
+        return layout.colsInfo.fixedLeftCols.find(x => x.name === colName) ?? layout.colsInfo.fixedRightCols.find(x => x.name === colName) ?? layout.colsInfo.scrollCols.find(x => x.name === colName);
+    }
+
     renderHeader(layout: DTableLayout) {
         const {header, colsInfo,  headerHeight} = layout;
         if (!header) {
