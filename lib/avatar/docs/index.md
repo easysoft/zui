@@ -67,12 +67,21 @@
 
 除了默认大小，还提供了额外的 4 种预设尺寸。
 
-<Example class="flex gap-4 flex-wrap items-end">
-  <div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="avatar"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png"></div>
+<Example class="space-y-4">
+  <div class="flex gap-4 flex-wrap items-end">
+    <div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar"><img src="/assets/avatar/avatar-3.png"></div>
+    <div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png"></div>
+  </div>
+  <div class="flex gap-4 flex-wrap items-end">
+    <div class="avatar size-xs">X</div>
+    <div class="avatar size-sm">S</div>
+    <div class="avatar">Z</div>
+    <div class="avatar size-lg">LG</div>
+    <div class="avatar size-xl">XL</div>
+  </div>
 </Example>
 
 ```html
@@ -82,6 +91,18 @@
 <div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png"></div>
 <div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png"></div>
 ```
+
+## 特殊用法示例
+
+下面演示一些特殊用法。
+
+### 右上角未读标签
+
+[待定]
+
+### 右下角状态标志
+
+[待定]
 
 ## CSS 类
 

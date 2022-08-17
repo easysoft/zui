@@ -1,21 +1,21 @@
 .avatar-group {
-  @apply -flex;
+  @apply -flex -gap-2.5;
 }
 .avatar-group > .avatar {
   box-shadow: 0 0 0 1px var(--color-canvas);
 }
-.avatar-group > .avatar + .avatar {
-  margin-left: var(--avatar-overlap);
+.avatar-group > * + * {
+  @apply --ml-4;
 }
-.overlap-xs > .avatar + .avatar {
-  margin-left: calc(var(--avatar-overlap) + 0.125rem);
+.avatar-group.size-xs > * + * {
+  @apply --ml-3;
 }
-.overlap-sm > .avatar + .avatar {
-  margin-left: calc(var(--avatar-overlap) + 0.125rem);
+.avatar-group.size-sm > * + * {
+  @apply --ml-3.5;
 }
-.overlap-lg > .avatar + .avatar {
-  margin-left: calc(var(--avatar-overlap) - 0.125rem);
+.avatar-group.size-lg > * + * {
+  @apply --ml-5;
 }
-.overlap-xl > .avatar + .avatar {
-  margin-left: calc(var(--avatar-overlap) - 0.25rem);
+.avatar-group.size-xl > * + * {
+  @apply --ml-6;
 }

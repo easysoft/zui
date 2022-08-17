@@ -14,8 +14,8 @@
   @apply -w-6 -text-sm;
 }
 .avatar.size-lg {
-  @apply -w-12 -text-lg;
+  @apply -w-12 -text-2xl;
 }
 .avatar.size-xl {
-  @apply -w-20 -text-xl;
+  @apply -w-20 -text-4xl;
 }

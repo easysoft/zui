@@ -1,3 +1,2 @@
-import './vars.css';
+import '@zui/button';
 import './btn-group.css';
-export * from '../../button/src/main';

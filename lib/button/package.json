@@ -5,6 +5,9 @@
     "browser": "src/main.ts",
     "browserslist": "",
     "keywords": ["css", "zui:control"],
+    "files": [
+        "./src/**/*"
+    ],
     "dependencies": {
     },
     "devDependencies": {
