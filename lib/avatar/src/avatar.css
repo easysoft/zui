@@ -1,20 +1,21 @@
 .avatar {
-  @apply -w-10 -inline-flex -overflow-hidden -items-center -justify-center -bg-canvas;
+  @apply -w-8 -inline-flex -items-center -justify-center -overflow-hidden -bg-canvas;
   border-radius: var(--avatar-radius);
+  background: var(--avatar-bg);
   aspect-ratio: 1 / 1;
 }
-.avatar img {
-  @apply -m-0 -w-full -h-full;
+.avatar > img {
+  @apply -m-0 -w-full -h-full -object-cover;
 }
 .avatar.size-xs {
-  @apply -w-6 -text-xs;
+  @apply -w-5 -text-xs;
 }
 .avatar.size-sm {
-  @apply -w-8 -text-sm;
+  @apply -w-6 -text-sm;
 }
 .avatar.size-lg {
   @apply -w-12 -text-lg;
 }
 .avatar.size-xl {
-  @apply -w-14 -text-xl;
+  @apply -w-20 -text-xl;
 }
