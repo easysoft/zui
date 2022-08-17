@@ -504,7 +504,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     left={colsInfo.flexLeftWidth}
                     bottom={horzScrollbarPos === 'inside' ? 0 : (-scrollbarSize)}
                     size={scrollbarSize}
-                    wheelContainer=".dtable"
+                    wheelContainer={this.ref}
                 />,
             );
         }
@@ -520,7 +520,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     right={0}
                     size={scrollbarSize}
                     top={layout.headerHeight}
-                    wheelContainer=".dtable"
+                    wheelContainer={this.ref}
                 />,
             );
         }
