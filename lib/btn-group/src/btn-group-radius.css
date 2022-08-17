@@ -1,0 +1,28 @@
+
+.btn-group.rounded-none .btn {
+  @apply -rounded-none;
+}
+
+.btn-group.rounded-sm .btn {
+  @apply -rounded-sm;
+}
+
+.btn-group.rounded .btn {
+  @apply -rounded;
+}
+
+.btn-group.rounded-md .btn {
+  @apply -rounded-md;
+}
+
+.btn-group.rounded-lg .btn {
+  @apply -rounded-lg;
+}
+
+.btn-group.rounded-xl .btn {
+  @apply -rounded-xl;
+}
+
+.btn-group.circle .btn {
+  @apply -rounded-full;
+}

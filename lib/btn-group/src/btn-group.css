@@ -1,74 +1,23 @@
-.btn-group > .btn {
-  border-radius: var(--btn-radius);
-}
-
-.btn-group > .btn:focus-within,
-.btn-group > .dropdown > .btn:focus-within {
-  z-index: 1;
-}
-
 .btn-group {
   @apply -flex;
 }
 
-.btn-group.size-xs > .btn {
-  @apply -text-xs -px-1 -h-5;
+.btn-group > * + * {
+  @apply --ml-px;
 }
 
-.btn-group.size-sm > .btn {
-  @apply -text-sm -px-2 -h-6;
-}
-
-.btn-group.size-lg > .btn {
-  @apply -text-lg -px-4 -h-10;
-}
-
-.btn-group.size-xl > .btn {
-  @apply -text-xl -px-5 -h-12;
-}
-
-.btn-group.rounded-none > .btn {
-  @apply -rounded-none;
-}
-
-.btn-group.rounded-sm > .btn {
-  @apply -rounded-sm;
-}
-
-.btn-group.rounded > .btn {
-  @apply -rounded;
-}
-
-.btn-group.rounded-md > .btn {
-  @apply -rounded-md;
-}
-
-.btn-group.rounded-lg > .btn {
-  @apply -rounded-lg;
-}
-
-.btn-group.rounded-xl > .btn {
-  @apply -rounded-xl;
-}
-
-.btn-group.circle > .btn {
-  @apply -rounded-full;
-}
-
-.btn-group > .btn:not(:first-child):not(:last-child) {
-  @apply -rounded-none;
-}
-
-.btn-group > .btn:not(:last-child),
-.btn-group > .dropdown:not(:last-child) > .btn {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  @apply --mr-1;
+.btn-group > .btn:focus-within,
+.btn-group > .dropdown > .btn:focus-within,
+.btn-group > .btn:hover,
+.btn-group > .dropdown > .btn:hover {
+  z-index: 1;
 }
 
 .btn-group > .btn:not(:first-child),
 .btn-group > .dropdown:not(:first-child) > .btn {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  @apply -rounded-l-none;
 }
-
+.btn-group > .btn:not(:last-child),
+.btn-group > .dropdown:not(:last-child) > .btn {
+  @apply -rounded-r-none;
+}

@@ -118,12 +118,25 @@
 ```html:example: -flex -gap-3
 <div class="btn-group">
   <button type="button" class="btn">春天</button>
-  <button type="button" class="btn">夏天</button>
   <div class="dropdown">
     <button type="button" class="btn" data-toggle="dropdown">未来 <span class="caret"></span></button>
     <ul class="dropdown-menu">
       <li><a href="###">秋天</a></li>
       <li><a href="###">冬天</a></li>
+    </ul>
+  </div>
+  <button type="button" class="btn">夏天</button>
+</div>
+
+<div class="btn-group">
+  <button type="button" class="btn">操作</button>
+  <div class="dropdown dropup">
+    <button type="button" class="btn" data-toggle="dropdown"><span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="###">编辑</a></li>
+      <li><a href="###">删除</a></li>
+      <li class="divider"></li>
+      <li><a href="###">撤销</a></li>
     </ul>
   </div>
 </div>
@@ -139,5 +152,15 @@
       <li><a href="###">撤销</a></li>
     </ul>
   </div>
+  <div class="dropdown dropup">
+    <button type="button" class="btn" data-toggle="dropdown"><span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="###">编辑</a></li>
+      <li><a href="###">删除</a></li>
+      <li class="divider"></li>
+      <li><a href="###">撤销</a></li>
+    </ul>
+  </div>
+  <button type="button" class="btn">操作</button>
 </div>
 ```

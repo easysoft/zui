@@ -1,0 +1,17 @@
+@import '@zui/button/src/btn-size.css';
+
+.btn-group.size-xs .btn {
+    @apply -btn-xs;
+}
+
+.btn-group.size-sm .btn {
+    @apply -btn-sm;
+}
+
+.btn-group.size-lg .btn {
+    @apply -btn-lg;
+}
+
+.btn-group.size-xl .btn {
+    @apply -btn-xl;
+}
