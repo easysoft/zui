@@ -254,7 +254,7 @@
    </tbody>
  </table>
 ```
- ## -primary -warning -success
+ ## primary warning success
 
 使用色彩类`.primary`等获得带有固定色彩行的表格外观
 
