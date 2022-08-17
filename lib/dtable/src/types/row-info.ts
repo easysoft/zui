@@ -1,7 +1,7 @@
-import {RowData} from './row-data';
+import {RowData, RowID} from './row-data';
 
 export interface RowInfo {
-    id: string | number;
+    id: RowID;
     index: number;
     top: number;
     data: RowData

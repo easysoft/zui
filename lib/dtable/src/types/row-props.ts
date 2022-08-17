@@ -3,10 +3,10 @@ import {ComponentType} from 'preact';
 import {CellProps} from '../components/cell';
 import {CellRenderCallback} from './cell-render';
 import {ColInfo} from './col-info';
-import {RowData} from './row-data';
+import {RowData, RowID} from './row-data';
 
 export interface RowProps {
-    rowID: string | number,
+    rowID: RowID,
     className?: ClassNameLike,
     top: number,
     height: number,

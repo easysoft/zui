@@ -3,12 +3,12 @@ import {JSX} from 'preact/jsx-runtime';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {ColInfo} from '../types/col-info';
 import {CellRenderCallback} from '../types/cell-render';
-import {RowData} from '../types/row-data';
+import {RowData, RowID} from '../types/row-data';
 import {CustomRenderResult} from '../types/custom-render-result';
 
 export interface CellProps {
     col: ColInfo,
-    rowID: string | number,
+    rowID: RowID,
     rowData?: RowData,
     className?: ClassNameLike,
     height?: number,

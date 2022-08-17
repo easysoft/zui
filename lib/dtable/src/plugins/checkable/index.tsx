@@ -7,8 +7,9 @@ import {RowInfo} from '../../types/row-info';
 import {RowProps} from '../../types/row-props';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
+import {RowID} from '../../types/row-data';
 
-function toggleRows(this: DTable, rowID: string | number | (string | number)[], checked?: boolean) {
+function toggleCheckRows(this: DTable, rowID: RowID | (RowID)[], checked?: boolean) {
     let checkedRows: Record<string, boolean> = this.state.checkedRows as Record<string, true> ?? {};
     if (rowID === 'HEADER') {
         if (checked === undefined) {
@@ -37,7 +38,7 @@ function toggleRows(this: DTable, rowID: string | number | (string | number)[], 
     this.setState({checkedRows: {...checkedRows}});
 }
 
-function isRowChecked(this: DTable, rowID: string | number): boolean {
+function isRowChecked(this: DTable, rowID: RowID): boolean {
     const checkedRows: Record<string, boolean> = this.state.checkedRows as Record<string, true>;
     if (!checkedRows) {
         return false;
@@ -66,7 +67,7 @@ export interface DTableCheckableColSetting {
 }
 
 export interface DTableCheckableMethods {
-    toggleRows: typeof toggleRows;
+    toggleCheckRows: typeof toggleCheckRows;
     isRowChecked: typeof isRowChecked;
     isAllRowChecked: typeof isAllRowChecked;
 }
@@ -75,11 +76,11 @@ export const plugin: DTablePlugin<DTableCheckableOptions, DTableCheckableState, 
     name: 'checkable',
     defaultOptions: {checkable: true},
     onCreate() {
-        this.toggleRows = toggleRows.bind(this);
+        this.toggleCheckRows = toggleCheckRows.bind(this);
         this.isRowChecked = isRowChecked.bind(this);
         this.isAllRowChecked = isAllRowChecked.bind(this);
     },
-    onRenderCell(result: CustomRenderResult, rowID: string | number, col: ColInfo): CustomRenderResult {
+    onRenderCell(result: CustomRenderResult, rowID: RowID, col: ColInfo): CustomRenderResult {
         if (col.setting.checkbox) {
             const isHeader = rowID === 'HEADER';
             const checked = isHeader ? this.isAllRowChecked() : this.isRowChecked(rowID);
@@ -104,7 +105,7 @@ export const plugin: DTablePlugin<DTableCheckableOptions, DTableCheckableState, 
         }
         const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"]');
         if (checkbox) {
-            return this.toggleRows('HEADER', checkbox.checked);
+            return this.toggleCheckRows('HEADER', checkbox.checked);
         }
     },
     onRowClick(event, {rowID}) {
@@ -114,7 +115,7 @@ export const plugin: DTablePlugin<DTableCheckableOptions, DTableCheckableState, 
         }
         const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"]');
         if (checkbox || this.options.checkOnClickRow) {
-            return this.toggleRows(rowID);
+            return this.toggleCheckRows(rowID);
         }
     },
 };

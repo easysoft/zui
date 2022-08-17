@@ -5,10 +5,9 @@ import {DTable} from '../dtable-react';
 import {RowInfo} from './row-info';
 import {RowProps} from './row-props';
 import {CustomRenderResult} from './custom-render-result';
-import {RowData} from './row-data';
+import {RowData, RowID} from './row-data';
 import {DTableState} from './state';
 import {ColSetting} from './col-setting';
-
 
 export type ColTypeInfo<C extends ColSetting> = Omit<ColInfo<C>, 'name' | 'type'>;
 

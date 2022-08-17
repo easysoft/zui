@@ -2,11 +2,11 @@ import {ComponentType} from 'preact';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Cell, CellProps} from './cell';
 import {ColInfo} from '../types/col-info';
-import {RowData} from '../types/row-data';
+import {RowData, RowID} from '../types/row-data';
 import {CellRenderCallback} from '../types/cell-render';
 
 export interface CellsProps {
-    rowID: string | number,
+    rowID: RowID,
     className?: ClassNameLike,
     cols: ColInfo[],
     left?: number,

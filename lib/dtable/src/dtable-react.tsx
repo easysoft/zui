@@ -12,7 +12,7 @@ import {mergePluginOptions, addPlugin, initPlugins, removePlugin} from './helper
 import {getDefaultOptions} from './helpers/default-options';
 import {DTablePlugin} from './types/plugin';
 import {CustomRenderResult} from './types/custom-render-result';
-import {RowData} from './types/row-data';
+import {RowData, RowID} from './types/row-data';
 import {RowProps} from './types/row-props';
 
 export class DTable extends Component<DTableOptions, DTableState> {
