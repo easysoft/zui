@@ -28,28 +28,31 @@
 
 .checkbox-primary > label,
 .radio-primary > label{
-  @apply -ml-2;
+  @apply -ml-2 -relative;
+}
+.checkbox-primary > input + label:before,
+.radio-primary > input + label:before  {
+  content: none;
 }
 
 .checkbox-primary > label:before {
-  @apply -border-solid -border -mt-2 -absolute -w-3;
+  @apply -border-solid -border-black -border -mt-1 -absolute -w-3;
   aspect-ratio: 1 / 1;
   content:"";
-  left:10px;
-  border-color: var(--color-primary-500) ;
+  left: -15px;
 }
 
 .radio-primary > label:before {
-  @apply -border-solid -border -mt-2 -absolute -w-3;
+  @apply -border-solid -border-black -border -mt-1 -absolute -w-3;
+  left: -15px;
   border-radius: 100%;
   aspect-ratio: 1 / 1;
   content:"";
-  left:10px;
-  border-color: var(--color-primary-500) ;
 }
 
 .radio-primary.checked > label:before,
 .checkbox-primary.checked > label:before {
   @apply -bg-primary-500;
+  left: -15px;
   border-color: var(--color-primary-500);
 }

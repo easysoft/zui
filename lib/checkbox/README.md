@@ -98,6 +98,8 @@
 
 ### 高级外观
 
+高级外观的多选和单选框使用自定义的外观代替原生外观，在所有浏览器都具有一致的体验。
+
 ```html:example
 <div class="checkbox-primary"><input type="checkbox" id="primaryCheckbox1"><label for="primaryCheckbox1">未选中</label></div>
 <div class="checkbox-primary"><input type="checkbox" checked="checked" id="primaryCheckbox2"><label for="primaryCheckbox2">选中</label></div>
@@ -110,10 +112,14 @@
 <div class="radio-primary"><input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio3"><label for="primaryradio3">选项三</label></div>
 <div class="radio-primary"><input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio4"><label for="primaryradio4">禁用</label></div>
 ```
+高级外观还可以不使用 `<input>` 元素，在此种情况下，为 `.checkbox-primary` 或 `.radio-primary` 添加 `.checked` 类标记为选中状态，用户无法通过点击来切换选中状态，但可以通过程序手动添加或移除 `.checked` 来更改选中状态。
 
 ```html:example
    <div class="checkbox-primary"><label>未选中</label></div>
    <div class="checkbox-primary checked"><label>选中</label></div>
+```
+
+```html:example
    <div class="radio-primary"><label>未选中</label></div>
    <div class="radio-primary checked"><label>选中</label></div>
 ```
