@@ -2,7 +2,7 @@
 
 复选框（checkbox）允许用户选择多个选项，不同于 `<select>`，这些选项是直接展示的。
 为 `<input type="checkbox">` 设置 disabled 属性来应用禁用样式，
-如果为 .checkbox 添加 disabled 类，则整个复选框包括文字部分都会应用禁用样式。
+如果为 `.checkbox` 添加 `disabled` 类，则整个复选框包括文字部分都会应用禁用样式。
 将多个复选框堆叠形成一个复选框组。
 
 ## 基本用法

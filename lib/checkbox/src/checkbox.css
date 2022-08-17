@@ -51,9 +51,8 @@
   left: -15px;
   border-color: var(--color-primary-500);
 }
-.checkbox-primary > input + label:before,
-.checkbox-primary > label + input:before,
-.radio-primary > input + label:before,
-.radio-primary > label + input:before {
-  content: none;
+
+.checkbox-primary > input,
+.radio-primary > input {
+  opacity: 0;
 }
