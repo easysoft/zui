@@ -184,17 +184,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
             plugins.forEach(plugin => {
                 const colTypeInfo = plugin.colTypes?.[col.type ?? ''];
-                if (!colTypeInfo) {
-                    return;
-                }
-                const newColInfo = typeof colTypeInfo === 'function' ? colTypeInfo(colInfo) : colTypeInfo;
-                if (newColInfo) {
-                    const {setting, ...rest} = newColInfo;
-                    Object.assign(colInfo, rest);
-                    if (setting) {
-                        Object.assign(colInfo.setting, setting);
+                if (colTypeInfo) {
+                    const newColSetting = typeof colTypeInfo === 'function' ? colTypeInfo(col) : colTypeInfo;
+                    if (newColSetting) {
+                        Object.assign(col, newColSetting);
                     }
                 }
+
+                plugin.onAddCol?.call(this, colInfo);
             });
         });
 

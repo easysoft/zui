@@ -9,9 +9,11 @@ import {RowData, RowID} from './row-data';
 import {DTableState} from './state';
 import {ColSetting} from './col-setting';
 
-export type ColTypeInfo<C extends ColSetting> = Omit<ColInfo<C>, 'name' | 'type'>;
+export type PluginColSetting<C> = ColSetting & C;
 
-export type ColTypeModifier<C extends ColSetting> = (col: ColTypeInfo<C>) => void;
+export type PluginColInfo<C> = ColInfo<PluginColSetting<C>>;
+
+export type ColSettingModifier<C> = (col: PluginColSetting<C>) => Partial<PluginColSetting<C>> | void;
 
 export type DTableWithPlugin<O = {}, S = {}, C = {}> = DTable & {
     state: S & DTableState;
@@ -27,11 +29,12 @@ export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTab
     onUnmounted?: (this: PluginTable) => void;
     defaultOptions?: Partial<Options>;
     options?: ((options: Options) => Partial<Options>);
-    colTypes?: Record<string, ColTypeInfo<ColSetting & C> | ColTypeModifier<ColSetting & C>>;
+    colTypes?: Record<string, Partial<PluginColSetting<C>> | ColSettingModifier<C>>;
+    onAddCol?: (this: PluginTable, col: PluginColInfo<C>) => void;
     beforeLayout?: (this: PluginTable, options: Options) => (Options | void);
     onLayout?: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
-    onRenderHeaderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: ColInfo<ColSetting & C>) => CustomRenderResult;
-    onRenderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: ColInfo<ColSetting & C>, rowData?: RowData) => CustomRenderResult;
+    onRenderHeaderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: PluginColInfo<C>) => CustomRenderResult;
+    onRenderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: PluginColInfo<C>, rowData?: RowData) => CustomRenderResult;
     onRenderRow?: (this: PluginTable, rowProps: RowProps, rowInfo: RowInfo) => RowProps;
     onRenderHeaderRow?: (this: PluginTable, rowProps: RowProps) => RowProps;
     afterRender?: (this: PluginTable) => void;
