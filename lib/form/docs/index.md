@@ -19,14 +19,14 @@
 
 ```html
 <form>
-   <div class="form-group">
-     <label> 账号 </label>
-     <input type="text" class="form-control" />
-   </div>
-   <div class="form-group">
-     <label> 密码 </label>
-     <input type="password" class="form-control" />
-   </div>
+  <div class="form-group">
+    <label> 账号 </label>
+    <input type="text" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label> 密码 </label>
+    <input type="password" class="form-control" />
+  </div>
 </form>
 ```
 
@@ -171,32 +171,32 @@
 使用fieldset 将多个表单控件放置在一起进行分组。
 在`<fieldset>` 内使用 `<legend>` 来定义分组标题。
 <Example>
-<form>
-  <fieldset>
-    <legend>账号信息</legend>
-    <div class="form-group">
-      <label for="exampleInputAccount3">账号</label>
-      <input type="text" class="form-control" id="exampleInputAccount3" placeholder="电子邮件/手机号/用户名">
-    </div>
-    <div class="form-group">
-       <label> 密码 </label>
-       <input type="password" class="form-control" />
-    </div>
-  </fieldset>
-  <legend>额外内容</legend> 
-  <fieldset>
+  <form>
+    <fieldset>
+      <legend>账号信息</legend>
+      <div class="form-group">
+        <label for="exampleInputAccount3">账号</label>
+        <input type="text" class="form-control" id="exampleInputAccount3" placeholder="电子邮件/手机号/用户名">
+      </div>
+      <div class="form-group">
+        <label> 密码 </label>
+        <input type="password" class="form-control" />
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>额外内容</legend> 
       <div class="radio">
-    <label>
-      <input type="radio" name="exampleRadioOption2"> 使用默认选项
-    </label>
-  </div>
-  <div class="radio">
-    <label>
-      <input type="radio" name="exampleRadioOption2"> 让我自定义选项
-    </label>
-    </div>
-  </fieldset>
-</form>
+        <label>
+          <input type="radio" name="exampleRadioOption2"> 使用默认选项
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="exampleRadioOption2"> 让我自定义选项
+        </label>
+      </div>
+    </fieldset>
+  </form>
 </Example>
 
 

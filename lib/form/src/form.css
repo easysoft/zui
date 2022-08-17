@@ -3,7 +3,7 @@
 }
 
 .form-group > label {
-  @apply -inline-block -text-xs -pr-2 -whitespace-nowrap;
+  @apply -block -pr-2 -my-2 -whitespace-nowrap;
 }
 
 .form-horizontal > .form-group {
@@ -11,40 +11,15 @@
 }
 
 .form-horizontal > .form-group > label {
-  @apply -py-2 -mr-4 ;
-  text-align: var(--label-text-align);
-  width: var(--label-width);
-}
-
-.form-control {
-  @apply -bg-canvas -border -border-solid -block -h-8 -py-1 -px-2 -w-full;
-  border-radius: var(--form-control-radius);
-  border-color: var(--color-border-form-control);
-}
-.form-control::placeholder {
-  color: var(--color-placeholder-control);
-}
-.size-sm.form-control {
-  @apply -text-sm -h-6 -px-2;
-}
-.size-lg.form-control {
-  @apply -text-lg -h-10 -px-4;
-}
-.form-control:focus{
-  @apply -border -outline-none;
-  border-color: var(--color-border-control-focus);
-}
-textarea.form-control {
-  @apply -align-top -resize-y -h-auto -min-h-[32px];
+  @apply -mr-4 ;
+  text-align: var(--form-horizontal-label-text-align);
+  width: var(--form-label-width);
 }
 
 .form-tip {
-  @apply -text-xs;
+  @apply -mt-1;
 }
 
-.has-success > .form-control {
-  border-color: var(--color-has-success);
-}
 .has-success > label {
   color: var(--color-has-success);
 }
@@ -52,9 +27,6 @@ textarea.form-control {
   color: var(--color-has-success);
 }
 
-.has-error > .form-control {
-  border-color: var(--color-has-error);
-}
 .has-error > label {
   color: var(--color-has-error);
 }
@@ -62,9 +34,6 @@ textarea.form-control {
   color: var(--color-has-error);
 }
 
-.has-warning > .form-control {
-  border-color: var(--color-has-warning);
-}
 .has-warning > label {
   color: var(--color-has-warning);
 }
@@ -82,12 +51,12 @@ textarea.form-control {
 }
 
 fieldset {
-  @apply -w-full -my-0 -mx-px -px-2 -pt-1 -pb-3;
+  @apply -w-full -my-0 -mx-px -px-2 -pt-1 -pb-2;
 }
 
 legend {
   @apply -font-bold -w-full -block -leading-normal;
-  margin-bottom: var(--legend-space);
+  margin-bottom: var(--legend-margin-bottom);
   font-size: var(--legend-font-size);
   color: var(--legend-color);
 }

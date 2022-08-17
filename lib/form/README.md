@@ -21,16 +21,16 @@
 使用组件类`.form-horizontal`来获得水平排列的表单外观
 
  ```html:example: -flex -gap-3
- <form class="form-horizontal">
-      <div class="form-group">
-          <label> 账号 </label>
-          <input type="text" class="form-control" />
-      </div>
-      <div class="form-group">
-          <label> 密码 </label>
-          <input type="password" class="form-control" />
-      </div>
- </form>
+<form class="form-horizontal">
+    <div class="form-group">
+        <label> 账号 </label>
+        <input type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label> 密码 </label>
+        <input type="password" class="form-control" />
+    </div>
+</form>
  ```
 
 ## 帮助性文本
@@ -74,21 +74,21 @@
 在使用插入文本时，会出现表单高度变化的情况，可以通过给form添加 'tips-fixed'类增加表单行间距的同时改变tips的定位方式 来使tips的出现不影响表单整体高度
 
  ```html:example: flex
- <form class="tips-fixed">
-   <div class="form-group has-success">
-     <label for="inputSuccess1">输入框（success）</label>
-     <input type="text" class="form-control" id="inputSuccess1">
-     <div class="form-tip">这是帮助性提示文本。</div>
-   </div>
-   <div class="form-group has-warning">
-     <label for="inputWarning1">输入框（warning）</label>
-     <input type="text" class="form-control" id="inputWarning1">
-   </div>
-   <div class="form-group has-error">
-     <label for="inputError1">输入框（error）</label>
-     <input type="text" class="form-control" id="inputError1">
-   </div>
- </form>
+<form class="tips-fixed">
+  <div class="form-group has-success">
+    <label for="inputSuccess1">输入框（success）</label>
+    <input type="text" class="form-control" id="inputSuccess1">
+    <div class="form-tip">这是帮助性提示文本。</div>
+  </div>
+  <div class="form-group has-warning">
+    <label for="inputWarning1">输入框（warning）</label>
+    <input type="text" class="form-control" id="inputWarning1">
+  </div>
+  <div class="form-group has-error">
+    <label for="inputError1">输入框（error）</label>
+    <input type="text" class="form-control" id="inputError1">
+  </div>
+</form>
  ```
 
 
@@ -110,17 +110,17 @@
        <input type="password" class="form-control" />
     </div>
   </fieldset>
-  <legend>额外内容</legend>
   <fieldset>
-      <div class="radio">
-    <label>
-      <input type="radio" name="exampleRadioOption2"> 使用默认选项
-    </label>
-  </div>
-  <div class="radio">
-    <label>
-      <input type="radio" name="exampleRadioOption2"> 让我自定义选项
-    </label>
+    <legend>额外内容</legend>
+    <div class="radio">
+      <label>
+        <input type="radio" name="exampleRadioOption2"> 使用默认选项
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="exampleRadioOption2"> 让我自定义选项
+      </label>
     </div>
   </fieldset>
 </form>
@@ -188,16 +188,16 @@
 水平表单中也可以使用
 
 ```html:example
- <form class="form-horizontal">
-   <div class="form-group">
-     <label for="exampleInputAccount8" class="required">账号</label>
-     <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
-   </div>
-   <div class="form-group">
-     <label for="exampleInputPassword8" class="required">密码</label>
-     <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
-   </div>
- </form>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="exampleInputAccount8" class="required">账号</label>
+    <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword8" class="required">密码</label>
+    <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
+  </div>
+</form>
 ```
 
 ## 表单控件

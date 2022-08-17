@@ -1,0 +1,34 @@
+.form-control {
+    @apply -bg-canvas -border -border-solid -block -h-8 -py-1 -px-2 -w-full;
+    border-radius: var(--form-control-radius);
+    border-color: var(--form-control-border-color);
+}
+
+.form-control::placeholder {
+    color: var(--form-comtrol-placeholder-color);
+}
+
+.size-sm.form-control {
+    @apply -text-sm -h-6 -px-2;
+}
+.size-lg.form-control {
+    @apply -text-lg -h-10 -px-4;
+}
+
+.form-control:focus{
+    @apply -border -outline-none;
+    border-color: var(--form-control-focus-border-color);
+}
+textarea.form-control {
+    @apply -align-top -resize-y -h-auto -min-h-[32px];
+}
+
+.has-success > .form-control {
+    border-color: var(--color-has-success);
+}
+.has-error > .form-control {
+    border-color: var(--color-has-error);
+}
+.has-warning > .form-control {
+    border-color: var(--color-has-warning);
+}
