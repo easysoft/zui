@@ -2,3 +2,4 @@ lib
 public
 assets
 node_modules
+*/_/

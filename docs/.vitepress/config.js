@@ -21,14 +21,14 @@ export default defineConfig({
     themeConfig: {
         logo: '/favicon.svg',
         nav: [
-            {text: '指引', link: '/guide/quick-start.md'},
-            {text: '基础', link: '/basic/index.md'},
-            {text: 'CSS 工具类', link: '/utilities/'},
-            {text: '组件', link: '/lib/index.md'},
-            {text: '图标', link: '/icons/index.md'},
-            {text: 'JavaScript', link: '/lib/index.md'},
-            {text: '主题', link: '/themes/index.md'},
-            {text: '定制', link: '/customize/index.md'},
+            {text: '指引', link: '/guide/', activeMatch: '/guide/'},
+            {text: '基础', link: '/basic/', activeMatch: '/basic/'},
+            {text: 'CSS 工具类', link: '/utilities/', activeMatch: '/utilities/'},
+            {text: '组件', link: '/lib/', activeMatch: '/lib/'},
+            {text: '图标', link: '/icons/', activeMatch: '/icons/'},
+            {text: 'JavaScript', link: '/js/', activeMatch: '/js/'},
+            {text: '主题', link: '/themes/', activeMatch: '/themes/'},
+            {text: '定制', link: '/customize/', activeMatch: '/customize/'},
         ],
         socialLinks: [
             {icon: 'github', link: 'https://github.com/easysoft/zui'}
@@ -53,7 +53,7 @@ export default defineConfig({
                     ]
                 }
             ],
-            'utilities': [
+            '/utilities/': [
                 {
                     text: 'CSS 工具类',
                     items: [
