@@ -11,7 +11,7 @@
 }
 
 .form-control::placeholder {
-    color: var(--form-comtrol-placeholder-color);
+    color: var(--form-control-placeholder-color);
 }
 
 .size-sm.form-control {

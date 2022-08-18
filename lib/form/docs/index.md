@@ -471,5 +471,17 @@
  | -------- | -------- |
  | --form-group-space       | 表单单元模块之间的纵向间距 |
  | --form-group-space-fixed | tip-fixed样式下变宽后单元模块纵向间距     |
- | --form-label-width       |  |
- | --table-border-color  | 表格边框颜色 |
+ | --form-label-width       | 表单文本宽度 |
+ | --table-border-color     | 表格边框颜色 |
+ | --form-horizontal-label-text-align  | 水平布局下文本对齐方向 |
+ | --legend-margin-bottom       | 表单分组样式下标题和表单单元格间距 |
+ | --legend-color               | 表单分组标题颜色 |
+ | --legend-font-size           | 表单分组标题字号 |
+ | --required-content-color     | 必填标记元素颜色 |
+ | --form-control-radius        | 表单控件圆角     |
+ | --form-control-border-color  | 表单控件边框颜色 |
+ | --form-control-focus-border-color   | 表单控件响应聚焦边框颜色  |
+ | --form-control-placeholder-color    | 表单控件提示文本文字颜色  |
+ | --color-has-error   | 表单错误信息提示颜色  |
+ | --color-has-warning | 表单警告信息提示颜色  |
+ | --color-has-success | 表单成功信息提示颜色  |
