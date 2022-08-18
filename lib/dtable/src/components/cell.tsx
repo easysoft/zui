@@ -27,7 +27,7 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
         ...cellStyle,
     };
     if (align) {
-        style.textAlign = align;
+        style.justifyContent = align === 'left' ? 'start' : (align === 'right' ? 'end' : align);
     }
 
     let result: CustomRenderResult = [
