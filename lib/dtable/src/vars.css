@@ -1,7 +1,7 @@
 :root {
     --dtable-striped-bg:   var(--color-gray-100);
     --dtable-hover-bg:     rgba(var(--color-gray-500-rgb), .1);
-    --dtable-header-bg:    var(--color-gray-100);
-    --dtable-border-color: rgba(var(--color-inverse-rgb), .075);
+    --dtable-header-bg:    var(--color-surface);
+    --dtable-border-color: var(--color-border);
     --dtable-sorter-size:  0.3125rem;
 }

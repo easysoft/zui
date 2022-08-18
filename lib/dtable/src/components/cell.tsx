@@ -27,7 +27,7 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
         ...cellStyle,
     };
     if (align) {
-        style.textAlign = align;
+        style.justifyContent = align === 'left' ? 'start' : (align === 'right' ? 'end' : align);
     }
 
     let result: CustomRenderResult = [
@@ -39,7 +39,7 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
     const cellClassName: ClassNameLike[] = [];
     const children: ComponentChildren[] = [];
     result?.forEach(item => {
-        if (typeof item === 'object' && item && ('style' in item || 'className' in item || 'style' in item)) {
+        if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item)) {
             if (item.html) {
                 children.push(<div className='dtable-cell-html' dangerouslySetInnerHTML={{__html: item.html}}></div>);
             }

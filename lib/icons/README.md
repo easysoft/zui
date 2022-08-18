@@ -19,5 +19,4 @@
 ```
 ## all icons
 
-<ul id="icons-wrapper" class="flex flex-wrap gap-y-3">
-</ul>
+<ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-between"></ul>

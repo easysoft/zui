@@ -16,10 +16,6 @@
   width: var(--form-label-width);
 }
 
-.form-tip {
-  @apply -mt-1;
-}
-
 .has-success > label {
   color: var(--color-has-success);
 }

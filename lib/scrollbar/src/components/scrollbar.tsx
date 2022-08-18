@@ -1,5 +1,5 @@
 import {ClassNameLike, classes} from '@zui/browser-helpers/src/classes';
-import {Component, JSX} from 'preact';
+import {Component, JSX, RefObject} from 'preact';
 import '../vars.css';
 import './scrollbar.css';
 
@@ -21,7 +21,7 @@ export interface ScrollbarProps {
     right?: number,
     bottom?: number,
     style?: JSX.CSSProperties;
-    wheelContainer?: string;
+    wheelContainer?: string | RefObject<HTMLElement>;
     wheelSpeed?: number;
 }
 
@@ -32,6 +32,8 @@ export interface ScrollbarState {
 
 export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
     #rafId = 0;
+
+    #wheelRoot: Document | HTMLElement | null = null;
 
     constructor(props: ScrollbarProps) {
         super(props);
@@ -66,7 +68,8 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
         const {wheelContainer} = this.props;
         if (wheelContainer) {
-            document.addEventListener('wheel', this._handleWheel, {passive: false});
+            this.#wheelRoot = typeof wheelContainer === 'string' ? document : wheelContainer.current as HTMLElement;
+            this.#wheelRoot.addEventListener('wheel', this._handleWheel, {passive: false});
         }
     }
 
@@ -74,8 +77,8 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         document.removeEventListener('mousemove', this._handleMouseMove);
         document.removeEventListener('mouseup', this._handleMouseUp);
 
-        if (this.props.wheelContainer) {
-            document.removeEventListener('wheel', this._handleWheel);
+        if (this.#wheelRoot) {
+            this.#wheelRoot.removeEventListener('wheel', this._handleWheel);
         }
     }
 
@@ -104,13 +107,17 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         }
     }
 
-    _handleWheel = (event: WheelEvent) => {
-        const target = (event.target as HTMLElement)?.closest(this.props.wheelContainer ?? '.-scrollbar-container');
-        if (!target) {
+    _handleWheel = (event: Event) => {
+        const {wheelContainer} = this.props;
+        const target = (event.target as HTMLElement);
+        if (!target || !wheelContainer) {
             return;
         }
-        event.preventDefault();
-        this.scrollOffset((this.props.type === 'horz' ? event.deltaX : event.deltaY) * (this.props.wheelSpeed ?? 1));
+
+        if ((typeof wheelContainer === 'string' && target.closest(wheelContainer)) || typeof wheelContainer === 'object') {
+            event.preventDefault();
+            this.scrollOffset((this.props.type === 'horz' ? (event as WheelEvent).deltaX : (event as WheelEvent).deltaY) * (this.props.wheelSpeed ?? 1));
+        }
     };
 
     _handleMouseMove = (event: MouseEvent) => {
