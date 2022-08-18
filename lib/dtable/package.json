@@ -10,6 +10,7 @@
     "browser": "src/main.ts",
     "dependencies": {
         "@zui/browser-helpers": "workspace:^0.0.1",
+        "@zui/helpers": "workspace:^0.0.1",
         "@zui/scrollbar": "workspace:^0.0.1",
         "nanoid": "^4.0.0",
         "preact": "^10.10.0"
@@ -21,5 +22,10 @@
     },
     "files": [
         "./src/**/*"
-    ]
+    ],
+    "devDependencies": {
+        "@faker-js/faker": "^7.4.0",
+        "@zui/label": "workspace:^0.0.1",
+        "@zui/avatar": "workspace:^0.0.1"
+    }
 }

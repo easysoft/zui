@@ -1,5 +1,9 @@
 # 数据表格
 
+## 产品表格
+
+<div id="productTable"></div>
+
 ## 示例
 
 <div id="datatableExample"></div>
