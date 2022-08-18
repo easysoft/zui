@@ -1,7 +1,6 @@
 :root {
   --form-group-space: 1rem;
   --form-group-space-fixed: 1.75rem;
-  --form-control-radius: var(--radius);
   --form-label-width: 5rem;
   --form-horizontal-label-text-align: right;
   --legend-margin-bottom: 0.2rem;
@@ -9,6 +8,7 @@
   --legend-color: var(--color-black-500);
   --legend-font-size: 18px;
   --required-content-color: var(--color-danger-500);
+  --form-control-radius: var(--radius);
   --form-control-border-color: var(--color-gray-300);
   --form-control-focus-border-color: var(--color-primary-500);
   --form-comtrol-placeholder-color: var(--color-gray-500);

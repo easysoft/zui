@@ -127,9 +127,9 @@
 
 ## 校验状态出现不改变行高
 
-在使用插入文本时，会出现表单高度变化的情况，可以通过给form添加 '-tips-fixed'类增加表单行间距的同时改变tips的定位方式 来使tips的出现不影响表单整体高度
+在使用插入文本时，会出现表单高度变化的情况，可以通过给form添加 'tips-fixed'类增加表单行间距的同时改变tips的定位方式 来使tips的出现不影响表单整体高度
 <Example>
- <form class="-tips-fixed">
+ <form class="tips-fixed">
    <div class="form-group has-success">
      <label for="inputSuccess1">输入框（success）</label>
      <input type="text" class="form-control" id="inputSuccess1">
@@ -148,7 +148,7 @@
 
 
 ```html
- <form class="-tips-fixed">
+ <form class="tips-fixed">
    <div class="form-group has-success">
      <label for="inputSuccess1">输入框（success）</label>
      <input type="text" class="form-control" id="inputSuccess1">
@@ -450,3 +450,26 @@
    <option value="orange">橘子</option>
  </select>
 ```
+
+## CSS 类
+
+表单提供了如下CSS类
+
+  | 类        | 类型           | 作用  |
+  | ------------- |:-------------:| ----- |
+  | `form-group`      | 实体类 | 元素作为表单组件 |
+  | `form-control`    | 实体类 | 元素作为表单控件组件 |
+  | `form-tip`        | 实体类 | 元素作为表单控件的提示性文本 |
+  | `tips-fixed`      | 修饰类 | 为表单控件添加不随tips显隐改变布局的样式 |
+  | `has-error`       | 修饰类 | 为表单控件启用报错样式 |
+  | `has-warning`     | 修饰类 | 为表单控件启用警告样式 |
+  | `has-success`     | 修饰类 | 为表单控件启用成功样式 |
+
+## CSS 变量 
+
+ | 变量名称 | 变量含义 |
+ | -------- | -------- |
+ | --form-group-space       | 表单单元模块之间的纵向间距 |
+ | --form-group-space-fixed | tip-fixed样式下变宽后单元模块纵向间距     |
+ | --form-label-width       |  |
+ | --table-border-color  | 表格边框颜色 |
