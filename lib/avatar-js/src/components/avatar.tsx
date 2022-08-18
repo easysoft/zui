@@ -1,7 +1,5 @@
 import {ClassNameLike, classes} from '@zui/browser-helpers/src/classes';
 import {Component, ComponentChildren, JSX} from 'preact';
-import '../vars.css';
-import './scrollbar.css';
 
 export interface AvatarProps {
     size?: number | 'sm' | 'md' | 'lg' | 'xl';
