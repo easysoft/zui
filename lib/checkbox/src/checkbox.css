@@ -43,6 +43,11 @@
 .radio-primary > label:before {
   @apply -rounded-full
 }
+.checkbox-primary > input,
+.radio-primary > input {
+  @apply -opacity-0;
+}
+
 .radio-primary.checked > label:before,
 .radio-primary > input:checked + label:before,
 .checkbox-primary.checked > label:before,
@@ -50,7 +55,10 @@
   @apply -bg-primary-500 --left-4;
   border-color: var(--color-primary-500);
 }
-.checkbox-primary > input,
-.radio-primary > input {
-  @apply -opacity-0;
+.radio-primary.disabled > label:before,
+.radio-primary > input[disabled] + label:before,
+.checkbox-primary.disabled > label:before,
+.checkbox-primary > input[disabled] + label:before {
+  @apply -bg-gray-500 -cursor-not-allowed;
+  border-color: var(--color-gray-500);
 }
