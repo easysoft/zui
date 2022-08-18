@@ -43,6 +43,8 @@
 | `-float-right`        | `float: right;` |
 | `-float-left`        | `float: left;` |
 
+### 使用方法
+
 向右浮动 使用 `-float-right` 将一个元素浮动到其容器的右边。
 
 <Example>
