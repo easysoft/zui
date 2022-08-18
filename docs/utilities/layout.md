@@ -48,24 +48,24 @@
 向右浮动 使用 `-float-right` 将一个元素浮动到其容器的右边。
 
 <Example>
-  <img class="-float-right -mt-2 -mr-0 -mb-4 -ml-10 -h-28" src="../../lib/avatar/assets/avatar-14.png">
+  <img class="-float-right -mt-2 -mr-0 -mb-4 -ml-10 -h-28" src="../../lib/avatar/assets/avatar.png">
   <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 </Example>
 
 ```html
-<img class="-float-right ..." src="../../lib/avatar/assets/avatar-14.png">
+<img class="-float-right ..." src="../../lib/avatar/assets/avatar.png">
 <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 ```
 
 向左浮动 使用 `-float-left` 将一个元素浮动到其容器的右边。
 
 <Example>
-  <img class="-float-left mt-2 -mr-4 mb-4 ml-0 h-28" src="../../lib/avatar/assets/avatar-14.png">
+  <img class="-float-left mt-2 -mr-4 mb-4 ml-0 h-28" src="../../lib/avatar/assets/avatar.png">
   <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 </Example>
 
 ```html
-<img class="-float-left ..." src="../../lib/avatar/assets/avatar-14.png">
+<img class="-float-left ..." src="../../lib/avatar/assets/avatar.png">
 <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 ```
 
@@ -87,13 +87,13 @@ Contain —— 使用 .-object-contain 调整元素内容的大小，使其保�
 
 <Example>
   <div class="bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-contain">
+    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-contain">
   </div>
 </Example>
 
 ```html
 <div class="bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-contain">
+  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-contain">
 </div>
 ```
 
@@ -101,13 +101,13 @@ Cover —— 使用 .-object-cover 调整元素内容的大小以覆盖其容器
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-cover">
+    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-cover">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-cover">
+  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-cover">
 </div>
 ```
 
@@ -115,13 +115,13 @@ Fill —— 使用 .-object-fill 拉伸元素的内容以适应其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-fill">
+    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-fill">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-fill">
+  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-fill">
 </div>
 ```
 
@@ -129,13 +129,13 @@ None —— 使用 .-object-none 以原始大小显示元素的内容，忽略�
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-none">
+    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-none">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-none">
+  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-none">
 </div>
 ```
 
@@ -143,13 +143,13 @@ Scale Down —— 以原始大小显示元素的内容，但必要时使用 .-ob
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-scale-down">
+    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-scale-down">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar-14.png" class="h-48 w-full -object-scale-down">
+  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full -object-scale-down">
 </div>
 ```
 
