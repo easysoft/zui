@@ -92,13 +92,17 @@ domReady(() => {
         } else {
             console.log('Cant\'t find this json file!');
         }
-   }).then (json => {
-        const $ul = document.getElementById('iconsExample');
-        let ulChildrenStr = '';
-        for (const icon in json) {
-            ulChildrenStr += `<li class="w-1/4 p-2 m-1 bg-slate-200 flex items-center -flex-col light-pale rounded "><i class="icon icon-${icon}"></i>icon-${icon}</li>`;
+    }).then (json => {
+        const $ul = window.document.getElementById('iconsExample');
+        if ($ul) {
+            let ulChildrenStr = '';
+            for (const icon in json) {
+                ulChildrenStr += `<li class="w-1/4 p-2 m-1 bg-slate-200 flex items-center -flex-col light-pale rounded "><i class="icon icon-${icon}"></i>icon-${icon}</li>`;
+            }
+            $ul.innerHTML = ulChildrenStr;
+        } else {
+            console.log('iconsExample is not find!');
         }
-        $ul.innerHTML = ulChildrenStr;
     });
 });
 </script>
