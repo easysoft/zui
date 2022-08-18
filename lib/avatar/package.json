@@ -4,11 +4,27 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
-    "keywords": ["css", "zui:control"],
     "dependencies": {
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "头像",
+        "contributes": {
+            "css": ["class", "var"]
+        },
+        "docs": [{
+            "sidebar": "lib",
+            "section": "components",
+            "items": [
+                {
+                    "text": "头像",
+                    "link": "index"
+                }
+            ]
+        }]
     }
 }
