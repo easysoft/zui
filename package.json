@@ -16,6 +16,7 @@
     "docs:build": "pnpm docs:prepare -- --copy && cd docs && pnpm build",
     "docs:serve": "cd docs && pnpm serve",
     "docs:prepare": "tsx ./tools/prepare-docs.ts",
+    "extend-libs": "tsx ./tools/extend-libs.ts",
     "install:buildin-libs": "tsx ./tools/install-buildin-libs.ts"
   },
   "workspaces": [
