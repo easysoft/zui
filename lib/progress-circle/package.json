@@ -1,0 +1,10 @@
+{
+    "name": "@zui/progress-circle",
+    "description": "ZUI progress-circle",
+    "version": "0.0.1",
+    "keywords": ["js", "zui:js-progress-circle"],
+    "module": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ]
+}
