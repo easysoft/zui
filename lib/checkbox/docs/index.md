@@ -264,10 +264,3 @@
   <div class="radio-primary"><label>未选中</label></div>
   <div class="radio-primary checked"><label>选中</label></div>
 ```
-
-<style>
-.radio-primary,
-.checkbox-primary {
-  line-height: 16px;
-}
-</style>
