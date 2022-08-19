@@ -3,5 +3,4 @@ packages:
   - "lib/**"
   - "build"
   - "docs"
-  - "dev"
   - "exts/*/**"

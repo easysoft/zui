@@ -2,7 +2,7 @@ import '@zui/base';
 import '@zui/scrollbar/src/scrollbar-css.css';
 import 'highlight.js/styles/github.css';
 import './style.css';
-import {LibInfo} from '../../tools/libs/lib-info';
+import {LibInfo} from '../tools/libs/lib-info';
 
 async function loadLibs() {
     const response = await fetch('/libs/');

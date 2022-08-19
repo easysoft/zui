@@ -23,11 +23,13 @@
     "./lib"
   ],
   "dependencies": {
+    "highlight.js": "^11.6.0",
     "zui-config": "workspace:^0.0.1",
-    "zui-dev": "workspace:^0.0.1"
+    "@zui/base": "workspace:0.0.1",
+    "@zui/scrollbar": "workspace:0.0.1",
+    "@zui/utilities": "workspace:0.0.1"
   },
   "devDependencies": {
-    "highlight.js": "^11.6.0",
     "@tailwindcss/line-clamp": "^0.4.0",
     "@types/fs-extra": "^9.0.13",
     "@types/markdown-it": "^12.2.3",
