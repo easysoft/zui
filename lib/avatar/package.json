@@ -15,16 +15,6 @@
         "displayName": "头像",
         "contributes": {
             "css": ["class", "var"]
-        },
-        "docs": [{
-            "sidebar": "lib",
-            "section": "components",
-            "items": [
-                {
-                    "text": "头像",
-                    "link": "index"
-                }
-            ]
-        }]
+        }
     }
 }
