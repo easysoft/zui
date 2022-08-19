@@ -49,6 +49,14 @@ export default (options: {rootPath: string}): Plugin => ({
                     res.setHeader('Content-Type', 'text/html');
                     res.end(html);
                     return;
+                } else {
+                    res.setHeader('Content-Type', 'text/html');
+                    res.end([
+                        '<h1>404</h1>',
+                        '<p>Cannot found the README.md file for development, your can create one:</p>',
+                        `<pre class="underline"><code>${markdownFile}</code></pre>`,
+                    ].join('\n'));
+                    return;
                 }
             }
             next();

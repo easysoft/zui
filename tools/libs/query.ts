@@ -1,13 +1,14 @@
 import fs from 'fs-extra';
 import Path from 'path';
 import {LibInfo, LibSourceType} from './lib-info';
+import {LibType, libTypeOrders} from './lib-type';
 import {getLibsCache, setLibsCache} from './libs-cache';
 
 /**
  * Get lib list
  * @param libPath - Lib path - 组件路径
  */
-export async function getLibs(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean} = {}): Promise<Record<string, LibInfo>> {
+export async function getLibs(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number} = {}): Promise<Record<string, LibInfo>> {
     if (!libPath) {
         const libs = await getLibs(['buildIn', 'exts'], options);
         return libs;
@@ -21,9 +22,9 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
 
     if (Array.isArray(libPath)) {
         const libs: Record<string, LibInfo> = {};
-        for (const lib of libPath) {
-            const libInfo = await getLibs(lib, options);
-            Object.assign(libs, libInfo);
+        for (let i = 0; i < libPath.length; i++) {
+            const lib = await getLibs(libPath[i], {...options, idx: i});
+            Object.assign(libs, lib);
         }
         return libs;
     }
@@ -40,6 +41,12 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         sourceType = Path.resolve(process.cwd(), './lib') === libPath ? 'build-in' : 'exts';
     }
 
+    let workspace = sourceType === 'build-in';
+    if (sourceType === 'exts' && libPath.startsWith(root)) {
+        const libPathStat = await fs.stat(libPath);
+        workspace = !libPathStat.isSymbolicLink();
+    }
+
     if (cache) {
         const libsCache = await getLibsCache(libPath);
         if (libsCache) {
@@ -50,33 +57,24 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     const dirs = await fs.readdir(libPath);
 
     const libs: Record<string, LibInfo> = {};
-    for (const dir of dirs) {
+    for (let i = 0; i < dirs.length; ++i) {
+        const dir = dirs[i];
         const packageFile = Path.resolve(libPath, dir, 'package.json');
         const packageFileExists = await fs.pathExists(packageFile);
         if (!packageFileExists) {
             continue;
         }
-        const packageJson = await fs.readJson(packageFile, {throws: false}) as LibInfo;
+        const packageJson = await fs.readJson(packageFile, {throws: false}) as Record<string, unknown>;
         if (!packageJson || !packageJson.name) {
             continue;
         }
 
-        const defaultName = packageJson.name.startsWith('@zui/') ? packageJson.name.substring(5) : packageJson.name;
-        packageJson.zui = Object.assign({
-            type: 'component',
-            displayName: defaultName,
-            contributes: {},
-            docs: {
-                sidebar: 'lib',
-                section: 'components',
-            },
-            path: Path.resolve(libPath, dir),
+        const libInfo = createLibFromPackageJson(packageJson, {
             sourceType,
-            name: defaultName,
-            extsName: sourceType === 'exts' ? libPath.split('/').pop() : undefined,
-        }, packageJson.zui);
-
-        const libInfo = packageJson as LibInfo;
+            path: Path.resolve(libPath, dir),
+            idx: ((options.idx ?? 0) * 10000) + i,
+            workspace,
+        });
         libs[libInfo.zui.name] = libInfo;
     }
 
@@ -96,4 +94,35 @@ export function getExtLibs() {
 
 export function getAllLibs() {
     return getLibs();
+}
+
+export async function getLibList(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number} = {}) {
+    const libs = await getLibs(libPath, options);
+    return Object.keys(libs).sort((a, b) => libs[a].zui.order - libs[b].zui.order);
+}
+
+export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean}): LibInfo {
+    const name = packageJson.name as string;
+    const defaultName = name.startsWith('@zui/') ? name.substring(5) : name;
+    const {sourceType = 'build-in', path, idx = 0, workspace} = options;
+    const libInfo = {
+        ...packageJson,
+        zui: {
+            type: LibType.component,
+            displayName: defaultName,
+            contributes: {},
+            docs: {
+                sidebar: 'lib',
+                section: 'components',
+            },
+            path,
+            workspace,
+            sourceType,
+            name: defaultName,
+            extsName: sourceType === 'exts' ? path.split('/').reverse()[1] : undefined,
+            ...(packageJson.zui as Record<string, unknown>),
+        },
+    } as LibInfo;
+    libInfo.zui.order = (libTypeOrders[libInfo.zui.type] * 100000000) + idx;
+    return libInfo;
 }

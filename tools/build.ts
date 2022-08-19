@@ -22,6 +22,7 @@ const buildConfig = await createBuildConfig({
     libs: argv.lib ?? argv.l ?? argv.config ?? argv.c ?? argv._.join(' '),
     name: argv.name ?? argv.n,
     version: argv.version ?? argv.v,
+    exts: argv.exts ?? argv.e,
 });
 
 const buildDir = Path.resolve(process.cwd(), 'build');

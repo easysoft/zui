@@ -2,24 +2,26 @@ import {Contributes} from './lib-contributes';
 import {LibDocs} from './lib-docs';
 import {LibType} from './lib-type';
 
+export type LibSourceType = 'npm' | 'exts' | 'build-in' | 'local';
+
 export interface ZuiLibInfo {
+    sourceType: LibSourceType;
+    name: string;               // 'avatar',
     type: LibType;
     displayName: string;
-    contributes: Contributes;
-    docs: LibDocs;
-    name: string;               // 'avatar',
+    contributes?: Partial<Contributes>;
+    docs?: LibDocs;
     path: string;               // 'libs/avatar',
-    sourceType: LibSourceType;
     extsName?: string;          // 'zentao
+    order: number;              // 0
+    workspace?: boolean;
 }
-
-export type LibSourceType = 'npm' | 'exts' | 'build-in';
 
 export interface LibInfo {
     name: string;              // '@zui/avatar',
     version: string;           // '0.0.1',
     zui: ZuiLibInfo;
-    main: string;              // 'src/main.ts',
+    main?: string;              // 'src/main.ts',
     description?: string;      // '头像',
     browser?: string;          // 'src/main.ts',
     browserslist?: string;     // '',

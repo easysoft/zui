@@ -1,14 +1,14 @@
 import Path from 'path';
 import fs from 'fs-extra';
-import {getBuildInLibs, BuildInLibInfo} from './buildin-libs';
+import {getLibs} from './libs/query';
+import {LibInfo} from './libs/lib-info';
+import {LibType} from './libs/lib-type';
 
 /**
  * Libs like string - 构建库（或组件）定义字符串
  * @example
  * - `button dropdown` 使用空格拼接多个依赖来定义一个构建库（或组件）
- * - `:zui-button button dropdown` 在依赖定义前使用 `:` 来指定构建名称
- * - `+clipboard +jquery@^3.0` 使用 + 来引用 npm 上的第三方包
- * - `./my_path/custom_lib_entry` 指定用于作为构建库（或组件）的入口文件路径
+ * - `zui +clipboard +jquery@^3.0` 使用 + 来引用 npm 上的第三方包
  */
 export type LibsLike = string;
 
@@ -27,63 +27,9 @@ export interface BuildConfigOptions {
 
     /** Output directory - 输出目录 */
     outDir?: string;
-}
 
-/**
- * Build lib dependency - 构建库（或组件）依赖定义
- */
-export type BuildLibDependency = {
-    /** Dependency name - 名称 */
-    name: string;
-
-    /** Dependency type - 依赖类型 */
-    type: 'package';
-
-    /** Package version - 依赖的包版本 */
-    version: string;
-
-    /** Order - 顺序 */
-    order: number;
-} | {
-    /** Dependency name - 名称 */
-    name: string;
-
-    /** Dependency type - 依赖类型 */
-    type: 'file';
-
-    /** File path - 依赖的文件路径 */
-    path: string;
-
-    /** Order - 顺序 */
-    order: number;
-};
-
-
-/**
- * Build lib dependency like - 构建库（或组件）依赖定义字符串
- * @see https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies
- * @example
- *  - `+jquery@3.0.0`
- *  - `+jquery@^3.0` 依赖 jquery 3.0 兼容版本
- *  - `+jquery` 依赖 jquery 最新版本，相当于 `+jquery@latest`
- *  - `button` 依赖 "@zui/button" 最新版本，相当于 `@zui/button@latest`
- *  - `button@3.0.0` 依赖 "@zui/button" 3.0.0 版本，相当于 `@zui/button@3.0.0`
- *  - `./my/custom_file.js` 依赖一个指定路径的文件
- */
-export type BuildLibDependencyLike = string | BuildLibDependency;
-
-/**
- * Build lib - 构建库（或组件）定义
- */
-export interface BuildLib {
-    /** Build lib name - 构建库（或组件）名称 */
-    name: string;
-
-    /** Build lib dependencies - 构建库（或组件）依赖列表 */
-    dependencies: BuildLibDependency[],
-
-    /** Build lib entry file */
-    entryFile?: string;
+    /** Extentions - 扩展库 */
+    exts?: string | string[];
 }
 
 /**
@@ -97,7 +43,7 @@ export interface BuildConfig {
     version?: string;
 
     /** Build lib list - 构建库（或组件）清单 */
-    libs: BuildLib[];
+    libs: LibInfo[];
 }
 
 /**
@@ -121,101 +67,64 @@ function getAbsolutePath(path: string) {
     return Path.resolve(process.cwd(), path.startsWith('~/') ? path.replace('~', '.') : path);
 }
 
-/** External lib order - 外部文件加载顺序 */
-const EXTERNAL_FILE_ORDER = 99999;
-
-/** External lib order - 外部包加载顺序 */
-const EXTERNAL_LIB_ORDER = 99999;
-
-/**
- * Parse a string to a build lib dependency - 解析一个字符串为构建库（或组件）依赖定义
- * @param dependencyLike Dependency like string - 依赖定义字符串
- * @param buildInLibs Build in libs - 内置库
- * @returns Build lib dependency - 构建库（或组件）依赖定义
- */
-function parseBuildDependency(dependencyLike: BuildLibDependencyLike, buildInLibs: Map<string, BuildInLibInfo>): BuildLibDependency {
-    if (typeof dependencyLike !== 'string') {
-        return dependencyLike;
-    }
-    if (isPathLike(dependencyLike)) {
-        return {name: dependencyLike.split('/').pop() as string, type: 'file', path: dependencyLike, order: EXTERNAL_FILE_ORDER};
-    }
-    const isNpmLib = dependencyLike.startsWith('+');
-    dependencyLike = isNpmLib ? dependencyLike.substring(1) : dependencyLike;
-    const startWithAt = dependencyLike.startsWith('@');
-    const [namePart, versionOrPath] = (startWithAt ? dependencyLike.substring(1) : dependencyLike).split('@');
-    let name = `${startWithAt ? '@' : ''}${namePart}`;
-    if (!isNpmLib) {
-        if (isPathLike(versionOrPath)) {
-            return {name, type: 'file', path: versionOrPath, order: EXTERNAL_FILE_ORDER};
-        }
-        if (!name.startsWith('@zui/')) {
-            name = `@zui/${name}`;
-        }
-        if (!buildInLibs.has(name)) {
-            throw new Error(`Build Error: ${name} is not a build in lib`);
-        }
-    }
-    const buildInLib = !isNpmLib ? buildInLibs.get(name) : null;
-    let version = versionOrPath;
-    const order = isNpmLib ? EXTERNAL_LIB_ORDER : buildInLib?.order;
-    if (!version) {
-        const workspaceVersion = buildInLibs.get(name)?.workspaceVersion;
-        if (workspaceVersion) {
-            version = workspaceVersion;
-        }
-    }
-    return {
-        name,
-        type: 'package',
-        version: version || 'latest',
-        order: order || EXTERNAL_LIB_ORDER,
-    };
-}
-
 /**
  * Parse a string to a BuildLib - 解析一个字符串为构建库（或组件）
- * @param lib Lib - 构建库（或组件）定义字符串
- * @param buildInLibs Build in libs - 内置库
+ * @param libLike Lib - 构建库（或组件）定义字符串，例如 zui, button, +jquery, @zui/button@1.1.0
+ * @param libsMap Libs map - 所有可用的库
  * @returns Build lib - 构建库（或组件）
  */
-function parseBuildLib(lib: string, buildInLibs: Map<string, BuildInLibInfo>): BuildLib {
-    if (lib === 'zui' || lib === '@zui') {
-        return {
-            name: 'zui',
-            dependencies: [...buildInLibs.values()].map(({name, workspaceVersion, order}) => ({
-                name,
-                type: 'package',
-                version: workspaceVersion,
-                order: order,
-            } as BuildLibDependency)).sort((x, y) => (x.order - y.order)),
-        };
+function parseBuildLib(libLike: string | '@zui', libsMap: Record<string, LibInfo>): LibInfo[] {
+    if (libLike === 'zui' || libLike === '@zui') {
+        return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in').sort((a, b) => a.zui.order - b.zui.order);
     }
 
-    const dependency = parseBuildDependency(lib, buildInLibs);
-    return {name: dependency.name, dependencies: [dependency]};
+    const isNpmLib = libLike.startsWith('+');
+    if (isNpmLib) {
+        libLike = libLike.substring(1);
+    }
+    const startWithAt = libLike.startsWith('@');
+    const [namePart, version] = (startWithAt ? libLike.substring(1) : libLike).split('@');
+    const name = `${startWithAt ? '@' : ''}${namePart}`;
+    if (isNpmLib) {
+        const libInfo: LibInfo = {
+            name,
+            version,
+            zui: {
+                name,
+                displayName: name,
+                type: LibType.other,
+                sourceType: 'npm',
+                order: 0,
+                path: '',
+            },
+        };
+        return [libInfo];
+    }
+
+    const shortName = name.startsWith('@zui/') ? name.substring('@zui/'.length) : name;
+    const libInfo = libsMap[shortName];
+    if (!libInfo) {
+        throw new Error(`Build Error: cannot find a lib named "${name}".`);
+    }
+
+    return [libInfo];
 }
 
 /**
  * Parse a string to a build libs - 解析一个字符串为构建库（或组件）列表
  * @param libsLike Libs like string - 构建库（或组件）字符串
- * @param buildInLibs Build in libs - 内置库
+ * @param libsMap Libs map - 所有可用的库
  * @returns 构建库（或组件）列表和名称
  */
-function parseBuildLibs(libsLike: LibsLike, buildInLibs: Map<string, BuildInLibInfo>): {name: string | null, libs: BuildLib[]} {
-    const libs: BuildLib[] = [];
-    let name: string | null = null;
+function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): LibInfo[] {
+    const libs: LibInfo[] = [];
     libsLike.split(/[ ,]/).forEach(libLike => {
         if (!libLike.length) {
             return;
         }
-        if (libLike.startsWith(':')) {
-            name = libLike.substring(1);
-        } else {
-            libs.push(parseBuildLib(libLike, buildInLibs));
-        }
+        libs.push(...parseBuildLib(libLike.trim(), libsMap));
     });
-    return {libs, name};
+    return libs;
 }
 
 /**
@@ -230,23 +139,23 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         version,
     } = options;
 
+    let {exts} = options;
+    if (typeof exts === 'string') {
+        exts = exts.split(',').map(ext => ext.trim());
+    }
+    const libsMap = await getLibs(exts, {cache: false});
     const buildConfig: BuildConfig = {name, version, libs: []};
 
-    const buildInLibs = await getBuildInLibs();
     if (configFileOrLibs && isPathLike(configFileOrLibs)) {
         const configFromFile = await fs.readJSON(Path.isAbsolute(configFileOrLibs) ? configFileOrLibs : Path.resolve(process.cwd(), configFileOrLibs));
         Object.assign(buildConfig, configFromFile);
     } else {
-        const results = parseBuildLibs(configFileOrLibs || 'zui', buildInLibs);
-        buildConfig.libs.push(...results.libs);
-        if (!buildConfig.name.length) {
-            if (typeof results.name === 'string' && results.name.length) {
-                buildConfig.name = results.name;
-            } else if (buildConfig.libs.length === 1) {
-                buildConfig.name = results.libs[0].name;
-                if (buildConfig.name.startsWith('@zui/')) {
-                    buildConfig.name = buildConfig.name.substring('@zui/'.length);
-                }
+        const results = parseBuildLibs(configFileOrLibs || 'zui', libsMap);
+        buildConfig.libs.push(...results);
+        if (!buildConfig.name.length && buildConfig.libs.length === 1) {
+            buildConfig.name = results[0].name;
+            if (buildConfig.name.startsWith('@zui/')) {
+                buildConfig.name = buildConfig.name.substring('@zui/'.length);
             }
         }
     }
@@ -262,8 +171,6 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     if (!buildConfig.name.length) {
         buildConfig.name = 'zui-custom';
-    } else if (buildInLibs.has(buildConfig.name)) {
-        throw new Error(`Build Error: Build name "${buildConfig.name}" must be difference from build-in libs.`);
     }
 
     return buildConfig;
@@ -278,15 +185,8 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
     const entryFileLines: string[] = [];
 
     for (const lib of config.libs) {
-        lib.dependencies.reduce<string[]>((lines, dependency) => {
-            if (dependency.type === 'file') {
-                lines.push(`export * from ${JSON.stringify(getAbsolutePath(dependency.path))};`);
-            } else {
-                lines.push(`export * from ${JSON.stringify(dependency.name)};`);
-                dependencies[dependency.name] = dependency.version;
-            }
-            return lines;
-        }, entryFileLines);
+        dependencies[lib.name] = lib.zui.workspace ? `workspace:${lib.version}` : lib.version;
+        entryFileLines.push(`export * from ${JSON.stringify(lib.name)};`);
     }
 
     const entryFile = Path.join(buildDir, 'main.ts');
