@@ -35,6 +35,19 @@
 | `container` | sm (1280px) | `max-width: 1280px;` |
 | `container` | sm (1536px) | `max-width: 1536px;` |
 
+
+### 使用方法
+
+`container` 类设置一个元素的 `max-width` 来匹配当前断点的 `min-width`。如果您想为一组固定的屏幕尺寸设计，而不是试图适应一个完全流动的视窗，这很有用。
+
+请注意，容器不会自动居中，也没有任何内置的水平方向的内边距。
+
+```html
+<div class="container">
+    <!-- ... -->
+</div>
+```
+
 ## 显示类型
 
 | 修饰类        | 定义  |
@@ -50,7 +63,7 @@
 | `list-item`    | `display: list-item;` |
 | `hidden`       | `display: hidden;` |
 
-### `block`
+### block
 
 <Example>
   <span>这是一个行内标签</span>
@@ -62,7 +75,7 @@
 <span class="block h-16">这是一个 span 标签。</span>
 ```
 
-### `inline-block`
+### inline-block
 
 <Example>
   <span>这是一个 span 标签。</span>
@@ -74,7 +87,7 @@
 <span class="inline-block h-16">这是一个 span 标签。</span>
 ```
 
-### `inline`
+### inline
 
 <Example>
   <span>这是一个 span 标签。</span>
@@ -86,7 +99,7 @@
 <div class="inline h-16">这是一个 div 标签。</div>
 ```
 
-### `flex`
+### flex
 
 <Example>
   <div class="flex gap-2 h-12">
@@ -102,7 +115,9 @@
 </div>
 ```
 
-### `inline-flex`
+### inline-flex
+
+使用 `inline-flex` 来创建一个内联的 flex 容器。
 
 <Example>
   <div class="inline-flex space-x-4">
@@ -120,7 +135,7 @@
 </div>
 ```
 
-### `table` `table-row` `table-cell`
+### table table-row table-cell
 
 <Example>
   <div class="table w-full bg-surface">
@@ -156,7 +171,7 @@
 </div>
 ```
 
-### `list-item`
+### list-item
 
 <Example>
   <div class="list-item">ZUI3</div>
@@ -170,7 +185,7 @@
 <div>ZUI3</div>
 ```
 
-### `hidden`
+### hidden
 
 <Example>
   <div class="flex space-x-4">
@@ -200,24 +215,24 @@
 向右浮动 使用 `pull-right` 将一个元素浮动到其容器的右边。
 
 <Example>
-  <img class="pull-right mt-2 mr-0 mb-4 ml-10 h-28" src="../../lib/avatar/assets/avatar.png">
+  <img class="pull-right mt-2 mr-0 mb-4 ml-10 h-28" src="/lib/avatar/assets/avatar.png">
   <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 </Example>
 
 ```html
-<img class="pull-right ..." src="../../lib/avatar/assets/avatar.png">
+<img class="pull-right ..." src="/lib/avatar/assets/avatar.png">
 <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 ```
 
 向左浮动 使用 `pull-left` 将一个元素浮动到其容器的右边。
 
 <Example>
-  <img class="pull-left mt-2 mr-4 mb-4 ml-0 h-28" src="../../lib/avatar/assets/avatar.png">
+  <img class="pull-left mt-2 mr-4 mb-4 ml-0 h-28" src="/lib/avatar/assets/avatar.png">
   <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 </Example>
 
 ```html
-<img class="pull-left ..." src="../../lib/avatar/assets/avatar.png">
+<img class="pull-left ..." src="/lib/avatar/assets/avatar.png">
 <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 ```
 
@@ -239,13 +254,13 @@ Contain —— 使用 .obj-contain 调整元素内容的大小，使其保持在
 
 <Example>
   <div class="bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full object-contain">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-contain">
   </div>
 </Example>
 
 ```html
 <div class="bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full object-contain">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-contain">
 </div>
 ```
 
@@ -253,13 +268,13 @@ Cover —— 使用 .obj-cover 调整元素内容的大小以覆盖其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full obj-cover">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-cover">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full obj-cover">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-cover">
 </div>
 ```
 
@@ -267,13 +282,13 @@ Fill —— 使用 .obj-fill 拉伸元素的内容以适应其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full obj-fill">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-fill">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full obj-fill">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-fill">
 </div>
 ```
 
@@ -281,13 +296,13 @@ None —— 使用 .obj-none 以原始大小显示元素的内容，忽略容器
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full obj-none">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-none">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full obj-none">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-none">
 </div>
 ```
 
@@ -295,13 +310,13 @@ Scale Down —— 以原始大小显示元素的内容，但必要时使用 .obj
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full obj-scale-down">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-scale-down">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="../../lib/avatar/assets/avatar.png" class="h-48 w-full obj-scale-down">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-scale-down">
 </div>
 ```
 

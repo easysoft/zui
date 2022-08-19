@@ -2,16 +2,18 @@
 
 ## 字体
 
-| 修饰类          | 定义                  |
+<div style="width:80px">修饰类</div>| <div>定义</div> 
 |:--------------- |:-------------------- |
 | `sans`    | `font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";` |
 | `serif`   | `font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;` |
 | `mono`    | `font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;` |
 
+使用 `sans` 可应用一个网络安全的无衬线字体；使用 `serif` 可应用网络安全的衬线字体；使用 `mono` 可应用一个网络安全的等宽字体。
+
 <Example class="leading-7" background="light-circle">
-  <div class="sans"> sans 字体</div>
-  <div class="serif"> serif 字体</div>
-  <div class="mono"> mono 字体</div>
+  <div class="text-lg sans"> sans 字体</div>
+  <div class="text-lg serif"> serif 字体</div>
+  <div class="text-lg mono"> mono 字体</div>
 </Example>
 
 ```html
@@ -30,6 +32,10 @@
 | `text-lg`    | `font-size: 1rem;line-height: 1.5rem;` |
 | `text-xl`    | `font-size: 1.125rem;line-height: 1.75rem;` |
 | `text-2xl`   | `font-size: 1.5rem;line-height: 2rem;` |
+
+### 使用方法
+
+使用 `text-{size}` 工具类控制元素的字体大小。
 
 <Example class="leading-7" background="light-circle">
   <div class="text-xs"> text-xs 字体大小</div>
@@ -58,6 +64,10 @@
 | `font-medium` | `font-weight: 500;` |
 | `font-bold`   | `font-weight: 700;` |
 | `font-black`  | `font-weight: 900;` |
+
+### 使用方法
+
+使用 `font-{weight}` 工具类来控制元素字体粗细。
 
 <Example class="leading-7" background="light-circle">
   <div class="font-thin"> font-thin 字体粗细</div>
@@ -96,49 +106,67 @@
 | `leading-relaxed` | `line-height: 1.625;` |
 | `leading-loose`   | `line-height: 2;` |
 
-<Example background="light-circle">
-  <div class="leading-3"> leading-3 行高展示</div>
-  <div class="leading-4"> leading-4 行高展示</div>
-  <div class="leading-5"> leading-5 行高展示</div>
-  <div class="leading-6"> leading-6 行高展示</div>
-  <div class="leading-7"> leading-7 行高展示</div>
-  <div class="leading-8"> leading-8 行高展示</div>
-  <div class="leading-9"> leading-9 行高展示</div>
-  <div class="leading-10"> leading-10 行高展示</div>
-  <div class="leading-none"> leading-none 行高展示</div>
-  <div class="leading-tight"> leading-tight 行高展示</div>
-  <div class="leading-snug"> leading-snug 行高展示</div>
-  <div class="leading-normal"> leading-normal 行高展示</div>
-  <div class="leading-relaxed"> leading-relaxed 行高展示</div>
-  <div class="leading-loose"> leading-loose 行高展示</div>
+### 固定行高
+
+使用 `leading-{size}` 工具类给一个元素一个固定的行高，而不管当前的字体大小。
+
+<Example>
+  <div class="shadow mb-4 leading-3"> leading-3 行高展示</div>
+  <div class="shadow mb-4 leading-4"> leading-4 行高展示</div>
+  <div class="shadow mb-4 leading-5"> leading-5 行高展示</div>
+  <div class="shadow mb-4 leading-6"> leading-6 行高展示</div>
+  <div class="shadow mb-4 leading-7"> leading-7 行高展示</div>
+  <div class="shadow mb-4 leading-8"> leading-8 行高展示</div>
+  <div class="shadow mb-4 leading-9"> leading-9 行高展示</div>
+  <div class="shadow mb-4 leading-10"> leading-10 行高展示</div>
 </Example>
 
 ```html
-<div class="leading-3"> leading-3 行高展示</div>
-<div class="leading-4"> leading-4 行高展示</div>
-<div class="leading-5"> leading-5 行高展示</div>
-<div class="leading-6"> leading-6 行高展示</div>
-<div class="leading-7"> leading-7 行高展示</div>
-<div class="leading-8"> leading-8 行高展示</div>
-<div class="leading-9"> leading-9 行高展示</div>
-<div class="leading-10"> leading-10 行高展示</div>
-<div class="leading-none"> leading-none 行高展示</div>
-<div class="leading-tight"> leading-tight 行高展示</div>
-<div class="leading-snug"> leading-snug 行高展示</div>
-<div class="leading-normal"> leading-normal 行高展示</div>
-<div class="leading-relaxed"> leading-relaxed 行高展示</div>
-<div class="leading-loose"> leading-loose 行高展示</div>
+<div class="shadow mb-4 leading-3"> leading-3 行高展示</div>
+<div class="shadow mb-4 leading-4"> leading-4 行高展示</div>
+<div class="shadow mb-4 leading-5"> leading-5 行高展示</div>
+<div class="shadow mb-4 leading-6"> leading-6 行高展示</div>
+<div class="shadow mb-4 leading-7"> leading-7 行高展示</div>
+<div class="shadow mb-4 leading-8"> leading-8 行高展示</div>
+<div class="shadow mb-4 leading-9"> leading-9 行高展示</div>
+<div class="shadow mb-4 leading-10"> leading-10 行高展示</div>
+```
+
+### 相对行高
+
+使用 `leading-none`、 `leading-tight`、 `leading-snug`、 `leading-normal`、 `leading-relaxed` 和 `leading-loose` 等工具类，根据元素当前的字体大小，给它一个相对的行高。
+
+<Example>
+  <div class="shadow mb-4 leading-none"> leading-none 行高展示</div>
+  <div class="shadow mb-4 leading-tight"> leading-tight 行高展示</div>
+  <div class="shadow mb-4 leading-snug"> leading-snug 行高展示</div>
+  <div class="shadow mb-4 leading-normal"> leading-normal 行高展示</div>
+  <div class="shadow mb-4 leading-relaxed"> leading-relaxed 行高展示</div>
+  <div class="shadow mb-4 leading-loose"> leading-loose 行高展示</div>
+</Example>
+
+```html
+<div class="shadow mb-4 leading-none"> leading-none 行高展示</div>
+<div class="shadow mb-4 leading-tight"> leading-tight 行高展示</div>
+<div class="shadow mb-4 leading-snug"> leading-snug 行高展示</div>
+<div class="shadow mb-4 leading-normal"> leading-normal 行高展示</div>
+<div class="shadow mb-4 leading-relaxed"> leading-relaxed 行高展示</div>
+<div class="shadow mb-4 leading-loose"> leading-loose 行高展示</div>
 ```
 
 ## 控制文本行数
 
-| 修饰类           | 定义                 |
-|:--------------- |:-------------------- |
-| `line-2` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;` |
-| `line-3` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;` |
-| `line-4` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;` |
-| `line-5` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5;` |
-| `line-6` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 6;` |
+<div style="width:80px">修饰类</div>| <div>定义</div>| <div style="width:80px">作用</div>
+|:--------------- |:-------------------- |:-------------------- 
+| `line-2` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;` | 限制 2 行 |
+| `line-3` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;` | 限制 3 行 |
+| `line-4` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 4;` | 限制 4 行 |
+| `line-5` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5;` | 限制 5 行 |
+| `line-6` | `overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 6;` | 限制6 行 |
+
+### 使用方法
+
+使用 `line-{n}` 实用程序指定截断前应显示多少行文本：
 
 <Example>
   <div class="mb-4 bd line-2">ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</div>
@@ -164,6 +192,10 @@
 | `text-center` | `text-align: center;` |
 | `text-right`  | `text-align: right;` |
 | `text-justify`| `text-align: justify;` |
+
+### 使用方法
+
+使用 `.text-left`、`.text-center`、`.text-right` 和 `.text-justify` 工具类来控制元素的文本对齐方式。
 
 <Example class="leading-7" background="light-circle">
   <p class="text-left">文本左对齐</p>
@@ -229,6 +261,10 @@
 | `text-surface`   | `color: #f4f5f7` |
 | `text-inverse`   | `color: #3c4353` |
 
+### 使用
+
+使用 `text-{color}` 工具类控制元素的文字颜色。
+
 <Example class="flex flex-wrap gap-2 -bg-danger-100">
   <span class="w-36 text-primary">text-primary</span>
   <span class="w-36 text-secondary">text-secondary</span>
@@ -270,22 +306,35 @@
 
 ## 文本溢出
 
+用于控制元素中文本溢出的工具类。
+
 | 修饰类          | 定义                 |
 |:-------------- |:-------------------- |
 | `ellipsis`   | `overflow: hidden;text-overflow: ellipsis;white-space: nowrap;` |
 | `clip`  | `overflow: hidden;text-overflow: clip;white-space: nowrap;` |
 
+### Ellipsis
+
 使用 `ellipsis` 用省略号(…)来截断溢出的文本。
 
 <Example background="light-circle">
-  <p class="px-6 ellipsis">这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。</p>
-  <p class="px-6 clip">这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。</p>
+  <p class="ellipsis">这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。</p>
 </Example>
 
 ```html
-<p class="px-6 ellipsis">这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。</p>
-<p class="px-6 clip">这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。</p>
+<p class="ellipsis">这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。</p>
+```
 
+### clip
+
+使用 `clip` 在内容区域的极限处截断文本。
+
+<Example background="light-circle">
+  <p class="clip">这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。</p>
+</Example>
+
+```html
+<p class="clip">这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。这是一段内容。</p>
 ```
 
 ## 空格

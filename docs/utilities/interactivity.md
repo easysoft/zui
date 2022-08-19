@@ -2,9 +2,9 @@
 
 ## 禁用
 
-| 修饰类                  | 定义  |
+<div style="width:160px">修饰类</div>| <div>作用</div>
 |:----------------------- |:----- |
-| `disabled / [disabled]` | `cursor: not-allowed;--tw-grayscale: grayscale(1);pointer-events: none;opacity: .5;` |
+| `disabled / [disabled]` | 组件禁用 |
 
 ### 使用方法
 
@@ -23,12 +23,38 @@
 | `events-none;`        | `pointer-events: none;` |
 | `events-auto;`        | `pointer-events: auto;` |
 
-## scroll
+### events-none
+
+使用 `events-none` 使元素忽略指向事件。指向事件仍然会在子元素上触发，并传递到目标元素的下方。
+
+<Example>
+  <button class="btn events-none">events-none</button>
+</Example>
+
+```html
+<button class="btn events-none">events-none</button>
+```
+
+### events-auto
+
+使用 `events-auto` 来恢复浏览器对指向事件（如 `:hover` 和 `click` ）的默认行为。
+
+<Example>
+  <button class="btn events-auto">events-auto</button>
+</Example>
+
+```html
+<button class="btn events-auto">events-auto</button>
+```
+
+## 滚动
 
 | 修饰类        | 定义  |
 |:------------- |:----- |
 | `scroll-auto`        | `scroll-behavior:auto;` |
 | `scroll-smooth`        | `scroll-behavior:smooth` |
+
+### scroll-auto
 
 使用 `scroll-auto` 使得滚动条立即滚动。
 
@@ -61,7 +87,9 @@
   <label class="w-12 bd primary rounded text-center m-2 inline-block -cursor-pointer" for="four">4</label>
 </div>
 ```
- 
+
+### scroll-smooth
+
 使用 `scroll-smooth` 使得窗口平稳滚动。
 
 <Example>
@@ -95,19 +123,23 @@
 ```
 
 
-## 状态 (TODO)   
+## 状态
 
-| 修饰类        | 定义  |
-|:------------- |:----- |
-| `-state`        | `position: relative;cursor: pointer;` |
-| `-state::before`        | `display: block;position: absolute;top: 0px; right: 0px; bottom: 0px; left: 0px;transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);transition-duration: 200ms;opacity: 0;background: rgba(0,0,0,.075);content: ' ';border-radius: inherit;transform: scale(.9);transition-property: opacity, transform, box-shadow;` |
-| `-state:hover::before / -state:active::before`  | `opacity: 1;--tw-scale-x: 1;--tw-scale-y: 1;` |
-| `-state:focus-visible` | `outline: 2px solid transparent;outline-offset: 2px;` |
-| `-state:focus-visible::before` | ``opacity: 1;--tw-scale-x: 1;--tw-scale-y: 1;background: var(--state-focus-color);box-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);` |
-| `-state:active::before` | ` background: var(--state-active-color);box-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);--tw-ring-color: currentColor;transition-duration: 700ms;` |
-| `-state[disabled]::before / -state.disabled::before ` | `overflow: hidden;` |
+| 修饰类   | 作用 |
+|:------- |:----- |
+| `state` | 响应键盘事件 |
 
+### 使用方法
 
+<Example class="flex gap-3">
+  <button class="w-28 h-8 rounded" style="border: 1px solid #eee;">默认按钮</button>
+  <button class="w-28 h-8 rounded state" style="border: 1px solid #eee;">使用状态后的按钮</button>
+</Example>
+
+```html
+<button class="w-28 h-8 rounded" style="border: 1px solid #eee;">默认按钮</button>
+<button class="w-28 h-8 rounded state" style="border: 1px solid #eee;">使用状态后的按钮</button>
+```
 
 ## 用户选择
 
@@ -156,7 +188,7 @@
 
 ### 自动
 
-使用 `select-auto` 来使用默认的浏览器行为来选择文本。对于撤销其他功能类（如 .select-none）在不同断点的行为时很有用。
+使用 `select-auto` 来使用默认的浏览器行为来选择文本。对于撤销其他工具类（如 `.select-none`）在不同断点的行为时很有用。
 
 <Example>
   <div class="px-6 py-2 -bg-secondary-100 select-auto">此文本可选择</div>

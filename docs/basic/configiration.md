@@ -621,7 +621,7 @@ module.exports = {
 
 ### 用法
 
-使用 text-{size} 工具类控制元素的字体大小。
+使用 `text-{size}` 工具类控制元素的字体大小。
 
 <Example>
   <div class="flex items-start">
