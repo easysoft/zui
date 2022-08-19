@@ -142,6 +142,10 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
     let {exts} = options;
     if (typeof exts === 'string') {
         exts = exts.split(',').map(ext => ext.trim());
+    } else if (exts) {
+        exts = ['buildIn', 'exts'];
+    } else {
+        exts = 'buildIn';
     }
     const libsMap = await getLibs(exts, {cache: false});
     const buildConfig: BuildConfig = {name, version, libs: []};

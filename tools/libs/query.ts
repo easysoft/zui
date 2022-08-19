@@ -30,7 +30,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     }
 
     const {root = process.cwd(), cache = true} = options;
-    if (libPath === 'buildIn') {
+    if (libPath.toLowerCase() === 'buildin') {
         libPath = Path.resolve(process.cwd(), './lib');
     } else if (!Path.isAbsolute(libPath)) {
         libPath = Path.resolve(root, libPath);
