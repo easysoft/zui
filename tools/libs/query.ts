@@ -72,7 +72,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
 
         const libInfo = createLibFromPackageJson(packageJson, {
             sourceType,
-            path: Path.relative(process.cwd(), Path.resolve(libPath, dir)),
+            path: Path.resolve(libPath, dir),
             idx: ((options.idx ?? 0) * 10000) + i,
             workspace,
         });
@@ -112,6 +112,8 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
     const defaultName = name.startsWith('@zui/') ? name.substring(5) : name;
     const {sourceType = 'build-in', path, idx = 0, workspace} = options;
     const libInfo = {
+        name,
+        version: packageJson.version as string,
         ...packageJson,
         zui: {
             type: LibType.component,
@@ -127,6 +129,7 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             name: defaultName,
             extsName: sourceType === 'exts' ? path.split('/').reverse()[1] : undefined,
             ...(packageJson.zui as Record<string, unknown>),
+            order: 0,
         },
     } as LibInfo;
     libInfo.zui.order = (libTypeOrders[libInfo.zui.type] * 100000000) + idx;
