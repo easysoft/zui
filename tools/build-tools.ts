@@ -1,6 +1,6 @@
 import Path from 'path';
 import fs from 'fs-extra';
-import {getLibs} from './libs/query';
+import {getLibs, sortLibList} from './libs/query';
 import {LibInfo} from './libs/lib-info';
 import {LibType} from './libs/lib-type';
 
@@ -124,7 +124,7 @@ function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): L
         }
         libs.push(...parseBuildLib(libLike.trim(), libsMap));
     });
-    return libs;
+    return sortLibList(libs);
 }
 
 /**

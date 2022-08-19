@@ -98,7 +98,14 @@ export function getAllLibs() {
 
 export async function getLibList(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number} = {}) {
     const libs = await getLibs(libPath, options);
-    return Object.keys(libs).sort((a, b) => libs[a].zui.order - libs[b].zui.order);
+    return Object.values(libs).sort((a, b) => a.zui.order - b.zui.order);
+}
+
+export function sortLibList(libList: LibInfo[]) {
+    return libList.map((lib, idx) => {
+        lib.zui.order = (libTypeOrders[lib.zui.type] * 100000000) + idx;
+        return lib;
+    }).sort((a, b) => a.zui.order - b.zui.order);
 }
 
 export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean}): LibInfo {
