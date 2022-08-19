@@ -27,27 +27,33 @@
       <div> #37B2FE </div>
     </div>
   </div>
-  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+  <div class="bg-success mr-3 w-24 h-20 flex justify-center text-canvas">
     <div class="text-center justify-center h-12 mt-4">
-      <div> primary </div>
+      <div> success </div>
       <div> #2B80FF </div>
     </div>
   </div>
-  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+  <div class="bg-warning mr-3 w-24 h-20 flex justify-center text-canvas">
     <div class="text-center justify-center h-12 mt-4">
-      <div> primary </div>
+      <div> warning </div>
       <div> #2B80FF </div>
     </div>
   </div>
-  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+  <div class="bg-danger mr-3 w-24 h-20 flex justify-center text-canvas">
     <div class="text-center justify-center h-12 mt-4">
-      <div> primary </div>
+      <div> danger </div>
       <div> #2B80FF </div>
     </div>
   </div>
-  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+  <div class="bg-important mr-3 w-24 h-20 flex justify-center text-canvas">
     <div class="text-center justify-center h-12 mt-4">
-      <div> primary </div>
+      <div> important </div>
+      <div> #2B80FF </div>
+    </div>
+  </div>
+  <div class="bg-special mr-3 w-24 h-20 flex justify-center text-canvas">
+    <div class="text-center justify-center h-12 mt-4">
+      <div> special </div>
       <div> #2B80FF </div>
     </div>
   </div>
