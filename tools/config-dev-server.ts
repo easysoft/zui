@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import {HtmlTagDescriptor, Plugin} from 'vite';
 import {generateLibDoc} from './lib-doc-generator';
+import {getLibs} from './libs/query';
+import {LibInfo} from './libs/lib-info';
 
 function getLibNameFromUrl(url: string): string | null {
     if (/^\/(lib\/)?[\w-\d]+\/?$/.test(url)) {
@@ -10,6 +12,8 @@ function getLibNameFromUrl(url: string): string | null {
     return null;
 }
 
+let libsCache: Record<string, LibInfo> | undefined;
+
 export default (options: {rootPath: string}): Plugin => ({
     name: 'config-dev-server',
     configureServer(server) {
@@ -17,18 +21,29 @@ export default (options: {rootPath: string}): Plugin => ({
             if (!req.url) {
                 return next();
             }
-            let libName = getLibNameFromUrl(req.url);
-            if (libName) {
-                const libPath = path.resolve(options.rootPath, 'lib', libName);
-                const htmlFilePath = path.join(libPath, 'index.html');
-                if (fs.existsSync(htmlFilePath)) {
-                    req.url = `/lib/${libName}/index.html`;
-                    return next();
+
+            if (req.url.startsWith('/libs/')) {
+                const libsPath = req.url.substring('/libs/'.length);
+                libsCache = await getLibs(libsPath);
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(libsCache));
+                return;
+            }
+
+            if (/^\/lib\/[\w-\d]+\/README.md$/.test(req.url)) {
+                const libName = req.url.replace('/lib/', '').split('/')[0];
+                if (!libsCache) {
+                    libsCache = await getLibs();
                 }
-            } else if (/^\/lib\/[\w-\d]+\/README.md$/.test(req.url)) {
-                libName = req.url.replace('/lib/', '/').slice(1).split('/')[0];
-                const markdownFile = path.join(options.rootPath, req.url);
-                if (fs.existsSync(markdownFile)) {
+
+                let markdownFile = path.join(options.rootPath, req.url);
+                const libInfo = libsCache[libName];
+                if (libInfo) {
+                    markdownFile = path.join(libInfo.zui.path, 'README.md');
+                }
+
+                const markdownFileExits = await fs.pathExists(markdownFile);
+                if (markdownFileExits) {
                     const content = await fs.readFile(markdownFile, 'utf-8');
                     const html = generateLibDoc(content, libName);
                     res.setHeader('Content-Type', 'text/html');
@@ -41,8 +56,10 @@ export default (options: {rootPath: string}): Plugin => ({
     },
     handleHotUpdate({file, server}) {
         const libPath = path.resolve(options.rootPath, 'lib');
-        if (file.startsWith(libPath) && file.endsWith('/README.md')) {
-            const libName = file.substring(libPath.length + 1, file.length - '/README.md'.length);
+        const extsPath = path.resolve(options.rootPath, 'exts');
+        if ((file.startsWith(libPath) || file.startsWith(extsPath)) && file.endsWith('/README.md')) {
+            const fileParts = file.split('/');
+            const libName = fileParts[fileParts.length - 2];
             if (libName) {
                 const content = fs.readFileSync(file, 'utf-8');
                 const html = generateLibDoc(content, libName);
@@ -60,14 +77,17 @@ export default (options: {rootPath: string}): Plugin => ({
             return html;
         }
         const libName = getLibNameFromUrl(ctx.originalUrl);
-        if (libName) {
-            const devEntryFile = path.join(options.rootPath, 'lib', libName, 'dev.ts');
-            const hasDevEntry = fs.existsSync(devEntryFile);
+        const lib = libName && libsCache && libsCache[libName];
+        if (lib) {
+            let devEntryFile = path.join(lib.zui.path, 'dev.ts');
+            if (!fs.existsSync(devEntryFile)) {
+                devEntryFile = path.join(lib.zui.path, 'src/main.ts');
+            }
             const descriptors: HtmlTagDescriptor[] = [{
                 tag: 'script',
                 attrs: {
                     type: 'module',
-                    src: `/lib/${libName}/${hasDevEntry ? 'dev.ts' : 'src/main.ts'}`,
+                    src: `/${path.relative(options.rootPath, devEntryFile)}`,
                 },
                 injectTo: 'body',
             }];
