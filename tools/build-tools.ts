@@ -152,10 +152,11 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
     } else {
         const results = parseBuildLibs(configFileOrLibs || 'zui', libsMap);
         buildConfig.libs.push(...results);
-        if (!buildConfig.name.length && buildConfig.libs.length === 1) {
-            buildConfig.name = results[0].name;
-            if (buildConfig.name.startsWith('@zui/')) {
-                buildConfig.name = buildConfig.name.substring('@zui/'.length);
+        if (!buildConfig.name.length) {
+            if (buildConfig.libs.length === 1) {
+                buildConfig.name = results[0].zui.name;
+            } else if (!configFileOrLibs) {
+                buildConfig.name = 'zui';
             }
         }
     }

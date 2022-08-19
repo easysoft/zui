@@ -16,6 +16,7 @@ importers:
       '@zui/utilities': workspace:0.0.1
       autoprefixer: ^10.4.7
       chokidar: ^3.5.3
+      colorette: ^2.0.19
       cssnano: ^5.1.12
       eslint: ^8.18.0
       eslint-config-airbnb-base: ^15.0.0
@@ -58,6 +59,7 @@ importers:
       '@typescript-eslint/parser': 5.30.0_b5e7v2qnwxfo6hmiq56u52mz3e
       autoprefixer: 10.4.7_postcss@8.4.14
       chokidar: 3.5.3
+      colorette: registry.npmmirror.com/colorette/2.0.19
       cssnano: 5.1.12_postcss@8.4.14
       eslint: 8.18.0
       eslint-config-airbnb-base: 15.0.0_srrmf5la5dmnsfe2mpg6sboreu
@@ -85,11 +87,9 @@ importers:
 
   build:
     specifiers:
-      '@zui/button': workspace:0.0.1
-      '@zui/dtable': workspace:0.0.1
+      '@zui/icons': workspace:0.0.1
     dependencies:
-      '@zui/button': link:../lib/button
-      '@zui/dtable': link:../lib/dtable
+      '@zui/icons': link:../lib/icons
 
   config:
     specifiers:
@@ -4045,6 +4045,12 @@ packages:
     version: 2.0.1
     dependencies:
       balanced-match: registry.npmmirror.com/balanced-match/1.0.2
+    dev: true
+
+  registry.npmmirror.com/colorette/2.0.19:
+    resolution: {integrity: sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/colorette/-/colorette-2.0.19.tgz}
+    name: colorette
+    version: 2.0.19
     dev: true
 
   registry.npmmirror.com/errno/0.1.8:

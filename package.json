@@ -23,11 +23,11 @@
     "./lib"
   ],
   "dependencies": {
-    "highlight.js": "^11.6.0",
-    "zui-config": "workspace:^0.0.1",
     "@zui/base": "workspace:0.0.1",
     "@zui/scrollbar": "workspace:0.0.1",
-    "@zui/utilities": "workspace:0.0.1"
+    "@zui/utilities": "workspace:0.0.1",
+    "highlight.js": "^11.6.0",
+    "zui-config": "workspace:^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.0",
@@ -39,6 +39,7 @@
     "@typescript-eslint/parser": "^5.30.0",
     "autoprefixer": "^10.4.7",
     "chokidar": "^3.5.3",
+    "colorette": "^2.0.19",
     "cssnano": "^5.1.12",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",

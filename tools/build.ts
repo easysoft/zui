@@ -2,6 +2,7 @@ import Path from 'path';
 import fs from 'fs-extra';
 import minimist from 'minimist';
 import {mergeConfig} from 'vite';
+import {bold, blue, gray, yellow} from 'colorette';
 import {createBuildConfig, prepareBuildFiles, createViteConfig} from './build-tools';
 import {exec} from './exec';
 
@@ -24,6 +25,12 @@ const buildConfig = await createBuildConfig({
     version: argv.version ?? argv.v,
     exts: argv.exts ?? argv.e,
 });
+
+console.log(`Building ${bold(blue(buildConfig.name))} with ${buildConfig.libs.length} libs...\n`);
+for (const lib of buildConfig.libs) {
+    console.log('  ', lib.name.padEnd(25), gray(lib.version), lib.zui.sourceType !== 'build-in' ? yellow(lib.zui.sourceType) : '');
+}
+console.log();
 
 const buildDir = Path.resolve(process.cwd(), 'build');
 await fs.emptyDir(buildDir);
