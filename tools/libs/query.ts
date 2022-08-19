@@ -16,7 +16,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     if (libPath === 'exts') {
         const extsPath = Path.resolve(process.cwd(), 'exts');
         const dirs = await fs.readdir(extsPath);
-        const libs = await getLibs(dirs.map((x) => Path.resolve(extsPath, x)));
+        const libs = await getLibs(dirs.map((x) => Path.resolve(extsPath, x)), options);
         return libs;
     }
 
@@ -29,7 +29,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         return libs;
     }
 
-    const {root = process.cwd(), cache = false} = options;
+    const {root = process.cwd(), cache = true} = options;
     if (libPath === 'buildIn') {
         libPath = Path.resolve(process.cwd(), './lib');
     } else if (!Path.isAbsolute(libPath)) {
@@ -47,6 +47,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         workspace = !libPathStat.isSymbolicLink();
     }
 
+    const beginTime = Date.now();
     if (cache) {
         const libsCache = await getLibsCache(libPath);
         if (libsCache) {
@@ -71,16 +72,14 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
 
         const libInfo = createLibFromPackageJson(packageJson, {
             sourceType,
-            path: Path.resolve(libPath, dir),
+            path: Path.relative(process.cwd(), Path.resolve(libPath, dir)),
             idx: ((options.idx ?? 0) * 10000) + i,
             workspace,
         });
         libs[libInfo.zui.name] = libInfo;
     }
 
-    if (cache) {
-        await setLibsCache(libPath, libs);
-    }
+    await setLibsCache(libPath, libs, beginTime);
     return libs;
 }
 

@@ -10,7 +10,7 @@ export interface LibsListCache {
 
 const libsCache: Record<string, LibsListCache> = {};
 let libsCacheLoaded = false;
-const cacheFile = Path.resolve(process.cwd(), '.cache/zui-lib.json');
+const cacheFile = Path.resolve(process.cwd(), '.cache/zui-libs.json');
 
 async function loadLibsCache() {
     if (libsCacheLoaded) {
@@ -36,7 +36,7 @@ export async function getLibsCache(libPath: string, lastChangeTime?: number): Pr
     const cache = libsCache[libPath];
     if (cache) {
         if (!lastChangeTime) {
-            lastChangeTime = await recursiveLastModified(libPath);
+            lastChangeTime = await recursiveLastModified('*/**', {cwd: libPath, ignore: ['*/node_modules/**/*', '*/dist/**/*'], nodir: true});
         }
         if (cache.lastChangeTime < lastChangeTime) {
             return undefined;
@@ -50,5 +50,5 @@ export async function setLibsCache(libPath: string, libs: Record<string, LibInfo
 
     libsCache[libPath] = {libs, lastChangeTime: lastChangeTime ?? Date.now()};
 
-    await fs.writeJson(cacheFile, libsCache);
+    await fs.writeJson(cacheFile, libsCache, {spaces: 4});
 }
