@@ -14,14 +14,43 @@
  | `bg-important`   | `background-color: rgb(255,79,158)`|
  | `bg-special`     | `background-color: rgb(157,94,255)`|
 
-<Example flex gap-3>
-  <div class="bg-primary inline-block mr-3 w-16 h-12"></div>
-  <div class="bg-secondary inline-block mr-3 w-16 h-12"></div>
-  <div class="bg-success inline-block mr-3 w-16 h-12"></div>
-  <div class="bg-warning inline-block mr-3 w-16 h-12"></div>
-  <div class="bg-danger inline-block mr-3 w-16 h-12"></div>
-  <div class="bg-important inline-block mr-3 w-16 h-12"></div>
-  <div class="bg-special inline-block mr-3 w-16 h-12"></div>
+<Example class="flex gap-3">
+  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+    <div class="text-center justify-center h-12 mt-4">
+      <div> primary </div>
+      <div> #2B80FF </div>
+    </div>
+  </div>
+  <div class="bg-secondary mr-3 w-24 h-20 flex justify-center text-canvas">
+    <div class="text-center justify-center h-12 mt-4">
+      <div> secondary </div>
+      <div> #37B2FE </div>
+    </div>
+  </div>
+  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+    <div class="text-center justify-center h-12 mt-4">
+      <div> primary </div>
+      <div> #2B80FF </div>
+    </div>
+  </div>
+  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+    <div class="text-center justify-center h-12 mt-4">
+      <div> primary </div>
+      <div> #2B80FF </div>
+    </div>
+  </div>
+  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+    <div class="text-center justify-center h-12 mt-4">
+      <div> primary </div>
+      <div> #2B80FF </div>
+    </div>
+  </div>
+  <div class="bg-primary mr-3 w-24 h-20 flex justify-center text-canvas">
+    <div class="text-center justify-center h-12 mt-4">
+      <div> primary </div>
+      <div> #2B80FF </div>
+    </div>
+  </div>
 </Example>
 
 ```html
