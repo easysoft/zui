@@ -125,6 +125,7 @@ importers:
     specifiers:
       '@zui/avatar': workspace:^0.0.1
       '@zui/avatar-group': workspace:^0.0.1
+      '@zui/avatar-js': workspace:^0.0.1
       '@zui/base': workspace:^0.0.1
       '@zui/breadcrumb': workspace:^0.0.1
       '@zui/browser-helpers': workspace:^0.0.1
@@ -135,6 +136,7 @@ importers:
       '@zui/dtable': workspace:^0.0.1
       '@zui/form': workspace:^0.0.1
       '@zui/helpers': workspace:^0.0.1
+      '@zui/icons': workspace:^0.0.1
       '@zui/input': workspace:^0.0.1
       '@zui/input-group': workspace:^0.0.1
       '@zui/label': workspace:^0.0.1
@@ -148,6 +150,7 @@ importers:
     dependencies:
       '@zui/avatar': link:../lib/avatar
       '@zui/avatar-group': link:../lib/avatar-group
+      '@zui/avatar-js': link:../lib/avatar-js
       '@zui/base': link:../lib/base
       '@zui/breadcrumb': link:../lib/breadcrumb
       '@zui/browser-helpers': link:../lib/browser-helpers
@@ -158,6 +161,7 @@ importers:
       '@zui/dtable': link:../lib/dtable
       '@zui/form': link:../lib/form
       '@zui/helpers': link:../lib/helpers
+      '@zui/icons': link:../lib/icons
       '@zui/input': link:../lib/input
       '@zui/input-group': link:../lib/input-group
       '@zui/label': link:../lib/label

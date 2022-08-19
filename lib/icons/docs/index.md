@@ -84,8 +84,7 @@
 <script>
 
 import {domReady} from '@zui/browser-helpers/src/dom-ready';
-
-domReady(() => {
+if(window.zui && window.zui.domReady) {
     fetch('/assets/icons/fonts/icons.json').then(res => {
         if (res.ok) {
             return res.json();
@@ -104,5 +103,5 @@ domReady(() => {
             console.log('iconsExample is not find!');
         }
     });
-});
+};
 </script>
