@@ -11,5 +11,16 @@
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "头像组",
+        "contributes": {
+            "css": ["class", "var"]
+        },
+        "docs": [{
+            "sidebar": "lib",
+            "section": "components"
+        }]
     }
 }
