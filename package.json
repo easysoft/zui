@@ -48,7 +48,8 @@
     "@zui/table": "workspace:0.0.1",
     "@zui/utilities": "workspace:0.0.1",
     "highlight.js": "^11.6.0",
-    "zui-config": "workspace:^0.0.1"
+    "zui-config": "workspace:^0.0.1",
+    "zui-dev": "workspace:^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.4.0",

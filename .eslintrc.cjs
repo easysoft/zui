@@ -10,7 +10,7 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 13,
         sourceType: 'module',
-        project: ['./tsconfig.root.json', './lib/*/tsconfig.json', './docs/tsconfig.json'],
+        project: ['./tsconfig.root.json', './lib/*/tsconfig.json', './docs/tsconfig.json', './dev/tsconfig.json'],
     },
     plugins: ['import', '@typescript-eslint'],
     rules: {
@@ -20,7 +20,7 @@ module.exports = {
         '@typescript-eslint/object-curly-spacing': 'off',
         '@typescript-eslint/no-var-requires': 'off',
         'react/jsx-filename-extension': 'off',
-        'import/no-extraneous-dependencies': ['error', {devDependencies: ['vite.config.ts', 'tailwind.config.cjs', 'tools/*', 'lib/*/dev.ts', 'docs/**/*']}],
+        'import/no-extraneous-dependencies': ['error', {devDependencies: ['vite.config.ts', 'tailwind.config.cjs', 'tools/**/*', 'lib/*/dev.ts', 'docs/**/*']}],
     },
     overrides: [
         {

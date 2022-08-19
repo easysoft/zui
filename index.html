@@ -11,18 +11,14 @@
       <div class="-flex -flex-col -h-full">
         <a href="/" class="-flex -items-center -p-4 -flex-none">
           <img src="./favicon.svg" class="-mr-3 -h-6 -sm:h-7" alt="ZUI Logo" />
-          <span class="-self-center -text-xl -font-semibold -whitespace-nowrap -text-white">ZUI</span>
+          <span class="-self-center -text-xl -font-semibold -whitespace-nowrap -text-white">ZUI</span><span class="-font-bold -text-sm -ml-2 -bg-white/50 -text-primary-900 -px-1 -rounded-full" id="libsCount"></span>
         </a>
-        <div class="-flex-auto -overflow-y-auto -min-h-0 scrollbar-hover -p-3" style="overflow: overlay">
+        <div class="-flex-auto -overflow-y-auto -min-h-0 scrollbar-hover -p-3 -pt-0" style="overflow: overlay">
           <ul class="-space-y-2 -text-lg" id="libNav"></ul>
         </div>
       </div>
     </aside>
     <div id="libPage"></div>
-    <script type="module">
-    import '@zui/base';
-    import '@zui/scrollbar/src/scrollbar-css.css';
-    </script>
-    <script type="module" id="mainModule" src="/src/main.ts"></script>
+    <script type="module" id="mainModule" src="/dev/src/main.ts"></script>
   </body>
 </html>
