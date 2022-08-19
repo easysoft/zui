@@ -2,6 +2,8 @@
 
 ## 边框圆角
 
+使用rounded-{sm}等工具类给元素添加不同的圆角.
+
 详细配置可参考 [Tailwind 官网](https://www.tailwindcss.cn/docs/border-radius)。
 
 <Example class="flex gap-3 flex-wrap">
@@ -91,6 +93,8 @@
 ```
 
 ## 边框厚度
+
+使用border-{width}来控制元素的边框宽度
 
 详细配置可参考详细配置可参考 [Tailwind 官网](https://www.tailwindcss.cn/docs/border-width)。
 
@@ -184,6 +188,8 @@
 
 使用 border-{style} 来控制元素的边框样式
 
+详细配置可参考 [Tailwind 官网](https://www.tailwindcss.cn/docs/border-style)。
+
 <Example class="flex flex-wrap gap-3">
  <div class="bd-solid bd-2 bd-primary bd mr-3 w-24 h-20 flex justify-center">
    <div class="text-center h-6 mt-7">
@@ -216,3 +222,36 @@
    </div>
  </div> 
 </Example>
+
+```html
+ <div class="bd-solid bd-2 bd-primary bd mr-3 w-24 h-20 flex justify-center">
+   <div class="text-center h-6 mt-7">
+    bd-solid 
+   </div>
+ </div> 
+ <div class="bd-dashed bd-2 bd-primary bd mr-3 w-24 h-20 flex justify-center">
+   <div class="text-center h-6 mt-7">
+    bd-dashed
+   </div>
+ </div> 
+ <div class="bd-dotted bd-2 bd-primary bd mr-3 w-24 h-20 flex justify-center">
+   <div class="text-center h-6 mt-7">
+    bd-dotted
+   </div>
+ </div> 
+ <div class="bd-double bd-2 bd-primary bd mr-3 w-24 h-20 flex justify-center">
+   <div class="text-center h-6 mt-7">
+    bd-double
+   </div>
+ </div> 
+ <div class="bd-hidden bd-2 bd-primary bd mr-3 w-24 h-20 flex justify-center">
+   <div class="text-center h-6 mt-7">
+    bd-hidden
+   </div>
+ </div> 
+ <div class="bd-none bd-2 bd-primary bd mr-3 w-24 h-20 flex justify-center">
+   <div class="text-center h-6 mt-7">
+    bd-none
+   </div>
+ </div> 
+```
