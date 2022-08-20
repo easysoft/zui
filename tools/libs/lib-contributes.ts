@@ -4,7 +4,7 @@ export interface CssContributes {
     css: CssContributeType[];
 }
 
-export type JsContributeType = 'class' | 'var' | 'method' | 'module';
+export type JsContributeType = 'class' | 'var' | 'method' | 'module' | 'component';
 
 export interface JsContributes {
     js: JsContributeType[];

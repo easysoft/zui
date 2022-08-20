@@ -12,5 +12,13 @@
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:0.0.1",
         "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "js-ui",
+        "displayName": "下拉菜单",
+        "contributes": {
+            "css": ["class", "var"],
+            "js": ["component"]
+        }
     }
 }

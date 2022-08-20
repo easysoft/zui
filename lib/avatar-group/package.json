@@ -13,14 +13,10 @@
         "@zui/utilities": "workspace:*"
     },
     "zui": {
-        "type": "control",
+        "type": "component",
         "displayName": "头像组",
         "contributes": {
             "css": ["class", "var"]
-        },
-        "docs": [{
-            "sidebar": "lib",
-            "section": "components"
-        }]
+        }
     }
 }

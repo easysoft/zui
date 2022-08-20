@@ -6,5 +6,12 @@
     "browser": "src/main.ts",
     "files": [
         "./src/**/*"
-    ]
+    ],
+    "zui": {
+        "type": "js-helpers",
+        "displayName": "浏览器辅助方法",
+        "contributes": {
+            "js": ["method"]
+        }
+    }
 }

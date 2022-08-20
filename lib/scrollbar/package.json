@@ -19,5 +19,13 @@
     "dependencies": {
         "preact": "^10.10.0",
         "@zui/browser-helpers": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "滚动条",
+        "contributes": {
+            "css": ["class", "var"],
+            "js": ["component"]
+        }
     }
 }

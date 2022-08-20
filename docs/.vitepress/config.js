@@ -2,6 +2,7 @@ import {defineConfig} from 'vitepress';
 import glob from 'fast-glob';
 import fs from 'fs-extra';
 import Path from 'path';
+import {red, yellow, underline} from 'colorette';
 import zuiLib from '../public/zui-libs';
 
 const base = process.env.BASE_PATH ?? '/';
@@ -77,15 +78,15 @@ function initSidebars() {
             {text: '交互', section: 'interactivity'},
         ],
         '/lib/': [
-            {text: '布局', section: 'layout'},
-            {text: '内容', section: 'content'},
-            {text: '图标', section: 'icons'},
-            {text: '表单', section: 'forms'},
-            {text: '组件', section: 'components'},
+            {text: '布局', section: 'layout', collapsible: true},
+            {text: '内容', section: 'content', collapsible: true},
+            {text: '图标', section: 'icons', collapsible: true},
+            {text: '表单', section: 'forms', collapsible: true},
+            {text: '组件', section: 'components', collapsible: true},
         ],
         '/js/': [
-            {text: 'UI 插件', section: 'ui'},
-            {text: '工具方法', section: 'helpers'},
+            {text: 'UI 插件', section: 'ui', collapsible: true},
+            {text: '工具方法', section: 'helpers', collapsible: true},
         ],
         '/themes/': [
             {text: '官方主题', section: 'official-themes'},
@@ -112,6 +113,9 @@ function createSidebar() {
             }
             const sectionName = sectionParts.join('-');
             const section = sidebar.find(item => item.section === sectionName);
+            if (!section) {
+                console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(libDocsPath, file))}.`);
+            }
             if (!section.items) {
                 section.items = [];
             }

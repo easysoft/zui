@@ -19,5 +19,12 @@
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "components",
+        "displayName": "头像生成器",
+        "contributes": {
+            "js": ["component"]
+        }
     }
 }

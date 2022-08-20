@@ -9,5 +9,12 @@
     },
     "files": [
         "./src/**/*"
-    ]
+    ],
+    "zui": {
+        "type": "js-helpers",
+        "displayName": "本地存储",
+        "contributes": {
+            "js": ["module"]
+        }
+    }
 }
