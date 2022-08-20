@@ -34,7 +34,7 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
     if (type === 'assets') {
         targetFile = Path.resolve(process.cwd(), 'docs', 'public', 'assets', libName, ...restPath);
     } else if (restPath.length < 2) {
-        console.log(` ${red('ERROR')} file ${underline(yellow(relativePath))} is place in wrong place, .`);
+        console.log(` ${red('ERROR')} file ${underline(yellow(relativePath))} is place in wrong place.`);
         return '';
     } else {
         const [sidebarInfo, fileName] = restPath;
