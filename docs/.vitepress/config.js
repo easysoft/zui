@@ -119,7 +119,7 @@ function createSidebar() {
             if (!section.items) {
                 section.items = [];
             }
-            const link = `/${sidebarName}/_/${lib.zui.name}/${restPath.join('/')}`;
+            const link = `/${sidebarName}/${sectionName}/_/${lib.zui.name}/${restPath.join('/')}`;
             const markdown = fs.readFileSync(Path.join(libDocsPath, file), 'utf8');
             const title = markdown.match(/# (.*)/)[1];
             section.items.push({

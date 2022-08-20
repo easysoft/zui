@@ -12,8 +12,8 @@ export async function syncLibDocs(lib: LibInfo) {
     if (libDocsDirExists) {
         const dirs = await glob('*/', {cwd: libDocsDir, onlyDirectories: true});
         for (const dir of dirs) {
-            const [sidebar] = dir.split('-');
-            const libDir = Path.join(docsPath, sidebar, '_', name);
+            const [sidebar, ...sectionParts] = dir.split('-');
+            const libDir = Path.join(docsPath, sidebar, sectionParts.join('-'), '_', name);
             await fs.copy(Path.join(libDocsDir, dir), libDir);
         }
     }
@@ -38,7 +38,8 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
         return '';
     } else {
         const [sidebarInfo, fileName] = restPath;
-        targetFile = Path.resolve(process.cwd(), 'docs', sidebarInfo.split('-', 2)[0], '_', libName, fileName);
+        const [sidebar, ...sectionParts] = sidebarInfo.split('-');
+        targetFile = Path.resolve(process.cwd(), 'docs', sidebar, sectionParts.join('-'), '_', libName, fileName);
     }
 
     try {
@@ -59,7 +60,7 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
 
 export async function emptySidebarLibDocs() {
     const docsPath = Path.resolve(process.cwd(), 'docs');
-    const dirs = await glob('*/_', {cwd: docsPath, onlyDirectories: true});
+    const dirs = await glob(['*/_', '*/*/_'], {cwd: docsPath, onlyDirectories: true});
     for (const dir of dirs) {
         const tempDir = Path.join(docsPath, dir);
         await fs.emptyDir(tempDir);
