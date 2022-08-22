@@ -15,6 +15,10 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     }
     if (libPath === 'exts') {
         const extsPath = Path.resolve(process.cwd(), 'exts');
+        const extsPathExits = await fs.pathExists(extsPath);
+        if (!extsPathExits) {
+            return {};
+        }
         const dirs = await fs.readdir(extsPath);
         const libs = await getLibs(dirs.map((x) => Path.resolve(extsPath, x)), options);
         return libs;
