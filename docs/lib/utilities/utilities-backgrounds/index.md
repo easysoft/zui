@@ -275,3 +275,8 @@
 </div>
 ```
 
+<style>
+.mr-3,.w-24,.h-20 {
+  border:1px solid gray;
+}
+</style>
