@@ -498,10 +498,10 @@
 可以使用 `m{t|r|b|l}-*` 来设置元素的上、右、下、左 外边距。
 可以使用 `mx-*` 来设置元素的横向外边距。
 可以使用 `my-*` 来设置元素的纵向外边距。
-可以使用 `m-*` 来色湖之元素的四周外边距。
+可以使用 `m-*` 来设置元素的四周外边距。
 
 <Example class="flex items-baseline space-x-4">
-  <div class="bd bd-solid bd-primary w-16 rounded">
+  <div class="bd bd-solid bd-primary w-20 rounded">
     <div class="ml-2 p-4 primary rounded">ml-2</div>
   </div>
   <div class="bd bd-solid bd-primary w-16 rounded">
@@ -1030,7 +1030,7 @@
 可以使用 `p{t|r|b|l}-*` 来设置元素的上、右、下、左 内边距。
 可以使用 `px-*` 来设置元素的横向内边距。
 可以使用 `py-*` 来设置元素的纵向内边距。
-可以使用 `p-*` 来色湖之元素的四周内边距。
+可以使用 `p-*` 来设置元素的四周内边距。
 
 <Example class="flex items-baseline space-x-4">
   <div class="primary w-20 rounded pl-2">
