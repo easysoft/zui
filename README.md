@@ -105,7 +105,6 @@ component-name         # 组件目录
 <button type="button" class="btn -square">中</button>
 <button type="button" class="btn -square" disabled="disabled">禁</button>
 ```
-````
 
 其中代码块语言类型字符串中的 `:example` 用于指定此代码需要渲染为实际的 HTML，`:example: ` 之后可以添加渲染为 HTML 时的 `<div class="example">` 元素上需要添加的额外的 CSS 类名。
 
