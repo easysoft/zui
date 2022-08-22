@@ -14,6 +14,6 @@ domReady(() => {
         } else {
             console.log('iconsExample is not find!');
         }
-    }, 100);
+    }, 300);
 });
 
