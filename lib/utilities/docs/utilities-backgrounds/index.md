@@ -15,6 +15,23 @@
  | `bg-special`     | `background-color: rgb(157,94,255)`|
 
 <Example class="flex flex-wrap gap-3">
+  <div v-for = "item in [
+  {name:'primary',colorCode:'#2B80FF'},
+  {name:'secondary',colorCode:'#2B80FF'},
+  {name:'success',colorCode:'#2B80FF'},
+  {name:'warning',colorCode:'#2B80FF'},
+  {name:'danger',colorCode:'#2B80FF'},
+  {name:'important',colorCode:'#2B80FF'},
+  {name:'special',colorCode:'#2B80FF'},
+  ]" 
+  :key="item.name" 
+  :class ="'bg-' + item.name" 
+  class="w-24 h-20 flex justify-center text-canvas" > 
+    <div class="text-center justify-center h-12 mt-4">
+      <div>{{item.name}}</div>
+      <div>{{item.colorCode}}</div>
+    </div>
+  </div>
   <div class="bg-primary bd-solid mr-3 w-24 h-20 flex justify-center text-canvas">
     <div class="text-center justify-center h-12 mt-4">
       <div> primary </div>
@@ -55,6 +72,29 @@
     <div class="text-center justify-center h-12 mt-4">
       <div> special </div>
       <div> #9D5EFF </div>
+    </div>
+  </div>
+</Example>
+<Example class="flex flex-wrap gap-3">
+  <div v-for = "item in [
+  {name:'white',colorCode:'#2B80FF'},
+  {name:'lighter',colorCode:'#2B80FF'},
+  {name:'light',colorCode:'#2B80FF'},
+  {name:'gray',colorCode:'#2B80FF',fontWhite:true},
+  {name:'dark',colorCode:'#2B80FF',fontWhite:true},
+  {name:'darker',colorCode:'#2B80FF',fontWhite:true},
+  {name:'black',colorCode:'#2B80FF',fontWhite:true},
+  {name:'surface',colorCode:'#2B80FF'},
+  {name:'inverse',colorCode:'#2B80FF',fontWhite:true},
+  {name:'transparent',colorCode:'#2B80FF'},
+  {name:'inherite',colorCode:'#2B80FF'},
+  ]" 
+  :key ="item.name" 
+  :class ="item.fontWhite ? 'text-canvas' :'', 'bg-' + item.name" 
+  class="w-24 h-20 flex justify-center bd-current" > 
+    <div class="text-center justify-center h-12 mt-4">
+      <div>{{item.name}}</div>
+      <div>{{item.colorCode}}</div>
     </div>
   </div>
 </Example>
