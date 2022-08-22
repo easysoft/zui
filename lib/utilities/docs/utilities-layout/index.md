@@ -227,12 +227,12 @@
 使用 `pull-right` 将一个元素浮动到其容器的右边。
 
 <Example>
-  <img class="pull-right mt-2 mr-0 mb-4 ml-10 h-28" src="/lib/avatar/assets/avatar.png">
+  <img class="pull-right mt-2 mr-0 mb-4 ml-10 h-28" src="/assets/avatar/avatar.png">
   <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 </Example>
 
 ```html
-<img class="pull-right ..." src="/lib/avatar/assets/avatar.png">
+<img class="pull-right ..." src="/assets/avatar/avatar.png">
 <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 ```
 
@@ -241,12 +241,12 @@
 使用 `pull-left` 将一个元素浮动到其容器的左边。
 
 <Example>
-  <img class="pull-left mt-2 mr-4 mb-4 ml-0 h-28" src="/lib/avatar/assets/avatar.png">
+  <img class="pull-left mt-2 mr-4 mb-4 ml-0 h-28" src="/assets/avatar/avatar.png">
   <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 </Example>
 
 ```html
-<img class="pull-left ..." src="/lib/avatar/assets/avatar.png">
+<img class="pull-left ..." src="/assets/avatar/avatar.png">
 <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 ```
 
@@ -268,13 +268,13 @@
 
 <Example>
   <div class="bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-contain">
+    <img src="/assets/avatar/avatar.png" class="h-48 w-full object-contain">
   </div>
 </Example>
 
 ```html
 <div class="bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-contain">
+  <img src="/assets/avatar/avatar.png" class="h-48 w-full object-contain">
 </div>
 ```
 
@@ -284,13 +284,13 @@
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-cover">
+    <img src="/assets/avatar/avatar.png" class="h-48 w-full obj-cover">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-cover">
+  <img src="/assets/avatar/avatar.png" class="h-48 w-full obj-cover">
 </div>
 ```
 
@@ -300,13 +300,13 @@
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-fill">
+    <img src="/assets/avatar/avatar.png" class="h-48 w-full obj-fill">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-fill">
+  <img src="/assets/avatar/avatar.png" class="h-48 w-full obj-fill">
 </div>
 ```
 
@@ -316,13 +316,13 @@
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-none">
+    <img src="/assets/avatar/avatar.png" class="h-48 w-full obj-none">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-none">
+  <img src="/assets/avatar/avatar.png" class="h-48 w-full obj-none">
 </div>
 ```
 
@@ -332,13 +332,13 @@
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-scale-down">
+    <img src="/assets/avatar/avatar.png" class="h-48 w-full obj-scale-down">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-scale-down">
+  <img src="/assets/avatar/avatar.png" class="h-48 w-full obj-scale-down">
 </div>
 ```
 
@@ -763,7 +763,7 @@
     <div class="w-14 h-14 bg-surface flex justify-center items-center rounded">1</div>
     <div class="w-14 h-14 bg-surface flex justify-center items-center rounded invisible">2</div>
   </div>
- 
+
 </Example>
 
 ```html

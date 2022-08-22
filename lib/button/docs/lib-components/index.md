@@ -14,7 +14,7 @@
 <button type="button" class="btn">按钮</button>
 ```
 
-配合丰富的[CSS 工具类](/lib/utilities/)来实现不同按钮的外观。
+配合丰富的[CSS 工具类](/utilities/)来实现不同按钮的外观。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
   <button type="button" class="btn primary">主要按钮</button>
@@ -52,7 +52,7 @@
 
 ## 外观类型
 
-配合使用[CSS 工具类](/lib/utilities/)来实现不同按钮的外观。下面展示各种工具类的外观效果。
+配合使用[CSS 工具类](/utilities/)来实现不同按钮的外观。下面展示各种工具类的外观效果。
 
 ### 实心按钮
 

@@ -14,7 +14,7 @@
 <span class="label">标签</span>
 ```
 
-配合丰富的[CSS 工具类](/lib/utilities/)来实现不同标签的外观。
+配合丰富的[CSS 工具类](/utilities/)来实现不同标签的外观。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
   <span class="label primary">主要标签</span>
@@ -30,7 +30,7 @@
 
 ## 外观类型
 
-配合使用[CSS 工具类](/lib/utilities/)来实现不同标签的外观。下面展示各种工具类的外观效果。
+配合使用[CSS 工具类](/utilities/)来实现不同标签的外观。下面展示各种工具类的外观效果。
 
 ### 实心标签
 
@@ -282,5 +282,3 @@
 | --label-color        | 标签文字颜色 |
 | --label-border-color | 标签边框颜色 |
 | --label-radius       | 标签圆角     |
-
-

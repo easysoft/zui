@@ -12,6 +12,7 @@ export default defineConfig({
     title: 'ZUI 3',
     base,
     description: 'Composable UI framework',
+    ignoreDeadLinks: true,
     head: [
         ['link', {rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg`}],
         ['link', {rel: 'stylesheet', href: `${base}zui/zui.css`}],

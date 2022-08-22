@@ -47,7 +47,7 @@
 ```
 ## 外观类型
 
-当使用文字或图标作为头像时，配合使用[CSS 工具类](/lib/utilities/)来实现不同头像的外观。下面展示各种工具类的外观效果。
+当使用文字或图标作为头像时，配合使用[CSS 工具类](/utilities/)来实现不同头像的外观。下面展示各种工具类的外观效果。
 
 <Example class="flex gap-4 flex-wrap">
   <div class="avatar primary">Z</div>

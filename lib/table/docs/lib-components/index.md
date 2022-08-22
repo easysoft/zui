@@ -430,7 +430,7 @@
 
 ## 特殊外观
 
-为行元素 `<tr>` 或单元格 `<td>`、`<th>` 应用 [CSS 工具类](/lib/utilities/) 来获得特殊外观。
+为行元素 `<tr>` 或单元格 `<td>`、`<th>` 应用 [CSS 工具类](/utilities/) 来获得特殊外观。
 
  <Example>
   <table class="table">

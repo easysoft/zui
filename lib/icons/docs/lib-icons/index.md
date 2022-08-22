@@ -82,8 +82,8 @@
 <ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-between"></ul>
 
 <script>
-
-if(window.zui && window.zui.domReady) {
+export default {
+  mounted() {
     fetch('/assets/icons/fonts/icons.json').then(res => {
         if (res.ok) {
             return res.json();
@@ -102,5 +102,6 @@ if(window.zui && window.zui.domReady) {
             console.log('iconsExample is not find!');
         }
     });
-};
+  }
+}
 </script>

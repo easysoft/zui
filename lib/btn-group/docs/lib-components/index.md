@@ -4,7 +4,7 @@
 
 ## 基本用法
 
-将多个[按钮](/lib/button/)放置在 `<div class="btn-group">` 内即可创建一个按钮组。
+将多个[按钮](/lib/components/_/button/)放置在 `<div class="btn-group">` 内即可创建一个按钮组。
 
 <Example>
   <div class="btn-group">
@@ -123,7 +123,7 @@
 
 ## 外观
 
-在按钮上加 [CSS 工具类](/lib/utilities/)，以获得不同的按钮外观显示。
+在按钮上加 [CSS 工具类](/utilities/)，以获得不同的按钮外观显示。
 
 <Example class="flex flex-wrap gap-4">
   <div class="btn-group">

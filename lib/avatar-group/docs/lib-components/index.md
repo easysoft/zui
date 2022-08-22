@@ -4,7 +4,7 @@
 
 ## 基本用法
 
-将多个[头像](/lib/avatar/)放置在 `<div class="avatar-group">` 内即可创建一个头像组。
+将多个[头像](/lib/components/_/avatar/)放置在 `<div class="avatar-group">` 内即可创建一个头像组。
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="avatar-group">
