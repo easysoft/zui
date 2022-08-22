@@ -55,7 +55,7 @@ component-name         # 组件目录
 | --------------- | -------------------- | -------- |
 | `css-base`      | CSS 基础样式         | 1        |
 | `css-utilities` | CSS 辅助类           | 5        |
-| `control`       | 基础控件，不包括 CSS | 2        |
+| `control`       | 基础控件，不包括 JS  | 2        |
 | `component`     | UI 组件              | 4        |
 | `js-helpers`    | JS 辅助方法          | 3        |
 | `js-lib`        | JS 库                | 6        |
