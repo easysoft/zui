@@ -15,8 +15,12 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     }
     if (libPath === 'exts') {
         const extsPath = Path.resolve(process.cwd(), 'exts');
+        const extsPathExits = await fs.pathExists(extsPath);
+        if (!extsPathExits) {
+            return {};
+        }
         const dirs = await fs.readdir(extsPath);
-        const libs = await getLibs(dirs.map((x) => Path.resolve(extsPath, x)));
+        const libs = await getLibs(dirs.map((x) => Path.resolve(extsPath, x)), options);
         return libs;
     }
 
@@ -29,8 +33,8 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         return libs;
     }
 
-    const {root = process.cwd(), cache = false} = options;
-    if (libPath === 'buildIn') {
+    const {root = process.cwd(), cache = true} = options;
+    if (libPath.toLowerCase() === 'buildin') {
         libPath = Path.resolve(process.cwd(), './lib');
     } else if (!Path.isAbsolute(libPath)) {
         libPath = Path.resolve(root, libPath);
@@ -47,6 +51,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         workspace = !libPathStat.isSymbolicLink();
     }
 
+    const beginTime = Date.now();
     if (cache) {
         const libsCache = await getLibsCache(libPath);
         if (libsCache) {
@@ -78,9 +83,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         libs[libInfo.zui.name] = libInfo;
     }
 
-    if (cache) {
-        await setLibsCache(libPath, libs);
-    }
+    await setLibsCache(libPath, libs, beginTime);
     return libs;
 }
 
@@ -98,7 +101,14 @@ export function getAllLibs() {
 
 export async function getLibList(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number} = {}) {
     const libs = await getLibs(libPath, options);
-    return Object.keys(libs).sort((a, b) => libs[a].zui.order - libs[b].zui.order);
+    return Object.values(libs).sort((a, b) => a.zui.order - b.zui.order);
+}
+
+export function sortLibList(libList: LibInfo[]) {
+    return libList.map((lib, idx) => {
+        lib.zui.order = (libTypeOrders[lib.zui.type] * 100000000) + idx;
+        return lib;
+    }).sort((a, b) => a.zui.order - b.zui.order);
 }
 
 export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean}): LibInfo {
@@ -106,6 +116,8 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
     const defaultName = name.startsWith('@zui/') ? name.substring(5) : name;
     const {sourceType = 'build-in', path, idx = 0, workspace} = options;
     const libInfo = {
+        name,
+        version: packageJson.version as string,
         ...packageJson,
         zui: {
             type: LibType.component,
@@ -121,6 +133,7 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             name: defaultName,
             extsName: sourceType === 'exts' ? path.split('/').reverse()[1] : undefined,
             ...(packageJson.zui as Record<string, unknown>),
+            order: 0,
         },
     } as LibInfo;
     libInfo.zui.order = (libTypeOrders[libInfo.zui.type] * 100000000) + idx;

@@ -12,5 +12,12 @@
         "@zui/base": "workspace:*",
         "@zui/table": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "面板",
+        "contributes": {
+            "css": ["class", "var"]
+        }
     }
 }

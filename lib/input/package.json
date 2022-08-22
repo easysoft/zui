@@ -11,5 +11,12 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*",
         "@zui/form": "workspace:0.0.1"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "输入框",
+        "contributes": {
+            "css": ["class", "var"]
+        }
     }
 }

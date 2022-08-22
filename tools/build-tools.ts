@@ -1,6 +1,6 @@
 import Path from 'path';
 import fs from 'fs-extra';
-import {getLibs} from './libs/query';
+import {getLibs, sortLibList} from './libs/query';
 import {LibInfo} from './libs/lib-info';
 import {LibType} from './libs/lib-type';
 
@@ -124,7 +124,7 @@ function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): L
         }
         libs.push(...parseBuildLib(libLike.trim(), libsMap));
     });
-    return libs;
+    return sortLibList(libs);
 }
 
 /**
@@ -142,6 +142,10 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
     let {exts} = options;
     if (typeof exts === 'string') {
         exts = exts.split(',').map(ext => ext.trim());
+    } else if (exts) {
+        exts = ['buildIn', 'exts'];
+    } else {
+        exts = 'buildIn';
     }
     const libsMap = await getLibs(exts, {cache: false});
     const buildConfig: BuildConfig = {name, version, libs: []};

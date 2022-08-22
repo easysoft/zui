@@ -10,5 +10,12 @@
     },
     "files": [
          "./src/**/*"
-    ]
+    ],
+    "zui": {
+        "type": "component",
+        "displayName": "表格",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
 }

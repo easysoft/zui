@@ -6,5 +6,12 @@
     "main": "src/main.ts",
     "files": [
         "./src/**/*"
-    ]
+    ],
+    "zui": {
+        "type": "css-base",
+        "displayName": "CSS 基础",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
 }

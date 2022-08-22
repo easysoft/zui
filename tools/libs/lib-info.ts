@@ -1,5 +1,4 @@
 import {Contributes} from './lib-contributes';
-import {LibDocs} from './lib-docs';
 import {LibType} from './lib-type';
 
 export type LibSourceType = 'npm' | 'exts' | 'build-in' | 'local';
@@ -10,7 +9,6 @@ export interface ZuiLibInfo {
     type: LibType;
     displayName: string;
     contributes?: Partial<Contributes>;
-    docs?: LibDocs;
     path: string;               // 'libs/avatar',
     extsName?: string;          // 'zentao
     order: number;              // 0

@@ -9,5 +9,12 @@
     },
     "files": [
         "./src/**/*"
-    ]
+    ],
+    "zui": {
+        "type": "css-utilities",
+        "displayName": "CSS 工具类",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
 }

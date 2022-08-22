@@ -10,5 +10,12 @@
         "@zui/form": "workspace:*"
     },
     "files": [
-    ]
+    ],
+    "zui": {
+        "type": "control",
+        "displayName": "复选框和单选框",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
 }

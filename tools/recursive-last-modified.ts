@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import glob, {IOptions} from 'glob';
+import glob from 'fast-glob';
 
 async function maxChangeTimeOfFile(file) {
     try {
@@ -10,15 +10,12 @@ async function maxChangeTimeOfFile(file) {
     }
 }
 
-export default function recursiveLastModified(dir, options: IOptions = {}): Promise<number> {
+export default async function recursiveLastModified(dir, options: glob.Options = {}): Promise<number> {
     return new Promise((resolve, reject) => {
-        glob(dir, {realpath: true, ...options}, (error, files) => {
-            if (error) {
-                return reject(error);
-            }
+        glob(dir, {absolute: true, ...options}).then(files => {
             Promise.all(files.map(maxChangeTimeOfFile)).then(times => {
                 resolve(Math.max(...times));
-            });
+            }).catch(reject);
         });
     });
 }

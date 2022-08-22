@@ -13,5 +13,12 @@
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "按钮",
+        "displayName": "按钮",
+        "contributes": {
+            "css": ["class", "var"]
+        }
     }
 }

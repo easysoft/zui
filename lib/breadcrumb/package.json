@@ -9,5 +9,12 @@
         "@zui/utilities": "workspace:*"
     },
     "files": [
-    ]
+    ],
+    "zui": {
+        "type": "control",
+        "displayName": "面包屑",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
 }

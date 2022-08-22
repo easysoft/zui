@@ -5,7 +5,7 @@ module.exports = {
     content: process.env.NODE_ENV === 'development' ? [
         './index.html',
         './index.md',
-        './dev/src/**/*.{vue,js,ts,jsx,tsx}',
+        './src/**/*.{vue,js,ts,jsx,tsx}',
         './lib/*/index.html',
         './lib/*/README.md',
         './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',

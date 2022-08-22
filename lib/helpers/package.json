@@ -6,5 +6,12 @@
     "module": "src/main.ts",
     "files": [
         "./src/**/*"
-    ]
+    ],
+    "zui": {
+        "type": "js-lib",
+        "displayName": "JS 辅助方法",
+        "contributes": {
+            "js": ["class", "var", "method"]
+        }
+    }
 }

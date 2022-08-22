@@ -12,5 +12,12 @@
         "@zui/base": "workspace:*",
         "@zui/browser-helpers": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "图标",
+        "contributes": {
+            "css": ["class", "var", "fonts"]
+        }
     }
 }

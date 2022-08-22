@@ -16,5 +16,12 @@
         "@zui/button": "workspace:^0.0.1",
         "@zui/dropdown": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "输入组",
+        "contributes": {
+            "css": ["class", "var"]
+        }
     }
 }

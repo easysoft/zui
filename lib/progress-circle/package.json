@@ -6,5 +6,12 @@
     "module": "src/main.ts",
     "files": [
         "./src/**/*"
-    ]
+    ],
+    "zui": {
+        "type": "control",
+        "displayName": "环形进度条",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
 }

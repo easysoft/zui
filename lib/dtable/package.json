@@ -27,5 +27,13 @@
         "@faker-js/faker": "^7.4.0",
         "@zui/label": "workspace:^0.0.1",
         "@zui/avatar": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "js-ui",
+        "displayName": "数据表格",
+        "contributes": {
+            "css": ["class", "var"],
+            "js": ["component"]
+        }
     }
 }

@@ -1,5 +1,9 @@
 import {defineConfig} from 'vitepress';
-import zuiLib from '../public/zui-lib';
+import glob from 'fast-glob';
+import fs from 'fs-extra';
+import Path from 'path';
+import {red, yellow, underline} from 'colorette';
+import zuiLib from '../public/zui-libs';
 
 const base = process.env.BASE_PATH ?? '/';
 
@@ -20,16 +24,7 @@ export default defineConfig({
     },
     themeConfig: {
         logo: '/favicon.svg',
-        nav: [
-            {text: '指引', link: '/guide/', activeMatch: '/guide/'},
-            {text: '基础', link: '/basic/', activeMatch: '/basic/'},
-            {text: 'CSS 工具类', link: '/utilities/', activeMatch: '/utilities/'},
-            {text: '组件', link: '/lib/', activeMatch: '/lib/'},
-            {text: '图标', link: '/icons/', activeMatch: '/icons/'},
-            {text: 'JavaScript', link: '/js/', activeMatch: '/js/'},
-            {text: '主题', link: '/themes/', activeMatch: '/themes/'},
-            {text: '定制', link: '/customize/', activeMatch: '/customize/'},
-        ],
+        nav: createNav(),
         socialLinks: [
             {icon: 'github', link: 'https://github.com/easysoft/zui'}
         ],
@@ -43,40 +38,102 @@ export default defineConfig({
             prev: '上一篇',
             next: '下一篇'
         },
-        sidebar: {
-            '/guide/': [
-                {
-                    text: '指引',
-                    items: [
-                        {text: '快速开始', link: '/guide/quick-start'},
-                        {text: 'FAQ', link: '/guide/faq'},
-                    ]
-                }
-            ],
-            '/utilities/': [
-                {
-                    text: 'CSS 工具类',
-                    items: [
-                        {text: '索引', link: '/utilities/index'},
-                        {text: '样式', link: '/utilities/style'},
-                        {text: '背景', link: '/utilities/backgrounds'},
-                        {text: '边框', link: '/utilities/borders'},
-                        {text: '布局', link: '/utilities/layout'},
-                        {text: 'Flex', link: '/utilities/flex'},
-                        {text: '间距', link: '/utilities/spacing'},
-                        {text: '尺寸', link: '/utilities/sizing'},
-                        {text: '排版', link: '/utilities/typography'},
-                        {text: '效果', link: '/utilities/effects'},
-                        {text: '交互', link: '/utilities/interactivity'},
-                    ]
-                }
-            ],
-            '/lib/': [
-                {
-                    text: '组件',
-                    items: zuiLib.filter(lib => lib.hasUserDocs).map(lib => ({text: lib.displayName, link: `/lib/${lib.shortName}/index.md`}))
-                }
-            ],
-        }
+        sidebar: createSidebar()
     },
 });
+
+function createNav() {
+    return [
+        {text: '指引',       link: '/guide/',     activeMatch: '/guide/'},
+        {text: '基础',       link: '/basic/',     activeMatch: '/basic/'},
+        {text: 'CSS 工具类',  link: '/utilities/', activeMatch: '/utilities/'},
+        {text: '组件',        link: '/lib/',       activeMatch: '/lib/'},
+        {text: 'JavaScript', link: '/js/',        activeMatch: '/js/'},
+        {text: '主题',        link: '/themes/',    activeMatch: '/themes/'},
+    ];
+}
+
+function initSidebars() {
+    return {
+        '/guide/': [
+            {text: '开始', section: 'guide'},
+            {text: '定制', section: 'customize'},
+            {text: '贡献', section: 'contributes'},
+            {text: '关于', section: 'about'}
+        ],
+        '/basic/': [
+            {text: '配置',    section: 'config'},
+            {text: '设计理念', section: 'concepts'}
+        ],
+        '/utilities/': [
+            {text: '样式', section: 'style'},
+            {text: '背景', section: 'backgrounds'},
+            {text: '边框', section: 'borders'},
+            {text: '布局', section: 'layout'},
+            {text: 'Flex', section: 'flex'},
+            {text: '间距', section: 'spacing'},
+            {text: '尺寸', section: 'sizing'},
+            {text: '排版', section: 'typography'},
+            {text: '效果', section: 'effects'},
+            {text: '交互', section: 'interactivity'},
+        ],
+        '/lib/': [
+            {text: '布局', section: 'layout', collapsible: true},
+            {text: '内容', section: 'content', collapsible: true},
+            {text: '图标', section: 'icons', collapsible: true},
+            {text: '表单', section: 'forms', collapsible: true},
+            {text: '组件', section: 'components', collapsible: true},
+        ],
+        '/js/': [
+            {text: 'UI 插件', section: 'ui', collapsible: true},
+            {text: '工具方法', section: 'helpers', collapsible: true},
+        ],
+        '/themes/': [
+            {text: '官方主题', section: 'official-themes'},
+            {text: '社区主题', section: 'community-themes'},
+            {text: '主体制作', section: 'create-themes'},
+        ]
+    }
+}
+
+function createSidebar() {
+    const sidebars = initSidebars();
+    zuiLib.forEach(lib => {
+        const libDocsPath = Path.join(lib.zui.path, 'docs');
+        const files = glob.sync(`*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
+        if (!files.length) {
+            return;
+        }
+        files.forEach(file => {
+            const [sidebarInfo, ...restPath] = file.split(Path.sep);
+            const [sidebarName, ...sectionParts] = sidebarInfo.split('-');
+            const sidebar = sidebars[`/${sidebarName}/`];
+            if (!sidebar) {
+                return;
+            }
+            const sectionName = sectionParts.join('-');
+            const section = sidebar.find(item => item.section === sectionName);
+            if (!section) {
+                console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(libDocsPath, file))}.`);
+            }
+            if (!section.items) {
+                section.items = [];
+            }
+            const link = `/${sidebarName}/${sectionName}/_/${lib.zui.name}/${restPath.join('/')}`;
+            const markdown = fs.readFileSync(Path.join(libDocsPath, file), 'utf8');
+            const title = markdown.match(/# (.*)/)[1];
+            section.items.push({
+                text: title, link
+            });
+        });
+    });
+    Object.values(sidebars).forEach(sidebar => {
+        sidebar.forEach(section => {
+            if (!section.items) {
+                section.items = [];
+            }
+            delete section.section;
+        });
+    });
+    return sidebars;
+}
