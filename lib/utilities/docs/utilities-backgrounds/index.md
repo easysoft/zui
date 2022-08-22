@@ -246,31 +246,31 @@
 可以通过`bg-inherit`继承父类背景色 通过'bg-transparent'，得到默认透明背景色 
 
 <Example class="flex gap-3 bg-gray">
-  <div class="bg-transparent mr-3 w-24 h-20 flex justify-center text-canvas">
+  <div class="bg-transparent bd bd-black mr-3 w-24 h-20 flex justify-center text-canvas">
     <div class="text-center justify-center h-12 mt-4">
       <div> surface </div>
-      <div> #F5F5F5 </div>
+      <div> #9EA3B0 </div>
     </div>
   </div>
-  <div class="bg-inherit mr-3 w-24 h-20 flex justify-center text-canvas">
+  <div class="bg-inherit bd bd-black mr-3 w-24 h-20 flex justify-center text-canvas">
     <div class="text-center justify-center h-12 mt-4">
       <div> inverse </div>
-      <div> #3C4353 </div>
+      <div> #9EA3B0</div>
     </div>
   </div>
 </Example>
 
 ```html
-<div class="bg-transparent mr-3 w-24 h-20 flex justify-center text-canvas">
+<div class="bg-transparent bd bd-black mr-3 w-24 h-20 flex justify-center text-canvas">
   <div class="text-center justify-center h-12 mt-4">
     <div> surface </div>
-    <div> #F5F5F5 </div>
+    <div> #9EA3B0</div>
   </div>
 </div>
-<div class="bg-inherit mr-3 w-24 h-20 flex justify-center text-canvas">
+<div class="bg-inherit bd bd-black mr-3 w-24 h-20 flex justify-center text-canvas">
   <div class="text-center justify-center h-12 mt-4">
     <div> inverse </div>
-    <div> #3C4353 </div>
+    <div> #9EA3B0</div>
   </div>
 </div>
 ```
