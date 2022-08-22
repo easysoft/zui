@@ -82,8 +82,6 @@
 <ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-between"></ul>
 
 <script>
-
-import {domReady} from '@zui/browser-helpers/src/dom-ready';
 if(window.zui && window.zui.domReady) {
     fetch('/assets/icons/fonts/icons.json').then(res => {
         if (res.ok) {
