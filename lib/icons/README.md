@@ -3,9 +3,9 @@
 ## icons
 
 ```html:example: flex flex-wrap gap-3
-<i class="icon-resize"> resize</i>
-<i class="icon-expand-full"> expand-full</i>
-<i class="icon-collapse-full"> collapse-full</i>
+<i class="icon icon-resize"> resize</i>
+<i class="icon icon-expand-full"> expand-full</i>
+<i class="icon icon-collapse-full"> collapse-full</i>
 ```
 
 ## sizes
