@@ -10,7 +10,8 @@ export interface LibsListCache {
 
 const libsCache: Record<string, LibsListCache> = {};
 let libsCacheLoaded = false;
-const cacheFile = Path.resolve(process.cwd(), '.cache/zui-libs.json');
+const cacheDir = Path.resolve(process.cwd(), '.cache');
+const cacheFile = Path.resolve(cacheDir, 'zui-libs.json');
 
 async function loadLibsCache() {
     if (libsCacheLoaded) {
@@ -50,5 +51,6 @@ export async function setLibsCache(libPath: string, libs: Record<string, LibInfo
 
     libsCache[libPath] = {libs, lastChangeTime: lastChangeTime ?? Date.now()};
 
+    await fs.ensureDir(cacheDir);
     await fs.writeJson(cacheFile, libsCache, {spaces: 4});
 }
