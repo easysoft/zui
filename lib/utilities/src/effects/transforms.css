@@ -6,8 +6,8 @@
 .scale-125 {@apply -scale-125;}
 .scale-150 {@apply -scale-150;}
 
-.flip-x    {@apply -scale-x-100;}
-.flip-y    {@apply -scale-y-100;}
+.flip-x    {@apply --scale-x-100;}
+.flip-y    {@apply --scale-y-100;}
 
 .rotate-0      {@apply -rotate-0;}
 .rotate-1      {@apply -rotate-1;}
