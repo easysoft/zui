@@ -1,5 +1,4 @@
-
-ckfileVersion: 5.4
+lockfileVersion: 5.4
 
 importers:
 
@@ -4585,4 +4584,3 @@ packages:
     name: wrappy
     version: 1.0.2
     dev: true
-
