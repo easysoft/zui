@@ -12,6 +12,8 @@
 
 ### 使用方法
 
+为元素提供固定的宽高比。
+
 <Example>
   <div class="inline-block bg-secondary mr-3 w-16 h-2 aspect-auto"></div>
   <div class="inline-block bg-secondary mr-3 w-16 aspect-square"></div>
@@ -65,6 +67,8 @@
 
 ### block
 
+使用 `block` 创建一个块级元素。
+
 <Example>
   <span>这是一个行内标签</span>
   <span class="block bg-secondary h-16">这是一个行内标签</span>
@@ -76,6 +80,8 @@
 ```
 
 ### inline-block
+
+使用 `inline-block` 创建一个内联块级元素。
 
 <Example>
   <span>这是一个 span 标签。</span>
@@ -89,6 +95,8 @@
 
 ### inline
 
+使用 `inline` 创建一个内联元素。
+
 <Example>
   <span>这是一个 span 标签。</span>
   <div class="inline bg-secondary h-16">这是一个 div 标签。</div>
@@ -100,6 +108,8 @@
 ```
 
 ### flex
+
+使用 `flex` 来创建一个块级的 `flex` 容器。
 
 <Example>
   <div class="flex gap-2 h-12">
@@ -117,7 +127,7 @@
 
 ### inline-flex
 
-使用 `inline-flex` 来创建一个内联的 flex 容器。
+使用 `inline-flex` 来创建一个内联的 `flex` 容器。
 
 <Example>
   <div class="inline-flex space-x-4">
@@ -142,13 +152,13 @@
     <div class="table-row-group">
       <div class="table-row">
         <div class="table-cell bg-secondary text-white text-center px-6 py-4">1</div>
-        <div class="table-cell bg-secondary-300 text-white text-center px-6 py-4">2</div>
+        <div class="table-cell -bg-secondary-300 text-white text-center px-6 py-4">2</div>
         <div class="table-cell bg-secondary text-white text-center px-6 py-4">3</div>
       </div>
       <div class="table-row">
-        <div class="table-cell bg-secondary-300 text-white text-center px-6 py-4">4</div>
+        <div class="table-cell -bg-secondary-300 text-white text-center px-6 py-4">4</div>
         <div class="table-cell bg-secondary text-white text-center px-6 py-4">5</div>
-        <div class="table-cell bg-secondary-300 text-white text-center px-6 py-4">6</div>
+        <div class="table-cell -bg-secondary-300 text-white text-center px-6 py-4">6</div>
       </div>
     </div>
   </div>
@@ -187,6 +197,8 @@
 
 ### hidden
 
+使用 `hidden` 设置一个元素为 `display: none`，并从页面布局中移除(对比 <a href="#可见性">可见性</a> 部分的 `invisible`)。
+
 <Example>
   <div class="flex space-x-4">
     <div class="bg-secondary text-white rounded text-center px-6 py-4 hidden">1</div>
@@ -210,9 +222,9 @@
 | `pull-right`  | `float: right;` |
 | `pull-left`   | `float: left;` |
 
-### 使用方法
+### pull-right
 
-向右浮动 使用 `pull-right` 将一个元素浮动到其容器的右边。
+使用 `pull-right` 将一个元素浮动到其容器的右边。
 
 <Example>
   <img class="pull-right mt-2 mr-0 mb-4 ml-10 h-28" src="/lib/avatar/assets/avatar.png">
@@ -224,7 +236,9 @@
 <p>ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。ZUI3 开箱即用的组合式前端 UI 框架。</p>
 ```
 
-向左浮动 使用 `pull-left` 将一个元素浮动到其容器的右边。
+### pull-left
+
+使用 `pull-left` 将一个元素浮动到其容器的左边。
 
 <Example>
   <img class="pull-left mt-2 mr-4 mb-4 ml-0 h-28" src="/lib/avatar/assets/avatar.png">
@@ -248,9 +262,9 @@
 | `obj-none`        | `object-fit: none;` |
 | `obj-scale-down`        | `object-fit: scale-down;` |
 
-### 使用方法
+### Contain
 
-Contain —— 使用 .obj-contain 调整元素内容的大小，使其保持在容器内。
+使用 `obj-contain` 调整元素内容的大小，使其保持在容器内。
 
 <Example>
   <div class="bg-surface p-4">
@@ -264,7 +278,9 @@ Contain —— 使用 .obj-contain 调整元素内容的大小，使其保持在
 </div>
 ```
 
-Cover —— 使用 .obj-cover 调整元素内容的大小以覆盖其容器。
+### Cover
+
+使用 `obj-cover` 调整元素内容的大小以覆盖其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
@@ -278,7 +294,9 @@ Cover —— 使用 .obj-cover 调整元素内容的大小以覆盖其容器。
 </div>
 ```
 
-Fill —— 使用 .obj-fill 拉伸元素的内容以适应其容器。
+### Fill
+
+使用 `obj-fill` 拉伸元素的内容以适应其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
@@ -292,7 +310,9 @@ Fill —— 使用 .obj-fill 拉伸元素的内容以适应其容器。
 </div>
 ```
 
-None —— 使用 .obj-none 以原始大小显示元素的内容，忽略容器大小。
+### None
+
+使用 `obj-none` 以原始大小显示元素的内容，忽略容器大小。
 
 <Example>
   <div class="rounded bg-surface p-4">
@@ -306,7 +326,9 @@ None —— 使用 .obj-none 以原始大小显示元素的内容，忽略容器
 </div>
 ```
 
-Scale Down —— 以原始大小显示元素的内容，但必要时使用 .obj-scale-down 将其缩小以适应其容器。
+### Scale Down
+
+以原始大小显示元素的内容，但必要时使用 `obj-scale-down` 将其缩小以适应其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
@@ -340,6 +362,8 @@ Scale Down —— 以原始大小显示元素的内容，但必要时使用 .obj
 
 ### 自动
 
+使用 `of-auto` 在一个元素的内容溢出该元素的边界时为其添加滚动条。不像 `of-scroll` 总是显示滚动条，这个工具类只在需要滚动时才会显示。
+
 <Example>
   <div class="of-auto h-24">
     <h4>虞美人·春花秋月何时了</h4>
@@ -363,6 +387,8 @@ Scale Down —— 以原始大小显示元素的内容，但必要时使用 .obj
 ```
 
 ### 隐藏
+
+使用 `of-hidden` 来剪切元素中任何溢出该元素边界的内容。
 
 <Example>
   <div class="of-hidden h-24">
@@ -388,6 +414,8 @@ Scale Down —— 以原始大小显示元素的内容，但必要时使用 .obj
 
 ### 可见
 
+使用 `of-visible` 来防止元素内的内容被剪切。请注意，任何溢出元素边界的内容都将是可见的。
+
 <Example>
   <div class="of-visible h-24">
     <h4>虞美人·春花秋月何时了</h4>
@@ -410,7 +438,9 @@ Scale Down —— 以原始大小显示元素的内容，但必要时使用 .obj
 </div>
 ```
 
-### 水平滚动
+### 需要时水平滚动
+
+如果需要，使用 `of-x-auto` 来允许水平滚动。
 
 <Example>
   <div class="of-x-auto nowrap">
@@ -431,6 +461,103 @@ Scale Down —— 以原始大小显示元素的内容，但必要时使用 .obj
 </div>
 ```
 
+### 需要时垂直滚动
+
+如果需要，使用 `of-y-auto` 来允许垂直滚动。
+
+<Example>
+  <div class="of-y-auto h-24">
+    <h4>虞美人·春花秋月何时了</h4>
+    <p><small>五代·李煜</small></p>
+    <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+  </div>
+</Example>
+
+```html
+<div class="of-y-auto h-24">
+  <h4>虞美人·春花秋月何时了</h4>
+  <p><small>五代·李煜</small></p>
+  <p>
+    春花秋月何时了？往事知多少。<br>小楼昨夜又东风，故国不堪回首月明中。<br>
+    雕栏玉砌应犹在，只是朱颜改。<br>问君能有几多愁？恰似一江春水向东流
+  </p>
+</div>
+```
+
+### 始终水平滚动
+
+如果需要，使用 `of-x-scroll` 来允许水平滚动。
+
+<Example>
+  <div class="of-x-scroll">
+    <h4>虞美人·春花秋月何时了</h4>
+    <p><small>五代·李煜</small></p>
+    <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+  </div>
+</Example>
+
+```html
+<div class="of-x-scroll">
+  <h4>虞美人·春花秋月何时了</h4>
+  <p><small>五代·李煜</small></p>
+  <p>
+    春花秋月何时了？往事知多少。<br>小楼昨夜又东风，故国不堪回首月明中。<br>
+    雕栏玉砌应犹在，只是朱颜改。<br>问君能有几多愁？恰似一江春水向东流
+  </p>
+</div>
+```
+
+### 始终垂直滚动
+
+如果需要，使用 `of-y-scroll` 来允许水平滚动。
+
+<Example>
+  <div class="of-y-scroll h-24">
+    <h4>虞美人·春花秋月何时了</h4>
+    <p><small>五代·李煜</small></p>
+    <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+  </div>
+</Example>
+
+```html
+<div class="of-y-scroll h-24">
+  <h4>虞美人·春花秋月何时了</h4>
+  <p><small>五代·李煜</small></p>
+  <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+</div>
+```
+
+### 在所有方向上滚动
+
+如果需要，使用 `of-scroll` 来允许水平滚动。
+
+<Example>
+  <div class="of-scroll h-24 nowrap">
+    <h4>虞美人·春花秋月何时了</h4>
+    <p><small>五代·李煜</small></p>
+    <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+    <h4>虞美人·春花秋月何时了</h4>
+    <p><small>五代·李煜</small></p>
+    <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+    <h4>虞美人·春花秋月何时了</h4>
+    <p><small>五代·李煜</small></p>
+    <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+  </div>
+</Example>
+
+```html
+<div class="of-scroll h-24 nowrap">
+  <h4>虞美人·春花秋月何时了</h4>
+  <p><small>五代·李煜</small></p>
+  <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+  <h4>虞美人·春花秋月何时了</h4>
+  <p><small>五代·李煜</small></p>
+  <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+  <h4>虞美人·春花秋月何时了</h4>
+  <p><small>五代·李煜</small></p>
+  <p>春花秋月何时了？往事知多少。小楼昨夜又东风，故国不堪回首月明中。雕栏玉砌应犹在，只是朱颜改。问君能有几多愁？恰似一江春水向东流</p>
+</div>
+```
 
 ## 定位
 
