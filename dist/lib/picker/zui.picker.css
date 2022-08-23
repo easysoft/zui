@@ -1,5 +1,5 @@
 /*!
- * ZUI: 下拉选择器 - v1.10.0 - 2022-05-20
+ * ZUI: 下拉选择器 - v1.10.0 - 2022-08-23
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2022 cnezsoft.com; Licensed MIT
@@ -26,6 +26,10 @@
   border-color: #145ccd;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(20, 92, 205, .6);
+  }
+.disabled .picker-selections {
+  cursor: not-allowed;
+  background-color: #e5e5e5;
   }
 .picker-multi .picker-selections {
   padding: 3px;
@@ -177,6 +181,9 @@
   color: inherit;
   outline: none;
   }
+.disabled .picker-search {
+  cursor: not-allowed;
+  }
 .picker-single .picker-search {
   position: absolute;
   top: 0;
@@ -271,6 +278,9 @@
   cursor: not-allowed;
   background-color: #fff;
   }
+.picker-option.disabled {
+  cursor: not-allowed !important;
+  }
 .picker-option-text-matched {
   position: relative;
   color: #3280fc;
@@ -330,4 +340,32 @@
   }
 .picker-actions .btn + .btn {
   margin-left: 4px;
+  }
+.picker-checkable .picker-option {
+  position: relative;
+  padding-left: 32px;
+  color: inherit!important;
+  cursor: pointer!important;
+  }
+.picker-checkable .picker-option > .checkbox-primary {
+  position: absolute;
+  top: 4px;
+  left: 10px;
+  }
+.picker-checkable .picker-option.picker-option-active {
+  background-color: rgba(0, 0, 0, .05) !important;
+  }
+.picker-checkable .picker-option:hover {
+  background-color: rgba(0, 0, 0, .075) !important;
+  }
+.picker-checkable .picker-option.picker-option-selected {
+  background-color: #ebf2f9 !important;
+  }
+.picker-checkable .picker-option-active .picker-option-text-matched,
+.picker-checkable .picker-option:hover .picker-option-text-matched {
+  color: #3280fc !important;
+  }
+.picker-checkable .picker-option-active .picker-option-text-matched:before,
+.picker-checkable .picker-option:hover .picker-option-text-matched:before {
+  background: #3280fc !important;
   }

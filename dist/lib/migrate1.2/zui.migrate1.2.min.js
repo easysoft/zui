@@ -1,5 +1,5 @@
 /*!
- * ZUI: 1.2升级到1.3兼容插件 - v1.10.0 - 2022-05-20
+ * ZUI: 1.2升级到1.3兼容插件 - v1.10.0 - 2022-08-23
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2022 cnezsoft.com; Licensed MIT

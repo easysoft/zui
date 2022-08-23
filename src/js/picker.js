@@ -1053,6 +1053,12 @@
 
     Picker.prototype.showDropList = function() {
         var that = this;
+        var search = that.search;
+        var options = that.options;
+        if (typeof search === 'string' && !search.length && options.disableEmptySearch) {
+            return
+        }
+
         if (that.triggerEvent('showingDrop', {picker: that}) === false) {
             return;
         }

@@ -1,5 +1,5 @@
 /*!
- * ZUI: 标签页管理器 - v1.10.0 - 2022-05-20
+ * ZUI: 标签页管理器 - v1.10.0 - 2022-08-23
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2022 cnezsoft.com; Licensed MIT
@@ -76,7 +76,9 @@
         // messagerOptions: null,
         showMessage: true,
         navTemplate: '<nav class="tabs-navbar"></nav>',
-        containerTemplate: '<div class="tabs-container"></div>'
+        containerTemplate: '<div class="tabs-container"></div>',
+        autoResizeNavs: true,
+        // maxNavsWidth: null,
     };
 
     var LANG = {
@@ -163,12 +165,22 @@
         }).on('click.' + NAME, '.tab-nav-close', function (e) {
             that.close($(this).closest('.tab-nav-link').data('id'));
             e.stopPropagation();
-        }).on('resize.' + NAME, function () {
-            that.adjustNavs();
         });
+        if (options.autoResizeNavs) {
+            var $resizeTrigger = $nav;
+            if (options.autoResizeNavs === 'navbar') {
+                $resizeTrigger = $navbar;
+            } else if (options.autoResizeNavs !== true) {
+                $resizeTrigger = $(options.autoResizeNavs);
+            }
+            that.$resizeTrigger = $resizeTrigger;
+            $resizeTrigger.on('resize.' + NAME, function () {
+                that.adjustNavs();
+            });
+        }
 
         if (options.contextMenu && $.fn.contextmenu) {
-            $nav.contextmenu({
+            var contextMenuOptions = {
                 selector: '.tab-nav-link',
                 items: function (e) {
                     return that.createMenuItems(that.getTab($(this).data('id')));
@@ -179,7 +191,11 @@
                 onHide: function () {
                     that.$.removeClass('tabs-show-contextmenu');
                 }
-            });
+            };
+            if (typeof options.contextMenu === 'object') {
+                $.extend(contextMenuOptions, options.contextMenu);
+            }
+            $nav.contextmenu(contextMenuOptions);
         }
     };
 
@@ -222,11 +238,11 @@
         var that = this;
         if (!immediately) {
             if (that.adjustNavsTimer) {
-                clearTimeout(that.adjustNavsTimer);
+                $.zui.clearAsap(that.adjustNavsTimer);
             }
-            that.adjustNavsTimer = setTimeout(function() {
+            that.adjustNavsTimer = $.zui.asap(function() {
                 that.adjustNavs(true);
-            }, 50);
+            });
             return;
         }
         if (that.adjustNavsTimer) {
@@ -234,7 +250,15 @@
         }
         var $nav = that.$nav;
         var $navItems = $nav.find('.tab-nav-item:not(.hidden)');
-        var totalWidth = $nav.width();
+        var totalWidth;
+        var maxNavsWidth = that.options.maxNavsWidth;
+        if (typeof maxNavsWidth === 'function') {
+            totalWidth = maxNavsWidth($nav, that);
+        } else if (typeof maxNavsWidth === 'number') {
+            totalWidth = maxNavsWidth;
+        } else {
+            totalWidth = $nav.width();
+        }
         var totalCount = $navItems.length;
         var maxWidth = Math.floor(totalWidth/totalCount);
         if(maxWidth < 96) {
@@ -246,11 +270,9 @@
 
     Tabs.prototype.renderTab = function(tab, beforeTabId) {
         var that = this;
-        var $nav = that.$nav;
         var $tabNav = $('#tab-nav-item-' + tab.id);
         if (!$tabNav.length) {
-            var $a = $('<a class="tab-nav-link"><i class="icon"></i><span class="title"></span><i class="close tab-nav-close" title="' + that.lang.close + '">&times;</i></a>').attr({
-                href: '#tabs-item-' + tab.id,
+            var $a = $('<a class="tab-nav-link" href="javascript:;"><i class="icon"></i><span class="title"></span><i class="close tab-nav-close" title="' + that.lang.close + '">&times;</i></a>').attr({
                 'data-id': tab.id
             });
             $tabNav = $('<li class="tab-nav-item" data-id="' + tab.id + '" id="tab-nav-item-' + tab.id + '" />').append($a).appendTo(that.$nav);
@@ -265,6 +287,7 @@
         var $a = $tabNav.find('a').attr('title', tab.desc).toggleClass('not-closable', !!tab.forbidClose);
         $a.find('.icon').attr('class', 'icon ' + (tab.icon || that.options.defaultTabIcon));
         $a.find('.title').text(tab.title || tab.defaultTitle || '');
+        that.$.callComEvent(that, 'onRenderTab', [tab, $a]);
         return $tabNav;
     };
 
@@ -294,6 +317,7 @@
             delete that.tabs[tab.id];
             that.closedTabs.push(tab);
             that.$.callComEvent(that, 'onClose', tab);
+            that.adjustNavs();
 
             var lastTab;
             $.each(that.tabs, function (tabId, tab) {
@@ -367,7 +391,6 @@
             }
             $tabNav.removeClass('loading');
             $tabPane.removeClass('loading');
-            that.$.callComEvent(that, 'onLoad', tab);
             if(typeof content === 'string' || content instanceof $) {
                 if (tab.contentConverter) {
                     content = tab.contentConverter(content, tab);
@@ -394,6 +417,7 @@
                 }
             }
             tab.loaded = new Date().getTime();
+            that.$.callComEvent(that, 'onLoad', tab);
         };
         if (tab.type === 'ajax') {
             var ajaxOption = {
