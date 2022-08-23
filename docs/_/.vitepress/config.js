@@ -97,7 +97,7 @@ function initSidebars() {
     }
 }
 
-function updateSections(files, sidebars) {
+function updateSections(files, sidebars, docsPath, libName) {
     if (!files.length) {
         return;
     }
@@ -109,13 +109,13 @@ function updateSections(files, sidebars) {
         }
         const section = sidebar.find(item => item.section === sectionName);
         if (!section) {
-            console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(libDocsPath, file))}.`);
+            console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(docsPath, file))}.`);
         }
         if (!section.items) {
             section.items = [];
         }
-        const link = `/${sidebarName}/${sectionName}/${lib.zui.name}/${restPath.join('/')}`;
-        const markdown = fs.readFileSync(Path.join(libDocsPath, file), 'utf8');
+        const link = `/${sidebarName}/${sectionName}/${libName ? `${libName}/` : ''}${restPath.join('/')}`;
+        const markdown = fs.readFileSync(Path.join(docsPath, file), 'utf8');
         const title = markdown.match(/# (.*)/)[1];
         section.items.push({
             text: title, link
@@ -127,12 +127,12 @@ function createSidebar() {
     const sidebars = initSidebars();
     const docsPath = Path.join(process.cwd(), 'docs/docs');
     const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: docsPath});
-    updateSections(files, sidebars);
+    updateSections(files, docsPath, sidebars);
 
     zuiLib.forEach(lib => {
         const libDocsPath = Path.join(lib.zui.path, 'docs');
         const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
-        updateSections(files, sidebars);
+        updateSections(files, sidebars, libDocsPath, lib.zui.name);
     });
     Object.values(sidebars).forEach(sidebar => {
         sidebar.forEach(section => {

@@ -4,7 +4,7 @@ import {blue, yellow, bold, gray, green} from 'colorette';
 import {syncLibDocFile} from './sync';
 
 const libPath = path.resolve(process.cwd(), './lib/');
-const docsPath = path.resolve(process.cwd(), './docs/');
+const docsPath = path.resolve(process.cwd(), './docs/docs/');
 const watchPath = [
     `${libPath}/*/docs/*/**/*.md`,
     `${libPath}/*/assets/**/*`,

@@ -1,5 +1,10 @@
 public
 assets
 node_modules
-*/_/
-*/*/_/
+_/basic
+_/guide
+_/js
+_/lib
+_/themes
+_/utilities
+_/public

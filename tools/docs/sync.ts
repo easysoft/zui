@@ -5,7 +5,8 @@ import {yellow, red, underline} from 'colorette';
 import {LibInfo} from '../libs/lib-info';
 
 export async function syncLibDocs(lib: LibInfo) {
-    const docsPath = Path.resolve(process.cwd(), 'docs/_'); // '/docs'
+    const docsPath = Path.resolve(process.cwd(), 'docs/_');
+    const docsPublicPath = Path.resolve(docsPath, 'public');
     const libDocsDir = Path.join(lib.zui.path, 'docs');   // 'libs/avatar/docs'
     const name = lib.zui.name;
     const libDocsDirExists = await fs.pathExists(libDocsDir);
@@ -20,14 +21,13 @@ export async function syncLibDocs(lib: LibInfo) {
     const libAssetsDir = Path.resolve(lib.zui.path, 'assets');
     const libAssetsDirExists = await fs.pathExists(libAssetsDir);
     if (libAssetsDirExists) {
-        const docsAssetsDir = Path.resolve(docsPath, './public/assets', name);
+        const docsAssetsDir = Path.resolve(docsPublicPath, './assets', name);
         await fs.copy(libAssetsDir, docsAssetsDir);
     }
 }
 
 export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<string> {
     const libPath = Path.resolve(process.cwd(), 'lib');
-    const libDocsDir = Path.join(libPath, 'docs');
     const docsPath = Path.resolve(process.cwd(), 'docs/docs');
     const docsDestPath = Path.resolve(process.cwd(), 'docs/_');
     let targetFile = '';
@@ -35,7 +35,7 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
         const relativePath = Path.relative(libPath, file);
         const [libName, type, ...restPath] = relativePath.split(Path.sep);
         if (type === 'assets') {
-            targetFile = Path.join(docsDestPath, 'public', 'assets', libName, ...restPath);
+            targetFile = Path.join(docsPath, 'public', 'assets', libName, ...restPath);
         } else if (restPath.length < 3) {
             console.log(` ${red('ERROR')} file ${underline(yellow(relativePath))} is place in wrong place.`);
             return '';
@@ -44,7 +44,7 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
             targetFile = Path.join(docsDestPath, sidebar, section, libName, ...fileParts);
         }
     } else if (file.startsWith(docsPath)) {
-        const relativePath = Path.relative(libDocsDir, file);
+        const relativePath = Path.relative(docsPath, file);
         targetFile = Path.resolve(docsDestPath, relativePath);
     } else {
         console.log(` ${red('ERROR')} file ${underline(yellow(file))} is place in wrong place.`);
@@ -68,10 +68,8 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
 }
 
 export async function emptySidebarLibDocs() {
-    const docsPath = Path.resolve(process.cwd(), 'docs');
-    const dirs = await glob(['*/_', '*/*/_'], {cwd: docsPath, onlyDirectories: true});
-    for (const dir of dirs) {
-        const tempDir = Path.join(docsPath, dir);
-        await fs.emptyDir(tempDir);
+    const docsPath = Path.resolve(process.cwd(), 'docs/_');
+    for (const dir of ['basic', 'guide', 'js', 'lib', 'themes', 'utilities']) {
+        await fs.emptyDir(Path.join(docsPath, dir));
     }
 }
