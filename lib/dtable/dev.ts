@@ -2,7 +2,6 @@ import 'preact/debug';
 import '@zui/label';
 import '@zui/avatar';
 import {faker} from '@faker-js/faker';
-import {domReady} from '@zui/browser-helpers/src/dom-ready';
 import {DTable} from './src/main';
 import checkable from './src/plugins/checkable';
 import nested from './src/plugins/nested';
@@ -10,7 +9,7 @@ import rich from './src/plugins/rich';
 
 faker.setLocale('zh_CN');
 
-domReady(() => {
+setTimeout(() => {
     const element = document.getElementById('datatableExample');
     if (element) {
         const datatable = new DTable(element, {
@@ -122,4 +121,4 @@ domReady(() => {
     } else {
         console.log('DataTable element not found #productElement');
     }
-});
+}, 1000);
