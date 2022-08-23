@@ -82,10 +82,10 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         }
     }
 
-    scroll(scrollPos: number) {
+    scroll(scrollPos: number): boolean {
         scrollPos = Math.max(0, Math.min(Math.round(scrollPos), this.maxScrollPos));
         if (scrollPos === this.scrollPos) {
-            return;
+            return false;
         }
         if (this.controlled) {
             this._afterScroll(scrollPos);
@@ -94,10 +94,11 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
                 scrollPos,
             }, this._afterScroll.bind(this, scrollPos));
         }
+        return true;
     }
 
-    scrollOffset(offset: number) {
-        this.scroll(this.scrollPos + offset);
+    scrollOffset(offset: number): boolean {
+        return this.scroll(this.scrollPos + offset);
     }
 
     _afterScroll(scrollPos: number) {
@@ -115,8 +116,9 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         }
 
         if ((typeof wheelContainer === 'string' && target.closest(wheelContainer)) || typeof wheelContainer === 'object') {
-            event.preventDefault();
-            this.scrollOffset((this.props.type === 'horz' ? (event as WheelEvent).deltaX : (event as WheelEvent).deltaY) * (this.props.wheelSpeed ?? 1));
+            if (this.scrollOffset((this.props.type === 'horz' ? (event as WheelEvent).deltaX : (event as WheelEvent).deltaY) * (this.props.wheelSpeed ?? 1))) {
+                event.preventDefault();
+            }
         }
     };
 
