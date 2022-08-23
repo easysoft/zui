@@ -715,7 +715,7 @@ class wt extends fe {
     S(this, "_handleWheel", (e) => {
       var o;
       const { wheelContainer: s } = this.props, r = e.target;
-      !r || !s || (typeof s == "string" && r.closest(s) || typeof s == "object") && (e.preventDefault(), this.scrollOffset((this.props.type === "horz" ? e.deltaX : e.deltaY) * ((o = this.props.wheelSpeed) != null ? o : 1)));
+      !r || !s || (typeof s == "string" && r.closest(s) || typeof s == "object") && this.scrollOffset((this.props.type === "horz" ? e.deltaX : e.deltaY) * ((o = this.props.wheelSpeed) != null ? o : 1)) && e.preventDefault();
     });
     S(this, "_handleMouseMove", (e) => {
       const { dragStart: s } = this.state;
@@ -768,12 +768,12 @@ class wt extends fe {
     document.removeEventListener("mousemove", this._handleMouseMove), document.removeEventListener("mouseup", this._handleMouseUp), m(this, Q) && m(this, Q).removeEventListener("wheel", this._handleWheel);
   }
   scroll(e) {
-    e = Math.max(0, Math.min(Math.round(e), this.maxScrollPos)), e !== this.scrollPos && (this.controlled ? this._afterScroll(e) : this.setState({
+    return e = Math.max(0, Math.min(Math.round(e), this.maxScrollPos)), e === this.scrollPos ? !1 : (this.controlled ? this._afterScroll(e) : this.setState({
       scrollPos: e
-    }, this._afterScroll.bind(this, e)));
+    }, this._afterScroll.bind(this, e)), !0);
   }
   scrollOffset(e) {
-    this.scroll(this.scrollPos + e);
+    return this.scroll(this.scrollPos + e);
   }
   _afterScroll(e) {
     var r;
