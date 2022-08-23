@@ -266,6 +266,12 @@
             }
             $container.toggleClass('picker-input-empty', !searchValue.length);
             that.tryUpdateList(searchValue);
+            if (options.disableEmptySearch && !that.dropListShowed && searchValue ) {
+                that.showDropList()
+            }
+            if (options.disableEmptySearch && !searchValue) {
+                that.hideDropList()
+            }
         });
 
         if (options.hotkey) {
