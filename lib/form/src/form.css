@@ -16,7 +16,7 @@
   width: var(--form-label-width);
 }
 
-.has-success > label {
+.has-success {
   color: var(--color-has-success);
 }
 .has-success > .form-tip {
@@ -26,7 +26,7 @@
 .has-error > label {
   color: var(--color-has-error);
 }
-.has-error > form-tip {
+.has-error > .form-tip {
   color: var(--color-has-error);
 }
 

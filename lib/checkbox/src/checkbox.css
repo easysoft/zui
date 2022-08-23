@@ -26,15 +26,11 @@
   @apply -ml-4;
 }
 
-.checkbox-primary + .checkbox-primary {
-  @apply -flex ; 
-}
-
 .checkbox-primary > label,
 .radio-primary > label{
   @apply -ml-2 -relative;
 }
-.checkbox-primary > label:before, 
+.checkbox-primary > label:before,
 .radio-primary > label:before {
   @apply -border-solid -border-black -border -mt-1 -absolute -w-3 -aspect-square --left-4;
   margin-top: 0.1rem;

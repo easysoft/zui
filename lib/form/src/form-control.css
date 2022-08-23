@@ -14,10 +14,10 @@
     color: var(--form-control-placeholder-color);
 }
 
-.size-sm.form-control {
+.form-control.size-sm {
     @apply -text-sm -h-6 -px-2;
 }
-.size-lg.form-control {
+.form-control.size-lg {
     @apply -text-lg -h-10 -px-4;
 }
 

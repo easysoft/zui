@@ -1,6 +1,6 @@
-import './src/main';
 import {domReady} from '@zui/browser-helpers/src/dom-ready';
 import icons from './assets/fonts/icons.json';
+import './src/main';
 
 domReady(() => {
     setTimeout(() => {
@@ -16,4 +16,3 @@ domReady(() => {
         }
     }, 300);
 });
-

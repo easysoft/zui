@@ -8,7 +8,7 @@
   border-radius: var(--nav-radius);
 }
 .nav > .active > a {
-  font-weight: 700;
+  font-weight: bold;
 }
 
 .nav-simple > .active > a {
@@ -79,7 +79,7 @@
 }
 .nav-stacked.nav-tabs > .active > a::after {
   content:"";
-  @apply -border-solid -border-t -border-r -border-l-0 -border-b -absolute -inset-0;
+  @apply -border-t -border-r -border-l-0 -border-b;
 }
 
 .nav-justified {

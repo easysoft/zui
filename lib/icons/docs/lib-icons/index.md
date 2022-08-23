@@ -81,9 +81,12 @@
 
 <ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-between"></ul>
 
-<script>
-export default {
-  mounted() {
+<script setup>
+import {onMounted} from 'vue';
+
+const text = 'hello';
+
+onMounted(() => {
     fetch('/assets/icons/fonts/icons.json').then(res => {
         if (res.ok) {
             return res.json();
@@ -102,6 +105,5 @@ export default {
             console.log('iconsExample is not find!');
         }
     });
-  }
-}
+});
 </script>
