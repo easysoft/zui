@@ -4,7 +4,7 @@
 
 ## 基本用法
 
-将多个[按钮](/lib/components/_/button/)放置在 `<div class="btn-group">` 内即可创建一个按钮组。
+将多个[按钮](/lib/components/button/)放置在 `<div class="btn-group">` 内即可创建一个按钮组。
 
 <Example>
   <div class="btn-group">

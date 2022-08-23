@@ -68,8 +68,15 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
 }
 
 export async function emptySidebarLibDocs() {
-    const docsPath = Path.resolve(process.cwd(), 'docs/_');
+    const docsDestPath = Path.resolve(process.cwd(), 'docs/_');
+    const baseDocsPath = Path.resolve(process.cwd(), 'docs/docs');
     for (const dir of ['basic', 'guide', 'js', 'lib', 'themes', 'utilities']) {
-        await fs.emptyDir(Path.join(docsPath, dir));
+        const docsPath = Path.join(docsDestPath, dir);
+        await fs.emptyDir(docsPath);
+        const baseDocs = Path.join(baseDocsPath, dir);
+        const baseDocsExits = await fs.pathExists(baseDocs);
+        if (baseDocsExits) {
+            await fs.copy(baseDocs, docsPath);
+        }
     }
 }
