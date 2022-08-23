@@ -90,43 +90,49 @@ function initSidebars() {
             {text: '工具方法', section: 'helpers', collapsible: true},
         ],
         '/themes/': [
-            {text: '官方主题', section: 'official-themes'},
-            {text: '社区主题', section: 'community-themes'},
-            {text: '主体制作', section: 'create-themes'},
+            {text: '官方主题', section: 'official'},
+            {text: '社区主题', section: 'community'},
+            {text: '主体制作', section: 'create'},
         ]
     }
 }
 
-function createSidebar() {
-    const sidebars = initSidebars();
-    zuiLib.forEach(lib => {
-        const libDocsPath = Path.join(lib.zui.path, 'docs');
-        const files = glob.sync(`*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
-        if (!files.length) {
+function updateSections(files, sidebars) {
+    if (!files.length) {
+        return;
+    }
+    files.forEach(file => {
+        const [sidebarName, sectionName, ...restPath] = file.split(Path.sep);
+        const sidebar = sidebars[`/${sidebarName}/`];
+        if (!sidebar) {
             return;
         }
-        files.forEach(file => {
-            const [sidebarInfo, ...restPath] = file.split(Path.sep);
-            const [sidebarName, ...sectionParts] = sidebarInfo.split('-');
-            const sidebar = sidebars[`/${sidebarName}/`];
-            if (!sidebar) {
-                return;
-            }
-            const sectionName = sectionParts.join('-');
-            const section = sidebar.find(item => item.section === sectionName);
-            if (!section) {
-                console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(libDocsPath, file))}.`);
-            }
-            if (!section.items) {
-                section.items = [];
-            }
-            const link = `/${sidebarName}/${sectionName}/_/${lib.zui.name}/${restPath.join('/')}`;
-            const markdown = fs.readFileSync(Path.join(libDocsPath, file), 'utf8');
-            const title = markdown.match(/# (.*)/)[1];
-            section.items.push({
-                text: title, link
-            });
+        const section = sidebar.find(item => item.section === sectionName);
+        if (!section) {
+            console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(libDocsPath, file))}.`);
+        }
+        if (!section.items) {
+            section.items = [];
+        }
+        const link = `/${sidebarName}/${sectionName}/${lib.zui.name}/${restPath.join('/')}`;
+        const markdown = fs.readFileSync(Path.join(libDocsPath, file), 'utf8');
+        const title = markdown.match(/# (.*)/)[1];
+        section.items.push({
+            text: title, link
         });
+    });
+}
+
+function createSidebar() {
+    const sidebars = initSidebars();
+    const docsPath = Path.join(process.cwd(), 'docs/docs');
+    const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: docsPath});
+    updateSections(files, sidebars);
+
+    zuiLib.forEach(lib => {
+        const libDocsPath = Path.join(lib.zui.path, 'docs');
+        const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
+        updateSections(files, sidebars);
     });
     Object.values(sidebars).forEach(sidebar => {
         sidebar.forEach(section => {
