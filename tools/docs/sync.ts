@@ -35,7 +35,7 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
         const relativePath = Path.relative(libPath, file);
         const [libName, type, ...restPath] = relativePath.split(Path.sep);
         if (type === 'assets') {
-            targetFile = Path.join(docsPath, 'public', 'assets', libName, ...restPath);
+            targetFile = Path.join(docsDestPath, 'public', 'assets', libName, ...restPath);
         } else if (restPath.length < 3) {
             console.log(` ${red('ERROR')} file ${underline(yellow(relativePath))} is place in wrong place.`);
             return '';
