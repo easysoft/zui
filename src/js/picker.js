@@ -269,7 +269,7 @@
             if (options.disableEmptySearch && !that.dropListShowed && searchValue ) {
                 that.showDropList()
             }
-            if (options.disableEmptySearch && !searchValue) {
+            if (options.disableEmptySearch && !searchValue && that.dropListShowed ) {
                 that.hideDropList()
             }
         });
