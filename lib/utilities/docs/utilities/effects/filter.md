@@ -38,7 +38,7 @@
 <Example class="flex flex-wrap gap-3">
   <div v-for = "item in arrayDsd">
     <img src="/favicon.svg" :class="item" class="w-16 h-16">
-    <div class="text-center">{{item}}</div>
+    <div class="text-center mt-2">{{item}}</div>
   </div>
 </Example>
 
@@ -46,7 +46,7 @@
   <img class="dsd-sm" ... >
 ```
 
-## 通过`bg-blur-*`添加覆盖下方区域模糊样式
+## 通过`bg-blur-*`添加覆盖区域模糊样式
 
 <Example class="flex flex-wrap gap-3 w-full h-full">
   <div v-for = "item in arrayBgBlur" class="relative w-24 h-24">  
@@ -61,7 +61,9 @@
 ```html
   <div class="relative w-24 h-16">
     <img class="absolute w-full h-full  src=..." >
-    <div class="absolute w-full h-full bg-blur-sm"></div> 
+    <div class="absolute w-full h-full bg-blur-sm">
+      ZUI3
+    </div> 
   </div>
 ```
 
