@@ -1,5 +1,5 @@
-.obj-contain    {@apply -object-contain;}
-.obj-cover      {@apply -object-cover;}
-.obj-fill       {@apply -object-fill;}
-.obj-none       {@apply -object-none;}
-.obj-scale-down {@apply -object-scale-down;}
+.object-contain    {@apply -object-contain;}
+.object-cover      {@apply -object-cover;}
+.object-fill       {@apply -object-fill;}
+.object-none       {@apply -object-none;}
+.object-scale-down {@apply -object-scale-down;}

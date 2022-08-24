@@ -256,15 +256,15 @@
 
 | 修饰类        | 定义  |
 |:------------- |:----- |
-| `obj-contain`        | `object-fit: contain;` |
-| `obj-cover`        | `object-fit: cover;` |
-| `obj-fill`        | `object-fit: fill;` |
-| `obj-none`        | `object-fit: none;` |
-| `obj-scale-down`        | `object-fit: scale-down;` |
+| `object-contain`        | `object-fit: contain;` |
+| `object-cover`        | `object-fit: cover;` |
+| `object-fill`        | `object-fit: fill;` |
+| `object-none`        | `object-fit: none;` |
+| `object-scale-down`        | `object-fit: scale-down;` |
 
 ### Contain
 
-使用 `obj-contain` 调整元素内容的大小，使其保持在容器内。
+使用 `object-contain` 调整元素内容的大小，使其保持在容器内。
 
 <Example>
   <div class="bg-surface p-4">
@@ -280,65 +280,65 @@
 
 ### Cover
 
-使用 `obj-cover` 调整元素内容的大小以覆盖其容器。
+使用 `object-cover` 调整元素内容的大小以覆盖其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-cover">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-cover">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-cover">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-cover">
 </div>
 ```
 
 ### Fill
 
-使用 `obj-fill` 拉伸元素的内容以适应其容器。
+使用 `object-fill` 拉伸元素的内容以适应其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-fill">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-fill">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-fill">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-fill">
 </div>
 ```
 
 ### None
 
-使用 `obj-none` 以原始大小显示元素的内容，忽略容器大小。
+使用 `object-none` 以原始大小显示元素的内容，忽略容器大小。
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-none">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-none">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-none">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-none">
 </div>
 ```
 
 ### Scale Down
 
-以原始大小显示元素的内容，但必要时使用 `obj-scale-down` 将其缩小以适应其容器。
+以原始大小显示元素的内容，但必要时使用 `object-scale-down` 将其缩小以适应其容器。
 
 <Example>
   <div class="rounded bg-surface p-4">
-    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-scale-down">
+    <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-scale-down">
   </div>
 </Example>
 
 ```html
 <div class="rounded bg-surface p-4">
-  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full obj-scale-down">
+  <img src="/lib/avatar/assets/avatar.png" class="h-48 w-full object-scale-down">
 </div>
 ```
 
