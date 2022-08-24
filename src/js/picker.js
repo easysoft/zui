@@ -242,6 +242,9 @@
                 that._blurTimer = 0;
             }
             $container.addClass('picker-focus');
+            if (that.options.disableEmptySearch && typeof that.search === 'string' && !that.search.length) {
+                return
+            }
             that.showDropList();
         }).on('blur', function() {
             if (that.disabled) {
@@ -266,11 +269,13 @@
             }
             $container.toggleClass('picker-input-empty', !searchValue.length);
             that.tryUpdateList(searchValue);
-            if (options.disableEmptySearch && !that.dropListShowed && searchValue ) {
-                that.showDropList()
-            }
-            if (options.disableEmptySearch && !searchValue && that.dropListShowed ) {
-                that.hideDropList()
+            if (options.disableEmptySearch) {
+                const isEmptySearch = typeof searchValue !== 'string' || searchValue.length;
+                if (!that.dropListShowed && isEmptySearch) {
+                    that.showDropList()
+                } else if (that.dropListShowed && !isEmptySearch) {
+                    that.hideDropList()
+                }
             }
         });
 
@@ -1059,11 +1064,6 @@
 
     Picker.prototype.showDropList = function() {
         var that = this;
-        var search = that.search;
-        var options = that.options;
-        if (typeof search === 'string' && !search.length && options.disableEmptySearch) {
-            return
-        }
 
         if (that.triggerEvent('showingDrop', {picker: that}) === false) {
             return;
