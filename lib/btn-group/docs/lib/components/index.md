@@ -51,12 +51,11 @@
     <button type="button" class="btn">粘贴</button>
   </div>
   <div class="btn-group">
-    <button type="button" class="btn">( $ _ $ )</button>
-    <button type="button" class="btn">O(∩_∩)O</button>
-    <button type="button" class="btn">（*＾-＾*）</button>
+    <button type="button" class="btn">上传</button>
+    <button type="button" class="btn">下载</button>
   </div>
   <div class="btn-group">
-    <button type="button" class="btn">登录</button>
+    <button type="button" class="btn">预览</button>
   </div>
 </div>
 ```
