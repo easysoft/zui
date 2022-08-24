@@ -2,7 +2,7 @@
 
 控制元素显示类型的工具类
 
-## block
+## 块级元素
 
 使用 `block` 创建一个块级元素。
 
@@ -13,10 +13,10 @@
 
 ```html
 <span>这是一个 span 标签。</span>
-<span class="block h-16">这是一个 span 标签。</span>
+<span class="block">这是一个 span 标签。</span>
 ```
 
-## inline-block
+## 行内块元素
 
 使用 `inline-block` 创建一个内联块级元素。
 
@@ -27,10 +27,10 @@
 
 ```html
 <span>这是一个 span 标签。</span>
-<span class="inline-block h-16">这是一个 span 标签。</span>
+<span class="inline-block">这是一个 span 标签。</span>
 ```
 
-## inline
+## 行内元素
 
 使用 `inline` 创建一个内联元素。
 
@@ -41,10 +41,10 @@
 
 ```html
 <span>这是一个 span 标签。</span>
-<div class="inline h-16">这是一个 div 标签。</div>
+<div class="inline">这是一个 div 标签。</div>
 ```
 
-## flex
+## flex 容器
 
 使用 `flex` 来创建一个块级的 `flex` 容器。
 
@@ -56,13 +56,13 @@
 </Example>
 
 ```html
- <div class="flex h-12">
-  <span class="w-12">1</span>
-  <span class="w-12">2</span>
+ <div class="flex">
+  <span>1</span>
+  <span>2</span>
 </div>
 ```
 
-## inline-flex
+## 内联块级 flex 容器
 
 使用 `inline-flex` 来创建一个内联的 `flex` 容器。
 
@@ -76,13 +76,13 @@
 
 ```html
 <div class="inline-flex">
-  <div class="px-6 py-4 flex-1">1</div>
-  <div class="px-6 py-4 flex-1">2</div>
-  <div class="px-6 py-4 flex-1">3</div>
+  <div class="flex-1">1</div>
+  <div class="flex-1">2</div>
+  <div class="flex-1">3</div>
 </div>
 ```
 
-## table table-row table-cell
+## 块级表格/表格行/表格单元格
 
 <Example>
   <div class="table w-full bg-surface">
@@ -118,7 +118,7 @@
 </div>
 ```
 
-## list-item
+## 列表
 
 <Example>
   <div class="list-item">ZUI3</div>
@@ -132,7 +132,7 @@
 <div>ZUI3</div>
 ```
 
-## hidden
+## 隐藏元素
 
 使用 `hidden` 设置一个元素为 `display: none`，并从页面布局中移除(对比 <a href="#可见性">可见性</a> 部分的 `invisible`)。
 
@@ -146,9 +146,9 @@
 
 ```html
 <div class="flex space-x-4">
-  <div class="-bg-secondary-300 text-white rounded text-center px-6 py-4 hidden">1</div>
-  <div class="-bg-secondary-300 text-white rounded text-center px-6 py-4">2</div>
-  <div class="-bg-secondary-300 text-white rounded text-center px-6 py-4">3</div>
+  <div class="hidden">1</div>
+  <div>2</div>
+  <div>3</div>
 </div>
 ```
 
