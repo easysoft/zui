@@ -1,12 +1,16 @@
 # 图标
 
+## 所有图标
+
+<ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-start h-96 -overflow-y-auto "></ul>
+
 ## 基本用法
 <Example>
-  <i class="icon icon-resize"> resize</i>
+  <i class="icon icon-resize"></i>
 </Example>
 
 ```html
-<i class="icon icon-resize"> resize</i>
+<i class="icon icon-resize"></i>
 ```
 
 ## 尺寸
@@ -77,9 +81,6 @@
   <i class="icon icon-star pulse"></i>
   <i class="icon icon-star bounce"></i>
 ```
-## 所有图标
-
-<ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-between"></ul>
 
 <script setup>
 import {onMounted} from 'vue';
@@ -98,7 +99,7 @@ onMounted(() => {
         if ($ul) {
             let ulChildrenStr = '';
             for (const icon in json) {
-                ulChildrenStr += `<li class="w-1/4 p-2 m-1 bg-slate-200 flex items-center -flex-col light-pale rounded "><i class="icon icon-${icon}"></i>icon-${icon}</li>`;
+                ulChildrenStr += `<li class="w-1/5 p-2 flex items-center"><i class="icon icon-${icon} mr-1"></i> ${icon}</li>`;
             }
             $ul.innerHTML = ulChildrenStr;
         } else {
