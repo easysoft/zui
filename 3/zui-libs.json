@@ -313,83 +313,6 @@
         }
     },
     {
-        "name": "@zui/progress-circle",
-        "version": "0.0.1",
-        "description": "ZUI progress-circle",
-        "keywords": [
-            "js",
-            "zui:js-progress-circle"
-        ],
-        "module": "src/main.ts",
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "control",
-            "displayName": "环形进度条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/progress-circle",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "progress-circle",
-            "order": 200000021
-        }
-    },
-    {
-        "name": "@zui/scrollbar",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "js",
-            "zui:component"
-        ],
-        "files": [
-            "./src/**/*"
-        ],
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "dependencies": {
-            "preact": "^10.10.0",
-            "@zui/browser-helpers": "workspace:^0.0.1"
-        },
-        "zui": {
-            "type": "control",
-            "displayName": "滚动条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ],
-                "js": [
-                    "component"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/scrollbar",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "scrollbar",
-            "order": 200000022
-        }
-    },
-    {
         "name": "@zui/browser-helpers",
         "version": "0.0.1",
         "description": "ZUI helpers",
@@ -623,6 +546,83 @@
         }
     },
     {
+        "name": "@zui/progress-circle",
+        "version": "0.0.1",
+        "description": "ZUI progress-circle",
+        "keywords": [
+            "js",
+            "zui:js-progress-circle"
+        ],
+        "module": "src/main.ts",
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "control",
+            "displayName": "环形进度条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/progress-circle",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "progress-circle",
+            "order": 200000022
+        }
+    },
+    {
+        "name": "@zui/scrollbar",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "js",
+            "zui:component"
+        ],
+        "files": [
+            "./src/**/*"
+        ],
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "dependencies": {
+            "preact": "^10.10.0",
+            "@zui/browser-helpers": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "滚动条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/scrollbar",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "scrollbar",
+            "order": 200000023
+        }
+    },
+    {
         "name": "@zui/store",
         "version": "0.0.1",
         "description": "ZUI localstorage helper",
@@ -653,7 +653,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "store",
-            "order": 300000023
+            "order": 300000024
         }
     },
     {
@@ -807,6 +807,45 @@
         }
     },
     {
+        "name": "@zui/pager",
+        "version": "0.0.1",
+        "description": "ZUI pager",
+        "keywords": [
+            "css",
+            "components"
+        ],
+        "main": "src/main.ts",
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*",
+            "@zui/form": "workspace:0.0.1",
+            "@zui/dropdown": "workspace:0.0.1",
+            "@zui/icons": "workspace:0.0.1"
+        },
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "component",
+            "displayName": "分页",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/pager",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "pager",
+            "order": 400000020
+        }
+    },
+    {
         "name": "@zui/panel",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -838,7 +877,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "panel",
-            "order": 400000020
+            "order": 400000021
         }
     },
     {
@@ -875,7 +914,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "table",
-            "order": 400000024
+            "order": 400000025
         }
     },
     {
@@ -910,7 +949,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 500000025
+            "order": 500000026
         }
     },
     {
