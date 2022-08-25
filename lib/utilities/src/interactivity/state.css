@@ -42,3 +42,6 @@
 .nav > li > a {
     @apply -state;
 }
+.pager > li > a {
+  @apply -state;
+}

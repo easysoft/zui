@@ -1,0 +1,91 @@
+.pager {
+  @apply -flex -pl-0;
+  margin: 6px 0;
+}
+.pager > li > a{
+  @apply -inline-block -border -whitespace-nowrap -px-3 -text-fore -bg-canvas;
+  line-height: 1.875rem;
+  margin-left: -1px;
+}
+
+.pager > li:first-child > a {
+  margin-left: 0;
+  border-bottom-left-radius: var(--pager-radius);
+  border-top-left-radius: var(--pager-radius);
+}
+
+.pager > li:last-child > a {
+  border-bottom-right-radius: var(--pager-radius);
+  border-top-right-radius: var(--pager-radius);
+}
+
+.pager > li > a:hover,
+.pager > li > a:focus {
+  z-index: 2;
+  @apply -text-canvas -bg-primary-600;
+}
+
+.pager > li.active > a {
+  @apply -text-canvas -bg-primary-500;
+}
+
+.pager > li.active > a:hover {
+  @apply -text-canvas -bg-primary-600;
+  z-index: 3;
+}
+
+.pager.pager-loose {
+  @apply -gap-2;
+}
+.pager.pager-loose > li > a {
+  @apply -rounded;
+}
+.pager > li > a.rounded-full {
+  @apply -rounded-full;
+}
+
+.pager.pager-bg > li > a {
+  @apply -border-0 -bg-surface;
+}
+
+.pager.pager-bg > li.active > a,
+.pager.pager-bg > li > a:hover,
+.pager.pager-bg > li > a:focus,
+.pager.pager-bg > li.active > a:hover,
+.pager.pager-bg > li.active > a:focus {
+  @apply -bg-primary-100 -text-primary-500;
+}
+
+.pager.pager-nobd > li > a,
+.pager.pager-nobd > li > span {
+  @apply -border-0 -rounded-none -bg-canvas;
+}
+
+.pager.pager-nobd > li.active > a {
+  @apply -border-0 -rounded-none -bg-canvas -text-primary-500;
+}
+.pager.pager-nobd > li > a:hover,
+.pager.pager-nobd > li > a:focus,
+.pager.pager-nobd > li.active > a:hover,
+.pager.pager-nobd > li.active > a:focus {
+  @apply -bg-canvas -text-primary-500;
+}
+
+.pager > li > .pager-jump > .input-control {
+  @apply -w-12;
+}
+.pager > li > .pager-total,
+.pager > li > .pager-sizes,
+.pager > li > .pager-jump {
+  @apply -inline-block -whitespace-nowrap -px-2 -text-fore -bg-canvas;
+  line-height: 1.875rem;
+}
+.pager.pager-justify {
+  @apply -justify-between;
+}
+.pager.pager-justify > li > a {
+  border-radius: var(--pager-radius);
+}
+.pager > li > a.rounded-full {
+  @apply -rounded-full;
+}

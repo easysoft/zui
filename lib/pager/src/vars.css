@@ -1,0 +1,4 @@
+:root {
+  --pager-radius: var(--radius);
+  --line-height-computed: 1.25rem;
+}
