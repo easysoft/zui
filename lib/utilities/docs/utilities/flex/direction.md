@@ -1,6 +1,6 @@
 # 展开方向
 
-使用`flex-*`设置flex布局下子元素的展开方向
+使用`flex-*`设置弹性布局下子元素的展开方向
 
 <script setup>
   const arrayDirection = [
