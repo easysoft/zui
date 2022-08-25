@@ -1,0 +1,7 @@
+:root {
+  --alert-radius: var(--radius);
+  --alert-inner-px: 0.75rem;
+  --alert-inner-py: 0.5rem;
+  --alert-bg: var(--color-gray-100);
+  --alert-text-color: var(--color-fore);
+}

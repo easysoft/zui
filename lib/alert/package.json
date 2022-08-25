@@ -1,0 +1,22 @@
+{
+    "name": "@zui/alert",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/icons": "workspace:^0.0.1",
+        "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "消息框",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}

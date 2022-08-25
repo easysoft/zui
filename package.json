@@ -22,6 +22,7 @@
     "./lib"
   ],
   "dependencies": {
+    "@zui/alert": "workspace:^0.0.1",
     "@zui/base": "workspace:0.0.1",
     "@zui/scrollbar": "workspace:0.0.1",
     "@zui/utilities": "workspace:0.0.1",

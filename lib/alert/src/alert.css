@@ -1,0 +1,10 @@
+.alert {
+  background: var(--alert-bg);
+  color: var(--alert-text-color);
+  border-radius: var(--alert-radius);
+  padding: var(--alert-inner-py) var(--alert-inner-px);
+}
+
+.alert a {
+  color: inherit;
+}
