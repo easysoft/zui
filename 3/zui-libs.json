@@ -1,5 +1,36 @@
 [
     {
+        "name": "@zui/alert",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/icons": "workspace:^0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "消息框",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/alert",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "alert",
+            "order": 200000000
+        }
+    },
+    {
         "name": "@zui/avatar",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -27,7 +58,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "avatar",
-            "order": 200000000
+            "order": 200000001
         }
     },
     {
@@ -64,7 +95,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "avatar-group",
-            "order": 400000001
+            "order": 400000002
         }
     },
     {
@@ -137,7 +168,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "base",
-            "order": 100000003
+            "order": 100000004
         }
     },
     {
@@ -171,7 +202,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "breadcrumb",
-            "order": 200000004
+            "order": 200000005
         }
     },
     {
@@ -207,7 +238,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "icons",
-            "order": 200000013
+            "order": 200000014
         }
     },
     {
@@ -243,7 +274,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "input",
-            "order": 200000014
+            "order": 200000015
         }
     },
     {
@@ -278,7 +309,84 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "label",
-            "order": 200000016
+            "order": 200000017
+        }
+    },
+    {
+        "name": "@zui/progress-circle",
+        "version": "0.0.1",
+        "description": "ZUI progress-circle",
+        "keywords": [
+            "js",
+            "zui:js-progress-circle"
+        ],
+        "module": "src/main.ts",
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "control",
+            "displayName": "环形进度条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/progress-circle",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "progress-circle",
+            "order": 200000021
+        }
+    },
+    {
+        "name": "@zui/scrollbar",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "js",
+            "zui:component"
+        ],
+        "files": [
+            "./src/**/*"
+        ],
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "dependencies": {
+            "preact": "^10.10.0",
+            "@zui/browser-helpers": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "滚动条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/scrollbar",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "scrollbar",
+            "order": 200000022
         }
     },
     {
@@ -309,7 +417,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "browser-helpers",
-            "order": 300000005
+            "order": 300000006
         }
     },
     {
@@ -347,7 +455,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "btn-group",
-            "order": 400000006
+            "order": 400000007
         }
     },
     {
@@ -420,7 +528,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "checkbox",
-            "order": 200000008
+            "order": 200000009
         }
     },
     {
@@ -515,83 +623,6 @@
         }
     },
     {
-        "name": "@zui/progress-circle",
-        "version": "0.0.1",
-        "description": "ZUI progress-circle",
-        "keywords": [
-            "js",
-            "zui:js-progress-circle"
-        ],
-        "module": "src/main.ts",
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "control",
-            "displayName": "环形进度条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/progress-circle",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "progress-circle",
-            "order": 200000020
-        }
-    },
-    {
-        "name": "@zui/scrollbar",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "js",
-            "zui:component"
-        ],
-        "files": [
-            "./src/**/*"
-        ],
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "dependencies": {
-            "preact": "^10.10.0",
-            "@zui/browser-helpers": "workspace:^0.0.1"
-        },
-        "zui": {
-            "type": "control",
-            "displayName": "滚动条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ],
-                "js": [
-                    "component"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/scrollbar",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "scrollbar",
-            "order": 200000021
-        }
-    },
-    {
         "name": "@zui/store",
         "version": "0.0.1",
         "description": "ZUI localstorage helper",
@@ -622,7 +653,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "store",
-            "order": 300000022
+            "order": 300000023
         }
     },
     {
@@ -659,7 +690,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "form",
-            "order": 400000011
+            "order": 400000012
         }
     },
     {
@@ -698,7 +729,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "input-group",
-            "order": 400000015
+            "order": 400000016
         }
     },
     {
@@ -736,7 +767,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "modal",
-            "order": 400000017
+            "order": 400000018
         }
     },
     {
@@ -772,7 +803,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "nav",
-            "order": 400000018
+            "order": 400000019
         }
     },
     {
@@ -807,7 +838,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "panel",
-            "order": 400000019
+            "order": 400000020
         }
     },
     {
@@ -844,7 +875,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "table",
-            "order": 400000023
+            "order": 400000024
         }
     },
     {
@@ -879,7 +910,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 500000024
+            "order": 500000025
         }
     },
     {
@@ -912,7 +943,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "helpers",
-            "order": 600000012
+            "order": 600000013
         }
     }
 ]
