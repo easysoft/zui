@@ -1,6 +1,6 @@
-# 弹性伸缩
+# flex 
 
-使用`flex-*`设置弹性布局下子元素的伸缩方式 
+使用`flex-*`应用CSS`flex`属性设置当前元素在Grid或Flex容器中的伸缩方式。
 
   <script setup>
     const arrayFlex = [

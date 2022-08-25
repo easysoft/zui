@@ -1,6 +1,6 @@
-# 子元素间距
+# gap 
 
-使用`align-*`设置弹性布局下容器中的元素间距
+使用`gap-*`应用CSS属性`gap`设置Flex容器中元素间距。
 
  <script setup>
    const arrayGap = [

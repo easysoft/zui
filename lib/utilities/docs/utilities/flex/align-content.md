@@ -1,7 +1,7 @@
 
-# 容器沿交叉轴对齐方式
+# align-content 
 
-使用`content-*`设置弹性布局下容器中的对齐方式
+使用`content-*`应用CSS`align-content`属性设置Flex容器中多行子元素沿交叉轴的对齐方式。
 
 
  <script setup>

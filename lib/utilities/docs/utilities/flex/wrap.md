@@ -1,6 +1,6 @@
-# 换行方式
+# wrap 
 
-添加`flex-*`设置弹性布局下子元素的换行方式
+添加`flex-*`应用CSS`flex-wrap`相关属性设置Flex容器中换行方式
 
 <script setup>
   const arrayWrap = [

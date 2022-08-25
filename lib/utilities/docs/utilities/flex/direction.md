@@ -1,6 +1,6 @@
-# 展开方向
+# direction 
 
-使用`flex-*`设置弹性布局下子元素的展开方向
+使用 self-* 应用 CSS flex-direction 属性设置 Flex 容器中主轴的展开方向。
 
 <script setup>
   const arrayDirection = [

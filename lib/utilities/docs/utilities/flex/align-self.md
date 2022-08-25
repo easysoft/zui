@@ -1,6 +1,6 @@
-# 子元素沿交叉轴对齐方式
+# align-self 
 
-使用`self-*`设置自身在弹性布局下的对齐方式
+使用 self-* 应用 CSS align-self 属性设置当前元素在 Grid 或 Flex 容器中的交叉轴方向上的对齐方式。
 
  <script setup>
    const arrayAlignSelf = [

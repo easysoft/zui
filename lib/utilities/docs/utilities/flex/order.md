@@ -1,6 +1,6 @@
-# 子容器排列顺序
+# order 
 
-使用`order-*`设置子元素在弹性布局中排列顺序
+使用`order-*`应用CSS属性`order`设置当前元素在Flex容器中的排列顺序
 
 <script setup>
   const arrayOrder = [
