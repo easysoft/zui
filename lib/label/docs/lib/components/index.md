@@ -35,139 +35,139 @@
 ### 实心标签
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <span class="label primary">Primary</span>
-  <span class="label secondary">Secondary</span>
-  <span class="label success">Success</span>
-  <span class="label warning">Warning</span>
-  <span class="label danger">Danger</span>
-  <span class="label important">Important</span>
-  <span class="label special">Special</span>
-  <span class="label white">White</span>
-  <span class="label lighter">Lighter</span>
-  <span class="label light">Light</span>
-  <span class="label gray">Gray</span>
-  <span class="label dark">Dark</span>
-  <span class="label darker">Darker</span>
-  <span class="label black">Black</span>
-  <span class="label inverse">Inverse</span>
-  <span class="label surface">Surface</span>
-  <span class="label canvas">Canvas</span>
-  <span class="label ghost">Ghost</span>
+  <span class="label primary">主要</span>
+  <span class="label secondary">次要</span>
+  <span class="label success">成功</span>
+  <span class="label warning">关注</span>
+  <span class="label danger">警告</span>
+  <span class="label important">重要</span>
+  <span class="label special">特殊</span>
+  <span class="label white">纯白</span>
+  <span class="label lighter">更浅色</span>
+  <span class="label light">浅色</span>
+  <span class="label gray">灰色</span>
+  <span class="label dark">深色</span>
+  <span class="label darker">更深色</span>
+  <span class="label black">纯黑</span>
+  <span class="label inverse">反色</span>
+  <span class="label surface">表面</span>
+  <span class="label canvas">画布</span>
+  <span class="label ghost">透明</span>
 </Example>
 
 ```html
-<span class="label primary">Primary</span>
-<span class="label secondary">Secondary</span>
-<span class="label success">Success</span>
-<span class="label warning">Warning</span>
-<span class="label danger">Danger</span>
-<span class="label important">Important</span>
-<span class="label special">Special</span>
-<span class="label white">White</span>
-<span class="label lighter">Lighter</span>
-<span class="label light">Light</span>
-<span class="label gray">Gray</span>
-<span class="label dark">Dark</span>
-<span class="label darker">Darker</span>
-<span class="label black">Black</span>
-<span class="label inverse">Inverse</span>
-<span class="label surface">Surface</span>
-<span class="label anvas">Canvas</span>
-<span class="label ghost">Ghost</span>
+<span class="label primary">主要</span>
+<span class="label secondary">次要</span>
+<span class="label success">成功</span>
+<span class="label warning">关注</span>
+<span class="label danger">警告</span>
+<span class="label important">重要</span>
+<span class="label special">特殊</span>
+<span class="label white">纯白</span>
+<span class="label lighter">更浅色</span>
+<span class="label light">浅色</span>
+<span class="label gray">灰色</span>
+<span class="label dark">深色</span>
+<span class="label darker">更深色</span>
+<span class="label black">纯黑</span>
+<span class="label inverse">反色</span>
+<span class="label surface">表面</span>
+<span class="label anvas">画布</span>
+<span class="label ghost">透明</span>
 ```
 
 ### 描边标签
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <span class="label primary-outline">Primary</span>
-  <span class="label secondary-outline">Secondary</span>
-  <span class="label success-outline">Success</span>
-  <span class="label warning-outline">Warning</span>
-  <span class="label danger-outline">Danger</span>
-  <span class="label important-outline">Important</span>
-  <span class="label special-outline">Special</span>
-  <span class="label lighter-outline">Lighter</span>
-  <span class="label light-outline">Light</span>
-  <span class="label gray-outline">Gray</span>
-  <span class="label dark-outline">Dark</span>
-  <span class="label darker-outline">Darker</span>
-  <span class="label black-outline">Black</span>
+  <span class="label primary-outline">主要</span>
+  <span class="label secondary-outline">次要</span>
+  <span class="label success-outline">成功</span>
+  <span class="label warning-outline">关注</span>
+  <span class="label danger-outline">警告</span>
+  <span class="label important-outline">重要</span>
+  <span class="label special-outline">特殊</span>
+  <span class="label lighter-outline">更浅色</span>
+  <span class="label light-outline">浅色</span>
+  <span class="label gray-outline">灰色</span>
+  <span class="label dark-outline">深色</span>
+  <span class="label darker-outline">更深色</span>
+  <span class="label black-outline">纯黑</span>
 </Example>
 
 ```html
-<span class="label primary-outline">Primary</span>
-<span class="label secondary-outline">Secondary</span>
-<span class="label success-outline">Success</span>
-<span class="label warning-outline">Warning</span>
-<span class="label danger-outline">Danger</span>
-<span class="label important-outline">Important</span>
-<span class="label special-outline">Special</span>
-<span class="label lighter-outline">Lighter</span>
-<span class="label light-outline">Light</span>
-<span class="label gray-outline">Gray</span>
-<span class="label dark-outline">Dark</span>
-<span class="label darker-outline">Darker</span>
-<span class="label black-outline">Black</span>
+<span class="label primary-outline">主要</span>
+<span class="label secondary-outline">次要</span>
+<span class="label success-outline">成功</span>
+<span class="label warning-outline">关注</span>
+<span class="label danger-outline">警告</span>
+<span class="label important-outline">重要</span>
+<span class="label special-outline">特殊</span>
+<span class="label lighter-outline">更浅色</span>
+<span class="label light-outline">浅色</span>
+<span class="label gray-outline">灰色</span>
+<span class="label dark-outline">深色</span>
+<span class="label darker-outline">更深色</span>
+<span class="label black-outline">纯黑</span>
 ```
 
 ### 浅色标签
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <span class="label primary-pale">Primary</span>
-  <span class="label secondary-pale">Secondary</span>
-  <span class="label success-pale">Success</span>
-  <span class="label warning-pale">Warning</span>
-  <span class="label danger-pale">Danger</span>
-  <span class="label important-pale">Important</span>
-  <span class="label special-pale">Special</span>
-  <span class="label lighter-pale">Lighter</span>
-  <span class="label light-pale">Light</span>
-  <span class="label gray-pale">Gray</span>
-  <span class="label dark-pale">Dark</span>
+  <span class="label primary-pale">主要</span>
+  <span class="label secondary-pale">次要</span>
+  <span class="label success-pale">成功</span>
+  <span class="label warning-pale">关注</span>
+  <span class="label danger-pale">警告</span>
+  <span class="label important-pale">重要</span>
+  <span class="label special-pale">特殊</span>
+  <span class="label lighter-pale">更浅色</span>
+  <span class="label light-pale">浅色</span>
+  <span class="label gray-pale">灰色</span>
+  <span class="label dark-pale">深色</span>
 </Example>
 
 ```html
-<span class="label primary-pale">Primary</span>
-<span class="label secondary-pale">Secondary</span>
-<span class="label success-pale">Success</span>
-<span class="label warning-pale">Warning</span>
-<span class="label danger-pale">Danger</span>
-<span class="label important-pale">Important</span>
-<span class="label special-pale">Special</span>
-<span class="label lighter-pale">Lighter</span>
-<span class="label light-pale">Light</span>
-<span class="label gray-pale">Gray</span>
-<span class="label dark-pale">Dark</span>
+<span class="label primary-pale">主要</span>
+<span class="label secondary-pale">次要</span>
+<span class="label success-pale">成功</span>
+<span class="label warning-pale">关注</span>
+<span class="label danger-pale">警告</span>
+<span class="label important-pale">重要</span>
+<span class="label special-pale">特殊</span>
+<span class="label lighter-pale">更浅色</span>
+<span class="label light-pale">浅色</span>
+<span class="label gray-pale">灰色</span>
+<span class="label dark-pale">深色</span>
 ```
 
 搭配 CSS 工具类 `bd-*` 还可以为浅色标签添加描边。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <span class="label primary-pale bd-primary">Primary</span>
-  <span class="label secondary-pale bd-secondary">Secondary</span>
-  <span class="label success-pale bd-success">Success</span>
-  <span class="label warning-pale bd-warning">Warning</span>
-  <span class="label danger-pale bd-danger">Danger</span>
-  <span class="label important-pale bd-important">Important</span>
-  <span class="label special-pale bd-special">Special</span>
-  <span class="label lighter-pale bd-lighter">Lighter</span>
-  <span class="label light-pale bd-light">Light</span>
-  <span class="label gray-pale bd-gray">Gray</span>
-  <span class="label dark-pale bd-dark">Dark</span>
+  <span class="label primary-pale bd-primary">主要</span>
+  <span class="label secondary-pale bd-secondary">次要</span>
+  <span class="label success-pale bd-success">成功</span>
+  <span class="label warning-pale bd-warning">关注</span>
+  <span class="label danger-pale bd-danger">警告</span>
+  <span class="label important-pale bd-important">重要</span>
+  <span class="label special-pale bd-special">特殊</span>
+  <span class="label lighter-pale bd-lighter">更浅色</span>
+  <span class="label light-pale bd-light">浅色</span>
+  <span class="label gray-pale bd-gray">灰色</span>
+  <span class="label dark-pale bd-dark">深色</span>
 </Example>
 
 ```html
-<span class="label primary-pale bd-primary">Primary</span>
-<span class="label secondary-pale bd-secondary">Secondary</span>
-<span class="label success-pale bd-success">Success</span>
-<span class="label warning-pale bd-warning">Warning</span>
-<span class="label danger-pale bd-danger">Danger</span>
-<span class="label important-pale bd-important">Important</span>
-<span class="label special-pale bd-special">Special</span>
-<span class="label lighter-pale bd-lighter">Lighter</span>
-<span class="label light-pale bd-light">Light</span>
-<span class="label gray-pale bd-gray">Gray</span>
-<span class="label dark-pale bd-dark">Dark</span>
+<span class="label primary-pale bd-primary">主要</span>
+<span class="label secondary-pale bd-secondary">次要</span>
+<span class="label success-pale bd-success">成功</span>
+<span class="label warning-pale bd-warning">关注</span>
+<span class="label danger-pale bd-danger">警告</span>
+<span class="label important-pale bd-important">重要</span>
+<span class="label special-pale bd-special">特殊</span>
+<span class="label lighter-pale bd-lighter">更浅色</span>
+<span class="label light-pale bd-light">浅色</span>
+<span class="label gray-pale bd-gray">灰色</span>
+<span class="label dark-pale bd-dark">深色</span>
 ```
 
 ### 标签文本颜色
@@ -175,35 +175,35 @@
 搭配 CSS 工具类 `text-*` 修改标签文本颜色。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <span class="label text-primary">Primary</span>
-  <span class="label text-secondary">Secondary</span>
-  <span class="label text-success">Success</span>
-  <span class="label text-warning">Warning</span>
-  <span class="label text-danger">Danger</span>
-  <span class="label text-important">Important</span>
-  <span class="label text-special">Special</span>
-  <span class="label text-lighter">Lighter</span>
-  <span class="label text-light">Light</span>
-  <span class="label text-gray">Gray</span>
-  <span class="label text-dark">Dark</span>
-  <span class="label text-darker">Darker</span>
-  <span class="label text-black">Black</span>
+  <span class="label text-primary">主要</span>
+  <span class="label text-secondary">次要</span>
+  <span class="label text-success">成功</span>
+  <span class="label text-warning">关注</span>
+  <span class="label text-danger">警告</span>
+  <span class="label text-important">重要</span>
+  <span class="label text-special">特殊</span>
+  <span class="label text-lighter">更浅色</span>
+  <span class="label text-light">浅色</span>
+  <span class="label text-gray">灰色</span>
+  <span class="label text-dark">深色</span>
+  <span class="label text-darker">更深色</span>
+  <span class="label text-black">纯黑</span>
 </Example>
 
 ```html
-<span class="label text-primary">Primary</span>
-<span class="label text-secondary">Secondary</span>
-<span class="label text-success">Success</span>
-<span class="label text-warning">Warning</span>
-<span class="label text-danger">Danger</span>
-<span class="label text-important">Important</span>
-<span class="label text-special">Special</span>
-<span class="label text-lighter">Lighter</span>
-<span class="label text-light">Light</span>
-<span class="label text-gray">Gray</span>
-<span class="label text-dark">Dark</span>
-<span class="label text-darker">Darker</span>
-<span class="label text-black">Black</span>
+<span class="label text-primary">主要</span>
+<span class="label text-secondary">次要</span>
+<span class="label text-success">成功</span>
+<span class="label text-warning">关注</span>
+<span class="label text-danger">警告</span>
+<span class="label text-important">重要</span>
+<span class="label text-special">特殊</span>
+<span class="label text-lighter">更浅色</span>
+<span class="label text-light">浅色</span>
+<span class="label text-gray">灰色</span>
+<span class="label text-dark">深色</span>
+<span class="label text-darker">更深色</span>
+<span class="label text-black">纯黑</span>
 ```
 
 ## 尺寸
