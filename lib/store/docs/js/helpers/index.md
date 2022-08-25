@@ -114,7 +114,7 @@ mySessionStore.get('mySecretCode'); // 返回 3
 
 ## API
 
-### <span class="text-purple-500 font-mono bg-purple-100 px-2 rounded">C</span> <span class="text-purple-500 font-mono">Store</span>
+### <span class="-text-purple-500 -font-mono -bg-purple-100 -px-2 -rounded">C</span> <span class="-text-purple-500 -font-mono">Store</span>
 
 `Store` 类。
 
@@ -135,7 +135,7 @@ mySessionStore.get('mySecretCode'); // 返回 3
 | `each`      | 遍历数据 |
 | `getAll`      | 获取所有数据 |
 
-### <span class="text-blue-500 font-mono bg-blue-100 px-2 rounded">F</span> <span class="text-blue-500 font-mono">Store.set(key, value)</span>
+### <span class="-text-blue-500 -font-mono -bg-blue-100 -px-2 -rounded">F</span> <span class="-text-blue-500 -font-mono">Store.set(key, value)</span>
 
 存储数据。
 
@@ -154,7 +154,7 @@ set(key: string, value: any) => void;
 
 **方法**
 
-### <span class="text-blue-500 font-mono bg-blue-100 px-2 rounded">F</span> <span class="text-blue-500 font-mono">Store.get(key, defaultValue)</span>
+### <span class="-text-blue-500 -font-mono -bg-blue-100 -px-2 -rounded">F</span> <span class="-text-blue-500 -font-mono">Store.get(key, defaultValue)</span>
 
 读取数据。
 
@@ -177,7 +177,7 @@ get(key: string, defaultValue?: any) => any;
 |:-------------:| ----- |
 | `any` | 读取到的数据 |
 
-### <span class="text-blue-500 font-mono bg-blue-100 px-2 rounded">F</span> <span class="text-blue-500 font-mono">Store.remove(key)</span>
+### <span class="-text-blue-500 -font-mono -bg-blue-100 -px-2 -rounded">F</span> <span class="-text-blue-500 -font-mono">Store.remove(key)</span>
 
 移除数据
 
@@ -193,7 +193,7 @@ remove(key: string) => void;
 | ------------- |:-------------:| ----- |
 | `key`      | `string` | 要移除的数据名称 |
 
-### <span class="text-blue-500 font-mono bg-blue-100 px-2 rounded">F</span> <span class="text-blue-500 font-mono">Store.each(callback)</span>
+### <span class="-text-blue-500 -font-mono -bg-blue-100 -px-2 -rounded">F</span> <span class="-text-blue-500 -font-mono">Store.each(callback)</span>
 
 遍历数据。
 
@@ -216,7 +216,7 @@ each(callback: (name: string, value: any) => void) => void;
 | `name`      | `string` | 本次遍历存储的名称 |
 | `value`      | `any` | 本次遍历存储的值 |
 
-### <span class="text-blue-500 font-mono bg-blue-100 px-2 rounded">F</span> <span class="text-blue-500 font-mono">Store.getAll()</span>
+### <span class="-text-blue-500 -font-mono -bg-blue-100 -px-2 -rounded">F</span> <span class="-text-blue-500 -font-mono">Store.getAll()</span>
 
 获取所有存储的数据。
 
@@ -232,7 +232,7 @@ getAll() => Record<string, any>;
 |:-------------:| ----- |
 | `Record<string, any>` | 通过一个对象返回所有存储的数据，对象的属性名和值分别对应存储的名称和值 |
 
-### <span class="text-green-500 font-mono bg-green-100 px-2 rounded">T</span> <span class="text-green-500 font-mono">StoreType</span>
+### <span class="-text-green-500 -font-mono -bg-green-100 -px-2 -rounded">T</span> <span class="-text-green-500 -font-mono">StoreType</span>
 
 本地存储类型。
 
@@ -249,7 +249,7 @@ type StoreType = 'local' | 'session';
 | `'local'`      | 本地持久存储 |
 | `'session'`      | 本地会话存储 |
 
-### <span class="text-yellow-500 font-mono bg-yellow-100 px-2 rounded">V</span> <span class="text-yellow-500 font-mono">store</span>
+### <span class="-text-yellow-500 -font-mono -bg-yellow-100 -px-2 -rounded">V</span> <span class="-text-yellow-500 -font-mono">store</span>
 
 默认的 store 实例，并包含用于创建新的 `Store` 实例的快捷方法。
 
@@ -261,7 +261,7 @@ var store: Store & {create: StoreCreateFunc}
 
 其中 `create` 成员为创建 `Store` 实例的快捷方法。
 
-### <span class="text-blue-500 font-mono bg-blue-100 px-2 rounded">F</span> <span class="text-blue-500 font-mono">StoreCreateFunc</span>
+### <span class="-text-blue-500 -font-mono -bg-blue-100 -px-2 -rounded">F</span> <span class="-text-blue-500 -font-mono">StoreCreateFunc</span>
 
 `Store` 实例创建方法。
 
