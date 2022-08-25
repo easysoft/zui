@@ -75,7 +75,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in positionJson">
+      <tr v-for="item in locationJson">
         <td>{{item.name}}</td>
         <td>{{item.desc}}</td>
       </tr>
@@ -84,7 +84,7 @@
 </Example>
 
 <script setup>
-  const positionJson = [
+  const locationJson = [
     {name: 'inset-0', desc: 'top: 0px; right: 0px; bottom: 0px; left: 0px;'},
     {name: 'inset-auto', desc: 'top: auto; right: auto; bottom: auto; left: auto;'},
     {name: 'inset-x-0', desc: 'left: 0px; right: 0px;'},

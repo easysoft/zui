@@ -2,11 +2,11 @@
     @apply -relative;
 }
 
-.square-prefix > .form-control {
-    padding-left: var(--input-square-fix-width);
+.prefix-sm > .form-control {
+    padding-left: var(--input-fix-sm-width);
 }
-.square-suffix > .form-control {
-    padding-right: var(--input-square-fix-width);
+.suffix-sm > .form-control {
+    padding-right: var(--input-fix-sm-width);
 }
 .input-control.prefix > .form-control {
     padding-left: var(--input-fix-width);
@@ -21,12 +21,12 @@
 .input-control-suffix {
     @apply -text-right;
 }
-.square-prefix .input-control-prefix,
-.square-prefix .input-control-suffix,
-.square-suffix .input-control-prefix,
-.square-suffix .input-control-suffix {
+.prefix-sm .input-control-prefix,
+.prefix-sm .input-control-suffix,
+.suffix-sm .input-control-prefix,
+.suffix-sm .input-control-suffix {
     @apply -text-center;
-    width: var(--input-square-fix-width);
+    width: var(--input-fix-sm-width);
 }
 .input-control-prefix {
     @apply -left-0.5;

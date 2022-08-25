@@ -4,7 +4,7 @@
 
 ## 固定行高
 
-使用 `leading-*` 工具类给一个元素一个固定的行高，而不管当前的字体大小。
+使用 `leading-*` 工具类给一个元素一个固定的行高。
 
 <Example class="flex items-end gap-2 flex-wrap">
   <div class="bd px-2 mb-4 leading-3">leading-3 行高展示</div>

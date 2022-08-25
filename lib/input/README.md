@@ -6,7 +6,7 @@
 <div class="input-control">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
-<div class="input-control square-prefix square-suffix">
+<div class="input-control prefix-sm suffix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-prefix">pr</span>
   <span class="input-control-suffix">su</span>
@@ -47,15 +47,15 @@
 ## Prefix/Suffix
 
 ```html:example: -flex -gap-3 -flex-wrap
-<div class="input-control square-prefix">
+<div class="input-control prefix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-prefix">pr</span>
 </div>
-<div class="input-control square-suffix">
+<div class="input-control suffix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-suffix">su</span>
 </div>
-<div class="input-control square-prefix square-suffix">
+<div class="input-control prefix-sm suffix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-prefix">pr</span>
   <span class="input-control-suffix">su</span>

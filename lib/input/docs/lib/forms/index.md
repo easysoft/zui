@@ -4,7 +4,7 @@
 
 ## 基本用法
 
-使用 `.input-control` 类来获得输入框的外观和交互体验。
+使用 `input-control` 类来获得输入框的外观和交互体验。
 
 <Example class="flex gap-4">
   <div class="input-control">
@@ -72,18 +72,18 @@
 
 ## 前缀和后缀
 
-通过结合类 `-prefix` `-suffix` 在输入框上添加前缀或后缀图标或字符。
+通过结合类 `prefix` `suffix` 在输入框上添加前缀或后缀图标或字符。
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="input-control prefix">
     <span class="input-control-prefix">用户名</span>
     <input type="text" class="form-control" placeholder="请填写"/>
   </div>
-  <div class="input-control square-prefix">
+  <div class="input-control prefix-sm">
     <input type="text" class="form-control" placeholder="请填写"/>
     <span class="input-control-prefix">pre</span>
   </div>
-  <div class="input-control square-prefix square-suffix">
+  <div class="input-control prefix-sm suffix-sm">
     <input type="text" class="form-control" placeholder="请填写"/>
     <span class="input-control-prefix">pre</span>
     <span class="input-control-suffix">suf</span>
@@ -95,11 +95,11 @@
   <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
-<div class="input-control square-prefix">
+<div class="input-control prefix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-prefix">pre</span>
 </div>
-<div class="input-control square-prefix square-suffix">
+<div class="input-control prefix-sm suffix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-prefix">pre</span>
   <span class="input-control-suffix">suf</span>
@@ -147,4 +147,4 @@
 | CSS 变量名        | 作用           |
 | ------------- |:------------- |
 | `--input-fix-width`      | 输入框前缀和后缀的宽度 |
-| `--input-square-fix-width`      | 输入框方形前缀和后缀的宽度 |
+| `--input-fix-sm-width`      | 输入框小号前缀和后缀的宽度 |

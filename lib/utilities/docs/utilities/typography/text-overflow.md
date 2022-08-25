@@ -37,7 +37,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in verticalAlignJson">
+      <tr v-for="item in textOverflowJson">
         <td>{{item.name}}</td>
         <td>{{item.desc}}</td>
       </tr>
@@ -46,7 +46,7 @@
 </Example>
 
 <script setup>
-  const verticalAlignJson = [
+  const textOverflowJson = [
     {name: 'ellipsis', desc: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'},
     {name: 'clip', desc: 'overflow: hidden; text-overflow: clip; white-space: nowrap;'},
   ]

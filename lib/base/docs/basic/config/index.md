@@ -5,825 +5,370 @@
 当前 ZUI 的默认调色板。
 
 <Example background="light-circle">
-  <div class="flex flex-col mb-6">
+  <div class="flex flex-col mb-6" v-for="item in colorTable">
     <div class="w-24">
-      <p class="text-sm font-bold">Young</p>
-      <p class="text-sm">青春蓝</p>
+      <p class="text-sm font-bold">{{item.en}}</p>
+      <p class="text-sm">{{item.cn}}</p>
     </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #f9ffff;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#f9ffff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #eff5ff;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#eff5ff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #cadfff;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#cadfff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #6ca7ff;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#6ca7ff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #438eff;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#438eff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #2b80ff;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#2b80ff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #0066fa;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#0066fa</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #0c60e1;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#0c60e1</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #0650c2;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#0650c2</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #053b8f;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#053b8f</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mb-6">
-    <div class="w-24">
-      <p class="text-sm font-bold">Wave blue</p>
-      <p class="text-sm">波涛蓝</p>
-    </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #eff6ff;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#eff6ff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #e7f6ff;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#e7f6ff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #cdecff;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#cdecff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #7acdff;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#7acdff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #57bfff;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#57bfff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #37b2fe;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#37b2fe</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #18a6fd;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#18a6fd</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #1099ed;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#1099ed</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #007cc8;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#007cc8</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #06609d;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#06609d</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mb-6">
-    <div class="w-24">
-      <p class="text-sm font-bold">Fresh green</p>
-      <p class="text-sm">葱绿</p>
-    </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #a7f5de;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#a7f5de</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #e3f9f3;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#e3f9f3</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #c5f3e5;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#c5f3e5</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #63e1bc;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#63e1bc</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #44cfa5;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#44cfa5</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #17ce97;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#17ce97</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #11a578;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#11a578</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #098f67;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#098f67</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #11815f;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#11815f</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #10634a;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#10634a</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mb-6">
-    <div class="w-24">
-      <p class="text-sm font-bold">Yellow</p>
-      <p class="text-sm">蛋壳</p>
-    </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fffcfa;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#fffcfa</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fff4ea;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#fff4ea</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ffe8d2;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#ffe8d2</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ffbf83;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#ffbf83</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ffb46d;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#ffb46d</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ffa34d;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#ffa34d</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ff8e25;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#ff8e25</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ef7b0f;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#ef7b0f</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #e97103;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#e97103</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #bd7634;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#bd7634</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mb-6">
-    <div class="w-24">
-      <p class="text-sm font-bold">Carved red</p>
-      <p class="text-sm">剔红</p>
-    </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fffafa;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#fffafa</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ffebeb;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#ffebeb</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ffd5d5;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#ffd5d5</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ff9696;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#ff9696</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ff7474;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#ff7474</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ff5858;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#ff5858</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fb2b2b;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#fb2b2b</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #d91b1b;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#d91b1b</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ba1313;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#ba1313</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #a30606;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#a30606</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mb-6">
-    <div class="w-24">
-      <p class="text-sm font-bold">Magenta</p>
-      <p class="text-sm">洋红色/粉</p>
-    </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fffafc;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#fffafc</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #feebf4;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#feebf4</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fcd6e8;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#fcd6e8</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fc94c2;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#fc94c2</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ff79b5;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#ff79b5</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #ff4f9e;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#ff4f9e</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #e33a86;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#e33a86</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #d11c6d;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#d11c6d</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #bc145f;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#bc145f</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #a80c52;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#a80c52</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mb-6">
-    <div class="w-24">
-      <p class="text-sm font-bold">Purple</p>
-      <p class="text-sm">爱琴海/紫色</p>
-    </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fcfaff;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#fcfaff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #f1eafc;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#f1eafc</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #e2d3f9;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#e2d3f9</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #c6a0ff;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#c6a0ff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #b280ff;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#b280ff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #9d5eff;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#9d5eff</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #8b51e6;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#8b51e6</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #7f46d9;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#7f46d9</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #763ad4;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#763ad4</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #6231b0;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#6231b0</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mb-6">
-    <div class="w-24">
-      <p class="text-sm font-bold">gray</p>
-      <p class="text-sm">灰色</p>
-    </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fcfdfe;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#fcfdfe</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #f4f5f7;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#f4f5f7</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #edeef2;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#edeef2</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #e3e4e9;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#e3e4e9</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #e6eaf1;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#e6eaf1</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #9ea3b0;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#9ea3b0</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #838a9d;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#838a9d</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #5e626d;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#5e626d</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #3c4353;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#3c4353</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #1b1f28;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#1b1f28</p>
-      </div>
-    </div>
-  </div>
-  <div class="flex flex-col mb-6">
-    <div class="w-24">
-      <p class="text-sm font-bold">zinc</p>
-      <p class="text-sm">锌灰色</p>
-    </div>
-    <div class="flex flex-1 gap-x-2">
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #fafafa;"></div>
-        <p class="text-sm">50</p>
-        <p class="text-sm">#fafafa</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #f8f8f8;"></div>
-        <p class="text-sm">100</p>
-        <p class="text-sm">#f8f8f8</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #eeeeee;"></div>
-        <p class="text-sm">200</p>
-        <p class="text-sm">#eeeeee</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #e2e5e8;"></div>
-        <p class="text-sm">300</p>
-        <p class="text-sm">#e2e5e8</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #c4c4c4;"></div>
-        <p class="text-sm">400</p>
-        <p class="text-sm">#c4c4c4</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #71717a;"></div>
-        <p class="text-sm">500</p>
-        <p class="text-sm">#71717a</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #52525b;"></div>
-        <p class="text-sm">600</p>
-        <p class="text-sm">#52525b</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #3f3f46;"></div>
-        <p class="text-sm">700</p>
-        <p class="text-sm">#3f3f46</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #27272a;"></div>
-        <p class="text-sm">800</p>
-        <p class="text-sm">#27272a</p>
-      </div>
-      <div>
-        <div class="w-10 h-8 rounded" style="background: #18181b;"></div>
-        <p class="text-sm">900</p>
-        <p class="text-sm">#18181b</p>
+    <div class="flex flex-1" v-for="colorItem in item.list">
+      <div>
+        <div class="w-10 h-8 rounded" :style="`background-color: ${colorItem.color};`"></div>
+        <p class="text-sm">{{colorItem.number}}</p>
+        <p class="text-sm">{{colorItem.color}}</p>
       </div>
     </div>
   </div>
 </Example>
 
-
 ## 语义化配色表
 
-| 名称        | 配色        | 语义  |
-|:----------- |:---------- | ----- |
-| `primary`   |  `young`   | `主要：主题的、可链接、正常` |
-| `secondary` |  `blue`    | `次要：次级、常态的` |
-| `success`   |  `green`   | `成功：完成、积极` |
-| `warning`   |  `yellow`  | `关注：提示、重点` |
-| `danger`    |  `red`     | `警告：提示、异常、警醒` |
-| `important` |  `magenta` | `重要：优先` |
-| `special`   |  `purple`  | `特殊：触动、激情` |
+<Example>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>名称</th>
+        <th>配色</th>
+        <th>语义</th>
+        <th>效果展示</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in themeColor">
+        <td>{{item.name}}</td>
+        <td>{{item.color}}</td>
+        <td>{{item.desc}}</td>
+        <td>
+          <div class="w-10 h-3" :style="`background-color: ${item.display};`"></div>
+        </td>
+      </tr>
+    </tbody>
+   </table>
+</Example>
 
 ## 特殊颜色
 
-| 语义             | 当前使用      | 意义  |
-|:---------------- |:------------ | ----- |
-| `继承`            | `inherit`     |  `inherit` |
-| `当前`            | `current`     |  `currentColor` |
-| `透明`            | `transparent` |  `transparent` |
-| `纯黑`            | `black`       |  `#000` |
-| `纯白`            | `white`       |  `#fff` |
-| `画布（页面背景）` | `canvas`      |  `white` |
-| `画布反色`         | `inverse`     |  `black` |
-| `控件背景`         | `surface `    |  `gray[100] （即：#f4f5f7）` |
-| `文本`             | `fore `       |  `gray[800] （即：#3c4353）` |
-| `焦点`             | `focus  `     |  `young[300] （即：#6ca7ff）` |
-| `链接`             | `link  `      |  `young[500] （即：#2b80ff）` |
-| `链接（hover）`    | `linkHover `  |  `young[600] （即：#0066fa）` |
-
-具体效果展示：
-
 <Example>
-  <div class="flex gap-6 mb-6">
-    <div>
-      <div class="w-20 h-8 flex justify-center items-center bd" style="background-color: inherit;"></div>
-      <div class="text-center">继承</div>
-    </div>
-    <div class="text-primary">
-      <div class="w-20 h-8 flex justify-center items-center" style="background-color: currentColor;"></div>
-      <div class="text-center">当前</div>
-    </div>
-    <div>
-      <div class="w-20 h-8 flex justify-center items-center bd" style="background-color: transparent;"></div>
-      <div class="text-center">透明</div>
-    </div>
-    <div>
-      <div class="w-28 h-8 flex justify-center items-center bd" style="background-color: #fff;"></div>
-      <div class="text-center">画布（页面背景）</div>
-    </div>
-    <div>
-      <div class="w-20 h-8 flex justify-center items-center text-white" style="background-color: #000;"></div>
-      <div class="text-center">画布反色</div>
-    </div>
-    <div>
-      <div class="w-20 h-8 flex justify-center items-center" style="background-color: #f4f5f7;"></div>
-      <div class="text-center">控件背景</div>
-    </div>
-  </div>
-  <div class="flex gap-8">
-    <div style="color: #3c4353;">文本</div>
-    <div style="color: #6ca7ff;">焦点</div>
-    <div style="color: #2b80ff;">链接</div>
-    <div style="color: #0066fa;">链接（hover）</div>
-  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>名称</th>
+        <th>当前</th>
+        <th>意义</th>
+        <th>效果展示</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in globalSpecialColor">
+        <td>{{item.name}}</td>
+        <td>{{item.current}}</td>
+        <td>{{item.desc}}</td>
+        <td>
+          <div class="h-3" :style="`background-color: ${item.display};`" v-if="index < 8"></div>
+          <span :style="`color: ${item.display};`" v-else>状态颜色</span>
+        </td>
+      </tr>
+    </tbody>
+   </table>
 </Example>
 
 ## 字体
 
 当前默认字体配置。
 
-```js
-module.exports = {
-  root: '16px',
-  xs: ['0.75rem', {lineHeight: '1rem'}],        // 12px
-  sm: ['0.75rem', {lineHeight: '1rem'}],        // 12px
-  base: ['0.8125rem', {lineHeight: '1.25rem'}], // 13px
-  lg: ['1rem', {lineHeight: '1.5rem'}],         // 16px
-  xl: ['1.125rem', {lineHeight: '1.75rem'}],    // 18px
-  '2xl': ['1.5rem', {lineHeight: '2rem'}],
-  '3xl': ['1.875rem', {lineHeight: '2.25rem'}],
-  '4xl': ['2.25rem', {lineHeight: '2.5rem'}],
-  '5xl': ['3rem', {lineHeight: '1'}],
-  '6xl': ['3.75rem', {lineHeight: '1'}],
-  '7xl': ['4.5rem', {lineHeight: '1'}],
-  '8xl': ['6rem', {lineHeight: '1'}],
-  '9xl': ['8rem', {lineHeight: '1'}],
-};
-```
-
-### 用法
-
-使用 `text-{size}` 工具类控制元素的字体大小。
-
 <Example>
-  <div class="flex items-start">
-    <div class="w-16">xs</div>
-    <div class="text-xs">ZUI3 开箱即用的组合式前端 UI 框架</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">sm</div>
-    <div class="text-sm">ZUI3 开箱即用的组合式前端 UI 框架</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">base</div>
-    <div class="text-base">ZUI3 开箱即用的组合式前端 UI 框架</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">lg</div>
-    <div class="text-lg">ZUI3 开箱即用的组合式前端 UI 框架</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">xl</div>
-    <div class="text-xl">ZUI3 开箱即用的组合式前端 UI 框架</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">2xl</div>
-    <div class="text-2xl">ZUI3 开箱即用的组合式前端 UI 框架</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">3xl</div>
-    <div class="-text-3xl">ZUI3 开箱即用的组合式前端 UI 框架</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">4xl</div>
-    <div class="-text-4xl">ZUI3 开箱即用的组合式前端 UI 框架</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">5xl</div>
-    <div class="-text-5xl">ZUI3 ......</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">6xl</div>
-    <div class="-text-6xl">ZUI3 ......</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">7xl</div>
-    <div class="-text-7xl">ZUI3 ......</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">8xl</div>
-    <div class="-text-8xl">ZUI3 ......</div>
-  </div>
-  <div class="flex items-start">
-    <div class="w-16">9xl</div>
-    <div class="-text-9xl">ZUI3 ......</div>
-  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="w-12">名称</th>
+        <th class="w-12">大小</th>
+        <th class="w-12">像素</th>
+        <th class="w-30">行高</th>
+        <th>效果展示</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in globalFontSize">
+        <td>{{item.name}}</td>
+        <td>{{item.size}}</td>
+        <td>{{item.pixel}}</td>
+        <td>line-height: {{item.lineHeight}}</td>
+        <td><div :class="item.display" v-if="index < 8">ZUI3 组合式前端 UI 框架</div></td>
+      </tr>
+    </tbody>
+   </table>
 </Example>
+
+### 单位概念
+
+root：根元素的大小。
+
+px（pixel，像素）：相对长度单位。像素 px 数计相对于显示器屏幕分辨率而言的。
+
+rem：CSS3 新增的一个相对单位。使用 rem 为元素设定字体大小时，相对的只是 HTML 根元素。
 
 ## 间距
 
 默认情况下，一个间距单位等于 0.25rem，在通用浏览器中默认为 4px。
 
-<Example class="leading-7">
-  <table>
+<Example>
+  <table class="table">
     <thead>
       <tr>
-        <th class="w-16 text-left">名称</th>
-        <th class="w-24 text-left">大小</th>
-        <th class="w-16 text-left">像素</th>
-        <th class="text-left">效果展示</th>
+        <th>名称</th>
+        <th>大小</th>
+        <th>像素</th>
+        <th>效果展示</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>0</td>
-        <td>0px</td>
-        <td>0px</td>
-        <td><div class="h-2 bg-secondary" style="width: 0px;"></div></td>
-      </tr>
-      <tr>
-        <td>px</td>
-        <td>1px</td>
-        <td>1px</td>
-        <td><div class="h-2 bg-secondary" style="width: 1px;"></div></td>
-      </tr>
-      <tr>
-        <td>0.5</td>
-        <td>0.125rem</td>
-        <td>2px</td>
-        <td><div class="h-2 bg-secondary" style="width: 2px;"></div></td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>0.25rem</td>
-        <td>4px</td>
-        <td><div class="h-2 bg-secondary" style="width: 4px;"></div></td>
-      </tr>
-      <tr>
-        <td>1.5</td>
-        <td>0.375rem</td>
-        <td>6px</td>
-        <td><div class="h-2 bg-secondary" style="width: 6px;"></div></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>0.5rem</td>
-        <td>8px</td>
-        <td><div class="h-2 bg-secondary" style="width: 8px;"></div></td>
-      </tr>
-      <tr>
-        <td>2.5</td>
-        <td>0.625rem</td>
-        <td>10px</td>
-        <td><div class="h-2 bg-secondary" style="width: 10px;"></div></td>
-      </tr>	
-      <tr>
-        <td>3</td>
-        <td>0.75rem</td>
-        <td>12px</td>
-        <td><div class="h-2 bg-secondary" style="width: 12px;"></div></td>
-      </tr>
-      <tr>
-        <td>3.5</td>
-        <td>0.875rem</td>
-        <td>14px</td>
-        <td><div class="h-2 bg-secondary" style="width: 14px;"></div></td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>1rem</td>
-        <td>16px</td>
-        <td><div class="h-2 bg-secondary" style="width: 16px;"></div></td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>1.25rem</td>
-        <td>20px</td>
-        <td><div class="h-2 bg-secondary" style="width: 20px;"></div></td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>1.5rem</td>
-        <td>24px</td>
-        <td><div class="h-2 bg-secondary" style="width: 24px;"></div></td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>1.75rem</td>
-        <td>28px</td>
-        <td><div class="h-2 bg-secondary" style="width: 28px;"></div></td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>2rem</td>
-        <td>32px</td>
-        <td><div class="h-2 bg-secondary" style="width: 32px;"></div></td>
+      <tr v-for="item in spaceJson">
+        <td>{{item.name}}</td>
+        <td>{{item.size}}</td>
+        <td>{{item.pixel}}</td>
+        <td><div class="h-2 bg-secondary" :style="item.display"></div></td>
       </tr>
     </tbody>
-  </table>
+   </table>
 </Example>
 
 ## 圆角配置
 
-| 名称      | 定义        |
-|:--------- |:---------- |
-| `none`    | `0px`      |
-| `sm`      | `0.125rem` | 
-| `DEFAULT` | `0.25rem`  | 
-| `md`      | `0.375rem` | 
-| `lg`      | `0.5rem`   | 
-| `xl`      |  `0.75rem` | 
-| `full`    |  `9999px`  |
-
-具体效果展示：
-
 <Example>
-  <div class="flex gap-8">
-    <div>
-      <div class="w-16 h-16 bg-secondary text-white flex justify-center items-center" style="border-radius:0px;">none</div>
-      <div class="text-center">0px</div>
-    </div>
-    <div>
-      <div class="w-16 h-16 bg-secondary text-white flex justify-center items-center" style="border-radius:0.125rem;">sm</div>
-      <div class="text-center">0.125rem</div>
-    </div>
-    <div>
-      <div class="w-16 h-16 bg-secondary text-white flex justify-center items-center" style="border-radius:0.25rem">DEFAULT</div>
-      <div class="text-center">0.25rem</div>
-    </div>
-    <div>
-      <div class="w-16 h-16 bg-secondary text-white flex justify-center items-center" style="border-radius:0.375rem;">md</div>
-      <div class="text-center">0.375rem</div>
-    </div>
-    <div>
-      <div class="w-16 h-16 bg-secondary text-white flex justify-center items-center" style="border-radius:0.5rem;">lg</div>
-      <div class="text-center">0.5rem</div>
-    </div>
-    <div>
-      <div class="w-16 h-16 bg-secondary text-white flex justify-center items-center" style="border-radius:0.75rem;">xl</div>
-      <div class="text-center">0.75rem</div>
-    </div>
-    <div>
-      <div class="w-16 h-16 bg-secondary text-white flex justify-center items-center" style="border-radius:9999px">full</div>
-      <div class="text-center">9999px</div>
-    </div>
-  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>名称</th>
+        <th>大小</th>
+        <th>效果展示</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in globalRound">
+        <td>{{item.name}}</td>
+        <td>{{item.size}}</td>
+        <td><div class="w-8 h-8 bg-secondary" :style="item.display"></div></td>
+      </tr>
+    </tbody>
+   </table>
 </Example>
+
+<script setup>
+  const spaceJson = [
+    {name: '0', size: '0px', pixel:'0px', display: 'width: 0px;'},
+    {name: 'px', size: '1px', pixel:'1px', display: 'width: 1px;'},
+    {name: '0.5', size: '0.125rem', pixel:'2px', display: 'width: 2px;'},
+    {name: '1', size: '0.25rem', pixel:'4px', display: 'width: 4px;'},
+    {name: '1.5', size: '0.375rem', pixel:'6px', display: 'width: 6px;'},
+    {name: '2', size: '0.5rem', pixel:'8px', display: 'width: 8px;'},
+    {name: '2.5', size: '0.625rem', pixel:'10px', display: 'width: 10px;'},
+    {name: '3', size: '0.75rem', pixel:'12px', display: 'width: 12px;'},
+    {name: '3.5', size: '0.875rem', pixel:'14px', display: 'width: 14px;'},
+    {name: '4', size: '1rem', pixel:'16px', display: 'width: 16px;'},
+    {name: '5', size: '1.25rem', pixel:'20px', display: 'width: 20px;'},
+    {name: '6', size: '1.5rem', pixel:'24px', display: 'width: 24px;'},
+    {name: '7', size: '1.75rem', pixel:'28px', display: 'width: 28px;'},
+    {name: '8', size: '2rem', pixel:'32px', display: 'width: 32px;'},
+  ]
+  const globalFontSize = [
+    {name: 'root', size: '16px',  pixel: '16px', display: 'root'},
+    {name: 'xs', size: '0.75rem', pixel: '12px', lineHeight: '1rem', display: 'text-xs'},
+    {name: 'sm', size: '0.75rem', pixel: '12px', lineHeight: '1rem', display: 'text-sm'},
+    {name: 'base', size: '0.8125rem', pixel: '13px', lineHeight: '1.25rem', display: 'text-base'},
+    {name: 'lg', size: '1rem', pixel: '16px', lineHeight: '1.5rem', display: 'text-lg'},
+    {name: 'xl', size: '1.125rem', pixel: '18px', lineHeight: '1.75rem', display: 'text-xl'},
+    {name: '2xl', size: '1.5rem', pixel: '24px', lineHeight: '2rem', display: 'text-2xl'},
+    {name: '3xl', size: '1.875rem', pixel: '30px', lineHeight: '2.25rem', display: '-text-3xl'},
+    {name: '4xl', size: '2.25rem', pixel: '36px', lineHeight: '2.5rem', display: '-text-4xl'},
+    {name: '5xl', size: '3rem', pixel: '48px', lineHeight: '1', display: '-text-5xl'},
+    {name: '6xl', size: '3.75rem', pixel: '60px', lineHeight: '1', display: '-text-6xl'},
+    {name: '7xl', size: '4.5rem', pixel: '72px', lineHeight: '1', display: '-text-7xl'},
+    {name: '8xl', size: '6rem', pixel: '96px', lineHeight: '1', display: '-text-8xl'},
+    {name: '9xl', size: '8rem', pixel: '128px', lineHeight: '1', display: '-text-9xl'}
+  ]
+  const globalRound = [
+    {name: 'none', size: '0px', display: 'border-radius:0px;'},
+    {name: 'sm', size: '0.125rem', display: 'border-radius:0.125rem;'},
+    {name: 'DEFAULT', size: '0.25rem', display: 'border-radius:0.25rem;'},
+    {name: 'md', size: '0.375rem', display: 'border-radius:0.375rem;'},
+    {name: 'lg', size: '0.5rem', display: 'border-radius:0.5rem;'},
+    {name: 'xl', size: '0.75rem', display: 'border-radius:0.75rem;'},
+    {name: 'full', size: '9999px', display: 'border-radius:9999px;'}
+  ]
+  const globalSpecialColor = [
+    {name: '继承', current: 'inherit', desc: 'inherit', display: 'inherit'},
+    {name: '当前', current: 'current', desc: 'currentColor', display: 'inherit'},
+    {name: '透明', current: 'transparent', desc: 'transparent', display: 'transparent'},
+    {name: '纯黑', current: 'black', desc: '#000', display: '#000'},
+    {name: '纯白', current: 'white', desc: '#fff', display: '#fff'},
+    {name: '画布（页面背景）', current: 'canvas', desc: 'white', display: 'white'},
+    {name: '画布反色', current: 'inverse', desc: 'black', display: 'black'},
+    {name: '控件背景', current: 'surface', desc: 'gray[100] （即：#f4f5f7）', display: '#f4f5f7'},
+    {name: '文本', current: 'fore', desc: 'gray[800] （即：#3c4353）', display: '#3c4353'},
+    {name: '焦点', current: 'focus', desc: 'young[300] （即：#6ca7ff）', display: '#6ca7ff'},
+    {name: '链接', current: 'link', desc: 'young[500] （即：#2b80ff）', display: '#2b80ff'},
+    {name: '链接（hover）', current: 'linkHover', desc: 'young[600] （即：#0066fa）', display: '#0066fa'},
+  ]
+  const themeColor = [
+    {name: 'primary', color: 'young', desc: '主要：主题的、可链接、正常', display: '#2b80ff'},
+    {name: 'secondary', color: 'blue', desc: '次要：次级、常态的', display: '#37b2fe'},
+    {name: 'success', color: 'green', desc: '成功：完成、积极', display: '#17ce97'},
+    {name: 'warning', color: 'yellow', desc: '关注：提示、重点', display: '#ffa34d'},
+    {name: 'danger', color: 'red', desc: '警告：提示、异常、警醒', display: '#ff5858'},
+    {name: 'important', color: 'magenta', desc: '重要：优先', display: '#ff4f9e'},
+    {name: 'special', color: 'purple', desc: '特殊：触动、激情', display: '#9d5eff'},
+  ]
+  const colorTable = [
+    {
+      en: 'Young', 
+      cn: '青春蓝', 
+      list: [
+        {number: '50', color: '#f9ffff'},
+        {number: '100', color: '#eff5ff'},
+        {number: '200', color: '#cadfff'},
+        {number: '300', color: '#6ca7ff'},
+        {number: '400', color: '#438eff'},
+        {number: '500', color: '#2b80ff'},
+        {number: '600', color: '#0066fa'},
+        {number: '700', color: '#0c60e1'},
+        {number: '800', color: '#0650c2'},
+        {number: '900', color: '#053b8f'},
+
+      ]
+    },
+    {
+      en: 'Wave blue', 
+      cn: '波涛蓝', 
+      list: [
+        {number: '50', color: '#eff6ff'},
+        {number: '100', color: '#e7f6ff'},
+        {number: '200', color: '#cdecff'},
+        {number: '300', color: '#7acdff'},
+        {number: '400', color: '#57bfff'},
+        {number: '500', color: '#37b2fe'},
+        {number: '600', color: '#18a6fd'},
+        {number: '700', color: '#1099ed'},
+        {number: '800', color: '#007cc8'},
+        {number: '900', color: '#06609d'},
+
+      ]
+    },
+    {
+      en: 'Fresh green', 
+      cn: '葱绿', 
+      list: [
+        {number: '50', color: '#a7f5de'},
+        {number: '100', color: '#e3f9f3'},
+        {number: '200', color: '#c5f3e5'},
+        {number: '300', color: '#63e1bc'},
+        {number: '400', color: '#44cfa5'},
+        {number: '500', color: '#17ce97'},
+        {number: '600', color: '#11a578'},
+        {number: '700', color: '#098f67'},
+        {number: '800', color: '#11815f'},
+        {number: '900', color: '#10634a'},
+
+      ]
+    },
+    {
+      en: 'Yellow', 
+      cn: '蛋壳', 
+      list: [
+        {number: '50', color: '#fffcfa'},
+        {number: '100', color: '#fff4ea'},
+        {number: '200', color: '#ffe8d2'},
+        {number: '300', color: '#ffbf83'},
+        {number: '400', color: '#ffb46d'},
+        {number: '500', color: '#ffa34d'},
+        {number: '600', color: '#ff8e25'},
+        {number: '700', color: '#ef7b0f'},
+        {number: '800', color: '#e97103'},
+        {number: '900', color: '#bd7634'},
+
+      ]
+    },
+    {
+      en: 'Carved red', 
+      cn: '剔红', 
+      list: [
+        {number: '50', color: '#fffafa'},
+        {number: '100', color: '#ffebeb'},
+        {number: '200', color: '#ffd5d5'},
+        {number: '300', color: '#ff9696'},
+        {number: '400', color: '#ff7474'},
+        {number: '500', color: '#ff5858'},
+        {number: '600', color: '#fb2b2b'},
+        {number: '700', color: '#d91b1b'},
+        {number: '800', color: '#ba1313'},
+        {number: '900', color: '#ba1313'},
+
+      ]
+    },
+    {
+      en: 'Magenta', 
+      cn: '洋红色/粉', 
+      list: [
+        {number: '50', color: '#fffafc'},
+        {number: '100', color: '#feebf4'},
+        {number: '200', color: '#fcd6e8'},
+        {number: '300', color: '#fc94c2'},
+        {number: '400', color: '#ff79b5'},
+        {number: '500', color: '#ff4f9e'},
+        {number: '600', color: '#e33a86'},
+        {number: '700', color: '#d11c6d'},
+        {number: '800', color: '#bc145f'},
+        {number: '900', color: '#a80c52'},
+
+      ]
+    },
+    {
+      en: 'Purple', 
+      cn: '爱琴海/紫色', 
+      list: [
+        {number: '50', color: '#fcfaff'},
+        {number: '100', color: '#f1eafc'},
+        {number: '200', color: '#e2d3f9'},
+        {number: '300', color: '#c6a0ff'},
+        {number: '400', color: '#b280ff'},
+        {number: '500', color: '#9d5eff'},
+        {number: '600', color: '#8b51e6'},
+        {number: '700', color: '#7f46d9'},
+        {number: '800', color: '#763ad4'},
+        {number: '900', color: '#6231b0'},
+
+      ]
+    },
+    {
+      en: 'gray', 
+      cn: '灰色', 
+      list: [
+        {number: '50', color: '#fcfdfe'},
+        {number: '100', color: '#f4f5f7'},
+        {number: '200', color: '#edeef2'},
+        {number: '300', color: '#e3e4e9'},
+        {number: '400', color: '#e6eaf1'},
+        {number: '500', color: '#9ea3b0'},
+        {number: '600', color: '#838a9d'},
+        {number: '700', color: '#5e626d'},
+        {number: '800', color: '#3c4353'},
+        {number: '900', color: '#1b1f28'},
+
+      ]
+    },
+    {
+      en: 'zinc', 
+      cn: '锌灰色', 
+      list: [
+        {number: '50', color: '#fafafa'},
+        {number: '100', color: '#f8f8f8'},
+        {number: '200', color: '#eeeeee'},
+        {number: '300', color: '#e2e5e8'},
+        {number: '400', color: '#c4c4c4'},
+        {number: '500', color: '#71717a'},
+        {number: '600', color: '#52525b'},
+        {number: '700', color: '#3f3f46'},
+        {number: '800', color: '#27272a'},
+        {number: '900', color: '#18181b'},
+      ]
+    },
+  ]
+</script>

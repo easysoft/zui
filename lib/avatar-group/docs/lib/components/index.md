@@ -33,7 +33,7 @@
 当使用不同大小的头像时，可以通过为 `.avatar-group` 添加同样等级的 `size-*` 辅助类已获得统一的堆叠间距。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <div class="avatar-group size-xs gap-3">
+  <div class="avatar-group size-xs">
     <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-1.png"></div>
     <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-2.png"></div>
     <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-3.png"></div>

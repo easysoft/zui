@@ -4,7 +4,7 @@
 
 使用 `font-*` 工具类来控制元素字体粗细。
 
-<Example class="flex items-end gap-3 flex-wrap" background="light-circle">
+<Example class="flex items-end gap-3 flex-wrap">
   <div class="font-thin">font-thin 字体粗细</div>
   <div class="font-light">font-light 字体粗细</div>
   <div class="font-medium">font-medium 字体粗细</div>
