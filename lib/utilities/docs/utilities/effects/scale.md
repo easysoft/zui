@@ -1,6 +1,8 @@
 
 # 缩放
 
+添加`scale-*`设置元素的缩放
+
 <Example class="flex flex-wrap gap-3 h-full">
  <div v-for = "item in arrayScale" class="h-28 w-24 mt-4">
    <img src="/favicon.svg" :class="'scale-' + item" class="w-16 h-16">
