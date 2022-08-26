@@ -1,6 +1,6 @@
 :root {
   --form-label-width: 5rem;
-  --form-horizontal-label-text-align: right;
+  --form-horz-label-align: right;
   --form-control-radius: var(--radius);
   --form-control-border-color: var(--color-gray-300);
   --form-focus-color: var(--color-primary-500);

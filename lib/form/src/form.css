@@ -12,7 +12,7 @@
 
 .form-horizontal > .form-group > label {
   @apply -mr-4 ;
-  text-align: var(--form-horizontal-label-text-align);
+  text-align: var(--form-horz-label-align);
   width: var(--form-label-width);
 }
 
