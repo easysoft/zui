@@ -1,5 +1,5 @@
 .form-group {
-  margin-bottom: var(--form-group-space);
+  @apply -mb-4;
 }
 
 .form-group > label {
@@ -16,19 +16,25 @@
   width: var(--form-label-width);
 }
 
-.has-success > label, 
+.has-success {
+  color: var(--color-success-500);
+}
 .has-success > .form-tip {
-  color: var(--color-has-success);
+  color: var(--color-success-500);
 }
 
-.has-error > label,
-.has-error > .form-tip{
-  color: var(--color-has-error);
+.has-error > label {
+  color: var(--color-danger-500);
+}
+.has-error > .form-tip {
+  color: var(--color-danger-500);
 }
 
-.has-warning > label, 
+.has-warning > label {
+  color: var(--color-warning-500);
+}
 .has-warning > .form-tip {
-  color: var(--color-has-warning);
+  color: var(--color-warning-500);
 }
 
 fieldset {
@@ -37,9 +43,8 @@ fieldset {
 
 legend {
   @apply -font-bold -w-full -block -leading-normal;
-  margin-bottom: var(--legend-margin-bottom);
-  font-size: var(--legend-font-size);
-  color: var(--legend-color);
+  margin-bottom: 0.2rem; 
+  font-size: 18px; 
 }
 
 .radio, .checkbox {
@@ -59,5 +64,5 @@ legend {
 .required:after {
   @apply -inline-block -absolute -top-0;
   content: '*';
-  color: var(--required-content-color);
+  color: var(--color-danger-500);
 }

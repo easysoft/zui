@@ -6,12 +6,12 @@
 
 .form-control:focus-within {
     @apply -border -outline-none;
-    border-color: var(--form-control-focus-border-color);
+    border-color: var(--form-focus-color);
     z-index: 2;
 }
 
 .form-control::placeholder {
-    color: var(--form-control-placeholder-color);
+    color: var(--form-placeholder-color);
 }
 
 .form-control.size-sm {
