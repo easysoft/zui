@@ -34,11 +34,11 @@ select.form-control[multiple] > option:checked {
 }
 
 .has-success > .form-control {
-    border-color: var(--color-has-success);
+    border-color: var(--color-success-500);
 }
 .has-error > .form-control {
-    border-color: var(--color-has-error);
+    border-color: var(--color-danger-500);
 }
 .has-warning > .form-control {
-    border-color: var(--color-has-warning);
+    border-color: var(--color-warning-500);
 }

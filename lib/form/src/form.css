@@ -16,23 +16,17 @@
   width: var(--form-label-width);
 }
 
-.has-success {
-  color: var(--color-has-success);
-}
+.has-success > label, 
 .has-success > .form-tip {
   color: var(--color-has-success);
 }
 
-.has-error > label {
-  color: var(--color-has-error);
-}
-.has-error > .form-tip {
+.has-error > label,
+.has-error > .form-tip{
   color: var(--color-has-error);
 }
 
-.has-warning > label {
-  color: var(--color-has-warning);
-}
+.has-warning > label, 
 .has-warning > .form-tip {
   color: var(--color-has-warning);
 }
