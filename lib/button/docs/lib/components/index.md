@@ -22,7 +22,7 @@
   <button type="button" class="btn secondary-outline square">正</button>
   <button type="button" class="btn dark-outline circle">描边</button>
   <button type="button" class="btn danger-pale square circle">❤️</button>
-  <button type="button" class="btn text-primary -ghost">链接按钮</button>
+  <button type="button" class="btn text-primary ghost">链接按钮</button>
 </Example>
 
 ```html
@@ -31,7 +31,7 @@
 <button type="button" class="btn secondary-outline square">正</button>
 <button type="button" class="btn dark-outline circle">描边</button>
 <button type="button" class="btn danger-pale square circle">❤️</button>
-<button type="button" class="btn text-primary -ghost">链接按钮</button>
+<button type="button" class="btn text-primary ghost">链接按钮</button>
 ```
 
 ## 图标按钮
@@ -39,15 +39,15 @@
 按钮配合[图标组件](http://url.com/lib/icon)一起使用时，自动呈现为图标按钮。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <button type="button" class="btn"><i class="icon -i-star"></i> 左侧图标</button>
-  <button type="button" class="btn">右侧图标<i class="icon -i-angle-right"></i></button>
-  <button type="button" class="btn square"><i class="icon -i-thumb-up"></i></button>
+  <button type="button" class="btn"><i class="icon icon-star"></i> 左侧图标</button>
+  <button type="button" class="btn">右侧图标<i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn square"><i class="icon icon-thumbs-up"></i></button>
 </Example>
 
 ```html
-<button type="button" class="btn"><i class="icon -i-star"></i> 左侧图标</button>
-<button type="button" class="btn">右侧图标<i class="icon -i-angle-right"></i></button>
-<button type="button" class="btn square"><i class="icon -i-thumb-up"></i></button>
+<button type="button" class="btn"><i class="icon icon-star"></i> 左侧图标</button>
+<button type="button" class="btn">右侧图标<i class="icon icon-angle-right"></i></button>
+<button type="button" class="btn square"><i class="icon icon-thumbs-up"></i></button>
 ```
 
 ## 外观类型
@@ -231,35 +231,35 @@
 搭配 CSS 工具类 `-ghost` 移除按钮背景颜色，从而获得透明的按钮。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <button type="button" class="btn text-primary -ghost">Primary</button>
-  <button type="button" class="btn text-secondary -ghost">Secondary</button>
-  <button type="button" class="btn text-success -ghost">Success</button>
-  <button type="button" class="btn text-warning -ghost">Warning</button>
-  <button type="button" class="btn text-danger -ghost">Danger</button>
-  <button type="button" class="btn text-important -ghost">Important</button>
-  <button type="button" class="btn text-special -ghost">Special</button>
-  <button type="button" class="btn text-lighter -ghost">Lighter</button>
-  <button type="button" class="btn text-light -ghost">Light</button>
-  <button type="button" class="btn text-gray -ghost">Gray</button>
-  <button type="button" class="btn text-dark -ghost">Dark</button>
-  <button type="button" class="btn text-darker -ghost">Darker</button>
-  <button type="button" class="btn text-black -ghost">Black</button>
+  <button type="button" class="btn text-primary ghost">Primary</button>
+  <button type="button" class="btn text-secondary ghost">Secondary</button>
+  <button type="button" class="btn text-success ghost">Success</button>
+  <button type="button" class="btn text-warning ghost">Warning</button>
+  <button type="button" class="btn text-danger ghost">Danger</button>
+  <button type="button" class="btn text-important ghost">Important</button>
+  <button type="button" class="btn text-special ghost">Special</button>
+  <button type="button" class="btn text-lighter ghost">Lighter</button>
+  <button type="button" class="btn text-light ghost">Light</button>
+  <button type="button" class="btn text-gray ghost">Gray</button>
+  <button type="button" class="btn text-dark ghost">Dark</button>
+  <button type="button" class="btn text-darker ghost">Darker</button>
+  <button type="button" class="btn text-black ghost">Black</button>
 </Example>
 
 ```html
-<button type="button" class="btn text-primary -ghost">Primary</button>
-<button type="button" class="btn text-secondary -ghost">Secondary</button>
-<button type="button" class="btn text-success -ghost">Success</button>
-<button type="button" class="btn text-warning -ghost">Warning</button>
-<button type="button" class="btn text-danger -ghost">Danger</button>
-<button type="button" class="btn text-important -ghost">Important</button>
-<button type="button" class="btn text-special -ghost">Special</button>
-<button type="button" class="btn text-lighter -ghost">Lighter</button>
-<button type="button" class="btn text-light -ghost">Light</button>
-<button type="button" class="btn text-gray -ghost">Gray</button>
-<button type="button" class="btn text-dark -ghost">Dark</button>
-<button type="button" class="btn text-darker -ghost">Darker</button>
-<button type="button" class="btn text-black -ghost">Black</button>
+<button type="button" class="btn text-primary ghost">Primary</button>
+<button type="button" class="btn text-secondary ghost">Secondary</button>
+<button type="button" class="btn text-success ghost">Success</button>
+<button type="button" class="btn text-warning ghost">Warning</button>
+<button type="button" class="btn text-danger ghost">Danger</button>
+<button type="button" class="btn text-important ghost">Important</button>
+<button type="button" class="btn text-special ghost">Special</button>
+<button type="button" class="btn text-lighter ghost">Lighter</button>
+<button type="button" class="btn text-light ghost">Light</button>
+<button type="button" class="btn text-gray ghost">Gray</button>
+<button type="button" class="btn text-dark ghost">Dark</button>
+<button type="button" class="btn text-darker ghost">Darker</button>
+<button type="button" class="btn text-black ghost">Black</button>
 ```
 
 ### 按钮边框颜色
