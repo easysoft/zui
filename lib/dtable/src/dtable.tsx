@@ -2,10 +2,10 @@ import {createRef, render} from 'preact';
 import {DTableOptions} from './types/options';
 import {DTable as DTableReact} from './dtable-react';
 import {getDefaultOptions} from './helpers/default-options';
-import {removePlugin, addPlugin} from './helpers/shared-plugins';
+import {removePlugin, definePlugin} from './helpers/shared-plugins';
 
 export class DTable {
-    static addPlugin = addPlugin;
+    static definePlugin = definePlugin;
 
     static removePlugin = removePlugin;
 
