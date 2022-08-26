@@ -7,5 +7,5 @@
     --scrollbar-hover-bg:  rgba(var(--color-inverse-rgb), .4);
     --scrollbar-drag-bg:   rgba(var(--color-inverse-rgb), .5);
     --scrollbar-radius:    var(--radius-sm);
-    --scroolbar-duration:  .7s;
+    --scrollbar-duration:  .7s;
 }

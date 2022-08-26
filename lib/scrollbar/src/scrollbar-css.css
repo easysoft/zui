@@ -6,7 +6,7 @@
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: var(--scrollbar-inset);
+    box-shadow: var(--scrollbar-shadow);
     transition: background-color var(--scrollbar-duration);
 }
 :hover::-webkit-scrollbar-track,

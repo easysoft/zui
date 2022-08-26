@@ -2,8 +2,8 @@
     @apply -absolute -transition-opacity;
     opacity: var(--scrollbar-opacity);
     background: var(--scrollbar-bg);
-    box-shadow: var(--scrollbar-inset);
-    transition-duration: var(--scroolbar-duration);
+    box-shadow: var(--scrollbar-shadow);
+    transition-duration: var(--scrollbar-duration);
 }
 .scrollbar-hover .scrollbar {
     @apply -opacity-0;
