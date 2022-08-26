@@ -1,4 +1,5 @@
 :root {
-  --input-fix-sm-width: 2rem;
+  --input-fix-width-sm: 2rem;
   --input-fix-width: 4.375rem;
+  --input-fix-width-lg: 6.75rem;
 }

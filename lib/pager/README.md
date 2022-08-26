@@ -4,13 +4,13 @@
 
 ```html:example: flex gap-3 flex-wrap
 <ul class="pager">
-  <li class="previous"><a><</a></li>
+  <li class="previous"><a>&lt;</a></li>
   <li><a>1</a></li>
   <li class="active"><a>2</a></li>
   <li><a>3</a></li>
   <li><a>4</a></li>
   <li><a>5</a></li>
-  <li class="next"><a>></a></li>
+  <li class="next"><a>&gt;</a></li>
 </ul>
 
 <ul class="pager">
@@ -25,14 +25,14 @@
 
 <ul class="pager">
   <li class="previous"><a><i class="icon icon-double-angle-left"></i></a></li>
-  <li><a><</a></li>
+  <li><a>&lt;</a></li>
   <li><a>1</a></li>
   <li class="active"><a>2</a></li>
   <li><a>...</a></li>
   <li><a>4</a></li>
   <li><a>5</a></li>
-  <li><a>></a></li>
-  <li class="next"><a><i class="icon icon-double-angle-right"></i></a></a></li>
+  <li><a>&gt;</a></li>
+  <li class="next"><a><i class="icon icon-double-angle-right"></i></a></li>
 </ul>
 ```
 
@@ -40,13 +40,13 @@
 
 ```html:example: flex gap-3 flex-wrap
 <ul class="pager">
-  <li class="previous"><a><</a></li>
+  <li class="previous"><a>&lt;</a></li>
   <li><a>1</a></li>
   <li class="disabled"><a>2</a></li>
   <li><a>3</a></li>
   <li><a>4</a></li>
   <li><a>5</a></li>
-  <li class="next"><a>></a></li>
+  <li class="next"><a>&gt;</a></li>
 </ul>
 ```
 
@@ -54,13 +54,13 @@
 
 ```html:example:
 <ul class="pager pager-nobd">
-  <li class="previous"><a><</a></li>
+  <li class="previous"><a>&lt;</a></li>
   <li><a>1</a></li>
   <li class="active"><a>2</a></li>
   <li><a>3</a></li>
   <li><a>4</a></li>
   <li><a>5</a></li>
-  <li class="next"><a>></a></li>
+  <li class="next"><a>&gt;</a></li>
 </ul>
 ```
 
@@ -68,22 +68,18 @@
 
 ```html:example: flex gap-3 flex-wrap
 <ul class="pager pager-loose">
-  <li class="previous"><a><</a></li>
-  <li><a>1</a></li>
+  <li class="previous"><a>&lt;</a></li>
+  <li class="active"><a>1</a></li>
   <li><a>2</a></li>
   <li><a>3</a></li>
-  <li><a>4</a></li>
-  <li><a>5</a></li>
-  <li class="next"><a>></a></li>
+  <li class="next"><a>&gt;</a></li>
 </ul>
 <ul class="pager pager-loose">
-  <li class="previous"><a class="rounded-full"><</a></li>
-  <li><a class="rounded-full">1</a></li>
-  <li><a class="rounded-full">2</a></li>
-  <li><a class="rounded-full">3</a></li>
-  <li><a class="rounded-full">4</a></li>
-  <li><a class="rounded-full">5</a></li>
-  <li class="next"><a class="rounded-full">></a></li>
+  <li class="previous"><a class="circle">&lt;</a></li>
+  <li class="active"><a class="circle">1</a></li>
+  <li><a class="circle">2</a></li>
+  <li><a class="circle">3</a></li>
+  <li class="next"><a class="circle">&gt;</a></li>
 </ul>
 ```
 
@@ -91,14 +87,14 @@
 
 ```html:example:
 <ul class="pager pager-loose pager-bg">
-  <li class="previous"><a><</a></li>
+  <li class="previous"><a>&lt;</a></li>
   <li><a>1</a></li>
   <li class="active"><a>2</a></li>
   <li><a>3</a></li>
   <li><a>4</a></li>
   <li><a>5</a></li>
-  <li class="next"><a>></a></li>
-</ul
+  <li class="next"><a>&gt;</a></li>
+</ul>
 ```
 
 ## 两边对齐
@@ -109,54 +105,88 @@
   <li class="next"><a>下一页</a></li>
 </ul>
 <ul class="pager pager-nobd pager-justify">
-  <li class="previous"><a><</a></li>
-  <li class="next"><a>></a></li>
+  <li class="previous"><a>&lt;</a></li>
+  <li class="next"><a>&gt;</a></li>
 </ul>
 <ul class="pager pager-bg pager-justify">
-  <li class="previous"><a><</a></li>
-  <li class="next"><a>></a></li>
+  <li class="previous"><a>&lt;</a></li>
+  <li class="next"><a>&gt;</a></li>
 </ul>
 <ul class="pager pager-justify">
-  <li class="previous"><a class="rounded-full"><</a></li>
-  <li class="next"><a class="rounded-full">></a></li>
+  <li class="previous"><a class="circle">&lt;</a></li>
+  <li class="next"><a class="circle">&gt;</a></li>
 </ul>
 ```
 
-## 综合分页
+## 尺寸
+
+```html:example
+<ul class="pager size-sm">
+  <li class="previous"><a>&lt;</a></li>
+  <li><a>1</a></li>
+  <li class="active"><a>2</a></li>
+  <li><a>3</a></li>
+  <li><a>4</a></li>
+  <li><a>5</a></li>
+  <li class="next"><a>&gt;</a></li>
+</ul>
+<ul class="pager">
+  <li class="previous"><a>&lt;</a></li>
+  <li><a>1</a></li>
+  <li class="active"><a>2</a></li>
+  <li><a>3</a></li>
+  <li><a>4</a></li>
+  <li><a>5</a></li>
+  <li class="next"><a>&gt;</a></li>
+</ul>
+<ul class="pager size-lg">
+  <li class="previous"><a>&lt;</a></li>
+  <li><a>1</a></li>
+  <li class="active"><a>2</a></li>
+  <li><a>3</a></li>
+  <li><a>4</a></li>
+  <li><a>5</a></li>
+  <li class="next"><a>&gt;</a></li>
+</ul>
+```
+
+## 附加功能
 
 ```html:example:
 <div class="flex gap-3 flex-wrap items-center">
   <p class="w-32">显示总数</p>
-  <ul class="pager pager-nobd">
-    <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
-    <li class="previous"><a><</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>></a></li>
-  </ul>
-  <ul class="pager">
-    <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
-    <li class="previous"><a><</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>></a></li>
-  </ul>
-  <ul class="pager pager-loose">
-    <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
-    <li class="previous"><a><</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>></a></li>
-  </ul>
+  <div>
+    <ul class="pager pager-nobd">
+      <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
+      <li class="previous"><a>&lt;</a></li>
+      <li><a>1</a></li>
+      <li class="active"><a>2</a></li>
+      <li><a>3</a></li>
+      <li><a>4</a></li>
+      <li><a>5</a></li>
+      <li class="next"><a>&gt;</a></li>
+    </ul>
+    <ul class="pager">
+      <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
+      <li class="previous"><a>&lt;</a></li>
+      <li><a>1</a></li>
+      <li class="active"><a>2</a></li>
+      <li><a>3</a></li>
+      <li><a>4</a></li>
+      <li><a>5</a></li>
+      <li class="next"><a>&gt;</a></li>
+    </ul>
+    <ul class="pager pager-loose">
+      <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
+      <li class="previous"><a>&lt;</a></li>
+      <li><a>1</a></li>
+      <li class="active"><a>2</a></li>
+      <li><a>3</a></li>
+      <li><a>4</a></li>
+      <li><a>5</a></li>
+      <li class="next"><a>&gt;</a></li>
+    </ul>
+  </div>
 </div>
 <div class="flex gap-3 flex-wrap items-center">
   <p class="w-32">调整每页显示条数</p>
@@ -171,25 +201,25 @@
         </ul>
       </div>
     </li>
-    <li class="previous"><a><</a></li>
+    <li class="previous"><a>&lt;</a></li>
     <li><a>1</a></li>
     <li class="active"><a>2</a></li>
     <li><a>3</a></li>
     <li><a>4</a></li>
     <li><a>5</a></li>
-    <li class="next"><a>></a></li>
+    <li class="next"><a>&gt;</a></li>
   </ul>
 </div>
 <div class="flex gap-3 flex-wrap items-center">
   <p class="w-32">直接前往</p>
   <ul class="pager pager-nobd">
-    <li class="previous"><a><</a></li>
+    <li class="previous"><a>&lt;</a></li>
     <li><a>1</a></li>
     <li class="active"><a>2</a></li>
     <li><a>3</a></li>
     <li><a>4</a></li>
     <li><a>5</a></li>
-    <li class="next"><a>></a></li>
+    <li class="next"><a>&gt;</a></li>
     <li>
       <div class="pager-jump">
         <span>前往</span>
@@ -215,13 +245,13 @@
         </ul>
       </div>
     </li>
-    <li class="previous"><a><</a></li>
+    <li class="previous"><a>&lt;</a></li>
     <li><a>1</a></li>
     <li class="active"><a>2</a></li>
     <li><a>3</a></li>
     <li><a>4</a></li>
     <li><a>5</a></li>
-    <li class="next"><a>></a></li>
+    <li class="next"><a>&gt;</a></li>
     <li>
       <div class="pager-jump">
         <span>前往</span>

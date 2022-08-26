@@ -2,35 +2,118 @@
     @apply -relative;
 }
 
-.prefix-sm > .form-control {
-    padding-left: var(--input-fix-sm-width);
-}
-.suffix-sm > .form-control {
-    padding-right: var(--input-fix-sm-width);
-}
 .input-control.prefix > .form-control {
     padding-left: var(--input-fix-width);
 }
 .input-control.suffix > .form-control {
     padding-right: var(--input-fix-width);
 }
-.input-control-prefix, .input-control-suffix {
-    @apply -inline-block -h-full -text-gray-500 -select-none -absolute -overflow-hidden -leading-8 -px-2 -top-0;
-    width: var(--input-fix-width);
-}
+.input-control-prefix, 
 .input-control-suffix {
-    @apply -text-right;
+  @apply -inline-block -h-full -text-gray-500 -select-none -absolute -overflow-hidden -leading-8 -px-2 -top-0;
+  width: var(--input-fix-width);
 }
-.prefix-sm .input-control-prefix,
-.prefix-sm .input-control-suffix,
-.suffix-sm .input-control-prefix,
-.suffix-sm .input-control-suffix {
-    @apply -text-center;
-    width: var(--input-fix-sm-width);
-}
+
 .input-control-prefix {
     @apply -left-0.5;
 }
 .input-control-suffix {
-    @apply -right-0.5;
+    @apply -right-0.5 -text-right;
+}
+
+.prefix-sm > .form-control {
+  padding-left: var(--input-fix-width-sm);
+}
+.suffix-sm > .form-control {
+  padding-right: var(--input-fix-width-sm);
+}
+.prefix-sm .input-control-prefix,
+.suffix-sm .input-control-suffix {
+  @apply -text-center;
+  width: var(--input-fix-width-sm);
+}
+
+.input-control.size-sm.prefix > .form-control {
+  padding-left: calc(var(--input-fix-width)*0.9);
+}
+.input-control.size-sm.suffix > .form-control {
+  padding-right: calc(var(--input-fix-width)*0.9);
+}
+
+.input-control.size-sm.prefix .input-control-prefix,
+.input-control.size-sm.suffix .input-control-suffix {
+  width: calc(var(--input-fix-width)*0.9);
+}
+
+.prefix-lg > .form-control,
+.input-control.size-sm.prefix-lg > .form-control {
+  padding-left: var(--input-fix-width-lg);
+}
+
+.suffix-lg > .form-control,
+.input-control.size-sm.suffix-lg > .form-control {
+  padding-right: var(--input-fix-width-lg);
+}
+.prefix-lg .input-control-prefix,
+.suffix-lg .input-control-suffix,
+.input-control.size-sm.prefix-lg .input-control-prefix,
+.input-control.size-sm.suffix-lg .input-control-suffix {
+  width: var(--input-fix-width-lg);
+}
+
+.input-control.size-sm > .input-control-prefix, 
+.input-control.size-sm > .input-control-suffix {
+  @apply -leading-6 -text-sm;
+  width: var(--input-fix-width-sm);
+}
+
+
+.input-control.size-lg > .input-control-prefix, 
+.input-control.size-lg > .input-control-suffix {
+  @apply -leading-10 -px-4 -text-lg;
+  width: var(--input-fix-width-lg);
+}
+
+.input-control.size-sm.prefix-sm > .form-control {
+  padding-left: calc(var(--input-fix-width-sm)*0.9);
+}
+.input-control.size-sm.suffix-sm > .form-control {
+  padding-right: calc(var(--input-fix-width-sm)*0.9);
+}
+.input-control.size-sm.prefix-sm .input-control-prefix,
+.input-control.size-sm.suffix-sm .input-control-suffix {
+  width: calc(var(--input-fix-width-sm)*0.9);
+}
+
+.input-control.size-lg.prefix > .form-control {
+  padding-left: calc(var(--input-fix-width)*1.5);
+}
+.input-control.size-lg.suffix > .form-control {
+  padding-right: calc(var(--input-fix-width)*1.5);
+}
+
+.input-control.size-lg.prefix .input-control-prefix,
+.input-control.size-lg.suffix .input-control-suffix {
+  width: calc(var(--input-fix-width)*1.5);
+}
+
+.input-control.size-lg.prefix-sm > .form-control {
+  padding-left: calc(var(--input-fix-width-sm)*1.5);
+}
+.input-control.size-lg.suffix-sm > .form-control {
+  padding-right: calc(var(--input-fix-width-sm)*1.5);
+}
+.input-control.size-lg.prefix-sm .input-control-prefix,
+.input-control.size-lg.suffix-sm .input-control-suffix {
+  width: calc(var(--input-fix-width-sm)*1.5);
+}
+.input-control.size-lg.prefix-lg > .form-control {
+  padding-left: calc(var(--input-fix-width-lg)*1.5);
+}
+.input-control.size-lg.suffix-lg > .form-control {
+  padding-right: calc(var(--input-fix-width-lg)*1.5);
+}
+.input-control.size-lg.prefix-lg .input-control-prefix,
+.input-control.size-lg.suffix-lg .input-control-suffix {
+  width: calc(var(--input-fix-width-lg)*1.5);
 }

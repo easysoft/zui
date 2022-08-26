@@ -1,27 +1,32 @@
 .pager {
-  @apply -flex -pl-0;
-  margin: 6px 0;
+  @apply -flex -pl-0 -my-4;
 }
-.pager > li > a{
-  @apply -inline-block -border -whitespace-nowrap -px-3 -text-fore -bg-canvas;
+.pager > li > a {
+  @apply -inline-block -border -px-3 -text-fore;
   line-height: 1.875rem;
-  margin-left: -1px;
+}
+
+.pager > * + * > a {
+  @apply --ml-px;
 }
 
 .pager > li:first-child > a {
-  margin-left: 0;
-  border-bottom-left-radius: var(--pager-radius);
-  border-top-left-radius: var(--pager-radius);
+  @apply -rounded-l;
 }
 
 .pager > li:last-child > a {
-  border-bottom-right-radius: var(--pager-radius);
-  border-top-right-radius: var(--pager-radius);
+  @apply -rounded-r;
 }
 
+.pager > li > a:focus-within,
 .pager > li > a:hover,
 .pager > li > a:focus {
   z-index: 2;
+}
+
+.pager > li > a:hover,
+.pager > li > a:focus,
+.pager > li.active > a:hover {
   @apply -text-canvas -bg-primary-600;
 }
 
@@ -30,7 +35,6 @@
 }
 
 .pager > li.active > a:hover {
-  @apply -text-canvas -bg-primary-600;
   z-index: 3;
 }
 
@@ -39,9 +43,6 @@
 }
 .pager.pager-loose > li > a {
   @apply -rounded;
-}
-.pager > li > a.rounded-full {
-  @apply -rounded-full;
 }
 
 .pager.pager-bg > li > a {
@@ -58,11 +59,11 @@
 
 .pager.pager-nobd > li > a,
 .pager.pager-nobd > li > span {
-  @apply -border-0 -rounded-none -bg-canvas;
+  @apply -border-0 -rounded;
 }
 
 .pager.pager-nobd > li.active > a {
-  @apply -border-0 -rounded-none -bg-canvas -text-primary-500;
+  @apply -border-0 -rounded -bg-canvas -text-primary-500;
 }
 .pager.pager-nobd > li > a:hover,
 .pager.pager-nobd > li > a:focus,
@@ -72,20 +73,26 @@
 }
 
 .pager > li > .pager-jump > .input-control {
-  @apply -w-12;
+  @apply -w-12 -mx-1;
 }
 .pager > li > .pager-total,
 .pager > li > .pager-sizes,
 .pager > li > .pager-jump {
-  @apply -inline-block -whitespace-nowrap -px-2 -text-fore -bg-canvas;
-  line-height: 1.875rem;
+  @apply -inline-block -whitespace-nowrap -px-2 -text-fore -bg-canvas -h-8 -leading-8;
 }
 .pager.pager-justify {
   @apply -justify-between;
 }
 .pager.pager-justify > li > a {
-  border-radius: var(--pager-radius);
+  @apply -rounded;
 }
-.pager > li > a.rounded-full {
+.pager > li > a.circle {
   @apply -rounded-full;
+}
+
+.pager.size-sm > li > a {
+  @apply -px-2 -text-sm -leading-6;
+}
+.pager.size-lg > li > a {
+  @apply -px-4 -text-lg -leading-9;
 }

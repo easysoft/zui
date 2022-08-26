@@ -6,7 +6,7 @@
 使用 `.modal` 与 `.modal-dialog` 类获得对话框的外观展示，通常用在元素 `<div>` 上。
 
 <Example class="flex gap-4">
-  <button type="button" class="btn -primary" data-toggle="modal" data-target="#myModal">
+  <button type="button" class="btn primary" data-toggle="modal" data-target="#myModal">
     点击按钮打开对话框
   </button>
   <a class="btn" data-toggle="modal" href="#myModal">点击 a 标签按钮打开</a>
@@ -25,7 +25,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn -primary">保存</button>
+          <button type="button" class="btn primary">保存</button>
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
 </Example>
 
 ```html
-<button type="button" class="btn -primary" data-toggle="modal" data-target="#myModal">
+<button type="button" class="btn primary" data-toggle="modal" data-target="#myModal">
   点击按钮打开对话框
 </button>
 <a class="btn" data-toggle="modal" href="#myModal">点击 a 标签按钮打开</a>
@@ -52,7 +52,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn -primary">保存</button>
+        <button type="button" class="btn primary">保存</button>
       </div>
     </div>
   </div>
@@ -64,13 +64,13 @@
 使用 `data-position` 自定义设置对话框位置。可设置 `fit`、`center` 或其具体像素值。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <button type="button" class="btn -primary" data-position="fit" data-toggle="modal"
+  <button type="button" class="btn primary" data-position="fit" data-toggle="modal"
   data-target="#positionModal">默认</button>
-  <button type="button" class="btn -primary" data-position="center" data-toggle="modal"
+  <button type="button" class="btn primary" data-position="center" data-toggle="modal"
   data-target="#positionModal">窗口中间</button>
-  <button type="button" class="btn -primary" data-position="0" data-toggle="modal"
+  <button type="button" class="btn primary" data-position="0" data-toggle="modal"
   data-target="#positionModal">靠近上方</button>
-  <button type="button" class="btn -primary" data-position="100px" data-toggle="modal"
+  <button type="button" class="btn primary" data-position="100px" data-toggle="modal"
   data-target="#positionModal">距离上方100px</button>
 
   <div class="modal" id="positionModal">
@@ -87,7 +87,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn -primary">保存</button>
+          <button type="button" class="btn primary">保存</button>
         </div>
       </div>
     </div>
@@ -95,13 +95,13 @@
 </Example>
 
 ```html
-<button type="button" class="btn -primary" data-position="fit" data-toggle="modal"
+<button type="button" class="btn primary" data-position="fit" data-toggle="modal"
 data-target="#positionModal">默认</button>
-<button type="button" class="btn -primary" data-position="center" data-toggle="modal"
+<button type="button" class="btn primary" data-position="center" data-toggle="modal"
 data-target="#positionModal">窗口中间</button>
-<button type="button" class="btn -primary" data-position="0" data-toggle="modal"
+<button type="button" class="btn primary" data-position="0" data-toggle="modal"
 data-target="#positionModal">靠近上方</button>
-<button type="button" class="btn -primary" data-position="100px" data-toggle="modal"
+<button type="button" class="btn primary" data-position="100px" data-toggle="modal"
 data-target="#positionModal">距离上方100px</button>
 
 <div class="modal" id="positionModal">
@@ -118,7 +118,7 @@ data-target="#positionModal">距离上方100px</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn -primary">保存</button>
+        <button type="button" class="btn primary">保存</button>
       </div>
     </div>
   </div>
@@ -130,16 +130,16 @@ data-target="#positionModal">距离上方100px</button>
 除了默认大小，还提供了额外的 3 种预设尺寸。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <button type="button" class="btn -primary" data-toggle="modal"
+  <button type="button" class="btn primary" data-toggle="modal"
   data-target="#smModal">小对话框</button>
 
-  <button type="button" class="btn -primary" data-toggle="modal"
+  <button type="button" class="btn primary" data-toggle="modal"
   data-target="#baseModal">默认大小</button>
 
-  <button type="button" class="btn -primary" data-toggle="modal"
+  <button type="button" class="btn primary" data-toggle="modal"
   data-target="#lgModal">大对话框</button>
 
-  <button type="button" class="btn -primary" data-toggle="modal"
+  <button type="button" class="btn primary" data-toggle="modal"
   data-target="#fullModal">全屏对话框</button>
 
   <div class="modal" id="smModal">
@@ -156,7 +156,7 @@ data-target="#positionModal">距离上方100px</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn -primary">保存</button>
+          <button type="button" class="btn primary">保存</button>
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@ data-target="#positionModal">距离上方100px</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn -primary">保存</button>
+          <button type="button" class="btn primary">保存</button>
         </div>
       </div>
     </div>
@@ -196,7 +196,7 @@ data-target="#positionModal">距离上方100px</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn -primary">保存</button>
+          <button type="button" class="btn primary">保存</button>
         </div>
       </div>
     </div>
@@ -221,7 +221,7 @@ data-target="#positionModal">距离上方100px</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn -primary">保存</button>
+          <button type="button" class="btn primary">保存</button>
         </div>
       </div>
     </div>
@@ -229,16 +229,16 @@ data-target="#positionModal">距离上方100px</button>
 </Example>
 
 ```html
-<button type="button" class="btn -primary" data-toggle="modal"
+<button type="button" class="btn primary" data-toggle="modal"
 data-target="#smModal">小对话框</button>
 
-<button type="button" class="btn -primary" data-toggle="modal"
+<button type="button" class="btn primary" data-toggle="modal"
 data-target="#baseModal">默认大小</button>
 
-<button type="button" class="btn -primary" data-toggle="modal"
+<button type="button" class="btn primary" data-toggle="modal"
 data-target="#lgModal">大对话框</button>
 
-<button type="button" class="btn -primary" data-toggle="modal"
+<button type="button" class="btn primary" data-toggle="modal"
 data-target="#fullModal">全屏对话框</button>
 
 <div class="modal" id="smModal">
@@ -255,7 +255,7 @@ data-target="#fullModal">全屏对话框</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn -primary">保存</button>
+        <button type="button" class="btn primary">保存</button>
       </div>
     </div>
   </div>
@@ -275,7 +275,7 @@ data-target="#fullModal">全屏对话框</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn -primary">保存</button>
+        <button type="button" class="btn primary">保存</button>
       </div>
     </div>
   </div>
@@ -295,7 +295,7 @@ data-target="#fullModal">全屏对话框</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn -primary">保存</button>
+        <button type="button" class="btn primary">保存</button>
       </div>
     </div>
   </div>
@@ -320,7 +320,7 @@ data-target="#fullModal">全屏对话框</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn -primary">保存</button>
+        <button type="button" class="btn primary">保存</button>
       </div>
     </div>
   </div>
@@ -332,7 +332,7 @@ data-target="#fullModal">全屏对话框</button>
 展示各种类型的信息提示，只提供一个按钮用于关闭。
 
 <Example class="flex gap-4 flex-wrap">
-  <button type="button" class="btn -primary" data-toggle="modal"
+  <button type="button" class="btn primary" data-toggle="modal"
   data-target="#customModal">点击打开</button>
 
   <div class="modal" id="customModal">
@@ -342,7 +342,7 @@ data-target="#fullModal">全屏对话框</button>
           <p>这是提示内容</p>
         </div>
         <div class="modal-footer"> 
-          <button type="button" class="btn -primary size-sm" data-dismiss="modal">知道了</button>
+          <button type="button" class="btn primary size-sm" data-dismiss="modal">知道了</button>
         </div>
       </div>
     </div>
@@ -350,7 +350,7 @@ data-target="#fullModal">全屏对话框</button>
 </Example>
 
 ```html
-<button type="button" class="btn -primary" data-toggle="modal"
+<button type="button" class="btn primary" data-toggle="modal"
 data-target="#customModal">点击打开</button>
 
 <div class="modal" id="customModal">
@@ -360,7 +360,7 @@ data-target="#customModal">点击打开</button>
         <p>这是提示内容</p>
       </div>
       <div class="modal-footer"> 
-        <button type="button" class="btn -primary size-sm" data-dismiss="modal">知道了</button>
+        <button type="button" class="btn primary size-sm" data-dismiss="modal">知道了</button>
       </div>
     </div>
   </div>
@@ -372,7 +372,7 @@ data-target="#customModal">点击打开</button>
 通过 `data-modal-closable` 动态控制，默认 `true` 可以通过点击 modal 关闭对话框，能禁用在模态框之外的交互。
 
 <Example class="flex gap-4 flex-wrap">
-  <button type="button" class="btn -primary" data-toggle="modal"
+  <button type="button" class="btn primary" data-toggle="modal"
   data-target="#autoCloseModal">点击打开对话框</button>
 
   <div class="modal" id="autoCloseModal" data-modal-closable="false">
@@ -389,7 +389,7 @@ data-target="#customModal">点击打开</button>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn -primary">保存</button>
+          <button type="button" class="btn primary">保存</button>
         </div>
       </div>
     </div>
@@ -397,7 +397,7 @@ data-target="#customModal">点击打开</button>
 </Example>
 
 ```html
-<button type="button" class="btn -primary" data-toggle="modal"
+<button type="button" class="btn primary" data-toggle="modal"
 data-target="#autoCloseModal">点击打开对话框</button>
 
 <div class="modal" id="autoCloseModal" data-modal-closable="false">
@@ -414,7 +414,7 @@ data-target="#autoCloseModal">点击打开对话框</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn -primary">保存</button>
+        <button type="button" class="btn primary">保存</button>
       </div>
     </div>
   </div>
