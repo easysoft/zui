@@ -37,15 +37,6 @@
   color: var(--color-has-warning);
 }
 
-.tips-fixed > .form-group > .form-tip {
-  @apply -absolute;
-}
-
-.tips-fixed > .form-group {
-  margin-bottom: var(--form-group-space-fixed);
-  position: relative;
-}
-
 fieldset {
   @apply -w-full -my-0 -mx-px -px-2 -pt-1 -pb-2;
 }

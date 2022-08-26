@@ -69,29 +69,6 @@
 </form>
 ```
 
-## 校验状态出现不改变行高
-
-在使用插入文本时，会出现表单高度变化的情况，可以通过给form添加 'tips-fixed'类增加表单行间距的同时改变tips的定位方式 来使tips的出现不影响表单整体高度
-
- ```html:example: flex
-<form class="tips-fixed">
-  <div class="form-group has-success">
-    <label for="inputSuccess1">输入框（success）</label>
-    <input type="text" class="form-control" id="inputSuccess1">
-    <div class="form-tip">这是帮助性提示文本。</div>
-  </div>
-  <div class="form-group has-warning">
-    <label for="inputWarning1">输入框（warning）</label>
-    <input type="text" class="form-control" id="inputWarning1">
-  </div>
-  <div class="form-group has-error">
-    <label for="inputError1">输入框（error）</label>
-    <input type="text" class="form-control" id="inputError1">
-  </div>
-</form>
- ```
-
-
 ## 表单分组
 
 使用fieldset 将多个表单控件放置在一起进行分组。
