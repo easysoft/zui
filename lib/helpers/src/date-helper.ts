@@ -1,4 +1,4 @@
-type DateLike = Date | number | string;
+export type DateLike = Date | number | string;
 
 /**
  * 一天的总毫秒数
