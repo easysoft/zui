@@ -163,6 +163,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             if (col.hidden) {
                 return;
             }
+            col = {...col};
             const {minWidth = minColWidth, maxWidth = maxColWidth} = col;
             const realWidth = limitSize(col.width ?? 0, minWidth, maxWidth);
             const flex = col.flex ?? 1;
