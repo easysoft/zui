@@ -27,3 +27,7 @@
 .btn.size-xl {
     @apply -btn-xl;
 }
+
+.btn.square {
+    @apply -px-0 -aspect-square;
+}

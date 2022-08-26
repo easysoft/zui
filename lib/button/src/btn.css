@@ -4,7 +4,3 @@
     background: var(--btn-bg);
     border-radius: var(--btn-radius);
 }
-
-.btn.square {
-    @apply -px-0 -aspect-square;
-}
