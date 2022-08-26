@@ -781,6 +781,16 @@ new zui.DTable({
 
 可以通过 `zui.DTable.definePlugin(pluginSetting)` 方法来定义新的插件，参数 `pluginSetting` 为插件定义对象，详细定义参考[插件定义](#插件定义)。
 
+## CSS 变量
+
+| 变量      | 定义  | 默认值 |
+| ------------- | ----- | ----- |
+| `--dtable-striped-bg` | 隔行背景色 | `var(--color-gray-100)` |
+| `--dtable-hover-bg` | 鼠标悬停背景色 | `rgba(var(--color-gray-500-rgb), .1)` |
+| `--dtable-header-bg` | 表头背景色 | `var(--color-surface)` |
+| `--dtable-border-color` | 边框颜色 | `var(--color-border)` |
+| `--dtable-sorter-size` | 排序标记大小 | `0.3125rem`
+
 ## API
 
 ### 初始化选项
