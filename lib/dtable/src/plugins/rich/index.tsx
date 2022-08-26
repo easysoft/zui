@@ -15,9 +15,15 @@ export interface DTableRichColSetting {
     circleBorderSize?: number;
 }
 
-export const plugin: DTablePlugin<{}, {}, DTableRichColSetting> = {
+export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
     name: 'rich',
     colTypes: {
+        html: {
+            onRenderCell(result, rowID, col, rowData) {
+                // TODO: support rendering cell content as html
+                return result;
+            },
+        },
         link: {
             onRenderCell(result, rowID, col, rowData) {
                 const {linkTemplate = '', linkProps} = col.setting as DTableRichColSetting;
@@ -61,4 +67,4 @@ export const plugin: DTablePlugin<{}, {}, DTableRichColSetting> = {
     },
 };
 
-export default definePlugin<{}, {}, DTableRichColSetting>(plugin);
+export default definePlugin<{}, {}, DTableRichColSetting>(rich);

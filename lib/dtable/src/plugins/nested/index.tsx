@@ -83,6 +83,8 @@ function toggleRow(this: NestedDTable, rowID: RowID | (RowID)[], collapsed?: boo
         });
     }
     this.setState({collapsedRows: {...collapsedRows}});
+
+    // TODO: call onNestedChange
 }
 
 function isAllCollapsed(this: NestedDTable): boolean {
@@ -117,6 +119,7 @@ export interface DTableNestedOptions {
     nestedParentKey?: string;
     asParentKey?: string;
     nestedIndent?: number;
+    onNestedChange?: () => void;
     onRenderNestedToggle?: (this: NestedDTable, info: NestedRowInfo | undefined, rowID: RowID, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
 }
 
@@ -136,7 +139,7 @@ export interface DTableNestedMethods {
     getNestedRowInfo: typeof getNestedRowInfo;
 }
 
-export const plugin: DTablePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedMethods> = {
+export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedMethods> = {
     name: 'nested',
     defaultOptions: {
         nested: true,
@@ -203,7 +206,7 @@ export const plugin: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
             let {nestedIndent = nestedToggle} = col.setting;
             if (nestedIndent) {
                 if (nestedIndent === true) {
-                    nestedIndent = this.options.nestedIndent ?? 10;
+                    nestedIndent = this.options.nestedIndent ?? 12;
                 }
                 result.unshift(<div className="dtable-nested-indent" style={{width: nestedIndent * info.level + 'px'}} />);
             }
@@ -254,4 +257,4 @@ export const plugin: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
     },
 };
 
-export default definePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedMethods>(plugin);
+export default definePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedMethods>(nested);

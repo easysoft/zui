@@ -36,6 +36,8 @@ function toggleCheckRows(this: DTable, rowID: RowID | (RowID)[], checked?: boole
         });
     }
     this.setState({checkedRows: {...checkedRows}});
+
+    // TODO: Call onCheckChange
 }
 
 function isRowChecked(this: DTable, rowID: RowID): boolean {
@@ -56,6 +58,8 @@ function isAllRowChecked(this: DTable): boolean {
 
 export interface DTableCheckableOptions {
     checkable?: boolean;
+    checkOnClickRow?: boolean;
+    onCheckChange?: () => void;
 }
 
 export interface DTableCheckableState {
@@ -72,7 +76,7 @@ export interface DTableCheckableMethods {
     isAllRowChecked: typeof isAllRowChecked;
 }
 
-export const plugin: DTablePlugin<DTableCheckableOptions, DTableCheckableState, DTableCheckableColSetting, DTableCheckableMethods> = {
+export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableState, DTableCheckableColSetting, DTableCheckableMethods> = {
     name: 'checkable',
     defaultOptions: {checkable: true},
     when: options => !!options.checkable,
@@ -131,4 +135,4 @@ export const plugin: DTablePlugin<DTableCheckableOptions, DTableCheckableState, 
     },
 };
 
-export default definePlugin<DTableCheckableOptions, DTableCheckableState, DTableCheckableColSetting, DTableCheckableMethods>(plugin);
+export default definePlugin<DTableCheckableOptions, DTableCheckableState, DTableCheckableColSetting, DTableCheckableMethods>(checkable);
