@@ -10,7 +10,6 @@ export function getDefaultOptions() {
         footer: false,
         headerHeight: 0,
         footerHeight: 0,
-        scrollbarWidth: 10,
         rowHover: true,
         colHover: false,
         cellHover: false,
