@@ -15,7 +15,11 @@ export class DTable {
 
     options: DTableOptions;
 
-    ref = createRef();
+    #ref = createRef<DTableReact>();
+
+    get $(): DTableReact | null {
+        return this.#ref.current;
+    }
 
     constructor(element: HTMLElement, options?: Partial<DTableOptions>) {
         this.element = element;
@@ -28,7 +32,7 @@ export class DTable {
     render(options?: Partial<DTableOptions>) {
         this.options = Object.assign(this.options, options);
         render((
-            <DTableReact ref={this.ref} {...this.options} />
+            <DTableReact ref={this.#ref} {...this.options} />
         ), this.element);
     }
 }
