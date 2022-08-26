@@ -5,6 +5,8 @@ import {getDefaultOptions} from './helpers/default-options';
 import {removePlugin, definePlugin} from './helpers/shared-plugins';
 
 export class DTable {
+    static NAME = 'zui.dtable';
+
     static definePlugin = definePlugin;
 
     static removePlugin = removePlugin;

@@ -18,7 +18,8 @@
     "exports": {
         ".": "./src/main.ts",
         "./react": "./src/main-react.ts",
-        "./plugins/": "./src/plugins/"
+        "./plugins/": "./src/plugins/",
+        "./jquery/": "./src/main-jquery.ts"
     },
     "files": [
         "./src/**/*"
@@ -26,7 +27,9 @@
     "devDependencies": {
         "@faker-js/faker": "^7.4.0",
         "@zui/label": "workspace:^0.0.1",
-        "@zui/avatar": "workspace:^0.0.1"
+        "@zui/avatar": "workspace:^0.0.1",
+        "jquery": "^3.6.0",
+        "@types/jquery": "^3.5.14"
     },
     "zui": {
         "type": "js-ui",
