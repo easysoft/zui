@@ -1,7 +1,7 @@
 /**
  * Custom style for zui
  * -------------------------------------------------------------------------- */
-.vp-doc h3 {
+.vp-doc > div > h3 {
     @apply -mb-2;
 }
 .vp-doc [class*='language-'] code {
