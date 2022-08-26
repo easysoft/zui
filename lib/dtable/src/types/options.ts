@@ -25,7 +25,7 @@ export interface DTableOptions {
     headerHeight?: number;
     footerHeight?: number;
     rowHover?: boolean;
-    colHover?: boolean;
+    colHover?: boolean | 'header';
     cellHover?: boolean;
     bordered?: boolean;
     striped?: boolean;

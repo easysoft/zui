@@ -649,13 +649,16 @@ export class DTable extends Component<DTableOptions, DTableState> {
     };
 
     _handleMouseOver = (event: MouseEvent) => {
-        if (!this.#options.colHover) {
+        const {colHover} = this.#options;
+        if (!colHover) {
             return;
         }
 
-
         const cellElement = (event.target as HTMLElement)?.closest<HTMLElement>('.dtable-cell');
         if (!cellElement) {
+            return;
+        }
+        if (colHover === 'header' && !cellElement.closest('.dtable-header')) {
             return;
         }
         const colName = cellElement?.getAttribute('data-col') ?? '';
