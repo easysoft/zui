@@ -306,5 +306,5 @@
 
 | 变量名称 | 变量含义 |
 | -------- | -------- |
-| --input-group-addon-bg    | 输入组插件背景颜色 |
-| --input-group-addon-color | 输入组插件文字颜色 |
+| --input-group-addon-bg    | 输入组附加部分背景颜色 |
+| --input-group-addon-color | 输入组附加部分文字颜色 |
