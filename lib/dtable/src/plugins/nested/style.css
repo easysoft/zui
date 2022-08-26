@@ -1,9 +1,11 @@
 :root {
     --dtable-nt-size: calc((var(--root-font-size) * 3 / 4) + 1px);
 }
-
+.dtable-nested-indent {
+    @apply -flex-none;
+}
 .dtable-nested-toggle {
-    @apply -block -mr-1 -rounded-sm;
+    @apply -block -mr-1 -rounded-sm -flex-none;
 }
 .dtable-nested-toggle-icon {
     @apply -block -border -border-current -relative -opacity-50;
