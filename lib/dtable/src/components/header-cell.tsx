@@ -1,6 +1,6 @@
 import {Cell, CellProps} from './cell';
 
-export function HeaderCell({col, children, ...props}: CellProps) {
+export function HeaderCell({col, children, style, ...props}: CellProps) {
     let {sortType} = col.setting;
     if (sortType === true) {
         sortType = 'none';
@@ -8,6 +8,7 @@ export function HeaderCell({col, children, ...props}: CellProps) {
     return (
         <Cell
             col={col}
+            style={{...style, ...col.setting.style}}
             data-sort={sortType || null}
             data-type={col.type}
             {...props}

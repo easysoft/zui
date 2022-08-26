@@ -24,12 +24,10 @@ export function Cell({col, className, height, rowID, hoverCol, rowData, onRender
         left: col.left,
         width: col.realWidth,
         height,
+        justifyContent: align ? (align === 'left' ? 'start' : (align === 'right' ? 'end' : align)) : undefined,
         ...styleFromParent,
         ...cellStyle,
     };
-    if (align) {
-        style.justifyContent = align === 'left' ? 'start' : (align === 'right' ? 'end' : align);
-    }
 
     let result: CustomRenderResult = [
         childrenFromParent ?? rowData?.[col.name] as ComponentChildren,
