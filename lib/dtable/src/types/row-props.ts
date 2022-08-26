@@ -19,6 +19,7 @@ export interface RowProps {
     flexRightWidth: number,
     scrollLeft: number,
     data?: RowData,
+    hoverCol?: string,
     CellComponent?: ComponentType<CellProps>,
     onRenderCell?: CellRenderCallback
 }

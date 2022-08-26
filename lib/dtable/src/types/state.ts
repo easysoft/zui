@@ -1,6 +1,6 @@
 export interface DTableState {
     scrollTop: number,
     scrollLeft: number,
-    hiddenCols: Record<string, boolean>,
+    hoverCol?: string,
     [props: string]: unknown;
 }

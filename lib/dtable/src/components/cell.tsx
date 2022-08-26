@@ -14,10 +14,11 @@ export interface CellProps {
     height?: number,
     style?: JSX.CSSProperties,
     children?: ComponentChildren,
-    onRenderCell?: CellRenderCallback
+    hoverCol?: boolean,
+    onRenderCell?: CellRenderCallback,
 }
 
-export function Cell({col, className, height, rowID, rowData, onRenderCell, style: styleFromParent, children: childrenFromParent, ...others}: CellProps) {
+export function Cell({col, className, height, rowID, hoverCol, rowData, onRenderCell, style: styleFromParent, children: childrenFromParent, ...others}: CellProps) {
     const {cellStyle, align, className: settingClassName} = col.setting;
     const style = {
         left: col.left,
@@ -53,9 +54,13 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
             children.push(item);
         }
     });
+
+    const finalClassName = classes('dtable-cell', className, {
+        'dtable-col-hover': hoverCol,
+    }, settingClassName, cellClassName);
     return (
         <div
-            className={classes('dtable-cell', className, settingClassName, cellClassName)}
+            className={finalClassName}
             style={style}
             data-col={col.name}
             {...others}

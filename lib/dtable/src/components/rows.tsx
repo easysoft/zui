@@ -21,6 +21,7 @@ export interface RowsProps {
     scrollWidthTotal: number,
     flexRightWidth: number,
     scrollLeft: number,
+    hoverCol?: string,
     onRenderCell?: CellRenderCallback,
     onRenderRow?: (rowProps: RowProps, rowInfo: RowInfo) => RowProps,
 }

@@ -14,11 +14,12 @@ export interface CellsProps {
     width?: number,
     height?: number,
     data?: RowData,
+    hoverCol?: string,
     CellComponent?: ComponentType<CellProps>,
     onRenderCell?: CellRenderCallback
 }
 
-export function Cells({rowID, className, top = 0, left = 0, width, height, cols, data, CellComponent = Cell, onRenderCell}: CellsProps) {
+export function Cells({rowID, className, top = 0, left = 0, width, height, cols, data, hoverCol, CellComponent = Cell, onRenderCell}: CellsProps) {
     return (
         <div className={classes('dtable-cells', className)} style={{top, left, width, height}}>
             {
@@ -30,6 +31,7 @@ export function Cells({rowID, className, top = 0, left = 0, width, height, cols,
                         <CellComponent
                             key={col.name}
                             col={col}
+                            hoverCol={hoverCol === col.name && col.setting.colHover !== false}
                             rowData={data}
                             rowID={rowID}
                             onRenderCell={onRenderCell}

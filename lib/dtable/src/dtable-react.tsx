@@ -38,7 +38,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     constructor(props: DTableOptions) {
         super(props);
 
-        this.state = {scrollTop: 0, scrollLeft: 0, hiddenCols: {}};
+        this.state = {scrollTop: 0, scrollLeft: 0};
 
         const initOptions = {...getDefaultOptions(), ...props} as DTableOptions;
         this.#options = Object.freeze(initOptions);
@@ -67,7 +67,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         } else {
             this._afterRender();
         }
+
         this.ref.current?.addEventListener('click', this._handleClick);
+        this.ref.current?.addEventListener('mouseover', this._handleMouseOver);
+        this.ref.current?.addEventListener('mouseleave', this._handleMouseLeave);
 
         if (this.#options.responsive) {
             window.addEventListener('resize', this._handleResize);
@@ -86,6 +89,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     componentWillUnmount() {
         this.ref.current?.removeEventListener('click', this._handleClick);
+
+        if (this.#options.colHover) {
+            this.ref.current?.removeEventListener('mouseover', this._handleMouseOver);
+            this.ref.current?.removeEventListener('mouseleave', this._handleMouseLeave);
+        }
 
         window.removeEventListener('resize', this._handleResize);
 
@@ -131,7 +139,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
             maxColWidth = defaultOptions.maxColWidth,
         } = options;
 
-        const {scrollTop = 0, scrollLeft = 0, hiddenCols = {}} = this.state;
         const headerHeight = header ? (options.headerHeight || rowHeight) : 0;
         const footerHeight = footer ? (options.footerHeight || rowHeight) : 0;
 
@@ -153,7 +160,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         let flexLeftWidth = 0;
         let flexRightWidth = 0;
         options.cols?.forEach((col) => {
-            if (col.hidden || hiddenCols[col.name]) {
+            if (col.hidden) {
                 return;
             }
             const {minWidth = minColWidth, maxWidth = maxColWidth} = col;
@@ -304,6 +311,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             height = heightSetting as number;
         }
 
+        const {scrollTop = 0, scrollLeft = 0, hoverCol} = this.state;
         const rowsHeight = height - headerHeight - footerHeight;
         const scrollBottom = scrollTop + rowsHeight;
         const visibleRows: RowInfo[] = [];
@@ -354,6 +362,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             rowHeight,
             rowsHeight,
             rowsHeightTotal,
+            hoverCol,
             header,
             footer,
             headerHeight,
@@ -404,7 +413,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     renderHeader(layout: DTableLayout) {
-        const {header, colsInfo,  headerHeight} = layout;
+        const {header, hoverCol, colsInfo, headerHeight} = layout;
         if (!header) {
             return null;
         }
@@ -415,6 +424,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     height={headerHeight}
                     onRenderCell={this._handleRenderCell}
                     onRenderRow={this._handleRenderHeaderRow}
+                    hoverCol={hoverCol}
                     {...colsInfo}
                 />
             );
@@ -444,13 +454,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     renderRows(layout: DTableLayout) {
-        const {headerHeight, rowsHeight, visibleRows, rowHeight, colsInfo} = layout;
+        const {headerHeight, rowsHeight, visibleRows, rowHeight, hoverCol, colsInfo} = layout;
         return (
             <Rows
                 top={headerHeight}
                 height={rowsHeight}
                 rows={visibleRows}
                 rowHeight={rowHeight}
+                hoverCol={hoverCol}
                 scrollLeft={this.state.scrollLeft}
                 onRenderCell={this._handleRenderCell}
                 onRenderRow={this._handleRenderRow}
@@ -634,6 +645,24 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 }
             }
         }
+    };
+
+    _handleMouseOver = (event: MouseEvent) => {
+        if (!this.#options.colHover) {
+            return;
+        }
+
+
+        const cellElement = (event.target as HTMLElement)?.closest<HTMLElement>('.dtable-cell');
+        if (!cellElement) {
+            return;
+        }
+        const colName = cellElement?.getAttribute('data-col') ?? '';
+        this.setState({hoverCol: colName});
+    };
+
+    _handleMouseLeave = () => {
+        this.setState({hoverCol: undefined});
     };
 
     render() {

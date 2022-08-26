@@ -19,6 +19,7 @@ export function Row({
     scrollLeft,
     CellComponent = Cell,
     onRenderCell,
+    hoverCol,
     data,
 }: RowProps) {
     let flexLeftView = null;
@@ -29,6 +30,7 @@ export function Row({
                 cols={fixedLeftCols}
                 width={flexLeftWidth}
                 rowID={rowID}
+                hoverCol={hoverCol}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
                 data={data}
@@ -45,6 +47,7 @@ export function Row({
                 left={flexLeftWidth - scrollLeft}
                 width={scrollWidthTotal}
                 rowID={rowID}
+                hoverCol={hoverCol}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
                 data={data}
@@ -61,6 +64,7 @@ export function Row({
                 left={flexLeftWidth + scrollWidth}
                 width={flexRightWidth}
                 rowID={rowID}
+                hoverCol={hoverCol}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
                 data={data}

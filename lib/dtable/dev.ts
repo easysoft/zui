@@ -45,6 +45,7 @@ setTimeout(() => {
             bordered: true,
             height: 400,
             cellHover: true,
+            colHover: true,
             plugins: [checkable({checkOnClickRow: true}), nested()],
             striped: true,
             responsive: true,
