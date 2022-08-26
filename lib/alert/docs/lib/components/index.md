@@ -121,11 +121,19 @@
     <div class="alert danger">
       <i class="icon icon-remove-sign"></i> 出现了一些错误。
     </div>
-    <div class="alert warning-pale">
-      <i class="icon icon-warning-sign"></i> 注意！可能存在潜在风险。
+    <div class="alert warning-pale flex items-center">
+      <i class="icon icon-warning-sign icon-2x mr-4 "></i>
+      <div>
+        <h4 class="font-bold text-lg">注意！</h4>
+        <p>可能存在潜在风险。</p>
+      </div>
     </div>
-    <div class="alert light-pale">
-      <i class="icon icon-info-sign"></i> 你可能需要知道一些内容。
+    <div class="alert light-pale flex items-center">
+        <i class="icon icon-info-sign icon-2x mr-4"></i>
+        <div>
+            <h4 class="font-bold text-lg">提示</h4>
+            <p>你可能需要知道一些内容。</p>
+        </div>
     </div>
 </Example>
 
@@ -136,11 +144,19 @@
 <div class="alert danger">
   <i class="icon icon-remove-sign"></i> 出现了一些错误。
 </div>
-<div class="alert warning-pale">
-  <i class="icon icon-warning-sign"></i> 注意！可能存在潜在风险。
+<div class="alert warning-pale flex items-center">
+  <i class="icon icon-warning-sign icon-2x mr-4"></i>
+  <div>
+    <h4 class="font-bold text-lg">注意！</h4>
+    <p>可能存在潜在风险。</p>
+  </div>
 </div>
-<div class="alert light-pale">
-  <i class="icon icon-info-sign"></i> 你可能需要知道一些内容。
+<div class="alert light-pale flex items-center">
+    <i class="icon icon-info-sign icon-2x mr-8"></i>
+    <div>
+        <h4 class="font-bold text-lg">提示</h4>
+        <p>你可能需要知道一些内容。</p>
+    </div>
 </div>
 ```
 
