@@ -1,9 +1,9 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {HtmlTagDescriptor, Plugin} from 'vite';
-import {generateLibDoc} from './lib-doc-generator';
-import {getLibs} from './libs/query';
-import {LibInfo} from './libs/lib-info';
+import {generateLibDoc} from '../docs/lib-doc-generator';
+import {getLibs} from '../libs/query';
+import {LibInfo} from '../libs/lib-info';
 
 function getLibNameFromUrl(url: string): string | null {
     if (/^\/(lib\/)?[\w-\d]+\/?$/.test(url)) {

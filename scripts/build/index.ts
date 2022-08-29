@@ -3,8 +3,8 @@ import fs from 'fs-extra';
 import minimist from 'minimist';
 import {mergeConfig} from 'vite';
 import {bold, blue, gray, yellow} from 'colorette';
-import {createBuildConfig, prepareBuildFiles, createViteConfig} from './build-tools';
-import {exec} from './exec';
+import {createBuildConfig, prepareBuildFiles, createViteConfig} from './config';
+import {exec} from '../utilities/exec';
 
 const argv = minimist(process.argv.slice(2));
 

@@ -1,6 +1,6 @@
 import Path from 'path';
 import minimist from 'minimist';
-import {exec} from './exec';
+import {exec} from '../utilities/exec';
 
 const extsPath = Path.resolve(process.cwd(), 'exts');
 const argv = minimist(process.argv.slice(2));

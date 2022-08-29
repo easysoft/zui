@@ -1,0 +1,19 @@
+.progress {
+  @apply -h-5 -mb-5 -overflow-x-hidden ;
+  background-color: var(--progress-bg-color);
+  border-radius: var(--progress-radius);
+}
+
+.progress-bar {
+  @apply -float-left -h-full -text-canvas -text-center;
+  background-color: var(--progress-bar-bg-color);
+}
+
+.progress-striped > .progress-bar {
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
+
+.progress.active .progress-bar {
+  animation: progress-bar-stripes 2s linear infinite;
+}

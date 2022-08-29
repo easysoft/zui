@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import {defineConfig, mergeConfig, UserConfig} from 'vite';
 import minimist from 'minimist';
 import eslint from 'vite-plugin-eslint';
-import configDevServer from './tools/config-dev-server';
+import configDevServer from './scripts/dev/config-server';
 import {LibraryOptions} from 'vite';
 
 export default defineConfig(async ({command, mode, ssrBuild}) => {

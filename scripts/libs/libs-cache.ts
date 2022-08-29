@@ -1,7 +1,7 @@
 import Path from 'path';
 import fs from 'fs-extra';
 import {LibInfo} from './lib-info';
-import recursiveLastModified from '../recursive-last-modified';
+import recursiveLastModified from '../utilities/recursive-last-modified';
 
 export interface LibsListCache {
     libs: Record<string, LibInfo>,
