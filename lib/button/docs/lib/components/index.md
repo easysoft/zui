@@ -228,7 +228,7 @@
 <button type="button" class="btn text-black">Black</button>
 ```
 
-搭配 CSS 工具类 `-ghost` 移除按钮背景颜色，从而获得透明的按钮。
+搭配 CSS 工具类 `ghost` 移除按钮背景颜色，从而获得透明的按钮。
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
   <button type="button" class="btn text-primary ghost">Primary</button>

@@ -65,29 +65,23 @@
 <Example class="space-y-4">
     <div class="alert primary-pale">准备开始</div>
     <div class="alert secondary-pale">请点击下一步</div>
-    <div class="alert success-pale">太好了！一切已准备就绪。</div>
-    <div class="alert warning-pale">注意！看起来遇到一些问题。</div>
-    <div class="alert danger-pale">确实遇到了问题，请立即处理吧。</div>
-    <div class="alert important-pale">不要忘了勾选协议哦！</div>
-    <div class="alert special-pale">你可能还需要深入了解ZUI3。</div>
-    <div class="alert lighter-pale">采用基础 + 组件库模式，按需使用。</div>
-    <div class="alert light-pale">丰富组件库，实现你的创意。</div>
-    <div class="alert gray-pale">深色模式，自定义主题，定制打包。</div>
-    <div class="alert dark-pale">欢迎使用ZUI3。</div>
+    <div class="alert success-pale bd bd-success">太好了！一切已准备就绪。</div>
+    <div class="alert warning-pale bd bd-warning">注意！看起来遇到一些问题。</div>
+    <div class="alert danger-outline">确实遇到了问题，请立即处理吧。</div>
+    <div class="alert important-outline">不要忘了勾选协议哦！</div>
+    <div class="alert text-special">你可能还需要深入了解ZUI3。</div>
+    <div class="alert text-dark">欢迎使用ZUI3。</div>
 </Example>
 
 ```html
 <div class="alert primary-pale">准备开始</div>
 <div class="alert secondary-pale">请点击下一步</div>
-<div class="alert success-pale">太好了！一切已准备就绪。</div>
-<div class="alert warning-pale">注意！看起来遇到一些问题。</div>
-<div class="alert danger-pale">确实遇到了问题，请立即处理吧。</div>
-<div class="alert important-pale">不要忘了勾选协议哦！</div>
-<div class="alert special-pale">你可能还需要深入了解ZUI3。</div>
-<div class="alert lighter-pale">采用基础 + 组件库模式，按需使用。</div>
-<div class="alert light-pale">丰富组件库，实现你的创意。</div>
-<div class="alert gray-pale">深色模式，自定义主题，定制打包。</div>
-<div class="alert dark-pale">欢迎使用ZUI3。</div>
+<div class="alert success-pale bd bd-success">太好了！一切已准备就绪。</div>
+<div class="alert warning-pale bd bd-warning">注意！看起来遇到一些问题。</div>
+<div class="alert danger-outline">确实遇到了问题，请立即处理吧。</div>
+<div class="alert important-outline">不要忘了勾选协议哦！</div>
+<div class="alert text-special">你可能还需要深入了解ZUI3。</div>
+<div class="alert text-dark">欢迎使用ZUI3。</div>
 ```
 
 ### 不同圆角
