@@ -202,7 +202,7 @@ data-target="#positionModal">距离上方100px</button>
     </div>
   </div>
 
-  <div class="modal -scroll-inside" id="fullModal">
+  <div class="modal scroll-inside" id="fullModal">
     <div class="modal-dialog shadow size-fullscreen">
       <div class="modal-content">
         <div class="modal-header">
@@ -301,7 +301,7 @@ data-target="#fullModal">全屏对话框</button>
   </div>
 </div>
 
-<div class="modal -scroll-inside" id="fullModal">
+<div class="modal scroll-inside" id="fullModal">
   <div class="modal-dialog shadow size-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
@@ -336,7 +336,7 @@ data-target="#fullModal">全屏对话框</button>
   data-target="#customModal">点击打开</button>
 
   <div class="modal" id="customModal">
-    <div class="modal-dialog shadow size-sm -border-none">
+    <div class="modal-dialog shadow size-sm bd-none">
       <div class="modal-content">
         <div class="modal-body">
           <p>这是提示内容</p>
@@ -354,7 +354,7 @@ data-target="#fullModal">全屏对话框</button>
 data-target="#customModal">点击打开</button>
 
 <div class="modal" id="customModal">
-  <div class="modal-dialog shadow size-sm -border-none">
+  <div class="modal-dialog shadow size-sm bd-none">
     <div class="modal-content">
       <div class="modal-body">
         <p>这是提示内容</p>

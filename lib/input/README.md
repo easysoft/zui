@@ -2,7 +2,7 @@
 
 ## Input
 
-```html:example: -flex -gap-3
+```html:example: flex gap-3
 <div class="input-control">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
@@ -24,7 +24,7 @@
 
 ## Disabled
 
-```html:example: -flex -gap-3
+```html:example: flex gap-3
 <div class="input-control">
   <input type="text" class="form-control" placeholder="请填写" disabled="disabled" />
 </div>
@@ -32,7 +32,7 @@
 
 ## Sizes
 
-```html:example: col -gap-2
+```html:example: col gap-2
 <div class="flex gap-2">
   <p class="w-36">基本用法</p>
   <div class="col gap-2">
@@ -105,7 +105,7 @@
 
 ## Prefix/Suffix
 
-```html:example: -flex -gap-3 -flex-wrap
+```html:example: flex gap-3 flex-wrap
 <div class="input-control prefix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-prefix">pr</span>
@@ -133,7 +133,7 @@
 
 ## Radius
 
-```html:example: -flex -gap-3 -flex-wrap
+```html:example: flex gap-3 flex-wrap
 <div class="input-control">
   <input type="text" class="form-control rounded-none" placeholder="请填写" />
 </div>
@@ -159,7 +159,7 @@
 
 ## Shadow
 
-```html:example: -flex -gap-3 -flex-wrap
+```html:example: flex gap-3 flex-wrap
 <div class="input-control">
   <input type="text" class="form-control shadow-none" placeholder="请填写" />
 </div>
