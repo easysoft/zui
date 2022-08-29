@@ -9,7 +9,7 @@ importers:
       '@types/glob': ^7.2.0
       '@types/markdown-it': ^12.2.3
       '@types/minimist': ^1.2.2
-      '@types/node': 18.7.9
+      '@types/node': 18.7.13
       '@typescript-eslint/eslint-plugin': 5.33.1
       '@typescript-eslint/parser': 5.33.1
       '@zui/alert': workspace:^0.0.1
@@ -58,7 +58,7 @@ importers:
       '@types/glob': registry.npmmirror.com/@types/glob/7.2.0
       '@types/markdown-it': 12.2.3
       '@types/minimist': 1.2.2
-      '@types/node': registry.npmmirror.com/@types/node/18.7.9
+      '@types/node': registry.npmmirror.com/@types/node/18.7.13
       '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.33.1_vsoshirnpb7xw6mr7xomgfas2i
       '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.33.1_4rv7y5c6xz3vfxwhbrcxxi73bq
       autoprefixer: registry.npmmirror.com/autoprefixer/10.4.8_postcss@8.4.16
@@ -478,7 +478,7 @@ packages:
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': registry.npmmirror.com/@types/node/18.7.9
+      '@types/node': registry.npmmirror.com/@types/node/18.7.13
     dev: true
 
   /@types/json5/0.0.29:
@@ -2098,7 +2098,7 @@ packages:
     version: 7.2.0
     dependencies:
       '@types/minimatch': registry.npmmirror.com/@types/minimatch/3.0.5
-      '@types/node': registry.npmmirror.com/@types/node/18.7.9
+      '@types/node': registry.npmmirror.com/@types/node/18.7.13
     dev: true
 
   registry.npmmirror.com/@types/jquery/3.5.14:
@@ -2127,10 +2127,10 @@ packages:
     version: 1.2.2
     dev: true
 
-  registry.npmmirror.com/@types/node/18.7.9:
-    resolution: {integrity: sha512-0N5Y1XAdcl865nDdjbO0m3T6FdmQ4ijE89/urOHLREyTXbpMWbSafx9y7XIsgWGtwUP2iYTinLyyW3FatAxBLQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-18.7.9.tgz}
+  registry.npmmirror.com/@types/node/18.7.13:
+    resolution: {integrity: sha512-46yIhxSe5xEaJZXWdIBP7GU4HDTG8/eo0qd9atdiL+lFpA03y8KS+lkTN834TWJj5767GbWv4n/P6efyTFt1Dw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-18.7.13.tgz}
     name: '@types/node'
-    version: 18.7.9
+    version: 18.7.13
     dev: true
 
   registry.npmmirror.com/@types/normalize-package-data/2.4.1:
