@@ -513,7 +513,7 @@ export default [
             ".": "./src/main.ts",
             "./react": "./src/main-react.ts",
             "./plugins/": "./src/plugins/",
-            "./jquery/": "./src/main-jquery.ts"
+            "./jquery": "./src/main-jquery.ts"
         },
         "files": [
             "./src/**/*"
