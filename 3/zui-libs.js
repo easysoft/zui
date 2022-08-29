@@ -549,6 +549,38 @@ export default [
         }
     },
     {
+        "name": "@zui/progress",
+        "version": "0.0.1",
+        "description": "ZUI progress",
+        "keywords": [
+            "css",
+            "zui:css-progress"
+        ],
+        "module": "src/main.ts",
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "control",
+            "displayName": "进度条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/progress",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "progress",
+            "order": 200000022
+        }
+    },
+    {
         "name": "@zui/progress-circle",
         "version": "0.0.1",
         "description": "ZUI progress-circle",
@@ -577,7 +609,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "progress-circle",
-            "order": 200000022
+            "order": 200000023
         }
     },
     {
@@ -622,7 +654,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "scrollbar",
-            "order": 200000023
+            "order": 200000024
         }
     },
     {
@@ -656,7 +688,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "store",
-            "order": 300000024
+            "order": 300000025
         }
     },
     {
@@ -917,7 +949,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "table",
-            "order": 400000025
+            "order": 400000026
         }
     },
     {
@@ -952,7 +984,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 500000026
+            "order": 500000027
         }
     },
     {
