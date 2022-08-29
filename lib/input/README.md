@@ -8,15 +8,15 @@
 </div>
 <div class="input-control prefix-sm suffix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control-prefix">pr</span>
-  <span class="input-control-suffix">su</span>
+  <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
+  <span class="input-control-suffix"><i class="icon icon-eye-open"></i></span>
 </div>
 <div class="input-control prefix">
   <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
 <div class="input-control prefix">
-  <span class="input-control-prefix">登录密码</span>
+  <span class="input-control-prefix">邮箱</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
 
@@ -108,26 +108,25 @@
 ```html:example: flex gap-3 flex-wrap
 <div class="input-control prefix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control-prefix">pr</span>
+  <span class="input-control-prefix"><i class="icon icon-user"></i></span>
 </div>
 <div class="input-control suffix-sm">
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control-suffix">su</span>
+  <span class="input-control-suffix"><i class="icon icon-search"></i></span>
 </div>
 <div class="input-control prefix-sm suffix-sm">
-  <span class="input-control-prefix">pr</span>
+  <span class="input-control-prefix"><i class="icon icon-user"></i></span>
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control-suffix">su</span>
+  <span class="input-control-suffix"><i class="icon icon-search"></i></span>
 </div>
 <div class="input-control prefix suffix">
-  <span class="input-control-prefix">pr</span>
+  <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control-suffix">su</span>
+  <span class="input-control-suffix"><i class="icon icon-eye-open"></i></span>
 </div>
-<div class="input-control prefix-lg suffix-lg">
-  <span class="input-control-prefix">pr</span>
+<div class="input-control prefix-lg">
+  <span class="input-control-prefix">有效身份证号码</span>
   <input type="text" class="form-control" placeholder="请填写"/>
-  <span class="input-control-suffix">su</span>
 </div>
 ```
 

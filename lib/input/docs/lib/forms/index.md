@@ -258,5 +258,6 @@
 
 | CSS 变量名        | 作用           |
 | ------------- |:------------- |
-| `--input-fix-width`      | 输入框前缀和后缀的宽度 |
-| `--input-fix-sm-width`      | 输入框小号前缀和后缀的宽度 |
+| `--input-fix-width`      | 输入框前/后缀的默认宽度 |
+| `--input-fix-width-sm`      | 输入框前/后缀的小号宽度 |
+| `--input-fix-width-lg`      | 输入框前/后缀的大号宽度 |
