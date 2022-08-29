@@ -64,8 +64,8 @@
 .modal-dialog.size-lg {
   width: var(--modal-lg);
 }
-.modal-dialog.bd-none > .modal-header,
-.modal-dialog.bd-none > .modal-footer {
+.modal-dialog.bd-none .modal-header,
+.modal-dialog.bd-none .modal-footer {
   @apply -border-none;
 }
 

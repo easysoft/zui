@@ -263,66 +263,19 @@ data-target="#fullModal">全屏对话框</button>
 
 <div class="modal" id="baseModal">
   <div class="modal-dialog shadow">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
-        <div class="modal-title">标题</div>
-      </div>
-      <div class="modal-body">
-        这是一个默认弹窗
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
-      </div>
-    </div>
+    ...
   </div>
 </div>
 
 <div class="modal" id="lgModal">
   <div class="modal-dialog shadow size-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
-        <div class="modal-title">标题</div>
-      </div>
-      <div class="modal-body">
-        这是一个大弹窗
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
-      </div>
-    </div>
+    ...
   </div>
 </div>
 
 <div class="modal scroll-inside" id="fullModal">
   <div class="modal-dialog shadow size-fullscreen">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
-        <div class="modal-title">标题</div>
-      </div>
-      <div class="modal-body">
-        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
-        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
-        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
-      </div>
-    </div>
+    ...
   </div>
 </div>
 ```
