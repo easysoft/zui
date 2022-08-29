@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import minimist from 'minimist';
-import {exec} from '../exec';
+import {exec} from '../utilities/exec';
 import {getLibList} from '../libs/query';
 import {syncLibDocs, emptySidebarLibDocs} from './sync';
 

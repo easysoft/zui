@@ -6,17 +6,17 @@
   "scripts": {
     "dev": "vite --host",
     "build:vite": "tsc && vite build",
-    "build": "tsx ./tools/build.ts",
+    "build": "tsx ./scripts/build",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
     "docs:dev-fast": "cd docs && pnpm dev",
     "docs:dev": "pnpm docs:prepare && pnpm docs:dev-fast & pnpm docs:watch",
-    "docs:watch": "tsx ./tools/docs/watch.ts",
+    "docs:watch": "tsx ./scripts/docs/watch.ts",
     "docs:build": "pnpm docs:prepare -- --copy && cd docs && pnpm build",
     "docs:serve": "cd docs && pnpm serve",
-    "docs:prepare": "tsx ./tools/docs/prepare.ts",
-    "extend-libs": "tsx ./tools/extend-libs.ts"
+    "docs:prepare": "tsx ./scripts/docs/prepare.ts",
+    "extend-libs": "tsx ./scripts/libs/extend-libs.ts"
   },
   "workspaces": [
     "./lib"

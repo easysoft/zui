@@ -1,8 +1,8 @@
 import Path from 'path';
 import fs from 'fs-extra';
-import {getLibs, sortLibList} from './libs/query';
-import {LibInfo} from './libs/lib-info';
-import {LibType} from './libs/lib-type';
+import {getLibs, sortLibList} from '../libs/query';
+import {LibInfo} from '../libs/lib-info';
+import {LibType} from '../libs/lib-type';
 
 /**
  * Libs like string - 构建库（或组件）定义字符串
@@ -53,18 +53,6 @@ export interface BuildConfig {
  */
 function isPathLike(pathLike: string): boolean {
     return /^(\.?\.?|~)\//.test(pathLike);
-}
-
-/**
- * Get absolute path - 从路径字符串获取绝对路径
- * @param path Path string - 路径字符串
- * @returns Path
- */
-function getAbsolutePath(path: string) {
-    if (Path.isAbsolute(path)) {
-        return path;
-    }
-    return Path.resolve(process.cwd(), path.startsWith('~/') ? path.replace('~', '.') : path);
 }
 
 /**
