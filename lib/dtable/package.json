@@ -7,6 +7,8 @@
         "cs",
         "zui:component"
     ],
+    "main": "src/main.ts",
+    "module": "src/main.ts",
     "browser": "src/main.ts",
     "dependencies": {
         "@zui/browser-helpers": "workspace:^0.0.1",
