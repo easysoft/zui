@@ -255,7 +255,8 @@ export default [
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/utilities": "workspace:*",
-            "@zui/form": "workspace:0.0.1"
+            "@zui/form": "workspace:0.0.1",
+            "@zui/icons": "workspace:0.0.1"
         },
         "zui": {
             "type": "control",
@@ -850,6 +851,9 @@ export default [
             "components"
         ],
         "main": "src/main.ts",
+        "dependencies": {
+            "@zui/button": "workspace:^0.0.1"
+        },
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/utilities": "workspace:*",
