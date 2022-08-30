@@ -1,12 +1,14 @@
-/* svg{
-    height: 100vw;
-    width: 100vh;
-} */
-/* circle{
-    transform:rotate(-90deg);
-    transform-origin:500px 500px;
+.progress-circle > circle {
+  stroke-width: 2px;
+  fill: transparent;
 }
-.progress-circle {
-    width: 500px;
-    height: 500px;
-} */
+.progress-circle > text {
+  text-anchor: middle;
+}
+.progress-circle > circle:first-child {
+  stroke: var(--progress-bg-color);
+}
+.progress-circle > circle:nth-child(2) {
+  stroke: var(--progress-bar-color);
+  stroke-linecap : round;
+}
