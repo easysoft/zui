@@ -16,12 +16,12 @@
     <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
   </div>
   <div class="pager">
-    <button type="button" class="btn">上一页</button>
+    <button type="button" class="btn previous">上一页</button>
     <button type="button" class="btn">1</button>
     <button type="button" class="btn active primary">2</button>
     <button type="button" class="btn">3</button>
     <button type="button" class="btn">4</button>
-    <button type="button" class="btn">下一页</button>
+    <button type="button" class="btn next">下一页</button>
   </div>
   <div class="pager">
     <button type="button" class="btn previous"><i class="icon icon-double-angle-left"></i></button>

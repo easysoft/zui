@@ -2,7 +2,7 @@
   @apply -flex;
 }
 
-.pager > * + * {
+.pager > .btn + .btn {
   @apply --ml-px;
 }
 
