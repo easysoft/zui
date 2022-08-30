@@ -64,7 +64,7 @@
         <td>{{item.desc}}</td>
         <td>
           <div class="h-3" :style="`background-color: ${item.display};`" v-if="index < 8"></div>
-          <span :style="`color: ${item.display};`" v-else>状态颜色</span>
+          <span :style="`color: ${item.display};`" v-else>颜色展示</span>
         </td>
       </tr>
     </tbody>
@@ -92,7 +92,10 @@
         <td>{{item.size}}</td>
         <td>{{item.pixel}}</td>
         <td>line-height: {{item.lineHeight}}</td>
-        <td><div :class="item.display" v-if="index < 8">ZUI3 组合式前端 UI 框架</div></td>
+        <td>
+          <div :class="item.display" v-if="index < 8">ZUI3 组合式前端 UI 框架</div>
+          <div :class="item.display" v-else>ZUI</div>
+        </td>
       </tr>
     </tbody>
    </table>

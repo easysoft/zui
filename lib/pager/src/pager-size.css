@@ -1,0 +1,9 @@
+@import '@zui/button/src/btn-size.css';
+
+.pager.size-sm .btn {
+  @apply -btn-sm;
+}
+
+.pager.size-lg .btn {
+  @apply -btn-lg;
+}

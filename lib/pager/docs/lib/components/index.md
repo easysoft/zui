@@ -4,407 +4,427 @@
 
 ## 基本用法
 
-使用组件类 `.pager` 来获得分页的外观展示 通常搭配 `<ul>`，`<li>` 标签来使用。
+将多个按钮放置在 `<div class="pager">` 内即可创建一个分页组件。
 
-<Example>
-  <ul class="pager">
-    <li class="previous"><a>&lt;</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
-  <ul class="pager">
-    <li class="previous"><a>上一页</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>下一页</a></li>
-  </ul>
-  <ul class="pager">
-    <li class="previous"><a><i class="icon icon-double-angle-left"></i></a></li>
-    <li><a>&lt;</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>...</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li><a>&gt;</a></li>
-    <li class="next"><a><i class="icon icon-double-angle-right"></i></a></li>
-  </ul>
+<Example class="col gap-2">
+  <div class="pager">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
+  <div class="pager">
+    <button type="button" class="btn">上一页</button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn">下一页</button>
+  </div>
+  <div class="pager">
+    <button type="button" class="btn previous"><i class="icon icon-double-angle-left"></i></button>
+    <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+    <button type="button" class="btn next"><i class="icon icon-double-angle-right"></i></button>
+  </div>
 </Example>
 
 ```html
-<ul class="pager">
-  <li class="previous"><a>&lt;</a></li>
-  <li><a>1</a></li>
-  <li class="active"><a>2</a></li>
-  <li><a>3</a></li>
-  <li><a>4</a></li>
-  <li><a>5</a></li>
-  <li class="next"><a>&gt;</a></li>
-</ul>
-
-<ul class="pager">
-  <li class="previous"><a>上一页</a></li>
+<div class="pager">
+  <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+  <button type="button" class="btn">1</button>
+  <button type="button" class="btn active primary">2</button>
+  <button type="button" class="btn">3</button>
+  <button type="button" class="btn">4</button>
+  <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+</div>
+<div class="pager">
+  <button type="button" class="btn">上一页</button>
   ...
-  <li class="next"><a>下一页</a></li>
-</ul>
-
-<ul class="pager">
-  <li class="previous"><a><i class="icon icon-double-angle-left"></i></a></li>
+  <button type="button" class="btn">下一页</button>
+</div>
+<div class="pager">
+  <button type="button" class="btn previous"><i class="icon icon-double-angle-left"></i></button>
+  <button type="button" class="btn"><i class="icon icon-angle-left"></i></button>
   ...
-  <li class="next"><a><i class="icon icon-double-angle-right"></i></a></li>
-</ul>
+  <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn next"><i class="icon icon-double-angle-right"></i></button>
+</div>
+```
+
+## 简洁样式
+
+简单的翻页。
+
+<Example class="row gap-2 flex-wrap">
+  <div class="pager pager-sample">
+    <button type="button" class="btn rounded previous"><i class="icon icon-angle-left"></i></button>
+    <div class="pager-text"><span>1</span>/<span>4</span></div>
+    <button type="button" class="btn rounded next"><i class="icon icon-angle-right"></i></button>
+  </div>
+  <div class="pager pager-sample borderless">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <div class="pager-text"><span>1</span>/<span>4</span></div>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
+</Example>
+
+```html
+<div class="pager pager-sample">
+  <button type="button" class="btn rounded previous"><i class="icon icon-angle-left"></i></button>
+  <div class="pager-text"><span>1</span>/<span>4</span></div>
+  <button type="button" class="btn rounded next"><i class="icon icon-angle-right"></i></button>
+</div>
+<div class="pager pager-sample borderless">
+  <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+  <div class="pager-text"><span>1</span>/<span>4</span></div>
+  <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+</div>
 ```
 
 ## 禁用
 
-使用 `disabled` 修饰类来禁用页码，被禁用的页码将无法响应点击事件。
+分页里的按钮组件使用 `disabled` 修饰类来禁用页码，被禁用的页码将无法响应点击事件。
 
 <Example>
-  <ul class="pager">
-    <li class="previous"><a>&lt;</a></li>
-    <li><a>1</a></li>
-    <li class="disabled"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
+  <div class="pager">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn disabled">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
 </Example>
 
 ```html
-<ul class="pager">
+<div class="pager">
   ...
-  <li class="disabled"><a>2</a></li>
+  <button type="button" class="btn disabled">3</button>
   ...
-</ul>
+</div>
 ```
 
 ## 无边框
 
-使用 `pager-nobd` 类可获得无边框的分页组件。
+使用 `borderless` 类可获得无边框的分页组件。
 
 <Example>
-  <ul class="pager pager-nobd">
-    <li class="previous"><a>&lt;</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
+  <div class="pager borderless">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
 </Example>
 
 ```html
-<ul class="pager pager-nobd">
+<div class="pager borderless">
   ...
-</ul>
+</div>
 ```
 
 ## 宽松样式
 
-使用 `pager-loose` 类可获得宽松并且带背景色的分页组件。
+使用 `pager-loose` 类并结合 `gap-*` [CSS 工具类](/utilities/flex/utilities/gap) 可获得宽松并且带背景色的分页组件。
 
-<Example class="flex gap-3 flex-wrap">
-  <ul class="pager pager-loose">
-    <li class="previous"><a>&lt;</a></li>
-    <li class="active"><a>1</a></li>
-    <li><a>2</a></li>
-    <li><a>3</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
-  <ul class="pager pager-loose">
-    <li class="previous"><a class="circle">&lt;</a></li>
-    <li class="active"><a class="circle">1</a></li>
-    <li><a class="circle">2</a></li>
-    <li><a class="circle">3</a></li>
-    <li class="next"><a class="circle">&gt;</a></li>
-  </ul>
+<Example class="flex gap-2 flex-wrap">
+  <div class="pager pager-loose gap-x-2">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
+  <div class="pager pager-loose gap-x-3">
+    <button type="button" class="btn circle previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn circle">1</button>
+    <button type="button" class="btn circle active primary">2</button>
+    <button type="button" class="btn circle">3</button>
+    <button type="button" class="btn circle">4</button>
+    <button type="button" class="btn circle next"><i class="icon icon-angle-right"></i></button>
+  </div>
 </Example>
 
 ```html
-<ul class="pager pager-loose">
+<div class="pager pager-loose gap-x-2">
   ...
-</ul>
-<ul class="pager pager-loose">
-  <li class="previous"><a class="circle">&lt;</a></li>
+</div>
+<div class="pager pager-loose gap-x-3">
   ...
-  <li class="next"><a class="circle">&gt;</a></li>
-</ul>
+</div>
 ```
 
-## 宽松带背景色
+## 带背景色
 
-使用 `pager-loose` 和 `pager-bg` 类可获得宽松并且带背景色的分页组件。
+使用 `*-pale` [CSS 工具类](/utilities/style/utilities/pale) 可得到带背景色的分页组件。
 
-<Example>
-  <ul class="pager pager-loose pager-bg">
-    <li class="previous"><a>&lt;</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
+<Example class="col gap-2">
+ <div class="pager">
+    <button type="button" class="btn lighter-pale previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn lighter-pale">1</button>
+    <button type="button" class="btn lighter-pale active primary">2</button>
+    <button type="button" class="btn lighter-pale">3</button>
+    <button type="button" class="btn lighter-pale">4</button>
+    <button type="button" class="btn lighter-pale next"><i class="icon icon-angle-right"></i></button>
+  </div>
+  <div class="pager pager-loose gap-x-2">
+    <button type="button" class="btn lighter-pale previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn lighter-pale">1</button>
+    <button type="button" class="btn lighter-pale active primary">2</button>
+    <button type="button" class="btn lighter-pale">3</button>
+    <button type="button" class="btn lighter-pale">4</button>
+    <button type="button" class="btn lighter-pale next"><i class="icon icon-angle-right"></i></button>
+  </div>
 </Example>
 
 ```html
-<ul class="pager pager-loose pager-bg">
+<div class="pager">
+  <button type="button" class="btn lighter-pale previous"><i class="icon icon-angle-left"></i></button>
   ...
-</ul>
+</div>
+<div class="pager pager-loose gap-x-2">
+  <button type="button" class="btn lighter-pale previous"><i class="icon icon-angle-left"></i></button>
+  ...
+</div>
 ```
 
 ## 两边对齐
 
-使用 `pager-justify` 类可获得页面两端对齐的分页组件。
+结合使用 `justify-between` [CSS 工具类](/utilities/flex/utilities/justify-content) 可获得页面两端对齐的分页组件。
 
-<Example>
-  <ul class="pager pager-justify">
-    <li class="previous"><a>上一页</a></li>
-    <li class="next"><a>下一页</a></li>
-  </ul>
-  <ul class="pager pager-nobd pager-justify">
-    <li class="previous"><a>&lt;</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
-  <ul class="pager pager-bg pager-justify">
-    <li class="previous"><a>&lt;</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
-  <ul class="pager pager-justify">
-    <li class="previous"><a class="circle">&lt;</a></li>
-    <li class="next"><a class="circle">&gt;</a></li>
-  </ul>
+<Example class="col gap-2">
+  <div class="pager justify-between">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
+  <div class="pager justify-between">
+    <button type="button" class="btn">上一页</button>
+    <button type="button" class="btn">下一页</button>
+  </div>
 </Example>
 
 ```html
-<ul class="pager pager-justify">
-  <li class="previous"><a>上一页</a></li>
-  <li class="next"><a>下一页</a></li>
-</ul>
-<ul class="pager pager-nobd pager-justify">
+<div class="pager justify-between">
   ...
-</ul>
-<ul class="pager pager-bg pager-justify">
+</div>
+<div class="pager justify-between">
   ...
-</ul>
-<ul class="pager pager-justify">
-  ...
-</ul>
+</div>
 ```
 
 ## 尺寸
 
-除了默认大小，还提供了额外的 2 种预设尺寸。可以通过为 `.pager` 添加同样等级的 `size-*` 类来获取其他尺寸外观。
+除了默认大小，还提供了额外的 2 种预设尺寸。可以通过为 `pager` 添加同样等级的 `size-*` 类来获取其他尺寸外观。
 
-<Example>
-  <ul class="pager size-sm">
-    <li class="previous"><a>&lt;</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
-  <ul class="pager">
-    <li class="previous"><a>&lt;</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
-  <ul class="pager size-lg">
-    <li class="previous"><a>&lt;</a></li>
-    <li><a>1</a></li>
-    <li class="active"><a>2</a></li>
-    <li><a>3</a></li>
-    <li><a>4</a></li>
-    <li><a>5</a></li>
-    <li class="next"><a>&gt;</a></li>
-  </ul>
+<Example class="col gap-2">
+  <div class="pager size-sm">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
+  <div class="pager">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
+  <div class="pager size-lg">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
 </Example>
 
 ```html
-<ul class="pager size-sm">
+<div class="pager size-sm">
   ...
-</ul>
-<ul class="pager">
+</div>
+<div class="pager">
   ...
-</ul>
-<ul class="pager size-lg">
+</div>
+<div class="pager size-lg">
   ...
-</ul>
+</div>
 ```
 
-## 附加功能
+## 显示总数
 
-根据场景需要，可以添加其他功能模块。
+展示总共有多少数据。
 
-<Example>
-  <div class="flex gap-3 flex-wrap items-center">
-    <p class="w-32">显示总数</p>
-    <div>
-      <ul class="pager pager-nobd">
-        <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
-        <li class="previous"><a>&lt;</a></li>
-        <li><a>1</a></li>
-        <li class="active"><a>2</a></li>
-        <li><a>3</a></li>
-        <li><a>4</a></li>
-        <li><a>5</a></li>
-        <li class="next"><a>&gt;</a></li>
-      </ul>
-      <ul class="pager">
-        <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
-        <li class="previous"><a>&lt;</a></li>
-        <li><a>1</a></li>
-        <li class="active"><a>2</a></li>
-        <li><a>3</a></li>
-        <li><a>4</a></li>
-        <li><a>5</a></li>
-        <li class="next"><a>&gt;</a></li>
-      </ul>
-      <ul class="pager pager-loose">
-        <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
-        <li class="previous"><a>&lt;</a></li>
-        <li><a>1</a></li>
-        <li class="active"><a>2</a></li>
-        <li><a>3</a></li>
-        <li><a>4</a></li>
-        <li><a>5</a></li>
-        <li class="next"><a>&gt;</a></li>
-      </ul>
-    </div>
+<Example class="col gap-2">
+  <div class="pager">
+    <div class="pager-text">共<span class="font-bold">40</span>项</div>
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next next"><i class="icon icon-angle-right"></i></button>
   </div>
-  <div class="flex gap-3 flex-wrap items-center">
-    <p class="w-32">调整每页显示条数</p>
-    <ul class="pager pager-nobd">
-      <li>
-        <div class="dropdown pager-sizes">
-          <button class="btn" type="button" data-toggle="dropdown">每页<span class="font-bold">10</span>项<span class="caret"></span></button>
-          <ul class="dropdown-menu">
-              <li><a>20</a></li>
-              <li><a>50</a></li>
-              <li><a>100</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="previous"><a>&lt;</a></li>
-      <li><a>1</a></li>
-      <li class="active"><a>2</a></li>
-      <li><a>3</a></li>
-      <li><a>4</a></li>
-      <li><a>5</a></li>
-      <li class="next"><a>&gt;</a></li>
-    </ul>
-  </div>
-  <div class="flex gap-3 flex-wrap items-center">
-    <p class="w-32">直接前往</p>
-    <ul class="pager pager-nobd">
-      <li class="previous"><a>&lt;</a></li>
-      <li><a>1</a></li>
-      <li class="active"><a>2</a></li>
-      <li><a>3</a></li>
-      <li><a>4</a></li>
-      <li><a>5</a></li>
-      <li class="next"><a>&gt;</a></li>
-      <li>
-        <div class="pager-jump">
-          <span>前往</span>
-          <div class="input-control inline-block">
-            <input type="text" class="form-control" />
-          </div>
-          <span>页</span>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="flex gap-3 flex-wrap items-center">
-    <p class="w-32">完整功能</p>
-    <ul class="pager pager-nobd">
-      <li><p class="pager-total">共<span class="font-bold">1</span>页</p></li>
-      <li>
-        <div class="dropdown pager-sizes">
-          <button class="btn" type="button" data-toggle="dropdown">每页<span class="font-bold">10</span>项<span class="caret"></span></button>
-          <ul class="dropdown-menu">
-              <li><a>20</a></li>
-              <li><a>50</a></li>
-              <li><a>100</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="previous"><a>&lt;</a></li>
-      <li><a>1</a></li>
-      <li class="active"><a>2</a></li>
-      <li><a>3</a></li>
-      <li><a>4</a></li>
-      <li><a>5</a></li>
-      <li class="next"><a>&gt;</a></li>
-      <li>
-        <div class="pager-jump">
-          <span>前往</span>
-          <div class="input-control inline-block">
-            <input type="text" class="form-control" />
-          </div>
-          <span>页</span>
-        </div>
-      </li>
-    </ul>
+  <div class="pager borderless">
+    <div class="pager-text">共<span class="font-bold">40</span>项</div>
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next next"><i class="icon icon-angle-right"></i></button>
   </div>
 </Example>
 
 ```html
-<div class="flex gap-3 flex-wrap items-center">
-  <p class="w-32">显示总数</p>
-  <div>
-    <ul class="pager pager-nobd">
-      ...
-    </ul>
-    <ul class="pager">
-      ...
-    </ul>
-    <ul class="pager pager-loose">
-      ...
+<div class="pager">
+  <div class="pager-text">共<span class="font-bold">40</span>项</div>
+  <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+  ...
+  <button type="button" class="btn next next"><i class="icon icon-angle-right"></i></button>
+</div>
+<div class="pager borderless">
+  <div class="pager-text">共<span class="font-bold">40</span>项</div>
+ ...
+</div>
+```
+
+## 调整每页显示数
+
+结合使用 `dropdown` [下拉菜单组件](/lib/components/dropdown/index) 可展示调整每页显示数的分页组件。
+
+<Example>
+  <div class="pager">
+    <div class="dropdown pager-sizes">
+      <button class="btn" type="button" data-toggle="dropdown">每页<span class="font-bold">10</span>项<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a>20</a></li>
+        <li><a>50</a></li>
+        <li><a>100</a></li>
+      </ul>
+    </div>
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+  </div>
+</Example>
+
+```html
+<div class="pager">
+  <div class="dropdown pager-sizes">
+    <button class="btn" type="button" data-toggle="dropdown">每页<span class="font-bold">10</span>项<span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a>20</a></li>
+      <li><a>50</a></li>
+      <li><a>100</a></li>
     </ul>
   </div>
+  ...
 </div>
-<div class="flex gap-3 flex-wrap items-center">
-  <p class="w-32">调整每页显示条数</p>
-  <ul class="pager pager-nobd">
-    ...
-  </ul>
-</div>
-<div class="flex gap-3 flex-wrap items-center">
-  <p class="w-32">直接前往</p>
-  <ul class="pager pager-nobd">
-    ...
-  </ul>
-</div>
-<div class="flex gap-3 flex-wrap items-center">
-  <p class="w-32">完整功能</p>
-  <ul class="pager pager-nobd">
-    ...
-    <li>
-      <div class="pager-jump">
-        <span>前往</span>
-        <div class="input-control inline-block">
-          <input type="text" class="form-control" />
-        </div>
-        <span>页</span>
+```
+
+## 直接前往
+
+结合使用 `input-control` [输入框组件](/lib/forms/input/index) 可展示快速跳转到某一页的分页组件。
+
+<Example>
+  <div class="pager">
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+    <div class="pager-jump">
+      <span>前往</span>
+      <div class="input-control inline-block">
+        <input type="text" class="form-control" />
       </div>
-    </li>
-  </ul>
+      <span>页</span>
+    </div>
+  </div>
+</Example>
+
+```html
+<div class="pager">
+  ...
+  <div class="pager-jump">
+    <span>前往</span>
+    <div class="input-control inline-block">
+      <input type="text" class="form-control" />
+    </div>
+    <span>页</span>
+  </div>
+</div>
+```
+
+## 综合展示
+
+展示所有的附加项配置。
+
+<Example>
+  <div class="pager">
+    <div class="pager-text">共<span class="font-bold">40</span>项</div>
+    <div class="dropdown pager-sizes">
+      <button class="btn" type="button" data-toggle="dropdown">每页<span class="font-bold">10</span>项<span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li><a>20</a></li>
+        <li><a>50</a></li>
+        <li><a>100</a></li>
+      </ul>
+    </div>
+    <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
+    <button type="button" class="btn">1</button>
+    <button type="button" class="btn active primary">2</button>
+    <button type="button" class="btn">3</button>
+    <button type="button" class="btn">4</button>
+    <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
+    <div class="pager-jump">
+      <span>前往</span>
+      <div class="input-control inline-block">
+        <input type="text" class="form-control" />
+      </div>
+      <span>页</span>
+    </div>
+  </div>
+</Example>
+
+```html
+<div class="pager">
+  <div class="pager-text">共<span class="font-bold">40</span>项</div>
+  <div class="dropdown pager-sizes">
+    <button class="btn" type="button" data-toggle="dropdown">每页<span class="font-bold">10</span>项<span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a>20</a></li>
+      <li><a>50</a></li>
+      <li><a>100</a></li>
+    </ul>
+  </div>
+  ...
+  <div class="pager-jump">
+    <span>前往</span>
+    <div class="input-control inline-block">
+      <input type="text" class="form-control" />
+    </div>
+    <span>页</span>
+  </div>
 </div>
 ```
 

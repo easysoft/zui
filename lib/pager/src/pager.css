@@ -11,121 +11,46 @@
 }
 
 .pager > .btn:focus-within,
-.pager > .dropdown > .btn:focus-within,
-.pager > .btn:hover,
-.pager > .dropdown > .btn:hover {
+.pager > .btn:hover {
   z-index: 1;
 }
 
-.pager > .btn:not(:first-child),
-.pager > .dropdown:not(:first-child) > .btn {
+.pager > .btn:not(.previous) {
   @apply -rounded-l-none;
 }
-.pager > .btn:not(:last-child),
-.pager > .dropdown:not(:last-child) > .btn {
+.pager > .btn:not(.next) {
   @apply -rounded-r-none;
 }
 
-.pager.borderless > *,
-.pager.borderless > * {
-  @apply -border-none;
+.pager.borderless > .btn {
+  @apply -border-none -bg-canvas -rounded;
+}
+.pager.borderless > .btn.active {
+  @apply -text-primary-500;
+}
+
+.pager >.btn.rounded {
+  @apply -rounded;
 }
 .pager >.btn.circle {
   @apply -rounded-full;
 }
 
-.pager > li > a {
-  @apply -inline-block -border -px-3 -text-fore;
-  line-height: 1.875rem;
-} 
-
-.pager > * + * > a {
-  @apply --ml-px;
-}
-
-.pager > li:first-child > a {
-  @apply -rounded-l;
-}
-
-.pager > li:last-child > a {
-  @apply -rounded-r;
-}
-
-.pager > li > a:focus-within,
-.pager > li > a:hover,
-.pager > li > a:focus {
-  z-index: 2;
-}
-
-.pager > li > a:hover,
-.pager > li > a:focus,
-.pager > li.active > a:hover {
-  @apply -text-canvas -bg-primary-600;
-}
-
-.pager > li.active > a {
-  @apply -text-canvas -bg-primary-500;
-}
-
-.pager > li.active > a:hover {
-  z-index: 3;
-}
-
-.pager.pager-loose {
-  @apply -gap-2;
-}
-.pager.pager-loose > li > a {
-  @apply -rounded;
-}
-
-.pager.pager-bg > li > a {
-  @apply -border-0 -bg-surface;
-}
-
-.pager.pager-bg > li.active > a,
-.pager.pager-bg > li > a:hover,
-.pager.pager-bg > li > a:focus,
-.pager.pager-bg > li.active > a:hover,
-.pager.pager-bg > li.active > a:focus {
-  @apply -bg-primary-100 -text-primary-500;
-}
-
-.pager.pager-nobd > li > a,
-.pager.pager-nobd > li > span {
-  @apply -border-0 -rounded;
-}
-
-.pager.pager-nobd > li.active > a {
-  @apply -border-0 -rounded -bg-canvas -text-primary-500;
-}
-.pager.pager-nobd > li > a:hover,
-.pager.pager-nobd > li > a:focus,
-.pager.pager-nobd > li.active > a:hover,
-.pager.pager-nobd > li.active > a:focus {
-  @apply -bg-canvas -text-primary-500;
-}
-
-.pager > li > .pager-jump > .input-control {
+.pager > .pager-jump > .input-control {
   @apply -w-12 -mx-1;
 }
-.pager > li > .pager-total,
-.pager > li > .pager-sizes,
-.pager > li > .pager-jump {
-  @apply -inline-block -whitespace-nowrap -px-2 -text-fore -bg-canvas -h-8 -leading-8;
+.pager > .pager-text,
+.pager > .pager-sizes,
+.pager > .pager-jump {
+  @apply -inline-block -whitespace-nowrap -mx-2 -text-fore -bg-canvas -h-8 -leading-8;
 }
-.pager.pager-justify {
-  @apply -justify-between;
+.pager.pager-sample > .btn {
+  @apply -px-2;
 }
-.pager.pager-justify > li > a {
+.pager.pager-loose > .btn,
+.pager.justify-between > .btn {
   @apply -rounded;
 }
-.pager > li > a.circle {
-  @apply -rounded-full;
-}
-
-.pager.size-sm > li > a {
-  @apply -px-2 -text-sm -leading-6;
-}
-.pager.size-lg > li > a {
-  @apply -px-4 -text-lg -leading-9;
+.pager .pager-text > span {
+  @apply -mx-1;
 }
