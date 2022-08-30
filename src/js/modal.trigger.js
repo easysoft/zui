@@ -442,14 +442,7 @@
     $.fn.modal.bs = old;
 
     var getModal = function(modal) {
-        if (!modal) {
-            modal = $('.modal.modal-trigger');
-            if (!modal.length) {
-
-            }
-        } else {
-            modal = $(modal);
-        }
+        modal = $(modal || '.modal.modal-trigger.in');
         if(modal && (modal instanceof $)) return modal;
         return null;
     };
