@@ -24,6 +24,7 @@ const buildConfig = await createBuildConfig({
     name: argv.name ?? argv.n,
     version: argv.version ?? argv.v,
     exts: argv.exts ?? argv.e,
+    exports: argv.exports ?? argv.E,
 });
 
 console.log(`Building ${bold(blue(buildConfig.name))} with ${buildConfig.libs.length} libs...\n`);
@@ -36,9 +37,23 @@ const buildDir = Path.resolve(process.cwd(), 'build');
 await fs.emptyDir(buildDir);
 await prepareBuildFiles(buildConfig, buildDir);
 
+let configFileSavePath = argv.S || argv.saveConfig;
+if (configFileSavePath) {
+    if (typeof configFileSavePath !== 'string') {
+        configFileSavePath = Path.resolve(buildDir, 'build-config.json');
+    }
+    if (!Path.isAbsolute(configFileSavePath)) {
+        configFileSavePath = Path.resolve(process.cwd(), configFileSavePath);
+    }
+    await fs.outputJSON(configFileSavePath, buildConfig, {spaces: 4});
+    console.log(`Build config saved to ${configFileSavePath}`);
+}
+
 viteConfig = mergeConfig(viteConfig, createViteConfig(buildConfig, {buildDir, outDir: argv.outDir ?? argv.o}));
 const viteConfigFile = Path.resolve(buildDir, 'vite.config.json');
 await fs.outputJSON(viteConfigFile, viteConfig, {spaces: 4});
 
-await exec('pnpm', ['i', '--filter', buildConfig.name]);
-await exec('pnpm', ['run', 'build:vite', '--', `--config=${viteConfigFile}`]);
+if (!argv.s && !argv.skipBuild) {
+    await exec('pnpm', ['i', '--filter', buildConfig.name]);
+    await exec('pnpm', ['run', 'build:vite', '--', `--config=${viteConfigFile}`]);
+}

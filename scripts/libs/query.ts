@@ -79,6 +79,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
             path: Path.resolve(libPath, dir),
             idx: ((options.idx ?? 0) * 10000) + i,
             workspace,
+            packageJsonPath: packageFile,
         });
         libs[libInfo.zui.name] = libInfo;
     }
@@ -111,10 +112,10 @@ export function sortLibList(libList: LibInfo[]) {
     }).sort((a, b) => a.zui.order - b.zui.order);
 }
 
-export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean}): LibInfo {
+export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean, packageJsonPath: string}): LibInfo {
     const name = packageJson.name as string;
     const defaultName = name.startsWith('@zui/') ? name.substring(5) : name;
-    const {sourceType = 'build-in', path, idx = 0, workspace} = options;
+    const {sourceType = 'build-in', path, idx = 0, workspace, packageJsonPath} = options;
     const libInfo = {
         name,
         version: packageJson.version as string,
@@ -134,6 +135,7 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             extsName: sourceType === 'exts' ? path.split('/').reverse()[1] : undefined,
             ...(packageJson.zui as Record<string, unknown>),
             order: 0,
+            packageJsonPath,
         },
     } as LibInfo;
     libInfo.zui.order = (libTypeOrders[libInfo.zui.type] * 100000000) + idx;

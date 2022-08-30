@@ -30,6 +30,24 @@ export interface BuildConfigOptions {
 
     /** Extentions - 扩展库 */
     exts?: string | string[];
+
+    exports?: string | string[];
+}
+
+export interface BuildLibExportTarget {
+    name: string;
+    alias?: string;
+}
+
+export interface BuildLibExport {
+    type: 'export' | 'import';
+    targets: BuildLibExportTarget[];
+    path: string;
+}
+
+export interface BuildLibInfo extends LibInfo {
+    /** exports paths */
+    exportList?: BuildLibExport[];
 }
 
 /**
@@ -43,7 +61,9 @@ export interface BuildConfig {
     version?: string;
 
     /** Build lib list - 构建库（或组件）清单 */
-    libs: LibInfo[];
+    libs: BuildLibInfo[];
+
+    defaultExports?: BuildLibExport[];
 }
 
 /**
@@ -55,15 +75,127 @@ function isPathLike(pathLike: string): boolean {
     return /^(\.?\.?|~)\//.test(pathLike);
 }
 
+function isExportPathInLib(path: string, lib: LibInfo) {
+    if (!path.startsWith('/')) {
+        path = `./${path}`;
+    }
+    if (lib.exports && Object.keys(lib.exports).some(x => path.startsWith(x))) {
+        return true;
+    }
+    if (lib.files && lib.files.some(x => path.startsWith(x.replace('**/*', '')))) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * @example
+ * -                            // export * from 'lib-name';
+ * - jquery                     // export * from 'lib-name/jquery';
+ * - *:jqueryLib@jquery         // export * as jqueryLib from 'lib-name/jquery';
+ * - {default:jqueryLib}@jquery // export {default as jqueryLib} from 'lib-name/jquery';
+ * - {jQuery}@jquery            // export {jQuery} from 'lib-name/jquery';
+ * - {jQuery:$}@jquery          // export {jQuery as $} from 'lib-name/jquery';
+ * - {jQuery,ajax:$ajax}@jquery // export {jQuery, ajax as $ajax} from 'lib-name/jquery';
+ * - src/main-jquery.ts         // export * from 'lib-name/src/main-jquery.ts';
+ * - >src/style.css             // import 'lib-name/src/style.css';
+ */
+function parseLibExport(statement: string, lib?: LibInfo): BuildLibExport {
+    const info: BuildLibExport = {
+        type: 'export',
+        targets: [],
+        path: '',
+    };
+    statement = statement.trim();
+    if (statement[0] === '>') {
+        info.type = 'import';
+        statement = statement.substring(1);
+    }
+    if (statement.includes('@')) {
+        const [targetsPath, path] = statement.split('@');
+        const targets = targetsPath.trim().replace(/(^{)|(}$)/g, '').split(',');
+        targets.forEach((item) => {
+            const [name, alias] = item.trim().split(':');
+            info.targets.push({name, alias})
+        });
+        info.path = path;
+
+    } else {
+        info.path = statement;
+        info.targets.push({
+            name: '*',
+        });
+    }
+
+    if (lib && lib.zui.sourceType !== 'npm' && info.path.length && !isExportPathInLib(info.path, lib)) {
+        throw new Error(`Build Error: export path "${info.path}" is not in lib "${lib.name}", check the properties "files" and "exports" in package.json file "${lib.zui.packageJsonPath}".`);
+    }
+
+    return info;
+}
+
+function parseLibExportList(statement: string | string[], lib?: LibInfo): BuildLibExport[] {
+    const statements = Array.isArray(statement) ? [...statement] : [statement];
+    return statements.map(x =>parseLibExport(x, lib));
+}
+
+function createLibExportStatement(exportInfo: BuildLibExport, libName: string): string {
+    const parts = [
+        exportInfo.type === 'import' ? 'import' : 'export',
+    ];
+
+    const targets: string[] = [];
+    if (exportInfo.targets?.length) {
+        const generalExport = exportInfo.targets.find(x => x.name ==='*');
+        if (generalExport) {
+            targets.push(`*${generalExport.alias ? ` as ${generalExport.alias}`: ''}`);
+        }
+        const namingExports: string[] = [];
+        exportInfo.targets.forEach(target => {
+            if (target.name === '*') {
+                return;
+            }
+            namingExports.push(`${target.name}${target.alias ? ` as ${target.alias}`: ''}`);
+        });
+        if (namingExports.length) {
+            targets.push(`{${namingExports.join(',')}}`);
+        }
+    } else if (exportInfo.type === 'export') {
+        targets.push('*');
+    }
+
+    if (targets.length) {
+        parts.push(targets.join(','), 'from');
+    }
+
+    let path = libName;
+    if (exportInfo.path) {
+        if (!exportInfo.path.startsWith('/')) {
+            path += '/';
+        }
+        path += exportInfo.path;
+    }
+    parts.push(JSON.stringify(path));
+    return parts.join(' ');
+}
+
 /**
  * Parse a string to a BuildLib - 解析一个字符串为构建库（或组件）
- * @param libLike Lib - 构建库（或组件）定义字符串，例如 zui, button, +jquery, @zui/button@1.1.0
+ * @param libLike Lib - 构建库（或组件）定义字符串，例如 zui, button, +jquery, @zui/button@1.1.0, dtable~jquery
  * @param libsMap Libs map - 所有可用的库
  * @returns Build lib - 构建库（或组件）
  */
-function parseBuildLib(libLike: string | '@zui', libsMap: Record<string, LibInfo>): LibInfo[] {
+function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string, LibInfo>): BuildLibInfo[] {
     if (libLike === 'zui' || libLike === '@zui') {
         return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in').sort((a, b) => a.zui.order - b.zui.order);
+    }
+
+    let exports: string[] | undefined;
+    if (libLike.includes('~')) {
+        const [namePart, ...importParts] = libLike.split('~');
+        libLike = namePart;
+        exports = importParts;
     }
 
     const isNpmLib = libLike.startsWith('+');
@@ -74,7 +206,7 @@ function parseBuildLib(libLike: string | '@zui', libsMap: Record<string, LibInfo
     const [namePart, version] = (startWithAt ? libLike.substring(1) : libLike).split('@');
     const name = `${startWithAt ? '@' : ''}${namePart}`;
     if (isNpmLib) {
-        const libInfo: LibInfo = {
+        const libInfo: BuildLibInfo = {
             name,
             version,
             zui: {
@@ -85,7 +217,9 @@ function parseBuildLib(libLike: string | '@zui', libsMap: Record<string, LibInfo
                 order: 0,
                 path: '',
             },
+            exportList: exports ? parseLibExportList(exports) : undefined,
         };
+
         return [libInfo];
     }
 
@@ -95,7 +229,10 @@ function parseBuildLib(libLike: string | '@zui', libsMap: Record<string, LibInfo
         throw new Error(`Build Error: cannot find a lib named "${name}".`);
     }
 
-    return [libInfo];
+    return [{
+        ...libInfo,
+        exportList: exports ? parseLibExportList(exports, libInfo) : undefined,
+    }];
 }
 
 /**
@@ -104,9 +241,9 @@ function parseBuildLib(libLike: string | '@zui', libsMap: Record<string, LibInfo
  * @param libsMap Libs map - 所有可用的库
  * @returns 构建库（或组件）列表和名称
  */
-function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): LibInfo[] {
+function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): BuildLibInfo[] {
     const libs: LibInfo[] = [];
-    libsLike.split(/[ ,]/).forEach(libLike => {
+    libsLike.split(' ').forEach(libLike => {
         if (!libLike.length) {
             return;
         }
@@ -136,7 +273,12 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         exts = 'buildIn';
     }
     const libsMap = await getLibs(exts, {cache: false});
-    const buildConfig: BuildConfig = {name, version, libs: []};
+    const buildConfig: BuildConfig = {
+        name,
+        version,
+        libs: [],
+        defaultExports: options.exports ? parseLibExportList(options.exports) : undefined
+    };
 
     if (configFileOrLibs && isPathLike(configFileOrLibs)) {
         const configFromFile = await fs.readJSON(Path.isAbsolute(configFileOrLibs) ? configFileOrLibs : Path.resolve(process.cwd(), configFileOrLibs));
@@ -179,7 +321,21 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
 
     for (const lib of config.libs) {
         dependencies[lib.name] = lib.zui.workspace ? `workspace:${lib.version}` : lib.version;
-        entryFileLines.push(`export * from ${JSON.stringify(lib.name)};`);
+        if (lib.exportList) {
+            lib.exportList.forEach(item => {
+                entryFileLines.push(createLibExportStatement(item, lib.name));
+            });
+        } else if (lib.zui.sourceType !== 'npm' && config.defaultExports?.length) {
+            config.defaultExports.forEach(item => {
+                if (isExportPathInLib(item.path, lib)) {
+                    entryFileLines.push(createLibExportStatement(item, lib.name));
+                } else {
+                    entryFileLines.push(`export * from ${JSON.stringify(lib.name)};`);
+                }
+            });
+        } else {
+            entryFileLines.push(`export * from ${JSON.stringify(lib.name)};`);
+        }
     }
 
     const entryFile = Path.join(buildDir, 'main.ts');
