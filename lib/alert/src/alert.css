@@ -1,10 +1,21 @@
 .alert {
+  @apply -relative -flex -items-center -px-3 -py-2;
   background: var(--alert-bg);
   color: var(--alert-text-color);
   border-radius: var(--alert-radius);
-  padding: var(--alert-inner-py) var(--alert-inner-px);
 }
 
 .alert a {
+  @apply -underline;
   color: inherit;
+}
+
+.alert > .alert-icon-close {
+  @apply -absolute -cursor-pointer;
+  right: 0.75rem;
+  top: 0.5rem;
+}
+
+.alert > .alert-icon-close + * {
+  @apply -pr-4;
 }

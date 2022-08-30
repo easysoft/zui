@@ -1,0 +1,11 @@
+.alert-icon {
+  @apply -mr-2;
+}
+
+.alert-heading {
+  @apply -font-bold -text-lg -m-0;
+}
+
+.alert-content {
+  @apply -m-0;
+}

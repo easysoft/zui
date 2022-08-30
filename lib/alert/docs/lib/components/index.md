@@ -6,17 +6,60 @@
 
 使用 `.alert` 类来获得消息框的外观和交互体验。
 
-<Example>
+<Example class="space-y-4">
   <div class="alert">Hi! 这条消息可能需要你注意。</div>
+  <div class="alert success">
+    <i class="icon icon-check-circle alert-icon"></i> 一切已准备就绪。
+  </div>
+  <div class="alert warning-pale flex items-center">
+    <i class="icon icon-warning-sign icon-2x alert-icon"></i>
+    <div>
+      <h4 class="font-bold text-lg">注意！</h4>
+      <p>可能存在潜在风险。</p>
+    </div>
+  </div>
 </Example>
 
 ```html
 <div class="alert">Hi! 这条消息可能需要你注意。</div>
+<div class="alert success">
+  <i class="icon icon-check-circle alert-icon"></i> 一切已准备就绪。
+</div>
+<div class="alert warning-pale flex items-center">
+  <i class="icon icon-warning-sign icon-2x alert-icon"></i>
+  <div>
+    <h4 class="font-bold text-lg">注意！</h4>
+    <p>可能存在潜在风险。</p>
+  </div>
+</div>
+```
+
+也可以使用 `.alert` 提供的修饰类来展示同样的效果。<br/>
+`.alert-icon` 表示左侧图标， `.alert-heading` 表示标题，`.alert-content` 表示内容。
+
+<Example>
+  <div class="alert success">
+    <i class="icon icon-check-circle icon-2x alert-icon"></i>
+    <div>
+      <h4 class="alert-heading">太棒了！</h4>
+      <p class="alert-content">一切已准备就绪。</p>
+    </div>
+  </div>
+</Example>
+
+```html
+<div class="alert success">
+  <i class="icon icon-check-circle icon-2x alert-icon"></i>
+  <div>
+    <h4 class="alert-heading">太棒了！</h4>
+    <p class="alert-content">一切已准备就绪。</p>
+  </div>
+</div>
 ```
 
 ## 外观类型
 
-配合丰富的[CSS 工具类](/utilities/)来实现不同消息框的外观。
+配合丰富的 [CSS 工具类](/utilities/) 来实现不同消息框的外观。
 
 ### 不同主题
 
@@ -110,20 +153,20 @@
 
 <Example class="space-y-4">
     <div class="alert success">
-      <i class="icon icon-check-circle"></i> 一切已准备就绪。
+      <i class="icon icon-check-circle alert-icon"></i> 一切已准备就绪。
     </div>
     <div class="alert danger">
-      <i class="icon icon-remove-sign"></i> 出现了一些错误。
+      <i class="icon icon-remove-sign alert-icon"></i> 出现了一些错误。
     </div>
     <div class="alert warning-pale flex items-center">
-      <i class="icon icon-warning-sign icon-2x mr-4 "></i>
+      <i class="icon icon-warning-sign icon-2x alert-icon"></i>
       <div>
         <h4 class="font-bold text-lg">注意！</h4>
         <p>可能存在潜在风险。</p>
       </div>
     </div>
     <div class="alert light-pale flex items-center">
-        <i class="icon icon-info-sign icon-2x mr-4"></i>
+        <i class="icon icon-info-sign icon-2x alert-icon"></i>
         <div>
             <h4 class="font-bold text-lg">提示</h4>
             <p>你可能需要知道一些内容。</p>
@@ -133,20 +176,20 @@
 
 ```html
 <div class="alert success">
-  <i class="icon icon-check-circle"></i> 一切已准备就绪。
+  <i class="icon icon-check-circle alert-icon"></i> 一切已准备就绪。
 </div>
 <div class="alert danger">
-  <i class="icon icon-remove-sign"></i> 出现了一些错误。
+  <i class="icon icon-remove-sign alert-icon"></i> 出现了一些错误。
 </div>
 <div class="alert warning-pale flex items-center">
-  <i class="icon icon-warning-sign icon-2x mr-4"></i>
+  <i class="icon icon-warning-sign icon-2x alert-icon"></i>
   <div>
     <h4 class="font-bold text-lg">注意！</h4>
     <p>可能存在潜在风险。</p>
   </div>
 </div>
 <div class="alert light-pale flex items-center">
-    <i class="icon icon-info-sign icon-2x mr-8"></i>
+    <i class="icon icon-info-sign icon-2x alert-icon"></i>
     <div>
         <h4 class="font-bold text-lg">提示</h4>
         <p>你可能需要知道一些内容。</p>
@@ -158,31 +201,47 @@
 
 <Example class="space-y-4">
     <div class="alert success">
-      <i class="icon icon-check-circle"></i> 一切已<a href="###" class="font-bold">准备就绪</a>。
+      <i class="icon icon-check-circle alert-icon"></i> 一切已<a href="###" class="font-bold">准备就绪</a>。
     </div>
     <div class="alert danger">
-      <i class="icon icon-remove-sign"></i> 出现了一些<a href="###" class="font-bold">错误</a>。
+      <i class="icon icon-remove-sign alert-icon"></i> 出现了一些<a href="###" class="font-bold">错误</a>。
     </div>
     <div class="alert warning-pale">
-      <i class="icon icon-warning-sign"></i> 注意！可能存在<a href="###" class="font-bold">潜在风险</a>。
+      <i class="icon icon-warning-sign alert-icon"></i> 注意！可能存在<a href="###" class="font-bold">潜在风险</a>。
     </div>
     <div class="alert light-pale">
-      <i class="icon icon-info-sign"></i> 你可能需要知道<a href="###" class="font-bold">一些内容</a>。
+      <i class="icon icon-info-sign alert-icon"></i> 你可能需要知道<a href="###" class="font-bold">一些内容</a>。
     </div>
 </Example>
 
 ```html
 <div class="alert success">
-  <i class="icon icon-check-circle"></i> 一切已<a class="font-bold">准备就绪</a>。
+  <i class="icon icon-check-circle alert-icon"></i> 一切已<a class="font-bold">准备就绪</a>。
 </div>
 <div class="alert danger">
-  <i class="icon icon-remove-sign"></i> 出现了一些<a class="font-bold">错误</a>。
+  <i class="icon icon-remove-sign alert-icon"></i> 出现了一些<a class="font-bold">错误</a>。
 </div>
 <div class="alert warning-pale">
-  <i class="icon icon-warning-sign"></i> 注意！可能存在<a class="font-bold">潜在风险</a>。
+  <i class="icon icon-warning-sign alert-icon"></i> 注意！可能存在<a class="font-bold">潜在风险</a>。
 </div>
 <div class="alert light-pale">
-  <i class="icon icon-info-sign"></i> 你可能需要知道<a class="font-bold">一些内容</a>。
+  <i class="icon icon-info-sign alert-icon"></i> 你可能需要知道<a class="font-bold">一些内容</a>。
+</div>
+```
+
+## 右上角包含关闭按钮
+
+<Example>
+  <div class="alert warning-pale">
+    <i class="icon icon-remove-sign alert-icon-close"></i>
+    <p>右上角有关闭按钮</p>
+  </div>
+</Example>
+
+```html
+<div class="alert warning-pale">
+  <i class="icon icon-remove-sign alert-icon-close"></i>
+  <p>右上角有关闭按钮</p>
 </div>
 ```
 
@@ -190,20 +249,21 @@
 
 消息框提供了如下 CSS 类：
 
-| 类        | 类型          | 作用               |
-| --------- |:-------------:| ------------------ |
-| `alert`   | 实体类        | 元素作为消息框组件 |
+| 类             | 类型     | 作用               |
+| -------------- |:--------:| ------------------ |
+| `alert`        | 实体类   | 元素作为消息框组件 |
+| `alert-icon`   | 实体类   | 元素作为消息框内左侧图标 |
+| `alert-heading`| 实体类   | 元素作为消息框内标题 |
+| `alert-content`| 实体类   | 元素作为消息框内容 |
 
 
 ## CSS 变量
 
 消息框提供了如下 CSS 变量：
 
-| 变量名称             | 变量含义     |
-| ---------------------|--------------|
-| `--alert-radius`     | 消息框圆角   |
-| `--alert-inner-px`   | 消息框内横向内边距 |
-| `--alert-inner-py`   | 消息框内纵向内边距 |
-| `--alert-bg`         | 消息框背景色 |
-| `--alert-text-color` | 消息框文字颜色 |
+| 变量名称             | 变量含义           |
+| ---------------------|--------------------|
+| `--alert-radius`     | 消息框圆角         |
+| `--alert-bg`         | 消息框默认背景色   |
+| `--alert-text-color` | 消息框默认文字颜色 |
 
