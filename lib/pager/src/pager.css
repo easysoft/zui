@@ -1,10 +1,43 @@
 .pager {
-  @apply -flex -pl-0 -my-4;
+  @apply -flex;
 }
+
+.pager > * + * {
+  @apply --ml-px;
+}
+
+.pager > .btn:not(.active):hover {
+  @apply -text-primary-500;
+}
+
+.pager > .btn:focus-within,
+.pager > .dropdown > .btn:focus-within,
+.pager > .btn:hover,
+.pager > .dropdown > .btn:hover {
+  z-index: 1;
+}
+
+.pager > .btn:not(:first-child),
+.pager > .dropdown:not(:first-child) > .btn {
+  @apply -rounded-l-none;
+}
+.pager > .btn:not(:last-child),
+.pager > .dropdown:not(:last-child) > .btn {
+  @apply -rounded-r-none;
+}
+
+.pager.borderless > *,
+.pager.borderless > * {
+  @apply -border-none;
+}
+.pager >.btn.circle {
+  @apply -rounded-full;
+}
+
 .pager > li > a {
   @apply -inline-block -border -px-3 -text-fore;
   line-height: 1.875rem;
-}
+} 
 
 .pager > * + * > a {
   @apply --ml-px;
