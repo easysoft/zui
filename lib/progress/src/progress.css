@@ -1,19 +1,32 @@
 .progress {
-  @apply -h-5 -mb-5 -overflow-x-hidden ;
-  background-color: var(--progress-bg-color);
+  @apply -flex -h-5; 
+  background-color: var(--progress-bg);
   border-radius: var(--progress-radius);
 }
 
 .progress-bar {
-  @apply -float-left -h-full -text-canvas -text-center;
-  background-color: var(--progress-bar-bg-color);
+  @apply -h-full; 
+  background-color: var(--progress-bar-color);
 }
 
 .progress-striped > .progress-bar {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-  background-size: 40px 40px;
+  background-size: var(--progress-striped-size) var(--progress-striped-size); 
+}
+
+.progress > .progress-bar:first-child {
+  border-top-left-radius: inherit; 
+  border-bottom-left-radius: inherit;
+}
+.progress > .progress-bar:last-child {
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit; 
 }
 
 .progress.active .progress-bar {
   animation: progress-bar-stripes 2s linear infinite;
+}
+@keyframes progress-bar-stripes {
+  from  { background-position: 40px 0; }
+  to    { background-position: 0 0; }
 }

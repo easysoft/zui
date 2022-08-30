@@ -6,40 +6,86 @@
 
 ```htnl:example
   <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Complete</span>
+    <div class="progress-bar" style="width: 40%">
     </div>
   </div>
 ```
 
 ## 颜色主题
 
-给`.progress-bar`元素添加`.bg-*`工具类，设置滑动条颜色。
+给`.progress-bar`元素添加`.*`样式工具类，设置滑动条颜色。
 
 ```htnl:example
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Primary</span>
+  <div class="progress mb-5">
+    <div class="progress-bar" style="width: 40%">
     </div>
   </div>
-  <div class="progress">
-    <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Secondary</span>
+  <div class="progress mb-5">
+    <div class="progress-bar secondary" style="width: 40%">
     </div>
   </div>
-  <div class="progress">
-    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Success</span>
+  <div class="progress mb-5">
+    <div class="progress-bar success" style="width: 40%">
     </div>
   </div>
-  <div class="progress">
-    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Warning</span>
+  <div class="progress mb-5">
+    <div class="progress-bar warning" style="width: 40%">
     </div>
   </div>
-  <div class="progress">
-    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Danger</span>
+  <div class="progress mb-5">
+    <div class="progress-bar danger" style="width: 40%">
+    </div>
+  </div>
+```
+## 圆角大小
+
+给 `.progress` 元素添加 `.rounded-*` 工具类， 设置滑动条圆角大小
+
+```htnl:example
+  <div class="progress mb-5 rounded-sm">
+    <div class="progress-bar" style="width: 40%">
+    </div>
+  </div>
+```
+```html:example
+  <div class="progress mb-5 rounded">
+    <div class="progress-bar" style="width: 40%">
+    </div>
+  </div>
+```
+```html:example
+  <div class="progress mb-5 rounded-md">
+    <div class="progress-bar"  style="width: 40%">
+    </div>
+  </div>
+```
+```html:example
+  <div class="progress mb-5 rounded-lg">
+    <div class="progress-bar" style="width: 40%">
+    </div>
+  </div>
+```
+```html:example
+  <div class="progress mb-5 rounded-xl">
+    <div class="progress-bar " style="width: 40%">
+    </div>
+  </div>
+```
+```html:example
+  <div class="progress mb-5 rounded-full">
+    <div class="progress-bar " style="width: 40%">
+    </div>
+  </div>
+```
+```html:example
+  <div class="progress mb-5 circle">
+    <div class="progress-bar " style="width: 40%">
+    </div>
+  </div>
+```
+```html:example
+  <div class="progress mb-5 rounded-none">
+    <div class="progress-bar " style="width: 40%">
     </div>
   </div>
 ```
@@ -52,8 +98,7 @@
 
 ```html:example
   <div class="progress progress-striped">
-    <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Progress</span>
+    <div class="progress-bar" style="width: 40%">
     </div>
   </div>
 ```
@@ -64,8 +109,7 @@
 
 ```html:example
   <div class="progress progress-striped active">
-    <div class="progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Progress</span>
+    <div class="progress-bar" style="width: 40%">
     </div>
   </div>
 ```
@@ -76,14 +120,11 @@
 
 ```html:example
   <div class="progress progress-striped active">
-    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-      <span class="sr-only">40% Success</span>
+    <div class="progress-bar success" style="width: 40%">
     </div>
-    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-      <span class="sr-only">20% Warning</span>
+    <div class="progress-bar warning rounded-none" style="width: 20%">
     </div>
-    <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%">
-      <span class="sr-only">10% danger</span>
+    <div class="progress-bar danger" style="width: 10%">
     </div>
   </div>
 ```

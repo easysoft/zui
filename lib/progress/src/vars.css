@@ -1,5 +1,6 @@
 :root {
-  --progress-bg-color: var(--color-gray-300); 
-  --progress-radius: 4rem;
-  --progress-bar-bg-color: var(--color-primary-500);
+  --progress-radius: var(--radius);
+  --progress-striped-size: 40px;
+  --progress-bg: var(--color-gray-300); 
+  --progress-bar-color: var(--color-primary-500);
 }
