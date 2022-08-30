@@ -2,13 +2,16 @@
     "name": "@zui/browser-helpers",
     "description": "ZUI helpers",
     "version": "0.0.1",
-    "keywords": ["js", "zui:js-helpers"],
-    "browser": "src/main.ts",
+    "type": "module",
+    "main": "src/main.ts",
+    "module": "src/main.ts",
+    "browser": "src/main-browser.ts",
     "files": [
         "./src/**/*"
     ],
     "zui": {
         "type": "js-helpers",
+        "moduleName": "browser",
         "displayName": "浏览器辅助方法",
         "contributes": {
             "js": ["method"]
