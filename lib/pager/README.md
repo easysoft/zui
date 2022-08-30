@@ -34,12 +34,12 @@
 ## 简洁样式
 
 ```html:example: flex gap-3 flex-wrap
-<div class="pager pager-sample">
+<div class="pager pager-simple">
   <button type="button" class="btn rounded previous"><i class="icon icon-angle-left"></i></button>
   <div class="pager-text"><span>1</span>/<span>4</span></div>
   <button type="button" class="btn rounded next"><i class="icon icon-angle-right"></i></button>
 </div>
-<div class="pager pager-sample borderless">
+<div class="pager pager-simple borderless">
   <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
   <div class="pager-text"><span>1</span>/<span>4</span></div>
   <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>

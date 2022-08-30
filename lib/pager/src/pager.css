@@ -44,7 +44,7 @@
 .pager > .pager-jump {
   @apply -inline-block -whitespace-nowrap -mx-2 -text-fore -bg-canvas -h-8 -leading-8;
 }
-.pager.pager-sample > .btn {
+.pager.pager-simple > .btn {
   @apply -px-2;
 }
 .pager.pager-loose > .btn,

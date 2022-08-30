@@ -63,12 +63,12 @@
 简单的翻页。
 
 <Example class="row gap-2 flex-wrap">
-  <div class="pager pager-sample">
+  <div class="pager pager-simple">
     <button type="button" class="btn rounded previous"><i class="icon icon-angle-left"></i></button>
     <div class="pager-text"><span>1</span>/<span>4</span></div>
     <button type="button" class="btn rounded next"><i class="icon icon-angle-right"></i></button>
   </div>
-  <div class="pager pager-sample borderless">
+  <div class="pager pager-simple borderless">
     <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
     <div class="pager-text"><span>1</span>/<span>4</span></div>
     <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
@@ -76,12 +76,12 @@
 </Example>
 
 ```html
-<div class="pager pager-sample">
+<div class="pager pager-simple">
   <button type="button" class="btn rounded previous"><i class="icon icon-angle-left"></i></button>
   <div class="pager-text"><span>1</span>/<span>4</span></div>
   <button type="button" class="btn rounded next"><i class="icon icon-angle-right"></i></button>
 </div>
-<div class="pager pager-sample borderless">
+<div class="pager pager-simple borderless">
   <button type="button" class="btn previous"><i class="icon icon-angle-left"></i></button>
   <div class="pager-text"><span>1</span>/<span>4</span></div>
   <button type="button" class="btn next"><i class="icon icon-angle-right"></i></button>
@@ -435,5 +435,11 @@
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
 | `pager`      | 实体类 | 元素作为分页组件 |
+| `pager-simple`    | 修饰类      |  简单分页样式 |
+| `borderless`    | 修饰类      |  无边框分页组件样式 |
+| `pager-loose`      | 修饰类      |  宽松分页组件展示样式 |
+| `pager-text`      | 修饰类      |  分页组件内静态元素样式 |
+| `pager-sizes`     | 修饰类      |  分页组件内调整每页显示数元素样式 |
+| `pager-jump`      | 修饰类      |  分页组件内直接跳转元素样式 |
 | `size-sm`      | 修饰类      |   分页使用小号尺寸 |
 | `size-lg`      | 修饰类      |   分页使用大号尺寸 |
