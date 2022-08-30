@@ -39,8 +39,9 @@ component-name         # 组件目录
 | `description`  | 组件显示名称，例如 `"Dropdown Menu"`                         |
 | `version`      | 版本，例如 `"1.0.0"`                                         |
 | `keywords`     | 关键词，例如 `["button", "menu", "dropdown", "zui:component"]`，通过 `'zui:TYPE'` 的形式来定义组件类型 |
-| `main`         | 组件模块入口文件，默认为 `"src/main.ts"`                     |
-| `browser`      | 为浏览器环境提供的入口文件  |
+| `main`         | 组件模块入口文件，browser 环境和 node 环境均可使用，默认为 `"src/index.ts"`                     |
+| `module`         | 组件符合 ESM 规范的入口文件，browser 环境和 node 环境均可使用，默认为 `"src/index.ts"`                     |
+| `browser`      | 组件在 browser 环境下的入口文件，默认为 `"src/index.ts"  |
 | `module`      | 为 NodeJS 环境提供的入口文件  |
 | `zui`      | ZUI 专属配置  |
 | `dependencies` | 该组件依赖的其他组件，例如 `{"@zui/icon": "workspace:^1.0.0"}` |
