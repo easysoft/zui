@@ -82,9 +82,9 @@ function toggleRow(this: NestedDTable, rowID: RowID | (RowID)[], collapsed?: boo
             }
         });
     }
-    this.setState({collapsedRows: {...collapsedRows}});
-
-    // TODO: call onNestedChange
+    this.setState({collapsedRows: {...collapsedRows}}, () => {
+        this.options.onNestedChange?.call(this);
+    });
 }
 
 function isAllCollapsed(this: NestedDTable): boolean {
