@@ -1,5 +1,5 @@
 .avatar {
-  @apply -w-8 -inline-flex -items-center -justify-center -overflow-hidden -bg-canvas;
+  @apply -w-8 -inline-flex -items-center -justify-center -overflow-hidden;
   border-radius: var(--avatar-radius);
   background: var(--avatar-bg);
   aspect-ratio: 1 / 1;
