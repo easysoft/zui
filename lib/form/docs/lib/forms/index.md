@@ -419,7 +419,8 @@
   | `form-group`      | 实体类 | 元素作为表单组件 |
   | `form-control`    | 实体类 | 元素作为表单控件组件 |
   | `form-tip`        | 实体类 | 元素作为表单控件的提示性文本 |
-  | `tips-fixed`      | 修饰类 | 为表单控件添加不随tips显隐改变布局的样式 |
+  | `form-horizontal` | 修饰类 | 为表单启用水平排列样式 |
+  | `required`        | 修饰类 | 为表单控件启用必填标记样式 |
   | `has-error`       | 修饰类 | 为表单控件启用报错样式 |
   | `has-warning`     | 修饰类 | 为表单控件启用警告样式 |
   | `has-success`     | 修饰类 | 为表单控件启用成功样式 |
@@ -428,19 +429,9 @@
 
  | 变量名称 | 变量含义 |
  | -------- | -------- |
- | --form-group-space       | 表单单元模块之间的纵向间距 |
- | --form-group-space-fixed | tip-fixed样式下变宽后单元模块纵向间距     |
  | --form-label-width       | 表单文本宽度 |
- | --table-border-color     | 表格边框颜色 |
- | --form-horizontal-label-text-align  | 水平布局下文本对齐方向 |
- | --legend-margin-bottom       | 表单分组样式下标题和表单单元格间距 |
- | --legend-color               | 表单分组标题颜色 |
- | --legend-font-size           | 表单分组标题字号 |
- | --required-content-color     | 必填标记元素颜色 |
+ | --form-horz-label-align  | 水平布局下文本对齐方向 |
  | --form-control-radius        | 表单控件圆角     |
  | --form-control-border-color  | 表单控件边框颜色 |
- | --form-control-focus-border-color   | 表单控件响应聚焦边框颜色  |
- | --form-control-placeholder-color    | 表单控件提示文本文字颜色  |
- | --color-has-error   | 表单错误信息提示颜色  |
- | --color-has-warning | 表单警告信息提示颜色  |
- | --color-has-success | 表单成功信息提示颜色  |
+ | --form-focus-color   | 表单控件响应聚焦边框颜色  |
+ | --form-placeholder-color    | 表单控件提示文本文字颜色  |
