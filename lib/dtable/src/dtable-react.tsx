@@ -15,6 +15,8 @@ import {CustomRenderResult} from './types/custom-render-result';
 import {RowData, RowID} from './types/row-data';
 import {RowProps} from './types/row-props';
 import {CellRenderCallback} from './types/cell-render';
+import './vars.css';
+import './style.css';
 
 export class DTable extends Component<DTableOptions, DTableState> {
     static addPlugin = addPlugin;
