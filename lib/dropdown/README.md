@@ -140,7 +140,7 @@
 
 ## 禁用的菜单项
 
-为菜单项` <li> `添加` .-disabled` 类即可获得禁用外观。
+为菜单项` <li> `添加` .disabled` 类即可获得禁用外观。
 
 ```html:example: -flex -gap-3
 <div class="dropdown">
@@ -148,7 +148,7 @@
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu">
         <li><a href="###">操作</a></li>
-        <li class="-disabled"><a href="###">被禁用的操作</a></li>
+        <li class="disabled"><a href="###">被禁用的操作</a></li>
     </ul>
 </div>
 ```
