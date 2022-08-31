@@ -85,11 +85,11 @@
 
 .nav-stacked.nav-tabs > li > a::after {
   content:"";
-  @apply -border-solid -border-t-0 -border-r-0 -border-b-0 -border-l -absolute -inset-0;
+  @apply -border-solid -border-t-0 -border-r -border-b-0 -border-l-0 -absolute -inset-0;
 }
 .nav-stacked.nav-tabs > .active > a::after {
   content:"";
-  @apply -border-t -border-r -border-l-0 -border-b;
+  @apply -border-t -border-r-0 -border-l -border-b;
 }
 
 .nav-justified {
