@@ -120,6 +120,27 @@
    </div>
  </div>
 ```
+
+### 添加标签
+
+通常使用标签时用 CSS 工具类 `bg-canvas` 去掉背景色。
+
+<Example> 
+ <div class="progress bg-canvas">
+   <div class="progress-bar success" style="width: 40%">
+   </div>
+   <label class="ml-4">40%</label>
+ </div>
+</Example>
+
+```html
+ <div class="progress bg-canvas">
+   <div class="progress-bar success" style="width: 40%">
+   </div>
+   <label class="ml-4">40%</label>
+ </div>
+```
+
 ## CSS 类
 
 进度条提供了如下 CSS 类
