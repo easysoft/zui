@@ -1,4 +1,4 @@
 :root {
-  --progress-bg-color: var(--color-gray-300);
+  --progress-circle-bg-color: var(--color-gray-300);
   --progress-bar-color: var(--color-success-700);
 }

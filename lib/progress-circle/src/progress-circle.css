@@ -6,7 +6,7 @@
   text-anchor: middle;
 }
 .progress-circle > circle:first-child {
-  stroke: var(--progress-bg-color);
+  stroke: var(--progress-circle-bg-color);
 }
 .progress-circle > circle:nth-child(2) {
   stroke: var(--progress-bar-color);
