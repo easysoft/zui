@@ -8,9 +8,9 @@
 .input-control.suffix > .form-control {
     padding-right: var(--input-fix-width);
 }
-.input-control-prefix, 
+.input-control-prefix,
 .input-control-suffix {
-  @apply -block -h-full -select-none -absolute -overflow-hidden -leading-8 -px-2 -top-0;
+  @apply -select-none -absolute -overflow-hidden -leading-8 -px-2 -inset-y-0;
   width: var(--input-fix-width);
 }
 
