@@ -24,3 +24,16 @@
      <text x=12 y=14 dominant-baseline="middle" >40</text>
   </svg>
 ```
+
+ ## CSS 类
+
+ 进度条提供了如下 CSS 类
+  | 类        | 类型           | 作用  |
+  | ------------- |:-------------:| ----- |
+  | `progress-circle`          | 实体类 | 元素作为进度条组件 |
+
+ ## CSS变量
+ | 变量名称 | 变量含义 |
+ | -------- | -------- |
+ | --progress-circle-bg           | 环形进度条组件背景颜色 |
+ | --progress-circle-bar-color    | 环形进度条组件颜色     |
