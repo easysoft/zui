@@ -133,7 +133,10 @@
 ## CSS变量
 | 变量名称 | 变量含义 |
 | -------- | -------- |
-| --form-group-space       | 表单单元模块之间的纵向间距 |
+| --progress-bg           | 进度条组件背景颜色 |
+| --progress-bar-color    | 进度条组件颜色     |
+| --progress-radius       | 进度条组件圆角大小 |
+| --progress-striped-size | 进度条组件条纹大小 |
 
  <script setup>
    const array = [
