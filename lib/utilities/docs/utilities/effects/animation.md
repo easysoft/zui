@@ -34,9 +34,9 @@
 </Example>
 
 ```html
-  <div class="w-32 h-16 relative rounded bg-primary">
-    <i class="ping icon-thumbs-o-up absolute right-0"></i>
-    <div class="absolute text-canvas"> 咱们ZUI的设计就是好 </div>
+  <div class="w-20 leading-8 h-8 px-2 rounded bg-secondary">
+    <i class="ping icon-thumbs-o-up right-0"></i>
+    <span class="text-canvas pl-2"> 点赞 </span>
   </div>
 ```
 
