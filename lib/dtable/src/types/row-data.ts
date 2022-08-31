@@ -1,6 +1,2 @@
 export type RowID = string | number;
-
-export interface RowData {
-    id: RowID,
-    [key: string]: unknown;
-}
+export type RowData = Record<string, unknown>;

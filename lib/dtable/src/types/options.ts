@@ -5,7 +5,7 @@ import {CellRenderCallback} from './cell-render';
 import {ColSetting} from './col-setting';
 import {DTableLayout} from './layout';
 import {DTablePlugin, DTablePluginComsumer} from './plugin';
-import {RowData} from './row-data';
+import {RowData, RowID} from './row-data';
 import {RowInfo} from './row-info';
 import {RowProps} from './row-props';
 import {DTableState} from './state';
@@ -18,7 +18,9 @@ export interface DTableOptions {
     width?: number | '100%' | 'auto' | (() => number | 'auto');
     height?: number | '100%' | 'auto' | {min: number, max: number} | (() => number | 'auto' | {min: number, max: number});
     rowHeight?: number;
-    data?: RowData[] | {length: number | (() => number), getItem: (index: number) => RowData};
+    rowKey?: string;
+    data?: (RowData | RowID)[] | number | Record<RowID, RowData>;
+    dataGetter?: (ids: RowID[]) => RowData[],
     defaultColWidth?: number;
     minColWidth?: number;
     maxColWidth?: number;

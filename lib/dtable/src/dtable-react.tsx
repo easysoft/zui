@@ -132,7 +132,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#options = Object.freeze(options);
 
         const {
-            data,
             header,
             footer,
             rowHeight = defaultOptions.rowHeight,
@@ -231,9 +230,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
             width = widthSetting ?? 0;
         }
 
+        const {data, rowKey = 'id'} = options;
         const allRows: RowInfo[] = [];
-        const addRowItem = (item: RowData, index: number) => {
-            const row: RowInfo = {data: item, top: 0, id: item.id, index: allRows.length};
+        const addRowItem = (id: RowID, index: number, item?: RowData) => {
+            const row: RowInfo = {data: item ?? {[rowKey]: id}, top: 0, id: id, index: allRows.length};
+            if (!item) {
+                row.lazy = true;
+            }
             allRows.push(row);
 
             if (options.onAddRow?.call(this, row, index) === false) {
@@ -245,13 +248,21 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 }
             }
         };
-        if (Array.isArray(data)) {
-            data.forEach(addRowItem);
-        } else if (data?.length) {
-            const length = typeof data.length === 'function' ? data.length() : data.length;
-            for (let i = 0; i < length; i++) {
-                addRowItem(data.getItem(i), i);
+
+        if (typeof data === 'number') {
+            for (let i = 0; i < data; i++) {
+                addRowItem(i, i);
             }
+        } else if (Array.isArray(data)) {
+            data.forEach((item, index) => {
+                if (typeof item === 'object') {
+                    addRowItem(item[rowKey] as RowID, index, item);
+                } else {
+                    addRowItem(item as RowID, index);
+                }
+            });
+        } else if (typeof data === 'object' && data) {
+            Object.entries(data).forEach(([id, item], index) => addRowItem(id, index, item));
         }
 
         // Add rows
@@ -318,7 +329,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const rowsHeight = height - headerHeight - footerHeight;
         const scrollBottom = scrollTop + rowsHeight;
         const visibleRows: RowInfo[] = [];
-
         const scrollWidth = width - flexLeftWidth - flexRightWidth;
         let scrollWidthTotal = 0;
         const flexCols: ColInfo[] = [];
@@ -350,11 +360,16 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         const startRowIndex = Math.floor(scrollTop / rowHeight);
         const endRowIndex = Math.min(rows.length, Math.ceil(scrollBottom / rowHeight));
+        const lazyRows: RowID[] = [];
         for (let i = startRowIndex; i < endRowIndex; i++) {
             const row = rows[i];
             row.top -= scrollTop;
             visibleRows.push(row);
+            if (row.lazy === true) {
+                lazyRows.push(row.id);
+            }
         }
+        // TODO: load data for lazy rows.
 
         let layout: DTableLayout = {
             allRows,
@@ -627,7 +642,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 });
             }
         } else {
-            const rowInfo = this.#layout?.visibleRows.find(row => row.data.id === rowID);
+            const rowInfo = this.#layout?.visibleRows.find(row => row.id === rowID);
             if (cellElement) {
                 if (this.#options.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
                     return;

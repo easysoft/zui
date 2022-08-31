@@ -42,7 +42,7 @@ export function Rows({
             {rows.map(row => {
                 let rowProps: RowProps = {
                     className: `dtable-row-${row.index % 2 ? 'odd' : 'even'}`,
-                    rowID: row.data.id,
+                    rowID: row.id,
                     data: row.data,
                     top: row.top,
                     height: rowHeight,

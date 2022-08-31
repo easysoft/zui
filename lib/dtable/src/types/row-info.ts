@@ -4,5 +4,6 @@ export interface RowInfo {
     id: RowID;
     index: number;
     top: number;
-    data: RowData
+    data: RowData;
+    lazy?: boolean | 'resolved';
 }
