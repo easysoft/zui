@@ -9,6 +9,6 @@
   stroke: var(--progress-circle-bg-color);
 }
 .progress-circle > circle:nth-child(2) {
-  stroke: var(--progress-bar-color);
+  stroke: var(--progress-circle-bar-color);
   stroke-linecap : round;
 }
