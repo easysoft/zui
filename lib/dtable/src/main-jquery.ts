@@ -23,8 +23,6 @@ function dtable(this: JQuery, options?: DTableOptions | string, ...args: unknown
     });
 }
 
-$.extend($.fn, {
-    dtable,
-});
+$.extend(true, $, {zui3: {DTable}, fn: {dtable}});
 
 export default {};
