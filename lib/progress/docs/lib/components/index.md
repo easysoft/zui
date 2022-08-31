@@ -20,7 +20,7 @@
 
 ## 颜色主题
 
-给 `.progress-bar` 元素添加 `.*` 等颜色工具类，得到各种颜色的进度条。
+给 `.progress-bar` 元素添加 `.*` 等颜色[CSS工具类](/utilities/style/utilities/solid)，得到各种颜色的进度条。
 
  <Example>
      <template v-for="item in array" >
@@ -40,7 +40,7 @@
 ```
 ## 圆角大小
 
-给 `.progress` 元素添加 `.rounded-*` 工具类，给进度条添加不同大小的圆角。
+给 `.progress` 元素添加 `.rounded-*` [CSS工具类](/utilities/borders/utilities/border-radius)，给进度条添加不同大小的圆角。
 
 <Example>
    <div v-for="item in arrayRounded" :class="item" class="progress mb-5">
@@ -123,7 +123,7 @@
 
 ### 添加标签
 
-通常使用标签时用 CSS 工具类 `bg-canvas` 去掉背景色。
+通常使用标签时用 [CSS 工具类](/utilities/backgrounds/utilities/index) `bg-transparent` 去掉背景色。
 
 <Example> 
  <div class="progress bg-canvas">
