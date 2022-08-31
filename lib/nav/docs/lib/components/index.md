@@ -378,3 +378,24 @@ if (typeof window !== 'undefined') {
     };
 }
 </script>
+
+## CSS 类
+
+面包屑提供了如下CSS类
+
+| 类        | 类型           | 作用  |
+| ------------- |:-------------:| ----- |
+| `nav`      | 实体类 | 元素导航组件 |
+| `active`      | 修饰类 | 为导航元素启用选中态样式 |
+| `nav-simple`      | 修饰类 | 为导航元素启用简单样式 |
+| `nav-primary`      | 修饰类 | 为导航元素启用简单样式 |
+| `nav-secondary`      | 修饰类 | 为导航元素启用简单样式 |
+
+
+## CSS 变量
+
+| 变量名称 | 变量含义 |
+| -------- | -------- |
+| --breadcrumb-divider           | 面包屑分割元素标签类型 |
+| --breadcrumb-divider-color     | 面包屑分割元素颜色 |
+| --breadcrumb-color-active      | 面包屑选中态元素颜色 |
