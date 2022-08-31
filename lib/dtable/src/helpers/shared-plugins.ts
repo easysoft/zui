@@ -35,11 +35,10 @@ export function removePlugin(name: string): boolean {
 }
 
 export function initPlugins(options?: DTableOptions): DTablePlugin[] {
-    if (!options?.plugins?.length) {
-        return [];
-    }
-    const {plugins: nameOrPluginList} = options;
-    return nameOrPluginList.reduce<DTablePlugin[]>((list, nameOrPlugin) => {
+    return [options?.plugins].flat().reduce<DTablePlugin[]>((list, nameOrPlugin) => {
+        if (!nameOrPlugin) {
+            return list;
+        }
         let plugin: DTablePlugin | undefined;
         if (typeof nameOrPlugin === 'string') {
             plugin = getPlugin(nameOrPlugin);

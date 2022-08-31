@@ -10,6 +10,8 @@ import {RowInfo} from './row-info';
 import {RowProps} from './row-props';
 import {DTableState} from './state';
 
+export type DTablePluginLike = string | DTablePlugin | DTablePluginComsumer;
+
 export interface DTableOptions {
     cols?: ColSetting[];
     className?: ClassNameLike,
@@ -46,6 +48,6 @@ export interface DTableOptions {
     onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
     rowSorter?: (this: DTable, a: RowInfo, b: RowInfo) => number;
     rowFilter?: (this: DTable, row: RowInfo) => void | boolean;
-    plugins?: (string | DTablePlugin | DTablePluginComsumer)[];
+    plugins?: DTablePluginLike | DTablePluginLike[];
     [prop: string]: unknown
 }
