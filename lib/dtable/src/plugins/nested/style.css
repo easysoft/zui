@@ -5,10 +5,10 @@
     @apply -flex-none;
 }
 .dtable-nested-toggle {
-    @apply -block -mr-1 -rounded-sm -flex-none;
+    @apply -flex -rounded-sm -flex-none --ml-1 -w-5 -h-5 -items-center -justify-center;
 }
 .dtable-nested-toggle-icon {
-    @apply -block -border -border-current -relative -opacity-50;
+    @apply -block -border -border-current -relative -opacity-50 hover:-opacity-90;
     width: var(--dtable-nt-size);
     height: var(--dtable-nt-size);
     border-radius: inherit;
