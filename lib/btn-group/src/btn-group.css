@@ -2,7 +2,7 @@
   @apply -flex;
 }
 
-.btn-group > * + * {
+.btn-group > :not(:first-child) {
   @apply --ml-px;
 }
 
@@ -10,7 +10,7 @@
 .btn-group > .dropdown > .btn:focus-within,
 .btn-group > .btn:hover,
 .btn-group > .dropdown > .btn:hover {
-  z-index: 1;
+  @apply -z-[1];
 }
 
 .btn-group > .btn:not(:first-child),
