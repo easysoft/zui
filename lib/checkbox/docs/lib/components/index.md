@@ -1,4 +1,4 @@
-## 单选框和复选框
+# 单选框和复选框
 
 复选框（checkbox）允许用户选择多个选项，不同于 `<select>`，这些选项是直接展示的。
 为 `<input type="checkbox">` 设置 disabled 属性来应用禁用样式，
@@ -264,3 +264,16 @@
   <div class="radio-primary"><label>未选中</label></div>
   <div class="radio-primary checked"><label>选中</label></div>
 ```
+
+ ## CSS 类
+
+ 单选框和复选框提供了如下CSS类
+
+ | 类        | 类型           | 作用  |
+ | ------------- |:-------------:| ----- |
+ | `checkbox`              | 实体类 | 复选框组件 |
+ | `radio`                 | 实体类 | 单选框组件 |
+ | `checkbox-inline`       | 实体类 | 内联复选框组件 |
+ | `radio-inline`          | 实体类 | 内联单选框组件 |
+ | `checkbox-primary`      | 实体类 | 高级外观的复选框组件 |
+ | `radio-primary`         | 实体类 | 高级外观的单选框组件 |

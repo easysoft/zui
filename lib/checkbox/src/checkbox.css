@@ -1,11 +1,10 @@
 .checkbox > label ,
 .radio > label {
-  @apply -relative -cursor-pointer -pl-5 ;
+  @apply -cursor-pointer -pl-5 ;
 }
 .checkbox > label > input,
 .radio > label > input {
-  @apply -absolute -mt-1 --ml-5 ;
-
+  @apply --ml-5 ;
 }
 .checkbox-primary,
 .radio-primary {
@@ -13,12 +12,14 @@
 }
 
 .checkbox-inline,
-.radio-inline {
-  @apply -relative;
+.radio-inline,
+.checkbox > label,
+.radio > label{
+  @apply -align-middle; 
 }
 .checkbox-inline > input[type=checkbox],
 .radio-inline > input[type=radio] {
-  @apply -absolute -mt-1 --ml-4 ;
+  @apply --ml-4 ;
 }
 
 .checkbox-inline + .checkbox-inline,
@@ -28,7 +29,7 @@
 
 .checkbox-primary > label,
 .radio-primary > label{
-  @apply -ml-2 -relative;
+  @apply -ml-2 -relative; 
 }
 .checkbox-primary > label:before,
 .radio-primary > label:before {
