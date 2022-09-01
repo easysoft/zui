@@ -200,7 +200,7 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
         const {nestedToggle} = col.setting;
         const info = this.getNestedRowInfo(rowID);
         if (nestedToggle && (info.children || info.parent)) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<button type="button" className="dtable-nested-toggle state" style={info.children ? undefined : {visibility: 'hidden'}}><span className="dtable-nested-toggle-icon"></span></button>));
+            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a role="button" className="dtable-nested-toggle state" style={info.children ? undefined : {visibility: 'hidden'}}><span className="dtable-nested-toggle-icon"></span></a>));
         }
         if (info.level) {
             let {nestedIndent = nestedToggle} = col.setting;
@@ -215,7 +215,7 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
     },
     onRenderHeaderCell(result, rowID, col): CustomRenderResult {
         if (col.setting.nestedToggle) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<button type="button" className="dtable-nested-toggle state"><span className="dtable-nested-toggle-icon"></span></button>));
+            result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a type="button" className="dtable-nested-toggle state"><span className="dtable-nested-toggle-icon"></span></a>));
         }
         return result;
     },
