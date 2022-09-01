@@ -1370,8 +1370,7 @@ const Wt = {
     const { nestedToggle: o } = e.setting, i = this.getNestedRowInfo(t);
     if (o && (i.children || i.parent) && s.unshift((a = (r = this.options.onRenderNestedToggle) == null ? void 0 : r.call(this, i, t, e, n)) != null ? a : /* @__PURE__ */ b("a", {
       role: "button",
-      className: "dtable-nested-toggle state",
-      style: i.children ? void 0 : { visibility: "hidden" }
+      className: `dtable-nested-toggle state${i.children ? "" : " is-no-child"}`
     }, /* @__PURE__ */ b("span", {
       className: "dtable-nested-toggle-icon"
     }))), i.level) {
