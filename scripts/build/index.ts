@@ -55,5 +55,13 @@ await fs.outputJSON(viteConfigFile, viteConfig, {spaces: 4});
 
 if (!argv.s && !argv.skipBuild) {
     await exec('pnpm', ['i', '--filter', buildConfig.name]);
-    await exec('pnpm', ['run', 'build:vite', '--', `--config=${viteConfigFile}`]);
+
+    const buildArgs = ['run', 'build:vite', '--', `--config=${viteConfigFile}`];
+    if (argv.cssnano) {
+        buildArgs.push('--cssnano');
+    }
+    if (argv.rem2px) {
+        buildArgs.push('--rem2px');
+    }
+    await exec('pnpm', buildArgs);
 }
