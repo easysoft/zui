@@ -87,8 +87,8 @@
 .dtable-sort.dtable-sort-none {
     height: calc(var(--dtable-sorter-size) * 12 / 5);
 }
-.dtable-sort.dtable-sort-down::before,
-.dtable-sort.dtable-sort-up::after {
+.dtable-sort.dtable-sort-desc::before,
+.dtable-sort.dtable-sort-asc::after {
     @apply -hidden;
 }
 .dtable-bordered .dtable-cell {

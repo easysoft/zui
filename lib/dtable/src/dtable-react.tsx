@@ -70,9 +70,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
             this._afterRender();
         }
 
-        this.ref.current?.addEventListener('click', this._handleClick);
-        this.ref.current?.addEventListener('mouseover', this._handleMouseOver);
-        this.ref.current?.addEventListener('mouseleave', this._handleMouseLeave);
+        const {current} = this.ref;
+        if (current) {
+            current.addEventListener('click', this._handleClick);
+            current.addEventListener('mouseover', this._handleMouseOver);
+            current.addEventListener('mouseleave', this._handleMouseLeave);
+        }
 
         if (this.#options.responsive) {
             window.addEventListener('resize', this._handleResize);
@@ -90,11 +93,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     componentWillUnmount() {
-        this.ref.current?.removeEventListener('click', this._handleClick);
+        const {current} = this.ref;
+        if (current) {
+            current.removeEventListener('click', this._handleClick);
 
-        if (this.#options.colHover) {
-            this.ref.current?.removeEventListener('mouseover', this._handleMouseOver);
-            this.ref.current?.removeEventListener('mouseleave', this._handleMouseLeave);
+            if (this.#options.colHover) {
+                current.removeEventListener('mouseover', this._handleMouseOver);
+                current.removeEventListener('mouseleave', this._handleMouseLeave);
+            }
         }
 
         window.removeEventListener('resize', this._handleResize);

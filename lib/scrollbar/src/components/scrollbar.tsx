@@ -165,7 +165,6 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
     render() {
         const {
-            scrollSize,
             clientSize,
             type,
             size = 10,

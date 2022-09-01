@@ -1,10 +1,7 @@
 import {Cell, CellProps} from './cell';
 
 export function HeaderCell({col, children, style, ...props}: CellProps) {
-    let {sortType} = col.setting;
-    if (sortType === true) {
-        sortType = 'none';
-    }
+    const {sortType} = col.setting;
     return (
         <Cell
             col={col}
@@ -14,7 +11,7 @@ export function HeaderCell({col, children, style, ...props}: CellProps) {
             {...props}
         >
             {col.setting.title}
-            {sortType && <div className={`dtable-sort dtable-sort-${sortType}`}></div>}
+            {sortType && <div className={`dtable-sort dtable-sort-${sortType === true ? 'none' : sortType}`}></div>}
             {children}
         </Cell>
     );
