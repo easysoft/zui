@@ -95,11 +95,67 @@ importers:
 
   build:
     specifiers:
+      '@zui/ajax-form': workspace:0.0.1
+      '@zui/alert': workspace:0.0.1
+      '@zui/avatar': workspace:0.0.1
+      '@zui/avatar-group': workspace:0.0.1
+      '@zui/avatar-js': workspace:0.0.1
       '@zui/base': workspace:0.0.1
+      '@zui/breadcrumb': workspace:0.0.1
+      '@zui/browser-helpers': workspace:0.0.1
+      '@zui/btn-group': workspace:0.0.1
+      '@zui/button': workspace:0.0.1
+      '@zui/checkbox': workspace:0.0.1
+      '@zui/dropdown': workspace:0.0.1
       '@zui/dtable': workspace:0.0.1
+      '@zui/form': workspace:0.0.1
+      '@zui/helpers': workspace:0.0.1
+      '@zui/icons': workspace:0.0.1
+      '@zui/input': workspace:0.0.1
+      '@zui/input-group': workspace:0.0.1
+      '@zui/label': workspace:0.0.1
+      '@zui/modal': workspace:0.0.1
+      '@zui/nav': workspace:0.0.1
+      '@zui/nav-tabs': workspace:0.0.1
+      '@zui/pager': workspace:0.0.1
+      '@zui/panel': workspace:0.0.1
+      '@zui/progress': workspace:0.0.1
+      '@zui/progress-circle': workspace:0.0.1
+      '@zui/scrollbar': workspace:0.0.1
+      '@zui/store': workspace:0.0.1
+      '@zui/table': workspace:0.0.1
+      '@zui/utilities': workspace:0.0.1
     dependencies:
+      '@zui/ajax-form': link:../lib/ajax-form
+      '@zui/alert': link:../lib/alert
+      '@zui/avatar': link:../lib/avatar
+      '@zui/avatar-group': link:../lib/avatar-group
+      '@zui/avatar-js': link:../lib/avatar-js
       '@zui/base': link:../lib/base
+      '@zui/breadcrumb': link:../lib/breadcrumb
+      '@zui/browser-helpers': link:../lib/browser-helpers
+      '@zui/btn-group': link:../lib/btn-group
+      '@zui/button': link:../lib/button
+      '@zui/checkbox': link:../lib/checkbox
+      '@zui/dropdown': link:../lib/dropdown
       '@zui/dtable': link:../lib/dtable
+      '@zui/form': link:../lib/form
+      '@zui/helpers': link:../lib/helpers
+      '@zui/icons': link:../lib/icons
+      '@zui/input': link:../lib/input
+      '@zui/input-group': link:../lib/input-group
+      '@zui/label': link:../lib/label
+      '@zui/modal': link:../lib/modal
+      '@zui/nav': link:../lib/nav
+      '@zui/nav-tabs': link:../lib/nav-tabs
+      '@zui/pager': link:../lib/pager
+      '@zui/panel': link:../lib/panel
+      '@zui/progress': link:../lib/progress
+      '@zui/progress-circle': link:../lib/progress-circle
+      '@zui/scrollbar': link:../lib/scrollbar
+      '@zui/store': link:../lib/store
+      '@zui/table': link:../lib/table
+      '@zui/utilities': link:../lib/utilities
 
   config:
     specifiers:
