@@ -59,7 +59,7 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
     get barSize(): number {
         const {clientSize, scrollSize, size = 10} = this.props;
-        return Math.max(Math.round(clientSize * clientSize / scrollSize), size);
+        return Math.max(Math.round(clientSize * clientSize / scrollSize), 2 * size);
     }
 
     componentDidMount() {
@@ -191,7 +191,7 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         if (type === 'horz') {
             rootStyle.height = size;
             rootStyle.width = clientSize;
-            barStyle.width = Math.max(Math.round(clientSize * clientSize / scrollSize), size);
+            barStyle.width = this.barSize;
             barStyle.left = Math.round(scrollPos * (clientSize - barStyle.width) / maxScrollPos);
         } else {
             rootStyle.width = size;
