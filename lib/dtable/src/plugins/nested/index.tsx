@@ -200,7 +200,7 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
         const {nestedToggle} = col.setting;
         const info = this.getNestedRowInfo(rowID);
         if (nestedToggle && (info.children || info.parent)) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a role="button" className="dtable-nested-toggle state" style={info.children ? undefined : {visibility: 'hidden'}}><span className="dtable-nested-toggle-icon"></span></a>));
+            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a role="button" className={`dtable-nested-toggle state${info.children ? '' : ' is-no-child'}`}><span className="dtable-nested-toggle-icon"></span></a>));
         }
         if (info.level) {
             let {nestedIndent = nestedToggle} = col.setting;
