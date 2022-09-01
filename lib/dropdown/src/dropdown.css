@@ -2,12 +2,16 @@
   @apply -inline-block -relative;
 }
 
+.dropdown.open > .dropdown-menu {
+  @apply -block;
+}
+
 .dropdown-hover:hover > .dropdown-menu {
   @apply -block;
 }
 
 .caret {
-  @apply -w-0 -h-0 -inline-block -align-middle -opacity-50;
+  @apply -w-0 -h-0 -inline-block -opacity-50;
   border-top: 4px solid;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
@@ -19,10 +23,6 @@
   border-radius: var(--dropmenu-radius);
 }
 
-.open > .dropdown-menu {
-  @apply -block;
-}
-
 .dropdown-menu > li {
   @apply -px-2 -mb-1;
 }
@@ -32,62 +32,57 @@
   color: #3c4353;
 }
 
-.dropdown-menu>li:hover>a {
+.dropdown-menu > li:hover > a {
   @apply -rounded-sm;
   color: var(--dropmenu-active-color);
   background-color: var(--dropmenu-active-bg);
 }
 
-.dropup>.dropdown-menu {
-  top: auto;
-  bottom: 100%
+.dropup > .dropdown-menu {
+  @apply -top-auto -bottom-full;
 }
 
-.dropup>.btn>.caret {
+.dropup > .btn > .caret {
   border-top: 0 dotted;
   border-bottom: 4px solid;
 }
 
-.menu-align-right>.dropdown-menu {
-  left: auto;
-  right: 0;
+.menu-align-right > .dropdown-menu {
+  @apply -left-auto -right-0;
 }
 
 .dropdown-submenu {
   @apply -relative;
 }
 
-.dropdown-submenu>.dropdown-menu {
+.dropdown-submenu > .dropdown-menu {
   @apply -hidden;
 }
 
 .dropdown-submenu:hover>.dropdown-menu {
-  @apply -block;
-  left: 100%;
-  top: 0;
+  @apply -block -left-full -top-0;
 }
 
-.dropdown-submenu>a:after {
+.dropdown-submenu > a:after {
   @apply -block -w-0 -h-0 -border-solid -border-transparent -float-right -mr-0 -mt-0.5;
   content: " ";
   border-width: 5px 0 5px 5px;
   border-left-color: #ccc;
 }
 
-.dropdown-submenu:hover>.expand-left {
-  left: auto;
-  right: 100%;
+.dropdown-submenu:hover > .expand-left {
+  @apply -left-auto -right-full;
 }
 
 .dropdown-menu .dropdown-header:hover {
   @apply disabled:-opacity-50;
 }
 
-.dropdown-menu>.dropdown-header {
+.dropdown-menu > .dropdown-header {
   @apply -px-3 -py-1 -font-bold;
 }
 
-.dropdown-menu>.divider {
+.dropdown-menu > .divider {
   @apply -mx-4 -my-1 -p-0;
   height: 1px;
   background-color: var(--dropmenu-border-color);
