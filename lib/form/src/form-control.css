@@ -5,9 +5,8 @@
 }
 
 .form-control:focus-within {
-    @apply -border -outline-none;
+    @apply -border -outline-none -z-[2];
     border-color: var(--form-focus-color);
-    z-index: 2;
 }
 
 .form-control::placeholder {

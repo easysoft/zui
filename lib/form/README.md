@@ -6,30 +6,30 @@
 
 ```html:example
 <form>
-     <div class="form-group">
-         <label> 账号 </label>
-         <input type="text" class="form-control" />
-     </div>
-     <div class="form-group">
-         <label> 密码 </label>
-         <input type="password" class="form-control" />
-     </div>
+  <div class="form-group">
+    <label> 账号 </label>
+    <input type="text" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label> 密码 </label>
+    <input type="password" class="form-control" />
+  </div>
 </form>
 ```
 ## 水平排列的表单
 
 使用组件类`.form-horizontal`来获得水平排列的表单外观
 
- ```html:example: -flex -gap-3
+```html:example: -flex -gap-3
 <form class="form-horizontal">
-    <div class="form-group">
-        <label> 账号 </label>
-        <input type="text" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label> 密码 </label>
-        <input type="password" class="form-control" />
-    </div>
+  <div class="form-group">
+    <label> 账号 </label>
+    <input type="text" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label> 密码 </label>
+    <input type="password" class="form-control" />
+  </div>
 </form>
  ```
 
@@ -147,7 +147,7 @@
 
 ## 标记必填项
 
-标记必填项的一种通用方法是在标签上添加星标* , 在表单控件组中只需要为`<label>`添加.required 类
+标记必填项的一种通用方法是在标签上添加星标<span style="color: var(--color-danger-500);"> * </span>, 在表单控件组中只需要为`<label>`添加.required 类
 
 ```html:example
 <form>

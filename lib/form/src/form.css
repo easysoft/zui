@@ -7,13 +7,17 @@
 }
 
 .form-horizontal > .form-group {
-  @apply -flex;
+  @apply -flex -items-center;
 }
 
 .form-horizontal > .form-group > label {
   @apply -mr-4 ;
   text-align: var(--form-horz-label-align);
   width: var(--form-label-width);
+}
+
+.form-group .form-tip {
+  @apply -leading-loose;
 }
 
 .has-success {
@@ -42,17 +46,12 @@ fieldset {
 }
 
 legend {
-  @apply -font-bold -w-full -block -leading-normal;
-  margin-bottom: 0.2rem; 
-  font-size: 18px; 
-}
-
-.required {
-  position: relative;
+  @apply -font-bold -w-full -block -leading-normal -text-[18px];
+  margin-bottom: 0.2rem;
 }
 
 .required:after {
-  @apply -inline-block -absolute -top-0;
+  @apply -inline-block -ml-[4px];
   content: '*';
   color: var(--color-danger-500);
 }
