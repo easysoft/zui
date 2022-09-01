@@ -36,7 +36,7 @@ export function removePlugin(name: string): boolean {
 
 export function initPlugins(options?: DTableOptions): DTablePlugin[] {
     const map = new Map<string, DTablePlugin>();
-    const plugins = [options?.plugins].flat().reduce<DTablePlugin[]>((list, nameOrPlugin) => {
+    return [options?.plugins].flat().reduce<DTablePlugin[]>((list, nameOrPlugin) => {
         if (!nameOrPlugin) {
             return list;
         }
@@ -55,30 +55,23 @@ export function initPlugins(options?: DTableOptions): DTablePlugin[] {
         }
 
         if (plugin && !map.has(plugin.name)) {
-            let dependencies = plugin.plugins;
-            if (dependencies?.length) {
-                if (typeof dependencies === 'string') {
-                    dependencies = [dependencies];
+            plugin.plugins?.forEach(dependency => {
+                if (map.has(dependency)) {
+                    return;
                 }
-                dependencies.forEach(dependency => {
-                    if (map.has(dependency)) {
-                        return;
-                    }
-                    const dependencyPlugin = getPlugin(dependency);
-                    if (!dependencyPlugin) {
-                        console.warn(`DTable: Cannot found dependency plugin "${dependency}" for plugin "${plugin?.name}"`);
-                        return;
-                    }
-                    list.push(dependencyPlugin);
-                    map.set(dependencyPlugin.name, dependencyPlugin);
-                });
-            }
+                const dependencyPlugin = getPlugin(dependency);
+                if (!dependencyPlugin) {
+                    console.warn(`DTable: Cannot found dependency plugin "${dependency}" for plugin "${plugin?.name}"`);
+                    return;
+                }
+                list.push(dependencyPlugin);
+                map.set(dependencyPlugin.name, dependencyPlugin);
+            });
             list.push(plugin);
             map.set(plugin.name, plugin);
         }
         return list;
     }, []);
-    return plugins;
 }
 
 export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {

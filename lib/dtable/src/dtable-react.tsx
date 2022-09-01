@@ -261,8 +261,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     addRowItem(item as RowID, index);
                 }
             });
-        } else if (typeof data === 'object' && data) {
-            Object.entries(data).forEach(([id, item], index) => addRowItem(id, index, item));
         }
 
         // Add rows

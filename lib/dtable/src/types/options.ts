@@ -19,7 +19,7 @@ export interface DTableOptions {
     height?: number | '100%' | 'auto' | {min: number, max: number} | (() => number | 'auto' | {min: number, max: number});
     rowHeight?: number;
     rowKey?: string;
-    data?: (RowData | RowID)[] | number | Record<RowID, RowData>;
+    data?: (RowData | RowID)[] | number;
     dataGetter?: (ids: RowID[]) => RowData[],
     defaultColWidth?: number;
     minColWidth?: number;
@@ -50,6 +50,6 @@ export interface DTableOptions {
     onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
     rowSorter?: (this: DTable, a: RowInfo, b: RowInfo) => number;
     rowFilter?: (this: DTable, row: RowInfo) => void | boolean;
-    plugins?: DTablePluginLike | DTablePluginLike[];
+    plugins?: DTablePluginLike[];
     [prop: string]: unknown
 }
