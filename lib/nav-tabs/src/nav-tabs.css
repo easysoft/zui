@@ -1,0 +1,16 @@
+.tab-content > .tab-pane {
+  @apply -hidden -px-3 -py-2;
+}
+
+.tab-content > .active {
+  @apply -block;
+}
+
+.fade {
+  @apply -opacity-0;
+  transition: opacity 0.15s linear;
+}
+
+.fade.in {
+  @apply -opacity-100;
+}
