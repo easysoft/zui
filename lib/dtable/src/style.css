@@ -66,15 +66,15 @@
     @apply -cursor-pointer;
 }
 .dtable-sort {
-    @apply -relative -ml-1 -opacity-50;
-    height: var(--dtable-sorter-size);
+    @apply -relative -ml-1;
+    height: calc(var(--dtable-sorter-size) * 12 / 5);
 }
 .dtable-cell:hover .dtable-sort {
     @apply -opacity-100;
 }
 .dtable-sort::before,
 .dtable-sort::after {
-    @apply -absolute -w-0 -h-0 -border-solid -border-transparent -left-0;
+    @apply -absolute -w-0 -h-0 -border-solid -border-transparent -left-0 -opacity-40;
     content: ' ';
     border-width: var(--dtable-sorter-size);
 }
@@ -84,12 +84,9 @@
 .dtable-sort::after {
     @apply -bottom-0 -border-b-0 -border-t-current;
 }
-.dtable-sort.dtable-sort-none {
-    height: calc(var(--dtable-sorter-size) * 12 / 5);
-}
-.dtable-sort.dtable-sort-desc::before,
-.dtable-sort.dtable-sort-asc::after {
-    @apply -hidden;
+.dtable-sort.dtable-sort-desc::after,
+.dtable-sort.dtable-sort-asc::before {
+    @apply -opacity-90;
 }
 .dtable-bordered .dtable-cell {
     @apply -border-l;

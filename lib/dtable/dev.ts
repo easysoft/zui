@@ -59,7 +59,7 @@ setTimeout(() => {
     if (productElement) {
         const productTable = new DTable(productElement, {
             cols: [
-                {name: 'name', title: '产品名称', type: 'link', width: 280, fixed: 'left', sortType: 'down', linkTemplate: '#/product/{id}'},
+                {name: 'name', title: '产品名称', type: 'link', width: 280, fixed: 'left', sortType: 'asc', linkTemplate: '#/product/{id}'},
                 {name: 'productLine', title: '所属产品线', minWidth: 110, sortType: true, flex: 1},
                 {name: 'manager', title: '负责人', type: 'avatar', width: 110, sortType: true, avatarKey: 'managerAvatar', avatarWithName: true},
                 {name: 'feedback', title: '反馈', width: 65, sortType: true, align: 'center'},
