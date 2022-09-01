@@ -51,10 +51,7 @@
 </ul>
 ```
 
-
-## 有等级区分的导航
-
-### 主要导航
+## 主要导航
 
 使用.nav-primary修饰类获得一级导航样式
 
@@ -81,7 +78,7 @@
 </ul>
 ```
 
-### 次要导航
+## 次要导航
 
 使用.nav-secondary修饰类获取二级导航样式，通常搭配一级导航使用。
 
@@ -137,14 +134,14 @@
 ## 圆点导航
 
 <Example>
-<ul class="nav nav-pills">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
+  <ul class="nav nav-pills">
+    <li class="active"><a href="###">首页</a></li>
+    <li><a href="###">动态 </a></li>
+    <li><a href="###">项目 </a></li>
+    <li>
+      <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
+    </li>
+  </ul>
 </Example>
 
 
@@ -158,19 +155,18 @@
   </li>
 </ul>
 ```
-
 
 ## 垂直排列的导航
 
 <Example>
-<ul class="nav nav-stacked">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
+  <ul class="nav nav-stacked">
+    <li class="active"><a href="###">首页</a></li>
+    <li><a href="###">动态 </a></li>
+    <li><a href="###">项目 </a></li>
+    <li>
+      <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
+    </li>
+  </ul>
 </Example>
 
 
@@ -184,6 +180,26 @@
   </li>
 </ul>
 ```
+
+## 带分隔线的导航
+
+<Example>
+ <ul class="nav">
+   <li class="active"><a href="###">首页</a></li>
+   <li class="nav-divider"></li>
+   <li><a href="###">动态 </a></li>
+   <li><a href="###">项目 </a></li>
+ </ul>
+</Example>
+
+ ```html
+ <ul class="nav">
+   <li class="active"><a href="###">首页</a></li>
+   <li class="nav-divider"></li>
+   <li><a href="###">动态 </a></li>
+   <li><a href="###">项目 </a></li>
+ </ul>
+ ```
 ## 自适应宽度的导航
 
 自适应宽度修饰类不能和垂直排列修饰类混用
@@ -381,21 +397,31 @@ if (typeof window !== 'undefined') {
 
 ## CSS 类
 
-面包屑提供了如下CSS类
+导航提供了如下CSS类
 
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
-| `nav`      | 实体类 | 元素导航组件 |
-| `active`      | 修饰类 | 为导航元素启用选中态样式 |
-| `nav-simple`      | 修饰类 | 为导航元素启用简单样式 |
-| `nav-primary`      | 修饰类 | 为导航元素启用简单样式 |
-| `nav-secondary`      | 修饰类 | 为导航元素启用简单样式 |
+| `nav`              | 实体类 | 元素导航组件 |
+| `nav-heading`      | 实体类 | 导航标题组件 |
+| `nav-divider`      | 实体类 | 导航分割线组件 |
+| `active`           | 修饰类 | 为导航元素启用选中态样式 |
+| `nav-simple`       | 修饰类 | 为导航元素启用简单样式 |
+| `nav-primary`      | 修饰类 | 为导航元素启用主要导航样式 |
+| `nav-secondary`    | 修饰类 | 为导航元素启用次要导航样式 |
+| `nav-tabs`         | 修饰类 | 为导航元素启用标签风格导航样式 |
+| `nav-pills`        | 修饰类 | 为导航元素启用标签风格导航样式 |
+| `nav-stacked`      | 修饰类 | 为导航元素启用垂直排列导航样式 |
+| `nav-justified`    | 修饰类 | 为导航元素启用自适应宽度导航样式 |
 
 
 ## CSS 变量
 
 | 变量名称 | 变量含义 |
 | -------- | -------- |
-| --breadcrumb-divider           | 面包屑分割元素标签类型 |
-| --breadcrumb-divider-color     | 面包屑分割元素颜色 |
-| --breadcrumb-color-active      | 面包屑选中态元素颜色 |
+| --nav-radius                   | 导航圆角大小 |
+| --nav-border-color             | 导航边框颜色 |
+| --nav-secon-border-color       | 次要导航边框颜色 |
+| --nav-heading-bg-color         | 导航标题背景颜色 |
+| --nav-heading-color            | 导航标题字体颜色 |
+| --nav-heading-color            | 导航标题字体颜色 |
+| --nav-divider-color            | 导航分隔线颜色 |
