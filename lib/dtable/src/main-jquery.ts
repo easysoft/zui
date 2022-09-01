@@ -4,7 +4,7 @@ import {DTable} from './dtable';
 /// <reference types="jquery" />
 
 function dtable(this: JQuery, options?: DTableOptions | string, ...args: unknown[]) {
-    $(this).each(function () {
+    return $(this).each(function () {
         const $e = $(this);
         const table = $e.data(DTable.NAME);
         if (table) {
