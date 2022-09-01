@@ -1,2 +1,2 @@
 import './nav-tabs.css';
-import './nav-tabs';
+export * from './nav-tabs';

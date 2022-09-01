@@ -1,18 +1,28 @@
-export default class NavTabs {
+export class NavTabs {
     #nav;
 
     #navTarget;
 
     constructor(element) {
         this.#nav = element;
-        this.#navTarget = document.querySelector(element.getAttribute('data-target'))
-                       || document.querySelector(element.getAttribute('data-tab'))
-                       || document.querySelector(element.getAttribute('href'));
+        this.#navTarget = document.querySelector(element.getAttribute('data-target')) ||
+                          document.querySelector(element.getAttribute('data-tab')) ||
+                          document.querySelector(element.getAttribute('href'));
     }
 
     showTarget(): void {
         this.addActive(this.#nav.parentElement.parentElement, this.#nav.parentElement);
         this.addActive(this.#navTarget.parentElement, this.#navTarget);
+        this.#navTarget.dispatchEvent(new CustomEvent('show.zui3.tab'));
+    }
+
+    show(): void {
+        this.#navTarget = this.#nav;
+        this.addActive(this.#navTarget.parentElement, this.#navTarget);
+        this.#nav = document.querySelector(`[href='#${this.#navTarget.getAttribute('id')}']`) ||
+                    document.querySelector(`[data-tab='#${this.#navTarget.getAttribute('id')}']`) ||
+                    document.querySelector(`[data-target='#${this.#navTarget.getAttribute('id')}']`);
+        this.addActive(this.#nav.parentElement.parentElement, this.#nav.parentElement);
     }
 
     addActive(clickPane: HTMLElement, target: HTMLElement): void {
@@ -26,10 +36,19 @@ export default class NavTabs {
         });
         target.classList.add('active');
         if (target.classList.contains('fade')) {
+            this.transition(target).then(function (data) {
+                target.dispatchEvent(new CustomEvent('shown.zui3.tab'));
+            });
+        }
+    }
+
+    transition(target:HTMLElement): void {
+        return new Promise(function (resolve, reject) {
             setTimeout(() => {
                 target.classList.add('in');
+                resolve();
             }, 100);
-        }
+        });
     }
 }
 
@@ -41,4 +60,5 @@ document.addEventListener('click', function (e) {
         }
     }
 });
+
 
