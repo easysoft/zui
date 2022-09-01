@@ -44,6 +44,7 @@ export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTab
     onAddRow?: (this: PluginTable, row: RowInfo, index: number) => void | false;
     rowSorter?: (this: PluginTable, a: RowInfo, b: RowInfo) => number;
     rowFilter?: (this: PluginTable, row: RowInfo) => void | boolean;
+    plugins?: string | string[]
 }
 
 export interface DTablePluginComsumer<O = {}> {

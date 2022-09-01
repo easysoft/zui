@@ -14,6 +14,7 @@ importers:
       '@typescript-eslint/parser': 5.33.1
       '@zui/alert': workspace:^0.0.1
       '@zui/base': workspace:0.0.1
+      '@zui/nav-tabs': workspace:^0.0.1
       '@zui/scrollbar': workspace:0.0.1
       '@zui/utilities': workspace:0.0.1
       autoprefixer: 10.4.8
@@ -49,6 +50,7 @@ importers:
     dependencies:
       '@zui/alert': link:lib/alert
       '@zui/base': link:lib/base
+      '@zui/nav-tabs': link:lib/nav-tabs
       '@zui/scrollbar': link:lib/scrollbar
       '@zui/utilities': link:lib/utilities
       highlight.js: 11.6.0
@@ -253,8 +255,11 @@ importers:
   lib/form:
     specifiers:
       '@zui/base': workspace:*
+      '@zui/checkbox': workspace:^0.0.1
       '@zui/utilities': workspace:*
     dependencies:
+      '@zui/checkbox': link:../checkbox
+    devDependencies:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities
 
@@ -324,6 +329,16 @@ importers:
       '@zui/utilities': workspace:*
     devDependencies:
       '@zui/base': link:../base
+      '@zui/utilities': link:../utilities
+
+  lib/nav-tabs:
+    specifiers:
+      '@zui/base': workspace:*
+      '@zui/nav': workspace:^0.0.1
+      '@zui/utilities': workspace:*
+    devDependencies:
+      '@zui/base': link:../base
+      '@zui/nav': link:../nav
       '@zui/utilities': link:../utilities
 
   lib/pager:

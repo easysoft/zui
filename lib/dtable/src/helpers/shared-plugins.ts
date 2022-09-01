@@ -35,7 +35,8 @@ export function removePlugin(name: string): boolean {
 }
 
 export function initPlugins(options?: DTableOptions): DTablePlugin[] {
-    return [options?.plugins].flat().reduce<DTablePlugin[]>((list, nameOrPlugin) => {
+    const map = new Map<string, DTablePlugin>();
+    const plugins = [options?.plugins].flat().reduce<DTablePlugin[]>((list, nameOrPlugin) => {
         if (!nameOrPlugin) {
             return list;
         }
@@ -52,11 +53,32 @@ export function initPlugins(options?: DTableOptions): DTablePlugin[] {
         } else {
             console.warn('DTable: Invalid plugin', nameOrPlugin);
         }
-        if (plugin) {
+
+        if (plugin && !map.has(plugin.name)) {
+            let dependencies = plugin.plugins;
+            if (dependencies?.length) {
+                if (typeof dependencies === 'string') {
+                    dependencies = [dependencies];
+                }
+                dependencies.forEach(dependency => {
+                    if (map.has(dependency)) {
+                        return;
+                    }
+                    const dependencyPlugin = getPlugin(dependency);
+                    if (!dependencyPlugin) {
+                        console.warn(`DTable: Cannot found dependency plugin "${dependency}" for plugin "${plugin?.name}"`);
+                        return;
+                    }
+                    list.push(dependencyPlugin);
+                    map.set(dependencyPlugin.name, dependencyPlugin);
+                });
+            }
             list.push(plugin);
+            map.set(plugin.name, plugin);
         }
         return list;
     }, []);
+    return plugins;
 }
 
 export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {
