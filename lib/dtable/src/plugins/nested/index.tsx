@@ -220,7 +220,11 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
         return result;
     },
     onRenderRow(rowProps, rowInfo): RowProps {
-        rowProps.className = classes(rowProps.className, `is-nested-${this.getNestedRowInfo(rowInfo.id).state}`);
+        const info = this.getNestedRowInfo(rowInfo.id);
+        Object.assign(rowProps, {
+            className: classes(rowProps.className, `is-nested-${info.state}`),
+            'data-parent': info.parent,
+        });
         return rowProps;
     },
     onRenderHeaderRow(rowProps): RowProps {
