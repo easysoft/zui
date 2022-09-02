@@ -21,6 +21,7 @@ export function Row({
     onRenderCell,
     hoverCol,
     data,
+    ...others
 }: RowProps) {
     let flexLeftView = null;
     if (fixedLeftCols?.length) {
@@ -79,6 +80,7 @@ export function Row({
             className={classes('dtable-row', className)}
             style={style}
             data-id={rowID}
+            {...others}
         >
             {flexLeftView}
             {scrollableView}
