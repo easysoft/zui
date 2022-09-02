@@ -12,8 +12,8 @@ import {DTableState} from './state';
 
 export type DTablePluginLike = string | DTablePlugin | DTablePluginComsumer;
 
-export interface DTableOptions {
-    cols?: ColSetting[];
+export interface DTableOptions<C extends ColSetting = ColSetting> {
+    cols?: C[];
     className?: ClassNameLike,
     width?: number | '100%' | 'auto' | (() => number | 'auto');
     height?: number | '100%' | 'auto' | {min: number, max: number} | (() => number | 'auto' | {min: number, max: number});

@@ -59,8 +59,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.#plugins;
     }
 
-    get layout() {
-        return this.#layout;
+    get layout(): DTableLayout {
+        return this.#layout as DTableLayout;
     }
 
     componentDidMount() {
@@ -373,8 +373,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 lazyRows.push(row.id);
             }
         }
-        // TODO: load data for lazy rows.
 
+        // TODO: load data for lazy rows.
         let layout: DTableLayout = {
             allRows,
             width,

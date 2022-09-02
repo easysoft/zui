@@ -21,7 +21,7 @@ export type DTableWithPlugin<O = {}, S = {}, C = {}> = DTable & {
     getColInfo: (name: string) => ColInfo<ColSetting & C> | undefined;
 };
 
-export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTableWithPlugin<O, S, C> & T, Options = DTableOptions & O> {
+export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTableWithPlugin<O, S, C> & T, Options = DTableOptions<PluginColSetting<C>> & O> {
     name: string;
     when?: (options: Options) => boolean,
     onCreate?: (this: PluginTable, plugin: this) => void;
