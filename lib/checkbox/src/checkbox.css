@@ -1,40 +1,27 @@
-.checkbox > label ,
-.radio > label {
-  @apply -cursor-pointer -pl-5 ;
-}
-.checkbox > label > input,
-.radio > label > input {
-  @apply --ml-5 ;
-}
-.checkbox-primary,
-.radio-primary {
-  @apply -leading-4;
-}
-
+.checkbox,
 .checkbox-inline,
-.radio-inline,
-.checkbox > label,
-.radio > label{
-  @apply -align-middle; 
-}
-.checkbox-inline > input[type=checkbox],
-.radio-inline > input[type=radio] {
-  @apply --ml-4 ;
+.radio,
+.radio-inline {
+  @apply -cursor-pointer -items-center -gap-1;
 }
 
-.checkbox-inline + .checkbox-inline,
-.radio-inline + .radio-inline {
-  @apply -ml-4;
+.checkbox,
+.radio {
+  @apply -flex -my-1;
+}
+
+.checkbox-inline ,
+.radio-inline {
+  @apply -inline-flex -mr-3;
 }
 
 .checkbox-primary > label,
-.radio-primary > label{
-  @apply -ml-2 -relative; 
+.radio-primary > label {
+  @apply -cursor-pointer;
 }
 .checkbox-primary > label:before,
 .radio-primary > label:before {
-  @apply -border-solid -border-black -border -mt-1 -absolute -w-3 -aspect-square --left-4;
-  margin-top: 0.1rem;
+  @apply -inline-block -border-solid -border-black -border -w-3 -aspect-square -align-middle -mr-1;
   content:"";
 }
 .radio-primary > label:before {
@@ -42,14 +29,14 @@
 }
 .checkbox-primary > input,
 .radio-primary > input {
-  @apply -opacity-0;
+  @apply -hidden;
 }
 
 .radio-primary.checked > label:before,
 .radio-primary > input:checked + label:before,
 .checkbox-primary.checked > label:before,
 .checkbox-primary > input:checked + label:before {
-  @apply -bg-primary-500 --left-4;
+  @apply -bg-primary-500;
   border-color: var(--color-primary-500);
 }
 .radio-primary.disabled > label:before,
