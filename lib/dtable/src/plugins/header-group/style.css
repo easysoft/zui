@@ -1,0 +1,12 @@
+.dtable-header-group {
+    @apply -absolute -flex -justify-center -items-center -top-0 -left-0 -z-10 -cursor-default;
+    background: var(--dtable-header-bg);
+}
+.dtable-bordered .dtable-header-group {
+    border-bottom: 1px solid var(--dtable-border-color);
+}
+.dtable-header-as-group {
+    content-visibility: visible;
+    overflow: visible;
+    contain: style;
+}
