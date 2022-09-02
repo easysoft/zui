@@ -24,7 +24,7 @@ type NestedRowInfo = {
     order?: number;
 };
 
-type NestedDTable = DTableWithPlugin<DTableNestedOptions, DTableNestedState> & DTableNestedMethods;
+type NestedDTable = DTableWithPlugin<DTableNestedOptions, DTableNestedState> & DTableNestedProps;
 
 function getNestedRowInfo(this: NestedDTable, rowID: RowID): NestedRowInfo {
     const info = this.nestedMap.get(rowID);
@@ -132,14 +132,14 @@ export interface DTableNestedColSetting {
     nestedIndent?: number | boolean;
 }
 
-export interface DTableNestedMethods {
+export interface DTableNestedProps {
     nestedMap: Map<RowID, NestedRowInfo>,
     toggleRow: typeof toggleRow;
     isAllCollapsed: typeof isAllCollapsed;
     getNestedRowInfo: typeof getNestedRowInfo;
 }
 
-export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedMethods> = {
+export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedProps> = {
     name: 'nested',
     defaultOptions: {
         nested: true,
@@ -261,4 +261,4 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
     },
 };
 
-export default definePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedMethods>(nested);
+export default definePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedProps>(nested);
