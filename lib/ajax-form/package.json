@@ -16,12 +16,15 @@
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/form": "workspace:0.0.1",
+        "@zui/button": "workspace:0.0.1"
     },
     "zui": {
         "type": "components",
         "displayName": "ajaxForm",
         "contributes": {
+          "css": ["class", "var"],
             "js": ["component"]
         }
     }

@@ -177,11 +177,15 @@ importers:
     specifiers:
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/button': workspace:0.0.1
+      '@zui/form': workspace:0.0.1
       '@zui/utilities': workspace:*
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
     devDependencies:
       '@zui/base': link:../base
+      '@zui/button': link:../button
+      '@zui/form': link:../form
       '@zui/utilities': link:../utilities
 
   lib/alert:

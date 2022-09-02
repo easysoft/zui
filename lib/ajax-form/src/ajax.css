@@ -1,0 +1,17 @@
+.validation > .form-group {
+  @apply -relative;
+}
+.validation > .form-group > .form-tip {
+  @apply -absolute -top-full -left-0 -text-sm -text-danger-500;
+
+}
+.form-horizontal > .form-group > .form-tip {
+  @apply -ml-4;
+  left: var(--form-label-width);
+}
+.form-horizontal > .form-group > .btn:not(:first-child) {
+  @apply -ml-3;
+}
+.form-horizontal > .form-group > .btn:first-child {
+  margin-left: calc(1rem + var(--form-label-width));
+}
