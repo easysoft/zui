@@ -1,16 +1,18 @@
 import {classes} from '@zui/browser-helpers/src/classes';
-import {ColInfo} from '../../types/col-info';
-import {CustomRenderResult} from '../../types/custom-render-result';
 import {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
-import {RowInfo} from '../../types/row-info';
 import {RowProps} from '../../types/row-props';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {RowID} from '../../types/row-data';
 import './style.css';
+import {CustomRenderResult} from '../../types/custom-render-result';
 
 type DTableCheckable = DTableWithPlugin<DTableCheckableOptions, DTableCheckableState> & DTableCheckableMethods;
 
-function toggleCheckRows(this: DTableCheckable, rowID: RowID | (RowID)[], checked?: boolean): Record<RowID, boolean> {
+function toggleCheckRows(this: DTableCheckable, rowID?: RowID | (RowID)[] | boolean, checked?: boolean): Record<RowID, boolean> {
+    if (typeof rowID === 'boolean') {
+        checked = rowID;
+        rowID = undefined;
+    }
     const checkedRows = this.state.checkedRows;
     const changes: Record<RowID, boolean> = {};
     const toggleRow = (id: RowID, toggle: boolean) => {
@@ -25,7 +27,7 @@ function toggleCheckRows(this: DTableCheckable, rowID: RowID | (RowID)[], checke
         }
         changes[id] = toggle;
     };
-    if (rowID === 'HEADER') {
+    if (rowID === undefined) {
         if (checked === undefined) {
             checked = !isAllRowChecked.call(this);
         }
@@ -62,7 +64,8 @@ function getChecks(this: DTableCheckable): RowID[] {
 export interface DTableCheckableOptions {
     checkable?: boolean;
     checkOnClickRow?: boolean;
-    onCheckChange?: (changes: Record<RowID, boolean>) => void;
+    onCheckChange?: (this: DTableCheckable, changes: Record<RowID, boolean>) => void;
+    checkboxRender?: (this: DTableCheckable, checked: boolean, rowID: RowID) => CustomRenderResult;
 }
 
 export interface DTableCheckableState {
@@ -70,7 +73,7 @@ export interface DTableCheckableState {
 }
 
 export interface DTableCheckableColSetting {
-    checkbox?: boolean;
+    checkbox?: boolean | ((this: DTableCheckable, rowID: RowID) => boolean);
 }
 
 export interface DTableCheckableMethods {
@@ -87,14 +90,16 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
     onCreate() {
         this.state.checkedRows = {};
         this.toggleCheckRows = toggleCheckRows.bind(this);
-        this.isRowChecked =    isRowChecked.bind(this);
+        this.isRowChecked    = isRowChecked.bind(this);
         this.isAllRowChecked = isAllRowChecked.bind(this);
-        this.getChecks =       getChecks.bind(this);
+        this.getChecks       = getChecks.bind(this);
     },
-    onRenderCell(result: CustomRenderResult, rowID: RowID, col: ColInfo): CustomRenderResult {
-        if (col.setting.checkbox) {
+    onRenderCell(result, rowID, col) {
+        const {checkbox: checkboxSetting} = col.setting;
+        const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
+        if (showCheckbox) {
             const checked = this.isRowChecked(rowID);
-            const checkbox = (
+            const checkbox = this.options.checkboxRender?.call(this, checked, rowID) ?? (
                 <input type="checkbox" checked={checked} />
             );
             result.unshift(checkbox);
@@ -102,10 +107,12 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
         }
         return result;
     },
-    onRenderHeaderCell(result: CustomRenderResult, rowID: RowID, col: ColInfo) {
-        if (col.setting.checkbox) {
+    onRenderHeaderCell(result, rowID, col) {
+        const {checkbox: checkboxSetting} = col.setting;
+        const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
+        if (showCheckbox) {
             const checked = this.isAllRowChecked();
-            const checkbox = (
+            const checkbox = this.options.checkboxRender?.call(this, checked, rowID) ?? (
                 <input type="checkbox" checked={checked} />
             );
             result.unshift(checkbox);
@@ -113,7 +120,7 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
         }
         return result;
     },
-    onRenderRow(rowProps: RowProps, rowInfo: RowInfo): RowProps {
+    onRenderRow(rowProps, rowInfo): RowProps {
         if (this.isRowChecked(rowInfo.id)) {
             rowProps.className = classes(rowProps.className, 'is-checked');
         }
@@ -124,9 +131,9 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
         if (!target) {
             return;
         }
-        const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"]');
+        const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"],.dtable-checkbox');
         if (checkbox) {
-            this.toggleCheckRows('HEADER', checkbox.checked);
+            this.toggleCheckRows(checkbox.checked);
         }
     },
     onRowClick(event, {rowID}) {
@@ -134,7 +141,7 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
         if (!target) {
             return;
         }
-        const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"]');
+        const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"],.dtable-checkbox');
         if (checkbox || this.options.checkOnClickRow) {
             this.toggleCheckRows(rowID);
         }
