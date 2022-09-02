@@ -9,7 +9,7 @@ function dtable(this: JQuery, options?: DTableOptions | string, ...args: unknown
         const table = $e.data(DTable.NAME);
         if (table) {
             if (typeof options === 'string') {
-                table[table]?.(...args);
+                table[options]?.(...args);
             }
         } else {
             if (typeof options === 'string') {
