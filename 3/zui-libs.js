@@ -22,7 +22,7 @@ export default [
             "@zui/button": "workspace:0.0.1"
         },
         "zui": {
-            "type": "components",
+            "type": "js-ui",
             "displayName": "ajaxForm",
             "contributes": {
                 "css": [
