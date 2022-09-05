@@ -28,14 +28,7 @@ export default class AjaxForm {
 
     validity: boolean;
 
-    disabled: boolean; //禁用
-
-    validation: {
-        valid: false, 
-        msg: '',
-    };
-
-    isPass: boolean;
+    // disabled: boolean; //禁用
 
     rules: object;
 
@@ -56,6 +49,7 @@ export default class AjaxForm {
                         this.ajaxUrl = (this.#form.action ? this.#form.action : options.url) || '';
                         this.submitBtn = document.querySelector(`#${item} [data-type=submit]`);
                         this.resetBtn = document.querySelector(`#${item} [data-type=reset]`);
+                        
                         if (this.submitBtn) {
                             this.submitBtn.addEventListener('click', () => {
                                 this.submitForm();
@@ -76,7 +70,7 @@ export default class AjaxForm {
                                     break;
                             }
                         });
-                        this.disabled = this.#form.querySelectorAll('.disabled')?.length > 0;
+                        // this.disabled = this.#form.querySelectorAll('.disabled')?.length > 0;
                         this.novalidate = this.#form.dataset?.novalidate === 'true';
                         const formControls = [...this.#form.querySelectorAll('.form-control:not(.disabled)')];
                         this.validity = formControls.every(el => el?.validity);
@@ -104,10 +98,7 @@ export default class AjaxForm {
         this.invalid = false;
         const formControls = this.#form.querySelectorAll('.form-control');
         formControls.forEach(item => {
-            item.parentElement.classList.remove('has-error');
-            if (item.nextElementSibling?.classList.contains('form-tip')) {
-                item.nextElementSibling.remove();
-            }
+            this.removeError(item);
             item.value = null;
         });
     }
@@ -126,20 +117,66 @@ export default class AjaxForm {
         ele.append(tipElement);
     }
 
+    removeError(ele) {
+        ele.parentElement.classList.remove('has-error');
+        if (ele.nextElementSibling?.classList.contains('form-tip')) {
+            ele.nextElementSibling.remove();
+        }
+    }
+
+    checkRequired(ele, value) {
+        if (ele.previousSibling.previousElementSibling.classList.contains('required')) {
+            if (!(/\S/.test(value))) {
+                this.addErrorTip(ele.parentElement, `${ele.tagName === 'INPUT' ? '请输入' : '请选择'}${ele.previousElementSibling.innerText}`);
+                return false; 
+            } else {
+                this.removeError(ele);
+            }
+            
+        }
+    }
+
+    beforeCheck(ele, value, ruleItem) {
+        let validity = true;
+        if (ruleItem.required && !(/\S/.test(value))) {
+            this.addErrorTip(ele.parentElement, ruleItem.msg);
+            validity = false;
+            return false; 
+        } else {
+            this.removeError(ele);
+        }
+        if (ruleItem.patterns?.length) {
+            const patterns = ruleItem.patterns;
+            patterns.forEach(patternsItem => {
+                if (!patternsItem.reg.test(value)) { 
+                    this.addErrorTip(ele.parentElement, patternsItem.msg);
+                    validity = false;
+                    return false; 
+                } else {
+                    this.removeError(ele);
+                }
+            });
+        }
+        this.invalid = !validity;
+        return true; 
+    }
+
     checkValidity() {
-        if (this.novalidate) {
+        if (this.novalidate || !this.rules || !Object.keys(this.rules).length) {
             return true;
         }
+       
         const formControls = this.#form.querySelectorAll('.form-control:not(.disabled)');
         const elements = [...formControls].reverse();
-        let validity = true;
         elements.forEach(el => {
-            if (el.checkValidity && !el.checkValidity()) {
-                validity = false;
+            for (const key in this.rules) {
+                if (key === el.id) {
+                    this.beforeCheck(el, this.formData[key],  this.rules[key]);
+                } else {
+                    this.checkRequired(el, el.value);
+                }
             }
         });
-        this.invalid = !validity;
-        return validity;
     }
 
     getAjaxFormData(ele, options) {
@@ -147,7 +184,7 @@ export default class AjaxForm {
             options = {complete: options};
         }
         const formData = {};
-        const formControls = this.#form.querySelectorAll('.form-control:not(.disabled)');
+        const formControls = ele.querySelectorAll('.form-control:not(.disabled)');
         formControls.forEach(item => {
             formData[item.id] = item.value || '';
         });
@@ -167,18 +204,14 @@ export default class AjaxForm {
             this.finish = options.finish;
             delete options.finish;
         }
-
         if (options.rules) {
-            this.rules = options.rules;
+            this.rules = {...options.rules};
             delete options.rules;
-        } else {
-            this.rules = {};
         }
-       
         this.formData = {
             timeout: window?.config ? window?.config.timeout : 0,
             dataType: 'json',
-            ...this.formData,
+            ...formData,
             ...options,
         };
     }
@@ -210,73 +243,6 @@ export default class AjaxForm {
         }
 
         return stringJson.join('&').replace(' ', '+');
-    }
-
-    // 触发验证
-    validate(rules) {
-        if (rules) {
-            for (const i in this.formData) {
-                this.validation[i] = {valid: false, msg: ''};
-            }
-        }
-        
-        // 计算最终结果的唯一标识
-        for (const j in this.validation) {
-            if (typeof this.validation[j] === 'object') {
-                if (this.validation[j].valid) {
-                    this.validation.valid = true;
-                    this.validation.msg = '';
-                } else {
-                    this.validation.valid = false;
-                    this.validation.msg = this.validation[j].msg;
-                    break;
-                }
-            }
-        }
-        this.isPass = this.validation.valid;
-    }
-
-    // doValidate (eleName, validateObj){
-    //     let value = this.parent.querySelector('[name=' + eleName + ']').value.replace(/(^\s*)|(\s*$)/g, '');
-    //     // 判断必填选项
-    //     if(validateObj.required){
-    //         if (/\S/.test(value)) {
-    //             this.setTrue(eleName);
-    //         } else {
-    //             this.setFalse(eleName, validateObj.msg);
-    //             return;
-    //         }
-    //     }
-    //     // 判断正则选项
-    //     if (validateObj.patterns) {
-    //         for(let i in validateObj.patterns){
-    //             if (validateObj.patterns[i].reg.test(value)) {
-    //                 this.setTrue(eleName);
-    //             } else {
-    //                 this.setFalse(eleName, validateObj.patterns[i].msg);
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
-
-    setTrue(eleName) {
-        this.validation[eleName].valid = true;
-        this.validation[eleName].msg = '';
-    }
-
-    setFalse(eleName, msg) {
-        this.validation[eleName].valid = false;
-        this.validation[eleName].msg = msg;
-    }
-    
-    onBeforeSubmit(data, currentForm, option) {
-        if (this.rules) {
-            this.validate(this.rules);
-        }
-        if ((this.callback.beforeSubmit && this.callback.beforeSubmit(data, currentForm, option)) === false) return false;
-        this.#form.classList.remove('form-watched');
-        
     }
 
     ajaxRequest(requestData) {
@@ -354,10 +320,9 @@ export default class AjaxForm {
     }
 
     submitForm() {
-        this.checkValidity();
-        // this.onBeforeSubmit(null, null, null);
-        this.ajaxSubmit(this.#form, this.formData);
-        return false;
+        if (this.checkValidity()) {
+            this.ajaxSubmit(this.#form, this.formData);
+        }
     }
 
     showFormMessage(message, method: string, options: object) {
@@ -392,29 +357,50 @@ export default class AjaxForm {
 }
 
 document.addEventListener('click', (e) => {
-    if (e !== null && e.target instanceof HTMLElement) {
-        if (e.target.dataset?.type === 'submit') {
-            new AjaxForm('apiForm2', {
-                rules: {
-                    'name': {
-                        required: true,
-                        msg: 'name必填',
-                        patterns: [{
-                            reg: /^[a-zA-Z]+$/,
-                            msg: 'name请填入英文',
-                        }],
-                    },
-                },
-                success: (data)=>{
-                    console.log('success', data);
-                },
-                error: (data)=>{
-                    console.log('fail', data);
-                },
-                // finish: (data)=>{
-                //     console.log('finish', data);
-                // },
-            });
-        }
-    }
+    new AjaxForm('resetForm', {
+        rules: {
+            'name': {
+                required: true,
+                msg: '登录名必填',
+                patterns: [{
+                    reg: /^[a-zA-Z]+$/,
+                    msg: '登录名请填入英文',
+                }],
+            },
+            'pw': {
+                required: true,
+                msg: '密码必填',
+            },
+        },
+        success: (data)=>{
+            console.log('success', data);
+        },
+        error: (data)=>{
+            console.log('fail', data);
+        },
+        // finish: (data)=>{
+        //     console.log('finish', data);
+        // },
+    });
+    new AjaxForm('apiForm2', {
+        rules: {
+            'name': {
+                required: true,
+                msg: '登录名必填',
+            },
+            'pw': {
+                required: true,
+                msg: '密码必填',
+            },
+        },
+        success: (data)=>{
+            console.log('success', data);
+        },
+        error: (data)=>{
+            console.log('fail', data);
+        },
+        // finish: (data)=>{
+        //     console.log('finish', data);
+        // },
+    });
 });

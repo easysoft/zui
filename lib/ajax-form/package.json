@@ -21,11 +21,11 @@
         "@zui/button": "workspace:0.0.1"
     },
     "zui": {
-        "type": "components",
-        "displayName": "ajaxForm",
-        "contributes": {
+      "type": "js-ui",
+      "displayName": "ajaxForm",
+      "contributes": {
           "css": ["class", "var"],
-            "js": ["component"]
-        }
-    }
+          "js": ["component"]
+      }
+  }
 }
