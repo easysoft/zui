@@ -37,60 +37,52 @@ export default class AjaxForm {
         this.formData = {};
         this.timer = null;
         this.invalid = false;
-        element = element.replace(/\s*/g, '');
-        const formIdData = element.split(',');
-        if (formIdData?.length) {
-            formIdData.forEach(item => {
-                if (item) {
-                    this.#form = document.querySelector(`#${item}`);
-                    if (this.#form) {
-                        this.getAjaxFormData(this.#form, options);
-                      
-                        this.ajaxUrl = (this.#form.action ? this.#form.action : options.url) || '';
-                        this.submitBtn = document.querySelector(`#${item} [data-type=submit]`);
-                        this.resetBtn = document.querySelector(`#${item} [data-type=reset]`);
-                        
-                        if (this.submitBtn) {
-                            this.submitBtn.addEventListener('click', () => {
-                                this.submitForm();
-                            });
-                        }
-                        if (this.resetBtn) {
-                            this.resetBtn.addEventListener('click', () => this.reset());
-                        }
-                        this.#form.addEventListener('keydown', (ev) => {
-                            if (ev.target === this.resetBtn) {
-                                return;
-                            }
-                            switch (ev.keyCode) {
-                                case 13:
-                                    this.submitForm();
-                                    break;
-                                default:
-                                    break;
-                            }
-                        });
-                        // this.disabled = this.#form.querySelectorAll('.disabled')?.length > 0;
-                        this.novalidate = this.#form.dataset?.novalidate === 'true';
-                        const formControls = [...this.#form.querySelectorAll('.form-control:not(.disabled)')];
-                        this.validity = formControls.every(el => el?.validity);
-                        if (!this.novalidate) {
-                            formControls.forEach(el => {
-                                if (el.tagName === 'input') {
-                                    el.addEventListener('blur', () => {
-                                        this.invalid = !this.validity;
-                                    });
-                                } else {
-                                    el.addEventListener('change', () => {
-                                        this.invalid = !this.validity;
-                                    }); 
-                                }
-                            });
-                        }
-                    }
-                    
+       
+        this.#form = document.querySelector(`#${element}`);
+        if (this.#form) {
+            this.getAjaxFormData(this.#form, options);
+            
+            this.ajaxUrl = (this.#form.action ? this.#form.action : options.url) || '';
+            this.submitBtn = document.querySelector(`#${element} [data-type=submit]`);
+            this.resetBtn = document.querySelector(`#${element} [data-type=reset]`);
+            
+            if (this.submitBtn) {
+                this.submitBtn.addEventListener('click', () => {
+                    this.submitForm();
+                });
+            }
+            if (this.resetBtn) {
+                this.resetBtn.addEventListener('click', () => this.reset());
+            }
+            this.#form.addEventListener('keydown', (ev) => {
+                if (ev.target === this.resetBtn) {
+                    return;
+                }
+                switch (ev.keyCode) {
+                    case 13:
+                        this.submitForm();
+                        break;
+                    default:
+                        break;
                 }
             });
+            // this.disabled = this.#form.querySelectorAll('.disabled')?.length > 0;
+            this.novalidate = this.#form.dataset?.novalidate === 'true';
+            const formControls = [...this.#form.querySelectorAll('.form-control:not(.disabled)')];
+            this.validity = formControls.every(el => el?.validity);
+            if (!this.novalidate) {
+                formControls.forEach(el => {
+                    if (el.tagName === 'input') {
+                        el.addEventListener('blur', () => {
+                            this.invalid = !this.validity;
+                        });
+                    } else {
+                        el.addEventListener('change', () => {
+                            this.invalid = !this.validity;
+                        }); 
+                    }
+                });
+            }
         }
     }
 
@@ -355,6 +347,9 @@ export default class AjaxForm {
 
     }    
 }
+document.addEventListener('form', () => {
+    console.log(window.addEventListener);
+});
 
 document.addEventListener('click', (e) => {
     new AjaxForm('resetForm', {
