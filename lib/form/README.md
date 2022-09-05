@@ -225,7 +225,7 @@
 ```
 ```html:example
 <select class="form-control">
-  <option value="">请选择一种水果</option>
+  <option value="" disabled>请选择一种水果</option>
   <option value="apple">苹果</option>
   <option value="banana">香蕉</option>
   <option value="orange">桔子</option>
@@ -233,7 +233,7 @@
 ```
 ```html:example
 <select class="form-control" multiple>
-  <option value="">请选择所有爱吃的水果</option>
+  <option value="" disabled>请选择所有爱吃的水果</option>
   <option value="apple">苹果</option>
   <option value="banana">香蕉</option>
   <option value="orange">桔子</option>

@@ -1,23 +1,22 @@
 .modal {
-  @apply -hidden -overflow-hidden -fixed -top-0 -right-0 -bottom-0 -left-0;
+  @apply -hidden -overflow-hidden -fixed -inset-0;
   background-color: var(--modal-bg-color);
-  outline: 0;
   z-index: var(--modal-z-index);
 }
 .modal-dialog {
-  @apply -relative -my-0 -mx-auto -bg-clip-padding -bg-white --translate-x-0 --translate-y-1/4;
+  @apply -relative -mx-auto -bg-clip-padding -bg-white --translate-x-0 --translate-y-1/4;
   width: var(--modal-base);
   border-radius: var(--modal-radius);
   pointer-events: initial;
-  outline: 0;
 }
 
 .modal > .modal-dialog {
-  transform: translate(0, 0%);
-  animation: dialog-fade-in .3s;
+  transform: translate(0, 0);
+  animation: dialog-fade-out .3s;
 }
 .modal.block > .modal-dialog {
   transform: translate(0,0);
+  animation: dialog-fade-in .3s;
 }
 .modal-header {
   padding: var(--modal-inner-padding);
@@ -32,7 +31,6 @@
 }
 
 .modal-body {
-  @apply -relative;
   padding: var(--modal-inner-padding);
 }
 
@@ -47,13 +45,17 @@
 }
 
 .modal-dialog.size-fullscreen {
-  @apply -relative -m-0 -rounded-none;
-  width: 100%!important;
-  height: 100%!important;
+  @apply -rounded-none -w-full -h-full;
 }
-.modal-dialog.size-fullscreen > .modal-body {
-  @apply -absolute -right-0 -bottom-0 -left-0 -overflow-y-auto;
+
+.modal-dialog.size-fullscreen > .modal-content {
+  @apply -flex -flex-col -h-full;
 }
+
+.modal-dialog.size-fullscreen > .modal-content > .modal-body {
+  @apply -flex-auto -overflow-auto;
+}
+
 .scroll-inside {
   overflow: hidden!important;
 }
@@ -88,19 +90,5 @@
   100% {
     transform: translate3d(0, -1.25rem, 0);
     @apply -opacity-0;
-  }
-}
-
-.modal-open .VPNav {
-    padding-right: 17px;
-}
-
-@media (min-width: 1440px) {
-  .modal-open .VPSidebar {
-    padding-left: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 - 9px);
-    width: calc((100% - (var(--vp-layout-max-width) - 64px)) / 2 + var(--vp-sidebar-width) - 41px);
-  }
-  .modal-open .VPNavBar.has-sidebar .content {
-    margin-left: 17px;
   }
 }
