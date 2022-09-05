@@ -13,7 +13,7 @@
 .alert > .alert-icon-close {
   @apply -absolute -cursor-pointer;
   right: 0.75rem;
-  top: 0.5rem;
+  top: 0.6rem;
 }
 
 .alert > .alert-icon-close + * {
