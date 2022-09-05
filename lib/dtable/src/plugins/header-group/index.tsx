@@ -1,14 +1,7 @@
-import {classes} from '@zui/browser-helpers/src/classes';
 import {CustomRenderResult} from '../../types/custom-render-result';
-import {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
-import {RowInfo} from '../../types/row-info';
-import {RowProps} from '../../types/row-props';
+import {DTablePlugin} from '../../types/plugin';
 import {definePlugin} from '../../helpers/shared-plugins';
-import {RowData, RowID} from '../../types/row-data';
-import {ColInfo} from '../../types/col-info';
 import './style.css';
-
-type HeaderGroupDTable = DTableWithPlugin<DTableHeaderGroupOptions, DTableHeaderGroupState> & DTableHeaderGroupProps;
 
 export interface DTableHeaderGroupOptions {
     headerGroup?: boolean;

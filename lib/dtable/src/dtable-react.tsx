@@ -149,7 +149,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const headerHeight = header ? (options.headerHeight || rowHeight) : 0;
         const footerHeight = footer ? (options.footerHeight || rowHeight) : 0;
 
-        const limitSize = (size: number, min: number, max: number): number => {
+        const limitSize = (size: number, min?: number, max?: number): number => {
             if (size) {
                 if (min) {
                     size = Math.max(min, size);
@@ -560,7 +560,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return scrollbars.length ? scrollbars : null;
     }
 
-    _handleResize = () => {
+    private _handleResize = () => {
         if (this.#rafId) {
             cancelAnimationFrame(this.#rafId);
         }
@@ -570,13 +570,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
     };
 
-    _afterRender() {
+    private _afterRender() {
         this.#needUpdateSize = false;
         this.#options.afterRender?.call(this);
         this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
     }
 
-    _handleRenderRow = (rowProps: RowProps, rowInfo: RowInfo): RowProps => {
+    private _handleRenderRow = (rowProps: RowProps, rowInfo: RowInfo): RowProps => {
         if (this.#options.onRenderRow) {
             rowProps = this.#options.onRenderRow.call(this, rowProps, rowInfo);
         }
@@ -589,7 +589,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return rowProps;
     };
 
-    _handleRenderHeaderRow = (rowProps: RowProps): RowProps => {
+    private _handleRenderHeaderRow = (rowProps: RowProps): RowProps => {
         if (this.#options.onRenderHeaderRow) {
             rowProps = this.#options.onRenderHeaderRow.call(this, rowProps);
         }
@@ -602,7 +602,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return rowProps;
     };
 
-    _handleRenderCell = (result: CustomRenderResult, rowID: RowID, col: ColInfo, rowData?: RowData) : CustomRenderResult => {
+    private _handleRenderCell = (result: CustomRenderResult, rowID: RowID, col: ColInfo, rowData?: RowData) : CustomRenderResult => {
         const renderCallbackName = rowID === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
         if (col.setting[renderCallbackName]) {
             result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, rowID, col, rowData);
@@ -618,7 +618,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return result;
     };
 
-    _handleScroll = (scrollOffset: number, type: 'horz' | 'vert') => {
+    private _handleScroll = (scrollOffset: number, type: 'horz' | 'vert') => {
         if (type === 'horz') {
             this.scrollLeft(scrollOffset);
         } else {
@@ -626,7 +626,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     };
 
-    _handleClick = (event: MouseEvent) => {
+    private _handleClick = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
         if (!target) {
             return;
@@ -669,7 +669,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     };
 
-    _handleMouseOver = (event: MouseEvent) => {
+    private _handleMouseOver = (event: MouseEvent) => {
         const {colHover} = this.#options;
         if (!colHover) {
             return;
@@ -686,7 +686,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.setState({hoverCol: colName});
     };
 
-    _handleMouseLeave = () => {
+    private _handleMouseLeave = () => {
         this.setState({hoverCol: undefined});
     };
 
