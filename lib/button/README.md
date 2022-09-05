@@ -4,7 +4,7 @@
 
 使用组件类 `.btn` 来获得按钮外观，通常搭配 `<button>` 或 `<a>` 元素使用。
 
-```html:example: -flex -gap-3
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn">Button</button>
 <a class="btn">A Link</a>
 <button type="button" class="btn">中文按钮</button>
@@ -16,7 +16,7 @@
 
 使用工具类 `.square` 获得方形按钮外观。
 
-```html:example: -flex -gap-3
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn square">S</button>
 <button type="button" class="btn square">中</button>
 <button type="button" class="btn square" disabled="disabled">禁</button>
@@ -24,7 +24,7 @@
 
 ## Button Sizes
 
-```html:example: -flex -gap-3 -items-end
+```html:example: -flex -gap-3 -items-end -flex-wrap
 <button type="button" class="btn size-xl">Extra Large Button</button>
 <button type="button" class="btn size-lg">Large Button</button>
 <button type="button" class="btn">Normal Button</button>
@@ -34,7 +34,7 @@
 
 ## Button Styles
 
-```html:example: -flex -gap-3 -overflow-x-auto
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn primary">Primary</button>
 <button type="button" class="btn secondary">secondary</button>
 <button type="button" class="btn success">success</button>
@@ -55,7 +55,7 @@
 <button type="button" class="btn ghost">ghost</button>
 ```
 
-```html:example: -flex -gap-3  overflow-x-auto
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn primary-outline">Primary</button>
 <button type="button" class="btn secondary-outline">secondary</button>
 <button type="button" class="btn success-outline">success</button>
@@ -76,7 +76,7 @@
 <button type="button" class="btn ghost-outline">ghost</button>
 ```
 
-```html:example: -flex -gap-3  overflow-x-auto
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn primary-pale">Primary</button>
 <button type="button" class="btn secondary-pale">secondary</button>
 <button type="button" class="btn success-pale">success</button>
@@ -90,7 +90,7 @@
 <button type="button" class="btn dark-pale">dark</button>
 ```
 
-```html:example: -flex -gap-3  overflow-x-auto
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn primary-pale bd-primary">Primary</button>
 <button type="button" class="btn secondary-pale bd-secondary">secondary</button>
 <button type="button" class="btn success-pale bd-success">success</button>
@@ -107,7 +107,7 @@
 <button type="button" class="btn black-pale bd-black">black</button>
 ```
 
-```html:example: -flex -gap-3  overflow-x-auto
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn text-primary">Primary</button>
 <button type="button" class="btn text-secondary">secondary</button>
 <button type="button" class="btn text-success">success</button>
@@ -126,7 +126,7 @@
 
 ## Radius
 
-```html:example: -flex -gap-3
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn primary rounded-none">Button</button>
 <button type="button" class="btn primary rounded-sm">Button</button>
 <button type="button" class="btn primary rounded">Button</button>
@@ -138,7 +138,7 @@
 
 ## Shadow
 
-```html:example: -flex -gap-3
+```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn shadow-none">Button</button>
 <button type="button" class="btn shadow-sm">Button</button>
 <button type="button" class="btn shadow">Button</button>
