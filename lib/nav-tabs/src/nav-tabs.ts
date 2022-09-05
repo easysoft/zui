@@ -42,8 +42,8 @@ export class NavTabs {
         }
     }
 
-    transition(target:HTMLElement): void {
-        return new Promise(function (resolve, reject) {
+    transition(target:HTMLElement) {
+        return new Promise<void>(function (resolve, reject) {
             setTimeout(() => {
                 target.classList.add('in');
                 resolve();
@@ -53,7 +53,7 @@ export class NavTabs {
 }
 
 document.addEventListener('click', function (e) {
-    if (e !== null && e.target instanceof HTMLElement) {
+    if (e.target instanceof HTMLElement) {
         if (e.target.dataset.toggle === 'tab' || e.target.getAttribute('data-tab')) {
             e.preventDefault();
             new NavTabs(e.target).showTarget();
