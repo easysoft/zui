@@ -993,7 +993,7 @@ function Fe() {
     rowHeight: 35,
     defaultColWidth: 80,
     minColWidth: 20,
-    maxColWidth: 1e3,
+    maxColWidth: 9999,
     header: !0,
     footer: !1,
     headerHeight: 0,
@@ -2047,7 +2047,7 @@ class xs {
 }
 D = new WeakMap(), T = new WeakMap();
 document.addEventListener("click", function(s) {
-  s !== null && s.target instanceof HTMLElement && (s.target.dataset.toggle === "tab" || s.target.getAttribute("data-tab")) && (s.preventDefault(), new xs(s.target).showTarget());
+  s.target instanceof HTMLElement && (s.target.dataset.toggle === "tab" || s.target.getAttribute("data-tab")) && (s.preventDefault(), new xs(s.target).showTarget());
 });
 export {
   $s as Avatar,
