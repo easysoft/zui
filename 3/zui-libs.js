@@ -922,7 +922,7 @@ export default [
         ],
         "main": "src/main.ts",
         "dependencies": {
-            "@zui/button": "workspace:^0.0.1"
+            "@zui/btn-group": "workspace:^0.0.1"
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
