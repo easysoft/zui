@@ -12,7 +12,13 @@ const docsPublicDir = path.join(docsDir, 'public');
 await fs.emptyDir(docsPublicDir);
 
 if (argv.build !== 'no') {
-    await exec('pnpm', ['build', '--', '--outDir=docs/_/public/zui']);
+    const params = ['build', '--', '--outDir=docs/_/public/zui', '--name=zui'];
+    if (argv.exts === true) {
+        params.push('--exts', '--lib=zui+exts');
+    } else if (typeof argv.exts === 'string') {
+        params.push(`--exts=${argv.exts}`, '--lib=zui+exts');
+    }
+    await exec('pnpm', params);
 }
 
 await fs.copyFile(path.resolve(process.cwd(), './favicon.svg'), path.resolve(docsPublicDir, './favicon.svg'));

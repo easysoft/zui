@@ -9,7 +9,7 @@ import {getLibsCache, setLibsCache} from './libs-cache';
  * @param libPath - Lib path - 组件路径
  */
 export async function getLibs(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number} = {}): Promise<Record<string, LibInfo>> {
-    if (!libPath) {
+    if (!libPath || libPath === 'all') {
         const libs = await getLibs(['buildIn', 'exts'], options);
         return libs;
     }
@@ -19,8 +19,15 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         if (!extsPathExits) {
             return {};
         }
-        const dirs = await fs.readdir(extsPath);
-        const libs = await getLibs(dirs.map((x) => Path.resolve(extsPath, x)), options);
+        const dirs = await fs.readdir(extsPath, {}) as string[];
+        const dirPaths: string[] = [];
+        for (const dir of dirs) {
+            const dirPath = Path.resolve(extsPath, dir);
+            if (fs.statSync(dirPath).isDirectory()) {
+                dirPaths.push(dirPath);
+            }
+        }
+        const libs = await getLibs(dirPaths, options);
         return libs;
     }
 
@@ -114,7 +121,7 @@ export function sortLibList(libList: LibInfo[]) {
 
 export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean, packageJsonPath: string}): LibInfo {
     const name = packageJson.name as string;
-    const defaultName = name.startsWith('@zui/') ? name.substring(5) : name;
+    const defaultName = name.split('/').pop();
     const {sourceType = 'build-in', path, idx = 0, workspace, packageJsonPath} = options;
     const libInfo = {
         name,

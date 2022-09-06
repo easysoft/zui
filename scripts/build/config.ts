@@ -189,6 +189,8 @@ function createLibExportStatement(exportInfo: BuildLibExport, libName: string): 
 function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string, LibInfo>): BuildLibInfo[] {
     if (libLike === 'zui' || libLike === '@zui') {
         return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in').sort((a, b) => a.zui.order - b.zui.order);
+    } else if (libLike === 'zui+exts') {
+        return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in' || x.zui.sourceType === 'exts').sort((a, b) => a.zui.order - b.zui.order);
     }
 
     let exports: string[] | undefined;
@@ -266,7 +268,9 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     let {exts} = options;
     if (typeof exts === 'string') {
-        exts = exts.split(',').map(ext => ext.trim());
+        if (exts !== 'no') {
+            exts = exts.split(',').map(ext => ext.trim());
+        }
     } else if (exts) {
         exts = ['buildIn', 'exts'];
     } else {

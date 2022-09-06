@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "dev:exts": "vite --host -- --lib=all",
     "build:vite": "tsc && vite build",
     "build": "tsx ./scripts/build",
     "preview": "vite preview",
@@ -12,11 +13,13 @@
     "lint": "eslint .",
     "docs:dev-fast": "cd docs && pnpm dev",
     "docs:dev": "pnpm docs:prepare && pnpm docs:dev-fast & pnpm docs:watch",
+    "docs:dev:exts": "pnpm docs:prepare -- --exts && pnpm docs:dev-fast & pnpm docs:watch",
     "docs:watch": "tsx ./scripts/docs/watch.ts",
     "docs:build": "pnpm docs:prepare -- --copy && cd docs && pnpm build",
     "docs:serve": "cd docs && pnpm serve",
     "docs:prepare": "tsx ./scripts/docs/prepare.ts",
-    "extend-libs": "tsx ./scripts/libs/extend-libs.ts"
+    "extend-lib": "tsx ./scripts/libs/extend-lib.ts",
+    "watch-exts": "tsx ./scripts/libs/watch-exts.ts"
   },
   "workspaces": [
     "./lib"
