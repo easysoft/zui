@@ -391,16 +391,6 @@ importers:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities
 
-  lib/nav-tabs:
-    specifiers:
-      '@zui/base': workspace:*
-      '@zui/nav': workspace:^0.0.1
-      '@zui/utilities': workspace:*
-    devDependencies:
-      '@zui/base': link:../base
-      '@zui/nav': link:../nav
-      '@zui/utilities': link:../utilities
-
   lib/pager:
     specifiers:
       '@zui/base': workspace:*
@@ -459,6 +449,16 @@ importers:
       '@zui/utilities': workspace:*
     devDependencies:
       '@zui/base': link:../base
+      '@zui/utilities': link:../utilities
+
+  lib/tabs:
+    specifiers:
+      '@zui/base': workspace:*
+      '@zui/nav': workspace:^0.0.1
+      '@zui/utilities': workspace:*
+    devDependencies:
+      '@zui/base': link:../base
+      '@zui/nav': link:../nav
       '@zui/utilities': link:../utilities
 
   lib/utilities:
