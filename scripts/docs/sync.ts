@@ -30,9 +30,16 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
     const libPath = Path.resolve(process.cwd(), 'lib');
     const docsPath = Path.resolve(process.cwd(), 'docs/docs');
     const docsDestPath = Path.resolve(process.cwd(), 'docs/_');
+    const extsPath = Path.resolve(process.cwd(), 'exts');
     let targetFile = '';
-    if (file.startsWith(libPath)) {
-        const relativePath = Path.relative(libPath, file);
+    if (file.startsWith(libPath) || file.startsWith(extsPath)) {
+        let relativePath = '';
+        if (file.startsWith(extsPath)) {
+            relativePath = Path.relative(extsPath, file);
+            relativePath = relativePath.split(Path.sep).slice(1).join(Path.sep);
+        } else {
+            relativePath = Path.relative(libPath, file);
+        }
         const [libName, type, ...restPath] = relativePath.split(Path.sep);
         if (type === 'assets') {
             targetFile = Path.join(docsDestPath, 'public', 'assets', libName, ...restPath);
