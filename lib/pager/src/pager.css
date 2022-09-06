@@ -1,39 +1,15 @@
 .pager {
   @apply -flex;
 }
-
-.pager > .btn + .btn {
-  @apply --ml-px;
-}
-
 .pager > .btn:not(.active):hover {
   @apply -text-primary-500;
 }
 
-.pager > .btn:focus-within,
-.pager > .btn:hover {
-  z-index: 1;
-}
-
-.pager > .btn:not(.previous) {
-  @apply -rounded-l-none;
-}
-.pager > .btn:not(.next) {
-  @apply -rounded-r-none;
-}
-
 .pager.borderless > .btn {
-  @apply -border-none -bg-canvas -rounded;
+  @apply -border-none -bg-canvas;
 }
 .pager.borderless > .btn.active {
   @apply -text-primary-500;
-}
-
-.pager >.btn.rounded {
-  @apply -rounded;
-}
-.pager >.btn.circle {
-  @apply -rounded-full;
 }
 
 .pager > .pager-jump > .input-control {
@@ -47,10 +23,14 @@
 .pager.pager-simple > .btn {
   @apply -px-2;
 }
-.pager.pager-loose > .btn,
-.pager.justify-between > .btn {
-  @apply -rounded;
-}
+
 .pager .pager-text > span {
   @apply -mx-1;
+}
+
+.pager > .dropdown > .dropdown-menu > .sizes-list {
+  @apply -flex -flex-wrap -gap-x-2;
+}
+.pager > .dropdown > .dropdown-menu-table > .sizes-list > li > a {
+  @apply -w-2 -px-3 -py-1 -text-center ;
 }

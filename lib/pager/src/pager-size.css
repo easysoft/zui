@@ -1,4 +1,4 @@
-@import '@zui/button/src/btn-size.css';
+@import '@zui/btn-group/src/btn-group-size.css';
 
 .pager.size-sm .btn {
   @apply -btn-sm;
@@ -7,3 +7,16 @@
 .pager.size-lg .btn {
   @apply -btn-lg;
 }
+
+.pager.size-sm > .pager-text,
+.pager.size-sm > .pager-sizes,
+.pager.size-sm > .pager-jump {
+  @apply -h-6 -leading-6 -text-sm;
+}
+
+.pager.size-lg > .pager-text,
+.pager.size-lg > .pager-sizes,
+.pager.size-lg > .pager-jump {
+  @apply -h-10 -leading-10 -text-lg;
+}
+

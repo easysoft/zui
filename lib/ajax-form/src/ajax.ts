@@ -253,17 +253,7 @@ export default class AjaxForm {
         const xmlHttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         xmlHttp.onreadystatechange = () => {
             let response = xmlHttp.response || {};
-            response = {
-                'result': 'fail',
-                // 'message': '提交成功，这是来自服务器的消息。',
-                'message': {
-                    'fruit': '请选择水果',
-                    'name': '请输入账号',
-                    'pw': '请输入密码',
-                    
-                   
-                },
-            };
+          
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                 if (typeof response == 'string') response = JSON.parse(response);
         
@@ -347,55 +337,3 @@ export default class AjaxForm {
 
     }    
 }
-document.addEventListener('form', () => {
-    console.log(window.addEventListener);
-});
-
-document.addEventListener('click', (e) => {
-    new AjaxForm('resetForm', {
-        rules: {
-            'name': {
-                required: true,
-                msg: '登录名必填',
-                patterns: [{
-                    reg: /^[a-zA-Z]+$/,
-                    msg: '登录名请填入英文',
-                }],
-            },
-            'pw': {
-                required: true,
-                msg: '密码必填',
-            },
-        },
-        success: (data)=>{
-            console.log('success', data);
-        },
-        error: (data)=>{
-            console.log('fail', data);
-        },
-        // finish: (data)=>{
-        //     console.log('finish', data);
-        // },
-    });
-    new AjaxForm('apiForm2', {
-        rules: {
-            'name': {
-                required: true,
-                msg: '登录名必填',
-            },
-            'pw': {
-                required: true,
-                msg: '密码必填',
-            },
-        },
-        success: (data)=>{
-            console.log('success', data);
-        },
-        error: (data)=>{
-            console.log('fail', data);
-        },
-        // finish: (data)=>{
-        //     console.log('finish', data);
-        // },
-    });
-});

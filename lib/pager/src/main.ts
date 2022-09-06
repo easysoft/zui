@@ -1,3 +1,3 @@
-import '@zui/button';
+import '@zui/btn-group';
 import './pager.css';
 import './pager-size.css';
