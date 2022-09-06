@@ -2,7 +2,7 @@
   @apply -inline-block -relative;
 }
 
-.dropdown.open > .dropdown-menu {
+.open > .dropdown-menu {
   @apply -block;
 }
 

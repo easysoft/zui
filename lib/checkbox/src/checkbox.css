@@ -1,18 +1,28 @@
 .checkbox,
-.checkbox-inline,
-.radio,
-.radio-inline {
-  @apply -cursor-pointer -items-center -gap-1;
+.radio {
+  @apply -flex;
 }
 
-.checkbox,
-.radio {
-  @apply -flex -my-1;
+.checkbox + .checkbox,
+.radio + .radio {
+  @apply -my-1;
 }
 
 .checkbox-inline ,
 .radio-inline {
-  @apply -inline-flex -mr-3;
+  @apply -inline-flex;
+}
+
+.checkbox-inline + .checkbox-inline,
+.radio-inline + .radio-inline {
+  @apply -ml-3
+}
+
+.checkbox,
+.checkbox-inline,
+.radio,
+.radio-inline {
+  @apply -cursor-pointer -items-center -gap-1;
 }
 
 .checkbox-primary > label,

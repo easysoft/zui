@@ -6,8 +6,8 @@
 <div class="modal-dialog shadow" style="margin-top:50px;">
   <div class="modal-content">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       <div class="modal-title">标题</div>
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
       <p>这是内容</p>
@@ -28,8 +28,8 @@
 <div class="modal" id="noContentModal">
   <div class="modal-dialog shadow">
     <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       <div class="modal-title">标题</div>
+      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
     </div>
     <div class="modal-body">
       <p>这是内容</p>
@@ -52,8 +52,8 @@
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
         <div class="modal-title">标题</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
         <p>这是内容</p>
@@ -79,8 +79,8 @@
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
         <div class="modal-title">标题</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
         这是内容
@@ -109,8 +109,8 @@
   <div class="modal-dialog shadow size-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
         <div class="modal-title">标题</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
         这是一个小弹窗
@@ -127,8 +127,8 @@
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
         <div class="modal-title">标题</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
         这是一个默认弹窗
@@ -145,8 +145,8 @@
   <div class="modal-dialog shadow size-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
         <div class="modal-title">标题</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
         这是一个大弹窗
@@ -163,8 +163,8 @@
   <div class="modal-dialog shadow size-fullscreen">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
         <div class="modal-title">标题</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
         <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
@@ -212,8 +212,8 @@
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
         <div class="modal-title">标题</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       </div>
       <div class="modal-body">
         <p>这是内容</p>

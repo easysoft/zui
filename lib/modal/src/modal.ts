@@ -45,7 +45,8 @@ function adjustPosition(target: HTMLElement, position: string) {
 
 function onClick(e: MouseEvent, modal: HTMLElement) {
     const elm = e.target as HTMLElement;
-    if ( elm.dataset.dismiss === 'modal' || elm.parentElement?.dataset.dismiss === 'modal') {
+    const btn = elm.closest('[data-dismiss=modal]');
+    if (btn) {
         e.stopPropagation();
         hideModal(modal);
     }
@@ -61,8 +62,9 @@ function getTarget(elm: HTMLElement) {
 
 document.addEventListener('click', (e) => {
     const elm = e.target as HTMLElement;
-    if (elm.dataset.toggle === 'modal') {
-        const target = getTarget(elm);
+    const btn = elm.closest('[data-toggle=modal]') as HTMLElement | null;
+    if (btn) {
+        const target = getTarget(btn);
         if (!target) {
             return;
         }
@@ -71,7 +73,7 @@ document.addEventListener('click', (e) => {
             return;
         }
 
-        showModal(modal, elm.dataset.position || 'fit');
+        showModal(modal, btn.dataset.position || 'fit');
     } else if (elm.className.includes('modal')) {
         hideModal(elm);
     }

@@ -27,8 +27,9 @@ function toggle(elm: HTMLElement) {
 
 document.addEventListener('click', function (e) {
     const elm = e.target as HTMLElement;
-    if (elm.dataset.toggle === 'dropdown') {
-        toggle(elm);
+    const button = elm.closest('[data-toggle=dropdown]') as HTMLElement | null;
+    if (button) {
+        toggle(button);
     } else {
         clearMenu();
     }

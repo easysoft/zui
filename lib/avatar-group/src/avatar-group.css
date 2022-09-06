@@ -1,9 +1,21 @@
 .avatar-group {
-  @apply -flex;
+  @apply -flex -gap-2.5;
 }
 .avatar-group > .avatar {
   box-shadow: 0 0 0 1px var(--color-canvas);
 }
-.avatar-group > :not(:first-child) {
-  @apply -ml-[-8%];
+.avatar-group > * + * {
+  @apply --ml-4;
+}
+.avatar-group.size-xs > * + * {
+  @apply --ml-3;
+}
+.avatar-group.size-sm > * + * {
+  @apply --ml-3.5;
+}
+.avatar-group.size-lg > * + * {
+  @apply --ml-5;
+}
+.avatar-group.size-xl > * + * {
+  @apply --ml-6;
 }

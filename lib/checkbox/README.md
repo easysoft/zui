@@ -11,7 +11,7 @@
 <label class="checkbox">
   <input type="checkbox"> 复选框 2
 </label>
-<label checkbox disabled>
+<label class="checkbox" disabled>
   <input disabled type="checkbox"> 被禁用的复选框
 </label>
 ```

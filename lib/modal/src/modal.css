@@ -19,11 +19,12 @@
   animation: dialog-fade-in .3s;
 }
 .modal-header {
+  @apply -flex -justify-between -items-center;
   padding: var(--modal-inner-padding);
   border-bottom: 1px solid var(--modal-border-color);
 }
 .modal-header > .close {
-  @apply -absolute -top-3 -right-4 -overflow-hidden -text-xl;
+  @apply -overflow-hidden -text-xl;
   color: var(--color-gray-500);
 }
 .modal-header > .modal-title {
@@ -35,13 +36,9 @@
 }
 
 .modal-footer {
-  @apply -text-right;
+  @apply -text-right -flex -justify-end -gap-2;
   border-top: 1px solid var(--modal-border-color);
   padding: var(--modal-inner-padding);
-}
-
-.modal-footer > .btn {
-  @apply -mx-1;
 }
 
 .modal-dialog.size-fullscreen {

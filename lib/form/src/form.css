@@ -17,7 +17,7 @@
 }
 
 .form-group .form-tip {
-  @apply -leading-loose;
+  @apply -py-1;
 }
 
 .has-success {
