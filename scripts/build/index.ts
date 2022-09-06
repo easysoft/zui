@@ -54,7 +54,7 @@ const viteConfigFile = Path.resolve(buildDir, 'vite.config.json');
 await fs.outputJSON(viteConfigFile, viteConfig, {spaces: 4});
 
 if (!argv.s && !argv.skipBuild) {
-    await exec('pnpm', ['i', '--filter', buildConfig.name]);
+    await exec('pnpm', ['i'], {cwd: buildDir});
 
     const buildArgs = ['run', 'build:vite', '--', `--config=${viteConfigFile}`];
     if (argv.cssnano) {

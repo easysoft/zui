@@ -324,7 +324,7 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
     const entryFileLines: string[] = [];
 
     for (const lib of config.libs) {
-        dependencies[lib.name] = lib.zui.workspace ? `workspace:${lib.version}` : lib.version;
+        dependencies[lib.name] = lib.zui.workspace ? `link:${Path.relative(buildDir, lib.zui.path)}` : lib.version;
         if (lib.exportList) {
             lib.exportList.forEach(item => {
                 entryFileLines.push(createLibExportStatement(item, lib.name));
@@ -344,6 +344,7 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
 
     const entryFile = Path.join(buildDir, 'main.ts');
     await fs.outputFile(entryFile, entryFileLines.join('\n'));
+    await fs.outputFile(Path.join(buildDir, 'pnpm-workspace.yaml'), '');
 
     const packageJson = {
         name: config.name,

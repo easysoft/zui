@@ -1,6 +1,6 @@
 packages:
   - "config"
   - "lib/**"
-  - "build"
   - "docs"
   - "exts/*/**"
+  - "!build"
