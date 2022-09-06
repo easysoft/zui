@@ -18,10 +18,10 @@
   const dashoffset = (percent/100) * 2 * Math.PI * (radius); // 41.45
   const dasharray = ((100 - percent)/100) * 2 * Math.PI * (radius); // 69.09
 
-  <svg class="progress-circle" height=24 width=24>
-     <circle cx=12 cy=12 r=11/>
-     <circle cx=12 cy=12 r=11 stroke-dasharray=69.09 troke-dashoffset=41.45 />
-     <text x=12 y=14 dominant-baseline="middle" >40</text>
+  <svg class="progress-circle" height="24" width="24">
+     <circle cx="12" cy="12" r="11" />
+     <circle cx="12" cy="12" r="11" stroke-dasharray="69.09" troke-dashoffset="41.45" />
+     <text x="12" y="14" dominant-baseline="middle" >40</text>
   </svg>
 ```
 
