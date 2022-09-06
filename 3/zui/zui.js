@@ -302,6 +302,115 @@ class Mn extends te {
     }, p, a);
   }
 }
+var J, Z;
+class ft extends te {
+  constructor(e) {
+    var s;
+    super(e);
+    $(this, J, 0);
+    $(this, Z, null);
+    S(this, "_handleWheel", (e) => {
+      var i;
+      const { wheelContainer: s } = this.props, o = e.target;
+      !o || !s || (typeof s == "string" && o.closest(s) || typeof s == "object") && this.scrollOffset((this.props.type === "horz" ? e.deltaX : e.deltaY) * ((i = this.props.wheelSpeed) != null ? i : 1)) && e.preventDefault();
+    });
+    S(this, "_handleMouseMove", (e) => {
+      const { dragStart: s } = this.state;
+      s && (d(this, J) && cancelAnimationFrame(d(this, J)), R(this, J, requestAnimationFrame(() => {
+        const o = this.props.type === "horz" ? e.clientX - s.x : e.clientY - s.y;
+        this.scroll(s.offset + o * this.props.scrollSize / this.props.clientSize), R(this, J, 0);
+      })), e.preventDefault());
+    });
+    S(this, "_handleMouseUp", () => {
+      this.state.dragStart && this.setState({
+        dragStart: !1
+      });
+    });
+    S(this, "_handleMouseDown", (e) => {
+      this.state.dragStart || this.setState({ dragStart: { x: e.clientX, y: e.clientY, offset: this.scrollPos } }), e.stopPropagation();
+    });
+    S(this, "_handleClick", (e) => {
+      const s = e.currentTarget;
+      if (!s)
+        return;
+      const o = s.getBoundingClientRect(), { type: i, clientSize: r, scrollSize: a } = this.props, h = (i === "horz" ? e.clientX - o.left : e.clientY - o.top) - this.barSize / 2;
+      this.scroll(h * a / r);
+    });
+    this.state = {
+      scrollPos: (s = this.props.defaultScrollPos) != null ? s : 0,
+      dragStart: !1
+    };
+  }
+  get scrollPos() {
+    var e;
+    return (e = this.props.scrollPos) != null ? e : this.state.scrollPos;
+  }
+  get controlled() {
+    return this.props.scrollPos !== void 0;
+  }
+  get maxScrollPos() {
+    const { scrollSize: e, clientSize: s } = this.props;
+    return Math.max(0, e - s);
+  }
+  get barSize() {
+    const { clientSize: e, scrollSize: s, size: o = 10 } = this.props;
+    return Math.max(Math.round(e * e / s), 2 * o);
+  }
+  componentDidMount() {
+    document.addEventListener("mousemove", this._handleMouseMove), document.addEventListener("mouseup", this._handleMouseUp);
+    const { wheelContainer: e } = this.props;
+    e && (R(this, Z, typeof e == "string" ? document : e.current), d(this, Z).addEventListener("wheel", this._handleWheel, { passive: !1 }));
+  }
+  componentWillUnmount() {
+    document.removeEventListener("mousemove", this._handleMouseMove), document.removeEventListener("mouseup", this._handleMouseUp), d(this, Z) && d(this, Z).removeEventListener("wheel", this._handleWheel);
+  }
+  scroll(e) {
+    return e = Math.max(0, Math.min(Math.round(e), this.maxScrollPos)), e === this.scrollPos ? !1 : (this.controlled ? this._afterScroll(e) : this.setState({
+      scrollPos: e
+    }, this._afterScroll.bind(this, e)), !0);
+  }
+  scrollOffset(e) {
+    return this.scroll(this.scrollPos + e);
+  }
+  _afterScroll(e) {
+    var o;
+    const { onScroll: s } = this.props;
+    s && s(e, (o = this.props.type) != null ? o : "vert");
+  }
+  render() {
+    const {
+      clientSize: e,
+      type: s,
+      size: o = 10,
+      className: i,
+      style: r,
+      left: a,
+      top: h,
+      bottom: f,
+      right: l
+    } = this.props, { maxScrollPos: p, scrollPos: g } = this, { dragStart: u } = this.state, _ = {
+      left: a,
+      top: h,
+      bottom: f,
+      right: l,
+      ...r
+    }, k = {};
+    return s === "horz" ? (_.height = o, _.width = e, k.width = this.barSize, k.left = Math.round(g * (e - k.width) / p)) : (_.width = o, _.height = e, k.height = this.barSize, k.top = Math.round(g * (e - k.height) / p)), /* @__PURE__ */ m("div", {
+      className: z("scrollbar", i, {
+        "is-vert": s === "vert",
+        "is-horz": s === "horz",
+        "is-dragging": u
+      }),
+      style: _,
+      onMouseDown: this._handleClick
+    }, /* @__PURE__ */ m("div", {
+      className: "scrollbar-bar",
+      style: k,
+      onMouseDown: this._handleMouseDown
+    }));
+  }
+}
+J = new WeakMap(), Z = new WeakMap();
 function Kt(t) {
   const n = typeof t == "string" ? document.querySelector(t) : t;
   if (!n)
@@ -442,115 +551,6 @@ document.addEventListener("click", function(t) {
   const e = t.target.closest("[data-toggle=dropdown]");
   e ? Qt(e) : xt();
 });
-var J, Z;
-class ft extends te {
-  constructor(e) {
-    var s;
-    super(e);
-    $(this, J, 0);
-    $(this, Z, null);
-    S(this, "_handleWheel", (e) => {
-      var i;
-      const { wheelContainer: s } = this.props, o = e.target;
-      !o || !s || (typeof s == "string" && o.closest(s) || typeof s == "object") && this.scrollOffset((this.props.type === "horz" ? e.deltaX : e.deltaY) * ((i = this.props.wheelSpeed) != null ? i : 1)) && e.preventDefault();
-    });
-    S(this, "_handleMouseMove", (e) => {
-      const { dragStart: s } = this.state;
-      s && (d(this, J) && cancelAnimationFrame(d(this, J)), R(this, J, requestAnimationFrame(() => {
-        const o = this.props.type === "horz" ? e.clientX - s.x : e.clientY - s.y;
-        this.scroll(s.offset + o * this.props.scrollSize / this.props.clientSize), R(this, J, 0);
-      })), e.preventDefault());
-    });
-    S(this, "_handleMouseUp", () => {
-      this.state.dragStart && this.setState({
-        dragStart: !1
-      });
-    });
-    S(this, "_handleMouseDown", (e) => {
-      this.state.dragStart || this.setState({ dragStart: { x: e.clientX, y: e.clientY, offset: this.scrollPos } }), e.stopPropagation();
-    });
-    S(this, "_handleClick", (e) => {
-      const s = e.currentTarget;
-      if (!s)
-        return;
-      const o = s.getBoundingClientRect(), { type: i, clientSize: r, scrollSize: a } = this.props, h = (i === "horz" ? e.clientX - o.left : e.clientY - o.top) - this.barSize / 2;
-      this.scroll(h * a / r);
-    });
-    this.state = {
-      scrollPos: (s = this.props.defaultScrollPos) != null ? s : 0,
-      dragStart: !1
-    };
-  }
-  get scrollPos() {
-    var e;
-    return (e = this.props.scrollPos) != null ? e : this.state.scrollPos;
-  }
-  get controlled() {
-    return this.props.scrollPos !== void 0;
-  }
-  get maxScrollPos() {
-    const { scrollSize: e, clientSize: s } = this.props;
-    return Math.max(0, e - s);
-  }
-  get barSize() {
-    const { clientSize: e, scrollSize: s, size: o = 10 } = this.props;
-    return Math.max(Math.round(e * e / s), 2 * o);
-  }
-  componentDidMount() {
-    document.addEventListener("mousemove", this._handleMouseMove), document.addEventListener("mouseup", this._handleMouseUp);
-    const { wheelContainer: e } = this.props;
-    e && (R(this, Z, typeof e == "string" ? document : e.current), d(this, Z).addEventListener("wheel", this._handleWheel, { passive: !1 }));
-  }
-  componentWillUnmount() {
-    document.removeEventListener("mousemove", this._handleMouseMove), document.removeEventListener("mouseup", this._handleMouseUp), d(this, Z) && d(this, Z).removeEventListener("wheel", this._handleWheel);
-  }
-  scroll(e) {
-    return e = Math.max(0, Math.min(Math.round(e), this.maxScrollPos)), e === this.scrollPos ? !1 : (this.controlled ? this._afterScroll(e) : this.setState({
-      scrollPos: e
-    }, this._afterScroll.bind(this, e)), !0);
-  }
-  scrollOffset(e) {
-    return this.scroll(this.scrollPos + e);
-  }
-  _afterScroll(e) {
-    var o;
-    const { onScroll: s } = this.props;
-    s && s(e, (o = this.props.type) != null ? o : "vert");
-  }
-  render() {
-    const {
-      clientSize: e,
-      type: s,
-      size: o = 10,
-      className: i,
-      style: r,
-      left: a,
-      top: h,
-      bottom: f,
-      right: l
-    } = this.props, { maxScrollPos: p, scrollPos: g } = this, { dragStart: u } = this.state, _ = {
-      left: a,
-      top: h,
-      bottom: f,
-      right: l,
-      ...r
-    }, k = {};
-    return s === "horz" ? (_.height = o, _.width = e, k.width = this.barSize, k.left = Math.round(g * (e - k.width) / p)) : (_.width = o, _.height = e, k.height = this.barSize, k.top = Math.round(g * (e - k.height) / p)), /* @__PURE__ */ m("div", {
-      className: z("scrollbar", i, {
-        "is-vert": s === "vert",
-        "is-horz": s === "horz",
-        "is-dragging": u
-      }),
-      style: _,
-      onMouseDown: this._handleClick
-    }, /* @__PURE__ */ m("div", {
-      className: "scrollbar-bar",
-      style: k,
-      onMouseDown: this._handleMouseDown
-    }));
-  }
-}
-J = new WeakMap(), Z = new WeakMap();
 function Ue({ col: t, className: n, height: e, rowID: s, hoverCol: o, rowData: i, onRenderCell: r, style: a, children: h, ...f }) {
   const { cellStyle: l, align: p, className: g } = t.setting, u = {
     left: t.left,

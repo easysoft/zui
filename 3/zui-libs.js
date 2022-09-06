@@ -185,6 +185,72 @@ export default [
         }
     },
     {
+        "name": "@zui/progress",
+        "version": "0.0.1",
+        "description": "ZUI progress",
+        "keywords": [
+            "css",
+            "zui:css-progress"
+        ],
+        "module": "src/main.ts",
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "control",
+            "displayName": "进度条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/progress",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "progress",
+            "order": 200000023,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json"
+        }
+    },
+    {
+        "name": "@zui/progress-circle",
+        "version": "0.0.1",
+        "description": "ZUI progress-circle",
+        "keywords": [
+            "js",
+            "zui:js-progress-circle"
+        ],
+        "module": "src/main.ts",
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "control",
+            "displayName": "环形进度条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/progress-circle",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "progress-circle",
+            "order": 200000024,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json"
+        }
+    },
+    {
         "name": "@zui/avatar-group",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -366,6 +432,52 @@ export default [
             "name": "label",
             "order": 200000018,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/label/package.json"
+        }
+    },
+    {
+        "name": "@zui/scrollbar",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "js",
+            "zui:component"
+        ],
+        "files": [
+            "./src/**/*"
+        ],
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "dependencies": {
+            "preact": "^10.10.0",
+            "@zui/browser-helpers": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "滚动条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/scrollbar",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "scrollbar",
+            "order": 200000025,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/scrollbar/package.json"
         }
     },
     {
@@ -613,118 +725,6 @@ export default [
         }
     },
     {
-        "name": "@zui/progress",
-        "version": "0.0.1",
-        "description": "ZUI progress",
-        "keywords": [
-            "css",
-            "zui:css-progress"
-        ],
-        "module": "src/main.ts",
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "control",
-            "displayName": "进度条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/progress",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "progress",
-            "order": 200000024,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json"
-        }
-    },
-    {
-        "name": "@zui/progress-circle",
-        "version": "0.0.1",
-        "description": "ZUI progress-circle",
-        "keywords": [
-            "js",
-            "zui:js-progress-circle"
-        ],
-        "module": "src/main.ts",
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "control",
-            "displayName": "环形进度条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/progress-circle",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "progress-circle",
-            "order": 200000025,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json"
-        }
-    },
-    {
-        "name": "@zui/scrollbar",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "js",
-            "zui:component"
-        ],
-        "files": [
-            "./src/**/*"
-        ],
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "dependencies": {
-            "preact": "^10.10.0",
-            "@zui/browser-helpers": "workspace:^0.0.1"
-        },
-        "zui": {
-            "type": "control",
-            "displayName": "滚动条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ],
-                "js": [
-                    "component"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/scrollbar",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "scrollbar",
-            "order": 200000026,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/scrollbar/package.json"
-        }
-    },
-    {
         "name": "@zui/store",
         "version": "0.0.1",
         "description": "ZUI localstorage helper",
@@ -755,7 +755,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "store",
-            "order": 300000027,
+            "order": 300000026,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/store/package.json"
         }
     },
@@ -951,8 +951,44 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "pager",
-            "order": 400000022,
+            "order": 400000021,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/pager/package.json"
+        }
+    },
+    {
+        "name": "@zui/panel",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/table": "workspace:^0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "component",
+            "displayName": "面板",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/panel",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "panel",
+            "order": 400000022,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/panel/package.json"
         }
     },
     {
@@ -989,44 +1025,8 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "table",
-            "order": 400000028,
+            "order": 400000027,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/table/package.json"
-        }
-    },
-    {
-        "name": "@zui/utilities",
-        "version": "0.0.1",
-        "description": "ZUI css utilities",
-        "keywords": [
-            "css",
-            "zui:css-utilities"
-        ],
-        "main": "src/main.ts",
-        "devDependencies": {
-            "@zui/base": "workspace:*"
-        },
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "css-utilities",
-            "displayName": "CSS 工具类",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/utilities",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "utilities",
-            "order": 500000029,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
         }
     },
     {
@@ -1066,7 +1066,7 @@ export default [
         }
     },
     {
-        "name": "@zui/nav-tabs",
+        "name": "@zui/tabs",
         "version": "0.0.1",
         "main": "src/main.ts",
         "browser": "src/main.ts",
@@ -1096,32 +1096,32 @@ export default [
                 "sidebar": "lib",
                 "section": "components"
             },
-            "path": "/home/runner/work/zui/zui/lib/nav-tabs",
+            "path": "/home/runner/work/zui/zui/lib/tabs",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "nav-tabs",
+            "name": "tabs",
             "order": null,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/nav-tabs/package.json"
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json"
         }
     },
     {
-        "name": "@zui/panel",
+        "name": "@zui/utilities",
         "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
+        "description": "ZUI css utilities",
         "keywords": [
             "css",
-            "zui:control"
+            "zui:css-utilities"
         ],
+        "main": "src/main.ts",
         "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/table": "workspace:^0.0.1",
-            "@zui/utilities": "workspace:*"
+            "@zui/base": "workspace:*"
         },
+        "files": [
+            "./src/**/*"
+        ],
         "zui": {
-            "type": "component",
-            "displayName": "面板",
+            "type": "css-utilities",
+            "displayName": "CSS 工具类",
             "contributes": {
                 "css": [
                     "class",
@@ -1132,12 +1132,12 @@ export default [
                 "sidebar": "lib",
                 "section": "components"
             },
-            "path": "/home/runner/work/zui/zui/lib/panel",
+            "path": "/home/runner/work/zui/zui/lib/utilities",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "panel",
-            "order": 400000023,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/panel/package.json"
+            "name": "utilities",
+            "order": 500000029,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
         }
     }
 ];
