@@ -24,8 +24,8 @@
   "dependencies": {
     "@zui/alert": "workspace:^0.0.1",
     "@zui/base": "workspace:0.0.1",
-    "@zui/nav-tabs": "workspace:^0.0.1",
     "@zui/scrollbar": "workspace:0.0.1",
+    "@zui/tabs": "workspace:^0.0.1",
     "@zui/utilities": "workspace:0.0.1",
     "highlight.js": "^11.6.0",
     "zui-config": "workspace:^0.0.1"

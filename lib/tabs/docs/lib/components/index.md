@@ -6,7 +6,56 @@
 
 ## 基本用法
 
-标签页一般配合导航使用，为导航上每个用于切换标签内容的链接添加 `href` 或 `data-target` 属性指向当前标签页内容的 `id` ，并添加 `data-toggle="tab"` 属性。
+为导航上每个用于切换标签内容的链接添加 `href` 或 `data-target` 属性指向当前标签页内容的 `id` ，并添加 `data-toggle="tab"` 属性。
+
+<style>
+.flex a {
+  color: inherit;
+}
+
+.flex > .active > a {
+  color: #2b80ff;
+}
+</style>
+<Example>
+  <ul class="flex">
+    <li class="active"><a class="px-3 py-2" data-toggle="tab" href="#tabContent1">标签1</a></li>
+    <li><a class="px-3 py-2" data-toggle="tab" href="#tabContent2">标签2</a></li>
+    <li><a class="px-3 py-2" data-toggle="tab" href="#tabContent3">标签3</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tabContent1">
+      <p>我是标签1。</p>
+    </div>
+    <div class="tab-pane" id="tabContent2">
+      <p>我是标签2。</p>
+    </div>
+    <div class="tab-pane" id="tabContent3">
+      <p>我是标签3。</p>
+    </div>
+  </div>
+</Example>
+
+```html
+  <ul class="flex">
+    <li class="active"><a class="px-3 py-2" data-toggle="tab" href="#tabContent1">标签1</a></li>
+    <li><a class="px-3 py-2" data-toggle="tab" href="#tabContent2">标签2</a></li>
+    <li><a class="px-3 py-2" data-toggle="tab" href="#tabContent3">标签3</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tabContent1">
+      <p>我是标签1。</p>
+    </div>
+    <div class="tab-pane" id="tabContent2">
+      <p>我是标签2。</p>
+    </div>
+    <div class="tab-pane" id="tabContent3">
+      <p>我是标签3。</p>
+    </div>
+  </div>
+```
+
+标签页一般配合导航使用。
 
 <Example>
   <ul class="nav nav-tabs">
@@ -193,8 +242,6 @@
 
 | 类            | 类型   | 作用  |
 | ------------- |:------:| ----- |
-| `nav-tabs`    | 实体类 | 元素作为标签导航 |
-| `nav-stacked` | 实体类 | 元素作为垂直排列的标签导航 |
 | `tab-content` | 实体类 | 元素作为所有标签页容器 |
 | `tab-pane`    | 实体类 | 元素作为单独的标签页容器 |
 | `fade`        | 修饰类 | 标签页使用渐变动画效果 |

@@ -14,8 +14,8 @@ importers:
       '@typescript-eslint/parser': 5.33.1
       '@zui/alert': workspace:^0.0.1
       '@zui/base': workspace:0.0.1
-      '@zui/nav-tabs': workspace:^0.0.1
       '@zui/scrollbar': workspace:0.0.1
+      '@zui/tabs': workspace:^0.0.1
       '@zui/utilities': workspace:0.0.1
       autoprefixer: 10.4.8
       chokidar: ^3.5.3
@@ -50,8 +50,8 @@ importers:
     dependencies:
       '@zui/alert': link:lib/alert
       '@zui/base': link:lib/base
-      '@zui/nav-tabs': link:lib/nav-tabs
       '@zui/scrollbar': link:lib/scrollbar
+      '@zui/tabs': link:lib/tabs
       '@zui/utilities': link:lib/utilities
       highlight.js: 11.6.0
       zui-config: link:config
@@ -116,7 +116,6 @@ importers:
       '@zui/label': workspace:0.0.1
       '@zui/modal': workspace:0.0.1
       '@zui/nav': workspace:0.0.1
-      '@zui/nav-tabs': workspace:0.0.1
       '@zui/pager': workspace:0.0.1
       '@zui/panel': workspace:0.0.1
       '@zui/progress': workspace:0.0.1
@@ -124,6 +123,7 @@ importers:
       '@zui/scrollbar': workspace:0.0.1
       '@zui/store': workspace:0.0.1
       '@zui/table': workspace:0.0.1
+      '@zui/tabs': workspace:0.0.1
       '@zui/utilities': workspace:0.0.1
     dependencies:
       '@zui/ajax-form': link:../lib/ajax-form
@@ -147,7 +147,6 @@ importers:
       '@zui/label': link:../lib/label
       '@zui/modal': link:../lib/modal
       '@zui/nav': link:../lib/nav
-      '@zui/nav-tabs': link:../lib/nav-tabs
       '@zui/pager': link:../lib/pager
       '@zui/panel': link:../lib/panel
       '@zui/progress': link:../lib/progress
@@ -155,6 +154,7 @@ importers:
       '@zui/scrollbar': link:../lib/scrollbar
       '@zui/store': link:../lib/store
       '@zui/table': link:../lib/table
+      '@zui/tabs': link:../lib/tabs
       '@zui/utilities': link:../lib/utilities
 
   config:
@@ -2724,7 +2724,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: registry.npmmirror.com/graceful-fs/4.2.10
+      graceful-fs: 4.2.10
     dev: true
 
   /kind-of/6.0.3:
@@ -4523,6 +4523,16 @@ packages:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/graceful-fs/-/graceful-fs-4.2.10.tgz}
     name: graceful-fs
     version: 4.2.10
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  registry.npmmirror.com/fsevents/2.3.2:
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fsevents/-/fsevents-2.3.2.tgz}
+    name: fsevents
+    version: 2.3.2
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
