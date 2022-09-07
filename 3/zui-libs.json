@@ -620,10 +620,11 @@
         ],
         "devDependencies": {
             "@faker-js/faker": "^7.4.0",
-            "@zui/label": "workspace:^0.0.1",
+            "@types/jquery": "^3.5.14",
             "@zui/avatar": "workspace:^0.0.1",
+            "@zui/label": "workspace:^0.0.1",
             "jquery": "^3.6.0",
-            "@types/jquery": "^3.5.14"
+            "zui-dev": "workspace:^0.0.1"
         },
         "zui": {
             "type": "js-ui",
