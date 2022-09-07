@@ -105,6 +105,7 @@ function updateSections(files, sidebars, docsPath, libName) {
         const [sidebarName, sectionName, ...restPath] = file.split(Path.sep);
         const sidebar = sidebars[`/${sidebarName}/`];
         if (!sidebar) {
+            console.log(` ${red('ERROR')} cannot find sidebar named ${yellow(sidebarName)} in file ${underline(Path.join(docsPath, file))}.`);
             return;
         }
         const section = sidebar.find(item => item.section === sectionName);
@@ -125,9 +126,9 @@ function updateSections(files, sidebars, docsPath, libName) {
 
 function createSidebar() {
     const sidebars = initSidebars();
-    const docsPath = Path.join(process.cwd(), 'docs/docs');
+    const docsPath = Path.join(process.cwd(), 'docs');
     const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: docsPath});
-    updateSections(files, docsPath, sidebars);
+    updateSections(files, sidebars, docsPath);
 
     zuiLib.forEach(lib => {
         const libDocsPath = Path.join(lib.zui.path, 'docs');
