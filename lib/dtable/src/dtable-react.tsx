@@ -37,6 +37,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #layout?: DTableLayout;
 
+    #hoverCol: string | false = false;
+
     constructor(props: DTableOptions) {
         super(props);
 
@@ -329,7 +331,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             height = heightSetting as number;
         }
 
-        const {scrollTop = 0, scrollLeft = 0, hoverCol} = this.state;
+        const {scrollTop = 0, scrollLeft = 0} = this.state;
         const rowsHeight = height - headerHeight - footerHeight;
         const scrollBottom = scrollTop + rowsHeight;
         const visibleRows: RowInfo[] = [];
@@ -384,7 +386,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
             rowHeight,
             rowsHeight,
             rowsHeightTotal,
-            hoverCol,
             header,
             footer,
             headerHeight,
@@ -435,7 +436,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     renderHeader(layout: DTableLayout) {
-        const {header, hoverCol, colsInfo, headerHeight} = layout;
+        const {header, colsInfo, headerHeight} = layout;
         if (!header) {
             return null;
         }
@@ -446,7 +447,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     height={headerHeight}
                     onRenderCell={this._handleRenderCell}
                     onRenderRow={this._handleRenderHeaderRow}
-                    hoverCol={hoverCol}
                     {...colsInfo}
                 />
             );
@@ -476,14 +476,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     renderRows(layout: DTableLayout) {
-        const {headerHeight, rowsHeight, visibleRows, rowHeight, hoverCol, colsInfo} = layout;
+        const {headerHeight, rowsHeight, visibleRows, rowHeight, colsInfo} = layout;
         return (
             <Rows
                 top={headerHeight}
                 height={rowsHeight}
                 rows={visibleRows}
                 rowHeight={rowHeight}
-                hoverCol={hoverCol}
                 scrollLeft={this.state.scrollLeft}
                 onRenderCell={this._handleRenderCell}
                 onRenderRow={this._handleRenderRow}
@@ -683,13 +682,29 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (colHover === 'header' && !cellElement.closest('.dtable-header')) {
             return;
         }
-        const colName = cellElement?.getAttribute('data-col') ?? '';
-        this.setState({hoverCol: colName});
+        const colName = cellElement?.getAttribute('data-col') ?? false;
+        this._applyColHover(colName);
     };
 
     private _handleMouseLeave = () => {
-        this.setState({hoverCol: undefined});
+        this._applyColHover(false);
     };
+
+    private _applyColHover(hoverCol?: string | false) {
+        if (hoverCol !== undefined) {
+            this.#hoverCol = hoverCol;
+        } else {
+            hoverCol = this.#hoverCol;
+        }
+        const {current} = this.ref;
+        if (!current) {
+            return;
+        }
+        current.querySelectorAll('.dtable-col-hover').forEach(col => col.classList.remove('dtable-col-hover'));
+        if (typeof hoverCol === 'string' && hoverCol.length) {
+            current.querySelectorAll(`.dtable-cell[data-col="${hoverCol}"]`).forEach(x => x.classList.add('dtable-col-hover'));
+        }
+    }
 
     render() {
         const layout = this.getLayout();

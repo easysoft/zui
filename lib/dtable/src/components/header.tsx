@@ -15,7 +15,6 @@ export interface HeaderProps {
     flexRightWidth: number,
     scrollLeft: number,
     scrollWidthTotal: number,
-    hoverCol?: string,
     onRenderCell?: CellRenderCallback,
     onRenderRow?: (data: {props: RowProps}, h: typeof _h) => RowProps
 }
