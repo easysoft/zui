@@ -1,7 +1,7 @@
 import Upload from './src/main';
+import 'zui-dev';
 
-
-setTimeout(() => {
+onPageLoad(() => {
     const fileElm1 = document.querySelector('#example1') as HTMLInputElement | null;
     const listElm1 = document.querySelector('#example1-list') as HTMLInputElement | null;
     if (!fileElm1) {
@@ -23,4 +23,4 @@ setTimeout(() => {
         showDeleteBtn: true,
         showRenameBtn: true,
     });
-}, 3 * 1000);
+});

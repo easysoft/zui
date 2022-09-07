@@ -408,11 +408,14 @@ importers:
       '@zui/helpers': workspace:^0.0.1
       '@zui/icons': workspace:0.0.1
       '@zui/input-group': workspace:^0.0.1
+      zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/button': link:../button
       '@zui/helpers': link:../helpers
       '@zui/icons': link:../icons
       '@zui/input-group': link:../input-group
+    devDependencies:
+      zui-dev: link:../../dev
 
   lib/utilities:
     specifiers:
@@ -1113,7 +1116,7 @@ packages:
     dev: true
 
   /acorn/8.8.0:
-    resolution: {integrity: sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==, registry: https://registry.npm.taobao.org/}
+    resolution: {integrity: sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/acorn/-/acorn-8.8.0.tgz}
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
@@ -3594,7 +3597,7 @@ packages:
     dev: true
 
   /postcss-rem-to-pixel/4.1.2:
-    resolution: {integrity: sha512-EaA1Ak5SxmT31KA1clM4jRcEXQQ7oceXM2WF59fJw/mhspn1fhm202ZIfto5qFCX4QVuk/WVvATfkWaIlMomSw==, registry: https://registry.npm.taobao.org/}
+    resolution: {integrity: sha512-EaA1Ak5SxmT31KA1clM4jRcEXQQ7oceXM2WF59fJw/mhspn1fhm202ZIfto5qFCX4QVuk/WVvATfkWaIlMomSw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/postcss-rem-to-pixel/-/postcss-rem-to-pixel-4.1.2.tgz}
     dependencies:
       object-assign: 4.1.1
       postcss: 5.2.18
