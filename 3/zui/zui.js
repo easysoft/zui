@@ -302,6 +302,97 @@ class Mn extends te {
     }, p, a);
   }
 }
+const Kt = (t) => {
+  const n = {};
+  if (!t)
+    return n;
+  const e = Object.values(t.attributes);
+  return e && e.length > 0 && e.forEach((s) => {
+    const { name: o, value: i } = s;
+    n[o] = i;
+  }), n;
+};
+class Vt extends HTMLElement {
+  constructor() {
+    super();
+    S(this, "$button");
+    S(this, "$icon");
+    S(this, "onClick");
+    this.$button = document.createElement("button");
+    const e = this.innerHTML;
+    this.innerHTML = "", this.$button.innerHTML = e, this.icon && (this.$icon = document.createElement("i"), this.addClass(this.$icon, `icon ${this.icon}`), this.$button.prepend(this.$icon)), this.$button.classList.add("btn"), this.append(this.$button);
+  }
+  connectedCallback() {
+    this.initStyle(), this.initEventListen(), this.isDisabled && this.$button.setAttribute("disabled", "disabled"), this.$button.addEventListener("keydown", (e) => {
+      switch (e.keyCode) {
+        case 13:
+          e.stopPropagation();
+          break;
+      }
+    });
+  }
+  initStyle() {
+    const e = Kt(this);
+    if (e)
+      for (const s in e)
+        ["type", "size", "rounded", "outline"].includes(s) && this.addClass(this.$button, `-${e[s]}`);
+  }
+  initEventListen() {
+    if (this.isDisabled || this.loading)
+      return !1;
+  }
+  addClass(e, s) {
+    e && e.classList.add(s);
+  }
+  get type() {
+    return this.getAttribute("type");
+  }
+  set type(e) {
+    this.getAttribute("type") ? (this.setAttribute("type", e), this.addClass(this.$button, `-${this.type}`)) : this.removeAttribute("type");
+  }
+  get size() {
+    return this.getAttribute("size");
+  }
+  set size(e) {
+    this.getAttribute("size") ? (this.setAttribute("size", e || "base"), this.addClass(this.$button, `-${e}`)) : this.removeAttribute("size");
+  }
+  get loading() {
+    return this.getAttribute("loading");
+  }
+  set loading(e) {
+    this.getAttribute("loading") ? this.setAttribute("loading", e || "") : this.removeAttribute("loading");
+  }
+  get rounded() {
+    return this.getAttribute("rounded");
+  }
+  set rounded(e) {
+    this.getAttribute("rounded") ? (this.setAttribute("rounded", e || ""), this.addClass(this.$button, `-${e}`)) : this.removeAttribute("rounded");
+  }
+  get isDisabled() {
+    return this.getAttribute("isDisabled") !== null;
+  }
+  set isDisabled(e) {
+    e === null || e === !1 ? this.removeAttribute("isDisabled") : this.setAttribute("isDisabled", "");
+  }
+  get icon() {
+    return this.getAttribute("icon");
+  }
+  set icon(e) {
+    this.setAttribute("icon", e);
+  }
+  static get observedAttributes() {
+    return ["type", "size", "rounded", "disabled", "loading", "outline"];
+  }
+  get class() {
+    return this.$button.classList;
+  }
+  attributeChangedCallback(e, s) {
+    e === "isDisabled" && this.$button && (s !== null ? this.$button.setAttribute("disabled", "disabled") : this.$button.removeAttribute("disabled")), e === "loading" && this.$button && (s !== null ? this.$button.setAttribute("disabled", "disabled") : this.$button.removeAttribute("disabled")), e === "icon" && this.$icon && s && this.addClass(this.$icon, `-${s}`), this.render();
+  }
+  render() {
+  }
+}
+customElements.get("zui-button") || customElements.define("zui-button", Vt);
 var J, Z;
 class ft extends te {
   constructor(e) {
@@ -411,7 +502,7 @@ class ft extends te {
   }
 }
 J = new WeakMap(), Z = new WeakMap();
-function Kt(t) {
+function Xt(t) {
   const n = typeof t == "string" ? document.querySelector(t) : t;
   if (!n)
     return !1;
@@ -426,10 +517,10 @@ function Kt(t) {
   }
   return !1;
 }
-function Vt(t) {
+function Jt(t) {
   document.readyState !== "loading" ? t() : document.addEventListener("DOMContentLoaded", t);
 }
-function Xt(t, n) {
+function Zt(t, n) {
   const e = typeof t == "string" ? document.querySelector(t) : t;
   if (!e)
     return !1;
@@ -441,102 +532,11 @@ function Xt(t, n) {
 }
 const $n = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  selectText: Kt,
-  domReady: Vt,
-  isElementVisible: Xt,
+  selectText: Xt,
+  domReady: Jt,
+  isElementVisible: Zt,
   classes: z
 }, Symbol.toStringTag, { value: "Module" }));
-const Jt = (t) => {
-  const n = {};
-  if (!t)
-    return n;
-  const e = Object.values(t.attributes);
-  return e && e.length > 0 && e.forEach((s) => {
-    const { name: o, value: i } = s;
-    n[o] = i;
-  }), n;
-};
-class Zt extends HTMLElement {
-  constructor() {
-    super();
-    S(this, "$button");
-    S(this, "$icon");
-    S(this, "onClick");
-    this.$button = document.createElement("button");
-    const e = this.innerHTML;
-    this.innerHTML = "", this.$button.innerHTML = e, this.icon && (this.$icon = document.createElement("i"), this.addClass(this.$icon, `icon ${this.icon}`), this.$button.prepend(this.$icon)), this.$button.classList.add("btn"), this.append(this.$button);
-  }
-  connectedCallback() {
-    this.initStyle(), this.initEventListen(), this.isDisabled && this.$button.setAttribute("disabled", "disabled"), this.$button.addEventListener("keydown", (e) => {
-      switch (e.keyCode) {
-        case 13:
-          e.stopPropagation();
-          break;
-      }
-    });
-  }
-  initStyle() {
-    const e = Jt(this);
-    if (e)
-      for (const s in e)
-        ["type", "size", "rounded", "outline"].includes(s) && this.addClass(this.$button, `-${e[s]}`);
-  }
-  initEventListen() {
-    if (this.isDisabled || this.loading)
-      return !1;
-  }
-  addClass(e, s) {
-    e && e.classList.add(s);
-  }
-  get type() {
-    return this.getAttribute("type");
-  }
-  set type(e) {
-    this.getAttribute("type") ? (this.setAttribute("type", e), this.addClass(this.$button, `-${this.type}`)) : this.removeAttribute("type");
-  }
-  get size() {
-    return this.getAttribute("size");
-  }
-  set size(e) {
-    this.getAttribute("size") ? (this.setAttribute("size", e || "base"), this.addClass(this.$button, `-${e}`)) : this.removeAttribute("size");
-  }
-  get loading() {
-    return this.getAttribute("loading");
-  }
-  set loading(e) {
-    this.getAttribute("loading") ? this.setAttribute("loading", e || "") : this.removeAttribute("loading");
-  }
-  get rounded() {
-    return this.getAttribute("rounded");
-  }
-  set rounded(e) {
-    this.getAttribute("rounded") ? (this.setAttribute("rounded", e || ""), this.addClass(this.$button, `-${e}`)) : this.removeAttribute("rounded");
-  }
-  get isDisabled() {
-    return this.getAttribute("isDisabled") !== null;
-  }
-  set isDisabled(e) {
-    e === null || e === !1 ? this.removeAttribute("isDisabled") : this.setAttribute("isDisabled", "");
-  }
-  get icon() {
-    return this.getAttribute("icon");
-  }
-  set icon(e) {
-    this.setAttribute("icon", e);
-  }
-  static get observedAttributes() {
-    return ["type", "size", "rounded", "disabled", "loading", "outline"];
-  }
-  get class() {
-    return this.$button.classList;
-  }
-  attributeChangedCallback(e, s) {
-    e === "isDisabled" && this.$button && (s !== null ? this.$button.setAttribute("disabled", "disabled") : this.$button.removeAttribute("disabled")), e === "loading" && this.$button && (s !== null ? this.$button.setAttribute("disabled", "disabled") : this.$button.removeAttribute("disabled")), e === "icon" && this.$icon && s && this.addClass(this.$icon, `-${s}`), this.render();
-  }
-  render() {
-  }
-}
-customElements.get("zui-button") || customElements.define("zui-button", Zt);
 function xt() {
   document.querySelectorAll(".dropdown-menu").forEach((n) => {
     var e;

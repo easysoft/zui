@@ -110,147 +110,6 @@ export default [
         }
     },
     {
-        "name": "@zui/icons",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "zui:control"
-        ],
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/browser-helpers": "workspace:^0.0.1",
-            "@zui/utilities": "workspace:*"
-        },
-        "zui": {
-            "type": "control",
-            "displayName": "图标",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var",
-                    "fonts"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/icons",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "icons",
-            "order": 200000015,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/icons/package.json"
-        }
-    },
-    {
-        "name": "@zui/input",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "zui:control"
-        ],
-        "dependencies": {},
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*",
-            "@zui/form": "workspace:0.0.1",
-            "@zui/icons": "workspace:0.0.1"
-        },
-        "zui": {
-            "type": "control",
-            "displayName": "输入框",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/input",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "input",
-            "order": 200000016,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/input/package.json"
-        }
-    },
-    {
-        "name": "@zui/progress",
-        "version": "0.0.1",
-        "description": "ZUI progress",
-        "keywords": [
-            "css",
-            "zui:css-progress"
-        ],
-        "module": "src/main.ts",
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "control",
-            "displayName": "进度条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/progress",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "progress",
-            "order": 200000023,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json"
-        }
-    },
-    {
-        "name": "@zui/progress-circle",
-        "version": "0.0.1",
-        "description": "ZUI progress-circle",
-        "keywords": [
-            "js",
-            "zui:js-progress-circle"
-        ],
-        "module": "src/main.ts",
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "control",
-            "displayName": "环形进度条",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/progress-circle",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "progress-circle",
-            "order": 200000024,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json"
-        }
-    },
-    {
         "name": "@zui/avatar-group",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -399,6 +258,81 @@ export default [
         }
     },
     {
+        "name": "@zui/button",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "files": [
+            "./src/**/*"
+        ],
+        "dependencies": {},
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "按钮",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/button",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "button",
+            "order": 200000009,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/button/package.json"
+        }
+    },
+    {
+        "name": "@zui/checkbox",
+        "version": "0.0.1",
+        "description": "ZUI checkbox",
+        "keywords": [
+            "css",
+            "components"
+        ],
+        "main": "src/main.ts",
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*",
+            "@zui/form": "workspace:*"
+        },
+        "files": [],
+        "zui": {
+            "type": "control",
+            "displayName": "复选框和单选框",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/checkbox",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "checkbox",
+            "order": 200000010,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/checkbox/package.json"
+        }
+    },
+    {
         "name": "@zui/label",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -432,6 +366,72 @@ export default [
             "name": "label",
             "order": 200000018,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/label/package.json"
+        }
+    },
+    {
+        "name": "@zui/progress",
+        "version": "0.0.1",
+        "description": "ZUI progress",
+        "keywords": [
+            "css",
+            "zui:css-progress"
+        ],
+        "module": "src/main.ts",
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "control",
+            "displayName": "进度条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/progress",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "progress",
+            "order": 200000023,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json"
+        }
+    },
+    {
+        "name": "@zui/progress-circle",
+        "version": "0.0.1",
+        "description": "ZUI progress-circle",
+        "keywords": [
+            "js",
+            "zui:js-progress-circle"
+        ],
+        "module": "src/main.ts",
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "control",
+            "displayName": "环形进度条",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/progress-circle",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "progress-circle",
+            "order": 200000024,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json"
         }
     },
     {
@@ -552,81 +552,6 @@ export default [
         }
     },
     {
-        "name": "@zui/button",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "zui:control"
-        ],
-        "files": [
-            "./src/**/*"
-        ],
-        "dependencies": {},
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "zui": {
-            "type": "按钮",
-            "displayName": "按钮",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/button",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "button",
-            "order": null,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/button/package.json"
-        }
-    },
-    {
-        "name": "@zui/checkbox",
-        "version": "0.0.1",
-        "description": "ZUI checkbox",
-        "keywords": [
-            "css",
-            "components"
-        ],
-        "main": "src/main.ts",
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*",
-            "@zui/form": "workspace:*"
-        },
-        "files": [],
-        "zui": {
-            "type": "control",
-            "displayName": "复选框和单选框",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/checkbox",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "checkbox",
-            "order": 200000010,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/checkbox/package.json"
-        }
-    },
-    {
         "name": "@zui/dropdown",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -722,6 +647,81 @@ export default [
             "name": "dtable",
             "order": null,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
+        }
+    },
+    {
+        "name": "@zui/icons",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/browser-helpers": "workspace:^0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "图标",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var",
+                    "fonts"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/icons",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "icons",
+            "order": 200000015,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/icons/package.json"
+        }
+    },
+    {
+        "name": "@zui/input",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "dependencies": {},
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*",
+            "@zui/form": "workspace:0.0.1",
+            "@zui/icons": "workspace:0.0.1"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "输入框",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/input",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "input",
+            "order": 200000016,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/input/package.json"
         }
     },
     {
