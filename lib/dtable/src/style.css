@@ -15,6 +15,7 @@
     contain: content;
     content-visibility: auto;
     border-color: var(--dtable-border-color);
+    transition: top .1s ease-out;
 }
 .dtable-cells {
     @apply -absolute -h-full -z-0 -bg-canvas;
