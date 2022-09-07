@@ -94,7 +94,7 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
         this.isAllRowChecked = isAllRowChecked.bind(this);
         this.getChecks       = getChecks.bind(this);
     },
-    onRenderCell(result, rowID, col) {
+    onRenderCell(result, {rowID, col}) {
         const {checkbox: checkboxSetting} = col.setting;
         const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
         if (showCheckbox) {
@@ -107,7 +107,7 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
         }
         return result;
     },
-    onRenderHeaderCell(result, rowID, col) {
+    onRenderHeaderCell(result, {rowID, col}) {
         const {checkbox: checkboxSetting} = col.setting;
         const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
         if (showCheckbox) {
@@ -120,11 +120,11 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
         }
         return result;
     },
-    onRenderRow(rowProps, rowInfo): RowProps {
-        if (this.isRowChecked(rowInfo.id)) {
-            rowProps.className = classes(rowProps.className, 'is-checked');
+    onRenderRow({props, info}): RowProps {
+        if (this.isRowChecked(info.id)) {
+            props.className = classes(props.className, 'is-checked');
         }
-        return rowProps;
+        return props;
     },
     onHeaderCellClick(event) {
         const target = event.target as HTMLElement;

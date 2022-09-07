@@ -1,3 +1,4 @@
+import {h as _h} from 'preact';
 import {DTableLayout} from './layout';
 import {DTableOptions} from './options';
 import {ColInfo} from './col-info';
@@ -33,10 +34,10 @@ export interface DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTab
     onAddCol?: (this: PluginTable, col: PluginColInfo<C>) => void;
     beforeLayout?: (this: PluginTable, options: Options) => (Options | void);
     onLayout?: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
-    onRenderHeaderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: PluginColInfo<C>) => CustomRenderResult;
-    onRenderCell?: (this: PluginTable, result: CustomRenderResult, rowID: RowID, col: PluginColInfo<C>, rowData?: RowData) => CustomRenderResult;
-    onRenderRow?: (this: PluginTable, rowProps: RowProps, rowInfo: RowInfo) => RowProps;
-    onRenderHeaderRow?: (this: PluginTable, rowProps: RowProps) => RowProps;
+    onRenderHeaderCell?: (this: PluginTable, result: CustomRenderResult, data: {rowID: RowID, col: PluginColInfo<C>}, h: typeof _h) => CustomRenderResult;
+    onRenderCell?: (this: PluginTable, result: CustomRenderResult, data: {rowID: RowID, col: PluginColInfo<C>, rowData?: RowData}, h: typeof _h) => CustomRenderResult;
+    onRenderRow?: (this: PluginTable, data: {props: RowProps, info: RowInfo}, h: typeof _h) => RowProps;
+    onRenderHeaderRow?: (this: PluginTable, data: {props: RowProps}, h: typeof _h) => RowProps;
     afterRender?: (this: PluginTable) => void;
     onRowClick?: (this: PluginTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;

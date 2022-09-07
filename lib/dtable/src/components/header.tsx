@@ -1,3 +1,4 @@
+import {isValidElement, h as _h} from 'preact';
 import {CellRenderCallback} from '../types/cell-render';
 import {ColInfo} from '../types/col-info';
 import {RowProps} from '../types/row-props';
@@ -16,7 +17,7 @@ export interface HeaderProps {
     scrollWidthTotal: number,
     hoverCol?: string,
     onRenderCell?: CellRenderCallback,
-    onRenderRow?: (rowProps: RowProps) => RowProps
+    onRenderRow?: (data: {props: RowProps}, h: typeof _h) => RowProps
 }
 
 export function Header({height, onRenderRow, ...otherProps}: HeaderProps) {
@@ -29,7 +30,11 @@ export function Header({height, onRenderRow, ...otherProps}: HeaderProps) {
         CellComponent: HeaderCell,
     };
     if (onRenderRow) {
-        rowProps = onRenderRow(rowProps);
+        const result = onRenderRow({props: rowProps}, _h);
+        if (isValidElement(result)) {
+            return result;
+        }
+        rowProps = result;
     }
     return (
         <div className='dtable-header' style={{height}}>

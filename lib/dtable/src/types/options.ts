@@ -1,5 +1,5 @@
 import {ClassNameLike} from '@zui/browser-helpers/src/classes';
-import {ComponentChildren} from 'preact';
+import {ComponentChildren, h as _h} from 'preact';
 import {DTable} from '../dtable-react';
 import {CellRenderCallback} from './cell-render';
 import {ColSetting} from './col-setting';
@@ -41,8 +41,8 @@ export interface DTableOptions<C extends ColSetting = ColSetting> {
     onScroll?: (this: DTable, scrollPos: number, type: 'vert' | 'horz') => void;
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
-    onRenderRow?: (this: DTable, rowProps: RowProps, rowInfo: RowInfo) => RowProps;
-    onRenderHeaderRow?: (this: DTable, rowProps: RowProps) => RowProps;
+    onRenderRow?: (this: DTable, data: {props: RowProps, info: RowInfo}, h: typeof _h) => RowProps;
+    onRenderHeaderRow?: (this: DTable, data: {props: RowProps}, h: typeof _h) => RowProps;
     afterRender?: (this: DTable) => void;
     onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;

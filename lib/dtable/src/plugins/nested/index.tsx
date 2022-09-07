@@ -196,7 +196,7 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
         const result = (infoA.order ?? 0) - (infoB.order ?? 0);
         return result === 0 ? (rowA.index - rowB.index) : result;
     },
-    onRenderCell(result, rowID, col, rowData): CustomRenderResult {
+    onRenderCell(result, {rowID, col, rowData}): CustomRenderResult {
         const {nestedToggle} = col.setting;
         const info = this.getNestedRowInfo(rowID);
         if (nestedToggle && (info.children || info.parent)) {
@@ -213,23 +213,23 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
         }
         return result;
     },
-    onRenderHeaderCell(result, rowID, col): CustomRenderResult {
+    onRenderHeaderCell(result, {rowID, col}): CustomRenderResult {
         if (col.setting.nestedToggle) {
             result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a type="button" className="dtable-nested-toggle state"><span className="dtable-nested-toggle-icon"></span></a>));
         }
         return result;
     },
-    onRenderRow(rowProps, rowInfo): RowProps {
+    onRenderRow({props, info: rowInfo}): RowProps {
         const info = this.getNestedRowInfo(rowInfo.id);
-        Object.assign(rowProps, {
-            className: classes(rowProps.className, `is-nested-${info.state}`),
+        Object.assign(props, {
+            className: classes(props.className, `is-nested-${info.state}`),
             'data-parent': info.parent,
         });
-        return rowProps;
+        return props;
     },
-    onRenderHeaderRow(rowProps): RowProps {
-        rowProps.className = classes(rowProps.className, `is-nested-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`);
-        return rowProps;
+    onRenderHeaderRow({props}): RowProps {
+        props.className = classes(props.className, `is-nested-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`);
+        return props;
     },
     onHeaderCellClick(event) {
         const target = event.target as HTMLElement;

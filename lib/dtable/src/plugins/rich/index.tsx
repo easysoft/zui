@@ -40,7 +40,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
             },
         },
         link: {
-            onRenderCell(result, _rowID, col, rowData) {
+            onRenderCell(result, {col, rowData}) {
                 const {linkTemplate = '', linkProps} = col.setting as DTableRichColSetting;
                 const url = formatString(linkTemplate, rowData);
                 result[0] = <a href={url} {...linkProps}>{result[0]}</a>;
@@ -48,7 +48,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
             },
         },
         avatar: {
-            onRenderCell(result, rowID, col, rowData) {
+            onRenderCell(result, {col, rowData}) {
                 const {avatarWithName, avatarClass = 'size-sm circle', avatarKey = `${col.name}Avatar`} = col.setting as DTableRichColSetting;
                 const avatar = (
                     <div className={`avatar ${avatarClass} flex-none`}>
@@ -64,7 +64,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
             },
         },
         circleProgress: {
-            onRenderCell(result, rowID, col) {
+            onRenderCell(result, {col}) {
                 const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-green-500)'} = col.setting as DTableRichColSetting;
                 const radius = (circleSize - circleBorderSize) / 2;
                 const center = circleSize / 2;
@@ -80,7 +80,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
             },
         },
         actionButtons: {
-            onRenderCell(result, _rowID, col, rowData) {
+            onRenderCell(result, {col, rowData}) {
                 const actions = rowData?.[col.name] as (string | DTableActionButton)[];
                 if (!actions) {
                     return result;
@@ -103,7 +103,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
             },
         },
         format: {
-            onRenderCell(result, _rowID, col) {
+            onRenderCell(result, {col}) {
                 let {format: formatSetting} = col.setting as DTableRichColSetting;
                 if (!formatSetting) {
                     return result;

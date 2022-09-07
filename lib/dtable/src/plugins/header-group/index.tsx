@@ -68,7 +68,7 @@ export const headerGroup: DTablePlugin<DTableHeaderGroupOptions, DTableHeaderGro
             cols,
         };
     },
-    onRenderHeaderCell(result, rowID, col): CustomRenderResult {
+    onRenderHeaderCell(result, {col}): CustomRenderResult {
         const {group} = col.setting;
         if (group) {
             const groupInfo = this.headerGroups.get(group) as DTableHeaderGroupInfo;

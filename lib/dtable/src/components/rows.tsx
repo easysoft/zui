@@ -1,4 +1,5 @@
 import {JSX} from 'preact/jsx-runtime';
+import {isValidElement, h as _h} from 'preact';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Row} from './row';
 import {RowInfo} from '../types/row-info';
@@ -23,7 +24,7 @@ export interface RowsProps {
     scrollLeft: number,
     hoverCol?: string,
     onRenderCell?: CellRenderCallback,
-    onRenderRow?: (rowProps: RowProps, rowInfo: RowInfo) => RowProps,
+    onRenderRow?: (data: {props: RowProps, info: RowInfo}, h: typeof _h) => RowProps,
 }
 
 export function Rows({
@@ -49,7 +50,7 @@ export function Rows({
                     ...otherProps,
                 };
                 if (onRenderRow) {
-                    rowProps = onRenderRow(rowProps, row);
+                    rowProps = onRenderRow({props: rowProps, info: row}, _h);
                 }
                 return  (
                     <Row {...rowProps} />

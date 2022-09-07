@@ -1,4 +1,4 @@
-import {ComponentChildren} from 'preact';
+import {ComponentChildren, h as _h} from 'preact';
 import {JSX} from 'preact/jsx-runtime';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {ColInfo} from '../types/col-info';
@@ -33,20 +33,21 @@ export function Cell({col, className, height, rowID, hoverCol, rowData, onRender
         childrenFromParent ?? rowData?.[col.name] as ComponentChildren,
     ];
     if (onRenderCell) {
-        result = onRenderCell(result, rowID, col, rowData);
+        result = onRenderCell(result, {rowID, col, rowData}, _h);
     }
     const cellClassName: ClassNameLike[] = [];
     const children: ComponentChildren[] = [];
     result?.forEach(item => {
         if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item)) {
             if (item.html) {
-                children.push(<div className='dtable-cell-html' dangerouslySetInnerHTML={{__html: item.html}}></div>);
-            }
-            if (item.style) {
-                Object.assign(style, item.style);
-            }
-            if (item.className) {
-                cellClassName.push(item.className);
+                children.push(<div className={classes('dtable-cell-html', item.className)} style={item.style} dangerouslySetInnerHTML={{__html: item.html}}></div>);
+            } else {
+                if (item.style) {
+                    Object.assign(style, item.style);
+                }
+                if (item.className) {
+                    cellClassName.push(item.className);
+                }
             }
         } else {
             children.push(item);

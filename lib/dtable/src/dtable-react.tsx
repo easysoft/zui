@@ -1,4 +1,4 @@
-import {Component, ComponentChildren, createRef} from 'preact';
+import {Component, ComponentChildren, createRef, h as _h} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
 import {DTableLayout} from './types/layout';
@@ -576,43 +576,44 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
     }
 
-    private _handleRenderRow = (rowProps: RowProps, rowInfo: RowInfo): RowProps => {
+    private _handleRenderRow = (data: {props: RowProps, info: RowInfo}, h: typeof _h): RowProps => {
         if (this.#options.onRenderRow) {
-            rowProps = this.#options.onRenderRow.call(this, rowProps, rowInfo);
+            data.props = this.#options.onRenderRow.call(this, data, h);
         }
 
         this.#plugins.forEach(plugin => {
             if (plugin.onRenderRow) {
-                rowProps = plugin.onRenderRow.call(this, rowProps, rowInfo);
+                data.props = plugin.onRenderRow.call(this, data, h);
             }
         });
-        return rowProps;
+        return data.props;
     };
 
-    private _handleRenderHeaderRow = (rowProps: RowProps): RowProps => {
+    private _handleRenderHeaderRow = (data: {props: RowProps}, h: typeof _h): RowProps => {
         if (this.#options.onRenderHeaderRow) {
-            rowProps = this.#options.onRenderHeaderRow.call(this, rowProps);
+            data.props = this.#options.onRenderHeaderRow.call(this, data, h);
         }
 
         this.#plugins.forEach(plugin => {
             if (plugin.onRenderHeaderRow) {
-                rowProps = plugin.onRenderHeaderRow.call(this, rowProps);
+                data.props = plugin.onRenderHeaderRow.call(this, data, h);
             }
         });
-        return rowProps;
+        return data.props;
     };
 
-    private _handleRenderCell = (result: CustomRenderResult, rowID: RowID, col: ColInfo, rowData?: RowData) : CustomRenderResult => {
+    private _handleRenderCell = (result: CustomRenderResult, data: {rowID: RowID, col: ColInfo, rowData?: RowData}, h: typeof _h) : CustomRenderResult => {
+        const {rowID, col} = data;
         const renderCallbackName = rowID === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
         if (col.setting[renderCallbackName]) {
-            result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, rowID, col, rowData);
+            result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
         }
         if (this.#options[renderCallbackName]) {
-            result = (this.#options[renderCallbackName] as CellRenderCallback).call(this, result, rowID, col, rowData);
+            result = (this.#options[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
         }
         this.#plugins.forEach(plugin => {
             if (plugin[renderCallbackName]) {
-                result = (plugin[renderCallbackName] as CellRenderCallback).call(this, result, rowID, col, rowData);
+                result = (plugin[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
             }
         });
         return result;
