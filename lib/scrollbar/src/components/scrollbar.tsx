@@ -162,6 +162,7 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         const {type, clientSize, scrollSize} = this.props;
         const clickOffset = (type === 'horz' ? (event.clientX - boundingRect.left) : (event.clientY - boundingRect.top)) - (this.barSize / 2);
         this.scroll(clickOffset * scrollSize / clientSize);
+        event.preventDefault();
     };
 
     render() {
