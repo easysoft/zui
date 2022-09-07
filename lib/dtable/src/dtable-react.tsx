@@ -523,7 +523,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const scrollbars = [];
         const {scrollLeft, colsInfo, scrollTop, rowsHeight, rowsHeightTotal} = layout;
         const {scrollWidthTotal, scrollWidth} = colsInfo;
-        const {scrollbarSize = 10, horzScrollbarPos} = this.props;
+        const {scrollbarSize = 12, horzScrollbarPos} = this.props;
         if (scrollWidthTotal > scrollWidth) {
             scrollbars.push(
                 <Scrollbar

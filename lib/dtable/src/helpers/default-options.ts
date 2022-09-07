@@ -17,7 +17,6 @@ export function getDefaultOptions() {
         striped: true,
         responsive: false,
         scrollbarHover: true,
-        scrollbarSize: 10,
         horzScrollbarPos: 'outside',
     };
 }
