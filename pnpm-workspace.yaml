@@ -1,5 +1,6 @@
 packages:
   - "config"
+  - "dev"
   - "lib/**"
   - "docs"
   - "exts/*/**"

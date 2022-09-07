@@ -247,6 +247,7 @@ importers:
       jquery: ^3.6.0
       nanoid: ^4.0.0
       preact: ^10.10.0
+      zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/helpers': link:../helpers
@@ -259,6 +260,7 @@ importers:
       '@zui/avatar': link:../avatar
       '@zui/label': link:../label
       jquery: 3.6.0
+      zui-dev: link:../../dev
 
   lib/form:
     specifiers:

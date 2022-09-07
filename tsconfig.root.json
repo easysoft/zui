@@ -9,6 +9,7 @@
     "./exts/*/*/dev.ts",
     "scripts",
     "src",
+    "dev",
     "config",
     "vite.config.ts",
     "tailwind.config.cjs",
