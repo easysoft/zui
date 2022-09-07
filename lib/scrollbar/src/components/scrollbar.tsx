@@ -169,7 +169,7 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         const {
             clientSize,
             type,
-            size = 10,
+            size = 12,
             className,
             style,
             left,
