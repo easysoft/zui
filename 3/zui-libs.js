@@ -496,6 +496,9 @@ export default [
             "@zui/helpers": "workspace:^0.0.1",
             "@zui/input-group": "workspace:^0.0.1"
         },
+        "devDependencies": {
+            "zui-dev": "workspace:^0.0.1"
+        },
         "zui": {
             "type": "control",
             "displayName": "上传文件",
