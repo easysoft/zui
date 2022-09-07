@@ -15,7 +15,7 @@
         "@zui/utilities": "workspace:*"
     },
     "zui": {
-        "type": "按钮",
+        "type": "control",
         "displayName": "按钮",
         "contributes": {
             "css": ["class", "var"]
