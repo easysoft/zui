@@ -40,3 +40,60 @@ export function formatString(str: string, ...args: [Record<string, unknown>] | u
     }
     return str;
 }
+
+/**
+ * 字节单位表
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
+enum BYTE_UNITS {
+    B = 1,
+    KB = 1024,
+    MB = 1024 * 1024,
+    GB = 1024 * 1024 * 1024,
+    TB = 1024 * 1024 * 1024 * 1024,
+}
+
+/**
+ * 格式化字节值为包含单位的字符串
+ * @param size 字节大小
+ * @param fixed 保留的小数点位数
+ * @param unit 单位，如果留空，则自动使用最合适的单位
+ * @returns 格式化后的字符串
+ */
+export function formatBytes(size: number, fixed = 2, unit: keyof typeof BYTE_UNITS | '' = '') {
+    if (Number.isNaN(size)) {
+        return '?KB';
+    }
+    if (!unit) {
+        if (size < BYTE_UNITS.KB) {
+            unit = 'B';
+        } else if (size < BYTE_UNITS.MB) {
+            unit = 'KB';
+        } else if (size < BYTE_UNITS.GB) {
+            unit = 'MB';
+        } else if (size < BYTE_UNITS.TB) {
+            unit = 'GB';
+        } else {
+            unit = 'TB';
+        }
+    }
+
+    return (size / BYTE_UNITS[unit]).toFixed(fixed) + unit;
+}
+
+/**
+ * 转换带单位的字节字符串为字节数
+ * @param str 带单位的字节字符串
+ * @returns 字节数
+ */
+export const convertBytes = (str: string) => {
+    const pattern = /^[0-9]*(B|KB|MB|GB|TB)$/;
+    str = str.toUpperCase();
+    const matchRes = str.match(pattern);
+    if (!matchRes) {
+        return 0;
+    }
+    const unit = matchRes[1] as keyof typeof BYTE_UNITS;
+    str = str.replace(unit, '');
+    return Number.parseInt(str, 10) * BYTE_UNITS[unit];
+};

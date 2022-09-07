@@ -1,0 +1,20 @@
+.upload > input[type=file] {
+    @apply -hidden;
+}
+
+.upload > .file-list {
+    @apply -py-1;
+}
+
+.upload > .file-list > .file-item,
+.upload > .file-list > .file-item > .file-info {
+    @apply -flex -items-center -gap-2;
+}
+
+.upload > .file-list > .file-item {
+    @apply -my-1;
+}
+
+.upload > .file-list > .file-item > .file-info.hidden {
+    @apply -hidden;
+}
