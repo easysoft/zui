@@ -700,9 +700,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (!current) {
             return;
         }
-        current.querySelectorAll('.dtable-col-hover').forEach(col => col.classList.remove('dtable-col-hover'));
+        const hoverClass = 'dtable-col-hover';
+        current.querySelectorAll(`.${hoverClass}`).forEach(col => col.classList.remove(hoverClass));
         if (typeof hoverCol === 'string' && hoverCol.length) {
-            current.querySelectorAll(`.dtable-cell[data-col="${hoverCol}"]`).forEach(x => x.classList.add('dtable-col-hover'));
+            current.querySelectorAll(`.dtable-cell[data-col="${hoverCol}"]`).forEach(x => x.classList.add(hoverClass));
         }
     }
 
