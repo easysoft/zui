@@ -12,6 +12,7 @@ export interface ScrollbarProps {
     clientSize: number;
     type?: 'vert' | 'horz';
     defaultScrollPos?: number;
+    minBarSize?: number;
     scrollPos?: number;
     size?: number;
     className?: ClassNameLike,
@@ -58,8 +59,8 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
     }
 
     get barSize(): number {
-        const {clientSize, scrollSize, size = 10} = this.props;
-        return Math.max(Math.round(clientSize * clientSize / scrollSize), 2 * size);
+        const {clientSize, scrollSize, size = 12, minBarSize = 3 * size} = this.props;
+        return Math.max(Math.round(clientSize * clientSize / scrollSize), minBarSize);
     }
 
     componentDidMount() {
