@@ -1,4 +1,3 @@
-import {classes} from '@zui/browser-helpers/src/classes';
 import {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
 import {RowInfo} from '../../types/row-info';
 import {definePlugin} from '../../helpers/shared-plugins';
@@ -16,7 +15,7 @@ export interface DTableSortableOptions {
     canSortTo?: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType) => boolean;
     onBeginSort?: (this: SortableDTable, row: RowInfo, event: DragEvent) => false | void;
     onEndSort?: (this: SortableDTable, from: RowInfo | undefined, to: RowInfo | undefined, moveType: SortMoveType | undefined) => void;
-    onSort?: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType, rowOrders: Record<RowID, number>) => void;
+    onSort?: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType, orders: RowID[]) => void;
 }
 
 export interface DTableSortableState {
@@ -24,7 +23,6 @@ export interface DTableSortableState {
     draggingRow?: RowInfo;
     droppingRow?: RowInfo;
     moveType?: SortMoveType;
-
 }
 
 export interface DTableSortableColSetting {
@@ -84,15 +82,23 @@ function onSortDragOver(this: SortableDTable, event: DragEvent) {
 function onSortDrop(this: SortableDTable, event: DragEvent) {
     const {draggingRow, droppingRow, moveType} = this.state;
     if (draggingRow && droppingRow && moveType && draggingRow.id !== droppingRow.id) {
-        const rows = [...this.layout.rows];
+        let rows = [...this.layout.rows];
+        const {canSort} = this.options;
+        if (canSort) {
+            rows = rows.filter(row => canSort.call(this, row));
+        }
         const fromIndex = rows.findIndex(x => x.id === draggingRow.id);
         const toIndex = rows.findIndex(x => x.id === droppingRow.id);
         const row = rows.splice(fromIndex, 1);
         rows.splice(toIndex, 0, row[0]);
         const rowOrders: Record<RowID, number> = {};
-        rows.forEach((x, index) => rowOrders[x.id] = index);
+        const orders: RowID[] = [];
+        rows.forEach(({id}, index) => {
+            rowOrders[id] = index;
+            orders.push(id);
+        });
         this.setState({rowOrders});
-        this.options.onSort?.call(this, draggingRow, droppingRow, moveType, rowOrders);
+        this.options.onSort?.call(this, draggingRow, droppingRow, moveType, orders);
     }
 }
 
