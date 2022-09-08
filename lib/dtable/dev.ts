@@ -8,6 +8,7 @@ import checkable from './src/plugins/checkable';
 import nested from './src/plugins/nested';
 import rich from './src/plugins/rich';
 import headerGroup from './src/plugins/header-group';
+import sortable from './src/plugins/sortable';
 
 faker.setLocale('zh_CN');
 
@@ -16,6 +17,7 @@ onPageLoad(() => {
     if (productElement) {
         const productTable = new DTable(productElement, {
             cols: [
+                {name: 'id', title: 'ID', width: 80, fixed: 'left'},
                 {name: 'name', title: '产品名称2', type: 'link', width: 280, fixed: 'left', sortType: 'asc', linkTemplate: '#/product/{id}'},
                 {name: 'productLine', title: '所属产品线', minWidth: 110, sortType: true, flex: 1},
                 {name: 'manager', title: '负责人', type: 'avatar', width: 110, sortType: true, avatarKey: 'managerAvatar', avatarWithName: true},
@@ -28,20 +30,20 @@ onPageLoad(() => {
                 {name: 'caseCoverage', title: '用例覆盖率', type: 'circleProgress', width: 90, sortType: true, align: 'center'},
                 {name: 'bugActive', title: 'Bug激活', group: 'Bug情况', width: 80, sortType: true, align: 'center'},
                 {name: 'fixRate', title: '修复率', group: 'Bug情况', type: 'circleProgress', width: 80, sortType: true, align: 'center'},
-                {name: 'release', title: '发布', width: 90, sortType: true, fixed: 'right', onRenderCell(result, rowID, col, data) {
-                    const releaseIncrease = Number(data?.releaseIncrease);
+                {name: 'release', title: '发布', width: 90, sortType: true, fixed: 'right', onRenderCell(result, {rowData}) {
+                    const releaseIncrease = Number(rowData?.releaseIncrease);
                     result[0] = {
                         html: `<strong>${result[0]}</strong>`,
                     };
                     if (releaseIncrease > 6) {
                         result.push({
-                            html: `<span class="label size-sm ${data?.milestone ? 'important' : 'secondary'}-pale circle">+${releaseIncrease - 6}</span>`,
+                            html: `<span class="label size-sm ${rowData?.milestone ? 'important' : 'secondary'}-pale circle">+${releaseIncrease - 6}</span>`,
                         });
                     }
                     return result;
                 }},
             ],
-            data: Array(20).fill(0).map((_, index) => ({
+            data: Array(4).fill(0).map((_, index) => ({
                 id: `${index}`,
                 name: faker.animal.cetacean(),
                 productLine: faker.lorem.word(),
@@ -64,7 +66,7 @@ onPageLoad(() => {
             height: 400,
             striped: false,
             bordered: true,
-            plugins: [rich, headerGroup],
+            plugins: [rich, headerGroup, sortable],
             responsive: true,
         });
         console.log('productTable', productTable);
@@ -76,7 +78,7 @@ onPageLoad(() => {
     if (element) {
         const datatable = new DTable(element, {
             cols: [
-                {name: 'id', title: 'ID', width: 60, fixed: 'left', sortType: 'down', checkbox: true},
+                {name: 'id', title: 'ID', width: 60, fixed: 'left', sortType: 'desc', checkbox: true},
                 {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true, nestedToggle: true},
                 {name: 'NESTED_STATE', title: '层级状态', minWidth: 500, onRenderCell: function (result, rowID) {
                     result.length = 0;
