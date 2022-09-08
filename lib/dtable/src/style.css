@@ -1,6 +1,9 @@
 .dtable {
     @apply -relative;
 }
+.dtable .scrollbar {
+    @apply -z-10;
+}
 .dtable-header {
     @apply -relative -z-10;
 }
