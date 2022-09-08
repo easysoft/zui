@@ -24,7 +24,7 @@ type NestedRowInfo = {
     order?: number;
 };
 
-type NestedDTable = DTableWithPlugin<DTableNestedOptions, DTableNestedState> & DTableNestedProps;
+type NestedDTable = DTableWithPlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState> & DTableNestedProps;
 
 function getNestedRowInfo(this: NestedDTable, rowID: RowID): NestedRowInfo {
     const info = this.nestedMap.get(rowID);
@@ -114,6 +114,10 @@ function updateNestedMapOrders(map: Map<RowID, NestedRowInfo>, lastOrder = 0, id
     return lastOrder;
 }
 
+interface DTableSortableOptions {
+    canSortTo?: (this: NestedDTable, from: RowInfo, to: RowInfo, moveType: string) => boolean;
+}
+
 export interface DTableNestedOptions {
     nested?: boolean;
     nestedParentKey?: string;
@@ -139,13 +143,18 @@ export interface DTableNestedProps {
     getNestedRowInfo: typeof getNestedRowInfo;
 }
 
-export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedProps> = {
+export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState, DTableNestedColSetting, DTableNestedProps> = {
     name: 'nested',
     defaultOptions: {
         nested: true,
         nestedParentKey: 'parent',
         asParentKey: 'asParent',
         nestedIndent: 16,
+        canSortTo(from, to) {
+            const fromInfo = this.nestedMap.get(from.id);
+            const toInfo = this.nestedMap.get(to.id);
+            return fromInfo?.parent === toInfo?.parent;
+        },
     },
     when: options => !!options.nested,
     onCreate() {
