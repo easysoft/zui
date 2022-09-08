@@ -20,6 +20,7 @@ export function Row({
     CellComponent = Cell,
     onRenderCell,
     data,
+    style,
     ...others
 }: RowProps) {
     let flexLeftView = null;
@@ -69,12 +70,12 @@ export function Row({
         );
     }
 
-    const style = {top, height, lineHeight: `${height - 2}px`};
+    const finalStyle = {top, height, lineHeight: `${height - 2}px`, ...style};
 
     return (
         <div
             className={classes('dtable-row', className)}
-            style={style}
+            style={finalStyle}
             data-id={rowID}
             {...others}
         >

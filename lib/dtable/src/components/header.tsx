@@ -1,4 +1,4 @@
-import {isValidElement, h as _h} from 'preact';
+import {h as _h, JSX} from 'preact';
 import {CellRenderCallback} from '../types/cell-render';
 import {ColInfo} from '../types/col-info';
 import {RowProps} from '../types/row-props';
@@ -16,11 +16,11 @@ export interface HeaderProps {
     scrollLeft: number,
     scrollWidthTotal: number,
     onRenderCell?: CellRenderCallback,
-    onRenderRow?: (data: {props: RowProps}, h: typeof _h) => RowProps
+    onRenderRow?: (data: {props: RowProps}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
 }
 
 export function Header({height, onRenderRow, ...otherProps}: HeaderProps) {
-    let rowProps: RowProps = {
+    const props: RowProps = {
         height,
         ...otherProps,
         rowID: 'HEADER',
@@ -29,15 +29,14 @@ export function Header({height, onRenderRow, ...otherProps}: HeaderProps) {
         CellComponent: HeaderCell,
     };
     if (onRenderRow) {
-        const result = onRenderRow({props: rowProps}, _h);
-        if (isValidElement(result)) {
-            return result;
+        const result = onRenderRow({props}, _h);
+        if (result) {
+            Object.assign(props, result);
         }
-        rowProps = result;
     }
     return (
         <div className='dtable-header' style={{height}}>
-            <Row {...rowProps} />
+            <Row {...props} />
         </div>
     );
 }

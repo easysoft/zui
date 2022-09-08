@@ -1,5 +1,5 @@
 import {ClassNameLike} from '@zui/browser-helpers/src/classes';
-import {ComponentChildren, h as _h} from 'preact';
+import {ComponentChildren, ComponentType, h as _h, JSX} from 'preact';
 import {DTable} from '../dtable-react';
 import {CellRenderCallback} from './cell-render';
 import {ColSetting} from './col-setting';
@@ -41,15 +41,14 @@ export interface DTableOptions<C extends ColSetting = ColSetting> {
     onScroll?: (this: DTable, scrollPos: number, type: 'vert' | 'horz') => void;
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
-    onRenderRow?: (this: DTable, data: {props: RowProps, info: RowInfo}, h: typeof _h) => RowProps;
+    onRenderRow?: (this: DTable, data: {props: RowProps, row: RowInfo}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
     onRenderHeaderRow?: (this: DTable, data: {props: RowProps}, h: typeof _h) => RowProps;
     afterRender?: (this: DTable) => void;
     onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
-    rowSorter?: (this: DTable, a: RowInfo, b: RowInfo) => number;
-    rowFilter?: (this: DTable, row: RowInfo) => void | boolean;
+    onAddRows?: (this: DTable, rows: RowInfo[]) => RowInfo[] | void;
     plugins?: DTablePluginLike[];
     [prop: string]: unknown
 }

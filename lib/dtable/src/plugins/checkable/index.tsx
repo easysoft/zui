@@ -120,11 +120,10 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
         }
         return result;
     },
-    onRenderRow({props, info}): RowProps {
-        if (this.isRowChecked(info.id)) {
-            props.className = classes(props.className, 'is-checked');
+    onRenderRow({props, row}) {
+        if (this.isRowChecked(row.id)) {
+            return {className: classes(props.className, 'is-checked')};
         }
-        return props;
     },
     onHeaderCellClick(event) {
         const target = event.target as HTMLElement;

@@ -184,17 +184,16 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
             parentInfo.children.push(row.id);
         }
     },
-    rowFilter(row: RowInfo) {
-        return this.getNestedRowInfo(row.id).state !== NestedRowState.hidden;
-    },
-    rowSorter(rowA: RowInfo, rowB: RowInfo) {
-        const infoA = this.getNestedRowInfo(rowA.id);
-        const infoB = this.getNestedRowInfo(rowB.id);
-        if (typeof infoA.order !== 'number') {
-            updateNestedMapOrders(this.nestedMap);
-        }
-        const result = (infoA.order ?? 0) - (infoB.order ?? 0);
-        return result === 0 ? (rowA.index - rowB.index) : result;
+    onAddRows(rows) {
+        rows = rows.filter(row => this.getNestedRowInfo(row.id).state !== NestedRowState.hidden);
+        updateNestedMapOrders(this.nestedMap);
+        rows.sort((rowA, rowB) => {
+            const infoA = this.getNestedRowInfo(rowA.id);
+            const infoB = this.getNestedRowInfo(rowB.id);
+            const result = (infoA.order ?? 0) - (infoB.order ?? 0);
+            return result === 0 ? (rowA.index - rowB.index) : result;
+        });
+        return rows;
     },
     onRenderCell(result, {rowID, col, rowData}): CustomRenderResult {
         const {nestedToggle} = col.setting;
@@ -219,13 +218,12 @@ export const nested: DTablePlugin<DTableNestedOptions, DTableNestedState, DTable
         }
         return result;
     },
-    onRenderRow({props, info: rowInfo}): RowProps {
-        const info = this.getNestedRowInfo(rowInfo.id);
-        Object.assign(props, {
+    onRenderRow({props, row}) {
+        const info = this.getNestedRowInfo(row.id);
+        return {
             className: classes(props.className, `is-nested-${info.state}`),
             'data-parent': info.parent,
-        });
-        return props;
+        };
     },
     onRenderHeaderRow({props}): RowProps {
         props.className = classes(props.className, `is-nested-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`);

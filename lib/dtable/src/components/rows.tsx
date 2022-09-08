@@ -1,5 +1,5 @@
 import {JSX} from 'preact/jsx-runtime';
-import {isValidElement, h as _h} from 'preact';
+import {ComponentType, h as _h} from 'preact';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Row} from './row';
 import {RowInfo} from '../types/row-info';
@@ -23,7 +23,7 @@ export interface RowsProps {
     flexRightWidth: number,
     scrollLeft: number,
     onRenderCell?: CellRenderCallback,
-    onRenderRow?: (data: {props: RowProps, info: RowInfo}, h: typeof _h) => RowProps,
+    onRenderRow?: (data: {props: RowProps, row: RowInfo}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
 }
 
 export function Rows({
@@ -40,7 +40,7 @@ export function Rows({
     return (
         <div className={classes('dtable-rows', className)} style={style}>
             {rows.map(row => {
-                let rowProps: RowProps = {
+                const props: RowProps = {
                     className: `dtable-row-${row.index % 2 ? 'odd' : 'even'}`,
                     rowID: row.id,
                     data: row.data,
@@ -49,10 +49,13 @@ export function Rows({
                     ...otherProps,
                 };
                 if (onRenderRow) {
-                    rowProps = onRenderRow({props: rowProps, info: row}, _h);
+                    const result = onRenderRow({props, row}, _h);
+                    if (result) {
+                        Object.assign(props, result);
+                    }
                 }
                 return  (
-                    <Row {...rowProps} />
+                    <Row {...props} />
                 );
             })}
         </div>

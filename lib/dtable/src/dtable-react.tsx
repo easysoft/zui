@@ -1,4 +1,4 @@
-import {Component, ComponentChildren, createRef, h as _h} from 'preact';
+import {Component, ComponentChildren, ComponentType, createRef, h as _h, JSX} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
 import {DTableLayout} from './types/layout';
@@ -240,12 +240,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         const {data, rowKey = 'id'} = options;
         const allRows: RowInfo[] = [];
+        let rowsHeightTotal = 0;
         const addRowItem = (id: RowID, index: number, item?: RowData) => {
-            const row: RowInfo = {data: item ?? {[rowKey]: id}, top: 0, id: id, index: allRows.length};
+            const row: RowInfo = {data: item ?? {[rowKey]: id}, top: rowsHeightTotal, id: id, index: allRows.length};
             if (!item) {
                 row.lazy = true;
             }
             allRows.push(row);
+            rowsHeightTotal += rowHeight;
 
             if (options.onAddRow?.call(this, row, index) === false) {
                 return;
@@ -272,40 +274,27 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
 
         // Add rows
-        const rows: RowInfo[] = [];
-        let rowsHeightTotal = 0;
-        allRows.forEach(row => {
-            if (options.rowFilter?.call(this, row) === false) {
-                return;
+        let rowsChanged = false;
+        let rows = allRows;
+        if (options.onAddRows) {
+            const newRows = options.onAddRows.call(this, rows);
+            if (newRows) {
+                rows = newRows;
+                rowsChanged = true;
             }
-            for (const plugin of plugins) {
-                if (plugin.rowFilter?.call(this, row) === false) {
-                    return;
-                }
-            }
-            row.index = rows.length;
-            row.top = rowsHeightTotal;
-            rows.push(row);
-            rowsHeightTotal += rowHeight;
-        });
-
-        // Sort rows
-        let rowsSorted = false;
-        if (options.rowSorter) {
-            rows.sort(options.rowSorter.bind(this));
-            rowsSorted = true;
         }
-        plugins.forEach(plugin => {
-            if (plugin.rowSorter) {
-                rows.sort(plugin.rowSorter.bind(this));
-                rowsSorted = true;
+        for (const plugin of plugins) {
+            const newRows = plugin.onAddRows?.call(this, rows);
+            if (newRows) {
+                rows = newRows;
+                rowsChanged = true;
             }
-        });
-        if (rowsSorted) {
+
+        }
+        if (rowsChanged) {
             rows.forEach((row, index) => {
                 row.index = index;
                 row.top = index * rowHeight;
-                rows.push(row);
             });
         }
 
@@ -433,6 +422,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
             return;
         }
         return layout.colsInfo.fixedLeftCols.find(x => x.name === colName) ?? layout.colsInfo.fixedRightCols.find(x => x.name === colName) ?? layout.colsInfo.scrollCols.find(x => x.name === colName);
+    }
+
+    getRowInfo(id: RowID): RowInfo | undefined {
+        return this.layout.rows.find(x => x.id === id);
+    }
+
+    getRowInfoByIndex(index: number): RowInfo | undefined {
+        return this.layout.rows[index];
     }
 
     renderHeader(layout: DTableLayout) {
@@ -575,14 +572,20 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
     }
 
-    private _handleRenderRow = (data: {props: RowProps, info: RowInfo}, h: typeof _h): RowProps => {
+    private _handleRenderRow = (data: {props: RowProps, row: RowInfo}, h: typeof _h): Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void => {
         if (this.#options.onRenderRow) {
-            data.props = this.#options.onRenderRow.call(this, data, h);
+            const result = this.#options.onRenderRow.call(this, data, h);
+            if (result) {
+                Object.assign(data.props, result);
+            }
         }
 
         this.#plugins.forEach(plugin => {
             if (plugin.onRenderRow) {
-                data.props = plugin.onRenderRow.call(this, data, h);
+                const result = plugin.onRenderRow.call(this, data, h);
+                if (result) {
+                    Object.assign(data.props, result);
+                }
             }
         });
         return data.props;

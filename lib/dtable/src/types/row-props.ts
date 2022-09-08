@@ -1,5 +1,5 @@
 import {ClassNameLike} from '@zui/browser-helpers/src/classes';
-import {ComponentType} from 'preact';
+import {ComponentType, JSX} from 'preact';
 import {CellProps} from '../components/cell';
 import {CellRenderCallback} from './cell-render';
 import {ColInfo} from './col-info';
@@ -19,6 +19,7 @@ export interface RowProps {
     flexRightWidth: number,
     scrollLeft: number,
     data?: RowData,
+    style?: JSX.CSSProperties,
     CellComponent?: ComponentType<CellProps>,
     onRenderCell?: CellRenderCallback
 }
