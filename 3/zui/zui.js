@@ -1199,7 +1199,10 @@ class je extends te {
   _applyColHover(e) {
     e !== void 0 ? R(this, de, e) : e = d(this, de);
     const { current: s } = this.ref;
-    !s || (s.querySelectorAll(".dtable-col-hover").forEach((o) => o.classList.remove("dtable-col-hover")), typeof e == "string" && e.length && s.querySelectorAll(`.dtable-cell[data-col="${e}"]`).forEach((o) => o.classList.add("dtable-col-hover")));
+    if (!s)
+      return;
+    const o = "dtable-col-hover";
+    s.querySelectorAll(`.${o}`).forEach((i) => i.classList.remove(o)), typeof e == "string" && e.length && s.querySelectorAll(`.dtable-cell[data-col="${e}"]`).forEach((i) => i.classList.add(o));
   }
   render() {
     var m, u;
