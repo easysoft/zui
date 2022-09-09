@@ -1,5 +1,5 @@
 .nav {
-  @apply -flex;
+  @apply -flex -relative;
 }
 
 .nav > li > a {
@@ -52,9 +52,15 @@
   @apply -border-solid -border-t -border-r -border-l -border-b-0 -absolute -inset-0;
 }
 
-.nav > .nav-divider {
-    @apply -self-center -h-5 -w-0.5;
-    background: var(--nav-divider-color);
+.nav-divider {
+  @apply -relative;
+}
+
+.nav.nav-divider > li + li ::after {
+    @apply -absolute;
+    inset:6px 0;
+    content:"";
+    border-left: 2px solid var(--nav-divider-color);
 }
 
 .nav-pills > .active > a {

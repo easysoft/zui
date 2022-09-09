@@ -184,18 +184,16 @@
 ## 带分隔线的导航
 
 <Example>
- <ul class="nav">
+ <ul class="nav nav-divider">
    <li class="active"><a href="###">首页</a></li>
-   <li class="nav-divider"></li>
    <li><a href="###">动态 </a></li>
    <li><a href="###">项目 </a></li>
  </ul>
 </Example>
 
  ```html
- <ul class="nav">
+ <ul class="nav nav-divider">
    <li class="active"><a href="###">首页</a></li>
-   <li class="nav-divider"></li>
    <li><a href="###">动态 </a></li>
    <li><a href="###">项目 </a></li>
  </ul>
