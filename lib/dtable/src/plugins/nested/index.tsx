@@ -6,6 +6,7 @@ import {RowProps} from '../../types/row-props';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {RowData, RowID} from '../../types/row-data';
 import {ColInfo} from '../../types/col-info';
+
 import './style.css';
 
 enum NestedRowState {
@@ -151,7 +152,7 @@ export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, D
         nested: true,
         nestedParentKey: 'parent',
         asParentKey: 'asParent',
-        nestedIndent: 16,
+        nestedIndent: 20,
         canSortTo(from, to) {
             const fromInfo = this.nestedMap.get(from.id);
             const toInfo = this.nestedMap.get(to.id);

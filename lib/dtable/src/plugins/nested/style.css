@@ -2,13 +2,13 @@
     --dtable-nt-size: calc((var(--root-font-size) * 3 / 4) + 1px);
 }
 .dtable-nested-indent {
-    @apply -flex-none;
+    @apply -flex-none --mr-1;
 }
 .dtable-nested-toggle {
     @apply -flex -rounded-sm -flex-none --ml-1 -w-5 -h-5 -items-center -justify-center;
 }
 .dtable-nested-toggle.is-no-child {
-    @apply -invisible;
+    @apply -hidden;
 }
 .dtable-nested-toggle-icon {
     @apply -block -border -border-current -relative -opacity-50 hover:-opacity-90;
