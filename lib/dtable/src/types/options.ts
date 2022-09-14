@@ -16,7 +16,7 @@ export interface DTableOptions<C extends ColSetting = ColSetting> {
     cols?: C[];
     className?: ClassNameLike,
     width?: number | '100%' | 'auto' | (() => number | 'auto');
-    height?: number | '100%' | 'auto' | {min: number, max: number} | (() => number | 'auto' | {min: number, max: number});
+    height?: number | '100%' | 'auto' | {min: number, max: number} | ((actualHeight: number) => number | 'auto' | {min: number, max: number});
     rowHeight?: number;
     rowKey?: string;
     data?: (RowData | RowID)[] | number;

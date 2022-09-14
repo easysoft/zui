@@ -300,17 +300,18 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         let heightSetting = options.height;
         let height = 0;
+        const actualHeight = headerHeight + footerHeight + rowsHeightTotal;
         if (typeof heightSetting === 'function') {
-            heightSetting = heightSetting();
+            heightSetting = heightSetting(actualHeight);
         }
         if (heightSetting === 'auto') {
-            height = headerHeight + footerHeight + rowsHeightTotal;
+            height = actualHeight;
         } else if (typeof heightSetting === 'object') {
-            height = Math.min(heightSetting.max, Math.max(heightSetting.min, headerHeight + footerHeight + rowsHeightTotal));
+            height = Math.min(heightSetting.max, Math.max(heightSetting.min, actualHeight));
         } else if (heightSetting === '100%') {
             const parentElement = this.ref.current?.parentElement;
             if (parentElement) {
-                height = (parentElement as HTMLElement).clientHeight;
+                height = parentElement.clientHeight;
             } else {
                 height = 0;
                 this.#needUpdateSize = true;
