@@ -1,5 +1,5 @@
-.dtable-rows > .dtable-row {
-    /* @apply -transition-transform; */
+.dtable-sorting .dtable-rows > .dtable-row {
+    @apply -transition-transform;
 }
 .dtable-row.is-dragging {
     @apply -opacity-50 -z-10;

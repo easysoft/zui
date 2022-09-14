@@ -45,12 +45,14 @@ function onSortDragStart(this: SortableDTable, event: DragEvent) {
     this.setState({draggingRow: row});
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.dropEffect = 'move';
+    this.ref.current?.classList.add('dtable-sorting');
     return true;
 }
 
 function onSortDragEnd(this: SortableDTable, event: DragEvent) {
     const {draggingRow, droppingRow, moveType} = this.state;
     this.setState({draggingRow: undefined, droppingRow: undefined, moveType: undefined});
+    this.ref.current?.classList.remove('dtable-sorting');
     this.options.onEndSort?.call(this, draggingRow, droppingRow, moveType);
 }
 
