@@ -24,6 +24,10 @@ type NestedRowInfo = {
     order?: number;
 };
 
+interface DTableSortableOptions {
+    canSortTo?: (this: NestedDTable, from: RowInfo, to: RowInfo, moveType: string) => boolean;
+}
+;.
 type NestedDTable = DTableWithPlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState> & DTableNestedProps;
 
 function getNestedRowInfo(this: NestedDTable, rowID: RowID): NestedRowInfo {
@@ -97,25 +101,23 @@ function isAllCollapsed(this: NestedDTable): boolean {
     return true;
 }
 
-function updateNestedMapOrders(map: Map<RowID, NestedRowInfo>, lastOrder = 0, ids?: RowID[]): number {
+function updateNestedMapOrders(map: Map<RowID, NestedRowInfo>, lastOrder = 0, ids?: RowID[], level = 0): number {
     if (!ids) {
         ids = [...map.keys()];
     }
     for (const id of ids) {
         const info = map.get(id);
-        if (!info || typeof info.order === 'number') {
+        if (!info) {
             continue;
         }
-        info.order = lastOrder++;
+        if (info.level === level) {
+            info.order = lastOrder++;
+        }
         if (info.children?.length) {
-            lastOrder = updateNestedMapOrders(map, lastOrder, info.children);
+            lastOrder = updateNestedMapOrders(map, lastOrder, info.children, level + 1);
         }
     }
     return lastOrder;
-}
-
-interface DTableSortableOptions {
-    canSortTo?: (this: NestedDTable, from: RowInfo, to: RowInfo, moveType: string) => boolean;
 }
 
 export interface DTableNestedOptions {
@@ -170,9 +172,9 @@ export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, D
         const parent = row.data[this.options.nestedParentKey ?? 'parent'] as RowID;
         const info: NestedRowInfo = this.nestedMap.get(row.id) ?? {
             state: NestedRowState.unknown,
-            parent,
             level: 0,
         };
+        info.parent = parent;
         if (row.data[this.options.asParentKey ?? 'asParent']) {
             info.children = [];
         }
@@ -188,7 +190,7 @@ export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, D
                 this.nestedMap.set(parent, parentInfo);
             }
             if (!parentInfo.children) {
-                parentInfo.children = [];
+                parentInfo.children = [row.id];
             }
             parentInfo.children.push(row.id);
         }
