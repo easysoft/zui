@@ -117,7 +117,8 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         }
 
         if ((typeof wheelContainer === 'string' && target.closest(wheelContainer)) || typeof wheelContainer === 'object') {
-            if (this.scrollOffset((this.props.type === 'horz' ? (event as WheelEvent).deltaX : (event as WheelEvent).deltaY) * (this.props.wheelSpeed ?? 1))) {
+            const offset = (this.props.type === 'horz' ? (event as WheelEvent).deltaX : (event as WheelEvent).deltaY) * (this.props.wheelSpeed ?? 1);
+            if (this.scrollOffset(offset)) {
                 event.preventDefault();
             }
         }
