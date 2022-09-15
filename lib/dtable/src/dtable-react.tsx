@@ -240,14 +240,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         const {data, rowKey = 'id'} = options;
         const allRows: RowInfo[] = [];
-        let rowsHeightTotal = 0;
         const addRowItem = (id: RowID, index: number, item?: RowData) => {
-            const row: RowInfo = {data: item ?? {[rowKey]: id}, top: rowsHeightTotal, id: id, index: allRows.length};
+            const row: RowInfo = {data: item ?? {[rowKey]: id}, top: allRows.length * rowHeight, id: id, index: allRows.length};
             if (!item) {
                 row.lazy = true;
             }
             allRows.push(row);
-            rowsHeightTotal += rowHeight;
 
             if (options.onAddRow?.call(this, row, index) === false) {
                 return;
@@ -300,6 +298,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         let heightSetting = options.height;
         let height = 0;
+        const rowsHeightTotal = rows.length * rowHeight;
         const actualHeight = headerHeight + footerHeight + rowsHeightTotal;
         if (typeof heightSetting === 'function') {
             heightSetting = heightSetting(actualHeight);
