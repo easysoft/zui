@@ -43,7 +43,7 @@ onPageLoad(() => {
                     return result;
                 }},
             ],
-            data: Array(4).fill(0).map((_, index) => ({
+            data: Array(2000).fill(0).map((_, index) => ({
                 id: `${index}`,
                 name: faker.animal.cetacean(),
                 productLine: faker.lorem.word(),
@@ -78,25 +78,25 @@ onPageLoad(() => {
     if (element) {
         const datatable = new DTable(element, {
             cols: [
-                {name: 'id', title: 'ID', width: 60, fixed: 'left', sortType: 'desc', checkbox: true},
+                {name: 'id', title: 'ID', width: 80, fixed: 'left', sortType: 'desc', checkbox: true},
                 {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true, nestedToggle: true},
-                {name: 'NESTED_STATE', title: '层级状态', minWidth: 500, onRenderCell: function (result, rowID) {
+                {name: 'NESTED_STATE', title: '层级状态', minWidth: 500, onRenderCell: function (result, {rowID}) {
                     result.length = 0;
                     result.push(JSON.stringify(this.getNestedRowInfo(rowID)));
                     return result;
                 }},
-                {name: 'manager', title: '负责人', sortType: true},
+                {name: 'manager', title: '负责人', sortType: true, border: true},
                 {name: 'storyScale', title: '需求规模', sortType: true},
                 {name: 'executionCount', title: '执行数', sortType: true},
-                {name: 'invested', title: '已投入', sortType: true},
+                {name: 'invested', title: '已投入', sortType: true, border: 'left'},
                 {name: 'startDate', title: '开始日期', width: 90, align: 'center', sortType: true},
-                {name: 'endDate', title: '开始日期', width: 90, align: 'center', sortType: true},
+                {name: 'endDate', title: '开始日期', width: 90, align: 'center', sortType: true, border: 'right'},
                 {name: 'progress', title: '进度', sortType: true},
                 {name: 'actions', title: '操作', width: 200, fixed: 'right', sortType: false},
             ],
-            data: Array(10000).fill(0).map((_, index) => ({
+            data: Array(20).fill(0).map((_, index) => ({
                 id: `${index}`,
-                name: '哈哈哈',
+                name: faker.animal.cetacean(),
                 manager: '张三',
                 storyScale: 451,
                 executionCount: 451,
@@ -105,11 +105,10 @@ onPageLoad(() => {
                 endDate: '2020-01-01',
                 progress: '50%',
                 parent: `${['', '', '', index - 1, index - 2, index - 3, index - 3, index - 4, index - 1, index - 1][index % 10]}`,
-            })),
-            bordered: true,
+            })).reverse(),
             height: 400,
             cellHover: true,
-            colHover: true,
+            colHover: 'header',
             plugins: [checkable({checkOnClickRow: true}), nested()],
             striped: true,
             responsive: true,
