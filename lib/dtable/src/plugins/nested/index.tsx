@@ -9,7 +9,7 @@ import {ColInfo} from '../../types/col-info';
 
 import './style.css';
 
-enum NestedRowState {
+export enum NestedRowState {
     unknown = '',
     collapsed = 'collapsed',  // As collapsed parent and show
     expanded = 'expanded',   // As expanded parent and show
@@ -17,7 +17,7 @@ enum NestedRowState {
     normal = 'normal',     // As expanded child and show
 }
 
-type NestedRowInfo = {
+export type NestedRowInfo = {
     state: NestedRowState;
     children?: RowID[];
     parent?: RowID;
@@ -25,11 +25,16 @@ type NestedRowInfo = {
     order?: number;
 };
 
-interface DTableSortableOptions {
+export interface DTableCheckableOptions {
+    checkable?: boolean;
+    beforeCheckRows?: (this: NestedDTable, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
+}
+
+export interface DTableSortableOptions extends DTableCheckableOptions {
     canSortTo?: (this: NestedDTable, from: RowInfo, to: RowInfo, moveType: string) => boolean;
 }
 
-type NestedDTable = DTableWithPlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState> & DTableNestedProps;
+export type NestedDTable = DTableWithPlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState> & DTableNestedProps;
 
 function getNestedRowInfo(this: NestedDTable, rowID: RowID): NestedRowInfo {
     const info = this.nestedMap.get(rowID);
@@ -146,6 +151,35 @@ export interface DTableNestedProps {
     getNestedRowInfo: typeof getNestedRowInfo;
 }
 
+function checkNestedRow(dtable: NestedDTable, rowID: RowID, checked: boolean, map: Record<RowID, boolean>): NestedRowInfo | undefined {
+    const info = dtable.getNestedRowInfo(rowID);
+    if (!info || info.state === NestedRowState.unknown || !info.children) {
+        return info;
+    }
+    info.children.forEach(childID => {
+        map[childID] = checked;
+        checkNestedRow(dtable, childID, checked, map);
+    });
+    return info;
+}
+
+function updateParentRow(dtable: NestedDTable, parentID: RowID, checked: boolean, map: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) {
+    const info = dtable.getNestedRowInfo(parentID);
+    if (!info || info.state === NestedRowState.unknown) {
+        return;
+    }
+    const allChildrenMatched = info.children?.every(childID => {
+        const childChecked = !!(map[childID] !== undefined ? map[childID] : checkedRows[childID]);
+        return checked === childChecked;
+    });
+    if (allChildrenMatched) {
+        map[parentID] = checked;
+    }
+    if (info.parent) {
+        updateParentRow(dtable, info.parent, checked, map, checkedRows);
+    }
+}
+
 export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState, DTableNestedColSetting, DTableNestedProps> = {
     name: 'nested',
     defaultOptions: {
@@ -157,6 +191,19 @@ export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, D
             const fromInfo = this.nestedMap.get(from.id);
             const toInfo = this.nestedMap.get(to.id);
             return fromInfo?.parent === toInfo?.parent;
+        },
+        beforeCheckRows(ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) {
+            if (!this.options.checkable || !ids?.length) {
+                return;
+            }
+            const result: Record<RowID, boolean> = {};
+            Object.entries(changes).forEach(([rowID, checked]) => {
+                const info = checkNestedRow(this, rowID, checked, result);
+                if (info?.parent) {
+                    updateParentRow(this, info.parent, checked, result, checkedRows);
+                }
+            });
+            return result;
         },
     },
     when: options => !!options.nested,
@@ -191,7 +238,7 @@ export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, D
                 this.nestedMap.set(parent, parentInfo);
             }
             if (!parentInfo.children) {
-                parentInfo.children = [row.id];
+                parentInfo.children = [];
             }
             parentInfo.children.push(row.id);
         }

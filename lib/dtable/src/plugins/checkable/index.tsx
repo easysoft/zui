@@ -7,10 +7,10 @@ import {CustomRenderResult} from '../../types/custom-render-result';
 
 type DTableCheckable = DTableWithPlugin<DTableCheckableOptions, DTableCheckableState> & DTableCheckableMethods;
 
-function toggleCheckRows(this: DTableCheckable, rowID?: RowID | (RowID)[] | boolean, checked?: boolean): Record<RowID, boolean> {
-    if (typeof rowID === 'boolean') {
-        checked = rowID;
-        rowID = undefined;
+function toggleCheckRows(this: DTableCheckable, ids?: RowID | RowID[] | boolean, checked?: boolean): Record<RowID, boolean> {
+    if (typeof ids === 'boolean') {
+        checked = ids;
+        ids = undefined;
     }
     const checkedRows = this.state.checkedRows;
     const changes: Record<RowID, boolean> = {};
@@ -30,7 +30,7 @@ function toggleCheckRows(this: DTableCheckable, rowID?: RowID | (RowID)[] | bool
         }
         changes[id] = toggle;
     };
-    if (rowID === undefined) {
+    if (ids === undefined) {
         if (checked === undefined) {
             checked = !isAllRowChecked.call(this);
         }
@@ -38,12 +38,24 @@ function toggleCheckRows(this: DTableCheckable, rowID?: RowID | (RowID)[] | bool
             toggleRow(id, !!checked);
         });
     } else {
-        const ids = Array.isArray(rowID) ? rowID : [rowID];
+        if (!Array.isArray(ids)) {
+            ids = [ids];
+        }
         ids.forEach(id => {
             toggleRow(id, checked ?? !checkedRows[id]);
         });
     }
     if (Object.keys(changes).length) {
+        const beforeCheckResults = this.options.beforeCheckRows?.call(this, ids, changes, checkedRows);
+        if (beforeCheckResults) {
+            Object.keys(beforeCheckResults).forEach(key => {
+                if (beforeCheckResults[key]) {
+                    checkedRows[key] = true;
+                } else {
+                    delete checkedRows[key];
+                }
+            });
+        }
         this.setState({checkedRows: {...checkedRows}}, () => {
             this.options.onCheckChange?.call(this, changes);
         });
@@ -75,6 +87,7 @@ export interface DTableCheckableOptions {
     checkable?: boolean;
     checkOnClickRow?: boolean;
     canRowCheckable?: ((this: DTableCheckable, rowID: RowID) => boolean);
+    beforeCheckRows?: (this: DTableCheckable, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
     onCheckChange?: (this: DTableCheckable, changes: Record<RowID, boolean>) => void;
     checkboxRender?: (this: DTableCheckable, checked: boolean, rowID: RowID) => CustomRenderResult;
 }
