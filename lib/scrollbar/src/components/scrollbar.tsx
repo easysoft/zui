@@ -194,12 +194,12 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
             rootStyle.height = size;
             rootStyle.width = clientSize;
             barStyle.width = this.barSize;
-            barStyle.left = Math.round(scrollPos * (clientSize - barStyle.width) / maxScrollPos);
+            barStyle.left = Math.round(Math.min(maxScrollPos, scrollPos) * (clientSize - barStyle.width) / maxScrollPos);
         } else {
             rootStyle.width = size;
             rootStyle.height = clientSize;
             barStyle.height = this.barSize;
-            barStyle.top = Math.round(scrollPos * (clientSize - barStyle.height) / maxScrollPos);
+            barStyle.top = Math.round(Math.min(maxScrollPos, scrollPos) * (clientSize - barStyle.height) / maxScrollPos);
         }
 
         return (
